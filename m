@@ -1,152 +1,159 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C383F4DA
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 21:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-X-Greylist: delayed 441 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Oct 2023 14:59:06 PDT
-Received: from second.openwall.net (second.openwall.net [193.110.157.125])
-	by lindbergh.monkeyblade.net (Postfix) with SMTP id BC538D9
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 14:59:06 -0700 (PDT)
-Received: (qmail 21923 invoked from network); 12 Oct 2023 21:51:43 -0000
-Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
-  by localhost with SMTP; 12 Oct 2023 21:51:43 -0000
-Received: by pvt.openwall.com (Postfix, from userid 503)
-	id DD58DA064D; Thu, 12 Oct 2023 23:51:22 +0200 (CEST)
-Date: Thu, 12 Oct 2023 23:51:22 +0200
-From: Solar Designer <solar@openwall.com>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
-	workflows@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <keescook@chromium.org>
-Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros relaxed their rules
-Message-ID: <20231012215122.GA8245@openwall.com>
-References: <20231007140454.25419-1-w@1wt.eu> <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com> <20231007163936.GA26837@1wt.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04A13B28A
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 22:06:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="U7KXoidx"
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2061.outbound.protection.outlook.com [40.107.243.61])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7892DB8;
+	Thu, 12 Oct 2023 15:06:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XH6PVeUVKjBXe1Lt9x7zLL/vCyu7VGVALgdznmiEwiLf6Gr2Hm+rtgqR5sui0HNdTMo2SnzGlvnptX3RV9C/m812Wa2p/OgLC7NAUWRxWu53WU+it70D2xZZBxCG/F8PMDx2pWKmIkR94u4kszrWspDfDKD9BPFXAX2v8H+EhZ9ZsIiJDBZLWsQMEWAnsDWwllk3zr8TUvE9o/3oNKoSA/uuicSY6HDI12tpRTBIX2uR+u5abawYL7dLJ2sagrt5pxt75labDhEINJuDnRwh40gTjkLaDm1FFuCfjHtDDjye/9REySyovKOFBqfU5Ah+fvVG+ob4Sf3MFNKKOYMzrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yNhVtiop9+BtablW1oW8j7FG92gvA/iZiZWNFYJzGIc=;
+ b=XQM69FMn4OTdrm96JOzncWazQhJ7LRY089n6ve0YxPa7Ibl1SF8OlPPUvAw6GX5dPoJSWyOb0jLdLc5PXJvzwmDQBTCxLleLVPLHu/5m2SCjMkeQc6jo0U1SWf2wU+1B1LxAP4Iykl6GqBddAKXWNIS31J4zJjH4Btr3jd6gYBm1l0V82eAUDiejmh6F6SOeI3UqwXrfgAgwhp/CVeOtyOzIuQZdNmz7ek3BeEx6RoTW2xUJi2+zzhFupvWlgVrtlYVyMFDkWsO4SHgdk7ueF+/EH1PJwUT5p1mJiejRx7tdvg5/fXgLLHWjChjLx7wHiYcrqQO6EownVwhowJCINw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yNhVtiop9+BtablW1oW8j7FG92gvA/iZiZWNFYJzGIc=;
+ b=U7KXoidxf5CF1L3XAGRK6da9sCvszDI2D0wTfc+mYw3frVJz8NnGR76oCJTnPAYV4RKIWuLmlivbwCnHu3mK+Q6V4g6Yfuqj4/hIr/0Oe78GFygAF9b2HnY0W07cZNdJEqoKg0nXxZje8mqZi/ugn5j0rQr3JADiSzGjN4TFo/U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS7PR12MB6237.namprd12.prod.outlook.com (2603:10b6:8:97::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.45; Thu, 12 Oct
+ 2023 22:06:33 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b5d1:8b74:fe73:bd39]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b5d1:8b74:fe73:bd39%6]) with mapi id 15.20.6863.043; Thu, 12 Oct 2023
+ 22:06:33 +0000
+Message-ID: <5eade0a5-89d6-e93a-f5f0-e404fb37e2c4@amd.com>
+Date: Thu, 12 Oct 2023 17:06:27 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v12 10/10] x86/resctrl: Display RMID of resource group
+Content-Language: en-US
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de
+Cc: fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+ quic_neeraju@quicinc.com, rdunlap@infradead.org,
+ damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+ peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+ chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+ jmattson@google.com, daniel.sneddon@linux.intel.com, sandipan.das@amd.com,
+ tony.luck@intel.com, james.morse@arm.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bagasdotme@gmail.com, eranian@google.com,
+ christophe.leroy@csgroup.eu, jarkko@kernel.org, adrian.hunter@intel.com,
+ quic_jiles@quicinc.com, peternewman@google.com
+References: <20231010233335.998475-1-babu.moger@amd.com>
+ <20231010233335.998475-11-babu.moger@amd.com>
+ <c030c50a-201b-4a73-b3d6-b9b298f1b251@intel.com>
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <c030c50a-201b-4a73-b3d6-b9b298f1b251@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR13CA0137.namprd13.prod.outlook.com
+ (2603:10b6:806:27::22) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231007163936.GA26837@1wt.eu>
-User-Agent: Mutt/1.4.2.3i
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.6
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB6237:EE_
+X-MS-Office365-Filtering-Correlation-Id: 567cf853-7e7f-45f7-dadc-08dbcb6f7eb7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	MNm2JMInNR6ZOr/p5s/zQVFjE0cItt5uXSE1GBZMsSKFkEp58eKnQ5asHHfKBADtTOPO7VEPnEoEMjAub5TTDl4GTxI0oQeMN3foD30asjTmBhOF2UT/ent8Rxz0uTNTESnvblW/LgiQBfX800EEEUufqytPEqVzkIMf0BHScmvwwor8vDqc7RDK4+xZBhg4ButDkgR4ATqTA51SiQILGu2hOkgLYW2ljN53UQdxqgNppzS4YJBP5mM8RKvlhm+kTWuSdJEJg0bhH8hDnZU0fXCuAfa1IEVA0XdJ03mZeajFtXcZ1K+uDGB2OG+BN4x2IqFFhqufRQ7pZl/S4c5ymQRD7Iidz8SBbLIrLuBh7YOgXel1uX8bOBlKLRr8DfgeWp5hwYYIOrlLkRVCosTX6kc9CD+rbpXQnBhDnoc9DOMgkClwkriOXy5IUhlD6BZAsZBV2nWWhI9ejsUioAQe9cBzTsd5TubK33aqR/k9We1sO9dFqbQKUj35h7Rm2zzrn12k2FrmcmLXZZ5srTe2VIwO+Cil29LWQv2+2ZUbtHj13/yQap74dnD4ZMUr7NhoJ53SHo7Nxj1WMrbOytgw2gMON4zSxN2Pd+JIpJxOrq9zhlgA6PzBtKeqaJ/ARC78PsN/ho4HMOHLc6XYg8roLA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(396003)(39860400002)(376002)(136003)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(53546011)(6506007)(5660300002)(6666004)(26005)(4744005)(2616005)(36756003)(2906002)(38100700002)(31696002)(6512007)(7416002)(7406005)(6486002)(66556008)(66946007)(66476007)(41300700001)(316002)(110136005)(478600001)(8676002)(4326008)(31686004)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?d2dzTjYzNDZqMUEveERnT0t0ZTQ5STZ1UDBRQmJoaVhiK3hKRnFnOFNSVFQ0?=
+ =?utf-8?B?TjBKVWhoY0pxYzVEZk1YVStpOURIYS93NGRESFhNR3F5QzlBUmkyZnptaUox?=
+ =?utf-8?B?elBOY2g4OTFVd1YxWk5aMHZuMkNjVkpVTlBjSW9YYXFsZVpCT1lBV3FrZU9q?=
+ =?utf-8?B?U3dWT2lzaWU4b3Jua2ZFQkZmNWhRbW4vaVNqUG4yaHM1a2t0dHVKRU9kWGhx?=
+ =?utf-8?B?S0FzWXYvNVQ5c0hQT2RPd2JUVmZIVVowVHUzUms4bkpXT3U3YTgxVVhjbVkr?=
+ =?utf-8?B?R2xHcEVaeTV2NGJlZzdwNnZjaVNRYk5WY3lNd0hRMkhDWWFNWjA3YldsazJk?=
+ =?utf-8?B?ckZqL2I2UlBrZjNnS2hiMmJvbE5zb3NTZGhoZVZaclBoT0tiQ1NzWXFmMllR?=
+ =?utf-8?B?Z0pTZjlYUTMrMDBqWGZYeVFZMFNDNjN5SE1TbHJWNFluTlV6L3lUKzc1K1FY?=
+ =?utf-8?B?d05uOFFrRFFIblFVM3FXbXhDYTY4d2xWSmVRM2I3S1dZVHRjV0ViemRnUlRo?=
+ =?utf-8?B?cGNRMmpFK3l5ZVVjNDA0M1Exb2syZ3p5UTVUb2IzNXJINFBLTmtHQkErUzFa?=
+ =?utf-8?B?a0EySnpGVnkyaTFQRDV0T0wyTnhOOVB4Ri9LSHovNVRkMEl1TExiL1NIajUy?=
+ =?utf-8?B?SHhZajI5UDJpeVo1alVhUXVRN3FqTU1iK21tdzZCeWo1SEo2VU95ejgyWmsx?=
+ =?utf-8?B?SFVnUUVhNXhDT3RXL2VEWVR6bE5XMVdTNURZYUZVSDMzR1laSWVma3pOSkIv?=
+ =?utf-8?B?T0NqMUlzY3IxVktSZTNlS0paWGgvV01UYi8xUjBVeEwwSEI0VXJLV3NHZUdj?=
+ =?utf-8?B?cmJ1aXR5OGttOHltUXhRY3FyYUJHRDZhZG1Yb21Qd2twSjVmdTd6NmRIQzBi?=
+ =?utf-8?B?c0RFT2NDdDNDeW15elRLQkh6VEVsaXJSajU0UWxCUHRmZEdkeExQSEJXZytY?=
+ =?utf-8?B?Tk9SUzd2eGRFNHBiMTdFeWdoN0JEblBjQXl4dVgweE1WMUFBNWxRNWF1R25U?=
+ =?utf-8?B?OXBNelJ1UFhvbkZjYVovbWpFdjRiZm1OTUVmeUMxZzFsMDUxSUgvK1ZiWVRK?=
+ =?utf-8?B?Z2ZiUnJTYjlGQXN3SEx3WFVZeW02Z0RBTzhmTmhISUU1bkJ3NzFzcHFNRzI4?=
+ =?utf-8?B?S0hEZ0tJSlkzRVA5ay9CeE92YUtXbDFZMFE3UjhRS1RSMkRyRThKRFp1YnhR?=
+ =?utf-8?B?U1NkdjJ2VnNjZDFCMlNNckpEUEN4YTd2QmZsZURTVVBtSTIrU2xtbzY3MHhM?=
+ =?utf-8?B?cXFpbkdkVEY2YWcxUzBVbVJuSGZKNFhiUHJxMXcvbkY4VEtkaW5ySEoxbmJ4?=
+ =?utf-8?B?WHRlSUZMZUtXamMvNExVNC9XeUllRzhCWENKSWI0RmdYZUxDTGVXZWQ1VVhF?=
+ =?utf-8?B?eEU2S1pJc3R5dmtVZkc4Y2Nia0FMWEF4TnMrWmQ1Z3MyLzlUall1WlJyMGYr?=
+ =?utf-8?B?blE1VGJ6QWM1cFZxV3d4TEQrTlNQWnF5TUhUOW5tMGpFMWQ3L1NtMi83eFpu?=
+ =?utf-8?B?bXFqNUY2Q3VOeVhNdG9Xc0Mrb2ptR2Nta0ltVzc2dnBKQXM1Yk9sckpEb0ZY?=
+ =?utf-8?B?SnZwRHdDb2RhaDJweWhoS3FoODNpejNJUWo4NDVzR2c3b0F1blZUcnpsd3J0?=
+ =?utf-8?B?TVNCVDdPK1BQV3VKZzdZMm5DUWJ1d20zVklFc3hpck9aOFljdVBRbmFvZERG?=
+ =?utf-8?B?bGQrYUZyRFhaOHgvcnNpdE1DdzZ2QXdZWXJvNVIyYVJ0WGc2NGJacmdkYzJm?=
+ =?utf-8?B?OGtiR3dERTlFSTczaCt6aGxCUWJiVXkwbEg0N0pVcnFmZlF1SFoyUzlOcjhs?=
+ =?utf-8?B?eldyMEZ2N2pjNDJuaFZ6eEpPWmZuMFB0YzliM1U1OTMrVWVTWjlUTUp0NDNZ?=
+ =?utf-8?B?bGtGNnRkZ3l3MGlsMEwxRW04THhoMHhpV1Ywc1IydGJRUktHWHp2S3REajhH?=
+ =?utf-8?B?Qk5JYlB0OStBbGg2UUI2NFNDdVNpYnlJT0pkSmdaUEFYVzIvWTVJM2lMZW0w?=
+ =?utf-8?B?eUVWYXpjV1JGT0o4OTVESGUxdFVnT0EyaTNBMENyL1lUTkwwL0hXbENWSk56?=
+ =?utf-8?B?RzBFQnJGT0VLS3c1WllDREM5UUxpUWJQS1Aybkl0T3FRR1RHSVNOZWxQY2xC?=
+ =?utf-8?Q?HWhI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 567cf853-7e7f-45f7-dadc-08dbcb6f7eb7
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2023 22:06:33.2424
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JDW8kdYMCilu4scCDj8fAAVY8ksM9aiCKdqiDQlJxSVDelyXnFQ0CiOREcCAgjj2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6237
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+	NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Hi all,
+Hi Reinette,
 
-Thank you (especially Willy) for your effort on this.
+On 10/12/2023 11:02 AM, Reinette Chatre wrote:
+> Hi Babu,
+>
+> On 10/10/2023 4:33 PM, Babu Moger wrote:
+>> In x86, hardware uses RMID to identify a monitoring group. When a user
+>> creates a monitor group these details are not visible. These details
+>> can help resctrl debugging.
+>>
+>> Add RMID(mon_hw_id) to the monitor groups display in resctrl interface.
+>> Users can see these details when resctrl is mounted with "-o debug" option.
+>>
+>> Add RFTYPE_MON_BASE complements existing RFTYPE_CTRL_BASE and represents
+>> files belonging to monitoring groups.
+> "Add RFTYPE_MON_BASE complements ... " -> "Add RFTYPE_MON_BASE that complements ..."?
 
-Out of the 3 paragraphs, the first one looks good to me as-is, but for
-the last two I propose the slightly edited versions below.
+Sure. Thanks
 
-On Sat, Oct 07, 2023 at 04:04:54PM +0200, Willy Tarreau wrote:
-> +Please note that the respective policies and rules are different since
-> +the 3 lists pursue different goals.  Coordinating between the kernel
-> +security team and other teams is difficult since occasional embargoes
-> +start from the availability of a fix for the kernel security team, while
-> +for other lists they generally start from the initial post to the list,
-> +regardless of the availability of a fix.
+Babu
 
----
-Please note that the respective policies and rules are different since
-the 3 lists pursue different goals.  Coordinating between the kernel
-security team and other teams is difficult since for the kernel security
-team occasional embargoes (as subject to a maximum allowed number of
-days) start from the availability of a fix, while for "linux-distros"
-they start from the initial post to the list regardless of the
-availability of a fix.
----
-
-I added the part in braces to explain why the difference in when
-embargoes start matters.  I also moved part of that sentence for
-consistency.  Finally, I replaced "other lists" with specific reference
-to "linux-distros" because this paragraph talks only about 3 specific
-lists and on "oss-security" there are no embargoes.
-
-On Sat, Oct 07, 2023 at 06:39:36PM +0200, Willy Tarreau wrote:
-> On Sat, Oct 07, 2023 at 06:30:11PM +0200, Vegard Nossum wrote:
-> > On 07/10/2023 16:04, Willy Tarreau wrote:
-> > > +As such, the kernel security team strongly recommends that reporters of
-> > > +potential security issues DO NOT contact the "linux-distros" mailing
-> > > +list BEFORE a fix is accepted by the affected code's maintainers and you
-> > 
-> > is s/BEFORE/UNTIL/ clearer?
-> 
-> Probably, yes.
-
-I agree.  Also, the sentence jumps from "reporters" to "you" implying
-that "you" is a reporter, but maybe it's better to make that explicit.
-
-> > > +have read the linux-distros wiki page above and you fully understand the
-> > > +requirements that doing so will impose on you and the kernel community.
-> > > +This also means that in general it doesn't make sense to Cc: both lists
-> > > +at once, except for coordination if a fix remains under embargo. And in
-> > > +general, please do not Cc: the kernel security list about fixes that
-> > > +have already been merged.
-
-This implies that in general a fix does not remain under embargo.
-However, contacting "linux-distros" only makes sense when a fix does
-remain under embargo (either not yet pushed to a public list/repo, or
-under the Linux kernel exception for a public not-too-revealing fix) -
-otherwise, the issue should be brought to "oss-security" right away.
-
-Edited:
-
----
-As such, the kernel security team strongly recommends that as a reporter
-of a potential security issue you DO NOT contact the "linux-distros"
-mailing list UNTIL a fix is accepted by the affected code's maintainers
-and you have read the distros wiki page above and you fully understand
-the requirements that contacting "linux-distros" will impose on you and
-the kernel community.  This also means that in general it doesn't make
-sense to Cc: both lists at once, except maybe for coordination if and
-while an accepted fix has not yet been merged.  In other words, until a
-fix is accepted do not Cc: "linux-distros", and after it's merged do not
-Cc: the kernel security team.
----
-
-This allows possible Cc'ing of both lists in the time window between
-"fix is accepted by the affected code's maintainers" and "merged".
-Makes sense?  I worry this distinction between accepted and merged may
-be overly complicated for some, but I don't have better wording.
-
-> > I was thinking about this Cc: thing and would it make sense to:
-> > 
-> > 1) have LKML and other public vger lists reject messages that include
-> > s@k.o or (linux-)distros@ on Cc? The idea being that this is probably a
-> > mistake -- I believe it has happened a few times recently by mistake.
-> > 
-> > 2) have (linux-)distros@ reject NEW threads (i.e. no In-Reply-To:) that
-> > also include s@k.o on Cc? We could include a nice message explaining why
-> > and to please resend when a patch has been developed and/or a disclosure
-> > is planned in the next 7 days.
-> 
-> I don't know, maybe it would add extra config burden, but on the other
-> hand it could avoid the mistake from newcomers who have not read the
-> docs first (which happened a few times already), but if l-d becomes a
-> bit more flexible and tolerant to reporters' mistakes, as now documented,
-> it should also be less of a problem.
-> 
-> > I guess the problem with this would be if
-> > somebody on s@k.o does a reply-all which would add distros right back in
-> > the loop -OR- a patch has already been developed and included.
-> 
-> Then this would be deliberate, there would an in-reply-to so that would
-> not be a problem. I really doubt anyone from s@k.o would Cc linux-distros
-> anyway since it would imply disclosing some details from a reporter, and
-> we do not do that, it's up to the reporter to do it if they want.
-
-I think we don't want to complicate the setup, which we'd then have to
-explain somewhere.  With my concern/edit above, also the logic isn't
-that simple.
-
-Alexander
