@@ -1,138 +1,230 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D907F4
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 02:42:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAFB33D2
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 04:28:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="llTHM6dY"
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16291A9
-	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 19:42:35 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68fb85afef4so423646b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 19:42:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eSzy9pEe"
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9750A9;
+	Wed, 11 Oct 2023 21:28:47 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9adb9fa7200so105936466b.0;
+        Wed, 11 Oct 2023 21:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1697078554; x=1697683354; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Q0G7SAJYo4UkLsXiQBpIDaDgLDqF1LJ1c6VmD0yOVM=;
-        b=llTHM6dYgFRz0uD+zmp5iv/aMgdmNzjEIW3KmrBNFkwvXoKKWBXB9cZG7GlHGCSpfS
-         GlTSTJIICVEoRiG9P3+Id3a49fmOZJNbYRCOiGS5v5Ebtd1+WliuBuvpMA4kKCl0kKxn
-         XprLpsj5wwBWSSt4YAV9//u43QyBHO+5eRXc6vZrgmjHQa4EBbq32bDGS5xrUeCNNhhR
-         AsDGGblPn26y1+GYPmkn3C1fiZrJ6Wdk+dzuwCSw7Z9UvJQUhqUUTXMAIqWZxzuw5Q3d
-         bHh7cKjqyT8KU3dn+JcVaEogtjHmlgpn6Iuu6atz84InyfP4wXdu1ME1mTebVZHOm3/M
-         P2LQ==
+        d=gmail.com; s=20230601; t=1697084926; x=1697689726; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=03gb1vqwxiL5Z9iTAYGZjwocB8IZIyrRtKYufIydfpI=;
+        b=eSzy9pEeCtczHt8MheF9/D1PSkGqCfEgEqypJr5aadI6cek8c+7VpSMoVPKiAQuHy5
+         PAhpCXszVwZ+UsHlJ0xA5RuwWulKWZNgO95BujL8Yn7xPxmNj7awlSVwMHWUnOQUgPa6
+         Xb4oxyLKIfO95bhcelahek6I/ErTVlcQmyEO/hN0+3KLACryOhFIMMMZy/p8tnDICenH
+         9Kp6K3fMzEfS7J2IvdGGbl5XbIDC37J8PXPBnncUxffCrIBjFflxEqp/GA5aq1dazlIz
+         tNJDQ1SKUm9KryB1XZ+zQZwSzdC3aNeAXXvBFzqutUVZRGt7nOOWIUqEJ56pwgjE8Yyi
+         dLKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697078554; x=1697683354;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7Q0G7SAJYo4UkLsXiQBpIDaDgLDqF1LJ1c6VmD0yOVM=;
-        b=HtnyaWOOCCj+CT8OQN9GPd4Y7ZbBOdV4onPpWtwHjoAP/Wzaql3mE5+zTN5h59ZPHH
-         hkseQ6xYY6o6eVNAWY6sAu+vBf4baUIev2n7jPERdcP6TXafqU2PfAwalweRGYe9miaa
-         gwacfId96bDJaQexMGs4dDR/tvIvcBnr8Wh+V2ndXOpm80vMhb8g54AL5h+Yy8xFucmd
-         Ym4ez9OHtX2oACVNlA93V4Q9PQ46Al43Rar5o/hPrKtk9y/gJmElz4Y/9sN1hHabbfz0
-         tAvzYnyTCw9ZUsYVcb6gLEp+iKikJkmeGds2X/qKAJsWoVOaNAohi9pQshghuf4Ks9nC
-         0dhQ==
-X-Gm-Message-State: AOJu0YwPxCQPdGpNW1R3L424pqq0Qb0yvJe0ZTJ7qFgfxfZeTiQur9dh
-	53qHY+Q1k7qwE/vJT7VaHlb30w==
-X-Google-Smtp-Source: AGHT+IFFy3uxF7uFKfjkdWUeHCfhK/bx2P4yWiMaOXUfCJPbmqiLdy7t31a1cbnl7KgaPpe8K2vH6Q==
-X-Received: by 2002:a05:6300:8089:b0:174:373b:4381 with SMTP id ap9-20020a056300808900b00174373b4381mr2417195pzc.49.1697078554508;
-        Wed, 11 Oct 2023 19:42:34 -0700 (PDT)
-Received: from ubuntu-yizhou.default.svc.cluster.local ([101.127.248.173])
-        by smtp.gmail.com with ESMTPSA id a8-20020a1709027d8800b001b89a6164desm618060plm.118.2023.10.11.19.42.31
+        d=1e100.net; s=20230601; t=1697084926; x=1697689726;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=03gb1vqwxiL5Z9iTAYGZjwocB8IZIyrRtKYufIydfpI=;
+        b=LYIzZ4kn6QxwpAtcLYSpelwipyN3bl/QC/KlFI4wNkMmeM6m7yw2XzjbVjSMG4duNa
+         jNRTXGIRwFxKf9imTzo1H4Xp2EWC6ZfFLe1ORnuCNS+Pyn7cstnQSRRsxtwCvzoNxxj1
+         0QRV2mBRQ2CfMBxgWEKdv98V5yQSH9wqlMnT2sSByTmZdVYXVhzSbrcNo2cmPga+h4pX
+         IDEj7RH65WhaOgTn/DcePNQge6EFKGxLP6N2F04nXD8ymf5kayjNNAeWjTllKbCO30vx
+         XKuQ5+XLTJPNqYWIVMBauLySsU5/5xTwdDuXVAD2PSLe1cefdAzESK/kPRjPLzU5TJKK
+         0lHg==
+X-Gm-Message-State: AOJu0YxRL/e3bEfjDVcQ60RXwWUbWLfLtzTorvpvQihtphC64enBGNxt
+	F/AK95VfspRRuGnr6A0USeI=
+X-Google-Smtp-Source: AGHT+IFN8xfpMw+qbnj0j0PylQSY2EAm6Y0INtbrN5Zb12/I0fMHJoIBEW+UEmFCc3C8tmIolx6bUw==
+X-Received: by 2002:a17:907:808:b0:9b2:cee1:1f82 with SMTP id wv8-20020a170907080800b009b2cee11f82mr16725318ejb.7.1697084925838;
+        Wed, 11 Oct 2023 21:28:45 -0700 (PDT)
+Received: from felia.fritz.box ([2a02:810d:7e40:14b0:78dc:282:cf18:8032])
+        by smtp.gmail.com with ESMTPSA id k16-20020a1709062a5000b0099315454e76sm10491490eje.211.2023.10.11.21.28.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 19:42:34 -0700 (PDT)
-From: Tang Yizhou <yizhou.tang@shopee.com>
-X-Google-Original-From: Tang Yizhou
-To: houtao1@huawei.com,
-	jack@suse.cz,
-	bvanassche@acm.org,
-	kch@nvidia.com
-Cc: axboe@kernel.dk,
-	tj@kernel.org,
-	corbet@lwn.net,
-	linux-block@vger.kernel.org,
+        Wed, 11 Oct 2023 21:28:45 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	yingfu.zhou@shopee.com,
-	yizhou.tang@shopee.com,
-	chunguang.xu@shopee.com
-Subject: [PATCH v2] doc: blk-ioprio: Bring the doc in line with the implementation
-Date: Thu, 12 Oct 2023 10:42:28 +0800
-Message-Id: <20231012024228.2161283-1-yizhou.tang@shopee.com>
-X-Mailer: git-send-email 2.25.1
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] eeprom: remove doc and MAINTAINERS section after driver was removed
+Date: Thu, 12 Oct 2023 06:28:34 +0200
+Message-Id: <20231012042834.6663-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE
-	autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
 
-From: Tang Yizhou <yizhou.tang@shopee.com>
+Commit 0113a99b8a75 ("eeprom: Remove deprecated legacy eeprom driver")
+already removes the eeprom driver's code.
 
-Our system administrator have noted that the names 'rt-to-be' and
-'all-to-idle' in the I/O priority policies table appeared without
-explanations, leading to confusion. Let's bring these names in line
-with the naming in the 'attribute' section.
+Remove also the eeprom driver's documentation and MAINTAINERS section.
 
-Additionally,
-1. Correct the interface name to 'io.prio.class'.
-2. Add a table entry of 'promote-to-rt' for consistency.
-3. Fix a typo of 'priority'.
-
-Suggested-by: Yingfu Zhou <yingfu.zhou@shopee.com>
-Reviewed-by: Hou Tao <houtao1@huawei.com>
-Signed-off-by: Tang Yizhou <yizhou.tang@shopee.com>
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
-v2:
-Accept Bart's suggestion and rename the title of the patch.
-Pick up Tao's Reviewed-by tag.
+Greg, please pick this patch into your -next char and misc tree on top
+of the commit above.
 
- Documentation/admin-guide/cgroup-v2.rst | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ Documentation/misc-devices/eeprom.rst | 107 --------------------------
+ Documentation/misc-devices/index.rst  |   1 -
+ MAINTAINERS                           |   6 --
+ 3 files changed, 114 deletions(-)
+ delete mode 100644 Documentation/misc-devices/eeprom.rst
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 4ef890191196..10461c73c9a3 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2023,7 +2023,7 @@ IO Priority
- ~~~~~~~~~~~
+diff --git a/Documentation/misc-devices/eeprom.rst b/Documentation/misc-devices/eeprom.rst
+deleted file mode 100644
+index 008249675ccc..000000000000
+--- a/Documentation/misc-devices/eeprom.rst
++++ /dev/null
+@@ -1,107 +0,0 @@
+-====================
+-Kernel driver eeprom
+-====================
+-
+-Supported chips:
+-
+-  * Any EEPROM chip in the designated address range
+-
+-    Prefix: 'eeprom'
+-
+-    Addresses scanned: I2C 0x50 - 0x57
+-
+-    Datasheets: Publicly available from:
+-
+-                Atmel (www.atmel.com),
+-                Catalyst (www.catsemi.com),
+-                Fairchild (www.fairchildsemi.com),
+-                Microchip (www.microchip.com),
+-                Philips (www.semiconductor.philips.com),
+-                Rohm (www.rohm.com),
+-                ST (www.st.com),
+-                Xicor (www.xicor.com),
+-                and others.
+-
+-        ========= ============= ============================================
+-        Chip      Size (bits)   Address
+-        ========= ============= ============================================
+-        24C01     1K            0x50 (shadows at 0x51 - 0x57)
+-        24C01A    1K            0x50 - 0x57 (Typical device on DIMMs)
+-        24C02     2K            0x50 - 0x57
+-        24C04     4K            0x50, 0x52, 0x54, 0x56
+-                                (additional data at 0x51, 0x53, 0x55, 0x57)
+-        24C08     8K            0x50, 0x54 (additional data at 0x51, 0x52,
+-                                0x53, 0x55, 0x56, 0x57)
+-        24C16     16K           0x50 (additional data at 0x51 - 0x57)
+-        Sony      2K            0x57
+-
+-        Atmel     34C02B  2K    0x50 - 0x57, SW write protect at 0x30-37
+-        Catalyst  34FC02  2K    0x50 - 0x57, SW write protect at 0x30-37
+-        Catalyst  34RC02  2K    0x50 - 0x57, SW write protect at 0x30-37
+-        Fairchild 34W02   2K    0x50 - 0x57, SW write protect at 0x30-37
+-        Microchip 24AA52  2K    0x50 - 0x57, SW write protect at 0x30-37
+-        ST        M34C02  2K    0x50 - 0x57, SW write protect at 0x30-37
+-        ========= ============= ============================================
+-
+-
+-Authors:
+-        - Frodo Looijaard <frodol@dds.nl>,
+-        - Philip Edelbrock <phil@netroedge.com>,
+-        - Jean Delvare <jdelvare@suse.de>,
+-        - Greg Kroah-Hartman <greg@kroah.com>,
+-        - IBM Corp.
+-
+-Description
+------------
+-
+-This is a simple EEPROM module meant to enable reading the first 256 bytes
+-of an EEPROM (on a SDRAM DIMM for example). However, it will access serial
+-EEPROMs on any I2C adapter. The supported devices are generically called
+-24Cxx, and are listed above; however the numbering for these
+-industry-standard devices may vary by manufacturer.
+-
+-This module was a programming exercise to get used to the new project
+-organization laid out by Frodo, but it should be at least completely
+-effective for decoding the contents of EEPROMs on DIMMs.
+-
+-DIMMS will typically contain a 24C01A or 24C02, or the 34C02 variants.
+-The other devices will not be found on a DIMM because they respond to more
+-than one address.
+-
+-DDC Monitors may contain any device. Often a 24C01, which responds to all 8
+-addresses, is found.
+-
+-Recent Sony Vaio laptops have an EEPROM at 0x57. We couldn't get the
+-specification, so it is guess work and far from being complete.
+-
+-The Microchip 24AA52/24LCS52, ST M34C02, and others support an additional
+-software write protect register at 0x30 - 0x37 (0x20 less than the memory
+-location). The chip responds to "write quick" detection at this address but
+-does not respond to byte reads. If this register is present, the lower 128
+-bytes of the memory array are not write protected. Any byte data write to
+-this address will write protect the memory array permanently, and the
+-device will no longer respond at the 0x30-37 address. The eeprom driver
+-does not support this register.
+-
+-Lacking functionality
+----------------------
+-
+-* Full support for larger devices (24C04, 24C08, 24C16). These are not
+-  typically found on a PC. These devices will appear as separate devices at
+-  multiple addresses.
+-
+-* Support for really large devices (24C32, 24C64, 24C128, 24C256, 24C512).
+-  These devices require two-byte address fields and are not supported.
+-
+-* Enable Writing. Again, no technical reason why not, but making it easy
+-  to change the contents of the EEPROMs (on DIMMs anyway) also makes it easy
+-  to disable the DIMMs (potentially preventing the computer from booting)
+-  until the values are restored somehow.
+-
+-Use
+----
+-
+-After inserting the module (and any other required SMBus/i2c modules), you
+-should have some EEPROM directories in ``/sys/bus/i2c/devices/*`` of names such
+-as "0-0050". Inside each of these is a series of files, the eeprom file
+-contains the binary data from EEPROM.
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index ecc40fbbcfb8..7de16797987a 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -17,7 +17,6 @@ fit into other categories.
+    ad525x_dpot
+    apds990x
+    bh1770glc
+-   eeprom
+    c2port
+    dw-xdata-pcie
+    ibmvmc
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ecdf3ab6f371..706769e04570 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12007,12 +12007,6 @@ F:	drivers/leds/
+ F:	include/dt-bindings/leds/
+ F:	include/linux/leds.h
  
- A single attribute controls the behavior of the I/O priority cgroup policy,
--namely the blkio.prio.class attribute. The following values are accepted for
-+namely the io.prio.class attribute. The following values are accepted for
- that attribute:
- 
-   no-change
-@@ -2052,9 +2052,11 @@ The following numerical values are associated with the I/O priority policies:
- +----------------+---+
- | no-change      | 0 |
- +----------------+---+
--| rt-to-be       | 2 |
-+| promote-to-rt  | 1 |
- +----------------+---+
--| all-to-idle    | 3 |
-+| restrict-to-be | 2 |
-++----------------+---+
-+| idle           | 3 |
- +----------------+---+
- 
- The numerical value that corresponds to each I/O priority class is as follows:
-@@ -2074,7 +2076,7 @@ The algorithm to set the I/O priority class for a request is as follows:
- - If I/O priority class policy is promote-to-rt, change the request I/O
-   priority class to IOPRIO_CLASS_RT and change the request I/O priority
-   level to 4.
--- If I/O priorityt class is not promote-to-rt, translate the I/O priority
-+- If I/O priority class policy is not promote-to-rt, translate the I/O priority
-   class policy into a number, then change the request I/O priority class
-   into the maximum of the I/O priority class policy number and the numerical
-   I/O priority class.
+-LEGACY EEPROM DRIVER
+-M:	Jean Delvare <jdelvare@suse.com>
+-S:	Maintained
+-F:	Documentation/misc-devices/eeprom.rst
+-F:	drivers/misc/eeprom/eeprom.c
+-
+ LEGO MINDSTORMS EV3
+ R:	David Lechner <david@lechnology.com>
+ S:	Maintained
 -- 
-2.25.1
+2.17.1
 
