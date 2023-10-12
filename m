@@ -1,50 +1,39 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B97B266C7
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 15:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F16B249F0;
+	Thu, 12 Oct 2023 15:41:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="PNmY7qfs"
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8EB0DA
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 08:15:48 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-4053e6e8ca7so3546415e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 08:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1697123747; x=1697728547; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H40DjF2DvqAhDOEevi599YrHU/CFw/Fi+zNNdBCogjA=;
-        b=PNmY7qfsJg3qA3AO6xKiAA4NxniEBVrJkyckd53w30xZpAd5dOgSGGb9QHvrBXGwQ2
-         MbtrieVgkI4k0FunlkNKCTEfHQvpm8Vxb6mrxmFVHOdElFJZMAr30WS/NYGmkZsapG09
-         JuZanPHmB8N75iOTNFYEcsBoxkPGDb0P+4ECOkC+TxfCrm1GpFU4r+c9mRvwIPoIaYiL
-         ibc41BILwn3CiQEbAUiZVQ0vn0MGdffGlBHLtosFCq4EGCwqxQExLmiprjvED/ZzYy8/
-         XnC0eqElz5GHUJsYUeNB6cB1Ij0vYwioV1i/ZsUvU6h4PX6nro6WYD09JQLWemKmBvqu
-         nisA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697123747; x=1697728547;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H40DjF2DvqAhDOEevi599YrHU/CFw/Fi+zNNdBCogjA=;
-        b=wcg9axCiDuX1Nv14DhIrtu4ykQivmTrziGXnEYF5QIIh6VDKNUrY14XZtdjSxScn9B
-         7tk6spW9bcwbxfW+ANuojFbvrIsK+/NNRSNx6tXik4TuGXcDDs/Dkw3suD7i90g89ukP
-         9BgoP/y/Ps/P9468KS0rBWdyqb3iOTL2W/4fomRE2HVjBr1uxz5+qxsXyRSg5vuxMxgy
-         vyhgjTyKUJLLx8du0PG89bYeIvbBIbwrwn7SNgAmCWM3EyPgs2wkXJrwVs3oHTsG1WQ3
-         C4ArNY1LLo0/SyspnbMJrnShbCdeWHROydw+Op9QL1CcbC5+vsS5JzKnxMTZEK0+HfGd
-         NkOA==
-X-Gm-Message-State: AOJu0Yy81U7YsQbd349etq3QDnJKOgyDmEXUf9PfQKxkSuc0MuY6t20h
-	u4IXlu/Ql7mVBC7aGEfGDsCAQhlIKfCY9VOAQjUPjg==
-X-Google-Smtp-Source: AGHT+IGgtyD7d5JdTAOBgsfaVSkKTyr+ixUgoSAdL+LWzbJmc7NFj9h7df+UzeVb5v70tLe13yfemg==
-X-Received: by 2002:a05:600c:214f:b0:406:513d:738f with SMTP id v15-20020a05600c214f00b00406513d738fmr21976065wml.2.1697123746655;
-        Thu, 12 Oct 2023 08:15:46 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:999:a3a0:3fed:c1e5:145f:8179? ([2a01:e0a:999:a3a0:3fed:c1e5:145f:8179])
-        by smtp.gmail.com with ESMTPSA id m16-20020a7bca50000000b003fee6e170f9sm76694wml.45.2023.10.12.08.15.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 08:15:46 -0700 (PDT)
-Message-ID: <7b71ff39-bbc0-4ba9-8b98-d36fa127316e@rivosinc.com>
-Date: Thu, 12 Oct 2023 17:15:45 +0200
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ffUmEuBg"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC84C6;
+	Thu, 12 Oct 2023 08:40:57 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39CATjnD003983;
+	Thu, 12 Oct 2023 15:40:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=7MCaYfPBEG4wO9qlImg2hPGzgMMBLqG18sck647HVtE=;
+ b=ffUmEuBg8K0s4GANuDEVvWf6DgnKx9sfQ+I9VjC2Vv7Bg1PaSxK4q2E5rpQ8Quanil8M
+ EkB1uG3+nr2CFvoURM6IoB01dc5W2Zv8CmZMy0ti/lcOjihu8o83zag1pge+A/J6vke3
+ hjiQw3bk71RAVzQxGdB8ovUqrWXuaXrV9SVKwB3klEIiXdaOeYeAQgfMRLP+DiwrH0mH
+ 76LG3rGuJOGaPCAZjWvswQvLuEh7mxok2bvecEsGX2qFaQJzFyeTcl9qvALPYmxS975b
+ rm7DyvwKGWYNBPobwZwiDKCmY+IfWY+cgxtS5EuWCgy+yXaNh0fiGyeLuSOGBiBDHQmU 5g== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tp0vwaf1m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Oct 2023 15:40:54 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39CFer4x001522
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Oct 2023 15:40:53 GMT
+Received: from [10.216.58.179] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 12 Oct
+ 2023 08:40:49 -0700
+Message-ID: <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com>
+Date: Thu, 12 Oct 2023 21:10:46 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,191 +41,97 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/13] riscv: add ISA extension probing for Zv*
- extensions
+Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
+ wMaxSegmentSize via configfs
+To: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: onathan Corbet <corbet@lwn.net>, Linyu Yuan <quic_linyyuan@quicinc.com>,
+        <linux-usb@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_ppratap@quicinc.com>,
+        <quic_wcheng@quicinc.com>, <quic_jackp@quicinc.com>
+References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
+ <20231009142005.21338-2-quic_kriskura@quicinc.com>
+ <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
+ <CANP3RGcCpNOuVpdV9n0AFxZo-wsfwi8OfYgBk1WHNHaEd-4V-Q@mail.gmail.com>
+ <CANP3RGdY4LsOA6U5kuccApHCzL0_jBnY=pLOYrUuYtMZFTvnbw@mail.gmail.com>
+ <d19d9d08-c119-4991-b460-49925f601d15@quicinc.com>
+ <fad5a7fb-cce1-46bc-a0af-72405c76d107@quicinc.com>
+ <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
 Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Palmer Dabbelt <palmer@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Jones <ajones@ventanamicro.com>, Evan Green <evan@rivosinc.com>
-References: <20231011111438.909552-1-cleger@rivosinc.com>
- <20231011111438.909552-3-cleger@rivosinc.com>
- <b157edc4-a21f-40ac-8c9f-e989b34bb872@rivosinc.com>
- <20231012-darkness-neutron-fc1843ff05ff@spud>
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20231012-darkness-neutron-fc1843ff05ff@spud>
-Content-Type: text/plain; charset=UTF-8
+From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+In-Reply-To: <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.6
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: FjK8zgFgOuyNa0Qn9upiXD3sg5aHPF1h
+X-Proofpoint-ORIG-GUID: FjK8zgFgOuyNa0Qn9upiXD3sg5aHPF1h
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-12_05,2023-10-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ phishscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 mlxlogscore=897
+ suspectscore=0 priorityscore=1501 adultscore=0 malwarescore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2310120129
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
 
 
-On 12/10/2023 16:10, Conor Dooley wrote:
-> On Thu, Oct 12, 2023 at 03:17:14PM +0200, Clément Léger wrote:
->>
->>
->> On 11/10/2023 13:14, Clément Léger wrote:
->>> Add probing of some Zv* ISA extensions that are mentioned in "RISC-V
->>> Cryptography Extensions Volume II" [1]. These ISA extensions are the
->>> following:
->>>
->>> - Zvbb: Vector Basic Bit-manipulation
->>> - Zvbc: Vector Carryless Multiplication
->>> - Zvkb: Vector Cryptography Bit-manipulation
->>> - Zvkg: Vector GCM/GMAC.
->>> - Zvkned: NIST Suite: Vector AES Block Cipher
->>> - Zvknh[ab]: NIST Suite: Vector SHA-2 Secure Hash
->>> - Zvksed: ShangMi Suite: SM4 Block Cipher
->>> - Zvksh: ShangMi Suite: SM3 Secure Hash
->>> - Zvkn: NIST Algorithm Suite
->>> - Zvknc: NIST Algorithm Suite with carryless multiply
->>> - Zvkng: NIST Algorithm Suite with GCM.
->>> - Zvks: ShangMi Algorithm Suite
->>> - Zvksc: ShangMi Algorithm Suite with carryless multiplication
->>> - Zvksg: ShangMi Algorithm Suite with GCM.
->>> - Zvkt: Vector Data-Independent Execution Latency.
->>>
->>> [1] https://drive.google.com/file/d/1gb9OLH-DhbCgWp7VwpPOVrrY6f3oSJLL/view
->>>
->>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->>> ---
->>>  arch/riscv/include/asm/hwcap.h | 16 ++++++++++++++++
->>>  arch/riscv/kernel/cpufeature.c | 16 ++++++++++++++++
->>>  2 files changed, 32 insertions(+)
->>>
->>> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
->>> index b7b58258f6c7..4e46981ac6c8 100644
->>> --- a/arch/riscv/include/asm/hwcap.h
->>> +++ b/arch/riscv/include/asm/hwcap.h
->>> @@ -58,6 +58,22 @@
->>>  #define RISCV_ISA_EXT_ZICSR		40
->>>  #define RISCV_ISA_EXT_ZIFENCEI		41
->>>  #define RISCV_ISA_EXT_ZIHPM		42
->>> +#define RISCV_ISA_EXT_ZVBB		43
->>> +#define RISCV_ISA_EXT_ZVBC		44
->>> +#define RISCV_ISA_EXT_ZVKB		45
->>> +#define RISCV_ISA_EXT_ZVKG		46
->>> +#define RISCV_ISA_EXT_ZVKN		47
->>> +#define RISCV_ISA_EXT_ZVKNC		48
->>> +#define RISCV_ISA_EXT_ZVKNED		49
->>> +#define RISCV_ISA_EXT_ZVKNG		50
->>> +#define RISCV_ISA_EXT_ZVKNHA		51
->>> +#define RISCV_ISA_EXT_ZVKNHB		52
->>> +#define RISCV_ISA_EXT_ZVKS		53
->>> +#define RISCV_ISA_EXT_ZVKSC		54
->>> +#define RISCV_ISA_EXT_ZVKSED		55
->>> +#define RISCV_ISA_EXT_ZVKSH		56
->>> +#define RISCV_ISA_EXT_ZVKSG		57
->>
->> About Zvks/Zvkn, these extensions are actually shorthand for a few other
->> sub-extensions, it is still not clear if it should be parsed as is.
->> There are multiple solutions:
->>
->> - Handle them as-is, simply enable the extension, if reported through
->> hwprobe, userspace will be responsible to detect the sub-extensions
->> (current approach)
+On 10/12/2023 6:02 PM, Maciej Żenczykowski wrote:
+> On Thu, Oct 12, 2023 at 1:48 AM Krishna Kurapati PSSNV
 > 
-> I dislike this, since in-kernel users will have to check for "parent" &
-> "child" extensions.
-> 
->> - "Unfold" the extension in order to enable all the sub-extensions and
->> keep the main one (for instance for Zvkn, enable Zvkned, Zvknhb, Zvkb,
->> Zvkt, Zvkn)
-> 
-> We threw together some code for this a few months ago after some
-> discussion with some of your Rivos colleagues. The initial version of it
-> was in this thread with Evan:
-> https://lore.kernel.org/all/20230703-mangle-panning-75909ebbe30c@spud/
-> and in a later iteration there was some more done by myself and Drew:
-> https://lore.kernel.org/all/20230713-bootleg-tray-c5bfe58b5673@wendy/
-> One of the versions ended up as the riscv-extensions-strings-scalar-crypto
-> branch in my k.org repo:
-> https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/log/?h=riscv-extensions-strings-scalar-crypto
-> 
+> Could you paste the full patch?
+> This is hard to review without looking at much more context then email
+> is providing
+> (or, even better, send me a link to a CL in gerrit somewhere - for
+> example aosp ACK mainline tree)
 
-Thanks for these information ! I think your version to handle extension
-group is pretty clean. Are you waiting for anything in particular except
-a Signed-off: from Evan to submit that patch ? If so, can I backport
-this patch in my branch, gather Evan SoB and rebase my series on top of it ?
+Sure. Will provide a gerrit on ACK for review before posting v2.
 
-> That crypto stuff has all gone quiet of late unfortunately. I wonder if
-> Samuel is still working on it.
+The intent of posting the diff was two fold:
 
-I talked with Samuel and we agreed on the following plan: I'll actually
-carry on the bitmanip ISA part and he will resubmit the Zkr with
-archrandom part.
+1. The question Greg asked regarding why the max segment size was 
+limited to 15014 was valid. When I thought about it, I actually wanted 
+to limit the max MTU to 15000, so the max segment size automatically 
+needs to be limited to 15014. But my commit text didn't mention this 
+properly which was a mistake on my behalf. But when I looked at the 
+code, limiting the max segment size 15014 would force the practical 
+max_mtu to not cross 15000 although theoretical max_mtu was set to:
+(GETHER_MAX_MTU_SIZE - 15412) during registration of net device.
 
-> 
->> - "Unfold" but don't keep the extension "shorthand" in the ISA extension
->> list (for instance for Zvkn, enable Zvkned, Zvknhb, Zvkb, Zvkt)
-> 
-> But I would also be fine with this one from a pure in-kernel PoV.
+So my assumption of limiting it to 15000 was wrong. It must be limited 
+to 15412 as mentioned in u_ether.c  This inturn means we must limit 
+max_segment_size to:
+GETHER_MAX_ETH_FRAME_LEN (GETHER_MAX_MTU_SIZE + ETH_HLEN)
+as mentioned in u_ether.c.
 
-Which is the case with your version FWIU (ie, only the child extensions
-are visible).
+I wanted to confirm that setting MAX_DATAGRAM_SIZE to 
+GETHER_MAX_ETH_FRAME_LEN was correct.
 
-> I think it's likely to be annoying for users though, since they won't be
-> able to poll for the "parent" unless we re-assemble the parents in
-> hwprobe etc (eugh).
+2. I am not actually able to test with MTU beyond 15000. When my host 
+device is a linux machine, the cdc_ncm.c limits max_segment_size to:
+CDC_NCM_MAX_DATAGRAM_SIZE		8192	/* bytes */
 
-Indeed, and re-assembling the parent is IMHO duplication of the existing
-information. Checking that the needed ISA extensions are present will be
-simple enough (simple bitmask) so I'm not sure that re-assembling the
-parents is necessary (But that's a personal statement and I'm pretty
-sure others will like it to be provided directly).
+When connected to windows machine, I am able to set the mtu to a max 
+value of 15000. So not sure how to test the patch if I set the 
+max_segment_size to GETHER_MAX_ETH_FRAME_LEN.
 
-Thanks,
+By pasting the diff, I wanted to confirm both the above queries.
 
-Clément
+And you are right, while assigning value to ecm.wMaxSegmentSize, we must 
+use cpu_to_le16(...). Will ensure to make this change in v2. It worked 
+without that too, not sure how.
 
-> 
-> - don't permit passing the "parents" at all, and only deal with the
->   "children". We can enforce this for DT, but not for ACPI, so probably
->   not a runner>
-> Thanks,
-> Conor.
-> 
->>
->> Thanks,
->>
->> Clément
->>
->>> +#define RISCV_ISA_EXT_ZVKT		58
->>>  
->>>  #define RISCV_ISA_EXT_MAX		64
->>>  
->>> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
->>> index 1cfbba65d11a..859d647f3ced 100644
->>> --- a/arch/riscv/kernel/cpufeature.c
->>> +++ b/arch/riscv/kernel/cpufeature.c
->>> @@ -174,6 +174,22 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->>>  	__RISCV_ISA_EXT_DATA(zba, RISCV_ISA_EXT_ZBA),
->>>  	__RISCV_ISA_EXT_DATA(zbb, RISCV_ISA_EXT_ZBB),
->>>  	__RISCV_ISA_EXT_DATA(zbs, RISCV_ISA_EXT_ZBS),
->>> +	__RISCV_ISA_EXT_DATA(zvbb, RISCV_ISA_EXT_ZVBB),
->>> +	__RISCV_ISA_EXT_DATA(zvbc, RISCV_ISA_EXT_ZVBC),
->>> +	__RISCV_ISA_EXT_DATA(zvkb, RISCV_ISA_EXT_ZVKB),
->>> +	__RISCV_ISA_EXT_DATA(zvkg, RISCV_ISA_EXT_ZVKG),
->>> +	__RISCV_ISA_EXT_DATA(zvkn, RISCV_ISA_EXT_ZVKN),
->>> +	__RISCV_ISA_EXT_DATA(zvknc, RISCV_ISA_EXT_ZVKNC),
->>> +	__RISCV_ISA_EXT_DATA(zvkned, RISCV_ISA_EXT_ZVKNED),
->>> +	__RISCV_ISA_EXT_DATA(zvkng, RISCV_ISA_EXT_ZVKNG),
->>> +	__RISCV_ISA_EXT_DATA(zvknha, RISCV_ISA_EXT_ZVKNHA),
->>> +	__RISCV_ISA_EXT_DATA(zvknhb, RISCV_ISA_EXT_ZVKNHB),
->>> +	__RISCV_ISA_EXT_DATA(zvks, RISCV_ISA_EXT_ZVKS),
->>> +	__RISCV_ISA_EXT_DATA(zvksc, RISCV_ISA_EXT_ZVKSC),
->>> +	__RISCV_ISA_EXT_DATA(zvksed, RISCV_ISA_EXT_ZVKSED),
->>> +	__RISCV_ISA_EXT_DATA(zvksh, RISCV_ISA_EXT_ZVKSH),
->>> +	__RISCV_ISA_EXT_DATA(zvksg, RISCV_ISA_EXT_ZVKSG),
->>> +	__RISCV_ISA_EXT_DATA(zvkt, RISCV_ISA_EXT_ZVKT),
->>>  	__RISCV_ISA_EXT_DATA(smaia, RISCV_ISA_EXT_SMAIA),
->>>  	__RISCV_ISA_EXT_DATA(ssaia, RISCV_ISA_EXT_SSAIA),
->>>  	__RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
+Let me know your thoughts on the above.
+
+Regards,
+Krishna,
