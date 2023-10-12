@@ -1,53 +1,38 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DCD24210;
-	Thu, 12 Oct 2023 11:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1BCBDD;
-	Thu, 12 Oct 2023 04:14:28 -0700 (PDT)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9b96c3b4be4so128871566b.1;
-        Thu, 12 Oct 2023 04:14:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697109267; x=1697714067;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g1QRKkBNjznWASHX/P+4TGpYOnsgJ03ZF7D0qhU3Ymk=;
-        b=pP8HlnKKEK/M/MIq+84yYjMlm7nOvq2rhye0tdAqnvsQKsfeu+dbvcVr6XqNFtKUOY
-         HXLNBxxLByqLHbUP8QyZoP78htZ1Y8gKJNpfV6tYlmCpv7OXFmXPbEtbdsLVH+G91nHU
-         rkibZhqFlh1JsxA59mPGzYx/GDEj/wxwu5Qw5AyWclVDL0i9g4as3gYcsgs3dj4+8SMb
-         K2brRJlOfZSv6lKEYOXB4ygtKeRU0FeV+HVnylnF/hGI4JzKTO9gA6F+Tyv2HUOqogvA
-         kokIoWg5Mblqt4pr46LQXVsGg5iWMmOVmwJaTsblM/Zt0bwJGyeXTJ1NpljpsWc9X47B
-         lo/g==
-X-Gm-Message-State: AOJu0YzlUExwGkeUlsdAdJ42ma0R8/ttI2G9fLVsgA9XpBARK6xVga4u
-	FoBtstRCBqS+sDDAlcwuHFMeHpU6L5Q=
-X-Google-Smtp-Source: AGHT+IE6EJzJraUNfN+/pBxQYEj//JSGY9N0njx3Bqynro9CdqWEMRRS5z9eXQ+Y8KogH5ckF0OvRQ==
-X-Received: by 2002:a17:907:2cef:b0:9ae:6355:5ef4 with SMTP id hz15-20020a1709072cef00b009ae63555ef4mr20608927ejc.3.1697109267064;
-        Thu, 12 Oct 2023 04:14:27 -0700 (PDT)
-Received: from localhost (fwdproxy-cln-011.fbsv.net. [2a03:2880:31ff:b::face:b00c])
-        by smtp.gmail.com with ESMTPSA id kf24-20020a17090776d800b009b95787eb6dsm10877644ejc.48.2023.10.12.04.14.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 04:14:26 -0700 (PDT)
-From: Breno Leitao <leitao@debian.org>
-To: jlbec@evilplan.org,
-	kuba@kernel.org,
-	davem@davemloft.net,
-	pabeni@redhat.com,
-	Eric Dumazet <edumazet@google.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: hch@lst.de,
-	netdev@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE10249F2
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 11:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CMlfZNUF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B74BC433C7;
+	Thu, 12 Oct 2023 11:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697111463;
+	bh=4Y7rKxiCW01/9GQcbtlTps0JwLRbYTYOda2S200SdyM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CMlfZNUFFNjNNGnSL4zV2wmeRzpu1PDENqmw8/a5GL9RGEkHwBPZPjxI3lSAWHaqr
+	 v1Jn6MD0CvycLDWeJtP747k6A25vufz653mr9ZEgww2siCTlcS2k+avMPi2/2xIAt5
+	 B+xbjoZ3qkHOeCSrRQldqOR9rsQ4vBJN2+U7INmyqFZ7jdUrPQpSVVjr8Mvq76eyKH
+	 p+ElPXV/Gkp0LPqoQXZ61Y8ktFZqMdDrW0UC/HtT+4Uq0Ijao0AdLaLLAUKnlMN2hv
+	 DOqVa2IPVuBEXN1HY89YlwmvdR7HH4ZOhP1pzAsTIhTURMuY/380oQDjNDfbirzLNn
+	 KlgAf+2nb681A==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: dan.j.williams@intel.com
+Cc: corbet@lwn.net,
+	gregkh@linuxfoundation.org,
+	joe@perches.com,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	horms@kernel.org,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH net-next v4 4/4] Documentation: netconsole: add support for cmdline targets
-Date: Thu, 12 Oct 2023 04:14:01 -0700
-Message-Id: <20231012111401.333798-5-leitao@debian.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231012111401.333798-1-leitao@debian.org>
-References: <20231012111401.333798-1-leitao@debian.org>
+	linux@roeck-us.net,
+	max.kellermann@ionos.com,
+	workflows@vger.kernel.org,
+	Miguel Ojeda <ojeda@kernel.org>
+Subject: RE: [PATCH v3] Documentation/process/coding-style.rst: space around const
+Date: Thu, 12 Oct 2023 13:50:39 +0200
+Message-ID: <20231012115039.1680561-1-ojeda@kernel.org>
+In-Reply-To: <65271731e25f4_7258329472@dwillia2-xfh.jf.intel.com.notmuch>
+References: <65271731e25f4_7258329472@dwillia2-xfh.jf.intel.com.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,67 +40,48 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
 
-With the previous patches, there is no more limitation at modifying the
-targets created at boot time (or module load time).
+On Wed, 11 Oct 2023 14:44:17 -0700, Dan Williams wrote:
+>
+> I notice that clang-format reflows that example to:
+>
+>     const void *a;
+>     void *const b;
+>     void **const c;
+>     void *const *const d;
+>     int strcmp(const char *a, const char *b);
+>
+> ...but someone more clang-format savvy than me would need to propose the
+> changes to the kernel's .clang-format template to match the style
+> suggestion.
 
-Document the way on how to create the configfs directories to be able to
-modify these netconsole targets.
+I think we could use:
 
-The design discussion about this topic could be found at:
-https://lore.kernel.org/all/ZRWRal5bW93px4km@gmail.com/
+    diff --git a/.clang-format b/.clang-format
+    index 0bbb1991defe..9eeb511c0814 100644
+    --- a/.clang-format
+    +++ b/.clang-format
+    @@ -671,6 +671,7 @@ SortIncludes: false
+     SortUsingDeclarations: false
+     SpaceAfterCStyleCast: false
+     SpaceAfterTemplateKeyword: true
+    +SpaceAroundPointerQualifiers: Both
+     SpaceBeforeAssignmentOperators: true
+     SpaceBeforeCtorInitializerColon: true
+     SpaceBeforeInheritanceColon: true
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- Documentation/networking/netconsole.rst | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+At least that makes it match the documentation example -- I got this:
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 7a9de0568e84..390730a74332 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -99,9 +99,6 @@ Dynamic reconfiguration:
- Dynamic reconfigurability is a useful addition to netconsole that enables
- remote logging targets to be dynamically added, removed, or have their
- parameters reconfigured at runtime from a configfs-based userspace interface.
--[ Note that the parameters of netconsole targets that were specified/created
--from the boot/module option are not exposed via this interface, and hence
--cannot be modified dynamically. ]
- 
- To include this feature, select CONFIG_NETCONSOLE_DYNAMIC when building the
- netconsole module (or kernel, if netconsole is built-in).
-@@ -155,6 +152,25 @@ You can also update the local interface dynamically. This is especially
- useful if you want to use interfaces that have newly come up (and may not
- have existed when netconsole was loaded / initialized).
- 
-+Netconsole targets defined at boot time (or module load time) with the
-+`netconsole=` param are assigned the name `cmdline<index>`.  For example, the
-+first target in the parameter is named `cmdline0`.  You can control and modify
-+these targets by creating configfs directories with the matching name.
-+
-+Let's suppose you have two netconsole targets defined at boot time::
-+
-+ netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc;4444@10.0.0.1/eth1,9353@10.0.0.3/12:34:56:78:9a:bc
-+
-+You can modify these targets in runtime by creating the following targets::
-+
-+ mkdir cmdline0
-+ cat cmdline0/remote_ip
-+ 10.0.0.2
-+
-+ mkdir cmdline1
-+ cat cmdline1/remote_ip
-+ 10.0.0.3
-+
- Extended console:
- =================
- 
--- 
-2.34.1
+    const void *a;
+    void * const b;
+    void ** const c;
+    void * const * const d;
+    int strcmp(const char *a, const char *b);
 
+But it is only supported in version >= 12, so we need to wait for the
+minimum LLVM version bump.
+
+(Thanks for the ping, Joe!)
+
+Cheers,
+Miguel
