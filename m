@@ -1,48 +1,48 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762C734CCA
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 17:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22513347CE
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 17:22:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gBoyYBQS"
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17B48118;
-	Thu, 12 Oct 2023 10:21:56 -0700 (PDT)
-Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-79fe6da0049so49390739f.1;
-        Thu, 12 Oct 2023 10:21:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GByylgg/"
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB3312E;
+	Thu, 12 Oct 2023 10:21:58 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-79f95439795so58490039f.0;
+        Thu, 12 Oct 2023 10:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697131315; x=1697736115; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697131317; x=1697736117; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m2Hn5pT28/jZmYZLDxW0t8SHXvPdNDH+Olrk3yFtzgY=;
-        b=gBoyYBQS6J2gSWNRsAS61KrHuSfrOSOAH/0zQqeW1h5aG1LW8wffKj6HnZFSdtDsw+
-         0Hu9InHNnw3Cx56yT4eWp+fRD8MUCemYXz8f5WiPJk7DQnRHFU0DkxlsW0rYrWiQnayw
-         LI6e8ZgIzfNqe6hN9LZSUnV20ENinvl0eGhSM+CCh1Kho2y150SQ9nmfnX8LRbJdnuQf
-         7ExvViC8tN3QZApCKbTRTv+eWPNM84NrX89+yBkStVXBhK/2VvYRQCSEhfNKFmv28LQ7
-         cAaF9taIVaCR8ozgQwhYvs8CvU9YBlTtToBILQikVoy1F4AFoSX4XfCJravSlTq6E9B/
-         KSXw==
+        bh=O4Nv87Lg2zXFTsrsMPJe4o1KQfKM5CR/Su7zfjGsbi8=;
+        b=GByylgg/Vi8T/JsF5yGKkZ8PQHgPFzzloRCqrBg8H2qxLVGhft1LVXDnJ3I2BVS551
+         NymSRm7+iTN3eROFwMAFTYDSwgwBguIi+awUxTXFVwKY25QWR81ea0v/1rhvN6uSX4tV
+         oE3MJ4ZAyl3301WKhD7kD/ddeGogP+4ybZX4Ik7UHJM3PIJXVW0l/1DIe9o/isfuWIYk
+         IjLlRqlzSlNGj18ywEgQyYw2cESAf8N3t/4I6dTk0sv7crFRTEFXMOhMFi3R+SsRYFCB
+         Vct+YtXumXdAVB+pfBnXP9UNceO8TOCkwdoRtFKubuTyvsKiiv4pgz0m9QJIUH81s6ML
+         usrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697131315; x=1697736115;
+        d=1e100.net; s=20230601; t=1697131317; x=1697736117;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m2Hn5pT28/jZmYZLDxW0t8SHXvPdNDH+Olrk3yFtzgY=;
-        b=EDZ39+Yi2I/2KBIRvzdRUrrfYYd3LcEGYeX6EjTKSxc15WTAVQKcw449minek5Krvu
-         bjAWvLLGoTr9JzrvDmbFp3FLjxYwYmATW4Ur0qTZfsOvN1fOAZyo+TcgV9kZOf2sHmTI
-         znp1H94h9xfXwlLFUCEYB6zVZyrzeARDebspqm3Po97iDeFDjjPcgAlzegnk3MMqrG1g
-         Mp3S21GjPoS4R8SOTro9aiLwCslGWXQywXCUWPTKIs3AsdoiqFFS4xNT9RRvVUbX2Sft
-         HPbb9R4RTLiPFaMO4VwwopdM3TAgdgc3+CFuYTAnn1Fz9ZSVWaPCLDTHVKT2jMgRUUZX
-         FZqw==
-X-Gm-Message-State: AOJu0YwiXY1Z8pDNOWnIRvvTTTD0dGolLNyGUdCD2Cil3dRxvPNxGhJC
-	o8+yWP8R5Qj6aNbxZFDQMH1SKyWcr/7nQA==
-X-Google-Smtp-Source: AGHT+IGdTcFiK6g1n4MsWov4T5md8KkZ4+Ar5bmmxOEjQ+pRBg2eB+R9NvTFAE3OrPxAOb8JxX8TgQ==
-X-Received: by 2002:a6b:5908:0:b0:798:312a:5403 with SMTP id n8-20020a6b5908000000b00798312a5403mr27180775iob.19.1697131315143;
-        Thu, 12 Oct 2023 10:21:55 -0700 (PDT)
+        bh=O4Nv87Lg2zXFTsrsMPJe4o1KQfKM5CR/Su7zfjGsbi8=;
+        b=YQ8NTMK6jg/m3Mja2JqddZxMSVCLtr33XISuO8Nt+tWP8e4COzfnfdq+XhcfFZMkv5
+         tgUvPp/B5KfV/gWDn1aglkrKRm/pVdS4D5HiUBeltLcb+VtWiI6iME5JjC59ZWUEV1Ym
+         WZDHI5wuM++eqQTPP7cxaKD86aimvQAx9hAQy1XhYiWQKm8bbYSF5baNzpdD7KvkJOit
+         FFbmxlFMPEhJfJtsDzsEc9ZMGXIwk7p/61MP1MtFaIXKPHk/PqaSyn02XRNdDb9RMWvh
+         3rXqaGWMYUfbZ8M1rvYCExcFTtx3zoyx72yzpvzOkwm9Pm5CbiCDL9/I1gLtKiL/wzdw
+         EbGg==
+X-Gm-Message-State: AOJu0YxmiW36S7FXwNy2tl5hTbTcjchQcOMZPn/C7IdAoPx9pAeqgfA0
+	zq71BxxvdiJihJz6jOfV+7nHcKDJswNC/w==
+X-Google-Smtp-Source: AGHT+IFsoCgezLff2unJTvYEIKfSqNXTbNy4RrMEtsjU/boWD6E9+G6s4yHlhMjBwIKnpBjZpcfBbQ==
+X-Received: by 2002:a05:6e02:156f:b0:351:59f1:5277 with SMTP id k15-20020a056e02156f00b0035159f15277mr19761543ilu.4.1697131317084;
+        Thu, 12 Oct 2023 10:21:57 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id r25-20020a028819000000b0043cef0711c1sm3992211jai.158.2023.10.12.10.21.54
+        by smtp.googlemail.com with ESMTPSA id r25-20020a028819000000b0043cef0711c1sm3992211jai.158.2023.10.12.10.21.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 10:21:54 -0700 (PDT)
+        Thu, 12 Oct 2023 10:21:56 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	jbaron@akamai.com,
@@ -61,9 +61,9 @@ Cc: daniel.vetter@ffwll.ch,
 	bleung@google.com,
 	linux-doc@vger.kernel.org,
 	Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v7 08/25] dyndbg: reduce verbose/debug clutter
-Date: Thu, 12 Oct 2023 11:21:19 -0600
-Message-ID: <20231012172137.3286566-9-jim.cromie@gmail.com>
+Subject: [PATCH v7 10/25] dyndbg: tighten ddebug_class_name() 1st arg type
+Date: Thu, 12 Oct 2023 11:21:21 -0600
+Message-ID: <20231012172137.3286566-11-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231012172137.3286566-1-jim.cromie@gmail.com>
 References: <20231012172137.3286566-1-jim.cromie@gmail.com>
@@ -76,96 +76,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-currently, for verbose=3, these are logged (blank lines for clarity):
+Change function's 1st arg-type, and deref in the caller.
+The fn doesn't need any other fields in the struct.
 
- dyndbg: query 0: "class DRM_UT_CORE +p" mod:*
- dyndbg: split into words: "class" "DRM_UT_CORE" "+p"
-
- dyndbg: op='+'
- dyndbg: flags=0x1
- dyndbg: *flagsp=0x1 *maskp=0xffffffff
-
- dyndbg: parsed: func="" file="" module="" format="" lineno=0-0 class=...
- dyndbg: no matches for query
- dyndbg: no-match: func="" file="" module="" format="" lineno=0-0 class=...
- dyndbg: processed 1 queries, with 0 matches, 0 errs
-
-That is excessive, so this patch:
- - shrinks 3 lines of 2nd stanza to single line
- - drops 1st 2 lines of 3rd stanza
-   3rd is like 1st, with result, not procedure.
-   2nd is just status, retold in 4th, with more info.
+no functional change.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ lib/dynamic_debug.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index b67c9b137447..b0e11f6bfaa2 100644
+index b07aab422604..8158943b350d 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -266,9 +266,6 @@ static int ddebug_change(const struct ddebug_query *query,
- 	}
- 	mutex_unlock(&ddebug_lock);
+@@ -1117,12 +1117,12 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
+ #define class_in_range(class_id, map)					\
+ 	(class_id >= map->base && class_id < map->base + map->length)
  
--	if (!nfound && verbose)
--		pr_info("no matches for query\n");
--
- 	return nfound;
- }
+-static const char *ddebug_class_name(struct ddebug_iter *iter, struct _ddebug *dp)
++static const char *ddebug_class_name(struct ddebug_table *dt, struct _ddebug *dp)
+ {
+-	struct ddebug_class_map *map = iter->table->classes;
+-	int i, nc = iter->table->num_classes;
++	struct ddebug_class_map *map = dt->classes;
++	int i;
  
-@@ -497,7 +494,6 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
- 		pr_err("bad flag-op %c, at start of %s\n", *str, str);
- 		return -EINVAL;
- 	}
--	v3pr_info("op='%c'\n", op);
+-	for (i = 0; i < nc; i++, map++)
++	for (i = 0; i < dt->num_classes; i++, map++)
+ 		if (class_in_range(dp->class_id, map))
+ 			return map->class_names[dp->class_id - map->base];
  
- 	for (; *str ; ++str) {
- 		for (i = ARRAY_SIZE(opt_array) - 1; i >= 0; i--) {
-@@ -511,7 +507,6 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
- 			return -EINVAL;
- 		}
- 	}
--	v3pr_info("flags=0x%x\n", modifiers->flags);
+@@ -1156,7 +1156,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+ 	seq_puts(m, "\"");
  
- 	/* calculate final flags, mask based upon op */
- 	switch (op) {
-@@ -527,7 +522,7 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
- 		modifiers->flags = 0;
- 		break;
- 	}
--	v3pr_info("*flagsp=0x%x *maskp=0x%x\n", modifiers->flags, modifiers->mask);
-+	v3pr_info("op='%c' flags=0x%x maskp=0x%x\n", op, modifiers->flags, modifiers->mask);
- 
- 	return 0;
- }
-@@ -537,7 +532,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
- 	struct flag_settings modifiers = {};
- 	struct ddebug_query query = {};
- #define MAXWORDS 9
--	int nwords, nfound;
-+	int nwords;
- 	char *words[MAXWORDS];
- 
- 	nwords = ddebug_tokenize(query_string, words, MAXWORDS);
-@@ -555,10 +550,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
- 		return -EINVAL;
- 	}
- 	/* actually go and implement the change */
--	nfound = ddebug_change(&query, &modifiers);
--	vpr_info_dq(&query, nfound ? "applied" : "no-match");
--
--	return nfound;
-+	return ddebug_change(&query, &modifiers);
- }
- 
- /* handle multiple queries in query string, continue on error, return
+ 	if (dp->class_id != _DPRINTK_CLASS_DFLT) {
+-		class = ddebug_class_name(iter, dp);
++		class = ddebug_class_name(iter->table, dp);
+ 		if (class)
+ 			seq_printf(m, " class:%s", class);
+ 		else
 -- 
 2.41.0
 
