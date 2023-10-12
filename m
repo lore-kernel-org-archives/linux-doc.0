@@ -1,137 +1,93 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F16B249F0;
-	Thu, 12 Oct 2023 15:41:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86491D2EE;
+	Thu, 12 Oct 2023 15:43:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ffUmEuBg"
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC84C6;
-	Thu, 12 Oct 2023 08:40:57 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39CATjnD003983;
-	Thu, 12 Oct 2023 15:40:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=7MCaYfPBEG4wO9qlImg2hPGzgMMBLqG18sck647HVtE=;
- b=ffUmEuBg8K0s4GANuDEVvWf6DgnKx9sfQ+I9VjC2Vv7Bg1PaSxK4q2E5rpQ8Quanil8M
- EkB1uG3+nr2CFvoURM6IoB01dc5W2Zv8CmZMy0ti/lcOjihu8o83zag1pge+A/J6vke3
- hjiQw3bk71RAVzQxGdB8ovUqrWXuaXrV9SVKwB3klEIiXdaOeYeAQgfMRLP+DiwrH0mH
- 76LG3rGuJOGaPCAZjWvswQvLuEh7mxok2bvecEsGX2qFaQJzFyeTcl9qvALPYmxS975b
- rm7DyvwKGWYNBPobwZwiDKCmY+IfWY+cgxtS5EuWCgy+yXaNh0fiGyeLuSOGBiBDHQmU 5g== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tp0vwaf1m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Oct 2023 15:40:54 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39CFer4x001522
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Oct 2023 15:40:53 GMT
-Received: from [10.216.58.179] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 12 Oct
- 2023 08:40:49 -0700
-Message-ID: <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com>
-Date: Thu, 12 Oct 2023 21:10:46 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SiifXfOM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB234C433C8;
+	Thu, 12 Oct 2023 15:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697125404;
+	bh=8K74BfeHSQ5itwA3zaVHf1nQ8zccbd6+NF/GgtqDtc8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SiifXfOMm+9w6TcdzdytFAG6In5L0z0gje+LPoU83GHrHJ5ZQNEPPSxUVZFJPP0Vm
+	 FH2pIi7AJNfXgJmG0Y9CsJ2kPIr7QeEa/2OalBnB7OSQ6zfB+Mb7jJ64R3zDvNwsdZ
+	 UpNKNBhlbLTwoNkAHMEX/2ZfzyV7B3JjiGl4ny2CEn7t6lKWEtwbbNuKbn4w05eIpU
+	 IAcNlgM5b1Bwlkz+x0i+aBdQa8K0gp9VCBuwnsHhqWN0eULM4a/a0joeQsXUW1juT1
+	 pNwOW3MH5wUeCWJD8a9hL6iNlAL6qK/OUG6Jwg/E8o/EyIEKW2zcvB0iiE+YCjYbwO
+	 kBTVrBy4R3iWQ==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	jiri@resnulli.us,
+	linux-doc@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net-next] docs: netlink: clean up after deprecating version
+Date: Thu, 12 Oct 2023 08:43:15 -0700
+Message-ID: <20231012154315.587383-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
- wMaxSegmentSize via configfs
-To: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: onathan Corbet <corbet@lwn.net>, Linyu Yuan <quic_linyyuan@quicinc.com>,
-        <linux-usb@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_ppratap@quicinc.com>,
-        <quic_wcheng@quicinc.com>, <quic_jackp@quicinc.com>
-References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
- <20231009142005.21338-2-quic_kriskura@quicinc.com>
- <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
- <CANP3RGcCpNOuVpdV9n0AFxZo-wsfwi8OfYgBk1WHNHaEd-4V-Q@mail.gmail.com>
- <CANP3RGdY4LsOA6U5kuccApHCzL0_jBnY=pLOYrUuYtMZFTvnbw@mail.gmail.com>
- <d19d9d08-c119-4991-b460-49925f601d15@quicinc.com>
- <fad5a7fb-cce1-46bc-a0af-72405c76d107@quicinc.com>
- <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
-Content-Language: en-US
-From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: FjK8zgFgOuyNa0Qn9upiXD3sg5aHPF1h
-X-Proofpoint-ORIG-GUID: FjK8zgFgOuyNa0Qn9upiXD3sg5aHPF1h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-12_05,2023-10-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- phishscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 mlxlogscore=897
- suspectscore=0 priorityscore=1501 adultscore=0 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
- definitions=main-2310120129
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
 
+Jiri moved version to legacy specs in commit 0f07415ebb78 ("netlink:
+specs: don't allow version to be specified for genetlink").
+Update the documentation.
 
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ .../userspace-api/netlink/genetlink-legacy.rst     | 14 ++++++++++++++
+ Documentation/userspace-api/netlink/specs.rst      |  5 -----
+ 2 files changed, 14 insertions(+), 5 deletions(-)
 
-On 10/12/2023 6:02 PM, Maciej Żenczykowski wrote:
-> On Thu, Oct 12, 2023 at 1:48 AM Krishna Kurapati PSSNV
-> 
-> Could you paste the full patch?
-> This is hard to review without looking at much more context then email
-> is providing
-> (or, even better, send me a link to a CL in gerrit somewhere - for
-> example aosp ACK mainline tree)
+diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+index 40b82ad5d54a..11710086aba0 100644
+--- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
++++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+@@ -11,6 +11,20 @@ the ``genetlink-legacy`` protocol level.
+ Specification
+ =============
+ 
++Gobals
++------
++
++Attributes listed directly at the root level of the spec file.
++
++version
++~~~~~~~
++
++Generic Netlink family version, default is 1.
++
++``version`` has historically been used to introduce family changes
++which may break backwards compatibility. Since breaking changes
++are generally not allowed ``version`` is very rarely used.
++
+ Attribute type nests
+ --------------------
+ 
+diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
+index cc4e2430997e..40dd7442d2c3 100644
+--- a/Documentation/userspace-api/netlink/specs.rst
++++ b/Documentation/userspace-api/netlink/specs.rst
+@@ -86,11 +86,6 @@ name
+ Name of the family. Name identifies the family in a unique way, since
+ the Family IDs are allocated dynamically.
+ 
+-version
+-~~~~~~~
+-
+-Generic Netlink family version, default is 1.
+-
+ protocol
+ ~~~~~~~~
+ 
+-- 
+2.41.0
 
-Sure. Will provide a gerrit on ACK for review before posting v2.
-
-The intent of posting the diff was two fold:
-
-1. The question Greg asked regarding why the max segment size was 
-limited to 15014 was valid. When I thought about it, I actually wanted 
-to limit the max MTU to 15000, so the max segment size automatically 
-needs to be limited to 15014. But my commit text didn't mention this 
-properly which was a mistake on my behalf. But when I looked at the 
-code, limiting the max segment size 15014 would force the practical 
-max_mtu to not cross 15000 although theoretical max_mtu was set to:
-(GETHER_MAX_MTU_SIZE - 15412) during registration of net device.
-
-So my assumption of limiting it to 15000 was wrong. It must be limited 
-to 15412 as mentioned in u_ether.c  This inturn means we must limit 
-max_segment_size to:
-GETHER_MAX_ETH_FRAME_LEN (GETHER_MAX_MTU_SIZE + ETH_HLEN)
-as mentioned in u_ether.c.
-
-I wanted to confirm that setting MAX_DATAGRAM_SIZE to 
-GETHER_MAX_ETH_FRAME_LEN was correct.
-
-2. I am not actually able to test with MTU beyond 15000. When my host 
-device is a linux machine, the cdc_ncm.c limits max_segment_size to:
-CDC_NCM_MAX_DATAGRAM_SIZE		8192	/* bytes */
-
-When connected to windows machine, I am able to set the mtu to a max 
-value of 15000. So not sure how to test the patch if I set the 
-max_segment_size to GETHER_MAX_ETH_FRAME_LEN.
-
-By pasting the diff, I wanted to confirm both the above queries.
-
-And you are right, while assigning value to ecm.wMaxSegmentSize, we must 
-use cpu_to_le16(...). Will ensure to make this change in v2. It worked 
-without that too, not sure how.
-
-Let me know your thoughts on the above.
-
-Regards,
-Krishna,
