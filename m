@@ -1,115 +1,230 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971AD29439
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 13:46:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24712942B;
+	Thu, 12 Oct 2023 13:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="s8s5pySf"
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F94C6
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 06:46:12 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-53e07db272cso1287349a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 06:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1697118370; x=1697723170; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WL4o0PnlTALPx2JWXQcQVAR5wsdcklh2Oh9j6J5p78o=;
-        b=s8s5pySfVGsOvbqrWvK2k8LuNwRuOVSZz33KIMLX/3ba1xPeA2UmJWZqChehN3e92F
-         v04YzDGP7HVwEwYO5OWlA8ULMTru471sNQIbYNZww5xDJ311BvdxnWp1JFavlr9QOQLf
-         wC/w7VNQabGsjUdburO0JP/G+GUbeKJJ4uZQrjlnFo0qJh0PJ21z3ZX7+2VlF9Hn7OZL
-         Gvz3aGCRnONbfH7npfPypuDvMH4DqykZB0E0Rpx/XH88v8KC+ORzMTLPDWnvINrQxqAb
-         v3k/b6+ljnzNqPNLgl5zsOELAweH2VCP9Q+e6yIAbQ/thAECha6Ai1PRSJJPeNa1EG1d
-         bx3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697118370; x=1697723170;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WL4o0PnlTALPx2JWXQcQVAR5wsdcklh2Oh9j6J5p78o=;
-        b=U7T5n8Ms6n7vpZE0VDFSUt5L0PPU9EO6D99g+tQaUy+gGGfT4GYmRIItjulRJvKmnq
-         WSTYXZRhG61KFQaE8DAWT4OV/xQz6V/GqgfqN7VSrxeF0k+b+z5LG6i9uT4F18KjYoaI
-         u8KJOdprpG4E9WDzl0v85jWANX6kDAAHLPDh/lcUkzzuWvki8pQm8qRbXyWZcpvIA2rT
-         xLxzZha53B3aH1ZVpg4Ao+O75GAaKQekhASJ0hGdwHquBMwzsC2Z3aCHM2FFSbO4GwxL
-         kNEGQjxxAE4AdvlzFxc/UgAI28TZF17t9G3YFf9gzWQ6gfRWR2WFhlzfbYOLtjU5Br3X
-         jOvQ==
-X-Gm-Message-State: AOJu0YwZaCNoCrOs1leEWR4/HhQ/NGvEH1gNP68frqqBbC4lZ+qa+pNb
-	W6q9FsUzIiDJP25xQh7DZRKrYDTX7DmdUw/dt4Q=
-X-Google-Smtp-Source: AGHT+IH59hmoDS+3N9HnCWrAqCjVPZ4ryC0EzwYrla5+l9OzTXH6ATWKCWWbfSW9us9NhxA/rflDvg==
-X-Received: by 2002:aa7:d14c:0:b0:533:2327:1eed with SMTP id r12-20020aa7d14c000000b0053323271eedmr23591165edo.24.1697118370561;
-        Thu, 12 Oct 2023 06:46:10 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id er24-20020a056402449800b0052febc781bfsm2998183edb.36.2023.10.12.06.46.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 06:46:09 -0700 (PDT)
-Date: Thu, 12 Oct 2023 15:46:08 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Netdev <netdev@vger.kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-wireless@vger.kernel.org,
-	Johannes Berg <johannes@sipsolutions.net>,
-	linux-wpan@vger.kernel.org,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Rodolfo Zitellini <rwz@xhero.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] appletalk: make localtalk and ppp support
- conditional
-Message-ID: <ZSf4oCBXZGi2BfqC@nanopsycho>
-References: <20231011140225.253106-1-arnd@kernel.org>
- <ZSa5bIcISlvW3zo5@nanopsycho>
- <82527b7f-4509-4a59-a9cf-2df47e6e1a7c@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="toDLP8Io"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3955C433C7;
+	Thu, 12 Oct 2023 13:47:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697118474;
+	bh=M6/Qc0XbKAWDLzcioQK//3A7VmcEvW6GiZ4CsMaKi9c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=toDLP8IoYI0zO1Qr/HpWhBSJedmIYWvtu0OWyQ/cCKT7Em1nDxVTIrGbWueqQOu9F
+	 uSPs+Dzi1+ob0udaJ8m6YKimln2U50iBfkmAGHGwhxGaC1lq25eK4o7I6NekVLpdkO
+	 QY49/LwtgRiaJbrW4YkWS2FsuwVFpp+Kq/tUQ52Fxu5cq3w03hYpAQElctBYX3Xoqu
+	 ffshbo3mrdDUDwsHXQQ8VjQ1Suy/VZ9PqGD7QNDdMoojnZFnyfzCbxp9J45e5Vd6tP
+	 lmh8YjrleBi0oEr6Ftw9f6dgBNm3CLoSpuZunOM7EaufxvwQc1B2MucilC2Eit+F/S
+	 y2421EuVP2obw==
+Date: Thu, 12 Oct 2023 14:47:49 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Evan Green <evan@rivosinc.com>
+Subject: Re: [PATCH v1 04/13] dt-bindings: riscv: add Zv* ratified crypto ISA
+ extensions description
+Message-ID: <20231012-job-charbroil-469c3e1d2982@spud>
+References: <20231011111438.909552-1-cleger@rivosinc.com>
+ <20231011111438.909552-5-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="+ala/M+NuL0Bx69x"
 Content-Disposition: inline
-In-Reply-To: <82527b7f-4509-4a59-a9cf-2df47e6e1a7c@app.fastmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
-
-Wed, Oct 11, 2023 at 05:57:38PM CEST, arnd@arndb.de wrote:
->On Wed, Oct 11, 2023, at 17:04, Jiri Pirko wrote:
->> Could you provide a cover letter for the set please?
->
->Subject: [PATCH v2 00/10] remove final .ndo_do_ioctl references
->
->The .ndo_do_ioctl() netdev operation used to be how one communicates
->with a network driver from userspace, but since my previous cleanup [1],
->it is purely internal to the kernel.
->
->Removing the cops appletalk/localtalk driver made me revisit the
->missing pieces from that older series, removing all the unused
->implementations in wireless drivers as well as the two kernel-internal
->callers in the ieee802154 and appletalk stacks.
->
->One ethernet driver was already merged in the meantime that should
->have used .ndo_eth_ioctl instead of .ndo_do_ioctl, so fix that as well.
->With the complete removal, any future drivers making this mistake
->cause build failures that are easier to spot.
-
-Looks fine.
+In-Reply-To: <20231011111438.909552-5-cleger@rivosinc.com>
 
 
->
->[1] https://lore.kernel.org/netdev/20201106221743.3271965-1-arnd@kernel.org/
->
->----
->Hope that helps, I had commented on the cops removal about sending
->this but of course not everyone here saw that. Let me know if I should
->resend the patches together with the cover letter.
+--+ala/M+NuL0Bx69x
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes please. Thanks!
+Yo,
 
+On Wed, Oct 11, 2023 at 01:14:29PM +0200, Cl=E9ment L=E9ger wrote:
+> Add Zv* vector crypto extensions that were added in "RISC-V Cryptography
+> Extensions Volume II" specificationi[1]:
+>=20
+> - Zvbb: Vector Basic Bit-manipulation
+> - Zvbc: Vector Carryless Multiplication
+> - Zvkb: Vector Cryptography Bit-manipulation
+> - Zvkg: Vector GCM/GMAC.
+> - Zvkned: NIST Suite: Vector AES Block Cipher
+> - Zvknh[ab]: NIST Suite: Vector SHA-2 Secure Hash
+> - Zvksed: ShangMi Suite: SM4 Block Cipher
+> - Zvksh: ShangMi Suite: SM3 Secure Hash
+> - Zvkn: NIST Algorithm Suite
+> - Zvknc: NIST Algorithm Suite with carryless multiply
+> - Zvkng: NIST Algorithm Suite with GCM.
+> - Zvks: ShangMi Algorithm Suite
+> - Zvksc: ShangMi Algorithm Suite with carryless multiplication
+> - Zvksg: ShangMi Algorithm Suite with GCM.
+> - Zvkt: Vector Data-Independent Execution Latency.
+>=20
+> [1] https://drive.google.com/file/d/1gb9OLH-DhbCgWp7VwpPOVrrY6f3oSJLL/view
 
->
->    Arnd
+Link: <whatever> [1]
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+Thanks,
+Conor.
+
+> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+> ---
+>  .../devicetree/bindings/riscv/extensions.yaml | 96 +++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
+cumentation/devicetree/bindings/riscv/extensions.yaml
+> index cc1f546fdbdc..4002c65145c9 100644
+> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> @@ -246,5 +246,101 @@ properties:
+>              in commit 2e5236 ("Ztso is now ratified.") of the
+>              riscv-isa-manual.
+> =20
+> +        - const: zvbb
+> +          description:
+> +            The standard Zvbb extension for vectored basic bit-manipulat=
+ion
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvbc
+> +          description:
+> +            The standard Zvbc extension for vectored carryless multiplic=
+ation
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvkb
+> +          description:
+> +            The standard Zvkb extension for vector cryptography bit-mani=
+pulation
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvkg
+> +          description:
+> +            The standard Zvkg extension for vector GCM/GMAC instructions=
+, as
+> +            ratified in commit 56ed795 ("Update riscv-crypto-spec-vector=
+=2Eadoc")
+> +            of riscv-crypto.
+> +
+> +        - const: zvkn
+> +          description:
+> +            The standard Zvkn extension for NIST algorithm suite instruc=
+tions, as
+> +            ratified in commit 56ed795 ("Update riscv-crypto-spec-vector=
+=2Eadoc")
+> +            of riscv-crypto.
+> +
+> +        - const: zvknc
+> +          description:
+> +            The standard Zvknc extension for NIST algorithm suite with c=
+arryless
+> +            multiply instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvkned
+> +          description:
+> +            The standard Zvkned extension for Vector AES block cipher
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvkng
+> +          description:
+> +            The standard Zvkng extension for NIST algorithm suite with G=
+CM
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvknha
+> +          description: |
+> +            The standard Zvknha extension for NIST suite: vector SHA-2 s=
+ecure,
+> +            hash (SHA-256 only) instructions, as ratified in commit
+> +            56ed795 ("Update riscv-crypto-spec-vector.adoc") of riscv-cr=
+ypto.
+> +
+> +        - const: zvknhb
+> +          description: |
+> +            The standard Zvknhb extension for NIST suite: vector SHA-2 s=
+ecure,
+> +            hash (SHA-256 and SHA-512) instructions, as ratified in comm=
+it
+> +            56ed795 ("Update riscv-crypto-spec-vector.adoc") of riscv-cr=
+ypto.
+> +
+> +        - const: zvks
+> +          description:
+> +            The standard Zvks extension for ShangMi algorithm suite
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvksc
+> +          description:
+> +            The standard Zvksc extension for ShangMi algorithm suite with
+> +            carryless multiplication instructions, as ratified in commit=
+ 56ed795
+> +            ("Update riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvksed
+> +          description: |
+> +            The standard Zvksed extension for ShangMi suite: SM4 block c=
+ipher
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvksh
+> +          description: |
+> +            The standard Zvksh extension for ShangMi suite: SM3 secure h=
+ash
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvksg
+> +          description:
+> +            The standard Zvksg extension for ShangMi algorithm suite wit=
+h GCM
+> +            instructions, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+> +        - const: zvkt
+> +          description:
+> +            The standard zvkt extension for vector data-independent exec=
+ution
+> +            latency, as ratified in commit 56ed795 ("Update
+> +            riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> +
+>  additionalProperties: true
+>  ...
+> --=20
+> 2.42.0
+>=20
+
+--+ala/M+NuL0Bx69x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSf5BQAKCRB4tDGHoIJi
+0geQAQDhWB73Yqnqqsw5vfDyfuBoHydY4VRH771rfIyg9uid7gEAv07b2l+r1hLN
+isOAcrJ0GWoMBgFW2kO9X6FTgAPTsgk=
+=sC9E
+-----END PGP SIGNATURE-----
+
+--+ala/M+NuL0Bx69x--
