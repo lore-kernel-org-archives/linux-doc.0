@@ -1,128 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808C53D972;
-	Thu, 12 Oct 2023 20:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I9O2rBWF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83CDEC433C7;
-	Thu, 12 Oct 2023 20:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697142886;
-	bh=1NmsynG7soJV4+TPuN+O1s9KhLN02NtYFh7WcmBFz8A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I9O2rBWF8gDar/1iXLQ4oZZKDeER69jhL3u6eC5bovsQijynepBATCh0hAMHpTqWw
-	 /vXM3y1SG0pkQD8OS+OKBAZ9rn0hsmJzk5VRmpHzXkF0Lu/LHurNnd62SH3TgwUrfa
-	 MKAJeZiLT2kX2yjJB0VYjxbaW822eObD5KQ6gyQY7qbeycSYF/QvVL+i3wJBG2+Fn1
-	 i1lGoa/2VsAuTKMzanhcWLUwwviGNuHAIjzoOsczqCc9s1mTHT9D6WP4q6N1v4VmX2
-	 emS3ZnCa2dbdUphUNYx3TptZIkTbls5KnuJEZM5JJYdfSHoIGXXTiKA/O8JDlHlCcB
-	 bSZmUDB1llELA==
-Received: (nullmailer pid 1698490 invoked by uid 1000);
-	Thu, 12 Oct 2023 20:34:44 -0000
-Date: Thu, 12 Oct 2023 15:34:44 -0500
-From: Rob Herring <robh@kernel.org>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "open list:ARM/Mediatek SoC support" <linux-kernel@vger.kernel.org>, "moderated list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH net-next 1/2] net: dsa: Use conduit and user terms
-Message-ID: <20231012203444.GA1636217-robh@kernel.org>
-References: <20231010213942.3633407-1-florian.fainelli@broadcom.com>
- <20231010213942.3633407-2-florian.fainelli@broadcom.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C383F4DA
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 21:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+X-Greylist: delayed 441 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Oct 2023 14:59:06 PDT
+Received: from second.openwall.net (second.openwall.net [193.110.157.125])
+	by lindbergh.monkeyblade.net (Postfix) with SMTP id BC538D9
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 14:59:06 -0700 (PDT)
+Received: (qmail 21923 invoked from network); 12 Oct 2023 21:51:43 -0000
+Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
+  by localhost with SMTP; 12 Oct 2023 21:51:43 -0000
+Received: by pvt.openwall.com (Postfix, from userid 503)
+	id DD58DA064D; Thu, 12 Oct 2023 23:51:22 +0200 (CEST)
+Date: Thu, 12 Oct 2023 23:51:22 +0200
+From: Solar Designer <solar@openwall.com>
+To: Willy Tarreau <w@1wt.eu>
+Cc: Vegard Nossum <vegard.nossum@oracle.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
+	workflows@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <keescook@chromium.org>
+Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros relaxed their rules
+Message-ID: <20231012215122.GA8245@openwall.com>
+References: <20231007140454.25419-1-w@1wt.eu> <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com> <20231007163936.GA26837@1wt.eu>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231010213942.3633407-2-florian.fainelli@broadcom.com>
+In-Reply-To: <20231007163936.GA26837@1wt.eu>
+User-Agent: Mutt/1.4.2.3i
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-On Tue, Oct 10, 2023 at 02:39:41PM -0700, Florian Fainelli wrote:
-> Use more inclusive terms throughout the DSA subsystem by moving away
-> from "master" which is replaced by "conduit" and "slave" which is
-> replaced by "user". No functional changes.
+Hi all,
+
+Thank you (especially Willy) for your effort on this.
+
+Out of the 3 paragraphs, the first one looks good to me as-is, but for
+the last two I propose the slightly edited versions below.
+
+On Sat, Oct 07, 2023 at 04:04:54PM +0200, Willy Tarreau wrote:
+> +Please note that the respective policies and rules are different since
+> +the 3 lists pursue different goals.  Coordinating between the kernel
+> +security team and other teams is difficult since occasional embargoes
+> +start from the availability of a fix for the kernel security team, while
+> +for other lists they generally start from the initial post to the list,
+> +regardless of the availability of a fix.
+
+---
+Please note that the respective policies and rules are different since
+the 3 lists pursue different goals.  Coordinating between the kernel
+security team and other teams is difficult since for the kernel security
+team occasional embargoes (as subject to a maximum allowed number of
+days) start from the availability of a fix, while for "linux-distros"
+they start from the initial post to the list regardless of the
+availability of a fix.
+---
+
+I added the part in braces to explain why the difference in when
+embargoes start matters.  I also moved part of that sentence for
+consistency.  Finally, I replaced "other lists" with specific reference
+to "linux-distros" because this paragraph talks only about 3 specific
+lists and on "oss-security" there are no embargoes.
+
+On Sat, Oct 07, 2023 at 06:39:36PM +0200, Willy Tarreau wrote:
+> On Sat, Oct 07, 2023 at 06:30:11PM +0200, Vegard Nossum wrote:
+> > On 07/10/2023 16:04, Willy Tarreau wrote:
+> > > +As such, the kernel security team strongly recommends that reporters of
+> > > +potential security issues DO NOT contact the "linux-distros" mailing
+> > > +list BEFORE a fix is accepted by the affected code's maintainers and you
+> > 
+> > is s/BEFORE/UNTIL/ clearer?
 > 
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> ---
->  .../bindings/net/dsa/mediatek,mt7530.yaml     |    2 +-
+> Probably, yes.
 
-Acked-by: Rob Herring <robh@kernel.org>
+I agree.  Also, the sentence jumps from "reporters" to "you" implying
+that "you" is a reporter, but maybe it's better to make that explicit.
 
->  Documentation/networking/dsa/b53.rst          |   14 +-
->  Documentation/networking/dsa/bcm_sf2.rst      |    2 +-
->  .../networking/dsa/configuration.rst          |  104 +-
->  Documentation/networking/dsa/dsa.rst          |  150 +-
->  Documentation/networking/dsa/lan9303.rst      |    2 +-
->  Documentation/networking/dsa/sja1105.rst      |    8 +-
->  .../dts/marvell/armada-3720-espressobin.dtsi  |    2 +-
->  drivers/net/dsa/b53/b53_common.c              |    4 +-
->  drivers/net/dsa/b53/b53_mdio.c                |    2 +-
->  drivers/net/dsa/bcm_sf2.c                     |   36 +-
->  drivers/net/dsa/bcm_sf2.h                     |    2 +-
->  drivers/net/dsa/bcm_sf2_cfp.c                 |    4 +-
->  drivers/net/dsa/lan9303-core.c                |    4 +-
->  drivers/net/dsa/lantiq_gswip.c                |   34 +-
->  drivers/net/dsa/microchip/ksz9477.c           |    6 +-
->  drivers/net/dsa/microchip/ksz_common.c        |   20 +-
->  drivers/net/dsa/microchip/ksz_ptp.c           |    2 +-
->  drivers/net/dsa/mt7530.c                      |   16 +-
->  drivers/net/dsa/mv88e6xxx/chip.c              |    2 +-
->  drivers/net/dsa/ocelot/felix.c                |   62 +-
->  drivers/net/dsa/ocelot/felix.h                |    4 +-
->  drivers/net/dsa/qca/qca8k-8xxx.c              |   48 +-
->  drivers/net/dsa/qca/qca8k-common.c            |    2 +-
->  drivers/net/dsa/qca/qca8k-leds.c              |    6 +-
->  drivers/net/dsa/qca/qca8k.h                   |    2 +-
->  drivers/net/dsa/realtek/realtek-smi.c         |   28 +-
->  drivers/net/dsa/realtek/realtek.h             |    2 +-
->  drivers/net/dsa/sja1105/sja1105_main.c        |    4 +-
->  drivers/net/dsa/xrs700x/xrs700x.c             |   12 +-
->  drivers/net/ethernet/broadcom/bcmsysport.c    |    2 +-
->  drivers/net/ethernet/mediatek/mtk_eth_soc.c   |    2 +-
->  include/linux/dsa/sja1105.h                   |    2 +-
->  include/net/dsa.h                             |   54 +-
->  include/net/dsa_stubs.h                       |   10 +-
->  net/core/dev_ioctl.c                          |    2 +-
->  net/dsa/Makefile                              |    4 +-
->  net/dsa/{master.c => conduit.c}               |   96 +-
->  net/dsa/conduit.h                             |   22 +
->  net/dsa/dsa.c                                 |  218 +--
->  net/dsa/dsa.h                                 |   10 +-
->  net/dsa/master.h                              |   22 -
->  net/dsa/netlink.c                             |   14 +-
->  net/dsa/port.c                                |  114 +-
->  net/dsa/port.h                                |    2 +-
->  net/dsa/slave.h                               |   69 -
->  net/dsa/switch.c                              |   18 +-
->  net/dsa/switch.h                              |    4 +-
->  net/dsa/tag.c                                 |   10 +-
->  net/dsa/tag.h                                 |   26 +-
->  net/dsa/tag_8021q.c                           |   22 +-
->  net/dsa/tag_8021q.h                           |    2 +-
->  net/dsa/tag_ar9331.c                          |    4 +-
->  net/dsa/tag_brcm.c                            |   14 +-
->  net/dsa/tag_dsa.c                             |    6 +-
->  net/dsa/tag_gswip.c                           |    4 +-
->  net/dsa/tag_hellcreek.c                       |    4 +-
->  net/dsa/tag_ksz.c                             |   12 +-
->  net/dsa/tag_lan9303.c                         |    4 +-
->  net/dsa/tag_mtk.c                             |    4 +-
->  net/dsa/tag_none.c                            |    4 +-
->  net/dsa/tag_ocelot.c                          |   22 +-
->  net/dsa/tag_ocelot_8021q.c                    |   12 +-
->  net/dsa/tag_qca.c                             |    6 +-
->  net/dsa/tag_rtl4_a.c                          |    6 +-
->  net/dsa/tag_rtl8_4.c                          |    6 +-
->  net/dsa/tag_rzn1_a5psw.c                      |    4 +-
->  net/dsa/tag_sja1105.c                         |   30 +-
->  net/dsa/tag_trailer.c                         |    4 +-
->  net/dsa/tag_xrs700x.c                         |    4 +-
->  net/dsa/{slave.c => user.c}                   | 1240 ++++++++---------
->  net/dsa/user.h                                |   69 +
->  72 files changed, 1385 insertions(+), 1385 deletions(-)
->  rename net/dsa/{master.c => conduit.c} (79%)
->  create mode 100644 net/dsa/conduit.h
->  delete mode 100644 net/dsa/master.h
->  delete mode 100644 net/dsa/slave.h
->  rename net/dsa/{slave.c => user.c} (67%)
->  create mode 100644 net/dsa/user.h
+> > > +have read the linux-distros wiki page above and you fully understand the
+> > > +requirements that doing so will impose on you and the kernel community.
+> > > +This also means that in general it doesn't make sense to Cc: both lists
+> > > +at once, except for coordination if a fix remains under embargo. And in
+> > > +general, please do not Cc: the kernel security list about fixes that
+> > > +have already been merged.
+
+This implies that in general a fix does not remain under embargo.
+However, contacting "linux-distros" only makes sense when a fix does
+remain under embargo (either not yet pushed to a public list/repo, or
+under the Linux kernel exception for a public not-too-revealing fix) -
+otherwise, the issue should be brought to "oss-security" right away.
+
+Edited:
+
+---
+As such, the kernel security team strongly recommends that as a reporter
+of a potential security issue you DO NOT contact the "linux-distros"
+mailing list UNTIL a fix is accepted by the affected code's maintainers
+and you have read the distros wiki page above and you fully understand
+the requirements that contacting "linux-distros" will impose on you and
+the kernel community.  This also means that in general it doesn't make
+sense to Cc: both lists at once, except maybe for coordination if and
+while an accepted fix has not yet been merged.  In other words, until a
+fix is accepted do not Cc: "linux-distros", and after it's merged do not
+Cc: the kernel security team.
+---
+
+This allows possible Cc'ing of both lists in the time window between
+"fix is accepted by the affected code's maintainers" and "merged".
+Makes sense?  I worry this distinction between accepted and merged may
+be overly complicated for some, but I don't have better wording.
+
+> > I was thinking about this Cc: thing and would it make sense to:
+> > 
+> > 1) have LKML and other public vger lists reject messages that include
+> > s@k.o or (linux-)distros@ on Cc? The idea being that this is probably a
+> > mistake -- I believe it has happened a few times recently by mistake.
+> > 
+> > 2) have (linux-)distros@ reject NEW threads (i.e. no In-Reply-To:) that
+> > also include s@k.o on Cc? We could include a nice message explaining why
+> > and to please resend when a patch has been developed and/or a disclosure
+> > is planned in the next 7 days.
+> 
+> I don't know, maybe it would add extra config burden, but on the other
+> hand it could avoid the mistake from newcomers who have not read the
+> docs first (which happened a few times already), but if l-d becomes a
+> bit more flexible and tolerant to reporters' mistakes, as now documented,
+> it should also be less of a problem.
+> 
+> > I guess the problem with this would be if
+> > somebody on s@k.o does a reply-all which would add distros right back in
+> > the loop -OR- a patch has already been developed and included.
+> 
+> Then this would be deliberate, there would an in-reply-to so that would
+> not be a problem. I really doubt anyone from s@k.o would Cc linux-distros
+> anyway since it would imply disclosing some details from a reporter, and
+> we do not do that, it's up to the reporter to do it if they want.
+
+I think we don't want to complicate the setup, which we'd then have to
+explain somewhere.  With my concern/edit above, also the logic isn't
+that simple.
+
+Alexander
