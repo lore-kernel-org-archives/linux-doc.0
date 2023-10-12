@@ -1,93 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86491D2EE;
-	Thu, 12 Oct 2023 15:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DD0266C6;
+	Thu, 12 Oct 2023 15:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SiifXfOM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB234C433C8;
-	Thu, 12 Oct 2023 15:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697125404;
-	bh=8K74BfeHSQ5itwA3zaVHf1nQ8zccbd6+NF/GgtqDtc8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=SiifXfOMm+9w6TcdzdytFAG6In5L0z0gje+LPoU83GHrHJ5ZQNEPPSxUVZFJPP0Vm
-	 FH2pIi7AJNfXgJmG0Y9CsJ2kPIr7QeEa/2OalBnB7OSQ6zfB+Mb7jJ64R3zDvNwsdZ
-	 UpNKNBhlbLTwoNkAHMEX/2ZfzyV7B3JjiGl4ny2CEn7t6lKWEtwbbNuKbn4w05eIpU
-	 IAcNlgM5b1Bwlkz+x0i+aBdQa8K0gp9VCBuwnsHhqWN0eULM4a/a0joeQsXUW1juT1
-	 pNwOW3MH5wUeCWJD8a9hL6iNlAL6qK/OUG6Jwg/E8o/EyIEKW2zcvB0iiE+YCjYbwO
-	 kBTVrBy4R3iWQ==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	jiri@resnulli.us,
-	linux-doc@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next] docs: netlink: clean up after deprecating version
-Date: Thu, 12 Oct 2023 08:43:15 -0700
-Message-ID: <20231012154315.587383-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZQbK6SWr"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D900FB8;
+	Thu, 12 Oct 2023 08:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=8RVJPN0HB6MxXDFbRxx5/l1GgBlrlJr+jq++zl6CXoc=; b=ZQbK6SWrVLDLDykCOvFDAvn7Xu
+	MUYsRM1i7go0fld55cuSIK5u9oty5W7/IWZCybr7DNgGn67obthxjNHD4vbiI1Nz0PpVAtqnn1olv
+	fx6v6FUcLMM9O26aUNst1s9OpKHWMWMld62cm/4OTIfoWkYHay4ydHChEyr1GE6EGbpm0R3nU2qxN
+	3n2IrkxqAcVyjle5S5QKlhyRAjoe+MqHQzpHk2VFx+imevMbgMDbrWaB1q2RApRSsMJRFGmAI9h0A
+	pB6h/ysmKOM/eHK/5Or61nHLeLoh/rt4DpO79CvTvwQpYMUFFCr++V7lXQ2+yypCWVJUyNgLFpI7t
+	WY6Av6CA==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qqxyI-001Kp1-14;
+	Thu, 12 Oct 2023 15:51:34 +0000
+Message-ID: <aed223c3-9065-42c4-8edb-40facbbbf0ee@infradead.org>
+Date: Thu, 12 Oct 2023 08:51:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] docs: netlink: clean up after deprecating
+ version
+Content-Language: en-US
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+ jiri@resnulli.us, linux-doc@vger.kernel.org
+References: <20231012154315.587383-1-kuba@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231012154315.587383-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-Jiri moved version to legacy specs in commit 0f07415ebb78 ("netlink:
-specs: don't allow version to be specified for genetlink").
-Update the documentation.
+Hi,
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
- .../userspace-api/netlink/genetlink-legacy.rst     | 14 ++++++++++++++
- Documentation/userspace-api/netlink/specs.rst      |  5 -----
- 2 files changed, 14 insertions(+), 5 deletions(-)
+On 10/12/23 08:43, Jakub Kicinski wrote:
+> Jiri moved version to legacy specs in commit 0f07415ebb78 ("netlink:
+> specs: don't allow version to be specified for genetlink").
+> Update the documentation.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  .../userspace-api/netlink/genetlink-legacy.rst     | 14 ++++++++++++++
+>  Documentation/userspace-api/netlink/specs.rst      |  5 -----
+>  2 files changed, 14 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+> index 40b82ad5d54a..11710086aba0 100644
+> --- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
+> +++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+> @@ -11,6 +11,20 @@ the ``genetlink-legacy`` protocol level.
+>  Specification
+>  =============
+>  
+> +Gobals
 
-diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-index 40b82ad5d54a..11710086aba0 100644
---- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
-+++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-@@ -11,6 +11,20 @@ the ``genetlink-legacy`` protocol level.
- Specification
- =============
- 
-+Gobals
-+------
-+
-+Attributes listed directly at the root level of the spec file.
-+
-+version
-+~~~~~~~
-+
-+Generic Netlink family version, default is 1.
-+
-+``version`` has historically been used to introduce family changes
-+which may break backwards compatibility. Since breaking changes
-+are generally not allowed ``version`` is very rarely used.
-+
- Attribute type nests
- --------------------
- 
-diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
-index cc4e2430997e..40dd7442d2c3 100644
---- a/Documentation/userspace-api/netlink/specs.rst
-+++ b/Documentation/userspace-api/netlink/specs.rst
-@@ -86,11 +86,6 @@ name
- Name of the family. Name identifies the family in a unique way, since
- the Family IDs are allocated dynamically.
- 
--version
--~~~~~~~
--
--Generic Netlink family version, default is 1.
--
- protocol
- ~~~~~~~~
- 
+Globals
+?
+
+> +------
+> +
+> +Attributes listed directly at the root level of the spec file.
+> +
+> +version
+> +~~~~~~~
+> +
+> +Generic Netlink family version, default is 1.
+> +
+> +``version`` has historically been used to introduce family changes
+> +which may break backwards compatibility. Since breaking changes
+> +are generally not allowed ``version`` is very rarely used.
+
+I would s/are/is/. To me "breaking changes" is singular, not plural.
+
+> +
+>  Attribute type nests
+>  --------------------
+>  
+> diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
+> index cc4e2430997e..40dd7442d2c3 100644
+> --- a/Documentation/userspace-api/netlink/specs.rst
+> +++ b/Documentation/userspace-api/netlink/specs.rst
+> @@ -86,11 +86,6 @@ name
+>  Name of the family. Name identifies the family in a unique way, since
+>  the Family IDs are allocated dynamically.
+>  
+> -version
+> -~~~~~~~
+> -
+> -Generic Netlink family version, default is 1.
+> -
+>  protocol
+>  ~~~~~~~~
+>  
+
 -- 
-2.41.0
-
+~Randy
