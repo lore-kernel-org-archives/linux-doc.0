@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2AA34CF2;
-	Thu, 12 Oct 2023 19:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D4C34CF2;
+	Thu, 12 Oct 2023 19:23:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqFUhq0p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F4A7C433C7;
-	Thu, 12 Oct 2023 19:22:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJGzlPrj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D2EBC433CB;
+	Thu, 12 Oct 2023 19:23:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697138578;
-	bh=dhkNkcd5s5dF4hY99APwOOIKtTfhuQ585ymiYD2asqE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=aqFUhq0pY1YB2OjHpjc0rQz4kU1EVFhRX7IY2f1LSyOh0qJXFpzH4+Qlm5zltWdT3
-	 I+gDoQUNF3S5+s75NqsZW5GugdC4+m35pte3sdBnx6tq2ga1Hac8J7pMbNHra+Efcg
-	 V7YNhtDQEX/n+/LnIulfUF57Em6W5I+ZW2RuV+QrdgfdlXwY1GTNkXMZGjBBlIRjlg
-	 h3F1IiXedOJgtVat2g57BmwtcEkPUKGFAVatVIwvM9+7/blH7Q6s+UuGI5EluTOM5Y
-	 bJNJPKhG8EPkl9eTtRgB9lQeabHG5umqCVM1jNwZJZkBIe861zNWWcpb6Hh5UyjfAO
-	 mEu5jxwitRKFg==
+	s=k20201202; t=1697138584;
+	bh=PRMNaWi4eLwEr1ddca0C6ItteLnRKdFxcFRimSLMbuo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bJGzlPrjaiUIBuFyajQ5Ml/qrVcEGh+SjVnuKYWNiD50UIeYWhykkEIUdu7FThB0U
+	 c4m724zZPNDNhN7SMT5Er7OqE7Q+KiPopSS/RZYPf+PaAwiBl0DzTq/JoY932IHK46
+	 HFSs2q3SdwTv8OupysoFHIsHs/Cp2/SqkQielW+BX05cFNdUVj3+s9E2Bn+181AY31
+	 MSV5J0+jmQ5LMDdc850GF9fkma0pIr9lJ9CMwmXWO7XXQguzHCfFcQRleQZNc5kCLR
+	 Ibf04a1T8riDcyY6xMyNg87yq2iYqDql/b2zCzblzfyN50l8gc1fetjrFtVwpzMkZH
+	 9LUJGAQEyISjQ==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -25,10 +25,12 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] mm/damon/sysfs-schemes: Do DAMOS tried regions update for only one apply interval
-Date: Thu, 12 Oct 2023 19:22:52 +0000
-Message-Id: <20231012192256.33556-1-sj@kernel.org>
+Subject: [PATCH 3/3] Docs/admin-guide/mm/damon/usage: update for tried regions update time interval
+Date: Thu, 12 Oct 2023 19:22:55 +0000
+Message-Id: <20231012192256.33556-4-sj@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231012192256.33556-1-sj@kernel.org>
+References: <20231012192256.33556-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,49 +39,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Changes from RFC
-(https://lore.kernel.org/damon/20231010012600.83140-1-sj@kernel.org/)
-- Rebase on latest mm-unstable
+The documentation says DAMOS tried regions update feature of DAMON sysfs
+interface is doing the update for one aggregation interval after the
+request is made.  Since the introduction of the per-scheme apply
+interval, that behavior makes no much sense.  Hence the implementation
+has changed to update the regions for each scheme for only its apply
+interval.  Further update the document to reflect the real behavior.
 
-DAMOS tried regions update feature of DAMON sysfs interface is doing the
-update for one aggregation interval after the request is made.  Since
-the per-scheme apply interval is supported, that behavior makes no much
-sense.  That is, the tried regions directory will have regions from
-multiple DAMON monitoring results snapshots, or no region for apply
-intervals that much shorter than, or longer than the aggregation
-interval, respectively.  Update the behavior to update the regions for
-each scheme for only its apply interval, and update the document.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/admin-guide/mm/damon/usage.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Since DAMOS apply interval is the aggregation by default, this change
-makes no visible behavioral difference to old users who don't explicitly
-set the apply intervals.
-
-Patches Sequence
-----------------
-
-The first two patches makes schemes of apply intervals that much shorter
-or longer than the aggregation interval to keep the maximum and minimum
-times for continuing the update.  After the two patches, the update
-aligns with the each scheme's apply interval.
-
-Finally, the third patch updates the document to reflect the behavior.
-
-SeongJae Park (3):
-  mm/damon/sysfs-schemes: do not update tried regions more than one
-    DAMON snapshot
-  mm/damon/sysfs: avoid empty scheme tried regions for large apply
-    interval
-  Docs/admin-guide/mm/damon/usage: update for tried regions update time
-    interval
-
- Documentation/admin-guide/mm/damon/usage.rst |  6 +-
- mm/damon/sysfs-common.h                      |  2 +
- mm/damon/sysfs-schemes.c                     | 93 ++++++++++++++++++++
- mm/damon/sysfs.c                             | 34 ++++++-
- 4 files changed, 128 insertions(+), 7 deletions(-)
-
-
-base-commit: 937421b2a4e95c57fddf10477b949fa5693711da
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 8507a6e45d86..da94feb97ed1 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -432,9 +432,9 @@ that reading it returns the total size of the scheme tried regions, and creates
+ directories named integer starting from ``0`` under this directory.  Each
+ directory contains files exposing detailed information about each of the memory
+ region that the corresponding scheme's ``action`` has tried to be applied under
+-this directory, during next :ref:`aggregation interval
+-<sysfs_monitoring_attrs>`.  The information includes address range,
+-``nr_accesses``, and ``age`` of the region.
++this directory, during next :ref:`apply interval <damon_design_damos>` of the
++corresponding scheme.  The information includes address range, ``nr_accesses``,
++and ``age`` of the region.
+ 
+ Writing ``update_schemes_tried_bytes`` to the relevant ``kdamonds/<N>/state``
+ file will only update the ``total_bytes`` file, and will not create the
 -- 
 2.34.1
 
