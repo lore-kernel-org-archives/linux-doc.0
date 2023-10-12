@@ -1,230 +1,123 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAFB33D2
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 04:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BCDDDBA;
+	Thu, 12 Oct 2023 06:59:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eSzy9pEe"
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9750A9;
-	Wed, 11 Oct 2023 21:28:47 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9adb9fa7200so105936466b.0;
-        Wed, 11 Oct 2023 21:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697084926; x=1697689726; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=03gb1vqwxiL5Z9iTAYGZjwocB8IZIyrRtKYufIydfpI=;
-        b=eSzy9pEeCtczHt8MheF9/D1PSkGqCfEgEqypJr5aadI6cek8c+7VpSMoVPKiAQuHy5
-         PAhpCXszVwZ+UsHlJ0xA5RuwWulKWZNgO95BujL8Yn7xPxmNj7awlSVwMHWUnOQUgPa6
-         Xb4oxyLKIfO95bhcelahek6I/ErTVlcQmyEO/hN0+3KLACryOhFIMMMZy/p8tnDICenH
-         9Kp6K3fMzEfS7J2IvdGGbl5XbIDC37J8PXPBnncUxffCrIBjFflxEqp/GA5aq1dazlIz
-         tNJDQ1SKUm9KryB1XZ+zQZwSzdC3aNeAXXvBFzqutUVZRGt7nOOWIUqEJ56pwgjE8Yyi
-         dLKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697084926; x=1697689726;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=03gb1vqwxiL5Z9iTAYGZjwocB8IZIyrRtKYufIydfpI=;
-        b=LYIzZ4kn6QxwpAtcLYSpelwipyN3bl/QC/KlFI4wNkMmeM6m7yw2XzjbVjSMG4duNa
-         jNRTXGIRwFxKf9imTzo1H4Xp2EWC6ZfFLe1ORnuCNS+Pyn7cstnQSRRsxtwCvzoNxxj1
-         0QRV2mBRQ2CfMBxgWEKdv98V5yQSH9wqlMnT2sSByTmZdVYXVhzSbrcNo2cmPga+h4pX
-         IDEj7RH65WhaOgTn/DcePNQge6EFKGxLP6N2F04nXD8ymf5kayjNNAeWjTllKbCO30vx
-         XKuQ5+XLTJPNqYWIVMBauLySsU5/5xTwdDuXVAD2PSLe1cefdAzESK/kPRjPLzU5TJKK
-         0lHg==
-X-Gm-Message-State: AOJu0YxRL/e3bEfjDVcQ60RXwWUbWLfLtzTorvpvQihtphC64enBGNxt
-	F/AK95VfspRRuGnr6A0USeI=
-X-Google-Smtp-Source: AGHT+IFN8xfpMw+qbnj0j0PylQSY2EAm6Y0INtbrN5Zb12/I0fMHJoIBEW+UEmFCc3C8tmIolx6bUw==
-X-Received: by 2002:a17:907:808:b0:9b2:cee1:1f82 with SMTP id wv8-20020a170907080800b009b2cee11f82mr16725318ejb.7.1697084925838;
-        Wed, 11 Oct 2023 21:28:45 -0700 (PDT)
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:78dc:282:cf18:8032])
-        by smtp.gmail.com with ESMTPSA id k16-20020a1709062a5000b0099315454e76sm10491490eje.211.2023.10.11.21.28.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 21:28:45 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] eeprom: remove doc and MAINTAINERS section after driver was removed
-Date: Thu, 12 Oct 2023 06:28:34 +0200
-Message-Id: <20231012042834.6663-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mo9cBGch"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6227694;
+	Wed, 11 Oct 2023 23:59:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697093952; x=1728629952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JEQtMyPEUMT8YzBgRZ5JST75BtIEg2mXzghTJIME9sA=;
+  b=Mo9cBGch28kTz7xfHCk/WxnRl6Dynt5y9zcD4H9B6oOGEhY5Ib8OQuW/
+   E8aFwzkarmiupO68xChvLA478azXDLL1L2U0bzETRURMIcY6hMy14wm6H
+   u1H2fdaHQKX2IPU5PzDl+dIw7tYZJWeTCLAl0NoZB7VLSeet6BSJ4pcxr
+   jfrxb8RNO38aCKXXyhgTjV6usNZa+yMm9vdVIhMc2rYezziVzZDS0Pu05
+   155PKlvx0rsqgPNgls1EIg6hJsoZFAQw8SWe6MbClckWTmXUEIZxywP85
+   TDjHYENBTARREXoEQVPKGC8whNMCT+A95gAJlPje7nyaUij9Sw0ydraUv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="471104298"
+X-IronPort-AV: E=Sophos;i="6.03,218,1694761200"; 
+   d="scan'208";a="471104298"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 23:59:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="897969016"
+X-IronPort-AV: E=Sophos;i="6.03,218,1694761200"; 
+   d="scan'208";a="897969016"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2023 23:57:18 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qqpev-0003Ht-2n;
+	Thu, 12 Oct 2023 06:59:02 +0000
+Date: Thu, 12 Oct 2023 14:58:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	hns@goldelico.com, krzysztof.kozlowski+dt@linaro.org,
+	matthew.brost@intel.com, corbet@lwn.net, luben.tuikov@amd.com,
+	dakr@redhat.com, donald.robson@imgtec.com,
+	devicetree@vger.kernel.org, conor+dt@kernel.org, mripard@kernel.org,
+	Matt Coster <matt.coster@imgtec.com>, robh+dt@kernel.org,
+	faith.ekstrand@collabora.com, linux-kernel@vger.kernel.org,
+	afd@ti.com, boris.brezillon@collabora.com, tzimmermann@suse.de,
+	christian.koenig@amd.com
+Subject: Re: [PATCH v7 10/20] drm/imagination: Add GPU ID parsing and
+ firmware loading
+Message-ID: <202310121406.jT1fEThj-lkp@intel.com>
+References: <20231010133738.35274-11-sarah.walker@imgtec.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231010133738.35274-11-sarah.walker@imgtec.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-Commit 0113a99b8a75 ("eeprom: Remove deprecated legacy eeprom driver")
-already removes the eeprom driver's code.
+Hi Sarah,
 
-Remove also the eeprom driver's documentation and MAINTAINERS section.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Greg, please pick this patch into your -next char and misc tree on top
-of the commit above.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20231011]
+[cannot apply to drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes linus/master v6.6-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- Documentation/misc-devices/eeprom.rst | 107 --------------------------
- Documentation/misc-devices/index.rst  |   1 -
- MAINTAINERS                           |   6 --
- 3 files changed, 114 deletions(-)
- delete mode 100644 Documentation/misc-devices/eeprom.rst
+url:    https://github.com/intel-lab-lkp/linux/commits/Sarah-Walker/sizes-h-Add-entries-between-SZ_32G-and-SZ_64T/20231010-221057
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231010133738.35274-11-sarah.walker%40imgtec.com
+patch subject: [PATCH v7 10/20] drm/imagination: Add GPU ID parsing and firmware loading
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231012/202310121406.jT1fEThj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310121406.jT1fEThj-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/misc-devices/eeprom.rst b/Documentation/misc-devices/eeprom.rst
-deleted file mode 100644
-index 008249675ccc..000000000000
---- a/Documentation/misc-devices/eeprom.rst
-+++ /dev/null
-@@ -1,107 +0,0 @@
--====================
--Kernel driver eeprom
--====================
--
--Supported chips:
--
--  * Any EEPROM chip in the designated address range
--
--    Prefix: 'eeprom'
--
--    Addresses scanned: I2C 0x50 - 0x57
--
--    Datasheets: Publicly available from:
--
--                Atmel (www.atmel.com),
--                Catalyst (www.catsemi.com),
--                Fairchild (www.fairchildsemi.com),
--                Microchip (www.microchip.com),
--                Philips (www.semiconductor.philips.com),
--                Rohm (www.rohm.com),
--                ST (www.st.com),
--                Xicor (www.xicor.com),
--                and others.
--
--        ========= ============= ============================================
--        Chip      Size (bits)   Address
--        ========= ============= ============================================
--        24C01     1K            0x50 (shadows at 0x51 - 0x57)
--        24C01A    1K            0x50 - 0x57 (Typical device on DIMMs)
--        24C02     2K            0x50 - 0x57
--        24C04     4K            0x50, 0x52, 0x54, 0x56
--                                (additional data at 0x51, 0x53, 0x55, 0x57)
--        24C08     8K            0x50, 0x54 (additional data at 0x51, 0x52,
--                                0x53, 0x55, 0x56, 0x57)
--        24C16     16K           0x50 (additional data at 0x51 - 0x57)
--        Sony      2K            0x57
--
--        Atmel     34C02B  2K    0x50 - 0x57, SW write protect at 0x30-37
--        Catalyst  34FC02  2K    0x50 - 0x57, SW write protect at 0x30-37
--        Catalyst  34RC02  2K    0x50 - 0x57, SW write protect at 0x30-37
--        Fairchild 34W02   2K    0x50 - 0x57, SW write protect at 0x30-37
--        Microchip 24AA52  2K    0x50 - 0x57, SW write protect at 0x30-37
--        ST        M34C02  2K    0x50 - 0x57, SW write protect at 0x30-37
--        ========= ============= ============================================
--
--
--Authors:
--        - Frodo Looijaard <frodol@dds.nl>,
--        - Philip Edelbrock <phil@netroedge.com>,
--        - Jean Delvare <jdelvare@suse.de>,
--        - Greg Kroah-Hartman <greg@kroah.com>,
--        - IBM Corp.
--
--Description
-------------
--
--This is a simple EEPROM module meant to enable reading the first 256 bytes
--of an EEPROM (on a SDRAM DIMM for example). However, it will access serial
--EEPROMs on any I2C adapter. The supported devices are generically called
--24Cxx, and are listed above; however the numbering for these
--industry-standard devices may vary by manufacturer.
--
--This module was a programming exercise to get used to the new project
--organization laid out by Frodo, but it should be at least completely
--effective for decoding the contents of EEPROMs on DIMMs.
--
--DIMMS will typically contain a 24C01A or 24C02, or the 34C02 variants.
--The other devices will not be found on a DIMM because they respond to more
--than one address.
--
--DDC Monitors may contain any device. Often a 24C01, which responds to all 8
--addresses, is found.
--
--Recent Sony Vaio laptops have an EEPROM at 0x57. We couldn't get the
--specification, so it is guess work and far from being complete.
--
--The Microchip 24AA52/24LCS52, ST M34C02, and others support an additional
--software write protect register at 0x30 - 0x37 (0x20 less than the memory
--location). The chip responds to "write quick" detection at this address but
--does not respond to byte reads. If this register is present, the lower 128
--bytes of the memory array are not write protected. Any byte data write to
--this address will write protect the memory array permanently, and the
--device will no longer respond at the 0x30-37 address. The eeprom driver
--does not support this register.
--
--Lacking functionality
-----------------------
--
--* Full support for larger devices (24C04, 24C08, 24C16). These are not
--  typically found on a PC. These devices will appear as separate devices at
--  multiple addresses.
--
--* Support for really large devices (24C32, 24C64, 24C128, 24C256, 24C512).
--  These devices require two-byte address fields and are not supported.
--
--* Enable Writing. Again, no technical reason why not, but making it easy
--  to change the contents of the EEPROMs (on DIMMs anyway) also makes it easy
--  to disable the DIMMs (potentially preventing the computer from booting)
--  until the values are restored somehow.
--
--Use
-----
--
--After inserting the module (and any other required SMBus/i2c modules), you
--should have some EEPROM directories in ``/sys/bus/i2c/devices/*`` of names such
--as "0-0050". Inside each of these is a series of files, the eeprom file
--contains the binary data from EEPROM.
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index ecc40fbbcfb8..7de16797987a 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -17,7 +17,6 @@ fit into other categories.
-    ad525x_dpot
-    apds990x
-    bh1770glc
--   eeprom
-    c2port
-    dw-xdata-pcie
-    ibmvmc
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ecdf3ab6f371..706769e04570 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12007,12 +12007,6 @@ F:	drivers/leds/
- F:	include/dt-bindings/leds/
- F:	include/linux/leds.h
- 
--LEGACY EEPROM DRIVER
--M:	Jean Delvare <jdelvare@suse.com>
--S:	Maintained
--F:	Documentation/misc-devices/eeprom.rst
--F:	drivers/misc/eeprom/eeprom.c
--
- LEGO MINDSTORMS EV3
- R:	David Lechner <david@lechnology.com>
- S:	Maintained
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310121406.jT1fEThj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/imagination/pvr_device_info.c:106: warning: Function parameter or member 'enhancements' not described in 'pvr_device_info_set_enhancements'
+>> drivers/gpu/drm/imagination/pvr_device_info.c:106: warning: Function parameter or member 'enhancements_size' not described in 'pvr_device_info_set_enhancements'
+>> drivers/gpu/drm/imagination/pvr_device_info.c:106: warning: Excess function parameter 'quirks' description in 'pvr_device_info_set_enhancements'
+>> drivers/gpu/drm/imagination/pvr_device_info.c:106: warning: Excess function parameter 'quirks_size' description in 'pvr_device_info_set_enhancements'
+
+
+vim +106 drivers/gpu/drm/imagination/pvr_device_info.c
+
+    97	
+    98	/**
+    99	 * pvr_device_info_set_enhancements() - Set device enhancements from device information in firmware
+   100	 * @pvr_dev: Device pointer.
+   101	 * @quirks: Pointer to enhancements mask in device information.
+   102	 * @quirks_size: Size of enhancements mask, in u64s.
+   103	 */
+   104	void pvr_device_info_set_enhancements(struct pvr_device *pvr_dev, const u64 *enhancements,
+   105					      u32 enhancements_size)
+ > 106	{
+   107		BUILD_BUG_ON(ARRAY_SIZE(enhancements_mapping) != PVR_FW_HAS_ERN_MAX);
+   108	
+   109		pvr_device_info_set_common(pvr_dev, enhancements, enhancements_size,
+   110					   enhancements_mapping, ARRAY_SIZE(enhancements_mapping));
+   111	}
+   112	
+
 -- 
-2.17.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
