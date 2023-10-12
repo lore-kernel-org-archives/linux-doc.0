@@ -1,195 +1,262 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42D030F8B;
-	Thu, 12 Oct 2023 16:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8CE328B7;
+	Thu, 12 Oct 2023 16:29:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="U/Gzy6hS"
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2083.outbound.protection.outlook.com [40.107.21.83])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F141C9;
-	Thu, 12 Oct 2023 09:09:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TqkWh3z9pRc8CeDVM6F1d3HADumnoWhAjSX/Xm0lR/FwgzBcRXHKsdEK/NcIIIHslHloguzdFNyV8cm68TfwRhrRoiQeXz3ttvoaFcJ3uOCBm2Bw9EfENUKjYmKXRHTHPpP99dQFXK52UKAyNKQqFFRTGgOk0BAel6qoGDPjkg5kXLKctkAaMqpnqwCG4FMSPqXHAkGUf0CLpjfYd0HulLZypBUq38smBj1BwIMNlR7dkaSX9WA1W0x8Smbed83s44zjPWnca8b7iDNBnp38WkiV9hu1tECPM6l2f8tC+aZA1LaSmBrZz/1ZWxnV9D1KXmAqfEQOStlYg7GpkJ0NEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BNMAmaTqgUFVxmmUo5yjAQgFCSRfrBy3eZxcWWDy1H8=;
- b=HdL03qeXU7Jws5rjoy7sxyDjEl52N+9S2FMxwTONubkb3nztzj0yZfSkNtT+8Jq/94isVrgoE51QrzikijLPg8RgMlM2MXpLaVrpuWjTuhjmCuTRsF9luv1A6O+ch8oDdxmN9Z2iEsDBWBnA2aY6gYT3q1DLFlRo41sWBUPSrjDEe2yaiJmxJn+tnu8vRCHohgJJggRn6ONMsXgXvrWRYuxrlIQLIbv/SMVcTdBMEFer7+gMw+CLttS3qbQ4EZpij605EzPtGhHe2WjVuakhdyPUB1PLQJ0M67MK1Jtwym2ObmbxXQoHvOq3mn9HOMqiKcUhCLp8z+erEu07eSaTDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNMAmaTqgUFVxmmUo5yjAQgFCSRfrBy3eZxcWWDy1H8=;
- b=U/Gzy6hSHuYKIavbP5boEeKjgnztdbVpVE7gG9xhFYtkDDIYqCO4GKvL/mVJfJxdeedOqD4S+coAW8xSstkMTYgWe8lv6InVEHheAqI2mrNw6gNhEARv0E+4SvUxnQ/IWMswkDK+cOb3wDgM8x9intfgARNNBoIl0tEjQskQHlA=
-Received: from AM6PR04MB4838.eurprd04.prod.outlook.com (2603:10a6:20b:4::16)
- by PAWPR04MB9807.eurprd04.prod.outlook.com (2603:10a6:102:384::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Thu, 12 Oct
- 2023 16:09:50 +0000
-Received: from AM6PR04MB4838.eurprd04.prod.outlook.com
- ([fe80::1774:e25f:f99:aca2]) by AM6PR04MB4838.eurprd04.prod.outlook.com
- ([fe80::1774:e25f:f99:aca2%4]) with mapi id 15.20.6863.040; Thu, 12 Oct 2023
- 16:09:50 +0000
-From: Frank Li <frank.li@nxp.com>
-To: Xu Yang <xu.yang_2@nxp.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de"
-	<s.hauer@pengutronix.de>, "kernel@pengutronix.de" <kernel@pengutronix.de>,
-	"will@kernel.org" <will@kernel.org>, "mark.rutland@arm.com"
-	<mark.rutland@arm.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
-CC: "festevam@gmail.com" <festevam@gmail.com>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, dl-linux-imx <linux-imx@nxp.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>
-Subject: RE: [PATCH v2 4/5] perf: fsl_imx8_ddr: Add driver support for
- i.MX8DXL DDR Perf
-Thread-Topic: [PATCH v2 4/5] perf: fsl_imx8_ddr: Add driver support for
- i.MX8DXL DDR Perf
-Thread-Index: AQHZ/Ai4IwbfnRZK5Eu/7r7AEBR0prBGVOoQ
-Date: Thu, 12 Oct 2023 16:09:50 +0000
-Message-ID:
- <AM6PR04MB4838FCCC6C0630036F5ABA7D88D3A@AM6PR04MB4838.eurprd04.prod.outlook.com>
-References: <20231011060838.3413621-1-xu.yang_2@nxp.com>
- <20231011060838.3413621-4-xu.yang_2@nxp.com>
-In-Reply-To: <20231011060838.3413621-4-xu.yang_2@nxp.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM6PR04MB4838:EE_|PAWPR04MB9807:EE_
-x-ms-office365-filtering-correlation-id: 2232b9ff-efb4-46f8-737d-08dbcb3da99a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- jOL8U2Jtwy6uBOsWvRnvZ4I1c3ZUcvf/tTdxG8SSpzSwSP6JMAQ9RdWqOSCF4IbGeOQ2Kf/xG5kkZAYKggxK0gr4ZznA/DlSwd8rtEGgkOkOYZJj+Fo0Gr9HAlTTOz+gaLznxfwMKdFUkWNEaTzw0cZ9GKWiuMGFq2svM0F/SyxhCbkBWmcKxiKJa/Q5KHNFVI5NeCbs/seVnZcEqm7G/PLOXKB37n/RrktcF2vOWyjQHTNLfJK82FyJEuU5o6Uqn+MAVzXGtuueoBPi8zuOBmC/8DAa8BOptJn99OBWsQ+RfYUBJg9G9pPajKJg97F4hX54z41zI2OP3kr/aAeWdynxyjuY8R3h70CXUDiK3vzYiqPtwC9W+L7nXTEftyIWqjFVVD7C8W/aenfYpC32U9Rpb2EGwyA2IABK9/G5bS58frdrtmkCGcfWRuYUmYXuzMlwq/u11wNpkr2YJHUyfmYLkf3uX33dfDl9H8jjvoDRZWc0Dg1Z6XitPlCLn/8FxOym+pOf8VUjEAf9ccdik9cdVei+P/k5loPIXyJEKHsrZ87RcNEfq/U61RSrzaiPnz+Zfyl6lQH1QBuLL06Ic7kTLCJfJn74Q/2qYfsB2HA/2HlZ0FXqPUPK4KlWeSHo
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4838.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(396003)(136003)(366004)(39860400002)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(7696005)(55016003)(55236004)(53546011)(9686003)(38070700005)(33656002)(71200400001)(86362001)(38100700002)(122000001)(44832011)(2906002)(7416002)(76116006)(4326008)(6506007)(83380400001)(478600001)(8936002)(8676002)(52536014)(26005)(66556008)(41300700001)(66476007)(316002)(110136005)(66946007)(66446008)(5660300002)(54906003)(64756008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?GCV1QY7IVv1jSV5cKKXgYs9Y4Acpw5UWjwZBc5bik/iZHNH1ACOZgbOMXoR4?=
- =?us-ascii?Q?+DKKv+0nWIptML0/76hY6179f1S1gQu5aTv0B89hyKNhrKGh0x0xKxddPF5A?=
- =?us-ascii?Q?gEATmaD9FKU8ke4dNEuA10JDENqqDwbDILwRBDp+8AOVrgvwrcAR04lFXvHP?=
- =?us-ascii?Q?Yvq+2A7N+ghZ6pv4aBM2hxaYtZhLg1W5V0ia3FCWchFHAPEAbR1ABtKQw4tL?=
- =?us-ascii?Q?hAYlrqpnKQo7Nw+jWiineii52GtLfTS40I9eGwqRdMYOeP/46R/rJLDdPV3Z?=
- =?us-ascii?Q?8rNOy65CVHdZ285U/ldxAEVGfgP6Sf2mSi15/4KSntSF6cvLDkkbrsbyO8dm?=
- =?us-ascii?Q?2Vzs92SgMLvdg0422km9zxEmdahi47fIpgCPlqQkg88pIFnyeGrOA943ybtI?=
- =?us-ascii?Q?c24FoPjbcV/8FbSXaFQ7mDg8y4/RzeSaLzRE2A8C2+LV1NPXvoXScyS5Z7m2?=
- =?us-ascii?Q?QhPqCLrl5j/dveRkZxL07WiwAWxZXIKdONIj7Y7RKjTneouA92B+gbSHiHME?=
- =?us-ascii?Q?tMMSb5yA/oroTxp3e8AV4DWj7rFLQClE17VxYNwF3lTFE1y/mTxxDSXxHT6x?=
- =?us-ascii?Q?8QhGv4gUMT6GDFKcghMqU9h6n976c4Mm2gHtu1vaEgyYGrxScOkercPCrW2G?=
- =?us-ascii?Q?2Ie7jdyOLKIyMDydIhF9sZeZ72TXzn0TfBmZf1cxZUdrfgrCpp/yCxMRlg1H?=
- =?us-ascii?Q?/zSUDXmX16dZUTr9XaTl44BWJDqReFm5bSrw5CPw8e/GiqS6eRkSu9SUAsCy?=
- =?us-ascii?Q?755RfdJlRtQzXhRvWtKKEHLG9KtVXDKDInt7FaPakLTKOmYl7CsEPxibqgnt?=
- =?us-ascii?Q?YXd+c7Cf8HaKpmC0fgsikOjNrq1YankJAG/X6IaXdJhUMw57Lck9IuEDbtJg?=
- =?us-ascii?Q?pjdyyYpH+7MGx4V/U0KrtX9m2ozbM6YQLqL4RLBHPiahnsUel7TDsmIQqY0J?=
- =?us-ascii?Q?KB6uYqY+/cJ+3IDLxzBpveUjhoKE66lErNmPeVo9FxJUVM2NG9JsAuP7vyzq?=
- =?us-ascii?Q?0aGGlRNZjF+ioPtakXkK0gJ5VkL9PpGTjg1HAqGq618/GF2o7KdSRoQ+hCZr?=
- =?us-ascii?Q?NxJzAg1l8ypdXotJwZZ9lGZ94aeAT05M2TJMbpReBJxokwjSKSHcPbv8zNrA?=
- =?us-ascii?Q?waAnr6NvT9pou7AMvJ6FkG5RKV25/Tyl7RpUu5JcPmBC8XBn+MgH3HjURzzQ?=
- =?us-ascii?Q?kgHnXEmaUTDANuMswXs68/ZNe5H41uAa95Gb6m9alr2qHfsXRDLDu0526DVt?=
- =?us-ascii?Q?DF3TrkXTbJwMImxAXVg5+iW13R/wrWMOCn/7akGwHmAFDCrMv81rS4/rA8Qv?=
- =?us-ascii?Q?UDvfhGXqPcnuS/wG8DeIZk+p81NyOBllR/YUAlNF4WhJW7ZftAP/jxE/e0O2?=
- =?us-ascii?Q?A3PnCYsKvdxladhHMWgzdj2x0dipGusDao191e1ecPURzju241clsmd/qohC?=
- =?us-ascii?Q?afGImDixwL2TnpAdIpteeyzLqXB2fq6uNi/CazFApPdvZeCpUgyGKBiyNGHX?=
- =?us-ascii?Q?jPvkxlwbH6W+jlQYudyBc96e6Ny7Fkqx/X0jCfTxenH1r+h/qVNlzAGV/VBM?=
- =?us-ascii?Q?N9yuMIcmlKENuPwQgpw=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8hiXaZk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF45DC433C8;
+	Thu, 12 Oct 2023 16:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697128145;
+	bh=xC1mXzF5lAfu+5mYdskcnzIaGOnEiU3VFyASPrevtvM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c8hiXaZkCKatUJz1/0qcqXp9WjyV9gsXMVJhwv86zU3SI6zdV/iMxXdLsKNc9kK3+
+	 q7X27RY9b7xvJvqs5I0rFU12CvrqqmntOs5YPoK+1ZwJxSKEw9NK5UebFYY2W4FkaX
+	 i5Q6Km5oF8qcuOE2JyYCGBL7Aa55DtRe4P4m5FgUJrOW3o/XSQvgO6ZFph/Ro7DGFh
+	 EPsP4boudy0CMEXgfbCw2kchk3MChRJM9MUPpGuBlDccG+23Aggc5I5GMk442yD6/b
+	 OEWNEhLJ+p0umZHy1lmWDApEM2EaT7w+nz38OxJ5dI5w47HuKm0MiQKr24lpV37q6u
+	 zuGqqqvg68ReA==
+Date: Thu, 12 Oct 2023 17:29:00 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Evan Green <evan@rivosinc.com>
+Subject: Re: [PATCH v1 02/13] riscv: add ISA extension probing for Zv*
+ extensions
+Message-ID: <20231012-acorn-recast-8e6bf08aac2a@spud>
+References: <20231011111438.909552-1-cleger@rivosinc.com>
+ <20231011111438.909552-3-cleger@rivosinc.com>
+ <b157edc4-a21f-40ac-8c9f-e989b34bb872@rivosinc.com>
+ <20231012-darkness-neutron-fc1843ff05ff@spud>
+ <7b71ff39-bbc0-4ba9-8b98-d36fa127316e@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4838.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2232b9ff-efb4-46f8-737d-08dbcb3da99a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2023 16:09:50.1810
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AyujFlGFNJC8YNgyqHWkiZ7cMVRC+8jx96pspmgrkRUivUgXUVzaC8bTI7H+eWCpOGujhHUuUQa80p75i3cj8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9807
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="uhGoIgzh+d9/m8Ni"
+Content-Disposition: inline
+In-Reply-To: <7b71ff39-bbc0-4ba9-8b98-d36fa127316e@rivosinc.com>
 
 
+--uhGoIgzh+d9/m8Ni
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: Xu Yang <xu.yang_2@nxp.com>
-> Sent: Wednesday, October 11, 2023 1:09 AM
-> To: Frank Li <frank.li@nxp.com>; corbet@lwn.net; shawnguo@kernel.org;
-> s.hauer@pengutronix.de; kernel@pengutronix.de; will@kernel.org;
-> mark.rutland@arm.com; robh+dt@kernel.org;
-> krzysztof.kozlowski+dt@linaro.org
-> Cc: festevam@gmail.com; conor+dt@kernel.org; dl-linux-imx <linux-
-> imx@nxp.com>; linux-arm-kernel@lists.infradead.org; linux-
-> doc@vger.kernel.org; devicetree@vger.kernel.org; Xu Yang
-> <xu.yang_2@nxp.com>
-> Subject: [PATCH v2 4/5] perf: fsl_imx8_ddr: Add driver support for i.MX8D=
-XL
-> DDR Perf
+Hey,
+
+On Thu, Oct 12, 2023 at 05:15:45PM +0200, Cl=E9ment L=E9ger wrote:
+> On 12/10/2023 16:10, Conor Dooley wrote:
+> > On Thu, Oct 12, 2023 at 03:17:14PM +0200, Cl=E9ment L=E9ger wrote:
+> >> On 11/10/2023 13:14, Cl=E9ment L=E9ger wrote:
+> >>> Add probing of some Zv* ISA extensions that are mentioned in "RISC-V
+> >>> Cryptography Extensions Volume II" [1]. These ISA extensions are the
+> >>> following:
+> >>>
+> >>> - Zvbb: Vector Basic Bit-manipulation
+> >>> - Zvbc: Vector Carryless Multiplication
+> >>> - Zvkb: Vector Cryptography Bit-manipulation
+> >>> - Zvkg: Vector GCM/GMAC.
+> >>> - Zvkned: NIST Suite: Vector AES Block Cipher
+> >>> - Zvknh[ab]: NIST Suite: Vector SHA-2 Secure Hash
+> >>> - Zvksed: ShangMi Suite: SM4 Block Cipher
+> >>> - Zvksh: ShangMi Suite: SM3 Secure Hash
+> >>> - Zvkn: NIST Algorithm Suite
+> >>> - Zvknc: NIST Algorithm Suite with carryless multiply
+> >>> - Zvkng: NIST Algorithm Suite with GCM.
+> >>> - Zvks: ShangMi Algorithm Suite
+> >>> - Zvksc: ShangMi Algorithm Suite with carryless multiplication
+> >>> - Zvksg: ShangMi Algorithm Suite with GCM.
+> >>> - Zvkt: Vector Data-Independent Execution Latency.
+> >>>
+> >>> [1] https://drive.google.com/file/d/1gb9OLH-DhbCgWp7VwpPOVrrY6f3oSJLL=
+/view
+> >>>
+> >>> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+> >>> ---
+> >>>  arch/riscv/include/asm/hwcap.h | 16 ++++++++++++++++
+> >>>  arch/riscv/kernel/cpufeature.c | 16 ++++++++++++++++
+> >>>  2 files changed, 32 insertions(+)
+> >>>
+> >>> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/=
+hwcap.h
+> >>> index b7b58258f6c7..4e46981ac6c8 100644
+> >>> --- a/arch/riscv/include/asm/hwcap.h
+> >>> +++ b/arch/riscv/include/asm/hwcap.h
+> >>> @@ -58,6 +58,22 @@
+> >>>  #define RISCV_ISA_EXT_ZICSR		40
+> >>>  #define RISCV_ISA_EXT_ZIFENCEI		41
+> >>>  #define RISCV_ISA_EXT_ZIHPM		42
+> >>> +#define RISCV_ISA_EXT_ZVBB		43
+> >>> +#define RISCV_ISA_EXT_ZVBC		44
+> >>> +#define RISCV_ISA_EXT_ZVKB		45
+> >>> +#define RISCV_ISA_EXT_ZVKG		46
+> >>> +#define RISCV_ISA_EXT_ZVKN		47
+> >>> +#define RISCV_ISA_EXT_ZVKNC		48
+> >>> +#define RISCV_ISA_EXT_ZVKNED		49
+> >>> +#define RISCV_ISA_EXT_ZVKNG		50
+> >>> +#define RISCV_ISA_EXT_ZVKNHA		51
+> >>> +#define RISCV_ISA_EXT_ZVKNHB		52
+> >>> +#define RISCV_ISA_EXT_ZVKS		53
+> >>> +#define RISCV_ISA_EXT_ZVKSC		54
+> >>> +#define RISCV_ISA_EXT_ZVKSED		55
+> >>> +#define RISCV_ISA_EXT_ZVKSH		56
+> >>> +#define RISCV_ISA_EXT_ZVKSG		57
+> >>
+> >> About Zvks/Zvkn, these extensions are actually shorthand for a few oth=
+er
+> >> sub-extensions, it is still not clear if it should be parsed as is.
+> >> There are multiple solutions:
+> >>
+> >> - Handle them as-is, simply enable the extension, if reported through
+> >> hwprobe, userspace will be responsible to detect the sub-extensions
+> >> (current approach)
+> >=20
+> > I dislike this, since in-kernel users will have to check for "parent" &
+> > "child" extensions.
+> >=20
+> >> - "Unfold" the extension in order to enable all the sub-extensions and
+> >> keep the main one (for instance for Zvkn, enable Zvkned, Zvknhb, Zvkb,
+> >> Zvkt, Zvkn)
+> >=20
+> > We threw together some code for this a few months ago after some
+> > discussion with some of your Rivos colleagues. The initial version of it
+> > was in this thread with Evan:
+> > https://lore.kernel.org/all/20230703-mangle-panning-75909ebbe30c@spud/
+> > and in a later iteration there was some more done by myself and Drew:
+> > https://lore.kernel.org/all/20230713-bootleg-tray-c5bfe58b5673@wendy/
+> > One of the versions ended up as the riscv-extensions-strings-scalar-cry=
+pto
+> > branch in my k.org repo:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/log/?h=
+=3Driscv-extensions-strings-scalar-crypto
+> >=20
 >=20
-> Add driver support for i.MX8DXL DDR Perf, which supports AXI ID PORT
-> CHANNEL filter.
->=20
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> Thanks for these information ! I think your version to handle extension
+> group is pretty clean. Are you waiting for anything in particular except
+> a Signed-off: from Evan to submit that patch ?
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Lack of a user. I was hoping that it'd go alongside the crypto extension
+stuff that needed it.
 
->=20
-> ---
-> Changes since v2:
->  - no changes
-> ---
->  drivers/perf/fsl_imx8_ddr_perf.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/drivers/perf/fsl_imx8_ddr_perf.c
-> b/drivers/perf/fsl_imx8_ddr_perf.c
-> index d0eae2d7e64b..7dbfaee372c7 100644
-> --- a/drivers/perf/fsl_imx8_ddr_perf.c
-> +++ b/drivers/perf/fsl_imx8_ddr_perf.c
-> @@ -92,6 +92,11 @@ static const struct fsl_ddr_devtype_data
-> imx8mp_devtype_data =3D {
->  	.identifier =3D "i.MX8MP",
->  };
->=20
-> +static const struct fsl_ddr_devtype_data imx8dxl_devtype_data =3D {
-> +	.quirks =3D DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER,
-> +	.identifier =3D "i.MX8DXL",
-> +};
-> +
->  static const struct of_device_id imx_ddr_pmu_dt_ids[] =3D {
->  	{ .compatible =3D "fsl,imx8-ddr-pmu", .data =3D &imx8_devtype_data},
->  	{ .compatible =3D "fsl,imx8m-ddr-pmu", .data =3D
-> &imx8m_devtype_data},
-> @@ -99,6 +104,7 @@ static const struct of_device_id imx_ddr_pmu_dt_ids[]
-> =3D {
->  	{ .compatible =3D "fsl,imx8mm-ddr-pmu", .data =3D
-> &imx8mm_devtype_data},
->  	{ .compatible =3D "fsl,imx8mn-ddr-pmu", .data =3D
-> &imx8mn_devtype_data},
->  	{ .compatible =3D "fsl,imx8mp-ddr-pmu", .data =3D
-> &imx8mp_devtype_data},
-> +	{ .compatible =3D "fsl,imx8dxl-ddr-pmu", .data =3D
-> &imx8dxl_devtype_data},
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, imx_ddr_pmu_dt_ids);
-> --
-> 2.34.1
+> If so, can I backport
+> this patch in my branch, gather Evan SoB and rebase my series on top of i=
+t ?
 
+For sure.
+
+> > That crypto stuff has all gone quiet of late unfortunately. I wonder if
+> > Samuel is still working on it.
+>=20
+> I talked with Samuel and we agreed on the following plan: I'll actually
+> carry on the bitmanip ISA part and he will resubmit the Zkr with
+> archrandom part.
+
+:+1:
+
+> >> - "Unfold" but don't keep the extension "shorthand" in the ISA extensi=
+on
+> >> list (for instance for Zvkn, enable Zvkned, Zvknhb, Zvkb, Zvkt)
+> >=20
+> > But I would also be fine with this one from a pure in-kernel PoV.
+>=20
+> Which is the case with your version FWIU (ie, only the child extensions
+> are visible).
+
+Yeah, I think I might've done it intentionally so that the same thing
+appeared in /proc/cpuinfo whether the "parent" or all the "children"
+were provided in DT.
+
+(I wrote that stuff before hwprobe got merge I think)
+
+I think users would probably appreciate being able to poll for the whole
+extension, rather than the component parts. There's probably also some
+thoughts expressed in the two threads I linked, IIRC Evan and I did
+discuss some of the behaviour there. What to do if an extension later
+grows a subset springs to mind.
+
+Conor.
+
+> > I think it's likely to be annoying for users though, since they won't be
+> > able to poll for the "parent" unless we re-assemble the parents in
+> > hwprobe etc (eugh).
+>=20
+> Indeed, and re-assembling the parent is IMHO duplication of the existing
+> information. Checking that the needed ISA extensions are present will be
+> simple enough (simple bitmask) so I'm not sure that re-assembling the
+> parents is necessary (But that's a personal statement and I'm pretty
+> sure others will like it to be provided directly).
+>=20
+> Thanks,
+>=20
+> Cl=E9ment
+>=20
+> >=20
+> > - don't permit passing the "parents" at all, and only deal with the
+> >   "children". We can enforce this for DT, but not for ACPI, so probably
+> >   not a runner>
+> > Thanks,
+> > Conor.
+> >=20
+> >>
+> >> Thanks,
+> >>
+> >> Cl=E9ment
+> >>
+> >>> +#define RISCV_ISA_EXT_ZVKT		58
+> >>> =20
+> >>>  #define RISCV_ISA_EXT_MAX		64
+> >>> =20
+> >>> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufe=
+ature.c
+> >>> index 1cfbba65d11a..859d647f3ced 100644
+> >>> --- a/arch/riscv/kernel/cpufeature.c
+> >>> +++ b/arch/riscv/kernel/cpufeature.c
+> >>> @@ -174,6 +174,22 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =
+=3D {
+> >>>  	__RISCV_ISA_EXT_DATA(zba, RISCV_ISA_EXT_ZBA),
+> >>>  	__RISCV_ISA_EXT_DATA(zbb, RISCV_ISA_EXT_ZBB),
+> >>>  	__RISCV_ISA_EXT_DATA(zbs, RISCV_ISA_EXT_ZBS),
+> >>> +	__RISCV_ISA_EXT_DATA(zvbb, RISCV_ISA_EXT_ZVBB),
+> >>> +	__RISCV_ISA_EXT_DATA(zvbc, RISCV_ISA_EXT_ZVBC),
+> >>> +	__RISCV_ISA_EXT_DATA(zvkb, RISCV_ISA_EXT_ZVKB),
+> >>> +	__RISCV_ISA_EXT_DATA(zvkg, RISCV_ISA_EXT_ZVKG),
+> >>> +	__RISCV_ISA_EXT_DATA(zvkn, RISCV_ISA_EXT_ZVKN),
+> >>> +	__RISCV_ISA_EXT_DATA(zvknc, RISCV_ISA_EXT_ZVKNC),
+> >>> +	__RISCV_ISA_EXT_DATA(zvkned, RISCV_ISA_EXT_ZVKNED),
+> >>> +	__RISCV_ISA_EXT_DATA(zvkng, RISCV_ISA_EXT_ZVKNG),
+> >>> +	__RISCV_ISA_EXT_DATA(zvknha, RISCV_ISA_EXT_ZVKNHA),
+> >>> +	__RISCV_ISA_EXT_DATA(zvknhb, RISCV_ISA_EXT_ZVKNHB),
+> >>> +	__RISCV_ISA_EXT_DATA(zvks, RISCV_ISA_EXT_ZVKS),
+> >>> +	__RISCV_ISA_EXT_DATA(zvksc, RISCV_ISA_EXT_ZVKSC),
+> >>> +	__RISCV_ISA_EXT_DATA(zvksed, RISCV_ISA_EXT_ZVKSED),
+> >>> +	__RISCV_ISA_EXT_DATA(zvksh, RISCV_ISA_EXT_ZVKSH),
+> >>> +	__RISCV_ISA_EXT_DATA(zvksg, RISCV_ISA_EXT_ZVKSG),
+> >>> +	__RISCV_ISA_EXT_DATA(zvkt, RISCV_ISA_EXT_ZVKT),
+> >>>  	__RISCV_ISA_EXT_DATA(smaia, RISCV_ISA_EXT_SMAIA),
+> >>>  	__RISCV_ISA_EXT_DATA(ssaia, RISCV_ISA_EXT_SSAIA),
+> >>>  	__RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
+
+--uhGoIgzh+d9/m8Ni
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSgezAAKCRB4tDGHoIJi
+0ubjAP43eYhqzD82t+pnhUwaKxv5boakeo7y/NYW2K0ObKQgxAEA9V/ihngeUMeC
+5NKv42ygzuK0/RP4Kf6+Vm39rMg3YQ0=
+=J32f
+-----END PGP SIGNATURE-----
+
+--uhGoIgzh+d9/m8Ni--
