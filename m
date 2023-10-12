@@ -1,48 +1,48 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A193234CEC
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 17:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDD43418F
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 17:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pa2GQujz"
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E874B1A4;
-	Thu, 12 Oct 2023 10:22:10 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id ca18e2360f4ac-77acb04309dso48098339f.2;
-        Thu, 12 Oct 2023 10:22:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E3FEL1PX"
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48FFCD66;
+	Thu, 12 Oct 2023 10:22:13 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-7a27254cd12so47340739f.3;
+        Thu, 12 Oct 2023 10:22:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697131330; x=1697736130; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697131332; x=1697736132; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ae2mlXqowKD5cqGlXb7uogfjENyHP+dyQJfUAIqJaiw=;
-        b=Pa2GQujzG4xkFz1MuzT7bGXTbxpHxEwYnSn2HZOTK+wAMkeClULEYWDzJbSkTcq75z
-         AUnimEfnsESxRNq0Y1Xcok3+qK9Jwn2FoGPupuZa6h5emSzldMZkSbt9yp8q58SgZuO/
-         FoP0CLvtgHrDM76NfYfaVXL7TVhqdrCwTNZ3bVSzfVyRxnkmRZcweWvZmC3uoaHamH0b
-         nQdY+9Xll4u7ZZSNBEYVcY3SgPfTe4ZYX0KgUB1gHzoMDEgK1NUzMIwl4lQsYY6S3i8c
-         Uw5nFXqwGhToh1ROoGzqvtw7gieLU2enK/UAsE2H4viYHIPfJK2Ep/66mLkgAx27gXyP
-         +B5Q==
+        bh=5LQP5MFDhA+xfUDGLuGe24GCmwsysAw7CRqOtSg8az8=;
+        b=E3FEL1PXdfBpRTWJs8NbCKLhAGkfIawT1GabFI/gNWhPM7XXDuLtGfnMWFYQI5A1nE
+         ApUkVaHk3VO6nnpfEHyuBGt+hqqloyIoiS9lK/d6kKDPI1p2ED8HrFLTX5sUYw4z07ck
+         0IsVwFoIdg661sVAx3JiuGG7b5kxf/JXSz2F5J5hu9kin8tuAvuvdwrU9yzVaY6Yh9ec
+         IoOBBqsPTI7kyQBWXXoPNWm/as+LIUFJB7W4ku8rlYJ1bTnLMiIbPQw7EnxS+d+S29sy
+         LyvNxm9Tyf8+VnJC2kBCe04xp9dhqm61+/c6mVlBCumyO+VGbvZ1JTTC3TMGyM9BwuY1
+         AUDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697131330; x=1697736130;
+        d=1e100.net; s=20230601; t=1697131332; x=1697736132;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ae2mlXqowKD5cqGlXb7uogfjENyHP+dyQJfUAIqJaiw=;
-        b=uZBzrZIxAwPeqy1WC1Ex6gGRy1KaejQyDEbyJuKuznHJ+fyYDgbwSyGZ2A3lELYxXP
-         x5YAyf4dBvOH0Y7GKxrL/1eRM3Mhb5DOYsqMZdUjqnP2WUzKzBhTVID8Sg8wsg/xTKyL
-         quss/g8uug+JCG+UPKZDh186lZ9KdTt6oUz71/C0Ihb1vtf5EctL33qtvpf35YpfcjC2
-         WvbQtDTwdgcn4sxNodwuHpakJTuamoxl+sf88tBj9/cB0+cEKBUZGWbp+Fznbi8vt3pN
-         F5M13cJZrBYIsqvwzKDqi2fC0dcZ3gdEx7kvgf+pA7Jz8q4T7/ud/BIzGBBmxDx5K1t7
-         DSLw==
-X-Gm-Message-State: AOJu0Yy5/CqEKdJmUrnCzDvuNU3Kah5sDO/1mpgki8R8cZ3V1DsOKCmS
-	EHSsg0CODbgwyq1zNq+YxfyWFJwhsgDBLQ==
-X-Google-Smtp-Source: AGHT+IEFuqgv0LKLuAzb7gwKQOS1mz1rZpZC9sUTpzcOz2n4Y5NvZOzIOkx+6OOoSZfI8IPqpfsYRQ==
-X-Received: by 2002:a5e:8f4d:0:b0:791:2db5:c779 with SMTP id x13-20020a5e8f4d000000b007912db5c779mr30620229iop.10.1697131329992;
-        Thu, 12 Oct 2023 10:22:09 -0700 (PDT)
+        bh=5LQP5MFDhA+xfUDGLuGe24GCmwsysAw7CRqOtSg8az8=;
+        b=Tz3zNuaUYe+3i6lz/BqpxuP7Lbb3eRtnwwQEDIH+mcUeEA8jbTTejArqOVQq2KgYzm
+         nyYZ2cfV48LcDcIhucMp9Sc4kAR1A0JuwmmfipUPpy3cGpaWHDhoJcwQZlIWm/iVk/jE
+         yUXWV+HKKtnZHR2Bhf6WMuNqQZR3rFXwBVU948LP5WSqlZbQTZ9FSF8pN+IYSEbmbNu+
+         y/Je736zv0jvGWV2sKCPL9A7Tjfr9+wKDwFALFMxfYd8aIoVBnlWIDL6xlW+b/mnH/sp
+         lZtH+jSLAMUNJ0+rWyK7SYCd0jIgNB8XAdpvPnxjgbM2+MmejIAKx+LBRyIr/2Lt5OyQ
+         nGLw==
+X-Gm-Message-State: AOJu0YxesLPN3+npATCdwRBx4zvRoz6qMy9xhRTRGTJ16YhJjr/hN5o3
+	gqn68gUPWt1tFH58Irke+G5hugA96zO4uA==
+X-Google-Smtp-Source: AGHT+IHzdz6j/vLvb13hWGyitF0NYfQ+58DfX66YHxmuF+rTNL+ptBqWkmhR8dXqdb+0bFLGeWyapA==
+X-Received: by 2002:a5e:aa0c:0:b0:794:e96f:b87d with SMTP id s12-20020a5eaa0c000000b00794e96fb87dmr27630637ioe.0.1697131332304;
+        Thu, 12 Oct 2023 10:22:12 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id r25-20020a028819000000b0043cef0711c1sm3992211jai.158.2023.10.12.10.22.08
+        by smtp.googlemail.com with ESMTPSA id r25-20020a028819000000b0043cef0711c1sm3992211jai.158.2023.10.12.10.22.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 10:22:09 -0700 (PDT)
+        Thu, 12 Oct 2023 10:22:11 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	jbaron@akamai.com,
@@ -61,9 +61,9 @@ Cc: daniel.vetter@ffwll.ch,
 	bleung@google.com,
 	linux-doc@vger.kernel.org,
 	Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v7 21/25] dyndbg: refactor *dynamic_emit_prefix
-Date: Thu, 12 Oct 2023 11:21:32 -0600
-Message-ID: <20231012172137.3286566-22-jim.cromie@gmail.com>
+Subject: [PATCH v7 23/25] drm: use correct ccflags-y spelling
+Date: Thu, 12 Oct 2023 11:21:34 -0600
+Message-ID: <20231012172137.3286566-24-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231012172137.3286566-1-jim.cromie@gmail.com>
 References: <20231012172137.3286566-1-jim.cromie@gmail.com>
@@ -81,115 +81,35 @@ X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Refactor the split of duties between outer & inner fns.
+Incorrectly spelled CFLAGS- failed to add -DDYNAMIC_DEBUG_MODULE,
+which broke builds with:
 
-The outer fn was previously just an inline unlikely forward to inner,
-which did all the work.
+CONFIG_DRM_USE_DYNAMIC_DEBUG=y
+CONFIG_DYNAMIC_DEBUG_CORE=y
+CONFIG_DYNAMIC_DEBUG=n
 
-Now, outer handles +t and +l flags itself, and calls inner only when
-_DPRINTK_FLAGS_INCL_LOOKUP is needed.
+Also add subdir-ccflags so that all drivers pick up the addition.
 
-No functional change.
-
-But it does make the results of the inner-fn more cache-friendly
-(fewer entries, reused more often):
-
-1- no spurious [TID] or <intr> noise
-2- no LINE-number to bloat the cache (avg 9 pr_debugs/fn)
-3- only LOOKUP stuff
-
-Currently LOOKUPs are descriptor-field refs but could be replaced by
-accessor functions.  This would allow the __dyndbg_sites section to be
-de-duplicated and reclaimed; currently module, filename fields are
-~90% repeated.  As the accessors get more expensive, the value of
-caching part of the prefix goes up.
-
-Also change inner-fn to return count of extra chars written to the
-buffer, and drop "inline" from outer, let the compiler decide.  Maybe
-also change name accordingly.
-
+Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro")
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 55 ++++++++++++++++++++++++---------------------
- 1 file changed, 30 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 17eefb35ac96..974395bf8a83 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -777,19 +777,8 @@ static int remaining(int wrote)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 215e78e79125..22b1984cc982 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -3,7 +3,8 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
  
--static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
-+static int __dynamic_emit_prefix(const struct _ddebug *desc, char *buf, int pos)
- {
--	int pos_after_tid;
--	int pos = 0;
--
--	if (desc->flags & _DPRINTK_FLAGS_INCL_TID) {
--		if (in_interrupt())
--			pos += snprintf(buf + pos, remaining(pos), "<intr> ");
--		else
--			pos += snprintf(buf + pos, remaining(pos), "[%d] ",
--					task_pid_vnr(current));
--	}
--	pos_after_tid = pos;
- 	if (desc->flags & _DPRINTK_FLAGS_INCL_MODNAME)
- 		pos += snprintf(buf + pos, remaining(pos), "%s:",
- 				desc->modname);
-@@ -799,22 +788,38 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
- 	if (desc->flags & _DPRINTK_FLAGS_INCL_SOURCENAME)
- 		pos += snprintf(buf + pos, remaining(pos), "%s:",
- 				trim_prefix(desc->filename));
--	if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
--		pos += snprintf(buf + pos, remaining(pos), "%d:",
--				desc->lineno);
--	if (pos - pos_after_tid)
--		pos += snprintf(buf + pos, remaining(pos), " ");
--	if (pos >= PREFIX_SIZE)
--		buf[PREFIX_SIZE - 1] = '\0';
--
--	return buf;
-+	return pos;
- }
+-CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
++ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)		+= -DDYNAMIC_DEBUG_MODULE
++subdir-ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
  
--static inline char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
-+static char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
- {
--	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_ANY))
--		return __dynamic_emit_prefix(desc, buf);
--	return buf;
-+        int pos_after_tid;
-+        int pos = 0;
-+
-+        if (likely(!(desc->flags & _DPRINTK_FLAGS_INCL_ANY)))
-+                return buf;
-+
-+        if (desc->flags & _DPRINTK_FLAGS_INCL_TID) {
-+                if (in_interrupt())
-+                        pos += snprintf(buf + pos, remaining(pos), "<intr> ");
-+                else
-+                        pos += snprintf(buf + pos, remaining(pos), "[%d] ",
-+                                        task_pid_vnr(current));
-+        }
-+        pos_after_tid = pos;
-+
-+        if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_LOOKUP))
-+                pos += __dynamic_emit_prefix(desc, buf, pos);
-+
-+        if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
-+                pos += snprintf(buf + pos, remaining(pos), "%d:",
-+                                desc->lineno);
-+        if (pos - pos_after_tid)
-+                pos += snprintf(buf + pos, remaining(pos), " ");
-+        if (pos >= PREFIX_SIZE)
-+                buf[PREFIX_SIZE - 1] = '\0';
-+
-+        return buf;
- }
- 
- void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
+ drm-y := \
+ 	drm_aperture.o \
 -- 
 2.41.0
 
