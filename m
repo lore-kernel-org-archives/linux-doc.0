@@ -1,64 +1,88 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E517E4
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 02:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89FE0A9;
-	Wed, 11 Oct 2023 19:01:13 -0700 (PDT)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0VtyWj9M_1697076068;
-Received: from 30.97.48.228(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0VtyWj9M_1697076068)
-          by smtp.aliyun-inc.com;
-          Thu, 12 Oct 2023 10:01:10 +0800
-Message-ID: <f06fbb72-dbea-6bfa-e5a0-337567708e7b@linux.alibaba.com>
-Date: Thu, 12 Oct 2023 10:01:07 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49217E4
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 02:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="SGZe1AfU"
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9C54B7
+	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 19:27:01 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-53da72739c3so824624a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 19:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shopee.com; s=shopee.com; t=1697077620; x=1697682420; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8uAVbdAI/t4kp4F0w7o3XfjGK/x3xwElaYSG4Wap1s0=;
+        b=SGZe1AfUk0omF01bhlOoqzan1SZglYgEK5f0qkT2MBckNIayIYVb1mqNJfgJx1ZeKN
+         0z9nM6GW998cDVX2c3uGqd82ToPSR22Q054CC1Fk0fkTF5KQqBbypONRlT+pWGQCV4kd
+         ZdchkeLjM0DqoD4uxDHpkW3O3+XJy0pS8Lv6dxbSRZfEt3nI5EibJYpYXGukIxt8xRAe
+         SdVOjI44RBSfSeT/Gb8gfhkcg3AsmIi+rd6XgN0L0vvA55ulCJT9PFs5XZdaLMELNK6F
+         uDgIABmIQ63JtXkeXvVNfWOyqqJw+NzwrEcvl1E6gLpDBkNK8ycUfGjRmEiPCXcPRwh+
+         sSBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697077620; x=1697682420;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8uAVbdAI/t4kp4F0w7o3XfjGK/x3xwElaYSG4Wap1s0=;
+        b=AuIZV5S+++1gBTcRTboEvzjN2Mf718AYv+cgeWYxS/C2pNJClHdPP4L1jRJqV5Y+Rc
+         Fg7SxZ9XWxWSi6tGUlKxBZTTebUNXkFjZF/WvTN3SDGYK38S67A6mPuE2umTYKEDdZir
+         iYfsK+wWVr4ARVANLwNAnYfnIdQ59ndMMseCTYqxik2JWU7lmTliKQEJrVo+C2hL7Xfq
+         WuCf03vPRjnHO0rAjfuYOc/p0F4eB/D4G5Q4mcHbI4j6hBgccUeLPqU/PwHD3ssYqvoU
+         jPScdIgY/NzVNtXznqNgbV4I1CeLDrpRZYZkB07bKbbNY97fVkQ8Y51PCj8ZMEAyvgQv
+         W0ug==
+X-Gm-Message-State: AOJu0YwFPbHHbnVZjA5h27OU7CSjCyKypF4MGE1/+PJE3UuUp6gmhPJd
+	ZbCPIIeQlAMFQOUzGqPijsSgE/zShNH2k3z2nlDuyw==
+X-Google-Smtp-Source: AGHT+IEBboUS4cwn4e3Ys9mXQ4ZCkgfLdr7atTruR6S+lBb7qdwzHO/3JSrHZfVGLZdiOBdEoTiN3ePEBse1tsA5adw=
+X-Received: by 2002:a05:6402:5194:b0:53e:395:59d with SMTP id
+ q20-20020a056402519400b0053e0395059dmr726299edd.8.1697077620310; Wed, 11 Oct
+ 2023 19:27:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH] erofs: fix inode metadata space layout description in
- documentation
-To: Chao Yu <chao@kernel.org>, Tiwei Bie <tiwei.btw@antgroup.com>,
- linux-erofs@lists.ozlabs.org, xiang@kernel.org
-Cc: linux-doc@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, ayushranjan@google.com,
- Yue Hu <huyue2@coolpad.com>
-References: <20231010113915.436591-1-tiwei.btw@antgroup.com>
- <9a6ccef5-3a35-ae0d-2a9c-1703c5038c81@linux.alibaba.com>
- <1a4d325b-d3a8-121b-1118-934fafcc8ebe@kernel.org>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <1a4d325b-d3a8-121b-1118-934fafcc8ebe@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-13.2 required=5.0 tests=BAYES_00,
-	ENV_AND_HDR_SPF_MATCH,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-	RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
+References: <20231009100349.52884-1-yizhou.tang@shopee.com> <cf850508-498b-4748-955c-382906eff676@acm.org>
+In-Reply-To: <cf850508-498b-4748-955c-382906eff676@acm.org>
+From: Tang Yizhou <yizhou.tang@shopee.com>
+Date: Thu, 12 Oct 2023 10:26:49 +0800
+Message-ID: <CACuPKxm+YtdierSLCTiqn3qEcgexM6O7AwVQrgSGq5mz8bJDog@mail.gmail.com>
+Subject: Re: [PATCH] doc: blk-ioprio: Standardize a few names
+To: Bart Van Assche <bvanassche@acm.org>, houtao1@huawei.com, jack@suse.cz, kch@nvidia.com
+Cc: axboe@kernel.dk, tj@kernel.org, corbet@lwn.net, 
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, yingfu.zhou@shopee.com, chunguang.xu@shopee.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Hi Chao,
-
-On 2023/10/12 09:10, Chao Yu wrote:
-> On 2023/10/10 21:06, Gao Xiang wrote:
->>> Signed-off-by: Tiwei Bie <tiwei.btw@antgroup.com>
->>
->> Reviewed-by: Gao Xiang <hsiangkao@linux.alibaba.com>
-> 
-> Looks fine to me for the version in dev-test branch.
-> 
-> Reviewed-by: Chao Yu <chao@kernel.org>
-
-Yeah, thanks! I will add the tag when applying to -next.
+Thanks for your suggestion, I will fix it in the next version.
 
 Thanks,
-Gao Xiang
+Tang
 
-> 
+
+On Wed, Oct 11, 2023 at 8:05=E2=80=AFAM Bart Van Assche <bvanassche@acm.org=
+> wrote:
+>
+> On 10/9/23 03:03, yizhou.tang@shopee.com wrote:
+> > From: Tang Yizhou <yizhou.tang@shopee.com>
+>
+> The title of this patch is misleading. The title suggests that the
+> user interface is changed, which is not the case. What this patch does
+> is to bring the documentation in sync with the implementation.
+>
+> Otherwise this patch looks fine to me.
+>
 > Thanks,
+>
+> Bart.
