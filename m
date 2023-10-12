@@ -1,152 +1,191 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670B4DF60
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 07:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAC2101C1;
+	Thu, 12 Oct 2023 07:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="BVBvTxnw"
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2101.outbound.protection.outlook.com [40.107.243.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDA6E10F;
-	Thu, 12 Oct 2023 00:41:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EU4AkHv0xF78+SBAw9sp6K2otb/qzBclZ8hOwSfbVx4ygek6Rusu8ksGHBZ+DSC+Z4+Xcbtwbic61GI2c/ISQmV6TRRW+UXLgRW/MPgJre3a6zHGXKdJvDX4/okKRb59rXVH0g7eJxf1W9k2Fu8v56a341tl3UDo8sLUIbuWF/RV2QoKu7pClcIvKaZTn8N3KA3VzGtEhuppipvRf2eXYUuu0rC00s+iJcUh2gfduC7Fmz3n6AHIuvn8r2e3ZraFLAWLk6nP8ys+cOvILtzm07po3IJAgKM9Y+0XeFuSkuL/w3ULeQ3wVQxQDBpbQde2gzeQnuTkJVNmiNUahEJcBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5eLj5/a/ih5iHyekZDrq1kwDJf5pl0lIKMYQ2wK7MVE=;
- b=EkZ5ZoEsDwMKb1awO+UFhzCZMt7ecEWPOnb8KAvfHypqX2ie0GsWqeDBvyIQsC7gyirzBFirwhLK3Tu1544Tm8MfZds91yefSp/Q7PLTVpU9AwxzErQ76TgMK84KvV69X4FwPm1eoYEuwDrgO4ZMLZSH+QxtTe6QDbc8SHKUPb7jP2FJCQX91i5+KYKaVHk06fYUeAA8MQ4V+s64s8y1IuICLMep53GsXIsck56nm3dFOlJ7AUyQ3Irq/BSM2sxwKJTtf9LCjUNlexDcjfYZT0O8uSyl2CstyKXTFUcpZuxyLipi6oJHawlXQSJpg+mnS5CC8HGABN3of8FRjJn3nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S7AKuDVV"
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E3C8B7;
+	Thu, 12 Oct 2023 00:55:53 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-40684f53d11so8339605e9.1;
+        Thu, 12 Oct 2023 00:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5eLj5/a/ih5iHyekZDrq1kwDJf5pl0lIKMYQ2wK7MVE=;
- b=BVBvTxnwBs4hP0d46siK9neCPxjG1VcrBH9VogL+ERf3bRtEUcl1VQdFV8MAZEPj4PmOFX8fWzWREa0MmyFmbUgPXhIyFx1XHlV3PPfNfYwWoQtYHwsRnxoFOH4VMCl89ANBg1yrb2klbw3UiWqP/fGiGeVjjbafrRDAyqnLybs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from DM5PR0102MB3590.prod.exchangelabs.com (2603:10b6:4:a4::25) by
- DM8PR01MB6902.prod.exchangelabs.com (2603:10b6:8:13::10) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6863.44; Thu, 12 Oct 2023 07:41:28 +0000
-Received: from DM5PR0102MB3590.prod.exchangelabs.com
- ([fe80::f7a2:1a96:ba3f:d70f]) by DM5PR0102MB3590.prod.exchangelabs.com
- ([fe80::f7a2:1a96:ba3f:d70f%4]) with mapi id 15.20.6863.040; Thu, 12 Oct 2023
- 07:41:28 +0000
-From: Ilkka Koskinen <ilkka@os.amperecomputing.com>
-To: Will Deacon <will@kernel.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Kan Liang <kan.liang@linux.intel.com>,
-	Besar Wicaksono <bwicaksono@nvidia.com>,
-	Jiucheng Xu <jiucheng.xu@amlogic.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Ilkka Koskinen <ilkka@os.amperecomputing.com>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/perf: Add ampere_cspmu to toctree to fix a build warning
-Date: Thu, 12 Oct 2023 00:41:03 -0700
-Message-Id: <20231012074103.3772114-1-ilkka@os.amperecomputing.com>
-X-Mailer: git-send-email 2.40.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH5P223CA0020.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:610:1f3::9) To DM5PR0102MB3590.prod.exchangelabs.com
- (2603:10b6:4:a4::25)
+        d=gmail.com; s=20230601; t=1697097352; x=1697702152; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CI6wAmn/c75sowLMQ9qhx5ldBqSwgNt5iQ5ki2HUkx8=;
+        b=S7AKuDVV3+Oi0eriBOo08mcZxjXgMPi4cD48J8M0oWz/mreEkB6uWsNYyCHEHgMSn1
+         yHS+5/oD6+H/ZIR2D+EBHZnxRgLXD+xeBukwSelNGyo3271p9xcRJIizgFhjp9fPIKR/
+         1i2szNGpZm9a52TDno04Iu1hyJZ+N/VAXlZWPsmuJqrVf0ViRDfAmZ+lLZioY+NolBI5
+         o1mGx+KrWcWtbueupKmSzOWc5ZMC/gqudI7gMg+uzJghzangEeh5ZP7VhP8oK7C++gK4
+         dfXyZ9P1kjRBqZxZtRQTR60Hc8RMGXOwBT0/IUr54tAx7PZqbG1yX8hnmVVx8ARB/M3R
+         R+Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697097352; x=1697702152;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CI6wAmn/c75sowLMQ9qhx5ldBqSwgNt5iQ5ki2HUkx8=;
+        b=IxFpMXjdQ8t4X987OkUoQRCJFegVOMFlqzda8W07/DaF1MLWiZ1WfotOI/qhc0J8lQ
+         gcR/eEohFqUkuQSQPPhXC/GKsAByQHaVi6ytkl+p4ocJn7J/Ouo+ma4MjQTneVDiiVQQ
+         g3Mm+2rh/KIMdthpMoi2sYlkRr6tZmTFjUB+TcGmsmqK68PBJagVO/mF+PxqrPEeallQ
+         acbH6iFnZm5bCGAJBskI6AiCHJyhDFMiGcd9mRbuiJKnHTpwE9eX1FGO1TvQiXkrJ2rd
+         zU/O0mEGM91gGr1izEM6QIs36YqmCTBh1jbq9GwzoWNaoc2bmzPYOTtXh1E/r41PKzqd
+         z/UA==
+X-Gm-Message-State: AOJu0YwRFS00BySyNnQjvetD63Xqlmu5SGPBjRllvxmbf/rDPPOCuMTg
+	5Zvob3P1TRLOtHoZiPavI8k=
+X-Google-Smtp-Source: AGHT+IE1wCNOCDyBfA+lfQeQMkhdV6wxcRBF67BqLTCCouS/jdC6HIKQhCS2c72h9YUe34XOgJyQAA==
+X-Received: by 2002:a05:600c:b41:b0:3f7:f2d0:b904 with SMTP id k1-20020a05600c0b4100b003f7f2d0b904mr20453068wmr.8.1697097351420;
+        Thu, 12 Oct 2023 00:55:51 -0700 (PDT)
+Received: from localhost ([81.168.73.77])
+        by smtp.gmail.com with ESMTPSA id v2-20020a1cf702000000b00405d9a950a2sm21186220wmh.28.2023.10.12.00.55.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Oct 2023 00:55:51 -0700 (PDT)
+Date: Thu, 12 Oct 2023 08:55:50 +0100
+From: Martin Habets <habetsm.xilinx@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+	pabeni@redhat.com, corbet@lwn.net, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, andrew@lunn.ch,
+	jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
+	przemyslaw.kitszel@intel.com, f.fainelli@gmail.com,
+	jiri@resnulli.us, ecree.xilinx@gmail.com
+Subject: Re: [PATCH net-next v2] docs: try to encourage (netdev?) reviewers
+Message-ID: <20231012075438.GA154637@gmail.com>
+Mail-Followup-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
+	netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+	corbet@lwn.net, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, andrew@lunn.ch,
+	jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
+	przemyslaw.kitszel@intel.com, f.fainelli@gmail.com,
+	jiri@resnulli.us, ecree.xilinx@gmail.com
+References: <20231011024224.161282-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR0102MB3590:EE_|DM8PR01MB6902:EE_
-X-MS-Office365-Filtering-Correlation-Id: 866580cb-303b-427b-28f8-08dbcaf6a491
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	1wCK+uauVNmXki9QJg7rAujHVZzRHCIQdcTM8lMO7pV19tmnayKzTooz9TkjEXEdDXaQvDhWjh0krkat6tjEnJX9RW1PCrL+F0UeXnEUoVs7ySNfe8e18GXmpMyByTZjoqOHJ4FpHBSRq7rf9FoBX7rWtOmcdWICrEtYF6yoWf5Cw0gg2yDmFIr2MvISWLAUp6kmjHImCNgHThDMcA/qGU1ifFArkcw3IXLbe5IJcYtuj70L409fvpoFLKRSAnOSXMV0cFwvHj+tjkJpDFXgLT8N3v/jnGk7rYSR8SXT95QME198zId21QzMU3PE02IvvTN7/ZX+2ePtJtI3WdjIypJuodkE2dKUsF8KhaPD47ywY7/ceYgC9ZU2NUmY4zlTT4T9qwX77iWvHatkU0a95nd1CAUnXPJYnufw2ItON3pvy4uEdvpFZErP83G+civrynDYg3DvhL/O88Y/oV+yQ6oiF0lGmIAv7Mr2woDh9oPY69Y499jmgMZCpTiwP53rum3elwrFndKwzlhn6B03Bfz+xyCViHUob6YPBHnHWC7A892Y63OezzU06WriApKS0Oo2oBX482IhGCvE6ETfM6QaKbkMJe84phKfK99sY58OfxHQwY3o/xUKRNS9GBXE
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0102MB3590.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(376002)(136003)(39850400004)(346002)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(110136005)(66556008)(66476007)(66946007)(316002)(8936002)(4326008)(41300700001)(8676002)(38350700002)(5660300002)(38100700002)(921005)(7416002)(6512007)(2906002)(6486002)(966005)(2616005)(26005)(7049001)(478600001)(6666004)(52116002)(83380400001)(86362001)(6506007)(1076003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ij2PZelrZ3yzpQ6XJNXL/dm8wT1+RX/QFjUwkChLByIlvqgssKJ+sLhntssx?=
- =?us-ascii?Q?dXDzwoV6ruHtLj5EIC8gsrxlPfsoJxOapzQderDlqPlK+t5P5RH+lmTDzckN?=
- =?us-ascii?Q?pSduC9IP+kwStFhmklR3LZIunxPVuFNq1UyPv0TvA8VBCWiWChrXWnyaEUDf?=
- =?us-ascii?Q?XVBfT5g4IG36WV8jcgWu/m1uyMoO+nSngLcC+MOmNAiI0RLuucxybfexHs1D?=
- =?us-ascii?Q?rkpoZXaekxlSN4cdgnyM1ZrHUPrKbBxKDJnmyyXGb2IAjpVBVjN2whJu8Tta?=
- =?us-ascii?Q?s1ZmZO+D3KfFKQdXAbJ223/C8lBa4Cvo/bbnBJ45CnTWpPT3F//KyrqRq0wI?=
- =?us-ascii?Q?84E9Yl7SkuEOoKioygVlan0ysTzt76pA9PGlMheY6hqAzUq3Xfwl2OkHx/TG?=
- =?us-ascii?Q?o7KtBpSbnvUcmj+nrPEkwT/cUhciD8MUa+TfHYdFK8Wmin4rL5S+ABYdSrsu?=
- =?us-ascii?Q?9dLMUdzYLPWjWFc7QpG+BpwuT0A09ZBbI54uokj+zg+WYh7kdIqDUxshraR0?=
- =?us-ascii?Q?yWA4RgQwV9o2cWYLMm1xwaePchDr3xKjTaG2hWERN7A7hF9AeBjWbP8jMgjS?=
- =?us-ascii?Q?sv7tUjGNtrMXSIw9WhiG2yPNgGQafMUBkWXrBnEyoV7mDYn73e7Sy+qyUfpB?=
- =?us-ascii?Q?Vfj1awaBO7vchMwrKx2ROz8RbsQj3chmlNErvLsGPJR0kQi+M9fXBF1itJ4i?=
- =?us-ascii?Q?bm5+ubTiaY5oMSPUEXnCWdhO0ezKJGJv0eanS0Tx5R5ZkaumoFE3DoP1jKNc?=
- =?us-ascii?Q?D/sNLoLOIxDlZQNnwuhBuGvqM8AT08KIpZ6BXLnr0UyUhHArZzF0AqvR2eF0?=
- =?us-ascii?Q?OjHmKLcBskzat8cJwJCb9Kt32SK5rHe/4U4JbAjir2DVQv70Tq5VHxJyhqh2?=
- =?us-ascii?Q?0NcKJS2ETmpKEeLgsufimAxLlIIEdldVLy3bMpfFVC4b9J6hRwq9NpPHMuqs?=
- =?us-ascii?Q?EW8nOqH/pKUHv5d9FcFBPDLLojGlem8OIZcmpelS9mRl4HM/Vt7HRND1a/x0?=
- =?us-ascii?Q?cJXIV9H8lcEG63Sn35bRvYqr34tWMTO2oJcYPRnDsngvCmr3swDH0WX40nV4?=
- =?us-ascii?Q?RurBnMAisUDDBiE15ymgEEAn4xwzMtUCl6WZDnFopSZi/RXCzpMsr8Rt0XbR?=
- =?us-ascii?Q?KWF6uIaknvYJZWB6kEXmQAng+L9nhgfAF3k/McWhiXUnZPa5TxDRmewxTS3d?=
- =?us-ascii?Q?rrwRlOkmgpOn3LQZU7vQzMrH6yX0NpD/nbiyfMAKSBGU3gp73egEkTgKwZ9b?=
- =?us-ascii?Q?51rx4RJV4/5lmAfkiJqS5rDJsrbVdGZ0mI4Ty5RbIQ/n43EHERlWs5e7E+sT?=
- =?us-ascii?Q?CkyTo1P7mrKFa10jWSVF5/dRQZNvZIoeiB3nfZ24o+pZtcAA1FBaqbWOuQ9f?=
- =?us-ascii?Q?ZjAywetArKrST5eqOYrnsHw5y5fRGDF0mkeaiCxkwDE0sgUuSN/FcWZmWNjQ?=
- =?us-ascii?Q?wKCSuz6gHU9WejfYTIO/vyx7l6+HZTWRGLMtVdonEVpP8VD67LfJRJsYfPW7?=
- =?us-ascii?Q?SbMaTUGq5Pit3CbOy/uevTrO821hhEfbWB22+cNheYyl0f99RHoT6CVuDh1v?=
- =?us-ascii?Q?qPs0wUBayFousfzlavkv1NNoHII7Uxl0og87jA6ut6lX5KT8XJfsxOQaBKeN?=
- =?us-ascii?Q?ugBkq81PJc6OevDFsMzfgZ4=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 866580cb-303b-427b-28f8-08dbcaf6a491
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR0102MB3590.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2023 07:41:27.8982
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cex+qJGVQ3Xs7UkR5XcNnQI5rljWVNy98ZaoVUUvZChDTceehsR4+Th6A37YBhD7gWZXMe6oDcPujBiZkgVDuTKuY80Dv4bmHc133VVRcobJtoNgnFNImGg9sdR+nOD8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR01MB6902
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-	SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231011024224.161282-1-kuba@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Add ampere_cspmu to toctree in order to address the following warning
-produced when building documents:
+On Tue, Oct 10, 2023 at 07:42:24PM -0700, Jakub Kicinski wrote:
+> Add a section to netdev maintainer doc encouraging reviewers
+> to chime in on the mailing list.
+> 
+> The questions about "when is it okay to share feedback"
+> keep coming up (most recently at netconf) and the answer
+> is "pretty much always".
+> 
+> Extend the section of 7.AdvancedTopics.rst which deals
+> with reviews a little bit to add stuff we had been recommending
+> locally.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-	Documentation/admin-guide/perf/ampere_cspmu.rst: WARNING: document isn't included in any toctree
+Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/all/20231011172250.5a6498e5@canb.auug.org.au/
-Fixes: 53a810ad3c5c ("perf: arm_cspmu: ampere_cspmu: Add support for Ampere SoC PMU")
-Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
----
-This patch fixes a bug in my cspmu patch, which is in Will Deacon's tree
-(https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf).
-
-Tested with 'make SPHINXDIRS="admin-guide" htmldocs'
-
-
-Documentation/admin-guide/perf/index.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
-index f60be04e4e33..a2e6f2c81146 100644
---- a/Documentation/admin-guide/perf/index.rst
-+++ b/Documentation/admin-guide/perf/index.rst
-@@ -22,3 +22,4 @@ Performance monitor support
-    nvidia-pmu
-    meson-ddr-pmu
-    cxl
-+   ampere_cspmu
--- 
-2.40.1
-
+> --
+> v2:
+>  - grammar fixes from Donald
+>  - remove parenthesis around a quote
+> v1: https://lore.kernel.org/all/20231009225637.3785359-1-kuba@kernel.org/
+>  - spelling (compliment)
+>  - move to common docs:
+>    - ask for more opinions
+>    - use of tags
+>    - compliments
+>  - ask less experienced reviewers to avoid style comments
+>    (using Florian's wording)
+> 
+> CC: andrew@lunn.ch
+> CC: jesse.brandeburg@intel.com
+> CC: sd@queasysnail.net
+> CC: horms@verge.net.au
+> CC: przemyslaw.kitszel@intel.com
+> CC: f.fainelli@gmail.com
+> CC: jiri@resnulli.us
+> CC: ecree.xilinx@gmail.com
+> ---
+>  Documentation/process/7.AdvancedTopics.rst  | 18 ++++++++++++++++++
+>  Documentation/process/maintainer-netdev.rst | 15 +++++++++++++++
+>  2 files changed, 33 insertions(+)
+> 
+> diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
+> index bf7cbfb4caa5..43291704338e 100644
+> --- a/Documentation/process/7.AdvancedTopics.rst
+> +++ b/Documentation/process/7.AdvancedTopics.rst
+> @@ -146,6 +146,7 @@ pull.  The git request-pull command can be helpful in this regard; it will
+>  format the request as other developers expect, and will also check to be
+>  sure that you have remembered to push those changes to the public server.
+>  
+> +.. _development_advancedtopics_reviews:
+>  
+>  Reviewing patches
+>  -----------------
+> @@ -167,6 +168,12 @@ comments as questions rather than criticisms.  Asking "how does the lock
+>  get released in this path?" will always work better than stating "the
+>  locking here is wrong."
+>  
+> +Another technique that is useful in case of a disagreement is to ask for others
+> +to chime in. If a discussion reaches a stalemate after a few exchanges,
+> +then call for opinions of other reviewers or maintainers. Often those in
+> +agreement with a reviewer remain silent unless called upon.
+> +The opinion of multiple people carries exponentially more weight.
+> +
+>  Different developers will review code from different points of view.  Some
+>  are mostly concerned with coding style and whether code lines have trailing
+>  white space.  Others will focus primarily on whether the change implemented
+> @@ -176,3 +183,14 @@ security issues, duplication of code found elsewhere, adequate
+>  documentation, adverse effects on performance, user-space ABI changes, etc.
+>  All types of review, if they lead to better code going into the kernel, are
+>  welcome and worthwhile.
+> +
+> +There is no strict requirement to use specific tags like ``Reviewed-by``.
+> +In fact reviews in plain English are more informative and encouraged
+> +even when a tag is provided, e.g. "I looked at aspects A, B and C of this
+> +submission and it looks good to me."
+> +Some form of a review message or reply is obviously necessary otherwise
+> +maintainers will not know that the reviewer has looked at the patch at all!
+> +
+> +Last but not least patch review may become a negative process, focused
+> +on pointing out problems. Please throw in a compliment once in a while,
+> +particularly for newbies!
+> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+> index 09dcf6377c27..7feacc20835e 100644
+> --- a/Documentation/process/maintainer-netdev.rst
+> +++ b/Documentation/process/maintainer-netdev.rst
+> @@ -441,6 +441,21 @@ in a way which would break what would normally be considered uAPI.
+>  new ``netdevsim`` features must be accompanied by selftests under
+>  ``tools/testing/selftests/``.
+>  
+> +Reviewer guidance
+> +-----------------
+> +
+> +Reviewing other people's patches on the list is highly encouraged,
+> +regardless of the level of expertise. For general guidance and
+> +helpful tips please see :ref:`development_advancedtopics_reviews`.
+> +
+> +It's safe to assume that netdev maintainers know the community and the level
+> +of expertise of the reviewers. The reviewers should not be concerned about
+> +their comments impeding or derailing the patch flow.
+> +
+> +Less experienced reviewers are highly encouraged to do more in-depth
+> +review of submissions and not focus exclusively on trivial or subjective
+> +matters like code formatting, tags etc.
+> +
+>  Testimonials / feedback
+>  -----------------------
+>  
+> -- 
+> 2.41.0
+> 
