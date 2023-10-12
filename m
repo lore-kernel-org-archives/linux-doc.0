@@ -1,109 +1,121 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5140F12E43;
-	Thu, 12 Oct 2023 10:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489CB1E500
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 10:56:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Lw5xjJoO"
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB8BD3;
-	Thu, 12 Oct 2023 03:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=XBhUlLUXpFNiQjcNWmFNytrRub9YUYcuDDd8SJGbp9M=; b=Lw5xjJoOsrdpqAGlBpja1izi61
-	modJ6b3F4IEVl9yWwMiyNTdVDHS8KTsti7HMPTMM0BTIcdH5Qw1ceOJjlpH6OvOJzA8BWjz9lCO8u
-	0JKk5o5FvEvmIcNxOer2v/BzfJeZtIlYiYXSxYL5680TwVUpEJhu9G41pL5BJc0xFYZ0QO2SIJfO2
-	e50Q/LO4jvU4iHP8ilGx8/E6yAsF0RcFoNbSGTGxmwLUbYpLnPrnRbMUFs+3zXf/lg784hwvDrg2B
-	cvew0YRQLU1UlK1xtJINQcK2tbgSIyAATDxShiiW4YeszBf/Yt081QQg19xEBA5dWRbiMr/nNJkgd
-	D/1Lc22w==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qqtEE-00GRER-Cd; Thu, 12 Oct 2023 10:47:42 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 11CE830036C; Thu, 12 Oct 2023 12:47:42 +0200 (CEST)
-Date: Thu, 12 Oct 2023 12:47:41 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@google.com>,
-	David Gow <davidgow@google.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
-Message-ID: <20231012104741.GN6307@noisy.programming.kicks-ass.net>
-References: <20220927131518.30000-1-ojeda@kernel.org>
- <20220927131518.30000-26-ojeda@kernel.org>
- <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net>
- <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
- <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
- <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marliere.net header.i=@marliere.net header.b="p6mRBJRv"
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D20B90;
+	Thu, 12 Oct 2023 03:56:15 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1c9e072472bso3711545ad.2;
+        Thu, 12 Oct 2023 03:56:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697108175; x=1697712975;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W9Da9MBT9rB+lZA9zm7WjEfc17v4yeizFPCpeNj0xZ0=;
+        b=Ei07dD2m+RTvKQhFedviaU1CsU5TBQ/erBoTMJOHBNfnnycKPjdIy1+kaJ+4DWAfMJ
+         kBe5yBQuv7K4vIqZhY2mryVqSd+ASML7t2cXci4Qjrv0NY/YOwgMGowdIXzdEGSv8+fd
+         Pdn+qdl3Mxuz1s5wFIertknrqDOt970bnc/GBWa2GNSQs+LMZpG/MRumMXXg3Ne1jMA/
+         pNTw+eeeR3oqUZWNedlC94yT416cqbpqwIrCQhN6wxLhBH4lVjDQdcM1ZE+cH7gB/MnN
+         D50pm+hKYJk6EK1TinKUyzHGWj8QuaW/q0dDO+qzSYYbF4JN7HLBf/JtEVahNjyOTrCs
+         cMRA==
+X-Gm-Message-State: AOJu0YxQDamhMNb0DqygyM8iM0bsALWBmPRHUTJnuSFF/Smh+hmU4jGt
+	50OAzBhbYBGMx+iw2M9BUz8=
+X-Google-Smtp-Source: AGHT+IHrukWTPzhOjCyRsKwTW9N1rf4iR43yr7LemfnQgYdFKwX3fykZ3xDPkLmVgn5cqdkN8M/iSQ==
+X-Received: by 2002:a17:902:fa8f:b0:1c9:d948:33d5 with SMTP id lc15-20020a170902fa8f00b001c9d94833d5mr2349432plb.64.1697108174615;
+        Thu, 12 Oct 2023 03:56:14 -0700 (PDT)
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id a7-20020a170902ecc700b001c3267ae31bsm1642297plh.301.2023.10.12.03.56.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Oct 2023 03:56:13 -0700 (PDT)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+	s=2023; t=1697108172;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=W9Da9MBT9rB+lZA9zm7WjEfc17v4yeizFPCpeNj0xZ0=;
+	b=p6mRBJRv15x2a8mugD54EELIKpHhGxE1HudINzkmlCUswZguuXtnlCIm/uEwKwVFGZVLJK
+	nYWY3ofQoWfYLeWEKmB7VlsdpqXtvMSIsU6UcKac9GL54ENIO1eIdN7DJjkuzehSfniMDg
+	qORCa7JwERprwg49vaR4XZH3DGZYcOA0iaWdlZhua/wejFBTrv0X29zVCWKoPHxCiZUyj+
+	6m2N1mhjzLGzrd+M41gY1i3BLQ8YfOEO7gI4LQKNrAbrF/BAbWNzNcAJZ6yUKmJvj2rjU8
+	m0xLBNvh1cZcYPP/CDUQ5IFVxGBe/Ql7NmfsVGUjkM9DsgHzdToaow1h361Ndg==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	"Ricardo B. Marliere" <ricardo@marliere.net>
+Subject: [PATCH] docs: kbuild: add INSTALL_DTBS_PATH
+Date: Thu, 12 Oct 2023 07:54:21 -0300
+Message-ID: <20231012105420.16779-2-ricardo@marliere.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-	SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Fri, Oct 14, 2022 at 11:34:30AM -0700, Sami Tolvanen wrote:
-> On Fri, Oct 14, 2022 at 11:05 AM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> >
-> > On Tue, Oct 11, 2022 at 1:16 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> > >
-> > > Rust supports IBT with -Z cf-protection=branch, but I don't see this
-> > > option being enabled in the kernel yet. Cross-language CFI is going to
-> > > require a lot more work though because the type systems are not quite
-> > > compatible:
-> > >
-> > > https://github.com/rust-lang/rfcs/pull/3296
-> >
-> > I have pinged Ramon de C Valle as he is the author of the RFC above
-> > and implementation work too; since a month or so ago he also leads the
-> > Exploit Mitigations Project Group in Rust.
-> 
-> Thanks, Miguel. I also talked to Ramon about KCFI earlier this week
-> and he expressed interest in helping with rustc support for it. In the
-> meanwhile, I think we can just add a depends on !CFI_CLANG to avoid
-> issues here.
+The documentation for kbuild and makefiles is missing an explanation of
+a variable important for some architectures.
 
-Having just read up on the thing it looks like the KCFI thing is
-resolved.
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+---
+ Documentation/kbuild/kbuild.rst    | 6 ++++++
+ Documentation/kbuild/makefiles.rst | 7 +++++++
+ 2 files changed, 13 insertions(+)
 
-I'm not sure I understand most of the objections in that thread through
--- enabling CFI *will* break stuff, so what.
-
-Squashing the integer types seems a workable compromise I suppose. One
-thing that's been floated in the past is adding a 'seed' attribute to
-some functions in order to distinguish functions of otherwise identical
-signature.
-
-The Rust thing would then also need to support this attribute.
-
-Are there any concrete plans for this? It would allow, for example,
-to differentiate address_space_operations::swap_deactivate() from any
-other random function that takes only a file argument, say:
-locks_remove_file().
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index bd906407e307..9c8d1d046ea5 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -243,6 +243,12 @@ The output directory is often set using "O=..." on the commandline.
+ 
+ The value can be overridden in which case the default value is ignored.
+ 
++INSTALL_DTBS_PATH
++-----------------
++INSTALL_DTBS_PATH specifies where to install device tree blobs for
++relocations required by build roots.  This is not defined in the
++makefile but the argument can be passed to make if needed.
++
+ KBUILD_ABS_SRCTREE
+ --------------------------------------------------
+ Kbuild uses a relative path to point to the tree when possible. For instance,
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index e67eb261c9b0..d88d4f0f4f89 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1623,6 +1623,13 @@ INSTALL_MOD_STRIP
+   INSTALL_MOD_STRIP value will be used as the option(s) to the strip
+   command.
+ 
++INSTALL_DTBS_PATH
++  This variable specifies a prefix for relocations required by build
++  roots. It defines a place for installing the device tree blobs. Like
++  INSTALL_MOD_PATH, it isn't defined in the Makefile, but can be passed
++  by the user if desired. Otherwise it defaults to the kernel install
++  path.
++
+ Makefile language
+ =================
+ 
+-- 
+2.42.0
 
