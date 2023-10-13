@@ -1,455 +1,179 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A22222F16
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 18:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95981C69F
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 18:39:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N6QYRIL+"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E17C5CE
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:12:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1697220724;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2+Udgd9t+oJaMjSuWvjsOR91eGe6O+i8JtL7jWCC2do=;
-	b=N6QYRIL+H0w8DRFHMNVEnBSGdUfNGEApuEkedSU1lISGnx+rQ7xPX+lxfTcXXMD+HPmf02
-	DDRaCtqbJdr+7rv2aYf3C9FrVhZYgQAyKRHF7gue2x9SzNCufqA9/krEuyiYNN3N1tnbsm
-	HoPHdiestNBKRnCDLGJldhTFZaX7mX8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-381-82XO3FSgP_yZC25qtn8fYA-1; Fri, 13 Oct 2023 14:11:50 -0400
-X-MC-Unique: 82XO3FSgP_yZC25qtn8fYA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 092B4946DC5;
-	Fri, 13 Oct 2023 18:11:50 +0000 (UTC)
-Received: from llong.com (unknown [10.22.17.138])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7B5E320296DB;
-	Fri, 13 Oct 2023 18:11:49 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH-cgroup 3/4] cgroup/cpuset: Keep track of CPUs in isolated partitions
-Date: Fri, 13 Oct 2023 14:11:21 -0400
-Message-Id: <20231013181122.3518610-4-longman@redhat.com>
-In-Reply-To: <20231013181122.3518610-1-longman@redhat.com>
-References: <20231013181122.3518610-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bV7bkn3z"
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEA52CF
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:39:29 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so1930a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1697222368; x=1697827168; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q2ohtkcvpEvo61Q68fjCDCwlB06zwFzfj4hgniJlyos=;
+        b=bV7bkn3zxjUWqct4XFwbZ7Vpq8RtE+2stYHDshrwtA72XFDma4rBdOLGPyOkhVLPJj
+         yeCzyiEUJhN4Z9s3AbVGHIBDMyWnIrOyE7bpUjFOWJxUfzWQkX0a4LC5QuOLFkBbqJNW
+         wHxUmoJJ5PsYEOFpVo1m3KdyFj5EvQMvQuTL5H88s6OLmQhYfjsRBRcTPko+SaIWhxS5
+         Is2Ehzw9rBrP1iFEMTntuaCisp1Yx4JrBfpdORilXDkbF1bQLp8qR3kXTuBw0Hnnxz1u
+         +HJ95vbbIyidkpk7B0p8G1kCfixTG2r2k5/9vF4De/V7NC9B4D9JztAlswnAxnpxZ3HR
+         4I3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697222368; x=1697827168;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q2ohtkcvpEvo61Q68fjCDCwlB06zwFzfj4hgniJlyos=;
+        b=IxZ2W7F9yIi7f0HYa1/++VkXEZTh6s0E0r9QTtu2TNwtn64yK20ovqFwgMo36XSt28
+         GMUTQthSne1FXXwIx5KzrPse1Ij5ZcFI0ppeOEviaztbaJehEmgNNPsBgUli4Fxb0Fr0
+         xsggdYKMLtPHSq0qXBy+KS9qShA/FDA+hL4FRYNqlEabnlweN4H349uBvIU91l8O8nA5
+         LCBP7kMfrWADULotENAM/9zpCSOemRG+Oq2lm4L8tj/2pjeVd7ZAVY8wnnJ3N7LE7KSe
+         Tgd9ZlipkU94zZqCfHupAgLwjzUl8ppuOtswGGDvjcnz1j/BaqrCcEy1+kmlYV/OktF+
+         pdJg==
+X-Gm-Message-State: AOJu0YzHJo4mIsqF2UfwQRR4X3rfRqNWbqpxy4tvDcW5TksPsrNWWTCU
+	kCLIDr9cjFr9YeE/SkJfnQEEsCHuc84lQlzlkouoNw==
+X-Google-Smtp-Source: AGHT+IF8YANCcWlx2w/0/msjf4y2v4h4Xy4FWI214TULbuhHXEvDPb4bvCZrXVGcnGwKxWVnJu7fKnYNPvtC97SKfJw=
+X-Received: by 2002:a50:a696:0:b0:52f:5697:8dec with SMTP id
+ e22-20020a50a696000000b0052f56978decmr4174edc.4.1697222368058; Fri, 13 Oct
+ 2023 11:39:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
+ <20231009142005.21338-2-quic_kriskura@quicinc.com> <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
+ <CANP3RGcCpNOuVpdV9n0AFxZo-wsfwi8OfYgBk1WHNHaEd-4V-Q@mail.gmail.com>
+ <CANP3RGdY4LsOA6U5kuccApHCzL0_jBnY=pLOYrUuYtMZFTvnbw@mail.gmail.com>
+ <d19d9d08-c119-4991-b460-49925f601d15@quicinc.com> <fad5a7fb-cce1-46bc-a0af-72405c76d107@quicinc.com>
+ <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com> <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com>
+In-Reply-To: <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com>
+From: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
+Date: Fri, 13 Oct 2023 11:39:10 -0700
+Message-ID: <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
+ wMaxSegmentSize via configfs
+To: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, onathan Corbet <corbet@lwn.net>, 
+	Linyu Yuan <quic_linyyuan@quicinc.com>, linux-usb@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	quic_ppratap@quicinc.com, quic_wcheng@quicinc.com, quic_jackp@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.6
+	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Add a new internal isolated_cpus mask to keep track of the CPUs that
-are in isolated partitions. Expose that new cpumask as a new root-only
-control file ".__DEBUG__.cpuset.cpus.isolated" when cgroup_debug command
-line option is specified.
+On Thu, Oct 12, 2023 at 8:40=E2=80=AFAM Krishna Kurapati PSSNV
+<quic_kriskura@quicinc.com> wrote:
+>
+>
+>
+> On 10/12/2023 6:02 PM, Maciej =C5=BBenczykowski wrote:
+> > On Thu, Oct 12, 2023 at 1:48=E2=80=AFAM Krishna Kurapati PSSNV
+> >
+> > Could you paste the full patch?
+> > This is hard to review without looking at much more context then email
+> > is providing
+> > (or, even better, send me a link to a CL in gerrit somewhere - for
+> > example aosp ACK mainline tree)
+>
+> Sure. Will provide a gerrit on ACK for review before posting v2.
+>
+> The intent of posting the diff was two fold:
+>
+> 1. The question Greg asked regarding why the max segment size was
+> limited to 15014 was valid. When I thought about it, I actually wanted
+> to limit the max MTU to 15000, so the max segment size automatically
+> needs to be limited to 15014.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/cgroup/cpuset.c | 190 +++++++++++++++++++++++++++--------------
- 1 file changed, 127 insertions(+), 63 deletions(-)
+Note that this is a *very* abstract value.
+I get you want L3 MTU of 10 * 1500, but this value is not actually meaningf=
+ul.
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 615daaf87f1f..19c8779798fd 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -204,6 +204,11 @@ struct cpuset {
-  */
- static cpumask_var_t	subpartitions_cpus;
- 
-+/*
-+ * Exclusive CPUs in isolated partitions
-+ */
-+static cpumask_var_t	isolated_cpus;
-+
- /* List of remote partition root children */
- static struct list_head remote_children;
- 
-@@ -1317,6 +1322,7 @@ static void compute_effective_cpumask(struct cpumask *new_cpus,
-  */
- enum partition_cmd {
- 	partcmd_enable,		/* Enable partition root	  */
-+	partcmd_enablei,	/* Enable isolated partition root */
- 	partcmd_disable,	/* Disable partition root	  */
- 	partcmd_update,		/* Update parent's effective_cpus */
- 	partcmd_invalidate,	/* Make partition invalid	  */
-@@ -1418,6 +1424,74 @@ static void reset_partition_data(struct cpuset *cs)
- 	}
- }
- 
-+/*
-+ * partition_xcpus_newstate - Exclusive CPUs state change
-+ * @old_prs: old partition_root_state
-+ * @new_prs: new partition_root_state
-+ * @xcpus: exclusive CPUs with state change
-+ */
-+static void partition_xcpus_newstate(int old_prs, int new_prs, struct cpumask *xcpus)
-+{
-+	WARN_ON_ONCE(old_prs == new_prs);
-+	if (new_prs == PRS_ISOLATED)
-+		cpumask_or(isolated_cpus, isolated_cpus, xcpus);
-+	else
-+		cpumask_andnot(isolated_cpus, isolated_cpus, xcpus);
-+}
-+
-+/*
-+ * partition_xcpus_add - Add new exclusive CPUs to partition
-+ * @new_prs: new partition_root_state
-+ * @parent: parent cpuset
-+ * @xcpus: exclusive CPUs to be added
-+ *
-+ * Remote partition if parent == NULL
-+ */
-+static void partition_xcpus_add(int new_prs, struct cpuset *parent,
-+				struct cpumask *xcpus)
-+{
-+	WARN_ON_ONCE(new_prs < 0);
-+	lockdep_assert_held(&callback_lock);
-+	if (!parent)
-+		parent = &top_cpuset;
-+
-+	if (parent == &top_cpuset)
-+		cpumask_or(subpartitions_cpus, subpartitions_cpus, xcpus);
-+
-+	if (new_prs != parent->partition_root_state)
-+		partition_xcpus_newstate(parent->partition_root_state, new_prs,
-+					 xcpus);
-+
-+	cpumask_andnot(parent->effective_cpus, parent->effective_cpus, xcpus);
-+}
-+
-+/*
-+ * partition_xcpus_del - Remove exclusive CPUs from partition
-+ * @old_prs: old partition_root_state
-+ * @parent: parent cpuset
-+ * @xcpus: exclusive CPUs to be removed
-+ *
-+ * Remote partition if parent == NULL
-+ */
-+static void partition_xcpus_del(int old_prs, struct cpuset *parent,
-+				struct cpumask *xcpus)
-+{
-+	WARN_ON_ONCE(old_prs < 0);
-+	lockdep_assert_held(&callback_lock);
-+	if (!parent)
-+		parent = &top_cpuset;
-+
-+	if (parent == &top_cpuset)
-+		cpumask_andnot(subpartitions_cpus, subpartitions_cpus, xcpus);
-+
-+	if (old_prs != parent->partition_root_state)
-+		partition_xcpus_newstate(old_prs, parent->partition_root_state,
-+					 xcpus);
-+
-+	cpumask_and(xcpus, xcpus, cpu_active_mask);
-+	cpumask_or(parent->effective_cpus, parent->effective_cpus, xcpus);
-+}
-+
- /*
-  * compute_effective_exclusive_cpumask - compute effective exclusive CPUs
-  * @cs: cpuset
-@@ -1456,13 +1530,15 @@ static inline bool is_local_partition(struct cpuset *cs)
- /*
-  * remote_partition_enable - Enable current cpuset as a remote partition root
-  * @cs: the cpuset to update
-+ * @new_prs: new partition_root_state
-  * @tmp: temparary masks
-  * Return: 1 if successful, 0 if error
-  *
-  * Enable the current cpuset to become a remote partition root taking CPUs
-  * directly from the top cpuset. cpuset_mutex must be held by the caller.
-  */
--static int remote_partition_enable(struct cpuset *cs, struct tmpmasks *tmp)
-+static int remote_partition_enable(struct cpuset *cs, int new_prs,
-+				   struct tmpmasks *tmp)
- {
- 	/*
- 	 * The user must have sysadmin privilege.
-@@ -1485,18 +1561,14 @@ static int remote_partition_enable(struct cpuset *cs, struct tmpmasks *tmp)
- 		return 0;
- 
- 	spin_lock_irq(&callback_lock);
--	cpumask_andnot(top_cpuset.effective_cpus,
--		       top_cpuset.effective_cpus, tmp->new_cpus);
--	cpumask_or(subpartitions_cpus,
--		   subpartitions_cpus, tmp->new_cpus);
--
-+	partition_xcpus_add(new_prs, NULL, tmp->new_cpus);
-+	list_add(&cs->remote_sibling, &remote_children);
- 	if (cs->use_parent_ecpus) {
- 		struct cpuset *parent = parent_cs(cs);
- 
- 		cs->use_parent_ecpus = false;
- 		parent->child_ecpus_count--;
- 	}
--	list_add(&cs->remote_sibling, &remote_children);
- 	spin_unlock_irq(&callback_lock);
- 
- 	/*
-@@ -1524,13 +1596,8 @@ static void remote_partition_disable(struct cpuset *cs, struct tmpmasks *tmp)
- 	WARN_ON_ONCE(!cpumask_subset(tmp->new_cpus, subpartitions_cpus));
- 
- 	spin_lock_irq(&callback_lock);
--	cpumask_andnot(subpartitions_cpus,
--		       subpartitions_cpus, tmp->new_cpus);
--	cpumask_and(tmp->new_cpus,
--		    tmp->new_cpus, cpu_active_mask);
--	cpumask_or(top_cpuset.effective_cpus,
--		   top_cpuset.effective_cpus, tmp->new_cpus);
- 	list_del_init(&cs->remote_sibling);
-+	partition_xcpus_del(cs->partition_root_state, NULL, tmp->new_cpus);
- 	cs->partition_root_state = -cs->partition_root_state;
- 	if (!cs->prs_err)
- 		cs->prs_err = PERR_INVCPUS;
-@@ -1557,6 +1624,7 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *newmask,
- 			       struct tmpmasks *tmp)
- {
- 	bool adding, deleting;
-+	int prs = cs->partition_root_state;
- 
- 	if (WARN_ON_ONCE(!is_remote_partition(cs)))
- 		return;
-@@ -1580,20 +1648,10 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *newmask,
- 		goto invalidate;
- 
- 	spin_lock_irq(&callback_lock);
--	if (adding) {
--		cpumask_or(subpartitions_cpus,
--			   subpartitions_cpus, tmp->addmask);
--		cpumask_andnot(top_cpuset.effective_cpus,
--			       top_cpuset.effective_cpus, tmp->addmask);
--	}
--	if (deleting) {
--		cpumask_andnot(subpartitions_cpus,
--			       subpartitions_cpus, tmp->delmask);
--		cpumask_and(tmp->delmask,
--			    tmp->delmask, cpu_active_mask);
--		cpumask_or(top_cpuset.effective_cpus,
--			   top_cpuset.effective_cpus, tmp->delmask);
--	}
-+	if (adding)
-+		partition_xcpus_add(prs, NULL, tmp->addmask);
-+	if (deleting)
-+		partition_xcpus_del(prs, NULL, tmp->delmask);
- 	spin_unlock_irq(&callback_lock);
- 
- 	/*
-@@ -1676,11 +1734,11 @@ static bool prstate_housekeeping_conflict(int prstate, struct cpumask *new_cpus)
-  * @tmp:     Temporary addmask and delmask
-  * Return:   0 or a partition root state error code
-  *
-- * For partcmd_enable, the cpuset is being transformed from a non-partition
-- * root to a partition root. The effective_xcpus (cpus_allowed if effective_xcpus
-- * not set) mask of the given cpuset will be taken away from parent's
-- * effective_cpus. The function will return 0 if all the CPUs listed in
-- * effective_xcpus can be granted or an error code will be returned.
-+ * For partcmd_enable*, the cpuset is being transformed from a non-partition
-+ * root to a partition root. The effective_xcpus (cpus_allowed if
-+ * effective_xcpus not set) mask of the given cpuset will be taken away from
-+ * parent's effective_cpus. The function will return 0 if all the CPUs listed
-+ * in effective_xcpus can be granted or an error code will be returned.
-  *
-  * For partcmd_disable, the cpuset is being transformed from a partition
-  * root back to a non-partition root. Any CPUs in effective_xcpus will be
-@@ -1695,7 +1753,7 @@ static bool prstate_housekeeping_conflict(int prstate, struct cpumask *new_cpus)
-  *
-  * For partcmd_invalidate, the current partition will be made invalid.
-  *
-- * The partcmd_enable and partcmd_disable commands are used by
-+ * The partcmd_enable* and partcmd_disable commands are used by
-  * update_prstate(). An error code may be returned and the caller will check
-  * for error.
-  *
-@@ -1760,7 +1818,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 
- 	nocpu = tasks_nocpu_error(parent, cs, xcpus);
- 
--	if (cmd == partcmd_enable) {
-+	if ((cmd == partcmd_enable) || (cmd == partcmd_enablei)) {
- 		/*
- 		 * Enabling partition root is not allowed if its
- 		 * effective_xcpus is empty or doesn't overlap with
-@@ -1783,6 +1841,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 		cpumask_copy(tmp->delmask, xcpus);
- 		deleting = true;
- 		subparts_delta++;
-+		new_prs = (cmd == partcmd_enable) ? PRS_ROOT : PRS_ISOLATED;
- 	} else if (cmd == partcmd_disable) {
- 		/*
- 		 * May need to add cpus to parent's effective_cpus for
-@@ -1792,6 +1851,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 			  cpumask_and(tmp->addmask, xcpus, parent->effective_xcpus);
- 		if (adding)
- 			subparts_delta--;
-+		new_prs = PRS_MEMBER;
- 	} else if (newmask) {
- 		/*
- 		 * Empty cpumask is not allowed
-@@ -1940,37 +2000,24 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 	 * newly deleted ones will be added back to effective_cpus.
- 	 */
- 	spin_lock_irq(&callback_lock);
--	if (adding) {
--		if (parent == &top_cpuset)
--			cpumask_andnot(subpartitions_cpus,
--				       subpartitions_cpus, tmp->addmask);
--		/*
--		 * Some of the CPUs in effective_xcpus might have been offlined.
--		 */
--		cpumask_or(parent->effective_cpus,
--			   parent->effective_cpus, tmp->addmask);
--		cpumask_and(parent->effective_cpus,
--			    parent->effective_cpus, cpu_active_mask);
--	}
--	if (deleting) {
--		if (parent == &top_cpuset)
--			cpumask_or(subpartitions_cpus,
--				   subpartitions_cpus, tmp->delmask);
--		cpumask_andnot(parent->effective_cpus,
--			       parent->effective_cpus, tmp->delmask);
--	}
--
--	if (is_partition_valid(parent)) {
--		parent->nr_subparts += subparts_delta;
--		WARN_ON_ONCE(parent->nr_subparts < 0);
--	}
--
- 	if (old_prs != new_prs) {
- 		cs->partition_root_state = new_prs;
- 		if (new_prs <= 0)
- 			cs->nr_subparts = 0;
- 	}
-+	/*
-+	 * Adding to parent's effective_cpus means deletion CPUs from cs
-+	 * and vice versa.
-+	 */
-+	if (adding)
-+		partition_xcpus_del(old_prs, parent, tmp->addmask);
-+	if (deleting)
-+		partition_xcpus_add(new_prs, parent, tmp->delmask);
- 
-+	if (is_partition_valid(parent)) {
-+		parent->nr_subparts += subparts_delta;
-+		WARN_ON_ONCE(parent->nr_subparts < 0);
-+	}
- 	spin_unlock_irq(&callback_lock);
- 
- 	if ((old_prs != new_prs) && (cmd == partcmd_update))
-@@ -2948,6 +2995,7 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 	int err = PERR_NONE, old_prs = cs->partition_root_state;
- 	struct cpuset *parent = parent_cs(cs);
- 	struct tmpmasks tmpmask;
-+	bool new_xcpus_state = false;
- 
- 	if (old_prs == new_prs)
- 		return 0;
-@@ -2977,6 +3025,9 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 		goto out;
- 
- 	if (!old_prs) {
-+		enum partition_cmd cmd = (new_prs == PRS_ROOT)
-+				       ? partcmd_enable : partcmd_enablei;
-+
- 		/*
- 		 * cpus_allowed cannot be empty.
- 		 */
-@@ -2985,19 +3036,18 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 			goto out;
- 		}
- 
--		err = update_parent_effective_cpumask(cs, partcmd_enable,
--						      NULL, &tmpmask);
-+		err = update_parent_effective_cpumask(cs, cmd, NULL, &tmpmask);
- 		/*
- 		 * If an attempt to become local partition root fails,
- 		 * try to become a remote partition root instead.
- 		 */
--		if (err && remote_partition_enable(cs, &tmpmask))
-+		if (err && remote_partition_enable(cs, new_prs, &tmpmask))
- 			err = 0;
- 	} else if (old_prs && new_prs) {
- 		/*
- 		 * A change in load balance state only, no change in cpumasks.
- 		 */
--		;
-+		new_xcpus_state = true;
- 	} else {
- 		/*
- 		 * Switching back to member is always allowed even if it
-@@ -3029,6 +3079,8 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 	WRITE_ONCE(cs->prs_err, err);
- 	if (!is_partition_valid(cs))
- 		reset_partition_data(cs);
-+	else if (new_xcpus_state)
-+		partition_xcpus_newstate(old_prs, new_prs, cs->effective_xcpus);
- 	spin_unlock_irq(&callback_lock);
- 
- 	/* Force update if switching back to member */
-@@ -3386,6 +3438,7 @@ typedef enum {
- 	FILE_SUBPARTS_CPULIST,
- 	FILE_EXCLUSIVE_CPULIST,
- 	FILE_EFFECTIVE_XCPULIST,
-+	FILE_ISOLATED_CPULIST,
- 	FILE_CPU_EXCLUSIVE,
- 	FILE_MEM_EXCLUSIVE,
- 	FILE_MEM_HARDWALL,
-@@ -3582,6 +3635,9 @@ static int cpuset_common_seq_show(struct seq_file *sf, void *v)
- 	case FILE_SUBPARTS_CPULIST:
- 		seq_printf(sf, "%*pbl\n", cpumask_pr_args(subpartitions_cpus));
- 		break;
-+	case FILE_ISOLATED_CPULIST:
-+		seq_printf(sf, "%*pbl\n", cpumask_pr_args(isolated_cpus));
-+		break;
- 	default:
- 		ret = -EINVAL;
- 	}
-@@ -3875,6 +3931,13 @@ static struct cftype dfl_files[] = {
- 		.flags = CFTYPE_ONLY_ON_ROOT | CFTYPE_DEBUG,
- 	},
- 
-+	{
-+		.name = "cpus.isolated",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_ISOLATED_CPULIST,
-+		.flags = CFTYPE_ONLY_ON_ROOT | CFTYPE_DEBUG,
-+	},
-+
- 	{ }	/* terminate */
- };
- 
-@@ -4194,6 +4257,7 @@ int __init cpuset_init(void)
- 	BUG_ON(!alloc_cpumask_var(&top_cpuset.effective_xcpus, GFP_KERNEL));
- 	BUG_ON(!alloc_cpumask_var(&top_cpuset.exclusive_cpus, GFP_KERNEL));
- 	BUG_ON(!zalloc_cpumask_var(&subpartitions_cpus, GFP_KERNEL));
-+	BUG_ON(!zalloc_cpumask_var(&isolated_cpus, GFP_KERNEL));
- 
- 	cpumask_setall(top_cpuset.cpus_allowed);
- 	nodes_setall(top_cpuset.mems_allowed);
--- 
-2.39.3
+IPv4/IPv6 fragmentation and IPv4/IPv6 TCP segmentation
+do not result in a trivial multiplication of the standard 1500 byte
+ethernet L3 MTU.
+Indeed aggregating 2 1500 L3 mtu frames results in *different* sized
+frames depending on which type of aggregation you do.
+(and for tcp it even depends on the number and size of tcp options,
+though it is often assumed that those take up 12 bytes, since that's the
+normal for Linux-to-Linux tcp connections)
 
+For example if you aggregate N standard Linux ipv6/tcp L3 1500 mtu frames,
+this means you have
+N frames: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
+payload (1500-12-20-40=3D1500-72=3D1428)
+post aggregation:
+1 frame: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
+payload (N*1428)
+
+so N * 1500 =3D=3D N * (72 + 1428) --> 1 * (72 + N * 1428)
+
+That value of 72 is instead 52 for 'standard Linux ipv4/tcp),
+it's 40/60 if there's no tcp options (which I think happens when
+talking to windows)
+it's different still with ipv4 fragmentation... and again different
+with ipv6 fragmentation...
+etc.
+
+ie. 15000 L3 mtu is exactly as meaningless as 14000 L3 mtu.
+Either way you don't get full frames.
+
+As such I'd recommend going with whatever is the largest mtu that can
+be meaningfully made to fit in 16K with all the NCM header overhead.
+That's likely closer to 15500-16000 (though I have *not* checked).
+
+> But my commit text didn't mention this
+> properly which was a mistake on my behalf. But when I looked at the
+> code, limiting the max segment size 15014 would force the practical
+> max_mtu to not cross 15000 although theoretical max_mtu was set to:
+> (GETHER_MAX_MTU_SIZE - 15412) during registration of net device.
+>
+> So my assumption of limiting it to 15000 was wrong. It must be limited
+> to 15412 as mentioned in u_ether.c  This inturn means we must limit
+> max_segment_size to:
+> GETHER_MAX_ETH_FRAME_LEN (GETHER_MAX_MTU_SIZE + ETH_HLEN)
+> as mentioned in u_ether.c.
+>
+> I wanted to confirm that setting MAX_DATAGRAM_SIZE to
+> GETHER_MAX_ETH_FRAME_LEN was correct.
+>
+> 2. I am not actually able to test with MTU beyond 15000. When my host
+> device is a linux machine, the cdc_ncm.c limits max_segment_size to:
+> CDC_NCM_MAX_DATAGRAM_SIZE               8192    /* bytes */
+
+In practice you get 50% of the benefits of infinitely large mtu by
+going from 1500 to ~2980.
+you get 75% of the benefits by going to ~6K
+you get 87.5% of the benefits by going to ~12K
+the benefits of going even higher are smaller and smaller...
+
+If the host side is limited to 8192, maybe we should match that here too?
+
+But the host side limitation of 8192 doesn't seem particularly sane either.=
+..
+Maybe we should relax that instead?
+
+(especially since for things like tcp zero copy you want an mtu which
+is slighly more then N * 4096,
+ie. around 4.5KB, 8.5KB, 12.5KB or something like that)
+
+> When connected to windows machine, I am able to set the mtu to a max
+> value of 15000. So not sure how to test the patch if I set the
+> max_segment_size to GETHER_MAX_ETH_FRAME_LEN.
+>
+> By pasting the diff, I wanted to confirm both the above queries.
+>
+> And you are right, while assigning value to ecm.wMaxSegmentSize, we must
+> use cpu_to_le16(...). Will ensure to make this change in v2. It worked
+> without that too, not sure how.
