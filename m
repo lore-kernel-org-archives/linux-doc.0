@@ -1,127 +1,121 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A032913AC7
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8F414295
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 12:18:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="KSeigh4h"
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76909BD
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 04:28:05 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9a645e54806so311142366b.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 04:28:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fN+CMP8c"
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E40BE
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 05:18:04 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99c3d3c3db9so325312466b.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 05:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1697196484; x=1697801284; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6cnMw53+R47+MFib4YB36nR2q3eoIS+UUIxGL66EDm0=;
-        b=KSeigh4huxGOVvgKqThI/z0jBmGos4wZ4HUh2xquYMaCj7bzRkeX2GZrt2cPWybzqv
-         GlxGYXs4lEuodNzwHiSbYU1ZBINOcK0HjdkL+fh2ZY5PUm1nkUWQAmwQhhTzl/G5zFCw
-         yxFfvxWWfpKG5hLz7RvNky/xNQtlO0N1BIjuLYisaU7tmcxQ2scVn/IrwcCT+VGEOPQ/
-         Y9F6XR0CRtx9NWyPovr+O/8N/tLi7I8GoRAUO23pQ/Yp/mM1Eko9NJKfeZdkye27YuNA
-         T43zNSPSNBBZd9oydHMwVGD8xDdaXMIgWWAR3GGTUH8i7pSeu5QufzVnbvYfBC1Uvu+E
-         Y78Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697196484; x=1697801284;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1697199483; x=1697804283; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6cnMw53+R47+MFib4YB36nR2q3eoIS+UUIxGL66EDm0=;
-        b=eMlgYaJMTwEew9qfalNfD72HVf+O3kTXvca5ulIpLOPfKGpL/RoHKDW6rbN8Ip2nwa
-         RmXmoMrwaZfxyylwkWS0PJktjTRbaRxsKOvg0Lrbul/UwBeX+5nK0B9LoahMf1cSW/Wj
-         BG7pdGR4zzO/GaVeTHjskw3in8Su4c0nadGhiAn4ZxT5SF/wyNJJa30SL7QEc40MiVUQ
-         c2pe2jHWzRFzUrKJjhfuY3JGZlhdc9ILSKU11gwWoeLVwR13aTQRA9TisRc/EdonDP5N
-         SNFSacK2qTe1N7QsVSjtyVb4CBAhabBYlincmEkadO18BuEuQYc/JN8vuS397A/5N2/c
-         NJCw==
-X-Gm-Message-State: AOJu0YxtvLL7/FI/NbjGMblzhgyAbQ8/2tPbRmaXmmqQVuU2BxZ02aTq
-	y+KrGFIJa1iLwBulcoTtF9OWc3IO/Ly/4wr8f5I=
-X-Google-Smtp-Source: AGHT+IHkskFgOYDfIrfH9HExdl1LoghSxriG0P6FhrNfNjYQ8e9kxcoswcqoBEESrbiOty9NwflvJw==
-X-Received: by 2002:a17:906:259:b0:9ad:c763:c3fd with SMTP id 25-20020a170906025900b009adc763c3fdmr23585879ejl.28.1697196483672;
-        Fri, 13 Oct 2023 04:28:03 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id w13-20020a170906480d00b0098d2d219649sm12453383ejq.174.2023.10.13.04.28.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 04:28:03 -0700 (PDT)
-Date: Fri, 13 Oct 2023 13:28:01 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-	pabeni@redhat.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: netlink: clean up after deprecating
- version
-Message-ID: <ZSkpwRJfk4NDmdMd@nanopsycho>
-References: <20231012154315.587383-1-kuba@kernel.org>
+        bh=kfMcaSPK1nNALi0ZL2/STHAwFBjikJyI73GljAs8CFY=;
+        b=fN+CMP8czqx+zKvehOpSezbKnn4yGuWRS59DGkEVqSyFoz54Ky9XBIOIEPcp4BIzCm
+         1f3e2MenjsQ/U9J3UwBGHV7ykr055TonK5NvMg81vNxUvgzs1EjkllLqMcT0pt6Gfp05
+         UN3FwUZLPzVCZM8a/ANAUDnIS4BQTjPPyx0/OYWMTvNXrhIkDo7REemt2mCRXCT2pRqp
+         BXiFsBUEMlRCUoTBj0J7U4ZbLKQ95PrcP97yq8Ayf9H9/KWCbNG1POiFDoivyLgKlT93
+         j0mcTHDZ8yzHnH10kPWpuApqq+OuxtmXpCNvIe9V/ghixUb4yS+f+VrG5OSFboE5ACa8
+         +60Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697199483; x=1697804283;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kfMcaSPK1nNALi0ZL2/STHAwFBjikJyI73GljAs8CFY=;
+        b=cUvh8o5Ii8X86wmmBgqFFtENZ85feC2qZlOhVwl4j/ZROdB56t50J0rje+51fBACPY
+         KOOuPii8iNTXVF6BaaipXU4Llu7lhayTQRDzl7TCtRJIRPH6zWP36eV9/r8zbUm5hfyD
+         BCdTpDdgLeT8csLENSug43phEAyPf5CLAbOZyt0VtCt9uso6h7O62nl5/UgSbVpTUp7J
+         T6gWzfda0aRLUWa65fa2b0uAqgEmCv6S/twqSrnnKadb5DTBySPD77i15GtMdEy1Z+Jm
+         AwLcew5GsCVSOhLaRkzan/UvxLPUMoxcTwmGeiUgqFlowD8QB/vOBybl/aZrvTU/JBPW
+         Omeg==
+X-Gm-Message-State: AOJu0YwUOa7AbDExN/CcXvP6Drfpohu3Ndngx+VXrelhPHUFX2qP1i5s
+	tNb2MlbyO4LbZ+OhTEsn273wwQ1z3WpirOdLziIVow==
+X-Google-Smtp-Source: AGHT+IGQJ9SEIC8vE0aqfRJOcMNPn+seOjJOdw/SPreQJQAaFkIsSMzyhkSV+UwdtrZcN9HIBGcHUUvxmzb9X/Yth+w=
+X-Received: by 2002:a17:906:fe07:b0:9bd:e036:387d with SMTP id
+ wy7-20020a170906fe0700b009bde036387dmr587057ejb.21.1697199483200; Fri, 13 Oct
+ 2023 05:18:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231012154315.587383-1-kuba@kernel.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <20220927131518.30000-1-ojeda@kernel.org> <20220927131518.30000-26-ojeda@kernel.org>
+ <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net> <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
+ <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
+ <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com>
+ <20231012104741.GN6307@noisy.programming.kicks-ass.net> <CABCJKufEagwJ=TQnmVSK07RDjsPUt=3JGtwnK9ASmFqb7Vx8JQ@mail.gmail.com>
+ <202310121130.256F581823@keescook> <CAOcBZOTed1a1yOimdUN9yuuysZ1h6VXa57+5fLAE99SZxCwBMQ@mail.gmail.com>
+ <20231013075005.GB12118@noisy.programming.kicks-ass.net>
+In-Reply-To: <20231013075005.GB12118@noisy.programming.kicks-ass.net>
+From: Ramon de C Valle <rcvalle@google.com>
+Date: Fri, 13 Oct 2023 05:17:50 -0700
+Message-ID: <CAOcBZOTP_vQuFaqREqy-hkG69aBvJ+xrhEQi_EFKvtsNjne1dw@mail.gmail.com>
+Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Kees Cook <keescook@chromium.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	patches@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@google.com>, 
+	David Gow <davidgow@google.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Thu, Oct 12, 2023 at 05:43:15PM CEST, kuba@kernel.org wrote:
->Jiri moved version to legacy specs in commit 0f07415ebb78 ("netlink:
->specs: don't allow version to be specified for genetlink").
->Update the documentation.
+On Fri, Oct 13, 2023 at 12:50=E2=80=AFAM Peter Zijlstra <peterz@infradead.o=
+rg> wrote:
 >
->Signed-off-by: Jakub Kicinski <kuba@kernel.org>
->---
-> .../userspace-api/netlink/genetlink-legacy.rst     | 14 ++++++++++++++
-> Documentation/userspace-api/netlink/specs.rst      |  5 -----
-> 2 files changed, 14 insertions(+), 5 deletions(-)
+> On Thu, Oct 12, 2023 at 03:15:12PM -0700, Ramon de C Valle wrote:
 >
->diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
->index 40b82ad5d54a..11710086aba0 100644
->--- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
->+++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
->@@ -11,6 +11,20 @@ the ``genetlink-legacy`` protocol level.
-> Specification
-> =============
-> 
->+Gobals
->+------
->+
->+Attributes listed directly at the root level of the spec file.
->+
->+version
->+~~~~~~~
->+
->+Generic Netlink family version, default is 1.
->+
->+``version`` has historically been used to introduce family changes
->+which may break backwards compatibility. Since breaking changes
->+are generally not allowed ``version`` is very rarely used.
-
-"should never be used" perhaps?
-
-
->+
-> Attribute type nests
-> --------------------
-> 
->diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
->index cc4e2430997e..40dd7442d2c3 100644
->--- a/Documentation/userspace-api/netlink/specs.rst
->+++ b/Documentation/userspace-api/netlink/specs.rst
->@@ -86,11 +86,6 @@ name
-> Name of the family. Name identifies the family in a unique way, since
-> the Family IDs are allocated dynamically.
-> 
->-version
->-~~~~~~~
->-
->-Generic Netlink family version, default is 1.
->-
-> protocol
-> ~~~~~~~~
-> 
->-- 
->2.41.0
+> > [1]:
+> > https://doc.rust-lang.org/nightly/unstable-book/language-features/cfi-e=
+ncoding.html
 >
+> I'm sorry, but that looks like a comment from where I'm sitting :-(
+> Worst part is it being on a line of it's own and thus unrelated to
+> anything.
+>
+> This rust syntax is horrific..
+
+I understand where you're coming from. I'm still getting used to Rust synta=
+x.
+
+>
+>
+> > [2]:
+> > https://doc.rust-lang.org/book/ch19-04-advanced-types.html#using-the-ne=
+wtype-pattern-for-type-safety-and-abstraction
+>
+> I don't speak enough rust to even begin following this :/
+>
+> > [3]: Wrapping a type in a struct should achieve something similar even
+> > without using the cfi_encoding attribute since the encoding for structs=
+ in
+> > both are <length><name>, where <name> is <unscoped-name>.
+>
+> You're not talking about C, right?
+
+Both C and repr(C) Rust structs have this encoding, but I understand
+the problems with doing this in C since it doesn't have
+repr(transparent) structs so there would be a lot of casting back and
+forth. Maybe there is an alternative or this could be done for less
+used function pairs?
