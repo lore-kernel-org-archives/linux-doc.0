@@ -1,156 +1,219 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4672315B0
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 03:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD0C63DC;
+	Fri, 13 Oct 2023 06:48:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id B20E1B7;
-	Thu, 12 Oct 2023 20:47:50 -0700 (PDT)
-Received: (from willy@localhost)
-	by pcw.home.local (8.15.2/8.15.2/Submit) id 39D3lCCr016307;
-	Fri, 13 Oct 2023 05:47:12 +0200
-Date: Fri, 13 Oct 2023 05:47:12 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Solar Designer <solar@openwall.com>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
-        workflows@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Jiri Kosina <jikos@kernel.org>
-Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros
- relaxed their rules
-Message-ID: <20231013034712.GC15920@1wt.eu>
-References: <20231007140454.25419-1-w@1wt.eu>
- <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com>
- <20231007163936.GA26837@1wt.eu>
- <20231012215122.GA8245@openwall.com>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDFCF3;
+	Thu, 12 Oct 2023 23:48:08 -0700 (PDT)
+Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.57])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4S6H7s4rZCzrTG6;
+	Fri, 13 Oct 2023 14:45:29 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Fri, 13 Oct 2023 14:48:06 +0800
+From: Yunsheng Lin <linyunsheng@huawei.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
+	<linyunsheng@huawei.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Alexander
+ Duyck <alexander.duyck@gmail.com>, Liang Chen <liangchen.linux@gmail.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Dima Tisnek
+	<dimaqq@gmail.com>, Jesper Dangaard Brouer <hawk@kernel.org>, Ilias
+ Apalodimas <ilias.apalodimas@linaro.org>, Eric Dumazet <edumazet@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
+	<linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
+Subject: [PATCH net-next v11 5/6] page_pool: update document about fragment API
+Date: Fri, 13 Oct 2023 14:48:25 +0800
+Message-ID: <20231013064827.61135-6-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20231013064827.61135-1-linyunsheng@huawei.com>
+References: <20231013064827.61135-1-linyunsheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231012215122.GA8245@openwall.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+	RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Thu, Oct 12, 2023 at 11:51:22PM +0200, Solar Designer wrote:
-> Hi all,
-> 
-> Thank you (especially Willy) for your effort on this.
-> 
-> Out of the 3 paragraphs, the first one looks good to me as-is, but for
-> the last two I propose the slightly edited versions below.
-> 
-> On Sat, Oct 07, 2023 at 04:04:54PM +0200, Willy Tarreau wrote:
-> > +Please note that the respective policies and rules are different since
-> > +the 3 lists pursue different goals.  Coordinating between the kernel
-> > +security team and other teams is difficult since occasional embargoes
-> > +start from the availability of a fix for the kernel security team, while
-> > +for other lists they generally start from the initial post to the list,
-> > +regardless of the availability of a fix.
-> 
-> ---
-> Please note that the respective policies and rules are different since
-> the 3 lists pursue different goals.  Coordinating between the kernel
-> security team and other teams is difficult since for the kernel security
-> team occasional embargoes (as subject to a maximum allowed number of
-> days) start from the availability of a fix, while for "linux-distros"
-> they start from the initial post to the list regardless of the
-> availability of a fix.
-> ---
-> 
-> I added the part in braces to explain why the difference in when
-> embargoes start matters.  I also moved part of that sentence for
-> consistency.  Finally, I replaced "other lists" with specific reference
-> to "linux-distros" because this paragraph talks only about 3 specific
-> lists and on "oss-security" there are no embargoes.
+As more drivers begin to use the fragment API, update the
+document about how to decide which API to use for the
+driver author.
 
-It's fine by me as it doesn't change the spirit but improves the wording.
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+CC: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Alexander Duyck <alexander.duyck@gmail.com>
+CC: Liang Chen <liangchen.linux@gmail.com>
+CC: Alexander Lobakin <aleksander.lobakin@intel.com>
+CC: Dima Tisnek <dimaqq@gmail.com>
+---
+ Documentation/networking/page_pool.rst |  4 +-
+ include/net/page_pool/helpers.h        | 93 ++++++++++++++++++++++----
+ 2 files changed, 82 insertions(+), 15 deletions(-)
 
-> On Sat, Oct 07, 2023 at 06:39:36PM +0200, Willy Tarreau wrote:
-> > On Sat, Oct 07, 2023 at 06:30:11PM +0200, Vegard Nossum wrote:
-> > > On 07/10/2023 16:04, Willy Tarreau wrote:
-> > > > +As such, the kernel security team strongly recommends that reporters of
-> > > > +potential security issues DO NOT contact the "linux-distros" mailing
-> > > > +list BEFORE a fix is accepted by the affected code's maintainers and you
-> > > 
-> > > is s/BEFORE/UNTIL/ clearer?
-> > 
-> > Probably, yes.
-> 
-> I agree.  Also, the sentence jumps from "reporters" to "you" implying
-> that "you" is a reporter, but maybe it's better to make that explicit.
+diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+index 215ebc92752c..0c0705994f51 100644
+--- a/Documentation/networking/page_pool.rst
++++ b/Documentation/networking/page_pool.rst
+@@ -58,7 +58,9 @@ a page will cause no race conditions is enough.
+ 
+ .. kernel-doc:: include/net/page_pool/helpers.h
+    :identifiers: page_pool_put_page page_pool_put_full_page
+-		 page_pool_recycle_direct page_pool_dev_alloc_pages
++		 page_pool_recycle_direct page_pool_cache_free
++		 page_pool_dev_alloc_pages page_pool_dev_alloc_frag
++		 page_pool_dev_alloc page_pool_dev_cache_alloc
+ 		 page_pool_get_dma_addr page_pool_get_dma_dir
+ 
+ .. kernel-doc:: net/core/page_pool.c
+diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+index 674f480d9f2e..7550beeacf3d 100644
+--- a/include/net/page_pool/helpers.h
++++ b/include/net/page_pool/helpers.h
+@@ -8,23 +8,46 @@
+ /**
+  * DOC: page_pool allocator
+  *
+- * The page_pool allocator is optimized for the XDP mode that
+- * uses one frame per-page, but it can fallback on the
+- * regular page allocator APIs.
++ * The page_pool allocator is optimized for recycling page or page fragment used
++ * by skb packet and xdp frame.
+  *
+- * Basic use involves replacing alloc_pages() calls with the
+- * page_pool_alloc_pages() call.  Drivers should use
+- * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
++ * Basic use involves replacing napi_alloc_frag() and alloc_pages() calls with
++ * page_pool_cache_alloc() and page_pool_alloc(), which allocate memory with or
++ * without page splitting depending on the requested memory size.
+  *
+- * The API keeps track of in-flight pages, in order to let API users know
+- * when it is safe to free a page_pool object.  Thus, API users
+- * must call page_pool_put_page() to free the page, or attach
+- * the page to a page_pool-aware object like skbs marked with
+- * skb_mark_for_recycle().
++ * If the driver knows that it always requires full pages or its allocations are
++ * always smaller than half a page, it can use one of the more specific API
++ * calls:
+  *
+- * API users must call page_pool_put_page() once on a page, as it
+- * will either recycle the page, or in case of refcnt > 1, it will
+- * release the DMA mapping and in-flight state accounting.
++ * 1. page_pool_alloc_pages(): allocate memory without page splitting when
++ * driver knows that the memory it need is always bigger than half of the page
++ * allocated from page pool. There is no cache line dirtying for 'struct page'
++ * when a page is recycled back to the page pool.
++ *
++ * 2. page_pool_alloc_frag(): allocate memory with page splitting when driver
++ * knows that the memory it need is always smaller than or equal to half of the
++ * page allocated from page pool. Page splitting enables memory saving and thus
++ * avoids TLB/cache miss for data access, but there also is some cost to
++ * implement page splitting, mainly some cache line dirtying/bouncing for
++ * 'struct page' and atomic operation for page->pp_frag_count.
++ *
++ * The API keeps track of in-flight pages, in order to let API users know when
++ * it is safe to free a page_pool object, the API users must call
++ * page_pool_put_page() or page_pool_cache_free() to free the pp page or the pp
++ * buffer, or attach the pp page or the pp buffer to a page_pool-aware object
++ * like skbs marked with skb_mark_for_recycle().
++ *
++ * page_pool_put_page() may be called multi times on the same page if a page is
++ * split into multi fragments. For the last fragment, it will either recycle the
++ * page, or in case of page->_refcount > 1, it will release the DMA mapping and
++ * in-flight state accounting.
++ *
++ * dma_sync_single_range_for_device() is only called for the last fragment when
++ * page_pool is created with PP_FLAG_DMA_SYNC_DEV flag, so it depends on the
++ * last freed fragment to do the sync_for_device operation for all fragments in
++ * the same page when a page is split, the API user must setup pool->p.max_len
++ * and pool->p.offset correctly and ensure that page_pool_put_page() is called
++ * with dma_sync_size being -1 for fragment API.
+  */
+ #ifndef _NET_PAGE_POOL_HELPERS_H
+ #define _NET_PAGE_POOL_HELPERS_H
+@@ -73,6 +96,17 @@ static inline struct page *page_pool_dev_alloc_pages(struct page_pool *pool)
+ 	return page_pool_alloc_pages(pool, gfp);
+ }
+ 
++/**
++ * page_pool_dev_alloc_frag() - allocate a page fragment.
++ * @pool: pool from which to allocate
++ * @offset: offset to the allocated page
++ * @size: requested size
++ *
++ * Get a page fragment from the page allocator or page_pool caches.
++ *
++ * Return:
++ * Return allocated page fragment, otherwise return NULL.
++ */
+ static inline struct page *page_pool_dev_alloc_frag(struct page_pool *pool,
+ 						    unsigned int *offset,
+ 						    unsigned int size)
+@@ -111,6 +145,19 @@ static inline struct page *page_pool_alloc(struct page_pool *pool,
+ 	return page;
+ }
+ 
++/**
++ * page_pool_dev_alloc() - allocate a page or a page fragment.
++ * @pool: pool from which to allocate
++ * @offset: offset to the allocated page
++ * @size: in as the requested size, out as the allocated size
++ *
++ * Get a page or a page fragment from the page allocator or page_pool caches
++ * depending on the requested size in order to allocate memory with least memory
++ * utilization and performance penalty.
++ *
++ * Return:
++ * Return allocated page or page fragment, otherwise return NULL.
++ */
+ static inline struct page *page_pool_dev_alloc(struct page_pool *pool,
+ 					       unsigned int *offset,
+ 					       unsigned int *size)
+@@ -133,6 +180,16 @@ static inline void *page_pool_cache_alloc(struct page_pool *pool,
+ 	return page_address(page) + offset;
+ }
+ 
++/**
++ * page_pool_dev_cache_alloc() - allocate a cache.
++ * @pool: pool from which to allocate
++ * @size: in as the requested size, out as the allocated size
++ *
++ * Get a cache from the page allocator or page_pool caches.
++ *
++ * Return:
++ * Return the addr for the allocated cache, otherwise return NULL.
++ */
+ static inline void *page_pool_dev_cache_alloc(struct page_pool *pool,
+ 					      unsigned int *size)
+ {
+@@ -280,6 +337,14 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
+ #define PAGE_POOL_32BIT_ARCH_WITH_64BIT_DMA	\
+ 		(sizeof(dma_addr_t) > sizeof(unsigned long))
+ 
++/**
++ * page_pool_cache_free() - free a cache into the page_pool
++ * @pool: pool from which cache was allocated
++ * @data: addr of cache to be free
++ * @allow_direct: freed by the consumer, allow lockless caching
++ *
++ * Free a cache allocated from page_pool_dev_cache_alloc().
++ */
+ static inline void page_pool_cache_free(struct page_pool *pool, void *data,
+ 					bool allow_direct)
+ {
+-- 
+2.33.0
 
-Ah, I hate doing this, I generally avoid "you" and "we" in docs but
-given these ones are instructions it's easy to fall in the trap. I'll
-try to improve it.
-
-> > > > +have read the linux-distros wiki page above and you fully understand the
-> > > > +requirements that doing so will impose on you and the kernel community.
-> > > > +This also means that in general it doesn't make sense to Cc: both lists
-> > > > +at once, except for coordination if a fix remains under embargo. And in
-> > > > +general, please do not Cc: the kernel security list about fixes that
-> > > > +have already been merged.
-> 
-> This implies that in general a fix does not remain under embargo.
-
-This is most often the case.
-
-> However, contacting "linux-distros" only makes sense when a fix does
-> remain under embargo (either not yet pushed to a public list/repo, or
-> under the Linux kernel exception for a public not-too-revealing fix) -
-> otherwise, the issue should be brought to "oss-security" right away.
-> 
-> Edited:
-> 
-> ---
-> As such, the kernel security team strongly recommends that as a reporter
-> of a potential security issue you DO NOT contact the "linux-distros"
-> mailing list UNTIL a fix is accepted by the affected code's maintainers
-> and you have read the distros wiki page above and you fully understand
-> the requirements that contacting "linux-distros" will impose on you and
-> the kernel community.  This also means that in general it doesn't make
-> sense to Cc: both lists at once, except maybe for coordination if and
-> while an accepted fix has not yet been merged.  In other words, until a
-> fix is accepted do not Cc: "linux-distros", and after it's merged do not
-> Cc: the kernel security team.
-> ---
-> 
-> This allows possible Cc'ing of both lists in the time window between
-> "fix is accepted by the affected code's maintainers" and "merged".
-> Makes sense?  I worry this distinction between accepted and merged may
-> be overly complicated for some, but I don't have better wording.
-
-I think it's fine as is. I care a lot about giving clear instructions,
-especially for first-time reporters, for whom it's always particularly
-stressful to report a bug. With this update I think there's enough
-guidance and it should help, so OK for me.
-
-> > > I guess the problem with this would be if
-> > > somebody on s@k.o does a reply-all which would add distros right back in
-> > > the loop -OR- a patch has already been developed and included.
-> > 
-> > Then this would be deliberate, there would an in-reply-to so that would
-> > not be a problem. I really doubt anyone from s@k.o would Cc linux-distros
-> > anyway since it would imply disclosing some details from a reporter, and
-> > we do not do that, it's up to the reporter to do it if they want.
-> 
-> I think we don't want to complicate the setup, which we'd then have to
-> explain somewhere.  With my concern/edit above, also the logic isn't
-> that simple.
-
-Agreed, let's leave it to the reporter to do what they want with the
-instructions above and be done with it.
-
-Jiri, does your Acked-by still stand with these adjustment ? If so, I'll
-resend the updated version today or this week-end, as time permits.
-
-Thanks!
-Willy
