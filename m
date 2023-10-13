@@ -1,200 +1,100 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847751428A;
-	Fri, 13 Oct 2023 19:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3528D37A;
+	Fri, 13 Oct 2023 20:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gRho6fmQ"
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18CF5E3;
-	Fri, 13 Oct 2023 12:58:41 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39DIOoU6021535;
-	Fri, 13 Oct 2023 19:58:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=pX+uRLhqkPchUb0oySxhA1//1XowAmtf/SD2oT558aI=;
- b=gRho6fmQHSFbfISMjkkBBZ8wv8mb/0k+uijYOQlBvNQNqKajCcjpS9/ITxP1vbwb1UXK
- qR8aJDAmI3QjIYmKaCwb6PTjG4iQq/AdjcLDnWMI5yMhB/rQG3Vk7kS0eKDWHipg6Gs/
- h9WxaZRjrOiPJn+yR7WkR4qVVxnsy5ijqqqvK1IiSI4AARWVVI61BwYset66bV3OoR26
- QTajAZTC0AYapVzzyDnKxuDvPGIlqsWfdFk4gQpXVg32MgTL6WpynRVZimKSfVsGyYxq
- uMfRmaw3s5qSvPTzE08ohZZqqdDD76Bcyaca/6ATjhrHTMhYzDkorTXXBKwC9r/d2tL5 VQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tqaa2r949-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Oct 2023 19:58:32 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39DJwVm3011343
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Oct 2023 19:58:31 GMT
-Received: from [10.216.41.155] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 13 Oct
- 2023 12:58:27 -0700
-Message-ID: <b12eb7b1-54e7-406f-8c19-0046555b82d3@quicinc.com>
-Date: Sat, 14 Oct 2023 01:28:23 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+MuLCIv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 953FEC433C8;
+	Fri, 13 Oct 2023 20:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697228107;
+	bh=E3+dZ0gO7twUQSKLtNiS/mkH2B9x8cmNDaJpgepLg8o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Y+MuLCIvcVqb9CfklV543jhsCSzIgWsevDuqNSl5yfnYh20EYYFfg2orc7ZLpAYWx
+	 3lj/HShq8p/wIOEDd5opfnj8bR/AfQKeWWssVw6RDCOsh0oiQigxaXD3NJSeZdoqXZ
+	 g7jtQYS0YydDbm5V39DR1l/OKKuCmlMJy5Bpm7x8bfSQlJUfo05pkBXTh+HKjhnGtD
+	 UxLcz+2brd/hvjxuwnTAmF4aE85lTc8r7Vj+QgzRE0cQYdeU7vivt/+WDDvx1YesQo
+	 FLtpLXmBDH1uSXM3/43HSDByYJAmjXK/ULsR7vXl5dfnb0g9tEvgwZc7TjzcNmdeUg
+	 vwQa19h9Y878w==
+Date: Fri, 13 Oct 2023 13:15:05 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Richard Cochran <richardcochran@gmail.com>, Radu
+ Pirea <radu-nicolae.pirea@oss.nxp.com>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Michael Walle <michael@walle.cc>, Jacob
+ Keller <jacob.e.keller@intel.com>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v5 08/16] net: ethtool: Add a command to expose
+ current time stamping layer
+Message-ID: <20231013131505.2b27e3b8@kernel.org>
+In-Reply-To: <20231013175601.5mpyx7cjy6cp6sdb@skbuf>
+References: <20231009155138.86458-1-kory.maincent@bootlin.com>
+	<20231009155138.86458-9-kory.maincent@bootlin.com>
+	<2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
+	<20231010102343.3529e4a7@kmaincent-XPS-13-7390>
+	<20231013090020.34e9f125@kernel.org>
+	<20231013161446.st7tlemyaj3ggkgk@skbuf>
+	<20231013093056.4f915df1@kernel.org>
+	<20231013170903.p3ycicebnfrsmoks@skbuf>
+	<20231013104606.174664a2@kernel.org>
+	<20231013175601.5mpyx7cjy6cp6sdb@skbuf>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
- wMaxSegmentSize via configfs
-To: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        onathan Corbet
-	<corbet@lwn.net>,
-        Linyu Yuan <quic_linyyuan@quicinc.com>, <linux-usb@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_ppratap@quicinc.com>, <quic_wcheng@quicinc.com>,
-        <quic_jackp@quicinc.com>
-References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
- <20231009142005.21338-2-quic_kriskura@quicinc.com>
- <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
- <CANP3RGcCpNOuVpdV9n0AFxZo-wsfwi8OfYgBk1WHNHaEd-4V-Q@mail.gmail.com>
- <CANP3RGdY4LsOA6U5kuccApHCzL0_jBnY=pLOYrUuYtMZFTvnbw@mail.gmail.com>
- <d19d9d08-c119-4991-b460-49925f601d15@quicinc.com>
- <fad5a7fb-cce1-46bc-a0af-72405c76d107@quicinc.com>
- <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
- <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com>
- <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
-Content-Language: en-US
-From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: WUoyPTtJeotEsqBl2B8RdbnAfy2AcqvZ
-X-Proofpoint-ORIG-GUID: WUoyPTtJeotEsqBl2B8RdbnAfy2AcqvZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-13_11,2023-10-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=823
- phishscore=0 suspectscore=0 adultscore=0 clxscore=1015 impostorscore=0
- malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310130172
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, 13 Oct 2023 20:56:01 +0300 Vladimir Oltean wrote:
+> > > I'm not really sure what you're referring to, with SOF_..._DMA.
+> > > The DMA, if presented as a PHC as I am proposing, would play the role=
+ of
+> > > the hardware timestamp provider (think SOF_TIMESTAMPING_TX_HARDWARE |
+> > > SOF_TIMESTAMPING_RX_HARDWARE), so there will be no driver-visible
+> > > special socket option flags for DMA timestamping. =20
+> >=20
+> > Each packet may want different timestamp tho, especially on Tx it
+> > should be fairly easy for socket to request to get "real" MAC stamps,
+> > while most get cheaper DMA stamps. Currently some drivers run flow
+> > matching to find PTP packets and automatically give them better quality
+> > timestamps :(
+> >=20
+> > Even if at the config level we use PHCs we need to translate that into
+> > some SKBTX_* bit, don't we? =20
+>=20
+> I think Richard had something to say about that being wishful thinking:
+> https://lore.kernel.org/netdev/ZGw46hrpiqCVNeXS@hoboy.vegasvil.org/
 
+=F0=9F=A4=B7=EF=B8=8F
 
-On 10/14/2023 12:09 AM, Maciej Żenczykowski wrote:
-> On Thu, Oct 12, 2023 at 8:40 AM Krishna Kurapati PSSNV
-> <quic_kriskura@quicinc.com> wrote:
->>
->>
->>
->> On 10/12/2023 6:02 PM, Maciej Żenczykowski wrote:
->>> On Thu, Oct 12, 2023 at 1:48 AM Krishna Kurapati PSSNV
->>>
->>> Could you paste the full patch?
->>> This is hard to review without looking at much more context then email
->>> is providing
->>> (or, even better, send me a link to a CL in gerrit somewhere - for
->>> example aosp ACK mainline tree)
->>
->> Sure. Will provide a gerrit on ACK for review before posting v2.
->>
->> The intent of posting the diff was two fold:
->>
->> 1. The question Greg asked regarding why the max segment size was
->> limited to 15014 was valid. When I thought about it, I actually wanted
->> to limit the max MTU to 15000, so the max segment size automatically
->> needs to be limited to 15014.
-> 
-> Note that this is a *very* abstract value.
-> I get you want L3 MTU of 10 * 1500, but this value is not actually meaningful.
-> 
-> IPv4/IPv6 fragmentation and IPv4/IPv6 TCP segmentation
-> do not result in a trivial multiplication of the standard 1500 byte
-> ethernet L3 MTU.
-> Indeed aggregating 2 1500 L3 mtu frames results in *different* sized
-> frames depending on which type of aggregation you do.
-> (and for tcp it even depends on the number and size of tcp options,
-> though it is often assumed that those take up 12 bytes, since that's the
-> normal for Linux-to-Linux tcp connections)
-> 
-> For example if you aggregate N standard Linux ipv6/tcp L3 1500 mtu frames,
-> this means you have
-> N frames: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
-> payload (1500-12-20-40=1500-72=1428)
-> post aggregation:
-> 1 frame: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
-> payload (N*1428)
-> 
-> so N * 1500 == N * (72 + 1428) --> 1 * (72 + N * 1428)
-> 
-> That value of 72 is instead 52 for 'standard Linux ipv4/tcp),
-> it's 40/60 if there's no tcp options (which I think happens when
-> talking to windows)
-> it's different still with ipv4 fragmentation... and again different
-> with ipv6 fragmentation...
-> etc.
-> 
-> ie. 15000 L3 mtu is exactly as meaningless as 14000 L3 mtu.
-> Either way you don't get full frames.
-> 
-> As such I'd recommend going with whatever is the largest mtu that can
-> be meaningfully made to fit in 16K with all the NCM header overhead.
-> That's likely closer to 15500-16000 (though I have *not* checked).
-> 
->> But my commit text didn't mention this
->> properly which was a mistake on my behalf. But when I looked at the
->> code, limiting the max segment size 15014 would force the practical
->> max_mtu to not cross 15000 although theoretical max_mtu was set to:
->> (GETHER_MAX_MTU_SIZE - 15412) during registration of net device.
->>
->> So my assumption of limiting it to 15000 was wrong. It must be limited
->> to 15412 as mentioned in u_ether.c  This inturn means we must limit
->> max_segment_size to:
->> GETHER_MAX_ETH_FRAME_LEN (GETHER_MAX_MTU_SIZE + ETH_HLEN)
->> as mentioned in u_ether.c.
->>
->> I wanted to confirm that setting MAX_DATAGRAM_SIZE to
->> GETHER_MAX_ETH_FRAME_LEN was correct.
->>
->> 2. I am not actually able to test with MTU beyond 15000. When my host
->> device is a linux machine, the cdc_ncm.c limits max_segment_size to:
->> CDC_NCM_MAX_DATAGRAM_SIZE               8192    /* bytes */
-> 
-> In practice you get 50% of the benefits of infinitely large mtu by
-> going from 1500 to ~2980.
-> you get 75% of the benefits by going to ~6K
-> you get 87.5% of the benefits by going to ~12K
-> the benefits of going even higher are smaller and smaller...
->  > If the host side is limited to 8192, maybe we should match that here too?
+> On RX I'm not sure how you'd know in advance if the packet is going to
+> be routed to a socket that wants DMA or MAC timestamps. And having a
+> socket with hardware timestamps from one provider in one direction, and
+> another provider in the other direction, is.... not sane as a kernel API?
 
-Hi Maciej,
+For DC NICs all the timestamps are based on the same PHC. The use case
+is to get MAC/precise stamps for PTP and DMA/rough stamps for TCP CC.
 
-  Thanks for the detailed explanation. I agree with you on setting 
-device side also to 8192 instead of what max_mtu is present in u_ether 
-or practical max segment size possible.
+Agreed that stamps from different PHCs in different directions would=20
+be weird.
 
-> 
-> But the host side limitation of 8192 doesn't seem particularly sane either...
-> Maybe we should relax that instead?
-> 
-I really didn't understand why it was set to 8192 in first place.
-
-> (especially since for things like tcp zero copy you want an mtu which
-> is slighly more then N * 4096,
-> ie. around 4.5KB, 8.5KB, 12.5KB or something like that)
-> 
-
-I am not sure about host mode completely. If we want to increase though, 
-just increasing the MAX_DATAGRAM_SIZE to some bigger value help ? (I 
-don't know the entire code of cdc_ncm, so I might be wrong).
-
-Regards,
-Krishna,
+Thinking about it again we want the ability to configure the rx filter
+per stamping point. MAC stamps PTP frames and DMA stamps all the rest.
+For Tx we need to know whether app wanted DMA or MAC stamp (more
+or less whether it's PTP again, without running a classifier on the
+packet).
