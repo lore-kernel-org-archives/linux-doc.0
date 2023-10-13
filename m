@@ -1,100 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3528D37A;
-	Fri, 13 Oct 2023 20:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+MuLCIv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 953FEC433C8;
-	Fri, 13 Oct 2023 20:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697228107;
-	bh=E3+dZ0gO7twUQSKLtNiS/mkH2B9x8cmNDaJpgepLg8o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Y+MuLCIvcVqb9CfklV543jhsCSzIgWsevDuqNSl5yfnYh20EYYFfg2orc7ZLpAYWx
-	 3lj/HShq8p/wIOEDd5opfnj8bR/AfQKeWWssVw6RDCOsh0oiQigxaXD3NJSeZdoqXZ
-	 g7jtQYS0YydDbm5V39DR1l/OKKuCmlMJy5Bpm7x8bfSQlJUfo05pkBXTh+HKjhnGtD
-	 UxLcz+2brd/hvjxuwnTAmF4aE85lTc8r7Vj+QgzRE0cQYdeU7vivt/+WDDvx1YesQo
-	 FLtpLXmBDH1uSXM3/43HSDByYJAmjXK/ULsR7vXl5dfnb0g9tEvgwZc7TjzcNmdeUg
-	 vwQa19h9Y878w==
-Date: Fri, 13 Oct 2023 13:15:05 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Florian
- Fainelli <florian.fainelli@broadcom.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Richard Cochran <richardcochran@gmail.com>, Radu
- Pirea <radu-nicolae.pirea@oss.nxp.com>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Michael Walle <michael@walle.cc>, Jacob
- Keller <jacob.e.keller@intel.com>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v5 08/16] net: ethtool: Add a command to expose
- current time stamping layer
-Message-ID: <20231013131505.2b27e3b8@kernel.org>
-In-Reply-To: <20231013175601.5mpyx7cjy6cp6sdb@skbuf>
-References: <20231009155138.86458-1-kory.maincent@bootlin.com>
-	<20231009155138.86458-9-kory.maincent@bootlin.com>
-	<2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
-	<20231010102343.3529e4a7@kmaincent-XPS-13-7390>
-	<20231013090020.34e9f125@kernel.org>
-	<20231013161446.st7tlemyaj3ggkgk@skbuf>
-	<20231013093056.4f915df1@kernel.org>
-	<20231013170903.p3ycicebnfrsmoks@skbuf>
-	<20231013104606.174664a2@kernel.org>
-	<20231013175601.5mpyx7cjy6cp6sdb@skbuf>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1101C298
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 20:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70BC5B7;
+	Fri, 13 Oct 2023 13:21:18 -0700 (PDT)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c9e06f058bso16034995ad.0;
+        Fri, 13 Oct 2023 13:21:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697228478; x=1697833278;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ForsDPB0jZ2ImnQnOXHUTEo6P3ZZphz8F61hZrwbJRA=;
+        b=Syg5dJ5nOsicTEJ3KSBeUkqacIW+Lrs4kxcgjmp8ho0pLZoD5wWL3bIdCgn+umh8T9
+         bLkLuz1FBsT0JG44/c0jJDpGqMGnxXG2tQxzcRFwQAyEb4zcQxHz2xY6qk8sdSiENdrm
+         5TPpL6VoSjfFPvW1SB8QuBydrsz7fNnSTSH0V2UjQTwpPZ5/mkr9gkIaqWj5VgtWhHo3
+         Eud6/9lTFnbQaPERaozEpXLf6wybYrTCUQTgRsYGF26ytBs2lrxQJU9DLvIh2eyV0G0v
+         GRj78eDIBIvoA0pRPGcfWY1/95VJVIRyxz+KXXPeNXer9OMsimmXDrn+dy1zRnSknKtu
+         mwHA==
+X-Gm-Message-State: AOJu0YwZZbq13pLIyix9EgR93mcW/1RiFENUfhNemFnNhYz4BG+tnhYL
+	K2Dl67rnbuLN0kR0sNW/v88=
+X-Google-Smtp-Source: AGHT+IHK6Vdj3neWysihmjr6VT1kW5IXWWGbJ0lQ9gb9c+jVMTQ/Rh06taVZ8L/Iz6CXpCcTy5jQHw==
+X-Received: by 2002:a17:902:ea02:b0:1c1:fc5c:b31b with SMTP id s2-20020a170902ea0200b001c1fc5cb31bmr1705325plg.9.1697228477673;
+        Fri, 13 Oct 2023 13:21:17 -0700 (PDT)
+Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net. [73.231.117.72])
+        by smtp.gmail.com with ESMTPSA id ik26-20020a170902ab1a00b001bdc3768ca5sm4363921plb.254.2023.10.13.13.21.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Oct 2023 13:21:17 -0700 (PDT)
+Message-ID: <2f4eb591-b275-42fd-900e-292d0f87dd9e@acm.org>
+Date: Fri, 13 Oct 2023 13:21:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] doc: blk-ioprio: Bring the doc in line with the
+ implementation
+Content-Language: en-US
+To: Tang Yizhou <yizhou.tang@shopee.com>, houtao1@huawei.com, jack@suse.cz,
+ kch@nvidia.com
+Cc: axboe@kernel.dk, tj@kernel.org, corbet@lwn.net,
+ linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yingfu.zhou@shopee.com, chunguang.xu@shopee.com
+References: <20231012024228.2161283-1-yizhou.tang@shopee.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20231012024228.2161283-1-yizhou.tang@shopee.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-On Fri, 13 Oct 2023 20:56:01 +0300 Vladimir Oltean wrote:
-> > > I'm not really sure what you're referring to, with SOF_..._DMA.
-> > > The DMA, if presented as a PHC as I am proposing, would play the role=
- of
-> > > the hardware timestamp provider (think SOF_TIMESTAMPING_TX_HARDWARE |
-> > > SOF_TIMESTAMPING_RX_HARDWARE), so there will be no driver-visible
-> > > special socket option flags for DMA timestamping. =20
-> >=20
-> > Each packet may want different timestamp tho, especially on Tx it
-> > should be fairly easy for socket to request to get "real" MAC stamps,
-> > while most get cheaper DMA stamps. Currently some drivers run flow
-> > matching to find PTP packets and automatically give them better quality
-> > timestamps :(
-> >=20
-> > Even if at the config level we use PHCs we need to translate that into
-> > some SKBTX_* bit, don't we? =20
->=20
-> I think Richard had something to say about that being wishful thinking:
-> https://lore.kernel.org/netdev/ZGw46hrpiqCVNeXS@hoboy.vegasvil.org/
+On 10/11/23 19:42, Tang Yizhou wrote:
+> From: Tang Yizhou <yizhou.tang@shopee.com>
+> 
+> Our system administrator have noted that the names 'rt-to-be' and
+> 'all-to-idle' in the I/O priority policies table appeared without
+> explanations, leading to confusion. Let's bring these names in line
+> with the naming in the 'attribute' section.
+> 
+> Additionally,
+> 1. Correct the interface name to 'io.prio.class'.
+> 2. Add a table entry of 'promote-to-rt' for consistency.
+> 3. Fix a typo of 'priority'.
+> 
+> Suggested-by: Yingfu Zhou <yingfu.zhou@shopee.com>
+> Reviewed-by: Hou Tao <houtao1@huawei.com>
+> Signed-off-by: Tang Yizhou <yizhou.tang@shopee.com>
+> ---
+> v2:
+> Accept Bart's suggestion and rename the title of the patch.
+> Pick up Tao's Reviewed-by tag.
 
-=F0=9F=A4=B7=EF=B8=8F
+Thank you for having changed the patch subject.
 
-> On RX I'm not sure how you'd know in advance if the packet is going to
-> be routed to a socket that wants DMA or MAC timestamps. And having a
-> socket with hardware timestamps from one provider in one direction, and
-> another provider in the other direction, is.... not sane as a kernel API?
-
-For DC NICs all the timestamps are based on the same PHC. The use case
-is to get MAC/precise stamps for PTP and DMA/rough stamps for TCP CC.
-
-Agreed that stamps from different PHCs in different directions would=20
-be weird.
-
-Thinking about it again we want the ability to configure the rx filter
-per stamping point. MAC stamps PTP frames and DMA stamps all the rest.
-For Tx we need to know whether app wanted DMA or MAC stamp (more
-or less whether it's PTP again, without running a classifier on the
-packet).
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
