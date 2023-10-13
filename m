@@ -1,101 +1,200 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3E421A0A
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 19:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847751428A;
+	Fri, 13 Oct 2023 19:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="J1/ecE9y"
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415B095
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 12:22:43 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-5045cb9c091so3168063e87.3
-        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 12:22:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1697224961; x=1697829761; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yMlHIs+RXRwcCam9b7W7YcpdMJXw0XO1+U1rinkBh7Y=;
-        b=J1/ecE9yrtRPZTboE8htd7Ca/ineFvcB6mGCRFLZAxCNZcRm3SapTB204qJ9tlEIPx
-         smT/+VFV/De/jpapaRXjA0/hJnCaVbe7/AP9WRVgnDixBSHEmOCQa1Oo467C8nIBSTKs
-         JSQmHj797cOAmkkTfUqV+DePX44RNjTQaN3Kk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697224961; x=1697829761;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yMlHIs+RXRwcCam9b7W7YcpdMJXw0XO1+U1rinkBh7Y=;
-        b=gt8s9Ip9HTIigdgy6+wc9j4e4r3fE2Y1Pkx7SdyblOJ2k9IgmtK9lYvaYs23YbYAQ0
-         zdsM8k+KoM5JAVRAUIyxt4uJy57R3gOFRypzl/zyfI7OiuVV6XOdxRzX337MSvaJh2jX
-         sdBJeHdTUXeGeTUvI09cwCbqXOF7OAfoPbhEA/ha5NO460HuDu+/7jror6rruYHO2s99
-         MGAB7mk+28nJTmz3EykFGIAdGyr/3aQDhI+cvxFePizeTcNBb0JdxrwwDlWF291Z0lVl
-         CIi7Gs3oJJTDzrpH+JfckaPQY9Ik3XPmxrx9koMvXX2DdjjLAGE5jMgzrmKytQnJ/Ffl
-         o3ng==
-X-Gm-Message-State: AOJu0Yxabx+mZ/IF4qe15RgrxlKsfKHkbz7Nh8pdmbcSpIjRaHauKmjo
-	Jyvxxv23f+aXqS+Avf0DmINwi/YMPbZMUez4Ynv8Us+G
-X-Google-Smtp-Source: AGHT+IFXA4mr+tLU8WiqSSqCJME5b1bfnmg5I2GBpJDkthlgTvX4cyOlpukQ7Kt0o6umcc0Hh9wzhw==
-X-Received: by 2002:a19:a414:0:b0:502:a55b:c2d7 with SMTP id q20-20020a19a414000000b00502a55bc2d7mr23528533lfc.60.1697224961070;
-        Fri, 13 Oct 2023 12:22:41 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id k15-20020a0565123d8f00b00500b561285bsm3364310lfv.292.2023.10.13.12.22.40
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Oct 2023 12:22:40 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-50797cf5b69so1626098e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 12:22:40 -0700 (PDT)
-X-Received: by 2002:a17:907:7790:b0:9b9:facb:d950 with SMTP id
- ky16-20020a170907779000b009b9facbd950mr17575861ejc.72.1697224939431; Fri, 13
- Oct 2023 12:22:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gRho6fmQ"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18CF5E3;
+	Fri, 13 Oct 2023 12:58:41 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39DIOoU6021535;
+	Fri, 13 Oct 2023 19:58:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=pX+uRLhqkPchUb0oySxhA1//1XowAmtf/SD2oT558aI=;
+ b=gRho6fmQHSFbfISMjkkBBZ8wv8mb/0k+uijYOQlBvNQNqKajCcjpS9/ITxP1vbwb1UXK
+ qR8aJDAmI3QjIYmKaCwb6PTjG4iQq/AdjcLDnWMI5yMhB/rQG3Vk7kS0eKDWHipg6Gs/
+ h9WxaZRjrOiPJn+yR7WkR4qVVxnsy5ijqqqvK1IiSI4AARWVVI61BwYset66bV3OoR26
+ QTajAZTC0AYapVzzyDnKxuDvPGIlqsWfdFk4gQpXVg32MgTL6WpynRVZimKSfVsGyYxq
+ uMfRmaw3s5qSvPTzE08ohZZqqdDD76Bcyaca/6ATjhrHTMhYzDkorTXXBKwC9r/d2tL5 VQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tqaa2r949-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Oct 2023 19:58:32 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39DJwVm3011343
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Oct 2023 19:58:31 GMT
+Received: from [10.216.41.155] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 13 Oct
+ 2023 12:58:27 -0700
+Message-ID: <b12eb7b1-54e7-406f-8c19-0046555b82d3@quicinc.com>
+Date: Sat, 14 Oct 2023 01:28:23 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20220927131518.30000-1-ojeda@kernel.org> <20220927131518.30000-26-ojeda@kernel.org>
- <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net> <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
- <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
- <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com>
- <20231012104741.GN6307@noisy.programming.kicks-ass.net> <CABCJKufEagwJ=TQnmVSK07RDjsPUt=3JGtwnK9ASmFqb7Vx8JQ@mail.gmail.com>
- <202310121130.256F581823@keescook> <CAOcBZOTed1a1yOimdUN9yuuysZ1h6VXa57+5fLAE99SZxCwBMQ@mail.gmail.com>
- <20231013075005.GB12118@noisy.programming.kicks-ass.net> <CAOcBZOTP_vQuFaqREqy-hkG69aBvJ+xrhEQi_EFKvtsNjne1dw@mail.gmail.com>
- <CAHk-=wjLUit_gae7anFNz4sV0o2Uc=TD_9P8sYeqMSeW_UG2Rg@mail.gmail.com> <5D8CA5EF-F5B0-4911-85B8-A363D9344FA7@zytor.com>
-In-Reply-To: <5D8CA5EF-F5B0-4911-85B8-A363D9344FA7@zytor.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 13 Oct 2023 12:22:02 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiiBpw-0MKBbPkvo54=Cvyi0b3_1bDtqbgiD4ixd+OPow@mail.gmail.com>
-Message-ID: <CAHk-=wiiBpw-0MKBbPkvo54=Cvyi0b3_1bDtqbgiD4ixd+OPow@mail.gmail.com>
-Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ramon de C Valle <rcvalle@google.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Kees Cook <keescook@chromium.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	patches@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@google.com>, 
-	David Gow <davidgow@google.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
+ wMaxSegmentSize via configfs
+To: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        onathan Corbet
+	<corbet@lwn.net>,
+        Linyu Yuan <quic_linyyuan@quicinc.com>, <linux-usb@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_ppratap@quicinc.com>, <quic_wcheng@quicinc.com>,
+        <quic_jackp@quicinc.com>
+References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
+ <20231009142005.21338-2-quic_kriskura@quicinc.com>
+ <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
+ <CANP3RGcCpNOuVpdV9n0AFxZo-wsfwi8OfYgBk1WHNHaEd-4V-Q@mail.gmail.com>
+ <CANP3RGdY4LsOA6U5kuccApHCzL0_jBnY=pLOYrUuYtMZFTvnbw@mail.gmail.com>
+ <d19d9d08-c119-4991-b460-49925f601d15@quicinc.com>
+ <fad5a7fb-cce1-46bc-a0af-72405c76d107@quicinc.com>
+ <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
+ <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com>
+ <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
+Content-Language: en-US
+From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+In-Reply-To: <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: WUoyPTtJeotEsqBl2B8RdbnAfy2AcqvZ
+X-Proofpoint-ORIG-GUID: WUoyPTtJeotEsqBl2B8RdbnAfy2AcqvZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-13_11,2023-10-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=823
+ phishscore=0 suspectscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310130172
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Fri, 13 Oct 2023 at 12:01, H. Peter Anvin <hpa@zytor.com> wrote:
->
-> Transparent unions have been standard C since C99.
 
-Ahh, I didn't realize they made it into the standard.
 
-In gcc, they've been usable for a lot longer (ie --std=gnu89 certainly
-is happy with them), but the kernel never really picked up on them.
+On 10/14/2023 12:09 AM, Maciej Żenczykowski wrote:
+> On Thu, Oct 12, 2023 at 8:40 AM Krishna Kurapati PSSNV
+> <quic_kriskura@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 10/12/2023 6:02 PM, Maciej Żenczykowski wrote:
+>>> On Thu, Oct 12, 2023 at 1:48 AM Krishna Kurapati PSSNV
+>>>
+>>> Could you paste the full patch?
+>>> This is hard to review without looking at much more context then email
+>>> is providing
+>>> (or, even better, send me a link to a CL in gerrit somewhere - for
+>>> example aosp ACK mainline tree)
+>>
+>> Sure. Will provide a gerrit on ACK for review before posting v2.
+>>
+>> The intent of posting the diff was two fold:
+>>
+>> 1. The question Greg asked regarding why the max segment size was
+>> limited to 15014 was valid. When I thought about it, I actually wanted
+>> to limit the max MTU to 15000, so the max segment size automatically
+>> needs to be limited to 15014.
+> 
+> Note that this is a *very* abstract value.
+> I get you want L3 MTU of 10 * 1500, but this value is not actually meaningful.
+> 
+> IPv4/IPv6 fragmentation and IPv4/IPv6 TCP segmentation
+> do not result in a trivial multiplication of the standard 1500 byte
+> ethernet L3 MTU.
+> Indeed aggregating 2 1500 L3 mtu frames results in *different* sized
+> frames depending on which type of aggregation you do.
+> (and for tcp it even depends on the number and size of tcp options,
+> though it is often assumed that those take up 12 bytes, since that's the
+> normal for Linux-to-Linux tcp connections)
+> 
+> For example if you aggregate N standard Linux ipv6/tcp L3 1500 mtu frames,
+> this means you have
+> N frames: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
+> payload (1500-12-20-40=1500-72=1428)
+> post aggregation:
+> 1 frame: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
+> payload (N*1428)
+> 
+> so N * 1500 == N * (72 + 1428) --> 1 * (72 + N * 1428)
+> 
+> That value of 72 is instead 52 for 'standard Linux ipv4/tcp),
+> it's 40/60 if there's no tcp options (which I think happens when
+> talking to windows)
+> it's different still with ipv4 fragmentation... and again different
+> with ipv6 fragmentation...
+> etc.
+> 
+> ie. 15000 L3 mtu is exactly as meaningless as 14000 L3 mtu.
+> Either way you don't get full frames.
+> 
+> As such I'd recommend going with whatever is the largest mtu that can
+> be meaningfully made to fit in 16K with all the NCM header overhead.
+> That's likely closer to 15500-16000 (though I have *not* checked).
+> 
+>> But my commit text didn't mention this
+>> properly which was a mistake on my behalf. But when I looked at the
+>> code, limiting the max segment size 15014 would force the practical
+>> max_mtu to not cross 15000 although theoretical max_mtu was set to:
+>> (GETHER_MAX_MTU_SIZE - 15412) during registration of net device.
+>>
+>> So my assumption of limiting it to 15000 was wrong. It must be limited
+>> to 15412 as mentioned in u_ether.c  This inturn means we must limit
+>> max_segment_size to:
+>> GETHER_MAX_ETH_FRAME_LEN (GETHER_MAX_MTU_SIZE + ETH_HLEN)
+>> as mentioned in u_ether.c.
+>>
+>> I wanted to confirm that setting MAX_DATAGRAM_SIZE to
+>> GETHER_MAX_ETH_FRAME_LEN was correct.
+>>
+>> 2. I am not actually able to test with MTU beyond 15000. When my host
+>> device is a linux machine, the cdc_ncm.c limits max_segment_size to:
+>> CDC_NCM_MAX_DATAGRAM_SIZE               8192    /* bytes */
+> 
+> In practice you get 50% of the benefits of infinitely large mtu by
+> going from 1500 to ~2980.
+> you get 75% of the benefits by going to ~6K
+> you get 87.5% of the benefits by going to ~12K
+> the benefits of going even higher are smaller and smaller...
+>  > If the host side is limited to 8192, maybe we should match that here too?
 
-I think they've mainly been used by glibc for a couple of functions
-that can take a couple of different types without complaining.
+Hi Maciej,
 
-           Linus
+  Thanks for the detailed explanation. I agree with you on setting 
+device side also to 8192 instead of what max_mtu is present in u_ether 
+or practical max segment size possible.
+
+> 
+> But the host side limitation of 8192 doesn't seem particularly sane either...
+> Maybe we should relax that instead?
+> 
+I really didn't understand why it was set to 8192 in first place.
+
+> (especially since for things like tcp zero copy you want an mtu which
+> is slighly more then N * 4096,
+> ie. around 4.5KB, 8.5KB, 12.5KB or something like that)
+> 
+
+I am not sure about host mode completely. If we want to increase though, 
+just increasing the MAX_DATAGRAM_SIZE to some bigger value help ? (I 
+don't know the entire code of cdc_ncm, so I might be wrong).
+
+Regards,
+Krishna,
