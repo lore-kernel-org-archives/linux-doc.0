@@ -1,113 +1,172 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5293381D;
-	Fri, 13 Oct 2023 01:38:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3727E81C
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 01:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hp5VrZDt"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0345FBB;
-	Thu, 12 Oct 2023 18:38:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697161132; x=1728697132;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=PVBal4Ud504RnPl1p/A+A7FV7TwvMJzp6ahO+CuDunM=;
-  b=Hp5VrZDtB2Cozp7ahJb+Sp1OzHnuQcoYy4HiKFPhVwRty6Hj9sPqTaYp
-   dKjSYuJQrXUKysq+9PANgvqNv2nBTOPD2h9uFQuodpdf2ZXi5fiiRV54Q
-   8okQVAsQ+7dgCa0H+itfznPif44HylcJIE8UfX4AD+mkYtGFHBnE6Mtzv
-   cAy5S3rnVFpT0xqaJ69UCRF8omk9VNlTdncfGQOPtJb1kGDe/oCYE+0dg
-   ZPsd2zk2WIdPlnyNcNo4Yc87nAFpnAA/Pi3svyOvsVy1aUOcR6Uz36WBb
-   tcUBdVsJ8SlmBXVDB1UGob8QbYWdCq/Zgf28bEJE3t/8uNpgE7jsUoViO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="364446500"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="364446500"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 18:38:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="783946831"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="783946831"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 12 Oct 2023 18:38:44 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qr78Q-0004Br-1m;
-	Fri, 13 Oct 2023 01:38:39 +0000
-Date: Fri, 13 Oct 2023 09:37:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Michael Walle <michael@walle.cc>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>
-Subject: Re: [PATCH net-next v5 13/16] net: Change the API of PHY default
- timestamp to MAC
-Message-ID: <202310130914.kppQjKFp-lkp@intel.com>
-References: <20231009155138.86458-14-kory.maincent@bootlin.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LFX+pxBB"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41B9EBB;
+	Thu, 12 Oct 2023 18:43:48 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39D1QwBS000909;
+	Fri, 13 Oct 2023 01:42:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=lqJi9R4Y6Xefr89eckmLA1t1hKHCECZfuxNDRt7dtGU=;
+ b=LFX+pxBBFGFiqP6CNcWO0letVoSnYCFgBLp50GsrJ4WnkqcoE1KT1wf/T6V35CVBxaR9
+ oh+e2Ah+OCVxjQ1kx121IMvyog/KUwnYtR7W5d9/8UEASGeoBi1UvIVCzrPNukUipUIN
+ 16oJJGDSVdbSv2448RyIZ8/75RsXrDwpIYnkQPpzOUnW8BDxzal8KDkejRWEK4Ed9s25
+ IyxL/NRJT0sYIHLB4c51zHyxNYu7FcJgPiqVmWqS4jiCJnHRJ4KudPgbmdKYaDVH4UIc
+ MTrIY+rpW8HtYwT7Ov6JTsEFAK4+OmwGQ6/Ap8IjJygAptClTZcc2N9Q9kUNdbHSTyMe AA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tpt1k07fk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Oct 2023 01:42:22 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39D1gLbV001368
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Oct 2023 01:42:21 GMT
+Received: from [10.50.46.242] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 12 Oct
+ 2023 18:42:14 -0700
+Message-ID: <e951d2be-0807-acff-5959-38dad7560659@quicinc.com>
+Date: Fri, 13 Oct 2023 07:12:10 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231009155138.86458-14-kory.maincent@bootlin.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
+Subject: Re: [PATCH 0/4] PM: hibernate: LZ4 compression support
+To: Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+        "Rafael J.
+ Wysocki" <rafael@kernel.org>
+CC: Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas
+	<catalin.marinas@arm.com>, Tejun Heo <tj@kernel.org>,
+        Peter Zijlstra
+	<peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Paul E.
+ McKenney" <paulmck@kernel.org>,
+        "Steven Rostedt (Google)"
+	<rostedt@goodmis.org>,
+        <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_kprasan@quicinc.com>, <quic_mpilaniy@quicinc.com>,
+        <quic_shrekk@quicinc.com>, <mpleshivenkov@google.com>,
+        <ericyin@google.com>
+References: <cover.1696410298.git.quic_nprakash@quicinc.com>
+Content-Language: en-US
+From: Nikhil V <quic_nprakash@quicinc.com>
+In-Reply-To: <cover.1696410298.git.quic_nprakash@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: kTL2ZntX3j8tvzq0vpM4pAzd-453bPa0
+X-Proofpoint-GUID: kTL2ZntX3j8tvzq0vpM4pAzd-453bPa0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-12_14,2023-10-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
+ spamscore=0 mlxscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 bulkscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310130013
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Hi Köry,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+On 10/4/2023 3:00 PM, Nikhil V wrote:
+> This patch series covers the following:
+> 1. Renaming lzo* to generic names, except for lzo_xxx() APIs. This is
+> used in the next patch where we move to crypto based APIs for
+> compression. There are no functional changes introduced by this
+> approach.
+> 
+> 
+> 2. Replace LZO library calls with crypto generic APIs
+> 
+> Currently for hibernation, LZO is the only compression algorithm
+> available and uses the existing LZO library calls. However, there
+> is no flexibility to switch to other algorithms which provides better
+> results. The main idea is that different compression algorithms have
+> different characteristics and hibernation may benefit when it uses
+> alternate algorithms.
+> 
+> By moving to crypto based APIs, it lays a foundation to use other
+> compression algorithms for hibernation.
+> 
+> 
+> 3. LZ4 compression
+> Extend the support for LZ4 compression to be used with hibernation.
+> The main idea is that different compression algorithms
+> have different characteristics and hibernation may benefit when it uses
+> any of these algorithms: a default algorithm, having higher
+> compression rate but is slower(compression/decompression) and a
+> secondary algorithm, that is faster(compression/decompression) but has
+> lower compression rate.
+> 
+> LZ4 algorithm has better decompression speeds over LZO. This reduces
+> the hibernation image restore time.
+> As per test results:
+>                                      LZO             LZ4
+> Size before Compression(bytes)   682696704       682393600
+> Size after Compression(bytes)    146502402       155993547
+> Decompression Rate               335.02 MB/s     501.05 MB/s
+> Restore time                       4.4s             3.8s
+> 
+> LZO is the default compression algorithm used for hibernation. Enable
+> CONFIG_HIBERNATION_DEF_COMP_LZ4 to set the default compressor as LZ4.
+> 
+> Compression Benchmarks: https://github.com/lz4/lz4
+> 
+> 
+> 4. Support to select compression algorithm
+> 
+> Currently the default compression algorithm is selected based on
+> Kconfig. Introduce a kernel command line parameter "hib_compression" to
+> override this behaviour.
+> 
+> Users can set "hib_compression" command line parameter to specify
+> the algorithm.
+> Usage:
+>      LZO: hib_compression=lzo
+>      LZ4: hib_compression=lz4
+> LZO is the default compression algorithm used with hibernation.
+> 
+> Nikhil V (4):
+>    PM: hibernate: Rename lzo* to make it generic
+>    PM: hibernate: Move to crypto APIs for LZO compression
+>    PM: hibernate: Add support for LZ4 compression for hibernation
+>    PM: hibernate: Support to select compression algorithm
+> 
+>   .../admin-guide/kernel-parameters.txt         |   6 +
+>   kernel/power/Kconfig                          |  25 ++-
+>   kernel/power/hibernate.c                      |  85 +++++++-
+>   kernel/power/power.h                          |  19 ++
+>   kernel/power/swap.c                           | 189 +++++++++++-------
+>   5 files changed, 250 insertions(+), 74 deletions(-)
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-Convert-PHYs-hwtstamp-callback-to-use-kernel_hwtstamp_config/20231009-235451
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231009155138.86458-14-kory.maincent%40bootlin.com
-patch subject: [PATCH net-next v5 13/16] net: Change the API of PHY default timestamp to MAC
-config: i386-randconfig-063-20231012 (https://download.01.org/0day-ci/archive/20231013/202310130914.kppQjKFp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310130914.kppQjKFp-lkp@intel.com/reproduce)
+Hi @Rafael/@Pavel/@Len,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310130914.kppQjKFp-lkp@intel.com/
+Could you please let me know if you have any concerns/comments on this 
+approach?
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/phy/phy_device.c:1419:12: sparse: sparse: symbol 'phy_timestamping_allowlist' was not declared. Should it be static?
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Nikhil V
