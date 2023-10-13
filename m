@@ -1,228 +1,213 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932F12C84D
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 22:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B5C241EB
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 22:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CNJhhVoc"
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85CA1B7
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 15:35:51 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-534694a9f26so1648a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 15:35:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+GR8g43"
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 284D3B7;
+	Fri, 13 Oct 2023 15:48:31 -0700 (PDT)
+Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-35135b79b6aso9492145ab.0;
+        Fri, 13 Oct 2023 15:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697236550; x=1697841350; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FSeOd+rYnOzhF1ReZbddCmvmJexTwHpOy+fpUODbkOA=;
-        b=CNJhhVock8IDFK3Wu6SntkES8kAfPX+KDiRD7Au6H+P9EdgUEHMn0G7nUwLl6f3zyQ
-         pAQYQrF5bkso1ka3P72+mmsoQ6P2P1TBTA5SdSTAH8pysOKZZ0Rm2klnu07TRE0Nd28T
-         wIpXbXoGfrug6vz07MEw3KLd9my6geFIiyaeCooyhBotPhBwIpM3RtN3lEYnzGtMTNKn
-         sWtfxCBbeR0/1zdRReII4jHH7lfBPWvCSUDnjDt3B+6z0cCmQCJjMArvtKB7cfhZ8gPh
-         32MKP6MAAt6pSYiphT8J2Dc6I/39v5uz+7uBORtNiDcSBkUcJUy7DkMbLPayi6urlcOW
-         xsSg==
+        d=gmail.com; s=20230601; t=1697237310; x=1697842110; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Mng0G0MZHQ5iG3ZlpwMZtpDxjZVpA+nf77+wmyN2nk=;
+        b=W+GR8g43WaCcDYfUy141kNb+natipdKet0Xg2Zy72hhaE1iwmZ1mi3sVJL3TsLRVMO
+         dqjCPlupxJmkH/Mw6mds5TMRgIiNWTt5cWaJHPsSWP+/9zYbR3uaXTAxdu85mQ5dFLZT
+         MWIAO6OjeWJGibgImB6aAr634v/xzFg9EUjpHN0bRg+E2DnsTzl/vd4zDU9bkL3ZJmm1
+         diDHHmzw32e/IiAk2PpwlccSWrJHEWGtfRIaxnsjlt26o3Bcxdg9Kb653HopsdUPsbF2
+         0HHkvVvBabBxMKT3Bm23ZSslK+MTdakO75Mfbc3nvMkbYalmO64xfBzxzuIe7WieFkTr
+         1e2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697236550; x=1697841350;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FSeOd+rYnOzhF1ReZbddCmvmJexTwHpOy+fpUODbkOA=;
-        b=r2YNmQgYxMxGb18P2DrOzJoiFMtAHYXVYmjKoJgMw1kGF2bxXCALpPrfVjwb1T7lUB
-         rVbtFQ00Fk5hEfyM9Ys9S72ognUP1PiBKzPHjm6wn4RBYSz1iUpRSJSREqfYL5CB6pgX
-         Kse7d4WcFCtndj9GSSv1JF9aKiJRqGc+MAcAoOSd2v1Jj8i08BGCqZNSl5hLdPLvCNQw
-         pqVZVeQdyjatJ/BkJ89hcrEqe7kiIEhwMxe+bc5xTdEym+4+bYTWcx3bfttERo9TrPWJ
-         tmZipIm9LIC2Ce8/femv2wuFJbdRg+Bdfe7ULxEFVhn3M3F5hSBJjT9OVppatW/3oXOW
-         ecBw==
-X-Gm-Message-State: AOJu0YwYdfysE4sCaNTjZy58a1RpV78E39fEcV4Y8+zbFZt+/AIj7W9X
-	MbZ0qRL0yKihn5p6JdqQ/cfBfAKjWgHq7RHl30V6eA==
-X-Google-Smtp-Source: AGHT+IGab/hjqlvQOWvzU8uiN4cTgE2c1UwEFpeNxmfQ9loSAkD0F0d/KgLPzEzVpZJ5dRiRT82FMJcpybdv+jzM5Xg=
-X-Received: by 2002:a50:cdde:0:b0:53d:b53c:946b with SMTP id
- h30-20020a50cdde000000b0053db53c946bmr42816edj.2.1697236549785; Fri, 13 Oct
- 2023 15:35:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697237310; x=1697842110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Mng0G0MZHQ5iG3ZlpwMZtpDxjZVpA+nf77+wmyN2nk=;
+        b=w9gY5CmwHiF+PZf2bfXeJ48mnzmmWMvJgHp+DR+/vq+HHmMcBEayEWfg43QIn87nyt
+         28nF6acgGw31Hd47OTeGbgeRWvag+/H/Bl9Wvt2MYa3gBT9CLSMEeDT9TStj1u6WCse/
+         nGfQnWw/udWrh7WXOWXGcg2AYhtXFp45vs177dDnaxj3mkpujVse7F7Xn+vPrCMw4RGz
+         5fgzMQ8r1ngsP/p+JTpL18yi1N6dhF9IqwsS9CyYNXAvluP0AyZbnUVpOqwhm5xeQXW2
+         FVUk5B+0u1um+TWj079yFAgJdiJ/rOjrifQVTn0tyQ4ACv2L4fKIfXpqEyks5/LL+IQ5
+         4f3A==
+X-Gm-Message-State: AOJu0Yx+f9zK71y0yut38sMFRseYi/eSE6WeBbPgrEdivRYfigjoMlvp
+	3pr5CKOIjk/Zn4Sf/KqWRfs2BsT1fCwviA==
+X-Google-Smtp-Source: AGHT+IG+I25uvqNU5DZMw47ZwGEBEd5TljGGiNjhM3n4cZrTiK6lXr5EVFKspt/gyJ2MjEBfwcoK7w==
+X-Received: by 2002:a05:6e02:b22:b0:357:5b51:ae6c with SMTP id e2-20020a056e020b2200b003575b51ae6cmr5877260ilu.6.1697237310091;
+        Fri, 13 Oct 2023 15:48:30 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+        by smtp.googlemail.com with ESMTPSA id t10-20020a92dc0a000000b003512c3e8809sm1683071iln.71.2023.10.13.15.48.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Oct 2023 15:48:29 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	jbaron@akamai.com,
+	gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gvt-dev@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: lb@semihalf.com,
+	linux@rasmusvillemoes.dk,
+	joe@perches.com,
+	mcgrof@kernel.org,
+	daniel.vetter@ffwll.ch,
+	jani.nikula@intel.com,
+	ville.syrjala@linux.intel.com,
+	seanpaul@chromium.org,
+	robdclark@gmail.com,
+	groeck@google.com,
+	yanivt@google.com,
+	bleung@google.com,
+	linux-doc@vger.kernel.org,
+	Jim Cromie <jim.cromie@gmail.com>
+Subject: [PATCH v7b 00/25] fix DRM_USE_DYNAMIC_DEBUG=y regression
+Date: Fri, 13 Oct 2023 16:47:52 -0600
+Message-ID: <20231013224818.3456409-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
- <20231009142005.21338-2-quic_kriskura@quicinc.com> <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
- <CANP3RGcCpNOuVpdV9n0AFxZo-wsfwi8OfYgBk1WHNHaEd-4V-Q@mail.gmail.com>
- <CANP3RGdY4LsOA6U5kuccApHCzL0_jBnY=pLOYrUuYtMZFTvnbw@mail.gmail.com>
- <d19d9d08-c119-4991-b460-49925f601d15@quicinc.com> <fad5a7fb-cce1-46bc-a0af-72405c76d107@quicinc.com>
- <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
- <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com> <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
- <b12eb7b1-54e7-406f-8c19-0046555b82d3@quicinc.com>
-In-Reply-To: <b12eb7b1-54e7-406f-8c19-0046555b82d3@quicinc.com>
-From: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
-Date: Fri, 13 Oct 2023 15:35:32 -0700
-Message-ID: <CANP3RGcUrFTaFL8V3tpuh+qQoEi84O0Dy9ie+XD=-H01c2btAw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
- wMaxSegmentSize via configfs
-To: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, onathan Corbet <corbet@lwn.net>, 
-	Linyu Yuan <quic_linyyuan@quicinc.com>, linux-usb@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_ppratap@quicinc.com, quic_wcheng@quicinc.com, quic_jackp@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Fri, Oct 13, 2023 at 12:58=E2=80=AFPM Krishna Kurapati PSSNV
-<quic_kriskura@quicinc.com> wrote:
->
->
->
-> On 10/14/2023 12:09 AM, Maciej =C5=BBenczykowski wrote:
-> > On Thu, Oct 12, 2023 at 8:40=E2=80=AFAM Krishna Kurapati PSSNV
-> > <quic_kriskura@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 10/12/2023 6:02 PM, Maciej =C5=BBenczykowski wrote:
-> >>> On Thu, Oct 12, 2023 at 1:48=E2=80=AFAM Krishna Kurapati PSSNV
-> >>>
-> >>> Could you paste the full patch?
-> >>> This is hard to review without looking at much more context then emai=
-l
-> >>> is providing
-> >>> (or, even better, send me a link to a CL in gerrit somewhere - for
-> >>> example aosp ACK mainline tree)
-> >>
-> >> Sure. Will provide a gerrit on ACK for review before posting v2.
-> >>
-> >> The intent of posting the diff was two fold:
-> >>
-> >> 1. The question Greg asked regarding why the max segment size was
-> >> limited to 15014 was valid. When I thought about it, I actually wanted
-> >> to limit the max MTU to 15000, so the max segment size automatically
-> >> needs to be limited to 15014.
-> >
-> > Note that this is a *very* abstract value.
-> > I get you want L3 MTU of 10 * 1500, but this value is not actually mean=
-ingful.
-> >
-> > IPv4/IPv6 fragmentation and IPv4/IPv6 TCP segmentation
-> > do not result in a trivial multiplication of the standard 1500 byte
-> > ethernet L3 MTU.
-> > Indeed aggregating 2 1500 L3 mtu frames results in *different* sized
-> > frames depending on which type of aggregation you do.
-> > (and for tcp it even depends on the number and size of tcp options,
-> > though it is often assumed that those take up 12 bytes, since that's th=
-e
-> > normal for Linux-to-Linux tcp connections)
-> >
-> > For example if you aggregate N standard Linux ipv6/tcp L3 1500 mtu fram=
-es,
-> > this means you have
-> > N frames: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
-> > payload (1500-12-20-40=3D1500-72=3D1428)
-> > post aggregation:
-> > 1 frame: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
-> > payload (N*1428)
-> >
-> > so N * 1500 =3D=3D N * (72 + 1428) --> 1 * (72 + N * 1428)
-> >
-> > That value of 72 is instead 52 for 'standard Linux ipv4/tcp),
-> > it's 40/60 if there's no tcp options (which I think happens when
-> > talking to windows)
-> > it's different still with ipv4 fragmentation... and again different
-> > with ipv6 fragmentation...
-> > etc.
-> >
-> > ie. 15000 L3 mtu is exactly as meaningless as 14000 L3 mtu.
-> > Either way you don't get full frames.
-> >
-> > As such I'd recommend going with whatever is the largest mtu that can
-> > be meaningfully made to fit in 16K with all the NCM header overhead.
-> > That's likely closer to 15500-16000 (though I have *not* checked).
-> >
-> >> But my commit text didn't mention this
-> >> properly which was a mistake on my behalf. But when I looked at the
-> >> code, limiting the max segment size 15014 would force the practical
-> >> max_mtu to not cross 15000 although theoretical max_mtu was set to:
-> >> (GETHER_MAX_MTU_SIZE - 15412) during registration of net device.
-> >>
-> >> So my assumption of limiting it to 15000 was wrong. It must be limited
-> >> to 15412 as mentioned in u_ether.c  This inturn means we must limit
-> >> max_segment_size to:
-> >> GETHER_MAX_ETH_FRAME_LEN (GETHER_MAX_MTU_SIZE + ETH_HLEN)
-> >> as mentioned in u_ether.c.
-> >>
-> >> I wanted to confirm that setting MAX_DATAGRAM_SIZE to
-> >> GETHER_MAX_ETH_FRAME_LEN was correct.
-> >>
-> >> 2. I am not actually able to test with MTU beyond 15000. When my host
-> >> device is a linux machine, the cdc_ncm.c limits max_segment_size to:
-> >> CDC_NCM_MAX_DATAGRAM_SIZE               8192    /* bytes */
-> >
-> > In practice you get 50% of the benefits of infinitely large mtu by
-> > going from 1500 to ~2980.
-> > you get 75% of the benefits by going to ~6K
-> > you get 87.5% of the benefits by going to ~12K
-> > the benefits of going even higher are smaller and smaller...
-> >  > If the host side is limited to 8192, maybe we should match that here=
- too?
->
-> Hi Maciej,
->
->   Thanks for the detailed explanation. I agree with you on setting
-> device side also to 8192 instead of what max_mtu is present in u_ether
-> or practical max segment size possible.
->
-> >
-> > But the host side limitation of 8192 doesn't seem particularly sane eit=
-her...
-> > Maybe we should relax that instead?
-> >
-> I really didn't understand why it was set to 8192 in first place.
->
-> > (especially since for things like tcp zero copy you want an mtu which
-> > is slighly more then N * 4096,
-> > ie. around 4.5KB, 8.5KB, 12.5KB or something like that)
-> >
->
-> I am not sure about host mode completely. If we want to increase though,
-> just increasing the MAX_DATAGRAM_SIZE to some bigger value help ? (I
-> don't know the entire code of cdc_ncm, so I might be wrong).
->
-> Regards,
-> Krishna,
+hi Jason, DRM-folk
 
-Hmm, I'm not sure.  I know I've experimented with high mtu ncm in the past
-(around 2.5 years ago).  I got it working between my Linux desktop (host)
-and a Pixel 6 (device/gadget) with absolutely no problems.
+(now with checkpatch fixes)
 
-I'm pretty sure I didn't change my desktop kernel, so I was probably
-limited to 8192 there
-(and I do more or less remember that).
-From what I vaguely remember, it wasn't difficult (at all) to hit
-upwards of 7gbps for iperf tests.
-I don't remember how close to the theoretical USB 10gbps maximum of
-9.7gbps I could get...
-[this was never the real bottleneck / issue, so I didn't ever dig
-particularly deep]
+This patchest fixes the chicken-egg initialization problem in the 1st
+version of ddebug-class-maps, that DRM-CI uncovered.
 
-I'm pretty sure my gadget side changes were non-configurable...
-Probably just bumped one or two constants...
+The root-problem was DECLARE_DYNDBG_CLASSMAP, which broke the K&R rule:
+"define once, refer many".  In patch 14 it is replaced by:
 
-I do *very* *vaguely* recall there being some funkiness though, where 8192 =
-was
-*less* efficient than some slightly smaller value.
+ DYNDBG_CLASSMAP_DEFINE - define and export a struct ddebug_class_map
+ DYNDBG_CLASSMAP_USE - ref the exported struct
 
-If I recall correctly the issue is that 8192 + ethernet overhead + NCM
-overhead only fits *once* into 16384, which leaves a lot of space
-wasted.
-While ~7.5 kb + overhead fits twice and is thus a fair bit better.
+test-dynamic-debug is also extended with a -submod.ko, in order to
+recapitulate the drm & drivers initialization scenario.
 
-I don't remember if I found a way to boost the 16384 to double or triple th=
-at.
-That should have been a win, I can't remember if we were usb3 spec
-limitted there.
+They're on v6.6-rc5 now, and apply cleanly to drm-tip/drm-tip.
+
+Ive been running recent revs on rc3+, on my desktop and laptop.
+
+The final blocker was a missing __align(8) on the ddebug_class_user
+record inserted by DYNDBG_CLASSMAP_USE.  This caused DRM=y (builtin
+only) to have a corrupt record for drm_kms_helper (builtin dependent).
+Curiously, a clang build did not exhibit this problem.
+
+Heres a part of dmesg, for a DRM=y kernel, booted with
+     dynamic_debug.verbose=3 drm.debug=0x10
+
+[    0.466747] dyndbg: add-module: drm 406 sites
+[    0.467569] dyndbg: classes[0]: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.467743] dyndbg: module:drm attached 1 classes
+[    0.468557] dyndbg: builtin class: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.468742] dyndbg:  found kp:drm.debug =0x10
+[    0.468743] dyndbg:   mapped to: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.469742] dyndbg:   drm.debug: classbits: 0x10
+[    0.470573] dyndbg: apply bitmap: 0x10 to: 0x0 for drm
+[    0.470743] dyndbg: query 0: "class DRM_UT_ATOMIC +p" mod:drm
+[    0.471743] dyndbg: split into words: "class" "DRM_UT_ATOMIC" "+p"
+[    0.472743] dyndbg: op='+' flags=0x1 maskp=0xffffffff
+[    0.473679] dyndbg: parsed: func="" file="" module="drm" format="" lineno=0-0 class=DRM_UT_ATOMIC
+[    0.473749] dyndbg: processed 1 queries, with 0 matches, 0 errs
+[    0.474742] dyndbg: bit_4: 0 matches on class: DRM_UT_ATOMIC -> 0x10
+[    0.475742] dyndbg: applied bitmap: 0x10 to: 0x0 for drm
+[    0.476686] dyndbg: 406 debug prints in module drm
+[    0.476743] dyndbg: add-module: drm_kms_helper 93 sites
+[    0.477727] dyndbg: class_ref[0] drm_kms_helper -> drm module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.477743] dyndbg: builtin class: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.478742] dyndbg:  found kp:drm.debug =0x10
+[    0.478743] dyndbg:   mapped to: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.479743] dyndbg:   drm.debug: classbits: 0x10
+[    0.480592] dyndbg: apply bitmap: 0x10 to: 0x0 for drm_kms_helper
+[    0.480743] dyndbg: query 0: "class DRM_UT_ATOMIC +p" mod:drm_kms_helper
+[    0.481743] dyndbg: split into words: "class" "DRM_UT_ATOMIC" "+p"
+[    0.482743] dyndbg: op='+' flags=0x1 maskp=0xffffffff
+[    0.483743] dyndbg: parsed: func="" file="" module="drm_kms_helper" format="" lineno=0-0 class=DRM_UT_ATOMIC
+[    0.484750] dyndbg: class-ref: drm_kms_helper.DRM_UT_ATOMIC  module:drm_kms_helper nd:93 nc:0 nu:1
+[    0.485809] dyndbg: processed 1 queries, with 44 matches, 0 errs
+[    0.486742] dyndbg: bit_4: 44 matches on class: DRM_UT_ATOMIC -> 0x10
+[    0.487742] dyndbg: applied bitmap: 0x10 to: 0x0 for drm_kms_helper
+[    0.488743] dyndbg: attach-client-module:  module:drm_kms_helper nd:93 nc:0 nu:1
+[    0.489742] dyndbg:  93 debug prints in module drm_kms_helper
+
+Widespread testing is appreciated.
+I have scripts if anyone wants them.
+
+I'll forward lkp-robot reports here when I get them.
+Patches also at https://github.com/jimc/linux (dd-fix-7b)
+
+
+Jim Cromie (25):
+  test-dyndbg: fixup CLASSMAP usage error
+  dyndbg: reword "class unknown," to "class:_UNKNOWN_"
+  dyndbg: make ddebug_class_param union members same size
+  dyndbg: replace classmap list with a vector
+  dyndbg: ddebug_apply_class_bitmap - add module arg, select on it
+  dyndbg: split param_set_dyndbg_classes to module/wrapper fns
+  dyndbg: drop NUM_TYPE_ARRAY
+  dyndbg: reduce verbose/debug clutter
+  dyndbg: silence debugs with no-change updates
+  dyndbg: tighten ddebug_class_name() 1st arg type
+  dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
+  dyndbg: reduce verbose=3 messages in ddebug_add_module
+  dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
+  dyndbg-API: fix CONFIG_DRM_USE_DYNAMIC_DEBUG regression
+  dyndbg: add for_each_boxed_vector
+  dyndbg: refactor ddebug_classparam_clamp_input
+  dyndbg-API: promote DYNDBG_CLASSMAP_PARAM to API
+  dyndbg-doc: add classmap info to howto
+  dyndbg: reserve flag bit _DPRINTK_FLAGS_PREFIX_CACHED
+  dyndbg: add _DPRINTK_FLAGS_INCL_LOOKUP
+  dyndbg: refactor *dynamic_emit_prefix
+  dyndbg: change WARN_ON to WARN_ON_ONCE
+  drm: use correct ccflags-y spelling
+  drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
+  drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+
+ .../admin-guide/dynamic-debug-howto.rst       |  60 ++-
+ MAINTAINERS                                   |   2 +-
+ drivers/gpu/drm/Kconfig                       |   3 +-
+ drivers/gpu/drm/Makefile                      |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  12 +-
+ drivers/gpu/drm/display/drm_dp_helper.c       |  12 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |  12 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +
+ drivers/gpu/drm/drm_print.c                   |  35 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |   2 +
+ drivers/gpu/drm/i915/i915_params.c            |  12 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |   2 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  12 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   2 +
+ drivers/gpu/drm/radeon/radeon_drv.c           |   2 +
+ drivers/gpu/drm/udl/udl_main.c                |   2 +
+ drivers/gpu/drm/vkms/vkms_drv.c               |   2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   2 +
+ include/asm-generic/vmlinux.lds.h             |   1 +
+ include/drm/drm_print.h                       |  12 +-
+ include/linux/dynamic_debug.h                 | 121 +++--
+ kernel/module/main.c                          |   3 +
+ lib/Kconfig.debug                             |  24 +-
+ lib/Makefile                                  |   3 +
+ lib/dynamic_debug.c                           | 460 +++++++++++-------
+ lib/test_dynamic_debug.c                      | 131 ++---
+ lib/test_dynamic_debug_submod.c               |  17 +
+ 27 files changed, 586 insertions(+), 365 deletions(-)
+ create mode 100644 lib/test_dynamic_debug_submod.c
+
+-- 
+2.41.0
+
