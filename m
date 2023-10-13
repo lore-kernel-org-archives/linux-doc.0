@@ -1,190 +1,131 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C674217980
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 18:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4411D550
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 18:55:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q/vc+ogZ"
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3EEBB
-	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:40:57 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-4063bfc6c03so11655e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:40:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Filz4HFd"
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A315ABF
+	for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:55:26 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c5028e5b88so17661391fa.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:55:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697222455; x=1697827255; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DZVpY21cwcAndxPn7pzCSjYxGXGWx8Hqaw1X1tXYIQU=;
-        b=q/vc+ogZ+B5EtNLKdU707XhriCbzKWIUdNBo7W98lOtogu+I0Yyvc27CjXu98n8cDc
-         F5GQQcB1NkoRbaTb769mbmtRLHnmb3m04imEbQHa4vIIUCN0IWaYgQy8lHf/CEQ2r06y
-         kud6QsCdt3dZO7lb6e53XSR1cwssRG2V19hiZEGlzSfFabG7M9dovlA/6xvXSHUASobL
-         GgcbJOBiWkc6e0tu52GyO41mfZr89E5xL5uipmWYi9oQUaKmxLf53fbrnyOAKy696ASM
-         dEHkV9PNrQGtXjxSsb4yoqHYEZriGExfUt0zqybXe5WluIQomddL3eO2YTm7GJS7fXrP
-         39sQ==
+        d=linux-foundation.org; s=google; t=1697223325; x=1697828125; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vTnCuQhHu4vMJ5ozMAEPYZByiFfPswag7KkaGVloQKk=;
+        b=Filz4HFdDwcz4iaTdSNfWPUg3i9v4F97GHrcYE690RSHkpvZrlusxUiSk56Vw+38Zd
+         InuIV6zJZvTEpRhhG3rd222vM6o862BVdW6x4dzT22qbC7lWQtOzZ+gaPDHj7CuCXxdv
+         BnoQbzG5Vj8ZPC4Eul8p0+XYDOQXfqKvfA2fY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697222455; x=1697827255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DZVpY21cwcAndxPn7pzCSjYxGXGWx8Hqaw1X1tXYIQU=;
-        b=aHOf0d93lIgvKzwWkpw4qYTIoBaU6VSWcc5///PFQrgZrDmZlQ8vT68Kzgd2u03GNu
-         fdn5sEX+wTQ52ekHWmYJ+c3umXWbhSon02WxkiGUKXXHE9d7rhXpdWxTAtbnH/rH4TLP
-         yQcaVxQmwKptd61E4c1y3sQ563CNk8edttppmDKE/sg4ADZ303vd0dd7gI6a5Ndk6uYM
-         XPhtHCuQBZFZtBnqRDUIPE38qx4TQzfIkhAk8uzrNUpyWmC6TPKPthuXP2vUYOQpJ/IE
-         mV9r3GQHl9hwq9F+SGzYfT+vDm4a2t2j1BbeQ7Vle12MxYCiCy8coMqmFBzwe370Ea6Z
-         JYCg==
-X-Gm-Message-State: AOJu0YyCzJgA6ILjLifp3+03JQEXhFzhC02AtUb3K80weDsP/fqIutTF
-	SQMwyvXX1toWO7gQ/NY7JzZr+Owcn137HIXKwktQ7w==
-X-Google-Smtp-Source: AGHT+IFij3kUIEY1BA2tygafsY+JsIAU1kQX7FEzzpuiNxVWSLwUvRtg15t59Kf03RgWZZ5plcxH5PrA7Icv7vV7DWE=
-X-Received: by 2002:a7b:cb54:0:b0:406:4e80:b8ef with SMTP id
- v20-20020a7bcb54000000b004064e80b8efmr3512wmj.6.1697222455333; Fri, 13 Oct
- 2023 11:40:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697223325; x=1697828125;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vTnCuQhHu4vMJ5ozMAEPYZByiFfPswag7KkaGVloQKk=;
+        b=JSg+lmpnjQJt9MHpEg5l1cDsvGpIXdmQ8sq0lraKPrMyZr+FPdeU4iTO4DoIOfEavB
+         vOdqwsmDPRtQf0B0eNkw1qXMD3qw5B3hxHEGEnGREFJ4pYzV7tflx2SL1KRgqB25YwyP
+         WpjOoc2Vb7CuURpm8oDsqj9pQHTfZDVlqUV2tydNFsljlzn1w1Q51nhJjUVb7tD5ZFAQ
+         TiB8qRFGMC38jpgPn8e+AowLA0mzIe7Fr9PNaYHU/iTaBEbxGurTuM5NLrH8M8E/9i2j
+         FdBQLv/LelRN8hnOVaqIX/D+qlGbRFfNH2nMp+/wKdznhvRph6qzx4C1HKMaW7ZCuqde
+         4tiA==
+X-Gm-Message-State: AOJu0Yz2EV3XVp2WBI/1iW2HwaZP1YLwoIceLxB16AwwJTCx02GE3lKT
+	twsEB0aJnkN2zNdZckCwGPhAtJThLMsaPLu7JhOCcQ==
+X-Google-Smtp-Source: AGHT+IFgYDYcxIpDltzwsAS4jqBCSlW8JJs7jeRQn+CEI8ZMESxyRaB1x72XPp7EXIBOarj4VnXlJA==
+X-Received: by 2002:a2e:8883:0:b0:2ba:8127:a2c3 with SMTP id k3-20020a2e8883000000b002ba8127a2c3mr23507300lji.34.1697223324788;
+        Fri, 13 Oct 2023 11:55:24 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
+        by smtp.gmail.com with ESMTPSA id y8-20020a2e7d08000000b002bf6852d135sm4258626ljc.94.2023.10.13.11.55.24
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Oct 2023 11:55:24 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2c5028e5b88so17661271fa.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Oct 2023 11:55:24 -0700 (PDT)
+X-Received: by 2002:a17:906:2189:b0:9ae:6ad0:f6db with SMTP id
+ 9-20020a170906218900b009ae6ad0f6dbmr23995223eju.71.1697223303355; Fri, 13 Oct
+ 2023 11:55:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
- <20231009142005.21338-2-quic_kriskura@quicinc.com> <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
- <CANP3RGcCpNOuVpdV9n0AFxZo-wsfwi8OfYgBk1WHNHaEd-4V-Q@mail.gmail.com>
- <CANP3RGdY4LsOA6U5kuccApHCzL0_jBnY=pLOYrUuYtMZFTvnbw@mail.gmail.com>
- <d19d9d08-c119-4991-b460-49925f601d15@quicinc.com> <fad5a7fb-cce1-46bc-a0af-72405c76d107@quicinc.com>
- <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
- <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com> <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
-In-Reply-To: <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
-From: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
-Date: Fri, 13 Oct 2023 11:40:43 -0700
-Message-ID: <CANP3RGfDf4mUR4UAMF8283vPZBxYmGxe0D_02NhWDR2JjHCtmg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
- wMaxSegmentSize via configfs
-To: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, onathan Corbet <corbet@lwn.net>, 
-	Linyu Yuan <quic_linyyuan@quicinc.com>, linux-usb@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_ppratap@quicinc.com, quic_wcheng@quicinc.com, quic_jackp@quicinc.com
+References: <20220927131518.30000-1-ojeda@kernel.org> <20220927131518.30000-26-ojeda@kernel.org>
+ <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net> <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
+ <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
+ <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com>
+ <20231012104741.GN6307@noisy.programming.kicks-ass.net> <CABCJKufEagwJ=TQnmVSK07RDjsPUt=3JGtwnK9ASmFqb7Vx8JQ@mail.gmail.com>
+ <202310121130.256F581823@keescook> <CAOcBZOTed1a1yOimdUN9yuuysZ1h6VXa57+5fLAE99SZxCwBMQ@mail.gmail.com>
+ <20231013075005.GB12118@noisy.programming.kicks-ass.net> <CAOcBZOTP_vQuFaqREqy-hkG69aBvJ+xrhEQi_EFKvtsNjne1dw@mail.gmail.com>
+In-Reply-To: <CAOcBZOTP_vQuFaqREqy-hkG69aBvJ+xrhEQi_EFKvtsNjne1dw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 13 Oct 2023 11:54:46 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjLUit_gae7anFNz4sV0o2Uc=TD_9P8sYeqMSeW_UG2Rg@mail.gmail.com>
+Message-ID: <CAHk-=wjLUit_gae7anFNz4sV0o2Uc=TD_9P8sYeqMSeW_UG2Rg@mail.gmail.com>
+Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
+To: Ramon de C Valle <rcvalle@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <keescook@chromium.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, patches@lists.linux.dev, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@google.com>, David Gow <davidgow@google.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Fri, Oct 13, 2023 at 11:39=E2=80=AFAM Maciej =C5=BBenczykowski <maze@goo=
-gle.com> wrote:
+On Fri, 13 Oct 2023 at 05:18, Ramon de C Valle <rcvalle@google.com> wrote:
 >
-> On Thu, Oct 12, 2023 at 8:40=E2=80=AFAM Krishna Kurapati PSSNV
-> <quic_kriskura@quicinc.com> wrote:
-> >
-> >
-> >
-> > On 10/12/2023 6:02 PM, Maciej =C5=BBenczykowski wrote:
-> > > On Thu, Oct 12, 2023 at 1:48=E2=80=AFAM Krishna Kurapati PSSNV
-> > >
-> > > Could you paste the full patch?
-> > > This is hard to review without looking at much more context then emai=
-l
-> > > is providing
-> > > (or, even better, send me a link to a CL in gerrit somewhere - for
-> > > example aosp ACK mainline tree)
-> >
-> > Sure. Will provide a gerrit on ACK for review before posting v2.
-> >
-> > The intent of posting the diff was two fold:
-> >
-> > 1. The question Greg asked regarding why the max segment size was
-> > limited to 15014 was valid. When I thought about it, I actually wanted
-> > to limit the max MTU to 15000, so the max segment size automatically
-> > needs to be limited to 15014.
->
-> Note that this is a *very* abstract value.
-> I get you want L3 MTU of 10 * 1500, but this value is not actually meanin=
-gful.
->
-> IPv4/IPv6 fragmentation and IPv4/IPv6 TCP segmentation
-> do not result in a trivial multiplication of the standard 1500 byte
-> ethernet L3 MTU.
-> Indeed aggregating 2 1500 L3 mtu frames results in *different* sized
-> frames depending on which type of aggregation you do.
-> (and for tcp it even depends on the number and size of tcp options,
-> though it is often assumed that those take up 12 bytes, since that's the
-> normal for Linux-to-Linux tcp connections)
->
-> For example if you aggregate N standard Linux ipv6/tcp L3 1500 mtu frames=
-,
-> this means you have
-> N frames: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
-> payload (1500-12-20-40=3D1500-72=3D1428)
-> post aggregation:
-> 1 frame: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
-> payload (N*1428)
->
-> so N * 1500 =3D=3D N * (72 + 1428) --> 1 * (72 + N * 1428)
+> Both C and repr(C) Rust structs have this encoding, but I understand
+> the problems with doing this in C since it doesn't have
+> repr(transparent) structs so there would be a lot of casting back and
+> forth. Maybe there is an alternative or this could be done for less
+> used function pairs?
 
-As you can see, for N=3D10, this isn't 15000, it's 72+10*1428 =3D 14352
+We actually have some C variations of what I think people want to use
+"repr(transparent) struct" for in Rust.
 
->
-> That value of 72 is instead 52 for 'standard Linux ipv4/tcp),
-> it's 40/60 if there's no tcp options (which I think happens when
-> talking to windows)
-> it's different still with ipv4 fragmentation... and again different
-> with ipv6 fragmentation...
-> etc.
->
-> ie. 15000 L3 mtu is exactly as meaningless as 14000 L3 mtu.
-> Either way you don't get full frames.
->
-> As such I'd recommend going with whatever is the largest mtu that can
-> be meaningfully made to fit in 16K with all the NCM header overhead.
-> That's likely closer to 15500-16000 (though I have *not* checked).
->
-> > But my commit text didn't mention this
-> > properly which was a mistake on my behalf. But when I looked at the
-> > code, limiting the max segment size 15014 would force the practical
-> > max_mtu to not cross 15000 although theoretical max_mtu was set to:
-> > (GETHER_MAX_MTU_SIZE - 15412) during registration of net device.
-> >
-> > So my assumption of limiting it to 15000 was wrong. It must be limited
-> > to 15412 as mentioned in u_ether.c  This inturn means we must limit
-> > max_segment_size to:
-> > GETHER_MAX_ETH_FRAME_LEN (GETHER_MAX_MTU_SIZE + ETH_HLEN)
-> > as mentioned in u_ether.c.
-> >
-> > I wanted to confirm that setting MAX_DATAGRAM_SIZE to
-> > GETHER_MAX_ETH_FRAME_LEN was correct.
-> >
-> > 2. I am not actually able to test with MTU beyond 15000. When my host
-> > device is a linux machine, the cdc_ncm.c limits max_segment_size to:
-> > CDC_NCM_MAX_DATAGRAM_SIZE               8192    /* bytes */
->
-> In practice you get 50% of the benefits of infinitely large mtu by
-> going from 1500 to ~2980.
-> you get 75% of the benefits by going to ~6K
-> you get 87.5% of the benefits by going to ~12K
-> the benefits of going even higher are smaller and smaller...
->
-> If the host side is limited to 8192, maybe we should match that here too?
->
-> But the host side limitation of 8192 doesn't seem particularly sane eithe=
-r...
-> Maybe we should relax that instead?
->
-> (especially since for things like tcp zero copy you want an mtu which
-> is slighly more then N * 4096,
-> ie. around 4.5KB, 8.5KB, 12.5KB or something like that)
->
-> > When connected to windows machine, I am able to set the mtu to a max
-> > value of 15000. So not sure how to test the patch if I set the
-> > max_segment_size to GETHER_MAX_ETH_FRAME_LEN.
-> >
-> > By pasting the diff, I wanted to confirm both the above queries.
-> >
-> > And you are right, while assigning value to ecm.wMaxSegmentSize, we mus=
-t
-> > use cpu_to_le16(...). Will ensure to make this change in v2. It worked
-> > without that too, not sure how.Maciej =C5=BBenczykowski, Kernel Network=
-ing Developer @ Google
+Of course, that is depending on what kind of context you want to use
+it for, and I might have lost some background. But I'm assuming you're
+talking about the situation where you want to treat two or more types
+as being "compatible" within certain contexts.
+
+There's the actual standard C "_Generic()" alternative, which allows
+you to make macros etc that use different types transparently.
+
+It's not very widely used in the kernel, because we only fairly
+recently moved to require recent enough compiler versions, but we do
+use it now in a couple of places.
+
+And there's the much more traditional gcc extension in the form of the
+__attribute__((__transparent_union__)) thing. In the kernel, that one
+is even less used, and that one use is likely going away since the
+need for it is going away.
+
+But while it's not standard C, it's actually been supported by
+relevant compilers for much longer than "_Generic" has, and is
+designed exactly for the "I have a function that can take arguments of
+different types", either because the types are bitwise identical (even
+if _conceptually_ not the same), or simply because you have a
+different argument that describes the type (the traditional C union
+model).
+
+I suspect, for example, that we *should* have used those transparent
+unions for the "this function can take either a folio or a page" case,
+instead of duplicating functions for the two uses.
+
+But probably because few people aren familiar with the syntax, that's
+not what happened.
+
+             Linus
