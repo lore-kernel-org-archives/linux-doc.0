@@ -1,248 +1,370 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B0B1845
-	for <linux-doc@vger.kernel.org>; Sat, 14 Oct 2023 22:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C75266B0
+	for <linux-doc@vger.kernel.org>; Sat, 14 Oct 2023 23:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ge1EVana"
-Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com [IPv6:2607:f8b0:4864:20::a2b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C42DCC;
-	Sat, 14 Oct 2023 15:54:36 -0700 (PDT)
-Received: by mail-vk1-xa2b.google.com with SMTP id 71dfb90a1353d-49ab6c1869dso2967970e0c.0;
-        Sat, 14 Oct 2023 15:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697324075; x=1697928875; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E3dgwAPbWgceK8XnpO8ceX742rck1tlUzuW6UkEbMaQ=;
-        b=Ge1EVanau9Tb9T4+lTUKWqrz3uMU75ASXnoyBqzB+Zw83Gii/9rbxQMfUgt9LqsCdj
-         lt4soLJG8zUTVQdW36AQJ03W/ECGfb/qeEQ8MFCFXO7zMOlYvjsCa7zT6TqvWamwMYyd
-         Nt4zmCTXeAAaezgp02dxjJfg38+zTWgPuncDec3FNMqtptzfeP0Gz6F/qqWtzfk/aJtT
-         +Hp4Q70G9yZcetAdWdTaWHNiXSwY2deECbUq+EQHjSkHN/L31SMbVVMNVMwLAsxzdrsF
-         A5Dno5uyETCA+XyD6u1JQP4GSfBylZV4GImd0wWdkaFOzaTq/t+R0WZTdowVZdhXFTUM
-         jw+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697324075; x=1697928875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E3dgwAPbWgceK8XnpO8ceX742rck1tlUzuW6UkEbMaQ=;
-        b=fVDuO6jYXJy6KZQaopmXgvs1HhV8tOkQQDkENVOvNYe2l7rgCEH242OBNHy5i8DSBp
-         fl/a9gRCApCKK8jPmAs9ojgBPx57KblZ1J/pNRHTyqfWMivSlmOBXbQ7druZL9mnuGga
-         StKdfFQTtmmOjhg5rHkkxjHiQfZtwurkaRWEShiZDidjAcOMhG6YzuVbdEM7dJkwvFuN
-         KykLh74F7LsC8sYvKCCbYBVDY3/3g7PqTAaAWp+9hGIXSNnS329595FpcYooa0GryQ4B
-         NRklwtJbq+TML1DkoQt+xCIPsEYhVMg8+s8pbaJ3193ZkZJ5KFJ30oLqLXZJrMQdtcty
-         qEeg==
-X-Gm-Message-State: AOJu0YzIKx/Cn+ZWhu0BYJvppD5wmw5d6VJTg8XTg10UvCTetPm+kRQA
-	Wrj0FyvWqwxQIjbhxFCN0/yoaFyBb6FZdtJUTuwzv10orS7C8A==
-X-Google-Smtp-Source: AGHT+IFfT3nqs45wSlTdh49Mfqnd7iS4fm3NazMXcrcNd0WEk8mfYCYz456yTKkBrC2Rm6aiZ0xPlI+0DL8Ucy3wF44=
-X-Received: by 2002:a05:6122:1681:b0:49a:b587:ab79 with SMTP id
- 1-20020a056122168100b0049ab587ab79mr2277741vkl.8.1697324075009; Sat, 14 Oct
- 2023 15:54:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nM0b5nq0"
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2063.outbound.protection.outlook.com [40.107.212.63])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C71B7;
+	Sat, 14 Oct 2023 16:07:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K9q7keitzIX3/Oz+iKDfHUJaQAAkKmOQvEvfeqiB3cQqki8VR/NScffrIOZIBiUnpIQOMErf3WTO9mEhI6tOKNEXjjGLJzlesLl7N5eOuln71pmS/3oRcg21SCP/Ud6+DLqhLZRWc76wWUFUwtC2DhrEYPdHWkTjqfoa1jKpCMo+/y7y6fnb5Z07IS+v8Fhhl7+SFjhyTCmgmja2n2YCKlLS9GLdIA9HHfNXJ92klaqbA3aWaRFPKWpL9rMZBeGZR2zlyHnnHmAG7ld7o1/POTh8RAABi7DssBSjGt0ymc6cSO3BBAX6kbZA5HiKb/TJJcKm9Ds1ObVyWnh/ZPX6Lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yCMaOLX6+lY1oZyl52fXrrghsiwiJQZMnAHM4BRbGRg=;
+ b=lPxpK+cDt1a+K8vl4PTFhPnHMsXbPC0exPdYWaBk3TqZmPJ0rQx1GTg5/9VB66is6g5pZJJ8I7ljfULR4OxOafj0HHh34M15PT7o/crwJJxdPwcNfMAXNZ7QOjX5MtcaJopkS+lrh6TxNSBEIcilsazFAxb4Ba8OtIagFh9GLuUOg+Cr9HVREhNd3H2eKVEdkh2vqEbJCaeNXQGMRjn6LgjMLp1c1sELYZaqbINlLYZVYQE0mfZuqFdCkFuZEM3K6/5C2vob0PNR4CoK01Yxw4JO6LQg/CtTAwgTB8uTYsNdwz2OXfEGwhLpynfrCHR/BAfRtMFsVQw155+AVspuOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yCMaOLX6+lY1oZyl52fXrrghsiwiJQZMnAHM4BRbGRg=;
+ b=nM0b5nq0SEQv3cCb9LkngA8SdPMwBOB56ci3NlcX/5LkqQrQlLn56KYtdZ1Aa8+9FpILDmi9wySGJw4/Rd56Bgz7gA/FBdrZreBz3cQmuAhuWzdDpwOzr7HLA9ewFmm4n9SCLhpB5TtulwnI62GMNWUEKhs5jGfCGJxrZGwQqUk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by LV2PR12MB5797.namprd12.prod.outlook.com (2603:10b6:408:17b::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.34; Sat, 14 Oct
+ 2023 23:07:06 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b5d1:8b74:fe73:bd39]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b5d1:8b74:fe73:bd39%6]) with mapi id 15.20.6863.043; Sat, 14 Oct 2023
+ 23:07:05 +0000
+Content-Type: multipart/mixed; boundary="------------nbwd5hDp6EnjQ4PfqpmuVVV2"
+Message-ID: <299778a6-5ea0-c70d-54d6-1ecdc1b417d6@amd.com>
+Date: Sat, 14 Oct 2023 18:06:59 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v13 04/10] x86/resctrl: Add comments on RFTYPE flags
+ hierarchy
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de
+Cc: fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+ quic_neeraju@quicinc.com, rdunlap@infradead.org,
+ damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+ peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+ chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+ jmattson@google.com, daniel.sneddon@linux.intel.com, sandipan.das@amd.com,
+ tony.luck@intel.com, james.morse@arm.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bagasdotme@gmail.com, eranian@google.com,
+ christophe.leroy@csgroup.eu, jarkko@kernel.org, adrian.hunter@intel.com,
+ quic_jiles@quicinc.com, peternewman@google.com
+References: <20231013202602.2492645-1-babu.moger@amd.com>
+ <20231013202602.2492645-5-babu.moger@amd.com>
+ <d4a33013-0448-4c36-a168-b3a953024962@intel.com>
+ <0acbb031-a84e-1cbc-0857-f087b07a9056@amd.com>
+In-Reply-To: <0acbb031-a84e-1cbc-0857-f087b07a9056@amd.com>
+X-ClientProxiedBy: SA1PR04CA0006.namprd04.prod.outlook.com
+ (2603:10b6:806:2ce::6) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231013224818.3456409-1-jim.cromie@gmail.com>
-In-Reply-To: <20231013224818.3456409-1-jim.cromie@gmail.com>
-From: jim.cromie@gmail.com
-Date: Sat, 14 Oct 2023 16:54:08 -0600
-Message-ID: <CAJfuBxxc1HxYNbp1vdkh8yTOTHV-5ohskCA-twx5Uf2SmWTffg@mail.gmail.com>
-Subject: Re: [PATCH v7b 00/25] fix DRM_USE_DYNAMIC_DEBUG=y regression
-To: linux-kernel@vger.kernel.org, jbaron@akamai.com, 
-	gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
-	amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org
-Cc: lb@semihalf.com, linux@rasmusvillemoes.dk, joe@perches.com, 
-	mcgrof@kernel.org, daniel.vetter@ffwll.ch, jani.nikula@intel.com, 
-	ville.syrjala@linux.intel.com, seanpaul@chromium.org, robdclark@gmail.com, 
-	groeck@google.com, yanivt@google.com, bleung@google.com, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|LV2PR12MB5797:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62e337ac-0a80-4d42-c609-08dbcd0a4835
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ZHmcaStAPrtHJM5CzSACXtIfOvm8W53b3l6kgE+mMaHuj7yfhAMVZb5OaEJVFstirn1tugoJOatJljF27Hkth4El6ZmxfL7lLiRl8CGdH4K3LSFud1JldQQLzCu4PU9KVF2VCZdoMM0QItyZ6AQQrCDNlHWmefrSZ/eD7PLHdb5/oYzWdipc0lOR8xoCOGYHzVN/q18xU2lmmkitrFyG/g9Cvqr37jDfUik6F3Q/EgaxqVk5ljCnJbmryVohbDdq55QRHYVhrLamlLS7tnpFm9/Dalcs+l7rK7a8yvMGKVut7YYXAt2qlRb6rEZD/znfYc0/Pbz0WX722wRQNx4fS/2csr1Rri7r9qM65yr6YjQo2yHY/J45jvyG6QCrs94WaCuR46ar1CEow0QwdGvBi9wVpXfU8CBuB1w07QE8HSfOmUydEC8hAyQqjDpskIWaCF6IH5aUED06Jo10EtYjS4j1xi5NT5pgz8cT++ZV3tti+8jF/ODHIEmJUZvhMSPr8ZVqh1AcZOhcdjGjpoa0IMn8VJgkCQccAM4pvGPXdwDuQtmwWCaN+O8Z/meE0ceKPNdWeMnAuJZ2w8HoQi9A1ZjTu0LLWIRbTAmSvYrrpSrgJnq2g1pU6mMREQAw3NtlNQvcEc6ItYQRHRR7V8jCTQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(346002)(136003)(396003)(366004)(230922051799003)(64100799003)(451199024)(1800799009)(186009)(6666004)(110136005)(8936002)(66476007)(66556008)(38100700002)(66946007)(316002)(478600001)(2616005)(26005)(33964004)(53546011)(6506007)(6512007)(6486002)(8676002)(4326008)(7406005)(7416002)(235185007)(36756003)(2906002)(5660300002)(31696002)(41300700001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aUJ1SEF2YzYvNmt0NXR6UDF4NXU4cVk4Mnd6ZFdlcEF2OVVOVmNrVThEN1M3?=
+ =?utf-8?B?NVpaK2dUS1NmakkzUDV5ZUZRaFFzM0dhNDVzQ0xISmIwTDkzdU4zaVBkVU5V?=
+ =?utf-8?B?cnE1OVF6TUtZT3B2ZGJmaW9ZM1NhTnpRZ1RwR3gyTTdBWDdoTmdyQ1ZmMTc1?=
+ =?utf-8?B?UVF6T3pFM0RDY1d0SG9qaGpQY1FmZmtGTmwzZkU2dFphN1lUbWtuaHFzbXkw?=
+ =?utf-8?B?Y3ZxeXVldEZkVjUxWURGQjRTNmVTS2wveXBIdHBocVVPM05xZjV2YXVQejc1?=
+ =?utf-8?B?cHBFZUdZMm1ZdDFnVTI0UC9EZXR3UXRPVlFjejY2dmI5bjFCam9xcE9EK3dK?=
+ =?utf-8?B?Qk9LakNkU0dFdFVXY25IVGRITXJZMDF5Z0JJQzdiSmxtdEFLcFo4MzhoNjgy?=
+ =?utf-8?B?MWwwTzdsMlB2TFpJRGtsaHFBUHozaW9PVEdMN2RMZ3Z0SThoOS95UEZUSEx5?=
+ =?utf-8?B?V0lRbGNrMnQ2aWRIdUdiVnQ4Um5td29DMWhWcUhUdDlYYnpkSktobks3elJm?=
+ =?utf-8?B?cHhyT2tCS21naEdoWTRjQVU0N3BhZlpJcXlWcDVvU3k4Z0V0dGNlWlI1aGVF?=
+ =?utf-8?B?VnV3NnJHbUVkQzFqT0RHRkRDektqamJrN1NMRVN5dGxzM2M1THAzN3hCQTE1?=
+ =?utf-8?B?VForQUI3S25Odm0xQmJtMW5TNmx4Vm85YVAweEJKa3gzTzFRZys5RmpYWldI?=
+ =?utf-8?B?UHA4QkNsV3Y3eHEyVW5EeDY2ZnFCMnMwRHNTbWZBZFQ1SnhDZVUvL05tL0pr?=
+ =?utf-8?B?eG5USnl5cGM4QVZMZDhKNmNaM25mVm9BWnJIcmN0S2NJQUI0dDVNbmpiS1Ru?=
+ =?utf-8?B?SjgwUTdBS0s5RzBoQTRRcFNEejRiOEorbEJZRVRNUTlSQjNZNGE2TStPeGVq?=
+ =?utf-8?B?dnhMcWxibEZGek1yQVZIQSs5RG8valZGZnk5aVA2azJOK1JRa1Y4aEw1K3B6?=
+ =?utf-8?B?WDdzOTRHc3V0QnJ4NmlLSmhnZ2NadzQ5UFlOSXAzUnlFcUgvTUl3bWtzYnUz?=
+ =?utf-8?B?ZVVwZUcrRVByY0NIVE4wTEZTWFZrdVpXa0VTUFcrbGtzRlpzSlViVUxTL3hE?=
+ =?utf-8?B?eEd5U3VramcrZU1ZV3FGU0xDcVR3K2tjcDRQbHN4Vzd0bjVRdUM4QThOYUxz?=
+ =?utf-8?B?ZHcrRkRERTBKNUVoNktDeUN6T05iOG9ZU2paM0E2OUhGWjhMVytFSksrUW5H?=
+ =?utf-8?B?Vk1qRE4xby9pMC9rdkNrOHVMRG85Q0F2ZWxobmFjVXo5OVRnQzdUbHNTUzhz?=
+ =?utf-8?B?amNsNUJWVlJMM0Fic3hPdjUrb1dCVDRDR2pGUkxxaGQ0NnRxbFNjQk5lcytU?=
+ =?utf-8?B?NGY2SkU4emxFb1JXOU5IbDg5TTB1cFhMaG1oSFFyUXdxOWpkM1pwYllJUG1G?=
+ =?utf-8?B?bWZFUURrTW9obFFIYlpQZVVEcE1IWDFxU0xNK2VDbWVISlBHQlEyTjc1czlw?=
+ =?utf-8?B?b2Y4akpHNEJRVEYvWXJaNGVXTk5BSThGTkVQVlYzK2FyRldySUJZZVoyZDBQ?=
+ =?utf-8?B?ZThHMFplWjdRK0ZMVzVXTkM1TU1oWm5KZWUzZFREUFRzMU40anZpUmQweEo5?=
+ =?utf-8?B?eTYrVXpIeSt3QUhQUWRTbzdTd085bXVVbmJnZWhRQ1ZxT1FjSXlvYS9QWVQw?=
+ =?utf-8?B?eXRxTkVwTFczdUNheWZJd3NPZ25BUnVsRjdwTXRSbHhmR0lKRkUrb1hBN1Fj?=
+ =?utf-8?B?d2Q2RzE2VzZET2dzNlhBeWFVYjA4QVpqZVgxaUpmTWtIUVNWVDgrenBGSlN3?=
+ =?utf-8?B?cVl2VjBIU2VKWEEvQVMyUmNFNmI1bTVkQTc2M0M2M0E0dFRBVzcrdE9sbHlP?=
+ =?utf-8?B?a01kQ0xTWXlDMXhKMi83TUJsQkpwQzYzMWZJUit6NGxvWFM3MVd0MjBURUcz?=
+ =?utf-8?B?YVdqandReGd5ZjlkUGNwdm11UkJwd2V0ZzVEVWNEYjJHTFR5NXRidm5jM0d5?=
+ =?utf-8?B?TVJLS1p3bWxLTFFwOVJnRUV3TW9JVHhsdlJJbHFTMElheUdUR3lvTTdFdko5?=
+ =?utf-8?B?VVd3aGRVTDdNUENsRnFPWGFDOVlBRlZhenYyUndtRTM0WGFWT21jRXNta3px?=
+ =?utf-8?B?RGhZRHhMaE1OaFFHOHQ2VVdlNCtDcm9tTHhHY3Y2clNzSE1OT3RpakZIblQz?=
+ =?utf-8?Q?0vBY=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62e337ac-0a80-4d42-c609-08dbcd0a4835
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2023 23:07:05.3202
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4+oTgaXfXYH9uAeMKa/c3EiOX4xk7zaeJes5zAkCUNTJRJ2H6jD75emb7iLZn/78
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5797
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+	NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Fri, Oct 13, 2023 at 4:48=E2=80=AFPM Jim Cromie <jim.cromie@gmail.com> w=
-rote:
+--------------nbwd5hDp6EnjQ4PfqpmuVVV2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi Reinette,
+
+On 10/13/2023 4:39 PM, Moger, Babu wrote:
+> Hi Reinette,
 >
-> hi Jason, DRM-folk
+> On 10/13/2023 4:23 PM, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 10/13/2023 1:25 PM, Babu Moger wrote:
+>>> resctrl uses RFTYPE flags for creating resctrl directory structure.
+>>>
+>>> Definitions and directory structures are not documented. Add
+>>> comments to improve the readability and help future additions.
+>>>
+>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>>> ---
+>>> v13: Fixed the format issues in the documentation. Needed few minor 
+>>> format
+>>>       changes to address the syntax issues.(Reinette)
+>>>       Removed "Reviewed-by and Tested-by" flags as the patch has 
+>>> changed.
+>>>
+>>> v12: Moved the comments from arch/x86/kernel/cpu/resctrl/internal.h
+>>>       to Documentation/arch/x86/resctrl.rst. (Boris)
+>>> ---
+>>>   Documentation/arch/x86/resctrl.rst | 64 
+>>> ++++++++++++++++++++++++++++++
+>>>   1 file changed, 64 insertions(+)
+>>>
+>>> diff --git a/Documentation/arch/x86/resctrl.rst 
+>>> b/Documentation/arch/x86/resctrl.rst
+>>> index 178ab1d8f747..1163da74f734 100644
+>>> --- a/Documentation/arch/x86/resctrl.rst
+>>> +++ b/Documentation/arch/x86/resctrl.rst
+>>> @@ -369,6 +369,70 @@ When monitoring is enabled all MON groups will 
+>>> also contain:
+>>>       the sum for all tasks in the CTRL_MON group and all tasks in
+>>>       MON groups. Please see example section for more details on usage.
+>>>   +RESCTRL filesystem implementation notes
+>>> +=======================================
+>>> +RESCTRL filesystem has two main components
+>>> +    a. info
+>>> +    b. base
+>>> +
+>>> +    /sys/fs/resctrl/
+>>> +    |
+>>> +    -> info
+>>> +    |
+>>> +    |  (Top level directory named "info". Contains files that
+>>> +    |   provide details on control and monitoring resources")
+>>> +    |
+>>> +    -> base
+>>> +
+>> Could you please do a "make htmldocs" and then ensure that the output 
+>> looks sane?
+>> The resulting output does not look right to me. For example, the 
+>> above turns into
+>> a single line that looks like:
+>>
+>> /sys/fs/resctrl/ | -> info | | (Top level directory named "info". 
+>> Contains files that | provide details on control and monitoring 
+>> resources") | -> base
+>>
+>>
+>> The spacing also looks off when viewing this in html.
 >
-> (now with checkpatch fixes)
+I have fixed the all the format issues. Please let me know if it looks 
+ok. I will send the final version after that.
 
-I missed fixing boxed-vector, am just dropping it.
+Attached the patch and also added the diff inline.
 
->
-> This patchest fixes the chicken-egg initialization problem in the 1st
-> version of ddebug-class-maps, that DRM-CI uncovered.
->
-> The root-problem was DECLARE_DYNDBG_CLASSMAP, which broke the K&R rule:
-> "define once, refer many".  In patch 14 it is replaced by:
->
->  DYNDBG_CLASSMAP_DEFINE - define and export a struct ddebug_class_map
->  DYNDBG_CLASSMAP_USE - ref the exported struct
->
-> test-dynamic-debug is also extended with a -submod.ko, in order to
-> recapitulate the drm & drivers initialization scenario.
->
-> They're on v6.6-rc5 now, and apply cleanly to drm-tip/drm-tip.
->
-> Ive been running recent revs on rc3+, on my desktop and laptop.
->
-> The final blocker was a missing __align(8) on the ddebug_class_user
-> record inserted by DYNDBG_CLASSMAP_USE.  This caused DRM=3Dy (builtin
-> only) to have a corrupt record for drm_kms_helper (builtin dependent).
-> Curiously, a clang build did not exhibit this problem.
->
+Thanks
 
->
-> Widespread testing is appreciated.
-> I have scripts if anyone wants them.
->
-> I'll forward lkp-robot reports here when I get them.
-> Patches also at https://github.com/jimc/linux (dd-fix-7b)
->
+diff --git a/Documentation/arch/x86/resctrl.rst 
+b/Documentation/arch/x86/resctrl.rst
+index 178ab1d8f747..e990272e9a4f 100644
+--- a/Documentation/arch/x86/resctrl.rst
++++ b/Documentation/arch/x86/resctrl.rst
+@@ -396,6 +396,67 @@ Resource monitoring rules
+  3) Otherwise RDT events for the task will be reported in the root level
+     "mon_data" group.
 
-Date: Sat, 14 Oct 2023 18:22:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Subject: [jimc:dd-fix-7a] BUILD SUCCESS 8e96f63f570a462b859876601a5f795a159=
-99f6b
-Message-ID: <202310141826.AN7MAD40-lkp@intel.com>
-User-Agent: s-nail v14.9.24
++RESCTRL filesystem implementation notes
++---------------------------------------
++RESCTRL filesystem has two main components.
++
++a. info
++b. base
++
++::
++
++       /sys/fs/resctrl/
++               |
++               |--> info (Top level directory named "info". Contains 
+files that
++               |          provide details on control and monitoring 
+resources")
++               |
++               |--> base (Root directory associated with default 
+resource group as
++                          well as directories created by user for MON 
+and CTRL groups.
++                          Contains files to interact with MON and CTRL 
+groups)
++
++               Note: resctrl uses flags for files, not for directories. 
+Directories
++                     are created based on the resource type. Added the 
+directories
++                     below for better understanding. The RFTYPE flags 
+are defined
++                     in arch/x86/kernel/cpu/resctrl/internal.h.
++
++"info directory structure"::
++
++       --> RFTYPE_INFO
++           Directory: info
++               --> RFTYPE_TOP (Files in top level of info directory)
++                   File: last_cmd_status
++
++               --> RFTYPE_MON (Files for all monitoring resources)
++                   Directory: L3_MON
++                       Files: mon_features, num_rmids
++
++                       --> RFTYPE_RES_CACHE (Files for cache monitoring 
+resources)
++                           Directory: L3_MON
++                               Files: max_threshold_occupancy,
++                                      mbm_total_bytes_config,
++                                      mbm_local_bytes_config
++
++               --> RFTYPE_CTRL (Files for all control resources)
++                   Directories: L2, L3, MB, SMBA, L2CODE, L2DATA, 
+L3CODE, L3DATA
++                          File: num_closids
++
++                       --> RFTYPE_RES_CACHE (Files for cache control 
+resources)
++                           Directories: L2, L3, L2CODE, L2DATA, L3CODE, 
+L3DATA
++                                 Files: bit_usage, cbm_mask, min_cbm_bits,
++                                        shareable_bits
++
++                       --> RFTYPE_RES_MB (Files for memory control 
+resources)
++                           Directories: MB, SMBA
++                                 Files: bandwidth_gran, delay_linear,
++                                        min_bandwidth, thread_throttle_mode
++
++"base directory structure"::
++
++       --> RFTYPE_BASE (Files common for both MON and CTRL groups)
++           Files: cpus, cpus_list, tasks
++
++               --> RFTYPE_CTRL (Files for CTRL group)
++                   Files: mode, schemata, size
 
-tree/branch: https://github.com/jimc/linux.git dd-fix-7a
-branch HEAD: 8e96f63f570a462b859876601a5f795a15999f6b  drm: restore
-CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-
-elapsed time: 3187m
-
-configs tested: 103
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc
-alpha                            allyesconfig   gcc
-alpha                               defconfig   gcc
-arc                              allmodconfig   gcc
-arc                               allnoconfig   gcc
-arc                              allyesconfig   gcc
-arc                                 defconfig   gcc
-arc                   randconfig-001-20231012   gcc
-arm                              allmodconfig   gcc
-arm                               allnoconfig   gcc
-arm                              allyesconfig   gcc
-arm                                 defconfig   gcc
-arm                   randconfig-001-20231013   gcc
-arm64                            allmodconfig   gcc
-arm64                             allnoconfig   gcc
-arm64                            allyesconfig   gcc
-arm64                               defconfig   gcc
-csky                             allmodconfig   gcc
-csky                              allnoconfig   gcc
-csky                             allyesconfig   gcc
-csky                                defconfig   gcc
-i386                             allmodconfig   gcc
-i386                              allnoconfig   gcc
-i386                             allyesconfig   gcc
-i386                              debian-10.3   gcc
-i386                                defconfig   gcc
-i386                  randconfig-001-20231013   gcc
-i386                  randconfig-002-20231013   gcc
-i386                  randconfig-003-20231013   gcc
-i386                  randconfig-004-20231013   gcc
-i386                  randconfig-005-20231013   gcc
-i386                  randconfig-006-20231013   gcc
-loongarch                        allmodconfig   gcc
-loongarch                         allnoconfig   gcc
-loongarch                        allyesconfig   gcc
-loongarch                           defconfig   gcc
-loongarch             randconfig-001-20231012   gcc
-m68k                             allmodconfig   gcc
-m68k                              allnoconfig   gcc
-m68k                             allyesconfig   gcc
-m68k                                defconfig   gcc
-microblaze                       allmodconfig   gcc
-microblaze                        allnoconfig   gcc
-microblaze                       allyesconfig   gcc
-microblaze                          defconfig   gcc
-mips                             allmodconfig   gcc
-mips                              allnoconfig   gcc
-mips                             allyesconfig   gcc
-nios2                            allmodconfig   gcc
-nios2                             allnoconfig   gcc
-nios2                            allyesconfig   gcc
-nios2                               defconfig   gcc
-openrisc                         allmodconfig   gcc
-openrisc                          allnoconfig   gcc
-openrisc                         allyesconfig   gcc
-openrisc                            defconfig   gcc
-parisc                           allmodconfig   gcc
-parisc                            allnoconfig   gcc
-parisc                           allyesconfig   gcc
-parisc                              defconfig   gcc
-parisc64                            defconfig   gcc
-powerpc                           allnoconfig   gcc
-powerpc                          allyesconfig   gcc
-riscv                            allmodconfig   gcc
-riscv                             allnoconfig   gcc
-riscv                            allyesconfig   gcc
-riscv                               defconfig   gcc
-riscv                 randconfig-001-20231012   gcc
-riscv                          rv32_defconfig   gcc
-s390                             allmodconfig   gcc
-s390                              allnoconfig   gcc
-s390                             allyesconfig   gcc
-s390                                defconfig   gcc
-s390                  randconfig-001-20231012   gcc
-sh                               allmodconfig   gcc
-sh                                allnoconfig   gcc
-sh                               allyesconfig   gcc
-sh                                  defconfig   gcc
-sparc                            allmodconfig   gcc
-sparc                             allnoconfig   gcc
-sparc                            allyesconfig   gcc
-sparc                               defconfig   gcc
-sparc                 randconfig-001-20231013   gcc
-sparc64                          allmodconfig   gcc
-sparc64                          allyesconfig   gcc
-sparc64                             defconfig   gcc
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc
-um                             i386_defconfig   gcc
-um                           x86_64_defconfig   gcc
-x86_64                            allnoconfig   gcc
-x86_64                           allyesconfig   gcc
-x86_64                              defconfig   gcc
-x86_64                randconfig-001-20231013   gcc
-x86_64                randconfig-002-20231013   gcc
-x86_64                randconfig-003-20231013   gcc
-x86_64                randconfig-004-20231013   gcc
-x86_64                randconfig-005-20231013   gcc
-x86_64                randconfig-006-20231013   gcc
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc
-
---=20
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  Notes on cache occupancy monitoring and control
+  ===============================================
 
 
-> Jim Cromie (25):
+--------------nbwd5hDp6EnjQ4PfqpmuVVV2
+Content-Type: text/plain; charset=UTF-8; name="patch4-10"
+Content-Disposition: attachment; filename="patch4-10"
+Content-Transfer-Encoding: base64
 
->   dyndbg: add for_each_boxed_vector
+Y29tbWl0IDZmYzNkNzM4OTAzODZjMThiNjk1Njg0NDQ0MTFhYzk3NjMzOTE3NTIKQXV0aG9yOiBC
+YWJ1IE1vZ2VyIDxiYWJ1Lm1vZ2VyQGFtZC5jb20+CkRhdGU6ICAgRnJpIE9jdCAxMyAxMDo0NTox
+MyAyMDIzIC0wNTAwCgogICAgeDg2L3Jlc2N0cmw6IEFkZCBjb21tZW50cyBvbiBSRlRZUEUgZmxh
+Z3MgaGllcmFyY2h5CiAgICAKICAgIHJlc2N0cmwgdXNlcyBSRlRZUEUgZmxhZ3MgZm9yIGNyZWF0
+aW5nIHJlc2N0cmwgZGlyZWN0b3J5IHN0cnVjdHVyZS4KICAgIAogICAgRGVmaW5pdGlvbnMgYW5k
+IGRpcmVjdG9yeSBzdHJ1Y3R1cmVzIGFyZSBub3QgZG9jdW1lbnRlZC4gQWRkCiAgICBjb21tZW50
+cyB0byBpbXByb3ZlIHRoZSByZWFkYWJpbGl0eSBhbmQgaGVscCBmdXR1cmUgYWRkaXRpb25zLgog
+ICAgCiAgICBTaWduZWQtb2ZmLWJ5OiBCYWJ1IE1vZ2VyIDxiYWJ1Lm1vZ2VyQGFtZC5jb20+CiAg
+ICAtLS0KICAgIHYxMzogRml4ZWQgdGhlIGZvcm1hdCBpc3N1ZXMgaW4gdGhlIGRvY3VtZW50YXRp
+b24uIE5lZWRlZCBmZXcgbWlub3IgZm9ybWF0CiAgICAgICAgIGNoYW5nZXMgdG8gYWRkcmVzcyB0
+aGUgc3ludGF4IGlzc3Vlcy4oUmVpbmV0dGUpCiAgICAgICAgIFJlbW92ZWQgIlJldmlld2VkLWJ5
+IGFuZCBUZXN0ZWQtYnkiIGZsYWdzIGFzIHRoZSBwYXRjaCBoYXMgY2hhbmdlZC4KICAgIAogICAg
+djEyOiBNb3ZlZCB0aGUgY29tbWVudHMgZnJvbSBhcmNoL3g4Ni9rZXJuZWwvY3B1L3Jlc2N0cmwv
+aW50ZXJuYWwuaAogICAgICAgICB0byBEb2N1bWVudGF0aW9uL2FyY2gveDg2L3Jlc2N0cmwucnN0
+LiAoQm9yaXMpCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9hcmNoL3g4Ni9yZXNjdHJsLnJz
+dCBiL0RvY3VtZW50YXRpb24vYXJjaC94ODYvcmVzY3RybC5yc3QKaW5kZXggMTc4YWIxZDhmNzQ3
+Li5lOTkwMjcyZTlhNGYgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vYXJjaC94ODYvcmVzY3Ry
+bC5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9hcmNoL3g4Ni9yZXNjdHJsLnJzdApAQCAtMzk2LDYg
+KzM5Niw2NyBAQCBSZXNvdXJjZSBtb25pdG9yaW5nIHJ1bGVzCiAzKSBPdGhlcndpc2UgUkRUIGV2
+ZW50cyBmb3IgdGhlIHRhc2sgd2lsbCBiZSByZXBvcnRlZCBpbiB0aGUgcm9vdCBsZXZlbAogICAg
+Im1vbl9kYXRhIiBncm91cC4KIAorUkVTQ1RSTCBmaWxlc3lzdGVtIGltcGxlbWVudGF0aW9uIG5v
+dGVzCistLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KK1JFU0NUUkwgZmls
+ZXN5c3RlbSBoYXMgdHdvIG1haW4gY29tcG9uZW50cy4KKworYS4gaW5mbworYi4gYmFzZQorCis6
+OgorCisJL3N5cy9mcy9yZXNjdHJsLworCQl8CisJCXwtLT4gaW5mbyAoVG9wIGxldmVsIGRpcmVj
+dG9yeSBuYW1lZCAiaW5mbyIuIENvbnRhaW5zIGZpbGVzIHRoYXQKKwkJfCAgICAgICAgICBwcm92
+aWRlIGRldGFpbHMgb24gY29udHJvbCBhbmQgbW9uaXRvcmluZyByZXNvdXJjZXMiKQorCQl8CisJ
+CXwtLT4gYmFzZSAoUm9vdCBkaXJlY3RvcnkgYXNzb2NpYXRlZCB3aXRoIGRlZmF1bHQgcmVzb3Vy
+Y2UgZ3JvdXAgYXMKKwkJICAgICAgICAgICB3ZWxsIGFzIGRpcmVjdG9yaWVzIGNyZWF0ZWQgYnkg
+dXNlciBmb3IgTU9OIGFuZCBDVFJMIGdyb3Vwcy4KKwkJICAgICAgICAgICBDb250YWlucyBmaWxl
+cyB0byBpbnRlcmFjdCB3aXRoIE1PTiBhbmQgQ1RSTCBncm91cHMpCisKKwkJTm90ZTogcmVzY3Ry
+bCB1c2VzIGZsYWdzIGZvciBmaWxlcywgbm90IGZvciBkaXJlY3Rvcmllcy4gRGlyZWN0b3JpZXMK
+KwkJICAgICAgYXJlIGNyZWF0ZWQgYmFzZWQgb24gdGhlIHJlc291cmNlIHR5cGUuIEFkZGVkIHRo
+ZSBkaXJlY3RvcmllcworCQkgICAgICBiZWxvdyBmb3IgYmV0dGVyIHVuZGVyc3RhbmRpbmcuIFRo
+ZSBSRlRZUEUgZmxhZ3MgYXJlIGRlZmluZWQKKwkJICAgICAgaW4gYXJjaC94ODYva2VybmVsL2Nw
+dS9yZXNjdHJsL2ludGVybmFsLmguCisKKyJpbmZvIGRpcmVjdG9yeSBzdHJ1Y3R1cmUiOjoKKwor
+CS0tPiBSRlRZUEVfSU5GTworCSAgICBEaXJlY3Rvcnk6IGluZm8KKwkJLS0+IFJGVFlQRV9UT1Ag
+KEZpbGVzIGluIHRvcCBsZXZlbCBvZiBpbmZvIGRpcmVjdG9yeSkKKwkJICAgIEZpbGU6IGxhc3Rf
+Y21kX3N0YXR1cworCisJCS0tPiBSRlRZUEVfTU9OIChGaWxlcyBmb3IgYWxsIG1vbml0b3Jpbmcg
+cmVzb3VyY2VzKQorCQkgICAgRGlyZWN0b3J5OiBMM19NT04KKwkJICAgICAgICBGaWxlczogbW9u
+X2ZlYXR1cmVzLCBudW1fcm1pZHMKKworCQkJLS0+IFJGVFlQRV9SRVNfQ0FDSEUgKEZpbGVzIGZv
+ciBjYWNoZSBtb25pdG9yaW5nIHJlc291cmNlcykKKwkJCSAgICBEaXJlY3Rvcnk6IEwzX01PTgor
+CQkJICAgICAgICBGaWxlczogbWF4X3RocmVzaG9sZF9vY2N1cGFuY3ksCisJCQkgICAgICAgICAg
+ICAgICBtYm1fdG90YWxfYnl0ZXNfY29uZmlnLAorCQkJICAgICAgICAgICAgICAgbWJtX2xvY2Fs
+X2J5dGVzX2NvbmZpZworCisJCS0tPiBSRlRZUEVfQ1RSTCAoRmlsZXMgZm9yIGFsbCBjb250cm9s
+IHJlc291cmNlcykKKwkJICAgIERpcmVjdG9yaWVzOiBMMiwgTDMsIE1CLCBTTUJBLCBMMkNPREUs
+IEwyREFUQSwgTDNDT0RFLCBMM0RBVEEKKwkJICAgICAgICAgICBGaWxlOiBudW1fY2xvc2lkcwor
+CisJCQktLT4gUkZUWVBFX1JFU19DQUNIRSAoRmlsZXMgZm9yIGNhY2hlIGNvbnRyb2wgcmVzb3Vy
+Y2VzKQorCQkJICAgIERpcmVjdG9yaWVzOiBMMiwgTDMsIEwyQ09ERSwgTDJEQVRBLCBMM0NPREUs
+IEwzREFUQQorCQkJICAgICAgICAgIEZpbGVzOiBiaXRfdXNhZ2UsIGNibV9tYXNrLCBtaW5fY2Jt
+X2JpdHMsCisJCQkgICAgICAgICAgICAgICAgIHNoYXJlYWJsZV9iaXRzCisKKwkJCS0tPiBSRlRZ
+UEVfUkVTX01CIChGaWxlcyBmb3IgbWVtb3J5IGNvbnRyb2wgcmVzb3VyY2VzKQorCQkJICAgIERp
+cmVjdG9yaWVzOiBNQiwgU01CQQorCQkJICAgICAgICAgIEZpbGVzOiBiYW5kd2lkdGhfZ3Jhbiwg
+ZGVsYXlfbGluZWFyLAorCQkJICAgICAgICAgICAgICAgICBtaW5fYmFuZHdpZHRoLCB0aHJlYWRf
+dGhyb3R0bGVfbW9kZQorCisiYmFzZSBkaXJlY3Rvcnkgc3RydWN0dXJlIjo6CisKKwktLT4gUkZU
+WVBFX0JBU0UgKEZpbGVzIGNvbW1vbiBmb3IgYm90aCBNT04gYW5kIENUUkwgZ3JvdXBzKQorCSAg
+ICBGaWxlczogY3B1cywgY3B1c19saXN0LCB0YXNrcworCisJCS0tPiBSRlRZUEVfQ1RSTCAoRmls
+ZXMgZm9yIENUUkwgZ3JvdXApCisJCSAgICBGaWxlczogbW9kZSwgc2NoZW1hdGEsIHNpemUKIAog
+Tm90ZXMgb24gY2FjaGUgb2NjdXBhbmN5IG1vbml0b3JpbmcgYW5kIGNvbnRyb2wKID09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cg==
 
-Im dropping this one, more trouble than its worth.
-hopefully one falls out of flex-array work.
+--------------nbwd5hDp6EnjQ4PfqpmuVVV2--
