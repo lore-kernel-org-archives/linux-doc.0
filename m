@@ -1,83 +1,248 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAA326E27;
-	Sat, 14 Oct 2023 20:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B0B1845
+	for <linux-doc@vger.kernel.org>; Sat, 14 Oct 2023 22:54:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="cmEtZtL0"
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0FC9E9;
-	Sat, 14 Oct 2023 13:51:50 -0700 (PDT)
-Received: from [127.0.0.1] ([98.35.210.218])
-	(authenticated bits=0)
-	by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 39EKoEiA2727570
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sat, 14 Oct 2023 13:50:15 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 39EKoEiA2727570
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2023101201; t=1697316617;
-	bh=LX/qZh+W7D0BjzC3kMTpoByXLORwLrw1issq1DeNzOI=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=cmEtZtL0/Pi2yHywxxrW/vo69bVUWzREGKAQgcbfeQGp95YGmHSJanruTBO52bnTp
-	 c/NpKM0f69S6I4fKqBAVW4BQaQWygmM6rcwzaEkqlA6Z+6SkC94pbM+EhsrUOaxoBF
-	 Nz+Ig3h1APbpOVSA9QtIEVK4Dp0Vd72eRQqjE7uAyeeF7EVqWLrJ+EVZzpHEcVfeur
-	 +4Tc/tRbfMLQ8QgcoKkIWYylpJjzWGtY4MNezyAKCI2niAAY0FLfF+maHpaXpJnnw9
-	 nK5nIBxIgvaan1hi1DbfDAHRxBXik2Dka7C/Cl7KNf+o5Ruwp0qT/LUgs0qT43MYj9
-	 tS/QvgasZ2CMg==
-Date: Sat, 14 Oct 2023 13:50:09 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: comex <comexk@gmail.com>
-CC: Linus Torvalds <torvalds@linux-foundation.org>,
-        Ramon de C Valle <rcvalle@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        David Gow <davidgow@google.com>, Boqun Feng <boqun.feng@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        =?ISO-8859-1?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
-User-Agent: K-9 Mail for Android
-In-Reply-To: <BDD45A2A-1447-40DD-B5F3-29DEE976A3CD@gmail.com>
-References: <20220927131518.30000-1-ojeda@kernel.org> <20220927131518.30000-26-ojeda@kernel.org> <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net> <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com> <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com> <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com> <20231012104741.GN6307@noisy.programming.kicks-ass.net> <CABCJKufEagwJ=TQnmVSK07RDjsPUt=3JGtwnK9ASmFqb7Vx8JQ@mail.gmail.com> <202310121130.256F581823@keescook> <CAOcBZOTed1a1yOimdUN9yuuysZ1h6VXa57+5fLAE99SZxCwBMQ@mail.gmail.com> <20231013075005.GB12118@noisy.programming.kicks-ass.net> <CAOcBZOTP_vQuFaqREqy-hkG69aBvJ+xrhEQi_EFKvtsNjne1dw@mail.gmail.com> <CAHk-=wjLUit_gae7anFNz4sV0o2Uc=TD_9P8sYeqMSeW_UG2Rg@mail.gmail.com> <5D8CA5EF-F5B0-4911-85B8-A363D9344FA7@zytor.com> <BDD45A2A-1447-40DD-B5F3-29DEE976A3CD@gmail.com>
-Message-ID: <C0631F27-43CE-4F2F-9075-25988CBD97F0@zytor.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ge1EVana"
+Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com [IPv6:2607:f8b0:4864:20::a2b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C42DCC;
+	Sat, 14 Oct 2023 15:54:36 -0700 (PDT)
+Received: by mail-vk1-xa2b.google.com with SMTP id 71dfb90a1353d-49ab6c1869dso2967970e0c.0;
+        Sat, 14 Oct 2023 15:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697324075; x=1697928875; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E3dgwAPbWgceK8XnpO8ceX742rck1tlUzuW6UkEbMaQ=;
+        b=Ge1EVanau9Tb9T4+lTUKWqrz3uMU75ASXnoyBqzB+Zw83Gii/9rbxQMfUgt9LqsCdj
+         lt4soLJG8zUTVQdW36AQJ03W/ECGfb/qeEQ8MFCFXO7zMOlYvjsCa7zT6TqvWamwMYyd
+         Nt4zmCTXeAAaezgp02dxjJfg38+zTWgPuncDec3FNMqtptzfeP0Gz6F/qqWtzfk/aJtT
+         +Hp4Q70G9yZcetAdWdTaWHNiXSwY2deECbUq+EQHjSkHN/L31SMbVVMNVMwLAsxzdrsF
+         A5Dno5uyETCA+XyD6u1JQP4GSfBylZV4GImd0wWdkaFOzaTq/t+R0WZTdowVZdhXFTUM
+         jw+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697324075; x=1697928875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E3dgwAPbWgceK8XnpO8ceX742rck1tlUzuW6UkEbMaQ=;
+        b=fVDuO6jYXJy6KZQaopmXgvs1HhV8tOkQQDkENVOvNYe2l7rgCEH242OBNHy5i8DSBp
+         fl/a9gRCApCKK8jPmAs9ojgBPx57KblZ1J/pNRHTyqfWMivSlmOBXbQ7druZL9mnuGga
+         StKdfFQTtmmOjhg5rHkkxjHiQfZtwurkaRWEShiZDidjAcOMhG6YzuVbdEM7dJkwvFuN
+         KykLh74F7LsC8sYvKCCbYBVDY3/3g7PqTAaAWp+9hGIXSNnS329595FpcYooa0GryQ4B
+         NRklwtJbq+TML1DkoQt+xCIPsEYhVMg8+s8pbaJ3193ZkZJ5KFJ30oLqLXZJrMQdtcty
+         qEeg==
+X-Gm-Message-State: AOJu0YzIKx/Cn+ZWhu0BYJvppD5wmw5d6VJTg8XTg10UvCTetPm+kRQA
+	Wrj0FyvWqwxQIjbhxFCN0/yoaFyBb6FZdtJUTuwzv10orS7C8A==
+X-Google-Smtp-Source: AGHT+IFfT3nqs45wSlTdh49Mfqnd7iS4fm3NazMXcrcNd0WEk8mfYCYz456yTKkBrC2Rm6aiZ0xPlI+0DL8Ucy3wF44=
+X-Received: by 2002:a05:6122:1681:b0:49a:b587:ab79 with SMTP id
+ 1-20020a056122168100b0049ab587ab79mr2277741vkl.8.1697324075009; Sat, 14 Oct
+ 2023 15:54:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20231013224818.3456409-1-jim.cromie@gmail.com>
+In-Reply-To: <20231013224818.3456409-1-jim.cromie@gmail.com>
+From: jim.cromie@gmail.com
+Date: Sat, 14 Oct 2023 16:54:08 -0600
+Message-ID: <CAJfuBxxc1HxYNbp1vdkh8yTOTHV-5ohskCA-twx5Uf2SmWTffg@mail.gmail.com>
+Subject: Re: [PATCH v7b 00/25] fix DRM_USE_DYNAMIC_DEBUG=y regression
+To: linux-kernel@vger.kernel.org, jbaron@akamai.com, 
+	gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
+	amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
+	intel-gfx@lists.freedesktop.org
+Cc: lb@semihalf.com, linux@rasmusvillemoes.dk, joe@perches.com, 
+	mcgrof@kernel.org, daniel.vetter@ffwll.ch, jani.nikula@intel.com, 
+	ville.syrjala@linux.intel.com, seanpaul@chromium.org, robdclark@gmail.com, 
+	groeck@google.com, yanivt@google.com, bleung@google.com, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On October 14, 2023 1:25:12 PM PDT, comex <comexk@gmail=2Ecom> wrote:
+On Fri, Oct 13, 2023 at 4:48=E2=80=AFPM Jim Cromie <jim.cromie@gmail.com> w=
+rote:
 >
+> hi Jason, DRM-folk
 >
->> On Oct 13, 2023, at 12:00=E2=80=AFPM, H=2E Peter Anvin <hpa@zytor=2Ecom=
-> wrote:
->>=20
->> Transparent unions have been standard C since C99=2E
+> (now with checkpatch fixes)
+
+I missed fixing boxed-vector, am just dropping it.
+
 >
->I don=E2=80=99t think that=E2=80=99s right=2E  Certainly __attribute__((t=
-ransparent_union)) is not standard C; are you referring to a different feat=
-ure?
+> This patchest fixes the chicken-egg initialization problem in the 1st
+> version of ddebug-class-maps, that DRM-CI uncovered.
+>
+> The root-problem was DECLARE_DYNDBG_CLASSMAP, which broke the K&R rule:
+> "define once, refer many".  In patch 14 it is replaced by:
+>
+>  DYNDBG_CLASSMAP_DEFINE - define and export a struct ddebug_class_map
+>  DYNDBG_CLASSMAP_USE - ref the exported struct
+>
+> test-dynamic-debug is also extended with a -submod.ko, in order to
+> recapitulate the drm & drivers initialization scenario.
+>
+> They're on v6.6-rc5 now, and apply cleanly to drm-tip/drm-tip.
+>
+> Ive been running recent revs on rc3+, on my desktop and laptop.
+>
+> The final blocker was a missing __align(8) on the ddebug_class_user
+> record inserted by DYNDBG_CLASSMAP_USE.  This caused DRM=3Dy (builtin
+> only) to have a corrupt record for drm_kms_helper (builtin dependent).
+> Curiously, a clang build did not exhibit this problem.
 >
 
-My mistake=2E=2E=2E I was thinking about anonymous unions=2E
+>
+> Widespread testing is appreciated.
+> I have scripts if anyone wants them.
+>
+> I'll forward lkp-robot reports here when I get them.
+> Patches also at https://github.com/jimc/linux (dd-fix-7b)
+>
+
+Date: Sat, 14 Oct 2023 18:22:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Subject: [jimc:dd-fix-7a] BUILD SUCCESS 8e96f63f570a462b859876601a5f795a159=
+99f6b
+Message-ID: <202310141826.AN7MAD40-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+
+tree/branch: https://github.com/jimc/linux.git dd-fix-7a
+branch HEAD: 8e96f63f570a462b859876601a5f795a15999f6b  drm: restore
+CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+
+elapsed time: 3187m
+
+configs tested: 103
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc
+alpha                            allyesconfig   gcc
+alpha                               defconfig   gcc
+arc                              allmodconfig   gcc
+arc                               allnoconfig   gcc
+arc                              allyesconfig   gcc
+arc                                 defconfig   gcc
+arc                   randconfig-001-20231012   gcc
+arm                              allmodconfig   gcc
+arm                               allnoconfig   gcc
+arm                              allyesconfig   gcc
+arm                                 defconfig   gcc
+arm                   randconfig-001-20231013   gcc
+arm64                            allmodconfig   gcc
+arm64                             allnoconfig   gcc
+arm64                            allyesconfig   gcc
+arm64                               defconfig   gcc
+csky                             allmodconfig   gcc
+csky                              allnoconfig   gcc
+csky                             allyesconfig   gcc
+csky                                defconfig   gcc
+i386                             allmodconfig   gcc
+i386                              allnoconfig   gcc
+i386                             allyesconfig   gcc
+i386                              debian-10.3   gcc
+i386                                defconfig   gcc
+i386                  randconfig-001-20231013   gcc
+i386                  randconfig-002-20231013   gcc
+i386                  randconfig-003-20231013   gcc
+i386                  randconfig-004-20231013   gcc
+i386                  randconfig-005-20231013   gcc
+i386                  randconfig-006-20231013   gcc
+loongarch                        allmodconfig   gcc
+loongarch                         allnoconfig   gcc
+loongarch                        allyesconfig   gcc
+loongarch                           defconfig   gcc
+loongarch             randconfig-001-20231012   gcc
+m68k                             allmodconfig   gcc
+m68k                              allnoconfig   gcc
+m68k                             allyesconfig   gcc
+m68k                                defconfig   gcc
+microblaze                       allmodconfig   gcc
+microblaze                        allnoconfig   gcc
+microblaze                       allyesconfig   gcc
+microblaze                          defconfig   gcc
+mips                             allmodconfig   gcc
+mips                              allnoconfig   gcc
+mips                             allyesconfig   gcc
+nios2                            allmodconfig   gcc
+nios2                             allnoconfig   gcc
+nios2                            allyesconfig   gcc
+nios2                               defconfig   gcc
+openrisc                         allmodconfig   gcc
+openrisc                          allnoconfig   gcc
+openrisc                         allyesconfig   gcc
+openrisc                            defconfig   gcc
+parisc                           allmodconfig   gcc
+parisc                            allnoconfig   gcc
+parisc                           allyesconfig   gcc
+parisc                              defconfig   gcc
+parisc64                            defconfig   gcc
+powerpc                           allnoconfig   gcc
+powerpc                          allyesconfig   gcc
+riscv                            allmodconfig   gcc
+riscv                             allnoconfig   gcc
+riscv                            allyesconfig   gcc
+riscv                               defconfig   gcc
+riscv                 randconfig-001-20231012   gcc
+riscv                          rv32_defconfig   gcc
+s390                             allmodconfig   gcc
+s390                              allnoconfig   gcc
+s390                             allyesconfig   gcc
+s390                                defconfig   gcc
+s390                  randconfig-001-20231012   gcc
+sh                               allmodconfig   gcc
+sh                                allnoconfig   gcc
+sh                               allyesconfig   gcc
+sh                                  defconfig   gcc
+sparc                            allmodconfig   gcc
+sparc                             allnoconfig   gcc
+sparc                            allyesconfig   gcc
+sparc                               defconfig   gcc
+sparc                 randconfig-001-20231013   gcc
+sparc64                          allmodconfig   gcc
+sparc64                          allyesconfig   gcc
+sparc64                             defconfig   gcc
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc
+um                             i386_defconfig   gcc
+um                           x86_64_defconfig   gcc
+x86_64                            allnoconfig   gcc
+x86_64                           allyesconfig   gcc
+x86_64                              defconfig   gcc
+x86_64                randconfig-001-20231013   gcc
+x86_64                randconfig-002-20231013   gcc
+x86_64                randconfig-003-20231013   gcc
+x86_64                randconfig-004-20231013   gcc
+x86_64                randconfig-005-20231013   gcc
+x86_64                randconfig-006-20231013   gcc
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc
+
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+> Jim Cromie (25):
+
+>   dyndbg: add for_each_boxed_vector
+
+Im dropping this one, more trouble than its worth.
+hopefully one falls out of flex-array work.
