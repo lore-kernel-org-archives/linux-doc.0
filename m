@@ -1,306 +1,267 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A36A5CBE
-	for <linux-doc@vger.kernel.org>; Sat, 14 Oct 2023 15:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC79A12B90
+	for <linux-doc@vger.kernel.org>; Sat, 14 Oct 2023 16:17:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9F707C9;
-	Sat, 14 Oct 2023 08:08:09 -0700 (PDT)
-Received: (from willy@localhost)
-	by pcw.home.local (8.15.2/8.15.2/Submit) id 39EF7hFh021799;
-	Sat, 14 Oct 2023 17:07:43 +0200
-Date: Sat, 14 Oct 2023 17:07:43 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        backports@vger.kernel.org,
-        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Hutchings <ben@decadent.org.uk>
-Subject: Re: [PATCH v2] docs: add backporting and conflict resolution document
-Message-ID: <20231014150743.GC21506@1wt.eu>
-References: <20230824092325.1464227-1-vegard.nossum@oracle.com>
- <87bkdfg2ds.fsf@meer.lwn.net>
- <877cnu5jy0.fsf@meer.lwn.net>
- <83fd1a05-974e-4d91-82b0-c09cc2f8da1e@oracle.com>
- <20231014094320.GC20662@1wt.eu>
- <12b082c8-908f-4de2-b0b5-4b638e10c402@oracle.com>
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1156EAB
+	for <linux-doc@vger.kernel.org>; Sat, 14 Oct 2023 09:17:29 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qrhKP-0006TD-Pg; Sat, 14 Oct 2023 18:17:25 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qrhKN-001f0g-6l; Sat, 14 Oct 2023 18:17:23 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qrhKM-00GJMK-TG; Sat, 14 Oct 2023 18:17:22 +0200
+Date: Sat, 14 Oct 2023 18:17:21 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Saravana Kannan <saravanak@google.com>
+Cc: linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Wolfram Sang <wsa@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	James Clark <james.clark@arm.com>, kernel@pengutronix.de,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
+Message-ID: <20231014161721.f4iqyroddkcyoefo@pengutronix.de>
+References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
+ <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
+ <ZLeX4UbFaY592HIa@orome>
+ <20230725211004.peqxxb4y3j62gmnp@pengutronix.de>
+ <20231010080508.7ssnroaefyaeeedd@pengutronix.de>
+ <CAGETcx8CNGLnHdWrDpdm4Sx5cFcFFBT2bZKJzNZttAEknFK4Cw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="56mmcz5vtc7432bh"
 Content-Disposition: inline
-In-Reply-To: <12b082c8-908f-4de2-b0b5-4b638e10c402@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAGETcx8CNGLnHdWrDpdm4Sx5cFcFFBT2bZKJzNZttAEknFK4Cw@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Sat, Oct 14, 2023 at 01:48:54PM +0200, Vegard Nossum wrote:
-> Did you see this meme? https://i.imgur.com/yk5rf13.png
 
-No I didn't know it.
+--56mmcz5vtc7432bh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I think conflicts have a bit of a bad reputation exactly because you're
-> presented with something that's hard to make sense of at first sight.
-> I'd like to dispel this myth that you need to be an expert to make sense
-> of conflict markers. I think with the right attitude, the right tools,
-> and the right approach you can go a LONG way. Also, nobody is born an
-> expert and we should encourage people to gain experience in this area IMHO.
+On Fri, Oct 13, 2023 at 02:42:20PM -0700, Saravana Kannan wrote:
+> On Tue, Oct 10, 2023 at 1:05=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> >
+> > Hello Saravana,
+> >
+> > you were pointed out to me as the expert for device links. I found a
+> > problem with these.
+> >
+> > On Tue, Jul 25, 2023 at 11:10:04PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > > Today I managed to trigger the problem I intend to address with this
+> > > series. My machine to test this on is an stm32mp157. To be able to
+> > > trigger the problem reliably I applied the following patches on top of
+> > > v6.5-rc1:
+> > >
+> > >  - pwm: stm32: Don't modify HW state in .remove() callback
+> > >    This is a cleanup that I already sent out.
+> > >    https://lore.kernel.org/r/20230713155142.2454010-2-u.kleine-koenig=
+@pengutronix.de
+> > >    The purpose for reproducing the problem is to not trigger further
+> > >    calls to the apply callback.
+> > >
+> > >  - The following patch:
+> > >
+> > > diff --git a/drivers/pwm/pwm-stm32.c b/drivers/pwm/pwm-stm32.c
+> > > index 687967d3265f..c7fc02b0fa3c 100644
+> > > --- a/drivers/pwm/pwm-stm32.c
+> > > +++ b/drivers/pwm/pwm-stm32.c
+> > > @@ -451,6 +451,10 @@ static int stm32_pwm_apply(struct pwm_chip *chip=
+, struct pwm_device *pwm,
+> > >       struct stm32_pwm *priv =3D to_stm32_pwm_dev(chip);
+> > >       int ret;
+> > >
+> > > +     dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
+> > > +     msleep(5000);
+> > > +     dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
+> > > +
+> > >       enabled =3D pwm->state.enabled;
+> > >
+> > >       if (enabled && !state->enabled) {
+> > > @@ -650,7 +654,11 @@ static void stm32_pwm_remove(struct platform_dev=
+ice *pdev)
+> > >  {
+> > >       struct stm32_pwm *priv =3D platform_get_drvdata(pdev);
+> > >
+> > > +     dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
+> > >       pwmchip_remove(&priv->chip);
+> > > +     dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
+> > > +
+> > > +     priv->regmap =3D NULL;
+> > >  }
+> > >
+> > >  static int __maybe_unused stm32_pwm_suspend(struct device *dev)
+> > >
+> > > The first hunk is only there to widen the race window. The second is =
+to
+> > > give some diagnostics and make stm32_pwm_apply() crash if it continues
+> > > to run after the msleep. (Without it it didn't crash reproducibly, do=
+n't
+> > > understand why. *shrug*)
+> > >
+> > > The device tree contains a pwm-fan device making use of one of the PW=
+Ms.
+> > >
+> > > Now I do the following:
+> > >
+> > >       echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & sleep 1; =
+echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
+> > >
+> > > Unbinding the fan device has two effects:
+> > >
+> > >  - The device link between fan and pwm looses its property to unbind =
+fan
+> > >    when pwm gets unbound.
+> > >    (Its .status changes from DL_STATE_ACTIVE to DL_STATE_AVAILABLE)
+> > >  - It calls pwm_fan_cleanup() which triggers a call to
+> > >    pwm_apply_state().
+> > >
+> > > So when the pwm device gets unbound the first thread is sleeping in
+> > > stm32_pwm_apply(). The driver calls pwmchip_remove() and sets
+> > > priv->regmap to NULL. Then a few seconds later the first thread wakes=
+ up
+> > > in stm32_pwm_apply() with the chip freed and priv->regmap =3D NULL. B=
+ang!
+> > >
+> > > This looks as follows:
+> > >
+> > > root@crown:~# echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & s=
+leep 1; echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
+> > > [  187.182113] stm32-pwm 40007000.timer:pwm: stm32_pwm_apply:454
+> > > [  188.164769] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:657
+> > > [  188.184555] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:659
+> > > root@crown:~# [  192.236423] platform 40007000.timer:pwm: stm32_pwm_a=
+pply:456
+> > > [  192.240727] 8<--- cut here ---
+> > > [  192.243759] Unable to handle kernel NULL pointer dereference at vi=
+rtual address 0000001c when read
+> > > ...
+> > >
+> > > Even without the crash you can see that stm32_pwm_apply() is still
+> > > running after pwmchip_remove() completed.
+> > >
+> > > I'm unsure if the device link could be improved here to ensure that t=
+he
+> > > fan is completely unbound even if it started unbinding already before
+> > > the pwm device gets unbound. (And if it could, would this fit the dev=
+ice
+> > > links purpose and so be a sensible improvement?)
+> >
+> > While I think that there is something to be done in the pwm core that
+> > this doesn't explode (i.e. do proper lifetime tracking such that a
+> > pwm_chip doesn't disappear while still being used---and I'm working on
+> > that) I expected that the device links between pwm consumer and provider
+> > would prevent the above described oops, too. But somehow the fan already
+> > going away (but still using the PWM) when the PWM is unbound, results in
+> > the PWM disappearing before the fan is completely gone.
+> >
+> > Is this expected, or a problem that can (and should?) be fixed?
+>=20
+> I didn't read your full series, but I read this email. With what's in
+> this email, the problem seems to be in the driver or the pwm
+> framework. The pwm driver/framework can't tell the driver core that
+> you successfully unbound (returning from .remove()) before you have
+> finish all your ongoing transactions with the device. If your
+> "apply()" is still running, you need to make sure it's complete before
+> .remove() does any resource releasing/clean up.
+>=20
+> Also, how is the consumer driver's .remove() succeeding if it has an
+> ongoing pwm call()?
 
-That's interesting that you mention this because I worked for a company
-years ago where there was a person in charge of merges, who was not at
-all part of the development team. I thought it made absolutely no sense
-to request that someone who doesn't know the project would resolve
-conflicts! When I expressed my surprise there, I was told "you know,
-merging requires skills developers don't have"! So it's very possible
-that there's this myth floating around, indeed.
+The thing that works fine and as expected is:
 
-> With that said, how about if we add a short section near the end about
-> submitting stable backports where we encourage submitters to 1) approach
-> the backporting process in a humble way, 2) describe the reason for the
-> conflict in the changelog and their resolution, 3) be honest about their
-> confidence in their resolution, 4) ask relevant maintainers for an
-> explicit ack?
+ - trigger unbind of PWM device via sysfs
 
-Maybe, by the way you remind me something that I've been used to doing
-for many years: whenever I adapt a patch to resolve a conflict, I shortly
-summarize my changes just before my signed-of-by line in brackets. It
-helps me figure which patches needed adaptations, and others figure if
-my reasoning is flawed. I seem to remember that Ben did the same. That's
-something really convenient we should encourage I think.
+Because there is a device link PWM provider -> pwm consumer (fan), the
+fan is removed and once its gone (and not earlier), the PWM gets unbound.
 
-> I'm open to other ideas, I just want to make sure we strike the right
-> balance of encouragement vs. discouragement.
+The failing sequence is:
 
-Sure. Another point which I didn't mention and which has to be considered
-when backporting the same patch across multiple versions is that you often
-face the choice of starting from the original patch and trying to stuff it
-into an old version, or starting from the closest version and trying to
-adapt it. I tend to prefer restarting from the closest (but more recent)
-version, for multiple reasons:
-  - less differences, some renames might already have been handled and
-    in general any of the previously mentioned adaptations.
+ - trigger unbind of fan device in userspace thread A via sysfs. The
+   fan's remove callback blocks for 5s in pwm_apply_state() and so
+   .remove() doesn't complete yet.
 
-  - it limits the risk of leaving a failed backport in the middle of
-    the chain. Indeed, let's that than when I was doing 3.10 I would
-    have picked the original patch from 4.19 and adapted it myself.
-    Maybe the 4.4 version was broken, and the user later upgrading
-    from 3.10 to 4.4 could face a regression. Instead, by adapting
-    the 4.4 one to 3.10, if 4.4 was wrong, 3.10 would also likely be
-    and if detected there, the broken chain would be detected. This is
-    particularly true for rarely used parts (e.g. uncommon drivers)
-    where a bug can remain exposed for a long time without anyone
-    noticing.
+ - a second later: trigger unbind of PWM device via sysfs in thread B.
+   As before I'd expect that the device link results in waiting for the
+   fan to be removed completely, but the PWM is removed immediately.
 
-> >    - the tool that helped me the most in resolving rename conflicts is
-> >      "patch". As you explained, "git am" is a bit stubborn. But patch is
-> >      way more lenient (and will often do mistakes). In the very old 2.6.32
-> >      I used to rely on "git show XX | patch -p1" way more often than
-> >      "git am". For a rename, you do "git show XX -- file |patch otherfile".
-> >      It works the same with file-based patches or mbox: "patch -p1 < mbox".
-> >      Patch however will not place the conflict markers and will leave .rej
-> >      files. I then opened them in an editor next to the file to edit, to
-> >      locate the area and copy the relevant part to its location. Emacs'
-> >      ediff is also extremely convenient to pick select parts of each file.
-> > 
-> >    - control the patches: after I'm pretty sure I have resolved a patch,
-> >      I compare it side by side with the original one. Normally, backported
-> >      patches should have the same structure as the original. Using whatever
-> >      editor supporting a vertical split helps a lot. Otherwise I also use
-> >      "diff -y --width 200" between them to focus on differences (typically
-> >      line numbers). It's not rare that a part is missing, either because
-> >      I messed up, or because I forgot to process a .rej that I mistakenly
-> >      removed, or because a file was added, I reset the tree and it's left
-> >      untracked. So any difference between the patches should have its own
-> >      explanation (line numbers, function names, file names, occurrences).
-> >      By the way, it can very easily happen that applying a patch will work
-> >      fine but it will apply to the wrong function because some code patterns
-> >      especially in error unrolling paths are often the same between several
-> >      functions. It happened to me quite a few times in the past, and even
-> >      a few of these persisted till the public patch review. That's really
-> >      a risk that must not be minimized!
-> 
-> There is a section on this: "Verifying the result", and also describes
-> doing a side-by-side diff of the old and new patches.
+ - pwm_apply_state's sleep completes (in thread B) and operates on freed
+   resources =3D> bang!
 
-Ah yes, I didn't notice it the first time, I thought it meant comparing
-the files, not the patches.
+> This all sounds like insufficient locking and
+> critical region protection in both the consumer and supplier.
 
-> The bit about applying the patch to the wrong function -- I doubt this
-> happens that much when using cherry-pick, since it knows both sides of
-> the history and can tell when code moves around. You're probably right
-> that it can easily happen with plain git am/patch though. In my mind,
-> this is an argument in favour of using cherry-pick whenever possible.
+My (and I think also Thierry's) expectation was, that the device link
+provides the needed synchronisation. But it doesn't as it doesn't block
+the PWM provider going away until the fan is completely gone.
 
-Yep I never had it with cherry-pick, only with git-am (rare) and patch
-(more common). I totally agree with cherry-picking as much as possible,
-and I also often preferred to git-am to the original base to later
-cherry-pick, as you mentioned.
+> Device links can't do anything here because you are giving it wrong
+> info -- that the unbind was successful before it actually is.
 
-> >    - something quite common is that as code evolves, it gets refactored
-> >      so that what used to appear at 3 locations in the past now moved to
-> >      a single function. But when you're backporting, you're doing the
-> >      reverse work, you're taking a patch for a single location that may
-> >      apply to multiple ones. Often the hint is that the function name
-> >      changed. But sometimes it's not even the case. If what you've found
-> >      looks like a nasty bug pattern that looks like it could easily have
-> >      been copy-pasted at other places, it's worth looking for it elsewhere
-> >      using git grep. If you find the same pattern, then you search for it
-> >      into the tree the patch comes from. If you don't find it, it's likely
-> >      that you'll need to adjust it, and git log is your friend to figure
-> >      what happened to these areas. Note that git blame doesn't work for
-> >      removed code. If you find the same pattern elsewhere in mainline, it's
-> >      worth asking the patch author if that one is also an occurrence of the
-> >      same bug or just normal. It's not uncommon to find new bugs during a
-> >      backport.
-> 
-> Very good point.
-> 
-> I think this fits very well alongside the sections on function
-> arguments, error handling, etc. since it details a specific thing that
-> can go easily wrong.
-> 
-> Can I take what you wrote above, or do you want to submit your own
-> incremental patch? I think we could insert it almost verbatim.
+The fan's unbind is ongoing, but not complete yet and I'd expect that
+the device link blocks unbinding the PWM until the fan is completely
+gone. So I think there is no wrong information.
 
-Sure, feel free to take whatever I wrote and even rework it as suits you!
+> Device links will and can make sure that the consumer is unbound
+> successfully before the unbind is called on the supplier. And it looks
+> like that's still true here.
 
-> >    - color diff: usually I just rely on:
-> > 
-> >       [color]
-> >           ui = true
-> > 
-> >      But I also recently got used to using diff-highlight that will
-> >      highlight different characters between lines. It's nice for complex
-> >      "if" conditions where you don't see the difference, or for spaces
-> >      vs tabs:
-> > 
-> >      [pager]
-> >          log = /usr/doc/git-2.35.3/contrib/diff-highlight/diff-highlight | less
-> >          show = /usr/doc/git-2.35.3/contrib/diff-highlight/diff-highlight | less
-> >          diff = /usr/doc/git-2.35.3/contrib/diff-highlight/diff-highlight | less
-> 
-> Right, git log/show/diff --word-diff=color can also do this to some degree.
+I hope you understood the situation better now and see the problem we
+have.
 
-I didn't know word-diff. The format is unusual but can be convenient at
-times. I think it's worth mentioning various options so that developers
-try them, adopt or reject them based on habits and taste.
+The problem is fixable in the pwm framework (and I'm working on that),
+but I think there is also something to improve around devicelink
+handling.
 
-> There is also core.whitespace/color.diff.whitespace that will highlight
-> some common whitespace errors.
+Best regards
+Uwe
 
-yes.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-> I haven't used diff-highlight myself -- I'll give it a try.
+--56mmcz5vtc7432bh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It gets a little while to get used to it as it changes the background
-color around some parts. I find patches less easy to read when only
-a few chars change on the line, but you get the info about what changes
-and that's the point.
+-----BEGIN PGP SIGNATURE-----
 
-> In this case, I was using colordiff specifically to do the side-by-side
-> diff of the two patches since it handles the <() shell syntax _and_ does
-> the highlighting of differences between the patches.
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUqvxAACgkQj4D7WH0S
+/k6APgf/XzNWco1nZBdD6GZf46Y8QAk5WhDNtaTcX6PONOjKeZW3qmiyaoHPIuZA
+x7zNN9F5j20txPoQwSIM6rsI4r8ZUbRqKRJFOzvtZgSsDL/LUHXYH7WvJBUDEuem
+k8VHzw7NHAXhVYsGn8CFNR657PzANV2Rq5ttuHMI8FGLd/5/UmlUA7jG9RwDcPB7
+eYODY/pRMUkom8PIxXC43DE2i53iOV6vQSBFFEjegSEocdMuVZYpTqp8f3SgbVyM
+t0Z+iNUMoEHhF9oRWwP+XfCgCxHUaqrTGc4aoGYLM2Hf2ewtDe7XRFUad8Qj7pzZ
+vsKLiu8G/EOQmRt3hTenqUXA4ErZOw==
+=mlq/
+-----END PGP SIGNATURE-----
 
-Ah, then I understand, I didn't catch that you were using it to compare
-the two patches. That's what I'm seeing on your site with the screenshots
-indeed. In this case editing tools are of limited use here (except to
-compare) since you definitely don't want to pick parts of a patch for
-the other one.
-
-> >    - git add, git add and git add: when fixing patches by hand, it's very
-> >      common to leave some parts not added (especially with | patch -p1).
-> >      It's useful to work on a clean tree to more easily spot untracked
-> >      files with "git status".
-> 
-> Yet another reason to use git cherry-pick instead of manual patch
-> commands: it keeps track of unmerged files for you. ;-)
-
-Definitely. I think everyone prefers cherry-pick, but you quickly
-learn it's not always an option. For old LTS kernels, they were so
-far away from original ones that cherry-pick would systematically
-pull in hundreds of context lines that made it very difficult to
-locate the useful part :-/
-
-> So I'm a bit torn on this. I think in this particular document I'd like
-> to encourage the use of git and doing things "the git way" as much as
-> possible.
-
-Well, you asked how people in charge of this used to do it, right ? :-)
-Similarly you've seen Steven's approach using Quilt. I had not thought
-about using it this way, but the approach here was to keep track of
-touched files. I think that in general patch management is ugly from a
-software developemnt perspective. It relies on modifications arbitrarily
-grouped by line because historically the tools have always worked this
-way, and developers adapted to this method. But it doesn't follow any
-sane workflow related to the software development cycle. It just
-happens to work well enough. Based on this, I see nothing wrong with
-doing what works for you. What matters is how much you can trust the
-operations (hence the need for post-checks).
-
-When working on old kernels, I used to find those rough ratios:
-  - cherry-pick applies 1/3 of the time
-  - 3/4 of applied cherry-picks actually build without error
-  - 90% of cherry-picks that apply well really fix the problem
-
-As such, as painful as it is, 10% of the patches that apply and build
-after a successful cherry-pick do not correctly fix a problem or have
-a side effect. Those that require manual fixing impose some analysis
-that more often allows to detect that something is going to be wrong.
-Several times it happened to me that I thought "uh oh 20 patches applied
-in a row without problem, that's getting nasty".
-
-I'm seeing a successful series of cherry-picks like a 100-line C program
-that you write at once and that first compiles and starts without error.
-You know that something's probably wrong but you don't know where to look.
-
-So in short, yes, I do by far prefer cherry-pick but I don't trust it
-that much because less human intervention usually means less validation.
-
-> > > I'd like to add that my impression is that a LOT of people *fear*
-> > > backporting and conflict resolution -- and it doesn't have to be that
-> > > way. We should be talking about merge conflicts and what good workflows
-> > > look like (one of the reasons why I was very happy to see Steven's
-> > > presentation at KR), instead of leaving everybody to figure it out on
-> > > their own. This document is my contribution towards that.
-> > 
-> > I'm not completely sold to this. Yes we should teach more people to
-> > perform that task themselves. But there's a big difference between
-> > backporting a few patches and feeling like you could maintain your own
-> > kernel because now you know how to resolve conflicts. What I mentioned
-> > above about dealing with patches you don't understand must not be
-> > underestimated, that's the biggest challenge I faced when working on
-> > stable kernels. There's probably a feeling of shame of not understanding
-> > something, but I can say that many times I asked for help and was helped
-> > even by top-ranked developers, and nobody ever laughed at me for not
-> > understanding a certain area. But doing that in your garage for your
-> > own kernel or for your company's products is a huge problem because it's
-> > unlikely that you'll get help from the maintainers this time, so you're
-> > left on your own with your own understanding of certain patches.
-> > 
-> > Thus, yes to backports, no to kernel forks being a collection of
-> > backports.
-> 
-> Right; almost every time I talk about backporting it's really in the
-> context of contributing these backports to stable. I'm not in favour of
-> forks either and I'm not trying to encourage it.
-> 
-> Let me try to come up with a specific addition related to the changes
-> you requested above and see if you agree with the wording.
-
-OK!
-
-Willy
+--56mmcz5vtc7432bh--
