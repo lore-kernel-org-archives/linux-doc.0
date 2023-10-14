@@ -1,267 +1,118 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC79A12B90
-	for <linux-doc@vger.kernel.org>; Sat, 14 Oct 2023 16:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1156EAB
-	for <linux-doc@vger.kernel.org>; Sat, 14 Oct 2023 09:17:29 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qrhKP-0006TD-Pg; Sat, 14 Oct 2023 18:17:25 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qrhKN-001f0g-6l; Sat, 14 Oct 2023 18:17:23 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qrhKM-00GJMK-TG; Sat, 14 Oct 2023 18:17:22 +0200
-Date: Sat, 14 Oct 2023 18:17:21 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Saravana Kannan <saravanak@google.com>
-Cc: linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Wolfram Sang <wsa@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	James Clark <james.clark@arm.com>, kernel@pengutronix.de,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
-Message-ID: <20231014161721.f4iqyroddkcyoefo@pengutronix.de>
-References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
- <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
- <ZLeX4UbFaY592HIa@orome>
- <20230725211004.peqxxb4y3j62gmnp@pengutronix.de>
- <20231010080508.7ssnroaefyaeeedd@pengutronix.de>
- <CAGETcx8CNGLnHdWrDpdm4Sx5cFcFFBT2bZKJzNZttAEknFK4Cw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18B31D541;
+	Sat, 14 Oct 2023 20:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FoZNg/9m"
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18680B7;
+	Sat, 14 Oct 2023 13:25:27 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-79fe612beabso134480239f.3;
+        Sat, 14 Oct 2023 13:25:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697315126; x=1697919926; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E5emPS0MjB2QN+kJ9u45m+WJbhux12t/sQVDicjCU/8=;
+        b=FoZNg/9m2jGGR7OXBZEqZS1ob68oXOgCSQtor36JxX9h/EneI1/IbWE4TijMQHg6Te
+         2Jud98WUAs9qLmtXthB/MHwHVJoucMd2pK25NN2Cy0es07grH92gO5zE6V2qHn2IwrkW
+         cz8myndtn4WBQ8XLNCM8cq8Sm1y2hPsnVyCKcjWVFRe5gsdyZU1Xdrn7UI9JzmovWd4D
+         3Hk0Y/cIZsyxd9GTrSTTH5H38/hjuxIVnrqI5o/MQ5wXqNqP3/b/I+Cid4jdLYZPmq6u
+         9xbShp9RSv/WivYv3Y7mfudDE+Y24IAycY/GfEaRcbBKf10zeIDi2bavi+w0FTIA3pEQ
+         OUUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697315126; x=1697919926;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E5emPS0MjB2QN+kJ9u45m+WJbhux12t/sQVDicjCU/8=;
+        b=n0scYJyKs/VkRdzrlS5xlICJVxPM3jMzeS8CMkGUcWvWPV83//y7Uk7fDW4EdZd0tk
+         dL9lIgQ+T+Ddda928raB4jPR3brPPULHUtR/+XXZy0do0lxk4El5xuHAzSU78BZ3i2nD
+         DeBmQmN/mRpU6wGWjhvHS/XnXojafruPki7kvUNrJc1EIykdQ65IzNdRHZVPji8TYV8x
+         nzQtCLp5U5RwS9PxhHvbSe51/wBJZmzEkWA3t3PMt5uF0/tdHAOgAmqbkwnPxPOgXabk
+         yTJne+xk72g/DxYORgzX6WrS3QaR/w51r7QI7OIXnTY79n4gS27WYOFLOJX2UT9vBDed
+         x0dQ==
+X-Gm-Message-State: AOJu0YyCusGpJf70DpLpNWTyd9KaNRZNlPJ4TCXyBlmdiTpUxSUeDFQY
+	oIe8/3t1pTQ4FF20wiK8g8k=
+X-Google-Smtp-Source: AGHT+IHQ0wSofw+mCUxwMOTU704LFNtov6E/5kWHV55+P8O46TcQpo0iXIpmVZ9xJ+NCX1B/ckWz1g==
+X-Received: by 2002:a5d:9d10:0:b0:79f:c9ad:19ce with SMTP id j16-20020a5d9d10000000b0079fc9ad19cemr30998453ioj.15.1697315126209;
+        Sat, 14 Oct 2023 13:25:26 -0700 (PDT)
+Received: from smtpclient.apple ([2601:647:4b00:6db0:ed49:22d9:e5d5:b7e4])
+        by smtp.gmail.com with ESMTPSA id x4-20020a170902ea8400b001c5076ae6absm5861510plb.126.2023.10.14.13.25.23
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 14 Oct 2023 13:25:25 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="56mmcz5vtc7432bh"
-Content-Disposition: inline
-In-Reply-To: <CAGETcx8CNGLnHdWrDpdm4Sx5cFcFFBT2bZKJzNZttAEknFK4Cw@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
+From: comex <comexk@gmail.com>
+In-Reply-To: <5D8CA5EF-F5B0-4911-85B8-A363D9344FA7@zytor.com>
+Date: Sat, 14 Oct 2023 13:25:12 -0700
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Ramon de C Valle <rcvalle@google.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Kees Cook <keescook@chromium.org>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org,
+ patches@lists.linux.dev,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@google.com>,
+ David Gow <davidgow@google.com>,
+ Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <BDD45A2A-1447-40DD-B5F3-29DEE976A3CD@gmail.com>
+References: <20220927131518.30000-1-ojeda@kernel.org>
+ <20220927131518.30000-26-ojeda@kernel.org>
+ <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net>
+ <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
+ <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
+ <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com>
+ <20231012104741.GN6307@noisy.programming.kicks-ass.net>
+ <CABCJKufEagwJ=TQnmVSK07RDjsPUt=3JGtwnK9ASmFqb7Vx8JQ@mail.gmail.com>
+ <202310121130.256F581823@keescook>
+ <CAOcBZOTed1a1yOimdUN9yuuysZ1h6VXa57+5fLAE99SZxCwBMQ@mail.gmail.com>
+ <20231013075005.GB12118@noisy.programming.kicks-ass.net>
+ <CAOcBZOTP_vQuFaqREqy-hkG69aBvJ+xrhEQi_EFKvtsNjne1dw@mail.gmail.com>
+ <CAHk-=wjLUit_gae7anFNz4sV0o2Uc=TD_9P8sYeqMSeW_UG2Rg@mail.gmail.com>
+ <5D8CA5EF-F5B0-4911-85B8-A363D9344FA7@zytor.com>
+To: "H. Peter Anvin" <hpa@zytor.com>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
 
---56mmcz5vtc7432bh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 13, 2023 at 02:42:20PM -0700, Saravana Kannan wrote:
-> On Tue, Oct 10, 2023 at 1:05=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> >
-> > Hello Saravana,
-> >
-> > you were pointed out to me as the expert for device links. I found a
-> > problem with these.
-> >
-> > On Tue, Jul 25, 2023 at 11:10:04PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> > > Today I managed to trigger the problem I intend to address with this
-> > > series. My machine to test this on is an stm32mp157. To be able to
-> > > trigger the problem reliably I applied the following patches on top of
-> > > v6.5-rc1:
-> > >
-> > >  - pwm: stm32: Don't modify HW state in .remove() callback
-> > >    This is a cleanup that I already sent out.
-> > >    https://lore.kernel.org/r/20230713155142.2454010-2-u.kleine-koenig=
-@pengutronix.de
-> > >    The purpose for reproducing the problem is to not trigger further
-> > >    calls to the apply callback.
-> > >
-> > >  - The following patch:
-> > >
-> > > diff --git a/drivers/pwm/pwm-stm32.c b/drivers/pwm/pwm-stm32.c
-> > > index 687967d3265f..c7fc02b0fa3c 100644
-> > > --- a/drivers/pwm/pwm-stm32.c
-> > > +++ b/drivers/pwm/pwm-stm32.c
-> > > @@ -451,6 +451,10 @@ static int stm32_pwm_apply(struct pwm_chip *chip=
-, struct pwm_device *pwm,
-> > >       struct stm32_pwm *priv =3D to_stm32_pwm_dev(chip);
-> > >       int ret;
-> > >
-> > > +     dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
-> > > +     msleep(5000);
-> > > +     dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
-> > > +
-> > >       enabled =3D pwm->state.enabled;
-> > >
-> > >       if (enabled && !state->enabled) {
-> > > @@ -650,7 +654,11 @@ static void stm32_pwm_remove(struct platform_dev=
-ice *pdev)
-> > >  {
-> > >       struct stm32_pwm *priv =3D platform_get_drvdata(pdev);
-> > >
-> > > +     dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
-> > >       pwmchip_remove(&priv->chip);
-> > > +     dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
-> > > +
-> > > +     priv->regmap =3D NULL;
-> > >  }
-> > >
-> > >  static int __maybe_unused stm32_pwm_suspend(struct device *dev)
-> > >
-> > > The first hunk is only there to widen the race window. The second is =
-to
-> > > give some diagnostics and make stm32_pwm_apply() crash if it continues
-> > > to run after the msleep. (Without it it didn't crash reproducibly, do=
-n't
-> > > understand why. *shrug*)
-> > >
-> > > The device tree contains a pwm-fan device making use of one of the PW=
-Ms.
-> > >
-> > > Now I do the following:
-> > >
-> > >       echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & sleep 1; =
-echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
-> > >
-> > > Unbinding the fan device has two effects:
-> > >
-> > >  - The device link between fan and pwm looses its property to unbind =
-fan
-> > >    when pwm gets unbound.
-> > >    (Its .status changes from DL_STATE_ACTIVE to DL_STATE_AVAILABLE)
-> > >  - It calls pwm_fan_cleanup() which triggers a call to
-> > >    pwm_apply_state().
-> > >
-> > > So when the pwm device gets unbound the first thread is sleeping in
-> > > stm32_pwm_apply(). The driver calls pwmchip_remove() and sets
-> > > priv->regmap to NULL. Then a few seconds later the first thread wakes=
- up
-> > > in stm32_pwm_apply() with the chip freed and priv->regmap =3D NULL. B=
-ang!
-> > >
-> > > This looks as follows:
-> > >
-> > > root@crown:~# echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & s=
-leep 1; echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
-> > > [  187.182113] stm32-pwm 40007000.timer:pwm: stm32_pwm_apply:454
-> > > [  188.164769] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:657
-> > > [  188.184555] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:659
-> > > root@crown:~# [  192.236423] platform 40007000.timer:pwm: stm32_pwm_a=
-pply:456
-> > > [  192.240727] 8<--- cut here ---
-> > > [  192.243759] Unable to handle kernel NULL pointer dereference at vi=
-rtual address 0000001c when read
-> > > ...
-> > >
-> > > Even without the crash you can see that stm32_pwm_apply() is still
-> > > running after pwmchip_remove() completed.
-> > >
-> > > I'm unsure if the device link could be improved here to ensure that t=
-he
-> > > fan is completely unbound even if it started unbinding already before
-> > > the pwm device gets unbound. (And if it could, would this fit the dev=
-ice
-> > > links purpose and so be a sensible improvement?)
-> >
-> > While I think that there is something to be done in the pwm core that
-> > this doesn't explode (i.e. do proper lifetime tracking such that a
-> > pwm_chip doesn't disappear while still being used---and I'm working on
-> > that) I expected that the device links between pwm consumer and provider
-> > would prevent the above described oops, too. But somehow the fan already
-> > going away (but still using the PWM) when the PWM is unbound, results in
-> > the PWM disappearing before the fan is completely gone.
-> >
-> > Is this expected, or a problem that can (and should?) be fixed?
+> On Oct 13, 2023, at 12:00=E2=80=AFPM, H. Peter Anvin <hpa@zytor.com> =
+wrote:
 >=20
-> I didn't read your full series, but I read this email. With what's in
-> this email, the problem seems to be in the driver or the pwm
-> framework. The pwm driver/framework can't tell the driver core that
-> you successfully unbound (returning from .remove()) before you have
-> finish all your ongoing transactions with the device. If your
-> "apply()" is still running, you need to make sure it's complete before
-> .remove() does any resource releasing/clean up.
->=20
-> Also, how is the consumer driver's .remove() succeeding if it has an
-> ongoing pwm call()?
+> Transparent unions have been standard C since C99.
 
-The thing that works fine and as expected is:
-
- - trigger unbind of PWM device via sysfs
-
-Because there is a device link PWM provider -> pwm consumer (fan), the
-fan is removed and once its gone (and not earlier), the PWM gets unbound.
-
-The failing sequence is:
-
- - trigger unbind of fan device in userspace thread A via sysfs. The
-   fan's remove callback blocks for 5s in pwm_apply_state() and so
-   .remove() doesn't complete yet.
-
- - a second later: trigger unbind of PWM device via sysfs in thread B.
-   As before I'd expect that the device link results in waiting for the
-   fan to be removed completely, but the PWM is removed immediately.
-
- - pwm_apply_state's sleep completes (in thread B) and operates on freed
-   resources =3D> bang!
-
-> This all sounds like insufficient locking and
-> critical region protection in both the consumer and supplier.
-
-My (and I think also Thierry's) expectation was, that the device link
-provides the needed synchronisation. But it doesn't as it doesn't block
-the PWM provider going away until the fan is completely gone.
-
-> Device links can't do anything here because you are giving it wrong
-> info -- that the unbind was successful before it actually is.
-
-The fan's unbind is ongoing, but not complete yet and I'd expect that
-the device link blocks unbinding the PWM until the fan is completely
-gone. So I think there is no wrong information.
-
-> Device links will and can make sure that the consumer is unbound
-> successfully before the unbind is called on the supplier. And it looks
-> like that's still true here.
-
-I hope you understood the situation better now and see the problem we
-have.
-
-The problem is fixable in the pwm framework (and I'm working on that),
-but I think there is also something to improve around devicelink
-handling.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---56mmcz5vtc7432bh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUqvxAACgkQj4D7WH0S
-/k6APgf/XzNWco1nZBdD6GZf46Y8QAk5WhDNtaTcX6PONOjKeZW3qmiyaoHPIuZA
-x7zNN9F5j20txPoQwSIM6rsI4r8ZUbRqKRJFOzvtZgSsDL/LUHXYH7WvJBUDEuem
-k8VHzw7NHAXhVYsGn8CFNR657PzANV2Rq5ttuHMI8FGLd/5/UmlUA7jG9RwDcPB7
-eYODY/pRMUkom8PIxXC43DE2i53iOV6vQSBFFEjegSEocdMuVZYpTqp8f3SgbVyM
-t0Z+iNUMoEHhF9oRWwP+XfCgCxHUaqrTGc4aoGYLM2Hf2ewtDe7XRFUad8Qj7pzZ
-vsKLiu8G/EOQmRt3hTenqUXA4ErZOw==
-=mlq/
------END PGP SIGNATURE-----
-
---56mmcz5vtc7432bh--
+I don=E2=80=99t think that=E2=80=99s right.  Certainly =
+__attribute__((transparent_union)) is not standard C; are you referring =
+to a different feature?
