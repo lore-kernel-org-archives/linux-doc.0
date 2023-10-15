@@ -1,26 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5276FB2;
-	Sun, 15 Oct 2023 13:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F17C6FD1
+	for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 14:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZcGzpkBB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 28ABAC433D9;
-	Sun, 15 Oct 2023 13:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697376624;
-	bh=pS0gakAmkGXWfwWOHapujcu8RZsQzfyFuRVpzEMQnDY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ZcGzpkBBj/mJD/450Hz6T9qxBjBL22Pnnxpuq37cBKj+GmsJrbc83CTbGQPDOwOVI
-	 hSxt7mmqMOW1i0g54FXKALhlcw9LwYWJEe51TqonWog5KvK5440M4VvZDRH/ry3hOF
-	 9TS56sGoIjcMiSye3FXkVWwepF5AnSOtoGwGoZ8oF4AAZNwOa+LJHCDXYmL0Wcb0p0
-	 wzCvsdMDu+EijnEpGVqtV9oPm9gRziMGwbqg8unzkHQVAXbMiM5ONNE1KaBVE3TxcU
-	 8bVoCSYcQcZs/1D/nQ08f3kt4n/CwbB4Dv7bqOaerdfu6Vu9P8FSoZ6de02evMaUu4
-	 qZLusOaZl9cTg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 13A75E1F666;
-	Sun, 15 Oct 2023 13:30:24 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="oOKWrKzv"
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B26E9DC
+	for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 07:17:11 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6b44befac59so1381260b3a.0
+        for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 07:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1697379431; x=1697984231; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z+b0dEMOY183z9dPBZcXWdZ+T7lbIwplG3M4Qto5H1o=;
+        b=oOKWrKzvXwy6Iss50tPht/+1c1HJyTCKCwA46I9tiPP/IHCgdCNzKNIcGQ0J6Gv3M+
+         VHM2g+vzcIOHQrwnU8mEKqiJsjbflHEdg2GpV1SwawE+py0vyHW0/oFH+02d4tKUGAu1
+         6Q+y6T7ZRoJj+E5/pxcm7XtkwaavFP54+G5/l5ZxbmraAuPggemAJtmYWlfFyKkcNDVC
+         XA/piv1AsZaMtRWAZuG7ytz49tnZLSw1zvZZ0OUqa8d6kBcpELJ+wpuO47U+QAGqw5+Q
+         53T+VH0nTLUy0nP9Ac8/nlxctORyojWWh+uL661MD3da5xDNKlPHV+z+5WZBepDGf54s
+         88DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697379431; x=1697984231;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z+b0dEMOY183z9dPBZcXWdZ+T7lbIwplG3M4Qto5H1o=;
+        b=nAUlk4eroxCu0vY/syBbX+NHMnbLw6flHE7/VMV02CwTXLB6Q7TN9lLzivmOgZAidQ
+         SlzZiyxVkQIckxRyvMB8d8nVVrQc4PxGQxOqgGV9/CbjnsfR/ou8yfmRcB2dK4jPQSZL
+         cinvYwZzUic1rXvlzZDhDX64mGoyQ9Bg3OJ230S8r8PhR4PVr2l+GM4tNkn3bVg2j90l
+         Tbeg2ftgnD8jozWZoRr3jDC+nL9DxWEmeAS2T0bh5WZ2ihIrxEfE+5WuxTbjvnZsvV14
+         /xeuaFtvq5T4SLEa0X5eR0MJR3TH/JhoLl9EJtg14ArufDX9oxapDtcgZe5XXsJJ6Kim
+         ZvXw==
+X-Gm-Message-State: AOJu0YxqyRsiOF9vjiipaOcMQl+fmQFLYXnJyJDUyryO/05i7ZwPT2Db
+	zA/YkJbZyvhg10tkrI5nriPzvQ==
+X-Google-Smtp-Source: AGHT+IF8ctbxzi/yLoYKR8nfTMdLlPrANNX0a4fFaaxK61sDbvY5BiX2bAhQb9DCFQvUS99Sir6h0g==
+X-Received: by 2002:a05:6a21:6d92:b0:13a:dd47:c31a with SMTP id wl18-20020a056a216d9200b0013add47c31amr6752797pzb.20.1697379431188;
+        Sun, 15 Oct 2023 07:17:11 -0700 (PDT)
+Received: from localhost ([2400:4050:a840:1e00:78d2:b862:10a7:d486])
+        by smtp.gmail.com with UTF8SMTPSA id x6-20020aa78f06000000b006b3dc56c944sm3993752pfr.133.2023.10.15.07.17.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Oct 2023 07:17:10 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Shuah Khan <shuah@kernel.org>,
+	bpf@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	kvm@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	linux-kselftest@vger.kernel.org,
+	Yuri Benditovich <yuri.benditovich@daynix.com>,
+	Andrew Melnychenko <andrew@daynix.com>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [RFC PATCH v2 0/7] tun: Introduce virtio-net hashing feature
+Date: Sun, 15 Oct 2023 23:16:28 +0900
+Message-ID: <20231015141644.260646-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,42 +87,68 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] docs: try to encourage (netdev?) reviewers
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <169737662407.24568.3374449097895161500.git-patchwork-notify@kernel.org>
-Date: Sun, 15 Oct 2023 13:30:24 +0000
-References: <20231011024224.161282-1-kuba@kernel.org>
-In-Reply-To: <20231011024224.161282-1-kuba@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, corbet@lwn.net, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, andrew@lunn.ch, jesse.brandeburg@intel.com,
- sd@queasysnail.net, horms@verge.net.au, przemyslaw.kitszel@intel.com,
- f.fainelli@gmail.com, jiri@resnulli.us, ecree.xilinx@gmail.com
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-Hello:
+virtio-net have two usage of hashes: one is RSS and another is hash
+reporting. Conventionally the hash calculation was done by the VMM.
+However, computing the hash after the queue was chosen defeats the
+purpose of RSS.
 
-This patch was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+Another approach is to use eBPF steering program. This approach has
+another downside: it cannot report the calculated hash due to the
+restrictive nature of eBPF.
 
-On Tue, 10 Oct 2023 19:42:24 -0700 you wrote:
-> Add a section to netdev maintainer doc encouraging reviewers
-> to chime in on the mailing list.
-> 
-> The questions about "when is it okay to share feedback"
-> keep coming up (most recently at netconf) and the answer
-> is "pretty much always".
-> 
-> [...]
+Extend the steering program feature by introducing a dedicated program
+type: BPF_PROG_TYPE_VNET_HASH. This program type is capable to report
+the hash value and the queue to use at the same time.
 
-Here is the summary with links:
-  - [net-next,v2] docs: try to encourage (netdev?) reviewers
-    https://git.kernel.org/netdev/net-next/c/6e55b1cbf05d
+This is a rewrite of a RFC patch series submitted by Yuri Benditovich that
+incorporates feedbacks for the series and V1 of this series:
+https://lore.kernel.org/lkml/20210112194143.1494-1-yuri.benditovich@daynix.com/
 
-You are awesome, thank you!
+QEMU patched to use this new feature is available at:
+https://github.com/daynix/qemu/tree/akihikodaki/bpf
+
+The QEMU patches will soon be submitted to the upstream as RFC too.
+
+V1 -> V2:
+  Changed to introduce a new BPF program type.
+
+Akihiko Odaki (7):
+  bpf: Introduce BPF_PROG_TYPE_VNET_HASH
+  bpf: Add vnet_hash members to __sk_buff
+  skbuff: Introduce SKB_EXT_TUN_VNET_HASH
+  virtio_net: Add virtio_net_hdr_v1_hash_from_skb()
+  tun: Support BPF_PROG_TYPE_VNET_HASH
+  selftests/bpf: Test BPF_PROG_TYPE_VNET_HASH
+  vhost_net: Support VIRTIO_NET_F_HASH_REPORT
+
+ Documentation/bpf/bpf_prog_run.rst            |   1 +
+ Documentation/bpf/libbpf/program_types.rst    |   2 +
+ drivers/net/tun.c                             | 158 +++++--
+ drivers/vhost/net.c                           |  16 +-
+ include/linux/bpf_types.h                     |   2 +
+ include/linux/filter.h                        |   7 +
+ include/linux/skbuff.h                        |  10 +
+ include/linux/virtio_net.h                    |  22 +
+ include/uapi/linux/bpf.h                      |   5 +
+ kernel/bpf/verifier.c                         |   6 +
+ net/core/filter.c                             |  86 +++-
+ net/core/skbuff.c                             |   3 +
+ tools/include/uapi/linux/bpf.h                |   5 +
+ tools/lib/bpf/libbpf.c                        |   2 +
+ tools/testing/selftests/bpf/config            |   1 +
+ tools/testing/selftests/bpf/config.aarch64    |   1 -
+ .../selftests/bpf/prog_tests/vnet_hash.c      | 385 ++++++++++++++++++
+ tools/testing/selftests/bpf/progs/vnet_hash.c |  16 +
+ 18 files changed, 681 insertions(+), 47 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/vnet_hash.c
+ create mode 100644 tools/testing/selftests/bpf/progs/vnet_hash.c
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.42.0
 
