@@ -1,98 +1,100 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3572770A
-	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 21:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A3237C83;
+	Mon, 16 Oct 2023 21:45:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Cq5XqvF2"
-Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F96CA2;
-	Mon, 16 Oct 2023 14:11:21 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DFED440E014B;
-	Mon, 16 Oct 2023 21:11:18 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id aUCT3b3htChH; Mon, 16 Oct 2023 21:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1697490677; bh=F91l+IVyFain1pq6gedH/p3bRSAVTBnqqVgbpwXDdyg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cq5XqvF2VowCc+rZsmNTbWwhBIQ4SJ+c1DbVgfh0phKYuEeK/6wF4bXch3WtIICCG
-	 INO/eUjvXVPLOmqM1Zs18hwd9MCCuo5YloogDu/BtmzP3v2CQV+xn3I9q5p9UUExGT
-	 e+9FVaxbN0eUpkvmjHM1RGUq6s7Dc61efdwNx3lNZ4AoHzd0PyPd1XwSKvvrNdSW65
-	 cvVTayOlFbHHVyw49Y4SChSH9jKb/yTKJ1waFATMcMyeDA3ClUWlSh39+h+ChQdRWv
-	 +4s/oZTqdEOq6bTh6M557lp5K+43x0EMwIX6+GRLkxxgDmqkz/DgnGOtMr2Fl0mamV
-	 rs1rub168fPOk7fO+GkbM/Uxp0Ru0HOlXND1GFqpAyvLJBzoeEoKn+eesF7Ic9AakT
-	 q/TBymh22ZSFFbMVqLGWp2dbuMTGVeyukDK8SpDfyuKfzfZopQZf/J3UGzISvrKZaK
-	 s57Yn4vlJJTgrEkzLzSakv3FQN/bjudVEcj/JYY3k645Zyqcxv2OopxXzG0YkODREx
-	 UnRQriFXE0P89oKYV64zzDfwb+bpcE0zNcmD6YXZt1ZkU6cV7J3LZzfIj74Phy2DWu
-	 /EafPbdJwnMls7RVnQvVaeFi4wDggBjw06OVIrfYM6K1+FZJDX93aqVIy+GexCIZkG
-	 CHPM2eXe2bA2XAcORj0f3n7g=
-Received: from zn.tnic (pd953036a.dip0.t-ipconnect.de [217.83.3.106])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A5C4440E01B1;
-	Mon, 16 Oct 2023 21:10:42 +0000 (UTC)
-Date: Mon, 16 Oct 2023 23:10:36 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com
-Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
-	fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-	quic_neeraju@quicinc.com, rdunlap@infradead.org,
-	damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-	peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-	chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-	jmattson@google.com, daniel.sneddon@linux.intel.com,
-	sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bagasdotme@gmail.com, eranian@google.com,
-	christophe.leroy@csgroup.eu, jarkko@kernel.org,
-	adrian.hunter@intel.com, quic_jiles@quicinc.com,
-	peternewman@google.com
-Subject: Re: [PATCH v13 04/10] x86/resctrl: Add comments on RFTYPE flags
- hierarchy
-Message-ID: <20231016211017.GFZS2mufnu+hTADrEF@fat_crate.local>
-References: <20231013202602.2492645-1-babu.moger@amd.com>
- <20231013202602.2492645-5-babu.moger@amd.com>
- <d4a33013-0448-4c36-a168-b3a953024962@intel.com>
- <0acbb031-a84e-1cbc-0857-f087b07a9056@amd.com>
- <299778a6-5ea0-c70d-54d6-1ecdc1b417d6@amd.com>
- <2c86957f-9705-4f24-aa43-60d89f636c31@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QgpdJjU0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF20C433C8;
+	Mon, 16 Oct 2023 21:45:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697492744;
+	bh=urYeCNriV0kxeshU5Rna6R1RxVeHNVc0shzEPlTWcXs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QgpdJjU0XWdzBdhLG07ys33H8Qw8Ytzfr+oRrjxHcr4A9LshNYoVlPLC4QGfOCDRf
+	 cVR39GPluQOUMdjrYhbaa4lhC5UJESydkJYNWZuB1w6AkAeeGh78EPJqT6et5NY9Ym
+	 zpSWRwkPnGAd44J+SpnM4dEBiJ1bE4T7XWZWJ8W0Ptx6uhU+kU0NcExJZ2Lno7O4rh
+	 j7BedJqbzeBK+SzvTE/Lq9nn71WkVm5gTAJcXhFUstCKrSgib5SwifWdgo83DvtYpD
+	 i+8T7mF9cfMrC4PcLciAnJewEDTMyq3lb+5VtEqCGRIsHFYSclsf/6dTjclhbXTInh
+	 i17kTR9+0WsEg==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	jiri@resnulli.us,
+	linux-doc@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net-next v2] docs: netlink: clean up after deprecating version
+Date: Mon, 16 Oct 2023 14:45:40 -0700
+Message-ID: <20231016214540.1822392-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2c86957f-9705-4f24-aa43-60d89f636c31@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 16, 2023 at 01:46:42PM -0700, Reinette Chatre wrote:
-> This still does not look as though you consider how the document 
-> looks after the changes.
+Jiri moved version to legacy specs in commit 0f07415ebb78 ("netlink:
+specs: don't allow version to be specified for genetlink").
+Update the documentation.
 
-Looking how this would take longer, Babu, you could leave out the
-documentation changes for now and send the rest of the pile which has
-been reviewed.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+v2:
+ - s/Gobals/Globals/
+ - breaking changes are -> compatibility breaking changes are
+   I think it's plural but the omission of "compatibility" made it confusing
+ - not changing the wording to "should never be used", I prefer existing
+v1: https://lore.kernel.org/all/20231012154315.587383-1-kuba@kernel.org/
+---
+ .../userspace-api/netlink/genetlink-legacy.rst     | 14 ++++++++++++++
+ Documentation/userspace-api/netlink/specs.rst      |  5 -----
+ 2 files changed, 14 insertions(+), 5 deletions(-)
 
-And then you can take your time and do the documentation stuff after
-that.
-
-HTH.
-
+diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+index 40b82ad5d54a..0b3febd57ff5 100644
+--- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
++++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+@@ -11,6 +11,20 @@ the ``genetlink-legacy`` protocol level.
+ Specification
+ =============
+ 
++Globals
++-------
++
++Attributes listed directly at the root level of the spec file.
++
++version
++~~~~~~~
++
++Generic Netlink family version, default is 1.
++
++``version`` has historically been used to introduce family changes
++which may break backwards compatibility. Since compatibility breaking changes
++are generally not allowed ``version`` is very rarely used.
++
+ Attribute type nests
+ --------------------
+ 
+diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
+index cc4e2430997e..40dd7442d2c3 100644
+--- a/Documentation/userspace-api/netlink/specs.rst
++++ b/Documentation/userspace-api/netlink/specs.rst
+@@ -86,11 +86,6 @@ name
+ Name of the family. Name identifies the family in a unique way, since
+ the Family IDs are allocated dynamically.
+ 
+-version
+-~~~~~~~
+-
+-Generic Netlink family version, default is 1.
+-
+ protocol
+ ~~~~~~~~
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.41.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
