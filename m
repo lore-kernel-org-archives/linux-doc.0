@@ -1,283 +1,154 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC22EA8
-	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 01:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E05D185C
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 03:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="te4L5Bph"
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60226D6
-	for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 18:19:39 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so6747a12.0
-        for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 18:19:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="cb/Ld+RY"
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B54F7D9
+	for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 20:22:42 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-27d4b280e4eso1526845a91.1
+        for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 20:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697419178; x=1698023978; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ycNhjCRFpUhksXsl43Gg/gmWjiI/q9jZ8V6D0q3J+8Y=;
-        b=te4L5BpheapwEAD2LPbQ10wgk6XS0KJA777f/ijrzh+HSTzvksdB72fLW0RrO7q1mI
-         1b6/htDBg6piC7Es7mUY65ktPk6ldF7ygBhmhfVFK88Xvfg6c4cQOlSPH4wGbaBLpijd
-         zq1YOAFY9Bok/oKVQ2Lkj/QIetHRKO8SyzrByRGxrJ9DnEbT2Zfst0guee011eECaw+I
-         vRB3OtaBaxEBJHQMyZJGzEgkLT4j/54PicE2E71QNaWPob6Jqu2jROMvB5UlHerqCEYP
-         Sh5/34s6oQ/HyX0MON8HOz4Yj6mvZHsolp5wdaK4zWSS6gkOaMqlIbbD1HERS0+3BQ9H
-         2Yvg==
+        d=bytedance.com; s=google; t=1697426562; x=1698031362; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gczzW0LaNc0vEssMkLzS11PtF6rOzBiU0Uwpu4VNOxY=;
+        b=cb/Ld+RYc/kfM0acwFfmBZDSGqIgmB9RRKUmfvpMbLV+bGLt/VBqBnUDrB3hvOaJRH
+         9YfHz6zdU8+nkD2tV+cKNgDxVDO37zIpuhTerGagihbCgvkXMn4B6W7WCdV1pVcWlp5L
+         /OWFxmm4jhNi4ATYTOgpjQUzKfrFDrveAqxc1PMuhDWzsoyUcgC4ReZoic+AAOL3bS9u
+         3KfaU9XYeFrdqhfjYCdxdPoye5uW94FuIYpEkIP+6wRe8fF99k8ZQwM6yA4+PPUil++k
+         ryxlJDu74W3/MRUfgVmoLlarh7g0OWEE7pqJD2ckBH4wKHHBVH4+n81t2Io6gi7W3y51
+         +27Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697419178; x=1698023978;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ycNhjCRFpUhksXsl43Gg/gmWjiI/q9jZ8V6D0q3J+8Y=;
-        b=sFU4Yy2bGrxYONivRdYg7tVziDBYiwOGWOdADtjSN2liOwR8NdCgQdiDo8Ei2ElQjf
-         9nIvKavc3rqjRxYICYTi8dR6dY4KJzNGD/Pik5tc4kMAELrgKb2c6SDbIHCSd+OjyF3w
-         O6eGxB76gjaudWGLxbUDVHEM2o4BRfOAnFOblh/xQu9nkF2BIuMR9vFeXPMKQ63aoUki
-         2jAxnEx/T7n3oUa4xdQjC6uG7VnQbgeix/dNWzSz75Y6TFH93leoN3hw3JxVJ9Gm3T0y
-         4JfxcXAkOK+0P0Gh8NwdSCMbCtU+lYPZ1Qytf8n94KepA41S5d2PbNy/nh2pig9P+uYs
-         XPwA==
-X-Gm-Message-State: AOJu0YwjApAJa19nwMGlvVIHgbr1DTh4IjFYug+Ovj0Gv2f+YiFwg5b4
-	qSAREKJ9cI9CtiOyV3GY5NDaxxW9y7GOviY1DTj7QQ==
-X-Google-Smtp-Source: AGHT+IGXF0ZwWO5sNdfXck3l+mKju6H+pypH0h1zgCwfJcjeI8E/GL+v9uDhBFb/YLdNJhnqrDO2GAWPYkhox/pShaQ=
-X-Received: by 2002:a50:cd16:0:b0:538:1d3a:d704 with SMTP id
- z22-20020a50cd16000000b005381d3ad704mr105578edi.1.1697419177104; Sun, 15 Oct
- 2023 18:19:37 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697426562; x=1698031362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gczzW0LaNc0vEssMkLzS11PtF6rOzBiU0Uwpu4VNOxY=;
+        b=T+qJswfq54CoDNRLucrOhdyIVF75vDyJYCmQ/Bk80N3z/AAgCiH96kSbAZyeUBlAJA
+         JnSAoxNmVfuJpzuwvhkxilXSAeNW/X9Di39wyFArnkXf1OclFTgngwFU8voIIntiksyj
+         NsQDjXEstcp4CcPix3eF2Wted5t9aWMq6f/hMbB95jXT7QDqVzJS7hnFezjm9EvDzgGc
+         jFr0h8UNs1uLHvH4dHLFvTSeYBoKS7E+XT0N2BEQBH9mHvDRtj7iV7hWxT4hDEUXeoeb
+         65HmkeAQ84KU2U2YMvLzkfcxP3EqhvPZTLwJCOWZ26pahkSXMBs423oMOAL20aXSFFJb
+         s8tQ==
+X-Gm-Message-State: AOJu0YwvHXOXDaEBkzBTO+G7R7m7nXEFX8qSNPIhdP/pWkmI3bIZ/kn0
+	3oGUI2YuOg4spKqIV9EHB1C5Lw==
+X-Google-Smtp-Source: AGHT+IFzFX6024nzxiosM9l+6Ya1tT1Cn5ggSgsLi/0x1b1M6T1Yxj2Q5/ayz8g2pgVlEQTFv5OCyw==
+X-Received: by 2002:a17:90a:c202:b0:27c:f282:adac with SMTP id e2-20020a17090ac20200b0027cf282adacmr9364622pjt.0.1697426562152;
+        Sun, 15 Oct 2023 20:22:42 -0700 (PDT)
+Received: from GL4FX4PXWL.bytedance.net ([139.177.225.232])
+        by smtp.gmail.com with ESMTPSA id d8-20020a17090ae28800b0027758c7f585sm3452770pjz.52.2023.10.15.20.22.35
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 15 Oct 2023 20:22:41 -0700 (PDT)
+From: Peng Zhang <zhangpeng.00@bytedance.com>
+To: Liam.Howlett@oracle.com,
+	corbet@lwn.net,
+	akpm@linux-foundation.org,
+	willy@infradead.org,
+	brauner@kernel.org,
+	surenb@google.com,
+	michael.christie@oracle.com,
+	mjguzik@gmail.com,
+	mathieu.desnoyers@efficios.com,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	oliver.sang@intel.com,
+	mst@redhat.com
+Cc: zhangpeng.00@bytedance.com,
+	maple-tree@lists.infradead.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v5 00/10] Introduce __mt_dup() to improve the performance of fork()
+Date: Mon, 16 Oct 2023 11:22:16 +0800
+Message-Id: <20231016032226.59199-1-zhangpeng.00@bytedance.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-145)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
- <20231009142005.21338-2-quic_kriskura@quicinc.com> <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
- <CANP3RGcCpNOuVpdV9n0AFxZo-wsfwi8OfYgBk1WHNHaEd-4V-Q@mail.gmail.com>
- <CANP3RGdY4LsOA6U5kuccApHCzL0_jBnY=pLOYrUuYtMZFTvnbw@mail.gmail.com>
- <d19d9d08-c119-4991-b460-49925f601d15@quicinc.com> <fad5a7fb-cce1-46bc-a0af-72405c76d107@quicinc.com>
- <CANP3RGcqWBYd9FqAX47rE9pFgBTB8=0CGdwkScm-OH1epHcVWQ@mail.gmail.com>
- <8ff92053-52ff-4950-95c8-0e986f6a028a@quicinc.com> <CANP3RGd4G4dkMOyg6wSX29NYP2mp=LhMhmZpoG=rgoCz=bh1=w@mail.gmail.com>
- <b12eb7b1-54e7-406f-8c19-0046555b82d3@quicinc.com> <CANP3RGcUrFTaFL8V3tpuh+qQoEi84O0Dy9ie+XD=-H01c2btAw@mail.gmail.com>
- <70c15867-ccce-4788-a0dd-38a73decb785@quicinc.com> <d395d631-239a-43f1-bcbf-b88b11852c76@quicinc.com>
-In-Reply-To: <d395d631-239a-43f1-bcbf-b88b11852c76@quicinc.com>
-From: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
-Date: Sun, 15 Oct 2023 18:19:25 -0700
-Message-ID: <CANP3RGcnpkcLK_CRfSLvxyGM3L0j5R3fybeF_L1bmRV9hNBcuQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
- wMaxSegmentSize via configfs
-To: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, onathan Corbet <corbet@lwn.net>, 
-	Linyu Yuan <quic_linyyuan@quicinc.com>, linux-usb@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_ppratap@quicinc.com, quic_wcheng@quicinc.com, quic_jackp@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-	autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Sat, Oct 14, 2023 at 1:24=E2=80=AFAM Krishna Kurapati PSSNV
-<quic_kriskura@quicinc.com> wrote:
->
->
->
-> On 10/14/2023 12:32 PM, Krishna Kurapati PSSNV wrote:
-> >
-> >
-> > On 10/14/2023 4:05 AM, Maciej =C5=BBenczykowski wrote:
-> >>>>> The intent of posting the diff was two fold:
-> >>>>>
-> >>>>> 1. The question Greg asked regarding why the max segment size was
-> >>>>> limited to 15014 was valid. When I thought about it, I actually wan=
-ted
-> >>>>> to limit the max MTU to 15000, so the max segment size automaticall=
-y
-> >>>>> needs to be limited to 15014.
-> >>>>
-> >>>> Note that this is a *very* abstract value.
-> >>>> I get you want L3 MTU of 10 * 1500, but this value is not actually
-> >>>> meaningful.
-> >>>>
-> >>>> IPv4/IPv6 fragmentation and IPv4/IPv6 TCP segmentation
-> >>>> do not result in a trivial multiplication of the standard 1500 byte
-> >>>> ethernet L3 MTU.
-> >>>> Indeed aggregating 2 1500 L3 mtu frames results in *different* sized
-> >>>> frames depending on which type of aggregation you do.
-> >>>> (and for tcp it even depends on the number and size of tcp options,
-> >>>> though it is often assumed that those take up 12 bytes, since that's
-> >>>> the
-> >>>> normal for Linux-to-Linux tcp connections)
-> >>>>
-> >>>> For example if you aggregate N standard Linux ipv6/tcp L3 1500 mtu
-> >>>> frames,
-> >>>> this means you have
-> >>>> N frames: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
-> >>>> payload (1500-12-20-40=3D1500-72=3D1428)
-> >>>> post aggregation:
-> >>>> 1 frame: ethernet (14) + ipv6 (40) + tcp (20) + tcp options (12) +
-> >>>> payload (N*1428)
-> >>>>
-> >>>> so N * 1500 =3D=3D N * (72 + 1428) --> 1 * (72 + N * 1428)
-> >>>>
-> >>>> That value of 72 is instead 52 for 'standard Linux ipv4/tcp),
-> >>>> it's 40/60 if there's no tcp options (which I think happens when
-> >>>> talking to windows)
-> >>>> it's different still with ipv4 fragmentation... and again different
-> >>>> with ipv6 fragmentation...
-> >>>> etc.
-> >>>>
-> >>>> ie. 15000 L3 mtu is exactly as meaningless as 14000 L3 mtu.
-> >>>> Either way you don't get full frames.
-> >>>>
-> >>>> As such I'd recommend going with whatever is the largest mtu that ca=
-n
-> >>>> be meaningfully made to fit in 16K with all the NCM header overhead.
-> >>>> That's likely closer to 15500-16000 (though I have *not* checked).
-> >>>>
-> >>>>> But my commit text didn't mention this
-> >>>>> properly which was a mistake on my behalf. But when I looked at the
-> >>>>> code, limiting the max segment size 15014 would force the practical
-> >>>>> max_mtu to not cross 15000 although theoretical max_mtu was set to:
-> >>>>> (GETHER_MAX_MTU_SIZE - 15412) during registration of net device.
-> >>>>>
-> >>>>> So my assumption of limiting it to 15000 was wrong. It must be limi=
-ted
-> >>>>> to 15412 as mentioned in u_ether.c  This inturn means we must limit
-> >>>>> max_segment_size to:
-> >>>>> GETHER_MAX_ETH_FRAME_LEN (GETHER_MAX_MTU_SIZE + ETH_HLEN)
-> >>>>> as mentioned in u_ether.c.
-> >>>>>
-> >>>>> I wanted to confirm that setting MAX_DATAGRAM_SIZE to
-> >>>>> GETHER_MAX_ETH_FRAME_LEN was correct.
-> >>>>>
-> >>>>> 2. I am not actually able to test with MTU beyond 15000. When my ho=
-st
-> >>>>> device is a linux machine, the cdc_ncm.c limits max_segment_size to=
-:
-> >>>>> CDC_NCM_MAX_DATAGRAM_SIZE               8192    /* bytes */
-> >>>>
-> >>>> In practice you get 50% of the benefits of infinitely large mtu by
-> >>>> going from 1500 to ~2980.
-> >>>> you get 75% of the benefits by going to ~6K
-> >>>> you get 87.5% of the benefits by going to ~12K
-> >>>> the benefits of going even higher are smaller and smaller...
-> >>>>   > If the host side is limited to 8192, maybe we should match that
-> >>>> here too?
-> >>>
-> >>> Hi Maciej,
-> >>>
-> >>>    Thanks for the detailed explanation. I agree with you on setting
-> >>> device side also to 8192 instead of what max_mtu is present in u_ethe=
-r
-> >>> or practical max segment size possible.
-> >>>
-> >>>>
-> >>>> But the host side limitation of 8192 doesn't seem particularly sane
-> >>>> either...
-> >>>> Maybe we should relax that instead?
-> >>>>
-> >>> I really didn't understand why it was set to 8192 in first place.
-> >>>
-> >>>> (especially since for things like tcp zero copy you want an mtu whic=
-h
-> >>>> is slighly more then N * 4096,
-> >>>> ie. around 4.5KB, 8.5KB, 12.5KB or something like that)
-> >>>>
-> >>>
-> >>> I am not sure about host mode completely. If we want to increase thou=
-gh,
-> >>> just increasing the MAX_DATAGRAM_SIZE to some bigger value help ? (I
-> >>> don't know the entire code of cdc_ncm, so I might be wrong).
-> >>>
-> >>> Regards,
-> >>> Krishna,
-> >>
-> >> Hmm, I'm not sure.  I know I've experimented with high mtu ncm in the
-> >> past
-> >> (around 2.5 years ago).  I got it working between my Linux desktop (ho=
-st)
-> >> and a Pixel 6 (device/gadget) with absolutely no problems.
-> >>
-> >> I'm pretty sure I didn't change my desktop kernel, so I was probably
-> >> limited to 8192 there
-> >> (and I do more or less remember that).
-> >>  From what I vaguely remember, it wasn't difficult (at all) to hit
-> >> upwards of 7gbps for iperf tests.
-> >> I don't remember how close to the theoretical USB 10gbps maximum of
-> >> 9.7gbps I could get...
-> >> [this was never the real bottleneck / issue, so I didn't ever dig
-> >> particularly deep]
-> >>
-> >> I'm pretty sure my gadget side changes were non-configurable...
-> >> Probably just bumped one or two constants...
-> >>
-> > Could you share what parameters you changed to get this high value of
-> > iperf throughput.
+Hi all,
 
-Eh, I really don't remember, but it wasn't anything earth shattering.
-From what I recall it was just a matter of bumping mtu, and tweaking
-irq pinning to stronger cores.
-Indeed I'm not even certain that the mtu was required to be over 5gbps.
-Though I may be confusing some things, as at least some of the testing was =
-done
-with the kernel's built in packet generator.
+This series introduces __mt_dup() to improve the performance of fork(). During
+the duplication process of mmap, all VMAs are traversed and inserted one by one
+into the new maple tree, causing the maple tree to be rebalanced multiple times.
+Balancing the maple tree is a costly operation. To duplicate VMAs more
+efficiently, mtree_dup() and __mt_dup() are introduced for the maple tree. They
+can efficiently duplicate a maple tree.
 
-> >
-> >> I do *very* *vaguely* recall there being some funkiness though, where
-> >> 8192 was
-> >> *less* efficient than some slightly smaller value.
-> >>
-> >> If I recall correctly the issue is that 8192 + ethernet overhead + NCM
-> >> overhead only fits *once* into 16384, which leaves a lot of space
-> >> wasted.
-> >> While ~7.5 kb + overhead fits twice and is thus a fair bit better.
-> > Right, same goes for using 5K vs 5.5K MTU. If MTU is 5K, 3 packets can
-> > conveniently fit into an NTB but if its 5.5, at max only two (5.5k)
-> > packets can fit in (essentially filling ~11k of the 16384 bytes and
-> > wasting the rest)
->
-> Formatting gone wrong. So pasting the first paragraph again here:
->
-> "Right, same goes for using 5K vs 5.5K MTU. If MTU is 5K, 3 packets can
-> conveniently fit into an NTB but if its 5.5, at max only two (5.5k)
-> packets can fit in (essentially filling ~11k of the 16384 bytes and
-> wasting the rest)"
->
-> >
-> > And whether its Ipv4/Ipv6 like you mentioned on [1], the MTU is what NC=
-M
-> > layer receives and we append the Ethernet header and add NCM headers an=
-d
-> > send it out after aggregation. Why can't we set the MAX_DATAGRAM_SIZE t=
-o
-> > ~8050 or ~8100 ? The reason I say this value is, obviously setting it t=
-o
-> > 8192 would not efficiently use the NTB buffer. We need to fill as much
-> > space in buffer as possible and assuming that each packet received on
-> > ncm layer is of MTU size set (not less that that), we can assume that
-> > even if only 2 packets are aggregated (minimum aggregation possible), w=
-e
-> > would be filling (2 * (8050 + ETH_HLEN) + (room for NCM headers)) would
-> > almost be close to 16384 ep max packet size. I already check 8050 MTU
-> > and it works. We can add a comment in code detailing the above
-> > explanation and why we chose to use 8050 or 8100 as MAX_DATAGRAM_SIZE.
-> >
-> > Hope my reasoning of why we can chose 8.1K or 8.05K makes sense. Let me
-> > know your thoughts on this.
+Here are some algorithmic details about {mtree,__mt}_dup(). We perform a DFS
+pre-order traversal of all nodes in the source maple tree. During this process,
+we fully copy the nodes from the source tree to the new tree. This involves
+memory allocation, and when encountering a new node, if it is a non-leaf node,
+all its child nodes are allocated at once.
 
-Maybe just use an L3 mtu of 8000 then?  That's a nice round number...
-But I'm also fine with 8050 or 8100.. though 8100 seems 'rounder'.
+Some previous discussions can be referred to as [1]. For a more detailed
+analysis of the algorithm, please refer to the logs for patch [3/10] and patch
+[10/10]
 
-I'm not sure what the actual overhead is... I guess we control the
-overhead in one direction, but not in the other, and there could be
-some slop, so we need to be a little generous?
+There is a "spawn" in byte-unixbench[2], which can be used to test the
+performance of fork(). I modified it slightly to make it work with
+different number of VMAs.
 
-> >
->
-> [1]:
-> https://lore.kernel.org/all/CANP3RGd4G4dkMOyg6wSX29NYP2mp=3DLhMhmZpoG=3Dr=
-goCz=3Dbh1=3Dw@mail.gmail.com/
->
-> > Regards,
-> > Krishna,
-> >Maciej =C5=BBenczykowski, Kernel Networking Developer @ Google
+Below are the test results. The first row shows the number of VMAs.
+The second and third rows show the number of fork() calls per ten seconds,
+corresponding to next-20231006 and the this patchset, respectively. The
+test results were obtained with CPU binding to avoid scheduler load
+balancing that could cause unstable results. There are still some
+fluctuations in the test results, but at least they are better than the
+original performance.
+
+21     121   221    421    821    1621   3221   6421   12821  25621  51221
+112100 76261 54227  34035  20195  11112  6017   3161   1606   802    393
+114558 83067 65008  45824  28751  16072  8922   4747   2436   1233   599
+2.19%  8.92% 19.88% 34.64% 42.37% 44.64% 48.28% 50.17% 51.68% 53.74% 52.42%
+
+Thanks for Liam's review.
+
+Changes since v4:
+ - Change the handling method for the failure of dup_mmap(). Handle it in
+   exit_mmap().
+ - Update check_forking() and bench_forking().
+ - Add the corresponding copyright statement.
+
+Peng Zhang (10):
+  maple_tree: Add mt_free_one() and mt_attr() helpers
+  maple_tree: Introduce {mtree,mas}_lock_nested()
+  maple_tree: Introduce interfaces __mt_dup() and mtree_dup()
+  radix tree test suite: Align kmem_cache_alloc_bulk() with kernel
+    behavior.
+  maple_tree: Add test for mtree_dup()
+  maple_tree: Update the documentation of maple tree
+  maple_tree: Skip other tests when BENCH is enabled
+  maple_tree: Update check_forking() and bench_forking()
+  maple_tree: Preserve the tree attributes when destroying maple tree
+  fork: Use __mt_dup() to duplicate maple tree in dup_mmap()
+
+ Documentation/core-api/maple_tree.rst |   4 +
+ include/linux/maple_tree.h            |   7 +
+ kernel/fork.c                         |  39 ++-
+ lib/maple_tree.c                      | 304 ++++++++++++++++++++-
+ lib/test_maple_tree.c                 | 123 +++++----
+ mm/memory.c                           |   7 +-
+ mm/mmap.c                             |   9 +-
+ tools/include/linux/rwsem.h           |   4 +
+ tools/include/linux/spinlock.h        |   1 +
+ tools/testing/radix-tree/linux.c      |  45 +++-
+ tools/testing/radix-tree/maple.c      | 363 ++++++++++++++++++++++++++
+ 11 files changed, 815 insertions(+), 91 deletions(-)
+
+-- 
+2.20.1
+
