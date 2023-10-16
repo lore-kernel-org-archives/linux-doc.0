@@ -1,120 +1,95 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A165616415
-	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 07:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04661A5A1
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 08:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGO3A0zy"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B1CC5
-	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 00:22:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697440938; x=1728976938;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9bCqgcQS98+RSDKqgCw3a4UGnjt3O3DqwS+VuIANuSc=;
-  b=hGO3A0zycj/AEp97yuwXGh57f+YoZ27L4mxtBBDe973uufwBbZbZPC9F
-   9i2aQnIq+b5x65nsI+aHYPYD3zoOyuCAV8g2MVvAMPUHl66kG0drgtrGn
-   WMBAZUIzhhfl1m8nVK4VqucCwLOYxapZiG8V/MwmE15OG/rlLkb50XhvI
-   Wv17GS5irW5JwopJwpj2hmuAH5KfsKg6qWXcZN4RMRpArVhIS3O5/L8tE
-   WMkYBUGGLJQmxQq4AU+xpuuN0yoavvBUZLQBp82jk44vLD7J9A00JyBfh
-   4dRZBHeHINRDjHzRse35/JT3CLUBNRHAHwBaKW/fwTVkGzcqMoErpuXjn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="382688255"
-X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
-   d="scan'208";a="382688255"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 00:22:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="846300423"
-X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
-   d="scan'208";a="846300423"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Oct 2023 00:22:16 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qsHva-0008BX-0m;
-	Mon, 16 Oct 2023 07:22:14 +0000
-Date: Mon, 16 Oct 2023 15:22:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:lkp_test 2/6] dtbs_check:
- Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml:18:11:
- [error] string value is redundantly quoted with any quotes (quoted-strings)
-Message-ID: <202310161508.XIJVQFBf-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/NjqnuN"
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4946A9B;
+	Mon, 16 Oct 2023 01:38:13 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-503056c8195so5437044e87.1;
+        Mon, 16 Oct 2023 01:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697445491; x=1698050291; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+dDc+JFvPQYziTivdJAsBuiK7HtHQ+wh1mq0WyZIQh0=;
+        b=m/NjqnuNAEzOk7KTTt7lv3a+Vx387UE20lFYr0I9gO8o4hG81L759C783dAbf6FLIC
+         XbcLluNJmTR+JBci8Y1zKZ1JTwp53hXsLYSC4eBGoe1XlD4MqXaLHEjs3TtggKpxAoz1
+         Wb10SB0blYs3j4xkQkdWM0RY2P8TUU8KxYVkdtkqW8nxz7ml7/+pL7bBCknSL3y/dj20
+         fmUxsT2SAu3yEzX0o6i5wZTcncjejfS0dX/fR2f3Wk+a0rp/q/UfMw9se5JPjHe1nIVD
+         grDkm/m0tuOIv/rQ1XBz2gzu4vDF0crLYJxGzJAqqJfdRJCt0yjJzED2bek3+ute/LU7
+         jcOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697445491; x=1698050291;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+dDc+JFvPQYziTivdJAsBuiK7HtHQ+wh1mq0WyZIQh0=;
+        b=OAyGE4uZ2MgrjRi12hY0AHYJQxn/PY9EkNZMqwb7q+KB0C7weA3NiW+qUm+F8U+fsF
+         c35keFbv3hONbtHtHqHx3JDye/SgarjY8pZfeargzY8a60qV7JKRO9U+/wMJYdV2vDYc
+         Kz1zTI0VKKDdI2ujmXTqh93yw/GZYqFpk+Vgs0n2BlME0/jDDFGW7VlVsz2i3i+GEgSQ
+         VECwNM+1FQ6bvZ5rH85h08tE+YLT35yO6KmrMLa1yNozuV/xHcF8EPfiJXDI2CM7Ku3V
+         6SFfPLCSpuKwhQ2IAUzpZF0MvzElu0u9k0EpM4nMaMxK+BQZ9CaCKocrkXSaETgATGLU
+         kuwA==
+X-Gm-Message-State: AOJu0YxTusldAKy1tzkzvtHSZxzsGux5B8+Zhee8Z0jQ8e8ORFTmTBoF
+	vXRrmD4FdATl2b2823oS66MgpKQnV9XN3A==
+X-Google-Smtp-Source: AGHT+IH8A30u+xx+03D3mNWaz5CAvR1/9OE5fZD6rbVHKLpFi1d3QjcYt1lrivMwUC8J80K7/4ilhQ==
+X-Received: by 2002:a05:6512:1307:b0:500:7f71:e46b with SMTP id x7-20020a056512130700b005007f71e46bmr29896857lfu.1.1697445491007;
+        Mon, 16 Oct 2023 01:38:11 -0700 (PDT)
+Received: from fedora.. (cable-178-148-234-71.dynamic.sbb.rs. [178.148.234.71])
+        by smtp.gmail.com with ESMTPSA id p20-20020a05600c469400b004067e905f44sm6633554wmo.9.2023.10.16.01.38.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Oct 2023 01:38:10 -0700 (PDT)
+From: Aleksa Savic <savicaleksa83@gmail.com>
+To: linux-hwmon@vger.kernel.org
+Cc: leonard.anderweit@gmail.com,
+	Aleksa Savic <savicaleksa83@gmail.com>,
+	Jack Doan <me@jackdoan.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] hwmon: (aquacomputer_d5next) Add support for Aquacomputer High Flow USB and MPS Flow
+Date: Mon, 16 Oct 2023 10:35:56 +0200
+Message-ID: <20231016083559.139341-1-savicaleksa83@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+	FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   63ccd3b5226a4629e08c5cdd2bbf6d536134b4d4
-commit: c31c5d3ee4c05b5fd8d98e60d20f1e30be1602f7 [2/6] dt-bindings: nvmem: Convert xlnx,zynqmp-nvmem.txt to yaml
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231016/202310161508.XIJVQFBf-lkp@intel.com/reproduce)
+This series adds support for the Aquacomputer High Flow USB and MPS Flow
+flow sensor devices, which communicate through a proprietary USB protocol.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310161508.XIJVQFBf-lkp@intel.com/
+Patch 1 resolves the case when devices that communicate through the legacy
+way (such as these) don't contain a reading for a sensor, in which case
+-ENODATA is now returned.
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml:18:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+Patch 2 adds support for the devices and implements reading their
+temperature and flow sensors.
 
-vim +18 Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml
+Aleksa Savic (2):
+  hwmon: (aquacomputer_d5next) Check if temp sensors of legacy devices
+    are connected
+  hwmon: (aquacomputer_d5next) Add support for Aquacomputer High Flow
+    USB and MPS Flow
 
-     8	
-     9	description: |
-    10	    The ZynqMP nvmem provides access to the hardware related data
-    11	    like soc revision, IDCODE... etc.
-    12	
-    13	maintainers:
-    14	  - Kalyani <kalyani.akula@amd.com>
-    15	  - Praveen <praveen.teja.kundanala@amd.com>
-    16	
-    17	allOf:
-  > 18	  - $ref: "nvmem.yaml#"
-    19	
-    20	properties:
-    21	  compatible:
-    22	    const: xlnx,zynqmp-nvmem-fw
-    23	
-    24	  '#address-cells':
-    25	    const: 1
-    26	
-    27	  '#size-cells':
-    28	    const: 1
-    29	
-    30	required:
-    31	  - compatible
-    32	
-    33	patternProperties:
-    34	  "^soc_revision@0$":
-    35	    type: object
-    36	    description:
-    37	      This node is used to read SOC version and IDCODE of ZynqMP. Read-only.
-    38	
-    39	    properties:
-    40	      reg:
-    41	        maxItems: 1
-    42	
-    43	    required:
-    44	      - reg
-    45	
+ Documentation/hwmon/aquacomputer_d5next.rst |  7 ++
+ drivers/hwmon/aquacomputer_d5next.c         | 72 +++++++++++++++++++--
+ 2 files changed, 74 insertions(+), 5 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
