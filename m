@@ -1,217 +1,112 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B112E624;
-	Mon, 16 Oct 2023 15:50:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F38030CF5
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 16:19:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lW3pK4Pe"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C5DAB;
-	Mon, 16 Oct 2023 08:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697471430; x=1729007430;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=SMKzGtgkVh/v0k+9IHZejSxFUir7un0TbYckecawQnA=;
-  b=lW3pK4PeYYc4BNHL0RwN2Fj2Zf6+pz4ZZYezP5fMaxgY4PRVT48O87IJ
-   hmLNAaYiHFFtK13wyPn7NZfv2unnaRfi4UYF77c3yfPlJSeN4seSoekKv
-   QkVl8QJ0vhXZrasL1grczvJ23LsOm42j6zA1SaRwGk2c+/xgTIlZAdS87
-   QTpLekhbB2AmDjrFJ0h5WG3VbDri9BK44ED40mrJnwYs692QTiOGH1jf2
-   urWcv7WprGdSXm/qxI56qtowvUHjtPYY5w5AtdRKfoFSeK4X8HqPJ55f5
-   4tB1nlfbERM+3p5cnWkGT4sTU3hsZ9c/KAAjJBiu272BKE0jUIVztKB0E
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385400537"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="385400537"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 08:50:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="749324009"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="749324009"
-Received: from rolfrich-mobl1.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.249.38.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 08:50:23 -0700
-From: Ahmed Zaki <ahmed.zaki@intel.com>
-To: netdev@vger.kernel.org
-Cc: intel-wired-lan@lists.osuosl.org,
-	corbet@lwn.net,
-	jesse.brandeburg@intel.com,
-	anthony.l.nguyen@intel.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	vladimir.oltean@nxp.com,
-	andrew@lunn.ch,
-	horms@kernel.org,
-	mkubecek@suse.cz,
-	willemdebruijn.kernel@gmail.com,
-	linux-doc@vger.kernel.org,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>
-Subject: [PATCH net-next v4 6/6] iavf: enable symmetric RSS Toeplitz hash
-Date: Mon, 16 Oct 2023 09:49:37 -0600
-Message-Id: <20231016154937.41224-7-ahmed.zaki@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231016154937.41224-1-ahmed.zaki@intel.com>
-References: <20231016154937.41224-1-ahmed.zaki@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0Dr8mNYN"
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D061ED75
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 09:17:57 -0700 (PDT)
+Received: by mail-vs1-xe2e.google.com with SMTP id ada2fe7eead31-457c441555cso1307774137.3
+        for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 09:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1697473075; x=1698077875; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qPeTD07qqs/9WMRTaqwTdVF4qIMjIWgtLzI+6IjZFGA=;
+        b=0Dr8mNYNh3M6VFqimX2BbwYwxL7+zyI0gxgSvvEQVGv/MXC9NTsRaETlKJzt92xUIK
+         cLs1n2aWXpIU4qpXtlUpv3/Q6CzBgK7qdWyj+siHEfFcCU+9xdcwXaCML0JEThGoZ59U
+         Syi9uw0MAX0uIEfxOEjzysJ+GYh7F34KxuDeR0mlA9yg5IkT2gcx8C+crOUG+kfa401M
+         B/+i63OalbFmxaTCMhYh5bgosbCQisKTK7/7FZUV2josXeyr6paPMCSv3XxKU79dc9dF
+         lrUKvLVP/q2Jw4r+15ff+bCG0ir25J5GOKn0OImg0hIhzEOY0o4WTUU8ekmx14f53Lc+
+         U/oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697473075; x=1698077875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qPeTD07qqs/9WMRTaqwTdVF4qIMjIWgtLzI+6IjZFGA=;
+        b=Su/e3M1DMa4WjieiC/p6X0pTiuLjptxUGqP9wE6b8VxBgpRzzqtIt+babaW4eUEB7t
+         jGthu1sUX73GlP0YCChX/78l/OnU4E8OVhYJNMPVSmZB/B2GJRnDdY6/EEtNrNhUFe0I
+         /fb/qbysttgKWXUYygLRLy8hCla++GJTvd/e4U4GeZ1Bg0hjs4siaS850AyQCVO9M192
+         LNtEgxVx4nfl+Pjql1NJskF4IcztTO4qWD+ZjKO3SLLnt+7EDPjoMkU2B0i4qNz2RMXM
+         h8bsbEf+zLUr8cpIdkr+0KzYKPv8xyssQNjs69N8nl9Oz4PbbljHnKzQExNi0wXN2j8M
+         kVEg==
+X-Gm-Message-State: AOJu0YzsVxDk8upiJZqWLBrsCabHwAcjxCcFnRp1q8vrxMER2V4M1wRO
+	sGyysbTB+uAmBA8zQOabL4VQNcNlaR68WhGXGtrVgA==
+X-Google-Smtp-Source: AGHT+IGpDaubxMSCRiY/o1FMVr9viD4yKvVnPizkIQyndGhX6cy8BTdwjYsqpKr0nKCwwYyjb2otqgm5nXNHzR0UFaM=
+X-Received: by 2002:a05:6102:20de:b0:457:ba95:6271 with SMTP id
+ i30-20020a05610220de00b00457ba956271mr7104809vsr.31.1697473075037; Mon, 16
+ Oct 2023 09:17:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <1697056244-21888-1-git-send-email-haiyangz@microsoft.com>
+In-Reply-To: <1697056244-21888-1-git-send-email-haiyangz@microsoft.com>
+From: Neal Cardwell <ncardwell@google.com>
+Date: Mon, 16 Oct 2023 12:17:37 -0400
+Message-ID: <CADVnQy=iZf10mpeG0=BseAapd0LKPRnKdD=M-3AEs5VApiS=CA@mail.gmail.com>
+Subject: Re: [PATCH net-next,v3] tcp: Set pingpong threshold via sysctl
+To: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, kys@microsoft.com, 
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	corbet@lwn.net, dsahern@kernel.org, ycheng@google.com, kuniyu@amazon.com, 
+	morleyd@google.com, mfreemon@cloudflare.com, mubashirq@google.com, 
+	linux-doc@vger.kernel.org, weiwan@google.com, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Allow the VFs to support symmetric RSS for any flow type. The symmetric
-RSS will not be supported on PFs not advertising the ADV RSS Offload
-flag (ADV_RSS_SUPPORT()), for example the E700 series (i40e).
+On Wed, Oct 11, 2023 at 4:31=E2=80=AFPM Haiyang Zhang <haiyangz@microsoft.c=
+om> wrote:
+>
+> TCP pingpong threshold is 1 by default. But some applications, like SQL D=
+B
+> may prefer a higher pingpong threshold to activate delayed acks in quick
+> ack mode for better performance.
+>
+> The pingpong threshold and related code were changed to 3 in the year
+> 2019 in:
+>   commit 4a41f453bedf ("tcp: change pingpong threshold to 3")
+> And reverted to 1 in the year 2022 in:
+>   commit 4d8f24eeedc5 ("Revert "tcp: change pingpong threshold to 3"")
+>
+> There is no single value that fits all applications.
+> Add net.ipv4.tcp_pingpong_thresh sysctl tunable, so it can be tuned for
+> optimal performance based on the application needs.
+>
+> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+> ---
+> v3: Updated doc as suggested by Neal Cardwell.
+>     Updated variable location in struct netns_ipv4 as suggested by Kuniyu=
+ki
+>     Iwashima.
+>
+> v2: Make it per-namesapce setting, and other updates suggested by Neal Ca=
+rdwell,
+> and Kuniyuki Iwashima.
+> ---
+>  Documentation/networking/ip-sysctl.rst | 13 +++++++++++++
+>  include/net/inet_connection_sock.h     | 16 ++++++++++++----
+>  include/net/netns/ipv4.h               |  2 ++
+>  net/ipv4/sysctl_net_ipv4.c             |  8 ++++++++
+>  net/ipv4/tcp_ipv4.c                    |  2 ++
+>  net/ipv4/tcp_output.c                  |  4 ++--
+>  6 files changed, 39 insertions(+), 6 deletions(-)
 
-Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
-Signed-off-by: Ahmed Zaki <ahmed.zaki@intel.com>
----
- .../net/ethernet/intel/iavf/iavf_adv_rss.c    |  8 +++++--
- .../net/ethernet/intel/iavf/iavf_adv_rss.h    |  3 ++-
- .../net/ethernet/intel/iavf/iavf_ethtool.c    | 22 +++++++++++++++----
- 3 files changed, 26 insertions(+), 7 deletions(-)
+Acked-by: Neal Cardwell <ncardwell@google.com>
 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-index 6edbf134b73f..a9e1da35e248 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-@@ -95,17 +95,21 @@ iavf_fill_adv_rss_sctp_hdr(struct virtchnl_proto_hdr *hdr, u64 hash_flds)
-  * @rss_cfg: the virtchnl message to be filled with RSS configuration setting
-  * @packet_hdrs: the RSS configuration protocol header types
-  * @hash_flds: the RSS configuration protocol hash fields
-+ * @symm: if true, symmetric hash is required
-  *
-  * Returns 0 if the RSS configuration virtchnl message is filled successfully
-  */
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds)
-+			  u32 packet_hdrs, u64 hash_flds, bool symm)
- {
- 	struct virtchnl_proto_hdrs *proto_hdrs = &rss_cfg->proto_hdrs;
- 	struct virtchnl_proto_hdr *hdr;
- 
--	rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+	if (symm)
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+	else
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
- 
- 	proto_hdrs->tunnel_level = 0;	/* always outer layer */
- 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-index 4d3be11af7aa..e31eb2afebea 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-@@ -80,13 +80,14 @@ struct iavf_adv_rss {
- 
- 	u32 packet_hdrs;
- 	u64 hash_flds;
-+	bool symm;
- 
- 	struct virtchnl_rss_cfg cfg_msg;
- };
- 
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds);
-+			  u32 packet_hdrs, u64 hash_flds, bool symm);
- struct iavf_adv_rss *
- iavf_find_adv_rss_cfg_by_hdrs(struct iavf_adapter *adapter, u32 packet_hdrs);
- void
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-index 90397293525f..8b81c5510bae 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-@@ -1618,6 +1618,7 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	struct iavf_adv_rss *rss_old, *rss_new;
- 	bool rss_new_add = false;
- 	int count = 50, err = 0;
-+	bool symm = false;
- 	u64 hash_flds;
- 	u32 hdrs;
- 
-@@ -1632,11 +1633,15 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (hash_flds == IAVF_ADV_RSS_HASH_INVALID)
- 		return -EINVAL;
- 
-+	if (cmd->data & RXH_SYMMETRIC_XOR)
-+		symm = true;
-+
- 	rss_new = kzalloc(sizeof(*rss_new), GFP_KERNEL);
- 	if (!rss_new)
- 		return -ENOMEM;
- 
--	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds)) {
-+	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds,
-+				      symm)) {
- 		kfree(rss_new);
- 		return -EINVAL;
- 	}
-@@ -1655,9 +1660,11 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (rss_old) {
- 		if (rss_old->state != IAVF_ADV_RSS_ACTIVE) {
- 			err = -EBUSY;
--		} else if (rss_old->hash_flds != hash_flds) {
-+		} else if (rss_old->hash_flds != hash_flds ||
-+			   rss_old->symm != symm) {
- 			rss_old->state = IAVF_ADV_RSS_ADD_REQUEST;
- 			rss_old->hash_flds = hash_flds;
-+			rss_old->symm = symm;
- 			memcpy(&rss_old->cfg_msg, &rss_new->cfg_msg,
- 			       sizeof(rss_new->cfg_msg));
- 			adapter->aq_required |= IAVF_FLAG_AQ_ADD_ADV_RSS_CFG;
-@@ -1669,6 +1676,7 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 		rss_new->state = IAVF_ADV_RSS_ADD_REQUEST;
- 		rss_new->packet_hdrs = hdrs;
- 		rss_new->hash_flds = hash_flds;
-+		rss_new->symm = symm;
- 		list_add_tail(&rss_new->list, &adapter->adv_rss_list_head);
- 		adapter->aq_required |= IAVF_FLAG_AQ_ADD_ADV_RSS_CFG;
- 	}
-@@ -1698,6 +1706,7 @@ iavf_get_adv_rss_hash_opt(struct iavf_adapter *adapter,
- {
- 	struct iavf_adv_rss *rss;
- 	u64 hash_flds;
-+	bool symm;
- 	u32 hdrs;
- 
- 	if (!ADV_RSS_SUPPORT(adapter))
-@@ -1711,10 +1720,12 @@ iavf_get_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 
- 	spin_lock_bh(&adapter->adv_rss_lock);
- 	rss = iavf_find_adv_rss_cfg_by_hdrs(adapter, hdrs);
--	if (rss)
-+	if (rss) {
- 		hash_flds = rss->hash_flds;
--	else
-+		symm = rss->symm;
-+	} else {
- 		hash_flds = IAVF_ADV_RSS_HASH_INVALID;
-+	}
- 	spin_unlock_bh(&adapter->adv_rss_lock);
- 
- 	if (hash_flds == IAVF_ADV_RSS_HASH_INVALID)
-@@ -1738,6 +1749,9 @@ iavf_get_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 			 IAVF_ADV_RSS_HASH_FLD_SCTP_DST_PORT))
- 		cmd->data |= (u64)RXH_L4_B_2_3;
- 
-+	if (symm)
-+		cmd->data |= (u64)RXH_SYMMETRIC_XOR;
-+
- 	return 0;
- }
- 
--- 
-2.34.1
+Thanks!
 
+neal
