@@ -1,132 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96C42C848;
-	Mon, 16 Oct 2023 15:43:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33F12AB58;
+	Mon, 16 Oct 2023 15:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dIxqsPs7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40323C433C8;
-	Mon, 16 Oct 2023 15:43:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697471028;
-	bh=KflpWEqX7L8WyrGy1c91r65GrP/uvGSP3yrFJnPap1Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dIxqsPs7/I47MoMm8sZ5jmn5lqUcuYDCCam58k6Xtn/xVKVpV5IAvJcgFjRl1Ba1T
-	 PvKET3E6toxxkP02X1pJubkAfVn9JveoKAD7w/e43vsm103/dCTifZu5g/2lzlA8Y9
-	 CIk7z755isPQu7huNSuEgc/TtcgNAu1sx0dxEihs8yUmYvPRm/78FNJRxO/HGRBSYi
-	 xoHvXIiEPAQLR9eT5g5dJn9JRGSSZKKhneipjT8IQ3CbIpS2kQydF9VKwlhcxhYuRd
-	 WJervn19g9gGFo3Q7vcbkIJm3EVg7IWLFhcw22qtucwUDjltvaJKKvblFJf2sffItc
-	 19qlXJSfXVcXQ==
-Date: Mon, 16 Oct 2023 08:43:46 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli
- <florian.fainelli@broadcom.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Vladimir Oltean
- <vladimir.oltean@nxp.com>, Michael Walle <michael@walle.cc>, Jacob Keller
- <jacob.e.keller@intel.com>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v5 08/16] net: ethtool: Add a command to expose
- current time stamping layer
-Message-ID: <20231016084346.10764b4a@kernel.org>
-In-Reply-To: <20231016170027.42806cb7@kmaincent-XPS-13-7390>
-References: <20231009155138.86458-1-kory.maincent@bootlin.com>
-	<20231009155138.86458-9-kory.maincent@bootlin.com>
-	<2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
-	<20231010102343.3529e4a7@kmaincent-XPS-13-7390>
-	<20231013090020.34e9f125@kernel.org>
-	<6ef6418d-6e63-49bd-bcc1-cdc6eb0da2d5@lunn.ch>
-	<20231016124134.6b271f07@kmaincent-XPS-13-7390>
-	<20231016072204.1cb41eab@kernel.org>
-	<20231016170027.42806cb7@kmaincent-XPS-13-7390>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j59jXpvp"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E57383;
+	Mon, 16 Oct 2023 08:49:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697471395; x=1729007395;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mFIWgW4AZ8A5pXQQuNhVAhKcL5eIVVFCa+hlYjdX2SE=;
+  b=j59jXpvplIaCsRjTwAvm4hiWt8yxniFGhWaIbHvdoTpNM688eLGFKKo3
+   9mpOm7TlYDvZKvUqpITQ2RTpFYxBifhqd0GuLhPCPdyXlIyzUsidoIR+z
+   lrkWU1CyVWLi1kkR85ziUMryY1fmyDye803aTHRVbmFHxKd7zuOEa4QOk
+   6PpMVtrxZxP2Y6ctjPNxnusq23pi40THRlhU4YAPWLfZtGZTmdU/YxvSs
+   EfnPJ+dcVGUkOJ0L5QkcyLcITS4XeEGEGsOrW6LROsa2FFQ8R3nZGJG3/
+   84jPTRLcRa7fILVMNrGlGCjWCtLGjtSKLbB++gZhlmHFzIeiVVQctF4Bi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385400215"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="385400215"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 08:49:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="749323888"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="749323888"
+Received: from rolfrich-mobl1.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.249.38.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 08:49:49 -0700
+From: Ahmed Zaki <ahmed.zaki@intel.com>
+To: netdev@vger.kernel.org
+Cc: intel-wired-lan@lists.osuosl.org,
+	corbet@lwn.net,
+	jesse.brandeburg@intel.com,
+	anthony.l.nguyen@intel.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	vladimir.oltean@nxp.com,
+	andrew@lunn.ch,
+	horms@kernel.org,
+	mkubecek@suse.cz,
+	willemdebruijn.kernel@gmail.com,
+	linux-doc@vger.kernel.org,
+	Ahmed Zaki <ahmed.zaki@intel.com>
+Subject: [PATCH net-next v4 0/6] Support symmetric RSS (Toeplitz) hash
+Date: Mon, 16 Oct 2023 09:49:31 -0600
+Message-Id: <20231016154937.41224-1-ahmed.zaki@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-On Mon, 16 Oct 2023 17:00:27 +0200 K=C3=B6ry Maincent wrote:
-> On Mon, 16 Oct 2023 07:22:04 -0700
-> Jakub Kicinski <kuba@kernel.org> wrote:
-> > > This is the main reason I changed this. This is Linux implementation
-> > > purpose to know whether it should go through netdev or phylib, and th=
-en
-> > > each of these drivers could use other timestamps which are hardware
-> > > related.   =20
-> >=20
-> > For an integrated design there's 90% chance the stamping is done=20
-> > by the MAC. Even if it isn't there's no difference between PHY
-> > and MAC in terms of quality. =20
->=20
-> Ok, but there might be quality difference in case of several timestamp
-> configuration done in the MAC. Like the timestamping precision vs frequen=
-cy
-> precision. In that case how ethtool would tell the driver to switch betwe=
-en
-> them?
+Patch 1 adds the support at the Kernel level, allowing the user to set a
+symmetric RSS hash for any flow type via:
 
-What's the reason for timestamp precision differences?
-My understanding so far was the the differences come from:
- 1. different stamping device (i.e. separate "piece of silicon",
-    accessed over a different bus, with different PHC etc.)
- 2. different stamping point (MAC vs DMA)
+    # ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n symmetric-xor
 
-I don't think any "integrated" device would support stamps which
-differ under category 1.
+Support for the new "symmetric-xor" flag will be later sent to the
+"ethtool" user-space tool.
 
-> My solution could work for this case by simply adding new values to the e=
-num:
->=20
-> enum {
-> 	NETDEV_TIMESTAMPING =3D (1 << 0),
-> 	PHYLIB_TIMESTAMPING =3D (1 << 1),
-> 	MAC_TS_PRECISION =3D (1 << 2)|(1 << 0),
-> 	MAC_FREQ_PRECISION =3D (2 << 2)|(1 << 0),
-> }
->=20
-> Automatically Linux will go through the netdev implementation and could p=
-ass
-> the enum value to the netdev driver.
+Patch 2 fixes a long standing bug with the register values. The bug has
+been benign for now since only (asymmetric) Toeplitz hash (Zero) has been
+used.
 
-We can add multiple fields to netlink. Why use the magic encoding?
+Patches 3 and 4 lay some groundwork refactoring. While the first is
+mainly cosmetic, the second is needed since there is no more room in the
+previous 64-bit RSS profile ID for the symmetric attribute introduced in 
+the next patch.
 
-> > But there is a big difference between MAC/PHY and DMA which would
-> > both fall under NETDEV? =20
->=20
-> Currently there is no DMA timestamping support right?
+Finally, patches 5 and 6 add the symmetric Toeplitz support for the ice 
+(E800 PFs) and the iAVF drivers.
 
-Kinda. Some devices pass DMA stamps as "HW stamps", and pretend they
-are "good enough". But yes, there's no distinction at API level.
+---
+v4: add a comment to "#define RXH_SYMMETRIC_XOR" (in uapi/linux/ethtool.h)
+v3: rename "symmetric" to "symmetric-xor" and drop "Fixes" tag in patch 2.
+v2: fixed a "Reviewed by" to "Reviewed-by", also need to cc maintainers.
 
-> And I suppose it fill fall under the net device management?
+Ahmed Zaki (4):
+  net: ethtool: allow symmetric-xor RSS hash for any flow type
+  ice: fix ICE_AQ_VSI_Q_OPT_RSS_* register values
+  ice: refactor the FD and RSS flow ID generation
+  iavf: enable symmetric RSS Toeplitz hash
 
-Yes.
+Jeff Guo (1):
+  ice: enable symmetric RSS Toeplitz hash for any flow type
 
-> In that case we will have MAC and DMA under netdev and PHY under phylib a=
-nd
-> we won't have to do anything more than this timestamping management patch=
-:=20
-> https://lore.kernel.org/netdev/20231009155138.86458-14-kory.maincent@boot=
-lin.com/
+Qi Zhang (1):
+  ice: refactor RSS configuration
 
-Maybe we should start with a doc describing what APIs are at play,
-what questions they answer, and what hard use cases we have.
+ Documentation/networking/scaling.rst          |   6 +
+ .../net/ethernet/intel/iavf/iavf_adv_rss.c    |   8 +-
+ .../net/ethernet/intel/iavf/iavf_adv_rss.h    |   3 +-
+ .../net/ethernet/intel/iavf/iavf_ethtool.c    |  22 +-
+ drivers/net/ethernet/intel/ice/ice.h          |   2 +
+ .../net/ethernet/intel/ice/ice_adminq_cmd.h   |   8 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |   1 +
+ drivers/net/ethernet/intel/ice/ice_ethtool.c  |  14 +-
+ .../net/ethernet/intel/ice/ice_ethtool_fdir.c |  35 +-
+ .../net/ethernet/intel/ice/ice_flex_pipe.c    |  43 +-
+ .../net/ethernet/intel/ice/ice_flex_pipe.h    |   4 +-
+ .../net/ethernet/intel/ice/ice_flex_type.h    |   7 +
+ drivers/net/ethernet/intel/ice/ice_flow.c     | 439 +++++++++++++-----
+ drivers/net/ethernet/intel/ice/ice_flow.h     |  46 +-
+ .../net/ethernet/intel/ice/ice_hw_autogen.h   |   4 +
+ drivers/net/ethernet/intel/ice/ice_lib.c      | 117 ++---
+ drivers/net/ethernet/intel/ice/ice_main.c     |  49 +-
+ drivers/net/ethernet/intel/ice/ice_type.h     |   1 +
+ drivers/net/ethernet/intel/ice/ice_virtchnl.c |  55 ++-
+ .../ethernet/intel/ice/ice_virtchnl_fdir.c    |  35 +-
+ include/linux/avf/virtchnl.h                  |  16 +-
+ include/uapi/linux/ethtool.h                  |  21 +-
+ net/ethtool/ioctl.c                           |  11 +
+ 23 files changed, 641 insertions(+), 306 deletions(-)
 
-I'm not opposed to the ethool API reporting just the differences
-from my point 1. (in the first paragraph). But then we shouldn't
-call that "layer", IMO, but device or source or such.
+-- 
+2.34.1
+
