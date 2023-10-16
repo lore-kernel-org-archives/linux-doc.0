@@ -1,188 +1,120 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8036D79CF
-	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 04:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A165616415
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 07:22:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zVhwq+Fv"
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DE01D9
-	for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 21:33:47 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6b3c2607d9bso1758862b3a.1
-        for <linux-doc@vger.kernel.org>; Sun, 15 Oct 2023 21:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697430826; x=1698035626; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8Tejy3Kv2ewCsu4ePvtm8O+1oKzqOghrnllUZz+x8is=;
-        b=zVhwq+Fv+KFXXghEin8MqnARtXZX6r979pJsfTaBtYQJTm2V6+Cn3eGvr68oaMHW3W
-         h9xirOPvUb9sMrWoahJYHirdlKK/b64nQVwv2K4KLILVx2/5qXvvIibA52DOya2mYXDa
-         3Zf7ODsqOBlDBuZ3E6OzI96fEHY5GENwPh2SGswAXb54+d+GjrEogUxZ5PRN19bpjeIF
-         7S71kfM2s06leqBBbJZdVU9R3cUdutiNR4LxSCLsmd2Atl+05ccNzkJqoVU6tWfrmTmy
-         wi7JFR4d8sPyq3iDoNQ7oyJq1a0drgRJMcme9tETa/06qneqkeN8QUpMFlhKo5b33cT7
-         USYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697430826; x=1698035626;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Tejy3Kv2ewCsu4ePvtm8O+1oKzqOghrnllUZz+x8is=;
-        b=n5u4NOYorA7zvmIhYZIver1uYzSyyLBjSghjef/QKkANk+W5i85IRGAX4sCa0dlYvi
-         YBkePmvWvIkAvXMTokRpG4U/l76uMPimLuf0igwWjgetW7w4a1hktYYSvTuD0uHkNlLG
-         jb/qMdLQ5oXOoM56Irz3koFajkrF2MYriCk/L+MoicESJV4cjP/3Xh/6di/UDG3J1wnH
-         /1dDwteaIK6Gi6OC7SrGE0xaPBD38eB+b7W96My4JNvzLDAJmU9jOlQ34EiBOF6e9E9A
-         rm74tiLvcPwGKq2Kc8WYXfNAuTl1n6AQvmIy+p6W4MXtNeNCCeI2sDiTxjXJ61eleGFq
-         XpSQ==
-X-Gm-Message-State: AOJu0YyqY0wSaCa9C0NFYBt9ABLlcHEfosoi+mmfiqnwZGBS7E73M6Gy
-	qG/JAreKP672pB6GusggpA7ggQ==
-X-Google-Smtp-Source: AGHT+IGXP/Q3ZMU3lWTF3wh/lT2U/xael8C052BezvhvxxWT5fcxi4F6U4vCCB2TbtiqD6CXzWxgoQ==
-X-Received: by 2002:a05:6a21:a106:b0:174:1466:359c with SMTP id aq6-20020a056a21a10600b001741466359cmr11503435pzc.61.1697430826220;
-        Sun, 15 Oct 2023 21:33:46 -0700 (PDT)
-Received: from ?IPV6:2601:645:8100:1350:aa26:108f:3b80:445a? ([2601:645:8100:1350:aa26:108f:3b80:445a])
-        by smtp.gmail.com with ESMTPSA id 15-20020a17090a01cf00b00263dfe9b972sm4198311pjd.0.2023.10.15.21.33.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Oct 2023 21:33:45 -0700 (PDT)
-Message-ID: <c47e864b-4b9e-4a21-afea-af121a4d7771@google.com>
-Date: Sun, 15 Oct 2023 21:33:43 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGO3A0zy"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B1CC5
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 00:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697440938; x=1728976938;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9bCqgcQS98+RSDKqgCw3a4UGnjt3O3DqwS+VuIANuSc=;
+  b=hGO3A0zycj/AEp97yuwXGh57f+YoZ27L4mxtBBDe973uufwBbZbZPC9F
+   9i2aQnIq+b5x65nsI+aHYPYD3zoOyuCAV8g2MVvAMPUHl66kG0drgtrGn
+   WMBAZUIzhhfl1m8nVK4VqucCwLOYxapZiG8V/MwmE15OG/rlLkb50XhvI
+   Wv17GS5irW5JwopJwpj2hmuAH5KfsKg6qWXcZN4RMRpArVhIS3O5/L8tE
+   WMkYBUGGLJQmxQq4AU+xpuuN0yoavvBUZLQBp82jk44vLD7J9A00JyBfh
+   4dRZBHeHINRDjHzRse35/JT3CLUBNRHAHwBaKW/fwTVkGzcqMoErpuXjn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="382688255"
+X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
+   d="scan'208";a="382688255"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 00:22:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="846300423"
+X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
+   d="scan'208";a="846300423"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Oct 2023 00:22:16 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qsHva-0008BX-0m;
+	Mon, 16 Oct 2023 07:22:14 +0000
+Date: Mon, 16 Oct 2023 15:22:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:lkp_test 2/6] dtbs_check:
+ Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml:18:11:
+ [error] string value is redundantly quoted with any quotes (quoted-strings)
+Message-ID: <202310161508.XIJVQFBf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: uvc gadget: Making upper bound of number of usb requests
- allocated configurable through configfs
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, mgr@pengutronix.de
-Cc: Greg KH <gregkh@linuxfoundation.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
- "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "etalvala@google.com" <etalvala@google.com>,
- "arakesh@google.com" <arakesh@google.com>
-References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
- <2023100834-statistic-richly-49ef@gregkh>
- <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
- <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
-Content-Language: en-US
-From: Jayant Chowdhary <jchowdhary@google.com>
-In-Reply-To: <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
- Hi Thinh,
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   63ccd3b5226a4629e08c5cdd2bbf6d536134b4d4
+commit: c31c5d3ee4c05b5fd8d98e60d20f1e30be1602f7 [2/6] dt-bindings: nvmem: Convert xlnx,zynqmp-nvmem.txt to yaml
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231016/202310161508.XIJVQFBf-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310161508.XIJVQFBf-lkp@intel.com/
 
-On 10/12/23 11:50, Thinh Nguyen wrote:
-> Hi,
->
-> On Mon, Oct 09, 2023, Jayant Chowdhary wrote:
->>> On Fri, Oct 06, 2023 at 03:03:56PM -0700, Jayant Chowdhary wrote:
->>>> Hi Everyone,
->>>>
->>>> We had been seeing the UVC gadget driver receive isoc errors while
->>>> sending packets to the usb endpoint - resulting in glitches being shown
->>>> on linux hosts. My colleague Avichal Rakesh and others had a very
->>>> enlightening discussion at
->>>> https://urldefense.com/v3/__https://lore.kernel.org/linux-usb/8741b7cb-54ec-410b-caf5-697f81e8ad64@google.com/T/__;!!A4F2R9G_pg!e3zVZGt-6Td6HJXqh8GaZAsUeKyvKBhOoyru9qzn3Vkw01Vdkwk7hFr_t5glBG2BYJlOYfFKEUpiH5H4gQ73n_-Y$ 
->>>>
->>>>
->>>> The conclusion that we came to was : usb requests with actual uvc frame
->>>> data were missing their scheduled uframes in the usb controller. As a
->>>> mitigation, we started sending 0 length usb requests when there was no
->>>> uvc frame buffer available to get data from. Even with this mitigation,
->>>> we are seeing glitches - albeit at a lower frequency.
->>>>
->>>> After some investigation, it is seen that we’re getting isoc errors when
->>>> the worker thread serving video_pump() work items, doesn’t get scheduled
->>>> for longer periods of time - than usual - in most cases > 6ms.
->>>> This is close enough to the 8ms limit that we have when the number of usb
->>>> requests in the queue is 64 (since we have a 125us uframe period). In order
->>>> to tolerate the scheduling delays better, it helps to increase the number of
->>>> usb requests in the queue . In that case, we have more 0 length requests
->>>> given to the udc driver - and as a result we can wait longer for uvc
->>>> frames with valid data to get processed by video_pump(). I’m attaching a
->>>> patch which lets one configure the upper bound on the number of usb
->>>> requests allocated through configfs. Please let me know your thoughts.
->>>> I can formalize  the patch if it looks okay.
->>> Why do you want to limit the upper bound?  Why not just not submit so
->>> many requests from userspace as you control that, right?
->>
->> Userspace negotiates a video frame rate (typically 30/60fps) with the host that does
->> not necessarily correspond to the ISOC cadence. After the
->> patch at https://urldefense.com/v3/__https://lkml.org/lkml/diff/2023/5/8/1115/1__;!!A4F2R9G_pg!e3zVZGt-6Td6HJXqh8GaZAsUeKyvKBhOoyru9qzn3Vkw01Vdkwk7hFr_t5glBG2BYJlOYfFKEUpiH5H4gWbb9bvy$  was submitted, we are
->> maintaining back pressure on the usb controller even if we do not have uvc frame
->> data, by sending the controller 0 length requests (as long as usb_requests are
->> available). Also, even if the userspace application were to somehow produce
->> data to match the ISOC rate, it would  need to have information about USB
->> timing details - which I am not sure is available to userspace or is the right
->> thing to do here ?
->>
->> Here, we are trying to handle the scenario in which the video_pump() worker
->> thread does not get scheduled in time - by increasing the number of usb requests
->> allocated in the queue. This would send more usb requests to the usb controller,
->> when video_pump() does get scheduled - even if they're 0 length. This buys
->> the video_pump() worker thread scheduling time -since more usb requests
->> are with the controller, subsequent requests sent will not be 'stale' and
->> dropped by the usb controller.
->>
-> I believe you're testing against dwc3 controller right? I may not be as
-> familiar with UVC function driver, but based on the previous
-> discussions, I think the driver should be able to handle this without
-> the user input.
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml:18:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
-Yes we are testing against the dwc3 controller.
+vim +18 Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml
 
->
-> The frequency of the request submission should not depend on the
-> video_pump() work thread since it can vary. The frequency of request
-> submission should match with the request completion. We know that
-> request completion rate should be fixed (1 uframe/request + when you
-> don't set no_interrupt). Base on this you can do your calculation on how
-> often you should set no_interrupt and how many requests you must submit.
-> You don't have to wait for the video_pump() to submit 0-length requests.
->
-> The only variable here is the completion handler delay or system
-> latency, which should not be much and should be within your calculation.
+     8	
+     9	description: |
+    10	    The ZynqMP nvmem provides access to the hardware related data
+    11	    like soc revision, IDCODE... etc.
+    12	
+    13	maintainers:
+    14	  - Kalyani <kalyani.akula@amd.com>
+    15	  - Praveen <praveen.teja.kundanala@amd.com>
+    16	
+    17	allOf:
+  > 18	  - $ref: "nvmem.yaml#"
+    19	
+    20	properties:
+    21	  compatible:
+    22	    const: xlnx,zynqmp-nvmem-fw
+    23	
+    24	  '#address-cells':
+    25	    const: 1
+    26	
+    27	  '#size-cells':
+    28	    const: 1
+    29	
+    30	required:
+    31	  - compatible
+    32	
+    33	patternProperties:
+    34	  "^soc_revision@0$":
+    35	    type: object
+    36	    description:
+    37	      This node is used to read SOC version and IDCODE of ZynqMP. Read-only.
+    38	
+    39	    properties:
+    40	      reg:
+    41	        maxItems: 1
+    42	
+    43	    required:
+    44	      - reg
+    45	
 
-
-Thanks for the suggestion. It indeed makes sense that we do not completely depend on
-video_pump() for sending 0 length requests. I was concerned about
-synchronization needed when we send requests to the dwc3 controller from
-different threads. I see that the dwc3 controller code does internally serialize
-queueing requests, can we expect this from other controllers as well ? 
-
-This brings me to another question for Michael - I see
-that we introduced a worker thread for pumping  usb requests to the usb endpoint
-in https://lore.kernel.org/all/20200427151614.10868-1-m.grzeschik@pengutronix.de/
-(I see multiple email addresses, so apologies if I used the incorrect one).
-
-Did we introduce the worker thread to solve some specific deadlock scenarios ?
-Or was it a general mitigation against racy usb request submission from v4l2 buffer
-queuing, stream enable and the video complete handler firing ?
-
-I was chatting with Avi about this, what if we submit requests to the endpoint
-only at two points in the streaming lifecycle - 
-1) The whole 64 (or however many usb requests are allocated) when
-   uvcg_video_enable() is called - with 0 length usb_requests.
-2) In the video complete handler - if a video buffer is available, we encode it
-   and submit it to the endpoint. If not, we send a 0 length request.
-
-This way we're really maintaining back pressure and sending requests as soon
-as we can to the dwc3 controller. Encoding is mostly memcpys from what I see
-so hopefully not too heavy on the interrupt handler. I will work on prototyping
-this meanwhile.
-
-Thanks,
-Jayant
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
