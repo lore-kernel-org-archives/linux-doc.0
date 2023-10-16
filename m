@@ -1,107 +1,101 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566E51C2AD
-	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 11:41:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D52B286A6;
+	Mon, 16 Oct 2023 14:11:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2Q5uhr7K"
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1017AE1
-	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 04:41:00 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so11465a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 04:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697456458; x=1698061258; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2I6xiVgm8CDmOxobNPXJ5HYpt0gEXNwuNgT27rQ1pK8=;
-        b=2Q5uhr7KZnIOPozm+oy0vHWbp03Q1sFUZSwBPx0LsVQC/w/dnP/c3KuRsVKTGEu7kM
-         AROIj0DxDxL1/YKoSGX7rM5Lq1lTKGlp1lkaJWGbrOjLbVJXxdpyCT1WYWzb3vbWOBgk
-         anltbr9L+X2Hn1JBwCIzkQjRdEjjugweYDFB8mohX2nuHlw0wCfQMUy4FqZzgBkBaHdR
-         8SPVoFEJSGtEulLCD0j5oxaLuLvVE5dUJvuP0kmBS9RuKVQIuAeZGQ6X55Aqyj9Vn3md
-         s2mtdAxgTRbWRYgZ+LzvH0GL2oEeUQ6/l+nyB3P1/YMPXJaPilTrFc8I/841CfVH1Yba
-         CarQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697456458; x=1698061258;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2I6xiVgm8CDmOxobNPXJ5HYpt0gEXNwuNgT27rQ1pK8=;
-        b=Vu7swBbLVvQ+vICyYvvSJV+xdadvv7SZRvhWHrXf2+hzH8JmYM6btJb9yZHN2qUo29
-         E1BxD3rURVSe69HP2UboqdtoF8w3jpAgY3AJ+E0Y5XsCDqehiP+R1FSVPUo1QY0xlEqk
-         MKtRrO8M4WZ1CjHRJUXP1XqOzhOJSEMqEmBbFte4wPVDPaYO7Tob5z+oA7GpF97iZblT
-         Ih9CQpcdRxwsjEL72tpg7FBaW0TDZ2v3Ob5HYByUM3JaookWTLT97f3ycvDs9gpCTNSq
-         WtSvPvutybEp4pvQGoA1LnSLe6PM/+/LZKkbjkwo65mMjn3F2mgIRWJ+plol4mFXGWX0
-         iEjQ==
-X-Gm-Message-State: AOJu0YwYE9NqugwXTZ0AdZLJDbhpDL+Sw/Js21OAEXhyjbd/wMLau5nG
-	FYs8EtOj/aSPi3GBG5vdIMjchwlEWLi7CvNWNzWa5g==
-X-Google-Smtp-Source: AGHT+IEd7QsZDGvewhvSCOpW/J+FnpZ5jMRtoRoEZoPIfRkDvA7e50KC0N8Z+vcUAqp+1WNdbYbn6DP3CRW+eN2eV5Y=
-X-Received: by 2002:a50:cd16:0:b0:538:1d3a:d704 with SMTP id
- z22-20020a50cd16000000b005381d3ad704mr155111edi.1.1697456458241; Mon, 16 Oct
- 2023 04:40:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AdtBRvrY"
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175A29B;
+	Mon, 16 Oct 2023 07:11:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=czV84VhOyQlJV3boH+4QfGzVmblLtaU2dw7F3ceDF1A=; b=AdtBRvrY0I7rDxLM3v6Xhb14vK
+	pgYuVcXg9Fc97jR6r0nofizvmWPF7ePoe3c518Uiix2HWu8YOKh9+jkLQaO/SLHahQf9hf1ZKSo4Z
+	QuYvPyeMoXlz130uNdkiG9okgrwfKPybajkRTryFhfDHVlpw3dKqhXBxpDtY3dTajR640O/16fDG3
+	aLJonvWi/fNtdnYvbFHdHtt4UYGEZJtOJqsy8ySp5XydZXV4xycLu6wCZbsDaNolEcr1flKH9wbSB
+	XuPeRhrD7TVuwT8XQo+8UEurGWyZSjnyj1siPNHt3Zd0d6YBjt1bPsDkY3leLRpkJ1zwGeAOmqiaZ
+	mJdmezOQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1qsOIT-006Str-8h; Mon, 16 Oct 2023 14:10:17 +0000
+Date: Mon, 16 Oct 2023 15:10:17 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Peng Zhang <zhangpeng.00@bytedance.com>
+Cc: Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
+	brauner@kernel.org, surenb@google.com, michael.christie@oracle.com,
+	mjguzik@gmail.com, mathieu.desnoyers@efficios.com,
+	npiggin@gmail.com, peterz@infradead.org, oliver.sang@intel.com,
+	mst@redhat.com, maple-tree@lists.infradead.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 03/10] maple_tree: Introduce interfaces __mt_dup() and
+ mtree_dup()
+Message-ID: <ZS1ESVpQ+vY0yDt4@casper.infradead.org>
+References: <20231016032226.59199-1-zhangpeng.00@bytedance.com>
+ <20231016032226.59199-4-zhangpeng.00@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1697056244-21888-1-git-send-email-haiyangz@microsoft.com>
-In-Reply-To: <1697056244-21888-1-git-send-email-haiyangz@microsoft.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 16 Oct 2023 13:40:43 +0200
-Message-ID: <CANn89iLth-thO7=V=b+3dbP=K-m+hbBk75FtM+7cFiUphGXwoA@mail.gmail.com>
-Subject: Re: [PATCH net-next,v3] tcp: Set pingpong threshold via sysctl
-To: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, kys@microsoft.com, 
-	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, 
-	dsahern@kernel.org, ncardwell@google.com, ycheng@google.com, 
-	kuniyu@amazon.com, morleyd@google.com, mfreemon@cloudflare.com, 
-	mubashirq@google.com, linux-doc@vger.kernel.org, weiwan@google.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-	autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231016032226.59199-4-zhangpeng.00@bytedance.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Wed, Oct 11, 2023 at 10:31=E2=80=AFPM Haiyang Zhang <haiyangz@microsoft.=
-com> wrote:
->
-> TCP pingpong threshold is 1 by default. But some applications, like SQL D=
-B
-> may prefer a higher pingpong threshold to activate delayed acks in quick
-> ack mode for better performance.
->
+On Mon, Oct 16, 2023 at 11:22:19AM +0800, Peng Zhang wrote:
+> +++ b/lib/maple_tree.c
+> @@ -4,6 +4,10 @@
+>   * Copyright (c) 2018-2022 Oracle Corporation
+>   * Authors: Liam R. Howlett <Liam.Howlett@oracle.com>
+>   *	    Matthew Wilcox <willy@infradead.org>
+> + *
+> + * Algorithm for duplicating Maple Tree
+> + * Copyright (c) 2023 ByteDance
+> + * Author: Peng Zhang <zhangpeng.00@bytedance.com>
 
-...
+You can't copyright an algorithm.  You can copyright the
+_implementation_ of an algorithm.  You have a significant chunk of code
+in this file, so adding your copyright is reasonable (although not
+legally required, AIUI).  Just leave out this line:
 
->
-> diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-> index f207712eece1..7d0fe76d56ef 100644
-> --- a/net/ipv4/tcp_output.c
-> +++ b/net/ipv4/tcp_output.c
-> @@ -170,10 +170,10 @@ static void tcp_event_data_sent(struct tcp_sock *tp=
-,
->         tp->lsndtime =3D now;
->
->         /* If it is a reply for ato after last received
-> -        * packet, enter pingpong mode.
-> +        * packet, increase pingpong count.
->          */
->         if ((u32)(now - icsk->icsk_ack.lrcvtime) < icsk->icsk_ack.ato)
-> -               inet_csk_enter_pingpong_mode(sk);
-> +               inet_csk_inc_pingpong_cnt(sk);
->  }
->
->  /* Account for an ACK we sent. */
++ * Algorithm for duplicating Maple Tree
 
-OK, but I do not think we solved the fundamental problem of using
-jiffies for this heuristic,
-especially for HZ=3D100 or HZ=3D250 builds.
+> +/**
+> + * __mt_dup(): Duplicate an entire maple tree
+> + * @mt: The source maple tree
+> + * @new: The new maple tree
+> + * @gfp: The GFP_FLAGS to use for allocations
+> + *
+> + * This function duplicates a maple tree in Depth-First Search (DFS) pre-order
+> + * traversal. It uses memcopy() to copy nodes in the source tree and allocate
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+memcpy()?
+
+> +int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
+> +{
+> +	int ret = 0;
+> +	MA_STATE(mas, mt, 0, 0);
+> +	MA_STATE(new_mas, new, 0, 0);
+> +
+> +	mas_dup_build(&mas, &new_mas, gfp);
+> +
+> +	if (unlikely(mas_is_err(&mas))) {
+> +		ret = xa_err(mas.node);
+> +		if (ret == -ENOMEM)
+> +			mas_dup_free(&new_mas);
+> +	}
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(__mt_dup);
+
+Why does it need to be exported?
+
