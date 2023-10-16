@@ -1,150 +1,107 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC6623766;
-	Mon, 16 Oct 2023 10:41:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566E51C2AD
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 11:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mNYix7oA"
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 066E7210B;
-	Mon, 16 Oct 2023 03:41:46 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F0A181C0009;
-	Mon, 16 Oct 2023 10:41:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1697452902;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vT9G5NQZZ2eFijBoTns5foUBCOXcsCpnGULg2LBKId4=;
-	b=mNYix7oANrLWcPA45+MCZhVDWozUj6f8PfqSzJqKysm1KuHJKww2ZZKGHzyDTEA2pFZ89M
-	GQL7cVUygSHhtDqKDGhuWpIDjZHMs+X/thryopJPYiizCwuNlElaLc2SZ92J9f/7dgg3Sn
-	OyUMUelmsPPYlkOdzCI9ZLHzzUmJdI2aCw31stMkro65apZFzdGCXKqoxlfVxZnx5d8Mgg
-	1ks4wZl5bCVkhEQmLYZlI7exvP7f9Lc+5fRA/wvVZk404CeBuzJf8RQAtoRNZhiLFyzweM
-	Dw13OEMhp7QgdQx6bh2TMIWFL90IIUzrnqHVsGKBKTNmKUI9XkDqOZUh5Je4TA==
-Date: Mon, 16 Oct 2023 12:41:34 +0200
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
- <florian.fainelli@broadcom.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Vladimir Oltean
- <vladimir.oltean@nxp.com>, Michael Walle <michael@walle.cc>, Jacob Keller
- <jacob.e.keller@intel.com>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v5 08/16] net: ethtool: Add a command to expose
- current time stamping layer
-Message-ID: <20231016124134.6b271f07@kmaincent-XPS-13-7390>
-In-Reply-To: <6ef6418d-6e63-49bd-bcc1-cdc6eb0da2d5@lunn.ch>
-References: <20231009155138.86458-1-kory.maincent@bootlin.com>
-	<20231009155138.86458-9-kory.maincent@bootlin.com>
-	<2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
-	<20231010102343.3529e4a7@kmaincent-XPS-13-7390>
-	<20231013090020.34e9f125@kernel.org>
-	<6ef6418d-6e63-49bd-bcc1-cdc6eb0da2d5@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2Q5uhr7K"
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1017AE1
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 04:41:00 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so11465a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 04:40:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1697456458; x=1698061258; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2I6xiVgm8CDmOxobNPXJ5HYpt0gEXNwuNgT27rQ1pK8=;
+        b=2Q5uhr7KZnIOPozm+oy0vHWbp03Q1sFUZSwBPx0LsVQC/w/dnP/c3KuRsVKTGEu7kM
+         AROIj0DxDxL1/YKoSGX7rM5Lq1lTKGlp1lkaJWGbrOjLbVJXxdpyCT1WYWzb3vbWOBgk
+         anltbr9L+X2Hn1JBwCIzkQjRdEjjugweYDFB8mohX2nuHlw0wCfQMUy4FqZzgBkBaHdR
+         8SPVoFEJSGtEulLCD0j5oxaLuLvVE5dUJvuP0kmBS9RuKVQIuAeZGQ6X55Aqyj9Vn3md
+         s2mtdAxgTRbWRYgZ+LzvH0GL2oEeUQ6/l+nyB3P1/YMPXJaPilTrFc8I/841CfVH1Yba
+         CarQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697456458; x=1698061258;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2I6xiVgm8CDmOxobNPXJ5HYpt0gEXNwuNgT27rQ1pK8=;
+        b=Vu7swBbLVvQ+vICyYvvSJV+xdadvv7SZRvhWHrXf2+hzH8JmYM6btJb9yZHN2qUo29
+         E1BxD3rURVSe69HP2UboqdtoF8w3jpAgY3AJ+E0Y5XsCDqehiP+R1FSVPUo1QY0xlEqk
+         MKtRrO8M4WZ1CjHRJUXP1XqOzhOJSEMqEmBbFte4wPVDPaYO7Tob5z+oA7GpF97iZblT
+         Ih9CQpcdRxwsjEL72tpg7FBaW0TDZ2v3Ob5HYByUM3JaookWTLT97f3ycvDs9gpCTNSq
+         WtSvPvutybEp4pvQGoA1LnSLe6PM/+/LZKkbjkwo65mMjn3F2mgIRWJ+plol4mFXGWX0
+         iEjQ==
+X-Gm-Message-State: AOJu0YwYE9NqugwXTZ0AdZLJDbhpDL+Sw/Js21OAEXhyjbd/wMLau5nG
+	FYs8EtOj/aSPi3GBG5vdIMjchwlEWLi7CvNWNzWa5g==
+X-Google-Smtp-Source: AGHT+IEd7QsZDGvewhvSCOpW/J+FnpZ5jMRtoRoEZoPIfRkDvA7e50KC0N8Z+vcUAqp+1WNdbYbn6DP3CRW+eN2eV5Y=
+X-Received: by 2002:a50:cd16:0:b0:538:1d3a:d704 with SMTP id
+ z22-20020a50cd16000000b005381d3ad704mr155111edi.1.1697456458241; Mon, 16 Oct
+ 2023 04:40:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: kory.maincent@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <1697056244-21888-1-git-send-email-haiyangz@microsoft.com>
+In-Reply-To: <1697056244-21888-1-git-send-email-haiyangz@microsoft.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Mon, 16 Oct 2023 13:40:43 +0200
+Message-ID: <CANn89iLth-thO7=V=b+3dbP=K-m+hbBk75FtM+7cFiUphGXwoA@mail.gmail.com>
+Subject: Re: [PATCH net-next,v3] tcp: Set pingpong threshold via sysctl
+To: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, kys@microsoft.com, 
+	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, 
+	dsahern@kernel.org, ncardwell@google.com, ycheng@google.com, 
+	kuniyu@amazon.com, morleyd@google.com, mfreemon@cloudflare.com, 
+	mubashirq@google.com, linux-doc@vger.kernel.org, weiwan@google.com, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Fri, 13 Oct 2023 18:11:19 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+On Wed, Oct 11, 2023 at 10:31=E2=80=AFPM Haiyang Zhang <haiyangz@microsoft.=
+com> wrote:
+>
+> TCP pingpong threshold is 1 by default. But some applications, like SQL D=
+B
+> may prefer a higher pingpong threshold to activate delayed acks in quick
+> ack mode for better performance.
+>
 
-> > > All these possibles timestamps go through exclusively the netdev API or
-> > > the phylib API. Even the software timestamping is done in the netdev
-> > > driver, therefore it goes through the netdev API and then should have the
-> > > NETDEV_TIMESTAMPING bit set.  
-> > 
-> > Netdev vs phylib is an implementation detail of Linux.
-> > I'm also surprised that you changed this.
-> >   
-> > > > > + */
-> > > > > +enum {
-> > > > > +	NO_TIMESTAMPING = 0,
-> > > > > +	NETDEV_TIMESTAMPING = (1 << 0),
-> > > > > +	PHYLIB_TIMESTAMPING = (1 << 1),
-> > > > > +	SOFTWARE_TIMESTAMPING = (1 << 2) | (1 << 0),      
-> 
-> Just emphasising Jakubs point here. phylib is an implementation
-> detail, in that the MAC driver might be using firmware to drive its
-> PHY, and that firmware can do a timestamp in the PHY. The API being
-> defined here should be independent of the implementation details. So
-> it probably should be MAC_TIMESTAMPING and PHY_TIMESTAMPING, and leave
-> it to the driver to decide if its PHYLIB doing the actual work, or
-> firmware.
+...
 
-That is one reason why I moved to NETDEV_TIMESTAMPING, we don't know if it will
-really be the MAC that does the timestamping, as the firmware could ask the PHY
-to does it, but it surely goes though the netdev driver.
+>
+> diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+> index f207712eece1..7d0fe76d56ef 100644
+> --- a/net/ipv4/tcp_output.c
+> +++ b/net/ipv4/tcp_output.c
+> @@ -170,10 +170,10 @@ static void tcp_event_data_sent(struct tcp_sock *tp=
+,
+>         tp->lsndtime =3D now;
+>
+>         /* If it is a reply for ato after last received
+> -        * packet, enter pingpong mode.
+> +        * packet, increase pingpong count.
+>          */
+>         if ((u32)(now - icsk->icsk_ack.lrcvtime) < icsk->icsk_ack.ato)
+> -               inet_csk_enter_pingpong_mode(sk);
+> +               inet_csk_inc_pingpong_cnt(sk);
+>  }
+>
+>  /* Account for an ACK we sent. */
 
-> Netdev vs phylib is an implementation detail of Linux.
-> I'm also surprised that you changed this.
+OK, but I do not think we solved the fundamental problem of using
+jiffies for this heuristic,
+especially for HZ=3D100 or HZ=3D250 builds.
 
-This is the main reason I changed this. This is Linux implementation purpose to
-know whether it should go through netdev or phylib, and then each of these
-drivers could use other timestamps which are hardware related.
-
-As I have answered to Florian maybe you prefer to separate the Linux
-implementation detail and the hardware timestamping like this:
-
-> Or maybe do you prefer to use defines like this:
-> # define NETDEV_TIMESTAMPING (1 << 0)
-> # define PHYLIB_TIMESTAMPING (1 << 1)
-> 
-> enum {
-> 	NO_TIMESTAMPING = 0,
-> 	MAC_TIMESTAMPING = NETDEV_TIMESTAMPING,
-> 	PHY_TIMESTAMPING = PHYLIB_TIMESTAMPING,
-> 	SOFTWARE_TIMESTAMPING = (1 << 2) | NETDEV_TIMESTAMPING,
-> 	...
-> 	MAC_DMA_TIMESTAMPING = (2 << 2) | NETDEV_TIMESTAMPING,
-> 	MAC_PRECISION_TIMESTAMPING = (3 << 2) | NETDEV_TIMESTAMPING,
-> };
-
-
-> > The gist of what I'm proposing is for the core ethtool netlink message
-> > handler to get just the phc_index as an attribute. No other information
-> > as to what it represents. Not that it's netdev, DMA, phylib PHY or whatnot.
-> > 
-> > The ethtool kernel code would iterate through the stuff registered in
-> > the system for the netdev, calling get_ts_info() or phy_ts_info() on it,
-> > until it finds something which populates struct ethtool_ts_info ::
-> > phc_index with the phc_index retrieved from netlink.
-> > 
-> > Then, ethtool just talks with the timestamper that matched that phc_index.
-> > 
-> > Same idea would be applied for the command that lists all timestamping
-> > layers for a netdev. Check get_ts_info(), phy_ts_info(dev->phydev), and
-> > can be extended in the future.  
-> 
-> I see, that could work. The user would then dig around sysfs to figure
-> out which PHC has what characteristics?
-
-I am not an expert but there are net drivers that enable
-SOF_TIMESTAMPING_TX/RX/RAW_HARDWARE without phc. In that case we won't ever be
-able to enter the get_ts_info() with you proposition.
-Still I am wondering why hardware timestamping capabilities can be enabled
-without phc.
+Reviewed-by: Eric Dumazet <edumazet@google.com>
