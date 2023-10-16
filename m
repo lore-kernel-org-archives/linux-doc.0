@@ -1,95 +1,79 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8A4286AF;
-	Mon, 16 Oct 2023 16:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E75030F94;
+	Mon, 16 Oct 2023 17:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Vfl84jOT"
-Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425D62D4B;
-	Mon, 16 Oct 2023 09:49:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1697474999; x=1729010999;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=t3l+YeDhb2m5yEYQ+Uz0O6KM2oDfAiG0VxShhKQFeOM=;
-  b=Vfl84jOTUS+Bn5apYMifaGYH7RruxXqGFjeQsvFA1mD5x64jBkdHTRnl
-   dJxPpE0db+VcOhIuptnOoKv2GmA4cVsc3WE70Mn/JGnCvuK7WPgti8mwD
-   2N6k2E0k4mVxR1e98JRdaOCOHE2JxzJuXjcDMsm3cJkr5AVgvJrbXj01s
-   w=;
-X-IronPort-AV: E=Sophos;i="6.03,229,1694736000"; 
-   d="scan'208";a="678687985"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1d-m6i4x-f05d30a1.us-east-1.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 16:49:51 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan3.iad.amazon.com [10.32.235.38])
-	by email-inbound-relay-iad-1d-m6i4x-f05d30a1.us-east-1.amazon.com (Postfix) with ESMTPS id 866DE805BA;
-	Mon, 16 Oct 2023 16:49:45 +0000 (UTC)
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.7.35:4719]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.209:2525] with esmtp (Farcaster)
- id 0c6df8e9-0c7b-461f-aaca-88f72a41d973; Mon, 16 Oct 2023 16:49:44 +0000 (UTC)
-X-Farcaster-Flow-ID: 0c6df8e9-0c7b-461f-aaca-88f72a41d973
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.37; Mon, 16 Oct 2023 16:49:40 +0000
-Received: from 88665a182662.ant.amazon.com (10.187.171.29) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.37; Mon, 16 Oct 2023 16:49:36 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <haiyangz@microsoft.com>
-CC: <corbet@lwn.net>, <davem@davemloft.net>, <dsahern@kernel.org>,
-	<edumazet@google.com>, <kuba@kernel.org>, <kuniyu@amazon.com>,
-	<kys@microsoft.com>, <linux-doc@vger.kernel.org>,
-	<linux-hyperv@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<mfreemon@cloudflare.com>, <morleyd@google.com>, <mubashirq@google.com>,
-	<ncardwell@google.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
-	<weiwan@google.com>, <ycheng@google.com>
-Subject: Re: [PATCH net-next,v3] tcp: Set pingpong threshold via sysctl
-Date: Mon, 16 Oct 2023 09:49:27 -0700
-Message-ID: <20231016164927.30126-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <1697056244-21888-1-git-send-email-haiyangz@microsoft.com>
-References: <1697056244-21888-1-git-send-email-haiyangz@microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EH4nY8b7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D479DC433C7;
+	Mon, 16 Oct 2023 17:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697475796;
+	bh=Vx73FpVlkBN9x5VuKdWHHh99ktLX7tsDFLYW1HUCKH4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EH4nY8b7LAH1scjlTuimouVGxGT5eSdosXd9Se89Zx5CvqrOAtDsHntyKHAkUkpWL
+	 oa35WUwna7wUxKwdIg/AEs3t2dKClNvhXKrst+SSqGUCE0iTtJaOMfQmOtW8lv9V24
+	 VLNLgQagLyI+FwKISdE+NzYGMpS+VfTxGH5JHg3ohzagV9hEluwUtlsNXlsMqjY3Zd
+	 WzLhmkzP2A3RWj/ygqZIu82vGEv/P28vOmw8zVUA6n4EqZGc3s1fCZgxqB+ei/37Bt
+	 5dNy+9+OSlw5dKS1OHCl/NutMIrnXlfsPQ+oXGFb46dXXHEpiZwwlw3U4vGTxmkCXx
+	 N10yao1Q8PJ8g==
+Date: Mon, 16 Oct 2023 10:03:13 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Vladimir Oltean
+ <vladimir.oltean@nxp.com>, Michael Walle <michael@walle.cc>, Jacob Keller
+ <jacob.e.keller@intel.com>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v5 08/16] net: ethtool: Add a command to expose
+ current time stamping layer
+Message-ID: <20231016100313.36d4eab9@kernel.org>
+In-Reply-To: <20231016182307.18c5dcf1@kmaincent-XPS-13-7390>
+References: <20231009155138.86458-1-kory.maincent@bootlin.com>
+	<20231009155138.86458-9-kory.maincent@bootlin.com>
+	<2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
+	<20231010102343.3529e4a7@kmaincent-XPS-13-7390>
+	<20231013090020.34e9f125@kernel.org>
+	<6ef6418d-6e63-49bd-bcc1-cdc6eb0da2d5@lunn.ch>
+	<20231016124134.6b271f07@kmaincent-XPS-13-7390>
+	<20231016072204.1cb41eab@kernel.org>
+	<20231016170027.42806cb7@kmaincent-XPS-13-7390>
+	<20231016084346.10764b4a@kernel.org>
+	<20231016182307.18c5dcf1@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.187.171.29]
-X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
-Precedence: Bulk
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-	SPF_HELO_NONE,SPF_NONE,UNPARSEABLE_RELAY autolearn=no
-	autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Haiyang Zhang <haiyangz@microsoft.com>
-Date: Wed, 11 Oct 2023 13:30:44 -0700
-> TCP pingpong threshold is 1 by default. But some applications, like SQL DB
-> may prefer a higher pingpong threshold to activate delayed acks in quick
-> ack mode for better performance.
-> 
-> The pingpong threshold and related code were changed to 3 in the year
-> 2019 in:
->   commit 4a41f453bedf ("tcp: change pingpong threshold to 3")
-> And reverted to 1 in the year 2022 in:
->   commit 4d8f24eeedc5 ("Revert "tcp: change pingpong threshold to 3"")
-> 
-> There is no single value that fits all applications.
-> Add net.ipv4.tcp_pingpong_thresh sysctl tunable, so it can be tuned for
-> optimal performance based on the application needs.
-> 
-> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+On Mon, 16 Oct 2023 18:23:07 +0200 K=C3=B6ry Maincent wrote:
+> > What's the reason for timestamp precision differences?
+> > My understanding so far was the the differences come from:
+> >  1. different stamping device (i.e. separate "piece of silicon",
+> >     accessed over a different bus, with different PHC etc.)
+> >  2. different stamping point (MAC vs DMA)
+> >=20
+> > I don't think any "integrated" device would support stamps which
+> > differ under category 1. =20
+>=20
+> It was a case reported by Maxime on v3:
+> https://lore.kernel.org/netdev/20230324112541.0b3dd38a@pc-7.home/=20
 
-Reviewed-by: Kuniyuki Iwashima <kuniyu@amazon.com>
-
-Thanks!
+IMHO this talks about how clock control/disciplining works which
+is a somewhat independent topic of timestamping.
