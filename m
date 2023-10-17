@@ -1,45 +1,51 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18352622;
-	Tue, 17 Oct 2023 00:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98146187F
+	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 02:38:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C3jiDWSv"
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C01F95;
-	Mon, 16 Oct 2023 17:37:21 -0700 (PDT)
-Received: by mail-ua1-x92d.google.com with SMTP id a1e0cc1a2514c-7ab5150a7b5so4140928241.0;
-        Mon, 16 Oct 2023 17:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697503040; x=1698107840; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hCBpBFy0sL3kGgajsg5bL9lp51r5jSArJUZNS83IHhs=;
-        b=C3jiDWSveC8PtTe5bXeKzkGZWO3pkZa89DKC6nfS2+H34Hu2e/YDCYPXSZEFwvrXlZ
-         1dC+aaOeLrBrXeTNewTbkuK6CCfsAh6nRZX4hE+RhyKedtZnmqA3uRDwreuabBXX0B9S
-         sRt+d/lLDTMUWTLs+wBUQBmjZmtSu1xCcQiEjLSq9wjN7JWQZJ/6ZsIztI8SzFxctrMm
-         LuEH6rs88L5gEEeaGvhBq7U6OFwPLdyLykJODzQmeKbr1DdYCyaDF9QYo7Eq7l6Vx2qT
-         JMtPRQA6/gt7miQIPxGwpxCNOt0Ikzo9oXm2ijKHUs+4Ze4hCUlvg2ll+0Eff3F9iCqN
-         6JZA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O7qKi/EO"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6978D8E
+	for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 19:38:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697510295;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jLFBGnIpAzynaCLSWbQnRiqRNf9pByil8XHxQ2oSj4w=;
+	b=O7qKi/EO1lPDzXULnZGyKoBwu13Ihe1OoZtQLdeAGkxyb9EwTDJPXoH/B/OXleGv2OPYzo
+	VKgxqTvQQMBYWlINsgLgX4MQhOsX+afqaSYXr7lMcM38gSWzSuOy6PTywAmqNadeAdeep/
+	IZp3f6HfNwR9wafmYLSaC3C4Vvjg08o=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-516-ZRJhihWoPru-a7RT8ypvXQ-1; Mon, 16 Oct 2023 22:38:13 -0400
+X-MC-Unique: ZRJhihWoPru-a7RT8ypvXQ-1
+Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-50318e9067eso4843282e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Oct 2023 19:38:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697503040; x=1698107840;
+        d=1e100.net; s=20230601; t=1697510292; x=1698115092;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hCBpBFy0sL3kGgajsg5bL9lp51r5jSArJUZNS83IHhs=;
-        b=Qc7dr/CAWve5s/CPqs1/+QU4dWMalQGFUyWpsGST6+A0Au+vUQHlS+I7fv3mUBWL48
-         EqGB7REUZgRQXMSwWNkr9ek0yeQR8Z1xGzdmsVchj32ihzHhXZO/2bt2u8zbXfpIKWBQ
-         RTccaVtQkq/o0j7Mxdzu3CoPucX6SrRXxlFxKj5WzzE8My4d8ii0tApcqAux7yVLOgnh
-         hXYgXwBzTQQEEEk+XklLsh1BcFylQeqVa8c8BguWtfZD5qyEu2jpw0PqkAsKIjRPLXiU
-         sjoSUDJ+Rc/T56Q6B7ckTnU8FCNwfF17OQmb038rJb5aTyppApCpr2LM2Xt7+mxTAhtY
-         iSnQ==
-X-Gm-Message-State: AOJu0YzWMUBVmfaWznhbVkyQqrT6J4asx8GmyNNb7D6yb+/OYSYIS+h7
-	6xlGmH3Gfh4NI40uDszYRHmqtsDVWCLWp1P9/HWpbQY+
-X-Google-Smtp-Source: AGHT+IGTFKrIo3DX3VTBrldf07y90mT9ODR4qoemWSfmdES5n+WGptKeaXQi892QmMn5GqvVYCmrHCk1YdrE8z97v4I=
-X-Received: by 2002:a67:ac4a:0:b0:457:cbde:603d with SMTP id
- n10-20020a67ac4a000000b00457cbde603dmr189013vsh.14.1697503040429; Mon, 16 Oct
- 2023 17:37:20 -0700 (PDT)
+        bh=jLFBGnIpAzynaCLSWbQnRiqRNf9pByil8XHxQ2oSj4w=;
+        b=euNsCar43eVyckhiX7+C32NGbkWbUjIVMY6AxrBPOuxE8kRpMp5Y0Z0BnGPn5L2pYV
+         n9ZPnKFcZt/TzpZH6p/fqQT+z16bAhiHsKu4tMEMMVJeAsRg63tBQfkRzLBDhngXH0b1
+         70PYewoCJ4aajhAp34FEX5Mzod8jQp2QBTNa3VMH0UhtQukoKRDMmZfggxoXXYX5wB4f
+         xQUXDmKUCiNhwh66wL3DRjGJxYkBY0xTtnga9GG+J0gokovljQUKRHpByl4bpAgmipgF
+         wG9T28L63EBWj46WVwjGRx+8LjRPzEmAP10Y0kAn9cEdP0hT+XopaOWMkbWcrcOXp2C8
+         lUUg==
+X-Gm-Message-State: AOJu0Yw+GkD6O385nBCqWoyFXlznuXnTl3E0qSDwfM+kLdXdU1b8dnXQ
+	h7QOBdzA3mrCmpZp1m1Qpu6l1GtihC8oupl9lRHt3FWAnPaVTX630EUMTdbizxUBuous2rQK+wE
+	f26mW+Zoq6q+w2FmTqQPeX/B/v5WHzhxeNOCd
+X-Received: by 2002:a19:7616:0:b0:506:8e27:7ce9 with SMTP id c22-20020a197616000000b005068e277ce9mr773834lff.16.1697510292108;
+        Mon, 16 Oct 2023 19:38:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGwD5883Y6d40R7U3CghOpbHBfm9xN2dxJWP8byeoC8zFnDP5U2UV48wLUupwqJd40JvPd+TfwSf9k5qjsrlt4=
+X-Received: by 2002:a19:7616:0:b0:506:8e27:7ce9 with SMTP id
+ c22-20020a197616000000b005068e277ce9mr773811lff.16.1697510291790; Mon, 16 Oct
+ 2023 19:38:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,9 +56,9 @@ References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
  <20231015141644.260646-2-akihiko.odaki@daynix.com> <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
  <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com> <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
 In-Reply-To: <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date: Mon, 16 Oct 2023 20:36:43 -0400
-Message-ID: <CAF=yD-Jr1wKo6viUGWTcXsT5b9e1NkuemuvjN988qSyNmheM2A@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 17 Oct 2023 10:38:00 +0800
+Message-ID: <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
 Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
 To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Alexei Starovoitov <ast@kernel.org>, 
@@ -60,9 +66,9 @@ Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Alexei Starovoitov <ast@kernel.org
 	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
 	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
 	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
 	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
 	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>, 
 	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
@@ -72,14 +78,15 @@ Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Alexei Starovoitov <ast@kernel.org
 	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Mon, Oct 16, 2023 at 7:53=E2=80=AFPM Alexei Starovoitov
+On Tue, Oct 17, 2023 at 7:53=E2=80=AFAM Alexei Starovoitov
 <alexei.starovoitov@gmail.com> wrote:
 >
 > On Sun, Oct 15, 2023 at 10:10=E2=80=AFAM Akihiko Odaki <akihiko.odaki@day=
@@ -138,12 +145,17 @@ s
 >
 > bpf is not an option then.
 > we do not add stable bpf program types or hooks any more.
+
+Does this mean eBPF could not be used for any new use cases other than
+the existing ones?
+
 > If a kernel subsystem wants to use bpf it needs to accept the fact
 > that such bpf extensibility will be unstable and subsystem maintainers
 > can decide to remove such bpf support in the future.
 
-Based on hooks for tracepoints and kfuncs, correct?
+I don't see how it is different from the existing ones.
 
-Perhaps the existing stable flow dissector type is extensible to
-optionally compute the hash and report hash and hash type. Else we
-probably should revisit the previous version of this series.
+Thanks
+
+>
+
