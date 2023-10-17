@@ -1,87 +1,100 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCD53FB24
-	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 10:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id CC4D8A2;
-	Tue, 17 Oct 2023 03:06:21 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A82C2F4;
-	Tue, 17 Oct 2023 03:07:01 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 825A03F762;
-	Tue, 17 Oct 2023 03:06:19 -0700 (PDT)
-Message-ID: <44b9a917-c8e1-4166-b31a-b094eb762d2d@arm.com>
-Date: Tue, 17 Oct 2023 11:06:17 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27C5BE69
+	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 11:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PYeEor2E";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Z/41AlbS"
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4151102;
+	Tue, 17 Oct 2023 04:16:09 -0700 (PDT)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1697541367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OvDI0iFoUBbqDTj3zP5h6st/X6TtuFe4Pyv0h1oYoHU=;
+	b=PYeEor2E+XWTyT1TxFzhgJ2jNvC2qix4RP05Dneh9+fPcSaD10R5XAxcCfsYp6aLyJ3GSV
+	qswgYHHAKyRH1gwwZ1Fnb2plGbau2Z3mkZNSgp9omNyeRrjeJP6+40ebUoC4jhEJBfv4bL
+	yG9Ac79wuKIJhR4tH12XRLzBZghm/4y1G0r5UF3gZW0fKHf+YUMl1tvMfl787nTLCjBk5C
+	tVtUA8V5ZXAfMPTJVtzoWuvDU29I2FAFYggOjrcj+H9DHX6W34LezK/Yg78KMa/8sVZSlh
+	SSKtzgmabIr3xMUU39mNy3f4zd9z9tpr14l8cqiHl46qmndT7AGdxUcMWUSUvw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1697541367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OvDI0iFoUBbqDTj3zP5h6st/X6TtuFe4Pyv0h1oYoHU=;
+	b=Z/41AlbSFb6O3VyLf3kMd7P9PjKycXEWev/A8i8X5GPG6/SXgXSeuKeuEEDhs7bEbC/CfQ
+	/eL17aOGMMoOa5CA==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, linux-doc@vger.kernel.org,
+ andriy.shevchenko@linux.intel.com, eddie.dong@intel.com,
+ christopher.s.hall@intel.com, pandith.n@intel.com,
+ mallikarjunappa.sangannavar@intel.com, thejesh.reddy.t.r@intel.com,
+ lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v1 3/6] x86/tsc: Check if the current clock source is
+ related to ART(Always Running Timer)
+In-Reply-To: <20231017052457.25287-4-lakshmi.sowjanya.d@intel.com>
+References: <20231017052457.25287-1-lakshmi.sowjanya.d@intel.com>
+ <20231017052457.25287-4-lakshmi.sowjanya.d@intel.com>
+Date: Tue, 17 Oct 2023 13:16:07 +0200
+Message-ID: <87ttqp5wjs.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: ABI: coresight-tpdm: Fix Bit[3]
- description indentation
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux CoreSight <coresight@lists.linaro.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc: Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@arm.com>,
- Tao Zhang <quic_taozha@quicinc.com>, Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20231017095608.136277-1-bagasdotme@gmail.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20231017095608.136277-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On 17/10/2023 10:56, Bagas Sanjaya wrote:
-> Stephen Rothwell reported htmldocs warnings when merging coresight tree:
-> 
-> Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm:48: ERROR: Unexpected indentation.
-> Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm:48: WARNING: Block quote ends without a blank line; unexpected unindent.
-> 
-> Fix indentation alignment for Bit[3] list entry in dsb_mode description to
-> silence above warnings.
-> 
-> Fixes: 535d80d3c10fff ("coresight-tpdm: Add node to set dsb programming mode")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20231017143324.75387a21@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->   Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
-> index f07218e788439d..4dd49b159543b6 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
-> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
-> @@ -54,8 +54,8 @@ Description:
->   		Accepts the value needs to be greater than 0. What data
->   		bits do is listed below.
->   		Bit[0:1] : Test mode control bit for choosing the inputs.
-> -		Bit[3] : Set to 0 for low performance mode.
-> -				 Set to 1 for high performance mode.
-> +		Bit[3] : Set to 0 for low performance mode. Set to 1 for high
-> +		performance mode.
->   		Bit[4:8] : Select byte lane for high performance mode.
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_idx
-> 
-> base-commit: 90a7371cb08d7e542fa4f283c881973bba09f23b
+On Tue, Oct 17 2023 at 10:54, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>
+> Add interface 'is_current_clocksource_art_related()' in tsc.c to check
+> if the current clock source is ART related.
+> Add helper function 'is_current_clocksource(clock)' in timekeeping.c to
+> check if the provided clock matches the current clock source.
 
+Again. That's the WHAT not the WHY.
 
-Thanks, confirmed the patch to fix the issue. I have queued this to next.
+Also the Subject suggests that a check is added at some random place,
+but that's not what the patch does.
 
-   https://git.kernel.org/coresight/c/845333e5f0f3
+> +/*
+> + * Checks if the current clocksource is ART related clocksource
+> + *
+> + * Return: 1 on success, 0 on failure.
+> + */
+> +bool is_current_clocksource_art_related(void)
+> +{
+> +	return is_current_clocksource(art_related_clocksource);
+> +}
+> +EXPORT_SYMBOL_GPL(is_current_clocksource_art_related);
 
-Thanks
-Suzuki
+> +bool is_current_clocksource(struct clocksource *clock)
+> +{
+> +	struct tk_read_base *tkr = &tk_core.timekeeper.tkr_mono;
+> +	return clock == READ_ONCE(tkr->clock);
+> +}
+> +EXPORT_SYMBOL_GPL(is_current_clocksource);
+
+Aside of the horrible function names (new global functions want
+$NAMESPACE_* convention) this really starts to become hilarious.
+
+Two exported helpers which are completely unexplained. That smells badly
+of broken data representations.
+
+But let me see what this is used for.
+
+Thanks,
+
+        tglx
