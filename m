@@ -1,154 +1,147 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6A3568F
-	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 04:52:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89D3BE58
+	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 05:25:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVnB0FgL"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BE4FA2;
-	Mon, 16 Oct 2023 21:52:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MOIfAeku"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 584BC185;
+	Mon, 16 Oct 2023 22:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697518376; x=1729054376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aDjfjftiY1bEitGKNGlzv06DZeVXN5zC6ddC0dUDzPw=;
-  b=iVnB0FgLqwq+64fUCV6oOvw5697Io/XIZfzXpD6OuTiOfqp7wSWrFrLH
-   gw9lqqvWgffJwV8ASWdR7+/ijSsMx3TGsJkuDr8fzaMaukIjV47qS7hnv
-   UUutDXhKooOjEVRU2Du8YIVT51eLVo1wbw0vApNr32M0fRgXXZHSFtp5G
-   qLYRWpnuORc6ofGyq9bwzSfg5PZPXWB0izHkcOe1fiTHs1VnUEIYxvwDf
-   w6vSGZ0dUBvM7O33Gvt2KfrNtFZWuWm29oXBUbNqtpbPVz0tfvqKVDAOZ
-   Csx8vyRP9QFyJQtHhF9xSQR+vGwp7l1qh0iRPa7kYhLWD9s6lEtRQMudE
+  t=1697520303; x=1729056303;
+  h=from:to:cc:subject:date:message-id;
+  bh=uFnVHow6/7iLw6jBlHdpFq+FgPhk3gqeoxO/WOVpyZ8=;
+  b=MOIfAekuBe+snMejfoJBUSTdmbn3w2AbSNO9V7XvVFROWUa7P5KwDoSq
+   GHAqlBjSwhfC05vqUpi6Cy1xuOR3qTU0yRXvgUG6v4nOsgsGY8m0BtBOI
+   5WRCXKhqWLdZ4GYUKL5CCu+p9AH+oB/789qtHkXhHoRLLbvehhFrGaEzF
+   KPbvtGwgo0W21g8Ea4epyJWB9syvtAByP/SS3sbl3kbdqL0AUJcB3kPUc
+   eh9czHCuh5uaTwf8oGUbfoUxg+1SES698+XcekNZyypVIV44UkPThH78U
+   lJW+NW9h1Zvpf5cdLIR52/X0LWFw6B6hwkJgFowdk3417+pzbNuQwKHSo
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="376066162"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="388561713"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="376066162"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 21:52:53 -0700
+   d="scan'208";a="388561713"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 22:25:02 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="1087357954"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="3926579"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Oct 2023 21:52:54 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qsc4U-00091n-1v;
-	Tue, 17 Oct 2023 04:52:46 +0000
-Date: Tue, 17 Oct 2023 12:52:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nikhil V <quic_nprakash@quicinc.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>
-Cc: oe-kbuild-all@lists.linux.dev, Nikhil V <quic_nprakash@quicinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-doc@vger.kernel.org, quic_pkondeti@quicinc.com,
-	quic_kprasan@quicinc.com, quic_mpilaniy@quicinc.com,
-	quic_shrekk@quicinc.com, mpleshivenkov@google.com,
-	ericyin@google.com
-Subject: Re: [PATCH 2/4] PM: hibernate: Move to crypto APIs for LZO
- compression
-Message-ID: <202310171226.pLUPeuC7-lkp@intel.com>
-References: <486273fb828eb56d1895fee49481f5c035df8300.1696410298.git.quic_nprakash@quicinc.com>
+   d="scan'208";a="1087357954"
+Received: from inlubt0316.iind.intel.com ([10.191.20.213])
+  by fmsmga005.fm.intel.com with ESMTP; 16 Oct 2023 22:24:57 -0700
+From: lakshmi.sowjanya.d@intel.com
+To: tglx@linutronix.de,
+	jstultz@google.com,
+	giometti@enneenne.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org
+Cc: x86@kernel.org,
+	linux-doc@vger.kernel.org,
+	andriy.shevchenko@linux.intel.com,
+	eddie.dong@intel.com,
+	christopher.s.hall@intel.com,
+	pandith.n@intel.com,
+	mallikarjunappa.sangannavar@intel.com,
+	thejesh.reddy.t.r@intel.com,
+	lakshmi.sowjanya.d@intel.com
+Subject: [PATCH v1 0/6] Add support for Intel PPS Generator
+Date: Tue, 17 Oct 2023 10:54:51 +0530
+Message-Id: <20231017052457.25287-1-lakshmi.sowjanya.d@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <486273fb828eb56d1895fee49481f5c035df8300.1696410298.git.quic_nprakash@quicinc.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
 
-Hi Nikhil,
+From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 
-kernel test robot noticed the following build errors:
+The goal of the PPS(Pulse Per Second) hardware/software is to generate a
+signal from the system on a wire so that some third-party hardware can
+observe that signal and judge how close the system's time is to another
+system or piece of hardware.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc6 next-20231016]
-[cannot apply to pavel-leds/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Existing methods (like parallel ports) require software to flip a bit at
+just the right time to create a PPS signal. Many things can prevent
+software from doing this precisely. This (Timed I/O) method is better
+because software only "arms" the hardware in advance and then depends on
+the hardware to "fire" and flip the signal at just the right time.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikhil-V/PM-hibernate-Rename-lzo-to-make-it-generic/20231004-173227
-base:   linus/master
-patch link:    https://lore.kernel.org/r/486273fb828eb56d1895fee49481f5c035df8300.1696410298.git.quic_nprakash%40quicinc.com
-patch subject: [PATCH 2/4] PM: hibernate: Move to crypto APIs for LZO compression
-config: sh-sh7770_generic_defconfig (https://download.01.org/0day-ci/archive/20231017/202310171226.pLUPeuC7-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171226.pLUPeuC7-lkp@intel.com/reproduce)
+To generate a PPS signal with this new hardware, the kernel wakes up
+twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+this shortly (~10ms) before the actual change in the signal needs to be
+made. It computes the TSC value at which edge will happen, convert to a
+value hardware understands and program this value to Timed I/O hardware.
+The actual edge transition happens without any further action from the
+kernel.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310171226.pLUPeuC7-lkp@intel.com/
+The result here is a signal coming out of the system that is roughly
+1,000 times more accurate than the old methods. If the system is heavily
+loaded, the difference in accuracy is larger in old methods.
+Facebook and Google are the customers that use this feature.
 
-All errors (new ones prefixed by >>):
+Application Interface:
+The API to use Timed I/O is very simple. It is enabled and disabled by
+writing a '1' or '0' value to the sysfs enable attribute associated with
+the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+device. When enabled, a pulse-per-second(PPS) synchronized with the
+system clock is continuously produced on the Timed I/O pin, otherwise it
+is pulled low.
 
-   sh4-linux-ld: kernel/power/hibernate.o: in function `software_resume':
->> hibernate.c:(.text+0xd0c): undefined reference to `crypto_has_alg'
-   sh4-linux-ld: kernel/power/hibernate.o: in function `hibernate':
-   hibernate.c:(.text+0x1218): undefined reference to `crypto_has_alg'
-   sh4-linux-ld: kernel/power/swap.o: in function `compress_threadfn':
->> swap.c:(.text+0x5d8): undefined reference to `crypto_comp_compress'
-   sh4-linux-ld: kernel/power/swap.o: in function `decompress_threadfn':
->> swap.c:(.text+0x728): undefined reference to `crypto_comp_decompress'
-   sh4-linux-ld: kernel/power/swap.o: in function `load_compressed_image':
->> swap.c:(.text+0x9ec): undefined reference to `crypto_alloc_base'
->> sh4-linux-ld: swap.c:(.text+0xe7c): undefined reference to `crypto_destroy_tfm'
-   sh4-linux-ld: kernel/power/swap.o: in function `save_compressed_image':
-   swap.c:(.text+0x14f8): undefined reference to `crypto_alloc_base'
-   sh4-linux-ld: swap.c:(.text+0x169c): undefined reference to `crypto_destroy_tfm'
-   sh4-linux-ld: crypto/lzo.o: in function `lzo_decompress':
->> lzo.c:(.text+0x50): undefined reference to `lzo1x_decompress_safe'
-   sh4-linux-ld: crypto/lzo.o: in function `lzo_compress':
->> lzo.c:(.text+0xb0): undefined reference to `lzo1x_1_compress'
-   sh4-linux-ld: crypto/lzo.o: in function `lzo_sdecompress':
-   lzo.c:(.text+0x144): undefined reference to `lzo1x_decompress_safe'
-   sh4-linux-ld: crypto/lzo.o: in function `lzo_scompress':
-   lzo.c:(.text+0x1a0): undefined reference to `lzo1x_1_compress'
-   sh4-linux-ld: crypto/lzo.o: in function `lzo_mod_fini':
->> lzo.c:(.exit.text+0x14): undefined reference to `crypto_unregister_alg'
->> sh4-linux-ld: lzo.c:(.exit.text+0x20): undefined reference to `crypto_unregister_scomp'
-   sh4-linux-ld: crypto/lzo.o: in function `lzo_mod_init':
->> lzo.c:(.init.text+0x30): undefined reference to `crypto_register_alg'
->> sh4-linux-ld: lzo.c:(.init.text+0x38): undefined reference to `crypto_register_scomp'
->> sh4-linux-ld: lzo.c:(.init.text+0x40): undefined reference to `crypto_unregister_alg'
-   sh4-linux-ld: crypto/lzo-rle.o: in function `lzorle_decompress':
->> lzo-rle.c:(.text+0x50): undefined reference to `lzo1x_decompress_safe'
-   sh4-linux-ld: crypto/lzo-rle.o: in function `lzorle_compress':
->> lzo-rle.c:(.text+0xb0): undefined reference to `lzorle1x_1_compress'
-   sh4-linux-ld: crypto/lzo-rle.o: in function `lzorle_sdecompress':
-   lzo-rle.c:(.text+0x144): undefined reference to `lzo1x_decompress_safe'
-   sh4-linux-ld: crypto/lzo-rle.o: in function `lzorle_scompress':
-   lzo-rle.c:(.text+0x1a0): undefined reference to `lzorle1x_1_compress'
-   sh4-linux-ld: crypto/lzo-rle.o: in function `lzorle_mod_fini':
->> lzo-rle.c:(.exit.text+0x14): undefined reference to `crypto_unregister_alg'
->> sh4-linux-ld: lzo-rle.c:(.exit.text+0x20): undefined reference to `crypto_unregister_scomp'
-   sh4-linux-ld: crypto/lzo-rle.o: in function `lzorle_mod_init':
->> lzo-rle.c:(.init.text+0x30): undefined reference to `crypto_register_alg'
->> sh4-linux-ld: lzo-rle.c:(.init.text+0x38): undefined reference to `crypto_register_scomp'
->> sh4-linux-ld: lzo-rle.c:(.init.text+0x40): undefined reference to `crypto_unregister_alg'
+The Timed I/O signal on the motherboard is enabled in the BIOS setup.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CRYPTO_LZO
-   Depends on [n]: CRYPTO [=n]
-   Selected by [y]:
-   - HIBERNATION [=y] && SWAP [=y] && ARCH_HIBERNATION_POSSIBLE [=y]
+References:
+https://en.wikipedia.org/wiki/Pulse-per-second_signal
+https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-DxLW6t_V/view
+https://youtu.be/JLUTT-lrDqw
+
+Patch 1 contains the conversion from system time to system counter i.e
+the format that the hardware understands.
+Patch 2 has the conversion from TSC(Time stamp counter) to ART(Always
+running timer) time.
+Patch 3 introduces the interface to check if the clock source is related
+to ART.
+Patch 4 adds the pps(pulse per second) generator tio driver to the pps
+subsystem.
+Patch 5 documentation and usage of the pps tio generator module.
+Patch 6 includes documentation for sysfs interface.
+
+Please help to review the changes.
+
+Thanks in advance,
+Sowjanya
+
+Lakshmi Sowjanya D (6):
+  kernel/time: Add system time to system counter conversion
+  x86/tsc: Convert Time Stamp Counter (TSC) value to Always Running
+    Timer (ART)
+  x86/tsc: Check if the current clock source is related to ART(Always
+    Running Timer)
+  pps: generators: Add PPS Generator TIO Driver
+  Documentation: driver-api: pps: Add Intel Timed I/O PPS generator
+  ABI: pps: Add ABI documentation for Intel TIO
+
+ .../ABI/testing/sysfs-platform-pps-tio        |   7 +
+ Documentation/driver-api/pps.rst              |  22 ++
+ arch/x86/include/asm/tsc.h                    |   4 +
+ arch/x86/kernel/tsc.c                         |  44 +++
+ drivers/pps/generators/Kconfig                |  16 +
+ drivers/pps/generators/Makefile               |   1 +
+ drivers/pps/generators/pps_gen_tio.c          | 302 ++++++++++++++++++
+ include/linux/timekeeping.h                   |   5 +
+ kernel/time/timekeeping.c                     |  69 ++++
+ 9 files changed, 470 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+ create mode 100644 drivers/pps/generators/pps_gen_tio.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.17.1
+
