@@ -1,167 +1,183 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48A02EB0E
-	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 19:19:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE20430E2;
+	Tue, 17 Oct 2023 20:04:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="DvTgQ7ti"
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B47E195
-	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 12:19:16 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-565334377d0so4527864a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 12:19:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SEVW8iTR"
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E57F4448F;
+	Tue, 17 Oct 2023 13:04:17 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-564af0ac494so4067233a12.0;
+        Tue, 17 Oct 2023 13:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1697570356; x=1698175156; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oiqh505uiYLILkv7e75NKRYSxfkStnbnu54DlF5oIdE=;
-        b=DvTgQ7tiVld8Vll0hS+NuZSfsESJZVVtxMFRmx26FU7a7EVYAa2GcBPDgDB1IpVQ1F
-         w4NLcSvb0NFDWWmLLunQIfaqkxL5p6M5INMmaII5LtvRiNVIIQmAqzuHPYwLsJf+OM60
-         bDH6bYP8nE01wdKL1+sVg/REJjATDBwazSop4chywjuMAYZhCdJPKnFq0M3nCb8nlKrZ
-         1pQZKG0+1OmCzR1/4NxfjnCNZQm9w27OzfV/Qi9xM0zUcR3mO7IaFnIFysm1/3cdtHRd
-         zBKsKJhPW7VPoHjQRNBS/K6J0aZOGQunoAg4WNn87fIbHANC7CMUSe02fYrPINxIBvRb
-         dNHg==
+        d=gmail.com; s=20230601; t=1697573057; x=1698177857; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ol+kCKVMHScc7eCHeFPtS5drRW2fVcdYBunG3FxpNVU=;
+        b=SEVW8iTRsYaxHLgl9PeUB3hLp12WH2bNIHpcWjZnKVzFCFv0seiLnRfp7NbujECP++
+         V4xe3P8mH5Z20ydxPJtvAsoDAeYbARq+6+dvMBKpvFHkYr2o7vjf4lpyVV+7xDCeJroc
+         x91J07xQ2fpNxtfmlgEWwQozVPmczszKhc66tY78nbrq5nsK0m6zg2qQlA2hlPSL0zZt
+         DLupMDUFFMyXHLyVhcc0DfALKRuX6S3kX9Cpc3b6t2ewc0BODSrWY0jz9QRMFaIoevMO
+         HHLPVXP4fhpmqSeDu0QSn/nap36TFqnSGYbHGzZugBbLbQOZNtZOLVxI73Akq3trYRZs
+         8PQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697570356; x=1698175156;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oiqh505uiYLILkv7e75NKRYSxfkStnbnu54DlF5oIdE=;
-        b=kttalpToE+ms8PxzVuyigtqDA8nXTesEu4kBnzw+bmhSAPIFKGYRzrpfFn1mY+FokB
-         DdB/bzqcWjcVGvIp2Wl7V6RRsu9/duNZTvmJ/KV64Z4O0rrvJ0G6+Q1d0KAX2vYe/IKN
-         k3kh13j4p4eCxg2vxcRlXFAkUr99ZCzjAInqiqNE8aGrFv78ZBpVL/U67eFLbmRYDu0Q
-         L5LpbipIQYgz5EZpTzg3VBzCSvkXZJauhNDegMfPU3u4LhMMrnNW05sSxY4s9JruUmHW
-         WMyI1G9hCMzXGpdc35JLSZKSg8XdId8rWl1NdgUCEMuslcQYhsXUZnkFnLwo6Efl4vkP
-         zBZg==
-X-Gm-Message-State: AOJu0YxMqKe1a19ef6ic66lY8FAqsSuSEXAUnClJi9yGep/hMkyX2uWR
-	KAghy7GbbaLASNeAa38O0WH4sQ==
-X-Google-Smtp-Source: AGHT+IG7ROb2Qof/K92C23vIBr2FOYWMjhe4m0RvFW1/lkFkXCPf1s3mpQvmFy3DS4gIcYQSRAO77g==
-X-Received: by 2002:a17:90b:1044:b0:27d:3c1a:3d2d with SMTP id gq4-20020a17090b104400b0027d3c1a3d2dmr3206302pjb.21.1697570355901;
-        Tue, 17 Oct 2023 12:19:15 -0700 (PDT)
-Received: from ?IPV6:2400:4050:a840:1e00:78d2:b862:10a7:d486? ([2400:4050:a840:1e00:78d2:b862:10a7:d486])
-        by smtp.gmail.com with ESMTPSA id e4-20020a17090ab38400b0027d0d4d4128sm1656284pjr.25.2023.10.17.12.19.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Oct 2023 12:19:15 -0700 (PDT)
-Message-ID: <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com>
-Date: Wed, 18 Oct 2023 04:19:08 +0900
+        d=1e100.net; s=20230601; t=1697573057; x=1698177857;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ol+kCKVMHScc7eCHeFPtS5drRW2fVcdYBunG3FxpNVU=;
+        b=Do1dxyW0OaauHIe5CpM5cTqug1v6NRCxGISgJ9Mk5jwgaaIdtI9Yetm13IP87zGzFI
+         ES1m3ECAa+rUGBbZ7zHg4zUp9EFxNTmNBHTwPWS4yUNRcp+Sumxihm6viYizQj3lICMU
+         OxZixC3vEdErgnb/AK2j7Ln2wGiHPKkGj5jnkntGhdQPabz1ElFgswZHsFuWSbLexBBv
+         po1CowmiLw00tG1OQx/P/tGSQ3VONlaOCWI/TBVP/SW4rqZfvSBAo4XU5MzZbEamMv6G
+         lbRwCKU5FfufF2OjxLy2QNJuhlPltHdYNFT8/WcyGaSXLksql8mHma/WDS6b1QOuntlL
+         Elsg==
+X-Gm-Message-State: AOJu0Yz/CFd9i+IB3DfQz548jiQejjmHfV4VBS4rHfAq74jswvXcdWt+
+	rK7nCOJi99YFWFzTqEE25YUpflYA/Mw0l3MsZ4I=
+X-Google-Smtp-Source: AGHT+IH20edpPTjoyuZ/zAKfSKbi6Gs2ePTV0lH0/UQIVDHwz+x2K9xMfpBS64dmBMGyuFVtEvR30ZcN6dSBjXd9cJE=
+X-Received: by 2002:a05:6a20:3c90:b0:17b:3438:cf92 with SMTP id
+ b16-20020a056a203c9000b0017b3438cf92mr683432pzj.5.1697573056583; Tue, 17 Oct
+ 2023 13:04:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
-Content-Language: en-US
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Jason Wang <jasowang@redhat.com>
-Cc: Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
- Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>
-References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
- <20231015141644.260646-2-akihiko.odaki@daynix.com>
- <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
- <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com>
- <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
- <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
- <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <20231016154937.41224-1-ahmed.zaki@intel.com> <20231016154937.41224-2-ahmed.zaki@intel.com>
+ <8d1b1494cfd733530be887806385cde70e077ed1.camel@gmail.com>
+ <26812a57-bdd8-4a39-8dd2-b0ebcfd1073e@intel.com> <CAKgT0Ud7JjUiE32jJbMbBGVexrndSCepG54PcGYWHJ+OC9pOtQ@mail.gmail.com>
+ <14feb89d-7b4a-40c5-8983-5ef331953224@intel.com> <CAKgT0UfcT5cEDRBzCxU9UrQzbBEgFt89vJZjz8Tow=yAfEYERw@mail.gmail.com>
+ <20231016163059.23799429@kernel.org> <afb4a06f-cfba-47ba-adb3-09bea7cb5f00@intel.com>
+ <CAKgT0UdPe_Lb=E+P+zuwyyWVfqBQWLaomwGLwkqnsr0mf40E+g@mail.gmail.com> <31cde50b-2603-443c-8f55-a0809ecdd987@intel.com>
+In-Reply-To: <31cde50b-2603-443c-8f55-a0809ecdd987@intel.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Tue, 17 Oct 2023 13:03:39 -0700
+Message-ID: <CAKgT0UepNjfPp=TzXyY9Z7rYSGPZyUY64yjB2pqgWTP56=hCcA@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 1/6] net: ethtool: allow symmetric-xor RSS
+ hash for any flow type
+To: Ahmed Zaki <ahmed.zaki@intel.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, corbet@lwn.net, jesse.brandeburg@intel.com, 
+	anthony.l.nguyen@intel.com, davem@davemloft.net, edumazet@google.com, 
+	pabeni@redhat.com, vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org, 
+	mkubecek@suse.cz, willemdebruijn.kernel@gmail.com, linux-doc@vger.kernel.org, 
+	Wojciech Drewek <wojciech.drewek@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On 2023/10/18 4:03, Alexei Starovoitov wrote:
-> On Mon, Oct 16, 2023 at 7:38 PM Jason Wang <jasowang@redhat.com> wrote:
->>
->> On Tue, Oct 17, 2023 at 7:53 AM Alexei Starovoitov
->> <alexei.starovoitov@gmail.com> wrote:
->>>
->>> On Sun, Oct 15, 2023 at 10:10 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>
->>>> On 2023/10/16 1:07, Alexei Starovoitov wrote:
->>>>> On Sun, Oct 15, 2023 at 7:17 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>
->>>>>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
->>>>>> index 0448700890f7..298634556fab 100644
->>>>>> --- a/include/uapi/linux/bpf.h
->>>>>> +++ b/include/uapi/linux/bpf.h
->>>>>> @@ -988,6 +988,7 @@ enum bpf_prog_type {
->>>>>>           BPF_PROG_TYPE_SK_LOOKUP,
->>>>>>           BPF_PROG_TYPE_SYSCALL, /* a program that can execute syscalls */
->>>>>>           BPF_PROG_TYPE_NETFILTER,
->>>>>> +       BPF_PROG_TYPE_VNET_HASH,
->>>>>
->>>>> Sorry, we do not add new stable program types anymore.
->>>>>
->>>>>> @@ -6111,6 +6112,10 @@ struct __sk_buff {
->>>>>>           __u8  tstamp_type;
->>>>>>           __u32 :24;              /* Padding, future use. */
->>>>>>           __u64 hwtstamp;
->>>>>> +
->>>>>> +       __u32 vnet_hash_value;
->>>>>> +       __u16 vnet_hash_report;
->>>>>> +       __u16 vnet_rss_queue;
->>>>>>    };
->>>>>
->>>>> we also do not add anything to uapi __sk_buff.
->>>>>
->>>>>> +const struct bpf_verifier_ops vnet_hash_verifier_ops = {
->>>>>> +       .get_func_proto         = sk_filter_func_proto,
->>>>>> +       .is_valid_access        = sk_filter_is_valid_access,
->>>>>> +       .convert_ctx_access     = bpf_convert_ctx_access,
->>>>>> +       .gen_ld_abs             = bpf_gen_ld_abs,
->>>>>> +};
->>>>>
->>>>> and we don't do ctx rewrites like this either.
->>>>>
->>>>> Please see how hid-bpf and cgroup rstat are hooking up bpf
->>>>> in _unstable_ way.
->>>>
->>>> Can you describe what "stable" and "unstable" mean here? I'm new to BPF
->>>> and I'm worried if it may mean the interface stability.
->>>>
->>>> Let me describe the context. QEMU bundles an eBPF program that is used
->>>> for the "eBPF steering program" feature of tun. Now I'm proposing to
->>>> extend the feature to allow to return some values to the userspace and
->>>> vhost_net. As such, the extension needs to be done in a way that ensures
->>>> interface stability.
->>>
->>> bpf is not an option then.
->>> we do not add stable bpf program types or hooks any more.
->>
->> Does this mean eBPF could not be used for any new use cases other than
->> the existing ones?
-> 
-> It means that any new use of bpf has to be unstable for the time being.
+On Tue, Oct 17, 2023 at 12:15=E2=80=AFPM Ahmed Zaki <ahmed.zaki@intel.com> =
+wrote:
+>
+>
+>
+> On 2023-10-17 12:42, Alexander Duyck wrote:
+> > On Mon, Oct 16, 2023 at 5:08=E2=80=AFPM Ahmed Zaki <ahmed.zaki@intel.co=
+m> wrote:
+> >>
+> >>
+> >>
+> >> On 2023-10-16 17:30, Jakub Kicinski wrote:
+> >>> On Mon, 16 Oct 2023 15:55:21 -0700 Alexander Duyck wrote:
+> >>>> It would make more sense to just add it as a variant hash function o=
+f
+> >>>> toeplitz. If you did it right you could probably make the formatting
+> >>>> pretty, something like:
+> >>>> RSS hash function:
+> >>>>       toeplitz: on
+> >>>>           symmetric xor: on
+> >>>>       xor: off
+> >>>>       crc32: off
+> >>>>
+> >>>> It doesn't make sense to place it in the input flags and will just
+> >>>> cause quick congestion as things get added there. This is an algorit=
+hm
+> >>>> change so it makes more sense to place it there.
+> >>>
+> >>> Algo is also a bit confusing, it's more like key pre-processing?
+> >>> There's nothing toeplitz about xoring input fields. Works as well
+> >>> for CRC32.. or XOR.
+> >>>
+> >>> We can use one of the reserved fields of struct ethtool_rxfh to carry
+> >>> this extension. I think I asked for this at some point, but there's
+> >>> only so much repeated feedback one can send in a day :(
+> >>
+> >> Sorry you felt that. I took you comment [1]:
+> >>
+> >> "Using hashing algo for configuring fields feels like a dirty hack".
+> >>
+> >> To mean that the we should not use the hfunc API ("ethtool_rxfh"). Thi=
+s
+> >> is why in the new series I chose to configure the RSS fields. This als=
+o
+> >> provides the user with more control and better granularity on which
+> >> flow-types to be symmetric, and which protocols (L3 and/or L4) to use.=
+ I
+> >> have no idea how to do any of these via hfunc/ethtool_rxfh API so it
+> >> seemed a better approach.
+> >>
+> >> I see you marked the series as "Changes Requested". I will send a new
+> >> version tomorrow and move the sanity checks inside ice_ethtool.
+> >>
+> >>
+> >> [1]: https://lore.kernel.org/netdev/20230824174336.6fb801d5@kernel.org=
+/
+> >
+> > So one question I would have is what happens if you were to ignore the
+> > extra configuration that prevents people from disabling either source
+> > or destination from the input? Does it actually have to be hard
+> > restricted or do you end up with the hardware generating non-symmetric
+> > hashes because it isn't doing the XOR with both source and destination
+> > fields?
+>
+> Do you mean allow the user to use any RSS fields as input? What do we
+> gain by that?
+>
+> The hardware's TOEPLITZ and SYM_TOEPLITZ functions are the same except
+> for the XORing step. What gets XOR'd needs to be programmed (Patch 5:
+> ice_rss_config_xor()) and we are programming the hardware to XOR the src
+> and dst fields to get this hash symmetry. If any fields that are not
+> swapped in the other flow direction or if (for example) only src is
+> used, the hardware will generate non-symmetric hash.
 
-Can you elaborate more about making new use unstable "for the time 
-being?" Is it a temporary situation? What is the rationale for that? 
-Such information will help devise a solution that is best for both of 
-the BPF and network subsystems.
+The point I am getting at is to determine if the
+toeplitz-symmetric-xor is actually changes to the inputs or a change
+to the algorithm. Based on your description here it is essentially a
+subset of toeplitz, and all of the same inputs would apply. All you
+have essentially done is collapsed the key. Rather than symmetric
+toeplitz this could almost be considered simplified toeplitz.
 
-I would also appreciate if you have some documentation or link to 
-relevant discussions on the mailing list. That will avoid having same 
-discussion you may already have done in the past.
+One side effect of XORing the source and destination data is that you
+can essentially collapse the key. You could XOR together the 5 DWORDs
+(159 bits) associated with the source and destination IP portion of
+the key, and then do the same with the 3 WORDs (47 bits) associated
+with the source and destination port. Then you would only have to
+process the XORed inputs. As a result you are going to lose a fair bit
+of entropy since it effectively cuts the input length and key length
+in half. The same could essentially be done by doing a bit of key
+manipulation, the simplest approach being using a 16b repeating key
+value, and the more nuanced requiring paying attention to IP and port
+boundaries in terms of repetition. I would say because of the extra
+processing steps it is a different hfunc versus just being a different
+set of inputs.
+
+> >
+> > My thought would be to possibly just look at reducing your messaging
+> > to a warning from the driver if the inputs are not symmetric, but you
+> > have your symmetric xor hash function enabled.
+>
+> With the restrictions (to be moved into ice_ethtool), the user is unable
+> to use non-symmetric inputs.
+
+I think a warning would make more sense than an outright restriction.
+You could warn on both the enabling if the mask is already unbalanced,
+or you could warn if the mask is set to be unbalanced after enabling
+your hashing.
