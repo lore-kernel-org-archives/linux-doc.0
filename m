@@ -1,178 +1,270 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EAB943102
-	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 23:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A882F534
+	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 23:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ClogTTP2"
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD1F92;
-	Tue, 17 Oct 2023 16:35:26 -0700 (PDT)
-Received: by mail-il1-x12e.google.com with SMTP id e9e14a558f8ab-357a354e616so459015ab.1;
-        Tue, 17 Oct 2023 16:35:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dd/DQR84"
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10BDAFA
+	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 16:35:56 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-41cb7720579so66361cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 16:35:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697585726; x=1698190526; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1697585755; x=1698190555; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tdTkOsSZlVefGaBdezW5bHhWJDivZZTWywSdxQVCUN4=;
-        b=ClogTTP278oipxTPG9O7Cg50jfqHyHDmJ539pX7Qpn8I1sJ+za8PStycD9RJZ0ZxTt
-         S+xgXkPak20IVtZs5+8uQTbQZTZalCkNnK8XlN9Ama67Dtnx+ArUeVFijxtpKwmnCzT/
-         nqhqVfEfg80t5r1Lze4rdsIjDd30W+d2GTI4Gy7rhB3r4C2VPc2k5XugMy1HmuuXk2fu
-         VZiBWrhFoV/VKZ1w4KnXOG7Ens4kXORVM9vRdaPM0E3ka8OC7UZrlQGuRQHzPTiujj97
-         6e6uV8bdN4ksFkpRSQ0S733DKpttHGr1zRCnff02xW0TYLrmwa3kVqpXik3QCngoA/HB
-         Njng==
+        bh=a6XvEbt2MnxqD71HOE9SNfh2ltnCZaXynJwAqTCW6QE=;
+        b=Dd/DQR847jTjFQC4yHsZqDGql3b5IprBHHZjnt5gciBy0xMVqaEMOqIT1fUFYx3Lbc
+         eGVpIKIVgCcyu6pKiIiCS8dJV0j7OhUAmPQNXvg1hYu2lHlXSAFlk7ip0f51V8w5TQqx
+         h1huSrwqGprVUDbEKMwc7FCrQvLGYFa0WY8J6cYw1k5/+y3aIGgZm0IIbwNVh9yA+mBx
+         2U83VTTm59q0xIHa1QhC2XpPuT5ihy3qM6A7jqgOY7YLRxFTjWHVQDWRjmVxg3c7Ai/K
+         uJVxOf/TImj8UXcIcJrgROadyp7o7WQxBatHZ/jJbruGMejdCct3AjkCjB6NroLbNOVb
+         u4Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697585726; x=1698190526;
+        d=1e100.net; s=20230601; t=1697585755; x=1698190555;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tdTkOsSZlVefGaBdezW5bHhWJDivZZTWywSdxQVCUN4=;
-        b=Ib8+16QNMpQE4JDexPBPuebZKtFXOLRImLSTzn4QK6wM3pbClmjcJh0bdilXogsUcE
-         /72Xsfkz9NuAvLrWRkmBLvkvJhAziwwayjCaDqW0Uqf8C7Ma34glISrzaLJBVelNUpK5
-         WJd8A33hVrd43mOnK5j+cbXPQ5txugwBMc4y3SP0NNCEkjgxBpnTPltuvB4+NYZy5flw
-         XBsvQfG8k17WBKQFkgxKwsPkRAO+v25643zTyuNWN1EWmdHY7qAvU0d6l063pmuX7bgg
-         dvUc32duGRUpxufex0rlS8k1TKOC9t2ZUMnN3lKfXeEhT3YYXvouzNM2w1Xgu9qbgLfJ
-         SC8Q==
-X-Gm-Message-State: AOJu0YzVc77N3kg23Ua2RNLrxQ32GB6esbKJOSYfFCFrfylMmcqyB62J
-	vvzxuAULZ+HtWzx8kaifs/esKHKdW74rs8UYUeo=
-X-Google-Smtp-Source: AGHT+IGNULEr1VCr1CogtesXNMKtN++yHXc6oz2Eu5RJNdWzMlS7JszuvVJ5xImYIQMrxF4YcuRnvOv4uLbYQJgZsbg=
-X-Received: by 2002:a05:6e02:3205:b0:351:375f:2a31 with SMTP id
- cd5-20020a056e02320500b00351375f2a31mr3101949ilb.6.1697585726148; Tue, 17 Oct
- 2023 16:35:26 -0700 (PDT)
+        bh=a6XvEbt2MnxqD71HOE9SNfh2ltnCZaXynJwAqTCW6QE=;
+        b=OOgsh1Zbs4cATQ1n660TSj3FQ/j4+jxah9NZ6Ayrk5NEz0FognZgQnjhMFVNQegyU2
+         t2FuJoR6tCIrBmesHgQDCczTEaOOeLqn54PODBtrHf1X7dN4IZKDP1BUa7zeWCZnANz6
+         AGi3n6l5RlddT63wIY0BfinpJNTXIeKp8ARSjncoOMtQElJm1/7rBNP1QpcrSe4Swcc8
+         UiZqRLPTzEsgQvheQ/swMb0dJB/h7ObzgCqC48d/T+2QD2WorpSBEJglMr392MfozGiZ
+         mGBxsBRvORV4ZeroFeK0fqQea+Ic0cLnIesOD7U2FuHT4N/aAj+Yt9mI8GMAhU69F2v8
+         1BGg==
+X-Gm-Message-State: AOJu0YyAhW6EPMM+rKucIxsctAUdYcNCoDBaEr2XvlNwG2WN0lNffV23
+	RyQK2Ao7uXDzng/2SEfHza2E7FNtMNhnN7U8X2GC5A==
+X-Google-Smtp-Source: AGHT+IGjEULsLcMtZpPpeeKXIF2cfllG/iLgplkyMye827sFFSSMtphxLGDQI8VHjatBToqy8UnrF//bLx41QsTIoP4=
+X-Received: by 2002:ac8:4e3c:0:b0:41c:b7bf:c855 with SMTP id
+ d28-20020ac84e3c000000b0041cb7bfc855mr115512qtw.24.1697585754818; Tue, 17 Oct
+ 2023 16:35:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231017232152.2605440-1-nphamcs@gmail.com> <20231017232152.2605440-4-nphamcs@gmail.com>
-In-Reply-To: <20231017232152.2605440-4-nphamcs@gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 17 Oct 2023 16:35:13 -0700
-Message-ID: <CAKEwX=NgsbJ6MQJdJoOTDiGyhjhRA8KJdYe5GzV5iK1bRADfuQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] mm: memcg: add per-memcg zswap writeback stat
-To: akpm@linux-foundation.org
-Cc: hannes@cmpxchg.org, cerasuolodomenico@gmail.com, yosryahmed@google.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, linux-mm@kvack.org, kernel-team@meta.com, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
+ <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de> <ZLeX4UbFaY592HIa@orome>
+ <20230725211004.peqxxb4y3j62gmnp@pengutronix.de> <20231010080508.7ssnroaefyaeeedd@pengutronix.de>
+ <CAGETcx8CNGLnHdWrDpdm4Sx5cFcFFBT2bZKJzNZttAEknFK4Cw@mail.gmail.com> <20231014161721.f4iqyroddkcyoefo@pengutronix.de>
+In-Reply-To: <20231014161721.f4iqyroddkcyoefo@pengutronix.de>
+From: Saravana Kannan <saravanak@google.com>
+Date: Tue, 17 Oct 2023 16:35:17 -0700
+Message-ID: <CAGETcx-T33-TWmfXxT1dqTt7gWi8E1Z+EXhjpFfdFtpa7h+pQQ@mail.gmail.com>
+Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Wolfram Sang <wsa@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, James Clark <james.clark@arm.com>, kernel@pengutronix.de, 
+	Yang Yingliang <yangyingliang@huawei.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Matti Vaittinen <mazziesaccount@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Tue, Oct 17, 2023 at 4:21=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
+On Sat, Oct 14, 2023 at 9:17=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> On Fri, Oct 13, 2023 at 02:42:20PM -0700, Saravana Kannan wrote:
+> > On Tue, Oct 10, 2023 at 1:05=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> > <u.kleine-koenig@pengutronix.de> wrote:
+> > >
+> > > Hello Saravana,
+> > >
+> > > you were pointed out to me as the expert for device links. I found a
+> > > problem with these.
+> > >
+> > > On Tue, Jul 25, 2023 at 11:10:04PM +0200, Uwe Kleine-K=C3=B6nig wrote=
 :
+> > > > Today I managed to trigger the problem I intend to address with thi=
+s
+> > > > series. My machine to test this on is an stm32mp157. To be able to
+> > > > trigger the problem reliably I applied the following patches on top=
+ of
+> > > > v6.5-rc1:
+> > > >
+> > > >  - pwm: stm32: Don't modify HW state in .remove() callback
+> > > >    This is a cleanup that I already sent out.
+> > > >    https://lore.kernel.org/r/20230713155142.2454010-2-u.kleine-koen=
+ig@pengutronix.de
+> > > >    The purpose for reproducing the problem is to not trigger furthe=
+r
+> > > >    calls to the apply callback.
+> > > >
+> > > >  - The following patch:
+> > > >
+> > > > diff --git a/drivers/pwm/pwm-stm32.c b/drivers/pwm/pwm-stm32.c
+> > > > index 687967d3265f..c7fc02b0fa3c 100644
+> > > > --- a/drivers/pwm/pwm-stm32.c
+> > > > +++ b/drivers/pwm/pwm-stm32.c
+> > > > @@ -451,6 +451,10 @@ static int stm32_pwm_apply(struct pwm_chip *ch=
+ip, struct pwm_device *pwm,
+> > > >       struct stm32_pwm *priv =3D to_stm32_pwm_dev(chip);
+> > > >       int ret;
+> > > >
+> > > > +     dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
+> > > > +     msleep(5000);
+> > > > +     dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
+> > > > +
+> > > >       enabled =3D pwm->state.enabled;
+> > > >
+> > > >       if (enabled && !state->enabled) {
+> > > > @@ -650,7 +654,11 @@ static void stm32_pwm_remove(struct platform_d=
+evice *pdev)
+> > > >  {
+> > > >       struct stm32_pwm *priv =3D platform_get_drvdata(pdev);
+> > > >
+> > > > +     dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
+> > > >       pwmchip_remove(&priv->chip);
+> > > > +     dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
+> > > > +
+> > > > +     priv->regmap =3D NULL;
+> > > >  }
+> > > >
+> > > >  static int __maybe_unused stm32_pwm_suspend(struct device *dev)
+> > > >
+> > > > The first hunk is only there to widen the race window. The second i=
+s to
+> > > > give some diagnostics and make stm32_pwm_apply() crash if it contin=
+ues
+> > > > to run after the msleep. (Without it it didn't crash reproducibly, =
+don't
+> > > > understand why. *shrug*)
+> > > >
+> > > > The device tree contains a pwm-fan device making use of one of the =
+PWMs.
+> > > >
+> > > > Now I do the following:
+> > > >
+> > > >       echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & sleep 1=
+; echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
+> > > >
+> > > > Unbinding the fan device has two effects:
+> > > >
+> > > >  - The device link between fan and pwm looses its property to unbin=
+d fan
+> > > >    when pwm gets unbound.
+> > > >    (Its .status changes from DL_STATE_ACTIVE to DL_STATE_AVAILABLE)
+> > > >  - It calls pwm_fan_cleanup() which triggers a call to
+> > > >    pwm_apply_state().
+> > > >
+> > > > So when the pwm device gets unbound the first thread is sleeping in
+> > > > stm32_pwm_apply(). The driver calls pwmchip_remove() and sets
+> > > > priv->regmap to NULL. Then a few seconds later the first thread wak=
+es up
+> > > > in stm32_pwm_apply() with the chip freed and priv->regmap =3D NULL.=
+ Bang!
+> > > >
+> > > > This looks as follows:
+> > > >
+> > > > root@crown:~# echo fan > /sys/bus/platform/drivers/pwm-fan/unbind &=
+ sleep 1; echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unb=
+ind
+> > > > [  187.182113] stm32-pwm 40007000.timer:pwm: stm32_pwm_apply:454
+> > > > [  188.164769] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:657
+> > > > [  188.184555] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:659
+> > > > root@crown:~# [  192.236423] platform 40007000.timer:pwm: stm32_pwm=
+_apply:456
+> > > > [  192.240727] 8<--- cut here ---
+> > > > [  192.243759] Unable to handle kernel NULL pointer dereference at =
+virtual address 0000001c when read
+> > > > ...
+> > > >
+> > > > Even without the crash you can see that stm32_pwm_apply() is still
+> > > > running after pwmchip_remove() completed.
+> > > >
+> > > > I'm unsure if the device link could be improved here to ensure that=
+ the
+> > > > fan is completely unbound even if it started unbinding already befo=
+re
+> > > > the pwm device gets unbound. (And if it could, would this fit the d=
+evice
+> > > > links purpose and so be a sensible improvement?)
+> > >
+> > > While I think that there is something to be done in the pwm core that
+> > > this doesn't explode (i.e. do proper lifetime tracking such that a
+> > > pwm_chip doesn't disappear while still being used---and I'm working o=
+n
+> > > that) I expected that the device links between pwm consumer and provi=
+der
+> > > would prevent the above described oops, too. But somehow the fan alre=
+ady
+> > > going away (but still using the PWM) when the PWM is unbound, results=
+ in
+> > > the PWM disappearing before the fan is completely gone.
+> > >
+> > > Is this expected, or a problem that can (and should?) be fixed?
+> >
+> > I didn't read your full series, but I read this email. With what's in
+> > this email, the problem seems to be in the driver or the pwm
+> > framework. The pwm driver/framework can't tell the driver core that
+> > you successfully unbound (returning from .remove()) before you have
+> > finish all your ongoing transactions with the device. If your
+> > "apply()" is still running, you need to make sure it's complete before
+> > .remove() does any resource releasing/clean up.
+> >
+> > Also, how is the consumer driver's .remove() succeeding if it has an
+> > ongoing pwm call()?
 >
-> From: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
+> The thing that works fine and as expected is:
 >
-> Since zswap now writes back pages from memcg-specific LRUs, we now need a
-> new stat to show writebacks count for each memcg.
+>  - trigger unbind of PWM device via sysfs
 >
-> Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> Signed-off-by: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
-> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> Because there is a device link PWM provider -> pwm consumer (fan), the
+> fan is removed and once its gone (and not earlier), the PWM gets unbound.
+>
+> The failing sequence is:
+>
+>  - trigger unbind of fan device in userspace thread A via sysfs. The
+>    fan's remove callback blocks for 5s in pwm_apply_state() and so
+>    .remove() doesn't complete yet.
+>
+>  - a second later: trigger unbind of PWM device via sysfs in thread B.
+>    As before I'd expect that the device link results in waiting for the
+>    fan to be removed completely, but the PWM is removed immediately.
+>
+>  - pwm_apply_state's sleep completes (in thread B) and operates on freed
+>    resources =3D> bang!
+>
+> > This all sounds like insufficient locking and
+> > critical region protection in both the consumer and supplier.
+>
+> My (and I think also Thierry's) expectation was, that the device link
+> provides the needed synchronisation. But it doesn't as it doesn't block
+> the PWM provider going away until the fan is completely gone.
+>
+> > Device links can't do anything here because you are giving it wrong
+> > info -- that the unbind was successful before it actually is.
+>
+> The fan's unbind is ongoing, but not complete yet and I'd expect that
+> the device link blocks unbinding the PWM until the fan is completely
+> gone. So I think there is no wrong information.
+>
+> > Device links will and can make sure that the consumer is unbound
+> > successfully before the unbind is called on the supplier. And it looks
+> > like that's still true here.
+>
+> I hope you understood the situation better now and see the problem we
+> have.
+>
+> The problem is fixable in the pwm framework (and I'm working on that),
+> but I think there is also something to improve around devicelink
+> handling.
 
-/s/Signed-off/Acked
-This is Domenico's work :) I used the wrong tag here. Should be:
-Acked-by: Nhat Pham <nphamcs@gmail.com>
+Thanks for a better explanation of the issue. I agree, this seems like
+something device links should be able to take care of.
 
-> ---
->  include/linux/memcontrol.h |  2 ++
->  mm/memcontrol.c            | 15 +++++++++++++++
->  mm/zswap.c                 |  3 +++
->  3 files changed, 20 insertions(+)
->
-> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> index 3de10fabea0f..7868b1e00bf5 100644
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -38,6 +38,7 @@ enum memcg_stat_item {
->         MEMCG_KMEM,
->         MEMCG_ZSWAP_B,
->         MEMCG_ZSWAPPED,
-> +       MEMCG_ZSWAP_WB,
->         MEMCG_NR_STAT,
->  };
->
-> @@ -1884,6 +1885,7 @@ static inline void count_objcg_event(struct obj_cgr=
-oup *objcg,
->  bool obj_cgroup_may_zswap(struct obj_cgroup *objcg);
->  void obj_cgroup_charge_zswap(struct obj_cgroup *objcg, size_t size);
->  void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg, size_t size);
-> +void obj_cgroup_report_zswap_wb(struct obj_cgroup *objcg);
->  #else
->  static inline bool obj_cgroup_may_zswap(struct obj_cgroup *objcg)
->  {
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 1bde67b29287..a9118871e5a6 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -1505,6 +1505,7 @@ static const struct memory_stat memory_stats[] =3D =
-{
->  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
->         { "zswap",                      MEMCG_ZSWAP_B                   }=
-,
->         { "zswapped",                   MEMCG_ZSWAPPED                  }=
-,
-> +       { "zswap_wb",                   MEMCG_ZSWAP_WB                  }=
-,
->  #endif
->         { "file_mapped",                NR_FILE_MAPPED                  }=
-,
->         { "file_dirty",                 NR_FILE_DIRTY                   }=
-,
-> @@ -1541,6 +1542,7 @@ static int memcg_page_state_unit(int item)
->         switch (item) {
->         case MEMCG_PERCPU_B:
->         case MEMCG_ZSWAP_B:
-> +       case MEMCG_ZSWAP_WB:
->         case NR_SLAB_RECLAIMABLE_B:
->         case NR_SLAB_UNRECLAIMABLE_B:
->         case WORKINGSET_REFAULT_ANON:
-> @@ -7861,6 +7863,19 @@ void obj_cgroup_uncharge_zswap(struct obj_cgroup *=
-objcg, size_t size)
->         rcu_read_unlock();
->  }
->
-> +void obj_cgroup_report_zswap_wb(struct obj_cgroup *objcg)
-> +{
-> +       struct mem_cgroup *memcg;
-> +
-> +       if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
-> +               return;
-> +
-> +       rcu_read_lock();
-> +       memcg =3D obj_cgroup_memcg(objcg);
-> +       mod_memcg_state(memcg, MEMCG_ZSWAP_WB, 1);
-> +       rcu_read_unlock();
-> +}
-> +
->  static u64 zswap_current_read(struct cgroup_subsys_state *css,
->                               struct cftype *cft)
->  {
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index d2989ad11814..15485427e3fa 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -704,6 +704,9 @@ static enum lru_status shrink_memcg_cb(struct list_he=
-ad *item, struct list_lru_o
->         }
->         zswap_written_back_pages++;
->
-> +       if (entry->objcg)
-> +               obj_cgroup_report_zswap_wb(entry->objcg);
-> +
->         /*
->          * Writeback started successfully, the page now belongs to the
->          * swapcache. Drop the entry from zswap - unless invalidate alrea=
-dy
-> --
-> 2.34.1
+I'll take a look into this.
+
+-Saravana
