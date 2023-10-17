@@ -1,81 +1,161 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94B628DD2
-	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 22:58:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A62B2DF73
+	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 23:21:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0JaUjDhM";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KzfN8CoG"
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C3CF5;
-	Tue, 17 Oct 2023 15:58:34 -0700 (PDT)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1697583511;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hdZPuGSCC5ReGFJbpE1tiWuYcnCkbV9JUfUkQs1rP2Y=;
-	b=0JaUjDhMYoXIReATQWNs+OaA1PS0s6HsNl7AsfozWlA6MHoUvzvUB41Ro/4sepQIGD7upU
-	YEdOdlaDOdKRW6anMDQFr5yXbTtF6nnOZA72tg5k4ZRYtKEfPbbxRWbZ5pUF4DAcF6mlZ6
-	oudW2yBOrVSZGOQGBeqyokpTCbl5Z9fW4q+au81lTxXngqAHCp8C8/ofFih49z5lBxnxgP
-	u7I/v9ATam2793mZzBwrry0xYT5YpoP70Wl0j54oYkFwUFU5R6vOLc9Bxr6nxDoZ+UGPxx
-	7YoxuTK6CZIl9TdWUcB5jYBxPKSiu1IFrBvzJNRfivsRkEw9VCBb/YEgrlvnFg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1697583511;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hdZPuGSCC5ReGFJbpE1tiWuYcnCkbV9JUfUkQs1rP2Y=;
-	b=KzfN8CoG4cgw4K4aqgJTEEcODPewhj3JbvVD7JlLNzJZb4sVYG6/zZoklarGWFI8Z7nekl
-	QiOmj+tFTDF80bDg==
-To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org
-Cc: x86@kernel.org, linux-doc@vger.kernel.org,
- andriy.shevchenko@linux.intel.com, eddie.dong@intel.com,
- christopher.s.hall@intel.com, pandith.n@intel.com,
- mallikarjunappa.sangannavar@intel.com, thejesh.reddy.t.r@intel.com,
- lakshmi.sowjanya.d@intel.com, Peter Hilber <peter.hilber@opensynergy.com>
-Subject: Re: [PATCH v1 4/6] pps: generators: Add PPS Generator TIO Driver
-In-Reply-To: <87lec15i4b.ffs@tglx>
-References: <87lec15i4b.ffs@tglx>
-Date: Wed, 18 Oct 2023 00:58:31 +0200
-Message-ID: <87y1g05014.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ns0iD/hO"
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF04892;
+	Tue, 17 Oct 2023 16:21:53 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1c9b1e3a809so41668775ad.2;
+        Tue, 17 Oct 2023 16:21:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697584913; x=1698189713; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AsfyhFO7p0RUOzLnEBAeg12shRu5DCBIJmIbrYlrbQQ=;
+        b=ns0iD/hOCcWTWTlQVQcycHbUcZ1ZD0Zc7E/uQqm9vO7D5+obLV9YL1e3z+5O4fivBr
+         ZGamCI/SjnI3p1jNIjAl8wcr0g0HKHa9IMdInrIhKwHebYsDbzQ5tfU9CXLE6JTqKW6W
+         piq/BFsAS81fPEl5uP29w9DhrWzxWu2+MqjAArHrccfIQxG2EUOj2zglF1rizE6epjjm
+         o2cYoowY0/Yzwp+xRL4+7HM5QvDb1lWc6oKSmwuhEKYDYh84vKhlve8SE9FGBVTfgLlA
+         7bYcui2qM6+/Esh74ufzBrzPjXVsKMWW+P1BITsXDkZB35QWJ1gXKCfSlC2xJo59OdgM
+         3S6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697584913; x=1698189713;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AsfyhFO7p0RUOzLnEBAeg12shRu5DCBIJmIbrYlrbQQ=;
+        b=s30EHQe2I0FXHeqUTCjhlHRnKvL9Lzzhc/F9xYcMay5g2eKec+8UgFjkS0jisvYPOR
+         BXZQQqZsFJr90A2AtjOuN4Rti/GO9HIVKmBmBV0AOmNwtohl1ow+e0i0LFAUJU3Uj7kk
+         spndV4uOM0PdCYgMjks+lB8J8CKVm/fnS26DmSaS18WuN0BD7HNweIGyZgMSS3L8Dg85
+         ZQBe5guM7Ozsp1lehBqyObWnBcs4qStROLHod9biv845nqj8fFN7ZRWCwC43+5yvI//p
+         6a1j+URdx9AoGTO4Aons06MiRsOxdZAMI4JBa3ADc2mMbCg01K4UESX+xR4mGaiT6Qmc
+         LcfA==
+X-Gm-Message-State: AOJu0YxmXurtUOtrBI4HlSGACj14D/imKIuTPN7b9X3153ylya1uP9F5
+	bo844juf2woMBT8ngSYe2TQ=
+X-Google-Smtp-Source: AGHT+IEB1bkpliZr4/0wwEWk35bjMHS8jcWP7je173r3nrnISt5OHU2yyH0fIdSym0BtiLsCs5IyAQ==
+X-Received: by 2002:a17:902:e5c6:b0:1ca:8abd:6b52 with SMTP id u6-20020a170902e5c600b001ca8abd6b52mr4311445plf.69.1697584913016;
+        Tue, 17 Oct 2023 16:21:53 -0700 (PDT)
+Received: from localhost (fwdproxy-prn-003.fbsv.net. [2a03:2880:ff:3::face:b00c])
+        by smtp.gmail.com with ESMTPSA id t9-20020a1709028c8900b001b8a00d4f7asm2126736plo.9.2023.10.17.16.21.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Oct 2023 16:21:52 -0700 (PDT)
+From: Nhat Pham <nphamcs@gmail.com>
+To: akpm@linux-foundation.org
+Cc: hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com,
+	yosryahmed@google.com,
+	sjenning@redhat.com,
+	ddstreet@ieee.org,
+	vitaly.wool@konsulko.com,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	linux-mm@kvack.org,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	shuah@kernel.org
+Subject: [PATCH v3 0/5] workload-specific and memory pressure-driven zswap writeback
+Date: Tue, 17 Oct 2023 16:21:47 -0700
+Message-Id: <20231017232152.2605440-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Tue, Oct 17 2023 at 18:27, Thomas Gleixner wrote:
-> static bool pps_arm_next_pulse(struct pps_tio *tio, ktime_t expires)
-> {
-> 	u64 art;
->
-> 	if (!ktime_real_to_base_clock(expires, CSID_X86_ART, &art))
->         	return false;
->
-> 	pps_compv_write(tio, art - ART_HW_DELAY_CYCLES);
->         return true;
-> }
->
-> ktime_real_to_base_clock() does not exist, but that's the function you
-> really want to have.
+Changelog:
+v3:
+   * Add a patch to export per-cgroup zswap writeback counters
+   * Add a patch to update zswap's kselftest
+   * Separate the new list_lru functions into its own prep patch
+   * Do not start from the top of the hierarchy when encounter a memcg
+     that is not online for the global limit zswap writeback (patch 2)
+     (suggested by Yosry Ahmed)
+   * Do not remove the swap entry from list_lru in
+     __read_swapcache_async() (patch 2) (suggested by Yosry Ahmed)
+   * Removed a redundant zswap pool getting (patch 2)
+     (reported by Ryan Roberts)
+   * Use atomic for the nr_zswap_protected (instead of lruvec's lock)
+     (patch 5) (suggested by Yosry Ahmed)
+   * Remove the per-cgroup zswap shrinker knob (patch 5)
+     (suggested by Yosry Ahmed)
+v2:
+   * Fix loongarch compiler errors
+   * Use pool stats instead of memcg stats when !CONFIG_MEMCG_KEM
 
-It just occured to me that CLOCK_REALTIME might not really the best
-clock to base this on.
+There are currently several issues with zswap writeback:
 
-It's obvious why this can't be based on CLOCK_MONOTONIC, but I rather
-would base this on CLOCK_TAI which at least does not have the issue of
-leap seconds and the related nightmares.
+1. There is only a single global LRU for zswap, making it impossible to
+   perform worload-specific shrinking - an memcg under memory pressure
+   cannot determine which pages in the pool it owns, and often ends up
+   writing pages from other memcgs. This issue has been previously
+   observed in practice and mitigated by simply disabling
+   memcg-initiated shrinking:
 
-Thanks,
+   https://lore.kernel.org/all/20230530232435.3097106-1-nphamcs@gmail.com/T/#u
 
-        tglx
+   But this solution leaves a lot to be desired, as we still do not
+   have an avenue for an memcg to free up its own memory locked up in
+   the zswap pool.
+
+2. We only shrink the zswap pool when the user-defined limit is hit.
+   This means that if we set the limit too high, cold data that are
+   unlikely to be used again will reside in the pool, wasting precious
+   memory. It is hard to predict how much zswap space will be needed
+   ahead of time, as this depends on the workload (specifically, on
+   factors such as memory access patterns and compressibility of the
+   memory pages).
+
+This patch series solves these issues by separating the global zswap
+LRU into per-memcg and per-NUMA LRUs, and performs workload-specific
+(i.e memcg- and NUMA-aware) zswap writeback under memory pressure. The
+new shrinker does not have any parameter that must be tuned by the
+user, and can be opted in or out on a per-memcg basis.
+
+As a proof of concept, we ran the following synthetic benchmark:
+build the linux kernel in a memory-limited cgroup, and allocate some
+cold data in tmpfs to see if the shrinker could write them out and
+improved the overall performance. Depending on the amount of cold data
+generated, we observe from 14% to 35% reduction in kernel CPU time used
+in the kernel builds.
+
+Domenico Cerasuolo (3):
+  zswap: make shrinking memcg-aware
+  mm: memcg: add per-memcg zswap writeback stat
+  selftests: cgroup: update per-memcg zswap writeback selftest
+
+Nhat Pham (2):
+  mm: list_lru: allow external numa node and cgroup tracking
+  zswap: shrinks zswap pool based on memory pressure
+
+ Documentation/admin-guide/mm/zswap.rst      |   7 +
+ include/linux/list_lru.h                    |  38 +++
+ include/linux/memcontrol.h                  |   7 +
+ include/linux/mmzone.h                      |  14 +
+ mm/list_lru.c                               |  43 ++-
+ mm/memcontrol.c                             |  15 +
+ mm/mmzone.c                                 |   3 +
+ mm/swap.h                                   |   3 +-
+ mm/swap_state.c                             |  38 ++-
+ mm/zswap.c                                  | 335 ++++++++++++++++----
+ tools/testing/selftests/cgroup/test_zswap.c |  74 +++--
+ 11 files changed, 485 insertions(+), 92 deletions(-)
+
+-- 
+2.34.1
