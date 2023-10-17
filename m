@@ -1,220 +1,149 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309A515A3
-	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 00:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18352622;
+	Tue, 17 Oct 2023 00:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="CUxhxZj3"
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AF06ED;
-	Mon, 16 Oct 2023 17:23:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NtBx0KbXVtLemY90MZOby1vTJbdlTHOBjp65VqdXdzSJPhjakeAPol3Gaex6Y142xgwvNMab9QeFk59WkP2aYmL4sPIp/1XvZ10BhHAfDdm1l0JaIEJLo7GzXRenZAypfNOxrX+8MI30BHOdEwrc0zcyG7Dzj6Usrsxun93J4flomJtLC3Xv+2QpGYomZQBnWZw1rfYUrU5XEj2Sib2GkVyyaG1K/+6kq2zRIGARulWCrnaQ4W2lds7D6Ll6hRwl+nFpv2H6OGGpR68uccuetH03Hjpbt2Vzx1+UeKpLFrwEpiZjiJcK0gPNGbid494w5fLsG2HElIM9LMLZ49p5Sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FA5mBzajElpiCfelQe7ylBRN/yhuuRgLzspIzo1mq0w=;
- b=YCR50gP6yEollxDpyZhKpP/9KUG4Cjufrpvcm1HzFcyrkObC33vIFmLOsUg6gpd3i/AYUCqqIIPgNs9SRrN5N/5Q9nZbovbeKyjVEsOB9ZYtxCJnVvI4JnTiphKKGsMNc1hUpuyoHL8WiEM83oQY8AvSALrTZAp7LDeyCxVv6Ol4vp8mRczQhHzTmYzqYwX9CW/pQmlyv73+bycqpdAKDv+e+O9hw77D69uJyiAcRwghx/xTLBVwswyZXw+fnCrZbMiG0Hc9fxJPVsgEsxGDIvfLzNeVocZgvxMcKDEri1XGt6pWmO72PcDlFbU1ySL8SXH244G3Sd/zri5ykhfl/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FA5mBzajElpiCfelQe7ylBRN/yhuuRgLzspIzo1mq0w=;
- b=CUxhxZj3zEGK59A4MJFgI+hk5vshb+k4Oa0SYe0p2dewzhbz7u/Rm0gXM76kwtia6lSMOQleh5MPqkbZFBCa1I1f6Oq5mu4oFpOLhV+PSRw8PaJlPbXgnSOGd7eCAZDHXbY9irgKdJBs3iDDL5IDe/qMSkjuXhbHf3jzAxAFM+o=
-Received: from MW4PR04CA0146.namprd04.prod.outlook.com (2603:10b6:303:84::31)
- by MN0PR12MB6270.namprd12.prod.outlook.com (2603:10b6:208:3c2::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Tue, 17 Oct
- 2023 00:23:44 +0000
-Received: from MWH0EPF000989E5.namprd02.prod.outlook.com
- (2603:10b6:303:84:cafe::7d) by MW4PR04CA0146.outlook.office365.com
- (2603:10b6:303:84::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35 via Frontend
- Transport; Tue, 17 Oct 2023 00:23:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MWH0EPF000989E5.mail.protection.outlook.com (10.167.241.132) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6907.20 via Frontend Transport; Tue, 17 Oct 2023 00:23:43 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 16 Oct
- 2023 19:23:41 -0500
-From: Babu Moger <babu.moger@amd.com>
-To: <corbet@lwn.net>, <reinette.chatre@intel.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>
-CC: <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-	<hpa@zytor.com>, <paulmck@kernel.org>, <akpm@linux-foundation.org>,
-	<quic_neeraju@quicinc.com>, <rdunlap@infradead.org>,
-	<damien.lemoal@opensource.wdc.com>, <songmuchun@bytedance.com>,
-	<peterz@infradead.org>, <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
-	<babu.moger@amd.com>, <chang.seok.bae@intel.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <jmattson@google.com>,
-	<daniel.sneddon@linux.intel.com>, <sandipan.das@amd.com>,
-	<tony.luck@intel.com>, <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>, <eranian@google.com>,
-	<christophe.leroy@csgroup.eu>, <jarkko@kernel.org>,
-	<adrian.hunter@intel.com>, <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v14 9/9] x86/resctrl: Display RMID of resource group
-Date: Mon, 16 Oct 2023 19:23:08 -0500
-Message-ID: <20231017002308.134480-10-babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231017002308.134480-1-babu.moger@amd.com>
-References: <20231017002308.134480-1-babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C3jiDWSv"
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C01F95;
+	Mon, 16 Oct 2023 17:37:21 -0700 (PDT)
+Received: by mail-ua1-x92d.google.com with SMTP id a1e0cc1a2514c-7ab5150a7b5so4140928241.0;
+        Mon, 16 Oct 2023 17:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697503040; x=1698107840; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hCBpBFy0sL3kGgajsg5bL9lp51r5jSArJUZNS83IHhs=;
+        b=C3jiDWSveC8PtTe5bXeKzkGZWO3pkZa89DKC6nfS2+H34Hu2e/YDCYPXSZEFwvrXlZ
+         1dC+aaOeLrBrXeTNewTbkuK6CCfsAh6nRZX4hE+RhyKedtZnmqA3uRDwreuabBXX0B9S
+         sRt+d/lLDTMUWTLs+wBUQBmjZmtSu1xCcQiEjLSq9wjN7JWQZJ/6ZsIztI8SzFxctrMm
+         LuEH6rs88L5gEEeaGvhBq7U6OFwPLdyLykJODzQmeKbr1DdYCyaDF9QYo7Eq7l6Vx2qT
+         JMtPRQA6/gt7miQIPxGwpxCNOt0Ikzo9oXm2ijKHUs+4Ze4hCUlvg2ll+0Eff3F9iCqN
+         6JZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697503040; x=1698107840;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hCBpBFy0sL3kGgajsg5bL9lp51r5jSArJUZNS83IHhs=;
+        b=Qc7dr/CAWve5s/CPqs1/+QU4dWMalQGFUyWpsGST6+A0Au+vUQHlS+I7fv3mUBWL48
+         EqGB7REUZgRQXMSwWNkr9ek0yeQR8Z1xGzdmsVchj32ihzHhXZO/2bt2u8zbXfpIKWBQ
+         RTccaVtQkq/o0j7Mxdzu3CoPucX6SrRXxlFxKj5WzzE8My4d8ii0tApcqAux7yVLOgnh
+         hXYgXwBzTQQEEEk+XklLsh1BcFylQeqVa8c8BguWtfZD5qyEu2jpw0PqkAsKIjRPLXiU
+         sjoSUDJ+Rc/T56Q6B7ckTnU8FCNwfF17OQmb038rJb5aTyppApCpr2LM2Xt7+mxTAhtY
+         iSnQ==
+X-Gm-Message-State: AOJu0YzWMUBVmfaWznhbVkyQqrT6J4asx8GmyNNb7D6yb+/OYSYIS+h7
+	6xlGmH3Gfh4NI40uDszYRHmqtsDVWCLWp1P9/HWpbQY+
+X-Google-Smtp-Source: AGHT+IGTFKrIo3DX3VTBrldf07y90mT9ODR4qoemWSfmdES5n+WGptKeaXQi892QmMn5GqvVYCmrHCk1YdrE8z97v4I=
+X-Received: by 2002:a67:ac4a:0:b0:457:cbde:603d with SMTP id
+ n10-20020a67ac4a000000b00457cbde603dmr189013vsh.14.1697503040429; Mon, 16 Oct
+ 2023 17:37:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
+ <20231015141644.260646-2-akihiko.odaki@daynix.com> <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
+ <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com> <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
+In-Reply-To: <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Date: Mon, 16 Oct 2023 20:36:43 -0400
+Message-ID: <CAF=yD-Jr1wKo6viUGWTcXsT5b9e1NkuemuvjN988qSyNmheM2A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989E5:EE_|MN0PR12MB6270:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa2a1920-ac5f-4d6b-8f82-08dbcea75263
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ZR3fihi7EhTI4nYm47qTCM9gzTvyPEVc/Tf6rBMQtz95HZzOScWm3YeAo1Z7pXQUQ6jIgRRbKzhOWTSQACEtV4wrE3Zxh9SRJAl+TkqhiO0wwKHtVwmlQr0+X2hsYl2JAFQbuLv+Lq2dzSZCV8hMJT4gYu9Bro15I8Ssmd2gVIZxaxfWVQSCjX+kJiYZ9ec35ZEPXkbtKilWoUzYO29EBKGZQ7KrWjB6dcsoU8tLmX/e+tYgmx75D3zSyvJNDK/dIdGq6RM5rI0XRpf0epgSj1GTnAfwkuMVJnp7RnLIzQlIVj4CY++FUpDImp3eoIwifVSobsOWQfW0+0+gcer/EU8pl9NgSg1B61qJhZdn5Cll/+2HwOOmjlRhMy4Wz8F3osVF2iPksXvRbpeFbEfDILcLU4cdvnYk87SpspVoIiHwEpUql5zaFlthKFAy4tHk6Kfu3TFct3z6VlGZ5HQ1XlGcEWpyc2qMBoZrAZs/f34GNxnebZhRE4pS56LY5dWMHm8egw0TtByRvQmjt79iDvYDRWAd51wRjshWsqlxYablOdskNWQWqE14UN8A1xrnFADeL1TfdMLrcX30ycvxfi6CscjbDXkIwDxhbEhBPrvbaDoOWuM7wxQGRELS0svXGkfF2V1DIi338yjEpE45Q0TjpPqF4p6waXYt8VZnMFAJh9U6VpC/ErfzToP72FqeRMb4/r3ULyi1MpOpcY4uirqjOdHmTygokjeYEkvPp8hgFepxN4nDjXkLkLMKoNyQYA0baWplcJGQKLsEct3W7w==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(136003)(376002)(346002)(230922051799003)(1800799009)(451199024)(82310400011)(186009)(64100799003)(40470700004)(46966006)(36840700001)(7696005)(40480700001)(44832011)(5660300002)(40460700003)(6666004)(1076003)(336012)(2906002)(83380400001)(36756003)(426003)(26005)(16526019)(2616005)(66574015)(356005)(86362001)(36860700001)(82740400003)(81166007)(47076005)(7406005)(7416002)(478600001)(41300700001)(316002)(110136005)(54906003)(70586007)(70206006)(8936002)(4326008)(8676002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 00:23:43.8767
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa2a1920-ac5f-4d6b-8f82-08dbcea75263
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000989E5.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6270
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-	autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-In x86, hardware uses RMID to identify a monitoring group. When a user
-creates a monitor group these details are not visible. These details
-can help resctrl debugging.
+On Mon, Oct 16, 2023 at 7:53=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Sun, Oct 15, 2023 at 10:10=E2=80=AFAM Akihiko Odaki <akihiko.odaki@day=
+nix.com> wrote:
+> >
+> > On 2023/10/16 1:07, Alexei Starovoitov wrote:
+> > > On Sun, Oct 15, 2023 at 7:17=E2=80=AFAM Akihiko Odaki <akihiko.odaki@=
+daynix.com> wrote:
+> > >>
+> > >> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> > >> index 0448700890f7..298634556fab 100644
+> > >> --- a/include/uapi/linux/bpf.h
+> > >> +++ b/include/uapi/linux/bpf.h
+> > >> @@ -988,6 +988,7 @@ enum bpf_prog_type {
+> > >>          BPF_PROG_TYPE_SK_LOOKUP,
+> > >>          BPF_PROG_TYPE_SYSCALL, /* a program that can execute syscal=
+ls */
+> > >>          BPF_PROG_TYPE_NETFILTER,
+> > >> +       BPF_PROG_TYPE_VNET_HASH,
+> > >
+> > > Sorry, we do not add new stable program types anymore.
+> > >
+> > >> @@ -6111,6 +6112,10 @@ struct __sk_buff {
+> > >>          __u8  tstamp_type;
+> > >>          __u32 :24;              /* Padding, future use. */
+> > >>          __u64 hwtstamp;
+> > >> +
+> > >> +       __u32 vnet_hash_value;
+> > >> +       __u16 vnet_hash_report;
+> > >> +       __u16 vnet_rss_queue;
+> > >>   };
+> > >
+> > > we also do not add anything to uapi __sk_buff.
+> > >
+> > >> +const struct bpf_verifier_ops vnet_hash_verifier_ops =3D {
+> > >> +       .get_func_proto         =3D sk_filter_func_proto,
+> > >> +       .is_valid_access        =3D sk_filter_is_valid_access,
+> > >> +       .convert_ctx_access     =3D bpf_convert_ctx_access,
+> > >> +       .gen_ld_abs             =3D bpf_gen_ld_abs,
+> > >> +};
+> > >
+> > > and we don't do ctx rewrites like this either.
+> > >
+> > > Please see how hid-bpf and cgroup rstat are hooking up bpf
+> > > in _unstable_ way.
+> >
+> > Can you describe what "stable" and "unstable" mean here? I'm new to BPF
+> > and I'm worried if it may mean the interface stability.
+> >
+> > Let me describe the context. QEMU bundles an eBPF program that is used
+> > for the "eBPF steering program" feature of tun. Now I'm proposing to
+> > extend the feature to allow to return some values to the userspace and
+> > vhost_net. As such, the extension needs to be done in a way that ensure=
+s
+> > interface stability.
+>
+> bpf is not an option then.
+> we do not add stable bpf program types or hooks any more.
+> If a kernel subsystem wants to use bpf it needs to accept the fact
+> that such bpf extensibility will be unstable and subsystem maintainers
+> can decide to remove such bpf support in the future.
 
-Add RMID(mon_hw_id) to the monitor groups display in resctrl interface.
-Users can see these details when resctrl is mounted with "-o debug" option.
+Based on hooks for tracepoints and kfuncs, correct?
 
-Add RFTYPE_MON_BASE that complements existing RFTYPE_CTRL_BASE and
-represents files belonging to monitoring groups.
-
-Other architectures do not use "RMID". Use the name mon_hw_id to refer
-to "RMID" in an effort to keep the naming generic.
-
-For example:
- $cat /sys/fs/resctrl/mon_groups/mon_grp1/mon_hw_id
- 3
-
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Tested-by: Peter Newman <peternewman@google.com>
-Reviewed-by: Peter Newman <peternewman@google.com>
-Tested-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
-Reviewed-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
-Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
-v14: Removed the RFTYPE documentation in resctrl.rst file. (Boris)
-
-v13: Minor commit message update. (Reinette).
-
-v12: Moved the comments from arch/x86/kernel/cpu/resctrl/internal.h
-     to Documentation/arch/x86/resctrl.rst. (Boris)
-     Moved RFTYPE_MON_BASE definition here where it is being used. (Boris)
----
- Documentation/arch/x86/resctrl.rst     |  4 ++++
- arch/x86/kernel/cpu/resctrl/internal.h |  1 +
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 23 +++++++++++++++++++++++
- 3 files changed, 28 insertions(+)
-
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index 7412252f95a7..a6279df64a9d 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -376,6 +376,10 @@ When monitoring is enabled all MON groups will also contain:
- 	the sum for all tasks in the CTRL_MON group and all tasks in
- 	MON groups. Please see example section for more details on usage.
- 
-+"mon_hw_id":
-+	Available only with debug option. The identifier used by hardware
-+	for the monitor group. On x86 this is the RMID.
-+
- Resource allocation rules
- -------------------------
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index b816b902b5c0..a4f1aa15f0a2 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -254,6 +254,7 @@ struct rdtgroup {
- #define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
- #define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
- #define RFTYPE_CTRL_BASE		(RFTYPE_BASE | RFTYPE_CTRL)
-+#define RFTYPE_MON_BASE			(RFTYPE_BASE | RFTYPE_MON)
- 
- /* List of all resource groups */
- extern struct list_head rdt_all_groups;
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 5f6d6ba63a2e..69a1de92384a 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -795,6 +795,22 @@ static int rdtgroup_closid_show(struct kernfs_open_file *of,
- 	return ret;
- }
- 
-+static int rdtgroup_rmid_show(struct kernfs_open_file *of,
-+			      struct seq_file *s, void *v)
-+{
-+	struct rdtgroup *rdtgrp;
-+	int ret = 0;
-+
-+	rdtgrp = rdtgroup_kn_lock_live(of->kn);
-+	if (rdtgrp)
-+		seq_printf(s, "%u\n", rdtgrp->mon.rmid);
-+	else
-+		ret = -ENOENT;
-+	rdtgroup_kn_unlock(of->kn);
-+
-+	return ret;
-+}
-+
- #ifdef CONFIG_PROC_CPU_RESCTRL
- 
- /*
-@@ -1867,6 +1883,13 @@ static struct rftype res_common_files[] = {
- 		.seq_show	= rdtgroup_tasks_show,
- 		.fflags		= RFTYPE_BASE,
- 	},
-+	{
-+		.name		= "mon_hw_id",
-+		.mode		= 0444,
-+		.kf_ops		= &rdtgroup_kf_single_ops,
-+		.seq_show	= rdtgroup_rmid_show,
-+		.fflags		= RFTYPE_MON_BASE | RFTYPE_DEBUG,
-+	},
- 	{
- 		.name		= "schemata",
- 		.mode		= 0644,
--- 
-2.34.1
-
+Perhaps the existing stable flow dissector type is extensible to
+optionally compute the hash and report hash and hash type. Else we
+probably should revisit the previous version of this series.
