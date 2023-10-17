@@ -1,826 +1,126 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2393EBE
-	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 16:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="17P0K36n";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="seYJ6PHa"
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8517AF1;
-	Tue, 17 Oct 2023 09:27:50 -0700 (PDT)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1697560068;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to; bh=lfHOTyBZhmqEi9ACy3JbB6tdjyLchlUMu4qxcvGrHmg=;
-	b=17P0K36nCt0H71Gm6ZP4tBHbSJlWXbB8Sdv0V542K/o3/FZ4wTLoIOuu095D52/kHkaMth
-	UlOiw2uyv4EQV5oJ8r/+hOq0aj1yF0rjj9/ne/bjxUMg/tH8HMUt1TfO3ENqzOyr3+bvXD
-	8KspHKHCkGZIdARR+yYzv+1isZEHaQ8pVKtQBw1HHmIFMjVJWKbn/4lvjbtHbp6w856zCA
-	a5+IfwN10orKGHpzJLwXKs1ncboqNetbqkXfI/P4R1/Ph9RCEg86+oK1zAtWLibsJyWENK
-	Cx0SDeOOGVr8zoPAbN5bJJgKYVSeghWfh+nm/pgYZ6bXNdGMfu/qb0sh9FSpLg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1697560068;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to; bh=lfHOTyBZhmqEi9ACy3JbB6tdjyLchlUMu4qxcvGrHmg=;
-	b=seYJ6PHalH4yQMCOGJIjmS6y1ghNYXx2GBdfMCrDZefCcFSmX8RV6FmkJOTR6LmGRkOvJK
-	zXxAFBiUU5xjQgCQ==
-To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org
-Cc: x86@kernel.org, linux-doc@vger.kernel.org,
- andriy.shevchenko@linux.intel.com, eddie.dong@intel.com,
- christopher.s.hall@intel.com, pandith.n@intel.com,
- mallikarjunappa.sangannavar@intel.com, thejesh.reddy.t.r@intel.com,
- lakshmi.sowjanya.d@intel.com, Peter Hilber <peter.hilber@opensynergy.com>
-Subject: Re: [PATCH v1 4/6] pps: generators: Add PPS Generator TIO Driver
-In-Reply-To: <20231017052457.25287-5-lakshmi.sowjanya.d@intel.com>
-Date: Tue, 17 Oct 2023 18:27:48 +0200
-Message-ID: <87lec15i4b.ffs@tglx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDFC1D688
+	for <linux-doc@vger.kernel.org>; Tue, 17 Oct 2023 17:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+X-Greylist: delayed 1371 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 Oct 2023 10:05:55 PDT
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1438192;
+	Tue, 17 Oct 2023 10:05:54 -0700 (PDT)
+Received: from [213.219.164.206] (helo=deadeye)
+	by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1qsn9l-0000b9-Ae; Tue, 17 Oct 2023 18:42:57 +0200
+Received: from ben by deadeye with local (Exim 4.97-RC1)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1qsn9k-00000003p6a-3FLY;
+	Tue, 17 Oct 2023 18:42:56 +0200
+Message-ID: <8ebc783f95ee255d56372bfa59622bcb8cb4d79c.camel@decadent.org.uk>
+Subject: Re: [PATCH v2] docs: add backporting and conflict resolution
+ document
+From: Ben Hutchings <ben@decadent.org.uk>
+To: Vegard Nossum <vegard.nossum@oracle.com>, Willy Tarreau <w@1wt.eu>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ backports@vger.kernel.org,  Harshit Mogalapalli
+ <harshit.m.mogalapalli@oracle.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>,  "Jason A . Donenfeld" <Jason@zx2c4.com>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,  Steven Rostedt
+ <rostedt@goodmis.org>
+Date: Tue, 17 Oct 2023 18:42:49 +0200
+In-Reply-To: <12b082c8-908f-4de2-b0b5-4b638e10c402@oracle.com>
+References: <20230824092325.1464227-1-vegard.nossum@oracle.com>
+	 <87bkdfg2ds.fsf@meer.lwn.net> <877cnu5jy0.fsf@meer.lwn.net>
+	 <83fd1a05-974e-4d91-82b0-c09cc2f8da1e@oracle.com>
+	 <20231014094320.GC20662@1wt.eu>
+	 <12b082c8-908f-4de2-b0b5-4b638e10c402@oracle.com>
+Autocrypt: addr=ben@decadent.org.uk; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-T2Gq0/eSGsrekyVKrt0t"
+User-Agent: Evolution 3.50.0-1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 213.219.164.206
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Tue, Oct 17 2023 at 10:54, lakshmi.sowjanya.d@intel.com wrote:
-> +
-> +static inline ktime_t first_event(struct pps_tio *tio)
-> +{
-> +	struct timespec64 ts;
-> +
-> +	ktime_get_real_ts64(&ts);
-> +
-> +	return ktime_set(ts.tv_sec + 1, NSEC_PER_SEC - PREP_INTERVAL_NS);
 
-        return ktime_set(ktime_get_real_seconds() + 1, MAGIC_CONSTANT);
+--=-T2Gq0/eSGsrekyVKrt0t
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Perhaps?
+On Sat, 2023-10-14 at 13:48 +0200, Vegard Nossum wrote:
+> On 14/10/2023 11:43, Willy Tarreau wrote:
+> > Hi Vegard,
+> >=20
+> > On Fri, Oct 13, 2023 at 05:24:31PM +0200, Vegard Nossum wrote:
+> > > I've now added Steven Rostedt and Willy Tarreau as well on the
+> > > off-chance that they have something to say about it (Steven presented
+> > > his conflict resolution method at Kernel Recipes and I think Willy is
+> > > experienced with backporting), but this is in no way meant as pressur=
+e
+> > > to review this patch. Here's a link to the top of the thread:
+> > >=20
+> > > https://lore.kernel.org/all/20230824092325.1464227-1-vegard.nossum@or=
+acle.com/
+>=20
+> (Adding Ben Hutchings to Cc as well for the same reasons.)
+[...]
 
-PREP_INTERVAL_NS is a misnomer as it has nothing to do with an
-interval. It's the time substracted from the actual pulse target time to
-allow the hrtimer callback to setup the hardware for the pulse.
+I previously wrote some text for CIP about reviewing stable backports.
+The "Read the code" section should be applicable to writing them as
+well:
+<https://wiki.linuxfoundation.org/civilinfrastructureplatform/cipkernelmain=
+tenance#read_the_code>.
 
-Naming matters really.
+I didn't compare with your text so it may be that you already covered
+all those points.
 
-> +static int translate_system_time_to_art_cycles(struct timespec64 ts, u64 *art_timestamp,
-> +					       bool *real_to_tsc_result)
-> +{
-> +	struct system_counterval_t sys_counter;
-> +	ktime_t sys_realtime;
-> +	int err;
-> +
-> +	sys_realtime = timespec64_to_ktime(ts);
+Ben.
 
-Why are you handing timespecs around? Because timespec math is so
-awesome, right?
 
-> +	err = ktime_convert_real_to_system_counter(sys_realtime, &sys_counter);
-> +	if (err) {
-> +		*real_to_tsc_result = true;
+--=20
+Ben Hutchings
+Who are all these weirdos? - David Bowie, on joining IRC
 
-This makes my bad taste sensors reach saturation.
 
-> +		return err;
-> +	}
-> +
-> +	return convert_tsc_to_art(&sys_counter, art_timestamp);
-> +}
+--=-T2Gq0/eSGsrekyVKrt0t
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-> +static int pps_tio_generate_output(struct pps_tio *tio, struct timespec64 time)
-> +{
-> +	bool real_to_tsc_result;
-> +	u64 art_timestamp;
-> +	int err;
-> +
-> +	real_to_tsc_result = false;
-> +	err = translate_system_time_to_art_cycles(time, &art_timestamp, &real_to_tsc_result);
-> +	if (err) {
-> +		pps_tio_disable(tio);
-> +		dev_err(tio->dev, "Disabling PPS due to failure in conversion of %s",
-> +			real_to_tsc_result ? "realtime to system_counter" : "tsc to art");
-> +		return err;
+-----BEGIN PGP SIGNATURE-----
 
-Clearly nothing in the call chain cares about the actual error code,
-right? So instead of having all these undocumented -E* all over the
-place, just make the inner functions bool and then only for
-translate_system_time_to_art_cycles() use
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmUuuYkACgkQ57/I7JWG
+EQlWoxAAoYTYvDLaLYc6/mndCvqwQPVYPqnuGWFk/NtXrL8LdELB7khnPcUk5ei8
+42idK4016efuzjZgusn49LgCQ69BPWMT+ODHYQXLxm6+m0z6dLCu+m5OjTy3oU8u
+Fjp9XBlc/OTMIqiexOm5Z3ELjFReeooHXxSVztaumQIW51z4+LupacpGTP3IWcii
+0UF1LwyvX72Gk8Fyr7dUjCHvCRUSsNSxselxcGgq51it4Ksr1JjaVwppVyLcGHqV
+CiuojfEvAviMpmHFqalN6hbboGRNDl3a+aYv1EY2slMtp0ZfAP1YGbgAx2znoDw1
+YQ+gjbNI3UN0VaTRZEGoB5PW/1NJo5Wz4vi4am97RwlW9ZVo3pYN2Mle8Kv3aNfA
+ngM0KOEXRR8kRbKTNpMAADlKfgcqho4HWgZ5KVWtl69PpJQZe59ng+E7mDjZlMQ0
+3rOLCpxfrFCnFncSgbBZmYKDMF9bUfEiuZbTxTtrKkmmc5Fp5KYRF16VOS7u4Vwt
+ikCuwUrodxkPGDPfFsE/YIOc2XGK2N5oIe+KCmzx53FEaepPx9aUzL1+fGumiUD2
+nHE8VK7wInOmivSBMvg4xvUoD0d/fchVwhva8xSmqt1l6Gf/VbapoDs3B1nBy9CD
+xlWPP6WXcIyP0ZxpJwuFinRIXaRvnVqE8OC31EYkGJ8JeQ04LmE=
+=N87o
+-----END PGP SIGNATURE-----
 
-enum {
-	SUCCESS,
-        FAIL_SC,
-        FAIL_ART,
-};
-
-or something like that to make this error printout happy.
-
-pps_tio_generate_output() itself can return bool too.
-
-> +	}
-> +	/* The timed IO hardware adds a two cycle delay on output */
-> +	art_timestamp -= 2;
-> +	pps_compv_write(tio, art_timestamp);
-> +
-> +	return 0;
-> +}
-> +
-> +static int schedule_event(struct hrtimer *timer, struct timespec64 *next_event)
-> +{
-> +	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
-> +	struct timespec64 expire_time, cur_time, roundoff;
-> +	long half_sec_ns = NSEC_PER_SEC / 2;
-> +
-> +	/* get the current time */
-> +	ktime_get_real_ts64(&cur_time);
-> +	expire_time = ktime_to_timespec64(hrtimer_get_softexpires(timer));
-> +
-> +	/*
-> +	 * Figure out if it is in "top half" or "bottom half" of the second
-> +	 * and round-off to the nearest 500ms
-> +	 */
-> +	if (cur_time.tv_nsec > half_sec_ns) {
-> +		roundoff.tv_sec = cur_time.tv_sec + 1;
-> +		roundoff.tv_nsec = 0;
-> +		next_event->tv_sec = roundoff.tv_sec;
-> +		next_event->tv_nsec = half_sec_ns;
-> +	} else {
-> +		roundoff.tv_sec = cur_time.tv_sec;
-> +		roundoff.tv_nsec = half_sec_ns;
-> +		next_event->tv_sec = roundoff.tv_sec;
-> +		next_event->tv_nsec = roundoff.tv_nsec + half_sec_ns;
-> +	}
-> +	next_event->tv_nsec -= PREP_INTERVAL_NS;
-> +	/* Check for elapsed time */
-> +	if (expire_time.tv_sec != cur_time.tv_sec ||
-> +	    (cur_time.tv_nsec - PREP_INTERVAL_NS) > expire_time.tv_nsec) {
-
-The timer is considered on time when cur_time <= T_pulse?
-
-How do you ensure that there is enough time to actually convert and arm
-the timer? Not at all. If cur_time is close to T_pulse then you end up
-arming it late.
-
-> +		dev_warn(tio->dev, "Time expired, edge not scheduled at time: %lld.%09ld\n",
-> +			 cur_time.tv_sec, cur_time.tv_nsec);
-> +		return 0;
-> +	}
-> +
-> +	return pps_tio_generate_output(tio, roundoff);
-> +}
-> +
-> +static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer)
-> +{
-> +	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
-> +	struct timespec64 next_event;
-> +	int err = 0;
-> +
-> +	scoped_guard(spinlock_irqsave, &tio->lock) {
-> +		if (tio->enabled)
-> +			err = schedule_event(timer, &next_event);
-> +	}
-> +	if (err)
-> +		return HRTIMER_NORESTART;
-> +
-> +	hrtimer_set_expires(timer, ktime_set(next_event.tv_sec, next_event.tv_nsec));
-> +	return HRTIMER_RESTART;
-
-All of this is overengineered complexity. Initially you start the
-hrtimer with
-
-	hrtimer_start(&tio->timer, first_event(tio), HRTIMER_MODE_ABS);
-
-and that sets the first event to expire TPREP_NS before the full
-second. After that you want to schedule the timer periodically every
-0.5s, right?
-
-hrtimers provide periodic schedule already. So all of the gunk above
-can be replaced with:
-
-static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer)
-{
-	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
-        ktime_t expires, now;
-
-        guard(spinlock)(&tio->lock);
-
-	expires = hrtimer_get_expires(timer);
-	now = ktime_get_real();
-
-	if (now - expires < TOO_LATE) {
-        	if (!pps_arm_next_pulse(tio, expires + TPREP_NS))
-                	return HRTIMER_NORESTART;
-	}
-
-	hrtimer_forward(timer, now, NSEC_PER_SEC / 2);
-       	return HRTIMER_RESTART;
-}
-      
-and
-
-static bool pps_arm_next_pulse(struct pps_tio *tio, ktime_t expires)
-{
-	u64 art;
-
-	if (!ktime_real_to_base_clock(expires, CSID_X86_ART, &art))
-        	return false;
-
-	pps_compv_write(tio, art - ART_HW_DELAY_CYCLES);
-        return true;
-}
-
-ktime_real_to_base_clock() does not exist, but that's the function you
-really want to have.
-
-Not this convoluted construct of indirections and therefore we need to
-rethink the whole related clock mechanism from ground up.
-
-As I said vs. patch 3/6 already this smells badly of the wrong
-abstractions and data representations. So this needs to be fixed first
-instead of adding several layers of duct tape.
-
-> +static ssize_t enable_store(struct device *dev, struct device_attribute *attr, const char *buf,
-> +			    size_t count)
-> +{
-> +	struct pps_tio *tio = dev_get_drvdata(dev);
-> +	bool enable;
-> +	int err;
-> +
-> +	err = kstrtobool(buf, &enable);
-> +	if (err)
-> +		return err;
-> +
-> +	guard(spinlock_irqsave)(&tio->lock);
-> +	if (enable && !tio->enabled) {
-> +		if (!is_current_clocksource_art_related()) {
-> +			dev_err(tio->dev, "PPS cannot be started as clock is not related to ART");
-> +			return -EPERM;
-> +		}
-
-Ah. Here is the usecase for this magic patch 3/6 hackery. Again, it's
-the wrong abstraction. You want something like:
-
-    timekeeping_clocksource_has_base(CSID_X86_ART);
-
-or something like this, which can be handled completely in the core
-code.
-
-All of this needs some serious rework. See the below disfunctional
-mockup patch for illustration.
-
-There is also a patch series, which tried to replace the clocksource
-pointer in system_counterval_t with a clocksource ID:
-
-  https://lore.kernel.org/all/20230818011256.211078-1-peter.hilber@opensynergy.com
-
-That went nowhere, but has some valid points. I took some of Peter's (cc'ed)
-ideas into the mockup, but did it slightly different to make all of this
-indirection mess go away.
-
-There are certainly bugs and thinkos in that mockup. If you find them,
-you can keep and fix them :)
-
-Thanks,
-
-        tglx
----
- arch/x86/include/asm/tsc.h                        |    3 
- arch/x86/kernel/kvmclock.c                        |    1 
- arch/x86/kernel/tsc.c                             |   78 ++--------------
- drivers/clocksource/arm_arch_timer.c              |    7 -
- drivers/net/ethernet/intel/e1000e/ptp.c           |    3 
- drivers/net/ethernet/intel/ice/ice_ptp.c          |    4 
- drivers/net/ethernet/intel/igc/igc_ptp.c          |    8 +
- drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c |    3 
- drivers/ptp/ptp_kvm_common.c                      |    9 -
- drivers/ptp/ptp_kvm_x86.c                         |    5 -
- include/linux/clocksource.h                       |   24 +++++
- include/linux/clocksource_ids.h                   |    3 
- include/linux/ptp_kvm.h                           |    3 
- include/linux/timekeeping.h                       |    8 +
- kernel/time/timekeeping.c                         |  103 ++++++++++++++++++++--
- sound/pci/hda/hda_controller.c                    |    3 
- 16 files changed, 169 insertions(+), 96 deletions(-)
-
---- a/arch/x86/include/asm/tsc.h
-+++ b/arch/x86/include/asm/tsc.h
-@@ -27,9 +27,6 @@ static inline cycles_t get_cycles(void)
- }
- #define get_cycles get_cycles
- 
--extern struct system_counterval_t convert_art_to_tsc(u64 art);
--extern struct system_counterval_t convert_art_ns_to_tsc(u64 art_ns);
--
- extern void tsc_early_init(void);
- extern void tsc_init(void);
- extern void mark_tsc_unstable(char *reason);
---- a/arch/x86/kernel/kvmclock.c
-+++ b/arch/x86/kernel/kvmclock.c
-@@ -157,6 +157,7 @@ static int kvm_cs_enable(struct clocksou
- struct clocksource kvm_clock = {
- 	.name	= "kvm-clock",
- 	.read	= kvm_clock_get_cycles,
-+	.cs_id	= CSID_X86_KVM_CLK,
- 	.rating	= 400,
- 	.mask	= CLOCKSOURCE_MASK(64),
- 	.flags	= CLOCK_SOURCE_IS_CONTINUOUS,
---- a/arch/x86/kernel/tsc.c
-+++ b/arch/x86/kernel/tsc.c
-@@ -50,9 +50,13 @@ int tsc_clocksource_reliable;
- 
- static int __read_mostly tsc_force_recalibrate;
- 
-+static struct clocksource_base art_base_clk = {
-+	.id	= CSID_X86_ART,
-+};
-+
- static u32 art_to_tsc_numerator;
- static u32 art_to_tsc_denominator;
--static u64 art_to_tsc_offset;
-+static u64 art_base_clk.offset;
- static struct clocksource *art_related_clocksource;
- 
- struct cyc2ns {
-@@ -1089,13 +1093,13 @@ static void __init detect_art(void)
- 	    tsc_async_resets)
- 		return;
- 
--	cpuid(ART_CPUID_LEAF, &art_to_tsc_denominator,
--	      &art_to_tsc_numerator, unused, unused+1);
-+	cpuid(ART_CPUID_LEAF, &art_base_clk.denominator,
-+	      &art_base_clk.numerator, &art_base_clk.freq_khz, unused+1);
- 
--	if (art_to_tsc_denominator < ART_MIN_DENOMINATOR)
-+	if (art_base_clk.denominator < ART_MIN_DENOMINATOR)
- 		return;
- 
--	rdmsrl(MSR_IA32_TSC_ADJUST, art_to_tsc_offset);
-+	rdmsrl(MSR_IA32_TSC_ADJUST, art_base_clk.offset);
- 
- 	/* Make this sticky over multiple CPU init calls */
- 	setup_force_cpu_cap(X86_FEATURE_ART);
-@@ -1190,6 +1194,7 @@ static struct clocksource clocksource_ts
- 				  CLOCK_SOURCE_VALID_FOR_HRES |
- 				  CLOCK_SOURCE_MUST_VERIFY |
- 				  CLOCK_SOURCE_VERIFY_PERCPU,
-+	.id			= CSID_X86_TSC,
- 	.vdso_clock_mode	= VDSO_CLOCKMODE_TSC,
- 	.enable			= tsc_cs_enable,
- 	.resume			= tsc_resume,
-@@ -1294,65 +1299,6 @@ int unsynchronized_tsc(void)
- 	return 0;
- }
- 
--/*
-- * Convert ART to TSC given numerator/denominator found in detect_art()
-- */
--struct system_counterval_t convert_art_to_tsc(u64 art)
--{
--	u64 tmp, res, rem;
--
--	rem = do_div(art, art_to_tsc_denominator);
--
--	res = art * art_to_tsc_numerator;
--	tmp = rem * art_to_tsc_numerator;
--
--	do_div(tmp, art_to_tsc_denominator);
--	res += tmp + art_to_tsc_offset;
--
--	return (struct system_counterval_t) {.cs = art_related_clocksource,
--			.cycles = res};
--}
--EXPORT_SYMBOL(convert_art_to_tsc);
--
--/**
-- * convert_art_ns_to_tsc() - Convert ART in nanoseconds to TSC.
-- * @art_ns: ART (Always Running Timer) in unit of nanoseconds
-- *
-- * PTM requires all timestamps to be in units of nanoseconds. When user
-- * software requests a cross-timestamp, this function converts system timestamp
-- * to TSC.
-- *
-- * This is valid when CPU feature flag X86_FEATURE_TSC_KNOWN_FREQ is set
-- * indicating the tsc_khz is derived from CPUID[15H]. Drivers should check
-- * that this flag is set before conversion to TSC is attempted.
-- *
-- * Return:
-- * struct system_counterval_t - system counter value with the pointer to the
-- *	corresponding clocksource
-- *	@cycles:	System counter value
-- *	@cs:		Clocksource corresponding to system counter value. Used
-- *			by timekeeping code to verify comparability of two cycle
-- *			values.
-- */
--
--struct system_counterval_t convert_art_ns_to_tsc(u64 art_ns)
--{
--	u64 tmp, res, rem;
--
--	rem = do_div(art_ns, USEC_PER_SEC);
--
--	res = art_ns * tsc_khz;
--	tmp = rem * tsc_khz;
--
--	do_div(tmp, USEC_PER_SEC);
--	res += tmp;
--
--	return (struct system_counterval_t) { .cs = art_related_clocksource,
--					      .cycles = res};
--}
--EXPORT_SYMBOL(convert_art_ns_to_tsc);
--
--
- static void tsc_refine_calibration_work(struct work_struct *work);
- static DECLARE_DELAYED_WORK(tsc_irqwork, tsc_refine_calibration_work);
- /**
-@@ -1454,8 +1400,10 @@ static void tsc_refine_calibration_work(
- 	if (tsc_unstable)
- 		goto unreg;
- 
--	if (boot_cpu_has(X86_FEATURE_ART))
-+	if (boot_cpu_has(X86_FEATURE_ART)) {
- 		art_related_clocksource = &clocksource_tsc;
-+		clocksource_tsc.base_clk = &art_base_clk;
-+	}
- 	clocksource_register_khz(&clocksource_tsc, tsc_khz);
- unreg:
- 	clocksource_unregister(&clocksource_tsc_early);
---- a/drivers/clocksource/arm_arch_timer.c
-+++ b/drivers/clocksource/arm_arch_timer.c
-@@ -1784,8 +1784,7 @@ static int __init arch_timer_acpi_init(s
- TIMER_ACPI_DECLARE(arch_timer, ACPI_SIG_GTDT, arch_timer_acpi_init);
- #endif
- 
--int kvm_arch_ptp_get_crosststamp(u64 *cycle, struct timespec64 *ts,
--				 struct clocksource **cs)
-+int kvm_arch_ptp_get_crosststamp(u64 *cycle, struct timespec64 *ts, int cs_id)
- {
- 	struct arm_smccc_res hvc_res;
- 	u32 ptp_counter;
-@@ -1809,8 +1808,8 @@ int kvm_arch_ptp_get_crosststamp(u64 *cy
- 	*ts = ktime_to_timespec64(ktime);
- 	if (cycle)
- 		*cycle = (u64)hvc_res.a2 << 32 | hvc_res.a3;
--	if (cs)
--		*cs = &clocksource_counter;
-+	if (cs_id)
-+		*cs_id = clocksource_counter.id;
- 
- 	return 0;
- }
---- a/drivers/net/ethernet/intel/e1000e/ptp.c
-+++ b/drivers/net/ethernet/intel/e1000e/ptp.c
-@@ -124,7 +124,8 @@ static int e1000e_phc_get_syncdevicetime
- 	sys_cycles = er32(PLTSTMPH);
- 	sys_cycles <<= 32;
- 	sys_cycles |= er32(PLTSTMPL);
--	*system = convert_art_to_tsc(sys_cycles);
-+	system->cycles = sys_cycles;
-+	system->cs_id = CSID_X86_ART;
- 
- 	return 0;
- }
---- a/drivers/net/ethernet/intel/ice/ice_ptp.c
-+++ b/drivers/net/ethernet/intel/ice/ice_ptp.c
-@@ -1989,6 +1989,8 @@ ice_ptp_get_syncdevicetime(ktime_t *devi
- 	wr32(hw, GLHH_ART_CTL, hh_art_ctl);
- 
- #define MAX_HH_LOCK_TRIES 100
-+	system->cs_id = CSID_X86_ART;
-+	system->nsecs = true;
- 
- 	for (i = 0; i < MAX_HH_LOCK_TRIES; i++) {
- 		/* Wait for sync to complete */
-@@ -2005,7 +2007,7 @@ ice_ptp_get_syncdevicetime(ktime_t *devi
- 			hh_ts_lo = rd32(hw, GLHH_ART_TIME_L);
- 			hh_ts_hi = rd32(hw, GLHH_ART_TIME_H);
- 			hh_ts = ((u64)hh_ts_hi << 32) | hh_ts_lo;
--			*system = convert_art_ns_to_tsc(hh_ts);
-+			system->cycles = hh_ts;
- 			/* Read Device source clock time */
- 			hh_ts_lo = rd32(hw, GLTSYN_HHTIME_L(tmr_idx));
- 			hh_ts_hi = rd32(hw, GLTSYN_HHTIME_H(tmr_idx));
---- a/drivers/net/ethernet/intel/igc/igc_ptp.c
-+++ b/drivers/net/ethernet/intel/igc/igc_ptp.c
-@@ -911,7 +911,13 @@ static bool igc_is_crosststamp_supported
- static struct system_counterval_t igc_device_tstamp_to_system(u64 tstamp)
- {
- #if IS_ENABLED(CONFIG_X86_TSC) && !defined(CONFIG_UML)
--	return convert_art_ns_to_tsc(tstamp);
-+	// FIXME: How has this ensured that ART exists?
-+	return (struct system_counterval_t) {
-+		.cs_id	= CSID_X86_ART,
-+		.cycles	= tstamp,
-+		.nsecs	= true,
-+	};
-+
- #else
- 	return (struct system_counterval_t) { };
- #endif
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-@@ -390,10 +390,11 @@ static int intel_crosststamp(ktime_t *de
- 		*device = ns_to_ktime(ptp_time);
- 		read_unlock_irqrestore(&priv->ptp_lock, flags);
- 		get_arttime(priv->mii, intel_priv->mdio_adhoc_addr, &art_time);
--		*system = convert_art_to_tsc(art_time);
-+		system->cycles = art_time;
- 	}
- 
- 	system->cycles *= intel_priv->crossts_adj;
-+	system->cs_id = CSID_X86_ART;
- 	priv->plat->flags &= ~STMMAC_FLAG_INT_SNAPSHOT_EN;
- 
- 	return 0;
---- a/drivers/ptp/ptp_kvm_common.c
-+++ b/drivers/ptp/ptp_kvm_common.c
-@@ -28,15 +28,14 @@ static int ptp_kvm_get_time_fn(ktime_t *
- 			       struct system_counterval_t *system_counter,
- 			       void *ctx)
- {
--	long ret;
--	u64 cycle;
- 	struct timespec64 tspec;
--	struct clocksource *cs;
-+	int ret, cs_id;
-+	u64 cycle;
- 
- 	spin_lock(&kvm_ptp_lock);
- 
- 	preempt_disable_notrace();
--	ret = kvm_arch_ptp_get_crosststamp(&cycle, &tspec, &cs);
-+	ret = kvm_arch_ptp_get_crosststamp(&cycle, &tspec, &cs_id);
- 	if (ret) {
- 		spin_unlock(&kvm_ptp_lock);
- 		preempt_enable_notrace();
-@@ -46,7 +45,7 @@ static int ptp_kvm_get_time_fn(ktime_t *
- 	preempt_enable_notrace();
- 
- 	system_counter->cycles = cycle;
--	system_counter->cs = cs;
-+	system_counter->cs_id = cs_id;
- 
- 	*device_time = timespec64_to_ktime(tspec);
- 
---- a/drivers/ptp/ptp_kvm_x86.c
-+++ b/drivers/ptp/ptp_kvm_x86.c
-@@ -92,8 +92,7 @@ int kvm_arch_ptp_get_clock(struct timesp
- 	return 0;
- }
- 
--int kvm_arch_ptp_get_crosststamp(u64 *cycle, struct timespec64 *tspec,
--			      struct clocksource **cs)
-+int kvm_arch_ptp_get_crosststamp(u64 *cycle, struct timespec64 *tspec, int *cs_id)
- {
- 	struct pvclock_vcpu_time_info *src;
- 	unsigned int version;
-@@ -123,7 +122,7 @@ int kvm_arch_ptp_get_crosststamp(u64 *cy
- 		*cycle = __pvclock_read_cycles(src, clock_pair->tsc);
- 	} while (pvclock_read_retry(src, version));
- 
--	*cs = &kvm_clock;
-+	*cs_id = kvm_clock.id;
- 
- 	return 0;
- }
---- a/include/linux/clocksource.h
-+++ b/include/linux/clocksource.h
-@@ -21,6 +21,7 @@
- #include <asm/div64.h>
- #include <asm/io.h>
- 
-+struct clocksource_base;
- struct clocksource;
- struct module;
- 
-@@ -70,6 +71,7 @@ struct module;
-  *			validate the clocksource from which the snapshot was
-  *			taken.
-  * @flags:		Flags describing special properties
-+ * @base_clk:		Optional pointer to an underlying base clock
-  * @enable:		Optional function to enable the clocksource
-  * @disable:		Optional function to disable the clocksource
-  * @suspend:		Optional suspend function for the clocksource
-@@ -111,6 +113,7 @@ struct clocksource {
- 	enum clocksource_ids	id;
- 	enum vdso_clock_mode	vdso_clock_mode;
- 	unsigned long		flags;
-+	struct clocksource_base	*base_clk;
- 
- 	int			(*enable)(struct clocksource *cs);
- 	void			(*disable)(struct clocksource *cs);
-@@ -294,4 +297,25 @@ static inline void timer_probe(void) {}
- extern ulong max_cswd_read_retries;
- void clocksource_verify_percpu(struct clocksource *cs);
- 
-+/**
-+ * struct clocksource_base - hardware abstraction for clock on which a clocksource is based
-+ * @id:			Defaults to CSID_GENERIC. The id value is used for conversion
-+ *			functions which require that the current clocksource is based
-+ *			on a clocksource_base with a particular ID
-+ *			in certain snapshot functions to allow callers to
-+ *			validate the clocksource from which the snapshot was
-+ *			taken.
-+ * @freq_khz:		Nominal frequency of the base clock in kHz
-+ * @offset:		Offset between the base clock and the clocksource
-+ * @numerator:		Numerator of the clock ratio between base clock and the clocksource
-+ * @denominator:	Denominator of the clock ratio between base clock and the clocksource
-+ */
-+struct clocksource_base {
-+	enum clocksource_ids	id;
-+	u32			freq_khz;
-+	u64			offset;
-+	u32			numerator;
-+	u32			denominator;
-+};
-+
- #endif /* _LINUX_CLOCKSOURCE_H */
---- a/include/linux/clocksource_ids.h
-+++ b/include/linux/clocksource_ids.h
-@@ -6,6 +6,9 @@
- enum clocksource_ids {
- 	CSID_GENERIC		= 0,
- 	CSID_ARM_ARCH_COUNTER,
-+	CSID_X86_TSC,
-+	CSID_X86_TSC_ART,
-+	CSID_X86_KVM_CLK,
- 	CSID_MAX,
- };
- 
---- a/include/linux/ptp_kvm.h
-+++ b/include/linux/ptp_kvm.h
-@@ -16,7 +16,6 @@ struct clocksource;
- int kvm_arch_ptp_init(void);
- void kvm_arch_ptp_exit(void);
- int kvm_arch_ptp_get_clock(struct timespec64 *ts);
--int kvm_arch_ptp_get_crosststamp(u64 *cycle,
--		struct timespec64 *tspec, struct clocksource **cs);
-+int kvm_arch_ptp_get_crosststamp(u64 *cycle, struct timespec64 *tspec, int csid);
- 
- #endif /* _PTP_KVM_H_ */
---- a/include/linux/timekeeping.h
-+++ b/include/linux/timekeeping.h
-@@ -270,12 +270,14 @@ struct system_device_crosststamp {
-  * struct system_counterval_t - system counter value with the pointer to the
-  *				corresponding clocksource
-  * @cycles:	System counter value
-- * @cs:		Clocksource corresponding to system counter value. Used by
-- *		timekeeping code to verify comparibility of two cycle values
-+ * @cs_id:	Clocksource ID. Either the ID of the current clocksource
-+ *		or the ID of a clocksource base.
-+ * @nsecs:	@cycles is in nanoseconds
-  */
- struct system_counterval_t {
- 	u64			cycles;
--	struct clocksource	*cs;
-+	enum clocksource_ids	cs_id;
-+	bool			nsecs;
- };
- 
- /*
---- a/kernel/time/timekeeping.c
-+++ b/kernel/time/timekeeping.c
-@@ -1191,6 +1191,78 @@ static bool cycle_between(u64 before, u6
- 	return false;
- }
- 
-+static u64 convert_clock(u64 val, u32 numerator, u32 denominator)
-+{
-+	u64 rem, res;
-+
-+	res = div_u64_rem(val, denominator, &rem) * numerator;
-+	return res + div_u64(rem * numerator, denominator);
-+}
-+
-+static bool convert_base_to_cs(struct system_counterval_t *scv)
-+{
-+	struct clocksource *cs = tk_core.timekeeper.tkr_mono.clock;
-+	struct clocksource_base *csb = clock->base;
-+
-+	/* The timestamp was taken from the time keeper clock source */
-+	if (cs->id == scv->cs_id)
-+		return true;
-+
-+	/* Check whether cs_id matches the base clock */
-+	if (!base || base->id != scv->cs_id)
-+		return false;
-+
-+	if (scv->nsecs)
-+		scv->cycles = convert_clock(scv->cycles, base->freq_khz, USEC_PER_SEC);
-+
-+	scv->cycles = convert_clock(scv->cycles, base->numerator, base->denominator);
-+	scv->cycles += base->offset;
-+	return true;
-+}
-+
-+static bool convert_cs_to_base(u64 *cycles, enum clocksource_ids base_id)
-+{
-+	struct clocksource *cs = tk_core.timekeeper.tkr_mono.clock;
-+	struct clocksource_base *csb = clock->base;
-+
-+	/* Check whether base_id matches the base clock */
-+	if (!base || base->id != base_id)
-+		return false;
-+
-+	*cycles = convert_clock(cycles - base->offset, base->denominator, base->numerator);
-+	return true;
-+}
-+
-+static u64 convert_ns_to_cs(u64 delta)
-+{
-+	struct tk_read *tkr = &tk_core.timekeeper.tkr_mono;
-+
-+	return div_u64(delta << tkr->shift, tkr->mult);
-+}
-+
-+bool ktime_real_to_base_clock(ktime_t treal, enum clocksource_ids base_id, u64 *cycles)
-+{
-+	struct timekeeper *tk = &tk_core.timekeeper;
-+	struct clocksource_base *csb;
-+	unsigned int seq;
-+	u64 delta;
-+
-+	do {
-+		seq = read_seqcount_begin(&tk_core.seq);
-+
-+		delta = (u64)treal - tk->tkr_mono.base_real;
-+		if (delta > tk->tkr_mono.clock->max_idle_ns)
-+			return false;
-+
-+		*cycles = tk->tkr_mono.cycle_last + convert_ns_to_cs(delta);
-+		if (!convert_cs_to_base(cycles, base_id))
-+			return false;
-+
-+	} while (read_seqcount_retry(&tk_core.seq, seq));
-+
-+	return true;
-+}
-+
- /**
-  * get_device_system_crosststamp - Synchronously capture system/device timestamp
-  * @get_time_fn:	Callback to get simultaneous device time and
-@@ -1231,13 +1303,9 @@ int get_device_system_crosststamp(int (*
- 		if (ret)
- 			return ret;
- 
--		/*
--		 * Verify that the clocksource associated with the captured
--		 * system counter value is the same as the currently installed
--		 * timekeeper clocksource
--		 */
--		if (tk->tkr_mono.clock != system_counterval.cs)
-+		if (!convert_base_to_cs(&system_counterval))
- 			return -ENODEV;
-+
- 		cycles = system_counterval.cycles;
- 
- 		/*
-@@ -1304,6 +1372,29 @@ int get_device_system_crosststamp(int (*
- EXPORT_SYMBOL_GPL(get_device_system_crosststamp);
- 
- /**
-+ * timekeeping_clocksource_has_base - Check whether the current clocksource has a base clock
-+ * @id:	The clocksource ID to check for
-+ *
-+ * Note: The return value is a snapshot which can become invalid right
-+ *	 after the function returns.
-+ *
-+ * Returns: True if the timekeeper clocksource has a base clock with @id, false otherwise
-+ */
-+bool timekeeping_clocksource_has_base(enum clocksource_ids id)
-+{
-+	unsigned int seq;
-+	bool ret;
-+
-+	do {
-+		seq = read_seqcount_begin(&tk_core.seq);
-+		ret = tk_core.timekeeper.tkr_mono.clock->base ?
-+			tk_core.timekeeper.tkr_mono.clock->base.id == id : false;
-+	} (read_seqcount_retry(&tk_core.seq, seq));
-+
-+	return ret;
-+}
-+
-+/**
-  * do_settimeofday64 - Sets the time of day.
-  * @ts:     pointer to the timespec64 variable containing the new time
-  *
---- a/sound/pci/hda/hda_controller.c
-+++ b/sound/pci/hda/hda_controller.c
-@@ -457,7 +457,8 @@ static int azx_get_sync_time(ktime_t *de
- 	*device = ktime_add_ns(*device, (wallclk_cycles * NSEC_PER_SEC) /
- 			       ((HDA_MAX_CYCLE_VALUE + 1) * runtime->rate));
- 
--	*system = convert_art_to_tsc(tsc_counter);
-+	system->cycles = tsc_counter;
-+	system->cs_id = CSID_X86_ART;
- 
- 	return 0;
- }
+--=-T2Gq0/eSGsrekyVKrt0t--
