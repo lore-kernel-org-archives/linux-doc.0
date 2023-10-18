@@ -1,105 +1,194 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9455128DD9;
-	Wed, 18 Oct 2023 21:51:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030FD81A;
+	Wed, 18 Oct 2023 21:58:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ryhl.io header.i=@ryhl.io header.b="MV/2ipkd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gRW0f4Uw"
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 209F2EA;
-	Wed, 18 Oct 2023 14:51:15 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id C225E3200A21;
-	Wed, 18 Oct 2023 17:51:12 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 18 Oct 2023 17:51:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ryhl.io; h=cc:cc
-	:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-	1697665872; x=1697752272; bh=AlPk2h7qGZuNRoWEGnMtQ/VbGE5sTysrzAQ
-	3hMfPOm0=; b=MV/2ipkds3A0kM23N1L6SvL5v39JUSZ/7dCiIgqUscjSfuR28xP
-	+gHW717cx8Ou36WXe4hdkN2kn1v/thrNXX7/R6MnyQKyBLQl+kVSVzK4uvKJxDrR
-	Qo8ckMRoPzCNGXhoUC2VX1wiJZOBMdgiGRjbqKiGNZ30CGpZic9RyTmAhpXS/JHV
-	F4fHCFBwwnH2nvftiOscrz1cCsMsZQ6D2G6IIRXnUGFSDo9Nqp5XT3gAIS6FbE7t
-	xmgpNg2E4HsT3dbm5MKU3E09NYzsFM07KY6R7Kw2u1oZa9C5tUvkGOL3Yn8wmWLp
-	WUrhC3henRYpKXORIi4Y51iWGRKnbpdMnwA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1697665872; x=1697752272; bh=AlPk2h7qGZuNRoWEGnMtQ/VbGE5sTysrzAQ
-	3hMfPOm0=; b=gRW0f4Uw0B0uHLHG8GJg+TXyxwlgLiCedYCW3SP/qsX5PmafaTV
-	lyuaeRKxB417SgrYQwIWXC6H0mXlVgC8YBqoTbM3bbY6b+ky+VjKUVBLAUfUAFhJ
-	ug9Tbp3hqz4i5L3kqkdI736/uN4VlyPHmtLZVxSD7VLvNVfzbs1hsYeVnbtU8At0
-	rdfNT3bzruY8ituZLgdIIiFKZO7BV/IBaZ+UFfDNjnnUAKKvFofP6tM8DPWxzoIE
-	eWr2FbpY3eQn2TWrg3Vx3w3HGPITQnojl/lF0P9DdZp0E7uvE+oUxUM4KRelb4FD
-	LFcdmcobhmL6foiGX7CLKX+gDa4vrEKj4AQ==
-X-ME-Sender: <xms:T1MwZV4S4RSgsEWVy-U8rCiayMEnHitOoX_gY6b3gQu6lUIljzmI6A>
-    <xme:T1MwZS5i89RomhrvzBhhe3tqZLN1TsAHlaRLCKdnA283VPWZhvMGTNJhG7iIquGOE
-    T2SYZTSV6sQjQzbmg>
-X-ME-Received: <xmr:T1MwZcd5nrOjAZ1OvPd0Thczof9IrtgtVEdER-8e-rXAyFKo-oDCqWClW3ZNQBFK8U1kCjGRY0x-ipV99YrSFMTI0vXz1YnjR9UY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrjeehgddtvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlihgt
-    vgcutfihhhhluceorghlihgtvgesrhihhhhlrdhioheqnecuggftrfgrthhtvghrnhepfe
-    fguefgtdeghfeuieduffejhfevueehueehkedvteefgfehhedtffdutdfgudejnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihgtvgesrh
-    ihhhhlrdhioh
-X-ME-Proxy: <xmx:T1MwZeIPOva27k4DFERVnumUg4IAsc4TZUBnX713HecdrQx-bq3qrg>
-    <xmx:T1MwZZKTmd1BTYAs69H33kGVmUdMPQJTEoz7Kwi8M7zZc2DOoh_mxg>
-    <xmx:T1MwZXydd3ylQRYNjbwr-oy78zzAIt1FfS4MlzKx4IH5F4y2NqqYIA>
-    <xmx:UFMwZRLp8_Av_Tie1gf-y-TLEAzRLamoZbf9p6mFdT5n68xY2IBioA>
-Feedback-ID: i56684263:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Oct 2023 17:51:07 -0400 (EDT)
-Message-ID: <9f262bcc-a551-43c1-8bf2-c5c6eb6f99ed@ryhl.io>
-Date: Wed, 18 Oct 2023 23:51:07 +0200
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="SzNGTq7/"
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2078.outbound.protection.outlook.com [40.107.21.78])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DFE5B6;
+	Wed, 18 Oct 2023 14:58:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lRXKeHJctBEVEUU8aR0It3qfAc8aZ34VoY/xvun/MPNBjFIwG54hagxxJvGpHs5db6k4QSbU1da2rgjmEL36YxgC9TL0Dry9bHXyQRuq5Bzl7yOFt7a7UYL/mv+N+Lunqu1VBV6zTYfeSnbCRyqhQY4QApUbNM6fR7bkX5vfhjTxd6izbcG6/xIKfAaiWUqKPTNW9zkjBLfXN2a3I2Apbeyrgm1dqrcFAWXb2GF3K63WtIhDLlGWvmIqFkKTTIDowB7LvHaj3+rRSKIjUgEBaioMAAbTJhnRiwiFzC3K/0iLiJjIbswjVU7b3e3qZubLHrN6vPn/mm0pg8ujIO509w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Al89GYN+eGXpUE5h903F768lF0xpfuhJAQu2vm0WI6w=;
+ b=c0bDhBSz77CZbodEMwRtlJ+eoEDXgvLhK2b1raEPf+A5BpJtbzN1FodiqUMzgori5FtwnnjJeU9eAmyUl5Q0/GMtcz0JuSQAxgDyZqTmjlJsqm+bHHvZDFLSCRd92VgUklXb9HBtHggAe4k+WLoFDbHjq9GOUYFFg37KNiJ45L6Wnn5cM26sS0aL9NX/oXQBMc3TNQRYwc+uyka8mfm4IxZP5Z4ZWK64ye/D8XLha5Wm8e+QWw9M1GXPcuhPJrawPxyt8LDbFmVk+1iwDX8CK1KIbvX0Sjp/tzhI+9o1gP2WLxpGCosOa9GdmzKtiNxR099TOSjwFRVBP+tgLkzG4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Al89GYN+eGXpUE5h903F768lF0xpfuhJAQu2vm0WI6w=;
+ b=SzNGTq7/iMIKcWChPBkX71gxeHDhn/rpjmY7B5fa+DiiqJoROUl4Mzx4/67Z6XIlwbiSKjEEqwSaAt1acJfCp3i8ATCo4+kr+aVfcl/xYEXgbVaqlGQigX1PDgj6e+L3wB+N7+KAhapd00XpSjnKx/4f9KINQtQ5fzoq8gIt3bQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB4838.eurprd04.prod.outlook.com (2603:10a6:20b:4::16)
+ by DB9PR04MB9750.eurprd04.prod.outlook.com (2603:10a6:10:4c5::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.25; Wed, 18 Oct
+ 2023 21:58:29 +0000
+Received: from AM6PR04MB4838.eurprd04.prod.outlook.com
+ ([fe80::1774:e25f:f99:aca2]) by AM6PR04MB4838.eurprd04.prod.outlook.com
+ ([fe80::1774:e25f:f99:aca2%4]) with mapi id 15.20.6907.022; Wed, 18 Oct 2023
+ 21:58:29 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: miquel.raynal@bootlin.com,
+	conor.culhane@silvaco.com,
+	alexandre.belloni@bootlin.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	joe@perches.com,
+	Frank.Li@nxp.com,
+	linux-i3c@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	imx@lists.linux.dev,
+	jirislaby@kernel.org,
+	linux-serial@vger.kernel.org
+Subject: [PATCH 0/5] I3C slave mode support
+Date: Wed, 18 Oct 2023 17:58:04 -0400
+Message-Id: <20231018215809.3477437-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0225.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::20) To AM6PR04MB4838.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] kbuild: remove old Rust docs output path
-Content-Language: en-US-large
-To: Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Carlos Bilbao <carlos.bilbao@amd.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Alex Gaynor <alex.gaynor@gmail.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@lists.linux.dev,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Nicolas Schier <nicolas@fjasle.eu>,
- Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20231018160145.1017340-1-ojeda@kernel.org>
- <20231018160145.1017340-2-ojeda@kernel.org>
-From: Alice Ryhl <alice@ryhl.io>
-In-Reply-To: <20231018160145.1017340-2-ojeda@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB4838:EE_|DB9PR04MB9750:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d1e612d-0454-45c1-4ed0-08dbd0255c7c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	vbXJw5c3fmmjr8mj/YXHbR6ui7blod5m9vOdYhGhWNSdyJq7/vLQbEDu52IyppinPGYhiuoh8gFgF0oQ2py4VSccyrsZMCKjwWC7HUuSCueBR2trQQNr5oqn5mfbEowvzqDMg9BzT9IeIO23Hy/QOjGeYYb/pDnys3zyEYfq7tM7A40SZZNCgBL/FZl2ryqI8OMV9mh+swRYv1fAaXrIqyKDhfosZV3fjMQ83SDNZ382GC6JAaYUntrgxTil5GaPoCt7woG1mzIz0KadQW/HYWKP9+5PJgpH0xmIZ507nAp0P7Wc1wsv+O57Xb/EBCF8LWNaG4E9yX443zH9A6mH4IDolwHcRU8fPngY4/vv3/+e1cNbtzEikzTJ2JWUWAPaz37wKeh1yN6lfy0sME1x3VberxtyMYFe+ET4lWnFzpp20nDMav9qMV65bO6+6G40345Ck1ozy6fwkN/+2hIabfmSvcWCfzSOUrYQmZfq25SnkXZkBRQE4qaXlJurZZ7DWC+gMSr7589DR5D4OsAFKXmPCR+PwL9ObPGBxUXeUcenaEjD7C2M6eJbMUqw88gMZ2yz3tNdyA9fpnqwN8YKWyeBR+YvK15nQFRF3w+hSxzPSGroYGDzQ3WvD0PASnSV
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4838.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(396003)(39860400002)(136003)(366004)(230922051799003)(1800799009)(451199024)(186009)(64100799003)(66946007)(66556008)(66476007)(316002)(6666004)(478600001)(6486002)(966005)(8936002)(8676002)(36756003)(5660300002)(41300700001)(4326008)(2906002)(86362001)(7416002)(38100700002)(2616005)(52116002)(6512007)(1076003)(83380400001)(6506007)(26005)(921005)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gZaZ8HbKVDUrWzMGK6J/yWFbbO/UETRj9Ux7NtKDpv2sGd2ukxIbhvZLde4g?=
+ =?us-ascii?Q?H8rvQh3NKJxI67mIWmFnRCoAizUiF1eZmgQnEN7rws1Jb04B6fEy2QKzFiSF?=
+ =?us-ascii?Q?/c14hXaVfs0d0dL4c496tUs1t7ERZ5VTZ8kGK/DQANG5Ey6fbBvdvFgzMuHg?=
+ =?us-ascii?Q?hAdCnn7Obg4v+ry08yD/3AzTlDYLOsevcpcsgeznI2KN5ZgLHrv2JHpCIlZG?=
+ =?us-ascii?Q?OS5iaKdGhr09EgtpwrdOd4qgHGnGhFsLDShSYNFbybgWyWMJ69PasE2sfYnB?=
+ =?us-ascii?Q?obsRRysEaU1xPibUG647nzkprySzKqPDZJdMPqpckNtLA+1lJrGkdzlSSjT4?=
+ =?us-ascii?Q?5WyzceWFvso5Mli2Y+xp6VYpZEmoFGIp80zUk7dpLkzOjniDq/LW3fw7H90p?=
+ =?us-ascii?Q?vPGQK4epkXuoCLzXp21AaaUjsgTX042kg+WUfkvkK3+19vHqy+6hvhP+4JUt?=
+ =?us-ascii?Q?Kc3o50czOI/qVqboG5rt+NA5XMKRkvaqqWpf/vVEAgiK7CvUCYAyTRTZ8gak?=
+ =?us-ascii?Q?kvTgNP13TdYRgzznwRLq+GhizOa36od6spVaA1glm1m0DdhiTW+l9hca+ONh?=
+ =?us-ascii?Q?RweE0igF4cm7UmdjsGtaKFrhV3XRazibG1oIGKfZHkY3EzdFS+gPKWx/MhHh?=
+ =?us-ascii?Q?SkvWMItHzrSXguwj6kpxqgld8kZdCnqh2jx1Cw8U9K7tBsObvahzx0KQLf1F?=
+ =?us-ascii?Q?XfyDN51xObE2VS+izAxOQE9cJjDWkSi+uxTdE0ZTtnzKXgeiDjoCeQhx+ARc?=
+ =?us-ascii?Q?ira90NPlsGE5u6oxvXGmJaiKYQ6uR+FjnYFrjyTGcxLRm1nkQ8K9NSxgD50i?=
+ =?us-ascii?Q?B7aFj1iPH8RYFF7TsD5TkNCtYw8g0moAMmDBtiD4IcnJmgcNIlTbQCHn2t39?=
+ =?us-ascii?Q?xO1MGTmfqsAHKJjQTL/VCSgKHTzG2rVzAC2siQBkViIFncFxIf+Bgn4SsR+6?=
+ =?us-ascii?Q?nUbRciVezQGtwdcaisxMdmSoURYuqLZZ+thKd6a347rm92/NEmUiWOqPFeMw?=
+ =?us-ascii?Q?VV2xJnGx5Cn0TRdS8zQhtCp3WlLn1N+1HqODLmPl29QmPJ8xj6TP5n/wXw4o?=
+ =?us-ascii?Q?x04XYcFFShg/VbYv1Nw1HGi6b9xy8hlsjqTED8q9P8p/cbTE8qg8QTy3Z2/H?=
+ =?us-ascii?Q?ovtTY7kWH2i6pkxb5DWsIlifO+YNAnDYCw1ACxe8jr3uQtzKB48c/QvWQMzZ?=
+ =?us-ascii?Q?nFhOIZaJi9q20sslovLhJPTJkwH5wXJ0emk/ps4KID8FkUJKN29GozFDjkDj?=
+ =?us-ascii?Q?O+Q/BPKCPYIppCSaTWCpT+iJbT4kFv30JNwaLmYYLtvgwPMQPnN1ReNHFgE8?=
+ =?us-ascii?Q?dtF8Vi2twC4ULTe4MKa+31BAn/Q6xTwg2jQ1ydOupKRgJrOhKBTrx9jbM/o5?=
+ =?us-ascii?Q?69zWLccO5/YwDw0lXBtIzvAFJyTyeEjqeYQYKJUarwuU7J/zoJRvfyLEe8zj?=
+ =?us-ascii?Q?x1aNfks18aHaY09F9Tf7EvFGmptGux5YjaL80tTkHvZOrRtgHe88MN1K/Qmb?=
+ =?us-ascii?Q?OuiHYhBIKF67sM3TQfIXDQ13Xe7KX0exCZYdHHsemE+/V4EYZAdv3iiS0X2u?=
+ =?us-ascii?Q?tmWeeJrscH9sgWCwiGZ/FMDz1SRBTuzI7yzxySNG?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d1e612d-0454-45c1-4ed0-08dbd0255c7c
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4838.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2023 21:58:28.9153
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xupsPAD27W2tAML6BLhf3v27Sp6HkYGvuhmgD8+Y/V7vdXu3PFTmtq6TVpKI9TEzWpJlboz0rR4x6TxrJK9SVw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9750
 
-On 10/18/23 18:01, Miguel Ojeda wrote:
-> The Rust code documentation output path moved from `rust/doc` to
-> `Documentation/output/rust/rustdoc`. The `make cleandocs` target
-> takes care of cleaning it now since it is integrated with the rest
-> of the documentation.
-> 
-> Thus remove the old reference.
-> 
-> Fixes: 48fadf440075 ("docs: Move rustdoc output, cross-reference it")
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+This  patch introduces support for I3C slave mode, which is referenced
+with a PCIe Endpoint system. It also establishes a configuration framework
+(configfs) for the I3C slave controller driver and the I3C slave function
+driver
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Typic usage as
+
+The user can configure the i3c-slave-tty device using configfs entry. In
+order to change the vendorid, the following commands can be used
+
+        # echo 0x011b > functions/tty/func1/vendor_id
+        # echo 0x1000 > functions/tty/func1/part_id
+        # echo 0x6 > functions/tty/t/bcr
+
+Binding i3c-slave-tty Device to slave Controller
+------------------------------------------------
+
+In order for the slave function device to be useful, it has to be bound to
+a I3C slave controller driver. Use the configfs to bind the function
+device to one of the controller driver present in the system::
+
+        # ln -s functions/pci_epf_test/func1 controllers/44330000.i3c-slave/
+
+Host side:
+        cat /dev/ttyI3C0
+Slave side:
+        echo abc >/dev/ttyI3C0
+
+Master side patch:
+https://lore.kernel.org/imx/20231018211111.3437929-1-Frank.Li@nxp.com/T/#u
+
+Frank Li (5):
+  i3c: add slave mode support
+  dt-bindings: i3c: svc: add compatible string i3c: silvaco,i3c-slave
+  i3c: slave: add svc slave controller support
+  i3c: slave: func: add tty driver
+  Documentation: i3c: Add I3C slave mode controller and function
+
+ .../bindings/i3c/silvaco,i3c-master.yaml      |   8 +-
+ Documentation/driver-api/i3c/index.rst        |   1 +
+ .../driver-api/i3c/slave/i3c-slave-cfs.rst    | 109 +++
+ .../driver-api/i3c/slave/i3c-slave.rst        | 189 +++++
+ .../driver-api/i3c/slave/i3c-tty-function.rst | 103 +++
+ .../driver-api/i3c/slave/i3c-tty-howto.rst    | 109 +++
+ Documentation/driver-api/i3c/slave/index.rst  |  13 +
+ drivers/i3c/Kconfig                           |  30 +
+ drivers/i3c/Makefile                          |   4 +
+ drivers/i3c/func/Kconfig                      |   9 +
+ drivers/i3c/func/Makefile                     |   3 +
+ drivers/i3c/func/tty.c                        | 548 ++++++++++++
+ drivers/i3c/i3c-cfs.c                         | 389 +++++++++
+ drivers/i3c/slave.c                           | 453 ++++++++++
+ drivers/i3c/slave/Kconfig                     |   9 +
+ drivers/i3c/slave/Makefile                    |   4 +
+ drivers/i3c/slave/svc-i3c-slave.c             | 795 ++++++++++++++++++
+ include/linux/i3c/slave.h                     | 503 +++++++++++
+ 18 files changed, 3276 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/driver-api/i3c/slave/i3c-slave-cfs.rst
+ create mode 100644 Documentation/driver-api/i3c/slave/i3c-slave.rst
+ create mode 100644 Documentation/driver-api/i3c/slave/i3c-tty-function.rst
+ create mode 100644 Documentation/driver-api/i3c/slave/i3c-tty-howto.rst
+ create mode 100644 Documentation/driver-api/i3c/slave/index.rst
+ create mode 100644 drivers/i3c/func/Kconfig
+ create mode 100644 drivers/i3c/func/Makefile
+ create mode 100644 drivers/i3c/func/tty.c
+ create mode 100644 drivers/i3c/i3c-cfs.c
+ create mode 100644 drivers/i3c/slave.c
+ create mode 100644 drivers/i3c/slave/Kconfig
+ create mode 100644 drivers/i3c/slave/Makefile
+ create mode 100644 drivers/i3c/slave/svc-i3c-slave.c
+ create mode 100644 include/linux/i3c/slave.h
+
+-- 
+2.34.1
+
