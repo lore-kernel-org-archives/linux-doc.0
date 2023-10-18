@@ -1,61 +1,64 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFB811723
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 08:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB7418051
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 09:24:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGlUJPga"
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA43C6;
-	Wed, 18 Oct 2023 01:46:17 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6b20a48522fso4214744b3a.1;
-        Wed, 18 Oct 2023 01:46:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPTayhge"
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BEA1FD;
+	Wed, 18 Oct 2023 02:24:32 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6b1e46ca282so5062178b3a.2;
+        Wed, 18 Oct 2023 02:24:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697618777; x=1698223577; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697621071; x=1698225871; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MjM8NJM6JVllRLYgSnqxLAwOLXcWEQAjyuI0Ba4HE+U=;
-        b=RGlUJPgaAbhah3No4hAbopJ/BSPdzOf73CA5yt/f9lEedbf2sGeYlPbBig4bNV5M7E
-         jbdI9tq9uRFGRXaeUph+SDUdF9TJWKB/R9536oRY6dtYwlda5eO1vagy+/mYTYtcV4Jg
-         m1WFK9uV+DTfGD5UFmDz5AbpoWOfP6cGPhgFP51XcEpWxICEZmP/GwMxbifqDzguCL2c
-         eez7ZK4OrIQqfBRkoT8hGzH4jhR4QUXk+tBknd665sHhmWvKG9koV6Wx99tiACicpiEa
-         HXVrwpHMUYsTemTBiYM59yQS0Sj+SEiqTWR8iS8SJLuAcDuaI3OA6wvnPbCP0bdvQGyY
-         7bMQ==
+        bh=XNODfCJOfjqEYgALnWtSMFHwQkcZjrciucUthP4q5zM=;
+        b=EPTayhges6SubgIe2UQDVS+32aO3vGkKFe8kbYt7WgY5hcH5IN/IBe/xetyAZOouIf
+         LlNPKD+MK9kw0S1G9cJ46hqP5ipBjihPkUBJpN2h+tbZEZ0V6MIV3sY+bFu7VOcXgreS
+         IEee3cTr0iXdPN8+GmJUXgkwuCG3P05MGw4+vBL9al7KKq3AFkwSMQrO2cX2/Jk2Y+CE
+         mO1ehOBR0Fov9pdAkkmrnoZEY1+LqyCH/cho/jihaKRnRtl2iBKGU+2kNuevdoiB/s7N
+         1RAAdxgwIlbRZjJV2utvoYfz9HtlGmncc/Lli+GPOHffEiZrOW2LyRnuqHlN+MQIEK3P
+         uriA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697618777; x=1698223577;
+        d=1e100.net; s=20230601; t=1697621071; x=1698225871;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MjM8NJM6JVllRLYgSnqxLAwOLXcWEQAjyuI0Ba4HE+U=;
-        b=n9n3qvt/uOyxy3a2D7mgHoU1377hcABSsnPZTzGCjhOMQjHJaUq2AdiRIT2iBDndoD
-         O9sdJ5LHo5Z9iFDhS6MjukyKa5lgD4JKErfKGrcBlxWPlqa/PWaK/H4JEXg9kDUIn3Kc
-         z+tP2E2co8jxYpDRrnpW7Gd1RtaQ3bU64ZVFdyvb3QPACMvS6/eEkrgJjUydN+2PdCOU
-         //YDak8uNO+gblp6HHUetAfz8QSdN0si2/6Zm0IIwUmmX5CFw3Vg4rI3RgEyRi/IGnni
-         psdmToqKf3lVsmrxXl9D4rFvt1o/ZU2rg4G/gmkQ7zVDW0zW3jGfVS6JGkUKDm8JDNtR
-         +ZgA==
-X-Gm-Message-State: AOJu0YyQVuCEqzZQ5ay3oS9VJFuoJLd6A7+imQ04pql9AK8w4i7umlX4
-	1PEG22uvHrnzZHJbHso7S7k=
-X-Google-Smtp-Source: AGHT+IG8R9G5TZ+zQwGOq2WBl4PnJCcrqIk75aloxXiztkp1XP4DNIRMi5/iueAfV9rDsF01rx7A2A==
-X-Received: by 2002:a05:6a20:a123:b0:159:b7ba:74bd with SMTP id q35-20020a056a20a12300b00159b7ba74bdmr5205717pzk.50.1697618777184;
-        Wed, 18 Oct 2023 01:46:17 -0700 (PDT)
+        bh=XNODfCJOfjqEYgALnWtSMFHwQkcZjrciucUthP4q5zM=;
+        b=gmPPd5L32wREBlfvqCWqx2hUcUS07EvK7InIZKtmWAAzN7nrHQXnnylzuz/tMJfhSG
+         NhzhK0rLiE4GGsReWVqjeV4j2M57jCA9fW/Zc8tYpwFarzyTw4RdUw3sIB9BRM9jyhzj
+         5JWJaXbN9P5dfmKPTVa54uuOAj2n7r/ptPeDvee7e47cQG+tv9oPeVVSDWCiBAHYIJDI
+         su5/VmNrpP2c91NSnyWS+vhJTPn02Ni8TcEapWccFqlZAYPTTn2PUoUrsVernBw1s8wi
+         5leIY77do2xS085li/KKnMXFLj3Wa6ae8R1gro0z7Ej10XZu5t7o+ylItPoWVuLzqAmq
+         1aeA==
+X-Gm-Message-State: AOJu0Yw2u5JyP5V//GH0hPovQW7y6+SVdTs0wY0oL8UcVeAjwkH8Rkj2
+	IHwesTqlm6R/Yj3lfQ9bVsw=
+X-Google-Smtp-Source: AGHT+IHMtkomy48m2lIkAxF4mw34c4FzfowG/XQaP/plDDeQIwFErlB+vSFZKCbh1uGV3u+wOayZ5g==
+X-Received: by 2002:a05:6a00:218f:b0:68a:54e5:24e6 with SMTP id h15-20020a056a00218f00b0068a54e524e6mr5142412pfi.8.1697621071197;
+        Wed, 18 Oct 2023 02:24:31 -0700 (PDT)
 Received: from localhost (dhcp-72-235-13-41.hawaiiantel.net. [72.235.13.41])
-        by smtp.gmail.com with ESMTPSA id a7-20020a170902b58700b001ca4c20003dsm2954311pls.69.2023.10.18.01.46.16
+        by smtp.gmail.com with ESMTPSA id n8-20020aa79848000000b00689f5940061sm2945737pfq.17.2023.10.18.02.24.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 01:46:16 -0700 (PDT)
+        Wed, 18 Oct 2023 02:24:30 -0700 (PDT)
 Sender: Tejun Heo <htejun@gmail.com>
-Date: Tue, 17 Oct 2023 22:46:15 -1000
+Date: Tue, 17 Oct 2023 23:24:29 -1000
 From: Tejun Heo <tj@kernel.org>
 To: Waiman Long <longman@redhat.com>
 Cc: Zefan Li <lizefan.x@bytedance.com>,
 	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Peter Hunt <pehunt@redhat.com>
-Subject: Re: [PATCH] docs/cgroup: Add the list of threaded controllers to
- cgroup-v2.rst
-Message-ID: <ZS-bVxCAptXLotC_@slm.duckdns.org>
-References: <20231017171341.3683352-1-longman@redhat.com>
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH-cgroup 1/4] workqueue: Add
+ workqueue_unbound_exclude_cpumask() to exclude CPUs from wq_unbound_cpumask
+Message-ID: <ZS-kTXgSZoc985ul@slm.duckdns.org>
+References: <20231013181122.3518610-1-longman@redhat.com>
+ <20231013181122.3518610-2-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,24 +67,93 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231017171341.3683352-1-longman@redhat.com>
+In-Reply-To: <20231013181122.3518610-2-longman@redhat.com>
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Tue, Oct 17, 2023 at 01:13:41PM -0400, Waiman Long wrote:
-> The cgroup-v2 file mentions the concept of threaded controllers which can
-> be used in a threaded cgroup. However, it doesn't mention clearly which
-> controllers are threaded leading to some confusion about what controller
-> can be used requiring some experimentation. Clear this up by explicitly
-> listing the controllers that can be used currently in a threaded cgroup.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
+Hello,
 
-Applied to cgroup/for-6.7.
+On Fri, Oct 13, 2023 at 02:11:19PM -0400, Waiman Long wrote:
+> When the "isolcpus" boot command line option is used to add a set
+> of isolated CPUs, those CPUs will be excluded automatically from
+> wq_unbound_cpumask to avoid running work functions from unbound
+> workqueues.
+> 
+> Recently cpuset has been extended to allow the creation of partitions
+> of isolated CPUs dynamically. To make it closer to the "isolcpus"
+> in functionality, the CPUs in those isolated cpuset partitions should be
+> excluded from wq_unbound_cpumask as well. This can be done currently by
+> explicitly writing to the workqueue's cpumask sysfs file after creating
+> the isolated partitions. However, this process can be error prone.
+> Ideally, the cpuset code should be allowed to request the workqueue code
+> to exclude those isolated CPUs from wq_unbound_cpumask so that this
+> operation can be done automatically and the isolated CPUs will be returned
+> back to wq_unbound_cpumask after the destructions of the isolated
+> cpuset partitions.
+> 
+> This patch adds a new workqueue_unbound_exclude_cpumask() to enable
+> that. This new function will exclude the specified isolated CPUs
+> from wq_unbound_cpumask. To be able to restore those isolated CPUs
+> back after the destruction of isolated cpuset partitions, a new
+> wq_user_unbound_cpumask is added to store the user provided unbound
+> cpumask either from the boot command line options or from writing to
+> the cpumask sysfs file. This new cpumask provides the basis for CPU
+> exclusion.
+
+The behaviors around wq_unbound_cpumask is getting pretty inconsistent:
+
+1. Housekeeping excludes isolated CPUs on boot but allows user to override
+   it to include isolated CPUs afterwards.
+
+2. If an unbound wq's cpumask doesn't have any intersection with
+   wq_unbound_cpumask we ignore the per-wq cpumask and falls back to
+   wq_unbound_cpumask.
+
+3. You're adding a masking layer on top with exclude which fails to set if
+   the intersection is empty.
+
+Can we do the followings for consistency?
+
+1. User's requested_unbound_cpumask is stored separately (as in this patch).
+
+2. The effect wq_unbound_cpumask is determined by requested_unbound_cpumask
+   & housekeeping_cpumask & cpuset_allowed_cpumask. The operation order
+   matters. When an & operation yields an cpumask, the cpumask from the
+   previous step is the effective one.
+
+3. Expose these cpumasks in sysfs so that what's happening is obvious.
+
+> +int workqueue_unbound_exclude_cpumask(cpumask_var_t exclude_cpumask)
+> +{
+> +	cpumask_var_t cpumask;
+> +	int ret = 0;
+> +
+> +	if (!zalloc_cpumask_var(&cpumask, GFP_KERNEL))
+> +		return -ENOMEM;
+> +
+> +	/*
+> +	 * The caller of this function may have called cpus_read_lock(),
+> +	 * use cpus_read_trylock() to avoid potential deadlock.
+> +	 */
+> +	if (!cpus_read_trylock())
+> +		return -EBUSY;
+
+This means that a completely unrelated cpus_write_lock() can fail this
+operation and thus cpuset config writes. Let's please not do this. Can't we
+just make sure that the caller holds the lock?
+
+> +	mutex_lock(&wq_pool_mutex);
+> +
+> +	if (!cpumask_andnot(cpumask, wq_user_unbound_cpumask, exclude_cpumask))
+> +		ret = -EINVAL;	/* The new cpumask can't be empty */
+
+For better or worse, the usual mode-of-failure for "no usable CPU" is just
+falling back to something which works rather than failing the operation.
+Let's follow that.
 
 Thanks.
 
