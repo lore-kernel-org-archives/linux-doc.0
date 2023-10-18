@@ -1,110 +1,122 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503BD3FB33
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 18:08:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531283FB33;
+	Wed, 18 Oct 2023 18:12:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UD7MVgXN"
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E37118;
-	Wed, 18 Oct 2023 11:08:53 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1c9d407bb15so60384125ad.0;
-        Wed, 18 Oct 2023 11:08:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2K0V8Sq"
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A62BB6;
+	Wed, 18 Oct 2023 11:12:50 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-5ae99bb5ccdso2898655a12.1;
+        Wed, 18 Oct 2023 11:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697652533; x=1698257333; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ld6HmXLSYRRRsAXk7NaS7NcT8UF+AvonAWMQInf21LE=;
-        b=UD7MVgXNuSYKv1eZYy22clNA9NTWtaxLqRhxKkHPSPZxhELa0z40BF/KmR0zmQ0ppG
-         +uGwd0u+CNucMQGtrCGq4Az+kNOvC+q15pjg3zJTkMlzitoqG7igm/HRpbtYCsJi73Rq
-         1i39Y/HaNF5r8dwGgMUWaiThbatG8Fvizc1q1ESMaRRDKqSOwEeMHdvVugyGy5ZGFRvc
-         20DSsqreZqzEYenaKx58gw4qTeXI8s3c/mGPkgE8QgL+JeSFnqUMHu7yEuaGe4+XrVNb
-         HFqerREvEdn1vetR5V2I3LrcR49e8+AHJWV2dxbrIlIpZhoxwJXvSYMLxplBd/Ap9dtT
-         dJyw==
+        d=gmail.com; s=20230601; t=1697652770; x=1698257570; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I6GMn7cpKzACEI5MaPrz+Tfss8qgnZd3IVim37pXeBs=;
+        b=f2K0V8SqWW+Zt/01FNhQDn+iHMPhW85Ok80T9q98ti1Q7vi0JoKMvmGfULpgLeye8n
+         B8F06tnMlPvQLFRb1Xm6Xbgoy3/cVov6+2imOYp83MLuEqTdfxj3GnZ7jyl4MqO+XU9x
+         SBdMYD8VUAmDLV097eowb+ygo/yBQT0zKwS3ymvh0R/dyrAlxx0wSs05GIrLU1jmFJ9F
+         hv1XMRRXf0Mk1nd6WCXtc9RVa0e0npBkBGrvAQEHta58bd4hPwheaNYc0Ye+9tS8r9kf
+         oEywEISL06SoYIQcEUc9zWw8C19M4PXqVDrEZunIvL9YFQg8nwkTLZqkwudd9xN42hxz
+         Su0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697652533; x=1698257333;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1697652770; x=1698257570;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ld6HmXLSYRRRsAXk7NaS7NcT8UF+AvonAWMQInf21LE=;
-        b=b4nEuYnaPxwvvmO/gFgGpcDW88HUT6nXIyC2/uhlKkSkCSMpF6pA+sF8NWqR+fC6uo
-         P3OJ9LBBul/H2oORi4UulHf+FptjCHvwdbwcGSp+K2UBVYjFlOagvPqN0v8YKD7E9SGI
-         OKsRiGDUU2/ZN7CEhNH4gkpBuyqC2Lja+pm8wF5STk6mmWatM7qW3QINSQxW4H9P/asv
-         7hNfoQKBueokLTqQou3CJOBOfzpAeDXVEE4K+mnpj41/B8XttzbUiSZdTU4wsqgE6fkI
-         QqqcvadWOqSATMGm5qGONWc0QbQaAj6x/4zGWMNk0yOYzPr7eSHaAqBY+7zo+qLwUI3e
-         XR+w==
-X-Gm-Message-State: AOJu0Yz0/R/jUsYOZDaGm6pVNbkRjIsJR+DTniLgIzF4wKpZufEtdC7c
-	PJezY7g/Whs7NtWzPYIJt3o=
-X-Google-Smtp-Source: AGHT+IFL9GKGXOI+lJTZ8Q9Eg5fpHQMg6T7SyCcLceWEuAVXgtxy1Uj2YcAhoiWi9vp+15dl+P+M/A==
-X-Received: by 2002:a17:903:320c:b0:1c6:d88:dc07 with SMTP id s12-20020a170903320c00b001c60d88dc07mr125730plh.48.1697652533114;
-        Wed, 18 Oct 2023 11:08:53 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::4:dfd0])
-        by smtp.gmail.com with ESMTPSA id ix11-20020a170902f80b00b001b7fd27144dsm233555plb.40.2023.10.18.11.08.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 11:08:52 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Wed, 18 Oct 2023 08:08:51 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH-cgroup 3/4] cgroup/cpuset: Keep track of CPUs in isolated
- partitions
-Message-ID: <ZTAfM0msp8Cg-qLy@slm.duckdns.org>
-References: <20231013181122.3518610-1-longman@redhat.com>
- <20231013181122.3518610-4-longman@redhat.com>
- <ZS-kt6X5Dd1lktAw@slm.duckdns.org>
- <9e2772e3-f615-5e80-6922-5a2dd06a8b07@redhat.com>
+        bh=I6GMn7cpKzACEI5MaPrz+Tfss8qgnZd3IVim37pXeBs=;
+        b=nwkl3mQsvnzcrILyJPcLt3P+AkhvEB8VLiXeUy8XfV771ZOGOtCvlF6tYQG83mfAEx
+         X70CJfRLECbOyaU1JP3lidt+I6sH5lrX0qqazVvc0PTpoFHkoEAPhCv1wQyP73HxCN7O
+         IsTxBxz2E90x0/OThEKxh5u/qXAWYN/5u2UQ0WuJz9ZE0ygYbOsifG3sm35SY2chb2DS
+         K5Wn6EmZZH773ua7vXINCl+fVSvovsXOBVEqi3BTwV6DxHSXWtkuV305S+28Ai6UXrpy
+         nRoo+C0rU54K2UJF5oxmr6SXUrEAqUZp3VdfLD/JC9bGBIMByWcPOSZ55W/AGG/2+3el
+         vrjw==
+X-Gm-Message-State: AOJu0Yxi1QJjronm79smeIvJGkJWEDjXGjT5HC2JVYL7IT3Zr2WSCjE/
+	C8lVNojIDGejhIvc5/iSJngz52Wk7/c9+0Nn/f4=
+X-Google-Smtp-Source: AGHT+IFUWULTgFy6Wj6VevczJCO+C/6xYDTVrSlqNWMOrY8f9hNCaT5duJhriJka7CmTPYtih6ViXo1Ox2BHV9RzDkA=
+X-Received: by 2002:a05:6a20:8f28:b0:16b:f3b1:c040 with SMTP id
+ b40-20020a056a208f2800b0016bf3b1c040mr6402566pzk.38.1697652769936; Wed, 18
+ Oct 2023 11:12:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9e2772e3-f615-5e80-6922-5a2dd06a8b07@redhat.com>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20231016154937.41224-1-ahmed.zaki@intel.com> <20231016154937.41224-2-ahmed.zaki@intel.com>
+ <8d1b1494cfd733530be887806385cde70e077ed1.camel@gmail.com>
+ <26812a57-bdd8-4a39-8dd2-b0ebcfd1073e@intel.com> <CAKgT0Ud7JjUiE32jJbMbBGVexrndSCepG54PcGYWHJ+OC9pOtQ@mail.gmail.com>
+ <14feb89d-7b4a-40c5-8983-5ef331953224@intel.com> <CAKgT0UfcT5cEDRBzCxU9UrQzbBEgFt89vJZjz8Tow=yAfEYERw@mail.gmail.com>
+ <20231016163059.23799429@kernel.org> <CAKgT0Udyvmxap_F+yFJZiY44sKi+_zOjUjbVYO=TqeW4p0hxrA@mail.gmail.com>
+ <20231017131727.78e96449@kernel.org> <CAKgT0Ud4PX1Y6GO9rW+Nvr_y862Cbv3Fpn+YX4wFHEos9rugJA@mail.gmail.com>
+ <20231017173448.3f1c35aa@kernel.org>
+In-Reply-To: <20231017173448.3f1c35aa@kernel.org>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Wed, 18 Oct 2023 11:12:13 -0700
+Message-ID: <CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 1/6] net: ethtool: allow symmetric-xor RSS
+ hash for any flow type
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, corbet@lwn.net, jesse.brandeburg@intel.com, 
+	anthony.l.nguyen@intel.com, davem@davemloft.net, edumazet@google.com, 
+	pabeni@redhat.com, vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org, 
+	mkubecek@suse.cz, willemdebruijn.kernel@gmail.com, linux-doc@vger.kernel.org, 
+	Wojciech Drewek <wojciech.drewek@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Wed, Oct 18, 2023 at 09:30:04AM -0400, Waiman Long wrote:
-> On 10/18/23 05:26, Tejun Heo wrote:
-> > On Fri, Oct 13, 2023 at 02:11:21PM -0400, Waiman Long wrote:
-> > ...
-> > > @@ -3875,6 +3931,13 @@ static struct cftype dfl_files[] = {
-> > >   		.flags = CFTYPE_ONLY_ON_ROOT | CFTYPE_DEBUG,
-> > >   	},
-> > > +	{
-> > > +		.name = "cpus.isolated",
-> > > +		.seq_show = cpuset_common_seq_show,
-> > > +		.private = FILE_ISOLATED_CPULIST,
-> > > +		.flags = CFTYPE_ONLY_ON_ROOT | CFTYPE_DEBUG,
-> > > +	},
-> > I'd much rather show this in a wq sysfs file along with other related masks,
-> > and not in a DEBUG file.
-> 
-> It can certainly be exposed as a permanent addition to the cgroup control
-> files instead of a debug only file. However this set of isolated CPUs may be
-> used by others not just by workqueue. So I doubt if it should be a sysfs
-> file in the workqueue directory. I can see if it is possible to put a
-> symlink there point back to the cgroupfs.
+On Tue, Oct 17, 2023 at 5:34=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Tue, 17 Oct 2023 13:41:18 -0700 Alexander Duyck wrote:
+> > I am thinking of this from a software engineering perspective. This
+> > symmetric-xor aka simplified-toeplitz is actually much cheaper to
+> > implement in software than the original. As such I would want it to be
+> > considered a separate algorithm as I could make use of something like
+> > that when having to implement RSS in QEMU for instance.
+>
+> That's exactly why XOR and CRC32 _algorithms_ already exist.
+> CPUs have instructions to do them word at a time.
+>
+>         ETH_RSS_HASH_TOP_BIT, /* Configurable RSS hash function -
+>         Toeplitz */
+>         ETH_RSS_HASH_XOR_BIT, /* Configurable RSS hash function - Xor */
+>         ETH_RSS_HASH_CRC32_BIT, /* Configurable RSS hash function - Crc32=
+ */
+>
+> If efficient SW implementation is important why do some weird
+> bastardized para-toeplitz and not crc32? Hashes fairly well
+> from what I recall with the older NFPs. x86 has an instruction
+> for it, IIRC it was part of SSE but on normal registers.
 
-I don't know whether it will happen but let's say there will be three
-subsystems which call into workqueue for this. Wouldn't it be better to have
-all of them in workqueue sysfs using a consistent naming scheme? What does
-putting it in cgroupfs buy us?
+If we want to not support that I would be fine with that too. In my
+view this is about as secure as using the 16b repeating key.
 
-Thanks.
+> > Based on earlier comments it doesn't change the inputs, it just
+> > changes how I have to handle the data and the key. It starts reducing
+> > things down to something like the Intel implementation of Flow
+> > Director in terms of how the key gets generated and hashed.
+>
+> About Flow Director I know only that it is bad :)
 
--- 
-tejun
+Yeah, and that is my concern w/ the symmetric XOR is that it isn't
+good. It opens up the toeplitz hash to exploitation. You can target
+the same bucket by just making sure that source IP and port XOR with
+destination IP and port to the same value. That can be done by adding
+the same amount to each side. So there are 2^144 easily predictable
+possible combinations that will end up in the same hash bucket. Seems
+like it might be something that could be exploitable. That is why I
+want it marked out as a separate algo since it is essentially
+destroying entropy before we even get to the Toeplitz portion of the
+hash. As such it isn't a hash I would want to use for anything that is
+meant to spread workload since it is so easily exploitable.
