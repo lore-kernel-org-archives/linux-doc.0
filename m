@@ -1,372 +1,268 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDACB335BC
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 22:26:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C6437143
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 22:27:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tLDWhri4"
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59078D43
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 15:25:56 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-41b19dda4c6so46921cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 15:25:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NN9SmvU2"
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 711D4116
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 15:27:17 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9b6559cbd74so1262650666b.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 15:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697667955; x=1698272755; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1697668035; x=1698272835; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0+/KR19rIuPvaDSW1/4YJbqKG2O1JJ+lf2SeOzgYQ78=;
-        b=tLDWhri4hNQ+ub8X+UQQbVkvVL8DsEsLROcggVScYaCaYiEurZZtoGtxIy5sKnR/8i
-         a9kMF+tc/ljmYvMvH5TE0ktuADmfiieNkbQt/xulB1N0TiPnYQjlhaCdSqla0QZTeNju
-         xQlO4aayv+h3MASdSxyimb6hN7lQ+7iy+cTbqWUaIlGmdF2TefPoQh2qZHNpzJwIcX48
-         35oRZ/MQiaLi213WiSv4yaSjDQvJ06JvGXRL+LT7PA0UwQY6ewpPMGE98R2LrceqAWcP
-         xycfs0OqtCpgwWwNZrUqtuRzx2iEU54pc2XRkyAJhV4V5M+UG4wZllFDLkiKIhhboRdB
-         Be7Q==
+        bh=YKT0DhFzK/7HUpXkHzrCihZCJECXU9c5i5HWV8bW/EM=;
+        b=NN9SmvU2TJg1k06b6OhM/X5iwrPshR8TgLX6IJE3eX0j3o+09mvNILuymNT79an4W8
+         P9ydNx9uyvbwNLcxsxn3g6y0PIuEu3eBntnwumN/LCjLn2l9TkMM1NmYKmhFjrgV+sBV
+         Fff59sWtx76MOYelgYUQ3k1pJQaHhMtRSsTGfbO+hBURUS/spU54kcswDZfBX3ARL27L
+         bSo+TfB7IyONgQihkJjJoTyM8wA4iUkgo5MQH5PlMwB6zrBkZnAjujrfx554nQSvmeln
+         DMUrGHv3uxd2v7VCtqc4t0QH1bOn39Jeu4pkdFH8JwdwNDyBd4N06WalJ2OeY7zafjwM
+         QZPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697667955; x=1698272755;
+        d=1e100.net; s=20230601; t=1697668035; x=1698272835;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0+/KR19rIuPvaDSW1/4YJbqKG2O1JJ+lf2SeOzgYQ78=;
-        b=UjHDZd4U6jjsMyR3INeaeOYq+O3ouC7oKiWmaYWx9J++4olZXDLX0e4EG2ZJC/qq2D
-         dS1onM6XD3Cut5Ef4JYlq3soAf648fZIFWG9ybaWYy0l7P4ZHfcugqneXiES09XfLdTP
-         tIlA6kJPskoei7dT8WCuLSt7xW4Zv8fsfA0IAwutjoVjy22sSvRRvAu+n0QEGCvrU+Sz
-         0Yj7cQr3FREKS4flsU61LLiqTOgb9HCpLOwgkaEs1P7FWXihDCNgvJSNZK7aNMnclCeW
-         7mRd8u5sppINkgV0bGcnuh96G+lpNzZzFDpV3tJMkIUxIXXuYYBl4MimJYvF4wbltklU
-         xAkg==
-X-Gm-Message-State: AOJu0YzL5USRnbDm3MMr432MyqFYYKBG2qL0hRlV5HE6wJSSjpoFG/F8
-	A4R3Lixp/lp51fq16zSnMD5sJfonQ8l432/9FLTUlg==
-X-Google-Smtp-Source: AGHT+IHMNOvFgZ3W8YJi5w9LnOTVtmHtCY5RXuMJEIdz+KTZ25YaSr+twHLtH8f8mf0DEjKEO03nNXBAA8RPVr0JEEE=
-X-Received: by 2002:ac8:4e37:0:b0:419:77b7:da5f with SMTP id
- d23-20020ac84e37000000b0041977b7da5fmr55233qtw.11.1697667954961; Wed, 18 Oct
- 2023 15:25:54 -0700 (PDT)
+        bh=YKT0DhFzK/7HUpXkHzrCihZCJECXU9c5i5HWV8bW/EM=;
+        b=gZJjR7aK05YDWAmTusNgX05LlV/z4LRUbPZoJRZ4P+OfF8FtL73+TsWGNr0Lqjq//0
+         +TggQpwktdR+I4n38v/o+ygMguNGmzT8z1Vv5jdi9onPeJAwJCPqzfc/yo+gnNqmBB3n
+         bHe8cnDsE8afjByK/eb+FcM+K/YdgxKEglskixl4DjMpNOCcaeLlkGxLTIQ3DFwxVYsc
+         ngKUkY7zOPqzXFCQ8MLdYCBwUTwagcH/fUTLy+BeqOhnmPwqJLW0NtDl707t2KeH12vn
+         qVhSvl54GQW44yiEV44fI2GHmrTsLydHiFsZX6rJG/lD0pSWqG8snidZQLtuGS1LVxkt
+         1Lmw==
+X-Gm-Message-State: AOJu0Yy2sPqwaL0GpeFxKBf/+/ZDM+fY1fyzvYjLV1q3KIQeixXZTsa3
+	j8YNFkApJ1LjgC3RFa7x9/tKZzswiwcZgsktlweYkg==
+X-Google-Smtp-Source: AGHT+IHKpl2ijlZQSO51cM+Z8COTkTH4QpJBSq+LXSmEO/uccV7vxTLmHx/TF2yPMZHolRigJcKqb7McemsGrQI829g=
+X-Received: by 2002:a17:907:3f13:b0:9ae:69b8:322b with SMTP id
+ hq19-20020a1709073f1300b009ae69b8322bmr426010ejc.60.1697668034993; Wed, 18
+ Oct 2023 15:27:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
- <ZLeX4UbFaY592HIa@orome> <20230725211004.peqxxb4y3j62gmnp@pengutronix.de>
- <20231010080508.7ssnroaefyaeeedd@pengutronix.de> <CAGETcx8CNGLnHdWrDpdm4Sx5cFcFFBT2bZKJzNZttAEknFK4Cw@mail.gmail.com>
- <20231014161721.f4iqyroddkcyoefo@pengutronix.de> <CAGETcx-T33-TWmfXxT1dqTt7gWi8E1Z+EXhjpFfdFtpa7h+pQQ@mail.gmail.com>
- <CAGETcx9Ps5gaMZZk7o6NvrdVte8P=jQeedJw-Ae1NZroo9z-NA@mail.gmail.com>
- <20231018111747.alk3lkw7v7gl632k@pengutronix.de> <CAGETcx9+-MkF9kKoP_LxwtLYVEmzDS8twASrMPo1=0XpHw0OxA@mail.gmail.com>
- <20231018212054.cjwhjx4fevip2kjt@pengutronix.de>
-In-Reply-To: <20231018212054.cjwhjx4fevip2kjt@pengutronix.de>
-From: Saravana Kannan <saravanak@google.com>
-Date: Wed, 18 Oct 2023 15:25:19 -0700
-Message-ID: <CAGETcx9m4GFaybcvD5JqFS8m2CKYJHAsBcCOTCi5NeP81U7e1g@mail.gmail.com>
-Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Wolfram Sang <wsa@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, James Clark <james.clark@arm.com>, kernel@pengutronix.de, 
-	Yang Yingliang <yangyingliang@huawei.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Android Kernel Team <kernel-team@android.com>, Matti Vaittinen <mazziesaccount@gmail.com>
+References: <20231017232152.2605440-1-nphamcs@gmail.com> <20231017232152.2605440-2-nphamcs@gmail.com>
+In-Reply-To: <20231017232152.2605440-2-nphamcs@gmail.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Wed, 18 Oct 2023 15:26:36 -0700
+Message-ID: <CAJD7tkYAvi_WfzPb_zaq174FB+-kftmcqtUrHirTeB2NMhFcbA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] mm: list_lru: allow external numa node and cgroup tracking
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
+	muchun.song@linux.dev, linux-mm@kvack.org, kernel-team@meta.com, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 18, 2023 at 2:21=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> On Wed, Oct 18, 2023 at 02:01:30PM -0700, Saravana Kannan wrote:
-> > On Wed, Oct 18, 2023 at 4:17=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> > <u.kleine-koenig@pengutronix.de> wrote:
-> > >
-> > > On Tue, Oct 17, 2023 at 06:42:40PM -0700, Saravana Kannan wrote:
-> > > > On Tue, Oct 17, 2023 at 4:35=E2=80=AFPM Saravana Kannan <saravanak@=
-google.com> wrote:
-> > > > >
-> > > > > On Sat, Oct 14, 2023 at 9:17=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> > > > > <u.kleine-koenig@pengutronix.de> wrote:
-> > > > > >
-> > > > > > On Fri, Oct 13, 2023 at 02:42:20PM -0700, Saravana Kannan wrote=
+On Tue, Oct 17, 2023 at 4:21=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
 :
-> > > > > > > On Tue, Oct 10, 2023 at 1:05=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> > > > > > > <u.kleine-koenig@pengutronix.de> wrote:
-> > > > > > > >
-> > > > > > > > Hello Saravana,
-> > > > > > > >
-> > > > > > > > you were pointed out to me as the expert for device links. =
-I found a
-> > > > > > > > problem with these.
-> > > > > > > >
-> > > > > > > > On Tue, Jul 25, 2023 at 11:10:04PM +0200, Uwe Kleine-K=C3=
-=B6nig wrote:
-> > > > > > > > > Today I managed to trigger the problem I intend to addres=
-s with this
-> > > > > > > > > series. My machine to test this on is an stm32mp157. To b=
-e able to
-> > > > > > > > > trigger the problem reliably I applied the following patc=
-hes on top of
-> > > > > > > > > v6.5-rc1:
-> > > > > > > > >
-> > > > > > > > >  - pwm: stm32: Don't modify HW state in .remove() callbac=
-k
-> > > > > > > > >    This is a cleanup that I already sent out.
-> > > > > > > > >    https://lore.kernel.org/r/20230713155142.2454010-2-u.k=
-leine-koenig@pengutronix.de
-> > > > > > > > >    The purpose for reproducing the problem is to not trig=
-ger further
-> > > > > > > > >    calls to the apply callback.
-> > > > > > > > >
-> > > > > > > > >  - The following patch:
-> > > > > > > > >
-> > > > > > > > > diff --git a/drivers/pwm/pwm-stm32.c b/drivers/pwm/pwm-st=
-m32.c
-> > > > > > > > > index 687967d3265f..c7fc02b0fa3c 100644
-> > > > > > > > > --- a/drivers/pwm/pwm-stm32.c
-> > > > > > > > > +++ b/drivers/pwm/pwm-stm32.c
-> > > > > > > > > @@ -451,6 +451,10 @@ static int stm32_pwm_apply(struct pw=
-m_chip *chip, struct pwm_device *pwm,
-> > > > > > > > >       struct stm32_pwm *priv =3D to_stm32_pwm_dev(chip);
-> > > > > > > > >       int ret;
-> > > > > > > > >
-> > > > > > > > > +     dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
-> > > > > > > > > +     msleep(5000);
-> > > > > > > > > +     dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
-> > > > > > > > > +
-> > > > > > > > >       enabled =3D pwm->state.enabled;
-> > > > > > > > >
-> > > > > > > > >       if (enabled && !state->enabled) {
-> > > > > > > > > @@ -650,7 +654,11 @@ static void stm32_pwm_remove(struct =
-platform_device *pdev)
-> > > > > > > > >  {
-> > > > > > > > >       struct stm32_pwm *priv =3D platform_get_drvdata(pde=
-v);
-> > > > > > > > >
-> > > > > > > > > +     dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__)=
-;
-> > > > > > > > >       pwmchip_remove(&priv->chip);
-> > > > > > > > > +     dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__)=
-;
-> > > > > > > > > +
-> > > > > > > > > +     priv->regmap =3D NULL;
-> > > > > > > > >  }
-> > > > > > > > >
-> > > > > > > > >  static int __maybe_unused stm32_pwm_suspend(struct devic=
-e *dev)
-> > > > > > > > >
-> > > > > > > > > The first hunk is only there to widen the race window. Th=
-e second is to
-> > > > > > > > > give some diagnostics and make stm32_pwm_apply() crash if=
- it continues
-> > > > > > > > > to run after the msleep. (Without it it didn't crash repr=
-oducibly, don't
-> > > > > > > > > understand why. *shrug*)
-> > > > > > > > >
-> > > > > > > > > The device tree contains a pwm-fan device making use of o=
-ne of the PWMs.
-> > > > > > > > >
-> > > > > > > > > Now I do the following:
-> > > > > > > > >
-> > > > > > > > >       echo fan > /sys/bus/platform/drivers/pwm-fan/unbind=
- & sleep 1; echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/u=
-nbind
-> > > > > > > > >
-> > > > > > > > > Unbinding the fan device has two effects:
-> > > > > > > > >
-> > > > > > > > >  - The device link between fan and pwm looses its propert=
-y to unbind fan
-> > > > > > > > >    when pwm gets unbound.
-> > > > > > > > >    (Its .status changes from DL_STATE_ACTIVE to DL_STATE_=
-AVAILABLE)
-> > > > > > > > >  - It calls pwm_fan_cleanup() which triggers a call to
-> > > > > > > > >    pwm_apply_state().
-> > > > > > > > >
-> > > > > > > > > So when the pwm device gets unbound the first thread is s=
-leeping in
-> > > > > > > > > stm32_pwm_apply(). The driver calls pwmchip_remove() and =
-sets
-> > > > > > > > > priv->regmap to NULL. Then a few seconds later the first =
-thread wakes up
-> > > > > > > > > in stm32_pwm_apply() with the chip freed and priv->regmap=
- =3D NULL. Bang!
-> > > > > > > > >
-> > > > > > > > > This looks as follows:
-> > > > > > > > >
-> > > > > > > > > root@crown:~# echo fan > /sys/bus/platform/drivers/pwm-fa=
-n/unbind & sleep 1; echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm=
-32-pwm/unbind
-> > > > > > > > > [  187.182113] stm32-pwm 40007000.timer:pwm: stm32_pwm_ap=
-ply:454
-> > > > > > > > > [  188.164769] stm32-pwm 40007000.timer:pwm: stm32_pwm_re=
-move:657
-> > > > > > > > > [  188.184555] stm32-pwm 40007000.timer:pwm: stm32_pwm_re=
-move:659
-> > > > > > > > > root@crown:~# [  192.236423] platform 40007000.timer:pwm:=
- stm32_pwm_apply:456
-> > > > > > > > > [  192.240727] 8<--- cut here ---
-> > > > > > > > > [  192.243759] Unable to handle kernel NULL pointer deref=
-erence at virtual address 0000001c when read
-> > > > > > > > > ...
-> > > > > > > > >
-> > > > > > > > > Even without the crash you can see that stm32_pwm_apply()=
- is still
-> > > > > > > > > running after pwmchip_remove() completed.
-> > > > > > > > >
-> > > > > > > > > I'm unsure if the device link could be improved here to e=
-nsure that the
-> > > > > > > > > fan is completely unbound even if it started unbinding al=
-ready before
-> > > > > > > > > the pwm device gets unbound. (And if it could, would this=
- fit the device
-> > > > > > > > > links purpose and so be a sensible improvement?)
-> > > > > > > >
-> > > > > > > > While I think that there is something to be done in the pwm=
- core that
-> > > > > > > > this doesn't explode (i.e. do proper lifetime tracking such=
- that a
-> > > > > > > > pwm_chip doesn't disappear while still being used---and I'm=
- working on
-> > > > > > > > that) I expected that the device links between pwm consumer=
- and provider
-> > > > > > > > would prevent the above described oops, too. But somehow th=
-e fan already
-> > > > > > > > going away (but still using the PWM) when the PWM is unboun=
-d, results in
-> > > > > > > > the PWM disappearing before the fan is completely gone.
-> > > > > > > >
-> > > > > > > > Is this expected, or a problem that can (and should?) be fi=
-xed?
-> > > > > > >
-> > > > > > > I didn't read your full series, but I read this email. With w=
-hat's in
-> > > > > > > this email, the problem seems to be in the driver or the pwm
-> > > > > > > framework. The pwm driver/framework can't tell the driver cor=
-e that
-> > > > > > > you successfully unbound (returning from .remove()) before yo=
-u have
-> > > > > > > finish all your ongoing transactions with the device. If your
-> > > > > > > "apply()" is still running, you need to make sure it's comple=
-te before
-> > > > > > > .remove() does any resource releasing/clean up.
-> > > > > > >
-> > > > > > > Also, how is the consumer driver's .remove() succeeding if it=
- has an
-> > > > > > > ongoing pwm call()?
-> > > > > >
-> > > > > > The thing that works fine and as expected is:
-> > > > > >
-> > > > > >  - trigger unbind of PWM device via sysfs
-> > > > > >
-> > > > > > Because there is a device link PWM provider -> pwm consumer (fa=
-n), the
-> > > > > > fan is removed and once its gone (and not earlier), the PWM get=
-s unbound.
-> > > > > >
-> > > > > > The failing sequence is:
-> > > > > >
-> > > > > >  - trigger unbind of fan device in userspace thread A via sysfs=
-. The
-> > > > > >    fan's remove callback blocks for 5s in pwm_apply_state() and=
- so
-> > > > > >    .remove() doesn't complete yet.
-> > > > > >
-> > > > > >  - a second later: trigger unbind of PWM device via sysfs in th=
-read B.
-> > > > > >    As before I'd expect that the device link results in waiting=
- for the
-> > > > > >    fan to be removed completely, but the PWM is removed immedia=
-tely.
-> > > > > >
-> > > > > >  - pwm_apply_state's sleep completes (in thread B) and operates=
- on freed
-> > > > > >    resources =3D> bang!
-> > > > > >
-> > > > > > > This all sounds like insufficient locking and
-> > > > > > > critical region protection in both the consumer and supplier.
-> > > > > >
-> > > > > > My (and I think also Thierry's) expectation was, that the devic=
-e link
-> > > > > > provides the needed synchronisation. But it doesn't as it doesn=
-'t block
-> > > > > > the PWM provider going away until the fan is completely gone.
-> > > > > >
-> > > > > > > Device links can't do anything here because you are giving it=
- wrong
-> > > > > > > info -- that the unbind was successful before it actually is.
-> > > > > >
-> > > > > > The fan's unbind is ongoing, but not complete yet and I'd expec=
-t that
-> > > > > > the device link blocks unbinding the PWM until the fan is compl=
-etely
-> > > > > > gone. So I think there is no wrong information.
-> > > > > >
-> > > > > > > Device links will and can make sure that the consumer is unbo=
-und
-> > > > > > > successfully before the unbind is called on the supplier. And=
- it looks
-> > > > > > > like that's still true here.
-> > > > > >
-> > > > > > I hope you understood the situation better now and see the prob=
-lem we
-> > > > > > have.
-> > > > > >
-> > > > > > The problem is fixable in the pwm framework (and I'm working on=
- that),
-> > > > > > but I think there is also something to improve around devicelin=
-k
-> > > > > > handling.
-> > > > >
-> > > > > Thanks for a better explanation of the issue. I agree, this seems=
- like
-> > > > > something device links should be able to take care of.
-> > > > >
-> > > > > I'll take a look into this.
-> > > >
-> > > > Took me a while to debug this because I couldn't find the .remove()
-> > > > function and I was very confused about what's going on.
-> > > > I'm guessing you started hitting this issue only after moving to th=
+>
+> The interface of list_lru is based on the assumption that objects are
+> allocated on the correct node/memcg, with this change it is introduced th=
 e
-> > > > devm_ variant of the pwm APIs.
-> > >
-> > > Ah I see. That problem wouldn't happen if the fan called a pwm API
-> > > function in its remove callback but that happens in a devm cleanup ca=
-ll
-> > > (registered by devm_add_action_or_reset(dev, pwm_fan_cleanup, ctx) in
-> > > pwm_fan_probe()). I first thought you talked about
-> > > 8c89fd866ad221af037ef0ec3d60b83d0b859c65.
-> >
-> > Am I not talking about that commit?
+> possibility to explicitly specify numa node and memcgroup when adding and
+> removing objects. This is so that users of list_lru can track node/memcg
+> of the items outside of the list_lru, like in zswap, where the allocation=
+s
+> can be made by kswapd for data that's charged to a different cgroup.
 >
-> The relevant thing is that the fan (i.e. the consumer) uses
-> pwm_apply_state() in a devm cleanup. If the pwm provider uses
-> devm_pwmchip_add or plain pwmchip_add + pwmchip_remove in .remove()
-> doesn't matter.
+> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
 
-Duh! For whatever reason I had forgotten that stm32 was the supplier
-and was confusing myself.
+I prefer what Johannes suggested, making list_lru_add() and friends
+take in the memcg and nid, and add list_lru_add_obj() (or similar) and
+friends that assume the object is on the right node and memcg. This is
+clearer and more explicit imo. I am not very familiar with list_lrus
+though, so I'll leave this to folks who actually are.
 
+> ---
+>  include/linux/list_lru.h | 38 +++++++++++++++++++++++++++++++++++
+>  mm/list_lru.c            | 43 +++++++++++++++++++++++++++++++++++-----
+>  2 files changed, 76 insertions(+), 5 deletions(-)
 >
-> > Btw, I'm still a bit confused by this thread. In your earlier emails
-> > to me, you said:
-> >
-> > >  - trigger unbind of fan device in userspace thread A via sysfs. The
-> > >  fan's remove callback blocks for 5s in pwm_apply_state() and so
-> > >  .remove() doesn't complete yet.
-> >
-> > But the latest tree (Tot) didn't have any .remove() function at all.
-> > So I just decided to see if there's any issue in Tot and just fix
-> > that. I'm glad my fix helps fixed the issue with the used of devm_*()
-> > APIs.
+> diff --git a/include/linux/list_lru.h b/include/linux/list_lru.h
+> index b35968ee9fb5..0f5f39cacbbb 100644
+> --- a/include/linux/list_lru.h
+> +++ b/include/linux/list_lru.h
+> @@ -89,6 +89,24 @@ void memcg_reparent_list_lrus(struct mem_cgroup *memcg=
+, struct mem_cgroup *paren
+>   */
+>  bool list_lru_add(struct list_lru *lru, struct list_head *item);
 >
-> I was sloppy here and called it "remove callback" when it was really a
-> devm cleanup call. Sorry if that confused you. I didn't expect this to
-> make a difference (and I'm not even sure I was aware this is a devm
-> cleanup and not directly .remove() when I wrote that).
+> +/**
+> + * __list_lru_add: add an element to a specific sublist.
+> + * @list_lru: the lru pointer
+> + * @item: the item to be added.
+> + * @memcg: the cgroup of the sublist to add the item to.
+> + * @nid: the node id of the sublist to add the item to.
+> + *
+> + * This function is similar to list_lru_add(), but it allows the caller =
+to
+> + * specify the sublist to which the item should be added. This can be us=
+eful
+> + * when the list_head node is not necessarily in the same cgroup and NUM=
+A node
+> + * as the data it represents, such as zswap, where the list_head node co=
+uld be
+> + * from kswapd and the data from a different cgroup altogether.
+> + *
+> + * Return value: true if the list was updated, false otherwise
+> + */
+> +bool __list_lru_add(struct list_lru *lru, struct list_head *item, int ni=
+d,
+> +                   struct mem_cgroup *memcg);
+> +
+>  /**
+>   * list_lru_del: delete an element to the lru list
+>   * @list_lru: the lru pointer
+> @@ -102,6 +120,18 @@ bool list_lru_add(struct list_lru *lru, struct list_=
+head *item);
+>   */
+>  bool list_lru_del(struct list_lru *lru, struct list_head *item);
 >
-> > However, are you really seeing the issue (supplier freed before
-> > consumer) if you do the clean up in the .remove() function? If so,
-> > there might still be another issue that needs to be fixed.
+> +/**
+> + * __list_lru_del: delete an element from a specific sublist.
+> + * @list_lru: the lru pointer
+> + * @item: the item to be deleted.
+> + * @memcg: the cgroup of the sublist to delete the item from.
+> + * @nid: the node id of the sublist to delete the item from.
+> + *
+> + * Return value: true if the list was updated, false otherwise.
+> + */
+> +bool __list_lru_del(struct list_lru *lru, struct list_head *item, int ni=
+d,
+> +                   struct mem_cgroup *memcg);
+> +
+>  /**
+>   * list_lru_count_one: return the number of objects currently held by @l=
+ru
+>   * @lru: the lru pointer.
+> @@ -136,6 +166,14 @@ static inline unsigned long list_lru_count(struct li=
+st_lru *lru)
+>  void list_lru_isolate(struct list_lru_one *list, struct list_head *item)=
+;
+>  void list_lru_isolate_move(struct list_lru_one *list, struct list_head *=
+item,
+>                            struct list_head *head);
+> +/*
+> + * list_lru_putback: undo list_lru_isolate.
+> + *
+> + * Since we might have dropped the LRU lock in between, recompute list_l=
+ru_one
+> + * from the node's id and memcg.
+> + */
+> +void list_lru_putback(struct list_lru *lru, struct list_head *item, int =
+nid,
+> +                     struct mem_cgroup *memcg);
 >
-> I didn't test that and now having understood the issue you fixed and
-> seeing the effect, I confidently claim there is nothing to fix for
-> drivers that use pwm_apply_state in .remove().
-
-Yeah, I'm convinced now too!
-
--Saravana
+>  typedef enum lru_status (*list_lru_walk_cb)(struct list_head *item,
+>                 struct list_lru_one *list, spinlock_t *lock, void *cb_arg=
+);
+> diff --git a/mm/list_lru.c b/mm/list_lru.c
+> index a05e5bef3b40..63b75163c6ad 100644
+> --- a/mm/list_lru.c
+> +++ b/mm/list_lru.c
+> @@ -119,13 +119,22 @@ list_lru_from_kmem(struct list_lru *lru, int nid, v=
+oid *ptr,
+>  bool list_lru_add(struct list_lru *lru, struct list_head *item)
+>  {
+>         int nid =3D page_to_nid(virt_to_page(item));
+> +       struct mem_cgroup *memcg =3D list_lru_memcg_aware(lru) ?
+> +               mem_cgroup_from_slab_obj(item) : NULL;
+> +
+> +       return __list_lru_add(lru, item, nid, memcg);
+> +}
+> +EXPORT_SYMBOL_GPL(list_lru_add);
+> +
+> +bool __list_lru_add(struct list_lru *lru, struct list_head *item, int ni=
+d,
+> +                   struct mem_cgroup *memcg)
+> +{
+>         struct list_lru_node *nlru =3D &lru->node[nid];
+> -       struct mem_cgroup *memcg;
+>         struct list_lru_one *l;
+>
+>         spin_lock(&nlru->lock);
+>         if (list_empty(item)) {
+> -               l =3D list_lru_from_kmem(lru, nid, item, &memcg);
+> +               l =3D list_lru_from_memcg_idx(lru, nid, memcg_kmem_id(mem=
+cg));
+>                 list_add_tail(item, &l->list);
+>                 /* Set shrinker bit if the first element was added */
+>                 if (!l->nr_items++)
+> @@ -138,17 +147,27 @@ bool list_lru_add(struct list_lru *lru, struct list=
+_head *item)
+>         spin_unlock(&nlru->lock);
+>         return false;
+>  }
+> -EXPORT_SYMBOL_GPL(list_lru_add);
+> +EXPORT_SYMBOL_GPL(__list_lru_add);
+>
+>  bool list_lru_del(struct list_lru *lru, struct list_head *item)
+>  {
+>         int nid =3D page_to_nid(virt_to_page(item));
+> +       struct mem_cgroup *memcg =3D list_lru_memcg_aware(lru) ?
+> +               mem_cgroup_from_slab_obj(item) : NULL;
+> +
+> +       return __list_lru_del(lru, item, nid, memcg);
+> +}
+> +EXPORT_SYMBOL_GPL(list_lru_del);
+> +
+> +bool __list_lru_del(struct list_lru *lru, struct list_head *item, int ni=
+d,
+> +                   struct mem_cgroup *memcg)
+> +{
+>         struct list_lru_node *nlru =3D &lru->node[nid];
+>         struct list_lru_one *l;
+>
+>         spin_lock(&nlru->lock);
+>         if (!list_empty(item)) {
+> -               l =3D list_lru_from_kmem(lru, nid, item, NULL);
+> +               l =3D list_lru_from_memcg_idx(lru, nid, memcg_kmem_id(mem=
+cg));
+>                 list_del_init(item);
+>                 l->nr_items--;
+>                 nlru->nr_items--;
+> @@ -158,7 +177,7 @@ bool list_lru_del(struct list_lru *lru, struct list_h=
+ead *item)
+>         spin_unlock(&nlru->lock);
+>         return false;
+>  }
+> -EXPORT_SYMBOL_GPL(list_lru_del);
+> +EXPORT_SYMBOL_GPL(__list_lru_del);
+>
+>  void list_lru_isolate(struct list_lru_one *list, struct list_head *item)
+>  {
+> @@ -175,6 +194,20 @@ void list_lru_isolate_move(struct list_lru_one *list=
+, struct list_head *item,
+>  }
+>  EXPORT_SYMBOL_GPL(list_lru_isolate_move);
+>
+> +void list_lru_putback(struct list_lru *lru, struct list_head *item, int =
+nid,
+> +                     struct mem_cgroup *memcg)
+> +{
+> +       struct list_lru_one *list =3D
+> +               list_lru_from_memcg_idx(lru, nid, memcg_kmem_id(memcg));
+> +
+> +       if (list_empty(item)) {
+> +               list_add_tail(item, &list->list);
+> +               if (!list->nr_items++)
+> +                       set_shrinker_bit(memcg, nid, lru_shrinker_id(lru)=
+);
+> +       }
+> +}
+> +EXPORT_SYMBOL_GPL(list_lru_putback);
+> +
+>  unsigned long list_lru_count_one(struct list_lru *lru,
+>                                  int nid, struct mem_cgroup *memcg)
+>  {
+> --
+> 2.34.1
