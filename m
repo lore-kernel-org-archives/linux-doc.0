@@ -1,26 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D827A1FC9;
-	Wed, 18 Oct 2023 01:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECF3A5B;
+	Wed, 18 Oct 2023 01:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SQMQwtw3"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A6380C433CD;
-	Wed, 18 Oct 2023 01:00:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRC30WUM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD4DC433C8;
+	Wed, 18 Oct 2023 01:08:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697590830;
-	bh=d+Wil/bELMn0pp9oby9I8jAn5K+oJkpy8LPXyS5vv0w=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=SQMQwtw3BBaWdoJinbS1KszSbe5ucBOs/fOO5pTQRtMHyUEbyDK3VhCeilJLkLoLH
-	 AELasY63/afrwdCyw3zOUT/+1Ukz0AHqI3hehYiWVJoIzx2NnphlRiSpqYfA+PSIRK
-	 AuqW6PwVC0isSsR0LgBlTNTbFiKGfIyAnwuoNwnZS2R6HiPqg1bOHZ/XgamMEGNxSU
-	 kf4rt2+Mar4A9rtwW801ZBMrYNYiNGKVp3xSFDUFSYNeKmfMgPa4J2Td8eV0Do3KqC
-	 1313m871PDZ7Fcj7VV0isoXAARATjzRaAeB4VcjMojy/CVlmQvkUAAwDDj0m2zG8wp
-	 tHC5Sy4QrmLyQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8A2EDC04E24;
-	Wed, 18 Oct 2023 01:00:30 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1697591281;
+	bh=59vR46bvuqiPB0urnwSGzHyDUKCLr3i2AhjG3vuElWU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=MRC30WUMYsWZFaB8jEOuzyQ4Scjb3qySmsyt2S+y4Y1jLdAFZK1NQuo+Y12nRrgL2
+	 Z5n4sOW5K+0+kEwGwo7DQv1oayKFR3Bu+c2S/4JoDx6KjKK3hfoZuAOzZSRTqBN0SF
+	 fYe4vp3rFWbSZ8AaJEnTD16Wlge5DM3zEx5+Rma+xyTn8R4/mnSYhMlCyp/5z3B+HT
+	 6hwhZVYFC4rpupLXQxrvNVICLD+mFK7TF6nd4afmZs4NX/GMCtXdqvbBbW2fWMRA5s
+	 +6mTGyeUKs+AOrUZU+fZdDFXgYiae0PWWlWbDa96fJ+W7U255gPfeGlcyrlR7icuMM
+	 wzS92xp3FPTJw==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	Jakub Kicinski <kuba@kernel.org>,
+	ecree.xilinx@gmail.com,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next] docs: networking: document multi-RSS context
+Date: Tue, 17 Oct 2023 18:07:58 -0700
+Message-ID: <20231018010758.2382742-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,48 +37,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 0/4] net: remove last of the phylink validate
- methods and clean up
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <169759083056.18882.13253920837747365472.git-patchwork-notify@kernel.org>
-Date: Wed, 18 Oct 2023 01:00:30 +0000
-References: <ZS1Z5DDfHyjMryYu@shell.armlinux.org.uk>
-In-Reply-To: <ZS1Z5DDfHyjMryYu@shell.armlinux.org.uk>
-To: Russell King (Oracle) <linux@armlinux.org.uk>
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, corbet@lwn.net,
- linux-doc@vger.kernel.org, madalin.bucur@nxp.com, netdev@vger.kernel.org,
- pabeni@redhat.com, sean.anderson@seco.com
 
-Hello:
+There seems to be no docs for the concept of multiple RSS
+contexts and how to configure it. I had to explain it three
+times recently, the last one being the charm, document it.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: ecree.xilinx@gmail.com
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/scaling.rst | 42 ++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-On Mon, 16 Oct 2023 16:42:28 +0100 you wrote:
-> Hi,
-> 
-> This four patch series removes the last of the phylink MAC .validate
-> methods which can be found in the Freescale fman driver. fman has a
-> requirement that half duplex may not be supported in RGMII mode,
-> which is currently handled in its .validate method.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,1/4] net: phylink: provide mac_get_caps() method
-    https://git.kernel.org/netdev/net-next/c/b6f9774719e5
-  - [net-next,2/4] net: fman: convert to .mac_get_caps()
-    https://git.kernel.org/netdev/net-next/c/2141297d4257
-  - [net-next,3/4] net: phylink: remove .validate() method
-    https://git.kernel.org/netdev/net-next/c/da5f6b80ad64
-  - [net-next,4/4] net: phylink: remove a bunch of unused validation methods
-    https://git.kernel.org/netdev/net-next/c/743f6397623e
-
-You are awesome, thank you!
+diff --git a/Documentation/networking/scaling.rst b/Documentation/networking/scaling.rst
+index 92c9fb46d6a2..03ae19a689fc 100644
+--- a/Documentation/networking/scaling.rst
++++ b/Documentation/networking/scaling.rst
+@@ -105,6 +105,48 @@ a separate CPU. For interrupt handling, HT has shown no benefit in
+ initial tests, so limit the number of queues to the number of CPU cores
+ in the system.
+ 
++Dedicated RSS contexts
++~~~~~~~~~~~~~~~~~~~~~~
++
++Modern NICs support creating multiple co-existing RSS configurations
++which are selected based on explicit matching rules. This can be very
++useful when application wants to constrain the set of queues receiving
++traffic for e.g. a particular destination port or IP address.
++The example below shows how to direct all traffic to TCP port 22
++to queues 0 and 1.
++
++To create an additional RSS context use::
++
++  # ethtool -X eth0 hfunc toeplitz context new
++  New RSS context is 1
++
++Kernel reports back the ID of the allocated context (the default, always
++present RSS context has ID of 0). The new context can be queried and
++modified using the same APIs as the default context::
++
++  # ethtool -x eth0 context 1
++  RX flow hash indirection table for eth0 with 13 RX ring(s):
++    0:      0     1     2     3     4     5     6     7
++    8:      8     9    10    11    12     0     1     2
++  [...]
++  # ethtool -X eth0 equal 2 context 1
++  # ethtool -x eth0 context 1
++  RX flow hash indirection table for eth0 with 13 RX ring(s):
++    0:      0     1     0     1     0     1     0     1
++    8:      0     1     0     1     0     1     0     1
++  [...]
++
++To make use of the new context direct traffic to it using an n-tuple
++filter::
++
++  # ethtool -N eth0 flow-type tcp6 dst-port 22 context 1
++  Added rule with ID 1023
++
++When done, remove the context and the rule::
++
++  # ethtool -N eth0 delete 1023
++  # ethtool -X eth0 context 1 delete
++
+ 
+ RPS: Receive Packet Steering
+ ============================
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.41.0
 
