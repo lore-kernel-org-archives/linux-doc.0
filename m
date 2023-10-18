@@ -1,97 +1,188 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F25137163;
-	Wed, 18 Oct 2023 14:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FB42E3E2
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 14:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A82ROViW"
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65EF8134;
-	Wed, 18 Oct 2023 07:09:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rpuNbd94xDpC5yviFqSYGb67pMTnatBYUkMFHMRu+WQ=; b=A82ROViWDiEH/4M8z9imm3e3/s
-	x3RZpyqNnJVjq0TTDrFUnQWW0cApFYG2OBqbUdhaJ5dv7tI4kZtXZdv7Q6uMron4TrtFc4csYr81K
-	IzWKOwYfwxQzxuVeilxnF09krQw/KDNK4OnstLrWDgoIDPAi3seMj2BV9TAubjJq+caaUBxekrS4g
-	67ih3Qc27mQsMD/D5mIT185qkJW7k8Ij5dS2tQVLevrYTmfE24at7lH9r05KP3FBjEeJ6yY446GpW
-	UZ2bC6OY1SIFkny/wEnPNHrpDc83dWl0BYXOQ4xtfDuLYKahDDeUqGRaS5DR2VaQn3L/jhjGQZbDX
-	gP/2Gl+g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qt7Dg-001ICr-G8; Wed, 18 Oct 2023 14:08:20 +0000
-Date: Wed, 18 Oct 2023 15:08:20 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Sourav Panda <souravpanda@google.com>
-Cc: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
-	akpm@linux-foundation.org, mike.kravetz@oracle.com,
-	muchun.song@linux.dev, rppt@kernel.org, david@redhat.com,
-	rdunlap@infradead.org, chenlinxuan@uniontech.com,
-	yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com,
-	bhelgaas@google.com, ivan@cloudflare.com, pasha.tatashin@soleen.com,
-	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com,
-	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
-	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
-	surenb@google.com, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v2 1/1] mm: report per-page metadata information
-Message-ID: <ZS/m1KRwTLkcJY8y@casper.infradead.org>
-References: <20231018005548.3505662-1-souravpanda@google.com>
- <20231018005548.3505662-2-souravpanda@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fL1layRm"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6875AB;
+	Wed, 18 Oct 2023 07:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697640425; x=1729176425;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=u+T+iKRaurwpQNwOMiwI4EjeePRhU9Kjm9S+XLHlUw0=;
+  b=fL1layRmW22t2Twmh04o8tczQk1tL5iorn6x1xJbVpT7s6vpPG25qLK0
+   wf28GmhuBNZtECzMBjvdyFweBKkmyozGEp5TtlzcU0+DFUNOf5i1ts0ma
+   YfCBdCFplPg/vTD8FNuU3uEv/U9xTcmSiev1spX9/74Y19mltMeLhL4ku
+   JLMmtKvZNngCbzKYgVgie5DZm3dIM4I0fOCPqvMBiVhprNf94Izq//VIT
+   Q/RAKSp5mN9kNEaUNHAAciKVCMBTM4K88dJ9tcF4J5PZAf3K2YQ/isK2s
+   hWIzY5e2GHrf6DzUXWvawGRB5ibM0im+uU66TR9GTMlt+GwAMdRBQXjjX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="384908635"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
+   d="scan'208";a="384908635"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 07:47:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="756612071"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
+   d="scan'208";a="756612071"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.93.19.128]) ([10.93.19.128])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 07:46:58 -0700
+Message-ID: <020adf4b-5fd9-4216-9dac-7dabe53617d5@intel.com>
+Date: Wed, 18 Oct 2023 22:46:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231018005548.3505662-2-souravpanda@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] KVM: x86: Use the correct size of struct
+ kvm_vcpu_pv_apf_data and fix the documentation
+Content-Language: en-US
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20231013070037.512051-1-xiaoyao.li@intel.com>
+ <ZS7ERnnRqs8Fl0ZF@google.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <ZS7ERnnRqs8Fl0ZF@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HK_RANDOM_ENVFROM,
+	HK_RANDOM_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
+	autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Tue, Oct 17, 2023 at 05:55:48PM -0700, Sourav Panda wrote:
-> +		mod_node_early_perpage_metadata(pgdat->node_id,
-> +						PAGE_ALIGN(size) >> PAGE_SHIFT);
+On 10/18/2023 1:28 AM, Sean Christopherson wrote:
+> On Fri, Oct 13, 2023, Xiaoyao Li wrote:
+>> The size of struct kvm_vcpu_pv_apf_data is 68 bytes, not 64 bytes.
+> 
+> LOL, the messed up size is downright hilarious.  Not only was the math botched,
+> but the "enabled" field that pushes the struct beyond a cache line is completely
+> unnecessary.
+> 
+> AFAICT, KVM (the host side) has *never* read kvm_vcpu_pv_apf_data.enabled, and
+> the documentation clearly states that enabling is based solely on the bit in the
+> synthetic MSR.
+> 
+> So rather than update the documentation, what if we fix the goof?  KVM-as-a-host
+> obviously doesn't enforce anything or consume the size, and changing the header
+> will only affect guests that are rebuilt against the new header, so there's no
+> chance of ABI breakage between KVM and its guests.  The only possible breakage
+> is if some other hypervisor is emulating KVM's async #PF (LOL) and relies on the
+> guest to set kvm_vcpu_pv_apf_data.enabled.  But (a) I highly doubt such a hypervisor
+> exists, (b) that would arguably be a violation of KVM's "spec", and (c) the worst
+> case scenario is that the guest would simply lose async #PF functionality.
+> 
+>> Fix the kvm_gfn_to_hva_cache_init() to use the correct size though KVM
+>> only touches fist 8 bytes.
+> 
+> This isn't a fix.  There's actually meaningful value in precisely initializing the
+> cache as it guards against KVM writing into the padding, e.g. this WARN would fire:
+> 
+> 	if (WARN_ON_ONCE(len + offset > ghc->len))
+> 		return -EINVAL;
+> 
+> So it's a bit odd, but I would prefer to keep the current behavior of mapping only
+> the first 8 bytes.
+> 
+> Here's what I'm thinking to clean up the enabled field (compile tested only,
+> haven't touched the docs other than the obvious removal):
 
-What a curious way of writing DIV_ROUND_UP(size, PAGE_SIZE)
-(throughout).  A quick grep shows about 230 DIV_ROUND_UP and 110 of what
-you wrote, so it's not something you invented, but DIV_ROUND_UP is
-clearer.
+It looks better.
 
-> @@ -303,18 +308,25 @@ static int __meminit init_section_page_ext(unsigned long pfn, int nid)
->  
->  static void free_page_ext(void *addr)
->  {
-> +	size_t table_size;
-> +	struct page *page;
-> +
-> +	table_size = page_ext_size * PAGES_PER_SECTION;
-> +
->  	if (is_vmalloc_addr(addr)) {
-> +		page = vmalloc_to_page(addr);
->  		vfree(addr);
->  	} else {
-> -		struct page *page = virt_to_page(addr);
-> -		size_t table_size;
-> -
-> -		table_size = page_ext_size * PAGES_PER_SECTION;
-> +		page = virt_to_page(addr);
->  
->  		BUG_ON(PageReserved(page));
->  		kmemleak_free(addr);
->  		free_pages_exact(addr, table_size);
->  	}
-> +
-> +	__mod_node_page_state(page_pgdat(page), NR_PAGE_METADATA,
-> +			      -1L * (PAGE_ALIGN(table_size) >> PAGE_SHIFT));
+Will you send out a formal patch yourself? or leave it to me?
 
-This troubles me.  We're freeing the memory and then dereferencing
-the page that was freed.  I know that struct pages don't go away when
-they're freed, and they don't change which node they're allocated to,
-but it feels wrong.  I'd be happier if the page_pgdat() were extracted
-prior to freeing the memory.
+> ---
+>   Documentation/virt/kvm/x86/msr.rst   |  1 -
+>   arch/x86/include/uapi/asm/kvm_para.h |  1 -
+>   arch/x86/kernel/kvm.c                | 11 ++++++-----
+>   3 files changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/x86/msr.rst b/Documentation/virt/kvm/x86/msr.rst
+> index 9315fc385fb0..f6d70f99a1a7 100644
+> --- a/Documentation/virt/kvm/x86/msr.rst
+> +++ b/Documentation/virt/kvm/x86/msr.rst
+> @@ -204,7 +204,6 @@ data:
+>   		__u32 token;
+>   
+>   		__u8 pad[56];
+> -		__u32 enabled;
+>   	  };
+>   
+>   	Bits 5-4 of the MSR are reserved and should be zero. Bit 0 is set to 1
+> diff --git a/arch/x86/include/uapi/asm/kvm_para.h b/arch/x86/include/uapi/asm/kvm_para.h
+> index 6e64b27b2c1e..605899594ebb 100644
+> --- a/arch/x86/include/uapi/asm/kvm_para.h
+> +++ b/arch/x86/include/uapi/asm/kvm_para.h
+> @@ -142,7 +142,6 @@ struct kvm_vcpu_pv_apf_data {
+>   	__u32 token;
+>   
+>   	__u8 pad[56];
+> -	__u32 enabled;
+>   };
+>   
+>   #define KVM_PV_EOI_BIT 0
+> diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+> index b8ab9ee5896c..2cd5f8d248a5 100644
+> --- a/arch/x86/kernel/kvm.c
+> +++ b/arch/x86/kernel/kvm.c
+> @@ -65,6 +65,7 @@ static int __init parse_no_stealacc(char *arg)
+>   
+>   early_param("no-steal-acc", parse_no_stealacc);
+>   
+> +static DEFINE_PER_CPU_READ_MOSTLY(bool, async_pf_enabled);
+>   static DEFINE_PER_CPU_DECRYPTED(struct kvm_vcpu_pv_apf_data, apf_reason) __aligned(64);
+>   DEFINE_PER_CPU_DECRYPTED(struct kvm_steal_time, steal_time) __aligned(64) __visible;
+>   static int has_steal_clock = 0;
+> @@ -244,7 +245,7 @@ noinstr u32 kvm_read_and_reset_apf_flags(void)
+>   {
+>   	u32 flags = 0;
+>   
+> -	if (__this_cpu_read(apf_reason.enabled)) {
+> +	if (__this_cpu_read(async_pf_enabled)) {
+>   		flags = __this_cpu_read(apf_reason.flags);
+>   		__this_cpu_write(apf_reason.flags, 0);
+>   	}
+> @@ -295,7 +296,7 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_kvm_asyncpf_interrupt)
+>   
+>   	inc_irq_stat(irq_hv_callback_count);
+>   
+> -	if (__this_cpu_read(apf_reason.enabled)) {
+> +	if (__this_cpu_read(async_pf_enabled)) {
+>   		token = __this_cpu_read(apf_reason.token);
+>   		kvm_async_pf_task_wake(token);
+>   		__this_cpu_write(apf_reason.token, 0);
+> @@ -362,7 +363,7 @@ static void kvm_guest_cpu_init(void)
+>   		wrmsrl(MSR_KVM_ASYNC_PF_INT, HYPERVISOR_CALLBACK_VECTOR);
+>   
+>   		wrmsrl(MSR_KVM_ASYNC_PF_EN, pa);
+> -		__this_cpu_write(apf_reason.enabled, 1);
+> +		__this_cpu_write(async_pf_enabled, true);
+>   		pr_debug("setup async PF for cpu %d\n", smp_processor_id());
+>   	}
+>   
+> @@ -383,11 +384,11 @@ static void kvm_guest_cpu_init(void)
+>   
+>   static void kvm_pv_disable_apf(void)
+>   {
+> -	if (!__this_cpu_read(apf_reason.enabled))
+> +	if (!__this_cpu_read(async_pf_enabled))
+>   		return;
+>   
+>   	wrmsrl(MSR_KVM_ASYNC_PF_EN, 0);
+> -	__this_cpu_write(apf_reason.enabled, 0);
+> +	__this_cpu_write(async_pf_enabled, false);
+>   
+>   	pr_debug("disable async PF for cpu %d\n", smp_processor_id());
+>   }
+> 
+> base-commit: 437bba5ad2bba00c2056c896753a32edf80860cc
+
