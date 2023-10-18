@@ -1,90 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C394B4292F;
-	Wed, 18 Oct 2023 23:50:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6209946665
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 23:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jDyquIIA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2588C433C9;
-	Wed, 18 Oct 2023 23:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697673022;
-	bh=xzyBRSLNILhZ9XPTGbRgeQaBpcpvp+VTRtwqd65Y2ps=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jDyquIIAfzo1AcouG0XZnhFod8njD5NjytVJbZ17RUkxx9ihOmWpBENhLa05hU+wq
-	 or4nP6z09vCfgxp3rOamqbcitzreRbIsj6u1wt8KGE6yHS4RxP4XA3HmPQkdsSFjL7
-	 UCRQB32WmkOAxT9x6tFn7bZhxAexFDg+/CWMIf71JQrhlshzye5VJqqJNIxiYjXNHX
-	 Ytc/B+BrzZ6zzFFRPVTXtYRuZJdnoCEPilQ1oxsNtPWAnn1STqTK+9bQPzFyO58hk0
-	 sLOVU4PxJ258vj7dG6kHIz3twBBC7Y9zvpPsw/JzsWG3GxnwwLf9risIW2XpTvkm+T
-	 /ThvaixH7OLmA==
-Date: Wed, 18 Oct 2023 16:50:20 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Alexander Duyck <alexander.duyck@gmail.com>
-Cc: Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, corbet@lwn.net,
- jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org,
- mkubecek@suse.cz, willemdebruijn.kernel@gmail.com,
- linux-doc@vger.kernel.org, Wojciech Drewek <wojciech.drewek@intel.com>
-Subject: Re: [PATCH net-next v4 1/6] net: ethtool: allow symmetric-xor RSS
- hash for any flow type
-Message-ID: <20231018165020.55cc4a79@kernel.org>
-In-Reply-To: <CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
-References: <20231016154937.41224-1-ahmed.zaki@intel.com>
-	<20231016154937.41224-2-ahmed.zaki@intel.com>
-	<8d1b1494cfd733530be887806385cde70e077ed1.camel@gmail.com>
-	<26812a57-bdd8-4a39-8dd2-b0ebcfd1073e@intel.com>
-	<CAKgT0Ud7JjUiE32jJbMbBGVexrndSCepG54PcGYWHJ+OC9pOtQ@mail.gmail.com>
-	<14feb89d-7b4a-40c5-8983-5ef331953224@intel.com>
-	<CAKgT0UfcT5cEDRBzCxU9UrQzbBEgFt89vJZjz8Tow=yAfEYERw@mail.gmail.com>
-	<20231016163059.23799429@kernel.org>
-	<CAKgT0Udyvmxap_F+yFJZiY44sKi+_zOjUjbVYO=TqeW4p0hxrA@mail.gmail.com>
-	<20231017131727.78e96449@kernel.org>
-	<CAKgT0Ud4PX1Y6GO9rW+Nvr_y862Cbv3Fpn+YX4wFHEos9rugJA@mail.gmail.com>
-	<20231017173448.3f1c35aa@kernel.org>
-	<CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mvmi0VVs"
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807B8FA;
+	Wed, 18 Oct 2023 16:51:10 -0700 (PDT)
+Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-7a66a321e62so64655639f.2;
+        Wed, 18 Oct 2023 16:51:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697673070; x=1698277870; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f1fdvR+TCyCaeZPp3VqktkqpHwhabkS/n0H1eh7TjWE=;
+        b=mvmi0VVsvUX3jCpfN2o7B8SwDXi01NlKK4aJwmgPNzZL54iof1Iv+R90Zc1uMiG+9B
+         Pt3Q+7KnAEIIMp2f10wTwe9XAg8fdcAo5xkxqfE1N0Yes/T21HLj64L/hkjaRTpwI6qz
+         Il1O/RvMFQsQ7q2mUz6vSb+KHUR5kG9oPeqP+aE5KevD7lOUcFYSB4z/kBcvIiiBELTY
+         Gf6XcGRH6fpKY7dV+c06V85s+UAymFrBCf0wx9DvnPfvhywigX9EJ4js01UPV0IYaY6Z
+         wAwvhaD/DIU0xtVtwUpXrzR2Ws6drwVof+Ldph+3YaEmW2Z4kUCMW0pwefF8YT9AFScb
+         /XNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697673070; x=1698277870;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f1fdvR+TCyCaeZPp3VqktkqpHwhabkS/n0H1eh7TjWE=;
+        b=HuykW/bSAzi4Yr97/toqaT7ygpHioooS7RtvrjgyUn5ypy1Jn8DKFGaAcga/BZRAEm
+         uDJu3rX2pYUOvLZhJ2WmqEGsvnVU0D1HpTQDNgV6up0A6Ck5UfCMN6cUmH2q//eZWE9g
+         kG+e9J18pGlLikKI/j/Gt4XxwbyMjAyx9tIai5aEYs6w5s6B1B2/uUezE5a/tCYqw9++
+         T0NxJKMuVHdbZLLgV6hA6br7e0jFtXuyKPegLQ+HfUuNP9EMMLlrd1A5XXCPcz1zkMdg
+         TPW7FbTYPMzwALz5+iNQBZ8/gp8VoqF0Ucn/qL0aMjuRqFElUCtZYEQQEozZy1kMd4RE
+         s9jA==
+X-Gm-Message-State: AOJu0YyKxWZsqMcG+tMi8HMT3Twegzlk8n/uK/cPoSpcQOOrttq59wXF
+	mlAmqsLNe9nhLGQm1pb2m8jX3KEYnBfUyMSaHEc=
+X-Google-Smtp-Source: AGHT+IFHBTy1yUFfbNvGAnxqV3acY9biX8730DPbrQDx60KoV+MDRcMFSmdjRQYok0C1JQPn4kC3aXATW4EDBuLRQm8=
+X-Received: by 2002:a05:6602:2e10:b0:792:8d16:91ef with SMTP id
+ o16-20020a0566022e1000b007928d1691efmr756328iow.18.1697673069754; Wed, 18 Oct
+ 2023 16:51:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20231017232152.2605440-1-nphamcs@gmail.com> <20231017232152.2605440-4-nphamcs@gmail.com>
+ <CAJD7tkbz1d-E-q0MphD=676-ftp-bmOOCFgVxq5mRKgbgGLuYA@mail.gmail.com>
+In-Reply-To: <CAJD7tkbz1d-E-q0MphD=676-ftp-bmOOCFgVxq5mRKgbgGLuYA@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Wed, 18 Oct 2023 16:50:58 -0700
+Message-ID: <CAKEwX=M26xaZiC+CCWnDJ1+va1q9JumWY1WEJkgvx9E_UkBN+Q@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] mm: memcg: add per-memcg zswap writeback stat
+To: Yosry Ahmed <yosryahmed@google.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
+	muchun.song@linux.dev, linux-mm@kvack.org, kernel-team@meta.com, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 18 Oct 2023 11:12:13 -0700 Alexander Duyck wrote:
-> > > Based on earlier comments it doesn't change the inputs, it just
-> > > changes how I have to handle the data and the key. It starts reducing
-> > > things down to something like the Intel implementation of Flow
-> > > Director in terms of how the key gets generated and hashed.  
+On Wed, Oct 18, 2023 at 4:25=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com>=
+ wrote:
+>
+> On Tue, Oct 17, 2023 at 4:21=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wro=
+te:
 > >
-> > About Flow Director I know only that it is bad :)  
-> 
-> Yeah, and that is my concern w/ the symmetric XOR is that it isn't
-> good. It opens up the toeplitz hash to exploitation. You can target
-> the same bucket by just making sure that source IP and port XOR with
-> destination IP and port to the same value. That can be done by adding
-> the same amount to each side. So there are 2^144 easily predictable
-> possible combinations that will end up in the same hash bucket. Seems
-> like it might be something that could be exploitable. That is why I
-> want it marked out as a separate algo since it is essentially
-> destroying entropy before we even get to the Toeplitz portion of the
-> hash. As such it isn't a hash I would want to use for anything that is
-> meant to spread workload since it is so easily exploitable.
+> > From: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
+> >
+> > Since zswap now writes back pages from memcg-specific LRUs, we now need=
+ a
+> > new stat to show writebacks count for each memcg.
+> >
+> > Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> > Signed-off-by: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
+> > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> > ---
+> >  include/linux/memcontrol.h |  2 ++
+> >  mm/memcontrol.c            | 15 +++++++++++++++
+> >  mm/zswap.c                 |  3 +++
+> >  3 files changed, 20 insertions(+)
+> >
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index 3de10fabea0f..7868b1e00bf5 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -38,6 +38,7 @@ enum memcg_stat_item {
+> >         MEMCG_KMEM,
+> >         MEMCG_ZSWAP_B,
+> >         MEMCG_ZSWAPPED,
+> > +       MEMCG_ZSWAP_WB,
+> >         MEMCG_NR_STAT,
+> >  };
+> >
+> > @@ -1884,6 +1885,7 @@ static inline void count_objcg_event(struct obj_c=
+group *objcg,
+> >  bool obj_cgroup_may_zswap(struct obj_cgroup *objcg);
+> >  void obj_cgroup_charge_zswap(struct obj_cgroup *objcg, size_t size);
+> >  void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg, size_t size);
+> > +void obj_cgroup_report_zswap_wb(struct obj_cgroup *objcg);
+> >  #else
+> >  static inline bool obj_cgroup_may_zswap(struct obj_cgroup *objcg)
+> >  {
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 1bde67b29287..a9118871e5a6 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -1505,6 +1505,7 @@ static const struct memory_stat memory_stats[] =
+=3D {
+> >  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+> >         { "zswap",                      MEMCG_ZSWAP_B                  =
+ },
+> >         { "zswapped",                   MEMCG_ZSWAPPED                 =
+ },
+> > +       { "zswap_wb",                   MEMCG_ZSWAP_WB                 =
+ },
+>
+> zswap_writeback would be more consistent with file_writeback below.
+>
+> Taking a step back, this is not really a "state". We increment it by 1
+> every time and never decrement it. Sounds awfully similar to events :)
 
-I see your point.
+Ah yeah, this is probably closer to zswpin/zswpout counters :)
+We can probably re-use that piece of logic.
 
-Which is not to say that I know what to do about it. crc or any
-future secure algo will get destroyed all the same. It's the input
-entropy that gets destroyed, independently of the algo.
-
-We already support xor, and it doesn't come with a warning saying
-it's insecure so we kind of assume user knows what they are doing.
-
-I think the API we pick for configuring sym-xor should be the same as
-sym-sort. And the "makes algo insecure" argument won't apply to sort.
-
-IMO fat warning in the documentation and ethtool man saying that this
-makes the algo (any / all) vulnerable to attack would be enough.
-Willem?
+>
+> You can also use count_objcg_event() directly and avoid the need for
+> obj_cgroup_report_zswap_wb() below.
+>
+> >  #endif
+> >         { "file_mapped",                NR_FILE_MAPPED                 =
+ },
+> >         { "file_dirty",                 NR_FILE_DIRTY                  =
+ },
+> > @@ -1541,6 +1542,7 @@ static int memcg_page_state_unit(int item)
+> >         switch (item) {
+> >         case MEMCG_PERCPU_B:
+> >         case MEMCG_ZSWAP_B:
+> > +       case MEMCG_ZSWAP_WB:
+> >         case NR_SLAB_RECLAIMABLE_B:
+> >         case NR_SLAB_UNRECLAIMABLE_B:
+> >         case WORKINGSET_REFAULT_ANON:
+> > @@ -7861,6 +7863,19 @@ void obj_cgroup_uncharge_zswap(struct obj_cgroup=
+ *objcg, size_t size)
+> >         rcu_read_unlock();
+> >  }
+> >
+> > +void obj_cgroup_report_zswap_wb(struct obj_cgroup *objcg)
+> > +{
+> > +       struct mem_cgroup *memcg;
+> > +
+> > +       if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
+> > +               return;
+> > +
+> > +       rcu_read_lock();
+> > +       memcg =3D obj_cgroup_memcg(objcg);
+> > +       mod_memcg_state(memcg, MEMCG_ZSWAP_WB, 1);
+> > +       rcu_read_unlock();
+> > +}
+> > +
+> >  static u64 zswap_current_read(struct cgroup_subsys_state *css,
+> >                               struct cftype *cft)
+> >  {
+> > diff --git a/mm/zswap.c b/mm/zswap.c
+> > index d2989ad11814..15485427e3fa 100644
+> > --- a/mm/zswap.c
+> > +++ b/mm/zswap.c
+> > @@ -704,6 +704,9 @@ static enum lru_status shrink_memcg_cb(struct list_=
+head *item, struct list_lru_o
+> >         }
+> >         zswap_written_back_pages++;
+> >
+> > +       if (entry->objcg)
+> > +               obj_cgroup_report_zswap_wb(entry->objcg);
+> > +
+> >         /*
+> >          * Writeback started successfully, the page now belongs to the
+> >          * swapcache. Drop the entry from zswap - unless invalidate alr=
+eady
+> > --
+> > 2.34.1
