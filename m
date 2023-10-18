@@ -1,84 +1,104 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7680E339AF;
-	Wed, 18 Oct 2023 19:35:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0691EB36
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 19:59:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O9qNl8sG"
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FECD95;
-	Wed, 18 Oct 2023 12:35:06 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9adca291f99so1130413366b.2;
-        Wed, 18 Oct 2023 12:35:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QHm9LaFO"
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E11F7
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 12:59:22 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b9c907bc68so94758281fa.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 12:59:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697657705; x=1698262505; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mdbAuIh01zvYAO/ji7UkfeNx7lavYO25iJ0fbPVDVio=;
-        b=O9qNl8sGxmrVz/xAJHUaggelUYVH6Cvj9qzzssm4O/0Dr/YgirO2A9n7oEqB7qAy4n
-         zlSoNvWnShkGGrhvUnmuU1CgyfMB0pc3H0oKyqkzKjX35V8gxulRlSPpayq5y6mvFZDP
-         29N2f8OVi5PUozJ1FoKc1Dq8VGUwcduiRaIrQwkWq9poCOdZW0h82FKN+WcDQ8d9JGfO
-         AHl+SrzyocFPqwr5kBrajDQKMM6TtDX5go5efgttLvMo9T4U6RlelijMAZGeKJnYtDth
-         pmymoI707BPGnVeqJPh/+VBm4peeqaq7xiXHB70yb01TnOhC8PM/onHy4/nbZH5J6sN1
-         SpKA==
+        d=google.com; s=20230601; t=1697659161; x=1698263961; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+zmqcE2MrSI+P6n0BrJLpbbDNn5j/j93ikaoJl73i9c=;
+        b=QHm9LaFOQhR8fbtxcBgw49NK1lUN7rkIh7niXsHxORelHLL35/MeQgW/+PD7sNl0f4
+         F3mkDESpT/keIC7WGq+17h4h5ZFR798o9FNyufDgAyZTt0qSNV5oLyBMptYsllsKTzA6
+         +FYUmb+qqQ1GB2KaiD1fHpjC1cZqmGuY+/3rYU30eL+0Y1UbzqDHc6v4A6owGD3fyl8i
+         2WsNXVl9a6Y79CdSRSR21GfYVTfP7gWYyKqQDasBQtYPnjmGv/UqWicHKD8Th0pNqQiD
+         CYNcfV2gRnpDYLxadGXfn0s1KYn8POJ0Knt3BNGSn5pu14zqbhc4mttH7m/Jp4CkLlak
+         cPYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697657705; x=1698262505;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mdbAuIh01zvYAO/ji7UkfeNx7lavYO25iJ0fbPVDVio=;
-        b=toTdpglXkE6ZultBkNKyfZuwmsi5mP6ncqgQCbfYeFMG3yUURJfaO65Uz6moTPD1Dw
-         LLmDmLX7ome0i8zWrD82iAj5JABXma2eh9RoMzO/8e/lmIcEkqGU7paSD4Mh25Bukw26
-         x72fARYxqGB4Jot3AHx8ss4CyjtPy6z7jx0aGUjmy4TKq8NL0R7qYaut2RQ2Ki/mYraM
-         tluvqFH3Wi/P6aB9JFCiDS+JJTZC4I0sjJEtmPxM+nthKQ+77oZOf3RUSVj2ySNlyQhI
-         g1TIW+4aFcPUalZ0Kb921lLMd3kncnaFk5wfDhP+SJzqYFzHasA/BFkzFs+x8BZFKzyY
-         wfVQ==
-X-Gm-Message-State: AOJu0Yy7jGSys5nPzyMeSpqjc1OUp3ymvUVtgX8Gkr71j42raJkLhdio
-	UhJsgFLwMxxKn0ikXo3VGqJS+t5To1g=
-X-Google-Smtp-Source: AGHT+IGiUcXj5yb4s+p9+qjNpekt7IucfY/PWlpwxACKFBZm/CyZbddoT0b9jndYMOCCTin8SCGf6g==
-X-Received: by 2002:a17:907:1c05:b0:9bd:bb63:49db with SMTP id nc5-20020a1709071c0500b009bdbb6349dbmr242650ejc.7.1697657704553;
-        Wed, 18 Oct 2023 12:35:04 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id o10-20020a170906600a00b00992b510089asm2271823ejj.84.2023.10.18.12.35.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Oct 2023 12:35:04 -0700 (PDT)
-Subject: Re: [PATCH net-next] docs: networking: document multi-RSS context
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
- corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20231018010758.2382742-1-kuba@kernel.org>
-From: Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <e551a21f-6302-ed68-2062-c7e6a36a02c1@gmail.com>
-Date: Wed, 18 Oct 2023 20:35:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        d=1e100.net; s=20230601; t=1697659161; x=1698263961;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+zmqcE2MrSI+P6n0BrJLpbbDNn5j/j93ikaoJl73i9c=;
+        b=P07i1I6IC85+kEQV25hcjvNuQeBgTIthp7jvTOex9DIrvE90Z2ZJoGbf16L8tbSzT9
+         OEQHoo6KsHZ2P7JekBrg3dTjkNwreX74YdoSAqw3RML6GEvyo5MqtQ0EEgT1UbOqOfjM
+         AdD9HJlJYpCQR4LL+PC1AVHVenEiAqEbAgFRmApwaGy9qBNbUsoxAArABrakbdGoHBIy
+         dOk0T1nWRH2TaMNeJQXiXIWvS9seVux0OQq5JKBwA4YEg+KDG1lc05uCp79eki0pzicF
+         dUQKeJgc0I3nMVfWy5ZVHgCm/w5wQUNWgeT3YeRIb2m3ub67J/BHl+jWRBRz7U8H6xA3
+         j5PA==
+X-Gm-Message-State: AOJu0YyNwzZzEIW3ZSk5W8TUTHM7OMayTot5rbcbzhX8JXeS5vwtmCVJ
+	wdLK7QlknRwy3ICThxQhMeTLfWkAnOZdYH7t4dxr4A==
+X-Google-Smtp-Source: AGHT+IEaVYBfwkN+IG2AsUcOdDMYCvY+mbTLP2xTDnPsvcfD3qYh5slUhYzSqQhpt1osYqaB3agSYj1p7yvRbhV0uBI=
+X-Received: by 2002:ac2:53ad:0:b0:503:55c:7999 with SMTP id
+ j13-20020ac253ad000000b00503055c7999mr23973lfh.34.1697659160478; Wed, 18 Oct
+ 2023 12:59:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20231018010758.2382742-1-kuba@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20231009025726.5982-1-link@vivo.com> <CAOUHufaX35Y6MfwKj_XUWXJwdC=9M=g1gXpQpQghBZ2fXrkEAw@mail.gmail.com>
+In-Reply-To: <CAOUHufaX35Y6MfwKj_XUWXJwdC=9M=g1gXpQpQghBZ2fXrkEAw@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 18 Oct 2023 12:59:07 -0700
+Message-ID: <CABdmKX0xevnJfcgsDEWsfX9J5T2x0EV7x-p4ommq_Deg98WwYA@mail.gmail.com>
+Subject: Re: [PATCH 0/3 RESEND] Per memcg lru_gen node stat
+To: Yu Zhao <yuzhao@google.com>
+Cc: Huan Yang <link@vivo.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, 
+	"T.J. Alumbaugh" <talumbau@google.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Kefeng Wang <wangkefeng.wang@huawei.com>, 
+	Suren Baghdasaryan <surenb@google.com>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>, 
+	"open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, opensource.kernel@vivo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 18/10/2023 02:07, Jakub Kicinski wrote:
-> There seems to be no docs for the concept of multiple RSS
-> contexts and how to configure it. I had to explain it three
-> times recently, the last one being the charm, document it.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: ecree.xilinx@gmail.com
-> CC: corbet@lwn.net
-> CC: linux-doc@vger.kernel.org
-> ---
+On Wed, Oct 18, 2023 at 9:34=E2=80=AFAM Yu Zhao <yuzhao@google.com> wrote:
+>
+> On Sun, Oct 8, 2023 at 8:57=E2=80=AFPM Huan Yang <link@vivo.com> wrote:
+> >
+> > On original global lru_gen node in debugfs, it can all show each memcg'=
+s
+> > lru gen info in "lru_gen" or "lru_gen_full", and can type cmd into lru_=
+gen.
+> > But which show info contains all memcg's info, and cmd need to
+> > know memcg's id.
+> >
+> > This patchset add lru_gen node in per memcg, with this node, we can
+> > get lru_gen info in each memcg.
+> > Also, we can type cmd to control each memcg's lru_gen seq, but, this no=
+de
+> > don't support multi cmd, single memcg just process one cmd once time.
+>
+> Adding TJ from the Android team. (The other TJ you CC'ed is from the
+> ChromeOS team.)
+>
+> This series introduced a new ABI, which has to be maintained forever.
+> How exactly would it be used in *production*?
+>
+> Android doesn't officially support memcgs. So I want to understand the
+> real-world use cases first.
 
-Reviewed-by: Edward Cree <ecree.xilinx@gmail.com>
+Not sure how Android came up but I'm happy to chat. We want to turn on
+memcg v2 for Android but I'm currently working through perf impacts
+before that happens. Android can't use debugfs in production, but I
+think we'd prefer to use memory.reclaim for eviction anyway because it
+respects memcg limits and reclaims from slab.
 
-Thanks for doing this (and sorry for not documenting it in the
- first place).
-
--ed
+So maybe it's possible to add just aging functionality specific to
+MGLRU? It'd be nice to know how you're going to use the aging, or why
+you want this version of eviction instead of what memory.reclaim does.
