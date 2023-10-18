@@ -1,35 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECF3A5B;
-	Wed, 18 Oct 2023 01:08:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43175EDE;
+	Wed, 18 Oct 2023 01:10:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRC30WUM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD4DC433C8;
-	Wed, 18 Oct 2023 01:08:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LAvdX0kX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BCDF9C433C9;
+	Wed, 18 Oct 2023 01:10:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697591281;
-	bh=59vR46bvuqiPB0urnwSGzHyDUKCLr3i2AhjG3vuElWU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=MRC30WUMYsWZFaB8jEOuzyQ4Scjb3qySmsyt2S+y4Y1jLdAFZK1NQuo+Y12nRrgL2
-	 Z5n4sOW5K+0+kEwGwo7DQv1oayKFR3Bu+c2S/4JoDx6KjKK3hfoZuAOzZSRTqBN0SF
-	 fYe4vp3rFWbSZ8AaJEnTD16Wlge5DM3zEx5+Rma+xyTn8R4/mnSYhMlCyp/5z3B+HT
-	 6hwhZVYFC4rpupLXQxrvNVICLD+mFK7TF6nd4afmZs4NX/GMCtXdqvbBbW2fWMRA5s
-	 +6mTGyeUKs+AOrUZU+fZdDFXgYiae0PWWlWbDa96fJ+W7U255gPfeGlcyrlR7icuMM
-	 wzS92xp3FPTJw==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	Jakub Kicinski <kuba@kernel.org>,
-	ecree.xilinx@gmail.com,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next] docs: networking: document multi-RSS context
-Date: Tue, 17 Oct 2023 18:07:58 -0700
-Message-ID: <20231018010758.2382742-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+	s=k20201202; t=1697591422;
+	bh=KpcGS0wIZInDimOZ+8Z3z7jeLbSMZ1iFtweWYeARmqw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=LAvdX0kXXzbvKIwFTQhZUe6r8VIMxwJz9bx5lsg9yK4UiVXGYDxqVq/EyISW/FeLq
+	 LSfLVUFeKHvtk1osinvyNdO9qPgCS1PM6MeDz4RwYA42tn0LpO6V56SCAGb4x7Yynz
+	 jLo3ofZ6+l5/ZTNz3ZtVXkGt/6BSPc1O1JxruUO6PzWRWVDrHJhDddIcU9wbkr/vIS
+	 sZ4NqL/eOxRFncT+/gFfBb3f62bfpqgAH6mkHYp6CvmEZhXxF0Bn2O4YZ4BeENxHM5
+	 I5JqyMH2zKUKSFOtH6KP+SaBRhOu5l2x6twYlnK+PwFiFzX/mbcPRpSi3k4xxdTVZa
+	 JqDz64bH0wEJQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A27D5E4E9BC;
+	Wed, 18 Oct 2023 01:10:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,73 +28,45 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] docs: netlink: clean up after deprecating version
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <169759142265.24973.8584317282955936096.git-patchwork-notify@kernel.org>
+Date: Wed, 18 Oct 2023 01:10:22 +0000
+References: <20231016214540.1822392-1-kuba@kernel.org>
+In-Reply-To: <20231016214540.1822392-1-kuba@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, jiri@resnulli.us, linux-doc@vger.kernel.org
 
-There seems to be no docs for the concept of multiple RSS
-contexts and how to configure it. I had to explain it three
-times recently, the last one being the charm, document it.
+Hello:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: ecree.xilinx@gmail.com
-CC: corbet@lwn.net
-CC: linux-doc@vger.kernel.org
----
- Documentation/networking/scaling.rst | 42 ++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-diff --git a/Documentation/networking/scaling.rst b/Documentation/networking/scaling.rst
-index 92c9fb46d6a2..03ae19a689fc 100644
---- a/Documentation/networking/scaling.rst
-+++ b/Documentation/networking/scaling.rst
-@@ -105,6 +105,48 @@ a separate CPU. For interrupt handling, HT has shown no benefit in
- initial tests, so limit the number of queues to the number of CPU cores
- in the system.
- 
-+Dedicated RSS contexts
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+Modern NICs support creating multiple co-existing RSS configurations
-+which are selected based on explicit matching rules. This can be very
-+useful when application wants to constrain the set of queues receiving
-+traffic for e.g. a particular destination port or IP address.
-+The example below shows how to direct all traffic to TCP port 22
-+to queues 0 and 1.
-+
-+To create an additional RSS context use::
-+
-+  # ethtool -X eth0 hfunc toeplitz context new
-+  New RSS context is 1
-+
-+Kernel reports back the ID of the allocated context (the default, always
-+present RSS context has ID of 0). The new context can be queried and
-+modified using the same APIs as the default context::
-+
-+  # ethtool -x eth0 context 1
-+  RX flow hash indirection table for eth0 with 13 RX ring(s):
-+    0:      0     1     2     3     4     5     6     7
-+    8:      8     9    10    11    12     0     1     2
-+  [...]
-+  # ethtool -X eth0 equal 2 context 1
-+  # ethtool -x eth0 context 1
-+  RX flow hash indirection table for eth0 with 13 RX ring(s):
-+    0:      0     1     0     1     0     1     0     1
-+    8:      0     1     0     1     0     1     0     1
-+  [...]
-+
-+To make use of the new context direct traffic to it using an n-tuple
-+filter::
-+
-+  # ethtool -N eth0 flow-type tcp6 dst-port 22 context 1
-+  Added rule with ID 1023
-+
-+When done, remove the context and the rule::
-+
-+  # ethtool -N eth0 delete 1023
-+  # ethtool -X eth0 context 1 delete
-+
- 
- RPS: Receive Packet Steering
- ============================
+On Mon, 16 Oct 2023 14:45:40 -0700 you wrote:
+> Jiri moved version to legacy specs in commit 0f07415ebb78 ("netlink:
+> specs: don't allow version to be specified for genetlink").
+> Update the documentation.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> v2:
+>  - s/Gobals/Globals/
+>  - breaking changes are -> compatibility breaking changes are
+>    I think it's plural but the omission of "compatibility" made it confusing
+>  - not changing the wording to "should never be used", I prefer existing
+> v1: https://lore.kernel.org/all/20231012154315.587383-1-kuba@kernel.org/
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v2] docs: netlink: clean up after deprecating version
+    https://git.kernel.org/netdev/net-next/c/5294df643ba6
+
+You are awesome, thank you!
 -- 
-2.41.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
