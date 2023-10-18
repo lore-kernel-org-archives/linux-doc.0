@@ -1,73 +1,85 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F31B8F55
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 02:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from ssh247.corpemail.net (ssh247.corpemail.net [210.51.61.247])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D23AB;
-	Tue, 17 Oct 2023 19:30:55 -0700 (PDT)
-Received: from ssh247.corpemail.net
-        by ssh247.corpemail.net ((D)) with ASMTP (SSL) id NCW00150;
-        Wed, 18 Oct 2023 10:30:50 +0800
-Received: from jtjnmail201607.home.langchao.com (10.100.2.7) by
- jtjnmail201603.home.langchao.com (10.100.2.3) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 18 Oct 2023 10:30:50 +0800
-Received: from localhost.localdomain.com (10.73.42.143) by
- jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 18 Oct 2023 10:30:49 +0800
-From: Charles Han <hanchunchao@inspur.com>
-To: <corbet@lwn.net>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Charles Han
-	<hanchunchao@inspur.com>
-Subject: [PATCH] Documentation/sphinx: Remove the repeated word "the" in comments.
-Date: Wed, 18 Oct 2023 10:30:46 +0800
-Message-ID: <20231018023046.30022-1-hanchunchao@inspur.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0D58486;
+	Wed, 18 Oct 2023 07:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wvJymKSb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF77C433C7;
+	Wed, 18 Oct 2023 07:52:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1697615521;
+	bh=woRiGHLdU4jN8s9X4H6woCtgWH/Emk3o/3wRf0O5stM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=wvJymKSbfEo8z0QgshiW8SmB7gEJp1YGkZx8jhEcuTRaIvBKTQHxQKNwgKyUmTugS
+	 HuBTL0EbJ2FBW5ZgxZXEUgC21DfKHZi1yuBPeuAjFGUAl2r7ETzrBBOrG2rUeYKHAr
+	 WXZjd1aR0FGnVZ6juMQ/GYSRrjvD8vr5EuIb1MWA=
+Date: Wed, 18 Oct 2023 09:51:58 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sourav Panda <souravpanda@google.com>
+Cc: corbet@lwn.net, rafael@kernel.org, akpm@linux-foundation.org,
+	mike.kravetz@oracle.com, muchun.song@linux.dev, rppt@kernel.org,
+	david@redhat.com, rdunlap@infradead.org, chenlinxuan@uniontech.com,
+	yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com,
+	bhelgaas@google.com, ivan@cloudflare.com, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com,
+	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
+	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
+	surenb@google.com, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, willy@infradead.org
+Subject: Re: [PATCH v2 1/1] mm: report per-page metadata information
+Message-ID: <2023101824-ventricle-hacked-6450@gregkh>
+References: <20231018005548.3505662-1-souravpanda@google.com>
+ <20231018005548.3505662-2-souravpanda@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.73.42.143]
-X-ClientProxiedBy: Jtjnmail201613.home.langchao.com (10.100.2.13) To
- jtjnmail201607.home.langchao.com (10.100.2.7)
-tUid: 20231018103050c876d00e3408e7fe296df976a12430e7
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018005548.3505662-2-souravpanda@google.com>
 
-Remove the repeated word "the" in comments.
+On Tue, Oct 17, 2023 at 05:55:48PM -0700, Sourav Panda wrote:
+> Adds a new per-node PageMetadata field to
+> /sys/devices/system/node/nodeN/meminfo
+> and a global PageMetadata field to /proc/meminfo. This information can
+> be used by users to see how much memory is being used by per-page
+> metadata, which can vary depending on build configuration, machine
+> architecture, and system use.
+> 
+> Per-page metadata is the amount of memory that Linux needs in order to
+> manage memory at the page granularity. The majority of such memory is
+> used by "struct page" and "page_ext" data structures. In contrast to
+> most other memory consumption statistics, per-page metadata might not
+> be included in MemTotal. For example, MemTotal does not include memblock
+> allocations but includes buddy allocations. While on the other hand,
+> per-page metadata would include both memblock and buddy allocations.
+> 
+> This memory depends on build configurations, machine architectures, and
+> the way system is used:
+> 
+> Build configuration may include extra fields into "struct page",
+> and enable / disable "page_ext"
+> Machine architecture defines base page sizes. For example 4K x86,
+> 8K SPARC, 64K ARM64 (optionally), etc. The per-page metadata
+> overhead is smaller on machines with larger page sizes.
+> System use can change per-page overhead by using vmemmap
+> optimizations with hugetlb pages, and emulated pmem devdax pages.
+> Also, boot parameters can determine whether page_ext is needed
+> to be allocated. This memory can be part of MemTotal or be outside
+> MemTotal depending on whether the memory was hot-plugged, booted with,
+> or hugetlb memory was returned back to the system.
+> 
+> Suggested-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Signed-off-by: Sourav Panda <souravpanda@google.com>
+> Change-Id: I4351791c9f4c1e9759cbd8e646e808565dbb595f
 
-Signed-off-by: Charles Han <hanchunchao@inspur.com>
----
- Documentation/sphinx/cdomain.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+checkpatch.pl should have said that "Change-Id:" should be removed, why
+didn't you run this on your patch before submitting it?
 
-diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-index de5d132d94c5..4eb150bf509c 100644
---- a/Documentation/sphinx/cdomain.py
-+++ b/Documentation/sphinx/cdomain.py
-@@ -151,7 +151,7 @@ class CObject(Base_CObject):
-     def handle_func_like_macro(self, sig, signode):
-         u"""Handles signatures of function-like macros.
- 
--        If the objtype is 'function' and the the signature ``sig`` is a
-+        If the objtype is 'function' and the signature ``sig`` is a
-         function-like macro, the name of the macro is returned. Otherwise
-         ``False`` is returned.  """
- 
--- 
-2.31.1
+thanks,
 
+greg k-h
