@@ -1,57 +1,48 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8CE3FE2B
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 17:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560AA3FB39;
+	Wed, 18 Oct 2023 17:57:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="LXdbYs+n"
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C1FEA
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 10:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=id5jhg4t6jh75dlqjp6pot5zcy.protonmail; t=1697651770; x=1697910970;
-	bh=+Do60tFHTgD/yzVC6yohA+Xb+DeuzbVb/pyouLR43hE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=LXdbYs+nAy09u7e3TbPcQo2fVpqLTtG1rOME0Ve16ipPFbaG1XVeNxSqmsqek1QpU
-	 ErMTgCXBfV2e57cG3V0+htGeydsqb/fk135HE00P7rjfFyJwrN8kvFLsLiT2wxDG9b
-	 HM4sK8FUsKPR2SQpWoNG1m1Ynp0BgeO8Tf2O9p+EHY1zU37qIRPBeVvhA1kzvIjgpf
-	 Tmy1VMw8JggmdrPRLfkewxHrp8cWxnRIP6VI28yuyBgt1RYShb4Joc3HkoX7QlIVfG
-	 tBPP8Lr0PItp1Z3KVJDNmLyg2JErVyhC9fQTmcGbOmuhuEdMCHeFAnxYL/YrJ8ISLW
-	 ogx2NOXKEKIPA==
-Date: Wed, 18 Oct 2023 17:55:59 +0000
-To: Miguel Ojeda <ojeda@kernel.org>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Carlos Bilbao <carlos.bilbao@amd.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, patches@lists.linux.dev, Akira Yokosawa <akiyks@gmail.com>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-Subject: Re: [PATCH 1/2] docs: rust: update Rust docs output path
-Message-ID: <9zPimFJ-VQdlvUz-8ChRRxxHCJviKOt0uoclPqJzpAL9t_1s7NoPnTzCcHC-0XAbWKoRK_VLIN_duiv09Zrb0EW2rixLUv0cbxBIy6GsG_w=@proton.me>
-In-Reply-To: <20231018160145.1017340-1-ojeda@kernel.org>
-References: <20231018160145.1017340-1-ojeda@kernel.org>
-Feedback-ID: 71780778:user:proton
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H0cSHS/2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FC27C433C7;
+	Wed, 18 Oct 2023 17:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697651826;
+	bh=JofSflLWtggV8URpWNuqKetCfBtt9egjfPL+AtxClcY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=H0cSHS/2ehHG2JNjTx2sCWDMBQGHbTRUdGfIJPR32ZYkHmaKW3xB5IJNUQshZ+LIN
+	 g+NlnxCGi0wM6yll3Jfh3iE3Yk6GF8jcJ3ZNSaxzjYIRUtFEaVxPgUr5Gvn+RDSOXm
+	 BHwX4oRLnpqmdsb+BLwpfW3QtvFohCNu5ET8xEb3c156uzxXIP/Wm4piE00x7k1Qjq
+	 4MlWCEL64X9Bn6IwIObodMvUyiqoadwwSBgT8WY8zls6QaaBrsVLWK34B1wi0QPdx6
+	 isL8Z5xcB1iaGAN8elbocYzDsjWPzLkSXPBJf0/b/3fMQfHxeOxs9vYdtleqgIUovK
+	 sp+PbinN1obLQ==
+Date: Wed, 18 Oct 2023 10:57:05 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ahmed Zaki <ahmed.zaki@intel.com>
+Cc: netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ corbet@lwn.net, jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org,
+ mkubecek@suse.cz, willemdebruijn.kernel@gmail.com,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v5 0/6] Support symmetric RSS (Toeplitz) hash
+Message-ID: <20231018105705.556a6cc9@kernel.org>
+In-Reply-To: <20231018170635.65409-1-ahmed.zaki@intel.com>
+References: <20231018170635.65409-1-ahmed.zaki@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 18.10.23 18:01, Miguel Ojeda wrote:
-> The Rust code documentation output path moved from `rust/doc` to
-> `Documentation/output/rust/rustdoc`, thus update the old reference.
->=20
-> Fixes: 48fadf440075 ("docs: Move rustdoc output, cross-reference it")
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+On Wed, 18 Oct 2023 11:06:29 -0600 Ahmed Zaki wrote:
+> v5: move sanity checks from ethtool/ioctl.c to ice's and iavf's rxfnc
+>     drivers entries (patches 5 and 6).
 
-Reviewed-by: Benno Lossin <benno.lossin@proton.me>
-
---=20
-Cheers,
-Benno
+What about the discussion with Alex?
+I thought you'd move the flag out of RXH_ into a separate field,
+key-preproc, sub-algo, whatever..
