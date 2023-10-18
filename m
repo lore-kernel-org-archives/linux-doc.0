@@ -1,57 +1,57 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7967E3D98F
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 17:29:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240F73D999
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 17:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Sts3Gh/i"
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AB1B10F8
-	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 10:29:00 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2c50906f941so81112271fa.2
-        for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 10:29:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="vYhMbNyu"
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8081CD73
+	for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 10:29:09 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2c5210a1515so56718411fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Oct 2023 10:29:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1697650138; x=1698254938; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1697650148; x=1698254948; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KecMZIvYhLiPYK1GTiccjaRpV9Eq5PLhQIfDXh9BqmM=;
-        b=Sts3Gh/iHfuxwcOKaDl6vwMNA5HSUH5CI1OyckNMimNusWTpvhGOJTON/e8B8pooiS
-         Em/iLj+/R2dnS5FGOCmKTKk27wo+dm+Um3gS0xQ/U7eCYPtmAgQWv8yYi/UXJYDjsmJS
-         yEkh9Z+9cSK7yzH/Ht+SSnVnYOwBudF/SeSaTDhWMPPLE8ISaq7sTtIY/ShtwWbjMxV9
-         pVh20lTH8OO/A5bPZLtKYhx5LmbFuuu6iPyJQrDLg1aI+C7tNl4U6w1uVRhhjpKU1wPJ
-         RpeY3j7ePCq+q1yEXj4FR1f3qNNnMqYb8XoZsnm3naClI8yFr/pRXekeavaGOHKgzGHA
-         oCBA==
+        bh=5z7yiUweEg23BwK7zcSyTWxXFB2LkcpzcFHHPWHt2IQ=;
+        b=vYhMbNyulohFq9QOPd2x9cJOdUVEhe8ID+eudIovN4H2IYpqjm9Vt3pUzshFlb0JOz
+         lWJaBjSDh08k5AYafNbasXLjTDAmXNaqpQ20RtVjyud3EzH9RymZADIotwEIIEZodBcN
+         NocCFZY+emoOcgGOhmxa23Uz5Ws8dVJ3Q8tfBW71rnjPztQZ3fnYdzCa1RR4qYheE95l
+         TeeJHZWcjNThIS669/b8Xsqw/+H6ZqcP4saubh8o6SKiBKvgtB8O8m405BUNak5ecNFf
+         /G4L1kmT941P6Ci6AWvr/mBjG4JIC+FIdboXMdk9hOaU2rh8VHIL27xigEiDY8TRefrT
+         aUSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697650138; x=1698254938;
+        d=1e100.net; s=20230601; t=1697650148; x=1698254948;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KecMZIvYhLiPYK1GTiccjaRpV9Eq5PLhQIfDXh9BqmM=;
-        b=RdB5yQB1Fjyq0WgV1zB0J/rPKzEEPVVEikOUVrRhczU4+e8RDj8ssb5i2uGiYoJKYG
-         YrmcP5356Vq6FYfnzibWimQWx8RncQcjAq4mp1pRcgnLXT+YgsS5mGNnYARFBorMCgZ/
-         toE8v/4fNhCRhf6qmyjQsPD8qK8NjPIkxtWr+/UVEqhnPpFrZ8vbSEvz4ftSGiLZ8Xv0
-         IQUa/r2gzkQk93Tfws+7Q/lq+Fnrsbw6jypYRayrBPW5f73GpL15pmbtMld28zk9001C
-         Cc1z5VZDsGi+xfS8bMI6UW1KSVPRyEYOWCQDqxuX2xakvlNzWv+DKpaQR8i7MiVZ9brg
-         zwMQ==
-X-Gm-Message-State: AOJu0YyIoQL9BBxojx73HZIu05HxiMvvfwpwETm7F2P0KVBEIiXHtMQ2
-	7QOyTLI51i1ZLNk5oW4Gzqn3MC7VyEzrLzn4RmN1MQ==
-X-Google-Smtp-Source: AGHT+IEtoY1yZMCUmYkHB9d1SqV2lcdLSWQ0+n+bBu7Zg4eMSM1qn1YEnUNWUrCwdIkscxBAZQ3k/ahzY9IjsKI+bfI=
-X-Received: by 2002:a05:651c:227:b0:2be:54b4:ff90 with SMTP id
- z7-20020a05651c022700b002be54b4ff90mr4251984ljn.53.1697650137918; Wed, 18 Oct
- 2023 10:28:57 -0700 (PDT)
+        bh=5z7yiUweEg23BwK7zcSyTWxXFB2LkcpzcFHHPWHt2IQ=;
+        b=BnPBq43ZvfPRRvIXWdm3dd1SNuJoN4C9T5becgKMPGZHLzUIQXT7teNN6YkYua7fSn
+         Ebe+TdCILfbwilwRs/0Wk4SknUrup+FY21rSTU7v0RZ8dLwJ5NrvBZRCAIV5IdnmWM1Y
+         KYYAxq6eFU3iwb9W0MT1par/fa/d90YHbH9sszTX33Olmzq6/ZmJqDiqIL+on53iaRie
+         rlSJ8cEBxBVmZ+TyShM32uI/8Bo1eHCNz/haWVApOsZVdi+fl4kMy4ydRjOlo+edUsvL
+         BiQOJ9wmBTPlYUREOMgjyMJ8cd1by73d1/e/astNVe6mqy0hYwAy8aTYF2mRS07+NIkN
+         wWyw==
+X-Gm-Message-State: AOJu0Yy4rYT5nxxEQZmb0x9cuTe7RhAr64P5JgxDvDK3+Gxozb21ALZI
+	0D9q5cpSgSskM8kZjpslgN4QsUgjqBggS1tYs4QD7g==
+X-Google-Smtp-Source: AGHT+IGo8MWu21Tet2EOfE5+wEjwJOt2gHO9Cv9qIsNHDtqKivVuDg+TfiVa/BHwF8TahWAz+g7w3WQIL7DGU1ZQdrY=
+X-Received: by 2002:a2e:a7ca:0:b0:2b9:ee3e:2412 with SMTP id
+ x10-20020a2ea7ca000000b002b9ee3e2412mr6279909ljp.22.1697650147521; Wed, 18
+ Oct 2023 10:29:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231017131456.2053396-1-cleger@rivosinc.com> <20231017131456.2053396-12-cleger@rivosinc.com>
-In-Reply-To: <20231017131456.2053396-12-cleger@rivosinc.com>
+References: <20231017131456.2053396-1-cleger@rivosinc.com> <20231017131456.2053396-13-cleger@rivosinc.com>
+In-Reply-To: <20231017131456.2053396-13-cleger@rivosinc.com>
 From: Evan Green <evan@rivosinc.com>
-Date: Wed, 18 Oct 2023 10:28:22 -0700
-Message-ID: <CALs-HsvXt_gPCJ2hh5ftPn0sJxWKNzn3_8uyamko4OufCE0+vA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/19] riscv: add ISA extension parsing for Zihintntl
+Date: Wed, 18 Oct 2023 10:28:31 -0700
+Message-ID: <CALs-HstrnSM981utJD8tUdjwTc+rLTP9Eiep8A8Pbx29Gz4Xdg@mail.gmail.com>
+Subject: Re: [PATCH v2 12/19] riscv: hwprobe: export Zhintntl ISA extension
 To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
 Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -71,12 +71,10 @@ X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 On Tue, Oct 17, 2023 at 6:15=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cleger@riv=
 osinc.com> wrote:
 >
-> Add parsing for Zihintntl ISA extension[1] that was ratified in commit
-> 0dc91f5 ("Zihintntl is ratified") of riscv-isa-manual[2].
+> Export Zihintntl extension[1] through hwprobe.
 >
 > Link: https://drive.google.com/file/d/13_wsN8YmRfH8YWysFyTX-DjTkCnBd9hj/v=
 iew [1]
-> Link: https://github.com/riscv/riscv-isa-manual/commit/0dc91f505e6d [2]
 > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
 
 Reviewed-by: Evan Green <evan@rivosinc.com>
