@@ -1,163 +1,152 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA6F29CF3;
-	Thu, 19 Oct 2023 15:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B34C30FB4;
+	Thu, 19 Oct 2023 15:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="RFJBYoML"
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2047.outbound.protection.outlook.com [40.107.6.47])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D7C1121;
-	Thu, 19 Oct 2023 08:02:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i7qGWAUI+lfJZdD3oNKW0r8H6iA0VIZJm474oQqKcZa7vArDCKygwLBkNCMB+0gbc+4eeoM0guZLFsq8aT/e4KMuzSHTysmkefR4QCc2Z7oXmhOrW0DNWMPXFLv6A1HyYOpLPHne+NmYmKMq7ceyVRZ+C6r2my9DbBd7GMuOpRjwDu0dAr5Y/khB+gBZmg2YlKyrfbpDva9NTg4vKT5SWIDxTSn+Mh1KdcUbsWNNcdZtNT+4y0yuySUqiXO+aVjw1o6iOF1hi+OMuoSxT9uB9AshCYrvvaT1sqmBQzojj/mmdDOWpIVcitbaIGonhCRLmdEO9PELziGJzK+7h0nW9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DA3KGuG1Ua7nsKr0/VaYunVZWD4EruJrugpSsA3JckE=;
- b=akI6vpXTVGK9pai2RJ2VU3hSvrg9/MI8I8zEoHBPe2k+Zg6sICv/h1STbG5L8GOjDc11vQ3d0JOAvmnLHlmrq1ospPjaUuhLRv/EXZRT8AXSP/sRvj/p3VwILDC8iyhasZ4VO8FG7bdpFdp3mb71Udu7PneBOxSogw6yyJbf8P277upXQ3Ay0yDRqXtTVwo8mjo/iwbjI21293q15V2xzzPjBnaFyXuJm3dfIpf6XJotWOl+2QOf7lZZ7g7vD18IpeYX2fxZHYsff1vB9oox3QmpJ9Cv+UZ7vus+nXlcKjp/lu92/Uy+I0RjfBBxllTfCR3sV64Zv7euzhTS28RUIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DA3KGuG1Ua7nsKr0/VaYunVZWD4EruJrugpSsA3JckE=;
- b=RFJBYoMLanb4QzQs18tTFWo0YJQt3ECJCBG9zX/PwoXHJf5ZtidC6J2Rgq9lxVlYeFqe2/o5wFYiN5+TAdnSmZ9Y+u6+LCqVqsZydLJ487bMuSZDsZovEg0zrvk+8Ul24UBbG5KLB19smv2j0Z/mRsdmv/AQc/OQDt1002Tl5Js=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB4838.eurprd04.prod.outlook.com (2603:10a6:20b:4::16)
- by PAXPR04MB8374.eurprd04.prod.outlook.com (2603:10a6:102:1bd::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Thu, 19 Oct
- 2023 15:02:19 +0000
-Received: from AM6PR04MB4838.eurprd04.prod.outlook.com
- ([fe80::1774:e25f:f99:aca2]) by AM6PR04MB4838.eurprd04.prod.outlook.com
- ([fe80::1774:e25f:f99:aca2%4]) with mapi id 15.20.6907.022; Thu, 19 Oct 2023
- 15:02:18 +0000
-Date: Thu, 19 Oct 2023 11:02:10 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: miquel.raynal@bootlin.com, conor.culhane@silvaco.com,
-	alexandre.belloni@bootlin.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net, joe@perches.com, linux-i3c@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-	imx@lists.linux.dev, jirislaby@kernel.org,
-	linux-serial@vger.kernel.org
-Subject: Re: [PATCH 1/5] i3c: add slave mode support
-Message-ID: <ZTFE8hrRgPBrb7e3@lizhi-Precision-Tower-5810>
-References: <20231018215809.3477437-1-Frank.Li@nxp.com>
- <20231018215809.3477437-2-Frank.Li@nxp.com>
- <dd06c2d3-e273-4356-835b-42619543dfab@linaro.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd06c2d3-e273-4356-835b-42619543dfab@linaro.org>
-X-ClientProxiedBy: BYAPR11CA0094.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::35) To AM6PR04MB4838.eurprd04.prod.outlook.com
- (2603:10a6:20b:4::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N97pbG5e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C5FDC433C8;
+	Thu, 19 Oct 2023 15:33:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697729597;
+	bh=HwwRNCwT8BYB1JzATrYA1vnmNd3NZ1gsX/BTgIeQxys=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N97pbG5eH+rIsR4tEcQlulJ2kgrWW2CryHjiZOTPl5Li7NNuRFr7bLP5lcqz06mb8
+	 I0yq83Oz7HW3+xQj2QxqHqRZvb7UvfQQJF1JLaAWhqjApWcvYt5CgteXF7OEntP3yB
+	 e+/sKHHlXiqrMgRmA4oy/muxqBC44EUPh76dQMzwrY0Q2fZCNuCkwhNoGlaDwqFvUj
+	 sE7xiMKRnN68hE7eoJDiEVZFu6KO0BWkPpeMdESqXx22QsqFKg/vGJYnu+DVeb0iO3
+	 JQQygDm6uKa9lDbcIXYvBau0PjJay6LR1B6BRuy4WnGAk+j+4F0fAkFEuO55Zb2lfA
+	 CeA7SsZiSU+9A==
+Date: Thu, 19 Oct 2023 16:33:12 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: Evan Green <evan@rivosinc.com>, Jerry Shih <jerry.shih@sifive.com>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Samuel Ortiz <sameo@rivosinc.com>
+Subject: Re: [PATCH v2 05/19] riscv: add ISA extension parsing for vector
+ crypto extensions
+Message-ID: <20231019-nuclear-vista-ef3e0b9bef71@spud>
+References: <20231017131456.2053396-1-cleger@rivosinc.com>
+ <20231017131456.2053396-6-cleger@rivosinc.com>
+ <DA8B4610-D514-4733-B875-C247FFCCC7AA@sifive.com>
+ <af785f0f-9de7-4548-9cdb-f392cde1cc2b@rivosinc.com>
+ <CALs-HstEBt-ntCcETa9YwS6On3nGyoEc2p7R-gaBLG9+aFJL5w@mail.gmail.com>
+ <7626f978-e9ea-4f8f-b814-aeac02bd3712@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4838:EE_|PAXPR04MB8374:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca83ba9f-c26a-4c53-aba7-08dbd0b463a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	JqDJVxr77eDij4wIzFZlnHIqgn7zPsOi+UsHzwOOcV1W9QsaGcme2GCupN4hY2Br15yCATaBb8/7dSBvmV6H27v7f3eSD8W7nkOiqM0+e3rakSla9v4Fyj/wMKUv6tzXK+T/eOgNQfsk0oJ1tDGXespHB3AGN2lUQZHWWJ/YZw8IbE6d1qw2rzxwNlqJT/RApOvvBvpyYHWTPrPjrq00jMsb0Oc73Wea5CpL/90hZoBHq4OaqMR5uX3H/dPqzrUyE1BthVAx/8YHE797V9tpgFsJ9eufcTO8/tacgR7lR30mrV0xnLop4lCvbQo1WB6x4t306IUgtE4B2WuG9SNWi+QGCs8uD33jpFgpXCar2VRjEWZ53U+b1Hu/M/tIknELuwFxhTLe/DyZipqrZu1SbZbzuZGhzAGgI10abjZCWCOkAeH/AetlG6jie7ImvyCLEuI/2p/6awyc4jvCITD159E9Z6CngnC7Ty0Ti0VcthIglvSCwvClkJmRd4vmKttda05ABXXb71+n+AxVqi6yZuTp3gYgs0DDOV6KxzF6smQoXy/BF9uSJ8Ytn2R7Jw+yGyXyv7mZwxa2VHjLtZMWytXzZMXsOFwBpOq4u41VI2mF2P8WrWsypTWpNWW2O3Vr
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4838.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(376002)(39860400002)(366004)(396003)(346002)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(316002)(38350700005)(6486002)(6916009)(478600001)(52116002)(2906002)(66476007)(66556008)(66946007)(8676002)(5660300002)(4326008)(41300700001)(26005)(6512007)(7416002)(9686003)(8936002)(33716001)(6506007)(86362001)(38100700002)(83380400001)(6666004)(53546011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?y1uzen23AC68fy4M3SEOegkSnOs6VkSTF8R2/kM+CqkTjC1hCjXXQjq7k6Kk?=
- =?us-ascii?Q?zav6tlWxqO2DWtBaVH8/A3DADup5I6L8exowLXhBdRQs+5EtsGN+hc+QLKbw?=
- =?us-ascii?Q?G8IfqTToqEodokibRjOM4M0fZy3+iD3jfgdC/obSXQEsq2Q5dXjB6nOZpel4?=
- =?us-ascii?Q?f4fs+VERp3nGuk1VcWND8ALnNij+9S3umPpq3s6Ao5YAewIYa44JRvotqyf3?=
- =?us-ascii?Q?d/wdGkzySetNUJrH97NlmMC3sseZd63djsGOAlCp3vrnbdvfI8XgJTi2HDWm?=
- =?us-ascii?Q?kn39gZjCKmWi7nfGb0uEVH4wEDNe2wL4dcp6rVggBBUydLMNvjoT5CNRni5S?=
- =?us-ascii?Q?Yd9OpyxBprLE94LTi6TfsgvrKcxKfk9n6PkcGnD1zon5Kr0py6MnWpY49qSK?=
- =?us-ascii?Q?bx9ne+gZCYBlfVx3J7NdsJBgUFhCLSXfRuww8QdZcbQAhC9G5OnUFYM20R5u?=
- =?us-ascii?Q?3DDWIL3exM7fSSBfCUD23UOj+kiAa8iw6nh6XCqPlVNOrTJHU9HZQg7ug/UJ?=
- =?us-ascii?Q?Fv+ZKlPmjbLVJMAQSpvp3KGOfCriNgyMzFvSVcKBXaWmZw6muYxe3WCeYVtW?=
- =?us-ascii?Q?xMz7kc0BhU+VZbY1NQWZRw3j8EAjumhxpMEgC0kTWI/gWLc5QOrYiR7gMJz0?=
- =?us-ascii?Q?uhoHq5APSNlcCzD7Fp33ZezEGZ6wmrV4oBgpTHKhbfsk8Hqn2bXEgJioVMy5?=
- =?us-ascii?Q?rk/WMeeoTtRz6DDaqovSgBVKsbalrcSLw7BgDJJM99Tx6/CQwtVJ8cs/7anc?=
- =?us-ascii?Q?t4xafduIrqLzOquQiyg3SThdOuRYFEITYxCKTBAly0I2IqgrbOfrcV8oknXo?=
- =?us-ascii?Q?W5km1UZxp/rgNZeul6aNmpTHeE4BwKT0AqoDISHmW3JZU4PoSPVp1EgtioHO?=
- =?us-ascii?Q?Fn5ayv/7M+PL3HfZiyE9UYj2X6IwPF50NoPtzZY2DrbTWJ/+iSabgDFIgLvL?=
- =?us-ascii?Q?6wXx3PO1u+dDrBYL/WOtb4NAsny8ZDRgtmRjPLQKwZCQ+zL1EPT7qGChTZEO?=
- =?us-ascii?Q?qVEEv++feVdrxma8HcjDIe8j2AAAIiXQF1+EyZThx2kcszrY59zkXfKNQRiS?=
- =?us-ascii?Q?5kFPHUcxuq37azP3iC5wo7/blFUTe7ETtA8WISPsOrpAd+SFYk4eHD4RhlpJ?=
- =?us-ascii?Q?nTclptrZeQVjzw6BEOVFcTNf0KMBmIm3kGNs9+gdEKM057pyWruTQv912VlG?=
- =?us-ascii?Q?tkITRqxJ4fVq2zbHOjiy0fIkOW5Jtqj0zT/hZP8b+HJ17VnKWaUmPn9Ss2Pc?=
- =?us-ascii?Q?KmgussQDnkwENjuWUzTyOWFWG59ELrIEoPlHojd4Hg73XYUI2/vWkmNDPPAo?=
- =?us-ascii?Q?Y9JAoAJiD5gp4UUDyydmNEwV1Lu8+LOvud1ojJWRMSL+QcYXw+OOGdzH5+Am?=
- =?us-ascii?Q?92x7eICqVE+2E0SlK1TH6yc5RYB9FVUNLCnSPoN3soKOpyHsKK41z4/nw7VX?=
- =?us-ascii?Q?71IV8o8FHEEcyL6lV82mK9knaWEbTkU4WJVQp6mHvxcitxiH21nBBOYZpOsi?=
- =?us-ascii?Q?jzIAhTWNMdJ1Yfz7yCw+OeUqy17B6TZB9E2yyMfSoNOE+Rf/s8a2dmWFs+bU?=
- =?us-ascii?Q?XBUzIQhd4OnYucK6kriDfzGg9gsSYKKysJC4PQBf?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca83ba9f-c26a-4c53-aba7-08dbd0b463a1
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4838.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2023 15:02:18.8986
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vXICP/9WotQ3LOcKdW+EXuKigcII7J8u7PVCQrzHlyh0h5bpvxXfi0Lpbtl4diuz6mi+dEsJU+/0+XAXFnYRuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8374
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="VdNzOK6fe6sE2V7+"
+Content-Disposition: inline
+In-Reply-To: <7626f978-e9ea-4f8f-b814-aeac02bd3712@rivosinc.com>
 
-On Thu, Oct 19, 2023 at 09:00:05AM +0200, Krzysztof Kozlowski wrote:
-> On 18/10/2023 23:58, Frank Li wrote:
-> > Introduce a new slave core layer in order to support slave functions in
-> > linux kernel. This comprises the controller library and function library.
-> > Controller library implements functions specific to an slave controller
-> > and function library implements functions specific to an slave function.
-> > 
-> > Introduce a new configfs entry to configure the slave function configuring
-> > and bind the slave function with slave controller.
-> > 
-> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > ---
-> >  drivers/i3c/Kconfig       |  26 ++
-> >  drivers/i3c/Makefile      |   2 +
-> >  drivers/i3c/i3c-cfs.c     | 389 +++++++++++++++++++++++++++++
-> >  drivers/i3c/slave.c       | 453 ++++++++++++++++++++++++++++++++++
-> >  include/linux/i3c/slave.h | 503 ++++++++++++++++++++++++++++++++++++++
-> >  5 files changed, 1373 insertions(+)
-> >  create mode 100644 drivers/i3c/i3c-cfs.c
-> >  create mode 100644 drivers/i3c/slave.c
-> >  create mode 100644 include/linux/i3c/slave.h
-> > 
-> > diff --git a/drivers/i3c/Kconfig b/drivers/i3c/Kconfig
-> > index 30a441506f61c..d5f5ca7cd6a56 100644
-> > --- a/drivers/i3c/Kconfig
-> > +++ b/drivers/i3c/Kconfig
-> > @@ -22,3 +22,29 @@ menuconfig I3C
-> >  if I3C
-> >  source "drivers/i3c/master/Kconfig"
-> >  endif # I3C
-> > +
-> > +config I3C_SLAVE
-> 
-> It doesn't look like you follow Kernel naming convention (see coding style).
 
-I checked I3C spec. It use words 'target'.
-Is it okay using I3C_TARGET?
+--VdNzOK6fe6sE2V7+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > +	bool "I3C Slave Support"
-> > +	help
-> > +	  Support I3C Slave Mode.
-> > +
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+On Thu, Oct 19, 2023 at 11:35:59AM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+>=20
+>=20
+> On 18/10/2023 19:26, Evan Green wrote:
+> > On Wed, Oct 18, 2023 at 5:53=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cleger=
+@rivosinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 18/10/2023 03:45, Jerry Shih wrote:
+> >>> On Oct 17, 2023, at 21:14, Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.c=
+om> wrote:
+> >>>> @@ -221,6 +261,22 @@ const struct riscv_isa_ext_data riscv_isa_ext[]=
+ =3D {
+> >>>>      __RISCV_ISA_EXT_DATA(zkt, RISCV_ISA_EXT_ZKT),
+> >>>>      __RISCV_ISA_EXT_DATA(zksed, RISCV_ISA_EXT_ZKSED),
+> >>>>      __RISCV_ISA_EXT_DATA(zksh, RISCV_ISA_EXT_ZKSH),
+> >>>> +    __RISCV_ISA_EXT_DATA(zvbb, RISCV_ISA_EXT_ZVBB),
+> >>>> +    __RISCV_ISA_EXT_DATA(zvbc, RISCV_ISA_EXT_ZVBC),
+> >>>> +    __RISCV_ISA_EXT_DATA(zvkb, RISCV_ISA_EXT_ZVKB),
+> >>>
+> >>> The `Zvkb` is the subset of `Zvbb`[1]. So, the `Zvkb` should be bundl=
+ed with `Zvbb`.
+> >>
+> >> Hi Jerry,
+> >>
+> >> Thanks for catching this, I think some other extensions will fall in
+> >> this category as well then (Zvknha/Zvknhb). I will verify that.
+> >=20
+> > The bundling mechanism works well when an extension is a pure lasso
+> > around other extensions. We'd have to tweak that code if we wanted to
+> > support cases like this, where the extension is a superset of others,
+> > but also contains loose change not present anywhere else (and
+> > therefore also needs to stand as a separate bit).
+>=20
+> For Zvbb and Zvknhb, I used the following code:
+>=20
+> static const unsigned int riscv_zvbb_bundled_exts[] =3D {
+> 	RISCV_ISA_EXT_ZVKB,
+> 	RISCV_ISA_EXT_ZVBB
+> };
+>=20
+> static const unsigned int riscv_zvknhb_bundled_exts[] =3D {
+> 	RISCV_ISA_EXT_ZVKNHA,
+> 	RISCV_ISA_EXT_ZVKNHB
+> };
+>=20
+> Which correctly results in both extension (superset + base set) being
+> enabled when only one is set. Is there something that I'm missing ?
+>=20
+> >=20
+> > IMO, decomposing "pure" bundles makes sense since otherwise usermode
+> > would have to query multiple distinct bitmaps that meant the same
+> > thing (eg check the Zk bit, or maybe check the Zkn/Zkr/Zkt bits, or
+> > maybe check the Zbkb/Zbkc... bits, and they're all equivalent). But
+> > when an extension is a superset that also contains loose change, there
+> > really aren't two equivalent bitmasks, each bit adds something new.
+>=20
+> Agreed but if a system only report ZVBB for instance and the user wants
+> ZVKB, then it is clear that ZVKB should be reported as well I guess. So
+> in the end, it works much like "bundle" extension, just that the bundle
+> is actually a "real" ISA extension by itself.
+>=20
+> Cl=C3=A9ment
+>=20
+> >=20
+> > There's an argument to be made for still turning on the containing
+> > extensions to cover for silly ISA strings (eg ISA strings that
+> > advertise the superset but fail to advertise the containing
+> > extensions). We can decide if we want to work that hard to cover
+> > hypothetical broken ISA strings now, or wait until they show up.
+> > Personally I would wait until something broken shows up. But others
+> > may feel differently.
+
+I'm not really sure that those are "silly" ISA strings. People are going
+to do it that way because it is much easier than spelling out 5 dozen
+sub-components, and it is pretty inevitable that subsets will be
+introduced in the future for extensions we currently have.
+
+IMO, it's perfectly valid to say you have the supersets and not spell
+out all the subcomponents.
+
+--VdNzOK6fe6sE2V7+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTFMOAAKCRB4tDGHoIJi
+0jJxAQDXlhaCx8sNyUh8SSBPQepeS21XzSfsPqfo0fiwFpQb7wD/QhyzMzwWfC/1
+nl0r8JLAMrkerLCK3Mpf0dfHXirH+Ag=
+=NsYQ
+-----END PGP SIGNATURE-----
+
+--VdNzOK6fe6sE2V7+--
