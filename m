@@ -1,31 +1,31 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207D33159C;
-	Thu, 19 Oct 2023 14:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E615315AF;
+	Thu, 19 Oct 2023 14:29:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gSiwOFza"
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E4913A;
-	Thu, 19 Oct 2023 07:29:50 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4241C6001E;
-	Thu, 19 Oct 2023 14:29:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MrW0+v9R"
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A3AD18B;
+	Thu, 19 Oct 2023 07:29:53 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F03E660004;
+	Thu, 19 Oct 2023 14:29:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1697725789;
+	t=1697725792;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=10SiBN/4Fj+hMV2c6j8AN3pqV9PZiveL87TjssWFLBw=;
-	b=gSiwOFzap7y0QDq9iIecJSd5Fjz/bJ4Ru8KF5DeoJwC/X9FNV5UtG7SL1MYEUWf2aX/jzA
-	0UkF7GyG/yXxTYmqT4NhakfwQTB1GhVjzzJdJ2rcXseek6WV0G6PxuReaDDRYIkmNg+fiL
-	ccUBatSZlEuEBRGgpnTxvVgRU94WbfuEBvnwSVnYiv0AGVEYGGpiheiJ0Lv2w6lL1Pdpst
-	bjfJAIPT+nsrL9in9TB/H/CuMAm2lyz0G9cWPXYIwI35wQsdmC2nt3WZXvHwgkZ92DUm82
-	G8iNmM4AJxjYAoWHvk1Ta73SEnaL8SOlQyF2F8jW3O0EOqgVEeeqg/yD7VnISQ==
+	bh=sa/BMAPjdibMp7a6uAHIuRY7wsT4sAFdEpwtOTUVtjo=;
+	b=MrW0+v9R9WtBjTYkzv16CJrNc9tDAoKkbOUU+KGqO8W+Yk4rna+ZJMqgMSNt1CYcnCdP8l
+	/aGUjxP3dSpbjlaOLyRcbuaqY8YByCgC29BTV4firAUaCZFOyc98lTjJoKi3D1ijFFsRNr
+	tkzuPWl97cO/SzYOUtraE72E2SSRHR258buBUC42zbPuOo8CQE3w6/FrgjfdyhmYQfNa22
+	RtbXlw25FRuhkVrQq9ynBDmiJzipq2X89YOOU3pvTcqIIBzNFjKhXIhDj7SuduOaj30MvJ
+	ykPveZuiJjbZ5o+L5VcJuCAf1W6s73h80d9FiZNtD0xhYqxbUSzEm4QpOCi2wQ==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Thu, 19 Oct 2023 16:29:22 +0200
-Subject: [PATCH net-next v6 07/16] net_tstamp: Add TIMESTAMPING SOFTWARE
- and HARDWARE mask
+Date: Thu, 19 Oct 2023 16:29:24 +0200
+Subject: [PATCH net-next v6 09/16] netlink: specs: Introduce new netlink
+ command to get current timestamp
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231019-feature_ptp_netnext-v6-7-71affc27b0e5@bootlin.com>
+Message-Id: <20231019-feature_ptp_netnext-v6-9-71affc27b0e5@bootlin.com>
 References: <20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com>
 In-Reply-To: <20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -59,36 +59,58 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
 X-Mailer: b4 0.12.3
 X-GND-Sasl: kory.maincent@bootlin.com
 
-Timestamping software or hardware flags are often used as a group,
-therefore adding these masks will easier future use.
+Add a new commands allowing to get the current time stamping on a
+netdevice's link.
 
-I did not use SOF_TIMESTAMPING_SYS_HARDWARE flag as it is deprecated and
-not use at all.
+Example usage :
+./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do ts-get \
+	     --json '{"header":{"dev-name":"eth0"}}'
+{'header': {'dev-index': 3, 'dev-name': 'eth0'}, 'ts-layer': 1}
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
- include/uapi/linux/net_tstamp.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ Documentation/netlink/specs/ethtool.yaml | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/include/uapi/linux/net_tstamp.h b/include/uapi/linux/net_tstamp.h
-index a2c66b3d7f0f..df8091998c8d 100644
---- a/include/uapi/linux/net_tstamp.h
-+++ b/include/uapi/linux/net_tstamp.h
-@@ -48,6 +48,14 @@ enum {
- 					 SOF_TIMESTAMPING_TX_SCHED | \
- 					 SOF_TIMESTAMPING_TX_ACK)
+diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+index 837b565577ca..49ee028e97ca 100644
+--- a/Documentation/netlink/specs/ethtool.yaml
++++ b/Documentation/netlink/specs/ethtool.yaml
+@@ -942,6 +942,16 @@ attribute-sets:
+       -
+         name: burst-tmr
+         type: u32
++  -
++    name: ts
++    attributes:
++      -
++        name: header
++        type: nest
++        nested-attributes: header
++      -
++        name: ts-layer
++        type: u32
  
-+#define SOF_TIMESTAMPING_SOFTWARE_MASK	(SOF_TIMESTAMPING_RX_SOFTWARE | \
-+					 SOF_TIMESTAMPING_TX_SOFTWARE | \
-+					 SOF_TIMESTAMPING_SOFTWARE)
+ operations:
+   enum-model: directional
+@@ -1692,3 +1702,17 @@ operations:
+       name: mm-ntf
+       doc: Notification for change in MAC Merge configuration.
+       notify: mm-get
++    -
++      name: ts-get
++      doc: Get current timestamp
 +
-+#define SOF_TIMESTAMPING_HARDWARE_MASK	(SOF_TIMESTAMPING_RX_HARDWARE | \
-+					 SOF_TIMESTAMPING_TX_HARDWARE | \
-+					 SOF_TIMESTAMPING_RAW_HARDWARE)
++      attribute-set: ts
 +
- /**
-  * struct so_timestamping - SO_TIMESTAMPING parameter
-  *
++      do:
++        request:
++          attributes:
++            - header
++        reply:
++          attributes: &ts
++            - header
++            - ts-layer
 
 -- 
 2.25.1
