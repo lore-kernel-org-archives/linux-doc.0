@@ -1,316 +1,164 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F39D314
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 16:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB47321B0
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 16:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RM/NO2tN"
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1F0A115
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 09:15:20 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-53e3e7e478bso10897189a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 09:15:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rgIYVI0Y"
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 873CD12F
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 09:20:28 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2c509f2c46cso90808691fa.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 09:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697732119; x=1698336919; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G/b8NX3LZ08KUi8N/JxWRGCAHy00FjZwd+7ev/CK28g=;
-        b=RM/NO2tNF1ngM2+D1mIzwhNmvRS/dHjJK771zbHrAETLv4HSPGjWq4prspNNhx7ZTQ
-         S3/OGJ1XMuOIok0IWhkuz5g56vpXt4xKllBt1J8WFjfvQ9JP+Ypr5zHtOKcdM1nf/wBk
-         Mbft9NK40VRysaxKT7l3VFtN92dTRuQ3oCCY32LFdE9E0Hfj/BbPmVUKZD3RNTNnCZmR
-         8fC/D5A4dk6PjJvF0sayh9rYFJI6jA2L7/kl+08BsLwyF0AYNk9nFoIHj0TDGKW7DgTr
-         ieW7jo1Xqi409d0H1a2F3FdtMIWpfrkmgdhTi7JauEjt3Lp3s+UltR8xGtodqZSZylVr
-         GX7Q==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1697732427; x=1698337227; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qrm2o2CouYl5YLE22rhN3Rv3HCs9/q81TyWZQXS7LNY=;
+        b=rgIYVI0YzUrZFRsTOXtETtc+0scSLXuX4kKixp9RQ5l3akUvciWnZWIVUOys3BcXWr
+         NeY08K+o9LoRBt6DBrTZufhB6JmXa778VSqjMHHhDM7dwZOJTWeSwR585UhlM07wMvqn
+         YFfcDj3Dt06Cgu191TI3GvRfOa+Rw2Wibdk6V6aNmM0J5sKq5tAGJI4uFXm2ixaCsQnh
+         3N7LDyykUGg2b+AP3ENezy4kwKZ9CBSZQxcEDEIZZYoz5ZHrRwg36sfqLzdL/Gea8dYD
+         0tEML5K6OykE9bp0TU+PoYiPfgWbJ0bC1BpU0vRHaSPOGStb8Nj/XQQYry9lC1icwvJa
+         Sibg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697732119; x=1698336919;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G/b8NX3LZ08KUi8N/JxWRGCAHy00FjZwd+7ev/CK28g=;
-        b=H7SDZ+5kIPw+GD9StZ4jIfmFYqoBQbmzteSbIBIMl0h2KiCK4ihfZAmS9ZUGPXRPA3
-         bZSX7d+rTBNybtQKyqGTdZqECR0Tvf4ceUOoPXfGx2CDaB08nYBTL5EseOlok+ieCJC2
-         igjwkCCgg9O+66xHu9+MdGXu5HIeGP5hULsyVYI+O6kKLdFWr6g6hiQrGGVg38FzL1B7
-         3evlMdf6j3hGi+qgPA0l/lPM3OFs7BHIc2YZZLoQ2oa6Ln3egvZLVWbo6oCZ+XkhgiNG
-         LPq0Vmu/ZqSGx3flbY6i4kd8U6C6LbSOOdbq8DuSnBu7PUwclSIot8215s0azZqg9mNP
-         i3qA==
-X-Gm-Message-State: AOJu0YyhXz3m522DzDtgACfx6IOAwtfpuB7B29KHSIt3CXIJ0Y+3cxK7
-	u0Ibbi/tc/x422VJnhAHqUmetLR7D+Hh3j5JyObKnw==
-X-Google-Smtp-Source: AGHT+IGM/W6bf/hMyIriY2xknmWe5iIB3++CkEDtWjC/jru0q+VNenklttfEFNoHJ1TdlZh7iRIEkccf4iCsLE7MEm8=
-X-Received: by 2002:a17:907:3e20:b0:9ae:594d:d3fc with SMTP id
- hp32-20020a1709073e2000b009ae594dd3fcmr2175026ejc.17.1697732119001; Thu, 19
- Oct 2023 09:15:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697732427; x=1698337227;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qrm2o2CouYl5YLE22rhN3Rv3HCs9/q81TyWZQXS7LNY=;
+        b=xKbuKJiFuQBMOlBYbg7g8mfLTQdQL3VHCDsuNYqJqkWg5+VIs2/0pOUE5X3n6Rilal
+         +XWXYjslw6FEqejB1fjIehgj5oPDHEbsoxeTVJWl9vtc9l32OP6oJf0uMY72JehTKvT6
+         XFaNlQyjmGXm72sTn0c/9IOI2G779n8qTc56tXB2X+Z5ZQP5aov+c+l6ezM1WsjC7WBq
+         P/B2D69vpnL6PBTbzn8Mg9oIL0v2Arsa9fDoR4yVTl+YpTaC/+2VGNw/mTz5n2Fd4f2G
+         8rQBJcCHgQakeQjNkFHGpUkWwXM3nTF3Tg4qKyWPBWCnvgPxW9KvWeeAcS+5GzUpTuLx
+         kxdg==
+X-Gm-Message-State: AOJu0YwivU5XtIfWLKSGt0YVeWzrqctZhMyUfT+Ko5iF9tjmEhL31NrX
+	oSz+gfFMLalIDRizmHvMmkfC8rlCFlJdAqJaYc84nw==
+X-Google-Smtp-Source: AGHT+IFeGNG5q6szxOX/FPqL0Y3ufmTudG0k4yvHQ1DfND20U12w+mTgZpBmFwRnmFqy/K+L4mODOLYtPEbzy6qWDHo=
+X-Received: by 2002:a2e:9d0c:0:b0:2bc:b557:cee9 with SMTP id
+ t12-20020a2e9d0c000000b002bcb557cee9mr1761152lji.43.1697732426653; Thu, 19
+ Oct 2023 09:20:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231017232152.2605440-1-nphamcs@gmail.com> <20231017232152.2605440-3-nphamcs@gmail.com>
- <CAJD7tka2aVKBJj6cYutcVzOGzj_6gop6-ytSmWWML=sEe9qHbA@mail.gmail.com> <CA+CLi1jiyY3oueWrLtd5JOrtP-aYQ90sPgSCBoWtB2jVL_-FxA@mail.gmail.com>
-In-Reply-To: <CA+CLi1jiyY3oueWrLtd5JOrtP-aYQ90sPgSCBoWtB2jVL_-FxA@mail.gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Thu, 19 Oct 2023 09:14:40 -0700
-Message-ID: <CAJD7tka_gvNPgu4gim9-dqx0Wf-zdGj+==nwx2yrmOuZoe=oyw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] zswap: make shrinking memcg-aware
-To: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, hannes@cmpxchg.org, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, linux-mm@kvack.org, kernel-team@meta.com, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+References: <20231017131456.2053396-1-cleger@rivosinc.com> <20231017131456.2053396-6-cleger@rivosinc.com>
+ <DA8B4610-D514-4733-B875-C247FFCCC7AA@sifive.com> <af785f0f-9de7-4548-9cdb-f392cde1cc2b@rivosinc.com>
+ <CALs-HstEBt-ntCcETa9YwS6On3nGyoEc2p7R-gaBLG9+aFJL5w@mail.gmail.com>
+ <7626f978-e9ea-4f8f-b814-aeac02bd3712@rivosinc.com> <20231019-nuclear-vista-ef3e0b9bef71@spud>
+In-Reply-To: <20231019-nuclear-vista-ef3e0b9bef71@spud>
+From: Evan Green <evan@rivosinc.com>
+Date: Thu, 19 Oct 2023 09:19:50 -0700
+Message-ID: <CALs-HssWZyhnbo=ErH+LEfMi4m04i39Cw3PGXP1WhCFfSP8G=A@mail.gmail.com>
+Subject: Re: [PATCH v2 05/19] riscv: add ISA extension parsing for vector
+ crypto extensions
+To: Conor Dooley <conor@kernel.org>
+Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Jerry Shih <jerry.shih@sifive.com>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Jones <ajones@ventanamicro.com>, 
+	Samuel Ortiz <sameo@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[..]
-> > >
-> > > +/*********************************
-> > > +* lru functions
-> > > +**********************************/
-> > > +static bool zswap_lru_add(struct list_lru *list_lru, struct zswap_entry *entry)
-> > > +{
-> > > +       struct mem_cgroup *memcg = get_mem_cgroup_from_entry(entry);
-> >
-> > Could we avoid the need for get/put with an rcu_read_lock() instead?
+On Thu, Oct 19, 2023 at 8:33=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
+te:
 >
-> I think we can, I'm not entirely sure of the consequences though. By the
-> look of it I'd say it's safe but I wouldn't trust my judgement on this.
+> On Thu, Oct 19, 2023 at 11:35:59AM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+> >
+> >
+> > On 18/10/2023 19:26, Evan Green wrote:
+> > > On Wed, Oct 18, 2023 at 5:53=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cleg=
+er@rivosinc.com> wrote:
+> > >>
+> > >>
+> > >>
+> > >> On 18/10/2023 03:45, Jerry Shih wrote:
+> > >>> On Oct 17, 2023, at 21:14, Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc=
+.com> wrote:
+> > >>>> @@ -221,6 +261,22 @@ const struct riscv_isa_ext_data riscv_isa_ext=
+[] =3D {
+> > >>>>      __RISCV_ISA_EXT_DATA(zkt, RISCV_ISA_EXT_ZKT),
+> > >>>>      __RISCV_ISA_EXT_DATA(zksed, RISCV_ISA_EXT_ZKSED),
+> > >>>>      __RISCV_ISA_EXT_DATA(zksh, RISCV_ISA_EXT_ZKSH),
+> > >>>> +    __RISCV_ISA_EXT_DATA(zvbb, RISCV_ISA_EXT_ZVBB),
+> > >>>> +    __RISCV_ISA_EXT_DATA(zvbc, RISCV_ISA_EXT_ZVBC),
+> > >>>> +    __RISCV_ISA_EXT_DATA(zvkb, RISCV_ISA_EXT_ZVKB),
+> > >>>
+> > >>> The `Zvkb` is the subset of `Zvbb`[1]. So, the `Zvkb` should be bun=
+dled with `Zvbb`.
+> > >>
+> > >> Hi Jerry,
+> > >>
+> > >> Thanks for catching this, I think some other extensions will fall in
+> > >> this category as well then (Zvknha/Zvknhb). I will verify that.
+> > >
+> > > The bundling mechanism works well when an extension is a pure lasso
+> > > around other extensions. We'd have to tweak that code if we wanted to
+> > > support cases like this, where the extension is a superset of others,
+> > > but also contains loose change not present anywhere else (and
+> > > therefore also needs to stand as a separate bit).
+> >
+> > For Zvbb and Zvknhb, I used the following code:
+> >
+> > static const unsigned int riscv_zvbb_bundled_exts[] =3D {
+> >       RISCV_ISA_EXT_ZVKB,
+> >       RISCV_ISA_EXT_ZVBB
+> > };
+> >
+> > static const unsigned int riscv_zvknhb_bundled_exts[] =3D {
+> >       RISCV_ISA_EXT_ZVKNHA,
+> >       RISCV_ISA_EXT_ZVKNHB
+> > };
+> >
+> > Which correctly results in both extension (superset + base set) being
+> > enabled when only one is set. Is there something that I'm missing ?
+> >
+> > >
+> > > IMO, decomposing "pure" bundles makes sense since otherwise usermode
+> > > would have to query multiple distinct bitmaps that meant the same
+> > > thing (eg check the Zk bit, or maybe check the Zkn/Zkr/Zkt bits, or
+> > > maybe check the Zbkb/Zbkc... bits, and they're all equivalent). But
+> > > when an extension is a superset that also contains loose change, ther=
+e
+> > > really aren't two equivalent bitmasks, each bit adds something new.
+> >
+> > Agreed but if a system only report ZVBB for instance and the user wants
+> > ZVKB, then it is clear that ZVKB should be reported as well I guess. So
+> > in the end, it works much like "bundle" extension, just that the bundle
+> > is actually a "real" ISA extension by itself.
+> >
+> > Cl=C3=A9ment
+> >
+> > >
+> > > There's an argument to be made for still turning on the containing
+> > > extensions to cover for silly ISA strings (eg ISA strings that
+> > > advertise the superset but fail to advertise the containing
+> > > extensions). We can decide if we want to work that hard to cover
+> > > hypothetical broken ISA strings now, or wait until they show up.
+> > > Personally I would wait until something broken shows up. But others
+> > > may feel differently.
+>
+> I'm not really sure that those are "silly" ISA strings. People are going
+> to do it that way because it is much easier than spelling out 5 dozen
+> sub-components, and it is pretty inevitable that subsets will be
+> introduced in the future for extensions we currently have.
+>
+> IMO, it's perfectly valid to say you have the supersets and not spell
+> out all the subcomponents.
 
-It just seems like we have a pattern of short-lived get/put. If RCU
-gives enough protection it should be simpler. IIUC taking a reference
-does not protect against offlining or reparenting, so I am not sure if
-taking a reference here would provide any more protection than
+Hm, ok. If ISA strings are likely to be written that way, then I agree
+having the kernel flip on all the contained extensions is a good idea.
+We can tweak patch 2 to support the parsing of struct
+riscv_isa_ext_data with both .id and .bundle_size set (instead of only
+one or the other as it is now). Looking back at that patch, it looks
+quite doable. Alright!
 
->
-> >
-[..]
-> > > @@ -686,7 +716,36 @@ static int zswap_reclaim_entry(struct zswap_pool *pool)
-> > >         zswap_entry_put(tree, entry);
-> > >  unlock:
-> > >         spin_unlock(&tree->lock);
-> > > -       return ret ? -EAGAIN : 0;
-> > > +       spin_lock(lock);
-> > > +       return ret;
-> > > +}
-> > > +
-> > > +static int shrink_memcg(struct mem_cgroup *memcg)
-> > > +{
-> > > +       struct zswap_pool *pool;
-> > > +       int nid, shrunk = 0;
-> > > +
-> > > +       pool = zswap_pool_current_get();
-> > > +       if (!pool)
-> > > +               return -EINVAL;
-> > > +
-> > > +       /*
-> > > +        * Skip zombies because their LRUs are reparented and we would be
-> > > +        * reclaiming from the parent instead of the dead memcgroup.
-> >
-> > nit: s/memcgroup/memcg.
-> >
-> > > +        */
-> > > +       if (memcg && !mem_cgroup_online(memcg))
-> > > +               goto out;
-> >
-> > If we move this above zswap_pool_current_get(), we can return directly
-> > and remove the label. I noticed we will return -EAGAIN if memcg is
-> > offline. IIUC -EAGAIN for the caller will move on to the next memcg,
-> > but I am wondering if a different errno would be clearer here.
->
-> True, I remember spending some time staring at error codes but couldn't find a
-> better one. What if we use -EINVAL for retryable errors, and use something else
-> for the one where there is no pool? -ENODEV?
-
-Do you mean -EINVAL for non-retryable errors? Perhaps -ENOENT is more
-appropriate as a return for offline memcgs?
-
->
-> >
-[..]
-> > >  static void shrink_worker(struct work_struct *w)
-> > > @@ -695,10 +754,13 @@ static void shrink_worker(struct work_struct *w)
-> > >                                                 shrink_work);
-> > >         int ret, failures = 0;
-> > >
-> > > +       /* global reclaim will select cgroup in a round-robin fashion. */
-> > >         do {
-> > > -               ret = zswap_reclaim_entry(pool);
-> > > +               pool->next_shrink = mem_cgroup_iter(NULL, pool->next_shrink, NULL);
-> >
-> > Perhaps next_shrink_memcg is a better name here?
->
-> Will change if you have a strong preference, I'd keep it shorter because it's
-> always used in conjunction with a memcg type or function.
-
-I'd rather have the more explicit name unless it causes some annoying
-line breaks or so.
-
->
-> >
-> > > +
-> > > +               ret = shrink_memcg(pool->next_shrink);
-> > > +
-> > >                 if (ret) {
-> > > -                       zswap_reject_reclaim_fail++;
-> > >                         if (ret != -EAGAIN)
-> > >                                 break;
-> > >                         if (++failures == MAX_RECLAIM_RETRIES)
-> > > @@ -764,8 +826,7 @@ static struct zswap_pool *zswap_pool_create(char *type, char *compressor)
-> > >          */
-> > >         kref_init(&pool->kref);
-> > >         INIT_LIST_HEAD(&pool->list);
-> > > -       INIT_LIST_HEAD(&pool->lru);
-> > > -       spin_lock_init(&pool->lru_lock);
-> > > +       list_lru_init_memcg(&pool->list_lru, NULL);
-> > >         INIT_WORK(&pool->shrink_work, shrink_worker);
-> > >
-> > >         zswap_pool_debug("created", pool);
-> > > @@ -831,6 +892,9 @@ static void zswap_pool_destroy(struct zswap_pool *pool)
-> > >
-> > >         cpuhp_state_remove_instance(CPUHP_MM_ZSWP_POOL_PREPARE, &pool->node);
-> > >         free_percpu(pool->acomp_ctx);
-> > > +       list_lru_destroy(&pool->list_lru);
-> > > +       if (pool->next_shrink)
-> > > +               mem_cgroup_put(pool->next_shrink);
-> > >         for (i = 0; i < ZSWAP_NR_ZPOOLS; i++)
-> > >                 zpool_destroy_pool(pool->zpools[i]);
-> > >         kfree(pool);
-> > > @@ -1076,7 +1140,7 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
-> > >
-> > >         /* try to allocate swap cache page */
-> > >         page = __read_swap_cache_async(swpentry, GFP_KERNEL, NULL, 0,
-> > > -                                      &page_was_allocated);
-> > > +                                      &page_was_allocated, true);
-> > >         if (!page) {
-> > >                 ret = -ENOMEM;
-> > >                 goto fail;
-> > > @@ -1142,7 +1206,6 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
-> > >         /* start writeback */
-> > >         __swap_writepage(page, &wbc);
-> > >         put_page(page);
-> > > -       zswap_written_back_pages++;
-> > >
-> > >         return ret;
-> > >
-> > > @@ -1199,8 +1262,10 @@ bool zswap_store(struct folio *folio)
-> > >         struct scatterlist input, output;
-> > >         struct crypto_acomp_ctx *acomp_ctx;
-> > >         struct obj_cgroup *objcg = NULL;
-> > > +       struct mem_cgroup *memcg = NULL;
-> > >         struct zswap_pool *pool;
-> > >         struct zpool *zpool;
-> > > +       int lru_alloc_ret;
-> > >         unsigned int dlen = PAGE_SIZE;
-> > >         unsigned long handle, value;
-> > >         char *buf;
-> > > @@ -1230,15 +1295,15 @@ bool zswap_store(struct folio *folio)
-> > >                 zswap_invalidate_entry(tree, dupentry);
-> > >         }
-> > >         spin_unlock(&tree->lock);
-> > > -
-> > > -       /*
-> > > -        * XXX: zswap reclaim does not work with cgroups yet. Without a
-> > > -        * cgroup-aware entry LRU, we will push out entries system-wide based on
-> > > -        * local cgroup limits.
-> > > -        */
-> > >         objcg = get_obj_cgroup_from_folio(folio);
-> > > -       if (objcg && !obj_cgroup_may_zswap(objcg))
-> > > -               goto reject;
-> > > +       if (objcg && !obj_cgroup_may_zswap(objcg)) {
-> > > +               memcg = get_mem_cgroup_from_objcg(objcg);
-> > > +               if (shrink_memcg(memcg)) {
-> > > +                       mem_cgroup_put(memcg);
-> > > +                       goto reject;
-> > > +               }
-> > > +               mem_cgroup_put(memcg);
-> > > +       }
-> > >
-> > >         /* reclaim space if needed */
-> > >         if (zswap_is_full()) {
-> > > @@ -1254,10 +1319,15 @@ bool zswap_store(struct folio *folio)
-> > >                         zswap_pool_reached_full = false;
-> > >         }
-> > >
-> > > +       pool = zswap_pool_current_get();
-> > > +       if (!pool)
-> > > +               goto reject;
-> > > +
-> >
-> > Why do we need to move zswap_pool_current_get() up here?
->
-> Ah, thanks. This is a leftover from a previous version where the pool was needed
-> to allocate the entry.
->
->
-> >
-> > >         /* allocate entry */
-> > > -       entry = zswap_entry_cache_alloc(GFP_KERNEL);
-> > > +       entry = zswap_entry_cache_alloc(GFP_KERNEL, page_to_nid(page));
-> > >         if (!entry) {
-> > >                 zswap_reject_kmemcache_fail++;
-> > > +               zswap_pool_put(pool);
-> > >                 goto reject;
-> > >         }
-> > >
-> > > @@ -1269,6 +1339,7 @@ bool zswap_store(struct folio *folio)
-> > >                         entry->length = 0;
-> > >                         entry->value = value;
-> > >                         atomic_inc(&zswap_same_filled_pages);
-> > > +                       zswap_pool_put(pool);
-> > >                         goto insert_entry;
-> > >                 }
-> > >                 kunmap_atomic(src);
-> > > @@ -1278,9 +1349,15 @@ bool zswap_store(struct folio *folio)
-> > >                 goto freepage;
-> > >
-> > >         /* if entry is successfully added, it keeps the reference */
-> > > -       entry->pool = zswap_pool_current_get();
-> > > -       if (!entry->pool)
-> > > -               goto freepage;
-> > > +       entry->pool = pool;
-> > > +       if (objcg) {
-> > > +               memcg = get_mem_cgroup_from_objcg(objcg);
-> > > +               lru_alloc_ret = memcg_list_lru_alloc(memcg, &pool->list_lru, GFP_KERNEL);
-> > > +               mem_cgroup_put(memcg);
-> > > +
-> > > +               if (lru_alloc_ret)
-> > > +                       goto freepage;
-> > > +       }
-> > >
-> > >         /* compress */
-> > >         acomp_ctx = raw_cpu_ptr(entry->pool->acomp_ctx);
-> > > @@ -1358,9 +1435,8 @@ bool zswap_store(struct folio *folio)
-> > >                 zswap_invalidate_entry(tree, dupentry);
-> > >         }
-> > >         if (entry->length) {
-> > > -               spin_lock(&entry->pool->lru_lock);
-> > > -               list_add(&entry->lru, &entry->pool->lru);
-> > > -               spin_unlock(&entry->pool->lru_lock);
-> > > +               INIT_LIST_HEAD(&entry->lru);
-> > > +               zswap_lru_add(&pool->list_lru, entry);
-> > >         }
-> > >         spin_unlock(&tree->lock);
-> > >
-> > > @@ -1373,8 +1449,8 @@ bool zswap_store(struct folio *folio)
-> > >
-> > >  put_dstmem:
-> > >         mutex_unlock(acomp_ctx->mutex);
-> > > -       zswap_pool_put(entry->pool);
-> > >  freepage:
-> > > +       zswap_pool_put(entry->pool);
-> > >         zswap_entry_cache_free(entry);
-> > >  reject:
-> > >         if (objcg)
-> > > @@ -1467,9 +1543,8 @@ bool zswap_load(struct folio *folio)
-> > >                 zswap_invalidate_entry(tree, entry);
-> > >                 folio_mark_dirty(folio);
-> > >         } else if (entry->length) {
-> > > -               spin_lock(&entry->pool->lru_lock);
-> > > -               list_move(&entry->lru, &entry->pool->lru);
-> > > -               spin_unlock(&entry->pool->lru_lock);
-> > > +               zswap_lru_del(&entry->pool->list_lru, entry);
-> > > +               zswap_lru_add(&entry->pool->list_lru, entry);
-> > >         }
-> > >         zswap_entry_put(tree, entry);
-> > >         spin_unlock(&tree->lock);
-> > > --
-> > > 2.34.1
+-Evan
