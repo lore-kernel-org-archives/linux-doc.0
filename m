@@ -1,180 +1,160 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6888F48
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 06:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 516CB10F;
-	Wed, 18 Oct 2023 23:37:25 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5a7be88e9ccso95905327b3.2;
-        Wed, 18 Oct 2023 23:37:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D738F5D
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 07:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tJtOa+Bz"
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F0F11D
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 00:00:09 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40839652b97so15308795e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 00:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697698807; x=1698303607; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=phdopUGhFu1uVNeMVEBY+BMFdVXiqLRcCSRDiN1kr/w=;
+        b=tJtOa+Bz/Xr1FHC2DmzY7G3PUS+bKCq6l3/eQ1Qw32nQLrQDIKFc8uKwNAobL4+GH4
+         JLfcuUFlifoQr4075xISSNy4iTe0OShnNY/3+3Cw3U7d4mRpqlHctZgu8vIMjILk7tYY
+         m9X/8atTE2yHc2xtCb1LhzbI5rKGOO8tCC7WOw+lYAGrXWKJ98mkOv2cRKmrM+7uTs+T
+         5ArxX4B0A/RNAn1grpiYATl/6yfqAsFbuHjxHGelZgdsgTOsrNJ1xiNLAYyMGjZ5skPp
+         uUTk8J9PnhcdVM6kxf9tE72Es+PJ4JEHBpvyFe7h7iefxNYwFvGNu6thM3H7ldmm6v3p
+         dpCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697697444; x=1698302244;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vXEjMPe8j5c6Nski5KvbyugP8GZIC2bmURRJNkH6ZbQ=;
-        b=R69j6BP1J+jlozEAgOxDCD51nFcrXilKH9YHrnkNjK3423AInUTjseWAEqqjR3QxrF
-         dK6yP2l3t6cdeOpMzPhPiNwKKBjJbL+LbjgEMmn2aFw/oWdx/FWKy0w6JUlIptsxMD/G
-         hrlt1dDpqCMfS0ZHTH750WoP3sAyd2Um6xpZrExoZ0+LLskmP9luIDGdUBLFW/rZl/7o
-         /xSKEt6jSmFJD23+IE1t3Fwjm8MTJ5ApW9QFE1GaiqDIkDXbFrKnbvBE4C+kdcqi2bws
-         D7GehuYoyn6xWbO6oar0KNq21zoia7QQATdSGiGm+9cvvnQaXbVWWN5sFScX5TJUzIP5
-         3LSQ==
-X-Gm-Message-State: AOJu0YxWhsn/H2bf9U1n2PcbVPfy2Ai78heATZLCEkmuX5ak3W7M8bMC
-	/KRtG1iBjqNKkcE/HjeTwmdIhhjUYTZ8rw==
-X-Google-Smtp-Source: AGHT+IF/g5GfYLtIN675wkYCF6vrLJ901oUmB47g1+mlz9FaDPSpmSoFzH5KQytVJu9ERDPXogjVCg==
-X-Received: by 2002:a0d:cbd3:0:b0:5a7:b53f:c304 with SMTP id n202-20020a0dcbd3000000b005a7b53fc304mr1696131ywd.37.1697697444045;
-        Wed, 18 Oct 2023 23:37:24 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id d19-20020a0ddb13000000b005a7db2a0dddsm2199717ywe.3.2023.10.18.23.37.23
+        d=1e100.net; s=20230601; t=1697698807; x=1698303607;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=phdopUGhFu1uVNeMVEBY+BMFdVXiqLRcCSRDiN1kr/w=;
+        b=MH0ee3PjgojpAkLtAzQ8kGsvO2UH0vhx7krMEulvuP1G7Vre8lj2Rbiqg99aNyJEio
+         xtbo1V0LbqJrUDHUPK3nzsugMVAmfZ5c4bu1rg4YDZf8jaZgW9iTNPKkHTGzL0/BAWFB
+         x/uBd2ByntWrwaRgnwulOk36S2sgel1PmcILkMjuErJtDqS/D4QPENRLjrbc4oX+UxxD
+         svhxLLSe529HnsKHnq7Vs6jZRYLxxsccOhCBvOqx3iG/wW/qCZ8F+tASdfWKmubEqNEi
+         m1ON4mk6kTXDQK7OMbzEC9Nww/OOpViIyPciS0++ZcfOWfFYjobYYzBOBF+4Jz6IuuKK
+         a0BQ==
+X-Gm-Message-State: AOJu0YzufvSlQ/k2tEt4T9OAU/GA19o/2y4rcdr3QPLtZnetzDG22fqr
+	K+YxEyiKaC6VR9Ns3UO53LIaIQ==
+X-Google-Smtp-Source: AGHT+IGrb+9TA3G20GqE0KVDUSKCpdd4MuCybi2jrStkzxattFRPwFRE2nZ4Fwjil2NOlUTSbOgIpA==
+X-Received: by 2002:a05:600c:350f:b0:405:75f0:fd31 with SMTP id h15-20020a05600c350f00b0040575f0fd31mr1051854wmq.31.1697698807613;
+        Thu, 19 Oct 2023 00:00:07 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.49])
+        by smtp.gmail.com with ESMTPSA id bh9-20020a05600c3d0900b003feae747ff2sm3612213wmb.35.2023.10.19.00.00.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Oct 2023 23:37:23 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5a87ac9d245so51099407b3.3;
-        Wed, 18 Oct 2023 23:37:23 -0700 (PDT)
-X-Received: by 2002:a05:690c:97:b0:577:3d46:f90e with SMTP id
- be23-20020a05690c009700b005773d46f90emr1622261ywb.32.1697697443165; Wed, 18
- Oct 2023 23:37:23 -0700 (PDT)
+        Thu, 19 Oct 2023 00:00:07 -0700 (PDT)
+Message-ID: <dd06c2d3-e273-4356-835b-42619543dfab@linaro.org>
+Date: Thu, 19 Oct 2023 09:00:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230818194136.4084400-1-evan@rivosinc.com> <20230818194136.4084400-2-evan@rivosinc.com>
- <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
- <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com> <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
-In-Reply-To: <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 19 Oct 2023 08:37:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUG3SUVPJHSiNyQNzyqxiJpczUHhBxHN7YqEDcaWYwkFA@mail.gmail.com>
-Message-ID: <CAMuHMdUG3SUVPJHSiNyQNzyqxiJpczUHhBxHN7YqEDcaWYwkFA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
-To: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: Palmer Dabbelt <palmer@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org, 
-	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>, 
-	Jisheng Zhang <jszhang@kernel.org>, linux-riscv@lists.infradead.org, 
-	Jonathan Corbet <corbet@lwn.net>, Sia Jee Heng <jeeheng.sia@starfivetech.com>, 
-	Marc Zyngier <maz@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Greentime Hu <greentime.hu@sifive.com>, Simon Hosie <shosie@rivosinc.com>, 
-	Andrew Jones <ajones@ventanamicro.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alexghiti@rivosinc.com>, Ley Foon Tan <leyfoon.tan@starfivetech.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Anup Patel <apatel@ventanamicro.com>, 
-	linux-kernel@vger.kernel.org, Xianting Tian <xianting.tian@linux.alibaba.com>, 
-	David Laight <David.Laight@aculab.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Andy Chiu <andy.chiu@sifive.com>, Evan Green <evan@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] i3c: add slave mode support
+To: Frank Li <Frank.Li@nxp.com>, miquel.raynal@bootlin.com,
+ conor.culhane@silvaco.com, alexandre.belloni@bootlin.com,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ corbet@lwn.net, joe@perches.com, linux-i3c@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, imx@lists.linux.dev, jirislaby@kernel.org,
+ linux-serial@vger.kernel.org
+References: <20231018215809.3477437-1-Frank.Li@nxp.com>
+ <20231018215809.3477437-2-Frank.Li@nxp.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231018215809.3477437-2-Frank.Li@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Prabahkar,
+On 18/10/2023 23:58, Frank Li wrote:
+> Introduce a new slave core layer in order to support slave functions in
+> linux kernel. This comprises the controller library and function library.
+> Controller library implements functions specific to an slave controller
+> and function library implements functions specific to an slave function.
+> 
+> Introduce a new configfs entry to configure the slave function configuring
+> and bind the slave function with slave controller.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  drivers/i3c/Kconfig       |  26 ++
+>  drivers/i3c/Makefile      |   2 +
+>  drivers/i3c/i3c-cfs.c     | 389 +++++++++++++++++++++++++++++
+>  drivers/i3c/slave.c       | 453 ++++++++++++++++++++++++++++++++++
+>  include/linux/i3c/slave.h | 503 ++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 1373 insertions(+)
+>  create mode 100644 drivers/i3c/i3c-cfs.c
+>  create mode 100644 drivers/i3c/slave.c
+>  create mode 100644 include/linux/i3c/slave.h
+> 
+> diff --git a/drivers/i3c/Kconfig b/drivers/i3c/Kconfig
+> index 30a441506f61c..d5f5ca7cd6a56 100644
+> --- a/drivers/i3c/Kconfig
+> +++ b/drivers/i3c/Kconfig
+> @@ -22,3 +22,29 @@ menuconfig I3C
+>  if I3C
+>  source "drivers/i3c/master/Kconfig"
+>  endif # I3C
+> +
+> +config I3C_SLAVE
 
-On Thu, Sep 14, 2023 at 9:32=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Wed, Sep 13, 2023 at 7:46=E2=80=AFPM Evan Green <evan@rivosinc.com> wr=
-ote:
-> > On Wed, Sep 13, 2023 at 5:36=E2=80=AFAM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Fri, Aug 18, 2023 at 9:44=E2=80=AFPM Evan Green <evan@rivosinc.com=
-> wrote:
-> > > > Rather than deferring unaligned access speed determinations to a ve=
-ndor
-> > > > function, let's probe them and find out how fast they are. If we
-> > > > determine that an unaligned word access is faster than N byte acces=
-ses,
-> > > > mark the hardware's unaligned access as "fast". Otherwise, we mark
-> > > > accesses as slow.
-> > > >
-> > > > The algorithm itself runs for a fixed amount of jiffies. Within eac=
-h
-> > > > iteration it attempts to time a single loop, and then keeps only th=
-e best
-> > > > (fastest) loop it saw. This algorithm was found to have lower varia=
-nce from
-> > > > run to run than my first attempt, which counted the total number of
-> > > > iterations that could be done in that fixed amount of jiffies. By t=
-aking
-> > > > only the best iteration in the loop, assuming at least one loop was=
-n't
-> > > > perturbed by an interrupt, we eliminate the effects of interrupts a=
-nd
-> > > > other "warm up" factors like branch prediction. The only downside i=
-s it
-> > > > depends on having an rdtime granular and accurate enough to measure=
- a
-> > > > single copy. If we ever manage to complete a loop in 0 rdtime ticks=
-, we
-> > > > leave the unaligned setting at UNKNOWN.
-> > > >
-> > > > There is a slight change in user-visible behavior here. Previously,=
- all
-> > > > boards except the THead C906 reported misaligned access speed of
-> > > > UNKNOWN. C906 reported FAST. With this change, since we're now meas=
-uring
-> > > > misaligned access speed on each hart, all RISC-V systems will have =
-this
-> > > > key set as either FAST or SLOW.
-> > > >
-> > > > Currently, we don't have a way to confidently measure the differenc=
-e between
-> > > > SLOW and EMULATED, so we label anything not fast as SLOW. This will
-> > > > mislabel some systems that are actually EMULATED as SLOW. When we g=
-et
-> > > > support for delegating misaligned access traps to the kernel (as op=
-posed
-> > > > to the firmware quietly handling it), we can explicitly test in Lin=
-ux to
-> > > > see if unaligned accesses trap. Those systems will start to report
-> > > > EMULATED, though older (today's) systems without that new SBI mecha=
-nism
-> > > > will continue to report SLOW.
-> > > >
-> > > > I've updated the documentation for those hwprobe values to reflect
-> > > > this, specifically: SLOW may or may not be emulated by software, an=
-d FAST
-> > > > represents means being faster than equivalent byte accesses. The ch=
-ange
-> > > > in documentation is accurate with respect to both the former and cu=
-rrent
-> > > > behavior.
-> > > >
-> > > > Signed-off-by: Evan Green <evan@rivosinc.com>
-> > > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > >
-> > > Thanks for your patch, which is now commit 584ea6564bcaead2 ("RISC-V:
-> > > Probe for unaligned access speed") in v6.6-rc1.
-> > >
-> > > On the boards I have, I get:
-> > >
-> > >     rzfive:
-> > >         cpu0: Ratio of byte access time to unaligned word access is
-> > > 1.05, unaligned accesses are fast
-> >
-> > Hrm, I'm a little surprised to be seeing this number come out so close
-> > to 1. If you reboot a few times, what kind of variance do you get on
-> > this?
->
-> Rock-solid at 1.05 (even with increased resolution: 1.05853 on 3 tries)
+It doesn't look like you follow Kernel naming convention (see coding style).
 
-After upgrading the firmware from [1] to [2], this changed to
-"0.00, unaligned accesses are slow".
+> +	bool "I3C Slave Support"
+> +	help
+> +	  Support I3C Slave Mode.
+> +
 
-[1] RZ-Five-ETH
-    U-Boot 2020.10-g611c657e43 (Aug 26 2022 - 11:29:06 +0100)
 
-[2] OpenSBI v1.3-75-g3cf0ea4
-    U-Boot 2023.01-00209-g1804c8ab17 (Oct 04 2023 - 13:18:01 +0100)
 
-Gr{oetje,eeting}s,
+Best regards,
+Krzysztof
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
