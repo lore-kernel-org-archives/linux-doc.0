@@ -1,118 +1,169 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0DA14F90
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 10:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A937017985;
+	Thu, 19 Oct 2023 10:22:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1HDPY72"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24BFBB8;
-	Thu, 19 Oct 2023 03:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697709685; x=1729245685;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4tVLPdmGhD/Ev5x1gsJNSKEuLw82S1fRviVzD2Ftcyw=;
-  b=D1HDPY72iNb7NauR/lyBdW/6a6MPCJT/XQSpDL7WuBFhAdX2/hk9QU4J
-   76h95Jaz1KSWjQ0T5EMCa2u7hbGKIPT0SDyGtRSCNqmOGcW4Nz2JCVwnl
-   QWoHOJlS0+zW2BHffKpFZY+BfmafLCpq91GBqTFJA3vyGeuL/LPhAUSjK
-   nO7tR9bd/9ucVjVqkz/A/1wSSrUimh6DXrvGooWyeUEY6fxgvAI9zqxKQ
-   0CZ7Gd5wsEtoDJDHxSQi5TGAV6Yqmw64AamnZvu8UWQsvJmt0A29Oh3Mz
-   aQbPobowsAeVPWvznV/QLAXAXVhb1JhIFR8bGkoml1Qe7+HG4bxqZY7Hz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="371278642"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="371278642"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 03:01:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="733512273"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="733512273"
-Received: from yujie-x299.sh.intel.com ([10.239.159.77])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 03:01:22 -0700
-From: Yujie Liu <yujie.liu@intel.com>
-To: linux-doc@vger.kernel.org
-Cc: Yujie Liu <yujie.liu@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] scripts/kernel-doc: match -Werror flag strictly
-Date: Thu, 19 Oct 2023 17:56:37 +0800
-Message-Id: <20231019095637.2471840-1-yujie.liu@intel.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViHqvtAL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D37C433C8;
+	Thu, 19 Oct 2023 10:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697710951;
+	bh=PKYzCBBNs1O32oIawGxF3uIbDChRrVw3IJL0BEhOvoE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ViHqvtALFFnpctn8RsIfJYCIj7DwvYkiiPvlN/uF+gglBElEflYqwEqQ3X7tAExDP
+	 QKLfxK4bPnzDT+0CSgjrlzzfdvDACHwVd11/qVqK1NiuLziWaFeHRyVLe/5/GPgb5Y
+	 8fupB0UMPif5QUQQ8ay7buIf26O0y3qg/8R94FOpufo9ONGnz292TuRcEdYDedjNIJ
+	 FJaFHwvMYb0aDWD5sVfqMZ55nXtcPdnCEgiSerN8h9RNNAahmACit6zfpS3Yaj0zE4
+	 6UDZ3f90tPRKeDKoVmTj4Rit7xOezNsysbxkEw+fiMRL+ujI5kiz8EpKHv4I5YFT2K
+	 ivDxq4QT0oK4g==
+Date: Thu, 19 Oct 2023 11:22:26 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: Evan Green <evan@rivosinc.com>, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Samuel Ortiz <sameo@rivosinc.com>
+Subject: Re: [PATCH v2 01/19] riscv: hwprobe: factorize hwprobe ISA extension
+ reporting
+Message-ID: <20231019-flatten-showbiz-127b2e917a7a@spud>
+References: <20231017131456.2053396-1-cleger@rivosinc.com>
+ <20231017131456.2053396-2-cleger@rivosinc.com>
+ <CALs-HssL=wNwj9nRuZwpZhy1CB9p9-X=OqgwBw9zvgA7hA4fEg@mail.gmail.com>
+ <20231018-scrap-bankable-a0f321d97a46@spud>
+ <20231018-flagpole-footpad-07a6228485f3@spud>
+ <844f6f35-3125-4014-852c-9ad7aee19ddc@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="0kZSCNOwIdjxb8Tb"
+Content-Disposition: inline
+In-Reply-To: <844f6f35-3125-4014-852c-9ad7aee19ddc@rivosinc.com>
 
-In our CI testing, we use some commands as below to only turn a specific
-type of warnings into errors, but we notice that kernel-doc warnings
-are also turned into errors unexpectedly.
 
-$ make KCFLAGS="-Werror=return-type" W=1 kernel/fork.o
+--0kZSCNOwIdjxb8Tb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-kernel/fork.c:1406: warning: Function parameter or member 'mm' not described in 'set_mm_exe_file'
-kernel/fork.c:1406: warning: Function parameter or member 'new_exe_file' not described in 'set_mm_exe_file'
-kernel/fork.c:1441: warning: Function parameter or member 'mm' not described in 'replace_mm_exe_file'
-kernel/fork.c:1441: warning: Function parameter or member 'new_exe_file' not described in 'replace_mm_exe_file'
-kernel/fork.c:1491: warning: Function parameter or member 'mm' not described in 'get_mm_exe_file'
-kernel/fork.c:1510: warning: Function parameter or member 'task' not described in 'get_task_exe_file'
-kernel/fork.c:1534: warning: Function parameter or member 'task' not described in 'get_task_mm'
-kernel/fork.c:2109: warning: bad line:
-kernel/fork.c:2130: warning: Function parameter or member 'ret' not described in '__pidfd_prepare'
-kernel/fork.c:2130: warning: Excess function parameter 'pidfd' description in '__pidfd_prepare'
-kernel/fork.c:2179: warning: Function parameter or member 'ret' not described in 'pidfd_prepare'
-kernel/fork.c:2179: warning: Excess function parameter 'pidfd' description in 'pidfd_prepare'
-kernel/fork.c:3195: warning: expecting prototype for clone3(). Prototype was for sys_clone3() instead
-13 warnings as Errors
-make[3]: *** [scripts/Makefile.build:243: kernel/fork.o] Error 13
-make[3]: *** Deleting file 'kernel/fork.o'
-make[2]: *** [scripts/Makefile.build:480: kernel] Error 2
-make[1]: *** [/root/linux/Makefile:1913: .] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
+On Thu, Oct 19, 2023 at 09:26:31AM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+>=20
+>=20
+> On 18/10/2023 19:36, Conor Dooley wrote:
+> > On Wed, Oct 18, 2023 at 06:33:34PM +0100, Conor Dooley wrote:
+> >> On Wed, Oct 18, 2023 at 10:24:15AM -0700, Evan Green wrote:
+> >>> On Tue, Oct 17, 2023 at 6:15=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cleg=
+er@rivosinc.com> wrote:
+> >>>>
+> >>>> Factorize ISA extension reporting by using a macro rather than
+> >>>> copy/pasting extension names. This will allow adding new extensions =
+more
+> >>>> easily.
+> >>>>
+> >>>> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
+> >>>> ---
+> >>>>  arch/riscv/kernel/sys_riscv.c | 32 ++++++++++++++++++--------------
+> >>>>  1 file changed, 18 insertions(+), 14 deletions(-)
+> >>>>
+> >>>> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_r=
+iscv.c
+> >>>> index 473159b5f303..e207874e686e 100644
+> >>>> --- a/arch/riscv/kernel/sys_riscv.c
+> >>>> +++ b/arch/riscv/kernel/sys_riscv.c
+> >>>> @@ -145,20 +145,24 @@ static void hwprobe_isa_ext0(struct riscv_hwpr=
+obe *pair,
+> >>>>         for_each_cpu(cpu, cpus) {
+> >>>>                 struct riscv_isainfo *isainfo =3D &hart_isa[cpu];
+> >>>>
+> >>>> -               if (riscv_isa_extension_available(isainfo->isa, ZBA))
+> >>>> -                       pair->value |=3D RISCV_HWPROBE_EXT_ZBA;
+> >>>> -               else
+> >>>> -                       missing |=3D RISCV_HWPROBE_EXT_ZBA;
+> >>>> -
+> >>>> -               if (riscv_isa_extension_available(isainfo->isa, ZBB))
+> >>>> -                       pair->value |=3D RISCV_HWPROBE_EXT_ZBB;
+> >>>> -               else
+> >>>> -                       missing |=3D RISCV_HWPROBE_EXT_ZBB;
+> >>>> -
+> >>>> -               if (riscv_isa_extension_available(isainfo->isa, ZBS))
+> >>>> -                       pair->value |=3D RISCV_HWPROBE_EXT_ZBS;
+> >>>> -               else
+> >>>> -                       missing |=3D RISCV_HWPROBE_EXT_ZBS;
+> >>>> +#define CHECK_ISA_EXT(__ext)                                       =
+            \
+> >>>> +               do {                                                =
+            \
+> >>>> +                       if (riscv_isa_extension_available(isainfo->i=
+sa, __ext)) \
+> >>>> +                               pair->value |=3D RISCV_HWPROBE_EXT_#=
+#__ext;       \
+> >>>> +                       else                                        =
+            \
+> >>>> +                               missing |=3D RISCV_HWPROBE_EXT_##__e=
+xt;           \
+> >>>> +               } while (false)
+> >>>> +
+> >>>> +               /*
+> >>>> +                * Only use CHECK_ISA_EXT() for extensions which can=
+ be exposed
+> >>>> +                * to userspace, regardless of the kernel's configur=
+ation, as no
+> >>>> +                * other checks, besides presence in the hart_isa bi=
+tmap, are
+> >>>> +                * made.
+> >>>
+> >>> This comment alludes to a dangerous trap, but I'm having trouble
+> >>> understanding what it is.
+> >>
+> >> You cannot, for example, use this for communicating the presence of F =
+or
+> >> D, since they require a config option to be set before their use is
+> >> safe.
+> >=20
+> > Funnily enough, this comment is immediately contradicted by the vector
+> > subset extensions, where these CHECK_ISA_EXT() macros are used wrapped
+> > in has_vector(). The code looks valid to me, since has_vector() contains
+> > the Kconfig check, but does fly in the face of this comment.
 
-From the git history, commit 2c12c8103d8f ("scripts/kernel-doc:
-optionally treat warnings as errors") introduces a new command-line
-option to make kernel-doc warnings into errors. It can also read the
-KCFLAGS environment variable to decide whether to turn this option on,
-but the regex used for matching may not be accurate enough. It can match
-both "-Werror" and "-Werror=<diagnostic-type>", so the option is turned
-on by mistake in the latter case.
+> Yes, the KConfig checks are already done by the headers, adding #ifdef
+> would be redundant even if more coherent with the comment
 
-Fix this by strictly matching the flag "-Werror": there must be a space
-or start of string in the front, and a space or end of string at the
-end. This can handle all the following cases correctly:
+I don't really understand what the first part of this means, or why using
+avoidable ifdeffery here would be desirable.
 
-KCFLAGS="-Werror" make W=1 [MATCH]
-KCFLAGS="-Werror=return-type" make W=1 [NO MATCH]
-KCFLAGS="-Wcomment -Werror -Wundef" make W=1 [MATCH]
-KCFLAGS="-Wcomment -Werror=return-type -Wundef" make W=1 [NO MATCH]
+> BTW, wouldn't
+> it make more sense to get rid out of the unsupported extensions directly
+> at ISA string parsing ? ie, if kernel is compiled without V support,
+> then do not set the bits corresponding to these in the riscv_isa_ext[]
+> array ? But the initial intent was probably to be able to report the
+> full string through cpuinfo.
 
-Fixes: 2c12c8103d8f ("scripts/kernel-doc: optionally treat warnings as errors")
-Signed-off-by: Yujie Liu <yujie.liu@intel.com>
----
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yeah, hysterical raisins I guess, it's always been that way. I don't
+think anyone originally thought about such configurations and that is
+how the cpuinfo stuff behaves. I strongly dislike the
+riscv_isa_extension_available() interface, but one of Drew's patches
+does at least improve things a bit. Kinda waiting for some of the
+patches in flight to settle down before deciding if I want to refactor
+stuff to be less of a potential for shooting oneself in the foot.
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 6e199a745ccb..d660e1f4b483 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -185,7 +185,7 @@ if (defined($ENV{'KBUILD_VERBOSE'}) && $ENV{'KBUILD_VERBOSE'} =~ '1') {
- if (defined($ENV{'KCFLAGS'})) {
- 	my $kcflags = "$ENV{'KCFLAGS'}";
- 
--	if ($kcflags =~ /Werror/) {
-+	if ($kcflags =~ /(?<=^|\s)-Werror(?=$|\s)/) {
- 		$Werror = 1;
- 	}
- }
--- 
-2.34.1
+--0kZSCNOwIdjxb8Tb
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTEDYQAKCRB4tDGHoIJi
+0hxoAP0Q/QwVBDGTktqXbnElnvW6qMUNCJQnZu8Yc7rQ7OMNJAEAkJ4ESLvJaOki
+BU3KxXVZ+61ZCescByygZiFqNKepPgM=
+=2KUA
+-----END PGP SIGNATURE-----
+
+--0kZSCNOwIdjxb8Tb--
