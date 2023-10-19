@@ -1,91 +1,86 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0327430FB0
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 15:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186FA3218F
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 16:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="K/NEFcZo"
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889D9197
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 08:59:07 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2c17de836fbso103513171fa.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 08:59:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wWcQIDL3"
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8C112A
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 09:01:56 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-d9ac9573274so9052017276.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 09:01:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1697731145; x=1698335945; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1697731316; x=1698336116; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sm/Wii6+7o3UXX8C55yUutEJQSIovh8VXkokjTN3YvQ=;
-        b=K/NEFcZo6LXuop6dYkg2EkVZANrGbVlnANb4YU8w8XgxJqVRS59Lnuvjws9l34VXbd
-         lcUQjtOplHylYKpkyF5OrwwTxiuRkxiQwEsEpEax461jOQ51LcqsfT+qFDwmIk1ES4d3
-         cIsn+fudxCYIRGepGUyertcblfwmK/j9BM1HDUj61bma7N8tw00v98KrWoCLQaUSBu4R
-         /yfaabDlKxaO07FDVqv9BGOoMahmZhbw2zp6jVo6qN7vuyJrf9zMbjWWAKglq72d3hzI
-         TfoHMZ+WFZOy2crAux3luNzVQ5hiRH4GImUoz9zS0VwRPc11bx/BnIbXnJAT/YPP6i/n
-         f5GQ==
+        bh=QAEbVxck7NIMOPFoyufkI7+poSNQZD0kt5lDnU1GmDY=;
+        b=wWcQIDL39rUsqDiUSrhQesgnzs++1sOmT2AoGZrzDEHpC54Xf4PF5W+6I54F8wl48j
+         vSBv6uBvlD8ph/3X/5lBMzExPF1JTS6nrfITdCQVZMyhTt3j/e/yvchiZCBj6vdyaDPh
+         XYejc/h1rMFyc//XMgw9foepsVhh4rqBS0xBYFcRpBxfpvOMUMqxtireJdDFfdwPCY/Z
+         MoOFXj4BBDkybxTC6R56DbyCACXUSEyXfC7wV2tT7ONbfS9mlowZgk3PRz4a42s4Adh7
+         5SP/xuJ3oQmuiqU2qzrRpWB675P9oMtGRiv+HsZK83dsq76fWpRFoyJDLXSe8EKvpMQZ
+         5f4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697731145; x=1698335945;
+        d=1e100.net; s=20230601; t=1697731316; x=1698336116;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Sm/Wii6+7o3UXX8C55yUutEJQSIovh8VXkokjTN3YvQ=;
-        b=aIhSO+xXUhdOqK50oPLdoBjdIOcIHO4+N9iIZouOHRbOL+Hx4tqZB2OnXIfD2CzBlf
-         QULUJzGkOwG4pNsmZjU6tTtM6O1i1m/X/z25GGDMWV4gPvQddJG96rffX32Gea1k6Ib6
-         v238YPIScGGDmEYugwLQikC/k0lNBwrRBHqboi9NN16Hb1MxxtsadAHV4RJgO046sCiL
-         9d51WuI5LjTEwNRK9NyCkLURliVp0ndQYbPyuP/k5igd3tS8klZGCLGGUuTclVRPCQcL
-         jDUuerVycXDFjSSfudSUqFSc1g10jFkdia/g08La3e5BhRRj5ALAEfxCvtKl7TNK5+ih
-         uIgg==
-X-Gm-Message-State: AOJu0Yyk4V1S1iuv23hMqvN2N2sLGp/KYig0qL/zb8npxNUykqyAX0Nw
-	yar4LW8kQlNOmwajmWymdkoZPMmZDHIxjkSPsfXIfrES1wjYBeTQMag=
-X-Google-Smtp-Source: AGHT+IFhWqGbbE8JI0y4QRuxzilbQXa+K0fS3Bh2vLrdcR1Ry3XED7EDIlt4FyQSCadgcN054zLlg6tJMnlCOQmsWWg=
-X-Received: by 2002:a05:651c:555:b0:2bc:c28c:a2b8 with SMTP id
- q21-20020a05651c055500b002bcc28ca2b8mr2127428ljp.27.1697731145578; Thu, 19
- Oct 2023 08:59:05 -0700 (PDT)
+        bh=QAEbVxck7NIMOPFoyufkI7+poSNQZD0kt5lDnU1GmDY=;
+        b=W8K3rGMK41vltxRT41cwEFEormaXMbfT3h8vrLFNzGXCpSRaYPbWECOCyC3Z54+p+L
+         m6i2ErdNDB/sWyGxwUoUKd5iZ/VDzKlpEch42xqQ3LYhUmQr/DnCBvzcXDm9yPYvUGAT
+         fGnvr3U89oOHB0zQJkONY90n9XEJqey89CHleGslmWvjsqLXGXqqR9pcqloLIo+Zaz9h
+         PRJAdvcqXfcqIW21qR3ExYqnvqWE8gkyz812oYZgXUr0XJGE5CyFk0hab1NJP8Z6I2d5
+         1LxTPMx+G4E1iC9VxO7krkEby0h/wNcTXgOI+sfEXVSn1B7zfg2hE0FW0YfA1kKUBslH
+         rQbg==
+X-Gm-Message-State: AOJu0YwzXGlhbzCFCgwsNK7qNCmntbZZEHufmZZuqiWoi9/iZGvvSLmj
+	RKUPCXaf+iRL9Pf2ExoYGk+5dNxwcSMOad5pTiHnCA==
+X-Google-Smtp-Source: AGHT+IGcA4f1SZU3KuXOFAud9yeTFGruISOrerlndO0A2eRzNDv5uXbJb5LMllwxmz+k5CXCF6OOr1VBQANuxlqvmBw=
+X-Received: by 2002:a05:6902:c7:b0:d9a:e6d6:42f8 with SMTP id
+ i7-20020a05690200c700b00d9ae6d642f8mr2773004ybs.29.1697731315891; Thu, 19 Oct
+ 2023 09:01:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231017131456.2053396-1-cleger@rivosinc.com> <20231017131456.2053396-2-cleger@rivosinc.com>
- <CALs-HssL=wNwj9nRuZwpZhy1CB9p9-X=OqgwBw9zvgA7hA4fEg@mail.gmail.com>
- <20231018-scrap-bankable-a0f321d97a46@spud> <20231018-flagpole-footpad-07a6228485f3@spud>
- <CALs-HsteDO0PvAKKQje7wU0f4z8w2V3f7WiHh5+LvQeVaSua1w@mail.gmail.com>
- <0b2cbc89-7892-4c43-898c-03757eaaf3b7@rivosinc.com> <20231019-smith-purging-627c50cfa3de@spud>
-In-Reply-To: <20231019-smith-purging-627c50cfa3de@spud>
-From: Evan Green <evan@rivosinc.com>
-Date: Thu, 19 Oct 2023 08:58:29 -0700
-Message-ID: <CALs-Hsv2HK7dtZRi9R4GH0vZnf2oU9xVhKfK153S7Y_txUceqA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/19] riscv: hwprobe: factorize hwprobe ISA extension reporting
-To: Conor Dooley <conor@kernel.org>
-Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Palmer Dabbelt <palmer@rivosinc.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Jones <ajones@ventanamicro.com>, 
-	Samuel Ortiz <sameo@rivosinc.com>
+References: <20231009025726.5982-1-link@vivo.com> <CAOUHufaX35Y6MfwKj_XUWXJwdC=9M=g1gXpQpQghBZ2fXrkEAw@mail.gmail.com>
+ <CABdmKX0xevnJfcgsDEWsfX9J5T2x0EV7x-p4ommq_Deg98WwYA@mail.gmail.com> <d9b31019-9374-4531-8967-d289af3f4f06@vivo.com>
+In-Reply-To: <d9b31019-9374-4531-8967-d289af3f4f06@vivo.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 19 Oct 2023 09:01:43 -0700
+Message-ID: <CABdmKX21QfTDXJ2o=CbATmeX1OSgB1XnM=escE7xf8gMrvMhGA@mail.gmail.com>
+Subject: Re: [PATCH 0/3 RESEND] Per memcg lru_gen node stat
+To: Huan Yang <link@vivo.com>
+Cc: Yu Zhao <yuzhao@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, 
+	"T.J. Alumbaugh" <talumbau@google.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Kefeng Wang <wangkefeng.wang@huawei.com>, 
+	Suren Baghdasaryan <surenb@google.com>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>, 
+	"open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, opensource.kernel@vivo.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 19, 2023 at 3:24=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Thu, Oct 19, 2023 at 11:46:51AM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
-> > Indeed the comment was a bit misleading, is this more clear ?
+On Wed, Oct 18, 2023 at 7:32=E2=80=AFPM Huan Yang <link@vivo.com> wrote:
+> > Android can't use debugfs in production, but I
+> > think we'd prefer to use memory.reclaim for eviction anyway because it
+> > respects memcg limits and reclaims from slab.
+> Yes, shrink control this actually can use proactive reclaim.
 > >
-> > /*
-> >  * Only use CHECK_ISA_EXT() for extensions which are usable by
-> >  * userspace with respect to the kernel current configuration.
-> >  * For instance, ISA extensions that uses float operations
+> > So maybe it's possible to add just aging functionality specific to
+> > MGLRU? It'd be nice to know how you're going to use the aging, or why
+> Due to debugfs not always mount, if we want to now lrugen's info, maybe
+> nice to offer a memcg's node to show per memcg's lrugen info.
+> > you want this version of eviction instead of what memory.reclaim does.
 >
-> s/that uses/that use/
->
-> >  * should not be exposed when CONFIG_FPU is not set.
->
-> s/is not set/is not enabled/
->
-> But yeah, definitely more clear, thanks.
-
-Looks good to me too. Thanks, Cl=C3=A9ment!
--Evan
+I think Yu's inquiry was about whether you will look at the lrugen
+info from the memcg file for a production use case, or just for
+debugging where you don't have debugfs for some reason. Because it's a
+long term commitment to add the file.
