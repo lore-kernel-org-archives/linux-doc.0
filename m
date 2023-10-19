@@ -1,83 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AEA30FB0;
-	Thu, 19 Oct 2023 15:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1929A30FB0
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 15:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qd9oN9q3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E061C433C8;
-	Thu, 19 Oct 2023 15:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1697730405;
-	bh=dlXwrAmr23RZBJTQ4tZB3ILSltevA7NR468NS5iSreI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qd9oN9q3CDls1FHxrQ/fEHIzbFe3gGdXb9PwNIyIMVNdcHKeYaukZaB+ZRvCEElLa
-	 IN5LRY41J2F9SBZ6c/hCI9wkG2d/He9mO/VpTf4aiVbz8OUqOpL6ZMkc7mc//znpQM
-	 TuUnrJkSUHMZ4Zz2Q0AY/tlRHyf71pcP6uT6/L6w=
-Date: Thu, 19 Oct 2023 17:46:42 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	miquel.raynal@bootlin.com, conor.culhane@silvaco.com,
-	alexandre.belloni@bootlin.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net, joe@perches.com, linux-i3c@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, imx@lists.linux.dev,
-	jirislaby@kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH 1/5] i3c: add slave mode support
-Message-ID: <2023101935-papaya-legible-5849@gregkh>
-References: <20231018215809.3477437-1-Frank.Li@nxp.com>
- <20231018215809.3477437-2-Frank.Li@nxp.com>
- <dd06c2d3-e273-4356-835b-42619543dfab@linaro.org>
- <ZTFE8hrRgPBrb7e3@lizhi-Precision-Tower-5810>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qZsHla9x"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE73E124;
+	Thu, 19 Oct 2023 08:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=pn3uO/arD3fO0IFGZTIzO6TjABrdzGr297my+fEHmUs=; b=qZsHla9xapeuTcdf/k4ygwi3t/
+	GmHwYEmzui2YwSQH7yrQjNzyI2Yl/3xhT2pokj4XVvs5Uq+9lt7Mkp9AFXexEAQ31W9Ct0MxN2eE8
+	kjVj/ToQVgIZjWvgJ5C7jnI824xC5JVLxNQdjYePJMbjsrzCOk8MNXQd+YdOQLn/w36jUsPWaYjCg
+	dpC5/pWzPKL37XXRoVLGIquVMjakYflpe4fPNjBrnyEYvxOtpXfe6d3tlZhfpJTEyZ7WAFyWLV4vk
+	nSr/2vwK+/jcluTnfcT/K92XZc1OXefq256ymHJA/wx/rz0ytSe7wdSm2SXX2epygBs1pqiro6eDU
+	J/HnN6Rw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qtVGC-000FWt-2e;
+	Thu, 19 Oct 2023 15:48:32 +0000
+Message-ID: <d0c6044f-11e0-4f00-b7e6-eaf1e72f17a5@infradead.org>
+Date: Thu, 19 Oct 2023 08:48:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZTFE8hrRgPBrb7e3@lizhi-Precision-Tower-5810>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] sh: bios: Revive earlyprintk support
+Content-Language: en-US
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jonathan Corbet <corbet@lwn.net>, Yoshinori Sato
+ <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Paul Gortmaker <paul.gortmaker@windriver.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1697708489.git.geert+renesas@glider.be>
+ <c40972dfec3dcc6719808d5df388857360262878.1697708489.git.geert+renesas@glider.be>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <c40972dfec3dcc6719808d5df388857360262878.1697708489.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 19, 2023 at 11:02:10AM -0400, Frank Li wrote:
-> On Thu, Oct 19, 2023 at 09:00:05AM +0200, Krzysztof Kozlowski wrote:
-> > On 18/10/2023 23:58, Frank Li wrote:
-> > > Introduce a new slave core layer in order to support slave functions in
-> > > linux kernel. This comprises the controller library and function library.
-> > > Controller library implements functions specific to an slave controller
-> > > and function library implements functions specific to an slave function.
-> > > 
-> > > Introduce a new configfs entry to configure the slave function configuring
-> > > and bind the slave function with slave controller.
-> > > 
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > >  drivers/i3c/Kconfig       |  26 ++
-> > >  drivers/i3c/Makefile      |   2 +
-> > >  drivers/i3c/i3c-cfs.c     | 389 +++++++++++++++++++++++++++++
-> > >  drivers/i3c/slave.c       | 453 ++++++++++++++++++++++++++++++++++
-> > >  include/linux/i3c/slave.h | 503 ++++++++++++++++++++++++++++++++++++++
-> > >  5 files changed, 1373 insertions(+)
-> > >  create mode 100644 drivers/i3c/i3c-cfs.c
-> > >  create mode 100644 drivers/i3c/slave.c
-> > >  create mode 100644 include/linux/i3c/slave.h
-> > > 
-> > > diff --git a/drivers/i3c/Kconfig b/drivers/i3c/Kconfig
-> > > index 30a441506f61c..d5f5ca7cd6a56 100644
-> > > --- a/drivers/i3c/Kconfig
-> > > +++ b/drivers/i3c/Kconfig
-> > > @@ -22,3 +22,29 @@ menuconfig I3C
-> > >  if I3C
-> > >  source "drivers/i3c/master/Kconfig"
-> > >  endif # I3C
-> > > +
-> > > +config I3C_SLAVE
-> > 
-> > It doesn't look like you follow Kernel naming convention (see coding style).
+Hi,
+
+On 10/19/23 02:46, Geert Uytterhoeven wrote:
+> The SuperH BIOS earlyprintk code is protected by CONFIG_EARLY_PRINTK.
+> However, when this protection was added, it was missed that SuperH no
+> longer defines an EARLY_PRINTK config symbol since commit
+> e76fe57447e88916 ("sh: Remove old early serial console code V2"), so
+> BIOS earlyprintk can no longer be used.
 > 
-> I checked I3C spec. It use words 'target'.
-> Is it okay using I3C_TARGET?
+> Fix this by reviving the EARLY_PRINTK config symbol.
+> 
+> Fixes: d0380e6c3c0f6edb ("early_printk: consolidate random copies of identical code")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  arch/sh/Kconfig.debug | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/arch/sh/Kconfig.debug b/arch/sh/Kconfig.debug
+> index c449e7c1b20ff5b5..8bcd6c1431a95be9 100644
+> --- a/arch/sh/Kconfig.debug
+> +++ b/arch/sh/Kconfig.debug
+> @@ -22,6 +22,17 @@ config STACK_DEBUG
+>  	  every function call and will therefore incur a major
+>  	  performance hit. Most users should say N.
+>  
+> +config EARLY_PRINTK
+> +	bool "Early printk"
+> +	depends on SH_STANDARD_BIOS
+> +	help
+> +	  Say Y here to redirect kernel printk messages to the serial port
+> +	  used by the SH-IPL bootloader, starting very early in the boot
+> +	  process and ending when the kernel's serial console is initialised.
+> +	  This option is only useful while porting the kernel to a new machine,
 
-Why wouldn't it be?
+Can we expect to see new machine ports using arch/sh/ ?
+
+> +	  when the kernel may crash or hang before the serial console is
+> +	  initialised.  If unsure, say N.
+> +
+>  config 4KSTACKS
+>  	bool "Use 4Kb for kernel stacks instead of 8Kb"
+>  	depends on DEBUG_KERNEL && (MMU || BROKEN) && !PAGE_SIZE_64KB
+
+
+-- 
+~Randy
