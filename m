@@ -1,190 +1,180 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4D42913;
-	Thu, 19 Oct 2023 06:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="35iKzvkz"
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2055.outbound.protection.outlook.com [40.107.101.55])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1A0BE;
-	Wed, 18 Oct 2023 23:17:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lIiZTC8SUCZUuqu0tpLuReSNlmWb1y4B7u+5RAvtv1D2eVptQUEF0MWj3Z/g3kGy0/jttu5EsyTdayERkwgkH1yO/q5GcR91kUxrNPmJ8zSLOXhA3PXzETHfpEbJruMLMpUI0dY+z1e6jqM7mfwrZHpeLXO+/atoacbuTcTUxPrcEn9NLYwejfhqaai9hby6aY/S3E8dosoVoRKJ7nRm/Da8UXV1j4g1cBznzuFRJuPMaYgeuVPJihLDILmTUxVLLaqF3rq6qTwrMMBlCRoRTM+qq8y5E1E4mYYdmyruIcfWDBghLIFqRqb3E6nuecxzrCK42+8cnT5BmYXbjrPWDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cBqT9M2T6hc5bLw1aqb0YQoiwrwBpKLwAnvUhAfWy8g=;
- b=W2KhIdmjCAn6cwbW3CFSzJkUeaOfsc+1LXp/MzLhNt+YI1zPpLY+HrvzeB8lwqHUPUlQBbdr/fotk3SEaGO7WG7c5kuDrHqxOZFFx5dpqhIBRCkHbws0jM6SMILyScleqLDR6HwZ+ussooq/OzXTS7tj7Pyix6PNfvKFiaeJYKuhNX+YwddVQdFP/kmopuYTYldCyFdVHkzKCBco3OPtdjzrUs2O1Gx21L6ZGmZDDzmmHzgpYX9B8xYpwVllOP/jmmq0RjpWLiUsbSTN+FbTjNef1JEL0YxAPCU1wjCQCwoB0+stj9Rwvewf0PPSEr80WyUYQR0Nq/vvSYEoM/qiRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cBqT9M2T6hc5bLw1aqb0YQoiwrwBpKLwAnvUhAfWy8g=;
- b=35iKzvkzgI9992OSfHS2FRca8buagfQy9pSWUtc8PUpG+Eru+fxSt/JWfNNWxOI7IAqo5DRYdmk5TuByaJ5OIuMgIwKgArTQJdebnSgq6XTU+Vk7aCje9XAJsREpc2mvz05Ea8f7UGRQjuMs1PYKO7N/wD9eLW14h5z1O57fHWs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6351.namprd12.prod.outlook.com (2603:10b6:8:a2::6) by
- CY5PR12MB6624.namprd12.prod.outlook.com (2603:10b6:930:40::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6907.21; Thu, 19 Oct 2023 06:17:27 +0000
-Received: from DM4PR12MB6351.namprd12.prod.outlook.com
- ([fe80::4ead:d69:799a:281e]) by DM4PR12MB6351.namprd12.prod.outlook.com
- ([fe80::4ead:d69:799a:281e%5]) with mapi id 15.20.6886.034; Thu, 19 Oct 2023
- 06:17:27 +0000
-Message-ID: <5f85eb72-3f34-4006-85ca-2a2181113008@amd.com>
-Date: Thu, 19 Oct 2023 14:17:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Cc: majun@amd.com, netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v12 0/9] Enable Wifi RFI interference mitigation feature
- support
-To: Ma Jun <Jun.Ma2@amd.com>, amd-gfx@lists.freedesktop.org, lenb@kernel.org,
- johannes@sipsolutions.net, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, alexander.deucher@amd.com,
- Lijo.Lazar@amd.com, mario.limonciello@amd.com
-References: <20231017025358.1773598-1-Jun.Ma2@amd.com>
-Content-Language: en-US
-From: "Ma, Jun" <majun@amd.com>
-In-Reply-To: <20231017025358.1773598-1-Jun.Ma2@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR02CA0030.apcprd02.prod.outlook.com
- (2603:1096:3:18::18) To DM4PR12MB6351.namprd12.prod.outlook.com
- (2603:10b6:8:a2::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6888F48
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 06:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 516CB10F;
+	Wed, 18 Oct 2023 23:37:25 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5a7be88e9ccso95905327b3.2;
+        Wed, 18 Oct 2023 23:37:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697697444; x=1698302244;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vXEjMPe8j5c6Nski5KvbyugP8GZIC2bmURRJNkH6ZbQ=;
+        b=R69j6BP1J+jlozEAgOxDCD51nFcrXilKH9YHrnkNjK3423AInUTjseWAEqqjR3QxrF
+         dK6yP2l3t6cdeOpMzPhPiNwKKBjJbL+LbjgEMmn2aFw/oWdx/FWKy0w6JUlIptsxMD/G
+         hrlt1dDpqCMfS0ZHTH750WoP3sAyd2Um6xpZrExoZ0+LLskmP9luIDGdUBLFW/rZl/7o
+         /xSKEt6jSmFJD23+IE1t3Fwjm8MTJ5ApW9QFE1GaiqDIkDXbFrKnbvBE4C+kdcqi2bws
+         D7GehuYoyn6xWbO6oar0KNq21zoia7QQATdSGiGm+9cvvnQaXbVWWN5sFScX5TJUzIP5
+         3LSQ==
+X-Gm-Message-State: AOJu0YxWhsn/H2bf9U1n2PcbVPfy2Ai78heATZLCEkmuX5ak3W7M8bMC
+	/KRtG1iBjqNKkcE/HjeTwmdIhhjUYTZ8rw==
+X-Google-Smtp-Source: AGHT+IF/g5GfYLtIN675wkYCF6vrLJ901oUmB47g1+mlz9FaDPSpmSoFzH5KQytVJu9ERDPXogjVCg==
+X-Received: by 2002:a0d:cbd3:0:b0:5a7:b53f:c304 with SMTP id n202-20020a0dcbd3000000b005a7b53fc304mr1696131ywd.37.1697697444045;
+        Wed, 18 Oct 2023 23:37:24 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id d19-20020a0ddb13000000b005a7db2a0dddsm2199717ywe.3.2023.10.18.23.37.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Oct 2023 23:37:23 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5a87ac9d245so51099407b3.3;
+        Wed, 18 Oct 2023 23:37:23 -0700 (PDT)
+X-Received: by 2002:a05:690c:97:b0:577:3d46:f90e with SMTP id
+ be23-20020a05690c009700b005773d46f90emr1622261ywb.32.1697697443165; Wed, 18
+ Oct 2023 23:37:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6351:EE_|CY5PR12MB6624:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b615315-c40e-4d10-ff8b-08dbd06b10f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ii/tGh10VP9UnPb2VjGTclKf5AICZQUkYGgCjJiiGpBQc6BjUibPyx9Zq5Mx3HTdEi4gYZSD42H/0nP3D6ihNto6rTULo+aY4YvxepRdwz9cf3QfJFzuuxvDiOj/g6BIFpDyne+N8706DmGT2r/50JaPn6oxEyi5+E7YCxZFJ1EyuOKuXOy7mQjOzCSWQf4dOiJwSaGUezzahoIey9hqEZZQRZQFYXXrR9g1Kk8UgHwrx5CrOeDWO2Cloxb/knUuBqRlAEP+xIvwIhkiJF5QZbYfYGXBoweLpTuASgvNW04SKOW98kwnCpuQWKbN+hbrSuUrsG+Q1uc7hWxMy2/c+aLwOVWH3FK+2Q92W/jnSfH+B5X7At8RCDDPXRHo2RoPK66Uig1lthSKVSrSSoSwO5vNyC6yDu5rWLsfpVmBXMQ2OWySKhf56fkh+i/gd5sZFPiQdaAL0NSCF+WssRcVKEO2bSRsyEEaXYsrcJYZ6r210FdIYNBah+WhQcqYCW4q5MRcd6s8wIpuzjUX2yMICzmFFLwKp/oXTo2hjQ42SE+WjTJnL9vmnt2PgzeaYrXQ/Gk+c7f2Vth0I+8H/UYRKSDuWFe0AA2DFgaeAtkaI5r4EEqwknHMsyyWiWJMzKhF7OWWvWkXI9R8IDCpX1uPCOoOFQx6mh8+Em9novH0THA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6351.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(39860400002)(376002)(346002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(36756003)(31686004)(66476007)(6636002)(66556008)(31696002)(38100700002)(921005)(53546011)(316002)(6666004)(26005)(2616005)(83380400001)(6512007)(6506007)(66946007)(4326008)(8936002)(478600001)(8676002)(2906002)(7416002)(5660300002)(6486002)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NzErOVMrdFJib1FUTFZRR0xDMGRpTW16Tk1lUnEyL1FOSng3TTRmeGd4WFpj?=
- =?utf-8?B?eG1aTE0yL283aXJJZWVQNGdDUG5QUEE5Y1Q5OFU3amIzN0YwN0FHdXkvenpZ?=
- =?utf-8?B?MGxVQ3c3RXU2YnJHd1UyQWU5VnZYYUEza1Rkc25VbkJYMHZMakhYdXhwUXRy?=
- =?utf-8?B?dmhPSnNYMkNIWmhBMFBOL1RmU1N6Qk9aS3F5b3k5Um1yYmtrQXB2eGxNcU5a?=
- =?utf-8?B?Ukt0clJFYTZnZXFxL2RFWG9CRmxDQnRIMjlIU0hXQzY0SEZNaUpjT2xYMDZ4?=
- =?utf-8?B?aURDZWtJSENrMXZLYVlGakYrTURzYmRQYzU2WmRjSEJ6Q3gzV2d0ZkhjdFQ1?=
- =?utf-8?B?TmVyYkNsZ29BQ25LRnVidm9pZldMSWlGY1pFd29VN2pMVDNSdlFSUTErRCt0?=
- =?utf-8?B?WXZxY0toclFOZFVtbXJWaFJJNldJLzBUNDNqOFpKZS8xTjdITVFIRHBydlFH?=
- =?utf-8?B?MklpSVhQUHoxVTNpSXNWNU4rbHBWUmhDdEgzNjViYzFERDVFSEV1a3RQOXJF?=
- =?utf-8?B?cTlJOFdXM2NPa1FSVGpZWitialVrTENlRGsrclJvMnU2NW5qZnBWZEJpR25R?=
- =?utf-8?B?QXlDSEQreXA2YW56OFkwYTJkU2RxT25YNjBIUVVCM2UzVHVrU2RldXYyRmxv?=
- =?utf-8?B?RDU0d0c4d1pVWGNiRm5POXJ4a2xHZy9xTVpMeVNTZy9OK1AyalAxZ3VxUHNZ?=
- =?utf-8?B?M013VlRaNmlDN3YvKzZFYkZCcFJFMnFTMnB4cVFGeWRodCtKWnFQMWUydmhW?=
- =?utf-8?B?eS95Qzd4MDBXL2IrVkVlb2VKNXlzUlRkQnB6M1hDcVNackh1RVhxWTVhRGQ5?=
- =?utf-8?B?S0V3UHV2VHkzcHdYVW9ZcjBBazVncWJ3VEU1ZE9OdEROd2wzUU8zY05lbmxB?=
- =?utf-8?B?R1JyR2pLcGk4d2g1YWROcVVMcGE0ZVdheVB1NzNQNWE5TEhQT1F1NzlXQ1Bp?=
- =?utf-8?B?U0F1OXNWMUw5bW9tSkpZalFMSU1JTkdnQWIrVEJkQ2pDaXFzbUJwQ2gxcklM?=
- =?utf-8?B?MldMOVlIczl5QS9HeElWZmFUeWFsNEhUM1hDQXUzZGJBZW8xTU4zTnh1ekhN?=
- =?utf-8?B?TWNWNlptam96bnZtNnJoT09FRFpHQ09neThNYzIreHdOZStmbUoydnJoQjBh?=
- =?utf-8?B?K2h2RUYvdUo0dlZqdW0vZjFac3gzSE5HcG0yMjlYQnpnOUN5ZjU4V00yRjJV?=
- =?utf-8?B?NVVyTnNwZUJzZTYyczRISlJqNUE1MGcyZWVaV0RVQXFhMkgwUnY3cU16VThp?=
- =?utf-8?B?aWtUSFVxSEtEaWdlbFNiV3pFcVJaaGtocE9TUmwrNnBSOS8wdjd3MXhKU09r?=
- =?utf-8?B?MzVGeXFMSjNONDBPdUVpdXFRUFo5N0lab1lTQUhManMvSGZXVnJMa00xMHhQ?=
- =?utf-8?B?V3pSRkdIZ0JLZVpidGNUaVFoNHB2bHpkL0NoMXlEY1NQWWdZUThqVmtIMGly?=
- =?utf-8?B?T0tPTkhodG5NQk9yNDhac05uWVBXTktTSTdjbTlGQnUrSnZoKzRUZ1Rrd25V?=
- =?utf-8?B?bmtQclZESGpkOE5OQkYwNThMR0l4OXlCT2dmTHRFR3FjcGdnRStsNFlNQ3lM?=
- =?utf-8?B?ZEhUTDZ1ODQxeE1uNjkwMDhKVDQyQzd4ZjZIaDdFUjdPYThadjlicFRFZXdH?=
- =?utf-8?B?emhsTUVQeVpUdUtFeVFEMDhSTzdvZ0JYaytoWUhFRC9vUHNDTWdjOVYxcTBu?=
- =?utf-8?B?dGRhMjBTSDBZZFVFdFdGODZSbkJ2T0JjR0gwdjArdlowNFRPSlNpM2hGckx3?=
- =?utf-8?B?YkxoQmlDTkxxNmFiZ1Z1ZTFnTXlUeWcxM2dBVGh1aHpiZDBLb3YxeG8zL2ZE?=
- =?utf-8?B?SU00ak1CbmRuODFqSVNQL2VoVElDZmZLSjUvK3FySFlZQ2pTdUVyTkdNWFEv?=
- =?utf-8?B?R1ZwRWk4dC9nbTViUXIrSUVVamNMSi9Xd0s0NmsxWVFlUXMzVU9kdGFPSnUr?=
- =?utf-8?B?dFRpZk4yTzZVNFpBSGI5TG5OSHBaSzRVYm9BMGlTNENiY3lLM29WU3lkWDh1?=
- =?utf-8?B?cG94NmFOL2h1TkxLSW9helc0Q1ZEbzNIajBldGlIbngwc2NjSlNBWjYycmtY?=
- =?utf-8?B?ejdFTG4yek9CODBJS0pmZzZuVGo5dzVac0t2dHg1NFdEaUNuMTEyalcvRHNy?=
- =?utf-8?Q?W+ZWdbQWlmK9a/0CM6ApDJuBd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b615315-c40e-4d10-ff8b-08dbd06b10f7
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6351.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2023 06:17:27.0476
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4H7oxub/tPvGJovCWG0BtUXh6ypfXoyVox79Ye9oFsd9VBLguZySFA74kWpLkINC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6624
+References: <20230818194136.4084400-1-evan@rivosinc.com> <20230818194136.4084400-2-evan@rivosinc.com>
+ <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
+ <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com> <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
+In-Reply-To: <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 19 Oct 2023 08:37:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUG3SUVPJHSiNyQNzyqxiJpczUHhBxHN7YqEDcaWYwkFA@mail.gmail.com>
+Message-ID: <CAMuHMdUG3SUVPJHSiNyQNzyqxiJpczUHhBxHN7YqEDcaWYwkFA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
+To: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: Palmer Dabbelt <palmer@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org, 
+	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>, 
+	Jisheng Zhang <jszhang@kernel.org>, linux-riscv@lists.infradead.org, 
+	Jonathan Corbet <corbet@lwn.net>, Sia Jee Heng <jeeheng.sia@starfivetech.com>, 
+	Marc Zyngier <maz@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Greentime Hu <greentime.hu@sifive.com>, Simon Hosie <shosie@rivosinc.com>, 
+	Andrew Jones <ajones@ventanamicro.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alexghiti@rivosinc.com>, Ley Foon Tan <leyfoon.tan@starfivetech.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Anup Patel <apatel@ventanamicro.com>, 
+	linux-kernel@vger.kernel.org, Xianting Tian <xianting.tian@linux.alibaba.com>, 
+	David Laight <David.Laight@aculab.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Andy Chiu <andy.chiu@sifive.com>, Evan Green <evan@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ping...
-Any other comments?
+Hi Prabahkar,
 
-Regards,
-Ma Jun
+On Thu, Sep 14, 2023 at 9:32=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+> On Wed, Sep 13, 2023 at 7:46=E2=80=AFPM Evan Green <evan@rivosinc.com> wr=
+ote:
+> > On Wed, Sep 13, 2023 at 5:36=E2=80=AFAM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Fri, Aug 18, 2023 at 9:44=E2=80=AFPM Evan Green <evan@rivosinc.com=
+> wrote:
+> > > > Rather than deferring unaligned access speed determinations to a ve=
+ndor
+> > > > function, let's probe them and find out how fast they are. If we
+> > > > determine that an unaligned word access is faster than N byte acces=
+ses,
+> > > > mark the hardware's unaligned access as "fast". Otherwise, we mark
+> > > > accesses as slow.
+> > > >
+> > > > The algorithm itself runs for a fixed amount of jiffies. Within eac=
+h
+> > > > iteration it attempts to time a single loop, and then keeps only th=
+e best
+> > > > (fastest) loop it saw. This algorithm was found to have lower varia=
+nce from
+> > > > run to run than my first attempt, which counted the total number of
+> > > > iterations that could be done in that fixed amount of jiffies. By t=
+aking
+> > > > only the best iteration in the loop, assuming at least one loop was=
+n't
+> > > > perturbed by an interrupt, we eliminate the effects of interrupts a=
+nd
+> > > > other "warm up" factors like branch prediction. The only downside i=
+s it
+> > > > depends on having an rdtime granular and accurate enough to measure=
+ a
+> > > > single copy. If we ever manage to complete a loop in 0 rdtime ticks=
+, we
+> > > > leave the unaligned setting at UNKNOWN.
+> > > >
+> > > > There is a slight change in user-visible behavior here. Previously,=
+ all
+> > > > boards except the THead C906 reported misaligned access speed of
+> > > > UNKNOWN. C906 reported FAST. With this change, since we're now meas=
+uring
+> > > > misaligned access speed on each hart, all RISC-V systems will have =
+this
+> > > > key set as either FAST or SLOW.
+> > > >
+> > > > Currently, we don't have a way to confidently measure the differenc=
+e between
+> > > > SLOW and EMULATED, so we label anything not fast as SLOW. This will
+> > > > mislabel some systems that are actually EMULATED as SLOW. When we g=
+et
+> > > > support for delegating misaligned access traps to the kernel (as op=
+posed
+> > > > to the firmware quietly handling it), we can explicitly test in Lin=
+ux to
+> > > > see if unaligned accesses trap. Those systems will start to report
+> > > > EMULATED, though older (today's) systems without that new SBI mecha=
+nism
+> > > > will continue to report SLOW.
+> > > >
+> > > > I've updated the documentation for those hwprobe values to reflect
+> > > > this, specifically: SLOW may or may not be emulated by software, an=
+d FAST
+> > > > represents means being faster than equivalent byte accesses. The ch=
+ange
+> > > > in documentation is accurate with respect to both the former and cu=
+rrent
+> > > > behavior.
+> > > >
+> > > > Signed-off-by: Evan Green <evan@rivosinc.com>
+> > > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > >
+> > > Thanks for your patch, which is now commit 584ea6564bcaead2 ("RISC-V:
+> > > Probe for unaligned access speed") in v6.6-rc1.
+> > >
+> > > On the boards I have, I get:
+> > >
+> > >     rzfive:
+> > >         cpu0: Ratio of byte access time to unaligned word access is
+> > > 1.05, unaligned accesses are fast
+> >
+> > Hrm, I'm a little surprised to be seeing this number come out so close
+> > to 1. If you reboot a few times, what kind of variance do you get on
+> > this?
+>
+> Rock-solid at 1.05 (even with increased resolution: 1.05853 on 3 tries)
 
-On 10/17/2023 10:53 AM, Ma Jun wrote:
-> Due to electrical and mechanical constraints in certain platform designs there
-> may be likely interference of relatively high-powered harmonics of the (G-)DDR
-> memory clocks with local radio module frequency bands used by Wifi 6/6e/7. To
-> mitigate possible RFI interference we introuduced WBRF(Wifi Band RFI mitigation Feature).
-> Producers can advertise the frequencies in use and consumers can use this information
-> to avoid using these frequencies for sensitive features.
-> 
-> The whole patch set is based on Linux 6.5.0. With some brief introductions
-> as below:
-> Patch1:      Document about WBRF
-> Patch2:      Core functionality setup for WBRF feature support
-> Patch3 - 4:  Bring WBRF support to wifi subsystem.
-> Patch5 - 9:  Bring WBRF support to AMD graphics driver.
-> 
-> Evan Quan (7):
->   cfg80211: expose nl80211_chan_width_to_mhz for wide sharing
->   wifi: mac80211: Add support for WBRF features
->   drm/amd/pm: update driver_if and ppsmc headers for coming wbrf feature
->   drm/amd/pm: setup the framework to support Wifi RFI mitigation feature
->   drm/amd/pm: add flood detection for wbrf events
->   drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.0
->   drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
-> 
-> Ma Jun (2):
->   Documentation/driver-api: Add document about WBRF mechanism
->   platform/x86/amd: Add support for AMD ACPI based Wifi band RFI
->     mitigation feature
-> 
->  Documentation/driver-api/wbrf.rst             |  71 +++
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  17 +
->  drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c     | 214 +++++++++
->  drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h |  33 ++
->  .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  14 +-
->  .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  14 +-
->  .../pm/swsmu/inc/pmfw_if/smu_v13_0_0_ppsmc.h  |   3 +-
->  .../pm/swsmu/inc/pmfw_if/smu_v13_0_7_ppsmc.h  |   3 +-
->  drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h  |   3 +-
->  drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h  |   3 +
->  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    |   9 +
->  .../drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c  |  60 +++
->  .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  |  59 +++
->  drivers/gpu/drm/amd/pm/swsmu/smu_internal.h   |   3 +
->  drivers/platform/x86/amd/Kconfig              |  15 +
->  drivers/platform/x86/amd/Makefile             |   1 +
->  drivers/platform/x86/amd/wbrf.c               | 422 ++++++++++++++++++
->  include/linux/acpi_amd_wbrf.h                 | 101 +++++
->  include/linux/ieee80211.h                     |   1 +
->  include/net/cfg80211.h                        |   8 +
->  net/mac80211/Makefile                         |   2 +
->  net/mac80211/chan.c                           |   9 +
->  net/mac80211/ieee80211_i.h                    |   9 +
->  net/mac80211/main.c                           |   2 +
->  net/mac80211/wbrf.c                           | 105 +++++
->  net/wireless/chan.c                           |   3 +-
->  27 files changed, 1180 insertions(+), 6 deletions(-)
->  create mode 100644 Documentation/driver-api/wbrf.rst
->  create mode 100644 drivers/platform/x86/amd/wbrf.c
->  create mode 100644 include/linux/acpi_amd_wbrf.h
->  create mode 100644 net/mac80211/wbrf.c
-> 
+After upgrading the firmware from [1] to [2], this changed to
+"0.00, unaligned accesses are slow".
+
+[1] RZ-Five-ETH
+    U-Boot 2020.10-g611c657e43 (Aug 26 2022 - 11:29:06 +0100)
+
+[2] OpenSBI v1.3-75-g3cf0ea4
+    U-Boot 2023.01-00209-g1804c8ab17 (Oct 04 2023 - 13:18:01 +0100)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
