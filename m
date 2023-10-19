@@ -1,838 +1,208 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8941139856;
-	Thu, 19 Oct 2023 18:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CC20195;
-	Thu, 19 Oct 2023 11:36:41 -0700 (PDT)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9b9faf05f51so1803466b.2;
-        Thu, 19 Oct 2023 11:36:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C234C374EE
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 18:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="ODMg9xB4"
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929CD12A
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 11:53:30 -0700 (PDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-66d17bdabe1so475616d6.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 11:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1697741609; x=1698346409; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qb8FI0jQktcD/gduav6rMV+TPfkD1RCZuDqnbwPYiFM=;
+        b=ODMg9xB4CrNF4UQT+txQJoZxwbDacP6hvw6aSxm3oIHn0OmhsSuk0yPEgtmqhPN13L
+         XnT585V0J1wFeHxrC9SDw3RnU0Z3oT8glvLfdrSL2nbsb0FSeJEsYLXv/QeyXVE+sDxE
+         fPYjFHlT6FGacdwoPx9ld/RZelnjw8o/XuEtg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697740600; x=1698345400;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8o752NINmN2g+QDhuRXgBzSbFMO5pQfgUezKAbrJd8o=;
-        b=Jbf39nYX0Mp/cTCEJbnR6XKBe+ZHCT03sXPqaajITXiCBsInCmPcJHhUskCb7MEOPy
-         PmPoLBZ+wmKnazYnLFynG0ylxAbDsB+AuwaSMdYKGj52OclaYG2ROKfxtqirHcBe0pM8
-         4ZjfkHuAmWk/UbqEUCxtQowzr0opGvPPHZiAltrornMOyItFBZVqJBYALIxaVyFV3wpM
-         1Yjfsp64rWqkDAsv5VgyStJGXnckN6+r3SE/cXBwA/LE6yH4fUVBSquvZCgNMqWSeZmD
-         O8vD8RsWEuIZaTojySew/AbjVdPUocXYP4xN8qMOLjAj0Qh4YXOolmkecLrABry1Gie7
-         Z46w==
-X-Gm-Message-State: AOJu0YykiRVenSjLmIwgYtqxDeTuCPYaT09KoDDqKz94A7L/zw5ZStb6
-	jkLxt29HDv9RT+jYhIDho8Q=
-X-Google-Smtp-Source: AGHT+IHGsDLGdJSZk/OR0TmCTmGft9/ft+u45MXmgwoJFUFshJNc5Y3GphN4kbWOKzY02er81LRHOQ==
-X-Received: by 2002:a17:907:72c8:b0:9be:45b3:1c3d with SMTP id du8-20020a17090772c800b009be45b31c3dmr2614610ejc.48.1697740599468;
-        Thu, 19 Oct 2023 11:36:39 -0700 (PDT)
-Received: from localhost (fwdproxy-cln-006.fbsv.net. [2a03:2880:31ff:6::face:b00c])
-        by smtp.gmail.com with ESMTPSA id n13-20020a17090673cd00b009b65a834dd6sm10344ejl.215.2023.10.19.11.36.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 11:36:39 -0700 (PDT)
-From: Breno Leitao <leitao@debian.org>
-To: jpoimboe@kernel.org,
-	mingo@redhat.com,
-	tglx@linutronix.de,
-	bp@alien8.de,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Ahern <dsahern@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Wang YanQing <udknight@gmail.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Florian Westphal <fw@strlen.de>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>
-Cc: leit@meta.com,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tejun Heo <tj@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Yu-cheng Yu <yu-cheng.yu@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Juergen Gross <jgross@suse.com>,
-	Kim Phillips <kim.phillips@amd.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Jinghao Jia <jinghao@linux.ibm.com>,
-	Vincent Whitchurch <vincent.whitchurch@axis.com>,
-	Yang Jihong <yangjihong1@huawei.com>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Alyssa Ross <hi@alyssa.is>,
-	Alexander Potapenko <glider@google.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Marco Elver <elver@google.com>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	linux-trace-kernel@vger.kernel.org (open list:FUNCTION HOOKS (FTRACE)),
-	kvm@vger.kernel.org (open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)),
-	bpf@vger.kernel.org (open list:BPF [GENERAL] (Safe Dynamic Programs and Tools)),
-	netdev@vger.kernel.org (open list:NETWORKING [IPv4/IPv6]),
-	linux-modules@vger.kernel.org (open list:MODULE SUPPORT),
-	netfilter-devel@vger.kernel.org (open list:NETFILTER),
-	coreteam@netfilter.org (open list:NETFILTER),
-	rust-for-linux@vger.kernel.org (open list:RUST)
-Subject: [PATCH v5 05/12] x86/bugs: Rename RETPOLINE to MITIGATION_RETPOLINE
-Date: Thu, 19 Oct 2023 11:11:51 -0700
-Message-Id: <20231019181158.1982205-6-leitao@debian.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231019181158.1982205-1-leitao@debian.org>
-References: <20231019181158.1982205-1-leitao@debian.org>
+        d=1e100.net; s=20230601; t=1697741609; x=1698346409;
+        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qb8FI0jQktcD/gduav6rMV+TPfkD1RCZuDqnbwPYiFM=;
+        b=SBGN54b8nNpdvttufNHWWzV/A0sf0kuDETtPJ/V1wdVCZeMEN0jADyXL17Yma8vu5J
+         mkFU/bCh7Gl/ZU0GthbQ7ELKtYJ29g5JXVshv2d2MXqFiLdN2xdN6PP3g6KNaCtoYUXl
+         bQhH4rqHGek/jaipvvxHpuiuD5dSMAucqVOG+lLTfdxOezRGtvMDpvf8Fk0P2/rpIJmp
+         kMeFDTxa7rD3lZGIjr+MHXy2b4JUqEMD3wAzBJgoRqrt7PLEn5rN9qKtQjFzuf4bZrol
+         dbvYVTWq+HK0zHf4h/eAuLIUYIxDwWFuExseBUV/SnHsn1y6jzC0eakdj258V00CPp3N
+         Scww==
+X-Gm-Message-State: AOJu0YzrWilOnR7wya0l1NUw7WSGw4dL9JpbBGtwVu0qur/kx697SDQD
+	mXQ03onNP3FXFkyc86zx6WBqSg==
+X-Google-Smtp-Source: AGHT+IEUIodrBgLlcDiSMs6WrrTGyJdWjnMs4k2fRYKjhHr0jibKeof1Cq//0hKN+bWK/VWsbe76rA==
+X-Received: by 2002:a05:6214:20ea:b0:66d:3723:294b with SMTP id 10-20020a05621420ea00b0066d3723294bmr2798523qvk.64.1697741609651;
+        Thu, 19 Oct 2023 11:53:29 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id dz16-20020ad45890000000b006263a9e7c63sm63368qvb.104.2023.10.19.11.53.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Oct 2023 11:53:28 -0700 (PDT)
+Message-ID: <eb976fa1-f0e2-4158-bacd-c55655bbf025@broadcom.com>
+Date: Thu, 19 Oct 2023 11:53:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v6 05/16] net: Make dev_set_hwtstamp_phylib
+ accessible
+To: Kory Maincent <kory.maincent@bootlin.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+ Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com,
+ Simon Horman <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>
+References: <20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com>
+ <20231019-feature_ptp_netnext-v6-5-71affc27b0e5@bootlin.com>
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAyxcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFrZXktdXNhZ2UtbWFz
+ a0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2RpbmdAcGdwLmNvbXBn
+ cG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29tLmNvbQUbAwAAAAMW
+ AgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagBQJk1oG9BQkj4mj6AAoJEIEx
+ tcQpvGag13gH/2VKD6nojbJ9TBHLl+lFPIlOBZJ7UeNN8Cqhi9eOuH97r4Qw6pCnUOeoMlBH
+ C6Dx8AcEU+OH4ToJ9LoaKIByWtK8nShayHqDc/vVoLasTwvivMAkdhhq6EpjG3WxDfOn8s5b
+ Z/omGt/D/O8tg1gWqUziaBCX+JNvrV3aHVfbDKjk7KRfvhj74WMadtH1EOoVef0eB7Osb0GH
+ 1nbrPZncuC4nqzuayPf0zbzDuV1HpCIiH692Rki4wo/72z7mMJPM9bNsUw1FTM4ALWlhdVgT
+ gvolQPmfBPttY44KRBhR3Ipt8r/dMOlshaIW730PU9uoTkORrfGxreOUD3XT4g8omuvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <20231019-feature_ptp_netnext-v6-5-71affc27b0e5@bootlin.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000948ba80608164589"
 
-CPU mitigations config entries are inconsistent, and names are hard to
-related. There are concrete benefits for both users and developers of
-having all the mitigation config options living in the same config
-namespace.
+--000000000000948ba80608164589
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The mitigation options should have consistency and start with
-MITIGATION.
+On 10/19/23 07:29, Kory Maincent wrote:
+> Make the dev_set_hwtstamp_phylib function accessible in prevision to use
+> it from ethtool to reset the tstamp current configuration.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-Rename the Kconfig entry from RETPOLINE to MITIGATION_RETPOLINE.
-
-Suggested-by: Josh Poimboeuf <jpoimboe@kernel.org>
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- Documentation/admin-guide/hw-vuln/spectre.rst   | 8 ++++----
- Documentation/admin-guide/kernel-parameters.txt | 4 ++--
- arch/x86/Kconfig                                | 6 +++---
- arch/x86/Makefile                               | 4 ++--
- arch/x86/entry/vdso/Makefile                    | 4 ++--
- arch/x86/include/asm/disabled-features.h        | 2 +-
- arch/x86/include/asm/linkage.h                  | 8 ++++----
- arch/x86/include/asm/nospec-branch.h            | 8 ++++----
- arch/x86/kernel/alternative.c                   | 6 +++---
- arch/x86/kernel/cpu/bugs.c                      | 6 +++---
- arch/x86/kernel/ftrace.c                        | 2 +-
- arch/x86/kernel/kprobes/opt.c                   | 2 +-
- arch/x86/kernel/vmlinux.lds.S                   | 2 +-
- arch/x86/kvm/mmu/mmu.c                          | 2 +-
- arch/x86/kvm/mmu/mmu_internal.h                 | 2 +-
- arch/x86/kvm/svm/svm.c                          | 2 +-
- arch/x86/kvm/svm/vmenter.S                      | 4 ++--
- arch/x86/kvm/vmx/vmx.c                          | 2 +-
- arch/x86/lib/Makefile                           | 2 +-
- arch/x86/net/bpf_jit_comp.c                     | 2 +-
- arch/x86/net/bpf_jit_comp32.c                   | 2 +-
- arch/x86/purgatory/Makefile                     | 2 +-
- include/linux/compiler-gcc.h                    | 2 +-
- include/linux/indirect_call_wrapper.h           | 2 +-
- include/linux/module.h                          | 2 +-
- include/net/netfilter/nf_tables_core.h          | 2 +-
- include/net/tc_wrapper.h                        | 2 +-
- kernel/trace/ring_buffer.c                      | 2 +-
- net/netfilter/Makefile                          | 2 +-
- net/netfilter/nf_tables_core.c                  | 6 +++---
- net/netfilter/nft_ct.c                          | 4 ++--
- net/netfilter/nft_lookup.c                      | 2 +-
- net/sched/sch_api.c                             | 2 +-
- scripts/Makefile.lib                            | 2 +-
- scripts/generate_rust_target.rs                 | 2 +-
- scripts/mod/modpost.c                           | 2 +-
- tools/arch/x86/include/asm/disabled-features.h  | 2 +-
- 37 files changed, 59 insertions(+), 59 deletions(-)
-
-diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
-index 32a8893e5617..cce768afec6b 100644
---- a/Documentation/admin-guide/hw-vuln/spectre.rst
-+++ b/Documentation/admin-guide/hw-vuln/spectre.rst
-@@ -473,8 +473,8 @@ Spectre variant 2
-    -mindirect-branch=thunk-extern -mindirect-branch-register options.
-    If the kernel is compiled with a Clang compiler, the compiler needs
-    to support -mretpoline-external-thunk option.  The kernel config
--   CONFIG_RETPOLINE needs to be turned on, and the CPU needs to run with
--   the latest updated microcode.
-+   CONFIG_MITIGATION_RETPOLINE needs to be turned on, and the CPU needs
-+   to run with the latest updated microcode.
- 
-    On Intel Skylake-era systems the mitigation covers most, but not all,
-    cases. See :ref:`[3] <spec_ref3>` for more details.
-@@ -609,8 +609,8 @@ kernel command line.
- 		Selecting 'on' will, and 'auto' may, choose a
- 		mitigation method at run time according to the
- 		CPU, the available microcode, the setting of the
--		CONFIG_RETPOLINE configuration option, and the
--		compiler with which the kernel was built.
-+		CONFIG_MITIGATION_RETPOLINE configuration option,
-+		and the compiler with which the kernel was built.
- 
- 		Selecting 'on' will also enable the mitigation
- 		against user space to user space task attacks.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index ba0f4fbbe57d..60faccd29a34 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5978,8 +5978,8 @@
- 			Selecting 'on' will, and 'auto' may, choose a
- 			mitigation method at run time according to the
- 			CPU, the available microcode, the setting of the
--			CONFIG_RETPOLINE configuration option, and the
--			compiler with which the kernel was built.
-+			CONFIG_MITIGATION_RETPOLINE configuration option,
-+			and the compiler with which the kernel was built.
- 
- 			Selecting 'on' will also enable the mitigation
- 			against user space to user space task attacks.
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 46885150efd2..f3593461ce35 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -2436,7 +2436,7 @@ config CALL_PADDING
- 
- config FINEIBT
- 	def_bool y
--	depends on X86_KERNEL_IBT && CFI_CLANG && RETPOLINE
-+	depends on X86_KERNEL_IBT && CFI_CLANG && MITIGATION_RETPOLINE
- 	select CALL_PADDING
- 
- config HAVE_CALL_THUNKS
-@@ -2474,7 +2474,7 @@ config MITIGATION_PAGE_TABLE_ISOLATION
- 
- 	  See Documentation/arch/x86/pti.rst for more details.
- 
--config RETPOLINE
-+config MITIGATION_RETPOLINE
- 	bool "Avoid speculative indirect branches in kernel"
- 	select OBJTOOL if HAVE_OBJTOOL
- 	default y
-@@ -2486,7 +2486,7 @@ config RETPOLINE
- 
- config RETHUNK
- 	bool "Enable return-thunks"
--	depends on RETPOLINE && CC_HAS_RETURN_THUNK
-+	depends on MITIGATION_RETPOLINE && CC_HAS_RETURN_THUNK
- 	select OBJTOOL if HAVE_OBJTOOL
- 	default y if X86_64
- 	help
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index 22e41d9dbc23..3053b60f017b 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -191,7 +191,7 @@ KBUILD_CFLAGS += -Wno-sign-compare
- KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
- 
- # Avoid indirect branches in kernel to deal with Spectre
--ifdef CONFIG_RETPOLINE
-+ifdef CONFIG_MITIGATION_RETPOLINE
-   KBUILD_CFLAGS += $(RETPOLINE_CFLAGS)
-   # Additionally, avoid generating expensive indirect jumps which
-   # are subject to retpolines for small number of switch cases.
-@@ -299,7 +299,7 @@ vdso_install:
- 
- archprepare: checkbin
- checkbin:
--ifdef CONFIG_RETPOLINE
-+ifdef CONFIG_MITIGATION_RETPOLINE
- ifeq ($(RETPOLINE_CFLAGS),)
- 	@echo "You are building kernel with non-retpoline compiler." >&2
- 	@echo "Please update your compiler." >&2
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 6a1821bd7d5e..7605f41a5454 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -86,7 +86,7 @@ CFL := $(PROFILING) -mcmodel=small -fPIC -O2 -fasynchronous-unwind-tables -m64 \
-        -fno-omit-frame-pointer -foptimize-sibling-calls \
-        -DDISABLE_BRANCH_PROFILING -DBUILD_VDSO
- 
--ifdef CONFIG_RETPOLINE
-+ifdef CONFIG_MITIGATION_RETPOLINE
- ifneq ($(RETPOLINE_VDSO_CFLAGS),)
-   CFL += $(RETPOLINE_VDSO_CFLAGS)
- endif
-@@ -163,7 +163,7 @@ KBUILD_CFLAGS_32 += $(call cc-option, -foptimize-sibling-calls)
- KBUILD_CFLAGS_32 += -fno-omit-frame-pointer
- KBUILD_CFLAGS_32 += -DDISABLE_BRANCH_PROFILING
- 
--ifdef CONFIG_RETPOLINE
-+ifdef CONFIG_MITIGATION_RETPOLINE
- ifneq ($(RETPOLINE_VDSO_CFLAGS),)
-   KBUILD_CFLAGS_32 += $(RETPOLINE_VDSO_CFLAGS)
- endif
-diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
-index fb604ec95a5f..24e4010c33b6 100644
---- a/arch/x86/include/asm/disabled-features.h
-+++ b/arch/x86/include/asm/disabled-features.h
-@@ -50,7 +50,7 @@
- # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
- #endif
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- # define DISABLE_RETPOLINE	0
- #else
- # define DISABLE_RETPOLINE	((1 << (X86_FEATURE_RETPOLINE & 31)) | \
-diff --git a/arch/x86/include/asm/linkage.h b/arch/x86/include/asm/linkage.h
-index 571fe4d2d232..c5165204c66f 100644
---- a/arch/x86/include/asm/linkage.h
-+++ b/arch/x86/include/asm/linkage.h
-@@ -42,25 +42,25 @@
- 
- #if defined(CONFIG_RETHUNK) && !defined(__DISABLE_EXPORTS) && !defined(BUILD_VDSO)
- #define RET	jmp __x86_return_thunk
--#else /* CONFIG_RETPOLINE */
-+#else /* CONFIG_MITIGATION_RETPOLINE */
- #ifdef CONFIG_SLS
- #define RET	ret; int3
- #else
- #define RET	ret
- #endif
--#endif /* CONFIG_RETPOLINE */
-+#endif /* CONFIG_MITIGATION_RETPOLINE */
- 
- #else /* __ASSEMBLY__ */
- 
- #if defined(CONFIG_RETHUNK) && !defined(__DISABLE_EXPORTS) && !defined(BUILD_VDSO)
- #define ASM_RET	"jmp __x86_return_thunk\n\t"
--#else /* CONFIG_RETPOLINE */
-+#else /* CONFIG_MITIGATION_RETPOLINE */
- #ifdef CONFIG_SLS
- #define ASM_RET	"ret; int3\n\t"
- #else
- #define ASM_RET	"ret\n\t"
- #endif
--#endif /* CONFIG_RETPOLINE */
-+#endif /* CONFIG_MITIGATION_RETPOLINE */
- 
- #endif /* __ASSEMBLY__ */
- 
-diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
-index 64d9f0e87419..cab7c937c71b 100644
---- a/arch/x86/include/asm/nospec-branch.h
-+++ b/arch/x86/include/asm/nospec-branch.h
-@@ -241,7 +241,7 @@
-  * instruction irrespective of kCFI.
-  */
- .macro JMP_NOSPEC reg:req
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	__CS_PREFIX \reg
- 	jmp	__x86_indirect_thunk_\reg
- #else
-@@ -251,7 +251,7 @@
- .endm
- 
- .macro CALL_NOSPEC reg:req
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	__CS_PREFIX \reg
- 	call	__x86_indirect_thunk_\reg
- #else
-@@ -378,7 +378,7 @@ static inline void call_depth_return_thunk(void) {}
- 
- #endif /* CONFIG_MITIGATION_CALL_DEPTH_TRACKING */
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 
- #define GEN(reg) \
- 	extern retpoline_thunk_t __x86_indirect_thunk_ ## reg;
-@@ -399,7 +399,7 @@ static inline void call_depth_return_thunk(void) {}
- 
- /*
-  * Inline asm uses the %V modifier which is only in newer GCC
-- * which is ensured when CONFIG_RETPOLINE is defined.
-+ * which is ensured when CONFIG_MITIGATION_RETPOLINE is defined.
-  */
- # define CALL_NOSPEC						\
- 	ALTERNATIVE_2(						\
-diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
-index 517ee01503be..8932f524c935 100644
---- a/arch/x86/kernel/alternative.c
-+++ b/arch/x86/kernel/alternative.c
-@@ -460,7 +460,7 @@ static inline bool is_jcc32(struct insn *insn)
- 	return insn->opcode.bytes[0] == 0x0f && (insn->opcode.bytes[1] & 0xf0) == 0x80;
- }
- 
--#if defined(CONFIG_RETPOLINE) && defined(CONFIG_OBJTOOL)
-+#if defined(CONFIG_MITIGATION_RETPOLINE) && defined(CONFIG_OBJTOOL)
- 
- /*
-  * CALL/JMP *%\reg
-@@ -760,12 +760,12 @@ void __init_or_module noinline apply_returns(s32 *start, s32 *end)
- void __init_or_module noinline apply_returns(s32 *start, s32 *end) { }
- #endif /* CONFIG_RETHUNK */
- 
--#else /* !CONFIG_RETPOLINE || !CONFIG_OBJTOOL */
-+#else /* !CONFIG_MITIGATION_RETPOLINE || !CONFIG_OBJTOOL */
- 
- void __init_or_module noinline apply_retpolines(s32 *start, s32 *end) { }
- void __init_or_module noinline apply_returns(s32 *start, s32 *end) { }
- 
--#endif /* CONFIG_RETPOLINE && CONFIG_OBJTOOL */
-+#endif /* CONFIG_MITIGATION_RETPOLINE && CONFIG_OBJTOOL */
- 
- #ifdef CONFIG_X86_KERNEL_IBT
- 
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index b906ed4f3091..fc46fd6447f9 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -1103,7 +1103,7 @@ static enum spectre_v2_user_mitigation spectre_v2_user_stibp __ro_after_init =
- static enum spectre_v2_user_mitigation spectre_v2_user_ibpb __ro_after_init =
- 	SPECTRE_V2_USER_NONE;
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- static bool spectre_v2_bad_module;
- 
- bool retpoline_module_ok(bool has_retpoline)
-@@ -1416,7 +1416,7 @@ static enum spectre_v2_mitigation_cmd __init spectre_v2_parse_cmdline(void)
- 	     cmd == SPECTRE_V2_CMD_RETPOLINE_GENERIC ||
- 	     cmd == SPECTRE_V2_CMD_EIBRS_LFENCE ||
- 	     cmd == SPECTRE_V2_CMD_EIBRS_RETPOLINE) &&
--	    !IS_ENABLED(CONFIG_RETPOLINE)) {
-+	    !IS_ENABLED(CONFIG_MITIGATION_RETPOLINE)) {
- 		pr_err("%s selected but not compiled in. Switching to AUTO select\n",
- 		       mitigation_options[i].option);
- 		return SPECTRE_V2_CMD_AUTO;
-@@ -1470,7 +1470,7 @@ static enum spectre_v2_mitigation_cmd __init spectre_v2_parse_cmdline(void)
- 
- static enum spectre_v2_mitigation __init spectre_v2_select_retpoline(void)
- {
--	if (!IS_ENABLED(CONFIG_RETPOLINE)) {
-+	if (!IS_ENABLED(CONFIG_MITIGATION_RETPOLINE)) {
- 		pr_err("Kernel not compiled with retpoline; no mitigation available!");
- 		return SPECTRE_V2_NONE;
- 	}
-diff --git a/arch/x86/kernel/ftrace.c b/arch/x86/kernel/ftrace.c
-index 7ed7e8297ba3..0f26758c7a93 100644
---- a/arch/x86/kernel/ftrace.c
-+++ b/arch/x86/kernel/ftrace.c
-@@ -297,7 +297,7 @@ union ftrace_op_code_union {
- 	} __attribute__((packed));
- };
- 
--#define RET_SIZE		(IS_ENABLED(CONFIG_RETPOLINE) ? 5 : 1 + IS_ENABLED(CONFIG_SLS))
-+#define RET_SIZE	(IS_ENABLED(CONFIG_MITIGATION_RETPOLINE) ? 5 : 1 + IS_ENABLED(CONFIG_SLS))
- 
- static unsigned long
- create_trampoline(struct ftrace_ops *ops, unsigned int *tramp_size)
-diff --git a/arch/x86/kernel/kprobes/opt.c b/arch/x86/kernel/kprobes/opt.c
-index 517821b48391..36d6809c6c9e 100644
---- a/arch/x86/kernel/kprobes/opt.c
-+++ b/arch/x86/kernel/kprobes/opt.c
-@@ -324,7 +324,7 @@ static int can_optimize(unsigned long paddr)
- 		 * However, the kernel built with retpolines or IBT has jump
- 		 * tables disabled so the check can be skipped altogether.
- 		 */
--		if (!IS_ENABLED(CONFIG_RETPOLINE) &&
-+		if (!IS_ENABLED(CONFIG_MITIGATION_RETPOLINE) &&
- 		    !IS_ENABLED(CONFIG_X86_KERNEL_IBT) &&
- 		    insn_is_indirect_jump(&insn))
- 			return 0;
-diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
-index 9cdb1a7332c4..68654303c98e 100644
---- a/arch/x86/kernel/vmlinux.lds.S
-+++ b/arch/x86/kernel/vmlinux.lds.S
-@@ -277,7 +277,7 @@ SECTIONS
- 		__parainstructions_end = .;
- 	}
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	/*
- 	 * List of instructions that call/jmp/jcc to retpoline thunks
- 	 * __x86_indirect_thunk_*(). These instructions can be patched along
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 2dea9ec589ce..d4fba1cc3e91 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -263,7 +263,7 @@ static unsigned long get_guest_cr3(struct kvm_vcpu *vcpu)
- static inline unsigned long kvm_mmu_get_guest_pgd(struct kvm_vcpu *vcpu,
- 						  struct kvm_mmu *mmu)
- {
--	if (IS_ENABLED(CONFIG_RETPOLINE) && mmu->get_guest_pgd == get_guest_cr3)
-+	if (IS_ENABLED(CONFIG_MITIGATION_RETPOLINE) && mmu->get_guest_pgd == get_guest_cr3)
- 		return kvm_read_cr3(vcpu);
- 
- 	return mmu->get_guest_pgd(vcpu);
-diff --git a/arch/x86/kvm/mmu/mmu_internal.h b/arch/x86/kvm/mmu/mmu_internal.h
-index decc1f153669..bf73a121c5ef 100644
---- a/arch/x86/kvm/mmu/mmu_internal.h
-+++ b/arch/x86/kvm/mmu/mmu_internal.h
-@@ -312,7 +312,7 @@ static inline int kvm_mmu_do_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
- 	if (!prefetch)
- 		vcpu->stat.pf_taken++;
- 
--	if (IS_ENABLED(CONFIG_RETPOLINE) && fault.is_tdp)
-+	if (IS_ENABLED(CONFIG_MITIGATION_RETPOLINE) && fault.is_tdp)
- 		r = kvm_tdp_page_fault(vcpu, &fault);
- 	else
- 		r = vcpu->arch.mmu->page_fault(vcpu, &fault);
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index c2dae8ff9dc4..37295f8badee 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -3453,7 +3453,7 @@ int svm_invoke_exit_handler(struct kvm_vcpu *vcpu, u64 exit_code)
- 	if (!svm_check_exit_valid(exit_code))
- 		return svm_handle_invalid_exit(vcpu, exit_code);
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	if (exit_code == SVM_EXIT_MSR)
- 		return msr_interception(vcpu);
- 	else if (exit_code == SVM_EXIT_VINTR)
-diff --git a/arch/x86/kvm/svm/vmenter.S b/arch/x86/kvm/svm/vmenter.S
-index ef2ebabb059c..b9e08837ab96 100644
---- a/arch/x86/kvm/svm/vmenter.S
-+++ b/arch/x86/kvm/svm/vmenter.S
-@@ -207,7 +207,7 @@ SYM_FUNC_START(__svm_vcpu_run)
- 7:	vmload %_ASM_AX
- 8:
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	/* IMPORTANT: Stuff the RSB immediately after VM-Exit, before RET! */
- 	FILL_RETURN_BUFFER %_ASM_AX, RSB_CLEAR_LOOPS, X86_FEATURE_RETPOLINE
- #endif
-@@ -344,7 +344,7 @@ SYM_FUNC_START(__svm_sev_es_vcpu_run)
- 	/* Pop @svm to RDI, guest registers have been saved already. */
- 	pop %_ASM_DI
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	/* IMPORTANT: Stuff the RSB immediately after VM-Exit, before RET! */
- 	FILL_RETURN_BUFFER %_ASM_AX, RSB_CLEAR_LOOPS, X86_FEATURE_RETPOLINE
- #endif
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 86ce9efe6c66..c782a4a46198 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -6544,7 +6544,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
- 
- 	if (exit_reason.basic >= kvm_vmx_max_exit_handlers)
- 		goto unexpected_vmexit;
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	if (exit_reason.basic == EXIT_REASON_MSR_WRITE)
- 		return kvm_emulate_wrmsr(vcpu);
- 	else if (exit_reason.basic == EXIT_REASON_PREEMPTION_TIMER)
-diff --git a/arch/x86/lib/Makefile b/arch/x86/lib/Makefile
-index ea3a28e7b613..72cc9c90e9f3 100644
---- a/arch/x86/lib/Makefile
-+++ b/arch/x86/lib/Makefile
-@@ -49,7 +49,7 @@ lib-$(CONFIG_ARCH_HAS_COPY_MC) += copy_mc.o copy_mc_64.o
- lib-$(CONFIG_INSTRUCTION_DECODER) += insn.o inat.o insn-eval.o
- lib-$(CONFIG_RANDOMIZE_BASE) += kaslr.o
- lib-$(CONFIG_FUNCTION_ERROR_INJECTION)	+= error-inject.o
--lib-$(CONFIG_RETPOLINE) += retpoline.o
-+lib-$(CONFIG_MITIGATION_RETPOLINE) += retpoline.o
- 
- obj-y += msr.o msr-reg.o msr-reg-export.o hweight.o
- obj-y += iomem.o
-diff --git a/arch/x86/net/bpf_jit_comp.c b/arch/x86/net/bpf_jit_comp.c
-index 8c10d9abc239..ef732f323926 100644
---- a/arch/x86/net/bpf_jit_comp.c
-+++ b/arch/x86/net/bpf_jit_comp.c
-@@ -469,7 +469,7 @@ static void emit_indirect_jump(u8 **pprog, int reg, u8 *ip)
- 			emit_jump(&prog, &__x86_indirect_thunk_array[reg], ip);
- 	} else {
- 		EMIT2(0xFF, 0xE0 + reg);	/* jmp *%\reg */
--		if (IS_ENABLED(CONFIG_RETPOLINE) || IS_ENABLED(CONFIG_SLS))
-+		if (IS_ENABLED(CONFIG_MITIGATION_RETPOLINE) || IS_ENABLED(CONFIG_SLS))
- 			EMIT1(0xCC);		/* int3 */
- 	}
- 
-diff --git a/arch/x86/net/bpf_jit_comp32.c b/arch/x86/net/bpf_jit_comp32.c
-index 429a89c5468b..efca6bd818a3 100644
---- a/arch/x86/net/bpf_jit_comp32.c
-+++ b/arch/x86/net/bpf_jit_comp32.c
-@@ -1273,7 +1273,7 @@ static int emit_jmp_edx(u8 **pprog, u8 *ip)
- 	u8 *prog = *pprog;
- 	int cnt = 0;
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	EMIT1_off32(0xE9, (u8 *)__x86_indirect_thunk_edx - (ip + 5));
- #else
- 	EMIT2(0xFF, 0xE2);
-diff --git a/arch/x86/purgatory/Makefile b/arch/x86/purgatory/Makefile
-index 08aa0f25f12a..bc31863c5ee6 100644
---- a/arch/x86/purgatory/Makefile
-+++ b/arch/x86/purgatory/Makefile
-@@ -61,7 +61,7 @@ ifdef CONFIG_STACKPROTECTOR_STRONG
- PURGATORY_CFLAGS_REMOVE		+= -fstack-protector-strong
- endif
- 
--ifdef CONFIG_RETPOLINE
-+ifdef CONFIG_MITIGATION_RETPOLINE
- PURGATORY_CFLAGS_REMOVE		+= $(RETPOLINE_CFLAGS)
- endif
- 
-diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
-index 2ceba3fe4ec1..d24f29091f4b 100644
---- a/include/linux/compiler-gcc.h
-+++ b/include/linux/compiler-gcc.h
-@@ -35,7 +35,7 @@
- 	(typeof(ptr)) (__ptr + (off));					\
- })
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- #define __noretpoline __attribute__((__indirect_branch__("keep")))
- #endif
- 
-diff --git a/include/linux/indirect_call_wrapper.h b/include/linux/indirect_call_wrapper.h
-index c1c76a70a6ce..fe050dab55a3 100644
---- a/include/linux/indirect_call_wrapper.h
-+++ b/include/linux/indirect_call_wrapper.h
-@@ -2,7 +2,7 @@
- #ifndef _LINUX_INDIRECT_CALL_WRAPPER_H
- #define _LINUX_INDIRECT_CALL_WRAPPER_H
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 
- /*
-  * INDIRECT_CALL_$NR - wrapper for indirect calls with $NR known builtin
-diff --git a/include/linux/module.h b/include/linux/module.h
-index a98e188cf37b..d45e17fa7f98 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -883,7 +883,7 @@ static inline void module_bug_finalize(const Elf_Ehdr *hdr,
- static inline void module_bug_cleanup(struct module *mod) {}
- #endif	/* CONFIG_GENERIC_BUG */
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- extern bool retpoline_module_ok(bool has_retpoline);
- #else
- static inline bool retpoline_module_ok(bool has_retpoline)
-diff --git a/include/net/netfilter/nf_tables_core.h b/include/net/netfilter/nf_tables_core.h
-index 780a5f6ad4a6..ff27cb2e1662 100644
---- a/include/net/netfilter/nf_tables_core.h
-+++ b/include/net/netfilter/nf_tables_core.h
-@@ -93,7 +93,7 @@ extern const struct nft_set_type nft_set_bitmap_type;
- extern const struct nft_set_type nft_set_pipapo_type;
- extern const struct nft_set_type nft_set_pipapo_avx2_type;
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- bool nft_rhash_lookup(const struct net *net, const struct nft_set *set,
- 		      const u32 *key, const struct nft_set_ext **ext);
- bool nft_rbtree_lookup(const struct net *net, const struct nft_set *set,
-diff --git a/include/net/tc_wrapper.h b/include/net/tc_wrapper.h
-index a6d481b5bcbc..a13ba0326d5e 100644
---- a/include/net/tc_wrapper.h
-+++ b/include/net/tc_wrapper.h
-@@ -4,7 +4,7 @@
- 
- #include <net/pkt_cls.h>
- 
--#if IS_ENABLED(CONFIG_RETPOLINE)
-+#if IS_ENABLED(CONFIG_MITIGATION_RETPOLINE)
- 
- #include <linux/cpufeature.h>
- #include <linux/static_key.h>
-diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
-index 515cafdb18d9..b1098ec2e7d7 100644
---- a/kernel/trace/ring_buffer.c
-+++ b/kernel/trace/ring_buffer.c
-@@ -1193,7 +1193,7 @@ static inline u64 rb_time_stamp(struct trace_buffer *buffer)
- 	u64 ts;
- 
- 	/* Skip retpolines :-( */
--	if (IS_ENABLED(CONFIG_RETPOLINE) && likely(buffer->clock == trace_clock_local))
-+	if (IS_ENABLED(CONFIG_MITIGATION_RETPOLINE) && likely(buffer->clock == trace_clock_local))
- 		ts = trace_clock_local();
- 	else
- 		ts = buffer->clock();
-diff --git a/net/netfilter/Makefile b/net/netfilter/Makefile
-index d4958e7e7631..614815a3ed73 100644
---- a/net/netfilter/Makefile
-+++ b/net/netfilter/Makefile
-@@ -101,7 +101,7 @@ endif
- endif
- 
- ifdef CONFIG_NFT_CT
--ifdef CONFIG_RETPOLINE
-+ifdef CONFIG_MITIGATION_RETPOLINE
- nf_tables-objs += nft_ct_fast.o
- endif
- endif
-diff --git a/net/netfilter/nf_tables_core.c b/net/netfilter/nf_tables_core.c
-index 4d0ce12221f6..54f7c96b7dd9 100644
---- a/net/netfilter/nf_tables_core.c
-+++ b/net/netfilter/nf_tables_core.c
-@@ -21,7 +21,7 @@
- #include <net/netfilter/nf_log.h>
- #include <net/netfilter/nft_meta.h>
- 
--#if defined(CONFIG_RETPOLINE) && defined(CONFIG_X86)
-+#if defined(CONFIG_MITIGATION_RETPOLINE) && defined(CONFIG_X86)
- 
- static struct static_key_false nf_tables_skip_direct_calls;
- 
-@@ -207,7 +207,7 @@ static void expr_call_ops_eval(const struct nft_expr *expr,
- 			       struct nft_regs *regs,
- 			       struct nft_pktinfo *pkt)
- {
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 	unsigned long e;
- 
- 	if (nf_skip_indirect_calls())
-@@ -236,7 +236,7 @@ static void expr_call_ops_eval(const struct nft_expr *expr,
- 	X(e, nft_objref_map_eval);
- #undef  X
- indirect_call:
--#endif /* CONFIG_RETPOLINE */
-+#endif /* CONFIG_MITIGATION_RETPOLINE */
- 	expr->ops->eval(expr, regs, pkt);
- }
- 
-diff --git a/net/netfilter/nft_ct.c b/net/netfilter/nft_ct.c
-index 86bb9d7797d9..d3e66bcb2a91 100644
---- a/net/netfilter/nft_ct.c
-+++ b/net/netfilter/nft_ct.c
-@@ -751,7 +751,7 @@ static bool nft_ct_set_reduce(struct nft_regs_track *track,
- 	return false;
- }
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- static const struct nft_expr_ops nft_ct_get_fast_ops = {
- 	.type		= &nft_ct_type,
- 	.size		= NFT_EXPR_SIZE(sizeof(struct nft_ct)),
-@@ -796,7 +796,7 @@ nft_ct_select_ops(const struct nft_ctx *ctx,
- 		return ERR_PTR(-EINVAL);
- 
- 	if (tb[NFTA_CT_DREG]) {
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- 		u32 k = ntohl(nla_get_be32(tb[NFTA_CT_KEY]));
- 
- 		switch (k) {
-diff --git a/net/netfilter/nft_lookup.c b/net/netfilter/nft_lookup.c
-index 870e5b113d13..a0055f510e31 100644
---- a/net/netfilter/nft_lookup.c
-+++ b/net/netfilter/nft_lookup.c
-@@ -24,7 +24,7 @@ struct nft_lookup {
- 	struct nft_set_binding		binding;
- };
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- bool nft_set_do_lookup(const struct net *net, const struct nft_set *set,
- 		       const u32 *key, const struct nft_set_ext **ext)
- {
-diff --git a/net/sched/sch_api.c b/net/sched/sch_api.c
-index e9eaf637220e..d577c9e1cb42 100644
---- a/net/sched/sch_api.c
-+++ b/net/sched/sch_api.c
-@@ -2353,7 +2353,7 @@ static struct pernet_operations psched_net_ops = {
- 	.exit = psched_net_exit,
- };
- 
--#if IS_ENABLED(CONFIG_RETPOLINE)
-+#if IS_ENABLED(CONFIG_MITIGATION_RETPOLINE)
- DEFINE_STATIC_KEY_FALSE(tc_skip_wrapper);
- #endif
- 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index cc44c95c49cc..d6e157938b5f 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -262,7 +262,7 @@ ifdef CONFIG_FTRACE_MCOUNT_USE_OBJTOOL
- objtool-args-$(CONFIG_HAVE_OBJTOOL_NOP_MCOUNT)		+= --mnop
- endif
- objtool-args-$(CONFIG_UNWINDER_ORC)			+= --orc
--objtool-args-$(CONFIG_RETPOLINE)			+= --retpoline
-+objtool-args-$(CONFIG_MITIGATION_RETPOLINE)		+= --retpoline
- objtool-args-$(CONFIG_RETHUNK)				+= --rethunk
- objtool-args-$(CONFIG_SLS)				+= --sls
- objtool-args-$(CONFIG_STACK_VALIDATION)			+= --stackval
-diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
-index 3c6cbe2b278d..eaf524603796 100644
---- a/scripts/generate_rust_target.rs
-+++ b/scripts/generate_rust_target.rs
-@@ -155,7 +155,7 @@ fn main() {
-             "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128",
-         );
-         let mut features = "-3dnow,-3dnowa,-mmx,+soft-float".to_string();
--        if cfg.has("RETPOLINE") {
-+        if cfg.has("MITIGATION_RETPOLINE") {
-             features += ",+retpoline-external-thunk";
-         }
-         ts.push("features", features);
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 2f3b0fe6f68d..55dde62c07c2 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1886,7 +1886,7 @@ static void add_header(struct buffer *b, struct module *mod)
- 
- 	buf_printf(b,
- 		   "\n"
--		   "#ifdef CONFIG_RETPOLINE\n"
-+		   "#ifdef CONFIG_MITIGATION_RETPOLINE\n"
- 		   "MODULE_INFO(retpoline, \"Y\");\n"
- 		   "#endif\n");
- 
-diff --git a/tools/arch/x86/include/asm/disabled-features.h b/tools/arch/x86/include/asm/disabled-features.h
-index aeb3fbbbce46..d05158d8fe5f 100644
---- a/tools/arch/x86/include/asm/disabled-features.h
-+++ b/tools/arch/x86/include/asm/disabled-features.h
-@@ -50,7 +50,7 @@
- # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
- #endif
- 
--#ifdef CONFIG_RETPOLINE
-+#ifdef CONFIG_MITIGATION_RETPOLINE
- # define DISABLE_RETPOLINE	0
- #else
- # define DISABLE_RETPOLINE	((1 << (X86_FEATURE_RETPOLINE & 31)) | \
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
-2.34.1
+Florian
 
+
+--000000000000948ba80608164589
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
+9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
+UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
+KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
+nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
+Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
+VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
+ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
+CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
+MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
+d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
+hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
+bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
+BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
+KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
+kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
+2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
+3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
+NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
+AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
+LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIJzFuztY0gVdZZVR
+xFXH/JSvvNCqJe8yqqm09xzcAge5MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTIzMTAxOTE4NTMyOVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQD3UIHc1HTHIKt7Yq5plkqZqLjBHyuK7DWg
+vN+ksTs6SZG33Zq7RixarKEvpoxOWFPMt/8Opz14OqEZHbrW3v3MGmzX+X6EicP22xwvSeGY36aq
+8LaiM8r0pUlXoU0B5LXfkka5+kWZx1Gr+UCaL5NROXDKALq1fxVMNoXaA8AUgqUjSQOg9k8PWveF
+yrd9kQfEWF1gOsGJo9kqXLzTE++gqjt3vl6vyyfSNc7wGuCnQOvlQqCRikRwIbBuD0E1ou/B8yu/
+x5/qBqMbK1C6r+6FmHaClruk/K/UzLD3BWMH9QxL238lEjt1pIq+zHBq6cCpxVn1Is2FCLcB1rKD
+UAle
+--000000000000948ba80608164589--
