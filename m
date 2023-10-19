@@ -1,50 +1,50 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C648F5D
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 07:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F85D26A
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 07:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w0hXwWcB"
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E16A123
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 00:00:51 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40651a726acso66451695e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 00:00:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="oFt4Fz7A"
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD9C12E
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 00:21:20 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id 46e09a7af769-6c7a4735a30so1273806a34.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 00:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697698850; x=1698303650; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1697700079; x=1698304879; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xDkxiKIVbMSQfszME6DEpavMVERxa9PMgomAiX+G+5w=;
-        b=w0hXwWcBgUHpAK6KB/0p1Qi2E9a9mMPTFsZwaAyDDeSI53hjBoh/wTK40DYgfZMxZj
-         qKLp1CrrPgRIBM5otfXYQ/O3kmcvWxzWSvViceUgsYwxngHQKAAv43EaVftLv7Z5+iqm
-         in6+wztgPE+MrUNslgZrocAud9ppW3LfWmd3Nsk2L0Sm9neNihMxrp289Fnn3femNUHM
-         HOKuVBEakl7iRU5jAOpxNZLZdqV3il5vPxI2/OkXOx/3FrBlJ9lxN3eC4aryhd9MofWR
-         SivRRTjaqxM1gnfoUHdCPsYiorwj5IEUmHkn7MwErttBcGm/sdw8zymhS2xu4EiLyvNF
-         berQ==
+        bh=/caEF9HzcleOEHwneLp6tiCcjo0T3AFNH3jEPiF4Apg=;
+        b=oFt4Fz7AxAw5X4nvPL0AaK2Axx+CD5s6OUpo+sG8NR4YJgtLItfKYVd+Hz3UEK0/6p
+         rU1f9V44aYtwk4888xqtdqrEkwmmbOT42ZYxOtD6qA3Dpu081BTnN+RZvPXNIXbHYlft
+         DsDqqY8DMSiOCwSY7KTmnU3XG4+Daa9WtiGLr/KfwbfwWy2hosF6kLkOpgQYDje2bYwh
+         hjZWLOoK84DeOvUENZZTFqF7hgdrkPO5B9W8Hn3JvszJ/Yb/zgP3WULkt8/AQVW5t6fy
+         oFUCV8dxVGpmFmSyanyBoaRDh1wqFFT1A6z7xnPg2qXH5utsZ2VvxmB3G0ZI59S9dF8P
+         cLeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697698850; x=1698303650;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1697700079; x=1698304879;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xDkxiKIVbMSQfszME6DEpavMVERxa9PMgomAiX+G+5w=;
-        b=vNYr/2vAnBKor7d7jnM7MKVdElNhl3DTU7WDmLRAIiwELnnzwpSqn0IjYYGdFG0Zxl
-         Z6NerFNRYGnRYNY/PdrSmNYpwyfwlhAjvG29z8gc4RCEkT/a/v38ptamQ6DRJDb9ivI8
-         CBdWD6hdTD4shS59E1I3AyQixa6YtK1esomHfBSNqkVYY/EIy9m2iPPnEYnbbDITsXTL
-         XAjuo2VtNm0Ip74DGPzxzXP1D9IEkLrEWaWyUGqG1FYuuQ0HxvGceK9nphM12btBN+Xn
-         wOpkz+RhvWvEgf5ezi8jeYFw4NfwcZ0JAdCqIE7a0lQ0ZjyY2hFj8E9sEizEYxowScy/
-         xuig==
-X-Gm-Message-State: AOJu0YxyjN082CGM0AVGHVSGP0VLCTolGI4QBy9YUnGONdxPG37CVzTS
-	EPJRl277JRs2KQ6hxX5WE/FycQ==
-X-Google-Smtp-Source: AGHT+IH6btyGcJm7FW21PbfB/V3lHOOxDPGtqv3mkTqew2gYLx2SQ5pP4U1YuKXCgGVEMPYz4G/63w==
-X-Received: by 2002:a05:600c:3b19:b0:408:3707:b199 with SMTP id m25-20020a05600c3b1900b004083707b199mr1106491wms.3.1697698849747;
-        Thu, 19 Oct 2023 00:00:49 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.49])
-        by smtp.gmail.com with ESMTPSA id bh9-20020a05600c3d0900b003feae747ff2sm3612213wmb.35.2023.10.19.00.00.48
+        bh=/caEF9HzcleOEHwneLp6tiCcjo0T3AFNH3jEPiF4Apg=;
+        b=N+YSBfwIBOdIVLRSsj6Q0EQCUo1HlsAo/8GkDfF2+BDB/ddxidVrwK5repykbUnu22
+         /m5ciFzHzZHCGepQ7/qL/EZpLb4zNjYBWkhPT93wjalTVNvCTdvtEcDTtzwY8zpLmAqE
+         iiImaPe+vs7MaAcDtf36MrLSWDaBWncEjzOVxrlyMue9TpE+0/AUqDYdr4cdjn45k+iQ
+         WW3ATKWmwnplINvxzNvjX3chhc5GItHXajUknGVbeSzLhyRK526Z5DZCXqIlkx7VpI7i
+         r3/8E3vzkxBrmikitRorLPZthqE+1g7O+qMQQLSoNtP6vak8Uk8cFLk0DWPMqYoclJxm
+         o/Dw==
+X-Gm-Message-State: AOJu0Yy8VL1IYvRKPxCDPXlY+PnP1i5yjeeISYU8pCqx4yEfUStuC5Vj
+	JxjUHwO7ynGu9CuygeNzK6dbJFtgGuuwucdY+EOWyA==
+X-Google-Smtp-Source: AGHT+IEFXAbxxObWsDg43i5JytX4bz0tF34qGuIzEM5TAcp0MRy/O+CrNP01uiR3b1KPRaXNmbiEQQ==
+X-Received: by 2002:a05:6870:b14:b0:1e9:adec:bf5e with SMTP id lh20-20020a0568700b1400b001e9adecbf5emr1951115oab.2.1697700079549;
+        Thu, 19 Oct 2023 00:21:19 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:6933:1fe3:b858:3dde? ([2a01:e0a:999:a3a0:6933:1fe3:b858:3dde])
+        by smtp.gmail.com with ESMTPSA id k4-20020a63ba04000000b0057412d84d25sm2436010pgf.4.2023.10.19.00.21.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Oct 2023 00:00:49 -0700 (PDT)
-Message-ID: <0e39b69b-c7ed-4fde-a050-7edf9a052e03@linaro.org>
-Date: Thu, 19 Oct 2023 09:00:48 +0200
+        Thu, 19 Oct 2023 00:21:18 -0700 (PDT)
+Message-ID: <be86086b-7b1e-48b5-98e1-e1cd077cf3bb@rivosinc.com>
+Date: Thu, 19 Oct 2023 09:21:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,104 +52,65 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] dt-bindings: i3c: svc: add compatible string i3c:
- silvaco,i3c-slave
+Subject: Re: [PATCH v2 03/19] riscv: hwprobe: add support for scalar crypto
+ ISA extensions
+To: Evan Green <evan@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Palmer Dabbelt <palmer@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Jones <ajones@ventanamicro.com>, Conor Dooley <conor@kernel.org>,
+ Samuel Ortiz <sameo@rivosinc.com>
+References: <20231017131456.2053396-1-cleger@rivosinc.com>
+ <20231017131456.2053396-4-cleger@rivosinc.com>
+ <CALs-HssE=denuwBqH4KtCr1QqTzPb9rELW1ZXR5Cr-nqQQWQoA@mail.gmail.com>
 Content-Language: en-US
-To: Frank Li <Frank.Li@nxp.com>, miquel.raynal@bootlin.com,
- conor.culhane@silvaco.com, alexandre.belloni@bootlin.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- corbet@lwn.net, joe@perches.com, linux-i3c@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, imx@lists.linux.dev, jirislaby@kernel.org,
- linux-serial@vger.kernel.org
-References: <20231018215809.3477437-1-Frank.Li@nxp.com>
- <20231018215809.3477437-3-Frank.Li@nxp.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231018215809.3477437-3-Frank.Li@nxp.com>
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <CALs-HssE=denuwBqH4KtCr1QqTzPb9rELW1ZXR5Cr-nqQQWQoA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 18/10/2023 23:58, Frank Li wrote:
-> Add compatible string 'silvaco,i3c-slave' for slave mode.
+
+
+On 18/10/2023 19:24, Evan Green wrote:
+> On Tue, Oct 17, 2023 at 6:15 AM Clément Léger <cleger@rivosinc.com> wrote:
+>>
+>> Export the following scalar crypto extensions through hwprobe:
+>>
+>> - Zbkb
+>> - Zbkc
+>> - Zbkx
+>> - Zknd
+>> - Zkne
+>> - Zknh
+>> - Zksed
+>> - Zksh
+>> - Zkt
+>>
+>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+>> ---
+>>  Documentation/riscv/hwprobe.rst       | 30 +++++++++++++++++++++++++++
+>>  arch/riscv/include/uapi/asm/hwprobe.h | 10 +++++++++
+>>  arch/riscv/kernel/sys_riscv.c         | 10 +++++++++
+>>  3 files changed, 50 insertions(+)
+>>
+>> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
+>> index a52996b22f75..968895562d42 100644
+>> --- a/Documentation/riscv/hwprobe.rst
+>> +++ b/Documentation/riscv/hwprobe.rst
+>> @@ -77,6 +77,36 @@ The following keys are defined:
+>>    * :c:macro:`RISCV_HWPROBE_EXT_ZBS`: The Zbs extension is supported, as defined
+>>         in version 1.0 of the Bit-Manipulation ISA extensions.
+>>
+>> +  * :c:macro:`RISCV_HWPROBE_EXT_ZBC` The Zbc extension is supported, as defined
+>> +       in version 1.0 of the Scalar Crypto ISA extensions.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  .../devicetree/bindings/i3c/silvaco,i3c-master.yaml       | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/i3c/silvaco,i3c-master.yaml b/Documentation/devicetree/bindings/i3c/silvaco,i3c-master.yaml
-> index 133855f11b4f5..63db63f00a509 100644
-> --- a/Documentation/devicetree/bindings/i3c/silvaco,i3c-master.yaml
-> +++ b/Documentation/devicetree/bindings/i3c/silvaco,i3c-master.yaml
-> @@ -4,7 +4,7 @@
->  $id: http://devicetree.org/schemas/i3c/silvaco,i3c-master.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Silvaco I3C master
-> +title: Silvaco I3C master/slave
->  
->  maintainers:
->    - Conor Culhane <conor.culhane@silvaco.com>
-> @@ -14,8 +14,10 @@ allOf:
->  
->  properties:
->    compatible:
-> -    const: silvaco,i3c-master-v1
-> -
-> +    const:
-> +      enum:
-> +        - silvaco,i3c-master-v1
-> +        - silvaco,i3c-slave-v1
+> At least in my v1.0.1 version of the crypto scalar spec, I don't see
+> Zbc. That seems to be defined in the bit manipulation extensions.
 
-Missing blank line.
+Thanks for catching this, this should be same than the previous line. I
+will actually move the ZBC on another patch since it is not scalar crypto.
 
-Rather choose name from Coding style.
-
-Best regards,
-Krzysztof
-
+Clément
