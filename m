@@ -1,402 +1,163 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D0D1946B
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 11:30:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF801DFF3
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 12:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="YcK6SBDX"
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4472012F
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 04:30:55 -0700 (PDT)
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20231019113052epoutp013c57720918d2d0fdf0dfd68c51ebfaa7~Pfthb-35e2887128871epoutp018
-	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 11:30:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20231019113052epoutp013c57720918d2d0fdf0dfd68c51ebfaa7~Pfthb-35e2887128871epoutp018
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="hOdIO8gP"
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B09FB10F2
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 05:03:09 -0700 (PDT)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20231019120306euoutp024aafcb1c59336f7299e98855d975974c~PgJq4ikd53187231872euoutp02x
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 12:03:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20231019120306euoutp024aafcb1c59336f7299e98855d975974c~PgJq4ikd53187231872euoutp02x
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1697715052;
-	bh=q9SxftoJ28f/aKMttE4F2HKL0g6oV33glPP48Dl+Hr4=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=YcK6SBDXRLdx4+/cRm3vueQh8NinWEtZiigkm/wb/uHdMmUVJcHJMBYqtVGtmgc4D
-	 5vypqw7pnmKhle2ITRhqGDaI2Cg0JMHhF4t3kWH3VSv99GtLM/8G0nbP4+t0gpuoxo
-	 OJO+TOs1+S+Ywc+g4sN+7RdjVILQhhfW48NZuLKE=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20231019113051epcas5p364449205f2f821b44340b2c92c4ad4a2~Pftgs3N681624016240epcas5p3Z;
-	Thu, 19 Oct 2023 11:30:51 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4SB5BL2S2Tz4x9Q0; Thu, 19 Oct
-	2023 11:30:50 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5B.9E.08567.A6311356; Thu, 19 Oct 2023 20:30:50 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20231019110811epcas5p4235bfd5359d4269f4abd70bbf581a6a8~PfZubLc-S2077720777epcas5p4X;
-	Thu, 19 Oct 2023 11:08:11 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20231019110811epsmtrp2ef5badb9e8d53cc3757a4a3629357d13~PfZuaQzWa1571815718epsmtrp2v;
-	Thu, 19 Oct 2023 11:08:11 +0000 (GMT)
-X-AuditID: b6c32a44-617fd70000002177-5a-6531136a43fb
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5D.07.18939.B1E01356; Thu, 19 Oct 2023 20:08:11 +0900 (KST)
-Received: from green245.sa.corp.samsungelectronics.net (unknown
-	[107.99.41.245]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20231019110808epsmtip1c0c9d353ca00317d26232ec2f7db7e83~PfZrZap0Y2859128591epsmtip1D;
-	Thu, 19 Oct 2023 11:08:08 +0000 (GMT)
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@lists.linux.dev, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>
-Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	nitheshshetty@gmail.com, anuj1072538@gmail.com, gost.dev@samsung.com,
-	mcgrof@kernel.org, Nitesh Shetty <nj.shetty@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v17 00/12] Implement copy offload support
-Date: Thu, 19 Oct 2023 16:31:28 +0530
-Message-Id: <20231019110147.31672-1-nj.shetty@samsung.com>
-X-Mailer: git-send-email 2.35.1.500.gb896f729e2
+	s=mail20170921; t=1697716986;
+	bh=LpU5UTDD6kkn0qMxKSNmVh5Ejl9/sBb0jdJHEpZGTI4=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=hOdIO8gPSSn8Yo2Er60fQoLfUw/QfNbfYF/pG2Kauc9ZsGE6HKEIMLLd3u+9TGg6f
+	 qxTs8rrBdzkluUt1yxqOc7RsBfRub5CXTum5jM6HTUhy/XiGSg3/1WFgfZc55g03J/
+	 144xQ7om7DeR2zsE9dcXf7wxE9N5GscaSKidpKuE=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20231019120306eucas1p1fe7f7431c7f471bd2c741c29e603cd7c~PgJqYxCq80765407654eucas1p1i;
+	Thu, 19 Oct 2023 12:03:06 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id EA.19.37758.9FA11356; Thu, 19
+	Oct 2023 13:03:05 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20231019120305eucas1p13232bbcd5c6357f4d892ae1527e43447~PgJp-yO120789107891eucas1p1f;
+	Thu, 19 Oct 2023 12:03:05 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20231019120305eusmtrp18877a9a0e2989cf58e25c2bc8880cc82~PgJp7yGQn3232332323eusmtrp1V;
+	Thu, 19 Oct 2023 12:03:05 +0000 (GMT)
+X-AuditID: cbfec7f5-7ffff7000002937e-08-65311af9f569
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 7C.C0.10549.9FA11356; Thu, 19
+	Oct 2023 13:03:05 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20231019120305eusmtip13c260a0fd0204d287c92715637e2c27c~PgJpsodoE2779827798eusmtip1G;
+	Thu, 19 Oct 2023 12:03:05 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) by
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) with Microsoft SMTP
+	Server (TLS) id 15.0.1497.2; Thu, 19 Oct 2023 13:03:04 +0100
+Received: from CAMSVWEXC02.scsc.local ([::1]) by CAMSVWEXC02.scsc.local
+	([fe80::3c08:6c51:fa0a:6384%13]) with mapi id 15.00.1497.012; Thu, 19 Oct
+	2023 13:03:04 +0100
+From: Andreas Hindborg <a.hindborg@samsung.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+CC: Masahiro Yamada <masahiroy@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Carlos Bilbao <carlos.bilbao@amd.com>, Wedson Almeida
+	Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng
+	<boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin
+	<benno.lossin@proton.me>, Alice Ryhl <aliceryhl@google.com>,
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>, Akira Yokosawa
+	<akiyks@gmail.com>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Subject: Re: [PATCH 1/2] docs: rust: update Rust docs output path
+Thread-Topic: [PATCH 1/2] docs: rust: update Rust docs output path
+Thread-Index: AQHaAdxzF0ONNLvru0SJFatPcIFbDLBQ89sA
+Date: Thu, 19 Oct 2023 12:03:03 +0000
+Message-ID: <87wmviizv2.fsf@samsung.com>
+In-Reply-To: <20231018160145.1017340-1-ojeda@kernel.org>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [106.210.248.240]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfVDTdRzH+f5+P34MbPRjo/MrZcI8vAMP2GyML54IFeXvwisuO4s6g7X9
-	eBzbbg9R3nVAc+kwHgyUGCIbEvJ00tB4DKRxNIWQQkAhCS1IEpEES86hxBiY/70+D+/v5+F7
-	HxbOWSJ9WClyDaOSi2U80oNo6g4ICErlChi+vYiNGnp/xNG9f+wEqhvPJ9FM9zxAk12HATJV
-	lBFotKsVQzV1PRj6yjoC0NSwEUMdY9uR+YtKAn3fcYlAV9pOkqi8asoNHb3aQqIztscYulYw
-	BVDLZDZATfZyHJ2dmSPQxbHn0cAjm2vURrrVOO5GD/xmIegr/Vq6sdZA0ucqM+npcyWAbh/N
-	IunTeYWudK7uLknfmxoj6LnOYZLOO18L6IXGF+nGyVks1vP9tF3JjFjKqHwZuUQhTZEnRfBi
-	9sW/Gh8q4guCBOEojOcrF6czEbzovbFBr6fIVubn+X4slmlXXLFitZoXsnuXSqHVML7JCrUm
-	gscopTKlUBmsFqertfKkYDmj2Sng83eEriQmpCUPdffjSkPcJ8XdFa5ZoOLlHODOgpQQ/ln1
-	kMwBHiwO1Q5gcedNzGnMA2jJ+YN8YszX/wTWJeW5J9ycgVYAv62eIx0BDqXHoL3t2RzAYpHU
-	dti3zHLkeFN6HF64fgc4DJwaxWD/hSbMIeBS4VBn6l9lgvKHy0MFuEPMpnbCpr/9HAipEJg/
-	4eXIYFNe8FLJJOFgnNoCdd+V4o4nIVXoDh9etq81Fw3NJyxrzIW3befdnOwDF+52kE7OgDVF
-	1aRTfAhA41XjmiAS6nvzV3vAqQDY0BbidG+Gx3vPYs7CnjDXPok5/WzYcmqdt8L6BtPa+5vg
-	yIPsNabhwMQs5tzPAWhdtBAFYIvxqXmMT81j/L+yCeC1YBOjVKcnMZJQpUDOZDz5WIkivRGs
-	nkFgdAu4Vv442AowFrACyMJ53mx/ms9w2FLxpwcZlSJepZUxaisIXVnxMdznOYli5Y7kmniB
-	MJwvFIlEwvCXRALeRvaMvkzKoZLEGiaNYZSMal2Hsdx9sjAYd+ZI3/XZzBi3cr+gkm/CdDWJ
-	vgcjpounyWeqm/MMHl1990urb1cMujT+wPAmrOOVw2aW9NZ+0Zfyy5HvLpVio7y3FoXRhZmx
-	s9n6DR2aqCPbbGOW4Fu7E22HRlJ1swN7bnzkGvNzLQr7bPMdP/OU2HV/oslTcZraMHZDPTjd
-	Y0ngfnC0I97QnPdoScYP1Q0ael2q5hSLEQGRiw9uen8eteDKDZuY+Lo/cO+pIeZYSH2P1fO9
-	47lpqr9+OfrrNq+8399IfbPsne7UMBezWLeQgce9YnpBItVSdVk9nQlbl12K2g8b70sI27i2
-	VbTvwMV/E2O5OzgG854PpR5vv6Y/6d/MI9TJYkEgrlKL/wOsD1ucjwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Re1BMYRjGfeecPZ12LKdt1acMY7Ma0s00fJG7GR9jXJIhpqmlM0W1rT3l
-	0phpzaIp0mJGtVJJk6mGWEl3KUqlYrLRjpKpJUoXd1Yyx2X473l/z+/562VIaRnlxOxRxXAa
-	lTJSToupkjr5dHfnSd6cl86qQEVN9SQa/WilUGFXCo0G6t4B1FeTAFB2zgUKddaUESi/8B6B
-	ztR2AGQxGQhUZXZDF4/nUqiyqpFC7eUZNMrKs9igE09KaXS54QeBnuotAJX2HQGoxJpFoqsD
-	wxS6b3ZGbWMNouWOuMzQZYPbuq9TuL0lFhsLEml8Izce999IB7iiU0vjS6fOinCybojGoxYz
-	hYerTTQ+VVwA8HvjdGzse0tsmrRD7BfKRe7Zz2k8l4aIwx/XtZDqxMCDqXU5Ii3IWZEEbBnI
-	+sCs5HM2SUDMSNlbAJYkVVK/i6kwb+wu+Tvbw/wfr/5IOgJW1FvpJMAwNOsGm8cZgcvYFBIO
-	jaUSwkGyFgKOfv0EhLU96wt12S2EkClWAccf60lhLGEXwZKRmUKErCdMeW4nGBLWDjam91EC
-	JllXWJQpFTDJzoC6m+dJPZhs+M8y/LMM/1nZgCwAUzg1HxUWtVvt7cEro/hYVZjH7ugoI/j1
-	3bn+pSCvaMyjFhAMqAWQIeUyiQJ7cVJJqPJQHKeJDtbERnJ8LXBmKLmjxCUyMVTKhiljuAiO
-	U3Oavy3B2DppCUJv+hbovEjb6q0xf/m+5TDt27BO8WCKp5edz37Dtw8d6rRBnMinzZj1fsLr
-	hTm9AXa3qaDFPu10MumgstfG63u4wSVraXNM+YUMd+w5MqIyuwz1m5sGXHYYLflvApxC1les
-	lN7s6S97mCDOnB0rHSlO6zZNPLD6c1xm8CXXeYqIpREvWC7P7VZa/5rCj8HVq+ZET5NfG963
-	pMD6bOY1kXp4a+vx076d65Yt9g8b6PKV7VK4ZzjhhUddZSeb6l+49ionzF/QKOuxvpzKXyla
-	+1Yxa5tfwLhJHKy/0xTk/2iLSLyT37zs3a6NjdNyN6+I2DDZfVVzceA9h5q27YcTjr0275VT
-	fLjSey6p4ZU/AZZNi69MAwAA
-X-CMS-MailID: 20231019110811epcas5p4235bfd5359d4269f4abd70bbf581a6a8
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLKsWRmVeSWpSXmKPExsWy7djPc7o/pQxTDT5etrTYcyzL4u/s7ewW
+	J643sVh8uNbEanHjwn5mizVbGpksJvfNYrJ4cqCd0eLimdeMFgvblrBY/Nm1g8ni8q45bBYP
+	H9xgtVg5fzmjxeUTlxgt1j87zGyxYdlaRosrLe2sDkIerZf+snks6fzF5LFz1l12jwWbSj02
+	repk83ixeSajx+K+yawe39v3sHn0tG1i8vi8SS6AK4rLJiU1J7MstUjfLoEro3dpakEvZ8Xm
+	6xwNjA/Zuxg5OSQETCS2ft7PBmILCaxglLj+JLaLkQvI/sIoseb1XnYI5zOjxJ71JxhhOpbd
+	uguVWM4osbj5OQtEO1DV9lNMEIkzjBJ/DpxhhHBWMkqcnfoYbCGbgL7EtTXXmEFsEQFliYYD
+	r9hAipgFlrBJrJv/kxUkISzgKLH1zltWiCInidP/vkDZRhKN+z+ArWMRUJW4u+0/mM0roCHR
+	trQFbCingIXEx47NYLcyCshKPFr5C2wxs4C4xK0n85kgfhCUWDR7DzOELSbxb9dDNghbR+Ls
+	9SdQfxpIbF26jwXCVpbY/XkOC8QcPYkbU6ewQdjaEssWvmaGuEFQ4uTMJywgz0gIbOSS6JzX
+	BjSIA8hxkZh90QtijrDEq+NboCEvI3F6cg/LBEbtWUjOm4VkxSwkK2YhWbGAkWUVo3hqaXFu
+	emqxcV5quV5xYm5xaV66XnJ+7iZGYIo8/e/41x2MK1591DvEyMTBeIhRgoNZSYRX1cMgVYg3
+	JbGyKrUoP76oNCe1+BCjNAeLkjivaop8qpBAemJJanZqakFqEUyWiYNTqoGpjmeWs+QMUQ2r
+	Vz5a+Vemv2x1T5+lJTCnQl77qsGNGy5unyvOmAQeuxfM4zdL9rQbT43QW5+FQieOSSyYoX91
+	Sa5BiUjTn/Mi2aI7ioSl93OIe53NsMw8dCzj5PmQk+0FbtZWn1llpxtLcMxOfvFgd2vMWvaE
+	Ii82wU+PhO/6TokTUiwRWvH1ibTJo62F15f/DVRQ+abC5uovHOF8LUshb+GxYoWkl8JlJx58
+	rzn1fHJ33/1DR00efdnJtOXhOlWTM3pTjG+KBxisP/pcfvEvo5f2TDrVohM2XlPkPJCrM9/z
+	8KrIE7svXd7yUfvN7pr6YP3S7ybbn55M1b3/XMw3XTtmvdqBJaf93i0zfD1JiaU4I9FQi7mo
+	OBEA96rQSwAEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDKsWRmVeSWpSXmKPExsVy+t/xu7o/pQxTDXa0SljsOZZl8Xf2dnaL
+	E9ebWCw+XGtitbhxYT+zxZotjUwWk/tmMVk8OdDOaHHxzGtGi4VtS1gs/uzawWRxedccNouH
+	D26wWqycv5zR4vKJS4wW658dZrbYsGwto8WVlnZWByGP1kt/2TyWdP5i8tg56y67x4JNpR6b
+	VnWyebzYPJPRY3HfZFaP7+172Dx62jYxeXzeJBfAFaVnU5RfWpKqkJFfXGKrFG1oYaRnaGmh
+	Z2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CX0bs0taCXs2LzdY4GxofsXYycHBICJhLLbt0F
+	srk4hASWMkpsn9DDDJGQkdj45SorhC0s8edaFxtE0UdGiQttN6GcM4wSJydPh3JWMkq0Hr7P
+	AtLCJqAvcW3NNbBRIgLKEg0HXoEVMQssYZNYd/IwWJGwgKPE1jtvWSGKnCRO//sCZRtJNO7/
+	AFbDIqAqcXfbfzCbV0BDom1pCzPEtm5GiRP9K9hAEpwCFhIfOzYzgtiMArISj1b+AvuOWUBc
+	4taT+UwQTwhILNlzHuo5UYmXj/9BPacjcfb6E0YI20Bi69J9LBC2ssTuz3NYIOboSdyYOoUN
+	wtaWWLbwNTPEQYISJ2c+YZnAKD0LybpZSFpmIWmZhaRlASPLKkaR1NLi3PTcYkO94sTc4tK8
+	dL3k/NxNjMBkt+3Yz807GOe9+qh3iJGJg/EQowQHs5IIr6qHQaoQb0piZVVqUX58UWlOavEh
+	RlNgIE1klhJNzgem27ySeEMzA1NDEzNLA1NLM2MlcV7Pgo5EIYH0xJLU7NTUgtQimD4mDk6p
+	BibZ9T/k399jPdET72+tftg+XrBce0co44yDBs9+5aWxiry6XeEceia4Xbj8xM9r1zMOzV0S
+	Zd4jpSJ312R7Z9bLC2qPriTNLv9vZHRIznhJ9+aS3odPJ8aVZk/YtvB7ysfWN801USJSl/gc
+	bLW2zvutrn/pxM172uarym53p7572dlt+nSC83bmogLXnZubL39S+7CkQzbQ0lTY6ZU9W9Ny
+	ASFuNv/bNYxvl70WOucd+3p6yrlJJ6X2zgt7qPox4faKt1ErH75LnfrlqXeAnOyUk6vXVkw+
+	r5QjJ5qWYmzRmjsp84LTrU3Xrit9P87rn7TAaO/Rj0E/tdr/sviVWjr8P1zP0vX9kqhi+YaY
+	nYeUWIozEg21mIuKEwEcOIRS/wMAAA==
+X-CMS-MailID: 20231019120305eucas1p13232bbcd5c6357f4d892ae1527e43447
 X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231019110811epcas5p4235bfd5359d4269f4abd70bbf581a6a8
-References: <CGME20231019110811epcas5p4235bfd5359d4269f4abd70bbf581a6a8@epcas5p4.samsung.com>
-
-Hi Jens, Martin, Christoph,
-We have addressed most of the review-comments received from community in
-the previous iterations of this series.
-Is it possible to know your opinion on this, what needs to be added to
-get this series merged?
-
-The patch series covers the points discussed in past and most recently
-in LSFMM'23[0].
-We have covered the initial agreed requirements in this patch set and
-further additional features suggested by community.
-
-This is next iteration of our previous patch set v16[1].
-Copy offload is performed using two bio's -
-1. Take a plug
-2. The first bio containing source info is prepared and sent,
-        a request is formed.
-3. This is followed by preparing and sending the second bio containing the
-        destination info.
-4. This bio is merged with the request containing the source info.
-5. The plug is released, and the request containing source and destination
-        bio's is sent to the driver.
-This design helps to avoid putting payload (token) in the request,
-as sending payload that is not data to the device is considered a bad
-approach.
-
-So copy offload works only for request based storage drivers.
-We can make use of copy emulation in case copy offload capability is
-absent.
-
-Overall series supports:
-========================
-	1. Driver
-		- NVMe Copy command (single NS, TP 4065), including support
-		in nvme-target (for block and file back end).
-
-	2. Block layer
-		- Block-generic copy (REQ_OP_COPY_DST/SRC), operation with
-                  interface accommodating two block-devs
-                - Merging copy requests in request layer
-		- Emulation, for in-kernel user when offload is natively
-                absent
-		- dm-linear support (for cases not requiring split)
-
-	3. User-interface
-		- copy_file_range
-
-Testing
-=======
-	Copy offload can be tested on:
-	a. QEMU: NVME simple copy (TP 4065). By setting nvme-ns
-		parameters mssrl,mcl, msrc. For more info [2].
-	b. Null block device
-        c. NVMe Fabrics loopback.
-	d. blktests[3]
-
-	Emulation can be tested on any device.
-
-	fio[4].
-
-Infra and plumbing:
-===================
-        We populate copy_file_range callback in def_blk_fops. 
-        For devices that support copy-offload, use blkdev_copy_offload to
-        achieve in-device copy.
-        However for cases, where device doesn't support offload,
-        use generic_copy_file_range.
-        For in-kernel users (like NVMe fabrics), use blkdev_copy_offload
-        if device is copy offload capable or else use emulation 
-        using blkdev_copy_emulation.
-        Modify checks in generic_copy_file_range to support block-device.
-
-Blktests[3]
-======================
-	tests/block/035-040: Runs copy offload and emulation on null
-                              block device.
-	tests/block/050,055: Runs copy offload and emulation on test
-                              nvme block device.
-        tests/nvme/056-067: Create a loop backed fabrics device and
-                              run copy offload and emulation.
-
-Future Work
-===========
-	- loopback device copy offload support
-	- upstream fio to use copy offload
-	- upstream blktest to test copy offload
-        - update man pages for copy_file_range
-        - expand in-kernel users of copy offload
-
-	These are to be taken up after this minimal series is agreed upon.
-
-Additional links:
-=================
-	[0] https://lore.kernel.org/linux-nvme/CA+1E3rJ7BZ7LjQXXTdX+-0Edz=zT14mmPGMiVCzUgB33C60tbQ@mail.gmail.com/
-            https://lore.kernel.org/linux-nvme/f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com/
-            https://lore.kernel.org/linux-nvme/20230113094648.15614-1-nj.shetty@samsung.com/
-	[1] https://lore.kernel.org/all/20230920080756.11919-1-nj.shetty@samsung.com/T/#t
-	[2] https://qemu-project.gitlab.io/qemu/system/devices/nvme.html#simple-copy
-	[3] https://github.com/nitesh-shetty/blktests/tree/feat/copy_offload/v15
-	[4] https://github.com/OpenMPDK/fio/tree/copyoffload-3.35-v14
-
-Changes since v16:
-=================
-        - block: fixed memory leaks and renamed function (Jinyoung Choi)
-        - nvmet: static error fixes (kernel test robot) 
-
-Changes since v15:
-=================
-        - fs, nvmet: don't fallback to copy emulation for copy offload IO
-                    failure, user can still use emulation by disabling
-                    device offload (Hannes)
-        - block: patch,function description changes (Hannes)
-        - added Reviewed-by from Hannes and Luis.
-
-Changes since v14:
-=================
-        - block: (Bart Van Assche)
-            1. BLK_ prefix addition to COPY_MAX_BYES and COPY_MAX_SEGMENTS
-            2. Improved function,patch,cover-letter description
-            3. Simplified refcount updating.
-        - null-blk, nvme:
-            4. static warning fixes (kernel test robot)
-
-Changes since v13:
-=================
-        - block:
-            1. Simplified copy offload and emulation helpers, now
-                  caller needs to decide between offload/emulation fallback
-            2. src,dst bio order change (Christoph Hellwig)
-            3. refcount changes similar to dio (Christoph Hellwig)
-            4. Single outstanding IO for copy emulation (Christoph Hellwig)
-            5. use copy_max_sectors to identify copy offload
-                  capability and other reviews (Damien, Christoph)
-            6. Return status in endio handler (Christoph Hellwig)
-        - nvme-fabrics: fallback to emulation in case of partial
-          offload completion
-        - in kernel user addition (Ming lei)
-        - indentation, documentation, minor fixes, misc changes (Damien,
-          Christoph)
-        - blktests changes to test kernel changes
-
-Changes since v12:
-=================
-        - block,nvme: Replaced token based approach with request based
-          single namespace capable approach (Christoph Hellwig)
-
-Changes since v11:
-=================
-        - Documentation: Improved documentation (Damien Le Moal)
-        - block,nvme: ssize_t return values (Darrick J. Wong)
-        - block: token is allocated to SECTOR_SIZE (Matthew Wilcox)
-        - block: mem leak fix (Maurizio Lombardi)
-
-Changes since v10:
-=================
-        - NVMeOF: optimization in NVMe fabrics (Chaitanya Kulkarni)
-        - NVMeOF: sparse warnings (kernel test robot)
-
-Changes since v9:
-=================
-        - null_blk, improved documentation, minor fixes(Chaitanya Kulkarni)
-        - fio, expanded testing and minor fixes (Vincent Fu)
-
-Changes since v8:
-=================
-        - null_blk, copy_max_bytes_hw is made config fs parameter
-          (Damien Le Moal)
-        - Negative error handling in copy_file_range (Christian Brauner)
-        - minor fixes, better documentation (Damien Le Moal)
-        - fio upgraded to 3.34 (Vincent Fu)
-
-Changes since v7:
-=================
-        - null block copy offload support for testing (Damien Le Moal)
-        - adding direct flag check for copy offload to block device,
-	  as we are using generic_copy_file_range for cached cases.
-        - Minor fixes
-
-Changes since v6:
-=================
-        - copy_file_range instead of ioctl for direct block device
-        - Remove support for multi range (vectored) copy
-        - Remove ioctl interface for copy.
-        - Remove offload support in dm kcopyd.
-
-Changes since v5:
-=================
-	- Addition of blktests (Chaitanya Kulkarni)
-        - Minor fix for fabrics file backed path
-        - Remove buggy zonefs copy file range implementation.
-
-Changes since v4:
-=================
-	- make the offload and emulation design asynchronous (Hannes
-	  Reinecke)
-	- fabrics loopback support
-	- sysfs naming improvements (Damien Le Moal)
-	- use kfree() instead of kvfree() in cio_await_completion
-	  (Damien Le Moal)
-	- use ranges instead of rlist to represent range_entry (Damien
-	  Le Moal)
-	- change argument ordering in blk_copy_offload suggested (Damien
-	  Le Moal)
-	- removed multiple copy limit and merged into only one limit
-	  (Damien Le Moal)
-	- wrap overly long lines (Damien Le Moal)
-	- other naming improvements and cleanups (Damien Le Moal)
-	- correctly format the code example in description (Damien Le
-	  Moal)
-	- mark blk_copy_offload as static (kernel test robot)
-	
-Changes since v3:
-=================
-	- added copy_file_range support for zonefs
-	- added documentation about new sysfs entries
-	- incorporated review comments on v3
-	- minor fixes
-
-Changes since v2:
-=================
-	- fixed possible race condition reported by Damien Le Moal
-	- new sysfs controls as suggested by Damien Le Moal
-	- fixed possible memory leak reported by Dan Carpenter, lkp
-	- minor fixes
-
-Changes since v1:
-=================
-	- sysfs documentation (Greg KH)
-        - 2 bios for copy operation (Bart Van Assche, Mikulas Patocka,
-          Martin K. Petersen, Douglas Gilbert)
-        - better payload design (Darrick J. Wong)
-Anuj Gupta (1):
-  fs/read_write: Enable copy_file_range for block device.
-
-Nitesh Shetty (11):
-  block: Introduce queue limits and sysfs for copy-offload support
-  Add infrastructure for copy offload in block and request layer.
-  block: add copy offload support
-  block: add emulation for copy
-  fs, block: copy_file_range for def_blk_ops for direct block device
-  nvme: add copy offload support
-  nvmet: add copy command support for bdev and file ns
-  dm: Add support for copy offload
-  dm: Enable copy offload for dm-linear target
-  null: Enable trace capability for null block
-  null_blk: add support for copy offload
-
- Documentation/ABI/stable/sysfs-block |  23 ++
- Documentation/block/null_blk.rst     |   5 +
- block/blk-core.c                     |   7 +
- block/blk-lib.c                      | 427 +++++++++++++++++++++++++++
- block/blk-merge.c                    |  41 +++
- block/blk-settings.c                 |  24 ++
- block/blk-sysfs.c                    |  36 +++
- block/blk.h                          |  16 +
- block/elevator.h                     |   1 +
- block/fops.c                         |  25 ++
- drivers/block/null_blk/Makefile      |   2 -
- drivers/block/null_blk/main.c        | 100 ++++++-
- drivers/block/null_blk/null_blk.h    |   1 +
- drivers/block/null_blk/trace.h       |  25 ++
- drivers/block/null_blk/zoned.c       |   1 -
- drivers/md/dm-linear.c               |   1 +
- drivers/md/dm-table.c                |  37 +++
- drivers/md/dm.c                      |   7 +
- drivers/nvme/host/constants.c        |   1 +
- drivers/nvme/host/core.c             |  79 +++++
- drivers/nvme/host/trace.c            |  19 ++
- drivers/nvme/target/admin-cmd.c      |   9 +-
- drivers/nvme/target/io-cmd-bdev.c    |  71 +++++
- drivers/nvme/target/io-cmd-file.c    |  50 ++++
- drivers/nvme/target/nvmet.h          |   1 +
- drivers/nvme/target/trace.c          |  19 ++
- fs/read_write.c                      |   8 +-
- include/linux/bio.h                  |   6 +-
- include/linux/blk_types.h            |  10 +
- include/linux/blkdev.h               |  22 ++
- include/linux/device-mapper.h        |   3 +
- include/linux/nvme.h                 |  43 ++-
- 32 files changed, 1101 insertions(+), 19 deletions(-)
+X-RootMTR: 20231018160207eucas1p1db839e2eb9a2ad39013c08c0e6f4624e
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20231018160207eucas1p1db839e2eb9a2ad39013c08c0e6f4624e
+References: <CGME20231018160207eucas1p1db839e2eb9a2ad39013c08c0e6f4624e@eucas1p1.samsung.com>
+	<20231018160145.1017340-1-ojeda@kernel.org>
 
 
-base-commit: 213f891525c222e8ed145ce1ce7ae1f47921cb9c
--- 
-2.35.1.500.gb896f729e2
+Miguel Ojeda <ojeda@kernel.org> writes:
 
+> The Rust code documentation output path moved from `rust/doc` to
+> `Documentation/output/rust/rustdoc`, thus update the old reference.
+>
+> Fixes: 48fadf440075 ("docs: Move rustdoc output, cross-reference it")
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+
+Reviewed-by: Andreas Hindborg <a.hindborg@samsung.com>
+
+> ---
+>  Documentation/rust/general-information.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/rust/general-information.rst b/Documentation/r=
+ust/general-information.rst
+> index 49029ee82e55..081397827a7e 100644
+> --- a/Documentation/rust/general-information.rst
+> +++ b/Documentation/rust/general-information.rst
+> @@ -29,7 +29,7 @@ target with the same invocation used for compilation, e=
+.g.::
+> =20
+>  To read the docs locally in your web browser, run e.g.::
+> =20
+> -	xdg-open rust/doc/kernel/index.html
+> +	xdg-open Documentation/output/rust/rustdoc/kernel/index.html
+> =20
+>  To learn about how to write the documentation, please see coding-guideli=
+nes.rst.
+> =20
+>
+> base-commit: 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
