@@ -1,120 +1,163 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856A34419;
-	Thu, 19 Oct 2023 14:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8198B4419;
+	Thu, 19 Oct 2023 14:51:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CCFevrp3"
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7D1130;
-	Thu, 19 Oct 2023 07:48:42 -0700 (PDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-4587f9051e3so596151137.0;
-        Thu, 19 Oct 2023 07:48:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697726921; x=1698331721; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b30rUo9xIidkzyjBtbhasOWY/ZbF9XIuRRAYaEaFhXU=;
-        b=CCFevrp3P7+zJ4FHC9QfN+qXJiLe1qBRNDg8HVSZBpk6gggPWwoP5PzFsx2NRApNlB
-         OJcQoKwMtHZZYDKCQis+FsXb3P0lnqwQ/QEHpi3dvDRLHg/besvVP45PwUroVhw52K5u
-         QDXCIJd1lL/++Pj11CNu+NkBAwp8xDZRILgiDJgEm89LnhT4m08UwMJzBQXWtlQfLbvT
-         ckKGQTYkzK2nFu7RNd7TG38quijkUBhosu5xOyyCL8Q5FtEPkZCjukIFnSQ5nhGlLmpm
-         GwVRO4e3AMs0hO+bu3vyTavC7beosYXyd+E1iSvFLvyXLDP90XWH0EWzlu4WQym7BVfa
-         wTvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697726921; x=1698331721;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b30rUo9xIidkzyjBtbhasOWY/ZbF9XIuRRAYaEaFhXU=;
-        b=XMe7fxQ88jbxaAv/6aJJGwiD8/O2VJ2OU/VubpmoGnD9p1h6H6My3RX5k/Z+SzmLmo
-         bdC/q8Bg30UxDGq8QwJuPcjP2xnm5Ob2zd5x1dvuwp9xFqZAPTgZPmydSTm5W0O+rks5
-         RX8Y+T+FjAzAnrXlPT7mroE9shXcU4m8gHUCg+ztDdZRgC2IhFzNVpbPL9XPyGaLqdxU
-         GmA5cpz53vPOzAUVWhlbZme15EW7sc187hWKfG30NCfZ/LBqYsyk5PJCrGb6t1fu4oz7
-         9BqiE1yb2E5Ub83jYVwViZeAELWLMTqk24iQw7OZ6dqVIpJnsK7jqrlKUXiUxU7EhtDl
-         HBHQ==
-X-Gm-Message-State: AOJu0Yz+TCr7b4kFTDjN9K5OLUUqZtHjGagNKnQLTXzHy10EieZirT3u
-	zSeaS9M3+6YJCmzkhP7LMqCV1rasAELgHYevyBs=
-X-Google-Smtp-Source: AGHT+IHfKG6TgpivWYvKVUQ/ejBTh+LvTGzFACYFJt5iSwJHvTy53oC3RG9tprM79RoBpo6FxpZwZsUoCzx5dkH7zs4=
-X-Received: by 2002:a05:6102:100a:b0:457:6999:968a with SMTP id
- q10-20020a056102100a00b004576999968amr2145047vsp.7.1697726921465; Thu, 19 Oct
- 2023 07:48:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJcwURv7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A8BBC433C7;
+	Thu, 19 Oct 2023 14:51:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697727116;
+	bh=NLXuVTxIYxsa/iNx+oFYMWnnV3rxtlfwRq/TCg68Hog=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mJcwURv7bUT66qaosnRpmPUeZs/qsuhbSYH1pZPEfzccsoVwfjkzbsHFwp3kIPm9b
+	 T+dvPXCXWS9avMEgJIlCo0xAUIugAJr3WEfA+uSFQzj/+/KnQpMT7DNFmAVyl+oscw
+	 hFFHz72MNI1MYA4CmRq/hsJeZa8+LRvEFqVb/T7Jl0w8FFHfI2+3IGcG5r8amAae54
+	 T8nWI8OGGXMWCBuPxg+OqbaQuyzUX9IkIcdC+zCoBllZ/Eg80CFE3O9I0nBXSwBD9A
+	 6mrqGubSKjRT3sHe5itcIKRv+8AuuUtCNdwSVTqj/S1nGzG0OvOmTGM8lhzvwabApA
+	 qojK9byQnyM0A==
+Date: Thu, 19 Oct 2023 15:51:50 +0100
+From: Will Deacon <will@kernel.org>
+To: Xu Yang <xu.yang_2@nxp.com>
+Cc: Frank.li@nxp.com, corbet@lwn.net, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, mark.rutland@arm.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	festevam@gmail.com, conor+dt@kernel.org, linux-imx@nxp.com,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] perf: fsl_imx8_ddr: Add AXI ID PORT CHANNEL
+ filter support
+Message-ID: <20231019145150.GB19567@willie-the-truck>
+References: <20231011060838.3413621-1-xu.yang_2@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com> <20231019-feature_ptp_netnext-v6-7-71affc27b0e5@bootlin.com>
-In-Reply-To: <20231019-feature_ptp_netnext-v6-7-71affc27b0e5@bootlin.com>
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date: Thu, 19 Oct 2023 10:48:04 -0400
-Message-ID: <CAF=yD-+O6QxuYJzijMes7J_DHHd7yYCz8sBLFERM1U6pYN0Gkg@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 07/16] net_tstamp: Add TIMESTAMPING SOFTWARE
- and HARDWARE mask
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
-	Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, 
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231011060838.3413621-1-xu.yang_2@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, Oct 19, 2023 at 10:29=E2=80=AFAM Kory Maincent
-<kory.maincent@bootlin.com> wrote:
->
-> Timestamping software or hardware flags are often used as a group,
-> therefore adding these masks will easier future use.
-
-This assumes that device support for timestamping is often symmetric:
-a device supports both rx and tx, or neither.
-
-All devices support software receive timestamping, as that timestamp
-is taken in the core network stack. But to support transmit timestamps
-drivers have to call sbk_tstamp_tx in their ndo_start_xmit.
-
-For hardware timestamping it may be more common to support both or
-neither, not sure.
-
-> I did not use SOF_TIMESTAMPING_SYS_HARDWARE flag as it is deprecated and
-> not use at all.
->
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+On Wed, Oct 11, 2023 at 02:08:34PM +0800, Xu Yang wrote:
+> This is the extension of AXI ID filter.
+> 
+> Filter is defined with 2 configuration registers per counter 1-3 (counter
+> 0 is not used for filtering and lacks these registers).
+> * Counter N MASK COMP register - AXI_ID and AXI_MASKING.
+> * Counter N MUX CNTL register - AXI CHANNEL and AXI PORT.
+>   -- 0: address channel
+>   -- 1: data channel
+> 
+> This filter is exposed to userspace as an additional (channel, port) pair.
+> The definition of axi_channel is inverted in userspace, and it will be
+> reverted in driver automatically.
+> 
+> AXI filter of Perf Monitor in DDR Subsystem, only a single port0 exist, so
+> axi_port is reserved which should be 0.
+> 
+> e.g.
+> perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD,axi_channel=0xH/ cmd
+> perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD,axi_channel=0xH/ cmd
+> 
+> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> 
 > ---
->  include/uapi/linux/net_tstamp.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/include/uapi/linux/net_tstamp.h b/include/uapi/linux/net_tst=
-amp.h
-> index a2c66b3d7f0f..df8091998c8d 100644
-> --- a/include/uapi/linux/net_tstamp.h
-> +++ b/include/uapi/linux/net_tstamp.h
-> @@ -48,6 +48,14 @@ enum {
->                                          SOF_TIMESTAMPING_TX_SCHED | \
->                                          SOF_TIMESTAMPING_TX_ACK)
->
-> +#define SOF_TIMESTAMPING_SOFTWARE_MASK (SOF_TIMESTAMPING_RX_SOFTWARE | \
-> +                                        SOF_TIMESTAMPING_TX_SOFTWARE | \
-> +                                        SOF_TIMESTAMPING_SOFTWARE)
+> Changes since v2:
+>  - no changes
+> ---
+>  drivers/perf/fsl_imx8_ddr_perf.c | 39 ++++++++++++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/drivers/perf/fsl_imx8_ddr_perf.c b/drivers/perf/fsl_imx8_ddr_perf.c
+> index 92611c98120f..d0eae2d7e64b 100644
+> --- a/drivers/perf/fsl_imx8_ddr_perf.c
+> +++ b/drivers/perf/fsl_imx8_ddr_perf.c
+> @@ -19,6 +19,8 @@
+>  #define COUNTER_READ		0x20
+>  
+>  #define COUNTER_DPCR1		0x30
+> +#define COUNTER_MUX_CNTL	0x50
+> +#define COUNTER_MASK_COMP	0x54
+>  
+>  #define CNTL_OVER		0x1
+>  #define CNTL_CLEAR		0x2
+> @@ -32,6 +34,13 @@
+>  #define CNTL_CSV_SHIFT		24
+>  #define CNTL_CSV_MASK		(0xFFU << CNTL_CSV_SHIFT)
+>  
+> +#define READ_PORT_SHIFT		0
+> +#define READ_PORT_MASK		(0x7 << READ_PORT_SHIFT)
+> +#define READ_CHANNEL_REVERT	0x00000008	/* bit 3 for read channel select */
+> +#define WRITE_PORT_SHIFT	8
+> +#define WRITE_PORT_MASK		(0x7 << WRITE_PORT_SHIFT)
+> +#define WRITE_CHANNEL_REVERT	0x00000800	/* bit 11 for write channel select */
 > +
-> +#define SOF_TIMESTAMPING_HARDWARE_MASK (SOF_TIMESTAMPING_RX_HARDWARE | \
-> +                                        SOF_TIMESTAMPING_TX_HARDWARE | \
-> +                                        SOF_TIMESTAMPING_RAW_HARDWARE)
+>  #define EVENT_CYCLES_ID		0
+>  #define EVENT_CYCLES_COUNTER	0
+>  #define NUM_COUNTERS		4
+> @@ -50,6 +59,7 @@ static DEFINE_IDA(ddr_ida);
+>  /* DDR Perf hardware feature */
+>  #define DDR_CAP_AXI_ID_FILTER			0x1     /* support AXI ID filter */
+>  #define DDR_CAP_AXI_ID_FILTER_ENHANCED		0x3     /* support enhanced AXI ID filter */
+> +#define DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER	0x4	/* support AXI ID PORT CHANNEL filter */
+>  
+>  struct fsl_ddr_devtype_data {
+>  	unsigned int quirks;    /* quirks needed for different DDR Perf core */
+> @@ -144,6 +154,7 @@ static const struct attribute_group ddr_perf_identifier_attr_group = {
+>  enum ddr_perf_filter_capabilities {
+>  	PERF_CAP_AXI_ID_FILTER = 0,
+>  	PERF_CAP_AXI_ID_FILTER_ENHANCED,
+> +	PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER,
+>  	PERF_CAP_AXI_ID_FEAT_MAX,
+>  };
+>  
+> @@ -157,6 +168,8 @@ static u32 ddr_perf_filter_cap_get(struct ddr_pmu *pmu, int cap)
+>  	case PERF_CAP_AXI_ID_FILTER_ENHANCED:
+>  		quirks &= DDR_CAP_AXI_ID_FILTER_ENHANCED;
+>  		return quirks == DDR_CAP_AXI_ID_FILTER_ENHANCED;
+> +	case PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER:
+> +		return !!(quirks & DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER);
+>  	default:
+>  		WARN(1, "unknown filter cap %d\n", cap);
+>  	}
+> @@ -187,6 +200,7 @@ static ssize_t ddr_perf_filter_cap_show(struct device *dev,
+>  static struct attribute *ddr_perf_filter_cap_attr[] = {
+>  	PERF_FILTER_EXT_ATTR_ENTRY(filter, PERF_CAP_AXI_ID_FILTER),
+>  	PERF_FILTER_EXT_ATTR_ENTRY(enhanced_filter, PERF_CAP_AXI_ID_FILTER_ENHANCED),
+> +	PERF_FILTER_EXT_ATTR_ENTRY(super_filter, PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER),
+>  	NULL,
+>  };
+>  
+> @@ -272,11 +286,15 @@ static const struct attribute_group ddr_perf_events_attr_group = {
+>  PMU_FORMAT_ATTR(event, "config:0-7");
+>  PMU_FORMAT_ATTR(axi_id, "config1:0-15");
+>  PMU_FORMAT_ATTR(axi_mask, "config1:16-31");
+> +PMU_FORMAT_ATTR(axi_port, "config2:0-2");
+> +PMU_FORMAT_ATTR(axi_channel, "config2:3-3");
+
+Any specific reason to allocate from config2, rather than the upper 32
+bits of config1?
+
+> @@ -553,6 +572,26 @@ static int ddr_perf_event_add(struct perf_event *event, int flags)
+>  		return -EOPNOTSUPP;
+>  	}
+>  
+> +	if (pmu->devtype_data->quirks & DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER) {
+> +		if (ddr_perf_is_filtered(event)) {
+> +			/* revert axi id masking(axi_mask) value */
+> +			cfg1 ^= AXI_MASKING_REVERT;
+> +			writel(cfg1, pmu->base + COUNTER_MASK_COMP + ((counter - 1) << 4));
+
+Please can you explain what this "reverting" is doing? It looks like a
+user-visible change in behaviour to me, or are you saying that the driver
+currently does the wrong thing on hardware that supports the new filter?
+
 > +
->  /**
->   * struct so_timestamping - SO_TIMESTAMPING parameter
->   *
->
-> --
-> 2.25.1
->
+> +			if (cfg == 0x41) {
+
+What is this 0x41 for?
+
+Will
