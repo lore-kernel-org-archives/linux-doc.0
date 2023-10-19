@@ -1,37 +1,50 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF5ED26A;
-	Thu, 19 Oct 2023 07:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CFC812E;
-	Thu, 19 Oct 2023 00:21:42 -0700 (PDT)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4083ac51d8aso13927575e9.2;
-        Thu, 19 Oct 2023 00:21:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A170D26A
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 07:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ALgjGUGV"
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58147123
+	for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 00:26:44 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6bcbfecf314so1040844b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Oct 2023 00:26:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1697700404; x=1698305204; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wgTcFnd2WuQ3b93x6mtXxA5MmL51CRaK2ux9aDnBicU=;
+        b=ALgjGUGVojPdKw06M7V19ORNMHqFpjA1hO9W+3LMyeQym7l7C94maxnHf2Z7AoB4/Q
+         O2cHH3+hGhxUecr0INsYtr2w7u/f9lPLywibkhBH8WlaAGBp4TBy/pK6JLZf1JPzbTRH
+         kLb1o5T0fErCDrFFnBdfwlLYb20q1qVMczrxHzjQtFDnRdlqyogygvyGOS9PFcesXU4U
+         MZHX+ZBRvP7VFTXFyL6NRf9ZwlEPJO1i9SEwnFdQpIeClYhdaLRD6JvHQVuP/h3sqywf
+         4fIu8+0DRMFDjVxxySHqhGMaukYuUMj8iFV+WPVUHAMe/GqaBEqDgQI05jO5xr3RLT1G
+         cj/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697700100; x=1698304900;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1697700404; x=1698305204;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wd+CZoB3ZUKbrf75iwEsiONnc1Z3WWVEgj1SxQ7RWs4=;
-        b=cXT6QqGDFOcUfo71vGB11MYzJYHuwphwHXFZcDS+zP1ihK4C503cXTfNlf0WspYyPj
-         xvoFpK9Y6vfTKmagux1+5+e5xclqq3TE2vivx6RFle1GFMFNnfdWrZd6sZzM5UvXTvCF
-         mukyn0o185ylsdd1yGKJPwZDRcw6Jb5al+H72HgROggvFKSylJI4v3Duwomy7qqJCaVc
-         6onQOEJqwDQJ2swOAWCZ3hm6ufCFJlJuy1MIcgsSFIiXOGM6lYzJeATI+namUVjOp519
-         sWGsmQ9JwpuVUt953CcdmVWBRi2RivZwqGJddTm6hqaNk2lHQhIk5nxbNvju6M3vYVgB
-         kwRA==
-X-Gm-Message-State: AOJu0YzvQSrczYGZuNB05JgZxGhv3TDeI/+eGKTRkl6cpc439XeIXSuL
-	X6VqAbCyjicukJXNubN1Q9o=
-X-Google-Smtp-Source: AGHT+IHY1Z8PJ1keSg0UJBWEGxH64D6kzeBE9qCkMCKICnXexHfCdZlwk7bieKLMonAHTEXzCTKCfA==
-X-Received: by 2002:a05:600c:4506:b0:403:7b2:6d8f with SMTP id t6-20020a05600c450600b0040307b26d8fmr1214903wmo.2.1697700100284;
-        Thu, 19 Oct 2023 00:21:40 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id m16-20020a7bca50000000b00405d9a950a2sm3588552wml.28.2023.10.19.00.21.39
+        bh=wgTcFnd2WuQ3b93x6mtXxA5MmL51CRaK2ux9aDnBicU=;
+        b=wzBZ5lTs2T/kawh049jSYsrFgiSMa7lODzFZaTzt5Jj9mYpOx3PbLey8wou6u7I7wc
+         jGW9O0iDFd7JIZ7vquw157tfvulNyfLenKxhebSjl27U5AHGJZwylYRoQXtLDY8qrTNi
+         oijYkyGC8YjWUbvQ4tfn8uQbL+scQEeklYU6VfCRPyWuUkZ0rMet+AiaLT+z825OnJNv
+         5G18W68DKUnx/cgR9RckDkYsWiScbKqhk+5YjYrbGN9X9r0HpLbcSpgUmW/XOFP2FKa0
+         RlJeEJiI9l6mVV4ZEuYpL3PzOHf1+k+rlwEduCBxo/8SpVQmk27qWULnxMg13IOG5viA
+         8b5g==
+X-Gm-Message-State: AOJu0YziLmonccLAF1lQHCPgyPBsrjsYwLsEoli5kcjXRyFPp0Zc0KAE
+	etVp+60zz6GSDu628CeT2r65qw==
+X-Google-Smtp-Source: AGHT+IHBolW3gGracNxmsGlk+qzVRPdVEtKUfRfRdsaXZ4nG07zJsUHKMW68cjsZuxWvQXGUOxGzrQ==
+X-Received: by 2002:a62:b613:0:b0:6bc:67ca:671d with SMTP id j19-20020a62b613000000b006bc67ca671dmr1233298pff.1.1697700403743;
+        Thu, 19 Oct 2023 00:26:43 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:6933:1fe3:b858:3dde? ([2a01:e0a:999:a3a0:6933:1fe3:b858:3dde])
+        by smtp.gmail.com with ESMTPSA id g7-20020aa79f07000000b00693411c6c3csm4455829pfr.39.2023.10.19.00.26.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Oct 2023 00:21:39 -0700 (PDT)
-Message-ID: <83a0f0a0-56b1-4021-a37d-ef68e7fab712@kernel.org>
-Date: Thu, 19 Oct 2023 09:21:38 +0200
+        Thu, 19 Oct 2023 00:26:43 -0700 (PDT)
+Message-ID: <844f6f35-3125-4014-852c-9ad7aee19ddc@rivosinc.com>
+Date: Thu, 19 Oct 2023 09:26:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,158 +52,106 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] i3c: slave: func: add tty driver
+Subject: Re: [PATCH v2 01/19] riscv: hwprobe: factorize hwprobe ISA extension
+ reporting
 Content-Language: en-US
-To: Frank Li <Frank.Li@nxp.com>, miquel.raynal@bootlin.com,
- conor.culhane@silvaco.com, alexandre.belloni@bootlin.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- corbet@lwn.net, joe@perches.com, linux-i3c@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, imx@lists.linux.dev,
- linux-serial@vger.kernel.org
-References: <20231018215809.3477437-1-Frank.Li@nxp.com>
- <20231018215809.3477437-5-Frank.Li@nxp.com>
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20231018215809.3477437-5-Frank.Li@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 18. 10. 23, 23:58, Frank Li wrote:
-> Add tty over I3C slave function driver.
-
-Many of the master review comments apply also here. Please fix here too. 
-More below.
-
-> --- /dev/null
-> +++ b/drivers/i3c/func/tty.c
-> @@ -0,0 +1,548 @@
-...
-> +static void i3c_slave_tty_rx_complete(struct i3c_request *req)
-> +{
-> +	struct ttyi3c_port *port = req->context;
-> +
-> +	if (req->status == I3C_REQUEST_CANCEL) {
-> +		i3c_slave_ctrl_free_request(req);
-> +		return;
-> +	}
-> +
-> +	for (int i = 0; i < req->actual; i++)
-> +		tty_insert_flip_char(&port->port, *(u8 *)(req->buf + i), 0);
-
-Maybe I miss something obvious, but req->buf is void *. So why not 
-simple tty_insert_flip_string()?
+To: Conor Dooley <conor@kernel.org>, Evan Green <evan@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Palmer Dabbelt <palmer@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Jones <ajones@ventanamicro.com>, Samuel Ortiz <sameo@rivosinc.com>
+References: <20231017131456.2053396-1-cleger@rivosinc.com>
+ <20231017131456.2053396-2-cleger@rivosinc.com>
+ <CALs-HssL=wNwj9nRuZwpZhy1CB9p9-X=OqgwBw9zvgA7hA4fEg@mail.gmail.com>
+ <20231018-scrap-bankable-a0f321d97a46@spud>
+ <20231018-flagpole-footpad-07a6228485f3@spud>
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20231018-flagpole-footpad-07a6228485f3@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-> +	sport->buffer = (void *)get_zeroed_page(GFP_KERNEL);
-> +	if (!sport->buffer)
-> +		return -ENOMEM;
-> +
-> +	sport->xmit.buf = (void *)get_zeroed_page(GFP_KERNEL);
 
-tty_port_alloc_xmit_buf()
+On 18/10/2023 19:36, Conor Dooley wrote:
+> On Wed, Oct 18, 2023 at 06:33:34PM +0100, Conor Dooley wrote:
+>> On Wed, Oct 18, 2023 at 10:24:15AM -0700, Evan Green wrote:
+>>> On Tue, Oct 17, 2023 at 6:15 AM Clément Léger <cleger@rivosinc.com> wrote:
+>>>>
+>>>> Factorize ISA extension reporting by using a macro rather than
+>>>> copy/pasting extension names. This will allow adding new extensions more
+>>>> easily.
+>>>>
+>>>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+>>>> ---
+>>>>  arch/riscv/kernel/sys_riscv.c | 32 ++++++++++++++++++--------------
+>>>>  1 file changed, 18 insertions(+), 14 deletions(-)
+>>>>
+>>>> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
+>>>> index 473159b5f303..e207874e686e 100644
+>>>> --- a/arch/riscv/kernel/sys_riscv.c
+>>>> +++ b/arch/riscv/kernel/sys_riscv.c
+>>>> @@ -145,20 +145,24 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+>>>>         for_each_cpu(cpu, cpus) {
+>>>>                 struct riscv_isainfo *isainfo = &hart_isa[cpu];
+>>>>
+>>>> -               if (riscv_isa_extension_available(isainfo->isa, ZBA))
+>>>> -                       pair->value |= RISCV_HWPROBE_EXT_ZBA;
+>>>> -               else
+>>>> -                       missing |= RISCV_HWPROBE_EXT_ZBA;
+>>>> -
+>>>> -               if (riscv_isa_extension_available(isainfo->isa, ZBB))
+>>>> -                       pair->value |= RISCV_HWPROBE_EXT_ZBB;
+>>>> -               else
+>>>> -                       missing |= RISCV_HWPROBE_EXT_ZBB;
+>>>> -
+>>>> -               if (riscv_isa_extension_available(isainfo->isa, ZBS))
+>>>> -                       pair->value |= RISCV_HWPROBE_EXT_ZBS;
+>>>> -               else
+>>>> -                       missing |= RISCV_HWPROBE_EXT_ZBS;
+>>>> +#define CHECK_ISA_EXT(__ext)                                                   \
+>>>> +               do {                                                            \
+>>>> +                       if (riscv_isa_extension_available(isainfo->isa, __ext)) \
+>>>> +                               pair->value |= RISCV_HWPROBE_EXT_##__ext;       \
+>>>> +                       else                                                    \
+>>>> +                               missing |= RISCV_HWPROBE_EXT_##__ext;           \
+>>>> +               } while (false)
+>>>> +
+>>>> +               /*
+>>>> +                * Only use CHECK_ISA_EXT() for extensions which can be exposed
+>>>> +                * to userspace, regardless of the kernel's configuration, as no
+>>>> +                * other checks, besides presence in the hart_isa bitmap, are
+>>>> +                * made.
+>>>
+>>> This comment alludes to a dangerous trap, but I'm having trouble
+>>> understanding what it is.
+>>
+>> You cannot, for example, use this for communicating the presence of F or
+>> D, since they require a config option to be set before their use is
+>> safe.
+> 
+> Funnily enough, this comment is immediately contradicted by the vector
+> subset extensions, where these CHECK_ISA_EXT() macros are used wrapped
+> in has_vector(). The code looks valid to me, since has_vector() contains
+> the Kconfig check, but does fly in the face of this comment.
 
+Yes, the KConfig checks are already done by the headers, adding #ifdef
+would be redundant even if more coherent with the comment. BTW, wouldn't
+it make more sense to get rid out of the unsupported extensions directly
+at ISA string parsing ? ie, if kernel is compiled without V support,
+then do not set the bits corresponding to these in the riscv_isa_ext[]
+array ? But the initial intent was probably to be able to report the
+full string through cpuinfo.
 
-> +static int i3c_tty_probe(struct i3c_slave_func *func)
-> +{
-> +	struct device *dev = &func->dev;
-> +	struct ttyi3c_port *port;
-> +
-> +	port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
-> +	if (!port)
-> +		return -ENOMEM;
-> +
-> +	port->i3cdev = func;
-> +	dev_set_drvdata(&func->dev, port);
-> +
-> +	port->workqueue = alloc_workqueue("%s", 0, 0, dev_name(&func->dev));
+Clément
 
-Another wq? You'd have to have a strong reason for these. Drop that.
-
-> +	if (!port->workqueue)
-> +		return -ENOMEM;
-> +
-> +	INIT_WORK(&port->work, i3c_slave_tty_i3c_work);
-> +
-> +	return 0;
-> +}
-> +
-> +static void  i3c_tty_remove(struct i3c_slave_func *func)
-> +{
-> +	struct ttyi3c_port *port;
-> +
-> +	port = dev_get_drvdata(&func->dev);
-
-That can be on one line.
-
-> +
-> +	destroy_workqueue(port->workqueue);
-> +}
-
-
-> +static int i3c_open(struct tty_struct *tty, struct file *filp)
-> +{
-> +	struct ttyi3c_port *sport = tty->driver_data;
-> +	int ret;
-> +
-> +	if (!i3c_slave_ctrl_get_addr(sport->i3cdev->ctrl)) {
-> +		dev_info(&sport->i3cdev->dev, "No slave addr assigned, try hotjoin");
-
-Should this be a debug print instead?
-
-> +		ret = i3c_slave_ctrl_hotjoin(sport->i3cdev->ctrl);
-> +		if (ret) {
-> +			dev_err(&sport->i3cdev->dev, "Hotjoin failure, check connection");
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return tty_port_open(&sport->port, tty, filp);
-
-regards,
--- 
-js
-suse labs
-
+> 
+>>
+>>> Perhaps some rewording to more explicitly
+>>> state the danger would be appropriate. Other than that:
+>>>
+>>> Reviewed-by: Evan Green <evan@rivosinc.com>
+> 
+> 
