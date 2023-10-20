@@ -1,39 +1,45 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63A71CF9B
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 16:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81903124;
-	Fri, 20 Oct 2023 09:14:14 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.227])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4SBq7p12GRz9v7H5;
-	Sat, 21 Oct 2023 00:01:10 +0800 (CST)
-Received: from [10.81.210.100] (unknown [10.81.210.100])
-	by APP2 (Coremail) with SMTP id GxC2BwBH67YvpzJlfqKNAg--.3883S2;
-	Fri, 20 Oct 2023 17:13:47 +0100 (CET)
-Message-ID: <8322165e-c287-6e43-239e-3fcd0b375c1e@huaweicloud.com>
-Date: Fri, 20 Oct 2023 18:13:34 +0200
-Precedence: bulk
-X-Mailing-List: linux-doc@vger.kernel.org
-List-Id: <linux-doc.vger.kernel.org>
-List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A48B1DA22
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 17:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZ/be4hY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDE8C433C8;
+	Fri, 20 Oct 2023 17:56:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697824586;
+	bh=QQCAtaH9YLSph9w1L2P7GP1gut9U89O48oU0UgDe/rI=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=JZ/be4hYScXz68gVUHsTJuTdtAuAdaAybZ6idonXADhejF4NUM/ZxbrtMtvJj7HHq
+	 ATpn/HcZYvrELCdIPYpc0qhR8WiRu/qamr8xrddxjZpXwZSae1JPxO9wl+Vm5Rb2Cj
+	 P3wl3MQQsMNR2ulZ12wO2J+W3sTzeyuo5nAPi9NQrfQCsH/PIHUuWDG+yK8ujvV6+r
+	 yfh6506Ka7s1H/T+b06d5aPf0pH7TI7G0fB47LwiJbzxaQltGMSEzfa9vNtAAg5QtC
+	 IawQki3d59W+mVenxZVkY7j2tad6bYCD3dhWylKGGN8Q/H0WCl5MyPGPM21XnonZtn
+	 /oX0PwCzuPOJg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 8C922CE059F; Fri, 20 Oct 2023 10:56:25 -0700 (PDT)
+Date: Fri, 20 Oct 2023 10:56:25 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
+Cc: Akira Yokosawa <akiyks@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	David Howells <dhowells@redhat.com>,
+	Jade Alglave <j.alglave@ucl.ac.uk>,
+	Luc Maranget <luc.maranget@inria.fr>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Jonathan Corbet <corbet@lwn.net>
 Subject: Re: [PATCH memory-model] docs: memory-barriers: Add note on compiler
  transformation and address deps
-To: Akira Yokosawa <akiyks@gmail.com>, paulmck@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
- Andrea Parri <parri.andrea@gmail.com>, Will Deacon <will@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- Nicholas Piggin <npiggin@gmail.com>, David Howells <dhowells@redhat.com>,
- Jade Alglave <j.alglave@ucl.ac.uk>, Luc Maranget <luc.maranget@inria.fr>,
- Daniel Lustig <dlustig@nvidia.com>, Joel Fernandes <joel@joelfernandes.org>,
- Jonathan Corbet <corbet@lwn.net>
+Message-ID: <f2a94468-b99a-412b-9336-60a76f04cda3@paulmck-laptop>
+Reply-To: paulmck@kernel.org
 References: <ceaeba0a-fc30-4635-802a-668c859a58b2@paulmck-laptop>
  <4110a58a-8db5-57c4-2f5a-e09ee054baaa@huaweicloud.com>
  <1c731fdc-9383-21f2-b2d0-2c879b382687@huaweicloud.com>
@@ -41,82 +47,127 @@ References: <ceaeba0a-fc30-4635-802a-668c859a58b2@paulmck-laptop>
  <b96cfbc1-f6b0-2fa6-b72d-d57c34bbf14b@huaweicloud.com>
  <2694e6e1-3282-4a69-b955-06afd7d7f87f@paulmck-laptop>
  <03ea8aea-2d0c-48ab-bb0d-e585571f1926@gmail.com>
-From: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
-In-Reply-To: <03ea8aea-2d0c-48ab-bb0d-e585571f1926@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:GxC2BwBH67YvpzJlfqKNAg--.3883S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw15Gr1xCw1kXF1rGryrXrb_yoW8Xr4kpF
-	ZxGw4YkFnxur47Cr4qqws8Ja4jvFZ8Xa15W3s3GrykAFW5ZFW3Crs29r12vrsxZrZ3K34Y
-	vw1ava98ArWktaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
-	07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
-	WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
-	14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
-	9x07UdxhLUUUUU=
-X-CM-SenderInfo: 5mrqt2oorev25kdx2v3u6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+ <8322165e-c287-6e43-239e-3fcd0b375c1e@huaweicloud.com>
+Precedence: bulk
+X-Mailing-List: linux-doc@vger.kernel.org
+List-Id: <linux-doc.vger.kernel.org>
+List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8322165e-c287-6e43-239e-3fcd0b375c1e@huaweicloud.com>
 
+On Fri, Oct 20, 2023 at 06:13:34PM +0200, Jonas Oberhauser wrote:
+> 
+> Am 10/20/2023 um 5:24 PM schrieb Akira Yokosawa:
+> > Hi Paul,
+> > 
+> > On 2023/10/20 22:57, Paul E. McKenney wrote:
+> > [...]
+> > > So if there are things that rcu_dereference.rst is missing, they do
+> > > need to be added.
+> > As far as I can see, there is no mention of "address dependency"
+> > in rcu_dereference.rst.
+> > Yes, I see the discussion in rcu_dereference.rst is all about how
+> > not to break address dependency by proper uses of rcu_dereference()
+> > and its friends.  But that might not be obvious for readers who
+> > followed the references placed in memory-barriers.txt.
+> > 
+> > Using the term "address dependency" somewhere in rcu_dereference.rst
+> > should help such readers, I guess.
+> I think that's a good point.
 
-Am 10/20/2023 um 5:24 PM schrieb Akira Yokosawa:
-> Hi Paul,
->
-> On 2023/10/20 22:57, Paul E. McKenney wrote:
-> [...]
->> So if there are things that rcu_dereference.rst is missing, they do
->> need to be added.
-> As far as I can see, there is no mention of "address dependency"
-> in rcu_dereference.rst.
-> Yes, I see the discussion in rcu_dereference.rst is all about how
-> not to break address dependency by proper uses of rcu_dereference()
-> and its friends.  But that might not be obvious for readers who
-> followed the references placed in memory-barriers.txt.
->
-> Using the term "address dependency" somewhere in rcu_dereference.rst
-> should help such readers, I guess.
+How about the commit shown at the end of this email, with a Reported-by
+for both of you?
 
+> > [...]
+> > > > Thanks for the response, I started thinking my mails aren't getting through
+> > > > again.
+> > Jonas, FWIW, your email archived at
+> > 
+> >      https://lore.kernel.org/linux-doc/1c731fdc-9383-21f2-b2d0-2c879b382687@huaweicloud.com/
+> > 
+> > didn't reach my gmail inbox.  I looked for it in the spam folder,
+> > but couldn't find it there either.
+> > 
+> > Your first reply on Oct 6, which is archived at
+> > 
+> >      https://lore.kernel.org/linux-doc/4110a58a-8db5-57c4-2f5a-e09ee054baaa@huaweicloud.com/
+> > 
+> > ended up in my spam folder.
+> > 
+> > I have no idea why gmail has trouble with your emails so often ...
+> > 
+> > Anyway, LKML did accept your mails this time.
+> > 
+> > HTH,
+> >          Akira
+> 
+> 
+> Thanks Akira!
+> 
+> I wrote the gmail support a while ago, but no response.
+> 
+> Currently no idea who to talk to... Oh well.
 
-I think that's a good point.
+Your emails used to end up in my spam folder quite frequently, but
+they have been coming through since you changed your email address.
 
+							Thanx, Paul
 
->
-> [...]
->>> Thanks for the response, I started thinking my mails aren't getting through
->>> again.
-> Jonas, FWIW, your email archived at
->
->      https://lore.kernel.org/linux-doc/1c731fdc-9383-21f2-b2d0-2c879b382687@huaweicloud.com/
->
-> didn't reach my gmail inbox.  I looked for it in the spam folder,
-> but couldn't find it there either.
->
-> Your first reply on Oct 6, which is archived at
->
->      https://lore.kernel.org/linux-doc/4110a58a-8db5-57c4-2f5a-e09ee054baaa@huaweicloud.com/
->
-> ended up in my spam folder.
->
-> I have no idea why gmail has trouble with your emails so often ...
->
-> Anyway, LKML did accept your mails this time.
->
-> HTH,
->          Akira
+------------------------------------------------------------------------
 
+commit 982ad36df15d48177d7b1501c8afa0b18ff3c8c9
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Fri Oct 20 10:51:26 2023 -0700
 
-Thanks Akira!
+    doc: Mention address and data dependencies in rcu_dereference.rst
+    
+    This commit adds discussion of address and data dependencies to the
+    beginning of rcu_dereference.rst in order to enable readers to more
+    easily make the connection to the Linux-kernel memory model in general
+    and to memory-barriers.txt in particular.
+    
+    Reported-by: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
+    Reported-by: Akira Yokosawa <akiyks@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 
-I wrote the gmail support a while ago, but no response.
-
-Currently no idea who to talk to... Oh well.
-
-
-
+diff --git a/Documentation/RCU/rcu_dereference.rst b/Documentation/RCU/rcu_dereference.rst
+index 3b739f6243c8..659d5913784d 100644
+--- a/Documentation/RCU/rcu_dereference.rst
++++ b/Documentation/RCU/rcu_dereference.rst
+@@ -3,13 +3,26 @@
+ PROPER CARE AND FEEDING OF RETURN VALUES FROM rcu_dereference()
+ ===============================================================
+ 
+-Most of the time, you can use values from rcu_dereference() or one of
+-the similar primitives without worries.  Dereferencing (prefix "*"),
+-field selection ("->"), assignment ("="), address-of ("&"), addition and
+-subtraction of constants, and casts all work quite naturally and safely.
+-
+-It is nevertheless possible to get into trouble with other operations.
+-Follow these rules to keep your RCU code working properly:
++Proper care and feeding of address and data dependencies is critically
++important to correct use of things like RCU.  To this end, the pointers
++returned from the rcu_dereference() family of primitives carry address and
++data dependencies.  These dependencies extend from the rcu_dereference()
++macro's load of the pointer to the later use of that pointer to compute
++either the address of a later memory access (representing an address
++dependency) or the value written by a later memory access (representing
++a data dependency).
++
++Most of the time, these dependencies are preserved, permitting you to
++freely use values from rcu_dereference().  For example, dereferencing
++(prefix "*"), field selection ("->"), assignment ("="), address-of
++("&"), casts, and addition or subtraction of constants all work quite
++naturally and safely.  However, because current compilers do not take
++either address or data dependencies into account it is still possible
++to get into trouble.
++
++Follow these rules to preserve the address and data dependencies emanating
++from your calls to rcu_dereference() and friends, thus keeping your RCU
++readers working properly:
+ 
+ -	You must use one of the rcu_dereference() family of primitives
+ 	to load an RCU-protected pointer, otherwise CONFIG_PROVE_RCU
