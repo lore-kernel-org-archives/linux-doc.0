@@ -1,60 +1,59 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4875D2B744
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 21:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72BE24A17
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 22:06:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kU6YjZcX"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9454D7D;
-	Fri, 20 Oct 2023 14:31:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697837507; x=1729373507;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=XsD7RMOBK+QP/Vh09NEqgiBSp4V/6/e9uwNicno2Kjw=;
-  b=kU6YjZcXpP8F0fp+Rn5rVeGavxa5AiL9S2aKQwDCqzHXRAcgQ71E4lgV
-   4xXLawbQJ8IsfZG/KzX9Bu94w+inVcjIXjGVrsYTpzwCgfbN2kLsCK3OE
-   SNfwIZCM9KPg7F3rhY/vl/r92FsVxsNGxUr8D6bEcsoUQVIGDl2x1xsB6
-   kYhC6tvhJyoeTEPXNDBXuQhgg5853v01Ne7e771LKu/Xb4fyoSchlsKQ5
-   ohQhC1aipK2igmn9xW2vyug4YlVKidgDfjUkHp1YOlDngzQgDsaX+ICyL
-   KanvFsm3h4/YwinY8JVkkmOdpE7EOErDi3S+PcttBVeymnA32hx6SZXrH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="371647201"
-X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="371647201"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 14:31:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="881184553"
-X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="881184553"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 14:31:12 -0700
-From: Tony Luck <tony.luck@intel.com>
-To: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	x86@kernel.org
-Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	patches@lists.linux.dev,
-	Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v9 8/8] x86/resctrl: Update documentation with Sub-NUMA cluster changes
-Date: Fri, 20 Oct 2023 14:31:00 -0700
-Message-ID: <20231020213100.123598-9-tony.luck@intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231020213100.123598-1-tony.luck@intel.com>
-References: <20231003213043.13565-1-tony.luck@intel.com>
- <20231020213100.123598-1-tony.luck@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="f//xyCVl"
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2062.outbound.protection.outlook.com [40.107.94.62])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7660CD5A
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 15:06:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=faChtodxNgo2qASkSvr3aHfkyw0HFFKax47eS+6HHKJhiWa/1Jx5HtdaTfEnSvu1LjnQC/4rmDwcigILmESib4pFucofyibAOyJpwW/EAg8Ctyr4iL052Uv26BDIGdcHyshOFl4PnQsJuKK1Dk59tR7qzRKIzAle56Ta77Jw3Uni+YvOXdwkGXRJeqr7vehUOeSx3EI8eU0DHagYdTGOv5W+con+vIEpsbryjg9HUcjcKgHghdUEwhKqj5iq+U2ZTp5IMS7qoSfxBzLfmL5zavlz2EB4q4CqUpkgX6SKbMWOL8etJZUr5BPhdyZCoGN8YzQ9PHqYVJv4deRisjJIMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q2+GAPTJqOgVccyUMiQJ0m2xvY6fdLAtvxSIBfeSKR8=;
+ b=hBr0h9vul76BbsP2Sb5bvmJn518OLw1Jv6+H2t+OspDDpiI0D4im+PYWsRQqaI/WFdWZTxkP7isj2N9sA7pZDwrshLQ69YEUhVP2N91bbWN4KeqQksTBVx48VSm9U5SrlhY5r8khTlHHesfNL9KmxwhSkg3x6sf7D9I5QWGtHND954/7BOpsvHaVMLiEtd9Ku/z0+ax+VYmku1GQtnE6ZCv4sE2/8ZGBX1HOyGgiWZoZ3SbAW0t0MprfR3FgU12RH9aGw3ioelw6lPJQ/uCBTT0+otFzS72NLY+Vd+ebIU0cHpVbXlXQ3A9IhZzO2GKaXZD5E5XTJCWINUoX7KlEDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q2+GAPTJqOgVccyUMiQJ0m2xvY6fdLAtvxSIBfeSKR8=;
+ b=f//xyCVlfVvIxS6wCRwhr5JdtC5Lf5xbobXLuAi0iOgzEBF3xpkiEqn97NHlzW0aENSOncWZXu5x2kjCQ+FpzBugJUa6l+9i/yGZxASSrOZj1+qJivOFEdCx1yyS7dnePoHKuPkCAZ1ES1V5K/v5NQK7jP92IEFH8TVsjMhHzE4=
+Received: from MN2PR22CA0017.namprd22.prod.outlook.com (2603:10b6:208:238::22)
+ by DS0PR12MB7704.namprd12.prod.outlook.com (2603:10b6:8:130::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Fri, 20 Oct
+ 2023 22:06:27 +0000
+Received: from BL6PEPF0001AB54.namprd02.prod.outlook.com
+ (2603:10b6:208:238:cafe::fb) by MN2PR22CA0017.outlook.office365.com
+ (2603:10b6:208:238::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.25 via Frontend
+ Transport; Fri, 20 Oct 2023 22:06:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB54.mail.protection.outlook.com (10.167.241.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6838.22 via Frontend Transport; Fri, 20 Oct 2023 22:06:26 +0000
+Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 20 Oct
+ 2023 17:06:10 -0500
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <linux-doc@vger.kernel.org>
+CC: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH 0/8] Expand and improve AMDGPU documentation
+Date: Fri, 20 Oct 2023 16:05:13 -0600
+Message-ID: <20231020220549.493808-1-Rodrigo.Siqueira@amd.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,65 +61,68 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB54:EE_|DS0PR12MB7704:EE_
+X-MS-Office365-Filtering-Correlation-Id: e05eee7a-9a5c-4d96-a15f-08dbd1b8ce72
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ard9gX8/qvx3394xK+0QgZnktq9fzgSfHYLFrMFE4uEQyxgc5fJpWfKm5nv2ZLvTeT8lL9isjKbHhtMGSEo8iWUCpTGkmLb1hNV8EIc87hAdkrRK3K9yRa5yPLfHeQsB5AeTM74SPgnbIoI0TMF3rHD7O1hD7IKjz7O99+CLN+3+lT0A9ujd2dGennQOo877Oh/x6WNVIHY3p/mtNYiNUKCQ8ZvKNxjxCNlub6McyF3OyY3aa2MdPrGoyO0A7MHg3FKRlkLryh7YGfufMnrFZl9hbCKy48OkSpJmBRym9B5aM604os8eqWcCphQnvqIVjMxWLBaVIiJcm1qqUhggvrEOpKQ4pnwVSXl3tDhc+ZzuXSa2kNtLWbjPby9bJLb+o2wdyHb7SnSChRY7IYIN6FVsfnL5KWJcX+0VMJZwMq1nVY2N32r687HoVoFYXg3Vxyr5yTrdA8oYxIWsFoPGDUr/CdNYM+rfb3Bw9KknMz0a/5ZQVEOsJ9cl7bMBJshrOBQuWaQH5j+mbVyWH9YRFtzjI2/PSy0H10VLqaVUC+POviReVyFlyzHw+iyMZVc3G6T+Q+2me9yObaoRhPS0VoLl9JaS6ZJwMwHV6ipNylZRVg7YMne1avGS27euZpAmoj2gykbuwXLBM6NuNPJXaTLWNS8KCEz8n0ty8ia3XawxpihF4Csgax8ypvTfsdQpW4ZTNtjvkbazU9OEJJmK0EoZE9GcLOSd3f4f7Z/2cQPWqHFknl39g/LJqw/gv5qUhxO7jk4numeFMld6kLb+7g==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(396003)(136003)(39860400002)(230922051799003)(186009)(1800799009)(451199024)(82310400011)(64100799003)(36840700001)(46966006)(40470700004)(4326008)(40460700003)(86362001)(47076005)(36756003)(5660300002)(41300700001)(2906002)(81166007)(1076003)(356005)(40480700001)(16526019)(336012)(426003)(82740400003)(36860700001)(26005)(83380400001)(2616005)(8936002)(8676002)(478600001)(110136005)(70586007)(70206006)(316002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2023 22:06:26.9769
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e05eee7a-9a5c-4d96-a15f-08dbd1b8ce72
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB54.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7704
 
-With Sub-NUMA Cluster mode enabled the scope of monitoring resources is
-per-NODE instead of per-L3 cache. Suffixes of directories with "L3" in
-their name refer to Sub-NUMA nodes instead of L3 cache ids.
+This patchset improves how the AMDGPU display documentation is
+organized, expands the kerne-doc to extract information from the source,
+and adds more context about DC workflow. Finally, at the end of this
+series, we also introduce a contribution session for those interested in
+contributing with the display code.
 
-Users should be aware that SNC mode also affects the amount of L3 cache
-available for allocation within each SNC node.
+Thanks
+Siqueira
 
-Reviewed-by: Peter Newman <peternewman@google.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
-Changes since v6:
+Rodrigo Siqueira (8):
+  Documentation/gpu: Add basic page for HUBP
+  Documentation/gpu: Add simple doc page for DCHUBBUB
+  Documentation/gpu: Add kernel doc entry for DPP
+  Documentation/gpu: Add kernel doc entry for MPC
+  Documentation/gpu: Add entry for OPP in the kernel doc
+  Documentation/gpu: Add entry for the DIO component
+  Documentation/gpu: Add an explanation about the DC weekly patches
+  Documentation/gpu: Introduce a simple contribution list for display
+    code
 
-Added Peter's review tag
+ .../gpu/amdgpu/display/dcn-blocks.rst         |  78 ++++++
+ .../amdgpu/display/display-contributing.rst   |  88 +++++++
+ Documentation/gpu/amdgpu/display/index.rst    | 114 +++++++-
+ drivers/gpu/drm/amd/display/TODO              | 110 --------
+ .../gpu/drm/amd/display/dc/inc/hw/dchubbub.h  |   6 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h   |  26 ++
+ drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h  |  13 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h   | 248 ++++++++++++------
+ drivers/gpu/drm/amd/display/dc/inc/hw/opp.h   |  16 ++
+ .../amd/display/dc/link/hwss/link_hwss_dio.h  |  10 +
+ 10 files changed, 520 insertions(+), 189 deletions(-)
+ create mode 100644 Documentation/gpu/amdgpu/display/dcn-blocks.rst
+ create mode 100644 Documentation/gpu/amdgpu/display/display-contributing.rst
+ delete mode 100644 drivers/gpu/drm/amd/display/TODO
 
- Documentation/arch/x86/resctrl.rst | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index a6279df64a9d..d1db200db5f9 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -366,9 +366,9 @@ When control is enabled all CTRL_MON groups will also contain:
- When monitoring is enabled all MON groups will also contain:
- 
- "mon_data":
--	This contains a set of files organized by L3 domain and by
--	RDT event. E.g. on a system with two L3 domains there will
--	be subdirectories "mon_L3_00" and "mon_L3_01".	Each of these
-+	This contains a set of files organized by L3 domain or by NUMA
-+	node (depending on whether Sub-NUMA Cluster (SNC) mode is disabled
-+	or enabled respectively) and by RDT event.  Each of these
- 	directories have one file per event (e.g. "llc_occupancy",
- 	"mbm_total_bytes", and "mbm_local_bytes"). In a MON group these
- 	files provide a read out of the current value of the event for
-@@ -478,6 +478,23 @@ if non-contiguous 1s value is supported. On a system with a 20-bit mask
- each bit represents 5% of the capacity of the cache. You could partition
- the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
- 
-+Notes on Sub-NUMA Cluster mode
-+==============================
-+When SNC mode is enabled Linux may load balance tasks between Sub-NUMA
-+nodes much more readily than between regular NUMA nodes since the CPUs
-+on Sub-NUMA nodes share the same L3 cache and the system may report
-+the NUMA distance between Sub-NUMA nodes with a lower value than used
-+for regular NUMA nodes.  Users who do not bind tasks to the CPUs of a
-+specific Sub-NUMA node must read the "llc_occupancy", "mbm_total_bytes",
-+and "mbm_local_bytes" for all Sub-NUMA nodes where the tasks may execute
-+to get the full view of traffic for which the tasks were the source.
-+
-+The cache allocation feature still provides the same number of
-+bits in a mask to control allocation into the L3 cache. But each
-+of those ways has its capacity reduced because the cache is divided
-+between the SNC nodes. The values reported in the resctrl
-+"size" files are adjusted accordingly.
-+
- Memory bandwidth Allocation and monitoring
- ==========================================
- 
 -- 
-2.41.0
+2.42.0
 
