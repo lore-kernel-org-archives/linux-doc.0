@@ -1,79 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D90A35509;
-	Fri, 20 Oct 2023 23:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF61335507
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 23:49:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LKW0EPNk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5DBCC433C7;
-	Fri, 20 Oct 2023 23:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697845759;
-	bh=loI0on5ZzUtt+TaOW1sABdlRBDhAZ7YRBCQ6BuFriVI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LKW0EPNkFkN8eCHVM7IaiF6+PbnRmx5oxq9FHwfSbZoMYP2az69DRLa3zNht6Ya/9
-	 CC0L/iiw3vCpTzVf6Azx7By152nt0g/bfnkTL5S1I6zQK/RZ0YblWo/7W/4rJ54NJO
-	 YRG64VYitDcGLJQ68FgZ9qoJAZLRZR+4aZZUt2iQkyuYWbZzmgCjc440Hqp1pZ2Y/q
-	 +weFo3EZTVlAq7lCQPYEug2RIuaIJWuw4gjwQLPnPxj1w3T8tp4mXJxZA8uLG6g04s
-	 agUMEd87THivCYoy1cVsdwRgs+JZB4V/leDMaz7sbr79FFgLJ1Wrgjhc4FMVmeNDLl
-	 Y1r+29QTL64eg==
-Date: Fri, 20 Oct 2023 16:49:17 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Ahmed Zaki <ahmed.zaki@intel.com>
-Cc: <mkubecek@suse.cz>, <andrew@lunn.ch>, <willemdebruijn.kernel@gmail.com>,
- Wojciech Drewek <wojciech.drewek@intel.com>, <corbet@lwn.net>,
- <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <jesse.brandeburg@intel.com>, <edumazet@google.com>,
- <anthony.l.nguyen@intel.com>, <horms@kernel.org>,
- <vladimir.oltean@nxp.com>, Jacob Keller <jacob.e.keller@intel.com>,
- <intel-wired-lan@lists.osuosl.org>, <pabeni@redhat.com>,
- <davem@davemloft.net>
-Subject: Re: [Intel-wired-lan] [PATCH net-next v4 1/6] net: ethtool: allow
- symmetric-xor RSS hash for any flow type
-Message-ID: <20231020164917.69d5cd44@kernel.org>
-In-Reply-To: <c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
-References: <20231016154937.41224-1-ahmed.zaki@intel.com>
-	<20231016154937.41224-2-ahmed.zaki@intel.com>
-	<8d1b1494cfd733530be887806385cde70e077ed1.camel@gmail.com>
-	<26812a57-bdd8-4a39-8dd2-b0ebcfd1073e@intel.com>
-	<CAKgT0Ud7JjUiE32jJbMbBGVexrndSCepG54PcGYWHJ+OC9pOtQ@mail.gmail.com>
-	<14feb89d-7b4a-40c5-8983-5ef331953224@intel.com>
-	<CAKgT0UfcT5cEDRBzCxU9UrQzbBEgFt89vJZjz8Tow=yAfEYERw@mail.gmail.com>
-	<20231016163059.23799429@kernel.org>
-	<CAKgT0Udyvmxap_F+yFJZiY44sKi+_zOjUjbVYO=TqeW4p0hxrA@mail.gmail.com>
-	<20231017131727.78e96449@kernel.org>
-	<CAKgT0Ud4PX1Y6GO9rW+Nvr_y862Cbv3Fpn+YX4wFHEos9rugJA@mail.gmail.com>
-	<20231017173448.3f1c35aa@kernel.org>
-	<CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
-	<20231018165020.55cc4a79@kernel.org>
-	<45c6ab9f-50f6-4e9e-a035-060a4491bded@intel.com>
-	<20231020153316.1c152c80@kernel.org>
-	<c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ja1Mh8BT"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D019010CA;
+	Fri, 20 Oct 2023 16:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697845781; x=1729381781;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sUVfTo3lntITx/vLDxRaXJpf3T8h1tdB1hdFMPw4iHA=;
+  b=Ja1Mh8BTYYoWirSph/H2mmVe1NkbNukdFVYhY74IL8OxC1GcnKoOC2dw
+   UWo4aCWAgYrT5echBeOrbIUOaCVdp/TFGDLbqwdQtd8BxrTifnBFY8X5q
+   a0uDHRk27edY7GjCf8X2T+05xkp+eWPBEFVoOEQ0hE6KMnZYyATi7u39q
+   DhLcrAQ/rBhmjqLBi2Ek0RkAduAtJAnNGxBFqVCVsjE7GTTpbPH4svxMH
+   m+TCSfVK099HXoyCyfhOOeiVBwuSJSdC2aT3RsupxSAob8/Vwr6qQ0LLA
+   x3VnuX8IuNNQ03lykieIFVKYMCXgY1tRff2oTLpHrgDKixfy8/9GV9jcU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="389446278"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="389446278"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 16:49:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="707373792"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="707373792"
+Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 16:49:40 -0700
+Date: Fri, 20 Oct 2023 16:49:34 -0700
+From: Andi Kleen <ak@linux.intel.com>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	tim.c.chen@linux.intel.com, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com
+Subject: Re: [PATCH  3/6] x86/entry_32: Add VERW just before userspace
+ transition
+Message-ID: <ZTMSDkBzUZBiTBoG@tassilo>
+References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
+ <20231020-delay-verw-v1-3-cff54096326d@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231020-delay-verw-v1-3-cff54096326d@linux.intel.com>
 
-On Fri, 20 Oct 2023 17:14:11 -0600 Ahmed Zaki wrote:
-> I replied to that here:
+On Fri, Oct 20, 2023 at 01:45:09PM -0700, Pawan Gupta wrote:
+> As done for entry_64, add support for executing VERW late in exit to
+> user path for 32-bit mode.
 > 
-> https://lore.kernel.org/all/afb4a06f-cfba-47ba-adb3-09bea7cb5f00@intel.com/
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> ---
+>  arch/x86/entry/entry_32.S | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> I am kind of confused now so please bear with me. ethtool either sends 
-> "ethtool_rxfh" or "ethtool_rxnfc". AFAIK "ethtool_rxfh" is the interface 
-> for "ethtool -X" which is used to set the RSS algorithm. But we kind of 
-> agreed to go with "ethtool -U|-N" for symmetric-xor, and that uses 
-> "ethtool_rxnfc" (as implemented in this series).
+> diff --git a/arch/x86/entry/entry_32.S b/arch/x86/entry/entry_32.S
+> index 6e6af42e044a..bbf77d2aab2e 100644
+> --- a/arch/x86/entry/entry_32.S
+> +++ b/arch/x86/entry/entry_32.S
+> @@ -886,6 +886,9 @@ SYM_FUNC_START(entry_SYSENTER_32)
+>  	popfl
+>  	popl	%eax
+>  
+> +	/* Mitigate CPU data sampling attacks .e.g. MDS */
+> +	USER_CLEAR_CPU_BUFFERS
+> +
+>  	/*
+>  	 * Return back to the vDSO, which will pop ecx and edx.
+>  	 * Don't bother with DS and ES (they already contain __USER_DS).
 
-I have no strong preference. Sounds like Alex prefers to keep it closer
-to algo, which is "ethtool_rxfh".
+Did you forget the INT 0x80 entry point?
 
-> Do you mean use "ethtool_rxfh" instead of "ethtool_rxnfc"? how would 
-> that work on the ethtool user interface?
+-Andi
 
-I don't know what you're asking of us. If you find the code to confusing
-maybe someone at Intel can help you :|
