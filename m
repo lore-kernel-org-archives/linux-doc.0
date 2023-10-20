@@ -1,196 +1,215 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826F1125BE
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 09:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A542116429;
+	Fri, 20 Oct 2023 09:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F03AD55;
-	Fri, 20 Oct 2023 02:29:59 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.228])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4SBf9N6h68z9ynvD;
-	Fri, 20 Oct 2023 17:16:56 +0800 (CST)
-Received: from [10.81.210.100] (unknown [10.81.210.100])
-	by APP1 (Coremail) with SMTP id LxC2BwC3D5F1SDJl3TSSAg--.64782S2;
-	Fri, 20 Oct 2023 10:29:35 +0100 (CET)
-Message-ID: <b96cfbc1-f6b0-2fa6-b72d-d57c34bbf14b@huaweicloud.com>
-Date: Fri, 20 Oct 2023 11:29:24 +0200
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BA5D8;
+	Fri, 20 Oct 2023 02:59:35 -0700 (PDT)
+Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.54])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4SBg3M5WlYz15NgH;
+	Fri, 20 Oct 2023 17:56:47 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Fri, 20 Oct 2023 17:59:32 +0800
+From: Yunsheng Lin <linyunsheng@huawei.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
+	<linyunsheng@huawei.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Alexander
+ Duyck <alexander.duyck@gmail.com>, Liang Chen <liangchen.linux@gmail.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Dima Tisnek
+	<dimaqq@gmail.com>, Jesper Dangaard Brouer <hawk@kernel.org>, Ilias
+ Apalodimas <ilias.apalodimas@linaro.org>, Eric Dumazet <edumazet@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
+	<linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
+Subject: [PATCH net-next v12 4/5] page_pool: update document about fragment API
+Date: Fri, 20 Oct 2023 17:59:51 +0800
+Message-ID: <20231020095952.11055-5-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20231020095952.11055-1-linyunsheng@huawei.com>
+References: <20231020095952.11055-1-linyunsheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH memory-model] docs: memory-barriers: Add note on compiler
- transformation and address deps
-To: paulmck@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
- Andrea Parri <parri.andrea@gmail.com>, Will Deacon <will@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- Nicholas Piggin <npiggin@gmail.com>, David Howells <dhowells@redhat.com>,
- Jade Alglave <j.alglave@ucl.ac.uk>, Luc Maranget <luc.maranget@inria.fr>,
- Akira Yokosawa <akiyks@gmail.com>, Daniel Lustig <dlustig@nvidia.com>,
- Joel Fernandes <joel@joelfernandes.org>, Jonathan Corbet <corbet@lwn.net>
-References: <ceaeba0a-fc30-4635-802a-668c859a58b2@paulmck-laptop>
- <4110a58a-8db5-57c4-2f5a-e09ee054baaa@huaweicloud.com>
- <1c731fdc-9383-21f2-b2d0-2c879b382687@huaweicloud.com>
- <f363d6e0-5682-43e7-9a3f-6b896c3cd920@paulmck-laptop>
-From: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
-In-Reply-To: <f363d6e0-5682-43e7-9a3f-6b896c3cd920@paulmck-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:LxC2BwC3D5F1SDJl3TSSAg--.64782S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFW8Gw45AF1ruryDAryfCrg_yoWrZryUpr
-	W3K3Z0kF4DJr12kw10yw17AFW0vrWfJFW5Jr93Gw1Uu398WrySyrsFyr4j9FyDC395Zw1j
-	vrZIqr9xZ34DZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
-	07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
-	WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
-	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-	7IU13rcDUUUUU==
-X-CM-SenderInfo: 5mrqt2oorev25kdx2v3u6k3tpzhluzxrxghudrp/
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 X-CFilter-Loop: Reflected
 
+As more drivers begin to use the fragment API, update the
+document about how to decide which API to use for the
+driver author.
 
-Am 10/19/2023 um 6:39 PM schrieb Paul E. McKenney:
-> On Wed, Oct 18, 2023 at 12:11:58PM +0200, Jonas Oberhauser wrote:
->> Hi Paul,
->> [...]
-> The compiler is forbidden from inventing pointer comparisons.
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+CC: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Alexander Duyck <alexander.duyck@gmail.com>
+CC: Liang Chen <liangchen.linux@gmail.com>
+CC: Alexander Lobakin <aleksander.lobakin@intel.com>
+CC: Dima Tisnek <dimaqq@gmail.com>
+---
+ Documentation/networking/page_pool.rst |  4 +-
+ include/net/page_pool/helpers.h        | 93 ++++++++++++++++++++++----
+ 2 files changed, 83 insertions(+), 14 deletions(-)
 
-TIL :) Btw, do you remember a discussion where this is clarified? A 
-quick search didn't turn up anything.
-
-
->> Best wishes,
->>
->> jonas
->>
->> Am 10/6/2023 um 6:39 PM schrieb Jonas Oberhauser:
->>> Hi Paul,
->>>
->>> The "more up-to-date information" makes it sound like (some of) the
->>> information in this section is out-of-date/no longer valid.
-> The old smp_read_barrier_depends() that these section cover really
-> does no longer exist.
-
-
-You mean that they *intend to* cover? smp_read_barrier_depends never 
-appears in the text, so anyone reading this section without prior 
-knowledge has no way of realizing that this is what the sections are 
-talking about.
-
-On the other hand the implicit address dependency barriers that do exist 
-are mentioned in the text. And that part is still true.
-
-
->
->>> But after reading the sections, it seems the information is valid, but
->>> discusses mostly the history of address dependency barriers.
->>>
->>> Given that the sepcond part  specifically already starts with a
->>> disclaimer that this information is purely relevant to people interested
->>> in history or working on alpha, I think it would make more sense to
->>> modify things slightly differently.
->>>
->>> Firstly I'd remove the "historical" part in the first section, and add
->>> two short paragraphs explaining that
->>>
->>> - every marked access implies a address dependency barrier
-> This is covered in rcu_dereference.rst.
-
-Let me quote a much wiser man than myself here: "
-
-The problem is that people insist on diving into the middle of documents,
-so sometimes repetition is a necessary form of self defense.  ;-)
-
-"
-
-The main reason I would like to add this here at the very top is that
-
-- this section serves to frigthen children about the dangers of address 
-dependencies,
-
-- never mentions a way to add them - I need to happen to read another 
-section of the manual to find that out
-
-- and says this information is historical without specifying which parts 
-are still relevant
-
-(and the parts that are still there are all still relevant, while the 
-parts that only the authors know was intended to be there and is 
-out-of-date is already gone).
-
-So I would add a disclaimer specifying that (since 4.15) *all* marked 
-accesses imply read dependency barriers which resolve most of the issues 
-mentioned in the remainder of the article.
-However, some issues remain because the dependencies that are preserved 
-by such barriers are just *semantic* dependencies, and readers should 
-check rcu_dereference.rst for examples of what that implies.
-
-
-> [...]
-> most situations would be better served by an _acquire() suffix than by
-> a relaxed version of [...] an atomic [...]
-
-
-I completely agree. I even considered removing address dependencies 
-altogether from the company-internal memory models.
-But people sometimes get a little bit angry and start asking many questions.
-The valuable time of the model maintainer should be considered when 
-designing memory models.
-
-
->
->>> - address dependencies considered by the model are *semantic*
->>> dependencies, meaning that a *syntactic* dependency is not sufficient to
->>> imply ordering; see the rcu file for some examples where compilers can
->>> elide syntactic dependencies
-> There is a bunch of text in rcu_dereference.rst to this effect.  Or
-> is there some aspect that is missing from that document?
-
-
-That's what I meant by "see the rcu file" --- include a link to 
-rcu_dereference.rst in that paragraph.
-So that people know to check out rcu_dereference.rst for more 
-explanations to this effect.
-
-
-> The longer-term direction, perhaps a few years from now, is for the
-> first section to simply reference rcu_dereference.rst and for the second
-> section to be removed completely.
-
-
-Sounds good to me, but that doesn't mean we need to compromise the 
-readability in the interim :)
-
-
->
-> [...]
-> The problem is that people insist on diving into the middle of documents,
-> so sometimes repetition is a necessary form of self defense.  ;-)
->
-> But I very much appreciate your review and feedback, and I also apologize
-> for my slowness.
->
-> 							Thanx, Paul
->
-
-Thanks for the response, I started thinking my mails aren't getting 
-through again.
-
-Have fun,
-
-jonas
+diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+index 215ebc92752c..60993cb56b32 100644
+--- a/Documentation/networking/page_pool.rst
++++ b/Documentation/networking/page_pool.rst
+@@ -58,7 +58,9 @@ a page will cause no race conditions is enough.
+ 
+ .. kernel-doc:: include/net/page_pool/helpers.h
+    :identifiers: page_pool_put_page page_pool_put_full_page
+-		 page_pool_recycle_direct page_pool_dev_alloc_pages
++		 page_pool_recycle_direct page_pool_free_va
++		 page_pool_dev_alloc_pages page_pool_dev_alloc_frag
++		 page_pool_dev_alloc page_pool_dev_alloc_va
+ 		 page_pool_get_dma_addr page_pool_get_dma_dir
+ 
+ .. kernel-doc:: net/core/page_pool.c
+diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+index 1b76e05dc4d2..4ebd544ae977 100644
+--- a/include/net/page_pool/helpers.h
++++ b/include/net/page_pool/helpers.h
+@@ -8,23 +8,46 @@
+ /**
+  * DOC: page_pool allocator
+  *
+- * The page_pool allocator is optimized for the XDP mode that
+- * uses one frame per-page, but it can fallback on the
+- * regular page allocator APIs.
++ * The page_pool allocator is optimized for recycling page or page fragment used
++ * by skb packet and xdp frame.
+  *
+- * Basic use involves replacing alloc_pages() calls with the
+- * page_pool_alloc_pages() call.  Drivers should use
+- * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
++ * Basic use involves replacing and alloc_pages() calls with page_pool_alloc(),
++ * which allocate memory with or without page splitting depending on the
++ * requested memory size.
+  *
+- * The API keeps track of in-flight pages, in order to let API users know
+- * when it is safe to free a page_pool object.  Thus, API users
+- * must call page_pool_put_page() to free the page, or attach
+- * the page to a page_pool-aware object like skbs marked with
++ * If the driver knows that it always requires full pages or its allocations are
++ * always smaller than half a page, it can use one of the more specific API
++ * calls:
++ *
++ * 1. page_pool_alloc_pages(): allocate memory without page splitting when
++ * driver knows that the memory it need is always bigger than half of the page
++ * allocated from page pool. There is no cache line dirtying for 'struct page'
++ * when a page is recycled back to the page pool.
++ *
++ * 2. page_pool_alloc_frag(): allocate memory with page splitting when driver
++ * knows that the memory it need is always smaller than or equal to half of the
++ * page allocated from page pool. Page splitting enables memory saving and thus
++ * avoids TLB/cache miss for data access, but there also is some cost to
++ * implement page splitting, mainly some cache line dirtying/bouncing for
++ * 'struct page' and atomic operation for page->pp_frag_count.
++ *
++ * The API keeps track of in-flight pages, in order to let API users know when
++ * it is safe to free a page_pool object, the API users must call
++ * page_pool_put_page() or page_pool_free_va() to free the page_pool object, or
++ * attach the page_pool object to a page_pool-aware object like skbs marked with
+  * skb_mark_for_recycle().
+  *
+- * API users must call page_pool_put_page() once on a page, as it
+- * will either recycle the page, or in case of refcnt > 1, it will
+- * release the DMA mapping and in-flight state accounting.
++ * page_pool_put_page() may be called multi times on the same page if a page is
++ * split into multi fragments. For the last fragment, it will either recycle the
++ * page, or in case of page->_refcount > 1, it will release the DMA mapping and
++ * in-flight state accounting.
++ *
++ * dma_sync_single_range_for_device() is only called for the last fragment when
++ * page_pool is created with PP_FLAG_DMA_SYNC_DEV flag, so it depends on the
++ * last freed fragment to do the sync_for_device operation for all fragments in
++ * the same page when a page is split, the API user must setup pool->p.max_len
++ * and pool->p.offset correctly and ensure that page_pool_put_page() is called
++ * with dma_sync_size being -1 for fragment API.
+  */
+ #ifndef _NET_PAGE_POOL_HELPERS_H
+ #define _NET_PAGE_POOL_HELPERS_H
+@@ -73,6 +96,17 @@ static inline struct page *page_pool_dev_alloc_pages(struct page_pool *pool)
+ 	return page_pool_alloc_pages(pool, gfp);
+ }
+ 
++/**
++ * page_pool_dev_alloc_frag() - allocate a page fragment.
++ * @pool: pool from which to allocate
++ * @offset: offset to the allocated page
++ * @size: requested size
++ *
++ * Get a page fragment from the page allocator or page_pool caches.
++ *
++ * Return:
++ * Return allocated page fragment, otherwise return NULL.
++ */
+ static inline struct page *page_pool_dev_alloc_frag(struct page_pool *pool,
+ 						    unsigned int *offset,
+ 						    unsigned int size)
+@@ -111,6 +145,19 @@ static inline struct page *page_pool_alloc(struct page_pool *pool,
+ 	return page;
+ }
+ 
++/**
++ * page_pool_dev_alloc() - allocate a page or a page fragment.
++ * @pool: pool from which to allocate
++ * @offset: offset to the allocated page
++ * @size: in as the requested size, out as the allocated size
++ *
++ * Get a page or a page fragment from the page allocator or page_pool caches
++ * depending on the requested size in order to allocate memory with least memory
++ * utilization and performance penalty.
++ *
++ * Return:
++ * Return allocated page or page fragment, otherwise return NULL.
++ */
+ static inline struct page *page_pool_dev_alloc(struct page_pool *pool,
+ 					       unsigned int *offset,
+ 					       unsigned int *size)
+@@ -134,6 +181,18 @@ static inline void *page_pool_alloc_va(struct page_pool *pool,
+ 	return page_address(page) + offset;
+ }
+ 
++/**
++ * page_pool_dev_alloc_va() - allocate a page or a page fragment and return its
++ *			      va.
++ * @pool: pool from which to allocate
++ * @size: in as the requested size, out as the allocated size
++ *
++ * This is just a thin wrapper around the page_pool_alloc() API, and
++ * it returns va of the allocated page or page fragment.
++ *
++ * Return:
++ * Return the va for the allocated page or page fragment, otherwise return NULL.
++ */
+ static inline void *page_pool_dev_alloc_va(struct page_pool *pool,
+ 					   unsigned int *size)
+ {
+@@ -281,6 +340,14 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
+ #define PAGE_POOL_32BIT_ARCH_WITH_64BIT_DMA	\
+ 		(sizeof(dma_addr_t) > sizeof(unsigned long))
+ 
++/**
++ * page_pool_free_va() - free a va into the page_pool
++ * @pool: pool from which va was allocated
++ * @va: va to be freed
++ * @allow_direct: freed by the consumer, allow lockless caching
++ *
++ * Free a va allocated from page_pool_allo_va().
++ */
+ static inline void page_pool_free_va(struct page_pool *pool, void *va,
+ 				     bool allow_direct)
+ {
+-- 
+2.33.0
 
