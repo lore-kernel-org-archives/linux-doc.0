@@ -1,55 +1,55 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4186C1A71B
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 22:55:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8939232C81
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 23:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xk/nimL+"
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97105D6F
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 15:55:09 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d86dac81f8fso1802741276.1
-        for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 15:55:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3dzEKRkQ"
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5555FD51
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 16:13:15 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id d2e1a72fcca58-6936a25f49bso1236764b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 16:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697842509; x=1698447309; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1697843595; x=1698448395; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+g38I1Y8PaKbaByFCxxvsTO4uB3YltKuRgG8s7U1tVw=;
-        b=xk/nimL+eI0gDd5i/VB2O1JHRcQWK6obE8r3F546i3IHLFa47qMggw0YxFa+2Gmp/v
-         GowzfJC9QQck1e+vtS/g1LdAAkuQU6a82T0P1oJaBJVgLUfPoV65Xk7Dps4keA27gFke
-         a7A6IR8asHo63y/IIXR/R2PyN3S1cPAHNR1jEdFVc06FfnyXscUqMlykzLDYTkOF3n0U
-         iS5Yi4lkvnsgF/ZU0UNR3u/a4sEb6IkQtOPSO/x0DVkmXjlNhN5OX2bzy6ols3i+ft68
-         MbMzQDkC3Qn3dERfAsDAeqge7477AtsNr/30Z3LaKcHDa4XLk8Z/RD/XXfpwSkfCb/NU
-         y8hw==
+        bh=CgAVXy/axx8rbE3S2sz/Fpl+Q5PtMzZyyI0NieynS1Q=;
+        b=3dzEKRkQ3gyICAewppe2ffS6ZcMlYJNYdSp0UhbUUy9GAMvGPZSTOBDQBYOvfNPb8q
+         /aO3YepGbcj1wHzD60P6vX61zRnFjr8Sn32IIAlzvbWDrrHH5sqsTav6I8eyTxe+YRnR
+         Pa3A3j1/YJRXX87xGouWpsID1BeypQFBeq0Sa10b042o6IOLXZ2hmOExcuOqsE6KH5YF
+         gVtVGvMPwGLfrhEUJdrPmA9NKcRn+pbf1UhmzQbNri+SO6tmFlR4TYSILZjmic3cp79T
+         mR62nI6y3qkkL7kZ77ISvQdCFQ4g/wKBnhYkUaiNyhRfcsOASyAuEV66smJ82chJpOe7
+         SQaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697842509; x=1698447309;
+        d=1e100.net; s=20230601; t=1697843595; x=1698448395;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+g38I1Y8PaKbaByFCxxvsTO4uB3YltKuRgG8s7U1tVw=;
-        b=SfXiHlCIiBNOWf60eD1OATKtVVIAqZMQ52+7U+oqtQKCNYxnKvtVqugeFTTVYyHQ1e
-         RglC9so4HkBS7omksE8IPqjJXq8u0OYI5t82odq2WP90zb9k5M+KDqjoyY0yJAgKaX+s
-         JWbll22sdVF0fdnV+JTQKWSsNZKwFW/5H35mI9WQ2gzltTVmNEgwMnqBX8GIuujTLaIR
-         vrdq7QSdNangUi3GeIFn7UFcTUuaeN05BPGyo4AnMcIvyKOmCLN3H5CxqhXIQsPjiMNt
-         e8OBZF+ZTxr702Zeb15pyTwJpDGNSSFXSAtLn+Kb8Sh4ReS8s3gy4dfRCFPBGYABzLoS
-         kBuw==
-X-Gm-Message-State: AOJu0YyQwKJzdzbgQZS73F2uZZi2NEHmQW0IVyMn4+WPI5Gn35uuifHv
-	BasoR6Mn85qTVwqUw4ffUVUQ4cgIYYQ=
-X-Google-Smtp-Source: AGHT+IENHoQiZ42m6eFADsLCJq2/clyckBRLfOaBWIr29kVDjxo24ynfoZVNeCXHANN6kij0abAlz7oMAhY=
+        bh=CgAVXy/axx8rbE3S2sz/Fpl+Q5PtMzZyyI0NieynS1Q=;
+        b=OuPM2WVCNztJ4BLLYGuzZbKpfQnLyuA8cmnLRYV8rP8D5YstfilcNxVIvudwoLBSdm
+         K8qwuGUXNb3QxzEgM7FAn5RuPzHg17Iwt6Qd5/bTKh2ftr5qalzBQ5Fi/CcJzICdcOX9
+         dgOPS1JluDKWtxhx40rzqpmOmF8kNqXxCrQcObwnBdKvCwnxMKszo+Dp8Kgx1L14dNdQ
+         jcsQbWVpASAbuBlsdg65KYjJibuQBfAlmqIqOt6jYVfcnRAz2/MH9DDh03K1nJGGhAxl
+         sag9SkwgLH48WPAyiN+SO36ufInySzxRraL2YZt2TeumiKIPna8R46CCQgRUDlK0jvoe
+         eR2Q==
+X-Gm-Message-State: AOJu0YwufApiy5DteykvV/YW+3mY2AEXS1fl6BCye+G/Z17PeH/ftegi
+	NfFS3dO9a9vC8hnRPVChx++E0oUVrqw=
+X-Google-Smtp-Source: AGHT+IEb+B01P1bRaoNxc8joEn7AXOfNyBKk3u3HcHvMNx5bY4rK4asGL8wTgvrzbJpYbbyCzWgKi6MQfSk=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:297:0:b0:d9a:4c45:cfd0 with SMTP id
- 145-20020a250297000000b00d9a4c45cfd0mr63479ybc.2.1697842508740; Fri, 20 Oct
- 2023 15:55:08 -0700 (PDT)
-Date: Fri, 20 Oct 2023 15:55:07 -0700
-In-Reply-To: <20231020-delay-verw-v1-6-cff54096326d@linux.intel.com>
+ (user=seanjc job=sendgmr) by 2002:a05:6a00:26e4:b0:6bc:ff89:a30e with SMTP id
+ p36-20020a056a0026e400b006bcff89a30emr86478pfw.3.1697843594765; Fri, 20 Oct
+ 2023 16:13:14 -0700 (PDT)
+Date: Fri, 20 Oct 2023 16:13:13 -0700
+In-Reply-To: <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com> <20231020-delay-verw-v1-6-cff54096326d@linux.intel.com>
-Message-ID: <ZTMFS8I2s8EroSNe@google.com>
-Subject: Re: [PATCH  6/6] KVM: VMX: Move VERW closer to VMentry for MDS mitigation
+References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com> <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
+Message-ID: <ZTMJiVsEeyu6Vd8E@google.com>
+Subject: Re: [PATCH  1/6] x86/bugs: Add asm helpers for executing VERW
 From: Sean Christopherson <seanjc@google.com>
 To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
@@ -60,74 +60,62 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borisl
 	tim.c.chen@linux.intel.com, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
 	Alyssa Milburn <alyssa.milburn@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, antonio.gomez.iglesias@linux.intel.com
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, antonio.gomez.iglesias@linux.intel.com, 
+	Alyssa Milburn <alyssa.milburn@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 
 On Fri, Oct 20, 2023, Pawan Gupta wrote:
-> During VMentry VERW is executed to mitigate MDS. After VERW, any memory
-> access like register push onto stack may put host data in MDS affected
-> CPU buffers. A guest can then use MDS to sample host data.
-> 
-> Although likelihood of secrets surviving in registers at current VERW
-> callsite is less, but it can't be ruled out. Harden the MDS mitigation
-> by moving the VERW mitigation late in VMentry path.
-> 
-> Note that VERW for MMIO Stale Data mitigation is unchanged because of
-> the complexity of per-guest conditional VERW which is not easy to handle
-> that late in asm with no GPRs available. If the CPU is also affected by
-> MDS, VERW is unconditionally executed late in asm regardless of guest
-> having MMIO access.
-> 
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> ---
->  arch/x86/kvm/vmx/vmenter.S |  9 +++++++++
->  arch/x86/kvm/vmx/vmx.c     | 10 +++++++---
->  2 files changed, 16 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-> index be275a0410a8..efa716cf4727 100644
-> --- a/arch/x86/kvm/vmx/vmenter.S
-> +++ b/arch/x86/kvm/vmx/vmenter.S
-> @@ -1,6 +1,7 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
->  #include <linux/linkage.h>
->  #include <asm/asm.h>
-> +#include <asm/segment.h>
->  #include <asm/bitsperlong.h>
->  #include <asm/kvm_vcpu_regs.h>
->  #include <asm/nospec-branch.h>
-> @@ -31,6 +32,8 @@
->  #define VCPU_R15	__VCPU_REGS_R15 * WORD_SIZE
+> diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
+> index c55cc243592e..e1b623a27e1b 100644
+> --- a/arch/x86/include/asm/nospec-branch.h
+> +++ b/arch/x86/include/asm/nospec-branch.h
+> @@ -111,6 +111,24 @@
+>  #define RESET_CALL_DEPTH_FROM_CALL
 >  #endif
 >  
-> +#define GUEST_CLEAR_CPU_BUFFERS		USER_CLEAR_CPU_BUFFERS
+> +/*
+> + * Macro to execute VERW instruction to mitigate transient data sampling
+> + * attacks such as MDS. On affected systems a microcode update overloaded VERW
+> + * instruction to also clear the CPU buffers.
+> + *
+> + * Note: Only the memory operand variant of VERW clears the CPU buffers. To
+> + * handle the case when VERW is executed after user registers are restored, use
+> + * RIP to point the memory operand to a part NOPL instruction that contains
+> + * __KERNEL_DS.
+> + */
+> +#define __EXEC_VERW(m)	verw _ASM_RIP(m)
 > +
->  .macro VMX_DO_EVENT_IRQOFF call_insn call_target
->  	/*
->  	 * Unconditionally create a stack frame, getting the correct RSP on the
-> @@ -177,10 +180,16 @@ SYM_FUNC_START(__vmx_vcpu_run)
->   * the 'vmx_vmexit' label below.
->   */
->  .Lvmresume:
-> +	/* Mitigate CPU data sampling attacks .e.g. MDS */
-> +	GUEST_CLEAR_CPU_BUFFERS
+> +#define EXEC_VERW				\
+> +	__EXEC_VERW(551f);			\
+> +	/* nopl __KERNEL_DS(%rax) */		\
+> +	.byte 0x0f, 0x1f, 0x80, 0x00, 0x00;	\
+> +551:	.word __KERNEL_DS;			\
 
-I have a very hard time believing that it's worth duplicating the mitigation
-for VMRESUME vs. VMLAUNCH just to land it after a Jcc.
+Why are there so many macro layers?  Nothing jumps out to justfying two layers,
+let alone three.
 
- 3b1:   48 8b 00                mov    (%rax),%rax
- 3b4:   74 18                   je     3ce <__vmx_vcpu_run+0x9e>
- 3b6:   eb 0e                   jmp    3c6 <__vmx_vcpu_run+0x96>
- 3b8:   0f 00 2d 05 00 00 00    verw   0x5(%rip)        # 3c4 <__vmx_vcpu_run+0x94>
- 3bf:   0f 1f 80 00 00 18 00    nopl   0x180000(%rax)
- 3c6:   0f 01 c3                vmresume
- 3c9:   e9 c9 00 00 00          jmp    497 <vmx_vmexit+0xa7>
- 3ce:   eb 0e                   jmp    3de <__vmx_vcpu_run+0xae>
- 3d0:   0f 00 2d 05 00 00 00    verw   0x5(%rip)        # 3dc <__vmx_vcpu_run+0xac>
- 3d7:   0f 1f 80 00 00 18 00    nopl   0x180000(%rax)
- 3de:   0f 01 c2                vmlaunch
+> +
+>  /*
+>   * Fill the CPU return stack buffer.
+>   *
+> @@ -329,6 +347,13 @@
+>  #endif
+>  .endm
+>  
+> +/* Clear CPU buffers before returning to user */
+> +.macro USER_CLEAR_CPU_BUFFERS
+> +	ALTERNATIVE "jmp .Lskip_verw_\@;", "", X86_FEATURE_USER_CLEAR_CPU_BUF
+> +	EXEC_VERW
 
-Also, would it'd be better to put the NOP first?  Or even better, out of line?
-It'd be quite hilarious if the CPU pulled a stupid and speculated on the operand
-of the NOP, i.e. if the user/guest controlled RAX allowed for pulling in data
-after the VERW.
+Rather than a NOP after VERW, why not something like this?
+
+/* Clear CPU buffers before returning to user */
+.macro USER_CLEAR_CPU_BUFFERS
+                ALTERNATIVE "jmp .Lskip_verw_\@;", "jmp .Ldo_verw_\@;", X86_FEATURE_USER_CLEAR_CPU_BUF
+551:            .word __KERNEL_DS
+.Ldo_verw_\@:   verw _ASM_RIP(551b)
+.Lskip_verw_\@:
+.endm
+
+> +.Lskip_verw_\@:
+> +.endm
