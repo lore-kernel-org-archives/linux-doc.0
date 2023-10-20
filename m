@@ -1,171 +1,144 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC42249E6;
-	Fri, 20 Oct 2023 20:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686D21802E
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 20:44:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QzuBYaVL"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F7AD63;
-	Fri, 20 Oct 2023 13:25:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e36Z8xLN"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECAF8D65;
+	Fri, 20 Oct 2023 13:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697833507; x=1729369507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5pNSvTZbWx58Mg2C+HXhbZ0YgeE49K6MON74reseULc=;
-  b=QzuBYaVLyEZ7qjXdPDKSf8Y5OhSUL4sN8wT8ELRQxXpqbp1NM/81i3yN
-   mLHE/uMBirhYTa7/i2TXqZCLG5i/Kg/KDixRIZJPOknIsCKegOBMFfZPw
-   LAUTFDr/tyYVhaYHYVjfEqrbrlpZ5IKIC5QMRPissTMU8bzCSFmXBVVuF
-   tx/SF5zQyM3mNzBc3paOWb9w1SF2VlMHeXJGHRD1WFMc/TTKGwXp8XPer
-   Ckn8mE6SysRBWO74lG6ZxiToEw6iOat8xs3YYO3zUN0jsZMNcm2FMLzMF
-   Ici1vdKkwNOSuehfD35M3MswZZBPxWiGwK0cSkUua5H/kblFYc1fyLouV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="417703028"
+  t=1697834692; x=1729370692;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=38wj3+AjNVxWWV3WPeb/jr+UC7EuSUjYbl9ae7BtyNQ=;
+  b=e36Z8xLNLl1oM53jLwKz5bUamHO4f3LS/s+kx57CdBaeFcwbVtaXKrLO
+   YkxQFXGGwSOjVTGH3V2COIS4bVmfGyyHNQLothNxLr9/KdLNV45SDsKbp
+   zwlgzy6uS/JHbf+dMWNkpN4qPxhiXBoruCDZ/wO7VIQwV3hflvhw9+4YK
+   NT7JR42alSEwU1EuiwyWBs8H43wNJzzXyJN/8mO//4RB+k2NfL08ZHvdM
+   VfA3EqeYKJAGrJjOESUygw3+ZM7dvOyPeBWUCKNqO5hBGBjT2ypj4/4Le
+   bcELsdemZFjjVLkO9Ad6ouSV2bWdrHBRnEpmlM5GG8u3JA81fEkTNY4b1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="371640165"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="417703028"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 13:24:45 -0700
+   d="scan'208";a="371640165"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 13:44:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="761167655"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="931117461"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="761167655"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Oct 2023 13:24:29 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtw2l-0003xi-0a;
-	Fri, 20 Oct 2023 20:24:27 +0000
-Date: Sat, 21 Oct 2023 04:23:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Michael Walle <michael@walle.cc>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>
-Subject: Re: [PATCH net-next v5 01/16] net: Convert PHYs hwtstamp callback to
- use kernel_hwtstamp_config
-Message-ID: <202310210416.0nNTYS2E-lkp@intel.com>
-References: <20231009155138.86458-2-kory.maincent@bootlin.com>
+   d="scan'208";a="931117461"
+Received: from hkchanda-mobl.amr.corp.intel.com (HELO desk) ([10.209.90.113])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 13:44:51 -0700
+Date: Fri, 20 Oct 2023 13:44:51 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Alyssa Milburn <alyssa.milburn@intel.com>,
+	Dave Hansen <dave.hansen@intel.com>
+Subject: [PATCH 0/6] Delay VERW
+Message-ID: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
+X-B4-Tracking: v=1; b=H4sIAMvlMmUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2NDA0ND3ZTUnMRK3bLUonLdFAMTcxNLC7Mko2RjJaCGgqLUtMwKsGHRSkq
+ xtbUAkPe9LV4AAAA=
+X-Mailer: b4 0.12.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231009155138.86458-2-kory.maincent@bootlin.com>
+X-Spam-Level: *
 
-Hi Köry,
+Hi,
 
-kernel test robot noticed the following build errors:
+Legacy instruction VERW was overloaded by some processors to clear
+micro-architectural CPU buffers as a mitigation of CPU bugs. This series
+moves VERW execution to a later point in exit-to-user path. This is
+needed because in some cases it may be possible for kernel data to be
+accessed after VERW in arch_exit_to_user_mode(). Such accesses may put
+data into MDS affected CPU buffers, for example:
 
-[auto build test ERROR on net-next/main]
+  1. Kernel data accessed by an NMI between VERW and return-to-user can
+     remain in CPU buffers (since NMI returning to kernel does not
+     execute VERW to clear CPU buffers).
+  2. Alyssa reported that after VERW is executed,
+     CONFIG_GCC_PLUGIN_STACKLEAK=y scrubs the stack used by a system
+     call. Memory accesses during stack scrubbing can move kernel stack
+     contents into CPU buffers.
+  3. When caller saved registers are restored after a return from
+     function executing VERW, the kernel stack accesses can remain in
+     CPU buffers(since they occur after VERW).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-Convert-PHYs-hwtstamp-callback-to-use-kernel_hwtstamp_config/20231009-235451
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231009155138.86458-2-kory.maincent%40bootlin.com
-patch subject: [PATCH net-next v5 01/16] net: Convert PHYs hwtstamp callback to use kernel_hwtstamp_config
-config: csky-randconfig-002-20231020 (https://download.01.org/0day-ci/archive/20231021/202310210416.0nNTYS2E-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310210416.0nNTYS2E-lkp@intel.com/reproduce)
+Although these cases are less practical to exploit, moving VERW closer
+to ring transition reduces the attack surface.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310210416.0nNTYS2E-lkp@intel.com/
+Overview of the series:
 
-All errors (new ones prefixed by >>):
+Patch 1: Prepares VERW macros for use in asm.
+Patch 2: Adds macros to 64-bit entry/exit points.
+Patch 3: Adds macros to 32-bit entry/exit points.
+Patch 4: Enables the new macros.
+Patch 5: Cleans up C implementation.
+Patch 6: Adds macro to VMenter.
 
-   drivers/net/phy/nxp-c45-tja11xx.c: In function 'nxp_c45_hwtstamp':
->> drivers/net/phy/nxp-c45-tja11xx.c:1033:13: error: 'cfg' undeclared (first use in this function)
-    1033 |         if (cfg->tx_type < 0 || cfg->tx_type > HWTSTAMP_TX_ON)
-         |             ^~~
-   drivers/net/phy/nxp-c45-tja11xx.c:1033:13: note: each undeclared identifier is reported only once for each function it appears in
+Below is some performance data collected on a Skylake client compared
+with previous implementation:
 
+Baseline: v6.6-rc5
 
-vim +/cfg +1033 drivers/net/phy/nxp-c45-tja11xx.c
+| Test               | Configuration          | Relative |
+| ------------------ | ---------------------- | -------- |
+| build-linux-kernel | defconfig              | 1.00     |
+| hackbench          | 32 - Process           | 1.02     |
+| nginx              | Short Connection - 500 | 1.01     |
 
-  1023	
-  1024	static int nxp_c45_hwtstamp(struct mii_timestamper *mii_ts,
-  1025				    struct kernel_hwtstamp_config *config,
-  1026				    struct netlink_ext_ack *extack)
-  1027	{
-  1028		struct nxp_c45_phy *priv = container_of(mii_ts, struct nxp_c45_phy,
-  1029							mii_ts);
-  1030		struct phy_device *phydev = priv->phydev;
-  1031		const struct nxp_c45_phy_data *data;
-  1032	
-> 1033		if (cfg->tx_type < 0 || cfg->tx_type > HWTSTAMP_TX_ON)
-  1034			return -ERANGE;
-  1035	
-  1036		data = nxp_c45_get_data(phydev);
-  1037		priv->hwts_tx = cfg->tx_type;
-  1038	
-  1039		switch (cfg->rx_filter) {
-  1040		case HWTSTAMP_FILTER_NONE:
-  1041			priv->hwts_rx = 0;
-  1042			break;
-  1043		case HWTSTAMP_FILTER_PTP_V2_L2_EVENT:
-  1044		case HWTSTAMP_FILTER_PTP_V2_L2_SYNC:
-  1045		case HWTSTAMP_FILTER_PTP_V2_L2_DELAY_REQ:
-  1046			priv->hwts_rx = 1;
-  1047			cfg->rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
-  1048			break;
-  1049		default:
-  1050			return -ERANGE;
-  1051		}
-  1052	
-  1053		if (priv->hwts_rx || priv->hwts_tx) {
-  1054			phy_write_mmd(phydev, MDIO_MMD_VEND1,
-  1055				      data->regmap->vend1_event_msg_filt,
-  1056				      EVENT_MSG_FILT_ALL);
-  1057			data->ptp_enable(phydev, true);
-  1058		} else {
-  1059			phy_write_mmd(phydev, MDIO_MMD_VEND1,
-  1060				      data->regmap->vend1_event_msg_filt,
-  1061				      EVENT_MSG_FILT_NONE);
-  1062			data->ptp_enable(phydev, false);
-  1063		}
-  1064	
-  1065		if (nxp_c45_poll_txts(priv->phydev))
-  1066			goto nxp_c45_no_ptp_irq;
-  1067	
-  1068		if (priv->hwts_tx)
-  1069			nxp_c45_set_reg_field(phydev, &data->regmap->irq_egr_ts_en);
-  1070		else
-  1071			nxp_c45_clear_reg_field(phydev, &data->regmap->irq_egr_ts_en);
-  1072	
-  1073	nxp_c45_no_ptp_irq:
-  1074		return 0;
-  1075	}
-  1076	
+Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+---
+Pawan Gupta (6):
+      x86/bugs: Add asm helpers for executing VERW
+      x86/entry_64: Add VERW just before userspace transition
+      x86/entry_32: Add VERW just before userspace transition
+      x86/bugs: Use ALTERNATIVE() instead of mds_user_clear static key
+      x86/bugs: Cleanup mds_user_clear
+      KVM: VMX: Move VERW closer to VMentry for MDS mitigation
 
+ Documentation/arch/x86/mds.rst       | 20 +++++++++----------
+ arch/x86/entry/entry_32.S            |  8 ++++++++
+ arch/x86/entry/entry_64.S            | 14 ++++++++++++++
+ arch/x86/entry/entry_64_compat.S     |  2 ++
+ arch/x86/include/asm/cpufeatures.h   |  2 +-
+ arch/x86/include/asm/entry-common.h  |  1 -
+ arch/x86/include/asm/nospec-branch.h | 37 ++++++++++++++++++++++++------------
+ arch/x86/kernel/cpu/bugs.c           | 13 +++++--------
+ arch/x86/kernel/nmi.c                |  2 --
+ arch/x86/kvm/vmx/vmenter.S           |  9 +++++++++
+ arch/x86/kvm/vmx/vmx.c               | 10 +++++++---
+ 11 files changed, 80 insertions(+), 38 deletions(-)
+---
+base-commit: 58720809f52779dc0f08e53e54b014209d13eebb
+change-id: 20231011-delay-verw-d0474986b2c3
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Pawan
+
+
