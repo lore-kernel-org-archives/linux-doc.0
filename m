@@ -1,91 +1,119 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2791549A
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 12:26:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF3B10A25;
+	Fri, 20 Oct 2023 12:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="QclXltIl"
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06D911B;
-	Fri, 20 Oct 2023 05:26:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1697804783;
-	bh=6eucA1hIcjauTZoFNKAzAXAXKE9v2Ut89sCYmHempMk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QclXltIlXyGGi657p/iDwBH81QR1Iq3hd2y3RECoPS8AqMPR/RErtt2w4IjXNvdFS
-	 BuxNLODSXwr1SZo6QBze4u8LRO5Tcrv7BrbNKQz75YSps06WZpI+zPZg3snlCCjrwD
-	 jgJM0T/JxnY6UaA0HoIUdP7y/2ufp274BKAWuRePgsiyyG8g/qX2pmJCSQz20w10kA
-	 Vapu+fMZNMj0nDmOe4WbCdoPUSKWMeWXwi00he23ZyAekbdflKg71CYYMe/zQA7gfz
-	 YTX72jW07FtzNr5FUqOTLKtcYjkAL829RoSjltinVy+CJfz/VBKbdLd9JBPDwQrT4X
-	 TR6mZiWRU048g==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4SBkMy1x9Dz4wd5;
-	Fri, 20 Oct 2023 23:26:22 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, "Paul E. McKenney" <paulmck@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Randy Dunlap
- <rdunlap@infradead.org>, Peter Zijlstra <peterz@infradead.org>, "Steven
- Rostedt (Google)" <rostedt@goodmis.org>, Daniel Sneddon
- <daniel.sneddon@linux.intel.com>, Vaidyanathan Srinivasan
- <svaidy@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2] powerpc: Enable generic cpu idle-loop
-In-Reply-To: <20230821045928.1350893-1-vaibhav@linux.ibm.com>
-References: <20230821045928.1350893-1-vaibhav@linux.ibm.com>
-Date: Fri, 20 Oct 2023 23:26:21 +1100
-Message-ID: <871qdp5vki.fsf@mail.lhotse>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SAFH2oBm"
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99559D41;
+	Fri, 20 Oct 2023 05:45:30 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-777719639adso42389485a.3;
+        Fri, 20 Oct 2023 05:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697805930; x=1698410730; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D1iwvLTq2T841qY10LF8GOUyS20mcZ4CoMQTfhMBIOU=;
+        b=SAFH2oBmou1eVPCymNGM/FljWHknAPbBlF6oRnWDkG9lpwGIyBi7IprxlGp05v3Ekl
+         zRvza4H1l4QtD4xHOE+o2sz42mlXjnTRGLB7i3hWT3x0YBxYbA1VjDcrrrArpcB14OWS
+         ltmgOe3gPVjK9JWfvZ+uGBktD3pCtecpjWTJZv2xKyW9Ftz3tycUIseM1fwPGWy5ekwM
+         W0cDRZWwmioPBCwD5sZ6bSItgSgUuaA22JxBDEZ1zeW+13jyFSlXG62PUrccm3MfD5F2
+         HiwZyN4lnSQtygFapC7gzd7ayOdLLqwn/GV0fvXZiVwbb4uWQCyJvXI9UtZ61d1ALETL
+         gQcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697805930; x=1698410730;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D1iwvLTq2T841qY10LF8GOUyS20mcZ4CoMQTfhMBIOU=;
+        b=fJyGoLuUDHzdGWw9xmR5Czqw1v3UPgHZdYxphYG7DC+sOB9a6OErHWHnVyEILR4XcF
+         aM5Ugqt+lA1uOoBdVaL5c9cb+xOukX5KdpdKrEjPpqhunpm6fB+uC5ipRD+d5h7PPUTA
+         z6uZKbYGP+gfqFBIelxCrXXFhVlrWSHsl7+6NQZuPUnyck5vbcvB0fMJFnYRVL+fROkT
+         vc8M0tpkaZ1+WBjccNtJmfTodMvumQ/Vo6w20M8dh7ux8sZBscnJ05OrD4UJSMNxmw6Z
+         6QgafAwbZx1VCK02hKYu92WhFooylwjnzhACrCaDtSSO7vYOwBRg7ld2m1qtp/O/uiBL
+         mUfg==
+X-Gm-Message-State: AOJu0YzKoJofwlnN2+YIs3Atv6SELpdZTex+y+JdYjwZ+P2Y7oEvU9wp
+	LBwgm7mfCpNUeVRlmDNM9fU=
+X-Google-Smtp-Source: AGHT+IEJkzCDPpptDXF5Wq66CNuBmxbL9vD1ANrVpxErbMdo6XBa9bwUqjstTvGGeqJ7Hbco+Mgvlg==
+X-Received: by 2002:a05:620a:1097:b0:774:1795:4a89 with SMTP id g23-20020a05620a109700b0077417954a89mr1471961qkk.71.1697805929638;
+        Fri, 20 Oct 2023 05:45:29 -0700 (PDT)
+Received: from localhost (modemcable065.128-200-24.mc.videotron.ca. [24.200.128.65])
+        by smtp.gmail.com with ESMTPSA id c3-20020a05620a0ce300b00770f3e5618esm573928qkj.101.2023.10.20.05.45.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Oct 2023 05:45:29 -0700 (PDT)
+From: Benjamin Poirier <benjamin.poirier@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Ian Kent <raven@themaw.net>,
+	Sven Joachim <svenjoac@gmx.de>,
+	Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>,
+	Sumitra Sharma <sumitraartsy@gmail.com>,
+	Ricardo Lopes <ricardoapl.dev@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Manish Chopra <manishc@marvell.com>,
+	Coiby Xu <coiby.xu@gmail.com>
+Subject: [PATCH 0/2] staging: qlge: Remove qlge
+Date: Fri, 20 Oct 2023 08:44:55 -0400
+Message-ID: <20231020124457.312449-1-benjamin.poirier@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Hi Vaibhav,
+Remove the qlge driver from staging. The TODO file is first updated to
+reflect the current status, in case the removal is later reverted.
 
-Vaibhav Jain <vaibhav@linux.ibm.com> writes:
-> This minor patch enables config option GENERIC_IDLE_POLL_SETUP for arch
-> powerpc. This should add support for kernel param 'nohlt'.
->
-> Powerpc kernel also supports another kernel boot-time param called
-> 'powersave' which can also be used to disable all cpu idle-states and
-> forces CPU to an idle-loop similar to what cpu_idle_poll() does. Hence this
-> patch  also updates the handling of 'powersave=off' kernel param to enable
-> generic cpu idle-loop if its enabled.
->
-> Signed-off-by: Vaibhav Jain<vaibhav@linux.ibm.com>
-> ---
-> Changelog:
->
-> Since v1:
-> https://lore.kernel.org/all/20230818050739.827851-1-vaibhav@linux.ibm.com
-> * Updated powersave_off() to enable generic cpu idle-loop if
-> 'powersave=off' kernel arg is given. [Mpe]
-> * Update patch description
+Benjamin Poirier (2):
+  staging: qlge: Update TODO
+  staging: qlge: Retire the driver
 
-I had already merged the v1 when I saw this, and ...
+ .../networking/device_drivers/index.rst       |    1 -
+ .../device_drivers/qlogic/index.rst           |   18 -
+ .../networking/device_drivers/qlogic/qlge.rst |  118 -
+ MAINTAINERS                                   |    9 -
+ arch/parisc/configs/generic-64bit_defconfig   |    1 -
+ drivers/staging/Kconfig                       |    2 -
+ drivers/staging/Makefile                      |    1 -
+ drivers/staging/qlge/Kconfig                  |   11 -
+ drivers/staging/qlge/Makefile                 |    8 -
+ drivers/staging/qlge/TODO                     |   33 -
+ drivers/staging/qlge/qlge.h                   | 2293 --------
+ drivers/staging/qlge/qlge_dbg.c               | 1311 -----
+ drivers/staging/qlge/qlge_devlink.c           |  167 -
+ drivers/staging/qlge/qlge_devlink.h           |    9 -
+ drivers/staging/qlge/qlge_ethtool.c           |  746 ---
+ drivers/staging/qlge/qlge_main.c              | 4845 -----------------
+ drivers/staging/qlge/qlge_mpi.c               | 1273 -----
+ 17 files changed, 10846 deletions(-)
+ delete mode 100644 Documentation/networking/device_drivers/qlogic/index.rst
+ delete mode 100644 Documentation/networking/device_drivers/qlogic/qlge.rst
+ delete mode 100644 drivers/staging/qlge/Kconfig
+ delete mode 100644 drivers/staging/qlge/Makefile
+ delete mode 100644 drivers/staging/qlge/TODO
+ delete mode 100644 drivers/staging/qlge/qlge.h
+ delete mode 100644 drivers/staging/qlge/qlge_dbg.c
+ delete mode 100644 drivers/staging/qlge/qlge_devlink.c
+ delete mode 100644 drivers/staging/qlge/qlge_devlink.h
+ delete mode 100644 drivers/staging/qlge/qlge_ethtool.c
+ delete mode 100644 drivers/staging/qlge/qlge_main.c
+ delete mode 100644 drivers/staging/qlge/qlge_mpi.c
 
-> diff --git a/arch/powerpc/kernel/idle.c b/arch/powerpc/kernel/idle.c
-> index b1c0418b25c8..7367a0698459 100644
-> --- a/arch/powerpc/kernel/idle.c
-> +++ b/arch/powerpc/kernel/idle.c
-> @@ -35,6 +36,8 @@ EXPORT_SYMBOL(cpuidle_disable);
->  
->  static int __init powersave_off(char *arg)
->  {
-> +	/* Use generic idle loop if thats available */
-> +	cpu_idle_poll_ctrl(true);
->  	ppc_md.power_save = NULL;
->  	cpuidle_disable = IDLE_POWERSAVE_OFF;
->  	return 1;
+-- 
+2.42.0
 
-The hope here would be that we could remove the need for cpuidle_disable.
-
-cheers
