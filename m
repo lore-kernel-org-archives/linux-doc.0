@@ -1,215 +1,98 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A542116429;
-	Fri, 20 Oct 2023 09:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BA5D8;
-	Fri, 20 Oct 2023 02:59:35 -0700 (PDT)
-Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.54])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4SBg3M5WlYz15NgH;
-	Fri, 20 Oct 2023 17:56:47 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Fri, 20 Oct 2023 17:59:32 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Alexander
- Duyck <alexander.duyck@gmail.com>, Liang Chen <liangchen.linux@gmail.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Dima Tisnek
-	<dimaqq@gmail.com>, Jesper Dangaard Brouer <hawk@kernel.org>, Ilias
- Apalodimas <ilias.apalodimas@linaro.org>, Eric Dumazet <edumazet@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
-	<linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
-Subject: [PATCH net-next v12 4/5] page_pool: update document about fragment API
-Date: Fri, 20 Oct 2023 17:59:51 +0800
-Message-ID: <20231020095952.11055-5-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20231020095952.11055-1-linyunsheng@huawei.com>
-References: <20231020095952.11055-1-linyunsheng@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBA7168AC
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 10:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="ggQl4cAl"
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86348D46
+	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 03:27:19 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-53e3e7e478bso934681a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 03:27:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1697797638; x=1698402438; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=O9G9iqXSn4bIWBu+1DJE9aW2IMSJDKBdGcQ03iTHUdg=;
+        b=ggQl4cAl0qvH/xy2iY8hIKw3ouJfQu21CkAlQvrbyc8o6uo3qRhs+K7JxvuXKtNbhM
+         KOeJNisJ6OfAtU0R3/xyMGD6FhEnadXm3azqEICgU1Yelco7fa8oiaB+8VksVUNGNpx9
+         okHC2pwsf6+3gWjvuv6C73lVeBcd8073DhvvRueeNiHswgZWvRnUBKiMpznrul5YCAsL
+         p3hAPgSSTyv0W6EWkD+XuZ0pKK4HUuh8HvHfsK0kPPL7Uxm+jPEogH8n+3XSXxKo5AJT
+         bSHjJfN2FEVKi4mOz6s9/rQfgffbn60lZ7bI79ylUVVHXykwk4l/i/F7SGUrd08r+67m
+         p5hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697797638; x=1698402438;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O9G9iqXSn4bIWBu+1DJE9aW2IMSJDKBdGcQ03iTHUdg=;
+        b=YJygHytCmKS4gHQwBuOQ5iUMDbmymb4lKpWN7L0E4tzWjOY/W88lNytqmj/FyP3b4j
+         W/pksEm60J8c/GQmhnsTKaO6jNwEJznWDC7TdaXU674vhdqYyaeNLWCcbpesnC8cyERa
+         F0OVJsV7X6IRqyadff2gXIBYStRESwuDWLNdCg9y12Iet5bKknU08QqONqakDgdETVZr
+         dcu/pPigIVOVGZegixiCwRuNkLDtWB9lz82fAwjc3BN0LUvbgHYEApMkD6+HlyucmMnM
+         wpgmqhOKNBT09Lkv20xf3j0u+gPelDkbE9vPTm6dQk6hR5R4sB6ApFd9VpuytZIEdYVn
+         FVsw==
+X-Gm-Message-State: AOJu0YwO7UQ92030suuBcZYZAnyLRc/jfdzDG+kWMebjVl0PqHxTwLgn
+	hKyri6LP8wbXeMv+JqZMZoYgVA==
+X-Google-Smtp-Source: AGHT+IHZl6pUqwMf9CFUA2xEvYwgpCp82Av0Lk//UAONUT1SVS4Axb4Qd2P3hrYxgtOT7flTfwUbaA==
+X-Received: by 2002:a17:907:3f85:b0:9be:6ff7:128a with SMTP id hr5-20020a1709073f8500b009be6ff7128amr1087855ejc.67.1697797637704;
+        Fri, 20 Oct 2023 03:27:17 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id a19-20020a1709065f9300b0099e12a49c8fsm1215456eju.173.2023.10.20.03.27.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Oct 2023 03:27:17 -0700 (PDT)
+Date: Fri, 20 Oct 2023 12:27:16 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Evan Green <evan@rivosinc.com>, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, Samuel Ortiz <sameo@rivosinc.com>
+Subject: Re: [PATCH v2 01/19] riscv: hwprobe: factorize hwprobe ISA extension
+ reporting
+Message-ID: <20231020-cee6ba8c9b3dc3c2a984fbb5@orel>
+References: <20231017131456.2053396-1-cleger@rivosinc.com>
+ <20231017131456.2053396-2-cleger@rivosinc.com>
+ <CALs-HssL=wNwj9nRuZwpZhy1CB9p9-X=OqgwBw9zvgA7hA4fEg@mail.gmail.com>
+ <20231018-scrap-bankable-a0f321d97a46@spud>
+ <20231018-flagpole-footpad-07a6228485f3@spud>
+ <844f6f35-3125-4014-852c-9ad7aee19ddc@rivosinc.com>
+ <20231019-flatten-showbiz-127b2e917a7a@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500005.china.huawei.com (7.185.36.74)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20231019-flatten-showbiz-127b2e917a7a@spud>
 
-As more drivers begin to use the fragment API, update the
-document about how to decide which API to use for the
-driver author.
+On Thu, Oct 19, 2023 at 11:22:26AM +0100, Conor Dooley wrote:
+> On Thu, Oct 19, 2023 at 09:26:31AM +0200, Clément Léger wrote:
+...
+> > BTW, wouldn't
+> > it make more sense to get rid out of the unsupported extensions directly
+> > at ISA string parsing ? ie, if kernel is compiled without V support,
+> > then do not set the bits corresponding to these in the riscv_isa_ext[]
+> > array ? But the initial intent was probably to be able to report the
+> > full string through cpuinfo.
+> 
+> Yeah, hysterical raisins I guess, it's always been that way. I don't
+> think anyone originally thought about such configurations and that is
+> how the cpuinfo stuff behaves. I strongly dislike the
+> riscv_isa_extension_available() interface, but one of Drew's patches
+> does at least improve things a bit. Kinda waiting for some of the
+> patches in flight to settle down before deciding if I want to refactor
+> stuff to be less of a potential for shooting oneself in the foot.
 
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Alexander Duyck <alexander.duyck@gmail.com>
-CC: Liang Chen <liangchen.linux@gmail.com>
-CC: Alexander Lobakin <aleksander.lobakin@intel.com>
-CC: Dima Tisnek <dimaqq@gmail.com>
----
- Documentation/networking/page_pool.rst |  4 +-
- include/net/page_pool/helpers.h        | 93 ++++++++++++++++++++++----
- 2 files changed, 83 insertions(+), 14 deletions(-)
+And I recall promising to try and do something with it too, but that
+promise got buried under other promises... It's still on the TODO, at
+least!
 
-diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
-index 215ebc92752c..60993cb56b32 100644
---- a/Documentation/networking/page_pool.rst
-+++ b/Documentation/networking/page_pool.rst
-@@ -58,7 +58,9 @@ a page will cause no race conditions is enough.
- 
- .. kernel-doc:: include/net/page_pool/helpers.h
-    :identifiers: page_pool_put_page page_pool_put_full_page
--		 page_pool_recycle_direct page_pool_dev_alloc_pages
-+		 page_pool_recycle_direct page_pool_free_va
-+		 page_pool_dev_alloc_pages page_pool_dev_alloc_frag
-+		 page_pool_dev_alloc page_pool_dev_alloc_va
- 		 page_pool_get_dma_addr page_pool_get_dma_dir
- 
- .. kernel-doc:: net/core/page_pool.c
-diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
-index 1b76e05dc4d2..4ebd544ae977 100644
---- a/include/net/page_pool/helpers.h
-+++ b/include/net/page_pool/helpers.h
-@@ -8,23 +8,46 @@
- /**
-  * DOC: page_pool allocator
-  *
-- * The page_pool allocator is optimized for the XDP mode that
-- * uses one frame per-page, but it can fallback on the
-- * regular page allocator APIs.
-+ * The page_pool allocator is optimized for recycling page or page fragment used
-+ * by skb packet and xdp frame.
-  *
-- * Basic use involves replacing alloc_pages() calls with the
-- * page_pool_alloc_pages() call.  Drivers should use
-- * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
-+ * Basic use involves replacing and alloc_pages() calls with page_pool_alloc(),
-+ * which allocate memory with or without page splitting depending on the
-+ * requested memory size.
-  *
-- * The API keeps track of in-flight pages, in order to let API users know
-- * when it is safe to free a page_pool object.  Thus, API users
-- * must call page_pool_put_page() to free the page, or attach
-- * the page to a page_pool-aware object like skbs marked with
-+ * If the driver knows that it always requires full pages or its allocations are
-+ * always smaller than half a page, it can use one of the more specific API
-+ * calls:
-+ *
-+ * 1. page_pool_alloc_pages(): allocate memory without page splitting when
-+ * driver knows that the memory it need is always bigger than half of the page
-+ * allocated from page pool. There is no cache line dirtying for 'struct page'
-+ * when a page is recycled back to the page pool.
-+ *
-+ * 2. page_pool_alloc_frag(): allocate memory with page splitting when driver
-+ * knows that the memory it need is always smaller than or equal to half of the
-+ * page allocated from page pool. Page splitting enables memory saving and thus
-+ * avoids TLB/cache miss for data access, but there also is some cost to
-+ * implement page splitting, mainly some cache line dirtying/bouncing for
-+ * 'struct page' and atomic operation for page->pp_frag_count.
-+ *
-+ * The API keeps track of in-flight pages, in order to let API users know when
-+ * it is safe to free a page_pool object, the API users must call
-+ * page_pool_put_page() or page_pool_free_va() to free the page_pool object, or
-+ * attach the page_pool object to a page_pool-aware object like skbs marked with
-  * skb_mark_for_recycle().
-  *
-- * API users must call page_pool_put_page() once on a page, as it
-- * will either recycle the page, or in case of refcnt > 1, it will
-- * release the DMA mapping and in-flight state accounting.
-+ * page_pool_put_page() may be called multi times on the same page if a page is
-+ * split into multi fragments. For the last fragment, it will either recycle the
-+ * page, or in case of page->_refcount > 1, it will release the DMA mapping and
-+ * in-flight state accounting.
-+ *
-+ * dma_sync_single_range_for_device() is only called for the last fragment when
-+ * page_pool is created with PP_FLAG_DMA_SYNC_DEV flag, so it depends on the
-+ * last freed fragment to do the sync_for_device operation for all fragments in
-+ * the same page when a page is split, the API user must setup pool->p.max_len
-+ * and pool->p.offset correctly and ensure that page_pool_put_page() is called
-+ * with dma_sync_size being -1 for fragment API.
-  */
- #ifndef _NET_PAGE_POOL_HELPERS_H
- #define _NET_PAGE_POOL_HELPERS_H
-@@ -73,6 +96,17 @@ static inline struct page *page_pool_dev_alloc_pages(struct page_pool *pool)
- 	return page_pool_alloc_pages(pool, gfp);
- }
- 
-+/**
-+ * page_pool_dev_alloc_frag() - allocate a page fragment.
-+ * @pool: pool from which to allocate
-+ * @offset: offset to the allocated page
-+ * @size: requested size
-+ *
-+ * Get a page fragment from the page allocator or page_pool caches.
-+ *
-+ * Return:
-+ * Return allocated page fragment, otherwise return NULL.
-+ */
- static inline struct page *page_pool_dev_alloc_frag(struct page_pool *pool,
- 						    unsigned int *offset,
- 						    unsigned int size)
-@@ -111,6 +145,19 @@ static inline struct page *page_pool_alloc(struct page_pool *pool,
- 	return page;
- }
- 
-+/**
-+ * page_pool_dev_alloc() - allocate a page or a page fragment.
-+ * @pool: pool from which to allocate
-+ * @offset: offset to the allocated page
-+ * @size: in as the requested size, out as the allocated size
-+ *
-+ * Get a page or a page fragment from the page allocator or page_pool caches
-+ * depending on the requested size in order to allocate memory with least memory
-+ * utilization and performance penalty.
-+ *
-+ * Return:
-+ * Return allocated page or page fragment, otherwise return NULL.
-+ */
- static inline struct page *page_pool_dev_alloc(struct page_pool *pool,
- 					       unsigned int *offset,
- 					       unsigned int *size)
-@@ -134,6 +181,18 @@ static inline void *page_pool_alloc_va(struct page_pool *pool,
- 	return page_address(page) + offset;
- }
- 
-+/**
-+ * page_pool_dev_alloc_va() - allocate a page or a page fragment and return its
-+ *			      va.
-+ * @pool: pool from which to allocate
-+ * @size: in as the requested size, out as the allocated size
-+ *
-+ * This is just a thin wrapper around the page_pool_alloc() API, and
-+ * it returns va of the allocated page or page fragment.
-+ *
-+ * Return:
-+ * Return the va for the allocated page or page fragment, otherwise return NULL.
-+ */
- static inline void *page_pool_dev_alloc_va(struct page_pool *pool,
- 					   unsigned int *size)
- {
-@@ -281,6 +340,14 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
- #define PAGE_POOL_32BIT_ARCH_WITH_64BIT_DMA	\
- 		(sizeof(dma_addr_t) > sizeof(unsigned long))
- 
-+/**
-+ * page_pool_free_va() - free a va into the page_pool
-+ * @pool: pool from which va was allocated
-+ * @va: va to be freed
-+ * @allow_direct: freed by the consumer, allow lockless caching
-+ *
-+ * Free a va allocated from page_pool_allo_va().
-+ */
- static inline void page_pool_free_va(struct page_pool *pool, void *va,
- 				     bool allow_direct)
- {
--- 
-2.33.0
-
+drew
