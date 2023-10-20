@@ -1,354 +1,171 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4CE1DDC9
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 19:58:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC42249E6;
+	Fri, 20 Oct 2023 20:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dM1k2pA1"
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6853DD52;
-	Fri, 20 Oct 2023 12:58:31 -0700 (PDT)
-Received: by mail-il1-x134.google.com with SMTP id e9e14a558f8ab-35749078a59so4103585ab.3;
-        Fri, 20 Oct 2023 12:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697831911; x=1698436711; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DMaTpdy0i75iy95ltl1vU/e0Nep1hsEs0WMhGjfkl4k=;
-        b=dM1k2pA1SIXnjXjKOD/nz+P+B2/eL2F6eevtuMY7QKoTwNmR/lcuyT7iFBFlsdQiNq
-         r8jDvdwyww5bb593O4eHrDq9nPDa+dx+CaN5CFKS8KmxIRDP7q9Gy/EII/CZXlI/iUnk
-         3/TlB+Wueo9CBJhlKDDdfjyLjjn1CzHmRwB00Q4mqXs6vCNxNAUyJ9Frr6Cknh8xBHzg
-         LGkO97iZ9sVzKjHC65es4iB0/Xz83Qul/67N5tB4bEMaE119GDIx3eAudDlxLy6LELAU
-         Tj/S8zN/VegqMF1LLzoCCkr/kroSpguUnv3Vu7tID8ekrLkjG0dsLhWUVrriA5N1VtXG
-         Cf8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697831911; x=1698436711;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DMaTpdy0i75iy95ltl1vU/e0Nep1hsEs0WMhGjfkl4k=;
-        b=xG7TMi4zjMbZtZrBz3n/IRKH3z+F7wNc6HzvDVOAQ6Y+kFrA4W2fVxaXXsdPxSJdkH
-         tJywExb6Ka3VwVCd+Syc1SFDa9ks8ANPXY8lj2oqDbd0rc6iE1LBhapmkt6CxBE9d8a7
-         AR25eXROkPhFXryCH2QLhKnmGFX1Rt0qhICa1tb42GzpDc9Q6JMjxIj1cpqVsi7mxTQ0
-         HFkhN/PiI6wXtkjhM4eJQgJ1TEtM6Uc1CtFeXQWqs6Vji6UWX139EA7V7e1cRcYm3bNy
-         6P6OLYljZdxE8Vy1qe+DBVYMgvwiCj3o6tjuqHSfwmX2kxl/spnsvvyFfpU+f07mIOFG
-         0WPA==
-X-Gm-Message-State: AOJu0YyFYShaO8K5CbBdBW02YsOGTOUZByTHGzZ8hTmcjH/aeQUaQQ3a
-	NvZl4ZOK4ZL5pICpVMub6iaRAQqjZbfnYwRrJ98=
-X-Google-Smtp-Source: AGHT+IGR8W7Xi0YQ/7dCUZ2Jb3c+qTsFkmiWPSTao7GyIUJ9F1uL0JV4qYZmZW/AoBcAKMHA3vnqiBBpxyI24w52tdA=
-X-Received: by 2002:a92:c26a:0:b0:34f:f2d3:ea70 with SMTP id
- h10-20020a92c26a000000b0034ff2d3ea70mr4009375ild.6.1697831910562; Fri, 20 Oct
- 2023 12:58:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QzuBYaVL"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F7AD63;
+	Fri, 20 Oct 2023 13:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697833507; x=1729369507;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5pNSvTZbWx58Mg2C+HXhbZ0YgeE49K6MON74reseULc=;
+  b=QzuBYaVLyEZ7qjXdPDKSf8Y5OhSUL4sN8wT8ELRQxXpqbp1NM/81i3yN
+   mLHE/uMBirhYTa7/i2TXqZCLG5i/Kg/KDixRIZJPOknIsCKegOBMFfZPw
+   LAUTFDr/tyYVhaYHYVjfEqrbrlpZ5IKIC5QMRPissTMU8bzCSFmXBVVuF
+   tx/SF5zQyM3mNzBc3paOWb9w1SF2VlMHeXJGHRD1WFMc/TTKGwXp8XPer
+   Ckn8mE6SysRBWO74lG6ZxiToEw6iOat8xs3YYO3zUN0jsZMNcm2FMLzMF
+   Ici1vdKkwNOSuehfD35M3MswZZBPxWiGwK0cSkUua5H/kblFYc1fyLouV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="417703028"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="417703028"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 13:24:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="761167655"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="761167655"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 20 Oct 2023 13:24:29 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qtw2l-0003xi-0a;
+	Fri, 20 Oct 2023 20:24:27 +0000
+Date: Sat, 21 Oct 2023 04:23:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	UNGLinuxDriver@microchip.com,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Michael Walle <michael@walle.cc>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>
+Subject: Re: [PATCH net-next v5 01/16] net: Convert PHYs hwtstamp callback to
+ use kernel_hwtstamp_config
+Message-ID: <202310210416.0nNTYS2E-lkp@intel.com>
+References: <20231009155138.86458-2-kory.maincent@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231017232152.2605440-1-nphamcs@gmail.com> <20231017232152.2605440-3-nphamcs@gmail.com>
- <CAJD7tka2aVKBJj6cYutcVzOGzj_6gop6-ytSmWWML=sEe9qHbA@mail.gmail.com>
- <CA+CLi1jiyY3oueWrLtd5JOrtP-aYQ90sPgSCBoWtB2jVL_-FxA@mail.gmail.com> <CAJD7tka_gvNPgu4gim9-dqx0Wf-zdGj+==nwx2yrmOuZoe=oyw@mail.gmail.com>
-In-Reply-To: <CAJD7tka_gvNPgu4gim9-dqx0Wf-zdGj+==nwx2yrmOuZoe=oyw@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 20 Oct 2023 12:58:19 -0700
-Message-ID: <CAKEwX=OVcAEnOEmhy2dGwE7Zm-L-y8Mq=bx4BFUeQnTXaAA_FQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] zswap: make shrinking memcg-aware
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: Domenico Cerasuolo <cerasuolodomenico@gmail.com>, akpm@linux-foundation.org, 
-	hannes@cmpxchg.org, sjenning@redhat.com, ddstreet@ieee.org, 
-	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeelb@google.com, muchun.song@linux.dev, linux-mm@kvack.org, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231009155138.86458-2-kory.maincent@bootlin.com>
 
-On Thu, Oct 19, 2023 at 9:15=E2=80=AFAM Yosry Ahmed <yosryahmed@google.com>=
- wrote:
->
-> [..]
-> > > >
-> > > > +/*********************************
-> > > > +* lru functions
-> > > > +**********************************/
-> > > > +static bool zswap_lru_add(struct list_lru *list_lru, struct zswap_=
-entry *entry)
-> > > > +{
-> > > > +       struct mem_cgroup *memcg =3D get_mem_cgroup_from_entry(entr=
-y);
-> > >
-> > > Could we avoid the need for get/put with an rcu_read_lock() instead?
-> >
-> > I think we can, I'm not entirely sure of the consequences though. By th=
-e
-> > look of it I'd say it's safe but I wouldn't trust my judgement on this.
->
-> It just seems like we have a pattern of short-lived get/put. If RCU
-> gives enough protection it should be simpler. IIUC taking a reference
-> does not protect against offlining or reparenting, so I am not sure if
-> taking a reference here would provide any more protection than
->
+Hi Köry,
 
-I'd keep it for now. Sounds like an optimization to me, which could
-always be done as a follow-up :)
+kernel test robot noticed the following build errors:
 
-Unless of course, if somebody has a really strong opinion regarding
-this.
+[auto build test ERROR on net-next/main]
 
-> >
-> > >
-> [..]
-> > > > @@ -686,7 +716,36 @@ static int zswap_reclaim_entry(struct zswap_po=
-ol *pool)
-> > > >         zswap_entry_put(tree, entry);
-> > > >  unlock:
-> > > >         spin_unlock(&tree->lock);
-> > > > -       return ret ? -EAGAIN : 0;
-> > > > +       spin_lock(lock);
-> > > > +       return ret;
-> > > > +}
-> > > > +
-> > > > +static int shrink_memcg(struct mem_cgroup *memcg)
-> > > > +{
-> > > > +       struct zswap_pool *pool;
-> > > > +       int nid, shrunk =3D 0;
-> > > > +
-> > > > +       pool =3D zswap_pool_current_get();
-> > > > +       if (!pool)
-> > > > +               return -EINVAL;
-> > > > +
-> > > > +       /*
-> > > > +        * Skip zombies because their LRUs are reparented and we wo=
-uld be
-> > > > +        * reclaiming from the parent instead of the dead memcgroup=
-.
-> > >
-> > > nit: s/memcgroup/memcg.
-> > >
-> > > > +        */
-> > > > +       if (memcg && !mem_cgroup_online(memcg))
-> > > > +               goto out;
-> > >
-> > > If we move this above zswap_pool_current_get(), we can return directl=
-y
-> > > and remove the label. I noticed we will return -EAGAIN if memcg is
-> > > offline. IIUC -EAGAIN for the caller will move on to the next memcg,
-> > > but I am wondering if a different errno would be clearer here.
-> >
-> > True, I remember spending some time staring at error codes but couldn't=
- find a
-> > better one. What if we use -EINVAL for retryable errors, and use someth=
-ing else
-> > for the one where there is no pool? -ENODEV?
->
-> Do you mean -EINVAL for non-retryable errors? Perhaps -ENOENT is more
-> appropriate as a return for offline memcgs?
->
-> >
-> > >
-> [..]
-> > > >  static void shrink_worker(struct work_struct *w)
-> > > > @@ -695,10 +754,13 @@ static void shrink_worker(struct work_struct =
-*w)
-> > > >                                                 shrink_work);
-> > > >         int ret, failures =3D 0;
-> > > >
-> > > > +       /* global reclaim will select cgroup in a round-robin fashi=
-on. */
-> > > >         do {
-> > > > -               ret =3D zswap_reclaim_entry(pool);
-> > > > +               pool->next_shrink =3D mem_cgroup_iter(NULL, pool->n=
-ext_shrink, NULL);
-> > >
-> > > Perhaps next_shrink_memcg is a better name here?
-> >
-> > Will change if you have a strong preference, I'd keep it shorter becaus=
-e it's
-> > always used in conjunction with a memcg type or function.
->
-> I'd rather have the more explicit name unless it causes some annoying
-> line breaks or so.
->
-> >
-> > >
-> > > > +
-> > > > +               ret =3D shrink_memcg(pool->next_shrink);
-> > > > +
-> > > >                 if (ret) {
-> > > > -                       zswap_reject_reclaim_fail++;
-> > > >                         if (ret !=3D -EAGAIN)
-> > > >                                 break;
-> > > >                         if (++failures =3D=3D MAX_RECLAIM_RETRIES)
-> > > > @@ -764,8 +826,7 @@ static struct zswap_pool *zswap_pool_create(cha=
-r *type, char *compressor)
-> > > >          */
-> > > >         kref_init(&pool->kref);
-> > > >         INIT_LIST_HEAD(&pool->list);
-> > > > -       INIT_LIST_HEAD(&pool->lru);
-> > > > -       spin_lock_init(&pool->lru_lock);
-> > > > +       list_lru_init_memcg(&pool->list_lru, NULL);
-> > > >         INIT_WORK(&pool->shrink_work, shrink_worker);
-> > > >
-> > > >         zswap_pool_debug("created", pool);
-> > > > @@ -831,6 +892,9 @@ static void zswap_pool_destroy(struct zswap_poo=
-l *pool)
-> > > >
-> > > >         cpuhp_state_remove_instance(CPUHP_MM_ZSWP_POOL_PREPARE, &po=
-ol->node);
-> > > >         free_percpu(pool->acomp_ctx);
-> > > > +       list_lru_destroy(&pool->list_lru);
-> > > > +       if (pool->next_shrink)
-> > > > +               mem_cgroup_put(pool->next_shrink);
-> > > >         for (i =3D 0; i < ZSWAP_NR_ZPOOLS; i++)
-> > > >                 zpool_destroy_pool(pool->zpools[i]);
-> > > >         kfree(pool);
-> > > > @@ -1076,7 +1140,7 @@ static int zswap_writeback_entry(struct zswap=
-_entry *entry,
-> > > >
-> > > >         /* try to allocate swap cache page */
-> > > >         page =3D __read_swap_cache_async(swpentry, GFP_KERNEL, NULL=
-, 0,
-> > > > -                                      &page_was_allocated);
-> > > > +                                      &page_was_allocated, true);
-> > > >         if (!page) {
-> > > >                 ret =3D -ENOMEM;
-> > > >                 goto fail;
-> > > > @@ -1142,7 +1206,6 @@ static int zswap_writeback_entry(struct zswap=
-_entry *entry,
-> > > >         /* start writeback */
-> > > >         __swap_writepage(page, &wbc);
-> > > >         put_page(page);
-> > > > -       zswap_written_back_pages++;
-> > > >
-> > > >         return ret;
-> > > >
-> > > > @@ -1199,8 +1262,10 @@ bool zswap_store(struct folio *folio)
-> > > >         struct scatterlist input, output;
-> > > >         struct crypto_acomp_ctx *acomp_ctx;
-> > > >         struct obj_cgroup *objcg =3D NULL;
-> > > > +       struct mem_cgroup *memcg =3D NULL;
-> > > >         struct zswap_pool *pool;
-> > > >         struct zpool *zpool;
-> > > > +       int lru_alloc_ret;
-> > > >         unsigned int dlen =3D PAGE_SIZE;
-> > > >         unsigned long handle, value;
-> > > >         char *buf;
-> > > > @@ -1230,15 +1295,15 @@ bool zswap_store(struct folio *folio)
-> > > >                 zswap_invalidate_entry(tree, dupentry);
-> > > >         }
-> > > >         spin_unlock(&tree->lock);
-> > > > -
-> > > > -       /*
-> > > > -        * XXX: zswap reclaim does not work with cgroups yet. Witho=
-ut a
-> > > > -        * cgroup-aware entry LRU, we will push out entries system-=
-wide based on
-> > > > -        * local cgroup limits.
-> > > > -        */
-> > > >         objcg =3D get_obj_cgroup_from_folio(folio);
-> > > > -       if (objcg && !obj_cgroup_may_zswap(objcg))
-> > > > -               goto reject;
-> > > > +       if (objcg && !obj_cgroup_may_zswap(objcg)) {
-> > > > +               memcg =3D get_mem_cgroup_from_objcg(objcg);
-> > > > +               if (shrink_memcg(memcg)) {
-> > > > +                       mem_cgroup_put(memcg);
-> > > > +                       goto reject;
-> > > > +               }
-> > > > +               mem_cgroup_put(memcg);
-> > > > +       }
-> > > >
-> > > >         /* reclaim space if needed */
-> > > >         if (zswap_is_full()) {
-> > > > @@ -1254,10 +1319,15 @@ bool zswap_store(struct folio *folio)
-> > > >                         zswap_pool_reached_full =3D false;
-> > > >         }
-> > > >
-> > > > +       pool =3D zswap_pool_current_get();
-> > > > +       if (!pool)
-> > > > +               goto reject;
-> > > > +
-> > >
-> > > Why do we need to move zswap_pool_current_get() up here?
-> >
-> > Ah, thanks. This is a leftover from a previous version where the pool w=
-as needed
-> > to allocate the entry.
-> >
-> >
-> > >
-> > > >         /* allocate entry */
-> > > > -       entry =3D zswap_entry_cache_alloc(GFP_KERNEL);
-> > > > +       entry =3D zswap_entry_cache_alloc(GFP_KERNEL, page_to_nid(p=
-age));
-> > > >         if (!entry) {
-> > > >                 zswap_reject_kmemcache_fail++;
-> > > > +               zswap_pool_put(pool);
-> > > >                 goto reject;
-> > > >         }
-> > > >
-> > > > @@ -1269,6 +1339,7 @@ bool zswap_store(struct folio *folio)
-> > > >                         entry->length =3D 0;
-> > > >                         entry->value =3D value;
-> > > >                         atomic_inc(&zswap_same_filled_pages);
-> > > > +                       zswap_pool_put(pool);
-> > > >                         goto insert_entry;
-> > > >                 }
-> > > >                 kunmap_atomic(src);
-> > > > @@ -1278,9 +1349,15 @@ bool zswap_store(struct folio *folio)
-> > > >                 goto freepage;
-> > > >
-> > > >         /* if entry is successfully added, it keeps the reference *=
-/
-> > > > -       entry->pool =3D zswap_pool_current_get();
-> > > > -       if (!entry->pool)
-> > > > -               goto freepage;
-> > > > +       entry->pool =3D pool;
-> > > > +       if (objcg) {
-> > > > +               memcg =3D get_mem_cgroup_from_objcg(objcg);
-> > > > +               lru_alloc_ret =3D memcg_list_lru_alloc(memcg, &pool=
-->list_lru, GFP_KERNEL);
-> > > > +               mem_cgroup_put(memcg);
-> > > > +
-> > > > +               if (lru_alloc_ret)
-> > > > +                       goto freepage;
-> > > > +       }
-> > > >
-> > > >         /* compress */
-> > > >         acomp_ctx =3D raw_cpu_ptr(entry->pool->acomp_ctx);
-> > > > @@ -1358,9 +1435,8 @@ bool zswap_store(struct folio *folio)
-> > > >                 zswap_invalidate_entry(tree, dupentry);
-> > > >         }
-> > > >         if (entry->length) {
-> > > > -               spin_lock(&entry->pool->lru_lock);
-> > > > -               list_add(&entry->lru, &entry->pool->lru);
-> > > > -               spin_unlock(&entry->pool->lru_lock);
-> > > > +               INIT_LIST_HEAD(&entry->lru);
-> > > > +               zswap_lru_add(&pool->list_lru, entry);
-> > > >         }
-> > > >         spin_unlock(&tree->lock);
-> > > >
-> > > > @@ -1373,8 +1449,8 @@ bool zswap_store(struct folio *folio)
-> > > >
-> > > >  put_dstmem:
-> > > >         mutex_unlock(acomp_ctx->mutex);
-> > > > -       zswap_pool_put(entry->pool);
-> > > >  freepage:
-> > > > +       zswap_pool_put(entry->pool);
-> > > >         zswap_entry_cache_free(entry);
-> > > >  reject:
-> > > >         if (objcg)
-> > > > @@ -1467,9 +1543,8 @@ bool zswap_load(struct folio *folio)
-> > > >                 zswap_invalidate_entry(tree, entry);
-> > > >                 folio_mark_dirty(folio);
-> > > >         } else if (entry->length) {
-> > > > -               spin_lock(&entry->pool->lru_lock);
-> > > > -               list_move(&entry->lru, &entry->pool->lru);
-> > > > -               spin_unlock(&entry->pool->lru_lock);
-> > > > +               zswap_lru_del(&entry->pool->list_lru, entry);
-> > > > +               zswap_lru_add(&entry->pool->list_lru, entry);
-> > > >         }
-> > > >         zswap_entry_put(tree, entry);
-> > > >         spin_unlock(&tree->lock);
-> > > > --
-> > > > 2.34.1
+url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-Convert-PHYs-hwtstamp-callback-to-use-kernel_hwtstamp_config/20231009-235451
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231009155138.86458-2-kory.maincent%40bootlin.com
+patch subject: [PATCH net-next v5 01/16] net: Convert PHYs hwtstamp callback to use kernel_hwtstamp_config
+config: csky-randconfig-002-20231020 (https://download.01.org/0day-ci/archive/20231021/202310210416.0nNTYS2E-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310210416.0nNTYS2E-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310210416.0nNTYS2E-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/net/phy/nxp-c45-tja11xx.c: In function 'nxp_c45_hwtstamp':
+>> drivers/net/phy/nxp-c45-tja11xx.c:1033:13: error: 'cfg' undeclared (first use in this function)
+    1033 |         if (cfg->tx_type < 0 || cfg->tx_type > HWTSTAMP_TX_ON)
+         |             ^~~
+   drivers/net/phy/nxp-c45-tja11xx.c:1033:13: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/cfg +1033 drivers/net/phy/nxp-c45-tja11xx.c
+
+  1023	
+  1024	static int nxp_c45_hwtstamp(struct mii_timestamper *mii_ts,
+  1025				    struct kernel_hwtstamp_config *config,
+  1026				    struct netlink_ext_ack *extack)
+  1027	{
+  1028		struct nxp_c45_phy *priv = container_of(mii_ts, struct nxp_c45_phy,
+  1029							mii_ts);
+  1030		struct phy_device *phydev = priv->phydev;
+  1031		const struct nxp_c45_phy_data *data;
+  1032	
+> 1033		if (cfg->tx_type < 0 || cfg->tx_type > HWTSTAMP_TX_ON)
+  1034			return -ERANGE;
+  1035	
+  1036		data = nxp_c45_get_data(phydev);
+  1037		priv->hwts_tx = cfg->tx_type;
+  1038	
+  1039		switch (cfg->rx_filter) {
+  1040		case HWTSTAMP_FILTER_NONE:
+  1041			priv->hwts_rx = 0;
+  1042			break;
+  1043		case HWTSTAMP_FILTER_PTP_V2_L2_EVENT:
+  1044		case HWTSTAMP_FILTER_PTP_V2_L2_SYNC:
+  1045		case HWTSTAMP_FILTER_PTP_V2_L2_DELAY_REQ:
+  1046			priv->hwts_rx = 1;
+  1047			cfg->rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+  1048			break;
+  1049		default:
+  1050			return -ERANGE;
+  1051		}
+  1052	
+  1053		if (priv->hwts_rx || priv->hwts_tx) {
+  1054			phy_write_mmd(phydev, MDIO_MMD_VEND1,
+  1055				      data->regmap->vend1_event_msg_filt,
+  1056				      EVENT_MSG_FILT_ALL);
+  1057			data->ptp_enable(phydev, true);
+  1058		} else {
+  1059			phy_write_mmd(phydev, MDIO_MMD_VEND1,
+  1060				      data->regmap->vend1_event_msg_filt,
+  1061				      EVENT_MSG_FILT_NONE);
+  1062			data->ptp_enable(phydev, false);
+  1063		}
+  1064	
+  1065		if (nxp_c45_poll_txts(priv->phydev))
+  1066			goto nxp_c45_no_ptp_irq;
+  1067	
+  1068		if (priv->hwts_tx)
+  1069			nxp_c45_set_reg_field(phydev, &data->regmap->irq_egr_ts_en);
+  1070		else
+  1071			nxp_c45_clear_reg_field(phydev, &data->regmap->irq_egr_ts_en);
+  1072	
+  1073	nxp_c45_no_ptp_irq:
+  1074		return 0;
+  1075	}
+  1076	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
