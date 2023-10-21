@@ -1,154 +1,196 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8466D35512
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 23:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8022265B;
+	Sat, 21 Oct 2023 00:01:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="qOwEsU/w"
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8EF6D73
-	for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 16:55:48 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-4079ed65471so10777835e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 20 Oct 2023 16:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1697846147; x=1698450947; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ip1Aeveb78fjb7WfIxeGcmZAFpv9+SodWkVoyClpqlY=;
-        b=qOwEsU/wNv/M7uE2HtK5F3Ex97t8AoBzQN/+c+EZfAfvuIibyGgcwk5lzXjOW+4mhl
-         2PBHmb0DATH2hqktgQtrOUqZ1f7ar94eHTyn5PCOFh3t+1Fh746BJwoGlTulmGzHbYiS
-         QmDnmehikN8FjG/mam8hyDD2iK3xm1In4IT4U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697846147; x=1698450947;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ip1Aeveb78fjb7WfIxeGcmZAFpv9+SodWkVoyClpqlY=;
-        b=LNy1b/As+VM+4iOxaPyabJ7v6PMHSPByozL935LnBMSrXuq0VL3SXdLHEI1hQ3pA1f
-         j9stQX5Eay3bX9gN3odW8eYIELgVfovGga5009VsBAet5CEdt+4uh9IWcJWV790l3I5h
-         6Ug/8yUy0I7vl9Qp/M5AgY6ObGyY/q/wFjO3MkUKhqr0XGjnnMFSTtKBDiyI9KgZByBm
-         Sty5zM8lOodK3CJra951TCXWLxFywjEeYhA9cbZpHc4z4PC+jOSsnpDPKvu4a43y8Xmc
-         +cZlXYipFvEzJ/7tOLjGop6IV70vadioSTWYRaep8qGqP0zHFwZK/4THaKnaCaWNpUKz
-         YZQA==
-X-Gm-Message-State: AOJu0Yzy5AVnM+3WPWQVMYm+xrolLXZ2sX+4ua0Dny6OsFt7ztUx3uri
-	A+s26eZWp9ogGRpZi4/W809esw==
-X-Google-Smtp-Source: AGHT+IFi/jA+QvLR07kfX34nth7qfL3dWGVJlB/cvtiv4ryiyKXJvjM7j1BTbG7r0vN9tCEf9q30Bw==
-X-Received: by 2002:a05:600c:6027:b0:405:3b1f:968b with SMTP id az39-20020a05600c602700b004053b1f968bmr2462730wmb.21.1697846147230;
-        Fri, 20 Oct 2023 16:55:47 -0700 (PDT)
-Received: from [192.168.1.10] (host-92-26-107-252.as13285.net. [92.26.107.252])
-        by smtp.gmail.com with ESMTPSA id r4-20020a05600c458400b00405391f485fsm3167587wmo.41.2023.10.20.16.55.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Oct 2023 16:55:46 -0700 (PDT)
-Message-ID: <f620c7d4-6345-4ad0-8a45-c8089e3c34df@citrix.com>
-Date: Sat, 21 Oct 2023 00:55:45 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IDtJHPF9"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC1D519E;
+	Fri, 20 Oct 2023 17:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697846458; x=1729382458;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=lnPReLFxDVs858aMmbeuUyc9aJnf1Cdy8DQUemetoxE=;
+  b=IDtJHPF95Ydms+FSn0onBkvYa8ys4cUF5EZLV0gS4KHpE2UB4SyQvmfR
+   rMu/KJ1pZOF5+mZPfQqKqlpod5A6J0E2q6XDxgT7zM1QGmEj1P8TxT5vM
+   Bb/ETdW97Qp7FGREJhPE8KEUSohDBhBBiuw2x1Q7ZH98Vgc4eAhbciuRX
+   pzLl2kZ4ZtBxwZotFEa8HvX7W4P/2Y9B4kgnv+OnCFDgC9Hqfg+kwxLhl
+   KYT6asI1MHqnAVO0u6MFVr/jmz0X43ACq8gU6zyDDEjIgYLRMVp7lVhIm
+   4uwjjcuBx/K8JFllxUnQqppGOLUSKd1uWzuuU5CagBekUbmyDcK5zlkUK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="5212034"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="5212034"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 17:00:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="5524721"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Oct 2023 17:00:56 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Fri, 20 Oct 2023 17:00:56 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Fri, 20 Oct 2023 17:00:56 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Fri, 20 Oct 2023 17:00:55 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ngpkM6smHrCeVxfQalBaXb5PE82WFPsPfrNAk9Ok3t1389CISHgqhP0Eiy83i8ki7T7YNywjNUehvf4Bcb3WuVoXnooSAmPFMC7POV1z78zwS/u4Rnq7aYY2veHY2HDmQNfqejV81fHgO+pgjc37X39G8E0fk62BHHX6M1O896GHbscoR+s4/q+w25uCrkFc5JFhFZ19RBNxgVBQlWb0KO+Q8t7gDiDN0pDwb40mWOlyyQGqPF+1R+ZdaXY2nWae/P7KRJ1Vg7U+OHWhK8ZLKdAkDD/QDkAxOgserZl58lXixLzBKla8QsbYlyYcEjNYwZQoS2950XtsL7SbOlccGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SdGtEvAs5q7rYrMKpO0uDLwpkXWy9uR5y5LLV75f5VA=;
+ b=QvhuM3ne1cETfMTvSeQ2tv8KMnlw63qrI0JsmmGAnSMS3iuMqpKbmG5HEqzz8yH/AmqXNbqmvt0NH94aN7G0u6CRmkJRHTP7GgH/yY0UrMidtcwcUCXwY1NM1DgJJcsMGsYTmPGVa6U33rtvsxfHlFPcGEDmGZ+bwxCsY8cAOqiUKtopD9YJXwFM4khojnhrHn18WMryFUAYbbBO1lel7mFk2/vOFoPDm8MLC+i33waoru8VZFkyAPW+GPx07oPwMQAn2KJ9cpjVCgP3160C16XnzCZOVmHefCrsXkpUw+ll1oG3XDUfQEbpVOIm0PMa99ML1PmwVcOzNXpV56Rl4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB7420.namprd11.prod.outlook.com (2603:10b6:806:328::20)
+ by SN7PR11MB7492.namprd11.prod.outlook.com (2603:10b6:806:347::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Sat, 21 Oct
+ 2023 00:00:46 +0000
+Received: from SN7PR11MB7420.namprd11.prod.outlook.com
+ ([fe80::2329:7c5f:350:9f8]) by SN7PR11MB7420.namprd11.prod.outlook.com
+ ([fe80::2329:7c5f:350:9f8%7]) with mapi id 15.20.6907.022; Sat, 21 Oct 2023
+ 00:00:46 +0000
+Message-ID: <f6ab0dc1-b5d5-4fff-9ee2-69d21388d4ca@intel.com>
+Date: Fri, 20 Oct 2023 18:00:38 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-wired-lan] [PATCH net-next v4 1/6] net: ethtool: allow
+ symmetric-xor RSS hash for any flow type
+Content-Language: en-US
+To: Jakub Kicinski <kuba@kernel.org>
+CC: <mkubecek@suse.cz>, <andrew@lunn.ch>, <willemdebruijn.kernel@gmail.com>,
+	Wojciech Drewek <wojciech.drewek@intel.com>, <corbet@lwn.net>,
+	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<jesse.brandeburg@intel.com>, <edumazet@google.com>,
+	<anthony.l.nguyen@intel.com>, <horms@kernel.org>, <vladimir.oltean@nxp.com>,
+	Jacob Keller <jacob.e.keller@intel.com>, <intel-wired-lan@lists.osuosl.org>,
+	<pabeni@redhat.com>, <davem@davemloft.net>
+References: <20231016154937.41224-1-ahmed.zaki@intel.com>
+ <20231016154937.41224-2-ahmed.zaki@intel.com>
+ <8d1b1494cfd733530be887806385cde70e077ed1.camel@gmail.com>
+ <26812a57-bdd8-4a39-8dd2-b0ebcfd1073e@intel.com>
+ <CAKgT0Ud7JjUiE32jJbMbBGVexrndSCepG54PcGYWHJ+OC9pOtQ@mail.gmail.com>
+ <14feb89d-7b4a-40c5-8983-5ef331953224@intel.com>
+ <CAKgT0UfcT5cEDRBzCxU9UrQzbBEgFt89vJZjz8Tow=yAfEYERw@mail.gmail.com>
+ <20231016163059.23799429@kernel.org>
+ <CAKgT0Udyvmxap_F+yFJZiY44sKi+_zOjUjbVYO=TqeW4p0hxrA@mail.gmail.com>
+ <20231017131727.78e96449@kernel.org>
+ <CAKgT0Ud4PX1Y6GO9rW+Nvr_y862Cbv3Fpn+YX4wFHEos9rugJA@mail.gmail.com>
+ <20231017173448.3f1c35aa@kernel.org>
+ <CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
+ <20231018165020.55cc4a79@kernel.org>
+ <45c6ab9f-50f6-4e9e-a035-060a4491bded@intel.com>
+ <20231020153316.1c152c80@kernel.org>
+ <c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
+ <20231020164917.69d5cd44@kernel.org>
+From: Ahmed Zaki <ahmed.zaki@intel.com>
+In-Reply-To: <20231020164917.69d5cd44@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DUZP191CA0035.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:4f8::27) To SN7PR11MB7420.namprd11.prod.outlook.com
+ (2603:10b6:806:328::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND][PATCH 1/6] x86/bugs: Add asm helpers for executing VERW
-Content-Language: en-GB
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, tony.luck@intel.com, ak@linux.intel.com,
- tim.c.chen@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, Alyssa Milburn <alyssa.milburn@linux.intel.com>,
- Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- antonio.gomez.iglesias@linux.intel.com,
- Alyssa Milburn <alyssa.milburn@intel.com>
-References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
- <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- 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
- 6+ahAA==
-In-Reply-To: <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 20/10/2023 9:44 pm, Pawan Gupta wrote:
-> +#define EXEC_VERW				\
-> +	__EXEC_VERW(551f);			\
-> +	/* nopl __KERNEL_DS(%rax) */		\
-> +	.byte 0x0f, 0x1f, 0x80, 0x00, 0x00;	\
-> +551:	.word __KERNEL_DS;			\
-
-Is this actually wise from a perf point of view?
-
-You're causing a data access to the instruction stream, and not only
-that, the immediate next instruction.  Some parts don't take kindly to
-snoops hitting L1I.
-
-A better option would be to simply have
-
-.section .text.entry
-.align CACHELINE
-mds_verw_sel:
-    .word __KERNEL_DS
-    int3
-.align CACHELINE
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7420:EE_|SN7PR11MB7492:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3437f8ce-702d-4b73-4c3c-08dbd1c8c67b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5emK9AH6BX5KD5WXB9dbgMyG+FxQWUF8vhgwtF6s9Mfb+L60VzTELNPdfKmEH/6cexxsspMCOWj34vFTGB+8LPsu2TjAj14EXS+7jWEcRRCo1ZMO9mll7t2omZN9eZjXv7zCZY2yyi6ZM8R0QMq7dY8fHwOtiX9G9wkOmLVPKCw9iGe3Cux0ASRYJNyaymmuUanDHEVmsvinpuYLnZ56ywBQ1Et21F918KnDZDIpAVO4qzzWBEheWce2cP530pBRFb1w5fqPx4OgkNVooHMBDupXbHs/H7sR+ihsXHIvF+bln1hE5UjGzwuPzaGEaTO0mY3TWVMKbLNCuVAj3r3PpnCUpiU5Dc4yKojWJ/NHCy7BBAVPo107071Vt9Nbv7j3LlZX6l2kaXpjG4CwNQbeJzpAW4mmv00UyOGJi+aSxQIQHUoXt7UV8U1+pQSBtQDje83YyPmHu8rDOK3bi+H2SeSpRFAFGpKKac8Skws9aszDHdFNJuXYBUh8SECAK3ZjwQ0qBX7DKsw4ipZETetuibbdZMso/b8SsAwKlMFRHHpUCNm4AdfVhuHPrdWYT8Mv36CHE9ieNn6nd5PlwQFvCm2UcneoTWQYEOcU4u/N672fhLDUyaO8xlcFI6U2zcmptFynvkzOPNA9sx7obGoOyg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7420.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(346002)(376002)(396003)(366004)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(66946007)(66476007)(66556008)(54906003)(316002)(6916009)(478600001)(966005)(31686004)(6486002)(41300700001)(5660300002)(4326008)(8936002)(53546011)(8676002)(86362001)(82960400001)(31696002)(83380400001)(7416002)(36756003)(2906002)(6512007)(6666004)(6506007)(44832011)(38100700002)(4001150100001)(2616005)(26005)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U1NFYjB4Wjc4WFlPeWRYNmNVWHZYZEZZTkZ6TjJ2cHlkZk8xdkZNdlc5cTI3?=
+ =?utf-8?B?T1ZKVUZYYlgwNVVXNThaa1RFdzN3OU1kY3VsaTFpQVZPT1VXaENNRFQybmsy?=
+ =?utf-8?B?TUR0b2RiWVVncTBTcGFIbDFlMzI0anNCeUtZY0gxVDluY3VRSWdxbVYwVmJM?=
+ =?utf-8?B?a2QzN283SlNkOGZ0R3FIQnZsNmNUUlJJN0pqaE9EaUtiRlFCVjF4QnptbXJT?=
+ =?utf-8?B?dnVRd0NvUklIOFVuZnM2ak8rYlo0MTAyRDdBaFMxTFNxakJ3Y3VXblZjclZo?=
+ =?utf-8?B?Yk45K0ZDemVHTUVZRFVKdFB3ak1seEc1bGR2SHM0WUtoTEFtd3A5RlhUMzk1?=
+ =?utf-8?B?RFpLODA1MkZlVkhCQ2R2bWtHQTMzTzgyY0xqb2RMa3NZbjVvVXFPZWJNOENi?=
+ =?utf-8?B?WnVZNFZWdk42MFlWRTQzcWdHMkQ3SldyN1d5enltdEVwRllrQjIwSE1xTjlr?=
+ =?utf-8?B?S3FoOEM2ZGV4b2RuMmRPbndKeEwzTVlJS3R2MTBNT2RCS3duRHlQNUVPTkw5?=
+ =?utf-8?B?aG9lNHlCZ203QzFEVkROei9uYnpHMlM4UGsxdjNMbEd4R1ZtMGdNc0lRMldw?=
+ =?utf-8?B?WFZrVjViTkx6NEFNYzRBYmZGYnpsNWZwMm5obHRrODI5eVUyQVpudFJBalY5?=
+ =?utf-8?B?WFhFMDNkRHA2Rnh1VGR4eVBRbjIyMTlnZDBLWEhzWE5RMm4yQ29UT2ZkMjcw?=
+ =?utf-8?B?bmVMeXAwc05OeWRqNnV2d1FhMEl5TG5uZWZZOE1wbnZUcGhUZW43Y2JFYXFP?=
+ =?utf-8?B?Ym1QNVZDa1dmTHBHbXV5T1FFMXpWb0ZJV1RLYVVxdEp2SW5CWFkxVjRiTkhD?=
+ =?utf-8?B?WVE3TjdSamZ3TTBPQVNWZXlKMzlkWWNSTVdMRms4OCtpRHY4UGU2RTQvS3dK?=
+ =?utf-8?B?Q3pWSmdkZmhRM2dEdHE1clR5ODdRRm1DbmZNZEVNUlhwWEtEb2g3UkkralVY?=
+ =?utf-8?B?WGFvOUhaSmtDLzNjb0tGZEtCSE9Genp1UFFzY29XQVdEOXhUMTA3MUt3S2pw?=
+ =?utf-8?B?S0NSb0ZONHRqK3VOaVp5eHo1OW1GZGlkbGx6NWYrRFFQaks3RE9kVnJyYlli?=
+ =?utf-8?B?cS9HTUtmRTBjUi9yUVhNTk1pSURDNGNkeGM4bGxkdmtMWHR2RTQwa2ptb3Jw?=
+ =?utf-8?B?Z1d6ZWJhYW9YTTU1cE9QV1VGMiswMW5oeDZ5NVJJaFQ5RDdhQldlZnBLMUFL?=
+ =?utf-8?B?RlBmQUJPNVZjeEJyYktuNk1EUE0xK3hmanJJVE9zdUIyVTVwVDZTRUEybkxY?=
+ =?utf-8?B?TjBYQTFDMDVsalNDRmFKT3VoRXpURWx0TktSQ1Z1TWoyNnpVamtWUldQUlJO?=
+ =?utf-8?B?WGd1RGQ4V2FUYm9ma0ozVkZhQnRnb1V3QmErNExtZ2hoOFVsbkhreFBzM0Zu?=
+ =?utf-8?B?TStaeUZEc0JrV3E0Y2s4eUlHdHVSWE1nUEJIbDFvSVBBWHAzSFRrcE9nSGdo?=
+ =?utf-8?B?N2k3V3dhRzUyYnZCUmhwWFFvOVllSTZ4NWljN1NwQ3RiY29xTGEyZzJueWJo?=
+ =?utf-8?B?b3pxT3N0TGhWRWZmT1pQTlBxSnJnYytwL0l3eGtQQnVxbnhTSHNjWjNRa3hT?=
+ =?utf-8?B?bjJkL2hMeHZUdzNRaUZlcmJmcXBzZ3RGK2pVOThPdHRRYTZQTlkvM2RGZVVj?=
+ =?utf-8?B?RVhYQ1FNektDYnloNGlhZ1lONkFMc3BzQzU2WkU4ajVoenJuei90dk9MSDhU?=
+ =?utf-8?B?RmhVZVA5SDlmRXUvYmhGZTV0YXNYekVxY3RZd00yWUwveTVJc1J6dkxhdnM0?=
+ =?utf-8?B?ZnNYYUNFbHFTaUloK2xvYUc3alZ0OTY4N0dCeEpWS1BtZDljWktreHo1a2Ew?=
+ =?utf-8?B?cFBzQmxSL2xiOEo4Y090SkZuVnNoSWVTWlRnTjRwWmVTcUZFRkVkTFlPZWRO?=
+ =?utf-8?B?V0h5WUQwVUZFUEZzdDVSVHFRNStmYWVwcVcwTkp1WE95OXlOY1grd2JRKzk3?=
+ =?utf-8?B?UWhUdWY0OEJpaC90ZjZVK1YvWklCSC9Qa0RHeTYrV0RrQjBVTGhOL0p0S1Nl?=
+ =?utf-8?B?UnNhSXVBTWJTSXZaaXJnNDJ2S2d0RWpCTWdKc091VmUwTVE1dmsyVHFuaU5a?=
+ =?utf-8?B?NFFCYjYwSkxyMW02dzBsWEJTbWVQSUFORHBuanZHK01GS1E4M2lkM1hWbTFp?=
+ =?utf-8?B?Z3BtV0dQcFo2WVBKMjFuS2RrdlhsTzBpc1JMcnhsaUFPVFBaekpXMkJIU3oz?=
+ =?utf-8?B?YUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3437f8ce-702d-4b73-4c3c-08dbd1c8c67b
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7420.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2023 00:00:46.3425
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Pn0kcFq/z+WC8a18GZXMskE1MbeHApRsc2cPDsdQjuX8ikNGie4xVcKVxr2qE2p4S35yejOe2xFftP7lyAnag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7492
+X-OriginatorOrg: intel.com
 
 
-And then just have EXEC_VERW be
 
-    verw mds_verw_sel(%rip)
+On 2023-10-20 17:49, Jakub Kicinski wrote:
+> On Fri, 20 Oct 2023 17:14:11 -0600 Ahmed Zaki wrote:
+>> I replied to that here:
+>>
+>> https://lore.kernel.org/all/afb4a06f-cfba-47ba-adb3-09bea7cb5f00@intel.com/
+>>
+>> I am kind of confused now so please bear with me. ethtool either sends
+>> "ethtool_rxfh" or "ethtool_rxnfc". AFAIK "ethtool_rxfh" is the interface
+>> for "ethtool -X" which is used to set the RSS algorithm. But we kind of
+>> agreed to go with "ethtool -U|-N" for symmetric-xor, and that uses
+>> "ethtool_rxnfc" (as implemented in this series).
+> 
+> I have no strong preference. Sounds like Alex prefers to keep it closer
+> to algo, which is "ethtool_rxfh".
+> 
+>> Do you mean use "ethtool_rxfh" instead of "ethtool_rxnfc"? how would
+>> that work on the ethtool user interface?
+> 
+> I don't know what you're asking of us. If you find the code to confusing
+> maybe someone at Intel can help you :|
 
-in the fastpaths.  That keeps the memory operand in .text.entry it works
-on Meltdown-vulnerable CPUs, but creates effectively a data cacheline
-that isn't mixed into anywhere in the frontend, which also gets far
-better locality of reference rather than having it duplicated in 9
-different places.
+The code is straightforward. I am confused by the requirements: don't 
+add a new algorithm but use "ethtool_rxfh".
 
-Also it avoids playing games with hiding data inside an instruction.
-It's a neat trick, but the neater trick is avoid it whenever possible.
-
-~Andrew
+I'll see if I can get more help, may be I am missing something.
