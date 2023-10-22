@@ -1,128 +1,103 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34421429C
-	for <linux-doc@vger.kernel.org>; Sat, 21 Oct 2023 23:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nm5MU4Lx"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E59AD68;
-	Sat, 21 Oct 2023 16:55:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697932540; x=1729468540;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=14/ngXnade/NJsLUk5wX9HBENWxj2wB/+XO3Lt6T00k=;
-  b=nm5MU4Lxga+K3C+RWgBmkbcer6p/wPe0apOu26M1XmolVurLXGonWsgN
-   xBB0UnINcvwFVDtr0uJ6bMtqS7A7ZEFN+EMfQe6CAhpKFf/Y03QNTtfL0
-   Y25alho8kwc4K+k1O9+3c7zWpGOsRj/C9VrFtj8GpzjDlHbztBhOXFDhU
-   EU/k798V65/aWbp8unqCyiW5cNp1mO52U9NplDgbo7VlmopeDn1KIOrx0
-   SQ6N4jWoUsPMbs1H+vASPBkDWXNXY7pOZExSVy3L3s0wmhIqncOLqYjTy
-   Wy/L0o1fgVjsXC+lGECyqQ/YpG8i5l0S9dlsm2tGL5OAoAo3XXaZuiXFU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="472887238"
-X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="472887238"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 16:55:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="751278907"
-X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="751278907"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 21 Oct 2023 16:55:32 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1quLoX-0005Oc-30;
-	Sat, 21 Oct 2023 23:55:29 +0000
-Date: Sun, 22 Oct 2023 07:55:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
- atomic context
-Message-ID: <202310220706.HH9RMDHJ-lkp@intel.com>
-References: <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6110A10E1
+	for <linux-doc@vger.kernel.org>; Sun, 22 Oct 2023 07:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE24EDF;
+	Sun, 22 Oct 2023 00:44:04 -0700 (PDT)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-57e40f0189aso1240255eaf.1;
+        Sun, 22 Oct 2023 00:44:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697960644; x=1698565444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dZsTnRg8TjGx5sy3mpYtctS4QxSmgLmOrtEZDXRWDAo=;
+        b=Kmq4U9JMwAHo2htsNFjFdsrGlIzouXlPkvRWFwCNBU4ROd2hM3LEi9pPT02qkPBOFt
+         WgX+sY33aseM9HMOZjfn557Kdb0WPCp9Q2pqHDVNiDFLn6lTIorkFZBsqW8TH8bqmViB
+         6WSQnwGx0CrMNtpugXoy8DeMpN26n26hoNSd7kpHVckIUj1WJsNrWUPBuEUvdcp1qI/V
+         C6bHPs2NAvEm08RZVD4PB5zY46u96z4A1W2bMlTywfrV7p9nSxBnCc6222bB5l+tsLEG
+         FH5NSUuPXOaVHO4gLGbzC13CYz0knmtCAt5CPrsYq7P1s3MT6MjAJe6gLfT2IzA7YZMF
+         MYNA==
+X-Gm-Message-State: AOJu0Yy0wR533gn1gId07b92sJ7V/mQaMfDtJBuG1UKF0mqnOq9GcqJS
+	rU1OZCf2VkJcyn8ZwW9AAtlHqcM8hZ8=
+X-Google-Smtp-Source: AGHT+IEd3GQ2Mv1/qm2NM9cEVr4z778zSPmjvDCPvEF9ACff5C0HtwLOCL4RFc8b5m1aZtrZrt3b/Q==
+X-Received: by 2002:a05:6870:6710:b0:1e9:9179:4c6f with SMTP id gb16-20020a056870671000b001e991794c6fmr8397330oab.49.1697960643911;
+        Sun, 22 Oct 2023 00:44:03 -0700 (PDT)
+Received: from costa-tp.redhat.com ([2a00:a040:1a3:cb84:80fa:fd2e:974a:5c42])
+        by smtp.gmail.com with ESMTPSA id bz18-20020ad44c12000000b0065b29403540sm2001404qvb.127.2023.10.22.00.44.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Oct 2023 00:44:03 -0700 (PDT)
+From: Costa Shulyupin <costa.shul@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Costa Shulyupin <costa.shul@redhat.com>
+Subject: [PATCH v2] docs: split embedded interfaces and miscellaneous
+Date: Sun, 22 Oct 2023 10:43:46 +0300
+Message-ID: <20231022074346.4170388-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
 
-Hi Sean,
+to make page Subsystems APIs more organized as requested
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.6-rc6]
-[cannot apply to thierry-reding-pwm/for-next dtor-input/next dtor-input/for-linus next-20231020]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+---
+Changes in v2:
+- removed misc from Embedded
+- added group Miscellaneous
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Young/pwm-make-it-possible-to-apply-pwm-changes-in-atomic-context/20231017-173221
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean%40mess.org
-patch subject: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in atomic context
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20231022/202310220706.HH9RMDHJ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310220706.HH9RMDHJ-lkp@intel.com/reproduce)
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/subsystem-apis.rst | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310220706.HH9RMDHJ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/rc/ir-rx51.c: In function 'ir_rx51_on':
->> drivers/media/rc/ir-rx51.c:37:9: error: implicit declaration of function 'pwm_apply_state'; did you mean 'pwm_apply_args'? [-Werror=implicit-function-declaration]
-      37 |         pwm_apply_state(ir_rx51->pwm, &ir_rx51->state);
-         |         ^~~~~~~~~~~~~~~
-         |         pwm_apply_args
-   cc1: some warnings being treated as errors
-
-
-vim +37 drivers/media/rc/ir-rx51.c
-
-c332e8472d7db6 Timo Kokkonen 2012-08-10  33  
-a92def1becf33e Sean Young    2016-12-19  34  static inline void ir_rx51_on(struct ir_rx51 *ir_rx51)
-c332e8472d7db6 Timo Kokkonen 2012-08-10  35  {
-99076cd117c4cb Maíra Canal   2021-11-04  36  	ir_rx51->state.enabled = true;
-99076cd117c4cb Maíra Canal   2021-11-04 @37  	pwm_apply_state(ir_rx51->pwm, &ir_rx51->state);
-c332e8472d7db6 Timo Kokkonen 2012-08-10  38  }
-c332e8472d7db6 Timo Kokkonen 2012-08-10  39  
-
+diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+index 930dc23998a0..13b918fdae9b 100644
+--- a/Documentation/subsystem-apis.rst
++++ b/Documentation/subsystem-apis.rst
+@@ -62,18 +62,27 @@ Storage interfaces
+    target/index
+ 
+ **Fixme**: much more organizational work is needed here.
++Embedded interfaces
++-------------------
+ 
+ .. toctree::
+    :maxdepth: 1
+ 
+-   accounting/index
+-   cpu-freq/index
+-   fpga/index
+-   i2c/index
+    iio/index
+-   pcmcia/index
+    spi/index
++   i2c/index
++   fpga/index
+    w1/index
++
++Miscellaneous
++-------------
++
++.. toctree::
++   :maxdepth: 1
++
++   accounting/index
++   cpu-freq/index
++   pcmcia/index
+    watchdog/index
+    virt/index
+    hwmon/index
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
