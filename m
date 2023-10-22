@@ -1,163 +1,139 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE52291E
-	for <linux-doc@vger.kernel.org>; Sun, 22 Oct 2023 10:46:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3603D6B;
+	Sun, 22 Oct 2023 11:52:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="PnkeoM8N"
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971B0A7;
-	Sun, 22 Oct 2023 03:46:25 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id D8A1B1000C2; Sun, 22 Oct 2023 11:46:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1697971582; bh=M7VN2YhQWSJtc+cSbcBrFFqz4ksGBErewDtODBR+VmQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PnkeoM8N5hx3qaBdVrilN+IynCjwmnKapSBqWSB45BWsAOSWpe9KHkQL7YRUItROr
-	 uFFPdvWk5lPhVQZxkVPRIaXgmqXs5imsVOrfbNzr5SBcKWaRO5NjsdhW+dKKt0doQr
-	 3DAVaG99NhZHD/hnZrszsAFvfJtR67PqtTFmJoYnWTftElP9OkThhD2tWRha7fvs8a
-	 uxartmlQT+FrRCB22IFFzoAVGTPJxSFN0LoAu+pErhIX/fOe4iEuwaiS1+SInLIjX5
-	 FNm6tT+kFdl8LjG7e2h3VQmVvNxQ5cWMhDZanSX1IXvB61OLWDZ1uWOfUk78WcLfaV
-	 kudis//kekD/A==
-Date: Sun, 22 Oct 2023 11:46:22 +0100
-From: Sean Young <sean@mess.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
- atomic context
-Message-ID: <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
-References: <cover.1697534024.git.sean@mess.org>
- <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
- <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
- <20231019105118.64gdzzixwqrztjir@pengutronix.de>
- <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMFSKVfI"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05234F3;
+	Sun, 22 Oct 2023 04:52:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697975522; x=1729511522;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BdVZ+C8tN+qekt7Hl3QUHfu9nPna5/5VggjFolJCjy8=;
+  b=kMFSKVfIqRCQVBQXgkiQHG6THnJLYEi9RDT8vqb8kmPvk1pPdB1nLzlP
+   orKtFe152yfL/A6morEMIJV1KJSIdV2L+ZIN8p6w09fI/OCdLkyU7vfHz
+   qX/860Y/Oa+VCnU1JhNQn0g8gWeCAm43Dyt9tGS3PO8uvhOr+O7zLwYp5
+   jX7XCRqfzK0sVFQ3xl7GeSDAoH2xYjU4f+6v4kfdT5j3IDizNWqodIth3
+   uqYSBUAUyVKDoKPp0W8zqlSsyU/7mxS8QmAzNdHGWHqhmLEuWwdJ86VsI
+   mOsSdALT1ImP1E9cNaFm9YnJ+1Urg3UMrLH8DK+6z5GC1FGBWCO9CuNka
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="385578979"
+X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
+   d="scan'208";a="385578979"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 04:52:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="792851290"
+X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
+   d="scan'208";a="792851290"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 22 Oct 2023 04:51:54 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1quWzo-0005vq-0d;
+	Sun, 22 Oct 2023 11:51:52 +0000
+Date: Sun, 22 Oct 2023 19:51:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
+	linux-scsi@vger.kernel.org, nitheshshetty@gmail.com,
+	anuj1072538@gmail.com, gost.dev@samsung.com, mcgrof@kernel.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Hannes Reinecke <hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v17 08/12] nvmet: add copy command support for bdev and
+ file ns
+Message-ID: <202310221915.PYH9XadG-lkp@intel.com>
+References: <20231019110147.31672-9-nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+In-Reply-To: <20231019110147.31672-9-nj.shetty@samsung.com>
 
-Hi Hans,
+Hi Nitesh,
 
-On Sat, Oct 21, 2023 at 11:08:22AM +0200, Hans de Goede wrote:
-> On 10/19/23 12:51, Uwe Kleine-König wrote:
-> > On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
-> >> On 10/17/23 11:17, Sean Young wrote:
-> >>> Some drivers require sleeping, for example if the pwm device is connected
-> >>> over i2c. The pwm-ir-tx requires precise timing, and sleeping causes havoc
-> >>> with the generated IR signal when sleeping occurs.
-> >>>
-> >>> This patch makes it possible to use pwm when the driver does not sleep,
-> >>> by introducing the pwm_can_sleep() function.
-> >>>
-> >>> Signed-off-by: Sean Young <sean@mess.org>
-> >>
-> >> I have no objection to this patch by itself, but it seems a bit
-> >> of unnecessary churn to change all current callers of pwm_apply_state()
-> >> to a new API.
-> > 
-> > The idea is to improve the semantic of the function name, see
-> > https://lore.kernel.org/linux-pwm/20231013180449.mcdmklbsz2rlymzz@pengutronix.de
-> > for more context.
-> 
-> Hmm, so the argument here is that the GPIO API has this, but GPIOs
-> generally speaking can be set atomically, so there not being able
-> to set it atomically is special.
-> 
-> OTOH we have many many many other kernel functions which may sleep
-> and we don't all postfix them with _can_sleep.
-> 
-> And for PWM controllers pwm_apply_state is IMHO sorta expected to
-> sleep. Many of these are attached over I2C so things will sleep,
-> others have a handshake to wait for the current dutycycle to
-> end before you can apply a second change on top of an earlier
-> change during the current dutycycle which often also involves
-> sleeping.
-> 
-> So the natural/expeected thing for pwm_apply_state() is to sleep
-> and thus it does not need a postfix for this IMHO.
+kernel test robot noticed the following build warnings:
 
-Most pwm drivers look like they can be made to work in atomic context,
-I think. Like you say this is not the case for all of them. Whatever
-we choose to be the default for pwm_apply_state(), we should have a
-clear function name for the alternative. This is essentially why
-pam_apply_cansleep() was picked.
+[auto build test WARNING on 213f891525c222e8ed145ce1ce7ae1f47921cb9c]
 
-The alternative to pwm_apply_cansleep() is to have a function name
-which implies it can be used from atomic context. However, 
-pwm_apply_atomic() is not great because the "atomic" could be
-confused with the PWM atomic API, not the kernel process/atomic
-context.
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20231019-200658
+base:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
+patch link:    https://lore.kernel.org/r/20231019110147.31672-9-nj.shetty%40samsung.com
+patch subject: [PATCH v17 08/12] nvmet: add copy command support for bdev and file ns
+config: i386-randconfig-062-20231022 (https://download.01.org/0day-ci/archive/20231022/202310221915.PYH9XadG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310221915.PYH9XadG-lkp@intel.com/reproduce)
 
-So what should the non-sleeping function be called then? 
- - pwm_apply_cannotsleep() 
- - pwm_apply_nosleep()
- - pwm_apply_nonsleeping()
- - pwm_apply_atomic_context()
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310221915.PYH9XadG-lkp@intel.com/
 
-> > I think it's very subjective if you consider this
-> > churn or not.
-> 
-> I consider it churn because I don't think adding a postfix
-> for what is the default/expected behavior is a good idea
-> (with GPIOs not sleeping is the expected behavior).
-> 
-> I agree that this is very subjective and very much goes
-> into the territory of bikeshedding. So please consider
-> the above my 2 cents on this and lets leave it at that.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/io-cmd-bdev.c:498:30: sparse: sparse: restricted __le16 degrades to integer
 
-You have a valid point. Let's focus on having descriptive function names.
+vim +498 drivers/nvme/target/io-cmd-bdev.c
 
-> > While it's nice to have every caller converted in a single
-> > step, I'd go for
-> > 
-> > 	#define pwm_apply_state(pwm, state) pwm_apply_cansleep(pwm, state)
-> > 
-> > , keep that macro for a while and convert all users step by step. This
-> > way we don't needlessly break oot code and the changes to convert to the
-> > new API can go via their usual trees without time pressure.
-> 
-> I don't think there are enough users of pwm_apply_state() to warrant
-> such an exercise.
-> 
-> So if people want to move ahead with the _can_sleep postfix addition
-> (still not a fan) here is my acked-by for the drivers/platform/x86
-> changes, for merging this through the PWM tree in a single commit:
-> 
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
+   478	
+   479	/*
+   480	 * At present we handle only one range entry, since copy offload is aligned with
+   481	 * copy_file_range, only one entry is passed from block layer.
+   482	 */
+   483	static void nvmet_bdev_execute_copy(struct nvmet_req *rq)
+   484	{
+   485		struct nvme_copy_range range;
+   486		struct nvme_command *cmd = rq->cmd;
+   487		ssize_t ret;
+   488		off_t dst, src;
+   489	
+   490		u16 status;
+   491	
+   492		status = nvmet_copy_from_sgl(rq, 0, &range, sizeof(range));
+   493		if (status)
+   494			goto err_rq_complete;
+   495	
+   496		dst = le64_to_cpu(cmd->copy.sdlba) << rq->ns->blksize_shift;
+   497		src = le64_to_cpu(range.slba) << rq->ns->blksize_shift;
+ > 498		rq->copy_len = (range.nlb + 1) << rq->ns->blksize_shift;
+   499	
+   500		if (bdev_max_copy_sectors(rq->ns->bdev)) {
+   501			ret = blkdev_copy_offload(rq->ns->bdev, dst, src, rq->copy_len,
+   502						  nvmet_bdev_copy_endio,
+   503						  (void *)rq, GFP_KERNEL);
+   504		} else {
+   505			ret = blkdev_copy_emulation(rq->ns->bdev, dst,
+   506						    rq->ns->bdev, src, rq->copy_len,
+   507						    nvmet_bdev_copy_endio,
+   508						    (void *)rq, GFP_KERNEL);
+   509		}
+   510		if (ret == -EIOCBQUEUED)
+   511			return;
+   512	
+   513		rq->cqe->result.u32 = cpu_to_le32(0);
+   514		status = errno_to_nvme_status(rq, ret);
+   515	err_rq_complete:
+   516		nvmet_req_complete(rq, status);
+   517	}
+   518	
 
-Thanks,
-
-Sean
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
