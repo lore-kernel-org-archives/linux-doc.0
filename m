@@ -1,49 +1,54 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2DB2F93
-	for <linux-doc@vger.kernel.org>; Sun, 22 Oct 2023 18:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEBF3229;
+	Sun, 22 Oct 2023 18:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="2u3rUBj+"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hhoKf3J1"
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB9C197;
-	Sun, 22 Oct 2023 11:49:40 -0700 (PDT)
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39MBM0B9013546;
-	Sun, 22 Oct 2023 18:49:32 GMT
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AC2AA9;
+	Sun, 22 Oct 2023 11:52:28 -0700 (PDT)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39M5l3ks014815;
+	Sun, 22 Oct 2023 18:52:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-03-30; bh=AfPo0CQqUl2C/VImdIgEdj8artktDGxCrai/+Jf+/ls=;
- b=2u3rUBj+IajFU+0RlyB5UsmEQL+cB7He8Q61HCIBCen+r60UT5p7xOCRSpBmEc4kb7Oy
- 74J1kMk3SOsFmZaDh3KHCqMoFzclp+aC7ZkTZCeCgGOGdxRAmKhl+BDtiLBl6EX8NQaM
- JuYkeHP8iVT7ZUqHvdV/F1QBrF6ETz0xGQvJobpBauB/z4bu+z72Re0SrrBAwM7yMEM8
- Yq6uSd/ypSZSc3ZJZD2Hg6AJzfOu8WHeKzDfLhySb3+fX6cj0fdima4z8vE9V/mjuexV
- xrUOx/XodWVjlzORlR7YjFTDVMfLLDYk/i02wErpozEOWgETDUAMZ1gw4cWFFgEasv11 ow== 
+ s=corp-2023-03-30; bh=Jzh9kcCOCuLXkmCPFQiRjaPF7/bwcwvIZks0MXPYD0Y=;
+ b=hhoKf3J17yyUoSbXbL4gdVv1HhQxLckKZzgFFOY+Et2Ol4NQ1i0l583nUyRSmexkqenm
+ ncjYemHLUP1vCLuWWt0s8Fb1EQ+f+/BUumMnZ5sdOwcu+YBuv0GsUC7bospsDi6bDWZg
+ mLOYCF77MIRf9IXKFzUe1k59m/5j2HbwNZ9nbxlSA/KN/9kzUwICqJcnBnh1iZr0Sama
+ +0Zvu7DbShS4uasBsaXSyrWEmQJzY9oMLqRuy92Wzv5cYqc9Uo1vVtpqAISPzp285WHs
+ Zu/yDv1+6usRI64suAFVl8POFQp93pIZINOU/hcVfQhfTtdmPZbi0KrBIG4WdJpMVDuy Gw== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tv5jb9v21-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tv76u1t0d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 22 Oct 2023 18:49:31 +0000
+	Sun, 22 Oct 2023 18:52:15 +0000
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39MIaj8x001460;
-	Sun, 22 Oct 2023 18:49:30 GMT
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39MD2Mrr001659;
+	Sun, 22 Oct 2023 18:52:14 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tv539pu0k-1
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tv539pv48-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 22 Oct 2023 18:49:30 +0000
+	Sun, 22 Oct 2023 18:52:14 +0000
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39MInTYB017392;
-	Sun, 22 Oct 2023 18:49:29 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39MIqD72021252;
+	Sun, 22 Oct 2023 18:52:13 GMT
 Received: from localhost.localdomain (dhcp-10-175-52-84.vpn.oracle.com [10.175.52.84])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3tv539pu06-1;
-	Sun, 22 Oct 2023 18:49:29 +0000
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3tv539pv3f-1;
+	Sun, 22 Oct 2023 18:52:12 +0000
 From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [PATCH] docs: doc-guide: mention 'make refcheckdocs'
-Date: Sun, 22 Oct 2023 20:49:10 +0200
-Message-Id: <20231022184910.919201-1-vegard.nossum@oracle.com>
+To: Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+        Johan Jonker <jbx6244@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH] dt-bindings: usb: rockchip,dwc3: fix reference to nonexistent file
+Date: Sun, 22 Oct 2023 20:51:50 +0200
+Message-Id: <20231022185150.919293-1-vegard.nossum@oracle.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,33 +64,34 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 ml
  adultscore=0 bulkscore=0 suspectscore=0 mlxscore=0 phishscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2310170001 definitions=main-2310220174
-X-Proofpoint-GUID: hI2lr3l0GhQELYIt-CfApe4OXJNAAuXb
-X-Proofpoint-ORIG-GUID: hI2lr3l0GhQELYIt-CfApe4OXJNAAuXb
+X-Proofpoint-GUID: m7DhFNR-LBY00qvShb2KrG1Pt5sZyFNZ
+X-Proofpoint-ORIG-GUID: m7DhFNR-LBY00qvShb2KrG1Pt5sZyFNZ
 
-Add this to the section on fixing warnings.
+This file was renamed but left a dangling reference. Fix it.
 
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
+Fixes: 0f48b0ed356d ("dt-bindings: phy: rename phy-rockchip-inno-usb2.yaml")
+Cc: Johan Jonker <jbx6244@gmail.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Heiko Stuebner <heiko@sntech.de>
 Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- Documentation/doc-guide/contributing.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
-index d4793826ad9a..662c7a840cd5 100644
---- a/Documentation/doc-guide/contributing.rst
-+++ b/Documentation/doc-guide/contributing.rst
-@@ -138,6 +138,10 @@ times, but it's highly important.  If we can actually eliminate warnings
- from the documentation build, then we can start expecting developers to
- avoid adding new ones.
+diff --git a/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
+index 291844c8f3e1..c983dfe0f629 100644
+--- a/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
+@@ -15,7 +15,7 @@ description:
+   Phy documentation is provided in the following places.
  
-+In addition to warnings from the regular documentation build, you can also
-+run ``make refcheckdocs`` to find references to nonexistent documentation
-+files.
-+
- Languishing kerneldoc comments
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   USB2.0 PHY
+-  Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
++  Documentation/devicetree/bindings/phy/rockchip,inno-usb2phy.yaml
  
+   Type-C PHY
+   Documentation/devicetree/bindings/phy/phy-rockchip-typec.txt
 -- 
 2.34.1
 
