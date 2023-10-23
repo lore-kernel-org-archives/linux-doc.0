@@ -1,138 +1,176 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AAE125B9
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 08:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0512212B72
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 09:07:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BOTDFUah"
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E043D68;
-	Mon, 23 Oct 2023 01:51:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IBAaOpaxk8aWxiUzMydz17xM9BsCPt7Fugnoxx3uZImoNF4utEfCTOQ3LDDxdgcBZmjS0rLp68ssszf6aJ3W1y1wUooN9kgH5UXoOziimy0QbWw/VWIZIMK2F59EY2Amfoan0CoogLzKbGFKqy/AEZoerp8WPY2CY1bALcmgPLWsYuObQGS+6eQY7YCTKZFdSEqR+dLG3bFfmMrkZlGaZeS9HMbNh2IOWV+nhmw5ft9Q8DsX45OQeOscpnSYUAwDWDRD2qwbuilxViUdaxZuq8maWaazUekcd+pp3LFwiY/8g0VPbeQ3MxYgK9FR+0+cKIPK/THd1vOltkspOBxRYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZXBscckPulxgVIpjiR+QAHBRU3KjFXWrJXEU5Tl+aQE=;
- b=LsGtzK6W362dZcmISD9uOM+YR9KjPKkbx6jeQ+i4gZbDawV5/E06AQggQILk2Xlv3Tnw14ssTzWiOMcNKFhvd6RgbH8nXGlXa4KXhw/v/nTb+gSy4W0gbIc66XuLLJHdiaej2gmjtJivS4MhC9rKOwg7gb0i0hN/OM1tijMwumWS/Y29jA7rgAx+LCMYP/GzG3gNmsxxxvt5zIqButqDYQfc+IabuJm/Bk6QEMFpkX5LS+6vjYyNxIPuK6DGfuyPZz39sySgp3keU9i5ax+fbxOssVOcW5R0hUzkLQIqDO9P7ws1wgD37SC12xbiS7+P7+S6rKw8OlLuzoU5/MZJNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZXBscckPulxgVIpjiR+QAHBRU3KjFXWrJXEU5Tl+aQE=;
- b=BOTDFUahqNG1G4ueWuNl+EIRsOQ3t3AuI/ptKmCFcRnkTV5Nw1kkWWDmmJMiukq6saw+VEi4z/B2ye9izbqsSZOoMfVih/somvkxngiZQo8MW1/XmGJ3rNUpJnnLOzeJkSpg6y4n+PFYsT4BcBLUG5JkC5HngZfFBBzguhjpomTAHioIglrviqNYLexKIcfrEHJBzR9RZaRuNyEEHOijiDPO7i2PTgB7Y5c8nsJZM+cTow//ObJlmFPFI3ntXsUcOEqFcqKjnHFQCgEWNajP6twhO1Q5tE+bU1kLAoRG8hzxUxkdipbVcnJ6N0kWuIy1iFWR9aszw9Qd8yWd9Xylew==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-Received: from PA4PR04MB7790.eurprd04.prod.outlook.com (2603:10a6:102:cc::8)
- by PR3PR04MB7355.eurprd04.prod.outlook.com (2603:10a6:102:8f::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.11; Mon, 23 Oct
- 2023 08:51:45 +0000
-Received: from PA4PR04MB7790.eurprd04.prod.outlook.com
- ([fe80::edd3:f00:3088:6e61]) by PA4PR04MB7790.eurprd04.prod.outlook.com
- ([fe80::edd3:f00:3088:6e61%4]) with mapi id 15.20.6933.011; Mon, 23 Oct 2023
- 08:51:44 +0000
-Message-ID: <56c57e1a-bb08-4ac8-9d3b-bdc649640cfb@suse.com>
-Date: Mon, 23 Oct 2023 11:51:39 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] x86/bugs: Cleanup mds_user_clear
-Content-Language: en-US
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, tony.luck@intel.com, ak@linux.intel.com,
- tim.c.chen@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, Alyssa Milburn <alyssa.milburn@linux.intel.com>,
- Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- antonio.gomez.iglesias@linux.intel.com
-References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
- <20231020-delay-verw-v1-5-cff54096326d@linux.intel.com>
-From: Nikolay Borisov <nik.borisov@suse.com>
-In-Reply-To: <20231020-delay-verw-v1-5-cff54096326d@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ZR2P278CA0041.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:47::10) To PA4PR04MB7790.eurprd04.prod.outlook.com
- (2603:10a6:102:cc::8)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TTbXOgbw"
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63B7E6;
+	Mon, 23 Oct 2023 02:06:58 -0700 (PDT)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39N6j9jO010268;
+	Mon, 23 Oct 2023 09:06:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-03-30; bh=1/7CrogggWqOQDPi4E83arLGCy38g/wiwwtQ4kqV4B4=;
+ b=TTbXOgbwCn9/EzmlS8m14GFr1iQY6iv8O9M/td7pf415JTw/C1n9K0Djua6B4lyIv6bZ
+ HdoEcV2z1m9GaG5POPdEJOUOM3nLrVPrd/fnsjjJrtdzmYikxjvOUMnlOPIrwbO8sVQh
+ jq9Ag7gwsfknYJ1N2LnvO8cvcjuVdmPC6WaanhEOfOjRXT9KCLIAILk/lK5tWt0sAl4I
+ jpITB2ixTdciJBqaqwSOhKcq6Iozjgl3smE4DIKgSIc7ucz8IoL4/QZCOAn3RJT9DD7C
+ XGbjJFxWkk1s5HdyqTaKSDEtRbeERT6resHU+RrpKy81nfOe25TozUwYCXuC+lOpnPMm Jg== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tv5e32n2u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Oct 2023 09:06:45 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39N6gPbG015051;
+	Mon, 23 Oct 2023 09:06:44 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3tv533qebu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Oct 2023 09:06:44 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39N96hY8005451;
+	Mon, 23 Oct 2023 09:06:43 GMT
+Received: from t460-2.home (dhcp-10-175-60-137.vpn.oracle.com [10.175.60.137])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3tv533qeb1-1;
+	Mon, 23 Oct 2023 09:06:43 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] Documentation: kbuild: clarifications
+Date: Mon, 23 Oct 2023 11:06:38 +0200
+Message-Id: <20231023090638.935867-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7790:EE_|PR3PR04MB7355:EE_
-X-MS-Office365-Filtering-Correlation-Id: dde0f53b-ad9d-4ec3-baa8-08dbd3a548a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	LjyTmz8nSrGGlQ0cVKKKXtigjFRMWZyBAiDrbxSiqAoYo4k0uDuy85X0jM1+slWkhBTMRmSNcXBjCjV73EPr/nZO+rsGu7rL4Em+W1sb0+IgnY8Phqqce6N27MrYhOmo3TxuDP7gyCS7ytjqj1cr3rKCSl2hOeeQoUknl/y+6roBR5I4y9+oBd5M+l1hCr2hJjCScOYqivcT2xhVOw1GpBGxO3n67E1OzElRyWyzOvdWMsQmdib4thfh8XNXm0IRnow6iLvenaPuKJ4TW5eZU7vq2IJ6PvnPohdK8RYayV6MEeUohGd4m/gmML5u0k11T4UWxTjcoa2Mf1uOBkulRp89vyU7kDPUR6EGizsGMPf0J9kFRW4yY92ORHCHc3Yq8YEt8o1synb+yl5m6aiz6ydY4uRG5O74NTTUQHD0A46qKDsU+hYlpAqG6+mA7Ev4zMgFC1MAUJccLrMxyo1qadsH7q/njWWgAevymQCOj1484a7KRZbVqvwLtuJW3yUhwrNdXaKm/bmBycnfCc94kPtQVoT9fGN6ZabcxmAbU4x0FA7AtcP8fBkgn1ukY6his5K94zMdprIqqY9qiD4LK1tVQnTBrMTSphTgc0wml4srFVcE3ifUx1R6ST7/seCH2w9gnmmi2eCICbCqBZRoUBTMuTUpc4cPbIQFqTRBP9I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7790.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(346002)(39860400002)(366004)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(4744005)(2906002)(38100700002)(316002)(66946007)(66556008)(66476007)(54906003)(2616005)(110136005)(478600001)(6506007)(6666004)(6512007)(6486002)(41300700001)(7416002)(36756003)(31696002)(86362001)(5660300002)(8936002)(8676002)(4326008)(921008)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VmVaaE9MQmVrZmNEZzg2bVBuNG92SU1iS0lTeXl0MlhZczR4S01yeW5ZY2Z1?=
- =?utf-8?B?dnA0UG1NTjVXa3RueFBwSU00RXh3MUxUVE9iK2ZGRk1FY1J6WFNhR1RGbjd5?=
- =?utf-8?B?RUdKYkNQdXY2bWZ0RkV2TUlEMVl5bHhHY21VNzF2MVJxSmx6ZkhXa1JHMGxC?=
- =?utf-8?B?UHgzcXNGV0NYK0pvYlVFVDhYZ3ZnV1cyNTFyQlRzZlpSSkFOUDZkRmJEZUl2?=
- =?utf-8?B?a3QyNTR5TGVzN0xOY1IvL1M1YkhVTnF6aE9GMGVEdVFzY1M3eGRQTnJmQUYr?=
- =?utf-8?B?d2FCSERraVhqM29YbXVnenJ3S1pDRkQ5L2ZjR1ZVU1ZMbUttRGVXZjJ2K1pY?=
- =?utf-8?B?R3ZOUDYxdmhMUmlqcURwbkl3UzBCcGlVdEVrRVhkR3lLcVhUVmdoYmhZK21T?=
- =?utf-8?B?UWhsWU03V1M2L2F6b1R4Z2RNdUZXWFhsWG5jMjJnYW10S0dtUk9vMEtqbVcv?=
- =?utf-8?B?Sm5RaWVoWG5hdXFtV2JGNzVqUFlpbWhLL2Z0MVVLN0NsRWJqWTBNb3pScURi?=
- =?utf-8?B?ZlQvdjI5N0ZlMGxmMmJudjJhaHdoOGZ3SnZTK1RhTzJOL0N6clIrdXNsVEhL?=
- =?utf-8?B?bkFQSFBWWU0yUklEV0lCSTQzZDdYQjJCUzF1enk1eUZYenVGamY4WTd1VHZy?=
- =?utf-8?B?R2tBZVJQeDdEZFl1aHBOYmszU1hGRGY3dDEvWmdPeFNxSWtKOUFIQzNzLzBk?=
- =?utf-8?B?VGVId1Blc1VKV3ZzWG95TEVJMFhpdllCam1oaEV6QXpwdWZreGVONTF4VllQ?=
- =?utf-8?B?LzA0QTFmVlBpaXV5THJPYklzdXZDNm1IT2tYWFBIaEIxb0FnRkcxcVNUNXcw?=
- =?utf-8?B?OVc1Nm40NlRGbU9NdDRkRDgybU8xM0lQcUFVWGZLamlYMkpQeTU4Rnk4c3Jp?=
- =?utf-8?B?R1F0b1JpNk1kOEhRckQyd2I4TEUvVWVtNFhsUEZHUUZ5bzhNVVAyM1IyWE8v?=
- =?utf-8?B?LzMzVjdJSUJOSjYrakVKekRpR0gxY3N2YUozUnRiNGRjRXlZYXRvUjYyODN3?=
- =?utf-8?B?bU1qOFFqZ0NpaU92WWE4NDh3blJaMWR2ZWhZclhHcUx3OCtLM0pHMmVrTG1Q?=
- =?utf-8?B?RDhhY2FYcXl0bDJTbGx3QXZSZFhJZVlLUDhpTlhCOEg3Q1dxY1lKYk8wVXNI?=
- =?utf-8?B?MUVzWDd6cSthcFFkanNyZzMwbzRUaEtqdHQ2aHZCc3NjcFFzb3VYK0hDQTZ5?=
- =?utf-8?B?NVdGdE1nNG53RGRnYXlNWlpiQkdmb2d2Zk9mUWpXNU5nellDQlI4dFMxUklz?=
- =?utf-8?B?dkZSYUlheVk2L2h6RCtPc1F0cUQ2djJCUEZybXFVeTBVWXdkayt4V25lVEN5?=
- =?utf-8?B?b0dmYkVwdSt1SFVMN1BYemxQVGNTYUhsaTJkS2NQR1FEQXpnU2JqOXl5M0pK?=
- =?utf-8?B?LzJrejlibDMvWFFHK2NjeWRHR3hrMStVQklxdlBSc2RXYmR3N2JBSEZZMUk1?=
- =?utf-8?B?UFJOV1VwSFNOcjdya0tlZEhXUFRySFBEdDcvMW5tTmdpSmZmK09FNjVzOWlj?=
- =?utf-8?B?alUwQ0xqLzhBd0JaZklCR2owTHZuaXFmeWd4WG5rakZtMTd2aXR2WWJVempQ?=
- =?utf-8?B?ZDB5c1BHVFk4KzlHNzFlVVZBbm9ueGRPVVpFUjlmU0R3dlc1UElhUmxJSm9N?=
- =?utf-8?B?c2tGeXBkaGFaWVpRNmVkY3k3RlBHc0FvWlZ4MDlreFhxczRRbzhTQWQrTkxE?=
- =?utf-8?B?NHFnZzVxd0xNNUtEaENrTG5IZlhRODlhNVJrT212WHU0Tm1FRWdEUUtIRGF5?=
- =?utf-8?B?Ni9aTTg0VmdtNy91bWovNHdDTXhTd1ZTbU94NkVtandlbTd5NVUwYkRQd1ND?=
- =?utf-8?B?SHZyaEFIK25PV0ZxOXBtMDFSZFFlUU1pRmV4cVN1c29RWHVvbmhkWTMvTmdT?=
- =?utf-8?B?S0JUVnpHT3RBZUVjNUdjcDRmdlc1RjQ4d215RlZuWHMzbDBqdWpZamZ0dCsx?=
- =?utf-8?B?SG1JOHdiWDJkSkJYd09hK05KRUo2SHdxTG9qK2ZXc3ZQRFFwbDB1T2pacDIy?=
- =?utf-8?B?SDUrc0xQQlFzanNqUGhYejlBdGlHUjBwNTBaWElOVGQySDVJa3liQXZob0hK?=
- =?utf-8?B?SW9LbGVvclg4QkdBYThhRWxqbXRIZWVIdEZiV1Q1OU50TTVzcTNMVVhFd2c3?=
- =?utf-8?B?czYyOGZZM0hMTDJRb0JQLzJWZTVzVUtXeFo2bkF2YUhSSWZZaXh0RDMvVXhn?=
- =?utf-8?Q?9sI/CRyIhaQO8RUbfWe68fOrLJwa4Ggdg6l1gXMc5WNb?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dde0f53b-ad9d-4ec3-baa8-08dbd3a548a6
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7790.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 08:51:44.7498
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z5lkAOfPg4oTvKAyYl15VWYu1zsKteewruo3CuN3E/lt20LvqJRvhRFYgJO19fJIkFcGTPDakut13NCJKVKRvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7355
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-23_07,2023-10-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 mlxscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310170001 definitions=main-2310230078
+X-Proofpoint-GUID: 2SI9zToTw4NGuHPC3pNchUM7bYIqH9Nn
+X-Proofpoint-ORIG-GUID: 2SI9zToTw4NGuHPC3pNchUM7bYIqH9Nn
 
+The kconfig language is subtle. Document a few more non-obvious
+aspects of it.
 
+Also fix a small markup issue while we're at it.
 
-On 20.10.23 г. 23:45 ч., Pawan Gupta wrote:
-> There are no more users of mds_user_clear static key, remove it.
-> 
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/kbuild/kconfig-language.rst | 53 ++++++++++++++++++++---
+ 1 file changed, 48 insertions(+), 5 deletions(-)
 
-This patch can be squashed into the previous one. You've already done 
-the bulk of the work to eliminate usage of mds_user_clear there.
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 0135905c0aa3..f694d90f83d1 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -42,9 +42,11 @@ Every line starts with a key word and can be followed by multiple
+ arguments.  "config" starts a new config entry. The following lines
+ define attributes for this config option. Attributes can be the type of
+ the config option, input prompt, dependencies, help text and default
+-values. A config option can be defined multiple times with the same
+-name, but every definition can have only a single input prompt and the
+-type must not conflict.
++values.
++
++A config option can be defined multiple times (i.e. by multiple menu
++entries) with the same name, but each definition can have only a single
++prompt and their types must not conflict.
+ 
+ Menu attributes
+ ---------------
+@@ -136,7 +138,10 @@ applicable everywhere (see syntax).
+   below), reverse dependencies can be used to force a lower limit of
+   another symbol. The value of the current menu symbol is used as the
+   minimal value <symbol> can be set to. If <symbol> is selected multiple
+-  times, the limit is set to the largest selection.
++  times, the limit is set to the largest selection. In other words, if
++  at least one menu selecting another symbol is ``y``, then the selected
++  symbol will also be ``y``.
++
+   Reverse dependencies can only be used with boolean or tristate
+   symbols.
+ 
+@@ -473,6 +478,22 @@ This is a collection of Kconfig tips, most of which aren't obvious at
+ first glance and most of which have become idioms in several Kconfig
+ files.
+ 
++Misconceptions about prompts and symbols
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Looking at fragments of common Kconfig usage, it is easy to believe
++that a symbol can depend on another symbol. In fact, it is not the
++symbol itself that has a dependency; it is the visibility of the
++symbol's prompt that has a dependency.
++
++Likewise, since each prompt defines its own dependencies, it is quite
++possible to have two prompts for the same symbol with different sets
++of dependencies. As long as the user has at least one visible prompt,
++they can enable that symbol in their config. Conversely, if there are
++no visible prompts for a symbol, the user can not change its value,
++not even by explicitly setting it in their .config. (It may, however,
++still be selected by other prompts.)
++
+ Adding common features and make the usage configurable
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ It is a common idiom to implement a feature/functionality that are
+@@ -567,7 +588,7 @@ distro config owners, but also for every single developer or user who
+ configures a kernel.
+ 
+ Such a dependency can be relaxed by combining it with the compile-testing rule
+-above, leading to:
++above, leading to::
+ 
+   config FOO
+ 	bool "Support for foo hardware"
+@@ -692,6 +713,28 @@ e98062ed6dc4    select A -> depends on A        (3)
+ (2) That seems to be the gist of that fix.
+ (3) Same error.
+ 
++Experimenting with smaller-scale Kconfigs
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++It is fully possible to play around with smaller-scale Kconfig fragments
++instead of using the kernel's full set of Kconfig files. Create a file
++called ``Kconfig.test`` containing e.g.::
++
++  config MODULES
++          bool "Modules"
++          modules
++
++  config FOO
++          tristate "foo"
++
++  config BAR
++          tristate "bar"
++          depends on FOO
++
++You can now e.g. use menuconfig on this by simply running:
++``scripts/kconfig/mconf Kconfig.test``.
++
++
+ Future kconfig work
+ ~~~~~~~~~~~~~~~~~~~
+ 
+-- 
+2.34.1
+
