@@ -1,178 +1,209 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC5C15484
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 15:52:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7BC1CA96
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 16:19:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Qzm418o1";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="BhHr4GO4"
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 951FCBC;
-	Mon, 23 Oct 2023 08:52:33 -0700 (PDT)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39NFP20s030705;
-	Mon, 23 Oct 2023 15:52:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2023-03-30;
- bh=zryqm7gjuMceDSchaUEZjei9kvrlwZ/ZTpzDyB8K4bY=;
- b=Qzm418o1XGHT45GMf/TCE9lcyGSP8b7bLdXYCn0O9QVmdgZlwcrpeRHzz0vR11On+LuI
- T/6citxse/9+DIbe4gpY3H1rEbOYF+Pv5ZcNht3xWwdoNk0pxcla0FqXkRShMse/ffpY
- S+e62+ZH2uolU3lHEgGTk4HpC+QB4qnyiNq8Gz+jTM1/w11uCgP+8XPlI7R82UU17O16
- wa63uJUul2LYIetAMMaJ5cZB/w2HtpOkS9S54r9/OJthWh2F1dsFqLAu3V2aos0z522u
- EGmAO3E74gv0Yk6eHiZy0cQvuHtqcd7HNTU7wGLfXso0G69MRsH1lO8ezAvjN0nvw9xw SQ== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tv6hakcp5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 23 Oct 2023 15:52:04 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39NFTmaN034523;
-	Mon, 23 Oct 2023 15:52:03 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3tv5344vwn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 23 Oct 2023 15:52:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WTgJTEWvgo+4egrrX1USQAjmdLcvStTKlJa1MJ5FENfeAmKAp0gZhGfeB2nW+lpq8aO5XsHxaa3zPdoS3yp3liiEQ8eIcFi1Gr8+BODNafPPPR3eyXBfaUGITFGCmvcVGfXxsda3C3WsbAZt15+KmDtpX36wJiBTFecn+K+OQbX+SyX5/bSg0x4E6jpmvMSQeBcnAjcrXyheXuei26e2S2G6wq0SyJ/5oBpOFxkrpDeKmepOZZjr8wlFbvYcyZTLIbmbqNLQuxTzsm9ql5lBRqXj+p38ljy/4AfZ8BFJdjyx83MRw+Dh4CsKViWqpzYsIG9KICTKAbH2hcP4uC6IWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zryqm7gjuMceDSchaUEZjei9kvrlwZ/ZTpzDyB8K4bY=;
- b=dvYWDlvxwjMDqeEnKB0/CtGEka+RUR04MO5PUiGkxZWFXJPbDAc7b+CkBbr2bb88ftluo2j1dwBt5OaKxQwxFucqhY3gxzlzd5xvMGMH3aiQh3C5FQDszf943HAzt8kJmM1byBYb8iu3WQaJ0ty6leYcsKBP/5JQDUDt/GWkTd2Zqmbpk3PJD5na+VvmedVVZWzVEtpnNVD4bD/COClU1EQyMvmuyN83CHoU7URHBMcVODDcwVcSzZFgbHNQcFvEV4cJCr2AKj3BrucL3aUaxAGrEOsTaHv/wtWd6/UlgzLWJ3Wj1Ktyirso13j/Rduttvs9PeV1GPSqGpIWAlqGEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="tYo/n7OT"
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C0610F9
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 09:18:52 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c51f5a1ecdso51245921fa.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 09:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zryqm7gjuMceDSchaUEZjei9kvrlwZ/ZTpzDyB8K4bY=;
- b=BhHr4GO4MJ99c5aHn8rEW3YbVj9PTiaekIYXYKuZc2LeNC9lqnYURdz/5075D7r1Np3qjyXlhfSkYuJTCkkEk0Li7n/i14aQeCL0Cc8i06Zu7s6Jzw6v3i0687XWegC80qtVLGYsBtGPFxzOxN9ggMlbMAz0sRR+BCbnK9j8AXY=
-Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
- by CH0PR10MB5161.namprd10.prod.outlook.com (2603:10b6:610:c3::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Mon, 23 Oct
- 2023 15:52:01 +0000
-Received: from SN6PR10MB3022.namprd10.prod.outlook.com
- ([fe80::8979:3e3f:c3e0:8dfa]) by SN6PR10MB3022.namprd10.prod.outlook.com
- ([fe80::8979:3e3f:c3e0:8dfa%4]) with mapi id 15.20.6907.025; Mon, 23 Oct 2023
- 15:52:00 +0000
-Date: Mon, 23 Oct 2023 11:51:58 -0400
-From: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
-To: Tom Yang <yangqixiao@inspur.com>
-Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: maple_tree: fix word spelling error
-Message-ID: <20231023155158.lyuu3vthvdrzmlaq@revolver>
-Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
-	Tom Yang <yangqixiao@inspur.com>, maple-tree@lists.infradead.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20231023095737.21823-1-yangqixiao@inspur.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231023095737.21823-1-yangqixiao@inspur.com>
-User-Agent: NeoMutt/20220429
-X-ClientProxiedBy: BN8PR04CA0025.namprd04.prod.outlook.com
- (2603:10b6:408:70::38) To SN6PR10MB3022.namprd10.prod.outlook.com
- (2603:10b6:805:d8::25)
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1698077931; x=1698682731; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XRXdY69ZBlfM0xKWt8N1W/8lTqIPJNkG639XQiTfSsI=;
+        b=tYo/n7OTaZleiNSLBs2Dk0pH/LSlpQUT4dIxMSkFy73ttBnLaHfPCg+Y+PrKH8z2SP
+         YpLHhTRkzt0FF6Pi42k0ahQBasdTR/XG0+ZWWkkvkG7pw3tV9xF5OJeyjOrBUxzAwFRy
+         PQhlSO0nQMLm/xP/gE+Kr6Z3VRmb3Qftmn1rN3ZBzIyEgX0z1cfe9qVANZfouV3PThBC
+         LBs9cjwvXU1g8NOI0YWlDnEBXsEXhjWW8ec1oyJq1KE2VMHW5HvaHb1SnCby8vFw+nuu
+         ihvzXFvaWNATidtMDwkBRnMGzz0Tlch5/lB5/SVQ5DzDlZ0FURwxcUpka0jGtMnBIDNG
+         psWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698077931; x=1698682731;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XRXdY69ZBlfM0xKWt8N1W/8lTqIPJNkG639XQiTfSsI=;
+        b=cnxpCreajBMBpP0YVBGH6QfZ7dl9QtJUVtutyDKZSd0ueJwh3xenPqz306SyoAaC/e
+         1aaaUsL7hvZH1J2yJxMTm2PXqwwlA1qe27+iL3v50iKIF49bL5YyGRTHjzpzS6OSUgZV
+         1cWD2QBBCvYAh3UELd5f09tM4lZvaDQ+V3lzaXOGrmPofXHl+vjRiOGzzgavpZNxDPgr
+         h1LRqopGfYW7G0luIRQcLRHmRJQpM9Gc+M28NJz/seouy6RqaZ1t7fAubQg6E7qK5/51
+         yc2V6TRSPI6/rpu0Y6uMMfnSYC1xVYAw1aEm57lbsAV0/JsIpOnJVcKGUHy9YNchxGcM
+         eOLg==
+X-Gm-Message-State: AOJu0YylUJkfVt5fTcU9NpxxWLe4Qsv70WG3Knk6sj4l3mjmVt6snOwF
+	FWgW+y6N0iDY2vJybb89rIvYXxeVbSviywx39SBhyQ==
+X-Google-Smtp-Source: AGHT+IEQR4YyAihsj0DrI81eI6lmsjNopJ/6ZLCkXxPzRN7txe0u78/wppiLGpoIGQM4MFyMzlNW6OWJW9jSotoMnbY=
+X-Received: by 2002:a2e:7e03:0:b0:2c4:fdfa:41c with SMTP id
+ z3-20020a2e7e03000000b002c4fdfa041cmr4091293ljc.0.1698077930651; Mon, 23 Oct
+ 2023 09:18:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR10MB3022:EE_|CH0PR10MB5161:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf47c246-043b-4e95-27b4-08dbd3dffe73
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	E8Hox80ExKYkJ19KeEwjc2P2gt8kK6XS6kMYVazOEv9xBJJ6//iccQuGP0Sap+AMwkr5i0g1xev4H2T/ikIlpff+bEsJKTBhKR2McBq8xYBZQxGhWwEnqBJzfD/rQrSY1VxjxZWAcZrpXpmWoGXFo5ZwwACFLROZVDn60p6HEJKPquYLAPnIUBG+rKlYxA76jnq4Hn225W8/0El5tApc15zY3ns4re3KckDF15xu8o6ce83+F4ZJMwjhzrjNIUqoRL9i9t6dc2DXgTS9RUnmn+V68XvvKXp4eDbcdelNXbR6EcTbn11bj2aVqzTcM5nVakjHFJQNo1b8zR/PDYQgSEL2vSgbt/rZC0Hd2jBN57ztvhPKK2D1sXMMqc6EsQaUYYWSMjjMcCocdK6pW3L+vCrOF73FN9ozlqDsFvOX/7zrvFb83alqiVZnf90XvNB4T0qPDS/0JlhOLaZ/b2ExPrnxng3PEzPBKetnI3HQbIJt2oIPQALTt6RoJQBcFrOJ6SU3NS3WbvnR0tHWmDxbS22e2rpVe+WZo6Ov3uR0jPMNIIVCDu4CXehlJ9X+Opcw
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB3022.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(376002)(366004)(346002)(136003)(39860400002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(33716001)(4326008)(38100700002)(2906002)(86362001)(6506007)(41300700001)(6512007)(1076003)(83380400001)(9686003)(26005)(5660300002)(478600001)(6486002)(8936002)(66556008)(66946007)(66476007)(316002)(6916009)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?eIQ5Q4S8m5VHG7s5dBB+gA23gShj7YrA1DbmGLXEXkZEjgtRgz8rgDUiWQDo?=
- =?us-ascii?Q?uLoR6YH/q0rC/kD/4fgv7ZEhB72stGJdaLDHN8BiGMykolpIw0LF/yfnAfrQ?=
- =?us-ascii?Q?WnM8uLdaCYcFz4t4PsWjREpZDWlfnzOguTa3Ioq6R0mb4mohcW1oQ5foSZ/8?=
- =?us-ascii?Q?xXv+0DAC63v8PO1PHBOOtkQOuI4hN3aNMGeuq69h3l18qa/iVisuRvHqvbgm?=
- =?us-ascii?Q?RsU1CFT2kkZPEU/CywA5oGIGLparev5W4PNw3ZzDxRzzquYGeuTGznTLDMd/?=
- =?us-ascii?Q?scthste8mjq1h1qznANlyRXYFbOKWmFCdfH14CJtduB0tN6bEhx+X2PZ/N81?=
- =?us-ascii?Q?fk9tn1L8Sn3im5tXbRjYGAWIrVrULZscc+faqc+KXB2BJaa/wjAoLZ4QDkSQ?=
- =?us-ascii?Q?8fAS5VUecV6jz6zfAb0Okn1BInUEJt29zvpo6GGVwnDjvMvJXDUveB4cVdOy?=
- =?us-ascii?Q?Rw8G+mroPC/pK0dPInuoNqXRjVJnqE3aTgZkuYjMpYycbldzwb8ZHRHRgyXZ?=
- =?us-ascii?Q?idC2qIIZ19hvyTf1doZeDgVg7yC3BgtuBeuSS+7dgeoSNfXb5ItXqSSefk1k?=
- =?us-ascii?Q?cSghdDm3JhKaf091rUldARyxzqoPpslNh3nY+E95jRUnEVpRO99Vd9R7qZnw?=
- =?us-ascii?Q?m8u37SBPUfgrm7PBoq7h26dVQyNFjmVxWR3Mhywa9V4Xtem7cefYU71e2Jya?=
- =?us-ascii?Q?wX4CgAHu+Sb4NT3Xu4m7epLmUJ8qvs+jF+ZVUfiEWT4CG2k0mAROmVKYYgJW?=
- =?us-ascii?Q?5avOJ+HLn4fnEYYS+GlZtPhXoM6Z0twfWG1mEsEPodYYyZzBmOFR3Nr6Zq8U?=
- =?us-ascii?Q?Q+slMJOUWzO8FPRv8oEWmHGrHLS405KoEmkEW+yqPp0v594HSc+PvTE3J04h?=
- =?us-ascii?Q?sxYtkYRL0PgNOfJG0+KTdEPAt1n62mZanBVTJJLmaMRT0CMxWp1Ze2jAJB2A?=
- =?us-ascii?Q?2oHCh7sgJewYgfYqZhh+PHrOjZEwXODqkz+Jfv3szSzQLm4ReMihrTCKXHcg?=
- =?us-ascii?Q?fOh2+49/urVjPCXKnooJA/W/9s9MngYIKhZT7lKYlM46LHPHStX2tkWVBmzE?=
- =?us-ascii?Q?6yOhtudficCR8hB38tmfOks44vDaU4NtuXWiaZjkRPM6zUW2jHSEykq9ccrx?=
- =?us-ascii?Q?XXRBgzV3D/sfomCYvN0dX6FfW58rDk0hQj7sYjsL8e6B+9Z0fyHuA+bu1Wrm?=
- =?us-ascii?Q?IAnBd+CbkLuZ9UW3y/aB3Jxc4QaA+ZZgQ1NwM/gotAvR6e5aOiTa11dCZxVy?=
- =?us-ascii?Q?ZJFLAjgYHqqEMLLO1M7C7kCL/4bf7BVdj9bGW1IzjKAKDBRFUIeiTSQ4FYfV?=
- =?us-ascii?Q?ALkX5nsCkMdM31Xfpi1vtGhZnhYf3QNI42bgC2pswdCQL1iQUy8YmgeWdOyB?=
- =?us-ascii?Q?SUVVzwZP6gh50/IzTQytAIVHqpm+ttpbRc+n9e4xDFtJbU44dGZ2leSLmgRU?=
- =?us-ascii?Q?gxBiztXluiX82sf9Nct8PPxOWytkoLfG97aupBGVW4fMXT8TKprncPWgICym?=
- =?us-ascii?Q?gkJEV/e45gs/VnCDl2woASUPWJJod/mIEWea7KLArS9uDQnK662FVGet95K2?=
- =?us-ascii?Q?JrIXmfvAz78gQcGByvGKAONwJybNAX9FnZ/VlD7T?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	F9B4armLEGcNnqi6Qdvn3jEN/hDS7+QBFY7NEGE/Q6JTAzxaVOD7JuCQv1tVfX3mdPIiZbcAyCCUsjG6zdxFXPUokGrRRLcVdJK5AWChPuLkoJqlGRpJM3KJMOiJ8b27b9xMvjynNWeLiy3GqOJzk6w3MLfr1v/yYK11/BhSE1vndvONxOfO0gPAlAN8E+3lwftcwCQagicS2k1pG4FQexUHyIc3/mmHJj8trBeeDidGaEK8KP2W4ycYy/H6VtGtCEmi9FlqMRhCAq1lUXMotNNY1Wvc9yDjdWU/ZvZczFyJXDimK3xOFKFUZry26Yj0C7qMTUZFwwppuQtafAlQSew5cB66AGiQujqlp5o0cZ9oA/Q48EO5fL6R7lW4dCbakGU64e/P2aAGgZHXfa1VXEoKKNMxc3QQbpkVvS2guqqLixrvSMtkPJYxbNRVxTQIOJmwogAFIKCd3zZOh1dDnSlXD3vDW3mO4lVUVptDnHHBYnNh33D16oXSPkbr7rjyBxOnaDpdIa6Ck+jsEd1WrCNsbDpnLN/IVvRpodSHVoGsFcajo9ljq0pjh59pxiLw0a80lKv/Bpe93vllOUuJbvi5e4qKprLkhVtT4kY7bAcqnmgAkute48GovUHs1vgkxr84r2ixiBcjIgEpHqfVCBWZj1fxs7pn2njhAyav1gwY4dZTcDzAmLJlZWupqNIddByn/+c1O8OgtJ5p73y05JkWNG/mf9ke5mL5D5UdfHbd3R4l0uBNeGs8ycPkVKEvrozb7yU9PtTCgDP1QcFqC1oCHb+Pp2vGYHEkZYbrc8qgTcj3ObLm2Gavvo8HSBmrYhSrgg11i5Huqfy8pL0Nk5zVpKTGDV2EBqV58BGB6Ey1z9FDBxK09vyXFODwYzl9
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf47c246-043b-4e95-27b4-08dbd3dffe73
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 15:52:00.5655
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YYlTiS3/iqLz7jDYEB+1G6pWDW7w6voW4Jh3L81jNp7nc96V28nJjbz5UTNjpDegKGMY6T/68InOY4EM0zSBNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5161
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-23_15,2023-10-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310170001
- definitions=main-2310230138
-X-Proofpoint-GUID: CTvmR4pQrb7tIYEXTTJEPEgKVRyEA5dU
-X-Proofpoint-ORIG-GUID: CTvmR4pQrb7tIYEXTTJEPEgKVRyEA5dU
+References: <20231017131456.2053396-1-cleger@rivosinc.com> <20231017131456.2053396-6-cleger@rivosinc.com>
+ <DA8B4610-D514-4733-B875-C247FFCCC7AA@sifive.com> <af785f0f-9de7-4548-9cdb-f392cde1cc2b@rivosinc.com>
+ <CALs-HstEBt-ntCcETa9YwS6On3nGyoEc2p7R-gaBLG9+aFJL5w@mail.gmail.com>
+ <7626f978-e9ea-4f8f-b814-aeac02bd3712@rivosinc.com> <20231019-nuclear-vista-ef3e0b9bef71@spud>
+ <CALs-HssWZyhnbo=ErH+LEfMi4m04i39Cw3PGXP1WhCFfSP8G=A@mail.gmail.com> <3f383b96-87ae-4580-a23d-0196bbd8ec91@rivosinc.com>
+In-Reply-To: <3f383b96-87ae-4580-a23d-0196bbd8ec91@rivosinc.com>
+From: Evan Green <evan@rivosinc.com>
+Date: Mon, 23 Oct 2023 09:18:14 -0700
+Message-ID: <CALs-Hst8NLeD649+-Za=U7Awx+=SuELz--rSGqyqHpn8gzAQrg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/19] riscv: add ISA extension parsing for vector
+ crypto extensions
+To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Jerry Shih <jerry.shih@sifive.com>, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Palmer Dabbelt <palmer@rivosinc.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Jones <ajones@ventanamicro.com>, 
+	Samuel Ortiz <sameo@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Oct 23, 2023 at 12:24=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cleger@ri=
+vosinc.com> wrote:
+>
+>
+>
+> On 19/10/2023 18:19, Evan Green wrote:
+> > On Thu, Oct 19, 2023 at 8:33=E2=80=AFAM Conor Dooley <conor@kernel.org>=
+ wrote:
+> >>
+> >> On Thu, Oct 19, 2023 at 11:35:59AM +0200, Cl=C3=A9ment L=C3=A9ger wrot=
+e:
+> >>>
+> >>>
+> >>> On 18/10/2023 19:26, Evan Green wrote:
+> >>>> On Wed, Oct 18, 2023 at 5:53=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cle=
+ger@rivosinc.com> wrote:
+> >>>>>
+> >>>>>
+> >>>>>
+> >>>>> On 18/10/2023 03:45, Jerry Shih wrote:
+> >>>>>> On Oct 17, 2023, at 21:14, Cl=C3=A9ment L=C3=A9ger <cleger@rivosin=
+c.com> wrote:
+> >>>>>>> @@ -221,6 +261,22 @@ const struct riscv_isa_ext_data riscv_isa_ex=
+t[] =3D {
+> >>>>>>>      __RISCV_ISA_EXT_DATA(zkt, RISCV_ISA_EXT_ZKT),
+> >>>>>>>      __RISCV_ISA_EXT_DATA(zksed, RISCV_ISA_EXT_ZKSED),
+> >>>>>>>      __RISCV_ISA_EXT_DATA(zksh, RISCV_ISA_EXT_ZKSH),
+> >>>>>>> +    __RISCV_ISA_EXT_DATA(zvbb, RISCV_ISA_EXT_ZVBB),
+> >>>>>>> +    __RISCV_ISA_EXT_DATA(zvbc, RISCV_ISA_EXT_ZVBC),
+> >>>>>>> +    __RISCV_ISA_EXT_DATA(zvkb, RISCV_ISA_EXT_ZVKB),
+> >>>>>>
+> >>>>>> The `Zvkb` is the subset of `Zvbb`[1]. So, the `Zvkb` should be bu=
+ndled with `Zvbb`.
+> >>>>>
+> >>>>> Hi Jerry,
+> >>>>>
+> >>>>> Thanks for catching this, I think some other extensions will fall i=
+n
+> >>>>> this category as well then (Zvknha/Zvknhb). I will verify that.
+> >>>>
+> >>>> The bundling mechanism works well when an extension is a pure lasso
+> >>>> around other extensions. We'd have to tweak that code if we wanted t=
+o
+> >>>> support cases like this, where the extension is a superset of others=
+,
+> >>>> but also contains loose change not present anywhere else (and
+> >>>> therefore also needs to stand as a separate bit).
+> >>>
+> >>> For Zvbb and Zvknhb, I used the following code:
+> >>>
+> >>> static const unsigned int riscv_zvbb_bundled_exts[] =3D {
+> >>>       RISCV_ISA_EXT_ZVKB,
+> >>>       RISCV_ISA_EXT_ZVBB
+> >>> };
+> >>>
+> >>> static const unsigned int riscv_zvknhb_bundled_exts[] =3D {
+> >>>       RISCV_ISA_EXT_ZVKNHA,
+> >>>       RISCV_ISA_EXT_ZVKNHB
+> >>> };
+> >>>
+> >>> Which correctly results in both extension (superset + base set) being
+> >>> enabled when only one is set. Is there something that I'm missing ?
+> >>>
+> >>>>
+> >>>> IMO, decomposing "pure" bundles makes sense since otherwise usermode
+> >>>> would have to query multiple distinct bitmaps that meant the same
+> >>>> thing (eg check the Zk bit, or maybe check the Zkn/Zkr/Zkt bits, or
+> >>>> maybe check the Zbkb/Zbkc... bits, and they're all equivalent). But
+> >>>> when an extension is a superset that also contains loose change, the=
+re
+> >>>> really aren't two equivalent bitmasks, each bit adds something new.
+> >>>
+> >>> Agreed but if a system only report ZVBB for instance and the user wan=
+ts
+> >>> ZVKB, then it is clear that ZVKB should be reported as well I guess. =
+So
+> >>> in the end, it works much like "bundle" extension, just that the bund=
+le
+> >>> is actually a "real" ISA extension by itself.
+> >>>
+> >>> Cl=C3=A9ment
+> >>>
+> >>>>
+> >>>> There's an argument to be made for still turning on the containing
+> >>>> extensions to cover for silly ISA strings (eg ISA strings that
+> >>>> advertise the superset but fail to advertise the containing
+> >>>> extensions). We can decide if we want to work that hard to cover
+> >>>> hypothetical broken ISA strings now, or wait until they show up.
+> >>>> Personally I would wait until something broken shows up. But others
+> >>>> may feel differently.
+> >>
+> >> I'm not really sure that those are "silly" ISA strings. People are goi=
+ng
+> >> to do it that way because it is much easier than spelling out 5 dozen
+> >> sub-components, and it is pretty inevitable that subsets will be
+> >> introduced in the future for extensions we currently have.
+> >>
+> >> IMO, it's perfectly valid to say you have the supersets and not spell
+> >> out all the subcomponents.
+> >
+> > Hm, ok. If ISA strings are likely to be written that way, then I agree
+> > having the kernel flip on all the contained extensions is a good idea.
+> > We can tweak patch 2 to support the parsing of struct
+> > riscv_isa_ext_data with both .id and .bundle_size set (instead of only
+> > one or the other as it is now). Looking back at that patch, it looks
+> > quite doable. Alright!
+>
+> Hey Evan,
+>
+> do you have anything against using this code:
+>
+> static const unsigned int riscv_zvbb_bundled_exts[] =3D {
+>         RISCV_ISA_EXT_ZVKB,
+>         RISCV_ISA_EXT_ZVBB
+> };
+>
+> ...
+>
+> Then declaring zvbb like that:
+>
+> __RISCV_ISA_EXT_BUNDLE(zvbb, riscv_zvbb_bundled_exts),
+>
+> I agree that it is *not* a bundled extension but it actually already
+> works with Conor's code. Not sure that adding more code is needed to
+> handle that case.
 
-* Tom Yang <yangqixiao@inspur.com> [231023 05:58]:
-> The "first" is spelled "fist".
+Ah, I had missed that Zvbb was in Zvbb's own bundle. I see now that it
+works, but it also feels a bit like we're working around our own code.
 
-Thanks.
+An alternate way, which you can decide if you like better, would be a
+new macro (something like __RISCV_ISA_EXT_DATA_BUNDLE(), but better
+names welcome) that allows setting both .id and .bundle_size. Then the
+else-if in match_isa_ext() could just turn into two independent ifs.
+You'd have to define an "invalid" value for .id, since 0 is 'a', but
+that should be straightforward. Or maybe jiggle things around a bit so
+0 is invalid and 'a' is 1.
 
-> 
-> Signed-off-by: Tom Yang <yangqixiao@inspur.com>
-
-Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-
-> ---
->  Documentation/core-api/maple_tree.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
-> index 45defcf15da7..96f3d5f076b5 100644
-> --- a/Documentation/core-api/maple_tree.rst
-> +++ b/Documentation/core-api/maple_tree.rst
-> @@ -175,7 +175,7 @@ will return the previous entry which occurs before the entry at index.
->  mas_find() will find the first entry which exists at or above index on
->  the first call, and the next entry from every subsequent calls.
->  
-> -mas_find_rev() will find the fist entry which exists at or below the last on
-> +mas_find_rev() will find the first entry which exists at or below the last on
->  the first call, and the previous entry from every subsequent calls.
->  
->  If the user needs to yield the lock during an operation, then the maple state
-> -- 
-> 2.31.1
-> 
-> 
+-Evan
