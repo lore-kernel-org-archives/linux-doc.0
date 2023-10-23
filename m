@@ -1,120 +1,79 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7FD16405
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 11:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690CC14273
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 13:02:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h/G7ygAo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TfEkAPS+"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CC101733;
-	Mon, 23 Oct 2023 04:41:49 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U9KNfo2t"
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD4DA102;
+	Mon, 23 Oct 2023 06:02:16 -0700 (PDT)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9C376218E0;
-	Mon, 23 Oct 2023 11:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1698061300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q3h7bYkmxNuybyYNDcveX5DD2P/BKzeu6mm/kPPgPdU=;
-	b=h/G7ygAoWyM5zG8eKGcVm8HrcWPzEDEivri0BJSGDEgVhXNBapQpqLSY/8WomkLmxcWnPW
-	Qd/etiyPEqAW5IiWxf5u3MHWyFl6LJVnk1+HZFFADVEBlP4wT4UihwYeIKatbtOywQW/Ot
-	59VmbHbqJsX44/2IWsJWPT+BxFhrie8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1698061300;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q3h7bYkmxNuybyYNDcveX5DD2P/BKzeu6mm/kPPgPdU=;
-	b=TfEkAPS+RDAVdr1D6jh0FO7uRl0fz6n7JS5sAVCpeRIX8ZVWMqM1dosMUdnVhvssKVsGwC
-	bSetY7o4jXdTWfDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55407139C2;
-	Mon, 23 Oct 2023 11:41:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Q2VGE/RbNmWTDQAAMHmgww
-	(envelope-from <jdelvare@suse.de>); Mon, 23 Oct 2023 11:41:40 +0000
-Date: Mon, 23 Oct 2023 13:41:39 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Heiner Kallweit <hkallweit1@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] eeprom: remove doc and MAINTAINERS section after driver
- was removed
-Message-ID: <20231023134139.66e95a04@endymion.delvare>
-In-Reply-To: <20231012042834.6663-1-lukas.bulwahn@gmail.com>
-References: <20231012042834.6663-1-lukas.bulwahn@gmail.com>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6A463490;
+	Mon, 23 Oct 2023 13:02:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6A463490
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1698066136; bh=gaeQEn/BNoqbIo1EelOZC9oVdf03Fmx8/aWuQgb7BVk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=U9KNfo2t+Ycc8KQVDkSt9Qtvk5/cwwf4pcuL9okWRiz4vb+RR3BfATj0XAkI7c522
+	 V+AU3sTA4cw3A7rqEU5SFmDQz3X/G8PVLRuDjf9sFCVi9MGEvJYX/3shNHlz7P++u1
+	 wRJhLl5jUylGN+JMxc7gpK9vf3aWq6ebniWpDmyxWxwQ3rVbZwIxS4Sh80HP5npx9Y
+	 fhJdPuJZ6bkfqIPmePOPoZCpaOxlwT2BvOhvKtJrNeRFkyHost9CMYOU4XDSx9KFyG
+	 vmbLe0X8DVZ0IB35OIUSNJoa1upUNp4tSfL2VV1GrNHdn4Y2HeilSqQg/mXKc32lk5
+	 dGP/fdqKO4BXg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Hu Haowen
+ <2023002089@link.tyut.edu.cn>
+Cc: Hu Haowen <2023002089@link.tyut.edu.cn>, src.res.211@gmail.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_TW: replace my email address
+In-Reply-To: <871qdld3ge.fsf@intel.com>
+References: <20231012130008.102174-1-2023002089@link.tyut.edu.cn>
+ <87lebukrs2.fsf@meer.lwn.net> <87cyx6krb2.fsf@meer.lwn.net>
+ <871qdld3ge.fsf@intel.com>
+Date: Mon, 23 Oct 2023 07:02:15 -0600
+Message-ID: <87a5s9jxuw.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.75
-X-Spamd-Result: default: False [-3.75 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-1.15)[88.68%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 HAS_ORG_HEADER(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 FREEMAIL_CC(0.00)[arndb.de,linuxfoundation.org,gmail.com,lwn.net,vger.kernel.org]
+Content-Type: text/plain
 
-On Thu, 12 Oct 2023 06:28:34 +0200, Lukas Bulwahn wrote:
-> Commit 0113a99b8a75 ("eeprom: Remove deprecated legacy eeprom driver")
-> already removes the eeprom driver's code.
-> 
-> Remove also the eeprom driver's documentation and MAINTAINERS section.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> Greg, please pick this patch into your -next char and misc tree on top
-> of the commit above.
-> 
->  Documentation/misc-devices/eeprom.rst | 107 --------------------------
->  Documentation/misc-devices/index.rst  |   1 -
->  MAINTAINERS                           |   6 --
->  3 files changed, 114 deletions(-)
->  delete mode 100644 Documentation/misc-devices/eeprom.rst
-> (...)
+Jani Nikula <jani.nikula@linux.intel.com> writes:
 
-Probably too late, but anyway:
+> On Sun, 22 Oct 2023, Jonathan Corbet <corbet@lwn.net> wrote:
+>> Jonathan Corbet <corbet@lwn.net> writes:
+>>
+>>> Hu Haowen <2023002089@link.tyut.edu.cn> writes:
+>>>
+>>>> The Gmail address will not be used often from now on, and replace it
+>>>> with the email which is more frequently accessed by myself.
+>>>>
+>>>> Signed-off-by: Hu Haowen <2023002089@link.tyut.edu.cn>
+>>>
+>>> Applied.
+>>
+>> Actually, no:
+>>
+>> Documentation/translations/zh_TW/dev-tools/sparse.rst:10: WARNING: Title underline too short.
+>>
+>> Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
+>> ---------------------------------------------------------------------
+>
+> My question is, why do the documents have inline
+> author/maintainer/translator information in them?
+>
+> We have git log and MAINTAINERS for all of that?
 
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+Yeah, I've wondered about that too...especially since this person last
+changed all of those email addresses ... in July.  I chose not to start
+that particular discussion, but simply removing those lines would be a
+better change, IMO.
 
 Thanks,
--- 
-Jean Delvare
-SUSE L3 Support
+
+jon
