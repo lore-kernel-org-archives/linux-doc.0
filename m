@@ -1,192 +1,151 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A641B26B
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 14:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7BA291E;
+	Mon, 23 Oct 2023 15:47:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t0gaFMfr"
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F4C0172E
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 07:59:00 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5abfa4c10c4so12852297b3.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 07:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698073139; x=1698677939; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Flyl5CTmQl8KaVZkUK6sdZJgLtZ9cPBOArwvlq8mdTY=;
-        b=t0gaFMfr57X0eZU/lKCOhS/MG0/yy4xukxJRgkMFu1dU3h1QAl3Hjok2/wiupLIXLx
-         EDKpOn7TWuBxUs4Wzhp+iGTEi9jgvf/z73zho1P6eH65gSgaX0a7CgfCl3FzrwJrsfOK
-         NrMMR6nnrN5K1r+hDVCGTaakmQ/7m/EGmzcZR8IQpc1xMPHORO8aXyuaVfVI53k5OvR5
-         ywIKdAEi5VE4fTvhiI71jXgtwU4DfaSypmUp5T6uRl2QgdiYMFyfv+Tdx4vtEowfi/Jc
-         1ov32QAlIcBPbEvLpyQSRwuh9POidgx4MiBMs4xAj5eE0LfRjemvY6P/oZK1JJ7aocDP
-         15hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698073139; x=1698677939;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Flyl5CTmQl8KaVZkUK6sdZJgLtZ9cPBOArwvlq8mdTY=;
-        b=ie8w08Ebdp+k+Ri5POzrCtoLGTn1viC/M1UALDqu+zdP1nB9WEITxqFrmttJnlz/Mv
-         vo3BGAEtV3F6SiLwQt5Kk1nBzli/05uLiaZLhYYHzwTWQoTcYEXPYpNMOFZRkevjfT/r
-         1m7j7W7lYEVo0frL0WhLtD4+NVYQTaQKAGooAskoXqnZQef6cNde3PyMkC5d1qng5l5I
-         YHffE0qWPb8j+5OXKYLH50uU8VkUzmI/zQT/7XZgcNe0o5EBbTKWIwZu920AHJadXM3f
-         xcVldhMr6CFL8cK1KYqxmztAo7KbJRk0t4j8ZFnZWfDEoqsyySfqdqOl5mnFpP53JSaQ
-         MDzw==
-X-Gm-Message-State: AOJu0YwxC5MC926wYjqHebyizWe72xaK8SJZCYlQiP3zPeeLiL/HoCpc
-	28sEzNuK0QJvEK8dP49W1/fw6Au+7hs=
-X-Google-Smtp-Source: AGHT+IGJVEjwFciVLjGMcTbk9Ucqyn6zEG4pnXQMiBfSEdqlgcK+Ls1MZjlK6mcaopsYanQyUqMIMpoNPdE=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:b97:0:b0:d7b:94f5:1301 with SMTP id
- 145-20020a250b97000000b00d7b94f51301mr168980ybl.9.1698073139445; Mon, 23 Oct
- 2023 07:58:59 -0700 (PDT)
-Date: Mon, 23 Oct 2023 07:58:57 -0700
-In-Reply-To: <20231021004633.ymughma7zijosku5@desk>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="AOcbmYXp"
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0FFF10A;
+	Mon, 23 Oct 2023 08:47:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1698076042; x=1729612042;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=azRF8Tr1FjS1mhmfgNj7KBFmuZpo8uSGPa9Rwz8beHA=;
+  b=AOcbmYXpP3I3AeurpyTMMH9NIWqUTqv1/JnVYwMlZHWZ0PIjOcB5VkJz
+   VUI8X1QMg6+gErmM8bxi9SU+Z1rMV6p0yBKhoTFIeri2gxGJYhWFcHiKW
+   J1W1Y7S4HKgjtX7soYkG23s9/CO7WEpwcFSXL/WP/mwNYhSepkfjfCxnp
+   pE5jh3oRVRn0GTVGI5tmCOtjjjJgQ9X89O50kFiQFhXW6NOYJOJt79yfw
+   euUqyezUwQ89rXsi4U44OIZcG8l4dDMkSaNa8s+LAhTkwkkPDblU29IHh
+   arMPZpE7myqngTRsXeTaAWxMKBhDEXmKS6O1jagfpMOdLJVLwvg21QrWh
+   g==;
+X-CSE-ConnectionGUID: NJm2u3DySce+5c8BG0159g==
+X-CSE-MsgGUID: KpmGRKNCTo+hPa8sxGPz0A==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
+   d="scan'208";a="10702766"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Oct 2023 08:47:20 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 23 Oct 2023 08:47:08 -0700
+Received: from CHE-LT-I17164LX.microchip.com (10.10.85.11) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.21 via Frontend Transport; Mon, 23 Oct 2023 08:46:56 -0700
+From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+	<steen.hegelund@microchip.com>, <rdunlap@infradead.org>, <horms@kernel.org>,
+	<casper.casan@gmail.com>, <andrew@lunn.ch>
+CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<horatiu.vultur@microchip.com>, <Woojung.Huh@microchip.com>,
+	<Nicolas.Ferre@microchip.com>, <UNGLinuxDriver@microchip.com>,
+	<Thorsten.Kummermehr@microchip.com>, Parthiban Veerasooran
+	<Parthiban.Veerasooran@microchip.com>
+Subject: [PATCH net-next v2 0/9] Add support for OPEN Alliance 10BASE-T1x MACPHY Serial Interface
+Date: Mon, 23 Oct 2023 21:16:40 +0530
+Message-ID: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
- <20231020-delay-verw-v1-6-cff54096326d@linux.intel.com> <ZTMFS8I2s8EroSNe@google.com>
- <20231021004633.ymughma7zijosku5@desk>
-Message-ID: <ZTaKMdZqq2R1xXFh@google.com>
-Subject: Re: [PATCH  6/6] KVM: VMX: Move VERW closer to VMentry for MDS mitigation
-From: Sean Christopherson <seanjc@google.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com, ak@linux.intel.com, 
-	tim.c.chen@linux.intel.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, antonio.gomez.iglesias@linux.intel.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 20, 2023, Pawan Gupta wrote:
-> On Fri, Oct 20, 2023 at 03:55:07PM -0700, Sean Christopherson wrote:
-> > On Fri, Oct 20, 2023, Pawan Gupta wrote:
-> > > During VMentry VERW is executed to mitigate MDS. After VERW, any memory
-> > > access like register push onto stack may put host data in MDS affected
-> > > CPU buffers. A guest can then use MDS to sample host data.
-> > > 
-> > > Although likelihood of secrets surviving in registers at current VERW
-> > > callsite is less, but it can't be ruled out. Harden the MDS mitigation
-> > > by moving the VERW mitigation late in VMentry path.
-> > > 
-> > > Note that VERW for MMIO Stale Data mitigation is unchanged because of
-> > > the complexity of per-guest conditional VERW which is not easy to handle
-> > > that late in asm with no GPRs available. If the CPU is also affected by
-> > > MDS, VERW is unconditionally executed late in asm regardless of guest
-> > > having MMIO access.
-> > > 
-> > > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> > > ---
-> > >  arch/x86/kvm/vmx/vmenter.S |  9 +++++++++
-> > >  arch/x86/kvm/vmx/vmx.c     | 10 +++++++---
-> > >  2 files changed, 16 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-> > > index be275a0410a8..efa716cf4727 100644
-> > > --- a/arch/x86/kvm/vmx/vmenter.S
-> > > +++ b/arch/x86/kvm/vmx/vmenter.S
-> > > @@ -1,6 +1,7 @@
-> > >  /* SPDX-License-Identifier: GPL-2.0 */
-> > >  #include <linux/linkage.h>
-> > >  #include <asm/asm.h>
-> > > +#include <asm/segment.h>
-> > >  #include <asm/bitsperlong.h>
-> > >  #include <asm/kvm_vcpu_regs.h>
-> > >  #include <asm/nospec-branch.h>
-> > > @@ -31,6 +32,8 @@
-> > >  #define VCPU_R15	__VCPU_REGS_R15 * WORD_SIZE
-> > >  #endif
-> > >  
-> > > +#define GUEST_CLEAR_CPU_BUFFERS		USER_CLEAR_CPU_BUFFERS
-> > > +
-> > >  .macro VMX_DO_EVENT_IRQOFF call_insn call_target
-> > >  	/*
-> > >  	 * Unconditionally create a stack frame, getting the correct RSP on the
-> > > @@ -177,10 +180,16 @@ SYM_FUNC_START(__vmx_vcpu_run)
-> > >   * the 'vmx_vmexit' label below.
-> > >   */
-> > >  .Lvmresume:
-> > > +	/* Mitigate CPU data sampling attacks .e.g. MDS */
-> > > +	GUEST_CLEAR_CPU_BUFFERS
-> > 
-> > I have a very hard time believing that it's worth duplicating the mitigation
-> > for VMRESUME vs. VMLAUNCH just to land it after a Jcc.
-> 
-> VERW modifies the flags, so it either needs to be after Jcc or we
-> push/pop flags that adds 2 extra memory operations. Please let me know
-> if there is a better option.
+This patch series contain the below updates,
+- Adds support for OPEN Alliance 10BASE-T1x MACPHY Serial Interface in the
+  net/ethernet/oa_tc6.c.
+- Adds driver support for Microchip LAN8650/1 Rev.B0 10BASE-T1S MACPHY
+  Ethernet driver in the net/ethernet/microchip/lan865x.c.
 
-Ugh, I assumed that piggybacking VERW overrode the original behavior entirely, I
-didn't realize it sacrifices EFLAGS.ZF on the altar of mitigations.
+Changes:
+v2:
+- Removed RFC tag.
+- OA TC6 framework configured in the Kconfig and Makefile to compile as a
+  module.
+- Kerneldoc headers added for all the API methods exposed to MAC driver.
+- Odd parity calculation logic updated from the below link,
+  https://elixir.bootlin.com/linux/latest/source/lib/bch.c#L348
+- Control buffer memory allocation moved to the initial function.
+- struct oa_tc6 implemented as an obaque structure.
+- Removed kthread for handling mac-phy interrupt instead threaded irq is
+  used.
+- Removed interrupt implementation for soft reset handling instead of
+  that polling has been implemented.
+- Registers name in the defines changed according to the specification
+  document.
+- Registers defines are arranged in the order of offset and followed by
+  register fields.
+- oa_tc6_write_register() implemented for writing a single register and
+  oa_tc6_write_registers() implemented for writing multiple registers.
+- oa_tc6_read_register() implemented for reading a single register and
+  oa_tc6_read_registers() implemented for reading multiple registers.
+- Removed DRV_VERSION macro as git hash provided by ethtool.
+- Moved MDIO bus registration and PHY initialization to the OA TC6 lib.
+- Replaced lan865x_set/get_link_ksettings() functions with
+  phy_ethtool_ksettings_set/get() functions.
+- MAC-PHY's standard capability register values checked against the
+  user configured values.
+- Removed unnecessary parameters validity check in various places.
+- Removed MAC address configuration in the lan865x_net_open() function as
+  it is done in the lan865x_probe() function already.
+- Moved standard registers and proprietary vendor registers to the
+  respective files.
+- Added proper subject prefixes for the DT bindings.
+- Moved OA specific properties to a separate DT bindings and corrected the
+  types & mistakes in the DT bindings.
+- Inherited OA specific DT bindings to the LAN865x specific DT bindings.
+- Removed sparse warnings in all the places.
+- Used net_err_ratelimited() for printing the error messages.
+- oa_tc6_process_rx_chunks() function and the content of oa_tc6_handler()
+  function are split into small functions.
+- Used proper macros provided by network layer for calculating the
+  MAX_ETH_LEN.
+- Return value of netif_rx() function handled properly.
+- Removed unnecessary NULL initialization of skb in the
+  oa_tc6_rx_eth_ready() function removed.
+- Local variables declaration ordered in reverse xmas tree notation.
 
-Luckily, this is easy to solve now that VMRESUME vs. VMLAUNCH uses a flag instead
-of a dedicated bool.
+Parthiban Veerasooran (9):
+  net: ethernet: implement OPEN Alliance control transaction interface
+  net: ethernet: oa_tc6: implement mac-phy software reset
+  net: ethernet: oa_tc6: implement OA TC6 configuration function
+  dt-bindings: net: add OPEN Alliance 10BASE-T1x MAC-PHY Serial
+    Interface
+  net: ethernet: oa_tc6: implement internal PHY initialization
+  dt-bindings: net: oa-tc6: add PHY register access capability
+  net: ethernet: oa_tc6: implement data transaction interface
+  microchip: lan865x: add driver support for Microchip's LAN865X MACPHY
+  dt-bindings: net: add Microchip's LAN865X 10BASE-T1S MACPHY
 
-From: Sean Christopherson <seanjc@google.com>
-Date: Mon, 23 Oct 2023 07:44:35 -0700
-Subject: [PATCH] KVM: VMX: Use BT+JNC, i.e. EFLAGS.CF to select VMRESUME vs.
- VMLAUNCH
+ .../bindings/net/microchip,lan865x.yaml       |  101 ++
+ .../devicetree/bindings/net/oa-tc6.yaml       |   86 ++
+ Documentation/networking/oa-tc6-framework.rst |  233 ++++
+ MAINTAINERS                                   |   16 +
+ drivers/net/ethernet/Kconfig                  |   12 +
+ drivers/net/ethernet/Makefile                 |    1 +
+ drivers/net/ethernet/microchip/Kconfig        |   11 +
+ drivers/net/ethernet/microchip/Makefile       |    2 +
+ drivers/net/ethernet/microchip/lan865x.c      |  415 ++++++
+ drivers/net/ethernet/oa_tc6.c                 | 1117 +++++++++++++++++
+ include/linux/oa_tc6.h                        |  109 ++
+ 11 files changed, 2103 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/microchip,lan865x.yaml
+ create mode 100644 Documentation/devicetree/bindings/net/oa-tc6.yaml
+ create mode 100644 Documentation/networking/oa-tc6-framework.rst
+ create mode 100644 drivers/net/ethernet/microchip/lan865x.c
+ create mode 100644 drivers/net/ethernet/oa_tc6.c
+ create mode 100644 include/linux/oa_tc6.h
 
-Use EFLAGS.CF instead of EFLAGS.ZF to track whether to use VMRESUME versus
-VMLAUNCH.  Freeing up EFLAGS.ZF will allow doing VERW, which clobbers ZF,
-for MDS mitigations as late as possible without needing to duplicate VERW
-for both paths.
-
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kvm/vmx/run_flags.h | 7 +++++--
- arch/x86/kvm/vmx/vmenter.S   | 6 +++---
- 2 files changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/arch/x86/kvm/vmx/run_flags.h b/arch/x86/kvm/vmx/run_flags.h
-index edc3f16cc189..6a9bfdfbb6e5 100644
---- a/arch/x86/kvm/vmx/run_flags.h
-+++ b/arch/x86/kvm/vmx/run_flags.h
-@@ -2,7 +2,10 @@
- #ifndef __KVM_X86_VMX_RUN_FLAGS_H
- #define __KVM_X86_VMX_RUN_FLAGS_H
- 
--#define VMX_RUN_VMRESUME	(1 << 0)
--#define VMX_RUN_SAVE_SPEC_CTRL	(1 << 1)
-+#define VMX_RUN_VMRESUME_SHIFT		0
-+#define VMX_RUN_SAVE_SPEC_CTRL_SHIFT	1
-+
-+#define VMX_RUN_VMRESUME		BIT(VMX_RUN_VMRESUME_SHIFT)
-+#define VMX_RUN_SAVE_SPEC_CTRL		BIT(VMX_RUN_SAVE_SPEC_CTRL_SHIFT)
- 
- #endif /* __KVM_X86_VMX_RUN_FLAGS_H */
-diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-index be275a0410a8..b3b13ec04bac 100644
---- a/arch/x86/kvm/vmx/vmenter.S
-+++ b/arch/x86/kvm/vmx/vmenter.S
-@@ -139,7 +139,7 @@ SYM_FUNC_START(__vmx_vcpu_run)
- 	mov (%_ASM_SP), %_ASM_AX
- 
- 	/* Check if vmlaunch or vmresume is needed */
--	test $VMX_RUN_VMRESUME, %ebx
-+	bt   $VMX_RUN_VMRESUME_SHIFT, %ebx
- 
- 	/* Load guest registers.  Don't clobber flags. */
- 	mov VCPU_RCX(%_ASM_AX), %_ASM_CX
-@@ -161,8 +161,8 @@ SYM_FUNC_START(__vmx_vcpu_run)
- 	/* Load guest RAX.  This kills the @regs pointer! */
- 	mov VCPU_RAX(%_ASM_AX), %_ASM_AX
- 
--	/* Check EFLAGS.ZF from 'test VMX_RUN_VMRESUME' above */
--	jz .Lvmlaunch
-+	/* Check EFLAGS.CF from the VMX_RUN_VMRESUME bit test above. */
-+	jnc .Lvmlaunch
- 
- 	/*
- 	 * After a successful VMRESUME/VMLAUNCH, control flow "magically"
-
-base-commit: ec2f1daad460c6201338dae606466220ccaa96d5
 -- 
+2.34.1
 
