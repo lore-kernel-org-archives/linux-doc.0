@@ -1,86 +1,272 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71E321340
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 18:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7931121360
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 18:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pfON6swb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54E0C433C8;
-	Mon, 23 Oct 2023 18:08:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698084488;
-	bh=nIgs0wvJThOXxn7oOFB3LcbF7XBEJd/S1r1uOMhwaUo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pfON6swb831n8aeMwzxjj6xbWsYHljK018mYgGx5xpYQ23ww+ylfFIAnLPz8ARk9a
-	 6T3Ne9hpYee+sflOr8FZhPc5KDP3OD3ouG4DcMWu2TkWyQXi7L1eFcy1H/ixJndj6Z
-	 kb0Q9MoK+7JyY/3I3baH153a6h1T9nfa87axTJt4jC4/gvruTx/1/KQh3NXH8WKXZ2
-	 NQLfec/mlk8Sn/vYMYqDBRBNgwAvcBI3nwPtwKHsSDQne1DgG0zpKlnOkWIBD1QD/f
-	 wATJITKZwjKP/tDk95E9ZaEpofBlAOUPsTHQFP/If/BVmJ0bW/KMB/nXYTIz8k5DIt
-	 /vmkRx8q2Pksg==
-Date: Mon, 23 Oct 2023 11:08:06 -0700
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Alyssa Milburn <alyssa.milburn@intel.com>
-Subject: Re: [RESEND][PATCH 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20231023180806.udbnt4nx3r2bdyi3@treble>
-References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
- <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
- <f620c7d4-6345-4ad0-8a45-c8089e3c34df@citrix.com>
- <20231021011859.c2rtc4vl7l2cl4q6@desk>
- <bdfefc38-c010-4423-b129-3f153078fd67@citrix.com>
- <20231021022134.kbey242xq7n754rg@desk>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PjB50tIY"
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D2DB7
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 11:13:06 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-27d4b280e4eso2576801a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 11:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1698084786; x=1698689586; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HyR06kmSOvyp16JipQI1Y3Q+81kFnPqYM3CkWnYWKlM=;
+        b=PjB50tIYf60sQ7wrXiaxydYT/DLTZMtBf5GAgu/cV2tqvk8dJ4aU878QphDC6Y2Bgd
+         G1nOvDieC0meC0SYn6OjCDHDhYOrrMkibF3JbB3Ccjo6WQnxN728M8Ch3Je0oy4Uxbuk
+         XZ1CWBRJIEVd8RFxumPHTCo2FXFAjlA/rcJsMEo+agT7RlMXKx6AO2kfuiZkUFG29MDc
+         66nTB9SRVaDXCVoglDURg4A6StTXit9T1BR04gVG6ea/leVh4edfrpoXhpkAVeuFp1Hs
+         pL1WrR9Kntb9AA91EnF/YSI5Z/imuTnU315Rllq4cguETYZ8mGdTMqTjGErc8/x9dAjr
+         /DUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698084786; x=1698689586;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HyR06kmSOvyp16JipQI1Y3Q+81kFnPqYM3CkWnYWKlM=;
+        b=Djv9WsapTpesolek9J4v6H0+1cwErdBhENWMN3bhFl2MjJ+jVccahj+iRYsvGPtMU2
+         fZhSWpMTD/9ybKMEwMHhuPQKNW9ZqRg1Pywhp6rKAkuPRk5kkjF8TWLGBCVAKqz+0/aY
+         y/iLjxmJY4wgiTjWjBRN3a9nQwDhMWGikbyuyIJBYakn6onLvYPFlmywbsIYFf0TZtKI
+         Sn4C4ztN9Mmdd4fbMZnQ8azfQyc5lcznUAew654ZdpzBUO008nSKGlh52noVh3cW3iT0
+         L4KG7omC7zoRKdEPP8imxCrXh6Bjfdd2Qdi53w/fJVo9wAU2UbmCJ0mNMU+8d4zLa5Lk
+         ZYug==
+X-Gm-Message-State: AOJu0YxFpbwWtVfSwz2mRp5B6HXQWyf9/AOFrZ3jI+InqmJzvQiozB96
+	AUK33ljFpFCApYc9o/Z1Oq9BxA==
+X-Google-Smtp-Source: AGHT+IGnNLGXNBRGtY9F0s5gO+pe7XXXQtcc/AVW7bqVqe/eVeMPbYXjMhUMZFOYmt98+Pt0+SmAWw==
+X-Received: by 2002:a17:90a:ff11:b0:27d:3c62:6342 with SMTP id ce17-20020a17090aff1100b0027d3c626342mr13099308pjb.4.1698084785590;
+        Mon, 23 Oct 2023 11:13:05 -0700 (PDT)
+Received: from ?IPV6:2601:645:8100:1350:8800:4c7f:d309:abbb? ([2601:645:8100:1350:8800:4c7f:d309:abbb])
+        by smtp.gmail.com with ESMTPSA id s12-20020a170902988c00b001c73fb506aesm6140465plp.128.2023.10.23.11.13.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Oct 2023 11:13:05 -0700 (PDT)
+Message-ID: <69609645-fa20-4987-981d-1ab264e80b9b@google.com>
+Date: Mon, 23 Oct 2023 11:13:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231021022134.kbey242xq7n754rg@desk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: uvc gadget: Making upper bound of number of usb requests
+ allocated configurable through configfs
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Michael Grzeschik <mgr@pengutronix.de>
+Cc: Greg KH <gregkh@linuxfoundation.org>, "corbet@lwn.net" <corbet@lwn.net>,
+ "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+ "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
+ "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "etalvala@google.com" <etalvala@google.com>,
+ "arakesh@google.com" <arakesh@google.com>
+References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
+ <2023100834-statistic-richly-49ef@gregkh>
+ <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
+ <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
+ <c47e864b-4b9e-4a21-afea-af121a4d7771@google.com>
+ <20231020233044.dh63nu3tkbmrtfl4@synopsys.com>
+Content-Language: en-US
+From: Jayant Chowdhary <jchowdhary@google.com>
+In-Reply-To: <20231020233044.dh63nu3tkbmrtfl4@synopsys.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 20, 2023 at 07:21:34PM -0700, Pawan Gupta wrote:
-> On Sat, Oct 21, 2023 at 02:33:47AM +0100, Andrew Cooper wrote:
-> > On 21/10/2023 2:18 am, Pawan Gupta wrote:
-> > > On Sat, Oct 21, 2023 at 12:55:45AM +0100, Andrew Cooper wrote:
-> > >> Also it avoids playing games with hiding data inside an instruction.
-> > >> It's a neat trick, but the neater trick is avoid it whenever possible.
-> > > Thanks for the pointers. I think verw in 32-bit mode won't be able to
-> > > address the operand outside of 4GB range.
-> > 
-> > And?  In a 32bit kernel, what lives outside of a 4G range?
-> > 
-> > > Maybe this is fine or could it
-> > > be a problem addressing from e.g. KVM module?
-> > 
-> > RIP-relative addressing is disp32.  Which is the same as it is for
-> > direct calls.
-> > 
-> > So if your module is far enough away for VERW to have issues, you've got
-> > far more basic problems to solve first.
-> 
-> Sorry, I raised the wrong problem. In 64-bit mode, verww only has 32-bit
-> of relative addressing, so memory operand has to be within 4GB of
-> callsite. That could be a constraint.
+Hi Thinh, Michael,
 
-Even on x86-64, modules are mapped within 4GB of the kernel, so I don't
-think that's a concern.
+On 10/20/23 16:30, Thinh Nguyen wrote:
+> Sorry for the delay response.
+>
+> On Sun, Oct 15, 2023, Jayant Chowdhary wrote:
+>> On 10/12/23 11:50, Thinh Nguyen wrote:
+>>> The frequency of the request submission should not depend on the
+>>> video_pump() work thread since it can vary. The frequency of request
+>>> submission should match with the request completion. We know that
+>>> request completion rate should be fixed (1 uframe/request + when you
+>>> don't set no_interrupt). Base on this you can do your calculation on how
+>>> often you should set no_interrupt and how many requests you must submit.
+>>> You don't have to wait for the video_pump() to submit 0-length requests.
+>>>
+>>> The only variable here is the completion handler delay or system
+>>> latency, which should not be much and should be within your calculation.
+>>
+>> Thanks for the suggestion. It indeed makes sense that we do not completely depend on
+>> video_pump() for sending 0 length requests. I was concerned about
+>> synchronization needed when we send requests to the dwc3 controller from
+>> different threads. I see that the dwc3 controller code does internally serialize
+>> queueing requests, can we expect this from other controllers as well ? 
+> While it's not explicitly documented, when the gadget driver uses
+> usb_ep_queue(), the order in which the gadget recieves the request
+> should be maintained and serialized. Because the order the transfer go
+> out for the same endpoint can be critical, breaking this will cause
+> issue.
+>
+Thanks for clarifying this. Keeping this in mind - I made a slight modification to
+your test patch - I removed the uvc_video_pump() function call from uvc_v4l2_qbuf(). We just
+call it in uvcg_video_enable(). That should just queue 0 length requests till the first qbuf
+is called. There-after only the complete handler running uvcg_video_complete() calls video_pump(),
+which sends usb requests to the endpoint. While I do see that we hold the queue->irqlock while
+getting the uvc buffer to encode and sending it to the ep, I feel like its just logically safer
+for future changes if we can restrict the pumping of requests to one thread.
 
+Does that seem okay to you ? I can formalize it if it does.  
+
+The patch would look something like (on top of: https://lore.kernel.org/linux-usb/20230930184821.310143-1-arakesh@google.com/T/#t)
+
+---
+ drivers/usb/gadget/function/f_uvc.c     |  4 ----
+ drivers/usb/gadget/function/uvc.h       |  3 ---
+ drivers/usb/gadget/function/uvc_v4l2.c  |  3 ---
+ drivers/usb/gadget/function/uvc_video.c | 19 +++++++------------
+ 4 files changed, 7 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 44c36e40e943..7d78fc8c00c5 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -907,14 +907,10 @@ static void uvc_function_unbind(struct usb_configuration *c,
+ {
+ 	struct usb_composite_dev *cdev = c->cdev;
+ 	struct uvc_device *uvc = to_uvc(f);
+-	struct uvc_video *video = &uvc->video;
+ 	long wait_ret = 1;
+ 
+ 	uvcg_info(f, "%s()\n", __func__);
+ 
+-	if (video->async_wq)
+-		destroy_workqueue(video->async_wq);
+-
+ 	/*
+ 	 * If we know we're connected via v4l2, then there should be a cleanup
+ 	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index e8d4c87f1e09..b33211c92c02 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -88,9 +88,6 @@ struct uvc_video {
+ 	struct uvc_device *uvc;
+ 	struct usb_ep *ep;
+ 
+-	struct work_struct pump;
+-	struct workqueue_struct *async_wq;
+-
+ 	/* Frame parameters */
+ 	u8 bpp;
+ 	u32 fcc;
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index 68bb18bdef81..ef4305f79cfe 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -421,9 +421,6 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	if (uvc->state == UVC_STATE_STREAMING)
+-		queue_work(video->async_wq, &video->pump);
+-
+ 	return ret;
+ }
+ 
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 54a1c36e879e..35fb6a185b6e 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -24,6 +24,8 @@
+  * Video codecs
+  */
+ 
++static void uvcg_video_pump(struct uvc_video *video);
++
+ static int
+ uvc_video_encode_header(struct uvc_video *video, struct uvc_buffer *buf,
+ 		u8 *data, int len)
+@@ -329,7 +331,9 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 	 */
+ 	if (video->is_enabled) {
+ 		list_add_tail(&req->list, &video->req_free);
+-		queue_work(video->async_wq, &video->pump);
++		spin_unlock_irqrestore(&video->req_lock, flags);
++		uvcg_video_pump(video);
++		return;
+ 	} else {
+ 		uvc_video_free_request(ureq, ep);
+ 	}
+@@ -415,9 +419,8 @@ uvc_video_alloc_requests(struct uvc_video *video)
+  * This function fills the available USB requests (listed in req_free) with
+  * video data from the queued buffers.
+  */
+-static void uvcg_video_pump(struct work_struct *work)
++static void uvcg_video_pump(struct uvc_video *video)
+ {
+-	struct uvc_video *video = container_of(work, struct uvc_video, pump);
+ 	struct uvc_video_queue *queue = &video->queue;
+ 	struct usb_request *req = NULL;
+ 	struct uvc_buffer *buf;
+@@ -545,7 +548,6 @@ uvcg_video_disable(struct uvc_video *video)
+ 	}
+ 	spin_unlock_irqrestore(&video->req_lock, flags);
+ 
+-	cancel_work_sync(&video->pump);
+ 	uvcg_queue_cancel(&video->queue, 0);
+ 
+ 	spin_lock_irqsave(&video->req_lock, flags);
+@@ -621,8 +623,7 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
+ 
+ 	video->req_int_count = 0;
+ 
+-	queue_work(video->async_wq, &video->pump);
+-
++	uvcg_video_pump(video);
+ 	return ret;
+ }
+ 
+@@ -635,12 +636,6 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+ 	INIT_LIST_HEAD(&video->ureqs);
+ 	INIT_LIST_HEAD(&video->req_free);
+ 	spin_lock_init(&video->req_lock);
+-	INIT_WORK(&video->pump, uvcg_video_pump);
+-
+-	/* Allocate a work queue for asynchronous video pump handler. */
+-	video->async_wq = alloc_workqueue("uvcgadget", WQ_UNBOUND | WQ_HIGHPRI, 0);
+-	if (!video->async_wq)
+-		return -EINVAL;
+ 
+ 	video->uvc = uvc;
+ 	video->fcc = V4L2_PIX_FMT_YUYV;
 -- 
-Josh
+
+>> This brings me to another question for Michael - I see
+>> that we introduced a worker thread for pumping  usb requests to the usb endpoint
+>> in https://urldefense.com/v3/__https://lore.kernel.org/all/20200427151614.10868-1-m.grzeschik@pengutronix.de/__;!!A4F2R9G_pg!aAnzCopbTbZtUxBK6a6r6_QzV-b2Z2J5o5esPaartZ2jogKijmhqj6OyiKDg-BPhxq8pJHR3HS1Hf8z6YnqfWTon$ 
+>> (I see multiple email addresses, so apologies if I used the incorrect one).
+>>
+>> Did we introduce the worker thread to solve some specific deadlock scenarios ?
+>> Or was it a general mitigation against racy usb request submission from v4l2 buffer
+>> queuing, stream enable and the video complete handler firing ?
+>>
+>> I was chatting with Avi about this, what if we submit requests to the endpoint
+>> only at two points in the streaming lifecycle - 
+>> 1) The whole 64 (or however many usb requests are allocated) when
+>>    uvcg_video_enable() is called - with 0 length usb_requests.
+>> 2) In the video complete handler - if a video buffer is available, we encode it
+>>    and submit it to the endpoint. If not, we send a 0 length request.
+>>
+>> This way we're really maintaining back pressure and sending requests as soon
+>> as we can to the dwc3 controller. Encoding is mostly memcpys from what I see
+>> so hopefully not too heavy on the interrupt handler. I will work on prototyping
+>> this meanwhile.
+>>
+> That sounds good to me. I believe Michael already provided some test
+> patches and you've already done some preliminary tests for that right?
+
+Yes that is correct. I tested out the patch above as well and it seems to
+work for my setup. I haven't seen flickers in over an hour of streaming.
+
+Thanks,
+Jayant
+
+
