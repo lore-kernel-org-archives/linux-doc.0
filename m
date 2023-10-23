@@ -1,100 +1,163 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDF21CA96
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 16:22:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9FD208B6
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 16:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="WsdJ0m/9"
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C0C9F
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 09:22:06 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2c5028e5b88so49946701fa.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 09:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1698078125; x=1698682925; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CvcxBfUwTMvPmDC6TsZGUmIpxz3bHu9zv5qH2J4V6xE=;
-        b=WsdJ0m/9057wlCFWmBJ6lPP86MRukuAKGIeWJGUp4DUjgUpbxGIMUb/sfUpFhglHSO
-         f6VUGRgeBAVGrs04iqxf87cz/NSx+f2XfsuEVQIbxt2oWGgu/5/AaoteU1ZQ6gOr1dUo
-         JEDanuO48q9oEH9gQRUDA7nzSOZq0lAB6g/MxMYMZFuo7ImymieUmO0lcJVeTnT1gWu6
-         QhbL7TrYKklauvNC7CmTxii9TzxbOk3MYMKvpcaAzqGD3YZ6u+qWROJb1i8wAYoZtEae
-         aIDFPRnV5ocbCRFG1XneochKjDFzO045DGP5Bpcp6PlwnOCJczBJ1bfl/fGPOGe5un4P
-         255w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698078125; x=1698682925;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CvcxBfUwTMvPmDC6TsZGUmIpxz3bHu9zv5qH2J4V6xE=;
-        b=Sq1IRUW27FMaIocNF7gT2X1Jwd7+VhNJjR30AIsspJuh8YsIhNib0pYRzpBMO+YN//
-         UTv2ZHGWCGTnAhssRPYFM5LmHY3qEmRwB+FeRctFmwZz6pRXUlAp6IZOcukKjdn/mj+v
-         GkaKQMf1tiHQZq27uRN5loK4/TvNrHTdbdsKejuTOpyV7kLRCpYElNYnTYDhvO9nReze
-         hHjmWkLeYhnWPH15GKXHlojL+WJoN/bV4uoTBjNCarNF7F9HQvYFl/pixtnjbN3hSqpg
-         jIo8hTCeX6AS1SlvVF5QlYnhgQgMd4wPjh/ZK9WPIXTcdC53uHt4kbUDm73leSuIhxuV
-         jCfQ==
-X-Gm-Message-State: AOJu0Yx5TaG4hQkletkmhhWIbi7QjipsgK53GYVprEcMy+wGD0ucqahe
-	nAZhEZ6GMIdu9jBNlTpSXql73WizWhi4Jj50OU50YA==
-X-Google-Smtp-Source: AGHT+IEP51JeurMrSnMxRP4SCcBBFFsO16Z3a/gjoXi+83Wq0Fjd6byKKpI/lH8LyKcnrolzQSYWFeD5i8xlSchTYy0=
-X-Received: by 2002:a05:651c:1038:b0:2c5:1bd9:f95c with SMTP id
- w24-20020a05651c103800b002c51bd9f95cmr6122574ljm.53.1698078124702; Mon, 23
- Oct 2023 09:22:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="FAkDOcdg"
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03olkn2050.outbound.protection.outlook.com [40.92.59.50])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054731703;
+	Mon, 23 Oct 2023 09:31:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LIBRL51diRWfPLPYnY/OgI2HUg1EKW3Ljw9917Jts6ngXUIfgOh/H2TeHDSju/2Aik2Ww0WXzAB6Z7UtTAtvF6tS6XMpfzFTKhz6IPw0rQRbMzucMJrqI8fK/KqcORXoq3H18zM+w8O5Oq6nu1Zg8v4YvCSNW2/OtMggavfJnmoOLlTk0LovWlaL0oys37U98zui7SIg1GCCNc799FOWJr04oarv+oLFy/Eie5NfRz2Vbbf6z5MhXLNCAFAzHse5qCeyq+60EQTluY10gbSBwbxHYzhUgjUxBJ6G7NpidqLP9VBoNnPBhpw9pcGjj37C4M9vBWWsSuZ/m5axCTzaQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s95eaJEGpJhC8TWxE2w607MSyguwKVfTqdxhWFvhOZ0=;
+ b=g/VEB/5M+AjSSYldzq2anvrFh9w4ZGHyE6wiwnuwN8OujjRyqcreaSENFVU2jOam02Wqi3EXiQAdsdGBYEYg7LMoZb9JxBOj33hYoh8IWxYmTg24eHqppKwt7zgNNR3JNw9+uPRaCOlcLfFz7yGu32aSqjRbJkmFaEpwvZPe2fNZq2KKirEKKMLlkBsIACY75tyxmBiHO/4hzOOF6AaLNgns0rQarEO4TOh5mEyRGGVAMxz5HwpMs+XpePfUH1V225cpx2yI+HcAhY732sku7nXtipaZLq1KNkGkXijMOZ8HKtjYrXo2Nb//k5nSmGO9gO0zd0xfIh2Q0d8Xk4PQ2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s95eaJEGpJhC8TWxE2w607MSyguwKVfTqdxhWFvhOZ0=;
+ b=FAkDOcdgOCUxZYjOfRbD+0joFDNvEnkDIIGt0pY6ZES2HEble2G8uhzF4NXxAl0qbq8DZof9tyLgk/rn33e2tg2QWujV+opL67d0uZfQ8XCuPI2HqnyT9hxTjkv0W69RbZXgV4IBhr78nGgiyTAbCG2XIPgyjqqiVObOlGwQR1r77oqMqoTYZKoJnR4pTvtJUqgf/wYvF6th/Y9+CCkOKCxR1LIdBZLa8FE7+Tvkie7Xbf7BShS/JKcFjfURgCi9yec+uWj+IcRIF+4hOXSwEBeDDSabwri0+H0RvHJVu9/ZwGA6NQQTUbCToiBxV0kTFTT2wH/e71jWXmrKRsWW1A==
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
+ by DU0PR10MB7213.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:44b::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Mon, 23 Oct
+ 2023 16:31:22 +0000
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97%6]) with mapi id 15.20.6907.032; Mon, 23 Oct 2023
+ 16:31:22 +0000
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: airlied@gmail.com
+Cc: Yuran Pereira <yuran.pereira@hotmail.com>,
+	neil.armstrong@linaro.org,
+	sam@ravnborg.org,
+	daniel@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	corbet@lwn.net,
+	sumit.semwal@linaro.org,
+	christian.koenig@amd.com,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	dianders@chromium.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] drm: docs: Remove item from TODO list
+Date: Mon, 23 Oct 2023 22:00:56 +0530
+Message-ID:
+ <DB3PR10MB683528B8252ED2A802A0E154E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [HAAyx/D21wTyCOngo4h/ipmusX5hvObQ]
+X-ClientProxiedBy: JNXP275CA0045.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::33)
+ To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
+X-Microsoft-Original-Message-ID:
+ <20231023163056.982019-1-yuran.pereira@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231017131456.2053396-1-cleger@rivosinc.com> <20231017131456.2053396-3-cleger@rivosinc.com>
-In-Reply-To: <20231017131456.2053396-3-cleger@rivosinc.com>
-From: Evan Green <evan@rivosinc.com>
-Date: Mon, 23 Oct 2023 09:21:28 -0700
-Message-ID: <CALs-HssmufWCKzaGy7BwWz4n4hfwV9NjjRD-O_JeupM-p=Ov+w@mail.gmail.com>
-Subject: Re: [PATCH v2 02/19] riscv: add ISA extension parsing for scalar crypto
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Palmer Dabbelt <palmer@rivosinc.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Jones <ajones@ventanamicro.com>, 
-	Conor Dooley <conor@kernel.org>, Samuel Ortiz <sameo@rivosinc.com>, 
-	Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|DU0PR10MB7213:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d54ce5a-d974-43f7-2f40-08dbd3e57de0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Kttb5VoGZbJld5FqFw1PkoQiuNyBP5lSGfS53Knxo4azekiJrdMnYPWWdwqzBSXY2zz0LwEgs5ELLQm/s/qkZxLRVoZnDaKfO41DqWjUoqKu9zI1hSPXZnx1NGucQldokc58NOAimGQ3SfWqhnHMgErXDo8PVWAJO1dK58teyWaMqtvwRLpr4RpIziOEpPNY7/w5xAglxgi4raeTRCRgCw905Erg9KagEh87cbb5ALkjHeGHfjJCDNfDcTRtabrTy8Z2O+7hIHhhvn8JB7U9yKT5k5RFPzYvv1HX4rbRaQUNeOGK109BYCjpV+Wbf9/XWS80vNU/cjjwKMzRWOVvBs9UPGUFCY9i0WG80gnDTZKoE4S9smyzya/VQb4oSq2XOVzuVCgsUtqPjS7HpXECNWrEikHLf0FyvD6hCijUy+wImU6j2T8rojNaLyFXPQFfbA4u9InEbzhxBDuyI+pgCZMm7LnZaLZ/+7RC9wW3/Gyofu/vnWCPGZAAwp0iNzaL+bbOc8wCCOGTrPX2OVArPisbSgRbF2ALmQC8ewc2yRHOCbNxNihcPXr42yI+kbISp/cWUhR1wO4sBG6MP0o0o3WignsLj8XE6LQVYo0TV+g=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?hy6ykNdk035v4TxyydInsHzqx5BGU3qu3KuHrrTBWG87dmsZrQyPBnvkBlH/?=
+ =?us-ascii?Q?/5lbAF2oJ6Q7V1mjCW2u5/mpe0ik9XwkGYZLtQzVDY69RYc4C6F2+YwXVniD?=
+ =?us-ascii?Q?QoGmMNNO4ayIIhApmNjFSChDiIS8GtwFaPYuTHHSQIq9CjWE+ZRligONFuhr?=
+ =?us-ascii?Q?n0oXyot8ljr/DlWMNcX00dLyNvczcctzACQp+q4xYG0POZS3AKoq0Fa7RTyG?=
+ =?us-ascii?Q?Gqy2CHKfDReGD+woHrFFXZXHc2ApM633nkO+om3h9uiB4RkVV0c5/OGLRPvy?=
+ =?us-ascii?Q?Bjm8WJ/uJ8xGIe4FFIobwrGlp2cpGdVmdfJ6Gj7gUbuuigbInMJumZVGKqg9?=
+ =?us-ascii?Q?dnz1jNDjPWPkV0R6QecK0DarXmNmabeyFtQQ0JLvblWu9zNW2h2cqwohHWyZ?=
+ =?us-ascii?Q?d9gdSCyuLGiFfQswQ5WaGC/+plIah0QgdByRZC6FB9Tz7Enk9vgZ4bfvo5QI?=
+ =?us-ascii?Q?PLOoLSicpt4S6h0RVnlWmKZl9ZCzDlZXvIr3opBw6TWN1m/p4agl0QOqET0A?=
+ =?us-ascii?Q?0O7euRoQGzvhyxFXM/1CB5nw5/9/rqGnAPQKRkKAdHDjC+jh9aG9uZS8oLkj?=
+ =?us-ascii?Q?4hV/zUCni/BwONMGpasqZBADVdERpGvIEb3N7luwwWbaVlv7g5DNXpRDhvFw?=
+ =?us-ascii?Q?qfY6Xs8AQ9lUxjcjUVkvgl63wb9chbqBUr3Ggs2N4pPFIXd2k5mF2oO3oCap?=
+ =?us-ascii?Q?s27cCNGUKLb5GL6BQ14sk6ht6zz+2ARKypjwUuwaQN4QKWEhAMI4is5w2bqE?=
+ =?us-ascii?Q?tZlvgWVJp0vxblnw5KC0sBLQO8GOn3nKgvGsTIXR0jCTzVhK2i3Si0QUy/YE?=
+ =?us-ascii?Q?ahrzMMW7Ygn0ytOQVegBimaBQ0AmJGCdTKOYpAPW50bZOWOgODMewTXbJ74E?=
+ =?us-ascii?Q?heJ6PevDXcCvprkXfog0UidvvfWTWHZVY//Mh4o69DGfqfO0MQVLW4vyHeOn?=
+ =?us-ascii?Q?exvcT6vg1wix5MnZAFO98Y4VoDWF4LUlnGYeOpnnuzRhyIDBGNtHXHTuXbkr?=
+ =?us-ascii?Q?bshRz07QXWlTt0JKmLmr2THm4FmgzSdnMqO16pol/FPWJ/faPpdxKFDnOJqc?=
+ =?us-ascii?Q?1Uu+SDHDvNtbMBNBTg3RqJG267SKE1ffo4lmH9FbNIBkbtC0QOmz5ncEJ61R?=
+ =?us-ascii?Q?Gor3vCqwxtc2BmGf3M5NivDxJPE7BcKrY3X/XtoYr/ZnHT+mVWWh0C/w58Ks?=
+ =?us-ascii?Q?Z5Dj78vCAhrRMgO2n+Y0sZkbuSD1wE2wMtKZXppCW6UYSSzetyc9V1zL60s?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d54ce5a-d974-43f7-2f40-08dbd3e57de0
+X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 16:31:21.9175
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB7213
 
-On Tue, Oct 17, 2023 at 6:15=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cleger@riv=
-osinc.com> wrote:
->
-> From: Evan Green <evan@rivosinc.com>
->
-> The Scalar Crypto specification defines Zk as a shorthand for the
-> Zkn, Zkr and Zkt extensions. The same follows for both Zkn, Zks and Zbk,
-> which are all shorthands for various other extensions. The detailed
-> breakdown can be found in their dt-binding entries.
->
-> Since Zkn also implies the Zbkb, Zbkc and Zbkx extensions, simply passing
-> "zk" through a DT should enable all of Zbkb, Zbkc, Zbkx, Zkn, Zkr and Zkt=
-.
-> For example, setting the "riscv,isa" DT property to "rv64imafdc_zk"
-> should generate the following cpuinfo output:
-> "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zbkb_zbkc_zbkx_zknd_zkne_zknh_zkr=
-_zkt"
->
-> riscv_isa_ext_data grows a pair of new members, to permit setting the
-> relevant bits for "bundled" extensions, both while parsing the ISA string
-> and the new dedicated extension properties
->
-> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Evan Green <evan@rivosinc.com>
-> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
+Since "Clean up checks for already prepared/enabled in panels" has
+already been done and merged [1], I think there is no longer a need
+for this item to be in the gpu TODO.
 
-My tree might be out of sync, but in my search for riscv_isa_ext, I
-also found a use in print_isa() (cpu.c) where we're reaching into
-riscv_isa_ext[].id and assuming it's always valid. If that's still in
-there we'll want to fix up that spot too, since now with bundles .id
-may or may not be valid.
+[1] https://patchwork.freedesktop.org/patch/551421/
 
--Evan
+Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+---
+ Documentation/gpu/todo.rst | 25 -------------------------
+ 1 file changed, 25 deletions(-)
+
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 03fe5d1247be..280020b0ad4d 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -460,31 +460,6 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+ 
+ Level: Starter
+ 
+-Clean up checks for already prepared/enabled in panels
+-------------------------------------------------------
+-
+-In a whole pile of panel drivers, we have code to make the
+-prepare/unprepare/enable/disable callbacks behave as no-ops if they've already
+-been called. To get some idea of the duplicated code, try::
+-
+-  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+-  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+-
+-In the patch ("drm/panel: Check for already prepared/enabled in drm_panel")
+-we've moved this check to the core. Now we can most definitely remove the
+-check from the individual panels and save a pile of code.
+-
+-In adition to removing the check from the individual panels, it is believed
+-that even the core shouldn't need this check and that should be considered
+-an error if other code ever relies on this check. The check in the core
+-currently prints a warning whenever something is relying on this check with
+-dev_warn(). After a little while, we likely want to promote this to a
+-WARN(1) to help encourage folks not to rely on this behavior.
+-
+-Contact: Douglas Anderson <dianders@chromium.org>
+-
+-Level: Starter/Intermediate
+-
+ 
+ Core refactorings
+ =================
+-- 
+2.25.1
+
