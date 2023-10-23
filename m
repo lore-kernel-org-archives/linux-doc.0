@@ -1,149 +1,126 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734521C288
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 17:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B441BDEA
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 17:26:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b43KMaZf"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 715B794;
-	Mon, 23 Oct 2023 10:05:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698080719; x=1729616719;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zwazxV2v2G4q0zaiWjYMDu8qcaaTQb+HDKTqL3vinjQ=;
-  b=b43KMaZfzU5P9cvi7FSbio+QH6sP+zFCYMCAyMuI6adivF74pMtB2E7r
-   mNWry4bEZpl/bkAbur0XbVEpvFIbhYgnfNuvrxRqMUdQPsfJ5TnWoUR2r
-   8M8GN6x9+uoKOyB8dFbBESxRxB9A8hLi/eADCpOemNvAMLFQpblTG4KYh
-   HzX28ouRuLkqN1IHdqCX8MG9IU9cFvrSpeSr12aBk1gpqssjd+WlGwtoe
-   ojBm4/yFM3Tzw9Bek9iXo+Q0oCTU5lzNrfHkdN+RhI/zm6C9oq+Qxkofq
-   grz9dw0adgLPyHEcYnpTe3swbJPISvGx9Bc5YxsLAAWDBY4B0DDtAAD2b
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="366230253"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="366230253"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 10:05:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="793194889"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="793194889"
-Received: from qwilliam-mobl.amr.corp.intel.com (HELO desk) ([10.212.150.186])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 10:05:18 -0700
-Date: Mon, 23 Oct 2023 10:05:10 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com
-Subject: Re: [PATCH  6/6] KVM: VMX: Move VERW closer to VMentry for MDS
- mitigation
-Message-ID: <20231023170510.ayk3f5vosyh6skmg@desk>
-References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
- <20231020-delay-verw-v1-6-cff54096326d@linux.intel.com>
- <ZTMFS8I2s8EroSNe@google.com>
- <20231021004633.ymughma7zijosku5@desk>
- <ZTaKMdZqq2R1xXFh@google.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KTb9lPR9"
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E20CD73
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 10:26:06 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-507a62d4788so5643016e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 10:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1698081964; x=1698686764; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fiki+rx48OzrXJWoYglYJgoiu/eOXoM93dwbSSnqdNw=;
+        b=KTb9lPR90aGmOcHXsr9BVWarK2n0+7rrAbbIcRNZpRS8Cg/N7/frU0uXdkA7JwQKjp
+         9a+2+mHs3SQ6vX7XcHdMT1rH30qG2NUHgmgAl9rAy8PqtTUbY6cCYhYQU1hQHpAHiHRY
+         WISm2RG+OCfi0zMnvFH19fDD6zeM+bVGLNpAQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698081964; x=1698686764;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fiki+rx48OzrXJWoYglYJgoiu/eOXoM93dwbSSnqdNw=;
+        b=FO1JTano38veZrgQT4aHxMmvqpEHk5x7fhR0fxYtU1XrzZl1ZeU+nXzlVPd4zDKvvb
+         aWMl6BonBYrzgVGLsukY+1l+MD8oQe6rKv0W09DrreS3TLBCx4vouKwFgVVDTzETnlcK
+         YGfqJV7r4V9gqb2Txf9dGzpO3zgyxixDQDGKwZAk6Zh/DC4TL7tbAQSSH60/Rj6Z1qfw
+         Lqz6y0nObtdH6WRZLzLktOYwjeemVN/z3iRgzqtR9aMhLQscBmUsN0XiSthb/nNxfpGU
+         gHWdcZfEAYkslad3mBsEUDLO7IR7jpYMdhvwsHTFcKk2Lusl3aH3RdK25T8PBr5UHT4m
+         IibA==
+X-Gm-Message-State: AOJu0YwynNUmPTTEBvpmxTBjMHTAmxSdwBZIH7+TtO6qjlN9UXUepMh8
+	StjxTQJorW+87exSvdwoPERjhRksNgRlWI2wmy2hyA==
+X-Google-Smtp-Source: AGHT+IGMRQXhVlsrvamIr89FIqlmZ6A7LkSyGCKaAJV5X9uvKBLSwXqETI3KB7rSB3KSoLvnN7G4FA==
+X-Received: by 2002:a19:6455:0:b0:507:9ff7:2ed4 with SMTP id b21-20020a196455000000b005079ff72ed4mr6613169lfj.43.1698081964327;
+        Mon, 23 Oct 2023 10:26:04 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
+        by smtp.gmail.com with ESMTPSA id s12-20020a170906354c00b0098f33157e7dsm6869909eja.82.2023.10.23.10.26.03
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Oct 2023 10:26:03 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40837124e1cso6355e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 10:26:03 -0700 (PDT)
+X-Received: by 2002:a05:600c:3b1b:b0:404:74f8:f47c with SMTP id
+ m27-20020a05600c3b1b00b0040474f8f47cmr5652wms.5.1698081963601; Mon, 23 Oct
+ 2023 10:26:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZTaKMdZqq2R1xXFh@google.com>
+References: <DB3PR10MB683528B8252ED2A802A0E154E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <DB3PR10MB683528B8252ED2A802A0E154E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 23 Oct 2023 10:25:50 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W0G6C-=99viHMQaW2REGRQr2xgaejnJmadOdZkoE7AjA@mail.gmail.com>
+Message-ID: <CAD=FV=W0G6C-=99viHMQaW2REGRQr2xgaejnJmadOdZkoE7AjA@mail.gmail.com>
+Subject: Re: [PATCH] drm: docs: Remove item from TODO list
+To: Yuran Pereira <yuran.pereira@hotmail.com>
+Cc: airlied@gmail.com, neil.armstrong@linaro.org, sam@ravnborg.org, 
+	daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+	tzimmermann@suse.de, corbet@lwn.net, sumit.semwal@linaro.org, 
+	christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 23, 2023 at 07:58:57AM -0700, Sean Christopherson wrote:
-> On Fri, Oct 20, 2023, Pawan Gupta wrote:
-> > On Fri, Oct 20, 2023 at 03:55:07PM -0700, Sean Christopherson wrote:
-> > > On Fri, Oct 20, 2023, Pawan Gupta wrote:
-> > > > During VMentry VERW is executed to mitigate MDS. After VERW, any memory
-> > > > access like register push onto stack may put host data in MDS affected
-> > > > CPU buffers. A guest can then use MDS to sample host data.
-> > > > 
-> > > > Although likelihood of secrets surviving in registers at current VERW
-> > > > callsite is less, but it can't be ruled out. Harden the MDS mitigation
-> > > > by moving the VERW mitigation late in VMentry path.
-> > > > 
-> > > > Note that VERW for MMIO Stale Data mitigation is unchanged because of
-> > > > the complexity of per-guest conditional VERW which is not easy to handle
-> > > > that late in asm with no GPRs available. If the CPU is also affected by
-> > > > MDS, VERW is unconditionally executed late in asm regardless of guest
-> > > > having MMIO access.
-> > > > 
-> > > > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> > > > ---
-> > > >  arch/x86/kvm/vmx/vmenter.S |  9 +++++++++
-> > > >  arch/x86/kvm/vmx/vmx.c     | 10 +++++++---
-> > > >  2 files changed, 16 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-> > > > index be275a0410a8..efa716cf4727 100644
-> > > > --- a/arch/x86/kvm/vmx/vmenter.S
-> > > > +++ b/arch/x86/kvm/vmx/vmenter.S
-> > > > @@ -1,6 +1,7 @@
-> > > >  /* SPDX-License-Identifier: GPL-2.0 */
-> > > >  #include <linux/linkage.h>
-> > > >  #include <asm/asm.h>
-> > > > +#include <asm/segment.h>
-> > > >  #include <asm/bitsperlong.h>
-> > > >  #include <asm/kvm_vcpu_regs.h>
-> > > >  #include <asm/nospec-branch.h>
-> > > > @@ -31,6 +32,8 @@
-> > > >  #define VCPU_R15	__VCPU_REGS_R15 * WORD_SIZE
-> > > >  #endif
-> > > >  
-> > > > +#define GUEST_CLEAR_CPU_BUFFERS		USER_CLEAR_CPU_BUFFERS
-> > > > +
-> > > >  .macro VMX_DO_EVENT_IRQOFF call_insn call_target
-> > > >  	/*
-> > > >  	 * Unconditionally create a stack frame, getting the correct RSP on the
-> > > > @@ -177,10 +180,16 @@ SYM_FUNC_START(__vmx_vcpu_run)
-> > > >   * the 'vmx_vmexit' label below.
-> > > >   */
-> > > >  .Lvmresume:
-> > > > +	/* Mitigate CPU data sampling attacks .e.g. MDS */
-> > > > +	GUEST_CLEAR_CPU_BUFFERS
-> > > 
-> > > I have a very hard time believing that it's worth duplicating the mitigation
-> > > for VMRESUME vs. VMLAUNCH just to land it after a Jcc.
-> > 
-> > VERW modifies the flags, so it either needs to be after Jcc or we
-> > push/pop flags that adds 2 extra memory operations. Please let me know
-> > if there is a better option.
-> 
-> Ugh, I assumed that piggybacking VERW overrode the original behavior entirely, I
-> didn't realize it sacrifices EFLAGS.ZF on the altar of mitigations.
-> 
-> Luckily, this is easy to solve now that VMRESUME vs. VMLAUNCH uses a flag instead
-> of a dedicated bool.
+Hi,
 
-Thats great.
+On Mon, Oct 23, 2023 at 9:31=E2=80=AFAM Yuran Pereira <yuran.pereira@hotmai=
+l.com> wrote:
+>
+> Since "Clean up checks for already prepared/enabled in panels" has
+> already been done and merged [1], I think there is no longer a need
+> for this item to be in the gpu TODO.
+>
+> [1] https://patchwork.freedesktop.org/patch/551421/
+>
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> ---
+>  Documentation/gpu/todo.rst | 25 -------------------------
+>  1 file changed, 25 deletions(-)
 
-> From: Sean Christopherson <seanjc@google.com>
-> Date: Mon, 23 Oct 2023 07:44:35 -0700
-> Subject: [PATCH] KVM: VMX: Use BT+JNC, i.e. EFLAGS.CF to select VMRESUME vs.
->  VMLAUNCH
-> 
-> Use EFLAGS.CF instead of EFLAGS.ZF to track whether to use VMRESUME versus
-> VMLAUNCH.  Freeing up EFLAGS.ZF will allow doing VERW, which clobbers ZF,
-> for MDS mitigations as late as possible without needing to duplicate VERW
-> for both paths.
-> 
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
+It's not actually all done. It's in a bit of a limbo state right now,
+unfortunately. I landed all of the "simple" cases where panels were
+needlessly tracking prepare/enable, but the less simple cases are
+still outstanding.
 
-Thanks for the patch, I will include it in the next revision.
+Specifically the issue is that many panels have code to properly power
+cycle themselves off at shutdown time and in order to do that they
+need to keep track of the prepare/enable state. After a big, long
+discussion [1] it was decided that we could get rid of all the panel
+code handling shutdown if only all relevant DRM KMS drivers would
+properly call drm_atomic_helper_shutdown().
+
+I made an attempt to get DRM KMS drivers to call
+drm_atomic_helper_shutdown() [2] [3] [4]. I was able to land the
+patches that went through drm-misc, but currently many of the
+non-drm-misc ones are blocked waiting for attention.
+
+...so things that could be done to help out:
+
+a) Could review patches that haven't landed in [4]. Maybe adding a
+Reviewed-by tag would help wake up maintainers?
+
+b) Could see if you can identify panels that are exclusively used w/
+DRM drivers that have already been converted and then we could post
+patches for just those panels. I have no idea how easy this task would
+be. Is it enough to look at upstream dts files by "compatible" string?
+
+I've gotten side-tracked at the moment so I haven't been driving
+progress on this very quickly. I still plan to poke some of the
+drm_atomic_helper_shutdown() patches eventually...
+
+
+[1] https://lore.kernel.org/r/20230804140605.RFC.4.I930069a32baab6faf46d6b2=
+34f89613b5cec0f14@changeid
+[2] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[4] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.or=
+g
