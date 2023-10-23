@@ -1,108 +1,116 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFF714A85
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 21:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4E214F7E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 21:47:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CFwVoMog"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 961F610C0
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 14:29:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1698096583;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F1k2Vg92RJrxv+gYLNepXp/tJyAR04nx8wa9wG6p0is=;
-	b=CFwVoMogzV4Qz4YmSsv9H4cpP+52uNeTiojOyzZsya3cH/yZZszOaVTLguoFbbti0k3hoH
-	N88ayd0tDntQqMryR2zyhAEuf9gJ/MO9NSZSe4I8xSotP/BFZGuBm5kQVGL51y7Ht4Nhok
-	lkn5/eK7V724T7LWxcELX0kC++QG7uo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-351-CXcMjla2NwicfzPwKZLX5w-1; Mon, 23 Oct 2023 17:29:41 -0400
-X-MC-Unique: CXcMjla2NwicfzPwKZLX5w-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-3f5df65f9f4so23179595e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 14:29:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698096580; x=1698701380;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F1k2Vg92RJrxv+gYLNepXp/tJyAR04nx8wa9wG6p0is=;
-        b=qA/xN7k9+9VbW2Oon+Jb0YBSpDblyipPaMYWDnB/RmfCl7PJsO9KVoNaaao2BAfME7
-         badt5gQRChDIPl2Cic1XGHcLpPutF4h8GiNCOAPLVGQ8G4Lap0910Emqz3TUl9jg79pb
-         KmJlbd1Gl+6LdFhLwOXz7cPqu4eItpSa23vxDMmyX5xRuiO/pCqEIm4XFwGIVptDRg7Q
-         jh0c1wEMBDs/samGZM3H8Nc1G79HozwCTG/1U9KERNEjZO0Ti84ghzFdmGd0u6t88DAQ
-         vGWnyyCL3JP1w8SDntytJd79gwAOoO4FXnIJaNWl9SGwnqY96DlxRJRz8tLP9nFY0kEn
-         Tasw==
-X-Gm-Message-State: AOJu0YwYVxgHGBrGI1XYmojua0VBsh667obVgzdN5Tge//1bEBqQA9DH
-	nruE3rfK3hvW4V4e9ux/bpWj4akCFVm8weMfbUBdg3CCvPW4kVM23fYn9nExWd94TaW2uh0W5oD
-	MejwvCqULQ9rOtkG3HwXa
-X-Received: by 2002:a05:600c:45ca:b0:408:575e:f24f with SMTP id s10-20020a05600c45ca00b00408575ef24fmr5647874wmo.28.1698096580662;
-        Mon, 23 Oct 2023 14:29:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEwIqmyWxHtLCEV9sJcM7Mm48Qpb+Y1PSoNkRJSeRh4CaGlNviwDWwltxau6u5GNETKD69b9g==
-X-Received: by 2002:a05:600c:45ca:b0:408:575e:f24f with SMTP id s10-20020a05600c45ca00b00408575ef24fmr5647840wmo.28.1698096580275;
-        Mon, 23 Oct 2023 14:29:40 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id e7-20020a05600c218700b00407efbc4361sm14963606wme.9.2023.10.23.14.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 14:29:39 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Albert Esteve <aesteve@redhat.com>, qemu-devel@nongnu.org
-Cc: zackr@vmware.com, contact@emersion.fr, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- iforbes@vmware.com, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Chia-I Wu <olvaffe@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Hans de Goede <hdegoede@redhat.com>, Matt Roper
- <matthew.d.roper@intel.com>, David Airlie <airlied@gmail.com>,
- banackm@vmware.com, Rob Clark <robdclark@gmail.com>, krastevm@vmware.com,
- spice-devel@lists.freedesktop.org, Gurchetan Singh
- <gurchetansingh@chromium.org>, Jonathan Corbet <corbet@lwn.net>, David
- Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, mombasawalam@vmware.com, Daniel Vetter
- <daniel@ffwll.ch>, ppaalanen@gmail.com, VMware Graphics Reviewers
- <linux-graphics-maintainer@vmware.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v6 9/9] drm: Introduce documentation for hotspot properties
-In-Reply-To: <20231023074613.41327-10-aesteve@redhat.com>
-References: <20231023074613.41327-1-aesteve@redhat.com>
- <20231023074613.41327-10-aesteve@redhat.com>
-Date: Mon, 23 Oct 2023 23:29:39 +0200
-Message-ID: <87h6mh10zg.fsf@minerva.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u2LjfzR1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B60EC433C7;
+	Mon, 23 Oct 2023 21:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698097675;
+	bh=XHWV4RVtniMvvQ4FFzRtkV3DH5t8b9UJU2TMo/5xG1Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u2LjfzR1DyITElencnYUZBJSxQhSGcdUh8qNi6hiAjhBeQgfLvgVVR3Hfhybeo7cI
+	 ShVL4HtQVGGNRqD9eOg345hWZQ+ClHFfhz78g6IxdSxJYnQ5IkYJYUixMbHjXfTwww
+	 zNpIBT2YeHMuQFtheSVnDQdgPsKx16BMIkXLmrWxjRZHKp2Q781G6runNpXpg+64DZ
+	 WHQ5A2kETEoqfZmB3qZMt5f2memgusVsD8M5Ch7hMJk62ZT5o1RYEYYYgH47OWvpXm
+	 8w0BrCd51hL7ILMuxLEpaoVw92RLHWNVcBPVxDK9uorbyzfjiU7SMpeZbMVJ2dK+BG
+	 WT/PepqZYTMeQ==
+Date: Mon, 23 Oct 2023 14:47:52 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH  2/6] x86/entry_64: Add VERW just before userspace
+ transition
+Message-ID: <20231023214752.2d75h2m64yw6qzcw@treble>
+References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
+ <20231020-delay-verw-v1-2-cff54096326d@linux.intel.com>
+ <20231023183521.zdlrfxvsdxftpxly@treble>
+ <20231023210410.6oj7ekelf5puoud6@desk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231023210410.6oj7ekelf5puoud6@desk>
 
-Albert Esteve <aesteve@redhat.com> writes:
+On Mon, Oct 23, 2023 at 02:04:10PM -0700, Pawan Gupta wrote:
+> On Mon, Oct 23, 2023 at 11:35:21AM -0700, Josh Poimboeuf wrote:
+> > On Fri, Oct 20, 2023 at 01:45:03PM -0700, Pawan Gupta wrote:
+> > > @@ -663,6 +665,10 @@ SYM_INNER_LABEL(swapgs_restore_regs_and_return_to_usermode, SYM_L_GLOBAL)
+> > >  	/* Restore RDI. */
+> > >  	popq	%rdi
+> > >  	swapgs
+> > > +
+> > > +	/* Mitigate CPU data sampling attacks .e.g. MDS */
+> > > +	USER_CLEAR_CPU_BUFFERS
+> > > +
+> > >  	jmp	.Lnative_iret
+> > >  
+> > >  
+> > > @@ -774,6 +780,9 @@ native_irq_return_ldt:
+> > >  	 */
+> > >  	popq	%rax				/* Restore user RAX */
+> > >  
+> > > +	/* Mitigate CPU data sampling attacks .e.g. MDS */
+> > > +	USER_CLEAR_CPU_BUFFERS
+> > > +
+> > 
+> > Can the above two USER_CLEAR_CPU_BUFFERS be replaced with a single one
+> > just above native_irq_return_iret?  Otherwise the native_irq_return_ldt
+> > case ends up getting two VERWs.
+> 
+> Wouldn't that make interrupts returning to kernel also execute VERWs?
+> 
+> idtentry_body
+>   error_return
+>     restore_regs_and_return_to_kernel
+>       verw
+> 
+> native_irq_return_ldt doesn't look to be a common case. Anyways, I will
+> see how to remove the extra VERW.
 
-> From: Michael Banack <banackm@vmware.com>
->
-> To clarify the intent and reasoning behind the hotspot properties
-> introduce userspace documentation that goes over cursor handling
-> in para-virtualized environments.
->
-> The documentation is generic enough to not special case for any
-> specific hypervisor and should apply equally to all.
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
+Ah, right.
 
-The author is Michael Banack but it's missing a SoB from them.
-I don't think there's a need to resend for this, can be added
-when applying. But either Michael or Zack should confirm that
-is the correct thing to do for this patch.
+> > >  	/*
+> > >  	 * RSP now points to an ordinary IRET frame, except that the page
+> > >  	 * is read-only and RSP[31:16] are preloaded with the userspace
+> > > @@ -1502,6 +1511,9 @@ nmi_restore:
+> > >  	std
+> > >  	movq	$0, 5*8(%rsp)		/* clear "NMI executing" */
+> > >  
+> > > +	/* Mitigate CPU data sampling attacks .e.g. MDS */
+> > > +	USER_CLEAR_CPU_BUFFERS
+> > > +
+> > >  	/*
+> > >  	 * iretq reads the "iret" frame and exits the NMI stack in a
+> > >  	 * single instruction.  We are returning to kernel mode, so this
+> > 
+> > This isn't needed here.  This is the NMI return-to-kernel path.
+> 
+> Yes, the VERW here can be omitted. But probably need to check if an NMI
+> occuring between VERW and ring transition will still execute VERW after
+> the NMI.
 
-The doc itself looks great to me and it clarifies a lot about
-cursor hotspots.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+That window does exist, though I'm not sure it's worth worrying about.
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Josh
