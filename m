@@ -1,63 +1,41 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F87A241E6
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 22:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556BE200AE;
+	Mon, 23 Oct 2023 22:43:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AF+FuwpJ"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F67310C;
-	Mon, 23 Oct 2023 15:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698100269; x=1729636269;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=i7z7IMzbJi6+aG7Pz3NCOD4hUct3S3EcCr3SQu21dYE=;
-  b=AF+FuwpJVSPSXqohe1axlDgYFwqHELDGL78crSqFq72NWP5gQGpmo01R
-   /fYMPX2lQ3wUt4hvFeLL7VQ45GCoLa3W1fwKGRGlGjL/XWLGgJZnBGcqm
-   FP40XrS7ibMHfjpeLtSb7UWCzLhDFgrAvUQ8XufPHJdKskSOy/rGl5hh+
-   6pBGx4ZuMhLxj7mL/7tIXGXL00sNczgBAn3Sq/laj3T/SKN1ihJQo/Wp+
-   j9QHrTysqgwOQSAKNTflryBFdsTW4dTso2qqrfNZ8Aq4WbZxFeYNa6ErA
-   tW3ImGgfInSB7/eRS+JlPDeq4doYN8bQErOigsvtTyabSWPF0ob2mPZQs
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="367170592"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="367170592"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 15:31:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="734817778"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="734817778"
-Received: from qwilliam-mobl.amr.corp.intel.com (HELO desk) ([10.212.150.186])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 15:31:08 -0700
-Date: Mon, 23 Oct 2023 15:30:59 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH  2/6] x86/entry_64: Add VERW just before userspace
- transition
-Message-ID: <20231023223059.4p7l474o5w3sdjuc@desk>
-References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
- <20231020-delay-verw-v1-2-cff54096326d@linux.intel.com>
- <20231023183521.zdlrfxvsdxftpxly@treble>
- <20231023210410.6oj7ekelf5puoud6@desk>
- <20231023214752.2d75h2m64yw6qzcw@treble>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZgFIcAUV"
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41BB910D;
+	Mon, 23 Oct 2023 15:43:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=24p8BHx6MaOc5tKzsfG7lYznwTHMjop8dTU1j4DR320=; b=ZgFIcAUVRCZO2ubTTUA88FsjRr
+	Y4LTCoihimQS+pWb8UxiOZOXhMJACHJddOFM1AVa6z1Ex62njjJ/TrOEXurT311O6aIVo8Azxei64
+	Xr57fgZAmOOrwvrI/dpWXXP1axHELW7Zj3bAASc52WT8q3QNSKUny7+tz7+ubYwk48tA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1qv3dZ-0001HN-Ba; Tue, 24 Oct 2023 00:43:05 +0200
+Date: Tue, 24 Oct 2023 00:43:05 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	corbet@lwn.net, steen.hegelund@microchip.com, rdunlap@infradead.org,
+	horms@kernel.org, casper.casan@gmail.com, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, horatiu.vultur@microchip.com,
+	Woojung.Huh@microchip.com, Nicolas.Ferre@microchip.com,
+	UNGLinuxDriver@microchip.com, Thorsten.Kummermehr@microchip.com
+Subject: Re: [PATCH net-next v2 2/9] net: ethernet: oa_tc6: implement mac-phy
+ software reset
+Message-ID: <219ae3d7-0c75-49c0-b791-5623894ba318@lunn.ch>
+References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
+ <20231023154649.45931-3-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,31 +44,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231023214752.2d75h2m64yw6qzcw@treble>
+In-Reply-To: <20231023154649.45931-3-Parthiban.Veerasooran@microchip.com>
 
-On Mon, Oct 23, 2023 at 02:47:52PM -0700, Josh Poimboeuf wrote:
-> > > >  	/*
-> > > >  	 * RSP now points to an ordinary IRET frame, except that the page
-> > > >  	 * is read-only and RSP[31:16] are preloaded with the userspace
-> > > > @@ -1502,6 +1511,9 @@ nmi_restore:
-> > > >  	std
-> > > >  	movq	$0, 5*8(%rsp)		/* clear "NMI executing" */
-> > > >  
-> > > > +	/* Mitigate CPU data sampling attacks .e.g. MDS */
-> > > > +	USER_CLEAR_CPU_BUFFERS
-> > > > +
-> > > >  	/*
-> > > >  	 * iretq reads the "iret" frame and exits the NMI stack in a
-> > > >  	 * single instruction.  We are returning to kernel mode, so this
-> > > 
-> > > This isn't needed here.  This is the NMI return-to-kernel path.
-> > 
-> > Yes, the VERW here can be omitted. But probably need to check if an NMI
-> > occuring between VERW and ring transition will still execute VERW after
-> > the NMI.
-> 
-> That window does exist, though I'm not sure it's worth worrying about.
+> +	ret = oa_tc6_perform_ctrl(tc6, RESET, &regval, 1, true, true);
+> +	ret = oa_tc6_perform_ctrl(tc6, RESET, &regval, 1, true, false);
 
-I am in favor of omitting the VERW here, unless someone objects with a
-rationale. IMO, precisely timing the NMIs in such a narrow window is
-impractical.
+Just looking at this, it is not clear what these true/false mean. Maybe add some #defines
+
+#define TC6_READ true
+#define TC6_WRITE false
+#define TC6_PROTECTED true
+#define TC6_UNPROTECTED false
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* The chip completes a reset in 3us, we might get here earlier than
+> +	 * that, as an added margin we'll conditionally sleep 5us.
+> +	 */
+> +	udelay(5);
+> +
+> +	ret = oa_tc6_perform_ctrl(tc6, STATUS0, &regval, 1, false, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Check for reset complete interrupt status */
+> +	if (regval & RESETC) {
+> +		regval = RESETC;
+
+People don't always agree, but i found STATUS0_RESETC easier to see
+you have the correct bit for the register you just read.
+
+	Andrew
