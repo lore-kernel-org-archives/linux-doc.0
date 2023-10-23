@@ -1,64 +1,68 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D23139C
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 02:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D35139E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 02:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FvvH0anq"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ChLVm56R"
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E06419E
-	for <linux-doc@vger.kernel.org>; Sun, 22 Oct 2023 19:24:29 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF1A819E;
+	Sun, 22 Oct 2023 19:26:10 -0700 (PDT)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B376660A;
-	Mon, 23 Oct 2023 02:24:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B376660A
+	by ms.lwn.net (Postfix) with ESMTPSA id 8FAE8490;
+	Mon, 23 Oct 2023 02:26:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8FAE8490
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1698027868; bh=YNVlJmQXuNZqOe8XF+fwvv4/4ojqZ63h2KRJnAcWDkU=;
+	t=1698027970; bh=FYLKw2297A0PIUDq5riMXejanWx7UptvS+3NVqjBwt0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FvvH0anqlNxMjtBw/ew9lU+qpfGSYglak+6uThqE5U4hPAzSWjfYcLvZJM2KDv/pV
-	 shvupK2dQAFt6pe1G+VgeUTYH8R/jXFhYQzeKselT+ettbfyvMmLVXj3AD5mQBmJHp
-	 DAbHOHa6E/Oa7Q0aTGU6A2C+TLLie72VA7Gu0vfY6be12gDTs+m31NnCMtbO/Cd0dl
-	 H7mh6TUf1HbUKOt/zwEoHKfUrh/ZxtuPfvblFZywS3HCs72S8FjneNxNGDeyVGeGoO
-	 uFnfTmPqIMVhd5Y8q9G1XmCKe6PZTk8YfTn1sZq6Ny7lUOghOghwRRMkBaXyn+5X+M
-	 d863Sh5xm33RA==
+	b=ChLVm56RlrwN3u+sTucU4WJaMD2qkHMQhSJF06+30g24aP5nGzzNDYU0cdAFXXgiC
+	 fjHxGTmPdmlVkhimp4AyTVViXI0QovHrc4zKMTLd1Za2ptzbH1j98UirDkt3DvVx1Q
+	 hg2hQ2TemVcXXQLmrmx5m/pzoEY+fny6Ke8g84ineb/RrxTugqTKLTWsyi8/rZICI4
+	 EjcoMuURPQpK1hVjspHP53OoJtVreFJWkKqoBBJ5GWPi4Rfws9sC3TSleMmpLLrggA
+	 E4m2eBZaA5qO+aEjtkY/ZcqWgrGlWCvs6fKewWL3W4E9pxh4Q5V0eB42SeUBQ4POJD
+	 jRY5eKbfxkh9Q==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Yanteng Si <siyanteng@loongson.cn>, tangyeechou@gmail.com, alexs@kernel.org
-Cc: linux-doc@vger.kernel.org, Tang Yizhou <yizhou.tang@shopee.com>
-Subject: Re: [PATCH] docs/zh_CN: Add subsystem-apis Chinese translation
-In-Reply-To: <a91176b3-67f0-42dc-8e12-e28909a058b3@loongson.cn>
-References: <20231011152520.31079-1-tangyeechou@gmail.com>
- <a91176b3-67f0-42dc-8e12-e28909a058b3@loongson.cn>
-Date: Sun, 22 Oct 2023 20:24:27 -0600
-Message-ID: <87h6mikrdw.fsf@meer.lwn.net>
+To: Hu Haowen <2023002089@link.tyut.edu.cn>
+Cc: Hu Haowen <2023002089@link.tyut.edu.cn>, src.res.211@gmail.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_TW: replace my email address
+In-Reply-To: <87lebukrs2.fsf@meer.lwn.net>
+References: <20231012130008.102174-1-2023002089@link.tyut.edu.cn>
+ <87lebukrs2.fsf@meer.lwn.net>
+Date: Sun, 22 Oct 2023 20:26:09 -0600
+Message-ID: <87cyx6krb2.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Yanteng Si <siyanteng@loongson.cn> writes:
+Jonathan Corbet <corbet@lwn.net> writes:
 
-> =E5=9C=A8 2023/10/11 23:25, tangyeechou@gmail.com =E5=86=99=E9=81=93:
->> From: Tang Yizhou <yizhou.tang@shopee.com>
->>
->> Translate subsystem-apis.rst into Chinese.
->>
->> The existence of this document is crucial. Without it, other Chinese
->> documents included in (such as sched-design-CFS.rst) will not be
->> displayed correctly in the left side of the web page.
->>
->> Signed-off-by: Tang Yizhou <yizhou.tang@shopee.com>
+> Hu Haowen <2023002089@link.tyut.edu.cn> writes:
 >
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+>> The Gmail address will not be used often from now on, and replace it
+>> with the email which is more frequently accessed by myself.
+>>
+>> Signed-off-by: Hu Haowen <2023002089@link.tyut.edu.cn>
+>
+> Applied.
 
-Applied, thanks.
+Actually, no:
 
-In the future, please send docs patches to me directly as well as to the
-list; otherwise I may easily miss them.
+Documentation/translations/zh_TW/dev-tools/sparse.rst:10: WARNING: Title underline too short.
+
+Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
+---------------------------------------------------------------------
+
+Unapplied.
+
+Please do not send me anything for a while, at least until you have
+worked out a process that does not make me find the problems you are
+adding with each patch.
 
 jon
