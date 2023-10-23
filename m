@@ -1,257 +1,138 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97B815BB
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 08:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AAE125B9
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 08:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YC4ClkL3"
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05EB5DA;
-	Mon, 23 Oct 2023 01:23:06 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id 2adb3069b0e04-507962561adso4229318e87.0;
-        Mon, 23 Oct 2023 01:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698049384; x=1698654184; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yILl0/y7g1lM4NMlXc0rK5OqjDqsDZrg7ur6TMfehp0=;
-        b=YC4ClkL3cV+mamVoYk1UzUAjG4c6pTBfAHh3uWMLRgbvvjACwY24sNUFxA7c2E5Qyy
-         vAKLuvAmjvMBFHjs2HYZzvx9fOoBCD2laXJxaE8x6k+7wU4980g0rxaoINO4CDouQkPu
-         QIvMe/W8qjxaFjsKzpfosoUcm542IMUaY4z3bhhnN8AR3W4KmzBqymDsqvZaBZwrO+Hg
-         fIEiMIT07kvzwCB9Qm3o23QxHPD7sNBW+GhPIfisGxnm7zgckBLPW30oG+mBj9Sr8OBY
-         5xTGIdrXOOAoII7NvySrPhBquqP2C6X+5jMlyUoOGk7THhvsK50wxhInrP3DDjs/nomp
-         M/FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698049384; x=1698654184;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yILl0/y7g1lM4NMlXc0rK5OqjDqsDZrg7ur6TMfehp0=;
-        b=X+i7YnFaf7GdimwNsBJgQP7Aqa3j5uelU/+ImAK0SBrvYC4yRoiMEjC7ZiQBhfm4IM
-         mmyXWUDz71KE4KKgy/nEdOfesqhpIm65h0XG3HmNKjBzPhRAdQvqR1eWci6MBIedh4Ce
-         5iBbLkg7vuxGBporKFjTAuhF/9s0+kMYCVMM4az5GnvVHi3JtbeqaPk+ujUJ+aErT/PF
-         CC5xaVNZ/9z6IhpZbwPulyU6NRhQZauFz7BgKu/fUTXI2eeFFSENr/QFR+uPIJJyRxZw
-         u/txQKwVbOOb3+RYYtwG1f282VluopudMxnUD7SjGmR/sXBTe9RCO5e+uqohwM4C/5I5
-         5wng==
-X-Gm-Message-State: AOJu0Yw/fbo4h7B3SX0imKMDc9xdUbXHhjPKLwzou4qIHBUhSs++EOMo
-	MnWljBLp1y4zoPu1gDu8QqM=
-X-Google-Smtp-Source: AGHT+IHfLv2FTvbtP+XDfCQMq0/4gQd56gQXMbgJziOzy1KkvTPqQfj0aDzIIvyqse8I9pxQmKfFcw==
-X-Received: by 2002:a05:6512:5c3:b0:500:cb2b:8678 with SMTP id o3-20020a05651205c300b00500cb2b8678mr5314280lfo.40.1698049383921;
-        Mon, 23 Oct 2023 01:23:03 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id u25-20020ac258d9000000b004f85d80ca64sm1608145lfo.221.2023.10.23.01.23.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 01:23:03 -0700 (PDT)
-Date: Mon, 23 Oct 2023 11:23:00 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Albert Esteve <aesteve@redhat.com>
-Cc: qemu-devel@nongnu.org, zackr@vmware.com, contact@emersion.fr,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org, Maxime Ripard
- <mripard@kernel.org>, iforbes@vmware.com, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Chia-I Wu <olvaffe@gmail.com>, Thomas
- Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>, Matt
- Roper <matthew.d.roper@intel.com>, David Airlie <airlied@gmail.com>,
- banackm@vmware.com, Rob Clark <robdclark@gmail.com>, javierm@redhat.com,
- krastevm@vmware.com, spice-devel@lists.freedesktop.org, Gurchetan Singh
- <gurchetansingh@chromium.org>, Jonathan Corbet <corbet@lwn.net>, David
- Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, mombasawalam@vmware.com, Daniel Vetter
- <daniel@ffwll.ch>, VMware Graphics Reviewers
- <linux-graphics-maintainer@vmware.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v6 9/9] drm: Introduce documentation for hotspot
- properties
-Message-ID: <20231023112300.732e18fa@eldfell>
-In-Reply-To: <20231023074613.41327-10-aesteve@redhat.com>
-References: <20231023074613.41327-1-aesteve@redhat.com>
-	<20231023074613.41327-10-aesteve@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BOTDFUah"
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E043D68;
+	Mon, 23 Oct 2023 01:51:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IBAaOpaxk8aWxiUzMydz17xM9BsCPt7Fugnoxx3uZImoNF4utEfCTOQ3LDDxdgcBZmjS0rLp68ssszf6aJ3W1y1wUooN9kgH5UXoOziimy0QbWw/VWIZIMK2F59EY2Amfoan0CoogLzKbGFKqy/AEZoerp8WPY2CY1bALcmgPLWsYuObQGS+6eQY7YCTKZFdSEqR+dLG3bFfmMrkZlGaZeS9HMbNh2IOWV+nhmw5ft9Q8DsX45OQeOscpnSYUAwDWDRD2qwbuilxViUdaxZuq8maWaazUekcd+pp3LFwiY/8g0VPbeQ3MxYgK9FR+0+cKIPK/THd1vOltkspOBxRYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZXBscckPulxgVIpjiR+QAHBRU3KjFXWrJXEU5Tl+aQE=;
+ b=LsGtzK6W362dZcmISD9uOM+YR9KjPKkbx6jeQ+i4gZbDawV5/E06AQggQILk2Xlv3Tnw14ssTzWiOMcNKFhvd6RgbH8nXGlXa4KXhw/v/nTb+gSy4W0gbIc66XuLLJHdiaej2gmjtJivS4MhC9rKOwg7gb0i0hN/OM1tijMwumWS/Y29jA7rgAx+LCMYP/GzG3gNmsxxxvt5zIqButqDYQfc+IabuJm/Bk6QEMFpkX5LS+6vjYyNxIPuK6DGfuyPZz39sySgp3keU9i5ax+fbxOssVOcW5R0hUzkLQIqDO9P7ws1wgD37SC12xbiS7+P7+S6rKw8OlLuzoU5/MZJNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZXBscckPulxgVIpjiR+QAHBRU3KjFXWrJXEU5Tl+aQE=;
+ b=BOTDFUahqNG1G4ueWuNl+EIRsOQ3t3AuI/ptKmCFcRnkTV5Nw1kkWWDmmJMiukq6saw+VEi4z/B2ye9izbqsSZOoMfVih/somvkxngiZQo8MW1/XmGJ3rNUpJnnLOzeJkSpg6y4n+PFYsT4BcBLUG5JkC5HngZfFBBzguhjpomTAHioIglrviqNYLexKIcfrEHJBzR9RZaRuNyEEHOijiDPO7i2PTgB7Y5c8nsJZM+cTow//ObJlmFPFI3ntXsUcOEqFcqKjnHFQCgEWNajP6twhO1Q5tE+bU1kLAoRG8hzxUxkdipbVcnJ6N0kWuIy1iFWR9aszw9Qd8yWd9Xylew==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from PA4PR04MB7790.eurprd04.prod.outlook.com (2603:10a6:102:cc::8)
+ by PR3PR04MB7355.eurprd04.prod.outlook.com (2603:10a6:102:8f::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.11; Mon, 23 Oct
+ 2023 08:51:45 +0000
+Received: from PA4PR04MB7790.eurprd04.prod.outlook.com
+ ([fe80::edd3:f00:3088:6e61]) by PA4PR04MB7790.eurprd04.prod.outlook.com
+ ([fe80::edd3:f00:3088:6e61%4]) with mapi id 15.20.6933.011; Mon, 23 Oct 2023
+ 08:51:44 +0000
+Message-ID: <56c57e1a-bb08-4ac8-9d3b-bdc649640cfb@suse.com>
+Date: Mon, 23 Oct 2023 11:51:39 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] x86/bugs: Cleanup mds_user_clear
+Content-Language: en-US
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, tony.luck@intel.com, ak@linux.intel.com,
+ tim.c.chen@linux.intel.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+ Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ antonio.gomez.iglesias@linux.intel.com
+References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
+ <20231020-delay-verw-v1-5-cff54096326d@linux.intel.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+In-Reply-To: <20231020-delay-verw-v1-5-cff54096326d@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ZR2P278CA0041.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:47::10) To PA4PR04MB7790.eurprd04.prod.outlook.com
+ (2603:10a6:102:cc::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/BqH+LEjYZrs8=tT7kXjXoDd";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/BqH+LEjYZrs8=tT7kXjXoDd
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 23 Oct 2023 09:46:13 +0200
-Albert Esteve <aesteve@redhat.com> wrote:
-
-> From: Michael Banack <banackm@vmware.com>
->=20
-> To clarify the intent and reasoning behind the hotspot properties
-> introduce userspace documentation that goes over cursor handling
-> in para-virtualized environments.
->=20
-> The documentation is generic enough to not special case for any
-> specific hypervisor and should apply equally to all.
->=20
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-
-
-Hi,
-
-the below doc text:
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
-
-> ---
->  Documentation/gpu/drm-kms.rst |  6 ++++
->  drivers/gpu/drm/drm_plane.c   | 58 ++++++++++++++++++++++++++++++++++-
->  2 files changed, 63 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index a0c83fc481264..158cdcc9351f9 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -577,6 +577,12 @@ Variable Refresh Properties
->  .. kernel-doc:: drivers/gpu/drm/drm_connector.c
->     :doc: Variable refresh properties
-> =20
-> +Cursor Hotspot Properties
-> +---------------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_plane.c
-> +   :doc: hotspot properties
-> +
->  Existing KMS Properties
->  -----------------------
-> =20
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 1dc00ad4c33c3..f3f2eae83cca8 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -230,6 +230,61 @@ static int create_in_format_blob(struct drm_device *=
-dev, struct drm_plane *plane
->  	return 0;
->  }
-> =20
-> +/**
-> + * DOC: hotspot properties
-> + *
-> + * HOTSPOT_X: property to set mouse hotspot x offset.
-> + * HOTSPOT_Y: property to set mouse hotspot y offset.
-> + *
-> + * When the plane is being used as a cursor image to display a mouse poi=
-nter,
-> + * the "hotspot" is the offset within the cursor image where mouse events
-> + * are expected to go.
-> + *
-> + * Positive values move the hotspot from the top-left corner of the curs=
-or
-> + * plane towards the right and bottom.
-> + *
-> + * Most display drivers do not need this information because the
-> + * hotspot is not actually connected to anything visible on screen.
-> + * However, this is necessary for display drivers like the para-virtuali=
-zed
-> + * drivers (eg qxl, vbox, virtio, vmwgfx), that are attached to a user c=
-onsole
-> + * with a mouse pointer.  Since these consoles are often being remoted o=
-ver a
-> + * network, they would otherwise have to wait to display the pointer mov=
-ement to
-> + * the user until a full network round-trip has occurred.  New mouse eve=
-nts have
-> + * to be sent from the user's console, over the network to the virtual i=
-nput
-> + * devices, forwarded to the desktop for processing, and then the cursor=
- plane's
-> + * position can be updated and sent back to the user's console over the =
-network.
-> + * Instead, with the hotspot information, the console can anticipate the=
- new
-> + * location, and draw the mouse cursor there before the confirmation com=
-es in.
-> + * To do that correctly, the user's console must be able predict how the
-> + * desktop will process mouse events, which normally requires the deskto=
-p's
-> + * mouse topology information, ie where each CRTC sits in the mouse coor=
-dinate
-> + * space.  This is typically sent to the para-virtualized drivers using =
-some
-> + * driver-specific method, and the driver then forwards it to the consol=
-e by
-> + * way of the virtual display device or hypervisor.
-> + *
-> + * The assumption is generally made that there is only one cursor plane =
-being
-> + * used this way at a time, and that the desktop is feeding all mouse de=
-vices
-> + * into the same global pointer.  Para-virtualized drivers that require =
-this
-> + * should only be exposing a single cursor plane, or find some other way
-> + * to coordinate with a userspace desktop that supports multiple pointer=
-s.
-> + * If the hotspot properties are set, the cursor plane is therefore assu=
-med to be
-> + * used only for displaying a mouse cursor image, and the position of th=
-e combined
-> + * cursor plane + offset can therefore be used for coordinating with inp=
-ut from a
-> + * mouse device.
-> + *
-> + * The cursor will then be drawn either at the location of the plane in =
-the CRTC
-> + * console, or as a free-floating cursor plane on the user's console
-> + * corresponding to their desktop mouse position.
-> + *
-> + * DRM clients which would like to work correctly on drivers which expose
-> + * hotspot properties should advertise DRM_CLIENT_CAP_CURSOR_PLANE_HOTSP=
-OT.
-> + * Setting this property on drivers which do not special case
-> + * cursor planes will return EOPNOTSUPP, which can be used by userspace =
-to
-> + * gauge requirements of the hardware/drivers they're running on. Advert=
-ising
-> + * DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT implies that the userspace client=
- will be
-> + * correctly setting the hotspot properties.
-> + */
-> +
->  /**
->   * drm_plane_create_hotspot_properties - creates the mouse hotspot
->   * properties and attaches them to the given cursor plane
-> @@ -237,7 +292,8 @@ static int create_in_format_blob(struct drm_device *d=
-ev, struct drm_plane *plane
->   * @plane: drm cursor plane
->   *
->   * This function enables the mouse hotspot property on a given
-> - * cursor plane.
-> + * cursor plane. Look at the documentation for hotspot properties
-> + * to get a better understanding for what they're used for.
->   *
->   * RETURNS:
->   * Zero for success or -errno
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7790:EE_|PR3PR04MB7355:EE_
+X-MS-Office365-Filtering-Correlation-Id: dde0f53b-ad9d-4ec3-baa8-08dbd3a548a6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	LjyTmz8nSrGGlQ0cVKKKXtigjFRMWZyBAiDrbxSiqAoYo4k0uDuy85X0jM1+slWkhBTMRmSNcXBjCjV73EPr/nZO+rsGu7rL4Em+W1sb0+IgnY8Phqqce6N27MrYhOmo3TxuDP7gyCS7ytjqj1cr3rKCSl2hOeeQoUknl/y+6roBR5I4y9+oBd5M+l1hCr2hJjCScOYqivcT2xhVOw1GpBGxO3n67E1OzElRyWyzOvdWMsQmdib4thfh8XNXm0IRnow6iLvenaPuKJ4TW5eZU7vq2IJ6PvnPohdK8RYayV6MEeUohGd4m/gmML5u0k11T4UWxTjcoa2Mf1uOBkulRp89vyU7kDPUR6EGizsGMPf0J9kFRW4yY92ORHCHc3Yq8YEt8o1synb+yl5m6aiz6ydY4uRG5O74NTTUQHD0A46qKDsU+hYlpAqG6+mA7Ev4zMgFC1MAUJccLrMxyo1qadsH7q/njWWgAevymQCOj1484a7KRZbVqvwLtuJW3yUhwrNdXaKm/bmBycnfCc94kPtQVoT9fGN6ZabcxmAbU4x0FA7AtcP8fBkgn1ukY6his5K94zMdprIqqY9qiD4LK1tVQnTBrMTSphTgc0wml4srFVcE3ifUx1R6ST7/seCH2w9gnmmi2eCICbCqBZRoUBTMuTUpc4cPbIQFqTRBP9I=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7790.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(346002)(39860400002)(366004)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(4744005)(2906002)(38100700002)(316002)(66946007)(66556008)(66476007)(54906003)(2616005)(110136005)(478600001)(6506007)(6666004)(6512007)(6486002)(41300700001)(7416002)(36756003)(31696002)(86362001)(5660300002)(8936002)(8676002)(4326008)(921008)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VmVaaE9MQmVrZmNEZzg2bVBuNG92SU1iS0lTeXl0MlhZczR4S01yeW5ZY2Z1?=
+ =?utf-8?B?dnA0UG1NTjVXa3RueFBwSU00RXh3MUxUVE9iK2ZGRk1FY1J6WFNhR1RGbjd5?=
+ =?utf-8?B?RUdKYkNQdXY2bWZ0RkV2TUlEMVl5bHhHY21VNzF2MVJxSmx6ZkhXa1JHMGxC?=
+ =?utf-8?B?UHgzcXNGV0NYK0pvYlVFVDhYZ3ZnV1cyNTFyQlRzZlpSSkFOUDZkRmJEZUl2?=
+ =?utf-8?B?a3QyNTR5TGVzN0xOY1IvL1M1YkhVTnF6aE9GMGVEdVFzY1M3eGRQTnJmQUYr?=
+ =?utf-8?B?d2FCSERraVhqM29YbXVnenJ3S1pDRkQ5L2ZjR1ZVU1ZMbUttRGVXZjJ2K1pY?=
+ =?utf-8?B?R3ZOUDYxdmhMUmlqcURwbkl3UzBCcGlVdEVrRVhkR3lLcVhUVmdoYmhZK21T?=
+ =?utf-8?B?UWhsWU03V1M2L2F6b1R4Z2RNdUZXWFhsWG5jMjJnYW10S0dtUk9vMEtqbVcv?=
+ =?utf-8?B?Sm5RaWVoWG5hdXFtV2JGNzVqUFlpbWhLL2Z0MVVLN0NsRWJqWTBNb3pScURi?=
+ =?utf-8?B?ZlQvdjI5N0ZlMGxmMmJudjJhaHdoOGZ3SnZTK1RhTzJOL0N6clIrdXNsVEhL?=
+ =?utf-8?B?bkFQSFBWWU0yUklEV0lCSTQzZDdYQjJCUzF1enk1eUZYenVGamY4WTd1VHZy?=
+ =?utf-8?B?R2tBZVJQeDdEZFl1aHBOYmszU1hGRGY3dDEvWmdPeFNxSWtKOUFIQzNzLzBk?=
+ =?utf-8?B?VGVId1Blc1VKV3ZzWG95TEVJMFhpdllCam1oaEV6QXpwdWZreGVONTF4VllQ?=
+ =?utf-8?B?LzA0QTFmVlBpaXV5THJPYklzdXZDNm1IT2tYWFBIaEIxb0FnRkcxcVNUNXcw?=
+ =?utf-8?B?OVc1Nm40NlRGbU9NdDRkRDgybU8xM0lQcUFVWGZLamlYMkpQeTU4Rnk4c3Jp?=
+ =?utf-8?B?R1F0b1JpNk1kOEhRckQyd2I4TEUvVWVtNFhsUEZHUUZ5bzhNVVAyM1IyWE8v?=
+ =?utf-8?B?LzMzVjdJSUJOSjYrakVKekRpR0gxY3N2YUozUnRiNGRjRXlZYXRvUjYyODN3?=
+ =?utf-8?B?bU1qOFFqZ0NpaU92WWE4NDh3blJaMWR2ZWhZclhHcUx3OCtLM0pHMmVrTG1Q?=
+ =?utf-8?B?RDhhY2FYcXl0bDJTbGx3QXZSZFhJZVlLUDhpTlhCOEg3Q1dxY1lKYk8wVXNI?=
+ =?utf-8?B?MUVzWDd6cSthcFFkanNyZzMwbzRUaEtqdHQ2aHZCc3NjcFFzb3VYK0hDQTZ5?=
+ =?utf-8?B?NVdGdE1nNG53RGRnYXlNWlpiQkdmb2d2Zk9mUWpXNU5nellDQlI4dFMxUklz?=
+ =?utf-8?B?dkZSYUlheVk2L2h6RCtPc1F0cUQ2djJCUEZybXFVeTBVWXdkayt4V25lVEN5?=
+ =?utf-8?B?b0dmYkVwdSt1SFVMN1BYemxQVGNTYUhsaTJkS2NQR1FEQXpnU2JqOXl5M0pK?=
+ =?utf-8?B?LzJrejlibDMvWFFHK2NjeWRHR3hrMStVQklxdlBSc2RXYmR3N2JBSEZZMUk1?=
+ =?utf-8?B?UFJOV1VwSFNOcjdya0tlZEhXUFRySFBEdDcvMW5tTmdpSmZmK09FNjVzOWlj?=
+ =?utf-8?B?alUwQ0xqLzhBd0JaZklCR2owTHZuaXFmeWd4WG5rakZtMTd2aXR2WWJVempQ?=
+ =?utf-8?B?ZDB5c1BHVFk4KzlHNzFlVVZBbm9ueGRPVVpFUjlmU0R3dlc1UElhUmxJSm9N?=
+ =?utf-8?B?c2tGeXBkaGFaWVpRNmVkY3k3RlBHc0FvWlZ4MDlreFhxczRRbzhTQWQrTkxE?=
+ =?utf-8?B?NHFnZzVxd0xNNUtEaENrTG5IZlhRODlhNVJrT212WHU0Tm1FRWdEUUtIRGF5?=
+ =?utf-8?B?Ni9aTTg0VmdtNy91bWovNHdDTXhTd1ZTbU94NkVtandlbTd5NVUwYkRQd1ND?=
+ =?utf-8?B?SHZyaEFIK25PV0ZxOXBtMDFSZFFlUU1pRmV4cVN1c29RWHVvbmhkWTMvTmdT?=
+ =?utf-8?B?S0JUVnpHT3RBZUVjNUdjcDRmdlc1RjQ4d215RlZuWHMzbDBqdWpZamZ0dCsx?=
+ =?utf-8?B?SG1JOHdiWDJkSkJYd09hK05KRUo2SHdxTG9qK2ZXc3ZQRFFwbDB1T2pacDIy?=
+ =?utf-8?B?SDUrc0xQQlFzanNqUGhYejlBdGlHUjBwNTBaWElOVGQySDVJa3liQXZob0hK?=
+ =?utf-8?B?SW9LbGVvclg4QkdBYThhRWxqbXRIZWVIdEZiV1Q1OU50TTVzcTNMVVhFd2c3?=
+ =?utf-8?B?czYyOGZZM0hMTDJRb0JQLzJWZTVzVUtXeFo2bkF2YUhSSWZZaXh0RDMvVXhn?=
+ =?utf-8?Q?9sI/CRyIhaQO8RUbfWe68fOrLJwa4Ggdg6l1gXMc5WNb?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dde0f53b-ad9d-4ec3-baa8-08dbd3a548a6
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7790.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 08:51:44.7498
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z5lkAOfPg4oTvKAyYl15VWYu1zsKteewruo3CuN3E/lt20LvqJRvhRFYgJO19fJIkFcGTPDakut13NCJKVKRvw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7355
 
 
---Sig_/BqH+LEjYZrs8=tT7kXjXoDd
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
+On 20.10.23 г. 23:45 ч., Pawan Gupta wrote:
+> There are no more users of mds_user_clear static key, remove it.
+> 
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmU2LWQACgkQI1/ltBGq
-qqc9jg/+O49j7A2awfs+aCc+PJsIXZzo6/vpt0Axrl++SGV6BNXjwSGNNGddCUQE
-rZNaWJK3+JBbIqpk9fGz+kNUM1G3UJ5HCveIbl1lCetewGdeJGumMV7gB6/VnK32
-zPDon8yBLibA0vHIZHeVp/7ELBNWzPy4XSt3FyOE0dLCen7xukneyZy8bCPpXfR3
-bXr7kJV/N2XgZl7MgLRNOMnj/okbJ4dWzD4qUR7Pe8EC0zZ/pBlk7gMfQWeNk1Yl
-UmFUix99PDTf3x8BaI22sD9hUg7qkSp1Tf4GtndKyrG5atgYJ61t+1HUAEg8oCJ4
-eMH5umZhmm956T7/q7YTv+s3KkyOADQ1tK1ePOSB6I3uM1FF/LqnpzxFQgu11z3O
-cl5q1crqZORm+3Sa6X9J7EAFNZzW8+9WD+qgQeuc1o2/mFplmL/fzs/OzkzhTCik
-cZVkAFnIykWSoZSka9eG/Xt205wTTBgc0wgryr5OpRr50DCdLr+FfklNM4YLmcqU
-ReoL1MWdDPcDtj7t6eaYXTa67kSQaSO/JSbz60cQ9Tt+Rhod6K6MtLFRyTIvFTYj
-rISYdRD8Q4Pr8I96vlFXMUsy5hs8amyx5yrWHPWMp+7arZxUbSwupaaRFmTtAiSr
-pJCgOmQFFHP+nAbRemAx1+TfNde21rdHuu4ud5Nq3p4ZnzY/taQ=
-=75Es
------END PGP SIGNATURE-----
-
---Sig_/BqH+LEjYZrs8=tT7kXjXoDd--
+This patch can be squashed into the previous one. You've already done 
+the bulk of the work to eliminate usage of mds_user_clear there.
