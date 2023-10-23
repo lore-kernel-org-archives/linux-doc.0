@@ -1,809 +1,178 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B451CA9C;
-	Mon, 23 Oct 2023 15:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC5C15484
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 15:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="y+FtTpZ7"
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3809710E2;
-	Mon, 23 Oct 2023 08:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1698076181; x=1729612181;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=n/izdiZhTIAFpixIdmHImp1j/dWWgoDq11M5yXTYGQk=;
-  b=y+FtTpZ7aeV7zD5ssUNDxtEK/ilsnrF4QlG0xUxmAs7jzGeDaBl+V564
-   E2qip0F1SVdBdk8Bt8/JhZYtfjuoLYNiP2V4l+Wl5LlXUYylWz6JwXazT
-   rD4g4zTTTsb8fQk/jyHKbMOqcq3+5uON1luQ3n/g/WT90rekB5luvdgrW
-   iiFS4dwW87AM/3IkTQXuuSVuAbnHc18Z8q4i65H8Hi71A2uySU3A31NQl
-   8hPiBkObxUV5vZ8+cW2/YVzhNVjLNJE8wcE+lyVS9k9fwpcWCZm1/Cpcf
-   yMW3faBAuIVfygl4yE9t58/VEgvi5VcIcPZEuEGwS/0eMf/LvFXXWAKLU
-   g==;
-X-CSE-ConnectionGUID: QHZHViV/SCKDGxPPfhUelg==
-X-CSE-MsgGUID: Jfx4f8Y7TT2VvZGTiS4uyQ==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="241208245"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Oct 2023 08:49:40 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 23 Oct 2023 08:48:44 -0700
-Received: from CHE-LT-I17164LX.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Mon, 23 Oct 2023 08:48:30 -0700
-From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-	<steen.hegelund@microchip.com>, <rdunlap@infradead.org>, <horms@kernel.org>,
-	<casper.casan@gmail.com>, <andrew@lunn.ch>
-CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<horatiu.vultur@microchip.com>, <Woojung.Huh@microchip.com>,
-	<Nicolas.Ferre@microchip.com>, <UNGLinuxDriver@microchip.com>,
-	<Thorsten.Kummermehr@microchip.com>, Parthiban Veerasooran
-	<Parthiban.Veerasooran@microchip.com>
-Subject: [PATCH net-next v2 7/9] net: ethernet: oa_tc6: implement data transaction interface
-Date: Mon, 23 Oct 2023 21:16:47 +0530
-Message-ID: <20231023154649.45931-8-Parthiban.Veerasooran@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
-References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Qzm418o1";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="BhHr4GO4"
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 951FCBC;
+	Mon, 23 Oct 2023 08:52:33 -0700 (PDT)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39NFP20s030705;
+	Mon, 23 Oct 2023 15:52:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2023-03-30;
+ bh=zryqm7gjuMceDSchaUEZjei9kvrlwZ/ZTpzDyB8K4bY=;
+ b=Qzm418o1XGHT45GMf/TCE9lcyGSP8b7bLdXYCn0O9QVmdgZlwcrpeRHzz0vR11On+LuI
+ T/6citxse/9+DIbe4gpY3H1rEbOYF+Pv5ZcNht3xWwdoNk0pxcla0FqXkRShMse/ffpY
+ S+e62+ZH2uolU3lHEgGTk4HpC+QB4qnyiNq8Gz+jTM1/w11uCgP+8XPlI7R82UU17O16
+ wa63uJUul2LYIetAMMaJ5cZB/w2HtpOkS9S54r9/OJthWh2F1dsFqLAu3V2aos0z522u
+ EGmAO3E74gv0Yk6eHiZy0cQvuHtqcd7HNTU7wGLfXso0G69MRsH1lO8ezAvjN0nvw9xw SQ== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tv6hakcp5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Oct 2023 15:52:04 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39NFTmaN034523;
+	Mon, 23 Oct 2023 15:52:03 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3tv5344vwn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Oct 2023 15:52:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WTgJTEWvgo+4egrrX1USQAjmdLcvStTKlJa1MJ5FENfeAmKAp0gZhGfeB2nW+lpq8aO5XsHxaa3zPdoS3yp3liiEQ8eIcFi1Gr8+BODNafPPPR3eyXBfaUGITFGCmvcVGfXxsda3C3WsbAZt15+KmDtpX36wJiBTFecn+K+OQbX+SyX5/bSg0x4E6jpmvMSQeBcnAjcrXyheXuei26e2S2G6wq0SyJ/5oBpOFxkrpDeKmepOZZjr8wlFbvYcyZTLIbmbqNLQuxTzsm9ql5lBRqXj+p38ljy/4AfZ8BFJdjyx83MRw+Dh4CsKViWqpzYsIG9KICTKAbH2hcP4uC6IWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zryqm7gjuMceDSchaUEZjei9kvrlwZ/ZTpzDyB8K4bY=;
+ b=dvYWDlvxwjMDqeEnKB0/CtGEka+RUR04MO5PUiGkxZWFXJPbDAc7b+CkBbr2bb88ftluo2j1dwBt5OaKxQwxFucqhY3gxzlzd5xvMGMH3aiQh3C5FQDszf943HAzt8kJmM1byBYb8iu3WQaJ0ty6leYcsKBP/5JQDUDt/GWkTd2Zqmbpk3PJD5na+VvmedVVZWzVEtpnNVD4bD/COClU1EQyMvmuyN83CHoU7URHBMcVODDcwVcSzZFgbHNQcFvEV4cJCr2AKj3BrucL3aUaxAGrEOsTaHv/wtWd6/UlgzLWJ3Wj1Ktyirso13j/Rduttvs9PeV1GPSqGpIWAlqGEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zryqm7gjuMceDSchaUEZjei9kvrlwZ/ZTpzDyB8K4bY=;
+ b=BhHr4GO4MJ99c5aHn8rEW3YbVj9PTiaekIYXYKuZc2LeNC9lqnYURdz/5075D7r1Np3qjyXlhfSkYuJTCkkEk0Li7n/i14aQeCL0Cc8i06Zu7s6Jzw6v3i0687XWegC80qtVLGYsBtGPFxzOxN9ggMlbMAz0sRR+BCbnK9j8AXY=
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
+ by CH0PR10MB5161.namprd10.prod.outlook.com (2603:10b6:610:c3::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Mon, 23 Oct
+ 2023 15:52:01 +0000
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::8979:3e3f:c3e0:8dfa]) by SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::8979:3e3f:c3e0:8dfa%4]) with mapi id 15.20.6907.025; Mon, 23 Oct 2023
+ 15:52:00 +0000
+Date: Mon, 23 Oct 2023 11:51:58 -0400
+From: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+To: Tom Yang <yangqixiao@inspur.com>
+Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: maple_tree: fix word spelling error
+Message-ID: <20231023155158.lyuu3vthvdrzmlaq@revolver>
+Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+	Tom Yang <yangqixiao@inspur.com>, maple-tree@lists.infradead.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <20231023095737.21823-1-yangqixiao@inspur.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231023095737.21823-1-yangqixiao@inspur.com>
+User-Agent: NeoMutt/20220429
+X-ClientProxiedBy: BN8PR04CA0025.namprd04.prod.outlook.com
+ (2603:10b6:408:70::38) To SN6PR10MB3022.namprd10.prod.outlook.com
+ (2603:10b6:805:d8::25)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR10MB3022:EE_|CH0PR10MB5161:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf47c246-043b-4e95-27b4-08dbd3dffe73
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	E8Hox80ExKYkJ19KeEwjc2P2gt8kK6XS6kMYVazOEv9xBJJ6//iccQuGP0Sap+AMwkr5i0g1xev4H2T/ikIlpff+bEsJKTBhKR2McBq8xYBZQxGhWwEnqBJzfD/rQrSY1VxjxZWAcZrpXpmWoGXFo5ZwwACFLROZVDn60p6HEJKPquYLAPnIUBG+rKlYxA76jnq4Hn225W8/0El5tApc15zY3ns4re3KckDF15xu8o6ce83+F4ZJMwjhzrjNIUqoRL9i9t6dc2DXgTS9RUnmn+V68XvvKXp4eDbcdelNXbR6EcTbn11bj2aVqzTcM5nVakjHFJQNo1b8zR/PDYQgSEL2vSgbt/rZC0Hd2jBN57ztvhPKK2D1sXMMqc6EsQaUYYWSMjjMcCocdK6pW3L+vCrOF73FN9ozlqDsFvOX/7zrvFb83alqiVZnf90XvNB4T0qPDS/0JlhOLaZ/b2ExPrnxng3PEzPBKetnI3HQbIJt2oIPQALTt6RoJQBcFrOJ6SU3NS3WbvnR0tHWmDxbS22e2rpVe+WZo6Ov3uR0jPMNIIVCDu4CXehlJ9X+Opcw
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB3022.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(376002)(366004)(346002)(136003)(39860400002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(33716001)(4326008)(38100700002)(2906002)(86362001)(6506007)(41300700001)(6512007)(1076003)(83380400001)(9686003)(26005)(5660300002)(478600001)(6486002)(8936002)(66556008)(66946007)(66476007)(316002)(6916009)(8676002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?eIQ5Q4S8m5VHG7s5dBB+gA23gShj7YrA1DbmGLXEXkZEjgtRgz8rgDUiWQDo?=
+ =?us-ascii?Q?uLoR6YH/q0rC/kD/4fgv7ZEhB72stGJdaLDHN8BiGMykolpIw0LF/yfnAfrQ?=
+ =?us-ascii?Q?WnM8uLdaCYcFz4t4PsWjREpZDWlfnzOguTa3Ioq6R0mb4mohcW1oQ5foSZ/8?=
+ =?us-ascii?Q?xXv+0DAC63v8PO1PHBOOtkQOuI4hN3aNMGeuq69h3l18qa/iVisuRvHqvbgm?=
+ =?us-ascii?Q?RsU1CFT2kkZPEU/CywA5oGIGLparev5W4PNw3ZzDxRzzquYGeuTGznTLDMd/?=
+ =?us-ascii?Q?scthste8mjq1h1qznANlyRXYFbOKWmFCdfH14CJtduB0tN6bEhx+X2PZ/N81?=
+ =?us-ascii?Q?fk9tn1L8Sn3im5tXbRjYGAWIrVrULZscc+faqc+KXB2BJaa/wjAoLZ4QDkSQ?=
+ =?us-ascii?Q?8fAS5VUecV6jz6zfAb0Okn1BInUEJt29zvpo6GGVwnDjvMvJXDUveB4cVdOy?=
+ =?us-ascii?Q?Rw8G+mroPC/pK0dPInuoNqXRjVJnqE3aTgZkuYjMpYycbldzwb8ZHRHRgyXZ?=
+ =?us-ascii?Q?idC2qIIZ19hvyTf1doZeDgVg7yC3BgtuBeuSS+7dgeoSNfXb5ItXqSSefk1k?=
+ =?us-ascii?Q?cSghdDm3JhKaf091rUldARyxzqoPpslNh3nY+E95jRUnEVpRO99Vd9R7qZnw?=
+ =?us-ascii?Q?m8u37SBPUfgrm7PBoq7h26dVQyNFjmVxWR3Mhywa9V4Xtem7cefYU71e2Jya?=
+ =?us-ascii?Q?wX4CgAHu+Sb4NT3Xu4m7epLmUJ8qvs+jF+ZVUfiEWT4CG2k0mAROmVKYYgJW?=
+ =?us-ascii?Q?5avOJ+HLn4fnEYYS+GlZtPhXoM6Z0twfWG1mEsEPodYYyZzBmOFR3Nr6Zq8U?=
+ =?us-ascii?Q?Q+slMJOUWzO8FPRv8oEWmHGrHLS405KoEmkEW+yqPp0v594HSc+PvTE3J04h?=
+ =?us-ascii?Q?sxYtkYRL0PgNOfJG0+KTdEPAt1n62mZanBVTJJLmaMRT0CMxWp1Ze2jAJB2A?=
+ =?us-ascii?Q?2oHCh7sgJewYgfYqZhh+PHrOjZEwXODqkz+Jfv3szSzQLm4ReMihrTCKXHcg?=
+ =?us-ascii?Q?fOh2+49/urVjPCXKnooJA/W/9s9MngYIKhZT7lKYlM46LHPHStX2tkWVBmzE?=
+ =?us-ascii?Q?6yOhtudficCR8hB38tmfOks44vDaU4NtuXWiaZjkRPM6zUW2jHSEykq9ccrx?=
+ =?us-ascii?Q?XXRBgzV3D/sfomCYvN0dX6FfW58rDk0hQj7sYjsL8e6B+9Z0fyHuA+bu1Wrm?=
+ =?us-ascii?Q?IAnBd+CbkLuZ9UW3y/aB3Jxc4QaA+ZZgQ1NwM/gotAvR6e5aOiTa11dCZxVy?=
+ =?us-ascii?Q?ZJFLAjgYHqqEMLLO1M7C7kCL/4bf7BVdj9bGW1IzjKAKDBRFUIeiTSQ4FYfV?=
+ =?us-ascii?Q?ALkX5nsCkMdM31Xfpi1vtGhZnhYf3QNI42bgC2pswdCQL1iQUy8YmgeWdOyB?=
+ =?us-ascii?Q?SUVVzwZP6gh50/IzTQytAIVHqpm+ttpbRc+n9e4xDFtJbU44dGZ2leSLmgRU?=
+ =?us-ascii?Q?gxBiztXluiX82sf9Nct8PPxOWytkoLfG97aupBGVW4fMXT8TKprncPWgICym?=
+ =?us-ascii?Q?gkJEV/e45gs/VnCDl2woASUPWJJod/mIEWea7KLArS9uDQnK662FVGet95K2?=
+ =?us-ascii?Q?JrIXmfvAz78gQcGByvGKAONwJybNAX9FnZ/VlD7T?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	F9B4armLEGcNnqi6Qdvn3jEN/hDS7+QBFY7NEGE/Q6JTAzxaVOD7JuCQv1tVfX3mdPIiZbcAyCCUsjG6zdxFXPUokGrRRLcVdJK5AWChPuLkoJqlGRpJM3KJMOiJ8b27b9xMvjynNWeLiy3GqOJzk6w3MLfr1v/yYK11/BhSE1vndvONxOfO0gPAlAN8E+3lwftcwCQagicS2k1pG4FQexUHyIc3/mmHJj8trBeeDidGaEK8KP2W4ycYy/H6VtGtCEmi9FlqMRhCAq1lUXMotNNY1Wvc9yDjdWU/ZvZczFyJXDimK3xOFKFUZry26Yj0C7qMTUZFwwppuQtafAlQSew5cB66AGiQujqlp5o0cZ9oA/Q48EO5fL6R7lW4dCbakGU64e/P2aAGgZHXfa1VXEoKKNMxc3QQbpkVvS2guqqLixrvSMtkPJYxbNRVxTQIOJmwogAFIKCd3zZOh1dDnSlXD3vDW3mO4lVUVptDnHHBYnNh33D16oXSPkbr7rjyBxOnaDpdIa6Ck+jsEd1WrCNsbDpnLN/IVvRpodSHVoGsFcajo9ljq0pjh59pxiLw0a80lKv/Bpe93vllOUuJbvi5e4qKprLkhVtT4kY7bAcqnmgAkute48GovUHs1vgkxr84r2ixiBcjIgEpHqfVCBWZj1fxs7pn2njhAyav1gwY4dZTcDzAmLJlZWupqNIddByn/+c1O8OgtJ5p73y05JkWNG/mf9ke5mL5D5UdfHbd3R4l0uBNeGs8ycPkVKEvrozb7yU9PtTCgDP1QcFqC1oCHb+Pp2vGYHEkZYbrc8qgTcj3ObLm2Gavvo8HSBmrYhSrgg11i5Huqfy8pL0Nk5zVpKTGDV2EBqV58BGB6Ey1z9FDBxK09vyXFODwYzl9
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf47c246-043b-4e95-27b4-08dbd3dffe73
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 15:52:00.5655
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YYlTiS3/iqLz7jDYEB+1G6pWDW7w6voW4Jh3L81jNp7nc96V28nJjbz5UTNjpDegKGMY6T/68InOY4EM0zSBNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5161
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-23_15,2023-10-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310170001
+ definitions=main-2310230138
+X-Proofpoint-GUID: CTvmR4pQrb7tIYEXTTJEPEgKVRyEA5dU
+X-Proofpoint-ORIG-GUID: CTvmR4pQrb7tIYEXTTJEPEgKVRyEA5dU
 
-The ethernet frame to be sent to MAC-PHY is converted into multiple
-transmit data chunks. A transmit data chunk consists of a 4-byte data
-header followed by the transmit data chunk payload.
 
-The received ethernet frame from the network is converted into multiple
-receive data chunks by the MAC-PHY and a receive data chunk consists of
-the receive data chunk payload followed by a 4-byte data footer at the
-end.
+* Tom Yang <yangqixiao@inspur.com> [231023 05:58]:
+> The "first" is spelled "fist".
 
-The MAC-PHY shall support a default data chunk payload size of 64 bytes.
-Data chunk payload sizes of 32, 16, or 8 bytes may also be supported. The
-data chunk payload is always a multiple of 4 bytes.
+Thanks.
 
-The 4-byte data header occurs at the beginning of each transmit data
-chunk on MOSI and the 4-byte data footer occurs at the end of each
-receive data chunk on MISO. The data header and footer contain the
-information needed to determine the validity and location of the transmit
-and receive frame data within the data chunk payload. Ethernet frames
-shall be aligned to a 32-bit boundary within the data chunk payload.
+> 
+> Signed-off-by: Tom Yang <yangqixiao@inspur.com>
 
-Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
----
- drivers/net/ethernet/oa_tc6.c | 546 +++++++++++++++++++++++++++++++++-
- include/linux/oa_tc6.h        |  47 ++-
- 2 files changed, 591 insertions(+), 2 deletions(-)
+Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 
-diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
-index a4532c83e909..1306ca0b0884 100644
---- a/drivers/net/ethernet/oa_tc6.c
-+++ b/drivers/net/ethernet/oa_tc6.c
-@@ -14,17 +14,36 @@
- 
- /* Opaque structure for MACPHY drivers */
- struct oa_tc6 {
-+	int (*config_cps_buf)(void *tc6, u32 cps);
-+	struct work_struct tx_work;
- 	struct net_device *netdev;
- 	struct phy_device *phydev;
- 	struct mii_bus *mdiobus;
- 	struct spi_device *spi;
-+	struct sk_buff *tx_skb;
-+	bool rx_eth_started;
- 	struct device *dev;
-+	/* Protects oa_tc6_perform_spi_xfer function elements between MAC-PHY
-+	 * interrupt handler and the tx work handler.
-+	 */
-+	struct mutex lock;
- 	u8 *ctrl_tx_buf;
- 	u8 *ctrl_rx_buf;
-+	u8 *spi_tx_buf;
-+	u8 *spi_rx_buf;
-+	u8 *eth_tx_buf;
-+	u8 *eth_rx_buf;
-+	u16 rxd_bytes;
-+	u8 txc_needed;
-+	bool int_flag;
-+	bool tx_flag;
- 	bool dprac;
- 	bool iprac;
- 	bool prote;
-+	u16 tx_pos;
- 	u32 cps;
-+	u8 txc;
-+	u8 rca;
- };
- 
- static int oa_tc6_spi_transfer(struct spi_device *spi, u8 *ptx, u8 *prx, u16 len)
-@@ -55,6 +74,24 @@ static int oa_tc6_get_parity(u32 p)
- 	return !((p >> 28) & 1);
- }
- 
-+static u16 oa_tc6_prepare_empty_chunk(struct oa_tc6 *tc6, u8 *buf, u8 cp_count)
-+{
-+	u32 hdr;
-+
-+	/* Prepare empty chunks used for getting interrupt information or if
-+	 * receive data available.
-+	 */
-+	for (u8 i = 0; i < cp_count; i++) {
-+		hdr = FIELD_PREP(DATA_HDR_DNC, 1);
-+		hdr |= FIELD_PREP(DATA_HDR_P, oa_tc6_get_parity(hdr));
-+		*(__be32 *)&buf[i * (tc6->cps + TC6_HDR_SIZE)] = cpu_to_be32(hdr);
-+		memset(&buf[TC6_HDR_SIZE + (i * (tc6->cps + TC6_HDR_SIZE))], 0,
-+		       tc6->cps);
-+	}
-+
-+	return cp_count * (tc6->cps + TC6_HDR_SIZE);
-+}
-+
- static void oa_tc6_prepare_ctrl_buf(struct oa_tc6 *tc6, u32 addr, u32 val[],
- 				    u8 len, bool wnr, u8 *buf, bool prote)
- {
-@@ -218,6 +255,14 @@ static int oa_tc6_configure(struct oa_tc6 *tc6)
- 	bool ctc;
- 	int ret;
- 
-+	/* Read BUFSTS register to get the current txc and rca. */
-+	ret = oa_tc6_read_register(tc6, OA_TC6_BUFSTS, &regval);
-+	if (ret)
-+		return ret;
-+
-+	tc6->txc = FIELD_GET(TXC, regval);
-+	tc6->rca = FIELD_GET(RCA, regval);
-+
- 	/* Read and configure the IMASK0 register for unmasking the interrupts */
- 	ret = oa_tc6_perform_ctrl(tc6, IMASK0, &regval, 1, false, false);
- 	if (ret)
-@@ -259,6 +304,12 @@ static int oa_tc6_configure(struct oa_tc6 *tc6)
- 		} else {
- 			tc6->cps = OA_TC6_MAX_CPS;
- 		}
-+		/* Call queue buffer size config function if defined by MAC */
-+		if (tc6->config_cps_buf) {
-+			ret = tc6->config_cps_buf(tc6, tc6->cps);
-+			if (ret)
-+				return ret;
-+		}
- 		if (of_property_present(oa_node, "oa-txcte")) {
- 			/* Return error if the tx cut through mode is configured
- 			 * but it is not supported by MAC-PHY.
-@@ -498,6 +549,240 @@ static int oa_tc6_phy_init(struct oa_tc6 *tc6)
- 	return 0;
- }
- 
-+static int oa_tc6_process_exst(struct oa_tc6 *tc6)
-+{
-+	u32 regval;
-+	int ret;
-+
-+	ret = oa_tc6_read_register(tc6, STATUS0, &regval);
-+	if (ret)
-+		return ret;
-+
-+	if (regval & TXPE)
-+		net_err_ratelimited("%s: Transmit protocol error\n",
-+				    tc6->netdev->name);
-+
-+	if (regval & TXBOE)
-+		net_err_ratelimited("%s: Transmit buffer overflow\n",
-+				    tc6->netdev->name);
-+
-+	if (regval & TXBUE)
-+		net_err_ratelimited("%s: Transmit buffer underflow\n",
-+				    tc6->netdev->name);
-+
-+	if (regval & RXBOE)
-+		net_err_ratelimited("%s: Receive buffer overflow\n",
-+				    tc6->netdev->name);
-+
-+	if (regval & LOFE)
-+		net_err_ratelimited("%s: Loss of frame\n", tc6->netdev->name);
-+
-+	if (regval & HDRE)
-+		net_err_ratelimited("%s: Header error\n", tc6->netdev->name);
-+
-+	if (regval & TXFCSE)
-+		net_err_ratelimited("%s: Tx Frame Check Seq Error\n",
-+				    tc6->netdev->name);
-+
-+	return oa_tc6_write_register(tc6, STATUS0, regval);
-+}
-+
-+static void oa_tc6_rx_eth_ready(struct oa_tc6 *tc6)
-+{
-+	struct sk_buff *skb;
-+
-+	/* Send the received ethernet packet to network layer */
-+	skb = netdev_alloc_skb(tc6->netdev, tc6->rxd_bytes + NET_IP_ALIGN);
-+	if (!skb) {
-+		tc6->netdev->stats.rx_dropped++;
-+		netdev_dbg(tc6->netdev, "Out of memory for rx'd frame");
-+	} else {
-+		skb_reserve(skb, NET_IP_ALIGN);
-+		memcpy(skb_put(skb, tc6->rxd_bytes), &tc6->eth_rx_buf[0],
-+		       tc6->rxd_bytes);
-+		skb->protocol = eth_type_trans(skb, tc6->netdev);
-+		tc6->netdev->stats.rx_packets++;
-+		tc6->netdev->stats.rx_bytes += tc6->rxd_bytes;
-+		/* 0 for NET_RX_SUCCESS and 1 for NET_RX_DROP */
-+		if (netif_rx(skb))
-+			tc6->netdev->stats.rx_dropped++;
-+	}
-+}
-+
-+static void oa_tc6_rx_eth_complete2(struct oa_tc6 *tc6, u8 *payload, u32 ftr)
-+{
-+	u16 ebo;
-+
-+	if (FIELD_GET(DATA_FTR_EV, ftr))
-+		ebo = FIELD_GET(DATA_FTR_EBO, ftr) + 1;
-+	else
-+		ebo = tc6->cps;
-+
-+	memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes], &payload[0], ebo);
-+	tc6->rxd_bytes += ebo;
-+	if (FIELD_GET(DATA_FTR_EV, ftr)) {
-+		/* If EV set then send the received ethernet frame to n/w */
-+		oa_tc6_rx_eth_ready(tc6);
-+		tc6->rxd_bytes = 0;
-+		tc6->rx_eth_started = false;
-+	}
-+}
-+
-+static void oa_tc6_rx_eth_complete1(struct oa_tc6 *tc6, u8 *payload, u32 ftr)
-+{
-+	u16 ebo;
-+	u16 sbo;
-+
-+	sbo = FIELD_GET(DATA_FTR_SWO, ftr) * 4;
-+	ebo = FIELD_GET(DATA_FTR_EBO, ftr) + 1;
-+
-+	if (ebo <= sbo) {
-+		memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes], &payload[0], ebo);
-+		tc6->rxd_bytes += ebo;
-+		oa_tc6_rx_eth_ready(tc6);
-+		tc6->rxd_bytes = 0;
-+		memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes], &payload[sbo],
-+		       tc6->cps - sbo);
-+		tc6->rxd_bytes += (tc6->cps - sbo);
-+	} else {
-+		memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes], &payload[sbo],
-+		       ebo - sbo);
-+		tc6->rxd_bytes += (ebo - sbo);
-+		oa_tc6_rx_eth_ready(tc6);
-+		tc6->rxd_bytes = 0;
-+	}
-+}
-+
-+static void oa_tc6_start_rx_eth(struct oa_tc6 *tc6, u8 *payload, u32 ftr)
-+{
-+	u16 sbo;
-+
-+	tc6->rxd_bytes = 0;
-+	tc6->rx_eth_started = true;
-+	sbo = FIELD_GET(DATA_FTR_SWO, ftr) * 4;
-+	memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes], &payload[sbo], tc6->cps - sbo);
-+	tc6->rxd_bytes += (tc6->cps - sbo);
-+}
-+
-+static u32 oa_tc6_get_footer(struct oa_tc6 *tc6, u8 *buf, u8 cp_num)
-+{
-+	__be32 ftr;
-+
-+	ftr = *(__be32 *)&buf[tc6->cps + (cp_num * (tc6->cps + TC6_FTR_SIZE))];
-+
-+	return be32_to_cpu(ftr);
-+}
-+
-+static void oa_tc6_update_txc_rca(struct oa_tc6 *tc6, u32 ftr)
-+{
-+	tc6->txc = FIELD_GET(DATA_FTR_TXC, ftr);
-+	tc6->rca = FIELD_GET(DATA_FTR_RCA, ftr);
-+}
-+
-+static int oa_tc6_check_ftr_errors(struct oa_tc6 *tc6, u32 ftr)
-+{
-+	/* Check for footer parity error */
-+	if (oa_tc6_get_parity(ftr)) {
-+		net_err_ratelimited("%s: Footer parity error\n",
-+				    tc6->netdev->name);
-+		return FTR_ERR;
-+	}
-+	/* If EXST set in the footer then read STS0 register to get the
-+	 * status information.
-+	 */
-+	if (FIELD_GET(DATA_FTR_EXST, ftr)) {
-+		if (oa_tc6_process_exst(tc6))
-+			net_err_ratelimited("%s: Failed to process EXST\n",
-+					    tc6->netdev->name);
-+		return FTR_ERR;
-+	}
-+	if (FIELD_GET(DATA_FTR_HDRB, ftr)) {
-+		net_err_ratelimited("%s: Footer eeceived header bad\n",
-+				    tc6->netdev->name);
-+		return FTR_ERR;
-+	}
-+	if (!FIELD_GET(DATA_FTR_SYNC, ftr)) {
-+		net_err_ratelimited("%s: Footer configuration unsync\n",
-+				    tc6->netdev->name);
-+		return FTR_ERR;
-+	}
-+	return FTR_OK;
-+}
-+
-+static void oa_tc6_drop_rx_eth(struct oa_tc6 *tc6)
-+{
-+	tc6->rxd_bytes = 0;
-+	tc6->rx_eth_started = false;
-+	tc6->netdev->stats.rx_dropped++;
-+	net_err_ratelimited("%s: Footer frame drop\n",
-+			    tc6->netdev->name);
-+}
-+
-+static int oa_tc6_process_rx_chunks(struct oa_tc6 *tc6, u8 *buf, u16 len)
-+{
-+	u8 cp_count;
-+	u8 *payload;
-+	u32 ftr;
-+	int ret;
-+
-+	/* Calculate the number of chunks received */
-+	cp_count = len / (tc6->cps + TC6_FTR_SIZE);
-+
-+	for (u8 i = 0; i < cp_count; i++) {
-+		/* Get the footer and payload */
-+		ftr = oa_tc6_get_footer(tc6, buf, i);
-+		payload = &buf[(i * (tc6->cps + TC6_FTR_SIZE))];
-+		/* Check for footer errors */
-+		ret = oa_tc6_check_ftr_errors(tc6, ftr);
-+		if (ret) {
-+			if (tc6->rx_eth_started)
-+				oa_tc6_drop_rx_eth(tc6);
-+			return ret;
-+		}
-+		/* If Frame Drop is set, indicates that the MAC has detected a
-+		 * condition for which the SPI host should drop the received
-+		 * ethernet frame.
-+		 */
-+		if (FIELD_GET(DATA_FTR_FD, ftr) && FIELD_GET(DATA_FTR_EV, ftr)) {
-+			if (tc6->rx_eth_started)
-+				oa_tc6_drop_rx_eth(tc6);
-+
-+			if (FIELD_GET(DATA_FTR_SV, ftr)) {
-+				oa_tc6_start_rx_eth(tc6, payload, ftr);
-+				oa_tc6_update_txc_rca(tc6, ftr);
-+			}
-+			continue;
-+		}
-+		/* Check for data valid */
-+		if (FIELD_GET(DATA_FTR_DV, ftr)) {
-+			/* Check whether both start valid and end valid are in a
-+			 * single chunk payload means a single chunk payload may
-+			 * contain an entire ethernet frame.
-+			 */
-+			if (FIELD_GET(DATA_FTR_SV, ftr) &&
-+			    FIELD_GET(DATA_FTR_EV, ftr)) {
-+				oa_tc6_rx_eth_complete1(tc6, payload, ftr);
-+				oa_tc6_update_txc_rca(tc6, ftr);
-+				continue;
-+			}
-+			/* Check for start valid to start capturing the incoming
-+			 * ethernet frame.
-+			 */
-+			if (FIELD_GET(DATA_FTR_SV, ftr) && !tc6->rx_eth_started) {
-+				oa_tc6_start_rx_eth(tc6, payload, ftr);
-+				oa_tc6_update_txc_rca(tc6, ftr);
-+				continue;
-+			}
-+
-+			/* Check for end valid and calculate the copy length */
-+			if (tc6->rx_eth_started)
-+				oa_tc6_rx_eth_complete2(tc6, payload, ftr);
-+		}
-+		oa_tc6_update_txc_rca(tc6, ftr);
-+	}
-+	return FTR_OK;
-+}
-+
- static void oa_tc6_phy_exit(struct oa_tc6 *tc6)
- {
- 	phy_disconnect(tc6->phydev);
-@@ -505,17 +790,237 @@ static void oa_tc6_phy_exit(struct oa_tc6 *tc6)
- 	mdiobus_free(tc6->mdiobus);
- }
- 
-+static void oa_tc6_prepare_tx_chunks(struct oa_tc6 *tc6, u8 *buf,
-+				     struct sk_buff *skb)
-+{
-+	bool frame_started = false;
-+	u16 copied_bytes = 0;
-+	u16 copy_len;
-+	u32 hdr;
-+
-+	/* Calculate the number tx credit counts needed to transport the tx
-+	 * ethernet frame.
-+	 */
-+	tc6->txc_needed = (skb->len / tc6->cps) + ((skb->len % tc6->cps) ? 1 : 0);
-+
-+	for (u8 i = 0; i < tc6->txc_needed; i++) {
-+		/* Prepare the header for each chunks to be transmitted */
-+		hdr = FIELD_PREP(DATA_HDR_DNC, 1) |
-+		      FIELD_PREP(DATA_HDR_DV, 1);
-+		if (!frame_started) {
-+			hdr |= FIELD_PREP(DATA_HDR_SV, 1) |
-+			       FIELD_PREP(DATA_HDR_SWO, 0);
-+			frame_started = true;
-+		}
-+		if ((tc6->cps + copied_bytes) >= skb->len) {
-+			copy_len = skb->len - copied_bytes;
-+			hdr |= FIELD_PREP(DATA_HDR_EBO, copy_len - 1) |
-+			       FIELD_PREP(DATA_HDR_EV, 1);
-+		} else {
-+			copy_len = tc6->cps;
-+		}
-+		copied_bytes += copy_len;
-+		hdr |= FIELD_PREP(DATA_HDR_P, oa_tc6_get_parity(hdr));
-+		*(__be32 *)&buf[i * (tc6->cps + TC6_HDR_SIZE)] = cpu_to_be32(hdr);
-+		/* Copy the ethernet frame in the chunk payload section */
-+		memcpy(&buf[TC6_HDR_SIZE + (i * (tc6->cps + TC6_HDR_SIZE))],
-+		       &skb->data[copied_bytes - copy_len], copy_len);
-+	}
-+}
-+
-+static u16 oa_tc6_calculate_tx_len(struct oa_tc6 *tc6)
-+{
-+	/* If the available txc is greater than the txc needed (calculated from
-+	 * the tx ethernet frame then the tx length can be txc needed. Else the
-+	 * tx length can be available txc and the remaining needed txc will be
-+	 * updated either in the footer of the current transfer or through the
-+	 * interrupt.
-+	 */
-+	if (tc6->txc >= tc6->txc_needed)
-+		return tc6->txc_needed * (tc6->cps + TC6_HDR_SIZE);
-+	else
-+		return tc6->txc * (tc6->cps + TC6_HDR_SIZE);
-+}
-+
-+static u16 oa_tc6_calculate_rca_len(struct oa_tc6 *tc6, u16 tx_len)
-+{
-+	u16 rca_needed = 0;
-+	u16 tx_txc;
-+
-+	/* If tx eth frame and rca are available at the same time then check
-+	 * whether the rca is less than the needed txc for the tx eth frame. If
-+	 * not then add additional empty chunks along with the tx chunks to get
-+	 * all the rca.
-+	 */
-+	if (tc6->tx_flag && tc6->txc) {
-+		tx_txc = tc6->txc_needed - (tx_len / (tc6->cps + TC6_HDR_SIZE));
-+		if (tx_txc < tc6->rca)
-+			rca_needed = tc6->rca - tx_txc;
-+	} else {
-+		/* Add only empty chunks for rca if there is no tx chunks
-+		 * available to transmit.
-+		 */
-+		rca_needed = tc6->rca;
-+	}
-+	return oa_tc6_prepare_empty_chunk(tc6, &tc6->spi_tx_buf[tx_len],
-+					  rca_needed);
-+}
-+
-+static void oa_tc6_tx_eth_complete(struct oa_tc6 *tc6)
-+{
-+	tc6->netdev->stats.tx_packets++;
-+	tc6->netdev->stats.tx_bytes += tc6->tx_skb->len;
-+	dev_kfree_skb(tc6->tx_skb);
-+	tc6->tx_pos = 0;
-+	tc6->tx_skb = NULL;
-+	tc6->tx_flag = false;
-+	if (netif_queue_stopped(tc6->netdev))
-+		netif_wake_queue(tc6->netdev);
-+}
-+
-+static int oa_tc6_perform_spi_xfer(struct oa_tc6 *tc6)
-+{
-+	bool do_tx_again;
-+	u16 total_len;
-+	u16 rca_len;
-+	u16 tx_len;
-+	int ret;
-+
-+	do {
-+		do_tx_again = false;
-+		rca_len = 0;
-+		tx_len = 0;
-+
-+		/* In case of an interrupt, perform an empty chunk transfer to
-+		 * know the purpose of the interrupt. Interrupt may occur in
-+		 * case of RCA (Receive Chunk Available) and TXC (Transmit
-+		 * Credit Count). Both will occur if they are not indicated
-+		 * through the previous footer.
-+		 */
-+		if (tc6->int_flag) {
-+			tc6->int_flag = false;
-+			total_len = oa_tc6_prepare_empty_chunk(tc6,
-+							       tc6->spi_tx_buf,
-+							       1);
-+		} else {
-+			/* Calculate the transfer length */
-+			if (tc6->tx_flag && tc6->txc) {
-+				tx_len = oa_tc6_calculate_tx_len(tc6);
-+				memcpy(&tc6->spi_tx_buf[0],
-+				       &tc6->eth_tx_buf[tc6->tx_pos], tx_len);
-+			}
-+
-+			if (tc6->rca)
-+				rca_len = oa_tc6_calculate_rca_len(tc6, tx_len);
-+
-+			total_len = tx_len + rca_len;
-+		}
-+		ret = oa_tc6_spi_transfer(tc6->spi, tc6->spi_tx_buf,
-+					  tc6->spi_rx_buf, total_len);
-+		if (ret)
-+			return ret;
-+		/* Process the rxd chunks to get the ethernet frame or status */
-+		ret = oa_tc6_process_rx_chunks(tc6, tc6->spi_rx_buf, total_len);
-+		if (ret)
-+			return ret;
-+		if (tc6->tx_flag) {
-+			tc6->tx_pos += tx_len;
-+			tc6->txc_needed = tc6->txc_needed -
-+					  (tx_len / (tc6->cps + TC6_HDR_SIZE));
-+			/* If the complete ethernet frame is transmitted then
-+			 * return the skb and update the details to n/w layer.
-+			 */
-+			if (!tc6->txc_needed)
-+				oa_tc6_tx_eth_complete(tc6);
-+			else if (tc6->txc)
-+				/* If txc is available again and updated from
-+				 * the previous footer then perform tx again.
-+				 */
-+				do_tx_again = true;
-+		}
-+
-+		/* If rca is updated from the previous footer then perform empty
-+		 * tx to receive ethernet frame.
-+		 */
-+		if (tc6->rca)
-+			do_tx_again = true;
-+	} while (do_tx_again);
-+
-+	return 0;
-+}
-+
-+/* MAC-PHY interrupt handler */
-+static irqreturn_t macphy_irq_handler(int irq, void *dev_id)
-+{
-+	struct oa_tc6 *tc6 = dev_id;
-+
-+	tc6->int_flag = true;
-+	mutex_lock(&tc6->lock);
-+	if (oa_tc6_perform_spi_xfer(tc6))
-+		net_err_ratelimited("%s: SPI transfer failed\n",
-+				    tc6->netdev->name);
-+	mutex_unlock(&tc6->lock);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+/* Workqueue to perform SPI transfer */
-+static void tc6_tx_work_handler(struct work_struct *work)
-+{
-+	struct oa_tc6 *tc6 = container_of(work, struct oa_tc6, tx_work);
-+
-+	mutex_lock(&tc6->lock);
-+	if (oa_tc6_perform_spi_xfer(tc6))
-+		net_err_ratelimited("%s: SPI transfer failed\n",
-+				    tc6->netdev->name);
-+	mutex_unlock(&tc6->lock);
-+}
-+
-+/**
-+ * oa_tc6_send_eth_pkt - function for sending the tx ethernet frame.
-+ * @tc6: oa_tc6 struct.
-+ * @skb: socket buffer in which the ethernet frame is stored.
-+ *
-+ * As this is called from atomic context, work queue is used here because the
-+ * spi_sync will block for the transfer completion.
-+ *
-+ * Returns NETDEV_TX_OK if the tx work is scheduled or NETDEV_TX_BUSY if the
-+ * previous enqueued tx skb is in progress.
-+ */
-+netdev_tx_t oa_tc6_send_eth_pkt(struct oa_tc6 *tc6, struct sk_buff *skb)
-+{
-+	if (tc6->tx_flag) {
-+		netif_stop_queue(tc6->netdev);
-+		return NETDEV_TX_BUSY;
-+	}
-+
-+	tc6->tx_skb = skb;
-+	/* Prepare tx chunks using the tx ethernet frame */
-+	oa_tc6_prepare_tx_chunks(tc6, tc6->eth_tx_buf, skb);
-+
-+	tc6->tx_flag = true;
-+	schedule_work(&tc6->tx_work);
-+
-+	return NETDEV_TX_OK;
-+}
-+EXPORT_SYMBOL_GPL(oa_tc6_send_eth_pkt);
-+
- /**
-  * oa_tc6_init - allocates and intializes oa_tc6 structure.
-  * @spi: device with which data will be exchanged.
-  * @netdev: network device to use.
-+ * @config_cps_buf: function pointer passed by MAC driver to be called for
-+ * configuring cps buffer size. Queue buffer size in the MAC has to be configured
-+ * according to the cps.
-  *
-  * Returns pointer reference to the oa_tc6 structure if all the memory
-  * allocation success otherwise NULL.
-  */
--struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev)
-+struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev,
-+			   int (*config_cps_buf)(void *tc6, u32 cps))
- {
- 	struct oa_tc6 *tc6;
-+	int ret;
- 
- 	tc6 = devm_kzalloc(&spi->dev, sizeof(*tc6), GFP_KERNEL);
- 	if (!tc6)
-@@ -531,9 +1036,37 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev)
- 	if (!tc6->ctrl_rx_buf)
- 		return NULL;
- 
-+	/* Allocate memory for the tx buffer used for SPI transfer. */
-+	tc6->spi_tx_buf = devm_kzalloc(&spi->dev, ETH_LEN + (OA_TC6_MAX_CPS * TC6_HDR_SIZE),
-+				       GFP_KERNEL);
-+	if (!tc6->spi_tx_buf)
-+		return NULL;
-+
-+	/* Allocate memory for the rx buffer used for SPI transfer. */
-+	tc6->spi_rx_buf = devm_kzalloc(&spi->dev, ETH_LEN + (OA_TC6_MAX_CPS * TC6_FTR_SIZE),
-+				       GFP_KERNEL);
-+	if (!tc6->spi_rx_buf)
-+		return NULL;
-+
-+	/* Allocate memory for the tx ethernet chunks to transfer on SPI. */
-+	tc6->eth_tx_buf = devm_kzalloc(&spi->dev, ETH_LEN + (OA_TC6_MAX_CPS * TC6_HDR_SIZE),
-+				       GFP_KERNEL);
-+	if (!tc6->eth_tx_buf)
-+		return NULL;
-+
-+	/* Allocate memory for the rx ethernet packet. */
-+	tc6->eth_rx_buf = devm_kzalloc(&spi->dev, ETH_LEN + (OA_TC6_MAX_CPS * TC6_FTR_SIZE),
-+				       GFP_KERNEL);
-+	if (!tc6->eth_rx_buf)
-+		return NULL;
-+
- 	tc6->spi = spi;
- 	tc6->netdev = netdev;
- 	SET_NETDEV_DEV(netdev, &spi->dev);
-+	tc6->config_cps_buf = config_cps_buf;
-+	/* Set the SPI controller to pump at realtime priority */
-+	spi->rt = true;
-+	spi_setup(spi);
- 
- 	/* Perform MAC-PHY software reset */
- 	if (oa_tc6_sw_reset(tc6)) {
-@@ -552,6 +1085,16 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev)
- 		dev_err(&spi->dev, "PHY initialization failed\n");
- 		return NULL;
- 	}
-+	mutex_init(&tc6->lock);
-+	INIT_WORK(&tc6->tx_work, tc6_tx_work_handler);
-+	/* Register MAC-PHY interrupt service routine */
-+	ret = devm_request_threaded_irq(&spi->dev, spi->irq, NULL,
-+					macphy_irq_handler, IRQF_ONESHOT,
-+					"macphy int", tc6);
-+	if (ret) {
-+		dev_err(&spi->dev, "Error attaching macphy irq %d\n", ret);
-+		return NULL;
-+	}
- 
- 	return tc6;
- }
-@@ -564,6 +1107,7 @@ EXPORT_SYMBOL_GPL(oa_tc6_init);
-  */
- void oa_tc6_exit(struct oa_tc6 *tc6)
- {
-+	devm_free_irq(&tc6->spi->dev, tc6->spi->irq, tc6);
- 	oa_tc6_phy_exit(tc6);
- }
- EXPORT_SYMBOL_GPL(oa_tc6_exit);
-diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
-index 36b729c384ac..58d1143f15ba 100644
---- a/include/linux/oa_tc6.h
-+++ b/include/linux/oa_tc6.h
-@@ -18,9 +18,39 @@
- #define CTRL_HDR_LEN	GENMASK(7, 1)	/* Length */
- #define CTRL_HDR_P	BIT(0)		/* Parity Bit */
- 
-+/* Data header */
-+#define DATA_HDR_DNC	BIT(31)		/* Data-Not-Control */
-+#define DATA_HDR_SEQ	BIT(30)		/* Data Chunk Sequence */
-+#define DATA_HDR_NORX	BIT(29)		/* No Receive */
-+#define DATA_HDR_DV	BIT(21)		/* Data Valid */
-+#define DATA_HDR_SV	BIT(20)		/* Start Valid */
-+#define DATA_HDR_SWO	GENMASK(19, 16)	/* Start Word Offset */
-+#define DATA_HDR_EV	BIT(14)		/* End Valid */
-+#define DATA_HDR_EBO	GENMASK(13, 8)	/* End Byte Offset */
-+#define DATA_HDR_P	BIT(0)		/* Header Parity Bit */
-+
-+/* Data footer */
-+#define DATA_FTR_EXST	BIT(31)		/* Extended Status */
-+#define DATA_FTR_HDRB	BIT(30)		/* Received Header Bad */
-+#define DATA_FTR_SYNC	BIT(29)		/* Configuration Synchronized */
-+#define DATA_FTR_RCA	GENMASK(28, 24)	/* Receive Chunks Available */
-+#define DATA_FTR_DV	BIT(21)		/* Data Valid */
-+#define DATA_FTR_SV	BIT(20)		/* Start Valid */
-+#define DATA_FTR_SWO	GENMASK(19, 16)	/* Start Word Offset */
-+#define DATA_FTR_FD	BIT(15)		/* Frame Drop */
-+#define DATA_FTR_EV	BIT(14)		/* End Valid */
-+#define DATA_FTR_EBO	GENMASK(13, 8)	/* End Byte Offset */
-+#define DATA_FTR_TXC	GENMASK(5, 1)	/* Transmit Credits */
-+#define DATA_FTR_P	BIT(0)		/* Footer Parity Bit */
-+
- #define TC6_HDR_SIZE		4	/* Ctrl command header size as per OA */
- #define TC6_FTR_SIZE		4	/* Ctrl command footer size ss per OA */
- #define TC6_CTRL_BUF_SIZE	1032	/* Max ctrl buffer size for 128 regs */
-+
-+#define FTR_OK		0
-+#define FTR_ERR		1
-+
-+#define ETH_LEN		(ETH_DATA_LEN + ETH_HLEN + ETH_FCS_LEN)
- #define OA_TC6_MAX_CPS	64
- 
- /* Open Alliance TC6 Standard Control and Status Registers */
-@@ -45,7 +75,20 @@
- 
- /* Status Register #0 */
- #define STATUS0		0x0008
-+#define CDPE		BIT(12)	/* Control Data Protection Error */
-+#define TXFCSE		BIT(11)	/* Transmit Frame Check Sequence Error */
- #define RESETC		BIT(6)	/* Reset Complete */
-+#define HDRE		BIT(5)	/* Header Error */
-+#define LOFE		BIT(4)	/* Loss of Framing Error */
-+#define RXBOE		BIT(3)	/* Receive Buffer Overflow Error */
-+#define TXBUE		BIT(2)	/* Transmit Buffer Underflow Error */
-+#define TXBOE		BIT(1)	/* Transmit Buffer Overflow Error */
-+#define TXPE		BIT(0)	/* Transmit Protocol Error */
-+
-+/* Buffer Status Register */
-+#define OA_TC6_BUFSTS	0x000B
-+#define TXC		GENMASK(15, 8)	/* Transmit Credits Available */
-+#define RCA		GENMASK(7, 0)	/* Receive Chunks Available */
- 
- /* Interrupt Mask Register #0 */
- #define IMASK0		0x000C
-@@ -56,9 +99,11 @@
- #define TXBOEM		BIT(1)	/* Tx Buffer Overflow Error Mask */
- #define TXPEM		BIT(0)	/* Tx Protocol Error Mask */
- 
--struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev);
-+struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev,
-+			   int (*config_cps_buf)(void *tc6, u32 cps));
- void oa_tc6_exit(struct oa_tc6 *tc6);
- int oa_tc6_write_register(struct oa_tc6 *tc6, u32 addr, u32 val);
- int oa_tc6_read_register(struct oa_tc6 *tc6, u32 addr, u32 *val);
- int oa_tc6_write_registers(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len);
- int oa_tc6_read_registers(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len);
-+netdev_tx_t oa_tc6_send_eth_pkt(struct oa_tc6 *tc6, struct sk_buff *skb);
--- 
-2.34.1
-
+> ---
+>  Documentation/core-api/maple_tree.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
+> index 45defcf15da7..96f3d5f076b5 100644
+> --- a/Documentation/core-api/maple_tree.rst
+> +++ b/Documentation/core-api/maple_tree.rst
+> @@ -175,7 +175,7 @@ will return the previous entry which occurs before the entry at index.
+>  mas_find() will find the first entry which exists at or above index on
+>  the first call, and the next entry from every subsequent calls.
+>  
+> -mas_find_rev() will find the fist entry which exists at or below the last on
+> +mas_find_rev() will find the first entry which exists at or below the last on
+>  the first call, and the previous entry from every subsequent calls.
+>  
+>  If the user needs to yield the lock during an operation, then the maple state
+> -- 
+> 2.31.1
+> 
+> 
