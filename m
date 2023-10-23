@@ -1,88 +1,89 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757B23BE;
-	Mon, 23 Oct 2023 07:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC7D1C27
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 08:19:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CQ8TadK4"
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5FF5A6;
-	Mon, 23 Oct 2023 00:56:48 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3F05C1BF207;
-	Mon, 23 Oct 2023 07:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1698047807;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FldUiPq2BVMslpj+LMlD/+0WOMlyM3q9lq9JRLhO7T4=;
-	b=CQ8TadK4mSFFfHLaFInunrFRvQzMXYmYLy+ebruncOoe0yXYLr2MXaXSlaUwxs2J0hNedI
-	FA9qvTLKnW2FMH8g8XmzkpRt2kCqi8Zk7YyzQZni2/v7uhiTSwl27qku0xUCSGK2Zkph+/
-	7YIY2fd5uIpMg2XJl2XRBBC2i1X346RcxG4uVEuHAOkAA0KkWegyAQe6rEbXIOBJa5P3nm
-	HFm3QMApYRifzOY+fz0EYu5NqLp7zTReO2Nqj7Tqs9IZ0WU0bnrE0B6pKlan/ZZKjfhf/d
-	JmDgGnxMvL18mL32D03WxdzGcipTkv0iqbrJ4XKdpZWvdAPuRAA2zjObu/EWEQ==
-Date: Mon, 23 Oct 2023 09:56:41 +0200
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v6 12/16] net: Replace hwtstamp_source by
- timestamping layer
-Message-ID: <20231023095641.75dd89c6@kmaincent-XPS-13-7390>
-In-Reply-To: <20231020184714.3b3816fd@kernel.org>
-References: <20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com>
-	<20231019-feature_ptp_netnext-v6-12-71affc27b0e5@bootlin.com>
-	<20231020184714.3b3816fd@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=emersion.fr header.i=@emersion.fr header.b="U2RcwxLU"
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B455C4;
+	Mon, 23 Oct 2023 01:19:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+	s=protonmail2; t=1698049156; x=1698308356;
+	bh=WxADqybr844I3oyxhgF11CfEL7UzS7ZR4cFdELQGNvc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=U2RcwxLU7ur57UbIqCUc41rPeN8/K52RWTLgORhgJU5QCGJ7yuP/p1Xi0EqVjMKAW
+	 htgDguF11LRmmTvNhgmHoWbDlWHHq+nQnEHLaJAHT4svQzQszctKAuxU9jcXg88xeW
+	 /r2ObbAxjn+pX9LpZfk8L9RoxG1aw0Sj7i6a3cEfZXXbMmPTGUNkHqYZbxBv0yVjvM
+	 gbTu505EB44iV5R0BwC6vJmBbDIR8ChlOn9NLzI1ZWR4hajxOIzWT2zrQkcSw4/Usw
+	 EsgsAcaN63gmyTSJc7XKGcWmJi9D+KDCEIwpQtvoHTOf0n7dSJHFC02fFuln/MkBmO
+	 eYnQkIKLYP0Ig==
+Date: Mon, 23 Oct 2023 08:19:05 +0000
+To: Albert Esteve <aesteve@redhat.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: qemu-devel@nongnu.org, zackr@vmware.com, linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, iforbes@vmware.com, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Chia-I Wu <olvaffe@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>, Matt Roper <matthew.d.roper@intel.com>, David Airlie <airlied@gmail.com>, banackm@vmware.com, Rob Clark <robdclark@gmail.com>, javierm@redhat.com, krastevm@vmware.com, spice-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>, Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org, mombasawalam@vmware.com, Daniel Vetter <daniel@ffwll.ch>, ppaalanen@gmail.com, VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v6 0/9] Fix cursor planes with virtualized drivers
+Message-ID: <219B7sJmmuzo8lj-2i5F6y0pc8XM03X6NdxHUq_R76N71AcTptEPcpjKLO9Rutriw88YtJDRNqibuR-YICIkhPnrBnQSM-Uu9YCc2uZoOiM=@emersion.fr>
+In-Reply-To: <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com>
+References: <20231023074613.41327-1-aesteve@redhat.com> <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr> <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com>
+Feedback-ID: 1358184:user:proton
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
 
-On Fri, 20 Oct 2023 18:47:14 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+On Monday, October 23rd, 2023 at 10:14, Albert Esteve <aesteve@redhat.com> =
+wrote:
 
-> On Thu, 19 Oct 2023 16:29:27 +0200 Kory Maincent wrote:
-> > Replace hwtstamp_source which is only used by the kernel_hwtstamp_config
-> > structure by the more widely use timestamp_layer structure. This is done
-> > to prepare the support of selectable timestamping source.
+> On Mon, Oct 23, 2023 at 9:55=E2=80=AFAM Simon Ser <contact@emersion.fr> w=
+rote:
+>=20
+> > On Monday, October 23rd, 2023 at 09:46, Albert Esteve <aesteve@redhat.c=
+om> wrote:
 > >=20
-> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com> =20
+> > > Link to the IGT test covering this patch (already merged):
+> > > https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
+> >=20
+> > Hmm. IGT should not be merged before the kernel, because as long as the
+> > kernel is not merged there might be some uAPI changes.
 >=20
-> Temporarily breaks the build :(
+> Right, but uAPI header was not updated on the IGT side. As per suggestion=
+ of the
+> maintainers, I added a static variable that matches the definition on thi=
+s patch:
+> https://lists.freedesktop.org/archives/igt-dev/2023-August/058803.html
 >=20
-> net/core/dev_ioctl.c:335:44: error: use of undeclared identifier
-> 'NET_TIMESTAMPING'; did you mean 'NO_TIMESTAMPING'? cfg->source =3D phy_t=
-s ?
-> PHY_TIMESTAMPING : NET_TIMESTAMPING; ^~~~~~~~~~~~~~~~
->                                                   NO_TIMESTAMPING
-> include/uapi/linux/net_tstamp.h:18:2: note: 'NO_TIMESTAMPING' declared he=
-re
->         NO_TIMESTAMPING,
->         ^
+> +/**
+> + * Clients which do set cursor hotspot and treat the cursor plane
+> + * like a mouse cursor should set this property.
+> + */
+> +#define LOCAL_DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT=096
+>=20
+> Once this patch gets upstreamed, the localized definition will be removed=
+,
+> replaced by the real one.
 
-Doh, I forgot to run the in-between patch build procedures. Sorry about tha=
-t.
+What if this patch gets delayed and another patch using the same number
+is merged into the kernel first? What if someone finds a design flaw in
+the uAPI and it needs to be completely changed? The IGT test would then
+be completely broken.
 
-K=C3=B6ry
+As a rule of thumb: never merge user-space patches before kernel. As
+soon as the kernel part is merged, it's fine to locally copy definitions
+if desirable.
+
+> > > Mutter patch:
+> > > https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
+> >=20
+> > Seems like this link is same as IGT? Copy-pasta fail maybe?
+>=20
+> Ah yes, my bad, this is the correct link:
+> https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3337
+
+Thanks!
