@@ -1,43 +1,42 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C29B125B0
-	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 19:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED5614A91
+	for <linux-doc@vger.kernel.org>; Mon, 23 Oct 2023 19:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fAZcs097"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D708D94;
-	Mon, 23 Oct 2023 12:10:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n4qjsoxC"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C8E8C5;
+	Mon, 23 Oct 2023 12:13:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698088201; x=1729624201;
+  t=1698088418; x=1729624418;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=6FMUuDYUTlK2LKUY1b0PZ+zy98w+sI48pzxcDNADCi0=;
-  b=fAZcs097bdJYP5PZWkn4oYp5f3l4akvhyvN1Zhk4m/9/HQk4nebf7qQp
-   fJSqnist22IDwDkKvrjIp/NI+4aSeQ+WP8LLdYdJAMSzqhALEi1UnGO10
-   6r1Joxy90vrWpiqdtVYu13g+DDtVqvvEvXZ8wsvr+NPFlZtzmvn7Y5tSh
-   nbM8giiUmBcS8x6A1G7i1INzF+QptL0v6hRA5O08slx5snFiTLLNyWc/O
-   LZJaLQk+EF/VxNU/8U5Dl4QOeJo5TAXTTkJwl3xz/tlfwJQREpoZ6LAOr
-   Pax4nXFY1xjfRR3DiKxYOGx9UGBJ8tY4/Naoc4c96XnkxjisDw/sTrwjG
+   mime-version:in-reply-to;
+  bh=WPOxCjo/MZ3d3oAzLRk/DrwPZNYoVWIGJnSvwkEFy2M=;
+  b=n4qjsoxCUVrPkHsUoQctc0mftT7FuYrjbYDswdLnCcDj0DpPN7Zqp2h7
+   0Ei6YKD8SVX1JywOGgmK62qlSzERShcfTCC/ywQvjNeCVtn9eL1WoduJ3
+   zkNLqn8EQ9vboNrEF4REK58zUNKqr0nPuCR9x/M60lMK2FhkBYjkjNx5l
+   BX9ZC+DBjLY0df85j40vAUFx6Y11FtpTjww68PVTqtPoSm4Kl5Hhrz+Sl
+   iTdbMOUVLIXQUvXbhY04UQWkQ9ynw+Ux7YvZ3DWAH/g6JzBci7438K/RM
+   YIC/QHt2hCxZMt1ANw996CMVlEJdepBR3jI/re/fwOMeVjTPc7qrCHdKP
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="386718669"
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="389758354"
 X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="386718669"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 12:10:01 -0700
+   d="scan'208";a="389758354"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 12:13:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="824055761"
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="1089592710"
 X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="824055761"
+   d="scan'208";a="1089592710"
 Received: from qwilliam-mobl.amr.corp.intel.com (HELO desk) ([10.212.150.186])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 12:10:00 -0700
-Date: Mon, 23 Oct 2023 12:09:49 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 12:13:36 -0700
+Date: Mon, 23 Oct 2023 12:13:25 -0700
 From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
 	"H. Peter Anvin" <hpa@zytor.com>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -50,54 +49,49 @@ Cc: Andrew Cooper <andrew.cooper3@citrix.com>,
 	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
 	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
 	antonio.gomez.iglesias@linux.intel.com,
-	Alyssa Milburn <alyssa.milburn@intel.com>
-Subject: Re: [RESEND][PATCH 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20231023190949.2gdrqisype5metpj@desk>
+	Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH  2/6] x86/entry_64: Add VERW just before userspace
+ transition
+Message-ID: <20231023191325.ot2eomswz4h5aqx2@desk>
 References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
- <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
- <f620c7d4-6345-4ad0-8a45-c8089e3c34df@citrix.com>
- <20231021011859.c2rtc4vl7l2cl4q6@desk>
- <bdfefc38-c010-4423-b129-3f153078fd67@citrix.com>
- <20231021022134.kbey242xq7n754rg@desk>
- <20231023180806.udbnt4nx3r2bdyi3@treble>
+ <20231020-delay-verw-v1-2-cff54096326d@linux.intel.com>
+ <20231023182211.5ojm2rsoqqqwqg46@treble>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231023180806.udbnt4nx3r2bdyi3@treble>
+In-Reply-To: <20231023182211.5ojm2rsoqqqwqg46@treble>
 
-On Mon, Oct 23, 2023 at 11:08:06AM -0700, Josh Poimboeuf wrote:
-> On Fri, Oct 20, 2023 at 07:21:34PM -0700, Pawan Gupta wrote:
-> > On Sat, Oct 21, 2023 at 02:33:47AM +0100, Andrew Cooper wrote:
-> > > On 21/10/2023 2:18 am, Pawan Gupta wrote:
-> > > > On Sat, Oct 21, 2023 at 12:55:45AM +0100, Andrew Cooper wrote:
-> > > >> Also it avoids playing games with hiding data inside an instruction.
-> > > >> It's a neat trick, but the neater trick is avoid it whenever possible.
-> > > > Thanks for the pointers. I think verw in 32-bit mode won't be able to
-> > > > address the operand outside of 4GB range.
-> > > 
-> > > And?  In a 32bit kernel, what lives outside of a 4G range?
-> > > 
-> > > > Maybe this is fine or could it
-> > > > be a problem addressing from e.g. KVM module?
-> > > 
-> > > RIP-relative addressing is disp32.  Which is the same as it is for
-> > > direct calls.
-> > > 
-> > > So if your module is far enough away for VERW to have issues, you've got
-> > > far more basic problems to solve first.
-> > 
-> > Sorry, I raised the wrong problem. In 64-bit mode, verww only has 32-bit
-> > of relative addressing, so memory operand has to be within 4GB of
-> > callsite. That could be a constraint.
+On Mon, Oct 23, 2023 at 11:22:11AM -0700, Josh Poimboeuf wrote:
+> On Fri, Oct 20, 2023 at 01:45:03PM -0700, Pawan Gupta wrote:
+> > +	/* Mitigate CPU data sampling attacks .e.g. MDS */
+> > +	USER_CLEAR_CPU_BUFFERS
+> > +
+> >  	jmp	.Lnative_iret
+> >  
+> >  
+> > @@ -774,6 +780,9 @@ native_irq_return_ldt:
+> >  	 */
+> >  	popq	%rax				/* Restore user RAX */
+> >  
+> > +	/* Mitigate CPU data sampling attacks .e.g. MDS */
+> > +	USER_CLEAR_CPU_BUFFERS
+> > +
 > 
-> Even on x86-64, modules are mapped within 4GB of the kernel, so I don't
-> think that's a concern.
+> I'm thinking the comments add unnecessary noise here.  The macro name is
+> self-documenting enough.
+>
+> The detail about what mitigations are being done can go above the macro
+> definition itself, which the reader can refer to if they want more
+> detail about what the macro is doing and why.
 
-You are correct, modules are indeed mapped within 4GB of the kernel. So
-what Andrew suggested is feasible. Is that your preference?
+Sure, I will move the comments to definition.
+
+> Speaking of the macro name, I think just "CLEAR_CPU_BUFFERS" is
+> sufficient.  The "USER_" prefix makes it harder to read IMO.
+
+Ok, will drop "USER_".
