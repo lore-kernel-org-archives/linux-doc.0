@@ -1,182 +1,93 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA2411CB9
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 13:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412A7134B1;
+	Tue, 24 Oct 2023 13:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Eyex0UDJ"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D2C259D8
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 06:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1698153934;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fVfgHpnx"
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED7395;
+	Tue, 24 Oct 2023 06:40:41 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 694441BF210;
+	Tue, 24 Oct 2023 13:40:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1698154840;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jVvmHaW44kmFnrNDGsSIIetA6WaIzZe9yR4+bN0hZ3s=;
-	b=Eyex0UDJOYgoqF+nM5UO76lD+7iJhX68Nfpw3Wx4v/73Ltxk6HLKoNpkurP4X8NVunRdpg
-	DXyS60yZNYsQtjvLzkHiB0CjDL9lo005L0yPKJ08TWEZAGa0S9P5u/HzRA4+MquqttAbMe
-	HIrHh5AUGX/OFIizQ/E844YpMhHsTSM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-216-mV2pcPg7NnGJufnQNKGmDw-1; Tue, 24 Oct 2023 09:25:19 -0400
-X-MC-Unique: mV2pcPg7NnGJufnQNKGmDw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5915B811E86;
-	Tue, 24 Oct 2023 13:25:19 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.12])
-	by smtp.corp.redhat.com (Postfix) with SMTP id F2A7225C0;
-	Tue, 24 Oct 2023 13:25:16 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Tue, 24 Oct 2023 15:24:18 +0200 (CEST)
-Date: Tue, 24 Oct 2023 15:24:14 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>
-Cc: Alexey Gladkov <legion@kernel.org>,
-	"Ahmed S. Darwish" <darwi@linutronix.de>,
-	Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] seqlock: introduce need_seqretry_xxx()
-Message-ID: <20231024132414.GA23757@redhat.com>
-References: <20231024120808.GA15382@redhat.com>
- <20231024120840.GA15391@redhat.com>
+	bh=XAvwTUEXIaI0z46pwJVVezsvG++BVtQgJpn7cNB1ctk=;
+	b=fVfgHpnxlEj7KXhnlLkjkqIn4X+DlaVL28wNNDKsdKIyO3C3tvJQuTHYhg5CqnbLkuLnAJ
+	MhjWilxmzP1cRei4l0+6prxLMziuTntq9RysPTZe30dYV50oRayMr13kCzvEzclbcaYryh
+	ERnuCbdc2IHW4tbscWoIBlJ60sEyXnkg7y7EnGhxy0YUq0M5CPlkzk/nzoDiX74mJVuTCz
+	IZWE0bfR+0kPEB5Wen0qms4C9EAH4tE8o6XR0LueVCj8q8PRwjegXINaoQdEeC8sZWBfZR
+	WCKn4VSEZkKwpznLprcK4dM+i1TMkLP2POCtIyJUI0Q5OwBHZkyug+uSq8+HhQ==
+Date: Tue, 24 Oct 2023 15:40:37 +0200
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu
+ Pirea <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh
+ <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, Simon Horman
+ <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v6 07/16] net_tstamp: Add TIMESTAMPING SOFTWARE
+ and HARDWARE mask
+Message-ID: <20231024154037.2f61fe5b@kmaincent-XPS-13-7390>
+In-Reply-To: <CAF=yD-+O6QxuYJzijMes7J_DHHd7yYCz8sBLFERM1U6pYN0Gkg@mail.gmail.com>
+References: <20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com>
+	<20231019-feature_ptp_netnext-v6-7-71affc27b0e5@bootlin.com>
+	<CAF=yD-+O6QxuYJzijMes7J_DHHd7yYCz8sBLFERM1U6pYN0Gkg@mail.gmail.com>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231024120840.GA15391@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Or perhaps even something like
+On Thu, 19 Oct 2023 10:48:04 -0400
+Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
 
-	static inline int xxx(seqlock_t *lock, int *seq, int lockless)
-	{
-		if (lockless) {
-			*seq = read_seqbegin(lock);
-			return 1;
-		}
-
-		if (*seq & 1) {
-			read_sequnlock_excl(lock);
-			return 0;
-		}
-
-		if (read_seqretry(lock, *seq)) {
-			read_seqlock_excl(lock);
-			*seq = 1;
-			return 1;
-		}
-
-		return 0;
-
-	}
-
-	#define __XXX(lock, seq, lockless)	\
-		for (int lockless = 1, seq; xxx(lock, &seq, lockless); lockless = 0)
-
-	#define XXX(lock)	\
-		__XXX(lock, __UNIQUE_ID(seq), __UNIQUE_ID(lockless))
-
-
-? This way one can do
-
-	seqlock_t sl;
-
-	void func(void)
-	{
-		XXX(&sl) {
-			... read-side critical section ...
-		}
-	}
-
-using the single XXX() helper, no need to declare/initialize seq, no need to call
-need_seqretry/done_seqretry.
-
-What do you think?
-
-Oleg.
-
-
-On 10/24, Oleg Nesterov wrote:
+> On Thu, Oct 19, 2023 at 10:29=E2=80=AFAM Kory Maincent
+> <kory.maincent@bootlin.com> wrote:
+> >
+> > Timestamping software or hardware flags are often used as a group,
+> > therefore adding these masks will easier future use. =20
+>=20
+> This assumes that device support for timestamping is often symmetric:
+> a device supports both rx and tx, or neither.
 >
-> Not for inclusion, just for discussion...
->
-> Modulo naming, do you think the new need_seqretry_xxx() makes sense?
->
-> Simpler to use and less error prone. thread_group_cputime() is changed
-> as an example.
-> ---
->  include/linux/seqlock.h | 10 ++++++++++
->  kernel/sched/cputime.c  |  9 +++------
->  2 files changed, 13 insertions(+), 6 deletions(-)
->
-> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-> index d0050c889f26..9b3bc4ce3332 100644
-> --- a/include/linux/seqlock.h
-> +++ b/include/linux/seqlock.h
-> @@ -1165,6 +1165,16 @@ static inline int need_seqretry(seqlock_t *lock, int seq)
->  	return !(seq & 1) && read_seqretry(lock, seq);
->  }
->
-> +static inline int need_seqretry_xxx(seqlock_t *lock, int *seq)
-> +{
-> +	int ret = !(*seq & 1) && read_seqretry(lock, *seq);
-> +
-> +	if (ret)
-> +		++*seq;	/* make this counter odd */
-> +
-> +	return ret;
-> +}
-> +
->  /**
->   * done_seqretry() - end seqlock_t "locking or lockless" reader section
->   * @lock: Pointer to seqlock_t
-> diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-> index af7952f12e6c..45704a84baec 100644
-> --- a/kernel/sched/cputime.c
-> +++ b/kernel/sched/cputime.c
-> @@ -314,7 +314,7 @@ void thread_group_cputime(struct task_struct *tsk, struct task_cputime *times)
->  	struct signal_struct *sig = tsk->signal;
->  	u64 utime, stime;
->  	struct task_struct *t;
-> -	unsigned int seq, nextseq;
-> +	unsigned int seq;
->  	unsigned long flags;
->
->  	/*
-> @@ -330,9 +330,8 @@ void thread_group_cputime(struct task_struct *tsk, struct task_cputime *times)
->
->  	rcu_read_lock();
->  	/* Attempt a lockless read on the first round. */
-> -	nextseq = 0;
-> +	seq = 0;
->  	do {
-> -		seq = nextseq;
->  		flags = read_seqbegin_or_lock_irqsave(&sig->stats_lock, &seq);
->  		times->utime = sig->utime;
->  		times->stime = sig->stime;
-> @@ -344,9 +343,7 @@ void thread_group_cputime(struct task_struct *tsk, struct task_cputime *times)
->  			times->stime += stime;
->  			times->sum_exec_runtime += read_sum_exec_runtime(t);
->  		}
-> -		/* If lockless access failed, take the lock. */
-> -		nextseq = 1;
-> -	} while (need_seqretry(&sig->stats_lock, seq));
-> +	} while (need_seqretry_xxx(&sig->stats_lock, &seq));
->  	done_seqretry_irqrestore(&sig->stats_lock, seq, flags);
->  	rcu_read_unlock();
->  }
-> --
-> 2.25.1.362.g51ebf55
->
+> All devices support software receive timestamping, as that timestamp
+> is taken in the core network stack. But to support transmit timestamps
+> drivers have to call sbk_tstamp_tx in their ndo_start_xmit.
 
+Yes, and in that software only case they often call ethtool_op_get_ts_info =
+to
+fill the timestamp info.
+
+There is several drivers that support hardware and software timestamp, these
+mask could be useful for these. In case of asymmetric support we can still =
+use
+the SOF_TIMESTAMPING_RX/TX_SOFTWARE flags.
+
+I forgot to specify, in the commit message but this patch is mainly to ease
+the next patch of this series to deal with software/hardware time stamping.
+Maybe you prefer to have this squash into next patch as had suggested Flori=
+an
+in last version.
+
+K=C3=B6ry
