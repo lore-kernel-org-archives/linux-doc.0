@@ -1,236 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6A211731;
-	Tue, 24 Oct 2023 11:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D6E5CBE
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 12:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U38GQfbR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B9CC433C7;
-	Tue, 24 Oct 2023 11:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698148647;
-	bh=P/62AzhAT4KUu+utmsfzDa4VRGeCzMsZgfgeMsb7fFQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=U38GQfbR3I5gJybWpH3LqCbdHqpdPDApaYa1y7mhdHfH2MA7aXAYD+2IlpfaC18ma
-	 ay52CdaP3lbY7qoerCPgb9NzBkZaYvVu6JOy6tttoVEA/9mwRg6ZlI0aiqvEeInWsf
-	 kOd9ellhuLwmoQl6mfxAOuMpu+8dt9wLEIdk/FScqAlOGcsHo8PqLqskRi6YiRSxlr
-	 NaPcuKp9WnIagQ1fYKvNijy78f+vYKm/NxP7lIuAqlZd/dVtwz/vPsm47pdz6uMMdW
-	 SXvqgXOgbwqZFCX4/1BYlXn7j2iOMuHpR9lEIalQ/nNPG4+BlxKqWdsLHMuJxaJ+IJ
-	 XV8pef6DwsLOQ==
-Message-ID: <59767fb8-8b9a-472a-884c-009cb00ed0b9@kernel.org>
-Date: Tue, 24 Oct 2023 13:57:17 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eLQ11kQk"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B87AB111
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 05:09:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1698149359;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=iZkArARh9BTcR7kL2t19I65TEaHt5O6mRvItemHD3G4=;
+	b=eLQ11kQkwCtGhLrPQmbgChlTK/qeGA5q7UGBQ+xmSMAbMLDlxmVxZkbMzHe7NqtA03CFsT
+	zaJIZ7XujOvC69OLprCb4fk4C1YzdNoDR9XHAwnoBN0Fz7Lr7LY45j13tvWeb4MkgXGN3D
+	5RnGX0JNOGDQTRdPEtPheDXUXMr/pBo=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-79-KvQp0O3iNNKk8r5KugO8QQ-1; Tue,
+ 24 Oct 2023 08:09:13 -0400
+X-MC-Unique: KvQp0O3iNNKk8r5KugO8QQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 096AC280605F;
+	Tue, 24 Oct 2023 12:09:13 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.12])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 889C4492BFB;
+	Tue, 24 Oct 2023 12:09:10 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue, 24 Oct 2023 14:08:11 +0200 (CEST)
+Date: Tue, 24 Oct 2023 14:08:08 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>
+Cc: Alexey Gladkov <legion@kernel.org>,
+	"Ahmed S. Darwish" <darwi@linutronix.de>,
+	Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH 1/2] seqlock: fix the wrong
+ read_seqbegin_or_lock/need_seqretry documentation
+Message-ID: <20231024120808.GA15382@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 8/9] microchip: lan865x: add driver support
- for Microchip's LAN865X MACPHY
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, corbet@lwn.net, steen.hegelund@microchip.com,
- rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
- andrew@lunn.ch
-Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
- Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
- Thorsten.Kummermehr@microchip.com
-References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
- <20231023154649.45931-9-Parthiban.Veerasooran@microchip.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20231023154649.45931-9-Parthiban.Veerasooran@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-On 23/10/2023 17:46, Parthiban Veerasooran wrote:
-> The LAN8650/1 is designed to conform to the OPEN Alliance 10BASE‑T1x
-> MAC‑PHY Serial Interface specification, Version 1.1. The IEEE Clause 4
-> MAC integration provides the low pin count standard SPI interface to any
-> microcontroller therefore providing Ethernet functionality without
-> requiring MAC integration within the microcontroller. The LAN8650/1
-> operates as an SPI client supporting SCLK clock rates up to a maximum of
-> 25 MHz. This SPI interface supports the transfer of both data (Ethernet
-> frames) and control (register access).
-> 
-> By default, the chunk data payload is 64 bytes in size. A smaller payload
-> data size of 32 bytes is also supported and may be configured in the
-> Chunk Payload Size (CPS) field of the Configuration 0 (OA_CONFIG0)
-> register. Changing the chunk payload size requires the LAN8650/1 be reset
-> and shall not be done during normal operation.
-> 
-> The Ethernet Media Access Controller (MAC) module implements a 10 Mbps
-> half duplex Ethernet MAC, compatible with the IEEE 802.3 standard.
-> 10BASE-T1S physical layer transceiver integrated into the LAN8650/1. The
-> PHY and MAC are connected via an internal Media Independent Interface
-> (MII).
-> 
-> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-> ---
->  MAINTAINERS                              |   6 +
->  drivers/net/ethernet/microchip/Kconfig   |  11 +
->  drivers/net/ethernet/microchip/Makefile  |   2 +
->  drivers/net/ethernet/microchip/lan865x.c | 415 +++++++++++++++++++++++
->  4 files changed, 434 insertions(+)
->  create mode 100644 drivers/net/ethernet/microchip/lan865x.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9580be91f5e9..1b1bd3218a2d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14001,6 +14001,12 @@ L:	netdev@vger.kernel.org
->  S:	Maintained
->  F:	drivers/net/ethernet/microchip/lan743x_*
->  
-> +MICROCHIP LAN8650/1 10BASE-T1S MACPHY ETHERNET DRIVER
-> +M:	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
-> +L:	netdev@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/net/ethernet/microchip/lan865x.c
-> +
->  MICROCHIP LAN87xx/LAN937x T1 PHY DRIVER
->  M:	Arun Ramadoss <arun.ramadoss@microchip.com>
->  R:	UNGLinuxDriver@microchip.com
-> diff --git a/drivers/net/ethernet/microchip/Kconfig b/drivers/net/ethernet/microchip/Kconfig
-> index 329e374b9539..596caf59dea6 100644
-> --- a/drivers/net/ethernet/microchip/Kconfig
-> +++ b/drivers/net/ethernet/microchip/Kconfig
-> @@ -59,4 +59,15 @@ source "drivers/net/ethernet/microchip/lan966x/Kconfig"
->  source "drivers/net/ethernet/microchip/sparx5/Kconfig"
->  source "drivers/net/ethernet/microchip/vcap/Kconfig"
->  
-> +config LAN865X
-> +	tristate "LAN865x support"
-> +	depends on SPI
-> +	depends on OA_TC6
-> +	help
-> +      	  Support for the Microchip LAN8650/1 Rev.B0 MACPHY Ethernet chip. It
-> +	  uses OPEN Alliance 10BASE-T1x Serial Interface specification.
-> +
-> +      	  To compile this driver as a module, choose M here. The module will be
-> +          called lan865x.
+Half of the read_seqbegin_or_lock's users are buggy (I'll send the
+fixes), and I guess this is because the documentation and the pseudo
+code in Documentation/locking/seqlock.rst are wrong.
 
-That's odd indentation. Kconfig help goes with tab and two spaces.
+Pseudo code:
 
-> +
->  endif # NET_VENDOR_MICROCHIP
-> diff --git a/drivers/net/ethernet/microchip/Makefile b/drivers/net/ethernet/microchip/Makefile
-> index bbd349264e6f..1fa4e15a067d 100644
-> --- a/drivers/net/ethernet/microchip/Makefile
-> +++ b/drivers/net/ethernet/microchip/Makefile
-> @@ -12,3 +12,5 @@ lan743x-objs := lan743x_main.o lan743x_ethtool.o lan743x_ptp.o
->  obj-$(CONFIG_LAN966X_SWITCH) += lan966x/
->  obj-$(CONFIG_SPARX5_SWITCH) += sparx5/
->  obj-$(CONFIG_VCAP) += vcap/
+	int seq = 0;
+	do {
+		read_seqbegin_or_lock(&foo_seqlock, &seq);
 
-...
+		/* ... [[read-side critical section]] ... */
 
-> +static void lan865x_remove(struct spi_device *spi)
-> +{
-> +	struct lan865x_priv *priv = spi_get_drvdata(spi);
-> +
-> +	oa_tc6_exit(priv->tc6);
-> +	unregister_netdev(priv->netdev);
-> +	free_netdev(priv->netdev);
-> +}
-> +
-> +#ifdef CONFIG_OF
+	} while (need_seqretry(&foo_seqlock, seq));
 
-Drop ifdef
+read_seqbegin_or_lock() returns with the even seq, need_seqretry()
+doesn't change this counter. This means that seq is always even and
+thus the locking pass is simply impossible.
 
-> +static const struct of_device_id lan865x_dt_ids[] = {
-> +	{ .compatible = "microchip,lan865x" },
-> +	{ /* Sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, lan865x_dt_ids);
-> +#endif
-> +
-> +#ifdef CONFIG_ACPI
-> +static const struct acpi_device_id lan865x_acpi_ids[] = {
-> +	{ .id = "LAN865X",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(acpi, lan865x_acpi_ids);
-> +#endif
-> +
-> +static struct spi_driver lan865x_driver = {
-> +	.driver = {
-> +		.name = DRV_NAME,
-> +#ifdef CONFIG_OF
+IOW, "_or_lock" has no effect and this code doesn't differ from
 
-Drop ifdef
+	do {
+		seq = read_seqbegin(&foo_seqlock);
 
-> +		.of_match_table = lan865x_dt_ids,
-> +#endif
-> +#ifdef CONFIG_ACPI
+		/* ... [[read-side critical section]] ... */
 
-Why do you need this ifdef?
+	} while (read_seqretry(&foo_seqlock, seq));
 
-> +		   .acpi_match_table = ACPI_PTR(lan865x_acpi_ids),
-> +#endif
-> +	 },
-> +	.probe = lan865x_probe,
-> +	.remove = lan865x_remove,
-> +};
-> +module_spi_driver(lan865x_driver);
-> +
-> +MODULE_DESCRIPTION(DRV_NAME " 10Base-T1S MACPHY Ethernet Driver");
-> +MODULE_AUTHOR("Parthiban Veerasooran <parthiban.veerasooran@microchip.com>");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("spi:" DRV_NAME);
+Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+---
+ Documentation/locking/seqlock.rst | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-You should not need MODULE_ALIAS() in normal cases. If you need it,
-usually it means your device ID table is wrong.
+diff --git a/Documentation/locking/seqlock.rst b/Documentation/locking/seqlock.rst
+index bfda1a5fecad..4bdf8d4ed2a2 100644
+--- a/Documentation/locking/seqlock.rst
++++ b/Documentation/locking/seqlock.rst
+@@ -218,13 +218,14 @@ Read path, three categories:
+    according to a passed marker. This is used to avoid lockless readers
+    starvation (too much retry loops) in case of a sharp spike in write
+    activity. First, a lockless read is tried (even marker passed). If
+-   that trial fails (odd sequence counter is returned, which is used as
+-   the next iteration marker), the lockless read is transformed to a
+-   full locking read and no retry loop is necessary::
++   that trial fails (sequence counter doesn't match), make the marker
++   odd for the next iteration, the lockless read is transformed to a
++   full locking read and no retry loop is necessary, for example::
+ 
+ 	/* marker; even initialization */
+-	int seq = 0;
++	int seq = 1;
+ 	do {
++		seq++; /* 2 on the 1st/lockless path, otherwise odd */
+ 		read_seqbegin_or_lock(&foo_seqlock, &seq);
+ 
+ 		/* ... [[read-side critical section]] ... */
+-- 
+2.25.1.362.g51ebf55
 
-
-Best regards,
-Krzysztof
 
