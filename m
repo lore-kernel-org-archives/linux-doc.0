@@ -1,147 +1,116 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BAB241E4
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 09:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9716250FD
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 10:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="AMiqT/jw"
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9D991985
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 02:30:11 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-32da4180ca2so892432f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 02:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1698139810; x=1698744610; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=epBSW7d/Y73fuCPm0yJqVjtBNeGFhQxq0MaplKN63vg=;
-        b=AMiqT/jwK00ssjVuB21Y1vsh4Z8x0hMaB49VaHC9aXjss7zFtjX5jUszFo4EsDX9+U
-         3QE9XlAxOfHHCd3/FBjIwKR20W434JL4MXLvmwW2i3ts6NbAvUQrv33CRhNZdzRnGAsu
-         gslbGhzqrfouddAU2bPrRuxL3UMf0JtEUkGmFKEOjTbeOayV/QutH4Xsp5yJGS9jXat+
-         5y/pGgy4py1/A1Me1qTzSg5/sWAL7caH/e6179AyoJMu8/MXYnm8LY3aP27WqLvs5lCk
-         pxrFFNPhw12uT4xmur0Vvzi+WU5sTClp5f8KgdiUZCstD6ikiWE7CkXkyCjL3LdY9O7N
-         2jKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698139810; x=1698744610;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=epBSW7d/Y73fuCPm0yJqVjtBNeGFhQxq0MaplKN63vg=;
-        b=jAjsliC0SxSlk31AIv6xGpPKZbd01dY31BcElxbmv6tc/17J7LBuGSFi4jT0SDtSpo
-         GiGaIfPARob7qimIbIOS4qdR1YCbdodxdZF1HIgH3VL/SIZXrqouXY5bJvi2nbjZKUY/
-         et5tk4PT+l2n2R5FYPS33UaRGlpqn9nQdwa0w4X2FUjxZVnhER1PaoaBRsi7CLJ6NL5/
-         f7pq+561oaQX3ABftf3/29dt4hoFK3cH7xjMVZNZCIcDP9vA3KBAuSWyx49sF8SB2EbV
-         oS42wPId9BUqw9Pstk8XZP03Vy7jEBVwNzEo74x4Z+Jt97hg+LyhMACJAJRDel6sTgFf
-         8DxA==
-X-Gm-Message-State: AOJu0YxOrgtyEgbnD3SjYOrPTFMvlT2NScleu8Qv0Py44rqkSM0lieuW
-	Yy8X6fmNiPjvezJ9nSOhzcjzrTrD4xV+agta4lpILg==
-X-Google-Smtp-Source: AGHT+IFm/o5S53urNBlHODYQKB9HRkQDLb5L5tdDg3p22JIkoo7vc0CsuA6eRfMc1YyYbUFwwXSiVg==
-X-Received: by 2002:adf:a48f:0:b0:32d:d9a8:53df with SMTP id g15-20020adfa48f000000b0032dd9a853dfmr8334091wrb.3.1698139809733;
-        Tue, 24 Oct 2023 02:30:09 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:999:a3a0:597d:e2c5:6741:bac9? ([2a01:e0a:999:a3a0:597d:e2c5:6741:bac9])
-        by smtp.gmail.com with ESMTPSA id dj18-20020a0560000b1200b0032d96dd703bsm9574187wrb.70.2023.10.24.02.30.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Oct 2023 02:30:09 -0700 (PDT)
-Message-ID: <56f6af04-bdf4-4b85-99dc-9eb4f391d7ad@rivosinc.com>
-Date: Tue, 24 Oct 2023 11:30:08 +0200
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="rP7YXIXf"
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98823F9;
+	Tue, 24 Oct 2023 03:09:27 -0700 (PDT)
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39OA8eJ7015697;
+	Tue, 24 Oct 2023 10:08:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=tInWoxgQhmJ5dGYBt/Qk7p2mFkwgQPeC2WGqn2WI31M=;
+ b=rP7YXIXfW6f8MYYM5DUfOlkVSrFbqNXv8hHLDC3G4VkocSmP6i0zEZj211z19i91fd6S
+ uQ8wY0gYbM8AJ4LzW7Qkeckqv3ZFvgtVnw7WLlCyYWeI/VmufkGmRYmEnqXu8e6KMZsW
+ vE479g/FAF+HSGTtKhAHVfxMOGdsmGYQztie7c59mty8lqiHIsYSCOOwxnyeazV8jPGo
+ 1Ww5g4L/2dSjcnJgpwMhR8RRYVpADT79HUklTgn49ctUWHYjv2HCHXFyZaShjqCxcbza
+ o6xNWBnbhpJ7aKuLxLdZs5Vt01lEq3/zo2o2zMZBHX2ZnSVNFam1m/cE7GridM9m0u8R fw== 
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3txbsgg4u7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Oct 2023 10:08:55 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 39O81Pip026853;
+	Tue, 24 Oct 2023 10:04:37 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3tvsynpmex-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Oct 2023 10:04:37 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 39OA4Z0c47579396
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Oct 2023 10:04:35 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2166B20072;
+	Tue, 24 Oct 2023 10:04:35 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BA4AD2004B;
+	Tue, 24 Oct 2023 10:04:33 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.171.8.162])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 24 Oct 2023 10:04:33 +0000 (GMT)
+Date: Tue, 24 Oct 2023 13:04:31 +0300
+From: Mike Rapoport <rppt@linux.ibm.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>, Ira Weiny <ira.weiny@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Wu XiangCheng <bobwxc@email.cn>
+Subject: Re: [PATCH] mm: hugetlb_vmemmap: fix reference to nonexistent file
+Message-ID: <ZTeWrwN4cDbcNwLq@linux.ibm.com>
+References: <20231022185619.919397-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/19] riscv: add ISA extension parsing for scalar
- crypto
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-To: Evan Green <evan@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Palmer Dabbelt <palmer@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Jones <ajones@ventanamicro.com>, Conor Dooley <conor@kernel.org>,
- Samuel Ortiz <sameo@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>
-References: <20231017131456.2053396-1-cleger@rivosinc.com>
- <20231017131456.2053396-3-cleger@rivosinc.com>
- <CALs-HssmufWCKzaGy7BwWz4n4hfwV9NjjRD-O_JeupM-p=Ov+w@mail.gmail.com>
- <d0ea4996-5c48-47b4-99b0-f4211276e0b2@rivosinc.com>
-In-Reply-To: <d0ea4996-5c48-47b4-99b0-f4211276e0b2@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231022185619.919397-1-vegard.nossum@oracle.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: vYX6x3hGtpR8vq_WHm5I_KMX3XVcMOBE
+X-Proofpoint-ORIG-GUID: vYX6x3hGtpR8vq_WHm5I_KMX3XVcMOBE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-24_09,2023-10-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 suspectscore=0 clxscore=1011 phishscore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 mlxlogscore=999
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2310170001 definitions=main-2310240085
 
-
-
-On 24/10/2023 09:18, Clément Léger wrote:
+On Sun, Oct 22, 2023 at 08:56:19PM +0200, Vegard Nossum wrote:
+> The directory this file is in was renamed but the reference didn't
+> get updated. Fix it.
 > 
+> Fixes: ee65728e103b ("docs: rename Documentation/vm to Documentation/mm")
+> Cc: Mike Rapoport <rppt@linux.ibm.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Wu XiangCheng <bobwxc@email.cn>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+
+Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+
+> ---
+>  mm/hugetlb_vmemmap.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> On 23/10/2023 18:21, Evan Green wrote:
->> On Tue, Oct 17, 2023 at 6:15 AM Clément Léger <cleger@rivosinc.com> wrote:
->>>
->>> From: Evan Green <evan@rivosinc.com>
->>>
->>> The Scalar Crypto specification defines Zk as a shorthand for the
->>> Zkn, Zkr and Zkt extensions. The same follows for both Zkn, Zks and Zbk,
->>> which are all shorthands for various other extensions. The detailed
->>> breakdown can be found in their dt-binding entries.
->>>
->>> Since Zkn also implies the Zbkb, Zbkc and Zbkx extensions, simply passing
->>> "zk" through a DT should enable all of Zbkb, Zbkc, Zbkx, Zkn, Zkr and Zkt.
->>> For example, setting the "riscv,isa" DT property to "rv64imafdc_zk"
->>> should generate the following cpuinfo output:
->>> "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zbkb_zbkc_zbkx_zknd_zkne_zknh_zkr_zkt"
->>>
->>> riscv_isa_ext_data grows a pair of new members, to permit setting the
->>> relevant bits for "bundled" extensions, both while parsing the ISA string
->>> and the new dedicated extension properties
->>>
->>> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
->>> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
->>> Signed-off-by: Evan Green <evan@rivosinc.com>
->>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->>
->> My tree might be out of sync, but in my search for riscv_isa_ext, I
->> also found a use in print_isa() (cpu.c) where we're reaching into
->> riscv_isa_ext[].id and assuming it's always valid. If that's still in
->> there we'll want to fix up that spot too, since now with bundles .id
->> may or may not be valid.
+> diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+> index 25bd0e002431..b8fc23c8763f 100644
+> --- a/mm/hugetlb_vmemmap.h
+> +++ b/mm/hugetlb_vmemmap.h
+> @@ -16,7 +16,7 @@ void hugetlb_vmemmap_optimize(const struct hstate *h, struct page *head);
+>  
+>  /*
+>   * Reserve one vmemmap page, all vmemmap addresses are mapped to it. See
+> - * Documentation/vm/vmemmap_dedup.rst.
+> + * Documentation/mm/vmemmap_dedup.rst.
+>   */
+>  #define HUGETLB_VMEMMAP_RESERVE_SIZE	PAGE_SIZE
+>  
+> -- 
+> 2.34.1
 > 
-> Oh indeed, the array is visible outside of this compilation unit :/.
-> I'll check that before sending V3.
 
-After looking a bit more at that, it actually seems that id is used in
-cpuinfo to determine which extensions are present which means you are
-right, bundle_size needs to be accounted for.
-
-Looking at it also raises the question (again) of exposing the "bundles"
-extensions themselves or not in cpuinfo output. With the current setup,
-the bundles extensions won't be visible in cpuinfo output. For instance
-if Zk was in the isa string, then it will not be visible in the cpuinfo
-output, only the child extensions. One solution would be to always have
-a valid id for each extension. So we would have one for Zk for instance.
-
-We would then have a similar setup for all "bundles" or "subset"
-extensions, they would have a id for all of them. For instance, Zk would
-become:
-
-__RISCV_ISA_EXT_DATA_BUNDLE(zk, RISCV_ISA_EXT_ZK, riscv_zk_bundled_exts)
-
-Same would go for zvbb (riscv_zvbb_subset_exts would only contain Zvkb):
-
-__RISCV_ISA_EXT_DATA_BUNDLE(zk, RISCV_ISA_EXT_ZVBB, riscv_zvbb_subset_exts)
-
-For the sake of completeness, I feel like it would be good to have all
-the extensions (bundles or not) visible in the riscv_isa_ext.
-
-Any objection ?
-
-Clément
-
-> 
-> Clément
-> 
->>
->> -Evan
+-- 
+Sincerely yours,
+Mike.
