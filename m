@@ -1,85 +1,115 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F6D3C6BE
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 18:28:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C75D15E92
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 18:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="B8BTElvt"
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F39B9;
-	Tue, 24 Oct 2023 11:28:53 -0700 (PDT)
-Received: from [127.0.0.1] ([98.35.210.218])
-	(authenticated bits=0)
-	by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 39OIRcVA3383411
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Tue, 24 Oct 2023 11:27:38 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 39OIRcVA3383411
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2023101201; t=1698172060;
-	bh=oroAbK7jVyJ1hEsK6EWzfojE3csZE571ESfRCsIkU3g=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=B8BTElvtiP1+hIe3f629T3y7gl9CjCEdpQHCxMzh3kj7A+HWfpncPZeWtsJqUBTJJ
-	 N0B6uD+17VWHv3W/v5pWNYmoJEgugY0P9vyf7Xr5nQ/sfFss9v96oQR1fjs4wfrznB
-	 V9d3M5czrx2IRLCHZqBnO/GwsIaIlBZiaIz0qhpv1rXjQJYTONbBF+KLUt+yPYa+04
-	 DZ+q2lVOiU2iNj1UBv2mQbNkrvjO0nOOxltztSuqUrwx7NaeMON5kSerM3pibiHVaS
-	 jkZ+iqoguLfD/M3C14MUCHzGhenjuirZGyPRePTDrEmsT+wnhKiFTmLs7RDwRLGwGz
-	 NzowXbqpBrXjQ==
-Date: Tue, 24 Oct 2023 11:27:36 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-        ak@linux.intel.com, tim.c.chen@linux.intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        antonio.gomez.iglesias@linux.intel.com,
-        Alyssa Milburn <alyssa.milburn@intel.com>
-Subject: Re: [PATCH  v2 1/6] x86/bugs: Add asm helpers for executing VERW
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20231024170248.GE40044@noisy.programming.kicks-ass.net>
-References: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com> <20231024-delay-verw-v2-1-f1881340c807@linux.intel.com> <20231024103601.GH31411@noisy.programming.kicks-ass.net> <20231024163515.aivo2xfmwmbmlm7z@desk> <20231024163621.GD40044@noisy.programming.kicks-ass.net> <20231024164520.osvqo2dja2xhb7kn@desk> <20231024170248.GE40044@noisy.programming.kicks-ass.net>
-Message-ID: <DD2F34A0-4F2F-4C8C-A634-7DBEF31C40F0@zytor.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qxmyiqZd"
+X-Greylist: delayed 537 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 Oct 2023 11:38:31 PDT
+Received: from out-199.mta0.migadu.com (out-199.mta0.migadu.com [IPv6:2001:41d0:1004:224b::c7])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BED78B9
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 11:38:31 -0700 (PDT)
+Date: Tue, 24 Oct 2023 11:29:03 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1698172172;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cJvtH1RU485LotJpakrbV9U/UfyKsr5ptSPtEPeho50=;
+	b=qxmyiqZdvUbSc5OX8sJ5B56VRDGRIypt0m2ZexyNmyd2CWJuUlLqxDCgQmiWZxhgLrnEJP
+	Q3PacIpe5vXTiE86jUv2kcvB2COry3b6xKIlN2wW5y2pG9dxxNOj26Rwsg8w9wjXki2GwQ
+	/5zO2TFTFVb+ghWrRC0JLTshCp62Kqo=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
+	vbabka@suse.cz, hannes@cmpxchg.org, mgorman@suse.de,
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+	juri.lelli@redhat.com, ldufour@linux.ibm.com,
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+	x86@kernel.org, peterx@redhat.com, david@redhat.com,
+	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
+	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com,
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+	elver@google.com, dvyukov@google.com, shakeelb@google.com,
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH v2 00/39] Memory allocation profiling
+Message-ID: <ZTgM74EapT9mea2l@P9FQF9L96D.corp.robot.car>
+References: <20231024134637.3120277-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231024134637.3120277-1-surenb@google.com>
+X-Migadu-Flow: FLOW_OUT
 
-On October 24, 2023 10:02:48 AM PDT, Peter Zijlstra <peterz@infradead=2Eorg=
-> wrote:
->On Tue, Oct 24, 2023 at 09:45:20AM -0700, Pawan Gupta wrote:
->
->> > > modules being within 4GB of kernel=2E
->
->FWIW, it's 2G, it's a s32 displacement, the highest most address can
->jump 2g down, while the lowest most address can jump 2g up=2E Leaving a 2=
-G
->directly addressable range=2E
->
->And yeah, we ensure kernel text and modules are inside that 2G range=2E
+On Tue, Oct 24, 2023 at 06:45:57AM -0700, Suren Baghdasaryan wrote:
+> Updates since the last version [1]
+> - Simplified allocation tagging macros;
+> - Runtime enable/disable sysctl switch (/proc/sys/vm/mem_profiling)
+> instead of kernel command-line option;
+> - CONFIG_MEM_ALLOC_PROFILING_BY_DEFAULT to select default enable state;
+> - Changed the user-facing API from debugfs to procfs (/proc/allocinfo);
+> - Removed context capture support to make patch incremental;
+> - Renamed uninstrumented allocation functions to use _noprof suffix;
+> - Added __GFP_LAST_BIT to make the code cleaner;
+> - Removed lazy per-cpu counters; it turned out the memory savings was
+> minimal and not worth the performance impact;
 
-To be specific, we don't require that it is located at any particular *phy=
-sical* addresses, but all modules including the root module are remapped in=
-to the [-2GiB,0) range=2E If we didn't do that, modules would have to be co=
-mpiled with the pic memory model rather than the kernel memory model which =
-is what they currently are=2E This would add substantial overhead due to th=
-e need for a GOT (the PLT is optional if all symbols are resolved at load t=
-ime=2E)
+Hello Suren,
 
-The kernel is different from user space objects since it is always fully l=
-oaded into physical memory and is never paged or shared=2E Therefore, inlin=
-e relocations, which break sharing and create dirty pages in user space, ha=
-ve zero execution cost in the kernel; the only overhead to modules other th=
-an load time (including the runtime linking) is that modules can't realisti=
-cally be mapped using large page entries=2E
+> Performance overhead:
+> To evaluate performance we implemented an in-kernel test executing
+> multiple get_free_page/free_page and kmalloc/kfree calls with allocation
+> sizes growing from 8 to 240 bytes with CPU frequency set to max and CPU
+> affinity set to a specific CPU to minimize the noise. Below is performance
+> comparison between the baseline kernel, profiling when enabled, profiling
+> when disabled and (for comparison purposes) baseline with
+> CONFIG_MEMCG_KMEM enabled and allocations using __GFP_ACCOUNT:
+> 
+>                         kmalloc                 pgalloc
+> (1 baseline)            12.041s                 49.190s
+> (2 default disabled)    14.970s (+24.33%)       49.684s (+1.00%)
+> (3 default enabled)     16.859s (+40.01%)       56.287s (+14.43%)
+> (4 runtime enabled)     16.983s (+41.04%)       55.760s (+13.36%)
+> (5 memcg)               33.831s (+180.96%)      51.433s (+4.56%)
+
+some recent changes [1] to the kmem accounting should have made it quite a bit
+faster. Would be great if you can provide new numbers for the comparison.
+Maybe with the next revision?
+
+And btw thank you (and Kent): your numbers inspired me to do this kmemcg
+performance work. I expect it still to be ~twice more expensive than your
+stuff because on the memcg side we handle separately charge and statistics,
+but hopefully the difference will be lower.
+
+Thank you!
+
+[1]:
+  patches from next tree, so no stable hashes:
+    mm: kmem: reimplement get_obj_cgroup_from_current()
+    percpu: scoped objcg protection
+    mm: kmem: scoped objcg protection
+    mm: kmem: make memcg keep a reference to the original objcg
+    mm: kmem: add direct objcg pointer to task_struct
+    mm: kmem: optimize get_obj_cgroup_from_current()
