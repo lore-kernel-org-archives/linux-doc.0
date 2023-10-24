@@ -1,41 +1,68 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C771172B;
-	Tue, 24 Oct 2023 02:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6E51FAD;
+	Tue, 24 Oct 2023 03:26:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Sv1DZlmj"
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F9F10E;
-	Mon, 23 Oct 2023 19:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=uRBH5xj5OQGLHiQskLOllsNyGfVBzFgpBHyO/FBi0PE=; b=Sv1DZlmjlpXWZMobMer65I5DgG
-	5ItL9ba2DyCOgt/qWmK+fK71kQrueOK/TyhNseWGggUVj/HYVy4yTqxtqHHQfPpUpN041XqfVRa+v
-	FnTtGPgLRSn1vK/dJSba8olxs6rpC5y3u5eyFAYIv8VHsCF3crzBt0+krftN2e0RC5Wc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1qv7Em-00026a-OZ; Tue, 24 Oct 2023 04:33:44 +0200
-Date: Tue, 24 Oct 2023 04:33:44 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net, steen.hegelund@microchip.com, rdunlap@infradead.org,
-	horms@kernel.org, casper.casan@gmail.com, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, horatiu.vultur@microchip.com,
-	Woojung.Huh@microchip.com, Nicolas.Ferre@microchip.com,
-	UNGLinuxDriver@microchip.com, Thorsten.Kummermehr@microchip.com
-Subject: Re: [PATCH net-next v2 8/9] microchip: lan865x: add driver support
- for Microchip's LAN865X MACPHY
-Message-ID: <eee6df3d-5e6b-4b4c-bfcc-55b31814fb82@lunn.ch>
-References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
- <20231023154649.45931-9-Parthiban.Veerasooran@microchip.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPPLaUHf"
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447D183;
+	Mon, 23 Oct 2023 20:26:09 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-77891c236fcso311438285a.3;
+        Mon, 23 Oct 2023 20:26:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698117968; x=1698722768; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5owIIMWHjveV3iNUQ2MkLe82JwsUOoqZbf2HycPTaSY=;
+        b=YPPLaUHfbzGt5SFjkw2ZCi59ja2dWTp0HegmhLNtlCysXHNSFmqaZ1emb3Rqx9Jve9
+         TYUvkfQkKddOEn4UcVf5Puf5ocRAKjASGxKOpy2b9KWocq7/gT9/9fdnB64Z6yGAWr/c
+         udz4j8y//jxAykzDvcq3Par/W8ihNnpi6AJd9jwGmb2hJf700WBgUtfBnpDNBI0O94ip
+         RDFhxui824SsF5Lmd2WfHyAdLzRKv62hsPupZB7UdRgNdaBI7rd1u64bVJWG2FDSmXlQ
+         S2FNDwhZNQuhJXesIuP0f2rlyvSjElu/87MLMe+HbLy/yO8zsgpeAoCc34hp1CZiV2Tt
+         BKaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698117968; x=1698722768;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5owIIMWHjveV3iNUQ2MkLe82JwsUOoqZbf2HycPTaSY=;
+        b=Nkask539xEFMz/h2HAUJkHcE7xweiMWr5e2DVSDGthGf8QFrIuW6a/YgMM8FqCrFMs
+         9XuuXVTcQ1PYF85GZFqu5PPVIYwyAh3b5j5UkcQe1v6OOslKnreILnGQWnjBa3TsZxsk
+         T9bph+B4+3Sp5AqhKEvEOi9NC+ab1ZV+PskwPRTPJu/ISTI7m1roZbRiNcrpHGdEgQ0S
+         w5/UL2omHfbXWjXUjO3QP7DFhtnnAGNTe0TWimmrAIVFiGGUSHbwqpfmguBVprPYk6mE
+         GJ6Erdqc+snXmfPbCcsCMEgK/A0aZ6SmRCS5kVevr8JSJd/u2xdIJyuzEUZV4KORPBV9
+         aHmw==
+X-Gm-Message-State: AOJu0Yzk4YeFse0QHFc82hBr72jnomDp0865jf1YBomj5DLfYwe1WDz5
+	7JS4EKMIk5XphpLvKC8oMVZw7QvvX/Y=
+X-Google-Smtp-Source: AGHT+IHAqHRftchKIIm+zyE5nIYAlvq5MPiTMBcP8i5hwCmJXUwc8mYNL/w2F6CO4hJEhTWStLucIw==
+X-Received: by 2002:a05:620a:388f:b0:778:96ec:661 with SMTP id qp15-20020a05620a388f00b0077896ec0661mr10769454qkn.73.1698117968265;
+        Mon, 23 Oct 2023 20:26:08 -0700 (PDT)
+Received: from localhost ([205.220.129.17])
+        by smtp.gmail.com with ESMTPSA id i5-20020a05620a074500b0077434d0f06esm1534578qki.52.2023.10.23.20.26.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Oct 2023 20:26:07 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Mon, 23 Oct 2023 17:25:57 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH-cgroup 3/4] cgroup/cpuset: Keep track of CPUs in isolated
+ partitions
+Message-ID: <ZTc5RXWemIhfrAlS@mtj.duckdns.org>
+References: <20231013181122.3518610-1-longman@redhat.com>
+ <20231013181122.3518610-4-longman@redhat.com>
+ <ZS-kt6X5Dd1lktAw@slm.duckdns.org>
+ <9e2772e3-f615-5e80-6922-5a2dd06a8b07@redhat.com>
+ <ZTAfM0msp8Cg-qLy@slm.duckdns.org>
+ <59448803-ac86-0762-d828-c3eba431ceb4@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,154 +71,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231023154649.45931-9-Parthiban.Veerasooran@microchip.com>
+In-Reply-To: <59448803-ac86-0762-d828-c3eba431ceb4@redhat.com>
 
-> +static int lan865x_set_hw_macaddr(struct net_device *netdev)
-> +{
-> +	u32 regval;
-> +	bool ret;
-> +	struct lan865x_priv *priv = netdev_priv(netdev);
-> +	const u8 *mac = netdev->dev_addr;
-> +
-> +	ret = oa_tc6_read_register(priv->tc6, LAN865X_MAC_NCR, &regval);
-> +	if (ret)
-> +		goto error_mac;
-> +	if ((regval & LAN865X_TXEN) | (regval & LAN865X_RXEN)) {
+Hello, Waiman.
 
-Would testing netif_running(netdev) be enough? That is a more common
-test you see. In fact, you already have that in
-lan865x_set_mac_address(). And in lan865x_probe() why would the
-hardware be enabled?
+On Wed, Oct 18, 2023 at 02:24:00PM -0400, Waiman Long wrote:
+> If you mean saving the exclusion cpumask no matter who the caller is, we can
+> add another exclusion cpumask to save it and expose it to sysfs. This should
+> be done in the first workqueue patch, not as part of this patch. I expose
+> this isolated cpumask for testing purpose to be checked by the
+> test_cpuset_prs.sh script for correctness. As said, I can expose it without
+> cgroup_debug if you think the information is useful in general.
 
+I don't really care where the cpumask is in the source tree. I just want all
+the workqueue cpumasks presented to the userspace in a single place. Also, I
+think it makes sense to publish it to userspace in an easily accessible
+manner as what the eventual configuration ends up being can be confusing and
+the effect it has on the system subtle.
 
-> +		if (netif_msg_drv(priv))
-> +			netdev_warn(netdev, "Hardware must be disabled for MAC setting\n");
-> +		return -EBUSY;
-> +	}
-> +	/* MAC address setting */
-> +	regval = (mac[3] << 24) | (mac[2] << 16) | (mac[1] << 8) | mac[0];
-> +	ret = oa_tc6_write_register(priv->tc6, LAN865X_MAC_SAB1, regval);
-> +	if (ret)
-> +		goto error_mac;
-> +
-> +	regval = (mac[5] << 8) | mac[4];
-> +	ret = oa_tc6_write_register(priv->tc6, LAN865X_MAC_SAT1, regval);
-> +	if (ret)
-> +		goto error_mac;
-> +
-> +	return 0;
-> +
-> +error_mac:
-> +	return -ENODEV;
+Thanks.
 
-oa_tc6_write_register() should return an error code, so return it.
-
-> +static int lan865x_set_mac_address(struct net_device *netdev, void *addr)
-> +{
-> +	struct sockaddr *address = addr;
-> +
-> +	if (netif_running(netdev))
-> +		return -EBUSY;
-> +
-> +	eth_hw_addr_set(netdev, address->sa_data);
-> +
-> +	return lan865x_set_hw_macaddr(netdev);
-
-You should ideally only update the netdev MAC address, if you managed
-to change the value in the hardware.
-
-> +static void lan865x_set_multicast_list(struct net_device *netdev)
-> +{
-> +	struct lan865x_priv *priv = netdev_priv(netdev);
-> +	u32 regval = 0;
-> +
-> +	if (netdev->flags & IFF_PROMISC) {
-> +		/* Enabling promiscuous mode */
-> +		regval |= MAC_PROMISCUOUS_MODE;
-> +		regval &= (~MAC_MULTICAST_MODE);
-> +		regval &= (~MAC_UNICAST_MODE);
-> +	} else if (netdev->flags & IFF_ALLMULTI) {
-> +		/* Enabling all multicast mode */
-> +		regval &= (~MAC_PROMISCUOUS_MODE);
-> +		regval |= MAC_MULTICAST_MODE;
-> +		regval &= (~MAC_UNICAST_MODE);
-> +	} else if (!netdev_mc_empty(netdev)) {
-> +		/* Enabling specific multicast addresses */
-> +		struct netdev_hw_addr *ha;
-> +		u32 hash_lo = 0;
-> +		u32 hash_hi = 0;
-> +
-> +		netdev_for_each_mc_addr(ha, netdev) {
-> +			u32 bit_num = lan865x_hash(ha->addr);
-> +			u32 mask = 1 << (bit_num & 0x1f);
-> +
-> +			if (bit_num & 0x20)
-> +				hash_hi |= mask;
-> +			else
-> +				hash_lo |= mask;
-> +		}
-> +		if (oa_tc6_write_register(priv->tc6, LAN865X_MAC_HRT, hash_hi)) {
-> +			if (netif_msg_timer(priv))
-> +				netdev_err(netdev, "Failed to write reg_hashh");
-> +			return;
-> +		}
-> +		if (oa_tc6_write_register(priv->tc6, LAN865X_MAC_HRB, hash_lo)) {
-> +			if (netif_msg_timer(priv))
-> +				netdev_err(netdev, "Failed to write reg_hashl");
-> +			return;
-> +		}
-> +		regval &= (~MAC_PROMISCUOUS_MODE);
-> +		regval &= (~MAC_MULTICAST_MODE);
-> +		regval |= MAC_UNICAST_MODE;
-> +	} else {
-> +		/* enabling local mac address only */
-> +		if (oa_tc6_write_register(priv->tc6, LAN865X_MAC_HRT, regval)) {
-> +			if (netif_msg_timer(priv))
-> +				netdev_err(netdev, "Failed to write reg_hashh");
-> +			return;
-> +		}
-> +		if (oa_tc6_write_register(priv->tc6, LAN865X_MAC_HRB, regval)) {
-> +			if (netif_msg_timer(priv))
-> +				netdev_err(netdev, "Failed to write reg_hashl");
-> +			return;
-> +		}
-> +	}
-> +	if (oa_tc6_write_register(priv->tc6, LAN865X_MAC_NCFGR, regval)) {
-> +		if (netif_msg_timer(priv))
-> +			netdev_err(netdev, "Failed to enable promiscuous mode");
-> +	}
-> +}
-
-Another of those big functions which could be lots of simple functions
-each doing one thing.
-
-> +/* Configures the number of bytes allocated to each buffer in the
-> + * transmit/receive queue. LAN865x supports only 64 and 32 bytes cps and also 64
-> + * is the default value. So it is enough to configure the queue buffer size only
-> + * for 32 bytes. Generally cps can't be changed during run time and also it is
-> + * configured in the device tree. The values for the Tx/Rx queue buffer size are
-> + * taken from the LAN865x datasheet.
-> + */
-
-Its unclear why this needs to be a callback. Why not just set it after
-oa_tc6_init() returns?
-
-> +static void lan865x_remove(struct spi_device *spi)
-> +{
-> +	struct lan865x_priv *priv = spi_get_drvdata(spi);
-> +
-> +	oa_tc6_exit(priv->tc6);
-> +	unregister_netdev(priv->netdev);
-
-Is that the correct order? Seems like you should unregister the netdev
-first.
-
-> +#ifdef CONFIG_ACPI
-> +static const struct acpi_device_id lan865x_acpi_ids[] = {
-> +	{ .id = "LAN865X",
-> +	},
-> +	{},
-
-Does this work? You don't have access to the device tree properties.
-
-     Andrew
+-- 
+tejun
