@@ -1,206 +1,118 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D523A278
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 13:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D60FBFB;
+	Tue, 24 Oct 2023 14:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lO8oYsG5"
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CEF110FA
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 06:48:07 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-da03c5ae220so671283276.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 06:48:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ls48EsEM"
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE7EB6;
+	Tue, 24 Oct 2023 07:21:53 -0700 (PDT)
+Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-457cb7f53afso1739134137.3;
+        Tue, 24 Oct 2023 07:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698155286; x=1698760086; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nwLU1aU2LNAtecsch6dr14rd1yTTpsfUN6nYD0uWJEE=;
-        b=lO8oYsG5g14dNpqW9ouj1s9M69yM5MZ0rmpNEdvNfhQGuka2UpS4+gTkTkTLrnRCu+
-         R5AobkkLh7AXlvJkml+093Ak5izfo+xFuzyMswEZK5obqBZh6gXDiMnx5gR7fOKGlgjY
-         Ri85Ii+Gh46qA74+B5+IOlRDrppLj62h3HhEptVf/gj4i7dUTEoU7A09+HKIHAHLwmG0
-         eTesSqwFQfe705J6lwxlV5cFVg0bln3s+XVTH1zXDNcxzEtSW58PEZptjFRlMzqI9FUR
-         m0pdOVNzJv7fbXqaf+sqajhdL+625ejoN30xcyS3LVTKZ9LLuDW/+EYSUxR1nGuGwCzn
-         qCoQ==
+        d=gmail.com; s=20230601; t=1698157312; x=1698762112; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AM3VQlVHWtuvahhyiClhILx1R0OrNBnU/X/2IXCfrYs=;
+        b=ls48EsEMy1c8FePn//GL3tYrj78Hh/ijd8X9Sif/9p40zdbgQOcgY0bz8cpSsPBC70
+         Iuc9X2aq40lO2NkEOHY5mJT5fG3SeunaobL4tGSKPIULLEijaCHmFUbsa7O9lPezpOjy
+         5gHChkwi28xHccuwUypDHz2h0Rpsf+1Ahxh8sJqbAk/tHkW1HMeCO24xOsdpr+7Gj8sw
+         d9/rgH9g0t1/RQENjH9KnB8S+3I/OKv/fzdqsVthfAhRyIipr62QepVaeGQ9NBhZfe6c
+         BOuiEtkJkk1eXHGX8/9YPpMSvBa9hQ7n8Sw7vVaHOnJKVTvhKTjkOK6E2aFWx1BH5cMO
+         Knhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698155286; x=1698760086;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nwLU1aU2LNAtecsch6dr14rd1yTTpsfUN6nYD0uWJEE=;
-        b=DV9FNSsJScmqRfWuINZw9+gnYIfbbniudWLNXCaTU7AcEEh5rl6Ra3X3BR8lSlmWrJ
-         FbwHeIsoUFjSX0XSlWkJEounfdSb39sFgsI8x8EOpb/kRsdcR/qgM0IGHZXy0fx/sOsK
-         cp1XjqOu5+qqC6UjH+Q2MECoAvihovlzwgOlgFtIFHIIUZCMqhlx5m5uB2Dt67gWD/Xx
-         u365oXhBVJQ+9yaxiPNQ94Huz0amca+4Z5yXXk1TkBLx9B6nyUKIENgTa7q8ngQwUa4T
-         nCePZprkt8p/pEg7mkQM8+xGjT2mVYRlyx3BQ+GK+M3SjEvtJPVfVo7ArxBwmoeRZkFn
-         B7nQ==
-X-Gm-Message-State: AOJu0YxmF17e/Qu6rZOKVHI3vhckjXtpoWCp+uIg/XTVtOM4NEahdzXn
-	grMM55mB3pNrdScOKnkZsy9yKL0Lvv0=
-X-Google-Smtp-Source: AGHT+IEQFxSAdc50qujfzmzJKJcWY3qyZfXbT1k7XuYaFuTlpAInpKqkovdUmqHR4hu8HiZ2L8Ah2MqCV0A=
-X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:45ba:3318:d7a5:336a])
- (user=surenb job=sendgmr) by 2002:a25:d244:0:b0:d9a:4cc1:b59a with SMTP id
- j65-20020a25d244000000b00d9a4cc1b59amr317326ybg.1.1698155286109; Tue, 24 Oct
- 2023 06:48:06 -0700 (PDT)
-Date: Tue, 24 Oct 2023 06:46:35 -0700
-In-Reply-To: <20231024134637.3120277-1-surenb@google.com>
+        d=1e100.net; s=20230601; t=1698157312; x=1698762112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AM3VQlVHWtuvahhyiClhILx1R0OrNBnU/X/2IXCfrYs=;
+        b=TYcP+FXWFsv//dXg4xU0LK0JcZQN3TLqTsaLSwDC2Y8K2+9UhQSytZso+AYb84WOes
+         FCMz09xD16pWnezBcJQTW/lvJ3txyV7mtlOrsZYINYQ5Ecw4qQg4OhT6F9FgFT8FSYPU
+         MuiI68TIAx2hNgkCihXUmAy+BgYYLhcz/frPToXnS01PkW9JXKIJaUjjzBlcx3qaeHJn
+         zc3B2MG2Zbs+LUIYQC/8cD1GmgHu0P7+Nl7Q019EBX9rpFHG/iO4ZG46tMVEjFGLJsWC
+         xdAYKY0HKxFA/69KpEd5tlO34Ns+k5mAijgkxFLQCqh/FzTdHToXzGQBeKe+rYk5DmsG
+         h7XA==
+X-Gm-Message-State: AOJu0YzJ8Wxnrd7JOrgehFxVg2g9K2ShEiU6WEDfOVoS44rm8Lz1vpR/
+	qYd3bxd6QsmsMHFS6DFG+pXf4u85pWxjRRjHME4=
+X-Google-Smtp-Source: AGHT+IFYEeyvkUjneMKD8oSOQEaL2dS8evoHtXBbEz0EBN99vN9ZQDb4/ksFw4kT8cjWaFCUFkxB0bjW60CpMzl9M2g=
+X-Received: by 2002:a05:6102:23d1:b0:452:5d45:6345 with SMTP id
+ x17-20020a05610223d100b004525d456345mr12294330vsr.34.1698157312490; Tue, 24
+ Oct 2023 07:21:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231024134637.3120277-1-surenb@google.com>
-X-Mailer: git-send-email 2.42.0.758.gaed0368e0e-goog
-Message-ID: <20231024134637.3120277-39-surenb@google.com>
-Subject: [PATCH v2 38/39] codetag: debug: introduce OBJEXTS_ALLOC_FAIL to mark
- failed slab_ext allocations
-From: Suren Baghdasaryan <surenb@google.com>
-To: akpm@linux-foundation.org
-Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, ldufour@linux.ibm.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, surenb@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
+MIME-Version: 1.0
+References: <20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com>
+ <20231019-feature_ptp_netnext-v6-7-71affc27b0e5@bootlin.com>
+ <CAF=yD-+O6QxuYJzijMes7J_DHHd7yYCz8sBLFERM1U6pYN0Gkg@mail.gmail.com> <20231024154037.2f61fe5b@kmaincent-XPS-13-7390>
+In-Reply-To: <20231024154037.2f61fe5b@kmaincent-XPS-13-7390>
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Date: Tue, 24 Oct 2023 10:21:15 -0400
+Message-ID: <CAF=yD-LCNGcCMqpAbV1HfyVdjH7Gj-_tTwsS=08Y5CC6bqBd=w@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 07/16] net_tstamp: Add TIMESTAMPING SOFTWARE
+ and HARDWARE mask
+To: =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
+	Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, 
+	Vladimir Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Maxime Chevallier <maxime.chevallier@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If slabobj_ext vector allocation for a slab object fails and later on it
-succeeds for another object in the same slab, the slabobj_ext for the
-original object will be NULL and will be flagged in case when
-CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled.
-Mark failed slabobj_ext vector allocations using a new objext_flags flag
-stored in the lower bits of slab->obj_exts. When new allocation succeeds
-it marks all tag references in the same slabobj_ext vector as empty to
-avoid warnings implemented by CONFIG_MEM_ALLOC_PROFILING_DEBUG checks.
+On Tue, Oct 24, 2023 at 9:40=E2=80=AFAM K=C3=B6ry Maincent <kory.maincent@b=
+ootlin.com> wrote:
+>
+> On Thu, 19 Oct 2023 10:48:04 -0400
+> Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
+>
+> > On Thu, Oct 19, 2023 at 10:29=E2=80=AFAM Kory Maincent
+> > <kory.maincent@bootlin.com> wrote:
+> > >
+> > > Timestamping software or hardware flags are often used as a group,
+> > > therefore adding these masks will easier future use.
+> >
+> > This assumes that device support for timestamping is often symmetric:
+> > a device supports both rx and tx, or neither.
+> >
+> > All devices support software receive timestamping, as that timestamp
+> > is taken in the core network stack. But to support transmit timestamps
+> > drivers have to call sbk_tstamp_tx in their ndo_start_xmit.
+>
+> Yes, and in that software only case they often call ethtool_op_get_ts_inf=
+o to
+> fill the timestamp info.
+>
+> There is several drivers that support hardware and software timestamp, th=
+ese
+> mask could be useful for these. In case of asymmetric support we can stil=
+l use
+> the SOF_TIMESTAMPING_RX/TX_SOFTWARE flags.
+>
+> I forgot to specify, in the commit message but this patch is mainly to ea=
+se
+> the next patch of this series to deal with software/hardware time stampin=
+g.
+> Maybe you prefer to have this squash into next patch as had suggested Flo=
+rian
+> in last version.
 
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
----
- include/linux/memcontrol.h |  4 +++-
- mm/slab.h                  | 25 +++++++++++++++++++++++++
- mm/slab_common.c           | 22 +++++++++++++++-------
- 3 files changed, 43 insertions(+), 8 deletions(-)
+Thanks. I did not see such use in net/ or in my experience of using
+setsockopt SO_TIMESTAMPING.
 
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index 853a24b5f713..6b680ca424e3 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -363,8 +363,10 @@ enum page_memcg_data_flags {
- #endif /* CONFIG_MEMCG */
- 
- enum objext_flags {
-+	/* slabobj_ext vector failed to allocate */
-+	OBJEXTS_ALLOC_FAIL = __FIRST_OBJEXT_FLAG,
- 	/* the next bit after the last actual flag */
--	__NR_OBJEXTS_FLAGS  = __FIRST_OBJEXT_FLAG,
-+	__NR_OBJEXTS_FLAGS  = (__FIRST_OBJEXT_FLAG << 1),
- };
- 
- #define OBJEXTS_FLAGS_MASK (__NR_OBJEXTS_FLAGS - 1)
-diff --git a/mm/slab.h b/mm/slab.h
-index 45216bad34b8..1736268892e6 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -474,9 +474,34 @@ static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
- 	}
- }
- 
-+static inline void mark_failed_objexts_alloc(struct slab *slab)
-+{
-+	slab->obj_exts = OBJEXTS_ALLOC_FAIL;
-+}
-+
-+static inline void handle_failed_objexts_alloc(unsigned long obj_exts,
-+			struct slabobj_ext *vec, unsigned int objects)
-+{
-+	/*
-+	 * If vector previously failed to allocate then we have live
-+	 * objects with no tag reference. Mark all references in this
-+	 * vector as empty to avoid warnings later on.
-+	 */
-+	if (obj_exts & OBJEXTS_ALLOC_FAIL) {
-+		unsigned int i;
-+
-+		for (i = 0; i < objects; i++)
-+			set_codetag_empty(&vec[i].ref);
-+	}
-+}
-+
-+
- #else /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
- 
- static inline void mark_objexts_empty(struct slabobj_ext *obj_exts) {}
-+static inline void mark_failed_objexts_alloc(struct slab *slab) {}
-+static inline void handle_failed_objexts_alloc(unsigned long obj_exts,
-+			struct slabobj_ext *vec, unsigned int objects) {}
- 
- #endif /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
- 
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index db2cd7afc353..cea73314f919 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -218,29 +218,37 @@ int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
- 			gfp_t gfp, bool new_slab)
- {
- 	unsigned int objects = objs_per_slab(s, slab);
--	unsigned long obj_exts;
--	void *vec;
-+	unsigned long new_exts;
-+	unsigned long old_exts;
-+	struct slabobj_ext *vec;
- 
- 	gfp &= ~OBJCGS_CLEAR_MASK;
- 	/* Prevent recursive extension vector allocation */
- 	gfp |= __GFP_NO_OBJ_EXT;
- 	vec = kcalloc_node(objects, sizeof(struct slabobj_ext), gfp,
- 			   slab_nid(slab));
--	if (!vec)
-+	if (!vec) {
-+		/* Mark vectors which failed to allocate */
-+		if (new_slab)
-+			mark_failed_objexts_alloc(slab);
-+
- 		return -ENOMEM;
-+	}
- 
--	obj_exts = (unsigned long)vec;
-+	new_exts = (unsigned long)vec;
- #ifdef CONFIG_MEMCG
--	obj_exts |= MEMCG_DATA_OBJEXTS;
-+	new_exts |= MEMCG_DATA_OBJEXTS;
- #endif
-+	old_exts = slab->obj_exts;
-+	handle_failed_objexts_alloc(old_exts, vec, objects);
- 	if (new_slab) {
- 		/*
- 		 * If the slab is brand new and nobody can yet access its
- 		 * obj_exts, no synchronization is required and obj_exts can
- 		 * be simply assigned.
- 		 */
--		slab->obj_exts = obj_exts;
--	} else if (cmpxchg(&slab->obj_exts, 0, obj_exts)) {
-+		slab->obj_exts = new_exts;
-+	} else if (cmpxchg(&slab->obj_exts, old_exts, new_exts) != old_exts) {
- 		/*
- 		 * If the slab is already in use, somebody can allocate and
- 		 * assign slabobj_exts in parallel. In this case the existing
--- 
-2.42.0.758.gaed0368e0e-goog
+But I had not considered net device get_ts_info. It would be useful there.
 
+Slight preference from me to keep this a separate patch, as it applies
+not only to the use case in your follow-on patch.
