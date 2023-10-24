@@ -1,249 +1,180 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D321B21A1E;
-	Tue, 24 Oct 2023 18:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E813010DC;
-	Tue, 24 Oct 2023 11:07:39 -0700 (PDT)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1eb7a8d9610so267596fac.0;
-        Tue, 24 Oct 2023 11:07:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6811D3B2B4
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 18:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="dl0Z3I2o"
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BAA610D3
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 11:11:03 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-32da02fca9aso912204f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 11:11:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1698171062; x=1698775862; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dKxR0O8nMebNGWqyGQ9J2L+zEiSIfrsVmyfDrAKwhR8=;
+        b=dl0Z3I2oLFlC18j2c/Kq7mwVvuHOK/vmrQpO0xeY+dLNbyhyQUrPkA1B3wOElJJNxS
+         zXKXVeAwL83tPLOh14ddkeLx7kHTVA+Ak9R03UL2B+/3BWlAtlNcPA+x5IeCcOpvMC9T
+         3mCh4aXi2UJaMYWkUBybnmW8wnOp3J4vuLuNvEC/jTuTg0slllVZffG4P4fKvEJr7VIr
+         SzgcQDldgZYeLA0fM08KcB5pbCF6BnrAXyh7abAS077+oLGk7/GpvbBo09Qj6ZZQ6G+F
+         ihrNE9Sv21gG5yFJBV7tmVahJPOEWHP0OaxxZeBHMkFEnruisafHAzilUECA/sYVpu7i
+         cgSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698170859; x=1698775659;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bQTNvNBcefpx8R3X1mnWwpUfG0oIl7IhX9lq//tJ6c8=;
-        b=iPC0R1rDQ/mLHAy6pi+YsuBM7Orn+TDxR1dRerwo3ZKJVhIozXLR4EZgiQvOctEfeu
-         5sVxaSLiVtIt6q3Rw/7oj0rmvRUiXrztH6W3HRz/yPj7Vxq23HpvFe/AcVAwH71GlZEV
-         hBOpUVFuaLfkdTZw08n3JPgtfwfsL7wx5WKxxdQa6hPf6zL84iXggZNdemn5UQCUnw+n
-         GAtZJoUExOevhJfJtuKLmisslraeqe6RWRCtxnYVdGcaYtqAwpqbbb+BNKeAYOIbQAnD
-         qYK60tOCmIi/J+hKvQpSSZWOeNmQf23/0K15t1w3w9Kw5YdoAcrdXjpzEJlhYSZfG6G9
-         MQGg==
-X-Gm-Message-State: AOJu0YzofwkWpVYoy3ucP5HRtlng40jWOHNOpe/jR/S9c7JnZfXCy2A1
-	9BIOYQ8TnX1vUTyprv2OjWU0dr0BR6l9QQTZuFk=
-X-Google-Smtp-Source: AGHT+IFgKJJuhi8Fn+oYQw2beWPiWDcHgwYutcTjQl/p/NDnzJosiVcRh4Pmi6U/8cGoxSv4c+8jWId2r72zu79T530=
-X-Received: by 2002:a05:6870:9e97:b0:1e9:9f9b:eb7a with SMTP id
- pu23-20020a0568709e9700b001e99f9beb7amr16188516oab.4.1698170859120; Tue, 24
- Oct 2023 11:07:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698171062; x=1698775862;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dKxR0O8nMebNGWqyGQ9J2L+zEiSIfrsVmyfDrAKwhR8=;
+        b=WUWWOaAWiv+9JUKRvkzvfulNTtrkR5uKylVhTGwggJO81ZwUurrwse+Mi5U0nzhlN8
+         4JtEI+qwlu4kbVtLaYigLn0l7kHvCnucz5e76iUh6wpjgb1pUn4K1siCgydRy9VhgsiT
+         Q++MoF9MR9ERlQ0a9CHzE2/4l1D2na6jEL0XzyJ3hiGlzDw2LpaJFr9AgMI+lL7Gxrud
+         fWJJn9gBDh72YuwO/meEjABRfW9YB8HcmHp8GjfNO4TIpOoccs+yRMYk1Id0dIuoCggy
+         bJ7f4FIJ3s4O9uPZY4dQx3nLliPW3wJPNO0vwApCGnrrQz10SimMlCfEzT5IsuQ+dmHZ
+         vvYQ==
+X-Gm-Message-State: AOJu0YwwkYjfSCwgsevA7ZsaMT76LexqkIEE+7vzGpmiERKD503y6FFp
+	D+7U0qkT6BVoJJ9LJSZOL8j/tw==
+X-Google-Smtp-Source: AGHT+IEzTUYZHBwMWOmDylM23+SpgZ4YldKTRCyQKmiDghga3Ul4JN8Saqse9bLNdqzRU8gTtkmr7w==
+X-Received: by 2002:adf:b649:0:b0:32f:51c6:cd6c with SMTP id i9-20020adfb649000000b0032f51c6cd6cmr1688373wre.2.1698171061901;
+        Tue, 24 Oct 2023 11:11:01 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:9f43:3ca4:162c:d540? ([2a01:e0a:999:a3a0:9f43:3ca4:162c:d540])
+        by smtp.gmail.com with ESMTPSA id a10-20020adfe5ca000000b0032415213a6fsm10361744wrn.87.2023.10.24.11.11.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Oct 2023 11:11:01 -0700 (PDT)
+Message-ID: <3a5462f6-62d4-49e3-ae78-374fb5cbad5a@rivosinc.com>
+Date: Tue, 24 Oct 2023 20:11:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk> <E1qvJA5-00AqQa-TL@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1qvJA5-00AqQa-TL@rmk-PC.armlinux.org.uk>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 24 Oct 2023 20:07:28 +0200
-Message-ID: <CAJZ5v0hhEeyDEMHnVQEiXzaKK07TSnE6GJhuTW97-XEb9CoSHQ@mail.gmail.com>
-Subject: Re: [PATCH 18/39] ACPI: Only enumerate enabled (or functional) devices
-To: Russell King <rmk+kernel@armlinux.org.uk>
-Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	Salil Mehta <salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, 
-	justin.he@arm.com, James Morse <james.morse@arm.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/19] riscv: add ISA extension parsing for scalar
+ crypto
+Content-Language: en-US
+To: Evan Green <evan@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Palmer Dabbelt <palmer@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Jones <ajones@ventanamicro.com>, Conor Dooley <conor@kernel.org>,
+ Samuel Ortiz <sameo@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>
+References: <20231017131456.2053396-1-cleger@rivosinc.com>
+ <20231017131456.2053396-3-cleger@rivosinc.com>
+ <CALs-HssmufWCKzaGy7BwWz4n4hfwV9NjjRD-O_JeupM-p=Ov+w@mail.gmail.com>
+ <d0ea4996-5c48-47b4-99b0-f4211276e0b2@rivosinc.com>
+ <56f6af04-bdf4-4b85-99dc-9eb4f391d7ad@rivosinc.com>
+ <CALs-Hsvy411MnHQXHLK8u4JmM+LO5R2tuCxY6zQco7BKJONqPA@mail.gmail.com>
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <CALs-Hsvy411MnHQXHLK8u4JmM+LO5R2tuCxY6zQco7BKJONqPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 24, 2023 at 5:17=E2=80=AFPM Russell King <rmk+kernel@armlinux.o=
-rg.uk> wrote:
->
-> From: James Morse <james.morse@arm.com>
->
-> Today the ACPI enumeration code 'visits' all devices that are present.
->
-> This is a problem for arm64, where CPUs are always present, but not
-> always enabled. When a device-check occurs because the firmware-policy
-> has changed and a CPU is now enabled, the following error occurs:
-> | acpi ACPI0007:48: Enumeration failure
->
-> This is ultimately because acpi_dev_ready_for_enumeration() returns
-> true for a device that is not enabled. The ACPI Processor driver
-> will not register such CPUs as they are not 'decoding their resources'.
->
-> Change acpi_dev_ready_for_enumeration() to also check the enabled bit.
-> ACPI allows a device to be functional instead of maintaining the
-> present and enabled bit. Make this behaviour an explicit check with
-> a reference to the spec, and then check the present and enabled bits.
-> This is needed to avoid enumerating present && functional devices that
-> are not enabled.
->
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> ---
-> If this change causes problems on deployed hardware, I suggest an
 
-TBH, I am expecting problems to be there.
 
-If something has been interpreted in a specific way for several years,
-then changing that interpretation is just incompatible with the entire
-installed base, at least potentially.
+On 24/10/2023 18:37, Evan Green wrote:
+> On Tue, Oct 24, 2023 at 2:30 AM Clément Léger <cleger@rivosinc.com> wrote:
+>>
+>>
+>>
+>> On 24/10/2023 09:18, Clément Léger wrote:
+>>>
+>>>
+>>> On 23/10/2023 18:21, Evan Green wrote:
+>>>> On Tue, Oct 17, 2023 at 6:15 AM Clément Léger <cleger@rivosinc.com> wrote:
+>>>>>
+>>>>> From: Evan Green <evan@rivosinc.com>
+>>>>>
+>>>>> The Scalar Crypto specification defines Zk as a shorthand for the
+>>>>> Zkn, Zkr and Zkt extensions. The same follows for both Zkn, Zks and Zbk,
+>>>>> which are all shorthands for various other extensions. The detailed
+>>>>> breakdown can be found in their dt-binding entries.
+>>>>>
+>>>>> Since Zkn also implies the Zbkb, Zbkc and Zbkx extensions, simply passing
+>>>>> "zk" through a DT should enable all of Zbkb, Zbkc, Zbkx, Zkn, Zkr and Zkt.
+>>>>> For example, setting the "riscv,isa" DT property to "rv64imafdc_zk"
+>>>>> should generate the following cpuinfo output:
+>>>>> "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zbkb_zbkc_zbkx_zknd_zkne_zknh_zkr_zkt"
+>>>>>
+>>>>> riscv_isa_ext_data grows a pair of new members, to permit setting the
+>>>>> relevant bits for "bundled" extensions, both while parsing the ISA string
+>>>>> and the new dedicated extension properties
+>>>>>
+>>>>> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
+>>>>> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+>>>>> Signed-off-by: Evan Green <evan@rivosinc.com>
+>>>>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+>>>>
+>>>> My tree might be out of sync, but in my search for riscv_isa_ext, I
+>>>> also found a use in print_isa() (cpu.c) where we're reaching into
+>>>> riscv_isa_ext[].id and assuming it's always valid. If that's still in
+>>>> there we'll want to fix up that spot too, since now with bundles .id
+>>>> may or may not be valid.
+>>>
+>>> Oh indeed, the array is visible outside of this compilation unit :/.
+>>> I'll check that before sending V3.
+>>
+>> After looking a bit more at that, it actually seems that id is used in
+>> cpuinfo to determine which extensions are present which means you are
+>> right, bundle_size needs to be accounted for.
+>>
+>> Looking at it also raises the question (again) of exposing the "bundles"
+>> extensions themselves or not in cpuinfo output. With the current setup,
+>> the bundles extensions won't be visible in cpuinfo output. For instance
+>> if Zk was in the isa string, then it will not be visible in the cpuinfo
+>> output, only the child extensions. One solution would be to always have
+>> a valid id for each extension. So we would have one for Zk for instance.
+>>
+>> We would then have a similar setup for all "bundles" or "subset"
+>> extensions, they would have a id for all of them. For instance, Zk would
+>> become:
+>>
+>> __RISCV_ISA_EXT_DATA_BUNDLE(zk, RISCV_ISA_EXT_ZK, riscv_zk_bundled_exts)
+>>
+>> Same would go for zvbb (riscv_zvbb_subset_exts would only contain Zvkb):
+>>
+>> __RISCV_ISA_EXT_DATA_BUNDLE(zk, RISCV_ISA_EXT_ZVBB, riscv_zvbb_subset_exts)
+>>
+>> For the sake of completeness, I feel like it would be good to have all
+>> the extensions (bundles or not) visible in the riscv_isa_ext.
+>>
+>> Any objection ?
+> 
+> I could be persuaded that it's a good idea, but there are arguments to
+> be made for not defining them as separate bits:
+> 
+> 1. Having two (sets of) bits that mean the same thing means usermode
+> now has to decide which one to query, or query both. Multiple values
+> that mean the same thing is always something that makes me nervous.
 
-It is not even possible to estimate the potential adverse impact of
-this change, as it causes a firmware-provided bit that has never been
-taken into account so far to become meaningful and it does so for
-every device in the system.
+That is indeed an acceptable cons.
 
-It will be very hard to convince me that this change is a good idea.
+> 2. To avoid these two sets having different answers, we'd have to
+> solve the reverse problem too: If all of the bundled extensions that
+> make up Zk are on, we'd need to detect that and turn Zk on as well.
 
-> arch opt-in: ACPI_IGNORE_STA_ENABLED, that causes
-> acpi_dev_ready_for_enumeration() to only check the present bit.
+Oh yes, sorry, already forgot that point :/ Well, I guess things sorted
+out by themselves. Let's do what you proposed:
 
-But this can work as long as the given arch does not care about
-platforms in which the "enabled" bit may not be set as expected for
-some devices.
+- Pure lasso extensions (Zk) will simply result in all the sub
+extensions being enable, there won't be any .id specified for these
+ones, simply a bundle of extensions.
 
->
-> Changes since RFC v2:
->  * Incorporate comment suggestion by Gavin Shan.
-> Other review comments from Jonathan Cameron not yet addressed.
-> ---
->  drivers/acpi/device_pm.c    |  2 +-
->  drivers/acpi/device_sysfs.c |  2 +-
->  drivers/acpi/internal.h     |  1 -
->  drivers/acpi/property.c     |  2 +-
->  drivers/acpi/scan.c         | 24 ++++++++++++++----------
->  5 files changed, 17 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
-> index f007116a8427..76c38478a502 100644
-> --- a/drivers/acpi/device_pm.c
-> +++ b/drivers/acpi/device_pm.c
-> @@ -313,7 +313,7 @@ int acpi_bus_init_power(struct acpi_device *device)
->                 return -EINVAL;
->
->         device->power.state =3D ACPI_STATE_UNKNOWN;
-> -       if (!acpi_device_is_present(device)) {
-> +       if (!acpi_dev_ready_for_enumeration(device)) {
->                 device->flags.initialized =3D false;
->                 return -ENXIO;
->         }
-> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
-> index b9bbf0746199..16e586d74aa2 100644
-> --- a/drivers/acpi/device_sysfs.c
-> +++ b/drivers/acpi/device_sysfs.c
-> @@ -141,7 +141,7 @@ static int create_pnp_modalias(const struct acpi_devi=
-ce *acpi_dev, char *modalia
->         struct acpi_hardware_id *id;
->
->         /* Avoid unnecessarily loading modules for non present devices. *=
-/
-> -       if (!acpi_device_is_present(acpi_dev))
-> +       if (!acpi_dev_ready_for_enumeration(acpi_dev))
->                 return 0;
->
->         /*
-> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
-> index 866c7c4ed233..a1b45e345bcc 100644
-> --- a/drivers/acpi/internal.h
-> +++ b/drivers/acpi/internal.h
-> @@ -107,7 +107,6 @@ int acpi_device_setup_files(struct acpi_device *dev);
->  void acpi_device_remove_files(struct acpi_device *dev);
->  void acpi_device_add_finalize(struct acpi_device *device);
->  void acpi_free_pnp_ids(struct acpi_device_pnp *pnp);
-> -bool acpi_device_is_present(const struct acpi_device *adev);
->  bool acpi_device_is_battery(struct acpi_device *adev);
->  bool acpi_device_is_first_physical_node(struct acpi_device *adev,
->                                         const struct device *dev);
-> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
-> index 413e4fcadcaf..e03f00b98701 100644
-> --- a/drivers/acpi/property.c
-> +++ b/drivers/acpi/property.c
-> @@ -1418,7 +1418,7 @@ static bool acpi_fwnode_device_is_available(const s=
-truct fwnode_handle *fwnode)
->         if (!is_acpi_device_node(fwnode))
->                 return false;
->
-> -       return acpi_device_is_present(to_acpi_device_node(fwnode));
-> +       return acpi_dev_ready_for_enumeration(to_acpi_device_node(fwnode)=
-);
->  }
->
->  static const void *
-> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> index 17ab875a7d4e..06e9bb4a633f 100644
-> --- a/drivers/acpi/scan.c
-> +++ b/drivers/acpi/scan.c
-> @@ -304,7 +304,7 @@ static int acpi_scan_device_check(struct acpi_device =
-*adev)
->         int error;
->
->         acpi_bus_get_status(adev);
-> -       if (acpi_device_is_present(adev)) {
-> +       if (acpi_dev_ready_for_enumeration(adev)) {
->                 /*
->                  * This function is only called for device objects for wh=
-ich
->                  * matching scan handlers exist.  The only situation in w=
-hich
-> @@ -338,7 +338,7 @@ static int acpi_scan_bus_check(struct acpi_device *ad=
-ev, void *not_used)
->         int error;
->
->         acpi_bus_get_status(adev);
-> -       if (!acpi_device_is_present(adev)) {
-> +       if (!acpi_dev_ready_for_enumeration(adev)) {
->                 acpi_scan_device_not_enumerated(adev);
->                 return 0;
->         }
-> @@ -1908,11 +1908,6 @@ static bool acpi_device_should_be_hidden(acpi_hand=
-le handle)
->         return true;
->  }
->
-> -bool acpi_device_is_present(const struct acpi_device *adev)
-> -{
-> -       return adev->status.present || adev->status.functional;
-> -}
-> -
->  static bool acpi_scan_handler_matching(struct acpi_scan_handler *handler=
-,
->                                        const char *idstr,
->                                        const struct acpi_device_id **matc=
-hid)
-> @@ -2375,16 +2370,25 @@ EXPORT_SYMBOL_GPL(acpi_dev_clear_dependencies);
->   * acpi_dev_ready_for_enumeration - Check if the ACPI device is ready fo=
-r enumeration
->   * @device: Pointer to the &struct acpi_device to check
->   *
-> - * Check if the device is present and has no unmet dependencies.
-> + * Check if the device is functional or enabled and has no unmet depende=
-ncies.
->   *
-> - * Return true if the device is ready for enumeratino. Otherwise, return=
- false.
-> + * Return true if the device is ready for enumeration. Otherwise, return=
- false.
->   */
->  bool acpi_dev_ready_for_enumeration(const struct acpi_device *device)
->  {
->         if (device->flags.honor_deps && device->dep_unmet)
->                 return false;
->
-> -       return acpi_device_is_present(device);
-> +       /*
-> +        * ACPI 6.5's 6.3.7 "_STA (Device Status)" allows firmware to ret=
-urn
-> +        * (!present && functional) for certain types of devices that sho=
-uld be
-> +        * enumerated. Note that the enabled bit can't be sert until the =
-present
-> +        * bit is set.
-> +        */
-> +       if (device->status.present)
-> +               return device->status.enabled;
-> +       else
-> +               return device->status.functional;
->  }
->  EXPORT_SYMBOL_GPL(acpi_dev_ready_for_enumeration);
->
-> --
-> 2.30.2
->
+- "Superset" extensions (Zvbb for instance) will have their own .id as
+well as a bundle made of subsets extensions.
+
+Clément
+
+> That code would also need to know the difference between a pure lasso
+> like Zk, where you should flip it on if its components are on, and the
+> loose change variant we were discussing on the other thread (Zvkb?),
+> where you cannot.
+> 
+> Pretending pure lasso extensions didn't exist on their own was a way
+> to sidestep the problem.
+> -Evan
