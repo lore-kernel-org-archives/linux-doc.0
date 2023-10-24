@@ -1,160 +1,99 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1903A268
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 16:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="lVOXQsbs"
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C977012B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 09:37:55 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-507c50b7c36so6539127e87.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 09:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1698165474; x=1698770274; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HQ00iT5MBLthBXpEW1UVbJpzOdfkXUyxCtvUUc+C6ro=;
-        b=lVOXQsbsoLo4Tc5Cjs3xTpMdldD1eRpUaUvmdLtuCDqQUxrmgdSPiLtyheha7Oy0I+
-         D67g/qeYZjTe2S9ZbwVYwDKwEQH2r1tTvoVF0N+lLo58+afjhq0vknX2bmPUY9KDXhZO
-         jH3hIikXoHyC5e2jCsAEWfq2cC5d3Z5LugHiRhg93yrUnOyuLj1+jBKXRbGZGHClQ0ob
-         pbLXmTx42ldtP9w/O3ssd1I5gi2MdvGsR98KKTcvUuAneJ0vbU8v9YOa1Z/LHLEnksM2
-         7et0pWQILrJ2+cwa1eGXW8Z6mTuj6CTSXxn4ePkpkEbU+Ffzbh2a9tc3kydkAnUWyblC
-         1Rqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698165474; x=1698770274;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HQ00iT5MBLthBXpEW1UVbJpzOdfkXUyxCtvUUc+C6ro=;
-        b=eiBCHpj/voXi7BO/6OzXAad6WN1JdKfIaPskvytnJXsHLEAiNxRE7c73Df5g9lve66
-         MEb64ldrV9AI0hvpoYCsUCNiRx5XiGHoWKWlI3Dofj7PbaEKJL8cbhJe3vEZT4jFeVGD
-         yVNvD2pEtIhKPlORCigHAkUsW6nr/swXXq1PPnS69UJiuC0luduW7mAsT+VoGW1xovB2
-         6r6kvqXXC8Zujie8lZK1Js0A5USmkFkdktIHDjPTMj7W9vitBJJGsaEtRJcQtOqWzIZX
-         Nvqzs6cQTROOw/dZR1qO2Iy0mBeELSWo4fE7e2bMftkvbQXttfBuUKREEQVh/3hcIdBL
-         ywrA==
-X-Gm-Message-State: AOJu0Yx5YWqF3aQ5aS296oxMBjowgBvtPjBRlkdIlR476TWDgK2lF0fV
-	qmbRHQnymzY2VxldXLXEhGc+p0WN4yihYZBpkM2jeYKjBHxHIUT5
-X-Google-Smtp-Source: AGHT+IHU0SuW8qIrTkg9+1VPEqjIrc2hDcfHXiQbZ/0vtxjVpobAABBwhRBFea6xvpHVBg9QxcWjpITCntgT0kGXieE=
-X-Received: by 2002:ac2:5104:0:b0:507:b17a:709e with SMTP id
- q4-20020ac25104000000b00507b17a709emr9561597lfb.1.1698165473946; Tue, 24 Oct
- 2023 09:37:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD45F3AC14
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 16:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A8DCAF;
+	Tue, 24 Oct 2023 09:42:41 -0700 (PDT)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1qvKUA-004816-F8; Tue, 24 Oct 2023 18:42:30 +0200
+Received: from p57bd9695.dip0.t-ipconnect.de ([87.189.150.149] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1qvKUA-0007EO-76; Tue, 24 Oct 2023 18:42:30 +0200
+Message-ID: <3d907da0bd9b0acfe88c1a580c18324c57f3b2e0.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH 1/2] sh: bios: Revive earlyprintk support
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet
+	 <corbet@lwn.net>, Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker
+	 <dalias@libc.org>, Paul Gortmaker <paul.gortmaker@windriver.com>, Thomas
+	Gleixner <tglx@linutronix.de>, Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 24 Oct 2023 18:42:28 +0200
+In-Reply-To: <c40972dfec3dcc6719808d5df388857360262878.1697708489.git.geert+renesas@glider.be>
+References: <cover.1697708489.git.geert+renesas@glider.be>
+	 <c40972dfec3dcc6719808d5df388857360262878.1697708489.git.geert+renesas@glider.be>
+Autocrypt: addr=glaubitz@physik.fu-berlin.de; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231017131456.2053396-1-cleger@rivosinc.com> <20231017131456.2053396-3-cleger@rivosinc.com>
- <CALs-HssmufWCKzaGy7BwWz4n4hfwV9NjjRD-O_JeupM-p=Ov+w@mail.gmail.com>
- <d0ea4996-5c48-47b4-99b0-f4211276e0b2@rivosinc.com> <56f6af04-bdf4-4b85-99dc-9eb4f391d7ad@rivosinc.com>
-In-Reply-To: <56f6af04-bdf4-4b85-99dc-9eb4f391d7ad@rivosinc.com>
-From: Evan Green <evan@rivosinc.com>
-Date: Tue, 24 Oct 2023 09:37:17 -0700
-Message-ID: <CALs-Hsvy411MnHQXHLK8u4JmM+LO5R2tuCxY6zQco7BKJONqPA@mail.gmail.com>
-Subject: Re: [PATCH v2 02/19] riscv: add ISA extension parsing for scalar crypto
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Palmer Dabbelt <palmer@rivosinc.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Jones <ajones@ventanamicro.com>, 
-	Conor Dooley <conor@kernel.org>, Samuel Ortiz <sameo@rivosinc.com>, 
-	Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.150.149
+X-ZEDAT-Hint: PO
 
-On Tue, Oct 24, 2023 at 2:30=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cleger@riv=
-osinc.com> wrote:
->
->
->
-> On 24/10/2023 09:18, Cl=C3=A9ment L=C3=A9ger wrote:
-> >
-> >
-> > On 23/10/2023 18:21, Evan Green wrote:
-> >> On Tue, Oct 17, 2023 at 6:15=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <clege=
-r@rivosinc.com> wrote:
-> >>>
-> >>> From: Evan Green <evan@rivosinc.com>
-> >>>
-> >>> The Scalar Crypto specification defines Zk as a shorthand for the
-> >>> Zkn, Zkr and Zkt extensions. The same follows for both Zkn, Zks and Z=
-bk,
-> >>> which are all shorthands for various other extensions. The detailed
-> >>> breakdown can be found in their dt-binding entries.
-> >>>
-> >>> Since Zkn also implies the Zbkb, Zbkc and Zbkx extensions, simply pas=
-sing
-> >>> "zk" through a DT should enable all of Zbkb, Zbkc, Zbkx, Zkn, Zkr and=
- Zkt.
-> >>> For example, setting the "riscv,isa" DT property to "rv64imafdc_zk"
-> >>> should generate the following cpuinfo output:
-> >>> "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zbkb_zbkc_zbkx_zknd_zkne_zknh=
-_zkr_zkt"
-> >>>
-> >>> riscv_isa_ext_data grows a pair of new members, to permit setting the
-> >>> relevant bits for "bundled" extensions, both while parsing the ISA st=
-ring
-> >>> and the new dedicated extension properties
-> >>>
-> >>> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
-> >>> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> >>> Signed-off-by: Evan Green <evan@rivosinc.com>
-> >>> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
-> >>
-> >> My tree might be out of sync, but in my search for riscv_isa_ext, I
-> >> also found a use in print_isa() (cpu.c) where we're reaching into
-> >> riscv_isa_ext[].id and assuming it's always valid. If that's still in
-> >> there we'll want to fix up that spot too, since now with bundles .id
-> >> may or may not be valid.
-> >
-> > Oh indeed, the array is visible outside of this compilation unit :/.
-> > I'll check that before sending V3.
->
-> After looking a bit more at that, it actually seems that id is used in
-> cpuinfo to determine which extensions are present which means you are
-> right, bundle_size needs to be accounted for.
->
-> Looking at it also raises the question (again) of exposing the "bundles"
-> extensions themselves or not in cpuinfo output. With the current setup,
-> the bundles extensions won't be visible in cpuinfo output. For instance
-> if Zk was in the isa string, then it will not be visible in the cpuinfo
-> output, only the child extensions. One solution would be to always have
-> a valid id for each extension. So we would have one for Zk for instance.
->
-> We would then have a similar setup for all "bundles" or "subset"
-> extensions, they would have a id for all of them. For instance, Zk would
-> become:
->
-> __RISCV_ISA_EXT_DATA_BUNDLE(zk, RISCV_ISA_EXT_ZK, riscv_zk_bundled_exts)
->
-> Same would go for zvbb (riscv_zvbb_subset_exts would only contain Zvkb):
->
-> __RISCV_ISA_EXT_DATA_BUNDLE(zk, RISCV_ISA_EXT_ZVBB, riscv_zvbb_subset_ext=
-s)
->
-> For the sake of completeness, I feel like it would be good to have all
-> the extensions (bundles or not) visible in the riscv_isa_ext.
->
-> Any objection ?
+On Thu, 2023-10-19 at 11:46 +0200, Geert Uytterhoeven wrote:
+> The SuperH BIOS earlyprintk code is protected by CONFIG_EARLY_PRINTK.
+> However, when this protection was added, it was missed that SuperH no
+> longer defines an EARLY_PRINTK config symbol since commit
+> e76fe57447e88916 ("sh: Remove old early serial console code V2"), so
+> BIOS earlyprintk can no longer be used.
+>=20
+> Fix this by reviving the EARLY_PRINTK config symbol.
+>=20
+> Fixes: d0380e6c3c0f6edb ("early_printk: consolidate random copies of iden=
+tical code")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  arch/sh/Kconfig.debug | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>=20
+> diff --git a/arch/sh/Kconfig.debug b/arch/sh/Kconfig.debug
+> index c449e7c1b20ff5b5..8bcd6c1431a95be9 100644
+> --- a/arch/sh/Kconfig.debug
+> +++ b/arch/sh/Kconfig.debug
+> @@ -22,6 +22,17 @@ config STACK_DEBUG
+>  	  every function call and will therefore incur a major
+>  	  performance hit. Most users should say N.
+> =20
+> +config EARLY_PRINTK
+> +	bool "Early printk"
+> +	depends on SH_STANDARD_BIOS
+> +	help
+> +	  Say Y here to redirect kernel printk messages to the serial port
+> +	  used by the SH-IPL bootloader, starting very early in the boot
+> +	  process and ending when the kernel's serial console is initialised.
+> +	  This option is only useful while porting the kernel to a new machine,
+> +	  when the kernel may crash or hang before the serial console is
+> +	  initialised.  If unsure, say N.
+> +
+>  config 4KSTACKS
+>  	bool "Use 4Kb for kernel stacks instead of 8Kb"
+>  	depends on DEBUG_KERNEL && (MMU || BROKEN) && !PAGE_SIZE_64KB
 
-I could be persuaded that it's a good idea, but there are arguments to
-be made for not defining them as separate bits:
+Reviewed-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 
-1. Having two (sets of) bits that mean the same thing means usermode
-now has to decide which one to query, or query both. Multiple values
-that mean the same thing is always something that makes me nervous.
-2. To avoid these two sets having different answers, we'd have to
-solve the reverse problem too: If all of the bundled extensions that
-make up Zk are on, we'd need to detect that and turn Zk on as well.
-That code would also need to know the difference between a pure lasso
-like Zk, where you should flip it on if its components are on, and the
-loose change variant we were discussing on the other thread (Zvkb?),
-where you cannot.
-
-Pretending pure lasso extensions didn't exist on their own was a way
-to sidestep the problem.
--Evan
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
