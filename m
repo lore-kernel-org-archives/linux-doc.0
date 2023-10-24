@@ -1,246 +1,167 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9D635884;
-	Tue, 24 Oct 2023 15:19:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63433717B
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 15:36:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="PbsD3/k+"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8164E2100;
-	Tue, 24 Oct 2023 08:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=C8oV1vsdSDENaxaUmj7dFWaDsKlGe2+ZjpG8GFhmEsc=; b=PbsD3/k+M70fv+mWOtGt9coYsu
-	sfB5GOXL7yCxlr6x/z9yUFi/1THx8n4UsyevlGmkRDYoW3lBfjG+pddi9tXX6s1gM5nRwSzAfcsV8
-	nU6I7qbXPa2bMRAKnw8b/4HzsyybENUw2n8BF54UPzrAPZDbbaW0tRNVhXo/d1USKEHRxzSGnmac6
-	4HrpF6eylltm7rJUN7hAgfaz7p4CLs0uAkMXvF75vR4Ep9AYHySaw157NwTF25s3XQVbcayS6o/qa
-	PEcUeKRzAC3pO69f859squ9StsTB/TQRP8B6virbL7/UoUzhppsHZul1iVuSc0PnKot+ArOOKWv1L
-	7Cs41H2w==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:41538 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1qvJBe-0004X6-0d;
-	Tue, 24 Oct 2023 16:19:18 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1qvJBf-00AqSQ-Mi; Tue, 24 Oct 2023 16:19:19 +0100
-In-Reply-To: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk>
-References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk>
-From: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-To: linux-pm@vger.kernel.org,
-	 loongarch@lists.linux.dev,
-	 linux-acpi@vger.kernel.org,
-	 linux-arch@vger.kernel.org,
-	 linux-kernel@vger.kernel.org,
-	 linux-arm-kernel@lists.infradead.org,
-	 linux-riscv@lists.infradead.org,
-	 kvmarm@lists.linux.dev,
-	 x86@kernel.org,
-	 linux-csky@vger.kernel.org,
-	 linux-doc@vger.kernel.org,
-	 linux-ia64@vger.kernel.org,
-	 linux-parisc@vger.kernel.org
-Cc: Salil Mehta <salil.mehta@huawei.com>,
-	 Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	 jianyong.wu@arm.com,
-	 justin.he@arm.com,
-	 James Morse <james.morse@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>
-Subject: [PATCH 37/39] ACPI: Add _OSC bits to advertise OS support for
- toggling CPU present/enabled
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gxQIYKjE"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 784EA9C;
+	Tue, 24 Oct 2023 08:36:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698161767; x=1729697767;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=m1ZmvptgUsoAcJISYKHS9lIT1nxC7ho8/UAuWzFddUs=;
+  b=gxQIYKjE1HiAzQ+ENfu6G7nYPKWMA03jjV1Vc6LbTJTpOhkTC/8izfgt
+   kqq5Yb3hipXKxdsccaOy/Nv0qFEVicKWawDJ6aFvoOtwOC6ApaicrSCos
+   qpnpTt0RCRaaMHxi2Y8vV4P4V1CRscaPsmrvK90Q+PDRxYtTq0edIexg4
+   xSY/ZgZxB7y+de3hh7MEXzqP3LsF3c9pH9dCqY/+3jVfFwuR39RTqN0mz
+   0BGPI/mb4INNcW4awkhhc/ItoGhKBVgdIcDzWSBoVh6P3PXvkSQcSimTj
+   hsEfAMITm762OKB1ZGBlkIz/IJZ8OcYsC9Ep9oc9tOWbNOWNmqv+M5HKh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="384290769"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="384290769"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 08:30:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="793528085"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="793528085"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 24 Oct 2023 08:30:04 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 24 Oct 2023 08:30:03 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 24 Oct 2023 08:30:03 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Tue, 24 Oct 2023 08:30:03 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Tue, 24 Oct 2023 08:30:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IE9+JHCHPnU0gHE78Tl6Xbe4eDfSlT7f84M+h4bBgl9MUxQq+ihovurKc7tIsJLfAK8INw0qGrPU2kaan2UWhcQ0gPLCmdPUc6Khnvpewz+fwjAhtyWkwM0axCITYQlTI3wgsHBokWYKzOx7YohGgRyqGzAEVQLulBPga2HYde+JVvuGkj+XQcIMZX2dhwR8FUvEWBBLkwJ4XD58tsBVPMOTNZ5/xLu5zBbGTFMZhXHmbPIUzKCOprQMPvQ8shUiDd8don0hw7KKkuuaWgRrInUragUJFl28thZmfmZisnMmxm+QCKf52lPDZb6dpUVyKPGRUlbioIbEWf3Om01n8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=njausf6g+RI+0u7SKxRcTcQ7Wwvr7DuuxA6vze+Qplg=;
+ b=PjggYkdsEddNZwYOeAjBfG57ugeB13dHtv3z0SOvFYMc56nnWbeCO5YtFA2xicbhywFQjUsTFbdZ0F8GJ7nVu7+FsQ/uLmkW+CWSqxlW+R4JjuylnCPMEKEAlCGnuqd6OkeN+vsztDspnvREmXQX+yGqNlyzreDpferkDx5e6ErFjvMMTBGIgWKNlOt3cs/wsqrfEG0V3c59ePZeXPbOxkwSb47RTCmnUXpIdLxxumL0BL9iLUKLGRbrG3rmCMIjvoOxvpF5xtvi/nTwTmaXebDWqQoqbB7fxHPX3yRJEh9PC0/CgAZcwPgDAvRtUZM6y7K8VE906Q1GFyXQrqd2Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by LV3PR11MB8604.namprd11.prod.outlook.com (2603:10b6:408:1ae::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.21; Tue, 24 Oct
+ 2023 15:30:01 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3ffb:89e2:2724:4c5]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3ffb:89e2:2724:4c5%2]) with mapi id 15.20.6907.025; Tue, 24 Oct 2023
+ 15:29:59 +0000
+From: "Luck, Tony" <tony.luck@intel.com>
+To: "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>, "Yu, Fenghua"
+	<fenghua.yu@intel.com>, "Chatre, Reinette" <reinette.chatre@intel.com>,
+	"Peter Newman" <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, "x86@kernel.org" <x86@kernel.org>
+CC: James Morse <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: RE: [PATCH v9 0/8] Add support for Sub-NUMA cluster (SNC) systems
+Thread-Topic: [PATCH v9 0/8] Add support for Sub-NUMA cluster (SNC) systems
+Thread-Index: AQHaA5zI7d6eRkuVB02AcaLZ3Uxq0bBYclUAgACjiaA=
+Date: Tue, 24 Oct 2023 15:29:59 +0000
+Message-ID: <SJ1PR11MB60834F077F9528CAD3C7E37CFCDFA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20231003213043.13565-1-tony.luck@intel.com>
+ <20231020213100.123598-1-tony.luck@intel.com>
+ <TYAPR01MB6330C183EEC67D29FB448E108BDFA@TYAPR01MB6330.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYAPR01MB6330C183EEC67D29FB448E108BDFA@TYAPR01MB6330.jpnprd01.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels: MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ActionId=dde4638f-190a-4fc7-89a4-b6ab5015fe46;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=0;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=true;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED???;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2023-10-24T05:26:15Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|LV3PR11MB8604:EE_
+x-ms-office365-filtering-correlation-id: 23dfc81d-016f-4309-13fa-08dbd4a61557
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bDdU3x6EhOzF77GqDz84L2Nc+UlYYEjuPw/Fu6W4n0AYuzYd7oe20AtzAQP5ieg/ikvWGqehCAnassN32TPXs1GG3hUY8v90zLWNKGEAPX/qfyO7193jkxw+xPj4QONAGaDj2k6APToJsD9Mep+a45r+6UPnwKunEQZgX+4U21lvr1SPTwDWe8n1vg7iDX4Qrr/FtpXmoaZ9qNCvOUA1UUZWhWt14BINJG6U6Lw6FQ5EdrZe7JaTv5JgN93MJ4LkWtmQ0cW9x4DJRpLRZXlX+ru+Ex4Kl3tAMg8rRrllW3Hx10+fsoDizAj4Fr+6OHUl8IqWpUyXNtFeMaL/fvJuojt5/+WpfeutKn7x5PLyzsaAFH+paB1YHCV04Ig5AGXYhGvy9SlOgEpzy6ulInePq/bb62LffRnXklMFqbj6gLXlDg5b30OFfLpuJEfdUZQ0GFGA2nTVv4ioUmDxJM0nHtb+ASIpLykuMIP1jnfrYYD8V6RrPaDjir1ZTt8nWkVd+ueoX3g5hoJMl73CRivVO9aOUwPvfb2VhVVPOQ5Sg9RRxKrZfDf5n2caAwKNaZFMMy2ewtVk2xqIHD2HusxPHvliVY6K15srMf8KPLZ1WR/xkgl2Dsd1tzqKGgNXCl6q
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(346002)(396003)(376002)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(38070700009)(64756008)(478600001)(71200400001)(55016003)(316002)(7416002)(54906003)(76116006)(66446008)(82960400001)(66476007)(66556008)(66946007)(110136005)(86362001)(8676002)(2906002)(8936002)(41300700001)(122000001)(4744005)(4326008)(52536014)(38100700002)(33656002)(5660300002)(9686003)(7696005)(26005)(83380400001)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KACBgjLjUIspFMi0BXAC/ct62Es7AZ9NqBl3Jf4ecqy8uq6BdWwjmKLnHAlw?=
+ =?us-ascii?Q?u9o4vXL1SM8GSUIWnr/k8ZHfq09+MgCrRslni7YEE2FwV2ioHFsUGzCEnM/0?=
+ =?us-ascii?Q?VTNINzB/C4yLgLd0eeNwGyfPT7yitLL1OeQFIGRluGlLfbl/LeBtmhHXubIG?=
+ =?us-ascii?Q?RkfCQ7dWuwpbtv61iOUglHX6EyOILV0rioXrjLrync5+2fqZe4R4A4CMNTa4?=
+ =?us-ascii?Q?nk2DZQtCHbq5HrVc3iH/LqDtCHy8e5cDd216tp3xNbNP89q+PJmlSfkkbumx?=
+ =?us-ascii?Q?vl30AMwtkNeGUXDUmiMVXa1l8SPLX/EvFu7Kpvxj/wOoCGQkiPe0v0wW5ZHu?=
+ =?us-ascii?Q?++Quhq8aFbw7F+Gy+IPfEIzgiNWebgjIQ/cn5tx7Gxn/i+6wx26WC/GvfJSK?=
+ =?us-ascii?Q?1C6r6fAZslyXMuUZ4By9RPOrxm4dLCvJYEl7UQ1vLNJ94wwe2bwM642bCTEC?=
+ =?us-ascii?Q?hriL43ceaJvsaquyMNP/NLLfuaJI2KP31FBBvjYI25LfqmV0nIhdgy0ms4wi?=
+ =?us-ascii?Q?ostW1sLoPvoueuneV2kFGF1Fp2Ujqi7UmHFiPK8x07U+p4sHhm/5vaCGim2q?=
+ =?us-ascii?Q?QNmWgVXvmY4ZdOoLucBmTfVJeXxX/T54G3FDad4H9P5M+5LdoqexdvM/nYay?=
+ =?us-ascii?Q?BUKisrpEb6xNwI5Sc8IHbxVpSsDD9Mj52OVgtmTJjvjFwmFATPJG5j7qeUCO?=
+ =?us-ascii?Q?waljbHWg+pPDdMS8oyO3Svvx/gRM/0l3SNcBKws/b2BY6g/Ct1ssbzo2IfbP?=
+ =?us-ascii?Q?9TRabhGhF/OVyTGqagguBtb2CyJFRS/8LExiKIqXriS4RZMJ9Ph6IoCLPGL7?=
+ =?us-ascii?Q?HZxXHLf9AO6MLpguTO7UHiuIVeZWRyWZnAk6krKBYouf3wTwl1QIRcFsCZt/?=
+ =?us-ascii?Q?A/2wQGS70Vnq9JFySd/n8Jr7ZBKSaNAlmgg3+bRNsufAY9kF0Ibk9Ia5n50h?=
+ =?us-ascii?Q?R5L6vIyX19mrrkSFT7kJvWtFFqovRnpvIniztZi69MvzaJI8f755+Cbc48Fl?=
+ =?us-ascii?Q?hb8+5Ac+X0ugdN6wAdciAdXVwPlnlHiFPhyzZI4ogg2Uwc3SrG+/jjsFTAwl?=
+ =?us-ascii?Q?TJkmL9YZ4nioG5G/p322KvHmXeSFCZB8xivDGnDKqh1+y1wCqjuCiuL9o4LY?=
+ =?us-ascii?Q?3fkby8+jO4ePKtkSwCcw+2MJIkIRYlvWjHtpNk2UOXzIq7CKh7sRtZziKNMo?=
+ =?us-ascii?Q?GLyknLWXTUCKXzx8Tz3/eDQHyidttn1DhQfu+VT+gwxQH7xh7CNFhITjPMZY?=
+ =?us-ascii?Q?GY3CfPfaBZ3AvhkoA68Ur+0FGPwXrmQTctZFkp0PZD36Bli79UuGc7EsTSvH?=
+ =?us-ascii?Q?88Dl/6AUsa9HNY21jqi70jJY/Fpkd364tRPQJXGiEioUpq5NP+WVYfdvGk66?=
+ =?us-ascii?Q?nqMTH6n1tfEDuxOjDfv8ymdxO7T4byQ6sN3x5TY4cvcot7FpDBCkKygAYiOA?=
+ =?us-ascii?Q?ZoD4CHyQz6pMVdMbzA+dWf7qM8aCFU7e/moFoHM+0Z0eyg7QRYjphxu4DPCd?=
+ =?us-ascii?Q?Pa9Xuv/GzA7TI8gGHt7vOG0CDCGr/9sdMQHYFCq3UJR6liYNp9dmhCV7iKuc?=
+ =?us-ascii?Q?kJBkPlAWpyycMfOzaAfNlkmlJmwEF1mEh0ZgTlGn?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1qvJBf-00AqSQ-Mi@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Tue, 24 Oct 2023 16:19:19 +0100
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23dfc81d-016f-4309-13fa-08dbd4a61557
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2023 15:29:59.0333
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Lje5/qFwSLvxyznmw1K+vpji2rhGC8ESnWS8PHJJcYFayqnUwmxaiKxMBWUYrbccQsLKmEgL1UL4fUK1RdHekA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8604
+X-OriginatorOrg: intel.com
 
-From: James Morse <james.morse@arm.com>
+> Could you tell me what kernel version this patch series is based on?
 
-Platform firmware can disabled a CPU, or make it not-present by making
-an eject-request notification, then waiting for the os to make it offline
-and call _EJx. After the firmware updates _STA with the new status.
+Shaopeng TAN,
 
-Not all operating systems support this. For arm64 making CPUs not-present
-has never been supported. For all ACPI architectures, making CPUs disabled
-has recently been added. Firmware can't know what the OS has support for.
+Sorry. It's buried in all the other text in the change log in the cover let=
+ter.
+I should have put this more prominently at the start of the cover letter.
 
-Add two new _OSC bits to advertise whether the OS supports the _STA enabled
-or present bits being toggled for CPUs. This will be important for arm64
-if systems that support physical CPU hotplug ever appear as arm64 linux
-doesn't currently support this, so firmware shouldn't try.
+	Rebased to tip/master October 20th since that has several other
+	resctrl changes staged resdy for next merge window. No
+	significant collisions, just noise where "git am" would not
+	automatically apply. New base is:
 
-Advertising this support to firmware is useful for cloud orchestrators
-to know whether they can scale a particular VM by adding CPUs.
+	3300447612b2 ("Merge branch into tip/master: 'x86/tdx'")
 
-Signed-off-by: James Morse <james.morse@arm.com>
----
-I'm assuming ia64 with physical hotplug machines once existed, and
-that Loongarch machines with support for this don't.
----
- arch/ia64/Kconfig             |  1 +
- arch/x86/Kconfig              |  1 +
- drivers/acpi/Kconfig          |  9 +++++++++
- drivers/acpi/acpi_processor.c | 14 +++++++++++++-
- drivers/acpi/bus.c            | 16 ++++++++++++++++
- include/linux/acpi.h          |  4 ++++
- 6 files changed, 44 insertions(+), 1 deletion(-)
-
-diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
-index 3b30305407ac..a7267d8a4d3d 100644
---- a/arch/ia64/Kconfig
-+++ b/arch/ia64/Kconfig
-@@ -17,6 +17,7 @@ config IA64
- 	select ARCH_MIGHT_HAVE_PC_SERIO
- 	select ACPI
- 	select ACPI_HOTPLUG_PRESENT_CPU if ACPI_PROCESSOR && HOTPLUG_CPU
-+	select ACPI_HOTPLUG_IGNORE_OSC  if ACPI
- 	select ACPI_NUMA if NUMA
- 	select ARCH_ENABLE_MEMORY_HOTPLUG
- 	select ARCH_ENABLE_MEMORY_HOTREMOVE
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 2a859f597a94..026f358b7b28 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -61,6 +61,7 @@ config X86
- 	select ACPI_LEGACY_TABLES_LOOKUP	if ACPI
- 	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
- 	select ACPI_HOTPLUG_PRESENT_CPU		if ACPI_PROCESSOR && HOTPLUG_CPU
-+	select ACPI_HOTPLUG_IGNORE_OSC		if ACPI && HOTPLUG_CPU
- 	select ARCH_32BIT_OFF_T			if X86_32
- 	select ARCH_CLOCKSOURCE_INIT
- 	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
-diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-index 417f9f3077d2..c49978b4b11f 100644
---- a/drivers/acpi/Kconfig
-+++ b/drivers/acpi/Kconfig
-@@ -310,6 +310,15 @@ config ACPI_HOTPLUG_PRESENT_CPU
- 	depends on ACPI_PROCESSOR && HOTPLUG_CPU
- 	select ACPI_CONTAINER
- 
-+config ACPI_HOTPLUG_IGNORE_OSC
-+	bool
-+	depends on ACPI_HOTPLUG_PRESENT_CPU
-+	help
-+	  Ignore whether firmware acknowledged support for toggling the CPU
-+	  present bit in _STA. Some architectures predate the _OSC bits, so
-+	  firmware doesn't know to do this.
-+
-+
- config ACPI_PROCESSOR_AGGREGATOR
- 	tristate "Processor Aggregator"
- 	depends on ACPI_PROCESSOR
-diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
-index 5dabb426481f..539412ff59a1 100644
---- a/drivers/acpi/acpi_processor.c
-+++ b/drivers/acpi/acpi_processor.c
-@@ -182,6 +182,18 @@ static void __init acpi_pcc_cpufreq_init(void)
- static void __init acpi_pcc_cpufreq_init(void) {}
- #endif /* CONFIG_X86 */
- 
-+static bool acpi_processor_hotplug_present_supported(void)
-+{
-+	if (!IS_ENABLED(CONFIG_ACPI_HOTPLUG_PRESENT_CPU))
-+		return false;
-+
-+	/* x86 systems pre-date the _OSC bit */
-+	if (IS_ENABLED(CONFIG_ACPI_HOTPLUG_IGNORE_OSC))
-+		return true;
-+
-+	return osc_sb_hotplug_present_support_acked;
-+}
-+
- /* Initialization */
- static int acpi_processor_make_present(struct acpi_processor *pr)
- {
-@@ -189,7 +201,7 @@ static int acpi_processor_make_present(struct acpi_processor *pr)
- 	acpi_status status;
- 	int ret;
- 
--	if (!IS_ENABLED(CONFIG_ACPI_HOTPLUG_PRESENT_CPU)) {
-+	if (!acpi_processor_hotplug_present_supported()) {
- 		pr_err_once("Changing CPU present bit is not supported\n");
- 		return -ENODEV;
- 	}
-diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-index a4aa53b7e2bb..b42f17bfbb09 100644
---- a/drivers/acpi/bus.c
-+++ b/drivers/acpi/bus.c
-@@ -298,6 +298,13 @@ EXPORT_SYMBOL_GPL(osc_sb_native_usb4_support_confirmed);
- 
- bool osc_sb_cppc2_support_acked;
- 
-+/*
-+ * ACPI 6.? Proposed Operating System Capabilities for modifying CPU
-+ * present/enable.
-+ */
-+bool osc_sb_hotplug_enabled_support_acked;
-+bool osc_sb_hotplug_present_support_acked;
-+
- static u8 sb_uuid_str[] = "0811B06E-4A27-44F9-8D60-3CBBC22E7B48";
- static void acpi_bus_osc_negotiate_platform_control(void)
- {
-@@ -346,6 +353,11 @@ static void acpi_bus_osc_negotiate_platform_control(void)
- 
- 	if (!ghes_disable)
- 		capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_APEI_SUPPORT;
-+
-+	capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_HOTPLUG_ENABLED_SUPPORT;
-+	if (IS_ENABLED(CONFIG_ACPI_HOTPLUG_PRESENT_CPU))
-+		capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_HOTPLUG_PRESENT_SUPPORT;
-+
- 	if (ACPI_FAILURE(acpi_get_handle(NULL, "\\_SB", &handle)))
- 		return;
- 
-@@ -383,6 +395,10 @@ static void acpi_bus_osc_negotiate_platform_control(void)
- 			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_NATIVE_USB4_SUPPORT;
- 		osc_cpc_flexible_adr_space_confirmed =
- 			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_CPC_FLEXIBLE_ADR_SPACE;
-+		osc_sb_hotplug_enabled_support_acked =
-+			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_HOTPLUG_ENABLED_SUPPORT;
-+		osc_sb_hotplug_present_support_acked =
-+			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_HOTPLUG_PRESENT_SUPPORT;
- 	}
- 
- 	kfree(context.ret.pointer);
-diff --git a/include/linux/acpi.h b/include/linux/acpi.h
-index ed1ef5d8687f..53515ff1318f 100644
---- a/include/linux/acpi.h
-+++ b/include/linux/acpi.h
-@@ -579,12 +579,16 @@ acpi_status acpi_run_osc(acpi_handle handle, struct acpi_osc_context *context);
- #define OSC_SB_NATIVE_USB4_SUPPORT		0x00040000
- #define OSC_SB_PRM_SUPPORT			0x00200000
- #define OSC_SB_FFH_OPR_SUPPORT			0x00400000
-+#define OSC_SB_HOTPLUG_ENABLED_SUPPORT		0x00800000
-+#define OSC_SB_HOTPLUG_PRESENT_SUPPORT		0x01000000
- 
- extern bool osc_sb_apei_support_acked;
- extern bool osc_pc_lpi_support_confirmed;
- extern bool osc_sb_native_usb4_support_confirmed;
- extern bool osc_sb_cppc2_support_acked;
- extern bool osc_cpc_flexible_adr_space_confirmed;
-+extern bool osc_sb_hotplug_enabled_support_acked;
-+extern bool osc_sb_hotplug_present_support_acked;
- 
- /* USB4 Capabilities */
- #define OSC_USB_USB3_TUNNELING			0x00000001
--- 
-2.30.2
-
+-Tony
