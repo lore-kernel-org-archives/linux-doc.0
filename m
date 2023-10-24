@@ -1,51 +1,60 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E313A276;
-	Tue, 24 Oct 2023 16:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC32837176
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 16:35:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="rsZIaVku"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15F3118;
-	Tue, 24 Oct 2023 09:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Mv2+9gUUjwW5p4nAhtEkX5YZZx1pxyCR6znx1hs0kpI=; b=rsZIaVku++xS3FLshJEaUmBzq+
-	IZD6Cn2c0/et6Uo+JOt4WeR9dFq1Ut+rF5FrT6IV5KhIFvVMf+LLjBQLU47NDzgIwcmGbpVvhRTRU
-	gCMWRDcUie6kOaY2a7dMFClZ3267XEs/FktAYAglK9oyph9oihl1JtFf48qSzAA3ywoyWzC0GfK9M
-	PTB0JemBhYOU0lDTVo1ICvemFtxrnnzr1IC3EEZQvKuCtWm90ax0Ijo4QL9EWtWa0cPIQeUEmcXl+
-	LV7aHQWDApKmS5tOWVE6eDqhk5hYbwHCvkYKAl3o4s/teUj9wygTZAZpbtSMTDvDNzQIg9tkuFtyu
-	U9rcIOVQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33572)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1qvKJm-0004fl-0V;
-	Tue, 24 Oct 2023 17:31:46 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1qvKJl-00063d-WA; Tue, 24 Oct 2023 17:31:46 +0100
-Date: Tue, 24 Oct 2023 17:31:45 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org
-Cc: Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>
-Subject: Re: [RFC PATCH v3 00/39] ACPI/arm64: add support for virtual
- cpuhotplug
-Message-ID: <ZTfxcU3EsBNOGIUm@shell.armlinux.org.uk>
-References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fLyULUq7"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF38110C9;
+	Tue, 24 Oct 2023 09:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698165318; x=1729701318;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vHBCAUM4hc+mv/WCTAYZTH9LHpXPIFgRr4vgKJHjnS4=;
+  b=fLyULUq7KDymHT1vNpyTKdOPF4G3JZp/y/dTJn3Jss/cI8Knw00vfbI9
+   Yipno6Lt9dwXLl5EWWX94ES/gFTatAKi+S5YVkANVCqkURnezx8Z6Q2R7
+   j0YDg1lFjUmj7bkRpF4uaFUkrd7BFt1bOfCyKftRynSRQ78noKbhFPwhg
+   nIyAHcJg6pVUBasGNTithF+qzHjX7NzyYj6IT4/xWl4PpfOZiHPSSxFDV
+   n1X81BIk0IZ15ZL6HZPWg8Uum1dh1ce5XbyYLrg3Gr1e8Msb8upMjObX7
+   TznnOL6AsDSudLaXRmng0BN7cg2yvD6FM6P6MwekfK0/RKzFq2k3kYCd0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="453581497"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="453581497"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 09:35:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="932088939"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="932088939"
+Received: from zijianw1-mobl.amr.corp.intel.com (HELO desk) ([10.209.109.187])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 09:35:17 -0700
+Date: Tue, 24 Oct 2023 09:35:15 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Alyssa Milburn <alyssa.milburn@intel.com>
+Subject: Re: [PATCH  v2 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20231024163515.aivo2xfmwmbmlm7z@desk>
+References: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com>
+ <20231024-delay-verw-v2-1-f1881340c807@linux.intel.com>
+ <20231024103601.GH31411@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,51 +63,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20231024103601.GH31411@noisy.programming.kicks-ass.net>
 
-On Tue, Oct 24, 2023 at 04:15:28PM +0100, Russell King (Oracle) wrote:
-> Hi,
+On Tue, Oct 24, 2023 at 12:36:01PM +0200, Peter Zijlstra wrote:
+> On Tue, Oct 24, 2023 at 01:08:21AM -0700, Pawan Gupta wrote:
 > 
-> I'm posting James' patch set updated with most of the review comments
-> from his RFC v2 series back in September. Individual patches have a
-> changelog attached at the bottom of the commit message. Those which
-> I have finished updating have my S-o-b on them, those which still have
-> outstanding review comments from RFC v2 do not. In some of these cases
-> I've asked questions and am waiting for responses.
+> > +.macro CLEAR_CPU_BUFFERS
+> > +	ALTERNATIVE "jmp .Lskip_verw_\@;", "jmp .Ldo_verw_\@", X86_FEATURE_CLEAR_CPU_BUF
+> > +		/* nopl __KERNEL_DS(%rax) */
+> > +		.byte 0x0f, 0x1f, 0x80, 0x00, 0x00;
+> > +.Lverw_arg_\@:	.word __KERNEL_DS;
+> > +.Ldo_verw_\@:	verw _ASM_RIP(.Lverw_arg_\@);
+> > +.Lskip_verw_\@:
+> > +.endm
 > 
-> I'm posting this as RFC v3 because there's still some unaddressed
-> comments and it's clearly not ready for merging. Even if it was ready
-> to be merged, it is too late in this development cycle to be taking
-> this change in, so there would be little point posting it non-RFC.
-> Also James stated that he's waiting for confirmation from the
-> Kubernetes/Kata folk - I have no idea what the status is there.
+> Why can't this be:
 > 
-> I will be sending each patch individually to a wider audience
-> appropriate for that patch - apologies to those missing out on this
-> cover message. I have added more mailing lists to the series with the
-> exception of the acpica list in a hope of this cover message also
-> reaching those folk.
+> 	ALTERNATIVE "". "verw _ASM_RIP(mds_verw_sel)", X86_FEATURE_CLEAR_CPU_BUF
 > 
-> The changes that aren't included are:
-> 
-> 1. Updates for my patch that was merged via Thomas (thanks!):
->    c4dd854f740c cpu-hotplug: Provide prototypes for arch CPU registration
->    rather than having this change spread through James' patches.
-> 
-> 2. New patch - simplification of PA-RISC's smp_prepare_boot_cpu()
-> 
-> 3. Moved "ACPI: Use the acpi_device_is_present() helper in more places"
->    and "ACPI: Rename acpi_scan_device_not_present() to be about
->    enumeration" to the beginning of the series - these two patches are
->    already queued up for merging into 6.7.
-> 
-> 4. Moved "arm64, irqchip/gic-v3, ACPI: Move MADT GICC enabled check into
->    a helper" to the beginning of the series, which has been submitted,
->    but as yet the fate of that posting isn't known.
+> And have that mds_verw_sel thing be out-of-line ?
 
-Update: Catalin has just merged this patch! Thanks.
+I haven't done this way because its a tad bit fragile as it depends on
+modules being within 4GB of kernel.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+> That gives much better code for the case where we don't need this.
+
+If this is the preferred way let me test this and roll a new revision.
