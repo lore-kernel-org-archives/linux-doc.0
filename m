@@ -1,277 +1,348 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8262D4311B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 23:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFFE44499
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 23:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="CoykoVVi"
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2088.outbound.protection.outlook.com [40.107.101.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCE6810C6;
-	Tue, 24 Oct 2023 16:20:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K6KOrzd3KI9yC1qEDzEz06p03dvm6++rzsvto5xvn9sGB4ujS3RonnsmDjNoq8SLnbKB1VKWFjV2+g2R2ej/HByPkWqtVjrkyhPTbaEw2y+MRa0IyiX7a2Fpeu94pCEikTqFi2SLNIJ4wkSMosuls6eYq5vMymZnyj6LDrLj86W6MVqFaidXeagXlNUf6sQWtCrCTQ/PoFCL3jWAANwCsWV+w1RpySpRm7DlXgYVF2lfdTRklYMeUZBSb5U+p0FweyL6tjDvTlW6sd05tiX9DXCC6mhMz1irMa3S2ZzTMtN6tq8MXEtDAEYqXrf3J9XbmcBHmLxj/CCKxZHa5yWLqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zvpzJvdpXxUNyLe6bTXSZ8Wdc3mpZOq6LJ0DVQKoAOw=;
- b=UHtjJGyP+uKvPLnm6J75oVXJal4mlPl93f6/xZG+S8VkjCTRHqgGiealTcGa9xvZtKE2eJmlJHUrE+35uEGSvnoenFIvUvGs7AbGXS+GVunFrr6Ey95vVroBtVhpZr7q8vWGmitdW3HxAsthX10FGqCtin0fOTFpgBZbpiJSWw84b1I99bf130pv15bnOrmZxFxZiyXNrR+iPrAhMX3UejcGlPiA9F4POcWCAcilsFTAQ6eN69/4zS5NW2mjVBUX5dhH9kVwHBVSzhoj3nMJ01xb9mzjbIqCiSx71f7z2A2ienUnV1BwcK3VySJQQj4UHgzr/7W2g0Q1UsFLHM1+1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zvpzJvdpXxUNyLe6bTXSZ8Wdc3mpZOq6LJ0DVQKoAOw=;
- b=CoykoVViCuhjQocmP5AYhLkAHjLWrcYsvr9FCFnRuBT3faI5OXdjwHBgY70EOkAt56t60+WohE0yf9KMl0UATO9pw9EO0TO6/DKTLLYtm5wS1q5sqFaatfBjHvxvI7JvaWZ1cSpOMcvLrNsQYoiNqOhhoBufIY8QUCq0XF6A3y4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH7PR12MB6696.namprd12.prod.outlook.com (2603:10b6:510:1b3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Tue, 24 Oct
- 2023 23:20:20 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::1e4c:5da0:33ed:ff3a]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::1e4c:5da0:33ed:ff3a%6]) with mapi id 15.20.6907.028; Tue, 24 Oct 2023
- 23:20:20 +0000
-Message-ID: <2504daf3-16fa-9474-e9c5-cd6aa99d4776@amd.com>
-Date: Tue, 24 Oct 2023 18:20:17 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] x86/resctrl: mba_MBps: Fall back to total b/w if local
- b/w unavailable
-To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Peter Newman <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, "x86@kernel.org" <x86@kernel.org>
-Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
- <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "patches@lists.linux.dev" <patches@lists.linux.dev>
-References: <20231024181600.8270-1-tony.luck@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <20231024181600.8270-1-tony.luck@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DS7P222CA0018.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::33)
- To MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WdYKUSCH"
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406A8D7A;
+	Tue, 24 Oct 2023 16:35:03 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-27d0acd0903so3479919a91.1;
+        Tue, 24 Oct 2023 16:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698190503; x=1698795303; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b4Ij5pQG5szV54GYUJBKO1wv/LZcmkWQRS+LtnyDhXg=;
+        b=WdYKUSCHUBauXXauG93WGbjZY9IVELVpeeX3nsNJpabNF0afu0SnOnh8A06PrYe/+G
+         tjAjg7RPQ9OsdQJPWTzPkY0LBRsjvHwOdnTyn14aFtsRr6c85SgfxWvNxS70XGhuMD2h
+         cCuqSsbHwY4NmGRdiXkAAsh1h7ITyywETFr9s4cWZvvaogx107MzNJyB0P28DIs1tSbs
+         5eRpG/8uOBsYEiL/c5OccYm32Sr+C7hPDVZY1/E8yxBV7gN+yDTMELGZLozFhxJR4Szp
+         X9Jtz3KGExFNZbfXR/l0ctA6BMu9ixVvMO0iTUkKDqYCfF3f3oCYs9Bb2uZcK9eaTF0o
+         n6dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698190503; x=1698795303;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b4Ij5pQG5szV54GYUJBKO1wv/LZcmkWQRS+LtnyDhXg=;
+        b=mY1t4k7panMlwOszVC/jfqYH/1unG7FjPFbj4LhgHp7mJn/XtUPmBPLygJEyseMLW5
+         KPbxW1+aNNi/mnixqY04/AAEBmBQMJEu77gsMqoZya9o1Rg9KpUo33pS6ZAL8LB7GOG3
+         h9kMcBBG3ARgLGSO07VyG7W7bAALeW55Dc0fapKf7ZQSj+jMufYFliSQ7ju/Pzx9mLPN
+         rLtT0yaEQu5UDrPJMBcROHxkiMmgeuzYnlRc5BvYDotVk5Lt2oZW0jVE5LFks3QURgl1
+         CbtYqBEtyl9payL65PfKM15qHTqP76hfhB6rnApmuHWP59fxHXWGX2HSL7+w+LUc2Vcl
+         wxrg==
+X-Gm-Message-State: AOJu0YyiuyUacinJB4omS1iO/lKL5W8re2o8GK+H1MoHBxPuxrXJl3YD
+	3G5+KfLgzVLtQdUJVpV4XEQ=
+X-Google-Smtp-Source: AGHT+IHnCRDw8I8GGeR+MlaaT+kwS4k/fxb61omhQzxfL7F7XleUyS/Kj/7XfTbFNLKOmrMdoESqhg==
+X-Received: by 2002:a17:90b:70b:b0:263:1f1c:ef4d with SMTP id s11-20020a17090b070b00b002631f1cef4dmr11664717pjz.10.1698190502525;
+        Tue, 24 Oct 2023 16:35:02 -0700 (PDT)
+Received: from localhost (fwdproxy-prn-004.fbsv.net. [2a03:2880:ff:4::face:b00c])
+        by smtp.gmail.com with ESMTPSA id x89-20020a17090a6c6200b0027d06ddc06bsm10378267pjj.33.2023.10.24.16.35.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 16:35:02 -0700 (PDT)
+From: Nhat Pham <nphamcs@gmail.com>
+To: akpm@linux-foundation.org
+Cc: tj@kernel.org,
+	lizefan.x@bytedance.com,
+	hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com,
+	yosryahmed@google.com,
+	sjenning@redhat.com,
+	ddstreet@ieee.org,
+	vitaly.wool@konsulko.com,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	hughd@google.com,
+	corbet@lwn.net,
+	konrad.wilk@oracle.com,
+	senozhatsky@chromium.org,
+	rppt@kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	david@ixit.cz
+Subject: [RFC PATCH] memcontrol: implement swap bypassing
+Date: Tue, 24 Oct 2023 16:35:01 -0700
+Message-Id: <20231024233501.2639043-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH7PR12MB6696:EE_
-X-MS-Office365-Filtering-Correlation-Id: c400ac07-f29a-4433-0117-08dbd4e7ca78
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ltCdu/+sOlrDy3VWqWDOjhpVrO6hxcD8bxUC0TCsQTX6tLnvuqfUNfd0YBrPhU8Zs3kXp9+/oQiBAhombS4/wMzQrx7H0tEFVEF1a1Bm9hzNL/or4wTypSETBAT177Jqro/8KB0bf0koILhjymXdgPS9V1fMK3HLXP+nx1OYg56fMGqdISZC3WRFwJoyUoTP8xUGsx2QlwYL8yGKkyDHfggXTs6OVkJNSrs5d7NEq37wYoZ+Nr4sYyAIF4raVDTeGQub8aMirQf9t6yasi7GiAXgFpt4yZ+FYMVwvzUmWJljReVyhphD1ZaaRDcPZguEE9ug/Xrq9ucjytuzcB5el4AqV/kBfMRx3bCtablcHe55eV5HH/RG9xH1EFpVl4s1ShmTZD1PZYk/eQqQqY+XWbik3Er802+Q0l+4gxVT4a8G9dYHu3LBvgaQSNgK6O7OzzmM9sn6EucBLtchjQykOXcIafqXhuEoJ5EXsqSPPlhyn0NgUFcJXQyDoqG1gzImeXN7SmsPK0/S3TYcZ98gGPHjK10atez4Mg+FSlgId7lMwU20U8O27j6c5/hnsc42EskgNFpyKbSiBKRHyrWPik0Gtyn75FmMMEI9ixB2ENsYaBYfUEgBqiW5f19RjAktzOUMkd1U9uZ+2JAS9xo35w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(346002)(136003)(376002)(396003)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(31686004)(5660300002)(7416002)(6666004)(2616005)(83380400001)(4326008)(8936002)(8676002)(6506007)(41300700001)(26005)(2906002)(38100700002)(6512007)(53546011)(110136005)(31696002)(66556008)(36756003)(66476007)(54906003)(316002)(478600001)(66946007)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RWJONlpYOE5JNUNBOGdjZ3BxRXpMdkxmVCtpaktXODAxVDlaRm9NVXA1WUdD?=
- =?utf-8?B?OG9Na2Nia1dRRWQ2YzYzWUlyUjhRdmdGSGQ2MDFuWGRJMEluOU0walZOTFla?=
- =?utf-8?B?c1M4SkRLcWdIUTRQOW9MdktrWGtlSE5obWhUWm1nVzJxSGxjd2M4S3NDTE8z?=
- =?utf-8?B?VVRlUlBCbExYVGhsdmhYc3V3Tm15Rjd0NnJMNkJ0UytqeHZUdSszdWpPK1cy?=
- =?utf-8?B?RkMxWWUvdnpnYXZNWDAzVHNwZjMvSml5QmNtSEl3MnlXM2E4d1hpTDg3VDV1?=
- =?utf-8?B?SFhkbFRFcU5LYmVlMW00NW9wZXZZR1RjdldCbUtRaUtINDl5QThseWNqa3l3?=
- =?utf-8?B?WWpuUnlVbkJIZzBlVGdiQS9BRU9nSFZXclFDY01Bd20xUFRWbWZSWkFwckhk?=
- =?utf-8?B?QmNIclNGT3RSbS9tbHZ3UmdBckdGeW9TdldDS09QZTBuYmNXMWQvbDk4alJs?=
- =?utf-8?B?YWJOYzlyM2lucWlmbFRyQ1ErYlRRWUdYdjhDcmc3VlZlOUtKUG5WclFHak5J?=
- =?utf-8?B?QlEyclFCaDlLc251cjJLaDNOSHRMV0pjZXNhODdVVThVUEEwRTBiSUIzRkEx?=
- =?utf-8?B?dEVxSzh3VWlOWjJxVk5uVDA0eE1Xc3Z2bnQwb2xNR2dsc0dRb214MXFGYmpK?=
- =?utf-8?B?dkMraGQ1dlU1YzlYWmROWTNHeEExZnRMUXZjZ3VKMHMyRlk0QndFNDFsZ2xh?=
- =?utf-8?B?QnhZRXFxYk12bFlvMDZNUEhtdTdlWllUamR5U3lwNkowa1NMZ0daWTlHeHhR?=
- =?utf-8?B?UzN0TWIxcnVYVGFBUXlHRHkvNHdmaEZCaUowVnRtYWVURGc2T3o3c2wxT3U5?=
- =?utf-8?B?cXlOV28vVElYb0ZTR2tEVUdla0NmcE81QzE5SXVFaHh3WUhHZ3lyc1V0bGMw?=
- =?utf-8?B?R2xuMGZ5dXBLdjFxby9IS0VLTEp4cUMvUXRKa1c3RTNrRDMyeVFyQ3VCTm1w?=
- =?utf-8?B?VGJnZStja2JDMElNY0tyc2hpbzlIN2NZZHJKT0xzeGcydm1XU3BmS1JxVjJQ?=
- =?utf-8?B?TC9TVi80KytsL3ZXZ0FUL3hMRGQ3c2JQZ2JyeG4raUpZUUZQanJ1RHhCM3ZD?=
- =?utf-8?B?VldoZ3JzaVVja2ZRRlpwcDdMUEJYME5GV2tKME5pYjR4NWt2VGdaWkFKUTd0?=
- =?utf-8?B?clpLR0N1QU8vNU13Z0pQUkRJQ2FNUENDd2JVZUJ1TllSN3RVSERCOHp4ZmRH?=
- =?utf-8?B?bTZyQ2phNTVwMko0N0ZlaW5OZVFtS2RMQjI4a29TYVFsVDZlRDNzUzFVVHdr?=
- =?utf-8?B?bUpZTWF0L3dtejJ4dldvN0UvcjVqejIxWWJkMnNPOHZINlRYZ1VXSGVTaU8y?=
- =?utf-8?B?Z3FDYysvbFZpNzllOWxxUGtPRVhxR21EZUR2REVYekJJTkVucGNFMmpwQ3g1?=
- =?utf-8?B?WXUxdHpEMmJaZjlpQjBnZTZDUjNTWXBENm5tOGducVd5WlF0TDRwS3p3MnIy?=
- =?utf-8?B?US9iWFBlYXNhK0tzWjZ6dlpLVGxxbkpmTXYwNkF2U3VZRmRTN3VWQ1hDV3k3?=
- =?utf-8?B?K0F4c2NuVUdwTUFwWU8vTi95T0NWNjNuVVkxZFJ0V1hFdUdWL1ZPMGkrMm5o?=
- =?utf-8?B?RUhTL0Z1WkhqZmlqbFJhYlNMYm84TEsvUEZKVzFBcitQMi9lQWRHbDVudnFH?=
- =?utf-8?B?cVU5b0FxTWdZUXhiRkpRYzlJVDE2SVlkd2hjOGxpclBTdHBrcFpKako1VVBs?=
- =?utf-8?B?VVlDeFJ6VlFsYVY3bmtXRkcvU3R2SDdQZmVQRmtFOGFNTVZkUDZRc09Reklw?=
- =?utf-8?B?aVJMdEM3Rk5DVTMzamd2UVkrWm9wcHM5eWpvU1k1YXE2ZGQ3ZTY5T29mVnY2?=
- =?utf-8?B?VXFBOXpyMUtzSTF0T2N5NFNkVEMwSEdvbmVXWVZxSnV2VmdJTXhFNTdtcG9m?=
- =?utf-8?B?QlhKc2ZiU0lHR3ZNWkdLd0E1MERWNFU3bVROK2JmVS9ydGRMUUJ0NjZZNkNo?=
- =?utf-8?B?dGxPM01OSTFyVjFYaHM2S3ZESDgzWi9pOXhyeHZmM3prbER0bGltUy82OVRt?=
- =?utf-8?B?VUF6c3hwdFpYWHZJUENXNGpPS3U0bFdiS2NWbTUyS3RmQ2hnMVJPeTlUaVVx?=
- =?utf-8?B?TEkxVzAzZStkOHl3YUZvMDh6Uy8vWnJha1VjVmo1ZVROUEZCbW9xYndsNC9D?=
- =?utf-8?Q?ejFk=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c400ac07-f29a-4433-0117-08dbd4e7ca78
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2023 23:20:20.3762
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7ytAAkkEqasuCZFiyV5vXv+WzWDHx4EvNEcDyi2uLHPkfHUlm1bsMiVrOSHbsXtI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6696
+Content-Transfer-Encoding: 8bit
 
-Hi Tony,
+During our experiment with zswap, we sometimes observe swap IOs due to
+occasional zswap store failures and writebacks. These swapping IOs
+prevent many users who cannot tolerate swapping from adopting zswap to
+save memory and improve performance where possible.
 
-> -----Original Message-----
-> From: Tony Luck <tony.luck@intel.com>
-> Sent: Tuesday, October 24, 2023 1:16 PM
-> To: Fenghua Yu <fenghua.yu@intel.com>; Reinette Chatre
-> <reinette.chatre@intel.com>; Peter Newman <peternewman@google.com>;
-> Jonathan Corbet <corbet@lwn.net>; Shuah Khan <skhan@linuxfoundation.org>;
-> x86@kernel.org
-> Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>; James Morse
-> <james.morse@arm.com>; Jamie Iles <quic_jiles@quicinc.com>; Moger, Babu
-> <Babu.Moger@amd.com>; Randy Dunlap <rdunlap@infradead.org>; linux-
-> kernel@vger.kernel.org; linux-doc@vger.kernel.org; patches@lists.linux.dev;
-> Tony Luck <tony.luck@intel.com>
-> Subject: [PATCH] x86/resctrl: mba_MBps: Fall back to total b/w if local b/w
-> unavailable
-> 
-> On Intel the various resource director technology (RDT) features are all
-> orthogonal and independently enumerated. Thus it is possible to have a system
-> that  provides "total" memory bandwidth measurements without providing
-> "local" bandwidth measurements.
-> 
-> If local bandwidth measurement is not available, do not give up on providing
-> the "mba_MBps" feedback option completely, make the code fall back to using
-> total bandwidth.
+This patch adds the option to bypass swap entirely: do not swap when an
+zswap store attempt fail, and do not write pages in the zswap pool back
+to swap. The feature is disabled by default (to preserve the existing
+behavior), and can be enabled on a cgroup-basis via a new cgroup file.
 
+Note that this is subtly different from setting memory.swap.max to 0, as
+it still allows for pages to be stored in the zswap pool (which itself
+consumes swap space in its current form).
 
-Is this customer requirement ?
-What do you mean by " If local bandwidth measurement is not available" ?
-Is the hardware supports only total bandwidth and not local?
+This is the second attempt (spiritual successor) of the following patch:
 
-It can get real ugly if we try to handle one special case.
+https://lore.kernel.org/linux-mm/20231017003519.1426574-2-nphamcs@gmail.com/
 
-thanks
-Babu
+and should be applied on top of the zswap shrinker series:
 
-> 
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
->  arch/x86/kernel/cpu/resctrl/monitor.c  | 34 ++++++++++++++++----------
-> arch/x86/kernel/cpu/resctrl/rdtgroup.c |  2 +-
->  2 files changed, 22 insertions(+), 14 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c
-> b/arch/x86/kernel/cpu/resctrl/monitor.c
-> index f136ac046851..3b9531cce807 100644
-> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> @@ -418,6 +418,14 @@ static int __mon_event_count(u32 rmid, struct
-> rmid_read *rr)
->  	return 0;
->  }
-> 
-> +static struct mbm_state *get_mbm_data(struct rdt_domain *dom_mbm, int
-> +rmid) {
-> +	if (is_mbm_local_enabled())
-> +		return &dom_mbm->mbm_local[rmid];
-> +
-> +	return &dom_mbm->mbm_total[rmid];
-> +}
-> +
->  /*
->   * mbm_bw_count() - Update bw count from values previously read by
->   *		    __mon_event_count().
-> @@ -431,7 +439,7 @@ static int __mon_event_count(u32 rmid, struct
-> rmid_read *rr)
->   */
->  static void mbm_bw_count(u32 rmid, struct rmid_read *rr)  {
-> -	struct mbm_state *m = &rr->d->mbm_local[rmid];
-> +	struct mbm_state *m = get_mbm_data(rr->d, rmid);
->  	u64 cur_bw, bytes, cur_bytes;
-> 
->  	cur_bytes = rr->val;
-> @@ -526,14 +534,14 @@ static void update_mba_bw(struct rdtgroup *rgrp,
-> struct rdt_domain *dom_mbm)
->  	struct list_head *head;
->  	struct rdtgroup *entry;
-> 
-> -	if (!is_mbm_local_enabled())
-> +	if (!is_mbm_enabled())
->  		return;
-> 
->  	r_mba = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
-> 
->  	closid = rgrp->closid;
->  	rmid = rgrp->mon.rmid;
-> -	pmbm_data = &dom_mbm->mbm_local[rmid];
-> +	pmbm_data = get_mbm_data(dom_mbm, rmid);
-> 
->  	dom_mba = get_domain_from_cpu(smp_processor_id(), r_mba);
->  	if (!dom_mba) {
-> @@ -553,7 +561,7 @@ static void update_mba_bw(struct rdtgroup *rgrp,
-> struct rdt_domain *dom_mbm)
->  	 */
->  	head = &rgrp->mon.crdtgrp_list;
->  	list_for_each_entry(entry, head, mon.crdtgrp_list) {
-> -		cmbm_data = &dom_mbm->mbm_local[entry->mon.rmid];
-> +		cmbm_data = get_mbm_data(dom_mbm, entry->mon.rmid);
->  		cur_bw += cmbm_data->prev_bw;
->  		delta_bw += cmbm_data->delta_bw;
->  	}
-> @@ -595,7 +603,7 @@ static void update_mba_bw(struct rdtgroup *rgrp,
-> struct rdt_domain *dom_mbm)
->  	 */
->  	pmbm_data->delta_comp = true;
->  	list_for_each_entry(entry, head, mon.crdtgrp_list) {
-> -		cmbm_data = &dom_mbm->mbm_local[entry->mon.rmid];
-> +		cmbm_data = get_mbm_data(dom_mbm, entry->mon.rmid);
->  		cmbm_data->delta_comp = true;
->  	}
->  }
-> @@ -621,15 +629,15 @@ static void mbm_update(struct rdt_resource *r, struct
-> rdt_domain *d, int rmid)
->  		rr.evtid = QOS_L3_MBM_LOCAL_EVENT_ID;
->  		rr.val = 0;
->  		__mon_event_count(rmid, &rr);
-> -
-> -		/*
-> -		 * Call the MBA software controller only for the
-> -		 * control groups and when user has enabled
-> -		 * the software controller explicitly.
-> -		 */
-> -		if (is_mba_sc(NULL))
-> -			mbm_bw_count(rmid, &rr);
->  	}
-> +
-> +	/*
-> +	 * Call the MBA software controller only for the
-> +	 * control groups and when user has enabled
-> +	 * the software controller explicitly.
-> +	 */
-> +	if (is_mba_sc(NULL))
-> +		mbm_bw_count(rmid, &rr);
->  }
-> 
->  /*
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 69a1de92384a..0c4f8a1b8df0 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -2294,7 +2294,7 @@ static bool supports_mba_mbps(void)  {
->  	struct rdt_resource *r =
-> &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
-> 
-> -	return (is_mbm_local_enabled() &&
-> +	return (is_mbm_enabled() &&
->  		r->alloc_capable && is_mba_linear());  }
-> 
-> --
-> 2.41.0
+https://lore.kernel.org/linux-mm/20231024203302.1920362-1-nphamcs@gmail.com/
 
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 11 +++++
+ Documentation/admin-guide/mm/zswap.rst  |  6 +++
+ include/linux/memcontrol.h              | 20 ++++++++++
+ mm/memcontrol.c                         | 53 +++++++++++++++++++++++++
+ mm/page_io.c                            |  6 +++
+ mm/shmem.c                              |  8 +++-
+ mm/zswap.c                              |  9 +++++
+ 7 files changed, 111 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 606b2e0eac4b..34306d70b3f7 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1657,6 +1657,17 @@ PAGE_SIZE multiple when read back.
+ 	higher than the limit for an extended period of time.  This
+ 	reduces the impact on the workload and memory management.
+ 
++  memory.swap.bypass.enabled
++	A read-write single value file which exists on non-root
++	cgroups.  The default value is "0".
++
++	When this is set to 1, all swapping attempts are disabled.
++	Note that this is subtly different from setting memory.swap.max to
++	0, as it still allows for pages to be written to the zswap pool
++	(which also consumes swap space in its current form). However,
++	zswap store failure will not lead to swapping, and zswap writebacks
++	will be disabled altogether.
++
+   memory.zswap.current
+ 	A read-only single value file which exists on non-root
+ 	cgroups.
+diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
+index 522ae22ccb84..b7bf481a3e25 100644
+--- a/Documentation/admin-guide/mm/zswap.rst
++++ b/Documentation/admin-guide/mm/zswap.rst
+@@ -153,6 +153,12 @@ attribute, e. g.::
+ 
+ Setting this parameter to 100 will disable the hysteresis.
+ 
++Some users cannot tolerate the swapping that comes with zswap store failures
++and zswap writebacks. Swapping can be disabled entirely (without disabling
++zswap itself) on a cgroup-basis as follows:
++
++	echo 1 > /sys/fs/cgroup/<cgroup-name>/memory.swap.bypass.enabled
++
+ When there is a sizable amount of cold memory residing in the zswap pool, it
+ can be advantageous to proactively write these cold pages to swap and reclaim
+ the memory for other use cases. By default, the zswap shrinker is disabled.
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index c1846e57011b..e481c5c609f2 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -221,6 +221,9 @@ struct mem_cgroup {
+ 	unsigned long zswap_max;
+ #endif
+ 
++	/* bypass swap (on zswap failure and writebacks) */
++	bool swap_bypass_enabled;
++
+ 	unsigned long soft_limit;
+ 
+ 	/* vmpressure notifications */
+@@ -1157,6 +1160,13 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_data_t *pgdat, int order,
+ 						gfp_t gfp_mask,
+ 						unsigned long *total_scanned);
+ 
++static inline bool mem_cgroup_swap_bypass_enabled(struct mem_cgroup *memcg)
++{
++	return memcg && READ_ONCE(memcg->swap_bypass_enabled);
++}
++
++bool mem_cgroup_swap_bypass_folio(struct folio *folio);
++
+ #else /* CONFIG_MEMCG */
+ 
+ #define MEM_CGROUP_ID_SHIFT	0
+@@ -1615,6 +1625,16 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_data_t *pgdat, int order,
+ {
+ 	return 0;
+ }
++
++static inline bool mem_cgroup_swap_bypass_enabled(struct mem_cgroup *memcg)
++{
++	return false;
++}
++
++static inline bool mem_cgroup_swap_bypass_folio(struct folio *folio)
++{
++	return false;
++}
+ #endif /* CONFIG_MEMCG */
+ 
+ static inline void __inc_lruvec_kmem_state(void *p, enum node_stat_item idx)
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 568d9d037a59..f231cf2f745b 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -7928,6 +7928,28 @@ bool mem_cgroup_swap_full(struct folio *folio)
+ 	return false;
+ }
+ 
++bool mem_cgroup_swap_bypass_folio(struct folio *folio)
++{
++	struct obj_cgroup *objcg = get_obj_cgroup_from_folio(folio);
++	struct mem_cgroup *memcg;
++	bool ret;
++
++	if (!objcg)
++		return false;
++
++	if (mem_cgroup_disabled()) {
++		obj_cgroup_put(objcg);
++		return false;
++	}
++
++	memcg = get_mem_cgroup_from_objcg(objcg);
++	ret = mem_cgroup_swap_bypass_enabled(memcg);
++
++	mem_cgroup_put(memcg);
++	obj_cgroup_put(objcg);
++	return ret;
++}
++
+ static int __init setup_swap_account(char *s)
+ {
+ 	pr_warn_once("The swapaccount= commandline option is deprecated. "
+@@ -8013,6 +8035,31 @@ static int swap_events_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
++static int swap_bypass_enabled_show(struct seq_file *m, void *v)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
++
++	seq_printf(m, "%d\n", READ_ONCE(memcg->swap_bypass_enabled));
++	return 0;
++}
++
++static ssize_t swap_bypass_enabled_write(struct kernfs_open_file *of,
++				char *buf, size_t nbytes, loff_t off)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
++	int swap_bypass_enabled;
++	ssize_t parse_ret = kstrtoint(strstrip(buf), 0, &swap_bypass_enabled);
++
++	if (parse_ret)
++		return parse_ret;
++
++	if (swap_bypass_enabled != 0 && swap_bypass_enabled != 1)
++		return -ERANGE;
++
++	WRITE_ONCE(memcg->swap_bypass_enabled, swap_bypass_enabled);
++	return nbytes;
++}
++
+ static struct cftype swap_files[] = {
+ 	{
+ 		.name = "swap.current",
+@@ -8042,6 +8089,12 @@ static struct cftype swap_files[] = {
+ 		.file_offset = offsetof(struct mem_cgroup, swap_events_file),
+ 		.seq_show = swap_events_show,
+ 	},
++	{
++		.name = "swap.bypass.enabled",
++		.flags = CFTYPE_NOT_ON_ROOT,
++		.seq_show = swap_bypass_enabled_show,
++		.write = swap_bypass_enabled_write,
++	},
+ 	{ }	/* terminate */
+ };
+ 
+diff --git a/mm/page_io.c b/mm/page_io.c
+index cb559ae324c6..0c84e1592c39 100644
+--- a/mm/page_io.c
++++ b/mm/page_io.c
+@@ -201,6 +201,12 @@ int swap_writepage(struct page *page, struct writeback_control *wbc)
+ 		folio_end_writeback(folio);
+ 		return 0;
+ 	}
++
++	if (mem_cgroup_swap_bypass_folio(folio)) {
++		folio_mark_dirty(folio);
++		return AOP_WRITEPAGE_ACTIVATE;
++	}
++
+ 	__swap_writepage(&folio->page, wbc);
+ 	return 0;
+ }
+diff --git a/mm/shmem.c b/mm/shmem.c
+index cab053831fea..6ce1d4a7a48b 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -1514,8 +1514,12 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
+ 
+ 		mutex_unlock(&shmem_swaplist_mutex);
+ 		BUG_ON(folio_mapped(folio));
+-		swap_writepage(&folio->page, wbc);
+-		return 0;
++		/*
++		 * Seeing AOP_WRITEPAGE_ACTIVATE here indicates swapping is disabled on
++		 * zswap store failure. Note that in that case the folio is already
++		 * re-marked dirty by swap_writepage()
++		 */
++		return swap_writepage(&folio->page, wbc);
+ 	}
+ 
+ 	mutex_unlock(&shmem_swaplist_mutex);
+diff --git a/mm/zswap.c b/mm/zswap.c
+index c40697f07ba3..f19e26d647a3 100644
+--- a/mm/zswap.c
++++ b/mm/zswap.c
+@@ -535,6 +535,9 @@ static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+ 	struct zswap_pool *pool = shrinker->private_data;
+ 	bool encountered_page_in_swapcache = false;
+ 
++	if (mem_cgroup_swap_bypass_enabled(sc->memcg))
++		return SHRINK_STOP;
++
+ 	nr_protected =
+ 		atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_protected);
+ 	lru_size = list_lru_shrink_count(&pool->list_lru, sc);
+@@ -565,6 +568,9 @@ static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
+ 	struct lruvec *lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(sc->nid));
+ 	unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
+ 
++	if (mem_cgroup_swap_bypass_enabled(memcg))
++		return 0;
++
+ #ifdef CONFIG_MEMCG_KMEM
+ 	cgroup_rstat_flush(memcg->css.cgroup);
+ 	nr_backing = memcg_page_state(memcg, MEMCG_ZSWAP_B) >> PAGE_SHIFT;
+@@ -890,6 +896,9 @@ static int shrink_memcg(struct mem_cgroup *memcg)
+ 	struct zswap_pool *pool;
+ 	int nid, shrunk = 0;
+ 
++	if (mem_cgroup_swap_bypass_enabled(memcg))
++		return -EINVAL;
++
+ 	/*
+ 	 * Skip zombies because their LRUs are reparented and we would be
+ 	 * reclaiming from the parent instead of the dead memcg.
+-- 
+2.34.1
