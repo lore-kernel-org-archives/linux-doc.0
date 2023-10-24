@@ -1,83 +1,160 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1EE3AC0C
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 16:36:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1903A268
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 16:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bvia4VeL"
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1872C93;
-	Tue, 24 Oct 2023 09:36:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=FRhM1lkxrMQXB6nBknGKk7DxO1qxF/oGT3Z0ktDXX/c=; b=bvia4VeLbi96QgUtm2UwDli3dl
-	sD5sTqhoOKDHRkgmNgdpLszg1kwxUjO9vfBlgEViuJReaFKzlGwpl+1r94ig5eFb5jAWpfAM05VcI
-	l6ew3hQ2TkPFk+UwXNuNGFdFxLq/RLAfw1Lnb4PYf9wzRP6582UY7hEN7pjnUx2ytUfdj/kAUr0Dd
-	nUse4Z5ibfKe2COkrTmzj3AIIh1WHXltbvk/jSmvgW4FcfrlE3t5JVymO94gQuDuTicL2Rd8n2H0P
-	bkofqcMFA1Jd+X1LKHLHaLoL35pUo5YeI+woc+579kPk4t/GTz03Zs1UjA8Pfrbu8Fvl35vURJ96+
-	u2prTGew==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvKOE-00Fdzk-0V;
-	Tue, 24 Oct 2023 16:36:22 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C9A5B300451; Tue, 24 Oct 2023 18:36:21 +0200 (CEST)
-Date: Tue, 24 Oct 2023 18:36:21 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Alyssa Milburn <alyssa.milburn@intel.com>
-Subject: Re: [PATCH  v2 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20231024163621.GD40044@noisy.programming.kicks-ass.net>
-References: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com>
- <20231024-delay-verw-v2-1-f1881340c807@linux.intel.com>
- <20231024103601.GH31411@noisy.programming.kicks-ass.net>
- <20231024163515.aivo2xfmwmbmlm7z@desk>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="lVOXQsbs"
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C977012B
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 09:37:55 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-507c50b7c36so6539127e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 09:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1698165474; x=1698770274; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HQ00iT5MBLthBXpEW1UVbJpzOdfkXUyxCtvUUc+C6ro=;
+        b=lVOXQsbsoLo4Tc5Cjs3xTpMdldD1eRpUaUvmdLtuCDqQUxrmgdSPiLtyheha7Oy0I+
+         D67g/qeYZjTe2S9ZbwVYwDKwEQH2r1tTvoVF0N+lLo58+afjhq0vknX2bmPUY9KDXhZO
+         jH3hIikXoHyC5e2jCsAEWfq2cC5d3Z5LugHiRhg93yrUnOyuLj1+jBKXRbGZGHClQ0ob
+         pbLXmTx42ldtP9w/O3ssd1I5gi2MdvGsR98KKTcvUuAneJ0vbU8v9YOa1Z/LHLEnksM2
+         7et0pWQILrJ2+cwa1eGXW8Z6mTuj6CTSXxn4ePkpkEbU+Ffzbh2a9tc3kydkAnUWyblC
+         1Rqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698165474; x=1698770274;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HQ00iT5MBLthBXpEW1UVbJpzOdfkXUyxCtvUUc+C6ro=;
+        b=eiBCHpj/voXi7BO/6OzXAad6WN1JdKfIaPskvytnJXsHLEAiNxRE7c73Df5g9lve66
+         MEb64ldrV9AI0hvpoYCsUCNiRx5XiGHoWKWlI3Dofj7PbaEKJL8cbhJe3vEZT4jFeVGD
+         yVNvD2pEtIhKPlORCigHAkUsW6nr/swXXq1PPnS69UJiuC0luduW7mAsT+VoGW1xovB2
+         6r6kvqXXC8Zujie8lZK1Js0A5USmkFkdktIHDjPTMj7W9vitBJJGsaEtRJcQtOqWzIZX
+         Nvqzs6cQTROOw/dZR1qO2Iy0mBeELSWo4fE7e2bMftkvbQXttfBuUKREEQVh/3hcIdBL
+         ywrA==
+X-Gm-Message-State: AOJu0Yx5YWqF3aQ5aS296oxMBjowgBvtPjBRlkdIlR476TWDgK2lF0fV
+	qmbRHQnymzY2VxldXLXEhGc+p0WN4yihYZBpkM2jeYKjBHxHIUT5
+X-Google-Smtp-Source: AGHT+IHU0SuW8qIrTkg9+1VPEqjIrc2hDcfHXiQbZ/0vtxjVpobAABBwhRBFea6xvpHVBg9QxcWjpITCntgT0kGXieE=
+X-Received: by 2002:ac2:5104:0:b0:507:b17a:709e with SMTP id
+ q4-20020ac25104000000b00507b17a709emr9561597lfb.1.1698165473946; Tue, 24 Oct
+ 2023 09:37:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231024163515.aivo2xfmwmbmlm7z@desk>
+References: <20231017131456.2053396-1-cleger@rivosinc.com> <20231017131456.2053396-3-cleger@rivosinc.com>
+ <CALs-HssmufWCKzaGy7BwWz4n4hfwV9NjjRD-O_JeupM-p=Ov+w@mail.gmail.com>
+ <d0ea4996-5c48-47b4-99b0-f4211276e0b2@rivosinc.com> <56f6af04-bdf4-4b85-99dc-9eb4f391d7ad@rivosinc.com>
+In-Reply-To: <56f6af04-bdf4-4b85-99dc-9eb4f391d7ad@rivosinc.com>
+From: Evan Green <evan@rivosinc.com>
+Date: Tue, 24 Oct 2023 09:37:17 -0700
+Message-ID: <CALs-Hsvy411MnHQXHLK8u4JmM+LO5R2tuCxY6zQco7BKJONqPA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/19] riscv: add ISA extension parsing for scalar crypto
+To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Palmer Dabbelt <palmer@rivosinc.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Jones <ajones@ventanamicro.com>, 
+	Conor Dooley <conor@kernel.org>, Samuel Ortiz <sameo@rivosinc.com>, 
+	Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 24, 2023 at 09:35:15AM -0700, Pawan Gupta wrote:
-> On Tue, Oct 24, 2023 at 12:36:01PM +0200, Peter Zijlstra wrote:
-> > On Tue, Oct 24, 2023 at 01:08:21AM -0700, Pawan Gupta wrote:
-> > 
-> > > +.macro CLEAR_CPU_BUFFERS
-> > > +	ALTERNATIVE "jmp .Lskip_verw_\@;", "jmp .Ldo_verw_\@", X86_FEATURE_CLEAR_CPU_BUF
-> > > +		/* nopl __KERNEL_DS(%rax) */
-> > > +		.byte 0x0f, 0x1f, 0x80, 0x00, 0x00;
-> > > +.Lverw_arg_\@:	.word __KERNEL_DS;
-> > > +.Ldo_verw_\@:	verw _ASM_RIP(.Lverw_arg_\@);
-> > > +.Lskip_verw_\@:
-> > > +.endm
-> > 
-> > Why can't this be:
-> > 
-> > 	ALTERNATIVE "". "verw _ASM_RIP(mds_verw_sel)", X86_FEATURE_CLEAR_CPU_BUF
-> > 
-> > And have that mds_verw_sel thing be out-of-line ?
-> 
-> I haven't done this way because its a tad bit fragile as it depends on
-> modules being within 4GB of kernel.
+On Tue, Oct 24, 2023 at 2:30=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <cleger@riv=
+osinc.com> wrote:
+>
+>
+>
+> On 24/10/2023 09:18, Cl=C3=A9ment L=C3=A9ger wrote:
+> >
+> >
+> > On 23/10/2023 18:21, Evan Green wrote:
+> >> On Tue, Oct 17, 2023 at 6:15=E2=80=AFAM Cl=C3=A9ment L=C3=A9ger <clege=
+r@rivosinc.com> wrote:
+> >>>
+> >>> From: Evan Green <evan@rivosinc.com>
+> >>>
+> >>> The Scalar Crypto specification defines Zk as a shorthand for the
+> >>> Zkn, Zkr and Zkt extensions. The same follows for both Zkn, Zks and Z=
+bk,
+> >>> which are all shorthands for various other extensions. The detailed
+> >>> breakdown can be found in their dt-binding entries.
+> >>>
+> >>> Since Zkn also implies the Zbkb, Zbkc and Zbkx extensions, simply pas=
+sing
+> >>> "zk" through a DT should enable all of Zbkb, Zbkc, Zbkx, Zkn, Zkr and=
+ Zkt.
+> >>> For example, setting the "riscv,isa" DT property to "rv64imafdc_zk"
+> >>> should generate the following cpuinfo output:
+> >>> "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zbkb_zbkc_zbkx_zknd_zkne_zknh=
+_zkr_zkt"
+> >>>
+> >>> riscv_isa_ext_data grows a pair of new members, to permit setting the
+> >>> relevant bits for "bundled" extensions, both while parsing the ISA st=
+ring
+> >>> and the new dedicated extension properties
+> >>>
+> >>> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
+> >>> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> >>> Signed-off-by: Evan Green <evan@rivosinc.com>
+> >>> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
+> >>
+> >> My tree might be out of sync, but in my search for riscv_isa_ext, I
+> >> also found a use in print_isa() (cpu.c) where we're reaching into
+> >> riscv_isa_ext[].id and assuming it's always valid. If that's still in
+> >> there we'll want to fix up that spot too, since now with bundles .id
+> >> may or may not be valid.
+> >
+> > Oh indeed, the array is visible outside of this compilation unit :/.
+> > I'll check that before sending V3.
+>
+> After looking a bit more at that, it actually seems that id is used in
+> cpuinfo to determine which extensions are present which means you are
+> right, bundle_size needs to be accounted for.
+>
+> Looking at it also raises the question (again) of exposing the "bundles"
+> extensions themselves or not in cpuinfo output. With the current setup,
+> the bundles extensions won't be visible in cpuinfo output. For instance
+> if Zk was in the isa string, then it will not be visible in the cpuinfo
+> output, only the child extensions. One solution would be to always have
+> a valid id for each extension. So we would have one for Zk for instance.
+>
+> We would then have a similar setup for all "bundles" or "subset"
+> extensions, they would have a id for all of them. For instance, Zk would
+> become:
+>
+> __RISCV_ISA_EXT_DATA_BUNDLE(zk, RISCV_ISA_EXT_ZK, riscv_zk_bundled_exts)
+>
+> Same would go for zvbb (riscv_zvbb_subset_exts would only contain Zvkb):
+>
+> __RISCV_ISA_EXT_DATA_BUNDLE(zk, RISCV_ISA_EXT_ZVBB, riscv_zvbb_subset_ext=
+s)
+>
+> For the sake of completeness, I feel like it would be good to have all
+> the extensions (bundles or not) visible in the riscv_isa_ext.
+>
+> Any objection ?
 
-We 100% rely on that *everywhere*, nothing fragile about it.
+I could be persuaded that it's a good idea, but there are arguments to
+be made for not defining them as separate bits:
+
+1. Having two (sets of) bits that mean the same thing means usermode
+now has to decide which one to query, or query both. Multiple values
+that mean the same thing is always something that makes me nervous.
+2. To avoid these two sets having different answers, we'd have to
+solve the reverse problem too: If all of the bundled extensions that
+make up Zk are on, we'd need to detect that and turn Zk on as well.
+That code would also need to know the difference between a pure lasso
+like Zk, where you should flip it on if its components are on, and the
+loose change variant we were discussing on the other thread (Zvkb?),
+where you cannot.
+
+Pretending pure lasso extensions didn't exist on their own was a way
+to sidestep the problem.
+-Evan
