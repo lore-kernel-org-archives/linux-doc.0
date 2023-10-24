@@ -1,48 +1,48 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF16E21116
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 08:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED86C23765
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 08:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="DFkldGMd"
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F441712
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 01:33:50 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6bd73395bceso3079605b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 01:33:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="GqvjHc99"
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED9E10DD
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 01:33:57 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-5b5354da665so2299415a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 01:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1698136430; x=1698741230; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1698136436; x=1698741236; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mFyp/FJQdSo4OvDS2koRMpNI0AcMCWskpm09jBYSG+0=;
-        b=DFkldGMdV2JxmJtnJ2BwYAUGwWXjuXpH7vMPy9/txF2bmv7IAxzKNlda7tFnfBzhrE
-         Z7pWAxLLI6z0aHZ9pJ3N4u2AiEcqqd0J3CzRIyyASI7VkE997XKLXtrWN/KMGzl6av5r
-         K61YgrGTJA97Gs5yThZ1YggtD87zhHjGzq3XRBF6NsJJmB5vU7VO8WVUOgCFtdEmY59z
-         gKN0xeDUcGgkUDHBiU3yxZ6jGIF25XZdFLc9dSDO4DrexPZo7pV+xNoy957cUer4tTwN
-         HjNj3vtdAQ99teS4CFZ1Sv3c107vn+9NFYi0Iykdk3lkVbogEJdgilgF7oAvh6u0h1fC
-         xP2Q==
+        bh=QmT9t2gNl7JC/Wj/BeBLe/fYUtz3EaMSD0bTELVUlD4=;
+        b=GqvjHc99IbEBZlveybU0D8fTBBlqe+5Ky0UCXDZB8PFwd279bHDMYd6DNStGBbmDYj
+         ZrF/X5gQG3+6FzoP+wo6/xV+JHpxmEVyFE/bEp5FlnONxxEArr8+kVhdgW6brSJdenIc
+         rW3fn0k6u9xzNZJQuCfokK9CMcg+LzehC2U6+Rnq6+97/iB8CKp+vYDsQDzvwpJOLMOK
+         x9axsO7Bj0h7Qd5rjO9oW3CQVyvmNFRhqhcONU818lCuH7DkZswcSOL+lib8Zy33LKI3
+         dMjmrg6dEawPdgMnDNO0ezM0C20fT2vrXjVCQ/ElhZpQc0LbBrg6MmtMQutR1LgExcSM
+         4dSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698136430; x=1698741230;
+        d=1e100.net; s=20230601; t=1698136436; x=1698741236;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mFyp/FJQdSo4OvDS2koRMpNI0AcMCWskpm09jBYSG+0=;
-        b=Fcr6veCTUP6sh4jTF0r0bLSmlooBZU32YdKa48jse7Lr4M0z4QpUhFqT9LWlJVrIbg
-         Y9sTftDZR6pysvxIVGs4f3jCtBPCJ9bYf2CRLbpsDg2dI+I20hk16xce0s3VvNibVyug
-         Y/ieW0E1BqY/iRmFkKefqAbNfEZJ4x6z6FjbeH9xKIShLcpjNLaGUe1/WkqRvohauzmE
-         vd/9nDoS70UxM0yBYsj3strBaS7h+VsfCKuU6l3EK1l0tjdpeNhdBujQIk7KAFYE+rMt
-         jo5Cu+9hFL7QmXYHCWUsbW9quNy7YsMvecbrkQm/OaZJAZjW4/D4a53H1yX/LKKpsYnY
-         Lq3Q==
-X-Gm-Message-State: AOJu0YykWHOCG4fMhE6Z9L6AFgNw0KLN9j9268x0a+cdSx2w0Cgyo+Cm
-	Py4hQ4M1XHLVHqQhI3lXxokAZg==
-X-Google-Smtp-Source: AGHT+IFGRqPLSl0xQjtZhF9R2vYQNinwziWDialz1aZ2psT6bnUbvTADzmyVrOS+Nnq8WOBVXot69w==
-X-Received: by 2002:aa7:8885:0:b0:68e:2c2a:5172 with SMTP id z5-20020aa78885000000b0068e2c2a5172mr16021661pfe.6.1698136429778;
-        Tue, 24 Oct 2023 01:33:49 -0700 (PDT)
+        bh=QmT9t2gNl7JC/Wj/BeBLe/fYUtz3EaMSD0bTELVUlD4=;
+        b=iQp3NeLxdnvoN40dnyft4UhJRhCQfouOm1cLCairOnDkykK6PSh0TplsNNqqjH0fOW
+         4pAhFurGaUv/D/0QSPDmCOdxAHtOHG1OJbYOmuQRFWZmkgi4psNSOxFjzySxUIhAuEJ5
+         ZYwRQyw6xt2F0QmRItoXK1xSp3eulfbJ0y2tEs0aTZtkICp9F/4YHQNAAzho+iKjOYvM
+         heMGi5vvlXp8lKU0rqDHUfizmk+8YiIpuAy6VdrnXh1lc57v54iWpeFuCnhP3EUFBH2D
+         vVlsroixEdv092YoSz/7fJUO+WcWh3qIclG5g7qjiLjxjPlGcEreEyMK5HohJAUF8QrW
+         ETUQ==
+X-Gm-Message-State: AOJu0YxoPJqpftBpAJp8XXR1EBaf9vAUQZUSs+fuh7TuloahLjS1yjls
+	BthZVznCK0IY7H/BzgRWBJG5KA==
+X-Google-Smtp-Source: AGHT+IF878eTLhy6MBaFtUQubSuP7YPQ3APPj4js3z/kylyjvhAgv4iCwOSuEsZvOnsr4GHMJn44lw==
+X-Received: by 2002:a05:6a20:6a28:b0:161:28e0:9abd with SMTP id p40-20020a056a206a2800b0016128e09abdmr2218020pzk.16.1698136436387;
+        Tue, 24 Oct 2023 01:33:56 -0700 (PDT)
 Received: from GL4FX4PXWL.bytedance.net ([203.208.167.147])
-        by smtp.gmail.com with ESMTPSA id y21-20020aa79af5000000b0068be348e35fsm7236977pfp.166.2023.10.24.01.33.43
+        by smtp.gmail.com with ESMTPSA id y21-20020aa79af5000000b0068be348e35fsm7236977pfp.166.2023.10.24.01.33.50
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 24 Oct 2023 01:33:49 -0700 (PDT)
+        Tue, 24 Oct 2023 01:33:56 -0700 (PDT)
 From: Peng Zhang <zhangpeng.00@bytedance.com>
 To: Liam.Howlett@oracle.com,
 	corbet@lwn.net,
@@ -63,9 +63,9 @@ Cc: zhangpeng.00@bytedance.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v6 06/10] maple_tree: Update the documentation of maple tree
-Date: Tue, 24 Oct 2023 16:32:54 +0800
-Message-Id: <20231024083258.65750-7-zhangpeng.00@bytedance.com>
+Subject: [PATCH v6 07/10] maple_tree: Skip other tests when BENCH is enabled
+Date: Tue, 24 Oct 2023 16:32:55 +0800
+Message-Id: <20231024083258.65750-8-zhangpeng.00@bytedance.com>
 X-Mailer: git-send-email 2.39.3 (Apple Git-145)
 In-Reply-To: <20231024083258.65750-1-zhangpeng.00@bytedance.com>
 References: <20231024083258.65750-1-zhangpeng.00@bytedance.com>
@@ -77,35 +77,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce the new interface mtree_dup() in the documentation.
+Skip other tests when BENCH is enabled so that performance can be
+measured in user space.
 
 Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
 ---
- Documentation/core-api/maple_tree.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ lib/test_maple_tree.c            | 8 ++++----
+ tools/testing/radix-tree/maple.c | 2 ++
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
-index 45defcf15da7..285e2d2b21ae 100644
---- a/Documentation/core-api/maple_tree.rst
-+++ b/Documentation/core-api/maple_tree.rst
-@@ -81,6 +81,9 @@ section.
- Sometimes it is necessary to ensure the next call to store to a maple tree does
- not allocate memory, please see :ref:`maple-tree-advanced-api` for this use case.
+diff --git a/lib/test_maple_tree.c b/lib/test_maple_tree.c
+index 464eeb90d5ad..de470950714f 100644
+--- a/lib/test_maple_tree.c
++++ b/lib/test_maple_tree.c
+@@ -3585,10 +3585,6 @@ static int __init maple_tree_seed(void)
  
-+You can use mtree_dup() to duplicate an entire maple tree. It is a more
-+efficient way than inserting all elements one by one into a new tree.
+ 	pr_info("\nTEST STARTING\n\n");
+ 
+-	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
+-	check_root_expand(&tree);
+-	mtree_destroy(&tree);
+-
+ #if defined(BENCH_SLOT_STORE)
+ #define BENCH
+ 	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
+@@ -3646,6 +3642,10 @@ static int __init maple_tree_seed(void)
+ 	goto skip;
+ #endif
+ 
++	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
++	check_root_expand(&tree);
++	mtree_destroy(&tree);
 +
- Finally, you can remove all entries from a maple tree by calling
- mtree_destroy().  If the maple tree entries are pointers, you may wish to free
- the entries first.
-@@ -112,6 +115,7 @@ Takes ma_lock internally:
-  * mtree_insert()
-  * mtree_insert_range()
-  * mtree_erase()
-+ * mtree_dup()
-  * mtree_destroy()
-  * mt_set_in_rcu()
-  * mt_clear_in_rcu()
+ 	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
+ 	check_iteration(&tree);
+ 	mtree_destroy(&tree);
+diff --git a/tools/testing/radix-tree/maple.c b/tools/testing/radix-tree/maple.c
+index 12b3390e9591..cb5358674521 100644
+--- a/tools/testing/radix-tree/maple.c
++++ b/tools/testing/radix-tree/maple.c
+@@ -36299,7 +36299,9 @@ void farmer_tests(void)
+ 
+ void maple_tree_tests(void)
+ {
++#if !defined(BENCH)
+ 	farmer_tests();
++#endif
+ 	maple_tree_seed();
+ 	maple_tree_harvest();
+ }
 -- 
 2.20.1
 
