@@ -1,45 +1,45 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E472C851
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 13:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9520139951
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 13:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PC+YSAAB"
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6668E2108
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 06:47:58 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5a81a80097fso59827187b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 06:47:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mj7mp9mj"
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D5026A6
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 06:48:02 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5a7aa816c5bso59863737b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 06:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698155277; x=1698760077; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1698155282; x=1698760082; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YqQmkpquk/zEN/BrXUtfRL7OAs/mhY9q/VQlYA3NCSg=;
-        b=PC+YSAAB05pP8/DGW01idGH1Sx+pmaGfrQBVOAsb9RDuNajRuxrICqon1lOUz95r0Z
-         0bhCjYlXi8XxTKH5HBQXC5FIV6f7eAnescJlmzESVtYMSpddQZn4sdhYwxSblsTfRJ9g
-         s2YOPi4PayceyUZiVRmRxE6eEB5w6ddHzxn9GT42kFWO5DRAy+o9EKcqFPHF8aFnuhS6
-         ct14v1THJgKpZ9Sf0TkLE0I2dXATAW8amhXbBD/HAbZHsAjn6IMC9HQWM+1cryjWufeV
-         vqh6eBGMXjgFdA2W+0P9Pxq8dE3n0vZGGtolZv2DzT/NzLHbTMPPFVsIf1cOgMCj7+T5
-         TeiQ==
+        bh=+3jXXsjNPLXrWv+rf69UQa/6uvXnoVOikFRei2b/KT8=;
+        b=mj7mp9mjCnUwbHFzXtJRB8JtxCctz3Xv/EqKylemAcbGt3uoD4496yEaf5lDjabkHE
+         tcFBvnP/9NZuVH7xxABOxsHuGMlWTjIpU4ohTuYAN9usv5NLAEoKk1/eO4+1+GknmpfM
+         5B6469drXXWkacLG2A428xOET1WYv/6UQDtqvDZLDRevtVGiskNMxKrZcppMWKkU7zrf
+         lwGUctS2Eg9fLDMQdLsqgw/rbFqd7W1xNoEMo4iW/CBjLkbdwsAGfaI+hEzdTZeBZNEE
+         HoUmlqjWNgenU05LbyAavx2Yyfu182dIM8E08RGfVax6V5DaBmuH3THAAIYfmy5Ke2Cn
+         xxXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698155277; x=1698760077;
+        d=1e100.net; s=20230601; t=1698155282; x=1698760082;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YqQmkpquk/zEN/BrXUtfRL7OAs/mhY9q/VQlYA3NCSg=;
-        b=YYkam5x/K4IRHbhP4V3r0EruQrLY/Lwun5XoDa2JYWyCtCs2vM5vJdLLQLezdWJ9tr
-         8AKeVFofSnYkHo/BRL7N+AWGwIg+rb2o0okyt0O1W1FIGc3YYfcEZ6cWHbPJNHlgxkOk
-         SPSbl4pAnvs8BJSB6gwROg/QwmreJ6WLlI0wUSrllSl1KD4qpHpAIEIuPnx56RPAX403
-         Ye3oVDKVJ3Y9k4wGG/O28CNyLI0VvFdh6MQuNJr9CLy+2dgIPzNminGnCx5/4Igl7erH
-         JVwLr4dF5T+jCqI85i119XDNQs/W2pewjmNojzuJq9nuXno0KQ23uKAvXdWICCI2rKlc
-         L18Q==
-X-Gm-Message-State: AOJu0YzfyWwrSvptLj7XFZgna5si7b7eED0r/CynxBZ546bHxNCe2OHS
-	Cbarh7pYOIIs1ajm8LD6VgE7xOI8tKk=
-X-Google-Smtp-Source: AGHT+IH6wvOVzrOaaGyY1/e57eYHLfTZ/5bwoybFh+Q+IMjNK5yyYqtlQtnc2beg11hZB/FoRq4QkUDgnBs=
+        bh=+3jXXsjNPLXrWv+rf69UQa/6uvXnoVOikFRei2b/KT8=;
+        b=TGk+AawutOzduB0KmeH81YOWZ+ZJ+/N9TiVJ2dIU/2Y4CHx4W3k2NKZUV2sO7gaZ72
+         nHoKo4bwckyKXtY6+5nodTLU6YX5UegUfWmlBaE+bi64mzm6bovt55DHT73a7oLhN736
+         KeqSRp/AmW6xDpZLFHj5kbkhrJGkWkRXBYvl1d9sdsZ4isiA29yMYJF6y+eSiXrfKQZC
+         Gnjb3/defSVcB0s8Rj6HSOO+zV2X+kc1kYH6ZhKt5td5qK/+A1u1SFsu/0tsW+ng8pvu
+         HELDWAA0/6RT+JoLoBCjSvEjCc2a62td0SgfRSjxMFky+rQMuZUrKGPTycaAGxQ6qNx+
+         GGtg==
+X-Gm-Message-State: AOJu0YwMmDwL82fQ4f0hKTGx6gU1LoMTj/lGjk0l6/ypqhiccEd6zMdP
+	3dPqBNi92yVlSgzD2kAwqN0w3VU7fB4=
+X-Google-Smtp-Source: AGHT+IH8yezIA8jxKZavrTPxkBvsmi2Yxz7WtkoiuiQPT9VSDtMO7/bIUQjwMdJw5xsPHzLAEf+sR1TuKL8=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:45ba:3318:d7a5:336a])
- (user=surenb job=sendgmr) by 2002:a81:4853:0:b0:5a8:3f07:ddd6 with SMTP id
- v80-20020a814853000000b005a83f07ddd6mr266393ywa.6.1698155277184; Tue, 24 Oct
- 2023 06:47:57 -0700 (PDT)
-Date: Tue, 24 Oct 2023 06:46:31 -0700
+ (user=surenb job=sendgmr) by 2002:a25:d50c:0:b0:d9c:66d1:9597 with SMTP id
+ r12-20020a25d50c000000b00d9c66d19597mr227720ybe.13.1698155281680; Tue, 24 Oct
+ 2023 06:48:01 -0700 (PDT)
+Date: Tue, 24 Oct 2023 06:46:33 -0700
 In-Reply-To: <20231024134637.3120277-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -49,8 +49,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20231024134637.3120277-1-surenb@google.com>
 X-Mailer: git-send-email 2.42.0.758.gaed0368e0e-goog
-Message-ID: <20231024134637.3120277-35-surenb@google.com>
-Subject: [PATCH v2 34/39] rhashtable: Plumb through alloc tag
+Message-ID: <20231024134637.3120277-37-surenb@google.com>
+Subject: [PATCH v2 36/39] codetag: debug: skip objext checking when it's for
+ objext itself
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -80,204 +81,129 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-From: Kent Overstreet <kent.overstreet@linux.dev>
+objext objects are created with __GFP_NO_OBJ_EXT flag and therefore have
+no corresponding objext themselves (otherwise we would get an infinite
+recursion). When freeing these objects their codetag will be empty and
+when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled this will lead to false
+warnings. Introduce CODETAG_EMPTY special codetag value to mark
+allocations which intentionally lack codetag to avoid these warnings.
+Set objext codetags to CODETAG_EMPTY before freeing to indicate that
+the codetag is expected to be empty.
 
-This gives better memory allocation profiling results; rhashtable
-allocations will be accounted to the code that initialized the
-rhashtable.
-
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/rhashtable-types.h | 11 +++++--
- lib/rhashtable.c                 | 52 +++++++++++++++++++++++++-------
- 2 files changed, 50 insertions(+), 13 deletions(-)
+ include/linux/alloc_tag.h | 26 ++++++++++++++++++++++++++
+ mm/slab.h                 | 33 +++++++++++++++++++++++++++++++++
+ mm/slab_common.c          |  1 +
+ 3 files changed, 60 insertions(+)
 
-diff --git a/include/linux/rhashtable-types.h b/include/linux/rhashtable-types.h
-index 57467cbf4c5b..aac2984c2ef0 100644
---- a/include/linux/rhashtable-types.h
-+++ b/include/linux/rhashtable-types.h
-@@ -9,6 +9,7 @@
- #ifndef _LINUX_RHASHTABLE_TYPES_H
- #define _LINUX_RHASHTABLE_TYPES_H
+diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
+index 0a5973c4ad77..1f3207097b03 100644
+--- a/include/linux/alloc_tag.h
++++ b/include/linux/alloc_tag.h
+@@ -77,6 +77,27 @@ static inline struct alloc_tag_counters alloc_tag_read(struct alloc_tag *tag)
+ 	return v;
+ }
  
-+#include <linux/alloc_tag.h>
- #include <linux/atomic.h>
- #include <linux/compiler.h>
- #include <linux/mutex.h>
-@@ -88,6 +89,9 @@ struct rhashtable {
- 	struct mutex                    mutex;
- 	spinlock_t			lock;
- 	atomic_t			nelems;
-+#ifdef CONFIG_MEM_ALLOC_PROFILING
-+	struct alloc_tag		*alloc_tag;
-+#endif
- };
- 
- /**
-@@ -127,9 +131,12 @@ struct rhashtable_iter {
- 	bool end_of_table;
- };
- 
--int rhashtable_init(struct rhashtable *ht,
-+int rhashtable_init_noprof(struct rhashtable *ht,
- 		    const struct rhashtable_params *params);
--int rhltable_init(struct rhltable *hlt,
-+#define rhashtable_init(...)	alloc_hooks(rhashtable_init_noprof(__VA_ARGS__))
++#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
 +
-+int rhltable_init_noprof(struct rhltable *hlt,
- 		  const struct rhashtable_params *params);
-+#define rhltable_init(...)	alloc_hooks(rhltable_init_noprof(__VA_ARGS__))
- 
- #endif /* _LINUX_RHASHTABLE_TYPES_H */
-diff --git a/lib/rhashtable.c b/lib/rhashtable.c
-index 6ae2ba8e06a2..b62116f332b8 100644
---- a/lib/rhashtable.c
-+++ b/lib/rhashtable.c
-@@ -63,6 +63,27 @@ EXPORT_SYMBOL_GPL(lockdep_rht_bucket_is_held);
- #define ASSERT_RHT_MUTEX(HT)
- #endif
- 
-+#ifdef CONFIG_MEM_ALLOC_PROFILING
-+static inline void rhashtable_alloc_tag_init(struct rhashtable *ht)
++#define CODETAG_EMPTY	(void *)1
++
++static inline bool is_codetag_empty(union codetag_ref *ref)
 +{
-+	ht->alloc_tag = current->alloc_tag;
++	return ref->ct == CODETAG_EMPTY;
 +}
 +
-+static inline struct alloc_tag *rhashtable_alloc_tag_save(struct rhashtable *ht)
++static inline void set_codetag_empty(union codetag_ref *ref)
 +{
-+	return alloc_tag_save(ht->alloc_tag);
++	if (ref)
++		ref->ct = CODETAG_EMPTY;
 +}
 +
-+static inline void rhashtable_alloc_tag_restore(struct rhashtable *ht, struct alloc_tag *old)
-+{
-+	alloc_tag_restore(ht->alloc_tag, old);
-+}
-+#else
-+#define rhashtable_alloc_tag_init(ht)
-+static inline struct alloc_tag *rhashtable_alloc_tag_save(struct rhashtable *ht) { return NULL; }
-+#define rhashtable_alloc_tag_restore(ht, old)
-+#endif
++#else /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
 +
- static inline union nested_table *nested_table_top(
- 	const struct bucket_table *tbl)
++static inline bool is_codetag_empty(union codetag_ref *ref) { return false; }
++
++#endif /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
++
+ static inline void __alloc_tag_sub(union codetag_ref *ref, size_t bytes)
  {
-@@ -130,7 +151,7 @@ static union nested_table *nested_table_alloc(struct rhashtable *ht,
- 	if (ntbl)
- 		return ntbl;
+ 	struct alloc_tag *tag;
+@@ -87,6 +108,11 @@ static inline void __alloc_tag_sub(union codetag_ref *ref, size_t bytes)
+ 	if (!ref || !ref->ct)
+ 		return;
  
--	ntbl = kzalloc(PAGE_SIZE, GFP_ATOMIC);
-+	ntbl = kmalloc_noprof(PAGE_SIZE, GFP_ATOMIC|__GFP_ZERO);
++	if (is_codetag_empty(ref)) {
++		ref->ct = NULL;
++		return;
++	}
++
+ 	tag = ct_to_alloc_tag(ref->ct);
  
- 	if (ntbl && leaf) {
- 		for (i = 0; i < PAGE_SIZE / sizeof(ntbl[0]); i++)
-@@ -157,7 +178,7 @@ static struct bucket_table *nested_bucket_table_alloc(struct rhashtable *ht,
+ 	this_cpu_sub(tag->counters->bytes, bytes);
+diff --git a/mm/slab.h b/mm/slab.h
+index 4859ce1f8808..45216bad34b8 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -455,6 +455,31 @@ static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
+ int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
+ 			gfp_t gfp, bool new_slab);
  
- 	size = sizeof(*tbl) + sizeof(tbl->buckets[0]);
++
++#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
++
++static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
++{
++	struct slabobj_ext *slab_exts;
++	struct slab *obj_exts_slab;
++
++	obj_exts_slab = virt_to_slab(obj_exts);
++	slab_exts = slab_obj_exts(obj_exts_slab);
++	if (slab_exts) {
++		unsigned int offs = obj_to_index(obj_exts_slab->slab_cache,
++						 obj_exts_slab, obj_exts);
++		/* codetag should be NULL */
++		WARN_ON(slab_exts[offs].ref.ct);
++		set_codetag_empty(&slab_exts[offs].ref);
++	}
++}
++
++#else /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
++
++static inline void mark_objexts_empty(struct slabobj_ext *obj_exts) {}
++
++#endif /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
++
+ static inline bool need_slab_obj_ext(void)
+ {
+ #ifdef CONFIG_MEM_ALLOC_PROFILING
+@@ -476,6 +501,14 @@ static inline void free_slab_obj_exts(struct slab *slab)
+ 	if (!obj_exts)
+ 		return;
  
--	tbl = kzalloc(size, gfp);
-+	tbl = kmalloc_noprof(size, gfp|__GFP_ZERO);
- 	if (!tbl)
- 		return NULL;
- 
-@@ -180,8 +201,10 @@ static struct bucket_table *bucket_table_alloc(struct rhashtable *ht,
- 	size_t size;
- 	int i;
- 	static struct lock_class_key __key;
-+	struct alloc_tag * __maybe_unused old = rhashtable_alloc_tag_save(ht);
- 
--	tbl = kvzalloc(struct_size(tbl, buckets, nbuckets), gfp);
-+	tbl = kvmalloc_node_noprof(struct_size(tbl, buckets, nbuckets),
-+				   gfp|__GFP_ZERO, NUMA_NO_NODE);
- 
- 	size = nbuckets;
- 
-@@ -190,6 +213,8 @@ static struct bucket_table *bucket_table_alloc(struct rhashtable *ht,
- 		nbuckets = 0;
++	/*
++	 * obj_exts was created with __GFP_NO_OBJ_EXT flag, therefore its
++	 * corresponding extension will be NULL. alloc_tag_sub() will throw a
++	 * warning if slab has extensions but the extension of an object is
++	 * NULL, therefore replace NULL with CODETAG_EMPTY to indicate that
++	 * the extension for obj_exts is expected to be NULL.
++	 */
++	mark_objexts_empty(obj_exts);
+ 	kfree(obj_exts);
+ 	slab->obj_exts = 0;
+ }
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 8ef5e47ff6a7..db2cd7afc353 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -246,6 +246,7 @@ int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
+ 		 * assign slabobj_exts in parallel. In this case the existing
+ 		 * objcg vector should be reused.
+ 		 */
++		mark_objexts_empty(vec);
+ 		kfree(vec);
+ 		return 0;
  	}
- 
-+	rhashtable_alloc_tag_restore(ht, old);
-+
- 	if (tbl == NULL)
- 		return NULL;
- 
-@@ -975,7 +1000,7 @@ static u32 rhashtable_jhash2(const void *key, u32 length, u32 seed)
- }
- 
- /**
-- * rhashtable_init - initialize a new hash table
-+ * rhashtable_init_noprof - initialize a new hash table
-  * @ht:		hash table to be initialized
-  * @params:	configuration parameters
-  *
-@@ -1016,7 +1041,7 @@ static u32 rhashtable_jhash2(const void *key, u32 length, u32 seed)
-  *	.obj_hashfn = my_hash_fn,
-  * };
-  */
--int rhashtable_init(struct rhashtable *ht,
-+int rhashtable_init_noprof(struct rhashtable *ht,
- 		    const struct rhashtable_params *params)
- {
- 	struct bucket_table *tbl;
-@@ -1031,6 +1056,8 @@ int rhashtable_init(struct rhashtable *ht,
- 	spin_lock_init(&ht->lock);
- 	memcpy(&ht->p, params, sizeof(*params));
- 
-+	rhashtable_alloc_tag_init(ht);
-+
- 	if (params->min_size)
- 		ht->p.min_size = roundup_pow_of_two(params->min_size);
- 
-@@ -1076,26 +1103,26 @@ int rhashtable_init(struct rhashtable *ht,
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(rhashtable_init);
-+EXPORT_SYMBOL_GPL(rhashtable_init_noprof);
- 
- /**
-- * rhltable_init - initialize a new hash list table
-+ * rhltable_init_noprof - initialize a new hash list table
-  * @hlt:	hash list table to be initialized
-  * @params:	configuration parameters
-  *
-  * Initializes a new hash list table.
-  *
-- * See documentation for rhashtable_init.
-+ * See documentation for rhashtable_init_noprof.
-  */
--int rhltable_init(struct rhltable *hlt, const struct rhashtable_params *params)
-+int rhltable_init_noprof(struct rhltable *hlt, const struct rhashtable_params *params)
- {
- 	int err;
- 
--	err = rhashtable_init(&hlt->ht, params);
-+	err = rhashtable_init_noprof(&hlt->ht, params);
- 	hlt->ht.rhlist = true;
- 	return err;
- }
--EXPORT_SYMBOL_GPL(rhltable_init);
-+EXPORT_SYMBOL_GPL(rhltable_init_noprof);
- 
- static void rhashtable_free_one(struct rhashtable *ht, struct rhash_head *obj,
- 				void (*free_fn)(void *ptr, void *arg),
-@@ -1222,6 +1249,7 @@ struct rhash_lock_head __rcu **rht_bucket_nested_insert(
- 	unsigned int index = hash & ((1 << tbl->nest) - 1);
- 	unsigned int size = tbl->size >> tbl->nest;
- 	union nested_table *ntbl;
-+	struct alloc_tag * __maybe_unused old = rhashtable_alloc_tag_save(ht);
- 
- 	ntbl = nested_table_top(tbl);
- 	hash >>= tbl->nest;
-@@ -1236,6 +1264,8 @@ struct rhash_lock_head __rcu **rht_bucket_nested_insert(
- 					  size <= (1 << shift));
- 	}
- 
-+	rhashtable_alloc_tag_restore(ht, old);
-+
- 	if (!ntbl)
- 		return NULL;
- 
 -- 
 2.42.0.758.gaed0368e0e-goog
 
