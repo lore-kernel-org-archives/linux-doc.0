@@ -1,271 +1,164 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3641548B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 08:03:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A477A13AE0
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 08:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UMOrs8rb"
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21893111
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 01:03:41 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-9be3b66f254so586772166b.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 01:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698134619; x=1698739419; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ql5Q8FOWaOd+nb6/H3/ESaBIL30yXZyLnkCaJtQzqT0=;
-        b=UMOrs8rb5G2bZCm/pJc6O2B3+lANiBcJDN3j551uW2GjuYertlu3Boc4wB4wNS118c
-         FtEpaBby1YHMCR1Jst1/BVolTh9YbQ3J6AilU9HyOvrbn5h6BrURsxt8wcnqYd3Dcodu
-         iYhrBZjlnPta6j9EXKI1HR1gTBz428ull4vSgCod8n3fljPrIZqbM0Uil6wRfD0buBwl
-         2c4dJeXYzEU6SvAlV//GtfG1RzME7QDWRGbZhXuNy3MldxDDpP8AZ1jOuMcNfdWoDW4Z
-         wHrdzJYq3vGQOzBFdDWaeKwJJaz83jlX6W9xWmyNbZydg/f0Sk0ucaCjh4iuZSQXBFJU
-         tkkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698134619; x=1698739419;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ql5Q8FOWaOd+nb6/H3/ESaBIL30yXZyLnkCaJtQzqT0=;
-        b=kbQwvrzjT66UEo+Xb6kQJnFg9GhZBvhVz1ko46DO7VB+v2F6dHsQtkZHmBIjOHMzvV
-         FF5un2oop+4enrUwaA7KlHWlBh8/NO7ToWJHe9ymIGw2h2/D5d63yhHNUZFh0vbARMeh
-         svLXxtANK4WzJOTHYU+91QiGOKjORpY9Y67D+VXVM7eHY00JV3B9m63x/ki6ynAAwSb5
-         dWHmkndq5RDOcZ83Rie9gPVmBGz1DvAjIDAalFhrhWsVbvsdkcc+0enNgGp7bNifRKEr
-         XnetEbh9KWzekiWY3d4MyNrG9SD0PGDZfHRvePpF0HmyXIJcAyUVv6fnCUGpNUUCrRZA
-         kP2w==
-X-Gm-Message-State: AOJu0Yz272rTD4gXikji98VK76qiKWV8554jQFT1piDRsnXoQQqtdXGD
-	BrJUn5Lh/u2ghIL1T9f0XYFfDQ==
-X-Google-Smtp-Source: AGHT+IFVooAJl5fWHgr45jmFwB8Oe4BFvAgfTrtsvxzZZRlzL56/Mb5UBFVMkGxIF7wMbXAgxUggCA==
-X-Received: by 2002:a17:907:7251:b0:9ad:e298:a5d with SMTP id ds17-20020a170907725100b009ade2980a5dmr10917817ejc.19.1698134619544;
-        Tue, 24 Oct 2023 01:03:39 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id z16-20020a170906075000b009a5f1d1564dsm7806148ejb.126.2023.10.24.01.03.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Oct 2023 01:03:38 -0700 (PDT)
-Message-ID: <91764d23-eed2-48f9-97c5-ac6a44f48f2b@linaro.org>
-Date: Tue, 24 Oct 2023 10:03:35 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R7fdfk71"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA9E111;
+	Tue, 24 Oct 2023 01:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698134898; x=1729670898;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u9rCyLGSdVulRiJpx/JNudLmp34NwQVv3IZ33EiSu+4=;
+  b=R7fdfk71NMH6n6WlHwA65OCKjSzTszV4JqZIf0AwrmvzpkKbsord7JfA
+   Hj+bv1lKyAbl8e8I9HAsoSlx+THJUL791iZcNK+pa92z6kyFGkFR2eT5S
+   fbJj/KNaBeqKsHBL3c7E73dZFhSqbLjxqIYd77NgT56BhFJLauJZyG3/D
+   C8Pm+aiEoT+CEPCwGeMYNmX73tUhD0+YNZvmGAQpnnqJfWpRvJqUk0OzE
+   TimbIMQL/RJWHkIr2YR9lnmUTqtXag+XPdO+XsDQXahiAHXhos2tloi/e
+   v0AhR4379GF+vxM4nm4tLwI8/watBX+W91TYdU4E1jY3bn52wrA/ZM5zk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="5632674"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
+   d="scan'208";a="5632674"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 01:08:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="824215388"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
+   d="scan'208";a="824215388"
+Received: from zijianw1-mobl.amr.corp.intel.com (HELO desk) ([10.209.109.187])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 01:08:16 -0700
+Date: Tue, 24 Oct 2023 01:08:14 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Alyssa Milburn <alyssa.milburn@intel.com>,
+	Dave Hansen <dave.hansen@intel.com>
+Subject: [PATCH v2 0/6] Delay VERW
+Message-ID: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com>
+X-B4-Tracking: v=1; b=H4sIAFZ2N2UC/03MSw6CMBSF4a2QO7akD6ziyH0YBthe5CZYTIsVQ
+ rp3mzpxeP7kfDsE9IQBLtUOHiMFml0e8lCBGXv3QEY2b5BcKsGFYBanfmMR/YdZ3pya9qzv0ij
+ Ih5fHgdaC3QC6XEYKy+y3okdR+g+S/B+KgnFmhuHY8FYrqe11Ivdea3ILTrWZn9CllL7H3khrr
+ AAAAA==
+X-Mailer: b4 0.12.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 9/9] dt-bindings: net: add Microchip's LAN865X
- 10BASE-T1S MACPHY
-Content-Language: en-US
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, corbet@lwn.net, steen.hegelund@microchip.com,
- rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
- andrew@lunn.ch
-Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
- Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
- Thorsten.Kummermehr@microchip.com
-References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
- <20231023154649.45931-10-Parthiban.Veerasooran@microchip.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231023154649.45931-10-Parthiban.Veerasooran@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Level: *
 
-On 23/10/2023 17:46, Parthiban Veerasooran wrote:
-> Add DT bindings for Microchip's LAN865X 10BASE-T1S MACPHY. The LAN8650/1
-> combines a Media Access Controller (MAC) and an Ethernet PHY to enable
-> 10BASE‑T1S networks. The Ethernet Media Access Controller (MAC) module
-> implements a 10 Mbps half duplex Ethernet MAC, compatible with the IEEE
-> 802.3 standard and a 10BASE-T1S physical layer transceiver integrated
-> into the LAN8650/1. The communication between the Host and the MAC-PHY is
-> specified in the OPEN Alliance 10BASE-T1x MACPHY Serial Interface (TC6).
+v2:
+- Removed the extra EXEC_VERW macro layers. (Sean)
+- Move NOPL before VERW. (Sean)
+- s/USER_CLEAR_CPU_BUFFERS/CLEAR_CPU_BUFFERS/. (Josh/Dave)
+- Removed the comments before CLEAR_CPU_BUFFERS. (Josh)
+- Remove CLEAR_CPU_BUFFERS from NMI returning to kernel and document the
+  reason. (Josh/Dave)
+- Reformat comment in md_clear_update_mitigation(). (Josh)
+- Squash "x86/bugs: Cleanup mds_user_clear" patch. (Nikolay)
+- s/GUEST_CLEAR_CPU_BUFFERS/CLEAR_CPU_BUFFERS/. (Josh)
+- Added a patch from Sean to use CFLAGS.CF for VMLAUNCH/VMRESUME
+  selection. This facilitates a single CLEAR_CPU_BUFFERS location for both
+  VMLAUNCH and VMRESUME. (Sean)
 
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
+v1: https://lore.kernel.org/r/20231020-delay-verw-v1-0-cff54096326d@linux.intel.com
 
-> 
-> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-> ---
->  .../bindings/net/microchip,lan865x.yaml       | 101 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 102 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/microchip,lan865x.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/net/microchip,lan865x.yaml b/Documentation/devicetree/bindings/net/microchip,lan865x.yaml
-> new file mode 100644
-> index 000000000000..974622dd6846
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/microchip,lan865x.yaml
-> @@ -0,0 +1,101 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/microchip,lan865x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Microchip LAN8650/1 10BASE-T1S MACPHY Ethernet Controllers
-> +
-> +maintainers:
-> +  - Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
-> +
-> +description:
-> +  The LAN8650/1 combines a Media Access Controller (MAC) and an Ethernet
-> +  PHY to enable 10BASE‑T1S networks. The Ethernet Media Access Controller
-> +  (MAC) module implements a 10 Mbps half duplex Ethernet MAC, compatible
-> +  with the IEEE 802.3 standard and a 10BASE-T1S physical layer transceiver
-> +  integrated into the LAN8650/1. The communication between the Host and
-> +  the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
-> +  Interface (TC6).
-> +
-> +  Specifications about the LAN8650/1 can be found at:
-> +    https://www.microchip.com/en-us/product/lan8650
-> +
-> +allOf:
-> +  - $ref: ethernet-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: microchip,lan865x
+Hi,
 
-No wildcards in compatibles.
+Legacy instruction VERW was overloaded by some processors to clear
+micro-architectural CPU buffers as a mitigation of CPU bugs. This series
+moves VERW execution to a later point in exit-to-user path. This is
+needed because in some cases it may be possible for kernel data to be
+accessed after VERW in arch_exit_to_user_mode(). Such accesses may put
+data into MDS affected CPU buffers, for example:
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description:
-> +      Interrupt from MAC-PHY asserted in the event of Receive Chunks
-> +      Available, Transmit Chunk Credits Available and Extended Status
-> +      Event.
-> +    maxItems: 1
-> +
-> +  local-mac-address:
+  1. Kernel data accessed by an NMI between VERW and return-to-user can
+     remain in CPU buffers (since NMI returning to kernel does not
+     execute VERW to clear CPU buffers).
+  2. Alyssa reported that after VERW is executed,
+     CONFIG_GCC_PLUGIN_STACKLEAK=y scrubs the stack used by a system
+     call. Memory accesses during stack scrubbing can move kernel stack
+     contents into CPU buffers.
+  3. When caller saved registers are restored after a return from
+     function executing VERW, the kernel stack accesses can remain in
+     CPU buffers(since they occur after VERW).
 
-Drop property, not needed.
+Although these cases are less practical to exploit, moving VERW closer
+to ring transition reduces the attack surface.
 
-> +    description:
-> +      Specifies the MAC address assigned to the network device.
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    minItems: 6
-> +    maxItems: 6
-> +
-> +  spi-max-frequency:
-> +    minimum: 15000000
-> +    maximum: 25000000
-> +
-> +  oa-tc6:
-> +    $ref: oa-tc6.yaml#
-> +    unevaluatedProperties: true
+Overview of the series:
 
-This must be false.
+Patch 1: Prepares VERW macros for use in asm.
+Patch 2: Adds macros to 64-bit entry/exit points.
+Patch 3: Adds macros to 32-bit entry/exit points.
+Patch 4: Enables the new macros.
+Patch 5: Uses CFLAGS.CF for VMLAUNCH/VMRESUME selection.
+Patch 6: Adds macro to VMenter.
 
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - pinctrl-names
-> +  - pinctrl-0
-> +  - interrupts
-> +  - interrupt-parent
-> +  - local-mac-address
-> +  - spi-max-frequency
-> +  - oa-tc6
-> +
-> +additionalProperties: false
+Below is some performance data collected with v1 on a Skylake client
+compared with previous implementation:
 
-Instead:
-unevaluatedProperties: false
+Baseline: v6.6-rc5
 
-> +
-> +examples:
-> +  - |
-> +    spi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      ethernet@0 {
-> +        compatible = "microchip,lan865x";
-> +        reg = <0>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&eth0_pins>;
-> +        interrupt-parent = <&gpio>;
-> +        interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
-> +        local-mac-address = [04 05 06 01 02 03];
-> +        spi-max-frequency = <15000000>;
-> +        status = "okay";
+| Test               | Configuration          | Relative |
+| ------------------ | ---------------------- | -------- |
+| build-linux-kernel | defconfig              | 1.00     |
+| hackbench          | 32 - Process           | 1.02     |
+| nginx              | Short Connection - 500 | 1.01     |
 
-Drop status.
+Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+---
+Pawan Gupta (5):
+      x86/bugs: Add asm helpers for executing VERW
+      x86/entry_64: Add VERW just before userspace transition
+      x86/entry_32: Add VERW just before userspace transition
+      x86/bugs: Use ALTERNATIVE() instead of mds_user_clear static key
+      KVM: VMX: Move VERW closer to VMentry for MDS mitigation
 
-> +        oa-tc6 {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +          oa-cps = <64>;
-> +          oa-txcte;
-> +	  oa_rxcte;
-> +	  oa-prote;
-> +	  oa-dprac;
+Sean Christopherson (1):
+      KVM: VMX: Use BT+JNC, i.e. EFLAGS.CF to select VMRESUME vs. VMLAUNCH
 
-Again totally mixed up indentation.
-
-> +        };
-> +      };
-> +    };
+ Documentation/arch/x86/mds.rst       | 39 ++++++++++++++++++++++++++----------
+ arch/x86/entry/entry_32.S            |  3 +++
+ arch/x86/entry/entry_64.S            | 11 ++++++++++
+ arch/x86/entry/entry_64_compat.S     |  1 +
+ arch/x86/include/asm/cpufeatures.h   |  2 +-
+ arch/x86/include/asm/entry-common.h  |  1 -
+ arch/x86/include/asm/nospec-branch.h | 31 +++++++++++++++++-----------
+ arch/x86/kernel/cpu/bugs.c           | 15 ++++++--------
+ arch/x86/kernel/nmi.c                |  2 --
+ arch/x86/kvm/vmx/run_flags.h         |  7 +++++--
+ arch/x86/kvm/vmx/vmenter.S           | 10 ++++++---
+ arch/x86/kvm/vmx/vmx.c               | 10 ++++++---
+ 12 files changed, 88 insertions(+), 44 deletions(-)
+---
+base-commit: 05d3ef8bba77c1b5f98d941d8b2d4aeab8118ef1
+change-id: 20231011-delay-verw-d0474986b2c3
 
 Best regards,
-Krzysztof
+-- 
+Thanks,
+Pawan
+
 
