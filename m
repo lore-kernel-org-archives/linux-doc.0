@@ -1,100 +1,179 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640873F4AC
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 20:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F7B3F4A7;
+	Tue, 24 Oct 2023 20:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="ngQUl/HX"
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03AFEA;
-	Tue, 24 Oct 2023 13:30:48 -0700 (PDT)
-Received: from [127.0.0.1] ([98.35.210.218])
-	(authenticated bits=0)
-	by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 39OKU61w3426385
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Tue, 24 Oct 2023 13:30:07 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 39OKU61w3426385
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2023101201; t=1698179409;
-	bh=i9nl6v0XQTPlxSQ2dRSWnBYQvkoXzwqM1OBHxFm02uo=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=ngQUl/HXIc/IvUvksoAeojl9Bb4I82VGTs7uPEKlYj4COIE/kqJkOlYt29/vJkQG4
-	 jFHVMeHrCIWVBJYzmmwB5oZ2PNkxFcdUBP77cCX0C6+TsIoBgsmQCwz9eThPJmVqf/
-	 gxl4UHhBM9S58HgkQ22YbMOaUiyL7JwRkVKSPyKgMWrZLqL56+FpiBmV9YZef4Rhic
-	 WBeX4WrB8juvYcbZgx9wzx9j3bQFCPt6RHmdJyg2pwlZ6O9oaSfFywOmwKGGLifRkT
-	 8vNyIgQQuhx+YLt/M1nGycwC/OeDq5anb8KvUsHZez5Kgtr62jU0WcIZtyUK/G60zu
-	 GoMxkx7t703kw==
-Date: Tue, 24 Oct 2023 13:30:04 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: "Luck, Tony" <tony.luck@intel.com>, Peter Zijlstra <peterz@infradead.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Christopherson,, Sean" <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        "ak@linux.intel.com" <ak@linux.intel.com>,
-        "tim.c.chen@linux.intel.com" <tim.c.chen@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        "antonio.gomez.iglesias@linux.intel.com" <antonio.gomez.iglesias@linux.intel.com>,
-        "Milburn, Alyssa" <alyssa.milburn@intel.com>
-Subject: RE: [PATCH  v2 1/6] x86/bugs: Add asm helpers for executing VERW
-User-Agent: K-9 Mail for Android
-In-Reply-To: <SJ1PR11MB6083FE98A35C6BCF027B568CFCDFA@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com> <20231024-delay-verw-v2-1-f1881340c807@linux.intel.com> <20231024103601.GH31411@noisy.programming.kicks-ass.net> <20231024163515.aivo2xfmwmbmlm7z@desk> <20231024163621.GD40044@noisy.programming.kicks-ass.net> <20231024164520.osvqo2dja2xhb7kn@desk> <20231024170248.GE40044@noisy.programming.kicks-ass.net> <DD2F34A0-4F2F-4C8C-A634-7DBEF31C40F0@zytor.com> <SJ1PR11MB6083E3E2D35B30F4E40E8FE7FCDFA@SJ1PR11MB6083.namprd11.prod.outlook.com> <5B8EB5F2-16A7-47BC-97FE-262ED0169DE3@zytor.com> <SJ1PR11MB6083FE98A35C6BCF027B568CFCDFA@SJ1PR11MB6083.namprd11.prod.outlook.com>
-Message-ID: <49A97ACF-24A3-452C-88A5-0D55F77B7780@zytor.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QSmwtJ/T"
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A344FE8;
+	Tue, 24 Oct 2023 13:33:04 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1cacde97002so29295885ad.2;
+        Tue, 24 Oct 2023 13:33:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698179584; x=1698784384; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cxd8yIiWNp4SN7aWyP2DJ3W2qpks9IKgGTIB0vbrgeM=;
+        b=QSmwtJ/TnaWCy2x/1vrRGRv3cNL6OfMROTM3LJE5UppBSDaXynWgxPV4XOLgZYhHhS
+         4mzUYsQvehxlRBiLhapb6/qfOWo/fDCt7xW3cfIgpmZqGVN4jZcrAYYDVCkmtc6/0cVF
+         oI5kF8zh1D/YpOyt8hPmGKHvCuWNp911E27z8oDb8ghLq8IHNvgO62nNquSY79IYcucn
+         TlzusmvAoPkA8LNAopK/KrdhZ/XzwVF9fd7ydcjonBLfnstG737nq4azxLCf1By2HLnC
+         Ey74SkjM2C/mgfpM43Lu3WcFu5JOX2/AemC2NfEheILg6EJEaIY4oGrnqgxstPy1UpmW
+         7XlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698179584; x=1698784384;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Cxd8yIiWNp4SN7aWyP2DJ3W2qpks9IKgGTIB0vbrgeM=;
+        b=BN1vWc8xlnNjwXQzmbQyVmKR6y5fG8PjFQ1/TrdmFmXq2vCGedND/oCaMFBRRwMjKJ
+         OtHOnXi+GJTX4AHMHY71jFZrkBbR0i+J26UiwCu9ygWtCDZmQRnHOTAF8Ue7TklyeEAS
+         Iu4uO2FotGrL9u+FJXC/TCN9AE0YiT6rDBvPCBzOe6vi/eFAGDKR8Sv7fpMqfW9fbHQb
+         nlgZTPfQW8sHek/5np7y5S1B4h1DiSsqvvPHibHbj3G9/B9v1j0ShjQCFq27vKWMaBt+
+         9GicMjqi/K2BohtXTgqeRg9r9Dz0RU4+QjTDiWUXsLEV34Dd0ZCxohM7cN04CMwVoDjM
+         Jhgg==
+X-Gm-Message-State: AOJu0YyZdkfzfcKMxNHNph7DSyeFs5SnYnV2t4LBLoSfg4jFF2UxwCbt
+	ZJRTAoAq0cfqCmxHBTTyB9M=
+X-Google-Smtp-Source: AGHT+IEztSTrjikFmnkLIpiilubvgm2U1b8XxGpaC5cbdcAdlNaHKoR1ds3ApUoqcuA1b/ZOqMDgaQ==
+X-Received: by 2002:a17:902:e3c1:b0:1ca:2c3b:7747 with SMTP id r1-20020a170902e3c100b001ca2c3b7747mr9349501ple.20.1698179583985;
+        Tue, 24 Oct 2023 13:33:03 -0700 (PDT)
+Received: from localhost (fwdproxy-prn-004.fbsv.net. [2a03:2880:ff:4::face:b00c])
+        by smtp.gmail.com with ESMTPSA id i17-20020a17090332d100b001c32fd9e412sm7776395plr.58.2023.10.24.13.33.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 13:33:03 -0700 (PDT)
+From: Nhat Pham <nphamcs@gmail.com>
+To: akpm@linux-foundation.org
+Cc: hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com,
+	yosryahmed@google.com,
+	sjenning@redhat.com,
+	ddstreet@ieee.org,
+	vitaly.wool@konsulko.com,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	chrisl@kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	shuah@kernel.org
+Subject: [PATCH v4 0/5] workload-specific and memory pressure-driven zswap writeback
+Date: Tue, 24 Oct 2023 13:32:57 -0700
+Message-Id: <20231024203302.1920362-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On October 24, 2023 12:40:02 PM PDT, "Luck, Tony" <tony=2Eluck@intel=2Ecom>=
- wrote:
->> Sure it could, but it would mean the kernel is sitting on an average of=
- 6 MB of unusable memory=2E It would also mean that unloaded modules would =
-create holes in that memory which would have to be managed=2E
->
->On my Fedora38 desktop:
->
->$ lsmod | awk '{ bytes +=3D $2 } END {print bytes/(1024*1024)}'
->21=2E0859
->
->Lots more than 6MB memory already essentially pinned by loaded modules=2E
->
->$ head -3 /proc/meminfo
->MemTotal:       65507344 kB
->MemFree:        56762336 kB
->MemAvailable:   63358552 kB
->
->Pinning 20 or so Mbytes isn't going to make a dent in that free memory=2E
->
->Managing the holes for unloading/reloading modules adds some complexity =
-=2E=2E=2E but shouldn't be awful=2E
->
->If this code managed at finer granularity than "page", it would save some=
- memory=2E
->
->$ lsmod | wc -l
->123
->
->All those modules rounding text/data up to 4K boundaries is wasting a bun=
-ch of it=2E
->
->-Tony
->
->
->
+Changelog:
+v4:
+   * Rename list_lru_add to list_lru_add_obj and __list_lru_add to
+     list_lru_add (patch 1) (suggested by Johannes Weiner and
+	 Yosry Ahmed)
+   * Some cleanups on the memcg aware LRU patch (patch 2)
+     (suggested by Yosry Ahmed)
+   * Use event interface for the new per-cgroup writeback counters.
+     (patch 3) (suggested by Yosry Ahmed)
+   * Abstract zswap's lruvec states and handling into 
+     zswap_lruvec_state (patch 5) (suggested by Yosry Ahmed)
+v3:
+   * Add a patch to export per-cgroup zswap writeback counters
+   * Add a patch to update zswap's kselftest
+   * Separate the new list_lru functions into its own prep patch
+   * Do not start from the top of the hierarchy when encounter a memcg
+     that is not online for the global limit zswap writeback (patch 2)
+     (suggested by Yosry Ahmed)
+   * Do not remove the swap entry from list_lru in
+     __read_swapcache_async() (patch 2) (suggested by Yosry Ahmed)
+   * Removed a redundant zswap pool getting (patch 2)
+     (reported by Ryan Roberts)
+   * Use atomic for the nr_zswap_protected (instead of lruvec's lock)
+     (patch 5) (suggested by Yosry Ahmed)
+   * Remove the per-cgroup zswap shrinker knob (patch 5)
+     (suggested by Yosry Ahmed)
+v2:
+   * Fix loongarch compiler errors
+   * Use pool stats instead of memcg stats when !CONFIG_MEMCG_KEM
 
-Sure, but is it worth the effort?
+There are currently several issues with zswap writeback:
+
+1. There is only a single global LRU for zswap, making it impossible to
+   perform worload-specific shrinking - an memcg under memory pressure
+   cannot determine which pages in the pool it owns, and often ends up
+   writing pages from other memcgs. This issue has been previously
+   observed in practice and mitigated by simply disabling
+   memcg-initiated shrinking:
+
+   https://lore.kernel.org/all/20230530232435.3097106-1-nphamcs@gmail.com/T/#u
+
+   But this solution leaves a lot to be desired, as we still do not
+   have an avenue for an memcg to free up its own memory locked up in
+   the zswap pool.
+
+2. We only shrink the zswap pool when the user-defined limit is hit.
+   This means that if we set the limit too high, cold data that are
+   unlikely to be used again will reside in the pool, wasting precious
+   memory. It is hard to predict how much zswap space will be needed
+   ahead of time, as this depends on the workload (specifically, on
+   factors such as memory access patterns and compressibility of the
+   memory pages).
+
+This patch series solves these issues by separating the global zswap
+LRU into per-memcg and per-NUMA LRUs, and performs workload-specific
+(i.e memcg- and NUMA-aware) zswap writeback under memory pressure. The
+new shrinker does not have any parameter that must be tuned by the
+user, and can be opted in or out on a per-memcg basis.
+
+As a proof of concept, we ran the following synthetic benchmark:
+build the linux kernel in a memory-limited cgroup, and allocate some
+cold data in tmpfs to see if the shrinker could write them out and
+improved the overall performance. Depending on the amount of cold data
+generated, we observe from 14% to 35% reduction in kernel CPU time used
+in the kernel builds.
+
+Domenico Cerasuolo (3):
+  zswap: make shrinking memcg-aware
+  mm: memcg: add per-memcg zswap writeback stat
+  selftests: cgroup: update per-memcg zswap writeback selftest
+
+Nhat Pham (2):
+  list_lru: allows explicit memcg and NUMA node selection
+  zswap: shrinks zswap pool based on memory pressure
+
+ Documentation/admin-guide/mm/zswap.rst      |   7 +
+ drivers/android/binder_alloc.c              |   5 +-
+ fs/dcache.c                                 |   8 +-
+ fs/gfs2/quota.c                             |   6 +-
+ fs/inode.c                                  |   4 +-
+ fs/nfs/nfs42xattr.c                         |   8 +-
+ fs/nfsd/filecache.c                         |   4 +-
+ fs/xfs/xfs_buf.c                            |   6 +-
+ fs/xfs/xfs_dquot.c                          |   2 +-
+ fs/xfs/xfs_qm.c                             |   2 +-
+ include/linux/list_lru.h                    |  46 ++-
+ include/linux/memcontrol.h                  |   5 +
+ include/linux/mmzone.h                      |   2 +
+ include/linux/vm_event_item.h               |   1 +
+ include/linux/zswap.h                       |  25 +-
+ mm/list_lru.c                               |  48 ++-
+ mm/memcontrol.c                             |   1 +
+ mm/mmzone.c                                 |   1 +
+ mm/swap.h                                   |   3 +-
+ mm/swap_state.c                             |  25 +-
+ mm/vmstat.c                                 |   1 +
+ mm/workingset.c                             |   4 +-
+ mm/zswap.c                                  | 365 ++++++++++++++++----
+ tools/testing/selftests/cgroup/test_zswap.c |  74 ++--
+ 24 files changed, 526 insertions(+), 127 deletions(-)
+
+-- 
+2.34.1
