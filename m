@@ -1,83 +1,249 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE2E27EDD
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 17:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/fOm95V"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1378FD7F;
-	Tue, 24 Oct 2023 10:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698168626; x=1729704626;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4eTWR985NBV3mAvJMXvgeRN/dPF8gIx1f+55k33TMFE=;
-  b=a/fOm95V579m4pvk+0O/p+2Qyt1N+DUnZHLK/ZS5Ri+qB8tgOKqPXQX0
-   vBDPTtmR8OrAfP2UEvVpndmmkx1cAMZBWjhIpFdR8FeshrrVxUlAu71wJ
-   4GA2MfRXW6MhrLb0wMCKw2sIpkambUhneMuAnZ+waCvthPSF0esK33vMk
-   rc9wLnSCh2/0eic1KeZ9rQ+sFTXF9djaQLJEcWjsBQolw+0s11z30L/ML
-   xRV7G7RqDUcZ8+FvdJj1wZGNmQG3ojf5BZNxNfbjxgdVs/HlZxqgrVjaE
-   XmJdUi65uGrSLHPG9td43+ooh9hoTG6Ugw/Y41VdU6dNvrPUEuNJj9OBd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="418247965"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="418247965"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 10:30:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="758554073"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="758554073"
-Received: from zijianw1-mobl.amr.corp.intel.com (HELO desk) ([10.209.109.187])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 10:30:24 -0700
-Date: Tue, 24 Oct 2023 10:30:15 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Alyssa Milburn <alyssa.milburn@intel.com>
-Subject: Re: [PATCH  v2 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20231024173015.w5qw767akvcdwmiv@desk>
-References: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com>
- <20231024-delay-verw-v2-1-f1881340c807@linux.intel.com>
- <20231024103601.GH31411@noisy.programming.kicks-ass.net>
- <20231024163515.aivo2xfmwmbmlm7z@desk>
- <20231024163621.GD40044@noisy.programming.kicks-ass.net>
- <20231024164520.osvqo2dja2xhb7kn@desk>
- <20231024170248.GE40044@noisy.programming.kicks-ass.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D321B21A1E;
+	Tue, 24 Oct 2023 18:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E813010DC;
+	Tue, 24 Oct 2023 11:07:39 -0700 (PDT)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1eb7a8d9610so267596fac.0;
+        Tue, 24 Oct 2023 11:07:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698170859; x=1698775659;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bQTNvNBcefpx8R3X1mnWwpUfG0oIl7IhX9lq//tJ6c8=;
+        b=iPC0R1rDQ/mLHAy6pi+YsuBM7Orn+TDxR1dRerwo3ZKJVhIozXLR4EZgiQvOctEfeu
+         5sVxaSLiVtIt6q3Rw/7oj0rmvRUiXrztH6W3HRz/yPj7Vxq23HpvFe/AcVAwH71GlZEV
+         hBOpUVFuaLfkdTZw08n3JPgtfwfsL7wx5WKxxdQa6hPf6zL84iXggZNdemn5UQCUnw+n
+         GAtZJoUExOevhJfJtuKLmisslraeqe6RWRCtxnYVdGcaYtqAwpqbbb+BNKeAYOIbQAnD
+         qYK60tOCmIi/J+hKvQpSSZWOeNmQf23/0K15t1w3w9Kw5YdoAcrdXjpzEJlhYSZfG6G9
+         MQGg==
+X-Gm-Message-State: AOJu0YzofwkWpVYoy3ucP5HRtlng40jWOHNOpe/jR/S9c7JnZfXCy2A1
+	9BIOYQ8TnX1vUTyprv2OjWU0dr0BR6l9QQTZuFk=
+X-Google-Smtp-Source: AGHT+IFgKJJuhi8Fn+oYQw2beWPiWDcHgwYutcTjQl/p/NDnzJosiVcRh4Pmi6U/8cGoxSv4c+8jWId2r72zu79T530=
+X-Received: by 2002:a05:6870:9e97:b0:1e9:9f9b:eb7a with SMTP id
+ pu23-20020a0568709e9700b001e99f9beb7amr16188516oab.4.1698170859120; Tue, 24
+ Oct 2023 11:07:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231024170248.GE40044@noisy.programming.kicks-ass.net>
+References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk> <E1qvJA5-00AqQa-TL@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1qvJA5-00AqQa-TL@rmk-PC.armlinux.org.uk>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 24 Oct 2023 20:07:28 +0200
+Message-ID: <CAJZ5v0hhEeyDEMHnVQEiXzaKK07TSnE6GJhuTW97-XEb9CoSHQ@mail.gmail.com>
+Subject: Re: [PATCH 18/39] ACPI: Only enumerate enabled (or functional) devices
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	Salil Mehta <salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, 
+	justin.he@arm.com, James Morse <james.morse@arm.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 24, 2023 at 07:02:48PM +0200, Peter Zijlstra wrote:
-> On Tue, Oct 24, 2023 at 09:45:20AM -0700, Pawan Gupta wrote:
-> 
-> > > > modules being within 4GB of kernel.
-> 
-> FWIW, it's 2G, it's a s32 displacement, the highest most address can
-> jump 2g down, while the lowest most address can jump 2g up. Leaving a 2G
-> directly addressable range.
-> 
-> And yeah, we ensure kernel text and modules are inside that 2G range.
+On Tue, Oct 24, 2023 at 5:17=E2=80=AFPM Russell King <rmk+kernel@armlinux.o=
+rg.uk> wrote:
+>
+> From: James Morse <james.morse@arm.com>
+>
+> Today the ACPI enumeration code 'visits' all devices that are present.
+>
+> This is a problem for arm64, where CPUs are always present, but not
+> always enabled. When a device-check occurs because the firmware-policy
+> has changed and a CPU is now enabled, the following error occurs:
+> | acpi ACPI0007:48: Enumeration failure
+>
+> This is ultimately because acpi_dev_ready_for_enumeration() returns
+> true for a device that is not enabled. The ACPI Processor driver
+> will not register such CPUs as they are not 'decoding their resources'.
+>
+> Change acpi_dev_ready_for_enumeration() to also check the enabled bit.
+> ACPI allows a device to be functional instead of maintaining the
+> present and enabled bit. Make this behaviour an explicit check with
+> a reference to the spec, and then check the present and enabled bits.
+> This is needed to avoid enumerating present && functional devices that
+> are not enabled.
+>
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+> If this change causes problems on deployed hardware, I suggest an
 
-Ah, okay. Thanks for the info.
+TBH, I am expecting problems to be there.
+
+If something has been interpreted in a specific way for several years,
+then changing that interpretation is just incompatible with the entire
+installed base, at least potentially.
+
+It is not even possible to estimate the potential adverse impact of
+this change, as it causes a firmware-provided bit that has never been
+taken into account so far to become meaningful and it does so for
+every device in the system.
+
+It will be very hard to convince me that this change is a good idea.
+
+> arch opt-in: ACPI_IGNORE_STA_ENABLED, that causes
+> acpi_dev_ready_for_enumeration() to only check the present bit.
+
+But this can work as long as the given arch does not care about
+platforms in which the "enabled" bit may not be set as expected for
+some devices.
+
+>
+> Changes since RFC v2:
+>  * Incorporate comment suggestion by Gavin Shan.
+> Other review comments from Jonathan Cameron not yet addressed.
+> ---
+>  drivers/acpi/device_pm.c    |  2 +-
+>  drivers/acpi/device_sysfs.c |  2 +-
+>  drivers/acpi/internal.h     |  1 -
+>  drivers/acpi/property.c     |  2 +-
+>  drivers/acpi/scan.c         | 24 ++++++++++++++----------
+>  5 files changed, 17 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
+> index f007116a8427..76c38478a502 100644
+> --- a/drivers/acpi/device_pm.c
+> +++ b/drivers/acpi/device_pm.c
+> @@ -313,7 +313,7 @@ int acpi_bus_init_power(struct acpi_device *device)
+>                 return -EINVAL;
+>
+>         device->power.state =3D ACPI_STATE_UNKNOWN;
+> -       if (!acpi_device_is_present(device)) {
+> +       if (!acpi_dev_ready_for_enumeration(device)) {
+>                 device->flags.initialized =3D false;
+>                 return -ENXIO;
+>         }
+> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
+> index b9bbf0746199..16e586d74aa2 100644
+> --- a/drivers/acpi/device_sysfs.c
+> +++ b/drivers/acpi/device_sysfs.c
+> @@ -141,7 +141,7 @@ static int create_pnp_modalias(const struct acpi_devi=
+ce *acpi_dev, char *modalia
+>         struct acpi_hardware_id *id;
+>
+>         /* Avoid unnecessarily loading modules for non present devices. *=
+/
+> -       if (!acpi_device_is_present(acpi_dev))
+> +       if (!acpi_dev_ready_for_enumeration(acpi_dev))
+>                 return 0;
+>
+>         /*
+> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
+> index 866c7c4ed233..a1b45e345bcc 100644
+> --- a/drivers/acpi/internal.h
+> +++ b/drivers/acpi/internal.h
+> @@ -107,7 +107,6 @@ int acpi_device_setup_files(struct acpi_device *dev);
+>  void acpi_device_remove_files(struct acpi_device *dev);
+>  void acpi_device_add_finalize(struct acpi_device *device);
+>  void acpi_free_pnp_ids(struct acpi_device_pnp *pnp);
+> -bool acpi_device_is_present(const struct acpi_device *adev);
+>  bool acpi_device_is_battery(struct acpi_device *adev);
+>  bool acpi_device_is_first_physical_node(struct acpi_device *adev,
+>                                         const struct device *dev);
+> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
+> index 413e4fcadcaf..e03f00b98701 100644
+> --- a/drivers/acpi/property.c
+> +++ b/drivers/acpi/property.c
+> @@ -1418,7 +1418,7 @@ static bool acpi_fwnode_device_is_available(const s=
+truct fwnode_handle *fwnode)
+>         if (!is_acpi_device_node(fwnode))
+>                 return false;
+>
+> -       return acpi_device_is_present(to_acpi_device_node(fwnode));
+> +       return acpi_dev_ready_for_enumeration(to_acpi_device_node(fwnode)=
+);
+>  }
+>
+>  static const void *
+> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> index 17ab875a7d4e..06e9bb4a633f 100644
+> --- a/drivers/acpi/scan.c
+> +++ b/drivers/acpi/scan.c
+> @@ -304,7 +304,7 @@ static int acpi_scan_device_check(struct acpi_device =
+*adev)
+>         int error;
+>
+>         acpi_bus_get_status(adev);
+> -       if (acpi_device_is_present(adev)) {
+> +       if (acpi_dev_ready_for_enumeration(adev)) {
+>                 /*
+>                  * This function is only called for device objects for wh=
+ich
+>                  * matching scan handlers exist.  The only situation in w=
+hich
+> @@ -338,7 +338,7 @@ static int acpi_scan_bus_check(struct acpi_device *ad=
+ev, void *not_used)
+>         int error;
+>
+>         acpi_bus_get_status(adev);
+> -       if (!acpi_device_is_present(adev)) {
+> +       if (!acpi_dev_ready_for_enumeration(adev)) {
+>                 acpi_scan_device_not_enumerated(adev);
+>                 return 0;
+>         }
+> @@ -1908,11 +1908,6 @@ static bool acpi_device_should_be_hidden(acpi_hand=
+le handle)
+>         return true;
+>  }
+>
+> -bool acpi_device_is_present(const struct acpi_device *adev)
+> -{
+> -       return adev->status.present || adev->status.functional;
+> -}
+> -
+>  static bool acpi_scan_handler_matching(struct acpi_scan_handler *handler=
+,
+>                                        const char *idstr,
+>                                        const struct acpi_device_id **matc=
+hid)
+> @@ -2375,16 +2370,25 @@ EXPORT_SYMBOL_GPL(acpi_dev_clear_dependencies);
+>   * acpi_dev_ready_for_enumeration - Check if the ACPI device is ready fo=
+r enumeration
+>   * @device: Pointer to the &struct acpi_device to check
+>   *
+> - * Check if the device is present and has no unmet dependencies.
+> + * Check if the device is functional or enabled and has no unmet depende=
+ncies.
+>   *
+> - * Return true if the device is ready for enumeratino. Otherwise, return=
+ false.
+> + * Return true if the device is ready for enumeration. Otherwise, return=
+ false.
+>   */
+>  bool acpi_dev_ready_for_enumeration(const struct acpi_device *device)
+>  {
+>         if (device->flags.honor_deps && device->dep_unmet)
+>                 return false;
+>
+> -       return acpi_device_is_present(device);
+> +       /*
+> +        * ACPI 6.5's 6.3.7 "_STA (Device Status)" allows firmware to ret=
+urn
+> +        * (!present && functional) for certain types of devices that sho=
+uld be
+> +        * enumerated. Note that the enabled bit can't be sert until the =
+present
+> +        * bit is set.
+> +        */
+> +       if (device->status.present)
+> +               return device->status.enabled;
+> +       else
+> +               return device->status.functional;
+>  }
+>  EXPORT_SYMBOL_GPL(acpi_dev_ready_for_enumeration);
+>
+> --
+> 2.30.2
+>
