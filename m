@@ -1,50 +1,50 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C054125C8
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 07:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED1114A94
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 07:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="jqHhOdEI"
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51DED10C
-	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 00:18:34 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c519eab81fso8927981fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 00:18:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iE9JU0nx"
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8F21EE
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 00:44:09 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-99c3c8adb27so586567666b.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 00:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1698131912; x=1698736712; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1698133448; x=1698738248; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KRIlhtIeb1YFd4JwPYh+w2xPq7Nr26Cx3E5/ZUd7zEA=;
-        b=jqHhOdEIuadN41MJVGii+Nssy5T7Ll9nxoxV4NeMj2wgKlOJfZt9W8zMxeaAoI8Ffa
-         yknFvVzEuabK5oJQd75u1YXB6jfwM5Sy80LWLI6AlXRlj/sJ1N8weQIcQ/UhmPdploeQ
-         GfItyqDuLDQnZEoR2CIB8hZpEVUtix/76FqlUrbasg0t9MzHSbdGqYADDWZRwn/tRai6
-         xEoGZt6wNQiqCXn6+p3GQ3fC9gwaEwrQTGV3yZAfayXbkmU5N/UUGpENLThP78vzyBKc
-         qipUBCoanXnNmAQwBFJDlZLJDDvNvbZnau/XixIZj78iJPfaSawEkc/DmtML7Zs9UvSA
-         +JWQ==
+        bh=WVYOASIzuBFwi1QKSZbJjKhuUaXTStfsDMB+e6q2nnY=;
+        b=iE9JU0nxRBMhkJ7kU6gDKtYFd19Tm4TXjOnY7lx6qFNjJwFKdYt+dZxjwoKYAptEJr
+         1Z7uNRA/dzwqfFN/L90LnONf4t64OmsfHAswuVWGKXyYzxP961rQWgvIwIYsK5/yX1K7
+         EHxSSr0fmxI/BWSvNRQg+hL1nN0Epht4ID5Y6uPsApJz5GW1S7fJ+tz2VnCxFiPYU3U7
+         iexYB5Tfi5HlxpSvgiGGGLGgTqWfvNxJc0fz8aVOPjxOQ3grFObyPlVmQONv9ADgjQs6
+         tKws5wZ+f2LxD8JdZPBV5PN2XSYojeMS+oj1YWcx+UtBS0Om9ZoAGSpwM9RN85uOZs6E
+         rjCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698131912; x=1698736712;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1698133448; x=1698738248;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KRIlhtIeb1YFd4JwPYh+w2xPq7Nr26Cx3E5/ZUd7zEA=;
-        b=C1E2DQK+1ddQRB2SdxNOMKTO2HBWt+td3yjOy5C/bJMFJYxN7Kn39AIeZVb7NoDHSc
-         e7Q6VJQ135+r4IkJtZgO79FTIJWK4p02V5UVvdEsMqVfD5uFvhG+7e5yC28dSUK2toAf
-         6yt8ajSTKT9afS3jzf6Ai95mRAaG6MzB68j6rxPGbaVzK4D66Z4u4qSMgM0/yaWgccfR
-         /vmDGn6lcDKMA30AfhLEF0qBmgX8fnWV57U5U82wUG5Rk+Ig70kjfYQUFU0txZqCkDlT
-         uEBdsGlWiMcVtjs2D5+rw+LxWD9HIc8+MpYsUBSbdcL2ww5IUdmyqMgN6dEd5ucDP40G
-         pUXA==
-X-Gm-Message-State: AOJu0YwpqEGk1W9EIupUFzTT7wNQOYWRJU9WkcRu/ex0mpsbqVvZ5xon
-	jIrnT4IkjIT2tn+c5F+nMIx+oQ==
-X-Google-Smtp-Source: AGHT+IFC45ilAg3tRrLMb0mEc7pz2FsUd3r5wo9psNP7TVo1+HLGBSK/Yy4GORF6XAP+cC+mEVQGng==
-X-Received: by 2002:a2e:91c1:0:b0:2c5:18a0:6c2e with SMTP id u1-20020a2e91c1000000b002c518a06c2emr8406164ljg.0.1698131912513;
-        Tue, 24 Oct 2023 00:18:32 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:999:a3a0:9f43:3ca4:162c:d540? ([2a01:e0a:999:a3a0:9f43:3ca4:162c:d540])
-        by smtp.gmail.com with ESMTPSA id p7-20020a5d4587000000b0032db430fb9bsm9278279wrq.68.2023.10.24.00.18.31
+        bh=WVYOASIzuBFwi1QKSZbJjKhuUaXTStfsDMB+e6q2nnY=;
+        b=UeAHGJN4KFaDeGe3LYAfRSME4VkvHm+CZkfNe95tQayY7N50CC7Mko6YT79jKUYiDi
+         Ye+Mq6rvCPi1RnFg9abygdZ2ZQCJgBl/NgFCDCWoWIIxnNyuzaEgu9yIiEaKJpwoABHy
+         glUj+uUz3s5wg0RYwd2Gz8H0LglrylZ0QUbKVAIzLbEoyYXHBljLuY5y7QmuAyJrEsT8
+         1Libtmuhn6nZaXTSxh/EHI4hx3TWi5/5jiu6z0nXkQCMwUVilMPyZdT99c6VR+BAIjJP
+         B90RN/v+QzvW6CkOszU/6tEqx0hGWAUatL9V5YiebKiXYNO858537f1mvgwgD9Q1msuX
+         SjMQ==
+X-Gm-Message-State: AOJu0Yy8aXd0JwpAyERUj0DOzBivjNJVf/wDIpMwpcz0h4qdrWRuiJX8
+	29Cry5VljjvYrF9k2rCysfyhAQ==
+X-Google-Smtp-Source: AGHT+IGQvoCfOIWz1cYhl/5uGXpvVsy/kTAD3TJhvpApW36moJG1M+i7L+yv28Xs600nYHlierB77w==
+X-Received: by 2002:a17:907:9302:b0:9bf:f20:876d with SMTP id bu2-20020a170907930200b009bf0f20876dmr8432467ejc.75.1698133448052;
+        Tue, 24 Oct 2023 00:44:08 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.218.126])
+        by smtp.gmail.com with ESMTPSA id e27-20020a170906749b00b0097404f4a124sm7850389ejl.2.2023.10.24.00.44.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Oct 2023 00:18:32 -0700 (PDT)
-Message-ID: <d0ea4996-5c48-47b4-99b0-f4211276e0b2@rivosinc.com>
-Date: Tue, 24 Oct 2023 09:18:30 +0200
+        Tue, 24 Oct 2023 00:44:07 -0700 (PDT)
+Message-ID: <478c0e7e-bdff-41af-a12f-f9930f1c665a@linaro.org>
+Date: Tue, 24 Oct 2023 09:44:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,63 +52,176 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/19] riscv: add ISA extension parsing for scalar
- crypto
+Subject: Re: [PATCH net-next v2 4/9] dt-bindings: net: add OPEN Alliance
+ 10BASE-T1x MAC-PHY Serial Interface
 Content-Language: en-US
-To: Evan Green <evan@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, corbet@lwn.net, steen.hegelund@microchip.com,
+ rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
+ andrew@lunn.ch
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Palmer Dabbelt <palmer@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Jones <ajones@ventanamicro.com>, Conor Dooley <conor@kernel.org>,
- Samuel Ortiz <sameo@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>
-References: <20231017131456.2053396-1-cleger@rivosinc.com>
- <20231017131456.2053396-3-cleger@rivosinc.com>
- <CALs-HssmufWCKzaGy7BwWz4n4hfwV9NjjRD-O_JeupM-p=Ov+w@mail.gmail.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <CALs-HssmufWCKzaGy7BwWz4n4hfwV9NjjRD-O_JeupM-p=Ov+w@mail.gmail.com>
+ horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
+ Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+ Thorsten.Kummermehr@microchip.com
+References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
+ <20231023154649.45931-5-Parthiban.Veerasooran@microchip.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231023154649.45931-5-Parthiban.Veerasooran@microchip.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+On 23/10/2023 17:46, Parthiban Veerasooran wrote:
+> Add DT bindings OPEN Alliance 10BASE-T1x MACPHY Serial Interface
+> parameters. These are generic properties that can apply to any 10BASE-T1x
+> MAC-PHY which uses OPEN Alliance TC6 specification.
 
-
-On 23/10/2023 18:21, Evan Green wrote:
-> On Tue, Oct 17, 2023 at 6:15 AM Clément Léger <cleger@rivosinc.com> wrote:
->>
->> From: Evan Green <evan@rivosinc.com>
->>
->> The Scalar Crypto specification defines Zk as a shorthand for the
->> Zkn, Zkr and Zkt extensions. The same follows for both Zkn, Zks and Zbk,
->> which are all shorthands for various other extensions. The detailed
->> breakdown can be found in their dt-binding entries.
->>
->> Since Zkn also implies the Zbkb, Zbkc and Zbkx extensions, simply passing
->> "zk" through a DT should enable all of Zbkb, Zbkc, Zbkx, Zkn, Zkr and Zkt.
->> For example, setting the "riscv,isa" DT property to "rv64imafdc_zk"
->> should generate the following cpuinfo output:
->> "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zbkb_zbkc_zbkx_zknd_zkne_zknh_zkr_zkt"
->>
->> riscv_isa_ext_data grows a pair of new members, to permit setting the
->> relevant bits for "bundled" extensions, both while parsing the ISA string
->> and the new dedicated extension properties
->>
->> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
->> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
->> Signed-off-by: Evan Green <evan@rivosinc.com>
->> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> 
-> My tree might be out of sync, but in my search for riscv_isa_ext, I
-> also found a use in print_isa() (cpu.c) where we're reaching into
-> riscv_isa_ext[].id and assuming it's always valid. If that's still in
-> there we'll want to fix up that spot too, since now with bundles .id
-> may or may not be valid.
-
-Oh indeed, the array is visible outside of this compilation unit :/.
-I'll check that before sending V3.
-
-Clément
+Except that it was not tested at all few more issues.
 
 > 
-> -Evan
+> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+> ---
+>  .../devicetree/bindings/net/oa-tc6.yaml       | 72 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 73 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/oa-tc6.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/net/oa-tc6.yaml b/Documentation/devicetree/bindings/net/oa-tc6.yaml
+> new file mode 100644
+> index 000000000000..9f442fa6cace
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/oa-tc6.yaml
+
+Filename based on compatible.
+
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/oa-tc6.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: OPEN Alliance 10BASE-T1x MAC-PHY Specification Common Properties
+> +
+> +maintainers:
+> +  - Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
+> +
+> +description:
+> +  These are generic properties that can apply to any 10BASE-T1x MAC-PHY
+> +  which uses OPEN Alliance TC6 specification.
+> +
+> +  10BASE-T1x MAC-PHY Serial Interface Specification can be found at:
+> +    https://opensig.org/about/specifications/
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^oa-tc6(@.*)?"
+
+Drop
+
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+
+Why?
+
+> +
+> +  oa-cps:
+> +    maxItems: 1
+> +    description:
+> +      Chunk Payload Size. Configures the data chunk payload size to 2^N,
+> +      where N is the value of this bitfield. The minimum possible data
+> +      chunk payload size is 8 bytes or N = 3. The default data chunk
+> +      payload size is 64 bytes, or N = 6. The minimum supported data chunk
+> +      payload size for this MAC-PHY device is indicated in the CPSMIN
+> +      field of the CAPABILITY register. Valid values for this parameter
+> +      are 8, 16, 32 and 64. All other values are reserved.
+> +
+> +  oa-txcte:
+> +    maxItems: 1
+> +    description:
+> +      Transmit Cut-Through Enable. When supported by this MAC-PHY device,
+> +      this bit enables the cut-through mode of frame transfer through the
+> +      MAC-PHY device from the SPI host to the network.
+> +
+> +  oa-rxcte:
+> +    maxItems: 1
+> +    description:
+> +      Receive Cut-Through Enable. When supported by this MAC-PHY device,
+> +      this bit enables the cut-through mode of frame transfer through the
+> +      MAC-PHY device from the network to the SPI host.
+> +
+> +  oa-prote:
+> +    maxItems: 1
+> +    description:
+> +      Control data read/write Protection Enable. When set, all control
+> +      data written to and read from the MAC-PHY will be transferred with
+> +      its complement for detection of bit errors.
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    oa-tc6 {
+> +        #address-cells = <1>;
+> +	#size-cells = <0>;
+
+That's some total mess in indentation.
+
+> +	oa-cps = <64>;
+> +	oa-txcte;
+> +	oa-rxcte;
+> +	oa-prote;
+> +    };
+Best regards,
+Krzysztof
+
