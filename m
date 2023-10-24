@@ -1,118 +1,109 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D60FBFB;
-	Tue, 24 Oct 2023 14:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC31FBFB
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 14:24:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ls48EsEM"
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE7EB6;
-	Tue, 24 Oct 2023 07:21:53 -0700 (PDT)
-Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-457cb7f53afso1739134137.3;
-        Tue, 24 Oct 2023 07:21:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698157312; x=1698762112; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AM3VQlVHWtuvahhyiClhILx1R0OrNBnU/X/2IXCfrYs=;
-        b=ls48EsEMy1c8FePn//GL3tYrj78Hh/ijd8X9Sif/9p40zdbgQOcgY0bz8cpSsPBC70
-         Iuc9X2aq40lO2NkEOHY5mJT5fG3SeunaobL4tGSKPIULLEijaCHmFUbsa7O9lPezpOjy
-         5gHChkwi28xHccuwUypDHz2h0Rpsf+1Ahxh8sJqbAk/tHkW1HMeCO24xOsdpr+7Gj8sw
-         d9/rgH9g0t1/RQENjH9KnB8S+3I/OKv/fzdqsVthfAhRyIipr62QepVaeGQ9NBhZfe6c
-         BOuiEtkJkk1eXHGX8/9YPpMSvBa9hQ7n8Sw7vVaHOnJKVTvhKTjkOK6E2aFWx1BH5cMO
-         Knhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698157312; x=1698762112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AM3VQlVHWtuvahhyiClhILx1R0OrNBnU/X/2IXCfrYs=;
-        b=TYcP+FXWFsv//dXg4xU0LK0JcZQN3TLqTsaLSwDC2Y8K2+9UhQSytZso+AYb84WOes
-         FCMz09xD16pWnezBcJQTW/lvJ3txyV7mtlOrsZYINYQ5Ecw4qQg4OhT6F9FgFT8FSYPU
-         MuiI68TIAx2hNgkCihXUmAy+BgYYLhcz/frPToXnS01PkW9JXKIJaUjjzBlcx3qaeHJn
-         zc3B2MG2Zbs+LUIYQC/8cD1GmgHu0P7+Nl7Q019EBX9rpFHG/iO4ZG46tMVEjFGLJsWC
-         xdAYKY0HKxFA/69KpEd5tlO34Ns+k5mAijgkxFLQCqh/FzTdHToXzGQBeKe+rYk5DmsG
-         h7XA==
-X-Gm-Message-State: AOJu0YzJ8Wxnrd7JOrgehFxVg2g9K2ShEiU6WEDfOVoS44rm8Lz1vpR/
-	qYd3bxd6QsmsMHFS6DFG+pXf4u85pWxjRRjHME4=
-X-Google-Smtp-Source: AGHT+IFYEeyvkUjneMKD8oSOQEaL2dS8evoHtXBbEz0EBN99vN9ZQDb4/ksFw4kT8cjWaFCUFkxB0bjW60CpMzl9M2g=
-X-Received: by 2002:a05:6102:23d1:b0:452:5d45:6345 with SMTP id
- x17-20020a05610223d100b004525d456345mr12294330vsr.34.1698157312490; Tue, 24
- Oct 2023 07:21:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GVjYHRiP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 570D0C433C7;
+	Tue, 24 Oct 2023 14:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698157491;
+	bh=JiAgJPKemF9Wi2E3Nn7vBcVAiqFYF94P9jyQ6bRIssY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GVjYHRiP6+XxzVH7PcvA+cqVtDnX8XjFr68MPXEr15HWpNxUubJZCvRUsGdSYooIB
+	 96TTfcHjGLsQqmO1T/idyHpCLQAReQYVEHrT07OtneqwvON7jrBfaQgWr95vLuPB0Z
+	 de2nNZifq44lq9aPDX3UXBBMf3N5vSxPvGY9mYyRvjNTz0pmvwQ+5qa2o8abfRAIUh
+	 1ZGa4qjYnbCThn/DunhPbmAAcvqtUV1zGKMad0cd+AcGL9EtLouUkTgForBJ5hE4sx
+	 09h28lmevoSWX3HbXOqTM+1X8xATWi7uw6BirOy+44AR+mwIVoNeSidc26ZQ+lAnYm
+	 YNikKsPR4ggpA==
+Date: Tue, 24 Oct 2023 16:24:49 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Yuran Pereira <yuran.pereira@hotmail.com>, airlied@gmail.com, 
+	neil.armstrong@linaro.org, sam@ravnborg.org, daniel@ffwll.ch, 
+	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, corbet@lwn.net, sumit.semwal@linaro.org, 
+	christian.koenig@amd.com, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] drm: docs: Remove item from TODO list
+Message-ID: <c6kwqxz2xgl64qb6dzetjjh6j2a6hj7mvbkeg57f5ulfs2hrib@ocjjsoxw3ns6>
+References: <DB3PR10MB683528B8252ED2A802A0E154E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+ <CAD=FV=W0G6C-=99viHMQaW2REGRQr2xgaejnJmadOdZkoE7AjA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com>
- <20231019-feature_ptp_netnext-v6-7-71affc27b0e5@bootlin.com>
- <CAF=yD-+O6QxuYJzijMes7J_DHHd7yYCz8sBLFERM1U6pYN0Gkg@mail.gmail.com> <20231024154037.2f61fe5b@kmaincent-XPS-13-7390>
-In-Reply-To: <20231024154037.2f61fe5b@kmaincent-XPS-13-7390>
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date: Tue, 24 Oct 2023 10:21:15 -0400
-Message-ID: <CAF=yD-LCNGcCMqpAbV1HfyVdjH7Gj-_tTwsS=08Y5CC6bqBd=w@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 07/16] net_tstamp: Add TIMESTAMPING SOFTWARE
- and HARDWARE mask
-To: =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
-	Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, 
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hybcvdpiqm52svmj"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=W0G6C-=99viHMQaW2REGRQr2xgaejnJmadOdZkoE7AjA@mail.gmail.com>
+
+
+--hybcvdpiqm52svmj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 24, 2023 at 9:40=E2=80=AFAM K=C3=B6ry Maincent <kory.maincent@b=
-ootlin.com> wrote:
->
-> On Thu, 19 Oct 2023 10:48:04 -0400
-> Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
->
-> > On Thu, Oct 19, 2023 at 10:29=E2=80=AFAM Kory Maincent
-> > <kory.maincent@bootlin.com> wrote:
-> > >
-> > > Timestamping software or hardware flags are often used as a group,
-> > > therefore adding these masks will easier future use.
+Hi,
+
+On Mon, Oct 23, 2023 at 10:25:50AM -0700, Doug Anderson wrote:
+> On Mon, Oct 23, 2023 at 9:31=E2=80=AFAM Yuran Pereira <yuran.pereira@hotm=
+ail.com> wrote:
 > >
-> > This assumes that device support for timestamping is often symmetric:
-> > a device supports both rx and tx, or neither.
+> > Since "Clean up checks for already prepared/enabled in panels" has
+> > already been done and merged [1], I think there is no longer a need
+> > for this item to be in the gpu TODO.
 > >
-> > All devices support software receive timestamping, as that timestamp
-> > is taken in the core network stack. But to support transmit timestamps
-> > drivers have to call sbk_tstamp_tx in their ndo_start_xmit.
->
-> Yes, and in that software only case they often call ethtool_op_get_ts_inf=
-o to
-> fill the timestamp info.
->
-> There is several drivers that support hardware and software timestamp, th=
-ese
-> mask could be useful for these. In case of asymmetric support we can stil=
-l use
-> the SOF_TIMESTAMPING_RX/TX_SOFTWARE flags.
->
-> I forgot to specify, in the commit message but this patch is mainly to ea=
-se
-> the next patch of this series to deal with software/hardware time stampin=
-g.
-> Maybe you prefer to have this squash into next patch as had suggested Flo=
-rian
-> in last version.
+> > [1] https://patchwork.freedesktop.org/patch/551421/
+> >
+> > Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> > ---
+> >  Documentation/gpu/todo.rst | 25 -------------------------
+> >  1 file changed, 25 deletions(-)
+>=20
+> It's not actually all done. It's in a bit of a limbo state right now,
+> unfortunately. I landed all of the "simple" cases where panels were
+> needlessly tracking prepare/enable, but the less simple cases are
+> still outstanding.
+>=20
+> Specifically the issue is that many panels have code to properly power
+> cycle themselves off at shutdown time and in order to do that they
+> need to keep track of the prepare/enable state. After a big, long
+> discussion [1] it was decided that we could get rid of all the panel
+> code handling shutdown if only all relevant DRM KMS drivers would
+> properly call drm_atomic_helper_shutdown().
+>=20
+> I made an attempt to get DRM KMS drivers to call
+> drm_atomic_helper_shutdown() [2] [3] [4]. I was able to land the
+> patches that went through drm-misc, but currently many of the
+> non-drm-misc ones are blocked waiting for attention.
+>=20
+> ...so things that could be done to help out:
+>=20
+> a) Could review patches that haven't landed in [4]. Maybe adding a
+> Reviewed-by tag would help wake up maintainers?
+>=20
+> b) Could see if you can identify panels that are exclusively used w/
+> DRM drivers that have already been converted and then we could post
+> patches for just those panels. I have no idea how easy this task would
+> be. Is it enough to look at upstream dts files by "compatible" string?
 
-Thanks. I did not see such use in net/ or in my experience of using
-setsockopt SO_TIMESTAMPING.
+I think it is, yes.
 
-But I had not considered net device get_ts_info. It would be useful there.
+Maxime
 
-Slight preference from me to keep this a separate patch, as it applies
-not only to the use case in your follow-on patch.
+--hybcvdpiqm52svmj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTfTsAAKCRDj7w1vZxhR
+xcQLAQDLOftRXQ2lHJ/6tZ1C2DlWodIPleYTRFzDQVKVJDBTtQEAvg5gQvFvDTgw
+ic2BwYSSUUEriwl/ml0eDvtollJE0gM=
+=HH4h
+-----END PGP SIGNATURE-----
+
+--hybcvdpiqm52svmj--
