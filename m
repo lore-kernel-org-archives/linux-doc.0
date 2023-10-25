@@ -1,45 +1,45 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1359E1DA5B
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 15:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822592D62F
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 15:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WItkXpwD"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6440A128;
-	Wed, 25 Oct 2023 08:16:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ArxU3xFQ"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360C41731;
+	Wed, 25 Oct 2023 08:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698246978; x=1729782978;
+  t=1698247694; x=1729783694;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=m+Ej6NHPrhm+wYMnczhpaBZL2+SGa4xutIPZCENtxjw=;
-  b=WItkXpwDxMTZCDHl9I12MvKKmI9dCDAIOZh/PDZO0oFwSpFFl32mKfVE
-   LkR+UuLOxT3PIPK4JVo711o9hA/MU5idD4sR2W1FUmTR5/hajSr9w4Btz
-   5IJN2X1RDDJ59eAOcJD9chCXVWBjTQS+670mkwrjawLGU9DYBL2f6gmU7
-   Pr8MdgrlfXSU06McI5EXYcOwHqP8bgELoh8oWrvxzm1jWUnsoP/azXvy7
-   yhvbvJUWA4xe195shtEivXLMvjrCRh2lP15kdybWxr31GqQ7IwURrB+ZN
-   h8O7cSRWWxVOMeVY6c8L0uG+aGzQDXbfrrg02z5lhFTZUk5vtpNsHdtxz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="377695015"
+  bh=6AqSNlNER78vW5+ip/iGIURRm9qeolLQ3W+U9IMny9U=;
+  b=ArxU3xFQTTfr9BefBS4+xsnPg2YWoECzOBd1N3Bl4FIr98PsUfT6z1e3
+   vrlJKuZIWTOOCC+bO9mVff3ebkxIJ5ClMpWXLrNCaTH3Iz/lZfPFVfw7j
+   JG5MD21JGQPUR7sRTshN2ckdewCW8tpNbb6g9k8cGVEE/IJWs1sbjTr/r
+   8SuUi4fIN4ueAi7sGcEEQIVzUVXPc28rpu0GUrtLZ/qtwyMlnJwfH5pFn
+   PLGXXexrJGaDnT3vR5sWcMB61jD0fS52s5dg7usPOYHOOgOiqQqmRFykU
+   RsNL+MWQfen48plSKkKuA9VsWSUUKUrWQ2zo4Kr8MssH/BCLhF2MfOKXk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="390184736"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="377695015"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 08:15:55 -0700
+   d="scan'208";a="390184736"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 08:28:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="875541085"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="824682530"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="875541085"
-Received: from mhans-mobl3.amr.corp.intel.com (HELO desk) ([10.252.132.200])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 08:15:54 -0700
-Date: Wed, 25 Oct 2023 08:15:46 -0700
+   d="scan'208";a="824682530"
+Received: from kkomeyli-mobl.amr.corp.intel.com (HELO desk) ([10.251.29.139])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 08:28:08 -0700
+Date: Wed, 25 Oct 2023 08:27:54 -0700
 From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Chao Gao <chao.gao@intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
 	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
 	Josh Poimboeuf <jpoimboe@kernel.org>,
 	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	Sean Christopherson <seanjc@google.com>,
@@ -49,13 +49,15 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
 	kvm@vger.kernel.org,
 	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
 	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com
-Subject: Re: [PATCH  v2 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
- mitigation
-Message-ID: <20231025151546.dwnlovtbjurqvjsw@desk>
-References: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com>
- <20231024-delay-verw-v2-6-f1881340c807@linux.intel.com>
- <ZTjIGVE3o4K7O9kW@chao-email>
+	antonio.gomez.iglesias@linux.intel.com,
+	Alyssa Milburn <alyssa.milburn@intel.com>
+Subject: Re: [RESEND][PATCH 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20231025152449.w6xre33cs7tkex7k@desk>
+References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
+ <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
+ <f620c7d4-6345-4ad0-8a45-c8089e3c34df@citrix.com>
+ <20231025062818.7kaerqklaut7dg5r@desk>
+ <20231025072255.GA37471@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,19 +66,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZTjIGVE3o4K7O9kW@chao-email>
+In-Reply-To: <20231025072255.GA37471@noisy.programming.kicks-ass.net>
 
-On Wed, Oct 25, 2023 at 03:47:37PM +0800, Chao Gao wrote:
-> >diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-> >index b3b13ec04bac..c566035938cc 100644
-> >--- a/arch/x86/kvm/vmx/vmenter.S
-> >+++ b/arch/x86/kvm/vmx/vmenter.S
-> >@@ -1,6 +1,7 @@
-> > /* SPDX-License-Identifier: GPL-2.0 */
-> > #include <linux/linkage.h>
-> > #include <asm/asm.h>
-> >+#include <asm/segment.h>
+On Wed, Oct 25, 2023 at 09:22:55AM +0200, Peter Zijlstra wrote:
+ 
+> I'm thinking you need to at the very least stay in a section that's
+> actually still mapped with PTI :-)
 > 
-> This header is already included a few lines below:
+> .entry.text is the only thing that is reliably mapped with PTI (IIRC),
+> some configs also get a chunk of the kernel image, but not all.
+> 
+> Something like the below should do I suppose.
 
-Thanks, will remove it.
+Thanks, will do this with Andrew's improvements.
+
+> ---
+>  arch/x86/entry/entry.S | 15 +++++++++++++++
