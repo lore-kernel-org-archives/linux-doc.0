@@ -1,122 +1,77 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5482031F;
-	Wed, 25 Oct 2023 09:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 509A211F;
-	Wed, 25 Oct 2023 02:57:52 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 931242F4;
-	Wed, 25 Oct 2023 02:58:33 -0700 (PDT)
-Received: from e127643.arm.com (unknown [10.57.70.16])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AA6B83F738;
-	Wed, 25 Oct 2023 02:57:49 -0700 (PDT)
-From: James Clark <james.clark@arm.com>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	suzuki.poulose@arm.com,
-	oliver.upton@linux.dev
-Cc: kvmarm@lists.linux.dev,
-	James Clark <james.clark@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Zaid Al-Bassam <zalbassam@google.com>,
-	Reiji Watanabe <reijiw@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 3/3] Documentation: arm64: Document the PMU event counting threshold feature
-Date: Wed, 25 Oct 2023 10:57:05 +0100
-Message-Id: <20231025095710.1559601-4-james.clark@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231025095710.1559601-1-james.clark@arm.com>
-References: <20231025095710.1559601-1-james.clark@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EFC2510F;
+	Wed, 25 Oct 2023 10:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DrAXUVV+"
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8235EDD;
+	Wed, 25 Oct 2023 03:13:03 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-3add37de892so3212982b6e.1;
+        Wed, 25 Oct 2023 03:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698228783; x=1698833583; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l6sBwVBt8OxRl40mrORA03RRhCm4IDWP2fYbv2hXwz8=;
+        b=DrAXUVV+HetekIYy4BhQtpBzj4CmK/ypIeJCX3upEo2f6U2M8PNA0QzlviapzdvBb/
+         bN363txQrBLneJgaMhKSPCNKEOWZMV1g0CBMtAnFzaBSFLgrTv25Ck/Ugi6UT92LkhOK
+         2ABdGoW9rfL6zl4iB8S4M5H3toFZ7lYwMfZNEtJR6deBZCIVF65zb0UnEoq9JY5xFV8m
+         tGXMiRJjqdcmXyVlkmAbplPFYbzTge6oDmpqRK5VZ14BQrsY1dbkoElWwTz0C48qNRHG
+         OUX9mCwDdpmoFoyQm3wBq4SGi/yL1W2BYKOH3bl+AxOXbXx8Ins/kPYwZutjaGeny2bo
+         /ktg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698228783; x=1698833583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l6sBwVBt8OxRl40mrORA03RRhCm4IDWP2fYbv2hXwz8=;
+        b=vwC3Q1sfbbRd/rEIj9NlMm39DwgBBFIpkd7p28chff2MUMwxwe35eN8BPonSKxCKLo
+         r6DZXfoPp5537NI5/hPJ9brkBHxOZ2Ht+oYJsrc/wcM7LX9HmBbHY97gyvYhDjk02ePu
+         JQyuq9s3orgP7H72xQ3LM1tgJcqwERl27skxXkgKsoJuD4MU/sGiP3uZMXi2IrgaWboW
+         /JfXGgTVKS+1Z5852dwshNq8OzgPFqaS8rytild06M0aQtH2y1RhcI7Blz+W4DIvXJiJ
+         Dhe9MRR6om2TB4Lk7fLTFRAZsTSFmixcVODMRGf7XyWijLPFY7Tiqyz/bJWrI4ApCL+W
+         6svA==
+X-Gm-Message-State: AOJu0YyBqxZRIcJ2TlId8AHOL7YZ8TCY7xn227pvG5+gZt5JYWBHUnjn
+	BARQlhYyWNQK2nSiClOe2t8LMW2evK9HjCtQA6U=
+X-Google-Smtp-Source: AGHT+IGdPmbTgUijRvTiwVeUamc6sPEBS/RzZl71q6s9s7fFlZ1Uy8nbWtq0fhT33/wRwFselXnTZPMPUwXcZT7qz78=
+X-Received: by 2002:a05:6808:14d6:b0:3b2:e56d:b335 with SMTP id
+ f22-20020a05680814d600b003b2e56db335mr15826575oiw.4.1698228782693; Wed, 25
+ Oct 2023 03:13:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231018160922.1018962-1-ojeda@kernel.org>
+In-Reply-To: <20231018160922.1018962-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 25 Oct 2023 12:12:51 +0200
+Message-ID: <CANiq72m2s1SUa2DVSRZ+B+1v_Y4Cpa0Hz8cjRjHacGWh586+3w@mail.gmail.com>
+Subject: Re: [PATCH] docs: rust: add "The Rust experiment" section
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation for the new Perf event open parameters and
-the threshold_max capability file.
+On Wed, Oct 18, 2023 at 6:09=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> Clarify that the Rust experiment is still going on to avoid
+> confusion for both kernel maintainers and end users.
+>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Signed-off-by: James Clark <james.clark@arm.com>
----
- Documentation/arch/arm64/perf.rst | 56 +++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+Applied to `rust-next`, with the new paragraph -- thanks everyone!
 
-diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
-index 1f87b57c2332..36b8111a710d 100644
---- a/Documentation/arch/arm64/perf.rst
-+++ b/Documentation/arch/arm64/perf.rst
-@@ -164,3 +164,59 @@ and should be used to mask the upper bits as needed.
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
- .. _tools/lib/perf/tests/test-evsel.c:
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
-+
-+Event Counting Threshold
-+==========================================
-+
-+Overview
-+--------
-+
-+FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
-+events whose count meets a specified threshold condition. For example if
-+threshold_compare is set to 2 ('Greater than or equal'), and the
-+threshold is set to 2, then the PMU counter will now only increment by
-+when an event would have previously incremented the PMU counter by 2 or
-+more on a single processor cycle.
-+
-+To increment by 1 after passing the threshold condition instead of the
-+number of events on that cycle, add the 'threshold_count' option to the
-+commandline.
-+
-+How-to
-+------
-+
-+The threshold, threshold_compare and threshold_count values can be
-+provided per event:
-+
-+.. code-block:: sh
-+
-+  perf stat -e stall_slot/threshold=2,threshold_compare=2/ \
-+            -e dtlb_walk/threshold=10,threshold_compare=3,threshold_count/
-+
-+And the following comparison values are supported:
-+
-+.. code-block::
-+
-+  0: Not-equal
-+  1: Equals
-+  2: Greater-than-or-equal
-+  3: Less-than
-+
-+The maximum supported threshold value can be read from the caps of each
-+PMU, for example:
-+
-+.. code-block:: sh
-+
-+  cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
-+
-+  0x000000ff
-+
-+If a value higher than this is given, then it will be silently clamped
-+to the maximum. The highest possible maximum is 4095, as the config
-+field for threshold is limited to 12 bits, and the Perf tool will refuse
-+to parse higher values.
-+
-+If the PMU doesn't support FEAT_PMUv3_TH, then threshold_max will read
-+0, and both threshold and threshold_compare will be silently ignored.
-+threshold_max will also read as 0 on aarch32 guests, even if the host
-+is running on hardware with the feature.
--- 
-2.34.1
-
+Cheers,
+Miguel
