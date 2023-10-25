@@ -1,60 +1,68 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B345392
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 04:01:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A211C04
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 04:45:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oq5qBdu1"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CBD8B3;
-	Tue, 24 Oct 2023 21:01:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698206465; x=1729742465;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1dvC3N7YrfARLKq5nUqFeK9TE0Y0MO6GfZ1KuchckAY=;
-  b=Oq5qBdu1WHx3kidmX/k+oKWX3+2vt4jcUjf4sfZp8s2vVHCfCdVh7Xyj
-   72Q41ndGBeWoZx/UYbdQhrMKa4FcM0uLfD0XcDxHXMwtRjGUDVzzKSHIt
-   GrzdigM6dLB5aA2f5GcRVWY9fjqWsYfhbkxkdgKE9BoDaArUHvd4jZ7V/
-   TAZmiY74/siYZgMyNgJExRSwYBM7VXk6YK+L3qrkMZb2m356uWh97V+SH
-   Pdjpj2pnKizTP+VIyKjbrDeRteVCyPZrew/U2oXOquNwKPlRmgdxX6zOy
-   HUOi2EVTlhD1+UOP8P5fI3QaJDDmpGlLlKaNI7voKzsCTCWebEqWSBBi0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="372287488"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="372287488"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 21:01:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="824528049"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="824528049"
-Received: from mhans-mobl3.amr.corp.intel.com (HELO desk) ([10.252.132.200])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 21:01:03 -0700
-Date: Tue, 24 Oct 2023 21:00:29 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Alyssa Milburn <alyssa.milburn@intel.com>
-Subject: Re: [PATCH  v2 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20231025040029.uglv4dwmlnfhcjde@desk>
-References: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com>
- <20231024-delay-verw-v2-1-f1881340c807@linux.intel.com>
- <20231024103601.GH31411@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kqjdgDVo"
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C369D
+	for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 21:45:10 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40842752c6eso41207585e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Oct 2023 21:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698209109; x=1698813909; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C2eQlkrHXsb01SkD0r5lPH6teOpnFeXQ1oyHS+DlKI4=;
+        b=kqjdgDVo2L8mGqVk66nuH9Htxk7Vr3/n6p8npKnEEMp8TwAIzfP5DOY0vH7NpULoDA
+         hRwMuBbEYdM2k/YmEl7q02cyYrj/K1clTTsY7pMZIOTA8bfgDRgE45+wIAXsFp7wFOak
+         lrSLd9T6wZKfDAm9cU9ktF99I7R0Hz9zBF1yB5eN0IllH2rFrrRRtMSjRhCwHWvQ4z8w
+         R9FRDKzvDRuMMGCFinBeKjLG2j0NdA/2lFjTnoiLzsFOX37tQEudBFuB+uS5E+4jyoBh
+         4+PyAuLCgE3H/3qnA4WFA5LFpiCubid6vqu7blWPXqX45zCKBXeVsekXUsuQNtnYfzSO
+         1bMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698209109; x=1698813909;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C2eQlkrHXsb01SkD0r5lPH6teOpnFeXQ1oyHS+DlKI4=;
+        b=oy/F1eC98cfTvjG3mFiBrRlTrGFB7wEM7UFqTii6G515Mo6fVr32b//wu3E2wul1zB
+         CCe5N9dvJOB6OVi8QApTMrSYmFlJ59CcgTN4UQ2VlaNz6CfNSopd1pvdwyQRmX6ju/nm
+         BXotyoiqjEhVgZGT9NMFPvStQ0NUC49ZT9Zxdrb8GpVf5fNa3FpftG7b6bvw9bqsz68G
+         GBB+/YyZSx31lQJCJ8+CWsRd+eeyFQHc99Oj77IM4Pw2FxHa+zgbNxQVitxfy9l882E5
+         hF4P+8A3XQMKob4/lzSKO1BziR9hmCPprNN2eqUXsqTT1LlVNQbUusmw/nxxoKiuYwr0
+         eExQ==
+X-Gm-Message-State: AOJu0Yx4CGiMfp25o2RNf3wQAFyO33IVl1FTo1lOOkNeU1nHundHellp
+	UoHZA9gME1Q16Gca1v6tj0aiuQ==
+X-Google-Smtp-Source: AGHT+IH5u+VrhTrLq4ZQUG00msn+IStTkp3E/NHGTSlHLwWSz3OReR5BpJ0FFZ2Ie1ciq6NwvNCJcA==
+X-Received: by 2002:a05:600c:1ca6:b0:408:386b:1916 with SMTP id k38-20020a05600c1ca600b00408386b1916mr10835678wms.8.1698209109293;
+        Tue, 24 Oct 2023 21:45:09 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x10-20020a05600c21ca00b003feea62440bsm13254454wmj.43.2023.10.24.21.45.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 21:45:08 -0700 (PDT)
+Date: Wed, 25 Oct 2023 07:45:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Nitesh Shetty <nj.shetty@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@lists.linux.dev, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	nitheshshetty@gmail.com, anuj1072538@gmail.com,
+	gost.dev@samsung.com, mcgrof@kernel.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Hannes Reinecke <hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v17 03/12] block: add copy offload support
+Message-ID: <4c126ecc-ac29-46a5-8cd2-1149d37886c7@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,164 +71,133 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231024103601.GH31411@noisy.programming.kicks-ass.net>
+In-Reply-To: <20231019110147.31672-4-nj.shetty@samsung.com>
 
-On Tue, Oct 24, 2023 at 12:36:01PM +0200, Peter Zijlstra wrote:
-> On Tue, Oct 24, 2023 at 01:08:21AM -0700, Pawan Gupta wrote:
-> 
-> > +.macro CLEAR_CPU_BUFFERS
-> > +	ALTERNATIVE "jmp .Lskip_verw_\@;", "jmp .Ldo_verw_\@", X86_FEATURE_CLEAR_CPU_BUF
-> > +		/* nopl __KERNEL_DS(%rax) */
-> > +		.byte 0x0f, 0x1f, 0x80, 0x00, 0x00;
-> > +.Lverw_arg_\@:	.word __KERNEL_DS;
-> > +.Ldo_verw_\@:	verw _ASM_RIP(.Lverw_arg_\@);
-> > +.Lskip_verw_\@:
-> > +.endm
-> 
-> Why can't this be:
-> 
-> 	ALTERNATIVE "". "verw _ASM_RIP(mds_verw_sel)", X86_FEATURE_CLEAR_CPU_BUF
-> 
-> And have that mds_verw_sel thing be out-of-line ? That gives much better
-> code for the case where we don't need this.
+Hi Nitesh,
 
-Overall the code generated with this approach is much better. But, in my
-testing I am seeing an issue with runtime patching in 32-bit mode, when
-mitigations are off. Instead of NOPs I am seeing random instruction. I
-don't see any issue with 64-bit mode.
+kernel test robot noticed the following build warnings:
 
-config1: mitigations=on, 32-bit mode, post-boot
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20231019-200658
+base:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
+patch link:    https://lore.kernel.org/r/20231019110147.31672-4-nj.shetty%40samsung.com
+patch subject: [PATCH v17 03/12] block: add copy offload support
+config: i386-randconfig-141-20231022 (https://download.01.org/0day-ci/archive/20231025/202310251059.GiTmwLYx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231025/202310251059.GiTmwLYx-lkp@intel.com/reproduce)
 
-entry_SYSENTER_32:
-   ...
-   0xc1a3748e <+222>:   pop    %eax
-   0xc1a3748f <+223>:   verw   0xc1a38240
-   0xc1a37496 <+230>:   sti
-   0xc1a37497 <+231>:   sysexit
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310251059.GiTmwLYx-lkp@intel.com/
 
----------------------------------------------
+New smatch warnings:
+block/blk-lib.c:248 blkdev_copy_offload() warn: use 'gfp' here instead of GFP_KERNEL?
 
-config2: mitigations=off, 32-bit mode, post-boot
+Old smatch warnings:
+block/blk-lib.c:264 blkdev_copy_offload() warn: use 'gfp' here instead of GFP_KERNEL?
 
-entry_SYSENTER_32:
-   ...
-   0xc1a3748e <+222>:   pop    %eax
-   0xc1a3748f <+223>:   lea    0x0(%esi,%eiz,1),%esi   <---- Doesn't look right
-   0xc1a37496 <+230>:   sti
-   0xc1a37497 <+231>:   sysexit
+vim +/gfp +248 block/blk-lib.c
 
----------------------------------------------
+391929a15e2c18 Nitesh Shetty 2023-10-19  228  ssize_t blkdev_copy_offload(struct block_device *bdev, loff_t pos_in,
+391929a15e2c18 Nitesh Shetty 2023-10-19  229  			    loff_t pos_out, size_t len,
+391929a15e2c18 Nitesh Shetty 2023-10-19  230  			    void (*endio)(void *, int, ssize_t),
+391929a15e2c18 Nitesh Shetty 2023-10-19  231  			    void *private, gfp_t gfp)
+391929a15e2c18 Nitesh Shetty 2023-10-19  232  {
+391929a15e2c18 Nitesh Shetty 2023-10-19  233  	struct blkdev_copy_io *cio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  234  	struct blkdev_copy_offload_io *offload_io;
+391929a15e2c18 Nitesh Shetty 2023-10-19  235  	struct bio *src_bio, *dst_bio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  236  	size_t rem, chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  237  	size_t max_copy_bytes = bdev_max_copy_sectors(bdev) << SECTOR_SHIFT;
+391929a15e2c18 Nitesh Shetty 2023-10-19  238  	ssize_t ret;
+391929a15e2c18 Nitesh Shetty 2023-10-19  239  	struct blk_plug plug;
+391929a15e2c18 Nitesh Shetty 2023-10-19  240  
+391929a15e2c18 Nitesh Shetty 2023-10-19  241  	if (!max_copy_bytes)
+391929a15e2c18 Nitesh Shetty 2023-10-19  242  		return -EOPNOTSUPP;
+391929a15e2c18 Nitesh Shetty 2023-10-19  243  
+391929a15e2c18 Nitesh Shetty 2023-10-19  244  	ret = blkdev_copy_sanity_check(bdev, pos_in, bdev, pos_out, len);
+391929a15e2c18 Nitesh Shetty 2023-10-19  245  	if (ret)
+391929a15e2c18 Nitesh Shetty 2023-10-19  246  		return ret;
+391929a15e2c18 Nitesh Shetty 2023-10-19  247  
+391929a15e2c18 Nitesh Shetty 2023-10-19 @248  	cio = kzalloc(sizeof(*cio), GFP_KERNEL);
 
-config3: 32-bit mode, pre-boot objdump
+Should this be: cio = kzalloc(sizeof(*cio), gfp);?  It's not totally
+clear from the context honestly.  (I haven't looked at the code outside
+what is in this automated email).
 
-entry_SYSENTER_32:
-   ...
-   c8e:       58                      pop    %eax
-   c8f:       90                      nop
-   c90:       90                      nop
-   c91:       90                      nop
-   c92:       90                      nop
-   c93:       90                      nop
-   c94:       90                      nop
-   c95:       90                      nop
-   c96:       fb                      sti
-   c97:       0f 35                   sysexit
+391929a15e2c18 Nitesh Shetty 2023-10-19  249  	if (!cio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  250  		return -ENOMEM;
+391929a15e2c18 Nitesh Shetty 2023-10-19  251  	atomic_set(&cio->refcount, 1);
+391929a15e2c18 Nitesh Shetty 2023-10-19  252  	cio->waiter = current;
+391929a15e2c18 Nitesh Shetty 2023-10-19  253  	cio->endio = endio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  254  	cio->private = private;
+391929a15e2c18 Nitesh Shetty 2023-10-19  255  
+391929a15e2c18 Nitesh Shetty 2023-10-19  256  	/*
+391929a15e2c18 Nitesh Shetty 2023-10-19  257  	 * If there is a error, copied will be set to least successfully
+391929a15e2c18 Nitesh Shetty 2023-10-19  258  	 * completed copied length
+391929a15e2c18 Nitesh Shetty 2023-10-19  259  	 */
+391929a15e2c18 Nitesh Shetty 2023-10-19  260  	cio->copied = len;
+391929a15e2c18 Nitesh Shetty 2023-10-19  261  	for (rem = len; rem > 0; rem -= chunk) {
+391929a15e2c18 Nitesh Shetty 2023-10-19  262  		chunk = min(rem, max_copy_bytes);
+391929a15e2c18 Nitesh Shetty 2023-10-19  263  
+391929a15e2c18 Nitesh Shetty 2023-10-19  264  		offload_io = kzalloc(sizeof(*offload_io), GFP_KERNEL);
+391929a15e2c18 Nitesh Shetty 2023-10-19  265  		if (!offload_io)
+391929a15e2c18 Nitesh Shetty 2023-10-19  266  			goto err_free_cio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  267  		offload_io->cio = cio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  268  		/*
+391929a15e2c18 Nitesh Shetty 2023-10-19  269  		 * For partial completion, we use offload_io->offset to truncate
+391929a15e2c18 Nitesh Shetty 2023-10-19  270  		 * successful copy length
+391929a15e2c18 Nitesh Shetty 2023-10-19  271  		 */
+391929a15e2c18 Nitesh Shetty 2023-10-19  272  		offload_io->offset = len - rem;
+391929a15e2c18 Nitesh Shetty 2023-10-19  273  
+391929a15e2c18 Nitesh Shetty 2023-10-19  274  		src_bio = bio_alloc(bdev, 0, REQ_OP_COPY_SRC, gfp);
+391929a15e2c18 Nitesh Shetty 2023-10-19  275  		if (!src_bio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  276  			goto err_free_offload_io;
+391929a15e2c18 Nitesh Shetty 2023-10-19  277  		src_bio->bi_iter.bi_size = chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  278  		src_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
+391929a15e2c18 Nitesh Shetty 2023-10-19  279  
+391929a15e2c18 Nitesh Shetty 2023-10-19  280  		blk_start_plug(&plug);
+391929a15e2c18 Nitesh Shetty 2023-10-19  281  		dst_bio = blk_next_bio(src_bio, bdev, 0, REQ_OP_COPY_DST, gfp);
+391929a15e2c18 Nitesh Shetty 2023-10-19  282  		if (!dst_bio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  283  			goto err_free_src_bio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  284  		dst_bio->bi_iter.bi_size = chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  285  		dst_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
+391929a15e2c18 Nitesh Shetty 2023-10-19  286  		dst_bio->bi_end_io = blkdev_copy_offload_dst_endio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  287  		dst_bio->bi_private = offload_io;
+391929a15e2c18 Nitesh Shetty 2023-10-19  288  
+391929a15e2c18 Nitesh Shetty 2023-10-19  289  		atomic_inc(&cio->refcount);
+391929a15e2c18 Nitesh Shetty 2023-10-19  290  		submit_bio(dst_bio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  291  		blk_finish_plug(&plug);
+391929a15e2c18 Nitesh Shetty 2023-10-19  292  		pos_in += chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  293  		pos_out += chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  294  	}
+391929a15e2c18 Nitesh Shetty 2023-10-19  295  
+391929a15e2c18 Nitesh Shetty 2023-10-19  296  	if (atomic_dec_and_test(&cio->refcount))
+391929a15e2c18 Nitesh Shetty 2023-10-19  297  		blkdev_copy_endio(cio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  298  	if (endio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  299  		return -EIOCBQUEUED;
+391929a15e2c18 Nitesh Shetty 2023-10-19  300  
+391929a15e2c18 Nitesh Shetty 2023-10-19  301  	return blkdev_copy_wait_for_completion_io(cio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  302  
+391929a15e2c18 Nitesh Shetty 2023-10-19  303  err_free_src_bio:
+391929a15e2c18 Nitesh Shetty 2023-10-19  304  	bio_put(src_bio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  305  err_free_offload_io:
+391929a15e2c18 Nitesh Shetty 2023-10-19  306  	kfree(offload_io);
+391929a15e2c18 Nitesh Shetty 2023-10-19  307  err_free_cio:
+391929a15e2c18 Nitesh Shetty 2023-10-19  308  	cio->copied = min_t(ssize_t, cio->copied, (len - rem));
+391929a15e2c18 Nitesh Shetty 2023-10-19  309  	cio->status = -ENOMEM;
+391929a15e2c18 Nitesh Shetty 2023-10-19  310  	if (rem == len) {
+391929a15e2c18 Nitesh Shetty 2023-10-19  311  		ret = cio->status;
+391929a15e2c18 Nitesh Shetty 2023-10-19  312  		kfree(cio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  313  		return ret;
+391929a15e2c18 Nitesh Shetty 2023-10-19  314  	}
+391929a15e2c18 Nitesh Shetty 2023-10-19  315  	if (cio->endio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  316  		return cio->status;
+391929a15e2c18 Nitesh Shetty 2023-10-19  317  
+391929a15e2c18 Nitesh Shetty 2023-10-19  318  	return blkdev_copy_wait_for_completion_io(cio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  319  }
 
-These tests were done with below patch:
-
------8<-----
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Date: Mon, 23 Oct 2023 15:04:56 -0700
-Subject: [PATCH] x86/bugs: Add asm helpers for executing VERW
-
-MDS mitigation requires clearing the CPU buffers before returning to
-user. This needs to be done late in the exit-to-user path. Current
-location of VERW leaves a possibility of kernel data ending up in CPU
-buffers for memory accesses done after VERW such as:
-
-  1. Kernel data accessed by an NMI between VERW and return-to-user can
-     remain in CPU buffers ( since NMI returning to kernel does not
-     execute VERW to clear CPU buffers.
-  2. Alyssa reported that after VERW is executed,
-     CONFIG_GCC_PLUGIN_STACKLEAK=y scrubs the stack used by a system
-     call. Memory accesses during stack scrubbing can move kernel stack
-     contents into CPU buffers.
-  3. When caller saved registers are restored after a return from
-     function executing VERW, the kernel stack accesses can remain in
-     CPU buffers(since they occur after VERW).
-
-To fix this VERW needs to be moved very late in exit-to-user path.
-
-In preparation for moving VERW to entry/exit asm code, create macros
-that can be used in asm. Also make them depend on a new feature flag
-X86_FEATURE_CLEAR_CPU_BUF.
-
-Reported-by: Alyssa Milburn <alyssa.milburn@intel.com>
-Suggested-by: Andrew Cooper <andrew.cooper3@citrix.com>
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
----
- arch/x86/include/asm/cpufeatures.h   |  2 +-
- arch/x86/include/asm/nospec-branch.h | 24 ++++++++++++++++++++++++
- 2 files changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 58cb9495e40f..f21fc0f12737 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -308,10 +308,10 @@
- #define X86_FEATURE_SMBA		(11*32+21) /* "" Slow Memory Bandwidth Allocation */
- #define X86_FEATURE_BMEC		(11*32+22) /* "" Bandwidth Monitoring Event Configuration */
- #define X86_FEATURE_USER_SHSTK		(11*32+23) /* Shadow stack support for user mode applications */
--
- #define X86_FEATURE_SRSO		(11*32+24) /* "" AMD BTB untrain RETs */
- #define X86_FEATURE_SRSO_ALIAS		(11*32+25) /* "" AMD BTB untrain RETs through aliasing */
- #define X86_FEATURE_IBPB_ON_VMEXIT	(11*32+26) /* "" Issue an IBPB only on VMEXIT */
-+#define X86_FEATURE_CLEAR_CPU_BUF	(11*32+27) /* "" Clear CPU buffers */
- 
- /* Intel-defined CPU features, CPUID level 0x00000007:1 (EAX), word 12 */
- #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* AVX VNNI instructions */
-diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
-index c55cc243592e..ed8218e2d9a7 100644
---- a/arch/x86/include/asm/nospec-branch.h
-+++ b/arch/x86/include/asm/nospec-branch.h
-@@ -13,6 +13,7 @@
- #include <asm/unwind_hints.h>
- #include <asm/percpu.h>
- #include <asm/current.h>
-+#include <asm/segment.h>
- 
- /*
-  * Call depth tracking for Intel SKL CPUs to address the RSB underflow
-@@ -329,6 +330,29 @@
- #endif
- .endm
- 
-+/*
-+ * Macros to execute VERW instruction that mitigate transient data sampling
-+ * attacks such as MDS. On affected systems a microcode update overloaded VERW
-+ * instruction to also clear the CPU buffers. VERW clobbers CFLAGS.ZF.
-+ *
-+ * Note: Only the memory operand variant of VERW clears the CPU buffers.
-+ */
-+.pushsection .rodata
-+.align 64
-+mds_verw_sel:
-+	.word __KERNEL_DS
-+ 	.byte 0xcc
-+.align 64
-+.popsection
-+
-+.macro EXEC_VERW
-+	verw _ASM_RIP(mds_verw_sel)
-+.endm
-+
-+.macro CLEAR_CPU_BUFFERS
-+	ALTERNATIVE "", __stringify(EXEC_VERW), X86_FEATURE_CLEAR_CPU_BUF
-+.endm
-+
- #else /* __ASSEMBLY__ */
- 
- #define ANNOTATE_RETPOLINE_SAFE					\
 -- 
-2.34.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
