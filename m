@@ -1,128 +1,101 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D529930CE5
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 20:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FEE30F91
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 21:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnBjG1ji"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB6618D;
-	Wed, 25 Oct 2023 13:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698267212; x=1729803212;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rpFgire7Svqru/HfpQ1b16RkVx0842HOL7xbgXY2vaQ=;
-  b=SnBjG1jifPpdEo/40nUwikKXsnXNh6s3yRp+o9DkmYK5mtrG1ef1ZipH
-   CM015dD3HDo2BbVhd1lQMJTdIN/IwSGFo8U1SwpMJF2GN+z/TUf9HRK1l
-   IHW4bWClvhj4Y7GzYHMlYhpAjhOKVE9axCXZZG6spJ5r4+dzO6I4wkfjl
-   PwvWudKA1b4tabZHcslIKJlmkhqtR0R+6jzPEUratKaJMD2ZKdkd92ShG
-   JNzttVr2Pci5SBj/g4oajf5bp7oYH5uG/h76u08s+K8osKkYCr/lvJr4Y
-   2At5X5m2dffXuh2uv+HS9v5Sdso8jN3U6pKuui4FOnLQDiM5JVS3OoMyn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="386277340"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="386277340"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 13:53:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="217513"
-Received: from kkomeyli-mobl.amr.corp.intel.com (HELO desk) ([10.251.29.139])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 13:52:46 -0700
-Date: Wed, 25 Oct 2023 13:53:18 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Nikolay Borisov <nik.borisov@suse.com>
-Subject: [PATCH  v3 5/6] KVM: VMX: Use BT+JNC, i.e. EFLAGS.CF to select
- VMRESUME vs. VMLAUNCH
-Message-ID: <20231025-delay-verw-v3-5-52663677ee35@linux.intel.com>
-X-Mailer: b4 0.12.3
-References: <20231025-delay-verw-v3-0-52663677ee35@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Uzjc4i9R"
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44862133
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 14:06:32 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id e9e14a558f8ab-3575da42138so7585ab.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 14:06:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1698267991; x=1698872791; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YfKUQfUVw2J0FwzBs8kRktoJX+okfytV+T+B1kRuBio=;
+        b=Uzjc4i9Rw9syaHUHEzJ+R+rqVahROI2kY8UxdD3VMs7SMIA2KCDXIThzUVtRv2HuzT
+         mRmt8kqehxt6FnN0hViy7d27MvNaJFzEx8DDXiizgt19Mz5As48mp9iZJ6eBFQETkXUG
+         acS25QB184H3tszqJ5l4CmXeSmwxOVi+q4Mtc3vtFr//B2S8RzMBXjcyYfuSyx3cxGeq
+         ZE7DgTHyJMzbr4UwEaz37oRDXd7T1B6s85IO8QypyWb1rCHCAf6Uh1GFetRR90YzL3sw
+         tANFInQnsP52z0T9Jtcq51/sp5Z4Vz9esA1N+ucXctSf7ofeAcdxF3r0WhZHc0Bvj4wF
+         DhZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698267991; x=1698872791;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YfKUQfUVw2J0FwzBs8kRktoJX+okfytV+T+B1kRuBio=;
+        b=ZluIdHLhv/kZ2SWr3Iqbkb10SvE5P1Vj81nLvFi7+hknQcSVJsJNZBTW4ztkrK/xaz
+         +fiawF5hzbxWl/NWgqc+j3Dy7G1y9YwTsQIGI5SuYlkWRO77Ss30dUUF6aHvJjcVCSHi
+         QWe8/ZVYEQIK+SrRbBMc/MKzT/SnDunO+Ug+k439pgsMnWbUuuwEHhTbJx2pRX5cjMjK
+         5myxOiJVbygqMphk+ckfcueWEWDRP9zx5dyZEYmnzp5fs5zrKR8aJjPAdrMUGpihT845
+         iECrVjC/AZzJsYC9sTRzJELrARDoS7vds+xP44S541aPZFwA+uXMpCY0qUkJYvt4yASW
+         ghvw==
+X-Gm-Message-State: AOJu0YwYeyaImqzSRVvy7oasavsyfViaa2n1xqG8AT/ENM3Jv6ECh6wm
+	re7jBNOVwoLE5E5Cp6U/zw3mMClwaK1/tlJJzySSFg==
+X-Google-Smtp-Source: AGHT+IEH7+hN0UnU2m4b/Gl5oLvAf7k4M9Ve15jrFHBr/Sc2DlZfGnPuEjrzAsXX50m1rLP8WUI0gf8alcW5t9Zj81w=
+X-Received: by 2002:a05:6e02:b24:b0:357:cb1a:9621 with SMTP id
+ e4-20020a056e020b2400b00357cb1a9621mr375512ilu.10.1698267991544; Wed, 25 Oct
+ 2023 14:06:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231025-delay-verw-v3-0-52663677ee35@linux.intel.com>
+References: <20231024181600.8270-1-tony.luck@intel.com> <CALPaoChftF-H6GauKq4-c_qBJP1GJbR3-ByE5krsaQF4y4y9oQ@mail.gmail.com>
+ <ZTluypa9bCWv4k2n@agluck-desk3>
+In-Reply-To: <ZTluypa9bCWv4k2n@agluck-desk3>
+From: Peter Newman <peternewman@google.com>
+Date: Wed, 25 Oct 2023 23:06:20 +0200
+Message-ID: <CALPaoCj72V=o60tqsFMRzaeUw-1+rN7pyhsdCyVEV=0tN_CZ7A@mail.gmail.com>
+Subject: Re: [PATCH] x86/resctrl: mba_MBps: Fall back to total b/w if local
+ b/w unavailable
+To: Tony Luck <tony.luck@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org, 
+	Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>, 
+	Jamie Iles <quic_jiles@quicinc.com>, Babu Moger <babu.moger@amd.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-From: Sean Christopherson <seanjc@google.com>
+Hi Tony,
 
-Use EFLAGS.CF instead of EFLAGS.ZF to track whether to use VMRESUME versus
-VMLAUNCH.  Freeing up EFLAGS.ZF will allow doing VERW, which clobbers ZF,
-for MDS mitigations as late as possible without needing to duplicate VERW
-for both paths.
+On Wed, Oct 25, 2023, 21:38 Tony Luck <tony.luck@intel.com> wrote:
+>
+> On Wed, Oct 25, 2023 at 02:46:53PM +0200, Peter Newman wrote:
+>
+> > > +static struct mbm_state *get_mbm_data(struct rdt_domain *dom_mbm, int rmid)
+> > > +{
+> > > +       if (is_mbm_local_enabled())
+> > > +               return &dom_mbm->mbm_local[rmid];
+> > > +
+> > > +       return &dom_mbm->mbm_total[rmid];
+> > > +}
+> >
+> > That looks very similar to the get_mbm_state() function I added to
+> > this same file recently:
+> >
+> > https://lore.kernel.org/all/20221220164132.443083-2-peternewman%40google.com
+> >
+> > I think the name you picked is misleadingly general. "local if
+> > available, otherwise total" seems to be a choice specific to the mbps
+> > controller. I think these functions should be reconciled a little
+> > better.
+> >
+>
+> Peter (and Babu, who made the same point about get_mbm_state().
+>
+> Do you want to see your function extended to do the "pick an MBM event?"
 
-Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
----
- arch/x86/kvm/vmx/run_flags.h | 7 +++++--
- arch/x86/kvm/vmx/vmenter.S   | 6 +++---
- 2 files changed, 8 insertions(+), 5 deletions(-)
+What I meant was I think it would be enough to just give the function
+you added a name that's more specific to the Mbps controller use case.
+For example, get_mba_sc_mbm_state().
 
-diff --git a/arch/x86/kvm/vmx/run_flags.h b/arch/x86/kvm/vmx/run_flags.h
-index edc3f16cc189..6a9bfdfbb6e5 100644
---- a/arch/x86/kvm/vmx/run_flags.h
-+++ b/arch/x86/kvm/vmx/run_flags.h
-@@ -2,7 +2,10 @@
- #ifndef __KVM_X86_VMX_RUN_FLAGS_H
- #define __KVM_X86_VMX_RUN_FLAGS_H
- 
--#define VMX_RUN_VMRESUME	(1 << 0)
--#define VMX_RUN_SAVE_SPEC_CTRL	(1 << 1)
-+#define VMX_RUN_VMRESUME_SHIFT		0
-+#define VMX_RUN_SAVE_SPEC_CTRL_SHIFT	1
-+
-+#define VMX_RUN_VMRESUME		BIT(VMX_RUN_VMRESUME_SHIFT)
-+#define VMX_RUN_SAVE_SPEC_CTRL		BIT(VMX_RUN_SAVE_SPEC_CTRL_SHIFT)
- 
- #endif /* __KVM_X86_VMX_RUN_FLAGS_H */
-diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-index be275a0410a8..b3b13ec04bac 100644
---- a/arch/x86/kvm/vmx/vmenter.S
-+++ b/arch/x86/kvm/vmx/vmenter.S
-@@ -139,7 +139,7 @@ SYM_FUNC_START(__vmx_vcpu_run)
- 	mov (%_ASM_SP), %_ASM_AX
- 
- 	/* Check if vmlaunch or vmresume is needed */
--	test $VMX_RUN_VMRESUME, %ebx
-+	bt   $VMX_RUN_VMRESUME_SHIFT, %ebx
- 
- 	/* Load guest registers.  Don't clobber flags. */
- 	mov VCPU_RCX(%_ASM_AX), %_ASM_CX
-@@ -161,8 +161,8 @@ SYM_FUNC_START(__vmx_vcpu_run)
- 	/* Load guest RAX.  This kills the @regs pointer! */
- 	mov VCPU_RAX(%_ASM_AX), %_ASM_AX
- 
--	/* Check EFLAGS.ZF from 'test VMX_RUN_VMRESUME' above */
--	jz .Lvmlaunch
-+	/* Check EFLAGS.CF from the VMX_RUN_VMRESUME bit test above. */
-+	jnc .Lvmlaunch
- 
- 	/*
- 	 * After a successful VMRESUME/VMLAUNCH, control flow "magically"
+It's only problematic that you added a function with an equivalent
+name to an existing function that does something different.
 
--- 
-2.34.1
-
-
+-Peter
