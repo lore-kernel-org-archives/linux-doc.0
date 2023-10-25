@@ -1,26 +1,50 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4002027EFF;
-	Wed, 25 Oct 2023 22:46:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0BB27EFF
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 23:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VmAw5akz"
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id DDE5E116;
-	Wed, 25 Oct 2023 15:46:24 -0700 (PDT)
-Received: from [10.137.106.151] (unknown [131.107.159.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 02F9D20B74C0;
-	Wed, 25 Oct 2023 15:46:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 02F9D20B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1698273984;
-	bh=dm0CpobQbsS7czPRbypssTTQ8Y+D288bv9BFBEkdSMg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VmAw5akzIQiz/kj0sGLX3UeCAxwTCCby0Z4dr5chbT8LOZuTjrV6zzf6eX6rdeTB2
-	 HgzjasdJ8l9JQAN+hrSjlG6Pw2BbPf+Nau7CHPLo9dsnkAMZbhogCk09Psu6AyXNRZ
-	 T0Rg2cw/n2Sjeqk/kQGKNahzQPmB22jPvN4zyRHc=
-Message-ID: <594923f6-6942-4b4b-8ca1-b9dcf74c9c1c@linux.microsoft.com>
-Date: Wed, 25 Oct 2023 15:45:37 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nJkFEDnF"
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F46115
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 16:09:30 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1ca74e77aecso10780815ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 16:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1698275370; x=1698880170; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r5/8Zhe+/2PuD/bvi5I+6K7bHUYZ7aH71nEnIXb67ts=;
+        b=nJkFEDnF/sR5MeFPnISvGlDYpTbzhcQft0p16QyxZHYdrpsnSv5XJHp9apUYygYlIv
+         on+5q72m4V+Ls9kWe3+vxkYiYt8c3EFUjXSwQ7z4DUOJbAEOtO+4Pdm7UIQgsUPQJNpI
+         oHyyKXG1FkYyUnKBIrNSCYWzAwWSOItBs3vak9FBeHwIO/CU9359V7cwQBnrHZ0KnUxs
+         IHFPKwLom6xZp4WXSJIIa3aoMq10FMc4ngO83poNwvMprADAA/8yzSWUxJcDojkLTZsA
+         yMrLHf3SOROwnhhz1JjK9NznuFpyJtZNJZKAG05Kc8ZS6R1ImFZUh04ouwXsxHsA3tri
+         qV0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698275370; x=1698880170;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r5/8Zhe+/2PuD/bvi5I+6K7bHUYZ7aH71nEnIXb67ts=;
+        b=I8l72ytLHDmKVvSvO90rHUoRIEqprVbr7lwhcwZdR0nVWcUt6aYDruEvOuWDgoh3Ay
+         tIux4hGzU2T0CWAo7iLkTREO8nLnARVmjGBayJiD/j4oqVKmfd919HO7qHU+XdmqKdMN
+         zcLUwo0UmONjR9nnN68wiP9Vz37Hx0OYKcdKlWor7Md+Ikzc2EgEVp0XqWBCzxy8QycO
+         0J6/bsCO5N0+lvZ5dg4ojlG6hBKjhea9CH1peoL+h81wsJKYMKXVWFrmAWRLjIlfcG1+
+         Qd7gYhnH8Gfotwf7hBBFlUebuWd5uxDpfWovjxau5YGeWdh69Ol+9+qUGFIs2bnwgCap
+         lDjA==
+X-Gm-Message-State: AOJu0YxT85ofwYv64+Q7EnJqIOopiZpUG02tIJWpN1lQLj/qwRieUllv
+	xhrzQ612RBJKBINuAC9hSZNGoQ==
+X-Google-Smtp-Source: AGHT+IFbXWNRjQgljYKWXpYcspZdsliQtnJOWE7ugF8hYiXQHTt6dBK2xxX3l95Hv7yFzt9kx7wy5w==
+X-Received: by 2002:a17:902:f684:b0:1c7:7c2c:f828 with SMTP id l4-20020a170902f68400b001c77c2cf828mr1319929plg.8.1698275369726;
+        Wed, 25 Oct 2023 16:09:29 -0700 (PDT)
+Received: from ?IPV6:2620:0:1000:2514:51de:2ba6:1522:9df7? ([2620:0:1000:2514:51de:2ba6:1522:9df7])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170902cec400b001c1f4edfb9csm9656210plg.173.2023.10.25.16.09.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Oct 2023 16:09:29 -0700 (PDT)
+Message-ID: <45fe4c79-458a-4eaf-8de8-50682f7d8b52@google.com>
+Date: Wed, 25 Oct 2023 16:09:27 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,426 +52,86 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v11 2/19] ipe: add policy parser
-To: Paul Moore <paul@paul-moore.com>, corbet@lwn.net, zohar@linux.ibm.com,
- jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
- axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-fscrypt@vger.kernel.org,
- linux-block@vger.kernel.org, dm-devel@redhat.com, audit@vger.kernel.org,
- roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
- Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1696457386-3010-3-git-send-email-wufan@linux.microsoft.com>
- <7c8c2a158c628a642078f746e5c42f2f.paul@paul-moore.com>
+Subject: Re: uvc gadget: Making upper bound of number of usb requests
+ allocated configurable through configfs
 Content-Language: en-US
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <7c8c2a158c628a642078f746e5c42f2f.paul@paul-moore.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Michael Grzeschik <mgr@pengutronix.de>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Greg KH <gregkh@linuxfoundation.org>, "corbet@lwn.net" <corbet@lwn.net>,
+ "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+ "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
+ "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "etalvala@google.com" <etalvala@google.com>,
+ "arakesh@google.com" <arakesh@google.com>
+References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
+ <2023100834-statistic-richly-49ef@gregkh>
+ <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
+ <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
+ <c47e864b-4b9e-4a21-afea-af121a4d7771@google.com>
+ <20231020233044.dh63nu3tkbmrtfl4@synopsys.com>
+ <69609645-fa20-4987-981d-1ab264e80b9b@google.com>
+ <ZTe5leI7Hvk2/cl9@pengutronix.de>
+From: Jayant Chowdhary <jchowdhary@google.com>
+In-Reply-To: <ZTe5leI7Hvk2/cl9@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi Michael,
 
-
-On 10/23/2023 8:52 PM, Paul Moore wrote:
-> On Oct  4, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
+On 10/24/23 05:33, Michael Grzeschik wrote:
+> On Mon, Oct 23, 2023 at 11:13:03AM -0700, Jayant Chowdhary wrote:
+>> Hi Thinh, Michael,
 >>
->> IPE's interpretation of the what the user trusts is accomplished through
->> its policy. IPE's design is to not provide support for a single trust
->> provider, but to support multiple providers to enable the end-user to
->> choose the best one to seek their needs.
+>> On 10/20/23 16:30, Thinh Nguyen wrote:
+>>> Sorry for the delay response.
+>>>
+>>> On Sun, Oct 15, 2023, Jayant Chowdhary wrote:
+>>>> On 10/12/23 11:50, Thinh Nguyen wrote:
+>>>>> The frequency of the request submission should not depend on the
+>>>>> video_pump() work thread since it can vary. The frequency of request
+>>>>> submission should match with the request completion. We know that
+>>>>> request completion rate should be fixed (1 uframe/request + when you
+>>>>> don't set no_interrupt). Base on this you can do your calculation on how
+>>>>> often you should set no_interrupt and how many requests you must submit.
+>>>>> You don't have to wait for the video_pump() to submit 0-length requests.
+>>>>>
+>>>>> The only variable here is the completion handler delay or system
+>>>>> latency, which should not be much and should be within your calculation.
+>>>>
+>>>> Thanks for the suggestion. It indeed makes sense that we do not completely depend on
+>>>> video_pump() for sending 0 length requests. I was concerned about
+>>>> synchronization needed when we send requests to the dwc3 controller from
+>>>> different threads. I see that the dwc3 controller code does internally serialize
+>>>> queueing requests, can we expect this from other controllers as well ?
+>>> While it's not explicitly documented, when the gadget driver uses
+>>> usb_ep_queue(), the order in which the gadget recieves the request
+>>> should be maintained and serialized. Because the order the transfer go
+>>> out for the same endpoint can be critical, breaking this will cause
+>>> issue.
+>>>
+>> Thanks for clarifying this. Keeping this in mind - I made a slight modification to
+>> your test patch - I removed the uvc_video_pump() function call from uvc_v4l2_qbuf(). We just
+>> call it in uvcg_video_enable(). That should just queue 0 length requests till the first qbuf
+>> is called. There-after only the complete handler running uvcg_video_complete() calls video_pump(),
+>> which sends usb requests to the endpoint. While I do see that we hold the queue->irqlock while
+>> getting the uvc buffer to encode and sending it to the ep, I feel like its just logically safer
+>> for future changes if we can restrict the pumping of requests to one thread.
 >>
->> This requires the policy to be rather flexible and modular so that
->> integrity providers, like fs-verity, dm-verity, dm-integrity, or
->> some other system, can plug into the policy with minimal code changes.
->>
->> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
->> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-...
->> ---
->>   security/ipe/Makefile        |   2 +
->>   security/ipe/policy.c        | 101 ++++++++
->>   security/ipe/policy.h        |  83 ++++++
->>   security/ipe/policy_parser.c | 487 +++++++++++++++++++++++++++++++++++
->>   security/ipe/policy_parser.h |  11 +
->>   5 files changed, 684 insertions(+)
->>   create mode 100644 security/ipe/policy.c
->>   create mode 100644 security/ipe/policy.h
->>   create mode 100644 security/ipe/policy_parser.c
->>   create mode 100644 security/ipe/policy_parser.h
-> 
-> ...
-> 
->> diff --git a/security/ipe/policy.c b/security/ipe/policy.c
->> new file mode 100644
->> index 000000000000..3a529c7950a1
->> --- /dev/null
->> +++ b/security/ipe/policy.c
->> @@ -0,0 +1,101 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (C) Microsoft Corporation. All rights reserved.
->> + */
-> 
-> ...
-> 
->> +static int set_pkcs7_data(void *ctx, const void *data, size_t len,
->> +			  size_t asn1hdrlen)
->> +{
->> +	struct ipe_policy *p = ctx;
->> +
->> +	p->text = (const char *)data;
->> +	p->textlen = len;
->> +
->> +	return 0;
->> +}
-> 
-> The @asn1hdrlen parameter isn't used in this function, at least at this
-> point in the patchset, so you really should remove it.  If it is needed
-> later in the patchset you can always update the function.
+>> Does that seem okay to you ? I can formalize it if it does.
 >
-Although the @asn1hdrlen is not used, it's a required parameter for the 
-pkcs7 callback. I guess adding a __always_unused might be the right 
-solution?
-
->> diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
->> new file mode 100644
->> index 000000000000..c09458bd348d
->> --- /dev/null
->> +++ b/security/ipe/policy_parser.c
->> @@ -0,0 +1,487 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (C) Microsoft Corporation. All rights reserved.
->> + */
-> 
-> ...
-> 
->> +/**
->> + * remove_trailing_spaces - Truncate all trailing spaces in a string.
->> + *
->> + * @line: Supplies a poilcy line string for preprocessing.
->> + *
->> + * Return: The length of truncated string.
->> + */
->> +static size_t remove_trailing_spaces(char *line)
->> +{
->> +	size_t i = 0;
->> +
->> +	for (i = strlen(line); i > 0 && (line[i - 1] == ' ' || line[i - 1] == '\t'); --i)
->> +		;
-> 
-> Maybe I've asked this before, I can't remember: could you use the
-> isspace() macro here instead of explicitly checking for ' ' and '\t'?
-> Yes, isspace() works here. I will update this part.
-
->    i = strlen(line);
->    while (i > 0 && isspace(line[i - 1]))
->      i--;
->    line[i] = '\0';
-> 
->> +	line[i] = '\0';
->> +
->> +	return i;
->> +}
->> +
->> +/**
->> + * parse_version - Parse policy version.
->> + * @ver: Supplies a version string to be parsed.
->> + * @p: Supplies the partial parsed policy.
->> + *
->> + * Return:
->> + * * 0	- OK
->> + * * !0	- Standard errno
->> + */
->> +static int parse_version(char *ver, struct ipe_parsed_policy *p)
->> +{
->> +	int rc = 0;
->> +	size_t sep_count = 0;
->> +	char *token;
->> +	u16 *const cv[] = { &p->version.major, &p->version.minor, &p->version.rev };
->> +
->> +	while ((token = strsep(&ver, ".")) != NULL) {
->> +		/* prevent overflow */
->> +		if (sep_count >= ARRAY_SIZE(cv))
->> +			return -EBADMSG;
->> +
->> +		rc = kstrtou16(token, 10, cv[sep_count]);
->> +		if (rc)
->> +			return rc;
->> +
->> +		++sep_count;
->> +	}
->> +
->> +	/* prevent underflow */
->> +	if (sep_count != ARRAY_SIZE(cv))
->> +		rc = -EBADMSG;
-> 
-> You could always just 'return -EBADMSG' here and 'return 0' below to
-> simplify things a little.
-> 
-I agree, this part is kind of unnecessary. I will update accordingly.
-
->> +	return rc;
->> +}
->> +
->> +enum header_opt {
->> +	IPE_HEADER_POLICY_NAME = 0,
->> +	IPE_HEADER_POLICY_VERSION,
->> +	__IPE_HEADER_MAX
->> +};
->> +
->> +static const match_table_t header_tokens = {
->> +	{IPE_HEADER_POLICY_NAME,	"policy_name=%s"},
->> +	{IPE_HEADER_POLICY_VERSION,	"policy_version=%s"},
->> +	{__IPE_HEADER_MAX,		NULL}
->> +};
->> +
->> +/**
->> + * parse_header - Parse policy header information.
->> + * @line: Supplies header line to be parsed.
->> + * @p: Supplies the partial parsed policy.
->> + *
->> + * Return:
->> + * * 0	- OK
->> + * * !0	- Standard errno
->> + */
->> +static int parse_header(char *line, struct ipe_parsed_policy *p)
->> +{
->> +	int rc = 0;
->> +	char *t, *ver = NULL;
->> +	substring_t args[MAX_OPT_ARGS];
->> +	size_t idx = 0;
->> +
->> +	while ((t = strsep(&line, IPE_POLICY_DELIM)) != NULL) {
->> +		int token;
->> +
->> +		if (*t == '\0')
->> +			continue;
->> +		if (idx >= __IPE_HEADER_MAX) {
->> +			rc = -EBADMSG;
->> +			goto out;
->> +		}
->> +
->> +		token = match_token(t, header_tokens, args);
->> +		if (token != idx) {
->> +			rc = -EBADMSG;
->> +			goto out;
->> +		}
->> +
->> +		switch (token) {
->> +		case IPE_HEADER_POLICY_NAME:
->> +			p->name = match_strdup(&args[0]);
->> +			if (!p->name)
->> +				rc = -ENOMEM;
->> +			break;
->> +		case IPE_HEADER_POLICY_VERSION:
->> +			ver = match_strdup(&args[0]);
->> +			if (!ver) {
->> +				rc = -ENOMEM;
->> +				break;
->> +			}
->> +			rc = parse_version(ver, p);
->> +			break;
->> +		default:
->> +			rc = -EBADMSG;
->> +		}
->> +		if (rc)
->> +			goto out;
->> +		++idx;
->> +	}
->> +
->> +	if (idx != __IPE_HEADER_MAX) {
->> +		rc = -EBADMSG;
->> +		goto out;
-> 
-> You probably don't need to 'goto out' here.
+> I tested this, and it looks good so far.
 >
-Yes it's unnecessary, thanks for pointing that out.
-
->> +	}
->> +
->> +out:
->> +	kfree(ver);
->> +	return rc;
->> +}
-> 
-> ...
-> 
->> +/**
->> + * parse_rule - parse a policy rule line.
->> + * @line: Supplies rule line to be parsed.
->> + * @p: Supplies the partial parsed policy.
->> + *
->> + * Return:
->> + * * !IS_ERR	- OK
->> + * * -ENOMEM	- Out of memory
->> + * * -EBADMSG	- Policy syntax error
->> + */
->> +static int parse_rule(char *line, struct ipe_parsed_policy *p)
->> +{
->> +	int rc = 0;
->> +	bool first_token = true, is_default_rule = false;
->> +	bool op_parsed = false;
->> +	enum ipe_op_type op = IPE_OP_INVALID;
->> +	enum ipe_action_type action = IPE_ACTION_INVALID;
->> +	struct ipe_rule *r = NULL;
->> +	char *t;
->> +
->> +	r = kzalloc(sizeof(*r), GFP_KERNEL);
->> +	if (!r)
->> +		return -ENOMEM;
->> +
->> +	INIT_LIST_HEAD(&r->next);
->> +	INIT_LIST_HEAD(&r->props);
->> +
->> +	while (t = strsep(&line, IPE_POLICY_DELIM), line) {
->> +		if (*t == '\0')
->> +			continue;
->> +		if (first_token && token_default(t)) {
->> +			is_default_rule = true;
->> +		} else {
->> +			if (!op_parsed) {
->> +				op = parse_operation(t);
->> +				if (op == IPE_OP_INVALID)
->> +					rc = -EBADMSG;
->> +				else
->> +					op_parsed = true;
->> +			} else {
->> +				rc = parse_property(t, r);
->> +			}
->> +		}
->> +
->> +		if (rc)
->> +			goto err;
->> +		first_token = false;
->> +	}
->> +
->> +	action = parse_action(t);
->> +	if (action == IPE_ACTION_INVALID) {
->> +		rc = -EBADMSG;
->> +		goto err;
->> +	}
->> +
->> +	if (is_default_rule) {
->> +		if (!list_empty(&r->props)) {
->> +			rc = -EBADMSG;
->> +		} else if (op == IPE_OP_INVALID) {
->> +			if (p->global_default_action != IPE_ACTION_INVALID)
->> +				rc = -EBADMSG;
->> +			else
->> +				p->global_default_action = action;
->> +		} else {
->> +			if (p->rules[op].default_action != IPE_ACTION_INVALID)
->> +				rc = -EBADMSG;
->> +			else
->> +				p->rules[op].default_action = action;
->> +		}
->> +	} else if (op != IPE_OP_INVALID && action != IPE_ACTION_INVALID) {
->> +		r->op = op;
->> +		r->action = action;
->> +	} else {
->> +		rc = -EBADMSG;
->> +	}
-> 
-> I might be missing something important in the policy syntac, but could
-> this function, and perhaps the ipe_parsed_policy struct, be simplified
-> if the default action was an explicit rule?
-> 
->   "op=DEFAULT action=ALLOW"
+> Since your changes are minimal you could send this with me as the author
+> and add your Suggested-by Tag. You should also add your Tested-by Tag in
+> that case.
 >
-The complexity here arises from our need for two types of default rules: 
-one for global settings and another for operation-specific settings.
+I sent out https://lore.kernel.org/linux-usb/99384044-0d14-4ebe-9109-8a5557e64449@google.com/T/#u
 
-To illustrate the flexibility of operation-specific default rules, users 
-can set their policy to have a default rule of 'DENY' for execution, 
-meaning all execution actions are prohibited by default. This let users 
-to create an allow-list for execution. At the same time, the default 
-rule for read can be set to 'ALLOW'.  This let users to create an 
-deny-list for read.
+with a Signed-off-by crediting you and suggested by with Avichal and me. It has a few changes related to
 
-Adding explicit default rules can simplify ipe_parsed_policy struct, but 
-that impose a burden on users that requires users always add the default 
-rules the end of the policy. In contrast, our current design allows 
-users to place the default rule anywhere in the policy. In practice, we 
-often position the default rule at the beginning of the policy, which 
-makes it more convenient for users to add new rules.
+bulk end-points as well, but they're relatively minor.
 
->> +	if (rc)
->> +		goto err;
->> +	if (!is_default_rule)
->> +		list_add_tail(&r->next, &p->rules[op].rules);
->> +	else
->> +		free_rule(r);
->> +
->> +	return rc;
->> +err:
->> +	free_rule(r);
->> +	return rc;
->> +}
->> +
->> +/**
->> + * free_parsed_policy - free a parsed policy structure.
->> + * @p: Supplies the parsed policy.
->> + */
->> +void free_parsed_policy(struct ipe_parsed_policy *p)
->> +{
->> +	size_t i = 0;
->> +	struct ipe_rule *pp, *t;
->> +
->> +	if (IS_ERR_OR_NULL(p))
->> +		return;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(p->rules); ++i)
->> +		list_for_each_entry_safe(pp, t, &p->rules[i].rules, next) {
->> +			list_del(&pp->next);
->> +			free_rule(pp);
->> +		}
->> +
->> +	kfree(p->name);
->> +	kfree(p);
->> +}
->> +
->> +/**
->> + * validate_policy - validate a parsed policy.
->> + * @p: Supplies the fully parsed policy.
->> + *
->> + * Given a policy structure that was just parsed, validate that all
->> + * necessary fields are present, initialized correctly.
->> + *
->> + * A parsed policy can be in an invalid state for use (a default was
->> + * undefined) by just parsing the policy.
->> + *
->> + * Return:
->> + * * 0		- OK
->> + * * -EBADMSG	- Policy is invalid
->> + */
->> +static int validate_policy(const struct ipe_parsed_policy *p)
->> +{
->> +	size_t i = 0;
->> +
->> +	if (p->global_default_action != IPE_ACTION_INVALID)
->> +		return 0;
-> 
-> Should the if conditional above be "==" and not "!="?
->No, "!=" is the correct one.
+Thanks
 
-The purpose of validation is to ensure that we have enough default rules 
-to cover all cases. If the global default action not invalid, it means 
-we have a global default rule in the policy to cover all cases, thus we 
-simply return 0.
-
-However, if there is no global default rule, then we need to ensure that 
-for each operation, there is a operation specific default rule, this is 
-validated in the for loop below.
-
--Fan
-
->> +	for (i = 0; i < ARRAY_SIZE(p->rules); ++i) {
->> +		if (p->rules[i].default_action == IPE_ACTION_INVALID)
->> +			return -EBADMSG;
->> +	}
->> +
->> +	return 0;
->> +}
-> 
-> --
-> paul-moore.com
