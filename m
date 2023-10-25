@@ -1,111 +1,125 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3E12D60E;
-	Wed, 25 Oct 2023 09:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500D114ABC
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 09:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="MJLhkMv8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZuSZkpCZ"
-X-Greylist: delayed 550 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 25 Oct 2023 02:20:50 PDT
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF64612D;
-	Wed, 25 Oct 2023 02:20:50 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 9B63C580895;
-	Wed, 25 Oct 2023 05:11:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 25 Oct 2023 05:11:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1698225099; x=1698232299; bh=XQ
-	yjPYrEkXqH9LFr9i7Krss0TBJ238tCuNu12brYHqk=; b=MJLhkMv8wHH1uRap99
-	6aZOrUpOV7AuyTq/+g3mcg88+hYHWdYNXUFcbARaZnP1FV42vzjET4AbY7lQgoQ2
-	kacbzQP0ngqnJcuCmZmCXE0OdAiOiNu1T7vcxV+la4m13uUYHlZl+yWkv+dL6sk9
-	SZRB4A1hAizlvZagV8BpkbJGp0qFp3N83cZW5ClgZvP8Xy3RbJ6CJwCqtuo5zRfA
-	l837MVd53lqiaX6zbksP/NIrooJFVE0UwbnD3wSiXWQOH9Y+axId7wgafuWnG5qQ
-	Q+C37twK1Wh0CLo+KvAs9gq+ctXXtRY5FM9geNzgn3mP0TYnDPPgkp2ubBGtxxU9
-	WlbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1698225099; x=1698232299; bh=XQyjPYrEkXqH9
-	LFr9i7Krss0TBJ238tCuNu12brYHqk=; b=ZuSZkpCZhnuTFuOI6EKIEQlzEDUu0
-	QvKu0RjGz5cNi+JMA8UUX5L38ctCHNj5k5sX/ywSX+uHspKgwvamwrKFm+bbBsnF
-	FI+vLYB4iDuuRbCbf8odj/xZwI5roqwxQuG/QO8b4lMfL81lt80mZOWl2nmyCNbW
-	dlwsbVUPNeu5T1nOLTTzbNlGq0qOS2cF79PitsrZdJPJ0LhljPE0CO1c9esj3ync
-	j5iPzqxc5xmBLlW4+4uEgRI2fW0utjVQZt0djFel5lPzUaf/gBqvV0QzmgdROFi3
-	7uXR+JuPuJiDYzo5H0Mzy3GvvqQhADegASWoVFBZjI1aryq2b6wq420YQ==
-X-ME-Sender: <xms:y9s4ZczjNt79yPzuyfqpjNnHPiQZQy8HfOkzjmvoHuYC6Q92WJsTdQ>
-    <xme:y9s4ZQRiDh7M9KknP7UGRuMtzBfGfCPv2oH6IvaZmuhFznuzirWhgXgOiCf_mh4iL
-    zztUBf1zqAZaA>
-X-ME-Received: <xmr:y9s4ZeWrP4PXS6ozxQIDIPoLSFcMD8qL4aVTiAy77m3q3QXYq-OYbol03MTD763H0xWRuAiGMkTZgEBuku4pXdhriiGMktD5CjfesKwpOj4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrledtgddufecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeegheeuhe
-    fgtdeluddtleekfeegjeetgeeikeehfeduieffvddufeefleevtddtvdenucffohhmrghi
-    nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:y9s4Zahai2iiwN2FQkh7El-vr2BPXNUcFh_MoP6uS0ykmyui5uPI6A>
-    <xmx:y9s4ZeBN7DUJxb2mjZgxOzWVu71bcv2NG5WdYgfSwAyYuJ8oMr2t0w>
-    <xmx:y9s4ZbIE-85TAQQTZacLoUk0h7gyU4XjtGA_Hb_SXvBAJ34j4HQFMw>
-    <xmx:y9s4ZZUh-AuiW3Rd_b0s4My5Gdze_jZZ2Zq6ErAdHIbMtnj5pTJjXw>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Oct 2023 05:11:38 -0400 (EDT)
-Date: Wed, 25 Oct 2023 11:11:36 +0200
-From: Greg KH <greg@kroah.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Johan Jonker <jbx6244@gmail.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH] dt-bindings: usb: rockchip,dwc3: fix reference to
- nonexistent file
-Message-ID: <2023102521-glamorous-treat-9870@gregkh>
-References: <20231022185150.919293-1-vegard.nossum@oracle.com>
- <6ea02e5e-bc95-48b5-d6e3-15338ebd0a4d@gmail.com>
- <20231024200212.GA465811-robh@kernel.org>
- <abbb7656-86b1-4d77-986e-bfd5dd20ec22@linaro.org>
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="Dp64/GGq"
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B85B311F;
+	Wed, 25 Oct 2023 02:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1698227607; bh=H1wJkMmM3RLGtqBxcD2SkPsFMAkzEk6Lnx1q4pd00ZY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dp64/GGqXplxAhkDT3gedu+Sab+eb/+Hyj0bIZlSKcMYYtDGIKUDEQN6fzQa/xlWi
+	 o9URUD2793P3Pd8XVPtqKqWTRAWhOiLBqiz+Xj3KOS85yfdWFhDot+7gzeuGebU2Zt
+	 /vOhlmP3zxX9lj7KLBn6IJmZx0z20dln14S9n2x6Yzk09UxcjqI8woHLHXZemEA+ms
+	 G8jMY417JT8CLRviQBvZbEnnBRm31/RRtknULdvrSajNWMWruQnWO0D1WntEXQ4bp8
+	 kXnb1OiHoBPIJf1LDgFRQcbonrgHZyPUe6PZDp5u9XAfU2Yp3uI/3Mm8Uw7e0+5TWN
+	 CKIORt/Tz/lNg==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id DD4071000FC; Wed, 25 Oct 2023 10:53:27 +0100 (BST)
+Date: Wed, 25 Oct 2023 10:53:27 +0100
+From: Sean Young <sean@mess.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Gross <markgross@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <ZTjll7oTNVWqygbD@gofer.mess.org>
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+ <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+ <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+ <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+ <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
+ <20231023133417.GE49511@aspen.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <abbb7656-86b1-4d77-986e-bfd5dd20ec22@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231023133417.GE49511@aspen.lan>
 
-On Wed, Oct 25, 2023 at 10:21:54AM +0200, Krzysztof Kozlowski wrote:
-> On 24/10/2023 22:02, Rob Herring wrote:
-> > On Sun, Oct 22, 2023 at 10:44:10PM +0200, Johan Jonker wrote:
-> >>
-> >>
-> >> On 10/22/23 20:51, Vegard Nossum wrote:
-> >>> This file was renamed but left a dangling reference. Fix it.
-> >>>
-> >>> Fixes: 0f48b0ed356d ("dt-bindings: phy: rename phy-rockchip-inno-usb2.yaml")
-> >>
-> >>> Cc: Johan Jonker <jbx6244@gmail.com>
-> >>
-> >> [PATCH v1] dt-bindings: usb: rockchip,dwc3: update inno usb2 phy binding name
-> >> https://lore.kernel.org/linux-rockchip/f8747552-d23b-c4cd-cb17-5033fb7f8eb6@gmail.com/
-> >>
-> >> Already Acked.
-> > 
-> > I was assuming Greg would pick that up. I've applied the linked patch 
+On Mon, Oct 23, 2023 at 02:34:17PM +0100, Daniel Thompson wrote:
+> On Sun, Oct 22, 2023 at 11:46:22AM +0100, Sean Young wrote:
+> > On Sat, Oct 21, 2023 at 11:08:22AM +0200, Hans de Goede wrote:
+> > > On 10/19/23 12:51, Uwe Kleine-König wrote:
+> > > > On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
+> > > >> On 10/17/23 11:17, Sean Young wrote:
+> > > > I think it's very subjective if you consider this
+> > > > churn or not.
+> > >
+> > > I consider it churn because I don't think adding a postfix
+> > > for what is the default/expected behavior is a good idea
+> > > (with GPIOs not sleeping is the expected behavior).
+> > >
+> > > I agree that this is very subjective and very much goes
+> > > into the territory of bikeshedding. So please consider
+> > > the above my 2 cents on this and lets leave it at that.
+> >
+> > You have a valid point. Let's focus on having descriptive function names.
 > 
-> Would be easier for Greg to pick this up, if he was Cc-ed in original
-> patch. His name is the first one listed in output of get_maintainers.pl,
-> but hey, what do I know...
+> For a couple of days I've been trying to resist the bikeshedding (esp.
+> given the changes to backlight are tiny) so I'll try to keep it as
+> brief as I can:
+> 
+> 1. I dislike the do_it() and do_it_cansleep() pairing. It is
+>    difficult to detect when a client driver calls do_it() by mistake.
+>    In fact a latent bug of this nature can only be detected by runtime
+>    testing with the small number of PWMs that do not support
+>    configuration from an atomic context.
+> 
+>    In contrast do_it() and do_it_atomic()[*] means that although
+>    incorrectly calling do_it() from an atomic context can be pretty
+>    catastrophic it is also trivially detected (with any PWM driver)
+>    simply by running with CONFIG_DEBUG_ATOMIC_SLEEP.
+> 
+>    No objections (beyond churn) to fully spelt out pairings such as
+>    do_it_cansleep() and do_it_atomic()[*]!
 
-Yeah, that's why I missed it.
+I must say I do like the look of this. Uwe, how do you feel about:
+pwm_apply_cansleep() and pwm_apply_atomic()? I know we've talked about
+pwm_apply_atomic in the past, however I think this this the best 
+option I've seen so far.
+
+> 2. If there is an API rename can we make sure the patch contains no
+>    other changes (e.g. don't introduce any new API in the same patch).
+>    Seperating renames makes the patches easier to review!
+>    It makes each one smaller and easier to review!
+
+Yes, this should have been separated out. Will fix for next version.
+
+Thanks,
+
+Sean
