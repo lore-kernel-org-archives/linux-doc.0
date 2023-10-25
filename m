@@ -1,183 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12FF2D62F
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 17:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF576286A0
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 18:26:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nadt9RxL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A26C433C8;
-	Wed, 25 Oct 2023 17:49:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698256173;
-	bh=CeyTBZs2xeQb0TaJ5m+PpCM8nU28HSwaY1ik5tYD5o0=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=nadt9RxLEqdHQTzPCvB13pBQ1Ju+RhH3NuQ+TT+dsOEsLlKYWgzWmdZbyM7HjHxsG
-	 R7PqnTwS5jDxcU0LCHA15oW67sHKbxeTFWDFsZkNjS6wPoDme83JMnIAkPZg+iMOiG
-	 gvM89z6zDpLOCUhfgShobVv5NtRtt4igElnNjJJ596qVQ+FJAdlCIlJVfWw15kw+fH
-	 f5I8rbfwXSh5SoR2cWdwEa/TzVEJcmGZb6bAlUNACxoItcxlsz1b14qIJ0v05LDXT/
-	 /IOHbguBYqKOkVKZvQ+XVSmfCas70j1oqYv3vTtDp6JapFQpKWQ/rNR8apP0znKWAp
-	 pOMIzfudAr/HA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TmwN5EW+"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B297186
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 11:26:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1698258363;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jBilnSzSQmWzzYAbkn8SOYsuYBp/vvr53lwEvJHaCik=;
+	b=TmwN5EW+8sWndsuC8nSQm5xwmfvX4bUPAcHR+z+ltizC3w7XxqO7D7RRhc7/mZLnGxM18n
+	bAkVVRmn2HZcDV5OSEhD8l2LsJ1hotfJgbXD0P+kksS/wpFJwant8AS/3D2BhFlTjr4jfY
+	xN7zIzZZI1zXPXiptQdIStm5PzYVsgQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-591-BoSsxMLzNvOV2ZntGf3G_Q-1; Wed, 25 Oct 2023 14:26:02 -0400
+X-MC-Unique: BoSsxMLzNvOV2ZntGf3G_Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AFCF857CE9;
+	Wed, 25 Oct 2023 18:26:01 +0000 (UTC)
+Received: from llong.com (unknown [10.22.32.140])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 68D32492BFC;
+	Wed, 25 Oct 2023 18:26:00 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Shuah Khan <shuah@kernel.org>
+Cc: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Peter Hunt <pehunt@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH v2 0/4] cgroup/cpuset: Improve CPU isolation in isolated partitions
+Date: Wed, 25 Oct 2023 14:25:51 -0400
+Message-Id: <20231025182555.4155614-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Oct 2023 20:49:24 +0300
-Message-Id: <CWHPKFQIGWPM.B6IBLPXVBR1E@suppilovahvero>
-Cc: "Shawn Guo" <shawnguo@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "NXP Linux
- Team" <linux-imx@nxp.com>, "Ahmad Fatoum" <a.fatoum@pengutronix.de>, "sigma
- star Kernel Team" <upstream+dcp@sigma-star.at>, "David Howells"
- <dhowells@redhat.com>, "Li Yang" <leoyang.li@nxp.com>, "Paul Moore"
- <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>, "Serge E.
- Hallyn" <serge@hallyn.com>, "Paul E. McKenney" <paulmck@kernel.org>, "Randy
- Dunlap" <rdunlap@infradead.org>, "Catalin Marinas"
- <catalin.marinas@arm.com>, "Rafael J. Wysocki"
- <rafael.j.wysocki@intel.com>, "Tejun Heo" <tj@kernel.org>, "Steven Rostedt
- (Google)" <rostedt@goodmis.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
- <keyrings@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
- <linux-security-module@vger.kernel.org>, "Richard Weinberger"
- <richard@nod.at>, "David Oberhollenzer" <david.oberhollenzer@sigma-star.at>
-Subject: Re: [PATCH v4 2/5] KEYS: trusted: Introduce NXP DCP-backed trusted
- keys
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "David Gstir" <david@sigma-star.at>, "Mimi Zohar" <zohar@linux.ibm.com>,
- "James Bottomley" <jejb@linux.ibm.com>, "Herbert Xu"
- <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>
-X-Mailer: aerc 0.15.2
-References: <20231024162024.51260-1-david@sigma-star.at>
- <20231024162024.51260-3-david@sigma-star.at>
-In-Reply-To: <20231024162024.51260-3-david@sigma-star.at>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-On Tue Oct 24, 2023 at 7:20 PM EEST, David Gstir wrote:
-> DCP (Data Co-Processor) is the little brother of NXP's CAAM IP.
-> Beside of accelerated crypto operations, it also offers support for
-> hardware-bound keys. Using this feature it is possible to implement a blo=
-b
-> mechanism similar to what CAAM offers. Unlike on CAAM, constructing and
-> parsing the blob has to happen in software (i.e. the kernel).
->
-> The software-based blob format used by DCP trusted keys encrypts
-> the payload using AES-128-GCM with a freshly generated random key and non=
-ce.
-> The random key itself is AES-128-ECB encrypted using the DCP unique
-> or OTP key.
->
-> The DCP trusted key blob format is:
-> /*
->  * struct dcp_blob_fmt - DCP BLOB format.
->  *
->  * @fmt_version: Format version, currently being %1
->  * @blob_key: Random AES 128 key which is used to encrypt @payload,
->  *            @blob_key itself is encrypted with OTP or UNIQUE device key=
- in
->  *            AES-128-ECB mode by DCP.
->  * @nonce: Random nonce used for @payload encryption.
->  * @payload_len: Length of the plain text @payload.
->  * @payload: The payload itself, encrypted using AES-128-GCM and @blob_ke=
-y,
->  *           GCM auth tag of size AES_BLOCK_SIZE is attached at the end o=
-f it.
->  *
->  * The total size of a DCP BLOB is sizeof(struct dcp_blob_fmt) + @payload=
-_len +
->  * AES_BLOCK_SIZE.
->  */
-> struct dcp_blob_fmt {
-> 	__u8 fmt_version;
-> 	__u8 blob_key[AES_KEYSIZE_128];
-> 	__u8 nonce[AES_KEYSIZE_128];
-> 	__le32 payload_len;
-> 	__u8 payload[];
-> } __packed;
->
-> By default the unique key is used. It is also possible to use the
-> OTP key. While the unique key should be unique it is not documented how
-> this key is derived. Therefore selection the OTP key is supported as
-> well via the use_otp_key module parameter.
->
-> Co-developed-by: Richard Weinberger <richard@nod.at>
-> Signed-off-by: Richard Weinberger <richard@nod.at>
-> Co-developed-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-> Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-> Signed-off-by: David Gstir <david@sigma-star.at>
-> ---
->  include/keys/trusted_dcp.h                |  11 +
->  security/keys/trusted-keys/Kconfig        |   9 +-
->  security/keys/trusted-keys/Makefile       |   2 +
->  security/keys/trusted-keys/trusted_core.c |   6 +-
->  security/keys/trusted-keys/trusted_dcp.c  | 311 ++++++++++++++++++++++
->  5 files changed, 337 insertions(+), 2 deletions(-)
->  create mode 100644 include/keys/trusted_dcp.h
->  create mode 100644 security/keys/trusted-keys/trusted_dcp.c
->
-> diff --git a/include/keys/trusted_dcp.h b/include/keys/trusted_dcp.h
-> new file mode 100644
-> index 000000000000..9aaa42075b40
-> --- /dev/null
-> +++ b/include/keys/trusted_dcp.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2021 sigma star gmbh
-> + */
-> +
-> +#ifndef TRUSTED_DCP_H
-> +#define TRUSTED_DCP_H
-> +
-> +extern struct trusted_key_ops dcp_trusted_key_ops;
-> +
-> +#endif
-> diff --git a/security/keys/trusted-keys/Kconfig b/security/keys/trusted-k=
-eys/Kconfig
-> index dbfdd8536468..c6b80b7e5c78 100644
-> --- a/security/keys/trusted-keys/Kconfig
-> +++ b/security/keys/trusted-keys/Kconfig
-> @@ -33,6 +33,13 @@ config TRUSTED_KEYS_CAAM
->  	  Enable use of NXP's Cryptographic Accelerator and Assurance Module
->  	  (CAAM) as trusted key backend.
-> =20
-> -if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE && !TRUSTED_KEYS_CAAM
-> +config TRUSTED_KEYS_DCP
-> +	bool "DCP-based trusted keys"
-> +	depends on CRYPTO_DEV_MXS_DCP >=3D TRUSTED_KEYS
-> +	default y
-> +	help
-> +	  Enable use of NXP's DCP (Data Co-Processor) as trusted key backend.
-> +
-> +if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE && !TRUSTED_KEYS_CAAM && !TRUS=
-TED_KEYS_DCP
+v2:
+ - Add 2 read-only workqueue sysfs files to expose the user requested
+   cpumask as well as the isolated CPUs to be excluded from
+   wq_unbound_cpumask.
+ - Ensure that caller of the new workqueue_unbound_exclude_cpumask()
+   hold cpus_read_lock.
+ - Update the cpuset code to make sure the cpus_read_lock is held
+   whenever workqueue_unbound_exclude_cpumask() may be called.
 
-This does not scale tbh.
+Isolated cpuset partition can currently be created to contain an
+exclusive set of CPUs not used in other cgroups and with load balancing
+disabled to reduce interference from the scheduler.
 
-I'd suggest to add additional patch before adding the new key type,
-which clears this up a little bit.
+The main purpose of this isolated partition type is to dynamically
+emulate what can be done via the "isolcpus" boot command line option,
+specifically the default domain flag. One effect of the "isolcpus" option
+is to remove the isolated CPUs from the cpumasks of unbound workqueues
+since running work functions in an isolated CPU can be a major source
+of interference. Changing the unbound workqueue cpumasks can be done at
+run time by writing an appropriate cpumask without the isolated CPUs to
+/sys/devices/virtual/workqueue/cpumask. So one can set up an isolated
+cpuset partition and then write to the cpumask sysfs file to achieve
+similar level of CPU isolation. However, this manual process can be
+error prone.
 
-First:
+This patch series implements automatic exclusion of isolated CPUs from
+unbound workqueue cpumasks when an isolated cpuset partition is created
+and then adds those CPUs back when the isolated partition is destroyed.
 
-config HAVE_TRUSTED_KEYS
-	bool
+There are also other places in the kernel that look at the HK_FLAG_DOMAIN
+cpumask or other HK_FLAG_* cpumasks and exclude the isolated CPUs from
+certain actions to further reduce interference. CPUs in an isolated
+cpuset partition will not be able to avoid those interferences yet. That
+may change in the future as the need arises.
 
-And then following this pattern to all trusted key types:
+Waiman Long (4):
+  workqueue: Add workqueue_unbound_exclude_cpumask() to exclude CPUs
+    from wq_unbound_cpumask
+  selftests/cgroup: Minor code cleanup and reorganization of
+    test_cpuset_prs.sh
+  cgroup/cpuset: Keep track of CPUs in isolated partitions
+  cgroup/cpuset: Take isolated CPUs out of workqueue unbound cpumask
 
-config TRUSTED_KEYS_DCP
-	bool "DCP-based trusted keys"
-	depends on CRYPTO_DEV_MXS_DCP >=3D TRUSTED_KEYS
-	default y
-	select HAVE_TRUSTED_KEYS
-	help
-	  Enable use of NXP's DCP (Data Co-Processor) as trusted key backend.
+ Documentation/admin-guide/cgroup-v2.rst       |  10 +-
+ include/linux/workqueue.h                     |   2 +-
+ kernel/cgroup/cpuset.c                        | 286 +++++++++++++-----
+ kernel/workqueue.c                            |  91 +++++-
+ .../selftests/cgroup/test_cpuset_prs.sh       | 216 ++++++++-----
+ 5 files changed, 438 insertions(+), 167 deletions(-)
 
-And finally:
+-- 
+2.39.3
 
-if !HAVE_TRUSTED_KEYS
-	comment "No trust source selected!"
-endif
-
-BR, Jarkko
