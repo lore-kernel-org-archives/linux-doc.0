@@ -1,87 +1,102 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B658480;
-	Wed, 25 Oct 2023 21:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967D41401F
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 21:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKtiqcH6"
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222F8B9;
-	Wed, 25 Oct 2023 14:44:53 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6b36e1fcea0so191714b3a.1;
-        Wed, 25 Oct 2023 14:44:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698270292; x=1698875092; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MafASQSV0b2ZlN9+ckzPdP7g0a8373h3IV546BZ1uro=;
-        b=OKtiqcH6GF//s/fpe35pAt4V6UQ9D72PR1eCNk2nW3jrQnZXkWijn6Lz6LMQfvwjQq
-         cD7djQ/Lm+X7iejI+SjcODl4v8MOaHvkAnemnYgMPyPK0Mveble+cSB14ZhkTcgje+kW
-         NvrVbWaVoLDWk7pCH+KMbXqqGRf2z2KAcMX6WcI8hD65UH7H17b/3IPxO+/4r9u3E2TD
-         cUAomHJyelXdKhqopl1qnV2kE/4zUmNPQZQ588GBd8HrBhv6J1rmq/KCnrxdW6K+mmvX
-         DJfGi3aKG7J3lymAQ0ZWUm8S5VL9CYCbIv15vhl5gScORWwtprRgb1+Qospqh2jc02ND
-         hI9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698270292; x=1698875092;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MafASQSV0b2ZlN9+ckzPdP7g0a8373h3IV546BZ1uro=;
-        b=UoFZR6DlaQTaXUuyfNtXxyULXkg8XeQgNvMCfstJaA1gk7u/LsnLGaKbUjifkiKl+v
-         dtX4/XzmyfAK1Wl/t940uns/l0y4b2wtL+BkfUTYxfVamr1ydnk86nzEkohrtGYD8XvI
-         WKau2+PN2QhcXbzwYAEanoYJ/NtXYHX7o0PjJTMZ8H2sB3a5WzyrWddlmuqdnhWk4Wmx
-         UOtEgKIqCXU6cg7eIKUiwIQp4OhRu4zu9m7O9YFMDaAbSTlswnUYThg7eUW4DTL/Ugmv
-         imLsKeKfcGI61lXja2RzIshTJayHKJCLsLy610Gj8rq9NEBEzyHOsEsd7QMJWqbz3sId
-         6bmQ==
-X-Gm-Message-State: AOJu0Yx/5sjaqESfJ/x/UdqmaW1+1X6ce7rz6lyhE6P1e1dhQpwjHxOH
-	kl1vuxgWEkb1Xoatxtv4xC6YBkEzyJc=
-X-Google-Smtp-Source: AGHT+IEtR4jNaDrFcSwlZjzbetBiNGa3LWgw0BHzX5JN9Dugo0Mbs3qGguJ5zN+e5+JzNutQ32PFvg==
-X-Received: by 2002:a05:6a20:9384:b0:174:63a9:2aa with SMTP id x4-20020a056a20938400b0017463a902aamr7427646pzh.18.1698270292524;
-        Wed, 25 Oct 2023 14:44:52 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q28-20020aa7961c000000b006bd6a0a4678sm9791259pfg.80.2023.10.25.14.44.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 14:44:52 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 25 Oct 2023 14:44:51 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Daniel Matyas <daniel.matyas@analog.com>
-Cc: no To-header on input <;, Jean Delvare <jdelvare@suse.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 3/7] dt-bindings: hwmon: Add possible new properties
- to max31827 bindings
-Message-ID: <e816a91e-b38e-4a43-b8e2-f361485bff55@roeck-us.net>
-References: <20230919093456.10592-1-daniel.matyas@analog.com>
- <20230919093456.10592-3-daniel.matyas@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DlIKAJg5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3004DC433C8;
+	Wed, 25 Oct 2023 21:49:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698270552;
+	bh=UBlwui6JXaWM1dHC4n9599bjvvRTpUdWTM8kRxLfVA0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DlIKAJg5/J0kp89aSFTWjntfSUCBR8JmJ/nwvzDR1KOa/xQXGRYf1n4+D1EmF5wZi
+	 moo6yCTKlRUpYxfsrsJ7RnHmzq6MsQx+jIu91Ten/GYPUEiyh+OZ6jtBX3e7dSL6w1
+	 NYth1Y8dP0HwwuUjYpStlSYygiCcvb3435jdcIYm4DrWN9UWdHZvpPlK82tDtzSS/d
+	 LqkPaNJiIMqtJ4qwkj3TpsHq9FrLUb5FNZO1Uwytm00qeRftaeDX3BK61Snem/Z97/
+	 vxfeLM0+EG9M5VV2nch8gdDO6532a2mPe31wDo2dSFZMovqRGuhHRUH8MQ2/ZHLhzE
+	 KD+OpBf8Qg2dQ==
+Date: Wed, 25 Oct 2023 14:49:09 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Alyssa Milburn <alyssa.milburn@intel.com>
+Subject: Re: [PATCH v3 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20231025214909.yxcldnporsnicrdi@treble>
+References: <20231025-delay-verw-v3-0-52663677ee35@linux.intel.com>
+ <20231025-delay-verw-v3-1-52663677ee35@linux.intel.com>
+ <8b6d857f-cbf6-4969-8285-f90254bdafc0@citrix.com>
+ <20231025212806.pgykrxzcmbhrhix5@treble>
+ <da782a61-e7f6-45fa-88e9-9d974dcc1a87@citrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230919093456.10592-3-daniel.matyas@analog.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <da782a61-e7f6-45fa-88e9-9d974dcc1a87@citrix.com>
 
-On Tue, Sep 19, 2023 at 12:34:51PM +0300, Daniel Matyas wrote:
-> These modify the corresponding bits in the configuration register.
+On Wed, Oct 25, 2023 at 10:30:52PM +0100, Andrew Cooper wrote:
+> On 25/10/2023 10:28 pm, Josh Poimboeuf wrote:
+> > On Wed, Oct 25, 2023 at 10:10:41PM +0100, Andrew Cooper wrote:
+> >> On 25/10/2023 9:52 pm, Pawan Gupta wrote:
+> >>> diff --git a/arch/x86/entry/entry.S b/arch/x86/entry/entry.S
+> >>> index bfb7bcb362bc..f8ba0c0b6e60 100644
+> >>> --- a/arch/x86/entry/entry.S
+> >>> +++ b/arch/x86/entry/entry.S
+> >>> @@ -20,3 +23,16 @@ SYM_FUNC_END(entry_ibpb)
+> >>>  EXPORT_SYMBOL_GPL(entry_ibpb);
+> >>>  
+> >>>  .popsection
+> >>> +
+> >>> +.pushsection .entry.text, "ax"
+> >>> +
+> >>> +.align L1_CACHE_BYTES, 0xcc
+> >>> +SYM_CODE_START_NOALIGN(mds_verw_sel)
+> >>> +	UNWIND_HINT_UNDEFINED
+> >>> +	ANNOTATE_NOENDBR
+> >>> +	.word __KERNEL_DS
+> >> You need another .align here.  Otherwise subsequent code will still
+> >> start in this cacheline and defeat the purpose of trying to keep it
+> >> separate.
+> >>
+> >>> +SYM_CODE_END(mds_verw_sel);
+> >> Thinking about it, should this really be CODE and not a data entry?
+> >>
+> >> It lives in .entry.text but it really is data and objtool shouldn't be
+> >> writing ORC data for it at all.
+> >>
+> >> (Not to mention that if it's marked as STT_OBJECT, objdump -d will do
+> >> the sensible thing and not even try to disassemble it).
+> >>
+> >> ~Andrew
+> >>
+> >> P.S. Please CC on the full series.  Far less effort than fishing the
+> >> rest off lore.
+> > +1 to putting it in .rodata or so.
 > 
-> adi,comp-int is a hardware property, because it affects the behavior
-> of the interrupt signal and whatever it is connected to.
-> 
-> adi,timeout-enable is a hardware property, because it affects i2c
-> bus operation.
-> 
-> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> It's necessarily in .entry.text so it doesn't explode with KPTI active.
 
-Applied.
+Ah, right.  In general tooling doesn't take too kindly to putting data
+in a text section.  But it might be ok.
 
-Thanks,
-Guenter
+-- 
+Josh
