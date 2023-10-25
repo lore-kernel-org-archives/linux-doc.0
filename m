@@ -1,137 +1,179 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0BB27EFF
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 23:09:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650E3347A4
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 23:41:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nJkFEDnF"
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F46115
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 16:09:30 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1ca74e77aecso10780815ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 16:09:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698275370; x=1698880170; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r5/8Zhe+/2PuD/bvi5I+6K7bHUYZ7aH71nEnIXb67ts=;
-        b=nJkFEDnF/sR5MeFPnISvGlDYpTbzhcQft0p16QyxZHYdrpsnSv5XJHp9apUYygYlIv
-         on+5q72m4V+Ls9kWe3+vxkYiYt8c3EFUjXSwQ7z4DUOJbAEOtO+4Pdm7UIQgsUPQJNpI
-         oHyyKXG1FkYyUnKBIrNSCYWzAwWSOItBs3vak9FBeHwIO/CU9359V7cwQBnrHZ0KnUxs
-         IHFPKwLom6xZp4WXSJIIa3aoMq10FMc4ngO83poNwvMprADAA/8yzSWUxJcDojkLTZsA
-         yMrLHf3SOROwnhhz1JjK9NznuFpyJtZNJZKAG05Kc8ZS6R1ImFZUh04ouwXsxHsA3tri
-         qV0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698275370; x=1698880170;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r5/8Zhe+/2PuD/bvi5I+6K7bHUYZ7aH71nEnIXb67ts=;
-        b=I8l72ytLHDmKVvSvO90rHUoRIEqprVbr7lwhcwZdR0nVWcUt6aYDruEvOuWDgoh3Ay
-         tIux4hGzU2T0CWAo7iLkTREO8nLnARVmjGBayJiD/j4oqVKmfd919HO7qHU+XdmqKdMN
-         zcLUwo0UmONjR9nnN68wiP9Vz37Hx0OYKcdKlWor7Md+Ikzc2EgEVp0XqWBCzxy8QycO
-         0J6/bsCO5N0+lvZ5dg4ojlG6hBKjhea9CH1peoL+h81wsJKYMKXVWFrmAWRLjIlfcG1+
-         Qd7gYhnH8Gfotwf7hBBFlUebuWd5uxDpfWovjxau5YGeWdh69Ol+9+qUGFIs2bnwgCap
-         lDjA==
-X-Gm-Message-State: AOJu0YxT85ofwYv64+Q7EnJqIOopiZpUG02tIJWpN1lQLj/qwRieUllv
-	xhrzQ612RBJKBINuAC9hSZNGoQ==
-X-Google-Smtp-Source: AGHT+IFbXWNRjQgljYKWXpYcspZdsliQtnJOWE7ugF8hYiXQHTt6dBK2xxX3l95Hv7yFzt9kx7wy5w==
-X-Received: by 2002:a17:902:f684:b0:1c7:7c2c:f828 with SMTP id l4-20020a170902f68400b001c77c2cf828mr1319929plg.8.1698275369726;
-        Wed, 25 Oct 2023 16:09:29 -0700 (PDT)
-Received: from ?IPV6:2620:0:1000:2514:51de:2ba6:1522:9df7? ([2620:0:1000:2514:51de:2ba6:1522:9df7])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170902cec400b001c1f4edfb9csm9656210plg.173.2023.10.25.16.09.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Oct 2023 16:09:29 -0700 (PDT)
-Message-ID: <45fe4c79-458a-4eaf-8de8-50682f7d8b52@google.com>
-Date: Wed, 25 Oct 2023 16:09:27 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4NF4Xkog"
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2069.outbound.protection.outlook.com [40.107.93.69])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 108D6182;
+	Wed, 25 Oct 2023 16:41:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RoOCEq9u6TdixIhbeYWSl5+vsK6FkgRCozAXYujxUcS9deKEUSYJK8GbWewxwiKc8ZqWjzOBnqw20hc/jz/AgXkGRnC+qGXdjkpD4lWGjyUK85Ja3XjUuONRG60NrTEr1AzLHp7oXCYO0lo35PI+TEAOWCoxwRuW0urwmDbLKeAMulGhoczQ16R4MfgDj+etgo/0imsFtsQ8PXERWjdiqMPm6tKk4s2+/aimR5OIGMiyPAoqHgk8EJmIG13/o7tumJrrAuPxtVYkL5I0hDKCp/h8NSngVSjLSHHTE5AzLPdbLXWF/9HNxSMDiSX6VoNkr78yfKPNRe9n7lpqrX7HmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zfI3Is2whQXCSWrqhZp0+ykGnrwvaG6n7aEyPh0ljGQ=;
+ b=acA3HQdXoQhOn8FSYnnxQzyrq70KmVJfznh2DrQ7fDtOi+FXnKkn07fvmb2UuL8CjW07ZKgXdRicuEWW62viFvoZxCiH3WFJEypnG7dcTxpPvpliISRDiUzVkskpkojlTcIGWNCdp1e7MiVg87ZYIHqtcng12xEz097mt88UQ2asCjkQyYCOAcI0dSF8UUhvPS4wsbqRoWUagtjaxCZ4b+gJn4K5iq48OHUWHVIMu/azpLxc2RwRvOJEnLOPiB+WszedfWJUqLp1MzDW0VDN7sy4Dedo6hzSaDSLwK9RtmMKqG1owrqD6DoIMlfd2gnw2xt0kPX55FieBDwVJhl3yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zfI3Is2whQXCSWrqhZp0+ykGnrwvaG6n7aEyPh0ljGQ=;
+ b=4NF4XkogCfBQzu43MetFUrtD0B59IYeax0ZxDtN9EMoINIYEU+4bjR76cdLy8iQewlN2qwq4rcFewd4RHPw+dkZEwwSz9CGcsB8izqi9MSvrRYbeZRvdyXZOc5vEctcEfPqadgbhhHKNZzNwEwuIbswjxC3ZW4uFs5duUgmCdMY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by MW4PR12MB6778.namprd12.prod.outlook.com (2603:10b6:303:1e8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Wed, 25 Oct
+ 2023 23:41:54 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1e4c:5da0:33ed:ff3a]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1e4c:5da0:33ed:ff3a%7]) with mapi id 15.20.6933.019; Wed, 25 Oct 2023
+ 23:41:54 +0000
+Message-ID: <88541b20-6745-28e3-6ba8-803a71554d6f@amd.com>
+Date: Wed, 25 Oct 2023 18:41:49 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH] x86/resctrl: mba_MBps: Fall back to total b/w if local
+ b/w unavailable
+Content-Language: en-US
+To: Tony Luck <tony.luck@intel.com>, "Moger, Babu" <babu.moger@amd.com>
+Cc: Peter Newman <peternewman@google.com>, Fenghua Yu <fenghua.yu@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+ Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>,
+ Jamie Iles <quic_jiles@quicinc.com>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ patches@lists.linux.dev
+References: <20231024181600.8270-1-tony.luck@intel.com>
+ <CALPaoChftF-H6GauKq4-c_qBJP1GJbR3-ByE5krsaQF4y4y9oQ@mail.gmail.com>
+ <ZTluypa9bCWv4k2n@agluck-desk3>
+ <e4994218-a7a2-4505-868e-a5c825ca4db0@amd.com>
+ <b8ea0a74-347d-475f-a36d-8944ced16951@amd.com>
+ <ZTmAFVuYlMuCbQHz@agluck-desk3>
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <ZTmAFVuYlMuCbQHz@agluck-desk3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN0PR03CA0016.namprd03.prod.outlook.com
+ (2603:10b6:408:e6::21) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: uvc gadget: Making upper bound of number of usb requests
- allocated configurable through configfs
-Content-Language: en-US
-To: Michael Grzeschik <mgr@pengutronix.de>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Greg KH <gregkh@linuxfoundation.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
- "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "etalvala@google.com" <etalvala@google.com>,
- "arakesh@google.com" <arakesh@google.com>
-References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
- <2023100834-statistic-richly-49ef@gregkh>
- <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
- <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
- <c47e864b-4b9e-4a21-afea-af121a4d7771@google.com>
- <20231020233044.dh63nu3tkbmrtfl4@synopsys.com>
- <69609645-fa20-4987-981d-1ab264e80b9b@google.com>
- <ZTe5leI7Hvk2/cl9@pengutronix.de>
-From: Jayant Chowdhary <jchowdhary@google.com>
-In-Reply-To: <ZTe5leI7Hvk2/cl9@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MW4PR12MB6778:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2309f36c-b695-4445-efca-08dbd5b3f7d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6NLrLrmckvnceejGg/28CUajrNKh0tiX3KgaCxmtjJeJS2yEjUGZAltrCwHra3KuD+z5DrxxSDginBziFy0DduCN9OW1x7UznNwi8Gb+QaxiYITU7piCRVrAvauojyfBZWS2VkXikCY4fAJc5yHEqyTIC3cJEjX8ec/SNiyObub3rVEqPg9iF72VyabxqLQwHf9PtNw4uA4y17NXVBa46gRWozbUMrOdagMjUAHIXRpZQWierPMrkp1wmeHlssZREXMcpby9GMO0oX1OCjODLISfesOurYa9j4je/VD11XOA5GltYwxhMwakG5SKjHCevIQX1q2tORVXoOzBHIvhUehp+8Dd3ZU33AbGEz2m9pGqVXwt2IVvu5hM0xsm8iibjntRXtqFJ/OSs34Mm+/et1khPOnibiH65x9STwc+i6vo86mFzZFpbJBK3JWXbB5c2+qSLGl1oJFOBsoe4ksrQuqCBZepJ06HE9CTcM9vqWGByXGDmTCLpnZleOwxPioHQXnOBF+nP87gvTP8ZekhL2LvSmdHwOb1dB7AgqtsnqAaSwdOrsuRpsQW1IJANwgocmgbEr8VupNg38g1u1+uzrlmlqPyHdVe30Qd3VqubyozFuGxho2WpV7nvviV0T4wb7LVRnwQ4MbGXVufGfWlbw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(366004)(376002)(39860400002)(396003)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(26005)(31686004)(31696002)(38100700002)(2906002)(7416002)(5660300002)(36756003)(4326008)(8936002)(8676002)(6636002)(110136005)(6486002)(2616005)(54906003)(41300700001)(66476007)(66556008)(316002)(478600001)(66946007)(6506007)(83380400001)(6512007)(53546011)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dUpMNU5sSEVlQXlCT0xUc29Ic1RRSzRKVEE2bU1Ya0Vpdm9paXhoWjRNYW1y?=
+ =?utf-8?B?a0VqbndvSDY5L2t3aGYyTHB4N1plOTZkeHljOTlLSkkwV3d2UFIzNEtHTXZa?=
+ =?utf-8?B?d2xJNXFCamUxb0NrU2U1YnpqMGJPcmhlcGpEcTBudkZRVTQ5RGdOTW53cDVD?=
+ =?utf-8?B?d295YmlyV1BsYmI2b2JBd2dRdjlXZjNxRjMrNndxMGFsQ3U1RGE5SUw3Umly?=
+ =?utf-8?B?bjRqVmllalA4UWFrRy9YRmk0RVYyNmc4QTBVQjdRYjU1U25ZeU1FUGVEL25r?=
+ =?utf-8?B?NWdaMGxHNjg5WEZkbVdJTUFRajZiTTNGa1JuMHJEQnZWQnNkRnZ0Mi8ramZH?=
+ =?utf-8?B?dW0wY21iU0M4c2crV0EvUDlCU0VndlMyTlV5TGszSVJxZ3c4UXRIRWtpTjFx?=
+ =?utf-8?B?bmI2YVQzWnpnYXM0VnFFT05ETWZCYis3cUZXWHV6WFB4b3hsWGlsTFBkdTJ1?=
+ =?utf-8?B?ZzRWRkF5b1JJa2M0dzRaMkZrOTRBekpCN3MyekZJbUhoSENWR2k0SHN0YW1m?=
+ =?utf-8?B?blVvVXBGYk9jSnRpelRLcXJNVjYrN20weUZnbEw2SWpvbFhsajNiYUlxT0hU?=
+ =?utf-8?B?MUJQbVo2Vk84RlgvMzNTbFNUNDhsZlE5clc5WWFyeHpzdUw2Nk03MzRCL05J?=
+ =?utf-8?B?dFpGbG9UYXkxTW5nRFF4NVBHNlBNbmsvNGFSK2tKdHFtSk9EbS9MbzVhbU9o?=
+ =?utf-8?B?am9sUkgrKy9UaDJwd1Jnbk5kSnBlemIyWSthSTY2aExMMm5DRFpJN0U4R0ZZ?=
+ =?utf-8?B?Z3gzanVoQllDb00ycDBENURNakMvaHVRN3VsbjZvYzlVK0J0di9Vcmx5TzFL?=
+ =?utf-8?B?YlZJSWpTNTR6dkJuY0RYNWxmOXc3ZVE3eDQyOXZrSUZRNGJMd241U1lVbjhq?=
+ =?utf-8?B?NkRjM3FBVXB1MmxuV2pMV0N3US9HSFYzOXdRR1BmTGFMUUwrNTRpUytoL0ho?=
+ =?utf-8?B?VllsY2V0R0oxOXN1Q2hJaVhkZWZQQWV4YTNiQVdIWXdBUU5UODJPd1VTNDBn?=
+ =?utf-8?B?RkIwQnQ2cnNIRG5Nd2hyTWxkaHIzZmNrODVVNmU1Z0xDTDdPTWxZdFkyUUlk?=
+ =?utf-8?B?bmxrMGdzZFA5MEFiejB4MCt6V2JOYVZrVnA4cm5VTVg0ODc1bzJYLzlaRGZ5?=
+ =?utf-8?B?Rml5aDQ4ZU9NV1FIcm5kejhMR2xGcit5RGozTjZvcTc2TE1Mb0tzS2VHQ1ZY?=
+ =?utf-8?B?cC9XZUMxekZ1c2Q4SXFvU0lKSm03a0RpV0NzTVlpZzE3MW9zNFYrUTB5dHpJ?=
+ =?utf-8?B?L1ZJRDZkeFhGaGhIMW5WNE1UcXM3c2Y2eTJ6d0pZTS84UXhBZzcyb0xZT3l5?=
+ =?utf-8?B?Yk1qTWh2Z3R6NEN6NDRyaFRrUnhEUkxWaFFBVVUyeTQ0UmFsZE9EMU11WFZq?=
+ =?utf-8?B?MnJ1RzhIdG9YY1R2bjFqZEZVbTdOL05ucGVGV2ZZZmwyd0NDTG9XMERiVmsr?=
+ =?utf-8?B?QlgxenB2ZkVDVXhSRVEvbkhWdi9QVmt5MGFYcTVtRTI2L3RTZnMwa2ViNXV6?=
+ =?utf-8?B?bXArZ2VVUmJCTjVGeW4zTnFUaHppU3BTejlYYkIxTkgxS0FzTUJaMzRHS2dR?=
+ =?utf-8?B?VXNaNkpKQWNmVGo4TkMzZURZTGFNM2FNbGRIbmxvekhBWHc0bVo3N3dZVWlL?=
+ =?utf-8?B?bkZpK1lXUUZyTFlsajVDTXFxbzY4Y3ZNNE5CdDlWN3ROcnZkOUhBNmp4MHBM?=
+ =?utf-8?B?VzdrelEvTEJNb1lsVnRSWGpWM2VqT0ZjZUlmTG1tbWY5Y0FaNE5RQVMzY3hn?=
+ =?utf-8?B?ZE9NUCtYcDg0VE5CZTlaWGtjN2xQTlJXTUYzNUZObC9pRFBYTGw2VEd2cFp0?=
+ =?utf-8?B?SjM2SnR5Z2ExRGEvaVU0ckVFQXhKdW1FV2Jya3NVTHhEUUpGUnJicm1mL0Jv?=
+ =?utf-8?B?NEdlVXlzODQyR0JrQm9hNUlkVExnc24rcVNKZUJ6R1FqbVNRS3RCL0cxckMx?=
+ =?utf-8?B?bXBzYU80Y2oxODNKbVp0ZUQrWG9LN3cvVEVvRjIvN1hnMVdRL0VZTkRscjN2?=
+ =?utf-8?B?cE9aYkxLSnRUVDEvcEVNTFNGaW53aDFFbUJNWENzUjFvMjBkc1QxYlN3MmhF?=
+ =?utf-8?B?UjU2OEkxTUlRQnE0dTZhazU1RkdZbC9qeTd1RFhad0ZCU3dZWjVJMVdYYmN4?=
+ =?utf-8?Q?4ezw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2309f36c-b695-4445-efca-08dbd5b3f7d2
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 23:41:53.8498
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gtwjWc83VyDs6/MjNqRD/4JvkLHnAw4znXbuW69xdqyEu9FwLZfZ6Dh8cXdx9RPE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6778
 
-Hi Michael,
+Hi Tony,
 
-On 10/24/23 05:33, Michael Grzeschik wrote:
-> On Mon, Oct 23, 2023 at 11:13:03AM -0700, Jayant Chowdhary wrote:
->> Hi Thinh, Michael,
+On 10/25/2023 3:52 PM, Tony Luck wrote:
+> On Wed, Oct 25, 2023 at 03:42:14PM -0500, Moger, Babu wrote:
+>> I meant, I was thinking bit different.
 >>
->> On 10/20/23 16:30, Thinh Nguyen wrote:
->>> Sorry for the delay response.
+>>> You need these changes in only two functions, mbm_bw_count and
+>>> update_mba_bw. You decide which event you want to use based on availability,
 >>>
->>> On Sun, Oct 15, 2023, Jayant Chowdhary wrote:
->>>> On 10/12/23 11:50, Thinh Nguyen wrote:
->>>>> The frequency of the request submission should not depend on the
->>>>> video_pump() work thread since it can vary. The frequency of request
->>>>> submission should match with the request completion. We know that
->>>>> request completion rate should be fixed (1 uframe/request + when you
->>>>> don't set no_interrupt). Base on this you can do your calculation on how
->>>>> often you should set no_interrupt and how many requests you must submit.
->>>>> You don't have to wait for the video_pump() to submit 0-length requests.
->>>>>
->>>>> The only variable here is the completion handler delay or system
->>>>> latency, which should not be much and should be within your calculation.
->>>>
->>>> Thanks for the suggestion. It indeed makes sense that we do not completely depend on
->>>> video_pump() for sending 0 length requests. I was concerned about
->>>> synchronization needed when we send requests to the dwc3 controller from
->>>> different threads. I see that the dwc3 controller code does internally serialize
->>>> queueing requests, can we expect this from other controllers as well ?
->>> While it's not explicitly documented, when the gadget driver uses
->>> usb_ep_queue(), the order in which the gadget recieves the request
->>> should be maintained and serialized. Because the order the transfer go
->>> out for the same endpoint can be critical, breaking this will cause
->>> issue.
+>>> Something like this. I updated mbm_bw_count.
 >>>
->> Thanks for clarifying this. Keeping this in mind - I made a slight modification to
->> your test patch - I removed the uvc_video_pump() function call from uvc_v4l2_qbuf(). We just
->> call it in uvcg_video_enable(). That should just queue 0 length requests till the first qbuf
->> is called. There-after only the complete handler running uvcg_video_complete() calls video_pump(),
->> which sends usb requests to the endpoint. While I do see that we hold the queue->irqlock while
->> getting the uvc buffer to encode and sending it to the ep, I feel like its just logically safer
->> for future changes if we can restrict the pumping of requests to one thread.
->>
->> Does that seem okay to you ? I can formalize it if it does.
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> index 0ad23475fe16..302993e4fbc3 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> @@ -436,8 +436,16 @@ static int __mon_event_count(u32 rmid, struct
+>>> rmid_read *rr)
+>>>    */
+>>>   static void mbm_bw_count(u32 rmid, struct rmid_read *rr)
+>>>   {
+>>> -       struct mbm_state *m = &rr->d->mbm_local[rmid];
+>>>          u64 cur_bw, bytes, cur_bytes;
+>>> +       struct mbm_state *m;
+>>> +       int evtid;
+>>> +
+>>> +       if (is_mbm_local_enabled())
+>>> +               evtid = QOS_L3_MBM_LOCAL_EVENT_ID;
+>>> +       else
+>>> +               evtid = QOS_L3_MBM_TOTAL_EVENT_ID;
+>>> +
+>>> +       m = get_mbm_state(rr->d, rmid, evtid);
+> Ok. Yes. That seems simpler.
 >
-> I tested this, and it looks good so far.
->
-> Since your changes are minimal you could send this with me as the author
-> and add your Suggested-by Tag. You should also add your Tested-by Tag in
-> that case.
->
-I sent out https://lore.kernel.org/linux-usb/99384044-0d14-4ebe-9109-8a5557e64449@google.com/T/#u
+> Maybe I should just set a global "mbm_evtid" at mount
 
-with a Signed-off-by crediting you and suggested by with Avichal and me. It has a few changes related to
+Lets not make it global yet. This is only affecting couple of functions 
+when mba_MPps is enabled.
 
-bulk end-points as well, but they're relatively minor.
+> time. No need to check every time to see if is_mbm_local_enabled()
+> somehow changed and local b/w measurements were suddenly
+> available!
+
+What changed suddenly? Can you please elaborate.
 
 Thanks
+
+Babu
 
