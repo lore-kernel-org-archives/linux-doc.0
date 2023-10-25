@@ -1,105 +1,189 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C2E15491;
-	Wed, 25 Oct 2023 10:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ShlEeboA"
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AD6F10FD;
-	Wed, 25 Oct 2023 03:42:18 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-507a62d4788so8673363e87.0;
-        Wed, 25 Oct 2023 03:42:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698230536; x=1698835336; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=USY4fw267Go83RxyHyFwK1+6pc6Q77CrkKJFbgSONJU=;
-        b=ShlEeboAgNI0keEKRxCp1TNhPFyAOyjzExRBcVJ4Z3oV86IulG0uOM0dL4VVVXzabv
-         A8bFrjCSoJ90aAMkJ0MW2GsAHvMMmYoFZaCM6+9Xnx3gRSGRnwZ+ajEaa9b2R3rkxE7i
-         PRDe1CslYMWmm81JE1cauzr3omMjBBCLXznW78hFyBz93gQ85N0cy6iUMYqgsg4X84qS
-         LbLgaFwuRApfltyVOjoauHhfgq7f8athyNYeWOVKsHTrWsDFk1UTfub7s5fKBjuI6XeB
-         qkL6knTUYxqbiJkugTeJGWSUe2YAe8A9B2VuC2wDi0zQDacWZZe+/srh/PgI48Q1KqOQ
-         SYnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698230536; x=1698835336;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=USY4fw267Go83RxyHyFwK1+6pc6Q77CrkKJFbgSONJU=;
-        b=r+foBiem2wNeURN/xnH8D5gGVbw36TmTzWbyyjN34e08LsnbiWYsdEHlWxGZR+Ck8w
-         oTw8Gz0TMaFkBzpzRVMbW5eFpCt6b4aBqldzT8mDBrcyBWuFQJ5cErPD076xk4NPj/4E
-         gUGNwwvBJFJoXiJ/xOkMUB1qJzANrqvS4LzOuRtwpNgk69zySKTuUeRS6PiE964SPCVd
-         G1m8Wqc6vqJz9meb6ortXTkdbT7xIVvMbFSBSpyFqHQOe9qCUDL/tcCxXm1L5JW2BXek
-         dLmtNvAbr5WvJWpRDySrdF8AbKcy5pHHplSJ6Ecjeg9jtWKNRAUUXSY0KpgfvxCzte/z
-         UJvg==
-X-Gm-Message-State: AOJu0YyCQpp8kydZquV+WIK1ebNkY/ayhRFew93lF1taZEQUOb3/nDch
-	rQkUW/AZE/qvgcclheuNlwU=
-X-Google-Smtp-Source: AGHT+IH+mKnvmoscLzowQ7hAev3IlVRR9DHwfFnnTp13am39rRDQgcxMoWLTpMzT+6bZeJXrYawGfA==
-X-Received: by 2002:a19:5212:0:b0:505:6e21:32e1 with SMTP id m18-20020a195212000000b005056e2132e1mr10207820lfb.10.1698230536071;
-        Wed, 25 Oct 2023 03:42:16 -0700 (PDT)
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:2cbd:f9ec:f035:ebea])
-        by smtp.gmail.com with ESMTPSA id t12-20020a05640203cc00b0053e67bcb3e7sm9179868edw.82.2023.10.25.03.42.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 03:42:15 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Howells <dhowells@redhat.com>,
-	David Woodhouse <dwmw2@infradead.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6037615491
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 10:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D2DD93
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 03:48:44 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qvbQQ-0001DN-Q8; Wed, 25 Oct 2023 12:47:46 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qvbQO-0049gV-FC; Wed, 25 Oct 2023 12:47:44 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qvbQO-005ubj-4j; Wed, 25 Oct 2023 12:47:44 +0200
+Date: Wed, 25 Oct 2023 12:47:43 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sean Young <sean@mess.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	linux-modules@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] docs: module-signing: adjust guide after sha1 and sha224 support is gone
-Date: Wed, 25 Oct 2023 12:42:12 +0200
-Message-Id: <20231025104212.12738-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Gross <markgross@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <20231025104743.56elaloj3jmojz2v@pengutronix.de>
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+ <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+ <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+ <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+ <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
+ <20231023133417.GE49511@aspen.lan>
+ <ZTjll7oTNVWqygbD@gofer.mess.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kdxw67dv7iobkbz2"
+Content-Disposition: inline
+In-Reply-To: <ZTjll7oTNVWqygbD@gofer.mess.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Commit 16ab7cb5825f ("crypto: pkcs7 - remove sha1 support") and commit
-fc3225fd6f1e ("module: Do not offer sha224 for built-in module signing")
-removes sha1 and sha224 support for kernel module signing.
 
-Adjust the module-signing admin guide documentation to those changes.
+--kdxw67dv7iobkbz2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- Documentation/admin-guide/module-signing.rst | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Hello,
 
-diff --git a/Documentation/admin-guide/module-signing.rst b/Documentation/admin-guide/module-signing.rst
-index 2898b2703297..e3ea1def4c0c 100644
---- a/Documentation/admin-guide/module-signing.rst
-+++ b/Documentation/admin-guide/module-signing.rst
-@@ -30,8 +30,8 @@ This facility uses X.509 ITU-T standard certificates to encode the public keys
- involved.  The signatures are not themselves encoded in any industrial standard
- type.  The facility currently only supports the RSA public key encryption
- standard (though it is pluggable and permits others to be used).  The possible
--hash algorithms that can be used are SHA-1, SHA-224, SHA-256, SHA-384, and
--SHA-512 (the algorithm is selected by data in the signature).
-+hash algorithms that can be used are SHA-256, SHA-384, and SHA-512 (the
-+algorithm is selected by data in the signature).
- 
- 
- ==========================
-@@ -81,8 +81,6 @@ This has a number of options available:
-      sign the modules with:
- 
-         =============================== ==========================================
--	``CONFIG_MODULE_SIG_SHA1``	:menuselection:`Sign modules with SHA-1`
--	``CONFIG_MODULE_SIG_SHA224``	:menuselection:`Sign modules with SHA-224`
- 	``CONFIG_MODULE_SIG_SHA256``	:menuselection:`Sign modules with SHA-256`
- 	``CONFIG_MODULE_SIG_SHA384``	:menuselection:`Sign modules with SHA-384`
- 	``CONFIG_MODULE_SIG_SHA512``	:menuselection:`Sign modules with SHA-512`
--- 
-2.17.1
+On Wed, Oct 25, 2023 at 10:53:27AM +0100, Sean Young wrote:
+> On Mon, Oct 23, 2023 at 02:34:17PM +0100, Daniel Thompson wrote:
+> > On Sun, Oct 22, 2023 at 11:46:22AM +0100, Sean Young wrote:
+> > > On Sat, Oct 21, 2023 at 11:08:22AM +0200, Hans de Goede wrote:
+> > > > On 10/19/23 12:51, Uwe Kleine-K=F6nig wrote:
+> > > > > On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
+> > > > >> On 10/17/23 11:17, Sean Young wrote:
+> > > > > I think it's very subjective if you consider this
+> > > > > churn or not.
+> > > >
+> > > > I consider it churn because I don't think adding a postfix
+> > > > for what is the default/expected behavior is a good idea
+> > > > (with GPIOs not sleeping is the expected behavior).
+> > > >
+> > > > I agree that this is very subjective and very much goes
+> > > > into the territory of bikeshedding. So please consider
+> > > > the above my 2 cents on this and lets leave it at that.
+> > >
+> > > You have a valid point. Let's focus on having descriptive function na=
+mes.
+> >=20
+> > For a couple of days I've been trying to resist the bikeshedding (esp.
+> > given the changes to backlight are tiny) so I'll try to keep it as
+> > brief as I can:
+> >=20
+> > 1. I dislike the do_it() and do_it_cansleep() pairing. It is
+> >    difficult to detect when a client driver calls do_it() by mistake.
+> >    In fact a latent bug of this nature can only be detected by runtime
+> >    testing with the small number of PWMs that do not support
+> >    configuration from an atomic context.
+> >=20
+> >    In contrast do_it() and do_it_atomic()[*] means that although
+> >    incorrectly calling do_it() from an atomic context can be pretty
+> >    catastrophic it is also trivially detected (with any PWM driver)
+> >    simply by running with CONFIG_DEBUG_ATOMIC_SLEEP.
 
+Wrongly calling the atomic variant (no matter how it's named) in a
+context where sleeping is possible is only a minor issue. Being faster
+than necessary is hardly a problem, so it only hurts by not being an
+preemption point with PREEMPT_VOLUNTARY which might not even be relevant
+because we're near to a system call anyhow.
+
+For me the naming is only very loosely related to the possible bugs. I
+think calling the wrong function happens mainly because the driver author
+isn't aware in which context the call happens and not because of wrong
+assumptions about the sleepiness of a certain function call.
+If you consider this an argument however, do_it + do_it_cansleep is
+better than do_it_atomic + do_it as wrongly assuming do_it would sleep
+is less bad than wrongly assuming do_it wouldn't sleep. (The latter is
+catched by CONFIG_DEBUG_ATOMIC_SLEEP, but only if it's enabled.)
+
+Having said that while my subjective preference ordering is (with first
+=3D best):
+
+	do_it + do_it_cansleep
+	do_it_atomic + do_it_cansleep
+	do_it_atomic + do_it
+
+wi(th a _might_sleep or _mightsleep suffix ranging below _cansleep)
+I wouldn't get sleepless nights when I get overruled here
+(uwe_cansleep :-).
+
+> >    No objections (beyond churn) to fully spelt out pairings such as
+> >    do_it_cansleep() and do_it_atomic()[*]!
+>=20
+> I must say I do like the look of this. Uwe, how do you feel about:
+> pwm_apply_cansleep() and pwm_apply_atomic()? I know we've talked about
+> pwm_apply_atomic in the past, however I think this this the best=20
+> option I've seen so far.
+>=20
+> > 2. If there is an API rename can we make sure the patch contains no
+> >    other changes (e.g. don't introduce any new API in the same patch).
+> >    Seperating renames makes the patches easier to review!
+> >    It makes each one smaller and easier to review!
+>=20
+> Yes, this should have been separated out. Will fix for next version.
+
++1
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--kdxw67dv7iobkbz2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmU48k8ACgkQj4D7WH0S
+/k6W3AgAk4aFQs6woLctFKPwObedmFaF4LVusjnyP2JYEuwOcWzfmL/W31PFxuWP
+KEm7kc/16r0LD6qbwwgpOGUucBHmXKkmJa+0tdj/pRKkbkBfbA/RDaly9ZNh9Aql
+dZEuZ4CyAE7Pw6ea3ZQhQL1W4x37ZZwVPMvNmQaydtP5VBP1cBrml1SBcrT+6r0j
+j6N5LZR1Jb1+8XuisgUnufJAbBpykKTDJSdqwsREGb93kuDzhiTB7/YDFXe9P8fs
+NOvV78af278xkuohhXrWRRdqJSd+/PDGii+WImHHQpWcJPmcgwsXMCnjnK7DruZR
+Ket6emGp+CLdMp+GKhD7b53atfLNjQ==
+=7sp5
+-----END PGP SIGNATURE-----
+
+--kdxw67dv7iobkbz2--
