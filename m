@@ -1,91 +1,79 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D86728E31
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 17:14:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE841C683;
+	Wed, 25 Oct 2023 17:33:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bjZtRaZE"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869A9111
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 10:14:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698254061; x=1729790061;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Ny6xNSEH9yC0hhM4SF8A3D/84YwRjvCD7xyVPPDAIAc=;
-  b=bjZtRaZEizUXvLvEm//OO+eISCI4uYFwslNBu3eBvURg/4jgEhkyiIMF
-   tsjiuF3HyMtAAFKq1DF2AtNlZzLj5XIhQHqxMQQcNRpSxcCsHl9edMUgs
-   vnDSMrxjBv25dXCFfVx/XaPk4W6GFPwI4bKjBWHfsclNaYdg7AHMaTpaM
-   7lvi3WtXVx0jFf8mqnoZEnvKPsTJFAbOpaq9xv2EipPDwCSsPXO/Nc/Nt
-   Ycsd/sUbxcdj5yjqgTgZ4dMNhHg/F+u6vDemaBlKvoAAhSVI8qn9hAnJa
-   kaqZyAKDnh2BTcnc34zlvmiicFdT70rz4JiKRh54A5LBY5812Jl2mG48T
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="366703077"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="366703077"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 10:14:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="6917371"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Oct 2023 10:14:11 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvhSU-00093j-0n;
-	Wed, 25 Oct 2023 17:14:18 +0000
-Date: Thu, 26 Oct 2023 01:13:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [kabel:turris-omnia-mcu-for-6.7 3/7] htmldocs:
- Documentation/ABI/testing/sysfs-bus-i2c-devices-turris-omnia-mcu:2: WARNING:
- Unexpected indentation.
-Message-ID: <202310260149.22peIRke-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="14FcZImO";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CkKs0Vb+"
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 580B0137;
+	Wed, 25 Oct 2023 10:33:02 -0700 (PDT)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1698255180;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IMbPag9QwdHG5LCrp7GKbj7qfyS+r03W9FBPD7TqsHo=;
+	b=14FcZImOVqXnRGEgxC2fRYaOTc69tai0XEWUoJ22hwViznUFzBoB1yp4EfjRRXklGhk0vY
+	VY+qLSqNaldvNjfkG2HuDGgUa7KXoLZb39sqNcOvcVJjbBFdcaPsuHBt6R/0WVaLxrnEIT
+	ELIHCrsUNw+RHO4RBly469N52ATYKF31+pr6e5uIEQsPideOY2UXtwttP9wf3ZuvtvO6lZ
+	06GbiCdBa1BpBaX+kZXO0P7MaVTTRWS161jpimL+HSNmXys20HCJ8TIl/m4BNKKVL8hYIq
+	Cl4MX3efr5UtCjQnahFz+UZr5KT6Xe0BwxFwDpHJ61CHTlzzA7XXub+9heSNyA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1698255180;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IMbPag9QwdHG5LCrp7GKbj7qfyS+r03W9FBPD7TqsHo=;
+	b=CkKs0Vb+ro20//s4rfHvlMYS2gqcydz362NMET/yMGWJ3AMSbglFuv0sWWmZqc9s5Sjr2E
+	3MSg04jBjUShd8DQ==
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
+ hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+ dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+ corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+ juri.lelli@redhat.com, ldufour@linux.ibm.com, catalin.marinas@arm.com,
+ will@kernel.org, arnd@arndb.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+ masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+ muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+ pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
+ dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
+ keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com,
+ gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+ penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+ glider@google.com, elver@google.com, dvyukov@google.com,
+ shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+ rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+ surenb@google.com, kernel-team@android.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-modules@vger.kernel.org,
+ kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v2 28/39] timekeeping: Fix a circular include dependency
+In-Reply-To: <20231024134637.3120277-29-surenb@google.com>
+References: <20231024134637.3120277-1-surenb@google.com>
+ <20231024134637.3120277-29-surenb@google.com>
+Date: Wed, 25 Oct 2023 19:33:00 +0200
+Message-ID: <87h6me620j.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kabel/linux.git turris-omnia-mcu-for-6.7
-head:   502852dc60f48980862e74d34eade79f4f1c8c54
-commit: c1285aed4f394228eaea68bdd478be3a01857afc [3/7] platform: cznic: turris-omnia-mcu: Add support for MCU connected GPIOs
-reproduce: (https://download.01.org/0day-ci/archive/20231026/202310260149.22peIRke-lkp@intel.com/reproduce)
+On Tue, Oct 24 2023 at 06:46, Suren Baghdasaryan wrote:
+> From: Kent Overstreet <kent.overstreet@linux.dev>
+>
+> This avoids a circular header dependency in an upcoming patch by only
+> making hrtimer.h depend on percpu-defs.h
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310260149.22peIRke-lkp@intel.com/
+What's the actual dependency problem?
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/ABI/testing/sysfs-bus-i2c-devices-turris-omnia-mcu:2: WARNING: Unexpected indentation.
->> Documentation/ABI/testing/sysfs-bus-i2c-devices-turris-omnia-mcu:2: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-vim +2 Documentation/ABI/testing/sysfs-bus-i2c-devices-turris-omnia-mcu
-
-   > 2	Date:		November 2023
-     3	KernelVersion:	6.7
-     4	Contact:	Marek Behún <kabel@kernel.org>
-     5	Description:	(RW) The front button on the Turris Omnia router can be
-     6			configured either to change the intensity of all the LEDs on the
-     7			front panel, or to send the press event to the CPU as an
-     8			interrupt.
-     9	
-    10			This file switches between these two modes:
-    11			- "mcu" makes the button press event be handled by the MCU to
-    12			  change the LEDs panel intensity.
-    13			- "cpu" makes the button press event be handled by the CPU.
-    14	
-    15			Format: %s.
-    16	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
