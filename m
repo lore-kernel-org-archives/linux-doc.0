@@ -1,94 +1,111 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C56210A1D
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 09:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3E12D60E;
+	Wed, 25 Oct 2023 09:20:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="IcaldLvk"
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CABE130
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 02:20:03 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-578b407045bso4115850a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 02:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1698225603; x=1698830403; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k9LKvzwQ+kJJuy6F8sbzPBJK3ry5j/OSwVPg23+fo4o=;
-        b=IcaldLvkVDGaOtNo/OYfg/78rpVL13J0ZcBeqYR3u1G79aRK+Uz5lmZnkHlh8HTu5F
-         VYHVsdfFgBgz4hId659tyYcoH3O+OcFY/ED3l6DVWi1WcrabgUeHxD5Az8CfPpTtL+zG
-         ZM3DoH5Rqq5ZteqVIXDav6hKsXmukSywzs08TRulWaTbHcR2ooLewjkzU6lb3qUrTw7R
-         7m9WfdvYZjuzSUBez4oSk1t9wnTKwp90SehOccwcYdI/Vjy9S23CJH7QXIT9JPz9Ccni
-         hOOmjfna4RJjHZSKkYYCHwrHGm8kBzYeHpHJD+rJyDJsOOw5aFS7sdipn7Mde9ptP6UV
-         d1gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698225603; x=1698830403;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=k9LKvzwQ+kJJuy6F8sbzPBJK3ry5j/OSwVPg23+fo4o=;
-        b=BcZ/7hQW0e48YNx6Z5WRZksiE2L1VQp+JmjxxNxpNO3RUc9LFtXgkd7uI+e8M7uSi/
-         w/hFCLwbovsX55VhCPrtjvVjQVOJdr7fIkGPuXQthH/C5D9y6D8LzdWYE3iEc+WydXiV
-         i2BA11owJuaDbRFdXAsrRo3/WqFuMHdNpJ13b8BS516uB6kq0kvXomRtukhzZr5Fwixz
-         GG9RdKu7gJ11/dUaFnEDx5qLpxvUcVD7+5TNOx7pfFmkzeOitbGNfCfIJhvkJzZcvlMw
-         H98BpPANM0mtLt1lTAC9TYTjQTclFWUcC645qGWU4+E3xG0Gs2Al6ZwBsT1Ao3T1HEt6
-         5/6w==
-X-Gm-Message-State: AOJu0Yz2GZ5gF4sUpNtS4q6WjQ27lggc2wkQ36Q9NBN31DPo8MeOEEbd
-	CIv6I7rOqh1OZ2DChxPj7hDQTQ==
-X-Google-Smtp-Source: AGHT+IHfihGh9DaKro3ttnwboXUO0qkrr6LAJueCDPbd8CHiqmm6Eh/dzGrB6zYpq63P8X2rWNeq6A==
-X-Received: by 2002:a17:90a:d24d:b0:274:c284:c83c with SMTP id o13-20020a17090ad24d00b00274c284c83cmr13222743pjw.48.1698225603087;
-        Wed, 25 Oct 2023 02:20:03 -0700 (PDT)
-Received: from [10.71.178.184] ([203.208.189.7])
-        by smtp.gmail.com with ESMTPSA id d12-20020a17090a498c00b00278ff752eacsm8133414pjh.50.2023.10.25.02.19.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Oct 2023 02:20:02 -0700 (PDT)
-Message-ID: <bf7d4005-d32c-42d9-a748-a7c421130be6@bytedance.com>
-Date: Wed, 25 Oct 2023 17:19:54 +0800
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="MJLhkMv8";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZuSZkpCZ"
+X-Greylist: delayed 550 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 25 Oct 2023 02:20:50 PDT
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF64612D;
+	Wed, 25 Oct 2023 02:20:50 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 9B63C580895;
+	Wed, 25 Oct 2023 05:11:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 25 Oct 2023 05:11:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1698225099; x=1698232299; bh=XQ
+	yjPYrEkXqH9LFr9i7Krss0TBJ238tCuNu12brYHqk=; b=MJLhkMv8wHH1uRap99
+	6aZOrUpOV7AuyTq/+g3mcg88+hYHWdYNXUFcbARaZnP1FV42vzjET4AbY7lQgoQ2
+	kacbzQP0ngqnJcuCmZmCXE0OdAiOiNu1T7vcxV+la4m13uUYHlZl+yWkv+dL6sk9
+	SZRB4A1hAizlvZagV8BpkbJGp0qFp3N83cZW5ClgZvP8Xy3RbJ6CJwCqtuo5zRfA
+	l837MVd53lqiaX6zbksP/NIrooJFVE0UwbnD3wSiXWQOH9Y+axId7wgafuWnG5qQ
+	Q+C37twK1Wh0CLo+KvAs9gq+ctXXtRY5FM9geNzgn3mP0TYnDPPgkp2ubBGtxxU9
+	WlbQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1698225099; x=1698232299; bh=XQyjPYrEkXqH9
+	LFr9i7Krss0TBJ238tCuNu12brYHqk=; b=ZuSZkpCZhnuTFuOI6EKIEQlzEDUu0
+	QvKu0RjGz5cNi+JMA8UUX5L38ctCHNj5k5sX/ywSX+uHspKgwvamwrKFm+bbBsnF
+	FI+vLYB4iDuuRbCbf8odj/xZwI5roqwxQuG/QO8b4lMfL81lt80mZOWl2nmyCNbW
+	dlwsbVUPNeu5T1nOLTTzbNlGq0qOS2cF79PitsrZdJPJ0LhljPE0CO1c9esj3ync
+	j5iPzqxc5xmBLlW4+4uEgRI2fW0utjVQZt0djFel5lPzUaf/gBqvV0QzmgdROFi3
+	7uXR+JuPuJiDYzo5H0Mzy3GvvqQhADegASWoVFBZjI1aryq2b6wq420YQ==
+X-ME-Sender: <xms:y9s4ZczjNt79yPzuyfqpjNnHPiQZQy8HfOkzjmvoHuYC6Q92WJsTdQ>
+    <xme:y9s4ZQRiDh7M9KknP7UGRuMtzBfGfCPv2oH6IvaZmuhFznuzirWhgXgOiCf_mh4iL
+    zztUBf1zqAZaA>
+X-ME-Received: <xmr:y9s4ZeWrP4PXS6ozxQIDIPoLSFcMD8qL4aVTiAy77m3q3QXYq-OYbol03MTD763H0xWRuAiGMkTZgEBuku4pXdhriiGMktD5CjfesKwpOj4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrledtgddufecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeegheeuhe
+    fgtdeluddtleekfeegjeetgeeikeehfeduieffvddufeefleevtddtvdenucffohhmrghi
+    nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:y9s4Zahai2iiwN2FQkh7El-vr2BPXNUcFh_MoP6uS0ykmyui5uPI6A>
+    <xmx:y9s4ZeBN7DUJxb2mjZgxOzWVu71bcv2NG5WdYgfSwAyYuJ8oMr2t0w>
+    <xmx:y9s4ZbIE-85TAQQTZacLoUk0h7gyU4XjtGA_Hb_SXvBAJ34j4HQFMw>
+    <xmx:y9s4ZZUh-AuiW3Rd_b0s4My5Gdze_jZZ2Zq6ErAdHIbMtnj5pTJjXw>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Oct 2023 05:11:38 -0400 (EDT)
+Date: Wed, 25 Oct 2023 11:11:36 +0200
+From: Greg KH <greg@kroah.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Johan Jonker <jbx6244@gmail.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH] dt-bindings: usb: rockchip,dwc3: fix reference to
+ nonexistent file
+Message-ID: <2023102521-glamorous-treat-9870@gregkh>
+References: <20231022185150.919293-1-vegard.nossum@oracle.com>
+ <6ea02e5e-bc95-48b5-d6e3-15338ebd0a4d@gmail.com>
+ <20231024200212.GA465811-robh@kernel.org>
+ <abbb7656-86b1-4d77-986e-bfd5dd20ec22@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 03/10] maple_tree: Introduce interfaces __mt_dup() and
- mtree_dup()
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
- brauner@kernel.org, surenb@google.com, michael.christie@oracle.com,
- mjguzik@gmail.com, mathieu.desnoyers@efficios.com, npiggin@gmail.com,
- peterz@infradead.org, oliver.sang@intel.com, mst@redhat.com,
- maple-tree@lists.infradead.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Peng Zhang <zhangpeng.00@bytedance.com>
-References: <20231024083258.65750-1-zhangpeng.00@bytedance.com>
- <20231024083258.65750-4-zhangpeng.00@bytedance.com>
- <ZTfw1nw15wijNnCB@casper.infradead.org>
-From: Peng Zhang <zhangpeng.00@bytedance.com>
-In-Reply-To: <ZTfw1nw15wijNnCB@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abbb7656-86b1-4d77-986e-bfd5dd20ec22@linaro.org>
 
+On Wed, Oct 25, 2023 at 10:21:54AM +0200, Krzysztof Kozlowski wrote:
+> On 24/10/2023 22:02, Rob Herring wrote:
+> > On Sun, Oct 22, 2023 at 10:44:10PM +0200, Johan Jonker wrote:
+> >>
+> >>
+> >> On 10/22/23 20:51, Vegard Nossum wrote:
+> >>> This file was renamed but left a dangling reference. Fix it.
+> >>>
+> >>> Fixes: 0f48b0ed356d ("dt-bindings: phy: rename phy-rockchip-inno-usb2.yaml")
+> >>
+> >>> Cc: Johan Jonker <jbx6244@gmail.com>
+> >>
+> >> [PATCH v1] dt-bindings: usb: rockchip,dwc3: update inno usb2 phy binding name
+> >> https://lore.kernel.org/linux-rockchip/f8747552-d23b-c4cd-cb17-5033fb7f8eb6@gmail.com/
+> >>
+> >> Already Acked.
+> > 
+> > I was assuming Greg would pick that up. I've applied the linked patch 
+> 
+> Would be easier for Greg to pick this up, if he was Cc-ed in original
+> patch. His name is the first one listed in output of get_maintainers.pl,
+> but hey, what do I know...
 
-
-在 2023/10/25 00:29, Matthew Wilcox 写道:
-> On Tue, Oct 24, 2023 at 04:32:51PM +0800, Peng Zhang wrote:
->> +++ b/lib/maple_tree.c
->> @@ -4,6 +4,10 @@
->>    * Copyright (c) 2018-2022 Oracle Corporation
->>    * Authors: Liam R. Howlett <Liam.Howlett@oracle.com>
->>    *	    Matthew Wilcox <willy@infradead.org>
->> + *
->> + * Implementation of algorithm for duplicating Maple Tree
-> 
-> I thought you agreed that line made no sense, and you were just going to
-> drop it?  just add your copyright, right under ours.
-I'm sorry, I misunderstood your meaning last time. I will make
-corrections in the next version. Are you saying that only the
-following two lines are needed? This still needs to be confirmed
-with Liam.
-> 
->> + * Copyright (c) 2023 ByteDance
->> + * Author: Peng Zhang <zhangpeng.00@bytedance.com>
-> 
+Yeah, that's why I missed it.
