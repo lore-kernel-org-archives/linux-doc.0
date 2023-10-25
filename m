@@ -1,90 +1,86 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D090830FB8;
-	Wed, 25 Oct 2023 19:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BCF10FB
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 19:35:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMtDasIu"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EB14BB;
-	Wed, 25 Oct 2023 12:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698260998; x=1729796998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YjKHxYzEmBH/UUmvmSImTusCIJhp0uLybwSGjEBY/tE=;
-  b=AMtDasIuaB+UdMOAZ+/w9pCcS7Z7EYRtInlujwIh11lyftaNu5cOMYMq
-   qLKgNu1wgHROuaR4aID+gfHdoomp9ePNVoIqeyS5L2MzgqKChfna5PraV
-   3sX0X+gdFB4S6lkZmIKS+RzSGMAp8G1PZ69x3eCSbHIwL9sMUcu3Fe6lU
-   fRAwdY33S1rzVV6bJl+ZJI4OeMZdKZLR1Iyodgr4Daj5lFyYb5MyjM2bo
-   EZYKH6V/M1S2B3EBod9vADAZ6upFnXRfh7HKok/fMqqvrSFbpsMWwkAA8
-   PhYnPnUHXpafU/sh+k9RKSa580qbbicFtQUOUbfnH1eG/w23R8IGfCXFe
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="366728093"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="366728093"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 12:09:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="1006117278"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="1006117278"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Oct 2023 12:09:27 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvjFt-00098W-0F;
-	Wed, 25 Oct 2023 19:09:25 +0000
-Date: Thu, 26 Oct 2023 03:09:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net, steen.hegelund@microchip.com, rdunlap@infradead.org,
-	horms@kernel.org, casper.casan@gmail.com, andrew@lunn.ch
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, horatiu.vultur@microchip.com,
-	Woojung.Huh@microchip.com, Nicolas.Ferre@microchip.com,
-	UNGLinuxDriver@microchip.com, Thorsten.Kummermehr@microchip.com,
-	Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-Subject: Re: [PATCH net-next v2 1/9] net: ethernet: implement OPEN Alliance
- control transaction interface
-Message-ID: <202310260209.uDkw3VNh-lkp@intel.com>
-References: <20231023154649.45931-2-Parthiban.Veerasooran@microchip.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fe5z7E0H"
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4597137;
+	Wed, 25 Oct 2023 12:35:18 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1cc04494653so342935ad.2;
+        Wed, 25 Oct 2023 12:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698262518; x=1698867318; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4PfZS2v4rKeH7WpwcRNnwJfVzvCUVvoLwgj4JaCkmXw=;
+        b=fe5z7E0HoVH30aW+MgpJk1dmyB61G+BkcDfsgeLtcinrQM2oa0jjGtzadSZm6Jl+mt
+         c2+aK6zUIJwKK32TXsm37CUwv5CSHQ8/MGJj8lZlnSLxtOtwQED7w5bC3LBWxHZyp5FP
+         QPOdAFcrBov2pKOL5BNn2HC90ebmCqXcoIzGU/gRRx5w75OFeMlMUB1T7wnV8rpYx1vs
+         TMROI1fen+497VMK81E6lA4F0csNAFVG/OMNoALX6YxkS9igzyl1T50qVSQ3FCn2kQ7H
+         NkIS6H0aTqSeZme0yxMdPk0iQMWVfrCGXmDGwHUgtuqRgvJ9PS0YKXcl+gNYabwj2mIs
+         WjXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698262518; x=1698867318;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4PfZS2v4rKeH7WpwcRNnwJfVzvCUVvoLwgj4JaCkmXw=;
+        b=gy8AVH2Xc+OAAgxByCPGp+vg0wgYsGi9po2+xewhZBzmadRp3xrq96YUL+o4FmQZ5+
+         0tMb2nLatISvBcjEWwK/pMeNhcoCCRNILqRcmuDlbXmwhq59Db5w/SVCX2sMJKBACy8k
+         ZZGkK6HYSr0aCQFSYoY6b2EA5YizQzEsQ5Hp3QQumepIyeH1pNPyxg4yxihUaFdhAZms
+         tAkqnKzORQs9y/9GDfaqBmbHVr3kRqJnVGzMXmYAXOEDb+WKI9x5AT7FI/H3wnk7B2k4
+         3A12EiyLhr3m7S/CpWiCXdmFOY9LxRGVZOGZ63KSBrutvctNCHTMtFZrAEeRCRPdpZAr
+         TzmQ==
+X-Gm-Message-State: AOJu0YySBUkHml5HYxRZ3iIFAXbTOuj7VuSuuzF/JywgQaWJLn9NGQNy
+	p9bSuk53oPWBM8taHvQTUmk=
+X-Google-Smtp-Source: AGHT+IFuZDGO+Q1SobzYFl2F2V2CeAc/CplsJkrHeRr4Ij0e5NGsJhhmn7fzCV+5gl3nEVZgpnvHqw==
+X-Received: by 2002:a17:903:2442:b0:1b7:e86f:7631 with SMTP id l2-20020a170903244200b001b7e86f7631mr16157155pls.19.1698262518246;
+        Wed, 25 Oct 2023 12:35:18 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id m11-20020a170902db0b00b001bf11cf2e21sm9501786plx.210.2023.10.25.12.35.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 12:35:17 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 25 Oct 2023 12:35:16 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ellie Hermaszewska <kernel@monoid.al>
+Cc: eugene.shalygin@gmail.com, Jean Delvare <jdelvare@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: (asus-ec-sensors) add ROG Crosshair X670E Gene.
+Message-ID: <d013e9a3-df0a-4b8f-a1f3-db3cbd32812f@roeck-us.net>
+References: <CAB95QAR-UbfVULOCaZMO4H1AgvzbiHEoSYk-DiYPY6Pg-i7Vag@mail.gmail.com>
+ <20231019135640.434752-1-kernel@monoid.al>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231023154649.45931-2-Parthiban.Veerasooran@microchip.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231019135640.434752-1-kernel@monoid.al>
 
-Hi Parthiban,
+On Thu, Oct 19, 2023 at 09:51:58PM +0800, Ellie Hermaszewska wrote:
+> These are two separate statements, describing the set of sensors
+> implemented (those I could verify) and the specifics of the T_Sensor new
+> to the X670E motherboards.
+> 
+> Best wishes,
+> Ellie
+> 
+> Only the temp sensors that I can verify are present.
+> 
+> T_Sensor is the temperature reading of a 10kΩ β=3435K NTC thermistor
+> optionally connected to the T_SENSOR header.
+> 
+> The other sensors are as found on the X670E HERO.
+> 
 
-kernel test robot noticed the following build warnings:
+This is not an acceptable commit description.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Parthiban-Veerasooran/net-ethernet-implement-OPEN-Alliance-control-transaction-interface/20231023-235310
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231023154649.45931-2-Parthiban.Veerasooran%40microchip.com
-patch subject: [PATCH net-next v2 1/9] net: ethernet: implement OPEN Alliance control transaction interface
-reproduce: (https://download.01.org/0day-ci/archive/20231026/202310260209.uDkw3VNh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310260209.uDkw3VNh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/networking/oa-tc6-framework.rst: WARNING: document isn't included in any toctree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Guenter
