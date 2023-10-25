@@ -1,220 +1,139 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6352D61D;
-	Wed, 25 Oct 2023 05:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEABD111AB
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 06:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="CtP3+TzS"
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DA6132;
-	Tue, 24 Oct 2023 22:46:58 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id A2366176EDE;
-	Wed, 25 Oct 2023 07:46:53 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-	t=1698212815; bh=Fzoj7znzln2FKzFSy7EkpghoFnNQo2dDFbO99KLMZ1U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CtP3+TzS8CkcsgomgnQyRoews1e8kSXl6tIW6PP+WD6S7jUaZvG8SXzQc1jmk8G/E
-	 JVGgfluKh0ZFUK69XkviXYUoLMWoBpqXlVoj+g6o/MkSwFYRcIsZLf2UD15izjtD5O
-	 kIGiSxnG7PwSuFgbt2n28YOlyxAV82uWECuofceWuVNOjzkxb4AaY4+WFBA+e2vMWB
-	 NHze7yHWtky0MHvjo2j/KSUzOPtgQfip6wsqvb/kxwmblgqsZUBvu3YcB7TydoTx/f
-	 od6AL+VJNBPeFBQ+Wl5U3hQwxkVjP/CL3Nje1qTpGnTV0EZy4vR8Cy+BODfM5l08H6
-	 ifCvvmhseikqA==
-Date: Wed, 25 Oct 2023 07:46:52 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Suren Baghdasaryan <surenb@google.com>, Neil Brown <neilb@suse.de>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
- vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
- mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
- liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
- peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
- catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
- tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
- x86@kernel.org, peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
- mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
- dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
- paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com,
- yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
- andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com,
- vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com,
- ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
- vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, shakeelb@google.com,
- songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
- minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- cgroups@vger.kernel.org
-Subject: Re: [PATCH v2 06/39] mm: enumerate all gfp flags
-Message-ID: <20231025074652.44bc0eb4@meshulam.tesarici.cz>
-In-Reply-To: <20231024134637.3120277-7-surenb@google.com>
-References: <20231024134637.3120277-1-surenb@google.com>
-	<20231024134637.3120277-7-surenb@google.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgdNuZG1"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BEEDA6;
+	Tue, 24 Oct 2023 23:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698215309; x=1729751309;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ol0KZSi6E4ERi8CEDy5vWciPU4wKT9ya2YUVp9DIyQs=;
+  b=AgdNuZG1ZvugE4E+MKT2QaAr3g4xvRnRB6RRV8W+QuqDBa8Qt+Gkx/QR
+   WCnrcdfA73gWkve/2kBtlOybhaFrHaEUPyVrVlyHezmOw4DsfdcPbTE4h
+   qGYOr4PWylTcNYvPzglN620aP1nsL4mPxF+0KCngQ6do+2T6TWSRvzIW6
+   USrPOrAWqlXvUN4icW73Jw0tSoID1N0ynqBsiHeDB/ADRlUJUeWg/zkcw
+   avil9zJknnCFuPfrT8DMExbywFg9+s03TsTsYdY9AJ9Nylxt5kXsLa4Dg
+   Ddq1TAw+s7r6kzMEzhoMx385P9DHMY7qyKoISoucOf7byRvlWgZwsP5l4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="418370679"
+X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
+   d="scan'208";a="418370679"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 23:28:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="735287170"
+X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
+   d="scan'208";a="735287170"
+Received: from mhans-mobl3.amr.corp.intel.com (HELO desk) ([10.252.132.200])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 23:28:27 -0700
+Date: Tue, 24 Oct 2023 23:28:18 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Alyssa Milburn <alyssa.milburn@intel.com>
+Subject: Re: [RESEND][PATCH 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20231025062818.7kaerqklaut7dg5r@desk>
+References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
+ <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
+ <f620c7d4-6345-4ad0-8a45-c8089e3c34df@citrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f620c7d4-6345-4ad0-8a45-c8089e3c34df@citrix.com>
 
-On Tue, 24 Oct 2023 06:46:03 -0700
-Suren Baghdasaryan <surenb@google.com> wrote:
+On Sat, Oct 21, 2023 at 12:55:45AM +0100, Andrew Cooper wrote:
+> On 20/10/2023 9:44 pm, Pawan Gupta wrote:
+> > +#define EXEC_VERW				\
+> > +	__EXEC_VERW(551f);			\
+> > +	/* nopl __KERNEL_DS(%rax) */		\
+> > +	.byte 0x0f, 0x1f, 0x80, 0x00, 0x00;	\
+> > +551:	.word __KERNEL_DS;			\
+> 
+> Is this actually wise from a perf point of view?
+> 
+> You're causing a data access to the instruction stream, and not only
+> that, the immediate next instruction.  Some parts don't take kindly to
+> snoops hitting L1I.
+> 
+> A better option would be to simply have
+> 
+> .section .text.entry
+> .align CACHELINE
+> mds_verw_sel:
+>     .word __KERNEL_DS
+>     int3
+> .align CACHELINE
+> 
+> 
+> And then just have EXEC_VERW be
+> 
+>     verw mds_verw_sel(%rip)
+> 
+> in the fastpaths.  That keeps the memory operand in .text.entry it works
+> on Meltdown-vulnerable CPUs, but creates effectively a data cacheline
+> that isn't mixed into anywhere in the frontend, which also gets far
+> better locality of reference.
 
-> Introduce GFP bits enumeration to let compiler track the number of used
-> bits (which depends on the config options) instead of hardcoding them.
-> That simplifies __GFP_BITS_SHIFT calculation.
-> Suggested-by: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  include/linux/gfp_types.h | 90 +++++++++++++++++++++++++++------------
->  1 file changed, 62 insertions(+), 28 deletions(-)
->=20
-> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
-> index 6583a58670c5..3fbe624763d9 100644
-> --- a/include/linux/gfp_types.h
-> +++ b/include/linux/gfp_types.h
-> @@ -21,44 +21,78 @@ typedef unsigned int __bitwise gfp_t;
->   * include/trace/events/mmflags.h and tools/perf/builtin-kmem.c
->   */
-> =20
-> +enum {
-> +	___GFP_DMA_BIT,
-> +	___GFP_HIGHMEM_BIT,
-> +	___GFP_DMA32_BIT,
-> +	___GFP_MOVABLE_BIT,
-> +	___GFP_RECLAIMABLE_BIT,
-> +	___GFP_HIGH_BIT,
-> +	___GFP_IO_BIT,
-> +	___GFP_FS_BIT,
-> +	___GFP_ZERO_BIT,
-> +	___GFP_UNUSED_BIT,	/* 0x200u unused */
-> +	___GFP_DIRECT_RECLAIM_BIT,
-> +	___GFP_KSWAPD_RECLAIM_BIT,
-> +	___GFP_WRITE_BIT,
-> +	___GFP_NOWARN_BIT,
-> +	___GFP_RETRY_MAYFAIL_BIT,
-> +	___GFP_NOFAIL_BIT,
-> +	___GFP_NORETRY_BIT,
-> +	___GFP_MEMALLOC_BIT,
-> +	___GFP_COMP_BIT,
-> +	___GFP_NOMEMALLOC_BIT,
-> +	___GFP_HARDWALL_BIT,
-> +	___GFP_THISNODE_BIT,
-> +	___GFP_ACCOUNT_BIT,
-> +	___GFP_ZEROTAGS_BIT,
-> +#ifdef CONFIG_KASAN_HW_TAGS
-> +	___GFP_SKIP_ZERO_BIT,
-> +	___GFP_SKIP_KASAN_BIT,
-> +#endif
-> +#ifdef CONFIG_LOCKDEP
-> +	___GFP_NOLOCKDEP_BIT,
-> +#endif
-> +	___GFP_LAST_BIT
-> +};
-> +
->  /* Plain integer GFP bitmasks. Do not use this directly. */
-> -#define ___GFP_DMA		0x01u
-> -#define ___GFP_HIGHMEM		0x02u
-> -#define ___GFP_DMA32		0x04u
-> -#define ___GFP_MOVABLE		0x08u
-> -#define ___GFP_RECLAIMABLE	0x10u
-> -#define ___GFP_HIGH		0x20u
-> -#define ___GFP_IO		0x40u
-> -#define ___GFP_FS		0x80u
-> -#define ___GFP_ZERO		0x100u
-> +#define ___GFP_DMA		BIT(___GFP_DMA_BIT)
-> +#define ___GFP_HIGHMEM		BIT(___GFP_HIGHMEM_BIT)
-> +#define ___GFP_DMA32		BIT(___GFP_DMA32_BIT)
-> +#define ___GFP_MOVABLE		BIT(___GFP_MOVABLE_BIT)
-> +#define ___GFP_RECLAIMABLE	BIT(___GFP_RECLAIMABLE_BIT)
-> +#define ___GFP_HIGH		BIT(___GFP_HIGH_BIT)
-> +#define ___GFP_IO		BIT(___GFP_IO_BIT)
-> +#define ___GFP_FS		BIT(___GFP_FS_BIT)
-> +#define ___GFP_ZERO		BIT(___GFP_ZERO_BIT)
->  /* 0x200u unused */
+With .text.entry section I am getting getting below warnings and an
+error:
 
-This comment can be also removed here, because it is already stated
-above with the definition of ___GFP_UNUSED_BIT.
+-----------------------------------------------------------------
+    LD      vmlinux.o
+  vmlinux.o: warning: objtool: .text.entry+0x0: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x40: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x80: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0xc0: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x100: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x140: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x180: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x1c0: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x200: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x240: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x280: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x2c0: unreachable instruction
+  vmlinux.o: warning: objtool: .text.entry+0x300: unreachable instruction
+  vmlinux.o: warning: objtool: .altinstr_replacement+0x2c: relocation to !ENDBR: .text.entry+0x0
+  vmlinux.o: warning: objtool: .altinstr_replacement+0x1c4: relocation to !ENDBR: .text.entry+0x0
+  vmlinux.o: warning: objtool: .altinstr_replacement+0x1d0: relocation to !ENDBR: .text.entry+0x0
+  vmlinux.o: warning: objtool: .altinstr_replacement+0x2d2: relocation to !ENDBR: .text.entry+0x80
+  vmlinux.o: warning: objtool: .altinstr_replacement+0x5d5: relocation to !ENDBR: .text.entry+0xc0
+    OBJCOPY modules.builtin.modinfo
+    GEN     modules.builtin
+    MODPOST vmlinux.symvers
+    UPD     include/generated/utsversion.h
+    CC      init/version-timestamp.o
+    LD      .tmp_vmlinux.kallsyms1
+  ld: error: unplaced orphan section `.text.entry' from `vmlinux.o'
+  make[2]: *** [scripts/Makefile.vmlinux:36: vmlinux] Error 1
+-----------------------------------------------------------------
 
-Then again, I think that the GFP bits have never been compacted after
-Neil Brown removed __GFP_ATOMIC with commit 2973d8229b78 simply because
-that would mean changing definitions of all subsequent GFP flags. FWIW
-I am not aware of any code that would depend on the numeric value of
-___GFP_* macros, so this patch seems like a good opportunity to change
-the numbering and get rid of this unused 0x200u altogether.
+... because my config has CONFIG_LD_ORPHAN_WARN_LEVEL="error" and
+objtool needs to be told about this entry.
 
-@Neil: I have added you to the conversation in case you want to correct
-my understanding of the unused bit.
-
-Other than that LGTM.
-
-Petr T
-
-> -#define ___GFP_DIRECT_RECLAIM	0x400u
-> -#define ___GFP_KSWAPD_RECLAIM	0x800u
-> -#define ___GFP_WRITE		0x1000u
-> -#define ___GFP_NOWARN		0x2000u
-> -#define ___GFP_RETRY_MAYFAIL	0x4000u
-> -#define ___GFP_NOFAIL		0x8000u
-> -#define ___GFP_NORETRY		0x10000u
-> -#define ___GFP_MEMALLOC		0x20000u
-> -#define ___GFP_COMP		0x40000u
-> -#define ___GFP_NOMEMALLOC	0x80000u
-> -#define ___GFP_HARDWALL		0x100000u
-> -#define ___GFP_THISNODE		0x200000u
-> -#define ___GFP_ACCOUNT		0x400000u
-> -#define ___GFP_ZEROTAGS		0x800000u
-> +#define ___GFP_DIRECT_RECLAIM	BIT(___GFP_DIRECT_RECLAIM_BIT)
-> +#define ___GFP_KSWAPD_RECLAIM	BIT(___GFP_KSWAPD_RECLAIM_BIT)
-> +#define ___GFP_WRITE		BIT(___GFP_WRITE_BIT)
-> +#define ___GFP_NOWARN		BIT(___GFP_NOWARN_BIT)
-> +#define ___GFP_RETRY_MAYFAIL	BIT(___GFP_RETRY_MAYFAIL_BIT)
-> +#define ___GFP_NOFAIL		BIT(___GFP_NOFAIL_BIT)
-> +#define ___GFP_NORETRY		BIT(___GFP_NORETRY_BIT)
-> +#define ___GFP_MEMALLOC		BIT(___GFP_MEMALLOC_BIT)
-> +#define ___GFP_COMP		BIT(___GFP_COMP_BIT)
-> +#define ___GFP_NOMEMALLOC	BIT(___GFP_NOMEMALLOC_BIT)
-> +#define ___GFP_HARDWALL		BIT(___GFP_HARDWALL_BIT)
-> +#define ___GFP_THISNODE		BIT(___GFP_THISNODE_BIT)
-> +#define ___GFP_ACCOUNT		BIT(___GFP_ACCOUNT_BIT)
-> +#define ___GFP_ZEROTAGS		BIT(___GFP_ZEROTAGS_BIT)
->  #ifdef CONFIG_KASAN_HW_TAGS
-> -#define ___GFP_SKIP_ZERO	0x1000000u
-> -#define ___GFP_SKIP_KASAN	0x2000000u
-> +#define ___GFP_SKIP_ZERO	BIT(___GFP_SKIP_ZERO_BIT)
-> +#define ___GFP_SKIP_KASAN	BIT(___GFP_SKIP_KASAN_BIT)
->  #else
->  #define ___GFP_SKIP_ZERO	0
->  #define ___GFP_SKIP_KASAN	0
->  #endif
->  #ifdef CONFIG_LOCKDEP
-> -#define ___GFP_NOLOCKDEP	0x4000000u
-> +#define ___GFP_NOLOCKDEP	BIT(___GFP_NOLOCKDEP_BIT)
->  #else
->  #define ___GFP_NOLOCKDEP	0
->  #endif
-> -/* If the above are modified, __GFP_BITS_SHIFT may need updating */
-> =20
->  /*
->   * Physical address zone modifiers (see linux/mmzone.h - low four bits)
-> @@ -249,7 +283,7 @@ typedef unsigned int __bitwise gfp_t;
->  #define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)
-> =20
->  /* Room for N __GFP_FOO bits */
-> -#define __GFP_BITS_SHIFT (26 + IS_ENABLED(CONFIG_LOCKDEP))
-> +#define __GFP_BITS_SHIFT ___GFP_LAST_BIT
->  #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
-> =20
->  /**
-
+Do you think its worth fighting these warnings and error, or simply use
+.rodata section for verw memory operand?
