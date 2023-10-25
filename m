@@ -1,186 +1,200 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD50F1BDC4
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 07:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62C019461
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 07:52:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8Jdd9gn"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F55199;
-	Wed, 25 Oct 2023 00:47:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698220079; x=1729756079;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=etvudi2QnFqDTA790I0Zqp8Si70Hab5eBkf2va63euU=;
-  b=g8Jdd9gnmcSBEdvzXLMi4QGm+x8f6iJzh5jrWmS2gWU5puomb/zu+vyN
-   GZVVpOBsOJEwvNcAwjRGtSi9FnatB4eF5V29wfE6dTseT2i44G38ouYy/
-   bM8AJVkUOOjDmKaryTySNExbuIGfJuNEfWty0p6h+PeQ4xkvvVQaU/HAS
-   D1du25rOB2PopuOuGUUbf/NkEm23ovSxYG/f/I2MYV9Etqw5dnASVWo9i
-   wuzATVhXKxikQWHcpWoJoah6s+aKwGKAGWrcTirAmsoIKBs29mi++BTD9
-   rgjR8/1yfgSqVs+rmOmIrI4XqShUXW8rV8Vl8nx0fzKaW6V55JmsjtHZ9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="418380015"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="418380015"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 00:47:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="17553"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 25 Oct 2023 00:47:20 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 25 Oct 2023 00:47:53 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Wed, 25 Oct 2023 00:47:53 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Wed, 25 Oct 2023 00:47:50 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V0Bz8IBN2vyg38NAcXBL879YMTATY3USpIToXs58Y1zkrv/x/LaQzapSazyeoUX8xhp6EU3SNbryOdWDcvlgvlvgf2pMZQw0rCXVQYCJPkmcRZfeKqMjLQiSPQxh6wRgbke7Vzpds6tLcEa54RXxY2tCEmkbM+mR9dwuhzEEtCchJrO7Rn8kvJrSnPgoVI44AGq1ZVQwGhwJ8m9Tk6FM4pp80sXQtTPjPJ8vGhhg/PhlIrX8MTv3d73x/znwaOq/jVudtgXpK3aAALCNPuqGVvbulHwM8RdsehB3j32y6qIoPjgV4xAZsAfdCkk80dKRnmXzaupo96UtNnp7qVA1PA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sHm8u7v7WYWBUt9r+yyNAy759u607HRrLNBWERXOKAE=;
- b=kK3vLQIZeOmUzSFQ2y42tEtef+UbysjIsw2dyDAseHYhE+GYs7IxHbO8Rs4yIZWwyN34/ydNtpvqhi6s0SiwN+K7cWGmwnT6rtbk5VBi6gkJ5qBRfV6IvHXcXh7cVpi7g6pnFedkKGIevxl+c2jb1K1zcMo3quhpiOQc4AN/t8ZFhcuhD0bOiWbxXyVsamvJzLNISEyj2+ggThqHIwyGsNs9siuiAFjF6Qi91mOPzg1gs8Ac/hdEUBLiK1tbORKED7YHxtJshcF/e0hCIMB2ESN2NcNg2T40+sWElw3gSuYafRWTRnzB7ITcMIbqJieIhRN/wpBoUZu2r9RSkIugWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB6780.namprd11.prod.outlook.com (2603:10b6:510:1cb::11)
- by DS0PR11MB7335.namprd11.prod.outlook.com (2603:10b6:8:11e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Wed, 25 Oct
- 2023 07:47:49 +0000
-Received: from PH8PR11MB6780.namprd11.prod.outlook.com
- ([fe80::e14c:4fbc:bb3:2728]) by PH8PR11MB6780.namprd11.prod.outlook.com
- ([fe80::e14c:4fbc:bb3:2728%4]) with mapi id 15.20.6933.019; Wed, 25 Oct 2023
- 07:47:48 +0000
-Date: Wed, 25 Oct 2023 15:47:37 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra
-	<peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Andy Lutomirski
-	<luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Sean Christopherson
-	<seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	<tony.luck@intel.com>, <ak@linux.intel.com>, <tim.c.chen@linux.intel.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<kvm@vger.kernel.org>, Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	<antonio.gomez.iglesias@linux.intel.com>
-Subject: Re: [PATCH  v2 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
- mitigation
-Message-ID: <ZTjIGVE3o4K7O9kW@chao-email>
-References: <20231024-delay-verw-v2-0-f1881340c807@linux.intel.com>
- <20231024-delay-verw-v2-6-f1881340c807@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231024-delay-verw-v2-6-f1881340c807@linux.intel.com>
-X-ClientProxiedBy: SI1PR02CA0025.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::13) To PH8PR11MB6780.namprd11.prod.outlook.com
- (2603:10b6:510:1cb::11)
+	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="oFGKwZ8a"
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EEDFD47
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 00:52:53 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-32d9b507b00so3855476f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 00:52:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=citrix.com; s=google; t=1698220372; x=1698825172; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :content-language:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=EvDbK3AJ3DIdy4tdTmUriG4VrugsDy7JcPbRZPmtYB4=;
+        b=oFGKwZ8a4elkockZeAI0+Ny8+b1o+2iwfOrpH9GcTi0e/4wFY2OeAW6BC7qiwJRyeK
+         xgsqADjqghiAPcGsjxYRWZpigLFT36XQZPMxlftWNtJCOThEYB2SaQU2SXp6c7EstvsJ
+         DiObnfJ8Y+GMBQ6SqlUlIBRaBTHrOZi099mic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698220372; x=1698825172;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :content-language:subject:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EvDbK3AJ3DIdy4tdTmUriG4VrugsDy7JcPbRZPmtYB4=;
+        b=NfjQC1sqvKFZdcDUkqaZdz1xA9BMo/Yz7Tlww15mVieVQYIniFaIVZWHRblND0n9qx
+         TdgkLtdtDJ3RsobkolJfiE11Yf0u8zUHtjShkENHFcbTo0FxtZ5yrSKHPYRadJTUDRzR
+         nRfyE2x/Cnkh856oMFovPE8Qhm4lXz599ypK7MTVqJkdXU3gHTEIYxX8D1vLOwUlC5PE
+         ya/yKloj9QLBqoBd664FeJgTegr+EEmLpiAzVGTEMBmonrH6a5RNzZP2kWl+HGhRZoba
+         F/y2PTcldjncJFmrySwchKUmT5uqEem+TvpgGe6dmUwkmxPmYpYUD6rsjJegT7rgXf30
+         1iDQ==
+X-Gm-Message-State: AOJu0YwqSa960DVAH3CTYE1FmXg/zDMjIXIa27ix93JiSHWG/LezYUn/
+	RidmuUJGjLVgqGR6n38oqPXTAA==
+X-Google-Smtp-Source: AGHT+IHQ9MicPffqRdlPjnVY2P4UrG8OLUiDpChIRL+8PB7v6WFNlNtI6KSlLtziVC46aIw9hM3NPw==
+X-Received: by 2002:a05:6000:10f:b0:32d:7efc:7e1f with SMTP id o15-20020a056000010f00b0032d7efc7e1fmr9028332wrx.71.1698220371961;
+        Wed, 25 Oct 2023 00:52:51 -0700 (PDT)
+Received: from [192.168.1.10] (host-92-26-107-252.as13285.net. [92.26.107.252])
+        by smtp.gmail.com with ESMTPSA id o15-20020adfcf0f000000b00327de0173f6sm11432651wrj.115.2023.10.25.00.52.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Oct 2023 00:52:51 -0700 (PDT)
+Message-ID: <654468cf-1563-4c1c-8c7c-076bc6dfbabf@citrix.com>
+Date: Wed, 25 Oct 2023 08:52:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB6780:EE_|DS0PR11MB7335:EE_
-X-MS-Office365-Filtering-Correlation-Id: 584ec627-4143-408f-31f2-08dbd52eae8c
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Yty6LGPrZ4uHfGHAke/ykBPrlPvj46lZZ3iTuHBEFHf6rdgaXYpWFfV41/B7/voNLfiuO3ZSGx8Vfvh7wSo0oHIgoMjpOeVXd4v9S6I+DCcq3/Qpcf1UidNM5G8Vfcs/HcINdMpFxXWpE5+Gzo4DdWwp+TSed4bXR0oHHmVm3bhsW8k6DrHB1r4wif0aETpmXLimzQF04/UYbfFrnDXPr5ROfSF6OiZUf0E8ZjvvRYKRC53+scnGZ9N/gZSGV7cot99mnX0FHj8yk1J2vlY4spdvjLlT/Os+2PB3eGlra3AJNzrkVb4W2JW8kqd5/gVhOj2mwe5ixlvRE+fIKBJY+gMra3UVmxkyGqDVUFGDm56wXiQA4rmudQeBMGENf14o3AbtFSIHyzen5hNDV/rGSZigxkWDbF5l+TQq5EQs6o9ZoAWq6qaNEhhl9N3qNU2vRZoF2i8AlYs4556NnBqqIPpPKgDbkEG3VU+238PDG7b2wEVGC8LGkA74o5VMX6zW027W3nrARMw6DdpMoEaNbC6wtHE3v1acp3kTvEyDfLdWvSAjm/jkkkRRlt3o3VjC
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB6780.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(346002)(39860400002)(136003)(366004)(396003)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(2906002)(5660300002)(7416002)(41300700001)(44832011)(8936002)(8676002)(4326008)(38100700002)(83380400001)(54906003)(66556008)(316002)(66476007)(6916009)(66946007)(6506007)(9686003)(6512007)(26005)(86362001)(33716001)(6666004)(82960400001)(6486002)(478600001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lkXeN7cvffV61e763/aYzcMj5wy0eR3cHsVRmZA8ncytKYanOFdNbpJOLogH?=
- =?us-ascii?Q?9SWlgh5nGr5KC3THTw/QJ3BSOQGTalRJ+JEPasoLj9iKTcy++YBUasWXbG27?=
- =?us-ascii?Q?IRAT5EbUrpwBljp7go8DXhLrVvm1qy1Iy22YMJBaLsvPV1woJfp/jATJNeZr?=
- =?us-ascii?Q?dHLjoT6C5a+GgIl/0SmtQ6LqrTjyXnZLqhoA3zzqAX7bCAAstC/N9p8jWpVq?=
- =?us-ascii?Q?P+QWK/Q9Lk7mOMAi8qpXQ253VhCr/k4aw3dO+RdLT5uOXfytLYsOi+EXxxNX?=
- =?us-ascii?Q?Lw1N90Sf+qEn61BtuXzZLHimfZIajP/yrRtxbPXOb1JImBphaCj8g5ZLetzM?=
- =?us-ascii?Q?2jYUwhAxhifUPCvxZ3vKbBMWg06LBxPwAkt3R+A9WAI2lih+oNQwcxwgOyl4?=
- =?us-ascii?Q?McW8+ja+F0DOQFcsXNa4qZGwO8VPV2W0Cha2STHFiBe58VCnZqk8mIdKk7cM?=
- =?us-ascii?Q?gyzy67YIFARod5o6fQsCMylnBy2M/bc/eKEBeSWjEP5RTZBeTsQJQDorlRgZ?=
- =?us-ascii?Q?qw3O1cFrSbniXyzzM10jOyGt5e6kbsyeSa9ZZZuU6AOxcbOD3KZPICEVr6Io?=
- =?us-ascii?Q?cde4FXjFcOwBz+iaUDVc/tAf8bvaEJc4hV/Bqwanvh0bjwV1jXzSK6bULfiM?=
- =?us-ascii?Q?AJFvKllu7XfCXy/BZv+dvQje01WgItktDHEEROE7XPRl9DXD+8zE6Uq6ZVYX?=
- =?us-ascii?Q?RjODynVJZ/bhhSUTZ5pDjdx+EFJ5yU43xFjRJLJ4M5pnlXS2IcAXvH/GBLKi?=
- =?us-ascii?Q?bAXso0AJL0x7xHtYxszBj5wtsaU9KdOfuW736/0LITqzstjgByt3hHJM553B?=
- =?us-ascii?Q?KnWws40qmtX1d6uxGeqM2XdLXFRdyFGRYZIgqJJaezhFmN11Icvx4KbwmYEP?=
- =?us-ascii?Q?+QISoitp3XE/esuW5AlDVlBzUzl4u+K1WX27hOnks58jNbyKcNyZK1SWX7FB?=
- =?us-ascii?Q?2k3V4QQvkcNUgbf4gPaF14QiaaR6vkaJbcxWsS7HPR2cmF8s+d8UhkzIayff?=
- =?us-ascii?Q?DEDxKa8GPbT3QhXuslXXpE85s6W4wJ3IFaP4g9jGGm9SpjHWZ1qEgr3a4vd1?=
- =?us-ascii?Q?Vro8ykZLv9VtPiZAYRn+CncUu8mESeb8xmETgP2SD1lS7ESawv/9YfQq1Nln?=
- =?us-ascii?Q?KAqgUldwiXWlZ5y+dFy5nF0kv+EUKEDFfdWYMdjtBA3+stabQ+XvyD8Q2ORP?=
- =?us-ascii?Q?HGPZs9EmobpmwAFz2GbvHDuIOfQ+J8qPGrI2Fo+8IC5sFwrFGNk7N/zODH+T?=
- =?us-ascii?Q?87Cx3hp3BPpOq27XweWGOlkmEy4+4rNrYnEcZ8Xn3WIL0AaQjsI9HkTkSsiJ?=
- =?us-ascii?Q?Zvx68nWu+G+A/MEIo37GbFJuvNZndSu8E1mzxpcOPOEkU7jCcJyx0k44ejLn?=
- =?us-ascii?Q?tyajWmOiWZc29qw7r7O7dTEcC/Zgie1yyUgF20Tz6gjWOsg87ZzoTDHJC8P0?=
- =?us-ascii?Q?2qrxFFzt5wU9LzYD6Iv6n+A4v7J0rSE6izxFdX2Qu8ntSmRR1V34QJ7XX8sG?=
- =?us-ascii?Q?nAWvSlYAUkYyyEFHR/Y5vhchN8D40d9VXh6zB+AUFZHxCuIfEydlQjI8+NwF?=
- =?us-ascii?Q?F1lu1c3kABHbc0jPbnbgrHY8QeyCVxWwiQPQwT7F?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 584ec627-4143-408f-31f2-08dbd52eae8c
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6780.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 07:47:47.8094
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ob6c4c5ZNbah/1jNqCg3Mnyon8NMRIAfHAbHtap2nWBIxBq3sL2RXxTKSRjjQipREutE7P0Wt4Je/sbuJQdy5w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7335
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Subject: Re: [RESEND][PATCH 1/6] x86/bugs: Add asm helpers for executing VERW
+Content-Language: en-GB
+To: Peter Zijlstra <peterz@infradead.org>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+ ak@linux.intel.com, tim.c.chen@linux.intel.com,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+ Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ antonio.gomez.iglesias@linux.intel.com,
+ Alyssa Milburn <alyssa.milburn@intel.com>
+References: <20231020-delay-verw-v1-0-cff54096326d@linux.intel.com>
+ <20231020-delay-verw-v1-1-cff54096326d@linux.intel.com>
+ <f620c7d4-6345-4ad0-8a45-c8089e3c34df@citrix.com>
+ <20231025062818.7kaerqklaut7dg5r@desk>
+ <20231025072255.GA37471@noisy.programming.kicks-ass.net>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <20231025072255.GA37471@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 24, 2023 at 01:08:53AM -0700, Pawan Gupta wrote:
->During VMentry VERW is executed to mitigate MDS. After VERW, any memory
->access like register push onto stack may put host data in MDS affected
->CPU buffers. A guest can then use MDS to sample host data.
+On 25/10/2023 8:22 am, Peter Zijlstra wrote:
+> On Tue, Oct 24, 2023 at 11:28:18PM -0700, Pawan Gupta wrote:
 >
->Although likelihood of secrets surviving in registers at current VERW
->callsite is less, but it can't be ruled out. Harden the MDS mitigation
->by moving the VERW mitigation late in VMentry path.
->
->Note that VERW for MMIO Stale Data mitigation is unchanged because of
->the complexity of per-guest conditional VERW which is not easy to handle
->that late in asm with no GPRs available. If the CPU is also affected by
->MDS, VERW is unconditionally executed late in asm regardless of guest
->having MMIO access.
->
->Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
->---
-> arch/x86/kvm/vmx/vmenter.S |  4 ++++
-> arch/x86/kvm/vmx/vmx.c     | 10 +++++++---
-> 2 files changed, 11 insertions(+), 3 deletions(-)
->
->diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
->index b3b13ec04bac..c566035938cc 100644
->--- a/arch/x86/kvm/vmx/vmenter.S
->+++ b/arch/x86/kvm/vmx/vmenter.S
->@@ -1,6 +1,7 @@
-> /* SPDX-License-Identifier: GPL-2.0 */
-> #include <linux/linkage.h>
-> #include <asm/asm.h>
->+#include <asm/segment.h>
+>> With .text.entry section I am getting getting below warnings and an
+>> error:
+>>
+>> -----------------------------------------------------------------
+>>     LD      vmlinux.o
+>>   vmlinux.o: warning: objtool: .text.entry+0x0: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x40: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x80: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0xc0: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x100: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x140: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x180: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x1c0: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x200: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x240: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x280: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x2c0: unreachable instruction
+>>   vmlinux.o: warning: objtool: .text.entry+0x300: unreachable instruction
+>>   vmlinux.o: warning: objtool: .altinstr_replacement+0x2c: relocation to !ENDBR: .text.entry+0x0
+>>   vmlinux.o: warning: objtool: .altinstr_replacement+0x1c4: relocation to !ENDBR: .text.entry+0x0
+>>   vmlinux.o: warning: objtool: .altinstr_replacement+0x1d0: relocation to !ENDBR: .text.entry+0x0
+>>   vmlinux.o: warning: objtool: .altinstr_replacement+0x2d2: relocation to !ENDBR: .text.entry+0x80
+>>   vmlinux.o: warning: objtool: .altinstr_replacement+0x5d5: relocation to !ENDBR: .text.entry+0xc0
+>>     OBJCOPY modules.builtin.modinfo
+>>     GEN     modules.builtin
+>>     MODPOST vmlinux.symvers
+>>     UPD     include/generated/utsversion.h
+>>     CC      init/version-timestamp.o
+>>     LD      .tmp_vmlinux.kallsyms1
+>>   ld: error: unplaced orphan section `.text.entry' from `vmlinux.o'
+>>   make[2]: *** [scripts/Makefile.vmlinux:36: vmlinux] Error 1
+>> -----------------------------------------------------------------
+>>
+>> ... because my config has CONFIG_LD_ORPHAN_WARN_LEVEL="error" and
+>> objtool needs to be told about this entry.
+>>
+>> Do you think its worth fighting these warnings and error, or simply use
+>> .rodata section for verw memory operand?
+> I'm thinking you need to at the very least stay in a section that's
+> actually still mapped with PTI :-)
 
-This header is already included a few lines below:
+Sorry.  Xen and Linux have this section named opposite ways around.
 
-#include <asm/nospec-branch.h>
-#include <asm/percpu.h>
-#include <asm/segment.h>	<---
+> diff --git a/arch/x86/entry/entry.S b/arch/x86/entry/entry.S
+> index bfb7bcb362bc..9eb2b532c92a 100644
+> --- a/arch/x86/entry/entry.S
+> +++ b/arch/x86/entry/entry.S
+> @@ -20,3 +22,16 @@ SYM_FUNC_END(entry_ibpb)
+>  EXPORT_SYMBOL_GPL(entry_ibpb);
+>  
+>  .popsection
+> +
+> +.pushsection .entry.text, "ax"
+> +
+> +.align 64
+> +SYM_CODE_START_NOALIGN(mds_verw_sel)
+> +	UNWIND_HINT_UNDEFINED
+> +	ANNOTATE_NOENDBR
+> +1:
+> +	.word __KERNEL_DS
+> +	.skip 64 - (. - 1b), 0xcc
 
-> #include <asm/bitsperlong.h>
-> #include <asm/kvm_vcpu_regs.h>
-> #include <asm/nospec-branch.h>
+The 1 label aliases mds_verw_sel and this must remain like this for the
+construct to work.
+
+So instead of .skip, why not simply .align 64, 0xcc and get rid of the
+1: label?
+
+Do we have a suitably named constant cacheline size, rather than
+opencoding 64?
+
+> +SYM_CODE_END(mds_verw_sel);
+
+Given that KVM needs it, this probably needs an EXPORT_SYMBOL_GPL() on it.
+
+~Andrew
