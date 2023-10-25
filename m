@@ -1,252 +1,170 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1859A2D62F
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 15:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F40D2E627
+	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 16:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SnobMDA5"
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8771B192
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 08:28:48 -0700 (PDT)
-Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-1e5bc692721so3711645fac.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 08:28:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698247728; x=1698852528; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FLJnARkfIBMUfgquTTGlj0tPN4MXFqJ8fdXtHqq+8bA=;
-        b=SnobMDA52fwDMVepUSGlADFtGptIA91nXv6uw9cqu5CCJaFK7VzbmDzzDVOAKODYK/
-         d/fm7DBTA5L+FW0TejILxjb9QeAWxRSsLWCbiaO4xt2W1jdLrMAHHXwxTejLrmvtU+nF
-         eAi6efi2qjGuQsxvxsCWPnou6b4RxGSVWix3lpK/UNCugvM0FjIWFZIYjNRRCsKkqfHV
-         JAFJ7ZAU9fp5DvvCl84J/U+QPZpKFbMOeHSnmneyYmLb1sue1tAwZVptuYkPCCrWBJpp
-         Xatsjt/c+NeQoH5gnnF0X9bQuhNHWJfQeT6uuxTW2OrMcgrYYIZZjY6O4AGgBySy4mUB
-         ldfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698247728; x=1698852528;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FLJnARkfIBMUfgquTTGlj0tPN4MXFqJ8fdXtHqq+8bA=;
-        b=wn9WAzQL2nw6ApmsdVQdEIAxo6Afu8v7GqMPIpFSLzQiGsU6JDez1/ZX9YBCda4sTC
-         U0/qaLnrgZH5RqaVvHyp8YS7sAmjJXo1bV6xbyyd8xjDdrgUr0Hg4IDiJRjEpoJFF9ZJ
-         F/CQnYJql/6FjvWCbG9Y630mJ2ZMnXCRw/MrbvmJL0zFAChuS/kAwgu0V6ZG7hdjsrd4
-         VioXMSdXCDyvZ78VYeWiJdouztfZ9QAHHv6zRPDqHDDz4MBoAtwnBOqjYDFbQFUlGopA
-         yQQ3L1h7SzTTfoIvV/D0HxTN4stiOqtZ3TFBudCD6bu74l70DQLWiBDBXzmzrigvROrQ
-         Zc7Q==
-X-Gm-Message-State: AOJu0YxZKbOJVt+/V25z8gC06W4VgwggB+l/iLcDwrOJIz/YuiJxwe8K
-	+qntJ2NjVnEflnOntptlTjYVxt2XTeMuBiSNtbguNQ==
-X-Google-Smtp-Source: AGHT+IHL6UT5V0z1/nV7C2aKZX3u20HQgpTlx8EY9sjj8g+GZ70q4xGtJEt1W/Cng5aHzKMeb5xqOwS2911dC7wfxYg=
-X-Received: by 2002:a05:6870:1157:b0:1da:ed10:bcb with SMTP id
- 23-20020a056870115700b001daed100bcbmr15750180oag.31.1698247727385; Wed, 25
- Oct 2023 08:28:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="p1n/GnLw"
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2062.outbound.protection.outlook.com [40.107.243.62])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D88136;
+	Wed, 25 Oct 2023 09:01:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=myQMNlCmJZsf55SnHMWkuvFWU59j+tnbKdfjjg8R1gZbG11vOyjpLZgZj4UGdyTKGIZNxZEQRV9dETGa+qFxkqOHrnMnfqy7wHyVtD9wdWcT4DYTLyTiJBGy8W1e2d3jS6cxyet16umw02gFucGyKfpugknLcN+0+qYZm0smJC2tQXs7ZBaL1nJJq4rr1BJK2CRHfsfk2b5t7KLUwwKWwHWRQ98ARUbWbg8Q20TWE6+umxHqEPgYq9Xff6KzySe9MTsqW66oibyZBPyymm7mOSwjeYw0TF87tEq6qyb7wrBb4MdusXrF1ovcatRW6XhPIaUPgZHA7AtqE2ZL0icolQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gLnW964FuWBfeeXovqMYPYNZvlfbKmGkHp81NxqgNTA=;
+ b=Jwu7JcK8SkCnbeJCDeOStuUETamQMcT4+dMkWXwHVKo0t6qqtMN52cA+OSIHd1+MfybTRULDT38ZDveHzVZP2Q6Z4s3ucw0UkHmt9w/VEv2MBrOLr4OJOZnMzZ4QaLnrM67x4jIPrFe/5tD9jE8YMzxJGTfvrXA3QLHYvoFGu/FZy3dLWouLx3uv9vGiPeJPLwt/OdPT5cYejgTOjDsPXECrGWeuyKpFkphPOj2EoTpExiAORnN5zX5yh719xXGN+sY7jttViEHCo7LDQ+e0cgJWYrIT6T2v6LxlwLiNoJM54ZjzIfR8Ogo2otaBHRXaMiHT36tywu2KJ3fhDmFSMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gLnW964FuWBfeeXovqMYPYNZvlfbKmGkHp81NxqgNTA=;
+ b=p1n/GnLwJUwEUVhb8InrAEtEItwypB4xlRdJRUeLyT6epSjCC3L3OKPZt2BKF4A2pvZj39at/1hKVZNJWyAshEhp3Vw+gmrAHKAI8jxy2rlde7nju+oH4xtCHZIkqjCV04CrDybGLlP/VmAYcvxAH0XMXjhyTG6ODzT+Dr3E8uk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by IA1PR12MB6329.namprd12.prod.outlook.com (2603:10b6:208:3e5::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Wed, 25 Oct
+ 2023 16:01:26 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1e4c:5da0:33ed:ff3a]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1e4c:5da0:33ed:ff3a%7]) with mapi id 15.20.6933.019; Wed, 25 Oct 2023
+ 16:01:25 +0000
+Message-ID: <74a372a8-6908-4f9f-a79d-febeb6136379@amd.com>
+Date: Wed, 25 Oct 2023 11:01:22 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH] x86/resctrl: mba_MBps: Fall back to total b/w if local
+ b/w unavailable
+To: "Luck, Tony" <tony.luck@intel.com>, "Moger, Babu" <bmoger@amd.com>,
+ "Yu, Fenghua" <fenghua.yu@intel.com>,
+ "Chatre, Reinette" <reinette.chatre@intel.com>,
+ Peter Newman <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, "x86@kernel.org" <x86@kernel.org>
+Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
+ <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "patches@lists.linux.dev" <patches@lists.linux.dev>
+References: <20231024181600.8270-1-tony.luck@intel.com>
+ <2504daf3-16fa-9474-e9c5-cd6aa99d4776@amd.com>
+ <SJ1PR11MB60838985036B7A3F2296448FFCDFA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <SJ1PR11MB60838985036B7A3F2296448FFCDFA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN7PR18CA0016.namprd18.prod.outlook.com
+ (2603:10b6:806:f3::20) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231024134637.3120277-1-surenb@google.com> <20231024134637.3120277-7-surenb@google.com>
- <20231025074652.44bc0eb4@meshulam.tesarici.cz>
-In-Reply-To: <20231025074652.44bc0eb4@meshulam.tesarici.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 25 Oct 2023 08:28:32 -0700
-Message-ID: <CAJuCfpHS1JTRU69zFDAJjmMYR3K5TAS9+AsA3oYLs2LCs5aTBw@mail.gmail.com>
-Subject: Re: [PATCH v2 06/39] mm: enumerate all gfp flags
-To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
-Cc: Neil Brown <neilb@suse.de>, akpm@linux-foundation.org, kent.overstreet@linux.dev, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, 
-	liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com, 
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
-	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA1PR12MB6329:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c03b596-1264-4d3d-6937-08dbd573a400
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6iQLPpYax2PQQl6Uf90OrfmcScYsQWeN+wTrsVj3cxPMlI7afCdGkUsYewAC0YJE05bQlXhFaFrqZUW/D2rEVyWNKDXJIo20g1cJo94FS8N1Wc81PGe/vyxrN/FDf1T9gBVPQZpd0CmlR+rbKN6jjFdG8KOhQyEPbYOglX+vSL5I3AKW/fImpkX1HhPkvTlT/Que/Yk+T3qwgvpxXjQGAkE3axwjf3sXhDk0O+UtjyKnBBIbzKnQD2BlVxKxkXaaNPLxNr8uwzTsfY1T/JEdqF3tTKuHxsxjp+uqV8zYSPwT5r3sXgOvzXuGv6ijkfP4TaniOy2X3VlpY4WZs0GiC2iL2UqbfD6LmU6VqO1G//x29X+X2wrcw/Lxgt5fDMeMo7L/qYME8kC4EIf1RWdr7eaDpnSlohXYao6nzjzeRqF8gZSVZrgz0Xw7t4NIGOF2KOJXIc3nwom+CVAKwTycipTtxoO8zZc+rq3GhaKkBpdHdJT4yM18UQHxHjhKzy6o10LAQpKF9B7IQTzxWkgJsKMve45Eu8ndgKA/uz9iQPj2xIPmLZrI2yzRDTKThbk8IDqlIudZymT6DV4mv4xZ42JfieAFUhMiIsKTNq1fz0A635s4Jif2z2YGet23et90uKMBjTI3O6uehC+9z5bv8O3cxt2u79NSnzxQcDtD5rQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(136003)(396003)(346002)(376002)(230922051799003)(186009)(451199024)(64100799003)(1800799009)(110136005)(6506007)(6666004)(53546011)(8676002)(7416002)(4326008)(41300700001)(478600001)(8936002)(2906002)(5660300002)(3450700001)(6486002)(54906003)(66556008)(6512007)(66476007)(316002)(66946007)(86362001)(31696002)(2616005)(38100700002)(921008)(26005)(31686004)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bzJBcTIrWDBBdkZiUml3NUhLTTFqSmVFOUNQb3pUVTArU1liVnZhd1p3b0s4?=
+ =?utf-8?B?S2FPM3ppVTAvM2FDNnlJeHJQbWJ1UlFYSWoxTlVlQUNpSEw4bEtkeUF3aHFq?=
+ =?utf-8?B?eXlBa3FhK09wQStVdjRRUUlDMngrZE53R2xFQmJieFZDYUpVQUpmMGJKSFVM?=
+ =?utf-8?B?OXhwNkRjclN1V1p6ckFDQmpGYXMrNUZHTjZxaWpMU3FDR2VFN2dOS0tyUDFw?=
+ =?utf-8?B?Z29IdWZVSUpjM09DN1FLdHRIcS8vTlg2dnNxRU9mMGF0T2VnWFB3cGZHQnpZ?=
+ =?utf-8?B?NU5xTGRteDJYU0hiQVd4QldhaWhQL2g5czdrVUFERCtOdm40dTJVZ2lzL2x6?=
+ =?utf-8?B?RjBOTFRjMWVPV21RZlliOExyalgxbFJqNWF4ekVmanFYWC9xMFZibFJ0MCtE?=
+ =?utf-8?B?ckxGckhJRGU4QmFvaVpGaXp0dERNbTlGS0UrejFYbXdGNituNmF6NXgwZktj?=
+ =?utf-8?B?dHhTRHh1c1Z1Si9mZ2tTaXQwK0E3cWVjbXhpOWx2TUFCN3hwNGZKdXltdDBi?=
+ =?utf-8?B?UGp1YnJLb2k1OGNQYlZnTm1TZFR5a1pvUjJrdzMyWlc5MU5LUlVBaG5hSjFm?=
+ =?utf-8?B?bFhzRXVZVm93d0pRL1Y4ejZXUFcrYktHZTEvSlRDT1lGVVBDSmZveFkvRU1B?=
+ =?utf-8?B?eW1zcHR5R1dIR01oMkZqc1UwcVJZMVBvRCs5cWtSbEFhekd1eTE0ZmZXdHZZ?=
+ =?utf-8?B?QjEwRFF4TUU1MXZuVmtqajUyZmkxcHp0R2xmeFVSMVlVWWs1MGdOWTh5NVkx?=
+ =?utf-8?B?ZFJMR09vMllTcmkwZHdQRFVDRUVmSHlKQWx6S2p6V0tqWmRBelZ4c1Q4SWJv?=
+ =?utf-8?B?TXUwckhmc0F3Rzl6TUd2RGROcnFJZHFNZHJTaUtxZWxGZnBncUJ1cUE0TnBC?=
+ =?utf-8?B?VGljbFFFZFZxdFZJYUFCT3VqdWVpRFYyQWVEMWN6Smd5RjFZMlc5RlhjUHd0?=
+ =?utf-8?B?Sm5oSkYvWE1VaDA5VlBmSGhjYnRXY0twWXJOYXRXV29NeUNlZ3ovRkZmS1FO?=
+ =?utf-8?B?dzJWV1NtSWt6SkpaNTcwNHZraHUwdGs3TDZ6WUZrV2xCeVc2cXhKT3VsV0g4?=
+ =?utf-8?B?YlQ3alVvT0c2TjFpQzBzTWxGdDZsNjlML2pLdFp5a2dEK3NRVFRmQkl1UVJE?=
+ =?utf-8?B?ZHNoY0JnbFhJQWI1Nm9CUEdwQU9DWk5mNGF2VmZFYlZvSjB2ajNhWDZCWTJw?=
+ =?utf-8?B?M3hEMlB1MzYrZ1lhNXpBcGNRYUdkMTRQcDlnVmg4aWgySVp2TnhZM1ExTFdQ?=
+ =?utf-8?B?ZUxDdStzQkpGQTNNS0tiYjZrSGFwRExxWUZGNG5nTHR1Q2N2QWx5c2JjMWh0?=
+ =?utf-8?B?dk9mbGFFVHUreHlyZmlRZVZNUkZaenVIZFFSbGtZbU1hMGJtRHN0ZUVlTTVO?=
+ =?utf-8?B?T1hvQ3NaM1Rkc2pnS0Jma2Npc2p6NXM2ZGI1c0hXVXA3YnkwVE9VTmZNUWxn?=
+ =?utf-8?B?cEk0MXlXWjRPRndHRzBBRzVpaitYZ0hCOEdDWEZlU0IreVRHN2JYR0psWlUx?=
+ =?utf-8?B?akNTZGhaRXdDdEs5Nk1LVVBhbm9OOXlzRlU1bFp5VGthVDBnajhibXNQUjI4?=
+ =?utf-8?B?K0xJalNTaVpXVmVZc1lGenRzL29xcFBMUW1XbG11aXVoNlFJN29LZmFZeit6?=
+ =?utf-8?B?VVNUNDZJMnd5N2E1L2xKU2RwcUxVMHZONVdQUEZpczVvQ29pZHdEdWVIeDZM?=
+ =?utf-8?B?U1NXRVYzTWhpQTJRRVVTa1N1YUMxQkVhTERZMEpPd05CeHZBdFJ0bjgxUnp3?=
+ =?utf-8?B?MWJXWWhCM1ZaN2xzUXBvSEVzZU9PTUFLZlRkREM2bHNRK0NwUWowckxKOWla?=
+ =?utf-8?B?N1BhcVd4K0VLV09ndXJXdysvaWFseldRNTZvdkQ4VVV0eElrYzFCNzhrQXRK?=
+ =?utf-8?B?eEZBZ01kQm5ITlRHU1hRZDFpNVFoSVRnRGxieHJubDFNZGRlNkFvdEE2UlRO?=
+ =?utf-8?B?N0FtNFRycWZjck9xd1cyWnZaQ29ncWJkR2tCWTJnNUdDejZZK21nV1d6Rmd5?=
+ =?utf-8?B?ZFBEOGRlZDhkbnAxOE5JV001enkyMWVHTjJXNmdwRHVzcGVIMWF4Y0NoejNq?=
+ =?utf-8?B?bjRXenZlUGJyclRxekhxQTN2TVN0MzF3NEtkMkNwMS9TN2ZHR05iTTZGZFJO?=
+ =?utf-8?Q?i+t0=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c03b596-1264-4d3d-6937-08dbd573a400
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 16:01:25.4018
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /kdkCeFpyI/fVAwCayNOa+cYXVqlUhn2NgIY1mJ4SgHUJNMQLqtYldtJC2czIqun
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6329
 
-On Tue, Oct 24, 2023 at 10:47=E2=80=AFPM Petr Tesa=C5=99=C3=ADk <petr@tesar=
-ici.cz> wrote:
->
-> On Tue, 24 Oct 2023 06:46:03 -0700
-> Suren Baghdasaryan <surenb@google.com> wrote:
->
-> > Introduce GFP bits enumeration to let compiler track the number of used
-> > bits (which depends on the config options) instead of hardcoding them.
-> > That simplifies __GFP_BITS_SHIFT calculation.
-> > Suggested-by: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  include/linux/gfp_types.h | 90 +++++++++++++++++++++++++++------------
-> >  1 file changed, 62 insertions(+), 28 deletions(-)
-> >
-> > diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
-> > index 6583a58670c5..3fbe624763d9 100644
-> > --- a/include/linux/gfp_types.h
-> > +++ b/include/linux/gfp_types.h
-> > @@ -21,44 +21,78 @@ typedef unsigned int __bitwise gfp_t;
-> >   * include/trace/events/mmflags.h and tools/perf/builtin-kmem.c
-> >   */
-> >
-> > +enum {
-> > +     ___GFP_DMA_BIT,
-> > +     ___GFP_HIGHMEM_BIT,
-> > +     ___GFP_DMA32_BIT,
-> > +     ___GFP_MOVABLE_BIT,
-> > +     ___GFP_RECLAIMABLE_BIT,
-> > +     ___GFP_HIGH_BIT,
-> > +     ___GFP_IO_BIT,
-> > +     ___GFP_FS_BIT,
-> > +     ___GFP_ZERO_BIT,
-> > +     ___GFP_UNUSED_BIT,      /* 0x200u unused */
-> > +     ___GFP_DIRECT_RECLAIM_BIT,
-> > +     ___GFP_KSWAPD_RECLAIM_BIT,
-> > +     ___GFP_WRITE_BIT,
-> > +     ___GFP_NOWARN_BIT,
-> > +     ___GFP_RETRY_MAYFAIL_BIT,
-> > +     ___GFP_NOFAIL_BIT,
-> > +     ___GFP_NORETRY_BIT,
-> > +     ___GFP_MEMALLOC_BIT,
-> > +     ___GFP_COMP_BIT,
-> > +     ___GFP_NOMEMALLOC_BIT,
-> > +     ___GFP_HARDWALL_BIT,
-> > +     ___GFP_THISNODE_BIT,
-> > +     ___GFP_ACCOUNT_BIT,
-> > +     ___GFP_ZEROTAGS_BIT,
-> > +#ifdef CONFIG_KASAN_HW_TAGS
-> > +     ___GFP_SKIP_ZERO_BIT,
-> > +     ___GFP_SKIP_KASAN_BIT,
-> > +#endif
-> > +#ifdef CONFIG_LOCKDEP
-> > +     ___GFP_NOLOCKDEP_BIT,
-> > +#endif
-> > +     ___GFP_LAST_BIT
-> > +};
-> > +
-> >  /* Plain integer GFP bitmasks. Do not use this directly. */
-> > -#define ___GFP_DMA           0x01u
-> > -#define ___GFP_HIGHMEM               0x02u
-> > -#define ___GFP_DMA32         0x04u
-> > -#define ___GFP_MOVABLE               0x08u
-> > -#define ___GFP_RECLAIMABLE   0x10u
-> > -#define ___GFP_HIGH          0x20u
-> > -#define ___GFP_IO            0x40u
-> > -#define ___GFP_FS            0x80u
-> > -#define ___GFP_ZERO          0x100u
-> > +#define ___GFP_DMA           BIT(___GFP_DMA_BIT)
-> > +#define ___GFP_HIGHMEM               BIT(___GFP_HIGHMEM_BIT)
-> > +#define ___GFP_DMA32         BIT(___GFP_DMA32_BIT)
-> > +#define ___GFP_MOVABLE               BIT(___GFP_MOVABLE_BIT)
-> > +#define ___GFP_RECLAIMABLE   BIT(___GFP_RECLAIMABLE_BIT)
-> > +#define ___GFP_HIGH          BIT(___GFP_HIGH_BIT)
-> > +#define ___GFP_IO            BIT(___GFP_IO_BIT)
-> > +#define ___GFP_FS            BIT(___GFP_FS_BIT)
-> > +#define ___GFP_ZERO          BIT(___GFP_ZERO_BIT)
-> >  /* 0x200u unused */
->
-> This comment can be also removed here, because it is already stated
-> above with the definition of ___GFP_UNUSED_BIT.
+Hi Tony,
 
-Ack.
+On 10/24/23 18:43, Luck, Tony wrote:
+>> Is this customer requirement ?
+> 
+> Any customer using the mba_MBps feedback mount option will need this
+> on platforms that don't support local bandwidth measurement.
+> 
+>> What do you mean by " If local bandwidth measurement is not available" ?
+>> Is the hardware supports only total bandwidth and not local?
+> 
+> There's going to be an Intel CPU that will only provide "total" bandwidth.
 
->
-> Then again, I think that the GFP bits have never been compacted after
-> Neil Brown removed __GFP_ATOMIC with commit 2973d8229b78 simply because
-> that would mean changing definitions of all subsequent GFP flags. FWIW
-> I am not aware of any code that would depend on the numeric value of
-> ___GFP_* macros, so this patch seems like a good opportunity to change
-> the numbering and get rid of this unused 0x200u altogether.
->
-> @Neil: I have added you to the conversation in case you want to correct
-> my understanding of the unused bit.
+ok.
 
-Hmm. I would prefer to do that in a separate patch even though it
-would be a one-line change. Seems safer to me in case something goes
-wrong and we have to bisect and revert it. If that sounds ok I'll post
-that in the next version.
+Why dont you use get_mbm_state which is already available instead of
+writing another function(get_mbm_data).
 
->
-> Other than that LGTM.
+You can pass evtid, rmid, domain information. Decide the evtid based on
+what is available. I think that will make code simpler.
 
-Thanks for the review!
-Suren.
+> 
+> The CPUID enumeration in (CPUID.(EAX=0FH, ECX=1H) ).EDX{2}
+> will be "0" indicating that the local mbm monitor event is not supported.
+> 
+>> It can get real ugly if we try to handle one special case.
+> 
+> Hard to predict the future (I didn't see this coming, or I'd have had Vikas
+> implement the fallback in the original mba_MBps code). But I don't believe
+> this will be a one-off special case.
+> 
+> I'm also wondering why this feedback loop picked "local" rather than "total".
+> I dug into the e-mail archives, and I don't see any discussion. There's just
+> an RFC series, and then the v2 series was applied with a few small suggestions
+> from Thomas to make things cleaner..
 
->
-> Petr T
->
-> > -#define ___GFP_DIRECT_RECLAIM        0x400u
-> > -#define ___GFP_KSWAPD_RECLAIM        0x800u
-> > -#define ___GFP_WRITE         0x1000u
-> > -#define ___GFP_NOWARN                0x2000u
-> > -#define ___GFP_RETRY_MAYFAIL 0x4000u
-> > -#define ___GFP_NOFAIL                0x8000u
-> > -#define ___GFP_NORETRY               0x10000u
-> > -#define ___GFP_MEMALLOC              0x20000u
-> > -#define ___GFP_COMP          0x40000u
-> > -#define ___GFP_NOMEMALLOC    0x80000u
-> > -#define ___GFP_HARDWALL              0x100000u
-> > -#define ___GFP_THISNODE              0x200000u
-> > -#define ___GFP_ACCOUNT               0x400000u
-> > -#define ___GFP_ZEROTAGS              0x800000u
-> > +#define ___GFP_DIRECT_RECLAIM        BIT(___GFP_DIRECT_RECLAIM_BIT)
-> > +#define ___GFP_KSWAPD_RECLAIM        BIT(___GFP_KSWAPD_RECLAIM_BIT)
-> > +#define ___GFP_WRITE         BIT(___GFP_WRITE_BIT)
-> > +#define ___GFP_NOWARN                BIT(___GFP_NOWARN_BIT)
-> > +#define ___GFP_RETRY_MAYFAIL BIT(___GFP_RETRY_MAYFAIL_BIT)
-> > +#define ___GFP_NOFAIL                BIT(___GFP_NOFAIL_BIT)
-> > +#define ___GFP_NORETRY               BIT(___GFP_NORETRY_BIT)
-> > +#define ___GFP_MEMALLOC              BIT(___GFP_MEMALLOC_BIT)
-> > +#define ___GFP_COMP          BIT(___GFP_COMP_BIT)
-> > +#define ___GFP_NOMEMALLOC    BIT(___GFP_NOMEMALLOC_BIT)
-> > +#define ___GFP_HARDWALL              BIT(___GFP_HARDWALL_BIT)
-> > +#define ___GFP_THISNODE              BIT(___GFP_THISNODE_BIT)
-> > +#define ___GFP_ACCOUNT               BIT(___GFP_ACCOUNT_BIT)
-> > +#define ___GFP_ZEROTAGS              BIT(___GFP_ZEROTAGS_BIT)
-> >  #ifdef CONFIG_KASAN_HW_TAGS
-> > -#define ___GFP_SKIP_ZERO     0x1000000u
-> > -#define ___GFP_SKIP_KASAN    0x2000000u
-> > +#define ___GFP_SKIP_ZERO     BIT(___GFP_SKIP_ZERO_BIT)
-> > +#define ___GFP_SKIP_KASAN    BIT(___GFP_SKIP_KASAN_BIT)
-> >  #else
-> >  #define ___GFP_SKIP_ZERO     0
-> >  #define ___GFP_SKIP_KASAN    0
-> >  #endif
-> >  #ifdef CONFIG_LOCKDEP
-> > -#define ___GFP_NOLOCKDEP     0x4000000u
-> > +#define ___GFP_NOLOCKDEP     BIT(___GFP_NOLOCKDEP_BIT)
-> >  #else
-> >  #define ___GFP_NOLOCKDEP     0
-> >  #endif
-> > -/* If the above are modified, __GFP_BITS_SHIFT may need updating */
-> >
-> >  /*
-> >   * Physical address zone modifiers (see linux/mmzone.h - low four bits=
-)
-> > @@ -249,7 +283,7 @@ typedef unsigned int __bitwise gfp_t;
-> >  #define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)
-> >
-> >  /* Room for N __GFP_FOO bits */
-> > -#define __GFP_BITS_SHIFT (26 + IS_ENABLED(CONFIG_LOCKDEP))
-> > +#define __GFP_BITS_SHIFT ___GFP_LAST_BIT
-> >  #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
-> >
-> >  /**
->
->
+May be MSR write which feedback loop does only has local effect. This will
+be interesting to know.
+-- 
+Thanks
+Babu Moger
