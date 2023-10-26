@@ -1,115 +1,183 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3EE34CDA
-	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 22:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD383D99D
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 22:12:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIz6Jzgo"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D2F1B5;
-	Thu, 26 Oct 2023 15:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698357821; x=1729893821;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=936dDUYVrUWFK2FNzC6j5Oz8gqYA3XKPjUuL+QseAcs=;
-  b=QIz6Jzgo/ibHN4NoTRTfMQYiEFTtmmvJeWfztJ0RcwLrSaAoiB2DCF54
-   KX/FddQ++koLMe8q69rvS3NC4+3jFpb+HPHKTIWF6TgCzGqvYtcg0VRwP
-   PJ8hmZuqEaYK7iepuRcwu80ieT7FgKJIitferZFdP2YZMqGtR2hF9e+iU
-   OpPCxGUx36FYpwfNZQPiv2/eqR9fXxd1BqW1fcH5tksw5g+/rp98Rr/cS
-   2MEXQDF0Kny1rZH32EBcJuyvv0vZqSJQoYLrUFpLdsea9l1CyDMqvA2C6
-   3TUBLEKwksDclWqNgBYxC762y01H50+EwGhRJU4drd7XKZODa8VL2foAU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="367873190"
-X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
-   d="scan'208";a="367873190"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 15:03:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="762998863"
-X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
-   d="scan'208";a="762998863"
-Received: from paseron-mobl4.amr.corp.intel.com (HELO desk) ([10.209.17.113])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 15:03:31 -0700
-Date: Thu, 26 Oct 2023 15:03:29 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com
-Subject: Re: [PATCH  v3 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
- mitigation
-Message-ID: <20231026220329.gejnqecu2sx5hxv5@desk>
-References: <20231025-delay-verw-v3-0-52663677ee35@linux.intel.com>
- <20231025-delay-verw-v3-6-52663677ee35@linux.intel.com>
- <ZTq-b0uVyf6KLNV0@google.com>
- <20231026204810.chvljddk6noxsuqi@desk>
- <ZTrYsls7ya5yOdSV@google.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="RXB7vqUA"
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D4DD43
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 15:12:37 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-3b2e44c7941so920166b6e.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 15:12:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1698358357; x=1698963157; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FyK27xM5kbIwxsUoSw19E95taRzCJvDq3pVbOquRTi4=;
+        b=RXB7vqUAQsVEoZtRnFcdwYSMSXtc6c9LbA0lTagpouOf01fdEEmMG0mdf4oUFGWoXn
+         wX06Td0qAOWNkEHp3LGRHVBIR85hpq6/bixg9NCs4nNMlukR8hX61IFeAyd9vgruIQpk
+         lEpnq5MTR7WIRemsye5aM2xL/+e1CHKBCNGb2bdDxYPmdU6COWsEnMRA+T5FG2tqeN4g
+         Zw36RqRt4PbyVAeE/GQ4mkaWZ5qIt9qNx0IN9LDpugEg62bd2mMwMzhJDDTebIdtTH9Y
+         L3lcvKsF1h9z/rebYStWYhl+G714T4BTrWjvL2WS40q2BSMBlM7CfDqoaI3mE02tXDGJ
+         NAtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698358357; x=1698963157;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FyK27xM5kbIwxsUoSw19E95taRzCJvDq3pVbOquRTi4=;
+        b=PDgoJhDhy5Oly4bptDpXKkt/bwMeVJHBLGQBSMmtjfHFH0a2XUC+NvBoQdrg86pNZc
+         qVodcZ4tmZdOQFkHF9L+n60f4q7+gK6K9ZUTvLW+DuXBWfBfHMNLmwT2u5+SMEgPtKBp
+         ZWuhTk7m3KkAgQNVV4pjhTd7PIqhToaBOuVKgSHaBHNVkSNGPzDYk+xMFkz6IoRrJcHD
+         gKjzSHBzxOK5c1+BHIdEOhPhv2M4fWgoc5PfGDlY9vx47TidSYMLbL+99dvJw8Xrlnpt
+         eV/5WLgv2HpDmNLr/rzgW3uaadq0Y9ORehv/3SdZ2FxK3JDTTa7+OjK/9H5PAeq58CN3
+         vtkg==
+X-Gm-Message-State: AOJu0YzmZWi5aFfvoZSbvZLyL9NYz1pc3XNRBormMC3iNi8MyP1SrLEC
+	Zx4iCic5ApnAf2y6T/QbNt+jjl6N0LsGo7TkbUVQ
+X-Google-Smtp-Source: AGHT+IH4B/F3jSVT6Nn8xcRQnsJ1uiLuOsG9IZM1z8u2NT76JtjnCTm3iCfolyAhImJmOOQWCLxEEJfWlt1eadUfIHE=
+X-Received: by 2002:a05:6808:4d9:b0:3b2:e5f2:5a59 with SMTP id
+ a25-20020a05680804d900b003b2e5f25a59mr797519oie.35.1698358356906; Thu, 26 Oct
+ 2023 15:12:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZTrYsls7ya5yOdSV@google.com>
+References: <1696457386-3010-6-git-send-email-wufan@linux.microsoft.com>
+ <c53599e9d278fc55be30e3bac9411328.paul@paul-moore.com> <616a6fd7-47b1-4b46-af23-46f9b1a3eedf@linux.microsoft.com>
+In-Reply-To: <616a6fd7-47b1-4b46-af23-46f9b1a3eedf@linux.microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 26 Oct 2023 18:12:26 -0400
+Message-ID: <CAHC9VhScdtqJeUTTUQVk4D70tTLz4TgU_aRTMRnHa0OARyubaw@mail.gmail.com>
+Subject: Re: [PATCH RFC v11 5/19] ipe: introduce 'boot_verified' as a trust provider
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
+	tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
+	snitzer@kernel.org, eparis@redhat.com, linux-doc@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org, 
+	dm-devel@redhat.com, audit@vger.kernel.org, roberto.sassu@huawei.com, 
+	linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 26, 2023 at 02:22:58PM -0700, Sean Christopherson wrote:
-> On Thu, Oct 26, 2023, Pawan Gupta wrote:
-> > On Thu, Oct 26, 2023 at 12:30:55PM -0700, Sean Christopherson wrote:
-> > > >  	if (static_branch_unlikely(&vmx_l1d_should_flush))
-> > > >  		vmx_l1d_flush(vcpu);
-> > > 
-> > > There's an existing bug here.  vmx_1ld_flush() is not guaranteed to do a flush in
-> > > "conditional mode", and is not guaranteed to do a ucode-based flush
-> > 
-> > AFAICT, it is based on the condition whether after a VMexit any
-> > sensitive data could have been touched or not. If L1TF mitigation
-> > doesn't consider certain data sensitive and skips L1D flush, executing
-> > VERW isn't giving any protection, since that data can anyways be leaked
-> > from L1D using L1TF.
-> 
-> That assumes vcpu->arch.l1tf_flush_l1d is 100% precise and accurate, which is most
-> definitely not the case.  You're also preventing the admin from choosing between
-> being super paranoind (always flush L1D) and mostly paranoid (conditionally flush
-> L1D, always flush CPU buffers).
-> AIUI, flushing the L1D is crazy expensive compared to flushing the CPU buffers,
-> so it's entirely plausible for someone to want to choose the mostly paranoid
-> option.
+On Thu, Oct 26, 2023 at 5:33=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
+wrote:
+> On 10/23/2023 8:52 PM, Paul Moore wrote:
+> > On Oct  4, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
+> >>
+> >> IPE is designed to provide system level trust guarantees, this usually
+> >> implies that trust starts from bootup with a hardware root of trust,
+> >> which validates the bootloader. After this, the bootloader verifies th=
+e
+> >> kernel and the initramfs.
+> >>
+> >> As there's no currently supported integrity method for initramfs, and
+> >> it's typically already verified by the bootloader, introduce a propert=
+y
+> >> that causes the first superblock to have an execution to be "pinned",
+> >> which is typically initramfs.
+> >>
+> >> When the "pinned" device is unmounted, it will be "unpinned" and
+> >> `boot_verified` property will always evaluate to false afterward.
+> >>
+> >> We use a pointer with a spin_lock to "pin" the device instead of rcu
+> >> because rcu synchronization may sleep, which is not allowed when
+> >> unmounting a device.
+> >>
+> >> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> >> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> ...
+> >> ---
+> >>   security/ipe/eval.c          | 72 ++++++++++++++++++++++++++++++++++=
++-
+> >>   security/ipe/eval.h          |  2 +
+> >>   security/ipe/hooks.c         | 12 ++++++
+> >>   security/ipe/hooks.h         |  2 +
+> >>   security/ipe/ipe.c           |  1 +
+> >>   security/ipe/policy.h        |  2 +
+> >>   security/ipe/policy_parser.c | 35 +++++++++++++++++-
+> >>   7 files changed, 124 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+> >> index 8a8bcc5c7d7f..bdac4abc0ddb 100644
+> >> --- a/security/ipe/eval.c
+> >> +++ b/security/ipe/eval.c
+> >> @@ -9,6 +9,7 @@
+> >>   #include <linux/file.h>
+> >>   #include <linux/sched.h>
+> >>   #include <linux/rcupdate.h>
+> >> +#include <linux/spinlock.h>
+> >>
+> >>   #include "ipe.h"
+> >>   #include "eval.h"
+> >> @@ -16,6 +17,44 @@
+> >>
+> >>   struct ipe_policy __rcu *ipe_active_policy;
+> >>
+> >> +static const struct super_block *pinned_sb;
+> >> +static DEFINE_SPINLOCK(pin_lock);
+> >> +#define FILE_SUPERBLOCK(f) ((f)->f_path.mnt->mnt_sb)
+> >> +
+> >> +/**
+> >> + * pin_sb - Pin the underlying superblock of @f, marking it as truste=
+d.
+> >> + * @sb: Supplies a super_block structure to be pinned.
+> >> + */
+> >> +static void pin_sb(const struct super_block *sb)
+> >> +{
+> >> +    if (!sb)
+> >> +            return;
+> >> +    spin_lock(&pin_lock);
+> >> +    if (!pinned_sb)
+> >> +            pinned_sb =3D sb;
+> >> +    spin_unlock(&pin_lock);
+> >> +}
+> >> +
+> >> +/**
+> >> + * from_pinned - Determine whether @sb is the pinned super_block.
+> >> + * @sb: Supplies a super_block to check against the pinned super_bloc=
+k.
+> >> + *
+> >> + * Return:
+> >> + * * true   - @sb is the pinned super_block
+> >> + * * false  - @sb is not the pinned super_block
+> >> + */
+> >> +static bool from_pinned(const struct super_block *sb)
+> >> +{
+> >> +    bool rv;
+> >> +
+> >> +    if (!sb)
+> >> +            return false;
+> >> +    spin_lock(&pin_lock);
+> >> +    rv =3D !IS_ERR_OR_NULL(pinned_sb) && pinned_sb =3D=3D sb;
+> >> +    spin_unlock(&pin_lock);
+> >
+> > It's okay for an initial version, but I still think you need to get
+> > away from this spinlock in from_pinned() as quickly as possible.
+> > Maybe I'm wrong, but this looks like a major source of lock contention.
+> >
+> > I understand the issue around RCU and the potential for matching on
+> > a reused buffer/address, but if you modified IPE to have its own LSM
+> > security blob in super_block::security you could mark the superblock
+> > when it was mounted and do a lockless lookup here in from_pinned().
+>
+> Thank you for the suggestion. After some testing, I discovered that
+> switching to RCU to pin the super block and using a security blob to
+> mark a pinned super block works. This approach do avoid many spinlock
+> operations. I'll incorporate these changes in the next version of the pat=
+ch.
 
-Sure, if it helps an admin. I was asking about the problematic scenario
-out of curiosity. BTW, the changes you suggested are definitely worth
-doing.
+I probably wasn't as clear as I should have been, I was thinking of
+doing away with the @pinned_sb global variable entirely, as well as
+its associated lock problems and simply marking the initramfs/initrd
+superblock when it was mounted.  I will admit that I haven't fully
+thought about all the implementation details, but I think you could
+leverage the security_sb_mount() hook to set a flag in IPE's
+superblock metadata when the initramfs was mounted.
 
-> Side topic, isn't the NMI path missing a call to kvm_set_cpu_l1tf_flush_l1d()?
-
-Yes, it is missing. Not sure if it was omitted intentionally.
-
-> > This is certainly better, but I don't know what scenario is this helping with.
-> 
-> Heh, that's host I feel about moving VERW to just before VM-Enter.  I have a hard
-> time believing there's meaningful sensitive that's accessed in __vmx_vcpu_run().
-> The closest thing is probably CR2, but that's a very dubious vector since CR2 will
-> hold a guest value for most VM-Enters.
-
-Yes, kernel->user case has a better chance of leaking anything.
-
-> I'm not against moving VERW close to VM-Enter because it's relatively straightforward,
-> but if we're going to be super paranoid, why not go all the way and not have to
-> worry about what ifs?
-
-Right. The VMenter changes are mostly done to be consistent with what is being
-done for kernel->user.
+--
+paul-moore.com
