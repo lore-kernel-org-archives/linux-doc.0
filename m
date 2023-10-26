@@ -1,71 +1,138 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7465B3C078
-	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 20:17:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9EEC8E8
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 20:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Xtlo0DJM"
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1515129
-	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 13:17:50 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d815354ea7fso962607276.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 13:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698351470; x=1698956270; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=k/Y1cqVei499MeRuO0JkL2AwtSOgPbZS08N4+Ku0vIU=;
-        b=Xtlo0DJMwcg6S4xevIDOsvEqHIAD3oJWPu6TexObC/R5QGBs5RiNbzVIjTUXLr1SUH
-         6VWMaRfoV8+aSyNPJJc65D1qNOgYSqCFysaQMsGHEIiE4X4M2YQsB/Li+FuoWBb7TY5y
-         o5I7j0/uvlA49lpn6ULMQwBv/g6PEQAPBQu0K5P1ywFHyOoqgIV980c8OSXUSbS7NwNQ
-         P/pjGnoEjem1QgcCOFBMtQ1fnPo8GBrn+LYSxaJOsF8jx+dj7sUrl3igNlmQM9Kbz4oc
-         OtXg2FqbktOKZBRPzpXMv4l7geQfUTEaUj9hUCt/hfqhW1oSkJVNscPCJaxcAOz6dQGI
-         gNpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698351470; x=1698956270;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k/Y1cqVei499MeRuO0JkL2AwtSOgPbZS08N4+Ku0vIU=;
-        b=M42wRtsgyxKPmrqPQhp/fBDRHhcqvTn+MCp6UaTLCThpsG/3DmOEyghlaAPslGq6jS
-         ohacHbzKGJjn9R/fz4ir41MFy+pvWACFnImnXsLCmsjG9o+n+1DKGUSyy9UGLaxM7Mdh
-         GP0UFkcEonsilHjJalKXeZ2halojY1Y5gnNzbhC+tZN/HMQ7GedqqRI6SGifmYG9P+L0
-         sTNOqFkCbSxwcAQ1ejBp/wsrQIAeOMYmFC96Vb7prr3ltyEzRiffz002XXNWy2BfbHsT
-         EOccoQW9vDXwzIMi/6EqznRA7/NDXWuthrsp8bpCXek/j+eJieoVxn0Cw0W0F/5aDZR1
-         g/rw==
-X-Gm-Message-State: AOJu0YxGWxVAt9u8rBwfZxXX4NInUmkxjm09g2VQ+qVVYS7CHMaI8VFM
-	iP5Ss4UnLrIyUWjsT59L+EpXdTZ+uwk=
-X-Google-Smtp-Source: AGHT+IFaYfepKEGrRhAf2VkMhklvq9ggBAMQ+KtkKZbuqh6XNf4Y8UxiI5C91vzIg6knFIOo4ZFLVR42pWM=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:1788:b0:da0:c9a5:b529 with SMTP id
- ca8-20020a056902178800b00da0c9a5b529mr7678ybb.12.1698351469567; Thu, 26 Oct
- 2023 13:17:49 -0700 (PDT)
-Date: Thu, 26 Oct 2023 13:17:47 -0700
-In-Reply-To: <ZTq-b0uVyf6KLNV0@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFiVAM4h"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD971A5;
+	Thu, 26 Oct 2023 13:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698353293; x=1729889293;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J1BrGAfKkjJZBIaI54OTtvmbMBd/XWt9LY8Jmd/+zok=;
+  b=hFiVAM4hyCCWw/AVF40hZ8MstA2xL6tKn95v+fBYzKfc7ZIXeWvDqVkf
+   iWbG885Y81XZeW5wppXzaG2zOF6gaWDHAwrP46CaN4OE7Yp3AahIJ3Z2/
+   VfCSeqIC5qHiL3aGrT5T54XL/IKgkjtKi5RyKEsUF5J9oj26c1xu/FTRs
+   nk88+5gBsS+khIPeVgjOSHSkcCCYH6giWpyGljtHwZ1QpeZV0E3fU2A3G
+   mqIOAP/QFNw5cTBK37BXPj6PaQIeuExEmmjuuRTprFl2VuVNUGqX+vonD
+   mdmUYkfcQxBumh7qa+EUOTTmBYil+hAqrSqSfF4DQU8jem7hknOMTnoXA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="378007616"
+X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
+   d="scan'208";a="378007616"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 13:48:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="762977705"
+X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
+   d="scan'208";a="762977705"
+Received: from paseron-mobl4.amr.corp.intel.com (HELO desk) ([10.209.17.113])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 13:48:12 -0700
+Date: Thu, 26 Oct 2023 13:48:10 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com
+Subject: Re: [PATCH  v3 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
+ mitigation
+Message-ID: <20231026204810.chvljddk6noxsuqi@desk>
+References: <20231025-delay-verw-v3-0-52663677ee35@linux.intel.com>
+ <20231025-delay-verw-v3-6-52663677ee35@linux.intel.com>
+ <ZTq-b0uVyf6KLNV0@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231025-delay-verw-v3-0-52663677ee35@linux.intel.com>
- <20231025-delay-verw-v3-6-52663677ee35@linux.intel.com> <ZTq-b0uVyf6KLNV0@google.com>
-Message-ID: <ZTrJa9NFaAORipVL@google.com>
-Subject: Re: [PATCH  v3 6/6] KVM: VMX: Move VERW closer to VMentry for MDS mitigation
-From: Sean Christopherson <seanjc@google.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com, ak@linux.intel.com, 
-	tim.c.chen@linux.intel.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, antonio.gomez.iglesias@linux.intel.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZTq-b0uVyf6KLNV0@google.com>
 
-On Thu, Oct 26, 2023, Sean Christopherson wrote:
-> On Wed, Oct 25, 2023, Pawan Gupta wrote:
+On Thu, Oct 26, 2023 at 12:30:55PM -0700, Sean Christopherson wrote:
+> > -	/* L1D Flush includes CPU buffer clear to mitigate MDS */
+> > +	/*
+> > +	 * L1D Flush includes CPU buffer clear to mitigate MDS, but VERW
+> > +	 * mitigation for MDS is done late in VMentry and is still
+> > +	 * executed inspite of L1D Flush. This is because an extra VERW
+> 
+> in spite
+
+Ok.
+
+> > +	 * should not matter much after the big hammer L1D Flush.
+> > +	 */
+> >  	if (static_branch_unlikely(&vmx_l1d_should_flush))
+> >  		vmx_l1d_flush(vcpu);
+> 
+> There's an existing bug here.  vmx_1ld_flush() is not guaranteed to do a flush in
+> "conditional mode", and is not guaranteed to do a ucode-based flush
+
+AFAICT, it is based on the condition whether after a VMexit any
+sensitive data could have been touched or not. If L1TF mitigation
+doesn't consider certain data sensitive and skips L1D flush, executing
+VERW isn't giving any protection, since that data can anyways be leaked
+from L1D using L1TF.
+
+> (though I can't tell if it's possible for the VERW magic to exist
+> without X86_FEATURE_FLUSH_L1D).
+
+Likely not, ucode that adds VERW should have X86_FEATURE_FLUSH_L1D as
+L1TF was mitigation prior to MDS.
+
+> If we care, something like the diff at the bottom is probably needed.
+> 
+> > -	else if (cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
+> > -		mds_clear_cpu_buffers();
+> >  	else if (static_branch_unlikely(&mmio_stale_data_clear) &&
+> >  		 kvm_arch_has_assigned_device(vcpu->kvm))
+> > +		/* MMIO mitigation is mutually exclusive with MDS mitigation later in asm */
+> 
+> Please don't put comments inside an if/elif without curly braces (and I don't
+> want to add curly braces).  Though I think that's a moot point if we first fix
+> the conditional L1D flush issue.  E.g. when the dust settles we can end up with:
+
+Ok.
+
+> 	/*
+> 	 * Note, a ucode-based L1D flush also flushes CPU buffers, i.e. the
+> 	 * manual VERW in __vmx_vcpu_run() to mitigate MDS *may* be redundant.
+> 	 * But an L1D Flush is not guaranteed for "conditional mode", and the
+> 	 * cost of an extra VERW after a full L1D flush is negligible.
+> 	 */
+> 	if (static_branch_unlikely(&vmx_l1d_should_flush))
+> 		cpu_buffers_flushed = vmx_l1d_flush(vcpu);
+> 
+> 	/*
+> 	 * The MMIO stale data vulnerability is a subset of the general MDS
+> 	 * vulnerability, i.e. this is mutually exclusive with the VERW that's
+> 	 * done just before VM-Enter.  The vulnerability requires the attacker,
+> 	 * i.e. the guest, to do MMIO, so this "clear" can be done earlier.
+> 	 */
+> 	if (static_branch_unlikely(&mmio_stale_data_clear) &&
+> 	    !cpu_buffers_flushed && kvm_arch_has_assigned_device(vcpu->kvm))
+> 		mds_clear_cpu_buffers();
+
+This is certainly better, but I don't know what scenario is this helping with.
+
+> >  		mds_clear_cpu_buffers();
+> >  
 > >  	vmx_disable_fb_clear(vmx);
 > 
 > LOL, nice.  IIUC, setting FB_CLEAR_DIS is mutually exclusive with doing a late
@@ -83,35 +150,5 @@ On Thu, Oct 26, 2023, Sean Christopherson wrote:
 > 	if (vmx->disable_fb_clear &&
 > 	    WARN_ON_ONCE(cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF)))
 > 	    	vmx->disable_fb_clear = false;
-> 
-> 	...
-> }
 
-Alternatively, and maybe even preferably, this would make it more obvious that
-the two are mutually exclusive and would also be a (very, very) small perf win
-when the mitigation is enabled.
-
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 0936516cb93b..592103df1754 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -7236,7 +7236,8 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
-                 kvm_arch_has_assigned_device(vcpu->kvm))
-                mds_clear_cpu_buffers();
- 
--       vmx_disable_fb_clear(vmx);
-+       if (!cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
-+               vmx_disable_fb_clear(vmx);
- 
-        if (vcpu->arch.cr2 != native_read_cr2())
-                native_write_cr2(vcpu->arch.cr2);
-@@ -7249,7 +7250,8 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
- 
-        vmx->idt_vectoring_info = 0;
- 
--       vmx_enable_fb_clear(vmx);
-+       if (!cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
-+               vmx_enable_fb_clear(vmx);
- 
-        if (unlikely(vmx->fail)) {
-                vmx->exit_reason.full = 0xdead;
+Will do, this makes a lot of sense.
