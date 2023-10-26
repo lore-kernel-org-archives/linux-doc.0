@@ -1,129 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CA02EAEB;
-	Thu, 26 Oct 2023 14:26:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444B32EAE0
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 14:42:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rk0fmsRF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F3AC433C7;
-	Thu, 26 Oct 2023 14:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698330360;
-	bh=9Cwqw/fWKM5uYNCnpfD7cgaQ4Y+kZK35kIJsOLUSy1o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rk0fmsRFU74qvN0wrURYBETxMpTCpWBiSCdBGXjfJ6eVKk1CbB5PmlEVygDG0Veel
-	 uoDyi0xwJHgrVoCINq5tSt6SeMh09QWLqfXyPhRBvRssN7i6YdTbquC0+3j0aLYEJ0
-	 8VgVs2kr7AFhasTjd5/gWRNXLS+B2YC1ZS7648t8tBU3Eqi232Zmpep0WLNaRfqW1+
-	 3KMr2Cq2bGQTRHU1ct1pIlQruaGQVZLRLmiFuYOXUDyzimoSVz5erPRR4vXRt8LDDP
-	 rZUOUBw/ErMtS+BJ5T1Z0VQwsrfnDZZbfE9EP01kCZcq8RxST7IErLQS/vQnMzfcvH
-	 bjckdnconGRbA==
-Date: Thu, 26 Oct 2023 15:25:55 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Cc: patrick@stwcx.xyz, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-i2c@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
- bindings
-Message-ID: <20231026-dicing-crispy-a10af575d3e5@spud>
-References: <20231026081514.3610343-1-Delphine_CC_Chiu@Wiwynn.com>
- <20231026081514.3610343-2-Delphine_CC_Chiu@Wiwynn.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lvzG3+BL"
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6500F91;
+	Thu, 26 Oct 2023 07:42:06 -0700 (PDT)
+Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-58686e94ad7so551503eaf.3;
+        Thu, 26 Oct 2023 07:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698331325; x=1698936125; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=kTnrh9xoZy325r5v7+bzRAng/mUcspwJrrB2m/Qv9HA=;
+        b=lvzG3+BLbPbGD1s1hxOi/fKIq72r1YHhXePIrdDJ96BU6nvtwYlu09qXZm+GcjXccP
+         DUFlw2RWAYw8rY4qI64A8NxtthcEqZ1mc/F4rkf6mS7Kpz7nAxSbdRbFCi1c6Vb5gRlX
+         /7KC98ytcVOL36THRGaz7gBWdiK6L2nbfeBIfiHgOVrLS5iyok2g4WQxeFyKUC39Puxj
+         JKHeGuNUIpB6AIDd0+UwX6a082hySYEnquKW4VpSYI0UZ1QTq8/ZIGOGNFfdyITIeL7V
+         KSFki9avL4sMSxYzRyXHmn8KGngP0BxukociROa8xSCxBnL+8JZe+zwvUsDkXtLYLwvy
+         8DLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698331325; x=1698936125;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kTnrh9xoZy325r5v7+bzRAng/mUcspwJrrB2m/Qv9HA=;
+        b=kfDnrxuClXxKPM2fe575V4b2yh+KQtIiTNfT9rQ693nXpO6XDA9HEgV9i7UrkQO85q
+         am6kpYaAjlW0KYswSQdogpkphHPUxsOBcHoQJ+cpSUUFdvVl8DKREu9PHIrMqY4tHfti
+         ifejF2LfCPwbTSYOGhLeIL1K7KbwlSHEW+wAqGL8oxG7vpSoHoZKb6DHw9cs/MmlCndH
+         9J7tjp5xAZ67jGtvG4uO2XFhbTa3GIarkiRwODH//JGBdTwc7DYnhZgsJLIWiklcyfEX
+         I64Td/PS48U5woRKYMFnU/znOtkDJ+sOZ+mM98SJEcZfxq6PXx/uQjtuzGwbjzqSGt77
+         QKhw==
+X-Gm-Message-State: AOJu0YxyPtzsICzhH8gTyJ0ZYJ9br03fCvkoKVcxMYeE68E78qWQ6ztw
+	929FyD2PFqzbaStlaEg9jv4jF+5sh1w=
+X-Google-Smtp-Source: AGHT+IEEQsRl4/c+fXa8rnHxnlQFPUJqQ6KTzRzKF01/jKEFpzu2E/6LwxmyMT6+91DypG8HtNmCKw==
+X-Received: by 2002:a05:6359:639d:b0:169:92d:64c5 with SMTP id sg29-20020a056359639d00b00169092d64c5mr5470513rwb.32.1698331325472;
+        Thu, 26 Oct 2023 07:42:05 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id o5-20020a0de505000000b0057085b18cddsm6067255ywe.54.2023.10.26.07.42.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Oct 2023 07:42:05 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <567f7feb-db79-58b8-f72c-d3c69b7b4369@roeck-us.net>
+Date: Thu, 26 Oct 2023 07:42:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jMMeW1OsGzkZp10V"
-Content-Disposition: inline
-In-Reply-To: <20231026081514.3610343-2-Delphine_CC_Chiu@Wiwynn.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2] hwmon: (asus-ec-sensors) add ROG Crosshair X670E Gene.
+Content-Language: en-US
+To: Ellie Hermaszewska <kernel@monoid.al>
+Cc: eugene.shalygin@gmail.com, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <CAB95QAR-UbfVULOCaZMO4H1AgvzbiHEoSYk-DiYPY6Pg-i7Vag@mail.gmail.com>
+ <20231019135640.434752-1-kernel@monoid.al>
+ <d013e9a3-df0a-4b8f-a1f3-db3cbd32812f@roeck-us.net>
+ <b81ae275-d3ac-4565-a09a-4a5ce38fadf1@monoid.al>
+ <3a8fd5d6-9b79-76de-80fe-b39e24510dec@roeck-us.net>
+ <df22c0f4-671f-4108-85a0-d1667ec1da77@monoid.al>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <df22c0f4-671f-4108-85a0-d1667ec1da77@monoid.al>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 10/26/23 03:41, Ellie Hermaszewska wrote:
+> On 10/26/23 13:01, Guenter Roeck wrote:
+>> On 10/25/23 21:46, Ellie Hermaszewska wrote:
+>>> On 10/26/23 03:35, Guenter Roeck wrote:
+>>>  > This is not an acceptable commit description.
+>>>
+>>> This is not acceptable feedback.
+>>>
+>>> I am unable to accept it because it is not clear to me what you think
+>>> should be changed.
+>>>
+>>> Is it because I misplaced the message to Eugene? Is it because of the
+>>> Greek characters? Is is not descriptive enough of the change, or in the
+>>> wrong tense, or has incorrect punctuation? Do I need to include my
+>>> testing methodology?
+>>>
+>>> If it's only something minor, then please also feel free to correct it
+>>> yourself before applying. If you can't or it's not something minor,
+>>> then please let me know what ought to change and I can try to correct it.
+>>>
+>>> If you don't let me know, then I will have to guess and possibly waste everyone's time further.
+>>>
+>>
+>> Please consider reading and following the directions in
+>> Documentation/process/submitting-patches.rst.
+> 
+> I will guess that it was my misplaced reply, and submit again without that part.
+> 
 
---jMMeW1OsGzkZp10V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ From the document:
 
-Hey,
+ > Other comments relevant only to the moment or the maintainer, not
+ > suitable for the permanent changelog, should also go here. A good
+ > example of such comments might be ``patch changelogs`` which describe
+ > what has changed between the v1 and v2 version of the patch.
 
-On Thu, Oct 26, 2023 at 04:15:11PM +0800, Delphine CC Chiu wrote:
-> Add a device tree bindings for ltc4286 driver.
+ > Please put this information **after** the ``---`` line which separates
+ > the changelog from the rest of the patch. The version information is
+ > not part of the changelog which gets committed to the git tree. It is
+ > additional information for the reviewers. If it's placed above the
+ > commit tags, it needs manual interaction to remove it. If it is below
+ > the separator line, it gets automatically stripped off when applying the
+ > patch::
+ > ...
+ > [ ... ] When sending a next
+ > version, add a ``patch changelog`` to the cover letter or to individual patches
+ > explaining difference against previous submission
 
-Bindings are for devices, not for drivers.
+Keeping the patch description clean does not mean to _drop_ the changelog
+or additional information not intended to be added to the commit.
 
->=20
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
->=20
-> Changelog:
->   v2 - Revise vrange_select_25p6 to adi,vrange-select-25p6
->      - Add type for adi,vrange-select-25p6
->      - Revise rsense-micro-ohms to shunt-resistor-micro-ohms
-> ---
->  .../bindings/hwmon/lltc,ltc4286.yaml          | 50 +++++++++++++++++++
->  MAINTAINERS                                   | 10 ++++
->  2 files changed, 60 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/lltc,ltc4286.=
-yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml b/=
-Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> new file mode 100644
-> index 000000000000..17022de657bb
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> @@ -0,0 +1,50 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/lltc,ltc4286.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LTC4286 power monitors
-> +
-> +maintainers:
-> +  - Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - lltc,ltc4286
-> +      - lltc,ltc4287
+Guenter
 
-I don't recall seeing an answer to Guenter about this ltc4287 device:
-https://lore.kernel.org/all/22f6364c-611c-ffb6-451c-9ddc20418d0a@roeck-us.n=
-et/
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  adi,vrange-select-25p6:
-> +    description:
-> +      This property is a bool parameter to represent the
-> +      voltage range is 25.6 or not for this chip.
-
-25.6 what? Volts? microvolts?
-What about Guenter's suggestion to name this so that it better matches
-the other, similar properties?
-
-Cheers,
-Conor.
-
---jMMeW1OsGzkZp10V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTp28wAKCRB4tDGHoIJi
-0jT7APwIvjLDbL//84boMtfvc5RAA1QcNcVO+kfVu3dhyr7v0QD/YlNzHmAB6RRB
-kYtv8yYAiBRKdn612BukEd8U5pcGjgU=
-=QvBI
------END PGP SIGNATURE-----
-
---jMMeW1OsGzkZp10V--
