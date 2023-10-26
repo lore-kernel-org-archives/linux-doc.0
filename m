@@ -1,55 +1,67 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA6A3717D
-	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 17:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447EBC1;
-	Thu, 26 Oct 2023 10:48:39 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-	by sonata.ens-lyon.org (Postfix) with ESMTP id 9732620147;
-	Thu, 26 Oct 2023 19:48:37 +0200 (CEST)
-Received: from sonata.ens-lyon.org ([127.0.0.1])
-	by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fvJ5epDCmzBL; Thu, 26 Oct 2023 19:48:37 +0200 (CEST)
-Received: from begin (aamiens-653-1-111-57.w83-192.abo.wanadoo.fr [83.192.234.57])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47913717D
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 17:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Zv4dnmKd"
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF358B8;
+	Thu, 26 Oct 2023 10:50:16 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sonata.ens-lyon.org (Postfix) with ESMTPSA id 6B58620145;
-	Thu, 26 Oct 2023 19:48:37 +0200 (CEST)
-Received: from samy by begin with local (Exim 4.97-RC3)
-	(envelope-from <samuel.thibault@ens-lyon.org>)
-	id 1qw4TE-0000000CKrn-3w8g;
-	Thu, 26 Oct 2023 19:48:36 +0200
-Date: Thu, 26 Oct 2023 19:48:36 +0200
-From: Samuel Thibault <samuel.thibault@ens-lyon.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] speakup: Document USB support
-Message-ID: <20231026174836.dak6lnrdnuggqrpe@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20231020181059.7rtj2csi7t6vorrm@begin>
- <87fs1x70cr.fsf@meer.lwn.net>
+	by ms.lwn.net (Postfix) with ESMTPSA id 47DC436E;
+	Thu, 26 Oct 2023 17:50:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 47DC436E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1698342616; bh=EqKA0JXgmnBKYcsb+SfmiAaHk9DpVeGJdzXgW+CLOO4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Zv4dnmKdWlXU3j22mUXRphnyNf9Wcp+wS+0E6hmMj9PkcjraZesBi+26W7Z9KE7++
+	 L2y9EJmY9TtQmKJsn+deMumtxTxLvOvzJVNF4mX+2MRBulhnFAPtp0IB/DutFEZxI2
+	 N0pRTmly7469nwsRiC/DM6wWrL1RvKcSKE1ftnNOUf9gxGOGkB66KR05ZGjIDpPcxE
+	 hSOfhso5VyQUnJdSCyrV0eSfgLyL6X2cLHjkdGmJyGYEF07wzySRdvAcmsmfj/KvHC
+	 5KnFJUPH1tojPOJvoz1tTauWQsFngZyd2l5UMKmLd0G/tkSBjxU+SyHOWmSWftdJ6b
+	 FEIVi9C3a0ESw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Harshit
+ Mogalapalli <harshit.m.mogalapalli@oracle.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, "Jason A . Donenfeld"
+ <Jason@zx2c4.com>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Willy Tarreau <w@1wt.eu>, Ben
+ Hutchings <ben@decadent.org.uk>, Vegard Nossum <vegard.nossum@oracle.com>
+Subject: Re: [PATCH v2.5] docs: backporting: address feedback
+In-Reply-To: <20231023135722.949510-1-vegard.nossum@oracle.com>
+References: <83fd1a05-974e-4d91-82b0-c09cc2f8da1e@oracle.com>
+ <20231023135722.949510-1-vegard.nossum@oracle.com>
+Date: Thu, 26 Oct 2023 11:50:15 -0600
+Message-ID: <877cn96zoo.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fs1x70cr.fsf@meer.lwn.net>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
+Content-Type: text/plain
 
-Jonathan Corbet, le jeu. 26 oct. 2023 11:35:48 -0600, a ecrit:
-> We *still* really need to fix the license for this document, though...
+Vegard Nossum <vegard.nossum@oracle.com> writes:
 
-On that front, I didn't manage to reach the original author, Gene
-Collins. I don't actually know whether he is still alive, actually.
+> This addresses a few comments/issues in my v2 submission:
+>
+> - repeated word: 'run' from kernel test robot
+> - emacs/ediff mode from Jon Corbet
+> - various comments from Willy Tarreau
+> - more backporting advice from Ben Hutchings
+> - a couple more cherry-pick tips from Harshit Mogalapalli
+> - add a bit about stable submissions
+>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  Documentation/process/backporting.rst | 152 ++++++++++++++++++++------
+>  1 file changed, 121 insertions(+), 31 deletions(-)
 
-Samuel
+Applied, thanks.
+
+jon
