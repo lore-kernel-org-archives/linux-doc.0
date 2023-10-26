@@ -1,403 +1,393 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0B718644;
-	Thu, 26 Oct 2023 08:15:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3BD262B1
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 09:18:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="ikgTZQwZ"
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2066.outbound.protection.outlook.com [40.107.215.66])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B44CD1AD;
-	Thu, 26 Oct 2023 01:15:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hPuSGPo/D3COBjathZDYigeciDctLLJxzCSBhJuA7hRK3bjSz88XCO/j+EmMftl3ilVRmSdoirn8RYuKmws9jcn4Q8j+BIHc6BjMs/E+tO5bAIUdODRp4M9ZWsbm6c7LlCPKyM5JuOGjVxOhpCZhEzB+NbxX8loD71gg4/3QQzF+sp6r9pYPl4D0a8awJUVGcQk1rBNp+lffWPAXY7+9TjgHrgN9vyaTUXv590ThpCrjQPOSUPl3trPNV2/pfFP6+bsjviR6zrFTqd/Dj/v5H7M8eHxhd16fPfdkVGLTBLglr70jErJmqCpilq7fs6e1hPYd9rpA0Kf7Wz9sotgT2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bBhCActUbsHpPlHX8Tjd8bX/IAC3leV3emLJHxMRWNU=;
- b=RfcVApdPpIlCCT7fBK3rWJ6HUYHSJFZ4Ns+KO7B7HGR2aBYZ0wq1TQ9o3Vl3rL0j2r2jX2SsQw/urcQVFZsUOgYC/wtJObtWwWfDWU63CFyAijWALLQxaZj9gZ155LbLCeTus/UCekDHWuB8jdeezIGZdtxr1ob7N2hoqm2+bY0A2Fqogj6QuIorp1u7DQ0dvVAmI7CqD7hPNtqPsnzkDcM/HJ/8+odWqC14U8E5RY8azDECuFREjSCiM/A/A+VKLxkawDWVBU1x5i/fCrWb5GfyLGmT7Kq2J2IhaxTMuF49TWEr1n0n3s1N8WLfTNuqsd7YQnwtnor3wXLqkUQDGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
- (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bBhCActUbsHpPlHX8Tjd8bX/IAC3leV3emLJHxMRWNU=;
- b=ikgTZQwZ2ar7yG3xQTef4EcrQ2WHGrHQ907z8zMD+6yeYMA9GkoJx6cFFLgW5lt+pvmGwZbHUyHYcfY/E0Vs5Q/WgbiVpIHBPQyzXckJWYfAjX0Zv5Nb30NniY7uI7AUK/VYxqeyzmnxFLUIJ5AL1qzVZnmV4o+In0fzwTPs6nBedvJrLhiUiVQYF7jsc6ITWQwhbsVJUUaeDgnyM1D+aU9AKJcoumjiwMsAQsgXR83u398Jey5oDNK+2mOltwADZppFsvR1HCFpHI+sr6nSCkbf8J0H/GQOrVsTrsh9bQvbWQskGynNpX5CVLxO7UaJlxekCKn8vMmOOekILbgj+g==
-Received: from KL1PR0401CA0026.apcprd04.prod.outlook.com (2603:1096:820:e::13)
- by PUZPR04MB6916.apcprd04.prod.outlook.com (2603:1096:301:11e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Thu, 26 Oct
- 2023 08:15:35 +0000
-Received: from HK2PEPF00006FB0.apcprd02.prod.outlook.com
- (2603:1096:820:e:cafe::6a) by KL1PR0401CA0026.outlook.office365.com
- (2603:1096:820:e::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.34 via Frontend
- Transport; Thu, 26 Oct 2023 08:15:34 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
- smtp.mailfrom=Wiwynn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=Wiwynn.com;
-Received-SPF: Fail (protection.outlook.com: domain of Wiwynn.com does not
- designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.20.1.79; helo=localhost.localdomain;
-Received: from localhost.localdomain (211.20.1.79) by
- HK2PEPF00006FB0.mail.protection.outlook.com (10.167.8.6) with Microsoft SMTP
- Server id 15.20.6838.22 via Frontend Transport; Thu, 26 Oct 2023 08:15:34
- +0000
-From: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-To: patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-i2c@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/2] hwmon: pmbus: Add ltc4286 driver
-Date: Thu, 26 Oct 2023 16:15:12 +0800
-Message-Id: <20231026081514.3610343-3-Delphine_CC_Chiu@Wiwynn.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231026081514.3610343-1-Delphine_CC_Chiu@Wiwynn.com>
-References: <20231026081514.3610343-1-Delphine_CC_Chiu@Wiwynn.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="HC4zJsgv"
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B535184
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 02:18:44 -0700 (PDT)
+Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20231026091840epoutp031b548485902414143c6b13c75b5c92e9~RnbF3Dp3u1385013850epoutp03g
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 09:18:40 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20231026091840epoutp031b548485902414143c6b13c75b5c92e9~RnbF3Dp3u1385013850epoutp03g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1698311920;
+	bh=1jlqm5B7a5HrDAWxGSt5eGfgZ2O2WWBzWmFOcRhGomI=;
+	h=Subject:Reply-To:From:To:In-Reply-To:Date:References:From;
+	b=HC4zJsgvg9UmzKuLzfaUPkIlH9aX6MpYKM9lpvT4FsIt1qHA8q9eLAfHkX2V1d8aS
+	 C4F9/2Iy4dUM2UGYGPHF71rBmDNPAWXIyLTiB8XLLCODCt4rMZQNMbYoYtbulMG4Ud
+	 I9iYtOZYlfNWRAI+Ntm/1Nznk4c8AJ0LK6KGgvXY=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTP id
+	20231026091839epcas2p23a018ab390943a93f60296bd96e142a0~RnbFh0A2n0580405804epcas2p2L;
+	Thu, 26 Oct 2023 09:18:39 +0000 (GMT)
+Received: from epsmgec2p1.samsung.com (unknown [182.195.36.90]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4SGKwb1C6Mz4x9Q1; Thu, 26 Oct
+	2023 09:18:39 +0000 (GMT)
+X-AuditID: b6c32a43-4b3ff700000021c8-3b-653a2eef0bff
+Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
+	epsmgec2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	26.57.08648.FEE2A356; Thu, 26 Oct 2023 18:18:39 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK2PEPF00006FB0:EE_|PUZPR04MB6916:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 9a2b1238-939d-443d-96a8-08dbd5fbba58
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	sXDd12igWkUT3rP3pjT7SNxmncsmU/iidFOe0LJrL+S5/P3AjnJq4nRbnzi3kdKN3ilDrTaSJhRnVdIsoTfrDxM9c8/R9eJagpncNMW9ZBExweqID3xQIVgApYZEdK1uzBix5np3NcrDBD+zQOoel+sQXkiaz6LwDIQmSK/c5dv2TXnFpFHsTeiiwtQm49t976LvxKd8rXyGjixB5hpG3NupnI+xqh/R0qFY2iZtUqUxx7zjHHVP8lTnS7zKjuKRTCgxVb6RSH9i2gWimVQurceT9UKp+bUc52HjSU0+cC19i+MYqjIwm6qPzjZVXhJ5N3mSkFqkBGsBybGmJMMHy25cROggyIPZdmraW2X3PtJJmbKe+u1edJ5guTJ/eRgRpBqgJNdVGgcdOdFCmRsIqJDGNO6a2kv4hg07rLJiwe7b2iDUos8GSGphNPV5+VnWM1YDkRALtsvrzerZUVZgeJcualFHCgo6KQhpSKovc3W1Sc3cnQVi9ALRUkRpEmRO/cqF7+owBOLXa5PzsjnZuQjB6YCRgokMcHa84R/H4rf1zvUcrI/EnZWS/1a7aYTm0RwuvV2YUTMHl5JgfBTtU2AGNealIp/BwiyL5aEV78QNjfiB0w0AXOKUUP9D3hx4rvraW6EvH2ByOy7tg8RIUVUtwbsQYO7essLuJ5JeV0XOuw2T6EEkOAKTvcTRWsKE7CvRVZWH61C7k0aIvsAbTw==
-X-Forefront-Antispam-Report:
-	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(376002)(346002)(396003)(39860400002)(136003)(1800799009)(64100799003)(451199024)(186009)(82310400011)(36840700001)(46966006)(41300700001)(2906002)(7416002)(5660300002)(8936002)(316002)(36736006)(70206006)(70586007)(54906003)(4326008)(8676002)(110136005)(478600001)(966005)(6486002)(6666004)(6506007)(6512007)(7049001)(2616005)(336012)(956004)(1076003)(26005)(66574015)(40480700001)(83380400001)(86362001)(82740400003)(356005)(47076005)(81166007)(9316004)(36860700001)(36756003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 08:15:34.0276
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a2b1238-939d-443d-96a8-08dbd5fbba58
-X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource:
-	HK2PEPF00006FB0.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR04MB6916
+Mime-Version: 1.0
+Subject: [f2fs-dev] [PATCH v1] f2fs: New victim selection for GC
+Reply-To: yonggil.song@samsung.com
+Sender: Yonggil Song <yonggil.song@samsung.com>
+From: Yonggil Song <yonggil.song@samsung.com>
+To: "jaegeuk@kernel.org" <jaegeuk@kernel.org>, "chao@kernel.org"
+	<chao@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Seokhwan Kim <sukka.kim@samsung.com>, Daejun
+	Park <daejun7.park@samsung.com>, Siwoo Jung <siu.jung@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p8>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41@epcms2p4>
+Date: Thu, 26 Oct 2023 18:18:38 +0900
+X-CMS-MailID: 20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAJsWRmVeSWpSXmKPExsWy7bCmqe57PatUg/PP2CxOTz3LZPHkQDuj
+	xaoH4RZP1s9itljYtoTF4tIid4vLu+awWZyf+JrJYlXHXEaLqeePMDlweWxa1cnmsXvBZyaP
+	xX2TWT36tqxi9Pi8SS6ANSrbJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8x
+	N9VWycUnQNctMwfoJiWFssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpOgXmBXnFibnFp
+	XrpeXmqJlaGBgZEpUGFCdsb5Y/9ZC44HVKya/5m9gXGjfRcjJ4eEgInE2gVHmUBsIYEdjBIN
+	J627GDk4eAUEJf7uEAYJCws4SCxv2sUIUaIkce1ALwtEXF9i8+Jl7CA2m4CuxN8Ny8FsEYG9
+	zBI9H3MgxvNKzGh/ygJhS0tsX74VbA6ngJ/EiRlH2CDiGhI/lvUyQ9iiEjdXv2WHsd8fm88I
+	YYtItN47C1UjKPHg526ouKTEokPnmSDsfIm/K65DzayR2NrQBhXXl7jWsRHsBl4BX4knT0Dm
+	cHCwCKhKXG+QBjElBFwkVm3nAalgFpCX2P52DlgFs4CmxPpd+hAVyhJHbrFAVPBJdBz+yw7z
+	3455T6D2qEls3rSZFcKWkbjwuA3qRg+J6Tu3A9VwAcNvKqPEuf8fWSYwKsxCBPMsJItnISxe
+	wMi8ilEstaA4Nz012ajAEB6xyfm5mxjBSVPLeQfjlfn/9A4xMnEwHmKU4GBWEuGN9LFIFeJN
+	SaysSi3Kjy8qzUktPsRoCvTwRGYp0eR8YNrOK4k3NLE0MDEzMzQ3MjUwVxLnvdc6N0VIID2x
+	JDU7NbUgtQimj4mDU6qB6URpfeFt3cuKDatmbH/Pv//v+rTT/jsO7ZFc8lPg1G/L54UeIRXV
+	5/593HPiZcR0m3SOWQ5HJfdsmsht77v6Jcv/40lhO/OeBVROUWJo7/ry8Ur2g9I/IRXKHU+u
+	MsQE7NH/8WTNlo9tLU+XXCp9+P/7tsaO/1OVPV+8je1XDlK3Nw8tOPPTseT1Y7OMsC8/hIKW
+	FwhZ9212uPss8uU+688xttO7/10qPnD1RvemmPCM1efeBNzetS1vWUXOhfO+euJ3Mw7rlXF7
+	Tdh0d4a7p8Ne9gDfNSe+zl4QwMdceDBO2LRQ5WSI+vrWyl0vZjGzn9ty8cGSKHUH/gapU7bT
+	L0yaO1uEm0flkflzg+rbp44osRRnJBpqMRcVJwIAaGH24CMEAAA=
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff
+References: <20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p8>
+	<CGME20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p4>
 
-Add a driver to support ltc4286 chip
+Overview
+========
 
-Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+Introduce a new way to select the data section first when selecting a
+victim in foreground GC. This victim selection method works when the
+prefer_data_victim mount option is enabled. If foreground GC migrates only
+data sections and runs out of free sections, it cleans dirty node sections
+to get more free sections.
 
-Changelog:
-  v2 - Revise Linear Technologies LTC4286 to
-       Analog Devices LTC4286 in Kconfig
-     - Add more description for this driver in Kconfig
-     - Add some comments for MBR setting in ltc4286.c
-     - Add ltc4286.rst
+Problem
+=======
+
+If the total amount of nodes is larger than the size of one section, nodes
+occupy multiple sections, and node victims are often selected because the
+gc cost is lowered by data block migration in foreground gc. Since moving
+the data section causes frequent node victim selection, victim threshing
+occurs in the node section. This results in an increase in WAF.
+
+Experiment
+==========
+
+Test environment is as follows.
+
+	System info
+	  - 3.6GHz, 16 core CPU
+	  - 36GiB Memory
+	Device info
+	  - a conventional null_blk with 228MiB
+	  - a sequential null_blk with 4068 zones of 8MiB
+	Format
+	  - mkfs.f2fs <conv null_blk> -c <seq null_blk> -m -Z 8 -o 3.89
+	Mount
+	  - mount -o prefer_data_victim <conv null_blk> <mount point>
+	Fio script
+	  - fio --rw=randwrite --bs=4k --ba=4k --filesize=31187m --norandommap --overwrite=1 --name=job1 --filename=./mnt/sustain --io_size=128g
+	WAF calculation
+	  - (IOs on conv. null_blk + IOs on seq. null_blk) / random write IOs
+
+Conclusion
+==========
+
+This experiment showed that the WAF was reduced by 29% (18.75 -> 13.3) when
+the data section was selected first when selecting GC victims. This was
+achieved by reducing the migration of the node blocks by 69.4%
+(253,131,743 blks -> 77,463,278 blks). It is possible to achieve low WAF
+performance with the GC victim selection method in environments where the
+section size is relatively small.
+
+Signed-off-by: Yonggil Song <yonggil.song@samsung.com>
 ---
- Documentation/hwmon/ltc4286.rst |  79 ++++++++++++++++
- drivers/hwmon/pmbus/Kconfig     |   9 ++
- drivers/hwmon/pmbus/Makefile    |   1 +
- drivers/hwmon/pmbus/ltc4286.c   | 160 ++++++++++++++++++++++++++++++++
- 4 files changed, 249 insertions(+)
- create mode 100644 Documentation/hwmon/ltc4286.rst
- create mode 100644 drivers/hwmon/pmbus/ltc4286.c
+ Documentation/filesystems/f2fs.rst |   3 +
+ fs/f2fs/f2fs.h                     |   2 +
+ fs/f2fs/gc.c                       | 100 +++++++++++++++++++++++------
+ fs/f2fs/segment.h                  |   2 +
+ fs/f2fs/super.c                    |   9 +++
+ 5 files changed, 95 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/hwmon/ltc4286.rst b/Documentation/hwmon/ltc4286.rst
-new file mode 100644
-index 000000000000..9cae50b7478d
---- /dev/null
-+++ b/Documentation/hwmon/ltc4286.rst
-@@ -0,0 +1,79 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver ltc4286
-+=====================
-+
-+Supported chips:
-+
-+  * Analog Devices LTC4286
-+
-+    Prefix: 'ltc4286'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4286.pdf
-+
-+  * Analog Devices LTC4287
-+
-+    Prefix: 'ltc4287'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4287.pdf
-+
-+Author: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-+
-+
-+Description
-+-----------
-+
-+This driver supports hardware monitoring for Analog Devices LTC4286
-+and LTC4287 Hot-Swap Controller and Digital Power Monitors.
-+
-+LTC4286 and LTC4287 are hot-swap controllers that allow a circuit board
-+to be removed from or inserted into a live backplane. They also feature
-+current and voltage readback via an integrated 12 bit analog-to-digital
-+converter (ADC), accessed using a PMBus interface.
-+
-+The driver is a client driver to the core PMBus driver. Please see
-+Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-+
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate the
-+devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-+details.
-+
-+The shunt value in micro-ohms can be set via device tree at compile-time. Please
-+refer to the Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml for bindings
-+if the device tree is used.
-+
-+
-+Platform data support
-+---------------------
-+
-+The driver supports standard PMBus driver platform data. Please see
-+Documentation/hwmon/pmbus.rst for details.
-+
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported. Limits are read-write, history reset
-+attributes are write-only, all other attributes are read-only.
-+
-+======================= =======================================================
-+inX_label               "vin1" or "vout1" depending on chip variant and
-+                        configuration.
-+inX_input               Measured voltage.
-+
-+curr1_label             "iout1"
-+curr1_input             Measured current.
-+
-+power1_label            "pin1"
-+power1_input            Input power.
-+
-+temp1_input             Chip temperature.
-+======================= =======================================================
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index b4e93bd5835e..f2b53e8abc3c 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -226,6 +226,15 @@ config SENSORS_LTC3815
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index d32c6209685d..58e6d001d7ab 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -367,6 +367,9 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
+ 			 pending node write	drop		keep		N/A
+ 			 pending meta write	keep		keep		N/A
+ 			 ====================== =============== =============== ========
++prefer_data_victim	 When selecting victims in foreground GC, victims of data type
++			 are prioritized. This option minimizes GC victim threshing
++			 in the node section to reduce WAF.
+ ======================== ============================================================
  
- 	  This driver can also be built as a module. If so, the module will
- 	  be called ltc3815.
-+config SENSORS_LTC4286
-+	bool "Analog Devices LTC4286"
-+	help
-+	  LTC4286 is an integrated solution for hot swap applications that
-+	  allows a board to be safely inserted and removed from a live
-+	  backplane.
-+	  This chip could be used to monitor voltage, current, ...etc.
-+	  If you say yes here you get hardware monitoring support for Analog
-+	  Devices LTC4286.
+ Debugfs Entries
+diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+index 6d688e42d89c..8b31fa2ea09a 100644
+--- a/fs/f2fs/f2fs.h
++++ b/fs/f2fs/f2fs.h
+@@ -108,6 +108,7 @@ extern const char *f2fs_fault_name[FAULT_MAX];
+ #define	F2FS_MOUNT_GC_MERGE		0x02000000
+ #define F2FS_MOUNT_COMPRESS_CACHE	0x04000000
+ #define F2FS_MOUNT_AGE_EXTENT_CACHE	0x08000000
++#define F2FS_MOUNT_PREFER_DATA_VICTIM	0x10000000
  
- config SENSORS_MAX15301
- 	tristate "Maxim MAX15301"
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 84ee960a6c2d..94e28f6d6a61 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -24,6 +24,7 @@ obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
- obj-$(CONFIG_SENSORS_LT7182S)	+= lt7182s.o
- obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
- obj-$(CONFIG_SENSORS_LTC3815)	+= ltc3815.o
-+obj-$(CONFIG_SENSORS_LTC4286)	+= ltc4286.o
- obj-$(CONFIG_SENSORS_MAX15301)	+= max15301.o
- obj-$(CONFIG_SENSORS_MAX16064)	+= max16064.o
- obj-$(CONFIG_SENSORS_MAX16601)	+= max16601.o
-diff --git a/drivers/hwmon/pmbus/ltc4286.c b/drivers/hwmon/pmbus/ltc4286.c
-new file mode 100644
-index 000000000000..e1d72fe9587c
---- /dev/null
-+++ b/drivers/hwmon/pmbus/ltc4286.c
-@@ -0,0 +1,160 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/pmbus.h>
-+#include "pmbus.h"
-+
-+/* LTC4286 register */
-+#define LTC4286_MFR_CONFIG1	0xF2
-+
-+/* LTC4286 configuration */
-+#define VRANGE_SELECT_BIT	BIT(1)
-+
-+#define LTC4286_MFR_ID_SIZE	3
-+
-+enum chips { ltc4286, ltc4287 };
-+
-+/*
-+ * Initialize the MBR as default settings which is referred to LTC4286 datasheet
-+ * (March 22, 2022 version) table 3 page 16
-+ */
-+static struct pmbus_driver_info ltc4286_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = direct,
-+	.format[PSC_VOLTAGE_OUT] = direct,
-+	.format[PSC_CURRENT_OUT] = direct,
-+	.format[PSC_POWER] = direct,
-+	.format[PSC_TEMPERATURE] = direct,
-+	.m[PSC_VOLTAGE_IN] = 32,
-+	.b[PSC_VOLTAGE_IN] = 0,
-+	.R[PSC_VOLTAGE_IN] = 1,
-+	.m[PSC_VOLTAGE_OUT] = 32,
-+	.b[PSC_VOLTAGE_OUT] = 0,
-+	.R[PSC_VOLTAGE_OUT] = 1,
-+	.m[PSC_CURRENT_OUT] = 1024,
-+	.b[PSC_CURRENT_OUT] = 0,
-+	/*
-+	 * The rsense value used in MBR formula in LTC4286 datasheet should be ohm unit.
-+	 * However, the rsense value that user input is mirco ohm.
-+	 * Thus, the MBR setting which involves rsense should be shifted by 6 digits.
-+	 */
-+	.R[PSC_CURRENT_OUT] = 3 - 6,
-+	.m[PSC_POWER] = 1,
-+	.b[PSC_POWER] = 0,
-+	/*
-+	 * The rsense value used in MBR formula in LTC4286 datasheet should be ohm unit.
-+	 * However, the rsense value that user input is mirco ohm.
-+	 * Thus, the MBR setting which involves rsense should be shifted by 6 digits.
-+	 */
-+	.R[PSC_POWER] = 4 - 6,
-+	.m[PSC_TEMPERATURE] = 1,
-+	.b[PSC_TEMPERATURE] = 273,
-+	.R[PSC_TEMPERATURE] = 0,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-+		   PMBUS_HAVE_PIN | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_VOUT |
-+		   PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_TEMP,
-+};
-+
-+static const struct i2c_device_id ltc4286_id[] = { { "ltc4286", ltc4286 },
-+						   { "ltc4287", ltc4287 },
-+						   {} };
-+MODULE_DEVICE_TABLE(i2c, ltc4286_id);
-+
-+static int ltc4286_probe(struct i2c_client *client)
-+{
-+	int ret;
-+	const struct i2c_device_id *mid;
-+	u8 block_buffer[I2C_SMBUS_BLOCK_MAX + 1];
-+	struct pmbus_driver_info *info;
-+	u32 rsense;
-+
-+	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, block_buffer);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "failed to read manufacturer id\n");
-+		return ret;
+ #define F2FS_OPTION(sbi)	((sbi)->mount_opt)
+ #define clear_opt(sbi, option)	(F2FS_OPTION(sbi).opt &= ~F2FS_MOUNT_##option)
+@@ -1648,6 +1649,7 @@ struct f2fs_sb_info {
+ 	struct f2fs_mount_info mount_opt;	/* mount options */
+ 
+ 	/* for cleaning operations */
++	bool need_node_clean;			/* only used for prefer_data_victim */
+ 	struct f2fs_rwsem gc_lock;		/*
+ 						 * semaphore for GC, avoid
+ 						 * race between GC and GC or CP
+diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c
+index f550cdeaa663..8a2da808a5fb 100644
+--- a/fs/f2fs/gc.c
++++ b/fs/f2fs/gc.c
+@@ -752,6 +752,8 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+ 	unsigned int last_segment;
+ 	unsigned int nsearched;
+ 	bool is_atgc;
++	bool is_prefer_data_victim =
++		test_opt(sbi, PREFER_DATA_VICTIM) && gc_type == FG_GC;
+ 	int ret = 0;
+ 
+ 	mutex_lock(&dirty_i->seglist_lock);
+@@ -767,6 +769,11 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+ 	p.oldest_age = 0;
+ 	p.min_cost = get_max_cost(sbi, &p);
+ 
++	if (is_prefer_data_victim) {
++		p.node_min_cost = p.min_cost;
++		p.node_min_segno = p.min_segno;
 +	}
 +
+ 	is_atgc = (p.gc_mode == GC_AT || p.alloc_mode == AT_SSR);
+ 	nsearched = 0;
+ 
+@@ -884,9 +891,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+ 
+ 		cost = get_gc_cost(sbi, segno, &p);
+ 
+-		if (p.min_cost > cost) {
+-			p.min_segno = segno;
+-			p.min_cost = cost;
++		if (is_prefer_data_victim) {
++			if (IS_DATASEG(get_seg_entry(sbi, segno)->type)) {
++				/* update data segments victim */
++				if (p.min_cost > cost) {
++					p.min_segno = segno;
++					p.min_cost = cost;
++				}
++			} else {
++				/* update node segments victim */
++				if (p.node_min_cost > cost) {
++					p.node_min_segno = segno;
++					p.node_min_cost = cost;
++				}
++			}
++		} else {
++			if (p.min_cost > cost) {
++				p.min_segno = segno;
++				p.min_cost = cost;
++			}
+ 		}
+ next:
+ 		if (nsearched >= p.max_search) {
+@@ -901,6 +924,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+ 		}
+ 	}
+ 
++	if (is_prefer_data_victim && sbi->need_node_clean) {
++		/* we need to clean node sections */
++		if (p.min_cost > p.node_min_cost) {
++			p.min_segno = p.node_min_segno;
++			p.min_cost = p.node_min_cost;
++		} else {
++			/*
++			 * data victim cost is the lowest.
++			 * if free sections are enough, stop cleaning node victim.
++			 * if not, it goes on by GCing data victims.
++			 */
++			if (has_enough_free_secs(sbi, prefree_segments(sbi), 0)) {
++				sbi->need_node_clean = false;
++				p.min_segno = NULL_SEGNO;
++				goto out;
++			}
++		}
++	}
++
+ 	/* get victim for GC_AT/AT_SSR */
+ 	if (is_atgc) {
+ 		lookup_victim_by_age(sbi, &p);
+@@ -1830,8 +1872,27 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+ 		goto stop;
+ 	}
+ 
++	__get_secs_required(sbi, NULL, &upper_secs, NULL);
++
 +	/*
-+	 * Refer to ltc4286 datasheet page 20
-+	 * the manufacturer id is LTC
++	 * Write checkpoint to reclaim prefree segments.
++	 * We need more three extra sections for writer's data/node/dentry.
 +	 */
-+	if (ret != LTC4286_MFR_ID_SIZE ||
-+	    strncmp(block_buffer, "LTC", LTC4286_MFR_ID_SIZE)) {
-+		return dev_err_probe(&client->dev, ret,
-+				     "failed to read manufacturer id\n");
++	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS) {
++		if (test_opt(sbi, PREFER_DATA_VICTIM)) {
++			sbi->need_node_clean = true;
++		}
++		if (prefree_segments(sbi)) {
++			ret = f2fs_write_checkpoint(sbi, &cpc);
++			if (ret)
++				goto stop;
++			/* Reset due to checkpoint */
++			sec_freed = 0;
++		}
 +	}
 +
-+	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, block_buffer);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "failed to read manufacturer model\n");
-+		return ret;
+ 	/* Let's run FG_GC, if we don't have enough space. */
+-	if (has_not_enough_free_secs(sbi, 0, 0)) {
++	if (gc_type == BG_GC && has_not_enough_free_secs(sbi, 0, 0)) {
+ 		gc_type = FG_GC;
+ 
+ 		/*
+@@ -1882,7 +1943,17 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+ 			if (!gc_control->no_bg_gc &&
+ 			    total_sec_freed < gc_control->nr_free_secs)
+ 				goto go_gc_more;
+-			goto stop;
++			if (test_opt(sbi, PREFER_DATA_VICTIM)) {
++				/*
++				 * If the need_node_clean flag is set
++				 * even though there are enough free
++				 * sections, node cleaning will continue.
++				 */
++				if (!sbi->need_node_clean)
++					goto stop;
++			} else {
++				goto stop;
++			}
+ 		}
+ 		if (sbi->skipped_gc_rwsem)
+ 			skipped_round++;
+@@ -1897,21 +1968,6 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+ 		goto stop;
+ 	}
+ 
+-	__get_secs_required(sbi, NULL, &upper_secs, NULL);
+-
+-	/*
+-	 * Write checkpoint to reclaim prefree segments.
+-	 * We need more three extra sections for writer's data/node/dentry.
+-	 */
+-	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS &&
+-				prefree_segments(sbi)) {
+-		stat_inc_cp_call_count(sbi, TOTAL_CALL);
+-		ret = f2fs_write_checkpoint(sbi, &cpc);
+-		if (ret)
+-			goto stop;
+-		/* Reset due to checkpoint */
+-		sec_freed = 0;
+-	}
+ go_gc_more:
+ 	segno = NULL_SEGNO;
+ 	goto gc_more;
+@@ -1920,8 +1976,10 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+ 	SIT_I(sbi)->last_victim[ALLOC_NEXT] = 0;
+ 	SIT_I(sbi)->last_victim[FLUSH_DEVICE] = gc_control->victim_segno;
+ 
+-	if (gc_type == FG_GC)
++	if (gc_type == FG_GC) {
+ 		f2fs_unpin_all_sections(sbi, true);
++		sbi->need_node_clean = false;
 +	}
-+
-+	for (mid = ltc4286_id; mid->name[0]; mid++) {
-+		if (!strncasecmp(mid->name, block_buffer, strlen(mid->name)))
+ 
+ 	trace_f2fs_gc_end(sbi->sb, ret, total_freed, total_sec_freed,
+ 				get_pages(sbi, F2FS_DIRTY_NODES),
+diff --git a/fs/f2fs/segment.h b/fs/f2fs/segment.h
+index 2ca8fb5d0dc4..d55fa1fee2e0 100644
+--- a/fs/f2fs/segment.h
++++ b/fs/f2fs/segment.h
+@@ -197,8 +197,10 @@ struct victim_sel_policy {
+ 	unsigned int offset;		/* last scanned bitmap offset */
+ 	unsigned int ofs_unit;		/* bitmap search unit */
+ 	unsigned int min_cost;		/* minimum cost */
++	unsigned int node_min_cost;	/* minimum cost of node type section */
+ 	unsigned long long oldest_age;	/* oldest age of segments having the same min cost */
+ 	unsigned int min_segno;		/* segment # having min. cost */
++	unsigned int node_min_segno;	/* node segment # having min. cost */
+ 	unsigned long long age;		/* mtime of GCed section*/
+ 	unsigned long long age_threshold;/* age threshold */
+ };
+diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+index a8c8232852bb..133137dd6fd0 100644
+--- a/fs/f2fs/super.c
++++ b/fs/f2fs/super.c
+@@ -165,6 +165,7 @@ enum {
+ 	Opt_memory_mode,
+ 	Opt_age_extent_cache,
+ 	Opt_errors,
++	Opt_prefer_data_victim,
+ 	Opt_err,
+ };
+ 
+@@ -245,6 +246,7 @@ static match_table_t f2fs_tokens = {
+ 	{Opt_memory_mode, "memory=%s"},
+ 	{Opt_age_extent_cache, "age_extent_cache"},
+ 	{Opt_errors, "errors=%s"},
++	{Opt_prefer_data_victim, "prefer_data_victim"},
+ 	{Opt_err, NULL},
+ };
+ 
+@@ -1286,6 +1288,13 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
+ 			}
+ 			kfree(name);
+ 			break;
++		case Opt_prefer_data_victim:
++			if (!f2fs_sb_has_blkzoned(sbi)) {
++				f2fs_err(sbi, "prefer_data_victim is only allowed with zoned block device feature");
++				return -EINVAL;
++			}
++			set_opt(sbi, PREFER_DATA_VICTIM);
 +			break;
-+	}
-+
-+	ret = of_property_read_u32(client->dev.of_node,
-+				   "shunt-resistor-micro-ohms", &rsense);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (rsense == 0)
-+		return -EINVAL;
-+
-+	info = &ltc4286_info;
-+
-+	/* Default of VRANGE_SELECT = 1, 102.4V */
-+	if (device_property_read_bool(&client->dev, "adi,vrange-select-25p6")) {
-+		/* Setup MFR1 CONFIG register bit 1 VRANGE_SELECT */
-+		ret = i2c_smbus_read_word_data(client, LTC4286_MFR_CONFIG1);
-+		if (ret < 0) {
-+			dev_err(&client->dev,
-+				"failed to read manufacturer configuration one\n");
-+			return ret;
-+		}
-+
-+		ret &= ~VRANGE_SELECT_BIT; /* VRANGE_SELECT = 0, 25.6V */
-+		ret = i2c_smbus_write_word_data(client, LTC4286_MFR_CONFIG1,
-+						ret);
-+		if (ret < 0) {
-+			dev_err(&client->dev, "failed to set vrange\n");
-+			return ret;
-+		}
-+
-+		info->m[PSC_VOLTAGE_IN] = 128;
-+		info->m[PSC_VOLTAGE_OUT] = 128;
-+		info->m[PSC_POWER] = 4 * rsense;
-+	} else
-+		info->m[PSC_POWER] = rsense;
-+
-+	info->m[PSC_CURRENT_OUT] = 1024 * rsense;
-+
-+	return pmbus_do_probe(client, info);
-+}
-+
-+static const struct of_device_id ltc4286_of_match[] = {
-+	{ .compatible = "lltc,ltc4286" },
-+	{ .compatible = "lltc,ltc4287" },
-+	{}
-+};
-+
-+static struct i2c_driver ltc4286_driver = {
-+	.driver = {
-+		.name = "ltc4286",
-+		.of_match_table = ltc4286_of_match,
-+	},
-+	.probe = ltc4286_probe,
-+	.id_table = ltc4286_id,
-+};
-+
-+module_i2c_driver(ltc4286_driver);
-+
-+MODULE_AUTHOR("Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>");
-+MODULE_DESCRIPTION("PMBUS driver for LTC4286 and compatibles");
-+MODULE_LICENSE("GPL");
+ 		default:
+ 			f2fs_err(sbi, "Unrecognized mount option \"%s\" or missing value",
+ 				 p);
 -- 
-2.25.1
+2.34.1
 
