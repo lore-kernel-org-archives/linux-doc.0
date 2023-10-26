@@ -1,79 +1,155 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D55F4426
-	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 21:28:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081034426;
+	Thu, 26 Oct 2023 21:33:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RutCpXCz"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D89C5C0;
-	Thu, 26 Oct 2023 14:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698355681; x=1729891681;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8J9BNPgv1m27uO2LItak+IFRE3PymktIEqwgh/yZAck=;
-  b=RutCpXCzQa9KFzu8waeeSZT6IpiNNOCnqsj3UIjxR3GJoGtYPt8cVZws
-   uUsgbNGreZcDByZVAiHcP124CE/IVcurArFbNhGepNtJ+AiCVLwRDHgXX
-   X9CAmB8hyg5i7E9Sdqvx3dfZroj9jRX39HaIder76eO0yAB6LkNiWespb
-   P6aYV/oE13RoA3s+Ak/aFi1NwDsfmNaXE2bheZ16RPV7E5mrGKunSIGA2
-   OYZutNMNSduZSV58Z/V/1sApfT+gKmPJcwiYfIDGXDJN+xIEhg/hUVq5E
-   gYzP9CdxDuhlk1OG1e2FZeeGYPKwgoJJVr1Kk4r3hCnq51kJa2tD6qMbd
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="473895758"
-X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
-   d="scan'208";a="473895758"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 14:27:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="1090716183"
-X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
-   d="scan'208";a="1090716183"
-Received: from paseron-mobl4.amr.corp.intel.com (HELO desk) ([10.209.17.113])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 14:27:21 -0700
-Date: Thu, 26 Oct 2023 14:27:21 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com
-Subject: Re: [PATCH  v3 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
- mitigation
-Message-ID: <20231026212721.pukgqvg4izmyfvzv@desk>
-References: <20231025-delay-verw-v3-0-52663677ee35@linux.intel.com>
- <20231025-delay-verw-v3-6-52663677ee35@linux.intel.com>
- <ZTq-b0uVyf6KLNV0@google.com>
- <ZTrJa9NFaAORipVL@google.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="lkHsle7i"
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4BE03129;
+	Thu, 26 Oct 2023 14:33:47 -0700 (PDT)
+Received: from [10.137.106.151] (unknown [131.107.159.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 81AF920B74C0;
+	Thu, 26 Oct 2023 14:33:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 81AF920B74C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1698356026;
+	bh=4XTXNRGs6EFGxu4uzbSZ7r9fKh4mK0LSSScI1Qs6AQY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lkHsle7iI2VQ1AX+NaZr+9OMmFu99wmEtzfgnr6EJZqK4JVp9txEyJ3iZLIi3Yqiu
+	 atrmGJ/tt2zKVKq49LWpN05TsSkmG4Wfj5PgbwOkVV+gYOnVpzAz7Pyi+j5RPLfU0o
+	 BiQVRpCRe8GC+EKvTHzEo1DAKQ4XP+Zkut822rHM=
+Message-ID: <616a6fd7-47b1-4b46-af23-46f9b1a3eedf@linux.microsoft.com>
+Date: Thu, 26 Oct 2023 14:33:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZTrJa9NFaAORipVL@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v11 5/19] ipe: introduce 'boot_verified' as a trust
+ provider
+To: Paul Moore <paul@paul-moore.com>, corbet@lwn.net, zohar@linux.ibm.com,
+ jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+ axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-block@vger.kernel.org, dm-devel@redhat.com, audit@vger.kernel.org,
+ roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+ Deven Bowers <deven.desai@linux.microsoft.com>
+References: <1696457386-3010-6-git-send-email-wufan@linux.microsoft.com>
+ <c53599e9d278fc55be30e3bac9411328.paul@paul-moore.com>
+Content-Language: en-US
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <c53599e9d278fc55be30e3bac9411328.paul@paul-moore.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 26, 2023 at 01:17:47PM -0700, Sean Christopherson wrote:
-> Alternatively, and maybe even preferably, this would make it more obvious that
-> the two are mutually exclusive and would also be a (very, very) small perf win
-> when the mitigation is enabled.
 
-Agree.
 
-> -       vmx_disable_fb_clear(vmx);
-> +       if (!cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
-> +               vmx_disable_fb_clear(vmx);
+On 10/23/2023 8:52 PM, Paul Moore wrote:
+> On Oct  4, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
+>>
+>> IPE is designed to provide system level trust guarantees, this usually
+>> implies that trust starts from bootup with a hardware root of trust,
+>> which validates the bootloader. After this, the bootloader verifies the
+>> kernel and the initramfs.
+>>
+>> As there's no currently supported integrity method for initramfs, and
+>> it's typically already verified by the bootloader, introduce a property
+>> that causes the first superblock to have an execution to be "pinned",
+>> which is typically initramfs.
+>>
+>> When the "pinned" device is unmounted, it will be "unpinned" and
+>> `boot_verified` property will always evaluate to false afterward.
+>>
+>> We use a pointer with a spin_lock to "pin" the device instead of rcu
+>> because rcu synchronization may sleep, which is not allowed when
+>> unmounting a device.
+>>
+>> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+...
+>> ---
+>>   security/ipe/eval.c          | 72 +++++++++++++++++++++++++++++++++++-
+>>   security/ipe/eval.h          |  2 +
+>>   security/ipe/hooks.c         | 12 ++++++
+>>   security/ipe/hooks.h         |  2 +
+>>   security/ipe/ipe.c           |  1 +
+>>   security/ipe/policy.h        |  2 +
+>>   security/ipe/policy_parser.c | 35 +++++++++++++++++-
+>>   7 files changed, 124 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+>> index 8a8bcc5c7d7f..bdac4abc0ddb 100644
+>> --- a/security/ipe/eval.c
+>> +++ b/security/ipe/eval.c
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/file.h>
+>>   #include <linux/sched.h>
+>>   #include <linux/rcupdate.h>
+>> +#include <linux/spinlock.h>
+>>   
+>>   #include "ipe.h"
+>>   #include "eval.h"
+>> @@ -16,6 +17,44 @@
+>>   
+>>   struct ipe_policy __rcu *ipe_active_policy;
+>>   
+>> +static const struct super_block *pinned_sb;
+>> +static DEFINE_SPINLOCK(pin_lock);
+>> +#define FILE_SUPERBLOCK(f) ((f)->f_path.mnt->mnt_sb)
+>> +
+>> +/**
+>> + * pin_sb - Pin the underlying superblock of @f, marking it as trusted.
+>> + * @sb: Supplies a super_block structure to be pinned.
+>> + */
+>> +static void pin_sb(const struct super_block *sb)
+>> +{
+>> +	if (!sb)
+>> +		return;
+>> +	spin_lock(&pin_lock);
+>> +	if (!pinned_sb)
+>> +		pinned_sb = sb;
+>> +	spin_unlock(&pin_lock);
+>> +}
+>> +
+>> +/**
+>> + * from_pinned - Determine whether @sb is the pinned super_block.
+>> + * @sb: Supplies a super_block to check against the pinned super_block.
+>> + *
+>> + * Return:
+>> + * * true	- @sb is the pinned super_block
+>> + * * false	- @sb is not the pinned super_block
+>> + */
+>> +static bool from_pinned(const struct super_block *sb)
+>> +{
+>> +	bool rv;
+>> +
+>> +	if (!sb)
+>> +		return false;
+>> +	spin_lock(&pin_lock);
+>> +	rv = !IS_ERR_OR_NULL(pinned_sb) && pinned_sb == sb;
+>> +	spin_unlock(&pin_lock);
+> 
+> It's okay for an initial version, but I still think you need to get
+> away from this spinlock in from_pinned() as quickly as possible.
+> Maybe I'm wrong, but this looks like a major source of lock contention.
+> 
+> I understand the issue around RCU and the potential for matching on
+> a reused buffer/address, but if you modified IPE to have its own LSM
+> security blob in super_block::security you could mark the superblock
+> when it was mounted and do a lockless lookup here in from_pinned().
+> 
+Thank you for the suggestion. After some testing, I discovered that 
+switching to RCU to pin the super block and using a security blob to 
+mark a pinned super block works. This approach do avoid many spinlock 
+operations. I'll incorporate these changes in the next version of the patch.
 
+-Fan
+>> +	return rv;
+>> +}
+> 
+> --
+> paul-moore.com
