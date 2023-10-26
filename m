@@ -1,171 +1,117 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0DAC134
-	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 06:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D322192
-	for <linux-doc@vger.kernel.org>; Wed, 25 Oct 2023 23:55:13 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1qvuGn-0005Cz-In; Thu, 26 Oct 2023 08:55:05 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1qvuGm-004LiV-6L; Thu, 26 Oct 2023 08:55:04 +0200
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1qvuGl-00AJaG-T4; Thu, 26 Oct 2023 08:55:03 +0200
-Date: Thu, 26 Oct 2023 08:55:03 +0200
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Jayant Chowdhary <jchowdhary@google.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
-	"kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"etalvala@google.com" <etalvala@google.com>,
-	"arakesh@google.com" <arakesh@google.com>
-Subject: Re: uvc gadget: Making upper bound of number of usb requests
- allocated configurable through configfs
-Message-ID: <ZToNRynv4u6IbroC@pengutronix.de>
-References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
- <2023100834-statistic-richly-49ef@gregkh>
- <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
- <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
- <c47e864b-4b9e-4a21-afea-af121a4d7771@google.com>
- <20231020233044.dh63nu3tkbmrtfl4@synopsys.com>
- <69609645-fa20-4987-981d-1ab264e80b9b@google.com>
- <ZTe5leI7Hvk2/cl9@pengutronix.de>
- <45fe4c79-458a-4eaf-8de8-50682f7d8b52@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC172256C;
+	Thu, 26 Oct 2023 08:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="X0z3UkgQ"
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2061.outbound.protection.outlook.com [40.107.117.61])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A266CE;
+	Thu, 26 Oct 2023 01:15:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aBfokeLiZoHOHlwnx3Ig/qtT2QpjyunjByTglqQB0gju0D8XReiJmMINt62JN5O0z28/jvCNt+f7LeaMCg6gJgoRPGmrQ6PZYxZqm3dDnZ+lE8ScF2NMyeJcUlTIcMqTolwX3TtH433ALQ3cn2IzK167seTNFwyqNlnDBjIulFy660PjYWQWiAqe8El9PTDLweJXR8yWHyEq4g+j1bsddWtf6hODDgIbHmyGvqvbsVtEscpQbE/TSk7meh4E7+v5GGHufKjbXd7m7/b+MYRh+yqXuN8wnQXn36USUWH19OCEDtKt3ToD08U1wExWXt8xbtWefrd8mSlJhfX/G0+Gvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=41FOP7tGP3V4A+/Xspp259P7cwuIEzHK2Yug8mkoLow=;
+ b=UfkrfqJYhR4E5b07W4i8NNdBVBNI9TIN1sdie568mD6CZbrAi8OvePrGCQzzmyWZzN140FDv1hCYZCvtJqs53q1bYDE0yoBDcDmuS01SLwaCUL5GjpzOxys6tIFgm3jleWQUsda9YBVVE6fnhpJW4fowtf2pt4LbIJyT+buJ1VZlnCHbzvv1EekakxZHa92/MnQjc81vnc0JyDIwim0roPN643bMbRfnBdPJRHQrZT04SB9OQ6p9Fewz1hTvYw1WcYgacBzwCq3u3oKRKtnsaPF8yA2bXJxzUPfqhnLfQR+pvYyOU6YHSzEN5cRjO4ZWPqvp5ZlnLEMGdwNytGUNQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=41FOP7tGP3V4A+/Xspp259P7cwuIEzHK2Yug8mkoLow=;
+ b=X0z3UkgQk5aDHVvNonWgSTStnDOdb30qDXluTFoLV+q4birwFw9LAlicj/KWdckufaG1V2ml6Vf1PZtXvksTZ57A1u7URcvRNeALZRVgxUQ96rvjHkEUrO/vqWvsUwFLHNB3utWOG4yAR37WR9/tw8tQpRUJT+o7PC71ZjX0eYy+NXt1BKrWfrnqQJkrR6AxvMw2msUpSAQREonqnzWCmfRrWTeXG4wTNfCELl3PWS1bNt7M507U7JawYIRVbVwLJwT94jcSIZZRFUwT2/v5osbhG9izs9DXNQvQsJ51YKH3dnPm740hbpSQF+RLdmMXfjNDm3eSmo4clVM9LyRWUA==
+Received: from KL1PR0401CA0030.apcprd04.prod.outlook.com (2603:1096:820:e::17)
+ by SEZPR04MB6355.apcprd04.prod.outlook.com (2603:1096:101:cb::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Thu, 26 Oct
+ 2023 08:15:20 +0000
+Received: from HK2PEPF00006FB0.apcprd02.prod.outlook.com
+ (2603:1096:820:e:cafe::d6) by KL1PR0401CA0030.outlook.office365.com
+ (2603:1096:820:e::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.34 via Frontend
+ Transport; Thu, 26 Oct 2023 08:15:19 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=Wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=Wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of Wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ HK2PEPF00006FB0.mail.protection.outlook.com (10.167.8.6) with Microsoft SMTP
+ Server id 15.20.6838.22 via Frontend Transport; Thu, 26 Oct 2023 08:15:19
+ +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+To: patrick@stwcx.xyz
+Cc: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-i2c@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/2] LTC4286 and LTC4287 driver support
+Date: Thu, 26 Oct 2023 16:15:10 +0800
+Message-Id: <20231026081514.3610343-1-Delphine_CC_Chiu@Wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="26BZ6edR9Ajw3wQ5"
-Content-Disposition: inline
-In-Reply-To: <45fe4c79-458a-4eaf-8de8-50682f7d8b52@google.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK2PEPF00006FB0:EE_|SEZPR04MB6355:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 8de9bb05-959c-4e6d-2250-08dbd5fbb16a
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	d2L1iVrANtie0MzbUkzvFKTA26EfwqtcYANAaSX5Fp9eTethzuDReTXKNvZL4Nie7L6XmkuOquwJ4tNRVegRjH3NAxSnPWXKAvMHymvXn6gEE3xi+/YYjyPljDwuodwP5hNrU3reVeD+D0iEgEk2B+fg8mz1vNMa1Ctal6EvUj3O/3NxEifuSswQCBHTGosE2q56rUm7ssLI2ysYly3Y4sXzcV3n7lsR+y7zdDHlJ83pY/ihRk7gbDfwMeW5wk3XUmA2NSB4aLdr6R0MJr2l8xgzP+mSoa4z4t+vy0DRtvdpKexZv5nY9bhfo3wKT41c/UNU2gIQAeh9oasShBh2qCsGhmZWNXvDx79FaoEprYl5l2o+7i/CxNFVxczwhdGhw6LKjnOtZe5BjERuddY5d08Ib/5Ez8zJtfUvIkEuZMFY6Z3UZ339WH4/S74bpq+tY6dcPtxxvRszucOELvWvO8qKbkWOaSbAGEbfNRzn/rbeTjUpprlw/jprh89kXuZTK8fVc0kjFEjiSuHI0EmiIT/ByR0sxiXyuvwNMvawHLR/VO25/UPE5dgui0rRkxB/neFTGQmL4aCifFDRLtYcCQITXQnoGbVma+xIFyF4ugNaQEW1JA2ztIJDPMEuZuTWKcXRdmjixBNRzgdW54Pz1jNL1NRbCa4/ZhtduF9EXvZzz4W220Q+sHjtoT2PlP0jYHfrlT4SCmw1MH0Qkr7Anw==
+X-Forefront-Antispam-Report:
+	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(39860400002)(376002)(136003)(346002)(396003)(186009)(1800799009)(451199024)(64100799003)(82310400011)(46966006)(36840700001)(40480700001)(6506007)(478600001)(54906003)(2616005)(70586007)(70206006)(956004)(6512007)(1076003)(6666004)(316002)(36756003)(6916009)(86362001)(9316004)(6486002)(47076005)(36860700001)(336012)(81166007)(82740400003)(26005)(356005)(8676002)(8936002)(4326008)(36736006)(7416002)(5660300002)(2906002)(4744005)(41300700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 08:15:19.0431
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8de9bb05-959c-4e6d-2250-08dbd5fbb16a
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource:
+	HK2PEPF00006FB0.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB6355
 
+v2 - Add LTC4286 and LTC4287 binding document
+   - Add LTC4286 and LTC4287 driver
 
---26BZ6edR9Ajw3wQ5
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Delphine CC Chiu (2):
+  dt-bindings: hwmon: Add lltc ltc4286 driver bindings
+  hwmon: pmbus: Add ltc4286 driver
 
-On Wed, Oct 25, 2023 at 04:09:27PM -0700, Jayant Chowdhary wrote:
->On 10/24/23 05:33, Michael Grzeschik wrote:
->> On Mon, Oct 23, 2023 at 11:13:03AM -0700, Jayant Chowdhary wrote:
->>> On 10/20/23 16:30, Thinh Nguyen wrote:
->>>> Sorry for the delay response.
->>>>
->>>> On Sun, Oct 15, 2023, Jayant Chowdhary wrote:
->>>>> On 10/12/23 11:50, Thinh Nguyen wrote:
->>>>>> The frequency of the request submission should not depend on the
->>>>>> video_pump() work thread since it can vary. The frequency of request
->>>>>> submission should match with the request completion. We know that
->>>>>> request completion rate should be fixed (1 uframe/request + when you
->>>>>> don't set no_interrupt). Base on this you can do your calculation on=
- how
->>>>>> often you should set no_interrupt and how many requests you must sub=
-mit.
->>>>>> You don't have to wait for the video_pump() to submit 0-length reque=
-sts.
->>>>>>
->>>>>> The only variable here is the completion handler delay or system
->>>>>> latency, which should not be much and should be within your calculat=
-ion.
->>>>>
->>>>> Thanks for the suggestion. It indeed makes sense that we do not compl=
-etely depend on
->>>>> video_pump() for sending 0 length requests. I was concerned about
->>>>> synchronization needed when we send requests to the dwc3 controller f=
-rom
->>>>> different threads. I see that the dwc3 controller code does internall=
-y serialize
->>>>> queueing requests, can we expect this from other controllers as well ?
->>>> While it's not explicitly documented, when the gadget driver uses
->>>> usb_ep_queue(), the order in which the gadget recieves the request
->>>> should be maintained and serialized. Because the order the transfer go
->>>> out for the same endpoint can be critical, breaking this will cause
->>>> issue.
->>>>
->>> Thanks for clarifying this. Keeping this in mind - I made a slight modi=
-fication to
->>> your test patch - I removed the uvc_video_pump() function call from uvc=
-_v4l2_qbuf(). We just
->>> call it in uvcg_video_enable(). That should just queue 0 length request=
-s till the first qbuf
->>> is called. There-after only the complete handler running uvcg_video_com=
-plete() calls video_pump(),
->>> which sends usb requests to the endpoint. While I do see that we hold t=
-he queue->irqlock while
->>> getting the uvc buffer to encode and sending it to the ep, I feel like =
-its just logically safer
->>> for future changes if we can restrict the pumping of requests to one th=
-read.
->>>
->>> Does that seem okay to you ? I can formalize it if it does.
->>
->> I tested this, and it looks good so far.
->>
->> Since your changes are minimal you could send this with me as the author
->> and add your Suggested-by Tag. You should also add your Tested-by Tag in
->> that case.
->>
->I sent out https://lore.kernel.org/linux-usb/99384044-0d14-4ebe-9109-8a555=
-7e64449@google.com/T/#u
->
->with a Signed-off-by crediting you and suggested by with Avichal and me. I=
-t has a few changes related to
->
->bulk end-points as well, but they're relatively minor.
+ .../bindings/hwmon/lltc,ltc4286.yaml          |  50 ++++++
+ Documentation/hwmon/ltc4286.rst               |  79 +++++++++
+ MAINTAINERS                                   |  10 ++
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/ltc4286.c                 | 160 ++++++++++++++++++
+ 6 files changed, 309 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
+ create mode 100644 Documentation/hwmon/ltc4286.rst
+ create mode 100644 drivers/hwmon/pmbus/ltc4286.c
 
-Sounds good to me, but you missed your own Signed-off-by in the patch.
+-- 
+2.25.1
 
-Michael
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---26BZ6edR9Ajw3wQ5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmU6DUUACgkQC+njFXoe
-LGTboA//fRYw7ZMp+1UYjI2xZCYc51yKcxDe56f1JTTut8a04buikqYyLR/duxhA
-5O6j/fW5I7lPJOlLaACheoViw3F5S2BP19psOC65sjUAAeIKvbPfDKvpTKkq87ki
-Gtr+O01QuS5xjz+qLPshuhEflDw3HvZzlksXZjfvSBqdJ30PXJx8xdkqJVeyeR5Q
-8O4E2SPu94APzhZHie8aCCaPW1Zc8YkWDhxr9rHRGmZ3DaEpsHDpWm+vrg4qrLWt
-rIowB6noUMjeEDrl7f7dKZFBGryVaf8yGGjZw1/ROwoAZNY5S1z4PVSIbvYrNfh5
-W6oQzXerjm2D5wMlMUa/DAvXqd4X9aElhqf6UhyfYAsZ28OjSh97GiK9fAXGi/PR
-EYCYjDzSm1JfSDAvZnIl6XVFHg86u/OH+JTrIA5mAmOBrUe6IoJv25ElqNeWm6ZY
-AKU2iL4j1nRaRwMdoGzufUIvLKB5H2j82dqzgwfFYkPEKSi/vf0XSUjMSFA4cgON
-FawHP1PoUMkYO3qOwTMgNFOrrFWAbmQhcCoeoSPrhOu0uTeFMGaWVU1fDjyrZ9wh
-v9DiMNJCHp3foFjlxxqfSjAtLV0i24bOu/+FFH2q6Hu5cDFRQfYxWtxU6+O03I0E
-QvWAs9ESbDPMs0l4QtLrRvnpjWZ5lkt8qIIYjGqhN5ZDhV57AX8=
-=9SKu
------END PGP SIGNATURE-----
-
---26BZ6edR9Ajw3wQ5--
