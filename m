@@ -1,171 +1,177 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD152D049
-	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 13:55:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0149E2D791
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 13:58:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3zpl88of"
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2059.outbound.protection.outlook.com [40.107.220.59])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D25D55;
-	Thu, 26 Oct 2023 06:55:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UJnDfMnSZ7rlp5mzxo6kTf4q+vqz6wP2Y00pfsxNlfSqHcMrYvguFNGsSoddLHAeNQOoSqGRlojsT6s36aySwSOIXN33BQKzz2T+BNphhe7EbYBbPlVto2Xs8NIJTkAgiGVp8eA+Qx5khuZcE8Xbd9ZX+40wVaFPRlzfP1Dwlb6uLtyIrT4lmU+3rhlo5/fWgT7l5bm8YXyijiLfKBU/b0VaNleULdEGENjuNu1DEnKSUFqqZA4uSu7FfFCtDHChAKWcSH4769n7u4lBeNGeApeyr6K5Tbb1MCh0Ea38pqRR1vW5mM9qPoi2vZ3p5A2gOmR2qZ2DNbmyrbJ5ZgQYKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l1iB3evqeb7DePzb+B0TCoSuDZy04T8MeCjFYh1ejHo=;
- b=D+toviA/hce8DpCxG6VYx+F8Ac7tWdLbN9AG0/NRW/M6CVAvOOpzi7pJkwHv7pwwIUgL+kgl3T/4/NiXh9JO2T9J4s/PLDYcEzwx4VLcU6n+bciuRexmXaWpxnvgTExz8fK6WLEubNdnT2ELGBJKKqHmt2vKT2fEBkKPZ/kL0/xfanlUt3AlaELhcbfAKkxHhjHPCLQ3sxHJ1EgNP5X4c7RZz4kHkx1XzydcuPEFYSpqZ2TAdKIlX3os5i6vrJvmDYNzQaDFKT/if+Unyu78TZRE6FvGw4kakpKZc3yz8AkV32xrP0LnAbSqT515F0m7A+idwFc6uymj1yl7TsbYKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l1iB3evqeb7DePzb+B0TCoSuDZy04T8MeCjFYh1ejHo=;
- b=3zpl88ofll9GNWFvaTzhp3rRIXMVBaoFV/hxvC2VZ9Gq2pMu4fVwVFAsXQVJySuzHhJpE5uHnGH1zAYVyW1N0g2PMry00I7IhkPfK8WxR1XRE8cEnieSHD96B2NpF2UL5AJwzxTJkFqFMp4NJjMhgnRum/aTbS3nd92A3yqvkeo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CY8PR12MB9036.namprd12.prod.outlook.com (2603:10b6:930:78::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Thu, 26 Oct
- 2023 13:55:30 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::1e4c:5da0:33ed:ff3a]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::1e4c:5da0:33ed:ff3a%7]) with mapi id 15.20.6933.019; Thu, 26 Oct 2023
- 13:55:30 +0000
-Message-ID: <95fc35a2-2f19-4ba5-ad3a-7d7ae578289c@amd.com>
-Date: Thu, 26 Oct 2023 08:55:27 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH] x86/resctrl: mba_MBps: Fall back to total b/w if local
- b/w unavailable
-Content-Language: en-US
-To: Peter Newman <peternewman@google.com>, Tony Luck <tony.luck@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
- Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>,
- Jamie Iles <quic_jiles@quicinc.com>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- patches@lists.linux.dev
-References: <20231024181600.8270-1-tony.luck@intel.com>
- <CALPaoChftF-H6GauKq4-c_qBJP1GJbR3-ByE5krsaQF4y4y9oQ@mail.gmail.com>
- <ZTluypa9bCWv4k2n@agluck-desk3>
- <CALPaoCj72V=o60tqsFMRzaeUw-1+rN7pyhsdCyVEV=0tN_CZ7A@mail.gmail.com>
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <CALPaoCj72V=o60tqsFMRzaeUw-1+rN7pyhsdCyVEV=0tN_CZ7A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1PR02CA0008.namprd02.prod.outlook.com
- (2603:10b6:806:2cf::13) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="OmRaJlt3"
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1AE21A2
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 06:58:44 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9c41e95efcbso137588366b.3
+        for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 06:58:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=citrix.com; s=google; t=1698328723; x=1698933523; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :content-language:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=f/KYa4HkxjjRaaNse5zZEBCRtWEDy9TvEZNCSQroKlA=;
+        b=OmRaJlt3h3pl7MI6mS0dHtDwDLhFscUlKG/I0p2L14uNCUXYP/uIiNVS/IIb54VzlQ
+         rtVbLQQgM17vGASinGX+XKUpbfkmM4PXahpGGWAchVQanhNIxYYpjE3bIXyxI9Dy1fSw
+         YiKeKr7EgiUWPQproy/AtMTfecv+3Gffgp+XI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698328723; x=1698933523;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :content-language:subject:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f/KYa4HkxjjRaaNse5zZEBCRtWEDy9TvEZNCSQroKlA=;
+        b=uqkcFl73rDbm1GSgEjCyPMsyQmcx0N+PzEA8J94YOtiuiWR3fBaBsvzcV8QdIjXTsY
+         87nEM/bIthVvo5oxyz3mHX/gil6a6CmCMimDxiCNrPfpy8zGppzH7fpcJC7Dic3gcHGD
+         LUX3e1ddMVMQTDFfKJheawF0YsRbK2UIRWEBI9a/V4FuapFpIiuf48hCua4cI5nND//n
+         5EWEyHaFQrDwzZG56KuSh2DSFerWiYjygDR/rMIOjXlgH5ixfrGm8uIrPWCLDZVRXC4J
+         zBY+YSdhRtir6DmVtjVpc9XoSyZgJ07lIKnE7zC8QdDf4fXqj+N4hnqjsuk7rLNODBZc
+         8w/Q==
+X-Gm-Message-State: AOJu0Yyyp/2xPWjo39LVXxqriYxww/wQbzNS4SXLC8gAw13W7kNGcrhe
+	pvBbICVXB4aTPzUwf7vyiKtrRA==
+X-Google-Smtp-Source: AGHT+IF2rU6imsm+9/5fNEkBUbTI0NVZdVoGckX2Pddx8Q6ImRaSm5Kbk4+MvlMi/u+iolhDKI4lYA==
+X-Received: by 2002:a17:907:70a:b0:9b8:b683:5854 with SMTP id xb10-20020a170907070a00b009b8b6835854mr15025269ejb.61.1698328723124;
+        Thu, 26 Oct 2023 06:58:43 -0700 (PDT)
+Received: from [10.80.67.28] (default-46-102-197-194.interdsl.co.uk. [46.102.197.194])
+        by smtp.gmail.com with ESMTPSA id bm11-20020a170906c04b00b009a193a5acffsm11621069ejb.121.2023.10.26.06.58.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Oct 2023 06:58:42 -0700 (PDT)
+Message-ID: <37b334b2-c040-458d-9c1f-2546dc9b378d@citrix.com>
+Date: Thu, 26 Oct 2023 14:58:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CY8PR12MB9036:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20d4e0fd-01c5-47ab-9219-08dbd62b3750
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	0bgkrBk69yB8y9JJUaQr4fS9CSq0qE+U51DKuXWN6Qg6HQXs7FKy2qcv1rh1uNlq/VsGSAHyke3HAh7b60ntrVITAVMRmAspTdocjLniYWyZl8UxW6yeCxw9pU6ggDGmaToTMQMDtqdvflqUNRW1hbuXF0kBhLBP8qtFikKNpPI2/QBMYIHdDWNFl1Q6laW9ZDHnpFgI4Q9BzpHPedP664lYylIWjYZzmSp0R5na9gqxv0yEPk4+E37GLaMgW+pSACqs61kitop5eothio0zp2Sm759pf6R35NC+Xj/9soRlJ/bzdmc6/qTq+Goai6YevHgBYMnKFZ8GdhG3ZA4929nbjmb7ERfSlpvZc7c13r21lyQ3Tgi+euskn6gTmTZP3nEPVoY4nHUMjib5kLDcEotMxVZBzeZ6NcXSyu+JOVUUp6YrnDWuIT5F/mFXy/isMkL7/roUJUjZ1G2YJ4jUUD4aohxwoPQ83Kr1ltxA531z5i6dUTby1hKOOe9SORUQWdnGobAT3OntidtbfrkUc2TCn8IJt8FsKMDPqecS7XaAOV/fL5dmwIZrBBNcPxcbe0mTYgmC4fANxYZUV9+cFy2bQw9sTDcuwbtCRz5fNAdbfqVbqo+DQoZ0sjygRXXmHvXajcKmpDbAssGC6aG1Cg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(346002)(366004)(376002)(39860400002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(2906002)(86362001)(41300700001)(38100700002)(6506007)(54906003)(316002)(66476007)(66556008)(66946007)(6666004)(478600001)(110136005)(6512007)(53546011)(6486002)(3450700001)(966005)(83380400001)(31696002)(36756003)(5660300002)(2616005)(8676002)(4326008)(7416002)(8936002)(26005)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a2ttMTdQV1JMY2dBR0lqaXhRd2dHT01vVXFQdXJGNWFYU0YvM1dUczVzRUtP?=
- =?utf-8?B?SHYzZnZCYjQxZFJOZDdQZ0tJdlZGV0l1SlkvZDE2SHZ5QVZGOGdDYmFHeFRV?=
- =?utf-8?B?NGVrcTR2TVVWUy9XWnRmRDJtQWRxaTIrdjhxUDFZWlp3bG02aDBRdWEyMElK?=
- =?utf-8?B?Y2gvU2dMQUI3cWVDdWwvT0pYczU2VzNCUVBRNUl1QWh0cTVPMmJyZmM2M2lj?=
- =?utf-8?B?YUFxSWxWSkhJVkJrd0psbnNVdEo0cDVweHZOKzVHOEV5dk1TSGVtWTVBQXZ3?=
- =?utf-8?B?ZWtGa3lWNFkxS2EwRFk2c3VON3hYcjRlQUtjb2FqMHhMOWNSYitTUkx2V3FW?=
- =?utf-8?B?V1l6RHRQa1QyaWVJUFFtYml4ZlhpSEV1d1RubTg5UXVXZ2d1K2dWVVVsek5M?=
- =?utf-8?B?YURSdEIvUXBLVG9KNUtMbnBKQlBtZGJrUEhuWWVoSXFJSFZBcGhHaSt6NnZY?=
- =?utf-8?B?KzRqNm9RQzljWDRVTVVybm11R3pOTG43ZXcybkhkcXNDajhCODllbkQ5aURO?=
- =?utf-8?B?TWpiV3hla0NVQUw0U1BTQk00dERvb05ZaVJnV2FENFk1VzZNNFllWFJhMFJK?=
- =?utf-8?B?ditBa0JvMXpYeGdueWhGVEg4OXRXM1lzeTJkNCtSTDd6YzBxdFREcHpYQ2hW?=
- =?utf-8?B?WkZKS3UrTk0xNldMZWsvdUFMViszVEhCaUtOdGZ6ZTc2UUxPS3p3eWFZSCs4?=
- =?utf-8?B?K05ZRXdyQ3JyaUlvbmhxbS82dW1xZXZaNlZrdmlJVCtBRFMzTUVMa3NRNmNa?=
- =?utf-8?B?TEMxcnpLWXMyamZvUUU2RG5kVVk4Tm9NSmNOa1djRnE2MmlDRFhYZXN0TFdW?=
- =?utf-8?B?bzRzMkc3eFZ4YkEyR0I2MFZvN2srVDhBYmYyVy9GVUNMQlNTRzA1R0F4a3Fj?=
- =?utf-8?B?dTJycXZLdEhtOEpWQlJ1eS9GbkVVRHNyajFWUnowRzFhVkFCQUxRWGluVUI4?=
- =?utf-8?B?TEE4cEJwUU5rUG0rM3JSWTF6T21ZRytpRFlQWldmdUErdVlhSDBrNUxST05S?=
- =?utf-8?B?bG1SRksvdXVQanpaZGZLVUFad2VqMjZ6SitGaTYwbXZScTZYT2thRFpVWDBI?=
- =?utf-8?B?NHVpdzBSTExodU1pRHJXOThFSkRWK2RTSzFhQjgrVnBFS2pBUHQyRk53MjNy?=
- =?utf-8?B?NnpYeEV6Z2VNN3VQckYzSlZGYUovT3VEcmtMOEQrZjlNUVEyZnV4VjE3R1VN?=
- =?utf-8?B?WGhMVjNVczlhNFpYSW5Ca3dJd3ZQL2t3SzA0SnZybWs2REFXaXJaT0pIRnA3?=
- =?utf-8?B?ZWR5bGwzVzVJaFdFdFg1S01Xb2l5SnY4RTZKZWVuU2RodnVQa3Iyb1k1SE9U?=
- =?utf-8?B?OEg1UjY0NHp6SW1NNnYzdWd3WUZBME9QVndtQ1puRVlETUZRSkV0Q3hvNHVt?=
- =?utf-8?B?UFEwNDk2VFZDSXltRXNzSTQzQ3RYZ3lqNFdIZ1FoMXFJV2FUZ01INnhiU3I5?=
- =?utf-8?B?Kzg4OEpXeGd6YngvM29Eb1Nlb2pCcjhqZHdwUS9TcHU4TkJyK3Mrb0crMnVu?=
- =?utf-8?B?akNacjdITGJ5SVYrTXphbHBkMkdTWFhpK1NUNlRHT0h4Q1BGV3BKYUE1UkRz?=
- =?utf-8?B?QzA5YTh5UzRXcHBuMDhTZW15U0pDS1hoZWdQT09tR2hZUTdJblhkYisvdlB6?=
- =?utf-8?B?ZWtNKzZwMTdLKy9RZExQbXBxNEhld0F3SGh0d0JEL1lOV0ZveVdReElISHlG?=
- =?utf-8?B?VzY4cFlwNmFyWU92aklvekdOaGV1R0lmQkF6K2x3ZG9yckU1akpIZC83aWc1?=
- =?utf-8?B?KzJ0cWFjS3k4NFkyRTNCODE1WSthT2RHZXQwQjNYUXY5ZG1aaURSZG1ZWXNH?=
- =?utf-8?B?czJPVkNyNHpvY0RsU1dlMzdPbHJzYjdERndqQjJJaUNGYnRDNVZWREttUkZZ?=
- =?utf-8?B?NnVUMVNzSWdKWkMyNlVqSG5OUzBKK2paMWpvLzl1ZDNmNWJyUVVRVld1cHgy?=
- =?utf-8?B?bjZJY2Vaek1ybVF1YlBidHNBekhZbjVGTnFibXY4MGFHZTQ4MkRFRzZ3T2xn?=
- =?utf-8?B?WlJPVDZEVHd6T21rdk8wQUVXcmlRd2U4d3ZXc1h2Z0o4dFIycTVwN0tINjRX?=
- =?utf-8?B?aDlDamNNUElhSktQYXg5UVpDYkVXSWpDYVlIY0NJWkJmU0FWY3lGaXlybEVj?=
- =?utf-8?Q?Kuyw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20d4e0fd-01c5-47ab-9219-08dbd62b3750
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 13:55:30.4304
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a5dM8WVrz8H7xdabOmy9jAteyvPhcECUI6RuhA5oyI9Lb1cOc5hEpzNHlEciXTKA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB9036
+User-Agent: Mozilla Thunderbird
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Subject: Re: [PATCH v3 1/6] x86/bugs: Add asm helpers for executing VERW
+Content-Language: en-GB
+To: Nikolay Borisov <nik.borisov@suse.com>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, tony.luck@intel.com, ak@linux.intel.com,
+ tim.c.chen@linux.intel.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+ Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ antonio.gomez.iglesias@linux.intel.com,
+ Alyssa Milburn <alyssa.milburn@intel.com>
+References: <20231025-delay-verw-v3-0-52663677ee35@linux.intel.com>
+ <20231025-delay-verw-v3-1-52663677ee35@linux.intel.com>
+ <1f756579-8f33-40ca-ae50-4db78c615f60@suse.com>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <1f756579-8f33-40ca-ae50-4db78c615f60@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Tony,
+On 26/10/2023 2:44 pm, Nikolay Borisov wrote:
+>
+>
+> <snip>
+>> +
+>> +.pushsection .entry.text, "ax"
+>> +
+>> +.align L1_CACHE_BYTES, 0xcc
+>> +SYM_CODE_START_NOALIGN(mds_verw_sel)
+>> +    UNWIND_HINT_UNDEFINED
+>> +    ANNOTATE_NOENDBR
+>> +    .word __KERNEL_DS
+>> +SYM_CODE_END(mds_verw_sel);
+>> +/* For KVM */
+>> +EXPORT_SYMBOL_GPL(mds_verw_sel);
+>> +
+>> +.popsection
+>
+> <snip>
+>
+>> diff --git a/arch/x86/include/asm/nospec-branch.h
+>> b/arch/x86/include/asm/nospec-branch.h
+>> index c55cc243592e..005e69f93115 100644
+>> --- a/arch/x86/include/asm/nospec-branch.h
+>> +++ b/arch/x86/include/asm/nospec-branch.h
+>> @@ -329,6 +329,21 @@
+>>   #endif
+>>   .endm
+>>   +/*
+>> + * Macros to execute VERW instruction that mitigate transient data
+>> sampling
+>> + * attacks such as MDS. On affected systems a microcode update
+>> overloaded VERW
+>> + * instruction to also clear the CPU buffers. VERW clobbers CFLAGS.ZF.
+>> + *
+>> + * Note: Only the memory operand variant of VERW clears the CPU
+>> buffers.
+>> + */
+>> +.macro EXEC_VERW
+>> +    verw _ASM_RIP(mds_verw_sel)
+>> +.endm
+>> +
+>> +.macro CLEAR_CPU_BUFFERS
+>> +    ALTERNATIVE "", __stringify(EXEC_VERW), X86_FEATURE_CLEAR_CPU_BUF
+>> +.endm
+>
+>
+> What happened with the first 5 bytes of a 7 byte nop being
+> complemented by __KERNEL_DS in order to handle VERW being executed
+> after user registers are restored and having its memory operand ?
 
-On 10/25/23 16:06, Peter Newman wrote:
-> Hi Tony,
-> 
-> On Wed, Oct 25, 2023, 21:38 Tony Luck <tony.luck@intel.com> wrote:
->>
->> On Wed, Oct 25, 2023 at 02:46:53PM +0200, Peter Newman wrote:
->>
->>>> +static struct mbm_state *get_mbm_data(struct rdt_domain *dom_mbm, int rmid)
->>>> +{
->>>> +       if (is_mbm_local_enabled())
->>>> +               return &dom_mbm->mbm_local[rmid];
->>>> +
->>>> +       return &dom_mbm->mbm_total[rmid];
->>>> +}
->>>
->>> That looks very similar to the get_mbm_state() function I added to
->>> this same file recently:
->>>
->>> https://lore.kernel.org/all/20221220164132.443083-2-peternewman%40google.com
->>>
->>> I think the name you picked is misleadingly general. "local if
->>> available, otherwise total" seems to be a choice specific to the mbps
->>> controller. I think these functions should be reconciled a little
->>> better.
->>>
->>
->> Peter (and Babu, who made the same point about get_mbm_state().
->>
->> Do you want to see your function extended to do the "pick an MBM event?"
-> 
-> What I meant was I think it would be enough to just give the function
-> you added a name that's more specific to the Mbps controller use case.
-> For example, get_mba_sc_mbm_state().
+It was moved out of line (so no need to hide a constant in a nop),
+deduped, and renamed to mds_verw_sel.
 
-I actually liked this idea. Add a new function get_mba_sc_mbm_state. That
-way we exactly know why this function is used. I see you already sent a v2
-making the event global. Making it global may not be good idea. Can you
-please update the patch and resend. Also please add the comment about why
-you are adding that function.
--- 
-Thanks
-Babu Moger
+verw _ASM_RIP(mds_verw_sel) *is* the memory form.
+
+~Andrew
