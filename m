@@ -1,74 +1,160 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC4523B8
-	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 02:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050E31FAF
+	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 03:39:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5iY5qtP"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C3B6187
-	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 19:22:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698373377; x=1729909377;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qh16vCpPEVWr45BgPugRiFS5uS7JwQVCKWphzi6LWQo=;
-  b=A5iY5qtPX+UhT5esGj6tM/yfi1p5GI9ZFfxLt950Y91N5wAIC83NNhJJ
-   R3dwXDG/6wPv/cRxkwB8CoOKShnu4bQk5wL9zkAK1G7sE7X6tOllO77+U
-   ftOUlRtalkB5HqSrO8SDVjP0emBmHFCXaKcFl8l/vzDLATFndLuJdTQMU
-   NCIBZKQO/Dhk2YjWNHmzdKuDK0yG5iPXFbWp0YfgS+t6r8mLQmNN5mCDE
-   oXOWhVW3mmsJFvRnMcsSmXyrSNzIYw9TtN1AS1cTpzw1HSR+GmLzKE6G+
-   GFjNpivd9J2+0FpitTk7dFHtX+Rea9IfXb9H4nnPWePYDNSsfKUzU+BCC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="451934725"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="451934725"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 19:22:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="1006603269"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="1006603269"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 26 Oct 2023 19:22:55 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qwCUv-000AL1-0d;
-	Fri, 27 Oct 2023 02:22:53 +0000
-Date: Fri, 27 Oct 2023 10:22:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org
-Subject: [linux-next:pending-fixes 188/225] htmldocs:
- Documentation/driver-api/cxl/memory-devices:454:
- ./drivers/cxl/core/region.c:1541: WARNING: Unexpected indentation.
-Message-ID: <202310271027.qxOXN1YI-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="QwpZrsQ0"
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF669194
+	for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 20:38:59 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-578b4981526so1341731a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Oct 2023 20:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1698377939; x=1698982739; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MFgGxXvNH1IVbbEq5A6jp4J1ULe7/977xw27+McLJW4=;
+        b=QwpZrsQ08rOzY7Yni6O9VQtQsxftPNeABVGthKkIIRlh+V2Kj9ToJFiIGiBXTYO4dW
+         yWB271MPNjHUKYdc3CFgNHpiNiTuSt16v5GjS3EEerXWabEV8gCa0TvLhsnkulkF6afs
+         MPe0J1Tpjxe9zwSpCJQ0OvsGmuP4DcXlvuAVE5OyaIBK7hATaWFyiIL3dY6hB/Ne2Jhe
+         njdQfFw3RulDM5ylb29YmbI/7K78n3s7F5Dl1ywCxMqZ4P/R1YmfcDPlxrnxPdIphjGb
+         OvQvNx4XjM1ycOwxpoMgFra1VrNcgjxvaEn5yhYgmUWcc4JG/MYWw4Pqa3DbkBe+NpJQ
+         z49w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698377939; x=1698982739;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MFgGxXvNH1IVbbEq5A6jp4J1ULe7/977xw27+McLJW4=;
+        b=UwiHXMGAMf+L3Glv7A166DWPE34Csjosbbp5mGJ1CHu2toiQue/JomT4OmmoRqYDTe
+         y3SeyJCURJ/jvnuZAGyh1anN4lqDoH2Wa8qrCNzT77nIdKBHtVpvGvoMVXPd+wDSquZD
+         F9xp8nJCFysl0z3zq6P2E4lhXVJ1RTou4RfpWmejLytry1BQ6etRFXN8X0B7rIL0B73t
+         UguxSDhN7UHMiS//b15Qd58weRMyyYqK2CTdUJJcars4cpG/RS7lkcps+3avhuaajemU
+         9xEbrtgDOTbqsLp617e0DU1dI64Jz/1GwPhZJOtBmxTQ04RvlkJtToinPysdk4i1IxE5
+         s3OA==
+X-Gm-Message-State: AOJu0Yye2Gg2QnU2Pz32fqjtjVuSia6ELxdV+jt7e2j7M5i+Y5RhtlQl
+	l8NzujaPti7e93HW2Uj/x+VLrQ==
+X-Google-Smtp-Source: AGHT+IEEmEZXvlSfsc+xnqK4JaSioeT+GyhDkRyFZipkY36OlXg+1cEEFCqP5RPa0hVBvmajvf6Few==
+X-Received: by 2002:a17:90a:fd01:b0:27f:ebfa:1112 with SMTP id cv1-20020a17090afd0100b0027febfa1112mr1401619pjb.5.1698377939105;
+        Thu, 26 Oct 2023 20:38:59 -0700 (PDT)
+Received: from GL4FX4PXWL.bytedance.net ([203.208.189.7])
+        by smtp.gmail.com with ESMTPSA id ms19-20020a17090b235300b00267d9f4d340sm2345676pjb.44.2023.10.26.20.38.51
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 26 Oct 2023 20:38:58 -0700 (PDT)
+From: Peng Zhang <zhangpeng.00@bytedance.com>
+To: Liam.Howlett@oracle.com,
+	corbet@lwn.net,
+	akpm@linux-foundation.org,
+	willy@infradead.org,
+	brauner@kernel.org,
+	surenb@google.com,
+	michael.christie@oracle.com,
+	mjguzik@gmail.com,
+	mathieu.desnoyers@efficios.com,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	oliver.sang@intel.com,
+	mst@redhat.com
+Cc: zhangpeng.00@bytedance.com,
+	maple-tree@lists.infradead.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v7 00/10] Introduce __mt_dup() to improve the performance of fork()
+Date: Fri, 27 Oct 2023 11:38:35 +0800
+Message-Id: <20231027033845.90608-1-zhangpeng.00@bytedance.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-145)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   68c0e1797270c7a6e3cf334a026e82964e90d90e
-commit: 9f3899fd1bb5cf809964e06d86f28fe8b7643a00 [188/225] cxl/region: Calculate a target position in a region interleave
-reproduce: (https://download.01.org/0day-ci/archive/20231027/202310271027.qxOXN1YI-lkp@intel.com/reproduce)
+Hi all,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310271027.qxOXN1YI-lkp@intel.com/
+This series introduces __mt_dup() to improve the performance of fork(). During
+the duplication process of mmap, all VMAs are traversed and inserted one by one
+into the new maple tree, causing the maple tree to be rebalanced multiple times.
+Balancing the maple tree is a costly operation. To duplicate VMAs more
+efficiently, mtree_dup() and __mt_dup() are introduced for the maple tree. They
+can efficiently duplicate a maple tree.
 
-All warnings (new ones prefixed by >>):
+Here are some algorithmic details about {mtree,__mt}_dup(). We perform a DFS
+pre-order traversal of all nodes in the source maple tree. During this process,
+we fully copy the nodes from the source tree to the new tree. This involves
+memory allocation, and when encountering a new node, if it is a non-leaf node,
+all its child nodes are allocated at once.
 
->> Documentation/driver-api/cxl/memory-devices:454: ./drivers/cxl/core/region.c:1541: WARNING: Unexpected indentation.
->> Documentation/driver-api/cxl/memory-devices:454: ./drivers/cxl/core/region.c:1548: WARNING: Block quote ends without a blank line; unexpected unindent.
+This idea was originally from Liam R. Howlett's Maple Tree Work email, and I
+added some of my own ideas to implement it. Some previous discussions can be
+found in [1]. For a more detailed analysis of the algorithm, please refer to the
+logs for patch [3/10] and patch [10/10].
+
+There is a "spawn" in byte-unixbench[2], which can be used to test the
+performance of fork(). I modified it slightly to make it work with
+different number of VMAs.
+
+Below are the test results. The first row shows the number of VMAs.
+The second and third rows show the number of fork() calls per ten seconds,
+corresponding to next-20231006 and the this patchset, respectively. The
+test results were obtained with CPU binding to avoid scheduler load
+balancing that could cause unstable results. There are still some
+fluctuations in the test results, but at least they are better than the
+original performance.
+
+21     121   221    421    821    1621   3221   6421   12821  25621  51221
+112100 76261 54227  34035  20195  11112  6017   3161   1606   802    393
+114558 83067 65008  45824  28751  16072  8922   4747   2436   1233   599
+2.19%  8.92% 19.88% 34.64% 42.37% 44.64% 48.28% 50.17% 51.68% 53.74% 52.42%
+
+Thanks to Liam and Matthew for the review.
+
+Changes since v6:
+ - Add Liam's 'Reviewed-by' tag to all patches except for patch [3/10].
+ - Modify the copyright statement according to Matthew's opinion.
+
+[1] https://lore.kernel.org/lkml/463899aa-6cbd-f08e-0aca-077b0e4e4475@bytedance.com/
+[2] https://github.com/kdlucas/byte-unixbench/tree/master
+
+v1: https://lore.kernel.org/lkml/20230726080916.17454-1-zhangpeng.00@bytedance.com/
+v2: https://lore.kernel.org/lkml/20230830125654.21257-1-zhangpeng.00@bytedance.com/
+v3: https://lore.kernel.org/lkml/20230925035617.84767-1-zhangpeng.00@bytedance.com/
+v4: https://lore.kernel.org/lkml/20231009090320.64565-1-zhangpeng.00@bytedance.com/
+v5: https://lore.kernel.org/lkml/20231016032226.59199-1-zhangpeng.00@bytedance.com/
+v6: https://lore.kernel.org/lkml/20231024083258.65750-1-zhangpeng.00@bytedance.com/
+
+Peng Zhang (10):
+  maple_tree: Add mt_free_one() and mt_attr() helpers
+  maple_tree: Introduce {mtree,mas}_lock_nested()
+  maple_tree: Introduce interfaces __mt_dup() and mtree_dup()
+  radix tree test suite: Align kmem_cache_alloc_bulk() with kernel
+    behavior.
+  maple_tree: Add test for mtree_dup()
+  maple_tree: Update the documentation of maple tree
+  maple_tree: Skip other tests when BENCH is enabled
+  maple_tree: Update check_forking() and bench_forking()
+  maple_tree: Preserve the tree attributes when destroying maple tree
+  fork: Use __mt_dup() to duplicate maple tree in dup_mmap()
+
+ Documentation/core-api/maple_tree.rst |   4 +
+ include/linux/maple_tree.h            |   7 +
+ include/linux/mm.h                    |  11 +
+ kernel/fork.c                         |  40 ++-
+ lib/maple_tree.c                      | 288 +++++++++++++++++++-
+ lib/test_maple_tree.c                 | 123 +++++----
+ mm/internal.h                         |  11 -
+ mm/memory.c                           |   7 +-
+ mm/mmap.c                             |   9 +-
+ tools/include/linux/rwsem.h           |   4 +
+ tools/include/linux/spinlock.h        |   1 +
+ tools/testing/radix-tree/linux.c      |  45 +++-
+ tools/testing/radix-tree/maple.c      | 363 ++++++++++++++++++++++++++
+ 13 files changed, 811 insertions(+), 102 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.20.1
+
