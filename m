@@ -1,50 +1,51 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7587213ACF
-	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 08:18:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642C413FFE
+	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 08:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Yas+hTB6"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Vg/5HBbf"
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24E141AA;
-	Fri, 27 Oct 2023 01:18:55 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39R5iCdc020786;
-	Fri, 27 Oct 2023 08:18:46 GMT
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68FD1FA;
+	Fri, 27 Oct 2023 01:18:59 -0700 (PDT)
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39R5jogH007956;
+	Fri, 27 Oct 2023 08:18:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2023-03-30;
- bh=XiYBzT666XUrJBEenylzauji4KGI2RRUgvA0UHv3h4o=;
- b=Yas+hTB6dx4N568I6QVS8R1FAu0ig/u0ZNN/EIJsAzpJTg3i4OSHjEsc0hRKfDXh+a1y
- C2KATGg/ojZBkNwWYXp3oZuqOR89oWqYbmjHTPYnMkEtZrbm9g6cL6/ra00M8klFlyLr
- Al2D7T0EtZCi5to4CZnjqEB1182OHWTK4TODiQJtrZ0agDVLxtymtK2v5/M+aNzVAsr5
- ynIYwmQZ6ab3OQIuUZme7YWkGh1/SEDkGaXoXFATpEKmR89F1We2C3JnlMa3ILtVyAKA
- +R8Ifr5ZhO+ur74kpeP1CeIlPHWTTJyYKHiH1YuwZO4Tx6n8zP8LDMysP9fr1MGlgDsg Qg== 
+ bh=5c5YvRGx45E/+CpHH1wWVK8msPoSxpNh0E1Lgo5HjKg=;
+ b=Vg/5HBbfSOSiVtEKMpurNNLEl7cWPNsa2QGjRFCbGOyKSva5U2ffD1x0HjVPVy8NlBZh
+ lqO10Kf5gumPSloaB9U1nGZ7GXXHhCC5YCAgeAS8poyPcV8asvgKiYua/4w0orGsUv3i
+ YDgEmDt6X6aRnEzWbOjaUgDyz3mw/xSC8WR4ZrnIStGyDqC0PzIXqYNGaV/quw4CuxV2
+ tYEkymQlswAxuixozm1BMfSL/SuCRh6bEY5ZIxEukZrsiBInVygLFt/s4q1D+I9/wMg0
+ cK28WaDjL2C0xcE6XjpHNQBA53h8b7/Y/XMIaHw7L0lVLPmmYV90JMhrK9tFRQdt2BPu Eg== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tyx4tgx01-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tywtt0yme-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 27 Oct 2023 08:18:45 +0000
+	Fri, 27 Oct 2023 08:18:53 +0000
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39R6Bkhg009253;
-	Fri, 27 Oct 2023 08:18:45 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39R6K2cZ009162;
+	Fri, 27 Oct 2023 08:18:52 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3tywqjeb6j-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3tywqjeb9d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 27 Oct 2023 08:18:45 +0000
+	Fri, 27 Oct 2023 08:18:52 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39R8Ig9L028975;
-	Fri, 27 Oct 2023 08:18:44 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39R8Ig9R028975;
+	Fri, 27 Oct 2023 08:18:52 GMT
 Received: from t460-2.nl.oracle.com (dhcp-10-175-63-126.vpn.oracle.com [10.175.63.126])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3tywqjeb1g-2;
-	Fri, 27 Oct 2023 08:18:44 +0000
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3tywqjeb1g-5;
+	Fri, 27 Oct 2023 08:18:52 +0000
 From: Vegard Nossum <vegard.nossum@oracle.com>
 To: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org,
-        Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [PATCH RFC 01/11] docs: style toctree captions as headings
-Date: Fri, 27 Oct 2023 10:18:20 +0200
-Message-Id: <20231027081830.195056-2-vegard.nossum@oracle.com>
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Stephan Mueller <smueller@chronox.de>
+Subject: [PATCH RFC 04/11] crypto: doc: properly format ToC headings
+Date: Fri, 27 Oct 2023 10:18:23 +0200
+Message-Id: <20231027081830.195056-5-vegard.nossum@oracle.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231027081830.195056-1-vegard.nossum@oracle.com>
 References: <20231027081830.195056-1-vegard.nossum@oracle.com>
@@ -62,33 +63,57 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxl
  spamscore=0 suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
  definitions=main-2310270071
-X-Proofpoint-GUID: QAlaJOtZyHK1XoTMy3SD0PnWrVYs97TY
-X-Proofpoint-ORIG-GUID: QAlaJOtZyHK1XoTMy3SD0PnWrVYs97TY
+X-Proofpoint-GUID: QehSy-H1XCn1uln3sRzJuY2bFJDiWyhb
+X-Proofpoint-ORIG-GUID: QehSy-H1XCn1uln3sRzJuY2bFJDiWyhb
 
-The rtd theme already styles toctree captions as headings, but the
-alabaster theme doesn't. Add this in.
+"class:: toc-title" was a workaround for older Sphinx versions that are
+no longer supported.
+
+The canonical way to add a heading to the ToC is to use :caption:.
+Do that.
 
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Stephan Mueller <smueller@chronox.de>
 Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- Documentation/sphinx-static/custom.css | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/crypto/api.rst   | 5 +----
+ Documentation/crypto/index.rst | 5 +----
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 084a884f6fb7..c7439349dda6 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -8,6 +8,9 @@ div.body h1 { font-size: 180%; }
- div.body h2 { font-size: 150%; }
- div.body h3 { font-size: 130%; }
+diff --git a/Documentation/crypto/api.rst b/Documentation/crypto/api.rst
+index b91b31736df8..ff31c30561d4 100644
+--- a/Documentation/crypto/api.rst
++++ b/Documentation/crypto/api.rst
+@@ -1,11 +1,8 @@
+ Programming Interface
+ =====================
  
-+/* toctree captions are styled like h2 */
-+div.toctree-wrapper p.caption[role=heading] { font-size: 150%; }
-+
- /* Tighten up the layout slightly */
- div.body { padding: 0 15px 0 10px; }
- div.sphinxsidebarwrapper { padding: 1em 0.4em; }
+-.. class:: toc-title
+-
+-	   Table of contents
+-
+ .. toctree::
++   :caption: Table of contents
+    :maxdepth: 2
+ 
+    api-skcipher
+diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+index da5d5ad2bdf3..10647c5ae2ea 100644
+--- a/Documentation/crypto/index.rst
++++ b/Documentation/crypto/index.rst
+@@ -9,11 +9,8 @@ This documentation outlines the Linux kernel crypto API with its
+ concepts, details about developing cipher implementations, employment of the API
+ for cryptographic use cases, as well as programming examples.
+ 
+-.. class:: toc-title
+-
+-	   Table of contents
+-
+ .. toctree::
++   :caption: Table of contents
+    :maxdepth: 2
+ 
+    intro
 -- 
 2.34.1
 
