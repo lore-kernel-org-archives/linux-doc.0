@@ -1,93 +1,186 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3292DB66D;
-	Fri, 27 Oct 2023 07:21:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC8F125A2;
+	Fri, 27 Oct 2023 08:12:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/qH66df"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2E6194;
-	Fri, 27 Oct 2023 00:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698391278; x=1729927278;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rxlH5HwmCqZqMfavoFfoGzozPhjQGaJre4NyNPdtwOc=;
-  b=d/qH66dfNj839STjPsvi+5B/ZVbJO75+yt0XsYet5hkDw4DoDxYF98L4
-   GuvCLHzN/THL9zQyJJXmyQIdgtp2S6ZbOLVsOESOravnBvh3wnXxvK7uS
-   0HVVVpgqpcWkDc8rw1UFv3fYr3Y3OS4ifklFZn2o9K8xiRX8GKtDQgvPN
-   1sQukPo2sr1LoshNh3STE/tCaQcp67hCginlKp+24deLKtCltjEQUsfG4
-   9ftZ2tpImEvgnIUqJTKp2JtCpZ0Z2OXsh+e8yYh2/WG4koo4Np70XaoJL
-   cPFR/Owh8ZZstXTlZ+3RCOUvov5vMAz9Y6qid3iJl5Y7zpwvdA1C3cKsS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="378093016"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="378093016"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 00:21:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="829886894"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="829886894"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Oct 2023 00:21:14 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qwH9c-000Aak-2D;
-	Fri, 27 Oct 2023 07:21:12 +0000
-Date: Fri, 27 Oct 2023 15:20:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	linux-i2c@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
- bindings
-Message-ID: <202310271540.4uI1Fgxe-lkp@intel.com>
-References: <20231026081514.3610343-2-Delphine_CC_Chiu@Wiwynn.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DcZkDPIF"
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9179E1B8;
+	Fri, 27 Oct 2023 01:12:19 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 631BD669;
+	Fri, 27 Oct 2023 10:12:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1698394324;
+	bh=JLv2vTWkskZ3ZZMv11yo8j22UILAnBsQU2Zv/ZRoRwU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DcZkDPIFdV/Cgf+Af4Yl2thMKz7zdrb2LLPD4kJSPp48uGi/xFtnZO5a17c8+ZZkb
+	 03Kr38AsmAAVKTLcaFtqH11PE8OsnVVXC8YRRle6YS32dAPV9UoaGl66aKAj81R1y2
+	 dU/KXakAo1aSy1hkb0FvLvDa0CgcoMuUYP6z+UpM=
+Date: Fri, 27 Oct 2023 11:12:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Michael Grzeschik <mgr@pengutronix.de>
+Cc: Jayant Chowdhary <jchowdhary@google.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
+	"kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"etalvala@google.com" <etalvala@google.com>,
+	"arakesh@google.com" <arakesh@google.com>
+Subject: Re: uvc gadget: Making upper bound of number of usb requests
+ allocated configurable through configfs
+Message-ID: <20231027081223.GL26306@pendragon.ideasonboard.com>
+References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
+ <2023100834-statistic-richly-49ef@gregkh>
+ <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
+ <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
+ <c47e864b-4b9e-4a21-afea-af121a4d7771@google.com>
+ <ZS/dmTjdCCdnelVP@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231026081514.3610343-2-Delphine_CC_Chiu@Wiwynn.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZS/dmTjdCCdnelVP@pengutronix.de>
 
-Hi Delphine,
+On Wed, Oct 18, 2023 at 03:28:57PM +0200, Michael Grzeschik wrote:
+> On Sun, Oct 15, 2023 at 09:33:43PM -0700, Jayant Chowdhary wrote:
+> >On 10/12/23 11:50, Thinh Nguyen wrote:
+> >> On Mon, Oct 09, 2023, Jayant Chowdhary wrote:
+> >>>> On Fri, Oct 06, 2023 at 03:03:56PM -0700, Jayant Chowdhary wrote:
+> >>>>> We had been seeing the UVC gadget driver receive isoc errors while
+> >>>>> sending packets to the usb endpoint - resulting in glitches being shown
+> >>>>> on linux hosts. My colleague Avichal Rakesh and others had a very
+> >>>>> enlightening discussion at
+> >>>>> https://urldefense.com/v3/__https://lore.kernel.org/linux-usb/8741b7cb-54ec-410b-caf5-697f81e8ad64@google.com/T/__;!!A4F2R9G_pg!e3zVZGt-6Td6HJXqh8GaZAsUeKyvKBhOoyru9qzn3Vkw01Vdkwk7hFr_t5glBG2BYJlOYfFKEUpiH5H4gQ73n_-Y$
+> >>>>>
+> >>>>>
+> >>>>> The conclusion that we came to was : usb requests with actual uvc frame
+> >>>>> data were missing their scheduled uframes in the usb controller. As a
+> >>>>> mitigation, we started sending 0 length usb requests when there was no
+> >>>>> uvc frame buffer available to get data from. Even with this mitigation,
+> >>>>> we are seeing glitches - albeit at a lower frequency.
+> >>>>>
+> >>>>> After some investigation, it is seen that we’re getting isoc errors when
+> >>>>> the worker thread serving video_pump() work items, doesn’t get scheduled
+> >>>>> for longer periods of time - than usual - in most cases > 6ms.
+> >>>>> This is close enough to the 8ms limit that we have when the number of usb
+> >>>>> requests in the queue is 64 (since we have a 125us uframe period). In order
+> >>>>> to tolerate the scheduling delays better, it helps to increase the number of
+> >>>>> usb requests in the queue . In that case, we have more 0 length requests
+> >>>>> given to the udc driver - and as a result we can wait longer for uvc
+> >>>>> frames with valid data to get processed by video_pump(). I’m attaching a
+> >>>>> patch which lets one configure the upper bound on the number of usb
+> >>>>> requests allocated through configfs. Please let me know your thoughts.
+> >>>>> I can formalize  the patch if it looks okay.
+> >>>> Why do you want to limit the upper bound?  Why not just not submit so
+> >>>> many requests from userspace as you control that, right?
+> >>>
+> >>> Userspace negotiates a video frame rate (typically 30/60fps) with the host that does
+> >>> not necessarily correspond to the ISOC cadence. After the
+> >>> patch at https://urldefense.com/v3/__https://lkml.org/lkml/diff/2023/5/8/1115/1__;!!A4F2R9G_pg!e3zVZGt-6Td6HJXqh8GaZAsUeKyvKBhOoyru9qzn3Vkw01Vdkwk7hFr_t5glBG2BYJlOYfFKEUpiH5H4gWbb9bvy$  was submitted, we are
+> >>> maintaining back pressure on the usb controller even if we do not have uvc frame
+> >>> data, by sending the controller 0 length requests (as long as usb_requests are
+> >>> available). Also, even if the userspace application were to somehow produce
+> >>> data to match the ISOC rate, it would  need to have information about USB
+> >>> timing details - which I am not sure is available to userspace or is the right
+> >>> thing to do here ?
+> >>>
+> >>> Here, we are trying to handle the scenario in which the video_pump() worker
+> >>> thread does not get scheduled in time - by increasing the number of usb requests
+> >>> allocated in the queue. This would send more usb requests to the usb controller,
+> >>> when video_pump() does get scheduled - even if they're 0 length. This buys
+> >>> the video_pump() worker thread scheduling time -since more usb requests
+> >>> are with the controller, subsequent requests sent will not be 'stale' and
+> >>> dropped by the usb controller.
+> >>>
+> >> I believe you're testing against dwc3 controller right? I may not be as
+> >> familiar with UVC function driver, but based on the previous
+> >> discussions, I think the driver should be able to handle this without
+> >> the user input.
+> >
+> > Yes we are testing against the dwc3 controller.
+> >
+> >> The frequency of the request submission should not depend on the
+> >> video_pump() work thread since it can vary. The frequency of request
+> >> submission should match with the request completion. We know that
+> >> request completion rate should be fixed (1 uframe/request + when you
+> >> don't set no_interrupt). Base on this you can do your calculation on how
+> >> often you should set no_interrupt and how many requests you must submit.
+> >> You don't have to wait for the video_pump() to submit 0-length requests.
+> >>
+> >> The only variable here is the completion handler delay or system
+> >> latency, which should not be much and should be within your calculation.
+> >
+> > Thanks for the suggestion. It indeed makes sense that we do not completely depend on
+> > video_pump() for sending 0 length requests. I was concerned about
+> > synchronization needed when we send requests to the dwc3 controller from
+> > different threads. I see that the dwc3 controller code does internally serialize
+> > queueing requests, can we expect this from other controllers as well ?
+> >
+> > This brings me to another question for Michael - I see
+> > that we introduced a worker thread for pumping  usb requests to the usb endpoint
+> > in https://lore.kernel.org/all/20200427151614.10868-1-m.grzeschik@pengutronix.de/
+> > (I see multiple email addresses, so apologies if I used the incorrect one).
+> >
+> > Did we introduce the worker thread to solve some specific deadlock scenarios ?
+> 
+> Exactly. This was the reason why we moved to the pump worker.
 
-kernel test robot noticed the following build warnings:
+Correct, but it also has the side effect of lowering the amount of time
+spent in interrupt context. It would be potentially problematic to
+revert to copying in the completion handler.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.6-rc7 next-20231026]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> I actually
+> looked into the host side implementation of the uvc driver. There we
+> also queue an worker from the complete function:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_video.c#n1646
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/dt-bindings-hwmon-Add-lltc-ltc4286-driver-bindings/20231026-161739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20231026081514.3610343-2-Delphine_CC_Chiu%40Wiwynn.com
-patch subject: [PATCH v2 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver bindings
-reproduce: (https://download.01.org/0day-ci/archive/20231027/202310271540.4uI1Fgxe-lkp@intel.com/reproduce)
+This was implemented for the sole purpose of improving performance, as
+the memcpy was too much for a single CPU to handle.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310271540.4uI1Fgxe-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/ltc4286.rst
->> MAINTAINERS:27681: WARNING: unknown document: ../devicetree/bindings/hwmon/ltc4286
+> So this sounded reasonable to me. However we faced similar issues like
+> you and introduced different ways to improve the latency issue.
+> 
+> One thing we did was improving the latency by adding WQ_HIGHPRI
+> 
+> https://lore.kernel.org/linux-usb/20220907215818.2670097-1-m.grzeschik@pengutronix.de/
+> 
+> Another patch here is also adding WQ_CPU_INTENSIVE.
+> 
+> But, after all the input from Thinh it is probably better to solve the
+> issue in a more reliable way.
+> 
+> >Or was it a general mitigation against racy usb request submission from v4l2 buffer
+> >queuing, stream enable and the video complete handler firing ?
+> 
+> I don't remember all of the issues we saw back then. But this is also an very
+> likely scenario.
+> 
+> > I was chatting with Avi about this, what if we submit requests to the endpoint
+> > only at two points in the streaming lifecycle -
+> > 1) The whole 64 (or however many usb requests are allocated) when
+> >    uvcg_video_enable() is called - with 0 length usb_requests.
+> > 2) In the video complete handler - if a video buffer is available, we encode it
+> >    and submit it to the endpoint. If not, we send a 0 length request.
+> 
+> It really sounds like a good idea.
+> 
+> > This way we're really maintaining back pressure and sending requests as soon
+> > as we can to the dwc3 controller. Encoding is mostly memcpys from what I see
+> > so hopefully not too heavy on the interrupt handler. I will work on prototyping
+> > this meanwhile.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
