@@ -1,37 +1,38 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2632418654
-	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 14:39:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49611A702
+	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 14:39:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W91o8T+O"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537E2DE;
-	Fri, 27 Oct 2023 07:38:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z95Un8nI"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4E3418F;
+	Fri, 27 Oct 2023 07:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698417539; x=1729953539;
+  t=1698417541; x=1729953541;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PE5fU1agwGvIYR6WvOaWH9GVoG/TbRgWJmFahYBu+3E=;
-  b=W91o8T+OFJe/GWkmC5yEGIfpYejsOutjiDN0hOcrJ8nxXEKCSzJDDKiw
-   v05OKruP/gBwbcBL4eDc4rfgudKP6Nyj/7mHi8ZDZpvWO+tbGuuSbVlyl
-   eort2OLe81g79DRQxFh8ak0xtHazucaBBmOQls+2D1kR5pZZYBfn5BipL
-   GtJVM07eytSsKUnaV5efvkYdam0RLyBDr8Umxq27000uY2f5hymqrAlhk
-   61EPGQLz7a/iI0YtkRMa7SqpjVOUUMSnOtww7C74TliLqQt5S4je+jkke
-   acyT9ouHYoO6w0BN/laURUYHE4dAz2Cwug0ukLXtftRIMuCuV70kkw6ml
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="386670113"
+  bh=xfVDUL3C6EU2sR+yZZNhlJ+3NJv0rEqWLQFJQSLp6Pk=;
+  b=Z95Un8nIP2g5kboWzTwtTofMVI/z2wIQxNOO+Zvcd+vh5xecf+AdjqBe
+   eLNJS/qfe8XHAO/xd1r3K7uaBOMlEYONxxHSbRLa22Q4rhyEGGBoKF4SH
+   E2TzHHwTYsseEyQnnizLpdWT0F0o9d9Dx3z92bAtwiPVSr5Bz466fROBA
+   8T1rswWygQZCxl1fs+vvpSuL7xYgVcnYqdAQjNLRj5XPq7oW1gDA4UXBy
+   4vQum3xhkJYha5ybCD6apZoqrart2aHEjAaPOkxgYHnIO4+Lmc3Pw2Gjd
+   lsyXIKDPviG313r8d5z6AMOUbZCvh3kYBEJKBSBoI5R6sQVFt979k2mDc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="606722"
 X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="386670113"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 07:38:42 -0700
+   d="scan'208";a="606722"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 07:39:00 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="736094439"
 X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="812619"
+   d="scan'208";a="736094439"
 Received: from dmnassar-mobl.amr.corp.intel.com (HELO desk) ([10.212.203.39])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 07:38:06 -0700
-Date: Fri, 27 Oct 2023 07:38:40 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 07:38:59 -0700
+Date: Fri, 27 Oct 2023 07:38:59 -0700
 From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
 	Borislav Petkov <bp@alien8.de>,
@@ -51,10 +52,10 @@ Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
 	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
 	antonio.gomez.iglesias@linux.intel.com,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Alyssa Milburn <alyssa.milburn@intel.com>
-Subject: [PATCH  v4 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20231027-delay-verw-v4-1-9a3622d4bcf7@linux.intel.com>
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Subject: [PATCH  v4 4/6] x86/bugs: Use ALTERNATIVE() instead of
+ mds_user_clear static key
+Message-ID: <20231027-delay-verw-v4-4-9a3622d4bcf7@linux.intel.com>
 X-Mailer: b4 0.12.3
 References: <20231027-delay-verw-v4-0-9a3622d4bcf7@linux.intel.com>
 Precedence: bulk
@@ -67,112 +68,206 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20231027-delay-verw-v4-0-9a3622d4bcf7@linux.intel.com>
 
-MDS mitigation requires clearing the CPU buffers before returning to
-user. This needs to be done late in the exit-to-user path. Current
-location of VERW leaves a possibility of kernel data ending up in CPU
-buffers for memory accesses done after VERW such as:
+The VERW mitigation at exit-to-user is enabled via a static branch
+mds_user_clear. This static branch is never toggled after boot, and can
+be safely replaced with an ALTERNATIVE() which is convenient to use in
+asm.
 
-  1. Kernel data accessed by an NMI between VERW and return-to-user can
-     remain in CPU buffers ( since NMI returning to kernel does not
-     execute VERW to clear CPU buffers.
-  2. Alyssa reported that after VERW is executed,
-     CONFIG_GCC_PLUGIN_STACKLEAK=y scrubs the stack used by a system
-     call. Memory accesses during stack scrubbing can move kernel stack
-     contents into CPU buffers.
-  3. When caller saved registers are restored after a return from
-     function executing VERW, the kernel stack accesses can remain in
-     CPU buffers(since they occur after VERW).
+Switch to ALTERNATIVE() to use the VERW mitigation late in exit-to-user
+path. Also remove the now redundant VERW in exc_nmi() and
+arch_exit_to_user_mode().
 
-To fix this VERW needs to be moved very late in exit-to-user path.
-
-In preparation for moving VERW to entry/exit asm code, create macros
-that can be used in asm. Also make them depend on a new feature flag
-X86_FEATURE_CLEAR_CPU_BUF.
-
-Reported-by: Alyssa Milburn <alyssa.milburn@intel.com>
-Suggested-by: Andrew Cooper <andrew.cooper3@citrix.com>
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
 Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 ---
- arch/x86/entry/entry.S               | 17 +++++++++++++++++
- arch/x86/include/asm/cpufeatures.h   |  2 +-
- arch/x86/include/asm/nospec-branch.h | 15 +++++++++++++++
- 3 files changed, 33 insertions(+), 1 deletion(-)
+ Documentation/arch/x86/mds.rst       | 38 +++++++++++++++++++++++++-----------
+ arch/x86/include/asm/entry-common.h  |  1 -
+ arch/x86/include/asm/nospec-branch.h | 12 ------------
+ arch/x86/kernel/cpu/bugs.c           | 15 ++++++--------
+ arch/x86/kernel/nmi.c                |  2 --
+ arch/x86/kvm/vmx/vmx.c               |  2 +-
+ 6 files changed, 34 insertions(+), 36 deletions(-)
 
-diff --git a/arch/x86/entry/entry.S b/arch/x86/entry/entry.S
-index bfb7bcb362bc..8dc84bb9dc0b 100644
---- a/arch/x86/entry/entry.S
-+++ b/arch/x86/entry/entry.S
-@@ -6,6 +6,9 @@
- #include <linux/linkage.h>
- #include <asm/export.h>
- #include <asm/msr-index.h>
-+#include <asm/unwind_hints.h>
-+#include <asm/segment.h>
-+#include <asm/cache.h>
+diff --git a/Documentation/arch/x86/mds.rst b/Documentation/arch/x86/mds.rst
+index e73fdff62c0a..a5c5091b9ccd 100644
+--- a/Documentation/arch/x86/mds.rst
++++ b/Documentation/arch/x86/mds.rst
+@@ -95,6 +95,9 @@ The kernel provides a function to invoke the buffer clearing:
  
- .pushsection .noinstr.text, "ax"
+     mds_clear_cpu_buffers()
  
-@@ -20,3 +23,17 @@ SYM_FUNC_END(entry_ibpb)
- EXPORT_SYMBOL_GPL(entry_ibpb);
++Also macro CLEAR_CPU_BUFFERS is meant to be used in ASM late in exit-to-user
++path. This macro works for cases where GPRs can't be clobbered.
++
+ The mitigation is invoked on kernel/userspace, hypervisor/guest and C-state
+ (idle) transitions.
  
- .popsection
-+
-+.pushsection .entry.text, "ax"
-+
-+.align L1_CACHE_BYTES, 0xcc
-+SYM_CODE_START_NOALIGN(mds_verw_sel)
-+	UNWIND_HINT_UNDEFINED
-+	ANNOTATE_NOENDBR
-+	.word __KERNEL_DS
-+.align L1_CACHE_BYTES, 0xcc
-+SYM_CODE_END(mds_verw_sel);
-+/* For KVM */
-+EXPORT_SYMBOL_GPL(mds_verw_sel);
-+
-+.popsection
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 58cb9495e40f..f21fc0f12737 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -308,10 +308,10 @@
- #define X86_FEATURE_SMBA		(11*32+21) /* "" Slow Memory Bandwidth Allocation */
- #define X86_FEATURE_BMEC		(11*32+22) /* "" Bandwidth Monitoring Event Configuration */
- #define X86_FEATURE_USER_SHSTK		(11*32+23) /* Shadow stack support for user mode applications */
+@@ -138,17 +141,30 @@ Mitigation points
+ 
+    When transitioning from kernel to user space the CPU buffers are flushed
+    on affected CPUs when the mitigation is not disabled on the kernel
+-   command line. The migitation is enabled through the static key
+-   mds_user_clear.
 -
- #define X86_FEATURE_SRSO		(11*32+24) /* "" AMD BTB untrain RETs */
- #define X86_FEATURE_SRSO_ALIAS		(11*32+25) /* "" AMD BTB untrain RETs through aliasing */
- #define X86_FEATURE_IBPB_ON_VMEXIT	(11*32+26) /* "" Issue an IBPB only on VMEXIT */
-+#define X86_FEATURE_CLEAR_CPU_BUF	(11*32+27) /* "" Clear CPU buffers */
+-   The mitigation is invoked in prepare_exit_to_usermode() which covers
+-   all but one of the kernel to user space transitions.  The exception
+-   is when we return from a Non Maskable Interrupt (NMI), which is
+-   handled directly in do_nmi().
+-
+-   (The reason that NMI is special is that prepare_exit_to_usermode() can
+-    enable IRQs.  In NMI context, NMIs are blocked, and we don't want to
+-    enable IRQs with NMIs blocked.)
++   command line. The mitigation is enabled through the feature flag
++   X86_FEATURE_CLEAR_CPU_BUF.
++
++   The mitigation is invoked just before transitioning to userspace after
++   user registers are restored. This is done to minimize the window in
++   which kernel data could be accessed after VERW e.g. via an NMI after
++   VERW.
++
++   **Corner case not handled**
++   Interrupts returning to kernel don't clear CPUs buffers since the
++   exit-to-user path is expected to do that anyways. But, there could be
++   a case when an NMI is generated in kernel after the exit-to-user path
++   has cleared the buffers. This case is not handled and NMI returning to
++   kernel don't clear CPU buffers because:
++
++   1. It is rare to get an NMI after VERW, but before returning to userspace.
++   2. For an unprivileged user, there is no known way to make that NMI
++      less rare or target it.
++   3. It would take a large number of these precisely-timed NMIs to mount
++      an actual attack.  There's presumably not enough bandwidth.
++   4. The NMI in question occurs after a VERW, i.e. when user state is
++      restored and most interesting data is already scrubbed. Whats left
++      is only the data that NMI touches, and that may or may not be of
++      any interest.
  
- /* Intel-defined CPU features, CPUID level 0x00000007:1 (EAX), word 12 */
- #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* AVX VNNI instructions */
+ 
+ 2. C-State transition
+diff --git a/arch/x86/include/asm/entry-common.h b/arch/x86/include/asm/entry-common.h
+index ce8f50192ae3..7e523bb3d2d3 100644
+--- a/arch/x86/include/asm/entry-common.h
++++ b/arch/x86/include/asm/entry-common.h
+@@ -91,7 +91,6 @@ static inline void arch_exit_to_user_mode_prepare(struct pt_regs *regs,
+ 
+ static __always_inline void arch_exit_to_user_mode(void)
+ {
+-	mds_user_clear_cpu_buffers();
+ 	amd_clear_divider();
+ }
+ #define arch_exit_to_user_mode arch_exit_to_user_mode
 diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
-index c55cc243592e..005e69f93115 100644
+index 005e69f93115..12b8e86678bf 100644
 --- a/arch/x86/include/asm/nospec-branch.h
 +++ b/arch/x86/include/asm/nospec-branch.h
-@@ -329,6 +329,21 @@
- #endif
- .endm
+@@ -553,7 +553,6 @@ DECLARE_STATIC_KEY_FALSE(switch_to_cond_stibp);
+ DECLARE_STATIC_KEY_FALSE(switch_mm_cond_ibpb);
+ DECLARE_STATIC_KEY_FALSE(switch_mm_always_ibpb);
  
-+/*
-+ * Macros to execute VERW instruction that mitigate transient data sampling
-+ * attacks such as MDS. On affected systems a microcode update overloaded VERW
-+ * instruction to also clear the CPU buffers. VERW clobbers CFLAGS.ZF.
-+ *
-+ * Note: Only the memory operand variant of VERW clears the CPU buffers.
-+ */
-+.macro EXEC_VERW
-+	verw _ASM_RIP(mds_verw_sel)
-+.endm
-+
-+.macro CLEAR_CPU_BUFFERS
-+	ALTERNATIVE "", __stringify(EXEC_VERW), X86_FEATURE_CLEAR_CPU_BUF
-+.endm
-+
- #else /* __ASSEMBLY__ */
+-DECLARE_STATIC_KEY_FALSE(mds_user_clear);
+ DECLARE_STATIC_KEY_FALSE(mds_idle_clear);
  
- #define ANNOTATE_RETPOLINE_SAFE					\
+ DECLARE_STATIC_KEY_FALSE(switch_mm_cond_l1d_flush);
+@@ -585,17 +584,6 @@ static __always_inline void mds_clear_cpu_buffers(void)
+ 	asm volatile("verw %[ds]" : : [ds] "m" (ds) : "cc");
+ }
+ 
+-/**
+- * mds_user_clear_cpu_buffers - Mitigation for MDS and TAA vulnerability
+- *
+- * Clear CPU buffers if the corresponding static key is enabled
+- */
+-static __always_inline void mds_user_clear_cpu_buffers(void)
+-{
+-	if (static_branch_likely(&mds_user_clear))
+-		mds_clear_cpu_buffers();
+-}
+-
+ /**
+  * mds_idle_clear_cpu_buffers - Mitigation for MDS vulnerability
+  *
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 10499bcd4e39..00aab0c0937f 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -111,9 +111,6 @@ DEFINE_STATIC_KEY_FALSE(switch_mm_cond_ibpb);
+ /* Control unconditional IBPB in switch_mm() */
+ DEFINE_STATIC_KEY_FALSE(switch_mm_always_ibpb);
+ 
+-/* Control MDS CPU buffer clear before returning to user space */
+-DEFINE_STATIC_KEY_FALSE(mds_user_clear);
+-EXPORT_SYMBOL_GPL(mds_user_clear);
+ /* Control MDS CPU buffer clear before idling (halt, mwait) */
+ DEFINE_STATIC_KEY_FALSE(mds_idle_clear);
+ EXPORT_SYMBOL_GPL(mds_idle_clear);
+@@ -252,7 +249,7 @@ static void __init mds_select_mitigation(void)
+ 		if (!boot_cpu_has(X86_FEATURE_MD_CLEAR))
+ 			mds_mitigation = MDS_MITIGATION_VMWERV;
+ 
+-		static_branch_enable(&mds_user_clear);
++		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
+ 
+ 		if (!boot_cpu_has(X86_BUG_MSBDS_ONLY) &&
+ 		    (mds_nosmt || cpu_mitigations_auto_nosmt()))
+@@ -356,7 +353,7 @@ static void __init taa_select_mitigation(void)
+ 	 * For guests that can't determine whether the correct microcode is
+ 	 * present on host, enable the mitigation for UCODE_NEEDED as well.
+ 	 */
+-	static_branch_enable(&mds_user_clear);
++	setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
+ 
+ 	if (taa_nosmt || cpu_mitigations_auto_nosmt())
+ 		cpu_smt_disable(false);
+@@ -424,7 +421,7 @@ static void __init mmio_select_mitigation(void)
+ 	 */
+ 	if (boot_cpu_has_bug(X86_BUG_MDS) || (boot_cpu_has_bug(X86_BUG_TAA) &&
+ 					      boot_cpu_has(X86_FEATURE_RTM)))
+-		static_branch_enable(&mds_user_clear);
++		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
+ 	else
+ 		static_branch_enable(&mmio_stale_data_clear);
+ 
+@@ -484,12 +481,12 @@ static void __init md_clear_update_mitigation(void)
+ 	if (cpu_mitigations_off())
+ 		return;
+ 
+-	if (!static_key_enabled(&mds_user_clear))
++	if (!boot_cpu_has(X86_FEATURE_CLEAR_CPU_BUF))
+ 		goto out;
+ 
+ 	/*
+-	 * mds_user_clear is now enabled. Update MDS, TAA and MMIO Stale Data
+-	 * mitigation, if necessary.
++	 * X86_FEATURE_CLEAR_CPU_BUF is now enabled. Update MDS, TAA and MMIO
++	 * Stale Data mitigation, if necessary.
+ 	 */
+ 	if (mds_mitigation == MDS_MITIGATION_OFF &&
+ 	    boot_cpu_has_bug(X86_BUG_MDS)) {
+diff --git a/arch/x86/kernel/nmi.c b/arch/x86/kernel/nmi.c
+index a0c551846b35..ebfff8dca661 100644
+--- a/arch/x86/kernel/nmi.c
++++ b/arch/x86/kernel/nmi.c
+@@ -551,8 +551,6 @@ DEFINE_IDTENTRY_RAW(exc_nmi)
+ 	if (this_cpu_dec_return(nmi_state))
+ 		goto nmi_restart;
+ 
+-	if (user_mode(regs))
+-		mds_user_clear_cpu_buffers();
+ 	if (IS_ENABLED(CONFIG_NMI_CHECK_CPU)) {
+ 		WRITE_ONCE(nsp->idt_seq, nsp->idt_seq + 1);
+ 		WARN_ON_ONCE(nsp->idt_seq & 0x1);
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 72e3943f3693..24e8694b83fc 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -7229,7 +7229,7 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
+ 	/* L1D Flush includes CPU buffer clear to mitigate MDS */
+ 	if (static_branch_unlikely(&vmx_l1d_should_flush))
+ 		vmx_l1d_flush(vcpu);
+-	else if (static_branch_unlikely(&mds_user_clear))
++	else if (cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
+ 		mds_clear_cpu_buffers();
+ 	else if (static_branch_unlikely(&mmio_stale_data_clear) &&
+ 		 kvm_arch_has_assigned_device(vcpu->kvm))
 
 -- 
 2.34.1
