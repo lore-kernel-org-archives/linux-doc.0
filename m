@@ -1,92 +1,104 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE22518654
-	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 14:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB1918654
+	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 14:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="hI/CIriG"
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97CDAC4;
-	Fri, 27 Oct 2023 07:49:20 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1343E40E01A4;
-	Fri, 27 Oct 2023 14:49:18 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id lB8tJ8G47sGK; Fri, 27 Oct 2023 14:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1698418155; bh=efdni8LIyAk3uyY0PXBFr5y1EyWZiHVxkj/zu94sZSA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hI/CIriGFipTm4+w04aK79z4ALAuJsHZtXxsgvOllb2FkSNGremvF+mmjzJpVHQ4z
-	 g+etOVjG05xesehCFpiKIrVmTr/138EMUkY9T0TKaAaEeAFl0FvbXFWTlvQJeJquiq
-	 VTYQs7pTj4x1nEOj7+dc5cpXlnhFnBZe/0zbgU+1FqimkY+kkKIiYXkdcDWin2sA07
-	 uf1cKnVwE5JwzZ/c9mAjXfjZVHzoz4hLSCid+5Bwx3MskFVIiXAaMIyiVTH/NOPxxj
-	 At8A9Qs83dCJYOzBMGhDNnIXTBf2EuCjyEAI+ojP0dlkErrtgAp7jKljk3ZsGETBai
-	 4Z/wDni69LP6NfG9IPIVne8tipYseBLGh7+deRmJ7jfJmMD++tChc7SUov6NgGLcVz
-	 7L1bNoptc9DV4KWz6KptH3IKBjDuxiN6bWJXdRtohmvQgLBGPbIDBps2HJsba52HPs
-	 7Qlmvaf0ivf4cMVd+EekmrCDzXqh35bux45jWG+C5ygeW0XCMNuKiAN46zzMmw2I21
-	 5j46AtX9XqHp+tTlnV/ZkQXsERdwxGG3BEe+Bgfu4TJN1hzHDus2jkpZ5mUWG5Q5gC
-	 GjjNECLta/uRhl33JosFgJKP02STN4oFmXcoX6+XwcQZ5ziIyCvlLaXOJ8i6VOrJC1
-	 nYjkTlrucCwH39lqpsCNMaE8=
-Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5E53D40E018F;
-	Fri, 27 Oct 2023 14:48:49 +0000 (UTC)
-Date: Fri, 27 Oct 2023 16:48:48 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alyssa Milburn <alyssa.milburn@intel.com>,
-	Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH v4 0/6] Delay VERW
-Message-ID: <20231027144848.GGZTvN0AtGIQ9kBtkA@fat_crate.local>
-References: <20231027-delay-verw-v4-0-9a3622d4bcf7@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bp8dJBCF"
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3E5116;
+	Fri, 27 Oct 2023 07:51:46 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-5a7c95b8d14so16596137b3.3;
+        Fri, 27 Oct 2023 07:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698418305; x=1699023105; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gqSTgMpjvwjEG6zX4EYuoKDbHRWrHJZpU1DU8ot3yTA=;
+        b=bp8dJBCFxpQKgA7AEUzxKNyf5kJwgB71NVxw/WnpzXkm+TjCIVjxwHLX6lYESSYrgU
+         FzdG1iJbwX8sckdzaf+LaKtXqurw4xEnpUQt9kpiC795DXT9iq841WftRQlAd0cr3bxV
+         7G1fjGwIkONyfQ59XT45KfzvsaMwFAshWUZ99Vf8LvHOkBjhq10jUjS9n6HvvwK10Iqb
+         gOc/vozfrqUiyl540hA0YJFlmBhMS9e35mi6x6bGfJqGwj4NyR6Kevlrr3YsE4j9qX9N
+         kiXCKpy9DyXAUtEVCdNxVzmwqIiOuosMSX9vp/zYN3jI9E0sWU+xX3Yco3J0E4xUjwKr
+         dYIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698418305; x=1699023105;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gqSTgMpjvwjEG6zX4EYuoKDbHRWrHJZpU1DU8ot3yTA=;
+        b=iGHiYy2QG0PCtC6/zR/voLWUA6VgRQ5mOaS66vMPfGAQR78AdCDatt/WyH3j8jGYvk
+         ygYH0+bBnz2qM/3EcytSfluQj48cdyQfrXEpTw+kSiCCoI2+S7mRVhZJ6GPhT/5ddrbX
+         +dwenVRLH1ww7kZTRlDJpBE4V9BE6zW8E9e6XMTL/WCirv9499YpcSpJaQ3Yra+dfFuY
+         XvJQdnzSloTU1VXZDhAM+kJeYyPvLbKuPyCuAP0uwxqu2VnjJP+Qsv374+D8S8oLkKQD
+         vmcY1wuB+jVBFFO5oCHKBafqTg5NXOyIrXVn1vE0Bw1zOHdbflGN7eylP3jbjE2mS2Kq
+         1S6Q==
+X-Gm-Message-State: AOJu0YzNRBjb2GvW8VokZmD+eXkb63I6sgc6wxWqJm/6tSwOTaU6KehV
+	CqERv3DB54AhEjEpEkb7I3LLHE7d1Wg=
+X-Google-Smtp-Source: AGHT+IEjV4qlaspuKf6rNulZMVRtxtprMb9GLsOfhHcPpCXq76DKC6+9nMUXFE75JKPbeu/WlhFEFw==
+X-Received: by 2002:a05:690c:ed0:b0:5af:f026:a27 with SMTP id cs16-20020a05690c0ed000b005aff0260a27mr1558420ywb.50.1698418305060;
+        Fri, 27 Oct 2023 07:51:45 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id r64-20020a819a43000000b00586108dd8f5sm764616ywg.18.2023.10.27.07.51.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Oct 2023 07:51:44 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <84252c5e-9a39-91bd-b7da-2bdea1b2aff6@roeck-us.net>
+Date: Fri, 27 Oct 2023 07:51:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231027-delay-verw-v4-0-9a3622d4bcf7@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Content-Language: en-US
+To: "Matyas, Daniel" <Daniel.Matyas@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20231026144405.546822-1-daniel.matyas@analog.com>
+ <20231026144405.546822-2-daniel.matyas@analog.com>
+ <fe99431e-3245-484c-bf26-928048500ec6@roeck-us.net>
+ <PH0PR03MB67712B3C063B794442F6D58A89DCA@PH0PR03MB6771.namprd03.prod.outlook.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v5 2/4] hwmon: max31827: Add support for max31828 and
+ max31829
+In-Reply-To: <PH0PR03MB67712B3C063B794442F6D58A89DCA@PH0PR03MB6771.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 27, 2023 at 07:38:34AM -0700, Pawan Gupta wrote:
-> v4:
+On 10/27/23 06:00, Matyas, Daniel wrote:
+[ ... ]
 
-Why are you spamming people with your patchset? You've sent it 4 times
-in a week:
+>> I also don't understand why that would be chip specific. I don't see
+>> anything along that line in the datasheet.
+>>
+>> Ah, wait ... I guess that is supposed to reflect the chip default.
+>> I don't see why the chip default makes a difference - a well defined default
+>> must be set either way. Again, there is no guarantee that the chip is in its
+>> default state when the driver is loaded.
+> 
+> The well defined default was set in v4, but I deleted it, because the default value in hex for max31827 and max31828 alarm polarity, and max31827 fault queue is 0x0. I had 2 #defines for these values, but you said:
+> " Since MAX31827_ALRM_POL_LOW is 0, this code doesn't really do anything and just pollutes the code."
+> 
+> So, I thought I should remove it altogether, since res is set to 0 in the beginning and the default value of these chips (i.e. 0) is implicitly set.
+> 
+>>
+>> Also, why are the default values added in this patch and not in the
+>> previous patch ?
+>>
+> 
+> In v4 these default values were set in the previous patch.
+>   
 
-Oct 20               Pawan Gupta ( :  75|) [PATCH 0/6] Delay VERW
-Oct 24               Pawan Gupta ( :7.3K|) [PATCH v2 0/6] Delay VERW
-Oct 25               Pawan Gupta ( :7.5K|) [PATCH v3 0/6] Delay VERW
-Oct 27               Pawan Gupta ( :8.8K|) [PATCH v4 0/6] Delay VERW
+I asked you (or meant to ask you) to stop overwriting 0 with 0
+in a variable. I didn't mean to ask you (if I did) to stop writing
+the default value into the chip. Sorry if I did; if so, that was
+a misunderstanding.
 
-Is this something urgent or can you take your time like everyone else?
+Guenter
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
