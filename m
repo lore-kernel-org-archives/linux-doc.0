@@ -1,113 +1,94 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D941125AC;
-	Fri, 27 Oct 2023 08:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7587213ACF
+	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 08:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u2m7h3lR"
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8C4FA;
-	Fri, 27 Oct 2023 01:13:55 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 562EE669;
-	Fri, 27 Oct 2023 10:13:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1698394421;
-	bh=2NFevOPSc8lFCix/agYkubSp5saJmMndfMj5KyFbmNU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u2m7h3lRj54hK+4J/TI9tIagzfQY57nLkhz3ZnceMjcmQfjDrjN/yI9g7eJlMQ9Kr
-	 EU7LUDV7r1gjt3VoSXX/XtD+arQxQcQShiDY/o1WMU6IwtdWRqNrNLU+0Ti2q/VGrk
-	 5N4El1IC3Ds4wy27/O6aZlIJfdgEoyP9Xay5438A=
-Date: Fri, 27 Oct 2023 11:14:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Jayant Chowdhary <jchowdhary@google.com>,
-	"mgr@pengutronix.de" <mgr@pengutronix.de>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
-	"kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"etalvala@google.com" <etalvala@google.com>,
-	"arakesh@google.com" <arakesh@google.com>
-Subject: Re: uvc gadget: Making upper bound of number of usb requests
- allocated configurable through configfs
-Message-ID: <20231027081400.GM26306@pendragon.ideasonboard.com>
-References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
- <2023100834-statistic-richly-49ef@gregkh>
- <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
- <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
- <c47e864b-4b9e-4a21-afea-af121a4d7771@google.com>
- <20231020233044.dh63nu3tkbmrtfl4@synopsys.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Yas+hTB6"
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24E141AA;
+	Fri, 27 Oct 2023 01:18:55 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39R5iCdc020786;
+	Fri, 27 Oct 2023 08:18:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2023-03-30;
+ bh=XiYBzT666XUrJBEenylzauji4KGI2RRUgvA0UHv3h4o=;
+ b=Yas+hTB6dx4N568I6QVS8R1FAu0ig/u0ZNN/EIJsAzpJTg3i4OSHjEsc0hRKfDXh+a1y
+ C2KATGg/ojZBkNwWYXp3oZuqOR89oWqYbmjHTPYnMkEtZrbm9g6cL6/ra00M8klFlyLr
+ Al2D7T0EtZCi5to4CZnjqEB1182OHWTK4TODiQJtrZ0agDVLxtymtK2v5/M+aNzVAsr5
+ ynIYwmQZ6ab3OQIuUZme7YWkGh1/SEDkGaXoXFATpEKmR89F1We2C3JnlMa3ILtVyAKA
+ +R8Ifr5ZhO+ur74kpeP1CeIlPHWTTJyYKHiH1YuwZO4Tx6n8zP8LDMysP9fr1MGlgDsg Qg== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tyx4tgx01-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Oct 2023 08:18:45 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39R6Bkhg009253;
+	Fri, 27 Oct 2023 08:18:45 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3tywqjeb6j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Oct 2023 08:18:45 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39R8Ig9L028975;
+	Fri, 27 Oct 2023 08:18:44 GMT
+Received: from t460-2.nl.oracle.com (dhcp-10-175-63-126.vpn.oracle.com [10.175.63.126])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3tywqjeb1g-2;
+	Fri, 27 Oct 2023 08:18:44 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH RFC 01/11] docs: style toctree captions as headings
+Date: Fri, 27 Oct 2023 10:18:20 +0200
+Message-Id: <20231027081830.195056-2-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231027081830.195056-1-vegard.nossum@oracle.com>
+References: <20231027081830.195056-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231020233044.dh63nu3tkbmrtfl4@synopsys.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-27_06,2023-10-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ spamscore=0 suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
+ definitions=main-2310270071
+X-Proofpoint-GUID: QAlaJOtZyHK1XoTMy3SD0PnWrVYs97TY
+X-Proofpoint-ORIG-GUID: QAlaJOtZyHK1XoTMy3SD0PnWrVYs97TY
 
-On Fri, Oct 20, 2023 at 11:30:52PM +0000, Thinh Nguyen wrote:
-> Sorry for the delay response.
-> 
-> On Sun, Oct 15, 2023, Jayant Chowdhary wrote:
-> > On 10/12/23 11:50, Thinh Nguyen wrote:
-> > > The frequency of the request submission should not depend on the
-> > > video_pump() work thread since it can vary. The frequency of request
-> > > submission should match with the request completion. We know that
-> > > request completion rate should be fixed (1 uframe/request + when you
-> > > don't set no_interrupt). Base on this you can do your calculation on how
-> > > often you should set no_interrupt and how many requests you must submit.
-> > > You don't have to wait for the video_pump() to submit 0-length requests.
-> > >
-> > > The only variable here is the completion handler delay or system
-> > > latency, which should not be much and should be within your calculation.
-> > 
-> > 
-> > Thanks for the suggestion. It indeed makes sense that we do not completely depend on
-> > video_pump() for sending 0 length requests. I was concerned about
-> > synchronization needed when we send requests to the dwc3 controller from
-> > different threads. I see that the dwc3 controller code does internally serialize
-> > queueing requests, can we expect this from other controllers as well ? 
-> 
-> While it's not explicitly documented, when the gadget driver uses
-> usb_ep_queue(), the order in which the gadget recieves the request
-> should be maintained and serialized. Because the order the transfer go
-> out for the same endpoint can be critical, breaking this will cause
-> issue.
+The rtd theme already styles toctree captions as headings, but the
+alabaster theme doesn't. Add this in.
 
-That's right, but if usp_ep_queue() is called from multiple contexts,
-there's no guarantee it can provide when it comes to the ordering. The
-caller has to handle it.
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/sphinx-static/custom.css | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> > This brings me to another question for Michael - I see
-> > that we introduced a worker thread for pumping  usb requests to the usb endpoint
-> > in https://urldefense.com/v3/__https://lore.kernel.org/all/20200427151614.10868-1-m.grzeschik@pengutronix.de/__;!!A4F2R9G_pg!aAnzCopbTbZtUxBK6a6r6_QzV-b2Z2J5o5esPaartZ2jogKijmhqj6OyiKDg-BPhxq8pJHR3HS1Hf8z6YnqfWTon$ 
-> > (I see multiple email addresses, so apologies if I used the incorrect one).
-> > 
-> > Did we introduce the worker thread to solve some specific deadlock scenarios ?
-> > Or was it a general mitigation against racy usb request submission from v4l2 buffer
-> > queuing, stream enable and the video complete handler firing ?
-> > 
-> > I was chatting with Avi about this, what if we submit requests to the endpoint
-> > only at two points in the streaming lifecycle - 
-> > 1) The whole 64 (or however many usb requests are allocated) when
-> >    uvcg_video_enable() is called - with 0 length usb_requests.
-> > 2) In the video complete handler - if a video buffer is available, we encode it
-> >    and submit it to the endpoint. If not, we send a 0 length request.
-> > 
-> > This way we're really maintaining back pressure and sending requests as soon
-> > as we can to the dwc3 controller. Encoding is mostly memcpys from what I see
-> > so hopefully not too heavy on the interrupt handler. I will work on prototyping
-> > this meanwhile.
-> 
-> That sounds good to me. I believe Michael already provided some test
-> patches and you've already done some preliminary tests for that right?
-
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index 084a884f6fb7..c7439349dda6 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -8,6 +8,9 @@ div.body h1 { font-size: 180%; }
+ div.body h2 { font-size: 150%; }
+ div.body h3 { font-size: 130%; }
+ 
++/* toctree captions are styled like h2 */
++div.toctree-wrapper p.caption[role=heading] { font-size: 150%; }
++
+ /* Tighten up the layout slightly */
+ div.body { padding: 0 15px 0 10px; }
+ div.sphinxsidebarwrapper { padding: 1em 0.4em; }
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
