@@ -1,133 +1,443 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9C3374D0
-	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 15:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF8D3DFE0
+	for <linux-doc@vger.kernel.org>; Fri, 27 Oct 2023 20:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HOL033eE"
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6594D42;
-	Fri, 27 Oct 2023 08:51:30 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d9a58aa4983so1640664276.0;
-        Fri, 27 Oct 2023 08:51:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TvaCu++Q"
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 752091AA;
+	Fri, 27 Oct 2023 13:27:14 -0700 (PDT)
+Received: by mail-il1-x134.google.com with SMTP id e9e14a558f8ab-35742cbb670so7632045ab.2;
+        Fri, 27 Oct 2023 13:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698421890; x=1699026690; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wzy57PUf9orHh4OjGzjzAp13qnWwnh2HAAT0JBgqrrs=;
-        b=HOL033eEc/DKMO5D+Mc1XNZ7y/TX68zSWpNFoyyd0xmI9v4DpdJYU4jWLF3+qzZdH9
-         nBTyjX314fbnC8naO/UqGwh1iiMyC+RKn8p93TUF2g9HB0Hl2JefGbzXKcbQKLMkXru/
-         MyzS65x6OD5Ft5L4vXHKMIJy/JgKqCM9Plq3yzpcbFOdUEn7s1vs+yHjiI2lVfg6BiAe
-         OEFiti0/zLc3gFkjRK74qD+Upi3IppUYQpxwi2HuDz7n65a1xzS19BC9BdmuxoU15bzl
-         OlFA5PtBWQreywWnGdDrjzb5SdTqx/Izmbjd7GYIWX4na/4VRYCA9NrQWieJvttQYLXJ
-         lvbg==
+        d=gmail.com; s=20230601; t=1698438434; x=1699043234; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6udusXCthzKh/xAvdY+MxJ5CxBrtxgKmZLklvEHKreY=;
+        b=TvaCu++QadIEefAivduJtWt3qAWThBYlNdjFDmmmiKICso29YHZLaFDTDu5AvhGyOL
+         F59RyHAQW/XiyROZTJHi9EVrV1K2AyzxobU053bgB34J8CqA/7J3zvuQwOQMT3jbNnsc
+         ajlZRipdb+EEr8Wi34ES685ZFk9U9nuesLnqdq1e6QKc+8+TtgfzZv4YBAQ+SE+1UYB2
+         sG79PJVK68vUYUkfkWrLZ4jc/6brfMMhqvOU7Qmvg4XjL0NdjqIbPL68jZVhaK1Haj5N
+         SAWTDf2qpPecqLCoVKb5qxfnUfdzAj41aLQtqkSdtEFQ4sFku42VG31Nw/oCeqaF/3Wv
+         NJzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698421890; x=1699026690;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wzy57PUf9orHh4OjGzjzAp13qnWwnh2HAAT0JBgqrrs=;
-        b=mF/5dpJ6vo0LetZw2Pt7HfFVQLqXUURHrzAZGnqlQWSSD13MAyl0okCzIWW6KhCgn5
-         YPoDtNAzdmSCj4o6yjcziEcERl2IKn85L0ZXbVFRkHNHTKSnrJkb3rQF0BM/LrpXWQI2
-         EgZUjgEj7KsfkMi7PA86PeKal3sXYPgLyU9arbrkCfWQ6tpATbGBW9IeBuLGnoe4GVhE
-         x/bAtEJ5Y2o3pDQI5E9fUPtjxFJVhL+rUGnIWK84i72KQ+9JG7TycYwxOIKoKGiTwKdG
-         3khkAb7qrGqOBDZoOIST3O83ofzTuQQXnS/bsb1AZ768P9XEa6NNIo9KXphHX/ErKdhL
-         P6RA==
-X-Gm-Message-State: AOJu0YwxgN+1CtefLw61UG/skX7uDcTIWxowhEEjB++1DLm2KgJOiNIS
-	6WUxMLUU/qdQEKUqEjCjdQ8=
-X-Google-Smtp-Source: AGHT+IHz6K8imb2cUy5vfXE7RsDkyWqKz9BYYAMj2LUiJAbmdb/AnRNSz7B3Rc1gcFGGTebIcHJEMA==
-X-Received: by 2002:a25:cf02:0:b0:da0:3535:41f4 with SMTP id f2-20020a25cf02000000b00da0353541f4mr3375675ybg.7.1698421889667;
-        Fri, 27 Oct 2023 08:51:29 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p136-20020a25748e000000b00d9cce349877sm751262ybc.16.2023.10.27.08.51.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Oct 2023 08:51:29 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d67c0bf1-beae-d93f-994c-3a937e2047a0@roeck-us.net>
-Date: Fri, 27 Oct 2023 08:51:27 -0700
+        d=1e100.net; s=20230601; t=1698438434; x=1699043234;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6udusXCthzKh/xAvdY+MxJ5CxBrtxgKmZLklvEHKreY=;
+        b=Hx3htKWGyFivhLV5ubUCh4yQDBtlp4NjO4fVWqurlN+vYt+EL5b1hD021I6hctsduk
+         Xkw5H1V2iVxI8Rb7dNDg0QhAgSqDrDqalPEb8gD0DGucJdD3DtbHT6rPMfqAN+PaJeZz
+         NMWXeHx/YAEkArX7DmF9y2JXPdOxKzKn9tN2Xdby6I/20OfL+yOPvvR0ejEw2Chld1DU
+         kxsyzCJTlYpV+wGD8dC9+GYiv4pv2IH8kF55jHz6J+m1nG2mOnUQSQPKSA3zgYiK/So5
+         T1SXXha3T38Oku4/1Zvmcnfuywx4EZMge7TWN/6JRV3EYlU7hVl9MK/t50vVQ5WW0gcy
+         MJDw==
+X-Gm-Message-State: AOJu0YxkOiM0L8stGiaXJ7CoFohrA2oJyPzbRDAdAIJ7aD4Pkjjj8JUn
+	1ayqbtCDDkk5eA5IL16pJ2orZrg10EZuTz9N004oFss4/2U=
+X-Google-Smtp-Source: AGHT+IEFpLy8SJBDp44d/an0TRAg0bypeWeXDvFpnPzwghK5xpqvJZe5LBHGfMbO7xUYmiOC0cF4vEGJBhDmPGVngbQ=
+X-Received: by 2002:a05:6e02:1d92:b0:357:4621:10eb with SMTP id
+ h18-20020a056e021d9200b00357462110ebmr5144204ila.4.1698438433628; Fri, 27 Oct
+ 2023 13:27:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Content-Language: en-US
-To: "Matyas, Daniel" <Daniel.Matyas@analog.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20231026144405.546822-1-daniel.matyas@analog.com>
- <20231026144405.546822-2-daniel.matyas@analog.com>
- <fe99431e-3245-484c-bf26-928048500ec6@roeck-us.net>
- <PH0PR03MB67712B3C063B794442F6D58A89DCA@PH0PR03MB6771.namprd03.prod.outlook.com>
- <84252c5e-9a39-91bd-b7da-2bdea1b2aff6@roeck-us.net>
- <PH0PR03MB6771E74E7C5CC2FB1DD0EB1989DCA@PH0PR03MB6771.namprd03.prod.outlook.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v5 2/4] hwmon: max31827: Add support for max31828 and
- max31829
-In-Reply-To: <PH0PR03MB6771E74E7C5CC2FB1DD0EB1989DCA@PH0PR03MB6771.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231024233501.2639043-1-nphamcs@gmail.com> <CAJD7tkZMn6x9Y2DZiNzSuM0TCvEGSoMp1q15=T3ENAFBtz1WuA@mail.gmail.com>
+In-Reply-To: <CAJD7tkZMn6x9Y2DZiNzSuM0TCvEGSoMp1q15=T3ENAFBtz1WuA@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Fri, 27 Oct 2023 13:27:02 -0700
+Message-ID: <CAKEwX=PjGeqa_zLf6FV24iQLaH8EQ81HfKy3=e0fGrjZTvLiKw@mail.gmail.com>
+Subject: Re: [RFC PATCH] memcontrol: implement swap bypassing
+To: Yosry Ahmed <yosryahmed@google.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com, 
+	hannes@cmpxchg.org, cerasuolodomenico@gmail.com, sjenning@redhat.com, 
+	ddstreet@ieee.org, vitaly.wool@konsulko.com, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, shakeelb@google.com, muchun.song@linux.dev, 
+	hughd@google.com, corbet@lwn.net, konrad.wilk@oracle.com, 
+	senozhatsky@chromium.org, rppt@kernel.org, linux-mm@kvack.org, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	david@ixit.cz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/27/23 08:05, Matyas, Daniel wrote:
-> 
-> 
->> -----Original Message-----
->> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
->> Sent: Friday, October 27, 2023 5:52 PM
->> To: Matyas, Daniel <Daniel.Matyas@analog.com>
->> Cc: Jean Delvare <jdelvare@suse.com>; Jonathan Corbet
->> <corbet@lwn.net>; linux-hwmon@vger.kernel.org; linux-
->> doc@vger.kernel.org; linux-kernel@vger.kernel.org
->> Subject: Re: [PATCH v5 2/4] hwmon: max31827: Add support for
->> max31828 and max31829
->>
->> [External]
->>
->> On 10/27/23 06:00, Matyas, Daniel wrote:
->> [ ... ]
->>
->>>> I also don't understand why that would be chip specific. I don't see
->>>> anything along that line in the datasheet.
->>>>
->>>> Ah, wait ... I guess that is supposed to reflect the chip default.
->>>> I don't see why the chip default makes a difference - a well defined
->>>> default must be set either way. Again, there is no guarantee that the
->>>> chip is in its default state when the driver is loaded.
->>>
->>> The well defined default was set in v4, but I deleted it, because the
->> default value in hex for max31827 and max31828 alarm polarity, and
->> max31827 fault queue is 0x0. I had 2 #defines for these values, but you
->> said:
->>> " Since MAX31827_ALRM_POL_LOW is 0, this code doesn't really do
->> anything and just pollutes the code."
->>>
->>> So, I thought I should remove it altogether, since res is set to 0 in the
->> beginning and the default value of these chips (i.e. 0) is implicitly set.
->>>
->>>>
->>>> Also, why are the default values added in this patch and not in the
->>>> previous patch ?
->>>>
->>>
->>> In v4 these default values were set in the previous patch.
->>>
->>
->> I asked you (or meant to ask you) to stop overwriting 0 with 0 in a
->> variable. I didn't mean to ask you (if I did) to stop writing the default value
->> into the chip. Sorry if I did; if so, that was a misunderstanding.
->>
->> Guenter
-> 
-> Well, writing the default value into res, would just overwrite 0 with 0. Should I still do it?
-> 
+On Tue, Oct 24, 2023 at 7:09=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com>=
+ wrote:
+>
+> On Tue, Oct 24, 2023 at 4:35=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wro=
+te:
+> >
+> > During our experiment with zswap, we sometimes observe swap IOs due to
+> > occasional zswap store failures and writebacks. These swapping IOs
+> > prevent many users who cannot tolerate swapping from adopting zswap to
+> > save memory and improve performance where possible.
+> >
+> > This patch adds the option to bypass swap entirely: do not swap when an
+> > zswap store attempt fail, and do not write pages in the zswap pool back
+> > to swap. The feature is disabled by default (to preserve the existing
+> > behavior), and can be enabled on a cgroup-basis via a new cgroup file.
+>
+> I think the word "bypass" here is fairly confusing because zswap is
+> considered as swap for all purposes, so we are not really bypassing
+> swap. I think it should be something like memory.swap.disk or
+> memory.swap.writeback or whatever the correct terminology is for
+> non-zswap swap (which I honestly don't know). Writing 0 to such an
+> interface would give the desired effect.
 
-No, that is not correct. You don't know what is in the chip register.
-It may not be the chip default.
+I'm honestly not very good at naming things... especially a novel
+name that I cannot steal from a precedent...
 
-Guenter
+I want something that means "going to zswap is acceptable, but please
+don't go to slow swap". Hence, swap bypassing (swap in my mental
+model is the slow thing that is under zswap).
 
+(but I imagined memory.please.don't.go.to.slow.swap won't be very
+popular either...)
+
+memory.swap.disk is... acceptable, I guess? It technically could still be
+wrong, as there's still zram, but we can sort of ignore that special case.
+I still prefer memory.swap.bypass,  but I wouldn't be opposed to this
+renaming.
+
+Anyone with better naming suggestions should absolutely speak up!
+Otherwise, I'll send a v2 renaming this to "memory.swap.disk" or
+"memory.swap.disk_used"
+
+>
+> Same goes for the usage of the term in the code.
+>
+> >
+> > Note that this is subtly different from setting memory.swap.max to 0, a=
+s
+> > it still allows for pages to be stored in the zswap pool (which itself
+> > consumes swap space in its current form).
+> >
+> > This is the second attempt (spiritual successor) of the following patch=
+:
+> >
+> > https://lore.kernel.org/linux-mm/20231017003519.1426574-2-nphamcs@gmail=
+.com/
+> >
+> > and should be applied on top of the zswap shrinker series:
+> >
+> > https://lore.kernel.org/linux-mm/20231024203302.1920362-1-nphamcs@gmail=
+.com/
+> >
+> > Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> > ---
+> >  Documentation/admin-guide/cgroup-v2.rst | 11 +++++
+> >  Documentation/admin-guide/mm/zswap.rst  |  6 +++
+> >  include/linux/memcontrol.h              | 20 ++++++++++
+> >  mm/memcontrol.c                         | 53 +++++++++++++++++++++++++
+> >  mm/page_io.c                            |  6 +++
+> >  mm/shmem.c                              |  8 +++-
+> >  mm/zswap.c                              |  9 +++++
+> >  7 files changed, 111 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/ad=
+min-guide/cgroup-v2.rst
+> > index 606b2e0eac4b..34306d70b3f7 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1657,6 +1657,17 @@ PAGE_SIZE multiple when read back.
+> >         higher than the limit for an extended period of time.  This
+> >         reduces the impact on the workload and memory management.
+> >
+> > +  memory.swap.bypass.enabled
+> > +       A read-write single value file which exists on non-root
+> > +       cgroups.  The default value is "0".
+> > +
+> > +       When this is set to 1, all swapping attempts are disabled.
+> > +       Note that this is subtly different from setting memory.swap.max=
+ to
+> > +       0, as it still allows for pages to be written to the zswap pool
+> > +       (which also consumes swap space in its current form). However,
+> > +       zswap store failure will not lead to swapping, and zswap writeb=
+acks
+> > +       will be disabled altogether.
+> > +
+> >    memory.zswap.current
+> >         A read-only single value file which exists on non-root
+> >         cgroups.
+> > diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/adm=
+in-guide/mm/zswap.rst
+> > index 522ae22ccb84..b7bf481a3e25 100644
+> > --- a/Documentation/admin-guide/mm/zswap.rst
+> > +++ b/Documentation/admin-guide/mm/zswap.rst
+> > @@ -153,6 +153,12 @@ attribute, e. g.::
+> >
+> >  Setting this parameter to 100 will disable the hysteresis.
+> >
+> > +Some users cannot tolerate the swapping that comes with zswap store fa=
+ilures
+> > +and zswap writebacks. Swapping can be disabled entirely (without disab=
+ling
+> > +zswap itself) on a cgroup-basis as follows:
+> > +
+> > +       echo 1 > /sys/fs/cgroup/<cgroup-name>/memory.swap.bypass.enable=
+d
+> > +
+> >  When there is a sizable amount of cold memory residing in the zswap po=
+ol, it
+> >  can be advantageous to proactively write these cold pages to swap and =
+reclaim
+> >  the memory for other use cases. By default, the zswap shrinker is disa=
+bled.
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index c1846e57011b..e481c5c609f2 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -221,6 +221,9 @@ struct mem_cgroup {
+> >         unsigned long zswap_max;
+> >  #endif
+> >
+> > +       /* bypass swap (on zswap failure and writebacks) */
+> > +       bool swap_bypass_enabled;
+> > +
+> >         unsigned long soft_limit;
+> >
+> >         /* vmpressure notifications */
+> > @@ -1157,6 +1160,13 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_d=
+ata_t *pgdat, int order,
+> >                                                 gfp_t gfp_mask,
+> >                                                 unsigned long *total_sc=
+anned);
+> >
+> > +static inline bool mem_cgroup_swap_bypass_enabled(struct mem_cgroup *m=
+emcg)
+> > +{
+> > +       return memcg && READ_ONCE(memcg->swap_bypass_enabled);
+> > +}
+> > +
+> > +bool mem_cgroup_swap_bypass_folio(struct folio *folio);
+> > +
+> >  #else /* CONFIG_MEMCG */
+> >
+> >  #define MEM_CGROUP_ID_SHIFT    0
+> > @@ -1615,6 +1625,16 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_d=
+ata_t *pgdat, int order,
+> >  {
+> >         return 0;
+> >  }
+> > +
+> > +static inline bool mem_cgroup_swap_bypass_enabled(struct mem_cgroup *m=
+emcg)
+> > +{
+> > +       return false;
+> > +}
+> > +
+> > +static inline bool mem_cgroup_swap_bypass_folio(struct folio *folio)
+> > +{
+> > +       return false;
+> > +}
+> >  #endif /* CONFIG_MEMCG */
+> >
+> >  static inline void __inc_lruvec_kmem_state(void *p, enum node_stat_ite=
+m idx)
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 568d9d037a59..f231cf2f745b 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -7928,6 +7928,28 @@ bool mem_cgroup_swap_full(struct folio *folio)
+> >         return false;
+> >  }
+> >
+> > +bool mem_cgroup_swap_bypass_folio(struct folio *folio)
+> > +{
+> > +       struct obj_cgroup *objcg =3D get_obj_cgroup_from_folio(folio);
+>
+> This is a swapbacked LRU folio, which means that it will have a memcg,
+> not an objcg, in folio->memcg_data (unless this changed recently and I
+> missed it).
+>
+> This function will get the memcg from the folio, then get its objcg,
+> then get its memcg again. I think this can be much simpler and no refs
+> need to be acquired. I think the folio will always be isolated and
+> locked here (but please do check). We can have a VM_BUG_ON() to ensure
+> that. The comment above folio_memcg() states that isolated or locked
+> folios should have stable memcgs.
+>
+> We might as well inline a call to folio_memcg() and use the memcg
+> version directly, or keep a separate helper to put the VM_BUG_ON()'s.
+> I don't feel strongly.
+
+Oh right I forgot that there's a direct link from the folio to its memcg.
+I'll fix this in the next version.
+
+>
+> > +       struct mem_cgroup *memcg;
+> > +       bool ret;
+> > +
+> > +       if (!objcg)
+> > +               return false;
+> > +
+> > +       if (mem_cgroup_disabled()) {
+> > +               obj_cgroup_put(objcg);
+> > +               return false;
+> > +       }
+> > +
+> > +       memcg =3D get_mem_cgroup_from_objcg(objcg);
+> > +       ret =3D mem_cgroup_swap_bypass_enabled(memcg);
+> > +
+> > +       mem_cgroup_put(memcg);
+> > +       obj_cgroup_put(objcg);
+> > +       return ret;
+> > +}
+> > +
+> >  static int __init setup_swap_account(char *s)
+> >  {
+> >         pr_warn_once("The swapaccount=3D commandline option is deprecat=
+ed. "
+> > @@ -8013,6 +8035,31 @@ static int swap_events_show(struct seq_file *m, =
+void *v)
+> >         return 0;
+> >  }
+> >
+> > +static int swap_bypass_enabled_show(struct seq_file *m, void *v)
+> > +{
+> > +       struct mem_cgroup *memcg =3D mem_cgroup_from_seq(m);
+> > +
+> > +       seq_printf(m, "%d\n", READ_ONCE(memcg->swap_bypass_enabled));
+> > +       return 0;
+> > +}
+> > +
+> > +static ssize_t swap_bypass_enabled_write(struct kernfs_open_file *of,
+> > +                               char *buf, size_t nbytes, loff_t off)
+> > +{
+> > +       struct mem_cgroup *memcg =3D mem_cgroup_from_css(of_css(of));
+> > +       int swap_bypass_enabled;
+> > +       ssize_t parse_ret =3D kstrtoint(strstrip(buf), 0, &swap_bypass_=
+enabled);
+> > +
+> > +       if (parse_ret)
+> > +               return parse_ret;
+> > +
+> > +       if (swap_bypass_enabled !=3D 0 && swap_bypass_enabled !=3D 1)
+> > +               return -ERANGE;
+>
+> I don't think ERANGE is appropriate here. EINVAL should be used here
+> AFACIT (and looking at other write handlers for memcg interfaces).
+
+Oh I think I just copied this from another cgroup file. The idea was
+that the range
+of acceptable values is [0, 1]. But yeah, -EINVAL fits better here.
+
+Will be fixed in v2.
+
+>
+> > +
+> > +       WRITE_ONCE(memcg->swap_bypass_enabled, swap_bypass_enabled);
+> > +       return nbytes;
+> > +}
+> > +
+> >  static struct cftype swap_files[] =3D {
+> >         {
+> >                 .name =3D "swap.current",
+> > @@ -8042,6 +8089,12 @@ static struct cftype swap_files[] =3D {
+> >                 .file_offset =3D offsetof(struct mem_cgroup, swap_event=
+s_file),
+> >                 .seq_show =3D swap_events_show,
+> >         },
+> > +       {
+> > +               .name =3D "swap.bypass.enabled",
+> > +               .flags =3D CFTYPE_NOT_ON_ROOT,
+> > +               .seq_show =3D swap_bypass_enabled_show,
+> > +               .write =3D swap_bypass_enabled_write,
+> > +       },
+> >         { }     /* terminate */
+> >  };
+> >
+> > diff --git a/mm/page_io.c b/mm/page_io.c
+> > index cb559ae324c6..0c84e1592c39 100644
+> > --- a/mm/page_io.c
+> > +++ b/mm/page_io.c
+> > @@ -201,6 +201,12 @@ int swap_writepage(struct page *page, struct write=
+back_control *wbc)
+> >                 folio_end_writeback(folio);
+> >                 return 0;
+> >         }
+> > +
+> > +       if (mem_cgroup_swap_bypass_folio(folio)) {
+> > +               folio_mark_dirty(folio);
+> > +               return AOP_WRITEPAGE_ACTIVATE;
+> > +       }
+> > +
+> >         __swap_writepage(&folio->page, wbc);
+> >         return 0;
+> >  }
+> > diff --git a/mm/shmem.c b/mm/shmem.c
+> > index cab053831fea..6ce1d4a7a48b 100644
+> > --- a/mm/shmem.c
+> > +++ b/mm/shmem.c
+> > @@ -1514,8 +1514,12 @@ static int shmem_writepage(struct page *page, st=
+ruct writeback_control *wbc)
+> >
+> >                 mutex_unlock(&shmem_swaplist_mutex);
+> >                 BUG_ON(folio_mapped(folio));
+> > -               swap_writepage(&folio->page, wbc);
+> > -               return 0;
+> > +               /*
+> > +                * Seeing AOP_WRITEPAGE_ACTIVATE here indicates swappin=
+g is disabled on
+> > +                * zswap store failure. Note that in that case the foli=
+o is already
+>
+> The interface semantics is "bypassing" swap, or not writing to disk
+> for swap. Let's keep it consistent and not mention zswap here.
+
+This is leftover from an older iteration of the patch I think. Will be fixe=
+d.
+
+>
+> > +                * re-marked dirty by swap_writepage()
+> > +                */
+> > +               return swap_writepage(&folio->page, wbc);
+> >         }
+> >
+> >         mutex_unlock(&shmem_swaplist_mutex);
+> > diff --git a/mm/zswap.c b/mm/zswap.c
+> > index c40697f07ba3..f19e26d647a3 100644
+> > --- a/mm/zswap.c
+> > +++ b/mm/zswap.c
+> > @@ -535,6 +535,9 @@ static unsigned long zswap_shrinker_scan(struct shr=
+inker *shrinker,
+> >         struct zswap_pool *pool =3D shrinker->private_data;
+> >         bool encountered_page_in_swapcache =3D false;
+> >
+> > +       if (mem_cgroup_swap_bypass_enabled(sc->memcg))
+> > +               return SHRINK_STOP;
+> > +
+> >         nr_protected =3D
+> >                 atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_p=
+rotected);
+> >         lru_size =3D list_lru_shrink_count(&pool->list_lru, sc);
+> > @@ -565,6 +568,9 @@ static unsigned long zswap_shrinker_count(struct sh=
+rinker *shrinker,
+> >         struct lruvec *lruvec =3D mem_cgroup_lruvec(memcg, NODE_DATA(sc=
+->nid));
+> >         unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
+> >
+> > +       if (mem_cgroup_swap_bypass_enabled(memcg))
+> > +               return 0;
+> > +
+> >  #ifdef CONFIG_MEMCG_KMEM
+> >         cgroup_rstat_flush(memcg->css.cgroup);
+> >         nr_backing =3D memcg_page_state(memcg, MEMCG_ZSWAP_B) >> PAGE_S=
+HIFT;
+> > @@ -890,6 +896,9 @@ static int shrink_memcg(struct mem_cgroup *memcg)
+> >         struct zswap_pool *pool;
+> >         int nid, shrunk =3D 0;
+> >
+> > +       if (mem_cgroup_swap_bypass_enabled(memcg))
+> > +               return -EINVAL;
+> > +
+> >         /*
+> >          * Skip zombies because their LRUs are reparented and we would =
+be
+> >          * reclaiming from the parent instead of the dead memcg.
+> > --
+> > 2.34.1
