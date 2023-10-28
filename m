@@ -1,148 +1,240 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485FD291D
-	for <linux-doc@vger.kernel.org>; Sat, 28 Oct 2023 10:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5282A15A4
+	for <linux-doc@vger.kernel.org>; Sat, 28 Oct 2023 11:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WPh3KBX/"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E9A9107
-	for <linux-doc@vger.kernel.org>; Sat, 28 Oct 2023 03:24:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1698488689;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=/MCG0fKq7dkA5vfmyvu/Vw865nGk2FxWSZE8uUZKj/c=;
-	b=WPh3KBX/6SpxAVBfSugaFe+JKAZr3rgO4g6LtL/aX971ik7RlVL955sC2lyIyUeHK5Jg1T
-	rQxhKwDsqYF1QlH+T0CTA0fWr1tPqOj2VPHOr7x7KqN3e3rElDsHw8MlzMEcqbKtX8c2zS
-	uvGGa8pcy7ydMz3DKEbEkj5xRZ0pzog=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-264-Q9j3oHbjOf-3hPjuSMrBbQ-1; Sat, 28 Oct 2023 06:24:47 -0400
-X-MC-Unique: Q9j3oHbjOf-3hPjuSMrBbQ-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-32da215295fso1556017f8f.2
-        for <linux-doc@vger.kernel.org>; Sat, 28 Oct 2023 03:24:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698488686; x=1699093486;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/MCG0fKq7dkA5vfmyvu/Vw865nGk2FxWSZE8uUZKj/c=;
-        b=gIkORwicMSGgtDkkTYF3xnBuYkr5AcxkRXBELiDmmxUWo+Wp7EeE/JYLssYN7ZcGKz
-         xjVNjATSkjkhigfDG7K5o9/YVFDLPcEqwrti5Ts0KWtGuzJlRfFPnR76+UjNJ9w1goIA
-         rPZ6S5iru1x/4kD8KPZd6IFwxVAtixI5SHA8yFVtuo57APdxQwMz09POoIX0AL+YA9fC
-         NanQQAzCSfSgOKXwG7Y+2A1KDSuhasCvGHh0t0ZmQtkgMYIN/YshRcTiCPnGCHULTzSQ
-         dVkzGqaY4mByoCsK0akVXcTMZBIaMAjtsMuZh3Xx7OGI+ikEcNzmfTEhIwnD5vuV33eM
-         mKyg==
-X-Gm-Message-State: AOJu0Yz11GZTmiN0LQE591bKgr1EIiN1FKzEYZRZY3v8DLtiVi4Zw/Uv
-	PLMTTOV5TprC+g7epYc510rR8iC60wqAEDqRKYzEvTvwR+5T6AFeg9T1Q3JZ4paxA1EKAYIP/uF
-	SGB6LM3MHb1jUvkxRgPvQ
-X-Received: by 2002:a05:6000:156f:b0:32f:62d5:79fd with SMTP id 15-20020a056000156f00b0032f62d579fdmr5354099wrz.23.1698488686425;
-        Sat, 28 Oct 2023 03:24:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFxEi/dA8WtnLFBPkzL53od+apnFqRBy6Qk5B3lHlCfa6pklRkOawp3tUVmzPuyiyXpqZ299Q==
-X-Received: by 2002:a05:6000:156f:b0:32f:62d5:79fd with SMTP id 15-20020a056000156f00b0032f62d579fdmr5354082wrz.23.1698488686028;
-        Sat, 28 Oct 2023 03:24:46 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id c6-20020adfed86000000b00326f0ca3566sm3552032wro.50.2023.10.28.03.24.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 03:24:45 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	Tejun Heo <tj@kernel.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] regulator: core: Add option to prevent disabling unused regulators
-Date: Sat, 28 Oct 2023 12:24:03 +0200
-Message-ID: <20231028102423.179400-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8R0FXdA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B8CC433C9;
+	Sat, 28 Oct 2023 11:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698493469;
+	bh=Vff3CPNZ027kdW7jf8wJOg2+GsBr6Hyeu9XOKAQdjMM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=J8R0FXdAs5cqd07eq16gBpzflrQhqkagrD0tO5W6Z405c0F6tyyhfIM+B+HHRlafR
+	 ae+DWw5gT6XXw147Qca9vmFy1vYG0XlMD8hgWpmbBrfSAQnYSaE+ahPlAFfEgazvUt
+	 1ksOsluWiaAbDM/TvhXa+ia2dTwTfatkDo5vXJa3j8RZtTO3RfX28Yf6gDnTGqUPa2
+	 hd+GwHxQE7MvxgFpwgiIjYRuGvYZVYjFN1rg0ZfAE8ToKnNuGAdiXhaq0VdmaXrgwV
+	 Se/ve6JRxPgpCvr7e0eW5qAk/s0o2VTU/cgmClULSv2PI0r7dJCuwGRjlre6ry4ICN
+	 cHBQzLL5e8T0Q==
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1e9ac336589so1934350fac.1;
+        Sat, 28 Oct 2023 04:44:29 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwANAH7nI71GBTfRp7pbIx8LovFclWV6avoODak5G3SFXF1+rMv
+	7W1zGWmct+cLWbPTk66Fil3821Fwqm/KHeYT+YI=
+X-Google-Smtp-Source: AGHT+IGZKWRaqGUHSnmKhKOXiMB0FTBKmhyAl7lTVczyfGtSkOucOmAlREhmnM+naFzdeRqqhWrE/1iTGmhN3EUBkqA=
+X-Received: by 2002:a05:6870:61c9:b0:1bb:84af:bf8f with SMTP id
+ b9-20020a05687061c900b001bb84afbf8fmr6123744oah.58.1698493469138; Sat, 28 Oct
+ 2023 04:44:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231023090638.935867-1-vegard.nossum@oracle.com>
+In-Reply-To: <20231023090638.935867-1-vegard.nossum@oracle.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 28 Oct 2023 20:43:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQJzjNWaBg+K7wRrwvthup_hWOvxibOg+ezhM_CRPeM4Q@mail.gmail.com>
+Message-ID: <CAK7LNAQJzjNWaBg+K7wRrwvthup_hWOvxibOg+ezhM_CRPeM4Q@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kbuild: clarifications
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This may be useful for debugging and develompent purposes, when there are
-drivers that depend on regulators to be enabled but do not request them.
+On Mon, Oct 23, 2023 at 6:06=E2=80=AFPM Vegard Nossum <vegard.nossum@oracle=
+.com> wrote:
+>
+> The kconfig language is subtle. Document a few more non-obvious
+> aspects of it.
+>
+> Also fix a small markup issue while we're at it.
+>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  Documentation/kbuild/kconfig-language.rst | 53 ++++++++++++++++++++---
+>  1 file changed, 48 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kb=
+uild/kconfig-language.rst
+> index 0135905c0aa3..f694d90f83d1 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -42,9 +42,11 @@ Every line starts with a key word and can be followed =
+by multiple
+>  arguments.  "config" starts a new config entry. The following lines
+>  define attributes for this config option. Attributes can be the type of
+>  the config option, input prompt, dependencies, help text and default
+> -values. A config option can be defined multiple times with the same
+> -name, but every definition can have only a single input prompt and the
+> -type must not conflict.
+> +values.
+> +
+> +A config option can be defined multiple times (i.e. by multiple menu
+> +entries) with the same name, but each definition can have only a single
+> +prompt and their types must not conflict.
 
-It is inspired from the clk_ignore_unused and pd_ignore_unused parameters,
-that are used to keep firmware-enabled clocks and power domains on even if
-these are not used by drivers.
 
-The parameter is not expected to be used in normal cases and should not be
-needed on a platform with proper driver support.
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+The kernel code should not do this.
 
- Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
- drivers/regulator/core.c                        | 17 +++++++++++++++++
- 2 files changed, 24 insertions(+)
+Scattering the elements of the same CONFIG option
+results in unreadable, unmaintainable code.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0a1731a0f0ef..91b58d767c2c 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5461,6 +5461,13 @@
- 			print every Nth verbose statement, where N is the value
- 			specified.
- 
-+	regulator_ignore_unused
-+			[REGULATOR]
-+			Prevents the regulator framework to disable regulators
-+			that are unused due not driver claiming them. This may
-+			be useful for debug and development, but should not be
-+			needed on a platform with proper driver support.
-+
- 	relax_domain_level=
- 			[KNL, SMP] Set scheduler's default relax_domain_level.
- 			See Documentation/admin-guide/cgroup-v1/cpusets.rst.
-diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index 3137e40fcd3e..220034ff0273 100644
---- a/drivers/regulator/core.c
-+++ b/drivers/regulator/core.c
-@@ -6234,6 +6234,14 @@ static int regulator_late_cleanup(struct device *dev, void *data)
- 	return 0;
- }
- 
-+static bool regulator_ignore_unused;
-+static int __init regulator_ignore_unused_setup(char *__unused)
-+{
-+	regulator_ignore_unused = true;
-+	return 1;
-+}
-+__setup("regulator_ignore_unused", regulator_ignore_unused_setup);
-+
- static void regulator_init_complete_work_function(struct work_struct *work)
- {
- 	/*
-@@ -6246,6 +6254,15 @@ static void regulator_init_complete_work_function(struct work_struct *work)
- 	class_for_each_device(&regulator_class, NULL, NULL,
- 			      regulator_register_resolve_supply);
- 
-+	/*
-+	 * For debugging purposes, it may be useful to prevent unused
-+	 * regulators to be disabled.
-+	 */
-+	if (regulator_ignore_unused) {
-+		pr_warn("regulator: Not disabling unused regulators\n");
-+		return;
-+	}
-+
- 	/* If we have a full configuration then disable any regulators
- 	 * we have permission to change the status for and which are
- 	 * not in use or always_on.  This is effectively the default
--- 
-2.41.0
 
+Kconfig supports it, but the actual implementation is incorrect,
+and the behaviour is obscure.
+
+
+
+
+
+
+>
+>  Menu attributes
+>  ---------------
+> @@ -136,7 +138,10 @@ applicable everywhere (see syntax).
+>    below), reverse dependencies can be used to force a lower limit of
+>    another symbol. The value of the current menu symbol is used as the
+>    minimal value <symbol> can be set to. If <symbol> is selected multiple
+> -  times, the limit is set to the largest selection.
+> +  times, the limit is set to the largest selection. In other words, if
+> +  at least one menu selecting another symbol is ``y``, then the selected
+> +  symbol will also be ``y``.
+> +
+>    Reverse dependencies can only be used with boolean or tristate
+>    symbols.
+>
+> @@ -473,6 +478,22 @@ This is a collection of Kconfig tips, most of which =
+aren't obvious at
+>  first glance and most of which have become idioms in several Kconfig
+>  files.
+>
+> +Misconceptions about prompts and symbols
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Looking at fragments of common Kconfig usage, it is easy to believe
+> +that a symbol can depend on another symbol. In fact, it is not the
+> +symbol itself that has a dependency; it is the visibility of the
+> +symbol's prompt that has a dependency.
+
+
+
+
+The dependency of a symbol and the visibility of a prompt
+are two different things.
+
+
+Each symbol does track its dependency, so called "direct dependency".
+(symbol::dir_dep)
+
+
+Prompts can have separate visibility.
+
+
+
+
+This is "show by example".
+
+
+
+config X86_VSYSCALL_EMULATION
+        bool "Enable vsyscall emulation" if EXPERT
+        default y
+        depends on X86_64
+
+
+
+
+When X86_64=3Dn, X86_VSYSCALL is disabled.
+
+
+When EXPERT=3Dn, the prompt becomes invisible,
+but the symbol itself can be enabled.
+X86_VSYSCALL_EMULATION is always y
+due to 'default y'.
+
+
+
+
+
+> +
+> +Likewise, since each prompt defines its own dependencies, it is quite
+> +possible to have two prompts for the same symbol with different sets
+> +of dependencies. As long as the user has at least one visible prompt,
+> +they can enable that symbol in their config. Conversely, if there are
+> +no visible prompts for a symbol, the user can not change its value,
+> +not even by explicitly setting it in their .config. (It may, however,
+> +still be selected by other prompts.)
+
+
+
+I do not want to advertise this because
+there is no beneficial case for doing this.
+
+
+
+
+
+
+
+
+>  Adding common features and make the usage configurable
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  It is a common idiom to implement a feature/functionality that are
+> @@ -567,7 +588,7 @@ distro config owners, but also for every single devel=
+oper or user who
+>  configures a kernel.
+>
+>  Such a dependency can be relaxed by combining it with the compile-testin=
+g rule
+> -above, leading to:
+> +above, leading to::
+>
+>    config FOO
+>         bool "Support for foo hardware"
+> @@ -692,6 +713,28 @@ e98062ed6dc4    select A -> depends on A        (3)
+>  (2) That seems to be the gist of that fix.
+>  (3) Same error.
+>
+> +Experimenting with smaller-scale Kconfigs
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +It is fully possible to play around with smaller-scale Kconfig fragments
+> +instead of using the kernel's full set of Kconfig files. Create a file
+> +called ``Kconfig.test`` containing e.g.::
+> +
+> +  config MODULES
+> +          bool "Modules"
+> +          modules
+> +
+> +  config FOO
+> +          tristate "foo"
+> +
+> +  config BAR
+> +          tristate "bar"
+> +          depends on FOO
+> +
+> +You can now e.g. use menuconfig on this by simply running:
+> +``scripts/kconfig/mconf Kconfig.test``.
+> +
+> +
+>  Future kconfig work
+>  ~~~~~~~~~~~~~~~~~~~
+>
+> --
+> 2.34.1
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
