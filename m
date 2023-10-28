@@ -1,78 +1,90 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4B33FE33;
-	Fri, 27 Oct 2023 22:14:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7ED7EB8;
+	Sat, 28 Oct 2023 03:55:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ryYOFteN"
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B170CE;
-	Fri, 27 Oct 2023 15:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=CMf95GxFR8SIbHmrNw3UEkZJ72B9RcomHcSfUASgMLY=; b=ryYOFteNyJn3xL50GW8vCIdkTM
-	OcKJT32lSdCpPKAjPbWcMmH2bHycXecgENHdB6FEGwWGtwQnOwtbnEyjJtZXHZg1MxWNTg6EY7aBf
-	NVT/lum+j2pR+2NcpDz9N1OIYgmu1n/LBxYr3MO004xMWh8RO3yfTOmqJur7GcueMwJO17YzRifYA
-	EI05e3OuCRsaradAexMOL+z+AICs7GbvuYal3sOLVo5ggtu/hT9cVywDe9DKLuOCuyktnGsnEWD43
-	3uRbpPmCy5HXM37oVG/2Q9csmUNSeqsdbUyIBD4k9XPbicOr89C4lwTvn6A9h7Apm5qstLVpL4hTC
-	3bcywDSA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qwV6B-00HHV2-0J;
-	Fri, 27 Oct 2023 22:14:35 +0000
-Message-ID: <c211ae84-1e72-4c3f-b69b-e4d0e58560a8@infradead.org>
-Date: Fri, 27 Oct 2023 15:14:34 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VciHVq8R"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05F7E10A;
+	Fri, 27 Oct 2023 20:55:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698465313; x=1730001313;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qDzqr30MeOgL/N0BmqbgF3J5CqRGi7sdwxlhCyhEzw0=;
+  b=VciHVq8RNen2+p7pTeAZVSrT5C23q0LpdTIE1eiy4TTxsGHJlSp5KEUX
+   wFc0tSjLIie1AvNoqubw2dj0C9hFP9QPBwOsXnHYEsVv01/hKvNn3kNQJ
+   afoMGpZTcJ0VF1aM8ygwPI2XkmUCYzuvv7//jdY751+ihxOyiVEWM078c
+   pusvIVOwsB0wF/ChCRcZwJnL+6Df5bv8idsJF86uX6H2JBrm7WIaYM3XV
+   YO5/2tcYZ59QaUovp3lDOoFgGiTBnkJaZO7Pv7iN1nG7TCoQOxjPhVeKy
+   K/zQktFjuMP3NMZ6xZ5qdOnT8dRGEa1ELbC0oadLwrI4vzwmPvkh1QeY2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="676147"
+X-IronPort-AV: E=Sophos;i="6.03,258,1694761200"; 
+   d="scan'208";a="676147"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 20:55:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="933283132"
+X-IronPort-AV: E=Sophos;i="6.03,258,1694761200"; 
+   d="scan'208";a="933283132"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 27 Oct 2023 20:55:08 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qwaPi-000BSd-2O;
+	Sat, 28 Oct 2023 03:55:06 +0000
+Date: Sat, 28 Oct 2023 11:54:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-i2c@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hwmon: pmbus: Add ltc4286 driver
+Message-ID: <202310281159.Y11xKbmu-lkp@intel.com>
+References: <20231026081514.3610343-3-Delphine_CC_Chiu@Wiwynn.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: vfs: fix typo in struct xattr_handlers
-Content-Language: en-US
-To: Ariel Miculas <amiculas@cisco.com>, linux-doc@vger.kernel.org
-Cc: serge@hallyn.com, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231027152101.226296-1-amiculas@cisco.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231027152101.226296-1-amiculas@cisco.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231026081514.3610343-3-Delphine_CC_Chiu@Wiwynn.com>
 
+Hi Delphine,
 
+kernel test robot noticed the following build warnings:
 
-On 10/27/23 08:21, Ariel Miculas wrote:
-> The structure is called struct xattr_handler, singular, not plural.
-> Fixing the typo also makes it greppable with the whole word matching
-> flag.
-> 
-> Signed-off-by: Ariel Miculas <amiculas@cisco.com>
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.6-rc7 next-20231027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/dt-bindings-hwmon-Add-lltc-ltc4286-driver-bindings/20231026-161739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231026081514.3610343-3-Delphine_CC_Chiu%40Wiwynn.com
+patch subject: [PATCH v2 2/2] hwmon: pmbus: Add ltc4286 driver
+reproduce: (https://download.01.org/0day-ci/archive/20231028/202310281159.Y11xKbmu-lkp@intel.com/reproduce)
 
-Thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310281159.Y11xKbmu-lkp@intel.com/
 
-> ---
->  Documentation/filesystems/vfs.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> index 99acc2e98673..276a219ff8d9 100644
-> --- a/Documentation/filesystems/vfs.rst
-> +++ b/Documentation/filesystems/vfs.rst
-> @@ -437,7 +437,7 @@ field.  This is a pointer to a "struct inode_operations" which describes
->  the methods that can be performed on individual inodes.
->  
->  
-> -struct xattr_handlers
-> +struct xattr_handler
->  ---------------------
->  
->  On filesystems that support extended attributes (xattrs), the s_xattr
+All warnings (new ones prefixed by >>):
+
+>> Documentation/hwmon/ltc4286.rst: WARNING: document isn't included in any toctree
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
