@@ -1,276 +1,251 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D29F8F5D
-	for <linux-doc@vger.kernel.org>; Sat, 28 Oct 2023 16:24:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FBC17727
+	for <linux-doc@vger.kernel.org>; Sat, 28 Oct 2023 16:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m8Ib7Z6W"
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A46FE5;
-	Sat, 28 Oct 2023 09:24:40 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6bd32d1a040so3060703b3a.3;
-        Sat, 28 Oct 2023 09:24:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698510280; x=1699115080; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eG7svNEPZUjdTioSC7hIIvNSd42KMflBgmUOxepCIPY=;
-        b=m8Ib7Z6WgMlXZ4iqeCkpxusaQfwhCcfouaudLrnHxyQFCDnvfI6WH6CvjLKq/5NzXb
-         qm9ubcX9mHkEVW9BdkbovedMBB2gOZptxDus7GqMga9rXLl3d4Ag2p17+uRSog3WnVc/
-         wU/p9k1MA47nllHKpPKpIWvFqErC5EyW3LfAIDl/Mbfss7ZgyUTMNtY333PgH1iEjfhW
-         01FFH4HfbeWQ6MDfJhmVM14xx/zQBSK9CCvWNH4gkbUZ0dUsH27MKpyv+if6aQL/9n1L
-         xDwshUnbmTpny+BKUNsrwHx5vN6Rm8/v9gwLB3aEUtzQtISdmKMVAywHDUr724QEVPkV
-         hShw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698510280; x=1699115080;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eG7svNEPZUjdTioSC7hIIvNSd42KMflBgmUOxepCIPY=;
-        b=GZgNDOAfLnQ0s8px40DqGvu99DE7xz8eL1ule9j32XlT9HSl/En3LYWj07zOLEz5+n
-         oMRAtlYW0hph9mXNUNxG43G1kHXZT+fg/cHvvnbm42TfDQspqCZsuiHzfuBto92BM2S0
-         oOHS635KH62t13fnO7db5zSAeRANtbaDUFVqx4Bj14bg8yo/J+WT4ic15RuOmwNgZRPG
-         m1Q1RjbmbrOR/TgMq3cQKRHSf0SvQNXFDAbTYEDdRTWbQkfr4R0QbOsr3UwstALjV/FU
-         t3r4U3MSvy1D0kfNL1Mzrhew0J06+yQ8P8AX2X3Ma5WHxNcZ3jd+onXdz0Y6BO64bwvA
-         hZjw==
-X-Gm-Message-State: AOJu0YyoFhiQXeH7hbNLqLiSM+jQNEfO88TWub7B3+MoImlUKsqw5Byv
-	FOVKexdkLq9/6Z9Wn88c1fQ=
-X-Google-Smtp-Source: AGHT+IGPBDr65Vzmi0XxyrH78oio2jatu/T50BTVUoOGiXxAvlXJkYL7Lmb+YmZfIfquZr443MtnQg==
-X-Received: by 2002:a05:6a00:1a4e:b0:690:1c1b:aefd with SMTP id h14-20020a056a001a4e00b006901c1baefdmr7006887pfv.5.1698510279583;
-        Sat, 28 Oct 2023 09:24:39 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x35-20020a056a0018a300b006be055ab117sm3229770pfh.92.2023.10.28.09.24.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 09:24:39 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sat, 28 Oct 2023 09:24:38 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Aleksa Savic <savicaleksa83@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, leonard.anderweit@gmail.com,
-	Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer High Flow USB and MPS Flow
-Message-ID: <c08d04b4-8e6d-4221-93f1-cf5fff8c54c4@roeck-us.net>
-References: <20231016083559.139341-1-savicaleksa83@gmail.com>
- <20231016083559.139341-3-savicaleksa83@gmail.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="tC7EwQC1"
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C5F1EB;
+	Sat, 28 Oct 2023 09:30:11 -0700 (PDT)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39S5GTDH027570;
+	Sat, 28 Oct 2023 16:29:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2023-03-30;
+ bh=b32Ho9TlxRqA+lGs0AbT5dgfNMW2JGlPfC8cer5+j5o=;
+ b=tC7EwQC1r5Up9d3wZkfhsBAdj/eOXHGQOEjbg8GWZyWowKU6LndhJ3Ha3zIEa098BbAP
+ NkqFBKepTmAnCF5sSAw94xX7PoksKL5rYT4Kl70M0HQmi9JUZZztHaDCcE+4KGTVelg9
+ ZqlT8btXrSMb/dalrrG5wYIrEPrj+A8mOcXVVCDbLCN6v07gZvo58JIFDD0cEQhXUHxA
+ vkO/8XlRgVhsPEo/a0w8DzCwaO+iWI/OWODscK4hMUtsPAOB+UUzJ4VpPeHCTlJv40Rq
+ oJ1UvnVa/Y//9TPpC7ghcB2dk17oIUZEXi70f7CqJ09o3BIqN+R5CyEAbNsmf6z49irt Xg== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3u0rqdrmnp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 28 Oct 2023 16:29:41 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39SBCVIV030752;
+	Sat, 28 Oct 2023 16:29:40 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3u0rr8y2h8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 28 Oct 2023 16:29:40 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39SGTdgL026344;
+	Sat, 28 Oct 2023 16:29:39 GMT
+Received: from t460-2.nl.oracle.com (dhcp-10-175-33-123.vpn.oracle.com [10.175.33.123])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3u0rr8y2gm-1;
+	Sat, 28 Oct 2023 16:29:39 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Carlos Bilbao <carlos.bilbao@amd.com>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>, Hu Haowen <src.res.211@gmail.com>,
+        linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH] docs: translations: add translations links when they exist
+Date: Sat, 28 Oct 2023 18:29:31 +0200
+Message-Id: <20231028162931.261843-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231016083559.139341-3-savicaleksa83@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-28_15,2023-10-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 spamscore=0
+ phishscore=0 mlxlogscore=999 adultscore=0 mlxscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
+ definitions=main-2310280132
+X-Proofpoint-ORIG-GUID: _Ev5Xq1gNTxfDJ48GX9LoBhpgE8hsTf0
+X-Proofpoint-GUID: _Ev5Xq1gNTxfDJ48GX9LoBhpgE8hsTf0
 
-On Mon, Oct 16, 2023 at 10:35:58AM +0200, Aleksa Savic wrote:
-> Extend aquacomputer_d5next driver to expose various hardware sensors of the
-> Aquacomputer High Flow USB flow sensor, which communicates through a
-> proprietary USB HID protocol. This commit also adds support for the sensors
-> of the MPS Flow devices, as they have the same USB product ID and sensor
-> layouts. Implemented by Leonard Anderweit [1].
-> 
-> Internal and external temp sensor readings are available, along with
-> the flow sensor.
-> 
-> Additionally, serial number and firmware version are exposed through
-> debugfs.
-> 
-> [1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/90
-> 
-> Originally-from: Leonard Anderweit <leonard.anderweit@gmail.com>
-> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+Add a new Sphinx extension that knows about the translations of kernel
+documentation and can insert links to the translations at the top of
+the document.
 
-Applied.
+It basically works like this:
 
-Thanks,
-Guenter
+1. Register a new node type, LanguagesNode.
 
-> ---
->  Documentation/hwmon/aquacomputer_d5next.rst |  7 +++
->  drivers/hwmon/aquacomputer_d5next.c         | 67 +++++++++++++++++++--
->  2 files changed, 70 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-> index 94dc2d93d180..cb073c79479c 100644
-> --- a/Documentation/hwmon/aquacomputer_d5next.rst
-> +++ b/Documentation/hwmon/aquacomputer_d5next.rst
-> @@ -16,6 +16,8 @@ Supported devices:
->  * Aquacomputer Aquastream XT watercooling pump
->  * Aquacomputer Aquastream Ultimate watercooling pump
->  * Aquacomputer Poweradjust 3 fan controller
-> +* Aquacomputer High Flow USB flow meter
-> +* Aquacomputer MPS Flow devices
->  
->  Author: Aleksa Savic
->  
-> @@ -73,6 +75,11 @@ It also exposes pressure and flow speed readings.
->  
->  The Poweradjust 3 controller exposes a single external temperature sensor.
->  
-> +The High Flow USB exposes an internal and external temperature sensor, and a flow meter.
-> +
-> +The MPS Flow devices expose the same entries as the High Flow USB because they have
-> +the same USB product ID and report sensors equivalently.
-> +
->  Depending on the device, not all sysfs and debugfs entries will be available.
->  Writing to virtual temperature sensors is not currently supported.
->  
-> diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-> index 46ff4fd4f87d..4fdd2e12427b 100644
-> --- a/drivers/hwmon/aquacomputer_d5next.c
-> +++ b/drivers/hwmon/aquacomputer_d5next.c
-> @@ -1,11 +1,12 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
->   * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo,
-> - * Quadro, High Flow Next, Aquaero, Aquastream Ultimate, Leakshield)
-> + * Quadro, High Flow Next, Aquaero, Aquastream Ultimate, Leakshield,
-> + * High Flow USB/MPS Flow family)
->   *
->   * Aquacomputer devices send HID reports (with ID 0x01) every second to report
->   * sensor values, except for devices that communicate through the
-> - * legacy way (currently, Poweradjust 3).
-> + * legacy way (currently, Poweradjust 3 and High Flow USB/MPS Flow family).
->   *
->   * Copyright 2021 Aleksa Savic <savicaleksa83@gmail.com>
->   * Copyright 2022 Jack Doan <me@jackdoan.com>
-> @@ -35,11 +36,12 @@
->  #define USB_PRODUCT_ID_AQUASTREAMXT	0xf0b6
->  #define USB_PRODUCT_ID_AQUASTREAMULT	0xf00b
->  #define USB_PRODUCT_ID_POWERADJUST3	0xf0bd
-> +#define USB_PRODUCT_ID_HIGHFLOW		0xf003
->  
->  enum kinds {
->  	d5next, farbwerk, farbwerk360, octo, quadro,
->  	highflownext, aquaero, poweradjust3, aquastreamult,
-> -	aquastreamxt, leakshield
-> +	aquastreamxt, leakshield, highflow
->  };
->  
->  static const char *const aqc_device_names[] = {
-> @@ -53,7 +55,8 @@ static const char *const aqc_device_names[] = {
->  	[aquastreamxt] = "aquastreamxt",
->  	[aquaero] = "aquaero",
->  	[aquastreamult] = "aquastreamultimate",
-> -	[poweradjust3] = "poweradjust3"
-> +	[poweradjust3] = "poweradjust3",
-> +	[highflow] = "highflow" /* Covers MPS Flow devices */
->  };
->  
->  #define DRIVER_NAME			"aquacomputer_d5next"
-> @@ -90,6 +93,8 @@ static u8 aquaero_secondary_ctrl_report[] = {
->  
->  #define POWERADJUST3_STATUS_REPORT_ID	0x03
->  
-> +#define HIGHFLOW_STATUS_REPORT_ID	0x02
-> +
->  /* Data types for reading and writing control reports */
->  #define AQC_8		0
->  #define AQC_BE16	1
-> @@ -282,6 +287,17 @@ static u16 aquastreamxt_sensor_fan_offsets[] = { 0x13, 0x1b };
->  /* Sensor report offsets for the Poweradjust 3 */
->  #define POWERADJUST3_SENSOR_START	0x03
->  
-> +/* Specs of the High Flow USB */
-> +#define HIGHFLOW_NUM_SENSORS		2
-> +#define HIGHFLOW_NUM_FLOW_SENSORS	1
-> +#define HIGHFLOW_SENSOR_REPORT_SIZE	0x76
-> +
-> +/* Sensor report offsets for the High Flow USB */
-> +#define HIGHFLOW_FIRMWARE_VERSION	0x3
-> +#define HIGHFLOW_SERIAL_START		0x9
-> +#define HIGHFLOW_FLOW_SENSOR_OFFSET	0x23
-> +#define HIGHFLOW_SENSOR_START		0x2b
-> +
->  /* Labels for D5 Next */
->  static const char *const label_d5next_temp[] = {
->  	"Coolant temp"
-> @@ -486,6 +502,16 @@ static const char *const label_poweradjust3_temp_sensors[] = {
->  	"External sensor"
->  };
->  
-> +/* Labels for Highflow */
-> +static const char *const label_highflow_temp[] = {
-> +	"External temp",
-> +	"Internal temp"
-> +};
-> +
-> +static const char *const label_highflow_speeds[] = {
-> +	"Flow speed [dL/h]"
-> +};
-> +
->  struct aqc_fan_structure_offsets {
->  	u8 voltage;
->  	u8 curr;
-> @@ -819,6 +845,7 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
->  				break;
->  			case aquaero:
->  			case quadro:
-> +			case highflow:
->  				/* Special case to support flow sensors */
->  				if (channel < priv->num_fans + priv->num_flow_sensors)
->  					return 0444;
-> @@ -965,6 +992,17 @@ static int aqc_legacy_read(struct aqc_data *priv)
->  		sensor_value = get_unaligned_le16(priv->buffer + AQUASTREAMXT_FAN_VOLTAGE_OFFSET);
->  		priv->voltage_input[1] = DIV_ROUND_CLOSEST(sensor_value * 1000, 63);
->  		break;
-> +	case highflow:
-> +		/* Info provided with every report */
-> +		priv->serial_number[0] = get_unaligned_le16(priv->buffer +
-> +							    priv->serial_number_start_offset);
-> +		priv->firmware_version =
-> +		    get_unaligned_le16(priv->buffer + priv->firmware_version_offset);
-> +
-> +		/* Read flow speed */
-> +		priv->speed_input[0] = get_unaligned_le16(priv->buffer +
-> +							  priv->flow_sensors_start_offset);
-> +		break;
->  	default:
->  		break;
->  	}
-> @@ -1750,6 +1788,20 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  
->  		priv->temp_label = label_poweradjust3_temp_sensors;
->  		break;
-> +	case USB_PRODUCT_ID_HIGHFLOW:
-> +		priv->kind = highflow;
-> +
-> +		priv->num_fans = 0;
-> +
-> +		priv->num_temp_sensors = HIGHFLOW_NUM_SENSORS;
-> +		priv->temp_sensor_start_offset = HIGHFLOW_SENSOR_START;
-> +		priv->num_flow_sensors = HIGHFLOW_NUM_FLOW_SENSORS;
-> +		priv->flow_sensors_start_offset = HIGHFLOW_FLOW_SENSOR_OFFSET;
-> +		priv->buffer_size = HIGHFLOW_SENSOR_REPORT_SIZE;
-> +
-> +		priv->temp_label = label_highflow_temp;
-> +		priv->speed_label = label_highflow_speeds;
-> +		break;
->  	default:
->  		break;
->  	}
-> @@ -1775,6 +1827,12 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  
->  		priv->status_report_id = AQUASTREAMXT_STATUS_REPORT_ID;
->  		break;
-> +	case highflow:
-> +		priv->serial_number_start_offset = HIGHFLOW_SERIAL_START;
-> +		priv->firmware_version_offset = HIGHFLOW_FIRMWARE_VERSION;
-> +
-> +		priv->status_report_id = HIGHFLOW_STATUS_REPORT_ID;
-> +		break;
->  	default:
->  		priv->serial_number_start_offset = AQC_SERIAL_START;
->  		priv->firmware_version_offset = AQC_FIRMWARE_VERSION;
-> @@ -1849,6 +1907,7 @@ static const struct hid_device_id aqc_table[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_AQUASTREAMXT) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_AQUASTREAMULT) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_POWERADJUST3) },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_HIGHFLOW) },
->  	{ }
->  };
->  
+2. Register a new transform, TranslationsTransform, that inserts a new
+   LanguageNode at the top of every document. The LanguageNode contains
+   "pending references" to translations of the document. The key here
+   is that these are pending (i.e. unresolved) references that may or
+   may not actually exist.
+
+3. Register a 'doctree-resolved' event that iterates over all the
+   LanguageNode nodes. Any unresolved references are filtered out; the
+   list of resolved references is passed to the 'translations.html'
+   template and rendered as an HTML node (if HTML output is selected).
+
+Testing: make htmldocs with v7.3.0.
+
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/conf.py                         |  2 +-
+ Documentation/sphinx-static/custom.css        |  8 ++
+ .../sphinx/templates/translations.html        | 12 +++
+ Documentation/sphinx/translations.py          | 96 +++++++++++++++++++
+ 4 files changed, 117 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/sphinx/templates/translations.html
+ create mode 100644 Documentation/sphinx/translations.py
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index d4fdf6a3875a..64eab500b2cd 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -55,7 +55,7 @@ needs_sphinx = '1.7'
+ extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
+               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+               'maintainers_include', 'sphinx.ext.autosectionlabel',
+-              'kernel_abi', 'kernel_feat']
++              'kernel_abi', 'kernel_feat', 'translations']
+ 
+ if major >= 3:
+     if (major > 3) or (minor > 0 or patch >= 2):
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index 084a884f6fb7..33adee4a35d9 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -73,3 +73,11 @@ input.kernel-toc-toggle { display: none; }
+     h3.kernel-toc-contents { display: inline; }
+     div.kerneltoc a { color: black; }
+ }
++
++/* Language selection bar */
++div.language-selection {
++    background: #eeeeee;
++    border: 1px solid #cccccc;
++    margin-bottom: 1em;
++    padding: .5em;
++}
+diff --git a/Documentation/sphinx/templates/translations.html b/Documentation/sphinx/templates/translations.html
+new file mode 100644
+index 000000000000..08afb595c203
+--- /dev/null
++++ b/Documentation/sphinx/templates/translations.html
+@@ -0,0 +1,12 @@
++<!-- SPDX-License-Identifier: GPL-2.0 -->
++<!-- Copyright © 2023, Oracle and/or its affiliates. -->
++
++{# Create a language bar for translations #}
++{% if languages|length > 0: %}
++<div class="language-selection">
++Languages:
++{% for ref in languages: %}
++<a href="{{ ref.refuri }}">{{ ref.astext() }}</a>{% if not loop.last %}, {% endif %}
++{% endfor %}
++</div>
++{% endif %}
+diff --git a/Documentation/sphinx/translations.py b/Documentation/sphinx/translations.py
+new file mode 100644
+index 000000000000..e1da811bdaf0
+--- /dev/null
++++ b/Documentation/sphinx/translations.py
+@@ -0,0 +1,96 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright © 2023, Oracle and/or its affiliates.
++# Author: Vegard Nossum <vegard.nossum@oracle.com>
++#
++# Add translation links to the top of the document.
++#
++
++import os
++
++from docutils import nodes
++from docutils.transforms import Transform
++
++import sphinx
++from sphinx import addnodes
++from sphinx.errors import NoUri
++
++all_languages = {
++    # English is always first
++    None: 'English',
++
++    # Keep the rest sorted alphabetically
++    'zh_CN': 'Chinese',
++    'it_IT': 'Italian',
++    'ja_JP': 'Japanese',
++    'ko_KR': 'Korean',
++    'sp_SP': 'Spanish',
++    'zh_TW': 'Taiwanese',
++}
++
++class LanguagesNode(nodes.Element):
++    pass
++
++class TranslationsTransform(Transform):
++    default_priority = 900
++
++    def apply(self):
++        app = self.document.settings.env.app
++        if app.builder.format not in ['html']:
++            return
++
++        docname = self.document.settings.env.docname
++
++        this_lang_code = None
++        components = docname.split(os.sep)
++        if components[0] == 'translations' and len(components) > 2:
++            this_lang_code = components[1]
++
++            # normalize docname to be the untranslated one
++            docname = os.path.join(*components[2:])
++
++        new_nodes = LanguagesNode()
++
++        for lang_code, lang_name in all_languages.items():
++            if lang_code == this_lang_code:
++                continue
++
++            if lang_code is None:
++                target_name = docname
++            else:
++                target_name = os.path.join('translations', lang_code, docname)
++
++            pxref = addnodes.pending_xref('', refdomain='std',
++                reftype='doc', reftarget='/' + target_name, modname=None,
++                classname=None, refexplicit=True)
++            pxref += nodes.Text(lang_name)
++            new_nodes += pxref
++
++        self.document.insert(0, new_nodes)
++
++def process_languages(app, doctree, docname):
++    for node in doctree.traverse(LanguagesNode):
++        languages = []
++
++        # Iterate over the child nodes; any resolved links will have
++        # the type 'nodes.reference', while unresolved links will be
++        # type 'nodes.Text'.
++        languages = list(filter(lambda xref:
++            isinstance(xref, nodes.reference), node.children))
++
++        html_content = app.builder.templates.render('translations.html',
++            context={
++                'languages': languages,
++            })
++
++        node.replace_self(nodes.raw('', html_content, format='html'))
++
++def setup(app):
++    app.add_node(LanguagesNode)
++    app.add_transform(TranslationsTransform)
++    app.connect('doctree-resolved', process_languages)
++
++    return {
++        'parallel_read_safe': True,
++        'parallel_write_safe': True,
++    }
+-- 
+2.34.1
+
