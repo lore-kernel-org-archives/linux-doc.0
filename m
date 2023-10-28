@@ -1,136 +1,221 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F2A621
-	for <linux-doc@vger.kernel.org>; Sat, 28 Oct 2023 16:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7927463A4;
+	Sat, 28 Oct 2023 16:10:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YjV4h4/k"
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A39E1;
-	Sat, 28 Oct 2023 09:04:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=eSKhnAArEdJ0K2lY6fWY7BVlQz2sRRzxT30U8f6o7W4=; b=YjV4h4/kQ81uUu8OE7ZkPEDJq+
-	6ooH46Hz62+KmbbnRO78qSEL/ogehoEiyM8mf/tFt5TDe/sdYSM6qjn7FdIFgK9gRz96uGyCKnebv
-	vUiqIL2EEgDcWXGpx2FnOXnl3iqYNHWNoltpD0YNMVzKyrBI7YQtB3Ry2GmU+62XuB6p4KIYwqCxJ
-	OBtnPk9v2fDlEYYGqIn8RPRSqB11G1l3tui8ing4gcZidvogpUt9N++e3mtpkafFcHW0Woa2+K2S8
-	wPyKAvWTrvCF8gUce3YIle4dKFtzxJAriKL/+J5xAD6AqFLTP1/2vN0piZ2CKathWO/5noAtISVa1
-	uRmh1pvg==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qwln8-000dFK-2i;
-	Sat, 28 Oct 2023 16:04:03 +0000
-Message-ID: <36e87cdb-9341-4e86-a1ad-dc2d1d105fa8@infradead.org>
-Date: Sat, 28 Oct 2023 09:04:02 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JqJFWdSN"
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0B36E5;
+	Sat, 28 Oct 2023 09:10:27 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1c87a85332bso27345895ad.2;
+        Sat, 28 Oct 2023 09:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698509427; x=1699114227; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A/R6fybkuPrh/vemQBEtPBgOnhFZTvd3BcrWSjhKvPM=;
+        b=JqJFWdSNUZsFAEJuvRxQwLKPQ1dBZRWKx2J+1iTnBwEkoi7fPGeX4vUcVpHy38uNaU
+         +GL+iqHsQ7Cr1LBXKgl2XuDfteve4shD5VWkehZnr2OIUilMrB+BVzpHE4x1yC6p6FVo
+         cJJ6IOGqg7lYrWx11ZqYnU1MxpHHhU4XzDpHO9Awgp2nUycNhn8CVKtKV94Q7GWXeCIG
+         BSwLy4N98p5rwd68ivGW3+h6i21IXpsOqvhww+AfCC2DsoqGqPePsDt82Sg511ovla5+
+         /Zckt6Hytk4hPjCU69I4noY370rkdHS4S5nBhcKH9xLgcNj+n3FBzQJm7/qbzhMYCqN0
+         hJIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698509427; x=1699114227;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A/R6fybkuPrh/vemQBEtPBgOnhFZTvd3BcrWSjhKvPM=;
+        b=WSlw/SqCqLDSIDVlg0I4k2ZVV3Ph413B1WjuRUJY4oAb5CXnNgmu1CxU+VUiAFsb0R
+         KdjibKXfBhcr6e1sjfPBH6kiN+76QbW9BwZKkNO5ognN2JcKh2+sH3iiyhtnQiNCsmhP
+         lKv7Ux5yIgE0+yJSVTnskbEaK7J5CfP/kQtOZTkqdmWonKyEKlxEIbYjPWUmhXHKAk64
+         9X+/vO6B4VhWbrP9bTei9SSXoZaldLRKPio9sTJxFBRTf8XelM8QnuJ3XIAMzGOeEg36
+         Xq/nohcsYPX9oDLBp7nYGAojApiZSI6cx3W/8dyo/bGTwbzwTBMgy3RUr/guFHxdkxub
+         jA9w==
+X-Gm-Message-State: AOJu0YxMX17ZX9PiDyqGT5+GpsqRk1bPQU635BN+bo/yiFW89sqRK4nE
+	ewu9HGCReMn4QfBzFdqnCuQ=
+X-Google-Smtp-Source: AGHT+IFCxkcX/4mh5DsxzdHDuTmcmJd858zCiXe4nVTZFSwzWWRRXBEzhQe0Dfbz5jaOuSxrUbdwHg==
+X-Received: by 2002:a17:903:1104:b0:1ca:29f:4b06 with SMTP id n4-20020a170903110400b001ca029f4b06mr7452678plh.2.1698509427112;
+        Sat, 28 Oct 2023 09:10:27 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u2-20020a1709026e0200b001c746b986e5sm3482443plk.45.2023.10.28.09.10.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Oct 2023 09:10:26 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 28 Oct 2023 09:10:25 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: ltc2991: add bindings
+Message-ID: <842c0616-f635-4443-99b6-c7b47ab145fb@roeck-us.net>
+References: <20231026103413.27800-1-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] regulator: core: Add option to prevent disabling unused
- regulators
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
- linux-doc@vger.kernel.org
-References: <20231028102423.179400-1-javierm@redhat.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231028102423.179400-1-javierm@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231026103413.27800-1-antoniu.miclaus@analog.com>
 
-Hi,
+On Thu, Oct 26, 2023 at 01:33:12PM +0300, Antoniu Miclaus wrote:
+> Add dt-bindings for ltc2991 octal i2c voltage, current and temperature
+> monitor.
+> 
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-On 10/28/23 03:24, Javier Martinez Canillas wrote:
-> This may be useful for debugging and develompent purposes, when there are
-> drivers that depend on regulators to be enabled but do not request them.
-> 
-> It is inspired from the clk_ignore_unused and pd_ignore_unused parameters,
-> that are used to keep firmware-enabled clocks and power domains on even if
-> these are not used by drivers.
-> 
-> The parameter is not expected to be used in normal cases and should not be
-> needed on a platform with proper driver support.
-> 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Applied.
+
+Thanks,
+Guenter
+
 > ---
+> no changes in v5.
+>  .../bindings/hwmon/adi,ltc2991.yaml           | 128 ++++++++++++++++++
+>  1 file changed, 128 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
 > 
->  Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
->  drivers/regulator/core.c                        | 17 +++++++++++++++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 0a1731a0f0ef..91b58d767c2c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5461,6 +5461,13 @@
->  			print every Nth verbose statement, where N is the value
->  			specified.
->  
-> +	regulator_ignore_unused
-> +			[REGULATOR]
-> +			Prevents the regulator framework to disable regulators
-
-			                                 from disabling regulators
-
-> +			that are unused due not driver claiming them. This may
-
-			                    no driver claiming them.
-
-> +			be useful for debug and development, but should not be
-> +			needed on a platform with proper driver support.
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> new file mode 100644
+> index 000000000000..011e5b65c79c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> @@ -0,0 +1,128 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
 > +
->  	relax_domain_level=
->  			[KNL, SMP] Set scheduler's default relax_domain_level.
->  			See Documentation/admin-guide/cgroup-v1/cpusets.rst.
-> diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-> index 3137e40fcd3e..220034ff0273 100644
-> --- a/drivers/regulator/core.c
-> +++ b/drivers/regulator/core.c
-> @@ -6234,6 +6234,14 @@ static int regulator_late_cleanup(struct device *dev, void *data)
->  	return 0;
->  }
->  
-> +static bool regulator_ignore_unused;
-> +static int __init regulator_ignore_unused_setup(char *__unused)
-> +{
-> +	regulator_ignore_unused = true;
-> +	return 1;
-> +}
-> +__setup("regulator_ignore_unused", regulator_ignore_unused_setup);
+> +$id: http://devicetree.org/schemas/hwmon/adi,ltc2991.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  static void regulator_init_complete_work_function(struct work_struct *work)
->  {
->  	/*
-> @@ -6246,6 +6254,15 @@ static void regulator_init_complete_work_function(struct work_struct *work)
->  	class_for_each_device(&regulator_class, NULL, NULL,
->  			      regulator_register_resolve_supply);
->  
-> +	/*
-> +	 * For debugging purposes, it may be useful to prevent unused
-> +	 * regulators to be disabled.
-
-	              from being disabled.
-
-> +	 */
-> +	if (regulator_ignore_unused) {
-> +		pr_warn("regulator: Not disabling unused regulators\n");
-> +		return;
-> +	}
+> +title: Analog Devices LTC2991 Octal I2C Voltage, Current and Temperature Monitor
 > +
->  	/* If we have a full configuration then disable any regulators
->  	 * we have permission to change the status for and which are
->  	 * not in use or always_on.  This is effectively the default
-
-HTH.
--- 
-~Randy
+> +maintainers:
+> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +
+> +description: |
+> +  The LTC2991 is used to monitor system temperatures, voltages and currents.
+> +  Through the I2C serial interface, the eight monitors can individually measure
+> +  supply voltages and can be paired for differential measurements of current
+> +  sense resistors or temperature sensing transistors.
+> +
+> +  Datasheet:
+> +    https://www.analog.com/en/products/ltc2991.html
+> +
+> +properties:
+> +  compatible:
+> +    const: adi,ltc2991
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  vcc-supply: true
+> +
+> +patternProperties:
+> +  "^channel@[0-3]$":
+> +    type: object
+> +    description:
+> +      Represents the differential/temperature channels.
+> +
+> +    properties:
+> +      reg:
+> +        description:
+> +          The channel number. LTC2991 can monitor 4 currents/temperatures.
+> +        items:
+> +          minimum: 0
+> +          maximum: 3
+> +
+> +      shunt-resistor-micro-ohms:
+> +        description:
+> +          The value of curent sense resistor in micro ohms. Pin configuration is
+> +          set for differential input pair.
+> +
+> +      adi,temperature-enable:
+> +        description:
+> +          Enables temperature readings. Pin configuration is set for remote
+> +          diode temperature measurement.
+> +        type: boolean
+> +
+> +    required:
+> +      - reg
+> +
+> +    allOf:
+> +      - if:
+> +          required:
+> +            - shunt-resistor-micro-ohms
+> +        then:
+> +          properties:
+> +            adi,temperature-enable: false
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vcc-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        hwmon@48 {
+> +            compatible = "adi,ltc2991";
+> +            reg = <0x48>;
+> +            vcc-supply = <&vcc>;
+> +        };
+> +    };
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        hwmon@48 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            compatible = "adi,ltc2991";
+> +            reg = <0x48>;
+> +            vcc-supply = <&vcc>;
+> +
+> +            channel@0 {
+> +                    reg = <0x0>;
+> +                    shunt-resistor-micro-ohms = <100000>;
+> +            };
+> +
+> +            channel@1 {
+> +                    reg = <0x1>;
+> +                    shunt-resistor-micro-ohms = <100000>;
+> +            };
+> +
+> +            channel@2 {
+> +                    reg = <0x2>;
+> +                    adi,temperature-enable;
+> +            };
+> +
+> +            channel@3 {
+> +                    reg = <0x3>;
+> +                    adi,temperature-enable;
+> +            };
+> +        };
+> +    };
+> +...
