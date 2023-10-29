@@ -1,195 +1,154 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376CC23B0;
-	Sun, 29 Oct 2023 12:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Ag0Ioi1t"
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9A4FC;
-	Sun, 29 Oct 2023 05:48:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WhKMfvltVO9iP+la09IlqJVnluJEowd6b9Vqvk1dYjlDrIymKUkWVY6HyH0iIVaJuvzg0D1LRWviuUzDBgQCdmHQ16fit9qv3m6UfmrjllxeGlAGuwPa0ZGEeG4WBn8VgVNFrm1RoTOW+cPP9WqQoTq//VXY11CeKk0dtMzRA4HDz/xSKzrl3dh7LjonH2Zc20csHInvWm3GFn9PpAs8OPqMeYELehStSb75vg8WiWSaDdWbKZ0xCRn5huk15Mu9IQIfv6GXXe9qxL0a7tm7/JeknJHOhKMGhq2LUpCIIgp/HWfc+oWELN1dpDKP7/u+b4+aveGhmi4PQ0pw+AjH1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Y+xvY/yMRqGKtkrx4qNYRgBjXkb6GiV4pZHXQPGPVs=;
- b=JaWuEUr2FKC3vbAneM2z9TxHqkfXpkzunzpWYg3VPkxP/LplqrOMvLpxkgaUAvbX80f4xKrFtfkMlYoA/vt09+n/c3EcWeLm7SMf+XnE0mUb/F9l/XNttrKKxz3x3gbi5+u0SNe0F4pjYGzDhQ62MpfVJgnWQIci+1lRvDVDVIy0mUP7qRUsWx9xMup01rGLRxc/SOk7P7fzBikjlM0QE7oHRak3TrInnYy41kIK1iTRJsR34nMmxTTD5Co1X2HCs0HYvs3OJYuRqdnSyr/Y7B15VV1AJyvlo18q9LLpLZGyvBGBedD5l8RJiLwqfDpIz/j9Ec66vQmuT6OUNyi/pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Y+xvY/yMRqGKtkrx4qNYRgBjXkb6GiV4pZHXQPGPVs=;
- b=Ag0Ioi1tFgE8ymF5GKxMKSBDtNhOaAhihLpTzUmThPeqEbDuUAbA2wbysnRVpUDCMwy/utW2mJGd4uMRo/pMOH1txKqdRdTpKAZ5Jh5/KIredXqQPAgiJI0YhZgHiOYlVZMD98HYOfkbrnJrn7x4+ZL+q6sUAQ6WIAzVfafHEe1adpdispRGneZIramNqlRqNAjU/i62KA8DteOc8OlXBpgbUYcgTmFkrLIlFsNpxe0KglJW/1kAIB0qY3biy4FbOKC55cnwMUsFsWH4F0kmRcMvIKrjweRv4tP9afrhQjb4IBs3rb+gmztSNnGa+5PrmINOgBnrSTMAODX+ePxbcQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB6288.namprd12.prod.outlook.com (2603:10b6:8:93::7) by
- PH7PR12MB7281.namprd12.prod.outlook.com (2603:10b6:510:208::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6933.22; Sun, 29 Oct 2023 12:48:37 +0000
-Received: from DS7PR12MB6288.namprd12.prod.outlook.com
- ([fe80::8cde:e637:db89:eae6]) by DS7PR12MB6288.namprd12.prod.outlook.com
- ([fe80::8cde:e637:db89:eae6%5]) with mapi id 15.20.6933.025; Sun, 29 Oct 2023
- 12:48:37 +0000
-Message-ID: <e471519b-b253-4121-9eec-f7f05948c258@nvidia.com>
-Date: Sun, 29 Oct 2023 14:48:28 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-wired-lan] [PATCH net-next v4 1/6] net: ethtool: allow
- symmetric-xor RSS hash for any flow type
-To: Ahmed Zaki <ahmed.zaki@intel.com>, Jakub Kicinski <kuba@kernel.org>,
- Alexander H Duyck <alexander.duyck@gmail.com>
-Cc: mkubecek@suse.cz, andrew@lunn.ch, willemdebruijn.kernel@gmail.com,
- Wojciech Drewek <wojciech.drewek@intel.com>, corbet@lwn.net,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- jesse.brandeburg@intel.com, edumazet@google.com, anthony.l.nguyen@intel.com,
- horms@kernel.org, vladimir.oltean@nxp.com,
- Jacob Keller <jacob.e.keller@intel.com>, intel-wired-lan@lists.osuosl.org,
- pabeni@redhat.com, davem@davemloft.net
-References: <20231016154937.41224-1-ahmed.zaki@intel.com>
- <26812a57-bdd8-4a39-8dd2-b0ebcfd1073e@intel.com>
- <CAKgT0Ud7JjUiE32jJbMbBGVexrndSCepG54PcGYWHJ+OC9pOtQ@mail.gmail.com>
- <14feb89d-7b4a-40c5-8983-5ef331953224@intel.com>
- <CAKgT0UfcT5cEDRBzCxU9UrQzbBEgFt89vJZjz8Tow=yAfEYERw@mail.gmail.com>
- <20231016163059.23799429@kernel.org>
- <CAKgT0Udyvmxap_F+yFJZiY44sKi+_zOjUjbVYO=TqeW4p0hxrA@mail.gmail.com>
- <20231017131727.78e96449@kernel.org>
- <CAKgT0Ud4PX1Y6GO9rW+Nvr_y862Cbv3Fpn+YX4wFHEos9rugJA@mail.gmail.com>
- <20231017173448.3f1c35aa@kernel.org>
- <CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
- <20231018165020.55cc4a79@kernel.org>
- <45c6ab9f-50f6-4e9e-a035-060a4491bded@intel.com>
- <20231020153316.1c152c80@kernel.org>
- <c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
- <20231020164917.69d5cd44@kernel.org>
- <f6ab0dc1-b5d5-4fff-9ee2-69d21388d4ca@intel.com>
- <89e63967-46c4-49fe-87bc-331c7c2f6aab@nvidia.com>
- <e644840d-7f3d-4e3c-9e0f-6d958ec865e0@intel.com>
-Content-Language: en-US
-From: Gal Pressman <gal@nvidia.com>
-In-Reply-To: <e644840d-7f3d-4e3c-9e0f-6d958ec865e0@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0055.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2af::11) To DS7PR12MB6288.namprd12.prod.outlook.com
- (2603:10b6:8:93::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5137A2591
+	for <linux-doc@vger.kernel.org>; Sun, 29 Oct 2023 12:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+X-Greylist: delayed 165 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 29 Oct 2023 05:54:48 PDT
+Received: from p3plwbeout27-04.prod.phx3.secureserver.net (p3plsmtp27-04-2.prod.phx3.secureserver.net [216.69.139.52])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE61B8
+	for <linux-doc@vger.kernel.org>; Sun, 29 Oct 2023 05:54:48 -0700 (PDT)
+Received: from mailex.mailcore.me ([94.136.40.141])
+	by :WBEOUT: with ESMTP
+	id x5GsqmsyHEGwpx5GsqUYr1; Sun, 29 Oct 2023 05:52:03 -0700
+X-CMAE-Analysis: v=2.4 cv=Z7spoFdA c=1 sm=1 tr=0 ts=653e5573
+ a=bheWAUFm1xGnSTQFbH9Kqg==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
+ a=ggZhUymU-5wA:10 a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=AUd_NHdVAAAA:8
+ a=VwQbUJbxAAAA:8 a=vaoKmyfopMuWMe4x9wgA:9 a=QEXdDO2ut3YA:10
+ a=AjGcO6oz07-iQ99wixmX:22
+X-SECURESERVER-ACCT: phillip@squashfs.org.uk  
+X-SID: x5GsqmsyHEGwp
+Received: from 82-69-79-175.dsl.in-addr.zen.co.uk ([82.69.79.175] helo=[192.168.178.90])
+	by smtp07.mailcore.me with esmtpa (Exim 4.94.2)
+	(envelope-from <phillip@squashfs.org.uk>)
+	id 1qx5Gx-0005xc-L4; Sun, 29 Oct 2023 12:52:08 +0000
+Message-ID: <9596fa83-f06c-5582-7f99-c99c67e73dba@squashfs.org.uk>
+Date: Sun, 29 Oct 2023 12:51:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6288:EE_|PH7PR12MB7281:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01c6a5af-76db-4313-be33-08dbd87d5e70
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	GpBI/ytYVt7BK2OLPbztSlmU6YLnDNrAY7hn/lqPC+TvxVe3TZ7TPnIfj4/L7/+vtRKoaBeoHqYp6UBS2hL9H5mSJbWLRQhY8BMvq6DYDjUWC/V6hAQFb4gVVIG13gzcRmuMShyMBFckA0eBVX6yez0WDrfW0QqqzHDV9VHE2NbBoyqgFxo5qa6Phd8zE9dSKi2u5OAXEZvpsObMIqQuSHGqQGhPnChaQSysN5YBSddAJNhlpP9+XlsXzaS2EcxKy2BS2mWh616IVXQiqTDPPaC8SF99RaI5ZmnB1eIMrR6/Q/6A/mBfd+/+tCrda5H8mkvWSSC9NalRPGrpQFWnvW4W0FiORt94HRpIr4aTmarA2Cfwua9VzrHSVF4u0TVdl/2m1cpp2s1yBd7jevI7gIM3ME3kIuAp62MUD5J295PM/HUj8xhg3We5JG2H6Tp6S4I9ZUqNc9m4zxD1yVkhYbhoUcF9XQnAGbIiSBjyi+tZN5GI9lelxbyzbEo8g4WumXjNxucBhZn6D+frb1tFVNDIUbjOxYnV11TN+disLbj/bv5fYHoP5vcNHG4drBwX2/YgYlRwIcrC09r52sTufDlS4Jmc1+XG3WmkRnQLrnRNyW+f7Am/RUI+NASUcstM8C7FZDf1zDfgnDRHedJFc2PNCYg4BE0Y6sE0xF8IsXm3odUwTrZctKRCIGuQilL+
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6288.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(376002)(366004)(346002)(136003)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(38100700002)(2906002)(31686004)(31696002)(83380400001)(7416002)(4001150100001)(5660300002)(2616005)(86362001)(6512007)(41300700001)(36756003)(66556008)(110136005)(66476007)(316002)(66946007)(54906003)(53546011)(6666004)(6506007)(6486002)(8676002)(966005)(26005)(478600001)(8936002)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WVRFb01SRm1FakhweVNmVXV0MnJ0dE9vN2dnTlEySnhiOEpLUGNld0k5aitZ?=
- =?utf-8?B?TUtWQkhReVpIR3NtQXkyZE5MaUdRalZjUTA2SFlScUZJa3ZGcDc4NHhuZ3cv?=
- =?utf-8?B?eDJzUFo1YmlhQlh5eXdVeGVSVU5yMEtSazV2WUhPV0Jla2VLT3JvNHZWR21z?=
- =?utf-8?B?WVB6MFFmZk8yYkhrODM5QWdLdTFmVXdrYzl1Mnk5YWJKbjN1VUthTjNXNEY3?=
- =?utf-8?B?NzY1RmVVb05hV1pCa1BJZDkyRGlobmVmQ3NPSHg4b1dGek95RzR6RWM4cElj?=
- =?utf-8?B?aTRKQTl3WEhLbEJTbEpBdTV1U2pnNHZPZlgzaDVQWlI1TEdvYnBRNnF5U2xB?=
- =?utf-8?B?azE2RUtnYUJRRURpV0FvNGJRU3JGN3F0ZUloVWVRamI1USs3Rnh5cmdETXRF?=
- =?utf-8?B?cFA0OTFIQW1IS2kzeXBwVys1S0pWTGR5akRhVERob2VKblNYcFgra2ZMWXZk?=
- =?utf-8?B?MlVWb0JlbmZzeU9pMDZRblhDYUVyYUNYbkQ1RGRYMGNBQTNrNzZ3dkVvVFcv?=
- =?utf-8?B?Zm9ORTF6eHdMWGNLbEZXWGttNzJRRjlPOG15RUZ3QXl5RmF4T3Yxb2Z5WFZJ?=
- =?utf-8?B?TTBvMStPRCsrQmx4SXB1UFJGTnN4clNLdjM2cUgyVTlNZlRJNWdQaTFjaFMw?=
- =?utf-8?B?QmlEOE9XYWtmbER0VE9veGZaTzJUR1FiSkdnL3F3eHVsSlRNTmhuWnJYMVZI?=
- =?utf-8?B?UHR1Q1JvK1N2dzdZZDhKbkM5SHRlRDc1bm5xbERrN1E2eDQ2MXVJRWdJSW90?=
- =?utf-8?B?Vmp6STNVL0NaSTJINDBvQWlrUHpsZUp5ckNHdzlsVDMrd0RLRzU4bmVjMGUz?=
- =?utf-8?B?dWlBYStyaFVzTFFmWnVCQWtJUW1PTnpkRGtNdUxkN0Q5VCtxK3E5dnpPWmNU?=
- =?utf-8?B?Zk1YTXp6T2ZmRG9ZNjk5bzNlRlRqZ2NCK0dPZXVmd2NXeXozL2Rad2VoeVBJ?=
- =?utf-8?B?a3h3dXdNVkhnOE85Rm95ZXExbVROY0pPZXdLNXE5aVA4ZTJhb2UvLzRDMHJT?=
- =?utf-8?B?RnBiaWJsU0hYNmhUejJnZDl3VDFBYUdUZTN0VVpYZlFCWDRURFgvclF0ZW5i?=
- =?utf-8?B?TlpQRU1sRHR5UThaWUVlZkt1R1NFc1JiZlRNQm9CdXhySndHT2lXb1ZmVENn?=
- =?utf-8?B?MEY1blpRRUprd3N6TlV5QlVaQnZoKzRjdVpwUUkrcTNBL29XOUpyZTZ0cStp?=
- =?utf-8?B?am1JeVJaTlBwNnNXbjQvTm0zSyt1RkVDT3NUSWFLNWpCWXhIYXZEcUNWZXAy?=
- =?utf-8?B?ajFkdXM3T2ZKU0RxSGpzVFFLN2FXTFRsWTJZeTRsVm8rSk5qRk1EbjFVR1R5?=
- =?utf-8?B?bVE4UU02elJDaE9Rck9xRituVzR0bWhUeER3SE12cFlXVHVrZ3d4NUZZbXp1?=
- =?utf-8?B?SVEyVlBqdEpQdWJlbTUyeUYvaDhpN0orOGxHdy9oRVJ2WEJaSlZCYVp4SWQ2?=
- =?utf-8?B?NWhLVURlMmZxeCsvZWg1RWRESDVZVkNMdHpWNm5ncm12c1lJZVhLUExDbFMy?=
- =?utf-8?B?UjF1aEp4L0RxdFhrRHZ4THJQclFFL2U1cmV1d1hkZTNzaTQycnh3dEpjZDQx?=
- =?utf-8?B?cUJoYjdLZGVSL3hqK3dwK2l5KzVGaWpncUxsdVF1cHluN1hhbXNQRnJ6eW93?=
- =?utf-8?B?N2o5aVRzakUvK1hvVTJBdXc1TXZBZDdOTUJYcFA3SDh0b09xeE9abmNrT3Bk?=
- =?utf-8?B?Z29SZERXNnE0L29RSmI4U0RZdnRQYVIxYzhRamk5UVljaDRZWlU1OHlHL2JL?=
- =?utf-8?B?VEl1ZUZSTWtuZjNkU01taU1QZHdVZGtJcTN0NlR6VDFDWWt3M0dJUk1MU0hH?=
- =?utf-8?B?Y3M5ckNYYmdVK1dOOUlUZy9PRjhzdVAyZWd2RE5yWDlaRHQ4aDJkVTNLblkx?=
- =?utf-8?B?SGxTWWJ1MkZSeEVIZ2hoQ2RpSUduMm1YeGxoeE1WSHdNMVJ5QWJkL0RzN3RM?=
- =?utf-8?B?Si9JOHJOMFhlSlZ2R1FnVS94MnZ5YXYyVXdlNlpPbTJDbUt3Z0N6b1ZiNFpG?=
- =?utf-8?B?QjExalgrN3hFdDcxWnpzbGhCWWNxWml4NWlXOEh2TFpLWExUWG5ETDJtaXlt?=
- =?utf-8?B?b0hQeExvTytUOWJ1YTFRcVdWTjhlNlRHTnVUc0N3SFlVU1RUL0duN1NzWW1s?=
- =?utf-8?Q?cuJ1ClTafSWwG9FgvEl9sKpoa?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01c6a5af-76db-4313-be33-08dbd87d5e70
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6288.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2023 12:48:37.2196
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bdv7t2My4IpoVFmXRD5XdlrQ4jXJOCPMttfLujlufaT7Sm2AizfKL6CTzogzCuIN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7281
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] docs: filesystems: document the squashfs specific mount
+ options
+To: Ariel Miculas <amiculas@cisco.com>, linux-doc@vger.kernel.org
+Cc: serge@hallyn.com, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org
+References: <20231027150814.217689-1-amiculas@cisco.com>
+From: Phillip Lougher <phillip@squashfs.org.uk>
+In-Reply-To: <20231027150814.217689-1-amiculas@cisco.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailcore-Auth: 439999529
+X-Mailcore-Domain: 1394945
+X-123-reg-Authenticated:  phillip@squashfs.org.uk  
+X-Originating-IP: 82.69.79.175
+X-CMAE-Envelope: MS4xfPW1OAFQJkflB7NKjk294hyFcn5+1eoM+/3+3IvNWWAsoaQPRrZEQeeTRJiyNihPIFEE9MncUbbHiy7VyFuccVI+aGpjEpArA4THsJZ5+IZyUxKgp8Ia
+ sTNzNUlqPV5G+3tXkVENxfksUbimQi4kj1vv1FwwSTWee9nlsHOrtDBHE5EfEVN2/D39mgJnkBSIW8LlaGsWakM7DHtZEiayMPXkou/GJBRznWqZxLKxEFMw
+ IqKxsI47FX94qZEgNYZF0Q==
 
-On 29/10/2023 14:42, Ahmed Zaki wrote:
+On 27/10/2023 16:08, Ariel Miculas wrote:
+> When SQUASHFS_CHOICE_DECOMP_BY_MOUNT is set, the "threads" mount option
+> can be used to specify the decompression mode: single-threaded,
+> multi-threaded or percpu. It can also be used to specify the number of
+> threads used for decompression.
+> This option is only mentioned in fs/squashfs/Kconfig, which makes it
+> difficult to find.
 > 
+> Another mount option available is "errors", which can be configured to
+> panic the kernel when squashfs errors are encountered.
 > 
-> On 2023-10-29 06:25, Gal Pressman wrote:
->> On 21/10/2023 3:00, Ahmed Zaki wrote:
->>>
->>>
->>> On 2023-10-20 17:49, Jakub Kicinski wrote:
->>>> On Fri, 20 Oct 2023 17:14:11 -0600 Ahmed Zaki wrote:
->>>>> I replied to that here:
->>>>>
->>>>> https://lore.kernel.org/all/afb4a06f-cfba-47ba-adb3-09bea7cb5f00@intel.com/
->>>>>
->>>>> I am kind of confused now so please bear with me. ethtool either sends
->>>>> "ethtool_rxfh" or "ethtool_rxnfc". AFAIK "ethtool_rxfh" is the
->>>>> interface
->>>>> for "ethtool -X" which is used to set the RSS algorithm. But we
->>>>> kind of
->>>>> agreed to go with "ethtool -U|-N" for symmetric-xor, and that uses
->>>>> "ethtool_rxnfc" (as implemented in this series).
->>>>
->>>> I have no strong preference. Sounds like Alex prefers to keep it closer
->>>> to algo, which is "ethtool_rxfh".
->>>>
->>>>> Do you mean use "ethtool_rxfh" instead of "ethtool_rxnfc"? how would
->>>>> that work on the ethtool user interface?
->>>>
->>>> I don't know what you're asking of us. If you find the code to
->>>> confusing
->>>> maybe someone at Intel can help you :|
->>>
->>> The code is straightforward. I am confused by the requirements: don't
->>> add a new algorithm but use "ethtool_rxfh".
->>>
->>> I'll see if I can get more help, may be I am missing something.
->>>
->>
->> What was the decision here?
->> Is this going to be exposed through ethtool -N or -X?
+> Add both these options to the squashfs documentation, making them more
+> noticeable.
 > 
-> I am working on a new version that uses "ethtool_rxfh" to set the
-> symmetric-xor. The user will set per-device via:
-> 
-> ethtool -X eth0 hfunc toeplitz symmetric-xor
-> 
-> then specify the per-flow type RSS fields as usual:
-> 
-> ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n
-> 
-> The downside is that all flow-types will have to be either symmetric or
-> asymmetric.
+> Signed-off-by: Ariel Miculas <amiculas@cisco.com
+Good idea to add the options to the Squashfs documentation.
 
-Why are we making the interface less flexible than it can be with -N?
+Unfortunately some of the information in the patch is incorrect ... I've
+commented below where that is.
+
+So NAK this patch.  Please correct and send a V2 patch.
+
+Thanks
+
+Phillip
+
+> ---
+>   Documentation/filesystems/squashfs.rst | 58 ++++++++++++++++++++++++++
+>   1 file changed, 58 insertions(+)
+> 
+> diff --git a/Documentation/filesystems/squashfs.rst b/Documentation/filesystems/squashfs.rst
+> index df42106bae71..f71ac870603b 100644
+> --- a/Documentation/filesystems/squashfs.rst
+> +++ b/Documentation/filesystems/squashfs.rst
+> @@ -64,6 +64,64 @@ obtained from this site also.
+>   The squashfs-tools development tree is now located on kernel.org
+>   	git://git.kernel.org/pub/scm/fs/squashfs/squashfs-tools.git
+>   
+> +2.1 Mount options
+> +-----------------
+> +===================    =========================================================
+> +errors=%s              Specify whether squashfs errors trigger a kernel panic
+> +                       or not
+> +
+> +		       ==========  =============================================
+> +                         continue  errors don't trigger a panic (default)
+> +                            panic  trigger a panic when errors are encountered,
+> +                                   similar to several other filesystems (e.g.
+> +                                   btrfs, ext4, f2fs, GFS2, jfs, ntfs, ubifs)
+> +
+> +                                   This allows a kernel dump to be saved,
+> +                                   useful for analyzing and debugging the
+> +                                   corruption.
+> +                       ==========  =============================================
+> +threads=%s             Select the decompression mode or the number of threads
+> +
+> +                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is set:
+> +
+> +		       ==========  =============================================
+> +                           single  use single-threaded decompression (default)
+> +
+> +                                   Only one block (data or metadata) can be
+> +                                   decompressed at any one time. This limits
+> +                                   CPU and memory usage to a minimum, but it
+> +                                   also gives poor performance on parallel I/O
+> +                                   workloads when using multiple CPU machines
+> +                                   due to waiting on decompressor availability.
+> +                            multi  use up to two parallel decompressors per core
+> +
+> +                                   If you have a parallel I/O workload and your
+> +                                   system has enough memory, using this option
+> +                                   may improve overall I/O performance. It
+> +                                   dynamically allocates decompressors on a
+> +                                   demand basis.
+> +                           percpu  use a maximum of one decompressor per core
+> +
+> +                                   It uses percpu variables to ensure
+> +                                   decompression is load-balanced across the
+> +                                   cores.
+> +                        1|2|3|...  configure the number of threads used for
+> +                                   decompression
+> +
+> +                                   The upper limit is num_online_cpus() * 2.
+> +                       ==========  =============================================
+> +
+> +                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is **not** set:
+
+In this case it also depends on the SQUASHFS_DECOMP_MULTI decompressor
+having been selected.  In otherwords threads=xxx won't work if the
+single threaded (SQUASHFS_DECOMP_SINGLE) or percpu threaded
+(SQUASHFS_DECOMP_MULTI_PERCPU) decompressors have been selected at build
+time.
+
+The reason for this is quite simple, due to their implementation the
+number of threads they use is fixed and cannot be changed.
+
+Changing the line to something like
+
+If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is **not** set and
+SQUASHFS_DECOMP_MULTI is set
+
+should be OK here.
