@@ -1,109 +1,124 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6CAD262;
-	Mon, 30 Oct 2023 17:51:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542A619BAD
+	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 18:10:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="01c617rJ"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A412B4;
-	Mon, 30 Oct 2023 10:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Ni1GPgCl8w8Lwh/aSdbo/ks9Sgjz4jtglOS0ql7XSO4=; b=01c617rJlquZVt2QBAZvsxfiUn
-	We9Aa2YJR/FiIGF2DchKsF4HTzXH4x13XmbhOFjuOjjTLrSvKEbbIiIVeMQu4u7PR8HN2WFJmMyfQ
-	C6J8t3czF4AKG2F9u13+0fCagYzgASIqbySFKQ8DbW1a5cFRQtx6yrNueDmBMUQgJ3HEoQfA/tW2Y
-	6zKGiVKt5ORIV3bWGHSyvSBoiOH7RlM0U2llB7+2OXH2TD8iVukcZ8K6w4/w+3LY6bhMz5YBBMP6H
-	5M32zkEld5QtXKRKatFhDhrcgT9/IEWXaX/fsQh6kfxMZP7g104aTS23og0hO0W/VM5RGC4DF0bOO
-	lTqzoc7Q==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:50422)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1qxWPr-0001wo-2E;
-	Mon, 30 Oct 2023 17:51:07 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1qxWPn-0004Co-Sm; Mon, 30 Oct 2023 17:51:03 +0000
-Date: Mon, 30 Oct 2023 17:51:03 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Miguel Luis <miguel.luis@oracle.com>
-Cc: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"acpica-devel@lists.linuxfoundation.org" <acpica-devel@lists.linuxfoundation.org>,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-	"linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	"jianyong.wu@arm.com" <jianyong.wu@arm.com>,
-	"justin.he@arm.com" <justin.he@arm.com>,
-	James Morse <james.morse@arm.com>
-Subject: Re: [RFC PATCH v3 00/39] ACPI/arm64: add support for virtual
- cpuhotplug
-Message-ID: <ZT/tB0ykr8JJd+E4@shell.armlinux.org.uk>
-References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk>
- <C2C5C292-AD2C-4D98-8225-39ABE68C5395@oracle.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AAzIKv3Z"
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22375C2
+	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 11:10:20 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-53e04b17132so7861154a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 11:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1698689418; x=1699294218; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2d8Ze80/l8xhZWIXdh5kYVoTnRG5aBbLbFUQdcB14xY=;
+        b=AAzIKv3ZABH9ABnOgXx/WlJS9sFvwmpgcHU/q2OL0D0AQdL25hypf6ZUabozGESxLn
+         JI+OPK1dt9FJaZj12j9ol2H4nUBTK8aMSX3XSWjp2CiDcCxerobBmEWqMjgXxv+XKRnh
+         ZZa63NeR5fG4ihakNlmHK/fvPoD+E6Gsy4FKXXkuKM7YfqHrnv9eF2n5/5GAUUIRTpPU
+         YjD+8aDNv8+lEbyLB4gSDTL/FciscTm4uVl5jxGrnR/y41vkq9I9ZgYDJFl/xz1MyCEI
+         XG+te9xZONDzFg+IWN188YCouukflYdMKLI+irU4M28uCwk5BglgSAMCpfFAe0tuOoBl
+         cf+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698689418; x=1699294218;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2d8Ze80/l8xhZWIXdh5kYVoTnRG5aBbLbFUQdcB14xY=;
+        b=wu8YcxtOprB6LjEO+IYDva+3CEufq4nB3adFb2YA8N26XgcCc4hOFZt84Spigwokim
+         xZMV+fQj+WKXZaRUjHUK7/aYvj3Dwz4POO/BuRUyZTx72/pMDtm19FZgu38w7wpnpzy6
+         1B10sNsKdHdLxIyarIM7zG6ddyfw9B2u1jUhAgxxErCdM8i8Zy/wVP3zwgzR/5sK6AKS
+         5pXQ73Bq1DBwkUnOo3QBR6pxgu7PYS7UeXd61sBMGd/fKn3XSNu2NnnSS7HPDW43PDwd
+         O86AOY4UxQgNrotJAQCv4qUpZTLPTZxpN7euzHHJktJ2WkU3hwiBaPDbybfG2n0mfXai
+         +VHg==
+X-Gm-Message-State: AOJu0YyqG7MfxfxAqRZuCUfh+/dLQL+6v/JBx6itEqLA/o0/adFHxd1v
+	Nguqm+5cv6+EBevW1Z0vFxwFSv011NRpE7/R2paZuQ==
+X-Google-Smtp-Source: AGHT+IGZKrl5mPtmgSXHHhvfTGHe7yQT3kXyL86uBVfedzx2WedG/vdGDMSszPP2v8GagU2lhc5ySgsfcBcgo9yjWIQ=
+X-Received: by 2002:a17:907:3fa2:b0:9c6:1143:b73 with SMTP id
+ hr34-20020a1709073fa200b009c611430b73mr9123495ejc.51.1698689418436; Mon, 30
+ Oct 2023 11:10:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <C2C5C292-AD2C-4D98-8225-39ABE68C5395@oracle.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20231024233501.2639043-1-nphamcs@gmail.com> <CAJD7tkZMn6x9Y2DZiNzSuM0TCvEGSoMp1q15=T3ENAFBtz1WuA@mail.gmail.com>
+ <CAKEwX=PjGeqa_zLf6FV24iQLaH8EQ81HfKy3=e0fGrjZTvLiKw@mail.gmail.com>
+In-Reply-To: <CAKEwX=PjGeqa_zLf6FV24iQLaH8EQ81HfKy3=e0fGrjZTvLiKw@mail.gmail.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Mon, 30 Oct 2023 11:09:40 -0700
+Message-ID: <CAJD7tkaOZpKBF6wY86+RiX1Lvj-E-72sZiYLtYMvPWQq4a=WiQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] memcontrol: implement swap bypassing
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com, 
+	hannes@cmpxchg.org, cerasuolodomenico@gmail.com, sjenning@redhat.com, 
+	ddstreet@ieee.org, vitaly.wool@konsulko.com, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, shakeelb@google.com, muchun.song@linux.dev, 
+	hughd@google.com, corbet@lwn.net, konrad.wilk@oracle.com, 
+	senozhatsky@chromium.org, rppt@kernel.org, linux-mm@kvack.org, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	david@ixit.cz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 30, 2023 at 04:41:19PM +0000, Miguel Luis wrote:
-> Hi Russell,
-> 
-> Tested on QEMU, based on Salil's RFC v2 [1], running with KVM.
-> - boot
-> - hotplug up to 'maxcpus'
-> - hotunplug down to the number of boot cpus
-> - hotplug vcpus and migrate with vcpus offline
-> - hotplug vcpus and migrate with vcpus online
-> - hotplug vcpus then unplug vcpus then migrate
-> - successive live migrations (up until 6)
-> 
-> Feel free to add:
-> Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> 
-> Thank you
-> Miguel
-> 
-> [1] https://lore.kernel.org/qemu-devel/20230926100436.28284-1-salil.mehta@huawei.com/
+On Fri, Oct 27, 2023 at 1:27=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
+:
+>
+> On Tue, Oct 24, 2023 at 7:09=E2=80=AFPM Yosry Ahmed <yosryahmed@google.co=
+m> wrote:
+> >
+> > On Tue, Oct 24, 2023 at 4:35=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> w=
+rote:
+> > >
+> > > During our experiment with zswap, we sometimes observe swap IOs due t=
+o
+> > > occasional zswap store failures and writebacks. These swapping IOs
+> > > prevent many users who cannot tolerate swapping from adopting zswap t=
+o
+> > > save memory and improve performance where possible.
+> > >
+> > > This patch adds the option to bypass swap entirely: do not swap when =
+an
+> > > zswap store attempt fail, and do not write pages in the zswap pool ba=
+ck
+> > > to swap. The feature is disabled by default (to preserve the existing
+> > > behavior), and can be enabled on a cgroup-basis via a new cgroup file=
+.
+> >
+> > I think the word "bypass" here is fairly confusing because zswap is
+> > considered as swap for all purposes, so we are not really bypassing
+> > swap. I think it should be something like memory.swap.disk or
+> > memory.swap.writeback or whatever the correct terminology is for
+> > non-zswap swap (which I honestly don't know). Writing 0 to such an
+> > interface would give the desired effect.
+>
+> I'm honestly not very good at naming things... especially a novel
+> name that I cannot steal from a precedent...
 
-That's good news, thanks for testing!
+Neither am I :)
 
-I've pushed out an updated series against v6.6 earlier today in case
-anyone wants something specifically against v6.6, but I don't think
-there is any pressing reason to re-test. The only ACPI change
-between the two is:
+>
+> I want something that means "going to zswap is acceptable, but please
+> don't go to slow swap". Hence, swap bypassing (swap in my mental
+> model is the slow thing that is under zswap).
+>
+> (but I imagined memory.please.don't.go.to.slow.swap won't be very
+> popular either...)
+>
+> memory.swap.disk is... acceptable, I guess? It technically could still be
+> wrong, as there's still zram, but we can sort of ignore that special case=
+.
+> I still prefer memory.swap.bypass,  but I wouldn't be opposed to this
+> renaming.
+>
+> Anyone with better naming suggestions should absolutely speak up!
+> Otherwise, I'll send a v2 renaming this to "memory.swap.disk" or
+> "memory.swap.disk_used"
+>
 
-9b311b7313d6 ACPI: NFIT: Install Notify() handler before getting NFIT table
-
-and the only arm64 changes are in dts files. Nothing significant in
-kernel/ and nothing in drivers/base/.
-
-So I think at this point, I will pause waiting for 6.7-rc1 (which
-I'll do an updated patch set, since it will include changes queued
-up) and hopefully followed by Rafael's comments. Maybe James will
-also have some time to work on this again.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Hoping someone else chimes in for the naming here, this is not going
+to be changeable anytime soon.
