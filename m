@@ -1,170 +1,200 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26109610B;
-	Mon, 30 Oct 2023 07:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366C26AAD;
+	Mon, 30 Oct 2023 07:59:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pvXBG2Vd"
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B961B3;
-	Mon, 30 Oct 2023 00:20:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=analog.onmicrosoft.com header.i=@analog.onmicrosoft.com header.b="M2qUK19g"
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A41A7;
+	Mon, 30 Oct 2023 00:59:40 -0700 (PDT)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39U6BLWA021704;
+	Mon, 30 Oct 2023 03:59:16 -0400
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3u1f5hp8nc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Oct 2023 03:59:16 -0400 (EDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GL0NhqPVCzjSRPxWHZ7HvXa5gAG0ZT5+h3Kp6EB1AwEw1uZsudFx2MoVylDQimnZCXOjNRmtnp8iCnpdhY+rvXkUhDbBSRdJpplhz6fiJMFrsLyYGVeuyJfgzE5hOxVB5N9oBi8I4caWGNWzy6mHnyhbRpcH8c/fBEE9qRbEdR/9G+Jti38efmPLTedUO1FFq1nJudvQHefjNOQQ3jEs4D4ZM3nVPAJSIv1IuRRflgf5EA/7cujGnTDRGCr6AlYesq7h0qrLIGAb5FJm2JhKwtZDtjUEVGef5qkvluLgEbDvMPbKOeppB5s3lw1f1SaTNW9hOOysXJLoWACBtbQkjg==
+ b=eXsw7aCx7gXbDwsrtK2G757cZJZ/kn9tWtX8+EzsynSuiGoOBY8qCn0n04aaDJ5pml6BSYLya2LwF1/R3b2Rt5e+c2kGYRDEnVdCdnevzqq/KgXz+gLInWsYvD095aHYiV3DdZsDoOfjP5FdH8NS2zCGADKqPrZYoDy8cG8IxbuhztY5acJKqsXMESCjuOR91DPvevNQ7EE/rxFnT3gSB4PJRqChixO2LXOO59HQIW/FiQacUuf8bUT5WoBrX14NHWmL2sRYJE9xVMVc0gPuQvJRqKqccSTAxZlUA9i/qzy+hVcqIqAFW08PT0JXfbyOCy+xjiYDH6PAlLqe7lIwew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vP1wCT9rAxWtNY+/Zm6kmN9ULRiGso0luVIOZ4aFcfo=;
- b=FerVBxRYw0Rlx83211VMzI42GXQm3rnAsbSAZ5wl1mAKoPcI8HnH/FdTrhsCUEMTu3qqioHWLwkiuHTRFaA3CyoDYoOVGMA/gT4AtvL/0gak1sFzPQgFWsocaxYP+XRsa2yQJ5948b+DxMp/HgdG64vuWeqNmvo8Pa26KaeuMhued0q8LWNz0TA/48M4GbCUVqAPpyj7LEC04jfaehDb367DhhnI8K2tNJBYz+5oMkPXK3GrZVGHz1aetPLHAYZYAUSMGJQDXkL9TaowDfGy0goY8K/mu3xJSCS5erfSa6FBzuGcA99i//YbWs8Zs55sYpLw1ql6v5P7JoIxvSHhow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=Uaz/eAXAgvFomGrqW/uQdB/u1gT1gS83WUEnYRPSPhY=;
+ b=BazSoXkidgrtiJB+/ezUzXnrBdVuJV6c8IiqpqQk5J+SPS/FdI0TmtiXs3p3ir3U4xPx4NxLwQHgmh5MOi1I2Q5qDlmBjG8H/R1GQL5GWKgcF2hXYfGnGwVrzj8vZjQdtSfLPyP7F7zRBXvIoRFcJE5VcSUnbQPnejkcrgUCygw/H3poJvK4R0x0/KMD5ugVu72y5AHSSEDwPNjqjzBGtf1oA3cI1/a8+fBvKOzGorAff3rau3w423OREqFb3WTmqWiZ2H+RzguuwNsySzjreMdg138Eb/lnB6RaVVqJLfOWDTjh1vG9XeH4tntnXG/gWTnbgCdQ6IYNNXd3UbvbpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vP1wCT9rAxWtNY+/Zm6kmN9ULRiGso0luVIOZ4aFcfo=;
- b=pvXBG2VdpyFGle/E2C2O1ep3+caWlvKBbvoU978WSVxaZFVd9Cg+gH8q1zJHRD1ljUjBsMX59dtWlHM6kiUuR42O7AUWrfKYBEn/D1F4BTfKzBpiH7endYEPFtn4+tkbj4W8SMNXF3I4g/FsHQDzSy5T0AKW2scv7bwsNo/YvuY=
-Received: from CY5PR04CA0029.namprd04.prod.outlook.com (2603:10b6:930:1e::20)
- by MW4PR12MB8609.namprd12.prod.outlook.com (2603:10b6:303:1e2::22) with
+ bh=Uaz/eAXAgvFomGrqW/uQdB/u1gT1gS83WUEnYRPSPhY=;
+ b=M2qUK19gw133atrPbaJoHeS1O/cRzHpMMHwtcMuAIFuLDg4f7WsbBLNXeyjX+e+Y13ZlO6hQVHBwCZY1ztI2tjnk0mko3zdDLRPy/PmUJUgksWN1sHqOtOA8YqsoHaROTwYPK8+JdJdE8Jn748l9pH5eGREzStz8fpAFI68MUGU=
+Received: from CY4PR03MB3399.namprd03.prod.outlook.com (2603:10b6:910:57::13)
+ by CH0PR03MB6068.namprd03.prod.outlook.com (2603:10b6:610:bf::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.27; Mon, 30 Oct
- 2023 07:20:48 +0000
-Received: from CY4PEPF0000E9D7.namprd05.prod.outlook.com
- (2603:10b6:930:1e:cafe::58) by CY5PR04CA0029.outlook.office365.com
- (2603:10b6:930:1e::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.27 via Frontend
- Transport; Mon, 30 Oct 2023 07:20:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000E9D7.mail.protection.outlook.com (10.167.241.78) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6933.15 via Frontend Transport; Mon, 30 Oct 2023 07:20:48 +0000
-Received: from compile-server.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Mon, 30 Oct
- 2023 02:20:18 -0500
-From: Ma Jun <Jun.Ma2@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <lenb@kernel.org>,
-	<johannes@sipsolutions.net>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <alexander.deucher@amd.com>,
-	<Lijo.Lazar@amd.com>, <mario.limonciello@amd.com>, <netdev@vger.kernel.org>,
-	<linux-wireless@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>
-CC: <majun@amd.com>, Evan Quan <quanliangl@hotmail.com>, Ma Jun
-	<Jun.Ma2@amd.com>
-Subject: [Patch v13 9/9] drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
-Date: Mon, 30 Oct 2023 15:18:32 +0800
-Message-ID: <20231030071832.2217118-10-Jun.Ma2@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231030071832.2217118-1-Jun.Ma2@amd.com>
-References: <20231030071832.2217118-1-Jun.Ma2@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.16; Mon, 30 Oct
+ 2023 07:59:13 +0000
+Received: from CY4PR03MB3399.namprd03.prod.outlook.com
+ ([fe80::26c3:a563:9b0a:3321]) by CY4PR03MB3399.namprd03.prod.outlook.com
+ ([fe80::26c3:a563:9b0a:3321%3]) with mapi id 15.20.6954.014; Mon, 30 Oct 2023
+ 07:59:12 +0000
+From: "Miclaus, Antoniu" <Antoniu.Miclaus@analog.com>
+To: Guenter Roeck <linux@roeck-us.net>
+CC: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v5 2/2] hwmon: ltc2991: add driver support
+Thread-Topic: [PATCH v5 2/2] hwmon: ltc2991: add driver support
+Thread-Index: AQHaB/gc9TyQBjH91U+XiC0CuBoxd7BfZOIAgAKYcqA=
+Date: Mon, 30 Oct 2023 07:59:12 +0000
+Message-ID: 
+ <CY4PR03MB3399049CB79E0F468A945C659BA1A@CY4PR03MB3399.namprd03.prod.outlook.com>
+References: <20231026103413.27800-1-antoniu.miclaus@analog.com>
+ <20231026103413.27800-2-antoniu.miclaus@analog.com>
+ <075f6150-74f2-478e-9290-aa7186140cee@roeck-us.net>
+In-Reply-To: <075f6150-74f2-478e-9290-aa7186140cee@roeck-us.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: 
+ =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYW1pY2xhdXNc?=
+ =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
+ =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy0zNjE0ZjQ4YS03NmZhLTExZWUtYWU3Ni1kNDgx?=
+ =?us-ascii?Q?ZDc1MDZkZGVcYW1lLXRlc3RcMzYxNGY0OGMtNzZmYS0xMWVlLWFlNzYtZDQ4?=
+ =?us-ascii?Q?MWQ3NTA2ZGRlYm9keS50eHQiIHN6PSIxNDcxIiB0PSIxMzM0MzEyNjM1Mjcx?=
+ =?us-ascii?Q?NDE0NzIiIGg9InNpOTRuZk53b25HTWJHZTlxMDdzL3BCSlhwST0iIGlkPSIi?=
+ =?us-ascii?Q?IGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUVvQ0FB?=
+ =?us-ascii?Q?QmdnSGY0Qmd2YUFZbU02RWRoQTdVN2lZem9SMkVEdFRzREFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFIQUFBQURhQVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFFQUFRQUJBQUFBRU9wbE9nQUFBQUFBQUFBQUFBQUFBSjRBQUFCaEFHUUFh?=
+ =?us-ascii?Q?UUJmQUhNQVpRQmpBSFVBY2dCbEFGOEFjQUJ5QUc4QWFnQmxBR01BZEFCekFG?=
+ =?us-ascii?Q?OEFaZ0JoQUd3QWN3QmxBRjhBWmdCdkFITUFhUUIwQUdrQWRnQmxBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR0VBWkFCcEFGOEFjd0JsQUdNQWRR?=
+ =?us-ascii?Q?QnlBR1VBWHdCd0FISUFid0JxQUdVQVl3QjBBSE1BWHdCMEFHa0FaUUJ5QURF?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FB?=
+ =?us-ascii?Q?QUFBQUNlQUFBQVlRQmtBR2tBWHdCekFHVUFZd0IxQUhJQVpRQmZBSEFBY2dC?=
+ =?us-ascii?Q?dkFHb0FaUUJqQUhRQWN3QmZBSFFBYVFCbEFISUFNZ0FBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFBPT0iLz48L21l?=
+ =?us-ascii?Q?dGE+?=
+x-dg-rorf: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY4PR03MB3399:EE_|CH0PR03MB6068:EE_
+x-ms-office365-filtering-correlation-id: a06aaf32-472a-4997-1aa0-08dbd91e1acb
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 93YQeuqQMixgk0urIqhzPZYl+RFirkpwTJvm0LT73UOgUi8L9mFkq1zK0ror9tuAqeDbNoFzDjB7SRyPqaLaNzmzcSjGkc2Eh9MunB8hVWFPPl0BVOYcRMYi9WGfuNuH8w3c53aKnuY7Rf9AcGmc6ojq0y2K7IDTHgaZOuVCrF3foHWHORbD7GJ6xk52ETgXnvGl2iLBzLPGapVDpkeXO8jkzG4pfbZ2ngstg6tmdOd/kyBhBdgMYmrTQS7aA8iJEg11Pz26OP83bqoIotQRzVx+/Tuf2ZgdcCXIZ0JlYSP5NyX7urdO+CwOzUofMELTaRu9GplgRNk43MbRRlbeAUBfSRKLWpzB0hRyLdG/K3zbamETzxTB4oB2l2M5gCf1xC5zuUrxyzxxCc7xFp3P6KYCxBs8JCYtzqjDLZzuF6ggKORLzrDopc9/XnqoaTmlmRdZED49VugbASxHKk0bjKDqu+uISNhH/yBEeLgKWLyiUjs7Tw8936jWYfQd4hq7Q3fJy6TJTaNVfOslbf87c6PBmyfKKyRwrVttr2laGxWqKCm9ceoG/JNldZtvDDKuLKZZA4z0dD3lEkIMriehNJAVgnoPyv31rzctHasdj8tykqkW858H3304auKzkAKr
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR03MB3399.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(39860400002)(346002)(136003)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(71200400001)(41300700001)(2906002)(7416002)(5660300002)(86362001)(55016003)(33656002)(52536014)(26005)(122000001)(38100700002)(6506007)(7696005)(9686003)(478600001)(64756008)(54906003)(66476007)(66446008)(66556008)(76116006)(4326008)(66946007)(8936002)(8676002)(316002)(6916009)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?wR5sygZLoWjs/C5FFj6J3PudO4R7gBoL0mGeyGunEhb8VIRSc9JusI0CC+fU?=
+ =?us-ascii?Q?mOHcVGQtjjgDJmdyy4j4Cbs/kLulGxmYUDGTIJpU4cukshEXyFdgq+OGnJ59?=
+ =?us-ascii?Q?8yVfgTi+OFw034MXrfPsIbCbnXsYg99sLrlFLJWr8ku9hkvprr8h2gwMJaWI?=
+ =?us-ascii?Q?uDsUw6sNf0ZuqU68G05lz1++hSWB7cYrHPoFNRXcCu8DBU0WDjefdP8Jnvw5?=
+ =?us-ascii?Q?CilKTxzxn0RTcCJvTE8xMFY9m6+U/NOXo/syG4dVnis3Qpx+LYQ3V96ANqjt?=
+ =?us-ascii?Q?syet9LHjADBKydO8KUA0YCbNS3v8b3le+wKFPM7REKALSnkC4+QR+aGWcLWn?=
+ =?us-ascii?Q?akqNitR/cQbKK7A9x4lhWCCGlSqUBOfaOqKaqpmF9LljLG1QuKjUz4aJAdl+?=
+ =?us-ascii?Q?u8SZJhFZs0a7fYO6RtQq6EtgRig9A4+xVTJrU/YRZngHgj2AHjk04vtsBsFe?=
+ =?us-ascii?Q?hEo9bkiIDXmoGmqckyt7qYxeHNcCXMU8S1O/x0T5UosE+1j0w4xODjnIi9ya?=
+ =?us-ascii?Q?rMw+zh8xMnvqO/7Z8IfG02lapZ3OhPNRedmrf+b9ogQB+X0YEVkwX3V+0Nmg?=
+ =?us-ascii?Q?4UgCz2/ZyY9YpUkZ4H6Jf5GBv/6618EfKtqf2mlbz3ywk+dCX8yuQRnEmtGf?=
+ =?us-ascii?Q?4ydomd0sXUGvxtPrpwgeuyZQg2qSi0sIGxp78SPSdSO65mYvqOCzcmhj389C?=
+ =?us-ascii?Q?zZthccAKqiKVMLu1suMeZBbeL5Xze7n/pPucPdPsKqpBWa8nNVT112iXWW6K?=
+ =?us-ascii?Q?b1+2tFwgoPeV6e+dxdzopRmqFVPRErjhQ/oo25s44yFMrq4lz03aNJ9WsZVH?=
+ =?us-ascii?Q?z0FkCpXWzfubvXoMnVTeVLIimmxqcmQ51ERL+BtZX3FAP04f87sJbrGPIda6?=
+ =?us-ascii?Q?r9N29DfCY0ZKwDNtvSuUH9bUSUfKq529bNh++to2K7IPPdHt1Ietkj39JAw6?=
+ =?us-ascii?Q?lPL6eyvZzhUFWO9Qk69vtXdykI6uIiCwur8Kpj39PKBPYEGiaYPyBJkfaxNi?=
+ =?us-ascii?Q?HtsEHlBoSQ6jLjNIxeuwfP/rqUKW+WHPSFGR9otJoA9zQr+UaItSu1kovNMF?=
+ =?us-ascii?Q?vYs7MaEdUR4E/bC3QAkCITtkpk0URsit2JkfYrCGitmCyedMKZ/vEVgP1yNl?=
+ =?us-ascii?Q?u6eolrg/CaGWAENgukQGtnk/hDgTkAtCyH05DMiULiV5gyHo6AvSjS9AKJRP?=
+ =?us-ascii?Q?qyYXkdRv/xqeJNGA3qyK3csJx+P9XdTZnVVLGsD9kdhqJL1haG3KzRroh0zW?=
+ =?us-ascii?Q?0IDoUZ0eY7/fs+LPl5KGjxVLRAkzyh+RLXzcBMUh4neOummnGLSE2IJNxr5L?=
+ =?us-ascii?Q?fCvzLFdKo1QFjcSgH4qDdJvxsgB22cuaa9CmuVqsp+xXUDFxnHdLqYSj/UNP?=
+ =?us-ascii?Q?Zm07GpLFdXmuxi2iaRjnUPfqtDtlWnPx04pmqpMRJFFahJ5R91myGga0Gntl?=
+ =?us-ascii?Q?/312zkz2q7e+G6sK4dO3PZ7OJVzk8Sat85S3qo/jLnBxPa7gyMvTqMy6rw91?=
+ =?us-ascii?Q?dL34R2Bp6lIC68x2qSb+CDwtt8FUvLCaEjJGIFcZZwAyzGtG5vOpFnLq7cRd?=
+ =?us-ascii?Q?nsZW8vjkAYrMFWsw4kfnqAegHr8Lt1z0Y+xyLQHvsgNslgKVxJRXXhBi8/E8?=
+ =?us-ascii?Q?Dw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D7:EE_|MW4PR12MB8609:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1594655-bfbf-41dd-0411-08dbd918bdba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	f8oe0FE4JukUW7NrkweqT26aUuySbTkrW5cs5FR7y33SczOd6slSv28z0mfZ1Czmz4PYIfSx5hF7xa1USLZVSd172FyFXShmEQ9bxqmyPrmLLad03oCiToB2akTbVDN0ZwjKx6HoOzUKXBOCXFWygKctgUExA2/WNKyWFMx/8KjPkp2IlcZ7FeHnW8BsP2/MGBRFEPDa/QVdY50lSlePNBuRCyDIDYtSBirlKOu4mU8XqXDAWdQuIN76fWex8D0PzlM8oR+C/rs5Gpjx05eZ0PQmm3XDN/nkkU0MilDcE/VY0dJUbJLSoBeLeulQFhXX7Q94hwG3DnyGrf+EcNeFHjMTthhA7GdXg6VTzgLeqSdBUQkHgI12R5q8NrlL4wh4lebiwXcTYJz1/uGUEBL1hghpnW1zfAQ1dJD9b6PbRDG2uxiW2ijvVaN73afTof6qMcOBh4ruRsOvjP3FuTJQWv/lPtfndZ4SQKIyllE28FFJYrMB1AKPSaxtoo0KLeuG7su3cK3ZSMO8g97MsNGrqmL3Rs0elW3rtYyCjiAZ+qbJukfN7pK+NoPxEflhzaMH1SuLiHYzXjmEDVtWBWZ02F7owJV+zztfbSgRDt0Z5tItPq1gCgAjLyL+iIQctScczqUbNIQ2C/+cee+uSvHALiSQ9aa88s+lBXjkX9FtuIMp1JibQjNnJwwX4Uz+bZ4dJTS30DHIG5BB/CNlp7icf+xCYQM+VD5Z/PR+kyEtmm2DAbmsb/6Xz6HvODsRvRUPlOqwE1ZN12Jxe0quoQVEGGQ2yZddyZ6H3q7wy90NoWQHsY4KcvtGCWCUY5AylrgMUZ/UT/WET885mYPlhB1+Nw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(346002)(136003)(39860400002)(230273577357003)(230173577357003)(230922051799003)(82310400011)(64100799003)(1800799009)(186009)(451199024)(36840700001)(40470700004)(83380400001)(16526019)(110136005)(41300700001)(2906002)(7416002)(5660300002)(2616005)(86362001)(36756003)(40480700001)(1076003)(426003)(336012)(26005)(40460700003)(32650700002)(81166007)(36860700001)(7696005)(478600001)(54906003)(70586007)(70206006)(4326008)(8936002)(8676002)(316002)(45080400002)(921008)(82740400003)(356005)(6666004)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2023 07:20:48.7490
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR03MB3399.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a06aaf32-472a-4997-1aa0-08dbd91e1acb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2023 07:59:12.4818
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1594655-bfbf-41dd-0411-08dbd918bdba
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D7.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB8609
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dxdoX94VDQzsooXNBcWXvZpmTaXvVISX6GR2TIkBu0WULok0D1GuLZA16a4751kbH0jFr1dzdz+uKmb72Wap7YCcNCVPRa6nxIL7F+RvEBY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR03MB6068
+X-Proofpoint-GUID: SpVjsjbwRc5IYtHlawiMBSq3EZozlxxV
+X-Proofpoint-ORIG-GUID: SpVjsjbwRc5IYtHlawiMBSq3EZozlxxV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-30_06,2023-10-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 malwarescore=0 adultscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 phishscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2310240000 definitions=main-2310300059
 
-From: Evan Quan <quanliangl@hotmail.com>
 
-Fulfill the SMU13.0.7 support for Wifi RFI mitigation feature.
+> On Thu, Oct 26, 2023 at 01:33:13PM +0300, Antoniu Miclaus wrote:
+> > Add support for LTC2991 Octal I2C Voltage, Current, and Temperature
+> > Monitor.
+> >
+> > The LTC2991 is used to monitor system temperatures, voltages and
+> > currents. Through the I2C serial interface, the eight monitors can
+> > individually measure supply voltages and can be paired for
+> > differential measurements of current sense resistors or temperature
+> > sensing transistors. Additional measurements include internal
+> > temperature and internal VCC.
+> >
+> > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+>=20
+> Applied. I do have one comment (see below) about code which
+> I would normally reject, but I am getting tired.
+>=20
+> [ ... ]
+>=20
+> > +
+> > +struct ltc2991_state {
+> > +	struct device		*dev;
+>=20
+> It is completely pointless to have a reference to dev in struct
+> ltc2991_state because it is only used in the init function and
+> dereferenced six times there. It would have been much easier to
+> pass it as argument to that function. That would also have avoided
+> the wrong assumption or expectation that it is needed/used elsewhere.
+>=20
+> Guenter
+Sorry for the misunderstanding. I took as reference some old driver
+implementations from the mainline kernel.
 
-Signed-off-by: Evan Quan <quanliangl@hotmail.com>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
---
-v10->v11:
-  - downgrade the prompt level on message failure(Lijo)
-v13:
- - Fix the format issue (IIpo Jarvinen)
- - Remove duplicate code (IIpo Jarvinen)
----
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c    | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Is it fine if I do a follow-up patch on this subject in the near future?
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-index 94ef5b4d116d..b230d13fc5b0 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-@@ -134,6 +134,7 @@ static struct cmn2asic_msg_mapping smu_v13_0_7_message_map[SMU_MSG_MAX_COUNT] =
- 	MSG_MAP(AllowGpo,			PPSMC_MSG_SetGpoAllow,           0),
- 	MSG_MAP(GetPptLimit,			PPSMC_MSG_GetPptLimit,                 0),
- 	MSG_MAP(NotifyPowerSource,		PPSMC_MSG_NotifyPowerSource,           0),
-+	MSG_MAP(EnableUCLKShadow,		PPSMC_MSG_EnableUCLKShadow,            0),
- };
- 
- static struct cmn2asic_mapping smu_v13_0_7_clk_map[SMU_CLK_COUNT] = {
-@@ -215,6 +216,7 @@ static struct cmn2asic_mapping smu_v13_0_7_table_map[SMU_TABLE_COUNT] = {
- 	TAB_MAP(ACTIVITY_MONITOR_COEFF),
- 	[SMU_TABLE_COMBO_PPTABLE] = {1, TABLE_COMBO_PPTABLE},
- 	TAB_MAP(OVERDRIVE),
-+	TAB_MAP(WIFIBAND),
- };
- 
- static struct cmn2asic_mapping smu_v13_0_7_pwr_src_map[SMU_POWER_SOURCE_COUNT] = {
-@@ -510,6 +512,9 @@ static int smu_v13_0_7_tables_init(struct smu_context *smu)
- 		       AMDGPU_GEM_DOMAIN_VRAM);
- 	SMU_TABLE_INIT(tables, SMU_TABLE_COMBO_PPTABLE, MP0_MP1_DATA_REGION_SIZE_COMBOPPTABLE,
- 			PAGE_SIZE, AMDGPU_GEM_DOMAIN_VRAM);
-+	SMU_TABLE_INIT(tables, SMU_TABLE_WIFIBAND,
-+		       sizeof(WifiBandEntryTable_t), PAGE_SIZE,
-+		       AMDGPU_GEM_DOMAIN_VRAM);
- 
- 	smu_table->metrics_table = kzalloc(sizeof(SmuMetricsExternal_t), GFP_KERNEL);
- 	if (!smu_table->metrics_table)
-@@ -2178,6 +2183,11 @@ static int smu_v13_0_7_set_df_cstate(struct smu_context *smu,
- 					       NULL);
- }
- 
-+static bool smu_v13_0_7_wbrf_support_check(struct smu_context *smu)
-+{
-+	return smu->smc_fw_version > 0x00524600;
-+}
-+
- static const struct pptable_funcs smu_v13_0_7_ppt_funcs = {
- 	.get_allowed_feature_mask = smu_v13_0_7_get_allowed_feature_mask,
- 	.set_default_dpm_table = smu_v13_0_7_set_default_dpm_table,
-@@ -2246,6 +2256,9 @@ static const struct pptable_funcs smu_v13_0_7_ppt_funcs = {
- 	.set_mp1_state = smu_v13_0_7_set_mp1_state,
- 	.set_df_cstate = smu_v13_0_7_set_df_cstate,
- 	.gpo_control = smu_v13_0_gpo_control,
-+	.is_asic_wbrf_supported = smu_v13_0_7_wbrf_support_check,
-+	.enable_uclk_shadow = smu_v13_0_enable_uclk_shadow,
-+	.set_wbrf_exclusion_ranges = smu_v13_0_set_wbrf_exclusion_ranges,
- };
- 
- void smu_v13_0_7_set_ppt_funcs(struct smu_context *smu)
--- 
-2.34.1
+Regards,
+Antoniu
 
