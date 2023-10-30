@@ -1,125 +1,281 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF3D2108;
-	Mon, 30 Oct 2023 17:03:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEEC18C18
+	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 17:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Di1/7H9s"
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C319AA9;
-	Mon, 30 Oct 2023 10:03:57 -0700 (PDT)
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39UGq89N019398;
-	Mon, 30 Oct 2023 17:03:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=Cm9U6ewvIbSmyrPQ6MkMdG6wOV1IpT1AIYznLj3yZn8=;
- b=Di1/7H9sqSyIFz/XKEZH53h8F2ykKQScxe537uJYp8VB4EpPFE/DDL3LFKbPdLlzz9Pe
- ccfCoP4N10RGbSMNEbsuGScZz0uWwDPlDzWe+jeJphYthtF6EADKJGUEd639Z/B6Do1r
- Z8bNf4RonPDnn73gqaSiSHGCacIa9Mohk37xzHmWkw3mQGbs6mc89+Np5hbRBUqYQNJo
- n7QJGsoODQBPxz59ZZARKWZ9lTgE3xUJFRqm+oTsxfCOpQrThxt0RZaxXhaXIwAZ62vJ
- WFncMn0ZkK7/3vayuA0p0LK4pCOAiwD8b5xnNY6C4VsurSP1YgNAwesOSscRh3L+Wc7j RQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3u2gcwrhqp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Oct 2023 17:03:52 +0000
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39UGrTui025086;
-	Mon, 30 Oct 2023 17:03:52 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3u2gcwrhp7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Oct 2023 17:03:52 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 39UGu92E007674;
-	Mon, 30 Oct 2023 17:03:50 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3u1dmnajf8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Oct 2023 17:03:50 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 39UH3lCH16646846
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 30 Oct 2023 17:03:47 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4657D2004E;
-	Mon, 30 Oct 2023 17:03:47 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 133B62004D;
-	Mon, 30 Oct 2023 17:03:47 +0000 (GMT)
-Received: from dilbert5.boeblingen.de.ibm.com (unknown [9.152.212.201])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 30 Oct 2023 17:03:47 +0000 (GMT)
-From: Gerd Bayer <gbayer@linux.ibm.com>
-To: "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Jan Karcher <jaka@linux.ibm.com>, Gerd Bayer <gbayer@linux.ibm.com>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Tony Lu <tonylu@linux.alibaba.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH net] net/smc: fix documentation of buffer sizes
-Date: Mon, 30 Oct 2023 18:03:43 +0100
-Message-ID: <20231030170343.748097-1-gbayer@linux.ibm.com>
-X-Mailer: git-send-email 2.41.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CtJJN5iS"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4539710B;
+	Mon, 30 Oct 2023 10:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698685884; x=1730221884;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=5SHS0YMOkn5JVvPfG41/C9UnVXfwBzYy9NEvR6uPjJI=;
+  b=CtJJN5iSuX1nlB7sW1nW127O/3bHBXqdwQiRYV9hUltnXMlIXnc0KCGt
+   9k+q77PNRIPgDJakiusSv+huXrYm5Npi1qyfpWSbJZxC1Z/gdLtB01IQG
+   5G1ahwArkVGrg/P68LnttDulHlt/GAzScNZiQoEhT4i65c26Hyc+gs/fB
+   Vd/btznajI9ATJUw+Ovv96spIOqRslP5VFqVug65z60af38AN0mwkvfo1
+   MVvqQh+Ic7uRkqCMoc+Gagh6WQ6QgYUxgewCJMPdW69HwbrBE2csL9+im
+   52HwOKY1xXQAQq2C1izyGXw4PgwtB29kbIxlxjzzNFz3NJQEd26zd4a7L
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="385311687"
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
+   d="scan'208";a="385311687"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 10:11:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="877207770"
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
+   d="scan'208";a="877207770"
+Received: from squtub-mobl.ger.corp.intel.com (HELO localhost) ([10.252.33.238])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 10:11:19 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>,
+ Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@amd.com>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, Hu Haowen
+ <src.res.211@gmail.com>, linux-kernel@vger.kernel.org, Vegard Nossum
+ <vegard.nossum@oracle.com>
+Subject: Re: [PATCH] docs: translations: add translations links when they exist
+In-Reply-To: <20231028162931.261843-1-vegard.nossum@oracle.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231028162931.261843-1-vegard.nossum@oracle.com>
+Date: Mon, 30 Oct 2023 19:11:07 +0200
+Message-ID: <878r7k593o.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: NsAuDKbOsS7Ajzf0W97UmDimOj5RZXnf
-X-Proofpoint-ORIG-GUID: DSVj9tsp4qFY-9SlvpI3O1NhZbQAgTvw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-30_10,2023-10-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- priorityscore=1501 bulkscore=0 suspectscore=0 mlxscore=0 phishscore=0
- malwarescore=0 spamscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2310300133
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Since commit 833bac7ec392 ("net/smc: Fix setsockopt and sysctl to
-specify same buffer size again") the SMC protocol uses its own
-default values for the smc.rmem and smc.wmem sysctl variables
-which are no longer derived from the TCP IPv4 buffer sizes.
+On Sat, 28 Oct 2023, Vegard Nossum <vegard.nossum@oracle.com> wrote:
+> Add a new Sphinx extension that knows about the translations of kernel
+> documentation and can insert links to the translations at the top of
+> the document.
+>
+> It basically works like this:
+>
+> 1. Register a new node type, LanguagesNode.
+>
+> 2. Register a new transform, TranslationsTransform, that inserts a new
+>    LanguageNode at the top of every document. The LanguageNode contains
+>    "pending references" to translations of the document. The key here
+>    is that these are pending (i.e. unresolved) references that may or
+>    may not actually exist.
+>
+> 3. Register a 'doctree-resolved' event that iterates over all the
+>    LanguageNode nodes. Any unresolved references are filtered out; the
+>    list of resolved references is passed to the 'translations.html'
+>    template and rendered as an HTML node (if HTML output is selected).
+>
+> Testing: make htmldocs with v7.3.0.
 
-Fixup the kernel documentation to reflect this change, too.
+I'm just observing the kernel documentation has a system of its own for
+translations. Maybe it's fine this way, but it's certainly different
+from what the Sphinx developers had in mind. (But I'm not an expert on
+this field, don't ask me how this should be done!)
 
-Fixes: 833bac7ec392 ("net/smc: Fix setsockopt and sysctl to specify same buffer size again")
-Signed-off-by: Gerd Bayer <gbayer@linux.ibm.com>
-Reviewed-by: Wenjia Zhang <wenjia@linux.ibm.com>
----
- Documentation/networking/smc-sysctl.rst | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Regardless, the implication is that this builds on the translation
+solution chosen for kernel documentation, for better and for worse, and
+raises the bar for switching later. It's something to be aware of.
 
-diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
-index 6d8acdbe9be1..769149d98773 100644
---- a/Documentation/networking/smc-sysctl.rst
-+++ b/Documentation/networking/smc-sysctl.rst
-@@ -44,18 +44,16 @@ smcr_testlink_time - INTEGER
- 
- wmem - INTEGER
- 	Initial size of send buffer used by SMC sockets.
--	The default value inherits from net.ipv4.tcp_wmem[1].
- 
- 	The minimum value is 16KiB and there is no hard limit for max value, but
- 	only allowed 512KiB for SMC-R and 1MiB for SMC-D.
- 
--	Default: 16K
-+	Default: 64KiB
- 
- rmem - INTEGER
- 	Initial size of receive buffer (RMB) used by SMC sockets.
--	The default value inherits from net.ipv4.tcp_rmem[1].
- 
- 	The minimum value is 16KiB and there is no hard limit for max value, but
- 	only allowed 512KiB for SMC-R and 1MiB for SMC-D.
- 
--	Default: 128K
-+	Default: 64KiB
--- 
-2.41.0
+>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  Documentation/conf.py                         |  2 +-
+>  Documentation/sphinx-static/custom.css        |  8 ++
+>  .../sphinx/templates/translations.html        | 12 +++
+>  Documentation/sphinx/translations.py          | 96 +++++++++++++++++++
+>  4 files changed, 117 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/sphinx/templates/translations.html
+>  create mode 100644 Documentation/sphinx/translations.py
+>
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index d4fdf6a3875a..64eab500b2cd 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -55,7 +55,7 @@ needs_sphinx =3D '1.7'
+>  extensions =3D ['kerneldoc', 'rstFlatTable', 'kernel_include',
+>                'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+>                'maintainers_include', 'sphinx.ext.autosectionlabel',
+> -              'kernel_abi', 'kernel_feat']
+> +              'kernel_abi', 'kernel_feat', 'translations']
+>=20=20
+>  if major >=3D 3:
+>      if (major > 3) or (minor > 0 or patch >=3D 2):
+> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphin=
+x-static/custom.css
+> index 084a884f6fb7..33adee4a35d9 100644
+> --- a/Documentation/sphinx-static/custom.css
+> +++ b/Documentation/sphinx-static/custom.css
+> @@ -73,3 +73,11 @@ input.kernel-toc-toggle { display: none; }
+>      h3.kernel-toc-contents { display: inline; }
+>      div.kerneltoc a { color: black; }
+>  }
+> +
+> +/* Language selection bar */
+> +div.language-selection {
+> +    background: #eeeeee;
+> +    border: 1px solid #cccccc;
+> +    margin-bottom: 1em;
+> +    padding: .5em;
+> +}
+> diff --git a/Documentation/sphinx/templates/translations.html b/Documenta=
+tion/sphinx/templates/translations.html
+> new file mode 100644
+> index 000000000000..08afb595c203
+> --- /dev/null
+> +++ b/Documentation/sphinx/templates/translations.html
+> @@ -0,0 +1,12 @@
+> +<!-- SPDX-License-Identifier: GPL-2.0 -->
+> +<!-- Copyright =C2=A9 2023, Oracle and/or its affiliates. -->
+> +
+> +{# Create a language bar for translations #}
+> +{% if languages|length > 0: %}
+> +<div class=3D"language-selection">
+> +Languages:
+> +{% for ref in languages: %}
+> +<a href=3D"{{ ref.refuri }}">{{ ref.astext() }}</a>{% if not loop.last %=
+}, {% endif %}
+> +{% endfor %}
+> +</div>
+> +{% endif %}
 
+This could also be part of the menu on the left, I think it's fairly
+easy to extend in alabaster. But then again it's already pretty crowded,
+and it's all a matter of taste.
+
+> diff --git a/Documentation/sphinx/translations.py b/Documentation/sphinx/=
+translations.py
+> new file mode 100644
+> index 000000000000..e1da811bdaf0
+> --- /dev/null
+> +++ b/Documentation/sphinx/translations.py
+> @@ -0,0 +1,96 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Copyright =C2=A9 2023, Oracle and/or its affiliates.
+> +# Author: Vegard Nossum <vegard.nossum@oracle.com>
+> +#
+> +# Add translation links to the top of the document.
+> +#
+> +
+> +import os
+> +
+> +from docutils import nodes
+> +from docutils.transforms import Transform
+> +
+> +import sphinx
+> +from sphinx import addnodes
+> +from sphinx.errors import NoUri
+> +
+> +all_languages =3D {
+> +    # English is always first
+> +    None: 'English',
+> +
+> +    # Keep the rest sorted alphabetically
+> +    'zh_CN': 'Chinese',
+> +    'it_IT': 'Italian',
+> +    'ja_JP': 'Japanese',
+> +    'ko_KR': 'Korean',
+> +    'sp_SP': 'Spanish',
+> +    'zh_TW': 'Taiwanese',
+> +}
+
+Maybe the path to translations should be a configuration option for the
+extension, and it could read the translations from the directory instead
+of hard coding them here.
+
+> +
+> +class LanguagesNode(nodes.Element):
+> +    pass
+> +
+> +class TranslationsTransform(Transform):
+> +    default_priority =3D 900
+> +
+> +    def apply(self):
+> +        app =3D self.document.settings.env.app
+> +        if app.builder.format not in ['html']:
+> +            return
+> +
+> +        docname =3D self.document.settings.env.docname
+> +
+> +        this_lang_code =3D None
+> +        components =3D docname.split(os.sep)
+> +        if components[0] =3D=3D 'translations' and len(components) > 2:
+> +            this_lang_code =3D components[1]
+> +
+> +            # normalize docname to be the untranslated one
+> +            docname =3D os.path.join(*components[2:])
+
+Need to rename these files, and keep the translated document names
+up-to-date:
+
+for f in $(find Documentation/translations/ -name "*.rst"); do if ! test -f=
+ Documentation/${f##Documentation/translations/??_??/}; then echo $f; fi; d=
+one
+
+Maybe the extension should warn about documents under translations that
+do not have a corresponding original.
+
+BR,
+Jani.
+
+> +
+> +        new_nodes =3D LanguagesNode()
+> +
+> +        for lang_code, lang_name in all_languages.items():
+> +            if lang_code =3D=3D this_lang_code:
+> +                continue
+> +
+> +            if lang_code is None:
+> +                target_name =3D docname
+> +            else:
+> +                target_name =3D os.path.join('translations', lang_code, =
+docname)
+> +
+> +            pxref =3D addnodes.pending_xref('', refdomain=3D'std',
+> +                reftype=3D'doc', reftarget=3D'/' + target_name, modname=
+=3DNone,
+> +                classname=3DNone, refexplicit=3DTrue)
+> +            pxref +=3D nodes.Text(lang_name)
+> +            new_nodes +=3D pxref
+> +
+> +        self.document.insert(0, new_nodes)
+> +
+> +def process_languages(app, doctree, docname):
+> +    for node in doctree.traverse(LanguagesNode):
+> +        languages =3D []
+> +
+> +        # Iterate over the child nodes; any resolved links will have
+> +        # the type 'nodes.reference', while unresolved links will be
+> +        # type 'nodes.Text'.
+> +        languages =3D list(filter(lambda xref:
+> +            isinstance(xref, nodes.reference), node.children))
+> +
+> +        html_content =3D app.builder.templates.render('translations.html=
+',
+> +            context=3D{
+> +                'languages': languages,
+> +            })
+> +
+> +        node.replace_self(nodes.raw('', html_content, format=3D'html'))
+> +
+> +def setup(app):
+> +    app.add_node(LanguagesNode)
+> +    app.add_transform(TranslationsTransform)
+> +    app.connect('doctree-resolved', process_languages)
+> +
+> +    return {
+> +        'parallel_read_safe': True,
+> +        'parallel_write_safe': True,
+> +    }
+
+--=20
+Jani Nikula, Intel
