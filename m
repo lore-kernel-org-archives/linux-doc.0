@@ -1,76 +1,163 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B048E16400
-	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 13:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A38F17981;
+	Mon, 30 Oct 2023 14:15:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mH1NPlPL"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8798A2
-	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 06:18:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698671923; x=1730207923;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fBmPXx5EprEyBzJ34PpeBBxbc5KCPSxgmxz7V3OKh0g=;
-  b=mH1NPlPLiEvurZsQ24Xzg81tdlwHj/5B7Gd5xsRXQpsjHG67qglVTlgH
-   ITdNuSVrNz6/5ZBFb6cPbGLTjZ9KpMnxmZ5zn5JvgR1lNv+7WMdWHNdzi
-   1belsO1x0XlPPWV61uteH08jFoq8rYp7qy4ZMx2/6an/98z94rMHfCsAH
-   rD4CI0H3TaFS2ODaIU+X2Ld6W11/qYtUT0m2nu8pH2Aq4QRPHnFMu48xr
-   n/TN2mKSnNjCK1YAmrSYmwVkZmuMplr/lx5of3gdAaT5NoYYHySSsgxS2
-   e38oD5I1z98i113lCRCbTTuGhDkvkW9d17hoPDwCMc8mWLO/AGTfcQVa7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="910325"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="910325"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 06:18:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="1462148"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Oct 2023 06:18:42 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qxSAB-000DI7-10;
-	Mon, 30 Oct 2023 13:18:39 +0000
-Date: Mon, 30 Oct 2023 21:18:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chester Lin <clin@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jan Petrous <jan.petrous@nxp.com>,
-	linux-doc@vger.kernel.org
-Subject: [chesterlintw-s32g:s32g-gmac-devel-6.6-rc7 2/5] dtbs_check:
- Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml:6:10: [error]
- string value is redundantly quoted with any quotes (quoted-strings)
-Message-ID: <202310302108.7EnG5NKF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QBpV9UdY"
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13476D6;
+	Mon, 30 Oct 2023 07:15:22 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6c0f14d6875so968279b3a.1;
+        Mon, 30 Oct 2023 07:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698675321; x=1699280121; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Phy/nzVRPIoAgrWYC8gIYIVfTU+CyCtvaYTpZcFu2/8=;
+        b=QBpV9UdY42knpVQGs5E5RilYtXTI53PYds9gg3Ob0K/qpx8nmftauriIDOz6B8oS6u
+         +8w+pJYBDF40XRaHB6yIy0njwLQSTVAlLU2Aq40WPs2YeI20+C+Jip1+UDBL0ea4SOu/
+         houjI96fLErayKzCURbdAIEJMJgD5wx9ZGDEfujFQfgjHi082c3rzP6X8BvqmyQgx2Ny
+         sCPtxwzX4v6iM47mbe/rXFUj8RPLRD9Z8IV+8sHTPDuO9kihOC2yFcFdmYPHUcLPWiOx
+         EeopnGzaL+wTmuzXsQXKUzBrPxyObp/C07CoRfg2aQSgs6hFdD2dQS6d39GYxSo9TTVx
+         Vn/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698675321; x=1699280121;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Phy/nzVRPIoAgrWYC8gIYIVfTU+CyCtvaYTpZcFu2/8=;
+        b=vlpW6/ajqdoYdhczTe+lLqcflpspF22AODDLW7Bnm1QcSzhXMn+Fr8xkywT1luuWXl
+         +cn8qTSKkzmLArAeFV+0ok8QbxOfeTfHwtoy1lNx1AyY4ngRa5/ZGDVdXYzWiEM4Fpbp
+         sVKvpefJrufdcKd7n8pRWvJbsVmjacLoxG7jggqcOLQjTWrKBtETDltVxpIq+0uAsyDW
+         UZp5Znqie79Ck7VXa9r8jt3fEjir2wf031nS/sEVtvliP73D+KoUuL4qaCgFpRXZFKAo
+         Iq7OIB4YsF+jl17dvclrMKPJUHSov41Z84fO6vLnI9O5oad6+7wHkvcMAK//IVrDztTo
+         bc0A==
+X-Gm-Message-State: AOJu0Yz9+iBct8mUQaMzOi4I5OrgTO/T06QBg3VyanJ/cen5ijbaaGUY
+	79b3BNLECiq9CMJFS43L3q8=
+X-Google-Smtp-Source: AGHT+IH1LGLzcObhgxTU63UavEcs3NmQlccH5PgxWH6rC1CZlrq70MTbiRAZcopHMG45pJY3z0yRRw==
+X-Received: by 2002:a05:6a00:1a04:b0:6b5:ec98:427d with SMTP id g4-20020a056a001a0400b006b5ec98427dmr7699238pfv.17.1698675321393;
+        Mon, 30 Oct 2023 07:15:21 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n10-20020a056a0007ca00b0068620bee456sm5987676pfu.209.2023.10.30.07.15.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Oct 2023 07:15:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <302a0c90-cc5a-41c3-8004-f96e9586ccf4@roeck-us.net>
+Date: Mon, 30 Oct 2023 07:15:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/2] hwmon: ltc2991: add driver support
+Content-Language: en-US
+To: "Miclaus, Antoniu" <Antoniu.Miclaus@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20231026103413.27800-1-antoniu.miclaus@analog.com>
+ <20231026103413.27800-2-antoniu.miclaus@analog.com>
+ <075f6150-74f2-478e-9290-aa7186140cee@roeck-us.net>
+ <CY4PR03MB3399049CB79E0F468A945C659BA1A@CY4PR03MB3399.namprd03.prod.outlook.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <CY4PR03MB3399049CB79E0F468A945C659BA1A@CY4PR03MB3399.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/chesterlintw/linux-s32g s32g-gmac-devel-6.6-rc7
-head:   ac69f501fdc08f9c7dd913621f6f09f34cc7dd65
-commit: 9580d2091ae382dfb3e349500d4530bd7f81a8e0 [2/5] dt-bindings: net: add schema for NXP S32CC dwmac glue driver
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231030/202310302108.7EnG5NKF-lkp@intel.com/reproduce)
+On 10/30/23 00:59, Miclaus, Antoniu wrote:
+> 
+>> On Thu, Oct 26, 2023 at 01:33:13PM +0300, Antoniu Miclaus wrote:
+>>> Add support for LTC2991 Octal I2C Voltage, Current, and Temperature
+>>> Monitor.
+>>>
+>>> The LTC2991 is used to monitor system temperatures, voltages and
+>>> currents. Through the I2C serial interface, the eight monitors can
+>>> individually measure supply voltages and can be paired for
+>>> differential measurements of current sense resistors or temperature
+>>> sensing transistors. Additional measurements include internal
+>>> temperature and internal VCC.
+>>>
+>>> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+>>
+>> Applied. I do have one comment (see below) about code which
+>> I would normally reject, but I am getting tired.
+>>
+>> [ ... ]
+>>
+>>> +
+>>> +struct ltc2991_state {
+>>> +	struct device		*dev;
+>>
+>> It is completely pointless to have a reference to dev in struct
+>> ltc2991_state because it is only used in the init function and
+>> dereferenced six times there. It would have been much easier to
+>> pass it as argument to that function. That would also have avoided
+>> the wrong assumption or expectation that it is needed/used elsewhere.
+>>
+>> Guenter
+> Sorry for the misunderstanding. I took as reference some old driver
+> implementations from the mainline kernel.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310302108.7EnG5NKF-lkp@intel.com/
+You can find examples for pretty much everything in the kernel, including
+pretty much everything bad and pointless.
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml:6:10: [error] string value is redundantly quoted with any quotes (quoted-strings)
+> Is it fine if I do a follow-up patch on this subject in the near future?
+> 
 
-vim +6 Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml
+If you wish. I already accepted your patch.
 
-   > 6	$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-     7	
+Guenter
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
