@@ -1,195 +1,154 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054CA361
-	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 01:00:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AC3806
+	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 02:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="baEXbdap"
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E284BE;
-	Sun, 29 Oct 2023 18:00:31 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6b7f0170d7bso3888241b3a.2;
-        Sun, 29 Oct 2023 18:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698627630; x=1699232430; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yM3bj0rbBL/9ahZnFNJ1BZ/2B4Z9gVw0ViqgRvqDFxQ=;
-        b=baEXbdapK+PD4FBEoo1iBpMr6AKWeed6pF4NVC+3t5cnAx+B5Z/mxkq3qbhxDotya2
-         kbYK13fxtvLrH5g7TsxKt0TI3bIBnnvhFoVr09qoADoikkAwsPdmfov6Pxn1tUIaLsSY
-         3YrRhcRL1U29xGSzl3JAWiikHLpCT+uI/T31tzxzIrXNDd9vgsR2hsYmqPuSz0sC9Yn1
-         mdqNjutXqce8gMLRdgBeMNEj3dItUg8vY7X9NOnVaExtH9hb3zUsf50pVme8VyFb4oDF
-         5jaIsGwVI4QOOwBDnhvKmM9MdU3Yj2a9J4yLTjyJv3XoUqOHCfj8Lft8VGzTynsjw3FH
-         plIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698627630; x=1699232430;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yM3bj0rbBL/9ahZnFNJ1BZ/2B4Z9gVw0ViqgRvqDFxQ=;
-        b=pKVN5FDdMLgZdjEcNkk2/i/MKDUWODSAfa7/hSgJO1yfDEhyYgyof4lpHCgkmJ9qkI
-         kdQbJlCnRj+/6TQqzLokkTYIUsXZFwIYDGRloPDanKKUYzmHob8BUBfNmOxMmdEMnJvx
-         iwpBCGhb4DYFWr44CO4rgTcQsIxTrvBgYRKUkLuSgnJhb/FymlVZqWNT8y/27bITN9oS
-         wy1FcqrRhYl48gMD9i7H4EEGEmojv9/fN8xN5MC3swmFJnuBx/OLlVfM6jBcpEZNy73g
-         qj4sDotx2c2BqBq6eNgqJZ3EQ0s9iFt3JxrXnjWNXPPFht6Bi8aArXvChJ8kfX6zo39O
-         RuvQ==
-X-Gm-Message-State: AOJu0YxoquOLGN0ks3nXFu653aYfg2q0bIpleK9TBzuHvt0sRmxfA3Zm
-	VI0tWdyWpSyZUoiYQbN56b81YfZOfRw=
-X-Google-Smtp-Source: AGHT+IGUEqwA9TfhXYwEcBKwZhJjsY5VNP/UOZLJZUM2YONqX1HnXpM02hmCNe0xrobBQa9jbHIixw==
-X-Received: by 2002:a05:6a20:7d95:b0:169:cd02:65e9 with SMTP id v21-20020a056a207d9500b00169cd0265e9mr11792797pzj.33.1698627630397;
-        Sun, 29 Oct 2023 18:00:30 -0700 (PDT)
-Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id o4-20020a17090ab88400b0027df6ff00eesm4360964pjr.19.2023.10.29.18.00.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Oct 2023 18:00:29 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-	id 26FEE954130D; Mon, 30 Oct 2023 08:00:26 +0700 (WIB)
-Date: Mon, 30 Oct 2023 08:00:25 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Ariel Miculas <amiculas@cisco.com>, linux-doc@vger.kernel.org
-Cc: serge@hallyn.com, Phillip Lougher <phillip@squashfs.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: filesystems: document the squashfs specific
- mount options
-Message-ID: <ZT8AKXruPLR0oUIM@debian.me>
-References: <20231029161924.50648-1-amiculas@cisco.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OPrrqAen"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED7ABE;
+	Sun, 29 Oct 2023 19:07:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698631630; x=1730167630;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dbVY1ThUDo1weBPv8bgLKEZ7vpAIM1jDmAicjkFa74o=;
+  b=OPrrqAennHFuo5x93Lu+aKsATqPdFBiYuqLGwt+aFoBkE2mmx5vEjqzI
+   Av8z0mpF99iiFYBQ1Bt6d5az59MfdyDLDtOTim2ssi+dB55w9g6oMAg3J
+   VogjA6/oDTQ3UDbqPJe+ep+qqKNI/R5MXSkswihdb/M+caQQiPcl2EX0x
+   EfXG7Fi4HvdO8dmHLHOJYNMpGN2U6vPLCeInOKHvWYtO6yFimK7Y0qWLv
+   scwnTavn26y/8KSc1UJrDPl5EhNbFPyMX5yl3bq0uU9wIrrPDdu7n1bmP
+   sraO+35bHURWZkrOxW1zwpuzg3JFzcxLIX+BsWcUego4YgzN0l4+lEz0i
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="387812924"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
+   d="scan'208";a="387812924"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 19:07:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="876978077"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
+   d="scan'208";a="876978077"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 29 Oct 2023 19:07:07 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qxHgH-000Cyp-2D;
+	Mon, 30 Oct 2023 02:07:05 +0000
+Date: Mon, 30 Oct 2023 10:06:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aleksa Savic <savicaleksa83@gmail.com>, linux-hwmon@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Aleksa Savic <savicaleksa83@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: Add driver for Gigabyte AORUS Waterforce AIO
+ coolers
+Message-ID: <202310300959.8NLKyQDJ-lkp@intel.com>
+References: <20231020130212.8919-1-savicaleksa83@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4FtQT5HRz676trB8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231029161924.50648-1-amiculas@cisco.com>
+In-Reply-To: <20231020130212.8919-1-savicaleksa83@gmail.com>
+
+Hi Aleksa,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.6-rc7 next-20231027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Savic/hwmon-Add-driver-for-Gigabyte-AORUS-Waterforce-AIO-coolers/20231020-210452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231020130212.8919-1-savicaleksa83%40gmail.com
+patch subject: [PATCH] hwmon: Add driver for Gigabyte AORUS Waterforce AIO coolers
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231030/202310300959.8NLKyQDJ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310300959.8NLKyQDJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310300959.8NLKyQDJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwmon/gigabyte_waterforce.c:130:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     130 |                 if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/gigabyte_waterforce.c:155:7: note: uninitialized use occurs here
+     155 |                 if (ret < 0)
+         |                     ^~~
+   drivers/hwmon/gigabyte_waterforce.c:130:3: note: remove the 'if' if its condition is always false
+     130 |                 if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     131 |                         /* Data is up to date */
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     132 |                         goto unlock_and_return;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     133 |                 }
+         | ~~~~~~~~~~~~~~~~~
+   drivers/hwmon/gigabyte_waterforce.c:127:9: note: initialize the variable 'ret' to silence this warning
+     127 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
---4FtQT5HRz676trB8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +130 drivers/hwmon/gigabyte_waterforce.c
 
-On Sun, Oct 29, 2023 at 06:19:24PM +0200, Ariel Miculas wrote:
-> +2.1 Mount options
-> +-----------------
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +errors=3D%s              Specify whether squashfs errors trigger a kerne=
-l panic
-> +                       or not
-> +
-> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +                         continue  errors don't trigger a panic (default)
-> +                            panic  trigger a panic when errors are encou=
-ntered,
-> +                                   similar to several other filesystems =
-(e.g.
-> +                                   btrfs, ext4, f2fs, GFS2, jfs, ntfs, u=
-bifs)
-> +
-> +                                   This allows a kernel dump to be saved,
-> +                                   useful for analyzing and debugging the
-> +                                   corruption.
-> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +threads=3D%s             Select the decompression mode or the number of =
-threads
-> +
-> +                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is set:
-> +
-> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +                           single  use single-threaded decompression (de=
-fault)
-> +
-> +                                   Only one block (data or metadata) can=
- be
-> +                                   decompressed at any one time. This li=
-mits
-> +                                   CPU and memory usage to a minimum, bu=
-t it
-> +                                   also gives poor performance on parall=
-el I/O
-> +                                   workloads when using multiple CPU mac=
-hines
-> +                                   due to waiting on decompressor availa=
-bility.
-> +                            multi  use up to two parallel decompressors =
-per core
-> +
-> +                                   If you have a parallel I/O workload a=
-nd your
-> +                                   system has enough memory, using this =
-option
-> +                                   may improve overall I/O performance. =
-It
-> +                                   dynamically allocates decompressors o=
-n a
-> +                                   demand basis.
-> +                           percpu  use a maximum of one decompressor per=
- core
-> +
-> +                                   It uses percpu variables to ensure
-> +                                   decompression is load-balanced across=
- the
-> +                                   cores.
-> +                        1|2|3|...  configure the number of threads used =
-for
-> +                                   decompression
-> +
-> +                                   The upper limit is num_online_cpus() =
-* 2.
-> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is **not** set=
- and
-> +                       SQUASHFS_DECOMP_MULTI is set:
-> +
-> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +                          2|3|...  configure the number of threads used =
-for
-> +                                   decompression
-> +
-> +                                   The upper limit is num_online_cpus() =
-* 2.
-> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
->=20
+   124	
+   125	static int waterforce_get_status(struct waterforce_data *priv)
+   126	{
+   127		int ret;
+   128	
+   129		if (!mutex_lock_interruptible(&priv->status_report_request_mutex)) {
+ > 130			if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
+   131				/* Data is up to date */
+   132				goto unlock_and_return;
+   133			}
+   134	
+   135			/*
+   136			 * Disable raw event parsing for a moment to safely reinitialize the
+   137			 * completion. Reinit is done because hidraw could have triggered
+   138			 * the raw event parsing and marked the priv->status_report_received
+   139			 * completion as done.
+   140			 */
+   141			spin_lock_bh(&priv->status_report_request_lock);
+   142			reinit_completion(&priv->status_report_received);
+   143			spin_unlock_bh(&priv->status_report_request_lock);
+   144	
+   145			/* Send command for getting status */
+   146			ret = waterforce_write_expanded(priv, get_status_cmd, GET_STATUS_CMD_LENGTH);
+   147			if (ret < 0)
+   148				return ret;
+   149	
+   150			if (wait_for_completion_interruptible_timeout
+   151			    (&priv->status_report_received, msecs_to_jiffies(STATUS_VALIDITY)) <= 0)
+   152				ret = -ENODATA;
+   153	unlock_and_return:
+   154			mutex_unlock(&priv->status_report_request_mutex);
+   155			if (ret < 0)
+   156				return ret;
+   157		} else {
+   158			return -ENODATA;
+   159		}
+   160	
+   161		return 0;
+   162	}
+   163	
 
-The doc LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---4FtQT5HRz676trB8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZT8AIwAKCRD2uYlJVVFO
-o5wjAQCsgbmSs7ucDXi9WqJ5A/Tf7HwOfCe7yWvzuqjkUcqcuAEArnipjFsP96Ve
-bTHe4jPw2SCfz9icTUtm4UsAhcm6BA8=
-=8P7/
------END PGP SIGNATURE-----
-
---4FtQT5HRz676trB8--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
