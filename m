@@ -1,74 +1,127 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB6C29B2
-	for <linux-doc@vger.kernel.org>; Sun, 29 Oct 2023 22:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF0362D
+	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 00:02:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9a3IS/B"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92575B6
-	for <linux-doc@vger.kernel.org>; Sun, 29 Oct 2023 15:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698619076; x=1730155076;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=24wIVa6i22ugb0/vm+SLyq3IjvyByE5eOCVdn0dN4G0=;
-  b=R9a3IS/BWFPZHXyPi3RIUmZh565ahUe3p1+/7/zHXLz/IJZKOfG9TVB7
-   jgXbAU+dira4lZ2MZ1hUZaFPUVw8dEc8XJYvoWM9bX1dJkE1sASXWHBxH
-   LtAI04zdZVm1mH3AZL8gmvG+2Q/HvS5LTAaxHh2Efmmp80T97cuKHDgwC
-   evcXZvHwClpJ55PWPKA83CjnESi74e/jmVfESSHrYc7v5uEwgIK1NErkE
-   lSxQEMgClDKVsaGBl4yyLg362khEn0eybc6mSovDDf3y6S/IeQYttLkIt
-   MlJ8tyktzqbPtUUMea1QG2R+E4kfImjuo6lG9+CODAPi1N8tXLa4nUFiL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="367328658"
-X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
-   d="scan'208";a="367328658"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 15:37:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="760104538"
-X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
-   d="scan'208";a="760104538"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 29 Oct 2023 15:37:54 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qxEPn-000CsF-2y;
-	Sun, 29 Oct 2023 22:37:51 +0000
-Date: Mon, 30 Oct 2023 06:37:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-doc@vger.kernel.org
-Subject: [drm-xe:drm-xe-next 964/1394] htmldocs:
- Documentation/gpu/drm-mm:552: ./drivers/gpu/drm/scheduler/sched_main.c:50:
- WARNING: Enumerated list ends without a blank line; unexpected unindent.
-Message-ID: <202310300643.q7ugWxc9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RxwpRjEI"
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B12894
+	for <linux-doc@vger.kernel.org>; Sun, 29 Oct 2023 17:02:36 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1cc53d0030fso752565ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 29 Oct 2023 17:02:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698624156; x=1699228956; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2PTmft0JlMHLfMqnzsQ/EQfttlgxRD47/P/YZu8JPJY=;
+        b=RxwpRjEIlQr3R1UmPd1ixSUk07LUW3evHnW/Cl/psxdFv2juljzOPrubv1Y78cFsc7
+         KiFXaYZ1Z77IlNaWN2lXRksPGE7zEQ+2kQZjbXjmbvzuCfcBSXwqXERCVZRv2OO6JKRV
+         jl2Ukm1L0LVDm0ewNmU7g0f+Lz3f8DEjOvERb1atQ1oMZEhfXDONA8ohepn/PvmRJNBF
+         hQTslnjjOPLpH7Yl/6DDU1uY6rdtk1M8Sj8xrqqTHuTIE3/mb4xHjLtWgBpEqxVdfL0n
+         3M9QxdX7w3fW+We7BvB1YmZ7ReP3RDSvgFOPWryYqgLhKrRCvlRyj31QiZMeb9Hv/gIu
+         Tg6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698624156; x=1699228956;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2PTmft0JlMHLfMqnzsQ/EQfttlgxRD47/P/YZu8JPJY=;
+        b=S9J9Uj9dwQbyFadnZmfTR77V52lCY8XD2/L0ae7AMpADb51z9cMXLUffmozSGz/0/n
+         T7FAu2SBwequWVhMx77PeWSYO4dqlUI8YQDsAsKY097+FTREyDn+DGP3YnruJTPcfiDV
+         Q+t3qQv1OPB+gBR83OZU/N7pErGVWsngm73RiZaSi67v1f8wNStkcNPOQRmMznqPcqTc
+         gsbnmkbjwPFlKlKy+t4LtzXiL3E6aKX5pjPm8GuOU8i8Ck1CM6W499S6gcp0ZxqVykrG
+         d7p3gRzI3lqUKW95xOKxvJUnN9kLd2uOVfIou6ZQqJQMSE97adL4Y/KX3AbQDxGyepr/
+         5/gQ==
+X-Gm-Message-State: AOJu0YwzybvvEVFv+dIFnVkxkBfe1bOW7AUCDeWkEWE3t40xwiSUti6V
+	oORDgjp7vJVHAy00yuS0YSs=
+X-Google-Smtp-Source: AGHT+IGVJwzMgaVnk2ohcb8d0cpNEFNBQ4prSyD76h7ze5Iu0tN6vL97hDVtvuBcunoMhCxAkxz15g==
+X-Received: by 2002:a17:902:e543:b0:1c9:ddd8:9950 with SMTP id n3-20020a170902e54300b001c9ddd89950mr10633604plf.21.1698624155841;
+        Sun, 29 Oct 2023 17:02:35 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id u2-20020a1709026e0200b001c625acfed0sm5145703plk.44.2023.10.29.17.02.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Oct 2023 17:02:35 -0700 (PDT)
+Message-ID: <645ffbbc-8b33-4a93-94b6-6487e31c7f4b@gmail.com>
+Date: Mon, 30 Oct 2023 09:02:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ swarupkotikalapudi@gmail.com, yujie.liu@intel.com,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <87a5s15mm5.fsf@meer.lwn.net>
+Subject: Re: [PATCH] scripts/kernel-doc: fix make htmldoc warning
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87a5s15mm5.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   f24c46200dc8fad700f51106e678d68d38496860
-commit: 0dceb0dede50613712a065d627443f4c182e6e2c [964/1394] drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy
-reproduce: (https://download.01.org/0day-ci/archive/20231030/202310300643.q7ugWxc9-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310300643.q7ugWxc9-lkp@intel.com/
+On Date: Sun, 29 Oct 2023 12:06:58 -0600, Jonathan Corbet wrote:
+> Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com> writes:
+> 
+>> make htmldocs has below warnings:
+>>
+>> ..
+>> Variable length lookbehind is experimental in regex;
+>> marked by <-- HERE in m/(?<=^|\s)-Werror(?=$|\s)
+>> <-- HERE / at ./scripts/kernel-doc line 188.
+>> ...
+> 
+> So how do you get this warning?  I've not seen it.  Which version of
+> Perl? 
 
-All warnings (new ones prefixed by >>):
+I get this warning on Ubuntu 22.04LTS, whose perl is v5.34.0.
 
->> Documentation/gpu/drm-mm:552: ./drivers/gpu/drm/scheduler/sched_main.c:50: WARNING: Enumerated list ends without a blank line; unexpected unindent.
+Swarup's change silences the warning there.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I could provide a tested-by: tag if I was familiar with that
+"variable length lookbehind" thing ...
+
+        Thanks, Akira
+
+> 
+>> "-Werror" option in make command,
+>> needs "-Werror" to have space before
+>> and after while running make command,
+>> hence space checking is sepratly done,
+>> and is not part of lookbehind regular expression.
+>>
+>> Below command also didn't
+>> show any error:
+>>  make KCFLAGS="-Werror=return-type" W=1 kernel/fork.o
+>>
+>> Fixes: 91f950e8b9d8 ("scripts/kernel-doc: match -Werror flag strictly")
+>> Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
+>> ---
+>>  scripts/kernel-doc | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+>> index d660e1f4b483..aa9e3e198d12 100755
+>> --- a/scripts/kernel-doc
+>> +++ b/scripts/kernel-doc
+>> @@ -185,7 +185,7 @@ if (defined($ENV{'KBUILD_VERBOSE'}) && $ENV{'KBUILD_VERBOSE'} =~ '1') {
+>>  if (defined($ENV{'KCFLAGS'})) {
+>>  	my $kcflags = "$ENV{'KCFLAGS'}";
+>>  
+>> -	if ($kcflags =~ /(?<=^|\s)-Werror(?=$|\s)/) {
+>> +	if ($kcflags =~ /(?<=^|)(\s)-Werror(?=$|)(\s)/) {
+>>  		$Werror = 1;
+>>  	}
+>>  }
+> 
+> Thanks,
+> 
+> jon
+
