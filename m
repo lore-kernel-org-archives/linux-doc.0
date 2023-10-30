@@ -1,276 +1,88 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A061095F
-	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 11:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E50E156EE;
+	Mon, 30 Oct 2023 12:20:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="2Ar7Reon"
-X-Greylist: delayed 479 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 30 Oct 2023 04:39:06 PDT
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.154])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694B6B6;
-	Mon, 30 Oct 2023 04:39:06 -0700 (PDT)
-Received: from localhost (unknown [127.0.0.1])
-	by mx.kolabnow.com (Postfix) with ESMTP id 2383A300D3C0;
-	Mon, 30 Oct 2023 12:31:05 +0100 (CET)
-Authentication-Results: ext-mx-out013.mykolab.com (amavis);
- dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-	in-reply-to:content-transfer-encoding:content-disposition
-	:content-type:content-type:mime-version:references:message-id
-	:subject:subject:from:from:date:date:received:received:received;
-	 s=dkim20160331; t=1698665461; x=1700479862; bh=eBDtrN7ZvBxFwKuZ
-	vgReLOW8gdMuBQzsiliNBUr48oo=; b=2Ar7ReonuU2AMblzpP+eFajn0xGEo4Hp
-	cNiwDc40KGvOkQzi6mLGDqAHTPjRequ5VjtA2eOHxz4AIlwEv+edQ8iI3rS4Qsat
-	7RqNAfmnHnsmuLiuCgq0FD8UJ8WvEayHCztpFaQjZNf92GCIDBYY8/VAOIBIF4tR
-	qGtkBJYgm+PK4hHvVLN+6NmgnON3+CnexmpEA3T9htGji1qOaQPPjzGyqY6tWi/f
-	cWQrsRX+WZvkVOByYurHQzVky9UvPK8hJUpbJ5mlhiqe1hPuBIuRnyU8H7N2M/wp
-	ovX3UBlBFGlOrmQlbf8DyZIeWC7jtkpnn/aNeASdcfWHwCdGTqQXWvybwZAFislA
-	lQT5Yxcm7fhwdptsfGYJ6LZ683NLIWOeyoVmrt6qHNBDLpfW8w1Zsv69eath7CaO
-	zVJLQmnhBoJTxMiee3XMtanUooktxZShsxTEMju4LlHGIwlPcMSTVcOWzmkusVcb
-	fygmUX0u51PnBrFcFEaSr3KBT8nwCgr467dXeIY8BuUpa5YbDVvQ9mV7tKrCne5p
-	lClgqRfbMgPz04QoM2ZWulE9yi7LfPasSWklypWsZeqI/7ipr7gPNozARrDvM1d3
-	YpcfUhkRabHjYFU1LYnSFXS+dJ6txHhFn3MXEtRgj6tViGBdvPoVoam9wtABahdB
-	PMKgTINdICU=
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Score: -1
-X-Spam-Level:
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out013.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id zVXVNBbUoT_A; Mon, 30 Oct 2023 12:31:01 +0100 (CET)
-Received: from int-mx009.mykolab.com (unknown [10.9.13.9])
-	by mx.kolabnow.com (Postfix) with ESMTPS id 0712F300D37F;
-	Mon, 30 Oct 2023 12:30:54 +0100 (CET)
-Received: from ext-subm010.mykolab.com (unknown [10.9.6.10])
-	by int-mx009.mykolab.com (Postfix) with ESMTPS id 565E820DFFCB;
-	Mon, 30 Oct 2023 12:30:54 +0100 (CET)
-Date: Mon, 30 Oct 2023 12:30:52 +0100
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Carlos Bilbao <carlos.bilbao@amd.com>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Hu Haowen <src.res.211@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: translations: add translations links when they
- exist
-Message-ID: <20231030113052.ykblzg2jdca6pmlt@numero-86.vaga.pv.it>
-References: <20231028162931.261843-1-vegard.nossum@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nqcCLdy5"
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7466C9;
+	Mon, 30 Oct 2023 05:20:40 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-53d9f001b35so7014859a12.2;
+        Mon, 30 Oct 2023 05:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698668439; x=1699273239; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tRAvOgi6qogXEjImiUor+DkPqw1Ot9Ogtre0wvi5M6k=;
+        b=nqcCLdy5BkfZ2ly+kvgp4RantdlvoU4aMWj2ag9y62CfeIFVxBhT4sDv8MWxxHhQz6
+         AwOjnIq0UrQE6WfcY4MoQR4Q9aHmkCLPpe05h7UhWsb1yTbYx5N/n8vMAeqa+7Z3mFBK
+         sakoRSaiZya+jKItdc8TbAS0Tsnl+qRa0fK9m0gYKnh9eobWDKUE4KT0SyOqhvLx1zue
+         /8rDcyS0eX1MLFNRwds0vKf+RbKFKYroq2hGVuuqXotl2YR0+KmNLn96d3aahl6Pmf+d
+         A6ODm5bw3BennCXc+dZpagOltGe4tQ+SxCgxTQ6NmxpuWe/gz0Y/bVjOe+V5j+h18KZH
+         Zq4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698668439; x=1699273239;
+        h=content-transfer-encoding:in-reply-to:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tRAvOgi6qogXEjImiUor+DkPqw1Ot9Ogtre0wvi5M6k=;
+        b=XqEaZzdyqBQkCdeitvkanUmaT3WpkpKZYIbpLtTymS6ZlnkpE8pQKraKYlrEqxkPhO
+         iiahUaALC53aBIfI2nyAxJ1hBkAODODk/Col2Qke8wynAJc9NGtdw+H8BUMFh8USGPAV
+         gIpFSHFRPNFOgJBjzeC9Xiem2JsDrlOJ4qHTXkA26bHmKrIRfa6u9yqWNuJruPrqXQLp
+         Zwyo4XQg/EfFMqaJdCg938G33ozjGJ8QjcVUpWEauj7BR1xWXhI0WjObbPqY6uYiF3ox
+         ftOynquIH065e/s10l8hXEiaPyu2adru8lb9kbryHiJ34i/87S22gzxxMtksqsASg4cN
+         j9dw==
+X-Gm-Message-State: AOJu0YwriaYqxZ9iNBs6p8Xqdmi+owWA3v9IJ53EghsMwPQt7gdqclTT
+	+gliFFhPCa/Rv5dsF/8ubSY=
+X-Google-Smtp-Source: AGHT+IEA4HEagqHQDt4CQKteRzlCff1bThN0D10TLJ2IhOR2hdu91b9A3yPlJ/I94joRwFOXZlnzxA==
+X-Received: by 2002:a17:907:72c5:b0:9b2:f941:6916 with SMTP id du5-20020a17090772c500b009b2f9416916mr8109533ejc.17.1698668439086;
+        Mon, 30 Oct 2023 05:20:39 -0700 (PDT)
+Received: from [192.168.0.105] (5401D598.dsl.pool.telekom.hu. [84.1.213.152])
+        by smtp.gmail.com with ESMTPSA id ci6-20020a170906c34600b009a1dbf55665sm5802219ejb.161.2023.10.30.05.20.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Oct 2023 05:20:38 -0700 (PDT)
+From: Kira <nyakov13@gmail.com>
+X-Google-Original-From: Kira <Nyakov13@gmail.com>
+Message-ID: <566c0155-4f80-43ec-be2c-2d1ad631bf25@gmail.com>
+Date: Mon, 30 Oct 2023 13:20:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231028162931.261843-1-vegard.nossum@oracle.com>
+User-Agent: Mozilla Thunderbird
+To: benjamin.poirier@gmail.com
+Cc: James.Bottomley@HansenPartnership.com, coiby.xu@gmail.com,
+ corbet@lwn.net, davem@davemloft.net, deller@gmx.de, edumazet@google.com,
+ error27@gmail.com, gregkh@linuxfoundation.org, kuba@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-staging@lists.linux.dev,
+ manishc@marvell.com, nandhakumar.singaram@gmail.com, netdev@vger.kernel.org,
+ pabeni@redhat.com, raven@themaw.net, ricardoapl.dev@gmail.com,
+ sumitraartsy@gmail.com, svenjoac@gmx.de
+References: <20231020124457.312449-3-benjamin.poirier@gmail.com>
+Subject: Re: [PATCH 2/2] staging: qlge: Retire the driver
+Content-Language: en-US, ru-RU
+In-Reply-To: <20231020124457.312449-3-benjamin.poirier@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I find it a nice initiative :)
+I have a couple of QLogic QLE8142 10GbE Converged Network adapters.
 
-On Sat, Oct 28, 2023 at 06:29:31PM +0200, Vegard Nossum wrote:
->Add a new Sphinx extension that knows about the translations of kernel
->documentation and can insert links to the translations at the top of
->the document.
->
->It basically works like this:
->
->1. Register a new node type, LanguagesNode.
->
->2. Register a new transform, TranslationsTransform, that inserts a new
->   LanguageNode at the top of every document. The LanguageNode contains
->   "pending references" to translations of the document. The key here
->   is that these are pending (i.e. unresolved) references that may or
->   may not actually exist.
->
->3. Register a 'doctree-resolved' event that iterates over all the
->   LanguageNode nodes. Any unresolved references are filtered out; the
->   list of resolved references is passed to the 'translations.html'
->   template and rendered as an HTML node (if HTML output is selected).
->
->Testing: make htmldocs with v7.3.0.
->
->Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
->---
-> Documentation/conf.py                         |  2 +-
-> Documentation/sphinx-static/custom.css        |  8 ++
-> .../sphinx/templates/translations.html        | 12 +++
-> Documentation/sphinx/translations.py          | 96 +++++++++++++++++++
-> 4 files changed, 117 insertions(+), 1 deletion(-)
-> create mode 100644 Documentation/sphinx/templates/translations.html
-> create mode 100644 Documentation/sphinx/translations.py
->
->diff --git a/Documentation/conf.py b/Documentation/conf.py
->index d4fdf6a3875a..64eab500b2cd 100644
->--- a/Documentation/conf.py
->+++ b/Documentation/conf.py
->@@ -55,7 +55,7 @@ needs_sphinx = '1.7'
-> extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
->               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
->               'maintainers_include', 'sphinx.ext.autosectionlabel',
->-              'kernel_abi', 'kernel_feat']
->+              'kernel_abi', 'kernel_feat', 'translations']
->
-> if major >= 3:
->     if (major > 3) or (minor > 0 or patch >= 2):
->diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
->index 084a884f6fb7..33adee4a35d9 100644
->--- a/Documentation/sphinx-static/custom.css
->+++ b/Documentation/sphinx-static/custom.css
->@@ -73,3 +73,11 @@ input.kernel-toc-toggle { display: none; }
->     h3.kernel-toc-contents { display: inline; }
->     div.kerneltoc a { color: black; }
-> }
->+
->+/* Language selection bar */
->+div.language-selection {
->+    background: #eeeeee;
->+    border: 1px solid #cccccc;
->+    margin-bottom: 1em;
->+    padding: .5em;
->+}
->diff --git a/Documentation/sphinx/templates/translations.html b/Documentation/sphinx/templates/translations.html
->new file mode 100644
->index 000000000000..08afb595c203
->--- /dev/null
->+++ b/Documentation/sphinx/templates/translations.html
->@@ -0,0 +1,12 @@
->+<!-- SPDX-License-Identifier: GPL-2.0 -->
->+<!-- Copyright © 2023, Oracle and/or its affiliates. -->
->+
->+{# Create a language bar for translations #}
->+{% if languages|length > 0: %}
->+<div class="language-selection">
->+Languages:
+They are pretty old yes, but also working well and energy efficient. 
+They still can be considered as modern hardware because they was so 
+advance back in the days.
 
-Should also "Languages" subject to translation?
-Or perhaps, nothing. Just the list of languages.
+And I think there is a lots of them out there, maybe not in 
+production(but somewhere still is), but in used market.
 
->+{% for ref in languages: %}
->+<a href="{{ ref.refuri }}">{{ ref.astext() }}</a>{% if not loop.last %}, {% endif %}
->+{% endfor %}
->+</div>
->+{% endif %}
->diff --git a/Documentation/sphinx/translations.py b/Documentation/sphinx/translations.py
->new file mode 100644
->index 000000000000..e1da811bdaf0
->--- /dev/null
->+++ b/Documentation/sphinx/translations.py
->@@ -0,0 +1,96 @@
->+# SPDX-License-Identifier: GPL-2.0
->+#
->+# Copyright © 2023, Oracle and/or its affiliates.
->+# Author: Vegard Nossum <vegard.nossum@oracle.com>
->+#
->+# Add translation links to the top of the document.
->+#
->+
->+import os
->+
->+from docutils import nodes
->+from docutils.transforms import Transform
->+
->+import sphinx
->+from sphinx import addnodes
->+from sphinx.errors import NoUri
->+
->+all_languages = {
->+    # English is always first
->+    None: 'English',
->+
->+    # Keep the rest sorted alphabetically
->+    'zh_CN': 'Chinese',
->+    'it_IT': 'Italian',
->+    'ja_JP': 'Japanese',
->+    'ko_KR': 'Korean',
->+    'sp_SP': 'Spanish',
->+    'zh_TW': 'Taiwanese',
+So it will be really nice if drivers were still in kernel.
 
-Minor comment. Should we use the language name in its original language?
 
-Example:
+With best regards
 
-[... snip ...]
-'it_IT': Italiano,
-[... snip ...]
-'sp_SP': Español,
-[... snip ...]
+Kira.
 
->+}
->+
->+class LanguagesNode(nodes.Element):
->+    pass
->+
->+class TranslationsTransform(Transform):
->+    default_priority = 900
->+
->+    def apply(self):
->+        app = self.document.settings.env.app
->+        if app.builder.format not in ['html']:
->+            return
->+
->+        docname = self.document.settings.env.docname
->+
->+        this_lang_code = None
->+        components = docname.split(os.sep)
->+        if components[0] == 'translations' and len(components) > 2:
->+            this_lang_code = components[1]
->+
->+            # normalize docname to be the untranslated one
->+            docname = os.path.join(*components[2:])
->+
->+        new_nodes = LanguagesNode()
->+
->+        for lang_code, lang_name in all_languages.items():
->+            if lang_code == this_lang_code:
->+                continue
-
-We could show all languages (remove the above two lines) to have a consistent
-output among pages.
-
->+            if lang_code is None:
->+                target_name = docname
->+            else:
->+                target_name = os.path.join('translations', lang_code, docname)
->+
->+            pxref = addnodes.pending_xref('', refdomain='std',
->+                reftype='doc', reftarget='/' + target_name, modname=None,
->+                classname=None, refexplicit=True)
->+            pxref += nodes.Text(lang_name)
->+            new_nodes += pxref
->+
->+        self.document.insert(0, new_nodes)
->+
->+def process_languages(app, doctree, docname):
->+    for node in doctree.traverse(LanguagesNode):
->+        languages = []
->+
->+        # Iterate over the child nodes; any resolved links will have
->+        # the type 'nodes.reference', while unresolved links will be
->+        # type 'nodes.Text'.
->+        languages = list(filter(lambda xref:
->+            isinstance(xref, nodes.reference), node.children))
->+
->+        html_content = app.builder.templates.render('translations.html',
->+            context={
->+                'languages': languages,
->+            })
->+
->+        node.replace_self(nodes.raw('', html_content, format='html'))
->+
->+def setup(app):
->+    app.add_node(LanguagesNode)
->+    app.add_transform(TranslationsTransform)
->+    app.connect('doctree-resolved', process_languages)
->+
->+    return {
->+        'parallel_read_safe': True,
->+        'parallel_write_safe': True,
->+    }
->-- 
->2.34.1
->
-
--- 
-Federico Vaga
