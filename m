@@ -1,105 +1,125 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB99118B10
-	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 16:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF3D2108;
+	Mon, 30 Oct 2023 17:03:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VlIQ4m6G"
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29ADCF1;
-	Mon, 30 Oct 2023 09:53:13 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 57AED377;
-	Mon, 30 Oct 2023 16:53:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 57AED377
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1698684793; bh=QRgAQrH62j72CYNaUq0Va4PHddd9yeJq/c0nZSGCl18=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=VlIQ4m6GMC9A9wm4x6Q4yiBb10yt7WmKGqvrkrY1o4P2bNUPfhCGd73CEBEuJd6+j
-	 ObpQyw5M9JoNTKJ2hxSqf3QVFCFq4RpPwVMJH4D7yAkFChgZyCcwB52/JqexxsND4r
-	 K+Mp6tpToHsOpq61JtByWWHxEWbt7u/d9IpMV7M+Iw20H9LYzhh15dJljifbpmXRvw
-	 2fGUo+fSPNqwwG1LN5bjmaSGIYRJbswJzND4XFqTezBzXuJpyfHYEnhy/AzfPqL4tV
-	 BrO//5IZl6SG/B9VVtgVn8oH6GV32Hma/ay/js1HCN6OgawbWEMcgbz7gKjEvjWJL8
-	 X4FT/P5MR5QXA==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Yujie Liu <yujie.liu@intel.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Swarup Laxman Kotiaklapudi
- <swarupkotikalapudi@gmail.com>, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] scripts/kernel-doc: Fix the regex for matching -Werror
- flag
-In-Reply-To: <20231030085404.3343403-1-yujie.liu@intel.com>
-References: <20231030085404.3343403-1-yujie.liu@intel.com>
-Date: Mon, 30 Oct 2023 10:53:12 -0600
-Message-ID: <87il6o3vd3.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Di1/7H9s"
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C319AA9;
+	Mon, 30 Oct 2023 10:03:57 -0700 (PDT)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39UGq89N019398;
+	Mon, 30 Oct 2023 17:03:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Cm9U6ewvIbSmyrPQ6MkMdG6wOV1IpT1AIYznLj3yZn8=;
+ b=Di1/7H9sqSyIFz/XKEZH53h8F2ykKQScxe537uJYp8VB4EpPFE/DDL3LFKbPdLlzz9Pe
+ ccfCoP4N10RGbSMNEbsuGScZz0uWwDPlDzWe+jeJphYthtF6EADKJGUEd639Z/B6Do1r
+ Z8bNf4RonPDnn73gqaSiSHGCacIa9Mohk37xzHmWkw3mQGbs6mc89+Np5hbRBUqYQNJo
+ n7QJGsoODQBPxz59ZZARKWZ9lTgE3xUJFRqm+oTsxfCOpQrThxt0RZaxXhaXIwAZ62vJ
+ WFncMn0ZkK7/3vayuA0p0LK4pCOAiwD8b5xnNY6C4VsurSP1YgNAwesOSscRh3L+Wc7j RQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3u2gcwrhqp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Oct 2023 17:03:52 +0000
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39UGrTui025086;
+	Mon, 30 Oct 2023 17:03:52 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3u2gcwrhp7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Oct 2023 17:03:52 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 39UGu92E007674;
+	Mon, 30 Oct 2023 17:03:50 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3u1dmnajf8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Oct 2023 17:03:50 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 39UH3lCH16646846
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 30 Oct 2023 17:03:47 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4657D2004E;
+	Mon, 30 Oct 2023 17:03:47 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 133B62004D;
+	Mon, 30 Oct 2023 17:03:47 +0000 (GMT)
+Received: from dilbert5.boeblingen.de.ibm.com (unknown [9.152.212.201])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 30 Oct 2023 17:03:47 +0000 (GMT)
+From: Gerd Bayer <gbayer@linux.ibm.com>
+To: "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Jan Karcher <jaka@linux.ibm.com>, Gerd Bayer <gbayer@linux.ibm.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Tony Lu <tonylu@linux.alibaba.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH net] net/smc: fix documentation of buffer sizes
+Date: Mon, 30 Oct 2023 18:03:43 +0100
+Message-ID: <20231030170343.748097-1-gbayer@linux.ibm.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NsAuDKbOsS7Ajzf0W97UmDimOj5RZXnf
+X-Proofpoint-ORIG-GUID: DSVj9tsp4qFY-9SlvpI3O1NhZbQAgTvw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-30_10,2023-10-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ priorityscore=1501 bulkscore=0 suspectscore=0 mlxscore=0 phishscore=0
+ malwarescore=0 spamscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2310300133
 
-Yujie Liu <yujie.liu@intel.com> writes:
+Since commit 833bac7ec392 ("net/smc: Fix setsockopt and sysctl to
+specify same buffer size again") the SMC protocol uses its own
+default values for the smc.rmem and smc.wmem sysctl variables
+which are no longer derived from the TCP IPv4 buffer sizes.
 
-> Swarup reported a "make htmldocs" warning:
->
->   Variable length lookbehind is experimental in regex;
->   marked by <-- HERE in m/(?<=^|\s)-Werror(?=$|\s)
->   <-- HERE / at ./scripts/kernel-doc line 188.
->
-> Akira managed to reproduce it by perl v5.34.0.
->
-> On second thought, it is not necessary to have the complicated
-> "lookahead and lookbehind" things, and the regex can be simplified.
->
-> Generally, the kernel-doc warnings should be considered as errors only
-> when "-Werror" flag is set in KCFLAGS, but not when
-> "-Werror=<diagnostic-type>" is set, which means there needs to be a
-> space or start of string before "-Werror", and a space or end of string
-> after "-Werror".
->
-> The following cases have been tested to work as expected:
->
-> * kernel-doc warnings are considered as errors:
->
->   $ KCFLAGS="-Werror" make W=1
->   $ KCFLAGS="-Wcomment -Werror" make W=1
->   $ KCFLAGS="-Werror -Wundef" make W=1
->   $ KCFLAGS="-Wcomment -Werror -Wundef" make W=1
->
-> * kernel-doc warnings remain as warnings:
->
->   $ KCFLAGS="-Werror=return-type" make W=1
->   $ KCFLAGS="-Wcomment -Werror=return-type" make W=1
->   $ KCFLAGS="-Werror=return-type -Wundef" make W=1
->   $ KCFLAGS="-Wcomment -Werror=return-type -Wundef" make W=1
->
-> The "Variable length lookbehind is experimental in regex" warning is
-> also resolved by this patch.
->
-> Fixes: 91f950e8b9d8 ("scripts/kernel-doc: match -Werror flag strictly")
-> Reported-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
-> Cc: Akira Yokosawa <akiyks@gmail.com>
-> Signed-off-by: Yujie Liu <yujie.liu@intel.com>
-> ---
->  scripts/kernel-doc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index d660e1f4b483..08a3e603db19 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -185,7 +185,7 @@ if (defined($ENV{'KBUILD_VERBOSE'}) && $ENV{'KBUILD_VERBOSE'} =~ '1') {
->  if (defined($ENV{'KCFLAGS'})) {
->  	my $kcflags = "$ENV{'KCFLAGS'}";
->  
-> -	if ($kcflags =~ /(?<=^|\s)-Werror(?=$|\s)/) {
-> +	if ($kcflags =~ /(\s|^)-Werror(\s|$)/) {
->  		$Werror = 1;
+Fixup the kernel documentation to reflect this change, too.
 
-OK, I've applied this one and will sneak it into the 6.7 pull request,
-thanks.
+Fixes: 833bac7ec392 ("net/smc: Fix setsockopt and sysctl to specify same buffer size again")
+Signed-off-by: Gerd Bayer <gbayer@linux.ibm.com>
+Reviewed-by: Wenjia Zhang <wenjia@linux.ibm.com>
+---
+ Documentation/networking/smc-sysctl.rst | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-jon
+diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
+index 6d8acdbe9be1..769149d98773 100644
+--- a/Documentation/networking/smc-sysctl.rst
++++ b/Documentation/networking/smc-sysctl.rst
+@@ -44,18 +44,16 @@ smcr_testlink_time - INTEGER
+ 
+ wmem - INTEGER
+ 	Initial size of send buffer used by SMC sockets.
+-	The default value inherits from net.ipv4.tcp_wmem[1].
+ 
+ 	The minimum value is 16KiB and there is no hard limit for max value, but
+ 	only allowed 512KiB for SMC-R and 1MiB for SMC-D.
+ 
+-	Default: 16K
++	Default: 64KiB
+ 
+ rmem - INTEGER
+ 	Initial size of receive buffer (RMB) used by SMC sockets.
+-	The default value inherits from net.ipv4.tcp_rmem[1].
+ 
+ 	The minimum value is 16KiB and there is no hard limit for max value, but
+ 	only allowed 512KiB for SMC-R and 1MiB for SMC-D.
+ 
+-	Default: 128K
++	Default: 64KiB
+-- 
+2.41.0
+
