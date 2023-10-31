@@ -1,95 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E7A22307
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 18:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F07D292;
+	Tue, 31 Oct 2023 19:57:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dcgLn6vS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17B8EC433C7;
-	Tue, 31 Oct 2023 18:12:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MmW7E9yG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71EADC433C7;
+	Tue, 31 Oct 2023 19:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698775926;
-	bh=z2kKP0Kx2dr57rizxfyHv38jeggUfLgco7MlYnA5gyE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dcgLn6vSn6gm14DKigv2Fh7/WSvAoDVEs2UjDpd6TDtwuq09AUWgxPLuVALGPSarp
-	 34pPV1o98F2CmMGKv1QjRC4MCgbmp/iwVdbMpKZNrqe83luuMxboZhO4UfB6+8OyjL
-	 rBdjAcFNYmzjGITP4tpy8+ZYse6BTtaook47cxniePiZgjOpyUL3gwJdpKbLmKrrC3
-	 fCvmcd7fUbgKqtBVmvk584Q2SSTL1GhmmLHlUDbGIQgqqQJ7fq2hpGuwWQR15J4Lv+
-	 /x4umGUFK8eagzBKHuMAZYqSWkWwFK8Vr0nuFjZaIJgDFvRTSYOZrbBZCzC5GmJjA2
-	 ZLXnUswjZ8xSg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] kbuild: support 'userldlibs' syntax
-Date: Wed,  1 Nov 2023 03:11:57 +0900
-Message-Id: <20231031181157.704314-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=k20201202; t=1698782258;
+	bh=nEcINVTOJMdm+dcaCe/lMlijXRQXljtnkQahZ1Mfaps=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MmW7E9yGNpYfOKZsCi8lIfjhqfbZDDIjw/EK6doXaAJ/xFW/+8eSNlCgs8tyc9ooO
+	 G+X1gds5DuFC2fNpn82KC4Z+jNJQ14ZvTHqkndBSTvDhAdYCrZiU2ccppgs7No0DNq
+	 tXylHS3FP1hvdrI1o91XBFTeCwIMZ6Cy899aEJ3drZhUigFb2l1tmU86SIKFFGrFiS
+	 Qm6eDVO2/JUS05Fuvj7qB1Sxl3aNDgKXRvsadw+B2qKTTNfTgZ/QlUuJUZ4wQ6N4Q4
+	 VzFY0/5KxHVIC11so5QnqlDhuTZiK//6b0tpJWnie7A8r2mrONqW8MoYV8u4iDNdNZ
+	 MNvlkXymcPN+g==
+Date: Tue, 31 Oct 2023 12:57:37 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Gal Pressman <gal@nvidia.com>
+Cc: Ahmed Zaki <ahmed.zaki@intel.com>, Alexander H Duyck
+ <alexander.duyck@gmail.com>, mkubecek@suse.cz, andrew@lunn.ch,
+ willemdebruijn.kernel@gmail.com, Wojciech Drewek
+ <wojciech.drewek@intel.com>, corbet@lwn.net, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, jesse.brandeburg@intel.com, edumazet@google.com,
+ anthony.l.nguyen@intel.com, horms@kernel.org, vladimir.oltean@nxp.com,
+ Jacob Keller <jacob.e.keller@intel.com>, intel-wired-lan@lists.osuosl.org,
+ pabeni@redhat.com, davem@davemloft.net
+Subject: Re: [Intel-wired-lan] [PATCH net-next v4 1/6] net: ethtool: allow
+ symmetric-xor RSS hash for any flow type
+Message-ID: <20231031125737.0d9a648e@kernel.org>
+In-Reply-To: <ff81c4e7-0787-4357-bb92-9da334a4ddaf@nvidia.com>
+References: <20231016154937.41224-1-ahmed.zaki@intel.com>
+	<20231017173448.3f1c35aa@kernel.org>
+	<CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
+	<20231018165020.55cc4a79@kernel.org>
+	<45c6ab9f-50f6-4e9e-a035-060a4491bded@intel.com>
+	<20231020153316.1c152c80@kernel.org>
+	<c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
+	<20231020164917.69d5cd44@kernel.org>
+	<f6ab0dc1-b5d5-4fff-9ee2-69d21388d4ca@intel.com>
+	<89e63967-46c4-49fe-87bc-331c7c2f6aab@nvidia.com>
+	<e644840d-7f3d-4e3c-9e0f-6d958ec865e0@intel.com>
+	<e471519b-b253-4121-9eec-f7f05948c258@nvidia.com>
+	<a2a1164f-1492-43d1-9667-5917d0ececcb@intel.com>
+	<d097e7d3-5e16-44ba-aa92-dfb7fbedc600@nvidia.com>
+	<aa1dd347-a16c-44f8-95ad-5d50bcba8f34@intel.com>
+	<70132b6f-542f-4fe6-971f-ab9ea80acbe4@nvidia.com>
+	<e7679b57-af11-42b1-91c7-b18cbcc70119@intel.com>
+	<20231031082023.3fd4761b@kernel.org>
+	<ff81c4e7-0787-4357-bb92-9da334a4ddaf@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This syntax is useful to specify libraries linked to all userspace
-programs in the Makefile.
+On Tue, 31 Oct 2023 18:13:20 +0200 Gal Pressman wrote:
+> Sure, IIUC, ice's implementation does a:
+> (SRC_IP ^ DST_IP, SRC_IP ^ DST_IP, SRC_PORT ^ DST_PORT, SRC_PORT ^ DST_PORT)
+> 
+> Our implementation isn't exactly xor, it is:
+> (SRC_IP | DST_IP, SRC_IP ^ DST_IP, SRC_PORT | DST_PORT, SRC_PORT ^ DST_PORT)
+> 
+> The way I see it, the xor implementation should be clearly documented,
+> so no one uses the same flag with a different implementation by mistake.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Documentation/kbuild/makefiles.rst | 4 ++++
- scripts/Makefile.userprogs         | 6 +++---
- 2 files changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index d88d4f0f4f89..e9299971220a 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -937,6 +937,10 @@ Example::
-   # net/bpfilter/Makefile
-   bpfilter_umh-userldflags += -static
- 
-+To specify libraries linked to a userspace program, you can use
-+``<executable>-userldlibs``. The ``userldlibs`` syntax specifies libraries
-+linked to all userspace programs created in the current Makefile.
-+
- When linking bpfilter_umh, it will be passed the extra option -static.
- 
- From command line, :ref:`USERCFLAGS and USERLDFLAGS <userkbuildflags>` will also be used.
-diff --git a/scripts/Makefile.userprogs b/scripts/Makefile.userprogs
-index fb415297337a..f3a7e1ef3753 100644
---- a/scripts/Makefile.userprogs
-+++ b/scripts/Makefile.userprogs
-@@ -19,19 +19,19 @@ user-cobjs	:= $(addprefix $(obj)/, $(user-cobjs))
- user_ccflags	= -Wp,-MMD,$(depfile) $(KBUILD_USERCFLAGS) $(userccflags) \
- 			$($(target-stem)-userccflags)
- user_ldflags	= $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags)
-+user_ldlibs	= $(userldlibs) $($(target-stem)-userldlibs)
- 
- # Create an executable from a single .c file
- quiet_cmd_user_cc_c = CC [U]  $@
-       cmd_user_cc_c = $(CC) $(user_ccflags) $(user_ldflags) -o $@ $< \
--		      $($(target-stem)-userldlibs)
-+		      $(user_ldlibs)
- $(user-csingle): $(obj)/%: $(src)/%.c FORCE
- 	$(call if_changed_dep,user_cc_c)
- 
- # Link an executable based on list of .o files
- quiet_cmd_user_ld = LD [U]  $@
-       cmd_user_ld = $(CC) $(user_ldflags) -o $@ \
--		    $(addprefix $(obj)/, $($(target-stem)-objs)) \
--		    $($(target-stem)-userldlibs)
-+		    $(addprefix $(obj)/, $($(target-stem)-objs)) $(user_ldlibs)
- $(user-cmulti): FORCE
- 	$(call if_changed,user_ld)
- $(call multi_depend, $(user-cmulti), , -objs)
--- 
-2.40.1
-
+Got it, thanks!
