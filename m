@@ -1,181 +1,486 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8F32031D;
-	Tue, 31 Oct 2023 17:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06781DFFE
+	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 17:24:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KqIfQQnv"
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D5E92;
-	Tue, 31 Oct 2023 10:11:36 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1cc316ccc38so21802695ad.1;
-        Tue, 31 Oct 2023 10:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698772296; x=1699377096; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=2HXYPgIUyZ5nHc/WiwIE5ATfM06VSGOOaD0fnX8j7bA=;
-        b=KqIfQQnvdHHg/qaW8Kkb/SVFpTQpLpnWNwzSHLJmLzSPmWpwaSrqeNUQnzBVp5JBtw
-         ofIhO2sKPvjnWPMEhFvhUdXgeDaoAAjIA3keecdT/kqWEjtiin4MpWUFYmFLXNjFABeD
-         A68mcKzkG9nMa5afxjcSjLniTV7Ml97E3cmd1Aw8Ldjp8S4rsw35Av6MKxIaeV67Ars9
-         Bakqna10mt6kkZrOfnSYW4jeNRCCx71xZt1Kv5ncDzkIPqOmUmgI2a2xCL5VVRhX5S6i
-         eb25WqjLNLG0SMOycL8Aq4bq2eN4C5r8UHbM4ywqrpaT3TwPv0dHDUoKDfmeWDVBVJmv
-         BMUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698772296; x=1699377096;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2HXYPgIUyZ5nHc/WiwIE5ATfM06VSGOOaD0fnX8j7bA=;
-        b=at3z3ZFbVUqNvWY2NlONWd/dos3vWzI3WvmapnXHZCucPyqoLBA/qkHLcCKSh57gUb
-         zwp65B4hAXCHKn/tTc+Iml+rHARkXR10sU6TDMJD1gwOBT1+B77DWEttXfGeke8tbFLx
-         EPmtVcuQ2U+LEGTGvOXeXE93eXmi1hc+Su+EFVwH0MWGIOPxaJ7uPgB/WK22II4M4+Dd
-         VMCGssKIlkY3fSu6jPrQuCeYBj2hCvsC9lfSJ0nnghptaJfHfAQ/fKsZluz/MOA6qhUT
-         t2JrW/wia+rA1KzrcSSgKloxlEFGOo1czCTeALTYhLZWFrFVUI3woSeccza83tsu8FaR
-         6rpg==
-X-Gm-Message-State: AOJu0YyqIfGUbKsG0mi9mQnhjmJuZ47otAzWrRbLtBqfkm2dl9w/O6vT
-	8qFZgxkaojynTN65JrnaUSIaGL8gqQ4=
-X-Google-Smtp-Source: AGHT+IHGc7JTWx5eB40qYrB1H4APbWH+vfjny9OzMCBGIs9MmKY9tCe406XXQ0sJsDdOirnlCTURsg==
-X-Received: by 2002:a17:903:2450:b0:1cc:70e4:28e9 with SMTP id l16-20020a170903245000b001cc70e428e9mr1037810pls.49.1698772295917;
-        Tue, 31 Oct 2023 10:11:35 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b21-20020a170902ed1500b001c724732058sm1556066pld.235.2023.10.31.10.11.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 10:11:35 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b7e39913-0f83-47d3-9bd8-835402345614@roeck-us.net>
-Date: Tue, 31 Oct 2023 10:11:33 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CutSSKhg"
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8DDC91;
+	Tue, 31 Oct 2023 10:24:05 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6E88B6D6;
+	Tue, 31 Oct 2023 17:24:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6E88B6D6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1698773045; bh=ZwrAH2yN3AOZCG0j/MpOKJQXaDsyFURsqcbBVXNqiJ4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CutSSKhgoDKnVy0PtILD1yZ5VhXH+smmsex+yMU/3zDg5aZchcLcDkJgKyU7kGRNG
+	 EXqRsQQNY6r42DFLONg+OdXGSGGglYnE+ns6mm6CG1UUYUmFV5ov71lmW0ddRlihK1
+	 9L8wLXhhxYBlgQKo8Z8tjvlsnGmAYuOT0UHdHBhJa3yS9H+Rw0lKXAa195bGf9ceD5
+	 1iSv8JwhxxCiz/uIfi83e3lcgZmUbWT0dE1JxV4+WqSii+4ah5Yec2HIUr5p4K+Oee
+	 hB9Hu9Xn9rSdTDa2GwS091Yg2veNjYfvagRLPbRr2T+lA57OmF5RFqmfZaiSMX7Eds
+	 xp1f+JZ8uYKVA==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation for 6.7
+Date: Tue, 31 Oct 2023 11:24:04 -0600
+Message-ID: <87fs1qd7t7.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
- bindings
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>,
- Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Cc: patrick@stwcx.xyz, Jean Delvare <jdelvare@suse.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-i2c@vger.kernel.org, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20231031072124.201181-1-Delphine_CC_Chiu@Wiwynn.com>
- <20231031072124.201181-2-Delphine_CC_Chiu@Wiwynn.com>
- <20231031-sneeze-zoom-8fdb3ccebd25@spud>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20231031-sneeze-zoom-8fdb3ccebd25@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 10/31/23 10:06, Conor Dooley wrote:
-> On Tue, Oct 31, 2023 at 03:21:21PM +0800, Delphine CC Chiu wrote:
->> Add a device tree bindings for ltc4286 device.
->>
->> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
->>
->> Changelog:
->>    v3 - Revise adi,vrange-select-25p6 to adi,vrange-low-enable
->>    v2 - Revise vrange_select_25p6 to adi,vrange-select-25p6
->>       - Add type for adi,vrange-select-25p6
->>       - Revise rsense-micro-ohms to shunt-resistor-micro-ohms
->> ---
->>   .../bindings/hwmon/lltc,ltc4286.yaml          | 52 +++++++++++++++++++
->>   MAINTAINERS                                   | 10 ++++
->>   2 files changed, 62 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml b/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
->> new file mode 100644
->> index 000000000000..4695bca77c05
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
->> @@ -0,0 +1,52 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/hwmon/lltc,ltc4286.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: LTC4286 power monitors
->> +
->> +maintainers:
->> +  - Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - lltc,ltc4286
->> +      - lltc,ltc4287
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  adi,vrange-low-enable:
->> +    description:
->> +      This property is a bool parameter to represent the
->> +      voltage range is 25.6 volts or 102.4 volts for
->> +      this chip.
->> +      The default is 102.4 volts.
-> 
-> You've got weird wrapping of text here (short lines). Either this
-> property or the corollary work for me, depending on what Guenter
-> wants. With two nits below,
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> 
+The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
 
-Oh, I am tired of arguing, so I'll accept whatever gets a Reviewed-by:
-tag from a DT maintainer (people do a pretty good job of wearing me down
-lately).
+  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
 
-Guenter
+are available in the Git repository at:
 
+  git://git.lwn.net/linux.git tags/docs-6.7
+
+for you to fetch changes up to cf63348b4c45384d02126f86676d5afc75d661a7:
+
+  scripts/kernel-doc: Fix the regex for matching -Werror flag (2023-10-30 1=
+0:52:07 -0600)
+
+----------------------------------------------------------------
+The number of commits for documentation is not huge this time around, but
+there are some significant changes nonetheless:
+
+- Some more Spanish-language and Chinese translations.
+
+- The much-discussed documentation of the confidential-computing threat
+  model.
+
+- Powerpc and RISCV documentation move under Documentation/arch - these
+  complete this particular bit of documentation churn.
+
+- A large traditional-Chinese documentation update.
+
+- A new document on backporting and conflict resolution.
+
+- Some kernel-doc and Sphinx fixes.
+
+Plus the usual smattering of smaller updates and typo fixes.
+
+Expect a small conflict with the powerpc tree, which adds a new file to
+the old documentation location; Git mostly figures it out, but you may
+need to add the file explicitly.
+
+----------------------------------------------------------------
+Amos Wenger (1):
+      mm/memory-hotplug: fix typo in documentation
+
+Andy Shevchenko (1):
+      PCI: Update the devres documentation regarding to pcim_*()
+
+Avadhut Naik (2):
+      docs/sp_SP: Add translation of process/security-bugs
+      docs/sp_SP: Add translation of process/embargoed-hardware-issues
+
+Benjamin Gray (1):
+      Documentation/sphinx: fix Python string escapes
+
+Carlos Bilbao (1):
+      docs: security: Confidential computing intro and threat model for x86=
+ virtualization
+
+Charles Han (2):
+      Documentation: xfs: Remove repeated word in comments
+      Documentation/sphinx: Remove the repeated word "the" in comments.
+
+Costa Shulyupin (4):
+      docs: move leds under section Human interfaces
+      docs: move powerpc under arch
+      docs: update link to powerpc/vmemmap_dedup.rst
+      docs: move riscv under arch
+
+Fabio M. De Francesco (1):
+      Documentation/page_tables: Add info about MMU/TLB and Page Faults
+
+Hu Haowen (1):
+      docs/zh_TW: update contents for zh_TW
+
+Jade Lovelace (1):
+      Documentation: fix typo in dynamic-debug howto
+
+Jonathan Corbet (1):
+      Merge branch 'riscv-move' into docs-mw
+
+Kuan-Wei Chiu (1):
+      docs: block: blk-mq.rst: correct places -> place
+
+Mark Brown (1):
+      docs: submitting-patches: Suggest a longer expected time for responses
+
+Matthew Wilcox (Oracle) (1):
+      fork: Fix kernel-doc
+
+Mikko Rapeli (1):
+      Documentation efi-stub.rst: fix arm64 EFI source location
+
+Min-Hua Chen (4):
+      docs: sparse: move TW sparse.txt to TW dev-tools
+      docs: sparse: convert sparse.txt to RST
+      docs: sparse: add sparse.rst to toctree
+      docs: sparse: add SPDX-License-Identifier
+
+Oliver Faso (1):
+      docs/sphinx: Explicitly convert Sphinx paths to str
+
+Pandith N (1):
+      Documentation: driver-api: pps: Update PPS generator documentation
+
+Randy Dunlap (1):
+      docs: admin-guide: sysctl: fix details of struct dentry_stat_t
+
+Samuel Thibault (1):
+      speakup: Document USB support
+
+Takahiro Itazuri (1):
+      docs/hw-vuln: Update desc of best effort mode
+
+Tang Yizhou (2):
+      docs/zh_CN: Add subsystem-apis Chinese translation
+      doc: blk-ioprio: Bring the doc in line with the implementation
+
+Thomas Wei=C3=9Fschuh (1):
+      docs: submitting-patches: encourage direct notifications to commenters
+
+Uwe Kleine-K=C3=B6nig (1):
+      pwm: Adapt sysfs API documentation to reality
+
+Vegard Nossum (4):
+      docs: add backporting and conflict resolution document
+      docs: doc-guide: mention 'make refcheckdocs'
+      docs: usb: fix reference to nonexistent file in UVC Gadget
+      docs: backporting: address feedback
+
+Vratislav Bendel (1):
+      docs: mm: fix vm overcommit documentation for OVERCOMMIT_GUESS
+
+Wang Jinchao (1):
+      memory-hotplug.rst: fix wrong /sys/device/ path
+
+Yujie Liu (2):
+      scripts/kernel-doc: match -Werror flag strictly
+      scripts/kernel-doc: Fix the regex for matching -Werror flag
+
+ Documentation/ABI/testing/sysfs-bus-papr-pmem      |   2 +-
+ Documentation/PCI/pci-error-recovery.rst           |   4 +-
+ Documentation/admin-guide/cgroup-v2.rst            |  10 +-
+ Documentation/admin-guide/dynamic-debug-howto.rst  |   2 +-
+ Documentation/admin-guide/efi-stub.rst             |   2 +-
+ Documentation/admin-guide/hw-vuln/mds.rst          |  34 +-
+ .../hw-vuln/processor_mmio_stale_data.rst          |  13 +-
+ .../admin-guide/hw-vuln/tsx_async_abort.rst        |  33 +-
+ Documentation/admin-guide/mm/memory-hotplug.rst    |  10 +-
+ Documentation/admin-guide/spkguide.txt             |  11 +-
+ Documentation/admin-guide/sysctl/fs.rst            |  16 +-
+ Documentation/admin-guide/sysctl/vm.rst            |   4 +-
+ Documentation/arch/index.rst                       |   4 +-
+ Documentation/{ =3D> arch}/powerpc/associativity.rst |   0
+ Documentation/{ =3D> arch}/powerpc/booting.rst       |   0
+ Documentation/{ =3D> arch}/powerpc/bootwrapper.rst   |   0
+ Documentation/{ =3D> arch}/powerpc/cpu_families.rst  |   0
+ Documentation/{ =3D> arch}/powerpc/cpu_features.rst  |   0
+ Documentation/{ =3D> arch}/powerpc/cxl.rst           |   0
+ Documentation/{ =3D> arch}/powerpc/cxlflash.rst      |   2 +-
+ Documentation/{ =3D> arch}/powerpc/dawr-power9.rst   |   0
+ Documentation/{ =3D> arch}/powerpc/dexcr.rst         |   0
+ Documentation/{ =3D> arch}/powerpc/dscr.rst          |   0
+ .../{ =3D> arch}/powerpc/eeh-pci-error-recovery.rst  |   0
+ Documentation/{ =3D> arch}/powerpc/elf_hwcaps.rst    |   6 +-
+ Documentation/{ =3D> arch}/powerpc/elfnote.rst       |   0
+ Documentation/{ =3D> arch}/powerpc/features.rst      |   0
+ .../{ =3D> arch}/powerpc/firmware-assisted-dump.rst  |   0
+ Documentation/{ =3D> arch}/powerpc/hvcs.rst          |   0
+ Documentation/{ =3D> arch}/powerpc/imc.rst           |   0
+ Documentation/{ =3D> arch}/powerpc/index.rst         |   0
+ Documentation/{ =3D> arch}/powerpc/isa-versions.rst  |   0
+ Documentation/{ =3D> arch}/powerpc/kasan.txt         |   0
+ Documentation/{ =3D> arch}/powerpc/kaslr-booke32.rst |   0
+ Documentation/{ =3D> arch}/powerpc/mpc52xx.rst       |   0
+ Documentation/{ =3D> arch}/powerpc/papr_hcalls.rst   |   0
+ .../powerpc/pci_iov_resource_on_powernv.rst        |   0
+ Documentation/{ =3D> arch}/powerpc/pmu-ebb.rst       |   0
+ Documentation/{ =3D> arch}/powerpc/ptrace.rst        |   0
+ Documentation/{ =3D> arch}/powerpc/qe_firmware.rst   |   0
+ Documentation/{ =3D> arch}/powerpc/syscall64-abi.rst |   0
+ .../{ =3D> arch}/powerpc/transactional_memory.rst    |   0
+ Documentation/{ =3D> arch}/powerpc/ultravisor.rst    |   0
+ Documentation/{ =3D> arch}/powerpc/vas-api.rst       |   0
+ .../{ =3D> arch}/powerpc/vcpudispatch_stats.rst      |   0
+ Documentation/{ =3D> arch}/powerpc/vmemmap_dedup.rst |   0
+ Documentation/{ =3D> arch}/riscv/acpi.rst            |   0
+ .../{ =3D> arch}/riscv/boot-image-header.rst         |   0
+ Documentation/{ =3D> arch}/riscv/boot.rst            |   0
+ Documentation/{ =3D> arch}/riscv/features.rst        |   0
+ Documentation/{ =3D> arch}/riscv/hwprobe.rst         |   0
+ Documentation/{ =3D> arch}/riscv/index.rst           |   0
+ .../{ =3D> arch}/riscv/patch-acceptance.rst          |   0
+ Documentation/{ =3D> arch}/riscv/uabi.rst            |   0
+ Documentation/{ =3D> arch}/riscv/vector.rst          |   0
+ Documentation/{ =3D> arch}/riscv/vm-layout.rst       |   0
+ Documentation/block/blk-mq.rst                     |   2 +-
+ Documentation/doc-guide/contributing.rst           |   4 +
+ Documentation/driver-api/driver-model/devres.rst   |  14 +-
+ Documentation/driver-api/pps.rst                   |  16 +-
+ Documentation/driver-api/pwm.rst                   |   6 +-
+ .../filesystems/xfs-online-fsck-design.rst         |   2 +-
+ .../maintainer/maintainer-entry-profile.rst        |   2 +-
+ Documentation/mm/overcommit-accounting.rst         |   3 +-
+ Documentation/mm/page_tables.rst                   | 127 ++++
+ Documentation/mm/vmemmap_dedup.rst                 |   2 +-
+ Documentation/process/backporting.rst              | 604 +++++++++++++++++
+ Documentation/process/index.rst                    |   3 +-
+ Documentation/process/submitting-patches.rst       |  10 +-
+ Documentation/security/index.rst                   |   1 +
+ Documentation/security/snp-tdx-threat-model.rst    | 253 +++++++
+ Documentation/sphinx/cdomain.py                    |   4 +-
+ Documentation/sphinx/kernel_abi.py                 |   2 +-
+ Documentation/sphinx/kernel_feat.py                |   2 +-
+ Documentation/sphinx/kerneldoc.py                  |   4 +-
+ Documentation/sphinx/kfigure.py                    |   2 +-
+ Documentation/sphinx/maintainers_include.py        |   8 +-
+ Documentation/subsystem-apis.rst                   |   2 +-
+ .../translations/it_IT/riscv/patch-acceptance.rst  |   2 +-
+ .../sp_SP/process/embargoed-hardware-issues.rst    | 341 ++++++++++
+ Documentation/translations/sp_SP/process/index.rst |   2 +
+ .../translations/sp_SP/process/security-bugs.rst   | 103 +++
+ Documentation/translations/zh_CN/arch/index.rst    |   2 +-
+ .../zh_CN/{ =3D> arch}/riscv/boot-image-header.rst   |   4 +-
+ .../translations/zh_CN/{ =3D> arch}/riscv/index.rst  |   4 +-
+ .../zh_CN/{ =3D> arch}/riscv/patch-acceptance.rst    |   4 +-
+ .../zh_CN/{ =3D> arch}/riscv/vm-layout.rst           |   4 +-
+ Documentation/translations/zh_CN/index.rst         |   5 +-
+ .../zh_CN/maintainer/maintainer-entry-profile.rst  |   2 +-
+ .../translations/zh_CN/subsystem-apis.rst          | 110 +++
+ .../translations/zh_TW/admin-guide/README.rst      | 164 ++---
+ .../translations/zh_TW/admin-guide/bootconfig.rst  | 294 ++++++++
+ .../translations/zh_TW/admin-guide/bug-bisect.rst  |  10 +-
+ .../translations/zh_TW/admin-guide/bug-hunting.rst |  38 +-
+ .../zh_TW/admin-guide/clearing-warn-once.rst       |   4 +-
+ .../translations/zh_TW/admin-guide/cpu-load.rst    |   8 +-
+ .../translations/zh_TW/admin-guide/cputopology.rst |  97 +++
+ .../translations/zh_TW/admin-guide/index.rst       | 137 ++--
+ .../translations/zh_TW/admin-guide/init.rst        |  36 +-
+ .../zh_TW/admin-guide/lockup-watchdogs.rst         |  67 ++
+ .../zh_TW/admin-guide/mm/damon/index.rst           |  30 +
+ .../zh_TW/admin-guide/mm/damon/lru_sort.rst        | 264 ++++++++
+ .../zh_TW/admin-guide/mm/damon/reclaim.rst         | 229 +++++++
+ .../zh_TW/admin-guide/mm/damon/start.rst           | 125 ++++
+ .../zh_TW/admin-guide/mm/damon/usage.rst           | 592 ++++++++++++++++
+ .../translations/zh_TW/admin-guide/mm/index.rst    |  50 ++
+ .../translations/zh_TW/admin-guide/mm/ksm.rst      | 199 ++++++
+ .../zh_TW/admin-guide/reporting-issues.rst         | 727 ++++++++++-------=
+---
+ .../zh_TW/admin-guide/reporting-regressions.rst    | 371 ++++++++++
+ .../zh_TW/admin-guide/security-bugs.rst            |  26 +-
+ .../translations/zh_TW/admin-guide/sysrq.rst       | 281 ++++++++
+ .../zh_TW/admin-guide/tainted-kernels.rst          |  84 +--
+ .../translations/zh_TW/admin-guide/unicode.rst     |  10 +-
+ Documentation/translations/zh_TW/arch/arm/Booting  | 176 +++++
+ .../zh_TW/arch/arm/kernel_user_helpers.txt         | 285 ++++++++
+ .../translations/zh_TW/arch/arm64/amu.rst          |   6 +-
+ .../translations/zh_TW/arch/arm64/booting.txt      |  28 +-
+ .../translations/zh_TW/arch/arm64/elf_hwcaps.rst   |  10 +-
+ .../zh_TW/arch/arm64/legacy_instructions.txt       |  14 +-
+ .../translations/zh_TW/arch/arm64/memory.txt       |  16 +-
+ .../translations/zh_TW/arch/arm64/perf.rst         |   2 +-
+ .../zh_TW/arch/arm64/silicon-errata.txt            |  28 +-
+ .../zh_TW/arch/arm64/tagged-pointers.txt           |  10 +-
+ Documentation/translations/zh_TW/arch/index.rst    |  29 +
+ .../translations/zh_TW/arch/loongarch/booting.rst  |  49 ++
+ .../translations/zh_TW/arch/loongarch/features.rst |   9 +
+ .../translations/zh_TW/arch/loongarch/index.rst    |  28 +
+ .../zh_TW/arch/loongarch/introduction.rst          | 354 ++++++++++
+ .../zh_TW/arch/loongarch/irq-chip-model.rst        | 158 +++++
+ .../translations/zh_TW/arch/mips/booting.rst       |  35 +
+ .../translations/zh_TW/arch/mips/features.rst      |  14 +
+ .../translations/zh_TW/arch/mips/index.rst         |  30 +
+ .../translations/zh_TW/arch/mips/ingenic-tcu.rst   |  73 ++
+ .../translations/zh_TW/arch/openrisc/index.rst     |  33 +
+ .../zh_TW/arch/openrisc/openrisc_port.rst          | 128 ++++
+ .../translations/zh_TW/arch/openrisc/todo.rst      |  24 +
+ .../translations/zh_TW/arch/parisc/debugging.rst   |  46 ++
+ .../translations/zh_TW/arch/parisc/index.rst       |  32 +
+ .../translations/zh_TW/arch/parisc/registers.rst   | 157 +++++
+ Documentation/translations/zh_TW/cpu-freq/core.rst |  38 +-
+ .../translations/zh_TW/cpu-freq/cpu-drivers.rst    | 158 ++---
+ .../translations/zh_TW/cpu-freq/cpufreq-stats.rst  |  52 +-
+ .../translations/zh_TW/cpu-freq/index.rst          |  13 +-
+ .../translations/zh_TW/dev-tools/gcov.rst          | 265 ++++++++
+ .../zh_TW/dev-tools/gdb-kernel-debugging.rst       | 168 +++++
+ .../translations/zh_TW/dev-tools/index.rst         |  43 ++
+ .../translations/zh_TW/dev-tools/kasan.rst         | 463 +++++++++++++
+ .../zh_TW/{sparse.txt =3D> dev-tools/sparse.rst}     |   4 +-
+ .../zh_TW/dev-tools/testing-overview.rst           | 162 +++++
+ .../translations/zh_TW/filesystems/debugfs.rst     |  47 +-
+ .../translations/zh_TW/filesystems/index.rst       |   2 +-
+ .../translations/zh_TW/filesystems/sysfs.txt       |  14 +-
+ .../translations/zh_TW/filesystems/tmpfs.rst       |  35 +-
+ .../translations/zh_TW/filesystems/virtiofs.rst    |   9 +-
+ Documentation/translations/zh_TW/index.rst         |   7 +-
+ .../translations/zh_TW/process/1.Intro.rst         |  78 +--
+ .../translations/zh_TW/process/2.Process.rst       | 130 ++--
+ .../translations/zh_TW/process/3.Early-stage.rst   |  44 +-
+ .../translations/zh_TW/process/4.Coding.rst        | 104 +--
+ .../translations/zh_TW/process/5.Posting.rst       |  80 +--
+ .../translations/zh_TW/process/6.Followthrough.rst |  46 +-
+ .../zh_TW/process/7.AdvancedTopics.rst             |  56 +-
+ .../translations/zh_TW/process/8.Conclusion.rst    |  14 +-
+ .../process/code-of-conduct-interpretation.rst     |  52 +-
+ .../translations/zh_TW/process/code-of-conduct.rst |  18 +-
+ .../translations/zh_TW/process/coding-style.rst    | 405 +++++++----
+ .../zh_TW/process/development-process.rst          |   2 +-
+ .../translations/zh_TW/process/email-clients.rst   | 279 +++++---
+ .../zh_TW/process/embargoed-hardware-issues.rst    |  76 +--
+ Documentation/translations/zh_TW/process/index.rst |   5 +-
+ .../zh_TW/process/kernel-driver-statement.rst      |   2 +-
+ .../translations/zh_TW/process/license-rules.rst   |  54 +-
+ .../zh_TW/process/management-style.rst             |  60 +-
+ .../zh_TW/process/stable-api-nonsense.rst          |  86 +--
+ .../zh_TW/process/stable-kernel-rules.rst          |  36 +-
+ .../zh_TW/process/submit-checklist.rst             |  92 +--
+ .../zh_TW/process/submitting-patches.rst           | 749 ++++++++++-------=
+----
+ .../zh_TW/process/volatile-considered-harmful.rst  |  32 +-
+ Documentation/usb/gadget_uvc.rst                   |   2 +-
+ MAINTAINERS                                        |  16 +-
+ arch/powerpc/kernel/exceptions-64s.S               |   6 +-
+ arch/powerpc/kernel/paca.c                         |   2 +-
+ arch/powerpc/kvm/book3s_64_entry.S                 |   2 +-
+ arch/riscv/include/uapi/asm/hwprobe.h              |   2 +-
+ arch/riscv/kernel/sys_riscv.c                      |   2 +-
+ drivers/soc/fsl/qe/qe.c                            |   2 +-
+ drivers/tty/hvc/hvcs.c                             |   2 +-
+ include/soc/fsl/qe/qe.h                            |   2 +-
+ kernel/fork.c                                      |  15 +-
+ scripts/kernel-doc                                 |   2 +-
+ 190 files changed, 9293 insertions(+), 2168 deletions(-)
+ rename Documentation/{ =3D> arch}/powerpc/associativity.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/booting.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/bootwrapper.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/cpu_families.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/cpu_features.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/cxl.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/cxlflash.rst (99%)
+ rename Documentation/{ =3D> arch}/powerpc/dawr-power9.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/dexcr.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/dscr.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/eeh-pci-error-recovery.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/elf_hwcaps.rst (97%)
+ rename Documentation/{ =3D> arch}/powerpc/elfnote.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/features.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/firmware-assisted-dump.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/hvcs.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/imc.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/index.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/isa-versions.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/kasan.txt (100%)
+ rename Documentation/{ =3D> arch}/powerpc/kaslr-booke32.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/mpc52xx.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/papr_hcalls.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/pci_iov_resource_on_powernv.rst =
+(100%)
+ rename Documentation/{ =3D> arch}/powerpc/pmu-ebb.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/ptrace.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/qe_firmware.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/syscall64-abi.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/transactional_memory.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/ultravisor.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/vas-api.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/vcpudispatch_stats.rst (100%)
+ rename Documentation/{ =3D> arch}/powerpc/vmemmap_dedup.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/acpi.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/boot-image-header.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/boot.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/features.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/hwprobe.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/index.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/patch-acceptance.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/uabi.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/vector.rst (100%)
+ rename Documentation/{ =3D> arch}/riscv/vm-layout.rst (100%)
+ create mode 100644 Documentation/process/backporting.rst
+ create mode 100644 Documentation/security/snp-tdx-threat-model.rst
+ create mode 100644 Documentation/translations/sp_SP/process/embargoed-hard=
+ware-issues.rst
+ create mode 100644 Documentation/translations/sp_SP/process/security-bugs.=
+rst
+ rename Documentation/translations/zh_CN/{ =3D> arch}/riscv/boot-image-head=
+er.rst (96%)
+ rename Documentation/translations/zh_CN/{ =3D> arch}/riscv/index.rst (79%)
+ rename Documentation/translations/zh_CN/{ =3D> arch}/riscv/patch-acceptanc=
+e.rst (93%)
+ rename Documentation/translations/zh_CN/{ =3D> arch}/riscv/vm-layout.rst (=
+98%)
+ create mode 100644 Documentation/translations/zh_CN/subsystem-apis.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/bootconfig=
+.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/cputopolog=
+y.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/lockup-wat=
+chdogs.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/i=
+ndex.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/l=
+ru_sort.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/r=
+eclaim.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/s=
+tart.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/u=
+sage.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/index.r=
+st
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/ksm.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/reporting-=
+regressions.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/sysrq.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/arm/Booting
+ create mode 100644 Documentation/translations/zh_TW/arch/arm/kernel_user_h=
+elpers.txt
+ create mode 100644 Documentation/translations/zh_TW/arch/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/loongarch/booting=
+.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/loongarch/feature=
+s.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/loongarch/index.r=
+st
+ create mode 100644 Documentation/translations/zh_TW/arch/loongarch/introdu=
+ction.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/loongarch/irq-chi=
+p-model.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/mips/booting.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/mips/features.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/mips/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/mips/ingenic-tcu.=
+rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/openrisc=
+_port.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/todo.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/debugging.=
+rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/registers.=
+rst
+ create mode 100644 Documentation/translations/zh_TW/dev-tools/gcov.rst
+ create mode 100644 Documentation/translations/zh_TW/dev-tools/gdb-kernel-d=
+ebugging.rst
+ create mode 100644 Documentation/translations/zh_TW/dev-tools/index.rst
+ create mode 100644 Documentation/translations/zh_TW/dev-tools/kasan.rst
+ rename Documentation/translations/zh_TW/{sparse.txt =3D> dev-tools/sparse.=
+rst} (98%)
+ create mode 100644 Documentation/translations/zh_TW/dev-tools/testing-over=
+view.rst
