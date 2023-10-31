@@ -1,288 +1,250 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E89D29A
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 22:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAC55102;
-	Tue, 31 Oct 2023 15:41:44 -0700 (PDT)
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39VM9GK7004517;
-	Tue, 31 Oct 2023 18:41:30 -0400
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3u38jds73p-961
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 31 Oct 2023 18:41:29 -0400 (EDT)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 39VIMJst034707
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 31 Oct 2023 14:22:19 -0400
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Tue, 31 Oct 2023 14:22:18 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Tue, 31 Oct 2023 14:22:18 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Tue, 31 Oct 2023 14:22:18 -0400
-Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.198])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 39VIM1d2022309;
-	Tue, 31 Oct 2023 14:22:04 -0400
-From: Daniel Matyas <daniel.matyas@analog.com>
-To: 
-CC: Daniel Matyas <daniel.matyas@analog.com>,
-        kernel test robot
-	<lkp@intel.com>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck
-	<linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 1/5] hwmon: max31827: Handle new properties from the devicetree
-Date: Tue, 31 Oct 2023 20:21:53 +0200
-Message-ID: <20231031182158.124608-1-daniel.matyas@analog.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0961946E;
+	Tue, 31 Oct 2023 22:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EjSf+77V"
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15633C9;
+	Tue, 31 Oct 2023 15:49:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=OH+dIyAvA6u9x7HHMq6Wl6ro0eSA/Ie215yCg9ipG7k=; b=EjSf+77VDGm+j+isUM4woDTGtB
+	9jvVeey4NCRYTx0LCmN3yxWorkgx+C0nfO/l1OSV9oMXgSf/3X4LXFSJhWfuyooBDfSzvsUio384Q
+	kQ4DHwphrbULCn+LyZfJx+TIf2W7gg53YK7AiChJFJfeSFhCS/D1oyBH4PYUd80HQkxet23JnO+DS
+	+P91zEBeM6K75UxntyoT6n985+Z9/BhKS/KxKtdn0oIxUiwZyaasJXivHk3DjuDFnVBuKvPd9H3yu
+	5Xbisn3aGXNLe97WnFWAXIqIEcmisy00lkPOS4e/+IvIHpa37nKi9yaJGf5W6s6JILBHLyFaNXHja
+	VgpGYzTg==;
+Received: from [2001:8b0:10b:5:f213:ff26:c9e:fe3d] (helo=u3832b3a9db3152.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1qxxXN-00Cf3O-Uf; Tue, 31 Oct 2023 22:48:42 +0000
+Message-ID: <028f629d16377f9a7e9fd87ef9564846b0ab4ed9.camel@infradead.org>
+Subject: Re: [PATCH v2] KVM x86/xen: add an override for
+ PVCLOCK_TSC_STABLE_BIT
+From: David Woodhouse <dwmw2@infradead.org>
+To: Sean Christopherson <seanjc@google.com>, Paul Durrant <paul@xen.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,  kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 31 Oct 2023 22:48:41 +0000
+In-Reply-To: <ZUGCPQegUeTutsrb@google.com>
+References: <20231031115748.622578-1-paul@xen.org>
+	 <ZUGCPQegUeTutsrb@google.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-pjx89AjnjHYSKt9Kk24Q"
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: 5tWyA4pnXRo8BOnWgBhteesIA0jJhQGh
-X-Proofpoint-ORIG-GUID: 5tWyA4pnXRo8BOnWgBhteesIA0jJhQGh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-31_09,2023-10-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0
- phishscore=0 malwarescore=0 clxscore=1015 mlxscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2310240000
- definitions=main-2310310186
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-Used fwnode to retrieve data from the devicetree in the init_client
-function.
 
-If the uint32 properties are not present, the default values are used
-for max31827 chip.
+--=-pjx89AjnjHYSKt9Kk24Q
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
----
+On Tue, 2023-10-31 at 15:39 -0700, Sean Christopherson wrote:
+> On Tue, Oct 31, 2023, Paul Durrant wrote:
+> >=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (force_tsc_unstable)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0guest_hv_clock->flags &=3D ~PVCLOCK_TSC_STABLE_BIT;
+>=20
+> I don't see how this works.=C2=A0 This clears the bit in the guest copy, =
+then clobbers
+> all of guest_hv_clock with a memcpy().
 
-v5 -> v6: Added back default value for adi,fault-q and adi,alarm-pol.
-Converting adi,fault-q from devicetree to register bits is cleaner.
+Agreed, that seems wrong.
 
-v4 -> v5: Removed comment from __bf_shf() and used ffs() instead of
-ffs64().
-Added tabs where there was a need.
-Removed i2c_client from private structure. In init_client() passed
-device structure, because I only used that.
-Changed error message when the data in adi,fault-q is invalid.
-Fwnode is initialized in init_client().
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (force_tsc_unstable)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0guest_hv_clock->flags &=3D ~PVCLOCK_TSC_STABLE_BIT;
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0smp_wmb();
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* retain PVCLOCK_GUEST_S=
+TOPPED if set in guest copy */
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vcpu->hv_clock.flags |=3D=
+ (guest_hv_clock->flags & PVCLOCK_GUEST_STOPPED);
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (vcpu->pvclock_set_gue=
+st_stopped_request) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0vcpu->hv_clock.flags |=3D PVCLOCK_GUEST_STOPPED;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0vcpu->pvclock_set_guest_stopped_request =3D false;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0memcpy(guest_hv_clock, &v=
+cpu->hv_clock, sizeof(*guest_hv_clock)); <=3D sets PVCLOCK_TSC_STABLE_BIT a=
+gain, no?
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0smp_wmb();
+>=20
+> Any reason not to make this a generic "capability" instead of a Xen speci=
+fic flag?
+> E.g. I assume these problematic guests would mishandle PVCLOCK_TSC_STABLE=
+_BIT if
+> it showed up in kvmclock, but they don't use kvmclock so it's not a probl=
+em in
+> practice.
 
-v3 -> v4: Renamed property names to correspond with binding.
+No, those guests are just fine with kvmclock. It's the *Xen* page they
+forgot to map to userspace for the vDSO to use. And it's Xen (true Xen)
+which made you jump through hoops to use the TSC that way, such that it
+would actually expose the PVCLOCK_TSC_STABLE_BIT. We don't expect, and
+have never seen, such issues with native KVM guests.
 
-v2 -> v3: Separated patch into 2. Fixed 'WARNING: Unexpected
-indentation.'
-Reported-by: kernel test robot <lkp@intel.com>
+> I doubt there's a real need or use case, but it'd require less churn and =
+IMO is
+> simpler overall, e.g.
+>=20
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index e3eb608b6692..731b201bfd5a 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -3225,7 +3225,7 @@ static int kvm_guest_time_update(struct kvm_vcpu *v=
+)
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* If the host uses TSC clocks=
+ource, then it is stable */
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pvclock_flags =3D 0;
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (use_master_clock)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (use_master_clock && !vcpu->kvm.=
+force_tsc_unstable)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 pvclock_flags |=3D PVCLOCK_TSC_STABLE_BIT;
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vcpu->hv_clock.flags =3D pvclo=
+ck_flags;
+>=20
+> I also assume this is a "set and forget" thing?=C2=A0 I.e. KVM can requir=
+e the flag
+> to be set before any vCPUs are created.
 
-v2: Added patch.
+Hrm, not sure we have previously required that the KVM_XEN_HVM_CONFIG
+setup be done before any vCPUs were created. I tend to prefer *not* to
+push ordering requirements onto userspace. Does it need to be a per-
+vcpu thing?=20
 
- Documentation/hwmon/max31827.rst | 48 ++++++++++++++++----
- drivers/hwmon/max31827.c         | 75 +++++++++++++++++++++++++++++---
- 2 files changed, 108 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
-index 9a1055a007cf..a8bbfb85dd02 100644
---- a/Documentation/hwmon/max31827.rst
-+++ b/Documentation/hwmon/max31827.rst
-@@ -52,13 +52,21 @@ MAX31827 has low and over temperature alarms with an effective value and a
- hysteresis value: -40 and -30 degrees for under temperature alarm and +100 and
- +90 degrees for over temperature alarm.
- 
--The alarm can be configured in comparator and interrupt mode. Currently only
--comparator mode is implemented. In Comparator mode, the OT/UT status bits have a
--value of 1 when the temperature rises above the TH value or falls below TL,
--which is also subject to the Fault Queue selection. OT status returns to 0 when
--the temperature drops below the TH_HYST value or when shutdown mode is entered.
--Similarly, UT status returns to 0 when the temperature rises above TL_HYST value
--or when shutdown mode is entered.
-+The alarm can be configured in comparator and interrupt mode from the
-+devicetree. In Comparator mode, the OT/UT status bits have a value of 1 when the
-+temperature rises above the TH value or falls below TL, which is also subject to
-+the Fault Queue selection. OT status returns to 0 when the temperature drops
-+below the TH_HYST value or when shutdown mode is entered. Similarly, UT status
-+returns to 0 when the temperature rises above TL_HYST value or when shutdown
-+mode is entered.
-+
-+In interrupt mode exceeding TH also sets OT status to 1, which remains set until
-+a read operation is performed on the configuration/status register (max or min
-+attribute); at this point, it returns to 0. Once OT status is set to 1 from
-+exceeding TH and reset, it is set to 1 again only when the temperature drops
-+below TH_HYST. The output remains asserted until it is reset by a read. It is
-+set again if the temperature rises above TH, and so on. The same logic applies
-+to the operation of the UT status bit.
- 
- Putting the MAX31827 into shutdown mode also resets the OT/UT status bits. Note
- that if the mode is changed while OT/UT status bits are set, an OT/UT status
-@@ -68,6 +76,18 @@ clear the status bits before changing the operating mode.
- 
- The conversions can be manual with the one-shot functionality and automatic with
- a set frequency. When powered on, the chip measures temperatures with 1 conv/s.
-+The conversion rate can be modified with update_interval attribute of the chip.
-+Conversion/second = 1/update_interval. Thus, the available options according to
-+the data sheet are:
-+
-+- 64000 (ms) = 1 conv/64 sec
-+- 32000 (ms) = 1 conv/32 sec
-+- 16000 (ms) = 1 conv/16 sec
-+- 4000 (ms) = 1 conv/4 sec
-+- 1000 (ms) = 1 conv/sec (default)
-+- 250 (ms) = 4 conv/sec
-+- 125 (ms) = 8 conv/sec
-+
- Enabling the device when it is already enabled has the side effect of setting
- the conversion frequency to 1 conv/s. The conversion time varies depending on
- the resolution. The conversion time doubles with every bit of increased
-@@ -83,8 +103,18 @@ in the writing of alarm values too. For positive numbers the user-input value
- will always be rounded down to the nearest possible value, for negative numbers
- the user-input will always be rounded up to the nearest possible value.
- 
-+Bus timeout resets the I2C-compatible interface when SCL is low for more than
-+30ms (nominal).
-+
-+Alarm polarity determines if the active state of the alarm is low or high. The
-+behavior for both settings is dependent on the Fault Queue setting. The ALARM
-+pin is an open-drain output and requires a pullup resistor to operate.
-+
-+The Fault Queue bits select how many consecutive temperature faults must occur
-+before overtemperature or undertemperature faults are indicated in the
-+corresponding status bits.
-+
- Notes
- -----
- 
--Currently fault queue, alarm polarity and resolution cannot be modified.
--PEC is not implemented either.
-+PEC and resolution are not implemented.
-diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
-index 614bbf5d25fa..bc201a8fcd5b 100644
---- a/drivers/hwmon/max31827.c
-+++ b/drivers/hwmon/max31827.c
-@@ -12,6 +12,7 @@
- #include <linux/i2c.h>
- #include <linux/mutex.h>
- #include <linux/regmap.h>
-+#include <linux/of_device.h>
- 
- #define MAX31827_T_REG			0x0
- #define MAX31827_CONFIGURATION_REG	0x2
-@@ -22,9 +23,17 @@
- 
- #define MAX31827_CONFIGURATION_1SHOT_MASK	BIT(0)
- #define MAX31827_CONFIGURATION_CNV_RATE_MASK	GENMASK(3, 1)
-+#define MAX31827_CONFIGURATION_TIMEOUT_MASK	BIT(5)
-+#define MAX31827_CONFIGURATION_RESOLUTION_MASK	GENMASK(7, 6)
-+#define MAX31827_CONFIGURATION_ALRM_POL_MASK	BIT(8)
-+#define MAX31827_CONFIGURATION_COMP_INT_MASK	BIT(9)
-+#define MAX31827_CONFIGURATION_FLT_Q_MASK	GENMASK(11, 10)
- #define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK	BIT(14)
- #define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK	BIT(15)
- 
-+#define MAX31827_ALRM_POL_LOW	0x0
-+#define MAX31827_FLT_Q_1	0x0
-+
- #define MAX31827_12_BIT_CNV_TIME	140
- 
- #define MAX31827_16_BIT_TO_M_DGR(x)	(sign_extend32(x, 15) * 1000 / 16)
-@@ -361,14 +370,68 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
- 	return -EOPNOTSUPP;
- }
- 
--static int max31827_init_client(struct max31827_state *st)
-+static int max31827_init_client(struct max31827_state *st,
-+				struct device *dev)
- {
-+	struct fwnode_handle *fwnode;
-+	unsigned int res = 0;
-+	u32 data, lsb_idx;
-+	bool prop;
-+	int ret;
-+
-+	fwnode = dev_fwnode(dev);
-+
- 	st->enable = true;
-+	res |= MAX31827_DEVICE_ENABLE(1);
-+
-+	res |= MAX31827_CONFIGURATION_RESOLUTION_MASK;
-+
-+	prop = fwnode_property_read_bool(fwnode, "adi,comp-int");
-+	res |= FIELD_PREP(MAX31827_CONFIGURATION_COMP_INT_MASK, prop);
-+
-+	prop = fwnode_property_read_bool(fwnode, "adi,timeout-enable");
-+	res |= FIELD_PREP(MAX31827_CONFIGURATION_TIMEOUT_MASK, !prop);
-+
-+	if (fwnode_property_present(fwnode, "adi,alarm-pol")) {
-+		ret = fwnode_property_read_u32(fwnode, "adi,alarm-pol", &data);
-+		if (ret)
-+			return ret;
-+
-+		res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK, !!data);
-+	} else {
-+		/*
-+		 * Set default value.
-+		 */
-+		res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK,
-+				  MAX31827_ALRM_POL_LOW);
-+	}
-+
-+	if (fwnode_property_present(fwnode, "adi,fault-q")) {
-+		ret = fwnode_property_read_u32(fwnode, "adi,fault-q", &data);
-+		if (ret)
-+			return ret;
-+
-+		/*
-+		 * Convert the desired fault queue into register bits.
-+		 */
-+		if (data != 0)
-+			lsb_idx = __ffs(data);
-+
-+		if (hweight32(data) != 1 || lsb_idx > 4) {
-+			dev_err(dev, "Invalid data in adi,fault-q\n");
-+			return -EINVAL;
-+		}
-+
-+		res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK, lsb_idx);
-+	} else {
-+		/*
-+		 * Set default value.
-+		 */
-+		res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK,
-+				  MAX31827_FLT_Q_1);
-+	}
- 
--	return regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
--				  MAX31827_CONFIGURATION_1SHOT_MASK |
--					  MAX31827_CONFIGURATION_CNV_RATE_MASK,
--				  MAX31827_DEVICE_ENABLE(1));
-+	return regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, res);
- }
- 
- static const struct hwmon_channel_info *max31827_info[] = {
-@@ -412,7 +475,7 @@ static int max31827_probe(struct i2c_client *client)
- 		return dev_err_probe(dev, PTR_ERR(st->regmap),
- 				     "Failed to allocate regmap.\n");
- 
--	err = max31827_init_client(st);
-+	err = max31827_init_client(st, dev);
- 	if (err)
- 		return err;
- 
--- 
-2.34.1
+--=-pjx89AjnjHYSKt9Kk24Q
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMxMDMxMjI0ODQxWjAvBgkqhkiG9w0BCQQxIgQgMDfP2bG5
+5iCL3GG0wWv//xifE+H/wm8ve5HLrH7D1Fwwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAKL64QcT0RoBrTN+NpHx1in2Z7gFRIRmy+
+YbGqPtN9CiRvODmNzAzTE0pETswEjBL7S6YMSIR8mE0R2FkU5SEavIFIKRmhQ7fJk+CSPL/cNP4H
+DBcPUEVNH5Qoh8sQioH1WljkW3/+fapRX9l6/Dwf7B2xx+M/OUCHMTPjVnjLyGuQLwQtydxlrMQx
+xpE+ShbH/xBfP8Zzt58d205WwguJSTeNVNd+r6IQfdSYxQaobV3tYuKh+XH+5NOt8sMCudJv9fdl
+U6lKnBLwrOxAv0q9oDaWpjLtFf/Mi16QZHkfELMOh4dpVHxT7u0/U2ScV6OOZulCgdX03K6q6Djt
+5Vm2AaM+NpEA6NctVwTNOaNP7+x0DIw0sCndkbXrh46v0D6KKAPCrCTJZxa9ZEtx3nlxkwAbwdex
+nXGJmiUKghHWyNlRbw3oU2gtpRM0hsh5at5/7e5mqXgd/2ZICWXOymsuHdggqQDskgjsaZ22SY+h
+63CpeL1gccxA+4BCrIP9oheCM9OUT4K9kW+UaZ2zg+F7P4/vpnjXDT2jIIWuoJw7ue75aTPX0rsh
+u1iLUD1BRjAfOqkwIeRzIDq3imtiE0ers1ASG9e6ussv5hUiEPXYy3CRBKRJ4mTQey2rH5sr5yIV
+kfmdBcy/7dNMT5GxO8cvSOueSnXgfpFSbUNmw3f23gAAAAAAAA==
+
+
+--=-pjx89AjnjHYSKt9Kk24Q--
