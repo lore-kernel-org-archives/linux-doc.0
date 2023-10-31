@@ -1,111 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA58D297;
-	Tue, 31 Oct 2023 07:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AE0D523;
+	Tue, 31 Oct 2023 07:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jqAGUspu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5D7C433C8;
-	Tue, 31 Oct 2023 07:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1698735614;
-	bh=n7FSvkZDOHEm4+nPhmb2+a5uE4UXO7K+Etegdgo2ssY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jqAGUspuLQD8adfUT9YwhL/Z34yCBTYdUzhkG5wb4L56NW7ITyq4eS/IrJvEpUQe6
-	 nI4rjwusjGGdY4j0xMbUg47O26XtMAZ9CUN6Wb7THKWZy+1mlPMZv4g9j9aLv3bSYF
-	 hBIdgHi3wJ6fmtqoJnWq8Fn6k49BPd/VTrM/SS+A=
-Date: Tue, 31 Oct 2023 08:00:11 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Benjamin Poirier <benjamin.poirier@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Kira <nyakov13@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="T2clwvNS"
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2071.outbound.protection.outlook.com [40.107.117.71])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C82368F;
+	Tue, 31 Oct 2023 00:21:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a5NYjNbIUbwneTX7K2e8bVZ3X5Gaa2cq+DRUG9Gs0Du1kDOiB/ZgQ/zYyEjab7yPCrWxJsBWEvooFrVeCbSnvF8VxXZyGuoK/0qk6686aw6MnKEPs0iiDG1a3N5sKnC1UB2Z9v34k3GkYUfeYclXZwJFV3kEqYtFDlHrPiR7JBA21W9AUrQbIqsyOUYvilZJebrdK/h61rWxdgFanrKvAR5GQrneUj6JVkzfNtRXsyowJnISTunhEF5EgZtpQ9hwVDHUYMx/nj6ieFLM84SNqOXLckuKTOE0j8rRxbYsxPRpSeYL/veBlqUGyy6P+hiKtOF258Nm5bQFZYHS1noWng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bt7PXAE/WeVXhukRg6lFGw9uNHQCoMuDUJ2Vetgbrdc=;
+ b=Hc5b9Jlv/mAlX8gTca4DnWHvmzTblsP06QgQuWgYhQsiRWvHKAAudig/300RORiaX9OZKgFJds9QTbuMDthLasMR3ROU+eORboEsaTv/QSHQWRogNJH4cZGOXgD/1GUIF7iOpejkmPs5vZAzxmgxCaxDU7FEu4XyZPUMbxBnpRWskYu7QW6js/9L1D/gf7/8kX5yIcDaaSVTDSTwrCzeZmdBUl0sXx3mIAL/t/QSZ6UkLegyJBYLOiX/Wno29JWQAA0LL/8hMhmexcloCl+QAp8oxxQCjZMbegLCcHvWMfF1ARWZtKPL3aVNWFdR2O5iOvOz+6llUUdkUHa8r1yphA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bt7PXAE/WeVXhukRg6lFGw9uNHQCoMuDUJ2Vetgbrdc=;
+ b=T2clwvNSTY/eqBVHStfkw8QiIcpKxH9UqWsufhMP4Qtrbd8Jm/lDRwf4nRG3+BW01QC/Vvp9lxgZfXiDZN10BeXfkQ5tru0rSCtQPXggUaoNZpxBFjFpMHuCmPxNIRRUuakRL2bsu38eSmvMytMLlmFfEO2/95rdgrSOGOdNu2I528xz268xnqI7Pe3bmfPHlMOPsgxd9iFGr2M3RD+qyfMQ0mv/TCVCS99syCs9aHNLZ2zNwI8NvultXBnGuIJcyfgJKcmdJ9rkbcTEYCr9JZBXE4TNabUmB1HB6Eu0ni0X1Z4BQ7+yXEen/mynukrMIB+WbP9MjMyiVE3ywhSsQQ==
+Received: from PU1PR04CA0016.apcprd04.prod.outlook.com (2603:1096:803:29::28)
+ by TY2PR04MB3999.apcprd04.prod.outlook.com (2603:1096:404:8001::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Tue, 31 Oct
+ 2023 07:21:29 +0000
+Received: from HK3PEPF00000220.apcprd03.prod.outlook.com
+ (2603:1096:803:29:cafe::2c) by PU1PR04CA0016.outlook.office365.com
+ (2603:1096:803:29::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29 via Frontend
+ Transport; Tue, 31 Oct 2023 07:21:29 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=Wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=Wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of Wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ HK3PEPF00000220.mail.protection.outlook.com (10.167.8.42) with Microsoft SMTP
+ Server id 15.20.6838.22 via Frontend Transport; Tue, 31 Oct 2023 07:21:28
+ +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+To: patrick@stwcx.xyz
+Cc: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Sven Joachim <svenjoac@gmx.de>,
-	Ian Kent <raven@themaw.net>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: Revert "staging: qlge: Retire the driver"
-Message-ID: <2023103125-preshow-pencil-c1e5@gregkh>
-References: <20231030150400.74178-1-benjamin.poirier@gmail.com>
- <2023103001-drew-parmesan-c61a@gregkh>
- <ZT_YntDOYEdlpx5x@d3>
+	linux-i2c@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 0/2] LTC4286 and LTC4287 driver support
+Date: Tue, 31 Oct 2023 15:21:20 +0800
+Message-Id: <20231031072124.201181-1-Delphine_CC_Chiu@Wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZT_YntDOYEdlpx5x@d3>
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF00000220:EE_|TY2PR04MB3999:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: ba5c06b8-25a4-410a-b94c-08dbd9e1ffe3
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	rR15NmUn6/pPXcnOC8Lc3PceauCXCwMTwLM3ir2PTDrTNifO47097BjKE9PZ3BARUDXXquC1wovvqPgmJgFglqqpioIkQ5RjkAJaEYegnE31Z907rQTzz2xC9QhPhs9+XRd0KcZgWyNdo78yLmLTGhDIyU1e5sXi89WKAJYDQrVuIpdIzXV1kOnHj9nRwGrbanSOickGuUsmkB0zuDqMpc/Fk9N0AicoRCQbB47W1+xqA1VtyYvbHq9Fsk+tcjxsgGb7uJ7mmJ+/+q/5QA7ajDhfwfSZIrBs1lb/nqQD5iIj0oc2adSxMNYAUE1SbEZULrk/1Qf4hg7a/Zorffqxf9/jTWuqU3kM136CuMLOfe5uBzX2qYgb5CRrlNg57xJjnoYRUjSnJaDXCEzXmDZvfs0QoL1ifpR739kziuC+lUMAnURuv7lqJyrDu7XqWyQgy1TmOyoI0S4jXqZ7RArN0F3b/y9oRKnMTdHAOno59mjOGtuVvaODalBMvu2ny66/WFkAe+g9Y3CkHyyPCFRI9/+EmOKcy6bPmlk8A+DjzoNmJFmD9EJfJ4jAJmd1+jwqy+chTqGChqKd/uj7lDusCL0WoIIAwu+jIBDLNVSSXp3UbBmncSrQzDEWjwlSxfQXbVYwrc/2lewZa0ApqxhV4bwFdC7H6AagL6CPz2jaVsdROuSKr/kjLG1gC0YKY1Ueayp81amcNxi1ZuqMRvJhZQ==
+X-Forefront-Antispam-Report:
+	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(136003)(376002)(346002)(39860400002)(396003)(451199024)(82310400011)(64100799003)(186009)(1800799009)(46966006)(36840700001)(7416002)(1076003)(956004)(6512007)(26005)(6506007)(478600001)(6666004)(9316004)(47076005)(36860700001)(4744005)(2906002)(41300700001)(70206006)(5660300002)(2616005)(70586007)(6486002)(8676002)(4326008)(8936002)(6916009)(54906003)(36736006)(316002)(81166007)(82740400003)(356005)(86362001)(40480700001)(36756003)(336012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 07:21:28.4384
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba5c06b8-25a4-410a-b94c-08dbd9e1ffe3
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource:
+	HK3PEPF00000220.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR04MB3999
 
-On Mon, Oct 30, 2023 at 12:33:55PM -0400, Benjamin Poirier wrote:
-> On 2023-10-30 16:25 +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Oct 31, 2023 at 02:04:00AM +1100, Benjamin Poirier wrote:
-> > > This reverts commit 875be090928d19ff4ae7cbaadb54707abb3befdf.
-> > > 
-> > > On All Hallows' Eve, fear and cower for it is the return of the undead
-> > > driver.
-> > > 
-> > > There was a report [1] from a user of a QLE8142 device. They would like for
-> > > the driver to remain in the kernel. Therefore, revert the removal of the
-> > > qlge driver.
-> > > 
-> > > [1] https://lore.kernel.org/netdev/566c0155-4f80-43ec-be2c-2d1ad631bf25@gmail.com/
-> > 
-> > Who's going to maintain this?
-> 
-> I was planning to update the MAINTAINERS entry to
-> S:	Orphan
-> when moving it back to drivers/net/. Would you prefer that I do that
-> change in a second patch right after the revert in staging? That would
-> certainly make things clearer.
+v3 - Add LTC4286 and LTC4287 binding document
+   - Add LTC4286 and LTC4287 driver
 
-I would prefer not having orphaned code in the kernel tree.  Again, who
-is going to support this?  It was dropped because there is no owner and
-the company doesn't care anymore.  We can't add it back if there is no
-one who will do the real-work to fix it up and get it out of staging.
-Just magically moving it there isn't going to be a solution either.
+Delphine CC Chiu (2):
+  dt-bindings: hwmon: Add lltc ltc4286 driver bindings
+  hwmon: pmbus: Add ltc4286 driver
 
-> > > Reported by: Kira <nyakov13@gmail.com>
-> > > Signed-off-by: Benjamin Poirier <benjamin.poirier@gmail.com>
-> > > ---
-> > > 
-> > > Notes:
-> > >     Once the removal and revert show up in the net-next tree, I plan to send a
-> > >     followup patch to move the driver to drivers/net/ as discussed earlier:
-> > >     https://lore.kernel.org/netdev/20231019074237.7ef255d7@kernel.org/
-> > 
-> > are you going to be willing to maintain this and keep it alive?
-> 
-> No.
-> 
-> > I'm all this, if you want to, but I would like it out of staging.  So
-> 
-> I'd like it out of staging as well. Since nobody wants to maintain it, I
-> think it should be deleted. However, my understanding is that Jakub is
-> willing to take it back into drivers/net/ as-is given that there is at
-> least one user. Jakub, did I understand that correctly?
-> 
-> > how about applying this, and a follow-on one that moves it there once
-> > -rc1 is out?  And it probably should be in the 'net' tree, as you don't
-> > want 6.7 to come out without the driver at all, right?
-> 
-> Right about making sure 6.7 includes the driver. The 'net' tree is
-> usually for fixes hence why I would send to net-next. So the driver
-> would still be in staging for 6.7 (if you include the revert in your
-> 6.7-rc1 submission) and would be back in drivers/net/ for 6.8.
+ .../bindings/hwmon/lltc,ltc4286.yaml          |  52 +++++
+ Documentation/hwmon/ltc4286.rst               |  95 ++++++++++
+ MAINTAINERS                                   |  10 +
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/ltc4286.c                 | 178 ++++++++++++++++++
+ 6 files changed, 345 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
+ create mode 100644 Documentation/hwmon/ltc4286.rst
+ create mode 100644 drivers/hwmon/pmbus/ltc4286.c
 
-Let's wait until 6.7-rc1 is out and then, if the netdev developers want
-to take this on, they can revert it and move it to drivers/net/.
+-- 
+2.25.1
 
-But right now, my tree is frozen, it's the middle of the merge window,
-let's wait 2 weeks please.
-
-thanks,
-
-greg k-h
