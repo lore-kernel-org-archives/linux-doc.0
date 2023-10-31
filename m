@@ -1,466 +1,487 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8507B22314
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 17:45:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAC5208B8;
+	Tue, 31 Oct 2023 18:09:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e3jaSlgx"
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52A99103
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 10:45:04 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5afa86b8d66so51742337b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 10:45:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Njht6S7V"
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1926BA2;
+	Tue, 31 Oct 2023 11:09:39 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6be0277c05bso5297509b3a.0;
+        Tue, 31 Oct 2023 11:09:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698774303; x=1699379103; darn=vger.kernel.org;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cQkff4wKmvdkqz0jbn2DGoF7t1ibijfeMrbSGmFfV5o=;
-        b=e3jaSlgxFNQSlipcBtWT5aZWYqe196LvMCQ1l2y9E/tXVvMZj5PcZQSH9NjI5Kk7+c
-         it7PieMCAlZBLOileuErxhrxATNfsIwKTlTcouNu/Xo9qkllleUHcOYBlUioi/k/3xXZ
-         SXHj78qDp7aSySVx+XdoyoktTGRmUsbv7npwvWV/Rj4FGfu0YLpSjOW/3udFu02fCGQ4
-         DFDPtUiTvgpFrnASQTaX8CGKvoR4hrYEVDnJKbIYvM4PEGaxqYBCXFS0UBAWdL1B7Pnl
-         oRwcVi+1Orq93cTRVUmTO4r+LJcc3rZh3FdOHJ8ZFwiD7DnS9UJJkLfE3Wu9gPPAIdUH
-         vafg==
+        d=gmail.com; s=20230601; t=1698775778; x=1699380578; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=JchhP+mGKXvZIlmqePmuD84psJVG+oz+e68YnJRPIdo=;
+        b=Njht6S7VQD5X25TqY3cXftz+e98xikBN8DB93GXZFChKq70XVD3npFjhvpevLpBt12
+         e72nl5z9HAi9BTCFKZ6HHVsCkx/6/SOkmBeAQQK8kmRWp9TGlnHdAWBM+LTqr3SQlMYH
+         APX6lQ9VHZ639VwIAXOfF8I4eJisCJXZT5dGvWsx87nGbZxQYgbbAP/xlFlnZTFQZ6z1
+         joOeXFKR7xXF8WycbZcttt8H+71qmjplMm7cVWJ6Nm4QY1GcqXkTz3OteBqZLq8AVL08
+         E3CdH8izDGOTlJWEnh049S4uGUvODUT1tX+5eoMiS89bRlhgxCfhZGyjjga9femrAgQN
+         R29A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698774303; x=1699379103;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cQkff4wKmvdkqz0jbn2DGoF7t1ibijfeMrbSGmFfV5o=;
-        b=Aoru5FqWer6QVy7liOPt3MnTT3ZJ/gDYWNH2QSl+AhVQGiAa4wbVWfXUB2pz3c88Np
-         cIk1scy1FXLnKWdh3Il54M66OtLw7HanRCRNoAfenJN+a8NxmXdN9kqGr6i1d3JPtj6J
-         iVZ2wRw2P0udM6/i9tk+O1dwQNarRjXiOCsHTo5Hti7J/Tris0Pz44qcucgYMS/To9Gk
-         bUH17Hu5Sr6ADNrKhh4q863hfY1fZoVN2chWbqIVX2bJ4Bz2zQNxeD0laev+eM13LlOB
-         5MAN8v3We3Ih/r7vUnIPEkso3vk/nnHBiK8Ee4adMRexhPqBqiy0dJcJBLNdjWWKtoLt
-         vzZQ==
-X-Gm-Message-State: AOJu0Yy1ERi0MU90i+grcfjanhD05FjKKGg3soN+2mTnh7Olpe+6H7MS
-	tBpIZT2LYCxMZaVLL1TigXJxuiuYZZLJr4Xezg==
-X-Google-Smtp-Source: AGHT+IEaKzEc6XPxB+tid0y7t2s5ea2F0qyE+xcrn5lI3u1DwjXdT2pJXY5F6GLe0m12f0145l2jPa4jrmTp4G//qg==
-X-Received: from souravpanda.svl.corp.google.com ([2620:15c:2a3:200:84c2:bfa0:7c62:5d77])
- (user=souravpanda job=sendgmr) by 2002:a25:cfca:0:b0:d9a:556d:5f8a with SMTP
- id f193-20020a25cfca000000b00d9a556d5f8amr242440ybg.12.1698774303488; Tue, 31
- Oct 2023 10:45:03 -0700 (PDT)
-Date: Tue, 31 Oct 2023 10:44:59 -0700
-In-Reply-To: <20231031174459.459480-1-souravpanda@google.com>
+        d=1e100.net; s=20230601; t=1698775778; x=1699380578;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JchhP+mGKXvZIlmqePmuD84psJVG+oz+e68YnJRPIdo=;
+        b=D5AMRUlVAyD7n9lu8kEStRBfFU8KrwkfZ68lQ8A0ULZsPHL+vBWDmBtd3Z5kVWLOyB
+         wRUFOn1vrA8Sf/+DccUWXeOWfXxS4D/f7RcB7C2yJu890NoEEiJqTmpyv3D0p92gqf4c
+         yiyHATIafc2yy7AfMUqIegOBluYmBhnnY8wKkW5K4yz6KbUY7JAZiH/QFFTCsVYtIQL3
+         r8KAjNCKypFB6EExHEJmtiUG0gEu1iDHyiMrx7zTWX2xrpgrgowslfGYlyigLb0VvkUQ
+         gG4HTo0oA3vc5MklEk8WT5dRSE+haA3jvQpU4jpreHoGVqZRJJq9dO/IfP+0FBEtrHuK
+         LBqQ==
+X-Gm-Message-State: AOJu0YyTaJV0y2J4jefMjlSGAThJC2aj7T5J1rhrAv26i21iDpVuhx9Q
+	8Cnaba8OeggQhfVh5tYsOu8=
+X-Google-Smtp-Source: AGHT+IEhEGhFE8d19oTBS/RMKIKGCO7V9qvGIme49Hz8cY41gVd5uHZmSuhvL5tMNvGgl7GQjX/agw==
+X-Received: by 2002:a05:6a00:2d96:b0:6b2:5b5:4f12 with SMTP id fb22-20020a056a002d9600b006b205b54f12mr12995496pfb.14.1698775778082;
+        Tue, 31 Oct 2023 11:09:38 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id g16-20020a056a001a1000b006c0685422e0sm1533514pfv.214.2023.10.31.11.09.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Oct 2023 11:09:37 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <96d7bf00-a5f8-486f-912d-931e918f3fa3@roeck-us.net>
+Date: Tue, 31 Oct 2023 11:09:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231031174459.459480-1-souravpanda@google.com>
-X-Mailer: git-send-email 2.42.0.820.g83a721a137-goog
-Message-ID: <20231031174459.459480-2-souravpanda@google.com>
-Subject: [PATCH v3 1/1] mm: report per-page metadata information
-From: Sourav Panda <souravpanda@google.com>
-To: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
-	akpm@linux-foundation.org, mike.kravetz@oracle.com, muchun.song@linux.dev, 
-	rppt@kernel.org, david@redhat.com, rdunlap@infradead.org, 
-	chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, souravpanda@google.com, 
-	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, hannes@cmpxchg.org, 
-	shakeelb@google.com, kirill.shutemov@linux.intel.com, 
-	wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz, 
-	Liam.Howlett@Oracle.com, surenb@google.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	willy@infradead.org, weixugc@google.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] hwmon: pmbus: Add ltc4286 driver
+Content-Language: en-US
+To: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>, patrick@stwcx.xyz,
+ Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-i2c@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20231031072124.201181-1-Delphine_CC_Chiu@Wiwynn.com>
+ <20231031072124.201181-3-Delphine_CC_Chiu@Wiwynn.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
+ nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
+ hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
+ c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
+ 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
+ GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
+ sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
+ Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
+ HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
+ BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
+ l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
+ J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
+ cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
+ wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
+ hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
+ nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
+ QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
+ trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
+ WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
+ HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20231031072124.201181-3-Delphine_CC_Chiu@Wiwynn.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Adds a new per-node PageMetadata field to
-/sys/devices/system/node/nodeN/meminfo
-and a global PageMetadata field to /proc/meminfo. This information can
-be used by users to see how much memory is being used by per-page
-metadata, which can vary depending on build configuration, machine
-architecture, and system use.
+On 10/31/23 00:21, Delphine CC Chiu wrote:
+> Add a driver to support ltc4286 chip
+> 
+> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+> 
+> Changelog:
+>    v3 - Use dev_err_probe() instead of dev_err()
+>       - The VRANGE_SELECT bit only be written if it actually changed
+>       - Avoid the info pointer being overwritten
+>       - Check the MBR value range to avoid overflow
+>       - Revise ltc4286.rst to corrcet description
+>    v2 - Revise Linear Technologies LTC4286 to
+>         Analog Devices LTC4286 in Kconfig
+>       - Add more description for this driver in Kconfig
+>       - Add some comments for MBR setting in ltc4286.c
+>       - Add ltc4286.rst
+> ---
+>   Documentation/hwmon/ltc4286.rst |  95 +++++++++++++++++
 
-Per-page metadata is the amount of memory that Linux needs in order to
-manage memory at the page granularity. The majority of such memory is
-used by "struct page" and "page_ext" data structures. In contrast to
-most other memory consumption statistics, per-page metadata might not
-be included in MemTotal. For example, MemTotal does not include memblock
-allocations but includes buddy allocations. While on the other hand,
-per-page metadata would include both memblock and buddy allocations.
+Needs to be added to Documentation/hwmon/index.rst
 
-This memory depends on build configurations, machine architectures, and
-the way system is used:
+>   drivers/hwmon/pmbus/Kconfig     |   9 ++
+>   drivers/hwmon/pmbus/Makefile    |   1 +
+>   drivers/hwmon/pmbus/ltc4286.c   | 178 ++++++++++++++++++++++++++++++++
+>   4 files changed, 283 insertions(+)
+>   create mode 100644 Documentation/hwmon/ltc4286.rst
+>   create mode 100644 drivers/hwmon/pmbus/ltc4286.c
+> 
+> diff --git a/Documentation/hwmon/ltc4286.rst b/Documentation/hwmon/ltc4286.rst
+> new file mode 100644
+> index 000000000000..2cd149676d86
+> --- /dev/null
+> +++ b/Documentation/hwmon/ltc4286.rst
+> @@ -0,0 +1,95 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver ltc4286
+> +=====================
+> +
+> +Supported chips:
+> +
+> +  * Analog Devices LTC4286
+> +
+> +    Prefix: 'ltc4286'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4286.pdf
+> +
+> +  * Analog Devices LTC4287
+> +
+> +    Prefix: 'ltc4287'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4287.pdf
+> +
+> +Author: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+> +
+> +
+> +Description
+> +-----------
+> +
+> +This driver supports hardware monitoring for Analog Devices LTC4286
+> +and LTC4287 Hot-Swap Controller and Digital Power Monitors.
+> +
+> +LTC4286 and LTC4287 are hot-swap controllers that allow a circuit board
+> +to be removed from or inserted into a live backplane. They also feature
+> +current and voltage readback via an integrated 12 bit analog-to-digital
+> +converter (ADC), accessed using a PMBus interface.
+> +
+> +The driver is a client driver to the core PMBus driver. Please see
+> +Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+> +
+> +
+> +Usage Notes
+> +-----------
+> +
+> +This driver does not auto-detect devices. You will have to instantiate the
+> +devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
+> +details.
+> +
+> +The shunt value in micro-ohms can be set via device tree at compile-time. Please
+> +refer to the Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml for bindings
+> +if the device tree is used.
+> +
+> +
+> +Platform data support
+> +---------------------
+> +
+> +The driver supports standard PMBus driver platform data. Please see
+> +Documentation/hwmon/pmbus.rst for details.
+> +
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +The following attributes are supported. Limits are read-write, history reset
+> +attributes are write-only, all other attributes are read-only.
+> +
+> +======================= =======================================================
+> +in1_label		"vin"
+> +in1_input		Measured voltage.
+> +in1_alarm		Input voltage alarm.
+> +in1_min 		Minimum input voltage.
+> +in1_max 		Maximum input voltage.
+> +
+> +in2_label		"vout1"
+> +in2_input		Measured voltage.
+> +in2_alarm		Output voltage alarm.
+> +in2_min 		Minimum output voltage.
+> +in2_max 		Maximum output voltage.
+> +
+> +curr1_label		"iout1"
+> +curr1_input		Measured current.
+> +curr1_alarm		Output current alarm.
+> +curr1_max		Maximum current.
+> +
+> +power1_label		"pin"
+> +power1_input		Input power.
+> +power1_alarm		Input power alarm.
+> +power1_max		Maximum poewr.
+> +
+> +temp1_input		Chip temperature.
+> +temp1_min		Minimum chip temperature.
+> +temp1_max		Maximum chip temperature.
+> +temp1_crit		Critical chip temperature.
+> +temp1_alarm		Chip temperature alarm.
+> +======================= =======================================================
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index b4e93bd5835e..f2b53e8abc3c 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -226,6 +226,15 @@ config SENSORS_LTC3815
+>   
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called ltc3815.
 
-Build configuration may include extra fields into "struct page",
-and enable / disable "page_ext"
-Machine architecture defines base page sizes. For example 4K x86,
-8K SPARC, 64K ARM64 (optionally), etc. The per-page metadata
-overhead is smaller on machines with larger page sizes.
-System use can change per-page overhead by using vmemmap
-optimizations with hugetlb pages, and emulated pmem devdax pages.
-Also, boot parameters can determine whether page_ext is needed
-to be allocated. This memory can be part of MemTotal or be outside
-MemTotal depending on whether the memory was hot-plugged, booted with,
-or hugetlb memory was returned back to the system.
+Add empty line
 
-Suggested-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Signed-off-by: Sourav Panda <souravpanda@google.com>
----
- Documentation/filesystems/proc.rst |  3 +++
- drivers/base/node.c                |  2 ++
- fs/proc/meminfo.c                  |  7 +++++++
- include/linux/mmzone.h             |  3 +++
- include/linux/vmstat.h             |  4 ++++
- mm/hugetlb.c                       |  8 +++++++-
- mm/hugetlb_vmemmap.c               |  8 +++++++-
- mm/mm_init.c                       |  3 +++
- mm/page_alloc.c                    |  1 +
- mm/page_ext.c                      | 32 +++++++++++++++++++++---------
- mm/sparse-vmemmap.c                |  3 +++
- mm/sparse.c                        |  7 ++++++-
- mm/vmstat.c                        | 24 ++++++++++++++++++++++
- 13 files changed, 93 insertions(+), 12 deletions(-)
+> +config SENSORS_LTC4286
+> +	bool "Analog Devices LTC4286"
+> +	help
+> +	  LTC4286 is an integrated solution for hot swap applications that
+> +	  allows a board to be safely inserted and removed from a live
+> +	  backplane.
+> +	  This chip could be used to monitor voltage, current, ...etc.
+> +	  If you say yes here you get hardware monitoring support for Analog
+> +	  Devices LTC4286.
+>   
+>   config SENSORS_MAX15301
+>   	tristate "Maxim MAX15301"
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 84ee960a6c2d..94e28f6d6a61 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -24,6 +24,7 @@ obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
+>   obj-$(CONFIG_SENSORS_LT7182S)	+= lt7182s.o
+>   obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
+>   obj-$(CONFIG_SENSORS_LTC3815)	+= ltc3815.o
+> +obj-$(CONFIG_SENSORS_LTC4286)	+= ltc4286.o
+>   obj-$(CONFIG_SENSORS_MAX15301)	+= max15301.o
+>   obj-$(CONFIG_SENSORS_MAX16064)	+= max16064.o
+>   obj-$(CONFIG_SENSORS_MAX16601)	+= max16601.o
+> diff --git a/drivers/hwmon/pmbus/ltc4286.c b/drivers/hwmon/pmbus/ltc4286.c
+> new file mode 100644
+> index 000000000000..042d3af99489
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/ltc4286.c
+> @@ -0,0 +1,178 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/pmbus.h>
+> +#include "pmbus.h"
+> +
+> +/* LTC4286 register */
+> +#define LTC4286_MFR_CONFIG1	0xF2
+> +
+> +/* LTC4286 configuration */
+> +#define VRANGE_SELECT_BIT	BIT(1)
+> +
+> +#define LTC4286_MFR_ID_SIZE	3
+> +#define VRANGE_25P6		0
+> +
+> +enum chips { ltc4286, ltc4287 };
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2b59cff8be17..c121f2ef9432 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -987,6 +987,7 @@ Example output. You may not have all of these fields.
-     AnonPages:       4654780 kB
-     Mapped:           266244 kB
-     Shmem:              9976 kB
-+    PageMetadata:     513419 kB
-     KReclaimable:     517708 kB
-     Slab:             660044 kB
-     SReclaimable:     517708 kB
-@@ -1089,6 +1090,8 @@ Mapped
-               files which have been mmapped, such as libraries
- Shmem
-               Total memory used by shared memory (shmem) and tmpfs
-+PageMetadata
-+              Memory used for per-page metadata
- KReclaimable
-               Kernel allocations that the kernel will attempt to reclaim
-               under memory pressure. Includes SReclaimable (below), and other
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 493d533f8375..da728542265f 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -428,6 +428,7 @@ static ssize_t node_read_meminfo(struct device *dev,
- 			     "Node %d Mapped:         %8lu kB\n"
- 			     "Node %d AnonPages:      %8lu kB\n"
- 			     "Node %d Shmem:          %8lu kB\n"
-+			     "Node %d PageMetadata:   %8lu kB\n"
- 			     "Node %d KernelStack:    %8lu kB\n"
- #ifdef CONFIG_SHADOW_CALL_STACK
- 			     "Node %d ShadowCallStack:%8lu kB\n"
-@@ -458,6 +459,7 @@ static ssize_t node_read_meminfo(struct device *dev,
- 			     nid, K(node_page_state(pgdat, NR_FILE_MAPPED)),
- 			     nid, K(node_page_state(pgdat, NR_ANON_MAPPED)),
- 			     nid, K(i.sharedram),
-+			     nid, K(node_page_state(pgdat, NR_PAGE_METADATA)),
- 			     nid, node_page_state(pgdat, NR_KERNEL_STACK_KB),
- #ifdef CONFIG_SHADOW_CALL_STACK
- 			     nid, node_page_state(pgdat, NR_KERNEL_SCS_KB),
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index 45af9a989d40..f141bb2a550d 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -39,7 +39,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	long available;
- 	unsigned long pages[NR_LRU_LISTS];
- 	unsigned long sreclaimable, sunreclaim;
-+	unsigned long nr_page_metadata;
- 	int lru;
-+	int nid;
- 
- 	si_meminfo(&i);
- 	si_swapinfo(&i);
-@@ -57,6 +59,10 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	sreclaimable = global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B);
- 	sunreclaim = global_node_page_state_pages(NR_SLAB_UNRECLAIMABLE_B);
- 
-+	nr_page_metadata = 0;
-+	for_each_online_node(nid)
-+		nr_page_metadata += node_page_state(NODE_DATA(nid), NR_PAGE_METADATA);
-+
- 	show_val_kb(m, "MemTotal:       ", i.totalram);
- 	show_val_kb(m, "MemFree:        ", i.freeram);
- 	show_val_kb(m, "MemAvailable:   ", available);
-@@ -104,6 +110,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	show_val_kb(m, "Mapped:         ",
- 		    global_node_page_state(NR_FILE_MAPPED));
- 	show_val_kb(m, "Shmem:          ", i.sharedram);
-+	show_val_kb(m, "PageMetadata:   ", nr_page_metadata);
- 	show_val_kb(m, "KReclaimable:   ", sreclaimable +
- 		    global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE));
- 	show_val_kb(m, "Slab:           ", sreclaimable + sunreclaim);
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 4106fbc5b4b3..dda1ad522324 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -207,6 +207,9 @@ enum node_stat_item {
- 	PGPROMOTE_SUCCESS,	/* promote successfully */
- 	PGPROMOTE_CANDIDATE,	/* candidate pages to promote */
- #endif
-+	NR_PAGE_METADATA,	/* Page metadata size (struct page and page_ext)
-+				 * in pages
-+				 */
- 	NR_VM_NODE_STAT_ITEMS
- };
- 
-diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
-index fed855bae6d8..af096a881f03 100644
---- a/include/linux/vmstat.h
-+++ b/include/linux/vmstat.h
-@@ -656,4 +656,8 @@ static inline void lruvec_stat_sub_folio(struct folio *folio,
- {
- 	lruvec_stat_mod_folio(folio, idx, -folio_nr_pages(folio));
- }
-+
-+void __init mod_node_early_perpage_metadata(int nid, long delta);
-+void __init store_early_perpage_metadata(void);
-+
- #endif /* _LINUX_VMSTAT_H */
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 1301ba7b2c9a..e453962f2b74 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1790,6 +1790,10 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
- 		destroy_compound_gigantic_folio(folio, huge_page_order(h));
- 		free_gigantic_folio(folio, huge_page_order(h));
- 	} else {
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+		__mod_node_page_state(NODE_DATA(page_to_nid(&folio->page)),
-+				      NR_PAGE_METADATA, -huge_page_order(h));
-+#endif
- 		__free_pages(&folio->page, huge_page_order(h));
- 	}
- }
-@@ -2175,7 +2179,9 @@ static struct folio *alloc_buddy_hugetlb_folio(struct hstate *h,
- 		__count_vm_event(HTLB_BUDDY_PGALLOC_FAIL);
- 		return NULL;
- 	}
--
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, huge_page_order(h));
-+#endif
- 	__count_vm_event(HTLB_BUDDY_PGALLOC);
- 	return page_folio(page);
- }
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 4b9734777f69..71c44d2471d0 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -214,6 +214,8 @@ static inline void free_vmemmap_page(struct page *page)
- 		free_bootmem_page(page);
- 	else
- 		__free_page(page);
-+	__mod_node_page_state(NODE_DATA(page_to_nid(page)),
-+			      NR_PAGE_METADATA, -1);
- }
- 
- /* Free a list of the vmemmap pages */
-@@ -336,6 +338,7 @@ static int vmemmap_remap_free(unsigned long start, unsigned long end,
- 			  (void *)walk.reuse_addr);
- 		list_add(&walk.reuse_page->lru, &vmemmap_pages);
- 	}
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, 1);
- 
- 	/*
- 	 * In order to make remapping routine most efficient for the huge pages,
-@@ -384,11 +387,14 @@ static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
- 	unsigned long nr_pages = (end - start) >> PAGE_SHIFT;
- 	int nid = page_to_nid((struct page *)start);
- 	struct page *page, *next;
-+	int i;
- 
--	while (nr_pages--) {
-+	for (i = 0; i < nr_pages; i++) {
- 		page = alloc_pages_node(nid, gfp_mask, 0);
- 		if (!page)
- 			goto out;
-+		__mod_node_page_state(NODE_DATA(page_to_nid(page)),
-+				      NR_PAGE_METADATA, 1);
- 		list_add_tail(&page->lru, list);
- 	}
- 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 50f2f34745af..e02dce7e2e9a 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -26,6 +26,7 @@
- #include <linux/pgtable.h>
- #include <linux/swap.h>
- #include <linux/cma.h>
-+#include <linux/vmstat.h>
- #include "internal.h"
- #include "slab.h"
- #include "shuffle.h"
-@@ -1656,6 +1657,8 @@ static void __init alloc_node_mem_map(struct pglist_data *pgdat)
- 			panic("Failed to allocate %ld bytes for node %d memory map\n",
- 			      size, pgdat->node_id);
- 		pgdat->node_mem_map = map + offset;
-+		mod_node_early_perpage_metadata(pgdat->node_id,
-+						PAGE_ALIGN(size) >> PAGE_SHIFT);
- 	}
- 	pr_debug("%s: node %d, pgdat %08lx, node_mem_map %08lx\n",
- 				__func__, pgdat->node_id, (unsigned long)pgdat,
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 85741403948f..522dc0c52610 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5443,6 +5443,7 @@ void __init setup_per_cpu_pageset(void)
- 	for_each_online_pgdat(pgdat)
- 		pgdat->per_cpu_nodestats =
- 			alloc_percpu(struct per_cpu_nodestat);
-+	store_early_perpage_metadata();
- }
- 
- __meminit void zone_pcp_init(struct zone *zone)
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 4548fcc66d74..9e8b1fcbb962 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -201,6 +201,8 @@ static int __init alloc_node_page_ext(int nid)
- 		return -ENOMEM;
- 	NODE_DATA(nid)->node_page_ext = base;
- 	total_usage += table_size;
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+			      PAGE_ALIGN(table_size) >> PAGE_SHIFT);
- 	return 0;
- }
- 
-@@ -255,12 +257,15 @@ static void *__meminit alloc_page_ext(size_t size, int nid)
- 	void *addr = NULL;
- 
- 	addr = alloc_pages_exact_nid(nid, size, flags);
--	if (addr) {
-+	if (addr)
- 		kmemleak_alloc(addr, size, 1, flags);
--		return addr;
--	}
-+	else
-+		addr = vzalloc_node(size, nid);
- 
--	addr = vzalloc_node(size, nid);
-+	if (addr) {
-+		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+				    PAGE_ALIGN(size) >> PAGE_SHIFT);
-+	}
- 
- 	return addr;
- }
-@@ -303,18 +308,27 @@ static int __meminit init_section_page_ext(unsigned long pfn, int nid)
- 
- static void free_page_ext(void *addr)
- {
-+	size_t table_size;
-+	struct page *page;
-+	struct pglist_data *pgdat;
-+
-+	table_size = page_ext_size * PAGES_PER_SECTION;
-+
- 	if (is_vmalloc_addr(addr)) {
-+		page = vmalloc_to_page(addr);
-+		pgdat = page_pgdat(page);
- 		vfree(addr);
- 	} else {
--		struct page *page = virt_to_page(addr);
--		size_t table_size;
--
--		table_size = page_ext_size * PAGES_PER_SECTION;
--
-+		page = virt_to_page(addr);
-+		pgdat = page_pgdat(page);
- 		BUG_ON(PageReserved(page));
- 		kmemleak_free(addr);
- 		free_pages_exact(addr, table_size);
- 	}
-+
-+	__mod_node_page_state(pgdat, NR_PAGE_METADATA,
-+			      -1L * (PAGE_ALIGN(table_size) >> PAGE_SHIFT));
-+
- }
- 
- static void __free_page_ext(unsigned long pfn)
-diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index a2cbe44c48e1..e33f302db7c6 100644
---- a/mm/sparse-vmemmap.c
-+++ b/mm/sparse-vmemmap.c
-@@ -469,5 +469,8 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
- 	if (r < 0)
- 		return NULL;
- 
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+			      PAGE_ALIGN(end - start) >> PAGE_SHIFT);
-+
- 	return pfn_to_page(pfn);
- }
-diff --git a/mm/sparse.c b/mm/sparse.c
-index 77d91e565045..db78233a85ef 100644
---- a/mm/sparse.c
-+++ b/mm/sparse.c
-@@ -14,7 +14,7 @@
- #include <linux/swap.h>
- #include <linux/swapops.h>
- #include <linux/bootmem_info.h>
--
-+#include <linux/vmstat.h>
- #include "internal.h"
- #include <asm/dma.h>
- 
-@@ -465,6 +465,9 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
- 	 */
- 	sparsemap_buf = memmap_alloc(size, section_map_size(), addr, nid, true);
- 	sparsemap_buf_end = sparsemap_buf + size;
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+	mod_node_early_perpage_metadata(nid, PAGE_ALIGN(size) >> PAGE_SHIFT);
-+#endif
- }
- 
- static void __init sparse_buffer_fini(void)
-@@ -641,6 +644,8 @@ static void depopulate_section_memmap(unsigned long pfn, unsigned long nr_pages,
- 	unsigned long start = (unsigned long) pfn_to_page(pfn);
- 	unsigned long end = start + nr_pages * sizeof(struct page);
- 
-+	__mod_node_page_state(NODE_DATA(page_to_nid(pfn_to_page(pfn))), NR_PAGE_METADATA,
-+			      (long)-1 * (PAGE_ALIGN(end - start) >> PAGE_SHIFT));
- 	vmemmap_free(start, end, altmap);
- }
- static void free_map_bootmem(struct page *memmap)
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 00e81e99c6ee..070d2b3d2bcc 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1245,6 +1245,7 @@ const char * const vmstat_text[] = {
- 	"pgpromote_success",
- 	"pgpromote_candidate",
- #endif
-+	"nr_page_metadata",
- 
- 	/* enum writeback_stat_item counters */
- 	"nr_dirty_threshold",
-@@ -2274,4 +2275,27 @@ static int __init extfrag_debug_init(void)
- }
- 
- module_init(extfrag_debug_init);
-+
- #endif
-+
-+/*
-+ * Page metadata size (struct page and page_ext) in pages
-+ */
-+static unsigned long early_perpage_metadata[MAX_NUMNODES] __initdata;
-+
-+void __init mod_node_early_perpage_metadata(int nid, long delta)
-+{
-+	early_perpage_metadata[nid] += delta;
-+}
-+
-+void __init store_early_perpage_metadata(void)
-+{
-+	int nid;
-+	struct pglist_data *pgdat;
-+
-+	for_each_online_pgdat(pgdat) {
-+		nid = pgdat->node_id;
-+		__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+				      early_perpage_metadata[nid]);
-+	}
-+}
--- 
-2.42.0.820.g83a721a137-goog
+Not really used anywhere and can be dropped.
+
+> +
+> +/*
+> + * Initialize the MBR as default settings which is referred to LTC4286 datasheet
+> + * (March 22, 2022 version) table 3 page 16
+> + */
+> +static struct pmbus_driver_info ltc4286_info = {
+> +	.pages = 1,
+> +	.format[PSC_VOLTAGE_IN] = direct,
+> +	.format[PSC_VOLTAGE_OUT] = direct,
+> +	.format[PSC_CURRENT_OUT] = direct,
+> +	.format[PSC_POWER] = direct,
+> +	.format[PSC_TEMPERATURE] = direct,
+> +	.m[PSC_VOLTAGE_IN] = 32,
+> +	.b[PSC_VOLTAGE_IN] = 0,
+> +	.R[PSC_VOLTAGE_IN] = 1,
+> +	.m[PSC_VOLTAGE_OUT] = 32,
+> +	.b[PSC_VOLTAGE_OUT] = 0,
+> +	.R[PSC_VOLTAGE_OUT] = 1,
+> +	.m[PSC_CURRENT_OUT] = 1024,
+> +	.b[PSC_CURRENT_OUT] = 0,
+> +	/*
+> +	 * The rsense value used in MBR formula in LTC4286 datasheet should be ohm unit.
+> +	 * However, the rsense value that user input is mirco ohm.
+
+micro
+
+> +	 * Thus, the MBR setting which involves rsense should be shifted by 6 digits.
+> +	 */
+> +	.R[PSC_CURRENT_OUT] = 3 - 6,
+> +	.m[PSC_POWER] = 1,
+> +	.b[PSC_POWER] = 0,
+> +	/*
+> +	 * The rsense value used in MBR formula in LTC4286 datasheet should be ohm unit.
+> +	 * However, the rsense value that user input is mirco ohm.
+
+micro
+
+> +	 * Thus, the MBR setting which involves rsense should be shifted by 6 digits.
+> +	 */
+> +	.R[PSC_POWER] = 4 - 6,
+> +	.m[PSC_TEMPERATURE] = 1,
+> +	.b[PSC_TEMPERATURE] = 273,
+> +	.R[PSC_TEMPERATURE] = 0,
+> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
+> +		   PMBUS_HAVE_PIN | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_VOUT |
+> +		   PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_TEMP,
+> +};
+> +
+> +static const struct i2c_device_id ltc4286_id[] = { { "ltc4286", ltc4286 },
+> +						   { "ltc4287", ltc4287 },
+> +						   {} };
+> +MODULE_DEVICE_TABLE(i2c, ltc4286_id);
+> +
+> +static int ltc4286_probe(struct i2c_client *client)
+> +{
+> +	int ret;
+> +	const struct i2c_device_id *mid;
+> +	u8 block_buffer[I2C_SMBUS_BLOCK_MAX + 1];
+> +	struct pmbus_driver_info *info;
+> +	u32 rsense;
+> +
+> +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, block_buffer);
+> +	if (ret < 0) {
+> +		return dev_err_probe(&client->dev, ret,
+> +				     "Failed to read manufacturer id\n");
+> +	}
+> +
+> +	/*
+> +	 * Refer to ltc4286 datasheet page 20
+> +	 * the manufacturer id is LTC
+> +	 */
+> +	if (ret != LTC4286_MFR_ID_SIZE ||
+> +	    strncmp(block_buffer, "LTC", LTC4286_MFR_ID_SIZE)) {
+> +		return dev_err_probe(&client->dev, ret,
+> +				     "Manufacturer id mismatch\n");
+> +	}
+> +
+> +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, block_buffer);
+> +	if (ret < 0) {
+> +		return dev_err_probe(&client->dev, ret,
+> +				     "Failed to read manufacturer model\n");
+> +	}
+> +
+> +	for (mid = ltc4286_id; mid->name[0]; mid++) {
+> +		if (!strncasecmp(mid->name, block_buffer, strlen(mid->name)))
+> +			break;
+> +	}
+> +	if (!mid->name[0])
+> +		return dev_err_probe(&client->dev, -ENODEV,
+> +				     "Unsupported device\n");
+> +
+> +	ret = of_property_read_u32(client->dev.of_node,
+> +				   "shunt-resistor-micro-ohms", &rsense);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (rsense == 0)
+> +		return -EINVAL;
+> +
+> +	info = devm_kzalloc(&client->dev, sizeof(*info), GFP_KERNEL);
+> +	if (!info)
+> +		return -ENOMEM;
+> +	memcpy(info, &ltc4286_info, sizeof(*info));
+
+devm_kmemdup()
+
+> +
+> +	/* Default of VRANGE_SELECT = 1, 102.4V */
+> +	if (device_property_read_bool(&client->dev, "adi,vrange-low-enable")) {
+> +		/* Setup MFR1 CONFIG register bit 1 VRANGE_SELECT */
+> +		ret = i2c_smbus_read_word_data(client, LTC4286_MFR_CONFIG1);
+> +		if (ret < 0) {
+> +			return dev_err_probe(
+> +				&client->dev, ret,
+> +				"Failed to read manufacturer configuration one\n");
+> +		}
+> +
+> +		if ((ret & VRANGE_SELECT_BIT) != VRANGE_25P6) {
+> +			ret &= ~VRANGE_SELECT_BIT; /* VRANGE_SELECT = 0, 25.6V */
+> +			ret = i2c_smbus_write_word_data(
+> +				client, LTC4286_MFR_CONFIG1, ret);
+> +			if (ret < 0)
+> +				return dev_err_probe(&client->dev, ret,
+> +						     "Failed to set vrange\n");
+> +		}
+> +
+> +		info->m[PSC_VOLTAGE_IN] = 128;
+> +		info->m[PSC_VOLTAGE_OUT] = 128;
+> +		info->m[PSC_POWER] = 4 * rsense;
+> +		if (info->m[PSC_POWER] > INT_MAX)
+
+This is too late. See below.
+
+> +			return dev_err_probe(&client->dev, -ERANGE,
+> +					     "Power coefficient overflow\n");
+> +	} else {
+> +		info->m[PSC_POWER] = rsense;
+> +		if (info->m[PSC_POWER] > INT_MAX)
+> +			return dev_err_probe(&client->dev, -ERANGE,
+> +					     "Power coefficient overflow\n");
+
+This still needs to be written into the chip. There is no guarantee that
+the chip is in its default configuration when the driver is loaded.
+
+> +	}
+> +
+> +	info->m[PSC_CURRENT_OUT] = 1024 * rsense;
+> +	if (info->m[PSC_CURRENT_OUT] > INT_MAX)
+
+This is too late. If rsense == INT_MAX, for example, 1024 * rsense
+will be some negative number.
+
+> +		return dev_err_probe(&client->dev, -ERANGE,
+> +				     "Current coefficient overflow\n");
+> +
+> +	return pmbus_do_probe(client, info);
+> +}
+> +
+> +static const struct of_device_id ltc4286_of_match[] = {
+> +	{ .compatible = "lltc,ltc4286" },
+> +	{ .compatible = "lltc,ltc4287" },
+> +	{}
+> +};
+> +
+> +static struct i2c_driver ltc4286_driver = {
+> +	.driver = {
+> +		.name = "ltc4286",
+> +		.of_match_table = ltc4286_of_match,
+> +	},
+> +	.probe = ltc4286_probe,
+> +	.id_table = ltc4286_id,
+> +};
+> +
+> +module_i2c_driver(ltc4286_driver);
+> +
+> +MODULE_AUTHOR("Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>");
+> +MODULE_DESCRIPTION("PMBUS driver for LTC4286 and compatibles");
+> +MODULE_LICENSE("GPL");
 
