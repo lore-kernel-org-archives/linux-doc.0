@@ -1,63 +1,63 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF35E1DFF5;
-	Tue, 31 Oct 2023 15:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25C71E506;
+	Tue, 31 Oct 2023 15:14:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="CAQjrx/E";
-	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="CrgSTdjs"
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="HqFc/H6+";
+	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="BqST4SA3"
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A51181BD;
-	Tue, 31 Oct 2023 08:14:21 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0253D47;
+	Tue, 31 Oct 2023 08:14:23 -0700 (PDT)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
-	by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39VCJjRj013616;
-	Tue, 31 Oct 2023 15:13:34 GMT
+	by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39VCJjRk013616;
+	Tue, 31 Oct 2023 15:13:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:content-transfer-encoding:content-type:mime-version; s=
-	dk201812; bh=Ta/twkNe6G3IEMub1AaJ9LmqiwDb9AiUA4D49+ca+b0=; b=CAQ
-	jrx/ERsNp4/KKfHOgf/PdCFEGHU3Vl2HdiNMwQiIxMTjugxhA1Q4WXsUDd5k7HJb
-	t+WQbfX6s3qX+IDBv/BugQRFwpgOc70lRD+QXblY/AjCVw76FSsE2D/p6P0xouOm
-	+iSf7r9ySRHa1C77RFyBof7EiNZamkbC0T/e3bEXscP2EXErE20p7X0+VHncuTcX
-	NJoHLwg491smsaVaT4Lx+1mZvZk+b4ey/CXHt0ToF/jPx15Jx4ME+iN8cNrPe3QG
-	CcPXwxz4SbIs8ghZh1gKrRGpK7pk/g9x8bAc/1M740vLWuIUyIdm2V3QxBITRla7
-	89V0Stm6RnZC8/Ubmxw==
+	dk201812; bh=BNAxej3KvneDaYePCiMB/+uag/wdYkSuCDJ1fUXCULc=; b=HqF
+	c/H6+rVPn0jCTNh+rnalMoR/6wphN0XwrUCUNC2UbGyCkJYbtoOq+nS03/Bccsl0
+	KLheIb3+3Td1UbXD5lJ2ilSZ1IqFevK7XQCF76RMdiiLme1noZmhqbYfibfkroyU
+	dU2puwr6BDDgybvetDjwbwM/DEsLqb4Hn8PIudAjWnaIomrnVsOCWO9aGR4B310x
+	Vv/Hos4x0qMbMnOgBhHtlgwKOz3kIBs177PnYE+F7EXWomcOWUYst3iUOKfDYDod
+	PAoyHZ164PQ6HyjpeuaKMtkMPQ1L9U7iMcxzX1HpCtwCE2QHmfJP/PtyVXIMwN+k
+	2nqlslPHakqFWlHtB4A==
 Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
-	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3u0rjntf42-7
+	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3u0rjntf42-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 31 Oct 2023 15:13:33 +0000 (GMT)
+	Tue, 31 Oct 2023 15:13:34 +0000 (GMT)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
  HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 31 Oct 2023 15:13:29 +0000
+ 15.1.2507.34; Tue, 31 Oct 2023 15:13:30 +0000
 Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.50) by
  email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34 via Frontend
- Transport; Tue, 31 Oct 2023 15:13:29 +0000
+ Transport; Tue, 31 Oct 2023 15:13:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HyojaZ99KE25xGIo5bktpJ0ASc1dduu2cGLPK6avZXGfw2aPoW95Y0pGX2qfBEmtOQ5miS0sLwboCtCLwD7hSnFjTa3sgc8KhgxQWDb7iK/rC0tUA51Jp7w92SzR1OqKVbpuaO5GUG1JRwb0+zkp+BVv7ZVYdaNIDPcQjh53BKHngYg03BDf8UAT/ZGVFiKGIrFjGu3J75HsEIZYANjgC0GI4QMqDlNIjSft9Ni/TTtESl5HmO6RcLq71xiqibiVtbFBgTzPVBk341RFFVwuDi2aLwxQK5S0rmg+nbJCOZ+kFu3GN55b6WTb9GlwXzpkoOqgGZILiTgZZ2/o8N1Vyw==
+ b=AgUJDdKYx/4+JNyU91r8tvBNdO9nMyRRae0+pdCcgBtvJRI3Ghn4gTWIo+EyNOoULnD2ILUYJ2GvIJ0g6qrmlbZJblmLg8SeChtvaJakx/edh1yIqhRV8gCPkp/cprWWDadhT0MpfTOfBTernTpni7qz5OfQJ6NCcaNhUGI02e+wKq2sti1/Nc9SAXxhZZvAcejInKWjo2ZasqQNn/+z9ktnEG7G3saCr1C/C4NYxcZIZMmC+D83xt5eW71z/Ov7FHXtd5JTih8uyszuGtBLTdyCd4DPmjrTv26lk9IHjqr/tOQbuI1pSZgw649H66nFL7/EjNEMbYfgqvZ2kF1bDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ta/twkNe6G3IEMub1AaJ9LmqiwDb9AiUA4D49+ca+b0=;
- b=fsHZSWhMzMbdFTVJUT0kxoeDbGGstdQCQwvN7aWJuoxKtjSm8qfPtxjhSRcgTAMZiH9dOLWHmKwlAMV1kHKw/uM1LB4WqNUetFCIICnTXT6ERq9xYcJf+erF7wuGdeVI/RPz0SRG3J3B42maxe1OJmK9Fekee/yv4zmQRvK7hYx2Yr9sGpcfKsreYPs5HVjDprceNDU3FeZZdz4jqpAqta3LHwHrvAkO9A9sIy7SFjOwtTMdYm45Hu1Mrey8wBDiptRN5xfq+6TJlASZRmsdmI43X4XdOCENkTP2Mr5cM0HffEHW5GIK1cGgJxaRn04qkW5CUX+eHPRzNWV4ldPKRA==
+ bh=BNAxej3KvneDaYePCiMB/+uag/wdYkSuCDJ1fUXCULc=;
+ b=CZ6t1v+0JqeLxx5qX/kv9i4YEvcoyJ6J41oqn92He+OTsAFj1jz30mSUz+UYy1a0bukdOuwB5DufoRhnWMJ9AvznV7PQXQKdUBHd9Tva0kOAUYOqxdUb2aBRiltA8Q161OXcG9hBCCmgq8S9muVEfQlKdI9hAm9jEVpKgwosqgPM0F/enk0nR+C1/Wa1Ht1SUye4v5dir2yEBsv+lEbe/KbyifL+846lft9HToROMuA3oYA7GGeDZ4Y4iYwyo1uQMmy8dI78JpmqsV1Iwu9FQ8Aa2YS6PbQl4NL6PPFMZeKdypa1ajaOdaAN2FCR40HgCjsAi8hw8JEVZmRVLFmohQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ta/twkNe6G3IEMub1AaJ9LmqiwDb9AiUA4D49+ca+b0=;
- b=CrgSTdjs0EdhMEbFFgBBkZMsXKsM9Z7E74ub8T8WsuqAX99rXfwUFK0JfOWuTxnTk59e1qFVInoKL6LkjCC6QeIcXOJ3Tv8uLgvE/MPHfdwT04gAJQTEqkxwobjiO7x6VagAzobYJx8C5VT39DePTte88U7MNednbwhVQrr/Y6g=
+ bh=BNAxej3KvneDaYePCiMB/+uag/wdYkSuCDJ1fUXCULc=;
+ b=BqST4SA3BA5TCUdpmAeITXEITnP92t51ZdN0mIQhZfUxdSJR35Ea6mP0o07b9lzUeCugsglyxUTqwYHTHl5HWe7JnhfB7W0EiTXHAVdlIsimpzov2nLutXiPOZUDDZ2o1sKAYammYwCJMiGuCUzhwSniIN2Cdvwah+mLweYk8GI=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by CWLP265MB2018.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:6a::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.25; Tue, 31 Oct
- 2023 15:13:24 +0000
+ 2023 15:13:19 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::eef1:bccc:508d:e086]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::eef1:bccc:508d:e086%5]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
- 15:13:24 +0000
+ 15:13:19 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
 CC: <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
@@ -71,9 +71,9 @@ CC: <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
         <devicetree@vger.kernel.org>, <corbet@lwn.net>,
         <linux-doc@vger.kernel.org>
-Subject: [PATCH v8 17/20] drm/imagination: Implement job submission and scheduling
-Date: Tue, 31 Oct 2023 15:12:54 +0000
-Message-Id: <20231031151257.90350-18-sarah.walker@imgtec.com>
+Subject: [PATCH v8 09/20] drm/imagination: Add FWIF headers
+Date: Tue, 31 Oct 2023 15:12:46 +0000
+Message-Id: <20231031151257.90350-10-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231031151257.90350-1-sarah.walker@imgtec.com>
 References: <20231031151257.90350-1-sarah.walker@imgtec.com>
@@ -90,3924 +90,3984 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB2018:EE_
-X-MS-Office365-Filtering-Correlation-Id: e515fc2a-4461-4fea-c4e9-08dbda23ed3a
+X-MS-Office365-Filtering-Correlation-Id: b1ecc62e-e1df-46de-dce4-08dbda23ea14
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nsLxk5+eGsUa3YunMJPIcBvrs90e+M3Zee8Cd99E9pdsaFpE6lHZEYb2WWH2pOb6qrM64iySIfID7hBU3CBARKlLVe6EJ/DL9/nf5eEduEUXjLfFOAa9m8vP00Vs71UOc/4bfwYhL/8EwWlluaerg1ACKp5oeMyQXsEKnPI1wViEcmGRkUAcmaCoQIZ7iGCfU7j9DjdtpSQBfhGxoAha9x6uWDsA8VfgzRsPwqGThU2vSWczRB/UZzN1zdROno7nMwBU5fAK/uqCMFWuFy8d249W0/YZZWs232m/UlmiGsGpWIr81jbhlZj7qMMXqffwVll8t8a0VmtoSzOIzRcdsIiAqMvVDpYeyeCqSdYgBqZk2G2OArTd98ESIwLgPhbP/UYw1wXJavtRVllb6o5wYOT7N7N28id1bfFO7SkALMOqIwlZDSuYWYmcRVmqKdpFN+Z6YXyXecaTM/Xn7U+5QunsE8E/k+alXr0NH8OwMmE0kt/3nryU8TLGY+RkOgG1osjVJdHRx1gjhuHyfJpMKNyIcbBGmhBcDwPjROeXeF64Kl0/sy7W8g5ljTpHK71PUiE5msIMGlhg+xMvNL4aLjpka0a3gspWHvB5/hQw0t0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(39850400004)(346002)(396003)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(2906002)(30864003)(7416002)(41300700001)(5660300002)(44832011)(8676002)(4326008)(8936002)(38350700005)(36756003)(86362001)(38100700002)(1076003)(316002)(6916009)(66946007)(66476007)(66556008)(2616005)(83380400001)(478600001)(6666004)(26005)(966005)(6512007)(6506007)(52116002)(6486002)(579004)(559001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: zSVhbabOQofhSAqRqkrvd5VPcVqWIs83DSkJWMYO/nKX3y/J2H6PlFWCfdxd3N5BfbXy34/KUA7rEwYF40ZsMqmlz5LXD7uu55qhBSOumNKvpA5rkiFThjDFAkvx9iMVZj5Ol75oJNs3RB23+vJsDcewDj7/bLEShE6N1ymOKyWejveUBQIV88RfZFN9lLKY8g0UuNs6MeKOWJAL8YorPvksXuXIQBz46x3u29HZ93+buWam9VGEQVuAgX/cige3q+fzMtCpGz8dLq5PpWjY81hnnp+baglJTCRkmGPm61NtGjiVdIIdEXnrz2HNQvc/gz4k9Pqc8BJag6KTI+PAxl3rAR/pr666VnrVhUg/0akg0hZj6wEkNcX7Fz2iNaMSBNak2/6SpbrUmTk7+hxzbVmujKQma2bsl+shacWOtHxaKDzYmixd1Yn2eRAms63istXHenWWplbkUY0Tpk0sTOabB4ExOmSLHE4Hl0Qhp/3LroA5Y12y0WtrjrwBTSdqUsUDTy7WgBcbNAF6s70BmuUPa0SODS4n+BgS0zN14WSUXIB7tfv8mpaZvC7qba58xOU0hHzuxkJV0b4dNGo2gJo31G3NNyWwsZepCoEQkFcBYnwsgFhCJIXZOCSZsVVvlQIeVBA1S/lBQbbpmrmqh5CRWjLqjBFbhabNxRQnnFE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(39850400004)(346002)(396003)(230173577357003)(230922051799003)(230273577357003)(64100799003)(1800799009)(186009)(451199024)(66899024)(2906002)(30864003)(7416002)(41300700001)(5660300002)(44832011)(8676002)(4326008)(8936002)(38350700005)(36756003)(86362001)(38100700002)(1076003)(316002)(6916009)(66946007)(66476007)(66556008)(2616005)(83380400001)(478600001)(6666004)(26005)(19627235002)(6512007)(6506007)(52116002)(6486002)(579004)(559001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0PE+PsrTljECUX4GZClRkXB4GrygSV5OTPmRrNIbWrAXmn1hf2ove8G7BPgT?=
- =?us-ascii?Q?0GgvVi8SpOUrwvu6HYGyKtKGHiIR7gD8o4UV1YDWBQUlEFXD313YrY2IhMS3?=
- =?us-ascii?Q?V/KAnCbskB3XrizToMMA+Jx9sRemz+vKWy8he/rLXrPsN5M81DrzgG+l1VDy?=
- =?us-ascii?Q?7Tvs5UBRQqs3Nq6KADB8+c2tXgoOPMwp3i8IkUGePUdZxKzMqewmKduJa4HM?=
- =?us-ascii?Q?JyFTlTx4EswV6oA0PpvXhtCNifbl2eDObtoYreTci/K5NSwUU+C17ZRcqOBX?=
- =?us-ascii?Q?YONh2oWdn9dTZlwrD0XnqLvF78MTPPqHeGlBgyI1usmS6ihH5e9Si88jaEMT?=
- =?us-ascii?Q?TB7Z+b/vidX474T1y11k08lVubpPxkQb079BZfIGOVXJbF2D6yTVqCZ/xERD?=
- =?us-ascii?Q?HoKuueAoIkD+z1+IkkSO917MgOIJwbuXQH3P8IIUKOreE7Eb5dObi8TpC6mW?=
- =?us-ascii?Q?waI3y8HGzT6DCl3p6MG7dsFBQ2CAG4bnkYFRxiax27NcXuMY3PIkkxPZ2i7l?=
- =?us-ascii?Q?uM2lBi7IE4p1lqhjmlHXIVlVFv7Acbq/VFnyXQvvQHxhRBMoi05acW5Ctt6Y?=
- =?us-ascii?Q?M5MI+IVDOFkEghU+cx5/m8w908dlL5/4NUEcIp3afZaxDO/YkF3vR3ueqaNL?=
- =?us-ascii?Q?3J35t2U3FpTtqR8xCcUv1pqDbkvtbkKhlfL5BCAw/jcmv/0GnNU4dMVXCEnH?=
- =?us-ascii?Q?GjI+Gt5zAsAbMgd8kLobSnWpqqM4USZYZIsTAlJ+TOFbSsZApJ7ehEFozBgz?=
- =?us-ascii?Q?hg22QDyKEqW+Y7kXWwhsYez9GwRaha1Ydj1pko1U3VqRDJ9+HqJS31NuURM9?=
- =?us-ascii?Q?mRKiGAlaa8ksMBjdQ7mA12I2WvGUlaC87//P3PO0nBWPQrDp41I/h3TzFxff?=
- =?us-ascii?Q?ZdK/3cyXH0QPF4ogXVUmpeLJWAe/7qY+U8wJSz+8L1++lRlVZ73yfm5DgvDO?=
- =?us-ascii?Q?2ZkS1ESbd3gpnJ06pziQFRbXg/gMpQhWsszBO9IbHdklRztZgvl+EZYbvO3x?=
- =?us-ascii?Q?szTbie5qFEoAndbmsXwdfKOK5YGuD1aldeAj1uF+UrGpJ6NPnE7201Qqf4Ap?=
- =?us-ascii?Q?WI+W2S8OWgv8ZUGKi3vkFDbNtiGGrGUA79U2jMu4QyR27WGjcFEhtb4Mt2hK?=
- =?us-ascii?Q?cIoP9nMD6FAo1DC5UJwxP1YsaeyPjrJM1g9r2BL3zL4/vVZn/ydM+f2heC0k?=
- =?us-ascii?Q?CWRfavZznfhl50m8rTpWG+jZzVOiLkxUsrl5E4uvMwwc9pDLjJbP0Tj9sRSt?=
- =?us-ascii?Q?lxsg+1kvbrspK68cJMrTjcdmf6HN+/jiYzT51MP/WnBM7DsoDlVstA7VZ4Zp?=
- =?us-ascii?Q?VulL/6ceZAIihr4u/ZvSpWxGYPfug6cU2ON5RAEbFfIvwqo4/Q7L9ts11RJ5?=
- =?us-ascii?Q?HvwpLNxwspaR0dmAjCkBWXtQZ4jpW9V+QF+NnYMC732gdFbNFuy15YaCVWnf?=
- =?us-ascii?Q?gzEv2C8JdksTnEVitn5iaQtOX60E9e6x9pMv+oQ+mAmi+UBuPJBnF+62smCQ?=
- =?us-ascii?Q?RQKZXsIa/vWV4GsjMnAD8aKjRZMxnrfhBURejWysQAAC2CrwfXgVLNtZxxVd?=
- =?us-ascii?Q?zA6YQkEV4ZqeF0gLGbkkZJJUxczt0E8XU3RHig/echhizoGMKyb7P9eBbo/s?=
- =?us-ascii?Q?KQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e515fc2a-4461-4fea-c4e9-08dbda23ed3a
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?e/4i5qTrQQTCbjiYQDbXZw0Tj9ofzp5C9rlM5rgtFejArwQcZHmZ18w69bal?=
+ =?us-ascii?Q?Sefti3n70umYoWAVSZOlCCmv2xtKTbTJrdeGdk9S1qEwd7xba5l4XpG9sXrN?=
+ =?us-ascii?Q?gitpwNkVTWVlb/ZxvbN6QOiIC+5DvR4MnBF+/EfiaBo0Oa82fd01fhwpSyq+?=
+ =?us-ascii?Q?IpizFaUQJfoMZF5V2MlbiZdBtfcJLuFruG1tUzT6PiE7Yil1JENBqhbew1/p?=
+ =?us-ascii?Q?PZmVarMoINlz8EwVrwEq3+tSXS3/BHnG1KltcTSSMRQVjOzjmVQYBZm5V/7i?=
+ =?us-ascii?Q?iO2FfUBXlS5d2qMRwVhb7FHvYyfP39u2B2YmzltuvkEve6UhsaoRSqA5Oyyd?=
+ =?us-ascii?Q?QOnJieyH3ZDFv3tkIMJJt2+uCPSEmCyCf0rU+CSfHTY61MtAerSEj/7BqRw6?=
+ =?us-ascii?Q?SByMMmjEaz0Q4Juac/4VlS8ya9Rbj2bbhI7OeCNec+pwuWZrhrKYXjET4oEd?=
+ =?us-ascii?Q?rKus4BBk/bcnuHEWs50hLg5BkpLW6vpTqhNubx5f0yEWgtzAmE2/R4ttmcFw?=
+ =?us-ascii?Q?OwhzyI6uUmlWH9yrxavpPEy2RDiLcsfuzLkWHjrz7GOXHnqF9Gxrz1Vbp5HM?=
+ =?us-ascii?Q?7cF9YV16GgAiwvGUrYPlU9PDzHq99uQrcOAK3A5VwYEv1SDRsSLLLTRyMW7x?=
+ =?us-ascii?Q?C2mxD0JrXibVpxQ6FTXnMmWce4rrmIlfend6Il4pUVL6ZeX/vQU89FeDXbaA?=
+ =?us-ascii?Q?Y03itKMp8e/ttxrbcrWfN4R2CfdqOH5BTvIMGdRdvIwCkFJPyQY4SSa/oxVs?=
+ =?us-ascii?Q?Dhf+N5lgJ+OQ7H+vcKCNXaEqakVKgB/E99rn+kC0GWwZtHNBvyu/wzE/NgWI?=
+ =?us-ascii?Q?+aEaUMaWrOmazyJX9i7jlWIqBc5P4s3LMKcKwvLuH9iik8t1fcCL1Cke8uzT?=
+ =?us-ascii?Q?BfLKxzCMOUDRwMV48RwFPhuKQjqd0D8RFyum6Vm8P5LhiNmjHXHU0XM+zgoQ?=
+ =?us-ascii?Q?HMbQVQDy9liWeBTmiKzyypkVQpLMzVJpqt9xBB/IiKa7yt3tlDHX8/KA9Qm7?=
+ =?us-ascii?Q?IGTJoNTEYEDHynpoEsQ7oH6FGXco3OUByVjMn+Po6VAMl6niysAfCxPidBbt?=
+ =?us-ascii?Q?w4odNtmAdUxcN3yq7qj2J2skKdBdPslI+XkBDx7zshW2Rxp4a+yQUNffRY90?=
+ =?us-ascii?Q?65sL4Xwpc3UWXOrxREBE6FptjYiiwQeZ4SbMDYarq6BBUqfqq0uZCwS0eTOQ?=
+ =?us-ascii?Q?zo8zS3uNzZAVWKKAnSNguUFH8U79JdWzpd6FNwrcmK6wkCRFgf7ruDLsS5O2?=
+ =?us-ascii?Q?ZoxaI3nBk+se/SSHSHf31HH7VbHqHkv/QRFotrE3HKjysMEK8JhE2JujRvl5?=
+ =?us-ascii?Q?Pe1Iia+VZdpTM8gh5m0Httt5ll4rT19fnRYhoONepKyODbig1oGaZgVZtuB8?=
+ =?us-ascii?Q?+rrNrzkdwcj/Gf2/UhaPFQw1nJPt+YBecAJ5RLoIILAOYtFCOwZcc4d6Uf/p?=
+ =?us-ascii?Q?tORWT1Biv/2isV6AB6Tcl8egPTIG741swdbiUqyuuD8m1dBhDd//+5KcgEXz?=
+ =?us-ascii?Q?VMH6y30ylLhvzR0PHLlJngRj1KkS0gQn8AHOu0EqOaVgi/PFnDXrY3lr9IER?=
+ =?us-ascii?Q?ljVeLO1KBCRb1sSo1/gKftqRT65Jajks1ozSkwY7df8nxuKKFET+ngQJJ1iT?=
+ =?us-ascii?Q?Ug=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1ecc62e-e1df-46de-dce4-08dbda23ea14
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 15:13:24.4153
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 15:13:19.1356
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6KNzjeyA+1cUafqMYxDlkwZEXgBHQcRxvMW3+33VG6wMDLeCuZcGlArAfsLrAXMziBq2mfOs/Vc3nK5UBG21hg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4diH58vKKymrldk3uBSuehNPuDzq68ZHQo+YpA9KuXMorcB3dqgRYvJZHJobTlaZFeBUAPe9OWOiSvF+AfqUpw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2018
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: 5dUV9rraPEJYP5Wy-TuCk9qNB8k_nhtU
-X-Proofpoint-ORIG-GUID: 5dUV9rraPEJYP5Wy-TuCk9qNB8k_nhtU
+X-Proofpoint-GUID: Mw6Am8DSN99A3q_GnGyG5knLv4KPtTsY
+X-Proofpoint-ORIG-GUID: Mw6Am8DSN99A3q_GnGyG5knLv4KPtTsY
 
-Implement job submission ioctl. Job scheduling is implemented using
-drm_sched.
-
-Jobs are submitted in a stream format. This is intended to allow the UAPI
-data format to be independent of the actual FWIF structures in use, which
-vary depending on the GPU in use.
-
-The stream formats are documented at:
-https://gitlab.freedesktop.org/mesa/mesa/-/blob/f8d2b42ae65c2f16f36a43e0ae39d288431e4263/src/imagination/csbgen/rogue_kmd_stream.xml
-
-This patch depends on:
-drm/sched: Convert drm scheduler to use a work queue rather than kthread:
-  https://lore.kernel.org/dri-devel/20230404002211.3611376-2-matthew.brost@intel.com/
-drm/sched: Move schedule policy to scheduler / entity:
-  https://lore.kernel.org/dri-devel/20230404002211.3611376-3-matthew.brost@intel.com/
-drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy:
-  https://lore.kernel.org/dri-devel/20230404002211.3611376-4-matthew.brost@intel.com/
-drm/sched: Start run wq before TDR in drm_sched_start:
-  https://lore.kernel.org/dri-devel/20230404002211.3611376-6-matthew.brost@intel.com/
-drm/sched: Submit job before starting TDR:
-  https://lore.kernel.org/dri-devel/20230404002211.3611376-7-matthew.brost@intel.com/
-drm/sched: Add helper to set TDR timeout:
-  https://lore.kernel.org/dri-devel/20230404002211.3611376-8-matthew.brost@intel.com/
-
-Changes since v6:
-- Fix fence handling in pvr_sync_signal_array_add()
-- Add handling for SUBMIT_JOB_FRAG_CMD_DISABLE_PIXELMERGE flag
-- Fix missing dma_resv locking in job submit path
+Changes since v7:
+- Add padding to struct rogue_fwif_ccb_ctl to place read and write offsets
+  in different cache lines
 
 Changes since v5:
-- Fix leak in job creation error path
+- Split up header commit due to size
+- Add BRN 71242 to device info
 
 Changes since v4:
-- Use a regular workqueue for job scheduling
+- Add FW header device info
 
-Changes since v3:
-- Support partial render jobs
-- Add job timeout handler
-- Split sync handling out of job code
-- Use drm_dev_{enter,exit}
-
-Changes since v2:
-- Use drm_sched for job scheduling
-
-Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Co-developed-by: Donald Robson <donald.robson@imgtec.com>
-Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/imagination/Kconfig           |    1 +
- drivers/gpu/drm/imagination/Makefile          |    3 +
- drivers/gpu/drm/imagination/pvr_context.c     |  125 +-
- drivers/gpu/drm/imagination/pvr_context.h     |   44 +
- drivers/gpu/drm/imagination/pvr_device.c      |   31 +
- drivers/gpu/drm/imagination/pvr_device.h      |   21 +
- drivers/gpu/drm/imagination/pvr_drv.c         |   40 +-
- drivers/gpu/drm/imagination/pvr_job.c         |  788 +++++++++
- drivers/gpu/drm/imagination/pvr_job.h         |  161 ++
- drivers/gpu/drm/imagination/pvr_power.c       |   28 +
- drivers/gpu/drm/imagination/pvr_queue.c       | 1455 +++++++++++++++++
- drivers/gpu/drm/imagination/pvr_queue.h       |  179 ++
- drivers/gpu/drm/imagination/pvr_stream_defs.c |  226 +++
- drivers/gpu/drm/imagination/pvr_sync.c        |  289 ++++
- drivers/gpu/drm/imagination/pvr_sync.h        |   84 +
- 15 files changed, 3471 insertions(+), 4 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_job.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_job.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_queue.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_queue.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_sync.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_sync.h
+ drivers/gpu/drm/imagination/pvr_rogue_fwif.h  | 2188 +++++++++++++++++
+ .../drm/imagination/pvr_rogue_fwif_check.h    |  493 ++++
+ .../drm/imagination/pvr_rogue_fwif_client.h   |  373 +++
+ .../imagination/pvr_rogue_fwif_client_check.h |  133 +
+ .../drm/imagination/pvr_rogue_fwif_common.h   |   60 +
+ .../drm/imagination/pvr_rogue_fwif_dev_info.h |  113 +
+ .../pvr_rogue_fwif_resetframework.h           |   28 +
+ .../drm/imagination/pvr_rogue_fwif_shared.h   |  258 ++
+ .../imagination/pvr_rogue_fwif_shared_check.h |  108 +
+ .../drm/imagination/pvr_rogue_fwif_stream.h   |   78 +
+ 10 files changed, 3832 insertions(+)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_client.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_client_check.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_common.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_dev_info.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_resetframework.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_shared_check.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_stream.h
 
-diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
-index 2639fbf3ebac..084e72aa82eb 100644
---- a/drivers/gpu/drm/imagination/Kconfig
-+++ b/drivers/gpu/drm/imagination/Kconfig
-@@ -6,6 +6,7 @@ config DRM_POWERVR
- 	depends on ARM64
- 	depends on DRM
- 	depends on PM
-+	select DRM_EXEC
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_SCHED
- 	select DRM_GPUVM
-diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 0c8ab120f277..313af5312d7b 100644
---- a/drivers/gpu/drm/imagination/Makefile
-+++ b/drivers/gpu/drm/imagination/Makefile
-@@ -18,10 +18,13 @@ powervr-y := \
- 	pvr_fw_trace.o \
- 	pvr_gem.o \
- 	pvr_hwrt.o \
-+	pvr_job.o \
- 	pvr_mmu.o \
- 	pvr_power.o \
-+	pvr_queue.o \
- 	pvr_stream.o \
- 	pvr_stream_defs.o \
-+	pvr_sync.o \
- 	pvr_vm.o \
- 	pvr_vm_mips.o
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/imagination/pvr_context.c
-index 7ade4d395d1d..42385eb15271 100644
---- a/drivers/gpu/drm/imagination/pvr_context.c
-+++ b/drivers/gpu/drm/imagination/pvr_context.c
-@@ -6,10 +6,12 @@
- #include "pvr_device.h"
- #include "pvr_drv.h"
- #include "pvr_gem.h"
-+#include "pvr_job.h"
- #include "pvr_power.h"
- #include "pvr_rogue_fwif.h"
- #include "pvr_rogue_fwif_common.h"
- #include "pvr_rogue_fwif_resetframework.h"
-+#include "pvr_stream.h"
- #include "pvr_stream_defs.h"
- #include "pvr_vm.h"
- 
-@@ -164,6 +166,116 @@ ctx_fw_data_init(void *cpu_ptr, void *priv)
- 	memcpy(cpu_ptr, ctx->data, ctx->data_size);
- }
- 
-+/**
-+ * pvr_context_destroy_queues() - Destroy all queues attached to a context.
-+ * @ctx: Context to destroy queues on.
-+ *
-+ * Should be called when the last reference to a context object is dropped.
-+ * It releases all resources attached to the queues bound to this context.
-+ */
-+static void pvr_context_destroy_queues(struct pvr_context *ctx)
-+{
-+	switch (ctx->type) {
-+	case DRM_PVR_CTX_TYPE_RENDER:
-+		pvr_queue_destroy(ctx->queues.fragment);
-+		pvr_queue_destroy(ctx->queues.geometry);
-+		break;
-+	case DRM_PVR_CTX_TYPE_COMPUTE:
-+		pvr_queue_destroy(ctx->queues.compute);
-+		break;
-+	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
-+		pvr_queue_destroy(ctx->queues.transfer);
-+		break;
-+	}
-+}
-+
-+/**
-+ * pvr_context_create_queues() - Create all queues attached to a context.
-+ * @ctx: Context to create queues on.
-+ * @args: Context creation arguments passed by userspace.
-+ * @fw_ctx_map: CPU mapping of the FW context object.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * A negative error code otherwise.
-+ */
-+static int pvr_context_create_queues(struct pvr_context *ctx,
-+				     struct drm_pvr_ioctl_create_context_args *args,
-+				     void *fw_ctx_map)
-+{
-+	int err;
-+
-+	switch (ctx->type) {
-+	case DRM_PVR_CTX_TYPE_RENDER:
-+		ctx->queues.geometry = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_GEOMETRY,
-+							args, fw_ctx_map);
-+		if (IS_ERR(ctx->queues.geometry)) {
-+			err = PTR_ERR(ctx->queues.geometry);
-+			ctx->queues.geometry = NULL;
-+			goto err_destroy_queues;
-+		}
-+
-+		ctx->queues.fragment = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_FRAGMENT,
-+							args, fw_ctx_map);
-+		if (IS_ERR(ctx->queues.fragment)) {
-+			err = PTR_ERR(ctx->queues.fragment);
-+			ctx->queues.fragment = NULL;
-+			goto err_destroy_queues;
-+		}
-+		return 0;
-+
-+	case DRM_PVR_CTX_TYPE_COMPUTE:
-+		ctx->queues.compute = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_COMPUTE,
-+						       args, fw_ctx_map);
-+		if (IS_ERR(ctx->queues.compute)) {
-+			err = PTR_ERR(ctx->queues.compute);
-+			ctx->queues.compute = NULL;
-+			goto err_destroy_queues;
-+		}
-+		return 0;
-+
-+	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
-+		ctx->queues.transfer = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_TRANSFER_FRAG,
-+							args, fw_ctx_map);
-+		if (IS_ERR(ctx->queues.transfer)) {
-+			err = PTR_ERR(ctx->queues.transfer);
-+			ctx->queues.transfer = NULL;
-+			goto err_destroy_queues;
-+		}
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+
-+err_destroy_queues:
-+	pvr_context_destroy_queues(ctx);
-+	return err;
-+}
-+
-+/**
-+ * pvr_context_kill_queues() - Kill queues attached to context.
-+ * @ctx: Context to kill queues on.
-+ *
-+ * Killing the queues implies making them unusable for future jobs, while still
-+ * letting the currently submitted jobs a chance to finish. Queue resources will
-+ * stay around until pvr_context_destroy_queues() is called.
-+ */
-+static void pvr_context_kill_queues(struct pvr_context *ctx)
-+{
-+	switch (ctx->type) {
-+	case DRM_PVR_CTX_TYPE_RENDER:
-+		pvr_queue_kill(ctx->queues.fragment);
-+		pvr_queue_kill(ctx->queues.geometry);
-+		break;
-+	case DRM_PVR_CTX_TYPE_COMPUTE:
-+		pvr_queue_kill(ctx->queues.compute);
-+		break;
-+	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
-+		pvr_queue_kill(ctx->queues.transfer);
-+		break;
-+	}
-+}
-+
- /**
-  * pvr_context_create() - Create a context.
-  * @pvr_file: File to attach the created context to.
-@@ -214,10 +326,14 @@ int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_co
- 		goto err_put_vm;
- 	}
- 
--	err = init_fw_objs(ctx, args, ctx->data);
-+	err = pvr_context_create_queues(ctx, args, ctx->data);
- 	if (err)
- 		goto err_free_ctx_data;
- 
-+	err = init_fw_objs(ctx, args, ctx->data);
-+	if (err)
-+		goto err_destroy_queues;
-+
- 	err = pvr_fw_object_create(pvr_dev, ctx_size, PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
- 				   ctx_fw_data_init, ctx, &ctx->fw_obj);
- 	if (err)
-@@ -243,6 +359,9 @@ int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_co
- err_destroy_fw_obj:
- 	pvr_fw_object_destroy(ctx->fw_obj);
- 
-+err_destroy_queues:
-+	pvr_context_destroy_queues(ctx);
-+
- err_free_ctx_data:
- 	kfree(ctx->data);
- 
-@@ -262,6 +381,7 @@ pvr_context_release(struct kref *ref_count)
- 	struct pvr_device *pvr_dev = ctx->pvr_dev;
- 
- 	xa_erase(&pvr_dev->ctx_ids, ctx->ctx_id);
-+	pvr_context_destroy_queues(ctx);
- 	pvr_fw_object_destroy(ctx->fw_obj);
- 	kfree(ctx->data);
- 	pvr_vm_context_put(ctx->vm_ctx);
-@@ -299,6 +419,9 @@ pvr_context_destroy(struct pvr_file *pvr_file, u32 handle)
- 	if (!ctx)
- 		return -EINVAL;
- 
-+	/* Make sure nothing can be queued to the queues after that point. */
-+	pvr_context_kill_queues(ctx);
-+
- 	/* Release the reference held by the handle set. */
- 	pvr_context_put(ctx);
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_context.h b/drivers/gpu/drm/imagination/pvr_context.h
-index fa7115380272..582d64c44d5f 100644
---- a/drivers/gpu/drm/imagination/pvr_context.h
-+++ b/drivers/gpu/drm/imagination/pvr_context.h
-@@ -15,6 +15,7 @@
- 
- #include "pvr_cccb.h"
- #include "pvr_device.h"
-+#include "pvr_queue.h"
- 
- /* Forward declaration from pvr_gem.h. */
- struct pvr_fw_object;
-@@ -58,8 +59,51 @@ struct pvr_context {
- 
- 	/** @ctx_id: FW context ID. */
- 	u32 ctx_id;
-+
-+	/**
-+	 * @faulty: Set to 1 when the context queues had unfinished job when
-+	 * a GPU reset happened.
-+	 *
-+	 * In that case, the context is in an inconsistent state and can't be
-+	 * used anymore.
-+	 */
-+	atomic_t faulty;
-+
-+	/** @queues: Union containing all kind of queues. */
-+	union {
-+		struct {
-+			/** @geometry: Geometry queue. */
-+			struct pvr_queue *geometry;
-+
-+			/** @fragment: Fragment queue. */
-+			struct pvr_queue *fragment;
-+		};
-+
-+		/** @compute: Compute queue. */
-+		struct pvr_queue *compute;
-+
-+		/** @compute: Transfer queue. */
-+		struct pvr_queue *transfer;
-+	} queues;
- };
- 
-+static __always_inline struct pvr_queue *
-+pvr_context_get_queue_for_job(struct pvr_context *ctx, enum drm_pvr_job_type type)
-+{
-+	switch (type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return ctx->type == DRM_PVR_CTX_TYPE_RENDER ? ctx->queues.geometry : NULL;
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return ctx->type == DRM_PVR_CTX_TYPE_RENDER ? ctx->queues.fragment : NULL;
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return ctx->type == DRM_PVR_CTX_TYPE_COMPUTE ? ctx->queues.compute : NULL;
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return ctx->type == DRM_PVR_CTX_TYPE_TRANSFER_FRAG ? ctx->queues.transfer : NULL;
-+	}
-+
-+	return NULL;
-+}
-+
- /**
-  * pvr_context_get() - Take additional reference on context.
-  * @ctx: Context pointer.
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-index aac5e62d6cbe..e22a62ba21a4 100644
---- a/drivers/gpu/drm/imagination/pvr_device.c
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -6,7 +6,9 @@
- 
- #include "pvr_fw.h"
- #include "pvr_power.h"
-+#include "pvr_queue.h"
- #include "pvr_rogue_cr_defs.h"
-+#include "pvr_stream.h"
- #include "pvr_vm.h"
- 
- #include <drm/drm_print.h>
-@@ -117,6 +119,32 @@ static int pvr_device_clk_init(struct pvr_device *pvr_dev)
- 	return 0;
- }
- 
-+/**
-+ * pvr_device_process_active_queues() - Process all queue related events.
-+ * @pvr_dev: PowerVR device to check
-+ *
-+ * This is called any time we receive a FW event. It iterates over all
-+ * active queues and calls pvr_queue_process() on them.
-+ */
-+void pvr_device_process_active_queues(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_queue *queue, *tmp_queue;
-+	LIST_HEAD(active_queues);
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+
-+	/* Move all active queues to a temporary list. Queues that remain
-+	 * active after we're done processing them are re-inserted to
-+	 * the queues.active list by pvr_queue_process().
-+	 */
-+	list_splice_init(&pvr_dev->queues.active, &active_queues);
-+
-+	list_for_each_entry_safe(queue, tmp_queue, &active_queues, node)
-+		pvr_queue_process(queue);
-+
-+	mutex_unlock(&pvr_dev->queues.lock);
-+}
-+
- static irqreturn_t pvr_device_irq_thread_handler(int irq, void *data)
- {
- 	struct pvr_device *pvr_dev = data;
-@@ -132,6 +160,7 @@ static irqreturn_t pvr_device_irq_thread_handler(int irq, void *data)
- 		if (pvr_dev->fw_dev.booted) {
- 			pvr_fwccb_process(pvr_dev);
- 			pvr_kccb_wake_up_waiters(pvr_dev);
-+			pvr_device_process_active_queues(pvr_dev);
- 		}
- 
- 		pm_runtime_mark_last_busy(from_pvr_device(pvr_dev)->dev);
-@@ -398,6 +427,8 @@ pvr_device_gpu_init(struct pvr_device *pvr_dev)
- 	else
- 		return -EINVAL;
- 
-+	pvr_stream_create_musthave_masks(pvr_dev);
-+
- 	err = pvr_set_dma_info(pvr_dev);
- 	if (err)
- 		return err;
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 506b83d4c782..31aaf9230e71 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -173,6 +173,26 @@ struct pvr_device {
- 	 */
- 	struct xarray free_list_ids;
- 
-+	/**
-+	 * @job_ids: Array of jobs belonging to this device. Array members
-+	 *           are of type "struct pvr_job *".
-+	 */
-+	struct xarray job_ids;
-+
-+	/**
-+	 * @queues: Queue-related fields.
-+	 */
-+	struct {
-+		/** @active: Active queue list. */
-+		struct list_head active;
-+
-+		/** @idle: Idle queue list. */
-+		struct list_head idle;
-+
-+		/** @lock: Lock protecting access to the active/idle lists. */
-+		struct mutex lock;
-+	} queues;
-+
- 	struct {
- 		/** @work: Work item for watchdog callback. */
- 		struct delayed_work work;
-@@ -442,6 +462,7 @@ packed_bvnc_to_pvr_gpu_id(u64 bvnc, struct pvr_gpu_id *gpu_id)
- 
- int pvr_device_init(struct pvr_device *pvr_dev);
- void pvr_device_fini(struct pvr_device *pvr_dev);
-+void pvr_device_reset(struct pvr_device *pvr_dev);
- 
- bool
- pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk);
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index 76ec2a3a21ee..adbf2e8d0ac8 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -7,6 +7,7 @@
- #include "pvr_free_list.h"
- #include "pvr_gem.h"
- #include "pvr_hwrt.h"
-+#include "pvr_job.h"
- #include "pvr_mmu.h"
- #include "pvr_power.h"
- #include "pvr_rogue_defs.h"
-@@ -32,6 +33,8 @@
- #include <linux/of_device.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/xarray.h>
- 
- /**
-  * DOC: PowerVR (Series 6 and later) and IMG Graphics Driver
-@@ -397,7 +400,8 @@ pvr_dev_query_runtime_info_get(struct pvr_device *pvr_dev,
- 		return 0;
- 	}
- 
--	runtime_info.free_list_min_pages = 0; /* FIXME */
-+	runtime_info.free_list_min_pages =
-+		pvr_get_free_list_min_pages(pvr_dev);
- 	runtime_info.free_list_max_pages =
- 		ROGUE_PM_MAX_FREELIST_SIZE / ROGUE_PM_PAGE_SIZE;
- 	runtime_info.common_store_alloc_region_size =
-@@ -1137,7 +1141,20 @@ static int
- pvr_ioctl_submit_jobs(struct drm_device *drm_dev, void *raw_args,
- 		      struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_submit_jobs_args *args = raw_args;
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	int idx;
-+	int err;
-+
-+	if (!drm_dev_enter(drm_dev, &idx))
-+		return -EIO;
-+
-+	err = pvr_submit_jobs(pvr_dev, pvr_file, args);
-+
-+	drm_dev_exit(idx);
-+
-+	return err;
- }
- 
- int
-@@ -1353,7 +1370,8 @@ pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
- DEFINE_DRM_GEM_FOPS(pvr_drm_driver_fops);
- 
- static struct drm_driver pvr_drm_driver = {
--	.driver_features = DRIVER_GEM | DRIVER_GEM_GPUVA | DRIVER_RENDER,
-+	.driver_features = DRIVER_GEM | DRIVER_GEM_GPUVA | DRIVER_RENDER |
-+			   DRIVER_SYNCOBJ | DRIVER_SYNCOBJ_TIMELINE,
- 	.open = pvr_drm_driver_open,
- 	.postclose = pvr_drm_driver_postclose,
- 	.ioctls = pvr_drm_driver_ioctls,
-@@ -1386,8 +1404,15 @@ pvr_probe(struct platform_device *plat_dev)
- 	drm_dev = &pvr_dev->base;
- 
- 	platform_set_drvdata(plat_dev, drm_dev);
-+
-+	init_rwsem(&pvr_dev->reset_sem);
-+
- 	pvr_context_device_init(pvr_dev);
- 
-+	err = pvr_queue_device_init(pvr_dev);
-+	if (err)
-+		goto err_context_fini;
-+
- 	devm_pm_runtime_enable(&plat_dev->dev);
- 	pm_runtime_mark_last_busy(&plat_dev->dev);
- 
-@@ -1404,6 +1429,7 @@ pvr_probe(struct platform_device *plat_dev)
- 		goto err_device_fini;
- 
- 	xa_init_flags(&pvr_dev->free_list_ids, XA_FLAGS_ALLOC1);
-+	xa_init_flags(&pvr_dev->job_ids, XA_FLAGS_ALLOC1);
- 
- 	return 0;
- 
-@@ -1413,6 +1439,11 @@ pvr_probe(struct platform_device *plat_dev)
- err_watchdog_fini:
- 	pvr_watchdog_fini(pvr_dev);
- 
-+	pvr_queue_device_fini(pvr_dev);
-+
-+err_context_fini:
-+	pvr_context_device_fini(pvr_dev);
-+
- 	return err;
- }
- 
-@@ -1422,14 +1453,17 @@ pvr_remove(struct platform_device *plat_dev)
- 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
- 	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
- 
-+	WARN_ON(!xa_empty(&pvr_dev->job_ids));
- 	WARN_ON(!xa_empty(&pvr_dev->free_list_ids));
- 
-+	xa_destroy(&pvr_dev->job_ids);
- 	xa_destroy(&pvr_dev->free_list_ids);
- 
- 	pm_runtime_suspend(drm_dev->dev);
- 	pvr_device_fini(pvr_dev);
- 	drm_dev_unplug(drm_dev);
- 	pvr_watchdog_fini(pvr_dev);
-+	pvr_queue_device_fini(pvr_dev);
- 	pvr_context_device_fini(pvr_dev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/imagination/pvr_job.c b/drivers/gpu/drm/imagination/pvr_job.c
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif.h
 new file mode 100644
-index 000000000000..f1cbd85109e5
+index 000000000000..a7829e431c75
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_job.c
-@@ -0,0 +1,788 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif.h
+@@ -0,0 +1,2188 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#include "pvr_context.h"
-+#include "pvr_device.h"
-+#include "pvr_drv.h"
-+#include "pvr_gem.h"
-+#include "pvr_hwrt.h"
-+#include "pvr_job.h"
-+#include "pvr_mmu.h"
-+#include "pvr_power.h"
-+#include "pvr_rogue_fwif.h"
-+#include "pvr_rogue_fwif_client.h"
-+#include "pvr_stream.h"
-+#include "pvr_stream_defs.h"
-+#include "pvr_sync.h"
++#ifndef PVR_ROGUE_FWIF_H
++#define PVR_ROGUE_FWIF_H
 +
-+#include <drm/drm_exec.h>
-+#include <drm/drm_gem.h>
++#include <linux/bits.h>
++#include <linux/build_bug.h>
++#include <linux/compiler.h>
++#include <linux/kernel.h>
 +#include <linux/types.h>
-+#include <uapi/drm/pvr_drm.h>
 +
-+static void pvr_job_release(struct kref *kref)
-+{
-+	struct pvr_job *job = container_of(kref, struct pvr_job, ref_count);
++#include "pvr_rogue_defs.h"
++#include "pvr_rogue_fwif_common.h"
++#include "pvr_rogue_fwif_shared.h"
 +
-+	xa_erase(&job->pvr_dev->job_ids, job->id);
-+
-+	pvr_hwrt_data_put(job->hwrt);
-+	pvr_context_put(job->ctx);
-+
-+	WARN_ON(job->paired_job);
-+
-+	pvr_queue_job_cleanup(job);
-+	pvr_job_release_pm_ref(job);
-+
-+	kfree(job->cmd);
-+	kfree(job);
-+}
-+
-+/**
-+ * pvr_job_put() - Release reference on job
-+ * @job: Target job.
++/*
++ ****************************************************************************
++ * Logging type
++ ****************************************************************************
 + */
-+void
-+pvr_job_put(struct pvr_job *job)
-+{
-+	if (job)
-+		kref_put(&job->ref_count, pvr_job_release);
-+}
++#define ROGUE_FWIF_LOG_TYPE_NONE 0x00000000U
++#define ROGUE_FWIF_LOG_TYPE_TRACE 0x00000001U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_MAIN 0x00000002U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_MTS 0x00000004U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_CLEANUP 0x00000008U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_CSW 0x00000010U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_BIF 0x00000020U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_PM 0x00000040U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_RTD 0x00000080U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_SPM 0x00000100U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_POW 0x00000200U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_HWR 0x00000400U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_HWP 0x00000800U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_RPM 0x00001000U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_DMA 0x00002000U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_MISC 0x00004000U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_DEBUG 0x80000000U
++#define ROGUE_FWIF_LOG_TYPE_GROUP_MASK 0x80007FFEU
++#define ROGUE_FWIF_LOG_TYPE_MASK 0x80007FFFU
 +
-+/**
-+ * pvr_job_process_stream() - Build job FW structure from stream
-+ * @pvr_dev: Device pointer.
-+ * @cmd_defs: Stream definition.
-+ * @stream: Pointer to command stream.
-+ * @stream_size: Size of command stream, in bytes.
-+ * @job: Pointer to job.
-+ *
-+ * Caller is responsible for freeing the output structure.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%ENOMEM on out of memory, or
-+ *  * -%EINVAL on malformed stream.
-+ */
-+static int
-+pvr_job_process_stream(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
-+		       void *stream, u32 stream_size, struct pvr_job *job)
-+{
-+	int err;
++/* String used in pvrdebug -h output */
++#define ROGUE_FWIF_LOG_GROUPS_STRING_LIST \
++	"main,mts,cleanup,csw,bif,pm,rtd,spm,pow,hwr,hwp,rpm,dma,misc,debug"
 +
-+	job->cmd = kzalloc(cmd_defs->dest_size, GFP_KERNEL);
-+	if (!job->cmd)
-+		return -ENOMEM;
-+
-+	job->cmd_len = cmd_defs->dest_size;
-+
-+	err = pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, job->cmd);
-+	if (err)
-+		kfree(job->cmd);
-+
-+	return err;
-+}
-+
-+static int pvr_fw_cmd_init(struct pvr_device *pvr_dev, struct pvr_job *job,
-+			   const struct pvr_stream_cmd_defs *stream_def,
-+			   u64 stream_userptr, u32 stream_len)
-+{
-+	void *stream;
-+	int err;
-+
-+	stream = kzalloc(stream_len, GFP_KERNEL);
-+	if (!stream)
-+		return -ENOMEM;
-+
-+	if (copy_from_user(stream, u64_to_user_ptr(stream_userptr), stream_len)) {
-+		err = -EFAULT;
-+		goto err_free_stream;
-+	}
-+
-+	err = pvr_job_process_stream(pvr_dev, stream_def, stream, stream_len, job);
-+
-+err_free_stream:
-+	kfree(stream);
-+
-+	return err;
-+}
-+
-+static u32
-+convert_geom_flags(u32 in_flags)
-+{
-+	u32 out_flags = 0;
-+
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_FIRST)
-+		out_flags |= ROGUE_GEOM_FLAGS_FIRSTKICK;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_LAST)
-+		out_flags |= ROGUE_GEOM_FLAGS_LASTKICK;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_SINGLE_CORE)
-+		out_flags |= ROGUE_GEOM_FLAGS_SINGLE_CORE;
-+
-+	return out_flags;
-+}
-+
-+static u32
-+convert_frag_flags(u32 in_flags)
-+{
-+	u32 out_flags = 0;
-+
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_SINGLE_CORE)
-+		out_flags |= ROGUE_FRAG_FLAGS_SINGLE_CORE;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_DEPTHBUFFER)
-+		out_flags |= ROGUE_FRAG_FLAGS_DEPTHBUFFER;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_STENCILBUFFER)
-+		out_flags |= ROGUE_FRAG_FLAGS_STENCILBUFFER;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_PREVENT_CDM_OVERLAP)
-+		out_flags |= ROGUE_FRAG_FLAGS_PREVENT_CDM_OVERLAP;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_SCRATCHBUFFER)
-+		out_flags |= ROGUE_FRAG_FLAGS_SCRATCHBUFFER;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_GET_VIS_RESULTS)
-+		out_flags |= ROGUE_FRAG_FLAGS_GET_VIS_RESULTS;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_DISABLE_PIXELMERGE)
-+		out_flags |= ROGUE_FRAG_FLAGS_DISABLE_PIXELMERGE;
-+
-+	return out_flags;
-+}
-+
-+static int
-+pvr_geom_job_fw_cmd_init(struct pvr_job *job,
-+			 struct drm_pvr_job *args)
-+{
-+	struct rogue_fwif_cmd_geom *cmd;
-+	int err;
-+
-+	if (args->flags & ~DRM_PVR_SUBMIT_JOB_GEOM_CMD_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	if (job->ctx->type != DRM_PVR_CTX_TYPE_RENDER)
-+		return -EINVAL;
-+
-+	if (!job->hwrt)
-+		return -EINVAL;
-+
-+	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_GEOM;
-+	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_geom_stream,
-+			      args->cmd_stream, args->cmd_stream_len);
-+	if (err)
-+		return err;
-+
-+	cmd = job->cmd;
-+	cmd->cmd_shared.cmn.frame_num = 0;
-+	cmd->flags = convert_geom_flags(args->flags);
-+	pvr_fw_object_get_fw_addr(job->hwrt->fw_obj, &cmd->cmd_shared.hwrt_data_fw_addr);
-+	return 0;
-+}
-+
-+static int
-+pvr_frag_job_fw_cmd_init(struct pvr_job *job,
-+			 struct drm_pvr_job *args)
-+{
-+	struct rogue_fwif_cmd_frag *cmd;
-+	int err;
-+
-+	if (args->flags & ~DRM_PVR_SUBMIT_JOB_FRAG_CMD_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	if (job->ctx->type != DRM_PVR_CTX_TYPE_RENDER)
-+		return -EINVAL;
-+
-+	if (!job->hwrt)
-+		return -EINVAL;
-+
-+	job->fw_ccb_cmd_type = (args->flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_PARTIAL_RENDER) ?
-+			       ROGUE_FWIF_CCB_CMD_TYPE_FRAG_PR :
-+			       ROGUE_FWIF_CCB_CMD_TYPE_FRAG;
-+	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_frag_stream,
-+			      args->cmd_stream, args->cmd_stream_len);
-+	if (err)
-+		return err;
-+
-+	cmd = job->cmd;
-+	cmd->cmd_shared.cmn.frame_num = 0;
-+	cmd->flags = convert_frag_flags(args->flags);
-+	pvr_fw_object_get_fw_addr(job->hwrt->fw_obj, &cmd->cmd_shared.hwrt_data_fw_addr);
-+	return 0;
-+}
-+
-+static u32
-+convert_compute_flags(u32 in_flags)
-+{
-+	u32 out_flags = 0;
-+
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_PREVENT_ALL_OVERLAP)
-+		out_flags |= ROGUE_COMPUTE_FLAG_PREVENT_ALL_OVERLAP;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_SINGLE_CORE)
-+		out_flags |= ROGUE_COMPUTE_FLAG_SINGLE_CORE;
-+
-+	return out_flags;
-+}
-+
-+static int
-+pvr_compute_job_fw_cmd_init(struct pvr_job *job,
-+			    struct drm_pvr_job *args)
-+{
-+	struct rogue_fwif_cmd_compute *cmd;
-+	int err;
-+
-+	if (args->flags & ~DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	if (job->ctx->type != DRM_PVR_CTX_TYPE_COMPUTE)
-+		return -EINVAL;
-+
-+	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_CDM;
-+	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_compute_stream,
-+			      args->cmd_stream, args->cmd_stream_len);
-+	if (err)
-+		return err;
-+
-+	cmd = job->cmd;
-+	cmd->common.frame_num = 0;
-+	cmd->flags = convert_compute_flags(args->flags);
-+	return 0;
-+}
-+
-+static u32
-+convert_transfer_flags(u32 in_flags)
-+{
-+	u32 out_flags = 0;
-+
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_SINGLE_CORE)
-+		out_flags |= ROGUE_TRANSFER_FLAGS_SINGLE_CORE;
-+
-+	return out_flags;
-+}
-+
-+static int
-+pvr_transfer_job_fw_cmd_init(struct pvr_job *job,
-+			     struct drm_pvr_job *args)
-+{
-+	struct rogue_fwif_cmd_transfer *cmd;
-+	int err;
-+
-+	if (args->flags & ~DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	if (job->ctx->type != DRM_PVR_CTX_TYPE_TRANSFER_FRAG)
-+		return -EINVAL;
-+
-+	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_TQ_3D;
-+	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_transfer_stream,
-+			      args->cmd_stream, args->cmd_stream_len);
-+	if (err)
-+		return err;
-+
-+	cmd = job->cmd;
-+	cmd->common.frame_num = 0;
-+	cmd->flags = convert_transfer_flags(args->flags);
-+	return 0;
-+}
-+
-+static int
-+pvr_job_fw_cmd_init(struct pvr_job *job,
-+		    struct drm_pvr_job *args)
-+{
-+	switch (args->type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return pvr_geom_job_fw_cmd_init(job, args);
-+
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return pvr_frag_job_fw_cmd_init(job, args);
-+
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return pvr_compute_job_fw_cmd_init(job, args);
-+
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return pvr_transfer_job_fw_cmd_init(job, args);
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+/**
-+ * struct pvr_job_data - Helper container for pairing jobs with the
-+ * sync_ops supplied for them by the user.
-+ */
-+struct pvr_job_data {
-+	/** @job: Pointer to the job. */
-+	struct pvr_job *job;
-+
-+	/** @sync_ops: Pointer to the sync_ops associated with @job. */
-+	struct drm_pvr_sync_op *sync_ops;
-+
-+	/** @sync_op_count: Number of members of @sync_ops. */
-+	u32 sync_op_count;
++/* Table entry to map log group strings to log type value */
++struct rogue_fwif_log_group_map_entry {
++	const char *log_group_name;
++	u32 log_group_type;
 +};
 +
-+/**
-+ * prepare_job_syncs() - Prepare all sync objects for a single job.
-+ * @pvr_file: PowerVR file.
-+ * @job_data: Precreated job and sync_ops array.
-+ * @signal_array: xarray to receive signal sync objects.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error code returned by pvr_sync_signal_array_collect_ops(),
-+ *    pvr_sync_add_deps_to_job(), drm_sched_job_add_resv_dependencies() or
-+ *    pvr_sync_signal_array_update_fences().
++/*
++ ****************************************************************************
++ * ROGUE FW signature checks
++ ****************************************************************************
 + */
-+static int
-+prepare_job_syncs(struct pvr_file *pvr_file,
-+		  struct pvr_job_data *job_data,
-+		  struct xarray *signal_array)
-+{
-+	struct dma_fence *done_fence;
-+	int err = pvr_sync_signal_array_collect_ops(signal_array,
-+						    from_pvr_file(pvr_file),
-+						    job_data->sync_op_count,
-+						    job_data->sync_ops);
++#define ROGUE_FW_SIG_BUFFER_SIZE_MIN (8192)
 +
-+	if (err)
-+		return err;
++#define ROGUE_FWIF_TIMEDIFF_ID ((0x1UL << 28) | ROGUE_CR_TIMER)
 +
-+	err = pvr_sync_add_deps_to_job(pvr_file, &job_data->job->base,
-+				       job_data->sync_op_count,
-+				       job_data->sync_ops, signal_array);
-+	if (err)
-+		return err;
-+
-+	if (job_data->job->hwrt) {
-+		/* The geometry job writes the HWRT region headers, which are
-+		 * then read by the fragment job.
-+		 */
-+		struct drm_gem_object *obj =
-+			gem_from_pvr_gem(job_data->job->hwrt->fw_obj->gem);
-+		enum dma_resv_usage usage =
-+			dma_resv_usage_rw(job_data->job->type ==
-+					  DRM_PVR_JOB_TYPE_GEOMETRY);
-+
-+		dma_resv_lock(obj->resv, NULL);
-+		err = drm_sched_job_add_resv_dependencies(&job_data->job->base,
-+							  obj->resv, usage);
-+		dma_resv_unlock(obj->resv);
-+		if (err)
-+			return err;
-+	}
-+
-+	/* We need to arm the job to get the job done fence. */
-+	done_fence = pvr_queue_job_arm(job_data->job);
-+
-+	err = pvr_sync_signal_array_update_fences(signal_array,
-+						  job_data->sync_op_count,
-+						  job_data->sync_ops,
-+						  done_fence);
-+	return err;
-+}
-+
-+/**
-+ * prepare_job_syncs_for_each() - Prepare all sync objects for an array of jobs.
-+ * @file: PowerVR file.
-+ * @job_data: Array of precreated jobs and their sync_ops.
-+ * @job_count: Number of jobs.
-+ * @signal_array: xarray to receive signal sync objects.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error code returned by pvr_vm_bind_job_prepare_syncs().
++/*
++ ****************************************************************************
++ * Trace Buffer
++ ****************************************************************************
 + */
-+static int
-+prepare_job_syncs_for_each(struct pvr_file *pvr_file,
-+			   struct pvr_job_data *job_data,
-+			   u32 *job_count,
-+			   struct xarray *signal_array)
-+{
-+	for (u32 i = 0; i < *job_count; i++) {
-+		int err = prepare_job_syncs(pvr_file, &job_data[i],
-+					    signal_array);
 +
-+		if (err) {
-+			*job_count = i;
-+			return err;
-+		}
-+	}
++/* Default size of ROGUE_FWIF_TRACEBUF_SPACE in DWords */
++#define ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS 12000U
++#define ROGUE_FW_TRACE_BUFFER_ASSERT_SIZE 200U
++#define ROGUE_FW_THREAD_NUM 1U
++#define ROGUE_FW_THREAD_MAX 2U
 +
-+	return 0;
-+}
++#define ROGUE_FW_POLL_TYPE_SET 0x80000000U
 +
-+static struct pvr_job *
-+create_job(struct pvr_device *pvr_dev,
-+	   struct pvr_file *pvr_file,
-+	   struct drm_pvr_job *args)
-+{
-+	struct pvr_job *job = NULL;
-+	int err;
++struct rogue_fwif_file_info_buf {
++	char path[ROGUE_FW_TRACE_BUFFER_ASSERT_SIZE];
++	char info[ROGUE_FW_TRACE_BUFFER_ASSERT_SIZE];
++	u32 line_num;
++	u32 padding;
++} __aligned(8);
 +
-+	if (!args->cmd_stream || !args->cmd_stream_len)
-+		return ERR_PTR(-EINVAL);
++struct rogue_fwif_tracebuf_space {
++	u32 trace_pointer;
 +
-+	if (args->type != DRM_PVR_JOB_TYPE_GEOMETRY &&
-+	    args->type != DRM_PVR_JOB_TYPE_FRAGMENT &&
-+	    (args->hwrt.set_handle || args->hwrt.data_index))
-+		return ERR_PTR(-EINVAL);
++	u32 trace_buffer_fw_addr;
 +
-+	job = kzalloc(sizeof(*job), GFP_KERNEL);
-+	if (!job)
-+		return ERR_PTR(-ENOMEM);
++	/* To be used by host when reading from trace buffer */
++	u32 *trace_buffer;
 +
-+	kref_init(&job->ref_count);
-+	job->type = args->type;
-+	job->pvr_dev = pvr_dev;
++	struct rogue_fwif_file_info_buf assert_buf;
++} __aligned(8);
 +
-+	err = xa_alloc(&pvr_dev->job_ids, &job->id, job, xa_limit_32b, GFP_KERNEL);
-+	if (err)
-+		goto err_put_job;
++/* Total number of FW fault logs stored */
++#define ROGUE_FWIF_FWFAULTINFO_MAX (8U)
 +
-+	job->ctx = pvr_context_lookup(pvr_file, args->context_handle);
-+	if (!job->ctx) {
-+		err = -EINVAL;
-+		goto err_put_job;
-+	}
++struct rogue_fw_fault_info {
++	aligned_u64 cr_timer;
++	aligned_u64 os_timer;
 +
-+	if (args->hwrt.set_handle) {
-+		job->hwrt = pvr_hwrt_data_lookup(pvr_file, args->hwrt.set_handle,
-+						 args->hwrt.data_index);
-+		if (!job->hwrt) {
-+			err = -EINVAL;
-+			goto err_put_job;
-+		}
-+	}
++	u32 data __aligned(8);
++	u32 reserved;
++	struct rogue_fwif_file_info_buf fault_buf;
++} __aligned(8);
 +
-+	err = pvr_job_fw_cmd_init(job, args);
-+	if (err)
-+		goto err_put_job;
++enum rogue_fwif_pow_state {
++	ROGUE_FWIF_POW_OFF, /* idle and ready to full power down */
++	ROGUE_FWIF_POW_ON, /* running HW commands */
++	ROGUE_FWIF_POW_FORCED_IDLE, /* forced idle */
++	ROGUE_FWIF_POW_IDLE, /* idle waiting for host handshake */
++};
 +
-+	err = pvr_queue_job_init(job);
-+	if (err)
-+		goto err_put_job;
++/* Firmware HWR states */
++/* The HW state is ok or locked up */
++#define ROGUE_FWIF_HWR_HARDWARE_OK BIT(0)
++/* Tells if a HWR reset is in progress */
++#define ROGUE_FWIF_HWR_RESET_IN_PROGRESS BIT(1)
++/* A DM unrelated lockup has been detected */
++#define ROGUE_FWIF_HWR_GENERAL_LOCKUP BIT(3)
++/* At least one DM is running without being close to a lockup */
++#define ROGUE_FWIF_HWR_DM_RUNNING_OK BIT(4)
++/* At least one DM is close to lockup */
++#define ROGUE_FWIF_HWR_DM_STALLING BIT(5)
++/* The FW has faulted and needs to restart */
++#define ROGUE_FWIF_HWR_FW_FAULT BIT(6)
++/* The FW has requested the host to restart it */
++#define ROGUE_FWIF_HWR_RESTART_REQUESTED BIT(7)
 +
-+	return job;
++#define ROGUE_FWIF_PHR_STATE_SHIFT (8U)
++/* The FW has requested the host to restart it, per PHR configuration */
++#define ROGUE_FWIF_PHR_RESTART_REQUESTED ((1) << ROGUE_FWIF_PHR_STATE_SHIFT)
++/* A PHR triggered GPU reset has just finished */
++#define ROGUE_FWIF_PHR_RESTART_FINISHED ((2) << ROGUE_FWIF_PHR_STATE_SHIFT)
++#define ROGUE_FWIF_PHR_RESTART_MASK \
++	(ROGUE_FWIF_PHR_RESTART_REQUESTED | ROGUE_FWIF_PHR_RESTART_FINISHED)
 +
-+err_put_job:
-+	pvr_job_put(job);
-+	return ERR_PTR(err);
-+}
++#define ROGUE_FWIF_PHR_MODE_OFF (0UL)
++#define ROGUE_FWIF_PHR_MODE_RD_RESET (1UL)
++#define ROGUE_FWIF_PHR_MODE_FULL_RESET (2UL)
 +
-+/**
-+ * pvr_job_data_fini() - Cleanup all allocs used to set up job submission.
-+ * @job_data: Job data array.
-+ * @job_count: Number of members of @job_data.
-+ */
-+static void
-+pvr_job_data_fini(struct pvr_job_data *job_data, u32 job_count)
-+{
-+	for (u32 i = 0; i < job_count; i++) {
-+		pvr_job_put(job_data[i].job);
-+		kvfree(job_data[i].sync_ops);
-+	}
-+}
++/* Firmware per-DM HWR states */
++/* DM is working if all flags are cleared */
++#define ROGUE_FWIF_DM_STATE_WORKING (0)
++/* DM is idle and ready for HWR */
++#define ROGUE_FWIF_DM_STATE_READY_FOR_HWR BIT(0)
++/* DM need to skip to next cmd before resuming processing */
++#define ROGUE_FWIF_DM_STATE_NEEDS_SKIP BIT(2)
++/* DM need partial render cleanup before resuming processing */
++#define ROGUE_FWIF_DM_STATE_NEEDS_PR_CLEANUP BIT(3)
++/* DM need to increment Recovery Count once fully recovered */
++#define ROGUE_FWIF_DM_STATE_NEEDS_TRACE_CLEAR BIT(4)
++/* DM was identified as locking up and causing HWR */
++#define ROGUE_FWIF_DM_STATE_GUILTY_LOCKUP BIT(5)
++/* DM was innocently affected by another lockup which caused HWR */
++#define ROGUE_FWIF_DM_STATE_INNOCENT_LOCKUP BIT(6)
++/* DM was identified as over-running and causing HWR */
++#define ROGUE_FWIF_DM_STATE_GUILTY_OVERRUNING BIT(7)
++/* DM was innocently affected by another DM over-running which caused HWR */
++#define ROGUE_FWIF_DM_STATE_INNOCENT_OVERRUNING BIT(8)
++/* DM was forced into HWR as it delayed more important workloads */
++#define ROGUE_FWIF_DM_STATE_HARD_CONTEXT_SWITCH BIT(9)
++/* DM was forced into HWR due to an uncorrected GPU ECC error */
++#define ROGUE_FWIF_DM_STATE_GPU_ECC_HWR BIT(10)
 +
-+/**
-+ * pvr_job_data_init() - Init an array of created jobs, associating them with
-+ * the appropriate sync_ops args, which will be copied in.
-+ * @pvr_dev: Target PowerVR device.
-+ * @pvr_file: Pointer to PowerVR file structure.
-+ * @job_args: Job args array copied from user.
-+ * @job_count: Number of members of @job_args.
-+ * @job_data_out: Job data array.
-+ */
-+static int pvr_job_data_init(struct pvr_device *pvr_dev,
-+			     struct pvr_file *pvr_file,
-+			     struct drm_pvr_job *job_args,
-+			     u32 *job_count,
-+			     struct pvr_job_data *job_data_out)
-+{
-+	int err = 0, i = 0;
++/* Firmware's connection state */
++enum rogue_fwif_connection_fw_state {
++	/* Firmware is offline */
++	ROGUE_FW_CONNECTION_FW_OFFLINE = 0,
++	/* Firmware is initialised */
++	ROGUE_FW_CONNECTION_FW_READY,
++	/* Firmware connection is fully established */
++	ROGUE_FW_CONNECTION_FW_ACTIVE,
++	/* Firmware is clearing up connection data*/
++	ROGUE_FW_CONNECTION_FW_OFFLOADING,
++	ROGUE_FW_CONNECTION_FW_STATE_COUNT
++};
 +
-+	for (; i < *job_count; i++) {
-+		job_data_out[i].job =
-+			create_job(pvr_dev, pvr_file, &job_args[i]);
-+		err = PTR_ERR_OR_ZERO(job_data_out[i].job);
++/* OS' connection state */
++enum rogue_fwif_connection_os_state {
++	/* OS is offline */
++	ROGUE_FW_CONNECTION_OS_OFFLINE = 0,
++	/* OS's KM driver is setup and waiting */
++	ROGUE_FW_CONNECTION_OS_READY,
++	/* OS connection is fully established */
++	ROGUE_FW_CONNECTION_OS_ACTIVE,
++	ROGUE_FW_CONNECTION_OS_STATE_COUNT
++};
 +
-+		if (err) {
-+			*job_count = i;
-+			job_data_out[i].job = NULL;
-+			goto err_cleanup;
-+		}
++struct rogue_fwif_os_runtime_flags {
++	unsigned int os_state : 3;
++	unsigned int fl_ok : 1;
++	unsigned int fl_grow_pending : 1;
++	unsigned int isolated_os : 1;
++	unsigned int reserved : 26;
++};
 +
-+		err = PVR_UOBJ_GET_ARRAY(job_data_out[i].sync_ops,
-+					 &job_args[i].sync_ops);
-+		if (err) {
-+			*job_count = i;
++#define PVR_SLR_LOG_ENTRIES 10
++/* MAX_CLIENT_CCB_NAME not visible to this header */
++#define PVR_SLR_LOG_STRLEN 30
 +
-+			/* Ensure the job created above is also cleaned up. */
-+			i++;
-+			goto err_cleanup;
-+		}
++struct rogue_fwif_slr_entry {
++	aligned_u64 timestamp;
++	u32 fw_ctx_addr;
++	u32 num_ufos;
++	char ccb_name[PVR_SLR_LOG_STRLEN];
++	char padding[2];
++} __aligned(8);
 +
-+		job_data_out[i].sync_op_count = job_args[i].sync_ops.count;
-+	}
++#define MAX_THREAD_NUM 2
 +
-+	return 0;
-+
-+err_cleanup:
-+	pvr_job_data_fini(job_data_out, i);
-+
-+	return err;
-+}
-+
-+static void
-+push_jobs(struct pvr_job_data *job_data, u32 job_count)
-+{
-+	for (u32 i = 0; i < job_count; i++)
-+		pvr_queue_job_push(job_data[i].job);
-+}
-+
-+static int
-+prepare_fw_obj_resv(struct drm_exec *exec, struct pvr_fw_object *fw_obj)
-+{
-+	return drm_exec_prepare_obj(exec, gem_from_pvr_gem(fw_obj->gem), 1);
-+}
-+
-+static int
-+jobs_lock_all_objs(struct drm_exec *exec, struct pvr_job_data *job_data,
-+		   u32 job_count)
-+{
-+	for (u32 i = 0; i < job_count; i++) {
-+		struct pvr_job *job = job_data[i].job;
-+
-+		/* Grab a lock on a the context, to guard against
-+		 * concurrent submission to the same queue.
-+		 */
-+		int err = drm_exec_lock_obj(exec,
-+					    gem_from_pvr_gem(job->ctx->fw_obj->gem));
-+
-+		if (err)
-+			return err;
-+
-+		if (job->hwrt) {
-+			err = prepare_fw_obj_resv(exec,
-+						  job->hwrt->fw_obj);
-+			if (err)
-+				return err;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+prepare_job_resvs_for_each(struct drm_exec *exec, struct pvr_job_data *job_data,
-+			   u32 job_count)
-+{
-+	drm_exec_until_all_locked(exec) {
-+		int err = jobs_lock_all_objs(exec, job_data, job_count);
-+
-+		drm_exec_retry_on_contention(exec);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static void
-+update_job_resvs(struct pvr_job *job)
-+{
-+	if (job->hwrt) {
-+		enum dma_resv_usage usage = job->type == DRM_PVR_JOB_TYPE_GEOMETRY ?
-+					    DMA_RESV_USAGE_WRITE : DMA_RESV_USAGE_READ;
-+		struct drm_gem_object *obj = gem_from_pvr_gem(job->hwrt->fw_obj->gem);
-+
-+		dma_resv_add_fence(obj->resv, &job->base.s_fence->finished, usage);
-+	}
-+}
-+
-+static void
-+update_job_resvs_for_each(struct pvr_job_data *job_data, u32 job_count)
-+{
-+	for (u32 i = 0; i < job_count; i++)
-+		update_job_resvs(job_data[i].job);
-+}
-+
-+static bool can_combine_jobs(struct pvr_job *a, struct pvr_job *b)
-+{
-+	struct pvr_job *geom_job = a, *frag_job = b;
-+	struct dma_fence *fence;
-+	unsigned long index;
-+
-+	/* Geometry and fragment jobs can be combined if they are queued to the
-+	 * same context and targeting the same HWRT.
++/* firmware trace control data */
++struct rogue_fwif_tracebuf {
++	u32 log_type;
++	struct rogue_fwif_tracebuf_space tracebuf[MAX_THREAD_NUM];
++	/*
++	 * Member initialised only when sTraceBuf is actually allocated (in
++	 * ROGUETraceBufferInitOnDemandResources)
 +	 */
-+	if (a->type != DRM_PVR_JOB_TYPE_GEOMETRY ||
-+	    b->type != DRM_PVR_JOB_TYPE_FRAGMENT ||
-+	    a->ctx != b->ctx ||
-+	    a->hwrt != b->hwrt)
-+		return false;
++	u32 tracebuf_size_in_dwords;
++	/* Compatibility and other flags */
++	u32 tracebuf_flags;
++} __aligned(8);
 +
-+	xa_for_each(&frag_job->base.dependencies, index, fence) {
-+		/* We combine when we see an explicit geom -> frag dep. */
-+		if (&geom_job->base.s_fence->scheduled == fence)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static struct dma_fence *
-+get_last_queued_job_scheduled_fence(struct pvr_queue *queue,
-+				    struct pvr_job_data *job_data,
-+				    u32 cur_job_pos)
-+{
-+	/* We iterate over the current job array in reverse order to grab the
-+	 * last to-be-queued job targeting the same queue.
-+	 */
-+	for (u32 i = cur_job_pos; i > 0; i--) {
-+		struct pvr_job *job = job_data[i - 1].job;
-+
-+		if (job->ctx == queue->ctx && job->type == queue->type)
-+			return dma_fence_get(&job->base.s_fence->scheduled);
-+	}
-+
-+	/* If we didn't find any, we just return the last queued job scheduled
-+	 * fence attached to the queue.
-+	 */
-+	return dma_fence_get(queue->last_queued_job_scheduled_fence);
-+}
-+
-+static int
-+pvr_jobs_link_geom_frag(struct pvr_job_data *job_data, u32 *job_count)
-+{
-+	for (u32 i = 0; i < *job_count - 1; i++) {
-+		struct pvr_job *geom_job = job_data[i].job;
-+		struct pvr_job *frag_job = job_data[i + 1].job;
-+		struct pvr_queue *frag_queue;
-+		struct dma_fence *f;
-+
-+		if (!can_combine_jobs(job_data[i].job, job_data[i + 1].job))
-+			continue;
-+
-+		/* The fragment job will be submitted by the geometry queue. We
-+		 * need to make sure it comes after all the other fragment jobs
-+		 * queued before it.
-+		 */
-+		frag_queue = pvr_context_get_queue_for_job(frag_job->ctx,
-+							   frag_job->type);
-+		f = get_last_queued_job_scheduled_fence(frag_queue, job_data,
-+							i);
-+		if (f) {
-+			int err = drm_sched_job_add_dependency(&geom_job->base,
-+							       f);
-+			if (err) {
-+				*job_count = i;
-+				return err;
-+			}
-+		}
-+
-+		/* The KCCB slot will be reserved by the geometry job, so we can
-+		 * drop the KCCB fence on the fragment job.
-+		 */
-+		pvr_kccb_fence_put(frag_job->kccb_fence);
-+		frag_job->kccb_fence = NULL;
-+
-+		geom_job->paired_job = frag_job;
-+		frag_job->paired_job = geom_job;
-+
-+		/* Skip the fragment job we just paired to the geometry job. */
-+		i++;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * pvr_submit_jobs() - Submit jobs to the GPU
-+ * @pvr_dev: Target PowerVR device.
-+ * @pvr_file: Pointer to PowerVR file structure.
-+ * @args: Ioctl args.
-+ * @job_count: Number of jobs in @jobs_args. On error this will be updated
-+ * with the index into @jobs_args where the error occurred.
-+ *
-+ * This initial implementation is entirely synchronous; on return the GPU will
-+ * be idle. This will not be the case for future implementations.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%EFAULT if arguments can not be copied from user space, or
-+ *  * -%EINVAL on invalid arguments, or
-+ *  * Any other error.
-+ */
-+int
-+pvr_submit_jobs(struct pvr_device *pvr_dev, struct pvr_file *pvr_file,
-+		struct drm_pvr_ioctl_submit_jobs_args *args)
-+{
-+	struct pvr_job_data *job_data = NULL;
-+	struct drm_pvr_job *job_args;
-+	struct xarray signal_array;
-+	u32 jobs_alloced = 0;
-+	struct drm_exec exec;
-+	int err;
-+
-+	if (!args->jobs.count)
-+		return -EINVAL;
-+
-+	err = PVR_UOBJ_GET_ARRAY(job_args, &args->jobs);
-+	if (err)
-+		return err;
-+
-+	job_data = kvmalloc_array(args->jobs.count, sizeof(*job_data),
-+				  GFP_KERNEL | __GFP_ZERO);
-+	if (!job_data) {
-+		err = -ENOMEM;
-+		goto out_free;
-+	}
-+
-+	err = pvr_job_data_init(pvr_dev, pvr_file, job_args, &args->jobs.count,
-+				job_data);
-+	if (err)
-+		goto out_free;
-+
-+	jobs_alloced = args->jobs.count;
++/* firmware system data shared with the Host driver */
++struct rogue_fwif_sysdata {
++	/* Configuration flags from host */
++	u32 config_flags;
++	/* Extended configuration flags from host */
++	u32 config_flags_ext;
++	enum rogue_fwif_pow_state pow_state;
++	u32 hw_perf_ridx;
++	u32 hw_perf_widx;
++	u32 hw_perf_wrap_count;
++	/* Constant after setup, needed in FW */
++	u32 hw_perf_size;
++	/* The number of times the FW drops a packet due to buffer full */
++	u32 hw_perf_drop_count;
 +
 +	/*
-+	 * Flush MMU if needed - this has been deferred until now to avoid
-+	 * overuse of this expensive operation.
++	 * ui32HWPerfUt, ui32FirstDropOrdinal, ui32LastDropOrdinal only valid
++	 * when FW is built with ROGUE_HWPERF_UTILIZATION &
++	 * ROGUE_HWPERF_DROP_TRACKING defined in rogue_fw_hwperf.c
 +	 */
-+	err = pvr_mmu_flush_exec(pvr_dev, false);
-+	if (err)
-+		goto out_job_data_cleanup;
++	/* Buffer utilisation, high watermark of bytes in use */
++	u32 hw_perf_ut;
++	/* The ordinal of the first packet the FW dropped */
++	u32 first_drop_ordinal;
++	/* The ordinal of the last packet the FW dropped */
++	u32 last_drop_ordinal;
++	/* State flags for each Operating System mirrored from Fw coremem */
++	struct rogue_fwif_os_runtime_flags
++		os_runtime_flags_mirror[ROGUE_FW_MAX_NUM_OS];
 +
-+	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE_DUPLICATES);
++	struct rogue_fw_fault_info fault_info[ROGUE_FWIF_FWFAULTINFO_MAX];
++	u32 fw_faults;
++	u32 cr_poll_addr[MAX_THREAD_NUM];
++	u32 cr_poll_mask[MAX_THREAD_NUM];
++	u32 cr_poll_count[MAX_THREAD_NUM];
++	aligned_u64 start_idle_time;
 +
-+	xa_init_flags(&signal_array, XA_FLAGS_ALLOC);
++#if defined(SUPPORT_ROGUE_FW_STATS_FRAMEWORK)
++#	define ROGUE_FWIF_STATS_FRAMEWORK_LINESIZE (8)
++#	define ROGUE_FWIF_STATS_FRAMEWORK_MAX \
++		(2048 * ROGUE_FWIF_STATS_FRAMEWORK_LINESIZE)
++	u32 fw_stats_buf[ROGUE_FWIF_STATS_FRAMEWORK_MAX] __aligned(8);
++#endif
++	u32 hwr_state_flags;
++	u32 hwr_recovery_flags[PVR_FWIF_DM_MAX];
++	/* Compatibility and other flags */
++	u32 fw_sys_data_flags;
++	/* Identify whether MC config is P-P or P-S */
++	u32 mc_config;
++} __aligned(8);
 +
-+	err = prepare_job_syncs_for_each(pvr_file, job_data, &args->jobs.count,
-+					 &signal_array);
-+	if (err)
-+		goto out_exec_fini;
++/* per-os firmware shared data */
++struct rogue_fwif_osdata {
++	/* Configuration flags from an OS */
++	u32 fw_os_config_flags;
++	/* Markers to signal that the host should perform a full sync check */
++	u32 fw_sync_check_mark;
++	u32 host_sync_check_mark;
 +
-+	err = prepare_job_resvs_for_each(&exec, job_data, args->jobs.count);
-+	if (err)
-+		goto out_exec_fini;
++	u32 forced_updates_requested;
++	u8 slr_log_wp;
++	struct rogue_fwif_slr_entry slr_log_first;
++	struct rogue_fwif_slr_entry slr_log[PVR_SLR_LOG_ENTRIES];
++	aligned_u64 last_forced_update_time;
 +
-+	err = pvr_jobs_link_geom_frag(job_data, &args->jobs.count);
-+	if (err)
-+		goto out_exec_fini;
++	/* Interrupt count from Threads > */
++	u32 interrupt_count[MAX_THREAD_NUM];
++	u32 kccb_cmds_executed;
++	u32 power_sync_fw_addr;
++	/* Compatibility and other flags */
++	u32 fw_os_data_flags;
++	u32 padding;
++} __aligned(8);
 +
-+	/* Anything after that point must succeed because we start exposing job
-+	 * finished fences to the outside world.
++/* Firmware trace time-stamp field breakup */
++
++/* ROGUE_CR_TIMER register read (48 bits) value*/
++#define ROGUE_FWT_TIMESTAMP_TIME_SHIFT (0U)
++#define ROGUE_FWT_TIMESTAMP_TIME_CLRMSK (0xFFFF000000000000ull)
++
++/* Extra debug-info (16 bits) */
++#define ROGUE_FWT_TIMESTAMP_DEBUG_INFO_SHIFT (48U)
++#define ROGUE_FWT_TIMESTAMP_DEBUG_INFO_CLRMSK ~ROGUE_FWT_TIMESTAMP_TIME_CLRMSK
++
++/* Debug-info sub-fields */
++/*
++ * Bit 0: ROGUE_CR_EVENT_STATUS_MMU_PAGE_FAULT bit from ROGUE_CR_EVENT_STATUS
++ * register
++ */
++#define ROGUE_FWT_DEBUG_INFO_MMU_PAGE_FAULT_SHIFT (0U)
++#define ROGUE_FWT_DEBUG_INFO_MMU_PAGE_FAULT_SET \
++	BIT(ROGUE_FWT_DEBUG_INFO_MMU_PAGE_FAULT_SHIFT)
++
++/* Bit 1: ROGUE_CR_BIF_MMU_ENTRY_PENDING bit from ROGUE_CR_BIF_MMU_ENTRY register */
++#define ROGUE_FWT_DEBUG_INFO_MMU_ENTRY_PENDING_SHIFT (1U)
++#define ROGUE_FWT_DEBUG_INFO_MMU_ENTRY_PENDING_SET \
++	BIT(ROGUE_FWT_DEBUG_INFO_MMU_ENTRY_PENDING_SHIFT)
++
++/* Bit 2: ROGUE_CR_SLAVE_EVENT register is non-zero */
++#define ROGUE_FWT_DEBUG_INFO_SLAVE_EVENTS_SHIFT (2U)
++#define ROGUE_FWT_DEBUG_INFO_SLAVE_EVENTS_SET \
++	BIT(ROGUE_FWT_DEBUG_INFO_SLAVE_EVENTS_SHIFT)
++
++/* Bit 3-15: Unused bits */
++
++#define ROGUE_FWT_DEBUG_INFO_STR_MAXLEN 64
++#define ROGUE_FWT_DEBUG_INFO_STR_PREPEND " (debug info: "
++#define ROGUE_FWT_DEBUG_INFO_STR_APPEND ")"
++
++/*
++ ******************************************************************************
++ * HWR Data
++ ******************************************************************************
++ */
++enum rogue_hwrtype {
++	ROGUE_HWRTYPE_UNKNOWNFAILURE = 0,
++	ROGUE_HWRTYPE_OVERRUN = 1,
++	ROGUE_HWRTYPE_POLLFAILURE = 2,
++	ROGUE_HWRTYPE_BIF0FAULT = 3,
++	ROGUE_HWRTYPE_BIF1FAULT = 4,
++	ROGUE_HWRTYPE_TEXASBIF0FAULT = 5,
++	ROGUE_HWRTYPE_MMUFAULT = 6,
++	ROGUE_HWRTYPE_MMUMETAFAULT = 7,
++	ROGUE_HWRTYPE_MIPSTLBFAULT = 8,
++	ROGUE_HWRTYPE_ECCFAULT = 9,
++	ROGUE_HWRTYPE_MMURISCVFAULT = 10,
++};
++
++#define ROGUE_FWIF_HWRTYPE_BIF_BANK_GET(hwr_type) \
++	(((hwr_type) == ROGUE_HWRTYPE_BIF0FAULT) ? 0 : 1)
++
++#define ROGUE_FWIF_HWRTYPE_PAGE_FAULT_GET(hwr_type)       \
++	((((hwr_type) == ROGUE_HWRTYPE_BIF0FAULT) ||      \
++	  ((hwr_type) == ROGUE_HWRTYPE_BIF1FAULT) ||      \
++	  ((hwr_type) == ROGUE_HWRTYPE_TEXASBIF0FAULT) || \
++	  ((hwr_type) == ROGUE_HWRTYPE_MMUFAULT) ||       \
++	  ((hwr_type) == ROGUE_HWRTYPE_MMUMETAFAULT) ||   \
++	  ((hwr_type) == ROGUE_HWRTYPE_MIPSTLBFAULT) ||   \
++	  ((hwr_type) == ROGUE_HWRTYPE_MMURISCVFAULT))    \
++		 ? true                                   \
++		 : false)
++
++struct rogue_bifinfo {
++	aligned_u64 bif_req_status;
++	aligned_u64 bif_mmu_status;
++	aligned_u64 pc_address; /* phys address of the page catalogue */
++	aligned_u64 reserved;
++};
++
++struct rogue_eccinfo {
++	u32 fault_gpu;
++};
++
++struct rogue_mmuinfo {
++	aligned_u64 mmu_status[2];
++	aligned_u64 pc_address; /* phys address of the page catalogue */
++	aligned_u64 reserved;
++};
++
++struct rogue_pollinfo {
++	u32 thread_num;
++	u32 cr_poll_addr;
++	u32 cr_poll_mask;
++	u32 cr_poll_last_value;
++	aligned_u64 reserved;
++} __aligned(8);
++
++struct rogue_tlbinfo {
++	u32 bad_addr;
++	u32 entry_lo;
++};
++
++struct rogue_hwrinfo {
++	union {
++		struct rogue_bifinfo bif_info;
++		struct rogue_mmuinfo mmu_info;
++		struct rogue_pollinfo poll_info;
++		struct rogue_tlbinfo tlb_info;
++		struct rogue_eccinfo ecc_info;
++	} hwr_data;
++
++	aligned_u64 cr_timer;
++	aligned_u64 os_timer;
++	u32 frame_num;
++	u32 pid;
++	u32 active_hwrt_data;
++	u32 hwr_number;
++	u32 event_status;
++	u32 hwr_recovery_flags;
++	enum rogue_hwrtype hwr_type;
++	u32 dm;
++	u32 core_id;
++	aligned_u64 cr_time_of_kick;
++	aligned_u64 cr_time_hw_reset_start;
++	aligned_u64 cr_time_hw_reset_finish;
++	aligned_u64 cr_time_freelist_ready;
++	aligned_u64 reserved[2];
++} __aligned(8);
++
++/* Number of first HWR logs recorded (never overwritten by newer logs) */
++#define ROGUE_FWIF_HWINFO_MAX_FIRST 8U
++/* Number of latest HWR logs (older logs are overwritten by newer logs) */
++#define ROGUE_FWIF_HWINFO_MAX_LAST 8U
++/* Total number of HWR logs stored in a buffer */
++#define ROGUE_FWIF_HWINFO_MAX \
++	(ROGUE_FWIF_HWINFO_MAX_FIRST + ROGUE_FWIF_HWINFO_MAX_LAST)
++/* Index of the last log in the HWR log buffer */
++#define ROGUE_FWIF_HWINFO_LAST_INDEX (ROGUE_FWIF_HWINFO_MAX - 1U)
++
++struct rogue_fwif_hwrinfobuf {
++	struct rogue_hwrinfo hwr_info[ROGUE_FWIF_HWINFO_MAX];
++	u32 hwr_counter;
++	u32 write_index;
++	u32 dd_req_count;
++	u32 hwr_info_buf_flags; /* Compatibility and other flags */
++	u32 hwr_dm_locked_up_count[PVR_FWIF_DM_MAX];
++	u32 hwr_dm_overran_count[PVR_FWIF_DM_MAX];
++	u32 hwr_dm_recovered_count[PVR_FWIF_DM_MAX];
++	u32 hwr_dm_false_detect_count[PVR_FWIF_DM_MAX];
++} __aligned(8);
++
++#define ROGUE_FWIF_CTXSWITCH_PROFILE_FAST_EN (1)
++#define ROGUE_FWIF_CTXSWITCH_PROFILE_MEDIUM_EN (2)
++#define ROGUE_FWIF_CTXSWITCH_PROFILE_SLOW_EN (3)
++#define ROGUE_FWIF_CTXSWITCH_PROFILE_NODELAY_EN (4)
++
++#define ROGUE_FWIF_CDM_ARBITRATION_TASK_DEMAND_EN (1)
++#define ROGUE_FWIF_CDM_ARBITRATION_ROUND_ROBIN_EN (2)
++
++#define ROGUE_FWIF_ISP_SCHEDMODE_VER1_IPP (1)
++#define ROGUE_FWIF_ISP_SCHEDMODE_VER2_ISP (2)
++/*
++ ******************************************************************************
++ * ROGUE firmware Init Config Data
++ ******************************************************************************
++ */
++
++/* Flag definitions affecting the firmware globally */
++#define ROGUE_FWIF_INICFG_CTXSWITCH_MODE_RAND BIT(0)
++#define ROGUE_FWIF_INICFG_CTXSWITCH_SRESET_EN BIT(1)
++#define ROGUE_FWIF_INICFG_HWPERF_EN BIT(2)
++#define ROGUE_FWIF_INICFG_DM_KILL_MODE_RAND_EN BIT(3)
++#define ROGUE_FWIF_INICFG_POW_RASCALDUST BIT(4)
++/* Bit 5 is reserved. */
++#define ROGUE_FWIF_INICFG_FBCDC_V3_1_EN BIT(6)
++#define ROGUE_FWIF_INICFG_CHECK_MLIST_EN BIT(7)
++#define ROGUE_FWIF_INICFG_DISABLE_CLKGATING_EN BIT(8)
++/* Bit 9 is reserved. */
++/* Bit 10 is reserved. */
++/* Bit 11 is reserved. */
++#define ROGUE_FWIF_INICFG_REGCONFIG_EN BIT(12)
++#define ROGUE_FWIF_INICFG_ASSERT_ON_OUTOFMEMORY BIT(13)
++#define ROGUE_FWIF_INICFG_HWP_DISABLE_FILTER BIT(14)
++/* Bit 15 is reserved. */
++#define ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_SHIFT (16)
++#define ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_FAST \
++	(ROGUE_FWIF_CTXSWITCH_PROFILE_FAST_EN    \
++	 << ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_SHIFT)
++#define ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_MEDIUM \
++	(ROGUE_FWIF_CTXSWITCH_PROFILE_MEDIUM_EN    \
++	 << ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_SHIFT)
++#define ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_SLOW \
++	(ROGUE_FWIF_CTXSWITCH_PROFILE_SLOW_EN    \
++	 << ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_SHIFT)
++#define ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_NODELAY \
++	(ROGUE_FWIF_CTXSWITCH_PROFILE_NODELAY_EN    \
++	 << ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_SHIFT)
++#define ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_MASK \
++	(7 << ROGUE_FWIF_INICFG_CTXSWITCH_PROFILE_SHIFT)
++#define ROGUE_FWIF_INICFG_DISABLE_DM_OVERLAP BIT(19)
++#define ROGUE_FWIF_INICFG_ASSERT_ON_HWR_TRIGGER BIT(20)
++#define ROGUE_FWIF_INICFG_FABRIC_COHERENCY_ENABLED BIT(21)
++#define ROGUE_FWIF_INICFG_VALIDATE_IRQ BIT(22)
++#define ROGUE_FWIF_INICFG_DISABLE_PDP_EN BIT(23)
++#define ROGUE_FWIF_INICFG_SPU_POWER_STATE_MASK_CHANGE_EN BIT(24)
++#define ROGUE_FWIF_INICFG_WORKEST BIT(25)
++#define ROGUE_FWIF_INICFG_PDVFS BIT(26)
++#define ROGUE_FWIF_INICFG_CDM_ARBITRATION_SHIFT (27)
++#define ROGUE_FWIF_INICFG_CDM_ARBITRATION_TASK_DEMAND \
++	(ROGUE_FWIF_CDM_ARBITRATION_TASK_DEMAND_EN    \
++	 << ROGUE_FWIF_INICFG_CDM_ARBITRATION_SHIFT)
++#define ROGUE_FWIF_INICFG_CDM_ARBITRATION_ROUND_ROBIN \
++	(ROGUE_FWIF_CDM_ARBITRATION_ROUND_ROBIN_EN    \
++	 << ROGUE_FWIF_INICFG_CDM_ARBITRATION_SHIFT)
++#define ROGUE_FWIF_INICFG_CDM_ARBITRATION_MASK \
++	(3 << ROGUE_FWIF_INICFG_CDM_ARBITRATION_SHIFT)
++#define ROGUE_FWIF_INICFG_ISPSCHEDMODE_SHIFT (29)
++#define ROGUE_FWIF_INICFG_ISPSCHEDMODE_NONE (0)
++#define ROGUE_FWIF_INICFG_ISPSCHEDMODE_VER1_IPP \
++	(ROGUE_FWIF_ISP_SCHEDMODE_VER1_IPP      \
++	 << ROGUE_FWIF_INICFG_ISPSCHEDMODE_SHIFT)
++#define ROGUE_FWIF_INICFG_ISPSCHEDMODE_VER2_ISP \
++	(ROGUE_FWIF_ISP_SCHEDMODE_VER2_ISP      \
++	 << ROGUE_FWIF_INICFG_ISPSCHEDMODE_SHIFT)
++#define ROGUE_FWIF_INICFG_ISPSCHEDMODE_MASK        \
++	(ROGUE_FWIF_INICFG_ISPSCHEDMODE_VER1_IPP | \
++	 ROGUE_FWIF_INICFG_ISPSCHEDMODE_VER2_ISP)
++#define ROGUE_FWIF_INICFG_VALIDATE_SOCUSC_TIMER BIT(31)
++
++#define ROGUE_FWIF_INICFG_ALL (0xFFFFFFFFU)
++
++/* Extended Flag definitions affecting the firmware globally */
++#define ROGUE_FWIF_INICFG_EXT_TFBC_CONTROL_SHIFT (0)
++/* [7]   YUV10 override
++ * [6:4] Quality
++ * [3]   Quality enable
++ * [2:1] Compression scheme
++ * [0]   Lossy group
++ */
++#define ROGUE_FWIF_INICFG_EXT_TFBC_CONTROL_MASK (0xFF)
++#define ROGUE_FWIF_INICFG_EXT_ALL (ROGUE_FWIF_INICFG_EXT_TFBC_CONTROL_MASK)
++
++/* Flag definitions affecting only workloads submitted by a particular OS */
++#define ROGUE_FWIF_INICFG_OS_CTXSWITCH_TDM_EN BIT(0)
++#define ROGUE_FWIF_INICFG_OS_CTXSWITCH_GEOM_EN BIT(1)
++#define ROGUE_FWIF_INICFG_OS_CTXSWITCH_FRAG_EN BIT(2)
++#define ROGUE_FWIF_INICFG_OS_CTXSWITCH_CDM_EN BIT(3)
++
++#define ROGUE_FWIF_INICFG_OS_LOW_PRIO_CS_TDM BIT(4)
++#define ROGUE_FWIF_INICFG_OS_LOW_PRIO_CS_GEOM BIT(5)
++#define ROGUE_FWIF_INICFG_OS_LOW_PRIO_CS_FRAG BIT(6)
++#define ROGUE_FWIF_INICFG_OS_LOW_PRIO_CS_CDM BIT(7)
++
++#define ROGUE_FWIF_INICFG_OS_ALL (0xFF)
++
++#define ROGUE_FWIF_INICFG_OS_CTXSWITCH_DM_ALL     \
++	(ROGUE_FWIF_INICFG_OS_CTXSWITCH_TDM_EN |  \
++	 ROGUE_FWIF_INICFG_OS_CTXSWITCH_GEOM_EN | \
++	 ROGUE_FWIF_INICFG_OS_CTXSWITCH_FRAG_EN |   \
++	 ROGUE_FWIF_INICFG_OS_CTXSWITCH_CDM_EN)
++
++#define ROGUE_FWIF_INICFG_OS_CTXSWITCH_CLRMSK \
++	~(ROGUE_FWIF_INICFG_OS_CTXSWITCH_DM_ALL)
++
++#define ROGUE_FWIF_FILTCFG_TRUNCATE_HALF BIT(3)
++#define ROGUE_FWIF_FILTCFG_TRUNCATE_INT BIT(2)
++#define ROGUE_FWIF_FILTCFG_NEW_FILTER_MODE BIT(1)
++
++enum rogue_activepm_conf {
++	ROGUE_ACTIVEPM_FORCE_OFF = 0,
++	ROGUE_ACTIVEPM_FORCE_ON = 1,
++	ROGUE_ACTIVEPM_DEFAULT = 2
++};
++
++enum rogue_rd_power_island_conf {
++	ROGUE_RD_POWER_ISLAND_FORCE_OFF = 0,
++	ROGUE_RD_POWER_ISLAND_FORCE_ON = 1,
++	ROGUE_RD_POWER_ISLAND_DEFAULT = 2
++};
++
++struct rogue_fw_register_list {
++	/* Register number */
++	u16 reg_num;
++	/* Indirect register number (or 0 if not used) */
++	u16 indirect_reg_num;
++	/* Start value for indirect register */
++	u16 indirect_start_val;
++	/* End value for indirect register */
++	u16 indirect_end_val;
++};
++
++struct rogue_fwif_dllist_node {
++	u32 p;
++	u32 n;
++};
++
++/*
++ * This number is used to represent an invalid page catalogue physical address
++ */
++#define ROGUE_FWIF_INVALID_PC_PHYADDR 0xFFFFFFFFFFFFFFFFLLU
++
++/* This number is used to represent unallocated page catalog base register */
++#define ROGUE_FW_BIF_INVALID_PCSET 0xFFFFFFFFU
++
++/* Firmware memory context. */
++struct rogue_fwif_fwmemcontext {
++	/* device physical address of context's page catalogue */
++	aligned_u64 pc_dev_paddr;
++	/*
++	 * associated page catalog base register (ROGUE_FW_BIF_INVALID_PCSET ==
++	 * unallocated)
 +	 */
-+	update_job_resvs_for_each(job_data, args->jobs.count);
-+	push_jobs(job_data, args->jobs.count);
-+	pvr_sync_signal_array_push_fences(&signal_array);
-+	err = 0;
++	u32 page_cat_base_reg_set;
++	/* breakpoint address */
++	u32 breakpoint_addr;
++	/* breakpoint handler address */
++	u32 bp_handler_addr;
++	/* DM and enable control for BP */
++	u32 breakpoint_ctl;
++	/* Compatibility and other flags */
++	u32 fw_mem_ctx_flags;
++	u32 padding;
++} __aligned(8);
 +
-+out_exec_fini:
-+	drm_exec_fini(&exec);
-+	pvr_sync_signal_array_cleanup(&signal_array);
++/*
++ * FW context state flags
++ */
++#define ROGUE_FWIF_CONTEXT_FLAGS_NEED_RESUME (0x00000001U)
++#define ROGUE_FWIF_CONTEXT_FLAGS_MC_NEED_RESUME_MASKFULL (0x000000FFU)
++#define ROGUE_FWIF_CONTEXT_FLAGS_TDM_HEADER_STALE (0x00000100U)
++#define ROGUE_FWIF_CONTEXT_FLAGS_LAST_KICK_SECURE (0x00000200U)
 +
-+out_job_data_cleanup:
-+	pvr_job_data_fini(job_data, jobs_alloced);
++#define ROGUE_NUM_GEOM_CORES_MAX 4
 +
-+out_free:
-+	kvfree(job_data);
-+	kvfree(job_args);
++/*
++ * FW-accessible TA state which must be written out to memory on context store
++ */
++struct rogue_fwif_geom_ctx_state_per_geom {
++	/* To store in mid-TA */
++	aligned_u64 geom_reg_vdm_call_stack_pointer;
++	/* Initial value (in case is 'lost' due to a lock-up */
++	aligned_u64 geom_reg_vdm_call_stack_pointer_init;
++	u32 geom_reg_vbs_so_prim[4];
++	u16 geom_current_idx;
++	u16 padding[3];
++} __aligned(8);
 +
-+	return err;
++struct rogue_fwif_geom_ctx_state {
++	/* FW-accessible TA state which must be written out to memory on context store */
++	struct rogue_fwif_geom_ctx_state_per_geom geom_core[ROGUE_NUM_GEOM_CORES_MAX];
++} __aligned(8);
++
++/*
++ * FW-accessible ISP state which must be written out to memory on context store
++ */
++struct rogue_fwif_frag_ctx_state {
++	u32 frag_reg_pm_deallocated_mask_status;
++	u32 frag_reg_dm_pds_mtilefree_status;
++	/* Compatibility and other flags */
++	u32 ctx_state_flags;
++	/*
++	 * frag_reg_isp_store should be the last element of the structure as this
++	 * is an array whose size is determined at runtime after detecting the
++	 * ROGUE core
++	 */
++	u32 frag_reg_isp_store[];
++} __aligned(8);
++
++#define ROGUE_FWIF_CTX_USING_BUFFER_A (0)
++#define ROGUE_FWIF_CTX_USING_BUFFER_B (1U)
++
++struct rogue_fwif_compute_ctx_state {
++	u32 ctx_state_flags; /* Target buffer and other flags */
++};
++
++struct rogue_fwif_fwcommoncontext {
++	/* CCB details for this firmware context */
++	u32 ccbctl_fw_addr; /* CCB control */
++	u32 ccb_fw_addr; /* CCB base */
++	struct rogue_fwif_dma_addr ccb_meta_dma_addr;
++
++	/* Context suspend state */
++	/* geom/frag context suspend state, read/written by FW */
++	u32 context_state_addr __aligned(8);
++
++	/* Flags e.g. for context switching */
++	u32 fw_com_ctx_flags;
++	u32 priority;
++	u32 priority_seq_num;
++
++	/* Framework state */
++	/* Register updates for Framework */
++	u32 rf_cmd_addr __aligned(8);
++
++	/* Statistic updates waiting to be passed back to the host... */
++	/* True when some stats are pending */
++	bool stats_pending __aligned(4);
++	/* Number of stores on this context since last update */
++	s32 stats_num_stores;
++	/* Number of OOMs on this context since last update */
++	s32 stats_num_out_of_memory;
++	/* Number of PRs on this context since last update */
++	s32 stats_num_partial_renders;
++	/* Data Master type */
++	u32 dm;
++	/* Device Virtual Address of the signal the context is waiting on */
++	aligned_u64 wait_signal_address;
++	/* List entry for the wait-signal list */
++	struct rogue_fwif_dllist_node wait_signal_node __aligned(8);
++	/* List entry for the buffer stalled list */
++	struct rogue_fwif_dllist_node buf_stalled_node __aligned(8);
++	/* Address of the circular buffer queue pointers */
++	aligned_u64 cbuf_queue_ctrl_addr;
++
++	aligned_u64 robustness_address;
++	/* Max HWR deadline limit in ms */
++	u32 max_deadline_ms;
++	/* Following HWR circular buffer read-offset needs resetting */
++	bool read_offset_needs_reset;
++
++	/* List entry for the waiting list */
++	struct rogue_fwif_dllist_node waiting_node __aligned(8);
++	/* List entry for the run list */
++	struct rogue_fwif_dllist_node run_node __aligned(8);
++	/* UFO that last failed (or NULL) */
++	struct rogue_fwif_ufo last_failed_ufo;
++
++	/* Memory context */
++	u32 fw_mem_context_fw_addr;
++
++	/* References to the host side originators */
++	/* the Server Common Context */
++	u32 server_common_context_id;
++	/* associated process ID */
++	u32 pid;
++
++	/* True when Geom DM OOM is not allowed */
++	bool geom_oom_disabled __aligned(4);
++} __aligned(8);
++
++/* Firmware render context. */
++struct rogue_fwif_fwrendercontext {
++	/* Geometry firmware context. */
++	struct rogue_fwif_fwcommoncontext geom_context;
++	/* Fragment firmware context. */
++	struct rogue_fwif_fwcommoncontext frag_context;
++
++	struct rogue_fwif_static_rendercontext_state static_render_context_state;
++
++	/* Number of commands submitted to the WorkEst FW CCB */
++	u32 work_est_ccb_submitted;
++
++	/* Compatibility and other flags */
++	u32 fw_render_ctx_flags;
++} __aligned(8);
++
++/* Firmware compute context. */
++struct rogue_fwif_fwcomputecontext {
++	/* Firmware context for the CDM */
++	struct rogue_fwif_fwcommoncontext cdm_context;
++
++	struct rogue_fwif_static_computecontext_state
++		static_compute_context_state;
++
++	/* Number of commands submitted to the WorkEst FW CCB */
++	u32 work_est_ccb_submitted;
++
++	/* Compatibility and other flags */
++	u32 compute_ctx_flags;
++
++	u32 wgp_state;
++	u32 wgp_checksum;
++	u32 core_mask_a;
++	u32 core_mask_b;
++} __aligned(8);
++
++/* Firmware TDM context. */
++struct rogue_fwif_fwtdmcontext {
++	/* Firmware context for the TDM */
++	struct rogue_fwif_fwcommoncontext tdm_context;
++
++	/* Number of commands submitted to the WorkEst FW CCB */
++	u32 work_est_ccb_submitted;
++} __aligned(8);
++
++/* Firmware TQ3D context. */
++struct rogue_fwif_fwtransfercontext {
++	/* Firmware context for TQ3D. */
++	struct rogue_fwif_fwcommoncontext tq_context;
++} __aligned(8);
++
++/*
++ ******************************************************************************
++ * Defines for CMD_TYPE corruption detection and forward compatibility check
++ ******************************************************************************
++ */
++
++/*
++ * CMD_TYPE 32bit contains:
++ * 31:16	Reserved for magic value to detect corruption (16 bits)
++ * 15		Reserved for ROGUE_CCB_TYPE_TASK (1 bit)
++ * 14:0		Bits available for CMD_TYPEs (15 bits)
++ */
++
++/* Magic value to detect corruption */
++#define ROGUE_CMD_MAGIC_DWORD (0x2ABC)
++#define ROGUE_CMD_MAGIC_DWORD_MASK (0xFFFF0000U)
++#define ROGUE_CMD_MAGIC_DWORD_SHIFT (16U)
++#define ROGUE_CMD_MAGIC_DWORD_SHIFTED \
++	(ROGUE_CMD_MAGIC_DWORD << ROGUE_CMD_MAGIC_DWORD_SHIFT)
++
++/* Kernel CCB control for ROGUE */
++struct rogue_fwif_ccb_ctl {
++	/* write offset into array of commands (MUST be aligned to 16 bytes!) */
++	u32 write_offset;
++	/* Padding to ensure read and write offsets are in separate cache lines. */
++	u8 padding[128 - sizeof(u32)];
++	/* read offset into array of commands */
++	u32 read_offset;
++	/* Offset wrapping mask (Total capacity of the CCB - 1) */
++	u32 wrap_mask;
++	/* size of each command in bytes */
++	u32 cmd_size;
++	u32 padding2;
++} __aligned(8);
++
++/* Kernel CCB command structure for ROGUE */
++
++#define ROGUE_FWIF_MMUCACHEDATA_FLAGS_PT (0x1U) /* MMU_CTRL_INVAL_PT_EN */
++#define ROGUE_FWIF_MMUCACHEDATA_FLAGS_PD (0x2U) /* MMU_CTRL_INVAL_PD_EN */
++#define ROGUE_FWIF_MMUCACHEDATA_FLAGS_PC (0x4U) /* MMU_CTRL_INVAL_PC_EN */
++
++/*
++ * can't use PM_TLB0 bit from BIFPM_CTRL reg because it collides with PT
++ * bit from BIF_CTRL reg
++ */
++#define ROGUE_FWIF_MMUCACHEDATA_FLAGS_PMTLB (0x10)
++/* BIF_CTRL_INVAL_TLB1_EN */
++#define ROGUE_FWIF_MMUCACHEDATA_FLAGS_TLB \
++	(ROGUE_FWIF_MMUCACHEDATA_FLAGS_PMTLB | 0x8)
++/* MMU_CTRL_INVAL_ALL_CONTEXTS_EN */
++#define ROGUE_FWIF_MMUCACHEDATA_FLAGS_CTX_ALL (0x800)
++
++/* indicates FW should interrupt the host */
++#define ROGUE_FWIF_MMUCACHEDATA_FLAGS_INTERRUPT (0x4000000U)
++
++struct rogue_fwif_mmucachedata {
++	u32 cache_flags;
++	u32 mmu_cache_sync_fw_addr;
++	u32 mmu_cache_sync_update_value;
++};
++
++#define ROGUE_FWIF_BPDATA_FLAGS_ENABLE BIT(0)
++#define ROGUE_FWIF_BPDATA_FLAGS_WRITE BIT(1)
++#define ROGUE_FWIF_BPDATA_FLAGS_CTL BIT(2)
++#define ROGUE_FWIF_BPDATA_FLAGS_REGS BIT(3)
++
++struct rogue_fwif_bpdata {
++	/* Memory context */
++	u32 fw_mem_context_fw_addr;
++	/* Breakpoint address */
++	u32 bp_addr;
++	/* Breakpoint handler */
++	u32 bp_handler_addr;
++	/* Breakpoint control */
++	u32 bp_dm;
++	u32 bp_data_flags;
++	/* Number of temporary registers to overallocate */
++	u32 temp_regs;
++	/* Number of shared registers to overallocate */
++	u32 shared_regs;
++	/* DM associated with the breakpoint */
++	u32 dm;
++};
++
++#define ROGUE_FWIF_KCCB_CMD_KICK_DATA_MAX_NUM_CLEANUP_CTLS \
++	(ROGUE_FWIF_PRBUFFER_MAXSUPPORTED + 1U) /* +1 is RTDATASET cleanup */
++
++struct rogue_fwif_kccb_cmd_kick_data {
++	/* address of the firmware context */
++	u32 context_fw_addr;
++	/* Client CCB woff update */
++	u32 client_woff_update;
++	/* Client CCB wrap mask update after CCCB growth */
++	u32 client_wrap_mask_update;
++	/* number of CleanupCtl pointers attached */
++	u32 num_cleanup_ctl;
++	/* CleanupCtl structures associated with command */
++	u32 cleanup_ctl_fw_addr
++		[ROGUE_FWIF_KCCB_CMD_KICK_DATA_MAX_NUM_CLEANUP_CTLS];
++	/*
++	 * offset to the CmdHeader which houses the workload estimation kick
++	 * data.
++	 */
++	u32 work_est_cmd_header_offset;
++};
++
++struct rogue_fwif_kccb_cmd_combined_geom_frag_kick_data {
++	struct rogue_fwif_kccb_cmd_kick_data geom_cmd_kick_data;
++	struct rogue_fwif_kccb_cmd_kick_data frag_cmd_kick_data;
++};
++
++struct rogue_fwif_kccb_cmd_force_update_data {
++	/* address of the firmware context */
++	u32 context_fw_addr;
++	/* Client CCB fence offset */
++	u32 ccb_fence_offset;
++};
++
++enum rogue_fwif_cleanup_type {
++	/* FW common context cleanup */
++	ROGUE_FWIF_CLEANUP_FWCOMMONCONTEXT,
++	/* FW HW RT data cleanup */
++	ROGUE_FWIF_CLEANUP_HWRTDATA,
++	/* FW freelist cleanup */
++	ROGUE_FWIF_CLEANUP_FREELIST,
++	/* FW ZS Buffer cleanup */
++	ROGUE_FWIF_CLEANUP_ZSBUFFER,
++};
++
++struct rogue_fwif_cleanup_request {
++	/* Cleanup type */
++	enum rogue_fwif_cleanup_type cleanup_type;
++	union {
++		/* FW common context to cleanup */
++		u32 context_fw_addr;
++		/* HW RT to cleanup */
++		u32 hwrt_data_fw_addr;
++		/* Freelist to cleanup */
++		u32 freelist_fw_addr;
++		/* ZS Buffer to cleanup */
++		u32 zs_buffer_fw_addr;
++	} cleanup_data;
++};
++
++enum rogue_fwif_power_type {
++	ROGUE_FWIF_POW_OFF_REQ = 1,
++	ROGUE_FWIF_POW_FORCED_IDLE_REQ,
++	ROGUE_FWIF_POW_NUM_UNITS_CHANGE,
++	ROGUE_FWIF_POW_APM_LATENCY_CHANGE
++};
++
++enum rogue_fwif_power_force_idle_type {
++	ROGUE_FWIF_POWER_FORCE_IDLE = 1,
++	ROGUE_FWIF_POWER_CANCEL_FORCED_IDLE,
++	ROGUE_FWIF_POWER_HOST_TIMEOUT,
++};
++
++struct rogue_fwif_power_request {
++	/* Type of power request */
++	enum rogue_fwif_power_type pow_type;
++	union {
++		/* Number of active Dusts */
++		u32 num_of_dusts;
++		/* If the operation is mandatory */
++		bool forced __aligned(4);
++		/*
++		 * Type of Request. Consolidating Force Idle, Cancel Forced
++		 * Idle, Host Timeout
++		 */
++		enum rogue_fwif_power_force_idle_type pow_request_type;
++	} power_req_data;
++};
++
++struct rogue_fwif_slcflushinvaldata {
++	/* Context to fence on (only useful when bDMContext == TRUE) */
++	u32 context_fw_addr;
++	/* Invalidate the cache as well as flushing */
++	bool inval __aligned(4);
++	/* The data to flush/invalidate belongs to a specific DM context */
++	bool dm_context __aligned(4);
++	/* Optional address of range (only useful when bDMContext == FALSE) */
++	aligned_u64 address;
++	/* Optional size of range (only useful when bDMContext == FALSE) */
++	aligned_u64 size;
++};
++
++enum rogue_fwif_hwperf_update_config {
++	ROGUE_FWIF_HWPERF_CTRL_TOGGLE = 0,
++	ROGUE_FWIF_HWPERF_CTRL_SET = 1,
++	ROGUE_FWIF_HWPERF_CTRL_EMIT_FEATURES_EV = 2
++};
++
++struct rogue_fwif_hwperf_ctrl {
++	enum rogue_fwif_hwperf_update_config opcode; /* Control operation code */
++	aligned_u64 mask; /* Mask of events to toggle */
++};
++
++struct rogue_fwif_hwperf_config_enable_blks {
++	/* Number of ROGUE_HWPERF_CONFIG_MUX_CNTBLK in the array */
++	u32 num_blocks;
++	/* Address of the ROGUE_HWPERF_CONFIG_MUX_CNTBLK array */
++	u32 block_configs_fw_addr;
++};
++
++struct rogue_fwif_hwperf_config_da_blks {
++	/* Number of ROGUE_HWPERF_CONFIG_CNTBLK in the array */
++	u32 num_blocks;
++	/* Address of the ROGUE_HWPERF_CONFIG_CNTBLK array */
++	u32 block_configs_fw_addr;
++};
++
++struct rogue_fwif_coreclkspeedchange_data {
++	u32 new_clock_speed; /* New clock speed */
++};
++
++#define ROGUE_FWIF_HWPERF_CTRL_BLKS_MAX 16
++
++struct rogue_fwif_hwperf_ctrl_blks {
++	bool enable;
++	/* Number of block IDs in the array */
++	u32 num_blocks;
++	/* Array of ROGUE_HWPERF_CNTBLK_ID values */
++	u16 block_ids[ROGUE_FWIF_HWPERF_CTRL_BLKS_MAX];
++};
++
++struct rogue_fwif_hwperf_select_custom_cntrs {
++	u16 custom_block;
++	u16 num_counters;
++	u32 custom_counter_ids_fw_addr;
++};
++
++struct rogue_fwif_zsbuffer_backing_data {
++	u32 zs_buffer_fw_addr; /* ZS-Buffer FW address */
++
++	bool done __aligned(4); /* action backing/unbacking succeeded */
++};
++
++struct rogue_fwif_freelist_gs_data {
++	/* Freelist FW address */
++	u32 freelist_fw_addr;
++	/* Amount of the Freelist change */
++	u32 delta_pages;
++	/* New amount of pages on the freelist (including ready pages) */
++	u32 new_pages;
++	/* Number of ready pages to be held in reserve until OOM */
++	u32 ready_pages;
++};
++
++#define MAX_FREELISTS_SIZE 3
++#define MAX_HW_GEOM_FRAG_CONTEXTS_SIZE 3
++
++#define ROGUE_FWIF_MAX_FREELISTS_TO_RECONSTRUCT \
++	(MAX_HW_GEOM_FRAG_CONTEXTS_SIZE * MAX_FREELISTS_SIZE * 2U)
++#define ROGUE_FWIF_FREELISTS_RECONSTRUCTION_FAILED_FLAG 0x80000000U
++
++struct rogue_fwif_freelists_reconstruction_data {
++	u32 freelist_count;
++	u32 freelist_ids[ROGUE_FWIF_MAX_FREELISTS_TO_RECONSTRUCT];
++};
++
++struct rogue_fwif_write_offset_update_data {
++	/*
++	 * Context to that may need to be resumed following write offset update
++	 */
++	u32 context_fw_addr;
++} __aligned(8);
++
++/*
++ ******************************************************************************
++ * Proactive DVFS Structures
++ ******************************************************************************
++ */
++#define NUM_OPP_VALUES 16
++
++struct pdvfs_opp {
++	u32 volt; /* V  */
++	u32 freq; /* Hz */
++} __aligned(8);
++
++struct rogue_fwif_pdvfs_opp {
++	struct pdvfs_opp opp_values[NUM_OPP_VALUES];
++	u32 min_opp_point;
++	u32 max_opp_point;
++} __aligned(8);
++
++struct rogue_fwif_pdvfs_max_freq_data {
++	u32 max_opp_point;
++} __aligned(8);
++
++struct rogue_fwif_pdvfs_min_freq_data {
++	u32 min_opp_point;
++} __aligned(8);
++
++/*
++ ******************************************************************************
++ * Register configuration structures
++ ******************************************************************************
++ */
++
++#define ROGUE_FWIF_REG_CFG_MAX_SIZE 512
++
++enum rogue_fwif_regdata_cmd_type {
++	ROGUE_FWIF_REGCFG_CMD_ADD = 101,
++	ROGUE_FWIF_REGCFG_CMD_CLEAR = 102,
++	ROGUE_FWIF_REGCFG_CMD_ENABLE = 103,
++	ROGUE_FWIF_REGCFG_CMD_DISABLE = 104
++};
++
++enum rogue_fwif_reg_cfg_type {
++	/* Sidekick power event */
++	ROGUE_FWIF_REG_CFG_TYPE_PWR_ON = 0,
++	/* Rascal / dust power event */
++	ROGUE_FWIF_REG_CFG_TYPE_DUST_CHANGE,
++	/* Geometry kick */
++	ROGUE_FWIF_REG_CFG_TYPE_GEOM,
++	/* Fragment kick */
++	ROGUE_FWIF_REG_CFG_TYPE_FRAG,
++	/* Compute kick */
++	ROGUE_FWIF_REG_CFG_TYPE_CDM,
++	/* TLA kick */
++	ROGUE_FWIF_REG_CFG_TYPE_TLA,
++	/* TDM kick */
++	ROGUE_FWIF_REG_CFG_TYPE_TDM,
++	/* Applies to all types. Keep as last element */
++	ROGUE_FWIF_REG_CFG_TYPE_ALL
++};
++
++struct rogue_fwif_reg_cfg_rec {
++	u64 sddr;
++	u64 mask;
++	u64 value;
++};
++
++struct rogue_fwif_regconfig_data {
++	enum rogue_fwif_regdata_cmd_type cmd_type;
++	enum rogue_fwif_reg_cfg_type reg_config_type;
++	struct rogue_fwif_reg_cfg_rec reg_config __aligned(8);
++};
++
++struct rogue_fwif_reg_cfg {
++	/*
++	 * PDump WRW command write granularity is 32 bits.
++	 * Add padding to ensure array size is 32 bit granular.
++	 */
++	u8 num_regs_type[ALIGN((u32)ROGUE_FWIF_REG_CFG_TYPE_ALL,
++			       sizeof(u32))] __aligned(8);
++	struct rogue_fwif_reg_cfg_rec
++		reg_configs[ROGUE_FWIF_REG_CFG_MAX_SIZE] __aligned(8);
++} __aligned(8);
++
++enum rogue_fwif_os_state_change {
++	ROGUE_FWIF_OS_ONLINE = 1,
++	ROGUE_FWIF_OS_OFFLINE
++};
++
++struct rogue_fwif_os_state_change_data {
++	u32 osid;
++	enum rogue_fwif_os_state_change new_os_state;
++} __aligned(8);
++
++enum rogue_fwif_counter_dump_request {
++	ROGUE_FWIF_PWR_COUNTER_DUMP_START = 1,
++	ROGUE_FWIF_PWR_COUNTER_DUMP_STOP,
++	ROGUE_FWIF_PWR_COUNTER_DUMP_SAMPLE,
++};
++
++struct rogue_fwif_counter_dump_data {
++	enum rogue_fwif_counter_dump_request counter_dump_request;
++} __aligned(8);
++
++enum rogue_fwif_kccb_cmd_type {
++	/* Common commands */
++	ROGUE_FWIF_KCCB_CMD_KICK = 101U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	ROGUE_FWIF_KCCB_CMD_MMUCACHE = 102U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	ROGUE_FWIF_KCCB_CMD_BP = 103U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* SLC flush and invalidation request */
++	ROGUE_FWIF_KCCB_CMD_SLCFLUSHINVAL = 105U |
++					    ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/*
++	 * Requests cleanup of a FW resource (type specified in the command
++	 * data)
++	 */
++	ROGUE_FWIF_KCCB_CMD_CLEANUP = 106U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Power request */
++	ROGUE_FWIF_KCCB_CMD_POW = 107U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Backing for on-demand ZS-Buffer done */
++	ROGUE_FWIF_KCCB_CMD_ZSBUFFER_BACKING_UPDATE =
++		108U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Unbacking for on-demand ZS-Buffer done */
++	ROGUE_FWIF_KCCB_CMD_ZSBUFFER_UNBACKING_UPDATE =
++		109U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Freelist Grow done */
++	ROGUE_FWIF_KCCB_CMD_FREELIST_GROW_UPDATE =
++		110U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Freelists Reconstruction done */
++	ROGUE_FWIF_KCCB_CMD_FREELISTS_RECONSTRUCTION_UPDATE =
++		112U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/*
++	 * Informs the firmware that the host has added more data to a CDM2
++	 * Circular Buffer
++	 */
++	ROGUE_FWIF_KCCB_CMD_NOTIFY_WRITE_OFFSET_UPDATE =
++		114U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Health check request */
++	ROGUE_FWIF_KCCB_CMD_HEALTH_CHECK = 115U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Forcing signalling of all unmet UFOs for a given CCB offset */
++	ROGUE_FWIF_KCCB_CMD_FORCE_UPDATE = 116U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/* There is a geometry and a fragment command in this single kick */
++	ROGUE_FWIF_KCCB_CMD_COMBINED_GEOM_FRAG_KICK = 117U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Informs the FW that a Guest OS has come online / offline. */
++	ROGUE_FWIF_KCCB_CMD_OS_ONLINE_STATE_CONFIGURE	= 118U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/* Commands only permitted to the native or host OS */
++	ROGUE_FWIF_KCCB_CMD_REGCONFIG = 200U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/* Configure HWPerf events (to be generated) and HWPerf buffer address (if required) */
++	ROGUE_FWIF_KCCB_CMD_HWPERF_UPDATE_CONFIG = 201U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/* Enable or disable multiple HWPerf blocks (reusing existing configuration) */
++	ROGUE_FWIF_KCCB_CMD_HWPERF_CTRL_BLKS = 203U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Core clock speed change event */
++	ROGUE_FWIF_KCCB_CMD_CORECLKSPEEDCHANGE = 204U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/*
++	 * Ask the firmware to update its cached ui32LogType value from the (shared)
++	 * tracebuf control structure
++	 */
++	ROGUE_FWIF_KCCB_CMD_LOGTYPE_UPDATE = 206U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Set a maximum frequency/OPP point */
++	ROGUE_FWIF_KCCB_CMD_PDVFS_LIMIT_MAX_FREQ = 207U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/*
++	 * Changes the relative scheduling priority for a particular OSid. It can
++	 * only be serviced for the Host DDK
++	 */
++	ROGUE_FWIF_KCCB_CMD_OSID_PRIORITY_CHANGE = 208U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Set or clear firmware state flags */
++	ROGUE_FWIF_KCCB_CMD_STATEFLAGS_CTRL = 209U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/* Set a minimum frequency/OPP point */
++	ROGUE_FWIF_KCCB_CMD_PDVFS_LIMIT_MIN_FREQ = 212U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Configure Periodic Hardware Reset behaviour */
++	ROGUE_FWIF_KCCB_CMD_PHR_CFG = 213U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/* Configure Safety Firmware Watchdog */
++	ROGUE_FWIF_KCCB_CMD_WDG_CFG = 215U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Controls counter dumping in the FW */
++	ROGUE_FWIF_KCCB_CMD_COUNTER_DUMP = 216U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Configure, clear and enable multiple HWPerf blocks */
++	ROGUE_FWIF_KCCB_CMD_HWPERF_CONFIG_ENABLE_BLKS = 217U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Configure the custom counters for HWPerf */
++	ROGUE_FWIF_KCCB_CMD_HWPERF_SELECT_CUSTOM_CNTRS = 218U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/* Configure directly addressable counters for HWPerf */
++	ROGUE_FWIF_KCCB_CMD_HWPERF_CONFIG_BLKS = 220U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++};
++
++#define ROGUE_FWIF_LAST_ALLOWED_GUEST_KCCB_CMD \
++	(ROGUE_FWIF_KCCB_CMD_REGCONFIG - 1)
++
++/* Kernel CCB command packet */
++struct rogue_fwif_kccb_cmd {
++	/* Command type */
++	enum rogue_fwif_kccb_cmd_type cmd_type;
++	/* Compatibility and other flags */
++	u32 kccb_flags;
++
++	/*
++	 * NOTE: Make sure that uCmdData is the last member of this struct
++	 * This is to calculate actual command size for device mem copy.
++	 * (Refer ROGUEGetCmdMemCopySize())
++	 */
++	union {
++		/* Data for Kick command */
++		struct rogue_fwif_kccb_cmd_kick_data cmd_kick_data;
++		/* Data for combined geom/frag Kick command */
++		struct rogue_fwif_kccb_cmd_combined_geom_frag_kick_data
++			combined_geom_frag_cmd_kick_data;
++		/* Data for MMU cache command */
++		struct rogue_fwif_mmucachedata mmu_cache_data;
++		/* Data for Breakpoint Commands */
++		struct rogue_fwif_bpdata bp_data;
++		/* Data for SLC Flush/Inval commands */
++		struct rogue_fwif_slcflushinvaldata slc_flush_inval_data;
++		/* Data for cleanup commands */
++		struct rogue_fwif_cleanup_request cleanup_data;
++		/* Data for power request commands */
++		struct rogue_fwif_power_request pow_data;
++		/* Data for HWPerf control command */
++		struct rogue_fwif_hwperf_ctrl hw_perf_ctrl;
++		/*
++		 * Data for HWPerf configure, clear and enable performance
++		 * counter block command
++		 */
++		struct rogue_fwif_hwperf_config_enable_blks
++			hw_perf_cfg_enable_blks;
++		/*
++		 * Data for HWPerf enable or disable performance counter block
++		 * commands
++		 */
++		struct rogue_fwif_hwperf_ctrl_blks hw_perf_ctrl_blks;
++		/* Data for HWPerf configure the custom counters to read */
++		struct rogue_fwif_hwperf_select_custom_cntrs
++			hw_perf_select_cstm_cntrs;
++		/* Data for HWPerf configure Directly Addressable blocks */
++		struct rogue_fwif_hwperf_config_da_blks hw_perf_cfg_da_blks;
++		/* Data for core clock speed change */
++		struct rogue_fwif_coreclkspeedchange_data
++			core_clk_speed_change_data;
++		/* Feedback for Z/S Buffer backing/unbacking */
++		struct rogue_fwif_zsbuffer_backing_data zs_buffer_backing_data;
++		/* Feedback for Freelist grow/shrink */
++		struct rogue_fwif_freelist_gs_data free_list_gs_data;
++		/* Feedback for Freelists reconstruction*/
++		struct rogue_fwif_freelists_reconstruction_data
++			free_lists_reconstruction_data;
++		/* Data for custom register configuration */
++		struct rogue_fwif_regconfig_data reg_config_data;
++		/* Data for informing the FW about the write offset update */
++		struct rogue_fwif_write_offset_update_data
++			write_offset_update_data;
++		/* Data for setting the max frequency/OPP */
++		struct rogue_fwif_pdvfs_max_freq_data pdvfs_max_freq_data;
++		/* Data for setting the min frequency/OPP */
++		struct rogue_fwif_pdvfs_min_freq_data pdvfs_min_freq_data;
++		/* Data for updating the Guest Online states */
++		struct rogue_fwif_os_state_change_data cmd_os_online_state_data;
++		/* Dev address for TBI buffer allocated on demand */
++		u32 tbi_buffer_fw_addr;
++		/* Data for dumping of register ranges */
++		struct rogue_fwif_counter_dump_data counter_dump_config_data;
++		/* Data for signalling all unmet fences for a given CCB */
++		struct rogue_fwif_kccb_cmd_force_update_data force_update_data;
++	} cmd_data __aligned(8);
++} __aligned(8);
++
++PVR_FW_STRUCT_SIZE_ASSERT(struct rogue_fwif_kccb_cmd);
++
++/*
++ ******************************************************************************
++ * Firmware CCB command structure for ROGUE
++ ******************************************************************************
++ */
++
++struct rogue_fwif_fwccb_cmd_zsbuffer_backing_data {
++	u32 zs_buffer_id;
++};
++
++struct rogue_fwif_fwccb_cmd_freelist_gs_data {
++	u32 freelist_id;
++};
++
++struct rogue_fwif_fwccb_cmd_freelists_reconstruction_data {
++	u32 freelist_count;
++	u32 hwr_counter;
++	u32 freelist_ids[ROGUE_FWIF_MAX_FREELISTS_TO_RECONSTRUCT];
++};
++
++/* 1 if a page fault happened */
++#define ROGUE_FWIF_FWCCB_CMD_CONTEXT_RESET_FLAG_PF BIT(0)
++/* 1 if applicable to all contexts */
++#define ROGUE_FWIF_FWCCB_CMD_CONTEXT_RESET_FLAG_ALL_CTXS BIT(1)
++
++struct rogue_fwif_fwccb_cmd_context_reset_data {
++	/* Context affected by the reset */
++	u32 server_common_context_id;
++	/* Reason for reset */
++	enum rogue_context_reset_reason reset_reason;
++	/* Data Master affected by the reset */
++	u32 dm;
++	/* Job ref running at the time of reset */
++	u32 reset_job_ref;
++	/* ROGUE_FWIF_FWCCB_CMD_CONTEXT_RESET_FLAG bitfield */
++	u32 flags;
++	/* At what page catalog address */
++	aligned_u64 pc_address;
++	/* Page fault address (only when applicable) */
++	aligned_u64 fault_address;
++};
++
++struct rogue_fwif_fwccb_cmd_fw_pagefault_data {
++	/* Page fault address */
++	u64 fw_fault_addr;
++};
++
++enum rogue_fwif_fwccb_cmd_type {
++	/* Requests ZSBuffer to be backed with physical pages */
++	ROGUE_FWIF_FWCCB_CMD_ZSBUFFER_BACKING = 101U |
++						ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Requests ZSBuffer to be unbacked */
++	ROGUE_FWIF_FWCCB_CMD_ZSBUFFER_UNBACKING = 102U |
++						  ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Requests an on-demand freelist grow/shrink */
++	ROGUE_FWIF_FWCCB_CMD_FREELIST_GROW = 103U |
++					     ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Requests freelists reconstruction */
++	ROGUE_FWIF_FWCCB_CMD_FREELISTS_RECONSTRUCTION =
++		104U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Notifies host of a HWR event on a context */
++	ROGUE_FWIF_FWCCB_CMD_CONTEXT_RESET_NOTIFICATION =
++		105U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Requests an on-demand debug dump */
++	ROGUE_FWIF_FWCCB_CMD_DEBUG_DUMP = 106U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	/* Requests an on-demand update on process stats */
++	ROGUE_FWIF_FWCCB_CMD_UPDATE_STATS = 107U |
++					    ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	ROGUE_FWIF_FWCCB_CMD_CORE_CLK_RATE_CHANGE =
++		108U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++	ROGUE_FWIF_FWCCB_CMD_REQUEST_GPU_RESTART =
++		109U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++
++	/* Notifies host of a FW pagefault */
++	ROGUE_FWIF_FWCCB_CMD_CONTEXT_FW_PF_NOTIFICATION =
++		112U | ROGUE_CMD_MAGIC_DWORD_SHIFTED,
++};
++
++enum rogue_fwif_fwccb_cmd_update_stats_type {
++	/*
++	 * PVRSRVStatsUpdateRenderContextStats should increase the value of the
++	 * ui32TotalNumPartialRenders stat
++	 */
++	ROGUE_FWIF_FWCCB_CMD_UPDATE_NUM_PARTIAL_RENDERS = 1,
++	/*
++	 * PVRSRVStatsUpdateRenderContextStats should increase the value of the
++	 * ui32TotalNumOutOfMemory stat
++	 */
++	ROGUE_FWIF_FWCCB_CMD_UPDATE_NUM_OUT_OF_MEMORY,
++	/*
++	 * PVRSRVStatsUpdateRenderContextStats should increase the value of the
++	 * ui32NumGeomStores stat
++	 */
++	ROGUE_FWIF_FWCCB_CMD_UPDATE_NUM_GEOM_STORES,
++	/*
++	 * PVRSRVStatsUpdateRenderContextStats should increase the value of the
++	 * ui32NumFragStores stat
++	 */
++	ROGUE_FWIF_FWCCB_CMD_UPDATE_NUM_FRAG_STORES,
++	/*
++	 * PVRSRVStatsUpdateRenderContextStats should increase the value of the
++	 * ui32NumCDMStores stat
++	 */
++	ROGUE_FWIF_FWCCB_CMD_UPDATE_NUM_CDM_STORES,
++	/*
++	 * PVRSRVStatsUpdateRenderContextStats should increase the value of the
++	 * ui32NumTDMStores stat
++	 */
++	ROGUE_FWIF_FWCCB_CMD_UPDATE_NUM_TDM_STORES
++};
++
++struct rogue_fwif_fwccb_cmd_update_stats_data {
++	/* Element to update */
++	enum rogue_fwif_fwccb_cmd_update_stats_type element_to_update;
++	/* The pid of the process whose stats are being updated */
++	u32 pid_owner;
++	/* Adjustment to be made to the statistic */
++	s32 adjustment_value;
++};
++
++struct rogue_fwif_fwccb_cmd_core_clk_rate_change_data {
++	u32 core_clk_rate;
++} __aligned(8);
++
++struct rogue_fwif_fwccb_cmd {
++	/* Command type */
++	enum rogue_fwif_fwccb_cmd_type cmd_type;
++	/* Compatibility and other flags */
++	u32 fwccb_flags;
++
++	union {
++		/* Data for Z/S-Buffer on-demand (un)backing*/
++		struct rogue_fwif_fwccb_cmd_zsbuffer_backing_data
++			cmd_zs_buffer_backing;
++		/* Data for on-demand freelist grow/shrink */
++		struct rogue_fwif_fwccb_cmd_freelist_gs_data cmd_free_list_gs;
++		/* Data for freelists reconstruction */
++		struct rogue_fwif_fwccb_cmd_freelists_reconstruction_data
++			cmd_freelists_reconstruction;
++		/* Data for context reset notification */
++		struct rogue_fwif_fwccb_cmd_context_reset_data
++			cmd_context_reset_notification;
++		/* Data for updating process stats */
++		struct rogue_fwif_fwccb_cmd_update_stats_data
++			cmd_update_stats_data;
++		struct rogue_fwif_fwccb_cmd_core_clk_rate_change_data
++			cmd_core_clk_rate_change;
++		struct rogue_fwif_fwccb_cmd_fw_pagefault_data cmd_fw_pagefault;
++	} cmd_data __aligned(8);
++} __aligned(8);
++
++PVR_FW_STRUCT_SIZE_ASSERT(struct rogue_fwif_fwccb_cmd);
++
++/*
++ ******************************************************************************
++ * Workload estimation Firmware CCB command structure for ROGUE
++ ******************************************************************************
++ */
++struct rogue_fwif_workest_fwccb_cmd {
++	/* Index for return data array */
++	u16 return_data_index;
++	/* The cycles the workload took on the hardware */
++	u32 cycles_taken;
++};
++
++/*
++ ******************************************************************************
++ * Client CCB commands for ROGUE
++ ******************************************************************************
++ */
++
++/*
++ * Required memory alignment for 64-bit variables accessible by Meta
++ * (The gcc meta aligns 64-bit variables to 64-bit; therefore, memory shared
++ * between the host and meta that contains 64-bit variables has to maintain
++ * this alignment)
++ */
++#define ROGUE_FWIF_FWALLOC_ALIGN sizeof(u64)
++
++#define ROGUE_CCB_TYPE_TASK BIT(15)
++#define ROGUE_CCB_FWALLOC_ALIGN(size)                \
++	(((size) + (ROGUE_FWIF_FWALLOC_ALIGN - 1)) & \
++	 ~(ROGUE_FWIF_FWALLOC_ALIGN - 1))
++
++#define ROGUE_FWIF_CCB_CMD_TYPE_GEOM \
++	(201U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_TQ_3D \
++	(202U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_FRAG \
++	(203U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_FRAG_PR \
++	(204U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_CDM \
++	(205U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_TQ_TDM \
++	(206U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_FBSC_INVALIDATE \
++	(207U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_TQ_2D \
++	(208U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_PRE_TIMESTAMP \
++	(209U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_NULL \
++	(210U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++#define ROGUE_FWIF_CCB_CMD_TYPE_ABORT \
++	(211U | ROGUE_CMD_MAGIC_DWORD_SHIFTED | ROGUE_CCB_TYPE_TASK)
++
++/* Leave a gap between CCB specific commands and generic commands */
++#define ROGUE_FWIF_CCB_CMD_TYPE_FENCE (212U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++#define ROGUE_FWIF_CCB_CMD_TYPE_UPDATE (213U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++#define ROGUE_FWIF_CCB_CMD_TYPE_RMW_UPDATE \
++	(214U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++#define ROGUE_FWIF_CCB_CMD_TYPE_FENCE_PR (215U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++#define ROGUE_FWIF_CCB_CMD_TYPE_PRIORITY (216U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++/*
++ * Pre and Post timestamp commands are supposed to sandwich the DM cmd. The
++ * padding code with the CCB wrap upsets the FW if we don't have the task type
++ * bit cleared for POST_TIMESTAMPs. That's why we have 2 different cmd types.
++ */
++#define ROGUE_FWIF_CCB_CMD_TYPE_POST_TIMESTAMP \
++	(217U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++#define ROGUE_FWIF_CCB_CMD_TYPE_UNFENCED_UPDATE \
++	(218U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++#define ROGUE_FWIF_CCB_CMD_TYPE_UNFENCED_RMW_UPDATE \
++	(219U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++
++#define ROGUE_FWIF_CCB_CMD_TYPE_PADDING (221U | ROGUE_CMD_MAGIC_DWORD_SHIFTED)
++
++struct rogue_fwif_workest_kick_data {
++	/* Index for the KM Workload estimation return data array */
++	u16 return_data_index __aligned(8);
++	/* Predicted time taken to do the work in cycles */
++	u32 cycles_prediction __aligned(8);
++	/* Deadline for the workload */
++	aligned_u64 deadline;
++};
++
++struct rogue_fwif_ccb_cmd_header {
++	u32 cmd_type;
++	u32 cmd_size;
++	/*
++	 * external job reference - provided by client and used in debug for
++	 * tracking submitted work
++	 */
++	u32 ext_job_ref;
++	/*
++	 * internal job reference - generated by services and used in debug for
++	 * tracking submitted work
++	 */
++	u32 int_job_ref;
++	/* Workload Estimation - Workload Estimation Data */
++	struct rogue_fwif_workest_kick_data work_est_kick_data __aligned(8);
++};
++
++/*
++ ******************************************************************************
++ * Client CCB commands which are only required by the kernel
++ ******************************************************************************
++ */
++struct rogue_fwif_cmd_priority {
++	s32 priority;
++};
++
++/*
++ ******************************************************************************
++ * Signature and Checksums Buffer
++ ******************************************************************************
++ */
++struct rogue_fwif_sigbuf_ctl {
++	/* Ptr to Signature Buffer memory */
++	u32 buffer_fw_addr;
++	/* Amount of space left for storing regs in the buffer */
++	u32 left_size_in_regs;
++} __aligned(8);
++
++struct rogue_fwif_counter_dump_ctl {
++	/* Ptr to counter dump buffer */
++	u32 buffer_fw_addr;
++	/* Amount of space for storing in the buffer */
++	u32 size_in_dwords;
++} __aligned(8);
++
++struct rogue_fwif_firmware_gcov_ctl {
++	/* Ptr to firmware gcov buffer */
++	u32 buffer_fw_addr;
++	/* Amount of space for storing in the buffer */
++	u32 size;
++} __aligned(8);
++
++/*
++ *****************************************************************************
++ * ROGUE Compatibility checks
++ *****************************************************************************
++ */
++
++/*
++ * WARNING: Whenever the layout of ROGUE_FWIF_COMPCHECKS_BVNC changes, the
++ * following define should be increased by 1 to indicate to the compatibility
++ * logic that layout has changed.
++ */
++#define ROGUE_FWIF_COMPCHECKS_LAYOUT_VERSION 3
++
++struct rogue_fwif_compchecks_bvnc {
++	/* WARNING: This field must be defined as first one in this structure */
++	u32 layout_version;
++	aligned_u64 bvnc;
++} __aligned(8);
++
++struct rogue_fwif_init_options {
++	u8 os_count_support;
++	u8 padding[7];
++} __aligned(8);
++
++#define ROGUE_FWIF_COMPCHECKS_BVNC_DECLARE_AND_INIT(name) \
++	struct rogue_fwif_compchecks_bvnc(name) = {       \
++		ROGUE_FWIF_COMPCHECKS_LAYOUT_VERSION,     \
++		0,                                        \
++	}
++
++static inline void rogue_fwif_compchecks_bvnc_init(struct rogue_fwif_compchecks_bvnc *compchecks)
++{
++	compchecks->layout_version = ROGUE_FWIF_COMPCHECKS_LAYOUT_VERSION;
++	compchecks->bvnc = 0;
 +}
-diff --git a/drivers/gpu/drm/imagination/pvr_job.h b/drivers/gpu/drm/imagination/pvr_job.h
++
++struct rogue_fwif_compchecks {
++	/* hardware BVNC (from the ROGUE registers) */
++	struct rogue_fwif_compchecks_bvnc hw_bvnc;
++	/* firmware BVNC */
++	struct rogue_fwif_compchecks_bvnc fw_bvnc;
++	/* identifier of the FW processor version */
++	u32 fw_processor_version;
++	/* software DDK version */
++	u32 ddk_version;
++	/* software DDK build no. */
++	u32 ddk_build;
++	/* build options bit-field */
++	u32 build_options;
++	/* initialisation options bit-field */
++	struct rogue_fwif_init_options init_options;
++	/* Information is valid */
++	bool updated __aligned(4);
++	u32 padding;
++} __aligned(8);
++
++/*
++ ******************************************************************************
++ * Updated configuration post FW data init.
++ ******************************************************************************
++ */
++struct rogue_fwif_runtime_cfg {
++	/* APM latency in ms before signalling IDLE to the host */
++	u32 active_pm_latency_ms;
++	/* Compatibility and other flags */
++	u32 runtime_cfg_flags;
++	/*
++	 * If set, APM latency does not reset to system default each GPU power
++	 * transition
++	 */
++	bool active_pm_latency_persistant __aligned(4);
++	/* Core clock speed, currently only used to calculate timer ticks */
++	u32 core_clock_speed;
++	/* Last number of dusts change requested by the host */
++	u32 default_dusts_num_init;
++	/* Periodic Hardware Reset configuration values */
++	u32 phr_mode;
++	/* New number of milliseconds C/S is allowed to last */
++	u32 hcs_deadline_ms;
++	/* The watchdog period in microseconds */
++	u32 wdg_period_us;
++	/* Array of priorities per OS */
++	u32 osid_priority[ROGUE_FW_MAX_NUM_OS];
++	/* On-demand allocated HWPerf buffer address, to be passed to the FW */
++	u32 hwperf_buf_fw_addr;
++
++	bool padding __aligned(4);
++};
++
++/*
++ *****************************************************************************
++ * Control data for ROGUE
++ *****************************************************************************
++ */
++
++#define ROGUE_FWIF_HWR_DEBUG_DUMP_ALL (99999U)
++
++enum rogue_fwif_tpu_dm {
++	ROGUE_FWIF_TPU_DM_PDM = 0,
++	ROGUE_FWIF_TPU_DM_VDM = 1,
++	ROGUE_FWIF_TPU_DM_CDM = 2,
++	ROGUE_FWIF_TPU_DM_TDM = 3,
++	ROGUE_FWIF_TPU_DM_LAST
++};
++
++enum rogue_fwif_gpio_val_mode {
++	/* No GPIO validation */
++	ROGUE_FWIF_GPIO_VAL_OFF = 0,
++	/*
++	 * Simple test case that initiates by sending data via the GPIO and then
++	 * sends back any data received over the GPIO
++	 */
++	ROGUE_FWIF_GPIO_VAL_GENERAL = 1,
++	/*
++	 * More complex test case that writes and reads data across the entire
++	 * GPIO AP address range.
++	 */
++	ROGUE_FWIF_GPIO_VAL_AP = 2,
++	/* Validates the GPIO Testbench. */
++	ROGUE_FWIF_GPIO_VAL_TESTBENCH = 5,
++	/* Send and then receive each byte in the range 0-255. */
++	ROGUE_FWIF_GPIO_VAL_LOOPBACK = 6,
++	/* Send and then receive each power-of-2 byte in the range 0-255. */
++	ROGUE_FWIF_GPIO_VAL_LOOPBACK_LITE = 7,
++	ROGUE_FWIF_GPIO_VAL_LAST
++};
++
++enum fw_perf_conf {
++	FW_PERF_CONF_NONE = 0,
++	FW_PERF_CONF_ICACHE = 1,
++	FW_PERF_CONF_DCACHE = 2,
++	FW_PERF_CONF_JTLB_INSTR = 5,
++	FW_PERF_CONF_INSTRUCTIONS = 6
++};
++
++enum fw_boot_stage {
++	FW_BOOT_STAGE_TLB_INIT_FAILURE = -2,
++	FW_BOOT_STAGE_NOT_AVAILABLE = -1,
++	FW_BOOT_NOT_STARTED = 0,
++	FW_BOOT_BLDR_STARTED = 1,
++	FW_BOOT_CACHE_DONE,
++	FW_BOOT_TLB_DONE,
++	FW_BOOT_MAIN_STARTED,
++	FW_BOOT_ALIGNCHECKS_DONE,
++	FW_BOOT_INIT_DONE,
++};
++
++/*
++ * Kernel CCB return slot responses. Usage of bit-fields instead of bare
++ * integers allows FW to possibly pack-in several responses for each single kCCB
++ * command.
++ */
++/* Command executed (return status from FW) */
++#define ROGUE_FWIF_KCCB_RTN_SLOT_CMD_EXECUTED BIT(0)
++/* A cleanup was requested but resource busy */
++#define ROGUE_FWIF_KCCB_RTN_SLOT_CLEANUP_BUSY BIT(1)
++/* Poll failed in FW for a HW operation to complete */
++#define ROGUE_FWIF_KCCB_RTN_SLOT_POLL_FAILURE BIT(2)
++/* Reset value of a kCCB return slot (set by host) */
++#define ROGUE_FWIF_KCCB_RTN_SLOT_NO_RESPONSE 0x0U
++
++struct rogue_fwif_connection_ctl {
++	/* Fw-Os connection states */
++	enum rogue_fwif_connection_fw_state connection_fw_state;
++	enum rogue_fwif_connection_os_state connection_os_state;
++	u32 alive_fw_token;
++	u32 alive_os_token;
++} __aligned(8);
++
++struct rogue_fwif_osinit {
++	/* Kernel CCB */
++	u32 kernel_ccbctl_fw_addr;
++	u32 kernel_ccb_fw_addr;
++	u32 kernel_ccb_rtn_slots_fw_addr;
++
++	/* Firmware CCB */
++	u32 firmware_ccbctl_fw_addr;
++	u32 firmware_ccb_fw_addr;
++
++	/* Workload Estimation Firmware CCB */
++	u32 work_est_firmware_ccbctl_fw_addr;
++	u32 work_est_firmware_ccb_fw_addr;
++
++	u32 rogue_fwif_hwr_info_buf_ctl_fw_addr;
++
++	u32 hwr_debug_dump_limit;
++
++	u32 fw_os_data_fw_addr;
++
++	/* Compatibility checks to be populated by the Firmware */
++	struct rogue_fwif_compchecks rogue_comp_checks;
++} __aligned(8);
++
++/* BVNC Features */
++struct rogue_hwperf_bvnc_block {
++	/* Counter block ID, see ROGUE_HWPERF_CNTBLK_ID */
++	u16 block_id;
++
++	/* Number of counters in this block type */
++	u16 num_counters;
++
++	/* Number of blocks of this type */
++	u16 num_blocks;
++
++	u16 reserved;
++};
++
++#define ROGUE_HWPERF_MAX_BVNC_LEN (24)
++
++#define ROGUE_HWPERF_MAX_BVNC_BLOCK_LEN (16U)
++
++/* BVNC Features */
++struct rogue_hwperf_bvnc {
++	/* BVNC string */
++	char bvnc_string[ROGUE_HWPERF_MAX_BVNC_LEN];
++	/* See ROGUE_HWPERF_FEATURE_FLAGS */
++	u32 bvnc_km_feature_flags;
++	/* Number of blocks described in aBvncBlocks */
++	u16 num_bvnc_blocks;
++	/* Number of GPU cores present */
++	u16 bvnc_gpu_cores;
++	/* Supported Performance Blocks for BVNC */
++	struct rogue_hwperf_bvnc_block
++		bvnc_blocks[ROGUE_HWPERF_MAX_BVNC_BLOCK_LEN];
++};
++
++PVR_FW_STRUCT_SIZE_ASSERT(struct rogue_hwperf_bvnc);
++
++struct rogue_fwif_sysinit {
++	/* Fault read address */
++	aligned_u64 fault_phys_addr;
++
++	/* PDS execution base */
++	aligned_u64 pds_exec_base;
++	/* UCS execution base */
++	aligned_u64 usc_exec_base;
++	/* FBCDC bindless texture state table base */
++	aligned_u64 fbcdc_state_table_base;
++	aligned_u64 fbcdc_large_state_table_base;
++	/* Texture state base */
++	aligned_u64 texture_heap_base;
++
++	/* Event filter for Firmware events */
++	u64 hw_perf_filter;
++
++	aligned_u64 slc3_fence_dev_addr;
++
++	u32 tpu_trilinear_frac_mask[ROGUE_FWIF_TPU_DM_LAST] __aligned(8);
++
++	/* Signature and Checksum Buffers for DMs */
++	struct rogue_fwif_sigbuf_ctl sigbuf_ctl[PVR_FWIF_DM_MAX];
++
++	struct rogue_fwif_pdvfs_opp pdvfs_opp_info;
++
++	struct rogue_fwif_dma_addr coremem_data_store;
++
++	struct rogue_fwif_counter_dump_ctl counter_dump_ctl;
++
++	u32 filter_flags;
++
++	u32 runtime_cfg_fw_addr;
++
++	u32 trace_buf_ctl_fw_addr;
++	u32 fw_sys_data_fw_addr;
++
++	u32 gpu_util_fw_cb_ctl_fw_addr;
++	u32 reg_cfg_fw_addr;
++	u32 hwperf_ctl_fw_addr;
++
++	u32 align_checks;
++
++	/* Core clock speed at FW boot time */
++	u32 initial_core_clock_speed;
++
++	/* APM latency in ms before signalling IDLE to the host */
++	u32 active_pm_latency_ms;
++
++	/* Flag to be set by the Firmware after successful start */
++	bool firmware_started __aligned(4);
++
++	/* Host/FW Trace synchronisation Partition Marker */
++	u32 marker_val;
++
++	/* Firmware initialization complete time */
++	u32 firmware_started_timestamp;
++
++	u32 jones_disable_mask;
++
++	/* Firmware performance counter config */
++	enum fw_perf_conf firmware_perf;
++
++	/*
++	 * FW Pointer to memory containing core clock rate in Hz.
++	 * Firmware (PDVFS) updates the memory when running on non primary FW
++	 * thread to communicate to host driver.
++	 */
++	u32 core_clock_rate_fw_addr;
++
++	enum rogue_fwif_gpio_val_mode gpio_validation_mode;
++
++	/* Used in HWPerf for decoding BVNC Features */
++	struct rogue_hwperf_bvnc bvnc_km_feature_flags;
++
++	/* Value to write into ROGUE_CR_TFBC_COMPRESSION_CONTROL */
++	u32 tfbc_compression_control;
++} __aligned(8);
++
++/*
++ *****************************************************************************
++ * Timer correlation shared data and defines
++ *****************************************************************************
++ */
++
++struct rogue_fwif_time_corr {
++	aligned_u64 os_timestamp;
++	aligned_u64 os_mono_timestamp;
++	aligned_u64 cr_timestamp;
++
++	/*
++	 * Utility variable used to convert CR timer deltas to OS timer deltas
++	 * (nS), where the deltas are relative to the timestamps above:
++	 * deltaOS = (deltaCR * K) >> decimal_shift, see full explanation below
++	 */
++	aligned_u64 cr_delta_to_os_delta_kns;
++
++	u32 core_clock_speed;
++	u32 reserved;
++} __aligned(8);
++
++/*
++ * The following macros are used to help converting FW timestamps to the Host
++ * time domain. On the FW the ROGUE_CR_TIMER counter is used to keep track of
++ * time; it increments by 1 every 256 GPU clock ticks, so the general
++ * formula to perform the conversion is:
++ *
++ * [ GPU clock speed in Hz, if (scale == 10^9) then deltaOS is in nS,
++ *   otherwise if (scale == 10^6) then deltaOS is in uS ]
++ *
++ *             deltaCR * 256                                   256 * scale
++ *  deltaOS = --------------- * scale = deltaCR * K    [ K = --------------- ]
++ *             GPUclockspeed                                  GPUclockspeed
++ *
++ * The actual K is multiplied by 2^20 (and deltaCR * K is divided by 2^20)
++ * to get some better accuracy and to avoid returning 0 in the integer
++ * division 256000000/GPUfreq if GPUfreq is greater than 256MHz.
++ * This is the same as keeping K as a decimal number.
++ *
++ * The maximum deltaOS is slightly more than 5hrs for all GPU frequencies
++ * (deltaCR * K is more or less a constant), and it's relative to the base
++ * OS timestamp sampled as a part of the timer correlation data.
++ * This base is refreshed on GPU power-on, DVFS transition and periodic
++ * frequency calibration (executed every few seconds if the FW is doing
++ * some work), so as long as the GPU is doing something and one of these
++ * events is triggered then deltaCR * K will not overflow and deltaOS will be
++ * correct.
++ */
++
++#define ROGUE_FWIF_CRDELTA_TO_OSDELTA_ACCURACY_SHIFT (20)
++
++#define ROGUE_FWIF_GET_DELTA_OSTIME_NS(delta_cr, k) \
++	(((delta_cr) * (k)) >> ROGUE_FWIF_CRDELTA_TO_OSDELTA_ACCURACY_SHIFT)
++
++/*
++ ******************************************************************************
++ * GPU Utilisation
++ ******************************************************************************
++ */
++
++/* See rogue_common.h for a list of GPU states */
++#define ROGUE_FWIF_GPU_UTIL_TIME_MASK \
++	(0xFFFFFFFFFFFFFFFFull & ~ROGUE_FWIF_GPU_UTIL_STATE_MASK)
++
++#define ROGUE_FWIF_GPU_UTIL_GET_TIME(word) \
++	((word)(&ROGUE_FWIF_GPU_UTIL_TIME_MASK))
++#define ROGUE_FWIF_GPU_UTIL_GET_STATE(word) \
++	((word)(&ROGUE_FWIF_GPU_UTIL_STATE_MASK))
++
++/*
++ * The OS timestamps computed by the FW are approximations of the real time,
++ * which means they could be slightly behind or ahead the real timer on the
++ * Host. In some cases we can perform subtractions between FW approximated
++ * timestamps and real OS timestamps, so we need a form of protection against
++ * negative results if for instance the FW one is a bit ahead of time.
++ */
++#define ROGUE_FWIF_GPU_UTIL_GET_PERIOD(newtime, oldtime) \
++	(((newtime) > (oldtime)) ? ((newtime) - (oldtime)) : 0U)
++
++#define ROGUE_FWIF_GPU_UTIL_MAKE_WORD(time, state) \
++	(ROGUE_FWIF_GPU_UTIL_GET_TIME(time) |      \
++	 ROGUE_FWIF_GPU_UTIL_GET_STATE(state))
++
++/*
++ * The timer correlation array must be big enough to ensure old entries won't be
++ * overwritten before all the HWPerf events linked to those entries are
++ * processed by the MISR. The update frequency of this array depends on how fast
++ * the system can change state (basically how small the APM latency is) and
++ * perform DVFS transitions.
++ *
++ * The minimum size is 2 (not 1) to avoid race conditions between the FW reading
++ * an entry while the Host is updating it. With 2 entries in the worst case the
++ * FW will read old data, which is still quite ok if the Host is updating the
++ * timer correlation at that time.
++ */
++#define ROGUE_FWIF_TIME_CORR_ARRAY_SIZE 256U
++#define ROGUE_FWIF_TIME_CORR_CURR_INDEX(seqcount) \
++	((seqcount) % ROGUE_FWIF_TIME_CORR_ARRAY_SIZE)
++
++/* Make sure the timer correlation array size is a power of 2 */
++static_assert((ROGUE_FWIF_TIME_CORR_ARRAY_SIZE &
++	       (ROGUE_FWIF_TIME_CORR_ARRAY_SIZE - 1U)) == 0U,
++	      "ROGUE_FWIF_TIME_CORR_ARRAY_SIZE must be a power of two");
++
++struct rogue_fwif_gpu_util_fwcb {
++	struct rogue_fwif_time_corr time_corr[ROGUE_FWIF_TIME_CORR_ARRAY_SIZE];
++	u32 time_corr_seq_count;
++
++	/* Compatibility and other flags */
++	u32 gpu_util_flags;
++
++	/* Last GPU state + OS time of the last state update */
++	aligned_u64 last_word;
++
++	/* Counters for the amount of time the GPU was active/idle/blocked */
++	aligned_u64 stats_counters[PVR_FWIF_GPU_UTIL_STATE_NUM];
++} __aligned(8);
++
++struct rogue_fwif_rta_ctl {
++	/* Render number */
++	u32 render_target_index;
++	/* index in RTA */
++	u32 current_render_target;
++	/* total active RTs */
++	u32 active_render_targets;
++	/* total active RTs from the first TA kick, for OOM */
++	u32 cumul_active_render_targets;
++	/* Array of valid RT indices */
++	u32 valid_render_targets_fw_addr;
++	/* Array of number of occurred partial renders per render target */
++	u32 rta_num_partial_renders_fw_addr;
++	/* Number of render targets in the array */
++	u32 max_rts;
++	/* Compatibility and other flags */
++	u32 rta_ctl_flags;
++} __aligned(8);
++
++struct rogue_fwif_freelist {
++	aligned_u64 freelist_dev_addr;
++	aligned_u64 current_dev_addr;
++	u32 current_stack_top;
++	u32 max_pages;
++	u32 grow_pages;
++	/* HW pages */
++	u32 current_pages;
++	u32 allocated_page_count;
++	u32 allocated_mmu_page_count;
++	u32 freelist_id;
++
++	bool grow_pending __aligned(4);
++	/* Pages that should be used only when OOM is reached */
++	u32 ready_pages;
++	/* Compatibility and other flags */
++	u32 freelist_flags;
++	/* PM Global PB on which Freelist is loaded */
++	u32 pm_global_pb;
++	u32 padding;
++} __aligned(8);
++
++/*
++ ******************************************************************************
++ * HWRTData
++ ******************************************************************************
++ */
++
++/* HWRTData flags */
++/* Deprecated flags 1:0 */
++#define HWRTDATA_HAS_LAST_GEOM BIT(2)
++#define HWRTDATA_PARTIAL_RENDERED BIT(3)
++#define HWRTDATA_DISABLE_TILE_REORDERING BIT(4)
++#define HWRTDATA_NEED_BRN65101_BLIT BIT(5)
++#define HWRTDATA_FIRST_BRN65101_STRIP BIT(6)
++#define HWRTDATA_NEED_BRN67182_2ND_RENDER BIT(7)
++
++enum rogue_fwif_rtdata_state {
++	ROGUE_FWIF_RTDATA_STATE_NONE = 0,
++	ROGUE_FWIF_RTDATA_STATE_KICK_GEOM,
++	ROGUE_FWIF_RTDATA_STATE_KICK_GEOM_FIRST,
++	ROGUE_FWIF_RTDATA_STATE_GEOM_FINISHED,
++	ROGUE_FWIF_RTDATA_STATE_KICK_FRAG,
++	ROGUE_FWIF_RTDATA_STATE_FRAG_FINISHED,
++	ROGUE_FWIF_RTDATA_STATE_FRAG_CONTEXT_STORED,
++	ROGUE_FWIF_RTDATA_STATE_GEOM_OUTOFMEM,
++	ROGUE_FWIF_RTDATA_STATE_PARTIALRENDERFINISHED,
++	/*
++	 * In case of HWR, we can't set the RTDATA state to NONE, as this will
++	 * cause any TA to become a first TA. To ensure all related TA's are
++	 * skipped, we use the HWR state
++	 */
++	ROGUE_FWIF_RTDATA_STATE_HWR,
++	ROGUE_FWIF_RTDATA_STATE_UNKNOWN = 0x7FFFFFFFU
++};
++
++struct rogue_fwif_hwrtdata_common {
++	bool geom_caches_need_zeroing __aligned(4);
++
++	u32 screen_pixel_max;
++	aligned_u64 multi_sample_ctl;
++	u64 flipped_multi_sample_ctl;
++	u32 tpc_stride;
++	u32 tpc_size;
++	u32 te_screen;
++	u32 mtile_stride;
++	u32 teaa;
++	u32 te_mtile1;
++	u32 te_mtile2;
++	u32 isp_merge_lower_x;
++	u32 isp_merge_lower_y;
++	u32 isp_merge_upper_x;
++	u32 isp_merge_upper_y;
++	u32 isp_merge_scale_x;
++	u32 isp_merge_scale_y;
++	u32 rgn_header_size;
++	u32 isp_mtile_size;
++	u32 padding;
++} __aligned(8);
++
++struct rogue_fwif_hwrtdata {
++	/* MList Data Store */
++	aligned_u64 pm_mlist_dev_addr;
++
++	aligned_u64 vce_cat_base[4];
++	aligned_u64 vce_last_cat_base[4];
++	aligned_u64 te_cat_base[4];
++	aligned_u64 te_last_cat_base[4];
++	aligned_u64 alist_cat_base;
++	aligned_u64 alist_last_cat_base;
++
++	aligned_u64 pm_alist_stack_pointer;
++	u32 pm_mlist_stack_pointer;
++
++	u32 hwrt_data_common_fw_addr;
++
++	u32 hwrt_data_flags;
++	enum rogue_fwif_rtdata_state state;
++
++	u32 freelists_fw_addr[MAX_FREELISTS_SIZE] __aligned(8);
++	u32 freelist_hwr_snapshot[MAX_FREELISTS_SIZE];
++
++	aligned_u64 vheap_table_dev_addr;
++
++	struct rogue_fwif_rta_ctl rta_ctl;
++
++	aligned_u64 tail_ptrs_dev_addr;
++	aligned_u64 macrotile_array_dev_addr;
++	aligned_u64 rgn_header_dev_addr;
++	aligned_u64 rtc_dev_addr;
++
++	u32 owner_geom_not_used_by_host __aligned(8);
++
++	bool geom_caches_need_zeroing __aligned(4);
++
++	struct rogue_fwif_cleanup_ctl cleanup_state __aligned(64);
++} __aligned(8);
++
++/*
++ ******************************************************************************
++ * Sync checkpoints
++ ******************************************************************************
++ */
++
++#define PVR_SYNC_CHECKPOINT_UNDEF 0x000
++#define PVR_SYNC_CHECKPOINT_ACTIVE 0xac1     /* Checkpoint has not signaled. */
++#define PVR_SYNC_CHECKPOINT_SIGNALED 0x519   /* Checkpoint has signaled. */
++#define PVR_SYNC_CHECKPOINT_ERRORED 0xeff    /* Checkpoint has been errored. */
++
++#include "pvr_rogue_fwif_check.h"
++
++#endif /* PVR_ROGUE_FWIF_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h
 new file mode 100644
-index 000000000000..dd5f9e9677f9
+index 000000000000..8384d0a57688
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_job.h
-@@ -0,0 +1,161 @@
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h
+@@ -0,0 +1,493 @@
 +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_JOB_H
-+#define PVR_JOB_H
++#ifndef PVR_ROGUE_FWIF_CHECK_H
++#define PVR_ROGUE_FWIF_CHECK_H
 +
-+#include <uapi/drm/pvr_drm.h>
++#include <linux/build_bug.h>
 +
-+#include <linux/kref.h>
++#define OFFSET_CHECK(type, member, offset) \
++	static_assert(offsetof(type, member) == (offset), \
++		      "offsetof(" #type ", " #member ") incorrect")
++
++#define SIZE_CHECK(type, size) \
++	static_assert(sizeof(type) == (size), #type " is incorrect size")
++
++OFFSET_CHECK(struct rogue_fwif_file_info_buf, path, 0);
++OFFSET_CHECK(struct rogue_fwif_file_info_buf, info, 200);
++OFFSET_CHECK(struct rogue_fwif_file_info_buf, line_num, 400);
++SIZE_CHECK(struct rogue_fwif_file_info_buf, 408);
++
++OFFSET_CHECK(struct rogue_fwif_tracebuf_space, trace_pointer, 0);
++OFFSET_CHECK(struct rogue_fwif_tracebuf_space, trace_buffer_fw_addr, 4);
++OFFSET_CHECK(struct rogue_fwif_tracebuf_space, trace_buffer, 8);
++OFFSET_CHECK(struct rogue_fwif_tracebuf_space, assert_buf, 16);
++SIZE_CHECK(struct rogue_fwif_tracebuf_space, 424);
++
++OFFSET_CHECK(struct rogue_fwif_tracebuf, log_type, 0);
++OFFSET_CHECK(struct rogue_fwif_tracebuf, tracebuf, 8);
++OFFSET_CHECK(struct rogue_fwif_tracebuf, tracebuf_size_in_dwords, 856);
++OFFSET_CHECK(struct rogue_fwif_tracebuf, tracebuf_flags, 860);
++SIZE_CHECK(struct rogue_fwif_tracebuf, 864);
++
++OFFSET_CHECK(struct rogue_fw_fault_info, cr_timer, 0);
++OFFSET_CHECK(struct rogue_fw_fault_info, os_timer, 8);
++OFFSET_CHECK(struct rogue_fw_fault_info, data, 16);
++OFFSET_CHECK(struct rogue_fw_fault_info, reserved, 20);
++OFFSET_CHECK(struct rogue_fw_fault_info, fault_buf, 24);
++SIZE_CHECK(struct rogue_fw_fault_info, 432);
++
++OFFSET_CHECK(struct rogue_fwif_sysdata, config_flags, 0);
++OFFSET_CHECK(struct rogue_fwif_sysdata, config_flags_ext, 4);
++OFFSET_CHECK(struct rogue_fwif_sysdata, pow_state, 8);
++OFFSET_CHECK(struct rogue_fwif_sysdata, hw_perf_ridx, 12);
++OFFSET_CHECK(struct rogue_fwif_sysdata, hw_perf_widx, 16);
++OFFSET_CHECK(struct rogue_fwif_sysdata, hw_perf_wrap_count, 20);
++OFFSET_CHECK(struct rogue_fwif_sysdata, hw_perf_size, 24);
++OFFSET_CHECK(struct rogue_fwif_sysdata, hw_perf_drop_count, 28);
++OFFSET_CHECK(struct rogue_fwif_sysdata, hw_perf_ut, 32);
++OFFSET_CHECK(struct rogue_fwif_sysdata, first_drop_ordinal, 36);
++OFFSET_CHECK(struct rogue_fwif_sysdata, last_drop_ordinal, 40);
++OFFSET_CHECK(struct rogue_fwif_sysdata, os_runtime_flags_mirror, 44);
++OFFSET_CHECK(struct rogue_fwif_sysdata, fault_info, 80);
++OFFSET_CHECK(struct rogue_fwif_sysdata, fw_faults, 3536);
++OFFSET_CHECK(struct rogue_fwif_sysdata, cr_poll_addr, 3540);
++OFFSET_CHECK(struct rogue_fwif_sysdata, cr_poll_mask, 3548);
++OFFSET_CHECK(struct rogue_fwif_sysdata, cr_poll_count, 3556);
++OFFSET_CHECK(struct rogue_fwif_sysdata, start_idle_time, 3568);
++OFFSET_CHECK(struct rogue_fwif_sysdata, hwr_state_flags, 3576);
++OFFSET_CHECK(struct rogue_fwif_sysdata, hwr_recovery_flags, 3580);
++OFFSET_CHECK(struct rogue_fwif_sysdata, fw_sys_data_flags, 3616);
++OFFSET_CHECK(struct rogue_fwif_sysdata, mc_config, 3620);
++SIZE_CHECK(struct rogue_fwif_sysdata, 3624);
++
++OFFSET_CHECK(struct rogue_fwif_slr_entry, timestamp, 0);
++OFFSET_CHECK(struct rogue_fwif_slr_entry, fw_ctx_addr, 8);
++OFFSET_CHECK(struct rogue_fwif_slr_entry, num_ufos, 12);
++OFFSET_CHECK(struct rogue_fwif_slr_entry, ccb_name, 16);
++SIZE_CHECK(struct rogue_fwif_slr_entry, 48);
++
++OFFSET_CHECK(struct rogue_fwif_osdata, fw_os_config_flags, 0);
++OFFSET_CHECK(struct rogue_fwif_osdata, fw_sync_check_mark, 4);
++OFFSET_CHECK(struct rogue_fwif_osdata, host_sync_check_mark, 8);
++OFFSET_CHECK(struct rogue_fwif_osdata, forced_updates_requested, 12);
++OFFSET_CHECK(struct rogue_fwif_osdata, slr_log_wp, 16);
++OFFSET_CHECK(struct rogue_fwif_osdata, slr_log_first, 24);
++OFFSET_CHECK(struct rogue_fwif_osdata, slr_log, 72);
++OFFSET_CHECK(struct rogue_fwif_osdata, last_forced_update_time, 552);
++OFFSET_CHECK(struct rogue_fwif_osdata, interrupt_count, 560);
++OFFSET_CHECK(struct rogue_fwif_osdata, kccb_cmds_executed, 568);
++OFFSET_CHECK(struct rogue_fwif_osdata, power_sync_fw_addr, 572);
++OFFSET_CHECK(struct rogue_fwif_osdata, fw_os_data_flags, 576);
++SIZE_CHECK(struct rogue_fwif_osdata, 584);
++
++OFFSET_CHECK(struct rogue_bifinfo, bif_req_status, 0);
++OFFSET_CHECK(struct rogue_bifinfo, bif_mmu_status, 8);
++OFFSET_CHECK(struct rogue_bifinfo, pc_address, 16);
++OFFSET_CHECK(struct rogue_bifinfo, reserved, 24);
++SIZE_CHECK(struct rogue_bifinfo, 32);
++
++OFFSET_CHECK(struct rogue_eccinfo, fault_gpu, 0);
++SIZE_CHECK(struct rogue_eccinfo, 4);
++
++OFFSET_CHECK(struct rogue_mmuinfo, mmu_status, 0);
++OFFSET_CHECK(struct rogue_mmuinfo, pc_address, 16);
++OFFSET_CHECK(struct rogue_mmuinfo, reserved, 24);
++SIZE_CHECK(struct rogue_mmuinfo, 32);
++
++OFFSET_CHECK(struct rogue_pollinfo, thread_num, 0);
++OFFSET_CHECK(struct rogue_pollinfo, cr_poll_addr, 4);
++OFFSET_CHECK(struct rogue_pollinfo, cr_poll_mask, 8);
++OFFSET_CHECK(struct rogue_pollinfo, cr_poll_last_value, 12);
++OFFSET_CHECK(struct rogue_pollinfo, reserved, 16);
++SIZE_CHECK(struct rogue_pollinfo, 24);
++
++OFFSET_CHECK(struct rogue_tlbinfo, bad_addr, 0);
++OFFSET_CHECK(struct rogue_tlbinfo, entry_lo, 4);
++SIZE_CHECK(struct rogue_tlbinfo, 8);
++
++OFFSET_CHECK(struct rogue_hwrinfo, hwr_data, 0);
++OFFSET_CHECK(struct rogue_hwrinfo, cr_timer, 32);
++OFFSET_CHECK(struct rogue_hwrinfo, os_timer, 40);
++OFFSET_CHECK(struct rogue_hwrinfo, frame_num, 48);
++OFFSET_CHECK(struct rogue_hwrinfo, pid, 52);
++OFFSET_CHECK(struct rogue_hwrinfo, active_hwrt_data, 56);
++OFFSET_CHECK(struct rogue_hwrinfo, hwr_number, 60);
++OFFSET_CHECK(struct rogue_hwrinfo, event_status, 64);
++OFFSET_CHECK(struct rogue_hwrinfo, hwr_recovery_flags, 68);
++OFFSET_CHECK(struct rogue_hwrinfo, hwr_type, 72);
++OFFSET_CHECK(struct rogue_hwrinfo, dm, 76);
++OFFSET_CHECK(struct rogue_hwrinfo, core_id, 80);
++OFFSET_CHECK(struct rogue_hwrinfo, cr_time_of_kick, 88);
++OFFSET_CHECK(struct rogue_hwrinfo, cr_time_hw_reset_start, 96);
++OFFSET_CHECK(struct rogue_hwrinfo, cr_time_hw_reset_finish, 104);
++OFFSET_CHECK(struct rogue_hwrinfo, cr_time_freelist_ready, 112);
++OFFSET_CHECK(struct rogue_hwrinfo, reserved, 120);
++SIZE_CHECK(struct rogue_hwrinfo, 136);
++
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, hwr_info, 0);
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, hwr_counter, 2176);
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, write_index, 2180);
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, dd_req_count, 2184);
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, hwr_info_buf_flags, 2188);
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, hwr_dm_locked_up_count, 2192);
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, hwr_dm_overran_count, 2228);
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, hwr_dm_recovered_count, 2264);
++OFFSET_CHECK(struct rogue_fwif_hwrinfobuf, hwr_dm_false_detect_count, 2300);
++SIZE_CHECK(struct rogue_fwif_hwrinfobuf, 2336);
++
++OFFSET_CHECK(struct rogue_fwif_fwmemcontext, pc_dev_paddr, 0);
++OFFSET_CHECK(struct rogue_fwif_fwmemcontext, page_cat_base_reg_set, 8);
++OFFSET_CHECK(struct rogue_fwif_fwmemcontext, breakpoint_addr, 12);
++OFFSET_CHECK(struct rogue_fwif_fwmemcontext, bp_handler_addr, 16);
++OFFSET_CHECK(struct rogue_fwif_fwmemcontext, breakpoint_ctl, 20);
++OFFSET_CHECK(struct rogue_fwif_fwmemcontext, fw_mem_ctx_flags, 24);
++SIZE_CHECK(struct rogue_fwif_fwmemcontext, 32);
++
++OFFSET_CHECK(struct rogue_fwif_geom_ctx_state_per_geom, geom_reg_vdm_call_stack_pointer, 0);
++OFFSET_CHECK(struct rogue_fwif_geom_ctx_state_per_geom, geom_reg_vdm_call_stack_pointer_init, 8);
++OFFSET_CHECK(struct rogue_fwif_geom_ctx_state_per_geom, geom_reg_vbs_so_prim, 16);
++OFFSET_CHECK(struct rogue_fwif_geom_ctx_state_per_geom, geom_current_idx, 32);
++SIZE_CHECK(struct rogue_fwif_geom_ctx_state_per_geom, 40);
++
++OFFSET_CHECK(struct rogue_fwif_geom_ctx_state, geom_core, 0);
++SIZE_CHECK(struct rogue_fwif_geom_ctx_state, 160);
++
++OFFSET_CHECK(struct rogue_fwif_frag_ctx_state, frag_reg_pm_deallocated_mask_status, 0);
++OFFSET_CHECK(struct rogue_fwif_frag_ctx_state, frag_reg_dm_pds_mtilefree_status, 4);
++OFFSET_CHECK(struct rogue_fwif_frag_ctx_state, ctx_state_flags, 8);
++OFFSET_CHECK(struct rogue_fwif_frag_ctx_state, frag_reg_isp_store, 12);
++SIZE_CHECK(struct rogue_fwif_frag_ctx_state, 16);
++
++OFFSET_CHECK(struct rogue_fwif_compute_ctx_state, ctx_state_flags, 0);
++SIZE_CHECK(struct rogue_fwif_compute_ctx_state, 4);
++
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, ccbctl_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, ccb_fw_addr, 4);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, ccb_meta_dma_addr, 8);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, context_state_addr, 24);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, fw_com_ctx_flags, 28);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, priority, 32);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, priority_seq_num, 36);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, rf_cmd_addr, 40);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, stats_pending, 44);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, stats_num_stores, 48);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, stats_num_out_of_memory, 52);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, stats_num_partial_renders, 56);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, dm, 60);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, wait_signal_address, 64);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, wait_signal_node, 72);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, buf_stalled_node, 80);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, cbuf_queue_ctrl_addr, 88);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, robustness_address, 96);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, max_deadline_ms, 104);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, read_offset_needs_reset, 108);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, waiting_node, 112);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, run_node, 120);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, last_failed_ufo, 128);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, fw_mem_context_fw_addr, 136);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, server_common_context_id, 140);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, pid, 144);
++OFFSET_CHECK(struct rogue_fwif_fwcommoncontext, geom_oom_disabled, 148);
++SIZE_CHECK(struct rogue_fwif_fwcommoncontext, 152);
++
++OFFSET_CHECK(struct rogue_fwif_ccb_ctl, write_offset, 0);
++OFFSET_CHECK(struct rogue_fwif_ccb_ctl, padding, 4);
++OFFSET_CHECK(struct rogue_fwif_ccb_ctl, read_offset, 128);
++OFFSET_CHECK(struct rogue_fwif_ccb_ctl, wrap_mask, 132);
++OFFSET_CHECK(struct rogue_fwif_ccb_ctl, cmd_size, 136);
++OFFSET_CHECK(struct rogue_fwif_ccb_ctl, padding2, 140);
++SIZE_CHECK(struct rogue_fwif_ccb_ctl, 144);
++
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_kick_data, context_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_kick_data, client_woff_update, 4);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_kick_data, client_wrap_mask_update, 8);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_kick_data, num_cleanup_ctl, 12);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_kick_data, cleanup_ctl_fw_addr, 16);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_kick_data, work_est_cmd_header_offset, 28);
++SIZE_CHECK(struct rogue_fwif_kccb_cmd_kick_data, 32);
++
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_combined_geom_frag_kick_data, geom_cmd_kick_data, 0);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_combined_geom_frag_kick_data, frag_cmd_kick_data, 32);
++SIZE_CHECK(struct rogue_fwif_kccb_cmd_combined_geom_frag_kick_data, 64);
++
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_force_update_data, context_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd_force_update_data, ccb_fence_offset, 4);
++SIZE_CHECK(struct rogue_fwif_kccb_cmd_force_update_data, 8);
++
++OFFSET_CHECK(struct rogue_fwif_cleanup_request, cleanup_type, 0);
++OFFSET_CHECK(struct rogue_fwif_cleanup_request, cleanup_data, 4);
++SIZE_CHECK(struct rogue_fwif_cleanup_request, 8);
++
++OFFSET_CHECK(struct rogue_fwif_power_request, pow_type, 0);
++OFFSET_CHECK(struct rogue_fwif_power_request, power_req_data, 4);
++SIZE_CHECK(struct rogue_fwif_power_request, 8);
++
++OFFSET_CHECK(struct rogue_fwif_slcflushinvaldata, context_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_slcflushinvaldata, inval, 4);
++OFFSET_CHECK(struct rogue_fwif_slcflushinvaldata, dm_context, 8);
++OFFSET_CHECK(struct rogue_fwif_slcflushinvaldata, address, 16);
++OFFSET_CHECK(struct rogue_fwif_slcflushinvaldata, size, 24);
++SIZE_CHECK(struct rogue_fwif_slcflushinvaldata, 32);
++
++OFFSET_CHECK(struct rogue_fwif_hwperf_ctrl, opcode, 0);
++OFFSET_CHECK(struct rogue_fwif_hwperf_ctrl, mask, 8);
++SIZE_CHECK(struct rogue_fwif_hwperf_ctrl, 16);
++
++OFFSET_CHECK(struct rogue_fwif_hwperf_config_enable_blks, num_blocks, 0);
++OFFSET_CHECK(struct rogue_fwif_hwperf_config_enable_blks, block_configs_fw_addr, 4);
++SIZE_CHECK(struct rogue_fwif_hwperf_config_enable_blks, 8);
++
++OFFSET_CHECK(struct rogue_fwif_hwperf_config_da_blks, num_blocks, 0);
++OFFSET_CHECK(struct rogue_fwif_hwperf_config_da_blks, block_configs_fw_addr, 4);
++SIZE_CHECK(struct rogue_fwif_hwperf_config_da_blks, 8);
++
++OFFSET_CHECK(struct rogue_fwif_coreclkspeedchange_data, new_clock_speed, 0);
++SIZE_CHECK(struct rogue_fwif_coreclkspeedchange_data, 4);
++
++OFFSET_CHECK(struct rogue_fwif_hwperf_ctrl_blks, enable, 0);
++OFFSET_CHECK(struct rogue_fwif_hwperf_ctrl_blks, num_blocks, 4);
++OFFSET_CHECK(struct rogue_fwif_hwperf_ctrl_blks, block_ids, 8);
++SIZE_CHECK(struct rogue_fwif_hwperf_ctrl_blks, 40);
++
++OFFSET_CHECK(struct rogue_fwif_hwperf_select_custom_cntrs, custom_block, 0);
++OFFSET_CHECK(struct rogue_fwif_hwperf_select_custom_cntrs, num_counters, 2);
++OFFSET_CHECK(struct rogue_fwif_hwperf_select_custom_cntrs, custom_counter_ids_fw_addr, 4);
++SIZE_CHECK(struct rogue_fwif_hwperf_select_custom_cntrs, 8);
++
++OFFSET_CHECK(struct rogue_fwif_zsbuffer_backing_data, zs_buffer_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_zsbuffer_backing_data, done, 4);
++SIZE_CHECK(struct rogue_fwif_zsbuffer_backing_data, 8);
++
++OFFSET_CHECK(struct rogue_fwif_freelist_gs_data, freelist_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_freelist_gs_data, delta_pages, 4);
++OFFSET_CHECK(struct rogue_fwif_freelist_gs_data, new_pages, 8);
++OFFSET_CHECK(struct rogue_fwif_freelist_gs_data, ready_pages, 12);
++SIZE_CHECK(struct rogue_fwif_freelist_gs_data, 16);
++
++OFFSET_CHECK(struct rogue_fwif_freelists_reconstruction_data, freelist_count, 0);
++OFFSET_CHECK(struct rogue_fwif_freelists_reconstruction_data, freelist_ids, 4);
++SIZE_CHECK(struct rogue_fwif_freelists_reconstruction_data, 76);
++
++OFFSET_CHECK(struct rogue_fwif_write_offset_update_data, context_fw_addr, 0);
++SIZE_CHECK(struct rogue_fwif_write_offset_update_data, 8);
++
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd, cmd_type, 0);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd, kccb_flags, 4);
++OFFSET_CHECK(struct rogue_fwif_kccb_cmd, cmd_data, 8);
++SIZE_CHECK(struct rogue_fwif_kccb_cmd, 88);
++
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd_context_reset_data, server_common_context_id, 0);
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd_context_reset_data, reset_reason, 4);
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd_context_reset_data, dm, 8);
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd_context_reset_data, reset_job_ref, 12);
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd_context_reset_data, flags, 16);
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd_context_reset_data, pc_address, 24);
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd_context_reset_data, fault_address, 32);
++SIZE_CHECK(struct rogue_fwif_fwccb_cmd_context_reset_data, 40);
++
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd_fw_pagefault_data, fw_fault_addr, 0);
++SIZE_CHECK(struct rogue_fwif_fwccb_cmd_fw_pagefault_data, 8);
++
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd, cmd_type, 0);
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd, fwccb_flags, 4);
++OFFSET_CHECK(struct rogue_fwif_fwccb_cmd, cmd_data, 8);
++SIZE_CHECK(struct rogue_fwif_fwccb_cmd, 88);
++
++OFFSET_CHECK(struct rogue_fwif_ccb_cmd_header, cmd_type, 0);
++OFFSET_CHECK(struct rogue_fwif_ccb_cmd_header, cmd_size, 4);
++OFFSET_CHECK(struct rogue_fwif_ccb_cmd_header, ext_job_ref, 8);
++OFFSET_CHECK(struct rogue_fwif_ccb_cmd_header, int_job_ref, 12);
++OFFSET_CHECK(struct rogue_fwif_ccb_cmd_header, work_est_kick_data, 16);
++SIZE_CHECK(struct rogue_fwif_ccb_cmd_header, 40);
++
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, active_pm_latency_ms, 0);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, runtime_cfg_flags, 4);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, active_pm_latency_persistant, 8);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, core_clock_speed, 12);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, default_dusts_num_init, 16);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, phr_mode, 20);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, hcs_deadline_ms, 24);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, wdg_period_us, 28);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, osid_priority, 32);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, hwperf_buf_fw_addr, 64);
++OFFSET_CHECK(struct rogue_fwif_runtime_cfg, padding, 68);
++SIZE_CHECK(struct rogue_fwif_runtime_cfg, 72);
++
++OFFSET_CHECK(struct rogue_fwif_connection_ctl, connection_fw_state, 0);
++OFFSET_CHECK(struct rogue_fwif_connection_ctl, connection_os_state, 4);
++OFFSET_CHECK(struct rogue_fwif_connection_ctl, alive_fw_token, 8);
++OFFSET_CHECK(struct rogue_fwif_connection_ctl, alive_os_token, 12);
++SIZE_CHECK(struct rogue_fwif_connection_ctl, 16);
++
++OFFSET_CHECK(struct rogue_fwif_compchecks_bvnc, layout_version, 0);
++OFFSET_CHECK(struct rogue_fwif_compchecks_bvnc, bvnc, 8);
++SIZE_CHECK(struct rogue_fwif_compchecks_bvnc, 16);
++
++OFFSET_CHECK(struct rogue_fwif_init_options, os_count_support, 0);
++SIZE_CHECK(struct rogue_fwif_init_options, 8);
++
++OFFSET_CHECK(struct rogue_fwif_compchecks, hw_bvnc, 0);
++OFFSET_CHECK(struct rogue_fwif_compchecks, fw_bvnc, 16);
++OFFSET_CHECK(struct rogue_fwif_compchecks, fw_processor_version, 32);
++OFFSET_CHECK(struct rogue_fwif_compchecks, ddk_version, 36);
++OFFSET_CHECK(struct rogue_fwif_compchecks, ddk_build, 40);
++OFFSET_CHECK(struct rogue_fwif_compchecks, build_options, 44);
++OFFSET_CHECK(struct rogue_fwif_compchecks, init_options, 48);
++OFFSET_CHECK(struct rogue_fwif_compchecks, updated, 56);
++SIZE_CHECK(struct rogue_fwif_compchecks, 64);
++
++OFFSET_CHECK(struct rogue_fwif_osinit, kernel_ccbctl_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_osinit, kernel_ccb_fw_addr, 4);
++OFFSET_CHECK(struct rogue_fwif_osinit, kernel_ccb_rtn_slots_fw_addr, 8);
++OFFSET_CHECK(struct rogue_fwif_osinit, firmware_ccbctl_fw_addr, 12);
++OFFSET_CHECK(struct rogue_fwif_osinit, firmware_ccb_fw_addr, 16);
++OFFSET_CHECK(struct rogue_fwif_osinit, work_est_firmware_ccbctl_fw_addr, 20);
++OFFSET_CHECK(struct rogue_fwif_osinit, work_est_firmware_ccb_fw_addr, 24);
++OFFSET_CHECK(struct rogue_fwif_osinit, rogue_fwif_hwr_info_buf_ctl_fw_addr, 28);
++OFFSET_CHECK(struct rogue_fwif_osinit, hwr_debug_dump_limit, 32);
++OFFSET_CHECK(struct rogue_fwif_osinit, fw_os_data_fw_addr, 36);
++OFFSET_CHECK(struct rogue_fwif_osinit, rogue_comp_checks, 40);
++SIZE_CHECK(struct rogue_fwif_osinit, 104);
++
++OFFSET_CHECK(struct rogue_fwif_sigbuf_ctl, buffer_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_sigbuf_ctl, left_size_in_regs, 4);
++SIZE_CHECK(struct rogue_fwif_sigbuf_ctl, 8);
++
++OFFSET_CHECK(struct pdvfs_opp, volt, 0);
++OFFSET_CHECK(struct pdvfs_opp, freq, 4);
++SIZE_CHECK(struct pdvfs_opp, 8);
++
++OFFSET_CHECK(struct rogue_fwif_pdvfs_opp, opp_values, 0);
++OFFSET_CHECK(struct rogue_fwif_pdvfs_opp, min_opp_point, 128);
++OFFSET_CHECK(struct rogue_fwif_pdvfs_opp, max_opp_point, 132);
++SIZE_CHECK(struct rogue_fwif_pdvfs_opp, 136);
++
++OFFSET_CHECK(struct rogue_fwif_counter_dump_ctl, buffer_fw_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_counter_dump_ctl, size_in_dwords, 4);
++SIZE_CHECK(struct rogue_fwif_counter_dump_ctl, 8);
++
++OFFSET_CHECK(struct rogue_hwperf_bvnc, bvnc_string, 0);
++OFFSET_CHECK(struct rogue_hwperf_bvnc, bvnc_km_feature_flags, 24);
++OFFSET_CHECK(struct rogue_hwperf_bvnc, num_bvnc_blocks, 28);
++OFFSET_CHECK(struct rogue_hwperf_bvnc, bvnc_gpu_cores, 30);
++OFFSET_CHECK(struct rogue_hwperf_bvnc, bvnc_blocks, 32);
++SIZE_CHECK(struct rogue_hwperf_bvnc, 160);
++
++OFFSET_CHECK(struct rogue_fwif_sysinit, fault_phys_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_sysinit, pds_exec_base, 8);
++OFFSET_CHECK(struct rogue_fwif_sysinit, usc_exec_base, 16);
++OFFSET_CHECK(struct rogue_fwif_sysinit, fbcdc_state_table_base, 24);
++OFFSET_CHECK(struct rogue_fwif_sysinit, fbcdc_large_state_table_base, 32);
++OFFSET_CHECK(struct rogue_fwif_sysinit, texture_heap_base, 40);
++OFFSET_CHECK(struct rogue_fwif_sysinit, hw_perf_filter, 48);
++OFFSET_CHECK(struct rogue_fwif_sysinit, slc3_fence_dev_addr, 56);
++OFFSET_CHECK(struct rogue_fwif_sysinit, tpu_trilinear_frac_mask, 64);
++OFFSET_CHECK(struct rogue_fwif_sysinit, sigbuf_ctl, 80);
++OFFSET_CHECK(struct rogue_fwif_sysinit, pdvfs_opp_info, 152);
++OFFSET_CHECK(struct rogue_fwif_sysinit, coremem_data_store, 288);
++OFFSET_CHECK(struct rogue_fwif_sysinit, counter_dump_ctl, 304);
++OFFSET_CHECK(struct rogue_fwif_sysinit, filter_flags, 312);
++OFFSET_CHECK(struct rogue_fwif_sysinit, runtime_cfg_fw_addr, 316);
++OFFSET_CHECK(struct rogue_fwif_sysinit, trace_buf_ctl_fw_addr, 320);
++OFFSET_CHECK(struct rogue_fwif_sysinit, fw_sys_data_fw_addr, 324);
++OFFSET_CHECK(struct rogue_fwif_sysinit, gpu_util_fw_cb_ctl_fw_addr, 328);
++OFFSET_CHECK(struct rogue_fwif_sysinit, reg_cfg_fw_addr, 332);
++OFFSET_CHECK(struct rogue_fwif_sysinit, hwperf_ctl_fw_addr, 336);
++OFFSET_CHECK(struct rogue_fwif_sysinit, align_checks, 340);
++OFFSET_CHECK(struct rogue_fwif_sysinit, initial_core_clock_speed, 344);
++OFFSET_CHECK(struct rogue_fwif_sysinit, active_pm_latency_ms, 348);
++OFFSET_CHECK(struct rogue_fwif_sysinit, firmware_started, 352);
++OFFSET_CHECK(struct rogue_fwif_sysinit, marker_val, 356);
++OFFSET_CHECK(struct rogue_fwif_sysinit, firmware_started_timestamp, 360);
++OFFSET_CHECK(struct rogue_fwif_sysinit, jones_disable_mask, 364);
++OFFSET_CHECK(struct rogue_fwif_sysinit, firmware_perf, 368);
++OFFSET_CHECK(struct rogue_fwif_sysinit, core_clock_rate_fw_addr, 372);
++OFFSET_CHECK(struct rogue_fwif_sysinit, gpio_validation_mode, 376);
++OFFSET_CHECK(struct rogue_fwif_sysinit, bvnc_km_feature_flags, 380);
++OFFSET_CHECK(struct rogue_fwif_sysinit, tfbc_compression_control, 540);
++SIZE_CHECK(struct rogue_fwif_sysinit, 544);
++
++OFFSET_CHECK(struct rogue_fwif_gpu_util_fwcb, time_corr, 0);
++OFFSET_CHECK(struct rogue_fwif_gpu_util_fwcb, time_corr_seq_count, 10240);
++OFFSET_CHECK(struct rogue_fwif_gpu_util_fwcb, gpu_util_flags, 10244);
++OFFSET_CHECK(struct rogue_fwif_gpu_util_fwcb, last_word, 10248);
++OFFSET_CHECK(struct rogue_fwif_gpu_util_fwcb, stats_counters, 10256);
++SIZE_CHECK(struct rogue_fwif_gpu_util_fwcb, 10280);
++
++OFFSET_CHECK(struct rogue_fwif_rta_ctl, render_target_index, 0);
++OFFSET_CHECK(struct rogue_fwif_rta_ctl, current_render_target, 4);
++OFFSET_CHECK(struct rogue_fwif_rta_ctl, active_render_targets, 8);
++OFFSET_CHECK(struct rogue_fwif_rta_ctl, cumul_active_render_targets, 12);
++OFFSET_CHECK(struct rogue_fwif_rta_ctl, valid_render_targets_fw_addr, 16);
++OFFSET_CHECK(struct rogue_fwif_rta_ctl, rta_num_partial_renders_fw_addr, 20);
++OFFSET_CHECK(struct rogue_fwif_rta_ctl, max_rts, 24);
++OFFSET_CHECK(struct rogue_fwif_rta_ctl, rta_ctl_flags, 28);
++SIZE_CHECK(struct rogue_fwif_rta_ctl, 32);
++
++OFFSET_CHECK(struct rogue_fwif_freelist, freelist_dev_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_freelist, current_dev_addr, 8);
++OFFSET_CHECK(struct rogue_fwif_freelist, current_stack_top, 16);
++OFFSET_CHECK(struct rogue_fwif_freelist, max_pages, 20);
++OFFSET_CHECK(struct rogue_fwif_freelist, grow_pages, 24);
++OFFSET_CHECK(struct rogue_fwif_freelist, current_pages, 28);
++OFFSET_CHECK(struct rogue_fwif_freelist, allocated_page_count, 32);
++OFFSET_CHECK(struct rogue_fwif_freelist, allocated_mmu_page_count, 36);
++OFFSET_CHECK(struct rogue_fwif_freelist, freelist_id, 40);
++OFFSET_CHECK(struct rogue_fwif_freelist, grow_pending, 44);
++OFFSET_CHECK(struct rogue_fwif_freelist, ready_pages, 48);
++OFFSET_CHECK(struct rogue_fwif_freelist, freelist_flags, 52);
++OFFSET_CHECK(struct rogue_fwif_freelist, pm_global_pb, 56);
++SIZE_CHECK(struct rogue_fwif_freelist, 64);
++
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, geom_caches_need_zeroing, 0);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, screen_pixel_max, 4);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, multi_sample_ctl, 8);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, flipped_multi_sample_ctl, 16);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, tpc_stride, 24);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, tpc_size, 28);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, te_screen, 32);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, mtile_stride, 36);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, teaa, 40);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, te_mtile1, 44);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, te_mtile2, 48);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, isp_merge_lower_x, 52);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, isp_merge_lower_y, 56);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, isp_merge_upper_x, 60);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, isp_merge_upper_y, 64);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, isp_merge_scale_x, 68);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, isp_merge_scale_y, 72);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, rgn_header_size, 76);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata_common, isp_mtile_size, 80);
++SIZE_CHECK(struct rogue_fwif_hwrtdata_common, 88);
++
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, pm_mlist_dev_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, vce_cat_base, 8);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, vce_last_cat_base, 40);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, te_cat_base, 72);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, te_last_cat_base, 104);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, alist_cat_base, 136);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, alist_last_cat_base, 144);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, pm_alist_stack_pointer, 152);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, pm_mlist_stack_pointer, 160);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, hwrt_data_common_fw_addr, 164);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, hwrt_data_flags, 168);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, state, 172);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, freelists_fw_addr, 176);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, freelist_hwr_snapshot, 188);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, vheap_table_dev_addr, 200);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, rta_ctl, 208);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, tail_ptrs_dev_addr, 240);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, macrotile_array_dev_addr, 248);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, rgn_header_dev_addr, 256);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, rtc_dev_addr, 264);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, owner_geom_not_used_by_host, 272);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, geom_caches_need_zeroing, 276);
++OFFSET_CHECK(struct rogue_fwif_hwrtdata, cleanup_state, 320);
++SIZE_CHECK(struct rogue_fwif_hwrtdata, 384);
++
++OFFSET_CHECK(struct rogue_fwif_sync_checkpoint, state, 0);
++OFFSET_CHECK(struct rogue_fwif_sync_checkpoint, fw_ref_count, 4);
++SIZE_CHECK(struct rogue_fwif_sync_checkpoint, 8);
++
++#endif /* PVR_ROGUE_FWIF_CHECK_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_client.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_client.h
+new file mode 100644
+index 000000000000..8bf501371469
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_client.h
+@@ -0,0 +1,373 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_ROGUE_FWIF_CLIENT_H
++#define PVR_ROGUE_FWIF_CLIENT_H
++
++#include <linux/bits.h>
++#include <linux/kernel.h>
++#include <linux/sizes.h>
 +#include <linux/types.h>
 +
-+#include <drm/drm_gem.h>
-+#include <drm/gpu_scheduler.h>
++#include "pvr_rogue_fwif_shared.h"
 +
-+#include "pvr_power.h"
++/*
++ * Page size used for Parameter Management.
++ */
++#define ROGUE_PM_PAGE_SIZE SZ_4K
 +
-+/* Forward declaration from "pvr_context.h". */
-+struct pvr_context;
++/*
++ * Minimum/Maximum PB size.
++ *
++ * Base page size is dependent on core:
++ *   S6/S6XT/S7               = 50 pages
++ *   S8XE                     = 40 pages
++ *   S8XE with BRN66011 fixed = 25 pages
++ *
++ * Minimum PB = Base Pages + (NUM_TE_PIPES-1)*16K + (NUM_VCE_PIPES-1)*64K +
++ *              IF_PM_PREALLOC(NUM_TE_PIPES*16K + NUM_VCE_PIPES*16K)
++ *
++ * Maximum PB size must ensure that no PM address space can be fully used,
++ * because if the full address space was used it would wrap and corrupt itself.
++ * Since there are two freelists (local is always minimum sized) this can be
++ * described as following three conditions being met:
++ *
++ *   (Minimum PB + Maximum PB)  <  ALIST PM address space size (16GB)
++ *   (Minimum PB + Maximum PB)  <  TE PM address space size (16GB) / NUM_TE_PIPES
++ *   (Minimum PB + Maximum PB)  <  VCE PM address space size (16GB) / NUM_VCE_PIPES
++ *
++ * Since the max of NUM_TE_PIPES and NUM_VCE_PIPES is 4, we have a hard limit
++ * of 4GB minus the Minimum PB. For convenience we take the smaller power-of-2
++ * value of 2GB. This is far more than any current applications use.
++ */
++#define ROGUE_PM_MAX_FREELIST_SIZE SZ_2G
 +
-+/* Forward declarations from "pvr_device.h". */
-+struct pvr_device;
-+struct pvr_file;
++/*
++ * Flags supported by the geometry DM command i.e. &struct rogue_fwif_cmd_geom.
++ */
 +
-+/* Forward declarations from "pvr_hwrt.h". */
-+struct pvr_hwrt_data;
++#define ROGUE_GEOM_FLAGS_FIRSTKICK BIT_MASK(0)
++#define ROGUE_GEOM_FLAGS_LASTKICK BIT_MASK(1)
++/* Use single core in a multi core setup. */
++#define ROGUE_GEOM_FLAGS_SINGLE_CORE BIT_MASK(3)
 +
-+/* Forward declaration from "pvr_queue.h". */
-+struct pvr_queue;
++/*
++ * Flags supported by the fragment DM command i.e. &struct rogue_fwif_cmd_frag.
++ */
 +
-+struct pvr_job {
-+	/** @base: drm_sched_job object. */
-+	struct drm_sched_job base;
++/* Use single core in a multi core setup. */
++#define ROGUE_FRAG_FLAGS_SINGLE_CORE BIT_MASK(3)
++/* Indicates whether this render produces visibility results. */
++#define ROGUE_FRAG_FLAGS_GET_VIS_RESULTS BIT_MASK(5)
++/* Indicates whether a depth buffer is present. */
++#define ROGUE_FRAG_FLAGS_DEPTHBUFFER BIT_MASK(7)
++/* Indicates whether a stencil buffer is present. */
++#define ROGUE_FRAG_FLAGS_STENCILBUFFER BIT_MASK(8)
++/* Disable pixel merging for this render. */
++#define ROGUE_FRAG_FLAGS_DISABLE_PIXELMERGE BIT_MASK(15)
++/* Indicates whether a scratch buffer is present. */
++#define ROGUE_FRAG_FLAGS_SCRATCHBUFFER BIT_MASK(19)
++/* Disallow compute overlapped with this render. */
++#define ROGUE_FRAG_FLAGS_PREVENT_CDM_OVERLAP BIT_MASK(26)
 +
-+	/** @ref_count: Refcount for job. */
-+	struct kref ref_count;
++/*
++ * Flags supported by the compute DM command i.e. &struct rogue_fwif_cmd_compute.
++ */
 +
-+	/** @type: Type of job. */
-+	enum drm_pvr_job_type type;
++#define ROGUE_COMPUTE_FLAG_PREVENT_ALL_OVERLAP BIT_MASK(2)
++/*!< Use single core in a multi core setup. */
++#define ROGUE_COMPUTE_FLAG_SINGLE_CORE BIT_MASK(5)
 +
-+	/** @id: Job ID number. */
-+	u32 id;
++/*
++ * Flags supported by the transfer DM command i.e. &struct rogue_fwif_cmd_transfer.
++ */
 +
-+	/**
-+	 * @paired_job: Job paired to this job.
-+	 *
-+	 * This field is only meaningful for geometry and fragment jobs.
-+	 *
-+	 * Paired jobs are executed on the same context, and need to be submitted
-+	 * atomically to the FW, to make sure the partial render logic has a
-+	 * fragment job to execute when the Parameter Manager runs out of memory.
-+	 *
-+	 * The geometry job should point to the fragment job it's paired with,
-+	 * and the fragment job should point to the geometry job it's paired with.
-+	 */
-+	struct pvr_job *paired_job;
++/*!< Use single core in a multi core setup. */
++#define ROGUE_TRANSFER_FLAGS_SINGLE_CORE BIT_MASK(1)
 +
-+	/** @cccb_fence: Fence used to wait for CCCB space. */
-+	struct dma_fence *cccb_fence;
++/*
++ ************************************************
++ * Parameter/HWRTData control structures.
++ ************************************************
++ */
 +
-+	/** @kccb_fence: Fence used to wait for KCCB space. */
-+	struct dma_fence *kccb_fence;
++/*
++ * Configuration registers which need to be loaded by the firmware before a geometry
++ * job can be started.
++ */
++struct rogue_fwif_geom_regs {
++	u64 vdm_ctrl_stream_base;
++	u64 tpu_border_colour_table;
 +
-+	/** @done_fence: Fence to signal when the job is done. */
-+	struct dma_fence *done_fence;
++	/* Only used when feature VDM_DRAWINDIRECT present. */
++	u64 vdm_draw_indirect0;
++	/* Only used when feature VDM_DRAWINDIRECT present. */
++	u32 vdm_draw_indirect1;
 +
-+	/** @pvr_dev: Device pointer. */
-+	struct pvr_device *pvr_dev;
++	u32 ppp_ctrl;
++	u32 te_psg;
++	/* Only used when BRN 49927 present. */
++	u32 tpu;
 +
-+	/** @ctx: Pointer to owning context. */
-+	struct pvr_context *ctx;
++	u32 vdm_context_resume_task0_size;
++	/* Only used when feature VDM_OBJECT_LEVEL_LLS present. */
++	u32 vdm_context_resume_task3_size;
 +
-+	/** @cmd: Command data. Format depends on @type. */
-+	void *cmd;
++	/* Only used when BRN 56279 or BRN 67381 present. */
++	u32 pds_ctrl;
 +
-+	/** @cmd_len: Length of command data, in bytes. */
-+	u32 cmd_len;
++	u32 view_idx;
 +
-+	/**
-+	 * @fw_ccb_cmd_type: Firmware CCB command type. Must be one of %ROGUE_FWIF_CCB_CMD_TYPE_*.
-+	 */
-+	u32 fw_ccb_cmd_type;
++	/* Only used when feature TESSELLATION present */
++	u32 pds_coeff_free_prog;
 +
-+	/** @hwrt: HWRT object. Will be NULL for compute and transfer jobs. */
-+	struct pvr_hwrt_data *hwrt;
-+
-+	/**
-+	 * @has_pm_ref: True if the job has a power ref, thus forcing the GPU to stay on until
-+	 * the job is done.
-+	 */
-+	bool has_pm_ref;
++	u32 padding;
 +};
 +
-+/**
-+ * pvr_job_get() - Take additional reference on job.
-+ * @job: Job pointer.
-+ *
-+ * Call pvr_job_put() to release.
-+ *
-+ * Returns:
-+ *  * The requested job on success, or
-+ *  * %NULL if no job pointer passed.
++/* Only used when BRN 44455 or BRN 63027 present. */
++struct rogue_fwif_dummy_rgnhdr_init_geom_regs {
++	u64 te_psgregion_addr;
++};
++
++/*
++ * Represents a geometry command that can be used to tile a whole scene's objects as
++ * per TA behavior.
 + */
-+static __always_inline struct pvr_job *
-+pvr_job_get(struct pvr_job *job)
-+{
-+	if (job)
-+		kref_get(&job->ref_count);
++struct rogue_fwif_cmd_geom {
++	/*
++	 * rogue_fwif_cmd_geom_frag_shared field must always be at the beginning of the
++	 * struct.
++	 *
++	 * The command struct (rogue_fwif_cmd_geom) is shared between Client and
++	 * Firmware. Kernel is unable to perform read/write operations on the
++	 * command struct, the SHARED region is the only exception from this rule.
++	 * This region must be the first member so that Kernel can easily access it.
++	 * For more info, see rogue_fwif_cmd_geom_frag_shared definition.
++	 */
++	struct rogue_fwif_cmd_geom_frag_shared cmd_shared;
 +
-+	return job;
-+}
++	struct rogue_fwif_geom_regs regs __aligned(8);
++	u32 flags __aligned(8);
 +
-+void pvr_job_put(struct pvr_job *job);
++	/*
++	 * Holds the geometry/fragment fence value to allow the fragment partial render command
++	 * to go through.
++	 */
++	struct rogue_fwif_ufo partial_render_geom_frag_fence;
 +
-+/**
-+ * pvr_job_release_pm_ref() - Release the PM ref if the job acquired it.
-+ * @job: The job to release the PM ref on.
++	/* Only used when BRN 44455 or BRN 63027 present. */
++	struct rogue_fwif_dummy_rgnhdr_init_geom_regs dummy_rgnhdr_init_geom_regs __aligned(8);
++
++	/* Only used when BRN 61484 or BRN 66333 present. */
++	u32 brn61484_66333_live_rt;
++
++	u32 padding;
++};
++
++/*
++ * Configuration registers which need to be loaded by the firmware before ISP
++ * can be started.
 + */
-+static __always_inline void
-+pvr_job_release_pm_ref(struct pvr_job *job)
-+{
-+	if (job->has_pm_ref) {
-+		pvr_power_put(job->pvr_dev);
-+		job->has_pm_ref = false;
-+	}
-+}
++struct rogue_fwif_frag_regs {
++	u32 usc_pixel_output_ctrl;
 +
-+/**
-+ * pvr_job_get_pm_ref() - Get a PM ref and attach it to the job.
-+ * @job: The job to attach the PM ref to.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_power_get() otherwise.
++#define ROGUE_MAXIMUM_OUTPUT_REGISTERS_PER_PIXEL 8U
++	u32 usc_clear_register[ROGUE_MAXIMUM_OUTPUT_REGISTERS_PER_PIXEL];
++
++	u32 isp_bgobjdepth;
++	u32 isp_bgobjvals;
++	u32 isp_aa;
++	/* Only used when feature S7_TOP_INFRASTRUCTURE present. */
++	u32 isp_xtp_pipe_enable;
++
++	u32 isp_ctl;
++
++	/* Only used when BRN 49927 present. */
++	u32 tpu;
++
++	u32 event_pixel_pds_info;
++
++	/* Only used when feature CLUSTER_GROUPING present. */
++	u32 pixel_phantom;
++
++	u32 view_idx;
++
++	u32 event_pixel_pds_data;
++
++	/* Only used when BRN 65101 present. */
++	u32 brn65101_event_pixel_pds_data;
++
++	/* Only used when feature GPU_MULTICORE_SUPPORT or BRN 47217 present. */
++	u32 isp_oclqry_stride;
++
++	/* Only used when feature ZLS_SUBTILE present. */
++	u32 isp_zls_pixels;
++
++	/* Only used when feature ISP_ZLS_D24_S8_PACKING_OGL_MODE present. */
++	u32 rgx_cr_blackpearl_fix;
++
++	/* All values below the ALIGN(8) must be 64 bit. */
++	aligned_u64 isp_scissor_base;
++	u64 isp_dbias_base;
++	u64 isp_oclqry_base;
++	u64 isp_zlsctl;
++	u64 isp_zload_store_base;
++	u64 isp_stencil_load_store_base;
++
++	/*
++	 * Only used when feature FBCDC_ALGORITHM present and value < 3 or feature
++	 * FB_CDC_V4 present. Additionally, BRNs 48754, 60227, 72310 and 72311 must
++	 * not be present.
++	 */
++	u64 fb_cdc_zls;
++
++#define ROGUE_PBE_WORDS_REQUIRED_FOR_RENDERS 3U
++	u64 pbe_word[8U][ROGUE_PBE_WORDS_REQUIRED_FOR_RENDERS];
++	u64 tpu_border_colour_table;
++	u64 pds_bgnd[3U];
++
++	/* Only used when BRN 65101 present. */
++	u64 pds_bgnd_brn65101[3U];
++
++	u64 pds_pr_bgnd[3U];
++
++	/* Only used when BRN 62850 or 62865 present. */
++	u64 isp_dummy_stencil_store_base;
++
++	/* Only used when BRN 66193 present. */
++	u64 isp_dummy_depth_store_base;
++
++	/* Only used when BRN 67182 present. */
++	u32 rgnhdr_single_rt_size;
++	/* Only used when BRN 67182 present. */
++	u32 rgnhdr_scratch_offset;
++};
++
++struct rogue_fwif_cmd_frag {
++	struct rogue_fwif_cmd_geom_frag_shared cmd_shared __aligned(8);
++
++	struct rogue_fwif_frag_regs regs __aligned(8);
++	/* command control flags. */
++	u32 flags;
++	/* Stride IN BYTES for Z-Buffer in case of RTAs. */
++	u32 zls_stride;
++	/* Stride IN BYTES for S-Buffer in case of RTAs. */
++	u32 sls_stride;
++
++	/* Only used if feature GPU_MULTICORE_SUPPORT present. */
++	u32 execute_count;
++};
++
++/*
++ * Configuration registers which need to be loaded by the firmware before CDM
++ * can be started.
 + */
-+static __always_inline int
-+pvr_job_get_pm_ref(struct pvr_job *job)
-+{
-+	int err;
++struct rogue_fwif_compute_regs {
++	u64 tpu_border_colour_table;
 +
-+	if (job->has_pm_ref)
-+		return 0;
++	/* Only used when feature CDM_USER_MODE_QUEUE present. */
++	u64 cdm_cb_queue;
 +
-+	err = pvr_power_get(job->pvr_dev);
-+	if (!err)
-+		job->has_pm_ref = true;
++	/* Only used when feature CDM_USER_MODE_QUEUE present. */
++	u64 cdm_cb_base;
++	/* Only used when feature CDM_USER_MODE_QUEUE present. */
++	u64 cdm_cb;
 +
-+	return err;
-+}
++	/* Only used when feature CDM_USER_MODE_QUEUE is not present. */
++	u64 cdm_ctrl_stream_base;
 +
-+int pvr_job_wait_first_non_signaled_native_dep(struct pvr_job *job);
++	u64 cdm_context_state_base_addr;
 +
-+bool pvr_job_non_native_deps_done(struct pvr_job *job);
++	/* Only used when BRN 49927 is present. */
++	u32 tpu;
++	u32 cdm_resume_pds1;
 +
-+int pvr_job_fits_in_cccb(struct pvr_job *job, unsigned long native_dep_count);
++	/* Only used when feature COMPUTE_MORTON_CAPABLE present. */
++	u32 cdm_item;
 +
-+void pvr_job_submit(struct pvr_job *job);
++	/* Only used when feature CLUSTER_GROUPING present. */
++	u32 compute_cluster;
 +
-+int pvr_submit_jobs(struct pvr_device *pvr_dev, struct pvr_file *pvr_file,
-+		    struct drm_pvr_ioctl_submit_jobs_args *args);
++	/* Only used when feature TPU_DM_GLOBAL_REGISTERS present. */
++	u32 tpu_tag_cdm_ctrl;
 +
-+#endif /* PVR_JOB_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
-index 40ade2226552..920828c4f579 100644
---- a/drivers/gpu/drm/imagination/pvr_power.c
-+++ b/drivers/gpu/drm/imagination/pvr_power.c
-@@ -5,6 +5,7 @@
- #include "pvr_fw.h"
- #include "pvr_fw_startstop.h"
- #include "pvr_power.h"
-+#include "pvr_queue.h"
- #include "pvr_rogue_fwif.h"
- 
- #include <drm/drm_drv.h>
-@@ -155,6 +156,21 @@ pvr_watchdog_kccb_stalled(struct pvr_device *pvr_dev)
- 			pvr_dev->watchdog.kccb_stall_count = 0;
- 			return true;
- 		}
-+	} else if (pvr_dev->watchdog.old_kccb_cmds_executed == kccb_cmds_executed) {
-+		bool has_active_contexts;
++	u32 padding;
++};
 +
-+		mutex_lock(&pvr_dev->queues.lock);
-+		has_active_contexts = list_empty(&pvr_dev->queues.active);
-+		mutex_unlock(&pvr_dev->queues.lock);
++struct rogue_fwif_cmd_compute {
++	/* Common command attributes */
++	struct rogue_fwif_cmd_common common __aligned(8);
 +
-+		if (has_active_contexts) {
-+			/* Send a HEALTH_CHECK command so we can verify FW is still alive. */
-+			struct rogue_fwif_kccb_cmd health_check_cmd;
++	/* CDM registers */
++	struct rogue_fwif_compute_regs regs;
 +
-+			health_check_cmd.cmd_type = ROGUE_FWIF_KCCB_CMD_HEALTH_CHECK;
++	/* Control flags */
++	u32 flags __aligned(8);
 +
-+			pvr_kccb_send_cmd_powered(pvr_dev, &health_check_cmd, NULL);
-+		}
- 	} else {
- 		pvr_dev->watchdog.old_kccb_cmds_executed = kccb_cmds_executed;
- 		pvr_dev->watchdog.kccb_stall_count = 0;
-@@ -318,6 +334,7 @@ pvr_power_device_idle(struct device *dev)
- int
- pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- {
-+	bool queues_disabled = false;
- 	int err;
- 
- 	/*
-@@ -337,6 +354,11 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- 	disable_irq(pvr_dev->irq);
- 
- 	do {
-+		if (hard_reset) {
-+			pvr_queue_device_pre_reset(pvr_dev);
-+			queues_disabled = true;
-+		}
++	/* Only used when feature UNIFIED_STORE_VIRTUAL_PARTITIONING present. */
++	u32 num_temp_regions;
 +
- 		err = pvr_power_fw_disable(pvr_dev, hard_reset);
- 		if (!err) {
- 			if (hard_reset) {
-@@ -372,6 +394,9 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- 		}
- 	} while (err);
- 
-+	if (queues_disabled)
-+		pvr_queue_device_post_reset(pvr_dev);
++	/* Only used when feature CDM_USER_MODE_QUEUE present. */
++	u32 stream_start_offset;
 +
- 	enable_irq(pvr_dev->irq);
- 
- 	up_write(&pvr_dev->reset_sem);
-@@ -386,6 +411,9 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- 
- 	/* Leave IRQs disabled if the device is lost. */
- 
-+	if (queues_disabled)
-+		pvr_queue_device_post_reset(pvr_dev);
++	/* Only used when feature GPU_MULTICORE_SUPPORT present. */
++	u32 execute_count;
++};
 +
- err_up_write:
- 	up_write(&pvr_dev->reset_sem);
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
++struct rogue_fwif_transfer_regs {
++	/*
++	 * All 32 bit values should be added in the top section. This then requires only a
++	 * single RGXFW_ALIGN to align all the 64 bit values in the second section.
++	 */
++	u32 isp_bgobjvals;
++
++	u32 usc_pixel_output_ctrl;
++	u32 usc_clear_register0;
++	u32 usc_clear_register1;
++	u32 usc_clear_register2;
++	u32 usc_clear_register3;
++
++	u32 isp_mtile_size;
++	u32 isp_render_origin;
++	u32 isp_ctl;
++
++	/* Only used when feature S7_TOP_INFRASTRUCTURE present. */
++	u32 isp_xtp_pipe_enable;
++	u32 isp_aa;
++
++	u32 event_pixel_pds_info;
++
++	u32 event_pixel_pds_code;
++	u32 event_pixel_pds_data;
++
++	u32 isp_render;
++	u32 isp_rgn;
++
++	/* Only used when feature GPU_MULTICORE_SUPPORT present. */
++	u32 frag_screen;
++
++	/* All values below the aligned_u64 must be 64 bit. */
++	aligned_u64 pds_bgnd0_base;
++	u64 pds_bgnd1_base;
++	u64 pds_bgnd3_sizeinfo;
++
++	u64 isp_mtile_base;
++#define ROGUE_PBE_WORDS_REQUIRED_FOR_TQS 3
++	/* TQ_MAX_RENDER_TARGETS * PBE_STATE_SIZE */
++	u64 pbe_wordx_mrty[3U * ROGUE_PBE_WORDS_REQUIRED_FOR_TQS];
++};
++
++struct rogue_fwif_cmd_transfer {
++	/* Common command attributes */
++	struct rogue_fwif_cmd_common common __aligned(8);
++
++	struct rogue_fwif_transfer_regs regs __aligned(8);
++
++	u32 flags;
++
++	u32 padding;
++};
++
++#include "pvr_rogue_fwif_client_check.h"
++
++#endif /* PVR_ROGUE_FWIF_CLIENT_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_client_check.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_client_check.h
 new file mode 100644
-index 000000000000..3a5a73fb7f0a
+index 000000000000..9fd1c5b826a5
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_queue.c
-@@ -0,0 +1,1455 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_client_check.h
+@@ -0,0 +1,133 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#include <drm/drm_managed.h>
-+#include <drm/gpu_scheduler.h>
++#ifndef PVR_ROGUE_FWIF_CLIENT_CHECK_H
++#define PVR_ROGUE_FWIF_CLIENT_CHECK_H
 +
-+#include "pvr_cccb.h"
-+#include "pvr_context.h"
-+#include "pvr_device.h"
-+#include "pvr_drv.h"
-+#include "pvr_job.h"
-+#include "pvr_queue.h"
-+#include "pvr_vm.h"
++#include <linux/build_bug.h>
 +
-+#include "pvr_rogue_fwif_client.h"
++#define OFFSET_CHECK(type, member, offset) \
++	static_assert(offsetof(type, member) == (offset), \
++		      "offsetof(" #type ", " #member ") incorrect")
 +
-+#define MAX_DEADLINE_MS 30000
++#define SIZE_CHECK(type, size) \
++	static_assert(sizeof(type) == (size), #type " is incorrect size")
 +
-+#define CTX_COMPUTE_CCCB_SIZE_LOG2 15
-+#define CTX_FRAG_CCCB_SIZE_LOG2 15
-+#define CTX_GEOM_CCCB_SIZE_LOG2 15
-+#define CTX_TRANSFER_CCCB_SIZE_LOG2 15
++OFFSET_CHECK(struct rogue_fwif_geom_regs, vdm_ctrl_stream_base, 0);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, tpu_border_colour_table, 8);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, vdm_draw_indirect0, 16);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, vdm_draw_indirect1, 24);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, ppp_ctrl, 28);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, te_psg, 32);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, tpu, 36);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, vdm_context_resume_task0_size, 40);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, vdm_context_resume_task3_size, 44);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, pds_ctrl, 48);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, view_idx, 52);
++OFFSET_CHECK(struct rogue_fwif_geom_regs, pds_coeff_free_prog, 56);
++SIZE_CHECK(struct rogue_fwif_geom_regs, 64);
 +
-+static int get_xfer_ctx_state_size(struct pvr_device *pvr_dev)
-+{
-+	u32 num_isp_store_registers;
++OFFSET_CHECK(struct rogue_fwif_dummy_rgnhdr_init_geom_regs, te_psgregion_addr, 0);
++SIZE_CHECK(struct rogue_fwif_dummy_rgnhdr_init_geom_regs, 8);
 +
-+	if (PVR_HAS_FEATURE(pvr_dev, xe_memory_hierarchy)) {
-+		num_isp_store_registers = 1;
-+	} else {
-+		int err;
++OFFSET_CHECK(struct rogue_fwif_cmd_geom, cmd_shared, 0);
++OFFSET_CHECK(struct rogue_fwif_cmd_geom, regs, 16);
++OFFSET_CHECK(struct rogue_fwif_cmd_geom, flags, 80);
++OFFSET_CHECK(struct rogue_fwif_cmd_geom, partial_render_geom_frag_fence, 84);
++OFFSET_CHECK(struct rogue_fwif_cmd_geom, dummy_rgnhdr_init_geom_regs, 96);
++OFFSET_CHECK(struct rogue_fwif_cmd_geom, brn61484_66333_live_rt, 104);
++SIZE_CHECK(struct rogue_fwif_cmd_geom, 112);
 +
-+		err = PVR_FEATURE_VALUE(pvr_dev, num_isp_ipp_pipes, &num_isp_store_registers);
-+		if (WARN_ON(err))
-+			return err;
-+	}
++OFFSET_CHECK(struct rogue_fwif_frag_regs, usc_pixel_output_ctrl, 0);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, usc_clear_register, 4);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_bgobjdepth, 36);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_bgobjvals, 40);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_aa, 44);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_xtp_pipe_enable, 48);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_ctl, 52);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, tpu, 56);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, event_pixel_pds_info, 60);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, pixel_phantom, 64);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, view_idx, 68);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, event_pixel_pds_data, 72);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, brn65101_event_pixel_pds_data, 76);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_oclqry_stride, 80);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_zls_pixels, 84);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, rgx_cr_blackpearl_fix, 88);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_scissor_base, 96);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_dbias_base, 104);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_oclqry_base, 112);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_zlsctl, 120);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_zload_store_base, 128);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_stencil_load_store_base, 136);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, fb_cdc_zls, 144);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, pbe_word, 152);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, tpu_border_colour_table, 344);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, pds_bgnd, 352);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, pds_bgnd_brn65101, 376);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, pds_pr_bgnd, 400);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_dummy_stencil_store_base, 424);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, isp_dummy_depth_store_base, 432);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, rgnhdr_single_rt_size, 440);
++OFFSET_CHECK(struct rogue_fwif_frag_regs, rgnhdr_scratch_offset, 444);
++SIZE_CHECK(struct rogue_fwif_frag_regs, 448);
 +
-+	return sizeof(struct rogue_fwif_frag_ctx_state) +
-+	       (num_isp_store_registers *
-+		sizeof(((struct rogue_fwif_frag_ctx_state *)0)->frag_reg_isp_store[0]));
-+}
++OFFSET_CHECK(struct rogue_fwif_cmd_frag, cmd_shared, 0);
++OFFSET_CHECK(struct rogue_fwif_cmd_frag, regs, 16);
++OFFSET_CHECK(struct rogue_fwif_cmd_frag, flags, 464);
++OFFSET_CHECK(struct rogue_fwif_cmd_frag, zls_stride, 468);
++OFFSET_CHECK(struct rogue_fwif_cmd_frag, sls_stride, 472);
++OFFSET_CHECK(struct rogue_fwif_cmd_frag, execute_count, 476);
++SIZE_CHECK(struct rogue_fwif_cmd_frag, 480);
 +
-+static int get_frag_ctx_state_size(struct pvr_device *pvr_dev)
-+{
-+	u32 num_isp_store_registers;
-+	int err;
++OFFSET_CHECK(struct rogue_fwif_compute_regs, tpu_border_colour_table, 0);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, cdm_cb_queue, 8);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, cdm_cb_base, 16);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, cdm_cb, 24);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, cdm_ctrl_stream_base, 32);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, cdm_context_state_base_addr, 40);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, tpu, 48);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, cdm_resume_pds1, 52);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, cdm_item, 56);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, compute_cluster, 60);
++OFFSET_CHECK(struct rogue_fwif_compute_regs, tpu_tag_cdm_ctrl, 64);
++SIZE_CHECK(struct rogue_fwif_compute_regs, 72);
 +
-+	if (PVR_HAS_FEATURE(pvr_dev, xe_memory_hierarchy)) {
-+		err = PVR_FEATURE_VALUE(pvr_dev, num_raster_pipes, &num_isp_store_registers);
-+		if (WARN_ON(err))
-+			return err;
++OFFSET_CHECK(struct rogue_fwif_cmd_compute, common, 0);
++OFFSET_CHECK(struct rogue_fwif_cmd_compute, regs, 8);
++OFFSET_CHECK(struct rogue_fwif_cmd_compute, flags, 80);
++OFFSET_CHECK(struct rogue_fwif_cmd_compute, num_temp_regions, 84);
++OFFSET_CHECK(struct rogue_fwif_cmd_compute, stream_start_offset, 88);
++OFFSET_CHECK(struct rogue_fwif_cmd_compute, execute_count, 92);
++SIZE_CHECK(struct rogue_fwif_cmd_compute, 96);
 +
-+		if (PVR_HAS_FEATURE(pvr_dev, gpu_multicore_support)) {
-+			u32 xpu_max_slaves;
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_bgobjvals, 0);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, usc_pixel_output_ctrl, 4);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, usc_clear_register0, 8);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, usc_clear_register1, 12);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, usc_clear_register2, 16);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, usc_clear_register3, 20);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_mtile_size, 24);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_render_origin, 28);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_ctl, 32);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_xtp_pipe_enable, 36);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_aa, 40);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, event_pixel_pds_info, 44);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, event_pixel_pds_code, 48);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, event_pixel_pds_data, 52);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_render, 56);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_rgn, 60);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, frag_screen, 64);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, pds_bgnd0_base, 72);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, pds_bgnd1_base, 80);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, pds_bgnd3_sizeinfo, 88);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, isp_mtile_base, 96);
++OFFSET_CHECK(struct rogue_fwif_transfer_regs, pbe_wordx_mrty, 104);
++SIZE_CHECK(struct rogue_fwif_transfer_regs, 176);
 +
-+			err = PVR_FEATURE_VALUE(pvr_dev, xpu_max_slaves, &xpu_max_slaves);
-+			if (WARN_ON(err))
-+				return err;
++OFFSET_CHECK(struct rogue_fwif_cmd_transfer, common, 0);
++OFFSET_CHECK(struct rogue_fwif_cmd_transfer, regs, 8);
++OFFSET_CHECK(struct rogue_fwif_cmd_transfer, flags, 184);
++SIZE_CHECK(struct rogue_fwif_cmd_transfer, 192);
 +
-+			num_isp_store_registers *= (1 + xpu_max_slaves);
-+		}
-+	} else {
-+		err = PVR_FEATURE_VALUE(pvr_dev, num_isp_ipp_pipes, &num_isp_store_registers);
-+		if (WARN_ON(err))
-+			return err;
-+	}
++#endif /* PVR_ROGUE_FWIF_CLIENT_CHECK_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_common.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_common.h
+new file mode 100644
+index 000000000000..18b69500ba96
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_common.h
+@@ -0,0 +1,60 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+	return sizeof(struct rogue_fwif_frag_ctx_state) +
-+	       (num_isp_store_registers *
-+		sizeof(((struct rogue_fwif_frag_ctx_state *)0)->frag_reg_isp_store[0]));
-+}
++#ifndef PVR_ROGUE_FWIF_COMMON_H
++#define PVR_ROGUE_FWIF_COMMON_H
 +
-+static int get_ctx_state_size(struct pvr_device *pvr_dev, enum drm_pvr_job_type type)
-+{
-+	switch (type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return sizeof(struct rogue_fwif_geom_ctx_state);
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return get_frag_ctx_state_size(pvr_dev);
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return sizeof(struct rogue_fwif_compute_ctx_state);
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return get_xfer_ctx_state_size(pvr_dev);
-+	}
++#include <linux/build_bug.h>
 +
-+	WARN(1, "Invalid queue type");
-+	return -EINVAL;
-+}
++/*
++ * This macro represents a mask of LSBs that must be zero on data structure
++ * sizes and offsets to ensure they are 8-byte granular on types shared between
++ * the FW and host driver.
++ */
++#define PVR_FW_ALIGNMENT_LSB 7U
 +
-+static u32 get_ctx_offset(enum drm_pvr_job_type type)
-+{
-+	switch (type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return offsetof(struct rogue_fwif_fwrendercontext, geom_context);
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return offsetof(struct rogue_fwif_fwrendercontext, frag_context);
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return offsetof(struct rogue_fwif_fwcomputecontext, cdm_context);
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return offsetof(struct rogue_fwif_fwtransfercontext, tq_context);
-+	}
++/* Macro to test structure size alignment. */
++#define PVR_FW_STRUCT_SIZE_ASSERT(_a)                            \
++	static_assert((sizeof(_a) & PVR_FW_ALIGNMENT_LSB) == 0U, \
++		      "Size of " #_a " is not properly aligned")
 +
-+	return 0;
-+}
++/* The master definition for data masters known to the firmware. */
 +
-+static const char *
-+pvr_queue_fence_get_driver_name(struct dma_fence *f)
-+{
-+	return PVR_DRIVER_NAME;
-+}
++#define PVR_FWIF_DM_GP (0)
++/* Either TDM or 2D DM is present. */
++/* When the 'tla' feature is present in the hw (as per @pvr_device_features). */
++#define PVR_FWIF_DM_2D (1)
++/*
++ * When the 'fastrender_dm' feature is present in the hw (as per
++ * @pvr_device_features).
++ */
++#define PVR_FWIF_DM_TDM (1)
 +
-+static void pvr_queue_fence_release(struct dma_fence *f)
-+{
-+	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
++#define PVR_FWIF_DM_GEOM (2)
++#define PVR_FWIF_DM_FRAG (3)
++#define PVR_FWIF_DM_CDM (4)
++#define PVR_FWIF_DM_RAY (5)
++#define PVR_FWIF_DM_GEOM2 (6)
++#define PVR_FWIF_DM_GEOM3 (7)
++#define PVR_FWIF_DM_GEOM4 (8)
 +
-+	pvr_context_put(fence->queue->ctx);
-+	dma_fence_free(f);
-+}
++#define PVR_FWIF_DM_LAST PVR_FWIF_DM_GEOM4
 +
-+static const char *
-+pvr_queue_job_fence_get_timeline_name(struct dma_fence *f)
-+{
-+	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
++/* Maximum number of DM in use: GP, 2D/TDM, GEOM, 3D, CDM, RAY, GEOM2, GEOM3, GEOM4 */
++#define PVR_FWIF_DM_MAX (PVR_FWIF_DM_LAST + 1U)
 +
-+	switch (fence->queue->type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return "geometry";
++/* GPU Utilisation states */
++#define PVR_FWIF_GPU_UTIL_STATE_IDLE 0U
++#define PVR_FWIF_GPU_UTIL_STATE_ACTIVE 1U
++#define PVR_FWIF_GPU_UTIL_STATE_BLOCKED 2U
++#define PVR_FWIF_GPU_UTIL_STATE_NUM 3U
++#define PVR_FWIF_GPU_UTIL_STATE_MASK 0x3ULL
 +
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return "fragment";
++/*
++ * Maximum amount of register writes that can be done by the register
++ * programmer (FW or META DMA). This is not a HW limitation, it is only
++ * a protection against malformed inputs to the register programmer.
++ */
++#define PVR_MAX_NUM_REGISTER_PROGRAMMER_WRITES 128U
 +
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return "compute";
++#endif /* PVR_ROGUE_FWIF_COMMON_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_dev_info.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_dev_info.h
+new file mode 100644
+index 000000000000..0a1020790e1e
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_dev_info.h
+@@ -0,0 +1,113 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return "transfer";
-+	}
++#ifndef __PVR_ROGUE_FWIF_DEV_INFO_H__
++#define __PVR_ROGUE_FWIF_DEV_INFO_H__
 +
-+	WARN(1, "Invalid queue type");
-+	return "invalid";
-+}
++enum {
++	PVR_FW_HAS_BRN_44079 = 0,
++	PVR_FW_HAS_BRN_47217,
++	PVR_FW_HAS_BRN_48492,
++	PVR_FW_HAS_BRN_48545,
++	PVR_FW_HAS_BRN_49927,
++	PVR_FW_HAS_BRN_50767,
++	PVR_FW_HAS_BRN_51764,
++	PVR_FW_HAS_BRN_62269,
++	PVR_FW_HAS_BRN_63142,
++	PVR_FW_HAS_BRN_63553,
++	PVR_FW_HAS_BRN_66011,
++	PVR_FW_HAS_BRN_71242,
 +
-+static const char *
-+pvr_queue_cccb_fence_get_timeline_name(struct dma_fence *f)
-+{
-+	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
-+
-+	switch (fence->queue->type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return "geometry-cccb";
-+
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return "fragment-cccb";
-+
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return "compute-cccb";
-+
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return "transfer-cccb";
-+	}
-+
-+	WARN(1, "Invalid queue type");
-+	return "invalid";
-+}
-+
-+static const struct dma_fence_ops pvr_queue_job_fence_ops = {
-+	.get_driver_name = pvr_queue_fence_get_driver_name,
-+	.get_timeline_name = pvr_queue_job_fence_get_timeline_name,
-+	.release = pvr_queue_fence_release,
++	PVR_FW_HAS_BRN_MAX
 +};
 +
-+/**
-+ * to_pvr_queue_job_fence() - Return a pvr_queue_fence object if the fence is
-+ * backed by a UFO.
-+ * @f: The dma_fence to turn into a pvr_queue_fence.
-+ *
-+ * Return:
-+ *  * A non-NULL pvr_queue_fence object if the dma_fence is backed by a UFO, or
-+ *  * NULL otherwise.
-+ */
-+static struct pvr_queue_fence *
-+to_pvr_queue_job_fence(struct dma_fence *f)
-+{
-+	struct drm_sched_fence *sched_fence = to_drm_sched_fence(f);
++enum {
++	PVR_FW_HAS_ERN_35421 = 0,
++	PVR_FW_HAS_ERN_38020,
++	PVR_FW_HAS_ERN_38748,
++	PVR_FW_HAS_ERN_42064,
++	PVR_FW_HAS_ERN_42290,
++	PVR_FW_HAS_ERN_42606,
++	PVR_FW_HAS_ERN_47025,
++	PVR_FW_HAS_ERN_57596,
 +
-+	if (sched_fence)
-+		f = sched_fence->parent;
-+
-+	if (f && f->ops == &pvr_queue_job_fence_ops)
-+		return container_of(f, struct pvr_queue_fence, base);
-+
-+	return NULL;
-+}
-+
-+static const struct dma_fence_ops pvr_queue_cccb_fence_ops = {
-+	.get_driver_name = pvr_queue_fence_get_driver_name,
-+	.get_timeline_name = pvr_queue_cccb_fence_get_timeline_name,
-+	.release = pvr_queue_fence_release,
++	PVR_FW_HAS_ERN_MAX
 +};
 +
-+/**
-+ * pvr_queue_fence_put() - Put wrapper for pvr_queue_fence objects.
-+ * @f: The dma_fence object to put.
-+ *
-+ * If the pvr_queue_fence has been initialized, we call dma_fence_put(),
-+ * otherwise we free the object with dma_fence_free(). This allows us
-+ * to do the right thing before and after pvr_queue_fence_init() had been
-+ * called.
-+ */
-+static void pvr_queue_fence_put(struct dma_fence *f)
-+{
-+	if (!f)
-+		return;
-+
-+	if (WARN_ON(f->ops &&
-+		    f->ops != &pvr_queue_cccb_fence_ops &&
-+		    f->ops != &pvr_queue_job_fence_ops))
-+		return;
-+
-+	/* If the fence hasn't been initialized yet, free the object directly. */
-+	if (f->ops)
-+		dma_fence_put(f);
-+	else
-+		dma_fence_free(f);
-+}
-+
-+/**
-+ * pvr_queue_fence_alloc() - Allocate a pvr_queue_fence fence object
-+ *
-+ * Call this function to allocate job CCCB and done fences. This only
-+ * allocates the objects. Initialization happens when the underlying
-+ * dma_fence object is to be returned to drm_sched (in prepare_job() or
-+ * run_job()).
-+ *
-+ * Return:
-+ *  * A valid pointer if the allocation succeeds, or
-+ *  * NULL if the allocation fails.
-+ */
-+static struct dma_fence *
-+pvr_queue_fence_alloc(void)
-+{
-+	struct pvr_queue_fence *fence;
-+
-+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-+	if (!fence)
-+		return NULL;
-+
-+	return &fence->base;
-+}
-+
-+/**
-+ * pvr_queue_fence_init() - Initializes a pvr_queue_fence object.
-+ * @f: The fence to initialize
-+ * @queue: The queue this fence belongs to.
-+ * @fence_ops: The fence operations.
-+ * @fence_ctx: The fence context.
-+ *
-+ * Wrapper around dma_fence_init() that takes care of initializing the
-+ * pvr_queue_fence::queue field too.
-+ */
-+static void
-+pvr_queue_fence_init(struct dma_fence *f,
-+		     struct pvr_queue *queue,
-+		     const struct dma_fence_ops *fence_ops,
-+		     struct pvr_queue_fence_ctx *fence_ctx)
-+{
-+	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
-+
-+	pvr_context_get(queue->ctx);
-+	fence->queue = queue;
-+	dma_fence_init(&fence->base, fence_ops,
-+		       &fence_ctx->lock, fence_ctx->id,
-+		       atomic_inc_return(&fence_ctx->seqno));
-+}
-+
-+/**
-+ * pvr_queue_cccb_fence_init() - Initializes a CCCB fence object.
-+ * @fence: The fence to initialize.
-+ * @queue: The queue this fence belongs to.
-+ *
-+ * Initializes a fence that can be used to wait for CCCB space.
-+ *
-+ * Should be called in the ::prepare_job() path, so the fence returned to
-+ * drm_sched is valid.
-+ */
-+static void
-+pvr_queue_cccb_fence_init(struct dma_fence *fence, struct pvr_queue *queue)
-+{
-+	pvr_queue_fence_init(fence, queue, &pvr_queue_cccb_fence_ops,
-+			     &queue->cccb_fence_ctx.base);
-+}
-+
-+/**
-+ * pvr_queue_job_fence_init() - Initializes a job done fence object.
-+ * @fence: The fence to initialize.
-+ * @queue: The queue this fence belongs to.
-+ *
-+ * Initializes a fence that will be signaled when the GPU is done executing
-+ * a job.
-+ *
-+ * Should be called in the ::run_job() path, so the fence returned to drm_sched
-+ * is valid.
-+ */
-+static void
-+pvr_queue_job_fence_init(struct dma_fence *fence, struct pvr_queue *queue)
-+{
-+	pvr_queue_fence_init(fence, queue, &pvr_queue_job_fence_ops,
-+			     &queue->job_fence_ctx);
-+}
-+
-+/**
-+ * pvr_queue_fence_ctx_init() - Queue fence context initialization.
-+ * @fence_ctx: The context to initialize
-+ */
-+static void
-+pvr_queue_fence_ctx_init(struct pvr_queue_fence_ctx *fence_ctx)
-+{
-+	spin_lock_init(&fence_ctx->lock);
-+	fence_ctx->id = dma_fence_context_alloc(1);
-+	atomic_set(&fence_ctx->seqno, 0);
-+}
-+
-+static u32 ufo_cmds_size(u32 elem_count)
-+{
-+	/* We can pass at most ROGUE_FWIF_CCB_CMD_MAX_UFOS per UFO-related command. */
-+	u32 full_cmd_count = elem_count / ROGUE_FWIF_CCB_CMD_MAX_UFOS;
-+	u32 remaining_elems = elem_count % ROGUE_FWIF_CCB_CMD_MAX_UFOS;
-+	u32 size = full_cmd_count *
-+		   pvr_cccb_get_size_of_cmd_with_hdr(ROGUE_FWIF_CCB_CMD_MAX_UFOS *
-+						     sizeof(struct rogue_fwif_ufo));
-+
-+	if (remaining_elems) {
-+		size += pvr_cccb_get_size_of_cmd_with_hdr(remaining_elems *
-+							  sizeof(struct rogue_fwif_ufo));
-+	}
-+
-+	return size;
-+}
-+
-+static u32 job_cmds_size(struct pvr_job *job, u32 ufo_wait_count)
-+{
-+	/* One UFO cmd for the fence signaling, one UFO cmd per native fence native,
-+	 * and a command for the job itself.
-+	 */
-+	return ufo_cmds_size(1) + ufo_cmds_size(ufo_wait_count) +
-+	       pvr_cccb_get_size_of_cmd_with_hdr(job->cmd_len);
-+}
-+
-+/**
-+ * job_count_remaining_native_deps() - Count the number of non-signaled native dependencies.
-+ * @job: Job to operate on.
-+ *
-+ * Returns: Number of non-signaled native deps remaining.
-+ */
-+static unsigned long job_count_remaining_native_deps(struct pvr_job *job)
-+{
-+	unsigned long remaining_count = 0;
-+	struct dma_fence *fence = NULL;
-+	unsigned long index;
-+
-+	xa_for_each(&job->base.dependencies, index, fence) {
-+		struct pvr_queue_fence *jfence;
-+
-+		jfence = to_pvr_queue_job_fence(fence);
-+		if (!jfence)
-+			continue;
-+
-+		if (!dma_fence_is_signaled(&jfence->base))
-+			remaining_count++;
-+	}
-+
-+	return remaining_count;
-+}
-+
-+/**
-+ * pvr_queue_get_job_cccb_fence() - Get the CCCB fence attached to a job.
-+ * @queue: The queue this job will be submitted to.
-+ * @job: The job to get the CCCB fence on.
-+ *
-+ * The CCCB fence is a synchronization primitive allowing us to delay job
-+ * submission until there's enough space in the CCCB to submit the job.
-+ *
-+ * Return:
-+ *  * NULL if there's enough space in the CCCB to submit this job, or
-+ *  * A valid dma_fence object otherwise.
-+ */
-+static struct dma_fence *
-+pvr_queue_get_job_cccb_fence(struct pvr_queue *queue, struct pvr_job *job)
-+{
-+	struct pvr_queue_fence *cccb_fence;
-+	unsigned int native_deps_remaining;
-+
-+	/* If the fence is NULL, that means we already checked that we had
-+	 * enough space in the cccb for our job.
-+	 */
-+	if (!job->cccb_fence)
-+		return NULL;
-+
-+	mutex_lock(&queue->cccb_fence_ctx.job_lock);
-+
-+	/* Count remaining native dependencies and check if the job fits in the CCCB. */
-+	native_deps_remaining = job_count_remaining_native_deps(job);
-+	if (pvr_cccb_cmdseq_fits(&queue->cccb, job_cmds_size(job, native_deps_remaining))) {
-+		pvr_queue_fence_put(job->cccb_fence);
-+		job->cccb_fence = NULL;
-+		goto out_unlock;
-+	}
-+
-+	/* There should be no job attached to the CCCB fence context:
-+	 * drm_sched_entity guarantees that jobs are submitted one at a time.
-+	 */
-+	if (WARN_ON(queue->cccb_fence_ctx.job))
-+		pvr_job_put(queue->cccb_fence_ctx.job);
-+
-+	queue->cccb_fence_ctx.job = pvr_job_get(job);
-+
-+	/* Initialize the fence before returning it. */
-+	cccb_fence = container_of(job->cccb_fence, struct pvr_queue_fence, base);
-+	if (!WARN_ON(cccb_fence->queue))
-+		pvr_queue_cccb_fence_init(job->cccb_fence, queue);
-+
-+out_unlock:
-+	mutex_unlock(&queue->cccb_fence_ctx.job_lock);
-+
-+	return dma_fence_get(job->cccb_fence);
-+}
-+
-+/**
-+ * pvr_queue_get_job_kccb_fence() - Get the KCCB fence attached to a job.
-+ * @queue: The queue this job will be submitted to.
-+ * @job: The job to get the KCCB fence on.
-+ *
-+ * The KCCB fence is a synchronization primitive allowing us to delay job
-+ * submission until there's enough space in the KCCB to submit the job.
-+ *
-+ * Return:
-+ *  * NULL if there's enough space in the KCCB to submit this job, or
-+ *  * A valid dma_fence object otherwise.
-+ */
-+static struct dma_fence *
-+pvr_queue_get_job_kccb_fence(struct pvr_queue *queue, struct pvr_job *job)
-+{
-+	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
-+	struct dma_fence *kccb_fence = NULL;
-+
-+	/* If the fence is NULL, that means we already checked that we had
-+	 * enough space in the KCCB for our job.
-+	 */
-+	if (!job->kccb_fence)
-+		return NULL;
-+
-+	if (!WARN_ON(job->kccb_fence->ops)) {
-+		kccb_fence = pvr_kccb_reserve_slot(pvr_dev, job->kccb_fence);
-+		job->kccb_fence = NULL;
-+	}
-+
-+	return kccb_fence;
-+}
-+
-+static struct dma_fence *
-+pvr_queue_get_paired_frag_job_dep(struct pvr_queue *queue, struct pvr_job *job)
-+{
-+	struct pvr_job *frag_job = job->type == DRM_PVR_JOB_TYPE_GEOMETRY ?
-+				   job->paired_job : NULL;
-+	struct dma_fence *f;
-+	unsigned long index;
-+
-+	if (!frag_job)
-+		return NULL;
-+
-+	xa_for_each(&frag_job->base.dependencies, index, f) {
-+		/* Skip already signaled fences. */
-+		if (dma_fence_is_signaled(f))
-+			continue;
-+
-+		/* Skip our own fence. */
-+		if (f == &job->base.s_fence->scheduled)
-+			continue;
-+
-+		return dma_fence_get(f);
-+	}
-+
-+	return frag_job->base.sched->ops->prepare_job(&frag_job->base, &queue->entity);
-+}
-+
-+/**
-+ * pvr_queue_prepare_job() - Return the next internal dependencies expressed as a dma_fence.
-+ * @sched_job: The job to query the next internal dependency on
-+ * @s_entity: The entity this job is queue on.
-+ *
-+ * After iterating over drm_sched_job::dependencies, drm_sched let the driver return
-+ * its own internal dependencies. We use this function to return our internal dependencies.
-+ */
-+static struct dma_fence *
-+pvr_queue_prepare_job(struct drm_sched_job *sched_job,
-+		      struct drm_sched_entity *s_entity)
-+{
-+	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
-+	struct pvr_queue *queue = container_of(s_entity, struct pvr_queue, entity);
-+	struct dma_fence *internal_dep = NULL;
-+
-+	/* CCCB fence is used to make sure we have enough space in the CCCB to
-+	 * submit our commands.
-+	 */
-+	internal_dep = pvr_queue_get_job_cccb_fence(queue, job);
-+
-+	/* KCCB fence is used to make sure we have a KCCB slot to queue our
-+	 * CMD_KICK.
-+	 */
-+	if (!internal_dep)
-+		internal_dep = pvr_queue_get_job_kccb_fence(queue, job);
-+
-+	/* Any extra internal dependency should be added here, using the following
-+	 * the following pattern:
-+	 *
-+	 *	if (!internal_dep)
-+	 *		internal_dep = pvr_queue_get_job_xxxx_fence(queue, job);
-+	 */
-+
-+	/* The paired job fence should come last, when everything else is ready. */
-+	if (!internal_dep)
-+		internal_dep = pvr_queue_get_paired_frag_job_dep(queue, job);
-+
-+	return internal_dep;
-+}
-+
-+/**
-+ * pvr_queue_update_active_state_locked() - Update the queue active state.
-+ * @queue: Queue to update the state on.
-+ *
-+ * Locked version of pvr_queue_update_active_state(). Must be called with
-+ * pvr_device::queue::lock held.
-+ */
-+static void pvr_queue_update_active_state_locked(struct pvr_queue *queue)
-+{
-+	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
-+
-+	lockdep_assert_held(&pvr_dev->queues.lock);
-+
-+	/* The queue is temporary out of any list when it's being reset,
-+	 * we don't want a call to pvr_queue_update_active_state_locked()
-+	 * to re-insert it behind our back.
-+	 */
-+	if (list_empty(&queue->node))
-+		return;
-+
-+	if (!atomic_read(&queue->in_flight_job_count))
-+		list_move_tail(&queue->node, &pvr_dev->queues.idle);
-+	else
-+		list_move_tail(&queue->node, &pvr_dev->queues.active);
-+}
-+
-+/**
-+ * pvr_queue_update_active_state() - Update the queue active state.
-+ * @queue: Queue to update the state on.
-+ *
-+ * Active state is based on the in_flight_job_count value.
-+ *
-+ * Updating the active state implies moving the queue in or out of the
-+ * active queue list, which also defines whether the queue is checked
-+ * or not when a FW event is received.
-+ *
-+ * This function should be called any time a job is submitted or it done
-+ * fence is signaled.
-+ */
-+static void pvr_queue_update_active_state(struct pvr_queue *queue)
-+{
-+	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+	pvr_queue_update_active_state_locked(queue);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+}
-+
-+static void pvr_queue_submit_job_to_cccb(struct pvr_job *job)
-+{
-+	struct pvr_queue *queue = container_of(job->base.sched, struct pvr_queue, scheduler);
-+	struct rogue_fwif_ufo ufos[ROGUE_FWIF_CCB_CMD_MAX_UFOS];
-+	struct pvr_cccb *cccb = &queue->cccb;
-+	struct pvr_queue_fence *jfence;
-+	struct dma_fence *fence;
-+	unsigned long index;
-+	u32 ufo_count = 0;
-+
-+	/* Initialize the done_fence, so we can signal it. */
-+	pvr_queue_job_fence_init(job->done_fence, queue);
-+
-+	/* We need to add the queue to the active list before updating the CCCB,
-+	 * otherwise we might miss the FW event informing us that something
-+	 * happened on this queue.
-+	 */
-+	atomic_inc(&queue->in_flight_job_count);
-+	pvr_queue_update_active_state(queue);
-+
-+	xa_for_each(&job->base.dependencies, index, fence) {
-+		jfence = to_pvr_queue_job_fence(fence);
-+		if (!jfence)
-+			continue;
-+
-+		/* Skip the partial render fence, we will place it at the end. */
-+		if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job &&
-+		    &job->paired_job->base.s_fence->scheduled == fence)
-+			continue;
-+
-+		if (dma_fence_is_signaled(&jfence->base))
-+			continue;
-+
-+		pvr_fw_object_get_fw_addr(jfence->queue->timeline_ufo.fw_obj,
-+					  &ufos[ufo_count].addr);
-+		ufos[ufo_count++].value = jfence->base.seqno;
-+
-+		if (ufo_count == ARRAY_SIZE(ufos)) {
-+			pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_FENCE_PR,
-+							   sizeof(ufos), ufos, 0, 0);
-+			ufo_count = 0;
-+		}
-+	}
-+
-+	/* Partial render fence goes last. */
-+	if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job) {
-+		jfence = to_pvr_queue_job_fence(job->paired_job->done_fence);
-+		if (!WARN_ON(!jfence)) {
-+			pvr_fw_object_get_fw_addr(jfence->queue->timeline_ufo.fw_obj,
-+						  &ufos[ufo_count].addr);
-+			ufos[ufo_count++].value = job->paired_job->done_fence->seqno;
-+		}
-+	}
-+
-+	if (ufo_count) {
-+		pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_FENCE_PR,
-+						   sizeof(ufos[0]) * ufo_count, ufos, 0, 0);
-+	}
-+
-+	if (job->type == DRM_PVR_JOB_TYPE_GEOMETRY && job->paired_job) {
-+		struct rogue_fwif_cmd_geom *cmd = job->cmd;
-+
-+		/* Reference value for the partial render test is the current queue fence
-+		 * seqno minus one.
-+		 */
-+		pvr_fw_object_get_fw_addr(queue->timeline_ufo.fw_obj,
-+					  &cmd->partial_render_geom_frag_fence.addr);
-+		cmd->partial_render_geom_frag_fence.value = job->done_fence->seqno - 1;
-+	}
-+
-+	/* Submit job to FW */
-+	pvr_cccb_write_command_with_header(cccb, job->fw_ccb_cmd_type, job->cmd_len, job->cmd,
-+					   job->id, job->id);
-+
-+	/* Signal the job fence. */
-+	pvr_fw_object_get_fw_addr(queue->timeline_ufo.fw_obj, &ufos[0].addr);
-+	ufos[0].value = job->done_fence->seqno;
-+	pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_UPDATE,
-+					   sizeof(ufos[0]), ufos, 0, 0);
-+
-+	/* The job we submit is added to the drm_gpu_scheduler::pending_list in
-+	 * drm_sched_job_begin() which is called after ::run_job() returns. But the
-+	 * GPU might be done executing the job before drm_sched_main() had a chance
-+	 * to queue it to the pending_list, resulting in a lost event. Work around
-+	 * this race by keeping track of the last submitted job so we can check it in
-+	 * pvr_queue_signal_done_fences() if this job is not part of the pending_list
-+	 * already.
-+	 * No need to keep a reference to the job object here, because we only use
-+	 * check the pointer value.
-+	 */
-+	spin_lock(&queue->scheduler.job_list_lock);
-+	queue->last_submitted_job = job;
-+	spin_unlock(&queue->scheduler.job_list_lock);
-+}
-+
-+/**
-+ * pvr_queue_run_job() - Submit a job to the FW.
-+ * @sched_job: The job to submit.
-+ *
-+ * This function is called when all non-native dependencies have been met and
-+ * when the commands resulting from this job are guaranteed to fit in the CCCB.
-+ */
-+static struct dma_fence *pvr_queue_run_job(struct drm_sched_job *sched_job)
-+{
-+	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
-+	struct pvr_device *pvr_dev = job->pvr_dev;
-+	int err;
-+
-+	/* The fragment job is issued along the geometry job when we use combined
-+	 * geom+frag kicks. When we get there, we should simply return the
-+	 * done_fence that's been initialized earlier.
-+	 */
-+	if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->done_fence->ops)
-+		return dma_fence_get(job->done_fence);
-+
-+	/* The only kind of jobs that can be paired are geometry and fragment, and
-+	 * we bail out early if we see a fragment job that's paired with a geomtry
-+	 * job.
-+	 * Paired jobs must also target the same context and point to the same
-+	 * HWRT.
-+	 */
-+	if (WARN_ON(job->paired_job &&
-+		    (job->type != DRM_PVR_JOB_TYPE_GEOMETRY ||
-+		     job->paired_job->type != DRM_PVR_JOB_TYPE_FRAGMENT ||
-+		     job->hwrt != job->paired_job->hwrt ||
-+		     job->ctx != job->paired_job->ctx)))
-+		return ERR_PTR(-EINVAL);
-+
-+	err = pvr_job_get_pm_ref(job);
-+	if (WARN_ON(err))
-+		return ERR_PTR(err);
-+
-+	if (job->paired_job) {
-+		err = pvr_job_get_pm_ref(job->paired_job);
-+		if (WARN_ON(err))
-+			return ERR_PTR(err);
-+	}
-+
-+	/* Submit our job to the CCCB */
-+	pvr_queue_submit_job_to_cccb(job);
-+
-+	if (job->paired_job) {
-+		struct pvr_job *geom_job = job;
-+		struct pvr_job *frag_job = job->paired_job;
-+		struct pvr_queue *geom_queue = job->ctx->queues.geometry;
-+		struct pvr_queue *frag_queue = job->ctx->queues.fragment;
-+
-+		/* Submit the fragment job along the geometry job and send a combined kick. */
-+		pvr_queue_submit_job_to_cccb(frag_job);
-+		pvr_cccb_send_kccb_combined_kick(pvr_dev,
-+						 &geom_queue->cccb, &frag_queue->cccb,
-+						 pvr_context_get_fw_addr(geom_job->ctx) +
-+						 geom_queue->ctx_offset,
-+						 pvr_context_get_fw_addr(frag_job->ctx) +
-+						 frag_queue->ctx_offset,
-+						 job->hwrt,
-+						 frag_job->fw_ccb_cmd_type ==
-+						 ROGUE_FWIF_CCB_CMD_TYPE_FRAG_PR);
-+		geom_job->paired_job = NULL;
-+		frag_job->paired_job = NULL;
-+	} else {
-+		struct pvr_queue *queue = container_of(job->base.sched,
-+						       struct pvr_queue, scheduler);
-+
-+		pvr_cccb_send_kccb_kick(pvr_dev, &queue->cccb,
-+					pvr_context_get_fw_addr(job->ctx) + queue->ctx_offset,
-+					job->hwrt);
-+	}
-+
-+	return dma_fence_get(job->done_fence);
-+}
-+
-+static void pvr_queue_stop(struct pvr_queue *queue, struct pvr_job *bad_job)
-+{
-+	drm_sched_stop(&queue->scheduler, bad_job ? &bad_job->base : NULL);
-+}
-+
-+static void pvr_queue_start(struct pvr_queue *queue)
-+{
-+	struct pvr_job *job;
-+
-+	/* Make sure we CPU-signal the UFO object, so other queues don't get
-+	 * blocked waiting on it.
-+	 */
-+	*queue->timeline_ufo.value = atomic_read(&queue->job_fence_ctx.seqno);
-+
-+	list_for_each_entry(job, &queue->scheduler.pending_list, base.list) {
-+		if (dma_fence_is_signaled(job->done_fence)) {
-+			/* Jobs might have completed after drm_sched_stop() was called.
-+			 * In that case, re-assign the parent field to the done_fence.
-+			 */
-+			WARN_ON(job->base.s_fence->parent);
-+			job->base.s_fence->parent = dma_fence_get(job->done_fence);
-+		} else {
-+			/* If we had unfinished jobs, flag the entity as guilty so no
-+			 * new job can be submitted.
-+			 */
-+			atomic_set(&queue->ctx->faulty, 1);
-+
-+			if (job == queue->last_submitted_job) {
-+				queue->last_submitted_job = NULL;
-+				dma_fence_signal(job->done_fence);
-+				pvr_job_release_pm_ref(job);
-+				atomic_dec(&queue->in_flight_job_count);
-+			}
-+		}
-+	}
-+
-+	drm_sched_start(&queue->scheduler, true);
-+}
-+
-+/**
-+ * pvr_queue_timedout_job() - Handle a job timeout event.
-+ * @s_job: The job this timeout occurred on.
-+ *
-+ * FIXME: We don't do anything here to unblock the situation, we just stop+start
-+ * the scheduler, and re-assign parent fences in the middle.
-+ *
-+ * Return:
-+ *  * DRM_GPU_SCHED_STAT_NOMINAL.
-+ */
-+static enum drm_gpu_sched_stat
-+pvr_queue_timedout_job(struct drm_sched_job *s_job)
-+{
-+	struct drm_gpu_scheduler *sched = s_job->sched;
-+	struct pvr_queue *queue = container_of(sched, struct pvr_queue, scheduler);
-+	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
-+	struct pvr_job *job;
-+	u32 job_count = 0;
-+
-+	dev_err(sched->dev, "Job timeout\n");
-+
-+	/* Before we stop the scheduler, make sure the queue is out of any list, so
-+	 * any call to pvr_queue_update_active_state_locked() that might happen
-+	 * until the scheduler is really stopped doesn't end up re-inserting the
-+	 * queue in the active list. This would cause
-+	 * pvr_queue_signal_done_fences() and drm_sched_stop() to race with each
-+	 * other when accessing the pending_list, since drm_sched_stop() doesn't
-+	 * grab the job_list_lock when modifying the list (it's assuming the
-+	 * only other accessor is the scheduler, and it's safe to not grab the
-+	 * lock since it's stopped).
-+	 */
-+	mutex_lock(&pvr_dev->queues.lock);
-+	list_del_init(&queue->node);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+
-+	drm_sched_stop(sched, s_job);
-+
-+	/* Reset the last_submitted_job field now, just in case. No need to grab
-+	 * the job_list_lock here, all the path accessing this field are guaranteed
-+	 * to be turned off at that point.
-+	 */
-+	queue->last_submitted_job = NULL;
-+
-+	/* Re-assign job parent fences. */
-+	list_for_each_entry(job, &sched->pending_list, base.list) {
-+		job->base.s_fence->parent = dma_fence_get(job->done_fence);
-+		job_count++;
-+	}
-+	WARN_ON(atomic_read(&queue->in_flight_job_count) != job_count);
-+
-+	/* Re-insert the queue in the proper list, and kick a queue processing
-+	 * operation if there were jobs pending.
-+	 */
-+	mutex_lock(&pvr_dev->queues.lock);
-+	if (!atomic_read(&queue->in_flight_job_count)) {
-+		list_move_tail(&queue->node, &pvr_dev->queues.idle);
-+	} else {
-+		list_move_tail(&queue->node, &pvr_dev->queues.active);
-+		pvr_queue_process(queue);
-+	}
-+	mutex_unlock(&pvr_dev->queues.lock);
-+
-+	drm_sched_start(sched, true);
-+
-+	return DRM_GPU_SCHED_STAT_NOMINAL;
-+}
-+
-+/**
-+ * pvr_queue_free_job() - Release the reference the scheduler had on a job object.
-+ * @sched_job: Job object to free.
-+ */
-+static void pvr_queue_free_job(struct drm_sched_job *sched_job)
-+{
-+	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
-+
-+	drm_sched_job_cleanup(sched_job);
-+	job->paired_job = NULL;
-+	pvr_job_put(job);
-+}
-+
-+static const struct drm_sched_backend_ops pvr_queue_sched_ops = {
-+	.prepare_job = pvr_queue_prepare_job,
-+	.run_job = pvr_queue_run_job,
-+	.timedout_job = pvr_queue_timedout_job,
-+	.free_job = pvr_queue_free_job,
++enum {
++	PVR_FW_HAS_FEATURE_AXI_ACELITE = 0,
++	PVR_FW_HAS_FEATURE_CDM_CONTROL_STREAM_FORMAT,
++	PVR_FW_HAS_FEATURE_CLUSTER_GROUPING,
++	PVR_FW_HAS_FEATURE_COMMON_STORE_SIZE_IN_DWORDS,
++	PVR_FW_HAS_FEATURE_COMPUTE,
++	PVR_FW_HAS_FEATURE_COMPUTE_MORTON_CAPABLE,
++	PVR_FW_HAS_FEATURE_COMPUTE_OVERLAP,
++	PVR_FW_HAS_FEATURE_COREID_PER_OS,
++	PVR_FW_HAS_FEATURE_DYNAMIC_DUST_POWER,
++	PVR_FW_HAS_FEATURE_ECC_RAMS,
++	PVR_FW_HAS_FEATURE_FBCDC,
++	PVR_FW_HAS_FEATURE_FBCDC_ALGORITHM,
++	PVR_FW_HAS_FEATURE_FBCDC_ARCHITECTURE,
++	PVR_FW_HAS_FEATURE_FBC_MAX_DEFAULT_DESCRIPTORS,
++	PVR_FW_HAS_FEATURE_FBC_MAX_LARGE_DESCRIPTORS,
++	PVR_FW_HAS_FEATURE_FB_CDC_V4,
++	PVR_FW_HAS_FEATURE_GPU_MULTICORE_SUPPORT,
++	PVR_FW_HAS_FEATURE_GPU_VIRTUALISATION,
++	PVR_FW_HAS_FEATURE_GS_RTA_SUPPORT,
++	PVR_FW_HAS_FEATURE_IRQ_PER_OS,
++	PVR_FW_HAS_FEATURE_ISP_MAX_TILES_IN_FLIGHT,
++	PVR_FW_HAS_FEATURE_ISP_SAMPLES_PER_PIXEL,
++	PVR_FW_HAS_FEATURE_ISP_ZLS_D24_S8_PACKING_OGL_MODE,
++	PVR_FW_HAS_FEATURE_LAYOUT_MARS,
++	PVR_FW_HAS_FEATURE_MAX_PARTITIONS,
++	PVR_FW_HAS_FEATURE_META,
++	PVR_FW_HAS_FEATURE_META_COREMEM_SIZE,
++	PVR_FW_HAS_FEATURE_MIPS,
++	PVR_FW_HAS_FEATURE_NUM_CLUSTERS,
++	PVR_FW_HAS_FEATURE_NUM_ISP_IPP_PIPES,
++	PVR_FW_HAS_FEATURE_NUM_OSIDS,
++	PVR_FW_HAS_FEATURE_NUM_RASTER_PIPES,
++	PVR_FW_HAS_FEATURE_PBE2_IN_XE,
++	PVR_FW_HAS_FEATURE_PBVNC_COREID_REG,
++	PVR_FW_HAS_FEATURE_PERFBUS,
++	PVR_FW_HAS_FEATURE_PERF_COUNTER_BATCH,
++	PVR_FW_HAS_FEATURE_PHYS_BUS_WIDTH,
++	PVR_FW_HAS_FEATURE_RISCV_FW_PROCESSOR,
++	PVR_FW_HAS_FEATURE_ROGUEXE,
++	PVR_FW_HAS_FEATURE_S7_TOP_INFRASTRUCTURE,
++	PVR_FW_HAS_FEATURE_SIMPLE_INTERNAL_PARAMETER_FORMAT,
++	PVR_FW_HAS_FEATURE_SIMPLE_INTERNAL_PARAMETER_FORMAT_V2,
++	PVR_FW_HAS_FEATURE_SIMPLE_PARAMETER_FORMAT_VERSION,
++	PVR_FW_HAS_FEATURE_SLC_BANKS,
++	PVR_FW_HAS_FEATURE_SLC_CACHE_LINE_SIZE_BITS,
++	PVR_FW_HAS_FEATURE_SLC_SIZE_CONFIGURABLE,
++	PVR_FW_HAS_FEATURE_SLC_SIZE_IN_KILOBYTES,
++	PVR_FW_HAS_FEATURE_SOC_TIMER,
++	PVR_FW_HAS_FEATURE_SYS_BUS_SECURE_RESET,
++	PVR_FW_HAS_FEATURE_TESSELLATION,
++	PVR_FW_HAS_FEATURE_TILE_REGION_PROTECTION,
++	PVR_FW_HAS_FEATURE_TILE_SIZE_X,
++	PVR_FW_HAS_FEATURE_TILE_SIZE_Y,
++	PVR_FW_HAS_FEATURE_TLA,
++	PVR_FW_HAS_FEATURE_TPU_CEM_DATAMASTER_GLOBAL_REGISTERS,
++	PVR_FW_HAS_FEATURE_TPU_DM_GLOBAL_REGISTERS,
++	PVR_FW_HAS_FEATURE_TPU_FILTERING_MODE_CONTROL,
++	PVR_FW_HAS_FEATURE_USC_MIN_OUTPUT_REGISTERS_PER_PIX,
++	PVR_FW_HAS_FEATURE_VDM_DRAWINDIRECT,
++	PVR_FW_HAS_FEATURE_VDM_OBJECT_LEVEL_LLS,
++	PVR_FW_HAS_FEATURE_VIRTUAL_ADDRESS_SPACE_BITS,
++	PVR_FW_HAS_FEATURE_WATCHDOG_TIMER,
++	PVR_FW_HAS_FEATURE_WORKGROUP_PROTECTION,
++	PVR_FW_HAS_FEATURE_XE_ARCHITECTURE,
++	PVR_FW_HAS_FEATURE_XE_MEMORY_HIERARCHY,
++	PVR_FW_HAS_FEATURE_XE_TPU2,
++	PVR_FW_HAS_FEATURE_XPU_MAX_REGBANKS_ADDR_WIDTH,
++	PVR_FW_HAS_FEATURE_XPU_MAX_SLAVES,
++	PVR_FW_HAS_FEATURE_XPU_REGISTER_BROADCAST,
++	PVR_FW_HAS_FEATURE_XT_TOP_INFRASTRUCTURE,
++	PVR_FW_HAS_FEATURE_ZLS_SUBTILE,
++
++	PVR_FW_HAS_FEATURE_MAX
 +};
 +
-+/**
-+ * pvr_queue_fence_is_ufo_backed() - Check if a dma_fence is backed by a UFO object
-+ * @f: Fence to test.
-+ *
-+ * A UFO-backed fence is a fence that can be signaled or waited upon FW-side.
-+ * pvr_job::done_fence objects are backed by the timeline UFO attached to the queue
-+ * they are pushed to, but those fences are not directly exposed to the outside
-+ * world, so we also need to check if the fence we're being passed is a
-+ * drm_sched_fence that was coming from our driver.
-+ */
-+bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f)
-+{
-+	struct drm_sched_fence *sched_fence = f ? to_drm_sched_fence(f) : NULL;
++#endif /* __PVR_ROGUE_FWIF_DEV_INFO_H__ */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_resetframework.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_resetframework.h
+new file mode 100644
+index 000000000000..3d89524fe5d2
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_resetframework.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+	if (sched_fence &&
-+	    sched_fence->sched->ops == &pvr_queue_sched_ops)
-+		return true;
++#ifndef PVR_ROGUE_FWIF_RESETFRAMEWORK_H
++#define PVR_ROGUE_FWIF_RESETFRAMEWORK_H
 +
-+	if (f && f->ops == &pvr_queue_job_fence_ops)
-+		return true;
++#include <linux/bits.h>
++#include <linux/types.h>
 +
-+	return false;
-+}
++#include "pvr_rogue_fwif_shared.h"
 +
-+/**
-+ * pvr_queue_signal_done_fences() - Signal done fences.
-+ * @queue: Queue to check.
-+ *
-+ * Signal done fences of jobs whose seqno is less than the current value of
-+ * the UFO object attached to the queue.
-+ */
-+static void
-+pvr_queue_signal_done_fences(struct pvr_queue *queue)
-+{
-+	struct pvr_job *job, *tmp_job;
-+	u32 cur_seqno;
-+
-+	spin_lock(&queue->scheduler.job_list_lock);
-+	cur_seqno = *queue->timeline_ufo.value;
-+	list_for_each_entry_safe(job, tmp_job, &queue->scheduler.pending_list, base.list) {
-+		if ((int)(cur_seqno - lower_32_bits(job->done_fence->seqno)) < 0)
-+			break;
-+
-+		if (!dma_fence_is_signaled(job->done_fence)) {
-+			dma_fence_signal(job->done_fence);
-+			pvr_job_release_pm_ref(job);
-+			atomic_dec(&queue->in_flight_job_count);
-+		}
-+	}
-+
-+	/* We don't want to test jobs twice, so reset last_submitted_job
-+	 * if the job is already part of the pending_list.
-+	 */
-+	job = list_last_entry(&queue->scheduler.pending_list, struct pvr_job, base.list);
-+	if (job == queue->last_submitted_job)
-+		queue->last_submitted_job = NULL;
-+
-+	if (queue->last_submitted_job &&
-+	    (int)(cur_seqno - lower_32_bits(queue->last_submitted_job->done_fence->seqno)) >= 0) {
-+		dma_fence_signal(queue->last_submitted_job->done_fence);
-+		pvr_job_release_pm_ref(queue->last_submitted_job);
-+		atomic_dec(&queue->in_flight_job_count);
-+
-+		/* We signaled the job, so no need to check it again next time. Most importantly,
-+		 * it's addressing a race where we signal the job before and drm_sched cleans it
-+		 * up before pvr_queue_signal_done_fences() is called again, meaning the job
-+		 * will never show up in the pending_list, and we might be pointing to an already
-+		 * freed job next time pvr_queue_signal_done_fences() is called.
-+		 */
-+		queue->last_submitted_job = NULL;
-+	}
-+	spin_unlock(&queue->scheduler.job_list_lock);
-+}
-+
-+/**
-+ * pvr_queue_check_job_waiting_for_cccb_space() - Check if the job waiting for CCCB space
-+ * can be unblocked
-+ * pushed to the CCCB
-+ * @queue: Queue to check
-+ *
-+ * If we have a job waiting for CCCB, and this job now fits in the CCCB, we signal
-+ * its CCCB fence, which should kick drm_sched.
-+ */
-+static void
-+pvr_queue_check_job_waiting_for_cccb_space(struct pvr_queue *queue)
-+{
-+	struct pvr_queue_fence *cccb_fence;
-+	u32 native_deps_remaining;
-+	struct pvr_job *job;
-+
-+	mutex_lock(&queue->cccb_fence_ctx.job_lock);
-+	job = queue->cccb_fence_ctx.job;
-+	if (!job)
-+		goto out_unlock;
-+
-+	/* If we have a job attached to the CCCB fence context, its CCCB fence
-+	 * shouldn't be NULL.
-+	 */
-+	if (WARN_ON(!job->cccb_fence)) {
-+		job = NULL;
-+		goto out_unlock;
-+	}
-+
-+	/* If we get there, CCCB fence has to be initialized. */
-+	cccb_fence = container_of(job->cccb_fence, struct pvr_queue_fence, base);
-+	if (WARN_ON(!cccb_fence->queue)) {
-+		job = NULL;
-+		goto out_unlock;
-+	}
-+
-+	/* Evict signaled dependencies before checking for CCCB space.
-+	 * If the job fits, signal the CCCB fence, this should unblock
-+	 * the drm_sched_entity.
-+	 */
-+	native_deps_remaining = job_count_remaining_native_deps(job);
-+	if (!pvr_cccb_cmdseq_fits(&queue->cccb, job_cmds_size(job, native_deps_remaining))) {
-+		job = NULL;
-+		goto out_unlock;
-+	}
-+
-+	dma_fence_signal(job->cccb_fence);
-+	pvr_queue_fence_put(job->cccb_fence);
-+	job->cccb_fence = NULL;
-+	queue->cccb_fence_ctx.job = NULL;
-+
-+out_unlock:
-+	mutex_unlock(&queue->cccb_fence_ctx.job_lock);
-+
-+	pvr_job_put(job);
-+}
-+
-+/**
-+ * pvr_queue_process() - Process events that happened on a queue.
-+ * @queue: Queue to check
-+ *
-+ * Signal job fences and check if jobs waiting for CCCB space can be unblocked.
-+ */
-+void pvr_queue_process(struct pvr_queue *queue)
-+{
-+	lockdep_assert_held(&queue->ctx->pvr_dev->queues.lock);
-+
-+	pvr_queue_check_job_waiting_for_cccb_space(queue);
-+	pvr_queue_signal_done_fences(queue);
-+	pvr_queue_update_active_state_locked(queue);
-+}
-+
-+static u32 get_dm_type(struct pvr_queue *queue)
-+{
-+	switch (queue->type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return PVR_FWIF_DM_GEOM;
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return PVR_FWIF_DM_FRAG;
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return PVR_FWIF_DM_CDM;
-+	}
-+
-+	return ~0;
-+}
-+
-+/**
-+ * init_fw_context() - Initializes the queue part of a FW context.
-+ * @queue: Queue object to initialize the FW context for.
-+ * @fw_ctx_map: The FW context CPU mapping.
-+ *
-+ * FW contexts are containing various states, one of them being a per-queue state
-+ * that needs to be initialized for each queue being exposed by a context. This
-+ * function takes care of that.
-+ */
-+static void init_fw_context(struct pvr_queue *queue, void *fw_ctx_map)
-+{
-+	struct pvr_context *ctx = queue->ctx;
-+	struct pvr_fw_object *fw_mem_ctx_obj = pvr_vm_get_fw_mem_context(ctx->vm_ctx);
-+	struct rogue_fwif_fwcommoncontext *cctx_fw;
-+	struct pvr_cccb *cccb = &queue->cccb;
-+
-+	cctx_fw = fw_ctx_map + queue->ctx_offset;
-+	cctx_fw->ccbctl_fw_addr = cccb->ctrl_fw_addr;
-+	cctx_fw->ccb_fw_addr = cccb->cccb_fw_addr;
-+
-+	cctx_fw->dm = get_dm_type(queue);
-+	cctx_fw->priority = ctx->priority;
-+	cctx_fw->priority_seq_num = 0;
-+	cctx_fw->max_deadline_ms = MAX_DEADLINE_MS;
-+	cctx_fw->pid = task_tgid_nr(current);
-+	cctx_fw->server_common_context_id = ctx->ctx_id;
-+
-+	pvr_fw_object_get_fw_addr(fw_mem_ctx_obj, &cctx_fw->fw_mem_context_fw_addr);
-+
-+	pvr_fw_object_get_fw_addr(queue->reg_state_obj, &cctx_fw->context_state_addr);
-+}
-+
-+/**
-+ * pvr_queue_cleanup_fw_context() - Wait for the FW context to be idle and clean it up.
-+ * @queue: Queue on FW context to clean up.
-+ *
-+ * Return:
-+ *  * 0 on success,
-+ *  * Any error returned by pvr_fw_structure_cleanup() otherwise.
-+ */
-+static int pvr_queue_cleanup_fw_context(struct pvr_queue *queue)
-+{
-+	return pvr_fw_structure_cleanup(queue->ctx->pvr_dev,
-+					ROGUE_FWIF_CLEANUP_FWCOMMONCONTEXT,
-+					queue->ctx->fw_obj, queue->ctx_offset);
-+}
-+
-+/**
-+ * pvr_queue_job_init() - Initialize queue related fields in a pvr_job object.
-+ * @job: The job to initialize.
-+ *
-+ * Bind the job to a queue and allocate memory to guarantee pvr_queue_job_arm()
-+ * and pvr_queue_job_push() can't fail. We also make sure the context type is
-+ * valid and the job can fit in the CCCB.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * An error code if something failed.
-+ */
-+int pvr_queue_job_init(struct pvr_job *job)
-+{
-+	/* Fragment jobs need at least one native fence wait on the geometry job fence. */
-+	u32 min_native_dep_count = job->type == DRM_PVR_JOB_TYPE_FRAGMENT ? 1 : 0;
-+	struct pvr_queue *queue;
-+	int err;
-+
-+	if (atomic_read(&job->ctx->faulty))
-+		return -EIO;
-+
-+	queue = pvr_context_get_queue_for_job(job->ctx, job->type);
-+	if (!queue)
-+		return -EINVAL;
-+
-+	if (!pvr_cccb_cmdseq_can_fit(&queue->cccb, job_cmds_size(job, min_native_dep_count)))
-+		return -E2BIG;
-+
-+	err = drm_sched_job_init(&job->base, &queue->entity, THIS_MODULE);
-+	if (err)
-+		return err;
-+
-+	job->cccb_fence = pvr_queue_fence_alloc();
-+	job->kccb_fence = pvr_kccb_fence_alloc();
-+	job->done_fence = pvr_queue_fence_alloc();
-+	if (!job->cccb_fence || !job->done_fence)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+/**
-+ * pvr_queue_job_arm() - Arm a job object.
-+ * @job: The job to arm.
-+ *
-+ * Initializes fences and return the drm_sched finished fence so it can
-+ * be exposed to the outside world. Once this function is called, you should
-+ * make sure the job is pushed using pvr_queue_job_push(), or guarantee that
-+ * no one grabbed a reference to the returned fence. The latter can happen if
-+ * we do multi-job submission, and something failed when creating/initializing
-+ * a job. In that case, we know the fence didn't leave the driver, and we
-+ * can thus guarantee nobody will wait on an dead fence object.
-+ *
-+ * Return:
-+ *  * A dma_fence object.
-+ */
-+struct dma_fence *pvr_queue_job_arm(struct pvr_job *job)
-+{
-+	drm_sched_job_arm(&job->base);
-+
-+	return &job->base.s_fence->finished;
-+}
-+
-+/**
-+ * pvr_queue_job_cleanup() - Cleanup fence/scheduler related fields in the job object.
-+ * @job: The job to cleanup.
-+ *
-+ * Should be called in the job release path.
-+ */
-+void pvr_queue_job_cleanup(struct pvr_job *job)
-+{
-+	pvr_queue_fence_put(job->done_fence);
-+	pvr_queue_fence_put(job->cccb_fence);
-+	pvr_kccb_fence_put(job->kccb_fence);
-+
-+	if (job->base.s_fence)
-+		drm_sched_job_cleanup(&job->base);
-+}
-+
-+/**
-+ * pvr_queue_job_push() - Push a job to its queue.
-+ * @job: The job to push.
-+ *
-+ * Must be called after pvr_queue_job_init() and after all dependencies
-+ * have been added to the job. This will effectively queue the job to
-+ * the drm_sched_entity attached to the queue. We grab a reference on
-+ * the job object, so the caller is free to drop its reference when it's
-+ * done accessing the job object.
-+ */
-+void pvr_queue_job_push(struct pvr_job *job)
-+{
-+	struct pvr_queue *queue = container_of(job->base.sched, struct pvr_queue, scheduler);
-+
-+	/* Keep track of the last queued job scheduled fence for combined submit. */
-+	dma_fence_put(queue->last_queued_job_scheduled_fence);
-+	queue->last_queued_job_scheduled_fence = dma_fence_get(&job->base.s_fence->scheduled);
-+
-+	pvr_job_get(job);
-+	drm_sched_entity_push_job(&job->base);
-+}
-+
-+static void reg_state_init(void *cpu_ptr, void *priv)
-+{
-+	struct pvr_queue *queue = priv;
-+
-+	if (queue->type == DRM_PVR_JOB_TYPE_GEOMETRY) {
-+		struct rogue_fwif_geom_ctx_state *geom_ctx_state_fw = cpu_ptr;
-+
-+		geom_ctx_state_fw->geom_core[0].geom_reg_vdm_call_stack_pointer_init =
-+			queue->callstack_addr;
-+	}
-+}
-+
-+/**
-+ * pvr_queue_create() - Create a queue object.
-+ * @ctx: The context this queue will be attached to.
-+ * @type: The type of jobs being pushed to this queue.
-+ * @args: The arguments passed to the context creation function.
-+ * @fw_ctx_map: CPU mapping of the FW context object.
-+ *
-+ * Create a queue object that will be used to queue and track jobs.
-+ *
-+ * Return:
-+ *  * A valid pointer to a pvr_queue object, or
-+ *  * An error pointer if the creation/initialization failed.
-+ */
-+struct pvr_queue *pvr_queue_create(struct pvr_context *ctx,
-+				   enum drm_pvr_job_type type,
-+				   struct drm_pvr_ioctl_create_context_args *args,
-+				   void *fw_ctx_map)
-+{
-+	static const struct {
-+		u32 cccb_size;
-+		const char *name;
-+	} props[] = {
-+		[DRM_PVR_JOB_TYPE_GEOMETRY] = {
-+			.cccb_size = CTX_GEOM_CCCB_SIZE_LOG2,
-+			.name = "geometry",
-+		},
-+		[DRM_PVR_JOB_TYPE_FRAGMENT] = {
-+			.cccb_size = CTX_FRAG_CCCB_SIZE_LOG2,
-+			.name = "fragment"
-+		},
-+		[DRM_PVR_JOB_TYPE_COMPUTE] = {
-+			.cccb_size = CTX_COMPUTE_CCCB_SIZE_LOG2,
-+			.name = "compute"
-+		},
-+		[DRM_PVR_JOB_TYPE_TRANSFER_FRAG] = {
-+			.cccb_size = CTX_TRANSFER_CCCB_SIZE_LOG2,
-+			.name = "transfer_frag"
-+		},
++struct rogue_fwif_rf_registers {
++	union {
++		u64 cdmreg_cdm_cb_base;
++		u64 cdmreg_cdm_ctrl_stream_base;
 +	};
-+	struct pvr_device *pvr_dev = ctx->pvr_dev;
-+	struct drm_gpu_scheduler *sched;
-+	struct pvr_queue *queue;
-+	int ctx_state_size, err;
-+	void *cpu_map;
++	u64 cdmreg_cdm_cb_queue;
++	u64 cdmreg_cdm_cb;
++};
 +
-+	if (WARN_ON(type >= sizeof(props)))
-+		return ERR_PTR(-EINVAL);
++struct rogue_fwif_rf_cmd {
++	/* THIS MUST BE THE LAST MEMBER OF THE CONTAINING STRUCTURE */
++	struct rogue_fwif_rf_registers fw_registers __aligned(8);
++};
 +
-+	switch (ctx->type) {
-+	case DRM_PVR_CTX_TYPE_RENDER:
-+		if (type != DRM_PVR_JOB_TYPE_GEOMETRY &&
-+		    type != DRM_PVR_JOB_TYPE_FRAGMENT)
-+			return ERR_PTR(-EINVAL);
-+		break;
-+	case DRM_PVR_CTX_TYPE_COMPUTE:
-+		if (type != DRM_PVR_JOB_TYPE_COMPUTE)
-+			return ERR_PTR(-EINVAL);
-+		break;
-+	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
-+		if (type != DRM_PVR_JOB_TYPE_TRANSFER_FRAG)
-+			return ERR_PTR(-EINVAL);
-+		break;
-+	default:
-+		return ERR_PTR(-EINVAL);
-+	}
++#define ROGUE_FWIF_RF_CMD_SIZE sizeof(struct rogue_fwif_rf_cmd)
 +
-+	ctx_state_size = get_ctx_state_size(pvr_dev, type);
-+	if (ctx_state_size < 0)
-+		return ERR_PTR(ctx_state_size);
-+
-+	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-+	if (!queue)
-+		return ERR_PTR(-ENOMEM);
-+
-+	queue->type = type;
-+	queue->ctx_offset = get_ctx_offset(type);
-+	queue->ctx = ctx;
-+	queue->callstack_addr = args->callstack_addr;
-+	sched = &queue->scheduler;
-+	INIT_LIST_HEAD(&queue->node);
-+	mutex_init(&queue->cccb_fence_ctx.job_lock);
-+	pvr_queue_fence_ctx_init(&queue->cccb_fence_ctx.base);
-+	pvr_queue_fence_ctx_init(&queue->job_fence_ctx);
-+
-+	err = pvr_cccb_init(pvr_dev, &queue->cccb, props[type].cccb_size, props[type].name);
-+	if (err)
-+		goto err_free_queue;
-+
-+	err = pvr_fw_object_create(pvr_dev, ctx_state_size,
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+				   reg_state_init, queue, &queue->reg_state_obj);
-+	if (err)
-+		goto err_cccb_fini;
-+
-+	init_fw_context(queue, fw_ctx_map);
-+
-+	if (type != DRM_PVR_JOB_TYPE_GEOMETRY && type != DRM_PVR_JOB_TYPE_FRAGMENT &&
-+	    args->callstack_addr) {
-+		err = -EINVAL;
-+		goto err_release_reg_state;
-+	}
-+
-+	cpu_map = pvr_fw_object_create_and_map(pvr_dev, sizeof(*queue->timeline_ufo.value),
-+					       PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+					       NULL, NULL, &queue->timeline_ufo.fw_obj);
-+	if (IS_ERR(cpu_map)) {
-+		err = PTR_ERR(cpu_map);
-+		goto err_release_reg_state;
-+	}
-+
-+	queue->timeline_ufo.value = cpu_map;
-+
-+	err = drm_sched_init(&queue->scheduler,
-+			     &pvr_queue_sched_ops,
-+			     pvr_dev->sched_wq, 64 * 1024, 1,
-+			     msecs_to_jiffies(500),
-+			     pvr_dev->sched_wq, NULL, "pvr-queue",
-+			     DRM_SCHED_POLICY_SINGLE_ENTITY,
-+			     pvr_dev->base.dev);
-+	if (err)
-+		goto err_release_ufo;
-+
-+	err = drm_sched_entity_init(&queue->entity,
-+				    DRM_SCHED_PRIORITY_MIN,
-+				    &sched, 1, &ctx->faulty);
-+	if (err)
-+		goto err_sched_fini;
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+	list_add_tail(&queue->node, &pvr_dev->queues.idle);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+
-+	return queue;
-+
-+err_sched_fini:
-+	drm_sched_fini(&queue->scheduler);
-+
-+err_release_ufo:
-+	pvr_fw_object_unmap_and_destroy(queue->timeline_ufo.fw_obj);
-+
-+err_release_reg_state:
-+	pvr_fw_object_destroy(queue->reg_state_obj);
-+
-+err_cccb_fini:
-+	pvr_cccb_fini(&queue->cccb);
-+
-+err_free_queue:
-+	mutex_destroy(&queue->cccb_fence_ctx.job_lock);
-+	kfree(queue);
-+
-+	return ERR_PTR(err);
-+}
-+
-+void pvr_queue_device_pre_reset(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_queue *queue;
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+	list_for_each_entry(queue, &pvr_dev->queues.idle, node)
-+		pvr_queue_stop(queue, NULL);
-+	list_for_each_entry(queue, &pvr_dev->queues.active, node)
-+		pvr_queue_stop(queue, NULL);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+}
-+
-+void pvr_queue_device_post_reset(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_queue *queue;
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+	list_for_each_entry(queue, &pvr_dev->queues.active, node)
-+		pvr_queue_start(queue);
-+	list_for_each_entry(queue, &pvr_dev->queues.idle, node)
-+		pvr_queue_start(queue);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+}
-+
-+/**
-+ * pvr_queue_kill() - Kill a queue.
-+ * @queue: The queue to kill.
-+ *
-+ * Kill the queue so no new jobs can be pushed. Should be called when the
-+ * context handle is destroyed. The queue object might last longer if jobs
-+ * are still in flight and holding a reference to the context this queue
-+ * belongs to.
-+ */
-+void pvr_queue_kill(struct pvr_queue *queue)
-+{
-+	drm_sched_entity_destroy(&queue->entity);
-+	dma_fence_put(queue->last_queued_job_scheduled_fence);
-+	queue->last_queued_job_scheduled_fence = NULL;
-+}
-+
-+/**
-+ * pvr_queue_destroy() - Destroy a queue.
-+ * @queue: The queue to destroy.
-+ *
-+ * Cleanup the queue and free the resources attached to it. Should be
-+ * called from the context release function.
-+ */
-+void pvr_queue_destroy(struct pvr_queue *queue)
-+{
-+	if (!queue)
-+		return;
-+
-+	mutex_lock(&queue->ctx->pvr_dev->queues.lock);
-+	list_del_init(&queue->node);
-+	mutex_unlock(&queue->ctx->pvr_dev->queues.lock);
-+
-+	drm_sched_fini(&queue->scheduler);
-+	drm_sched_entity_fini(&queue->entity);
-+
-+	if (WARN_ON(queue->last_queued_job_scheduled_fence))
-+		dma_fence_put(queue->last_queued_job_scheduled_fence);
-+
-+	pvr_queue_cleanup_fw_context(queue);
-+
-+	pvr_fw_object_unmap_and_destroy(queue->timeline_ufo.fw_obj);
-+	pvr_fw_object_destroy(queue->reg_state_obj);
-+	pvr_cccb_fini(&queue->cccb);
-+	mutex_destroy(&queue->cccb_fence_ctx.job_lock);
-+	kfree(queue);
-+}
-+
-+/**
-+ * pvr_queue_device_init() - Device-level initialization of queue related fields.
-+ * @pvr_dev: The device to initialize.
-+ *
-+ * Initializes all fields related to queue management in pvr_device.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * An error code on failure.
-+ */
-+int pvr_queue_device_init(struct pvr_device *pvr_dev)
-+{
-+	int err;
-+
-+	INIT_LIST_HEAD(&pvr_dev->queues.active);
-+	INIT_LIST_HEAD(&pvr_dev->queues.idle);
-+	err = drmm_mutex_init(from_pvr_device(pvr_dev), &pvr_dev->queues.lock);
-+	if (err)
-+		return err;
-+
-+	pvr_dev->sched_wq = alloc_workqueue("powervr-sched", WQ_UNBOUND, 0);
-+	if (!pvr_dev->sched_wq)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+/**
-+ * pvr_queue_device_fini() - Device-level cleanup of queue related fields.
-+ * @pvr_dev: The device to cleanup.
-+ *
-+ * Cleanup/free all queue-related resources attached to a pvr_device object.
-+ */
-+void pvr_queue_device_fini(struct pvr_device *pvr_dev)
-+{
-+	destroy_workqueue(pvr_dev->sched_wq);
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_queue.h b/drivers/gpu/drm/imagination/pvr_queue.h
++#endif /* PVR_ROGUE_FWIF_RESETFRAMEWORK_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h
 new file mode 100644
-index 000000000000..01bdeff777bf
+index 000000000000..06c8012b31d4
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_queue.h
-@@ -0,0 +1,179 @@
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h
+@@ -0,0 +1,258 @@
 +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_QUEUE_H
-+#define PVR_QUEUE_H
++#ifndef PVR_ROGUE_FWIF_SHARED_H
++#define PVR_ROGUE_FWIF_SHARED_H
 +
-+#include <drm/gpu_scheduler.h>
++#include <linux/compiler.h>
++#include <linux/types.h>
 +
-+#include "pvr_cccb.h"
-+#include "pvr_device.h"
++#define ROGUE_FWIF_NUM_RTDATAS 2U
++#define ROGUE_FWIF_NUM_GEOMDATAS 1U
++#define ROGUE_FWIF_NUM_RTDATA_FREELISTS 2U
++#define ROGUE_NUM_GEOM_CORES 1U
 +
-+struct pvr_context;
-+struct pvr_queue;
++#define ROGUE_NUM_GEOM_CORES_SIZE 2U
 +
-+/**
-+ * struct pvr_queue_fence_ctx - Queue fence context
-+ *
-+ * Used to implement dma_fence_ops for pvr_job::{done,cccb}_fence.
++/*
++ * Maximum number of UFOs in a CCB command.
++ * The number is based on having 32 sync prims (as originally), plus 32 sync
++ * checkpoints.
++ * Once the use of sync prims is no longer supported, we will retain
++ * the same total (64) as the number of sync checkpoints which may be
++ * supporting a fence is not visible to the client driver and has to
++ * allow for the number of different timelines involved in fence merges.
 + */
-+struct pvr_queue_fence_ctx {
-+	/** @id: Fence context ID allocated with dma_fence_context_alloc(). */
-+	u64 id;
++#define ROGUE_FWIF_CCB_CMD_MAX_UFOS (32U + 32U)
 +
-+	/** @seqno: Sequence number incremented each time a fence is created. */
-+	atomic_t seqno;
++/*
++ * This is a generic limit imposed on any DM (GEOMETRY,FRAGMENT,CDM,TDM,2D,TRANSFER)
++ * command passed through the bridge.
++ * Just across the bridge in the server, any incoming kick command size is
++ * checked against this maximum limit.
++ * In case the incoming command size is larger than the specified limit,
++ * the bridge call is retired with error.
++ */
++#define ROGUE_FWIF_DM_INDEPENDENT_KICK_CMD_SIZE (1024U)
 +
-+	/** @lock: Lock used to synchronize access to fences allocated by this context. */
-+	spinlock_t lock;
++#define ROGUE_FWIF_PRBUFFER_START (0)
++#define ROGUE_FWIF_PRBUFFER_ZSBUFFER (0)
++#define ROGUE_FWIF_PRBUFFER_MSAABUFFER (1)
++#define ROGUE_FWIF_PRBUFFER_MAXSUPPORTED (2)
++
++struct rogue_fwif_dma_addr {
++	aligned_u64 dev_addr;
++	u32 fw_addr;
++	u32 padding;
++} __aligned(8);
++
++struct rogue_fwif_ufo {
++	u32 addr;
++	u32 value;
 +};
 +
-+/**
-+ * struct pvr_queue_cccb_fence_ctx - CCCB fence context
-+ *
-+ * Context used to manage fences controlling access to the CCCB. No fences are
-+ * issued if there's enough space in the CCCB to push job commands.
-+ */
-+struct pvr_queue_cccb_fence_ctx {
-+	/** @base: Base queue fence context. */
-+	struct pvr_queue_fence_ctx base;
++#define ROGUE_FWIF_UFO_ADDR_IS_SYNC_CHECKPOINT (1)
 +
-+	/**
-+	 * @job: Job waiting for CCCB space.
-+	 *
-+	 * Thanks to the serializationg done at the drm_sched_entity level,
-+	 * there's no more than one job waiting for CCCB at a given time.
-+	 *
-+	 * This field is NULL if no jobs are currently waiting for CCCB space.
-+	 *
-+	 * Must be accessed with @job_lock held.
-+	 */
-+	struct pvr_job *job;
-+
-+	/** @lock: Lock protecting access to the job object. */
-+	struct mutex job_lock;
++struct rogue_fwif_sync_checkpoint {
++	u32 state;
++	u32 fw_ref_count;
 +};
 +
-+/**
-+ * struct pvr_queue_fence - Queue fence object
-+ */
-+struct pvr_queue_fence {
-+	/** @base: Base dma_fence. */
-+	struct dma_fence base;
++struct rogue_fwif_cleanup_ctl {
++	/* Number of commands received by the FW */
++	u32 submitted_commands;
++	/* Number of commands executed by the FW */
++	u32 executed_commands;
++} __aligned(8);
 +
-+	/** @queue: Queue that created this fence. */
-+	struct pvr_queue *queue;
++/*
++ * Used to share frame numbers across UM-KM-FW,
++ * frame number is set in UM,
++ * frame number is required in both KM for HTB and FW for FW trace.
++ *
++ * May be used to house Kick flags in the future.
++ */
++struct rogue_fwif_cmd_common {
++	/* associated frame number */
++	u32 frame_num;
 +};
 +
-+/**
-+ * struct pvr_queue - Job queue
-+ *
-+ * Used to queue and track execution of pvr_job objects.
++/*
++ * Geometry and fragment commands require set of firmware addresses that are stored in the Kernel.
++ * Client has handle(s) to Kernel containers storing these addresses, instead of raw addresses. We
++ * have to patch/write these addresses in KM to prevent UM from controlling FW addresses directly.
++ * Typedefs for geometry and fragment commands are shared between Client and Firmware (both
++ * single-BVNC). Kernel is implemented in a multi-BVNC manner, so it can't use geometry|fragment
++ * CMD type definitions directly. Therefore we have a SHARED block that is shared between UM-KM-FW
++ * across all BVNC configurations.
 + */
-+struct pvr_queue {
-+	/** @scheduler: Single entity scheduler use to push jobs to this queue. */
-+	struct drm_gpu_scheduler scheduler;
++struct rogue_fwif_cmd_geom_frag_shared {
++	/* Common command attributes */
++	struct rogue_fwif_cmd_common cmn;
 +
-+	/** @entity: Scheduling entity backing this queue. */
-+	struct drm_sched_entity entity;
-+
-+	/** @type: Type of jobs queued to this queue. */
-+	enum drm_pvr_job_type type;
-+
-+	/** @ctx: Context object this queue is bound to. */
-+	struct pvr_context *ctx;
-+
-+	/** @node: Used to add the queue to the active/idle queue list. */
-+	struct list_head node;
-+
-+	/**
-+	 * @in_flight_job_count: Number of jobs submitted to the CCCB that
-+	 * have not been processed yet.
++	/*
++	 * RTData associated with this command, this is used for context
++	 * selection and for storing out HW-context, when TA is switched out for
++	 * continuing later
 +	 */
-+	atomic_t in_flight_job_count;
++	u32 hwrt_data_fw_addr;
 +
-+	/**
-+	 * @cccb_fence_ctx: CCCB fence context.
-+	 *
-+	 * Used to control access to the CCCB is full, such that we don't
-+	 * end up trying to push commands to the CCCB if there's not enough
-+	 * space to receive all commands needed for a job to complete.
++	/* Supported PR Buffers like Z/S/MSAA Scratch */
++	u32 pr_buffer_fw_addr[ROGUE_FWIF_PRBUFFER_MAXSUPPORTED];
++};
++
++/*
++ * Client Circular Command Buffer (CCCB) control structure.
++ * This is shared between the Server and the Firmware and holds byte offsets
++ * into the CCCB as well as the wrapping mask to aid wrap around. A given
++ * snapshot of this queue with Cmd 1 running on the GPU might be:
++ *
++ *          Roff                           Doff                 Woff
++ * [..........|-1----------|=2===|=3===|=4===|~5~~~~|~6~~~~|~7~~~~|..........]
++ *            <      runnable commands       ><   !ready to run   >
++ *
++ * Cmd 1    : Currently executing on the GPU data master.
++ * Cmd 2,3,4: Fence dependencies met, commands runnable.
++ * Cmd 5... : Fence dependency not met yet.
++ */
++struct rogue_fwif_cccb_ctl {
++	/* Host write offset into CCB. This must be aligned to 16 bytes. */
++	u32 write_offset;
++	/*
++	 * Firmware read offset into CCB. Points to the command that is runnable
++	 * on GPU, if R!=W
 +	 */
-+	struct pvr_queue_cccb_fence_ctx cccb_fence_ctx;
++	u32 read_offset;
++	/*
++	 * Firmware fence dependency offset. Points to commands not ready, i.e.
++	 * fence dependencies are not met.
++	 */
++	u32 dep_offset;
++	/* Offset wrapping mask, total capacity in bytes of the CCB-1 */
++	u32 wrap_mask;
 +
-+	/** @job_fence_ctx: Job fence context object. */
-+	struct pvr_queue_fence_ctx job_fence_ctx;
++	/* Only used if SUPPORT_AGP is present. */
++	u32 read_offset2;
 +
-+	/** @timeline_ufo: Timeline UFO for the context queue. */
++	/* Only used if SUPPORT_AGP4 is present. */
++	u32 read_offset3;
++	/* Only used if SUPPORT_AGP4 is present. */
++	u32 read_offset4;
++
++	u32 padding;
++} __aligned(8);
++
++#define ROGUE_FW_LOCAL_FREELIST (0)
++#define ROGUE_FW_GLOBAL_FREELIST (1)
++#define ROGUE_FW_FREELIST_TYPE_LAST ROGUE_FW_GLOBAL_FREELIST
++#define ROGUE_FW_MAX_FREELISTS (ROGUE_FW_FREELIST_TYPE_LAST + 1U)
++
++struct rogue_fwif_geom_registers_caswitch {
++	u64 geom_reg_vdm_context_state_base_addr;
++	u64 geom_reg_vdm_context_state_resume_addr;
++	u64 geom_reg_ta_context_state_base_addr;
++
 +	struct {
-+		/** @fw_obj: FW object representing the UFO value. */
-+		struct pvr_fw_object *fw_obj;
++		u64 geom_reg_vdm_context_store_task0;
++		u64 geom_reg_vdm_context_store_task1;
++		u64 geom_reg_vdm_context_store_task2;
 +
-+		/** @value: CPU mapping of the UFO value. */
-+		u32 *value;
-+	} timeline_ufo;
++		/* VDM resume state update controls */
++		u64 geom_reg_vdm_context_resume_task0;
++		u64 geom_reg_vdm_context_resume_task1;
++		u64 geom_reg_vdm_context_resume_task2;
 +
-+	/**
-+	 * @last_submitted_job: Last submitted job.
-+	 *
-+	 * We need to keep that one around because drm_sched_main() only
-+	 * queues the job to the drm_gpu_scheduler::pending_list after
-+	 * ::run_job() has returned, which is racy with the queue process
-+	 * worker that's handling done job signaling.
-+	 */
-+	struct pvr_job *last_submitted_job;
++		u64 geom_reg_vdm_context_store_task3;
++		u64 geom_reg_vdm_context_store_task4;
 +
-+	/**
-+	 * last_queued_job_scheduled_fence: The scheduled fence of the last
-+	 * job queued to this queue.
-+	 *
-+	 * We use it to insert frag -> geom dependencies when issuing combined
-+	 * geom+frag jobs, to guarantee that the fragment job that's part of
-+	 * the combined operation comes after all fragment jobs that were queued
-+	 * before it.
-+	 */
-+	struct dma_fence *last_queued_job_scheduled_fence;
-+
-+	/** @cccb: Client Circular Command Buffer. */
-+	struct pvr_cccb cccb;
-+
-+	/** @reg_state_obj: FW object representing the register state of this queue. */
-+	struct pvr_fw_object *reg_state_obj;
-+
-+	/** @ctx_offset: Offset of the queue context in the FW context object. */
-+	u32 ctx_offset;
-+
-+	/** @callstack_addr: Initial call stack address for register state object. */
-+	u64 callstack_addr;
++		u64 geom_reg_vdm_context_resume_task3;
++		u64 geom_reg_vdm_context_resume_task4;
++	} geom_state[2];
 +};
 +
-+bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f);
++#define ROGUE_FWIF_GEOM_REGISTERS_CSWITCH_SIZE \
++	sizeof(struct rogue_fwif_geom_registers_caswitch)
 +
-+int pvr_queue_job_init(struct pvr_job *job);
++struct rogue_fwif_cdm_registers_cswitch {
++	u64 cdmreg_cdm_context_pds0;
++	u64 cdmreg_cdm_context_pds1;
++	u64 cdmreg_cdm_terminate_pds;
++	u64 cdmreg_cdm_terminate_pds1;
 +
-+void pvr_queue_job_cleanup(struct pvr_job *job);
-+
-+void pvr_queue_job_push(struct pvr_job *job);
-+
-+struct dma_fence *pvr_queue_job_arm(struct pvr_job *job);
-+
-+struct pvr_queue *pvr_queue_create(struct pvr_context *ctx,
-+				   enum drm_pvr_job_type type,
-+				   struct drm_pvr_ioctl_create_context_args *args,
-+				   void *fw_ctx_map);
-+
-+void pvr_queue_kill(struct pvr_queue *queue);
-+
-+void pvr_queue_destroy(struct pvr_queue *queue);
-+
-+void pvr_queue_process(struct pvr_queue *queue);
-+
-+void pvr_queue_device_pre_reset(struct pvr_device *pvr_dev);
-+
-+void pvr_queue_device_post_reset(struct pvr_device *pvr_dev);
-+
-+int pvr_queue_device_init(struct pvr_device *pvr_dev);
-+
-+void pvr_queue_device_fini(struct pvr_device *pvr_dev);
-+
-+#endif /* PVR_QUEUE_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_stream_defs.c b/drivers/gpu/drm/imagination/pvr_stream_defs.c
-index 3c646e25accf..ca1dc5e66a6f 100644
---- a/drivers/gpu/drm/imagination/pvr_stream_defs.c
-+++ b/drivers/gpu/drm/imagination/pvr_stream_defs.c
-@@ -43,6 +43,232 @@
-  * existing parameters, to preserve order. As parameters are naturally aligned, care must be taken
-  * with respect to implicit padding in the stream; padding should be minimised as much as possible.
-  */
-+static const struct pvr_stream_def rogue_fwif_cmd_geom_stream[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.vdm_ctrl_stream_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.tpu_border_colour_table, 64),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_draw_indirect0, 64,
-+			       PVR_FEATURE_VDM_DRAWINDIRECT),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_draw_indirect1, 32,
-+			       PVR_FEATURE_VDM_DRAWINDIRECT),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.ppp_ctrl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.te_psg, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.vdm_context_resume_task0_size, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_context_resume_task3_size, 32,
-+			       PVR_FEATURE_VDM_OBJECT_LEVEL_LLS),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.view_idx, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.pds_coeff_free_prog, 32,
-+			       PVR_FEATURE_TESSELLATION),
++	/* CDM resume controls */
++	u64 cdmreg_cdm_resume_pds0;
++	u64 cdmreg_cdm_context_pds0_b;
++	u64 cdmreg_cdm_resume_pds0_b;
 +};
 +
-+static const struct pvr_stream_def rogue_fwif_cmd_geom_stream_brn49927[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.tpu, 32),
++struct rogue_fwif_static_rendercontext_state {
++	/* Geom registers for ctx switch */
++	struct rogue_fwif_geom_registers_caswitch ctxswitch_regs[ROGUE_NUM_GEOM_CORES_SIZE]
++		__aligned(8);
 +};
 +
-+static const struct pvr_stream_ext_def cmd_geom_ext_streams_0[] = {
-+	{
-+		.stream = rogue_fwif_cmd_geom_stream_brn49927,
-+		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_geom_stream_brn49927),
-+		.header_mask = PVR_STREAM_EXTHDR_GEOM0_BRN49927,
-+		.quirk = 49927,
-+	},
++#define ROGUE_FWIF_STATIC_RENDERCONTEXT_SIZE \
++	sizeof(struct rogue_fwif_static_rendercontext_state)
++
++struct rogue_fwif_static_computecontext_state {
++	/* CDM registers for ctx switch */
++	struct rogue_fwif_cdm_registers_cswitch ctxswitch_regs __aligned(8);
 +};
 +
-+static const struct pvr_stream_ext_header cmd_geom_ext_headers[] = {
-+	{
-+		.ext_streams = cmd_geom_ext_streams_0,
-+		.ext_streams_num = ARRAY_SIZE(cmd_geom_ext_streams_0),
-+		.valid_mask = PVR_STREAM_EXTHDR_GEOM0_VALID,
-+	},
++#define ROGUE_FWIF_STATIC_COMPUTECONTEXT_SIZE \
++	sizeof(struct rogue_fwif_static_computecontext_state)
++
++enum rogue_fwif_prbuffer_state {
++	ROGUE_FWIF_PRBUFFER_UNBACKED = 0,
++	ROGUE_FWIF_PRBUFFER_BACKED,
++	ROGUE_FWIF_PRBUFFER_BACKING_PENDING,
++	ROGUE_FWIF_PRBUFFER_UNBACKING_PENDING,
 +};
 +
-+const struct pvr_stream_cmd_defs pvr_cmd_geom_stream = {
-+	.type = PVR_STREAM_TYPE_GEOM,
++struct rogue_fwif_prbuffer {
++	/* Buffer ID*/
++	u32 buffer_id;
++	/* Needs On-demand Z/S/MSAA Buffer allocation */
++	bool on_demand __aligned(4);
++	/* Z/S/MSAA -Buffer state */
++	enum rogue_fwif_prbuffer_state state;
++	/* Cleanup state */
++	struct rogue_fwif_cleanup_ctl cleanup_sate;
++	/* Compatibility and other flags */
++	u32 prbuffer_flags;
++} __aligned(8);
 +
-+	.main_stream = rogue_fwif_cmd_geom_stream,
-+	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_geom_stream),
-+
-+	.ext_nr_headers = ARRAY_SIZE(cmd_geom_ext_headers),
-+	.ext_headers = cmd_geom_ext_headers,
-+
-+	.dest_size = sizeof(struct rogue_fwif_cmd_geom),
++/* Last reset reason for a context. */
++enum rogue_context_reset_reason {
++	/* No reset reason recorded */
++	ROGUE_CONTEXT_RESET_REASON_NONE = 0,
++	/* Caused a reset due to locking up */
++	ROGUE_CONTEXT_RESET_REASON_GUILTY_LOCKUP = 1,
++	/* Affected by another context locking up */
++	ROGUE_CONTEXT_RESET_REASON_INNOCENT_LOCKUP = 2,
++	/* Overran the global deadline */
++	ROGUE_CONTEXT_RESET_REASON_GUILTY_OVERRUNING = 3,
++	/* Affected by another context overrunning */
++	ROGUE_CONTEXT_RESET_REASON_INNOCENT_OVERRUNING = 4,
++	/* Forced reset to ensure scheduling requirements */
++	ROGUE_CONTEXT_RESET_REASON_HARD_CONTEXT_SWITCH = 5,
++	/* FW Safety watchdog triggered */
++	ROGUE_CONTEXT_RESET_REASON_FW_WATCHDOG = 12,
++	/* FW page fault (no HWR) */
++	ROGUE_CONTEXT_RESET_REASON_FW_PAGEFAULT = 13,
++	/* FW execution error (GPU reset requested) */
++	ROGUE_CONTEXT_RESET_REASON_FW_EXEC_ERR = 14,
++	/* Host watchdog detected FW error */
++	ROGUE_CONTEXT_RESET_REASON_HOST_WDG_FW_ERR = 15,
++	/* Geometry DM OOM event is not allowed */
++	ROGUE_CONTEXT_GEOM_OOM_DISABLED = 16,
 +};
 +
-+static const struct pvr_stream_def rogue_fwif_cmd_frag_stream[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_scissor_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_dbias_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_oclqry_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_zlsctl, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_zload_store_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_stencil_load_store_base, 64),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.fb_cdc_zls, 64,
-+			       PVR_FEATURE_REQUIRES_FB_CDC_ZLS_SETUP),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pbe_word),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.tpu_border_colour_table, 64),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pds_bgnd),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pds_pr_bgnd),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.usc_clear_register),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.usc_pixel_output_ctrl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_bgobjdepth, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_bgobjvals, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_aa, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_xtp_pipe_enable, 32,
-+			       PVR_FEATURE_S7_TOP_INFRASTRUCTURE),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_ctl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.event_pixel_pds_info, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.pixel_phantom, 32,
-+			       PVR_FEATURE_CLUSTER_GROUPING),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.view_idx, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.event_pixel_pds_data, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_oclqry_stride, 32,
-+			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_zls_pixels, 32,
-+			       PVR_FEATURE_ZLS_SUBTILE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.rgx_cr_blackpearl_fix, 32,
-+			       PVR_FEATURE_ISP_ZLS_D24_S8_PACKING_OGL_MODE),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, zls_stride, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, sls_stride, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, execute_count, 32,
-+			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
++struct rogue_context_reset_reason_data {
++	enum rogue_context_reset_reason reset_reason;
++	u32 reset_ext_job_ref;
 +};
 +
-+static const struct pvr_stream_def rogue_fwif_cmd_frag_stream_brn47217[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_oclqry_stride, 32),
-+};
++#include "pvr_rogue_fwif_shared_check.h"
 +
-+static const struct pvr_stream_def rogue_fwif_cmd_frag_stream_brn49927[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.tpu, 32),
-+};
-+
-+static const struct pvr_stream_ext_def cmd_frag_ext_streams_0[] = {
-+	{
-+		.stream = rogue_fwif_cmd_frag_stream_brn47217,
-+		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream_brn47217),
-+		.header_mask = PVR_STREAM_EXTHDR_FRAG0_BRN47217,
-+		.quirk = 47217,
-+	},
-+	{
-+		.stream = rogue_fwif_cmd_frag_stream_brn49927,
-+		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream_brn49927),
-+		.header_mask = PVR_STREAM_EXTHDR_FRAG0_BRN49927,
-+		.quirk = 49927,
-+	},
-+};
-+
-+static const struct pvr_stream_ext_header cmd_frag_ext_headers[] = {
-+	{
-+		.ext_streams = cmd_frag_ext_streams_0,
-+		.ext_streams_num = ARRAY_SIZE(cmd_frag_ext_streams_0),
-+		.valid_mask = PVR_STREAM_EXTHDR_FRAG0_VALID,
-+	},
-+};
-+
-+const struct pvr_stream_cmd_defs pvr_cmd_frag_stream = {
-+	.type = PVR_STREAM_TYPE_FRAG,
-+
-+	.main_stream = rogue_fwif_cmd_frag_stream,
-+	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream),
-+
-+	.ext_nr_headers = ARRAY_SIZE(cmd_frag_ext_headers),
-+	.ext_headers = cmd_frag_ext_headers,
-+
-+	.dest_size = sizeof(struct rogue_fwif_cmd_frag),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_compute_stream[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.tpu_border_colour_table, 64),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb_queue, 64,
-+			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb_base, 64,
-+			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb, 64,
-+			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF_NOT_FEATURE(rogue_fwif_cmd_compute, regs.cdm_ctrl_stream_base, 64,
-+				   PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.cdm_context_state_base_addr, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.cdm_resume_pds1, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_item, 32,
-+			       PVR_FEATURE_COMPUTE_MORTON_CAPABLE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.compute_cluster, 32,
-+			       PVR_FEATURE_CLUSTER_GROUPING),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.tpu_tag_cdm_ctrl, 32,
-+			       PVR_FEATURE_TPU_DM_GLOBAL_REGISTERS),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, stream_start_offset, 32,
-+			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, execute_count, 32,
-+			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_compute_stream_brn49927[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.tpu, 32),
-+};
-+
-+static const struct pvr_stream_ext_def cmd_compute_ext_streams_0[] = {
-+	{
-+		.stream = rogue_fwif_cmd_compute_stream_brn49927,
-+		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_compute_stream_brn49927),
-+		.header_mask = PVR_STREAM_EXTHDR_COMPUTE0_BRN49927,
-+		.quirk = 49927,
-+	},
-+};
-+
-+static const struct pvr_stream_ext_header cmd_compute_ext_headers[] = {
-+	{
-+		.ext_streams = cmd_compute_ext_streams_0,
-+		.ext_streams_num = ARRAY_SIZE(cmd_compute_ext_streams_0),
-+		.valid_mask = PVR_STREAM_EXTHDR_COMPUTE0_VALID,
-+	},
-+};
-+
-+const struct pvr_stream_cmd_defs pvr_cmd_compute_stream = {
-+	.type = PVR_STREAM_TYPE_COMPUTE,
-+
-+	.main_stream = rogue_fwif_cmd_compute_stream,
-+	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_compute_stream),
-+
-+	.ext_nr_headers = ARRAY_SIZE(cmd_compute_ext_headers),
-+	.ext_headers = cmd_compute_ext_headers,
-+
-+	.dest_size = sizeof(struct rogue_fwif_cmd_compute),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_transfer_stream[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd0_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd1_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd3_sizeinfo, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_mtile_base, 64),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_transfer, regs.pbe_wordx_mrty),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_bgobjvals, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_pixel_output_ctrl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register0, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register1, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register2, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register3, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_mtile_size, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_render_origin, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_ctl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_aa, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_info, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_code, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_data, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_render, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_rgn, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_transfer, regs.isp_xtp_pipe_enable, 32,
-+			       PVR_FEATURE_S7_TOP_INFRASTRUCTURE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_transfer, regs.frag_screen, 32,
-+			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
-+};
-+
-+const struct pvr_stream_cmd_defs pvr_cmd_transfer_stream = {
-+	.type = PVR_STREAM_TYPE_TRANSFER,
-+
-+	.main_stream = rogue_fwif_cmd_transfer_stream,
-+	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_transfer_stream),
-+
-+	.ext_nr_headers = 0,
-+
-+	.dest_size = sizeof(struct rogue_fwif_cmd_transfer),
-+};
-+
- static const struct pvr_stream_def rogue_fwif_static_render_context_state_stream[] = {
- 	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
- 		       geom_reg_vdm_context_state_base_addr, 64),
-diff --git a/drivers/gpu/drm/imagination/pvr_sync.c b/drivers/gpu/drm/imagination/pvr_sync.c
++#endif /* PVR_ROGUE_FWIF_SHARED_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared_check.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared_check.h
 new file mode 100644
-index 000000000000..e284edb20913
+index 000000000000..4d6684474185
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_sync.c
-@@ -0,0 +1,289 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include <uapi/drm/pvr_drm.h>
-+
-+#include <drm/drm_syncobj.h>
-+#include <drm/gpu_scheduler.h>
-+#include <linux/xarray.h>
-+#include <linux/dma-fence-unwrap.h>
-+
-+#include "pvr_device.h"
-+#include "pvr_queue.h"
-+#include "pvr_sync.h"
-+
-+static int
-+pvr_check_sync_op(const struct drm_pvr_sync_op *sync_op)
-+{
-+	u8 handle_type;
-+
-+	if (sync_op->flags & ~DRM_PVR_SYNC_OP_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	handle_type = sync_op->flags & DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_MASK;
-+	if (handle_type != DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_SYNCOBJ &&
-+	    handle_type != DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_TIMELINE_SYNCOBJ)
-+		return -EINVAL;
-+
-+	if (handle_type == DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_SYNCOBJ &&
-+	    sync_op->value != 0)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static void
-+pvr_sync_signal_free(struct pvr_sync_signal *sig_sync)
-+{
-+	if (!sig_sync)
-+		return;
-+
-+	drm_syncobj_put(sig_sync->syncobj);
-+	dma_fence_chain_free(sig_sync->chain);
-+	dma_fence_put(sig_sync->fence);
-+	kfree(sig_sync);
-+}
-+
-+void
-+pvr_sync_signal_array_cleanup(struct xarray *array)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+	unsigned long i;
-+
-+	xa_for_each(array, i, sig_sync)
-+		pvr_sync_signal_free(sig_sync);
-+
-+	xa_destroy(array);
-+}
-+
-+static struct pvr_sync_signal *
-+pvr_sync_signal_array_add(struct xarray *array, struct drm_file *file, u32 handle, u64 point)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+	struct dma_fence *cur_fence;
-+	int err;
-+	u32 id;
-+
-+	sig_sync = kzalloc(sizeof(*sig_sync), GFP_KERNEL);
-+	if (!sig_sync)
-+		return ERR_PTR(-ENOMEM);
-+
-+	sig_sync->handle = handle;
-+	sig_sync->point = point;
-+
-+	if (point > 0) {
-+		sig_sync->chain = dma_fence_chain_alloc();
-+		if (!sig_sync->chain) {
-+			err = -ENOMEM;
-+			goto err_free_sig_sync;
-+		}
-+	}
-+
-+	sig_sync->syncobj = drm_syncobj_find(file, handle);
-+	if (!sig_sync->syncobj) {
-+		err = -EINVAL;
-+		goto err_free_sig_sync;
-+	}
-+
-+	/* Retrieve the current fence attached to that point. It's
-+	 * perfectly fine to get a NULL fence here, it just means there's
-+	 * no fence attached to that point yet.
-+	 */
-+	if (!drm_syncobj_find_fence(file, handle, point, 0, &cur_fence))
-+		sig_sync->fence = cur_fence;
-+
-+	err = xa_alloc(array, &id, sig_sync, xa_limit_32b, GFP_KERNEL);
-+	if (err)
-+		goto err_free_sig_sync;
-+
-+	return sig_sync;
-+
-+err_free_sig_sync:
-+	pvr_sync_signal_free(sig_sync);
-+	return ERR_PTR(err);
-+}
-+
-+static struct pvr_sync_signal *
-+pvr_sync_signal_array_search(struct xarray *array, u32 handle, u64 point)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+	unsigned long i;
-+
-+	xa_for_each(array, i, sig_sync) {
-+		if (handle == sig_sync->handle && point == sig_sync->point)
-+			return sig_sync;
-+	}
-+
-+	return NULL;
-+}
-+
-+static struct pvr_sync_signal *
-+pvr_sync_signal_array_get(struct xarray *array, struct drm_file *file, u32 handle, u64 point)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+
-+	sig_sync = pvr_sync_signal_array_search(array, handle, point);
-+	if (sig_sync)
-+		return sig_sync;
-+
-+	return pvr_sync_signal_array_add(array, file, handle, point);
-+}
-+
-+int
-+pvr_sync_signal_array_collect_ops(struct xarray *array,
-+				  struct drm_file *file,
-+				  u32 sync_op_count,
-+				  const struct drm_pvr_sync_op *sync_ops)
-+{
-+	for (u32 i = 0; i < sync_op_count; i++) {
-+		struct pvr_sync_signal *sig_sync;
-+		int ret;
-+
-+		if (!(sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL))
-+			continue;
-+
-+		ret = pvr_check_sync_op(&sync_ops[i]);
-+		if (ret)
-+			return ret;
-+
-+		sig_sync = pvr_sync_signal_array_get(array, file,
-+						     sync_ops[i].handle,
-+						     sync_ops[i].value);
-+		if (IS_ERR(sig_sync))
-+			return PTR_ERR(sig_sync);
-+	}
-+
-+	return 0;
-+}
-+
-+int
-+pvr_sync_signal_array_update_fences(struct xarray *array,
-+				    u32 sync_op_count,
-+				    const struct drm_pvr_sync_op *sync_ops,
-+				    struct dma_fence *done_fence)
-+{
-+	for (u32 i = 0; i < sync_op_count; i++) {
-+		struct dma_fence *old_fence;
-+		struct pvr_sync_signal *sig_sync;
-+
-+		if (!(sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL))
-+			continue;
-+
-+		sig_sync = pvr_sync_signal_array_search(array, sync_ops[i].handle,
-+							sync_ops[i].value);
-+		if (WARN_ON(!sig_sync))
-+			return -EINVAL;
-+
-+		old_fence = sig_sync->fence;
-+		sig_sync->fence = dma_fence_get(done_fence);
-+		dma_fence_put(old_fence);
-+
-+		if (WARN_ON(!sig_sync->fence))
-+			return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+void
-+pvr_sync_signal_array_push_fences(struct xarray *array)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+	unsigned long i;
-+
-+	xa_for_each(array, i, sig_sync) {
-+		if (sig_sync->chain) {
-+			drm_syncobj_add_point(sig_sync->syncobj, sig_sync->chain,
-+					      sig_sync->fence, sig_sync->point);
-+			sig_sync->chain = NULL;
-+		} else {
-+			drm_syncobj_replace_fence(sig_sync->syncobj, sig_sync->fence);
-+		}
-+	}
-+}
-+
-+static int
-+pvr_sync_add_dep_to_job(struct drm_sched_job *job, struct dma_fence *f)
-+{
-+	struct dma_fence_unwrap iter;
-+	u32 native_fence_count = 0;
-+	struct dma_fence *uf;
-+	int err = 0;
-+
-+	dma_fence_unwrap_for_each(uf, &iter, f) {
-+		if (pvr_queue_fence_is_ufo_backed(uf))
-+			native_fence_count++;
-+	}
-+
-+	/* No need to unwrap the fence if it's fully non-native. */
-+	if (!native_fence_count)
-+		return drm_sched_job_add_dependency(job, f);
-+
-+	dma_fence_unwrap_for_each(uf, &iter, f) {
-+		/* There's no dma_fence_unwrap_stop() helper cleaning up the refs
-+		 * owned by dma_fence_unwrap(), so let's just iterate over all
-+		 * entries without doing anything when something failed.
-+		 */
-+		if (err)
-+			continue;
-+
-+		if (pvr_queue_fence_is_ufo_backed(uf)) {
-+			struct drm_sched_fence *s_fence = to_drm_sched_fence(uf);
-+
-+			/* If this is a native dependency, we wait for the scheduled fence,
-+			 * and we will let pvr_queue_run_job() issue FW waits.
-+			 */
-+			err = drm_sched_job_add_dependency(job,
-+							   dma_fence_get(&s_fence->scheduled));
-+		} else {
-+			err = drm_sched_job_add_dependency(job, dma_fence_get(uf));
-+		}
-+	}
-+
-+	dma_fence_put(f);
-+	return err;
-+}
-+
-+int
-+pvr_sync_add_deps_to_job(struct pvr_file *pvr_file, struct drm_sched_job *job,
-+			 u32 sync_op_count,
-+			 const struct drm_pvr_sync_op *sync_ops,
-+			 struct xarray *signal_array)
-+{
-+	int err = 0;
-+
-+	if (!sync_op_count)
-+		return 0;
-+
-+	for (u32 i = 0; i < sync_op_count; i++) {
-+		struct pvr_sync_signal *sig_sync;
-+		struct dma_fence *fence;
-+
-+		if (sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL)
-+			continue;
-+
-+		err = pvr_check_sync_op(&sync_ops[i]);
-+		if (err)
-+			return err;
-+
-+		sig_sync = pvr_sync_signal_array_search(signal_array, sync_ops[i].handle,
-+							sync_ops[i].value);
-+		if (sig_sync) {
-+			if (WARN_ON(!sig_sync->fence))
-+				return -EINVAL;
-+
-+			fence = dma_fence_get(sig_sync->fence);
-+		} else {
-+			err = drm_syncobj_find_fence(from_pvr_file(pvr_file), sync_ops[i].handle,
-+						     sync_ops[i].value, 0, &fence);
-+			if (err)
-+				return err;
-+		}
-+
-+		err = pvr_sync_add_dep_to_job(job, fence);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_sync.h b/drivers/gpu/drm/imagination/pvr_sync.h
-new file mode 100644
-index 000000000000..e6278f0384c6
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_sync.h
-@@ -0,0 +1,84 @@
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared_check.h
+@@ -0,0 +1,108 @@
 +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_SYNC_H
-+#define PVR_SYNC_H
++#ifndef PVR_ROGUE_FWIF_SHARED_CHECK_H
++#define PVR_ROGUE_FWIF_SHARED_CHECK_H
 +
-+#include <uapi/drm/pvr_drm.h>
++#include <linux/build_bug.h>
 +
-+/* Forward declaration from <linux/xarray.h>. */
-+struct xarray;
++#define OFFSET_CHECK(type, member, offset) \
++	static_assert(offsetof(type, member) == (offset), \
++		      "offsetof(" #type ", " #member ") incorrect")
 +
-+/* Forward declaration from <drm/drm_file.h>. */
-+struct drm_file;
++#define SIZE_CHECK(type, size) \
++	static_assert(sizeof(type) == (size), #type " is incorrect size")
 +
-+/* Forward declaration from <drm/gpu_scheduler.h>. */
-+struct drm_sched_job;
++OFFSET_CHECK(struct rogue_fwif_dma_addr, dev_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_dma_addr, fw_addr, 8);
++SIZE_CHECK(struct rogue_fwif_dma_addr, 16);
 +
-+/* Forward declaration from "pvr_device.h". */
-+struct pvr_file;
++OFFSET_CHECK(struct rogue_fwif_ufo, addr, 0);
++OFFSET_CHECK(struct rogue_fwif_ufo, value, 4);
++SIZE_CHECK(struct rogue_fwif_ufo, 8);
++
++OFFSET_CHECK(struct rogue_fwif_cleanup_ctl, submitted_commands, 0);
++OFFSET_CHECK(struct rogue_fwif_cleanup_ctl, executed_commands, 4);
++SIZE_CHECK(struct rogue_fwif_cleanup_ctl, 8);
++
++OFFSET_CHECK(struct rogue_fwif_cccb_ctl, write_offset, 0);
++OFFSET_CHECK(struct rogue_fwif_cccb_ctl, read_offset, 4);
++OFFSET_CHECK(struct rogue_fwif_cccb_ctl, dep_offset, 8);
++OFFSET_CHECK(struct rogue_fwif_cccb_ctl, wrap_mask, 12);
++OFFSET_CHECK(struct rogue_fwif_cccb_ctl, read_offset2, 16);
++OFFSET_CHECK(struct rogue_fwif_cccb_ctl, read_offset3, 20);
++OFFSET_CHECK(struct rogue_fwif_cccb_ctl, read_offset4, 24);
++SIZE_CHECK(struct rogue_fwif_cccb_ctl, 32);
++
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_reg_vdm_context_state_base_addr, 0);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_reg_vdm_context_state_resume_addr, 8);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_reg_ta_context_state_base_addr, 16);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_store_task0, 24);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_store_task1, 32);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_store_task2, 40);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_resume_task0, 48);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_resume_task1, 56);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_resume_task2, 64);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_store_task3, 72);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_store_task4, 80);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_resume_task3, 88);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[0].geom_reg_vdm_context_resume_task4, 96);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_store_task0, 104);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_store_task1, 112);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_store_task2, 120);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_resume_task0, 128);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_resume_task1, 136);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_resume_task2, 144);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_store_task3, 152);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_store_task4, 160);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_resume_task3, 168);
++OFFSET_CHECK(struct rogue_fwif_geom_registers_caswitch,
++	     geom_state[1].geom_reg_vdm_context_resume_task4, 176);
++SIZE_CHECK(struct rogue_fwif_geom_registers_caswitch, 184);
++
++OFFSET_CHECK(struct rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds0, 0);
++OFFSET_CHECK(struct rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds1, 8);
++OFFSET_CHECK(struct rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_terminate_pds, 16);
++OFFSET_CHECK(struct rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_terminate_pds1, 24);
++OFFSET_CHECK(struct rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_resume_pds0, 32);
++OFFSET_CHECK(struct rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds0_b, 40);
++OFFSET_CHECK(struct rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_resume_pds0_b, 48);
++SIZE_CHECK(struct rogue_fwif_cdm_registers_cswitch, 56);
++
++OFFSET_CHECK(struct rogue_fwif_static_rendercontext_state, ctxswitch_regs, 0);
++SIZE_CHECK(struct rogue_fwif_static_rendercontext_state, 368);
++
++OFFSET_CHECK(struct rogue_fwif_static_computecontext_state, ctxswitch_regs, 0);
++SIZE_CHECK(struct rogue_fwif_static_computecontext_state, 56);
++
++OFFSET_CHECK(struct rogue_fwif_cmd_common, frame_num, 0);
++SIZE_CHECK(struct rogue_fwif_cmd_common, 4);
++
++OFFSET_CHECK(struct rogue_fwif_cmd_geom_frag_shared, cmn, 0);
++OFFSET_CHECK(struct rogue_fwif_cmd_geom_frag_shared, hwrt_data_fw_addr, 4);
++OFFSET_CHECK(struct rogue_fwif_cmd_geom_frag_shared, pr_buffer_fw_addr, 8);
++SIZE_CHECK(struct rogue_fwif_cmd_geom_frag_shared, 16);
++
++#endif /* PVR_ROGUE_FWIF_SHARED_CHECK_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_stream.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_stream.h
+new file mode 100644
+index 000000000000..97859a41e677
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_stream.h
+@@ -0,0 +1,78 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_ROGUE_FWIF_STREAM_H
++#define PVR_ROGUE_FWIF_STREAM_H
 +
 +/**
-+ * struct pvr_sync_signal - Object encoding a syncobj signal operation
++ * DOC: Streams
 + *
-+ * The job submission logic collects all signal operations in an array of
-+ * pvr_sync_signal objects. This array also serves as a cache to get the
-+ * latest dma_fence when multiple jobs are submitted at once, and one job
-+ * signals a syncobj point that's later waited on by a subsequent job.
++ * Commands are submitted to the kernel driver in the form of streams.
++ *
++ * A command stream has the following layout :
++ *  - A 64-bit header containing:
++ *    * A u32 containing the length of the main stream inclusive of the length of the header.
++ *    * A u32 for padding.
++ *  - The main stream data.
++ *  - The extension stream (optional), which is composed of:
++ *    * One or more headers.
++ *    * The extension stream data, corresponding to the extension headers.
++ *
++ * The main stream provides the base command data. This has a fixed layout based on the features
++ * supported by a given GPU.
++ *
++ * The extension stream provides the command parameters that are required for BRNs & ERNs for the
++ * current GPU. This stream is comprised of one or more headers, followed by data for each given
++ * BRN/ERN.
++ *
++ * Each header is a u32 containing a bitmask of quirks & enhancements in the extension stream, a
++ * "type" field determining the set of quirks & enhancements the bitmask represents, and a
++ * continuation bit determining whether any more headers are present. The headers are then followed
++ * by command data; this is specific to each quirk/enhancement. All unused / reserved bits in the
++ * header must be set to 0.
++ *
++ * All parameters and headers in the main and extension streams must be naturally aligned.
++ *
++ * If a parameter appears in both the main and extension streams, then the extension parameter is
++ * used.
 + */
-+struct pvr_sync_signal {
-+	/** @handle: Handle of the syncobj to signal. */
-+	u32 handle;
 +
-+	/**
-+	 * @point: Point to signal in the syncobj.
-+	 *
-+	 * Only relevant for timeline syncobjs.
-+	 */
-+	u64 point;
++/*
++ * Stream extension header definition
++ */
++#define PVR_STREAM_EXTHDR_TYPE_SHIFT 29U
++#define PVR_STREAM_EXTHDR_TYPE_MASK (7U << PVR_STREAM_EXTHDR_TYPE_SHIFT)
++#define PVR_STREAM_EXTHDR_TYPE_MAX 8U
++#define PVR_STREAM_EXTHDR_CONTINUATION BIT(28U)
 +
-+	/** @syncobj: Syncobj retrieved from the handle. */
-+	struct drm_syncobj *syncobj;
++#define PVR_STREAM_EXTHDR_DATA_MASK ~(PVR_STREAM_EXTHDR_TYPE_MASK | PVR_STREAM_EXTHDR_CONTINUATION)
 +
-+	/**
-+	 * @chain: Chain object used to link the new fence with the
-+	 *	   existing timeline syncobj.
-+	 *
-+	 * Should be zero when manipulating a regular syncobj.
-+	 */
-+	struct dma_fence_chain *chain;
++/*
++ * Stream extension header - Geometry 0
++ */
++#define PVR_STREAM_EXTHDR_TYPE_GEOM0 0U
 +
-+	/**
-+	 * @fence: New fence object to attach to the syncobj.
-+	 *
-+	 * This pointer starts with the current fence bound to
-+	 * the <handle,point> pair.
-+	 */
-+	struct dma_fence *fence;
-+};
++#define PVR_STREAM_EXTHDR_GEOM0_BRN49927 BIT(0U)
 +
-+void
-+pvr_sync_signal_array_cleanup(struct xarray *array);
++#define PVR_STREAM_EXTHDR_GEOM0_VALID PVR_STREAM_EXTHDR_GEOM0_BRN49927
 +
-+int
-+pvr_sync_signal_array_collect_ops(struct xarray *array,
-+				  struct drm_file *file,
-+				  u32 sync_op_count,
-+				  const struct drm_pvr_sync_op *sync_ops);
++/*
++ * Stream extension header - Fragment 0
++ */
++#define PVR_STREAM_EXTHDR_TYPE_FRAG0 0U
 +
-+int
-+pvr_sync_signal_array_update_fences(struct xarray *array,
-+				    u32 sync_op_count,
-+				    const struct drm_pvr_sync_op *sync_ops,
-+				    struct dma_fence *done_fence);
++#define PVR_STREAM_EXTHDR_FRAG0_BRN47217 BIT(0U)
++#define PVR_STREAM_EXTHDR_FRAG0_BRN49927 BIT(1U)
 +
-+void
-+pvr_sync_signal_array_push_fences(struct xarray *array);
++#define PVR_STREAM_EXTHDR_FRAG0_VALID PVR_STREAM_EXTHDR_FRAG0_BRN49927
 +
-+int
-+pvr_sync_add_deps_to_job(struct pvr_file *pvr_file, struct drm_sched_job *job,
-+			 u32 sync_op_count,
-+			 const struct drm_pvr_sync_op *sync_ops,
-+			 struct xarray *signal_array);
++/*
++ * Stream extension header - Compute 0
++ */
++#define PVR_STREAM_EXTHDR_TYPE_COMPUTE0 0U
 +
-+#endif /* PVR_SYNC_H */
++#define PVR_STREAM_EXTHDR_COMPUTE0_BRN49927 BIT(0U)
++
++#define PVR_STREAM_EXTHDR_COMPUTE0_VALID PVR_STREAM_EXTHDR_COMPUTE0_BRN49927
++
++#endif /* PVR_ROGUE_FWIF_STREAM_H */
 -- 
 2.42.0
 
