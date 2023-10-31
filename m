@@ -1,154 +1,193 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4290A2031D;
-	Tue, 31 Oct 2023 16:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B1D1DDD4;
+	Tue, 31 Oct 2023 16:48:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T3BeNkl8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F938C433C9;
-	Tue, 31 Oct 2023 16:31:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKz+IPkB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6096DC433C8;
+	Tue, 31 Oct 2023 16:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698769868;
-	bh=Opu3JDYBPCoRNGFn0xHjErSlJeCKvHxFHszXMcL0FHY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T3BeNkl8nju6P2+MI5e0/95aJuR/VEVyzci11tafyEPpg2vdRXqOVZTp1zN8XbYWW
-	 OX5ErgTbJr4LJhZP7nYcz9TM3of3N5KvKvmKLchf9KogPccaqADR1yZ4SVgCjzEFIM
-	 doxWz7ls1xU2vJY0yUYruxxh/2TkmvwayEEiLo9mm0VyTJoIUhT4naxBYY0HxuU7e6
-	 i0/KQyankK9r5KDTDvq6BEc5bqnIPOYaqWdEGs2DuMbqfYAClh/OAZbe2JPC7wdIVU
-	 35oOBr2Oh0E07N9GhzYD3bJ/XfVNh143LQIoXFwL9DoNXJUXHQQc8/mJ4eFiokd4gs
-	 10bq2Oaj+f7sA==
-Date: Tue, 31 Oct 2023 17:31:05 +0100
+	s=k20201202; t=1698770914;
+	bh=UTXiOQLTvMkvbOw9m5YrJAM7tKQY8I2vb1txsTaB+ww=;
+	h=From:Subject:Date:To:Cc:From;
+	b=dKz+IPkB1YjAQopIg5/wqctpT5XPs9kwBvEabr+vWXBfR1DJQsQFx+pMcgaIEDDr6
+	 zhDX7M43NkPtBzJZzzP/ym0ci/wAtup3XaRXBoX8wD9GYYFclvFj8H1T1/Do5LBYd1
+	 hM7fDUi5YJ/V+u+BmcT3R5sBdG4xQS/6QFfxh4GAMEUNNRdFvH8fI8sEA9SvidqjFy
+	 JBTP7EXruC/zsdqsdIXg90Se/zIe2F4067naac1sdD0rwT89gRPsY9HJZerMqa/ChA
+	 ht/mLTlsTrttAEiu8flbJVOOqfdZI4dWNDV1Rt23pB+mqFg8RoKVkuCDwyYrM1dpUI
+	 Sq42JQDpOSaVQ==
 From: Maxime Ripard <mripard@kernel.org>
-To: Sarah Walker <sarah.walker@imgtec.com>, frank.binns@imgtec.com, 
-	faith.ekstrand@collabora.com
-Cc: boris.brezillon@collabora.com, airlied@gmail.com, daniel@ffwll.ch, 
-	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, afd@ti.com, hns@goldelico.com, 
-	matthew.brost@intel.com, christian.koenig@amd.com, luben.tuikov@amd.com, dakr@redhat.com, 
-	linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org, corbet@lwn.net, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 00/20] Imagination Technologies PowerVR DRM driver
-Message-ID: <lg7cdw3qlak74zefbx25f5pnazrburteldueoqz7o7cphydqp7@q56er3qa5muf>
-References: <20231031151257.90350-1-sarah.walker@imgtec.com>
+Subject: [PATCH RFC v3 00/37] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Tue, 31 Oct 2023 17:48:13 +0100
+Message-Id: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h6eqzan6yg37toag"
-Content-Disposition: inline
-In-Reply-To: <20231031151257.90350-1-sarah.walker@imgtec.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM4vQWUC/4XNQQrCMBAF0KuUrI0kaZq0rgTBA7gVF6UzbUNtI
+ kkJSundDdmIG13+P/w3KwnoDQZyKFbiMZpgnE2h3BWkG1s7IDWQMhFMlKzmkk5zoCPMhnbOWuw
+ W52lY2gWp4krXGpVuhCZp/vDYm2emr+RyPpFbKkcT0uKV30WeT//lyCmjTNasktCXqpLHCb3F+
+ 975IatRfKRGsB+SSBLXTSmgBQANX9K2bW9wAKu8EAEAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6338; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=UTXiOQLTvMkvbOw9m5YrJAM7tKQY8I2vb1txsTaB+ww=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmO+nef/XR+1KS6yUn3KisHU07+rHXlqS5rMrhZ0qxXe
+ EoytAd1lLIwiHExyIopssQImy+JOzXrdScb3zyYOaxMIEMYuDgFYCKieYwMs/ZqGpVUHdwml71F
+ fePTlqXcpWxxrQydIRL+rDG3emZZMjK8euUSeHxTdqmwZdWPqM+5ETF+t+4mc11SnSIyZ5qC7gZ
+ WAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
+Hi,
 
---h6eqzan6yg37toag
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here's a series that creates a subclass of drm_connector specifically
+targeted at HDMI controllers.
 
-Hi Sarah, Faith, Frank,
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else. 
 
-On Tue, Oct 31, 2023 at 03:12:37PM +0000, Sarah Walker wrote:
-> This patch series adds the initial DRM driver for Imagination Technologie=
-s PowerVR
-> GPUs, starting with those based on our Rogue architecture. It's worth poi=
-nting
-> out that this is a new driver, written from the ground up, rather than a
-> refactored version of our existing downstream driver (pvrsrvkm).
->=20
-> This new DRM driver supports:
-> - GEM shmem allocations
-> - dma-buf / PRIME
-> - Per-context userspace managed virtual address space
-> - DRM sync objects (binary and timeline)
-> - Power management suspend / resume
-> - GPU job submission (geometry, fragment, compute, transfer)
-> - META firmware processor
-> - MIPS firmware processor
-> - GPU hang detection and recovery
->=20
-> Currently our main focus is on the AXE-1-16M GPU. Testing so far has been=
- done
-> using a TI SK-AM62 board (AXE-1-16M GPU). The driver has also been confir=
-med to
-> work on the BeaglePlay board. Firmware for the AXE-1-16M can befound here:
-> https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/tree/powervr
->=20
-> A Vulkan driver that works with our downstream kernel driver has already =
-been
-> merged into Mesa [1][2]. Support for this new DRM driver is being maintai=
-ned in
-> a merge request [3], with the branch located here:
-> https://gitlab.freedesktop.org/frankbinns/mesa/-/tree/powervr-winsys
->=20
-> Job stream formats are documented at:
-> https://gitlab.freedesktop.org/mesa/mesa/-/blob/f8d2b42ae65c2f16f36a43e0a=
-e39d288431e4263/src/imagination/csbgen/rogue_kmd_stream.xml
->=20
-> The Vulkan driver is progressing towards Vulkan 1.0. The current combinat=
-ion of this
-> kernel driver with the Mesa Vulkan driver (powervr-mesa-next branch) succ=
-essfully
-> completes Vulkan CTS 1.3.4.1 in our local runs. The driver is expected to=
- pass the
-> Khronos Conformance Process once the submission is made.
->=20
-> The code in this patch series, along with the needed dts changes can be f=
-ound here:
-> https://gitlab.freedesktop.org/sarah-walker-imgtec/powervr/-/tree/dev/v8_=
-dts
-> The full development history can be found here:
-> https://gitlab.freedesktop.org/frankbinns/powervr/-/tree/powervr-next
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-Awesome, thanks for sending a new version of that series.
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
 
-At XDC, we all agreed that we would merge this version if the changes
-requested by Faith were fixed, and if the Mesa PR was updated to match
-that new kernel series.
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
 
-Are we there yet?
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
 
-If so, Faith, should we add your Reviewed-by/Acked-by tag to the UAPI patch?
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
 
-> This patch series has dependencies on a number of patches not yet merged.=
- They
-> are listed below :
->=20
-> drm/sched: Convert drm scheduler to use a work queue rather than kthread:
->   https://lore.kernel.org/dri-devel/20230404002211.3611376-2-matthew.bros=
-t@intel.com/
-> drm/sched: Move schedule policy to scheduler / entity:
->   https://lore.kernel.org/dri-devel/20230404002211.3611376-3-matthew.bros=
-t@intel.com/
-> drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy:
->   https://lore.kernel.org/dri-devel/20230404002211.3611376-4-matthew.bros=
-t@intel.com/
-> drm/sched: Start run wq before TDR in drm_sched_start:
->   https://lore.kernel.org/dri-devel/20230404002211.3611376-6-matthew.bros=
-t@intel.com/
-> drm/sched: Submit job before starting TDR:
->   https://lore.kernel.org/dri-devel/20230404002211.3611376-7-matthew.bros=
-t@intel.com/
-> drm/sched: Add helper to set TDR timeout:
->   https://lore.kernel.org/dri-devel/20230404002211.3611376-8-matthew.bros=
-t@intel.com/
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
 
-What is the state of those patches? Iirc, we were expecting them to be
-merged soon at XDC
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing an
+infoframe-decode tool.
 
-Thanks,
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+This entire series has been tested on a Pi4, and has only been
+build-tested for sunxi and rockchip.
+
+Let me know what you think,
 Maxime
 
---h6eqzan6yg37toag
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset 
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation 
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
 
------BEGIN PGP SIGNATURE-----
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUEryQAKCRDj7w1vZxhR
-xTp9AP48QDAKYOfrziKxyJhD0jPjF1kfqNNf6jYxHagxVE+b3gD9HUbcKZsRyVJZ
-myv8rg5pwmzcvrMBx9Irutk/GY6w1Aw=
-=57Kh
------END PGP SIGNATURE-----
+---
+Maxime Ripard (37):
+      drm/connector: Introduce an HDMI connector
+      drm/connector: hdmi: Create a custom state
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/connector: hdmi: Add support for output format
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/connector: hdmi: Add Infoframes generation
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Create destroy state implementation
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/rockchip: inno_hdmi: Remove useless mode_fixup
+      drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
+      drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
+      drm/rockchip: inno_hdmi: Get rid of mode_set
+      drm/rockchip: inno_hdmi: no need to store vic
+      drm/rockchip: inno_hdmi: Remove unneeded has audio flag
+      drm/rockchip: inno_hdmi: Remove useless input format
+      drm/rockchip: inno_hdmi: Remove useless output format
+      drm/rockchip: inno_hdmi: Remove useless colorimetry
+      drm/rockchip: inno_hdmi: Remove useless enum
+      drm/rockchip: inno_hdmi: Remove tmds rate from structure
+      drm/rockchip: inno_hdmi: Remove useless coeff_csc matrix
+      drm/rockchip: inno_hdmi: Remove useless mode_valid
+      drm/rockchip: inno_hdmi: Move infoframe disable to separate function
+      drm/rockchip: inno_hdmi: Create mask retrieval functions
+      drm/rockchip: inno_hdmi: Switch to infoframe type
+      drm/rockchip: inno_hdmi: Remove unused drm device pointer
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Convert encoder to atomic
+      drm/sun4i: hdmi: Move mode_set into enable
+      drm/sun4i: hdmi: Switch to container_of_const
+      drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+      drm/sun4i: hdmi: Switch to HDMI connector
 
---h6eqzan6yg37toag--
+ Documentation/gpu/kms-properties.csv      |   1 -
+ drivers/gpu/drm/Kconfig                   |   1 +
+ drivers/gpu/drm/drm_atomic.c              |  11 +
+ drivers/gpu/drm/drm_atomic_state_helper.c | 661 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c         |   4 +
+ drivers/gpu/drm/drm_connector.c           | 208 ++++++++++
+ drivers/gpu/drm/drm_debugfs.c             | 110 +++++
+ drivers/gpu/drm/rockchip/inno_hdmi.c      | 409 +++++++-----------
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c    | 203 +++++----
+ drivers/gpu/drm/vc4/vc4_hdmi.c            | 624 ++++------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h            |  44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c        |   6 +-
+ include/drm/drm_atomic_state_helper.h     |  12 +
+ include/drm/drm_connector.h               | 248 +++++++++++
+ 14 files changed, 1598 insertions(+), 944 deletions(-)
+---
+base-commit: ffc253263a1375a65fa6c9f62a893e9767fbebfa
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
