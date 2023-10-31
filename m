@@ -1,63 +1,63 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5671DFFD;
-	Tue, 31 Oct 2023 15:14:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799231DFFB;
+	Tue, 31 Oct 2023 15:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="nXIaC/Wi";
-	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="i//sGJmF"
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="KVXLHyCk";
+	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="m37e692n"
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227D71AD;
-	Tue, 31 Oct 2023 08:14:18 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F84F1BB;
+	Tue, 31 Oct 2023 08:14:21 -0700 (PDT)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
-	by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39VCJjRl013616;
-	Tue, 31 Oct 2023 15:13:36 GMT
+	by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39VCA1wG001257;
+	Tue, 31 Oct 2023 15:13:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:content-transfer-encoding:content-type:mime-version; s=
-	dk201812; bh=LtWZmf1uzjHyZlYaPr4c61Fixq14QYYpLrHgNSxMBGA=; b=nXI
-	aC/WiwMU1QGNr8FjUdi4qmXf0zp28t1gHOYZ076iF4fVa5X4RvW799AFqQcBu67A
-	FNMGxexYi3touufMBQHuVoQUs125xgx7eUbyNnlOsbv9J6RZ3lTyzUaXugvvQQX7
-	TmhMDUCJOgHLKoWY1gcndHnA5kaLjSg2XnEJD+SYsHPqcJlhDIFcW6nlRyMWYgZ5
-	J64pMOBC221Ebjugf759L0c6d9NmQzNoS4WN4rb+KhT/0gLi06wG4ikRnGdDOArs
-	nu6eok0k7HO0NtRW9ccircRwX0dmcgeVSo2MANpU2ADsmeUZb/6tA3tI2cVzuCVP
-	r2+SnwXijWQa1XVkrsw==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
-	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3u0rjntf42-9
+	dk201812; bh=fx9D05bo3sgl5pF5wJYx5uO/lAsbTjMKR4edqXyhnFI=; b=KVX
+	LHyCkRnT2RovrSGyuO5DCwk3OUIsaFzlY35Qn/Zq9RHjzInWOSLKOGPLrApr47pf
+	bUby9ijrGrZzZslBrTgnTFkX/dkZijjRu9tGlV79nlPeuutEAduVqaeBNM7SOpHP
+	yerIUYjj6+eUHhmudTioNU8kc4meYyLkL55uNNBzijEa4bIWAA1vF1Q7P1n6GeJi
+	Cbe9a4v/iQIZBNeEBfspaP/JecVru+T3QW/6/0WK9Fi3mhsnzGHqbeJrfEYhSu/C
+	UMCP/eutPlI9Jndb4ZdVKdLetJswjuzz4e3t9/GFhLdhRAuAzO/0DeogVRp8OpNR
+	3aRTmmS5EJ+qnWw+UiA==
+Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
+	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3u0rjntf40-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 31 Oct 2023 15:13:35 +0000 (GMT)
+	Tue, 31 Oct 2023 15:13:27 +0000 (GMT)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 31 Oct 2023 15:13:34 +0000
+ 15.1.2507.34; Tue, 31 Oct 2023 15:13:26 +0000
 Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.51) by
  email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34 via Frontend
- Transport; Tue, 31 Oct 2023 15:13:31 +0000
+ Transport; Tue, 31 Oct 2023 15:13:26 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ew8W1b1Hw4jbJcu8XuuScL4Oo8XUYnbBt5ZigxO795EoXjwNcQ47dqsII4+Ss2ADxM12xlTG0L0vEc1cnbx4q523XodUIeoJiRddPdHL8ndB3eF8kj2oQKFoEM7JUoIRpCCxzAagQIJI5nG9MKWZ7WV2ky/SuifcGVY3Ll5aAUt9rqD1aggE0P42x4Xu3R/okjhzaYiF6jmfSa8Y7CLy5Bc+GcFYSo1/kj8ri9sJtAwbaaGoDILRm9njMdeRIiuVCVJPMcxNxQxX/JNzlSixtG6ekbkKrLMw0HK2Oc9XokNqsS7ISG/EYNafY62zN/hoHuQ7Wf4oC+wQL1vZ5oUhXg==
+ b=WpOqRJIZJ+vJ3VmXasebyjfNRMvR1q7HQOpSmpwTXRdQN6Vixtf4n8RVVmn6uS7Mz1ozdCvozEhL9QLI6oOzojqZYbMTKo+zVHt/fBsOY2D2PpQZ1OVxT8WD+Yp9valywVxkQ/DNuT/YgCu0Fo72BTspL1ME6QO+hJUDsfWSLrW5wXYpFYArU1YpmaRh1K75odwvm2bRpfT6QvccHRZPUJ+AssSnwOEQw6u9qlUDo/D7v3vjR1Jnp6cihhOE3jEU8SAE6TIGGT93XwlE91m0hArYV5VZwPxeNK5Y5ikMkUqKYi+nGZ0fbKFPWSbVnDOjkZ2WESb3jHhaCiFeBfA2YQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LtWZmf1uzjHyZlYaPr4c61Fixq14QYYpLrHgNSxMBGA=;
- b=V4CYhWTXU9fM1TqrepzW1QQOu0oFbPLROKYwO1sxbi+COjUP2EY+zPzya/vso91vXUQi/ANfx/yt56FIpl0VYu3PdLj8rVIfXqRLSDYsrKdONL+v9jRT++TCprabtIYJ93f4ZJ1Dcph9VIgvvXintkbIuKtOELFWEhkbbsjvFAzvQrtX28t+wvaF+04J2h8Csxzr1iipp/qkf3cWuuV44f+03Qy+g8YzlnPafk0/vWX+rurXwe551TBkBM8Oz/eKBZo5ueQXsuLHX28f2Vvev+ORA1SX7fJ3iw09Z2mWfPK0UdhID4hFzDcCtPG6+4/rCEbQxfVskYQvg0wur4lYnQ==
+ bh=fx9D05bo3sgl5pF5wJYx5uO/lAsbTjMKR4edqXyhnFI=;
+ b=G6sIcIBC3pEw0sIN5JNUPT+LH2mvHhGFvYJX4TglLQJ4i/YbMz1g4jKrtOz9pD8xm/9j/yZP6+mMfhpNSxaeH79rq11723/1xNWZf3aqHNZPMhDCqmJ2+Ms37bsxnP1hrZb/rrylVbeSx8tcxv3v4w14ESCW5yqe/Sc61ZquDdHv7Jo4fpDGJWFOzZV42LVR3+SSjwdJzthJ2fbZJYKMOoCYLqScaCH1QbOBjyTTYi5Pctha2djA6oAGPtQdnfoN39B89qzmvZCnNAirNrtv4iwx7FyROSIuc+nrUd8krqeoWnBy7z07RagJNZIZsBDbZEi2iKk0sTqw/FmdQIp6uA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LtWZmf1uzjHyZlYaPr4c61Fixq14QYYpLrHgNSxMBGA=;
- b=i//sGJmFRrE8/86LJKSx84qtwyZreD2QDlVl9W61hOy+uiOn5SFvYHYn/cGeBPWNEZpuBDrdHULYijRRBtJrKSIwWoPw2Eia497W7uktQP8M64QHTY1/KH29xfQPWCPLPIIOIjG3E+2iEs4CYGxMjN+ap2txLfbuxcLGkY1dzdU=
+ bh=fx9D05bo3sgl5pF5wJYx5uO/lAsbTjMKR4edqXyhnFI=;
+ b=m37e692njCTvC3/B3FURkLaoi5JdNBrpKThSg5nzI86OHAEicbVPTc/Uw52spvR2vHfz3SB2TdKbRMIBb2opSkd0tymV7x3K+H9OnkMyfxn/iZRuao8pgmRixWbHB9qkj794imP9jJ6sMf1r1+PJn2wPrt0GynguI/p+UuQ6iFo=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by CWLP265MB2018.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:6a::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.25; Tue, 31 Oct
- 2023 15:13:25 +0000
+ 2023 15:13:19 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::eef1:bccc:508d:e086]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::eef1:bccc:508d:e086%5]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
- 15:13:25 +0000
+ 15:13:19 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
 CC: <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
@@ -70,10 +70,10 @@ CC: <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
         <linux-kernel@vger.kernel.org>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
         <devicetree@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH v8 18/20] drm/imagination: Add firmware trace header
-Date: Tue, 31 Oct 2023 15:12:55 +0000
-Message-Id: <20231031151257.90350-19-sarah.walker@imgtec.com>
+        <linux-doc@vger.kernel.org>, Matt Coster <matt.coster@imgtec.com>
+Subject: [PATCH v8 10/20] drm/imagination: Add GPU ID parsing and firmware loading
+Date: Tue, 31 Oct 2023 15:12:47 +0000
+Message-Id: <20231031151257.90350-11-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231031151257.90350-1-sarah.walker@imgtec.com>
 References: <20231031151257.90350-1-sarah.walker@imgtec.com>
@@ -90,1719 +90,2215 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB2018:EE_
-X-MS-Office365-Filtering-Correlation-Id: e97faf77-430f-490b-2466-08dbda23ed9a
+X-MS-Office365-Filtering-Correlation-Id: f97e4096-574e-4529-8a96-08dbda23ea82
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yi87ADrFyh0f5bLOqUVW4JfKF78Lw2naetpOKYbflnS+WYwb4eDy+FY0wwCP7h6u32L7Y5e2jjPwML/JVDs7X+DNhc71CkkDWqe7Dh1tWiM+82aJlCM2RP3xtFGFQ3nTyFiNsoyrsn+KGgOkvpLkImO47fo6ux0CeidmDDld0dwOWDg/N68y6Rdgh+OzMKXPFsypCe9Vpf1diWBXx3W94Ws7lA6URFSMbBdCvRvezjgfVcxBoMAA1zGnsjtnIPGbIe247kM65RxgQpcsnNJRf8L6RGIRHEwzTxA81uKVwvrk6pl5jccSdFbrdCFUBFyWBGRl4KEyOoj+Ju0rDY6dsCZQP/y+/fQZqlqiz9PnpK4t3Z2TxXjV7LlVAqJlRyoT2wuEucM5JEthHSHWw6oQ4vO0lSgsFkjdJ5xGk5KMCeNS0ijDfNCGr2bZlc+5E38rcrzce0ClV2rT1DDzQGfE8w8xT4cqoKGLyifPZPO/w1IK3uJg7Nm5dTj63jTZ7qHPUa9WhZEGp2kC+Ea71RWVIqPN/iY8SwMpm63iq533mAI8dMx/LpAsxrrAryn6CioW2WLF9v09VsLjfi1tkdFb+g+IKsaanZyDxCwuWD8l0qLZhhSedMfFerqLQg/pq5aqLyt5x/pdmp/h1QvC8uv3Iot2AoAeoAGcD6upNWxnmAw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(39850400004)(346002)(396003)(230173577357003)(230922051799003)(230273577357003)(64100799003)(1800799009)(186009)(451199024)(2906002)(30864003)(7416002)(41300700001)(5660300002)(44832011)(8676002)(4326008)(8936002)(38350700005)(36756003)(86362001)(38100700002)(1076003)(316002)(6916009)(66946007)(66476007)(66556008)(2616005)(83380400001)(478600001)(6666004)(26005)(6512007)(6506007)(52116002)(6486002)(579004)(559001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: Y/r/OleO+wXx8F9EbBLW5BWgl4coiuRH5KJu0NL0Y4pY4+tVqoghHlSNE3wr+Ug/30NuSI7C3RHIbsnCtSv+1LkLAi1VqdY3sKrZecVZvr4omxDFNPtyCY5I9pHdBM75qHrWlS3ogh5+dsrvc/OaYKqODj1cLFNmpVjY74k/t15ox4rvhftNKgB0RFf5ymJt3/wNEFdGkMCDdpICkk0vW5fdClCeOyCEE7jqPD++c6bD5Lm+5Ba/zCXE3kqs4Z7PduMLMeZYMlf7lldHIBWmBPvfUdwU4i1fQrCc3ZwQ29rNKSKF7vYYmQOOu+E4t3Or0NIy13AwChm/tyjapva7LfBY41urFONhai5JVdXK0BYURHuflbTfnyfq79DhFsQN3/YhiaDlg/rSakd0S6dDdsbLNc3yEqCqs/rhVdd98fNH2AmOXV7Eyy/ISs5lyh7/eRkGksu47/BJJkwufLEa7jbVz4jDZUL2LcZPd+i0Um4PNe/fYM46wyxCLrWYjq2WJaga6CKV0dju82jf42lpVvByXY+3hnq4C845Y2CqDKoHyngK3fn0a5bFo9ESya6yJx46w3dH6r5X3EPGh98AfC4WrSPdbTDRrFHaa1m8yLzBu+5NHeqKMAqCHnqKmAUR
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(39850400004)(346002)(396003)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(2906002)(30864003)(7416002)(41300700001)(5660300002)(44832011)(8676002)(4326008)(8936002)(38350700005)(36756003)(86362001)(38100700002)(107886003)(1076003)(316002)(6916009)(66946007)(66476007)(66556008)(2616005)(83380400001)(478600001)(6666004)(26005)(6512007)(6506007)(52116002)(6486002)(579004)(559001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uZctOeK1zzLXfkwvvTtmngfLsYva9Et4RVmGcNWdsLOytSErMg0rLGUQutLg?=
- =?us-ascii?Q?lwxd9ZHNqN+XyfTL9Wdhtv32RAYmVb6jCB0R5zVVC4cJlZK6ZLT9dsFb08GC?=
- =?us-ascii?Q?+X2ps3PkIo/GQ68fArA6VGQ1Na9tZr0GLUId7vxtGUJuPP+vmZnlAafsabCD?=
- =?us-ascii?Q?54A/UbbuYvv+dqdV0BFl5ZuKqYj1YAb/xuxmGqSdVMgxHm/umud89pkNQGPy?=
- =?us-ascii?Q?0LqpTyUzaEr6k6aNbGoYzlaMOvYrnmai3xdnGIxh5lFXJmU8SSMErVT2oUvf?=
- =?us-ascii?Q?n2brDygCBa6B6jb49X9EsgFbLQ6vjE9NP56ZcvnrTJ3hky1NxYr/vK1VVy7d?=
- =?us-ascii?Q?Ih/iB4iJaZv1QVhGMQjtPz1vd/aqtlXvB4GVLT+TNuGZ7wYo4TmUbmKS9LNB?=
- =?us-ascii?Q?hkJJvxusGHi4wvuR5L/gmDcFClYo+Z7QRxlcVcCaaql55qHF/Mho9Bi0DB0x?=
- =?us-ascii?Q?L76Vaianh+3Kn5UipqmccNYhYq895nVgXhwd0pbZBFJixmdFsxMd/BWmDWrN?=
- =?us-ascii?Q?ro9AtUTjUr2qgoni6G9keYm/NOS3giM0bsgcktqAZJDSkPMzwkp3bBKTyfHZ?=
- =?us-ascii?Q?daSQD102uhXVE3UyiDDOf/veOe93fVuRcZaG/uvfS/WdafT2fZU3PpnHRspe?=
- =?us-ascii?Q?97JeX2VgkYEMxcOqi8c/x3OfhcrvB0fQxztIFU5gJwhLismMyM/XU7QPUIVC?=
- =?us-ascii?Q?UmJ7URShaHoOXoTqx2yR2wadvtRV3BDp7GPqM+QXyJZzt0D++U9kN8n1g7cr?=
- =?us-ascii?Q?WOSkaE2NdnLN/U2dGVMW4JJ/subkz4bY93LNpIJ0oYmh/9Z0q32unq8cYP/U?=
- =?us-ascii?Q?WvedKUQxODg9rpheOFN52NiUfFaK/2KIAhteEykNhdAxRoq4BxeC3XR2puxy?=
- =?us-ascii?Q?xf9LQKlv8hCMmuB5zYiQRZLFNgs1hLdEG+VhEmGGYIvdVNPeMvwmZ+Ghjw2P?=
- =?us-ascii?Q?DVjcuBBRmz5Acn94GdV7C0m5vc29v+GhJdMrAZJ3sSDGBDBOFgIh/spn8E9k?=
- =?us-ascii?Q?5yE86Xd98wmzrQzqMkDsKiH96U0ZAqJQ0KEXgoOZPmGx9gyxZa4MUnzbVbuO?=
- =?us-ascii?Q?ktuhk58a+/KpXg7J5Up6TAyhpdunsRZD7MgqZ09VxpXWKoj9ns1JDj3QFIpz?=
- =?us-ascii?Q?9YbVdZwSFnib/wdlsbF7W7nbnfIdz0dH9B/rMCYnpuugFLoAgsPU894maeSc?=
- =?us-ascii?Q?xRsgPMIZo7Qeh9oaDB2KuhADOTjIZJssKk1rd2Zh5dFKwud8qdpWMw4tsEtm?=
- =?us-ascii?Q?nw9rN08PpwT8vRot//7bfZ59xoRcig1YguAMdnv/MlQdPbmErwwXxgUa+9Q8?=
- =?us-ascii?Q?7qSVbxDT4iAKvp7Bg2sfaDrRu1WtTnZ+zGaDopPEIvt+3zXTUc9Yrh77cW+R?=
- =?us-ascii?Q?n++4zQyofRQ2Pi/h+bNRvPgv6De0zIrM68tmXJOQ4ePiZGhoqmqbGIq5cy6j?=
- =?us-ascii?Q?ow5GNA1Dstf8XGoGTfz8kz8BKGbInD74QAxqlODnTnZphSED4uHTu07bN20t?=
- =?us-ascii?Q?HdfZlZe3i975kiHhgsFs4LgcRNCc+0Z67j4ICh2X201lze/G6TKKQEM1UTDY?=
- =?us-ascii?Q?t16HwesGDD5ZDLE0mNUj52bPgRNGMMcSWxQAsulcEcAsIB72LO5fGMkRycEW?=
- =?us-ascii?Q?jA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e97faf77-430f-490b-2466-08dbda23ed9a
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PYt/ev7T+9nQyakJgs+DVKVvf/b3wz+82Qq546nMow8HmmVuNQ7RKJLnFex4?=
+ =?us-ascii?Q?3e3vh/uKURZdtbcnszxoifi7i7My/qCIqvVf+2f4OftO5qIQ9O2duA7sCcSz?=
+ =?us-ascii?Q?qSHfjWJ1g1iU9F5RP6TblWjEgI1pJxSvw0za62krmAI+aYa/7qx5J0Yv4W8b?=
+ =?us-ascii?Q?v1N0y/Auzsd9uH1gMs904HqC5hb0EWg5hBmjhdyMBBzaDmbLYRaHHWeITn7P?=
+ =?us-ascii?Q?F+4K2n3IN40/IO8Rw+8QG657BpXULLG9Y2pWojbJoR17Jodt1xWbTX+7r4Y6?=
+ =?us-ascii?Q?i96jdUH4RFg3b6NlIojNTLjkh165IWUzootEf/vdmwItdrXrZDgQBv/KobEr?=
+ =?us-ascii?Q?HqaqbAzp4EJ5zZZ09NtrfgbyAR9WbUf0gfe7M+aCxJYr8TP8dt0YdiWLLppp?=
+ =?us-ascii?Q?cJ8reA5MWOpHo/46/667iv6inBy9pzj+KgXzt9F27IEoR1FSnV12cNCVMMMF?=
+ =?us-ascii?Q?gaI9JgRwaMDCuT3uSi4tmsxedByhsfz+7zAhFPC69dScR4beI8sfJz4xii+0?=
+ =?us-ascii?Q?rlxGjphIbgEDBIS15CP7gCUqWxy2wIte0pzJeivgLzVXSkdnnRGYFM6TVzf/?=
+ =?us-ascii?Q?BrKSaieKhjh3ruHSjNSEyyj+dExliJ9sxgtZ5S4fzltCK/UobL7DqhDJY52V?=
+ =?us-ascii?Q?J+hT0SN2uBpx3IYkSJcOypMbGnOsK24NGR0HmHpkKT+LKIzIA3E3FiLrdwXw?=
+ =?us-ascii?Q?tHIxF2jQJqBtRqDQJG+9Ji05Cf5A/w8KOVw5bQ5cTeL+p+LKP0s5vHFmmGV9?=
+ =?us-ascii?Q?0HtPsNVbA9uE0ZafT2egQN4qV7TY5rvQjPpxARzdN9F8z4UFtygAVzl0PD4p?=
+ =?us-ascii?Q?zuxd4mQ950utNNuounfzPHOlz3JJpV3OiYsf0+BZrJIh8TcxSOoFGIHdknGC?=
+ =?us-ascii?Q?az1CXZmXiE08KhhfaNNUVy7YveubRSlkppvCPmmt0TQe3zcF2gY1nTbNKHay?=
+ =?us-ascii?Q?SXatSt0d9qVgFxyGBKC/pKDwKm3QqIcG9KKyta62vc7QSj3Jtn7tYGbACbBr?=
+ =?us-ascii?Q?PAzxBB+6PieCH1wn6t4cwhIQNF7iVMmLjUeVRxxuflrdYgTft811BkYmeSbB?=
+ =?us-ascii?Q?EJy6a/0zGqZquGMkO6apN/CR9+k22BM9Ug6LO4sqmR/DlNGGZnbkFbc3GiSB?=
+ =?us-ascii?Q?Jt5M0bvV4Xz9isM/XySwLGKJbV0GGr+/V2oXou0Ltvn2P3WG7rznGYYrQQuz?=
+ =?us-ascii?Q?dxM3Ci2aI1n9Tv6DLQeMWjp3U78Wmtra6JuZwXRuTwsTbvKuzbTRvR8i8+zI?=
+ =?us-ascii?Q?s4ACYhVA4EGU9iReBu2BzT97A6jMY6EimNQtspFWcabeFSUQvCS4DWfFZOp+?=
+ =?us-ascii?Q?i4nDYbaWSQJz3VpUOSdZlL14v89GyBvCpbsiXKFfwS0BPCg2tqzgLsuDczSV?=
+ =?us-ascii?Q?Qm2p+0TvepXRbx9i3SFyYI/rnnzt6mIcUujvi3UccVuek8n1VSttLMtbkPIW?=
+ =?us-ascii?Q?If5ZDBCJv6whT6hvoXF6lopSFRtrVPYgKFwMSI+3cIYQsqFoJx73urgf4F8h?=
+ =?us-ascii?Q?IJaEhGFYOORoYQSd1BM9qgARPtaLWQFJqizNnFJDtVjMk4QBD78IPigMXZG8?=
+ =?us-ascii?Q?Ac4JeCAJ1UHSC+gOQfHqrldPJnTe/e3X2qYK8hcF8c50BQoWCh0vor+J1BGI?=
+ =?us-ascii?Q?CA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f97e4096-574e-4529-8a96-08dbda23ea82
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 15:13:25.0083
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 15:13:19.8535
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J2BzvATOvgALto7/d/Ydt3USyb8VfBPVmE1CXviDnngCqvDvD/Sji5brvblF6F3Cj0oMah6lDFOf70wxkmMDVw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: KBoh6vBAh51dCseHFrhI7UQUAd4WGHXl+lvKhjhvI1JnPxcUUuN0+Q/rU/EQOsFe0oFmM7rUUBQP0YNXBfAEOQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2018
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: rFIj04xT5gWzf6iMXETABysI0vPW6wQH
-X-Proofpoint-ORIG-GUID: rFIj04xT5gWzf6iMXETABysI0vPW6wQH
+X-Proofpoint-GUID: xyIpT5NvizncDzlUkoLBvg6Oxm36iojI
+X-Proofpoint-ORIG-GUID: xyIpT5NvizncDzlUkoLBvg6Oxm36iojI
+
+Read the GPU ID register at probe time and select the correct
+features/quirks/enhancements. Use the GPU ID to form the firmware
+file name and load the firmware.
+
+The features/quirks/enhancements arrays are currently hardcoded in
+the driver for the supported GPUs. We are looking at moving this
+information to the firmware image.
+
+Changes since v7:
+- Fix kerneldoc for pvr_device_info_set_enhancements()
 
 Changes since v5:
-- Split up header commit due to size
+- Add BRN 71242 to device info
 
+Changes since v4:
+- Retrieve device information from firmware header
+- Pull forward firmware header parsing from FW infrastructure patch
+- Use devm_add_action_or_reset to release firmware
+
+Changes since v3:
+- Use drm_dev_{enter,exit}
+
+Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+Signed-off-by: Frank Binns <frank.binns@imgtec.com>
+Co-developed-by: Matt Coster <matt.coster@imgtec.com>
+Signed-off-by: Matt Coster <matt.coster@imgtec.com>
+Co-developed-by: Donald Robson <donald.robson@imgtec.com>
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 ---
- .../gpu/drm/imagination/pvr_rogue_fwif_sf.h   | 1648 +++++++++++++++++
- 1 file changed, 1648 insertions(+)
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_sf.h
+ drivers/gpu/drm/imagination/Makefile          |   2 +
+ drivers/gpu/drm/imagination/pvr_device.c      | 323 ++++++++++-
+ drivers/gpu/drm/imagination/pvr_device.h      | 220 ++++++++
+ drivers/gpu/drm/imagination/pvr_device_info.c | 254 +++++++++
+ drivers/gpu/drm/imagination/pvr_device_info.h | 186 +++++++
+ drivers/gpu/drm/imagination/pvr_drv.c         | 521 +++++++++++++++++-
+ drivers/gpu/drm/imagination/pvr_drv.h         | 107 ++++
+ drivers/gpu/drm/imagination/pvr_fw.c          | 145 +++++
+ drivers/gpu/drm/imagination/pvr_fw.h          |  34 ++
+ drivers/gpu/drm/imagination/pvr_fw_info.h     | 135 +++++
+ 10 files changed, 1925 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_device_info.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_device_info.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_fw.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_fw.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_fw_info.h
 
-diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_sf.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_sf.h
+diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
+index b4aa190c9d4a..9e144ff2742b 100644
+--- a/drivers/gpu/drm/imagination/Makefile
++++ b/drivers/gpu/drm/imagination/Makefile
+@@ -5,6 +5,8 @@ subdir-ccflags-y := -I$(srctree)/$(src)
+ 
+ powervr-y := \
+ 	pvr_device.o \
++	pvr_device_info.o \
+ 	pvr_drv.o \
++	pvr_fw.o
+ 
+ obj-$(CONFIG_DRM_POWERVR) += powervr.o
+diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
+index cef3511c0c42..b1fae182c4f6 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.c
++++ b/drivers/gpu/drm/imagination/pvr_device.c
+@@ -2,19 +2,31 @@
+ /* Copyright (c) 2023 Imagination Technologies Ltd. */
+ 
+ #include "pvr_device.h"
++#include "pvr_device_info.h"
++
++#include "pvr_fw.h"
++#include "pvr_rogue_cr_defs.h"
+ 
+ #include <drm/drm_print.h>
+ 
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/compiler_attributes.h>
+ #include <linux/compiler_types.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
++#include <linux/firmware.h>
+ #include <linux/gfp.h>
++#include <linux/interrupt.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+ #include <linux/stddef.h>
+ #include <linux/types.h>
++#include <linux/workqueue.h>
++
++/* Major number for the supported version of the firmware. */
++#define PVR_FW_VERSION_MAJOR 1
+ 
+ /**
+  * pvr_device_reg_init() - Initialize kernel access to a PowerVR device's
+@@ -100,6 +112,209 @@ static int pvr_device_clk_init(struct pvr_device *pvr_dev)
+ 	return 0;
+ }
+ 
++/**
++ * pvr_build_firmware_filename() - Construct a PowerVR firmware filename
++ * @pvr_dev: Target PowerVR device.
++ * @base: First part of the filename.
++ * @major: Major version number.
++ *
++ * A PowerVR firmware filename consists of three parts separated by underscores
++ * (``'_'``) along with a '.fw' file suffix. The first part is the exact value
++ * of @base, the second part is the hardware version string derived from @pvr_fw
++ * and the final part is the firmware version number constructed from @major with
++ * a 'v' prefix, e.g. powervr/rogue_4.40.2.51_v1.fw.
++ *
++ * The returned string will have been slab allocated and must be freed with
++ * kfree().
++ *
++ * Return:
++ *  * The constructed filename on success, or
++ *  * Any error returned by kasprintf().
++ */
++static char *
++pvr_build_firmware_filename(struct pvr_device *pvr_dev, const char *base,
++			    u8 major)
++{
++	struct pvr_gpu_id *gpu_id = &pvr_dev->gpu_id;
++
++	return kasprintf(GFP_KERNEL, "%s_%d.%d.%d.%d_v%d.fw", base, gpu_id->b,
++			 gpu_id->v, gpu_id->n, gpu_id->c, major);
++}
++
++static void
++pvr_release_firmware(void *data)
++{
++	struct pvr_device *pvr_dev = data;
++
++	release_firmware(pvr_dev->fw_dev.firmware);
++}
++
++/**
++ * pvr_request_firmware() - Load firmware for a PowerVR device
++ * @pvr_dev: Target PowerVR device.
++ *
++ * See pvr_build_firmware_filename() for details on firmware file naming.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * Any error returned by pvr_build_firmware_filename(), or
++ *  * Any error returned by request_firmware().
++ */
++static int
++pvr_request_firmware(struct pvr_device *pvr_dev)
++{
++	struct drm_device *drm_dev = &pvr_dev->base;
++	char *filename;
++	const struct firmware *fw;
++	int err;
++
++	filename = pvr_build_firmware_filename(pvr_dev, "powervr/rogue",
++					       PVR_FW_VERSION_MAJOR);
++	if (IS_ERR(filename))
++		return PTR_ERR(filename);
++
++	/*
++	 * This function takes a copy of &filename, meaning we can free our
++	 * instance before returning.
++	 */
++	err = request_firmware(&fw, filename, pvr_dev->base.dev);
++	if (err) {
++		drm_err(drm_dev, "failed to load firmware %s (err=%d)\n",
++			filename, err);
++		goto err_free_filename;
++	}
++
++	drm_info(drm_dev, "loaded firmware %s\n", filename);
++	kfree(filename);
++
++	pvr_dev->fw_dev.firmware = fw;
++
++	return devm_add_action_or_reset(drm_dev->dev, pvr_release_firmware, pvr_dev);
++
++err_free_filename:
++	kfree(filename);
++
++	return err;
++}
++
++/**
++ * pvr_load_gpu_id() - Load a PowerVR device's GPU ID (BVNC) from control registers.
++ *
++ * Sets struct pvr_dev.gpu_id.
++ *
++ * @pvr_dev: Target PowerVR device.
++ */
++static void
++pvr_load_gpu_id(struct pvr_device *pvr_dev)
++{
++	struct pvr_gpu_id *gpu_id = &pvr_dev->gpu_id;
++	u64 bvnc;
++
++	/*
++	 * Try reading the BVNC using the newer (cleaner) method first. If the
++	 * B value is zero, fall back to the older method.
++	 */
++	bvnc = pvr_cr_read64(pvr_dev, ROGUE_CR_CORE_ID__PBVNC);
++
++	gpu_id->b = PVR_CR_FIELD_GET(bvnc, CORE_ID__PBVNC__BRANCH_ID);
++	if (gpu_id->b != 0) {
++		gpu_id->v = PVR_CR_FIELD_GET(bvnc, CORE_ID__PBVNC__VERSION_ID);
++		gpu_id->n = PVR_CR_FIELD_GET(bvnc, CORE_ID__PBVNC__NUMBER_OF_SCALABLE_UNITS);
++		gpu_id->c = PVR_CR_FIELD_GET(bvnc, CORE_ID__PBVNC__CONFIG_ID);
++	} else {
++		u32 core_rev = pvr_cr_read32(pvr_dev, ROGUE_CR_CORE_REVISION);
++		u32 core_id = pvr_cr_read32(pvr_dev, ROGUE_CR_CORE_ID);
++		u16 core_id_config = PVR_CR_FIELD_GET(core_id, CORE_ID_CONFIG);
++
++		gpu_id->b = PVR_CR_FIELD_GET(core_rev, CORE_REVISION_MAJOR);
++		gpu_id->v = PVR_CR_FIELD_GET(core_rev, CORE_REVISION_MINOR);
++		gpu_id->n = FIELD_GET(0xFF00, core_id_config);
++		gpu_id->c = FIELD_GET(0x00FF, core_id_config);
++	}
++}
++
++/**
++ * pvr_set_dma_info() - Set PowerVR device DMA information
++ * @pvr_dev: Target PowerVR device.
++ *
++ * Sets the DMA mask and max segment size for the PowerVR device.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * Any error returned by PVR_FEATURE_VALUE(), or
++ *  * Any error returned by dma_set_mask().
++ */
++
++static int
++pvr_set_dma_info(struct pvr_device *pvr_dev)
++{
++	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
++	u16 phys_bus_width;
++	int err;
++
++	err = PVR_FEATURE_VALUE(pvr_dev, phys_bus_width, &phys_bus_width);
++	if (err) {
++		drm_err(drm_dev, "Failed to get device physical bus width\n");
++		return err;
++	}
++
++	err = dma_set_mask(drm_dev->dev, DMA_BIT_MASK(phys_bus_width));
++	if (err) {
++		drm_err(drm_dev, "Failed to set DMA mask (err=%d)\n", err);
++		return err;
++	}
++
++	dma_set_max_seg_size(drm_dev->dev, UINT_MAX);
++
++	return 0;
++}
++
++/**
++ * pvr_device_gpu_init() - GPU-specific initialization for a PowerVR device
++ * @pvr_dev: Target PowerVR device.
++ *
++ * The following steps are taken to ensure the device is ready:
++ *
++ *  1. Read the hardware version information from control registers,
++ *  2. Initialise the hardware feature information,
++ *  3. Setup the device DMA information,
++ *  4. Setup the device-scoped memory context, and
++ *  5. Load firmware into the device.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%ENODEV if the GPU is not supported,
++ *  * Any error returned by pvr_set_dma_info(),
++ *  * Any error returned by pvr_memory_context_init(), or
++ *  * Any error returned by pvr_request_firmware().
++ */
++static int
++pvr_device_gpu_init(struct pvr_device *pvr_dev)
++{
++	int err;
++
++	pvr_load_gpu_id(pvr_dev);
++
++	err = pvr_request_firmware(pvr_dev);
++	if (err)
++		return err;
++
++	err = pvr_fw_validate_init_device_info(pvr_dev);
++	if (err)
++		return err;
++
++	if (PVR_HAS_FEATURE(pvr_dev, meta))
++		pvr_dev->fw_dev.processor_type = PVR_FW_PROCESSOR_TYPE_META;
++	else if (PVR_HAS_FEATURE(pvr_dev, mips))
++		pvr_dev->fw_dev.processor_type = PVR_FW_PROCESSOR_TYPE_MIPS;
++	else if (PVR_HAS_FEATURE(pvr_dev, riscv_fw_processor))
++		pvr_dev->fw_dev.processor_type = PVR_FW_PROCESSOR_TYPE_RISCV;
++	else
++		return -EINVAL;
++
++	return pvr_set_dma_info(pvr_dev);
++}
++
+ /**
+  * pvr_device_init() - Initialize a PowerVR device
+  * @pvr_dev: Target PowerVR device.
+@@ -130,7 +345,12 @@ pvr_device_init(struct pvr_device *pvr_dev)
+ 		return err;
+ 
+ 	/* Map the control registers into memory. */
+-	return pvr_device_reg_init(pvr_dev);
++	err = pvr_device_reg_init(pvr_dev);
++	if (err)
++		return err;
++
++	/* Perform GPU-specific initialization steps. */
++	return pvr_device_gpu_init(pvr_dev);
+ }
+ 
+ /**
+@@ -145,3 +365,104 @@ pvr_device_fini(struct pvr_device *pvr_dev)
+ 	 * the initialization stages in pvr_device_init().
+ 	 */
+ }
++
++bool
++pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk)
++{
++	switch (quirk) {
++	case 47217:
++		return PVR_HAS_QUIRK(pvr_dev, 47217);
++	case 48545:
++		return PVR_HAS_QUIRK(pvr_dev, 48545);
++	case 49927:
++		return PVR_HAS_QUIRK(pvr_dev, 49927);
++	case 51764:
++		return PVR_HAS_QUIRK(pvr_dev, 51764);
++	case 62269:
++		return PVR_HAS_QUIRK(pvr_dev, 62269);
++	default:
++		return false;
++	};
++}
++
++bool
++pvr_device_has_uapi_enhancement(struct pvr_device *pvr_dev, u32 enhancement)
++{
++	switch (enhancement) {
++	case 35421:
++		return PVR_HAS_ENHANCEMENT(pvr_dev, 35421);
++	case 42064:
++		return PVR_HAS_ENHANCEMENT(pvr_dev, 42064);
++	default:
++		return false;
++	};
++}
++
++/**
++ * pvr_device_has_feature() - Look up device feature based on feature definition
++ * @pvr_dev: Device pointer.
++ * @feature: Feature to look up. Should be one of %PVR_FEATURE_*.
++ *
++ * Returns:
++ *  * %true if feature is present on device, or
++ *  * %false if feature is not present on device.
++ */
++bool
++pvr_device_has_feature(struct pvr_device *pvr_dev, u32 feature)
++{
++	switch (feature) {
++	case PVR_FEATURE_CLUSTER_GROUPING:
++		return PVR_HAS_FEATURE(pvr_dev, cluster_grouping);
++
++	case PVR_FEATURE_COMPUTE_MORTON_CAPABLE:
++		return PVR_HAS_FEATURE(pvr_dev, compute_morton_capable);
++
++	case PVR_FEATURE_FB_CDC_V4:
++		return PVR_HAS_FEATURE(pvr_dev, fb_cdc_v4);
++
++	case PVR_FEATURE_GPU_MULTICORE_SUPPORT:
++		return PVR_HAS_FEATURE(pvr_dev, gpu_multicore_support);
++
++	case PVR_FEATURE_ISP_ZLS_D24_S8_PACKING_OGL_MODE:
++		return PVR_HAS_FEATURE(pvr_dev, isp_zls_d24_s8_packing_ogl_mode);
++
++	case PVR_FEATURE_S7_TOP_INFRASTRUCTURE:
++		return PVR_HAS_FEATURE(pvr_dev, s7_top_infrastructure);
++
++	case PVR_FEATURE_TESSELLATION:
++		return PVR_HAS_FEATURE(pvr_dev, tessellation);
++
++	case PVR_FEATURE_TPU_DM_GLOBAL_REGISTERS:
++		return PVR_HAS_FEATURE(pvr_dev, tpu_dm_global_registers);
++
++	case PVR_FEATURE_VDM_DRAWINDIRECT:
++		return PVR_HAS_FEATURE(pvr_dev, vdm_drawindirect);
++
++	case PVR_FEATURE_VDM_OBJECT_LEVEL_LLS:
++		return PVR_HAS_FEATURE(pvr_dev, vdm_object_level_lls);
++
++	case PVR_FEATURE_ZLS_SUBTILE:
++		return PVR_HAS_FEATURE(pvr_dev, zls_subtile);
++
++	/* Derived features. */
++	case PVR_FEATURE_CDM_USER_MODE_QUEUE: {
++		u8 cdm_control_stream_format = 0;
++
++		PVR_FEATURE_VALUE(pvr_dev, cdm_control_stream_format, &cdm_control_stream_format);
++		return (cdm_control_stream_format >= 2 && cdm_control_stream_format <= 4);
++	}
++
++	case PVR_FEATURE_REQUIRES_FB_CDC_ZLS_SETUP:
++		if (PVR_HAS_FEATURE(pvr_dev, fbcdc_algorithm)) {
++			u8 fbcdc_algorithm = 0;
++
++			PVR_FEATURE_VALUE(pvr_dev, fbcdc_algorithm, &fbcdc_algorithm);
++			return (fbcdc_algorithm < 3 || PVR_HAS_FEATURE(pvr_dev, fb_cdc_v4));
++		}
++		return false;
++
++	default:
++		WARN(true, "Looking up undefined feature %u\n", feature);
++		return false;
++	}
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+index d61b3615b49f..833fd686c8eb 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -4,6 +4,9 @@
+ #ifndef PVR_DEVICE_H
+ #define PVR_DEVICE_H
+ 
++#include "pvr_device_info.h"
++#include "pvr_fw.h"
++
+ #include <drm/drm_device.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_mm.h>
+@@ -28,6 +31,26 @@ struct clk;
+ /* Forward declaration from <linux/firmware.h>. */
+ struct firmware;
+ 
++/**
++ * struct pvr_gpu_id - Hardware GPU ID information for a PowerVR device
++ * @b: Branch ID.
++ * @v: Version ID.
++ * @n: Number of scalable units.
++ * @c: Config ID.
++ */
++struct pvr_gpu_id {
++	u16 b, v, n, c;
++};
++
++/**
++ * struct pvr_fw_version - Firmware version information
++ * @major: Major version number.
++ * @minor: Minor version number.
++ */
++struct pvr_fw_version {
++	u16 major, minor;
++};
++
+ /**
+  * struct pvr_device - powervr-specific wrapper for &struct drm_device
+  */
+@@ -40,6 +63,35 @@ struct pvr_device {
+ 	 */
+ 	struct drm_device base;
+ 
++	/** @gpu_id: GPU ID detected at runtime. */
++	struct pvr_gpu_id gpu_id;
++
++	/**
++	 * @features: Hardware feature information.
++	 *
++	 * Do not access this member directly, instead use PVR_HAS_FEATURE()
++	 * or PVR_FEATURE_VALUE() macros.
++	 */
++	struct pvr_device_features features;
++
++	/**
++	 * @quirks: Hardware quirk information.
++	 *
++	 * Do not access this member directly, instead use PVR_HAS_QUIRK().
++	 */
++	struct pvr_device_quirks quirks;
++
++	/**
++	 * @enhancements: Hardware enhancement information.
++	 *
++	 * Do not access this member directly, instead use
++	 * PVR_HAS_ENHANCEMENT().
++	 */
++	struct pvr_device_enhancements enhancements;
++
++	/** @fw_version: Firmware version detected at runtime. */
++	struct pvr_fw_version fw_version;
++
+ 	/**
+ 	 * @regs: Device control registers.
+ 	 *
+@@ -70,6 +122,9 @@ struct pvr_device {
+ 	 * Interface (MEMIF). If present, this needs to be enabled/disabled together with @core_clk.
+ 	 */
+ 	struct clk *mem_clk;
++
++	/** @fw_dev: Firmware related data. */
++	struct pvr_fw_device fw_dev;
+ };
+ 
+ /**
+@@ -92,6 +147,76 @@ struct pvr_file {
+ 	struct pvr_device *pvr_dev;
+ };
+ 
++/**
++ * PVR_HAS_FEATURE() - Tests whether a PowerVR device has a given feature
++ * @pvr_dev: [IN] Target PowerVR device.
++ * @feature: [IN] Hardware feature name.
++ *
++ * Feature names are derived from those found in &struct pvr_device_features by
++ * dropping the 'has_' prefix, which is applied by this macro.
++ *
++ * Return:
++ *  * true if the named feature is present in the hardware
++ *  * false if the named feature is not present in the hardware
++ */
++#define PVR_HAS_FEATURE(pvr_dev, feature) ((pvr_dev)->features.has_##feature)
++
++/**
++ * PVR_FEATURE_VALUE() - Gets a PowerVR device feature value
++ * @pvr_dev: [IN] Target PowerVR device.
++ * @feature: [IN] Feature name.
++ * @value_out: [OUT] Feature value.
++ *
++ * This macro will get a feature value for those features that have values.
++ * If the feature is not present, nothing will be stored to @value_out.
++ *
++ * Feature names are derived from those found in &struct pvr_device_features by
++ * dropping the 'has_' prefix.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if the named feature is not present in the hardware
++ */
++#define PVR_FEATURE_VALUE(pvr_dev, feature, value_out)             \
++	({                                                         \
++		struct pvr_device *_pvr_dev = pvr_dev;             \
++		int _ret = -EINVAL;                                \
++		if (_pvr_dev->features.has_##feature) {            \
++			*(value_out) = _pvr_dev->features.feature; \
++			_ret = 0;                                  \
++		}                                                  \
++		_ret;                                              \
++	})
++
++/**
++ * PVR_HAS_QUIRK() - Tests whether a physical device has a given quirk
++ * @pvr_dev: [IN] Target PowerVR device.
++ * @quirk: [IN] Hardware quirk name.
++ *
++ * Quirk numbers are derived from those found in #pvr_device_quirks by
++ * dropping the 'has_brn' prefix, which is applied by this macro.
++ *
++ * Returns
++ *  * true if the quirk is present in the hardware, or
++ *  * false if the quirk is not present in the hardware.
++ */
++#define PVR_HAS_QUIRK(pvr_dev, quirk) ((pvr_dev)->quirks.has_brn##quirk)
++
++/**
++ * PVR_HAS_ENHANCEMENT() - Tests whether a physical device has a given
++ *                         enhancement
++ * @pvr_dev: [IN] Target PowerVR device.
++ * @enhancement: [IN] Hardware enhancement name.
++ *
++ * Enhancement numbers are derived from those found in #pvr_device_enhancements
++ * by dropping the 'has_ern' prefix, which is applied by this macro.
++ *
++ * Returns
++ *  * true if the enhancement is present in the hardware, or
++ *  * false if the enhancement is not present in the hardware.
++ */
++#define PVR_HAS_ENHANCEMENT(pvr_dev, enhancement) ((pvr_dev)->enhancements.has_ern##enhancement)
++
+ #define from_pvr_device(pvr_dev) (&(pvr_dev)->base)
+ 
+ #define to_pvr_device(drm_dev) container_of_const(drm_dev, struct pvr_device, base)
+@@ -100,9 +225,77 @@ struct pvr_file {
+ 
+ #define to_pvr_file(file) ((file)->driver_priv)
+ 
++/**
++ * PVR_PACKED_BVNC() - Packs B, V, N and C values into a 64-bit unsigned integer
++ * @b: Branch ID.
++ * @v: Version ID.
++ * @n: Number of scalable units.
++ * @c: Config ID.
++ *
++ * The packed layout is as follows:
++ *
++ *    +--------+--------+--------+-------+
++ *    | 63..48 | 47..32 | 31..16 | 15..0 |
++ *    +========+========+========+=======+
++ *    | B      | V      | N      | C     |
++ *    +--------+--------+--------+-------+
++ *
++ * pvr_gpu_id_to_packed_bvnc() should be used instead of this macro when a
++ * &struct pvr_gpu_id is available in order to ensure proper type checking.
++ *
++ * Return: Packed BVNC.
++ */
++/* clang-format off */
++#define PVR_PACKED_BVNC(b, v, n, c) \
++	((((u64)(b) & GENMASK_ULL(15, 0)) << 48) | \
++	 (((u64)(v) & GENMASK_ULL(15, 0)) << 32) | \
++	 (((u64)(n) & GENMASK_ULL(15, 0)) << 16) | \
++	 (((u64)(c) & GENMASK_ULL(15, 0)) <<  0))
++/* clang-format on */
++
++/**
++ * pvr_gpu_id_to_packed_bvnc() - Packs B, V, N and C values into a 64-bit
++ * unsigned integer
++ * @gpu_id: GPU ID.
++ *
++ * The packed layout is as follows:
++ *
++ *    +--------+--------+--------+-------+
++ *    | 63..48 | 47..32 | 31..16 | 15..0 |
++ *    +========+========+========+=======+
++ *    | B      | V      | N      | C     |
++ *    +--------+--------+--------+-------+
++ *
++ * This should be used in preference to PVR_PACKED_BVNC() when a &struct
++ * pvr_gpu_id is available in order to ensure proper type checking.
++ *
++ * Return: Packed BVNC.
++ */
++static __always_inline u64
++pvr_gpu_id_to_packed_bvnc(struct pvr_gpu_id *gpu_id)
++{
++	return PVR_PACKED_BVNC(gpu_id->b, gpu_id->v, gpu_id->n, gpu_id->c);
++}
++
++static __always_inline void
++packed_bvnc_to_pvr_gpu_id(u64 bvnc, struct pvr_gpu_id *gpu_id)
++{
++	gpu_id->b = (bvnc & GENMASK_ULL(63, 48)) >> 48;
++	gpu_id->v = (bvnc & GENMASK_ULL(47, 32)) >> 32;
++	gpu_id->n = (bvnc & GENMASK_ULL(31, 16)) >> 16;
++	gpu_id->c = bvnc & GENMASK_ULL(15, 0);
++}
++
+ int pvr_device_init(struct pvr_device *pvr_dev);
+ void pvr_device_fini(struct pvr_device *pvr_dev);
+ 
++bool
++pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk);
++bool
++pvr_device_has_uapi_enhancement(struct pvr_device *pvr_dev, u32 enhancement);
++bool
++pvr_device_has_feature(struct pvr_device *pvr_dev, u32 feature);
++
+ /**
+  * PVR_CR_FIELD_GET() - Extract a single field from a PowerVR control register
+  * @val: Value of the target register.
+@@ -208,6 +401,29 @@ pvr_cr_poll_reg64(struct pvr_device *pvr_dev, u32 reg_addr, u64 reg_value,
+ 		(value & reg_mask) == reg_value, 0, timeout_usec);
+ }
+ 
++/**
++ * pvr_round_up_to_cacheline_size() - Round up a provided size to be cacheline
++ *                                    aligned
++ * @pvr_dev: Target PowerVR device.
++ * @size: Initial size, in bytes.
++ *
++ * Returns:
++ *  * Size aligned to cacheline size.
++ */
++static __always_inline size_t
++pvr_round_up_to_cacheline_size(struct pvr_device *pvr_dev, size_t size)
++{
++	u16 slc_cacheline_size_bits = 0;
++	u16 slc_cacheline_size_bytes;
++
++	WARN_ON(!PVR_HAS_FEATURE(pvr_dev, slc_cache_line_size_bits));
++	PVR_FEATURE_VALUE(pvr_dev, slc_cache_line_size_bits,
++			  &slc_cacheline_size_bits);
++	slc_cacheline_size_bytes = slc_cacheline_size_bits / 8;
++
++	return round_up(size, slc_cacheline_size_bytes);
++}
++
+ /**
+  * DOC: IOCTL validation helpers
+  *
+@@ -302,4 +518,8 @@ pvr_ioctl_union_padding_check(void *instance, size_t union_offset,
+ 					      __union_size, __member_size);  \
+ 	})
+ 
++#define PVR_FW_PROCESSOR_TYPE_META  0
++#define PVR_FW_PROCESSOR_TYPE_MIPS  1
++#define PVR_FW_PROCESSOR_TYPE_RISCV 2
++
+ #endif /* PVR_DEVICE_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_device_info.c b/drivers/gpu/drm/imagination/pvr_device_info.c
 new file mode 100644
-index 000000000000..0fcc500fab21
+index 000000000000..fe0ecbbb3db1
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_sf.h
-@@ -0,0 +1,1648 @@
++++ b/drivers/gpu/drm/imagination/pvr_device_info.c
+@@ -0,0 +1,254 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_device.h"
++#include "pvr_device_info.h"
++#include "pvr_rogue_fwif_dev_info.h"
++
++#include <drm/drm_print.h>
++
++#include <linux/bits.h>
++#include <linux/minmax.h>
++#include <linux/stddef.h>
++#include <linux/types.h>
++
++#define QUIRK_MAPPING(quirk) \
++	[PVR_FW_HAS_BRN_##quirk] = offsetof(struct pvr_device, quirks.has_brn##quirk)
++
++static const uintptr_t quirks_mapping[] = {
++	QUIRK_MAPPING(44079),
++	QUIRK_MAPPING(47217),
++	QUIRK_MAPPING(48492),
++	QUIRK_MAPPING(48545),
++	QUIRK_MAPPING(49927),
++	QUIRK_MAPPING(50767),
++	QUIRK_MAPPING(51764),
++	QUIRK_MAPPING(62269),
++	QUIRK_MAPPING(63142),
++	QUIRK_MAPPING(63553),
++	QUIRK_MAPPING(66011),
++	QUIRK_MAPPING(71242),
++};
++
++#undef QUIRK_MAPPING
++
++#define ENHANCEMENT_MAPPING(enhancement)                             \
++	[PVR_FW_HAS_ERN_##enhancement] = offsetof(struct pvr_device, \
++						  enhancements.has_ern##enhancement)
++
++static const uintptr_t enhancements_mapping[] = {
++	ENHANCEMENT_MAPPING(35421),
++	ENHANCEMENT_MAPPING(38020),
++	ENHANCEMENT_MAPPING(38748),
++	ENHANCEMENT_MAPPING(42064),
++	ENHANCEMENT_MAPPING(42290),
++	ENHANCEMENT_MAPPING(42606),
++	ENHANCEMENT_MAPPING(47025),
++	ENHANCEMENT_MAPPING(57596),
++};
++
++#undef ENHANCEMENT_MAPPING
++
++static void pvr_device_info_set_common(struct pvr_device *pvr_dev, const u64 *bitmask,
++				       u32 bitmask_size, const uintptr_t *mapping, u32 mapping_max)
++{
++	const u32 mapping_max_size = (mapping_max + 63) >> 6;
++	const u32 nr_bits = min(bitmask_size * 64, mapping_max);
++
++	/* Warn if any unsupported values in the bitmask. */
++	if (bitmask_size > mapping_max_size) {
++		if (mapping == quirks_mapping)
++			drm_warn(from_pvr_device(pvr_dev), "Unsupported quirks in firmware image");
++		else
++			drm_warn(from_pvr_device(pvr_dev),
++				 "Unsupported enhancements in firmware image");
++	} else if (bitmask_size == mapping_max_size && (mapping_max & 63)) {
++		u64 invalid_mask = ~0ull << (mapping_max & 63);
++
++		if (bitmask[bitmask_size - 1] & invalid_mask) {
++			if (mapping == quirks_mapping)
++				drm_warn(from_pvr_device(pvr_dev),
++					 "Unsupported quirks in firmware image");
++			else
++				drm_warn(from_pvr_device(pvr_dev),
++					 "Unsupported enhancements in firmware image");
++		}
++	}
++
++	for (u32 i = 0; i < nr_bits; i++) {
++		if (bitmask[i >> 6] & BIT_ULL(i & 63))
++			*(bool *)((u8 *)pvr_dev + mapping[i]) = true;
++	}
++}
++
++/**
++ * pvr_device_info_set_quirks() - Set device quirks from device information in firmware
++ * @pvr_dev: Device pointer.
++ * @quirks: Pointer to quirks mask in device information.
++ * @quirks_size: Size of quirks mask, in u64s.
++ */
++void pvr_device_info_set_quirks(struct pvr_device *pvr_dev, const u64 *quirks, u32 quirks_size)
++{
++	BUILD_BUG_ON(ARRAY_SIZE(quirks_mapping) != PVR_FW_HAS_BRN_MAX);
++
++	pvr_device_info_set_common(pvr_dev, quirks, quirks_size, quirks_mapping,
++				   ARRAY_SIZE(quirks_mapping));
++}
++
++/**
++ * pvr_device_info_set_enhancements() - Set device enhancements from device information in firmware
++ * @pvr_dev: Device pointer.
++ * @enhancements: Pointer to enhancements mask in device information.
++ * @enhancements_size: Size of enhancements mask, in u64s.
++ */
++void pvr_device_info_set_enhancements(struct pvr_device *pvr_dev, const u64 *enhancements,
++				      u32 enhancements_size)
++{
++	BUILD_BUG_ON(ARRAY_SIZE(enhancements_mapping) != PVR_FW_HAS_ERN_MAX);
++
++	pvr_device_info_set_common(pvr_dev, enhancements, enhancements_size,
++				   enhancements_mapping, ARRAY_SIZE(enhancements_mapping));
++}
++
++#define FEATURE_MAPPING(fw_feature, feature)                                        \
++	[PVR_FW_HAS_FEATURE_##fw_feature] = {                                       \
++		.flag_offset = offsetof(struct pvr_device, features.has_##feature), \
++		.value_offset = 0                                                   \
++	}
++
++#define FEATURE_MAPPING_VALUE(fw_feature, feature)                                  \
++	[PVR_FW_HAS_FEATURE_##fw_feature] = {                                       \
++		.flag_offset = offsetof(struct pvr_device, features.has_##feature), \
++		.value_offset = offsetof(struct pvr_device, features.feature)       \
++	}
++
++static const struct {
++	uintptr_t flag_offset;
++	uintptr_t value_offset;
++} features_mapping[] = {
++	FEATURE_MAPPING(AXI_ACELITE, axi_acelite),
++	FEATURE_MAPPING_VALUE(CDM_CONTROL_STREAM_FORMAT, cdm_control_stream_format),
++	FEATURE_MAPPING(CLUSTER_GROUPING, cluster_grouping),
++	FEATURE_MAPPING_VALUE(COMMON_STORE_SIZE_IN_DWORDS, common_store_size_in_dwords),
++	FEATURE_MAPPING(COMPUTE, compute),
++	FEATURE_MAPPING(COMPUTE_MORTON_CAPABLE, compute_morton_capable),
++	FEATURE_MAPPING(COMPUTE_OVERLAP, compute_overlap),
++	FEATURE_MAPPING(COREID_PER_OS, coreid_per_os),
++	FEATURE_MAPPING(DYNAMIC_DUST_POWER, dynamic_dust_power),
++	FEATURE_MAPPING_VALUE(ECC_RAMS, ecc_rams),
++	FEATURE_MAPPING_VALUE(FBCDC, fbcdc),
++	FEATURE_MAPPING_VALUE(FBCDC_ALGORITHM, fbcdc_algorithm),
++	FEATURE_MAPPING_VALUE(FBCDC_ARCHITECTURE, fbcdc_architecture),
++	FEATURE_MAPPING_VALUE(FBC_MAX_DEFAULT_DESCRIPTORS, fbc_max_default_descriptors),
++	FEATURE_MAPPING_VALUE(FBC_MAX_LARGE_DESCRIPTORS, fbc_max_large_descriptors),
++	FEATURE_MAPPING(FB_CDC_V4, fb_cdc_v4),
++	FEATURE_MAPPING(GPU_MULTICORE_SUPPORT, gpu_multicore_support),
++	FEATURE_MAPPING(GPU_VIRTUALISATION, gpu_virtualisation),
++	FEATURE_MAPPING(GS_RTA_SUPPORT, gs_rta_support),
++	FEATURE_MAPPING(IRQ_PER_OS, irq_per_os),
++	FEATURE_MAPPING_VALUE(ISP_MAX_TILES_IN_FLIGHT, isp_max_tiles_in_flight),
++	FEATURE_MAPPING_VALUE(ISP_SAMPLES_PER_PIXEL, isp_samples_per_pixel),
++	FEATURE_MAPPING(ISP_ZLS_D24_S8_PACKING_OGL_MODE, isp_zls_d24_s8_packing_ogl_mode),
++	FEATURE_MAPPING_VALUE(LAYOUT_MARS, layout_mars),
++	FEATURE_MAPPING_VALUE(MAX_PARTITIONS, max_partitions),
++	FEATURE_MAPPING_VALUE(META, meta),
++	FEATURE_MAPPING_VALUE(META_COREMEM_SIZE, meta_coremem_size),
++	FEATURE_MAPPING(MIPS, mips),
++	FEATURE_MAPPING_VALUE(NUM_CLUSTERS, num_clusters),
++	FEATURE_MAPPING_VALUE(NUM_ISP_IPP_PIPES, num_isp_ipp_pipes),
++	FEATURE_MAPPING_VALUE(NUM_OSIDS, num_osids),
++	FEATURE_MAPPING_VALUE(NUM_RASTER_PIPES, num_raster_pipes),
++	FEATURE_MAPPING(PBE2_IN_XE, pbe2_in_xe),
++	FEATURE_MAPPING(PBVNC_COREID_REG, pbvnc_coreid_reg),
++	FEATURE_MAPPING(PERFBUS, perfbus),
++	FEATURE_MAPPING(PERF_COUNTER_BATCH, perf_counter_batch),
++	FEATURE_MAPPING_VALUE(PHYS_BUS_WIDTH, phys_bus_width),
++	FEATURE_MAPPING(RISCV_FW_PROCESSOR, riscv_fw_processor),
++	FEATURE_MAPPING(ROGUEXE, roguexe),
++	FEATURE_MAPPING(S7_TOP_INFRASTRUCTURE, s7_top_infrastructure),
++	FEATURE_MAPPING(SIMPLE_INTERNAL_PARAMETER_FORMAT, simple_internal_parameter_format),
++	FEATURE_MAPPING(SIMPLE_INTERNAL_PARAMETER_FORMAT_V2, simple_internal_parameter_format_v2),
++	FEATURE_MAPPING_VALUE(SIMPLE_PARAMETER_FORMAT_VERSION, simple_parameter_format_version),
++	FEATURE_MAPPING_VALUE(SLC_BANKS, slc_banks),
++	FEATURE_MAPPING_VALUE(SLC_CACHE_LINE_SIZE_BITS, slc_cache_line_size_bits),
++	FEATURE_MAPPING(SLC_SIZE_CONFIGURABLE, slc_size_configurable),
++	FEATURE_MAPPING_VALUE(SLC_SIZE_IN_KILOBYTES, slc_size_in_kilobytes),
++	FEATURE_MAPPING(SOC_TIMER, soc_timer),
++	FEATURE_MAPPING(SYS_BUS_SECURE_RESET, sys_bus_secure_reset),
++	FEATURE_MAPPING(TESSELLATION, tessellation),
++	FEATURE_MAPPING(TILE_REGION_PROTECTION, tile_region_protection),
++	FEATURE_MAPPING_VALUE(TILE_SIZE_X, tile_size_x),
++	FEATURE_MAPPING_VALUE(TILE_SIZE_Y, tile_size_y),
++	FEATURE_MAPPING(TLA, tla),
++	FEATURE_MAPPING(TPU_CEM_DATAMASTER_GLOBAL_REGISTERS, tpu_cem_datamaster_global_registers),
++	FEATURE_MAPPING(TPU_DM_GLOBAL_REGISTERS, tpu_dm_global_registers),
++	FEATURE_MAPPING(TPU_FILTERING_MODE_CONTROL, tpu_filtering_mode_control),
++	FEATURE_MAPPING_VALUE(USC_MIN_OUTPUT_REGISTERS_PER_PIX, usc_min_output_registers_per_pix),
++	FEATURE_MAPPING(VDM_DRAWINDIRECT, vdm_drawindirect),
++	FEATURE_MAPPING(VDM_OBJECT_LEVEL_LLS, vdm_object_level_lls),
++	FEATURE_MAPPING_VALUE(VIRTUAL_ADDRESS_SPACE_BITS, virtual_address_space_bits),
++	FEATURE_MAPPING(WATCHDOG_TIMER, watchdog_timer),
++	FEATURE_MAPPING(WORKGROUP_PROTECTION, workgroup_protection),
++	FEATURE_MAPPING_VALUE(XE_ARCHITECTURE, xe_architecture),
++	FEATURE_MAPPING(XE_MEMORY_HIERARCHY, xe_memory_hierarchy),
++	FEATURE_MAPPING(XE_TPU2, xe_tpu2),
++	FEATURE_MAPPING_VALUE(XPU_MAX_REGBANKS_ADDR_WIDTH, xpu_max_regbanks_addr_width),
++	FEATURE_MAPPING_VALUE(XPU_MAX_SLAVES, xpu_max_slaves),
++	FEATURE_MAPPING_VALUE(XPU_REGISTER_BROADCAST, xpu_register_broadcast),
++	FEATURE_MAPPING(XT_TOP_INFRASTRUCTURE, xt_top_infrastructure),
++	FEATURE_MAPPING(ZLS_SUBTILE, zls_subtile),
++};
++
++#undef FEATURE_MAPPING_VALUE
++#undef FEATURE_MAPPING
++
++/**
++ * pvr_device_info_set_features() - Set device features from device information in firmware
++ * @pvr_dev: Device pointer.
++ * @features: Pointer to features mask in device information.
++ * @features_size: Size of features mask, in u64s.
++ * @feature_param_size: Size of feature parameters, in u64s.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * -%EINVAL on malformed stream.
++ */
++int pvr_device_info_set_features(struct pvr_device *pvr_dev, const u64 *features, u32 features_size,
++				 u32 feature_param_size)
++{
++	const u32 mapping_max = ARRAY_SIZE(features_mapping);
++	const u32 mapping_max_size = (mapping_max + 63) >> 6;
++	const u32 nr_bits = min(features_size * 64, mapping_max);
++	const u64 *feature_params = features + features_size;
++	u32 param_idx = 0;
++
++	BUILD_BUG_ON(ARRAY_SIZE(features_mapping) != PVR_FW_HAS_FEATURE_MAX);
++
++	/* Verify no unsupported values in the bitmask. */
++	if (features_size > mapping_max_size) {
++		drm_warn(from_pvr_device(pvr_dev), "Unsupported features in firmware image");
++	} else if (features_size == mapping_max_size && (mapping_max & 63)) {
++		u64 invalid_mask = ~0ull << (mapping_max & 63);
++
++		if (features[features_size - 1] & invalid_mask)
++			drm_warn(from_pvr_device(pvr_dev),
++				 "Unsupported features in firmware image");
++	}
++
++	for (u32 i = 0; i < nr_bits; i++) {
++		if (features[i >> 6] & BIT_ULL(i & 63)) {
++			*(bool *)((u8 *)pvr_dev + features_mapping[i].flag_offset) = true;
++
++			if (features_mapping[i].value_offset) {
++				if (param_idx >= feature_param_size)
++					return -EINVAL;
++
++				*(u64 *)((u8 *)pvr_dev + features_mapping[i].value_offset) =
++					feature_params[param_idx];
++				param_idx++;
++			}
++		}
++	}
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_device_info.h b/drivers/gpu/drm/imagination/pvr_device_info.h
+new file mode 100644
+index 000000000000..f06ca2793885
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_device_info.h
+@@ -0,0 +1,186 @@
 +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_ROGUE_FWIF_SF_H
-+#define PVR_ROGUE_FWIF_SF_H
++#ifndef PVR_DEVICE_INFO_H
++#define PVR_DEVICE_INFO_H
++
++#include <linux/types.h>
++
++struct pvr_device;
 +
 +/*
-+ ******************************************************************************
-+ * *DO*NOT* rearrange or delete lines in rogue_fw_log_sfgroups or stid_fmts
-+ *           WILL BREAK fw tracing message compatibility with previous
-+ *           fw versions. Only add new ones, if so required.
-+ ******************************************************************************
++ * struct pvr_device_features - Hardware feature information
 + */
++struct pvr_device_features {
++	bool has_axi_acelite;
++	bool has_cdm_control_stream_format;
++	bool has_cluster_grouping;
++	bool has_common_store_size_in_dwords;
++	bool has_compute;
++	bool has_compute_morton_capable;
++	bool has_compute_overlap;
++	bool has_coreid_per_os;
++	bool has_dynamic_dust_power;
++	bool has_ecc_rams;
++	bool has_fb_cdc_v4;
++	bool has_fbc_max_default_descriptors;
++	bool has_fbc_max_large_descriptors;
++	bool has_fbcdc;
++	bool has_fbcdc_algorithm;
++	bool has_fbcdc_architecture;
++	bool has_gpu_multicore_support;
++	bool has_gpu_virtualisation;
++	bool has_gs_rta_support;
++	bool has_irq_per_os;
++	bool has_isp_max_tiles_in_flight;
++	bool has_isp_samples_per_pixel;
++	bool has_isp_zls_d24_s8_packing_ogl_mode;
++	bool has_layout_mars;
++	bool has_max_partitions;
++	bool has_meta;
++	bool has_meta_coremem_size;
++	bool has_mips;
++	bool has_num_clusters;
++	bool has_num_isp_ipp_pipes;
++	bool has_num_osids;
++	bool has_num_raster_pipes;
++	bool has_pbe2_in_xe;
++	bool has_pbvnc_coreid_reg;
++	bool has_perfbus;
++	bool has_perf_counter_batch;
++	bool has_phys_bus_width;
++	bool has_riscv_fw_processor;
++	bool has_roguexe;
++	bool has_s7_top_infrastructure;
++	bool has_simple_internal_parameter_format;
++	bool has_simple_internal_parameter_format_v2;
++	bool has_simple_parameter_format_version;
++	bool has_slc_banks;
++	bool has_slc_cache_line_size_bits;
++	bool has_slc_size_configurable;
++	bool has_slc_size_in_kilobytes;
++	bool has_soc_timer;
++	bool has_sys_bus_secure_reset;
++	bool has_tessellation;
++	bool has_tile_region_protection;
++	bool has_tile_size_x;
++	bool has_tile_size_y;
++	bool has_tla;
++	bool has_tpu_cem_datamaster_global_registers;
++	bool has_tpu_dm_global_registers;
++	bool has_tpu_filtering_mode_control;
++	bool has_usc_min_output_registers_per_pix;
++	bool has_vdm_drawindirect;
++	bool has_vdm_object_level_lls;
++	bool has_virtual_address_space_bits;
++	bool has_watchdog_timer;
++	bool has_workgroup_protection;
++	bool has_xe_architecture;
++	bool has_xe_memory_hierarchy;
++	bool has_xe_tpu2;
++	bool has_xpu_max_regbanks_addr_width;
++	bool has_xpu_max_slaves;
++	bool has_xpu_register_broadcast;
++	bool has_xt_top_infrastructure;
++	bool has_zls_subtile;
 +
-+/* Available log groups. */
-+enum rogue_fw_log_sfgroups {
-+	ROGUE_FW_GROUP_NULL,
-+	ROGUE_FW_GROUP_MAIN,
-+	ROGUE_FW_GROUP_CLEANUP,
-+	ROGUE_FW_GROUP_CSW,
-+	ROGUE_FW_GROUP_PM,
-+	ROGUE_FW_GROUP_RTD,
-+	ROGUE_FW_GROUP_SPM,
-+	ROGUE_FW_GROUP_MTS,
-+	ROGUE_FW_GROUP_BIF,
-+	ROGUE_FW_GROUP_MISC,
-+	ROGUE_FW_GROUP_POW,
-+	ROGUE_FW_GROUP_HWR,
-+	ROGUE_FW_GROUP_HWP,
-+	ROGUE_FW_GROUP_RPM,
-+	ROGUE_FW_GROUP_DMA,
-+	ROGUE_FW_GROUP_DBG,
-+};
-+
-+#define PVR_SF_STRING_MAX_SIZE 256U
-+
-+/* pair of string format id and string formats */
-+struct rogue_fw_stid_fmt {
-+	u32 id;
-+	char name[PVR_SF_STRING_MAX_SIZE];
++	u64 cdm_control_stream_format;
++	u64 common_store_size_in_dwords;
++	u64 ecc_rams;
++	u64 fbc_max_default_descriptors;
++	u64 fbc_max_large_descriptors;
++	u64 fbcdc;
++	u64 fbcdc_algorithm;
++	u64 fbcdc_architecture;
++	u64 isp_max_tiles_in_flight;
++	u64 isp_samples_per_pixel;
++	u64 layout_mars;
++	u64 max_partitions;
++	u64 meta;
++	u64 meta_coremem_size;
++	u64 num_clusters;
++	u64 num_isp_ipp_pipes;
++	u64 num_osids;
++	u64 num_raster_pipes;
++	u64 phys_bus_width;
++	u64 simple_parameter_format_version;
++	u64 slc_banks;
++	u64 slc_cache_line_size_bits;
++	u64 slc_size_in_kilobytes;
++	u64 tile_size_x;
++	u64 tile_size_y;
++	u64 usc_min_output_registers_per_pix;
++	u64 virtual_address_space_bits;
++	u64 xe_architecture;
++	u64 xpu_max_regbanks_addr_width;
++	u64 xpu_max_slaves;
++	u64 xpu_register_broadcast;
 +};
 +
 +/*
-+ *  The symbolic names found in the table above are assigned an u32 value of
-+ *  the following format:
-+ *  31 30 28 27       20   19  16    15  12      11            0   bits
-+ *  -   ---   ---- ----     ----      ----        ---- ---- ----
-+ *     0-11: id number
-+ *    12-15: group id number
-+ *    16-19: number of parameters
-+ *    20-27: unused
-+ *    28-30: active: identify SF packet, otherwise regular int32
-+ *       31: reserved for signed/unsigned compatibility
++ * struct pvr_device_quirks - Hardware quirk information
++ */
++struct pvr_device_quirks {
++	bool has_brn44079;
++	bool has_brn47217;
++	bool has_brn48492;
++	bool has_brn48545;
++	bool has_brn49927;
++	bool has_brn50767;
++	bool has_brn51764;
++	bool has_brn62269;
++	bool has_brn63142;
++	bool has_brn63553;
++	bool has_brn66011;
++	bool has_brn71242;
++};
++
++/*
++ * struct pvr_device_enhancements - Hardware enhancement information
++ */
++struct pvr_device_enhancements {
++	bool has_ern35421;
++	bool has_ern38020;
++	bool has_ern38748;
++	bool has_ern42064;
++	bool has_ern42290;
++	bool has_ern42606;
++	bool has_ern47025;
++	bool has_ern57596;
++};
++
++void pvr_device_info_set_quirks(struct pvr_device *pvr_dev, const u64 *bitmask,
++				u32 bitmask_len);
++void pvr_device_info_set_enhancements(struct pvr_device *pvr_dev, const u64 *bitmask,
++				      u32 bitmask_len);
++int pvr_device_info_set_features(struct pvr_device *pvr_dev, const u64 *features, u32 features_size,
++				 u32 feature_param_size);
++
++/*
++ * Meta cores
 + *
-+ *   The following macro assigns those values to the enum generated SF ids list.
++ * These are the values for the 'meta' feature when the feature is present
++ * (as per &struct pvr_device_features)/
 + */
-+#define ROGUE_FW_LOG_IDMARKER (0x70000000U)
-+#define ROGUE_FW_LOG_CREATESFID(a, b, e) ((u32)(a) | ((u32)(b) << 12) | ((u32)(e) << 16) | \
-+					  ROGUE_FW_LOG_IDMARKER)
++#define PVR_META_MTP218 (1)
++#define PVR_META_MTP219 (2)
++#define PVR_META_LTP218 (3)
++#define PVR_META_LTP217 (4)
 +
-+#define ROGUE_FW_LOG_IDMASK (0xFFF00000)
-+#define ROGUE_FW_LOG_VALIDID(I) (((I) & ROGUE_FW_LOG_IDMASK) == ROGUE_FW_LOG_IDMARKER)
-+
-+/* Return the group id that the given (enum generated) id belongs to */
-+#define ROGUE_FW_SF_GID(x) (((u32)(x) >> 12) & 0xfU)
-+/* Returns how many arguments the SF(string format) for the given (enum generated) id requires */
-+#define ROGUE_FW_SF_PARAMNUM(x) (((u32)(x) >> 16) & 0xfU)
-+
-+/* pair of string format id and string formats */
-+struct rogue_km_stid_fmt {
-+	u32 id;
-+	const char *name;
++enum {
++	PVR_FEATURE_CDM_USER_MODE_QUEUE,
++	PVR_FEATURE_CLUSTER_GROUPING,
++	PVR_FEATURE_COMPUTE_MORTON_CAPABLE,
++	PVR_FEATURE_FB_CDC_V4,
++	PVR_FEATURE_GPU_MULTICORE_SUPPORT,
++	PVR_FEATURE_ISP_ZLS_D24_S8_PACKING_OGL_MODE,
++	PVR_FEATURE_REQUIRES_FB_CDC_ZLS_SETUP,
++	PVR_FEATURE_S7_TOP_INFRASTRUCTURE,
++	PVR_FEATURE_TESSELLATION,
++	PVR_FEATURE_TPU_DM_GLOBAL_REGISTERS,
++	PVR_FEATURE_VDM_DRAWINDIRECT,
++	PVR_FEATURE_VDM_OBJECT_LEVEL_LLS,
++	PVR_FEATURE_ZLS_SUBTILE,
 +};
 +
-+static const struct rogue_km_stid_fmt stid_fmts[] = {
-+	{ ROGUE_FW_LOG_CREATESFID(0, ROGUE_FW_GROUP_NULL, 0),
-+	  "You should not use this string" },
++#endif /* PVR_DEVICE_INFO_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+index a4c871f58fa4..02a0ccc51f3e 100644
+--- a/drivers/gpu/drm/imagination/pvr_drv.c
++++ b/drivers/gpu/drm/imagination/pvr_drv.c
+@@ -3,6 +3,9 @@
+ 
+ #include "pvr_device.h"
+ #include "pvr_drv.h"
++#include "pvr_rogue_defs.h"
++#include "pvr_rogue_fwif_client.h"
++#include "pvr_rogue_fwif_shared.h"
+ 
+ #include <uapi/drm/pvr_drm.h>
+ 
+@@ -87,6 +90,382 @@ pvr_ioctl_get_bo_mmap_offset(struct drm_device *drm_dev, void *raw_args,
+ 	return -ENOTTY;
+ }
+ 
++static __always_inline u64
++pvr_fw_version_packed(u32 major, u32 minor)
++{
++	return ((u64)major << 32) | minor;
++}
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_MAIN, 6),
-+	  "Kick 3D: FWCtx 0x%08.8x @ %d, RTD 0x%08x. Partial render:%d, CSW resume:%d, prio:%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_MAIN, 2),
-+	  "3D finished, HWRTData0State=%x, HWRTData1State=%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Kick 3D TQ: FWCtx 0x%08.8x @ %d, CSW resume:%d, prio: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_MAIN, 0),
-+	  "3D Transfer finished" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Kick Compute: FWCtx 0x%08.8x @ %d, prio: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Compute finished" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_MAIN, 7),
-+	  "Kick TA: FWCtx 0x%08.8x @ %d, RTD 0x%08x. First kick:%d, Last kick:%d, CSW resume:%d, prio:%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_MAIN, 0),
-+	  "TA finished" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Restart TA after partial render" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Resume TA without partial render" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Out of memory! Context 0x%08x, HWRTData 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Kick TLA: FWCtx 0x%08.8x @ %d, prio:%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_MAIN, 0),
-+	  "TLA finished" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_MAIN, 3),
-+	  "cCCB Woff update = %d, DM = %d, FWCtx = 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_MAIN, 2),
-+	  "UFO Checks for FWCtx 0x%08.8x @ %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_MAIN, 3),
-+	  "UFO Check: [0x%08.8x] is 0x%08.8x requires 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_MAIN, 0),
-+	  "UFO Checks succeeded" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_MAIN, 3),
-+	  "UFO PR-Check: [0x%08.8x] is 0x%08.8x requires >= 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_MAIN, 1),
-+	  "UFO SPM PR-Checks for FWCtx 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_MAIN, 4),
-+	  "UFO SPM special PR-Check: [0x%08.8x] is 0x%08.8x requires >= ????????, [0x%08.8x] is ???????? requires 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_MAIN, 2),
-+	  "UFO Updates for FWCtx 0x%08.8x @ %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_MAIN, 2),
-+	  "UFO Update: [0x%08.8x] = 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_MAIN, 1),
-+	  "ASSERT Failed: line %d of:" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_MAIN, 2),
-+	  "HWR: Lockup detected on DM%d, FWCtx: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_MAIN, 3),
-+	  "HWR: Reset fw state for DM%d, FWCtx: 0x%08.8x, MemCtx: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_MAIN, 0),
-+	  "HWR: Reset HW" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_MAIN, 0),
-+	  "HWR: Lockup recovered." },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_MAIN, 1),
-+	  "HWR: False lockup detected for DM%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Alignment check %d failed: host = 0x%x, fw = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_MAIN, 0),
-+	  "GP USC triggered" },
-+	{ ROGUE_FW_LOG_CREATESFID(32, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Overallocating %u temporary registers and %u shared registers for breakpoint handler" },
-+	{ ROGUE_FW_LOG_CREATESFID(33, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Setting breakpoint: Addr 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(34, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Store breakpoint state" },
-+	{ ROGUE_FW_LOG_CREATESFID(35, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Unsetting BP Registers" },
-+	{ ROGUE_FW_LOG_CREATESFID(36, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Active RTs expected to be zero, actually %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(37, ROGUE_FW_GROUP_MAIN, 1),
-+	  "RTC present, %u active render targets" },
-+	{ ROGUE_FW_LOG_CREATESFID(38, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Estimated Power 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(39, ROGUE_FW_GROUP_MAIN, 1),
-+	  "RTA render target %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(40, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Kick RTA render %u of %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(41, ROGUE_FW_GROUP_MAIN, 3),
-+	  "HWR sizes check %d failed: addresses = %d, sizes = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(42, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Pow: DUSTS_ENABLE = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(43, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Pow: On(1)/Off(0): %d, Units: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(44, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Pow: Changing number of dusts from %d to %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(45, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Pow: Sidekick ready to be powered down" },
-+	{ ROGUE_FW_LOG_CREATESFID(46, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Pow: Request to change num of dusts to %d (bPowRascalDust=%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(47, ROGUE_FW_GROUP_MAIN, 0),
-+	  "No ZS Buffer used for partial render (store)" },
-+	{ ROGUE_FW_LOG_CREATESFID(48, ROGUE_FW_GROUP_MAIN, 0),
-+	  "No Depth/Stencil Buffer used for partial render (load)" },
-+	{ ROGUE_FW_LOG_CREATESFID(49, ROGUE_FW_GROUP_MAIN, 2),
-+	  "HWR: Lock-up DM%d FWCtx: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(50, ROGUE_FW_GROUP_MAIN, 7),
-+	  "MLIST%d checker: CatBase TE=0x%08x (%d Pages), VCE=0x%08x (%d Pages), ALIST=0x%08x, IsTA=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(51, ROGUE_FW_GROUP_MAIN, 3),
-+	  "MLIST%d checker: MList[%d] = 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(52, ROGUE_FW_GROUP_MAIN, 1),
-+	  "MLIST%d OK" },
-+	{ ROGUE_FW_LOG_CREATESFID(53, ROGUE_FW_GROUP_MAIN, 1),
-+	  "MLIST%d is empty" },
-+	{ ROGUE_FW_LOG_CREATESFID(54, ROGUE_FW_GROUP_MAIN, 8),
-+	  "MLIST%d checker: CatBase TE=0x%08x%08x, VCE=0x%08x%08x, ALIST=0x%08x%08x, IsTA=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(55, ROGUE_FW_GROUP_MAIN, 0),
-+	  "3D OQ flush kick" },
-+	{ ROGUE_FW_LOG_CREATESFID(56, ROGUE_FW_GROUP_MAIN, 1),
-+	  "HWPerf block ID (0x%x) unsupported by device" },
-+	{ ROGUE_FW_LOG_CREATESFID(57, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Setting breakpoint: Addr 0x%08.8x DM%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(58, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Kick RTU: FWCtx 0x%08.8x @ %d, prio: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(59, ROGUE_FW_GROUP_MAIN, 1),
-+	  "RDM finished on context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(60, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Kick SHG: FWCtx 0x%08.8x @ %d, prio: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(61, ROGUE_FW_GROUP_MAIN, 0),
-+	  "SHG finished" },
-+	{ ROGUE_FW_LOG_CREATESFID(62, ROGUE_FW_GROUP_MAIN, 1),
-+	  "FBA finished on context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(63, ROGUE_FW_GROUP_MAIN, 0),
-+	  "UFO Checks failed" },
-+	{ ROGUE_FW_LOG_CREATESFID(64, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Kill DM%d start" },
-+	{ ROGUE_FW_LOG_CREATESFID(65, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Kill DM%d complete" },
-+	{ ROGUE_FW_LOG_CREATESFID(66, ROGUE_FW_GROUP_MAIN, 2),
-+	  "FC%u cCCB Woff update = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(67, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Kick RTU: FWCtx 0x%08.8x @ %d, prio: %d, Frame Context: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(68, ROGUE_FW_GROUP_MAIN, 0),
-+	  "GPU init" },
-+	{ ROGUE_FW_LOG_CREATESFID(69, ROGUE_FW_GROUP_MAIN, 1),
-+	  "GPU Units init (# mask: 0x%x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(70, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Register access cycles: read: %d cycles, write: %d cycles, iterations: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(71, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Register configuration added. Address: 0x%x Value: 0x%x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(72, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Register configuration applied to type %d. (0:pow on, 1:Rascal/dust init, 2-5: TA,3D,CDM,TLA, 6:All)" },
-+	{ ROGUE_FW_LOG_CREATESFID(73, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Perform TPC flush." },
-+	{ ROGUE_FW_LOG_CREATESFID(74, ROGUE_FW_GROUP_MAIN, 0),
-+	  "GPU has locked up (see HWR logs for more info)" },
-+	{ ROGUE_FW_LOG_CREATESFID(75, ROGUE_FW_GROUP_MAIN, 0),
-+	  "HWR has been triggered - GPU has overrun its deadline (see HWR logs)" },
-+	{ ROGUE_FW_LOG_CREATESFID(76, ROGUE_FW_GROUP_MAIN, 0),
-+	  "HWR has been triggered - GPU has failed a poll (see HWR logs)" },
-+	{ ROGUE_FW_LOG_CREATESFID(77, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Doppler out of memory event for FC %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(78, ROGUE_FW_GROUP_MAIN, 3),
-+	  "UFO SPM special PR-Check: [0x%08.8x] is 0x%08.8x requires >= 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(79, ROGUE_FW_GROUP_MAIN, 3),
-+	  "UFO SPM special PR-Check: [0x%08.8x] is 0x%08.8x requires 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(80, ROGUE_FW_GROUP_MAIN, 1),
-+	  "TIMESTAMP -> [0x%08.8x]" },
-+	{ ROGUE_FW_LOG_CREATESFID(81, ROGUE_FW_GROUP_MAIN, 2),
-+	  "UFO RMW Updates for FWCtx 0x%08.8x @ %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(82, ROGUE_FW_GROUP_MAIN, 2),
-+	  "UFO Update: [0x%08.8x] = 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(83, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Kick Null cmd: FWCtx 0x%08.8x @ %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(84, ROGUE_FW_GROUP_MAIN, 2),
-+	  "RPM Out of memory! Context 0x%08x, SH requestor %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(85, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Discard RTU due to RPM abort: FWCtx 0x%08.8x @ %d, prio: %d, Frame Context: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(86, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Deferring DM%u from running context 0x%08x @ %d (deferred DMs = 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(87, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Deferring DM%u from running context 0x%08x @ %d to let other deferred DMs run (deferred DMs = 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(88, ROGUE_FW_GROUP_MAIN, 4),
-+	  "No longer deferring DM%u from running context = 0x%08x @ %d (deferred DMs = 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(89, ROGUE_FW_GROUP_MAIN, 3),
-+	  "FWCCB for DM%u is full, we will have to wait for space! (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(90, ROGUE_FW_GROUP_MAIN, 3),
-+	  "FWCCB for OSid %u is full, we will have to wait for space! (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(91, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Host Sync Partition marker: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(92, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Host Sync Partition repeat: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(93, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Core clock set to %d Hz" },
-+	{ ROGUE_FW_LOG_CREATESFID(94, ROGUE_FW_GROUP_MAIN, 7),
-+	  "Compute Queue: FWCtx 0x%08.8x, prio: %d, queue: 0x%08x%08x (Roff = %u, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(95, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Signal check failed, Required Data: 0x%x, Address: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(96, ROGUE_FW_GROUP_MAIN, 5),
-+	  "Signal update, Snoop Filter: %u, MMU Ctx: %u, Signal Id: %u, Signals Base: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(97, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Signalled the previously waiting FWCtx: 0x%08.8x, OSId: %u, Signal Address: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(98, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Compute stalled" },
-+	{ ROGUE_FW_LOG_CREATESFID(99, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Compute stalled (Roff = %u, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(100, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Compute resumed (Roff = %u, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(101, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Signal update notification from the host, PC Physical Address: 0x%08x%08x, Signal Virtual Address: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(102, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Signal update from DM: %u, OSId: %u, PC Physical Address: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(103, ROGUE_FW_GROUP_MAIN, 1),
-+	  "DM: %u signal check failed" },
-+	{ ROGUE_FW_LOG_CREATESFID(104, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Kick TDM: FWCtx 0x%08.8x @ %d, prio:%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(105, ROGUE_FW_GROUP_MAIN, 0),
-+	  "TDM finished" },
-+	{ ROGUE_FW_LOG_CREATESFID(106, ROGUE_FW_GROUP_MAIN, 4),
-+	  "MMU_PM_CAT_BASE_TE[%d]_PIPE[%d]:  0x%08x 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(107, ROGUE_FW_GROUP_MAIN, 0),
-+	  "BRN 54141 HIT" },
-+	{ ROGUE_FW_LOG_CREATESFID(108, ROGUE_FW_GROUP_MAIN, 0),
-+	  "BRN 54141 Dummy TA kicked" },
-+	{ ROGUE_FW_LOG_CREATESFID(109, ROGUE_FW_GROUP_MAIN, 0),
-+	  "BRN 54141 resume TA" },
-+	{ ROGUE_FW_LOG_CREATESFID(110, ROGUE_FW_GROUP_MAIN, 0),
-+	  "BRN 54141 double hit after applying WA" },
-+	{ ROGUE_FW_LOG_CREATESFID(111, ROGUE_FW_GROUP_MAIN, 2),
-+	  "BRN 54141 Dummy TA VDM base address: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(112, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Signal check failed, Required Data: 0x%x, Current Data: 0x%x, Address: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(113, ROGUE_FW_GROUP_MAIN, 2),
-+	  "TDM stalled (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(114, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Write Offset update notification for stalled FWCtx 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(115, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Changing OSid %d's priority from %u to %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(116, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Compute resumed" },
-+	{ ROGUE_FW_LOG_CREATESFID(117, ROGUE_FW_GROUP_MAIN, 7),
-+	  "Kick TLA: FWCtx 0x%08.8x @ %d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(118, ROGUE_FW_GROUP_MAIN, 7),
-+	  "Kick TDM: FWCtx 0x%08.8x @ %d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(119, ROGUE_FW_GROUP_MAIN, 11),
-+	  "Kick TA: FWCtx 0x%08.8x @ %d, RTD 0x%08x, First kick:%d, Last kick:%d, CSW resume:%d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(120, ROGUE_FW_GROUP_MAIN, 10),
-+	  "Kick 3D: FWCtx 0x%08.8x @ %d, RTD 0x%08x, Partial render:%d, CSW resume:%d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(121, ROGUE_FW_GROUP_MAIN, 8),
-+	  "Kick 3D TQ: FWCtx 0x%08.8x @ %d, CSW resume:%d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(122, ROGUE_FW_GROUP_MAIN, 6),
-+	  "Kick Compute: FWCtx 0x%08.8x @ %d. (PID:%d, prio:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(123, ROGUE_FW_GROUP_MAIN, 8),
-+	  "Kick RTU: FWCtx 0x%08.8x @ %d, Frame Context:%d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(124, ROGUE_FW_GROUP_MAIN, 7),
-+	  "Kick SHG: FWCtx 0x%08.8x @ %d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(125, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Reconfigure CSRM: special coeff support enable %d." },
-+	{ ROGUE_FW_LOG_CREATESFID(127, ROGUE_FW_GROUP_MAIN, 1),
-+	  "TA requires max coeff mode, deferring: %d." },
-+	{ ROGUE_FW_LOG_CREATESFID(128, ROGUE_FW_GROUP_MAIN, 1),
-+	  "3D requires max coeff mode, deferring: %d." },
-+	{ ROGUE_FW_LOG_CREATESFID(129, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Kill DM%d failed" },
-+	{ ROGUE_FW_LOG_CREATESFID(130, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Thread Queue is full, we will have to wait for space! (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(131, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Thread Queue is fencing, we are waiting for Roff = %d (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(132, ROGUE_FW_GROUP_MAIN, 1),
-+	  "DM %d failed to Context Switch on time. Triggered HCS (see HWR logs)." },
-+	{ ROGUE_FW_LOG_CREATESFID(133, ROGUE_FW_GROUP_MAIN, 1),
-+	  "HCS changed to %d ms" },
-+	{ ROGUE_FW_LOG_CREATESFID(134, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Updating Tiles In Flight (Dusts=%d, PartitionMask=0x%08x, ISPCtl=0x%08x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(135, ROGUE_FW_GROUP_MAIN, 2),
-+	  "  Phantom %d: USCTiles=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(136, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Isolation grouping is disabled" },
-+	{ ROGUE_FW_LOG_CREATESFID(137, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Isolation group configured with a priority threshold of %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(138, ROGUE_FW_GROUP_MAIN, 1),
-+	  "OS %d has come online" },
-+	{ ROGUE_FW_LOG_CREATESFID(139, ROGUE_FW_GROUP_MAIN, 1),
-+	  "OS %d has gone offline" },
-+	{ ROGUE_FW_LOG_CREATESFID(140, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Signalled the previously stalled FWCtx: 0x%08.8x, OSId: %u, Signal Address: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(141, ROGUE_FW_GROUP_MAIN, 7),
-+	  "TDM Queue: FWCtx 0x%08.8x, prio: %d, queue: 0x%08x%08x (Roff = %u, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(142, ROGUE_FW_GROUP_MAIN, 6),
-+	  "Reset TDM Queue Read Offset: FWCtx 0x%08.8x, queue: 0x%08x%08x (Roff = %u becomes 0, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(143, ROGUE_FW_GROUP_MAIN, 5),
-+	  "User Mode Queue mismatched stream start: FWCtx 0x%08.8x, queue: 0x%08x%08x (Roff = %u, StreamStartOffset = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(144, ROGUE_FW_GROUP_MAIN, 0),
-+	  "GPU deinit" },
-+	{ ROGUE_FW_LOG_CREATESFID(145, ROGUE_FW_GROUP_MAIN, 0),
-+	  "GPU units deinit" },
-+	{ ROGUE_FW_LOG_CREATESFID(146, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Initialised OS %d with config flags 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(147, ROGUE_FW_GROUP_MAIN, 2),
-+	  "UFO limit exceeded %d/%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(148, ROGUE_FW_GROUP_MAIN, 0),
-+	  "3D Dummy stencil store" },
-+	{ ROGUE_FW_LOG_CREATESFID(149, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Initialised OS %d with config flags 0x%08x and extended config flags 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(150, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Unknown Command (eCmdType=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(151, ROGUE_FW_GROUP_MAIN, 4),
-+	  "UFO forced update: FWCtx 0x%08.8x @ %d [0x%08.8x] = 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(152, ROGUE_FW_GROUP_MAIN, 5),
-+	  "UFO forced update NOP: FWCtx 0x%08.8x @ %d [0x%08.8x] = 0x%08.8x, reason %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(153, ROGUE_FW_GROUP_MAIN, 3),
-+	  "TDM context switch check: Roff %u points to 0x%08x, Match=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(154, ROGUE_FW_GROUP_MAIN, 6),
-+	  "OSid %d CCB init status: %d (1-ok 0-fail): kCCBCtl@0x%x kCCB@0x%x fwCCBCtl@0x%x fwCCB@0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(155, ROGUE_FW_GROUP_MAIN, 2),
-+	  "FW IRQ # %u @ %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(156, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Setting breakpoint: Addr 0x%08.8x DM%u usc_breakpoint_ctrl_dm = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(157, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Invalid KCCB setup for OSid %u: KCCB 0x%08x, KCCB Ctrl 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(158, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Invalid KCCB cmd (%u) for OSid %u @ KCCB 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(159, ROGUE_FW_GROUP_MAIN, 4),
-+	  "FW FAULT: At line %d in file 0x%08x%08x, additional data=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(160, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Invalid breakpoint: MemCtx 0x%08x Addr 0x%08.8x DM%u usc_breakpoint_ctrl_dm = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(161, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Discarding invalid SLC flushinval command for OSid %u: DM %u, FWCtx 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(162, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Invalid Write Offset update notification from OSid %u to DM %u: FWCtx 0x%08x, MemCtx 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(163, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Null FWCtx in KCCB kick cmd for OSid %u: KCCB 0x%08x, ROff %u, WOff %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(164, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Checkpoint CCB for OSid %u is full, signalling host for full check state (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(165, ROGUE_FW_GROUP_MAIN, 8),
-+	  "OSid %d CCB init status: %d (1-ok 0-fail): kCCBCtl@0x%x kCCB@0x%x fwCCBCtl@0x%x fwCCB@0x%x chptCCBCtl@0x%x chptCCB@0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(166, ROGUE_FW_GROUP_MAIN, 4),
-+	  "OSid %d fw state transition request: from %d to %d (0-offline 1-ready 2-active 3-offloading). Status %d (1-ok 0-fail)" },
-+	{ ROGUE_FW_LOG_CREATESFID(167, ROGUE_FW_GROUP_MAIN, 2),
-+	  "OSid %u has %u stale commands in its KCCB" },
-+	{ ROGUE_FW_LOG_CREATESFID(168, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Applying VCE pause" },
-+	{ ROGUE_FW_LOG_CREATESFID(169, ROGUE_FW_GROUP_MAIN, 3),
-+	  "OSid %u KCCB slot %u value updated to %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(170, ROGUE_FW_GROUP_MAIN, 7),
-+	  "Unknown KCCB Command: KCCBCtl=0x%08x, KCCB=0x%08x, Roff=%u, Woff=%u, Wrap=%u, Cmd=0x%08x, CmdType=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(171, ROGUE_FW_GROUP_MAIN, 10),
-+	  "Unknown Client CCB Command processing fences: FWCtx=0x%08x, CCBCtl=0x%08x, CCB=0x%08x, Roff=%u, Doff=%u, Woff=%u, Wrap=%u, CmdHdr=0x%08x, CmdType=0x%08x, CmdSize=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(172, ROGUE_FW_GROUP_MAIN, 10),
-+	  "Unknown Client CCB Command executing kick: FWCtx=0x%08x, CCBCtl=0x%08x, CCB=0x%08x, Roff=%u, Doff=%u, Woff=%u, Wrap=%u, CmdHdr=0x%08x, CmdType=0x%08x, CmdSize=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(173, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Null FWCtx in KCCB kick cmd for OSid %u with WOff %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(174, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Discarding invalid SLC flushinval command for OSid %u, FWCtx 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(175, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Invalid Write Offset update notification from OSid %u: FWCtx 0x%08x, MemCtx 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(176, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Initialised Firmware with config flags 0x%08x and extended config flags 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(177, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Set Periodic Hardware Reset Mode: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(179, ROGUE_FW_GROUP_MAIN, 3),
-+	  "PHR mode %d, FW state: 0x%08x, HWR flags: 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(180, ROGUE_FW_GROUP_MAIN, 1),
-+	  "PHR mode %d triggered a reset" },
-+	{ ROGUE_FW_LOG_CREATESFID(181, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Signal update, Snoop Filter: %u, Signal Id: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(182, ROGUE_FW_GROUP_MAIN, 1),
-+	  "WARNING: Skipping FW KCCB Cmd type %d which is not yet supported on Series8." },
-+	{ ROGUE_FW_LOG_CREATESFID(183, ROGUE_FW_GROUP_MAIN, 4),
-+	  "MMU context cache data NULL, but cache flags=0x%x (sync counter=%u, update value=%u) OSId=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(184, ROGUE_FW_GROUP_MAIN, 5),
-+	  "SLC range based flush: Context=%u VAddr=0x%02x%08x, Size=0x%08x, Invalidate=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(185, ROGUE_FW_GROUP_MAIN, 3),
-+	  "FBSC invalidate for Context Set [0x%08x]: Entry mask 0x%08x%08x." },
-+	{ ROGUE_FW_LOG_CREATESFID(186, ROGUE_FW_GROUP_MAIN, 3),
-+	  "TDM context switch check: Roff %u was not valid for kick starting at %u, moving back to %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(187, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Signal updates: FIFO: %u, Signals: 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(188, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Invalid FBSC cmd: FWCtx 0x%08x, MemCtx 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(189, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Insert BRN68497 WA blit after TDM Context store." },
-+	{ ROGUE_FW_LOG_CREATESFID(190, ROGUE_FW_GROUP_MAIN, 1),
-+	  "UFO Updates for previously finished FWCtx 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(191, ROGUE_FW_GROUP_MAIN, 1),
-+	  "RTC with RTA present, %u active render targets" },
-+	{ ROGUE_FW_LOG_CREATESFID(192, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Invalid RTA Set-up. The ValidRenderTargets array in RTACtl is Null!" },
-+	{ ROGUE_FW_LOG_CREATESFID(193, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Block 0x%x / Counter 0x%x INVALID and ignored" },
-+	{ ROGUE_FW_LOG_CREATESFID(194, ROGUE_FW_GROUP_MAIN, 2),
-+	  "ECC fault GPU=0x%08x FW=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(195, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Processing XPU event on DM = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(196, ROGUE_FW_GROUP_MAIN, 2),
-+	  "OSid %u failed to respond to the virtualisation watchdog in time. Timestamp of its last input = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(197, ROGUE_FW_GROUP_MAIN, 1),
-+	  "GPU-%u has locked up (see HWR logs for more info)" },
-+	{ ROGUE_FW_LOG_CREATESFID(198, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Updating Tiles In Flight (Dusts=%d, PartitionMask=0x%08x, ISPCtl=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(199, ROGUE_FW_GROUP_MAIN, 0),
-+	  "GPU has locked up (see HWR logs for more info)" },
-+	{ ROGUE_FW_LOG_CREATESFID(200, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Reprocessing outstanding XPU events from cores 0x%02x" },
-+	{ ROGUE_FW_LOG_CREATESFID(201, ROGUE_FW_GROUP_MAIN, 3),
-+	  "Secondary XPU event on DM=%d, CoreMask=0x%02x, Raised=0x%02x" },
-+	{ ROGUE_FW_LOG_CREATESFID(202, ROGUE_FW_GROUP_MAIN, 8),
-+	  "TDM Queue: Core %u, FWCtx 0x%08.8x, prio: %d, queue: 0x%08x%08x (Roff = %u, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(203, ROGUE_FW_GROUP_MAIN, 3),
-+	  "TDM stalled Core %u (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(204, ROGUE_FW_GROUP_MAIN, 8),
-+	  "Compute Queue: Core %u, FWCtx 0x%08.8x, prio: %d, queue: 0x%08x%08x (Roff = %u, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(205, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Compute stalled core %u (Roff = %u, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(206, ROGUE_FW_GROUP_MAIN, 6),
-+	  "User Mode Queue mismatched stream start: Core %u, FWCtx 0x%08.8x, queue: 0x%08x%08x (Roff = %u, StreamStartOffset = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(207, ROGUE_FW_GROUP_MAIN, 3),
-+	  "TDM resumed core %u (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(208, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Compute resumed core %u (Roff = %u, Woff = %u, Size = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(209, ROGUE_FW_GROUP_MAIN, 2),
-+	  " Updated permission for OSid %u to perform MTS kicks: %u (1 = allowed, 0 = not allowed)" },
-+	{ ROGUE_FW_LOG_CREATESFID(210, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Mask = 0x%X, mask2 = 0x%X" },
-+	{ ROGUE_FW_LOG_CREATESFID(211, ROGUE_FW_GROUP_MAIN, 3),
-+	  "  core %u, reg = %u, mask = 0x%X)" },
-+	{ ROGUE_FW_LOG_CREATESFID(212, ROGUE_FW_GROUP_MAIN, 1),
-+	  "ECC fault received from safety bus: 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(213, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Safety Watchdog threshold period set to 0x%x clock cycles" },
-+	{ ROGUE_FW_LOG_CREATESFID(214, ROGUE_FW_GROUP_MAIN, 0),
-+	  "MTS Safety Event trigged by the safety watchdog." },
-+	{ ROGUE_FW_LOG_CREATESFID(215, ROGUE_FW_GROUP_MAIN, 3),
-+	  "DM%d USC tasks range limit 0 - %d, stride %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(216, ROGUE_FW_GROUP_MAIN, 1),
-+	  "ECC fault GPU=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(217, ROGUE_FW_GROUP_MAIN, 0),
-+	  "GPU Hardware units reset to prevent transient faults." },
-+	{ ROGUE_FW_LOG_CREATESFID(218, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Kick Abort cmd: FWCtx 0x%08.8x @ %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(219, ROGUE_FW_GROUP_MAIN, 7),
-+	  "Kick Ray: FWCtx 0x%08.8x @ %d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(220, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Ray finished" },
-+	{ ROGUE_FW_LOG_CREATESFID(221, ROGUE_FW_GROUP_MAIN, 2),
-+	  "State of firmware's private data at boot time: %d (0 = uninitialised, 1 = initialised); Fw State Flags = 0x%08X" },
-+	{ ROGUE_FW_LOG_CREATESFID(222, ROGUE_FW_GROUP_MAIN, 2),
-+	  "CFI Timeout detected (%d increasing to %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(223, ROGUE_FW_GROUP_MAIN, 2),
-+	  "CFI Timeout detected for FBM (%d increasing to %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(224, ROGUE_FW_GROUP_MAIN, 0),
-+	  "Geom OOM event not allowed" },
-+	{ ROGUE_FW_LOG_CREATESFID(225, ROGUE_FW_GROUP_MAIN, 4),
-+	  "Changing OSid %d's priority from %u to %u; Isolation = %u (0 = off; 1 = on)" },
-+	{ ROGUE_FW_LOG_CREATESFID(226, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Skipping already executed TA FWCtx 0x%08.8x @ %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(227, ROGUE_FW_GROUP_MAIN, 2),
-+	  "Attempt to execute TA FWCtx 0x%08.8x @ %d ahead of time on other GEOM" },
-+	{ ROGUE_FW_LOG_CREATESFID(228, ROGUE_FW_GROUP_MAIN, 8),
-+	  "Kick TDM: Kick ID %u FWCtx 0x%08.8x @ %d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(229, ROGUE_FW_GROUP_MAIN, 12),
-+	  "Kick TA: Kick ID %u FWCtx 0x%08.8x @ %d, RTD 0x%08x, First kick:%d, Last kick:%d, CSW resume:%d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(230, ROGUE_FW_GROUP_MAIN, 11),
-+	  "Kick 3D: Kick ID %u FWCtx 0x%08.8x @ %d, RTD 0x%08x, Partial render:%d, CSW resume:%d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(231, ROGUE_FW_GROUP_MAIN, 7),
-+	  "Kick Compute: Kick ID %u FWCtx 0x%08.8x @ %d. (PID:%d, prio:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(232, ROGUE_FW_GROUP_MAIN, 1),
-+	  "TDM finished: Kick ID %u " },
-+	{ ROGUE_FW_LOG_CREATESFID(233, ROGUE_FW_GROUP_MAIN, 1),
-+	  "TA finished: Kick ID %u " },
-+	{ ROGUE_FW_LOG_CREATESFID(234, ROGUE_FW_GROUP_MAIN, 3),
-+	  "3D finished: Kick ID %u , HWRTData0State=%x, HWRTData1State=%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(235, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Compute finished: Kick ID %u " },
-+	{ ROGUE_FW_LOG_CREATESFID(236, ROGUE_FW_GROUP_MAIN, 10),
-+	  "Kick TDM: Kick ID %u FWCtx 0x%08.8x @ %d, Base 0x%08x%08x. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(237, ROGUE_FW_GROUP_MAIN, 8),
-+	  "Kick Ray: Kick ID %u FWCtx 0x%08.8x @ %d. (PID:%d, prio:%d, frame:%d, ext:0x%08x, int:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(238, ROGUE_FW_GROUP_MAIN, 1),
-+	  "Ray finished: Kick ID %u " },
++static u32
++rogue_get_common_store_partition_space_size(struct pvr_device *pvr_dev)
++{
++	u32 max_partitions = 0;
++	u32 tile_size_x = 0;
++	u32 tile_size_y = 0;
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_MTS, 2),
-+	  "Bg Task DM = %u, counted = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_MTS, 1),
-+	  "Bg Task complete DM = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_MTS, 3),
-+	  "Irq Task DM = %u, Breq = %d, SBIrq = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_MTS, 1),
-+	  "Irq Task complete DM = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_MTS, 0),
-+	  "Kick MTS Bg task DM=All" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_MTS, 1),
-+	  "Kick MTS Irq task DM=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_MTS, 2),
-+	  "Ready queue debug DM = %u, celltype = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_MTS, 2),
-+	  "Ready-to-run debug DM = %u, item = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_MTS, 3),
-+	  "Client command header DM = %u, client CCB = 0x%x, cmd = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_MTS, 3),
-+	  "Ready-to-run debug OSid = %u, DM = %u, item = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_MTS, 3),
-+	  "Ready queue debug DM = %u, celltype = %d, OSid = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_MTS, 3),
-+	  "Bg Task DM = %u, counted = %d, OSid = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_MTS, 1),
-+	  "Bg Task complete DM Bitfield: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_MTS, 0),
-+	  "Irq Task complete." },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_MTS, 7),
-+	  "Discarded Command Type: %d OS ID = %d PID = %d context = 0x%08x cccb ROff = 0x%x, due to USC breakpoint hit by OS ID = %d PID = %d." },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_MTS, 4),
-+	  "KCCB Slot %u: DM=%u, Cmd=0x%08x, OSid=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_MTS, 2),
-+	  "KCCB Slot %u: Return value %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_MTS, 1),
-+	  "Bg Task OSid = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_MTS, 3),
-+	  "KCCB Slot %u: Cmd=0x%08x, OSid=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_MTS, 1),
-+	  "Irq Task (EVENT_STATUS=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_MTS, 2),
-+	  "VZ sideband test, kicked with OSid=%u from MTS, OSid for test=%u" },
++	PVR_FEATURE_VALUE(pvr_dev, tile_size_x, &tile_size_x);
++	PVR_FEATURE_VALUE(pvr_dev, tile_size_y, &tile_size_y);
++	PVR_FEATURE_VALUE(pvr_dev, max_partitions, &max_partitions);
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_CLEANUP, 1),
-+	  "FwCommonContext [0x%08x] cleaned" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_CLEANUP, 3),
-+	  "FwCommonContext [0x%08x] is busy: ReadOffset = %d, WriteOffset = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_CLEANUP, 2),
-+	  "HWRTData [0x%08x] for DM=%d, received cleanup request" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_CLEANUP, 3),
-+	  "HWRTData [0x%08x] HW Context cleaned for DM%u, executed commands = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_CLEANUP, 2),
-+	  "HWRTData [0x%08x] HW Context for DM%u is busy" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_CLEANUP, 2),
-+	  "HWRTData [0x%08x] HW Context %u cleaned" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_CLEANUP, 1),
-+	  "Freelist [0x%08x] cleaned" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_CLEANUP, 1),
-+	  "ZSBuffer [0x%08x] cleaned" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_CLEANUP, 3),
-+	  "ZSBuffer [0x%08x] is busy: submitted = %d, executed = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_CLEANUP, 4),
-+	  "HWRTData [0x%08x] HW Context for DM%u is busy: submitted = %d, executed = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_CLEANUP, 2),
-+	  "HW Ray Frame data [0x%08x] for DM=%d, received cleanup request" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_CLEANUP, 3),
-+	  "HW Ray Frame Data [0x%08x] cleaned for DM%u, executed commands = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_CLEANUP, 4),
-+	  "HW Ray Frame Data [0x%08x] for DM%u is busy: submitted = %d, executed = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_CLEANUP, 2),
-+	  "HW Ray Frame Data [0x%08x] HW Context %u cleaned" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_CLEANUP, 1),
-+	  "Discarding invalid cleanup request of type 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_CLEANUP, 1),
-+	  "Received cleanup request for HWRTData [0x%08x]" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_CLEANUP, 3),
-+	  "HWRTData [0x%08x] HW Context is busy: submitted = %d, executed = %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_CLEANUP, 3),
-+	  "HWRTData [0x%08x] HW Context %u cleaned, executed commands = %d" },
++	if (tile_size_x == 16 && tile_size_y == 16) {
++		u32 usc_min_output_registers_per_pix = 0;
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_CSW, 1),
-+	  "CDM FWCtx 0x%08.8x needs resume" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_CSW, 3),
-+	  "*** CDM FWCtx 0x%08.8x resume from snapshot buffer 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_CSW, 1),
-+	  "CDM FWCtx shared alloc size load 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** CDM FWCtx store complete" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** CDM FWCtx store start" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_CSW, 0),
-+	  "CDM Soft Reset" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_CSW, 1),
-+	  "3D FWCtx 0x%08.8x needs resume" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_CSW, 1),
-+	  "*** 3D FWCtx 0x%08.8x resume" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** 3D context store complete" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_CSW, 3),
-+	  "3D context store pipe state: 0x%08.8x 0x%08.8x 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** 3D context store start" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_CSW, 1),
-+	  "*** 3D TQ FWCtx 0x%08.8x resume" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_CSW, 1),
-+	  "TA FWCtx 0x%08.8x needs resume" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_CSW, 3),
-+	  "*** TA FWCtx 0x%08.8x resume from snapshot buffer 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_CSW, 2),
-+	  "TA context shared alloc size store 0x%x, load 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** TA context store complete" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** TA context store start" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_CSW, 3),
-+	  "Higher priority context scheduled for DM %u, old prio:%d, new prio:%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_CSW, 2),
-+	  "Set FWCtx 0x%x priority to %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_CSW, 2),
-+	  "3D context store pipe%d state: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_CSW, 2),
-+	  "3D context resume pipe%d state: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_CSW, 1),
-+	  "SHG FWCtx 0x%08.8x needs resume" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_CSW, 3),
-+	  "*** SHG FWCtx 0x%08.8x resume from snapshot buffer 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_CSW, 2),
-+	  "SHG context shared alloc size store 0x%x, load 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** SHG context store complete" },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** SHG context store start" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_CSW, 1),
-+	  "Performing TA indirection, last used pipe %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_CSW, 0),
-+	  "CDM context store hit ctrl stream terminate. Skip resume." },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_CSW, 4),
-+	  "*** CDM FWCtx 0x%08.8x resume from snapshot buffer 0x%08x%08x, shader state %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_CSW, 2),
-+	  "TA PDS/USC state buffer flip (%d->%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_CSW, 0),
-+	  "TA context store hit BRN 52563: vertex store tasks outstanding" },
-+	{ ROGUE_FW_LOG_CREATESFID(32, ROGUE_FW_GROUP_CSW, 1),
-+	  "TA USC poll failed (USC vertex task count: %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(33, ROGUE_FW_GROUP_CSW, 0),
-+	  "TA context store deferred due to BRN 54141." },
-+	{ ROGUE_FW_LOG_CREATESFID(34, ROGUE_FW_GROUP_CSW, 7),
-+	  "Higher priority context scheduled for DM %u. Prios (OSid, OSid Prio, Context Prio): Current: %u, %u, %u New: %u, %u, %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(35, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** TDM context store start" },
-+	{ ROGUE_FW_LOG_CREATESFID(36, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** TDM context store complete" },
-+	{ ROGUE_FW_LOG_CREATESFID(37, ROGUE_FW_GROUP_CSW, 2),
-+	  "TDM context needs resume, header [0x%08.8x, 0x%08.8x]" },
-+	{ ROGUE_FW_LOG_CREATESFID(38, ROGUE_FW_GROUP_CSW, 8),
-+	  "Higher priority context scheduled for DM %u. Prios (OSid, OSid Prio, Context Prio): Current: %u, %u, %u New: %u, %u, %u. Hard Context Switching: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(39, ROGUE_FW_GROUP_CSW, 3),
-+	  "3D context store pipe %2d (%2d) state: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(40, ROGUE_FW_GROUP_CSW, 3),
-+	  "3D context resume pipe %2d (%2d) state: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(41, ROGUE_FW_GROUP_CSW, 1),
-+	  "*** 3D context store start version %d (1=IPP_TILE, 2=ISP_TILE)" },
-+	{ ROGUE_FW_LOG_CREATESFID(42, ROGUE_FW_GROUP_CSW, 3),
-+	  "3D context store pipe%d state: 0x%08.8x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(43, ROGUE_FW_GROUP_CSW, 3),
-+	  "3D context resume pipe%d state: 0x%08.8x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(44, ROGUE_FW_GROUP_CSW, 2),
-+	  "3D context resume IPP state: 0x%08.8x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(45, ROGUE_FW_GROUP_CSW, 1),
-+	  "All 3D pipes empty after ISP tile mode store! IPP_status: 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(46, ROGUE_FW_GROUP_CSW, 3),
-+	  "TDM context resume pipe%d state: 0x%08.8x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(47, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** 3D context store start version 4" },
-+	{ ROGUE_FW_LOG_CREATESFID(48, ROGUE_FW_GROUP_CSW, 2),
-+	  "Multicore context resume on DM%d active core mask 0x%04.4x" },
-+	{ ROGUE_FW_LOG_CREATESFID(49, ROGUE_FW_GROUP_CSW, 2),
-+	  "Multicore context store on DM%d active core mask 0x%04.4x" },
-+	{ ROGUE_FW_LOG_CREATESFID(50, ROGUE_FW_GROUP_CSW, 5),
-+	  "TDM context resume Core %d, pipe%d state: 0x%08.8x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(51, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** RDM FWCtx store complete" },
-+	{ ROGUE_FW_LOG_CREATESFID(52, ROGUE_FW_GROUP_CSW, 0),
-+	  "*** RDM FWCtx store start" },
-+	{ ROGUE_FW_LOG_CREATESFID(53, ROGUE_FW_GROUP_CSW, 1),
-+	  "RDM FWCtx 0x%08.8x needs resume" },
-+	{ ROGUE_FW_LOG_CREATESFID(54, ROGUE_FW_GROUP_CSW, 1),
-+	  "RDM FWCtx 0x%08.8x resume" },
++		PVR_FEATURE_VALUE(pvr_dev, usc_min_output_registers_per_pix,
++				  &usc_min_output_registers_per_pix);
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_BIF, 3),
-+	  "Activate MemCtx=0x%08x BIFreq=%d secure=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_BIF, 1),
-+	  "Deactivate MemCtx=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_BIF, 1),
-+	  "Alloc PC reg %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_BIF, 2),
-+	  "Grab reg set %d refcount now %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_BIF, 2),
-+	  "Ungrab reg set %d refcount now %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_BIF, 6),
-+	  "Setup reg=%d BIFreq=%d, expect=0x%08x%08x, actual=0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_BIF, 2),
-+	  "Trust enabled:%d, for BIFreq=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_BIF, 9),
-+	  "BIF Tiling Cfg %d base 0x%08x%08x len 0x%08x%08x enable %d stride %d --> 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_BIF, 4),
-+	  "Wrote the Value %d to OSID0, Cat Base %d, Register's contents are now 0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_BIF, 3),
-+	  "Wrote the Value %d to OSID1, Context  %d, Register's contents are now 0x%04x" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_BIF, 7),
-+	  "ui32OSid = %u, Catbase = %u, Reg Address = 0x%x, Reg index = %u, Bitshift index = %u, Val = 0x%08x%08x" }, \
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_BIF, 5),
-+	  "Map GPU memory DevVAddr 0x%x%08x, Size %u, Context ID %u, BIFREQ %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_BIF, 1),
-+	  "Unmap GPU memory (event status 0x%x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_BIF, 3),
-+	  "Activate MemCtx=0x%08x DM=%d secure=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_BIF, 6),
-+	  "Setup reg=%d DM=%d, expect=0x%08x%08x, actual=0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_BIF, 4),
-+	  "Map GPU memory DevVAddr 0x%x%08x, Size %u, Context ID %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_BIF, 2),
-+	  "Trust enabled:%d, for DM=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_BIF, 5),
-+	  "Map GPU memory DevVAddr 0x%x%08x, Size %u, Context ID %u, DM %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_BIF, 6),
-+	  "Setup register set=%d DM=%d, PC address=0x%08x%08x, OSid=%u, NewPCRegRequired=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_BIF, 3),
-+	  "Alloc PC set %d as register range [%u - %u]" },
++		return tile_size_x * tile_size_y * max_partitions *
++		       usc_min_output_registers_per_pix;
++	}
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_MISC, 1),
-+	  "GPIO write 0x%02x" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_MISC, 1),
-+	  "GPIO read 0x%02x" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_MISC, 0),
-+	  "GPIO enabled" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_MISC, 0),
-+	  "GPIO disabled" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_MISC, 1),
-+	  "GPIO status=%d (0=OK, 1=Disabled)" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_MISC, 2),
-+	  "GPIO_AP: Read address=0x%02x (%d byte(s))" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_MISC, 2),
-+	  "GPIO_AP: Write address=0x%02x (%d byte(s))" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_MISC, 0),
-+	  "GPIO_AP timeout!" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_MISC, 1),
-+	  "GPIO_AP error. GPIO status=%d (0=OK, 1=Disabled)" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_MISC, 1),
-+	  "GPIO already read 0x%02x" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_MISC, 2),
-+	  "SR: Check buffer %d available returned %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_MISC, 1),
-+	  "SR: Waiting for buffer %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_MISC, 2),
-+	  "SR: Timeout waiting for buffer %d (after %d ticks)" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_MISC, 2),
-+	  "SR: Skip frame check for strip %d returned %d (0=No skip, 1=Skip frame)" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_MISC, 1),
-+	  "SR: Skip remaining strip %d in frame" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_MISC, 1),
-+	  "SR: Inform HW that strip %d is a new frame" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_MISC, 1),
-+	  "SR: Timeout waiting for INTERRUPT_FRAME_SKIP (after %d ticks)" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_MISC, 1),
-+	  "SR: Strip mode is %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_MISC, 1),
-+	  "SR: Strip Render start (strip %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_MISC, 1),
-+	  "SR: Strip Render complete (buffer %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_MISC, 1),
-+	  "SR: Strip Render fault (buffer %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_MISC, 1),
-+	  "TRP state: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_MISC, 1),
-+	  "TRP failure: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_MISC, 1),
-+	  "SW TRP State: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_MISC, 1),
-+	  "SW TRP failure: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_MISC, 1),
-+	  "HW kick event (%u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_MISC, 4),
-+	  "GPU core (%u/%u): checksum 0x%08x vs. 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_MISC, 6),
-+	  "GPU core (%u/%u), unit (%u,%u): checksum 0x%08x vs. 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_MISC, 6),
-+	  "HWR: Core%u, Register=0x%08x, OldValue=0x%08x%08x, CurrValue=0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_MISC, 4),
-+	  "HWR: USC Core%u, ui32TotalSlotsUsedByDM=0x%08x, psDMHWCtl->ui32USCSlotsUsedByDM=0x%08x, bHWRNeeded=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_MISC, 6),
-+	  "HWR: USC Core%u, Register=0x%08x, OldValue=0x%08x%08x, CurrValue=0x%08x%08x" },
++	return max_partitions * 1024;
++}
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_PM, 10),
-+	  "ALIST%d SP = %u, MLIST%d SP = %u (VCE 0x%08x%08x, TE 0x%08x%08x, ALIST 0x%08x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_PM, 8),
-+	  "Is TA: %d, finished: %d on HW %u (HWRTData = 0x%08x, MemCtx = 0x%08x). FL different between TA/3D: global:%d, local:%d, mmu:%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_PM, 14),
-+	  "UFL-3D-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u), FL-3D-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u), MFL-3D-Base: 0x%08x%08x (SP = %u, 4PT = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_PM, 14),
-+	  "UFL-TA-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u), FL-TA-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u), MFL-TA-Base: 0x%08x%08x (SP = %u, 4PT = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_PM, 5),
-+	  "Freelist grow completed [0x%08x]: added pages 0x%08x, total pages 0x%08x, new DevVirtAddr 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_PM, 1),
-+	  "Grow for freelist ID=0x%08x denied by host" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_PM, 5),
-+	  "Freelist update completed [0x%08x]: old total pages 0x%08x, new total pages 0x%08x, new DevVirtAddr 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_PM, 1),
-+	  "Reconstruction of freelist ID=0x%08x failed" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_PM, 2),
-+	  "Ignored attempt to pause or unpause the DM while there is no relevant operation in progress (0-TA,1-3D): %d, operation(0-unpause, 1-pause): %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_PM, 2),
-+	  "Force free 3D Context memory, FWCtx: 0x%08x, status(1:success, 0:fail): %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_PM, 1),
-+	  "PM pause TA ALLOC: PM_PAGE_MANAGEOP set to 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_PM, 1),
-+	  "PM unpause TA ALLOC: PM_PAGE_MANAGEOP set to 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_PM, 1),
-+	  "PM pause 3D DALLOC: PM_PAGE_MANAGEOP set to 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_PM, 1),
-+	  "PM unpause 3D DALLOC: PM_PAGE_MANAGEOP set to 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_PM, 1),
-+	  "PM ALLOC/DALLOC change was not actioned: PM_PAGE_MANAGEOP_STATUS=0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_PM, 7),
-+	  "Is TA: %d, finished: %d on HW %u (HWRTData = 0x%08x, MemCtx = 0x%08x). FL different between TA/3D: global:%d, local:%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_PM, 10),
-+	  "UFL-3D-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u), FL-3D-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_PM, 10),
-+	  "UFL-TA-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u), FL-TA-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_PM, 7),
-+	  "Freelist update completed [0x%08x / FL State 0x%08x%08x]: old total pages 0x%08x, new total pages 0x%08x, new DevVirtAddr 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_PM, 7),
-+	  "Freelist update failed [0x%08x / FL State 0x%08x%08x]: old total pages 0x%08x, new total pages 0x%08x, new DevVirtAddr 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_PM, 10),
-+	  "UFL-3D-State-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u), FL-3D-State-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_PM, 10),
-+	  "UFL-TA-State-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u), FL-TA-State-Base: 0x%08x%08x (SP = %u, 4PB = %u, 4PT = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_PM, 5),
-+	  "Freelist 0x%08x base address from HW: 0x%02x%08x (expected value: 0x%02x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_PM, 5),
-+	  "Analysis of FL grow: Pause=(%u,%u) Paused+Valid(%u,%u) PMStateBuffer=0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_PM, 5),
-+	  "Attempt FL grow for FL: 0x%08x, new dev address: 0x%02x%08x, new page count: %u, new ready count: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_PM, 5),
-+	  "Deferring FL grow for non-loaded FL: 0x%08x, new dev address: 0x%02x%08x, new page count: %u, new ready count: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_PM, 4),
-+	  "Is GEOM: %d, finished: %d (HWRTData = 0x%08x, MemCtx = 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_PM, 1),
-+	  "3D Timeout Now for FWCtx 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_PM, 1),
-+	  "GEOM PM Recycle for FWCtx 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_PM, 1),
-+	  "PM running primary config (Core %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_PM, 1),
-+	  "PM running secondary config (Core %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(32, ROGUE_FW_GROUP_PM, 1),
-+	  "PM running tertiary config (Core %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(33, ROGUE_FW_GROUP_PM, 1),
-+	  "PM running quaternary config (Core %d)" },
++static u32
++rogue_get_common_store_alloc_region_size(struct pvr_device *pvr_dev)
++{
++	u32 common_store_size_in_dwords = 512 * 4 * 4;
++	u32 alloc_region_size;
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_RPM, 3),
-+	  "Global link list dynamic page count: vertex 0x%x, varying 0x%x, node 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_RPM, 3),
-+	  "Global link list static page count: vertex 0x%x, varying 0x%x, node 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_RPM, 0),
-+	  "RPM request failed. Waiting for freelist grow." },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_RPM, 0),
-+	  "RPM request failed. Aborting the current frame." },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_RPM, 1),
-+	  "RPM waiting for pending grow on freelist 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_RPM, 3),
-+	  "Request freelist grow [0x%08x] current pages %d, grow size %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_RPM, 2),
-+	  "Freelist load: SHF = 0x%08x, SHG = 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_RPM, 2),
-+	  "SHF FPL register: 0x%08x.0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_RPM, 2),
-+	  "SHG FPL register: 0x%08x.0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_RPM, 5),
-+	  "Kernel requested RPM grow on freelist (type %d) at 0x%08x from current size %d to new size %d, RPM restart: %d (1=Yes)" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_RPM, 0),
-+	  "Restarting SHG" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_RPM, 0),
-+	  "Grow failed, aborting the current frame." },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_RPM, 1),
-+	  "RPM abort complete on HWFrameData [0x%08x]." },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_RPM, 1),
-+	  "RPM freelist cleanup [0x%08x] requires abort to proceed." },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_RPM, 2),
-+	  "RPM page table base register: 0x%08x.0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_RPM, 0),
-+	  "Issuing RPM abort." },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_RPM, 0),
-+	  "RPM OOM received but toggle bits indicate free pages available" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_RPM, 0),
-+	  "RPM hardware timeout. Unable to process OOM event." },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_RPM, 5),
-+	  "SHF FL (0x%08x) load, FPL: 0x%08x.0x%08x, roff: 0x%08x, woff: 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_RPM, 5),
-+	  "SHG FL (0x%08x) load, FPL: 0x%08x.0x%08x, roff: 0x%08x, woff: 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_RPM, 3),
-+	  "SHF FL (0x%08x) store, roff: 0x%08x, woff: 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_RPM, 3),
-+	  "SHG FL (0x%08x) store, roff: 0x%08x, woff: 0x%08x" },
++	PVR_FEATURE_VALUE(pvr_dev, common_store_size_in_dwords, &common_store_size_in_dwords);
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_RTD, 2),
-+	  "3D RTData 0x%08x finished on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_RTD, 2),
-+	  "3D RTData 0x%08x ready on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_RTD, 4),
-+	  "CONTEXT_PB_BASE set to 0x%x, FL different between TA/3D: local: %d, global: %d, mmu: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_RTD, 2),
-+	  "Loading VFP table 0x%08x%08x for 3D" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_RTD, 2),
-+	  "Loading VFP table 0x%08x%08x for TA" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_RTD, 10),
-+	  "Load Freelist 0x%x type: %d (0:local,1:global,2:mmu) for DM%d: TotalPMPages = %d, FL-addr = 0x%08x%08x, stacktop = 0x%08x%08x, Alloc Page Count = %u, Alloc MMU Page Count = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_RTD, 0),
-+	  "Perform VHEAP table store" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_RTD, 2),
-+	  "RTData 0x%08x: found match in Context=%d: Load=No, Store=No" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_RTD, 2),
-+	  "RTData 0x%08x: found NULL in Context=%d: Load=Yes, Store=No" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_RTD, 3),
-+	  "RTData 0x%08x: found state 3D finished (0x%08x) in Context=%d: Load=Yes, Store=Yes" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_RTD, 3),
-+	  "RTData 0x%08x: found state TA finished (0x%08x) in Context=%d: Load=Yes, Store=Yes" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_RTD, 5),
-+	  "Loading stack-pointers for %d (0:MidTA,1:3D) on context %d, MLIST = 0x%08x, ALIST = 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_RTD, 10),
-+	  "Store Freelist 0x%x type: %d (0:local,1:global,2:mmu) for DM%d: TotalPMPages = %d, FL-addr = 0x%08x%08x, stacktop = 0x%08x%08x, Alloc Page Count = %u, Alloc MMU Page Count = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_RTD, 2),
-+	  "TA RTData 0x%08x finished on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_RTD, 2),
-+	  "TA RTData 0x%08x loaded on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_RTD, 12),
-+	  "Store Freelist 0x%x type: %d (0:local,1:global,2:mmu) for DM%d: FL Total Pages %u (max=%u,grow size=%u), FL-addr = 0x%08x%08x, stacktop = 0x%08x%08x, Alloc Page Count = %u, Alloc MMU Page Count = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_RTD, 12),
-+	  "Load  Freelist 0x%x type: %d (0:local,1:global,2:mmu) for DM%d: FL Total Pages %u (max=%u,grow size=%u), FL-addr = 0x%08x%08x, stacktop = 0x%08x%08x, Alloc Page Count = %u, Alloc MMU Page Count = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_RTD, 1),
-+	  "Freelist 0x%x RESET!!!!!!!!" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_RTD, 5),
-+	  "Freelist 0x%x stacktop = 0x%08x%08x, Alloc Page Count = %u, Alloc MMU Page Count = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_RTD, 3),
-+	  "Request reconstruction of Freelist 0x%x type: %d (0:local,1:global,2:mmu) on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_RTD, 1),
-+	  "Freelist reconstruction ACK from host (HWR state :%u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_RTD, 0),
-+	  "Freelist reconstruction completed" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_RTD, 3),
-+	  "TA RTData 0x%08x loaded on HW context %u HWRTDataNeedsLoading=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_RTD, 3),
-+	  "TE Region headers base 0x%08x%08x (RGNHDR Init: %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_RTD, 8),
-+	  "TA Buffers: FWCtx 0x%08x, RT 0x%08x, RTData 0x%08x, VHeap 0x%08x%08x, TPC 0x%08x%08x (MemCtx 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_RTD, 2),
-+	  "3D RTData 0x%08x loaded on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_RTD, 4),
-+	  "3D Buffers: FWCtx 0x%08x, RT 0x%08x, RTData 0x%08x (MemCtx 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_RTD, 2),
-+	  "Restarting TA after partial render, HWRTData0State=0x%x, HWRTData1State=0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_RTD, 3),
-+	  "CONTEXT_PB_BASE set to 0x%x, FL different between TA/3D: local: %d, global: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_RTD, 12),
-+	  "Store Freelist 0x%x type: %d (0:local,1:global) for PMDM%d: FL Total Pages %u (max=%u,grow size=%u), FL-addr = 0x%08x%08x, stacktop = 0x%08x%08x, Alloc Page Count = %u, Alloc MMU Page Count = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_RTD, 12),
-+	  "Load  Freelist 0x%x type: %d (0:local,1:global) for PMDM%d: FL Total Pages %u (max=%u,grow size=%u), FL-addr = 0x%08x%08x, stacktop = 0x%08x%08x, Alloc Page Count = %u, Alloc MMU Page Count = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(32, ROGUE_FW_GROUP_RTD, 5),
-+	  "3D Buffers: FWCtx 0x%08x, parent RT 0x%08x, RTData 0x%08x on ctx %d, (MemCtx 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(33, ROGUE_FW_GROUP_RTD, 7),
-+	  "TA Buffers: FWCtx 0x%08x, RTData 0x%08x, VHeap 0x%08x%08x, TPC 0x%08x%08x (MemCtx 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(34, ROGUE_FW_GROUP_RTD, 4),
-+	  "3D Buffers: FWCtx 0x%08x, RTData 0x%08x on ctx %d, (MemCtx 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(35, ROGUE_FW_GROUP_RTD, 6),
-+	  "Load  Freelist 0x%x type: %d (0:local,1:global) for PMDM%d: FL Total Pages %u (max=%u,grow size=%u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(36, ROGUE_FW_GROUP_RTD, 1),
-+	  "TA RTData 0x%08x marked as killed." },
-+	{ ROGUE_FW_LOG_CREATESFID(37, ROGUE_FW_GROUP_RTD, 1),
-+	  "3D RTData 0x%08x marked as killed." },
-+	{ ROGUE_FW_LOG_CREATESFID(38, ROGUE_FW_GROUP_RTD, 1),
-+	  "RTData 0x%08x will be killed after TA restart." },
-+	{ ROGUE_FW_LOG_CREATESFID(39, ROGUE_FW_GROUP_RTD, 3),
-+	  "RTData 0x%08x Render State Buffer 0x%02x%08x will be reset." },
-+	{ ROGUE_FW_LOG_CREATESFID(40, ROGUE_FW_GROUP_RTD, 3),
-+	  "GEOM RTData 0x%08x using Render State Buffer 0x%02x%08x." },
-+	{ ROGUE_FW_LOG_CREATESFID(41, ROGUE_FW_GROUP_RTD, 3),
-+	  "FRAG RTData 0x%08x using Render State Buffer 0x%02x%08x." },
++	alloc_region_size = common_store_size_in_dwords - (256U * 4U) -
++			    rogue_get_common_store_partition_space_size(pvr_dev);
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_SPM, 0),
-+	  "Force Z-Load for partial render" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_SPM, 0),
-+	  "Force Z-Store for partial render" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_SPM, 1),
-+	  "3D MemFree: Local FL 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_SPM, 1),
-+	  "3D MemFree: MMU FL 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_SPM, 1),
-+	  "3D MemFree: Global FL 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_SPM, 6),
-+	  "OOM TA/3D PR Check: [0x%08.8x] is 0x%08.8x requires 0x%08.8x, HardwareSync Fence [0x%08.8x] is 0x%08.8x requires 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_SPM, 3),
-+	  "OOM TA_cmd=0x%08x, U-FL 0x%08x, N-FL 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_SPM, 5),
-+	  "OOM TA_cmd=0x%08x, OOM MMU:%d, U-FL 0x%08x, N-FL 0x%08x, MMU-FL 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_SPM, 0),
-+	  "Partial render avoided" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_SPM, 0),
-+	  "Partial render discarded" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_SPM, 0),
-+	  "Partial Render finished" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM Owner = 3D-BG" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM Owner = 3D-IRQ" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM Owner = NONE" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM Owner = TA-BG" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM Owner = TA-IRQ" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_SPM, 2),
-+	  "ZStore address 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_SPM, 2),
-+	  "SStore address 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_SPM, 2),
-+	  "ZLoad address 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_SPM, 2),
-+	  "SLoad address 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_SPM, 0),
-+	  "No deferred ZS Buffer provided" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_SPM, 1),
-+	  "ZS Buffer successfully populated (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_SPM, 1),
-+	  "No need to populate ZS Buffer (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_SPM, 1),
-+	  "ZS Buffer successfully unpopulated (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_SPM, 1),
-+	  "No need to unpopulate ZS Buffer (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_SPM, 1),
-+	  "Send ZS-Buffer backing request to host (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_SPM, 1),
-+	  "Send ZS-Buffer unbacking request to host (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_SPM, 1),
-+	  "Don't send ZS-Buffer backing request. Previous request still pending (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_SPM, 1),
-+	  "Don't send ZS-Buffer unbacking request. Previous request still pending (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_SPM, 1),
-+	  "Partial Render waiting for ZBuffer to be backed (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_SPM, 1),
-+	  "Partial Render waiting for SBuffer to be backed (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(32, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM State = none" },
-+	{ ROGUE_FW_LOG_CREATESFID(33, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM State = PR blocked" },
-+	{ ROGUE_FW_LOG_CREATESFID(34, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM State = wait for grow" },
-+	{ ROGUE_FW_LOG_CREATESFID(35, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM State = wait for HW" },
-+	{ ROGUE_FW_LOG_CREATESFID(36, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM State = PR running" },
-+	{ ROGUE_FW_LOG_CREATESFID(37, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM State = PR avoided" },
-+	{ ROGUE_FW_LOG_CREATESFID(38, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM State = PR executed" },
-+	{ ROGUE_FW_LOG_CREATESFID(39, ROGUE_FW_GROUP_SPM, 2),
-+	  "3DMemFree matches freelist 0x%08x (FL type = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(40, ROGUE_FW_GROUP_SPM, 0),
-+	  "Raise the 3DMemFreeDedected flag" },
-+	{ ROGUE_FW_LOG_CREATESFID(41, ROGUE_FW_GROUP_SPM, 1),
-+	  "Wait for pending grow on Freelist 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(42, ROGUE_FW_GROUP_SPM, 1),
-+	  "ZS Buffer failed to be populated (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(43, ROGUE_FW_GROUP_SPM, 5),
-+	  "Grow update inconsistency: FL addr: 0x%02x%08x, curr pages: %u, ready: %u, new: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(44, ROGUE_FW_GROUP_SPM, 4),
-+	  "OOM: Resumed TA with ready pages, FL addr: 0x%02x%08x, current pages: %u, SP : %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(45, ROGUE_FW_GROUP_SPM, 5),
-+	  "Received grow update, FL addr: 0x%02x%08x, current pages: %u, ready pages: %u, threshold: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(46, ROGUE_FW_GROUP_SPM, 1),
-+	  "No deferred partial render FW (Type=%d) Buffer provided" },
-+	{ ROGUE_FW_LOG_CREATESFID(47, ROGUE_FW_GROUP_SPM, 1),
-+	  "No need to populate PR Buffer (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(48, ROGUE_FW_GROUP_SPM, 1),
-+	  "No need to unpopulate PR Buffer (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(49, ROGUE_FW_GROUP_SPM, 1),
-+	  "Send PR Buffer backing request to host (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(50, ROGUE_FW_GROUP_SPM, 1),
-+	  "Send PR Buffer unbacking request to host (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(51, ROGUE_FW_GROUP_SPM, 1),
-+	  "Don't send PR Buffer backing request. Previous request still pending (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(52, ROGUE_FW_GROUP_SPM, 1),
-+	  "Don't send PR Buffer unbacking request. Previous request still pending (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(53, ROGUE_FW_GROUP_SPM, 2),
-+	  "Partial Render waiting for Buffer %d type to be backed (ID=0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(54, ROGUE_FW_GROUP_SPM, 4),
-+	  "Received grow update, FL addr: 0x%02x%08x, new pages: %u, ready pages: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(66, ROGUE_FW_GROUP_SPM, 3),
-+	  "OOM TA/3D PR Check: [0x%08.8x] is 0x%08.8x requires 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(67, ROGUE_FW_GROUP_SPM, 3),
-+	  "OOM: Resumed TA with ready pages, FL addr: 0x%02x%08x, current pages: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(68, ROGUE_FW_GROUP_SPM, 3),
-+	  "OOM TA/3D PR deadlock unblocked reordering DM%d runlist head from Context 0x%08x to 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(69, ROGUE_FW_GROUP_SPM, 0),
-+	  "SPM State = PR force free" },
++	if (PVR_HAS_QUIRK(pvr_dev, 44079)) {
++		u32 common_store_split_point = (768U * 4U * 4U);
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_POW, 4),
-+	  "Check Pow state DM%d int: 0x%x, ext: 0x%x, pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_POW, 3),
-+	  "GPU idle (might be powered down). Pow state int: 0x%x, ext: 0x%x, flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_POW, 3),
-+	  "OS requested pow off (forced = %d), DM%d, pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_POW, 4),
-+	  "Initiate powoff query. Inactive DMs: %d %d %d %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_POW, 2),
-+	  "Any RD-DM pending? %d, Any RD-DM Active? %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_POW, 3),
-+	  "GPU ready to be powered down. Pow state int: 0x%x, ext: 0x%x, flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_POW, 2),
-+	  "HW Request On(1)/Off(0): %d, Units: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_POW, 2),
-+	  "Request to change num of dusts to %d (Power flags=%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_POW, 2),
-+	  "Changing number of dusts from %d to %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_POW, 0),
-+	  "Sidekick init" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_POW, 1),
-+	  "Rascal+Dusts init (# dusts mask: 0x%x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_POW, 0),
-+	  "Initiate powoff query for RD-DMs." },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_POW, 0),
-+	  "Initiate powoff query for TLA-DM." },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_POW, 2),
-+	  "Any RD-DM pending? %d, Any RD-DM Active? %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_POW, 2),
-+	  "TLA-DM pending? %d, TLA-DM Active? %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_POW, 1),
-+	  "Request power up due to BRN37270. Pow stat int: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_POW, 3),
-+	  "Cancel power off request int: 0x%x, ext: 0x%x, pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_POW, 1),
-+	  "OS requested forced IDLE, pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_POW, 1),
-+	  "OS cancelled forced IDLE, pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_POW, 3),
-+	  "Idle timer start. Pow state int: 0x%x, ext: 0x%x, flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_POW, 3),
-+	  "Cancel idle timer. Pow state int: 0x%x, ext: 0x%x, flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_POW, 2),
-+	  "Active PM latency set to %dms. Core clock: %d Hz" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_POW, 2),
-+	  "Compute cluster mask change to 0x%x, %d dusts powered." },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_POW, 0),
-+	  "Null command executed, repeating initiate powoff query for RD-DMs." },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_POW, 1),
-+	  "Power monitor: Estimate of dynamic energy %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_POW, 3),
-+	  "Check Pow state: Int: 0x%x, Ext: 0x%x, Pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_POW, 2),
-+	  "Proactive DVFS: New deadline, time = 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_POW, 2),
-+	  "Proactive DVFS: New workload, cycles = 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_POW, 1),
-+	  "Proactive DVFS: Proactive frequency calculated = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_POW, 1),
-+	  "Proactive DVFS: Reactive utilisation = %u percent" },
-+	{ ROGUE_FW_LOG_CREATESFID(32, ROGUE_FW_GROUP_POW, 2),
-+	  "Proactive DVFS: Reactive frequency calculated = %u.%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(33, ROGUE_FW_GROUP_POW, 1),
-+	  "Proactive DVFS: OPP Point Sent = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(34, ROGUE_FW_GROUP_POW, 2),
-+	  "Proactive DVFS: Deadline removed = 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(35, ROGUE_FW_GROUP_POW, 2),
-+	  "Proactive DVFS: Workload removed = 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(36, ROGUE_FW_GROUP_POW, 1),
-+	  "Proactive DVFS: Throttle to a maximum = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(37, ROGUE_FW_GROUP_POW, 0),
-+	  "Proactive DVFS: Failed to pass OPP point via GPIO." },
-+	{ ROGUE_FW_LOG_CREATESFID(38, ROGUE_FW_GROUP_POW, 0),
-+	  "Proactive DVFS: Invalid node passed to function." },
-+	{ ROGUE_FW_LOG_CREATESFID(39, ROGUE_FW_GROUP_POW, 1),
-+	  "Proactive DVFS: Guest OS attempted to do a privileged action. OSid = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(40, ROGUE_FW_GROUP_POW, 1),
-+	  "Proactive DVFS: Unprofiled work started. Total unprofiled work present: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(41, ROGUE_FW_GROUP_POW, 1),
-+	  "Proactive DVFS: Unprofiled work finished. Total unprofiled work present: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(42, ROGUE_FW_GROUP_POW, 0),
-+	  "Proactive DVFS: Disabled: Not enabled by host." },
-+	{ ROGUE_FW_LOG_CREATESFID(43, ROGUE_FW_GROUP_POW, 2),
-+	  "HW Request Completed(1)/Aborted(0): %d, Ticks: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(44, ROGUE_FW_GROUP_POW, 1),
-+	  "Allowed number of dusts is %d due to BRN59042." },
-+	{ ROGUE_FW_LOG_CREATESFID(45, ROGUE_FW_GROUP_POW, 3),
-+	  "Host timed out while waiting for a forced idle state. Pow state int: 0x%x, ext: 0x%x, flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(46, ROGUE_FW_GROUP_POW, 5),
-+	  "Check Pow state: Int: 0x%x, Ext: 0x%x, Pow flags: 0x%x, Fence Counters: Check: %u - Update: %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(47, ROGUE_FW_GROUP_POW, 2),
-+	  "Proactive DVFS: OPP Point Sent = 0x%x, Success = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(48, ROGUE_FW_GROUP_POW, 0),
-+	  "Proactive DVFS: GPU transitioned to idle" },
-+	{ ROGUE_FW_LOG_CREATESFID(49, ROGUE_FW_GROUP_POW, 0),
-+	  "Proactive DVFS: GPU transitioned to active" },
-+	{ ROGUE_FW_LOG_CREATESFID(50, ROGUE_FW_GROUP_POW, 1),
-+	  "Power counter dumping: Data truncated writing register %u. Buffer too small." },
-+	{ ROGUE_FW_LOG_CREATESFID(51, ROGUE_FW_GROUP_POW, 0),
-+	  "Power controller returned ABORT for last request so retrying." },
-+	{ ROGUE_FW_LOG_CREATESFID(52, ROGUE_FW_GROUP_POW, 2),
-+	  "Discarding invalid power request: type 0x%x, DM %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(53, ROGUE_FW_GROUP_POW, 2),
-+	  "Detected attempt to cancel forced idle while not forced idle (pow state 0x%x, pow flags 0x%x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(54, ROGUE_FW_GROUP_POW, 2),
-+	  "Detected attempt to force power off while not forced idle (pow state 0x%x, pow flags 0x%x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(55, ROGUE_FW_GROUP_POW, 1),
-+	  "Detected attempt to change dust count while not forced idle (pow state 0x%x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(56, ROGUE_FW_GROUP_POW, 3),
-+	  "Power monitor: Type = %d (0 = power, 1 = energy), Estimate result = 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(57, ROGUE_FW_GROUP_POW, 2),
-+	  "Conflicting clock frequency range: OPP min = %u, max = %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(58, ROGUE_FW_GROUP_POW, 1),
-+	  "Proactive DVFS: Set floor to a minimum = 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(59, ROGUE_FW_GROUP_POW, 2),
-+	  "OS requested pow off (forced = %d), pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(60, ROGUE_FW_GROUP_POW, 1),
-+	  "Discarding invalid power request: type 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(61, ROGUE_FW_GROUP_POW, 3),
-+	  "Request to change SPU power state mask from 0x%x to 0x%x. Pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(62, ROGUE_FW_GROUP_POW, 2),
-+	  "Changing SPU power state mask from 0x%x to 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(63, ROGUE_FW_GROUP_POW, 1),
-+	  "Detected attempt to change SPU power state mask while not forced idle (pow state 0x%x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(64, ROGUE_FW_GROUP_POW, 1),
-+	  "Invalid SPU power mask 0x%x! Changing to 1" },
-+	{ ROGUE_FW_LOG_CREATESFID(65, ROGUE_FW_GROUP_POW, 2),
-+	  "Proactive DVFS: Send OPP %u with clock divider value %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(66, ROGUE_FW_GROUP_POW, 0),
-+	  "PPA block started in perf validation mode." },
-+	{ ROGUE_FW_LOG_CREATESFID(67, ROGUE_FW_GROUP_POW, 1),
-+	  "Reset PPA block state %u (1=reset, 0=recalculate)." },
-+	{ ROGUE_FW_LOG_CREATESFID(68, ROGUE_FW_GROUP_POW, 1),
-+	  "Power controller returned ABORT for Core-%d last request so retrying." },
-+	{ ROGUE_FW_LOG_CREATESFID(69, ROGUE_FW_GROUP_POW, 3),
-+	  "HW Request On(1)/Off(0): %d, Units: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(70, ROGUE_FW_GROUP_POW, 5),
-+	  "Request to change SPU power state mask from 0x%x to 0x%x and RAC from 0x%x to 0x%x. Pow flags: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(71, ROGUE_FW_GROUP_POW, 4),
-+	  "Changing SPU power state mask from 0x%x to 0x%x and RAC from 0x%x to 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(72, ROGUE_FW_GROUP_POW, 2),
-+	  "RAC pending? %d, RAC Active? %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(73, ROGUE_FW_GROUP_POW, 0),
-+	  "Initiate powoff query for RAC." },
++		return min(common_store_split_point - (256U * 4U), alloc_region_size);
++	}
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_HWR, 2),
-+	  "Lockup detected on DM%d, FWCtx: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_HWR, 3),
-+	  "Reset fw state for DM%d, FWCtx: 0x%08.8x, MemCtx: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_HWR, 0),
-+	  "Reset HW" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_HWR, 0),
-+	  "Lockup recovered." },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_HWR, 2),
-+	  "Lock-up DM%d FWCtx: 0x%08.8x" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_HWR, 4),
-+	  "Lockup detected: GLB(%d->%d), PER-DM(0x%08x->0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_HWR, 3),
-+	  "Early fault detection: GLB(%d->%d), PER-DM(0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_HWR, 3),
-+	  "Hold scheduling due lockup: GLB(%d), PER-DM(0x%08x->0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_HWR, 4),
-+	  "False lockup detected: GLB(%d->%d), PER-DM(0x%08x->0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_HWR, 4),
-+	  "BRN37729: GLB(%d->%d), PER-DM(0x%08x->0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_HWR, 3),
-+	  "Freelists reconstructed: GLB(%d->%d), PER-DM(0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_HWR, 4),
-+	  "Reconstructing freelists: %u (0-No, 1-Yes): GLB(%d->%d), PER-DM(0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_HWR, 3),
-+	  "HW poll %u (0-Unset 1-Set) failed (reg:0x%08x val:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_HWR, 2),
-+	  "Discarded cmd on DM%u FWCtx=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_HWR, 6),
-+	  "Discarded cmd on DM%u (reason=%u) HWRTData=0x%08x (st: %d), FWCtx 0x%08x @ %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_HWR, 2),
-+	  "PM fence WA could not be applied, Valid TA Setup: %d, RD powered off: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_HWR, 5),
-+	  "FL snapshot RTD 0x%08.8x - local (0x%08.8x): %d, global (0x%08.8x): %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_HWR, 8),
-+	  "FL check RTD 0x%08.8x, discard: %d - local (0x%08.8x): s%d?=c%d, global (0x%08.8x): s%d?=c%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_HWR, 2),
-+	  "FL reconstruction 0x%08.8x c%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_HWR, 3),
-+	  "3D check: missing TA FWCtx 0x%08.8x @ %d, RTD 0x%08x." },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_HWR, 2),
-+	  "Reset HW (mmu:%d, extmem: %d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_HWR, 4),
-+	  "Zero TA caches for FWCtx: 0x%08.8x (TPC addr: 0x%08x%08x, size: %d bytes)" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_HWR, 2),
-+	  "Recovery DM%u: Freelists reconstructed. New R-Flags=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_HWR, 5),
-+	  "Recovery DM%u: FWCtx 0x%08x skipped to command @ %u. PR=%u. New R-Flags=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_HWR, 1),
-+	  "Recovery DM%u: DM fully recovered" },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_HWR, 2),
-+	  "DM%u: Hold scheduling due to R-Flag = 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_HWR, 0),
-+	  "Analysis: Need freelist reconstruction" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_HWR, 2),
-+	  "Analysis DM%u: Lockup FWCtx: 0x%08.8x. Need to skip to next command" },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_HWR, 2),
-+	  "Analysis DM%u: Lockup while TA is OOM FWCtx: 0x%08.8x. Need to skip to next command" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_HWR, 2),
-+	  "Analysis DM%u: Lockup while partial render FWCtx: 0x%08.8x. Need PR cleanup" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_HWR, 0),
-+	  "GPU has locked up" },
-+	{ ROGUE_FW_LOG_CREATESFID(32, ROGUE_FW_GROUP_HWR, 1),
-+	  "DM%u ready for HWR" },
-+	{ ROGUE_FW_LOG_CREATESFID(33, ROGUE_FW_GROUP_HWR, 2),
-+	  "Recovery DM%u: Updated Recovery counter. New R-Flags=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(34, ROGUE_FW_GROUP_HWR, 1),
-+	  "Analysis: BRN37729 detected, reset TA and re-kicked 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(35, ROGUE_FW_GROUP_HWR, 1),
-+	  "DM%u timed out" },
-+	{ ROGUE_FW_LOG_CREATESFID(36, ROGUE_FW_GROUP_HWR, 1),
-+	  "RGX_CR_EVENT_STATUS=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(37, ROGUE_FW_GROUP_HWR, 2),
-+	  "DM%u lockup falsely detected, R-Flags=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(38, ROGUE_FW_GROUP_HWR, 0),
-+	  "GPU has overrun its deadline" },
-+	{ ROGUE_FW_LOG_CREATESFID(39, ROGUE_FW_GROUP_HWR, 0),
-+	  "GPU has failed a poll" },
-+	{ ROGUE_FW_LOG_CREATESFID(40, ROGUE_FW_GROUP_HWR, 2),
-+	  "RGX DM%u phase count=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(41, ROGUE_FW_GROUP_HWR, 2),
-+	  "Reset HW (loop:%d, poll failures: 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(42, ROGUE_FW_GROUP_HWR, 1),
-+	  "MMU fault event: 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(43, ROGUE_FW_GROUP_HWR, 1),
-+	  "BIF1 page fault detected (Bank1 MMU Status: 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(44, ROGUE_FW_GROUP_HWR, 1),
-+	  "Fast CRC Failed. Proceeding to full register checking (DM: %u)." },
-+	{ ROGUE_FW_LOG_CREATESFID(45, ROGUE_FW_GROUP_HWR, 2),
-+	  "Meta MMU page fault detected (Meta MMU Status: 0x%08x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(46, ROGUE_FW_GROUP_HWR, 2),
-+	  "Fast CRC Check result for DM%u is HWRNeeded=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(47, ROGUE_FW_GROUP_HWR, 2),
-+	  "Full Signature Check result for DM%u is HWRNeeded=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(48, ROGUE_FW_GROUP_HWR, 3),
-+	  "Final result for DM%u is HWRNeeded=%u with HWRChecksToGo=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(49, ROGUE_FW_GROUP_HWR, 3),
-+	  "USC Slots result for DM%u is HWRNeeded=%u USCSlotsUsedByDM=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(50, ROGUE_FW_GROUP_HWR, 2),
-+	  "Deadline counter for DM%u is HWRDeadline=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(51, ROGUE_FW_GROUP_HWR, 1),
-+	  "Holding Scheduling on OSid %u due to pending freelist reconstruction" },
-+	{ ROGUE_FW_LOG_CREATESFID(52, ROGUE_FW_GROUP_HWR, 2),
-+	  "Requesting reconstruction for freelist 0x%x (ID=%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(53, ROGUE_FW_GROUP_HWR, 1),
-+	  "Reconstruction of freelist ID=%d complete" },
-+	{ ROGUE_FW_LOG_CREATESFID(54, ROGUE_FW_GROUP_HWR, 4),
-+	  "Reconstruction needed for freelist 0x%x (ID=%d) type: %d (0:local,1:global,2:mmu) on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(55, ROGUE_FW_GROUP_HWR, 1),
-+	  "Reconstruction of freelist ID=%d failed" },
-+	{ ROGUE_FW_LOG_CREATESFID(56, ROGUE_FW_GROUP_HWR, 4),
-+	  "Restricting PDS Tasks to help other stalling DMs (RunningMask=0x%02x, StallingMask=0x%02x, PDS_CTRL=0x%08x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(57, ROGUE_FW_GROUP_HWR, 4),
-+	  "Unrestricting PDS Tasks again (RunningMask=0x%02x, StallingMask=0x%02x, PDS_CTRL=0x%08x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(58, ROGUE_FW_GROUP_HWR, 2),
-+	  "USC slots: %u used by DM%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(59, ROGUE_FW_GROUP_HWR, 1),
-+	  "USC slots: %u empty" },
-+	{ ROGUE_FW_LOG_CREATESFID(60, ROGUE_FW_GROUP_HWR, 5),
-+	  "HCS DM%d's Context Switch failed to meet deadline. Current time: 0x%08x%08x, deadline: 0x%08x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(61, ROGUE_FW_GROUP_HWR, 1),
-+	  "Begin hardware reset (HWR Counter=%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(62, ROGUE_FW_GROUP_HWR, 1),
-+	  "Finished hardware reset (HWR Counter=%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(63, ROGUE_FW_GROUP_HWR, 2),
-+	  "Holding Scheduling on DM %u for OSid %u due to pending freelist reconstruction" },
-+	{ ROGUE_FW_LOG_CREATESFID(64, ROGUE_FW_GROUP_HWR, 5),
-+	  "User Mode Queue ROff reset: FWCtx 0x%08.8x, queue: 0x%08x%08x (Roff = %u becomes StreamStartOffset = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(65, ROGUE_FW_GROUP_HWR, 4),
-+	  "Reconstruction needed for freelist 0x%x (ID=%d) type: %d (0:local,1:global) on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(66, ROGUE_FW_GROUP_HWR, 3),
-+	  "Mips page fault detected (BadVAddr: 0x%08x, EntryLo0: 0x%08x, EntryLo1: 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(67, ROGUE_FW_GROUP_HWR, 1),
-+	  "At least one other DM is running okay so DM%u will get another chance" },
-+	{ ROGUE_FW_LOG_CREATESFID(68, ROGUE_FW_GROUP_HWR, 2),
-+	  "Reconstructing in FW, FL: 0x%x (ID=%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(69, ROGUE_FW_GROUP_HWR, 4),
-+	  "Zero RTC for FWCtx: 0x%08.8x (RTC addr: 0x%08x%08x, size: %d bytes)" },
-+	{ ROGUE_FW_LOG_CREATESFID(70, ROGUE_FW_GROUP_HWR, 5),
-+	  "Reconstruction needed for freelist 0x%x (ID=%d) type: %d (0:local,1:global) phase: %d (0:TA, 1:3D) on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(71, ROGUE_FW_GROUP_HWR, 3),
-+	  "Start long HW poll %u (0-Unset 1-Set) for (reg:0x%08x val:0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(72, ROGUE_FW_GROUP_HWR, 1),
-+	  "End long HW poll (result=%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(73, ROGUE_FW_GROUP_HWR, 3),
-+	  "DM%u has taken %d ticks and deadline is %d ticks" },
-+	{ ROGUE_FW_LOG_CREATESFID(74, ROGUE_FW_GROUP_HWR, 5),
-+	  "USC Watchdog result for DM%u is HWRNeeded=%u Status=%u USCs={0x%x} with HWRChecksToGo=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(75, ROGUE_FW_GROUP_HWR, 6),
-+	  "Reconstruction needed for freelist 0x%x (ID=%d) OSid: %d type: %d (0:local,1:global) phase: %d (0:TA, 1:3D) on HW context %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(76, ROGUE_FW_GROUP_HWR, 1),
-+	  "GPU-%u has locked up" },
-+	{ ROGUE_FW_LOG_CREATESFID(77, ROGUE_FW_GROUP_HWR, 1),
-+	  "DM%u has locked up" },
-+	{ ROGUE_FW_LOG_CREATESFID(78, ROGUE_FW_GROUP_HWR, 2),
-+	  "Core %d RGX_CR_EVENT_STATUS=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(79, ROGUE_FW_GROUP_HWR, 2),
-+	  "RGX_CR_MULTICORE_EVENT_STATUS%u=0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(80, ROGUE_FW_GROUP_HWR, 5),
-+	  "BIF0 page fault detected (Core %d MMU Status: 0x%08x%08x Req Status: 0x%08x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(81, ROGUE_FW_GROUP_HWR, 3),
-+	  "MMU page fault detected (Core %d MMU Status: 0x%08x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(82, ROGUE_FW_GROUP_HWR, 4),
-+	  "MMU page fault detected (Core %d MMU Status: 0x%08x%08x 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(83, ROGUE_FW_GROUP_HWR, 4),
-+	  "Reset HW (core:%d of %d, loop:%d, poll failures: 0x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(84, ROGUE_FW_GROUP_HWR, 3),
-+	  "Fast CRC Check result for Core%u, DM%u is HWRNeeded=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(85, ROGUE_FW_GROUP_HWR, 3),
-+	  "Full Signature Check result for Core%u, DM%u is HWRNeeded=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(86, ROGUE_FW_GROUP_HWR, 4),
-+	  "USC Slots result for Core%u, DM%u is HWRNeeded=%u USCSlotsUsedByDM=%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(87, ROGUE_FW_GROUP_HWR, 6),
-+	  "USC Watchdog result for Core%u DM%u is HWRNeeded=%u Status=%u USCs={0x%x} with HWRChecksToGo=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(88, ROGUE_FW_GROUP_HWR, 3),
-+	  "RISC-V MMU page fault detected (FWCORE MMU Status 0x%08x Req Status 0x%08x%08x)" },
-+	{ ROGUE_FW_LOG_CREATESFID(89, ROGUE_FW_GROUP_HWR, 2),
-+	  "TEXAS1_PFS poll failed on core %d with value 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(90, ROGUE_FW_GROUP_HWR, 2),
-+	  "BIF_PFS poll failed on core %d with value 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(91, ROGUE_FW_GROUP_HWR, 2),
-+	  "MMU_ABORT_PM_STATUS set poll failed on core %d with value 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(92, ROGUE_FW_GROUP_HWR, 2),
-+	  "MMU_ABORT_PM_STATUS unset poll failed on core %d with value 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(93, ROGUE_FW_GROUP_HWR, 2),
-+	  "MMU_CTRL_INVAL poll (all but fw) failed on core %d with value 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(94, ROGUE_FW_GROUP_HWR, 2),
-+	  "MMU_CTRL_INVAL poll (all) failed on core %d with value 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(95, ROGUE_FW_GROUP_HWR, 3),
-+	  "TEXAS%d_PFS poll failed on core %d with value 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(96, ROGUE_FW_GROUP_HWR, 3),
-+	  "Extra Registers Check result for Core%u, DM%u is HWRNeeded=%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(97, ROGUE_FW_GROUP_HWR, 1),
-+	  "FW attempted to write to read-only GPU address 0x%08x" },
++	return alloc_region_size;
++}
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_HWP, 2),
-+	  "Block 0x%x mapped to Config Idx %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_HWP, 1),
-+	  "Block 0x%x omitted from event - not enabled in HW" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_HWP, 1),
-+	  "Block 0x%x included in event - enabled in HW" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_HWP, 2),
-+	  "Select register state hi_0x%x lo_0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_HWP, 1),
-+	  "Counter stream block header word 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_HWP, 1),
-+	  "Counter register offset 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_HWP, 1),
-+	  "Block 0x%x config unset, skipping" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_HWP, 1),
-+	  "Accessing Indirect block 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_HWP, 1),
-+	  "Accessing Direct block 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_HWP, 1),
-+	  "Programmed counter select register at offset 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_HWP, 2),
-+	  "Block register offset 0x%x and value 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_HWP, 1),
-+	  "Reading config block from driver 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_HWP, 2),
-+	  "Reading block range 0x%x to 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_HWP, 1),
-+	  "Recording block 0x%x config from driver" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_HWP, 0),
-+	  "Finished reading config block from driver" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_HWP, 2),
-+	  "Custom Counter offset: 0x%x  value: 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_HWP, 2),
-+	  "Select counter n:%u  ID:0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_HWP, 3),
-+	  "The counter ID 0x%x is not allowed. The package [b:%u, n:%u] will be discarded" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_HWP, 1),
-+	  "Custom Counters filter status %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_HWP, 2),
-+	  "The Custom block %d is not allowed. Use only blocks lower than %d. The package will be discarded" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_HWP, 2),
-+	  "The package will be discarded because it contains %d counters IDs while the upper limit is %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_HWP, 2),
-+	  "Check Filter 0x%x is 0x%x ?" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_HWP, 1),
-+	  "The custom block %u is reset" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_HWP, 1),
-+	  "Encountered an invalid command (%d)" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_HWP, 2),
-+	  "HWPerf Queue is full, we will have to wait for space! (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(26, ROGUE_FW_GROUP_HWP, 3),
-+	  "HWPerf Queue is fencing, we are waiting for Roff = %d (Roff = %u, Woff = %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(27, ROGUE_FW_GROUP_HWP, 1),
-+	  "Custom Counter block: %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(28, ROGUE_FW_GROUP_HWP, 1),
-+	  "Block 0x%x ENABLED" },
-+	{ ROGUE_FW_LOG_CREATESFID(29, ROGUE_FW_GROUP_HWP, 1),
-+	  "Block 0x%x DISABLED" },
-+	{ ROGUE_FW_LOG_CREATESFID(30, ROGUE_FW_GROUP_HWP, 2),
-+	  "Accessing Indirect block 0x%x, instance %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(31, ROGUE_FW_GROUP_HWP, 2),
-+	  "Counter register 0x%x, Value 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(32, ROGUE_FW_GROUP_HWP, 1),
-+	  "Counters filter status %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(33, ROGUE_FW_GROUP_HWP, 2),
-+	  "Block 0x%x mapped to Ctl Idx %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(34, ROGUE_FW_GROUP_HWP, 0),
-+	  "Block(s) in use for workload estimation." },
-+	{ ROGUE_FW_LOG_CREATESFID(35, ROGUE_FW_GROUP_HWP, 3),
-+	  "GPU %u Cycle counter 0x%x, Value 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(36, ROGUE_FW_GROUP_HWP, 3),
-+	  "GPU Mask 0x%x Cycle counter 0x%x, Value 0x%x" },
-+	{ ROGUE_FW_LOG_CREATESFID(37, ROGUE_FW_GROUP_HWP, 1),
-+	  "Blocks IGNORED for GPU %u" },
++static inline u32
++rogue_get_num_phantoms(struct pvr_device *pvr_dev)
++{
++	u32 num_clusters = 1;
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_DMA, 5),
-+	  "Transfer 0x%02x request: 0x%02x%08x -> 0x%08x, size %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_DMA, 4),
-+	  "Transfer of type 0x%02x expected on channel %u, 0x%02x found, status %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_DMA, 1),
-+	  "DMA Interrupt register 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_DMA, 1),
-+	  "Waiting for transfer of type 0x%02x completion..." },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_DMA, 3),
-+	  "Loading of cCCB data from FW common context 0x%08x (offset: %u, size: %u) failed" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_DMA, 3),
-+	  "Invalid load of cCCB data from FW common context 0x%08x (offset: %u, size: %u)" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_DMA, 1),
-+	  "Transfer 0x%02x request poll failure" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_DMA, 2),
-+	  "Boot transfer(s) failed (code? %u, data? %u), used slower memcpy instead" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_DMA, 7),
-+	  "Transfer 0x%02x request on ch. %u: system 0x%02x%08x, coremem 0x%08x, flags 0x%x, size %u" },
++	PVR_FEATURE_VALUE(pvr_dev, num_clusters, &num_clusters);
 +
-+	{ ROGUE_FW_LOG_CREATESFID(1, ROGUE_FW_GROUP_DBG, 2),
-+	  "0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(2, ROGUE_FW_GROUP_DBG, 1),
-+	  "0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(3, ROGUE_FW_GROUP_DBG, 2),
-+	  "0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(4, ROGUE_FW_GROUP_DBG, 3),
-+	  "0x%08x 0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(5, ROGUE_FW_GROUP_DBG, 4),
-+	  "0x%08x 0x%08x 0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(6, ROGUE_FW_GROUP_DBG, 5),
-+	  "0x%08x 0x%08x 0x%08x 0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(7, ROGUE_FW_GROUP_DBG, 6),
-+	  "0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(8, ROGUE_FW_GROUP_DBG, 7),
-+	  "0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(9, ROGUE_FW_GROUP_DBG, 8),
-+	  "0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x" },
-+	{ ROGUE_FW_LOG_CREATESFID(10, ROGUE_FW_GROUP_DBG, 1),
-+	  "%d" },
-+	{ ROGUE_FW_LOG_CREATESFID(11, ROGUE_FW_GROUP_DBG, 2),
-+	  "%d %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(12, ROGUE_FW_GROUP_DBG, 3),
-+	  "%d %d %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(13, ROGUE_FW_GROUP_DBG, 4),
-+	  "%d %d %d %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(14, ROGUE_FW_GROUP_DBG, 5),
-+	  "%d %d %d %d %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(15, ROGUE_FW_GROUP_DBG, 6),
-+	  "%d %d %d %d %d %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(16, ROGUE_FW_GROUP_DBG, 7),
-+	  "%d %d %d %d %d %d %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(17, ROGUE_FW_GROUP_DBG, 8),
-+	  "%d %d %d %d %d %d %d %d" },
-+	{ ROGUE_FW_LOG_CREATESFID(18, ROGUE_FW_GROUP_DBG, 1),
-+	  "%u" },
-+	{ ROGUE_FW_LOG_CREATESFID(19, ROGUE_FW_GROUP_DBG, 2),
-+	  "%u %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(20, ROGUE_FW_GROUP_DBG, 3),
-+	  "%u %u %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(21, ROGUE_FW_GROUP_DBG, 4),
-+	  "%u %u %u %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(22, ROGUE_FW_GROUP_DBG, 5),
-+	  "%u %u %u %u %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(23, ROGUE_FW_GROUP_DBG, 6),
-+	  "%u %u %u %u %u %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_DBG, 7),
-+	  "%u %u %u %u %u %u %u" },
-+	{ ROGUE_FW_LOG_CREATESFID(25, ROGUE_FW_GROUP_DBG, 8),
-+	  "%u %u %u %u %u %u %u %u" },
++	return ROGUE_REQ_NUM_PHANTOMS(num_clusters);
++}
 +
-+	{ ROGUE_FW_LOG_CREATESFID(65535, ROGUE_FW_GROUP_NULL, 15),
-+	  "You should not use this string" },
++static inline u32
++rogue_get_max_coeffs(struct pvr_device *pvr_dev)
++{
++	u32 max_coeff_additional_portion = ROGUE_MAX_VERTEX_SHARED_REGISTERS;
++	u32 pending_allocation_shared_regs = 2U * 1024U;
++	u32 pending_allocation_coeff_regs = 0U;
++	u32 num_phantoms = rogue_get_num_phantoms(pvr_dev);
++	u32 tiles_in_flight = 0;
++	u32 max_coeff_pixel_portion;
++
++	PVR_FEATURE_VALUE(pvr_dev, isp_max_tiles_in_flight, &tiles_in_flight);
++	max_coeff_pixel_portion = DIV_ROUND_UP(tiles_in_flight, num_phantoms);
++	max_coeff_pixel_portion *= ROGUE_MAX_PIXEL_SHARED_REGISTERS;
++
++	/*
++	 * Compute tasks on cores with BRN48492 and without compute overlap may lock
++	 * up without two additional lines of coeffs.
++	 */
++	if (PVR_HAS_QUIRK(pvr_dev, 48492) && !PVR_HAS_FEATURE(pvr_dev, compute_overlap))
++		pending_allocation_coeff_regs = 2U * 1024U;
++
++	if (PVR_HAS_ENHANCEMENT(pvr_dev, 38748))
++		pending_allocation_shared_regs = 0;
++
++	if (PVR_HAS_ENHANCEMENT(pvr_dev, 38020))
++		max_coeff_additional_portion += ROGUE_MAX_COMPUTE_SHARED_REGISTERS;
++
++	return rogue_get_common_store_alloc_region_size(pvr_dev) + pending_allocation_coeff_regs -
++		(max_coeff_pixel_portion + max_coeff_additional_portion +
++		 pending_allocation_shared_regs);
++}
++
++static inline u32
++rogue_get_cdm_max_local_mem_size_regs(struct pvr_device *pvr_dev)
++{
++	u32 available_coeffs_in_dwords = rogue_get_max_coeffs(pvr_dev);
++
++	if (PVR_HAS_QUIRK(pvr_dev, 48492) && PVR_HAS_FEATURE(pvr_dev, roguexe) &&
++	    !PVR_HAS_FEATURE(pvr_dev, compute_overlap)) {
++		/* Driver must not use the 2 reserved lines. */
++		available_coeffs_in_dwords -= ROGUE_CSRM_LINE_SIZE_IN_DWORDS * 2;
++	}
++
++	/*
++	 * The maximum amount of local memory available to a kernel is the minimum
++	 * of the total number of coefficient registers available and the max common
++	 * store allocation size which can be made by the CDM.
++	 *
++	 * If any coeff lines are reserved for tessellation or pixel then we need to
++	 * subtract those too.
++	 */
++	return min(available_coeffs_in_dwords, (u32)ROGUE_MAX_PER_KERNEL_LOCAL_MEM_SIZE_REGS);
++}
++
++/**
++ * pvr_dev_query_gpu_info_get()
++ * @pvr_dev: Device pointer.
++ * @args: [IN] Device query arguments containing a pointer to a userspace
++ *        struct drm_pvr_dev_query_gpu_info.
++ *
++ * If the query object pointer is NULL, the size field is updated with the
++ * expected size of the query object.
++ *
++ * Returns:
++ *  * 0 on success, or if size is requested using a NULL pointer, or
++ *  * -%E2BIG if the indicated length of the allocation is less than is
++ *    required to contain the copied data, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_dev_query_gpu_info_get(struct pvr_device *pvr_dev,
++			   struct drm_pvr_ioctl_dev_query_args *args)
++{
++	struct drm_pvr_dev_query_gpu_info gpu_info = {0};
++	int err;
++
++	if (!args->pointer) {
++		args->size = sizeof(struct drm_pvr_dev_query_gpu_info);
++		return 0;
++	}
++
++	gpu_info.gpu_id =
++		pvr_gpu_id_to_packed_bvnc(&pvr_dev->gpu_id);
++	gpu_info.num_phantoms = rogue_get_num_phantoms(pvr_dev);
++
++	err = PVR_UOBJ_SET(args->pointer, args->size, gpu_info);
++	if (err < 0)
++		return err;
++
++	if (args->size > sizeof(gpu_info))
++		args->size = sizeof(gpu_info);
++	return 0;
++}
++
++/**
++ * pvr_dev_query_runtime_info_get()
++ * @pvr_dev: Device pointer.
++ * @args: [IN] Device query arguments containing a pointer to a userspace
++ *        struct drm_pvr_dev_query_runtime_info.
++ *
++ * If the query object pointer is NULL, the size field is updated with the
++ * expected size of the query object.
++ *
++ * Returns:
++ *  * 0 on success, or if size is requested using a NULL pointer, or
++ *  * -%E2BIG if the indicated length of the allocation is less than is
++ *    required to contain the copied data, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_dev_query_runtime_info_get(struct pvr_device *pvr_dev,
++			       struct drm_pvr_ioctl_dev_query_args *args)
++{
++	struct drm_pvr_dev_query_runtime_info runtime_info = {0};
++	int err;
++
++	if (!args->pointer) {
++		args->size = sizeof(struct drm_pvr_dev_query_runtime_info);
++		return 0;
++	}
++
++	runtime_info.free_list_min_pages = 0; /* FIXME */
++	runtime_info.free_list_max_pages =
++		ROGUE_PM_MAX_FREELIST_SIZE / ROGUE_PM_PAGE_SIZE;
++	runtime_info.common_store_alloc_region_size =
++		rogue_get_common_store_alloc_region_size(pvr_dev);
++	runtime_info.common_store_partition_space_size =
++		rogue_get_common_store_partition_space_size(pvr_dev);
++	runtime_info.max_coeffs = rogue_get_max_coeffs(pvr_dev);
++	runtime_info.cdm_max_local_mem_size_regs =
++		rogue_get_cdm_max_local_mem_size_regs(pvr_dev);
++
++	err = PVR_UOBJ_SET(args->pointer, args->size, runtime_info);
++	if (err < 0)
++		return err;
++
++	if (args->size > sizeof(runtime_info))
++		args->size = sizeof(runtime_info);
++	return 0;
++}
++
++/**
++ * pvr_dev_query_quirks_get() - Unpack array of quirks at the address given
++ * in a struct drm_pvr_dev_query_quirks, or gets the amount of space required
++ * for it.
++ * @pvr_dev: Device pointer.
++ * @args: [IN] Device query arguments containing a pointer to a userspace
++ *        struct drm_pvr_dev_query_query_quirks.
++ *
++ * If the query object pointer is NULL, the size field is updated with the
++ * expected size of the query object.
++ * If the userspace pointer in the query object is NULL, or the count is
++ * short, no data is copied.
++ * The count field will be updated to that copied, or if either pointer is
++ * NULL, that which would have been copied.
++ * The size field in the query object will be updated to the size copied.
++ *
++ * Returns:
++ *  * 0 on success, or if size/count is requested using a NULL pointer, or
++ *  * -%EINVAL if args contained non-zero reserved fields, or
++ *  * -%E2BIG if the indicated length of the allocation is less than is
++ *    required to contain the copied data, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_dev_query_quirks_get(struct pvr_device *pvr_dev,
++			 struct drm_pvr_ioctl_dev_query_args *args)
++{
++	/*
++	 * @FIXME - hardcoding of numbers here is intended as an
++	 * intermediate step so the UAPI can be fixed, but requires a
++	 * a refactor in the future to store them in a more appropriate
++	 * location
++	 */
++	static const u32 umd_quirks_musthave[] = {
++		47217,
++		49927,
++		62269,
++	};
++	static const u32 umd_quirks[] = {
++		48545,
++		51764,
++	};
++	struct drm_pvr_dev_query_quirks query;
++	u32 out[ARRAY_SIZE(umd_quirks_musthave) + ARRAY_SIZE(umd_quirks)];
++	size_t out_musthave_count = 0;
++	size_t out_count = 0;
++	int err;
++
++	if (!args->pointer) {
++		args->size = sizeof(struct drm_pvr_dev_query_quirks);
++		return 0;
++	}
++
++	err = PVR_UOBJ_GET(query, args->size, args->pointer);
++
++	if (err < 0)
++		return err;
++	if (query._padding_c)
++		return -EINVAL;
++
++	for (int i = 0; i < ARRAY_SIZE(umd_quirks_musthave); i++) {
++		if (pvr_device_has_uapi_quirk(pvr_dev, umd_quirks_musthave[i])) {
++			out[out_count++] = umd_quirks_musthave[i];
++			out_musthave_count++;
++		}
++	}
++
++	for (int i = 0; i < ARRAY_SIZE(umd_quirks); i++) {
++		if (pvr_device_has_uapi_quirk(pvr_dev, umd_quirks[i]))
++			out[out_count++] = umd_quirks[i];
++	}
++
++	if (!query.quirks)
++		goto copy_out;
++	if (query.count < out_count)
++		return -E2BIG;
++
++	if (copy_to_user(u64_to_user_ptr(query.quirks), out,
++			 out_count * sizeof(u32))) {
++		return -EFAULT;
++	}
++
++	query.musthave_count = out_musthave_count;
++
++copy_out:
++	query.count = out_count;
++	err = PVR_UOBJ_SET(args->pointer, args->size, query);
++	if (err < 0)
++		return err;
++
++	args->size = sizeof(query);
++	return 0;
++}
++
++/**
++ * pvr_dev_query_enhancements_get() - Unpack array of enhancements at the
++ * address given in a struct drm_pvr_dev_query_enhancements, or gets the amount
++ * of space required for it.
++ * @pvr_dev: Device pointer.
++ * @args: [IN] Device query arguments containing a pointer to a userspace
++ *        struct drm_pvr_dev_query_enhancements.
++ *
++ * If the query object pointer is NULL, the size field is updated with the
++ * expected size of the query object.
++ * If the userspace pointer in the query object is NULL, or the count is
++ * short, no data is copied.
++ * The count field will be updated to that copied, or if either pointer is
++ * NULL, that which would have been copied.
++ * The size field in the query object will be updated to the size copied.
++ *
++ * Returns:
++ *  * 0 on success, or if size/count is requested using a NULL pointer, or
++ *  * -%EINVAL if args contained non-zero reserved fields, or
++ *  * -%E2BIG if the indicated length of the allocation is less than is
++ *    required to contain the copied data, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_dev_query_enhancements_get(struct pvr_device *pvr_dev,
++			       struct drm_pvr_ioctl_dev_query_args *args)
++{
++	/*
++	 * @FIXME - hardcoding of numbers here is intended as an
++	 * intermediate step so the UAPI can be fixed, but requires a
++	 * a refactor in the future to store them in a more appropriate
++	 * location
++	 */
++	const u32 umd_enhancements[] = {
++		35421,
++		42064,
++	};
++	struct drm_pvr_dev_query_enhancements query;
++	u32 out[ARRAY_SIZE(umd_enhancements)];
++	size_t out_idx = 0;
++	int err;
++
++	if (!args->pointer) {
++		args->size = sizeof(struct drm_pvr_dev_query_enhancements);
++		return 0;
++	}
++
++	err = PVR_UOBJ_GET(query, args->size, args->pointer);
++
++	if (err < 0)
++		return err;
++	if (query._padding_a)
++		return -EINVAL;
++	if (query._padding_c)
++		return -EINVAL;
++
++	for (int i = 0; i < ARRAY_SIZE(umd_enhancements); i++) {
++		if (pvr_device_has_uapi_enhancement(pvr_dev, umd_enhancements[i]))
++			out[out_idx++] = umd_enhancements[i];
++	}
++
++	if (!query.enhancements)
++		goto copy_out;
++	if (query.count < out_idx)
++		return -E2BIG;
++
++	if (copy_to_user(u64_to_user_ptr(query.enhancements), out,
++			 out_idx * sizeof(u32))) {
++		return -EFAULT;
++	}
++
++copy_out:
++	query.count = out_idx;
++	err = PVR_UOBJ_SET(args->pointer, args->size, query);
++	if (err < 0)
++		return err;
++
++	args->size = sizeof(query);
++	return 0;
++}
++
+ /**
+  * pvr_ioctl_dev_query() - IOCTL to copy information about a device
+  * @drm_dev: [IN] DRM device.
+@@ -111,7 +490,41 @@ static int
+ pvr_ioctl_dev_query(struct drm_device *drm_dev, void *raw_args,
+ 		    struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
++	struct drm_pvr_ioctl_dev_query_args *args = raw_args;
++	int idx;
++	int ret = -EINVAL;
++
++	if (!drm_dev_enter(drm_dev, &idx))
++		return -EIO;
++
++	switch ((enum drm_pvr_dev_query)args->type) {
++	case DRM_PVR_DEV_QUERY_GPU_INFO_GET:
++		ret = pvr_dev_query_gpu_info_get(pvr_dev, args);
++		break;
++
++	case DRM_PVR_DEV_QUERY_RUNTIME_INFO_GET:
++		ret = pvr_dev_query_runtime_info_get(pvr_dev, args);
++		break;
++
++	case DRM_PVR_DEV_QUERY_QUIRKS_GET:
++		ret = pvr_dev_query_quirks_get(pvr_dev, args);
++		break;
++
++	case DRM_PVR_DEV_QUERY_ENHANCEMENTS_GET:
++		ret = pvr_dev_query_enhancements_get(pvr_dev, args);
++		break;
++
++	case DRM_PVR_DEV_QUERY_HEAP_INFO_GET:
++		return -EINVAL;
++
++	case DRM_PVR_DEV_QUERY_STATIC_DATA_AREAS_GET:
++		return -EINVAL;
++	}
++
++	drm_dev_exit(idx);
++
++	return ret;
+ }
+ 
+ /**
+@@ -349,6 +762,112 @@ pvr_ioctl_submit_jobs(struct drm_device *drm_dev, void *raw_args,
+ 	return -ENOTTY;
+ }
+ 
++int
++pvr_get_uobj(u64 usr_ptr, u32 usr_stride, u32 min_stride, u32 obj_size, void *out)
++{
++	if (usr_stride < min_stride)
++		return -EINVAL;
++
++	return copy_struct_from_user(out, obj_size, u64_to_user_ptr(usr_ptr), usr_stride);
++}
++
++int
++pvr_set_uobj(u64 usr_ptr, u32 usr_stride, u32 min_stride, u32 obj_size, const void *in)
++{
++	if (usr_stride < min_stride)
++		return -EINVAL;
++
++	if (copy_to_user(u64_to_user_ptr(usr_ptr), in, min_t(u32, usr_stride, obj_size)))
++		return -EFAULT;
++
++	if (usr_stride > obj_size &&
++	    clear_user(u64_to_user_ptr(usr_ptr + obj_size), usr_stride - obj_size)) {
++		return -EFAULT;
++	}
++
++	return 0;
++}
++
++int
++pvr_get_uobj_array(const struct drm_pvr_obj_array *in, u32 min_stride, u32 obj_size, void **out)
++{
++	int ret = 0;
++	void *out_alloc;
++
++	if (in->stride < min_stride)
++		return -EINVAL;
++
++	if (!in->count)
++		return 0;
++
++	out_alloc = kvmalloc_array(in->count, obj_size, GFP_KERNEL);
++	if (!out_alloc)
++		return -ENOMEM;
++
++	if (obj_size == in->stride) {
++		if (copy_from_user(out_alloc, u64_to_user_ptr(in->array),
++				   (unsigned long)obj_size * in->count))
++			ret = -EFAULT;
++	} else {
++		void __user *in_ptr = u64_to_user_ptr(in->array);
++		void *out_ptr = out_alloc;
++
++		for (u32 i = 0; i < in->count; i++) {
++			ret = copy_struct_from_user(out_ptr, obj_size, in_ptr, in->stride);
++			if (ret)
++				break;
++
++			out_ptr += obj_size;
++			in_ptr += in->stride;
++		}
++	}
++
++	if (ret) {
++		kvfree(out_alloc);
++		return ret;
++	}
++
++	*out = out_alloc;
++	return 0;
++}
++
++int
++pvr_set_uobj_array(const struct drm_pvr_obj_array *out, u32 min_stride, u32 obj_size,
++		   const void *in)
++{
++	if (out->stride < min_stride)
++		return -EINVAL;
++
++	if (!out->count)
++		return 0;
++
++	if (obj_size == out->stride) {
++		if (copy_to_user(u64_to_user_ptr(out->array), in,
++				 (unsigned long)obj_size * out->count))
++			return -EFAULT;
++	} else {
++		u32 cpy_elem_size = min_t(u32, out->stride, obj_size);
++		void __user *out_ptr = u64_to_user_ptr(out->array);
++		const void *in_ptr = in;
++
++		for (u32 i = 0; i < out->count; i++) {
++			if (copy_to_user(out_ptr, in_ptr, cpy_elem_size))
++				return -EFAULT;
++
++			out_ptr += obj_size;
++			in_ptr += out->stride;
++		}
++
++		if (out->stride > obj_size &&
++		    clear_user(u64_to_user_ptr(out->array + obj_size),
++			       out->stride - obj_size)) {
++			return -EFAULT;
++		}
++	}
++
++	return 0;
++}
++
+ #define DRM_PVR_IOCTL(_name, _func, _flags) \
+ 	DRM_IOCTL_DEF_DRV(PVR_##_name, pvr_ioctl_##_func, _flags)
+ 
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.h b/drivers/gpu/drm/imagination/pvr_drv.h
+index ecd8f6011ae9..04cd550d8b48 100644
+--- a/drivers/gpu/drm/imagination/pvr_drv.h
++++ b/drivers/gpu/drm/imagination/pvr_drv.h
+@@ -19,4 +19,111 @@
+ #define PVR_DRIVER_MINOR 0
+ #define PVR_DRIVER_PATCHLEVEL 0
+ 
++int pvr_get_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 obj_size, void *out);
++int pvr_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 obj_size, const void *in);
++int pvr_get_uobj_array(const struct drm_pvr_obj_array *in, u32 min_stride, u32 obj_size,
++		       void **out);
++int pvr_set_uobj_array(const struct drm_pvr_obj_array *out, u32 min_stride, u32 obj_size,
++		       const void *in);
++
++#define PVR_UOBJ_MIN_SIZE_INTERNAL(_typename, _last_mandatory_field) \
++	(offsetof(_typename, _last_mandatory_field) + \
++	 sizeof(((_typename *)NULL)->_last_mandatory_field))
++
++/* NOLINTBEGIN(bugprone-macro-parentheses) */
++#define PVR_UOBJ_DECL(_typename, _last_mandatory_field) \
++	, _typename : PVR_UOBJ_MIN_SIZE_INTERNAL(_typename, _last_mandatory_field)
++/* NOLINTEND(bugprone-macro-parentheses) */
++
++/**
++ * DOC: PVR user objects.
++ *
++ * Macros used to aid copying structured and array data to and from
++ * userspace. Objects can differ in size, provided the minimum size
++ * allowed is specified (using the last mandatory field in the struct).
++ * All types used with PVR_UOBJ_GET/SET macros must be listed here under
++ * PVR_UOBJ_MIN_SIZE, with the last mandatory struct field specified.
++ */
++
++/**
++ * PVR_UOBJ_MIN_SIZE() - Fetch the minimum copy size of a compatible type object.
++ * @_obj_name: The name of the object. Cannot be a typename - this is deduced.
++ *
++ * This cannot fail. Using the macro with an incompatible type will result in a
++ * compiler error.
++ *
++ * To add compatibility for a type, list it within the macro in an orderly
++ * fashion. The second argument is the name of the last mandatory field of the
++ * struct type, which is used to calculate the size. See also PVR_UOBJ_DECL().
++ *
++ * Return: The minimum copy size.
++ */
++#define PVR_UOBJ_MIN_SIZE(_obj_name) _Generic(_obj_name \
++	PVR_UOBJ_DECL(struct drm_pvr_job, hwrt) \
++	PVR_UOBJ_DECL(struct drm_pvr_sync_op, value) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_gpu_info, num_phantoms) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_runtime_info, cdm_max_local_mem_size_regs) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_quirks, _padding_c) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_enhancements, _padding_c) \
++	PVR_UOBJ_DECL(struct drm_pvr_heap, page_size_log2) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_heap_info, heaps) \
++	PVR_UOBJ_DECL(struct drm_pvr_static_data_area, offset) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_static_data_areas, static_data_areas) \
++	)
++
++/**
++ * PVR_UOBJ_GET() - Copies from _src_usr_ptr to &_dest_obj.
++ * @_dest_obj: The destination container object in kernel space.
++ * @_usr_size: The size of the source container in user space.
++ * @_src_usr_ptr: __u64 raw pointer to the source container in user space.
++ *
++ * Return: Error code. See pvr_get_uobj().
++ */
++#define PVR_UOBJ_GET(_dest_obj, _usr_size, _src_usr_ptr) \
++	pvr_get_uobj(_src_usr_ptr, _usr_size, \
++		     PVR_UOBJ_MIN_SIZE(_dest_obj), \
++		     sizeof(_dest_obj), &(_dest_obj))
++
++/**
++ * PVR_UOBJ_SET() - Copies from &_src_obj to _dest_usr_ptr.
++ * @_dest_usr_ptr: __u64 raw pointer to the destination container in user space.
++ * @_usr_size: The size of the destination container in user space.
++ * @_src_obj: The source container object in kernel space.
++ *
++ * Return: Error code. See pvr_set_uobj().
++ */
++#define PVR_UOBJ_SET(_dest_usr_ptr, _usr_size, _src_obj) \
++	pvr_set_uobj(_dest_usr_ptr, _usr_size, \
++		     PVR_UOBJ_MIN_SIZE(_src_obj), \
++		     sizeof(_src_obj), &(_src_obj))
++
++/**
++ * PVR_UOBJ_GET_ARRAY() - Copies from @_src_drm_pvr_obj_array.array to
++ * alloced memory and returns a pointer in _dest_array.
++ * @_dest_array: The destination C array object in kernel space.
++ * @_src_drm_pvr_obj_array: The &struct drm_pvr_obj_array containing a __u64 raw
++ * pointer to the source C array in user space and the size of each array
++ * element in user space (the 'stride').
++ *
++ * Return: Error code. See pvr_get_uobj_array().
++ */
++#define PVR_UOBJ_GET_ARRAY(_dest_array, _src_drm_pvr_obj_array) \
++	pvr_get_uobj_array(_src_drm_pvr_obj_array, \
++			   PVR_UOBJ_MIN_SIZE((_dest_array)[0]), \
++			   sizeof((_dest_array)[0]), (void **)&(_dest_array))
++
++/**
++ * PVR_UOBJ_SET_ARRAY() - Copies from _src_array to @_dest_drm_pvr_obj_array.array.
++ * @_dest_drm_pvr_obj_array: The &struct drm_pvr_obj_array containing a __u64 raw
++ * pointer to the destination C array in user space and the size of each array
++ * element in user space (the 'stride').
++ * @_src_array: The source C array object in kernel space.
++ *
++ * Return: Error code. See pvr_set_uobj_array().
++ */
++#define PVR_UOBJ_SET_ARRAY(_dest_drm_pvr_obj_array, _src_array) \
++	pvr_set_uobj_array(_dest_drm_pvr_obj_array, \
++			   PVR_UOBJ_MIN_SIZE((_src_array)[0]), \
++			   sizeof((_src_array)[0]), _src_array)
++
+ #endif /* PVR_DRV_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
+new file mode 100644
+index 000000000000..c48de4a3af46
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_fw.c
+@@ -0,0 +1,145 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_device.h"
++#include "pvr_device_info.h"
++#include "pvr_fw.h"
++
++#include <drm/drm_drv.h>
++#include <linux/firmware.h>
++#include <linux/sizes.h>
++
++#define FW_MAX_SUPPORTED_MAJOR_VERSION 1
++
++/**
++ * pvr_fw_validate() - Parse firmware header and check compatibility
++ * @pvr_dev: Device pointer.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * -EINVAL if firmware is incompatible.
++ */
++static int
++pvr_fw_validate(struct pvr_device *pvr_dev)
++{
++	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
++	const struct firmware *firmware = pvr_dev->fw_dev.firmware;
++	const struct pvr_fw_layout_entry *layout_entries;
++	const struct pvr_fw_info_header *header;
++	const u8 *fw = firmware->data;
++	u32 fw_offset = firmware->size - SZ_4K;
++	u32 layout_table_size;
++	u32 entry;
++
++	if (firmware->size < SZ_4K || (firmware->size % FW_BLOCK_SIZE))
++		return -EINVAL;
++
++	header = (const struct pvr_fw_info_header *)&fw[fw_offset];
++
++	if (header->info_version != PVR_FW_INFO_VERSION) {
++		drm_err(drm_dev, "Unsupported fw info version %u\n",
++			header->info_version);
++		return -EINVAL;
++	}
++
++	if (header->header_len != sizeof(struct pvr_fw_info_header) ||
++	    header->layout_entry_size != sizeof(struct pvr_fw_layout_entry) ||
++	    header->layout_entry_num > PVR_FW_INFO_MAX_NUM_ENTRIES) {
++		drm_err(drm_dev, "FW info format mismatch\n");
++		return -EINVAL;
++	}
++
++	if (!(header->flags & PVR_FW_FLAGS_OPEN_SOURCE) ||
++	    header->fw_version_major > FW_MAX_SUPPORTED_MAJOR_VERSION ||
++	    header->fw_version_major == 0) {
++		drm_err(drm_dev, "Unsupported FW version %u.%u (build: %u%s)\n",
++			header->fw_version_major, header->fw_version_minor,
++			header->fw_version_build,
++			(header->flags & PVR_FW_FLAGS_OPEN_SOURCE) ? " OS" : "");
++		return -EINVAL;
++	}
++
++	if (pvr_gpu_id_to_packed_bvnc(&pvr_dev->gpu_id) != header->bvnc) {
++		struct pvr_gpu_id fw_gpu_id;
++
++		packed_bvnc_to_pvr_gpu_id(header->bvnc, &fw_gpu_id);
++		drm_err(drm_dev, "FW built for incorrect GPU ID %i.%i.%i.%i (expected %i.%i.%i.%i)\n",
++			fw_gpu_id.b, fw_gpu_id.v, fw_gpu_id.n, fw_gpu_id.c,
++			pvr_dev->gpu_id.b, pvr_dev->gpu_id.v, pvr_dev->gpu_id.n, pvr_dev->gpu_id.c);
++		return -EINVAL;
++	}
++
++	fw_offset += header->header_len;
++	layout_table_size =
++		header->layout_entry_size * header->layout_entry_num;
++	if ((fw_offset + layout_table_size) > firmware->size)
++		return -EINVAL;
++
++	layout_entries = (const struct pvr_fw_layout_entry *)&fw[fw_offset];
++	for (entry = 0; entry < header->layout_entry_num; entry++) {
++		u32 start_addr = layout_entries[entry].base_addr;
++		u32 end_addr = start_addr + layout_entries[entry].alloc_size;
++
++		if (start_addr >= end_addr)
++			return -EINVAL;
++	}
++
++	fw_offset = (firmware->size - SZ_4K) - header->device_info_size;
++
++	drm_info(drm_dev, "FW version v%u.%u (build %u OS)\n", header->fw_version_major,
++		 header->fw_version_minor, header->fw_version_build);
++
++	pvr_dev->fw_version.major = header->fw_version_major;
++	pvr_dev->fw_version.minor = header->fw_version_minor;
++
++	pvr_dev->fw_dev.header = header;
++	pvr_dev->fw_dev.layout_entries = layout_entries;
++
++	return 0;
++}
++
++static int
++pvr_fw_get_device_info(struct pvr_device *pvr_dev)
++{
++	const struct firmware *firmware = pvr_dev->fw_dev.firmware;
++	struct pvr_fw_device_info_header *header;
++	const u8 *fw = firmware->data;
++	const u64 *dev_info;
++	u32 fw_offset;
++
++	fw_offset = (firmware->size - SZ_4K) - pvr_dev->fw_dev.header->device_info_size;
++
++	header = (struct pvr_fw_device_info_header *)&fw[fw_offset];
++	dev_info = (u64 *)(header + 1);
++
++	pvr_device_info_set_quirks(pvr_dev, dev_info, header->brn_mask_size);
++	dev_info += header->brn_mask_size;
++
++	pvr_device_info_set_enhancements(pvr_dev, dev_info, header->ern_mask_size);
++	dev_info += header->ern_mask_size;
++
++	return pvr_device_info_set_features(pvr_dev, dev_info, header->feature_mask_size,
++					    header->feature_param_size);
++}
++
++/**
++ * pvr_fw_validate_init_device_info() - Validate firmware and initialise device information
++ * @pvr_dev: Target PowerVR device.
++ *
++ * This function must be called before querying device information.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * -%EINVAL if firmware validation fails.
++ */
++int
++pvr_fw_validate_init_device_info(struct pvr_device *pvr_dev)
++{
++	int err;
++
++	err = pvr_fw_validate(pvr_dev);
++	if (err)
++		return err;
++
++	return pvr_fw_get_device_info(pvr_dev);
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_fw.h b/drivers/gpu/drm/imagination/pvr_fw.h
+new file mode 100644
+index 000000000000..dca7fe5b3dd0
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_fw.h
+@@ -0,0 +1,34 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_FW_H
++#define PVR_FW_H
++
++#include "pvr_fw_info.h"
++
++#include <linux/types.h>
++
++/* Forward declarations from "pvr_device.h". */
++struct pvr_device;
++struct pvr_file;
++
++struct pvr_fw_device {
++	/** @firmware: Handle to the firmware loaded into the device. */
++	const struct firmware *firmware;
++
++	/** @header: Pointer to firmware header. */
++	const struct pvr_fw_info_header *header;
++
++	/** @layout_entries: Pointer to firmware layout. */
++	const struct pvr_fw_layout_entry *layout_entries;
++
++	/**
++	 * @processor_type: FW processor type for this device. Must be one of
++	 *                  %PVR_FW_PROCESSOR_TYPE_*.
++	 */
++	u16 processor_type;
 +};
 +
-+#define ROGUE_FW_SF_FIRST ROGUE_FW_LOG_CREATESFID(0, ROGUE_FW_GROUP_NULL, 0)
-+#define ROGUE_FW_SF_MAIN_ASSERT_FAILED ROGUE_FW_LOG_CREATESFID(24, ROGUE_FW_GROUP_MAIN, 1)
-+#define ROGUE_FW_SF_LAST ROGUE_FW_LOG_CREATESFID(65535, ROGUE_FW_GROUP_NULL, 15)
++int pvr_fw_validate_init_device_info(struct pvr_device *pvr_dev);
 +
-+#endif /* PVR_ROGUE_FWIF_SF_H */
++#endif /* PVR_FW_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_fw_info.h b/drivers/gpu/drm/imagination/pvr_fw_info.h
+new file mode 100644
+index 000000000000..40bf66f1c4b6
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_fw_info.h
+@@ -0,0 +1,135 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_FW_INFO_H
++#define PVR_FW_INFO_H
++
++#include <linux/bits.h>
++#include <linux/sizes.h>
++#include <linux/types.h>
++
++/*
++ * Firmware binary block unit in bytes.
++ * Raw data stored in FW binary will be aligned to this size.
++ */
++#define FW_BLOCK_SIZE SZ_4K
++
++/* Maximum number of entries in firmware layout table. */
++#define PVR_FW_INFO_MAX_NUM_ENTRIES 8
++
++enum pvr_fw_section_id {
++	META_CODE = 0,
++	META_PRIVATE_DATA,
++	META_COREMEM_CODE,
++	META_COREMEM_DATA,
++	MIPS_CODE,
++	MIPS_EXCEPTIONS_CODE,
++	MIPS_BOOT_CODE,
++	MIPS_PRIVATE_DATA,
++	MIPS_BOOT_DATA,
++	MIPS_STACK,
++	RISCV_UNCACHED_CODE,
++	RISCV_CACHED_CODE,
++	RISCV_PRIVATE_DATA,
++	RISCV_COREMEM_CODE,
++	RISCV_COREMEM_DATA,
++};
++
++enum pvr_fw_section_type {
++	NONE = 0,
++	FW_CODE,
++	FW_DATA,
++	FW_COREMEM_CODE,
++	FW_COREMEM_DATA,
++};
++
++/*
++ * FW binary format with FW info attached:
++ *
++ *          Contents        Offset
++ *     +-----------------+
++ *     |                 |    0
++ *     |                 |
++ *     | Original binary |
++ *     |      file       |
++ *     |   (.ldr/.elf)   |
++ *     |                 |
++ *     |                 |
++ *     +-----------------+
++ *     |   Device info   |  FILE_SIZE - 4K - device_info_size
++ *     +-----------------+
++ *     | FW info header  |  FILE_SIZE - 4K
++ *     +-----------------+
++ *     |                 |
++ *     | FW layout table |
++ *     |                 |
++ *     +-----------------+
++ *                          FILE_SIZE
++ */
++
++#define PVR_FW_INFO_VERSION 3
++
++#define PVR_FW_FLAGS_OPEN_SOURCE BIT(0)
++
++/** struct pvr_fw_info_header - Firmware header */
++struct pvr_fw_info_header {
++	/** @info_version: FW info header version. */
++	u32 info_version;
++	/** @header_len: Header length. */
++	u32 header_len;
++	/** @layout_entry_num: Number of entries in the layout table. */
++	u32 layout_entry_num;
++	/** @layout_entry_size: Size of an entry in the layout table. */
++	u32 layout_entry_size;
++	/** @bvnc: GPU ID supported by firmware. */
++	aligned_u64 bvnc;
++	/** @fw_page_size: Page size of processor on which firmware executes. */
++	u32 fw_page_size;
++	/** @flags: Compatibility flags. */
++	u32 flags;
++	/** @fw_version_major: Firmware major version number. */
++	u16 fw_version_major;
++	/** @fw_version_minor: Firmware minor version number. */
++	u16 fw_version_minor;
++	/** @fw_version_build: Firmware build number. */
++	u32 fw_version_build;
++	/** @device_info_size: Size of device info structure. */
++	u32 device_info_size;
++	/** @padding: Padding. */
++	u32 padding;
++};
++
++/**
++ * struct pvr_fw_layout_entry - Entry in firmware layout table, describing a
++ *                              section of the firmware image
++ */
++struct pvr_fw_layout_entry {
++	/** @id: Section ID. */
++	enum pvr_fw_section_id id;
++	/** @type: Section type. */
++	enum pvr_fw_section_type type;
++	/** @base_addr: Base address of section in FW address space. */
++	u32 base_addr;
++	/** @max_size: Maximum size of section, in bytes. */
++	u32 max_size;
++	/** @alloc_size: Allocation size of section, in bytes. */
++	u32 alloc_size;
++	/** @alloc_offset: Allocation offset of section. */
++	u32 alloc_offset;
++};
++
++/**
++ * struct pvr_fw_device_info_header - Device information header.
++ */
++struct pvr_fw_device_info_header {
++	/* BRN Mask size (in u64s). */
++	u64 brn_mask_size;
++	/* ERN Mask size (in u64s). */
++	u64 ern_mask_size;
++	/* Feature Mask size (in u64s). */
++	u64 feature_mask_size;
++	/* Feature Parameter size (in u64s). */
++	u64 feature_param_size;
++};
++
++#endif /* PVR_FW_INFO_H */
 -- 
 2.42.0
 
