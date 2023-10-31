@@ -1,132 +1,182 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0311710797
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 14:51:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B86DF65;
+	Tue, 31 Oct 2023 15:00:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ka13Y3Fy"
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFFD4ED;
-	Tue, 31 Oct 2023 07:51:34 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1cc3bb32b5dso26381085ad.3;
-        Tue, 31 Oct 2023 07:51:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8uIeS9C"
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12077E4;
+	Tue, 31 Oct 2023 08:00:13 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-53fa455cd94so4275723a12.2;
+        Tue, 31 Oct 2023 08:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698763894; x=1699368694; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=90p+Ev9PObByrmKNOtd680aQ56JEMH8qyqlYgw5xuYw=;
-        b=Ka13Y3Fy7gtiBt43Gr204NlYO6zPa40IND9S9cP96SH6VYQ1OBrcMtrWcBHp1+NM3k
-         tYCNAcnwoxd5RYH/BnAkE5taW1eAkkfPDV3ejPmKGBj054gfqSaLcpRxnh/eC3Wy2zJa
-         R2hxWKww4aTlE2OkzUtBcbmh64KXeFbfLfLd+YOsElZg5rVYb2HNwvV02UzvhpfDtC51
-         ibIS+6rz/G0PsdIorQYagQbdBbHn0/iPzQc2puQ0JvywBhtKv03jVDSVoeE2+edYfs2p
-         peaMy7vNvCPp4xxr7qeS2prN0aGd8bklcfw7SXbPuWma8SmT4ZMnK0JufDZVGcZndx5W
-         db+w==
+        d=gmail.com; s=20230601; t=1698764412; x=1699369212; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fpUa0c0ro2tLbbAgAvEyUhNQOLHcv6VqwMFHwh6wE9s=;
+        b=V8uIeS9CPmn1Qrd0o5MuxpICFx/i+0InaSLQ5mIrBPYwmFWi6DG4yau9asARtnmi63
+         fUPIJy9DxLg04a+UV5l4FBBdjUqoqE0zJfb9459oQl0z7Hx0kK6nvCJ9s/9CjFZtnoLZ
+         ZTcpWThZYqM9x592dJtGkmBkemNfcQ9eV6HHKPNxrf4STP0UgQ/VwNjTqkYZUBdxy7BX
+         vttkB1lA7jR1EiELBV5A/5Ik1He116ujkAHBJRQ1/acWRkAg3TRf1xbvdDY67MjJZ3Ah
+         YOKHsZgT7i7EYulzcAWL9OQY+3dhcv5w65kEoPdXOjHWSNPiMGh7+kfXstLA4f5/hJDj
+         FUcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698763894; x=1699368694;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=90p+Ev9PObByrmKNOtd680aQ56JEMH8qyqlYgw5xuYw=;
-        b=uxP7oFZBBfPoB1PfL8xHnVDdJ0EICbdC+RhMHLTgKqhihUyFk05QcNdeoVlj3Xkygr
-         HwU0Xrt3KFyfgcOtiJt0P2wh7hydKkxekDdC/eXAbNHNG9J6ZecSHiVwxoXws4q3nZqv
-         TCAaRS2YuvCUaCdfAm/RfTRnIsiItUqR91TsJ+Wdz1mjuz0kq5Tj1X5on3dz85BtdRk0
-         pIIWlZEq7N6r29Dge6bpo0a0mTNZAJlW4S5BDXbzORHzLx93Wu4SOTrBqvk3P22bBU4R
-         /FldNaeSXMioOoHSEke/QtqhcVdkOxnwcUWxhTKDlGPX7DbfZ7O1QbCXhRo8Ix68UXT+
-         AG6w==
-X-Gm-Message-State: AOJu0Yx1bvI+xHgtcufM3fQ5cPuuVwJRGvuh4tl0BHlvj9FnoT/eha0r
-	ETLCt9rU6Og2KjOeNKCdY3U=
-X-Google-Smtp-Source: AGHT+IFoQHuHNOobKogT3uRuDdMvF5QAFGOwT/O08+L0hYnF/jVrxDPutZf7jBHLkRhCJLdb54svWA==
-X-Received: by 2002:a17:903:245:b0:1c3:6d97:e89e with SMTP id j5-20020a170903024500b001c36d97e89emr16539909plh.58.1698763894412;
-        Tue, 31 Oct 2023 07:51:34 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c24-20020a170902d91800b001c611e9a5fdsm1418836plz.306.2023.10.31.07.51.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 07:51:34 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4ab27937-df39-44bf-967c-0f8ddc987879@roeck-us.net>
-Date: Tue, 31 Oct 2023 07:51:32 -0700
+        d=1e100.net; s=20230601; t=1698764412; x=1699369212;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fpUa0c0ro2tLbbAgAvEyUhNQOLHcv6VqwMFHwh6wE9s=;
+        b=WUdr4kb6eOE96DRStTh59PQ6tAxx9riUVEZV4z+Ykjwq+jHA4a5BHb1+oYM+l0F0yW
+         vQcOUEWM19Ofck/DPTlcpk/bSbJLIqekqO4Qm4P77JJ8/XtmAp6STzkxbryJHva1Gjnu
+         /lrpLvFb6SHUvbhCH2F9FBgid723Zri+esde/RdXiEgNfiZu17RN4PEdktWc28h7l/13
+         7tecHcfDsc+dnDhZnhxl//gOLcHfZ5JNruomtYhTMKtsOkSyGmydb5S/Zu47Sfx11dJC
+         uhfxbd2fMF9SIyMNHY2PjSDOADf187Jtnpap1ZrFYmHaCd4OIh3cLMzcb3oV//NtQsHs
+         jXSA==
+X-Gm-Message-State: AOJu0YzdaK3OcD7IX+9Nmvl37DR4V6PpISS0SOIhK08PCZEbCTNTB1SC
+	VYJlsW10koQs73A33WNLav3wlsix2tRU0AxidsU=
+X-Google-Smtp-Source: AGHT+IFjc/sxR3TCJRREmly4thmkk546QuSy1uQX1ftXCq3d3xvNCegoaYqO9f6wJkoRnH26cjKeRQrvqP7WTZcP3H4=
+X-Received: by 2002:a17:90a:62c3:b0:280:85a:b425 with SMTP id
+ k3-20020a17090a62c300b00280085ab425mr8949115pjs.49.1698764412260; Tue, 31 Oct
+ 2023 08:00:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] hwmon:Add MEC172x Micro Chip driver for Lenovo
- motherboards
-Content-Language: en-US
-To: David Ober <dober6023@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- jdelvare@suse.com, corbet@lwn.net, dober@lenovo.com, mpearson@lenovo.com
-References: <20231031120942.4404-1-dober6023@gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20231031120942.4404-1-dober6023@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231016154937.41224-1-ahmed.zaki@intel.com> <14feb89d-7b4a-40c5-8983-5ef331953224@intel.com>
+ <CAKgT0UfcT5cEDRBzCxU9UrQzbBEgFt89vJZjz8Tow=yAfEYERw@mail.gmail.com>
+ <20231016163059.23799429@kernel.org> <CAKgT0Udyvmxap_F+yFJZiY44sKi+_zOjUjbVYO=TqeW4p0hxrA@mail.gmail.com>
+ <20231017131727.78e96449@kernel.org> <CAKgT0Ud4PX1Y6GO9rW+Nvr_y862Cbv3Fpn+YX4wFHEos9rugJA@mail.gmail.com>
+ <20231017173448.3f1c35aa@kernel.org> <CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
+ <20231018165020.55cc4a79@kernel.org> <45c6ab9f-50f6-4e9e-a035-060a4491bded@intel.com>
+ <20231020153316.1c152c80@kernel.org> <c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
+ <20231020164917.69d5cd44@kernel.org> <f6ab0dc1-b5d5-4fff-9ee2-69d21388d4ca@intel.com>
+ <89e63967-46c4-49fe-87bc-331c7c2f6aab@nvidia.com> <e644840d-7f3d-4e3c-9e0f-6d958ec865e0@intel.com>
+ <e471519b-b253-4121-9eec-f7f05948c258@nvidia.com> <a2a1164f-1492-43d1-9667-5917d0ececcb@intel.com>
+ <d097e7d3-5e16-44ba-aa92-dfb7fbedc600@nvidia.com>
+In-Reply-To: <d097e7d3-5e16-44ba-aa92-dfb7fbedc600@nvidia.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Tue, 31 Oct 2023 07:59:35 -0700
+Message-ID: <CAKgT0UdObrDUGKMC7Tneqc4j3tU1jxRugoEB=u63drHhxOeKyw@mail.gmail.com>
+Subject: Re: [Intel-wired-lan] [PATCH net-next v4 1/6] net: ethtool: allow
+ symmetric-xor RSS hash for any flow type
+To: Gal Pressman <gal@nvidia.com>
+Cc: Ahmed Zaki <ahmed.zaki@intel.com>, Jakub Kicinski <kuba@kernel.org>, mkubecek@suse.cz, 
+	andrew@lunn.ch, willemdebruijn.kernel@gmail.com, 
+	Wojciech Drewek <wojciech.drewek@intel.com>, corbet@lwn.net, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, jesse.brandeburg@intel.com, edumazet@google.com, 
+	anthony.l.nguyen@intel.com, horms@kernel.org, vladimir.oltean@nxp.com, 
+	Jacob Keller <jacob.e.keller@intel.com>, intel-wired-lan@lists.osuosl.org, 
+	pabeni@redhat.com, davem@davemloft.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/31/23 05:09, David Ober wrote:
-> This addition adds in the ability for the system to scan the
-> MEC172x EC chip in Lenovo ThinkStation systems to get the
-> current fan RPM speeds and the Maximum speed value for each
-> fan also provides the current CPU and DIMM thermal status
-> 
-> Signed-off-by: David Ober <dober6023@gmail.com>
-> 
-> v2 fixed mixcased naming
-> v2 add mutex protection
-> v2 removed references to ACPI as it is not used
-> v2 added comment to explain why returning a -1 is needed
-> ---
->   drivers/hwmon/lenovo-ec-sensors.c | 81 ++++++++++++++++++-------------
+On Tue, Oct 31, 2023 at 5:01=E2=80=AFAM Gal Pressman <gal@nvidia.com> wrote=
+:
+>
+> On 29/10/2023 18:59, Ahmed Zaki wrote:
+> >
+> >
+> > On 2023-10-29 06:48, Gal Pressman wrote:
+> >> On 29/10/2023 14:42, Ahmed Zaki wrote:
+> >>>
+> >>>
+> >>> On 2023-10-29 06:25, Gal Pressman wrote:
+> >>>> On 21/10/2023 3:00, Ahmed Zaki wrote:
+> >>>>>
+> >>>>>
+> >>>>> On 2023-10-20 17:49, Jakub Kicinski wrote:
+> >>>>>> On Fri, 20 Oct 2023 17:14:11 -0600 Ahmed Zaki wrote:
+> >>>>>>> I replied to that here:
+> >>>>>>>
+> >>>>>>> https://lore.kernel.org/all/afb4a06f-cfba-47ba-adb3-09bea7cb5f00@=
+intel.com/
+> >>>>>>>
+> >>>>>>> I am kind of confused now so please bear with me. ethtool either
+> >>>>>>> sends
+> >>>>>>> "ethtool_rxfh" or "ethtool_rxnfc". AFAIK "ethtool_rxfh" is the
+> >>>>>>> interface
+> >>>>>>> for "ethtool -X" which is used to set the RSS algorithm. But we
+> >>>>>>> kind of
+> >>>>>>> agreed to go with "ethtool -U|-N" for symmetric-xor, and that use=
+s
+> >>>>>>> "ethtool_rxnfc" (as implemented in this series).
+> >>>>>>
+> >>>>>> I have no strong preference. Sounds like Alex prefers to keep it
+> >>>>>> closer
+> >>>>>> to algo, which is "ethtool_rxfh".
+> >>>>>>
+> >>>>>>> Do you mean use "ethtool_rxfh" instead of "ethtool_rxnfc"? how wo=
+uld
+> >>>>>>> that work on the ethtool user interface?
+> >>>>>>
+> >>>>>> I don't know what you're asking of us. If you find the code to
+> >>>>>> confusing
+> >>>>>> maybe someone at Intel can help you :|
+> >>>>>
+> >>>>> The code is straightforward. I am confused by the requirements: don=
+'t
+> >>>>> add a new algorithm but use "ethtool_rxfh".
+> >>>>>
+> >>>>> I'll see if I can get more help, may be I am missing something.
+> >>>>>
+> >>>>
+> >>>> What was the decision here?
+> >>>> Is this going to be exposed through ethtool -N or -X?
+> >>>
+> >>> I am working on a new version that uses "ethtool_rxfh" to set the
+> >>> symmetric-xor. The user will set per-device via:
+> >>>
+> >>> ethtool -X eth0 hfunc toeplitz symmetric-xor
+> >>>
+> >>> then specify the per-flow type RSS fields as usual:
+> >>>
+> >>> ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n
+> >>>
+> >>> The downside is that all flow-types will have to be either symmetric =
+or
+> >>> asymmetric.
+> >>
+> >> Why are we making the interface less flexible than it can be with -N?
+> >
+> > Alexander Duyck prefers to implement the "symmetric-xor" interface as a=
+n
+> > algorithm or extension (please refer to previous messages), but ethtool
+> > does not provide flowtype/RSS fields setting via "-X". The above was th=
+e
+> > best solution that we (at Intel) could think of.
+>
+> OK, it's a weird we're deliberately limiting our interface, given
+> there's already hardware that supports controlling symmetric hashing per
+> flow type.
+>
+> I saw you mentioned the way ice hardware implements symmetric-xor
+> somewhere, it definitely needs to be added somewhere in our
+> documentation to prevent confusion.
+> mlx5 hardware also does symmetric hashing with xor, but not exactly as
+> you described, we need the algorithm to be clear.
 
-What is this patch based on ? I don't see that driver in
-drivers/hwmon/, and based on the patch I would be surprised
-if I had accepted it.
+It is precisely because of the way the symmetric-xor implements it
+that I suggested that they change the algo type instead of the input
+fields.
 
-Guenter
+Instead of doing something such as rearranging the inputs, what they
+do is start XORing them together and then using those values for both
+the source and destination ports. It would be one thing if they
+swapped them, but instead they destroy the entropy provided by XORing
+the values together and then doubling them up in the source and
+destination fields. The result is the hash value becomes predictable
+in that once you know the target you just have to offset the source
+and destination port/IP by the same amount so that they hash out to
+the same values, and as a result it would make DDoS attacks based on
+the RSS hash much easier.
 
+Where I draw the line in this is if we start losing entropy without
+explicitly removing the value then it is part of the algo, whereas if
+it is something such as placement or us explicitly saying we don't
+want certain fields in there then it would be part of the input.
+Adding fields to the input should increase or at least maintain the
+entropy is my point of view.
