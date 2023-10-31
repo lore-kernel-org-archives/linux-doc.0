@@ -1,63 +1,63 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC291DFEE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D1B1DFEF;
 	Tue, 31 Oct 2023 15:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="IoHVfGog";
-	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="La/XW0ZT"
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="L0wKyu2c";
+	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="cXVLCj6x"
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BC5A10C;
-	Tue, 31 Oct 2023 08:14:04 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81885EA;
+	Tue, 31 Oct 2023 08:14:00 -0700 (PDT)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
-	by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39VCJjRf013616;
-	Tue, 31 Oct 2023 15:13:29 GMT
+	by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39V7NESV029243;
+	Tue, 31 Oct 2023 15:13:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:content-transfer-encoding:content-type:mime-version; s=
-	dk201812; bh=LlMPaIZm0OIaosP7B9Bi8LDXMsgJLgjM26UTMrYeXVA=; b=IoH
-	VfGogRLXrX8gNC/SlNQPMP31Xuylr+HGwlVlGlMDrCIa4AGE0a+TbqOhfKlqPLNf
-	7v+qDr93P3hicajnqWKMw8ZNJy2k4ffyo3/QgOW8+NwSsrJTQqaB4JwCkUju1xIf
-	o3uZvQboH3qa8eC26Bg0Q81F8lVrMfjZKyM8gASFmvBYfKBkPlULu4YGbxty6yH8
-	+xIHm1iAL8PMKYa8yTskHxC/ORtWD7XFwmqv7bauzXzWOm+jzR+TRU0hP3gaN0T3
-	ng6UE5qqobeWySVEv4f1q19tLAFgCzVg8cJwGd9cEwt6kfUY1qHmM8xZuVnCU6ht
-	ZnZI7W6yb6MiF8XWd3w==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
-	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3u0rjntf42-2
+	:content-type:content-transfer-encoding:mime-version; s=
+	dk201812; bh=bq1M3a6G+OB1G6B3NyueQbcxV6CRHcLbiucsVyjk1WY=; b=L0w
+	Kyu2cIzHsHNQyabmdfOLJ1DCM4zVdv3B1XVzEBmOygXFCPBOjYBXa23fcCJuzSJl
+	YnOJhHCf+QuEhS5rTXp8xXzwMTSxB22wf1N7Hfr3e8vamhWPpB/rDqPxtaw2rwhM
+	cEWEkvbLAZ2aA6S6mpsHXD0w7PcL70Q3TsD1vR/1enHY7TI2R7q+Aa6pSC7dD6op
+	2DRcwJQJfExRue/QJLh9JdwN4Qa2I/xOygH6RptcMdOHQnkv6Z1gROh1cfkToDwr
+	xBZyQyUbkSQA1hFiMjkjAcCSnznSkmCRZkjoh6dA9ox0bAImgul99oBgqYNxOzCq
+	7Tzny0V2ZkbErHZudNQ==
+Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
+	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3u0rjntf3w-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 31 Oct 2023 15:13:28 +0000 (GMT)
+	Tue, 31 Oct 2023 15:13:18 +0000 (GMT)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 31 Oct 2023 15:13:28 +0000
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.51) by
+ 15.1.2507.34; Tue, 31 Oct 2023 15:13:17 +0000
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.50) by
  email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34 via Frontend
- Transport; Tue, 31 Oct 2023 15:13:27 +0000
+ Transport; Tue, 31 Oct 2023 15:13:17 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YHW0L+jEBHwI5mZzUldxoAJ62hyn2p4I4VtctiDNw1BMLbe/+8Tng5nDj/N645BJto3c146uSSPqeeLBCe5hrKnNibXlZu0mSkrDh4WH3Pep9ebxA2ImeC4mGwMI60/5q8gW0BtQ5QSjjRSr0AuLA/LaTCeY7fvgEsaPiSQOWvTHbywFBy5j6x6zgxrqVqEtzVbKW3luUz+tS58Hj9NCXOYh7k7Qv0bMVkW+x5RdGztt42SheBya19TLY1RD2OtKrwiL2RrbVWoMFmswBIU0jp8mg19ExnEthA7v91YhMcDffI81gSr9A6F5mxLGBdRfL2fIVQ83tqm2RA6u/rIl4A==
+ b=Z2zNhQ4QglW0k/v1aU4z4fAT1k9UsHIwCZH8Wom/gVOXyKXAV0ebqJXv4/GZoQrnt1vZb3GjbE9jshanBSI79yD83mKq19pbmd7TBlWiRWztQix/k9g/G2QggoceZfs2AKKv45WaXrcqnrSVAOCuANRpSYYcxR7A2egx1nFXEg7ROI58uMjLtfuwzp7TpbRrY1IAmv2Ulqer82fcX1YYRVGeR3idx93o0S1GmwTbi+DcCSyo78KDxb80eUEEOFUVPsbHxEW99/eNO1OterytP4MF2DYxQM6r2vnXvZAJ+HCoUNJhsaEAlZlyiFsyEyE0ZLHm865py7R1ASBas43pOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LlMPaIZm0OIaosP7B9Bi8LDXMsgJLgjM26UTMrYeXVA=;
- b=iGD0ZNIJWbJCSmqmcvkbOyR+CLZ141wNol+EorccY3nWtqDLCpUCpEwiR+Vmyl2aVuQ0nZZMat3QXoCz7c8+UnGGkb8hVxPnxjnQMtVKAXN1fHA7Zi3VyRG9PPz2AzuP3pgaxR16KWIj1YI8kZGddpH2eU8BrRTbhNbfpUpS84dqAyvSZaKc5r8UEFAOuUjy58CHzMTD82zXmV4mZO3Lq7rQqS9q+v4AwrdzMykAqfPklYJxCJdjFeVuLBZ/fwSjqaozDDAybq/3i1zqA2SaCTg6MG5x4lLsH2Q7aA9rN/hGCRo3gK6ZqOi61mdjU1PXdAx1zvEifINvTL+5EfqFeQ==
+ bh=bq1M3a6G+OB1G6B3NyueQbcxV6CRHcLbiucsVyjk1WY=;
+ b=a2MVkgYndFQyJqpTbJi7kCp1qapPuruTkWJQKjAfTIfcTAABYt0UV4WVEpm0UxW+DBzXNlffl2uftQS6n5UDiqNQR4gDUOR5CAw8srzQIDIu0bGu5ghl2j5sgrzhDlKh2MRNQGHHF8BRzCEOegv7HJNmyMFZrdO8BKY3ik4knvTPCNK+Xu7mDptEhtBZ1G1vuqNCT3orbNWasDWAXnPyczScE/C5YMQmTf1xqUAR1P5n+RVMITcEENnPxXnBgEjTI9nF0gpueOwDHf6ZnZlbUCBIcju4XxrmbzgYhVLRHNJu+k4FD9GYjk8KVS143ioKU1+Tq29A0iyHhMBEvKG8mA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LlMPaIZm0OIaosP7B9Bi8LDXMsgJLgjM26UTMrYeXVA=;
- b=La/XW0ZTSy3L9zsCEO9MfmB+cGXfsZQorM+a3QjQvhcYrhnosJ0RisdfXvOl5vq58zF6J0sFN6vhRMSo2AlClJcRAUzrzRueSKAATWxYwggovrMo1WTqYuhBpkFK31IqxqwUFz34cXMB1E77jA0UyGA4WHACuztOhmWnnUES32g=
+ bh=bq1M3a6G+OB1G6B3NyueQbcxV6CRHcLbiucsVyjk1WY=;
+ b=cXVLCj6xYU34ND9lvJp4e097VjeQzsf3muP+RD5lRZnpNb/+VBwT2kSanX3y3TAIApSeDjlv1Sp4LdGREFXHnYB7Jonj/s1NRkXkAM51TG5AIIhlsC3Quy2XMma9z40ZGOI0A9x6XAJUyDWs9cbuR4rTLrV9Gjh1LkiNSi0VQd4=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by CWLP265MB2018.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:6a::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.25; Tue, 31 Oct
- 2023 15:13:26 +0000
+ 2023 15:13:15 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::eef1:bccc:508d:e086]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::eef1:bccc:508d:e086%5]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
- 15:13:26 +0000
+ 15:13:15 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
 CC: <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
@@ -71,14 +71,14 @@ CC: <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
         <devicetree@vger.kernel.org>, <corbet@lwn.net>,
         <linux-doc@vger.kernel.org>, Matt Coster <matt.coster@imgtec.com>
-Subject: [PATCH v8 20/20] drm/imagination: Add driver documentation
-Date: Tue, 31 Oct 2023 15:12:57 +0000
-Message-Id: <20231031151257.90350-21-sarah.walker@imgtec.com>
+Subject: [PATCH v8 05/20] drm/imagination: Add skeleton PowerVR driver
+Date: Tue, 31 Oct 2023 15:12:42 +0000
+Message-Id: <20231031151257.90350-6-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231031151257.90350-1-sarah.walker@imgtec.com>
 References: <20231031151257.90350-1-sarah.walker@imgtec.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: LO4P123CA0301.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:600:196::18) To CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:400:170::9)
@@ -90,303 +90,876 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB2018:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1cf6842c-5e16-48c2-957d-08dbda23ee4a
+X-MS-Office365-Filtering-Correlation-Id: 7d0faf85-0907-48f3-629a-08dbda23e7fc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pKH3a/NhjsImC56InRkxcjGM//qKz5O3YzxA0sVVfHR8ySOOTWbdzscQFMFfMwbCf8vDcHJm8RTg6nYMaVKRDjK7QdTydnLIOQsdL5k5cZoYbDV2XhKWTB/M91PxBxX6EH3vs965l1imugkJHrE/X3xDibzfwzTx0yAc3fIUKbrWSPMpoQxl/nq65LfMvvVEg1HsuDa0x3txtMrTlgT4wXfcGeTH/3YKiq+0twrPYoYO9WG167x2JeMeo9lcc5nU0nb1IA3Vz+We2WWbWJOQZBfhWoX4aHYISJ3KawFXXoR429TP1jjI2MuHzcQFyq+v0uNiS5ckjow9qJqHh9ug66mCChHp4Y1lq2x8MHXNflqKSEcqmsQjQqc4apthInwB1GqPXZDJIev/EqPLAD/jtvSaYgqAan5Ur4ywKQTHC3AnrL9Hzw+ZsNPGqDbswFtRSveuVaeK1WjkQfqghQs2PE7B4PkHHVzVyUdnyY/r+w+QyeT4KZ/RTq3oQ/bh67FE1GU30Q8OKKcLmEeACAMAix80lquXJoYg/gjFex1NbG5vBlzDYA5KSnpHXZdTMVKn68Sc1VXsrXult9jC9wLPm76d61//O0j2alN+rg8lbP7cAaANb1G/tVKoq8JDeew3
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(39850400004)(346002)(396003)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(2906002)(7416002)(41300700001)(5660300002)(44832011)(8676002)(4326008)(8936002)(38350700005)(36756003)(86362001)(38100700002)(107886003)(1076003)(316002)(6916009)(66946007)(66476007)(66556008)(2616005)(478600001)(6666004)(26005)(6512007)(6506007)(52116002)(6486002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: zNCNIunS6ynUitvPSA7HacdJVpkhQgNoh5RwJvlwRRROVaKA/cYUcnpZV1BD1+FT0VqJGZSQZgYvs0Ux9H9r/c28zwrU6v3cSra613+wmTEx8v8gwcQ2DTN9SgVeF2foe5gHdNgvM2tOiaykowN8SoMWkWeRmf4Hu2cPtnPdz0UhD/nPQ0xuWLPZy25GILupKajuttNrXAMqPlZy+nyYlOKYwGb0fw3NYaHFUKKG34v9/R4FGp2yiiIREboXuTZnMTxMTxloip5z6D4qf+O6qYomSIYHdFgwh915uI+lKtzaw/nUO/6g5Mk/U6ifZpN9nDbdJ3+2U+x3FsX7cJ2nQOPlKq21fG+0CKWtNyG23oF7mxG7TyVEL9ivWwMTPuN/YW22olzdSiiNavJ6np0RGkpj+RiyqtxDfDQsqgy3PFGyIQ2XphwBMVEXfcDf96iPMYB4XUagyYcws3E/W1SWtlwBclfWQVv0Ece+QIqR01aYoPUApyKQxXy/mGr9pqyJA3wRz0qdAHM6G6MfJwTGbkbyvUQ+Mlvbx5RqNjQno8zXCzEjkpHFSHgGER781NdGtu4g3Qeox0u3U26pfRwszAKi1k5U+yWYMQr/T57wSLnMv6CdYIoaFT2e2xNDLOTW
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(39850400004)(346002)(396003)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(2906002)(30864003)(7416002)(41300700001)(5660300002)(44832011)(8676002)(4326008)(8936002)(38350700005)(36756003)(86362001)(38100700002)(107886003)(1076003)(316002)(6916009)(66946007)(66476007)(66556008)(2616005)(83380400001)(478600001)(6666004)(26005)(6512007)(6506007)(52116002)(6486002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AfyeOS3rWX4IXA5/VW1h4KeRUn8uYZs3jNBXRVN/RXukj/0e3lPI2oqCossw?=
- =?us-ascii?Q?VjHIJ5nhNKzEw2l7yO6gW2c3/r+jC7i/3TP8KrMLpB4rFYQQF3NSTQR+2rKZ?=
- =?us-ascii?Q?4f69pqnEUsCeASUuqOcr11+pIZ49Gb4D1lHTU9C9vy615crhu7oMZOIwMKrb?=
- =?us-ascii?Q?SqGrjTsnnX16cXf6K3CvgM02NH35etXQoWVJXPgU8yDNKjnTnMlGUpo/kNdq?=
- =?us-ascii?Q?2z+8YkzSp50Oryxr+u0kvZYcrcgRHdehWXcyI3iUDEvehhJ1i3TIQZkgIJXk?=
- =?us-ascii?Q?/GhOP51VO6ZEmZIx7DmfaGRcOgY7rHqbjxetwPZQizdoptLhExIvXRnvtJ8V?=
- =?us-ascii?Q?u2wsx9X3Sihj74AWN93r+2j+YZQHnOOy/YXgLgW8eChsdZ//oNd1+BdQ1+z1?=
- =?us-ascii?Q?e+di6ppNIxvTmPcmxVllXbaEb3g/9RHDX64sU1bJf4zrwA0sDF0nG4RSYJ2y?=
- =?us-ascii?Q?R1kvcn5aceL7AHujN/zzSILUy6GtJhw1T9xhK7+oU2WeGOWOXvvNw04tVq5F?=
- =?us-ascii?Q?cGpb0NwDi4EUyt78U7JNJR1e0MeRauZVvZvPHpPgYfKpAnbhqWmIvI/WSiEW?=
- =?us-ascii?Q?TNnrE71rvZ/PtIx+e3AHI7yUDHZ1xwaqlaVQC00GNYoFxEwELp9TaQfRU0vJ?=
- =?us-ascii?Q?f2uWXG6YUIO1pQvRM3FsQRmjLjog0USHDdPFuHA4C2o+VTWOCOX/rPKgOypv?=
- =?us-ascii?Q?7NiQn21P2aHrVeIUqW+rd/Yfs3QQlmWvLlPf5tInpAWHD8gNlPolMR6MhmaT?=
- =?us-ascii?Q?ElR8UDd+l8JSGEacDrNIkpIzdilJgDg8MZ3NTVkoGzVeSx5AmqaMW00KU7Tw?=
- =?us-ascii?Q?7l+33HAf5nVPqUHde1f3Xj3wPBCL7HKqb9xeKI4s1U2NQjSRv84aNXBwM5G9?=
- =?us-ascii?Q?jyAJ1bqHtBv8E5NMyk+84i0Ywq/a0Z6lkVwgIY9JQotNJoDrI0TnmdWve3S1?=
- =?us-ascii?Q?J3bUmKqMzpEDs8+uqyLE9exIf23r6FRgz3II9mRwcXvEj+b6lV1I9HPJH02V?=
- =?us-ascii?Q?8ZEM3Z0XxenDUGaKl3T3YDx/+HvRHYwsZdZ2AI5XaQRoio5BR5uLxkfu9neI?=
- =?us-ascii?Q?WZEeG6Q+7cMKdadReSB3tqBgUuYpVkQt/ZV6ow2yDXBQEpQVYVtVjjhPEgCH?=
- =?us-ascii?Q?1qeP1wPDY9F7ASOm3hztI0f1dtDdxW4vCMR4HJ1njRJKyOdqvtIDpPvjgwsd?=
- =?us-ascii?Q?Jg9zT00v5Cp5IWLgdbH25GlKihTgiGgyxckNDmiFPGFPVvdQ3oao8ZiY77wD?=
- =?us-ascii?Q?oun0ATgP3YCHa6fcP7qdArdwkzyKV37t4zz3hj1R8VzxzYcrtuCQbWMxVbEr?=
- =?us-ascii?Q?O6UOSZSzcp6H1ksXP5psI/3zPhmKJto1waafY8iSnIAc5o9HbRddBOXxX5rD?=
- =?us-ascii?Q?Ub1cQl8TfoxGQITNfShO+mhPiFmcEagHjAZEBoNJ+0c29mymOvENtgm5CWqq?=
- =?us-ascii?Q?9BiRgMF490rK0G++zXkMxevlIo307z8SJnlo9ItUrXKxQWyMSv9/IIbfpfQQ?=
- =?us-ascii?Q?+UI9yS4ldOQYt3TrJwVbBz0sQ78hKiTvmknr0yhNcNYewUwG6/suoh5G/OIJ?=
- =?us-ascii?Q?LBE+YGgBIbJZ8VdNDu9xxeQJQEao/eNnqC71tymesdmWSq/HhF9TWS2t7P+0?=
- =?us-ascii?Q?1Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cf6842c-5e16-48c2-957d-08dbda23ee4a
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmpuSmhlYnVMNFhCZXhKa25lYTdWemk0amJ5UGtwMFYvQktmN0R4b3l6aGhz?=
+ =?utf-8?B?WmZJMGpEckZYN2VsdmhQYXVWZSsySHFXdDkzN25iN3Q5dVpQM0ZsMlR3SDVZ?=
+ =?utf-8?B?WFJRb1BrSTRWVnFZcU9KbW9yWC9QOFZZbzBESEFJWHBUK01DT0x6MXVTK3Yx?=
+ =?utf-8?B?S0E5L0cwVGQ1ZVN3ajFyYkJhMElrSHNVOTVVMFpKaG40MTZhNThJRmpZV3Bl?=
+ =?utf-8?B?VFlIamEvU1NGR1F1MjM0aXdycEZabG53ZkNhVTFBZVRub3VaWXVZTjIwdmdZ?=
+ =?utf-8?B?TXdkencyT2ZLcUs0NFdYQ0wyVHlCRjhMQVIvZEpTV1UreXFseFhQVkx3c05u?=
+ =?utf-8?B?amZSLzlrNkVZb1FrNGMwaEthcnpzek1FeG1PS21JbEt5VTlrN3NyckhzV2ZO?=
+ =?utf-8?B?VmtSb1lKaUJaSHlhZExnQ0xvY1VuSUxQZDFmTHU3RWZpV1pHeXFjanQ0UGZB?=
+ =?utf-8?B?Zno2SVJ1Yy9kUEIrYXNma2VSOWNBQUFpZFJnOUFCRUhpK2syU0FabjBoL1ZH?=
+ =?utf-8?B?Y2g4RzRZTzN1TFlPd0paQ2Q2TlZwTjBpWkFvVEJ5d3NPV0ZYUC9Mb2syamtk?=
+ =?utf-8?B?aEx4cFhlSlN3cWZhNjZNdU9IVkZlRUFzNUZ0cVlMWVJYL3BEenVocDdtalM1?=
+ =?utf-8?B?bGhhU3FSOE1yMm42ZXBGT0FUMkF5MzBSOXNCWThISmdMcllQY0kvTEUwTGtE?=
+ =?utf-8?B?Rnl6WXNyTjVpWDNuSS9xN2hGZFhsdWVqUWNxRFZKN3RxeVJjN0ZnbDNxcW95?=
+ =?utf-8?B?cVNmRG5UN2FxOFZZU2Jnb0Q5OGt1MTJQbm9MdmgvSnpRaUp4dzFEbEdWQ1F0?=
+ =?utf-8?B?UzNLVjIrWS9XV3VmRjdzbUp3T29SRlVUQmlWaGFZYytOLzIrNWFpVU1wRGtJ?=
+ =?utf-8?B?ejBWTmZJQjFydnBJUlI0cndnazdDb1E4YmxINWlORklZZEd3RGpFanhYVkU0?=
+ =?utf-8?B?MTNMNDZKY1lzSytkQklacDYzaE9uMEIyajhtcS9SMnc0S3BMdE43ZlpkNHkv?=
+ =?utf-8?B?ZXlmS2NYc1NVSHUwU1Q0K0xZTWRKZ014M21KUm5xYlAyTVpGM1JzVGdTZXdK?=
+ =?utf-8?B?YVJSSHJQWTA2bEl4c1dxZ0ZKVytNbGxFdkJoMXEycUZCeHR6RzdqcXVJaUNP?=
+ =?utf-8?B?QVVPTlJlV1NGcGx4NFNpT1F1WmwzbS92MDhSS2trQ2IvRTg4VVp6WWtWcCtB?=
+ =?utf-8?B?NUZRZEU2T20wZzhxeWtEbDMzcWJZaWx3ZldHVVVXaHR1aGJlbWxvVFV3aFpL?=
+ =?utf-8?B?UHRkMDJFalNiaU9kajAvUUFYRnJsMDhzRlF5QmhLeE9DOU4zeXkxT2g4emRi?=
+ =?utf-8?B?NVhCK2dUTzl4YVpoRDVVSG0wMmQza3NDcnQzU3piR2NocFdXTUxWcEcwNVlI?=
+ =?utf-8?B?K2M5VERDc1BOUUIvOFc4YlFEUm1ReUptSFI4R1Uyd29TVnptMUFNRGZxeTdn?=
+ =?utf-8?B?Vm55L0VzMUp5dTUvSzE3UGg3eUNpYml2VUdjcStPN3ZCU3kzVGJKWDBEUXNz?=
+ =?utf-8?B?T0VXT2sxdkVHUDBYbUVuVjQ4RHhWT0t6T3dQR2IwVGxULzJQNVplVER2U0ZN?=
+ =?utf-8?B?cHpLeVR5UkZtbFNBdGVvNHJ2OHBZTGkxQ05Wa0RzL0ppVTJ3Vy9Db2hUYk1y?=
+ =?utf-8?B?WHFSUUZOVXBoWkY4QXRsa1cvb05jUU40cnZOS09YVGtseTk3T0NHRHRVV1J3?=
+ =?utf-8?B?TjAyMUxGckZUZDljWUFFNHZsQVVycnZtQld4MENWcWM1dDQ2ckxhOUNmN1RS?=
+ =?utf-8?B?NkVjMlpSaFAxZG9sRUdlcGNkMW1EVWVTOStFaDFWRmxWc1JHNDhNRjRGU3Rl?=
+ =?utf-8?B?WGVIY2Y0MExqOTRpYXR4WW11dDFFWktFTzFWc0RKUnI4K2ptWk9Nc0I4bFdu?=
+ =?utf-8?B?MDRjd1ppZDZQa0FQTXJLamNyeEx0cG5KMjE5SXVnVTRQRWtidFRManZ4TWtF?=
+ =?utf-8?B?OENtRkRFWjNYakE1b3VOU1F0dE9DQ2ZYblNpSVVYZEZSUjlIMWJ0MWc3VmNk?=
+ =?utf-8?B?TVJrWG1hM2VkUE9RSXRTSHVGZElpV0owbW9hREpnN3FzTHV1bTRmM2xYU0Iw?=
+ =?utf-8?B?RXdMclhTa0gxU3dQYXdGRlNoVzhCcFNsUlFIRnVwd285c3hyamVZUUYxSVBV?=
+ =?utf-8?B?VjIrZm9xQWVPbUNUemlFTXJXaXhyOGpVV3I0RmladGZadWpQa0FUUkZ6TGY1?=
+ =?utf-8?B?enc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d0faf85-0907-48f3-629a-08dbda23e7fc
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 15:13:26.0763
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 15:13:15.5336
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hZsylP04SPcl/U3Yebvb6/BkYjBIXKLQaN4i9WE7gF4TtTddwXmpfUfxQj26d8KJnWJs3Av88tyOCjFlN1S3HQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9fLF4+EcFRTJbkyqyh+8P03KIef9J7S7vr867pSsHqjF/Zpl+K3qaB4Dkqh0BKRCaalLKfFzgi/lVRiwRRc+/A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2018
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: u5c7F83SyKU4oAlSVw8-n1jF5EGKDz5A
-X-Proofpoint-ORIG-GUID: u5c7F83SyKU4oAlSVw8-n1jF5EGKDz5A
+X-Proofpoint-GUID: D_VDEiUXIRVq6gFjnoB5BKQQ5amWgdug
+X-Proofpoint-ORIG-GUID: D_VDEiUXIRVq6gFjnoB5BKQQ5amWgdug
 
-Add documentation for the UAPI.
+This adds the basic skeleton of the driver. The driver registers
+itself with DRM on probe. Ioctl handlers are currently implemented
+as stubs.
 
 Changes since v5:
-- Remove obsolete VM documentation
+- Update compatible string & description to match marketing name
+- Checkpatch fixes in to/from_pvr_device/file macros
 
+Changes since v3:
+- Clarify supported GPU generations in driver description
+- Use drm_dev_unplug() when removing device
+- Change from_* and to_* functions to macros
+- Fix IS_PTR/PTR_ERR confusion in pvr_probe()
+- Remove err_out labels in favour of direct returning
+- Remove specific am62 compatible match string
+- Drop MODULE_FIRMWARE()
+
+Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+Signed-off-by: Frank Binns <frank.binns@imgtec.com>
 Co-developed-by: Matt Coster <matt.coster@imgtec.com>
 Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-Co-developed-by: Donald Robson <donald.robson@imgtec.com>
-Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 ---
- Documentation/gpu/drivers.rst           |   2 +
- Documentation/gpu/imagination/index.rst |  13 ++
- Documentation/gpu/imagination/uapi.rst  | 174 ++++++++++++++++++++++++
- MAINTAINERS                             |   1 +
- 4 files changed, 190 insertions(+)
- create mode 100644 Documentation/gpu/imagination/index.rst
- create mode 100644 Documentation/gpu/imagination/uapi.rst
+ MAINTAINERS                              |   1 +
+ drivers/gpu/drm/Kconfig                  |   2 +
+ drivers/gpu/drm/Makefile                 |   1 +
+ drivers/gpu/drm/imagination/Kconfig      |  15 +
+ drivers/gpu/drm/imagination/Makefile     |   9 +
+ drivers/gpu/drm/imagination/pvr_device.h | 153 +++++++
+ drivers/gpu/drm/imagination/pvr_drv.c    | 509 +++++++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_drv.h    |  22 +
+ 8 files changed, 712 insertions(+)
+ create mode 100644 drivers/gpu/drm/imagination/Kconfig
+ create mode 100644 drivers/gpu/drm/imagination/Makefile
+ create mode 100644 drivers/gpu/drm/imagination/pvr_device.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_drv.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_drv.h
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 45a12e552091..cc6535f5f28c 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -3,9 +3,11 @@ GPU Driver Documentation
- ========================
- 
- .. toctree::
-+   :maxdepth: 3
- 
-    amdgpu/index
-    i915
-+   imagination/index
-    mcde
-    meson
-    pl111
-diff --git a/Documentation/gpu/imagination/index.rst b/Documentation/gpu/imagination/index.rst
-new file mode 100644
-index 000000000000..dc9579e758c3
---- /dev/null
-+++ b/Documentation/gpu/imagination/index.rst
-@@ -0,0 +1,13 @@
-+=======================================
-+drm/imagination PowerVR Graphics Driver
-+=======================================
-+
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_drv.c
-+   :doc: PowerVR Graphics Driver
-+
-+Contents
-+========
-+.. toctree::
-+   :maxdepth: 2
-+
-+   uapi
-diff --git a/Documentation/gpu/imagination/uapi.rst b/Documentation/gpu/imagination/uapi.rst
-new file mode 100644
-index 000000000000..2227ea7e6222
---- /dev/null
-+++ b/Documentation/gpu/imagination/uapi.rst
-@@ -0,0 +1,174 @@
-+====
-+UAPI
-+====
-+The sources associated with this section can be found in ``pvr_drm.h``.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR UAPI
-+
-+OBJECT ARRAYS
-+=============
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_obj_array
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: DRM_PVR_OBJ_ARRAY
-+
-+IOCTLS
-+======
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: PVR_IOCTL
-+
-+DEV_QUERY
-+---------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL DEV_QUERY interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_dev_query
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_dev_query_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_dev_query_gpu_info
-+                 drm_pvr_dev_query_runtime_info
-+                 drm_pvr_dev_query_hwrt_info
-+                 drm_pvr_dev_query_quirks
-+                 drm_pvr_dev_query_enhancements
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_heap_id
-+                 drm_pvr_heap
-+                 drm_pvr_dev_query_heap_info
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_static_data_area_usage
-+                 drm_pvr_static_data_area
-+                 drm_pvr_dev_query_static_data_areas
-+
-+CREATE_BO
-+---------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_BO interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_bo_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for CREATE_BO
-+
-+GET_BO_MMAP_OFFSET
-+------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL GET_BO_MMAP_OFFSET interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_get_bo_mmap_offset_args
-+
-+CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT
-+----------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_vm_context_args
-+                 drm_pvr_ioctl_destroy_vm_context_args
-+
-+VM_MAP and VM_UNMAP
-+-------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL VM_MAP and VM_UNMAP interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_vm_map_args
-+                 drm_pvr_ioctl_vm_unmap_args
-+
-+CREATE_CONTEXT and DESTROY_CONTEXT
-+----------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_CONTEXT and DESTROY_CONTEXT interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_context_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ctx_priority
-+                 drm_pvr_ctx_type
-+                 drm_pvr_static_render_context_state
-+                 drm_pvr_static_render_context_state_format
-+                 drm_pvr_reset_framework
-+                 drm_pvr_reset_framework_format
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_context_args
-+
-+CREATE_FREE_LIST and DESTROY_FREE_LIST
-+--------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_FREE_LIST and DESTROY_FREE_LIST interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_free_list_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_free_list_args
-+
-+CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET
-+--------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_hwrt_dataset_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_create_hwrt_geom_data_args
-+                 drm_pvr_create_hwrt_rt_data_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_hwrt_dataset_args
-+
-+SUBMIT_JOBS
-+-----------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL SUBMIT_JOBS interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for the drm_pvr_sync_op object.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_submit_jobs_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl geometry command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl fragment command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl compute command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl transfer command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_sync_op
-+                 drm_pvr_job_type
-+                 drm_pvr_hwrt_data_ref
-+                 drm_pvr_job
-+
-+Internal notes
-+==============
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
-+   :doc: IOCTL validation helpers
-+
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
-+   :identifiers: PVR_STATIC_ASSERT_64BIT_ALIGNED PVR_IOCTL_UNION_PADDING_CHECK
-+                 pvr_ioctl_union_padding_check
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 8166ffd4349e..61aff30c856d 100644
+index bef1ac7ed647..8166ffd4349e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
 @@ -10265,6 +10265,7 @@ M:	Frank Binns <frank.binns@imgtec.com>
  M:	Donald Robson <donald.robson@imgtec.com>
  S:	Supported
  F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
-+F:	Documentation/gpu/imagination/
- F:	drivers/gpu/drm/imagination/
++F:	drivers/gpu/drm/imagination/
  F:	include/uapi/drm/pvr_drm.h
  
+ IMON SOUNDGRAPH USB IR RECEIVER
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 3eee8636f847..7fc72d994782 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -394,6 +394,8 @@ source "drivers/gpu/drm/solomon/Kconfig"
+ 
+ source "drivers/gpu/drm/sprd/Kconfig"
+ 
++source "drivers/gpu/drm/imagination/Kconfig"
++
+ config DRM_HYPERV
+ 	tristate "DRM Support for Hyper-V synthetic video device"
+ 	depends on DRM && PCI && MMU && HYPERV
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 8e1bde059170..d236103e3361 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -198,3 +198,4 @@ obj-$(CONFIG_DRM_HYPERV) += hyperv/
+ obj-y			+= solomon/
+ obj-$(CONFIG_DRM_SPRD) += sprd/
+ obj-$(CONFIG_DRM_LOONGSON) += loongson/
++obj-$(CONFIG_DRM_POWERVR) += imagination/
+diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
+new file mode 100644
+index 000000000000..e9aaa5313485
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/Kconfig
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0 OR MIT
++# Copyright (c) 2023 Imagination Technologies Ltd.
++
++config DRM_POWERVR
++	tristate "Imagination Technologies PowerVR (Series 6 and later) & IMG Graphics"
++	depends on ARM64
++	depends on DRM
++	select DRM_GEM_SHMEM_HELPER
++	select DRM_SCHED
++	select FW_LOADER
++	help
++	  Choose this option if you have a system that has an Imagination
++	  Technologies PowerVR (Series 6 or later) or IMG GPU.
++
++	  If "M" is selected, the module will be called powervr.
+diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
+new file mode 100644
+index 000000000000..19b40c2d7356
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/Makefile
+@@ -0,0 +1,9 @@
++# SPDX-License-Identifier: GPL-2.0 OR MIT
++# Copyright (c) 2023 Imagination Technologies Ltd.
++
++subdir-ccflags-y := -I$(srctree)/$(src)
++
++powervr-y := \
++	pvr_drv.o \
++
++obj-$(CONFIG_DRM_POWERVR) += powervr.o
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+new file mode 100644
+index 000000000000..53b1cdb5a6a6
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -0,0 +1,153 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_DEVICE_H
++#define PVR_DEVICE_H
++
++#include <drm/drm_device.h>
++#include <drm/drm_file.h>
++#include <drm/drm_mm.h>
++
++#include <linux/bits.h>
++#include <linux/compiler_attributes.h>
++#include <linux/compiler_types.h>
++#include <linux/kernel.h>
++#include <linux/types.h>
++#include <linux/wait.h>
++
++/**
++ * struct pvr_device - powervr-specific wrapper for &struct drm_device
++ */
++struct pvr_device {
++	/**
++	 * @base: The underlying &struct drm_device.
++	 *
++	 * Do not access this member directly, instead call
++	 * from_pvr_device().
++	 */
++	struct drm_device base;
++};
++
++/**
++ * struct pvr_file - powervr-specific data to be assigned to &struct
++ * drm_file.driver_priv
++ */
++struct pvr_file {
++	/**
++	 * @file: A reference to the parent &struct drm_file.
++	 *
++	 * Do not access this member directly, instead call from_pvr_file().
++	 */
++	struct drm_file *file;
++
++	/**
++	 * @pvr_dev: A reference to the powervr-specific wrapper for the
++	 *           associated device. Saves on repeated calls to
++	 *           to_pvr_device().
++	 */
++	struct pvr_device *pvr_dev;
++};
++
++#define from_pvr_device(pvr_dev) (&(pvr_dev)->base)
++
++#define to_pvr_device(drm_dev) container_of_const(drm_dev, struct pvr_device, base)
++
++#define from_pvr_file(pvr_file) ((pvr_file)->file)
++
++#define to_pvr_file(file) ((file)->driver_priv)
++
++/**
++ * DOC: IOCTL validation helpers
++ *
++ * To validate the constraints imposed on IOCTL argument structs, a collection
++ * of macros and helper functions exist in ``pvr_device.h``.
++ *
++ * Of the current helpers, it should only be necessary to call
++ * PVR_IOCTL_UNION_PADDING_CHECK() directly. This macro should be used once in
++ * every code path which extracts a union member from a struct passed from
++ * userspace.
++ */
++
++/**
++ * pvr_ioctl_union_padding_check() - Validate that the implicit padding between
++ * the end of a union member and the end of the union itself is zeroed.
++ * @instance: Pointer to the instance of the struct to validate.
++ * @union_offset: Offset into the type of @instance of the target union. Must
++ * be 64-bit aligned.
++ * @union_size: Size of the target union in the type of @instance. Must be
++ * 64-bit aligned.
++ * @member_size: Size of the target member in the target union specified by
++ * @union_offset and @union_size. It is assumed that the offset of the target
++ * member is zero relative to @union_offset. Must be 64-bit aligned.
++ *
++ * You probably want to use PVR_IOCTL_UNION_PADDING_CHECK() instead of calling
++ * this function directly, since that macro abstracts away much of the setup,
++ * and also provides some static validation. See its docs for details.
++ *
++ * Return:
++ *  * %true if every byte between the end of the used member of the union and
++ *    the end of that union is zeroed, or
++ *  * %false otherwise.
++ */
++static __always_inline bool
++pvr_ioctl_union_padding_check(void *instance, size_t union_offset,
++			      size_t union_size, size_t member_size)
++{
++	/*
++	 * void pointer arithmetic is technically illegal - cast to a byte
++	 * pointer so this addition works safely.
++	 */
++	void *padding_start = ((u8 *)instance) + union_offset + member_size;
++	size_t padding_size = union_size - member_size;
++
++	return !memchr_inv(padding_start, 0, padding_size);
++}
++
++/**
++ * PVR_STATIC_ASSERT_64BIT_ALIGNED() - Inline assertion for 64-bit alignment.
++ * @static_expr_: Target expression to evaluate.
++ *
++ * If @static_expr_ does not evaluate to a constant integer which would be a
++ * 64-bit aligned address (i.e. a multiple of 8), compilation will fail.
++ *
++ * Return:
++ * The value of @static_expr_.
++ */
++#define PVR_STATIC_ASSERT_64BIT_ALIGNED(static_expr_)                     \
++	({                                                                \
++		static_assert(((static_expr_) & (sizeof(u64) - 1)) == 0); \
++		(static_expr_);                                           \
++	})
++
++/**
++ * PVR_IOCTL_UNION_PADDING_CHECK() - Validate that the implicit padding between
++ * the end of a union member and the end of the union itself is zeroed.
++ * @struct_instance_: An expression which evaluates to a pointer to a UAPI data
++ * struct.
++ * @union_: The name of the union member of @struct_instance_ to check. If the
++ * union member is nested within the type of @struct_instance_, this may
++ * contain the member access operator (".").
++ * @member_: The name of the member of @union_ to assess.
++ *
++ * This is a wrapper around pvr_ioctl_union_padding_check() which performs
++ * alignment checks and simplifies things for the caller.
++ *
++ * Return:
++ *  * %true if every byte in @struct_instance_ between the end of @member_ and
++ *    the end of @union_ is zeroed, or
++ *  * %false otherwise.
++ */
++#define PVR_IOCTL_UNION_PADDING_CHECK(struct_instance_, union_, member_)     \
++	({                                                                   \
++		typeof(struct_instance_) __instance = (struct_instance_);    \
++		size_t __union_offset = PVR_STATIC_ASSERT_64BIT_ALIGNED(     \
++			offsetof(typeof(*__instance), union_));              \
++		size_t __union_size = PVR_STATIC_ASSERT_64BIT_ALIGNED(       \
++			sizeof(__instance->union_));                         \
++		size_t __member_size = PVR_STATIC_ASSERT_64BIT_ALIGNED(      \
++			sizeof(__instance->union_.member_));                 \
++		pvr_ioctl_union_padding_check(__instance, __union_offset,    \
++					      __union_size, __member_size);  \
++	})
++
++#endif /* PVR_DEVICE_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+new file mode 100644
+index 000000000000..a23bef62b52b
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_drv.c
+@@ -0,0 +1,509 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_device.h"
++#include "pvr_drv.h"
++
++#include <uapi/drm/pvr_drm.h>
++
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_file.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_ioctl.h>
++
++#include <linux/err.h>
++#include <linux/export.h>
++#include <linux/fs.h>
++#include <linux/kernel.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/moduleparam.h>
++#include <linux/of_device.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
++
++/**
++ * DOC: PowerVR (Series 6 and later) and IMG Graphics Driver
++ *
++ * This driver supports the following PowerVR/IMG graphics cores from Imagination Technologies:
++ *
++ * * AXE-1-16M (found in Texas Instruments AM62)
++ */
++
++/**
++ * pvr_ioctl_create_bo() - IOCTL to create a GEM buffer object.
++ * @drm_dev: [IN] Target DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ * &struct drm_pvr_ioctl_create_bo_args.
++ * @file: [IN] DRM file-private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_BO.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%EINVAL if the value of &drm_pvr_ioctl_create_bo_args.size is zero
++ *    or wider than &typedef size_t,
++ *  * -%EINVAL if any bits in &drm_pvr_ioctl_create_bo_args.flags that are
++ *    reserved or undefined are set,
++ *  * -%EINVAL if any padding fields in &drm_pvr_ioctl_create_bo_args are not
++ *    zero,
++ *  * Any error encountered while creating the object (see
++ *    pvr_gem_object_create()), or
++ *  * Any error encountered while transferring ownership of the object into a
++ *    userspace-accessible handle (see pvr_gem_object_into_handle()).
++ */
++static int
++pvr_ioctl_create_bo(struct drm_device *drm_dev, void *raw_args,
++		    struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_get_bo_mmap_offset() - IOCTL to generate a "fake" offset to be
++ * used when calling mmap() from userspace to map the given GEM buffer object
++ * @drm_dev: [IN] DRM device (unused).
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_get_bo_mmap_offset_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_GET_BO_MMAP_OFFSET.
++ *
++ * This IOCTL does *not* perform an mmap. See the docs on
++ * &struct drm_pvr_ioctl_get_bo_mmap_offset_args for details.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%ENOENT if the handle does not reference a valid GEM buffer object,
++ *  * -%EINVAL if any padding fields in &struct
++ *    drm_pvr_ioctl_get_bo_mmap_offset_args are not zero, or
++ *  * Any error returned by drm_gem_create_mmap_offset().
++ */
++static int
++pvr_ioctl_get_bo_mmap_offset(struct drm_device *drm_dev, void *raw_args,
++			     struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_dev_query() - IOCTL to copy information about a device
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_dev_query_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_DEV_QUERY.
++ * If the given receiving struct pointer is NULL, or the indicated size is too
++ * small, the expected size of the struct type will be returned in the size
++ * argument field.
++ *
++ * Return:
++ *  * 0 on success or when fetching the size with args->pointer == NULL, or
++ *  * -%E2BIG if the indicated size of the receiving struct is less than is
++ *    required to contain the copied data, or
++ *  * -%EINVAL if the indicated struct type is unknown, or
++ *  * -%ENOMEM if local memory could not be allocated, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_ioctl_dev_query(struct drm_device *drm_dev, void *raw_args,
++		    struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_create_context() - IOCTL to create a context
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_create_context_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_CONTEXT.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if provided arguments are invalid, or
++ *  * -%EFAULT if arguments can't be copied from userspace, or
++ *  * Any error returned by pvr_create_render_context().
++ */
++static int
++pvr_ioctl_create_context(struct drm_device *drm_dev, void *raw_args,
++			 struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_destroy_context() - IOCTL to destroy a context
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_destroy_context_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_DESTROY_CONTEXT.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if context not in context list.
++ */
++static int
++pvr_ioctl_destroy_context(struct drm_device *drm_dev, void *raw_args,
++			  struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_create_free_list() - IOCTL to create a free list
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_create_free_list_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_FREE_LIST.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * Any error returned by pvr_free_list_create().
++ */
++static int
++pvr_ioctl_create_free_list(struct drm_device *drm_dev, void *raw_args,
++			   struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_destroy_free_list() - IOCTL to destroy a free list
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_destroy_free_list_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_DESTROY_FREE_LIST.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if free list not in object list.
++ */
++static int
++pvr_ioctl_destroy_free_list(struct drm_device *drm_dev, void *raw_args,
++			    struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_create_hwrt_dataset() - IOCTL to create a HWRT dataset
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_create_hwrt_dataset_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_HWRT_DATASET.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * Any error returned by pvr_hwrt_dataset_create().
++ */
++static int
++pvr_ioctl_create_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
++			      struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_destroy_hwrt_dataset() - IOCTL to destroy a HWRT dataset
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_destroy_hwrt_dataset_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_DESTROY_HWRT_DATASET.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if HWRT dataset not in object list.
++ */
++static int
++pvr_ioctl_destroy_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
++			       struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_create_vm_context() - IOCTL to create a VM context
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_create_vm_context_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_VM_CONTEXT.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * Any error returned by pvr_vm_create_context().
++ */
++static int
++pvr_ioctl_create_vm_context(struct drm_device *drm_dev, void *raw_args,
++			    struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_destroy_vm_context() - IOCTL to destroy a VM context
++￼* @drm_dev: [IN] DRM device.
++￼* @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++￼*                 &struct drm_pvr_ioctl_destroy_vm_context_args.
++￼* @file: [IN] DRM file private data.
++￼*
++￼* Called from userspace with %DRM_IOCTL_PVR_DESTROY_VM_CONTEXT.
++￼*
++￼* Return:
++￼*  * 0 on success, or
++￼*  * -%EINVAL if object not in object list.
++ */
++static int
++pvr_ioctl_destroy_vm_context(struct drm_device *drm_dev, void *raw_args,
++			     struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_vm_map() - IOCTL to map buffer to GPU address space.
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_vm_map_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_VM_MAP.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%EINVAL if &drm_pvr_ioctl_vm_op_map_args.flags is not zero,
++ *  * -%EINVAL if the bounds specified by &drm_pvr_ioctl_vm_op_map_args.offset
++ *    and &drm_pvr_ioctl_vm_op_map_args.size are not valid or do not fall
++ *    within the buffer object specified by
++ *    &drm_pvr_ioctl_vm_op_map_args.handle,
++ *  * -%EINVAL if the bounds specified by
++ *    &drm_pvr_ioctl_vm_op_map_args.device_addr and
++ *    &drm_pvr_ioctl_vm_op_map_args.size do not form a valid device-virtual
++ *    address range which falls entirely within a single heap, or
++ *  * -%ENOENT if &drm_pvr_ioctl_vm_op_map_args.handle does not refer to a
++ *    valid PowerVR buffer object.
++ */
++static int
++pvr_ioctl_vm_map(struct drm_device *drm_dev, void *raw_args,
++		 struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_vm_unmap() - IOCTL to unmap buffer from GPU address space.
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_vm_unmap_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_VM_UNMAP.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%EINVAL if &drm_pvr_ioctl_vm_op_unmap_args.device_addr is not a valid
++ *    device page-aligned device-virtual address, or
++ *  * -%ENOENT if there is currently no PowerVR buffer object mapped at
++ *    &drm_pvr_ioctl_vm_op_unmap_args.device_addr.
++ */
++static int
++pvr_ioctl_vm_unmap(struct drm_device *drm_dev, void *raw_args,
++		   struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/*
++ * pvr_ioctl_submit_job() - IOCTL to submit a job to the GPU
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_submit_job_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_SUBMIT_JOB.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if arguments are invalid.
++ */
++static int
++pvr_ioctl_submit_jobs(struct drm_device *drm_dev, void *raw_args,
++		      struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++#define DRM_PVR_IOCTL(_name, _func, _flags) \
++	DRM_IOCTL_DEF_DRV(PVR_##_name, pvr_ioctl_##_func, _flags)
++
++/* clang-format off */
++
++static const struct drm_ioctl_desc pvr_drm_driver_ioctls[] = {
++	DRM_PVR_IOCTL(DEV_QUERY, dev_query, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_BO, create_bo, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(GET_BO_MMAP_OFFSET, get_bo_mmap_offset, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_VM_CONTEXT, create_vm_context, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(DESTROY_VM_CONTEXT, destroy_vm_context, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(VM_MAP, vm_map, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(VM_UNMAP, vm_unmap, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_CONTEXT, create_context, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(DESTROY_CONTEXT, destroy_context, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_FREE_LIST, create_free_list, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(DESTROY_FREE_LIST, destroy_free_list, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_HWRT_DATASET, create_hwrt_dataset, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(DESTROY_HWRT_DATASET, destroy_hwrt_dataset, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(SUBMIT_JOBS, submit_jobs, DRM_RENDER_ALLOW),
++};
++
++/* clang-format on */
++
++#undef DRM_PVR_IOCTL
++
++/**
++ * pvr_drm_driver_open() - Driver callback when a new &struct drm_file is opened
++ * @drm_dev: [IN] DRM device.
++ * @file: [IN] DRM file private data.
++ *
++ * Allocates powervr-specific file private data (&struct pvr_file).
++ *
++ * Registered in &pvr_drm_driver.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%ENOMEM if the allocation of a &struct ipvr_file fails, or
++ *  * Any error returned by pvr_memory_context_init().
++ */
++static int
++pvr_drm_driver_open(struct drm_device *drm_dev, struct drm_file *file)
++{
++	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
++	struct pvr_file *pvr_file;
++
++	pvr_file = kzalloc(sizeof(*pvr_file), GFP_KERNEL);
++	if (!pvr_file)
++		return -ENOMEM;
++
++	/*
++	 * Store reference to base DRM file private data for use by
++	 * from_pvr_file.
++	 */
++	pvr_file->file = file;
++
++	/*
++	 * Store reference to powervr-specific outer device struct in file
++	 * private data for convenient access.
++	 */
++	pvr_file->pvr_dev = pvr_dev;
++
++	/*
++	 * Store reference to powervr-specific file private data in DRM file
++	 * private data.
++	 */
++	file->driver_priv = pvr_file;
++
++	return 0;
++}
++
++/**
++ * pvr_drm_driver_postclose() - One of the driver callbacks when a &struct
++ * drm_file is closed.
++ * @drm_dev: [IN] DRM device (unused).
++ * @file: [IN] DRM file private data.
++ *
++ * Frees powervr-specific file private data (&struct pvr_file).
++ *
++ * Registered in &pvr_drm_driver.
++ */
++static void
++pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
++			 struct drm_file *file)
++{
++	struct pvr_file *pvr_file = to_pvr_file(file);
++
++	kfree(pvr_file);
++	file->driver_priv = NULL;
++}
++
++DEFINE_DRM_GEM_FOPS(pvr_drm_driver_fops);
++
++static struct drm_driver pvr_drm_driver = {
++	.driver_features = DRIVER_RENDER,
++	.open = pvr_drm_driver_open,
++	.postclose = pvr_drm_driver_postclose,
++	.ioctls = pvr_drm_driver_ioctls,
++	.num_ioctls = ARRAY_SIZE(pvr_drm_driver_ioctls),
++	.fops = &pvr_drm_driver_fops,
++
++	.name = PVR_DRIVER_NAME,
++	.desc = PVR_DRIVER_DESC,
++	.date = PVR_DRIVER_DATE,
++	.major = PVR_DRIVER_MAJOR,
++	.minor = PVR_DRIVER_MINOR,
++	.patchlevel = PVR_DRIVER_PATCHLEVEL,
++
++};
++
++static int
++pvr_probe(struct platform_device *plat_dev)
++{
++	struct pvr_device *pvr_dev;
++	struct drm_device *drm_dev;
++
++	pvr_dev = devm_drm_dev_alloc(&plat_dev->dev, &pvr_drm_driver,
++				     struct pvr_device, base);
++	if (IS_ERR(pvr_dev))
++		return PTR_ERR(pvr_dev);
++
++	drm_dev = &pvr_dev->base;
++
++	platform_set_drvdata(plat_dev, drm_dev);
++
++	return drm_dev_register(drm_dev, 0);
++}
++
++static int
++pvr_remove(struct platform_device *plat_dev)
++{
++	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
++
++	drm_dev_unplug(drm_dev);
++
++	return 0;
++}
++
++static const struct of_device_id dt_match[] = {
++	{ .compatible = "img,img-axe", .data = NULL },
++	{}
++};
++MODULE_DEVICE_TABLE(of, dt_match);
++
++static struct platform_driver pvr_driver = {
++	.probe = pvr_probe,
++	.remove = pvr_remove,
++	.driver = {
++		.name = PVR_DRIVER_NAME,
++		.of_match_table = dt_match,
++	},
++};
++module_platform_driver(pvr_driver);
++
++MODULE_AUTHOR("Imagination Technologies Ltd.");
++MODULE_DESCRIPTION(PVR_DRIVER_DESC);
++MODULE_LICENSE("Dual MIT/GPL");
++MODULE_IMPORT_NS(DMA_BUF);
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.h b/drivers/gpu/drm/imagination/pvr_drv.h
+new file mode 100644
+index 000000000000..ecd8f6011ae9
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_drv.h
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_DRV_H
++#define PVR_DRV_H
++
++#include "linux/compiler_attributes.h"
++#include <uapi/drm/pvr_drm.h>
++
++#define PVR_DRIVER_NAME "powervr"
++#define PVR_DRIVER_DESC "Imagination PowerVR (Series 6 and later) & IMG Graphics"
++#define PVR_DRIVER_DATE "20230904"
++
++/*
++ * Driver interface version:
++ *  - 1.0: Initial interface
++ */
++#define PVR_DRIVER_MAJOR 1
++#define PVR_DRIVER_MINOR 0
++#define PVR_DRIVER_PATCHLEVEL 0
++
++#endif /* PVR_DRV_H */
 -- 
 2.42.0
 
