@@ -1,95 +1,186 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFAA11195;
-	Tue, 31 Oct 2023 20:27:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C7979F8;
+	Tue, 31 Oct 2023 21:11:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Wo9lFuiN"
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67B1DE4;
-	Tue, 31 Oct 2023 13:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=J24EvlKL0HTV1heFD4NanY/502+VJ56TUzZ3rmsx9yE=; b=Wo9lFuiN+tfkVPX49uRGez4hyH
-	pG0l/rW81DbJuj66DwFPin39Dl56jTX5KQzu05WHnDAgpTYPL7hb7vfyD5fRtr51+9lElDrvYaMsD
-	TGkDyBtHFZLpqwN5z6XEXObeg6bGTHCAQY3gjbyTWmCaSKKBLeKeKDIxTEhoh1RtNWwg7ZDxu62JQ
-	yo/AXubuf0t85nkv+tFHGtZi3rt9aAVOs0Tk033CXvZB7Y8ZUuWczlhNhDoGKuXSJa9hFTMeEuIwO
-	XeqfEXv05OSNVqpXmv1i69SfIWx55wA3BbBY+2XvdS79r6ggFJmb+ihfMqtewfqSnagfr90c1YiF8
-	J7371lqw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qxvJy-00C5Ur-MW; Tue, 31 Oct 2023 20:26:42 +0000
-Date: Tue, 31 Oct 2023 20:26:42 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Sourav Panda <souravpanda@google.com>
-Cc: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
-	akpm@linux-foundation.org, mike.kravetz@oracle.com,
-	muchun.song@linux.dev, rppt@kernel.org, david@redhat.com,
-	rdunlap@infradead.org, chenlinxuan@uniontech.com,
-	yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com,
-	bhelgaas@google.com, ivan@cloudflare.com, pasha.tatashin@soleen.com,
-	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com,
-	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
-	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
-	surenb@google.com, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, weixugc@google.com
-Subject: Re: [PATCH v3 1/1] mm: report per-page metadata information
-Message-ID: <ZUFjAj8Liaa/Ijmm@casper.infradead.org>
-References: <20231031174459.459480-1-souravpanda@google.com>
- <20231031174459.459480-2-souravpanda@google.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="h6lXcBST"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E34AE83;
+	Tue, 31 Oct 2023 14:11:12 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 999301F460;
+	Tue, 31 Oct 2023 21:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1698786671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HtRTJUL19dRqFjIt5OAV5FuQQtcrzutoDTZ1TOareeM=;
+	b=h6lXcBST6itQ2T4IOdb1gk7SRUSzZxRA9MVqUFE2th3wn9IQ8K6FwX8pQ9dVrp3trWRiSj
+	9zWvAZiLZRcz1auRrcoO03TXlZ+quIlkhPlyQgPDOG4B//sx9JqmqQUzXJ+H5Qya7O2Bvw
+	D8OCHcOs9cttVyL0pOsG61nh04XC1EE=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 15A44138EF;
+	Tue, 31 Oct 2023 21:11:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id O2cpM25tQWXOWgAAMHmgww
+	(envelope-from <mpdesouza@suse.com>); Tue, 31 Oct 2023 21:11:10 +0000
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+Subject: [PATCH v3 0/3] livepatch: Move modules to selftests and add a new
+ test
+Date: Tue, 31 Oct 2023 18:10:50 -0300
+Message-Id: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231031174459.459480-2-souravpanda@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFptQWUC/3WOyw6CMBBFf4V0bUk7LQ9d+R/GBbSDNCKQDhCV8
+ O+2bHTj8kzuuXdWRugdEjslK/O4OHJDH0AdEmbaqr8hdzYwAwFKCiU5YW95N/I7YddMSBNxbY6
+ ysMbqLM9YEOuKkNe+6k0b1XpsftMLxMzosXHPffhyDdw6mgb/2v9YZLzGSRB52NQKNKRlIbjkj
+ 9EiDfO7OtNMmJrhwaIeSr+KElJLgDyFUsAfZ9u2D+HrWSH8AAAA
+To: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+ Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>, 
+ Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
+ live-patching@vger.kernel.org, Marcos Paulo de Souza <mpdesouza@suse.com>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1698786668; l=5672;
+ i=mpdesouza@suse.com; s=20231031; h=from:subject:message-id;
+ bh=Iu0nYGt8cXjDqfv6B/47jTzt5usx1RM2VTTkkVRsSSs=;
+ b=ByHl8CTj1H+gJeuNdbdn/hvrEU2Cg4ynLwNzX7THcremf0HaASI5uXl1tH9kp7p4429pzdd25Z/t
+ zJkb+eNQBDHbzbdpa0q1z9zsalxyyAltsK4Qsj3WajRmYoLl4Al/
+X-Developer-Key: i=mpdesouza@suse.com; a=ed25519;
+ pk=/Ni/TsKkr69EOmdZXkp1Q/BlzDonbOBRsfPa18ySIwU=
 
-On Tue, Oct 31, 2023 at 10:44:59AM -0700, Sourav Panda wrote:
-> +++ b/mm/hugetlb.c
-> @@ -1790,6 +1790,10 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
->  		destroy_compound_gigantic_folio(folio, huge_page_order(h));
->  		free_gigantic_folio(folio, huge_page_order(h));
->  	} else {
-> +#ifndef CONFIG_SPARSEMEM_VMEMMAP
-> +		__mod_node_page_state(NODE_DATA(page_to_nid(&folio->page)),
-> +				      NR_PAGE_METADATA, -huge_page_order(h));
-> +#endif
+This patchset moves the current kernel testing livepatch modules from
+lib/livepatches to tools/testing/selftest/livepatch/test_modules, and compiles
+them as out-of-tree modules before testing.
 
-surely,
-		__node_stat_sub_folio(folio, NR_PAGE_METADATA)
+There is also a new test being added. This new test exercises multiple processes
+calling a syscall, while a livepatch patched the syscall.
 
-> @@ -2175,7 +2179,9 @@ static struct folio *alloc_buddy_hugetlb_folio(struct hstate *h,
->  		__count_vm_event(HTLB_BUDDY_PGALLOC_FAIL);
->  		return NULL;
->  	}
-> -
-> +#ifndef CONFIG_SPARSEMEM_VMEMMAP
-> +	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, huge_page_order(h));
+Why this move is an improvement:
+* The modules are now compiled as out-of-tree modules against the current
+  running kernel, making them capable of being tested on different systems with
+  newer or older kernels.
+* Such approach now needs kernel-devel package to be installed, since they are
+  out-of-tree modules. These can be generated by running "make rpm-pkg" in the
+  kernel source.
 
-	__node_stat_add_folio(folio, NR_PAGE_METADATA)
+What needs to be solved:
+* Currently gen_tar only packages the resulting binaries of the tests, and not
+  the sources. For the current approach, the newly added modules would be
+  compiled and then packaged. It works when testing on a system with the same
+  kernel version. But it will fail when running on a machine with different kernel
+  version, since module was compiled against the kernel currently running.
 
-(create the folio first ...)
+  This is not a new problem, just aligning the expectations. For the current
+  approach to be truly system agnostic gen_tar would need to include the module
+  and program sources to be compiled in the target systems.
 
-> +		__mod_node_page_state(NODE_DATA(page_to_nid(page)),
-> +				      NR_PAGE_METADATA, 1);
+I'm sending the patches now so it can be discussed before Plumbers.
 
-Are you allergic to page_pgdat()?
+Thanks in advance!
+  Marcos
 
-> @@ -1656,6 +1657,8 @@ static void __init alloc_node_mem_map(struct pglist_data *pgdat)
->  			panic("Failed to allocate %ld bytes for node %d memory map\n",
->  			      size, pgdat->node_id);
->  		pgdat->node_mem_map = map + offset;
-> +		mod_node_early_perpage_metadata(pgdat->node_id,
-> +						PAGE_ALIGN(size) >> PAGE_SHIFT);
+To: Shuah Khan <shuah@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Heiko Carstens <hca@linux.ibm.com>
+To: Vasily Gorbik <gor@linux.ibm.com>
+To: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Christian Borntraeger <borntraeger@linux.ibm.com>
+To: Sven Schnelle <svens@linux.ibm.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>
+To: Miroslav Benes <mbenes@suse.cz>
+To: Petr Mladek <pmladek@suse.com>
+To: Joe Lawrence <joe.lawrence@redhat.com>
+Cc: linux-kselftest@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: live-patching@vger.kernel.org
+Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
 
-I swear I said to use DIV_ROUND_UP().  Yes, I did:
+Changes in v3:
+* Rebased on top of v6.6-rc5
+* The commits messages were improved (Thanks Petr!)
+* Created TEST_GEN_MODS_DIR variable to point to a directly that contains kernel
+  modules, and adapt selftests to build it before running the test.
+* Moved test_klp-call_getpid out of test_programs, since the gen_tar
+  would just copy the generated test programs to the livepatches dir,
+  and so scripts relying on test_programs/test_klp-call_getpid will fail.
+* Added a module_param for klp_pids, describing it's usage.
+* Simplified the call_getpid program to ignore the return of getpid syscall,
+  since we only want to make sure the process transitions correctly to the
+  patched stated
+* The test-syscall.sh not prints a log message showing the number of remaining
+  processes to transition into to livepatched state, and check_output expects it
+  to be 0.
+* Added MODULE_AUTHOR and MODULE_DESCRIPTION to test_klp_syscall.c
 
-https://lore.kernel.org/linux-mm/ZS%2Fm1KRwTLkcJY8y@casper.infradead.org/
+The v2 can be seen here:
+https://lore.kernel.org/linux-kselftest/20220630141226.2802-1-mpdesouza@suse.com/
 
-Why have you done something different and claimed I said to do it?
-You've annoyed me now; I shan't review the rest of this.
+---
+Marcos Paulo de Souza (3):
+      kselftests: lib.mk: Add TEST_GEN_MODS_DIR variable
+      livepatch: Move tests from lib/livepatch to selftests/livepatch
+      selftests: livepatch: Test livepatching a heavily called syscall
+
+ Documentation/dev-tools/kselftest.rst              |   4 +
+ arch/s390/configs/debug_defconfig                  |   1 -
+ arch/s390/configs/defconfig                        |   1 -
+ lib/Kconfig.debug                                  |  22 ----
+ lib/Makefile                                       |   2 -
+ lib/livepatch/Makefile                             |  14 ---
+ tools/testing/selftests/lib.mk                     |  20 +++-
+ tools/testing/selftests/livepatch/Makefile         |   5 +-
+ tools/testing/selftests/livepatch/README           |  17 +--
+ tools/testing/selftests/livepatch/config           |   1 -
+ tools/testing/selftests/livepatch/functions.sh     |  34 +++---
+ .../testing/selftests/livepatch/test-callbacks.sh  |  50 ++++-----
+ tools/testing/selftests/livepatch/test-ftrace.sh   |   6 +-
+ .../testing/selftests/livepatch/test-livepatch.sh  |  10 +-
+ .../selftests/livepatch/test-shadow-vars.sh        |   2 +-
+ tools/testing/selftests/livepatch/test-state.sh    |  18 ++--
+ tools/testing/selftests/livepatch/test-syscall.sh  |  53 ++++++++++
+ tools/testing/selftests/livepatch/test-sysfs.sh    |   6 +-
+ .../selftests/livepatch/test_klp-call_getpid.c     |  44 ++++++++
+ .../selftests/livepatch/test_modules/Makefile      |  20 ++++
+ .../test_modules}/test_klp_atomic_replace.c        |   0
+ .../test_modules}/test_klp_callbacks_busy.c        |   0
+ .../test_modules}/test_klp_callbacks_demo.c        |   0
+ .../test_modules}/test_klp_callbacks_demo2.c       |   0
+ .../test_modules}/test_klp_callbacks_mod.c         |   0
+ .../livepatch/test_modules}/test_klp_livepatch.c   |   0
+ .../livepatch/test_modules}/test_klp_shadow_vars.c |   0
+ .../livepatch/test_modules}/test_klp_state.c       |   0
+ .../livepatch/test_modules}/test_klp_state2.c      |   0
+ .../livepatch/test_modules}/test_klp_state3.c      |   0
+ .../livepatch/test_modules/test_klp_syscall.c      | 116 +++++++++++++++++++++
+ 31 files changed, 325 insertions(+), 121 deletions(-)
+---
+base-commit: 6489bf2e1df1c84e9bcd4694029ff35b39fd3397
+change-id: 20231031-send-lp-kselftests-4c917dcd4565
+
+Best regards,
+-- 
+Marcos Paulo de Souza <mpdesouza@suse.com>
+
