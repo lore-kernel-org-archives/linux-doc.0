@@ -1,235 +1,204 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEC6101FC;
-	Tue, 31 Oct 2023 06:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33B610782
+	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 06:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="n5NunxVd"
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2056.outbound.protection.outlook.com [40.107.255.56])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76C44F5;
-	Mon, 30 Oct 2023 23:05:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T2W/cu7JN8hQRr6daFDeazHWPrVQEAN9KyWdi1dY+JwaIqezPN4nw9eLuwNEfpFt+iLfb3JWw14P1MsHrkoKoFD8tsNBc4/2ZGpEj8XOT2bn5itX9SgD9cI+2pq0ZVJYXO2dEfTSGawh+HV3HPDztcEBhxThYste5FG3/3BBYS6Tvn3MkL0z+CW7A4kjvooWtcJbZ3dUuzOsieO5IQd7uu9FVZ7f+DewZk+k370Bl+G0JlfGAm7CJVa/4QJgJ/fLu5NT89dekqdvYaDJ/aNCOj6WHSq9P9LZ+l6K2blAG+yj0bgIC2FCpr8ycjQBVlIYsKED+j4pbWb8GMAEA+gljA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8zlaR2nGzIsQ+dXF6OApNIVnP8cLN3aV9RLxVbN20vE=;
- b=F654EMmd3wCh633ipJIdL3oUuuQZdzTrfzoKCZcROwk20v8lI/fs8eyPK7dnDVHkqRpuNlr1jwjxGSlR5hKGe9545ZcdicND82V3Qj97DRHdqxsfQiGZgzZiZrGGUxQTw8cQJU+jBWfE1/k1nFKOpbWSraXXnlkKXfUtfYZg2MqwLJnwn9B7zu8U8yg+eS8KA1sUjgh/5WNTW3kyCKkoi7KBDPpfcD47t+vEvI/ztMSONKJF2WOXtst1lUhZ2pM9rPPoRoLL95QGw1wZShP36pZcjksK9wdovTbgnBg/U2Evs4ToKhdPd45SHq6utfWpJnTTa69ZTbp+QBfHSaT/sQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wiwynn.com; dmarc=pass action=none header.from=wiwynn.com;
- dkim=pass header.d=wiwynn.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8zlaR2nGzIsQ+dXF6OApNIVnP8cLN3aV9RLxVbN20vE=;
- b=n5NunxVdX3SIYQWbuxxKQ16q9D9Opb730M2NpvzpV7RiYXy+22X2LrAz9uZRWQ42owf5tsAqt+u2QW7bhCRqtVVewnfbfZeUr0bleSNL3NS3Qx7zHkk1QkRruW7pKiJoto2GCa/q6U6z43mUNAN9+YxuLDsjzSGM9bp4GBm8ixwA/I8f6NIgrVIsfOPaWKUSnZDtejRE55qt/VzZ9YbZKNRMT6mD032VolSDxj5p/soq7aUWkMwRxR6S5inhwwmxcmdDdOOJUcc4QkWYPbL0DFiZdFM0Zs3pXXxIVg5hdVDTnNeY769hNaK6/bdfW/QooFQHbbT8YFg4t8SyjFcO8A==
-Received: from SG2PR04MB5543.apcprd04.prod.outlook.com (2603:1096:4:172::14)
- by SEZPR04MB6187.apcprd04.prod.outlook.com (2603:1096:101:cf::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Tue, 31 Oct
- 2023 05:59:46 +0000
-Received: from SG2PR04MB5543.apcprd04.prod.outlook.com
- ([fe80::4c7a:8fd8:1527:9287]) by SG2PR04MB5543.apcprd04.prod.outlook.com
- ([fe80::4c7a:8fd8:1527:9287%4]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
- 05:59:46 +0000
-From: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>
-To: Conor Dooley <conor@kernel.org>, Guenter Roeck <linux@roeck-us.net>
-CC: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>,
-	"patrick@stwcx.xyz" <patrick@stwcx.xyz>, Jean Delvare <jdelvare@suse.com>,
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, "linux-i2c@vger.kernel.org"
-	<linux-i2c@vger.kernel.org>, "linux-hwmon@vger.kernel.org"
-	<linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v2 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
- bindings
-Thread-Topic: [PATCH v2 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
- bindings
-Thread-Index: AQHaB+SV8Z0lWuQfqk2pb+fPvv8kdLBcIN+AgAAMSACAAASRgIAHPWNQ
-Date: Tue, 31 Oct 2023 05:59:46 +0000
-Message-ID:
- <SG2PR04MB5543067739D9E579F262CCB2A1A0A@SG2PR04MB5543.apcprd04.prod.outlook.com>
-References: <20231026081514.3610343-1-Delphine_CC_Chiu@Wiwynn.com>
- <20231026081514.3610343-2-Delphine_CC_Chiu@Wiwynn.com>
- <20231026-dicing-crispy-a10af575d3e5@spud>
- <fffa4330-8d01-8498-4c5f-772ebf2a6b5a@roeck-us.net>
- <20231026-poison-encrypt-1df55e023867@spud>
-In-Reply-To: <20231026-poison-encrypt-1df55e023867@spud>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wiwynn.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR04MB5543:EE_|SEZPR04MB6187:EE_
-x-ms-office365-filtering-correlation-id: 795f84fe-c425-4213-e27e-08dbd9d695bb
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- jBfbcqDb9HDq1YRnd13zjXqpD71L+cD+59Dx9bxBeaLCECSVFLx0myHUjjgtpK+7iPoNzCXDnHm4coOXzc3HiNkXUBHdJYB1SJTNrXqKWfusy/+cK/7KOTlrHNNSxkL4Bph7aAsKqsOparAfOpabQWDYufAz43j128XkXR6cwANnjmYF6baSp07+rggAcA7Vme9itq3bvDHEztrEq2tTCxSESbZycD/3vRS3Q88cixtEjMIWKlD2Ax/4m8shkxnKHPK69w7UtLL50LWyMbXmc6UqkZEGOiN6Nuwh8x0CLNZR7o5fbyl4m7GnCjWLaOopP2PHgyCE7OWSWXA+dm8HxsRhDJF1XFtgHMaVdcAjQTb5YxCvlEfGh0A04YdelFkKFn7tWNXrA3lKrWFEurebDEs8P/BHsGlcMu6tWkDc6dKq9oER61XJLNdwRa7wvP9JwNx7CaJ0drlYKCLbeoGLL35LhHM/KCbPYSlhfR0rYB1zY+sFFlwFWUZL1/fvokDeke/KuEX0Ijcq+zAcjWqMl9QNyys6SkVNNJ0Blk1E/P900e+rC2Nikh3wzLMQbaTQhiJe2Bv+rXiKBSycfwtmYVkU1lDTDH1ApIFextYYZ4E=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR04MB5543.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(39860400002)(136003)(346002)(376002)(451199024)(186009)(1800799009)(64100799003)(26005)(55016003)(7696005)(6506007)(9686003)(53546011)(38070700009)(38100700002)(33656002)(122000001)(86362001)(83380400001)(7416002)(5660300002)(52536014)(41300700001)(316002)(64756008)(54906003)(66446008)(66556008)(66476007)(66946007)(76116006)(110136005)(71200400001)(4326008)(478600001)(8676002)(8936002)(2906002)(966005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?TrkPYPZENdo4Snkd4vmHOIbf4mNssVgwMqfNEXMl1ZzJqWv5uYH+6xEuZDe2?=
- =?us-ascii?Q?fCSP92G8MwHaDwOAslvc9IrMCoyTKusDMoIwhZvo7ZusvBZdVrMKzvBoGwDD?=
- =?us-ascii?Q?lF6dhOgb1Qm6wZ+7kVB/1csOHSagATfWT/GbFUYA/81+EJdVsl/lqwOkeIPo?=
- =?us-ascii?Q?Srl0GTx7KX+1AfLw0qPE1R6SL/1ESl4kslpwRpkv/VmRHD71DItV7M/UgMFI?=
- =?us-ascii?Q?NDxVLGuoF0gHO54p2KdV8HIvUGDoDHCp6p1Lrc7bvofF0P4inL3l/H5AjDGv?=
- =?us-ascii?Q?NZxR9KE4s3c/eNyETiNR+azL7fFkF2aId2oErRZ6jyY1gDJlbzO4u4yDk1eJ?=
- =?us-ascii?Q?MtQhVsOdXVWiY/5l3TES7ds8I+s1sU8qqPPO3Sfi3udCwdcObsK1yqixOoR/?=
- =?us-ascii?Q?oY2VR+Y9rwK4VkK4PM9wofuBR+6RkknXsXJR3Dr8g81G1cg8PPP6dEaPrbup?=
- =?us-ascii?Q?OSmvTYFtvDhkxIyJTLDhMYmvlAGgnJoCHSzfESC2CrvtvfbhJVy1P0O69YIx?=
- =?us-ascii?Q?d6MFV9nNOd8yNEN0hFi9JEJU8o1Kf1bdZ9VUuYTWFTttZ0R2hVpjFDLbI+Jf?=
- =?us-ascii?Q?i8P4RRMj1PmgGamUjEy3VQU98ymARzBSiiz2jJvr/WBFVFJzv183ARYX1oPy?=
- =?us-ascii?Q?UjBPULBbkSWd7PC/OP1Pm2G0nlssfELraP5FaP8gdnr5h4JkPvG0izT+Kb/C?=
- =?us-ascii?Q?XPXgtaLBydKmRMojj/kXNaT1l6w8GIDO8lS1/NjbuCLN0ZAEd7NcUgzz9pOW?=
- =?us-ascii?Q?Hgw/UYiBw93MXuEd6BdDS6rTmpWHcgvOQZI1/ik2BF/Km5q8fkvqxHxrCfOx?=
- =?us-ascii?Q?ZvBFD5hjivHrDtIVtWgEoBCEvtOSFzvVyrpISyXtPhrA1YBkZlohjEXEZgZD?=
- =?us-ascii?Q?FExSdQzIaMt6dvbcGU9lI+wn15kU0dDFKduJILeHQt5xmJncrl/XRSOipUyX?=
- =?us-ascii?Q?STXdckpiwsKE3PMqHJzOoxSE6OOn/drRos6NlzMVJ/IBMmFJ6ZFTH+c1ckjr?=
- =?us-ascii?Q?aA72l59Q0Mv6MskJhBvlA4y57rK199A9zduicWbZEUXWMoQ+X4G1e5oDtLsj?=
- =?us-ascii?Q?xLGA1W1gKRojP0tbsXAE+AT5f/jBhv/exc9GX8zoRO9qT2Ii4taRFcDztyst?=
- =?us-ascii?Q?mHC5LgILTWCI1OB4ZLUiosIhwvykV8Gjq3ZnjY8hsFHWorfcJzDqou1413KZ?=
- =?us-ascii?Q?StZQFr3+jaeBpYckZBNbbotbc5oy+DiqBISY6ZclUNoNFvcaXcWZjEe2ITwa?=
- =?us-ascii?Q?O0g/HOu/5p2tKtrIYyqTInle2z+/44cEjHrQ2EeSSSSlhKeAnSEldvVpbmnK?=
- =?us-ascii?Q?bCapKmJWt7aa1W/McT0vnAUiG+0C5X/GBF+mtashhW0n1vOveVJoF89Rm747?=
- =?us-ascii?Q?G1GULbSHUc7dKNCed7NjrhwMxFXzxchFayKoMIx0k0Kv+dXzKc/WyPAgDFt4?=
- =?us-ascii?Q?umXTbMOohD+TzUVzd+0KawzT0WgAvjkWtgTKpC+fA9PoGmN2GHs3lFb5GJZP?=
- =?us-ascii?Q?c79j6ZosrnKcdgg8s7b4e+yfPG2hBhvdzxngq1XcYyzWeMfvLTOWIT63tuRj?=
- =?us-ascii?Q?sqy9Pke8Qs2QDYLbyEbf8re7q5fuD1fNQfl0ZH1W?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7Ei4bLo"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AE16C0
+	for <linux-doc@vger.kernel.org>; Mon, 30 Oct 2023 23:23:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698733399; x=1730269399;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vG9MxGLdn67p53VuEwgq4wcSEex/pfG1BnDjOF+RKoQ=;
+  b=a7Ei4bLo7231J9y1aISlM590bSDLRQbyo+GmN8cn3WP435XCYmSUWMXE
+   2+Pwi0Nax5VXPRyHitmANZXUA2VVjIUX8x9xPe+ScfatAJODqa8iLWq9H
+   k317eW8BZMneFkeRFTXuc4j65jXj/Ga/ZbjsEpDPbbOtkAKhg2NSO7aTe
+   sltwCDIc7wsc08e0fpNbpyQz2EU+b5LDPisMh2y/1a2oRNCjF1cmuDTLG
+   /MhJtLh3/LnguazQYfg+29iAhlvGPiBsbB2rCLaWfCUYAIVUCLFXGEUSt
+   zQrCxq2hBAUNAVt+gjMfUI+MarwhR2ogOy2Mlq5QMNhuPKMDgZewlg1p8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="1071598"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
+   d="scan'208";a="1071598"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 23:23:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="826300293"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
+   d="scan'208";a="826300293"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 30 Oct 2023 23:23:17 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qxi9i-000Dsd-2c;
+	Tue, 31 Oct 2023 06:23:14 +0000
+Date: Tue, 31 Oct 2023 14:22:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Satya Priya <quic_c_skakit@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>,
+	Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh@kernel.org>,
+	Johan Hovold <johan+linaro@kernel.org>, linux-doc@vger.kernel.org
+Subject: [steev:lenovo-x13s-linux-6.6.y 42/92] dtbs_check:
+ Documentation/devicetree/bindings/mfd/qcom,pm8008.yaml:109:11: [error]
+ string value is redundantly quoted with any quotes (quoted-strings)
+Message-ID: <202310311437.pKh83Yzs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR04MB5543.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 795f84fe-c425-4213-e27e-08dbd9d695bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Oct 2023 05:59:46.1213
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: asViWF4TvUL8pNUXRfCmPRSQAmV1as6Si/4OxW5NmQZmqRoQzvgnsZ9IBorxm8lvupwtpQBOTXpMwueWhiA2oA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB6187
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> -----Original Message-----
-> From: Conor Dooley <conor@kernel.org>
-> Sent: Thursday, October 26, 2023 11:26 PM
-> To: Guenter Roeck <linux@roeck-us.net>
-> Cc: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>;
-> patrick@stwcx.xyz; Jean Delvare <jdelvare@suse.com>; Rob Herring
-> <robh+dt@kernel.org>; Krzysztof Kozlowski
-> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
-> Jonathan Corbet <corbet@lwn.net>; linux-i2c@vger.kernel.org;
-> linux-hwmon@vger.kernel.org; devicetree@vger.kernel.org;
-> linux-kernel@vger.kernel.org; linux-doc@vger.kernel.org
-> Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
-> bindings
->=20
-> On Thu, Oct 26, 2023 at 08:09:52AM -0700, Guenter Roeck wrote:
-> > On 10/26/23 07:25, Conor Dooley wrote:
-> > > Hey,
-> > >
-> > > On Thu, Oct 26, 2023 at 04:15:11PM +0800, Delphine CC Chiu wrote:
-> > > > Add a device tree bindings for ltc4286 driver.
-> > >
-> > > Bindings are for devices, not for drivers.
-> > >
-> > > >
-> > > > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-> > > >
-> > > > Changelog:
-> > > >    v2 - Revise vrange_select_25p6 to adi,vrange-select-25p6
-> > > >       - Add type for adi,vrange-select-25p6
-> > > >       - Revise rsense-micro-ohms to shunt-resistor-micro-ohms
-> > > > ---
-> > > >   .../bindings/hwmon/lltc,ltc4286.yaml          | 50
-> +++++++++++++++++++
-> > > >   MAINTAINERS                                   | 10 ++++
-> > > >   2 files changed, 60 insertions(+)
-> > > >   create mode 100644
-> > > > Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> > > >
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> > > > b/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..17022de657bb
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> > > > @@ -0,0 +1,50 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML
-> > > > +1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/hwmon/lltc,ltc4286.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: LTC4286 power monitors
-> > > > +
-> > > > +maintainers:
-> > > > +  - Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    enum:
-> > > > +      - lltc,ltc4286
-> > > > +      - lltc,ltc4287
-> > >
-> > > I don't recall seeing an answer to Guenter about this ltc4287 device:
-> > > https://lore.kernel.org/all/22f6364c-611c-ffb6-451c-9ddc20418d0a@roe
-> > > ck-us.net/
-> > >
-> >
-> > At least the chip does officially exist now, and a datasheet is availab=
-le.
-> >
-> > https://www.analog.com/en/products/ltc4287.html
-> >
-> > It shows that coefficients for the telemetry commands are different,
-> > meaning that indeed both chips need to be explicitly referenced in the
-> > properties description (and handled in the driver, which proves my
-> > point of needing a datasheet before accepting such a driver).
->=20
-> Oh neat, would've been good if that'd been mentioned!
->=20
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  adi,vrange-select-25p6:
-> > > > +    description:
-> > > > +      This property is a bool parameter to represent the
-> > > > +      voltage range is 25.6 or not for this chip.
-> > >
-> > > 25.6 what? Volts? microvolts?
-> > > What about Guenter's suggestion to name this so that it better
-> > > matches the other, similar properties?
-> > >
-> >
-> > I still would prefer one of the more common properties.
-> > I still prefer adi,vrange-high-enable.
->=20
-> I think, from reading the previous version, that this is actually the low=
-er voltage
-> range, as there is a 102.x $unit range too that is the default in the har=
-dware.
-> Obviously, the use of the property could be inverted to match that naming
-> however.
-We will use adi,vrange-low-enable instead of adi,vrange-select-25p6
+tree:   https://github.com/steev/linux lenovo-x13s-linux-6.6.y
+head:   2d02366a5b7fb59aa3ffd350124bdbbd6b15fe69
+commit: fb372b18a2690fd444018fe58ddf28dec45f5eae [42/92] dt-bindings: mfd: pm8008: Add regulators for pm8008
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231031/202310311437.pKh83Yzs-lkp@intel.com/reproduce)
 
->=20
-> Cheers,
-> Conor.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310311437.pKh83Yzs-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/mfd/qcom,pm8008.yaml:109:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+
+vim +109 Documentation/devicetree/bindings/mfd/qcom,pm8008.yaml
+
+     8	
+     9	maintainers:
+    10	  - Guru Das Srinagesh <quic_gurus@quicinc.com>
+    11	
+    12	description: |
+    13	  Qualcomm Technologies, Inc. PM8008 is a dedicated camera PMIC that integrates
+    14	  all the necessary power management, housekeeping, and interface support
+    15	  functions into a single IC.
+    16	
+    17	properties:
+    18	  compatible:
+    19	    const: qcom,pm8008
+    20	
+    21	  reg:
+    22	    description:
+    23	      I2C slave address.
+    24	
+    25	    maxItems: 1
+    26	
+    27	  interrupts:
+    28	    maxItems: 1
+    29	
+    30	    description: Parent interrupt.
+    31	
+    32	  "#interrupt-cells":
+    33	    const: 2
+    34	
+    35	    description: |
+    36	      The first cell is the IRQ number, the second cell is the IRQ trigger
+    37	      flag. All interrupts are listed in include/dt-bindings/mfd/qcom-pm8008.h.
+    38	
+    39	  interrupt-controller: true
+    40	
+    41	  "#address-cells":
+    42	    const: 2
+    43	
+    44	  "#size-cells":
+    45	    const: 0
+    46	
+    47	  reset-gpios:
+    48	    maxItems: 1
+    49	
+    50	  vdd_l1_l2-supply:
+    51	    description: Input supply phandle of ldo1 and ldo2 regulators.
+    52	
+    53	  vdd_l3_l4-supply:
+    54	    description: Input supply phandle of ldo3 and ldo4 regulators.
+    55	
+    56	  vdd_l5-supply:
+    57	    description: Input supply phandle of ldo5 regulator.
+    58	
+    59	  vdd_l6-supply:
+    60	    description: Input supply phandle of ldo6 regulator.
+    61	
+    62	  vdd_l7-supply:
+    63	    description: Input supply phandle of ldo7 regulator.
+    64	
+    65	patternProperties:
+    66	  "^gpio@0,[0-9a-f]+$":
+    67	    type: object
+    68	
+    69	    description: |
+    70	      The GPIO peripheral. This node may be specified twice, one for each GPIO.
+    71	
+    72	    properties:
+    73	      compatible:
+    74	        items:
+    75	          - const: qcom,pm8008-gpio
+    76	          - const: qcom,spmi-gpio
+    77	
+    78	      reg:
+    79	        description: Peripheral offset and address of one of the two GPIO peripherals.
+    80	        maxItems: 1
+    81	
+    82	      gpio-controller: true
+    83	
+    84	      gpio-ranges:
+    85	        maxItems: 1
+    86	
+    87	      interrupt-controller: true
+    88	
+    89	      "#interrupt-cells":
+    90	        const: 2
+    91	
+    92	      "#gpio-cells":
+    93	        const: 2
+    94	
+    95	    required:
+    96	      - compatible
+    97	      - reg
+    98	      - gpio-controller
+    99	      - interrupt-controller
+   100	      - "#gpio-cells"
+   101	      - gpio-ranges
+   102	      - "#interrupt-cells"
+   103	
+   104	    additionalProperties: false
+   105	
+   106	  "^ldo[1-7]@[1],[0-9a-f]+$":
+   107	    type: object
+   108	
+ > 109	    $ref: "/schemas/regulator/regulator.yaml#"
+   110	
+   111	    description: PM8008 regulator peripherals of PM8008 regulator device.
+   112	
+   113	    properties:
+   114	      compatible:
+   115	        const: qcom,pm8008-regulator
+   116	
+   117	      reg:
+   118	        description: Peripheral offset and address of the ldo regulator.
+   119	        maxItems: 1
+   120	
+   121	    required:
+   122	      - compatible
+   123	      - reg
+   124	
+   125	    unevaluatedProperties: false
+   126	
+   127	required:
+   128	  - compatible
+   129	  - reg
+   130	  - interrupts
+   131	  - "#address-cells"
+   132	  - "#size-cells"
+   133	  - "#interrupt-cells"
+   134	  - reset-gpios
+   135	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
