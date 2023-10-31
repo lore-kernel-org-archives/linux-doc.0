@@ -1,73 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F07D292;
-	Tue, 31 Oct 2023 19:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B32E22335
+	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 20:16:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MmW7E9yG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71EADC433C7;
-	Tue, 31 Oct 2023 19:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698782258;
-	bh=nEcINVTOJMdm+dcaCe/lMlijXRQXljtnkQahZ1Mfaps=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MmW7E9yGNpYfOKZsCi8lIfjhqfbZDDIjw/EK6doXaAJ/xFW/+8eSNlCgs8tyc9ooO
-	 G+X1gds5DuFC2fNpn82KC4Z+jNJQ14ZvTHqkndBSTvDhAdYCrZiU2ccppgs7No0DNq
-	 tXylHS3FP1hvdrI1o91XBFTeCwIMZ6Cy899aEJ3drZhUigFb2l1tmU86SIKFFGrFiS
-	 Qm6eDVO2/JUS05Fuvj7qB1Sxl3aNDgKXRvsadw+B2qKTTNfTgZ/QlUuJUZ4wQ6N4Q4
-	 VzFY0/5KxHVIC11so5QnqlDhuTZiK//6b0tpJWnie7A8r2mrONqW8MoYV8u4iDNdNZ
-	 MNvlkXymcPN+g==
-Date: Tue, 31 Oct 2023 12:57:37 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Gal Pressman <gal@nvidia.com>
-Cc: Ahmed Zaki <ahmed.zaki@intel.com>, Alexander H Duyck
- <alexander.duyck@gmail.com>, mkubecek@suse.cz, andrew@lunn.ch,
- willemdebruijn.kernel@gmail.com, Wojciech Drewek
- <wojciech.drewek@intel.com>, corbet@lwn.net, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, jesse.brandeburg@intel.com, edumazet@google.com,
- anthony.l.nguyen@intel.com, horms@kernel.org, vladimir.oltean@nxp.com,
- Jacob Keller <jacob.e.keller@intel.com>, intel-wired-lan@lists.osuosl.org,
- pabeni@redhat.com, davem@davemloft.net
-Subject: Re: [Intel-wired-lan] [PATCH net-next v4 1/6] net: ethtool: allow
- symmetric-xor RSS hash for any flow type
-Message-ID: <20231031125737.0d9a648e@kernel.org>
-In-Reply-To: <ff81c4e7-0787-4357-bb92-9da334a4ddaf@nvidia.com>
-References: <20231016154937.41224-1-ahmed.zaki@intel.com>
-	<20231017173448.3f1c35aa@kernel.org>
-	<CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
-	<20231018165020.55cc4a79@kernel.org>
-	<45c6ab9f-50f6-4e9e-a035-060a4491bded@intel.com>
-	<20231020153316.1c152c80@kernel.org>
-	<c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
-	<20231020164917.69d5cd44@kernel.org>
-	<f6ab0dc1-b5d5-4fff-9ee2-69d21388d4ca@intel.com>
-	<89e63967-46c4-49fe-87bc-331c7c2f6aab@nvidia.com>
-	<e644840d-7f3d-4e3c-9e0f-6d958ec865e0@intel.com>
-	<e471519b-b253-4121-9eec-f7f05948c258@nvidia.com>
-	<a2a1164f-1492-43d1-9667-5917d0ececcb@intel.com>
-	<d097e7d3-5e16-44ba-aa92-dfb7fbedc600@nvidia.com>
-	<aa1dd347-a16c-44f8-95ad-5d50bcba8f34@intel.com>
-	<70132b6f-542f-4fe6-971f-ab9ea80acbe4@nvidia.com>
-	<e7679b57-af11-42b1-91c7-b18cbcc70119@intel.com>
-	<20231031082023.3fd4761b@kernel.org>
-	<ff81c4e7-0787-4357-bb92-9da334a4ddaf@nvidia.com>
+	dkim=pass (2048-bit key) header.d=novastrider.com header.i=@novastrider.com header.b="IQZigNqD"
+X-Greylist: delayed 422 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 31 Oct 2023 13:16:31 PDT
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [IPv6:2001:41d0:203:375::bd])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8BD3ED
+	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 13:16:31 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=novastrider.com;
+	s=key1; t=1698782965;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=McCJc14guP8yKKFOSL2omkE6jgC9UadK7MEeeUAlNhk=;
+	b=IQZigNqD37TIb9IuCV/22K6EP+dlhwlI0naHdHE9IjOPoetSpvoeFYgm0ETDxnHT02mnfd
+	ok40q5IZGM9tfJ+7z+m5uhYNRVrxohZ+yIW7s3xQbFRZr2333FKxvOEzyjWy/u0V/AqNk1
+	OOvmxxfj5cY1gm3+dZCUGi6IU2NFOdj7SpP347un1BxvjkKXg9IUTyMgvr31Uatisxbpvz
+	ynM3qna7we0wQLBVeaYPSMQA1HHkYmDNLAxG7Z9uHe2IJXSbw8LvpwgHiZ6VD2tDyb2/dw
+	+ZcowgRcyHFhItQeoVmjgneS53WTPCoxjR4VJDWZ8WXRu/+x50HCWEMIeoIeFA==
+From: Marielle Novastrider <marielle@novastrider.com>
+To: linux-doc@vger.kernel.org
+Cc: marielle@novastrider.com,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation/arm64: Fix typos in elf_hwcaps
+Date: Tue, 31 Oct 2023 20:08:38 +0000
+Message-Id: <20231031200838.55569-1-marielle@novastrider.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 31 Oct 2023 18:13:20 +0200 Gal Pressman wrote:
-> Sure, IIUC, ice's implementation does a:
-> (SRC_IP ^ DST_IP, SRC_IP ^ DST_IP, SRC_PORT ^ DST_PORT, SRC_PORT ^ DST_PORT)
-> 
-> Our implementation isn't exactly xor, it is:
-> (SRC_IP | DST_IP, SRC_IP ^ DST_IP, SRC_PORT | DST_PORT, SRC_PORT ^ DST_PORT)
-> 
-> The way I see it, the xor implementation should be clearly documented,
-> so no one uses the same flag with a different implementation by mistake.
+Small typos in register and field names.
 
-Got it, thanks!
+Signed-off-by: Marielle Novastrider <marielle@novastrider.com>
+---
+ Documentation/arch/arm64/elf_hwcaps.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/arch/arm64/elf_hwcaps.rst b/Documentation/arch/arm64/elf_hwcaps.rst
+index 76ff9d7398fd..9d51f0d72fc4 100644
+--- a/Documentation/arch/arm64/elf_hwcaps.rst
++++ b/Documentation/arch/arm64/elf_hwcaps.rst
+@@ -174,7 +174,7 @@ HWCAP2_DCPODP
+     Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
+ 
+ HWCAP2_SVE2
+-    Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
++    Functionality implied by ID_AA64ZFR0_EL1.SVEver == 0b0001.
+ 
+ HWCAP2_SVEAES
+     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
+@@ -222,7 +222,7 @@ HWCAP2_RNG
+     Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
+ 
+ HWCAP2_BTI
+-    Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
++    Functionality implied by ID_AA64PFR1_EL1.BT == 0b0001.
+ 
+ HWCAP2_MTE
+     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
+@@ -232,7 +232,7 @@ HWCAP2_ECV
+     Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
+ 
+ HWCAP2_AFP
+-    Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
++    Functionality implied by ID_AA64MMFR1_EL1.AFP == 0b0001.
+ 
+ HWCAP2_RPRES
+     Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
+-- 
+2.39.3 (Apple Git-145)
+
