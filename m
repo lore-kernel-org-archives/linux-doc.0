@@ -1,171 +1,95 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D4C22331
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 22:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iyQb2LYG"
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1CC6F3
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 15:39:59 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5a839b31a0dso105785597b3.0
-        for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 15:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698791999; x=1699396799; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LkerRqEcfT0+JzgZxhmV6L5Iy5i6TtOybYrAtyVVjb4=;
-        b=iyQb2LYGGDjYdOx5NNHqyq8HB0Lfxnxx54fvgYxw8MCA6kbi9/te2PmX5tNc/pr5Wx
-         6INZva/XbN94G+LW1Cb0lZI9sQrDmi+6RoBmuLpCVKg62msZzx+8QRwlk/jc2rKEQK01
-         nMReJaD6DYIvYuuF7jDtrqVN0sb4xLm+fVRRO+CbIHpG4hMep/Zm509CU/d/Ebp9FN1R
-         YCbgM8hDNFr+Wn224D1oMgcJfpmEcRl2DW+P/C4jNiJgMcBVfZa82JvKhQ8jR9fNDOTj
-         HYjSx5MXsCcD3/+LSrTFKzpSlHyf64SCQUC/ymIzj0nI6Wo4OkwnuHo54q4HuNM51bQ2
-         DJFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698791999; x=1699396799;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LkerRqEcfT0+JzgZxhmV6L5Iy5i6TtOybYrAtyVVjb4=;
-        b=Ua0B+bGNlpxYXwarENO4iOjXSimc+5lYT/WR5OB07QgZJ5ur/bJ2qXjuU/ILnZZG94
-         k3zOHGIgwJwlqtbzQo67Om91uICCCr6eH7JuZoGE2Cp2DKjjtbuDtRTWeC7qah1RIGy8
-         +665/UOH2O4CZLtvurgpjkbtQgChqsPu4xiTC1aeN5JzQpBQVpFVUW0OeIFvXffbz/ib
-         HOPsAbCk327xGPfNRRYYC+grrhonQAjCnkx3ZLjaw48qYMKjUwVUcEfmKibAyCDXS6Qq
-         Q3QCUg1zDsWxykHJTWwWva6vXoBHQhXFeJoVslTH2jEW6rCnqIN0QdIT8akZ7ek3fSAx
-         Qk7A==
-X-Gm-Message-State: AOJu0YygEICvSpqYfkzNjotMpJn47d9uBquqL3rDroHUr5EkWHVhQb+m
-	bmJtBRnrgC8vY7bfW3kvZ+qLwALUj/I=
-X-Google-Smtp-Source: AGHT+IGe3YVjvz+pWDNBrcyjJ6NX/xAY//x9OsitQ9ZfffLLYmBabs3Mf9yPLVa1FpYz9yJGhTtUGkSQKc8=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:a151:0:b0:5a7:b9b0:d23f with SMTP id
- y78-20020a81a151000000b005a7b9b0d23fmr301520ywg.6.1698791998887; Tue, 31 Oct
- 2023 15:39:58 -0700 (PDT)
-Date: Tue, 31 Oct 2023 15:39:57 -0700
-In-Reply-To: <20231031115748.622578-1-paul@xen.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A3727448
+	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 22:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91AD107;
+	Tue, 31 Oct 2023 15:40:50 -0700 (PDT)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39VM9GJE004517;
+	Tue, 31 Oct 2023 18:40:36 -0400
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3u38jds73p-925
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 31 Oct 2023 18:40:36 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 39VIMLDO034712
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 31 Oct 2023 14:22:21 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Tue, 31 Oct
+ 2023 14:22:20 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Tue, 31 Oct 2023 14:22:20 -0400
+Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.198])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 39VIM1d5022309;
+	Tue, 31 Oct 2023 14:22:14 -0400
+From: Daniel Matyas <daniel.matyas@analog.com>
+To: 
+CC: Daniel Matyas <daniel.matyas@analog.com>,
+        Jean Delvare
+	<jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet
+	<corbet@lwn.net>, <linux-hwmon@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 4/5] hwmon: max31827: Return closest value in update_interval
+Date: Tue, 31 Oct 2023 20:21:56 +0200
+Message-ID: <20231031182158.124608-4-daniel.matyas@analog.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231031182158.124608-1-daniel.matyas@analog.com>
+References: <20231031182158.124608-1-daniel.matyas@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231031115748.622578-1-paul@xen.org>
-Message-ID: <ZUGCPQegUeTutsrb@google.com>
-Subject: Re: [PATCH v2] KVM x86/xen: add an override for PVCLOCK_TSC_STABLE_BIT
-From: Sean Christopherson <seanjc@google.com>
-To: Paul Durrant <paul@xen.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: _fSsahaF-pzgaOHeyfgC5Qpb6ZYBvaiw
+X-Proofpoint-ORIG-GUID: _fSsahaF-pzgaOHeyfgC5Qpb6ZYBvaiw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-31_09,2023-10-31_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=924
+ lowpriorityscore=0 suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0
+ phishscore=0 malwarescore=0 clxscore=1015 mlxscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2310240000
+ definitions=main-2310310186
 
-On Tue, Oct 31, 2023, Paul Durrant wrote:
-> From: Paul Durrant <pdurrant@amazon.com>
-> 
-> Unless explicitly told to do so (by passing 'clocksource=tsc' and
-> 'tsc=stable:socket', and then jumping through some hoops concerning
-> potential CPU hotplug) Xen will never use TSC as its clocksource.
-> Hence, by default, a Xen guest will not see PVCLOCK_TSC_STABLE_BIT set
-> in either the primary or secondary pvclock memory areas. This has
-> led to bugs in some guest kernels which only become evident if
-> PVCLOCK_TSC_STABLE_BIT *is* set in the pvclocks. Hence, to support
-> such guests, give the VMM a new Xen HVM config flag to tell KVM to
-> forcibly clear the bit in the Xen pvclocks.
-> 
-> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-> ---
->  Documentation/virt/kvm/api.rst |  6 ++++++
->  arch/x86/kvm/x86.c             | 28 +++++++++++++++++++++++-----
->  arch/x86/kvm/xen.c             |  3 ++-
->  include/uapi/linux/kvm.h       |  1 +
->  4 files changed, 32 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 21a7578142a1..9752a01270df 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -8252,6 +8252,7 @@ PVHVM guests. Valid flags are::
->    #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL		(1 << 4)
->    #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND		(1 << 5)
->    #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
-> +  #define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE	(1 << 7)
->  
->  The KVM_XEN_HVM_CONFIG_HYPERCALL_MSR flag indicates that the KVM_XEN_HVM_CONFIG
->  ioctl is available, for the guest to set its hypercall page.
-> @@ -8295,6 +8296,11 @@ behave more correctly, not using the XEN_RUNSTATE_UPDATE flag until/unless
->  specifically enabled (by the guest making the hypercall, causing the VMM
->  to enable the KVM_XEN_ATTR_TYPE_RUNSTATE_UPDATE_FLAG attribute).
->  
-> +The KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE flag indicates that KVM supports
-> +clearing the PVCLOCK_TSC_STABLE_BIT flag in Xen pvclock sources. This will be
-> +done when the KVM_CAP_XEN_HVM ioctl sets the
-> +KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE flag.
-> +
->  8.31 KVM_CAP_PPC_MULTITCE
->  -------------------------
->  
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 41cce5031126..6abad6dacf07 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -3096,7 +3096,8 @@ u64 get_kvmclock_ns(struct kvm *kvm)
->  
->  static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
->  				    struct gfn_to_pfn_cache *gpc,
-> -				    unsigned int offset)
-> +				    unsigned int offset,
-> +				    bool force_tsc_unstable)
->  {
->  	struct kvm_vcpu_arch *vcpu = &v->arch;
->  	struct pvclock_vcpu_time_info *guest_hv_clock;
-> @@ -3122,6 +3123,10 @@ static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
->  	 */
->  
->  	guest_hv_clock->version = vcpu->hv_clock.version = (guest_hv_clock->version + 1) | 1;
-> +
-> +	if (force_tsc_unstable)
-> +		guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
+When user writes a value to update_interval which does not match the
+possible values, instead of returning invalid error, return the closest
+value.
 
-I don't see how this works.  This clears the bit in the guest copy, then clobbers
-all of guest_hv_clock with a memcpy().
+Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+---
 
-	if (force_tsc_unstable)
-		guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
+v6: Added patch.
 
-	smp_wmb();
+ drivers/hwmon/max31827.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-	/* retain PVCLOCK_GUEST_STOPPED if set in guest copy */
-	vcpu->hv_clock.flags |= (guest_hv_clock->flags & PVCLOCK_GUEST_STOPPED);
-
-	if (vcpu->pvclock_set_guest_stopped_request) {
-		vcpu->hv_clock.flags |= PVCLOCK_GUEST_STOPPED;
-		vcpu->pvclock_set_guest_stopped_request = false;
-	}
-
-	memcpy(guest_hv_clock, &vcpu->hv_clock, sizeof(*guest_hv_clock)); <= sets PVCLOCK_TSC_STABLE_BIT again, no?
-	smp_wmb();
-
-Any reason not to make this a generic "capability" instead of a Xen specific flag?
-E.g. I assume these problematic guests would mishandle PVCLOCK_TSC_STABLE_BIT if
-it showed up in kvmclock, but they don't use kvmclock so it's not a problem in
-practice.
-
-I doubt there's a real need or use case, but it'd require less churn and IMO is
-simpler overall, e.g.
-
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index e3eb608b6692..731b201bfd5a 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3225,7 +3225,7 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
+diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
+index 41e4f716605a..13ebe691475a 100644
+--- a/drivers/hwmon/max31827.c
++++ b/drivers/hwmon/max31827.c
+@@ -360,9 +360,8 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
+ 			       val < max31827_conversions[res])
+ 				res++;
  
-        /* If the host uses TSC clocksource, then it is stable */
-        pvclock_flags = 0;
--       if (use_master_clock)
-+       if (use_master_clock && !vcpu->kvm.force_tsc_unstable)
-                pvclock_flags |= PVCLOCK_TSC_STABLE_BIT;
+-			if (res == ARRAY_SIZE(max31827_conversions) ||
+-			    val != max31827_conversions[res])
+-				return -EINVAL;
++			if (res == ARRAY_SIZE(max31827_conversions))
++				res = ARRAY_SIZE(max31827_conversions) - 1;
  
-        vcpu->hv_clock.flags = pvclock_flags;
+ 			res = FIELD_PREP(MAX31827_CONFIGURATION_CNV_RATE_MASK,
+ 					 res);
+-- 
+2.34.1
 
-I also assume this is a "set and forget" thing?  I.e. KVM can require the flag
-to be set before any vCPUs are created.
