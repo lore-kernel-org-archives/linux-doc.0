@@ -1,610 +1,249 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E951D556
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 15:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB431DFC6;
+	Tue, 31 Oct 2023 16:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tgrp89nw"
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C4CC9;
-	Tue, 31 Oct 2023 08:49:36 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5b31c5143a0so11189857b3.3;
-        Tue, 31 Oct 2023 08:49:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698767375; x=1699372175; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xxh4PFiuLG5c5VCqHVeQTQy6IbmxJNPGI9TgtPQhb0k=;
-        b=Tgrp89nwGGPZbN3GJEZGdPBQMECtkalYLfZib8WHooa7R8omMz1FxO0FTOjFr+Yr7N
-         itmK9QI4v8laXMuGEDODNrJzngQ9Sr0Ycn7C1tpUPUxEchQ6gZh/IFCgtd4/Jndj/jR7
-         H7qSk99zRO53/stFHFaqvW+HSyzieMg5UmP0+w1ZCbtxsg2+2yXxi1z4L9ZIEcWGIzPQ
-         z3A0PF8979y7xbdoTRcMWkfkYsJUErIuALWNmAIyIvO6kJhkPTYgYCqidVbpe0TRaE/o
-         sRQBYfXw3kuPg3wCHTskUSOvji2G6aYurCIw6KAQ/8Ca/daB7j4VuK3yUJHAWFNnqDcL
-         pGlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698767375; x=1699372175;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xxh4PFiuLG5c5VCqHVeQTQy6IbmxJNPGI9TgtPQhb0k=;
-        b=ZE6oX+tbYPICBxvpKW3bjhRGeFV0mqp09N2gvPFbvclMCkUT+3vVh/iVzS3avtdiWW
-         HNeVMSPuJGpI2T6MU71x/1UW8dDCPZuK4ewdmBFoV5M/xz2yEveU1FtDI5lC43vg5jWs
-         VjyiY8MW4xn3cRgYX/8BhUcttoYpr73icT6Q/u3MPscnm0gjJrx9tdZzRtCIrcZbYGtW
-         cUB/UpPAQLBgeN6eeOlo/GgE/DmmlRhdl4Ebetq0BozSW9ZJzYMEcEOjg7sH0JKY7Zv3
-         1lqmJft65Si7wqOYoriwfzm78D1qFGBciqdFLVU27IaBe3iVOJ0I/qZfgb/8KKa/tc15
-         Bxxw==
-X-Gm-Message-State: AOJu0YwQHaerM/nQ8dPWFYeVSzu+eGzeSoaHLqL3bvDDIglBeFqXnhtv
-	3B6YSou+5RtHDTC3Do5F7flQ1OWrP+P0mg==
-X-Google-Smtp-Source: AGHT+IFQ78vjTJCHiyPa85DAsj75OSMJIzeaeRjBPuE7298iwjREI9j5ku4jPkCl6fIawMJ6vzdxLg==
-X-Received: by 2002:a25:8e0d:0:b0:d9d:1b00:252a with SMTP id p13-20020a258e0d000000b00d9d1b00252amr11628423ybl.2.1698767375269;
-        Tue, 31 Oct 2023 08:49:35 -0700 (PDT)
-Received: from z-Lenovo-Product.lan ([2605:59c8:6244:7600::e27])
-        by smtp.gmail.com with ESMTPSA id o124-20020a25d782000000b00d7b957d8ed9sm952741ybg.17.2023.10.31.08.49.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 08:49:35 -0700 (PDT)
-From: David Ober <dober6023@gmail.com>
-To: linux-hwmon@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	corbet@lwn.net,
-	dober@lenovo.com,
-	mpearson-lenovo@squebb.ca,
-	David Ober <dober6023@gmail.com>
-Subject: [PATCH v2] hwmon:Add MEC172x Micro Chip driver for Lenovo motherboards
-Date: Tue, 31 Oct 2023 11:49:30 -0400
-Message-Id: <20231031154930.4908-1-dober6023@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="P88gtIDt"
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2079.outbound.protection.outlook.com [40.107.96.79])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881B0A6;
+	Tue, 31 Oct 2023 09:12:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MgutdSL+rg6ab6d9GuWsVrKZYFaypOZctA0CPiYRYuRBw4RL2bUyIgYn4FgiuaHTZxC+zW4w695jVBJxpkorgbzYxx0wXPx2ySzcC8EyTWOxJirg4cFwHPkj3AVXNxbZGM1X+DQC2AS4AcCURjEpj4amWu5AjJfuJ8Q5AZwta99Il1TTl1UOTorA8LvUtFodtmxwfkcyXCoAVN6swcIn6g7iIUv2cpJbo4cTOSOuDKKuTlSLxOEns8jOTrOkUsKViH75VX4Osj4AfStxCTlEj/eNCy/YGuGV/O9AE65hsjX+OplP5m2NoAMt6+FcS9r/un8/qErF/1qAtVOs714obA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t74Wmi2XG1PDpMT/xqRNiSXdsY4mVLHUdi75n/Y/tY0=;
+ b=eK/ASs3hLndWfydV3JvaF5QB6EgNXistLomZkQHJ+ZEiQIu4VuUckeeotdJsvCT51tz8FWJbuyiYMFSNVHhSL+VlfStgoJxp0npIpYBExrPMqItY/Bggi763+febJVbkZFnfmwEDxECvW+F/BbUOztdQ48NMT+xDqxyfyfc3Lnr6USClqKp3H1EvtCIYN3wGrEETflXPIZuloed2lH/SHubT2z8Ykz44LJIj90uS7mkYfSk//9NFoyKSH/XdWr3r7xl7iOowvEkGvySOBYZiz/OIMckBLbTxBiewCM+k4DFajw/YpaKcvXHMDfXwhTdor2JEVii0+1fY+yZtDVOOuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t74Wmi2XG1PDpMT/xqRNiSXdsY4mVLHUdi75n/Y/tY0=;
+ b=P88gtIDtLuAnpkPYrxXer6bAPgKLKfFRKXG8rJ82gF+wTDQGAJL0iAxXS2eBkN2Gb1mZOjO5PytqZFtnBzaSBgqrz+3etckgNj+HzyDlXOJN004mtUq61Qhw2wSgNILe1RGm05mWGToqAwBMVI5C4G3PdG12TymqGu9YB7iFY0g5Onkxb3PogtMY7Al1LptGzovpgMzBOd+4ImBQOiIbRlq1aF8WZZAO/WkoerxRXZZnu9nIgXhi4ux3j/mvRQP2HGlixnVYQa6RY7947gYQ1orn6WTSJqd11pQLpBuIdZt5RdXObwiB0DkcIJkJO9pddyewdb4G2AT9n3XNHdRk3Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB6288.namprd12.prod.outlook.com (2603:10b6:8:93::7) by
+ CH3PR12MB9393.namprd12.prod.outlook.com (2603:10b6:610:1c5::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6933.28; Tue, 31 Oct 2023 16:12:03 +0000
+Received: from DS7PR12MB6288.namprd12.prod.outlook.com
+ ([fe80::8cde:e637:db89:eae6]) by DS7PR12MB6288.namprd12.prod.outlook.com
+ ([fe80::8cde:e637:db89:eae6%5]) with mapi id 15.20.6933.028; Tue, 31 Oct 2023
+ 16:12:02 +0000
+Message-ID: <b4116027-8045-42a0-afa2-1dd8b17ea9ea@nvidia.com>
+Date: Tue, 31 Oct 2023 18:11:53 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-wired-lan] [PATCH net-next v4 1/6] net: ethtool: allow
+ symmetric-xor RSS hash for any flow type
+To: Alexander Duyck <alexander.duyck@gmail.com>
+Cc: Ahmed Zaki <ahmed.zaki@intel.com>, Jakub Kicinski <kuba@kernel.org>,
+ mkubecek@suse.cz, andrew@lunn.ch, willemdebruijn.kernel@gmail.com,
+ Wojciech Drewek <wojciech.drewek@intel.com>, corbet@lwn.net,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ jesse.brandeburg@intel.com, edumazet@google.com, anthony.l.nguyen@intel.com,
+ horms@kernel.org, vladimir.oltean@nxp.com,
+ Jacob Keller <jacob.e.keller@intel.com>, intel-wired-lan@lists.osuosl.org,
+ pabeni@redhat.com, davem@davemloft.net
+References: <20231016154937.41224-1-ahmed.zaki@intel.com>
+ <20231016163059.23799429@kernel.org>
+ <CAKgT0Udyvmxap_F+yFJZiY44sKi+_zOjUjbVYO=TqeW4p0hxrA@mail.gmail.com>
+ <20231017131727.78e96449@kernel.org>
+ <CAKgT0Ud4PX1Y6GO9rW+Nvr_y862Cbv3Fpn+YX4wFHEos9rugJA@mail.gmail.com>
+ <20231017173448.3f1c35aa@kernel.org>
+ <CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
+ <20231018165020.55cc4a79@kernel.org>
+ <45c6ab9f-50f6-4e9e-a035-060a4491bded@intel.com>
+ <20231020153316.1c152c80@kernel.org>
+ <c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
+ <20231020164917.69d5cd44@kernel.org>
+ <f6ab0dc1-b5d5-4fff-9ee2-69d21388d4ca@intel.com>
+ <89e63967-46c4-49fe-87bc-331c7c2f6aab@nvidia.com>
+ <e644840d-7f3d-4e3c-9e0f-6d958ec865e0@intel.com>
+ <e471519b-b253-4121-9eec-f7f05948c258@nvidia.com>
+ <a2a1164f-1492-43d1-9667-5917d0ececcb@intel.com>
+ <d097e7d3-5e16-44ba-aa92-dfb7fbedc600@nvidia.com>
+ <CAKgT0UdObrDUGKMC7Tneqc4j3tU1jxRugoEB=u63drHhxOeKyw@mail.gmail.com>
+Content-Language: en-US
+From: Gal Pressman <gal@nvidia.com>
+In-Reply-To: <CAKgT0UdObrDUGKMC7Tneqc4j3tU1jxRugoEB=u63drHhxOeKyw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO3P265CA0021.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:387::8) To DS7PR12MB6288.namprd12.prod.outlook.com
+ (2603:10b6:8:93::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6288:EE_|CH3PR12MB9393:EE_
+X-MS-Office365-Filtering-Correlation-Id: a672c2c7-855a-40bb-e47e-08dbda2c1e6a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	kR7giDjOYTZuwE2xk1NZQc2Ug6plirtCx4u6RHOdAg1uBan3f4RuPpI24lg0S47wp6azCG2K6I8yKD9Y8cdurwuPJkv2eGzCp8de/3eo2+1jReAjHWJO4tpywcUZIcpZ15bVAO9LLamgrJbX8acB8JmK7OUOwAt+c+3SWB2JnjN052YhUJdF+yjLT328TiYl02hvEWRz7I829B0Y+VNUklqJH1cNbAX/Mr9AEkAXwHoxanFKh9tMBcO0zxJ3GSXXBrszji/sg++5vBsymkk//ASFPQKC26Ir7a6Ju5Ef0vjSLJWUXaK+t/F/c7IRYYfzFauX2VHJ8IUXT/C+ffsT1QK3N8YnMJHUJyMomOapPn5oD42p9lDO3QIbDLJfnJwYE5MZ0Y/5HOOAT2b1oYi5Vy4eLJifO80TVjdyTSkE158AE7BPBTSTQj7qw8Zv3XnRrzJTqYQZ2HzK9BJWm1oJr4g74+7rFC/3z2Ep04M67OCWWZnA1oOuzVP83FFTOqap45ekVxPHKLMuwh6Q+8jOzr8mKRqw76LTaHhJiATf9jpKsZ+ggIW4xKZ6NyUI8J8gLofgwH9y7JfPBCRUb06BznE+Zb49qUWIq6f+XjkF1XLdXxj8pZWgYQIc/NGhkXbsdvu7lWrG5FtoDrm5JUO9UACbH0QBMX6CEpB/PTrpNE8uzird0wXwbSEymprEC96t
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6288.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(136003)(39860400002)(346002)(396003)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(31686004)(6512007)(26005)(2616005)(4001150100001)(38100700002)(31696002)(36756003)(86362001)(316002)(2906002)(6486002)(5660300002)(7416002)(83380400001)(6506007)(53546011)(478600001)(6666004)(8676002)(8936002)(54906003)(4326008)(6916009)(41300700001)(966005)(66556008)(66946007)(66476007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NyszSDR4RE1FRUEyZFRVekRMY1FTVG1iaGpRTXhrZ05FUk5TUVZPbk9XYWRK?=
+ =?utf-8?B?OEtGRFBYd3QwZDUya2JxTHlTWWVFaDJxVW1WVjFUMEgvazlCTSt3ZXNPZW9v?=
+ =?utf-8?B?a2NSZjdadDNvbHFQWE1rWi9KRy92L0l6YXJXbFRDYVhUT1RGWGNxTHVGZzhD?=
+ =?utf-8?B?c1RyN3N1bFRHT05jM3Rjb0p6cTUwYTRIMlZ5OWMvbFhjaE43ZE8zM0JzQ3Zz?=
+ =?utf-8?B?QndiSWRXcktWeHJYUHlhUGVuTlg3N3BTc0xsWHdlTld3M2tkbFI2WDEweWdS?=
+ =?utf-8?B?QnhvbXpjNHN4ajBkc0NtUTFydHZHR3ZseUpNUEpBRE0yYjhMaDMxQ1JmN3Yz?=
+ =?utf-8?B?RGdNVnhnUUE1OUZOeUdmelZrbng4Ym1YR3pkTWxpU3Z0OEQzYm9XMVVPcWZy?=
+ =?utf-8?B?T3diU29pN2hhNlY0WUZKRFhoOFhBczNXallTVzQwL0V5eUtNMllJTXJlWVk0?=
+ =?utf-8?B?U0JsSUl6eVBsNHI3QTFuRG9WTFlLZmU2VnN0T0R6QU5kZS9KUng1c0ZXT2hD?=
+ =?utf-8?B?SG5zRW04dEs1MDZwck9PWHVLWmhoWm5Ib3ZvL2JHWHA2d3o0QXRNSzVjWDBy?=
+ =?utf-8?B?Y0VmSllsS0phazc3WGVyYm43ME1JR1hSdHl5ZVJrMWhiSExqTzZITGRPWHZU?=
+ =?utf-8?B?R1RIRjcxTzgzT1dDWHd2RlhmMXpaaElhRkZMaS8yczBSQmVwdUl3MmtVM3l0?=
+ =?utf-8?B?bVJNa3hNTk5EVmdoTkZudjAxOVhoWEVJUXc3WFB2Q3IybXRkMVo1OGtHV2tX?=
+ =?utf-8?B?Qm03bHhXUTNzd3BBZWUwMFJrakVHZzBPSDZlVFJlWWFWTXlhQVRqU0xEaWFw?=
+ =?utf-8?B?eVJJakVaUWlud1B0RFVRaGlObHNIdTJtSE92My9zL2N5Ulhaam9oZENzck9W?=
+ =?utf-8?B?dWtVUGZvcktrV2k3ZXRyQ3Z4alRKZlJNVFQ2SnZhV0o4bTJjc1hyczJNZi9p?=
+ =?utf-8?B?ZEJ4dmxIUmtMTWV1VlFEMDI4S2orU1U4Qkd1eFQyU1phOHlaQjNkangwMkZ6?=
+ =?utf-8?B?VUhUeG11TEZIZGRIeTA3Q2lOV1RIQWhYV2VMV01JU0RZN2JzYWtWK2dLT0JX?=
+ =?utf-8?B?YWQraXVORkwwYTYwMHNaK3V1a1lMTUtxRE82TjhhbDdmMjF0TTFyUEJuOFZD?=
+ =?utf-8?B?SkR5VXpWYlR3ek5MT2xVaHZvVm1QSXg4dkhtSGxiZFlXT2s5SmRkY0hLYVB4?=
+ =?utf-8?B?L3NrVXgrUTN0WUJaOHVYQkxTY0UreGJSeFNuQ3pHbWNMSVBwaE9WbHk5dzhu?=
+ =?utf-8?B?NU4wVmx0TkYzTktlVnZEUnVncDlYZ2dUaW9vRjd1RnpjMWhUVWwyaG9obEJO?=
+ =?utf-8?B?QjhjcW1Eb29nUmNQVXFFRVhuakpUeUFHam9qNnR4bnpZS1gzN0F3V0JZY25L?=
+ =?utf-8?B?SmZSOWxVay9XengwaXhGekJoU0d0bWQwS3pSNHJpaXJma3ZtNVltSFNLUGtj?=
+ =?utf-8?B?bnU5MFJZdmsxbTVBb01MZlA5U2ovMTFKSlhRM3dHRDR4OWlRNG93WCtMYjFP?=
+ =?utf-8?B?ekFyY09GQ29kV2cvM0xuN1R5WndGRTdLVk9qYnV5VmRMVzUzWFFYQ05zTFdV?=
+ =?utf-8?B?djdQZHpaem5XWmZLNlRnZStrVzMvMWQ2WXFkVW5jZUx3UDNRNDh4L0ZDSnhj?=
+ =?utf-8?B?aDgvZUk2TXZNWnFnSXhEa2s4SEFhQUQrUVRIUm9mOVE1d2VUL1VraVBtdGdL?=
+ =?utf-8?B?SjJkeEQxRmwvbnU1SVpDUXU2QUVBbGRQcmNDME9nWEtZbUROZjY0MWNtS0dn?=
+ =?utf-8?B?S2QzNi9vMUxRMTNQZ2QyMXdkS0k3Y3V0ZzNHazZxYVFMVlh5cERuZmJnSWlm?=
+ =?utf-8?B?aURGc0E2MmJJWG0vTnhna1NxYzRnV2QwbVNEeFBsS0UyUUljdGZhZ25Vb0dP?=
+ =?utf-8?B?RWowVHI1dnFKV0FVTmpsdWZLVVlQRmVGZ0ZRSkJZRXRxckxtbmZ5VUxWZHJ1?=
+ =?utf-8?B?N3QyNDllYVlUbk5TZnMveWlKMzVnWXNDek9NTHQyNUFNdFBtQUxXRFdLY1Qx?=
+ =?utf-8?B?VmN6UlZiVW8vNWFYakVUWjVTRVdlUjRrQ1dVbWZtZEJDZjZXUjIzQW45S0NF?=
+ =?utf-8?B?Y0xadWtRajdpZHExTTdPWi9wbENGMGZjV3BmZzczMldWQ1VXM2ZkSUVGbHRG?=
+ =?utf-8?Q?WStA6eNhQtIU3Y9yk4klkpI0R?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a672c2c7-855a-40bb-e47e-08dbda2c1e6a
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6288.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 16:12:02.9098
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gC8WaZsH+1aIt3ST7LpoNoRM5RCUzTblHcDg6DofOJ38MfWSaaTGb4uUPEDcxcfT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9393
 
-This addition adds in the ability for the system to scan the
-MEC172x EC chip in Lenovo ThinkStation systems to get the
-current fan RPM speeds and the Maximum speed value for each
-fan also provides the current CPU and DIMM thermal status
+On 31/10/2023 16:59, Alexander Duyck wrote:
+> On Tue, Oct 31, 2023 at 5:01 AM Gal Pressman <gal@nvidia.com> wrote:
+>>
+>> On 29/10/2023 18:59, Ahmed Zaki wrote:
+>>>
+>>>
+>>> On 2023-10-29 06:48, Gal Pressman wrote:
+>>>> On 29/10/2023 14:42, Ahmed Zaki wrote:
+>>>>>
+>>>>>
+>>>>> On 2023-10-29 06:25, Gal Pressman wrote:
+>>>>>> On 21/10/2023 3:00, Ahmed Zaki wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On 2023-10-20 17:49, Jakub Kicinski wrote:
+>>>>>>>> On Fri, 20 Oct 2023 17:14:11 -0600 Ahmed Zaki wrote:
+>>>>>>>>> I replied to that here:
+>>>>>>>>>
+>>>>>>>>> https://lore.kernel.org/all/afb4a06f-cfba-47ba-adb3-09bea7cb5f00@intel.com/
+>>>>>>>>>
+>>>>>>>>> I am kind of confused now so please bear with me. ethtool either
+>>>>>>>>> sends
+>>>>>>>>> "ethtool_rxfh" or "ethtool_rxnfc". AFAIK "ethtool_rxfh" is the
+>>>>>>>>> interface
+>>>>>>>>> for "ethtool -X" which is used to set the RSS algorithm. But we
+>>>>>>>>> kind of
+>>>>>>>>> agreed to go with "ethtool -U|-N" for symmetric-xor, and that uses
+>>>>>>>>> "ethtool_rxnfc" (as implemented in this series).
+>>>>>>>>
+>>>>>>>> I have no strong preference. Sounds like Alex prefers to keep it
+>>>>>>>> closer
+>>>>>>>> to algo, which is "ethtool_rxfh".
+>>>>>>>>
+>>>>>>>>> Do you mean use "ethtool_rxfh" instead of "ethtool_rxnfc"? how would
+>>>>>>>>> that work on the ethtool user interface?
+>>>>>>>>
+>>>>>>>> I don't know what you're asking of us. If you find the code to
+>>>>>>>> confusing
+>>>>>>>> maybe someone at Intel can help you :|
+>>>>>>>
+>>>>>>> The code is straightforward. I am confused by the requirements: don't
+>>>>>>> add a new algorithm but use "ethtool_rxfh".
+>>>>>>>
+>>>>>>> I'll see if I can get more help, may be I am missing something.
+>>>>>>>
+>>>>>>
+>>>>>> What was the decision here?
+>>>>>> Is this going to be exposed through ethtool -N or -X?
+>>>>>
+>>>>> I am working on a new version that uses "ethtool_rxfh" to set the
+>>>>> symmetric-xor. The user will set per-device via:
+>>>>>
+>>>>> ethtool -X eth0 hfunc toeplitz symmetric-xor
+>>>>>
+>>>>> then specify the per-flow type RSS fields as usual:
+>>>>>
+>>>>> ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n
+>>>>>
+>>>>> The downside is that all flow-types will have to be either symmetric or
+>>>>> asymmetric.
+>>>>
+>>>> Why are we making the interface less flexible than it can be with -N?
+>>>
+>>> Alexander Duyck prefers to implement the "symmetric-xor" interface as an
+>>> algorithm or extension (please refer to previous messages), but ethtool
+>>> does not provide flowtype/RSS fields setting via "-X". The above was the
+>>> best solution that we (at Intel) could think of.
+>>
+>> OK, it's a weird we're deliberately limiting our interface, given
+>> there's already hardware that supports controlling symmetric hashing per
+>> flow type.
+>>
+>> I saw you mentioned the way ice hardware implements symmetric-xor
+>> somewhere, it definitely needs to be added somewhere in our
+>> documentation to prevent confusion.
+>> mlx5 hardware also does symmetric hashing with xor, but not exactly as
+>> you described, we need the algorithm to be clear.
+> 
+> It is precisely because of the way the symmetric-xor implements it
+> that I suggested that they change the algo type instead of the input
+> fields.
+> 
+> Instead of doing something such as rearranging the inputs, what they
+> do is start XORing them together and then using those values for both
+> the source and destination ports. It would be one thing if they
+> swapped them, but instead they destroy the entropy provided by XORing
+> the values together and then doubling them up in the source and
+> destination fields. The result is the hash value becomes predictable
+> in that once you know the target you just have to offset the source
+> and destination port/IP by the same amount so that they hash out to
+> the same values, and as a result it would make DDoS attacks based on
+> the RSS hash much easier.
+> 
+> Where I draw the line in this is if we start losing entropy without
+> explicitly removing the value then it is part of the algo, whereas if
+> it is something such as placement or us explicitly saying we don't
+> want certain fields in there then it would be part of the input.
+> Adding fields to the input should increase or at least maintain the
+> entropy is my point of view.
 
-Signed-off-by: David Ober <dober6023@gmail.com>
+Thanks for the detailed summary, that was helpful.
 
-v2 fixed mixcased naming
-v2 add mutex protection
-v2 removed references to ACPI as it is not used
-v2 added comment to explain why returning a -1 is needed
----
- drivers/hwmon/Kconfig             |  10 +
- drivers/hwmon/Makefile            |   1 +
- drivers/hwmon/lenovo-ec-sensors.c | 484 ++++++++++++++++++++++++++++++
- 3 files changed, 495 insertions(+)
- create mode 100644 drivers/hwmon/lenovo-ec-sensors.c
+Though, if a vendor chooses to implement symmetric by sorting, we will
+still have it as part of the algorithm, not input.
 
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index ec38c8892158..821741ec0d2f 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -862,6 +862,16 @@ config SENSORS_LAN966X
- 	  This driver can also be built as a module. If so, the module
- 	  will be called lan966x-hwmon.
- 
-+config SENSORS_LENOVO_EC
-+        tristate "Microchip MEC172X Chip for Lenovo ThinkStation"
-+        depends on I2C
-+        help
-+          If you say yes here you get support for LENOVO
-+          EC Sensors on newer ThinkStation systems
-+
-+          This driver can also be built as a module. If so, the module
-+          will be called lenovo_ec_sensors.
-+
- config SENSORS_LINEAGE
- 	tristate "Lineage Compact Power Line Power Entry Module"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 4ac9452b5430..aa3c2dc390ec 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -104,6 +104,7 @@ obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
- obj-$(CONFIG_SENSORS_K8TEMP)	+= k8temp.o
- obj-$(CONFIG_SENSORS_K10TEMP)	+= k10temp.o
- obj-$(CONFIG_SENSORS_LAN966X)	+= lan966x-hwmon.o
-+obj-$(CONFIG_SENSORS_LENOVO_EC)	+= lenovo-ec-sensors.o
- obj-$(CONFIG_SENSORS_LINEAGE)	+= lineage-pem.o
- obj-$(CONFIG_SENSORS_LOCHNAGAR)	+= lochnagar-hwmon.o
- obj-$(CONFIG_SENSORS_LM63)	+= lm63.o
-diff --git a/drivers/hwmon/lenovo-ec-sensors.c b/drivers/hwmon/lenovo-ec-sensors.c
-new file mode 100644
-index 000000000000..e2b14b3aea08
---- /dev/null
-+++ b/drivers/hwmon/lenovo-ec-sensors.c
-@@ -0,0 +1,484 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * HWMON driver for MEC172x chip that publishes some sensor values
-+ * via the embedded controller registers specific to Lenovo Systems.
-+ *
-+ * Copyright (C) 2023 David Ober (Lenovo) <dober@lenovo.com>
-+ *
-+ * EC provides:
-+ * - CPU temperature
-+ * - DIMM temperature
-+ * - Chassis zone temperatures
-+ * - CPU fan RPM
-+ * - DIMM fan RPM
-+ * - Chassis fans RPM
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/delay.h>
-+#include <linux/hwmon.h>
-+#include <linux/ioport.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/units.h>
-+
-+#define MCHP_SING_IDX			0x0000
-+#define MCHP_EMI0_APPLICATION_ID	0x090C
-+#define MCHP_EMI0_EC_ADDRESS_LSB	0x0902
-+#define MCHP_EMI0_EC_ADDRESS_MSB	0x0903
-+#define MCHP_EMI0_EC_DATA_BYTE0		0x0904
-+#define MCHP_EMI0_EC_DATA_BYTE1		0x0905
-+#define MCHP_EMI0_EC_DATA_BYTE2		0x0906
-+#define MCHP_EMI0_EC_DATA_BYTE3		0x0907
-+
-+#define io_write8(a, b)	outb_p(b, a)
-+#define io_read8(a)	inb_p(a)
-+
-+static inline uint8_t
-+get_ec_reg(unsigned char page, unsigned char index)
-+{
-+	u8 onebyte;
-+	unsigned short m_index;
-+	unsigned short phy_index = page * 256 + index;
-+
-+	if (io_read8(MCHP_EMI0_APPLICATION_ID) != 0) /* EMI access locked */
-+		return -1;
-+
-+	io_write8(MCHP_EMI0_APPLICATION_ID, 0x01);
-+
-+	m_index = phy_index & 0x7FFC;
-+	io_write8(MCHP_EMI0_EC_ADDRESS_LSB, m_index);
-+	io_write8(MCHP_EMI0_EC_ADDRESS_MSB, m_index >> 8);
-+
-+	switch (phy_index & 0x0003) {
-+	case 0:
-+		onebyte = io_read8(MCHP_EMI0_EC_DATA_BYTE0);
-+		break;
-+	case 1:
-+		onebyte = io_read8(MCHP_EMI0_EC_DATA_BYTE1);
-+		break;
-+	case 2:
-+		onebyte = io_read8(MCHP_EMI0_EC_DATA_BYTE2);
-+		break;
-+	case 3:
-+		onebyte = io_read8(MCHP_EMI0_EC_DATA_BYTE3);
-+		break;
-+	}
-+
-+	io_write8(MCHP_EMI0_APPLICATION_ID, 0x01);  /* write same data to clean */
-+	return onebyte;
-+}
-+
-+static const char * const systems[] = {
-+	"Tomcat",
-+	"Hornet",
-+	"Falcon",
-+	"Manta_",
-+};
-+
-+static const char * const lenovo_px_ec_temp_label[] = {
-+	"CPU1",
-+	"CPU2",
-+	"R_DIMM1",
-+	"L_DIMM1",
-+	"R_DIMM2",
-+	"L_DIMM2",
-+	"PCH",
-+	"M2_R",
-+	"M2_Z1R",
-+	"M2_Z2R",
-+	"PCI_Z1",
-+	"PCI_Z2",
-+	"PCI_Z3",
-+	"PCI_Z4",
-+	"AMB",
-+};
-+
-+static const char * const lenovo_gen_ec_temp_label[] = {
-+	"CPU1",
-+	"",
-+	"R_DIMM",
-+	"L_DIMM",
-+	"",
-+	"",
-+	"PCH",
-+	"M2_R",
-+	"M2_Z1R",
-+	"M2_Z2R",
-+	"PCI_Z1",
-+	"PCI_Z2",
-+	"PCI_Z3",
-+	"PCI_Z4",
-+	"AMB",
-+};
-+
-+static const char * const px_ec_fan_label[] = {
-+	"CPU1_Fan",
-+	"CPU2_Fan",
-+	"Front_Fan1-1",
-+	"Front_Fan1-2",
-+	"Front_Fan2",
-+	"Front_Fan3",
-+	"MEM_Fan1",
-+	"MEM_Fan2",
-+	"Rear_Fan1",
-+	"Rear_Fan2",
-+	"Flex_Bay_Fan1",
-+	"Flex_Bay_Fan2",
-+	"Flex_Bay_Fan2",
-+	"PSU_HDD_Fan",
-+	"PSU1_Fan",
-+	"PSU2_Fan",
-+};
-+
-+static const char * const p7_ec_fan_label[] = {
-+	"CPU1_Fan",
-+	"",
-+	"HP_CPU_Fan1",
-+	"HP_CPU_Fan2",
-+	"PCIE1_4_Fan",
-+	"PCIE5_7_Fan",
-+	"MEM_Fan1",
-+	"MEM_Fan2",
-+	"Rear_Fan1",
-+	"",
-+	"BCB_Fan",
-+	"Flex_Bay_Fan",
-+	"",
-+	"",
-+	"PSU_Fan",
-+	"",
-+};
-+
-+static const char * const p5_ec_fan_label[] = {
-+	"CPU_Fan",
-+	"",
-+	"",
-+	"",
-+	"",
-+	"HDD_Fan",
-+	"Duct_Fan1",
-+	"MEM_Fan",
-+	"Rear_Fan",
-+	"",
-+	"Front_Fan",
-+	"Flex_Bay_Fan",
-+	"",
-+	"",
-+	"PSU_Fan",
-+	"",
-+};
-+
-+static const char * const p7_amd_ec_fan_label[] = {
-+	"CPU1_Fan",
-+	"CPU2_Fan",
-+	"HP_CPU_Fan1",
-+	"HP_CPU_Fan2",
-+	"PCIE1_4_Fan",
-+	"PCIE5_7_Fan",
-+	"DIMM1_Fan1",
-+	"DIMM1_Fan2",
-+	"DIMM2_Fan1",
-+	"DIMM2_Fan2",
-+	"Rear_Fan",
-+	"HDD_Bay_Fan",
-+	"Flex_Bay_Fan",
-+	"",
-+	"PSU_Fan",
-+	"",
-+};
-+
-+struct ec_sensors_data {
-+	struct mutex mec_mutex; /* lock for sensors write */
-+	u8 platform_id;
-+	const char *const *fan_labels;
-+	const char *const *temp_labels;
-+};
-+
-+static int
-+lenovo_ec_do_read_temp(struct ec_sensors_data *data, u32 attr, int channel, long *val)
-+{
-+	u8   LSB;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		mutex_lock(&data->mec_mutex);
-+		LSB = get_ec_reg(2, 0x81 + channel);
-+		mutex_unlock(&data->mec_mutex);
-+		if (LSB > 0x40) {
-+			*val = (LSB - 0x40) * 1000;
-+		} else {
-+			*val = 0;
-+			return -1;
-+		}
-+		return 0;
-+	default:
-+		break;
-+	}
-+	return -EOPNOTSUPP;
-+}
-+
-+static int
-+lenovo_ec_do_read_fan(struct ec_sensors_data *data, u32 attr, int channel, long *val)
-+{
-+	u8    LSB, MSB;
-+
-+	channel *= 2;
-+	switch (attr) {
-+	case hwmon_fan_input:
-+		mutex_lock(&data->mec_mutex);
-+		LSB = get_ec_reg(4, 0x60 + channel);
-+		MSB = get_ec_reg(4, 0x61 + channel);
-+		mutex_unlock(&data->mec_mutex);
-+		if ((MSB << 8) + LSB != 0) {
-+			mutex_lock(&data->mec_mutex);
-+			LSB = get_ec_reg(4, 0x20 + channel);
-+			MSB = get_ec_reg(4, 0x21 + channel);
-+			mutex_unlock(&data->mec_mutex);
-+			*val = (MSB << 8) + LSB;
-+			return 0;
-+		}
-+		return -1; /* Returning -1 here has the sensors tool mark the FAN speed as N/A */
-+	case hwmon_fan_max:
-+		mutex_lock(&data->mec_mutex);
-+		LSB = get_ec_reg(4, 0x60 + channel);
-+		MSB = get_ec_reg(4, 0x61 + channel);
-+		mutex_unlock(&data->mec_mutex);
-+		if ((MSB << 8) + LSB != 0) {
-+			mutex_lock(&data->mec_mutex);
-+			LSB = get_ec_reg(4, 0x40 + channel);
-+			MSB = get_ec_reg(4, 0x41 + channel);
-+			mutex_unlock(&data->mec_mutex);
-+			*val = (MSB << 8) + LSB;
-+		} else {
-+			*val = 0;
-+		}
-+		return 0;
-+	case hwmon_fan_min:
-+	case hwmon_fan_div:
-+	case hwmon_fan_alarm:
-+		break;
-+	default:
-+		break;
-+	}
-+	return -EOPNOTSUPP;
-+}
-+
-+static int get_platform(struct ec_sensors_data *data)
-+{
-+	char system_type[6];
-+	int ret = -1;
-+	int idx;
-+
-+	for (idx = 0 ; idx < 6 ; idx++)
-+		mutex_lock(&data->mec_mutex);
-+		system_type[idx] = get_ec_reg(0xC, (0x10 + idx));
-+		mutex_unlock(&data->mec_mutex);
-+
-+	for (idx = 0 ; idx < 4 ; idx++) {
-+		if (strcmp(systems[idx], system_type) == 0) {
-+			ret = idx;
-+			break;
-+		}
-+	}
-+	return ret;
-+}
-+
-+static int
-+lenovo_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			    u32 attr, int channel, const char **str)
-+{
-+	struct ec_sensors_data *state = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		*str = state->temp_labels[channel];
-+		break;
-+
-+	case hwmon_fan:
-+		*str = state->fan_labels[channel];
-+		break;
-+	default:
-+		return -EOPNOTSUPP; /* unreachable */
-+	}
-+	return 0;
-+}
-+
-+static int
-+lenovo_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-+		     u32 attr, int channel, long *val)
-+{
-+	struct ec_sensors_data *data = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		return lenovo_ec_do_read_temp(data, attr, channel, val);
-+	case hwmon_fan:
-+		return lenovo_ec_do_read_fan(data, attr, channel, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static umode_t
-+lenovo_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
-+			   u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_temp:
-+		if (attr == hwmon_temp_input || attr == hwmon_temp_label)
-+			return 0444;
-+		break;
-+	case hwmon_fan:
-+		if (attr == hwmon_fan_input || attr == hwmon_fan_max || attr == hwmon_fan_label)
-+			return 0444;
-+		break;
-+	default:
-+		return 0;
-+	}
-+	return 0;
-+}
-+
-+static const struct hwmon_channel_info *lenovo_ec_hwmon_info[] = {
-+	HWMON_CHANNEL_INFO(temp,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL),
-+	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX),
-+	NULL
-+};
-+
-+static const struct hwmon_ops lenovo_ec_hwmon_ops = {
-+	.is_visible = lenovo_ec_hwmon_is_visible,
-+	.read = lenovo_ec_hwmon_read,
-+	.read_string = lenovo_ec_hwmon_read_string,
-+};
-+
-+static struct hwmon_chip_info lenovo_ec_chip_info = {
-+	.ops = &lenovo_ec_hwmon_ops,
-+	.info = lenovo_ec_hwmon_info,
-+};
-+
-+static int lenovo_ec_probe(struct platform_device *pdev)
-+{
-+	struct device *hwdev;
-+	struct ec_sensors_data *ec_data;
-+	const struct hwmon_chip_info *chip_info;
-+	struct device *dev = &pdev->dev;
-+
-+	ec_data = devm_kzalloc(dev, sizeof(struct ec_sensors_data), GFP_KERNEL);
-+	if (!ec_data)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(dev, ec_data);
-+
-+	chip_info = &lenovo_ec_chip_info;
-+
-+	mutex_lock(&ec_data->mec_mutex);
-+	if (io_read8(MCHP_EMI0_APPLICATION_ID) != 0) { /* check EMI Application BIT */
-+		io_write8(0x90C, io_read8(0x90C)); /* set EMI Application BIT to 0 */
-+	}
-+	io_write8(MCHP_EMI0_EC_ADDRESS_LSB, MCHP_SING_IDX);
-+	io_write8(MCHP_EMI0_EC_ADDRESS_MSB, MCHP_SING_IDX >> 8);
-+	mutex_unlock(&ec_data->mec_mutex);
-+
-+	if ((io_read8(MCHP_EMI0_EC_DATA_BYTE0) == 'M') &&
-+	    (io_read8(MCHP_EMI0_EC_DATA_BYTE1) == 'C') &&
-+	    (io_read8(MCHP_EMI0_EC_DATA_BYTE2) == 'H') &&
-+	    (io_read8(MCHP_EMI0_EC_DATA_BYTE3) == 'P')) {
-+		ec_data->platform_id = get_platform(ec_data);
-+		switch (ec_data->platform_id) {
-+		case 0:
-+			ec_data->fan_labels = px_ec_fan_label;
-+			ec_data->temp_labels = lenovo_px_ec_temp_label;
-+			break;
-+		case 1:
-+			ec_data->fan_labels = p7_ec_fan_label;
-+			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-+			break;
-+		case 2:
-+			ec_data->fan_labels = p5_ec_fan_label;
-+			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-+			break;
-+		case 3:
-+			ec_data->fan_labels = p7_amd_ec_fan_label;
-+			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-+			break;
-+		default:
-+			dev_err(dev, "Unknown ThinkStation Model");
-+			return -EINVAL;
-+		}
-+
-+		hwdev = devm_hwmon_device_register_with_info(dev, "lenovo_ec",
-+							     ec_data,
-+							     chip_info, NULL);
-+
-+		return PTR_ERR_OR_ZERO(hwdev);
-+	}
-+	return -ENODEV;
-+}
-+
-+static struct platform_driver lenovo_ec_sensors_platform_driver = {
-+	.driver = {
-+		.name	= "lenovo-ec-sensors",
-+	},
-+	.probe = lenovo_ec_probe,
-+};
-+
-+static struct platform_device *lenovo_ec_sensors_platform_device;
-+
-+static int __init lenovo_ec_init(void)
-+{
-+	lenovo_ec_sensors_platform_device =
-+		platform_create_bundle(&lenovo_ec_sensors_platform_driver,
-+				       lenovo_ec_probe, NULL, 0, NULL, 0);
-+
-+	if (IS_ERR(lenovo_ec_sensors_platform_device))
-+		return PTR_ERR(lenovo_ec_sensors_platform_device);
-+
-+	return 0;
-+}
-+
-+static void __exit lenovo_ec_exit(void)
-+{
-+	platform_device_unregister(lenovo_ec_sensors_platform_device);
-+	platform_driver_unregister(&lenovo_ec_sensors_platform_driver);
-+}
-+
-+module_init(lenovo_ec_init);
-+module_exit(lenovo_ec_exit);
-+
-+MODULE_AUTHOR("David Ober <dober@lenovo.com>");
-+MODULE_DESCRIPTION("HWMON driver for MEC172x EC sensors on LENOVO motherboards");
-+MODULE_LICENSE("GPL");
--- 
-2.34.1
-
+My main concern was about losing the ability to control symmetric per
+flow-type, but I guess we can resolve that if the need arises.
