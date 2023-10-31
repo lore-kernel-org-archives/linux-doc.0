@@ -1,52 +1,52 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35D012B98;
-	Tue, 31 Oct 2023 13:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F91D1DDE3;
+	Tue, 31 Oct 2023 14:14:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqkwBCvX"
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEE4DE;
-	Tue, 31 Oct 2023 06:47:07 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6b1ef786b7fso5681661b3a.3;
-        Tue, 31 Oct 2023 06:47:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JCrdSmml"
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB5AED;
+	Tue, 31 Oct 2023 07:14:56 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-5ac865d1358so4233442a12.3;
+        Tue, 31 Oct 2023 07:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698760027; x=1699364827; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1698761696; x=1699366496; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=szWjSuZzSBsgDHOkVrsEaBtEWrwcwItxo1aEsAkUX60=;
-        b=OqkwBCvXVDA6wfLEjmkHv2xJG8vX1+koutd+BawGbGy5dDRmXmqtaQt3zQWnxnpNpz
-         eHljFBzd0SoO9AafY1CdPx5QZtlN5eg3nzUBqgfAmO47gr1MfbPp052phN3kxaBnwiSg
-         eLf9BW17Gjth0U7dxRcknw2dyr8W9TyvjPxuGRv2hbNlIK4SvIh8a/cfxhhMhIvA5RTp
-         lqkoxTq50R74iPce+JKlvXej9IBytVehNCEtXydP8gXsUixPvacvAmFt3sguvJlnFMmN
-         ImFDsgnwbHgbyeYtW5GfH/eGBvOvM4NGnHcgEi4xs1hgXPjrBci0LHsutO7lGuN1eNP8
-         P4+w==
+        bh=kRNwzlQyH+VlpdFxfnUe4Y/Tf26qonfvNmh3DCH6lvA=;
+        b=JCrdSmmlOjER7c2+TICqjTaf/jMkGVujW4+TfVJaiYdRfq4KFCtcMvAX26sKbWJ8Yl
+         J1/d2blR/gDf1/LM8PLUAZEQKLqtTsSNakVH4Z5KkrSCW+1c5kTrKx0tb/tQ/Nm0FevM
+         MjtQVLUlHeMkYVUW0c7GjMw5U4XxGsJahh7e10PlAplWmNpaFSnYM11VK+7d19sQ4Gr+
+         N5uU0sUfdXf03EIWfrXlsi3xZf7sja47o8O7+ppofhu4q7U71vNNiKisurmSIu6lOSnL
+         AfRPvzO15rtl+YP8mvPI2WVJOf+2jNvLkyyfD1AvB08ZQMhXfaLiR/ZQ3N/qPY1hLHty
+         8oSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698760027; x=1699364827;
+        d=1e100.net; s=20230601; t=1698761696; x=1699366496;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :sender:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=szWjSuZzSBsgDHOkVrsEaBtEWrwcwItxo1aEsAkUX60=;
-        b=NW6pXlwqKeiW60rZUp5ibU1v12VY++L+yD6/QYgR21TGGlWjG1vl5DQxXLE3DX6Hom
-         HaCG/5cEibPlt9Cz8LkPTd/w1QaPN8Z4nStQqt8trRHxQDGFjpAUucXZrQlAnIVgKOzw
-         vsYyvgjHclJxGOU5JrTvELCHvVDDGJ5Y4OOgB/KjAdZWYr6hyq9rKsC+cIGO6SbVKO6X
-         WKcjPSumYAYrGObooIRZtLpdgJ+ZdwGnv9y8/kcyps/OT2yZA02ngMYDdtyEANNVGDd7
-         mClgVZefa0pA8h3dDCIKus9AhW+rfffARBsx4H1tcX2Kfs77MMUUTSNE/Zl/48ljusqF
-         Mu5w==
-X-Gm-Message-State: AOJu0Yzklc89PL3p2c8G2Y00OJXtcJmO8uL5WohBbKHUXH4PQG4xZRQp
-	jflg5CWOxuO1yvVxp5eJ4qsTbYh60Cg=
-X-Google-Smtp-Source: AGHT+IEss54PrDdJ/A6btq7yXlW0o9uW7P3aDmSlcSFpwKSRIpbSBtWxowwZRpjuhJlEhUCn+cuBUQ==
-X-Received: by 2002:a05:6a20:7d95:b0:169:cd02:65e9 with SMTP id v21-20020a056a207d9500b00169cd0265e9mr16505135pzj.33.1698760027378;
-        Tue, 31 Oct 2023 06:47:07 -0700 (PDT)
+        bh=kRNwzlQyH+VlpdFxfnUe4Y/Tf26qonfvNmh3DCH6lvA=;
+        b=GnLxwXiCFDCPFQkXLCXZO87WvIGOsdDhkLBLJbADu5JwItvrN7aOTXtN2XgYelglwx
+         kAyRo1QjorT4Az5SFRVfddNf95kbX3FbcukSAXYr7aNKdz72si/tQ5SW0YPUluIItFVl
+         4MOd1BQVpfRiz3hcV+5LCvAJdfKOlxY3GaXLXdhoLPdynq8Wpq0GJiNgo+kzN47lzYod
+         NS+FG0tEyWI/bAwdj1b/xb7csvnv9Nq7li9ey4y8kvXBqbnnXlc5MkXyb93fJjdlddup
+         dKFuYxZ8LCwNU72ud4sgS9tsCw1tirwtFX0piLF7XbZgv0QpNWt8Bbyev8m5MZjiHzBX
+         yh0Q==
+X-Gm-Message-State: AOJu0Yx+R90fjfgHpvfPlUp8BvKfACTTHI7oiMxl8cwycL2COhBqwr+i
+	1LnxZQXY0dMllgNEOsiFQvo=
+X-Google-Smtp-Source: AGHT+IHy9Jj/Ww6f5TztL4zM9r3f+RpZejaBc/tHMpRDznCvumjJsGKs+jo2tnC2WQLeoa8SG2Anog==
+X-Received: by 2002:a17:90a:94ca:b0:280:1695:7b5 with SMTP id j10-20020a17090a94ca00b00280169507b5mr8318468pjw.12.1698761695920;
+        Tue, 31 Oct 2023 07:14:55 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id y16-20020a056a00191000b0069268e3a659sm1263401pfi.132.2023.10.31.06.47.05
+        by smtp.gmail.com with ESMTPSA id b16-20020a17090ae39000b0026b12768e46sm1160685pjz.42.2023.10.31.07.14.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 06:47:06 -0700 (PDT)
+        Tue, 31 Oct 2023 07:14:55 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e223764a-c081-4634-810b-56886a29804a@roeck-us.net>
-Date: Tue, 31 Oct 2023 06:47:04 -0700
+Message-ID: <708e84f3-01ac-455e-9b66-2f0e2be1a874@roeck-us.net>
+Date: Tue, 31 Oct 2023 07:14:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,23 +54,27 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: pmbus: Add ltc4286 driver
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
+ bindings
 Content-Language: en-US
 To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>,
- "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Rob Herring <robh+dt@kernel.org>,
+ Conor Dooley <conor@kernel.org>
+Cc: "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Jean Delvare
+ <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
  "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 References: <20231026081514.3610343-1-Delphine_CC_Chiu@Wiwynn.com>
- <20231026081514.3610343-3-Delphine_CC_Chiu@Wiwynn.com>
- <2ef2e804-d498-a2ae-9717-dd03bfd26853@roeck-us.net>
- <SG2PR04MB5543FEAFC1777ADE29239AC9A1A0A@SG2PR04MB5543.apcprd04.prod.outlook.com>
+ <20231026081514.3610343-2-Delphine_CC_Chiu@Wiwynn.com>
+ <20231026-dicing-crispy-a10af575d3e5@spud>
+ <fffa4330-8d01-8498-4c5f-772ebf2a6b5a@roeck-us.net>
+ <20231026-poison-encrypt-1df55e023867@spud>
+ <c734e26a-6fad-bc23-ec58-10c6a440ec83@roeck-us.net>
+ <SG2PR04MB55438AA9A2989F406012A4D4A1A0A@SG2PR04MB5543.apcprd04.prod.outlook.com>
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
@@ -115,38 +119,30 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <SG2PR04MB5543FEAFC1777ADE29239AC9A1A0A@SG2PR04MB5543.apcprd04.prod.outlook.com>
+In-Reply-To: <SG2PR04MB55438AA9A2989F406012A4D4A1A0A@SG2PR04MB5543.apcprd04.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/30/23 23:46, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
+On 10/30/23 23:25, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
 [ ... ]
 >>
->>> +
->>> +     ret = of_property_read_u32(client->dev.of_node,
->>> +                                "shunt-resistor-micro-ohms",
->> &rsense);
->>> +     if (ret < 0)
->>> +             return ret;
->>> +
->>> +     if (rsense == 0)
->>> +             return -EINVAL;
->>> +
->>> +     info = &ltc4286_info;
->>> +
->>> +     /* Default of VRANGE_SELECT = 1, 102.4V */
->>> +     if (device_property_read_bool(&client->dev,
->> "adi,vrange-select-25p6")) {
->>
->> What if the adi,vrange-select-25p6 property is not provided, but the chip
->> is programmed for this range ?
-> The binding document tells programmers how to fill the dts.
-> Thus, programmers must fill this property if their system is 25.6 volts voltage range.
+>> Actually, turns out there is some contradiction in the LTC4286 datasheet.
+>> It mentions different coefficients in different places. It is all but impossible to
+>> determine if the datasheet is wrong or if the chip uses a variety of coefficients
+>> unless one has a real chip available. Sigh :-(.
+> We are not the chip vendor, but we could forward your question to vendor.
+> Could you point out the exact places (which pages) where are the contradiction in LTC4286 datasheet?
 > 
 
-Sure, but there is no else case, meaning VRANGE_SELECT is
-unmodified in that case. There is no guarantee that the chip
-is in its power-on state.
+See "PMBUS COMMAND SUMMARY", default values:
+
+"IOUT_OC_WARN_LIMIT" says "21.3 mV/RSENSE"
+
+"PIN_OP_WARN_LIMIT" says "2.8/RSENSE"
+
+This seems to contradict "Table 8. PMBus M, B, and R Parameters". But then,
+reading it again (and again), I think it is just an odd and confusing way
+of trying to describe the 0x7fff default register values. Sorry for the noise.
 
 Guenter
 
