@@ -1,148 +1,251 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F91D1DDE3;
-	Tue, 31 Oct 2023 14:14:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5D913FEE;
+	Tue, 31 Oct 2023 14:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JCrdSmml"
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB5AED;
-	Tue, 31 Oct 2023 07:14:56 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-5ac865d1358so4233442a12.3;
-        Tue, 31 Oct 2023 07:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698761696; x=1699366496; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=kRNwzlQyH+VlpdFxfnUe4Y/Tf26qonfvNmh3DCH6lvA=;
-        b=JCrdSmmlOjER7c2+TICqjTaf/jMkGVujW4+TfVJaiYdRfq4KFCtcMvAX26sKbWJ8Yl
-         J1/d2blR/gDf1/LM8PLUAZEQKLqtTsSNakVH4Z5KkrSCW+1c5kTrKx0tb/tQ/Nm0FevM
-         MjtQVLUlHeMkYVUW0c7GjMw5U4XxGsJahh7e10PlAplWmNpaFSnYM11VK+7d19sQ4Gr+
-         N5uU0sUfdXf03EIWfrXlsi3xZf7sja47o8O7+ppofhu4q7U71vNNiKisurmSIu6lOSnL
-         AfRPvzO15rtl+YP8mvPI2WVJOf+2jNvLkyyfD1AvB08ZQMhXfaLiR/ZQ3N/qPY1hLHty
-         8oSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698761696; x=1699366496;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kRNwzlQyH+VlpdFxfnUe4Y/Tf26qonfvNmh3DCH6lvA=;
-        b=GnLxwXiCFDCPFQkXLCXZO87WvIGOsdDhkLBLJbADu5JwItvrN7aOTXtN2XgYelglwx
-         kAyRo1QjorT4Az5SFRVfddNf95kbX3FbcukSAXYr7aNKdz72si/tQ5SW0YPUluIItFVl
-         4MOd1BQVpfRiz3hcV+5LCvAJdfKOlxY3GaXLXdhoLPdynq8Wpq0GJiNgo+kzN47lzYod
-         NS+FG0tEyWI/bAwdj1b/xb7csvnv9Nq7li9ey4y8kvXBqbnnXlc5MkXyb93fJjdlddup
-         dKFuYxZ8LCwNU72ud4sgS9tsCw1tirwtFX0piLF7XbZgv0QpNWt8Bbyev8m5MZjiHzBX
-         yh0Q==
-X-Gm-Message-State: AOJu0Yx+R90fjfgHpvfPlUp8BvKfACTTHI7oiMxl8cwycL2COhBqwr+i
-	1LnxZQXY0dMllgNEOsiFQvo=
-X-Google-Smtp-Source: AGHT+IHy9Jj/Ww6f5TztL4zM9r3f+RpZejaBc/tHMpRDznCvumjJsGKs+jo2tnC2WQLeoa8SG2Anog==
-X-Received: by 2002:a17:90a:94ca:b0:280:1695:7b5 with SMTP id j10-20020a17090a94ca00b00280169507b5mr8318468pjw.12.1698761695920;
-        Tue, 31 Oct 2023 07:14:55 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b16-20020a17090ae39000b0026b12768e46sm1160685pjz.42.2023.10.31.07.14.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 07:14:55 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <708e84f3-01ac-455e-9b66-2f0e2be1a874@roeck-us.net>
-Date: Tue, 31 Oct 2023 07:14:54 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUx9zlxA"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0BAED;
+	Tue, 31 Oct 2023 07:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698763241; x=1730299241;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=p1L/nnVscxXgvNMn3MJ44t0e5nShHdlmqkNbCb6uvBM=;
+  b=LUx9zlxAWWtUHYbzwwSlzu8ZRScNR9nUg3FwD+lahNn/mp4dx8jF4C92
+   7ygDHzXUOH2WA5Mx6Zd1+2uaq981DQC2SF/C6iWQ9wg3zmnVJqzBrxC+E
+   ESqTskDSq+CuOs9dXoFnqH5+ysEV15Zh+V1tz9NozFAUZXMmMcMmYIPeT
+   CbsUD93g/xiy60rWBvv1txcq+mskyas7Q7ONN482n2GUdkn6Dcg7vD5hb
+   rcAz2eyA1dsCuNma752T7gbK/wEoZx74byLe+vUfMe5r6KCYfs213X/BV
+   pYq8MLn8ZKrx1tef8Gd8vw4KI/oxQy5cGP26kfdC+aPA+Z1tCSDwfokiE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="387188039"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
+   d="scan'208";a="387188039"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 07:40:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="934133326"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
+   d="scan'208";a="934133326"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Oct 2023 07:40:18 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 31 Oct 2023 07:40:17 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Tue, 31 Oct 2023 07:40:17 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Tue, 31 Oct 2023 07:40:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SVKZ2xfebmDI9xI3Odigi+PBg67sn72fHUAlqwhDnvh4k5gRqPQJMlavsnkn+c+fm0jhF80JfS6W+kz5gNVKQUH/xGU29A1ZmEuugeAzbAFczqgQAlhbQEw0Jc55O5lssNnS3BJZns8DF9luP6P5lt7rEDHGZdCj1NAMJQg31pgmid2m4Y3WONVAnW8pvMVPM6Oet0J7jGL3H+GhctpA+VFPgpULx+DBmPQ7j3cVaNbIw8UufbYLTH57o69QhFIeVvkSD/eFgTciseyG15Ad+zWi39/NEPGAtRmXKuee7RzBmhL9BO6aUEFy5LHB0qkYOfICxj6I5nvSBaxQHtkh5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OJklk9aokwrkqRpccHhQEssilVpk3X9fFyUEKuQ6bno=;
+ b=C0+SFH+0+OG1BKzKxEngMD8edfVAsovaUtQfsrOFQcI8ImPsCFNqb0EpcO1st+OlkpRqAiv0JiB2yw6/gDUCGO3XGJtsa2hHRTvQgyXZ5FjIEjZUlGp/hWexuvNZt2Rv3LrEItF8wNY2628AZ+lSqv1ZdnrDGAP13mg/g1EMNKeTy2iA5TUkA0TrxBmnrdIpcg8uNx7NJ3i2wHTdvSWL7EAyZa0CAUjBfLEM23jH7vfjMftnGOhxWeWTJWdSGSVG8b98uWgejNOTGHMMnoZBLsi0Pt31JNBBrxEU1hKKnipz6Alg5MjoNOtTy7yoaVdPwJWOdTTgu+zJgQYJrDvU0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB7420.namprd11.prod.outlook.com (2603:10b6:806:328::20)
+ by DM6PR11MB4707.namprd11.prod.outlook.com (2603:10b6:5:2a6::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Tue, 31 Oct
+ 2023 14:40:15 +0000
+Received: from SN7PR11MB7420.namprd11.prod.outlook.com
+ ([fe80::2329:7c5f:350:9f8]) by SN7PR11MB7420.namprd11.prod.outlook.com
+ ([fe80::2329:7c5f:350:9f8%7]) with mapi id 15.20.6933.024; Tue, 31 Oct 2023
+ 14:40:15 +0000
+Message-ID: <aa1dd347-a16c-44f8-95ad-5d50bcba8f34@intel.com>
+Date: Tue, 31 Oct 2023 08:40:06 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-wired-lan] [PATCH net-next v4 1/6] net: ethtool: allow
+ symmetric-xor RSS hash for any flow type
+To: Gal Pressman <gal@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
+	"Alexander H Duyck" <alexander.duyck@gmail.com>
+CC: <mkubecek@suse.cz>, <andrew@lunn.ch>, <willemdebruijn.kernel@gmail.com>,
+	Wojciech Drewek <wojciech.drewek@intel.com>, <corbet@lwn.net>,
+	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<jesse.brandeburg@intel.com>, <edumazet@google.com>,
+	<anthony.l.nguyen@intel.com>, <horms@kernel.org>, <vladimir.oltean@nxp.com>,
+	Jacob Keller <jacob.e.keller@intel.com>, <intel-wired-lan@lists.osuosl.org>,
+	<pabeni@redhat.com>, <davem@davemloft.net>
+References: <20231016154937.41224-1-ahmed.zaki@intel.com>
+ <CAKgT0UfcT5cEDRBzCxU9UrQzbBEgFt89vJZjz8Tow=yAfEYERw@mail.gmail.com>
+ <20231016163059.23799429@kernel.org>
+ <CAKgT0Udyvmxap_F+yFJZiY44sKi+_zOjUjbVYO=TqeW4p0hxrA@mail.gmail.com>
+ <20231017131727.78e96449@kernel.org>
+ <CAKgT0Ud4PX1Y6GO9rW+Nvr_y862Cbv3Fpn+YX4wFHEos9rugJA@mail.gmail.com>
+ <20231017173448.3f1c35aa@kernel.org>
+ <CAKgT0Udz+YdkmtO2Gbhr7CccHtBbTpKich4er3qQXY-b2inUoA@mail.gmail.com>
+ <20231018165020.55cc4a79@kernel.org>
+ <45c6ab9f-50f6-4e9e-a035-060a4491bded@intel.com>
+ <20231020153316.1c152c80@kernel.org>
+ <c2c0dbe8-eee5-4e87-a115-7424ba06d21b@intel.com>
+ <20231020164917.69d5cd44@kernel.org>
+ <f6ab0dc1-b5d5-4fff-9ee2-69d21388d4ca@intel.com>
+ <89e63967-46c4-49fe-87bc-331c7c2f6aab@nvidia.com>
+ <e644840d-7f3d-4e3c-9e0f-6d958ec865e0@intel.com>
+ <e471519b-b253-4121-9eec-f7f05948c258@nvidia.com>
+ <a2a1164f-1492-43d1-9667-5917d0ececcb@intel.com>
+ <d097e7d3-5e16-44ba-aa92-dfb7fbedc600@nvidia.com>
+Content-Language: en-US
+From: Ahmed Zaki <ahmed.zaki@intel.com>
+In-Reply-To: <d097e7d3-5e16-44ba-aa92-dfb7fbedc600@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0065.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ce::8) To SN7PR11MB7420.namprd11.prod.outlook.com
+ (2603:10b6:806:328::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
- bindings
-Content-Language: en-US
-To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>,
- Conor Dooley <conor@kernel.org>
-Cc: "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Jean Delvare
- <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20231026081514.3610343-1-Delphine_CC_Chiu@Wiwynn.com>
- <20231026081514.3610343-2-Delphine_CC_Chiu@Wiwynn.com>
- <20231026-dicing-crispy-a10af575d3e5@spud>
- <fffa4330-8d01-8498-4c5f-772ebf2a6b5a@roeck-us.net>
- <20231026-poison-encrypt-1df55e023867@spud>
- <c734e26a-6fad-bc23-ec58-10c6a440ec83@roeck-us.net>
- <SG2PR04MB55438AA9A2989F406012A4D4A1A0A@SG2PR04MB5543.apcprd04.prod.outlook.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <SG2PR04MB55438AA9A2989F406012A4D4A1A0A@SG2PR04MB5543.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7420:EE_|DM6PR11MB4707:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24852447-9376-4346-65c2-08dbda1f4b71
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SPUKLf117h7+t1GwkZ+2fMyxPIdC6YaghSQyiEhUHAmHHWgIQ2qbP9V5UivZ2xYF4vf55gqXJrk5wYQKIfUYvMUhDHs5IBZ0zSvQA8Xco0ZEoF8kxfM+eq04L0SPfTTmhKYa9ZLTrdn7LFW2OmnXphqA+/vSM9dmJZWu/ob5qhPhGWK8V+k06TX428e697Ck+2E58LtgKysHHqg4mhHKFp0i/20CbgKBNyxcdV2P9EH70KKldiEcD94D1GNYPvstwvmn8MvSbyIzfsjfFG2YoA4C61Vur4bbBDxZgncfLSrsq1k60E7dOKBmnIt1VjIBfORczU1mnU2IRdcDiIW56eT2Mg/nMSUP8Opk5PvDkAE+2JIqCHxhfXxT966Tv99VfG6w0QRauUhfuwyz9ZNq509NpfknFUoxapQ2QBjaxvrJucL7M92ymcQYOclckGADL5RXQ2uhGsWDJOnE+Ow9Mxc39+YJsyfvmkchw1E254L1miexRkO9I2IojqI5rz+5bhKElVxvSB9KoCOBU5Lzj06yWin4LlLstV5RMyqFhylP6NLIyunxYFRJHfZAyV1GWScPZW5FMYbq9o0P3/ucvKwdbDVriNvTo/KRp/n/tt7OjVwl4jF1edn9p+MpnqThnuibzrqSsscjfiOP5YVG/w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7420.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(346002)(376002)(39860400002)(396003)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(83380400001)(53546011)(6666004)(6512007)(6506007)(2616005)(26005)(38100700002)(82960400001)(86362001)(36756003)(31696002)(2906002)(4001150100001)(41300700001)(5660300002)(7416002)(6486002)(966005)(478600001)(4326008)(8936002)(44832011)(8676002)(110136005)(316002)(66946007)(66476007)(54906003)(66556008)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cThOZDlNam8rWGFSQmtmbzU4aEtWaVdzS1dycFlkaUEzYVZib1UwaGpwbU9z?=
+ =?utf-8?B?czVPR2k1QzUwMU1MaTFmSkd0S0NtSjlWUXhXWlVMRHlmYm9PanVMMld6Witz?=
+ =?utf-8?B?eWFRMWZldFZHalc2dFhOMWRFZitJclE1MHpOQnBiazJobi9mKzRQNlhEMCtN?=
+ =?utf-8?B?ZEJiU2ZNckd5Q1cwZE14MEFNUlBEbHFPWXl5ZmpmOU5IWGxCdGxhYkFGbUZU?=
+ =?utf-8?B?K3VkWm9iT0o5S1VtZHZ6S2paNFhRQzYyRWY1VkVubTdsU2tGUHJhNG1KczQ3?=
+ =?utf-8?B?MnBEeGo3QXNobVJQQlhzSUVETlNsc1NDcVMzMDlldjB6VTlYYnk2SWVQQVlq?=
+ =?utf-8?B?UFkyZ3p4NzJ0MGVUUjYxY1ZZd3dzVy9kVmxvY05penFCU29yclBJQk9oUEN0?=
+ =?utf-8?B?M1BFakZhaFprZXJxNnNOTEVSb3JrQzBsV0JVVHo0eVVKaG0zMTdSMVZ3czBa?=
+ =?utf-8?B?UjF5WDFncWsrMHVWT2FkVDBlOSt3cUp3MjljeXNRTTY1YjFzS2pqTFhKdkVK?=
+ =?utf-8?B?TkhpeEVhSmJLSTI5V3dTRndDbmlOVFVoTXNHSDlUakRYaWV1ajlBNWFCam1U?=
+ =?utf-8?B?RW1RZzhmbEMrUVpVemM1eE1pTkVzU2o5b0dSNmxVbDVhaGVhRFJxSW00cUI5?=
+ =?utf-8?B?QW80V1FYK1pKSUYwZ0RhdDdISXF2dHgwaFIza2lFdU9wd28rMTNLeCtON0Zl?=
+ =?utf-8?B?U3k1NzZZUmRSTTQrWjYrbGplbU9iUHVjVURVRVRPaGN5WGVCUUltVTIwc0xW?=
+ =?utf-8?B?ajJTc1Rnak12WmRFWVZqWjU4NlVEL2ZhcWlkTW5EcDI3TUFJZE9salhObGE1?=
+ =?utf-8?B?VjVUeVVVMjFpamJYakkrUVAzdDg4bFNLQ3g3cUw2cFBiQVY4VEhzdHBZMGVV?=
+ =?utf-8?B?QU0yYVdIK3JmU3RBbEVPTWVwSS9oZHhJbHJiSS92TlgwRWJuMXNzV05UL2hX?=
+ =?utf-8?B?TnpwbjFnUHJscGtCWW1PakEyVkE1UDNvRzhDbjlYQ3NkU0ErcjVhNVYzYXNJ?=
+ =?utf-8?B?VUw3aTRvY1VRMXpFN0xqQmJ2UEhQbXN3RkNlWUo1N0tsRTcxcmxnT1ZYNTFG?=
+ =?utf-8?B?UTFsZE1sM3dxQnl3OFdKaDB1RXpYWmpIbmtCbjlsakwzUmxaTnNTT043V2xR?=
+ =?utf-8?B?UllqL2ZyWUROOGxqM0JncG9Zb0dscTRQeDZ6bkV4QnB4SDl0RkZpVi8yUHZs?=
+ =?utf-8?B?dDRxRnA1YklzWWRNZHkxeDJZVGFTMld6ZDB3bWozUDV6RzVSRkp3UXdpQXN0?=
+ =?utf-8?B?K1ZJcGt0Q21kOHhkWVB3ZTZOd2d6dzZQenRMQ2J5VlVhVGpFZnE5blR0Yzlo?=
+ =?utf-8?B?dm5xc1NSK0NUTnllOE51SEQ0ZEdhWklXQ3BwU0pBTk8xS3dQSXc1dFF0WHM5?=
+ =?utf-8?B?R2dTSHR6dlZtbVJJdTBNaEZUZjJKK2dNT0Q1c2MzUmZVMWhqTzltNGlVNC8y?=
+ =?utf-8?B?RnYyN0YzNXU5Zzh1STBoREVKRmpTWVBVeXhyNHdreTBMZUhyYnhtY3ZYaEIw?=
+ =?utf-8?B?Znh1MVJXQ0xOSDZkc2hsbzNXUytuUndFSzJNaHYvaGFCazIyRndSOTdZL2dU?=
+ =?utf-8?B?L0plbnNBSzhZRXZMMnJ4Z2N0aWZSWHVVL2lxMUswbHl1SGExQUlpYkhRa2th?=
+ =?utf-8?B?Q09BMmY3V0lPaVdQbFYzdlQwR2ZOOW9pRHgvQklybEJ2YjFYZ2w3TjcxQmpH?=
+ =?utf-8?B?T0dtcW5La0VJZUhDN1d3dVNQdUxGL3Y2TmF2WTlmWWk3K1NVSUJNQjVmM0M2?=
+ =?utf-8?B?SzhybkVNc3d3STh3Zm8vN0VyWUt2c0V2N21CcGYwUzVRQ1VncWNncGdKaFlY?=
+ =?utf-8?B?OU1FK1ZWTWNZVEIzbXM3WmFOd0ZFczhPWmdZYnk1VTNqNys0TXNSOGRGQkpS?=
+ =?utf-8?B?VUJ5SDRDOXpzaklaWnFpRFNVZ3NKVjBuQjVFcTZsby9NZHljY1ZCN09DdWkw?=
+ =?utf-8?B?bUpuQ2o5SytDOGMxMjgxSjFLOWFjby9iNHFpRDFFbkxHZ1E3aFowL0tjTlBm?=
+ =?utf-8?B?ZjhBL1RjY2dTbzZXNGkvZituUHZwNHdJWjhyc1dDMk1rU1U0VE1GcHVZalhR?=
+ =?utf-8?B?dzdOaUtPZTJNbDVOUTBROS9FZGQ3cHJQU2lzZHpjcjRqOG5hWFREM3M0TldH?=
+ =?utf-8?Q?DiHwodrpXODs/c9gLoONIgo4h?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24852447-9376-4346-65c2-08dbda1f4b71
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7420.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 14:40:14.9916
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C1tN7rr6PKt2mhF5LMW9PA+BX+4oQVcnDwX50TiONO2xJiFva+l8Rx8yzYgA01rYaR2sPDc1UUjnkyFDf1lqgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4707
+X-OriginatorOrg: intel.com
 
-On 10/30/23 23:25, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
-[ ... ]
+
+
+On 2023-10-31 06:00, Gal Pressman wrote:
+> On 29/10/2023 18:59, Ahmed Zaki wrote:
 >>
->> Actually, turns out there is some contradiction in the LTC4286 datasheet.
->> It mentions different coefficients in different places. It is all but impossible to
->> determine if the datasheet is wrong or if the chip uses a variety of coefficients
->> unless one has a real chip available. Sigh :-(.
-> We are not the chip vendor, but we could forward your question to vendor.
-> Could you point out the exact places (which pages) where are the contradiction in LTC4286 datasheet?
+>>
+>> On 2023-10-29 06:48, Gal Pressman wrote:
+>>> On 29/10/2023 14:42, Ahmed Zaki wrote:
+>>>>
+>>>>
+>>>> On 2023-10-29 06:25, Gal Pressman wrote:
+>>>>> On 21/10/2023 3:00, Ahmed Zaki wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 2023-10-20 17:49, Jakub Kicinski wrote:
+>>>>>>> On Fri, 20 Oct 2023 17:14:11 -0600 Ahmed Zaki wrote:
+>>>>>>>> I replied to that here:
+>>>>>>>>
+>>>>>>>> https://lore.kernel.org/all/afb4a06f-cfba-47ba-adb3-09bea7cb5f00@intel.com/
+>>>>>>>>
+>>>>>>>> I am kind of confused now so please bear with me. ethtool either
+>>>>>>>> sends
+>>>>>>>> "ethtool_rxfh" or "ethtool_rxnfc". AFAIK "ethtool_rxfh" is the
+>>>>>>>> interface
+>>>>>>>> for "ethtool -X" which is used to set the RSS algorithm. But we
+>>>>>>>> kind of
+>>>>>>>> agreed to go with "ethtool -U|-N" for symmetric-xor, and that uses
+>>>>>>>> "ethtool_rxnfc" (as implemented in this series).
+>>>>>>>
+>>>>>>> I have no strong preference. Sounds like Alex prefers to keep it
+>>>>>>> closer
+>>>>>>> to algo, which is "ethtool_rxfh".
+>>>>>>>
+>>>>>>>> Do you mean use "ethtool_rxfh" instead of "ethtool_rxnfc"? how would
+>>>>>>>> that work on the ethtool user interface?
+>>>>>>>
+>>>>>>> I don't know what you're asking of us. If you find the code to
+>>>>>>> confusing
+>>>>>>> maybe someone at Intel can help you :|
+>>>>>>
+>>>>>> The code is straightforward. I am confused by the requirements: don't
+>>>>>> add a new algorithm but use "ethtool_rxfh".
+>>>>>>
+>>>>>> I'll see if I can get more help, may be I am missing something.
+>>>>>>
+>>>>>
+>>>>> What was the decision here?
+>>>>> Is this going to be exposed through ethtool -N or -X?
+>>>>
+>>>> I am working on a new version that uses "ethtool_rxfh" to set the
+>>>> symmetric-xor. The user will set per-device via:
+>>>>
+>>>> ethtool -X eth0 hfunc toeplitz symmetric-xor
+>>>>
+>>>> then specify the per-flow type RSS fields as usual:
+>>>>
+>>>> ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n
+>>>>
+>>>> The downside is that all flow-types will have to be either symmetric or
+>>>> asymmetric.
+>>>
+>>> Why are we making the interface less flexible than it can be with -N?
+>>
+>> Alexander Duyck prefers to implement the "symmetric-xor" interface as an
+>> algorithm or extension (please refer to previous messages), but ethtool
+>> does not provide flowtype/RSS fields setting via "-X". The above was the
+>> best solution that we (at Intel) could think of.
 > 
+> OK, it's a weird we're deliberately limiting our interface, given
+> there's already hardware that supports controlling symmetric hashing per
+> flow type.
+> 
+> I saw you mentioned the way ice hardware implements symmetric-xor
+> somewhere, it definitely needs to be added somewhere in our
+> documentation to prevent confusion.
+> mlx5 hardware also does symmetric hashing with xor, but not exactly as
+> you described, we need the algorithm to be clear.
 
-See "PMBUS COMMAND SUMMARY", default values:
-
-"IOUT_OC_WARN_LIMIT" says "21.3 mV/RSENSE"
-
-"PIN_OP_WARN_LIMIT" says "2.8/RSENSE"
-
-This seems to contradict "Table 8. PMBus M, B, and R Parameters". But then,
-reading it again (and again), I think it is just an odd and confusing way
-of trying to describe the 0x7fff default register values. Sorry for the noise.
-
-Guenter
-
+Sure. I will add more ice-specific doc in:
+Documentation/networking/device_drivers/ethernet/intel/ice.rst
