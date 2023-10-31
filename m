@@ -1,479 +1,171 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4634B27464
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 22:38:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D4C22331
+	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 22:40:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zRyJwryH"
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714FE103
-	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 15:38:51 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-da2b8af7e89so4390834276.1
-        for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 15:38:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iyQb2LYG"
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1CC6F3
+	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 15:39:59 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5a839b31a0dso105785597b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 15:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698791930; x=1699396730; darn=vger.kernel.org;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gnEX3Ipnl6U3xsx2QZl+mCo0I6dOB/z20ZQd7gIgRzQ=;
-        b=zRyJwryHhtBqmEh8vsQ2HmeGOQ2j3Cepr2seMLAugs2uwFWqMoYeDeLXDJZecfL8E+
-         c77FjPJr/AvZLFAdS55nYUF4G8kuF8y7JLe3E+zQLyiqCCNtPjQt5+yx3AxOGBvL7AVM
-         yEw2NsT2IzXKFurF7/FgNYXjBaOXVYJX/9ocIMR7cyQ4448qefl8OW1+D3rDLEq0c06K
-         6oSPbpc2EA56mZv7b9E9XB9Nqesfa2I+XQuRJRGzWtqmxqZc6usGmD2LDbfgJsv6Et5C
-         tUY6xEd+XM2FXTmiehNb/LigsO9NxY1dCUay25nJMYkt0Ib8xOc2yqOXGcBIPfIDxJI9
-         BcdA==
+        d=google.com; s=20230601; t=1698791999; x=1699396799; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LkerRqEcfT0+JzgZxhmV6L5Iy5i6TtOybYrAtyVVjb4=;
+        b=iyQb2LYGGDjYdOx5NNHqyq8HB0Lfxnxx54fvgYxw8MCA6kbi9/te2PmX5tNc/pr5Wx
+         6INZva/XbN94G+LW1Cb0lZI9sQrDmi+6RoBmuLpCVKg62msZzx+8QRwlk/jc2rKEQK01
+         nMReJaD6DYIvYuuF7jDtrqVN0sb4xLm+fVRRO+CbIHpG4hMep/Zm509CU/d/Ebp9FN1R
+         YCbgM8hDNFr+Wn224D1oMgcJfpmEcRl2DW+P/C4jNiJgMcBVfZa82JvKhQ8jR9fNDOTj
+         HYjSx5MXsCcD3/+LSrTFKzpSlHyf64SCQUC/ymIzj0nI6Wo4OkwnuHo54q4HuNM51bQ2
+         DJFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698791930; x=1699396730;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gnEX3Ipnl6U3xsx2QZl+mCo0I6dOB/z20ZQd7gIgRzQ=;
-        b=DEGXglgeYACLSkYecUdzEa6Td7nlb2kzSXoFQ3kbHMmMI8bwM20POfUXrg2YKR0vHx
-         ucUAWxuxTSckWYC0r9QWnRj803S89dMq4/bdI12cYTZqReHFbPm11TQ6W1HFtGSTssky
-         rNOhytyOyYtX/VQ4rD1RJE8nidDoELdLx8VCACFoJFosWqUK2ic7Vn27eimEdjB3wyzW
-         WKNi0nL+naG3PnC1V1cerCufhFu9SPcvgDwkHR06ou/QhpUTr1b/UzCUTkcQlFA77OgH
-         DweCM4kRV5pOcqLAykp7HifQ3migFVD8u5cLIi/OVi2TV3284GUsgw4rrzKqxE/57Byl
-         JgSw==
-X-Gm-Message-State: AOJu0Ywk3EaMpqVS5LQZcWEdyX9WMVrRi0BRQb0uBjW79WyiB7SFhuyw
-	GIGbHtB51Na+50sIdRImARrRc57QNChZFeNncw==
-X-Google-Smtp-Source: AGHT+IHFyNsZ+MrJsyXfzlDZ6K4oNRulgdq3qzq5cSwz+kfiHPrH6AuLmBgt3mHyZYO8LhTrq4g2ahFlSRm+f+YQqQ==
-X-Received: from souravpanda.svl.corp.google.com ([2620:15c:2a3:200:84c2:bfa0:7c62:5d77])
- (user=souravpanda job=sendgmr) by 2002:a25:aa47:0:b0:d9a:d272:ee58 with SMTP
- id s65-20020a25aa47000000b00d9ad272ee58mr254454ybi.9.1698791930521; Tue, 31
- Oct 2023 15:38:50 -0700 (PDT)
-Date: Tue, 31 Oct 2023 15:38:46 -0700
-In-Reply-To: <20231031223846.827173-1-souravpanda@google.com>
+        d=1e100.net; s=20230601; t=1698791999; x=1699396799;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LkerRqEcfT0+JzgZxhmV6L5Iy5i6TtOybYrAtyVVjb4=;
+        b=Ua0B+bGNlpxYXwarENO4iOjXSimc+5lYT/WR5OB07QgZJ5ur/bJ2qXjuU/ILnZZG94
+         k3zOHGIgwJwlqtbzQo67Om91uICCCr6eH7JuZoGE2Cp2DKjjtbuDtRTWeC7qah1RIGy8
+         +665/UOH2O4CZLtvurgpjkbtQgChqsPu4xiTC1aeN5JzQpBQVpFVUW0OeIFvXffbz/ib
+         HOPsAbCk327xGPfNRRYYC+grrhonQAjCnkx3ZLjaw48qYMKjUwVUcEfmKibAyCDXS6Qq
+         Q3QCUg1zDsWxykHJTWwWva6vXoBHQhXFeJoVslTH2jEW6rCnqIN0QdIT8akZ7ek3fSAx
+         Qk7A==
+X-Gm-Message-State: AOJu0YygEICvSpqYfkzNjotMpJn47d9uBquqL3rDroHUr5EkWHVhQb+m
+	bmJtBRnrgC8vY7bfW3kvZ+qLwALUj/I=
+X-Google-Smtp-Source: AGHT+IGe3YVjvz+pWDNBrcyjJ6NX/xAY//x9OsitQ9ZfffLLYmBabs3Mf9yPLVa1FpYz9yJGhTtUGkSQKc8=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:a151:0:b0:5a7:b9b0:d23f with SMTP id
+ y78-20020a81a151000000b005a7b9b0d23fmr301520ywg.6.1698791998887; Tue, 31 Oct
+ 2023 15:39:58 -0700 (PDT)
+Date: Tue, 31 Oct 2023 15:39:57 -0700
+In-Reply-To: <20231031115748.622578-1-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20231031223846.827173-1-souravpanda@google.com>
-X-Mailer: git-send-email 2.42.0.820.g83a721a137-goog
-Message-ID: <20231031223846.827173-2-souravpanda@google.com>
-Subject: [PATCH v4 1/1] mm: report per-page metadata information
-From: Sourav Panda <souravpanda@google.com>
-To: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
-	akpm@linux-foundation.org, mike.kravetz@oracle.com, muchun.song@linux.dev, 
-	rppt@kernel.org, david@redhat.com, rdunlap@infradead.org, 
-	chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, souravpanda@google.com, 
-	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, hannes@cmpxchg.org, 
-	shakeelb@google.com, kirill.shutemov@linux.intel.com, 
-	wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz, 
-	Liam.Howlett@Oracle.com, surenb@google.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	willy@infradead.org, weixugc@google.com
-Content-Type: text/plain; charset="UTF-8"
+References: <20231031115748.622578-1-paul@xen.org>
+Message-ID: <ZUGCPQegUeTutsrb@google.com>
+Subject: Re: [PATCH v2] KVM x86/xen: add an override for PVCLOCK_TSC_STABLE_BIT
+From: Sean Christopherson <seanjc@google.com>
+To: Paul Durrant <paul@xen.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Adds a new per-node PageMetadata field to
-/sys/devices/system/node/nodeN/meminfo
-and a global PageMetadata field to /proc/meminfo. This information can
-be used by users to see how much memory is being used by per-page
-metadata, which can vary depending on build configuration, machine
-architecture, and system use.
+On Tue, Oct 31, 2023, Paul Durrant wrote:
+> From: Paul Durrant <pdurrant@amazon.com>
+> 
+> Unless explicitly told to do so (by passing 'clocksource=tsc' and
+> 'tsc=stable:socket', and then jumping through some hoops concerning
+> potential CPU hotplug) Xen will never use TSC as its clocksource.
+> Hence, by default, a Xen guest will not see PVCLOCK_TSC_STABLE_BIT set
+> in either the primary or secondary pvclock memory areas. This has
+> led to bugs in some guest kernels which only become evident if
+> PVCLOCK_TSC_STABLE_BIT *is* set in the pvclocks. Hence, to support
+> such guests, give the VMM a new Xen HVM config flag to tell KVM to
+> forcibly clear the bit in the Xen pvclocks.
+> 
+> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+> ---
+>  Documentation/virt/kvm/api.rst |  6 ++++++
+>  arch/x86/kvm/x86.c             | 28 +++++++++++++++++++++++-----
+>  arch/x86/kvm/xen.c             |  3 ++-
+>  include/uapi/linux/kvm.h       |  1 +
+>  4 files changed, 32 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 21a7578142a1..9752a01270df 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -8252,6 +8252,7 @@ PVHVM guests. Valid flags are::
+>    #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL		(1 << 4)
+>    #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND		(1 << 5)
+>    #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
+> +  #define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE	(1 << 7)
+>  
+>  The KVM_XEN_HVM_CONFIG_HYPERCALL_MSR flag indicates that the KVM_XEN_HVM_CONFIG
+>  ioctl is available, for the guest to set its hypercall page.
+> @@ -8295,6 +8296,11 @@ behave more correctly, not using the XEN_RUNSTATE_UPDATE flag until/unless
+>  specifically enabled (by the guest making the hypercall, causing the VMM
+>  to enable the KVM_XEN_ATTR_TYPE_RUNSTATE_UPDATE_FLAG attribute).
+>  
+> +The KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE flag indicates that KVM supports
+> +clearing the PVCLOCK_TSC_STABLE_BIT flag in Xen pvclock sources. This will be
+> +done when the KVM_CAP_XEN_HVM ioctl sets the
+> +KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE flag.
+> +
+>  8.31 KVM_CAP_PPC_MULTITCE
+>  -------------------------
+>  
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 41cce5031126..6abad6dacf07 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -3096,7 +3096,8 @@ u64 get_kvmclock_ns(struct kvm *kvm)
+>  
+>  static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
+>  				    struct gfn_to_pfn_cache *gpc,
+> -				    unsigned int offset)
+> +				    unsigned int offset,
+> +				    bool force_tsc_unstable)
+>  {
+>  	struct kvm_vcpu_arch *vcpu = &v->arch;
+>  	struct pvclock_vcpu_time_info *guest_hv_clock;
+> @@ -3122,6 +3123,10 @@ static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
+>  	 */
+>  
+>  	guest_hv_clock->version = vcpu->hv_clock.version = (guest_hv_clock->version + 1) | 1;
+> +
+> +	if (force_tsc_unstable)
+> +		guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
 
-Per-page metadata is the amount of memory that Linux needs in order to
-manage memory at the page granularity. The majority of such memory is
-used by "struct page" and "page_ext" data structures. In contrast to
-most other memory consumption statistics, per-page metadata might not
-be included in MemTotal. For example, MemTotal does not include memblock
-allocations but includes buddy allocations. While on the other hand,
-per-page metadata would include both memblock and buddy allocations.
+I don't see how this works.  This clears the bit in the guest copy, then clobbers
+all of guest_hv_clock with a memcpy().
 
-This memory depends on build configurations, machine architectures, and
-the way system is used:
+	if (force_tsc_unstable)
+		guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
 
-Build configuration may include extra fields into "struct page",
-and enable / disable "page_ext"
-Machine architecture defines base page sizes. For example 4K x86,
-8K SPARC, 64K ARM64 (optionally), etc. The per-page metadata
-overhead is smaller on machines with larger page sizes.
-System use can change per-page overhead by using vmemmap
-optimizations with hugetlb pages, and emulated pmem devdax pages.
-Also, boot parameters can determine whether page_ext is needed
-to be allocated. This memory can be part of MemTotal or be outside
-MemTotal depending on whether the memory was hot-plugged, booted with,
-or hugetlb memory was returned back to the system.
+	smp_wmb();
 
-Suggested-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Signed-off-by: Sourav Panda <souravpanda@google.com>
----
- Documentation/filesystems/proc.rst |  3 +++
- drivers/base/node.c                |  2 ++
- fs/proc/meminfo.c                  |  7 +++++++
- include/linux/mmzone.h             |  3 +++
- include/linux/vmstat.h             |  4 ++++
- mm/hugetlb.c                       | 11 ++++++++--
- mm/hugetlb_vmemmap.c               |  8 ++++++--
- mm/mm_init.c                       |  3 +++
- mm/page_alloc.c                    |  1 +
- mm/page_ext.c                      | 32 +++++++++++++++++++++---------
- mm/sparse-vmemmap.c                |  3 +++
- mm/sparse.c                        |  7 ++++++-
- mm/vmstat.c                        | 24 ++++++++++++++++++++++
- 13 files changed, 94 insertions(+), 14 deletions(-)
+	/* retain PVCLOCK_GUEST_STOPPED if set in guest copy */
+	vcpu->hv_clock.flags |= (guest_hv_clock->flags & PVCLOCK_GUEST_STOPPED);
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2b59cff8be17..c121f2ef9432 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -987,6 +987,7 @@ Example output. You may not have all of these fields.
-     AnonPages:       4654780 kB
-     Mapped:           266244 kB
-     Shmem:              9976 kB
-+    PageMetadata:     513419 kB
-     KReclaimable:     517708 kB
-     Slab:             660044 kB
-     SReclaimable:     517708 kB
-@@ -1089,6 +1090,8 @@ Mapped
-               files which have been mmapped, such as libraries
- Shmem
-               Total memory used by shared memory (shmem) and tmpfs
-+PageMetadata
-+              Memory used for per-page metadata
- KReclaimable
-               Kernel allocations that the kernel will attempt to reclaim
-               under memory pressure. Includes SReclaimable (below), and other
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 493d533f8375..da728542265f 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -428,6 +428,7 @@ static ssize_t node_read_meminfo(struct device *dev,
- 			     "Node %d Mapped:         %8lu kB\n"
- 			     "Node %d AnonPages:      %8lu kB\n"
- 			     "Node %d Shmem:          %8lu kB\n"
-+			     "Node %d PageMetadata:   %8lu kB\n"
- 			     "Node %d KernelStack:    %8lu kB\n"
- #ifdef CONFIG_SHADOW_CALL_STACK
- 			     "Node %d ShadowCallStack:%8lu kB\n"
-@@ -458,6 +459,7 @@ static ssize_t node_read_meminfo(struct device *dev,
- 			     nid, K(node_page_state(pgdat, NR_FILE_MAPPED)),
- 			     nid, K(node_page_state(pgdat, NR_ANON_MAPPED)),
- 			     nid, K(i.sharedram),
-+			     nid, K(node_page_state(pgdat, NR_PAGE_METADATA)),
- 			     nid, node_page_state(pgdat, NR_KERNEL_STACK_KB),
- #ifdef CONFIG_SHADOW_CALL_STACK
- 			     nid, node_page_state(pgdat, NR_KERNEL_SCS_KB),
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index 45af9a989d40..f141bb2a550d 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -39,7 +39,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	long available;
- 	unsigned long pages[NR_LRU_LISTS];
- 	unsigned long sreclaimable, sunreclaim;
-+	unsigned long nr_page_metadata;
- 	int lru;
-+	int nid;
- 
- 	si_meminfo(&i);
- 	si_swapinfo(&i);
-@@ -57,6 +59,10 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	sreclaimable = global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B);
- 	sunreclaim = global_node_page_state_pages(NR_SLAB_UNRECLAIMABLE_B);
- 
-+	nr_page_metadata = 0;
-+	for_each_online_node(nid)
-+		nr_page_metadata += node_page_state(NODE_DATA(nid), NR_PAGE_METADATA);
-+
- 	show_val_kb(m, "MemTotal:       ", i.totalram);
- 	show_val_kb(m, "MemFree:        ", i.freeram);
- 	show_val_kb(m, "MemAvailable:   ", available);
-@@ -104,6 +110,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	show_val_kb(m, "Mapped:         ",
- 		    global_node_page_state(NR_FILE_MAPPED));
- 	show_val_kb(m, "Shmem:          ", i.sharedram);
-+	show_val_kb(m, "PageMetadata:   ", nr_page_metadata);
- 	show_val_kb(m, "KReclaimable:   ", sreclaimable +
- 		    global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE));
- 	show_val_kb(m, "Slab:           ", sreclaimable + sunreclaim);
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 4106fbc5b4b3..dda1ad522324 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -207,6 +207,9 @@ enum node_stat_item {
- 	PGPROMOTE_SUCCESS,	/* promote successfully */
- 	PGPROMOTE_CANDIDATE,	/* candidate pages to promote */
- #endif
-+	NR_PAGE_METADATA,	/* Page metadata size (struct page and page_ext)
-+				 * in pages
-+				 */
- 	NR_VM_NODE_STAT_ITEMS
- };
- 
-diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
-index fed855bae6d8..af096a881f03 100644
---- a/include/linux/vmstat.h
-+++ b/include/linux/vmstat.h
-@@ -656,4 +656,8 @@ static inline void lruvec_stat_sub_folio(struct folio *folio,
- {
- 	lruvec_stat_mod_folio(folio, idx, -folio_nr_pages(folio));
- }
-+
-+void __init mod_node_early_perpage_metadata(int nid, long delta);
-+void __init store_early_perpage_metadata(void);
-+
- #endif /* _LINUX_VMSTAT_H */
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 1301ba7b2c9a..cd3158a9c7f3 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1790,6 +1790,9 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
- 		destroy_compound_gigantic_folio(folio, huge_page_order(h));
- 		free_gigantic_folio(folio, huge_page_order(h));
- 	} else {
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+		__node_stat_sub_folio(folio, NR_PAGE_METADATA);
-+#endif
- 		__free_pages(&folio->page, huge_page_order(h));
- 	}
- }
-@@ -2125,6 +2128,7 @@ static struct folio *alloc_buddy_hugetlb_folio(struct hstate *h,
- 	struct page *page;
- 	bool alloc_try_hard = true;
- 	bool retry = true;
-+	struct folio *folio;
- 
- 	/*
- 	 * By default we always try hard to allocate the page with
-@@ -2175,9 +2179,12 @@ static struct folio *alloc_buddy_hugetlb_folio(struct hstate *h,
- 		__count_vm_event(HTLB_BUDDY_PGALLOC_FAIL);
- 		return NULL;
- 	}
--
-+	folio = page_folio(page);
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+	__node_stat_add_folio(folio, NR_PAGE_METADATA)
-+#endif
- 	__count_vm_event(HTLB_BUDDY_PGALLOC);
--	return page_folio(page);
-+	return folio;
- }
- 
- /*
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 4b9734777f69..804a93d18cab 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -214,6 +214,7 @@ static inline void free_vmemmap_page(struct page *page)
- 		free_bootmem_page(page);
- 	else
- 		__free_page(page);
-+	__mod_node_page_state(page_pgdat(page), NR_PAGE_METADATA, -1);
- }
- 
- /* Free a list of the vmemmap pages */
-@@ -336,6 +337,7 @@ static int vmemmap_remap_free(unsigned long start, unsigned long end,
- 			  (void *)walk.reuse_addr);
- 		list_add(&walk.reuse_page->lru, &vmemmap_pages);
- 	}
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, 1);
- 
- 	/*
- 	 * In order to make remapping routine most efficient for the huge pages,
-@@ -381,14 +383,16 @@ static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
- 				   struct list_head *list)
- {
- 	gfp_t gfp_mask = GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_THISNODE;
--	unsigned long nr_pages = (end - start) >> PAGE_SHIFT;
-+	unsigned long nr_pages = DIV_ROUND_UP(end - start, PAGE_SIZE);
- 	int nid = page_to_nid((struct page *)start);
- 	struct page *page, *next;
-+	int i;
- 
--	while (nr_pages--) {
-+	for (i = 0; i < nr_pages; i++) {
- 		page = alloc_pages_node(nid, gfp_mask, 0);
- 		if (!page)
- 			goto out;
-+		__mod_node_page_state(page_pgdat(page), NR_PAGE_METADATA, 1);
- 		list_add_tail(&page->lru, list);
- 	}
- 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 50f2f34745af..6997bf00945b 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -26,6 +26,7 @@
- #include <linux/pgtable.h>
- #include <linux/swap.h>
- #include <linux/cma.h>
-+#include <linux/vmstat.h>
- #include "internal.h"
- #include "slab.h"
- #include "shuffle.h"
-@@ -1656,6 +1657,8 @@ static void __init alloc_node_mem_map(struct pglist_data *pgdat)
- 			panic("Failed to allocate %ld bytes for node %d memory map\n",
- 			      size, pgdat->node_id);
- 		pgdat->node_mem_map = map + offset;
-+		mod_node_early_perpage_metadata(pgdat->node_id,
-+						DIV_ROUND_UP(size, PAGE_SIZE));
- 	}
- 	pr_debug("%s: node %d, pgdat %08lx, node_mem_map %08lx\n",
- 				__func__, pgdat->node_id, (unsigned long)pgdat,
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 85741403948f..522dc0c52610 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5443,6 +5443,7 @@ void __init setup_per_cpu_pageset(void)
- 	for_each_online_pgdat(pgdat)
- 		pgdat->per_cpu_nodestats =
- 			alloc_percpu(struct per_cpu_nodestat);
-+	store_early_perpage_metadata();
- }
- 
- __meminit void zone_pcp_init(struct zone *zone)
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 4548fcc66d74..d8d6db9c3d75 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -201,6 +201,8 @@ static int __init alloc_node_page_ext(int nid)
- 		return -ENOMEM;
- 	NODE_DATA(nid)->node_page_ext = base;
- 	total_usage += table_size;
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+			      DIV_ROUND_UP(table_size, PAGE_SIZE));
- 	return 0;
- }
- 
-@@ -255,12 +257,15 @@ static void *__meminit alloc_page_ext(size_t size, int nid)
- 	void *addr = NULL;
- 
- 	addr = alloc_pages_exact_nid(nid, size, flags);
--	if (addr) {
-+	if (addr)
- 		kmemleak_alloc(addr, size, 1, flags);
--		return addr;
--	}
-+	else
-+		addr = vzalloc_node(size, nid);
- 
--	addr = vzalloc_node(size, nid);
-+	if (addr) {
-+		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+				    DIV_ROUND_UP(size, PAGE_SIZE));
-+	}
- 
- 	return addr;
- }
-@@ -303,18 +308,27 @@ static int __meminit init_section_page_ext(unsigned long pfn, int nid)
- 
- static void free_page_ext(void *addr)
- {
-+	size_t table_size;
-+	struct page *page;
-+	struct pglist_data *pgdat;
-+
-+	table_size = page_ext_size * PAGES_PER_SECTION;
-+
- 	if (is_vmalloc_addr(addr)) {
-+		page = vmalloc_to_page(addr);
-+		pgdat = page_pgdat(page);
- 		vfree(addr);
- 	} else {
--		struct page *page = virt_to_page(addr);
--		size_t table_size;
--
--		table_size = page_ext_size * PAGES_PER_SECTION;
--
-+		page = virt_to_page(addr);
-+		pgdat = page_pgdat(page);
- 		BUG_ON(PageReserved(page));
- 		kmemleak_free(addr);
- 		free_pages_exact(addr, table_size);
- 	}
-+
-+	__mod_node_page_state(pgdat, NR_PAGE_METADATA,
-+			      -1L * (DIV_ROUND_UP(table_size, PAGE_SIZE)));
-+
- }
- 
- static void __free_page_ext(unsigned long pfn)
-diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index a2cbe44c48e1..2bc67b2c2aa2 100644
---- a/mm/sparse-vmemmap.c
-+++ b/mm/sparse-vmemmap.c
-@@ -469,5 +469,8 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
- 	if (r < 0)
- 		return NULL;
- 
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+			      DIV_ROUND_UP(end - start, PAGE_SIZE));
-+
- 	return pfn_to_page(pfn);
- }
-diff --git a/mm/sparse.c b/mm/sparse.c
-index 77d91e565045..7f67b5486cd1 100644
---- a/mm/sparse.c
-+++ b/mm/sparse.c
-@@ -14,7 +14,7 @@
- #include <linux/swap.h>
- #include <linux/swapops.h>
- #include <linux/bootmem_info.h>
--
-+#include <linux/vmstat.h>
- #include "internal.h"
- #include <asm/dma.h>
- 
-@@ -465,6 +465,9 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
- 	 */
- 	sparsemap_buf = memmap_alloc(size, section_map_size(), addr, nid, true);
- 	sparsemap_buf_end = sparsemap_buf + size;
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+	mod_node_early_perpage_metadata(nid, DIV_ROUND_UP(size, PAGE_SIZE));
-+#endif
- }
- 
- static void __init sparse_buffer_fini(void)
-@@ -641,6 +644,8 @@ static void depopulate_section_memmap(unsigned long pfn, unsigned long nr_pages,
- 	unsigned long start = (unsigned long) pfn_to_page(pfn);
- 	unsigned long end = start + nr_pages * sizeof(struct page);
- 
-+	__mod_node_page_state(page_pgdat(pfn_to_page(pfn)), NR_PAGE_METADATA,
-+			      -1L * (DIV_ROUND_UP(end - start, PAGE_SIZE)));
- 	vmemmap_free(start, end, altmap);
- }
- static void free_map_bootmem(struct page *memmap)
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 00e81e99c6ee..070d2b3d2bcc 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1245,6 +1245,7 @@ const char * const vmstat_text[] = {
- 	"pgpromote_success",
- 	"pgpromote_candidate",
- #endif
-+	"nr_page_metadata",
- 
- 	/* enum writeback_stat_item counters */
- 	"nr_dirty_threshold",
-@@ -2274,4 +2275,27 @@ static int __init extfrag_debug_init(void)
- }
- 
- module_init(extfrag_debug_init);
-+
- #endif
-+
-+/*
-+ * Page metadata size (struct page and page_ext) in pages
-+ */
-+static unsigned long early_perpage_metadata[MAX_NUMNODES] __initdata;
-+
-+void __init mod_node_early_perpage_metadata(int nid, long delta)
-+{
-+	early_perpage_metadata[nid] += delta;
-+}
-+
-+void __init store_early_perpage_metadata(void)
-+{
-+	int nid;
-+	struct pglist_data *pgdat;
-+
-+	for_each_online_pgdat(pgdat) {
-+		nid = pgdat->node_id;
-+		__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+				      early_perpage_metadata[nid]);
-+	}
-+}
--- 
-2.42.0.820.g83a721a137-goog
+	if (vcpu->pvclock_set_guest_stopped_request) {
+		vcpu->hv_clock.flags |= PVCLOCK_GUEST_STOPPED;
+		vcpu->pvclock_set_guest_stopped_request = false;
+	}
 
+	memcpy(guest_hv_clock, &vcpu->hv_clock, sizeof(*guest_hv_clock)); <= sets PVCLOCK_TSC_STABLE_BIT again, no?
+	smp_wmb();
+
+Any reason not to make this a generic "capability" instead of a Xen specific flag?
+E.g. I assume these problematic guests would mishandle PVCLOCK_TSC_STABLE_BIT if
+it showed up in kvmclock, but they don't use kvmclock so it's not a problem in
+practice.
+
+I doubt there's a real need or use case, but it'd require less churn and IMO is
+simpler overall, e.g.
+
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index e3eb608b6692..731b201bfd5a 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -3225,7 +3225,7 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
+ 
+        /* If the host uses TSC clocksource, then it is stable */
+        pvclock_flags = 0;
+-       if (use_master_clock)
++       if (use_master_clock && !vcpu->kvm.force_tsc_unstable)
+                pvclock_flags |= PVCLOCK_TSC_STABLE_BIT;
+ 
+        vcpu->hv_clock.flags = pvclock_flags;
+
+I also assume this is a "set and forget" thing?  I.e. KVM can require the flag
+to be set before any vCPUs are created.
