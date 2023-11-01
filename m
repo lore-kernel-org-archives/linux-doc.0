@@ -1,202 +1,224 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E84910A09;
-	Wed,  1 Nov 2023 17:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C6719BB9;
+	Wed,  1 Nov 2023 18:31:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MIFUX4b+"
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A8D9FD;
-	Wed,  1 Nov 2023 10:02:27 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4084b0223ccso57975e9.2;
-        Wed, 01 Nov 2023 10:02:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698858146; x=1699462946; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+CMbhE83gVdE7/6b871iYz3oVRssgurvombxQrmFMGA=;
-        b=MIFUX4b+NiW5ZuVc4kXsUXi0R6CJD9RJcHaYDScjm6JI4L+UwEzEKyU+TMEeoXJFd7
-         rXCJFc7LN6BWa39ILHKtzSIRPCtUF6mCkf2AmxgP657sXfAr/lNhW3ZdSabPPHldNGXa
-         +s2/JRA/lcvN91aLvDD44VZmKEUraoS+LHL7vmcEJ5xDm8NcmMZdQ2PLinTWHqK0S8cf
-         vp468gzJG1DtI3ij6+9w8WngpdRYn5+j+C7OhuJ5/xNsj3bkocOZ354avilG3BMstnoq
-         yccD+LXMo73+Xua7gbcsqa5lX89fkq8RWhvw4AxUy9JmUNLdvXtfNl/f58jFnCzOOsO/
-         iqEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698858146; x=1699462946;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+CMbhE83gVdE7/6b871iYz3oVRssgurvombxQrmFMGA=;
-        b=mD16JIKf7KejNf6SvTVMIcqDoSeQbgQS2IcsRP9Trf8cHRequcta+KH4qHWJ3xnc3S
-         bc/R4RjjL5Q8Bb2NoK7dqeIVXLpwj/7beYPszQulOK5nPtfvdmYIrIKBAXvNujI5XnqH
-         y1iPISY15UjzKRBbx+S3Fn7Ie4TpgoKvHKKX/M2Utaco4XERVzWseJOaiCikl/E5FqnR
-         ad9Lkdzpg3J/DojNX3dOjbIv8WVTlYjPgZRYDUN3AqE2bJVQ4EXiCxqubu0gInr8A8Y5
-         70UPaq030kbB3iq92lWZlif2dW9K4iNLa7PDg1+lMu2qsVm9HyaWuYHFu6fF7I5S+5J3
-         LO8w==
-X-Gm-Message-State: AOJu0Yy4nXTXfd08SGaU4g9eyqzHv7bopZaqVAomnby7QhMuRmdXIEBh
-	QyOkI2Np2WSsu4RH8YqsKskH+6AFVXmKgA==
-X-Google-Smtp-Source: AGHT+IFNtntu2ilsPgE2E7iq6WgEC3dCLXHRFsQQjqZbKEv86n02g1bpGZ0WxaTmFez/LPasusDJfA==
-X-Received: by 2002:a05:600c:3d0e:b0:408:3bbd:4a82 with SMTP id bh14-20020a05600c3d0e00b004083bbd4a82mr13715339wmb.15.1698858145536;
-        Wed, 01 Nov 2023 10:02:25 -0700 (PDT)
-Received: from [192.168.14.111] (54-240-197-236.amazon.com. [54.240.197.236])
-        by smtp.gmail.com with ESMTPSA id h12-20020a05600c314c00b0040641a9d49bsm239900wmo.17.2023.11.01.10.02.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Nov 2023 10:02:24 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <8b4fda17-07c3-4633-bf61-8b3829384c29@xen.org>
-Date: Wed, 1 Nov 2023 17:02:23 +0000
+	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="EDvoaTDk"
+Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41FD2102;
+	Wed,  1 Nov 2023 11:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+	Subject:To:From; bh=yudA2//70ZOKAq+8SLUXpoi/kPg8MKMLW5Pf7+MW1eI=; b=EDvoaTDkL
+	gdOOY4jiYTfDcrOWIpZGw/kwc9sCepInMbP1cW57hOf0YWejYdMZXwTmNItWllBcJGk2HHvkuFHo4
+	2SASFPvECVjCm+s/PWD8BZnDmjVtPxXJmIwsf9+P+gApPCwyIt5z8lhu9+cVxdyI0seVMMMrwxgzz
+	n8GcSXyI=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+	by mail.xenproject.org with esmtp (Exim 4.92)
+	(envelope-from <paul@xen.org>)
+	id 1qyFzC-0000qn-UN; Wed, 01 Nov 2023 18:30:38 +0000
+Received: from ec2-63-33-11-17.eu-west-1.compute.amazonaws.com ([63.33.11.17] helo=REM-PW02S00X.ant.amazon.com)
+	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <paul@xen.org>)
+	id 1qyFzC-0001gN-KO; Wed, 01 Nov 2023 18:30:38 +0000
+From: Paul Durrant <paul@xen.org>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Paul Durrant <paul@xen.org>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] KVM x86/xen: add an override for PVCLOCK_TSC_STABLE_BIT
+Date: Wed,  1 Nov 2023 18:30:32 +0000
+Message-Id: <20231101183032.1498211-1-paul@xen.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [PATCH v3] KVM x86/xen: add an override for
- PVCLOCK_TSC_STABLE_BIT
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231101112934.631344-1-paul@xen.org>
- <ZUKAzGzEts262FqC@google.com>
-Content-Language: en-US
-Organization: Xen Project
-In-Reply-To: <ZUKAzGzEts262FqC@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 01/11/2023 16:46, Sean Christopherson wrote:
-> On Wed, Nov 01, 2023, Paul Durrant wrote:
->> @@ -3231,12 +3245,15 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
->>   	vcpu->hv_clock.flags = pvclock_flags;
->>   
->>   	if (vcpu->pv_time.active)
->> -		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0);
->> +		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0, false);
->> +
->>   	if (vcpu->xen.vcpu_info_cache.active)
->>   		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_info_cache,
->> -					offsetof(struct compat_vcpu_info, time));
->> +					offsetof(struct compat_vcpu_info, time),
->> +					xen_pvclock_tsc_unstable);
->>   	if (vcpu->xen.vcpu_time_info_cache.active)
->> -		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0);
->> +		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0,
->> +					xen_pvclock_tsc_unstable);
->>   	kvm_hv_setup_tsc_page(v->kvm, &vcpu->hv_clock);
->>   	return 0;
-> 
-> Please rebase, this conflicts with commit ee11ab6bb04e ("KVM: X86: Reduce size of
-> kvm_vcpu_arch structure when CONFIG_KVM_XEN=n").  I can solve the conflict, but
-> I really shouldn't have to.
-> 
-> Also, your version of git should support --base, which makes life much easier for
-> others when non-trivial conflicts are encountered.  From maintainer-kvm-x86.rst:
-> 
->   : Git Base
->   : ~~~~~~~~
->   : If you are using git version 2.9.0 or later (Googlers, this is all of you!),
->   : use ``git format-patch`` with the ``--base`` flag to automatically include the
->   : base tree information in the generated patches.
->   :
->   : Note, ``--base=auto`` works as expected if and only if a branch's upstream is
->   : set to the base topic branch, e.g. it will do the wrong thing if your upstream
->   : is set to your personal repository for backup purposes.  An alternative "auto"
->   : solution is to derive the names of your development branches based on their
->   : KVM x86 topic, and feed that into ``--base``.  E.g. ``x86/pmu/my_branch_name``,
->   : and then write a small wrapper to extract ``pmu`` from the current branch name
->   : to yield ``--base=x/pmu``, where ``x`` is whatever name your repository uses to
->   : track the KVM x86 remote.
-> 
+From: Paul Durrant <pdurrant@amazon.com>
 
-Ok, I'll sort that out. Thanks for the tip.
+Unless explicitly told to do so (by passing 'clocksource=tsc' and
+'tsc=stable:socket', and then jumping through some hoops concerning
+potential CPU hotplug) Xen will never use TSC as its clocksource.
+Hence, by default, a Xen guest will not see PVCLOCK_TSC_STABLE_BIT set
+in either the primary or secondary pvclock memory areas. This has
+led to bugs in some guest kernels which only become evident if
+PVCLOCK_TSC_STABLE_BIT *is* set in the pvclocks. Hence, to support
+such guests, give the VMM a new Xen HVM config flag to tell KVM to
+forcibly clear the bit in the Xen pvclocks.
 
->> @@ -4531,7 +4548,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->>   		    KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
->>   		    KVM_XEN_HVM_CONFIG_SHARED_INFO |
->>   		    KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL |
->> -		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
->> +		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
->> +		    KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
->>   		if (sched_info_on())
->>   			r |= KVM_XEN_HVM_CONFIG_RUNSTATE |
->>   			     KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG;
->> diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
->> index 40edf4d1974c..7699d94f190b 100644
->> --- a/arch/x86/kvm/xen.c
->> +++ b/arch/x86/kvm/xen.c
->> @@ -1111,9 +1111,12 @@ int kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
->>   
->>   int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
->>   {
->> +	bool update_pvclock = false;
->> +
->>   	/* Only some feature flags need to be *enabled* by userspace */
->>   	u32 permitted_flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
->> -		KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
->> +		KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
->> +		KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
->>   
->>   	if (xhc->flags & ~permitted_flags)
->>   		return -EINVAL;
->> @@ -1134,9 +1137,19 @@ int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
->>   	else if (!xhc->msr && kvm->arch.xen_hvm_config.msr)
->>   		static_branch_slow_dec_deferred(&kvm_xen_enabled);
->>   
->> +	if ((kvm->arch.xen_hvm_config.flags &
->> +	     KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE) !=
->> +	    (xhc->flags &
->> +	     KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE))
->> +		update_pvclock = true;
-> 
-> Rather than a boolean and the above, which is a bit hard to parse, what about
-> taking a snapshot of the old flags and then doing an XOR?
-> 
-> 	/* Only some feature flags need to be *enabled* by userspace */
-> 	u32 permitted_flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
-> 		KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
-> 		KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
-> 	u32 old_flags;
-> 
-> 	if (xhc->flags & ~permitted_flags)
-> 		return -EINVAL;
-> 
-> 	/*
-> 	 * With hypercall interception the kernel generates its own
-> 	 * hypercall page so it must not be provided.
-> 	 */
-> 	if ((xhc->flags & KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL) &&
-> 	    (xhc->blob_addr_32 || xhc->blob_addr_64 ||
-> 	     xhc->blob_size_32 || xhc->blob_size_64))
-> 		return -EINVAL;
-> 
-> 	mutex_lock(&kvm->arch.xen.xen_lock);
-> 
-> 	if (xhc->msr && !kvm->arch.xen_hvm_config.msr)
-> 		static_branch_inc(&kvm_xen_enabled.key);
-> 	else if (!xhc->msr && kvm->arch.xen_hvm_config.msr)
-> 		static_branch_slow_dec_deferred(&kvm_xen_enabled);
-> 
-> 	old_flags = kvm->arch.xen_hvm_config.flags;
-> 	memcpy(&kvm->arch.xen_hvm_config, xhc, sizeof(*xhc));
-> 
-> 	mutex_unlock(&kvm->arch.xen.xen_lock);
-> 
-> 	if ((old_flags ^ xhc->flags) & KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE)
-> 		kvm_make_all_cpus_request(kvm, KVM_REQ_CLOCK_UPDATE);
-> 
-> 	return 0;
+Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+---
 
-Sure, I can do it that way if you prefer.
+v4:
+ - Re-base.
+ - Re-work 'update_pvclock' test as requested.
 
-   Paul
+v3:
+ - Moved clearing of PVCLOCK_TSC_STABLE_BIT the right side of the
+   memcpy().
+ - Added an all-vCPUs KVM_REQ_CLOCK_UPDATE when the HVM config
+   flag is changed.
+---
+ Documentation/virt/kvm/api.rst |  6 ++++++
+ arch/x86/kvm/x86.c             | 27 ++++++++++++++++++++++-----
+ arch/x86/kvm/xen.c             |  9 ++++++++-
+ include/uapi/linux/kvm.h       |  1 +
+ 4 files changed, 37 insertions(+), 6 deletions(-)
 
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 67347d827242..880b929a5cb1 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -8270,6 +8270,7 @@ PVHVM guests. Valid flags are::
+   #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL		(1 << 4)
+   #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND		(1 << 5)
+   #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
++  #define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE	(1 << 7)
+ 
+ The KVM_XEN_HVM_CONFIG_HYPERCALL_MSR flag indicates that the KVM_XEN_HVM_CONFIG
+ ioctl is available, for the guest to set its hypercall page.
+@@ -8313,6 +8314,11 @@ behave more correctly, not using the XEN_RUNSTATE_UPDATE flag until/unless
+ specifically enabled (by the guest making the hypercall, causing the VMM
+ to enable the KVM_XEN_ATTR_TYPE_RUNSTATE_UPDATE_FLAG attribute).
+ 
++The KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE flag indicates that KVM supports
++clearing the PVCLOCK_TSC_STABLE_BIT flag in Xen pvclock sources. This will be
++done when the KVM_CAP_XEN_HVM ioctl sets the
++KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE flag.
++
+ 8.31 KVM_CAP_PPC_MULTITCE
+ -------------------------
+ 
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 2c924075f6f1..e43449382cba 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -3104,7 +3104,8 @@ u64 get_kvmclock_ns(struct kvm *kvm)
+ 
+ static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
+ 				    struct gfn_to_pfn_cache *gpc,
+-				    unsigned int offset)
++				    unsigned int offset,
++				    bool force_tsc_unstable)
+ {
+ 	struct kvm_vcpu_arch *vcpu = &v->arch;
+ 	struct pvclock_vcpu_time_info *guest_hv_clock;
+@@ -3141,6 +3142,10 @@ static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
+ 	}
+ 
+ 	memcpy(guest_hv_clock, &vcpu->hv_clock, sizeof(*guest_hv_clock));
++
++	if (force_tsc_unstable)
++		guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
++
+ 	smp_wmb();
+ 
+ 	guest_hv_clock->version = ++vcpu->hv_clock.version;
+@@ -3162,6 +3167,15 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
+ 	u8 pvclock_flags;
+ 	bool use_master_clock;
+ 
++	/*
++	 * For Xen guests we may need to override PVCLOCK_TSC_STABLE_BIT as unless
++	 * explicitly told to use TSC as its clocksource Xen will not set this bit.
++	 * This default behaviour led to bugs in some guest kernels which cause
++	 * problems if they observe PVCLOCK_TSC_STABLE_BIT in the pvclock flags.
++	 */
++	bool xen_pvclock_tsc_unstable =
++		ka->xen_hvm_config.flags & KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
++
+ 	kernel_ns = 0;
+ 	host_tsc = 0;
+ 
+@@ -3239,13 +3253,15 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
+ 	vcpu->hv_clock.flags = pvclock_flags;
+ 
+ 	if (vcpu->pv_time.active)
+-		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0);
++		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0, false);
+ #ifdef CONFIG_KVM_XEN
+ 	if (vcpu->xen.vcpu_info_cache.active)
+ 		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_info_cache,
+-					offsetof(struct compat_vcpu_info, time));
++					offsetof(struct compat_vcpu_info, time),
++					xen_pvclock_tsc_unstable);
+ 	if (vcpu->xen.vcpu_time_info_cache.active)
+-		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0);
++		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0,
++					xen_pvclock_tsc_unstable);
+ #endif
+ 	kvm_hv_setup_tsc_page(v->kvm, &vcpu->hv_clock);
+ 	return 0;
+@@ -4638,7 +4654,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 		    KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
+ 		    KVM_XEN_HVM_CONFIG_SHARED_INFO |
+ 		    KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL |
+-		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
++		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
++		    KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
+ 		if (sched_info_on())
+ 			r |= KVM_XEN_HVM_CONFIG_RUNSTATE |
+ 			     KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG;
+diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+index e53fad915a62..e43948b87f94 100644
+--- a/arch/x86/kvm/xen.c
++++ b/arch/x86/kvm/xen.c
+@@ -1162,7 +1162,9 @@ int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
+ {
+ 	/* Only some feature flags need to be *enabled* by userspace */
+ 	u32 permitted_flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
+-		KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
++		KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
++		KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
++	u32 old_flags;
+ 
+ 	if (xhc->flags & ~permitted_flags)
+ 		return -EINVAL;
+@@ -1183,9 +1185,14 @@ int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
+ 	else if (!xhc->msr && kvm->arch.xen_hvm_config.msr)
+ 		static_branch_slow_dec_deferred(&kvm_xen_enabled);
+ 
++	old_flags = kvm->arch.xen_hvm_config.flags;
+ 	memcpy(&kvm->arch.xen_hvm_config, xhc, sizeof(*xhc));
+ 
+ 	mutex_unlock(&kvm->arch.xen.xen_lock);
++
++	if ((old_flags ^ xhc->flags) & KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE)
++		kvm_make_all_cpus_request(kvm, KVM_REQ_CLOCK_UPDATE);
++
+ 	return 0;
+ }
+ 
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 13065dd96132..e21b53e8358d 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1282,6 +1282,7 @@ struct kvm_x86_mce {
+ #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL	(1 << 4)
+ #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND		(1 << 5)
+ #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
++#define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE	(1 << 7)
+ 
+ struct kvm_xen_hvm_config {
+ 	__u32 flags;
+
+base-commit: 35dcbd9e47035f98f3910ae420bf10892c9bdc99
+-- 
+2.39.2
 
