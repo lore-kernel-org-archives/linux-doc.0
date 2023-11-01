@@ -1,135 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C3D7F
-	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 04:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZGqMAS8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7D96C433C7;
-	Wed,  1 Nov 2023 04:57:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698814629;
-	bh=WZ7SUIOWohN5AEnVEnPROIft0gHOpjrwRA4R5V62NE8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IZGqMAS8v8/526lxoxoktvLI3XNOUSOSE75EPfqiMj1gam1kF/FoZg5cXgRgXMBlA
-	 MGm2y+ovkUifXYrOYOeMT6MnYgkUjKL7sZztMV8pGCqWHJ2pAtZipPVEYPYoZD7TXB
-	 WxYPiB7FlXGiRp9X6JSTnsCdezN4aV8cifhL/kTpRK9Nr9Db2Ze8ySe0zgCmehimff
-	 sE4QGX0dV1u4eevQVpiYOlHI6QYaCxINZe8AUBFqBOIv1aXkgyyRoL5JYqIEG8qkSt
-	 zYPLpRRGeB32udiGcjmox2pS7vbmM/CiHKd+/hpwgOFY5G5LAasEsO2IH8QvdaBciM
-	 9T8xxYXISK48A==
-Date: Wed, 1 Nov 2023 10:26:52 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] regulator: core: Add option to prevent disabling unused
- regulators
-Message-ID: <20231101045652.GA2897@thinkpad>
-References: <20231028102423.179400-1-javierm@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCBF1C17
+	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 07:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E87F1;
+	Wed,  1 Nov 2023 00:02:12 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="117623809"
+X-IronPort-AV: E=Sophos;i="6.03,267,1694703600"; 
+   d="scan'208";a="117623809"
+Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 16:02:09 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id A41A8D9D96;
+	Wed,  1 Nov 2023 16:02:07 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id D022BBF3C9;
+	Wed,  1 Nov 2023 16:02:06 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 719042005A580;
+	Wed,  1 Nov 2023 16:02:06 +0900 (JST)
+Received: from FNSTPC.g08.fujitsu.local (unknown [10.167.226.45])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id EE1DE1A006F;
+	Wed,  1 Nov 2023 15:02:05 +0800 (CST)
+From: Li Zhijian <lizhijian@fujitsu.com>
+To: corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Li Zhijian <lizhijian@fujitsu.com>
+Subject: [PATCH] docs: dma: update a reference to a moved document
+Date: Wed,  1 Nov 2023 15:02:01 +0800
+Message-ID: <20231101070201.4066998-1-lizhijian@fujitsu.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231028102423.179400-1-javierm@redhat.com>
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27970.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27970.005
+X-TMASE-Result: 10--1.066700-10.000000
+X-TMASE-MatchedRID: ZYjN+pfhQkov+0FNnM7lDQPZZctd3P4BTFQnI+epPIY7euEDuMsoQMdh
+	SaRRgUR74vM1YF6AJbZhyT3WNjppUtAtbEEX0MxBxEHRux+uk8hxKpvEGAbTDlOOqvlWu7hBRff
+	LhwHS2Cy48VhCF28/A38kIPkLTqPrpTHGEM7chrIYLz5HpooCcjgOiwv4ejp50Wgsb4Gbk5jY3T
+	eaxK1jdFuMG6V02+QySir3tZId0WN+6klq53W5kJ9Gzq4huQVX
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 
-On Sat, Oct 28, 2023 at 12:24:03PM +0200, Javier Martinez Canillas wrote:
-> This may be useful for debugging and develompent purposes, when there are
-> drivers that depend on regulators to be enabled but do not request them.
-> 
-> It is inspired from the clk_ignore_unused and pd_ignore_unused parameters,
-> that are used to keep firmware-enabled clocks and power domains on even if
-> these are not used by drivers.
-> 
-> The parameter is not expected to be used in normal cases and should not be
-> needed on a platform with proper driver support.
-> 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Documentation/DMA-API.txt has moved to Documentation/core-api/dma-api.rst
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+---
+ Documentation/core-api/dma-api-howto.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for looking into this. This patch is very handy to debug display related
-issues on platforms without serial console.
-
-On the other note, I'm wondering if we could use sync_state() for handling the
-regulator_init_complete() work. This would ensure that the regulators are only
-disabled when all the consumers are probed.
-
-- Mani
-
-> ---
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
->  drivers/regulator/core.c                        | 17 +++++++++++++++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 0a1731a0f0ef..91b58d767c2c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5461,6 +5461,13 @@
->  			print every Nth verbose statement, where N is the value
->  			specified.
->  
-> +	regulator_ignore_unused
-> +			[REGULATOR]
-> +			Prevents the regulator framework to disable regulators
-> +			that are unused due not driver claiming them. This may
-> +			be useful for debug and development, but should not be
-> +			needed on a platform with proper driver support.
-> +
->  	relax_domain_level=
->  			[KNL, SMP] Set scheduler's default relax_domain_level.
->  			See Documentation/admin-guide/cgroup-v1/cpusets.rst.
-> diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-> index 3137e40fcd3e..220034ff0273 100644
-> --- a/drivers/regulator/core.c
-> +++ b/drivers/regulator/core.c
-> @@ -6234,6 +6234,14 @@ static int regulator_late_cleanup(struct device *dev, void *data)
->  	return 0;
->  }
->  
-> +static bool regulator_ignore_unused;
-> +static int __init regulator_ignore_unused_setup(char *__unused)
-> +{
-> +	regulator_ignore_unused = true;
-> +	return 1;
-> +}
-> +__setup("regulator_ignore_unused", regulator_ignore_unused_setup);
-> +
->  static void regulator_init_complete_work_function(struct work_struct *work)
->  {
->  	/*
-> @@ -6246,6 +6254,15 @@ static void regulator_init_complete_work_function(struct work_struct *work)
->  	class_for_each_device(&regulator_class, NULL, NULL,
->  			      regulator_register_resolve_supply);
->  
-> +	/*
-> +	 * For debugging purposes, it may be useful to prevent unused
-> +	 * regulators to be disabled.
-> +	 */
-> +	if (regulator_ignore_unused) {
-> +		pr_warn("regulator: Not disabling unused regulators\n");
-> +		return;
-> +	}
-> +
->  	/* If we have a full configuration then disable any regulators
->  	 * we have permission to change the status for and which are
->  	 * not in use or always_on.  This is effectively the default
-> -- 
-> 2.41.0
-> 
-
+diff --git a/Documentation/core-api/dma-api-howto.rst b/Documentation/core-api/dma-api-howto.rst
+index 72f6cdb6be1c..e8a55f9d61db 100644
+--- a/Documentation/core-api/dma-api-howto.rst
++++ b/Documentation/core-api/dma-api-howto.rst
+@@ -8,7 +8,7 @@ Dynamic DMA mapping Guide
+ 
+ This is a guide to device driver writers on how to use the DMA API
+ with example pseudo-code.  For a concise description of the API, see
+-DMA-API.txt.
++Documentation/core-api/dma-api.rst.
+ 
+ CPU and DMA addresses
+ =====================
 -- 
-மணிவண்ணன் சதாசிவம்
+2.41.0
+
