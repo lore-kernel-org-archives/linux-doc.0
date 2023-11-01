@@ -1,224 +1,156 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C6719BB9;
-	Wed,  1 Nov 2023 18:31:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DC012E44
+	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 19:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="EDvoaTDk"
-Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41FD2102;
-	Wed,  1 Nov 2023 11:31:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
-	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
-	Subject:To:From; bh=yudA2//70ZOKAq+8SLUXpoi/kPg8MKMLW5Pf7+MW1eI=; b=EDvoaTDkL
-	gdOOY4jiYTfDcrOWIpZGw/kwc9sCepInMbP1cW57hOf0YWejYdMZXwTmNItWllBcJGk2HHvkuFHo4
-	2SASFPvECVjCm+s/PWD8BZnDmjVtPxXJmIwsf9+P+gApPCwyIt5z8lhu9+cVxdyI0seVMMMrwxgzz
-	n8GcSXyI=;
-Received: from xenbits.xenproject.org ([104.239.192.120])
-	by mail.xenproject.org with esmtp (Exim 4.92)
-	(envelope-from <paul@xen.org>)
-	id 1qyFzC-0000qn-UN; Wed, 01 Nov 2023 18:30:38 +0000
-Received: from ec2-63-33-11-17.eu-west-1.compute.amazonaws.com ([63.33.11.17] helo=REM-PW02S00X.ant.amazon.com)
-	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <paul@xen.org>)
-	id 1qyFzC-0001gN-KO; Wed, 01 Nov 2023 18:30:38 +0000
-From: Paul Durrant <paul@xen.org>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Paul Durrant <paul@xen.org>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4] KVM x86/xen: add an override for PVCLOCK_TSC_STABLE_BIT
-Date: Wed,  1 Nov 2023 18:30:32 +0000
-Message-Id: <20231101183032.1498211-1-paul@xen.org>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WfKHAKEl"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D585119;
+	Wed,  1 Nov 2023 12:53:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698868430; x=1730404430;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=M9xVc4RU+I+3lt8fPQ1rra7oPUQkh/bproxiAKQkZww=;
+  b=WfKHAKElx0rAmOyxqSY+7XJhGAwe53bS8NWEnTxqFaQ8w6lX06KKoTn8
+   XvW/7bZYVsdLVhZgVRXSgEk+FKL/8v97w0S0ssNwcRfpC755NyjP2geeD
+   3FVSMJi8rfXAT+E/g70nuAfzarxDsRUz9T0aBwmqBQFoK5aJTUqywL9N0
+   qEbTFdDYBOyD9V3bTAh5yv93juWTevceDCUGUnMam5cMn6QDov1Ga5QVD
+   1NGxVWob5IImbpfkPouuH4B8me5q7d1adI2BvtlVSsbPn+XuriKFYPoKv
+   z1whL2z2DcZ/Nq1WQREbXNo3pqm1Zu01kkUC5boZUsMVTng6B8mzhA1ot
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="378960535"
+X-IronPort-AV: E=Sophos;i="6.03,269,1694761200"; 
+   d="scan'208";a="378960535"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 12:53:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,269,1694761200"; 
+   d="scan'208";a="9151150"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Nov 2023 12:53:49 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 1 Nov 2023 12:53:49 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Wed, 1 Nov 2023 12:53:49 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Wed, 1 Nov 2023 12:53:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DWfDnZG/gdG0LldSQMU7uXc+s0WUmj4Bp7yIuQprl1S35+yhZr7HssEgaaKxmEDQdmzxTiZO/UV8xJPwGqVpb4rAPvV4IdhjbZ+EDimxGDNnoWN/uFlKtpn3e3Isl6OAgOBb9BWMPI0ROjZFf0K9hO8aXEXgcATUgQh8jIAUDJW7/NoeOcfLT9Oow8/53etQn0mpsVMt3UZP+wklrHsNSpn1Zyzo1kn/F7onLA065LlkjVbb4UHa2aEj1ab12XhbCApagNxxXqWeI1kB5x4eecepyP5AGBRSeXwfRr/WDsOqaKe70jE6t7VQ8MHvK3rvQlAfDJP9giJguGtFXMWbPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M9xVc4RU+I+3lt8fPQ1rra7oPUQkh/bproxiAKQkZww=;
+ b=E9Uf0XBMMYy8SnR113a6Mu+quJSJQnz2vO+HHwqogmBsLrmySqMc0P2PoOfGIsg8Gg0vPr+m2BDimqwNeYAQKVGo8jT72kpcQCWkwOER7BEyWLcwQ3WRsew75cUjAjJRZkKbNfEwYBoNDv7JWRa/KRCAH7qCTAThJkJP0tCM1yr3blI2i1vGIcE+Zpst2DJ0EGuic5GvVcY4ff8+D2sEhRQE5DD/LFpi1yrRrIEvbDUHFextBQbhumSYEltXTbaSAh0kxVUmmyzwiRFko753A36oJ+lZ2oxPJ4CdBy+/6FA8fa7Jc5CFwBfYIIuP4LJdNZKqJdS7QPbyHSorwv4Pfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by IA0PR11MB7401.namprd11.prod.outlook.com (2603:10b6:208:433::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Wed, 1 Nov
+ 2023 19:53:44 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::2b58:930f:feba:8848]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::2b58:930f:feba:8848%5]) with mapi id 15.20.6933.029; Wed, 1 Nov 2023
+ 19:53:44 +0000
+From: "Luck, Tony" <tony.luck@intel.com>
+To: "Yu, Fenghua" <fenghua.yu@intel.com>, "Chatre, Reinette"
+	<reinette.chatre@intel.com>, Peter Newman <peternewman@google.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	"x86@kernel.org" <x86@kernel.org>
+CC: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
+	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
+	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: RE: [PATCH v10 3/8] x86/resctrl: Prepare for different scope for
+ control/monitor operations
+Thread-Topic: [PATCH v10 3/8] x86/resctrl: Prepare for different scope for
+ control/monitor operations
+Thread-Index: AQHaDD+m8/venzY3sEKkZr/G3i5JJ7Bl4TZw
+Date: Wed, 1 Nov 2023 19:53:44 +0000
+Message-ID: <SJ1PR11MB6083401EF56E9AED2C8245A5FCA7A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20231020213100.123598-1-tony.luck@intel.com>
+ <20231031211708.37390-1-tony.luck@intel.com>
+ <20231031211708.37390-4-tony.luck@intel.com>
+In-Reply-To: <20231031211708.37390-4-tony.luck@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|IA0PR11MB7401:EE_
+x-ms-office365-filtering-correlation-id: d27e9ca0-c936-4e5a-540e-08dbdb14411b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: lBQR9A5Sy2+xYX4YyxR7hhscQ6w4aqW4N0a2BzNK8uwOiVKwS0F0IvD2GbPI2GRCsmAKz0LMCFEl7hoHVIv6CwvXyatZu5zorsDgdluYnc9hYP5EotqunW3UKQyVqksoNYft+Se4z1ffmGnnKsGMHnGhWv84UxISJyr9jLJ7nqoPxNzBSkJbUEPvCkHUoiuB6PTzCTCvqOhUQ3hXSPS04d26yYDmZfjNK5Ur4BUYwWjNbNCaE5YQHv6Vml04DhBW/5pstl/30fXq0x0lNg4OGzWjFT0NEZAx4KODX5ttd1EljhLTyR+3m/cbB8GgKEqkIO/sEEAabEYOfjQnDA1QpRzljyHMCDO+Bejzt25bopxyFV42wctcVnbvXrb2+KKHg7PUi67C3peRee3K2jYfhJEHJzbEWx0yn8Ffimp4kBzY3n5D9v9P2kqPy5SxXfofam1YwD6m8affZpYfToA4Eerd4D7iOc8ShFOGVEsXEpU6DSbUlRSWaSvAXrUUb2GiJFJonaz0RAtKYzenbqyYunPkr2NS75hBZyiuvYa0m8o/OQk1qVBUcTa2Y37XC8EUtg278/G7g4dJ6EZ8sQZ/ZF1cgp/PdunQmWNQWWBzLic8T9cQGDEZftT4Sdh9Ka1w
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(136003)(396003)(376002)(346002)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(478600001)(26005)(9686003)(6506007)(8676002)(5660300002)(7696005)(7416002)(52536014)(76116006)(110136005)(64756008)(41300700001)(66946007)(316002)(54906003)(4326008)(8936002)(66446008)(66556008)(66476007)(38070700009)(82960400001)(122000001)(2906002)(38100700002)(71200400001)(558084003)(86362001)(33656002)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2Tto3EWlmJsYdRkLmSp1tChcziq7146UyRbw2jlypO1dSKcwmmtCOZuiGMxe?=
+ =?us-ascii?Q?KRBRMXXY6rSQBtVoQGDdxfph7dYj2mx4uh5czVHmf2+ozarw0LkSRfRxfShC?=
+ =?us-ascii?Q?O5MI+A1qexZPVaS8kJa00mMBfUZKUec28KEHS5aUf9ChazOt7L3vS9rhqoGL?=
+ =?us-ascii?Q?H/xj8FMWrMIH5w5/ZxwIhg70TjKyGC0VU52GGvN7xkU2U8ZmbeOtACe7LDUn?=
+ =?us-ascii?Q?L53ErXdITCjZqRK6PPEkW+WNyo2F4ulHsiWllUEHjVQ0AjPiJaXQEgppFmQx?=
+ =?us-ascii?Q?EdM/qUCo42+xvJ2+vPaSoMxPx9SElWSPCp5TUr3aRUFuE2UhzQDbk+pJ0e9E?=
+ =?us-ascii?Q?sMIlZ8X6mDRqBcWHKD+FlJlybS8yJpcDgAX38nnS4wYxSVLRCpUG1KFfRpJU?=
+ =?us-ascii?Q?ApqXCwabReGjaSxIUwMyeWW0qWetiNvwEdfY2XIoxm6sdGdpR3I/xWqdNsvc?=
+ =?us-ascii?Q?xw9xA4QkpRr53IFcYt3ZFacQWxrpzNViapcP77FT9iENmvZAWCs5du8o6LOs?=
+ =?us-ascii?Q?YBacWrureXw/8iS3tpJ0LjDw8yhWoKpHbtpLU25IVjdoczDLGk/jDZlTsLM0?=
+ =?us-ascii?Q?ZiLJYyfY/fnco0tD6BHsOzHSyhgK7S649m7pHqJPjHi29iAfnDj9ZADCdzE3?=
+ =?us-ascii?Q?/uZxSyw0263AZKYQkFiGXpb6/CxwtKOMCyUIdL4Vy2UUbipiDho51ZjfWe3N?=
+ =?us-ascii?Q?nsBCEvWjkS4kNqyNRMKjbTrHwqrkWOc3qpKltGeqNXewlg1HuBRbnYhJ7E+Y?=
+ =?us-ascii?Q?yanFamZnq6eBYPPkpSsIiVmA0MBIrJvM8CdXK6sVJ+xoBVE4VN6hSyl6cF3v?=
+ =?us-ascii?Q?NUfaym3CcOKWU7jBSnDrDxvRKx+ISDvH53RB8S0KOu1F7jqimFnsBhg8Z2Uv?=
+ =?us-ascii?Q?Q/AVgoM1yQiyy4XVktpxnSZd86a5E430YKZAwQCJYEm29w4oYnAztZR86giI?=
+ =?us-ascii?Q?5gbuo2JAsoWknEdn4mmK3bYi2QH8JP6TRL966pSPo/VbRP9zLxKCrPXWeiea?=
+ =?us-ascii?Q?Ucl3s9L0cRnocm3usWkEIwsJTvga9ASHE9hkbuk1XKwMuc9kRVHUyHnJisB2?=
+ =?us-ascii?Q?1bbAnAYZQ6TpYXkhCMx/r6bBFz8Lae9oD5v8gM9kLkgILtmTHZHm7xvXC4Oe?=
+ =?us-ascii?Q?ey2ZYpwnYp6+NbdKaX0vap5Z0IJpGKJTsi9aC5YaCfqIUVSsIr10/WOKiLcs?=
+ =?us-ascii?Q?yMezrwExjetA1ThQzXptOy44AKTHJVb8O1Sh4CztstKsJF3MgB2myhKMrOd/?=
+ =?us-ascii?Q?07NThSdb6rWlNTpI2TrvePHq1neJHAE8Qa+Z8dOEZmX0EheSwsBDPn58OZkB?=
+ =?us-ascii?Q?SBEJXMq0ZxatCBiatgY4TQHPPPeGlqH5s0MUJeB3bOSMRlABrqs4Rt4plcDU?=
+ =?us-ascii?Q?QeSkxhhFgYXB3GTIR2hbf6/Iq5mnKsHaPH+nLtBJ6tVavAetuj/KTEtneVAw?=
+ =?us-ascii?Q?fd59grPkslM05u7ukKoHXwZf2Ln5Ec/iwI75c7u3lOyR25lVBT0a0TmcAlX7?=
+ =?us-ascii?Q?jQ8Ss0yfUs8GIJBt4ja9A1fQoXy5KWTTRNpUP4oKWyMQOqW8CAEvy8/voc/l?=
+ =?us-ascii?Q?DZhWZygtTJwberkOAnVlfJ7fHMedEdCBDJjXrq28?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d27e9ca0-c936-4e5a-540e-08dbdb14411b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2023 19:53:44.1095
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: B1e1CGLVTztyV0kjH3nD216VEsTVP4IH7M80i+06UlAFXYvol/kEw+7SJZwH+nB81w9uevxjywZydb4WE7jS5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7401
+X-OriginatorOrg: intel.com
 
-From: Paul Durrant <pdurrant@amazon.com>
++/*
++ * domain_add_cpu - Add a cpu to either/both resource's domain lists.
++ */
++static void domain_add_cpu(int cpu, struct rdt_resource *r)
 
-Unless explicitly told to do so (by passing 'clocksource=tsc' and
-'tsc=stable:socket', and then jumping through some hoops concerning
-potential CPU hotplug) Xen will never use TSC as its clocksource.
-Hence, by default, a Xen guest will not see PVCLOCK_TSC_STABLE_BIT set
-in either the primary or secondary pvclock memory areas. This has
-led to bugs in some guest kernels which only become evident if
-PVCLOCK_TSC_STABLE_BIT *is* set in the pvclocks. Hence, to support
-such guests, give the VMM a new Xen HVM config flag to tell KVM to
-forcibly clear the bit in the Xen pvclocks.
+Bother. Missed one comment that needs s/cpu/CPU/
 
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
----
-
-v4:
- - Re-base.
- - Re-work 'update_pvclock' test as requested.
-
-v3:
- - Moved clearing of PVCLOCK_TSC_STABLE_BIT the right side of the
-   memcpy().
- - Added an all-vCPUs KVM_REQ_CLOCK_UPDATE when the HVM config
-   flag is changed.
----
- Documentation/virt/kvm/api.rst |  6 ++++++
- arch/x86/kvm/x86.c             | 27 ++++++++++++++++++++++-----
- arch/x86/kvm/xen.c             |  9 ++++++++-
- include/uapi/linux/kvm.h       |  1 +
- 4 files changed, 37 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 67347d827242..880b929a5cb1 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -8270,6 +8270,7 @@ PVHVM guests. Valid flags are::
-   #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL		(1 << 4)
-   #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND		(1 << 5)
-   #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
-+  #define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE	(1 << 7)
- 
- The KVM_XEN_HVM_CONFIG_HYPERCALL_MSR flag indicates that the KVM_XEN_HVM_CONFIG
- ioctl is available, for the guest to set its hypercall page.
-@@ -8313,6 +8314,11 @@ behave more correctly, not using the XEN_RUNSTATE_UPDATE flag until/unless
- specifically enabled (by the guest making the hypercall, causing the VMM
- to enable the KVM_XEN_ATTR_TYPE_RUNSTATE_UPDATE_FLAG attribute).
- 
-+The KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE flag indicates that KVM supports
-+clearing the PVCLOCK_TSC_STABLE_BIT flag in Xen pvclock sources. This will be
-+done when the KVM_CAP_XEN_HVM ioctl sets the
-+KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE flag.
-+
- 8.31 KVM_CAP_PPC_MULTITCE
- -------------------------
- 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 2c924075f6f1..e43449382cba 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3104,7 +3104,8 @@ u64 get_kvmclock_ns(struct kvm *kvm)
- 
- static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
- 				    struct gfn_to_pfn_cache *gpc,
--				    unsigned int offset)
-+				    unsigned int offset,
-+				    bool force_tsc_unstable)
- {
- 	struct kvm_vcpu_arch *vcpu = &v->arch;
- 	struct pvclock_vcpu_time_info *guest_hv_clock;
-@@ -3141,6 +3142,10 @@ static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
- 	}
- 
- 	memcpy(guest_hv_clock, &vcpu->hv_clock, sizeof(*guest_hv_clock));
-+
-+	if (force_tsc_unstable)
-+		guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
-+
- 	smp_wmb();
- 
- 	guest_hv_clock->version = ++vcpu->hv_clock.version;
-@@ -3162,6 +3167,15 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
- 	u8 pvclock_flags;
- 	bool use_master_clock;
- 
-+	/*
-+	 * For Xen guests we may need to override PVCLOCK_TSC_STABLE_BIT as unless
-+	 * explicitly told to use TSC as its clocksource Xen will not set this bit.
-+	 * This default behaviour led to bugs in some guest kernels which cause
-+	 * problems if they observe PVCLOCK_TSC_STABLE_BIT in the pvclock flags.
-+	 */
-+	bool xen_pvclock_tsc_unstable =
-+		ka->xen_hvm_config.flags & KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
-+
- 	kernel_ns = 0;
- 	host_tsc = 0;
- 
-@@ -3239,13 +3253,15 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
- 	vcpu->hv_clock.flags = pvclock_flags;
- 
- 	if (vcpu->pv_time.active)
--		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0);
-+		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0, false);
- #ifdef CONFIG_KVM_XEN
- 	if (vcpu->xen.vcpu_info_cache.active)
- 		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_info_cache,
--					offsetof(struct compat_vcpu_info, time));
-+					offsetof(struct compat_vcpu_info, time),
-+					xen_pvclock_tsc_unstable);
- 	if (vcpu->xen.vcpu_time_info_cache.active)
--		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0);
-+		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0,
-+					xen_pvclock_tsc_unstable);
- #endif
- 	kvm_hv_setup_tsc_page(v->kvm, &vcpu->hv_clock);
- 	return 0;
-@@ -4638,7 +4654,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		    KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
- 		    KVM_XEN_HVM_CONFIG_SHARED_INFO |
- 		    KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL |
--		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
-+		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
-+		    KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
- 		if (sched_info_on())
- 			r |= KVM_XEN_HVM_CONFIG_RUNSTATE |
- 			     KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG;
-diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-index e53fad915a62..e43948b87f94 100644
---- a/arch/x86/kvm/xen.c
-+++ b/arch/x86/kvm/xen.c
-@@ -1162,7 +1162,9 @@ int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
- {
- 	/* Only some feature flags need to be *enabled* by userspace */
- 	u32 permitted_flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
--		KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
-+		KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
-+		KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
-+	u32 old_flags;
- 
- 	if (xhc->flags & ~permitted_flags)
- 		return -EINVAL;
-@@ -1183,9 +1185,14 @@ int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
- 	else if (!xhc->msr && kvm->arch.xen_hvm_config.msr)
- 		static_branch_slow_dec_deferred(&kvm_xen_enabled);
- 
-+	old_flags = kvm->arch.xen_hvm_config.flags;
- 	memcpy(&kvm->arch.xen_hvm_config, xhc, sizeof(*xhc));
- 
- 	mutex_unlock(&kvm->arch.xen.xen_lock);
-+
-+	if ((old_flags ^ xhc->flags) & KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE)
-+		kvm_make_all_cpus_request(kvm, KVM_REQ_CLOCK_UPDATE);
-+
- 	return 0;
- }
- 
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 13065dd96132..e21b53e8358d 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1282,6 +1282,7 @@ struct kvm_x86_mce {
- #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL	(1 << 4)
- #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND		(1 << 5)
- #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
-+#define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE	(1 << 7)
- 
- struct kvm_xen_hvm_config {
- 	__u32 flags;
-
-base-commit: 35dcbd9e47035f98f3910ae420bf10892c9bdc99
--- 
-2.39.2
-
+-Tony
