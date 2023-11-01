@@ -1,30 +1,51 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBDE627;
-	Wed,  1 Nov 2023 01:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A041C9;
-	Tue, 31 Oct 2023 18:07:17 -0700 (PDT)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=dust.li@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0VvIt0M9_1698800833;
-Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0VvIt0M9_1698800833)
-          by smtp.aliyun-inc.com;
-          Wed, 01 Nov 2023 09:07:14 +0800
-Date: Wed, 1 Nov 2023 09:07:12 +0800
-From: Dust Li <dust.li@linux.alibaba.com>
-To: Gerd Bayer <gbayer@linux.ibm.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Jan Karcher <jaka@linux.ibm.com>, Wenjia Zhang <wenjia@linux.ibm.com>,
-	Tony Lu <tonylu@linux.alibaba.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net] net/smc: fix documentation of buffer sizes
-Message-ID: <20231101010712.GD92403@linux.alibaba.com>
-Reply-To: dust.li@linux.alibaba.com
-References: <20231030170343.748097-1-gbayer@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C05310EF
+	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 02:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+5iibKl"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CFBF3
+	for <linux-doc@vger.kernel.org>; Tue, 31 Oct 2023 19:22:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698805374; x=1730341374;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cHZMDjD7poW1QsLZE6OBAd/dykViqrd3e3klgpkPZjc=;
+  b=F+5iibKl8X6EuoYAU+1QXzmNgH79rG5OLq3yJOZQuAl+SoGBJCtac6kj
+   pNjEOidwPOCUwJ8C5t9gw8Y3+sbgAIdooXQ/OE5j5u6xBYZGgrXecLzRW
+   aGZjEGmCGuLTbkK7wMtKBECNX76cA2MXqSHgqFjyGJovJrJ5qXkS7xmPf
+   JJgzqQM8JJj/tATXQm2SFhUivhq7Gor4kEHeEYgig1Ev/QfitaTtgB1iI
+   IBZAg18ukM3Go1VrlC2MRe7bhf4ynx5iQl0thKhhvZ064F9Fj6Rqv1JZS
+   xSYrwjg0hQ9J6wVjdQp8D9t9cWwoyIAU9MMKu6U0Sm5sjWsTjbF2oSule
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="388239983"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
+   d="scan'208";a="388239983"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 19:22:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
+   d="scan'208";a="2040459"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 31 Oct 2023 19:22:53 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qy0sc-0000XE-3A;
+	Wed, 01 Nov 2023 02:22:51 +0000
+Date: Wed, 1 Nov 2023 10:22:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 15738/15964] htmldocs: Warning:
+ Documentation/devicetree/bindings/power/wakeup-source.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+Message-ID: <202311011040.L1ncxDT3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,50 +54,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231030170343.748097-1-gbayer@linux.ibm.com>
 
-On Mon, Oct 30, 2023 at 06:03:43PM +0100, Gerd Bayer wrote:
->Since commit 833bac7ec392 ("net/smc: Fix setsockopt and sysctl to
->specify same buffer size again") the SMC protocol uses its own
->default values for the smc.rmem and smc.wmem sysctl variables
->which are no longer derived from the TCP IPv4 buffer sizes.
->
->Fixup the kernel documentation to reflect this change, too.
->
->Fixes: 833bac7ec392 ("net/smc: Fix setsockopt and sysctl to specify same buffer size again")
->Signed-off-by: Gerd Bayer <gbayer@linux.ibm.com>
->Reviewed-by: Wenjia Zhang <wenjia@linux.ibm.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9c2d379d63450ae464eeab45462e0cb573cd97d0
+commit: 53ed3233e6b5fbfb63abc945d1fc156222f4eb62 [15738/15964] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
+reproduce: (https://download.01.org/0day-ci/archive/20231101/202311011040.L1ncxDT3-lkp@intel.com/reproduce)
 
-Reviewed-by: Dust Li <dust.li@linux.alibaba.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311011040.L1ncxDT3-lkp@intel.com/
 
->---
-> Documentation/networking/smc-sysctl.rst | 6 ++----
-> 1 file changed, 2 insertions(+), 4 deletions(-)
->
->diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
->index 6d8acdbe9be1..769149d98773 100644
->--- a/Documentation/networking/smc-sysctl.rst
->+++ b/Documentation/networking/smc-sysctl.rst
->@@ -44,18 +44,16 @@ smcr_testlink_time - INTEGER
-> 
-> wmem - INTEGER
-> 	Initial size of send buffer used by SMC sockets.
->-	The default value inherits from net.ipv4.tcp_wmem[1].
-> 
-> 	The minimum value is 16KiB and there is no hard limit for max value, but
-> 	only allowed 512KiB for SMC-R and 1MiB for SMC-D.
-> 
->-	Default: 16K
->+	Default: 64KiB
-> 
-> rmem - INTEGER
-> 	Initial size of receive buffer (RMB) used by SMC sockets.
->-	The default value inherits from net.ipv4.tcp_rmem[1].
-> 
-> 	The minimum value is 16KiB and there is no hard limit for max value, but
-> 	only allowed 512KiB for SMC-R and 1MiB for SMC-D.
-> 
->-	Default: 128K
->+	Default: 64KiB
->-- 
->2.41.0
+All warnings (new ones prefixed by >>):
+
+>> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
