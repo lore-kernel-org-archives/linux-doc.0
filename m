@@ -1,53 +1,53 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3AE410954;
-	Wed,  1 Nov 2023 11:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C508611181;
+	Wed,  1 Nov 2023 11:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DBJCW2Ns"
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65AEFFC;
-	Wed,  1 Nov 2023 04:02:24 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so2259928f8f.0;
-        Wed, 01 Nov 2023 04:02:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4o/eeB/"
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C9511A;
+	Wed,  1 Nov 2023 04:06:33 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-32da4ffd7e5so433482f8f.0;
+        Wed, 01 Nov 2023 04:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698836543; x=1699441343; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1698836791; x=1699441591; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:references:cc:to
          :content-language:subject:reply-to:user-agent:mime-version:date
          :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lLGQwWjL2Aw3sFfyWPVTh2LkEYh2Jo+b78gHIPc7ugc=;
-        b=DBJCW2NsUaqE0lQjq3liJexnkoVaIj4KK0h4KXmguzQSy8anfcloF93TuCrsuT9IPt
-         Fhkg950aQykwX6PBRgzXw5hXphmNo2u1xdGuJ7uxYBvnGHFriLYM5IL+gWdIQOeDcUuz
-         fqcJTO/ilUd6HvlZQfC6LGJp3xtQZURa2mxQbkcpSRzZ9bZd2A50J2yCwJdXal3EmAbg
-         aTk0oh15xTILtIEY3rE4lYLes13o+BOAqyG0oxvXMQ9rYNpmS7Dn5lXZuavuUPrC1QB4
-         jHKnMP8QW6ndB3y5qT+uLGtPmf4C5piIgb5kdSc3g/jhD84nApD4lgz9iLPt/K8T8/rO
-         VnFw==
+        bh=BVXP6hetv0Lu3iDopEwUmA4SId0aO7rZ36h8eY2NRl8=;
+        b=W4o/eeB/EwFxaoanyQtG53kGxBgy5h7goN7fE4gpGMXNYOxSLo3LebwrB/QPBa4laW
+         3vHCXle14TJ8iEGMhLNMLXQaTphGbSExR4D35RkIWL5JuHx74oCe0j/g2Kh9r6zmd8oN
+         2HRtnXqFQ8yY01zGkAtE7gpq/UIIL5uF4ZgZ5giuHLC9Nj5An8RqQfqrSWqmCP8MbZ0K
+         igDZNSPy8DeTdBD48rLSAL6hBUXAEibHvQpgK5lDI1FqbX6tygSoYLmx65j7poQaiAbg
+         EXaqnuW7G/lEvX3rOVagPnwj0SVCpJvtcUCEw5Z8aj0XbDXNcuz72IQo2/cot4nZc2Pg
+         oxQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698836543; x=1699441343;
+        d=1e100.net; s=20230601; t=1698836791; x=1699441591;
         h=content-transfer-encoding:in-reply-to:organization:references:cc:to
          :content-language:subject:reply-to:user-agent:mime-version:date
          :message-id:from:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lLGQwWjL2Aw3sFfyWPVTh2LkEYh2Jo+b78gHIPc7ugc=;
-        b=EdJsOsS/59cJ7Yq+tqMyoVrDdDaODkkTouhNSPCWznd5h98xqrxCR5ZAtU2ScXq4uZ
-         J18YE9hY1osvZ9PF1EYOfTTnYgDOuFWOWq9/agv0LFdz91jA0v2WGybMkKsjGGTViugm
-         NMdVmwI5i3kgC3n5EVkpuv2MHm6pprnUonkJZKx+xY+eNYoFLBsxY86E/fW2roKDeBuc
-         eoMRgwiIvotuhlMTwRheo/JqWaYknpuNI64Iw5qBqzU3qbKH0exOxhiBHkaRcQ3bcgDv
-         UcQJeFSirK3SKYbgaEp3Eeq61SadTSbPMtM164t+qfWF4Xi6vhn7EpDjqijq9k4lvuwz
-         qm4w==
-X-Gm-Message-State: AOJu0YxLtZewPrG1I+aFFERCPxPBq21bNYM4wYue7DrxG+NyJ+DBF830
-	v+xjf6Jveba8telt/BFQNBdBo38i9HZ3fA==
-X-Google-Smtp-Source: AGHT+IGhSCFjWDlSAeyzhKo7ObrQNOoHY2TZnOfL4+qkuskUlpbXSKzRJk8C/Me6qA29voKfgh8GNg==
-X-Received: by 2002:adf:eb47:0:b0:32c:837e:ef0 with SMTP id u7-20020adfeb47000000b0032c837e0ef0mr11190912wrn.50.1698836542620;
-        Wed, 01 Nov 2023 04:02:22 -0700 (PDT)
+        bh=BVXP6hetv0Lu3iDopEwUmA4SId0aO7rZ36h8eY2NRl8=;
+        b=kinWw2KyU/qg+8E2IwPcDJYrNl7GwC5BuGo+jIRpx0GDbhaw7qq/PHDB5GHC6pXYLc
+         erd6RrD0YCU6w07yN0xlNtvQIl1sV8MoPxjnfl3WLp9r9lyumnpty8cXFHG8mUd1fBg1
+         Uj7SYQOhjL3rvLf6E1f1ZhMRZpmmHyHYwbXMLe+jjQhczVqdO8J47BDpm8AflF3ffFJk
+         oXGlerzQhh2h+OqmfDmh5o7I4A9YpM1w08r6wjSNwipQ2uvKTXjNZJOSz5JCDDZFQTKC
+         meGRHu9VvV7ZyotlokDQS4hd8yV5c+IacqRWxJM4Yo1BJeyoYBxXZGVc7+dLdYMpAuUx
+         Lk/w==
+X-Gm-Message-State: AOJu0Yzw1ZrMLhNJEhNdiwWgHuBdPkvQTbG3ry2ltJgjweWq6c8WEQrA
+	xcCEOHgsQefjXyPAbfcXk4o=
+X-Google-Smtp-Source: AGHT+IE/ocuDq9qhrrreSATrFqB494n8L808Le/wM26oHjvbnH/fXVLRG8ca4ZYl2uNPYv0tY7Ke/g==
+X-Received: by 2002:a5d:6daa:0:b0:32f:8b51:3708 with SMTP id u10-20020a5d6daa000000b0032f8b513708mr2662127wrs.2.1698836791654;
+        Wed, 01 Nov 2023 04:06:31 -0700 (PDT)
 Received: from [10.95.173.140] (54-240-197-235.amazon.com. [54.240.197.235])
-        by smtp.gmail.com with ESMTPSA id g8-20020a056000118800b0032f933556b8sm3897074wrx.7.2023.11.01.04.02.21
+        by smtp.gmail.com with ESMTPSA id z13-20020adfec8d000000b0032db1d741a6sm3867888wrn.99.2023.11.01.04.06.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Nov 2023 04:02:22 -0700 (PDT)
+        Wed, 01 Nov 2023 04:06:31 -0700 (PDT)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <f850458d-c1a3-4851-921e-e04404e827b9@xen.org>
-Date: Wed, 1 Nov 2023 11:02:16 +0000
+Message-ID: <45bd5778-6217-427e-8ac2-f7b997470476@xen.org>
+Date: Wed, 1 Nov 2023 11:06:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,25 +69,32 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 References: <20231031115748.622578-1-paul@xen.org>
  <ZUGCPQegUeTutsrb@google.com>
  <028f629d16377f9a7e9fd87ef9564846b0ab4ed9.camel@infradead.org>
+ <ZUGGqOCU7TAU6c6p@google.com>
+ <3c71731a4f3390dc0c660f854e732df793d78bb4.camel@infradead.org>
 Organization: Xen Project
-In-Reply-To: <028f629d16377f9a7e9fd87ef9564846b0ab4ed9.camel@infradead.org>
+In-Reply-To: <3c71731a4f3390dc0c660f854e732df793d78bb4.camel@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 31/10/2023 22:48, David Woodhouse wrote:
-> On Tue, 2023-10-31 at 15:39 -0700, Sean Christopherson wrote:
->> On Tue, Oct 31, 2023, Paul Durrant wrote:
->>>
->>> +       if (force_tsc_unstable)
->>> +               guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
+On 31/10/2023 23:06, David Woodhouse wrote:
+[snip]
+>>                  mutex_lock(&kvm->lock);
+>>                  if (!kvm->created_vcpus) {
+>>                          kvm->arch.force_tsc_unstable = true;
+>>                          r = 0;
+>>                  }
+>>                  mutex_unlock(&kvm->lock);
 >>
->> I don't see how this works.  This clears the bit in the guest copy, then clobbers
->> all of guest_hv_clock with a memcpy().
+>> So that it would be blatantly obvious that there's no race with checking a per-VM
+>> flag without any lock/RCU protections.
 > 
-> Agreed, that seems wrong.
+> Makes sense. Although TBH if the VMM wants to flip this bit on and off
+> at runtime while the guest clocks are being updated, it deserves what
+> it gets. It's not a problem for KVM.
 > 
 
-It is indeed. Looks like it got moved the wrong side of the memcpy() 
-when I rebased.
+The first version of the patch that used an attribute requested a clock 
+update when the attribute was set. I dropped that in this version but I 
+think it'd best to re-instate it.
 
    Paul
