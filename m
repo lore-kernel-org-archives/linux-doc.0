@@ -1,156 +1,225 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DC012E44
-	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 19:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C6518C2A
+	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 23:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WfKHAKEl"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D585119;
-	Wed,  1 Nov 2023 12:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698868430; x=1730404430;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=M9xVc4RU+I+3lt8fPQ1rra7oPUQkh/bproxiAKQkZww=;
-  b=WfKHAKElx0rAmOyxqSY+7XJhGAwe53bS8NWEnTxqFaQ8w6lX06KKoTn8
-   XvW/7bZYVsdLVhZgVRXSgEk+FKL/8v97w0S0ssNwcRfpC755NyjP2geeD
-   3FVSMJi8rfXAT+E/g70nuAfzarxDsRUz9T0aBwmqBQFoK5aJTUqywL9N0
-   qEbTFdDYBOyD9V3bTAh5yv93juWTevceDCUGUnMam5cMn6QDov1Ga5QVD
-   1NGxVWob5IImbpfkPouuH4B8me5q7d1adI2BvtlVSsbPn+XuriKFYPoKv
-   z1whL2z2DcZ/Nq1WQREbXNo3pqm1Zu01kkUC5boZUsMVTng6B8mzhA1ot
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="378960535"
-X-IronPort-AV: E=Sophos;i="6.03,269,1694761200"; 
-   d="scan'208";a="378960535"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 12:53:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,269,1694761200"; 
-   d="scan'208";a="9151150"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Nov 2023 12:53:49 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 1 Nov 2023 12:53:49 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 1 Nov 2023 12:53:49 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Wed, 1 Nov 2023 12:53:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DWfDnZG/gdG0LldSQMU7uXc+s0WUmj4Bp7yIuQprl1S35+yhZr7HssEgaaKxmEDQdmzxTiZO/UV8xJPwGqVpb4rAPvV4IdhjbZ+EDimxGDNnoWN/uFlKtpn3e3Isl6OAgOBb9BWMPI0ROjZFf0K9hO8aXEXgcATUgQh8jIAUDJW7/NoeOcfLT9Oow8/53etQn0mpsVMt3UZP+wklrHsNSpn1Zyzo1kn/F7onLA065LlkjVbb4UHa2aEj1ab12XhbCApagNxxXqWeI1kB5x4eecepyP5AGBRSeXwfRr/WDsOqaKe70jE6t7VQ8MHvK3rvQlAfDJP9giJguGtFXMWbPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M9xVc4RU+I+3lt8fPQ1rra7oPUQkh/bproxiAKQkZww=;
- b=E9Uf0XBMMYy8SnR113a6Mu+quJSJQnz2vO+HHwqogmBsLrmySqMc0P2PoOfGIsg8Gg0vPr+m2BDimqwNeYAQKVGo8jT72kpcQCWkwOER7BEyWLcwQ3WRsew75cUjAjJRZkKbNfEwYBoNDv7JWRa/KRCAH7qCTAThJkJP0tCM1yr3blI2i1vGIcE+Zpst2DJ0EGuic5GvVcY4ff8+D2sEhRQE5DD/LFpi1yrRrIEvbDUHFextBQbhumSYEltXTbaSAh0kxVUmmyzwiRFko753A36oJ+lZ2oxPJ4CdBy+/6FA8fa7Jc5CFwBfYIIuP4LJdNZKqJdS7QPbyHSorwv4Pfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by IA0PR11MB7401.namprd11.prod.outlook.com (2603:10b6:208:433::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Wed, 1 Nov
- 2023 19:53:44 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::2b58:930f:feba:8848]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::2b58:930f:feba:8848%5]) with mapi id 15.20.6933.029; Wed, 1 Nov 2023
- 19:53:44 +0000
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "Yu, Fenghua" <fenghua.yu@intel.com>, "Chatre, Reinette"
-	<reinette.chatre@intel.com>, Peter Newman <peternewman@google.com>, "Jonathan
- Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	"x86@kernel.org" <x86@kernel.org>
-CC: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
-	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
-	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v10 3/8] x86/resctrl: Prepare for different scope for
- control/monitor operations
-Thread-Topic: [PATCH v10 3/8] x86/resctrl: Prepare for different scope for
- control/monitor operations
-Thread-Index: AQHaDD+m8/venzY3sEKkZr/G3i5JJ7Bl4TZw
-Date: Wed, 1 Nov 2023 19:53:44 +0000
-Message-ID: <SJ1PR11MB6083401EF56E9AED2C8245A5FCA7A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20231020213100.123598-1-tony.luck@intel.com>
- <20231031211708.37390-1-tony.luck@intel.com>
- <20231031211708.37390-4-tony.luck@intel.com>
-In-Reply-To: <20231031211708.37390-4-tony.luck@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|IA0PR11MB7401:EE_
-x-ms-office365-filtering-correlation-id: d27e9ca0-c936-4e5a-540e-08dbdb14411b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lBQR9A5Sy2+xYX4YyxR7hhscQ6w4aqW4N0a2BzNK8uwOiVKwS0F0IvD2GbPI2GRCsmAKz0LMCFEl7hoHVIv6CwvXyatZu5zorsDgdluYnc9hYP5EotqunW3UKQyVqksoNYft+Se4z1ffmGnnKsGMHnGhWv84UxISJyr9jLJ7nqoPxNzBSkJbUEPvCkHUoiuB6PTzCTCvqOhUQ3hXSPS04d26yYDmZfjNK5Ur4BUYwWjNbNCaE5YQHv6Vml04DhBW/5pstl/30fXq0x0lNg4OGzWjFT0NEZAx4KODX5ttd1EljhLTyR+3m/cbB8GgKEqkIO/sEEAabEYOfjQnDA1QpRzljyHMCDO+Bejzt25bopxyFV42wctcVnbvXrb2+KKHg7PUi67C3peRee3K2jYfhJEHJzbEWx0yn8Ffimp4kBzY3n5D9v9P2kqPy5SxXfofam1YwD6m8affZpYfToA4Eerd4D7iOc8ShFOGVEsXEpU6DSbUlRSWaSvAXrUUb2GiJFJonaz0RAtKYzenbqyYunPkr2NS75hBZyiuvYa0m8o/OQk1qVBUcTa2Y37XC8EUtg278/G7g4dJ6EZ8sQZ/ZF1cgp/PdunQmWNQWWBzLic8T9cQGDEZftT4Sdh9Ka1w
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(136003)(396003)(376002)(346002)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(478600001)(26005)(9686003)(6506007)(8676002)(5660300002)(7696005)(7416002)(52536014)(76116006)(110136005)(64756008)(41300700001)(66946007)(316002)(54906003)(4326008)(8936002)(66446008)(66556008)(66476007)(38070700009)(82960400001)(122000001)(2906002)(38100700002)(71200400001)(558084003)(86362001)(33656002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2Tto3EWlmJsYdRkLmSp1tChcziq7146UyRbw2jlypO1dSKcwmmtCOZuiGMxe?=
- =?us-ascii?Q?KRBRMXXY6rSQBtVoQGDdxfph7dYj2mx4uh5czVHmf2+ozarw0LkSRfRxfShC?=
- =?us-ascii?Q?O5MI+A1qexZPVaS8kJa00mMBfUZKUec28KEHS5aUf9ChazOt7L3vS9rhqoGL?=
- =?us-ascii?Q?H/xj8FMWrMIH5w5/ZxwIhg70TjKyGC0VU52GGvN7xkU2U8ZmbeOtACe7LDUn?=
- =?us-ascii?Q?L53ErXdITCjZqRK6PPEkW+WNyo2F4ulHsiWllUEHjVQ0AjPiJaXQEgppFmQx?=
- =?us-ascii?Q?EdM/qUCo42+xvJ2+vPaSoMxPx9SElWSPCp5TUr3aRUFuE2UhzQDbk+pJ0e9E?=
- =?us-ascii?Q?sMIlZ8X6mDRqBcWHKD+FlJlybS8yJpcDgAX38nnS4wYxSVLRCpUG1KFfRpJU?=
- =?us-ascii?Q?ApqXCwabReGjaSxIUwMyeWW0qWetiNvwEdfY2XIoxm6sdGdpR3I/xWqdNsvc?=
- =?us-ascii?Q?xw9xA4QkpRr53IFcYt3ZFacQWxrpzNViapcP77FT9iENmvZAWCs5du8o6LOs?=
- =?us-ascii?Q?YBacWrureXw/8iS3tpJ0LjDw8yhWoKpHbtpLU25IVjdoczDLGk/jDZlTsLM0?=
- =?us-ascii?Q?ZiLJYyfY/fnco0tD6BHsOzHSyhgK7S649m7pHqJPjHi29iAfnDj9ZADCdzE3?=
- =?us-ascii?Q?/uZxSyw0263AZKYQkFiGXpb6/CxwtKOMCyUIdL4Vy2UUbipiDho51ZjfWe3N?=
- =?us-ascii?Q?nsBCEvWjkS4kNqyNRMKjbTrHwqrkWOc3qpKltGeqNXewlg1HuBRbnYhJ7E+Y?=
- =?us-ascii?Q?yanFamZnq6eBYPPkpSsIiVmA0MBIrJvM8CdXK6sVJ+xoBVE4VN6hSyl6cF3v?=
- =?us-ascii?Q?NUfaym3CcOKWU7jBSnDrDxvRKx+ISDvH53RB8S0KOu1F7jqimFnsBhg8Z2Uv?=
- =?us-ascii?Q?Q/AVgoM1yQiyy4XVktpxnSZd86a5E430YKZAwQCJYEm29w4oYnAztZR86giI?=
- =?us-ascii?Q?5gbuo2JAsoWknEdn4mmK3bYi2QH8JP6TRL966pSPo/VbRP9zLxKCrPXWeiea?=
- =?us-ascii?Q?Ucl3s9L0cRnocm3usWkEIwsJTvga9ASHE9hkbuk1XKwMuc9kRVHUyHnJisB2?=
- =?us-ascii?Q?1bbAnAYZQ6TpYXkhCMx/r6bBFz8Lae9oD5v8gM9kLkgILtmTHZHm7xvXC4Oe?=
- =?us-ascii?Q?ey2ZYpwnYp6+NbdKaX0vap5Z0IJpGKJTsi9aC5YaCfqIUVSsIr10/WOKiLcs?=
- =?us-ascii?Q?yMezrwExjetA1ThQzXptOy44AKTHJVb8O1Sh4CztstKsJF3MgB2myhKMrOd/?=
- =?us-ascii?Q?07NThSdb6rWlNTpI2TrvePHq1neJHAE8Qa+Z8dOEZmX0EheSwsBDPn58OZkB?=
- =?us-ascii?Q?SBEJXMq0ZxatCBiatgY4TQHPPPeGlqH5s0MUJeB3bOSMRlABrqs4Rt4plcDU?=
- =?us-ascii?Q?QeSkxhhFgYXB3GTIR2hbf6/Iq5mnKsHaPH+nLtBJ6tVavAetuj/KTEtneVAw?=
- =?us-ascii?Q?fd59grPkslM05u7ukKoHXwZf2Ln5Ec/iwI75c7u3lOyR25lVBT0a0TmcAlX7?=
- =?us-ascii?Q?jQ8Ss0yfUs8GIJBt4ja9A1fQoXy5KWTTRNpUP4oKWyMQOqW8CAEvy8/voc/l?=
- =?us-ascii?Q?DZhWZygtTJwberkOAnVlfJ7fHMedEdCBDJjXrq28?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vS7A/Awz"
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B594109
+	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 16:08:19 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d86766bba9fso182899276.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Nov 2023 16:08:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1698880098; x=1699484898; darn=vger.kernel.org;
+        h=to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5qWWijUVxf0dBo3Nq+4AwtcGaRZKaTUhIgmJU1h7y10=;
+        b=vS7A/AwzFuO6c9Wg8F034uLUYOAV13dOAuEist4CoQYvCVmgKZz52Gl5NLwoL7Rn80
+         p9JPyphNGf3OidqQ3aCvnnwaptX2e/dmUm6stsGMUl0fw8dqS5G1Ff5Sy/LWIfkmJcG/
+         h5Ilp6CGIAe0aOLb0j7Dg6iZ5ZO1/uMIKkz/DDuwKT11v/yvkkrMDxrxDmlRYufAUSCQ
+         quCw7TzMbcGCk/ek+TI3RPgaNN2wsWTEzv6PTfRXt6A1xclPi2TzzPLHlO74rHO8eJlo
+         6hPSmfPPJxY5hG1GofEJonwumRtbRhMAzT72dzx2WicJaD7A33j468boPImPpeavjwBk
+         oZUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698880098; x=1699484898;
+        h=to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5qWWijUVxf0dBo3Nq+4AwtcGaRZKaTUhIgmJU1h7y10=;
+        b=o7fRaKd4SDOVL92R9fmQgxZM2C619vedYaVTI2KgWk8+1lZzMCHnZ/cnHN1O0wsCs3
+         UqhhORoR3xVzIYGJscHNbaUqcwPpHTio+zEjkAx5iBjzziaOjeTC7OSBi79XJLFUJkAY
+         hP7lRuTITZWSq+dXnz7M17gXgI6KHCgrtAqXNpJ8i6j3akNw8Xw2rez1ySr8isQvPh8J
+         yJcQeqzuoz9jGkrVKhfvLDU7z8t1X63XBmv4vwDmZPp4MbP4ejlbm/aMkCGa8XsvZLQ4
+         enu2cqHVv1ws7hxXMfF7JjWhi8o6FFI2bh0cJkYjcIJI/Z/WyfJn+2pyt7u96jrVxik1
+         Cp8Q==
+X-Gm-Message-State: AOJu0Yy/eTfQM8Mr2Po8ynon61XouuAd/kPMp6kb6JbPEWagkgledant
+	Eeu5/rx/0PEQ1AObwYI4qNeN4wQm9p6oD/FIbQ==
+X-Google-Smtp-Source: AGHT+IFdYPqJCyM6xAim+PJhI90ZB8YdsXHWHdsf1a2bYh7xJWEgEFuSl7UhZ0FcxYXizhGP8t1i3U9NTQqL2dt7Ng==
+X-Received: from souravpanda.svl.corp.google.com ([2620:15c:2a3:200:9bf9:be0e:41ed:e474])
+ (user=souravpanda job=sendgmr) by 2002:a25:abc7:0:b0:da0:6216:798f with SMTP
+ id v65-20020a25abc7000000b00da06216798fmr238035ybi.13.1698880098507; Wed, 01
+ Nov 2023 16:08:18 -0700 (PDT)
+Date: Wed,  1 Nov 2023 16:08:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d27e9ca0-c936-4e5a-540e-08dbdb14411b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2023 19:53:44.1095
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: B1e1CGLVTztyV0kjH3nD216VEsTVP4IH7M80i+06UlAFXYvol/kEw+7SJZwH+nB81w9uevxjywZydb4WE7jS5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7401
-X-OriginatorOrg: intel.com
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.42.0.820.g83a721a137-goog
+Message-ID: <20231101230816.1459373-1-souravpanda@google.com>
+Subject: [PATCH v5 0/1] mm: report per-page metadata information
+From: Sourav Panda <souravpanda@google.com>
+To: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
+	akpm@linux-foundation.org, mike.kravetz@oracle.com, muchun.song@linux.dev, 
+	rppt@kernel.org, david@redhat.com, rdunlap@infradead.org, 
+	chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, souravpanda@google.com, 
+	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
+	pasha.tatashin@soleen.com, yosryahmed@google.com, hannes@cmpxchg.org, 
+	shakeelb@google.com, kirill.shutemov@linux.intel.com, 
+	wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz, 
+	Liam.Howlett@Oracle.com, surenb@google.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	willy@infradead.org, weixugc@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-+/*
-+ * domain_add_cpu - Add a cpu to either/both resource's domain lists.
-+ */
-+static void domain_add_cpu(int cpu, struct rdt_resource *r)
+Changelog:
+v5:
+	- Addressed comments from Muchun Song.
+		- Fixed errors introduced in v4 when
+		  CONFIG_SPARSEMEM_VMEMMAP is disabled by testing
+		  against FLATMEM and SPARSEMEM memory models.
+		- Handled the condition wherein the allocation of
+		  walk.reuse_page fails, by moving NR_PAGE_METADATA
+		  update into the clause if( walk.reuse_page ).
+		- Removed the usage of DIV_ROUND_UP from
+		  alloc_vmemmap_page_list since "end - start" is
+		  always a multiple of PAGE_SIZE.
+		- Modified alloc_vmemmap_page_list to update
+		  NR_PAGE_METADATA once instead of every loop.
+v4:
+	- Addressed comment from Matthew Wilcox.
+		- Used __node_stat_sub_folio and __node_stat_add_folio
+		  instead of __mod_node_page_state in mm/hugetlb.c.
+		- Used page_pgdat wherever possible in the entire patch.
+		- Used DIV_ROUND_UP() wherever possible in the entire
+		  patch.
+v3:
+	- Addressed one comment from Matthew Wilcox.
+	  	- In free_page_ext, page_pgdat() is now extracted
+		  prior to freeing the memory.
+v2:
+	- Fixed the three bugs reported by kernel test robot.
+	- Enhanced the commit message as recommended by David Hildenbrand.
+	- Addressed comments from Matthew Wilcox:
+	  	- Simplified alloc_vmemmap_page_list() and
+		  free_page_ext() as recommended.
+		- Used the appropriate comment style in mm/vmstat.c.
+		- Replaced writeout_early_perpage_metadata() with
+		  store_early_perpage_metadata() to reduce ambiguity
+		  with what swap does.
+	- Addressed comments from Mike Rapoport:
+	  	- Simplified the loop in alloc_vmemmap_page_list().
+		- Could NOT address a comment to move
+		  store_early_perpage_metadata() near where nodes
+		  and page allocator are initialized.
+		- Included the vmalloc()ed page_ext in accounting
+		  within free_page_ext().
+		- Made early_perpage_metadata[MAX_NUMNODES] static.
 
-Bother. Missed one comment that needs s/cpu/CPU/
 
--Tony
+Previous approaches and discussions
+-----------------------------------
+v4:
+https://lore.kernel.org/all/20231031223846.827173-1-souravpanda@google.com
+v3:
+https://lore.kernel.org/all/20231031174459.459480-1-souravpanda@google.com
+v2:
+https://lore.kernel.org/all/20231018005548.3505662-1-souravpanda@google.com
+v1:
+https://lore.kernel.org/r/20230913173000.4016218-2-souravpanda@google.com
+
+Hi!
+
+This patch adds a new per-node PageMetadata field to
+/sys/devices/system/node/nodeN/meminfo and a global PageMetadata field
+to /proc/meminfo. This information can be used by users to see how much
+memory is being used by per-page metadata, which can vary depending on
+build configuration, machine architecture, and system use.
+
+Per-page metadata is the amount of memory that Linux needs in order to
+manage memory at the page granularity. The majority of such memory is
+used by "struct page" and "page_ext" data structures.
+
+
+Background
+----------
+
+Kernel overhead observability is missing some of the largest
+allocations during runtime, including vmemmap (struct pages) and
+page_ext. This patch aims to address this problem by exporting a
+new metric PageMetadata.
+
+On the contrary, the kernel does provide observibility for boot memory
+allocations. For example, the metric reserved_pages depicts the pages
+allocated by the bootmem allocator. This can be simply calculated as
+present_pages - managed_pages, which are both exported in /proc/zoneinfo.
+The metric reserved_pages is primarily composed of struct pages and
+page_ext.
+
+What about the struct pages (allocated by bootmem allocator) that are
+free'd during hugetlbfs allocations and then allocated by buddy-allocator
+once hugtlbfs pages are free'd?
+
+/proc/meminfo MemTotal changes: MemTotal does not include memblock
+allocations but includes buddy allocations. However, during runtime
+memblock allocations can be shifted into buddy allocations, and therefore
+become part of MemTotal.
+
+Once the struct pages get allocated by buddy allocator, we lose track of
+these struct page allocations overhead accounting. Therefore, we must
+export a new metric that we shall refer to as PageMetadata (exported by
+node). This shall also comprise the struct page and page_ext allocations
+made during runtime.
+
+Results and analysis
+--------------------
+
+Memory model: Sparsemem-vmemmap
+$ echo 1 > /proc/sys/vm/hugetlb_optimize_vmemmap
+
+$ cat /proc/meminfo | grep MemTotal
+	MemTotal:       32918196 kB
+$ cat /proc/meminfo | grep Meta
+	PageMetadata:     589824 kB
+$ cat /sys/devices/system/node/node0/meminfo | grep Meta
+	Node 0 PageMetadata:     294912 kB
+$ cat /sys/devices/system/node/node1/meminfo | grep Meta
+	Node 1 PageMetadata:     294912 kB
+
+
+AFTER HUGTLBFS RESERVATION
+$ echo 512 > /proc/sys/vm/nr_hugepages
+
+$ cat /proc/meminfo | grep MemTotal
+
+MemTotal:       32934580 kB
+$ cat /proc/meminfo | grep Meta
+PageMetadata:     575488 kB
+$ cat /sys/devices/system/node/node0/meminfo | grep Meta
+Node 0 PageMetadata:     287744 kB
+$ cat /sys/devices/system/node/node1/meminfo | grep Meta
+Node 1 PageMetadata:     287744 kB
+
+AFTER FREEING HUGTLBFS RESERVATION
+$ echo 0 > /proc/sys/vm/nr_hugepages
+$ cat /proc/meminfo | grep MemTotal
+MemTotal:       32934580 kB
+$ cat /proc/meminfo | grep Meta
+PageMetadata:    589824 kB
+$ cat /sys/devices/system/node/node0/meminfo | grep Meta
+Node 0 PageMetadata:       294912 kB
+$ cat /sys/devices/system/node/node1/meminfo | grep Meta
+Node 1 PageMetadata:       294912 kB
+
+Sourav Panda (1):
+  mm: report per-page metadata information
+
+ Documentation/filesystems/proc.rst |  3 +++
+ drivers/base/node.c                |  2 ++
+ fs/proc/meminfo.c                  |  7 +++++++
+ include/linux/mmzone.h             |  3 +++
+ include/linux/vmstat.h             |  4 ++++
+ mm/hugetlb.c                       | 11 ++++++++--
+ mm/hugetlb_vmemmap.c               | 12 +++++++++--
+ mm/mm_init.c                       |  3 +++
+ mm/page_alloc.c                    |  1 +
+ mm/page_ext.c                      | 32 +++++++++++++++++++++---------
+ mm/sparse-vmemmap.c                |  3 +++
+ mm/sparse.c                        |  7 ++++++-
+ mm/vmstat.c                        | 24 ++++++++++++++++++++++
+ 13 files changed, 98 insertions(+), 14 deletions(-)
+
+-- 
+2.42.0.820.g83a721a137-goog
+
