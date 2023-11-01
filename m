@@ -1,142 +1,93 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06285107BA
-	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 10:56:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3AE410954;
+	Wed,  1 Nov 2023 11:02:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joACo38Y"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CA57122;
-	Wed,  1 Nov 2023 03:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698836200; x=1730372200;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8XoIBvJBqu2UWQDbjlJ+l/oehOtNlARvyRZhwkORV84=;
-  b=joACo38YsW5rDnNlEJ/Xxzw8zZ4RCx2y3xv8BxVCtX3YPx4W9W1nYcfG
-   xp88PbhiETi1IQesFchd89jVpW6MEtxi0eKJlTF6RED7jYQvgXNeAVfZk
-   1kH0MAqpUePfQu1PUPN43M370FjomDlqFMsQkuhmjQO2BW2yfx8Q6anIG
-   uqjj4khol5TpDT2C+lDDe9zPIHOQyQVUmXpZulQqupMFIxyqc2aBi/0NI
-   R6dUf9d1YvzDIR6HciZZliI9qGt4bza8O8P0s1C7CZP1++I3+P/TPiOwa
-   usJbrb4/Ni4NnOXOkts/Dq3A/jlNIlEa+Z0veAhx29w6vlw8qCFzuFF7Q
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="454948364"
-X-IronPort-AV: E=Sophos;i="6.03,268,1694761200"; 
-   d="scan'208";a="454948364"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 03:56:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,268,1694761200"; 
-   d="scan'208";a="8632388"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 Nov 2023 03:56:37 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qy8tm-0000lM-1L;
-	Wed, 01 Nov 2023 10:56:34 +0000
-Date: Wed, 1 Nov 2023 18:56:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Ober <dober6023@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jdelvare@suse.com, linux@roeck-us.net,
-	corbet@lwn.net, dober@lenovo.com, mpearson-lenovo@squebb.ca,
-	David Ober <dober6023@gmail.com>
-Subject: Re: [PATCH v2] hwmon:Add MEC172x Micro Chip driver for Lenovo
- motherboards
-Message-ID: <202311011858.M1Ui9wp1-lkp@intel.com>
-References: <20231031154930.4908-1-dober6023@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DBJCW2Ns"
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65AEFFC;
+	Wed,  1 Nov 2023 04:02:24 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so2259928f8f.0;
+        Wed, 01 Nov 2023 04:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698836543; x=1699441343; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lLGQwWjL2Aw3sFfyWPVTh2LkEYh2Jo+b78gHIPc7ugc=;
+        b=DBJCW2NsUaqE0lQjq3liJexnkoVaIj4KK0h4KXmguzQSy8anfcloF93TuCrsuT9IPt
+         Fhkg950aQykwX6PBRgzXw5hXphmNo2u1xdGuJ7uxYBvnGHFriLYM5IL+gWdIQOeDcUuz
+         fqcJTO/ilUd6HvlZQfC6LGJp3xtQZURa2mxQbkcpSRzZ9bZd2A50J2yCwJdXal3EmAbg
+         aTk0oh15xTILtIEY3rE4lYLes13o+BOAqyG0oxvXMQ9rYNpmS7Dn5lXZuavuUPrC1QB4
+         jHKnMP8QW6ndB3y5qT+uLGtPmf4C5piIgb5kdSc3g/jhD84nApD4lgz9iLPt/K8T8/rO
+         VnFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698836543; x=1699441343;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lLGQwWjL2Aw3sFfyWPVTh2LkEYh2Jo+b78gHIPc7ugc=;
+        b=EdJsOsS/59cJ7Yq+tqMyoVrDdDaODkkTouhNSPCWznd5h98xqrxCR5ZAtU2ScXq4uZ
+         J18YE9hY1osvZ9PF1EYOfTTnYgDOuFWOWq9/agv0LFdz91jA0v2WGybMkKsjGGTViugm
+         NMdVmwI5i3kgC3n5EVkpuv2MHm6pprnUonkJZKx+xY+eNYoFLBsxY86E/fW2roKDeBuc
+         eoMRgwiIvotuhlMTwRheo/JqWaYknpuNI64Iw5qBqzU3qbKH0exOxhiBHkaRcQ3bcgDv
+         UcQJeFSirK3SKYbgaEp3Eeq61SadTSbPMtM164t+qfWF4Xi6vhn7EpDjqijq9k4lvuwz
+         qm4w==
+X-Gm-Message-State: AOJu0YxLtZewPrG1I+aFFERCPxPBq21bNYM4wYue7DrxG+NyJ+DBF830
+	v+xjf6Jveba8telt/BFQNBdBo38i9HZ3fA==
+X-Google-Smtp-Source: AGHT+IGhSCFjWDlSAeyzhKo7ObrQNOoHY2TZnOfL4+qkuskUlpbXSKzRJk8C/Me6qA29voKfgh8GNg==
+X-Received: by 2002:adf:eb47:0:b0:32c:837e:ef0 with SMTP id u7-20020adfeb47000000b0032c837e0ef0mr11190912wrn.50.1698836542620;
+        Wed, 01 Nov 2023 04:02:22 -0700 (PDT)
+Received: from [10.95.173.140] (54-240-197-235.amazon.com. [54.240.197.235])
+        by smtp.gmail.com with ESMTPSA id g8-20020a056000118800b0032f933556b8sm3897074wrx.7.2023.11.01.04.02.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Nov 2023 04:02:22 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <f850458d-c1a3-4851-921e-e04404e827b9@xen.org>
+Date: Wed, 1 Nov 2023 11:02:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231031154930.4908-1-dober6023@gmail.com>
+User-Agent: Mozilla Thunderbird
+Reply-To: paul@xen.org
+Subject: Re: [PATCH v2] KVM x86/xen: add an override for
+ PVCLOCK_TSC_STABLE_BIT
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>,
+ Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231031115748.622578-1-paul@xen.org>
+ <ZUGCPQegUeTutsrb@google.com>
+ <028f629d16377f9a7e9fd87ef9564846b0ab4ed9.camel@infradead.org>
+Organization: Xen Project
+In-Reply-To: <028f629d16377f9a7e9fd87ef9564846b0ab4ed9.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+On 31/10/2023 22:48, David Woodhouse wrote:
+> On Tue, 2023-10-31 at 15:39 -0700, Sean Christopherson wrote:
+>> On Tue, Oct 31, 2023, Paul Durrant wrote:
+>>>
+>>> +       if (force_tsc_unstable)
+>>> +               guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
+>>
+>> I don't see how this works.  This clears the bit in the guest copy, then clobbers
+>> all of guest_hv_clock with a memcpy().
+> 
+> Agreed, that seems wrong.
+> 
 
-kernel test robot noticed the following build warnings:
+It is indeed. Looks like it got moved the wrong side of the memcpy() 
+when I rebased.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.6 next-20231101]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Ober/hwmon-Add-MEC172x-Micro-Chip-driver-for-Lenovo-motherboards/20231031-235345
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20231031154930.4908-1-dober6023%40gmail.com
-patch subject: [PATCH v2] hwmon:Add MEC172x Micro Chip driver for Lenovo motherboards
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231101/202311011858.M1Ui9wp1-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311011858.M1Ui9wp1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311011858.M1Ui9wp1-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/hwmon/lenovo-ec-sensors.c: In function 'get_ec_reg':
-   drivers/hwmon/lenovo-ec-sensors.c:36:25: error: implicit declaration of function 'inb_p'; did you mean 'int_pow'? [-Werror=implicit-function-declaration]
-      36 | #define io_read8(a)     inb_p(a)
-         |                         ^~~~~
-   drivers/hwmon/lenovo-ec-sensors.c:45:13: note: in expansion of macro 'io_read8'
-      45 |         if (io_read8(MCHP_EMI0_APPLICATION_ID) != 0) /* EMI access locked */
-         |             ^~~~~~~~
-   drivers/hwmon/lenovo-ec-sensors.c:35:25: error: implicit declaration of function 'outb_p' [-Werror=implicit-function-declaration]
-      35 | #define io_write8(a, b) outb_p(b, a)
-         |                         ^~~~~~
-   drivers/hwmon/lenovo-ec-sensors.c:48:9: note: in expansion of macro 'io_write8'
-      48 |         io_write8(MCHP_EMI0_APPLICATION_ID, 0x01);
-         |         ^~~~~~~~~
-   drivers/hwmon/lenovo-ec-sensors.c: In function 'get_platform':
->> drivers/hwmon/lenovo-ec-sensors.c:274:9: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
-     274 |         for (idx = 0 ; idx < 6 ; idx++)
-         |         ^~~
-   drivers/hwmon/lenovo-ec-sensors.c:276:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
-     276 |                 system_type[idx] = get_ec_reg(0xC, (0x10 + idx));
-         |                 ^~~~~~~~~~~
-   In function 'get_platform',
-       inlined from 'lenovo_ec_probe' at drivers/hwmon/lenovo-ec-sensors.c:420:26:
->> drivers/hwmon/lenovo-ec-sensors.c:276:34: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-     276 |                 system_type[idx] = get_ec_reg(0xC, (0x10 + idx));
-         |                 ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/lenovo-ec-sensors.c: In function 'lenovo_ec_probe':
-   drivers/hwmon/lenovo-ec-sensors.c:270:14: note: at offset 6 into destination object 'system_type' of size 6
-     270 |         char system_type[6];
-         |              ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/for +274 drivers/hwmon/lenovo-ec-sensors.c
-
-   267	
-   268	static int get_platform(struct ec_sensors_data *data)
-   269	{
-   270		char system_type[6];
-   271		int ret = -1;
-   272		int idx;
-   273	
- > 274		for (idx = 0 ; idx < 6 ; idx++)
-   275			mutex_lock(&data->mec_mutex);
- > 276			system_type[idx] = get_ec_reg(0xC, (0x10 + idx));
-   277			mutex_unlock(&data->mec_mutex);
-   278	
-   279		for (idx = 0 ; idx < 4 ; idx++) {
-   280			if (strcmp(systems[idx], system_type) == 0) {
-   281				ret = idx;
-   282				break;
-   283			}
-   284		}
-   285		return ret;
-   286	}
-   287	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+   Paul
