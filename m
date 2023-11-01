@@ -1,48 +1,48 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A76165F
-	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 00:26:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE857F
+	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 00:26:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AxCw3eos"
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB4B7189;
-	Tue, 31 Oct 2023 17:26:47 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-35809893291so23024075ab.1;
-        Tue, 31 Oct 2023 17:26:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TTnzm5oG"
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB37194;
+	Tue, 31 Oct 2023 17:26:50 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-357ccaf982eso23042035ab.0;
+        Tue, 31 Oct 2023 17:26:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698798407; x=1699403207; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1698798410; x=1699403210; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5LQP5MFDhA+xfUDGLuGe24GCmwsysAw7CRqOtSg8az8=;
-        b=AxCw3eosfKkmrV1cRj4Z+eCIUaK92lRBSs+XaDzHLinJGViOurFEH52FcDEV5eVnLN
-         ehgxwjRTvnnAzcZO0ygzdEINy+rE/f3bEfKPQPEusLueXKTKmtjY69oHBmGRI46KM4Du
-         7p/8NBOoIkvpbltpYhXtslNjd3FzoXo5S0ds2utpXP3suc70+PHnkejAoes2tvnl/8dt
-         lhXLm4x3EbA9ePesfSGFwbJfgVIG2eAk+7rtcVQ/pcNXSaXBf1Okb47hE5Rllx3udU4W
-         QjnqPoj0dmpblgGmHd6yPeH1hYfBx9tEg4GYGO3kzRT86+HX6rIs9Q5+F+coW5o0ZDhq
-         KzfA==
+        bh=3SAgGhvFgEq3ojom6jJPWJ2MyF/faZd9tWGs5HOFcQQ=;
+        b=TTnzm5oGw4rcEXJlvZS/FiwonKEtI7xm5JGFHxRP2hCnZ/CEZkuVj9tMaOlOOUoAud
+         cQtB87zhV5jUkvUdMfIPSgHdUN0FRAOLw1e/ZEq9Upe8gs5zz1lduoSPrFS7havR/Sd9
+         TWKGqWGNEh683ScmLKkKCaIlqGak/TDvp2DvRGAN1Urx6AXlzeGu+ALYkhm5rY4K/Sv5
+         WBZjt5ox4ZfWfznDCGsEWQG3bozcnpUrBqPSG8QAYpuObyTOv3SWdu5+Pk4VICaruf1A
+         O9wejjD5nSwkkEAiDM+n0snY8Q5k+chdlldgX9m4Nl8bHB07praMNnlhXDeuEIj9Cf3G
+         6XfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698798407; x=1699403207;
+        d=1e100.net; s=20230601; t=1698798410; x=1699403210;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5LQP5MFDhA+xfUDGLuGe24GCmwsysAw7CRqOtSg8az8=;
-        b=feOvW3dZjd2lLWut1pHuEy/JCGsxIPIEIciPQ/CBgoNiMeLorYGPN1NWE3z1zduKV6
-         2wh+eldLsN4Rf4FiR/DzKZEaIO6QMOef3h9CkT/3uFmCD0SrWgg7ICmt6O41nHlC8gJT
-         NqDnkSY1KCCwnZRRuN8caKP3hM8ImH5G7laJ9XNqn86CuRLkCKYtVjGMnp6JGPxuuJek
-         I2sJGZ4a8X6bsqIQNHKlW9vpdgW4agnE/wsgMRzcPvHdovY9CISzM+HmgeyYSCkNJPc3
-         vOqqKl6fIJhvk7N6AvA4bkW2+YsXReDbig79cFIFqZ3j84YyZkGJ9PjLS639fcMyIf90
-         blCA==
-X-Gm-Message-State: AOJu0Yww7AJ+7x5meycN4V51LC22fpkeH1w0QF6D0SFRymG9D7RaS6MI
-	m1DHAZT+wGZLBMiEWUrUpbVqXyrme494+A==
-X-Google-Smtp-Source: AGHT+IEgTmvlOr9x4bLvw8pciAoCY0BZ4bhDKeUIJ6/TeWefWYnRzCu1JAK61myF6Ajh5soTw+Xx4w==
-X-Received: by 2002:a92:c266:0:b0:357:5db1:9170 with SMTP id h6-20020a92c266000000b003575db19170mr17284727ild.28.1698798406942;
-        Tue, 31 Oct 2023 17:26:46 -0700 (PDT)
+        bh=3SAgGhvFgEq3ojom6jJPWJ2MyF/faZd9tWGs5HOFcQQ=;
+        b=VHunYjUw7YTP9G85bIgAl/+jjkgbnij33EhBDm7xj4sN/jt4KUPHvONs+yNZub+z9z
+         Kt3GOT6DrqgaD2cux/ASY1Vi3Qvfj6LeXgI6DYDmrdQH9s/yRVtLYltUgngApAxL7H8T
+         Mb7xT+EANYavUZEOCDkx87sL5Yt3hl2PDbSi9abUT1xc5P/l0u61YcXL2qfqFg+Glvpz
+         PCMS9RKDBJ0Ot6iJqmdxGq1waPfuTwFQJtH6Ak2JzyzWkdBaZhCtJtbuZMOWH5nPChQH
+         nVIhvpi4X5HU+Fz4iO3lh2gXZbOEMS+w7V89wdgy+RBBFr2j0gm3l/dfiiRcpO2s2Z9X
+         NhjQ==
+X-Gm-Message-State: AOJu0YwXOFP3Io1cDQkybRrhW2oD2Qwp3fDyYwghytDH5+eM+YC3wBy1
+	wcIN3iMxpDyzsTkFM3PPOwxgntDpuYODHA==
+X-Google-Smtp-Source: AGHT+IFaLMPhKAQDiXwdcpHNHlQB0x4IFVrH9A1QbFz7CNOFwFce//LXq9uQbZHYcyJx7HoGA67UZQ==
+X-Received: by 2002:a05:6e02:1522:b0:357:a180:6b74 with SMTP id i2-20020a056e02152200b00357a1806b74mr19332114ilu.27.1698798409806;
+        Tue, 31 Oct 2023 17:26:49 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id t1-20020a92c901000000b00357cc8df1d5sm141701ilp.68.2023.10.31.17.26.45
+        by smtp.googlemail.com with ESMTPSA id t1-20020a92c901000000b00357cc8df1d5sm141701ilp.68.2023.10.31.17.26.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 17:26:46 -0700 (PDT)
+        Tue, 31 Oct 2023 17:26:49 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	jbaron@akamai.com,
@@ -74,9 +74,9 @@ Cc: lb@semihalf.com,
 	linux-arm-msm@vger.kernel.org,
 	mingo@redhat.com,
 	jim.cromie@gmail.com
-Subject: [PATCH v7d 21/23] drm: use correct ccflags-y spelling
-Date: Tue, 31 Oct 2023 18:26:07 -0600
-Message-ID: <20231101002609.3533731-22-jim.cromie@gmail.com>
+Subject: [PATCH v7d 23/23] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+Date: Tue, 31 Oct 2023 18:26:09 -0600
+Message-ID: <20231101002609.3533731-24-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231101002609.3533731-1-jim.cromie@gmail.com>
 References: <20231101002609.3533731-1-jim.cromie@gmail.com>
@@ -88,35 +88,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Incorrectly spelled CFLAGS- failed to add -DDYNAMIC_DEBUG_MODULE,
-which broke builds with:
+Lots of burn-in testing needed before signing, upstreaming.
 
-CONFIG_DRM_USE_DYNAMIC_DEBUG=y
-CONFIG_DYNAMIC_DEBUG_CORE=y
-CONFIG_DYNAMIC_DEBUG=n
+NOTE: I set default Y to maximize testing by default.
+Is there a better way to do this ?
 
-Also add subdir-ccflags so that all drivers pick up the addition.
-
-Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro")
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 215e78e79125..22b1984cc982 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -3,7 +3,8 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 3caa020391c7..708f5e8cb205 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -55,8 +55,7 @@ config DRM_DEBUG_MM
  
--CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
-+ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)		+= -DDYNAMIC_DEBUG_MODULE
-+subdir-ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
- 
- drm-y := \
- 	drm_aperture.o \
+ config DRM_USE_DYNAMIC_DEBUG
+ 	bool "use dynamic debug to implement drm.debug"
+-	default n
+-	depends on BROKEN
++	default y
+ 	depends on DRM
+ 	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+ 	depends on JUMP_LABEL
 -- 
 2.41.0
 
