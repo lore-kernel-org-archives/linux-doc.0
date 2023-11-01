@@ -1,302 +1,178 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E11A134CD
-	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 14:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D89315492
+	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 16:46:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hk+P13ew"
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08BE010F;
-	Wed,  1 Nov 2023 07:56:55 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6bb4abb8100so6285206b3a.2;
-        Wed, 01 Nov 2023 07:56:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GbmChK2+"
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D60FD
+	for <linux-doc@vger.kernel.org>; Wed,  1 Nov 2023 09:46:06 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-da0c6d62ec8so6276746276.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Nov 2023 09:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698850614; x=1699455414; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=T5eqcDZB5c0baecYRCFjpMqUqeKyZRbdxM6CaL31wS0=;
-        b=hk+P13ew1iUjubBwENVzC94oC7pxfjx/jhWEPu8Dr3AxnfWj6QhWDmtT4gYnWAG5nY
-         8NTMp7JLZKyXjzEDZiq8p96io6BL3l9QhLqtVQLvD5XSjK0ErBPKHhI/nPqfDM1xR/ng
-         P1BhJEHFJnJFI+g0dyg3l7VH9nRyaW6C/iM1hhd+aNI3CNFXvajR7SyfD8bPDHPiSWBm
-         2wgtAtfz9T9Bd4dICo0EyeU/FlNiF7ZPTBgX93pK6z7Te6btcNzLUPBNDPX0f0y77NRs
-         7BdsW1yTa1/p7A+icu+yke/gotHNxWnHSZ2IKT3lqPZ0JlkMw5t2exYN4FnTwAljVYH1
-         p9cw==
+        d=google.com; s=20230601; t=1698857165; x=1699461965; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TK6zRbNRnaaGZQru6tpn4DJQzZiGHhIaVNTtMzEhwHs=;
+        b=GbmChK2++j9Z0JUs0KsrZHv0aPtsBHfQ0LvOKWrnYyC+OIcBG/jf0zqKdDGrmK1dkR
+         lEoqiLdsmhTrvJzGEtUBgACUoyQko7v1lYUAwq61Z0S8BQZI5VFhr9Bp6t9nmB2sCFK6
+         4VHft0h0xIwFXgELuGQTNBblAB8Nysjmzz4+gZPi01nbB8+lN+MTgZIAny0qcxYfz2ru
+         rIy5oTNyaWUUxA97ABomiUqQO1LiYLGGXbtB15VA9Qn/gLJjd2voWNeyhOp/H5Kajepr
+         Ngw8wDy4Nerq8zm8YywlCqJjyjm1WmSjnAPPtJKFkkkICxYDI3Cf0KM5bf3N4vhrjfnc
+         r/UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698850614; x=1699455414;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T5eqcDZB5c0baecYRCFjpMqUqeKyZRbdxM6CaL31wS0=;
-        b=lqbWj+x83qRGnwdirsIA3dXtgdmkXRzap+sj3CN4xiueh7MtCqFpAQQv0wRe4cV0CS
-         +PYHp44X9+oWxH3XSPuN21HoT5HXL0dC4rO/4kB1ZOMePu0MvtBeWhZzQRdntBLzi/GO
-         n8T8wUQe3vDRI+BkVwvNhyFojh4DiRJGYfi3zqGO9bgOQCHL+/PKQUauYDRRt5xQCrOe
-         vbLTDK8pOoWi45DH1IWUdd23Aj4mjDA2u/+yJlsdoI+1phdX5rBwTzcFcFCdp98deLU9
-         93V37eaVTUO+f2tvIsnDiNUVCro0h1Q22mElOlDmYPEpqN3KqYUGQUWukg2qqY2vNqG9
-         otGA==
-X-Gm-Message-State: AOJu0YxpcuR+fO3n2QAHjnHA/P7Hq0shrlSUowRCI1nTOQuP8oZ856gI
-	dvpi9KVVKWL2L9oWxR2g8Zk=
-X-Google-Smtp-Source: AGHT+IGIerrmfy5iTMcHXFqJ9jhYtYTASfoyiH2x+1SaLDtHH00p49QkZs0KZgAx5AbjEtRIn7IgkA==
-X-Received: by 2002:a05:6a00:2341:b0:692:b6e8:ce88 with SMTP id j1-20020a056a00234100b00692b6e8ce88mr14510936pfj.17.1698850614271;
-        Wed, 01 Nov 2023 07:56:54 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id l16-20020a056a0016d000b006bd67a7a7b3sm1384368pfc.68.2023.11.01.07.56.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Nov 2023 07:56:53 -0700 (PDT)
-Message-ID: <0e003343-3c64-4fee-a56f-987a4ef6e336@gmail.com>
-Date: Wed, 1 Nov 2023 23:56:49 +0900
+        d=1e100.net; s=20230601; t=1698857166; x=1699461966;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TK6zRbNRnaaGZQru6tpn4DJQzZiGHhIaVNTtMzEhwHs=;
+        b=bDgxnNhwttvfDv4vmktRXHdXvCPG1a7l5wg8zXZYVEVVokuY1M2sQNmWVNf5v8eITx
+         h9H4pw9FebwIxSBybw9cW6OouTmWEa0JAYuZgoDYvY4oiNVv25bhp92WwffWZjsZznfn
+         tpmA0PHLCo4Lg9YHhwwXLLdD3OXrdJ2UHdMM8nt9RWJzeRVBk+qRNZ/fFy7QPV32K3Ya
+         1FEC8BFyf0AVFEfzB7rB6RQEv31p4IKYjZE+Hd+6SYW2g0H6/gkGBiWx8xMDVf6lVzuO
+         smKBlLATCMZMHYgiQQUf1iz0oxDQNNIeZAXeXQD41DWuMUhE4lk1u2WLsm/Cmso4RhXm
+         rTww==
+X-Gm-Message-State: AOJu0YzzNqNF8HUxhgIE+YsUtUNEZ5SAF4bZcEISrhiY0mjKA0SSoHc8
+	YcEerNyVzAfNeehp9CsIwnNMWt8yyMA=
+X-Google-Smtp-Source: AGHT+IHtwh3c3DNIaPCk1TA9eY4hLxblw7bOvi/N9yqoqPx/PUA0Lv0gE6u8JTy7Iy5AmtVcGWneKurXYr8=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:abcd:0:b0:da0:42f3:6ce4 with SMTP id
+ v71-20020a25abcd000000b00da042f36ce4mr277219ybi.7.1698857165733; Wed, 01 Nov
+ 2023 09:46:05 -0700 (PDT)
+Date: Wed, 1 Nov 2023 09:46:04 -0700
+In-Reply-To: <20231101112934.631344-1-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] docs: translations: add translations links when they
- exist
-To: vegard.nossum@oracle.com
-Cc: akiyks@gmail.com, alexs@kernel.org, carlos.bilbao@amd.com,
- corbet@lwn.net, federico.vaga@vaga.pv.it, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, siyanteng@loongson.cn, src.res.211@gmail.com
-References: <20231028162931.261843-1-vegard.nossum@oracle.com>
-Content-Language: en-US
-In-Reply-To: <20231028162931.261843-1-vegard.nossum@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20231101112934.631344-1-paul@xen.org>
+Message-ID: <ZUKAzGzEts262FqC@google.com>
+Subject: Re: [PATCH v3] KVM x86/xen: add an override for PVCLOCK_TSC_STABLE_BIT
+From: Sean Christopherson <seanjc@google.com>
+To: Paul Durrant <paul@xen.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Hi,
+On Wed, Nov 01, 2023, Paul Durrant wrote:
+> @@ -3231,12 +3245,15 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
+>  	vcpu->hv_clock.flags = pvclock_flags;
+>  
+>  	if (vcpu->pv_time.active)
+> -		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0);
+> +		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0, false);
+> +
+>  	if (vcpu->xen.vcpu_info_cache.active)
+>  		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_info_cache,
+> -					offsetof(struct compat_vcpu_info, time));
+> +					offsetof(struct compat_vcpu_info, time),
+> +					xen_pvclock_tsc_unstable);
+>  	if (vcpu->xen.vcpu_time_info_cache.active)
+> -		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0);
+> +		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0,
+> +					xen_pvclock_tsc_unstable);
+>  	kvm_hv_setup_tsc_page(v->kvm, &vcpu->hv_clock);
+>  	return 0;
 
-On Sat, 28 Oct 2023 18:29:31 +0200, Vegard Nossum wrote:
-> Add a new Sphinx extension that knows about the translations of kernel
-> documentation and can insert links to the translations at the top of
-> the document.
->=20
-> It basically works like this:
->=20
-> 1. Register a new node type, LanguagesNode.
->=20
-> 2. Register a new transform, TranslationsTransform, that inserts a new
->    LanguageNode at the top of every document. The LanguageNode contains=
+Please rebase, this conflicts with commit ee11ab6bb04e ("KVM: X86: Reduce size of
+kvm_vcpu_arch structure when CONFIG_KVM_XEN=n").  I can solve the conflict, but
+I really shouldn't have to.
 
->    "pending references" to translations of the document. The key here
->    is that these are pending (i.e. unresolved) references that may or
->    may not actually exist.
->=20
-> 3. Register a 'doctree-resolved' event that iterates over all the
->    LanguageNode nodes. Any unresolved references are filtered out; the
->    list of resolved references is passed to the 'translations.html'
->    template and rendered as an HTML node (if HTML output is selected).
->=20
-> Testing: make htmldocs with v7.3.0.
+Also, your version of git should support --base, which makes life much easier for
+others when non-trivial conflicts are encountered.  From maintainer-kvm-x86.rst:
 
-So, I've started playing with this.
+ : Git Base
+ : ~~~~~~~~
+ : If you are using git version 2.9.0 or later (Googlers, this is all of you!),
+ : use ``git format-patch`` with the ``--base`` flag to automatically include the
+ : base tree information in the generated patches.
+ : 
+ : Note, ``--base=auto`` works as expected if and only if a branch's upstream is
+ : set to the base topic branch, e.g. it will do the wrong thing if your upstream
+ : is set to your personal repository for backup purposes.  An alternative "auto"
+ : solution is to derive the names of your development branches based on their
+ : KVM x86 topic, and feed that into ``--base``.  E.g. ``x86/pmu/my_branch_name``,
+ : and then write a small wrapper to extract ``pmu`` from the current branch name
+ : to yield ``--base=x/pmu``, where ``x`` is whatever name your repository uses to
+ : track the KVM x86 remote.
 
-It looks like this introduces hysteresis in successive runs of
-"make htmldocs" and "make latexdocs".
+> @@ -4531,7 +4548,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  		    KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
+>  		    KVM_XEN_HVM_CONFIG_SHARED_INFO |
+>  		    KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL |
+> -		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
+> +		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
+> +		    KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
+>  		if (sched_info_on())
+>  			r |= KVM_XEN_HVM_CONFIG_RUNSTATE |
+>  			     KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG;
+> diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+> index 40edf4d1974c..7699d94f190b 100644
+> --- a/arch/x86/kvm/xen.c
+> +++ b/arch/x86/kvm/xen.c
+> @@ -1111,9 +1111,12 @@ int kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
+>  
+>  int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
+>  {
+> +	bool update_pvclock = false;
+> +
+>  	/* Only some feature flags need to be *enabled* by userspace */
+>  	u32 permitted_flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
+> -		KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
+> +		KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
+> +		KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
+>  
+>  	if (xhc->flags & ~permitted_flags)
+>  		return -EINVAL;
+> @@ -1134,9 +1137,19 @@ int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
+>  	else if (!xhc->msr && kvm->arch.xen_hvm_config.msr)
+>  		static_branch_slow_dec_deferred(&kvm_xen_enabled);
+>  
+> +	if ((kvm->arch.xen_hvm_config.flags &
+> +	     KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE) !=
+> +	    (xhc->flags &
+> +	     KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE))
+> +		update_pvclock = true;
 
-Steps to reproduce
+Rather than a boolean and the above, which is a bit hard to parse, what about
+taking a snapshot of the old flags and then doing an XOR?
 
-  1. Run "make cleandocs"
+	/* Only some feature flags need to be *enabled* by userspace */
+	u32 permitted_flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
+		KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
+		KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
+	u32 old_flags;
 
-  2. Run "make htmldocs"
+	if (xhc->flags & ~permitted_flags)
+		return -EINVAL;
 
-  3. Run "make latexdocs"
+	/*
+	 * With hypercall interception the kernel generates its own
+	 * hypercall page so it must not be provided.
+	 */
+	if ((xhc->flags & KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL) &&
+	    (xhc->blob_addr_32 || xhc->blob_addr_64 ||
+	     xhc->blob_size_32 || xhc->blob_size_64))
+		return -EINVAL;
 
-This aborts with the message (under Sphinx 7.2.6):
+	mutex_lock(&kvm->arch.xen.xen_lock);
 
-  Extension error (translations):
-  Handler <function process_languages at 0x7f122f343420> for event 'doctr=
-ee-resolved' threw an exception (exception: 'LaTeXBuilder' object has no =
-attribute 'templates')
-  make[2]: *** [Documentation/Makefile:128: latexdocs] Error 2
-  make[1]: *** [/linux/Makefile:1695: latexdocs] Error 2
-  make: *** [Makefile:234: __sub-make] Error 2
-  Command exited with non-zero status 2
+	if (xhc->msr && !kvm->arch.xen_hvm_config.msr)
+		static_branch_inc(&kvm_xen_enabled.key);
+	else if (!xhc->msr && kvm->arch.xen_hvm_config.msr)
+		static_branch_slow_dec_deferred(&kvm_xen_enabled);
 
-If I run "make latexdocs" in step 2 and "make htmldocs" in step 3,
-both runs complete successfully, but html pages don't have the
-expected links to other translations.
+	old_flags = kvm->arch.xen_hvm_config.flags;
+	memcpy(&kvm->arch.xen_hvm_config, xhc, sizeof(*xhc));
 
-All I can do is to report the symptoms.
-Vegard, can you look into them?
+	mutex_unlock(&kvm->arch.xen.xen_lock);
 
->=20
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/conf.py                         |  2 +-
->  Documentation/sphinx-static/custom.css        |  8 ++
->  .../sphinx/templates/translations.html        | 12 +++
->  Documentation/sphinx/translations.py          | 96 +++++++++++++++++++=
+	if ((old_flags ^ xhc->flags) & KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE)
+		kvm_make_all_cpus_request(kvm, KVM_REQ_CLOCK_UPDATE);
 
->  4 files changed, 117 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/sphinx/templates/translations.html
->  create mode 100644 Documentation/sphinx/translations.py
->=20
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index d4fdf6a3875a..64eab500b2cd 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -55,7 +55,7 @@ needs_sphinx =3D '1.7'
->  extensions =3D ['kerneldoc', 'rstFlatTable', 'kernel_include',
->                'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
->                'maintainers_include', 'sphinx.ext.autosectionlabel',
-> -              'kernel_abi', 'kernel_feat']
-> +              'kernel_abi', 'kernel_feat', 'translations']
-> =20
->  if major >=3D 3:
->      if (major > 3) or (minor > 0 or patch >=3D 2):
-> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sph=
-inx-static/custom.css
-> index 084a884f6fb7..33adee4a35d9 100644
-> --- a/Documentation/sphinx-static/custom.css
-> +++ b/Documentation/sphinx-static/custom.css
-> @@ -73,3 +73,11 @@ input.kernel-toc-toggle { display: none; }
->      h3.kernel-toc-contents { display: inline; }
->      div.kerneltoc a { color: black; }
->  }
-> +
-> +/* Language selection bar */
-> +div.language-selection {
-> +    background: #eeeeee;
-> +    border: 1px solid #cccccc;
-> +    margin-bottom: 1em;
-> +    padding: .5em;
-> +}
-> diff --git a/Documentation/sphinx/templates/translations.html b/Documen=
-tation/sphinx/templates/translations.html
-> new file mode 100644
-> index 000000000000..08afb595c203
-> --- /dev/null
-> +++ b/Documentation/sphinx/templates/translations.html
-> @@ -0,0 +1,12 @@
-> +<!-- SPDX-License-Identifier: GPL-2.0 -->
-> +<!-- Copyright =C2=A9 2023, Oracle and/or its affiliates. -->
-> +
-> +{# Create a language bar for translations #}
-> +{% if languages|length > 0: %}
-> +<div class=3D"language-selection">
-> +Languages:
-> +{% for ref in languages: %}
-> +<a href=3D"{{ ref.refuri }}">{{ ref.astext() }}</a>{% if not loop.last=
- %}, {% endif %}
-> +{% endfor %}
-> +</div>
-> +{% endif %}
-> diff --git a/Documentation/sphinx/translations.py b/Documentation/sphin=
-x/translations.py
-> new file mode 100644
-> index 000000000000..e1da811bdaf0
-> --- /dev/null
-> +++ b/Documentation/sphinx/translations.py
-> @@ -0,0 +1,96 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Copyright =C2=A9 2023, Oracle and/or its affiliates.
-> +# Author: Vegard Nossum <vegard.nossum@oracle.com>
-> +#
-> +# Add translation links to the top of the document.
-> +#
-> +
-> +import os
-> +
-> +from docutils import nodes
-> +from docutils.transforms import Transform
-> +
-> +import sphinx
-> +from sphinx import addnodes
-> +from sphinx.errors import NoUri
-
-NoUri is not in sphinx.errors prior to Sphinx 2.
-I think it is a good chance to finally get rid of Sphinx 1.7.x
-support.
-
-        Thanks, Akira
-
-> +
-> +all_languages =3D {
-> +    # English is always first
-> +    None: 'English',
-> +
-> +    # Keep the rest sorted alphabetically
-> +    'zh_CN': 'Chinese',
-> +    'it_IT': 'Italian',
-> +    'ja_JP': 'Japanese',
-> +    'ko_KR': 'Korean',
-> +    'sp_SP': 'Spanish',
-> +    'zh_TW': 'Taiwanese',
-> +}
-> +
-> +class LanguagesNode(nodes.Element):
-> +    pass
-> +
-> +class TranslationsTransform(Transform):
-> +    default_priority =3D 900
-> +
-> +    def apply(self):
-> +        app =3D self.document.settings.env.app
-> +        if app.builder.format not in ['html']:
-> +            return
-> +
-> +        docname =3D self.document.settings.env.docname
-> +
-> +        this_lang_code =3D None
-> +        components =3D docname.split(os.sep)
-> +        if components[0] =3D=3D 'translations' and len(components) > 2=
-:
-> +            this_lang_code =3D components[1]
-> +
-> +            # normalize docname to be the untranslated one
-> +            docname =3D os.path.join(*components[2:])
-> +
-> +        new_nodes =3D LanguagesNode()
-> +
-> +        for lang_code, lang_name in all_languages.items():
-> +            if lang_code =3D=3D this_lang_code:
-> +                continue
-> +
-> +            if lang_code is None:
-> +                target_name =3D docname
-> +            else:
-> +                target_name =3D os.path.join('translations', lang_code=
-, docname)
-> +
-> +            pxref =3D addnodes.pending_xref('', refdomain=3D'std',
-> +                reftype=3D'doc', reftarget=3D'/' + target_name, modnam=
-e=3DNone,
-> +                classname=3DNone, refexplicit=3DTrue)
-> +            pxref +=3D nodes.Text(lang_name)
-> +            new_nodes +=3D pxref
-> +
-> +        self.document.insert(0, new_nodes)
-> +
-> +def process_languages(app, doctree, docname):
-> +    for node in doctree.traverse(LanguagesNode):
-> +        languages =3D []
-> +
-> +        # Iterate over the child nodes; any resolved links will have
-> +        # the type 'nodes.reference', while unresolved links will be
-> +        # type 'nodes.Text'.
-> +        languages =3D list(filter(lambda xref:
-> +            isinstance(xref, nodes.reference), node.children))
-> +
-> +        html_content =3D app.builder.templates.render('translations.ht=
-ml',
-> +            context=3D{
-> +                'languages': languages,
-> +            })
-> +
-> +        node.replace_self(nodes.raw('', html_content, format=3D'html')=
-)
-> +
-> +def setup(app):
-> +    app.add_node(LanguagesNode)
-> +    app.add_transform(TranslationsTransform)
-> +    app.connect('doctree-resolved', process_languages)
-> +
-> +    return {
-> +        'parallel_read_safe': True,
-> +        'parallel_write_safe': True,
-> +    }
-> --=20
-> 2.34.1
+	return 0;
