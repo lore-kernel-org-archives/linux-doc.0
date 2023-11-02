@@ -1,109 +1,148 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C221DDD0
-	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 16:35:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40BF6FAE
+	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 16:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MgJT4k+z"
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 715DD134;
-	Thu,  2 Nov 2023 09:35:48 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E71E54B7;
-	Thu,  2 Nov 2023 16:35:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E71E54B7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1698942948; bh=7waQtWBq6v9SleipOhTZie0WA8WJXzE+cSqQL2QSnDE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MgJT4k+z6aIjsE3/eyAALjy8FigCW5E8U8EzL0R5xNFfeOblm2ZUZVm9FD126S+NL
-	 /nSoiY0k+X0fN7FBtq9u6T8YEFrhJ9EoDXtilcZ+5mHDVfR0LHKvfOK6gg/qzYb/eJ
-	 9qx/pLo4aZOLSBs0WcW3ewZBOwxx7W4MrB6UTiDR/7Fd8OOfeQ93d1u/kQX5KoYM9F
-	 xpe6cEQQyUpc4XCK3bCMVoCmVEI2RhUqKCfZ6DTk++s+bzm7T684NCA+aMj692Audn
-	 xIbW2xSQ36IQs2/wGV0RF2bdCH6gcViuDYHXXq7wiOXIdTvvVKYTUke01qqzYwdmNG
-	 jfc8hULbGSzUg==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Akira Yokosawa <akiyks@gmail.com>, Stanislav
- Fomichev <sdf@google.com>, David Vernet <void@manifault.com>, Miguel Ojeda
- <ojeda@kernel.org>, James Seo <james@equiv.tech>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Federico Vaga <federico.vaga@vaga.pv.it>, Carlos
- Bilbao <carlos.bilbao@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH RFC RESEND 0/4] Documentation: Web fonts for kernel
- documentation
-In-Reply-To: <20231102123225.32768-1-bagasdotme@gmail.com>
-References: <20231102123225.32768-1-bagasdotme@gmail.com>
-Date: Thu, 02 Nov 2023 10:35:47 -0600
-Message-ID: <874ji48658.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FEUSgRyq"
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79941138
+	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 09:44:17 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-41b406523fcso6291551cf.2
+        for <linux-doc@vger.kernel.org>; Thu, 02 Nov 2023 09:44:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1698943456; x=1699548256; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D5huHRXTal5EExhtsUH3oeQOysPPywQTNSCA2FV70Z4=;
+        b=FEUSgRyq3Ml7GXdMIhkaKrKwkAHfJTp8K5963ipBUdHA+8H4LrWQ1Spv0J0p76l9fI
+         ncMunMxXpYyXS0J+WPvubhYHhNAiKUMGq5/903Ieyw7vTODfgDUVtlkeQbH/gaRyQDXB
+         S67mKSevX+xT+Fph8nvlLbwAkC4mENRIoMm294gqsUf5y3iKEWXgqEFIbD2NoHUtGmeM
+         frIlOlMlAhagN8utbrZgQRZD/Ia6tc4JGvaXThfg3dG4ivtzkLj+IibYrXxkjdnEIH9U
+         oC6mUJpzPQCpszH7ZLg912xSxHepNGtJwEpIlaIDFYO4W65aoBXa3xyRSUNxTeFkWI1d
+         INRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698943456; x=1699548256;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=D5huHRXTal5EExhtsUH3oeQOysPPywQTNSCA2FV70Z4=;
+        b=HFAzxqBrfCtYTu7udKz7L+g0GzIdFj9fJqzp0RkFp95gpmGvUGbgsdNDByWSru20q2
+         yd6CPuZgem4Uc/7aTADLAw3APHGuw9vB0eDoRtpZKLRs1MsX6KQUcyUM/gNJp/uB7Rok
+         sla1v3DEK+ZCWE8T7DreF901UyFWN/rouviUszMVw2OLEbKQS9sl1+IOjlGJ7E9/we4i
+         lIDBIOLnTOpJZ1p/H0Rkuzl6zUhxhePXqo9UI6HdNGIR8g+yCy74Wkes6wM/ks4a4++z
+         WIXs8fiRNgoz89hcsgUyUgQuEsLUC60gdWS3lunYINHD5jF4f9xWRS2l7SxKSBY/sY91
+         KhlA==
+X-Gm-Message-State: AOJu0YwfAZUXpv3TvVNx/TnGVSXS0xGYv+XLiDK4BBwKDfHQyQSeGgDQ
+	KIgvx9Q/sihOAlcTYhjiVmWeWEQm+b+7QqfTTm86Nw==
+X-Google-Smtp-Source: AGHT+IF9lgp6HSclfxgGWa51q3PXdKEwLSx/iwMNQZdCz8lh2GUtaevw/shwA9kvCh/H16OZ4J9mUGLpb/Z5kyo4xi4=
+X-Received: by 2002:ac8:5c4a:0:b0:41c:baed:2941 with SMTP id
+ j10-20020ac85c4a000000b0041cbaed2941mr22010647qtj.15.1698943456529; Thu, 02
+ Nov 2023 09:44:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20231101230816.1459373-1-souravpanda@google.com>
+ <20231101230816.1459373-2-souravpanda@google.com> <CAAPL-u_enAt7f9XUpwYNKkCOxz2uPbMrnE2RsoDFRcKwZdnRFQ@mail.gmail.com>
+ <CA+CK2bC3rSGOoT9p_VmWMT8PBWYbp7Jo7Tp2FffGrJp-hX9xCg@mail.gmail.com>
+ <CAAPL-u-4D5YKuVOsyfpDUR+PbaA3MOJmNtznS77bposQSNPjnA@mail.gmail.com>
+ <1e99ff39-b1cf-48b8-8b6d-ba5391e00db5@redhat.com> <CA+CK2bDo6an35R8Nu-d99pbNQMEAw_t0yUm0Q+mJNwOJ1EdqQg@mail.gmail.com>
+ <025ef794-91a9-4f0c-9eb6-b0a4856fa10a@redhat.com> <CA+CK2bDJDGaAK8ZmHtpr79JjJyNV5bM6TSyg84NLu2z+bCaEWg@mail.gmail.com>
+ <99113dee-6d4d-4494-9eda-62b1faafdbae@redhat.com>
+In-Reply-To: <99113dee-6d4d-4494-9eda-62b1faafdbae@redhat.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 2 Nov 2023 12:43:39 -0400
+Message-ID: <CA+CK2bApoY+trxxNW8FBnwyKnX6RVkrMZG4AcLEC2Nj6yZ6HEw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] mm: report per-page metadata information
+To: David Hildenbrand <david@redhat.com>
+Cc: Wei Xu <weixugc@google.com>, Sourav Panda <souravpanda@google.com>, corbet@lwn.net, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, akpm@linux-foundation.org, 
+	mike.kravetz@oracle.com, muchun.song@linux.dev, rppt@kernel.org, 
+	rdunlap@infradead.org, chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, 
+	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
+	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com, 
+	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com, 
+	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
+	surenb@google.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	willy@infradead.org, Greg Thelen <gthelen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
-
-> The problem
-> ===========
+On Thu, Nov 2, 2023 at 12:09=E2=80=AFPM David Hildenbrand <david@redhat.com=
+> wrote:
 >
-> Currently, the kernel docs uses system-default serif fonts, as in
-> Documentation/conf.py:
+> On 02.11.23 17:02, Pasha Tatashin wrote:
+> > On Thu, Nov 2, 2023 at 11:53=E2=80=AFAM David Hildenbrand <david@redhat=
+.com> wrote:
+> >>
+> >> On 02.11.23 16:50, Pasha Tatashin wrote:
+> >>>>> Adding reserved memory to MemTotal is a cleaner approach IMO as wel=
+l.
+> >>>>> But it changes the semantics of MemTotal, which may have compatibil=
+ity
+> >>>>> issues.
+> >>>>
+> >>>> I object.
+> >>>
+> >>> Could you please elaborate what you object (and why): you object that
+> >>> it will have compatibility issues, or  you object to include memblock
+> >>> reserves into MemTotal?
+> >>
+> >> Sorry, I object to changing the semantics of MemTotal. MemTotal is
+> >> traditionally the memory managed by the buddy, not all memory in the
+> >> system. I know people/scripts that are relying on that [although it's
+> >> been source of confusion a couple of times].
+> >
+> > What if one day we change so that struct pages are allocated from
+> > buddy allocator (i.e. allocate deferred struct pages from buddy) will
 >
-> ```
-> ...
-> if  html_theme == 'alabaster':
->     html_theme_options = {
->         'description': get_cline_version(),
->         'page_width': '65em',
->         'sidebar_width': '15em',
->         'fixed_sidebar': 'true',
->         'font_size': 'inherit',
->         'font_family': 'serif',
->     }
-> ...
-> ```
+> It does on memory hotplug. But for things like crashkernel size
+> detection doesn't really care about that.
+
+"Crash kernel" is a different case: it is kernel external memory,
+similar to limiting the amount of physical memory via mem=3D/memmap=3D, it
+sets memory that cannot be used by this kernel, but only by the crash
+kernel. Also, the crash kernel reserve is exposed in /proc/iomem via
+"Crash kernel" range.
+
+Page metadata memory on the other hand, is used by this kernel, and
+also can be changed by this kernel depending on how the memory is
+used: memdec, hotplug, THP, emulated pmem etc.
+
+> > it break those MemTotal scripts? What if the size of struct pages
+> > changes significantly, but the overhead will come from other metadata
+> > (i.e. memdesc) will that break those scripts? I feel like struct page
 >
-> The problem is depending on the serif font selected by system, the docs
-> text (especially long passages) can be hard and uncomfortable to read.
-> For developers reading the docs on multiple devices, the apparence may
-> look inconsistent.
+> Probably; but ideally the metadata overhead will be smaller with
+> memdesc. And we'll talk about that once it gets real ;)
+
+The size and allocation of struct pages change MemTotal today, during
+runtime, even without memdesc, I just brought it up, to emphasize that
+this is something that we should resolve now before it gets worse.
+
+> > memory should really be included into MemTotal, otherwise we will have
+> > this struggle in the future when we try to optimize struct page
+> > memory.
+> How far do we want to go, do we want to include crashkernel reserved
+> memory in MemTotal because it is system memory? Only metadata? what else
+> allocated using memblock?
 >
-> The solution
-> ============
+> Again, right now it's simple: MemTotal is memory managed by the buddy.
 >
-> Uniform the font choices by leveraging web fonts. Most of people reading
-> the kernel docs should already have modern browser that supports this
-> feature (e.g. Chrome/Chromium and Firefox). The fonts are downloaded
-> automatically when loading the page, but only if the reader don't
-> already have ones installed locally. Subsequent docs page loading will
-> use the browser cache to retrieve the fonts. If for some reasons the
-> fonts fail to load, the browser will fall back to fallback fonts
-> commonly seen on other sites.
+> The spirit of this patch set is good, modifying existing counters needs
+> good justification.
 
-So my immediate response to this is pretty uniformly negative.
+Wei, noticed that all other fields in /proc/meminfo are part of
+MemTotal, but this new field may be not (depending where struct pages
+are allocated), so what would be the best way to export page metadata
+without redefining MemTotal? Keep the new field in /proc/meminfo but
+be ok that it is not part of MemTotal or do two counters? If we do two
+counters, we will still need to keep one that is a buddy allocator in
+/proc/meminfo and the other one somewhere outside?
 
-- If you don't like serif, tweaking conf.py is easy enough without
-  pushing it on everybody else.
-
-- I'm not thrilled about adding a bunch of binary font data to the
-  kernel, and suspect a lot of people would not feel that the bloat is
-  worth it.
-
-- The licensing of the fonts is not fully free.
-
-There's so much we can do to improve our documentation and access to it;
-messing around with web fonts seems - to me, at least - pretty low on
-the list.
-
-I suppose I can ask people at the kernel summit session in a couple
-weeks to see if others feel differently.
-
-Thanks,
-
-jon
+Pasha
