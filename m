@@ -1,68 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CD914F6E;
-	Thu,  2 Nov 2023 12:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C01A15490;
+	Thu,  2 Nov 2023 12:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L0XUspGD"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E988BC433C8;
-	Thu,  2 Nov 2023 12:00:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698926424;
-	bh=Z32Rs3pGCBmghy3mdxI1n1S0eXbTLmN7BHJA9eLZN68=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=L0XUspGDU/fsERrq9n2OH/zzwAjTetTHMp9Lmfh0e8y9BXx22if6L8P0fkdIedS0w
-	 /POEcMBKI87OQA2dHrVgjS5Gm7ZdT8j4yeKp7Na+FWUC3zg84le5rAlRqW4bLS+Enr
-	 JUuwim+nzjyiuCVoFR99OKmn+I9ZsJwoGP2B2/RNOHdAImaWbYVX2b6pMTc9m45KM3
-	 y7Lc8xyF0PqL7IWkvlKT/mWdmgAR/r2jkMSQVzweTfjAupvJrShX8iuZo0B4N2Ljgu
-	 TsM8lPQUhnpPmxrqJiEAd+dkVHkfxlo4a6UmKS8snoFd6QUlFglbRaqrjurnXLudFL
-	 RBVJJgYMiR0Ow==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D2154C4316B;
-	Thu,  2 Nov 2023 12:00:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="NKDhxjaA"
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:242:246e::2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70DBDD4A;
+	Thu,  2 Nov 2023 05:05:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=HntS3je0QXLdwZ1+s0cY5G8BrYYXr4+VZLC8JT4/rII=;
+	t=1698926705; x=1700136305; b=NKDhxjaAUuI3JDJyd63RPVH0Ptk1lRm3c4N4FLFL7HCbwP3
+	qad+oA1OBfZi6Pky9vv3z6SziT5Tjd9TVHB6nWBQzJsYWyHLEgeudp2iHvbLjgYVtS/7eXlPXj4xU
+	y2BFi3iZAJqmM7w/HILq0SawjaPkjJj1vYppozyY40oCM8NsShLWFSKrP+rfTNL0h/sQygkK1Ztqm
+	ok/jOPXAeC3/fv6jn2QJHUAK2Mr5zgxFFmBJUtf+gTO9UQxwAkQQJtSSdUwnW9oyCN+Pd2BLl7PSH
+	iptIrFL3Erv1RKZ17+aJNFvRfKnL0vEGabYlOX21LpETe+MKUKWLvjqe/qRHcUSw==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.97-RC1)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1qyWRS-0000000BHyX-0ieC;
+	Thu, 02 Nov 2023 13:04:54 +0100
+Message-ID: <b080757463a1f55a38484e3ea39fd3697e98409e.camel@sipsolutions.net>
+Subject: Re: [Patch v13 4/9] wifi: mac80211: Add support for WBRF features
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Ma Jun
+	 <Jun.Ma2@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, lenb@kernel.org, davem@davemloft.net, 
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ alexander.deucher@amd.com,  Lijo.Lazar@amd.com, mario.limonciello@amd.com,
+ Netdev <netdev@vger.kernel.org>,  linux-wireless@vger.kernel.org, LKML
+ <linux-kernel@vger.kernel.org>,  linux-doc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, majun@amd.com,  Evan Quan
+ <quanliangl@hotmail.com>
+Date: Thu, 02 Nov 2023 13:04:52 +0100
+In-Reply-To: <5b8ea81c-dd4c-7f2a-c862-b9a0aab16044@linux.intel.com>
+References: <20231030071832.2217118-1-Jun.Ma2@amd.com>
+	 <20231030071832.2217118-5-Jun.Ma2@amd.com>
+	 <5b8ea81c-dd4c-7f2a-c862-b9a0aab16044@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] net/smc: fix documentation of buffer sizes
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <169892642385.2809.13321976556181124228.git-patchwork-notify@kernel.org>
-Date: Thu, 02 Nov 2023 12:00:23 +0000
-References: <20231030170343.748097-1-gbayer@linux.ibm.com>
-In-Reply-To: <20231030170343.748097-1-gbayer@linux.ibm.com>
-To: Gerd Bayer <gbayer@linux.ibm.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, corbet@lwn.net, jaka@linux.ibm.com, wenjia@linux.ibm.com,
- tonylu@linux.alibaba.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
+X-malware-bazaar: not-scanned
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Mon, 30 Oct 2023 18:03:43 +0100 you wrote:
-> Since commit 833bac7ec392 ("net/smc: Fix setsockopt and sysctl to
-> specify same buffer size again") the SMC protocol uses its own
-> default values for the smc.rmem and smc.wmem sysctl variables
-> which are no longer derived from the TCP IPv4 buffer sizes.
-> 
-> Fixup the kernel documentation to reflect this change, too.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net] net/smc: fix documentation of buffer sizes
-    https://git.kernel.org/netdev/net/c/a1602d749097
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+On Thu, 2023-11-02 at 13:55 +0200, Ilpo J=C3=A4rvinen wrote:
 
 
+[please trim your quotes]
+
+> > +static void get_chan_freq_boundary(u32 center_freq, u32 bandwidth, u64=
+ *start, u64 *end)
+> > +{
+> > +	bandwidth =3D MHZ_TO_KHZ(bandwidth);
+> > +	center_freq =3D MHZ_TO_KHZ(center_freq);
+>=20
+> Please use include/linux/units.h ones for these too.
+
+Now we're feature creeping though - this has existed for *years* in the
+wireless stack with many instances? We can convert them over, I guess,
+but not sure that makes much sense here - we'd want to add such macros
+to units.h, but ... moving them can be independent of this patch?
+
+johannes
