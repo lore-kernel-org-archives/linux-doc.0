@@ -1,81 +1,95 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0907863AD;
-	Thu,  2 Nov 2023 12:39:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D716FBE
+	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 13:02:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="wLOyVWzd"
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 616D918A;
-	Thu,  2 Nov 2023 05:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=TIQojWmE9MxmAPu4pmyVMZLAi3i+e6rSjQXCU7X4YpY=; b=wLOyVWzdffZ8kcZX/6Ys3nEbse
-	myM3WjCJSuj+r5vPeouDkpm2JbV6fEKka8u7SxZhQ6P2wrdhh3luyxWDwjBApw2IGeXfP3MJUZn+i
-	PmNaGyoYQQ7MjLJSSb66v2oUTnAKON8bv3cCDXlcRDTqoELixgcF70JeADqxhB0ozSf4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1qyWyS-000kd6-Az; Thu, 02 Nov 2023 13:39:00 +0100
-Date: Thu, 2 Nov 2023 13:39:00 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
-Cc: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net, steen.hegelund@microchip.com, rdunlap@infradead.org,
-	horms@kernel.org, casper.casan@gmail.com, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, horatiu.vultur@microchip.com,
-	Woojung.Huh@microchip.com, Nicolas.Ferre@microchip.com,
-	UNGLinuxDriver@microchip.com, Thorsten.Kummermehr@microchip.com
-Subject: Re: [PATCH net-next v2 8/9] microchip: lan865x: add driver support
- for Microchip's LAN865X MACPHY
-Message-ID: <f95b42ef-b7e0-44dc-b7c8-9353e9edc2df@lunn.ch>
-References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
- <20231023154649.45931-9-Parthiban.Veerasooran@microchip.com>
- <ZUOUGf-PMGo8z1s-@debian>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="d5vhxMYv"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF792FB;
+	Thu,  2 Nov 2023 06:02:07 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6AE201F8C8;
+	Thu,  2 Nov 2023 13:02:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1698930126; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=nwOAu+lvDKzMgzPr8m1BY5NSLiFclCMWdwSry0oMoMQ=;
+	b=d5vhxMYvPTW6u7j/olDef3dOle+DhmrULu1M0lAstoMmV+ZsdiD8j4j03gEpbMhPRPv6Lo
+	6/Uz6kqZfJDWB7+T82ab+9ARKGgx5Fqrq+6v8QwMH8aOdqRn2LSQcrBcMiu4NMcPKZ23Gh
+	n0llD+JxFPkggRxYt4S3/u0EAj7v6QM=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 02AE813584;
+	Thu,  2 Nov 2023 13:02:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id CZivOc2dQ2XQWgAAMHmgww
+	(envelope-from <nik.borisov@suse.com>); Thu, 02 Nov 2023 13:02:05 +0000
+From: Nikolay Borisov <nik.borisov@suse.com>
+To: corbet@lwn.net
+Cc: tglx@linutronix.de,
+	bp@alien8.de,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nikolay Borisov <nik.borisov@suse.com>
+Subject: [PATCH] docs: Remove reference to syscall trampoline in PTI
+Date: Thu,  2 Nov 2023 15:02:04 +0200
+Message-Id: <20231102130204.41043-1-nik.borisov@suse.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZUOUGf-PMGo8z1s-@debian>
+Content-Transfer-Encoding: 8bit
 
-> 	spe1: ethernet@1{
-> 		compatible = "microchip,lan865x";
-> 		reg = <1>;
-> 		interrupt-parent = <&gpio5>;
-> 		interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
-> 		spi-max-frequency = <50000000>;
+Commit bf904d2762ee ("x86/pti/64: Remove the SYSCALL64 entry trampoline")
+removed the syscall trampoline and instead opted to enable using the
+default syscall64 entry point by mapping the percpu TSS. Unfortunately
+the PTI documentation wasn't updated when the respective changes were
+made, so let's bring the doc up to speed.
 
-That is a pretty high frequency. It is actually running at that speed?
+Signed-off-by: Nikolay Borisov <nik.borisov@suse.com>
+---
+ Documentation/arch/x86/pti.rst | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-Have you tried lower speed?
-
-> 		oa-tc6{
-> 			#address-cells = <1>;
-> 			#size-cells = <0>;
-> 			oa-cps = <32>;
-> 			oa-prote;
-> 			oa-dprac;
-> 		};
-> 	};
-> };
-> 
-> With this setup I'm getting a maximum throughput of about 90kB/s.
-> If I increase the chunk size / oa-cps to 64 I get a might higher
-> throughput ~900kB/s, but after 0-2s I get dump below (or similar).
-
-Is this tcp traffic? Lost packets will have a big impact. You might
-want to look at the link peer with tcpdump and look for retries. Also,
-look if there are frames with bad checksums.
-
-     Andrew
+diff --git a/Documentation/arch/x86/pti.rst b/Documentation/arch/x86/pti.rst
+index 4b858a9bad8d..e08d35177bc0 100644
+--- a/Documentation/arch/x86/pti.rst
++++ b/Documentation/arch/x86/pti.rst
+@@ -81,11 +81,9 @@ Protection against side-channel attacks is important.  But,
+      and exit (it can be skipped when the kernel is interrupted,
+      though.)  Moves to CR3 are on the order of a hundred
+      cycles, and are required at every entry and exit.
+-  b. A "trampoline" must be used for SYSCALL entry.  This
+-     trampoline depends on a smaller set of resources than the
+-     non-PTI SYSCALL entry code, so requires mapping fewer
+-     things into the userspace page tables.  The downside is
+-     that stacks must be switched at entry time.
++  b. Percpu TSS is mapped into the user page tables to allow SYSCALL64 path
++     to work under PTI. This doesn't have a direct runtime cost but it can
++     be argued it opens certain timing attack scenarios.
+   c. Global pages are disabled for all kernel structures not
+      mapped into both kernel and userspace page tables.  This
+      feature of the MMU allows different processes to share TLB
+@@ -167,7 +165,7 @@ that are worth noting here.
+  * Failures of the selftests/x86 code.  Usually a bug in one of the
+    more obscure corners of entry_64.S
+  * Crashes in early boot, especially around CPU bringup.  Bugs
+-   in the trampoline code or mappings cause these.
++   in the mappings cause these.
+  * Crashes at the first interrupt.  Caused by bugs in entry_64.S,
+    like screwing up a page table switch.  Also caused by
+    incorrectly mapping the IRQ handler entry code.
+--
+2.34.1
 
