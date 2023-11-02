@@ -1,82 +1,153 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67061D523
-	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 15:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77551D69F
+	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 15:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="HnPsTwnd"
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9748E13E
-	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 08:50:43 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-41cd4446cf5so5455331cf.3
-        for <linux-doc@vger.kernel.org>; Thu, 02 Nov 2023 08:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1698940242; x=1699545042; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1wB7K/cyK7ekdFksdqw2ZnrHbBqOSSiCpIC9jyTtwpo=;
-        b=HnPsTwndmznOfFuVOWXHx8ct/WrvBsPK5x/xLIx5VeUKtyb62e+cXmBq3CiPuVdLjN
-         a2jpmZFUz/l+eCljwhEANCYRD36X2YtOA10ZRrpxipMD5rta6iiEh1nPAeg6557YEGDf
-         7IW5o8OhO/mIuevLjUaz7bfhXTP+ej6/fn2pWFSvuBpwP1QOojfV0G0fD3d01PJUdPUV
-         LvRGJHkEoo+Lnw53MAhNEYaxQxi/3pb3Ar78Q0ZstWFEzAEqDQVawsWQS2r42rT2mexC
-         PDQUPO4R2WSiFFVWcUrxTKxLuDEQGuKt8Z2hTAggmQlUvTBWKuAqT1PWYEU51+5iiT1b
-         MYVw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TZEDHjQX"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FAC41AD
+	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 08:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1698940389;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=m2KZdUyiw2CjK1qYfMJrZ/1S/LkxbokrMVWAIz/DZHY=;
+	b=TZEDHjQX2x/CO2PttX6zu1ZQts4GZdA1b7kHGCdvn3uxZevAHe8t51BltxuCnPbJtzlNHM
+	0LwxDk47AFpjNnbqGjtl6gzLa6eyq1AxDBrAtQMbcSnvDOaCaniol6lyOkV2ZB2cUSZwPS
+	frAL40EX0MN2O31e8cTSMAjnpKQJpDg=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-151-BkIh2JCBMlCTGmryCYGZ6Q-1; Thu, 02 Nov 2023 11:53:08 -0400
+X-MC-Unique: BkIh2JCBMlCTGmryCYGZ6Q-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2c6f1937a57so9570541fa.1
+        for <linux-doc@vger.kernel.org>; Thu, 02 Nov 2023 08:53:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698940242; x=1699545042;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1wB7K/cyK7ekdFksdqw2ZnrHbBqOSSiCpIC9jyTtwpo=;
-        b=dNMKnmTeQh0tKuFoX2GpJAXunxLAMidVh33CoEoht7syRfrArF7bxlb1J0GxjJ78DL
-         9YYYa/59OPQbpysYs5tidhmNQ21YvhJxfHZwsys5i+kNz7y0q3wFAL1wTdw5f4ehJD5J
-         znaJjxRRCIxYBUb1RNubP8s7/vKAS/U0bKnFwDy9i1H2DncPx82Na3CG4yjkj5NcyXFm
-         mtEnbU/0NUIkjhu1BIEGrzxJ15il+8pgMgT4F2214SsE1Y9Hwg129oS6SK5tP/Wq5rtR
-         TnKVrvEydwYsvYJ5GGyG5mRT5F2RKozZlSUcaZ1/a0PZjXsoRl3+qb+lzr4uGBI2E+hA
-         I7ZA==
-X-Gm-Message-State: AOJu0YxzL0zujF8mGIR/i0xvFjcuRlPAHpjo3qt4Wy/uvVA0w3IEFE8D
-	jMxakVN+oL7B47bB7ZylpuHZI8EV8QEzvPkg3W/30A==
-X-Google-Smtp-Source: AGHT+IGeKyqz4S48dOlmrzV0IcLt/Pz5O88FAxRlS/vj9uMFuB0NwFTsg8gf0j3/eylhtue3lIsgsrkZbl6P7Iv8sPE=
-X-Received: by 2002:ac8:5f06:0:b0:418:797:20b6 with SMTP id
- x6-20020ac85f06000000b00418079720b6mr19045388qta.5.1698940242486; Thu, 02 Nov
- 2023 08:50:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698940386; x=1699545186;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m2KZdUyiw2CjK1qYfMJrZ/1S/LkxbokrMVWAIz/DZHY=;
+        b=WWVW+hk741m9KCz/0GZ6AbOF+zYfJtd5zkPPw1n/X/Zlo87A2w2LV+si6bqsDmMUv6
+         i8ntSwDbBoqC5o3ZSjaVqhbPeLxEZxUm+CVRiGvoISDJsMk87ybXJoEFrQH1ybpbhWJR
+         O+PdOWSwx+FXrehRRa8jhzHSSm4MDeEIP1oMt84IlpsAx1uTXCSrbDTsbIXlMYZPYEPw
+         L5a70nNKawmwZirpO/eNC6hg04MJkRP9qNLVJ16Xqliuip/mYXavh/530DvRjFuqTMmf
+         i2/RFP/YsYXtvJzZzbpuOaQn+EW/QHTAR0zj62ls6joeUtoz7Ku4xbCWHt1jNL4gSe/k
+         0ibA==
+X-Gm-Message-State: AOJu0Yw9UbxIybEXBxPR7b+46Us5lmjsVaX2/7S6lx+iuo/4ksRTlDVm
+	gIZjVldtgqszPIbFqQR1O2SFIPoR+iOSrwrfSbtnKyxegu9apwfpuyg13SaG8TV0+CLJdc6H0k8
+	LTwa0BvvJMz5IlaJ0XW/w
+X-Received: by 2002:a05:651c:c9b:b0:2c0:7d6:570a with SMTP id bz27-20020a05651c0c9b00b002c007d6570amr17779338ljb.33.1698940386736;
+        Thu, 02 Nov 2023 08:53:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFM8jjLdtcNvq1QVnZGo1tvvfhgqEemz0A0FbjydSsO0gjKkiSL+XfTvJTFRbQAYxI1oQ6wmQ==
+X-Received: by 2002:a05:651c:c9b:b0:2c0:7d6:570a with SMTP id bz27-20020a05651c0c9b00b002c007d6570amr17779292ljb.33.1698940386296;
+        Thu, 02 Nov 2023 08:53:06 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c716:3000:f155:cef2:ff4d:c7? (p200300cbc7163000f155cef2ff4d00c7.dip0.t-ipconnect.de. [2003:cb:c716:3000:f155:cef2:ff4d:c7])
+        by smtp.gmail.com with ESMTPSA id j13-20020a05600c190d00b004067e905f44sm3376475wmq.9.2023.11.02.08.53.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Nov 2023 08:53:05 -0700 (PDT)
+Message-ID: <025ef794-91a9-4f0c-9eb6-b0a4856fa10a@redhat.com>
+Date: Thu, 2 Nov 2023 16:53:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231101230816.1459373-1-souravpanda@google.com>
- <20231101230816.1459373-2-souravpanda@google.com> <CAAPL-u_enAt7f9XUpwYNKkCOxz2uPbMrnE2RsoDFRcKwZdnRFQ@mail.gmail.com>
- <CA+CK2bC3rSGOoT9p_VmWMT8PBWYbp7Jo7Tp2FffGrJp-hX9xCg@mail.gmail.com>
- <CAAPL-u-4D5YKuVOsyfpDUR+PbaA3MOJmNtznS77bposQSNPjnA@mail.gmail.com> <1e99ff39-b1cf-48b8-8b6d-ba5391e00db5@redhat.com>
-In-Reply-To: <1e99ff39-b1cf-48b8-8b6d-ba5391e00db5@redhat.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 2 Nov 2023 11:50:05 -0400
-Message-ID: <CA+CK2bDo6an35R8Nu-d99pbNQMEAw_t0yUm0Q+mJNwOJ1EdqQg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 1/1] mm: report per-page metadata information
-To: David Hildenbrand <david@redhat.com>
-Cc: Wei Xu <weixugc@google.com>, Sourav Panda <souravpanda@google.com>, corbet@lwn.net, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, akpm@linux-foundation.org, 
-	mike.kravetz@oracle.com, muchun.song@linux.dev, rppt@kernel.org, 
-	rdunlap@infradead.org, chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, 
-	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
-	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com, 
-	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com, 
-	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
-	surenb@google.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	willy@infradead.org, Greg Thelen <gthelen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Wei Xu <weixugc@google.com>, Sourav Panda <souravpanda@google.com>,
+ corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
+ akpm@linux-foundation.org, mike.kravetz@oracle.com, muchun.song@linux.dev,
+ rppt@kernel.org, rdunlap@infradead.org, chenlinxuan@uniontech.com,
+ yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com, bhelgaas@google.com,
+ ivan@cloudflare.com, yosryahmed@google.com, hannes@cmpxchg.org,
+ shakeelb@google.com, kirill.shutemov@linux.intel.com,
+ wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz,
+ Liam.Howlett@oracle.com, surenb@google.com, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, willy@infradead.org, Greg Thelen <gthelen@google.com>
+References: <20231101230816.1459373-1-souravpanda@google.com>
+ <20231101230816.1459373-2-souravpanda@google.com>
+ <CAAPL-u_enAt7f9XUpwYNKkCOxz2uPbMrnE2RsoDFRcKwZdnRFQ@mail.gmail.com>
+ <CA+CK2bC3rSGOoT9p_VmWMT8PBWYbp7Jo7Tp2FffGrJp-hX9xCg@mail.gmail.com>
+ <CAAPL-u-4D5YKuVOsyfpDUR+PbaA3MOJmNtznS77bposQSNPjnA@mail.gmail.com>
+ <1e99ff39-b1cf-48b8-8b6d-ba5391e00db5@redhat.com>
+ <CA+CK2bDo6an35R8Nu-d99pbNQMEAw_t0yUm0Q+mJNwOJ1EdqQg@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <CA+CK2bDo6an35R8Nu-d99pbNQMEAw_t0yUm0Q+mJNwOJ1EdqQg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> > Adding reserved memory to MemTotal is a cleaner approach IMO as well.
-> > But it changes the semantics of MemTotal, which may have compatibility
-> > issues.
->
-> I object.
+On 02.11.23 16:50, Pasha Tatashin wrote:
+>>> Adding reserved memory to MemTotal is a cleaner approach IMO as well.
+>>> But it changes the semantics of MemTotal, which may have compatibility
+>>> issues.
+>>
+>> I object.
+> 
+> Could you please elaborate what you object (and why): you object that
+> it will have compatibility issues, or  you object to include memblock
+> reserves into MemTotal?
 
-Could you please elaborate what you object (and why): you object that
-it will have compatibility issues, or  you object to include memblock
-reserves into MemTotal?
+Sorry, I object to changing the semantics of MemTotal. MemTotal is 
+traditionally the memory managed by the buddy, not all memory in the 
+system. I know people/scripts that are relying on that [although it's 
+been source of confusion a couple of times].
 
-Thanks,
-Pasha
+-- 
+Cheers,
+
+David / dhildenb
+
