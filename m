@@ -1,94 +1,194 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028E714F6C;
-	Thu,  2 Nov 2023 12:24:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CADF18E34
+	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 12:32:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zu2OGUil"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F612112;
-	Thu,  2 Nov 2023 05:24:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698927854; x=1730463854;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=Hn3HxLIchr3g7rx6JvOiqgfPvzN/KUrJgEv9IL8moEQ=;
-  b=Zu2OGUilRUEJA+Te4WPvqSffFzvSwG0MsE2OEIZKbXvJWnq4n2MeAu6g
-   pARWg1MBBo6D2UGGFtjclSrRT9FSdURMqMxRoWSj9lo9LjE1P1CY8iah8
-   mrRZZudvj5oR3He03L9b4rfbIwq6hmHgkwE0s1eWeJeUrffnkNmzLEVN9
-   cjcAYC0H5oA/OH7b35txgJ5Fxtl+9Id3KHnpwj5S+2zt1zeoTEEnFNMtT
-   vK22KWoR7WxQr+3YBA8hN4422lKgFoM7RiGNPvl4Jf9ARoZhiVbfx9H77
-   +o/BTEp/OHL5K8dqg/spGrGKgA6ZJrvOZxkwofnTnsDKM+kRwcYYe5STf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="7340674"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="7340674"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 05:24:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="2523649"
-Received: from sdsadara-mobl.ger.corp.intel.com ([10.251.215.6])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 05:24:09 -0700
-Date: Thu, 2 Nov 2023 14:24:06 +0200 (EET)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-cc: Ma Jun <Jun.Ma2@amd.com>, amd-gfx@lists.freedesktop.org, lenb@kernel.org, 
-    davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-    pabeni@redhat.com, alexander.deucher@amd.com, Lijo.Lazar@amd.com, 
-    mario.limonciello@amd.com, Netdev <netdev@vger.kernel.org>, 
-    linux-wireless@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-    majun@amd.com, Evan Quan <quanliangl@hotmail.com>
-Subject: Re: [Patch v13 4/9] wifi: mac80211: Add support for WBRF features
-In-Reply-To: <b080757463a1f55a38484e3ea39fd3697e98409e.camel@sipsolutions.net>
-Message-ID: <e42c5484-d66-e41a-8b2e-a1fa4495ce2@linux.intel.com>
-References: <20231030071832.2217118-1-Jun.Ma2@amd.com>  <20231030071832.2217118-5-Jun.Ma2@amd.com>  <5b8ea81c-dd4c-7f2a-c862-b9a0aab16044@linux.intel.com> <b080757463a1f55a38484e3ea39fd3697e98409e.camel@sipsolutions.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WntAZcXA"
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E9C18A;
+	Thu,  2 Nov 2023 05:32:34 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1cc4f777ab9so7315875ad.0;
+        Thu, 02 Nov 2023 05:32:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698928354; x=1699533154; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QKAx5ThT2Vf8fFtCyU7a6NLM9WmpGysPMUECF9rGRn0=;
+        b=WntAZcXAK5qVBCRhjlSWptYY6gqOR0DQs0GEVrnEFl29RVmZaDX1gIqBTYdcisTihu
+         A0uuzDFkpvcSPX18tx6arp9bBOu0d9nLFnI0S1SueJknQyVv1MJxznQWZV+kw3PzwoT7
+         chsY3uxv+//dE3xAlZli2abSEqxQmwMSBjGLbJQKfdnr5Z2e36ZhvyCfaT3NN4HMACKK
+         Ogn2CW6QC3/E27faIXDkDa7GPjtoRc0fGvuiV+T//71hm0+Ch5oEGuvqGIN26Ke2Mva1
+         GVdZUUecjGIo3ICRv7f19QKPstHxhv8KQdPOFA+YKueY15Rq+QNdQ3WJFNrp0b8IpiHB
+         1dvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698928354; x=1699533154;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QKAx5ThT2Vf8fFtCyU7a6NLM9WmpGysPMUECF9rGRn0=;
+        b=ZGdIdwAtz40ObRRjdLnHf8k2WRrW7oRced7LGbaUXJ+7jBULiNyjZWN2Wwm/sFBPoa
+         lfxMEI7VOzioJ+EvHTUZPCCRIzHoD5XRaX6EcgXTI+FtjDf0WssqxjK1BM1avi64jNgG
+         lb4wVQsH52cApG+nGMDVmeFEHXzGLNDr6n7EEj3JsiyezVhDFkGUF+TpcKZL5ech2Stj
+         YKSlIzZsoTVUctsbhojugx7Dp+8AmUIon69qgsLDqrG2lCq1DR89xpz+8gIZBOOiUSWU
+         GB9MJKIEQpaqttE18HBVcaPAWze+xT0yFuTrXENcIx10R6NGilyZZP1aWp9C6bPKIzM2
+         N01A==
+X-Gm-Message-State: AOJu0Ywi6TuE3WJs+McZawyeBAE+ZqWiaba2lb0GgCJjST0PKIA01qPZ
+	B58wijTbKIaHtSUlt4zajhw=
+X-Google-Smtp-Source: AGHT+IHJEFWfyJBXdCnPufQWTpRROogPrOje95/7SJj7s8Yme/cUC11Aj3losLSvzq2HqaAQvb6w9g==
+X-Received: by 2002:a17:903:187:b0:1cc:50ea:d5c5 with SMTP id z7-20020a170903018700b001cc50ead5c5mr11550530plg.24.1698928353721;
+        Thu, 02 Nov 2023 05:32:33 -0700 (PDT)
+Received: from debian.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id s8-20020a170902ea0800b001ca21c8abf7sm3010728plg.188.2023.11.02.05.32.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 05:32:33 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id 5898594783DE; Thu,  2 Nov 2023 19:32:27 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Stanislav Fomichev <sdf@google.com>,
+	David Vernet <void@manifault.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	James Seo <james@equiv.tech>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Carlos Bilbao <carlos.bilbao@amd.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH RFC RESEND 0/4] Documentation: Web fonts for kernel documentation
+Date: Thu,  2 Nov 2023 19:32:18 +0700
+Message-ID: <20231102123225.32768-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-387861400-1698927329=:2124"
-Content-ID: <8f10c3aa-da5e-8e6-b212-dcb8f7f64325@linux.intel.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5260; i=bagasdotme@gmail.com; h=from:subject; bh=kbTowhNlSDIuR7XaqayK6AaiczYS/czXO1LI+m9LuXM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKnOU88d8f28xPVRSnGrD1u1FW+2wSSGTSe9ikLXiNWL7 n355KJfRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZywoHhFzPT3Nub1z+uXvo6 OJVDWK31f8OC7QWdqR+mTekWmiAtuZjhf15M6fXPZ9zawziTTE/eXLapuvEHfwH/09Dz4fdau10 PMgAA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+[resend from previous RFC [4] with correct linux-doc address]
 
---8323329-387861400-1698927329=:2124
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <163c94a-bfac-2984-64c1-1c2281e27410@linux.intel.com>
+Intro
+=====
 
-On Thu, 2 Nov 2023, Johannes Berg wrote:
-> On Thu, 2023-11-02 at 13:55 +0200, Ilpo Järvinen wrote:
-> 
-> > > +static void get_chan_freq_boundary(u32 center_freq, u32 bandwidth, u64 *start, u64 *end)
-> > > +{
-> > > +	bandwidth = MHZ_TO_KHZ(bandwidth);
-> > > +	center_freq = MHZ_TO_KHZ(center_freq);
-> > 
-> > Please use include/linux/units.h ones for these too.
-> 
-> Now we're feature creeping though - this has existed for *years* in the
-> wireless stack with many instances? We can convert them over, I guess,
-> but not sure that makes much sense here - we'd want to add such macros
-> to units.h, but ... moving them can be independent of this patch?
+The Linux kernel documentation is primarily composed of text (both
+prose and code snippets) and a few images. Hence, making the text
+easy to read by proper typography choices is crucial.
 
-What new macros you're talking about? Nothing new needs to be added 
-as there's already KHZ_PER_MHZ so these would just be:
+The problem
+===========
 
-	bandwidth *= KHZ_PER_MHZ;
-	center_freq *= KHZ_PER_MHZ;
+Currently, the kernel docs uses system-default serif fonts, as in
+Documentation/conf.py:
 
-Everything can of course be postponed by the argument that some 
-subsystem specific mechanism has been there before the generic one
-but the end of that road won't be pretty... What I was trying to do
-here was to point out the new stuff introduced by this series into the 
-direction of the generic thing.
+```
+...
+if  html_theme == 'alabaster':
+    html_theme_options = {
+        'description': get_cline_version(),
+        'page_width': '65em',
+        'sidebar_width': '15em',
+        'fixed_sidebar': 'true',
+        'font_size': 'inherit',
+        'font_family': 'serif',
+    }
+...
+```
 
+The problem is depending on the serif font selected by system, the docs
+text (especially long passages) can be hard and uncomfortable to read.
+For developers reading the docs on multiple devices, the apparence may
+look inconsistent.
+
+The solution
+============
+
+Uniform the font choices by leveraging web fonts. Most of people reading
+the kernel docs should already have modern browser that supports this
+feature (e.g. Chrome/Chromium and Firefox). The fonts are downloaded
+automatically when loading the page, but only if the reader don't
+already have ones installed locally. Subsequent docs page loading will
+use the browser cache to retrieve the fonts. If for some reasons the
+fonts fail to load, the browser will fall back to fallback fonts
+commonly seen on other sites.
+
+For the font choices, we settle down on IBM Plex Sans (sans-serif), IBM
+Plex Mono (monospace), and Newsreader (serif). All these fonts are
+licensed under OFL 1.1 and can be distributed alongside the kernel docs.
+We have also considered to use SÃ¶hne [1] instead, but because it is paid
+font, it is concluded that such font is non-free [2] (and by
+implication, distributions must patch the kernel to not use it).
+
+The fonts selected are downloaded from Google Fonts directory [3]. As
+the font files are in .ttf format, these are compressed first into
+.woff2 format (just like other sites that use web fonts do) using
+`woff2_compress` program from `woff2` Debian package. These converted
+files are then referenced in Documentation/sphinx-static/fonts.css via
+`@font-face` directive and the appropriate `font-family` rule selects
+that font.
+
+Note that only necessary styles (regular, bold, italic, and bold-italic)
+are included and used. For Newsreader, use the classic 14 pt static font
+instead of variable variant for compatibility with older browsers.
+
+Scope
+=====
+
+Only the main documentation and translations in languages using Latin
+script (Italian and Spanish) are covered.
+
+[1]: https://klim.co.nz/retail-fonts/soehne/
+[2]: https://lists.debian.org/debian-legal/2023/06/msg00005.html
+[3]: https://fonts.google.com
+[4]: https://lore.kernel.org/all/20231102120053.30630-1-bagasdotme@gmail.com/
+
+Bagas Sanjaya (4):
+  LICENSES: Add SIL Open Font License 1.1
+  Docmentation: Use IBM Plex Sans for page body
+  Documentation: Use Newsreader font for document headings
+  Documentation: Use IBM Plex Mono as monospace font
+
+ Documentation/conf.py                         |   4 +
+ .../sphinx-static/IBMPlexMono-Bold.woff2      | Bin 0 -> 39984 bytes
+ .../IBMPlexMono-BoldItalic.woff2              | Bin 0 -> 43816 bytes
+ .../sphinx-static/IBMPlexMono-Italic.woff2    | Bin 0 -> 43236 bytes
+ .../sphinx-static/IBMPlexMono-Regular.woff2   | Bin 0 -> 38740 bytes
+ .../sphinx-static/IBMPlexSans-Bold.woff2      | Bin 0 -> 55412 bytes
+ .../IBMPlexSans-BoldItalic.woff2              | Bin 0 -> 59112 bytes
+ .../sphinx-static/IBMPlexSans-Italic.woff2    | Bin 0 -> 59468 bytes
+ .../sphinx-static/IBMPlexSans-Regular.woff2   | Bin 0 -> 55380 bytes
+ .../sphinx-static/Newsreader_14pt-Bold.woff2  | Bin 0 -> 44512 bytes
+ .../Newsreader_14pt-BoldItalic.woff2          | Bin 0 -> 48152 bytes
+ .../Newsreader_14pt-Italic.woff2              | Bin 0 -> 44864 bytes
+ .../Newsreader_14pt-Regular.woff2             | Bin 0 -> 41212 bytes
+ Documentation/sphinx-static/fonts.css         | 157 ++++++++++++++++++
+ LICENSES/dual/OFL-1.1                         | 107 ++++++++++++
+ 15 files changed, 268 insertions(+)
+ create mode 100644 Documentation/sphinx-static/IBMPlexMono-Bold.woff2
+ create mode 100644 Documentation/sphinx-static/IBMPlexMono-BoldItalic.woff2
+ create mode 100644 Documentation/sphinx-static/IBMPlexMono-Italic.woff2
+ create mode 100644 Documentation/sphinx-static/IBMPlexMono-Regular.woff2
+ create mode 100644 Documentation/sphinx-static/IBMPlexSans-Bold.woff2
+ create mode 100644 Documentation/sphinx-static/IBMPlexSans-BoldItalic.woff2
+ create mode 100644 Documentation/sphinx-static/IBMPlexSans-Italic.woff2
+ create mode 100644 Documentation/sphinx-static/IBMPlexSans-Regular.woff2
+ create mode 100644 Documentation/sphinx-static/Newsreader_14pt-Bold.woff2
+ create mode 100644 Documentation/sphinx-static/Newsreader_14pt-BoldItalic.woff2
+ create mode 100644 Documentation/sphinx-static/Newsreader_14pt-Italic.woff2
+ create mode 100644 Documentation/sphinx-static/Newsreader_14pt-Regular.woff2
+ create mode 100644 Documentation/sphinx-static/fonts.css
+ create mode 100644 LICENSES/dual/OFL-1.1
+
+
+base-commit: babe393974de0351c0e6cca50f5f84edaf8d7fa1
 -- 
- i.
---8323329-387861400-1698927329=:2124--
+An old man doll... just what I always wanted! - Clara
+
