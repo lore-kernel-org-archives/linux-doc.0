@@ -1,226 +1,209 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875AA185B;
-	Thu,  2 Nov 2023 03:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEAD91878;
+	Thu,  2 Nov 2023 04:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="j/Kizps3"
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2074.outbound.protection.outlook.com [40.107.117.74])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7271120;
-	Wed,  1 Nov 2023 20:28:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d4jyK9OPDGNyvBffIxxrNkrOVzmMIA8+uWiPyZoSQXSOL4jSzazIr7DOZqDBAZYUICrJ6tY6iJN3N0heJ1Yq5ptQ8+AIfPPbNFMkcBTwwFrEcEfzUujZ+UolervugGGYeOokyQMoj9ewYkY83CzJ73hfM7G9a99awE6ghFp2JKqLf1OE2ZE7bipkaNa2XxjhJMAehctkYihOMQ3TocFk0yCib2TOrvvfL+WMdZ1pVm1tiDKAecM7Edr6kbEG3dx4mZsISecicjZ74uB/sP06FduAjRzcWtbM5OxTInw6xW2FP8+tWe/GAOQCseq3NNxuH6SPj9meaeH5kTq6mMixag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y5A+YGxARtmjO8LaEC8NMjLhxNaKIJpF8nCOyDvjQDU=;
- b=MSzqU+WE5Mr+qBwjrGcJ3exx9f5keLhME9t9dKFUehwXzAMYW37c7AJ+WRgqq8DKUBAheBtB8fA0Z3NLzFsczUsUpyk4Lok05xyIjsPQk5uMZdqkwIn69YipG2fYSlHEkC9e49W33Xda9btVq5O4tj/KiTYcOta0FPFK+pu0yrONFbmq3c7jmemkrlqCdumWyg+h7NrMwzQx5JbREmcUmmJlsuxEbUuezRj1xo8eGKs7Xcl9F9R11BL3F7PHDj4+noqqdSYVROzuSSUGF27SqAHr53Lftlx82MvHigHyvahC+Uta44KmY+L0Q5UTDUPxjSZrqEIl43uEJxZfv4nxVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
- (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y5A+YGxARtmjO8LaEC8NMjLhxNaKIJpF8nCOyDvjQDU=;
- b=j/Kizps3EQQZgFpPz5BnREpxQcL8eQSkqiqQzrkImSvzWRmUPyCxtGKm0P8PxFwSTC9jCN+GQF4fkQFp5aOgQBzq7PBfcdVq8IlWqWosRnf77CQtBhJUIc27WNC12Ie31vapK6sUsNf0TuqH8HUTJtJdt8m0cffzOtscTcqOATR7DDi2zyl7MN+M72BuufPmKWfPxWmcyArVN+pC4deOauYFHYz68ygKvm9dXtz8FhXqr/AKyiPPArAD83n9TGj2og3iuOJWKmjaErAoQDenagP09DjiWuwGC/fSpuFAyvXEAzaM9I0MDMRY8UmYwD1F9b3b8i5MwtofnizhqaEX8Q==
-Received: from SG2PR02CA0013.apcprd02.prod.outlook.com (2603:1096:3:17::25) by
- SEZPR04MB7529.apcprd04.prod.outlook.com (2603:1096:101:1f1::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Thu, 2 Nov
- 2023 03:28:53 +0000
-Received: from SG1PEPF000082E1.apcprd02.prod.outlook.com
- (2603:1096:3:17:cafe::93) by SG2PR02CA0013.outlook.office365.com
- (2603:1096:3:17::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19 via Frontend
- Transport; Thu, 2 Nov 2023 03:28:53 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
- smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
-Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
- designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.20.1.79; helo=localhost.localdomain;
-Received: from localhost.localdomain (211.20.1.79) by
- SG1PEPF000082E1.mail.protection.outlook.com (10.167.240.4) with Microsoft
- SMTP Server id 15.20.6954.19 via Frontend Transport; Thu, 2 Nov 2023 03:28:52
- +0000
-From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-To: patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXp5TMeR"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B90D8128;
+	Wed,  1 Nov 2023 21:03:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698897806; x=1730433806;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uiKjtjc1qeIjldPV5Boqk2rup5dIVAMxXp97CTrQPm0=;
+  b=VXp5TMeRZEExFDVBPLBqV9JpRVRQqxGvurta76S+gEVcF1VE4zgh6XIB
+   tZSk7N91THcafV3UyZo0Wk0b7wbSVUH4mD5dPGfm7LO+CTHqWdXJeO2Z1
+   rjJPfVK1TM70bxQJryvPycP0pvGf6OSwFoXo/FP1ZZ6hveyGsgl+oGD5a
+   bCY1TqQ/lN1OmcXbx4+zUV/KTir45FF/yfB5qnk1qrKuUefomyQ/sI2th
+   LrTpr6hYnFpi8BCaWGCOSfubbArPIQ1Xm1CmZ6yzMbLbDO/IyND9V6SzW
+   7y1bMKel3DHBwv5dx5NnFwlHCQInbf49NwW0J4moDCDzuFihoh1SHogwu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="388448245"
+X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
+   d="scan'208";a="388448245"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 21:03:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="851785060"
+X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
+   d="scan'208";a="851785060"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2023 21:03:17 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qyOvK-000164-2Z;
+	Thu, 02 Nov 2023 04:03:14 +0000
+Date: Thu, 2 Nov 2023 12:03:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v4 3/3] hwmon: max31790: add fanN_enable for all fans
-Date: Thu,  2 Nov 2023 11:28:32 +0800
-Message-Id: <20231102032834.3827289-4-Delphine_CC_Chiu@wiwynn.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231102032834.3827289-1-Delphine_CC_Chiu@wiwynn.com>
-References: <20231102032834.3827289-1-Delphine_CC_Chiu@wiwynn.com>
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] KVM x86/xen: add an override for
+ PVCLOCK_TSC_STABLE_BIT
+Message-ID: <202311021159.ppYESBYx-lkp@intel.com>
+References: <20231101183032.1498211-1-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG1PEPF000082E1:EE_|SEZPR04MB7529:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: e7862ea2-64d8-41ff-9e03-08dbdb53d6db
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	2fiSQejBDy+8c4cA+2WthpFHju5S2Dvy7otkpsbi8uWFp2Q33Ln8raC+dluw/h9/zbF8wDWviwCqcATSUA3V5VgQxIgmMw6Kkke+W6Ov7Wc/P58L88P/zuYzp2AjKVwktmF+G81DzVBwdC8zW8Gkt1F795rfvYHzBrIUi4O1ymkGICwit0I8njIhCxbsa9WFX+UNKWiqFY06tbVwHg+xKYI1LnBY3csQJxnogcSCCzOPq77bgtAnvuVD5VGdZsREb4Q+RRsuS+fnceSHlv+JhfrKnuNI5OerrcnI/kbsHnHy8IcbZ6F4cHaD6WzSmzedp+/r8xMKZj3HcERoCju74WKaJ4bR7JewEk3bc3oF74mx5FqNz/qTzzQ3lj7T6xWLyOdIXxuG///7qMmC5u2RRGLPpmNgjpMXGXr47VBtY8VuEYqXKBdl3O0mBIS4IxecweuaRH2kC/5g9o14MrQr1MT4zVA0jTRwBj5W5WAilg9Ni+pcTYiHaOp+5v6twEhFRiwdEE2xUty+7xXva96WAj5Sq23pOCEdPDRWtQGDoj01PEJZsK0cbMTDxQmF66uwNtGpWmpVHhD0DavGwQH4cCz9cuSqlSO8rWidEZWQZRa7WE3LI8QOH3JqHe4lnXvbRWPpjlu18NOBkTF6raKMsTVvh+L5KQgU/jQT/DvxAMq5YKa6kkXvW+3dHpCOXWfrsOUHBZXy7FGytCTv7qIL3g==
-X-Forefront-Antispam-Report:
-	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(396003)(39860400002)(136003)(346002)(376002)(451199024)(186009)(1800799009)(82310400011)(64100799003)(46966006)(36840700001)(54906003)(110136005)(70586007)(70206006)(316002)(36736006)(336012)(6506007)(478600001)(82740400003)(1076003)(6666004)(2616005)(4326008)(26005)(956004)(40480700001)(7049001)(8936002)(83380400001)(8676002)(6486002)(6512007)(5660300002)(36756003)(47076005)(2906002)(7416002)(9316004)(81166007)(356005)(41300700001)(36860700001)(86362001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 03:28:52.9667
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7862ea2-64d8-41ff-9e03-08dbdb53d6db
-X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SG1PEPF000082E1.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB7529
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231101183032.1498211-1-paul@xen.org>
 
-The fanN_enable will be set in dbus-sensors service according to the
-index of TACH that filled in the configuration of entity-manager.
-Add fanN_enable for all fans to prevent dbus-sensors service
-couldn't find the corresponding fanN_enable for fanN_input.
+Hi Paul,
 
-Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
----
-Changelog:
-v4 - Add fanN_enable for all fans.
----
- Documentation/hwmon/max31790.rst |  2 +-
- drivers/hwmon/max31790.c         | 57 +++++++++++++++++---------------
- 2 files changed, 32 insertions(+), 27 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
-index 33c5c7330efc..510d5691b18b 100644
---- a/Documentation/hwmon/max31790.rst
-+++ b/Documentation/hwmon/max31790.rst
-@@ -38,7 +38,7 @@ Sysfs entries
- fan[1-12]_input    RO  fan tachometer speed in RPM
- fan[1-12]_fault    RO  fan experienced fault
- fan[1-6]_target    RW  desired fan speed in RPM
--fan[1-6]_enable    RW  enable or disable the tachometer input
-+fan[1-12]_enable   RW  enable or disable the tachometer input
- pwm[1-6]_enable    RW  regulator mode, 0=disabled (duty cycle=0%), 1=manual mode, 2=rpm mode
- pwm[1-6]           RW  read: current pwm duty cycle,
-                        write: target pwm duty cycle (0-255)
-diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
-index 378ff32c7c1e..fa31e108c7ce 100644
---- a/drivers/hwmon/max31790.c
-+++ b/drivers/hwmon/max31790.c
-@@ -203,7 +203,8 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
- 		mutex_unlock(&data->update_lock);
- 		return 0;
- 	case hwmon_fan_enable:
--		*val = !!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN);
-+		*val = !!(data->fan_config[channel % NR_CHANNEL] &
-+			  MAX31790_FAN_CFG_TACH_INPUT_EN);
- 		return 0;
- 	default:
- 		return -EOPNOTSUPP;
-@@ -242,12 +243,12 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
- 
- 		data->target_count[channel] = target_count << 5;
- 
--		err = i2c_smbus_write_word_swapped(client,
--					MAX31790_REG_TARGET_COUNT(channel),
--					data->target_count[channel]);
-+		err = i2c_smbus_write_word_swapped(
-+			client, MAX31790_REG_TARGET_COUNT(channel),
-+			data->target_count[channel]);
- 		break;
- 	case hwmon_fan_enable:
--		fan_config = data->fan_config[channel];
-+		fan_config = data->fan_config[channel % NR_CHANNEL];
- 		if (val == 0) {
- 			fan_config &= ~MAX31790_FAN_CFG_TACH_INPUT_EN;
- 		} else if (val == 1) {
-@@ -256,11 +257,14 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
- 			err = -EINVAL;
- 			break;
- 		}
--		if (fan_config != data->fan_config[channel]) {
--			err = i2c_smbus_write_byte_data(client, MAX31790_REG_FAN_CONFIG(channel),
--							fan_config);
-+		if (fan_config != data->fan_config[channel % NR_CHANNEL]) {
-+			err = i2c_smbus_write_byte_data(
-+				client,
-+				MAX31790_REG_FAN_CONFIG(channel % NR_CHANNEL),
-+				fan_config);
- 			if (!err)
--				data->fan_config[channel] = fan_config;
-+				data->fan_config[channel % NR_CHANNEL] =
-+					fan_config;
- 		}
- 		break;
- 	default:
-@@ -291,7 +295,8 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
- 			return 0644;
- 		return 0;
- 	case hwmon_fan_enable:
--		if (channel < NR_CHANNEL)
-+		if (channel < NR_CHANNEL ||
-+		    (fan_config & MAX31790_FAN_CFG_TACH_INPUT))
- 			return 0644;
- 		return 0;
- 	default:
-@@ -445,22 +450,22 @@ static umode_t max31790_is_visible(const void *data,
- 	}
- }
- 
--static const struct hwmon_channel_info * const max31790_info[] = {
--	HWMON_CHANNEL_INFO(fan,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
--			   HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_FAULT),
--	HWMON_CHANNEL_INFO(pwm,
--			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-+static const struct hwmon_channel_info *const max31790_info[] = {
-+	HWMON_CHANNEL_INFO(
-+		fan,
-+		HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_FAULT | HWMON_F_ENABLE,
-+		HWMON_F_INPUT | HWMON_F_FAULT | HWMON_F_ENABLE),
-+	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
- 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
- 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
- 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+[auto build test WARNING on 35dcbd9e47035f98f3910ae420bf10892c9bdc99]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Durrant/KVM-x86-xen-add-an-override-for-PVCLOCK_TSC_STABLE_BIT/20231102-034122
+base:   35dcbd9e47035f98f3910ae420bf10892c9bdc99
+patch link:    https://lore.kernel.org/r/20231101183032.1498211-1-paul%40xen.org
+patch subject: [PATCH v4] KVM x86/xen: add an override for PVCLOCK_TSC_STABLE_BIT
+config: i386-randconfig-013-20231102 (https://download.01.org/0day-ci/archive/20231102/202311021159.ppYESBYx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021159.ppYESBYx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311021159.ppYESBYx-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   arch/x86/kvm/x86.c: In function 'kvm_guest_time_update':
+>> arch/x86/kvm/x86.c:3176:14: warning: unused variable 'xen_pvclock_tsc_unstable' [-Wunused-variable]
+    3176 |         bool xen_pvclock_tsc_unstable =
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/xen_pvclock_tsc_unstable +3176 arch/x86/kvm/x86.c
+
+  3158	
+  3159	static int kvm_guest_time_update(struct kvm_vcpu *v)
+  3160	{
+  3161		unsigned long flags, tgt_tsc_khz;
+  3162		unsigned seq;
+  3163		struct kvm_vcpu_arch *vcpu = &v->arch;
+  3164		struct kvm_arch *ka = &v->kvm->arch;
+  3165		s64 kernel_ns;
+  3166		u64 tsc_timestamp, host_tsc;
+  3167		u8 pvclock_flags;
+  3168		bool use_master_clock;
+  3169	
+  3170		/*
+  3171		 * For Xen guests we may need to override PVCLOCK_TSC_STABLE_BIT as unless
+  3172		 * explicitly told to use TSC as its clocksource Xen will not set this bit.
+  3173		 * This default behaviour led to bugs in some guest kernels which cause
+  3174		 * problems if they observe PVCLOCK_TSC_STABLE_BIT in the pvclock flags.
+  3175		 */
+> 3176		bool xen_pvclock_tsc_unstable =
+  3177			ka->xen_hvm_config.flags & KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE;
+  3178	
+  3179		kernel_ns = 0;
+  3180		host_tsc = 0;
+  3181	
+  3182		/*
+  3183		 * If the host uses TSC clock, then passthrough TSC as stable
+  3184		 * to the guest.
+  3185		 */
+  3186		do {
+  3187			seq = read_seqcount_begin(&ka->pvclock_sc);
+  3188			use_master_clock = ka->use_master_clock;
+  3189			if (use_master_clock) {
+  3190				host_tsc = ka->master_cycle_now;
+  3191				kernel_ns = ka->master_kernel_ns;
+  3192			}
+  3193		} while (read_seqcount_retry(&ka->pvclock_sc, seq));
+  3194	
+  3195		/* Keep irq disabled to prevent changes to the clock */
+  3196		local_irq_save(flags);
+  3197		tgt_tsc_khz = get_cpu_tsc_khz();
+  3198		if (unlikely(tgt_tsc_khz == 0)) {
+  3199			local_irq_restore(flags);
+  3200			kvm_make_request(KVM_REQ_CLOCK_UPDATE, v);
+  3201			return 1;
+  3202		}
+  3203		if (!use_master_clock) {
+  3204			host_tsc = rdtsc();
+  3205			kernel_ns = get_kvmclock_base_ns();
+  3206		}
+  3207	
+  3208		tsc_timestamp = kvm_read_l1_tsc(v, host_tsc);
+  3209	
+  3210		/*
+  3211		 * We may have to catch up the TSC to match elapsed wall clock
+  3212		 * time for two reasons, even if kvmclock is used.
+  3213		 *   1) CPU could have been running below the maximum TSC rate
+  3214		 *   2) Broken TSC compensation resets the base at each VCPU
+  3215		 *      entry to avoid unknown leaps of TSC even when running
+  3216		 *      again on the same CPU.  This may cause apparent elapsed
+  3217		 *      time to disappear, and the guest to stand still or run
+  3218		 *	very slowly.
+  3219		 */
+  3220		if (vcpu->tsc_catchup) {
+  3221			u64 tsc = compute_guest_tsc(v, kernel_ns);
+  3222			if (tsc > tsc_timestamp) {
+  3223				adjust_tsc_offset_guest(v, tsc - tsc_timestamp);
+  3224				tsc_timestamp = tsc;
+  3225			}
+  3226		}
+  3227	
+  3228		local_irq_restore(flags);
+  3229	
+  3230		/* With all the info we got, fill in the values */
+  3231	
+  3232		if (kvm_caps.has_tsc_control)
+  3233			tgt_tsc_khz = kvm_scale_tsc(tgt_tsc_khz,
+  3234						    v->arch.l1_tsc_scaling_ratio);
+  3235	
+  3236		if (unlikely(vcpu->hw_tsc_khz != tgt_tsc_khz)) {
+  3237			kvm_get_time_scale(NSEC_PER_SEC, tgt_tsc_khz * 1000LL,
+  3238					   &vcpu->hv_clock.tsc_shift,
+  3239					   &vcpu->hv_clock.tsc_to_system_mul);
+  3240			vcpu->hw_tsc_khz = tgt_tsc_khz;
+  3241			kvm_xen_update_tsc_info(v);
+  3242		}
+  3243	
+  3244		vcpu->hv_clock.tsc_timestamp = tsc_timestamp;
+  3245		vcpu->hv_clock.system_time = kernel_ns + v->kvm->arch.kvmclock_offset;
+  3246		vcpu->last_guest_tsc = tsc_timestamp;
+  3247	
+  3248		/* If the host uses TSC clocksource, then it is stable */
+  3249		pvclock_flags = 0;
+  3250		if (use_master_clock)
+  3251			pvclock_flags |= PVCLOCK_TSC_STABLE_BIT;
+  3252	
+  3253		vcpu->hv_clock.flags = pvclock_flags;
+  3254	
+  3255		if (vcpu->pv_time.active)
+  3256			kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0, false);
+  3257	#ifdef CONFIG_KVM_XEN
+  3258		if (vcpu->xen.vcpu_info_cache.active)
+  3259			kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_info_cache,
+  3260						offsetof(struct compat_vcpu_info, time),
+  3261						xen_pvclock_tsc_unstable);
+  3262		if (vcpu->xen.vcpu_time_info_cache.active)
+  3263			kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0,
+  3264						xen_pvclock_tsc_unstable);
+  3265	#endif
+  3266		kvm_hv_setup_tsc_page(v->kvm, &vcpu->hv_clock);
+  3267		return 0;
+  3268	}
+  3269	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
