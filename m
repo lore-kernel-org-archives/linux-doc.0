@@ -1,99 +1,78 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB0A63AC
-	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 09:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156B5125B6;
+	Thu,  2 Nov 2023 10:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VYR7byUY"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7C5134
-	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 02:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1698917623;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RRqMBhNNsG2GgDNN4qWp+wu4mNgU5riKYWQ5XI3db/A=;
-	b=VYR7byUYoilFUXGCDM3VkHfEqOeP/63nalHG9vkJ6HVpYGmdTBwre56G3GpNFJY5Z/g1wZ
-	Jn5ezhOyVgppRK56lBSLum3Vsv1ivk8NJP6RBR2OxHPxR8/eA1wIo9TzDl75VDquSdEPkd
-	7i+DYvgcKdgQHiOEjcIEK3Ooy83Rf28=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-537-QhbhPWa5NjSiUIYFLYbTWw-1; Thu, 02 Nov 2023 05:33:41 -0400
-X-MC-Unique: QhbhPWa5NjSiUIYFLYbTWw-1
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-507cafb69e8so686882e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Nov 2023 02:33:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="POQjGVDc"
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C633133;
+	Thu,  2 Nov 2023 03:19:42 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9a58dbd5daeso118132366b.2;
+        Thu, 02 Nov 2023 03:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698920380; x=1699525180; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uuZBj9+EEKQz0q3dUNT5o4x6WbUeH/U0PGQKyAEqkEc=;
+        b=POQjGVDce8MjoOmq7BrKKNyeZjm32Z2HzLizBk+qciXNcPXbFhQ97/2USn6EBesqm4
+         WrUqiHBnpWDtxUO2IwHKJ9TQ7Y49lxfDZu/PRc7UwRWBR73HsFn4TpKT4WHXOe90bauh
+         mSmApu3iFBPtjNG+9fyZuHwIpiqalyGxLQ3EV5B1veW4zDSUQq8p7mn0/vQLbOsg0iFZ
+         4OQga69bec5Upq8IzksHnfmXrl+bOjYIaWBFgpn6P1t2BsxV5g4v/ZDykyCVJbR+jy4t
+         mru1log3fbF1qZDRxdhiH7e5aU1S7PiMBeqgLWIkRrwUPxt8mlfCQOJi6ssXJknXXDui
+         qmsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698917620; x=1699522420;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RRqMBhNNsG2GgDNN4qWp+wu4mNgU5riKYWQ5XI3db/A=;
-        b=nGnVxE6D+UpGkfHBF8q+VVqQEJyOB1X9yw1uwjmgqZbr2/ttQ07uFrM8I28Zjh/w6k
-         flAlWWbvGkicjIKDMfrl5AKmCKPyKrkSgdx9PNKzCF5xyxJ0Df7OD1chorgPDdI7P7e7
-         9o0H3D/dUiryHFFZqlBrEk3sZlmTVoc8V9o5qT5BwBpJl8D/hpIjlYmTR+jIpBFypgsD
-         +x9RQ1/TMzjRJvD6PVuErxoyRZP6WIFlwwDtXhW50gjpct0I7tSlj3ChS+Y07tY73To4
-         ZHfgOEajjCh+3thPGjece2ut3BAoo6g8vJZzELACtDdnTG+fTK07sWB+PAanS13FbX4+
-         EKRA==
-X-Gm-Message-State: AOJu0YwN8QsuQ+fv9d8RBik5UgZVI5a6kkfytRhCAiTMUm1rCFm/Mc0n
-	M96bV3iFGvFinNWy6tCidRKFdFR1sNfsLBtCWLogd6QuWsYkfv855pfMJkdQ3bKBps8tSasi0QB
-	lwS5Ki0FWjPlzoMPzPOL5
-X-Received: by 2002:a2e:9b0b:0:b0:2b9:36d5:729c with SMTP id u11-20020a2e9b0b000000b002b936d5729cmr15014336lji.47.1698917620029;
-        Thu, 02 Nov 2023 02:33:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHk3Ur/kxbTus79HunF7kL0yxuSMj6fTan91sSZLYut8sHel92MvzChDXeoxbPnpM+fs9EnbA==
-X-Received: by 2002:a2e:9b0b:0:b0:2b9:36d5:729c with SMTP id u11-20020a2e9b0b000000b002b936d5729cmr15014322lji.47.1698917619716;
-        Thu, 02 Nov 2023 02:33:39 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id f9-20020a05600c154900b00407460234f9sm2208669wmg.21.2023.11.02.02.33.39
+        d=1e100.net; s=20230601; t=1698920380; x=1699525180;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uuZBj9+EEKQz0q3dUNT5o4x6WbUeH/U0PGQKyAEqkEc=;
+        b=AxsIarOwF7r6yjaLEt5NGgn/ZfACYN70fXWAVR56c+tyl9x5iFV9kxlHMrEMP5PxSk
+         FOfYj6B4I3UmHrKvxpSFhK+Hp0SBJIiQ8LkhtI2K1T22dDkd7+k9GRsmJ+mbYyHCZSgK
+         GNb7vi+BGpENbPrQ67Bje9GqzKfQTTTk97nWmAkms6dvzGlHPEXuq2BKFWKRnfjswIy2
+         rBuAFCy70W8V7CORxMedhnxW/fyKj4uCmfXtyxie+EyucR+eW20C7qSbanlWmqQuTflf
+         98VjjIZgvBmnEmOlgNjzf/OO7799v2Jim0Gt80vfXp5knNlZVTNFHjLuCxsfmHkbCZM0
+         rX6w==
+X-Gm-Message-State: AOJu0YyiBjsvJJ8Nr1HHEA3foa9+V+hJJz5UaOj1m7lleJUZnkXsaGHM
+	WKsP2h3AZb7OncQ+iy3n6g==
+X-Google-Smtp-Source: AGHT+IHd1YNak3qXuSJPLwTcxNpWToSodRjeM6x9b8vGCYHp3N6Zam2SmnvSxbcx3tezAdJiKLw5fw==
+X-Received: by 2002:a17:907:78b:b0:9d3:8d1e:cf0 with SMTP id xd11-20020a170907078b00b009d38d1e0cf0mr3536377ejb.54.1698920380456;
+        Thu, 02 Nov 2023 03:19:40 -0700 (PDT)
+Received: from p183 ([46.53.253.86])
+        by smtp.gmail.com with ESMTPSA id ch26-20020a170906c2da00b009add084a00csm944494ejb.36.2023.11.02.03.19.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Nov 2023 02:33:39 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Mark Brown <broonie@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Liam
- Girdwood <lgirdwood@gmail.com>, "Paul E. McKenney" <paulmck@kernel.org>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, Randy Dunlap
- <rdunlap@infradead.org>, "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] regulator: core: Add option to prevent disabling unused
- regulators
-In-Reply-To: <c1690b26-9004-4e5e-aa14-c61f679add12@sirena.org.uk>
-References: <20231028102423.179400-1-javierm@redhat.com>
- <20231101045652.GA2897@thinkpad>
- <c1690b26-9004-4e5e-aa14-c61f679add12@sirena.org.uk>
-Date: Thu, 02 Nov 2023 10:33:38 +0100
-Message-ID: <875y2kh53h.fsf@minerva.mail-host-address-is-not-set>
+        Thu, 02 Nov 2023 03:19:39 -0700 (PDT)
+Date: Thu, 2 Nov 2023 13:19:36 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Sourav Panda <souravpanda@google.com>
+Cc: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
+	akpm@linux-foundation.org, mike.kravetz@oracle.com,
+	muchun.song@linux.dev, rppt@kernel.org, david@redhat.com,
+	rdunlap@infradead.org, chenlinxuan@uniontech.com,
+	yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com,
+	bhelgaas@google.com, ivan@cloudflare.com, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com,
+	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
+	vbabka@suse.cz, Liam.Howlett@oracle.com, surenb@google.com,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, willy@infradead.org,
+	weixugc@google.com
+Subject: Re: [PATCH v5 1/1] mm: report per-page metadata information
+Message-ID: <8fde83a8-aece-4e99-a9f8-1bcaba7ea246@p183>
+References: <20231101230816.1459373-1-souravpanda@google.com>
+ <20231101230816.1459373-2-souravpanda@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231101230816.1459373-2-souravpanda@google.com>
 
-Mark Brown <broonie@kernel.org> writes:
+On Wed, Nov 01, 2023 at 04:08:16PM -0700, Sourav Panda wrote:
+> +void __init mod_node_early_perpage_metadata(int nid, long delta);
+> +void __init store_early_perpage_metadata(void);
 
-> On Wed, Nov 01, 2023 at 10:26:52AM +0530, Manivannan Sadhasivam wrote:
->
->> On the other note, I'm wondering if we could use sync_state() for handling the
->> regulator_init_complete() work. This would ensure that the regulators are only
->> disabled when all the consumers are probed.
->
-> That assumes that everything defined in the DT both has a driver and has
-> the driver available for the currently running kernel neither of which
-> is a good assumption.
-
-Agreed. I believe the current logic of disabling all regulators using a
-workqueue is the correct thing to do.
-
-The only better option I think is to make user-space notify the kernel
-that it won't load kernel modules anymore. But the delayed work would
-sill be needed, since the kernel can't make an assumption on whether
-user-space will notify of this or not.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Section markers are useless with prototypes.
