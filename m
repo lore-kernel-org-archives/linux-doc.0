@@ -1,319 +1,175 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745BF79C6;
-	Fri,  3 Nov 2023 08:05:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C14847B
+	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 08:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nRO8RaLP"
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA131B6;
-	Fri,  3 Nov 2023 01:04:56 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1cc5fa0e4d5so16472475ad.0;
-        Fri, 03 Nov 2023 01:04:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hrsRW9/P"
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AA7123;
+	Fri,  3 Nov 2023 01:11:40 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1cc2575dfc7so14999775ad.1;
+        Fri, 03 Nov 2023 01:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698998696; x=1699603496; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=axKwtGrX3CjILSP9XH8F0phpKXXMKLSo8OytbKLjoeo=;
-        b=nRO8RaLPCRooLGVWpbT/3uaZmV88NoaiDi/tKmSMkYfbxUO2juwiZuR++u5qcYdYps
-         pG7QuOzFUlj8cOInmhJz8GdQIOJV75pzH5ljRiQUl4mKNb2H7c5wbVuEMXnntlBPbfq0
-         speRzhInLEqgoxDca0L7HOUuFpKZ8MReekeombnfbMhzMbmFExvCTkzVa78NUJbSIbKZ
-         wE/GkbHgYrsmk3t+fkoMADIFwxmNk8zca5Q0wMO4rPBUSTedfr7G8ZWRiSE9iMN2PKyK
-         lHxEkZ4OfV30SQlV/Yzs4zokRJTwJZ651Nh2rgoG6b4iZaFb/TOTf2KyadwyRaVdtM1G
-         qnTw==
+        d=gmail.com; s=20230601; t=1698999100; x=1699603900; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P1zG46v3yYULs6HTAoiydnarKk6Z7cvMgep7Y/bVUSA=;
+        b=hrsRW9/PnUPMA4BcyAKt1FAPndCrlOExvQpO7pxoSbAgNUmDPv9XchtTGPoVojUlGA
+         +2IuLNY2HYd1Lyg/La8SSgac4X0ltkOSAiDjpJZzADOdGqaII2AUM0FLKVwkA2lgvPKU
+         WiNgiUwSNYTs+WXFmvdz3a1WBa8CT3SaCl67wC8gL5ALabFa/438vRCX75+a0qnqj7p9
+         s7nTuz7WOpIr1Qy/cK4UgdKwtTyPHWZj0LxytEdzJHeygcISumxNwU6UQ03G+8Uplq0U
+         Y0DS6w1BHZUvgv601jQKUhoIKfdBcAJeSeQrUs+Qb2o66/qQYoHtV5F48ucUxCddUjCo
+         YZpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698998696; x=1699603496;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=axKwtGrX3CjILSP9XH8F0phpKXXMKLSo8OytbKLjoeo=;
-        b=X7jaXBvL6MeD37rCf4x40HC4LJquMplHAfywxmRs4So/iiBANtAOOkeI7BaNlaoUun
-         lbox4tdW4eNxn31YRnFlzAAUahclE8bxWjwvO0eYVIg9Ojl8WO5qVcz7i7ygKpd+xMb1
-         wgJYALB4ucYzkOhZwwM5NY1GuIwyFX4wxvbKIUp768KctefzUfbncBE5g9tl1EbrUgq9
-         7Phe1xsqYlRnTM9X6p0tVHe1yl4jC28BSzwL5/zR7A9srJrsnFG04YV3C+YnIwJ8iBVW
-         TuBUsXI0fk0ztrubUEzNQxsMUKGge2kHyKNJsfPWFUzpYJaCdJcYomTrMMXIULkCCVyg
-         /sCQ==
-X-Gm-Message-State: AOJu0Yw/9V3IjPHv6p2Y2Gbao0ePuFwALYWrUGmV3bP2pJbkFw/fYUUL
-	I43M7jPGyrUmIlBfme5gojc=
-X-Google-Smtp-Source: AGHT+IFM/APK48tWP7y4Wdi3KSHsYdtBIZwoKsNTtil+i8QYKTxOzhyF5qCwrdpW9T5V+VJbGfNxKw==
-X-Received: by 2002:a17:90a:d497:b0:27f:ecd9:6d0e with SMTP id s23-20020a17090ad49700b0027fecd96d0emr19514519pju.34.1698998696109;
-        Fri, 03 Nov 2023 01:04:56 -0700 (PDT)
-Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id l1-20020a17090a72c100b002790ded9c6dsm834378pjk.31.2023.11.03.01.04.53
+        d=1e100.net; s=20230601; t=1698999100; x=1699603900;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P1zG46v3yYULs6HTAoiydnarKk6Z7cvMgep7Y/bVUSA=;
+        b=vDVQCyOoedBAhcqryPOZiGDVKLftTv0VNAPg2W2SYTrpcA4z1PfJFSORo7nqQghtwV
+         lC6IMialJ3pfsEP7nAJns8FQNiHnldcwuIvuGSGlqlDy/rpokN+ZBvqynN9c77vyrt+R
+         97aBQZSrnOs2jrAKMfrRK9A+1bop9W/gkvldsbWia2LpSKowgDov77rYs9mTqkevcn+5
+         RnO5xBDISrjS37XB5bnamFkhciaLzYsWHdwUTPg8F+OSuyCMgmhPBY+csZpqwa3V4bHs
+         /5bfMT+rgT6SBMxwOU50onGpc42uBcIwim7L7S0jv3g17pKzhNUPgl0nLcQJTyDfO7Cb
+         qqsw==
+X-Gm-Message-State: AOJu0YzQcCooaJkrjvfjo8Aua/Omp8JTmufgR91sfpwYwfoFI70o/d8u
+	ANZiv65HQEwpeQbijK23eNA=
+X-Google-Smtp-Source: AGHT+IGQXuw4znO2Dw4M5l6O2Es9a8zUyaadJePmeZgfYhLn8RpT4NdGcAeG8yODYjMgcMtPTfKFvg==
+X-Received: by 2002:a17:902:e0d4:b0:1ca:200b:8dce with SMTP id e20-20020a170902e0d400b001ca200b8dcemr14134555pla.41.1698999099934;
+        Fri, 03 Nov 2023 01:11:39 -0700 (PDT)
+Received: from debian.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id jf6-20020a170903268600b001b03a1a3151sm882657plb.70.2023.11.03.01.11.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 01:04:55 -0700 (PDT)
-From: Peter Yin <peteryin.openbmc@gmail.com>
-To: patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+        Fri, 03 Nov 2023 01:11:38 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id 7E0EC91C7163; Fri,  3 Nov 2023 15:11:36 +0700 (WIB)
+Date: Fri, 3 Nov 2023 15:11:36 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Peter Yin <peteryin.openbmc@gmail.com>,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v1 2/2] hwmon: (pmbus) Add support for MPS Multi-phase mp5990
-Date: Fri,  3 Nov 2023 16:01:27 +0800
-Message-Id: <20231103080128.1204218-3-peteryin.openbmc@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231103080128.1204218-1-peteryin.openbmc@gmail.com>
-References: <20231103080128.1204218-1-peteryin.openbmc@gmail.com>
+	Thomas Gleixner <tglx@linutronix.de>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Stanislav Fomichev <sdf@google.com>,
+	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
+	James Seo <james@equiv.tech>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Carlos Bilbao <carlos.bilbao@amd.com>, linux-spdx@vger.kernel.org,
+	Richard Fontana <rfontana@redhat.com>
+Subject: Re: [PATCH RFC 1/4] LICENSES: Add SIL Open Font License 1.1
+Message-ID: <ZUSrOKDuvcSL6gOH@debian.me>
+References: <20231102120053.30630-1-bagasdotme@gmail.com>
+ <20231102120053.30630-2-bagasdotme@gmail.com>
+ <2023110222-renewed-monologue-008e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/KWzKcdL50ByjLLA"
+Content-Disposition: inline
+In-Reply-To: <2023110222-renewed-monologue-008e@gregkh>
 
-Add support for mp5990 device from Monolithic Power Systems, Inc. (MPS)
-vendor. This is a Hot-Swap Controller.
 
-Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
----
- Documentation/hwmon/index.rst  |  1 +
- Documentation/hwmon/mp5990.rst | 84 +++++++++++++++++++++++++++++++
- drivers/hwmon/pmbus/Kconfig    |  9 ++++
- drivers/hwmon/pmbus/Makefile   |  1 +
- drivers/hwmon/pmbus/mp5990.c   | 90 ++++++++++++++++++++++++++++++++++
- 5 files changed, 185 insertions(+)
- create mode 100644 Documentation/hwmon/mp5990.rst
- create mode 100644 drivers/hwmon/pmbus/mp5990.c
+--/KWzKcdL50ByjLLA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 042e1cf9501b..8c70e10fc795 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -157,6 +157,7 @@ Hardware Monitoring Kernel Drivers
-    mp2888
-    mp2975
-    mp5023
-+   mp5990
-    nct6683
-    nct6775
-    nct7802
-diff --git a/Documentation/hwmon/mp5990.rst b/Documentation/hwmon/mp5990.rst
-new file mode 100644
-index 000000000000..8fc4e388ff7b
---- /dev/null
-+++ b/Documentation/hwmon/mp5990.rst
-@@ -0,0 +1,84 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver mp5990
-+====================
-+
-+Supported chips:
-+
-+  * MPS MP5990
-+
-+    Prefix: 'mp5990'
-+
-+  * Datasheet
-+
-+    Publicly available at the MPS website : https://www.monolithicpower.com/en/mp5990.html
-+
-+Author:
-+
-+	Peter Yin <peteryin.openbmc@gmail.com>
-+
-+Description
-+-----------
-+
-+This driver implements support for Monolithic Power Systems, Inc. (MPS)
-+MP5990 Hot-Swap Controller.
-+
-+Device complaint with:
-+
-+- PMBus rev 1.3 interface.
-+
-+Device supports direct format for reading input voltage, output voltage,
-+output current, input power and temperature.
-+
-+The driver exports the following attributes via the 'sysfs' files
-+for input voltage:
-+
-+**in1_input**
-+
-+**in1_label**
-+
-+**in1_max**
-+
-+**in1_max_alarm**
-+
-+**in1_min**
-+
-+**in1_min_alarm**
-+
-+The driver provides the following attributes for output voltage:
-+
-+**in2_input**
-+
-+**in2_label**
-+
-+**in2_alarm**
-+
-+The driver provides the following attributes for output current:
-+
-+**curr1_input**
-+
-+**curr1_label**
-+
-+**curr1_alarm**
-+
-+**curr1_max**
-+
-+The driver provides the following attributes for input power:
-+
-+**power1_input**
-+
-+**power1_label**
-+
-+**power1_alarm**
-+
-+The driver provides the following attributes for temperature:
-+
-+**temp1_input**
-+
-+**temp1_max**
-+
-+**temp1_max_alarm**
-+
-+**temp1_crit**
-+
-+**temp1_crit_alarm**
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 270b6336b76d..65a116f7744d 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -326,6 +326,15 @@ config SENSORS_MP5023
- 	  This driver can also be built as a module. If so, the module will
- 	  be called mp5023.
- 
-+config SENSORS_MP5990
-+	tristate "MPS MP5990"
-+	help
-+	  If you say yes here you get hardware monitoring support for MPS
-+	  MP5990.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called mp5990.
-+
- config SENSORS_MPQ7932_REGULATOR
- 	bool "Regulator support for MPQ7932"
- 	depends on SENSORS_MPQ7932 && REGULATOR
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 84ee960a6c2d..212d9ca0acc9 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -35,6 +35,7 @@ obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
- obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
- obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
- obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
-+obj-$(CONFIG_SENSORS_MP5990)	+= mp5990.o
- obj-$(CONFIG_SENSORS_MPQ7932)	+= mpq7932.o
- obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
- obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
-diff --git a/drivers/hwmon/pmbus/mp5990.c b/drivers/hwmon/pmbus/mp5990.c
-new file mode 100644
-index 000000000000..c3b31af9f750
---- /dev/null
-+++ b/drivers/hwmon/pmbus/mp5990.c
-@@ -0,0 +1,90 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Driver for MPS MP5990 Hot-Swap Controller
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/pmbus.h>
-+#include "pmbus.h"
-+
-+static int mp5990_read_byte_data(struct i2c_client *client, int page, int reg)
-+{
-+	switch (reg) {
-+	case PMBUS_VOUT_MODE:
-+		/*
-+		  Enforce VOUT direct format, C4h reg BIT9
-+		  default val is not match vout format
-+		 */
-+		return PB_VOUT_MODE_DIRECT;
-+	default:
-+		return -ENODATA;
-+	}
-+}
-+
-+static struct pmbus_driver_info mp5990_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = direct,
-+	.format[PSC_VOLTAGE_OUT] = direct,
-+	.format[PSC_CURRENT_OUT] = direct,
-+	.format[PSC_POWER] = direct,
-+	.format[PSC_TEMPERATURE] = direct,
-+	.m[PSC_VOLTAGE_IN] = 32,
-+	.b[PSC_VOLTAGE_IN] = 0,
-+	.R[PSC_VOLTAGE_IN] = 0,
-+	.m[PSC_VOLTAGE_OUT] = 32,
-+	.b[PSC_VOLTAGE_OUT] = 0,
-+	.R[PSC_VOLTAGE_OUT] = 0,
-+	.m[PSC_CURRENT_OUT] = 16,
-+	.b[PSC_CURRENT_OUT] = 0,
-+	.R[PSC_CURRENT_OUT] = 0,
-+	.m[PSC_POWER] = 1,
-+	.b[PSC_POWER] = 0,
-+	.R[PSC_POWER] = 0,
-+	.m[PSC_TEMPERATURE] = 1,
-+	.b[PSC_TEMPERATURE] = 0,
-+	.R[PSC_TEMPERATURE] = 0,
-+	.func[0] =
-+		PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_PIN |
-+		PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT |
-+		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
-+	.read_byte_data = mp5990_read_byte_data,
-+};
-+
-+static int mp5990_probe(struct i2c_client *client)
-+{
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_VOUT_MODE,
-+					PB_VOUT_MODE_DIRECT);
-+	if (ret < 0)
-+		return ret;
-+	return pmbus_do_probe(client, &mp5990_info);
-+}
-+
-+static const struct of_device_id mp5990_of_match[] = {
-+	{ .compatible = "mps,mp5990" },
-+	{}
-+};
-+
-+static const struct i2c_device_id mp5990_id[] = {
-+	{"mp5990", 0},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, mp5990_id);
-+
-+static struct i2c_driver mp5990_driver = {
-+	.driver = {
-+		   .name = "mp5990",
-+		   .of_match_table = of_match_ptr(mp5990_of_match),
-+	},
-+	.probe = mp5990_probe,
-+	.id_table = mp5990_id,
-+};
-+module_i2c_driver(mp5990_driver);
-+
-+MODULE_AUTHOR("Peter Yin <peter.yin@quantatw.com>");
-+MODULE_DESCRIPTION("PMBus driver for MP5990 HSC");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(PMBUS);
--- 
-2.25.1
+On Thu, Nov 02, 2023 at 03:06:19PM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Nov 02, 2023 at 07:00:43PM +0700, Bagas Sanjaya wrote:
+> > Add the license text along with appropriate tags for reference and
+> > tooling. The text is taken from the text as distributed in Google
+> > Fonts's zip files.
+> >=20
+> > As the license itself may or may note be compatible with GPLv2,
+> > let's take on the err side and require combining it with
+> > GPL-compatible licenses when using the license.
+> >=20
+> > Cc: linux-spdx@vger.kernel.org
+> > Cc: Richard Fontana <rfontana@redhat.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > ---
+> >  LICENSES/dual/OFL-1.1 | 107 ++++++++++++++++++++++++++++++++++++++++++
+>=20
+> You add this license, but then never actually reference it in the later
+> changes, so it's going to be very confusing as to why it is here.  Any
+> way to add it to the font files themselves so our checker tools can
+> handle this properly?
 
+There is TTF name string ID called "License". For example, on IBM Plex Sans,
+the string value is:
+
+```
+This Font Software is licensed under the SIL Open Font License, Version 1.1=
+=2E This license is available with a FAQ at: http://scripts.sil.org/OFL
+```
+
+Checking that string requires scripting fontforge, and since the string val=
+ue
+may differ (but has the same license) across different fonts, scripting it
+can be non-trivial.
+
+>=20
+> And, it's not going to work as a dual-license, you can't just suddenly
+> dual-license those font files, right?
+
+I was thinking of putting OFL in LICENSES/exceptions instead due to this
+nature.
+
+>=20
+> >  1 file changed, 107 insertions(+)
+> >  create mode 100644 LICENSES/dual/OFL-1.1
+> >=20
+> > diff --git a/LICENSES/dual/OFL-1.1 b/LICENSES/dual/OFL-1.1
+> > new file mode 100644
+> > index 00000000000000..00b8db08bd0e54
+> > --- /dev/null
+> > +++ b/LICENSES/dual/OFL-1.1
+> > @@ -0,0 +1,107 @@
+> > +Valid-License-Identifier: OFL-1.1
+> > +SPDX-URL: https://spdx.org/licenses/OFL-1.1
+> > +Usage-Guide:
+> > +  Do NOT use this license for code, but it's acceptable for fonts (whe=
+re the
+> > +  license is specifically written for them). It's best to use it toget=
+her
+> > +  with a GPL2 compatible license using "OR", as OFL-1.1 texts processe=
+d by
+> > +  the kernel's build system might combine it with content taken from m=
+ore
+> > +  restrictive licenses.
+> > +  To use the SIL Open Font License 1.1, put the following SPDX tag/val=
+ue pair
+> > +  into a comment according to the placement guidelines in the licensin=
+g rules
+> > +  documentation:
+> > +    SPDX-License-Identifier: OFL-1.1
+>=20
+> Where did this Usage-Guide from?
+
+Adapted from LICENSES/dual/CC-BY-4.0.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--/KWzKcdL50ByjLLA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUSrNAAKCRD2uYlJVVFO
+owOVAQDfc6tg3jOz4yW4hs8/7Tdj2N5B9WFJcdKKBu41RNyd5AEAmor1Fmesa51e
+GupVUCytz7URedQA/dvn3osN4cGy0ww=
+=tuOf
+-----END PGP SIGNATURE-----
+
+--/KWzKcdL50ByjLLA--
