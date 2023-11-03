@@ -1,55 +1,55 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30787847B
-	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 08:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E322D62B
+	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 08:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XEUH4Q4/"
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10EC7D42;
-	Fri,  3 Nov 2023 01:29:36 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1cc0d0a0355so14872905ad.3;
-        Fri, 03 Nov 2023 01:29:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhBAWwfm"
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E3ECD43;
+	Fri,  3 Nov 2023 01:46:31 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-1eb7a8e9dd0so1095030fac.3;
+        Fri, 03 Nov 2023 01:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699000175; x=1699604975; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1699001190; x=1699605990; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rTlctj8hnqNzhCMN/+l01lQ+Uns5l1/j387sOUjthe0=;
-        b=XEUH4Q4/p9C1GlsHiLH+YEBPQIbnDLEZrtiVM68inksIZvBhBRC/Q5WtWRHptur9QK
-         EwVx/nd5mKH66bTfY3ZWrh8JB3VGHJ2dsgKVoKePlTOHS1XLBuoxcXY+PAsl6dkLuOB7
-         HceSuLNh031bdlsvjlG3I6T4gSV/ex9mQFE50n3GW/zMPVVJwjACtcyT3ao7LjXw9K9t
-         F700PaWKjrLZBysxtmjvpt7jdMukeAZmuJ94PYg9g2CJN/YShEBju2ibNgVe2VM8t+RD
-         Nw7vykWkIrsGOKikkFQXGDV6OAZ4bw3kjAiiwHBNVCYh59je200cjpCWUPAo8Rs0Kvl7
-         1o1Q==
+        bh=mVywe0D/U3C5N1dPQibx8KoiHM6ZJRIDGPFvHnYX9lg=;
+        b=DhBAWwfm5Gb3ffnfJ5j6UTwPKxkNHf+VtKuBnpauiMtP5/azQDmeov53Fc5n7OcKu3
+         0xCmTPmp3725qCFF/baDH/xKxoTYiCJi3tdz+z3ua+s8eZlHaaUtSpubGqKWWCsTx5S9
+         g6tHIMi2WlqXcQER91dl6A4eydYDtmj5/4xU3fS7/4hGeoofUSFXgW0GpCSxamhbSa1T
+         WDPmMKIbPBpvw7X/mnGok4GDjiUX1UQGNdjWsF3E09GFlflxb2Xl352f+nqbym9m681f
+         sDiYCBg0Z+Ven2pbiMYgdR1SXuT4KMSZBqr1LozhiOpN4bT+rxZfmhz0p+ILriQ1bxdZ
+         9etA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699000175; x=1699604975;
+        d=1e100.net; s=20230601; t=1699001190; x=1699605990;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rTlctj8hnqNzhCMN/+l01lQ+Uns5l1/j387sOUjthe0=;
-        b=rnLuRUK7M3jfrmjpdPtniYJeEuWXzXN11KSqqguShRaX2X/yt72prY9aQp1pu/Lxqb
-         PFlFzRmCsK7Fto9KP5+A4svcAJnvqC+/q9VpaQOxYVDXdxvNpVOy+ccSUGJYIQZI/nLm
-         FGN6YZMHFc+1KE503jr6tD6vn+6et4HVgxinHnXLOJWS7GQJkTDkcnqwgH78PkRQpEKA
-         1JGaoM975DlD/vd8FqZpA9unMbUq97/6jf5tyAAE29pT51+pKmj8ibDGL4s5ritsRNz0
-         sH+2dn8aUTmGpG4Jio2rH4gKTojkmBogd38cCx7Ra/5l6dR35h6VEX5xU9Ht9W7J4a2V
-         6OXQ==
-X-Gm-Message-State: AOJu0YyZ/IdfLOo3i5llkiQB6HNrLTz2mPSvprZCDyF3Kq7pyyI+HZBz
-	X1vuE9VbTGzfwTyRVUVpo1E=
-X-Google-Smtp-Source: AGHT+IGC6Bo8fPehYZXxcFAuJeXflkdKtLj9x94EL042EHE5PQHVhBM4mee8VnRRhKQMBFkZZWP5HQ==
-X-Received: by 2002:a17:902:c78c:b0:1c9:d8b6:e7ad with SMTP id w12-20020a170902c78c00b001c9d8b6e7admr16745633pla.56.1699000175482;
-        Fri, 03 Nov 2023 01:29:35 -0700 (PDT)
+        bh=mVywe0D/U3C5N1dPQibx8KoiHM6ZJRIDGPFvHnYX9lg=;
+        b=wcdMix5oOTcsb5nvw2TxA5AtyygcKb0tR6SAZXYlKfrqwPCnAnm2l14DP4X4wmPaYa
+         HV8xeXhTa3c1L97SGEA9HwZJxRr1Y+LJXP8aN2v1TBsHh+kA2pjnaUO7Jz0UcGXuNFvf
+         dNsNDSwD7Q68XI3xZGbnHf78H4IT5bvh/S+2BYP2sqaFBeXpHpN0Uuw+VFZ7wfWzU0Qq
+         UkQq+5EU4qQlt+YK3tbiL655OEdyEu3bJWF9lG7/8NodpGoSVKkP7D8MX2Z4j1S2bGik
+         sBetbbLGlauODKjcn8mGDTndm8doDua5BBiIUyLlZs7dV9fThIjiONER1f0mf0RQOFmg
+         duVg==
+X-Gm-Message-State: AOJu0YzQYrAV2pF+A3yNvJNBLZQ3AbR9tWvH/3FjxrKWl0DwzwOUViiT
+	YpIQdtpZtPhqUCeQ72GYQ20=
+X-Google-Smtp-Source: AGHT+IERRA7t6kiipduzM4sDbD9g3jrgnHi7jIHWJSoE6sMHhxpxJGtMy+DHjS/QrwyNgkq8Mg0TSw==
+X-Received: by 2002:a05:6870:b013:b0:1e9:9742:7dfd with SMTP id y19-20020a056870b01300b001e997427dfdmr23542991oae.31.1699001190331;
+        Fri, 03 Nov 2023 01:46:30 -0700 (PDT)
 Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id ix20-20020a170902f81400b001c75d7f2597sm902888plb.141.2023.11.03.01.29.34
+        by smtp.gmail.com with ESMTPSA id u4-20020a654c04000000b005a9b20408a7sm784642pgq.23.2023.11.03.01.46.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 01:29:34 -0700 (PDT)
+        Fri, 03 Nov 2023 01:46:29 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-	id BBC6091D73FF; Fri,  3 Nov 2023 15:29:32 +0700 (WIB)
-Date: Fri, 3 Nov 2023 15:29:32 +0700
+	id DA73191D73C3; Fri,  3 Nov 2023 15:46:26 +0700 (WIB)
+Date: Fri, 3 Nov 2023 15:46:26 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
+To: Ken Moffat <zarniwhoop@ntlworld.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Stanislav Fomichev <sdf@google.com>,
@@ -60,9 +60,10 @@ Cc: Thomas Gleixner <tglx@linutronix.de>,
 	Carlos Bilbao <carlos.bilbao@amd.com>
 Subject: Re: [PATCH RFC RESEND 0/4] Documentation: Web fonts for kernel
  documentation
-Message-ID: <ZUSvbCVCC25vMyNH@debian.me>
+Message-ID: <ZUSzYtBpvAmM3ZRs@debian.me>
 References: <20231102123225.32768-1-bagasdotme@gmail.com>
  <874ji48658.fsf@meer.lwn.net>
+ <ZUQ-K7MXzHZ_oyVK@llamedos.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,79 +71,134 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="I1jQczm8fw5Fu96M"
+	protocol="application/pgp-signature"; boundary="6kmgiKCzrjAfMsus"
 Content-Disposition: inline
-In-Reply-To: <874ji48658.fsf@meer.lwn.net>
+In-Reply-To: <ZUQ-K7MXzHZ_oyVK@llamedos.localdomain>
 
 
---I1jQczm8fw5Fu96M
+--6kmgiKCzrjAfMsus
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 02, 2023 at 10:35:47AM -0600, Jonathan Corbet wrote:
-> So my immediate response to this is pretty uniformly negative.
+On Fri, Nov 03, 2023 at 12:26:19AM +0000, Ken Moffat wrote:
+> On Thu, Nov 02, 2023 at 10:35:47AM -0600, Jonathan Corbet wrote:
 >=20
-> - If you don't like serif, tweaking conf.py is easy enough without
->   pushing it on everybody else.
+> Jon, some slight nit-picking below, after comments on the stated
+> problem.
+>=20
+> > Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> >=20
+> [...]
+> > >
+> > > The solution
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >
+> > > Uniform the font choices by leveraging web fonts. Most of people read=
+ing
+> > > the kernel docs should already have modern browser that supports this
+> > > feature (e.g. Chrome/Chromium and Firefox). The fonts are downloaded
+> > > automatically when loading the page, but only if the reader don't
+> > > already have ones installed locally. Subsequent docs page loading will
+> > > use the browser cache to retrieve the fonts. If for some reasons the
+> > > fonts fail to load, the browser will fall back to fallback fonts
+> > > commonly seen on other sites.
+> >=20
+> Bagas,
+>=20
+> If loading the web font fails, you will get whichever fallback
+> fonts are enabled by fontconfig and whichever fonts you, or your
+> distro, have installed.  If those fonts are not generally adequate
+> you should complain to your distro, or install different fonts in
+> ~/.local/share/fotns and perhaps change your fonts.conf entries.
 
-As local commit of course.
+I beg to differ.
+
+That's depending on font-family rule. For example, if I write it as:
+
+```
+body {
+	font-family: "Liberation Sans", Helvetica, Arial, sans-serif;
+}
+```
+
+browsers will try loading the first three fonts, in order. If a font
+isn't available, they will try the next one until they can. Only then
+when all other options are exhausted, generic fallback font will kick
+in.
+
+And yes, I do copying all fonts from my Windows installation (since
+I dual-boot both it and Debian), then configure GNOME to use Segoe UI
+as UI font (as it looks nicer to me). I also drop in font substitution
+rules in `~/.config/fontconfig/conf.d` since I'm not the fan of
+(obviously non-free) S=C3=B6hne and substitute it with Inter and Source
+Code Pro.
 
 >=20
-> - I'm not thrilled about adding a bunch of binary font data to the
->   kernel, and suspect a lot of people would not feel that the bloat is
->   worth it.
+> > So my immediate response to this is pretty uniformly negative.
+> >=20
+> > - If you don't like serif, tweaking conf.py is easy enough without
+> >   pushing it on everybody else.
+> >=20
+> > - I'm not thrilled about adding a bunch of binary font data to the
+> >   kernel, and suspect a lot of people would not feel that the bloat is
+> >   worth it.
+> >=20
+>=20
+> Jon,
+>=20
+> As I understand it the (woff) fonts would be downloaded on request
+> by the browser if this went in.  So not a bunch of binary font data
+> in the kernel, but a download from google (adding to the popularity
+> of the font) and yet more font data in the browser cache.  I don't
+> have any desire to see woff fonts referenced in the docs, just
+> nit-picking about the details.
 
-MediaWiki project takes the same stance regarding web fonts:
-
-> What about using webfonts?
->
-> Webfonts is a system to deliver a font to users who do not have it instal=
-led.
-> This involves having a user's browser download a font we provide, which c=
-auses
-> additional resources to load and would have a negative impact on site
-> performance (i.e. how fast pages load). This is particularly true for old=
-er
-> browsers. In the future we may explore using webfonts, but for now this u=
-pdate
-> provides greater readability and consistency while not degrading page load
-> times.
-
-Indeed, it's possible to achieve the same effect without resorting to web
-fonts (as MediaWiki did), see [1].
+But I wasn't considering people using terminal-only browsers (like
+Lynx).
 
 >=20
-> - The licensing of the fonts is not fully free.
-
-That was being discussed on the original RFC thread.
-
+> However -
 >=20
-> There's so much we can do to improve our documentation and access to it;
-> messing around with web fonts seems - to me, at least - pretty low on
-> the list.
+> > - The licensing of the fonts is not fully free.
+> >=20
 >=20
-> I suppose I can ask people at the kernel summit session in a couple
-> weeks to see if others feel differently.
+> AFAICS, the SIL OFL allows everything except changing the font name.
+> If you have the right tools you can apparently fix things like "that
+> specific glyph looks ugly" or "you put a latin breve on a cyrillic
+> letter" (apparently they should differ) or "You mismapped this
+> codepoint to the wrong glyph". What you cannot do, if those changes
+> are not accepted by the font designer/maintainer, or if the font is
+> no-longer maintained, is fork it and provide it under the same name.
+>=20
+> You can fork, but the font name has to be changed (e.g. LinLibertine
+> -> Libertinus and then the serif forked to CommonSerif).
+>=20
+> Oh, and you cannot sell the fonts by themselves, but you can bundle
+> them with a distro or embed them.
+> https://www.tldrlegal.com/license/open-font-license-ofl-explained
+>=20
+> Question: is that not free enough, or is that site wrong ?  If not
+> free enough, is there a better licence for fonts ?
 
-OK, I want to hear about their opinion.
+Yet Debian distributes OFL fonts in its main archive...
+
+For me, for the fonts, I'd like CC-BY-SA instead.
 
 Thanks.
-
-[1]: https://www.mediawiki.org/wiki/Typography_refresh
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---I1jQczm8fw5Fu96M
+--6kmgiKCzrjAfMsus
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUSvbAAKCRD2uYlJVVFO
-o+UHAQCt9yzSppTguWjvALTOz9ee0uHu5vMdzTTRmA8X+gPlJAEAsUjhBKMibYVc
-oRCK/CmbYw1pojwttDiRNoFrDXjvwww=
-=ahSS
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUSzXwAKCRD2uYlJVVFO
+o2kSAP9OiWMN4avk4kAZdm2oGRch0M+/NeExTW/cph9LdbqHhwEA7qIWmTFHufcs
+9Mlih2xOkjGFDJfmqDPv5jeAgI6CYAw=
+=qrkE
 -----END PGP SIGNATURE-----
 
---I1jQczm8fw5Fu96M--
+--6kmgiKCzrjAfMsus--
