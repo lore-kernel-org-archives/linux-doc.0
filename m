@@ -1,204 +1,132 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E322D62B
-	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 08:46:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E8E2D604
+	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 08:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhBAWwfm"
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E3ECD43;
-	Fri,  3 Nov 2023 01:46:31 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-1eb7a8e9dd0so1095030fac.3;
-        Fri, 03 Nov 2023 01:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699001190; x=1699605990; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mVywe0D/U3C5N1dPQibx8KoiHM6ZJRIDGPFvHnYX9lg=;
-        b=DhBAWwfm5Gb3ffnfJ5j6UTwPKxkNHf+VtKuBnpauiMtP5/azQDmeov53Fc5n7OcKu3
-         0xCmTPmp3725qCFF/baDH/xKxoTYiCJi3tdz+z3ua+s8eZlHaaUtSpubGqKWWCsTx5S9
-         g6tHIMi2WlqXcQER91dl6A4eydYDtmj5/4xU3fS7/4hGeoofUSFXgW0GpCSxamhbSa1T
-         WDPmMKIbPBpvw7X/mnGok4GDjiUX1UQGNdjWsF3E09GFlflxb2Xl352f+nqbym9m681f
-         sDiYCBg0Z+Ven2pbiMYgdR1SXuT4KMSZBqr1LozhiOpN4bT+rxZfmhz0p+ILriQ1bxdZ
-         9etA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699001190; x=1699605990;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mVywe0D/U3C5N1dPQibx8KoiHM6ZJRIDGPFvHnYX9lg=;
-        b=wcdMix5oOTcsb5nvw2TxA5AtyygcKb0tR6SAZXYlKfrqwPCnAnm2l14DP4X4wmPaYa
-         HV8xeXhTa3c1L97SGEA9HwZJxRr1Y+LJXP8aN2v1TBsHh+kA2pjnaUO7Jz0UcGXuNFvf
-         dNsNDSwD7Q68XI3xZGbnHf78H4IT5bvh/S+2BYP2sqaFBeXpHpN0Uuw+VFZ7wfWzU0Qq
-         UkQq+5EU4qQlt+YK3tbiL655OEdyEu3bJWF9lG7/8NodpGoSVKkP7D8MX2Z4j1S2bGik
-         sBetbbLGlauODKjcn8mGDTndm8doDua5BBiIUyLlZs7dV9fThIjiONER1f0mf0RQOFmg
-         duVg==
-X-Gm-Message-State: AOJu0YzQYrAV2pF+A3yNvJNBLZQ3AbR9tWvH/3FjxrKWl0DwzwOUViiT
-	YpIQdtpZtPhqUCeQ72GYQ20=
-X-Google-Smtp-Source: AGHT+IERRA7t6kiipduzM4sDbD9g3jrgnHi7jIHWJSoE6sMHhxpxJGtMy+DHjS/QrwyNgkq8Mg0TSw==
-X-Received: by 2002:a05:6870:b013:b0:1e9:9742:7dfd with SMTP id y19-20020a056870b01300b001e997427dfdmr23542991oae.31.1699001190331;
-        Fri, 03 Nov 2023 01:46:30 -0700 (PDT)
-Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id u4-20020a654c04000000b005a9b20408a7sm784642pgq.23.2023.11.03.01.46.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 01:46:29 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-	id DA73191D73C3; Fri,  3 Nov 2023 15:46:26 +0700 (WIB)
-Date: Fri, 3 Nov 2023 15:46:26 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Ken Moffat <zarniwhoop@ntlworld.com>, Jonathan Corbet <corbet@lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QwYJFGNq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 071A1C433C8;
+	Fri,  3 Nov 2023 08:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1699001397;
+	bh=Ofczzi1jOkw0vNrrSnkW9v3BzVIAL4bIxgVuUOXMTqg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QwYJFGNqvz8Axixfu9jsq3mxC60EdJcXHwusEqN9sP2JpS+9xqL+Zng3IWiDJOkMK
+	 UUC2BbOiQ/9G9cAd77y6lD5y1ddMOlGWIQjsj3pNLyj1uEDdf0G+MO1pnZ/0INaeF8
+	 Ln2goZa+7rxe6xigUGWpluhfvPmkmNMYRwqgsGBw=
+Date: Fri, 3 Nov 2023 09:49:54 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
 Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Stanislav Fomichev <sdf@google.com>,
 	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
 	James Seo <james@equiv.tech>,
 	Daniel Vetter <daniel.vetter@ffwll.ch>,
 	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH RFC RESEND 0/4] Documentation: Web fonts for kernel
- documentation
-Message-ID: <ZUSzYtBpvAmM3ZRs@debian.me>
-References: <20231102123225.32768-1-bagasdotme@gmail.com>
- <874ji48658.fsf@meer.lwn.net>
- <ZUQ-K7MXzHZ_oyVK@llamedos.localdomain>
+	Carlos Bilbao <carlos.bilbao@amd.com>, linux-spdx@vger.kernel.org,
+	Richard Fontana <rfontana@redhat.com>
+Subject: Re: [PATCH RFC 1/4] LICENSES: Add SIL Open Font License 1.1
+Message-ID: <2023110317-unhealthy-playable-d5d6@gregkh>
+References: <20231102120053.30630-1-bagasdotme@gmail.com>
+ <20231102120053.30630-2-bagasdotme@gmail.com>
+ <2023110222-renewed-monologue-008e@gregkh>
+ <ZUSrOKDuvcSL6gOH@debian.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6kmgiKCzrjAfMsus"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZUQ-K7MXzHZ_oyVK@llamedos.localdomain>
+In-Reply-To: <ZUSrOKDuvcSL6gOH@debian.me>
 
+On Fri, Nov 03, 2023 at 03:11:36PM +0700, Bagas Sanjaya wrote:
+> On Thu, Nov 02, 2023 at 03:06:19PM +0100, Greg Kroah-Hartman wrote:
+> > On Thu, Nov 02, 2023 at 07:00:43PM +0700, Bagas Sanjaya wrote:
+> > > Add the license text along with appropriate tags for reference and
+> > > tooling. The text is taken from the text as distributed in Google
+> > > Fonts's zip files.
+> > > 
+> > > As the license itself may or may note be compatible with GPLv2,
+> > > let's take on the err side and require combining it with
+> > > GPL-compatible licenses when using the license.
+> > > 
+> > > Cc: linux-spdx@vger.kernel.org
+> > > Cc: Richard Fontana <rfontana@redhat.com>
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > > ---
+> > >  LICENSES/dual/OFL-1.1 | 107 ++++++++++++++++++++++++++++++++++++++++++
+> > 
+> > You add this license, but then never actually reference it in the later
+> > changes, so it's going to be very confusing as to why it is here.  Any
+> > way to add it to the font files themselves so our checker tools can
+> > handle this properly?
+> 
+> There is TTF name string ID called "License". For example, on IBM Plex Sans,
+> the string value is:
+> 
+> ```
+> This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL
+> ```
+> 
+> Checking that string requires scripting fontforge, and since the string value
+> may differ (but has the same license) across different fonts, scripting it
+> can be non-trivial.
 
---6kmgiKCzrjAfMsus
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+And is that in the files you added?  They are binary so it's hard to
+determine this :(
 
-On Fri, Nov 03, 2023 at 12:26:19AM +0000, Ken Moffat wrote:
-> On Thu, Nov 02, 2023 at 10:35:47AM -0600, Jonathan Corbet wrote:
->=20
-> Jon, some slight nit-picking below, after comments on the stated
-> problem.
->=20
-> > Bagas Sanjaya <bagasdotme@gmail.com> writes:
-> >=20
-> [...]
-> > >
-> > > The solution
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >
-> > > Uniform the font choices by leveraging web fonts. Most of people read=
-ing
-> > > the kernel docs should already have modern browser that supports this
-> > > feature (e.g. Chrome/Chromium and Firefox). The fonts are downloaded
-> > > automatically when loading the page, but only if the reader don't
-> > > already have ones installed locally. Subsequent docs page loading will
-> > > use the browser cache to retrieve the fonts. If for some reasons the
-> > > fonts fail to load, the browser will fall back to fallback fonts
-> > > commonly seen on other sites.
-> >=20
-> Bagas,
->=20
-> If loading the web font fails, you will get whichever fallback
-> fonts are enabled by fontconfig and whichever fonts you, or your
-> distro, have installed.  If those fonts are not generally adequate
-> you should complain to your distro, or install different fonts in
-> ~/.local/share/fotns and perhaps change your fonts.conf entries.
+> > 
+> > And, it's not going to work as a dual-license, you can't just suddenly
+> > dual-license those font files, right?
+> 
+> I was thinking of putting OFL in LICENSES/exceptions instead due to this
+> nature.
 
-I beg to differ.
+Yes, it can not be a dual one.
 
-That's depending on font-family rule. For example, if I write it as:
+> > >  1 file changed, 107 insertions(+)
+> > >  create mode 100644 LICENSES/dual/OFL-1.1
+> > > 
+> > > diff --git a/LICENSES/dual/OFL-1.1 b/LICENSES/dual/OFL-1.1
+> > > new file mode 100644
+> > > index 00000000000000..00b8db08bd0e54
+> > > --- /dev/null
+> > > +++ b/LICENSES/dual/OFL-1.1
+> > > @@ -0,0 +1,107 @@
+> > > +Valid-License-Identifier: OFL-1.1
+> > > +SPDX-URL: https://spdx.org/licenses/OFL-1.1
+> > > +Usage-Guide:
+> > > +  Do NOT use this license for code, but it's acceptable for fonts (where the
+> > > +  license is specifically written for them). It's best to use it together
+> > > +  with a GPL2 compatible license using "OR", as OFL-1.1 texts processed by
+> > > +  the kernel's build system might combine it with content taken from more
+> > > +  restrictive licenses.
+> > > +  To use the SIL Open Font License 1.1, put the following SPDX tag/value pair
+> > > +  into a comment according to the placement guidelines in the licensing rules
+> > > +  documentation:
+> > > +    SPDX-License-Identifier: OFL-1.1
+> > 
+> > Where did this Usage-Guide from?
+> 
+> Adapted from LICENSES/dual/CC-BY-4.0.
 
-```
-body {
-	font-family: "Liberation Sans", Helvetica, Arial, sans-serif;
-}
-```
+Which it shouldn't be :(
 
-browsers will try loading the first three fonts, in order. If a font
-isn't available, they will try the next one until they can. Only then
-when all other options are exhausted, generic fallback font will kick
-in.
+Anyway, this is independent of the issue if we actually should take
+these fonts into the kernel tree, and mandate their use (my opinion is
+no, that's not for us to use, and especially for any action that might
+cause a web browser to look elsewhere outside of our documentation.)
 
-And yes, I do copying all fonts from my Windows installation (since
-I dual-boot both it and Debian), then configure GNOME to use Segoe UI
-as UI font (as it looks nicer to me). I also drop in font substitution
-rules in `~/.config/fontconfig/conf.d` since I'm not the fan of
-(obviously non-free) S=C3=B6hne and substitute it with Inter and Source
-Code Pro.
+Also, for documentation, I'm pretty sure that serif fonts is proven to
+be "nicer" overall by many studies.
 
->=20
-> > So my immediate response to this is pretty uniformly negative.
-> >=20
-> > - If you don't like serif, tweaking conf.py is easy enough without
-> >   pushing it on everybody else.
-> >=20
-> > - I'm not thrilled about adding a bunch of binary font data to the
-> >   kernel, and suspect a lot of people would not feel that the bloat is
-> >   worth it.
-> >=20
->=20
-> Jon,
->=20
-> As I understand it the (woff) fonts would be downloaded on request
-> by the browser if this went in.  So not a bunch of binary font data
-> in the kernel, but a download from google (adding to the popularity
-> of the font) and yet more font data in the browser cache.  I don't
-> have any desire to see woff fonts referenced in the docs, just
-> nit-picking about the details.
+thanks,
 
-But I wasn't considering people using terminal-only browsers (like
-Lynx).
-
->=20
-> However -
->=20
-> > - The licensing of the fonts is not fully free.
-> >=20
->=20
-> AFAICS, the SIL OFL allows everything except changing the font name.
-> If you have the right tools you can apparently fix things like "that
-> specific glyph looks ugly" or "you put a latin breve on a cyrillic
-> letter" (apparently they should differ) or "You mismapped this
-> codepoint to the wrong glyph". What you cannot do, if those changes
-> are not accepted by the font designer/maintainer, or if the font is
-> no-longer maintained, is fork it and provide it under the same name.
->=20
-> You can fork, but the font name has to be changed (e.g. LinLibertine
-> -> Libertinus and then the serif forked to CommonSerif).
->=20
-> Oh, and you cannot sell the fonts by themselves, but you can bundle
-> them with a distro or embed them.
-> https://www.tldrlegal.com/license/open-font-license-ofl-explained
->=20
-> Question: is that not free enough, or is that site wrong ?  If not
-> free enough, is there a better licence for fonts ?
-
-Yet Debian distributes OFL fonts in its main archive...
-
-For me, for the fonts, I'd like CC-BY-SA instead.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---6kmgiKCzrjAfMsus
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUSzXwAKCRD2uYlJVVFO
-o2kSAP9OiWMN4avk4kAZdm2oGRch0M+/NeExTW/cph9LdbqHhwEA7qIWmTFHufcs
-9Mlih2xOkjGFDJfmqDPv5jeAgI6CYAw=
-=qrkE
------END PGP SIGNATURE-----
-
---6kmgiKCzrjAfMsus--
+greg k-h
