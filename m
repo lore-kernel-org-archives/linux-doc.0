@@ -1,69 +1,68 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C14847B
-	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 08:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30787847B
+	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 08:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hrsRW9/P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XEUH4Q4/"
 Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AA7123;
-	Fri,  3 Nov 2023 01:11:40 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1cc2575dfc7so14999775ad.1;
-        Fri, 03 Nov 2023 01:11:40 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10EC7D42;
+	Fri,  3 Nov 2023 01:29:36 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1cc0d0a0355so14872905ad.3;
+        Fri, 03 Nov 2023 01:29:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698999100; x=1699603900; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1699000175; x=1699604975; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P1zG46v3yYULs6HTAoiydnarKk6Z7cvMgep7Y/bVUSA=;
-        b=hrsRW9/PnUPMA4BcyAKt1FAPndCrlOExvQpO7pxoSbAgNUmDPv9XchtTGPoVojUlGA
-         +2IuLNY2HYd1Lyg/La8SSgac4X0ltkOSAiDjpJZzADOdGqaII2AUM0FLKVwkA2lgvPKU
-         WiNgiUwSNYTs+WXFmvdz3a1WBa8CT3SaCl67wC8gL5ALabFa/438vRCX75+a0qnqj7p9
-         s7nTuz7WOpIr1Qy/cK4UgdKwtTyPHWZj0LxytEdzJHeygcISumxNwU6UQ03G+8Uplq0U
-         Y0DS6w1BHZUvgv601jQKUhoIKfdBcAJeSeQrUs+Qb2o66/qQYoHtV5F48ucUxCddUjCo
-         YZpw==
+        bh=rTlctj8hnqNzhCMN/+l01lQ+Uns5l1/j387sOUjthe0=;
+        b=XEUH4Q4/p9C1GlsHiLH+YEBPQIbnDLEZrtiVM68inksIZvBhBRC/Q5WtWRHptur9QK
+         EwVx/nd5mKH66bTfY3ZWrh8JB3VGHJ2dsgKVoKePlTOHS1XLBuoxcXY+PAsl6dkLuOB7
+         HceSuLNh031bdlsvjlG3I6T4gSV/ex9mQFE50n3GW/zMPVVJwjACtcyT3ao7LjXw9K9t
+         F700PaWKjrLZBysxtmjvpt7jdMukeAZmuJ94PYg9g2CJN/YShEBju2ibNgVe2VM8t+RD
+         Nw7vykWkIrsGOKikkFQXGDV6OAZ4bw3kjAiiwHBNVCYh59je200cjpCWUPAo8Rs0Kvl7
+         1o1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698999100; x=1699603900;
+        d=1e100.net; s=20230601; t=1699000175; x=1699604975;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P1zG46v3yYULs6HTAoiydnarKk6Z7cvMgep7Y/bVUSA=;
-        b=vDVQCyOoedBAhcqryPOZiGDVKLftTv0VNAPg2W2SYTrpcA4z1PfJFSORo7nqQghtwV
-         lC6IMialJ3pfsEP7nAJns8FQNiHnldcwuIvuGSGlqlDy/rpokN+ZBvqynN9c77vyrt+R
-         97aBQZSrnOs2jrAKMfrRK9A+1bop9W/gkvldsbWia2LpSKowgDov77rYs9mTqkevcn+5
-         RnO5xBDISrjS37XB5bnamFkhciaLzYsWHdwUTPg8F+OSuyCMgmhPBY+csZpqwa3V4bHs
-         /5bfMT+rgT6SBMxwOU50onGpc42uBcIwim7L7S0jv3g17pKzhNUPgl0nLcQJTyDfO7Cb
-         qqsw==
-X-Gm-Message-State: AOJu0YzQcCooaJkrjvfjo8Aua/Omp8JTmufgR91sfpwYwfoFI70o/d8u
-	ANZiv65HQEwpeQbijK23eNA=
-X-Google-Smtp-Source: AGHT+IGQXuw4znO2Dw4M5l6O2Es9a8zUyaadJePmeZgfYhLn8RpT4NdGcAeG8yODYjMgcMtPTfKFvg==
-X-Received: by 2002:a17:902:e0d4:b0:1ca:200b:8dce with SMTP id e20-20020a170902e0d400b001ca200b8dcemr14134555pla.41.1698999099934;
-        Fri, 03 Nov 2023 01:11:39 -0700 (PDT)
+        bh=rTlctj8hnqNzhCMN/+l01lQ+Uns5l1/j387sOUjthe0=;
+        b=rnLuRUK7M3jfrmjpdPtniYJeEuWXzXN11KSqqguShRaX2X/yt72prY9aQp1pu/Lxqb
+         PFlFzRmCsK7Fto9KP5+A4svcAJnvqC+/q9VpaQOxYVDXdxvNpVOy+ccSUGJYIQZI/nLm
+         FGN6YZMHFc+1KE503jr6tD6vn+6et4HVgxinHnXLOJWS7GQJkTDkcnqwgH78PkRQpEKA
+         1JGaoM975DlD/vd8FqZpA9unMbUq97/6jf5tyAAE29pT51+pKmj8ibDGL4s5ritsRNz0
+         sH+2dn8aUTmGpG4Jio2rH4gKTojkmBogd38cCx7Ra/5l6dR35h6VEX5xU9Ht9W7J4a2V
+         6OXQ==
+X-Gm-Message-State: AOJu0YyZ/IdfLOo3i5llkiQB6HNrLTz2mPSvprZCDyF3Kq7pyyI+HZBz
+	X1vuE9VbTGzfwTyRVUVpo1E=
+X-Google-Smtp-Source: AGHT+IGC6Bo8fPehYZXxcFAuJeXflkdKtLj9x94EL042EHE5PQHVhBM4mee8VnRRhKQMBFkZZWP5HQ==
+X-Received: by 2002:a17:902:c78c:b0:1c9:d8b6:e7ad with SMTP id w12-20020a170902c78c00b001c9d8b6e7admr16745633pla.56.1699000175482;
+        Fri, 03 Nov 2023 01:29:35 -0700 (PDT)
 Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id jf6-20020a170903268600b001b03a1a3151sm882657plb.70.2023.11.03.01.11.38
+        by smtp.gmail.com with ESMTPSA id ix20-20020a170902f81400b001c75d7f2597sm902888plb.141.2023.11.03.01.29.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 01:11:38 -0700 (PDT)
+        Fri, 03 Nov 2023 01:29:34 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-	id 7E0EC91C7163; Fri,  3 Nov 2023 15:11:36 +0700 (WIB)
-Date: Fri, 3 Nov 2023 15:11:36 +0700
+	id BBC6091D73FF; Fri,  3 Nov 2023 15:29:32 +0700 (WIB)
+Date: Fri, 3 Nov 2023 15:29:32 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Stanislav Fomichev <sdf@google.com>,
 	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
 	James Seo <james@equiv.tech>,
 	Daniel Vetter <daniel.vetter@ffwll.ch>,
 	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Carlos Bilbao <carlos.bilbao@amd.com>, linux-spdx@vger.kernel.org,
-	Richard Fontana <rfontana@redhat.com>
-Subject: Re: [PATCH RFC 1/4] LICENSES: Add SIL Open Font License 1.1
-Message-ID: <ZUSrOKDuvcSL6gOH@debian.me>
-References: <20231102120053.30630-1-bagasdotme@gmail.com>
- <20231102120053.30630-2-bagasdotme@gmail.com>
- <2023110222-renewed-monologue-008e@gregkh>
+	Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH RFC RESEND 0/4] Documentation: Web fonts for kernel
+ documentation
+Message-ID: <ZUSvbCVCC25vMyNH@debian.me>
+References: <20231102123225.32768-1-bagasdotme@gmail.com>
+ <874ji48658.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,105 +70,79 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/KWzKcdL50ByjLLA"
+	protocol="application/pgp-signature"; boundary="I1jQczm8fw5Fu96M"
 Content-Disposition: inline
-In-Reply-To: <2023110222-renewed-monologue-008e@gregkh>
+In-Reply-To: <874ji48658.fsf@meer.lwn.net>
 
 
---/KWzKcdL50ByjLLA
+--I1jQczm8fw5Fu96M
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 02, 2023 at 03:06:19PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, Nov 02, 2023 at 07:00:43PM +0700, Bagas Sanjaya wrote:
-> > Add the license text along with appropriate tags for reference and
-> > tooling. The text is taken from the text as distributed in Google
-> > Fonts's zip files.
-> >=20
-> > As the license itself may or may note be compatible with GPLv2,
-> > let's take on the err side and require combining it with
-> > GPL-compatible licenses when using the license.
-> >=20
-> > Cc: linux-spdx@vger.kernel.org
-> > Cc: Richard Fontana <rfontana@redhat.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
-> >  LICENSES/dual/OFL-1.1 | 107 ++++++++++++++++++++++++++++++++++++++++++
+On Thu, Nov 02, 2023 at 10:35:47AM -0600, Jonathan Corbet wrote:
+> So my immediate response to this is pretty uniformly negative.
 >=20
-> You add this license, but then never actually reference it in the later
-> changes, so it's going to be very confusing as to why it is here.  Any
-> way to add it to the font files themselves so our checker tools can
-> handle this properly?
+> - If you don't like serif, tweaking conf.py is easy enough without
+>   pushing it on everybody else.
 
-There is TTF name string ID called "License". For example, on IBM Plex Sans,
-the string value is:
-
-```
-This Font Software is licensed under the SIL Open Font License, Version 1.1=
-=2E This license is available with a FAQ at: http://scripts.sil.org/OFL
-```
-
-Checking that string requires scripting fontforge, and since the string val=
-ue
-may differ (but has the same license) across different fonts, scripting it
-can be non-trivial.
+As local commit of course.
 
 >=20
-> And, it's not going to work as a dual-license, you can't just suddenly
-> dual-license those font files, right?
+> - I'm not thrilled about adding a bunch of binary font data to the
+>   kernel, and suspect a lot of people would not feel that the bloat is
+>   worth it.
 
-I was thinking of putting OFL in LICENSES/exceptions instead due to this
-nature.
+MediaWiki project takes the same stance regarding web fonts:
+
+> What about using webfonts?
+>
+> Webfonts is a system to deliver a font to users who do not have it instal=
+led.
+> This involves having a user's browser download a font we provide, which c=
+auses
+> additional resources to load and would have a negative impact on site
+> performance (i.e. how fast pages load). This is particularly true for old=
+er
+> browsers. In the future we may explore using webfonts, but for now this u=
+pdate
+> provides greater readability and consistency while not degrading page load
+> times.
+
+Indeed, it's possible to achieve the same effect without resorting to web
+fonts (as MediaWiki did), see [1].
 
 >=20
-> >  1 file changed, 107 insertions(+)
-> >  create mode 100644 LICENSES/dual/OFL-1.1
-> >=20
-> > diff --git a/LICENSES/dual/OFL-1.1 b/LICENSES/dual/OFL-1.1
-> > new file mode 100644
-> > index 00000000000000..00b8db08bd0e54
-> > --- /dev/null
-> > +++ b/LICENSES/dual/OFL-1.1
-> > @@ -0,0 +1,107 @@
-> > +Valid-License-Identifier: OFL-1.1
-> > +SPDX-URL: https://spdx.org/licenses/OFL-1.1
-> > +Usage-Guide:
-> > +  Do NOT use this license for code, but it's acceptable for fonts (whe=
-re the
-> > +  license is specifically written for them). It's best to use it toget=
-her
-> > +  with a GPL2 compatible license using "OR", as OFL-1.1 texts processe=
-d by
-> > +  the kernel's build system might combine it with content taken from m=
-ore
-> > +  restrictive licenses.
-> > +  To use the SIL Open Font License 1.1, put the following SPDX tag/val=
-ue pair
-> > +  into a comment according to the placement guidelines in the licensin=
-g rules
-> > +  documentation:
-> > +    SPDX-License-Identifier: OFL-1.1
->=20
-> Where did this Usage-Guide from?
+> - The licensing of the fonts is not fully free.
 
-Adapted from LICENSES/dual/CC-BY-4.0.
+That was being discussed on the original RFC thread.
+
+>=20
+> There's so much we can do to improve our documentation and access to it;
+> messing around with web fonts seems - to me, at least - pretty low on
+> the list.
+>=20
+> I suppose I can ask people at the kernel summit session in a couple
+> weeks to see if others feel differently.
+
+OK, I want to hear about their opinion.
 
 Thanks.
+
+[1]: https://www.mediawiki.org/wiki/Typography_refresh
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---/KWzKcdL50ByjLLA
+--I1jQczm8fw5Fu96M
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUSrNAAKCRD2uYlJVVFO
-owOVAQDfc6tg3jOz4yW4hs8/7Tdj2N5B9WFJcdKKBu41RNyd5AEAmor1Fmesa51e
-GupVUCytz7URedQA/dvn3osN4cGy0ww=
-=tuOf
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUSvbAAKCRD2uYlJVVFO
+o+UHAQCt9yzSppTguWjvALTOz9ee0uHu5vMdzTTRmA8X+gPlJAEAsUjhBKMibYVc
+oRCK/CmbYw1pojwttDiRNoFrDXjvwww=
+=ahSS
 -----END PGP SIGNATURE-----
 
---/KWzKcdL50ByjLLA--
+--I1jQczm8fw5Fu96M--
