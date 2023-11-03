@@ -1,615 +1,389 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99ACD18623;
-	Fri,  3 Nov 2023 13:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9718B7;
-	Fri,  3 Nov 2023 06:56:38 -0700 (PDT)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9be3b66f254so307656066b.3;
-        Fri, 03 Nov 2023 06:56:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3FC2D631;
+	Fri,  3 Nov 2023 14:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P5dOTNJH"
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8213CCA;
+	Fri,  3 Nov 2023 07:35:54 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-5a9bc2ec556so2265693a12.0;
+        Fri, 03 Nov 2023 07:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699022154; x=1699626954; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=761s3ZSOYqOl5OlbDmAC3O99DhhGiHJQ6guQs2cNdZI=;
+        b=P5dOTNJHCbWFDzRjj+4ecrnV6oPo1jfBpl3H1pgcr9Sn+S2fWX1T6xfi8BKU+Gu4Po
+         1d9+OynI6VGlEf2BQlJaXXOXS50NyEB9qShFU/ZeuA7QRB1Pvx7Tl8PtV8eNQvORc+jw
+         QX2l0Fjs0Zb5yO7NJOudROPvSsoCitkN2GzF/+X5tCDFhXDOlXuI/1KYiR4pkRqmly27
+         IvYqKKH3PFsY/KrPOoZm//yVP8zhEYFz4dKwOd7uovP6HKm/1adfzWrTKyS4f0dIwbcU
+         Z7in1BZstFBE/T9RNCz5P5+a6ZTVGdVt8kjSlegMOWFmvWATfk7HyCly00KS5vucRaUC
+         2Jag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699019797; x=1699624597;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1699022154; x=1699626954;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jHTCE7ROeImvpUXZ1SAvqpDykbwHTyy61xMy2AytBh0=;
-        b=SZssVkdX9mupRt5f5hrd1uZtIL8EnEeI1++K3ccaR4rh/zIh2XOF7W8c6VItHrZydo
-         hJgpKiNvm25pGC/uTkPuehNr56bCiL59mxykvYoHXQaUiBNO2uSY5tCurtG8DVRGuvzV
-         cT/gt/zekLrGZfe0eMAqo/abtHZG5IjCyBxOGfvIsyGHdvwmlpnnPx8gn7sU+9HyzAsN
-         6Pe5sNHwrdIP+YgsACBfLCSJxH8RQNP61Dvojorg2zI5nMPujmdK7FgtMxmZBDXF1X+C
-         Ndn7PcWA7BZqECs/EHbL6En4nfguTOEpCIlpFiJJ0mrXBcW1n+pdZ0MEH6Js7eyzBVA7
-         K4rw==
-X-Gm-Message-State: AOJu0YzaLQoErBrHM5cRldr+GMpKj8ppfgF/9cKwfUaWPjfAL6/iJbTr
-	1pIjA791MvcflJzpfPASlDM=
-X-Google-Smtp-Source: AGHT+IH6+LcAVLmJe/Buh8eFeUfYVrBhpsRdik4jYowZPgkjC8OQtwKEHSQQy29cxuFaIdcB6c3jGA==
-X-Received: by 2002:a17:907:940a:b0:9bf:4e0b:fb06 with SMTP id dk10-20020a170907940a00b009bf4e0bfb06mr7384104ejc.14.1699019796950;
-        Fri, 03 Nov 2023 06:56:36 -0700 (PDT)
-Received: from localhost (fwdproxy-cln-005.fbsv.net. [2a03:2880:31ff:5::face:b00c])
-        by smtp.gmail.com with ESMTPSA id v26-20020a17090606da00b009ae57888718sm919405ejb.207.2023.11.03.06.56.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 06:56:36 -0700 (PDT)
-From: Breno Leitao <leitao@debian.org>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com
-Subject: [PATCH] Documentation: Document the Netlink spec
-Date: Fri,  3 Nov 2023 06:56:22 -0700
-Message-Id: <20231103135622.250314-1-leitao@debian.org>
-X-Mailer: git-send-email 2.34.1
+        bh=761s3ZSOYqOl5OlbDmAC3O99DhhGiHJQ6guQs2cNdZI=;
+        b=SZFt7Hve77Cx2AZoAFnQItMGW+9Ie93r1N+/DVAVMrbWQXSH3P34oCESN05zvxFk7U
+         T6YVgpW9jTlY+Vd95mI7F0qVWxAPzasmbppeM+qkYHTu+wPiW7sF3WLwHifTkGpGnbzL
+         wkHVmlcFoUsLgBKVEzWdiydqoOkVbfPSK5DgcB2ePBFQbMLPEHAeOMJdljvqgZxdEHMy
+         JuDaFQ+tm32USHfYhdLRDTW/pJJs7C79SxAUAnzHEfuk1J0fHRkP5+JJ9YO+EweLeiiE
+         IyDL3hb3pCyrDq/AHTAsrkImDuXjOASpRZvR+6j55bLrvqS34p+NYCXUwku4kdDOaVSd
+         /ZEg==
+X-Gm-Message-State: AOJu0Yw7jabClUMbfgDSVtm7iQ7fKZNF5vl5IKoaDrtPHvW0qThmQkTy
+	3wuNv+QuaGE7maZGNWF5whU=
+X-Google-Smtp-Source: AGHT+IHUT/dm23d8TBn14uWekihNltgnRe4oE+RQjflOX1AUX56bPQ4u06LltGcVEc4Ow97sparAtA==
+X-Received: by 2002:a05:6a21:4983:b0:180:5965:a772 with SMTP id ax3-20020a056a21498300b001805965a772mr2055886pzc.28.1699022153805;
+        Fri, 03 Nov 2023 07:35:53 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n4-20020a056a000d4400b006934a1c69f8sm1532704pfv.24.2023.11.03.07.35.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Nov 2023 07:35:52 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <c74beccd-26ea-4e63-906b-bd5508465cbc@roeck-us.net>
+Date: Fri, 3 Nov 2023 07:35:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/2] hwmon: (pmbus) Add support for MPS Multi-phase
+ mp5990
+Content-Language: en-US
+To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
+ Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20231103080128.1204218-1-peteryin.openbmc@gmail.com>
+ <20231103080128.1204218-3-peteryin.openbmc@gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20231103080128.1204218-3-peteryin.openbmc@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is a Sphinx extension that parses the Netlink YAML spec files
-(Documentation/netlink/specs/), and generates a rst file to be
-displayed into Documentation pages.
+On 11/3/23 01:01, Peter Yin wrote:
+> Add support for mp5990 device from Monolithic Power Systems, Inc. (MPS)
+> vendor. This is a Hot-Swap Controller.
+> 
+> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+> ---
+>   Documentation/hwmon/index.rst  |  1 +
+>   Documentation/hwmon/mp5990.rst | 84 +++++++++++++++++++++++++++++++
+>   drivers/hwmon/pmbus/Kconfig    |  9 ++++
+>   drivers/hwmon/pmbus/Makefile   |  1 +
+>   drivers/hwmon/pmbus/mp5990.c   | 90 ++++++++++++++++++++++++++++++++++
+>   5 files changed, 185 insertions(+)
+>   create mode 100644 Documentation/hwmon/mp5990.rst
+>   create mode 100644 drivers/hwmon/pmbus/mp5990.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 042e1cf9501b..8c70e10fc795 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -157,6 +157,7 @@ Hardware Monitoring Kernel Drivers
+>      mp2888
+>      mp2975
+>      mp5023
+> +   mp5990
+>      nct6683
+>      nct6775
+>      nct7802
+> diff --git a/Documentation/hwmon/mp5990.rst b/Documentation/hwmon/mp5990.rst
+> new file mode 100644
+> index 000000000000..8fc4e388ff7b
+> --- /dev/null
+> +++ b/Documentation/hwmon/mp5990.rst
+> @@ -0,0 +1,84 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver mp5990
+> +====================
+> +
+> +Supported chips:
+> +
+> +  * MPS MP5990
+> +
+> +    Prefix: 'mp5990'
+> +
+> +  * Datasheet
+> +
+> +    Publicly available at the MPS website : https://www.monolithicpower.com/en/mp5990.html
+> +
+> +Author:
+> +
+> +	Peter Yin <peteryin.openbmc@gmail.com>
+> +
+> +Description
+> +-----------
+> +
+> +This driver implements support for Monolithic Power Systems, Inc. (MPS)
+> +MP5990 Hot-Swap Controller.
+> +
+> +Device complaint with:
 
-Create a new Documentation/networking/netlink_spec page, and a sub-page
-for each Netlink spec that needs to be documented, such as ethtool,
-devlink, netdev, etc.
+compliant
 
-Create a Sphinx directive extension that reads the YAML spec
-(located under Documentation/netlink/specs), parses it and returns a RST
-string that is inserted where the Sphinx directive was called.
+> +
+> +- PMBus rev 1.3 interface.
+> +
+> +Device supports direct format for reading input voltage, output voltage,
+> +output current, input power and temperature.
+> +
+> +The driver exports the following attributes via the 'sysfs' files
+> +for input voltage:
+> +
+> +**in1_input**
+> +
+> +**in1_label**
+> +
+> +**in1_max**
+> +
+> +**in1_max_alarm**
+> +
+> +**in1_min**
+> +
+> +**in1_min_alarm**
+> +
+> +The driver provides the following attributes for output voltage:
+> +
+> +**in2_input**
+> +
+> +**in2_label**
+> +
+> +**in2_alarm**
+> +
+> +The driver provides the following attributes for output current:
+> +
+> +**curr1_input**
+> +
+> +**curr1_label**
+> +
+> +**curr1_alarm**
+> +
+> +**curr1_max**
+> +
+> +The driver provides the following attributes for input power:
+> +
+> +**power1_input**
+> +
+> +**power1_label**
+> +
+> +**power1_alarm**
+> +
+> +The driver provides the following attributes for temperature:
+> +
+> +**temp1_input**
+> +
+> +**temp1_max**
+> +
+> +**temp1_max_alarm**
+> +
+> +**temp1_crit**
+> +
+> +**temp1_crit_alarm**
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 270b6336b76d..65a116f7744d 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -326,6 +326,15 @@ config SENSORS_MP5023
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called mp5023.
+>   
+> +config SENSORS_MP5990
+> +	tristate "MPS MP5990"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for MPS
+> +	  MP5990.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called mp5990.
+> +
+>   config SENSORS_MPQ7932_REGULATOR
+>   	bool "Regulator support for MPQ7932"
+>   	depends on SENSORS_MPQ7932 && REGULATOR
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 84ee960a6c2d..212d9ca0acc9 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -35,6 +35,7 @@ obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
+>   obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
+>   obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+>   obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
+> +obj-$(CONFIG_SENSORS_MP5990)	+= mp5990.o
+>   obj-$(CONFIG_SENSORS_MPQ7932)	+= mpq7932.o
+>   obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
+>   obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
+> diff --git a/drivers/hwmon/pmbus/mp5990.c b/drivers/hwmon/pmbus/mp5990.c
+> new file mode 100644
+> index 000000000000..c3b31af9f750
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/mp5990.c
+> @@ -0,0 +1,90 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Driver for MPS MP5990 Hot-Swap Controller
+> + */
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/pmbus.h>
+> +#include "pmbus.h"
+> +
+> +static int mp5990_read_byte_data(struct i2c_client *client, int page, int reg)
+> +{
+> +	switch (reg) {
+> +	case PMBUS_VOUT_MODE:
+> +		/*
+> +		  Enforce VOUT direct format, C4h reg BIT9
+> +		  default val is not match vout format
+> +		 */
 
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- Documentation/conf.py                         |   2 +-
- Documentation/networking/index.rst            |   1 +
- .../networking/netlink_spec/devlink.rst       |   9 +
- .../networking/netlink_spec/ethtool.rst       |   9 +
- Documentation/networking/netlink_spec/fou.rst |   9 +
- .../networking/netlink_spec/handshake.rst     |   9 +
- .../networking/netlink_spec/index.rst         |  21 ++
- .../networking/netlink_spec/netdev.rst        |   9 +
- .../networking/netlink_spec/ovs_datapath.rst  |   9 +
- .../networking/netlink_spec/ovs_flow.rst      |   9 +
- .../networking/netlink_spec/ovs_vport.rst     |   9 +
- .../networking/netlink_spec/rt_addr.rst       |   9 +
- .../networking/netlink_spec/rt_link.rst       |   9 +
- .../networking/netlink_spec/rt_route.rst      |   9 +
- Documentation/sphinx/netlink_spec.py          | 283 ++++++++++++++++++
- Documentation/sphinx/requirements.txt         |   1 +
- 16 files changed, 406 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/networking/netlink_spec/devlink.rst
- create mode 100644 Documentation/networking/netlink_spec/ethtool.rst
- create mode 100644 Documentation/networking/netlink_spec/fou.rst
- create mode 100644 Documentation/networking/netlink_spec/handshake.rst
- create mode 100644 Documentation/networking/netlink_spec/index.rst
- create mode 100644 Documentation/networking/netlink_spec/netdev.rst
- create mode 100644 Documentation/networking/netlink_spec/ovs_datapath.rst
- create mode 100644 Documentation/networking/netlink_spec/ovs_flow.rst
- create mode 100644 Documentation/networking/netlink_spec/ovs_vport.rst
- create mode 100644 Documentation/networking/netlink_spec/rt_addr.rst
- create mode 100644 Documentation/networking/netlink_spec/rt_link.rst
- create mode 100644 Documentation/networking/netlink_spec/rt_route.rst
- create mode 100755 Documentation/sphinx/netlink_spec.py
+/*
+  * Please use proper multi-line comments. Also, the problem here is that the
+  * chip does not support the VOUT_MODE command, which should be mentioned.
+  *
+  * On top of that, overwriting PMBUS_VOUT_MODE result from the chip is only
+  * necessary if the chip does not return an error when reading the value.
+  * If that is the case, it should be mentioned in the comment. The above
+  * does not explain why this would be needed, even if the command is not
+  * (officially) supported by the chip. What does it return that requires
+  * an overwrite ?
+  */
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index d4fdf6a3875a..10ce47d1a7df 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -55,7 +55,7 @@ needs_sphinx = '1.7'
- extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
-               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-               'maintainers_include', 'sphinx.ext.autosectionlabel',
--              'kernel_abi', 'kernel_feat']
-+              'kernel_abi', 'kernel_feat', 'netlink_spec']
- 
- if major >= 3:
-     if (major > 3) or (minor > 0 or patch >= 2):
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 5b75c3f7a137..ee3a2085af71 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -55,6 +55,7 @@ Contents:
-    filter
-    generic-hdlc
-    generic_netlink
-+   netlink_spec/index
-    gen_stats
-    gtp
-    ila
-diff --git a/Documentation/networking/netlink_spec/devlink.rst b/Documentation/networking/netlink_spec/devlink.rst
-new file mode 100644
-index 000000000000..ca4b98e29690
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/devlink.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================
-+Family ``devlink`` netlink specification
-+========================================
-+
-+.. contents::
-+
-+.. netlink-spec:: devlink.yaml
-diff --git a/Documentation/networking/netlink_spec/ethtool.rst b/Documentation/networking/netlink_spec/ethtool.rst
-new file mode 100644
-index 000000000000..017d5dff427b
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/ethtool.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================
-+Family ``ethtool`` netlink specification
-+========================================
-+
-+.. contents::
-+
-+.. netlink-spec:: ethtool.yaml
-diff --git a/Documentation/networking/netlink_spec/fou.rst b/Documentation/networking/netlink_spec/fou.rst
-new file mode 100644
-index 000000000000..4db939091f67
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/fou.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+Family ``fou`` netlink specification
-+=======================================
-+
-+.. contents::
-+
-+.. netlink-spec:: fou.yaml
-diff --git a/Documentation/networking/netlink_spec/handshake.rst b/Documentation/networking/netlink_spec/handshake.rst
-new file mode 100644
-index 000000000000..ed3d79843602
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/handshake.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================================
-+Family ``handshake`` netlink specification
-+==========================================
-+
-+.. contents::
-+
-+.. netlink-spec:: handshake.yaml
-diff --git a/Documentation/networking/netlink_spec/index.rst b/Documentation/networking/netlink_spec/index.rst
-new file mode 100644
-index 000000000000..b330bda0ea21
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/index.rst
-@@ -0,0 +1,21 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================
-+Netlink Specifications
-+======================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   devlink
-+   ethtool
-+   fou
-+   handshake
-+   netdev
-+   ovs_datapath
-+   ovs_flow
-+   ovs_vport
-+   rt_addr
-+   rt_link
-+   rt_route
-+
-diff --git a/Documentation/networking/netlink_spec/netdev.rst b/Documentation/networking/netlink_spec/netdev.rst
-new file mode 100644
-index 000000000000..4f43c31805dd
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/netdev.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+Family ``netdev`` netlink specification
-+=======================================
-+
-+.. contents::
-+
-+.. netlink-spec:: netdev.yaml
-diff --git a/Documentation/networking/netlink_spec/ovs_datapath.rst b/Documentation/networking/netlink_spec/ovs_datapath.rst
-new file mode 100644
-index 000000000000..8045a5c93001
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/ovs_datapath.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============================================
-+Family ``ovs_datapath`` netlink specification
-+=============================================
-+
-+.. contents::
-+
-+.. netlink-spec:: ovs_datapath.yaml
-diff --git a/Documentation/networking/netlink_spec/ovs_flow.rst b/Documentation/networking/netlink_spec/ovs_flow.rst
-new file mode 100644
-index 000000000000..3a60d75b79b4
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/ovs_flow.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================
-+Family ``ovs_flow`` netlink specification
-+=========================================
-+
-+.. contents::
-+
-+.. netlink-spec:: ovs_flow.yaml
-diff --git a/Documentation/networking/netlink_spec/ovs_vport.rst b/Documentation/networking/netlink_spec/ovs_vport.rst
-new file mode 100644
-index 000000000000..2be013c0b524
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/ovs_vport.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================================
-+Family ``ovs_vport`` netlink specification
-+==========================================
-+
-+.. contents::
-+
-+.. netlink-spec:: ovs_vport.yaml
-diff --git a/Documentation/networking/netlink_spec/rt_addr.rst b/Documentation/networking/netlink_spec/rt_addr.rst
-new file mode 100644
-index 000000000000..ca002646fa5c
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/rt_addr.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================
-+Family ``rt_addr`` netlink specification
-+========================================
-+
-+.. contents::
-+
-+.. netlink-spec:: rt_addr.yaml
-diff --git a/Documentation/networking/netlink_spec/rt_link.rst b/Documentation/networking/netlink_spec/rt_link.rst
-new file mode 100644
-index 000000000000..e07481a34880
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/rt_link.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================
-+Family ``rt_link`` netlink specification
-+========================================
-+
-+.. contents::
-+
-+.. netlink-spec:: rt_link.yaml
-diff --git a/Documentation/networking/netlink_spec/rt_route.rst b/Documentation/networking/netlink_spec/rt_route.rst
-new file mode 100644
-index 000000000000..7fe674dc098e
---- /dev/null
-+++ b/Documentation/networking/netlink_spec/rt_route.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================
-+Family ``rt_route`` netlink specification
-+=========================================
-+
-+.. contents::
-+
-+.. netlink-spec:: rt_route.yaml
-diff --git a/Documentation/sphinx/netlink_spec.py b/Documentation/sphinx/netlink_spec.py
-new file mode 100755
-index 000000000000..80756e72ed4f
---- /dev/null
-+++ b/Documentation/sphinx/netlink_spec.py
-@@ -0,0 +1,283 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+# -*- coding: utf-8; mode: python -*-
-+
-+"""
-+    netlink-spec
-+    ~~~~~~~~~~~~~~~~~~~
-+
-+    Implementation of the ``netlink-spec`` ReST-directive.
-+
-+    :copyright:  Copyright (C) 2023  Breno Leitao <leitao@debian.org>
-+    :license:    GPL Version 2, June 1991 see linux/COPYING for details.
-+
-+    The ``netlink-spec`` reST-directive performs extensive parsing
-+    specific to the Linux kernel's standard netlink specs, in an
-+    effort to avoid needing to heavily mark up the original YAML file.
-+
-+    This code is split in three big parts:
-+        1) RST formatters: Use to convert a string to a RST output
-+        2) Parser helpers: Helper functions to parse the YAML data
-+        3) NetlinkSpec Directive: The actual directive class
-+"""
-+
-+from typing import Any, Dict, List
-+import os.path
-+from docutils.parsers.rst import Directive
-+from docutils import statemachine
-+import yaml
-+
-+__version__ = "1.0"
-+SPACE_PER_LEVEL = 4
-+
-+# RST Formatters
-+def rst_definition(key: str, value: Any, level: int = 0) -> str:
-+    """Format a single rst definition"""
-+    return headroom(level) + key + "\n" + headroom(level + 1) + str(value)
-+
-+
-+def rst_paragraph(paragraph: str, level: int = 0) -> str:
-+    """Return a formatted paragraph"""
-+    return headroom(level) + paragraph
-+
-+
-+def headroom(level: int) -> str:
-+    """Return space to format"""
-+    return " " * (level * SPACE_PER_LEVEL)
-+
-+
-+def rst_bullet(item: str, level: int = 0) -> str:
-+    """Return a formatted a bullet"""
-+    return headroom(level) + f" - {item}"
-+
-+def rst_subsubtitle(title: str) -> str:
-+    """Add a sub-sub-title to the document"""
-+    return f"{title}\n" + "~" * len(title)
-+
-+
-+def rst_fields(key: str, value: str, level: int = 0) -> str:
-+    """Return a RST formatted field"""
-+    return headroom(level) + f":{key}: {value}"
-+
-+
-+def rst_subtitle(title: str, level: int = 0) -> str:
-+    """Add a subtitle to the document"""
-+    return headroom(level) + f"\n{title}\n" + "-" * len(title)
-+
-+
-+def rst_list_inline(list_: List[str], level: int = 0) -> str:
-+    """Format a list using inlines"""
-+    return headroom(level) + "[" + ", ".join(inline(i) for i in list_) + "]"
-+
-+
-+def bold(text: str) -> str:
-+    """Format bold text"""
-+    return f"**{text}**"
-+
-+
-+def inline(text: str) -> str:
-+    """Format inline text"""
-+    return f"``{text}``"
-+
-+
-+def sanitize(text: str) -> str:
-+    """Remove newlines and multiple spaces"""
-+    # This is useful for some fields that are spread in multiple lines
-+    return str(text).replace("\n", "").strip()
-+
-+
-+# Parser helpers
-+# ==============
-+def parse_mcast_group(mcast_group: List[Dict[str, Any]]) -> str:
-+    """Parse 'multicast' group list and return a formatted string"""
-+    lines = []
-+    for group in mcast_group:
-+        lines.append(rst_paragraph(group["name"], 1))
-+
-+    return "\n".join(lines)
-+
-+
-+def parse_do(do_dict: Dict[str, Any], level: int = 0) -> str:
-+    """Parse 'do' section and return a formatted string"""
-+    lines = []
-+    for key in do_dict.keys():
-+        lines.append(rst_bullet(bold(key), level + 1))
-+        lines.append(parse_do_attributes(do_dict[key], level + 1) + "\n")
-+
-+    return "\n".join(lines)
-+
-+
-+def parse_do_attributes(attrs: Dict[str, Any], level: int = 0) -> str:
-+    """Parse 'attributes' section"""
-+    if "attributes" not in attrs:
-+        return ""
-+    lines = [rst_fields("attributes", rst_list_inline(attrs["attributes"]), level + 1)]
-+
-+    return "\n".join(lines)
-+
-+
-+def parse_operations(operations: List[Dict[str, Any]]) -> str:
-+    """Parse operations block"""
-+    preprocessed = ["name", "doc", "title", "do", "dump"]
-+    lines = []
-+
-+    for operation in operations:
-+        lines.append(rst_subsubtitle(operation["name"]))
-+        lines.append(rst_paragraph(operation["doc"]) + "\n")
-+        if "do" in operation:
-+            lines.append(rst_paragraph(bold("do"), 1))
-+            lines.append(parse_do(operation["do"], 1))
-+        if "dump" in operation:
-+            lines.append(rst_paragraph(bold("dump"), 1))
-+            lines.append(parse_do(operation["dump"], 1))
-+
-+        for key in operation.keys():
-+            if key in preprocessed:
-+                # Skip the special fields
-+                continue
-+            lines.append(rst_fields(key, operation[key], 1))
-+
-+        # New line after fields
-+        lines.append("\n")
-+
-+    return "\n".join(lines)
-+
-+
-+def parse_entries(entries: List[Dict[str, Any]], level: int) -> str:
-+    """Parse a list of entries"""
-+    lines = []
-+    for entry in entries:
-+        if isinstance(entry, dict):
-+            # entries could be a list or a dictionary
-+            lines.append(
-+                rst_fields(entry.get("name"), sanitize(entry.get("doc")), level)
-+            )
-+        elif isinstance(entry, list):
-+            lines.append(rst_list_inline(entry, level))
-+        else:
-+            lines.append(rst_bullet(inline(sanitize(entry)), level))
-+
-+    lines.append("\n")
-+    return "\n".join(lines)
-+
-+
-+def parse_definitions(defs: Dict[str, Any]) -> str:
-+    """Parse definitions section"""
-+    preprocessed = ["name", "entries", "members"]
-+    ignored = ["render-max"] # This is not printed
-+    lines = []
-+
-+    for definition in defs:
-+        lines.append(rst_subsubtitle(definition["name"]))
-+        for k in definition.keys():
-+            if k in preprocessed + ignored:
-+                continue
-+            lines.append(rst_fields(k, sanitize(definition[k]), 1))
-+
-+        # Field list needs to finish with a new line
-+        lines.append("\n")
-+        if "entries" in definition:
-+            lines.append(rst_paragraph(bold("Entries"), 1))
-+            lines.append(parse_entries(definition["entries"], 2))
-+        if "members" in definition:
-+            lines.append(rst_paragraph(bold("members"), 1))
-+            lines.append(parse_entries(definition["members"], 2))
-+
-+    return "\n".join(lines)
-+
-+
-+def parse_attributes_set(entries: List[Dict[str, Any]]) -> str:
-+    """Parse attribute from attribute-set"""
-+    preprocessed = ["name", "type"]
-+    ignored = ["checks"]
-+    lines = []
-+
-+    for entry in entries:
-+        lines.append(rst_bullet(bold(entry["name"])))
-+        for attr in entry["attributes"]:
-+            type_ = attr.get("type")
-+            attr_line = bold(attr["name"])
-+            if type_:
-+                # Add the attribute type in the same line
-+                attr_line += f" ({inline(type_)})"
-+
-+            lines.append(rst_bullet(attr_line, 2))
-+
-+            for k in attr.keys():
-+                if k in preprocessed + ignored:
-+                    continue
-+                lines.append(rst_fields(k, sanitize(attr[k]), 3))
-+            lines.append("\n")
-+
-+    return "\n".join(lines)
-+
-+
-+def parse_yaml(obj: Dict[str, Any]) -> str:
-+    """Format the whole yaml into a RST string"""
-+    lines = []
-+
-+    # This is coming from the RST
-+    lines.append(rst_subtitle("Summary"))
-+    lines.append(rst_paragraph(obj["doc"], 1))
-+
-+    # Operations
-+    lines.append(rst_subtitle("Operations"))
-+    lines.append(parse_operations(obj["operations"]["list"]))
-+
-+    # Multicast groups
-+    if "mcast-groups" in obj:
-+        lines.append(rst_subtitle("Multicast groups"))
-+        lines.append(parse_mcast_group(obj["mcast-groups"]["list"]))
-+
-+    # Definitions
-+    lines.append(rst_subtitle("Definitions"))
-+    lines.append(parse_definitions(obj["definitions"]))
-+
-+    # Attributes set
-+    lines.append(rst_subtitle("Attribute sets"))
-+    lines.append(parse_attributes_set(obj["attribute-sets"]))
-+
-+    return "\n".join(lines)
-+
-+
-+def parse_yaml_file(filename: str, debug: bool = False) -> str:
-+    """Transform the yaml specified by filename into a rst-formmated string"""
-+    with open(filename, "r") as file:
-+        yaml_data = yaml.safe_load(file)
-+        content = parse_yaml(yaml_data)
-+
-+    if debug:
-+        # Save the rst for inspection
-+        print(content, file=open(f"/tmp/{filename.split('/')[-1]}.rst", "w"))
-+
-+    return content
-+
-+
-+# Main Sphinx Extension class
-+def setup(app):
-+    """Sphinx-build register function for 'netlink-spec' directive"""
-+    app.add_directive("netlink-spec", NetlinkSpec)
-+    return dict(version=__version__, parallel_read_safe=True, parallel_write_safe=True)
-+
-+
-+class NetlinkSpec(Directive):
-+    """NetlinkSpec (``netlink-spec``) directive class"""
-+    has_content = True
-+    # Argument is the filename to process
-+    required_arguments = 1
-+
-+    def run(self):
-+        srctree = os.path.abspath(os.environ["srctree"])
-+        yaml_file = os.path.join(
-+            srctree, "Documentation/netlink/specs", self.arguments[0]
-+        )
-+        self.state.document.settings.record_dependencies.add(yaml_file)
-+
-+        try:
-+            content = parse_yaml_file(yaml_file)
-+        except FileNotFoundError as exception:
-+            raise self.severe(str(exception))
-+
-+        self.state_machine.insert_input(statemachine.string2lines(content), yaml_file)
-+
-+        return []
-diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
-index 335b53df35e2..a8a1aff6445e 100644
---- a/Documentation/sphinx/requirements.txt
-+++ b/Documentation/sphinx/requirements.txt
-@@ -1,3 +1,4 @@
- # jinja2>=3.1 is not compatible with Sphinx<4.0
- jinja2<3.1
- Sphinx==2.4.4
-+pyyaml
--- 
-2.34.1
+> +		return PB_VOUT_MODE_DIRECT;
+> +	default:
+> +		return -ENODATA;
+> +	}
+> +}
+> +
+> +static struct pmbus_driver_info mp5990_info = {
+> +	.pages = 1,
+> +	.format[PSC_VOLTAGE_IN] = direct,
+> +	.format[PSC_VOLTAGE_OUT] = direct,
+> +	.format[PSC_CURRENT_OUT] = direct,
+> +	.format[PSC_POWER] = direct,
+> +	.format[PSC_TEMPERATURE] = direct,
+> +	.m[PSC_VOLTAGE_IN] = 32,
+> +	.b[PSC_VOLTAGE_IN] = 0,
+> +	.R[PSC_VOLTAGE_IN] = 0,
+> +	.m[PSC_VOLTAGE_OUT] = 32,
+> +	.b[PSC_VOLTAGE_OUT] = 0,
+> +	.R[PSC_VOLTAGE_OUT] = 0,
+> +	.m[PSC_CURRENT_OUT] = 16,
+> +	.b[PSC_CURRENT_OUT] = 0,
+> +	.R[PSC_CURRENT_OUT] = 0,
+> +	.m[PSC_POWER] = 1,
+> +	.b[PSC_POWER] = 0,
+> +	.R[PSC_POWER] = 0,
+> +	.m[PSC_TEMPERATURE] = 1,
+> +	.b[PSC_TEMPERATURE] = 0,
+> +	.R[PSC_TEMPERATURE] = 0,
+> +	.func[0] =
+> +		PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_PIN |
+> +		PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT |
+> +		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
+> +	.read_byte_data = mp5990_read_byte_data,
+> +};
+> +
+> +static int mp5990_probe(struct i2c_client *client)
+> +{
+> +	int ret;
+> +
+> +	ret = i2c_smbus_write_byte_data(client, PMBUS_VOUT_MODE,
+> +					PB_VOUT_MODE_DIRECT);
+
+According to the datasheet, the chip does not support the VOUT_MODE
+command. Supposedly, direct vs. linear mode is selected with bit 9
+of EFUSE_CFG. Even if the chip happens to "silently" support the command,
+the official command should be used to select the chip mode.
+
+Next question: Why use direct mode ? Linear mode is supported and would
+be much more flexible.
+
+> +	if (ret < 0)
+> +		return ret;
+> +	return pmbus_do_probe(client, &mp5990_info);
+> +}
+> +
+> +static const struct of_device_id mp5990_of_match[] = {
+> +	{ .compatible = "mps,mp5990" },
+> +	{}
+> +};
+> +
+> +static const struct i2c_device_id mp5990_id[] = {
+> +	{"mp5990", 0},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, mp5990_id);
+> +
+> +static struct i2c_driver mp5990_driver = {
+> +	.driver = {
+> +		   .name = "mp5990",
+> +		   .of_match_table = of_match_ptr(mp5990_of_match),
+
+Using of_match_ptr() will result in a build failure if CONFIG_OF=n.
+
+> +	},
+> +	.probe = mp5990_probe,
+> +	.id_table = mp5990_id,
+> +};
+> +module_i2c_driver(mp5990_driver);
+> +
+> +MODULE_AUTHOR("Peter Yin <peter.yin@quantatw.com>");
+> +MODULE_DESCRIPTION("PMBus driver for MP5990 HSC");
+> +MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS(PMBUS);
 
