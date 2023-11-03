@@ -1,131 +1,160 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94CA180
-	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 00:09:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D30197
+	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 00:27:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahGeqqTj"
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75511136;
-	Thu,  2 Nov 2023 17:09:34 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cc0d0a0355so12386895ad.3;
-        Thu, 02 Nov 2023 17:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698970174; x=1699574974; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wxCT26H7bz0CIP8GeUtGqHHIYFxjBRrpCI1bXL610xk=;
-        b=ahGeqqTj9Drcf77e0STZrtv9SqeOl+qibE/hDSHXGFIwoiL/5Zh1+DNlNzexznjJi8
-         9m5rEk205MSqIdeo3vWUCrcfg0wQ6zwC+FK/p38ctz1HB5vYaTCG2mARZGoadYw1NfdK
-         nSSBOxu2cUWLa2vswgRpWIhaWi8/thSWUzp8X3/MRevA/00jkbRiDdL0ZGIii4nxby42
-         ye3zvaFi7ofJlcoacY9l/njjdrhPIVONMmaXw4O0wo7bk/L5CIbw0Cddu0QaIYHO+L+y
-         TgVe8/qyRISN89xxXHxocvHNa5ktR5SF/LY8JS+JL5/jHBJID9MlckNlsH4LbFqvIaA0
-         cm1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698970174; x=1699574974;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wxCT26H7bz0CIP8GeUtGqHHIYFxjBRrpCI1bXL610xk=;
-        b=ckpweDycBahGzrkZLaqeKI+9UfGsk3USMm76Af/9WDOZZIDs9fimSTLpgsFtuZD2oy
-         KRGwu97BGsk4SFXiJp3dCKwvTsEm54/6IE+vQwsGY2WVd9Ymh3PWjvmbMKjMkf7+V/zA
-         fVEkTP6VWy0s+rrd6viQ/6pCR9rFq0GvMFJ3uBXBxFEQdWwhDlWevpEIIsbPZc/ihQZ/
-         z0peMZB9tvqJ7nDvsMFe6i8Y8Gd/Vc3KbULemrcWYuS+AsBQWy610xF1SV5mp4YDMFGF
-         SxYiSoJmXpY1lxiy+yk7tbTpdyyRLOS5GAFFypztVMcYfarfnKxrkSnXr4S+o7kTk46r
-         T0PA==
-X-Gm-Message-State: AOJu0YxcNqMz5V2hoygKbEwuZK3KKp0q3IvTFrPEmGZAbeWjqfG176Bj
-	V+qjSPqOwFvhWPJ3bW/HoCQ=
-X-Google-Smtp-Source: AGHT+IEVSMjfhHf/0It1MrhMvFGlAEqsh1RRek7ufCor0pYrHAmtXfTfezIHc9vKA+EmQrQ8PQoNqQ==
-X-Received: by 2002:a17:902:c94d:b0:1cc:4e78:d10f with SMTP id i13-20020a170902c94d00b001cc4e78d10fmr14469504pla.8.1698970173893;
-        Thu, 02 Nov 2023 17:09:33 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id n9-20020a170902e54900b001c0a414695bsm256560plf.43.2023.11.02.17.09.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Nov 2023 17:09:33 -0700 (PDT)
-Message-ID: <272c0cfc-188a-41c7-9ba1-e1ba0f996298@gmail.com>
-Date: Fri, 3 Nov 2023 09:09:28 +0900
+	dkim=pass (2048-bit key) header.d=ntlworld.com header.i=@ntlworld.com header.b="end5Vl06"
+X-Greylist: delayed 78 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 02 Nov 2023 17:27:43 PDT
+Received: from dsmtpq1-prd-nl1-vmo.edge.unified.services (dsmtpq1-prd-nl1-vmo.edge.unified.services [84.116.6.105])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D507F136
+	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 17:27:43 -0700 (PDT)
+Received: from csmtpq1-prd-nl1-vmo.edge.unified.services ([84.116.50.35])
+	by dsmtpq1-prd-nl1-vmo.edge.unified.services with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <zarniwhoop@ntlworld.com>)
+	id 1qyi11-003A2E-J2
+	for linux-doc@vger.kernel.org; Fri, 03 Nov 2023 01:26:23 +0100
+Received: from csmtp3-prd-nl1-vmo.nl1.unified.services ([100.107.82.133] helo=csmtp3-prd-nl1-vmo.edge.unified.services)
+	by csmtpq1-prd-nl1-vmo.edge.unified.services with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <zarniwhoop@ntlworld.com>)
+	id 1qyi0y-00AMKj-Gd
+	for linux-doc@vger.kernel.org; Fri, 03 Nov 2023 01:26:20 +0100
+Received: from llamedos.mydomain ([86.4.155.149])
+	by csmtp3-prd-nl1-vmo.edge.unified.services with ESMTPA
+	id yi0xqYtVvWDJgyi0xqOwM1; Fri, 03 Nov 2023 01:26:20 +0100
+X-SourceIP: 86.4.155.149
+X-Authenticated-Sender: zarniwhoop@ntlworld.com
+X-Spam: 0
+X-Authority: v=2.4 cv=CcvOppnl c=1 sm=1 tr=0 ts=65443e2c cx=a_exe
+ a=69rpv3kaMhdJyoIRs2s4pw==:117 a=69rpv3kaMhdJyoIRs2s4pw==:17
+ a=IkcTkHD0fZMA:10 a=BNY50KLci1gA:10 a=pGLkceISAAAA:8 a=OoZU6Ry8AAAA:8
+ a=25FfRqQPKazuXCWubbcA:9 a=QEXdDO2ut3YA:10 a=z0b38sRKn-l_H2hRgkIr:22
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ntlworld.com;
+	s=meg.feb2017; t=1698971180;
+	bh=L6fPRAV8EIFORYnBwRckCuhndsuTofii356INfB2anw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=end5Vl06AV5jYmBKUt9GP2gAjqsTijw47DqRM6+bsoAA/aldLirK2uvBp2R7VOiRc
+	 CvkniJVM1XDGwOe+K4fAAquN4dWKzhZ5QMF0oPnY8V6ZaltVn7CzyH5IdcFfKx0/d2
+	 vFq6fLJKbtdJ6TFWy3OCRWLxUpxFRwKziIcrRjwhQb97gg7+FhVvkSOmbZYtzhvXW3
+	 FrQtTNYu5JhYQ555d30dZ/RXPseYgMuC6nolEGjuG3wbyX04ZUQzBWF3zDLg0hE+dd
+	 dpq94yOjvUYCJGFHx+fEsTCzeo+/BgfjX3W7n4flfRamfbfHMV7I+Q6MiqqzH2Pz/U
+	 Ph+D/hrWeGddw==
+Received: by llamedos.mydomain (Postfix, from userid 1000)
+	id 167C99D50; Fri,  3 Nov 2023 00:26:19 +0000 (GMT)
+Date: Fri, 3 Nov 2023 00:26:19 +0000
+From: Ken Moffat <zarniwhoop@ntlworld.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Stanislav Fomichev <sdf@google.com>,
+	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
+	James Seo <james@equiv.tech>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH RFC RESEND 0/4] Documentation: Web fonts for kernel
+ documentation
+Message-ID: <ZUQ-K7MXzHZ_oyVK@llamedos.localdomain>
+References: <20231102123225.32768-1-bagasdotme@gmail.com>
+ <874ji48658.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: translations: add translations links when they
- exist
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: alexs@kernel.org, carlos.bilbao@amd.com, corbet@lwn.net,
- federico.vaga@vaga.pv.it, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, siyanteng@loongson.cn, src.res.211@gmail.com,
- Jani Nikula <jani.nikula@linux.intel.com>, Akira Yokosawa <akiyks@gmail.com>
-References: <20231028162931.261843-1-vegard.nossum@oracle.com>
- <0e003343-3c64-4fee-a56f-987a4ef6e336@gmail.com>
- <378b0571-a89b-43a2-8921-3f23afa0f254@oracle.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <378b0571-a89b-43a2-8921-3f23afa0f254@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <874ji48658.fsf@meer.lwn.net>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+X-CMAE-Envelope: MS4xfBt+HkC6XWi6CNM3jtC/N2UC1BZhvAJIOawbUJnp8i6tpoCt/zDGdfaRrKpCQn8f2Oej/7JHZ4cXPinEU5vqHYJlkzGRjhbDNHfhI8emDahREapB1BM4
+ V/ZuW4TREC+K3MM+PLpNdqxGXshsEMY5KnFyhLvAyO5hKc5oco/Blk98AZ7XKK9Jg2fkALCyfb65I2809kY+avH2KvRC+HxQwx43ZzAK9J9V6h8quVxTsrsx
+ LZJVZYipqvZl8w40sMue55BF9Drw9Y/3hjRq4YNy6Oozt1tPhr88oD+eDwTKhKDpK6l/dJASPyaG1OVU+8UXX1U9njXA8dhNqrKA+uE4PnWcrxP6xONH/mr9
+ ElqFZzgVBwHiiSo5dyz+xq7+6jqN0xtIJjovhunzfN2mrCaiAUEaYaFQxzwd5tK76awm9whZ7ajDedDATQLz8OR1Dcve4qq5FBLySrPXDrDvVtOvnDEc1I0G
+ nCd8ARtaFh6pOpEda1yx5jOLs4Jj+t9pzp248AsALela/wsmqwDvyXI7GmPysoHscAH9xcZgYEVy36lsxfe0NkbxSdsOYzvI7CqJyAbAVy3VW7pN9v0tuxw1
+ /hRN9OnXyioLvpsWDEtg8uxy
 
-On 2023/11/02 20:07, Vegard Nossum wrote:
-> On 01/11/2023 15:56, Akira Yokosawa wrote:
->> It looks like this introduces hysteresis in successive runs of
->> "make htmldocs" and "make latexdocs".
->>
->> Steps to reproduce
->>
->> =C2=A0=C2=A0 1. Run "make cleandocs"
->>
->> =C2=A0=C2=A0 2. Run "make htmldocs"
->>
->> =C2=A0=C2=A0 3. Run "make latexdocs"
->>
->> This aborts with the message (under Sphinx 7.2.6):
->>
->> =C2=A0=C2=A0 Extension error (translations):
->> =C2=A0=C2=A0 Handler <function process_languages at 0x7f122f343420> fo=
-r event 'doctree-resolved' threw an exception (exception: 'LaTeXBuilder' =
-object has no attribute 'templates')
->> =C2=A0=C2=A0 make[2]: *** [Documentation/Makefile:128: latexdocs] Erro=
-r 2
->> =C2=A0=C2=A0 make[1]: *** [/linux/Makefile:1695: latexdocs] Error 2
->> =C2=A0=C2=A0 make: *** [Makefile:234: __sub-make] Error 2
->> =C2=A0=C2=A0 Command exited with non-zero status 2
->>
->> If I run "make latexdocs" in step 2 and "make htmldocs" in step 3,
->> both runs complete successfully, but html pages don't have the
->> expected links to other translations.
->>
->> All I can do is to report the symptoms.
->> Vegard, can you look into them?
->=20
-> Thanks for testing this out and reporting!
->=20
-> I think we can fix this by moving the "is this html output?" check from=
+On Thu, Nov 02, 2023 at 10:35:47AM -0600, Jonathan Corbet wrote:
 
-> the TranslationsTransform into the 'doctree-resolved' handler (which, a=
-s
-> far as I can tell, runs after the doctree has been serialized to disk
-> but before output is generated).
->=20
-> I've attached an incremental patch, does that seem to work for you? I> =
-test both (clean/html/latex + clean/latex/html) and it seemed to work her=
-e.
+Jon, some slight nit-picking below, after comments on the stated
+problem.
 
-Yes, it works here as well.
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+[...]
+> >
+> > The solution
+> > ============
+> >
+> > Uniform the font choices by leveraging web fonts. Most of people reading
+> > the kernel docs should already have modern browser that supports this
+> > feature (e.g. Chrome/Chromium and Firefox). The fonts are downloaded
+> > automatically when loading the page, but only if the reader don't
+> > already have ones installed locally. Subsequent docs page loading will
+> > use the browser cache to retrieve the fonts. If for some reasons the
+> > fonts fail to load, the browser will fall back to fallback fonts
+> > commonly seen on other sites.
+> 
+Bagas,
 
-        Thanks, Akira
+If loading the web font fails, you will get whichever fallback
+fonts are enabled by fontconfig and whichever fonts you, or your
+distro, have installed.  If those fonts are not generally adequate
+you should complain to your distro, or install different fonts in
+~/.local/share/fotns and perhaps change your fonts.conf entries.
 
->=20
-> I had a look at using a custom "visit" callback that would just render
-> the HTML in place instead of manipulating the doctree, but it also
-> doesn't feel right as then you need to specify callbacks for every
-> output writer; there doesn't seem to be a way to ignore the node by
-> default. Maybe I should ask on the Sphinx/docutils mailing lists what
-> the "proper" way to do this would be.
->=20
-> Thanks again!
->=20
->=20
-> Vegard
+> So my immediate response to this is pretty uniformly negative.
+> 
+> - If you don't like serif, tweaking conf.py is easy enough without
+>   pushing it on everybody else.
+> 
+> - I'm not thrilled about adding a bunch of binary font data to the
+>   kernel, and suspect a lot of people would not feel that the bloat is
+>   worth it.
+> 
+
+Jon,
+
+As I understand it the (woff) fonts would be downloaded on request
+by the browser if this went in.  So not a bunch of binary font data
+in the kernel, but a download from google (adding to the popularity
+of the font) and yet more font data in the browser cache.  I don't
+have any desire to see woff fonts referenced in the docs, just
+nit-picking about the details.
+
+However -
+
+> - The licensing of the fonts is not fully free.
+> 
+
+AFAICS, the SIL OFL allows everything except changing the font name.
+If you have the right tools you can apparently fix things like "that
+specific glyph looks ugly" or "you put a latin breve on a cyrillic
+letter" (apparently they should differ) or "You mismapped this
+codepoint to the wrong glyph". What you cannot do, if those changes
+are not accepted by the font designer/maintainer, or if the font is
+no-longer maintained, is fork it and provide it under the same name.
+
+You can fork, but the font name has to be changed (e.g. LinLibertine
+-> Libertinus and then the serif forked to CommonSerif).
+
+Oh, and you cannot sell the fonts by themselves, but you can bundle
+them with a distro or embed them.
+https://www.tldrlegal.com/license/open-font-license-ofl-explained
+
+Question: is that not free enough, or is that site wrong ?  If not
+free enough, is there a better licence for fonts ?
+
+ĸen
+-- 
+This is magic for grown-ups; it has to be hard because we know there's
+no such thing as a free goblin.
+   -- Pratchett, Stewart & Cohen - The Science of Discworld II
