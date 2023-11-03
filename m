@@ -1,160 +1,157 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D30197
-	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 00:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC321EA5
+	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 01:07:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ntlworld.com header.i=@ntlworld.com header.b="end5Vl06"
-X-Greylist: delayed 78 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 02 Nov 2023 17:27:43 PDT
-Received: from dsmtpq1-prd-nl1-vmo.edge.unified.services (dsmtpq1-prd-nl1-vmo.edge.unified.services [84.116.6.105])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D507F136
-	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 17:27:43 -0700 (PDT)
-Received: from csmtpq1-prd-nl1-vmo.edge.unified.services ([84.116.50.35])
-	by dsmtpq1-prd-nl1-vmo.edge.unified.services with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <zarniwhoop@ntlworld.com>)
-	id 1qyi11-003A2E-J2
-	for linux-doc@vger.kernel.org; Fri, 03 Nov 2023 01:26:23 +0100
-Received: from csmtp3-prd-nl1-vmo.nl1.unified.services ([100.107.82.133] helo=csmtp3-prd-nl1-vmo.edge.unified.services)
-	by csmtpq1-prd-nl1-vmo.edge.unified.services with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <zarniwhoop@ntlworld.com>)
-	id 1qyi0y-00AMKj-Gd
-	for linux-doc@vger.kernel.org; Fri, 03 Nov 2023 01:26:20 +0100
-Received: from llamedos.mydomain ([86.4.155.149])
-	by csmtp3-prd-nl1-vmo.edge.unified.services with ESMTPA
-	id yi0xqYtVvWDJgyi0xqOwM1; Fri, 03 Nov 2023 01:26:20 +0100
-X-SourceIP: 86.4.155.149
-X-Authenticated-Sender: zarniwhoop@ntlworld.com
-X-Spam: 0
-X-Authority: v=2.4 cv=CcvOppnl c=1 sm=1 tr=0 ts=65443e2c cx=a_exe
- a=69rpv3kaMhdJyoIRs2s4pw==:117 a=69rpv3kaMhdJyoIRs2s4pw==:17
- a=IkcTkHD0fZMA:10 a=BNY50KLci1gA:10 a=pGLkceISAAAA:8 a=OoZU6Ry8AAAA:8
- a=25FfRqQPKazuXCWubbcA:9 a=QEXdDO2ut3YA:10 a=z0b38sRKn-l_H2hRgkIr:22
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ntlworld.com;
-	s=meg.feb2017; t=1698971180;
-	bh=L6fPRAV8EIFORYnBwRckCuhndsuTofii356INfB2anw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=end5Vl06AV5jYmBKUt9GP2gAjqsTijw47DqRM6+bsoAA/aldLirK2uvBp2R7VOiRc
-	 CvkniJVM1XDGwOe+K4fAAquN4dWKzhZ5QMF0oPnY8V6ZaltVn7CzyH5IdcFfKx0/d2
-	 vFq6fLJKbtdJ6TFWy3OCRWLxUpxFRwKziIcrRjwhQb97gg7+FhVvkSOmbZYtzhvXW3
-	 FrQtTNYu5JhYQ555d30dZ/RXPseYgMuC6nolEGjuG3wbyX04ZUQzBWF3zDLg0hE+dd
-	 dpq94yOjvUYCJGFHx+fEsTCzeo+/BgfjX3W7n4flfRamfbfHMV7I+Q6MiqqzH2Pz/U
-	 Ph+D/hrWeGddw==
-Received: by llamedos.mydomain (Postfix, from userid 1000)
-	id 167C99D50; Fri,  3 Nov 2023 00:26:19 +0000 (GMT)
-Date: Fri, 3 Nov 2023 00:26:19 +0000
-From: Ken Moffat <zarniwhoop@ntlworld.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Stanislav Fomichev <sdf@google.com>,
-	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
-	James Seo <james@equiv.tech>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH RFC RESEND 0/4] Documentation: Web fonts for kernel
- documentation
-Message-ID: <ZUQ-K7MXzHZ_oyVK@llamedos.localdomain>
-References: <20231102123225.32768-1-bagasdotme@gmail.com>
- <874ji48658.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="XKxCFFDe"
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15C8123
+	for <linux-doc@vger.kernel.org>; Thu,  2 Nov 2023 18:07:11 -0700 (PDT)
+Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-41cd8bd5727so8521581cf.3
+        for <linux-doc@vger.kernel.org>; Thu, 02 Nov 2023 18:07:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1698973631; x=1699578431; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qCr2uTXG4daALtyBbHvIpmUdOFTLryhu1H0hnelXOT0=;
+        b=XKxCFFDeeN4XCu7oEb5OzGwM130LRWaKEVYMtCoaNDWaprwONDq0/R1Zt6RthysOsy
+         6yM4TS09Kv0B5LigRjPnF5f9hPTj6g6wRAN+HSYNwdYX7/FAboOGugIeVTleG+j3to+r
+         ywaCxtYSQ/etLnwRsxPHAcNyp26ZBThhSeWYJypMe9cHdWPXNs23PlomMAKXDhwtBeEl
+         +F+0u1MM6EHziRVGjVGRoYPTy9mETqE+Ox4gvGODSCszwic5FdChvuQwJzxD1EmqeozH
+         EOuz05V2vugDTYc6J2RBDY11NqCJQWEsaV59zerHTxk2GHiBmZaYBRN74CRc8BNo2E/R
+         jIdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698973631; x=1699578431;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qCr2uTXG4daALtyBbHvIpmUdOFTLryhu1H0hnelXOT0=;
+        b=KTeWkqdsVnOrIu9vuZGxcXUKVFoV6ZHsE/RKcNDTkjnTvriWzCehCHIhmifs0QeDGl
+         77Hpqe6i2hsjpxghUnftX9kEAVWFQXU7J+DcCW5lDpel37WCvcjMVLVUIjbso9aMLK5L
+         X/LgjjMlbsaOYz45a1PZjdOoVFOumyfKEMMSwcCWxcQjlwMulc5GiFTSk1L3pk7XfrWO
+         mcr6amjRgbMk8JxkOcwkQRCDJaUtxsRUPp5p4hqiUrXsU7XyP1YcyFSj66q5iTesXA1j
+         HzJI5dl2T8kXyMos8UotTcc7uRATstBP4TU0snidz4ZpuY8H3ZHZfErUCKycNm8/4yp5
+         V2KQ==
+X-Gm-Message-State: AOJu0YwQrQetUzft4kovKUXUdrEf4mGX4bibiyZfbnpQd3EfWWOPPN2v
+	xVlw0rWlB5eucdtjiVwCT8JtFr8IM6OMRZ21Aj8jKA==
+X-Google-Smtp-Source: AGHT+IEqYrzRZ/GFNvFXxoK50vrQQuq1A8gYWJ3fw0CyeAan/l0SmscOwqpyx5yApNc02+deo9lEbx2+K5Z9OdVf+gg=
+X-Received: by 2002:ac8:5a8f:0:b0:41e:37cf:8661 with SMTP id
+ c15-20020ac85a8f000000b0041e37cf8661mr23002590qtc.12.1698973631023; Thu, 02
+ Nov 2023 18:07:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Clacks-Overhead: GNU Terry Pratchett
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <874ji48658.fsf@meer.lwn.net>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-CMAE-Envelope: MS4xfBt+HkC6XWi6CNM3jtC/N2UC1BZhvAJIOawbUJnp8i6tpoCt/zDGdfaRrKpCQn8f2Oej/7JHZ4cXPinEU5vqHYJlkzGRjhbDNHfhI8emDahREapB1BM4
- V/ZuW4TREC+K3MM+PLpNdqxGXshsEMY5KnFyhLvAyO5hKc5oco/Blk98AZ7XKK9Jg2fkALCyfb65I2809kY+avH2KvRC+HxQwx43ZzAK9J9V6h8quVxTsrsx
- LZJVZYipqvZl8w40sMue55BF9Drw9Y/3hjRq4YNy6Oozt1tPhr88oD+eDwTKhKDpK6l/dJASPyaG1OVU+8UXX1U9njXA8dhNqrKA+uE4PnWcrxP6xONH/mr9
- ElqFZzgVBwHiiSo5dyz+xq7+6jqN0xtIJjovhunzfN2mrCaiAUEaYaFQxzwd5tK76awm9whZ7ajDedDATQLz8OR1Dcve4qq5FBLySrPXDrDvVtOvnDEc1I0G
- nCd8ARtaFh6pOpEda1yx5jOLs4Jj+t9pzp248AsALela/wsmqwDvyXI7GmPysoHscAH9xcZgYEVy36lsxfe0NkbxSdsOYzvI7CqJyAbAVy3VW7pN9v0tuxw1
- /hRN9OnXyioLvpsWDEtg8uxy
+References: <20231101230816.1459373-1-souravpanda@google.com>
+ <20231101230816.1459373-2-souravpanda@google.com> <CAAPL-u_enAt7f9XUpwYNKkCOxz2uPbMrnE2RsoDFRcKwZdnRFQ@mail.gmail.com>
+ <CA+CK2bC3rSGOoT9p_VmWMT8PBWYbp7Jo7Tp2FffGrJp-hX9xCg@mail.gmail.com>
+ <CAAPL-u-4D5YKuVOsyfpDUR+PbaA3MOJmNtznS77bposQSNPjnA@mail.gmail.com>
+ <1e99ff39-b1cf-48b8-8b6d-ba5391e00db5@redhat.com> <CA+CK2bDo6an35R8Nu-d99pbNQMEAw_t0yUm0Q+mJNwOJ1EdqQg@mail.gmail.com>
+ <025ef794-91a9-4f0c-9eb6-b0a4856fa10a@redhat.com> <CA+CK2bDJDGaAK8ZmHtpr79JjJyNV5bM6TSyg84NLu2z+bCaEWg@mail.gmail.com>
+ <99113dee-6d4d-4494-9eda-62b1faafdbae@redhat.com> <CA+CK2bApoY+trxxNW8FBnwyKnX6RVkrMZG4AcLEC2Nj6yZ6HEw@mail.gmail.com>
+ <b71b28b9-1d41-4085-99f8-04d85892967e@redhat.com> <CA+CK2bCNRJXm2kEjsN=5a_M8twai4TJX3vpd72uOHFLGaDLg4g@mail.gmail.com>
+ <CAAPL-u_OWFLrrNxszm4D+mNiZY6cSb3=jez3XJHFtN6q05dU2g@mail.gmail.com>
+ <CA+CK2bBPBtAXFQAFUeF8nTxL_Sx926HgR3zLCj_6pKgbOGt8Wg@mail.gmail.com> <CAAPL-u9HHgPDj_xTTx=GqPg49DcrpGP1FF8zhaog=9awwu0f_Q@mail.gmail.com>
+In-Reply-To: <CAAPL-u9HHgPDj_xTTx=GqPg49DcrpGP1FF8zhaog=9awwu0f_Q@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 2 Nov 2023 21:06:33 -0400
+Message-ID: <CA+CK2bAv6okHVigjCyDODm5VELi7gtQHOUy9kH5J4jTBpnGPxw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] mm: report per-page metadata information
+To: Wei Xu <weixugc@google.com>
+Cc: David Hildenbrand <david@redhat.com>, Sourav Panda <souravpanda@google.com>, corbet@lwn.net, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, akpm@linux-foundation.org, 
+	mike.kravetz@oracle.com, muchun.song@linux.dev, rppt@kernel.org, 
+	rdunlap@infradead.org, chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, 
+	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
+	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com, 
+	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com, 
+	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
+	surenb@google.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	willy@infradead.org, Greg Thelen <gthelen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 02, 2023 at 10:35:47AM -0600, Jonathan Corbet wrote:
-
-Jon, some slight nit-picking below, after comments on the stated
-problem.
-
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
-> 
-[...]
+On Thu, Nov 2, 2023 at 4:22=E2=80=AFPM Wei Xu <weixugc@google.com> wrote:
+>
+> On Thu, Nov 2, 2023 at 11:34=E2=80=AFAM Pasha Tatashin
+> <pasha.tatashin@soleen.com> wrote:
 > >
-> > The solution
-> > ============
+> > > > > I could have sworn that I pointed that out in a previous version =
+and
+> > > > > requested to document that special case in the patch description.=
+ :)
+> > > >
+> > > > Sounds, good we will document that parts of per-page may not be par=
+t
+> > > > of MemTotal.
+> > >
+> > > But this still doesn't answer how we can use the new PageMetadata
+> > > field to help break down the runtime kernel overhead within MemUsed
+> > > (MemTotal - MemFree).
 > >
-> > Uniform the font choices by leveraging web fonts. Most of people reading
-> > the kernel docs should already have modern browser that supports this
-> > feature (e.g. Chrome/Chromium and Firefox). The fonts are downloaded
-> > automatically when loading the page, but only if the reader don't
-> > already have ones installed locally. Subsequent docs page loading will
-> > use the browser cache to retrieve the fonts. If for some reasons the
-> > fonts fail to load, the browser will fall back to fallback fonts
-> > commonly seen on other sites.
-> 
-Bagas,
+> > I am not sure it matters to the end users: they look at PageMetadata
+> > with or without Page Owner, page_table_check, HugeTLB and it shows
+> > exactly how much per-page overhead changed. Where the kernel allocated
+> > that memory is not that important to the end user as long as that
+> > memory became available to them.
+> >
+> > In addition, it is still possible to estimate the actual memblock part
+> > of Per-page metadata by looking at /proc/zoneinfo:
+> >
+> > Memblock reserved per-page metadata: "present_pages - managed_pages"
+>
+> This assumes that all reserved memblocks are per-page metadata. As I
 
-If loading the web font fails, you will get whichever fallback
-fonts are enabled by fontconfig and whichever fonts you, or your
-distro, have installed.  If those fonts are not generally adequate
-you should complain to your distro, or install different fonts in
-~/.local/share/fotns and perhaps change your fonts.conf entries.
+Right after boot, when all Per-page metadata is still from memblocks,
+we could determine what part of the zone reserved memory is not
+per-page, and use it later in our calculations.
 
-> So my immediate response to this is pretty uniformly negative.
-> 
-> - If you don't like serif, tweaking conf.py is easy enough without
->   pushing it on everybody else.
-> 
-> - I'm not thrilled about adding a bunch of binary font data to the
->   kernel, and suspect a lot of people would not feel that the bloat is
->   worth it.
-> 
+> mentioned earlier, it is not a robust approach.
+> > If there is something big that we will allocate in that range, we
+> > should probably also export it in some form.
+> >
+> > If this field does not fit in /proc/meminfo due to not fully being
+> > part of MemTotal, we could just keep it under nodeN/, as a separate
+> > file, as suggested by Greg.
+> >
+> > However, I think it is useful enough to have an easy system wide view
+> > for Per-page metadata.
+>
+> It is fine to have this as a separate, informational sysfs file under
+> nodeN/, outside of meminfo. I just don't think as in the current
+> implementation (where PageMetadata is a mixture of buddy and memblock
+> allocations), it can help with the use case that motivates this
+> change, i.e. to improve the breakdown of the kernel overhead.
+> > > > > > are allocated), so what would be the best way to export page me=
+tadata
+> > > > > > without redefining MemTotal? Keep the new field in /proc/meminf=
+o but
+> > > > > > be ok that it is not part of MemTotal or do two counters? If we=
+ do two
+> > > > > > counters, we will still need to keep one that is a buddy alloca=
+tor in
+> > > > > > /proc/meminfo and the other one somewhere outside?
+> > > > >
+> > >
+> > > I think the simplest thing to do now is to only report the buddy
+> > > allocations of per-page metadata in meminfo.  The meaning of the new
+> >
+> > This will cause PageMetadata to be 0 on 99% of the systems, and
+> > essentially become useless to the vast majority of users.
+>
+> I don't think it is a major issue. There are other fields (e.g. Zswap)
+> in meminfo that remain 0 when the feature is not used.
 
-Jon,
+Since we are going to use two independent interfaces
+/proc/meminfo/PageMetadata and nodeN/page_metadata (in a separate file
+as requested by Greg) How about if in /proc/meminfo we provide only
+the buddy allocator part, and in nodeN/page_metadata we provide the
+total per-page overhead in the given node that include memblock
+reserves, and buddy allocator memory?
 
-As I understand it the (woff) fonts would be downloaded on request
-by the browser if this went in.  So not a bunch of binary font data
-in the kernel, but a download from google (adding to the popularity
-of the font) and yet more font data in the browser cache.  I don't
-have any desire to see woff fonts referenced in the docs, just
-nit-picking about the details.
-
-However -
-
-> - The licensing of the fonts is not fully free.
-> 
-
-AFAICS, the SIL OFL allows everything except changing the font name.
-If you have the right tools you can apparently fix things like "that
-specific glyph looks ugly" or "you put a latin breve on a cyrillic
-letter" (apparently they should differ) or "You mismapped this
-codepoint to the wrong glyph". What you cannot do, if those changes
-are not accepted by the font designer/maintainer, or if the font is
-no-longer maintained, is fork it and provide it under the same name.
-
-You can fork, but the font name has to be changed (e.g. LinLibertine
--> Libertinus and then the serif forked to CommonSerif).
-
-Oh, and you cannot sell the fonts by themselves, but you can bundle
-them with a distro or embed them.
-https://www.tldrlegal.com/license/open-font-license-ofl-explained
-
-Question: is that not free enough, or is that site wrong ?  If not
-free enough, is there a better licence for fonts ?
-
-ĸen
--- 
-This is magic for grown-ups; it has to be hard because we know there's
-no such thing as a free goblin.
-   -- Pratchett, Stewart & Cohen - The Science of Discworld II
+Pasha
