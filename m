@@ -1,200 +1,189 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10059249E8
-	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 22:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0293D399
+	for <linux-doc@vger.kernel.org>; Sat,  4 Nov 2023 00:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Fb+t+TGV"
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027F1D63
-	for <linux-doc@vger.kernel.org>; Fri,  3 Nov 2023 15:30:18 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-d9fe0a598d8so2587849276.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Nov 2023 15:30:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tn7f16ZF"
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1DFDE;
+	Fri,  3 Nov 2023 17:53:12 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-778711ee748so168029485a.2;
+        Fri, 03 Nov 2023 17:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1699050617; x=1699655417; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OOhQ+4ppHia6X5vZEThJt6hjspNBijG8E4l1rtJpvmc=;
-        b=Fb+t+TGVFWJo9Lt7NqbDpiCp5KTiTLq3qWK2F8FUuNtUM5WTuaxGb0+z1NVnqotvW1
-         2qZn6RS+Srkmk93yyT+/Ms2J3a7yxlyceX7Ft6kBLCx2jcS7lEJy9zgxUQXVHzj4blHS
-         fyr7qxkrJU2HwS9ru50vk3tZdpJzSWKa2JEcflHAIVzuA7GESxwEJtB/bI3b70A9QUXa
-         doEEoLqOl5hoHhMwCKdm/XfcW/zcTZPHZcjWSio+N81QNCrj++ZcVtYVoo53MGlrHnkn
-         WkerntN/joI4lYf51rws1n6PycdZxbZwUR8MePbvYxSxCedAqTx+o/U0M0YpVs5udBPf
-         IO1w==
+        d=gmail.com; s=20230601; t=1699059191; x=1699663991; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2sJNKKXPJm9x85Xp1gw9eh/YkwEuLNVSDs1mZ4TLuOw=;
+        b=Tn7f16ZFPoNiduf9GWv8SQqjKGPaEukI8BL3rEH1rH8aVipWZuSDFb/J6SXNqZZRrw
+         CSsK+7XCq4X7zvbfFcz95U01+sqxg82X7ce2wyZ9RGTghV23A7hp8+B70X+1GVc9+Y0i
+         DwS1bdIOeRVQNmIHhTanlLx5Lk9oItND0xwAtYDi59COc4RIvwUJd2Iam+NyXDKi69Yb
+         brsHe3Qm4+oFLoIYHmmUERTz6V7tKYYlpkOC04CitALRU2pbm4oKaKHGJM6zp5f1B/OX
+         5q0+lmsvxL5pke2e8fGQan7m5ptZOFjuOeYt8crKLRgxUJe09XPqAPHh6GMYJTGfu61e
+         HyrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699050617; x=1699655417;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OOhQ+4ppHia6X5vZEThJt6hjspNBijG8E4l1rtJpvmc=;
-        b=ias44kuuddtcm5MdUhzGe6Be8VlPD4tJY1a6txRPxBdqly8uRYAKX8JahZO/BKSFto
-         CXKhlQPVsLjXNP4GQCPNVaX+eXc9eXstSGqEBitTXnAzWC0BvKt8368lXHGUCAHHsvJr
-         eEat8UXIbQbtbUnK7o7ZCA6+GwbbevWtp3bU8NXVZw3if7TIzvihSFKvZPXOqQbGrhqS
-         Av3h/fRWvJVlcLF4fPjuJBMERpG8ojS1uOfbYpIfVlDo4OnBlmNIjZ2SkCuzSPgU0I6M
-         X9hsHl+/qeZAeKf3cVKg4dqPbjHmhEZR4vSK8VGf4Hv3b4tWj6LBPT4PkvhaO2CkjMD6
-         9djw==
-X-Gm-Message-State: AOJu0YysxIHuJK5ntawJ0YaAxsYQVawYSrlQGBwPBVGsgdqgjFqcA0lI
-	jxiAE4zvcaJFPEil2NBXPNHsk7I14TDep4aWJYZU
-X-Google-Smtp-Source: AGHT+IGnpRgvInClOyTeRts44EfuCsVIf/oEzDvkRyvT0ioHtkFzmAn/jixwPJXsOyu5FJvaQ36V6EmrXY08ildtF/Y=
-X-Received: by 2002:a25:8590:0:b0:da0:cf4b:c504 with SMTP id
- x16-20020a258590000000b00da0cf4bc504mr23753840ybk.8.1699050616923; Fri, 03
- Nov 2023 15:30:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1699059191; x=1699663991;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2sJNKKXPJm9x85Xp1gw9eh/YkwEuLNVSDs1mZ4TLuOw=;
+        b=SWOEWWKf+wAbTDrOF0OF9yfBpJneag4gzPZJhK3ZeVIET/a2cOXG6dPPqu/soKxcC5
+         OsYR9nxd1QGbS/dIEoVBWZO9Unxg6tsb1yOlZ0/XVoz2bzZk1HY48163pizkVh5S/o6V
+         HxgBjN4w8UCMIPMAicTylVfDexEvQZ4R9+lbrihtiEPqfh+NIQT3994nLb18KVvMCsfN
+         06YZEfGEwQYFr3LDuQRyBNoCeoejSC4TyzHNUj/ig93aLQ/5yBNuBTyBadOYnwt7rjIV
+         jWYsVPOK48exaUNrffLIGz5ynnVEYUi0G5642WurA101HxyAgcocBCAnrFNA/Q/ogB4Y
+         YD1Q==
+X-Gm-Message-State: AOJu0Yxl0bkq0rEcI+1ufNR0zjC4fuhgRR8B7gML+nrwVLEOiJc64nD7
+	l70qdGUNWGpNxxLl+4GOhhkhxU/87jc=
+X-Google-Smtp-Source: AGHT+IFq5Si0YX37/vIvMvXa6YqNkKJPOSRV7G4UfSkhe7XTceDFpxWzmmSKF+zQRDsfNj32KIMINA==
+X-Received: by 2002:ae9:e711:0:b0:77a:747b:b0f5 with SMTP id m17-20020ae9e711000000b0077a747bb0f5mr1928204qka.30.1699059191067;
+        Fri, 03 Nov 2023 17:53:11 -0700 (PDT)
+Received: from debian.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id 18-20020a17090a031200b0026b70d2a8a2sm2052381pje.29.2023.11.03.17.53.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Nov 2023 17:53:10 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id B10D6803A590; Sat,  4 Nov 2023 07:53:07 +0700 (WIB)
+Date: Sat, 4 Nov 2023 07:53:07 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Stanislav Fomichev <sdf@google.com>,
+	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
+	James Seo <james@equiv.tech>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Carlos Bilbao <carlos.bilbao@amd.com>, linux-spdx@vger.kernel.org,
+	Richard Fontana <rfontana@redhat.com>
+Subject: Re: [PATCH RFC 1/4] LICENSES: Add SIL Open Font License 1.1
+Message-ID: <ZUWV88wRf9suUQfH@debian.me>
+References: <20231102120053.30630-1-bagasdotme@gmail.com>
+ <20231102120053.30630-2-bagasdotme@gmail.com>
+ <2023110222-renewed-monologue-008e@gregkh>
+ <ZUSrOKDuvcSL6gOH@debian.me>
+ <2023110317-unhealthy-playable-d5d6@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1696457386-3010-6-git-send-email-wufan@linux.microsoft.com>
- <c53599e9d278fc55be30e3bac9411328.paul@paul-moore.com> <616a6fd7-47b1-4b46-af23-46f9b1a3eedf@linux.microsoft.com>
- <CAHC9VhScdtqJeUTTUQVk4D70tTLz4TgU_aRTMRnHa0OARyubaw@mail.gmail.com>
- <c40cd6a6-5c32-4e72-8831-f87ee0a09324@linux.microsoft.com> <CAHC9VhR9scT7V7dvN5zhAYdExORB9arWaR7Gbix1AUtAMDPHcg@mail.gmail.com>
-In-Reply-To: <CAHC9VhR9scT7V7dvN5zhAYdExORB9arWaR7Gbix1AUtAMDPHcg@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 3 Nov 2023 18:30:16 -0400
-Message-ID: <CAHC9VhQLbgvg6syOB2_GYFK+zpWbyx6zrDoM1aBnA18u_Qjj4g@mail.gmail.com>
-Subject: Re: [PATCH RFC v11 5/19] ipe: introduce 'boot_verified' as a trust provider
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
-	tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
-	snitzer@kernel.org, eparis@redhat.com, linux-doc@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org, 
-	dm-devel@redhat.com, audit@vger.kernel.org, roberto.sassu@huawei.com, 
-	linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="afQLVpNKUr+IwTwT"
+Content-Disposition: inline
+In-Reply-To: <2023110317-unhealthy-playable-d5d6@gregkh>
+
+
+--afQLVpNKUr+IwTwT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 3, 2023 at 6:15=E2=80=AFPM Paul Moore <paul@paul-moore.com> wro=
-te:
-> On Thu, Nov 2, 2023 at 6:46=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com>=
- wrote:
-> > On 10/26/2023 3:12 PM, Paul Moore wrote:
-> > > On Thu, Oct 26, 2023 at 5:33=E2=80=AFPM Fan Wu <wufan@linux.microsoft=
-.com> wrote:
-> > >> On 10/23/2023 8:52 PM, Paul Moore wrote:
-> > >>> On Oct  4, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
-> > >>>>
-> > >>>> IPE is designed to provide system level trust guarantees, this usu=
-ally
-> > >>>> implies that trust starts from bootup with a hardware root of trus=
-t,
-> > >>>> which validates the bootloader. After this, the bootloader verifie=
-s the
-> > >>>> kernel and the initramfs.
-> > >>>>
-> > >>>> As there's no currently supported integrity method for initramfs, =
-and
-> > >>>> it's typically already verified by the bootloader, introduce a pro=
-perty
-> > >>>> that causes the first superblock to have an execution to be "pinne=
-d",
-> > >>>> which is typically initramfs.
-> > >>>>
-> > >>>> When the "pinned" device is unmounted, it will be "unpinned" and
-> > >>>> `boot_verified` property will always evaluate to false afterward.
-> > >>>>
-> > >>>> We use a pointer with a spin_lock to "pin" the device instead of r=
-cu
-> > >>>> because rcu synchronization may sleep, which is not allowed when
-> > >>>> unmounting a device.
-> > >>>>
-> > >>>> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > >>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> > >> ...
-> > >>>> ---
-> > >>>>    security/ipe/eval.c          | 72 +++++++++++++++++++++++++++++=
-++++++-
-> > >>>>    security/ipe/eval.h          |  2 +
-> > >>>>    security/ipe/hooks.c         | 12 ++++++
-> > >>>>    security/ipe/hooks.h         |  2 +
-> > >>>>    security/ipe/ipe.c           |  1 +
-> > >>>>    security/ipe/policy.h        |  2 +
-> > >>>>    security/ipe/policy_parser.c | 35 +++++++++++++++++-
-> > >>>>    7 files changed, 124 insertions(+), 2 deletions(-)
->
-> ...
->
-> > >>>> +/**
-> > >>>> + * from_pinned - Determine whether @sb is the pinned super_block.
-> > >>>> + * @sb: Supplies a super_block to check against the pinned super_=
-block.
-> > >>>> + *
-> > >>>> + * Return:
-> > >>>> + * * true   - @sb is the pinned super_block
-> > >>>> + * * false  - @sb is not the pinned super_block
-> > >>>> + */
-> > >>>> +static bool from_pinned(const struct super_block *sb)
-> > >>>> +{
-> > >>>> +    bool rv;
-> > >>>> +
-> > >>>> +    if (!sb)
-> > >>>> +            return false;
-> > >>>> +    spin_lock(&pin_lock);
-> > >>>> +    rv =3D !IS_ERR_OR_NULL(pinned_sb) && pinned_sb =3D=3D sb;
-> > >>>> +    spin_unlock(&pin_lock);
-> > >>>
-> > >>> It's okay for an initial version, but I still think you need to get
-> > >>> away from this spinlock in from_pinned() as quickly as possible.
-> > >>> Maybe I'm wrong, but this looks like a major source of lock content=
-ion.
-> > >>>
-> > >>> I understand the issue around RCU and the potential for matching on
-> > >>> a reused buffer/address, but if you modified IPE to have its own LS=
-M
-> > >>> security blob in super_block::security you could mark the superbloc=
-k
-> > >>> when it was mounted and do a lockless lookup here in from_pinned().
-> > >>
-> > >> Thank you for the suggestion. After some testing, I discovered that
-> > >> switching to RCU to pin the super block and using a security blob to
-> > >> mark a pinned super block works. This approach do avoid many spinloc=
-k
-> > >> operations. I'll incorporate these changes in the next version of th=
-e patch.
-> > >
-> > > I probably wasn't as clear as I should have been, I was thinking of
-> > > doing away with the @pinned_sb global variable entirely, as well as
-> > > its associated lock problems and simply marking the initramfs/initrd
-> > > superblock when it was mounted.  I will admit that I haven't fully
-> > > thought about all the implementation details, but I think you could
-> > > leverage the security_sb_mount() hook to set a flag in IPE's
-> > > superblock metadata when the initramfs was mounted.
-> >
-> > I wasn't able to find a way to let LSM pin initramfs/initrd during moun=
-t
-> > time ...
->
-> I haven't had to look at the kernel init code in a while, and I don't
-> recall ever looking at the initramfs code, but I spent some time
-> digging through the code and I wonder if it would be possible to mark
-> the initramfs superblock in wait_for_initramfs() via a new LSM hook
-> using @current->fs->root.mnt->mnt_sb?  Although I'm not completely
-> sure that it's populated.  Have you already looked at an approach like
-> this?
+On Fri, Nov 03, 2023 at 09:49:54AM +0100, Greg Kroah-Hartman wrote:
+> On Fri, Nov 03, 2023 at 03:11:36PM +0700, Bagas Sanjaya wrote:
+> > On Thu, Nov 02, 2023 at 03:06:19PM +0100, Greg Kroah-Hartman wrote:
+> > > On Thu, Nov 02, 2023 at 07:00:43PM +0700, Bagas Sanjaya wrote:
+> > > >  LICENSES/dual/OFL-1.1 | 107 ++++++++++++++++++++++++++++++++++++++=
+++++
+> > >=20
+> > > You add this license, but then never actually reference it in the lat=
+er
+> > > changes, so it's going to be very confusing as to why it is here.  Any
+> > > way to add it to the font files themselves so our checker tools can
+> > > handle this properly?
+> >=20
+> > There is TTF name string ID called "License". For example, on IBM Plex =
+Sans,
+> > the string value is:
+> >=20
+> > ```
+> > This Font Software is licensed under the SIL Open Font License, Version=
+ 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL
+> > ```
+> >=20
+> > Checking that string requires scripting fontforge, and since the string=
+ value
+> > may differ (but has the same license) across different fonts, scripting=
+ it
+> > can be non-trivial.
+>=20
+> And is that in the files you added?  They are binary so it's hard to
+> determine this :(
 
-Thinking about this more, the current IPE approach of treating the
-first file access as being present in the initramfs is not correct
-(one could build a system without an initramfs).  I think we need to
-do something like the above where the initramfs is explicitly marked
-in the initramfs code.
+Yes.
 
-> > But I think we could replace the global variable with a flag
-> > variable ipe_sb_state so we could use atomic operation to only mark one
-> > drive as pinned without any lock. The code will be like:
-> >
-> > static void pin_sb(const struct super_block *sb)
-> > {
-> >         if (!sb)
-> >                 return;
-> >
-> >         if (!test_and_set_bit_lock(IPE_SB_PINNED, &ipe_sb_state)) {
-> >                 ipe_sb(sb)->pinned =3D true;
-> >         }
-> > }
-> >
-> > Would this sound better?
+>=20
+> > >=20
+> > > And, it's not going to work as a dual-license, you can't just suddenly
+> > > dual-license those font files, right?
+> >=20
+> > I was thinking of putting OFL in LICENSES/exceptions instead due to this
+> > nature.
+>=20
+> Yes, it can not be a dual one.
+
+That's right!
+
+What about just saying below in the CSS file that includes the fonts?
+
+```
+=2E..
+/* Some cool fonts are licensed under OFL 1.1, see
+ * LICENSES/exceptions/OFL-1.1 for more information. */
+=2E..
+```
+> > > > +Usage-Guide:
+> > > > +  Do NOT use this license for code, but it's acceptable for fonts =
+(where the
+> > > > +  license is specifically written for them). It's best to use it t=
+ogether
+> > > > +  with a GPL2 compatible license using "OR", as OFL-1.1 texts proc=
+essed by
+> > > > +  the kernel's build system might combine it with content taken fr=
+om more
+> > > > +  restrictive licenses.
+> > > > +  To use the SIL Open Font License 1.1, put the following SPDX tag=
+/value pair
+> > > > +  into a comment according to the placement guidelines in the lice=
+nsing rules
+> > > > +  documentation:
+> > > > +    SPDX-License-Identifier: OFL-1.1
+> > >=20
+> > > Where did this Usage-Guide from?
+> >=20
+> > Adapted from LICENSES/dual/CC-BY-4.0.
+>=20
+> Which it shouldn't be :(
+>=20
+> Anyway, this is independent of the issue if we actually should take
+> these fonts into the kernel tree, and mandate their use (my opinion is
+> no, that's not for us to use, and especially for any action that might
+> cause a web browser to look elsewhere outside of our documentation.)
+>=20
+> Also, for documentation, I'm pretty sure that serif fonts is proven to
+> be "nicer" overall by many studies.
+
+Any pointer to them? Or do serif fonts more readable and not causing
+eye strain?
+
+Thanks.
 
 --=20
-paul-moore.com
+An old man doll... just what I always wanted! - Clara
+
+--afQLVpNKUr+IwTwT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUWV8wAKCRD2uYlJVVFO
+o4D4AQCtMjcSOoBop88UH+0ZkQFoouUH5Hxtt7s/i+MS2q3JEgEA4fklHr2mrooR
+xXx+OLVk4pJPR5fiaCbohGvDdD68HgM=
+=e9ra
+-----END PGP SIGNATURE-----
+
+--afQLVpNKUr+IwTwT--
