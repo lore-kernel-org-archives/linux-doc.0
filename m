@@ -1,155 +1,105 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3E111737
-	for <linux-doc@vger.kernel.org>; Sun,  5 Nov 2023 20:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3B71864F
+	for <linux-doc@vger.kernel.org>; Sun,  5 Nov 2023 21:01:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fb+vDfL4"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE9C4DE;
-	Sun,  5 Nov 2023 12:45:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699217101; x=1730753101;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DFEnBoAZfjHsPxHG7Pn6/C8BILMOVrXxGrVVO4Ir0M0=;
-  b=Fb+vDfL4dSyy598e7jxzSTzSrb+hdzkbNc3MMqh7hjagl89tGRw9OICs
-   1wGOo30tSooNNyurk56ZtO3YyaAOI5NAgJBnthWYe8NG4ZCW/u17FOuMd
-   CPbopggFsHlRFafp5gb4c8kwdxtviiPUAYM+oQLe4wLoQFvzPF1GKUiA+
-   Xr61q52a+XI4cfjT7N2A2gwavjqP8J3Sv2EV7ZNUqUm/TLfHptOclJhQz
-   boj8Gb/7cOG3nj+1m175rpxy+OOhTU4nS18l+OC+fyMlSo5KTGjkpIF+V
-   DcznTEVQ8pvIYjzyi9ANtg0cb7VaVZbTnxwoA+vOt/xe5+DAReQj8zkDZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="388991518"
-X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="388991518"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 12:45:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="762133802"
-X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="762133802"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 05 Nov 2023 12:44:58 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzjzL-0005mC-32;
-	Sun, 05 Nov 2023 20:44:55 +0000
-Date: Mon, 6 Nov 2023 04:44:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com,
-	corbet@lwn.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ivan Orlov <ivan.orlov0322@gmail.com>, alsa-devel@alsa-project.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 2/2] ALSA: Add new driver for Marian M2 sound card
-Message-ID: <202311060403.591giMV8-lkp@intel.com>
-References: <20230918181044.7257-2-ivan.orlov0322@gmail.com>
+	dkim=pass (2048-bit key) header.d=ncf.edu header.i=@ncf.edu header.b="LL8+sOjS"
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033CBDE
+	for <linux-doc@vger.kernel.org>; Sun,  5 Nov 2023 13:01:10 -0800 (PST)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-5b35579f475so44147607b3.3
+        for <linux-doc@vger.kernel.org>; Sun, 05 Nov 2023 13:01:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ncf.edu; s=google; t=1699218069; x=1699822869; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IHNT0zTQnNcqPPjHsSZJukecZ6cg1UjZ8+XnwMd4fEU=;
+        b=LL8+sOjSE1BRmbaCr13g/tkaW+e2gmtffWTLcjWCrFdK/lSS4Oy2IYkP3FvnrwhAmU
+         I2g9FjdzEarMHHHtVVl+evs2fmEXs5GCMavbtsOX9DiH7w218IsMkeWGZ4ctAsiv1Tcc
+         jam3Nc67dQhuYIOQlekY/LhQgguwSK59OvxW0fUElnCVFun6knYnF/xcr1zx0qn7ri28
+         yLUW4343OXQAI+cp0rVzVKeBp1afg13+c7twMBS1KCVpE3VP38aJcN2j/2fhUEVrd+0D
+         OTdXgLQluUe8vVC/tC614wD5PfW+eSKTILqs2IfMR7CUdpu3W1+VuX7Ss705bo+xS+PO
+         BPdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699218069; x=1699822869;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IHNT0zTQnNcqPPjHsSZJukecZ6cg1UjZ8+XnwMd4fEU=;
+        b=FHie2JT08d9gddwYzGjjeBnabTSL5kYx9o0+k7ZDNDLz2Weo17lh1wG0dCAeq3qJEb
+         72lZIudLjs97p6itTeBleWTC9DDZkGRRe7AOqr7J+cWvk+B+PlIfWVAw8Uqe0uaN/fNl
+         3AqHZ1tQA0ihNCZpvicD9nrYZQNijy0Ozku+76mRCzgwd0M5JkqaaeVmE9+hDmc2LYKW
+         iidI9AjpZdoiA8fe9ZDYgYSgB6Qw3rJRfQTnKb3QWMVurTAu4TqHTSr1TBP8lqsnadpa
+         P33trtCkICR0xb6JVge41WaqvoszBhGol+Lr+a7iiL9h8g2zDQ/GOdjbv49ytE8IuVM+
+         TdiQ==
+X-Gm-Message-State: AOJu0YwfmvKMHKsHj6rhtpWCpC0k7icFaYLGnp5QyeLAe/HwP/bYlcR+
+	77mcu2ZBuVG0EmI65glWk/z8yg==
+X-Google-Smtp-Source: AGHT+IHTe+jz59X3TG5/BvLWO7twuGvFUqyXHcSTGVYZVIJwrYV1Qm7dBjwgblMISH1Ss4fexHRecQ==
+X-Received: by 2002:a81:9290:0:b0:5a7:aaac:2bce with SMTP id j138-20020a819290000000b005a7aaac2bcemr9344504ywg.35.1699218068977;
+        Sun, 05 Nov 2023 13:01:08 -0800 (PST)
+Received: from localhost.localdomain ([2601:580:8201:d0::7d3d])
+        by smtp.gmail.com with ESMTPSA id fc10-20020a05690c314a00b005afa4b9b049sm3486658ywb.42.2023.11.05.13.01.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Nov 2023 13:01:08 -0800 (PST)
+From: Hunter Chasens <hunter.chasens18@ncf.edu>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	Xinhui.Pan@amd.com,
+	christian.koenig@amd.com,
+	alexander.deucher@amd.com,
+	evan.quan@amd.com,
+	Hunter Chasens <hunter.chasens18@ncf.edu>
+Subject: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation warning
+Date: Sun,  5 Nov 2023 16:00:44 -0500
+Message-Id: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
+X-Mailer: git-send-email 2.39.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230918181044.7257-2-ivan.orlov0322@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Ivan,
+Resolves Sphinx unexpected indentation warning when compiling
+documentation (e.g. `make htmldocs`). Replaces tabs with spaces and adds
+a literal block to keep vertical formatting of the
+example power state list.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
+---
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.6 next-20231103]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Orlov/ALSA-Add-new-driver-for-Marian-M2-sound-card/20230919-021236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230918181044.7257-2-ivan.orlov0322%40gmail.com
-patch subject: [PATCH v2 2/2] ALSA: Add new driver for Marian M2 sound card
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311060403.591giMV8-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060403.591giMV8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311060403.591giMV8-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   sound/pci/marianm2.c:466:6: warning: variable 'buffer_frames' set but not used [-Wunused-but-set-variable]
-           int buffer_frames;
-               ^
->> sound/pci/marianm2.c:472:11: warning: variable 'speedmode' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           else if (params_rate(params) < RATE_FAST)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/marianm2.c:475:6: note: uninitialized use occurs here
-           if (speedmode > marian->desc->speedmode_max) {
-               ^~~~~~~~~
-   sound/pci/marianm2.c:472:7: note: remove the 'if' if its condition is always true
-           else if (params_rate(params) < RATE_FAST)
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/marianm2.c:465:24: note: initialize the variable 'speedmode' to silence this warning
-           unsigned int speedmode;
-                                 ^
-                                  = 0
-   2 warnings generated.
-
-
-vim +472 sound/pci/marianm2.c
-
-   460	
-   461	static int snd_marian_hw_params(struct snd_pcm_substream *substream,
-   462					struct snd_pcm_hw_params *params)
-   463	{
-   464		struct marian_card *marian = snd_pcm_substream_chip(substream);
-   465		unsigned int speedmode;
- > 466		int buffer_frames;
-   467	
-   468		buffer_frames = SUBSTREAM_BUF_SIZE / M2_FRAME_SIZE;
-   469	
-   470		if (params_rate(params) < RATE_SLOW)
-   471			speedmode = SPEEDMODE_SLOW;
- > 472		else if (params_rate(params) < RATE_FAST)
-   473			speedmode = SPEEDMODE_FAST;
-   474	
-   475		if (speedmode > marian->desc->speedmode_max) {
-   476			dev_err(marian->card->dev,
-   477				"Requested rate (%u Hz) higher than card's maximum\n",
-   478				params_rate(params));
-   479			_snd_pcm_hw_param_setempty(params, SNDRV_PCM_HW_PARAM_RATE);
-   480			return -EBUSY;
-   481		}
-   482	
-   483		spin_lock(&marian->reglock);
-   484		if (marian->desc->set_speedmode)
-   485			marian->desc->set_speedmode(marian, speedmode);
-   486		else
-   487			marian_generic_set_speedmode(marian, speedmode);
-   488	
-   489		marian->detune = 0;
-   490	
-   491		marian_generic_set_dco(marian, params_rate(params), 0);
-   492		spin_unlock(&marian->reglock);
-   493	
-   494		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-   495			snd_pcm_set_runtime_buffer(substream, &marian->playback_buf);
-   496		else
-   497			snd_pcm_set_runtime_buffer(substream, &marian->capture_buf);
-   498	
-   499		// apply optional card specific hw constraints
-   500		if (marian->desc->hw_constraints_func)
-   501			marian->desc->hw_constraints_func(marian, substream, params);
-   502	
-   503		return 0;
-   504	}
-   505	
-
+diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+index 517b9fb4624c..703fe2542258 100644
+--- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+@@ -990,11 +990,14 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
+  * the power state and the clock information for those levels. If deep sleep is
+  * applied to a clock, the level will be denoted by a special level 'S:'
+  * E.g.,
+- *	S: 19Mhz *
+- *	0: 615Mhz
+- *	1: 800Mhz
+- *	2: 888Mhz
+- *	3: 1000Mhz
++ *
++ * ::
++ *
++ *  S: 19Mhz *
++ *  0: 615Mhz
++ *  1: 800Mhz
++ *  2: 888Mhz
++ *  3: 1000Mhz
+  *
+  *
+  * To manually adjust these states, first select manual using
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.3
+
