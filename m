@@ -1,75 +1,104 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32732D788
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 19:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680671A591
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 20:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Q8/sBS6A"
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FBBBD45;
-	Mon,  6 Nov 2023 11:50:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=f94JPRBiAKH4bv0NOHWLWcrjSw/yWsvyMGtRiVM5Wj8=; b=Q8/sBS6AHUKIctzYnVZm04uavu
-	SYF8NSxXHC972Jcsqdy5S4w7xpwUEKgKME6NDbATjzoWC70WHzuSgYv/dRsSgRo8tjq56+KTd+xd1
-	9NQg/e46gHBqcM6MzkPa7yaLEpgy/rlgFcamN7yOU0pxlZpwfmuI6vCI2hr2x7/porkoBxf+6sx4i
-	mp/gNgRNE0GQLtd7VwgSdx3o2j/5Zv9msH/CUXly7yCRluz9np19PhHwawcrh1XyHHI7fz0KmVUSp
-	f8J24mtxNayL0XPJE7to+5yPM0KJFjXO2+Q75iYDzBUrX/1VdrvAvM185U1FO0/5Wal3tJDNIgRe6
-	bwY/UmNg==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1r05cQ-00HQ9y-2w;
-	Mon, 06 Nov 2023 19:50:42 +0000
-Message-ID: <b4354d60-7b24-4e36-b62a-515e8996334a@infradead.org>
-Date: Mon, 6 Nov 2023 11:50:41 -0800
+	dkim=pass (2048-bit key) header.d=ncf.edu header.i=@ncf.edu header.b="YuXeChXa"
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B4BD76
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 12:18:01 -0800 (PST)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-579de633419so58971467b3.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Nov 2023 12:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ncf.edu; s=google; t=1699301880; x=1699906680; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U8ZaLnkOmfn6VUj4P2bkyzAv0ojbKADStfSaOPEyh7k=;
+        b=YuXeChXaR12GuDusRAHx2xim51OmR8OslhG4H51IsNrwFr96NYyLiZLQIiB2c5pRdL
+         +RdFx2pn6MsDs6QCwMFR7CoEQJ/hUu882EHtEiFnMutv/7yXJC4xYmehOFosr07YD9V2
+         dssjr1XwMrB6BF24UNePkNYe9G7j8OXKWmQ8xjxa1Dfb/PxZ48cqI/e8Y6/ZPk9tk4tG
+         YVWpllurG5nlnHVFjeL0nuDkrQLCNOMc8v7peKVoqwKEm4smeTWga3QqoNyhu7V8//qj
+         nILxKyKaK/BlFDMECvkIn3sOxwwThPqLxVlAxWWvA4p+kR/1SHuzGme02Q/99NZtVgqj
+         enXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699301880; x=1699906680;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U8ZaLnkOmfn6VUj4P2bkyzAv0ojbKADStfSaOPEyh7k=;
+        b=h4U2NYr1ft5AaHZhxor/9KXjQ/YHkdNGXQK9iSs/xd+JxYsBz8+A3dFjGKB/40lnrN
+         6R9IlC/NdU9C1U0XdKhmUW6mYujWJnfi0T/y8pw4uz5zqEIDAUIakL596AdER7XWOMOo
+         Jej+hJ3NYfp8DmJJhbdJhty2JaRvwTJGmk5cuoL13G1SWLC7KS5IvvZLtP92aLwubybf
+         Qx/KWpE4yvoIXNnEf1V9O9wgMt6xCPQBLVVVLTexWwmDsDNxQtfK3uZzb+TZ67Y9FiGg
+         WfCZFx7HHTDNtHSVuWmbb5XjHiye3f37LAAaFlma0ap8+j9/bTvHHZ+ANHo2wVbcuo2U
+         ceiQ==
+X-Gm-Message-State: AOJu0Yz0J23sTRGVL59yu5EdhCSSCq10gevLRRx4bxfFvHtLBFvDjuYm
+	F9AGKA5YFUjXoGsd0aF008J3mA==
+X-Google-Smtp-Source: AGHT+IEQcelb7+yRoiYucbFC0plzPHM97ye3oRTkSaTHrhyd7sCMz0sZn3o3ovon0cvSA7iGE8n/Yw==
+X-Received: by 2002:a81:658b:0:b0:583:a3ab:b950 with SMTP id z133-20020a81658b000000b00583a3abb950mr10575615ywb.50.1699301880325;
+        Mon, 06 Nov 2023 12:18:00 -0800 (PST)
+Received: from localhost.localdomain ([2601:580:8201:d0::d089])
+        by smtp.gmail.com with ESMTPSA id q203-20020a815cd4000000b005a4da74b869sm4782343ywb.139.2023.11.06.12.17.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 12:18:00 -0800 (PST)
+From: Hunter Chasens <hunter.chasens18@ncf.edu>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	Xinhui.Pan@amd.com,
+	airlied@gmail.com,
+	daniel@ffwll.ch,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	Hunter Chasens <hunter.chasens18@ncf.edu>
+Subject: [PATCH v2] drm: amd: Resolve Sphinx unexpected indentation warning
+Date: Mon,  6 Nov 2023 15:17:39 -0500
+Message-Id: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
+X-Mailer: git-send-email 2.39.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation
- warning
-To: Hunter Chasens <hunter.chasens18@ncf.edu>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Lijo Lazar <lijo.lazar@amd.com>,
- Linux Documentation <linux-doc@vger.kernel.org>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- alexander.deucher@amd.com, evan.quan@amd.com, christian.koenig@amd.com
-References: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
- <ZUh2fuCjmgle3vd9@debian.me>
- <665794d7-38e0-4e74-9af7-eca986792e44@infradead.org>
- <ZUigbshGGc451V5L@debian.me> <875y2f193t.fsf@intel.com>
- <irp2myv4jp6o7vut5m7ax4hya5764xzustf2klxfpys42qmevk@yxxus464hito>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <irp2myv4jp6o7vut5m7ax4hya5764xzustf2klxfpys42qmevk@yxxus464hito>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Resolves Sphinx unexpected indentation warning when compiling
+documentation (e.g. `make htmldocs`). Replaces tabs with spaces and adds
+a literal block to keep vertical formatting of the
+example power state list.
 
+Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
+---
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-On 11/6/23 11:06, Hunter Chasens wrote:
-> First, apologies to Jani Nikula. I accedently top posted on the other thread.
-> My email client is giving me a hard time. The following works and, if 
-> everyone agrees, I'll send out a v2.
-> 
->  * E.g.::
->  *
->  *  S: 19Mhz *
->  *  0: 615Mhz
->  *  1: 800Mhz
->  *  2: 888Mhz
->  *  3: 1000Mhz
-
-Please do.
-Thanks.
-
+diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+index 517b9fb4624c..81b8ceb26890 100644
+--- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+@@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
+  * Reading back the files will show you the available power levels within
+  * the power state and the clock information for those levels. If deep sleep is
+  * applied to a clock, the level will be denoted by a special level 'S:'
+- * E.g.,
+- *	S: 19Mhz *
+- *	0: 615Mhz
+- *	1: 800Mhz
+- *	2: 888Mhz
+- *	3: 1000Mhz
++ * E.g.::
++ *
++ *  S: 19Mhz *
++ *  0: 615Mhz
++ *  1: 800Mhz
++ *  2: 888Mhz
++ *  3: 1000Mhz
+  *
+  *
+  * To manually adjust these states, first select manual using
 -- 
-~Randy
+2.39.3
+
