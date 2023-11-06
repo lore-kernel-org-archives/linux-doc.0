@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C162F500
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 23:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3652EAFA
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 23:16:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eOlx0ANA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13DB9C433CB;
-	Mon,  6 Nov 2023 23:15:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqOYeaGL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E61C2C433C9;
+	Mon,  6 Nov 2023 23:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699312538;
-	bh=CQftki3DvzX8brNioo1ToSG+EvqONpL4CCoMgbWUAJY=;
+	s=k20201202; t=1699312572;
+	bh=g7kNIN6Av4zarGbiPnOaX25BkRmH3v9AGZFkhO4WQ24=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eOlx0ANABdC/o0n9517D2kMIcUti/IFZmbxTEJc1hvUhpbaMtpbKFCu+FlSAhRg+U
-	 VpXd4s+OZhdkX/CXwqfykHqrAsU3pfg7/TxvHXW6F6KS2ViXrudA8Q1rwOQ5m9hf9S
-	 qF3eCUKa9aG3h6edUJ0jDlZCEZ2C5p5Em/F8l0rW51tGlCd39ar9YkH6JkX1w1A+VB
-	 /9HdsasEF0RCh5ZUdxTC5Ttze8Q8R8raLU7g36m8k6+25bvzLb0RlU2rGkjgUhIE6Y
-	 50k1HWtDH4IIBC6BGOWBPQIrnTA/Xy2BruxpAd4QLekmJVOhC28vJwnLZHcdkP6WJJ
-	 7k5VVSppuiF7A==
+	b=RqOYeaGLclbRSlts06nPwlei4nTHn7YZGzOUr0Gq2u2yc+6+a5Se7Cgrz740GPQht
+	 NnRmTFllYEYuE4yXd4dW69VY6Ub9r3zHOQSLdo07mR07b4WhyIQubDO8syL7upsAgh
+	 yf+jl5YowIP+KNR2360zSnfnJ2B4MFgPh1XHefN40BLv46tLBcdJhRa39td56ekhmg
+	 dqSISniTxBsdWI/5bGx+Lyqt1Oic2+3kb2Mo/rZLfpLqEhvqjxcdrve62CggOlQbvh
+	 Ffoi5diXDA5pUVLckgksFRfskrNbdcRArQ7zXzpfXaRj3Op9t9JzuYHH0PvXlGoOh4
+	 HES01+y5A8+pA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -31,15 +31,14 @@ Cc: Rik van Riel <riel@surriel.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Sasha Levin <sashal@kernel.org>,
 	tj@kernel.org,
-	bp@alien8.de,
 	rostedt@goodmis.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 10/13] smp,csd: Throw an error if a CSD lock is stuck for too long
-Date: Mon,  6 Nov 2023 18:15:03 -0500
-Message-ID: <20231106231514.3735077-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 08/11] smp,csd: Throw an error if a CSD lock is stuck for too long
+Date: Mon,  6 Nov 2023 18:15:42 -0500
+Message-ID: <20231106231553.3735366-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231106231514.3735077-1-sashal@kernel.org>
-References: <20231106231514.3735077-1-sashal@kernel.org>
+In-Reply-To: <20231106231553.3735366-1-sashal@kernel.org>
+References: <20231106231553.3735366-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,7 +47,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.5.10
+X-stable-base: Linux 6.1.61
 Content-Transfer-Encoding: 8bit
 
 From: Rik van Riel <riel@surriel.com>
@@ -91,10 +90,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 23ebe34ff901e..b951b4c2808f1 100644
+index 31af352b4762d..4ad60e127e048 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5781,6 +5781,13 @@
+@@ -5671,6 +5671,13 @@
  			This feature may be more efficiently disabled
  			using the csdlock_debug- kernel parameter.
  
@@ -109,10 +108,10 @@ index 23ebe34ff901e..b951b4c2808f1 100644
  	smsc-ircc2.ircc_cfg=	[HW] Device configuration I/O port
  	smsc-ircc2.ircc_sir=	[HW] SIR base I/O port
 diff --git a/kernel/smp.c b/kernel/smp.c
-index 385179dae360e..0a9a3262f7822 100644
+index 06a413987a14a..63e466bb6b03a 100644
 --- a/kernel/smp.c
 +++ b/kernel/smp.c
-@@ -168,6 +168,8 @@ static DEFINE_PER_CPU(void *, cur_csd_info);
+@@ -185,6 +185,8 @@ static DEFINE_PER_CPU(struct cfd_seq_local, cfd_seq_local);
  
  static ulong csd_lock_timeout = 5000;  /* CSD lock timeout in milliseconds. */
  module_param(csd_lock_timeout, ulong, 0444);
@@ -120,8 +119,8 @@ index 385179dae360e..0a9a3262f7822 100644
 +module_param(panic_on_ipistall, int, 0444);
  
  static atomic_t csd_bug_count = ATOMIC_INIT(0);
- 
-@@ -228,6 +230,7 @@ static bool csd_lock_wait_toolong(struct __call_single_data *csd, u64 ts0, u64 *
+ static u64 cfd_seq;
+@@ -343,6 +345,7 @@ static bool csd_lock_wait_toolong(struct __call_single_data *csd, u64 ts0, u64 *
  	}
  
  	ts2 = sched_clock();
@@ -129,7 +128,7 @@ index 385179dae360e..0a9a3262f7822 100644
  	ts_delta = ts2 - *ts1;
  	if (likely(ts_delta <= csd_lock_timeout_ns || csd_lock_timeout_ns == 0))
  		return false;
-@@ -241,9 +244,17 @@ static bool csd_lock_wait_toolong(struct __call_single_data *csd, u64 ts0, u64 *
+@@ -356,9 +359,17 @@ static bool csd_lock_wait_toolong(struct __call_single_data *csd, u64 ts0, u64 *
  	else
  		cpux = cpu;
  	cpu_cur_csd = smp_load_acquire(&per_cpu(cur_csd, cpux)); /* Before func and info. */
