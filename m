@@ -1,161 +1,260 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25E018044
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 11:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8318223777;
+	Mon,  6 Nov 2023 13:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MQ6t40LE"
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5210EB3;
-	Mon,  6 Nov 2023 03:36:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NDdhnEc0mdRhVOF0kZScvzLlsojNCShzpOcQBZ8ysExXIgiZAFZSOn4ysGwoLo/ehaxVSCbXleLEY3Z2B1Z3Tk2X97RKIdJk4RL/ph1nxnGNCnvFiYFUROWpWe5sTmZuM1U3s9aEn7r/UVLfIRc1iVT9j3ZLIe3GhHqRyeRV6zdN/riSbJXj/EBm/2F3HWXr6cZdRz9PDtfj5MHCdOFKAKkPBsPpqquwyqATRW8jydVffZRog4HR9xSj2OstvDBpNQ97cS9to9FsMu5TuYUmpLy2zGCvupZXv2DZp/jAefExBuGuBx6JChJT5LPrPx3ubqnv/wD3ZzajOTBtMkKAqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iqTlQeBgbcIWowlcj0q5vh8XTUTb21oIVfbEgmfJk8k=;
- b=aRYF5BaeyVJtBYTvSn5FsKucnRnPght/3VsHDrk52FtgVwL880amU9JQyshZFQDqVqU7Cxl9iA7falHfqyEV08s8Ai/TrmMiqzKH4T7+uGrEEhfNtDTDzBMtGQRzGa5CyfE0BI1zEwoDyeVqWzIZeocXmN5HANHIWgUQzrq957daRYD44Nxuv4bV1NCxIh7mSibLWvpTbh84YaVlBTjwkQlk278XSoZisHyyU2AjFJjPxT1g7cQt1muxVKbVSK/nN2BKu3n2SOEQXNP3s8Lqj2d6XwYDjQ27BKkUYUU9uTl72c2FN1z7AVqG/iiAGWZyrRES8aHiaaYJkSC1KDmceA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iqTlQeBgbcIWowlcj0q5vh8XTUTb21oIVfbEgmfJk8k=;
- b=MQ6t40LEFmdatmWfP/UStT2F/3YZlnvNWsN4u4IYollffhvI1U62Fd/tYgTC3o8Uyg7jnqcww+/71b8hiPrF0eKXxLqp5KMLoxCJTFNU5Jur6dMIWA2gtOcrWRVru0zsdEpREd5TiY+HKj21jIsyqnJfuolqxfldTSouXDMBdPg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
- by DM6PR12MB4403.namprd12.prod.outlook.com (2603:10b6:5:2ab::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
- 2023 11:36:23 +0000
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::ce36:81fc:9c50:c892]) by BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::ce36:81fc:9c50:c892%6]) with mapi id 15.20.6954.028; Mon, 6 Nov 2023
- 11:36:23 +0000
-Message-ID: <29c3e90b-9e9a-b428-661a-bff5d2b034af@amd.com>
-Date: Mon, 6 Nov 2023 17:06:12 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation
- warning
-Content-Language: en-US
-To: Hunter Chasens <hunter.chasens18@ncf.edu>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, alexander.deucher@amd.com, evan.quan@amd.com,
- airlied@gmail.com, christian.koenig@amd.com
-References: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
-From: "Lazar, Lijo" <lijo.lazar@amd.com>
-In-Reply-To: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0197.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:e9::6) To BYAPR12MB4614.namprd12.prod.outlook.com
- (2603:10b6:a03:a6::22)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="2NTeiBTz"
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230B0D8;
+	Mon,  6 Nov 2023 05:45:00 -0800 (PST)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A6D276V011570;
+	Mon, 6 Nov 2023 13:44:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-03-30; bh=6YHJjY4Bdvy1h7hf5nC46l/cIWxl0iVN7Q28DIqENBo=;
+ b=2NTeiBTzaAHfDuf9ZRTEFTFMA0KiNylDlLF+4se3wOMcv7DkqSsTr+WRbSeRqAUSC9l8
+ wyChpgaMyU0D1wCZKhmcU871dSYsqgj48lTKcY951CFGCvSZDiNCH+T52vXPlhZ+nNIk
+ R6DFdX1LOk4Sk71j70tFeD5z9fuMS1g7+gRsWmvJ7x5fplOf75m2JclqGTkxnU9locCp
+ aj5wLbvF7S4VYvNK/0dq0iMNElxXk4eBPdspMVhr84QWcDETRvQoQSd+BnCqUnvyiJou
+ RtSKRa0rUAzBewR36FVLhDaGxVa2Od7vvpvCRkgcFKQG5DxJpGt917vBLNpVRTNW+yv7 GA== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3u5cj2u4gc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 06 Nov 2023 13:44:54 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3A6D6iBO020666;
+	Mon, 6 Nov 2023 13:44:42 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3u5cdbc8d8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 06 Nov 2023 13:44:42 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3A6DifHf024328;
+	Mon, 6 Nov 2023 13:44:41 GMT
+Received: from localhost.localdomain (dhcp-10-175-43-221.vpn.oracle.com [10.175.43.221])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3u5cdbc8bj-1;
+	Mon, 06 Nov 2023 13:44:41 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+        linux-fsdevel@vger.kernel.org, Nick Piggin <npiggin@kernel.dk>,
+        Waiman Long <Waiman.Long@hp.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v2] dcache: remove unnecessary NULL check in dget_dlock()
+Date: Mon,  6 Nov 2023 14:44:17 +0100
+Message-Id: <20231106134417.98833-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB4614:EE_|DM6PR12MB4403:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8716dad4-c51c-4787-69a9-08dbdebc9a65
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	+CuBxQQ2uDnf+8Ul6NoMb7Tr7HfvJZNIUi1yoqcA0Zgi5APwPKPQwGESjB4eNxKGQrYGPaHvw5y6IR1jrLoAyA88ixFWaZPsAvq6TW/QMJAvPLBNGTEH+XToITuQcuQOg8vJPDow03sBi3/pp7LrkLcUJAaDqeThprCcY05IS0EGe7/2vr/WELOdnV4oRRO/eBA0CAP/NETCSqk8chz0mZg2XVmOtCqTUWLbPf44Hz9qA40hUx1pkJ/NvQmry1e81fzeRo03vm+DyEqgM5bPY475VCQDDo9GEVEzV5ZA1vQe6ROnBa3vR0VfZfLNK97dyCKidyBxBztM0mnTPInBEARKRYeooPy/kwRgBDrReUubmyuYr4SkKmbkDL4zLtRDWNULaharmgVl/6cf298RK3oDCl3cagDmOoqV9LUltr4jlAB4jIe/ayiVjZGz0LaZuZywbxUa3s+YxNHgWeVnFBIcfG75m1JKqkuV49NSSmGOMy+8WBgj0C7WoN10dwfg42FMWSJCXiBLZGWny3+R8yabkWfsvC943L5qrluM+Udq1PKAFpudz3jQmKsNMDoAnGol8ysf5kNSdhwKxKCNMMRIlA545eM4NRPsUsND6Ikpkfx4YnxeWarG7PXH8rhBw/aRYz34v6RWQYdszJlrfY9u5tGhZncaXAhrQNtyRl8hEhjufHcFQZTavwKazgyL
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4614.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(396003)(366004)(136003)(346002)(230922051799003)(230273577357003)(230173577357003)(186009)(1800799009)(64100799003)(451199024)(83380400001)(316002)(38100700002)(53546011)(478600001)(6486002)(6666004)(6506007)(66556008)(66476007)(26005)(6512007)(66946007)(2616005)(5660300002)(2906002)(8676002)(36756003)(31696002)(41300700001)(86362001)(4326008)(8936002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YWtUam42NWRYalZqN05mWWtrM1dqejhMTktCZHRtNkhuekF3a3dKTXZjMkpj?=
- =?utf-8?B?dHhSeW1XMTZ4QU1Qa2x4eHRoeWlUL2Q4TnJNZWs4TjRsbEI3OGVQMkI4KzZN?=
- =?utf-8?B?U2k4QmliTkhjemlKYVVtZmUzOU9kVCszWlpac3ZpbnBjcC9sL3ZwMzRxZHY2?=
- =?utf-8?B?WGtFNGFsc1YwNVlvY1ZaeUhkeTlhbUVKVmUzNDdSNjAvSHQyNlIybnQrWVNr?=
- =?utf-8?B?T3JEYWFYNnZibjRIeE5xY2g0ZnQ5YTlMelg0dkExcHNsTWtDc1dVWDlUU1h4?=
- =?utf-8?B?a0kybEViV0FXaGIxTW1zM3UyeDFiaGU1MTkvZzAvNTFWc2RJdEltSXlWVERk?=
- =?utf-8?B?Y25mYTFxSHYydmF3cDZDN3JHa2dXUVNXajdpQU0vTjlJUldpSklLckpaY050?=
- =?utf-8?B?YjlRR2JocjJrUmE2SVI3amJhWHl3bXlwSlRFV1lmcWx3N1c1cEpZNjkxM2NB?=
- =?utf-8?B?b04wdDdNUitnS1U0aXVNbkptVHY3SFdkMU01bG5ybnRVRzVBUmM1akQzNnZY?=
- =?utf-8?B?TG01enBiZ0VvWjUrT2RCdk1VUHUxLzJKbmkyRnJpdmFVRHN4cDdUS0phaVI0?=
- =?utf-8?B?MXdXL3V3Q3pIZWZkYmFuTEZzVXpHQzhQdlVmVll0bXB6Z1dyUVNMUE8xUC9F?=
- =?utf-8?B?TTIxRHNVQ2lONkZob0JYdnJUMGZGMTBCTUQwWmR6aGhIbmlsSGNMcjlMaTRN?=
- =?utf-8?B?NGdMQTY4TGRCTVQwQjhLRDZKYnpXTVQ4eXo0dDlhNjJJNVByNENxMzF5Rk5F?=
- =?utf-8?B?TzBxb0JKZDBKTWNydVpxODhaZUR1eDhpYXNBV3VMQlZCcUFVM2M0NDI0REx4?=
- =?utf-8?B?ZUZwYXgzQUdqSGlIcDV6aW95Tk5rMkl1WjBSZHBFSHNWcnJCL3hveFdxZktP?=
- =?utf-8?B?STVONVJJak5jNzRQSXBKWnZDa3RRMmtxMlg4d2p3eVY5MzRLakRhTlBUOFZv?=
- =?utf-8?B?ZzF2aHFaY2kyTFNydUZYNE1EOGN5NkVQdFh6SDdKOUdlRHN6L25odVkvRXBQ?=
- =?utf-8?B?OUNlbUk3NmVDUmw5QkhyYlI2cTFYRXVQOHoyOUJ2eW5TZTR2ZTU3djdKWmJs?=
- =?utf-8?B?cGNSQUFiRDExTUNIL1RlUVg0ZTJnZzhOM254TjFTSVE1SmFQQ0VOcFozU0tV?=
- =?utf-8?B?RW1RSk1kNjR5YVJXbkJRQzJvekdWSk9TLzIwaGtjUGdGQVlsdlUrenY4QkJG?=
- =?utf-8?B?NVpLbkIxSXZCQTZMck41Vk8rWHo4TDRuR2xQSWljVDZJbFMvRVEyR3V5d1o5?=
- =?utf-8?B?TlpUcW94RmFVcjRPb2NrTUVZZmFHSVFtOXErdk5mQWRlNWIxMnlOZkozRkRO?=
- =?utf-8?B?WUt2c3M3RW5EUEV0NEJTdlhPeCs2ODIybFdjeTFZRGd6VGE5dVpEdE54THlC?=
- =?utf-8?B?TXhJU2VZdUVtV2YzaSsrQ0tUcVFrUnl6eE5janduNUg5b2NKdkFoY085WjRS?=
- =?utf-8?B?Z1ZKTm9RT3NwQ2NwK2xVYnVNUUtXT3dkR2NlNmx1Zm9MMStMTXFEYnk1WGpx?=
- =?utf-8?B?YmFURmFBckQ5aE9WT3Z2QVRqOU1ZV3VaV1hPdCtDeEFURzFoYy85VVRUSlZq?=
- =?utf-8?B?UVBqa0hCQTJPb29uMCtNc1lVamJCejFacjNERHAreHgxdDJtOWNOTHJOMU5z?=
- =?utf-8?B?dldTbmNjNDlyOFJRZUh0T2wzc0Y5MzdiRklaRXdjNndET1dZclR0QWtXNHp3?=
- =?utf-8?B?MUdaSm1kbWpvMnJyL3hBQTRURTJ4enFSRzZzNWFoaFl3enYrNG5jcGNUS1lr?=
- =?utf-8?B?WDhvSVRVYUh5NjdxaVlwVEY0RU5GTzAybk10bTdpN2toWkRMQlpKajBKazNV?=
- =?utf-8?B?cndLcDkwdWVrdGlPV2RtcFhORDZleldnRmFwZUFNTUQweTZPZTZpMUFmS0dj?=
- =?utf-8?B?b3dJdjRoZjN6TmxDa2ZtckFZN3IvSDcxSTRNeWV4R1NidDU1dlViYTdEMzJw?=
- =?utf-8?B?UXFKWE1yOFVsZ3ZyNWs2N1FhOFVPNEQ3TzQ5YnV5MHlNMlNDMm0vbXhJdTFU?=
- =?utf-8?B?dzBWMFJZR0UxQWZ1TjhISVhFVC96K3FZSlNYdjM4S1Q3cW5VRFpDSzQwSURW?=
- =?utf-8?B?Ni91WVJ2ZzRHR3R3VG85RFdMcjYxcHRBL0d6OVN4eUtMV3BvYmNGMVRqRzBE?=
- =?utf-8?Q?V2DWJ0yKVYh655JY4YaFmtWxP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8716dad4-c51c-4787-69a9-08dbdebc9a65
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 11:36:23.2838
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2ySbcIUKNkuHmTucnfMFw/4uNUAyriY2V570r+VAtySSQ1C0hW5jlQp3X1W5iz87
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4403
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-06_12,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 mlxscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2311060111
+X-Proofpoint-ORIG-GUID: _jd5P7Syl5cgkzIKqm3ezlqYqdq0z8Sr
+X-Proofpoint-GUID: _jd5P7Syl5cgkzIKqm3ezlqYqdq0z8Sr
 
+dget_dlock() requires dentry->d_lock to be held when called, yet
+contains a NULL check for dentry.
 
+An audit of all calls to dget_dlock() shows that it is never called
+with a NULL pointer (as spin_lock()/spin_unlock() would crash in these
+cases):
 
-On 11/6/2023 2:30 AM, Hunter Chasens wrote:
-> Resolves Sphinx unexpected indentation warning when compiling
-> documentation (e.g. `make htmldocs`). Replaces tabs with spaces and adds
-> a literal block to keep vertical formatting of the
-> example power state list.
-> 
-> Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
+  $ git grep -W '\<dget_dlock\>'
 
-Thanks!
-	Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
-> ---
->   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> index 517b9fb4624c..703fe2542258 100644
-> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> @@ -990,11 +990,14 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
->    * the power state and the clock information for those levels. If deep sleep is
->    * applied to a clock, the level will be denoted by a special level 'S:'
->    * E.g.,
-> - *	S: 19Mhz *
-> - *	0: 615Mhz
-> - *	1: 800Mhz
-> - *	2: 888Mhz
-> - *	3: 1000Mhz
-> + *
-> + * ::
-> + *
-> + *  S: 19Mhz *
-> + *  0: 615Mhz
-> + *  1: 800Mhz
-> + *  2: 888Mhz
-> + *  3: 1000Mhz
->    *
->    *
->    * To manually adjust these states, first select manual using
+  arch/powerpc/platforms/cell/spufs/inode.c-              spin_lock(&dentry->d_lock);
+  arch/powerpc/platforms/cell/spufs/inode.c-              if (simple_positive(dentry)) {
+  arch/powerpc/platforms/cell/spufs/inode.c:                      dget_dlock(dentry);
+
+  fs/autofs/expire.c-             spin_lock_nested(&child->d_lock, DENTRY_D_LOCK_NESTED);
+  fs/autofs/expire.c-             if (simple_positive(child)) {
+  fs/autofs/expire.c:                     dget_dlock(child);
+
+  fs/autofs/root.c:                       dget_dlock(active);
+  fs/autofs/root.c-                       spin_unlock(&active->d_lock);
+
+  fs/autofs/root.c:                       dget_dlock(expiring);
+  fs/autofs/root.c-                       spin_unlock(&expiring->d_lock);
+
+  fs/ceph/dir.c-          if (!spin_trylock(&dentry->d_lock))
+  fs/ceph/dir.c-                  continue;
+  [...]
+  fs/ceph/dir.c:                          dget_dlock(dentry);
+
+  fs/ceph/mds_client.c-           spin_lock(&alias->d_lock);
+  [...]
+  fs/ceph/mds_client.c:                   dn = dget_dlock(alias);
+
+  fs/configfs/inode.c-            spin_lock(&dentry->d_lock);
+  fs/configfs/inode.c-            if (simple_positive(dentry)) {
+  fs/configfs/inode.c:                    dget_dlock(dentry);
+
+  fs/libfs.c:                             found = dget_dlock(d);
+  fs/libfs.c-                     spin_unlock(&d->d_lock);
+
+  fs/libfs.c:             found = dget_dlock(child);
+  fs/libfs.c-     spin_unlock(&child->d_lock);
+
+  fs/libfs.c:                             child = dget_dlock(d);
+  fs/libfs.c-                     spin_unlock(&d->d_lock);
+
+  fs/ocfs2/dcache.c:                      dget_dlock(dentry);
+  fs/ocfs2/dcache.c-                      spin_unlock(&dentry->d_lock);
+
+  include/linux/dcache.h:static inline struct dentry *dget_dlock(struct dentry *dentry)
+
+After taking out the NULL check, dget_dlock() becomes almost identical
+to __dget_dlock(); the only difference is that dget_dlock() returns the
+dentry that was passed in. These are static inline helpers, so we can
+rely on the compiler to discard unused return values. We can therefore
+also remove __dget_dlock() and replace calls to it by dget_dlock().
+
+Also fix up and improve the kerneldoc comments while we're at it.
+
+Al Viro pointed out that we can also clean up some of the callers to
+make use of the returned value and provided a bit more info for the
+kerneldoc.
+
+While preparing v2 I also noticed that the tabs used in the kerneldoc
+comments were causing the kerneldoc to get parsed incorrectly so I also
+fixed this up (including for d_unhashed, which is otherwise unrelated).
+
+Testing: x86 defconfig build + boot; make htmldocs for the kerneldoc
+warning. objdump shows there are code generation changes.
+
+Link: https://lore.kernel.org/all/20231022164520.915013-1-vegard.nossum@oracle.com/
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Nick Piggin <npiggin@kernel.dk>
+Cc: Waiman Long <Waiman.Long@hp.com>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ fs/dcache.c            | 16 ++++------------
+ include/linux/dcache.h | 29 +++++++++++++++++++----------
+ 2 files changed, 23 insertions(+), 22 deletions(-)
+
+diff --git a/fs/dcache.c b/fs/dcache.c
+index c82ae731df9a..4bf33ba588d8 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -942,12 +942,6 @@ void dput_to_list(struct dentry *dentry, struct list_head *list)
+ 	spin_unlock(&dentry->d_lock);
+ }
+ 
+-/* This must be called with d_lock held */
+-static inline void __dget_dlock(struct dentry *dentry)
+-{
+-	dentry->d_lockref.count++;
+-}
+-
+ static inline void __dget(struct dentry *dentry)
+ {
+ 	lockref_get(&dentry->d_lockref);
+@@ -1034,7 +1028,7 @@ static struct dentry *__d_find_alias(struct inode *inode)
+ 	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
+ 		spin_lock(&alias->d_lock);
+  		if (!d_unhashed(alias)) {
+-			__dget_dlock(alias);
++			dget_dlock(alias);
+ 			spin_unlock(&alias->d_lock);
+ 			return alias;
+ 		}
+@@ -1707,8 +1701,7 @@ static enum d_walk_ret find_submount(void *_data, struct dentry *dentry)
+ {
+ 	struct dentry **victim = _data;
+ 	if (d_mountpoint(dentry)) {
+-		__dget_dlock(dentry);
+-		*victim = dentry;
++		*victim = dget_dlock(dentry);
+ 		return D_WALK_QUIT;
+ 	}
+ 	return D_WALK_CONTINUE;
+@@ -1853,8 +1846,7 @@ struct dentry *d_alloc(struct dentry * parent, const struct qstr *name)
+ 	 * don't need child lock because it is not subject
+ 	 * to concurrency here
+ 	 */
+-	__dget_dlock(parent);
+-	dentry->d_parent = parent;
++	dentry->d_parent = dget_dlock(parent);
+ 	list_add(&dentry->d_child, &parent->d_subdirs);
+ 	spin_unlock(&parent->d_lock);
+ 
+@@ -2851,7 +2843,7 @@ struct dentry *d_exact_alias(struct dentry *entry, struct inode *inode)
+ 			spin_unlock(&alias->d_lock);
+ 			alias = NULL;
+ 		} else {
+-			__dget_dlock(alias);
++			dget_dlock(alias);
+ 			__d_rehash(alias);
+ 			spin_unlock(&alias->d_lock);
+ 		}
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index 3da2f0545d5d..82127cf10992 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -301,20 +301,29 @@ extern char *dentry_path(const struct dentry *, char *, int);
+ /* Allocation counts.. */
+ 
+ /**
+- *	dget, dget_dlock -	get a reference to a dentry
+- *	@dentry: dentry to get a reference to
++ * dget_dlock - get a reference to a dentry
++ * @dentry: dentry to get a reference to
+  *
+- *	Given a dentry or %NULL pointer increment the reference count
+- *	if appropriate and return the dentry. A dentry will not be 
+- *	destroyed when it has references.
++ * Given a live dentry, increment the reference count and return
++ * the dentry.  For a dentry to be live, it can be hashed, positive,
++ * or have a non-negative &dentry->d_lockref.count
++ *
++ * Context: @dentry->d_lock must be held.
+  */
+ static inline struct dentry *dget_dlock(struct dentry *dentry)
+ {
+-	if (dentry)
+-		dentry->d_lockref.count++;
++	dentry->d_lockref.count++;
+ 	return dentry;
+ }
+ 
++/**
++ * dget - get a reference to a dentry
++ * @dentry: dentry to get a reference to
++ *
++ * Given a dentry or %NULL pointer increment the reference count
++ * if appropriate and return the dentry.  A dentry will not be
++ * destroyed when it has references.
++ */
+ static inline struct dentry *dget(struct dentry *dentry)
+ {
+ 	if (dentry)
+@@ -325,10 +334,10 @@ static inline struct dentry *dget(struct dentry *dentry)
+ extern struct dentry *dget_parent(struct dentry *dentry);
+ 
+ /**
+- *	d_unhashed -	is dentry hashed
+- *	@dentry: entry to check
++ * d_unhashed - is dentry hashed
++ * @dentry: entry to check
+  *
+- *	Returns true if the dentry passed is not currently hashed.
++ * Returns true if the dentry passed is not currently hashed.
+  */
+  
+ static inline int d_unhashed(const struct dentry *dentry)
+-- 
+2.34.1
+
