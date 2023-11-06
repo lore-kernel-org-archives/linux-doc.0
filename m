@@ -1,47 +1,36 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0D441C
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 06:02:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C529A9460;
+	Mon,  6 Nov 2023 06:54:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZSDZG2/"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524A4FA
-	for <linux-doc@vger.kernel.org>; Sun,  5 Nov 2023 22:02:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699250546; x=1730786546;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2IvIeBHCR4DRJTRxP2mOe7CLG5lPikuBzxiufFck0/4=;
-  b=nZSDZG2/VVUnE2RBFxm0hBsFklqYcD+zuZjU8fHkld2Ep/PpUJNZQzan
-   AG8aqrLmH8UnJfxJFi/qGzkYtMdlTfiUmL9CSFNjXjylruPgRzSBbDpEv
-   XyrniC7KR/OB4Zss31RDhsVyrnPCl4qECax3SpTry/XAcyolVddMnLLoJ
-   gKKORHNE1lnN1fxUKTNdsn3O/JnIwQo0EIMtfsXgw6gs/1cDNwky3x75G
-   WX/rNylHTovp8+MKuEoMcY8XVIMUMZm00zZNgqeuXYGQicgJDhVc+Pte+
-   xWuAtQIrpBUjn95n8ILfKPR4AJQKQG80BAJfqLb3twhbfDVovjM/CtiQ8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455697633"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="455697633"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 22:02:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="3516889"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2023 22:02:23 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzsgm-0006Aa-2k;
-	Mon, 06 Nov 2023 06:02:20 +0000
-Date: Mon, 6 Nov 2023 14:00:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [asahilinux:bits/090-spi-hid 13/21]
- drivers/hid/hid-magicmouse.c:575: warning: This comment starts with '/**',
- but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202311061305.pqAoqR6N-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j26w1Ye4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADB6CC433C7;
+	Mon,  6 Nov 2023 06:54:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1699253665;
+	bh=EntPlRifOGbbk3ujSL4xtP86KIkN/FnEjRD6b7R3YTY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j26w1Ye4CDavLpD27dhAnMUk+A6+ndEv2dZYrG0Nabf1DRbw4XUOOFZm4kiuRkvor
+	 /Szn0pfh+ax9Om0u7x5WysEPZTqCWB+GkjlH4zc2hHqq9ctdeGocZhOUfLtkfeYcbr
+	 UCeqefaiBaRvD94JT2AfBaLK0WjUaNfK1Sz3V8Is=
+Date: Mon, 6 Nov 2023 07:54:22 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Benjamin Poirier <benjamin.poirier@gmail.com>
+Cc: Kira <nyakov13@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Sven Joachim <svenjoac@gmx.de>,
+	Ian Kent <raven@themaw.net>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: Revert "staging: qlge: Retire the driver"
+Message-ID: <2023110655-swarm-parka-177d@gregkh>
+References: <20231030150400.74178-1-benjamin.poirier@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,50 +39,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231030150400.74178-1-benjamin.poirier@gmail.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
-head:   aefaf432ff80e54092c35dcba09404239f181de6
-commit: c45d7d45dd2ec956e9fc4b5fc3c88d43fd638eb9 [13/21] hid: magicmouse: Add MTP multi-touch device support
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311061305.pqAoqR6N-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061305.pqAoqR6N-lkp@intel.com/reproduce)
+On Tue, Oct 31, 2023 at 02:04:00AM +1100, Benjamin Poirier wrote:
+> This reverts commit 875be090928d19ff4ae7cbaadb54707abb3befdf.
+> 
+> On All Hallows' Eve, fear and cower for it is the return of the undead
+> driver.
+> 
+> There was a report [1] from a user of a QLE8142 device. They would like for
+> the driver to remain in the kernel. Therefore, revert the removal of the
+> qlge driver.
+> 
+> [1] https://lore.kernel.org/netdev/566c0155-4f80-43ec-be2c-2d1ad631bf25@gmail.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311061305.pqAoqR6N-lkp@intel.com/
+<snip>
 
-All warnings (new ones prefixed by >>):
+> --- /dev/null
+> +++ b/drivers/staging/qlge/TODO
+> @@ -0,0 +1,28 @@
+> +* commit 7c734359d350 ("qlge: Size RX buffers based on MTU.", v2.6.33-rc1)
+> +  introduced dead code in the receive routines, which should be rewritten
+> +  anyways by the admission of the author himself, see the comment above
+> +  qlge_build_rx_skb(). That function is now used exclusively to handle packets
+> +  that underwent header splitting but it still contains code to handle non
+> +  split cases.
+> +* truesize accounting is incorrect (ex: a 9000B frame has skb->truesize 10280
+> +  while containing two frags of order-1 allocations, ie. >16K)
+> +* while in that area, using two 8k buffers to store one 9k frame is a poor
+> +  choice of buffer size.
+> +* in the "chain of large buffers" case, the driver uses an skb allocated with
+> +  head room but only puts data in the frags.
+> +* rename "rx" queues to "completion" queues. Calling tx completion queues "rx
+> +  queues" is confusing.
+> +* struct rx_ring is used for rx and tx completions, with some members relevant
+> +  to one case only
+> +* the flow control implementation in firmware is buggy (sends a flood of pause
+> +  frames, resets the link, device and driver buffer queues become
+> +  desynchronized), disable it by default
+> +* the driver has a habit of using runtime checks where compile time checks are
+> +  possible (ex. qlge_free_rx_buffers())
+> +* reorder struct members to avoid holes if it doesn't impact performance
+> +* use better-suited apis (ex. use pci_iomap() instead of ioremap())
+> +* remove duplicate and useless comments
+> +* fix weird line wrapping (all over, ex. the qlge_set_routing_reg() calls in
+> +  qlge_set_multicast_list()).
+> +* remove useless casts (ex. memset((void *)mac_iocb_ptr, ...))
+> +* fix checkpatch issues
 
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'pos' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'hdev' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'work' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'battery_timer' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'input_ops' not described in 'magicmouse_sc'
->> drivers/hid/hid-magicmouse.c:575: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * vendor trackpad report
-   drivers/hid/hid-magicmouse.c:589: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * standard HID mouse report
+In looking at this again, are you sure you all want this in the tree?
+I'm glad to take the revert but ONLY if you are willing to then take a
+"move this to drivers/net/" patch for the code as well, WITH an actual
+maintainer and developer who is willing to do the work for this code.
 
+In all the years that this has been in the staging tree, the listed
+maintainers have not been active at all from what I can remember, and
+obviously the above list of "things to fix" have not really been worked
+on at all.
 
-vim +575 drivers/hid/hid-magicmouse.c
+So why should it be added back?  I understand there is at least one
+reported user, but for drivers in the staging tree, that's not a good
+reason to keep them around if there is not an actual maintainer that is
+willing to do the work.
 
-   573	
-   574	/**
- > 575	 * vendor trackpad report
-   576	 *
-   577	 * @num_fingers:	the number of fingers being reported in @fingers
-   578	 * @buttons:		same as HID buttons
-   579	 */
-   580	struct tp_header {
-   581		// HID vendor part, up to 1751 bytes
-   582		u8 unknown[22];
-   583		u8 num_fingers;
-   584		u8 buttons;
-   585		u8 unknown3[14];
-   586	};
-   587	
+Which reminds me, we should probably sweep the drivers/staging/ tree
+again to see what we can remove given a lack of real development.
+Normally we do that every other year or so, and this driver would fall
+into the "no one is doing anything with it" category and should be
+dropped.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+thanks,
+
+greg k-h
