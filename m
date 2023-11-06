@@ -1,112 +1,190 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196CFF9FE
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 08:59:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BB316413;
+	Mon,  6 Nov 2023 09:43:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b="pYN/Nujv"
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 775CF83
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 00:59:51 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-507e85ebf50so5175879e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Nov 2023 00:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ferroamp-se.20230601.gappssmtp.com; s=20230601; t=1699261190; x=1699865990; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aypV7mLvbDAZeh5nBCa8xfdYAz42GegtC5Ieo6iBXzQ=;
-        b=pYN/Nujv4bUjScDhpaO8ACPfYELWMnufbyhSaulW8Ust1pW4Pd8nyJKeWulJHwUxJc
-         kYRNhOzFCMMI2nwJ4hSx86FmeJRi7ZNP7IkVThwbx3qCYSPMP4T+MZFVbneNJYIM3cHa
-         oRNGcfTpArNaTzKLUSYFoFM1kMhmFaWru/+zixQIyxoVhweB2NlytbpcksFuhbEeM4Yi
-         XkNs4pIhVejWnhfFhQp0kr4fP6ijVn0VGcFw5IOyBuWzFyUGuTYtunI82qhyVObvis3k
-         jm5vl8sHBOW5He2ew0Xy04UAd2mo3JhMz3gMFATJBeWoC7Q40mb7PkQGiiR7unse0Mim
-         KJkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699261190; x=1699865990;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aypV7mLvbDAZeh5nBCa8xfdYAz42GegtC5Ieo6iBXzQ=;
-        b=RGyUrvbm9H96YfLAZXp8XkR9m1gPsMCSTTCpYS2cf1s7brnUWzqmz3Srvymkkt2whx
-         04q9djVWi9c8DESM1nbfHu2ccaOKJ7QBjN8rGiURUVuuPBAuE6Ar/url4cWKbNJjCZCb
-         FSuABrycNsFm2HQxMXUIFpOsUqG4ro8xNxH2fGFbjSkm2B5r2HsWTJ1Vl0LYlLVzRtuv
-         OGNciH62lbT6tIOwNryUbA9zYjTCP78Z98ajs5iyW+6e9sAqdTDLdJaaioD0YJbTgdNs
-         FrcW0CY1emEyyUILuT5a+J3pCSI1VpsDEIgY2cNUL3RALilRlcndMUdLVhQmHxivCS5F
-         M93A==
-X-Gm-Message-State: AOJu0Yyrq2FXjPgfx7dBjReDZhG+HkD8505jU4RnPM1K350G8hazH4ky
-	7V6cy4nfCueaZhwnDobv89B0xg==
-X-Google-Smtp-Source: AGHT+IG3Cna/LlnMuAYULkcn1Mo/PI9szbO58Pc5YOQN/aE33Cm+GjVDfxyc/hIwpG6p77cqtp0yZA==
-X-Received: by 2002:a05:6512:688:b0:507:9a13:27bd with SMTP id t8-20020a056512068800b005079a1327bdmr27380714lfe.7.1699261189709;
-        Mon, 06 Nov 2023 00:59:49 -0800 (PST)
-Received: from debian ([185.117.107.42])
-        by smtp.gmail.com with ESMTPSA id y36-20020a0565123f2400b00507a8789b43sm1080387lfa.269.2023.11.06.00.59.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 00:59:48 -0800 (PST)
-Date: Mon, 6 Nov 2023 09:59:46 +0100
-From: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
-To: Parthiban.Veerasooran@microchip.com
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net, Steen.Hegelund@microchip.com, rdunlap@infradead.org,
-	horms@kernel.org, casper.casan@gmail.com, andrew@lunn.ch,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Horatiu.Vultur@microchip.com, Woojung.Huh@microchip.com,
-	Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com
-Subject: Re: [PATCH net-next v2 8/9] microchip: lan865x: add driver support
- for Microchip's LAN865X MACPHY
-Message-ID: <ZUirAkfDahc50Oti@debian>
-References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
- <20231023154649.45931-9-Parthiban.Veerasooran@microchip.com>
- <ZUOUGf-PMGo8z1s-@debian>
- <aa175902-560c-4fad-9e0b-aa4efa0482c2@microchip.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tn/boXB5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D1CDC433C8;
+	Mon,  6 Nov 2023 09:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699263820;
+	bh=mW57g3/oo1AgcyVKDztTrcwktcxhtqaiT1BLrsHk/WM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tn/boXB5eKY5pI6iM/T1MWnfyTzOajgPL6jvcIBqLVRYycUwM0Jci7ErTJRpBiHBs
+	 Ba85sQTjKSR97qqj/Q9eNy8Ougm3Jz+L9kh0HhJX6KSxKt1Dbe2L0br/zEogSPZmFf
+	 1lpVerA/r+Ox/SlOXsRqEU/Lx44E/++VN/pGSutCXMQ5gmjxUFImPkMM+6zjOL396N
+	 ksYT0tZJmqh/aFQyXfmTLxrk3oCd78BkuYmfafk/kfVbjB9gzHzpqmqodmI9CYdL57
+	 K4cagrLD6Gyfcs9KYUHZTyFCrV8sLAezXFJmxlfL1+28+zz4R9Kwh1olam7LY4DcPr
+	 2WjKY59BBrtyQ==
+Date: Mon, 6 Nov 2023 10:43:37 +0100
+From: "mripard@kernel.org" <mripard@kernel.org>
+To: Frank Binns <Frank.Binns@imgtec.com>
+Cc: "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>, 
+	Sarah Walker <Sarah.Walker@imgtec.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"luben.tuikov@amd.com" <luben.tuikov@amd.com>, "christian.koenig@amd.com" <christian.koenig@amd.com>, 
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+	"dakr@redhat.com" <dakr@redhat.com>, "hns@goldelico.com" <hns@goldelico.com>, 
+	"afd@ti.com" <afd@ti.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "matthew.brost@intel.com" <matthew.brost@intel.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, 
+	"airlied@gmail.com" <airlied@gmail.com>
+Subject: Re: [PATCH v8 00/20] Imagination Technologies PowerVR DRM driver
+Message-ID: <a2eo2cloaiswrujkn6qffswobi2foc5ifuc676jx2k2jyuahgu@meuurfcb4uel>
+References: <20231031151257.90350-1-sarah.walker@imgtec.com>
+ <lg7cdw3qlak74zefbx25f5pnazrburteldueoqz7o7cphydqp7@q56er3qa5muf>
+ <eb0dcfe7a5f4da207bdbbd9630e5d6e5c940dfa5.camel@imgtec.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="r3wyv22s6z5b2f2v"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aa175902-560c-4fad-9e0b-aa4efa0482c2@microchip.com>
+In-Reply-To: <eb0dcfe7a5f4da207bdbbd9630e5d6e5c940dfa5.camel@imgtec.com>
 
-> I understand that you are using two LAN8650, isn't it? if so are they 
-> both running simultaneously? or you are doing the testing with one alone?
 
-Currently we've only got one running, hopefully we've wrapped up the
-board bring up in the next few days and will be able to run the second
-mac/phy as well.
+--r3wyv22s6z5b2f2v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > With this setup I'm getting a maximum throughput of about 90kB/s.
-> > If I increase the chunk size / oa-cps to 64 I get a might higher
-> > throughput ~900kB/s, but after 0-2s I get dump below (or similar).
-> Did you or possible to try a test case with below configuration?
-> 
-> - Single LAN8650 enabled
-> - UDP
-> - oa_cps = 64
-> - spi-max-frequency = 15000000,
+Hi Frank,
 
-I'll set that up and will get back to you, all testing I have performed
-has been with tcp.
+On Wed, Nov 01, 2023 at 10:15:15AM +0000, Frank Binns wrote:
+> Hi Maxime,
+>=20
+> On Tue, 2023-10-31 at 17:31 +0100, Maxime Ripard wrote:
+> > Hi Sarah, Faith, Frank,
+> >=20
+> > On Tue, Oct 31, 2023 at 03:12:37PM +0000, Sarah Walker wrote:
+> > > This patch series adds the initial DRM driver for Imagination Technol=
+ogies PowerVR
+> > > GPUs, starting with those based on our Rogue architecture. It's worth=
+ pointing
+> > > out that this is a new driver, written from the ground up, rather tha=
+n a
+> > > refactored version of our existing downstream driver (pvrsrvkm).
+> > >=20
+> > > This new DRM driver supports:
+> > > - GEM shmem allocations
+> > > - dma-buf / PRIME
+> > > - Per-context userspace managed virtual address space
+> > > - DRM sync objects (binary and timeline)
+> > > - Power management suspend / resume
+> > > - GPU job submission (geometry, fragment, compute, transfer)
+> > > - META firmware processor
+> > > - MIPS firmware processor
+> > > - GPU hang detection and recovery
+> > >=20
+> > > Currently our main focus is on the AXE-1-16M GPU. Testing so far has =
+been done
+> > > using a TI SK-AM62 board (AXE-1-16M GPU). The driver has also been co=
+nfirmed to
+> > > work on the BeaglePlay board. Firmware for the AXE-1-16M can befound =
+here:
+> > > https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/tree/power=
+vr
+> > >=20
+> > > A Vulkan driver that works with our downstream kernel driver has alre=
+ady been
+> > > merged into Mesa [1][2]. Support for this new DRM driver is being mai=
+ntained in
+> > > a merge request [3], with the branch located here:
+> > > https://gitlab.freedesktop.org/frankbinns/mesa/-/tree/powervr-winsys
+> > >=20
+> > > Job stream formats are documented at:
+> > > https://gitlab.freedesktop.org/mesa/mesa/-/blob/f8d2b42ae65c2f16f36a4=
+3e0ae39d288431e4263/src/imagination/csbgen/rogue_kmd_stream.xml
+> > >=20
+> > > The Vulkan driver is progressing towards Vulkan 1.0. The current comb=
+ination of this
+> > > kernel driver with the Mesa Vulkan driver (powervr-mesa-next branch) =
+successfully
+> > > completes Vulkan CTS 1.3.4.1 in our local runs. The driver is expecte=
+d to pass the
+> > > Khronos Conformance Process once the submission is made.
+> > >=20
+> > > The code in this patch series, along with the needed dts changes can =
+be found here:
+> > > https://gitlab.freedesktop.org/sarah-walker-imgtec/powervr/-/tree/dev=
+/v8_dts
+> > > The full development history can be found here:
+> > > https://gitlab.freedesktop.org/frankbinns/powervr/-/tree/powervr-next
+> >=20
+> > Awesome, thanks for sending a new version of that series.
+> >=20
+> > At XDC, we all agreed that we would merge this version if the changes
+> > requested by Faith were fixed, and if the Mesa PR was updated to match
+> > that new kernel series.
+> >=20
+> > Are we there yet?
+>=20
+> We've made all the changes that were requested at XDC. There are a couple=
+ of
+> questions Faith had for me that I still need to respond to. I'll hopefull=
+y be
+> getting to these today.
+>=20
+> The Mesa MR adding support for this kernel driver is all up to date:
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/15507
 
-> 
-> Did you run iperf3 test? or any other tool?
-> If iperf3 then can you share the configuration you used?
+Ok, great :)
 
-I just tried copying a file over the network with rsync, but I'll run some
-udp tests with iperf.
-I'll do my best to get back to you with results today.
+> > If so, Faith, should we add your Reviewed-by/Acked-by tag to the UAPI p=
+atch?
+> >=20
+> > > This patch series has dependencies on a number of patches not yet mer=
+ged. They
+> > > are listed below :
+> > >=20
+> > > drm/sched: Convert drm scheduler to use a work queue rather than kthr=
+ead:
+> > >   https://lore.kernel.org/dri-devel/20230404002211.3611376-2-matthew.=
+brost@intel.com/
+> > > drm/sched: Move schedule policy to scheduler / entity:
+> > >   https://lore.kernel.org/dri-devel/20230404002211.3611376-3-matthew.=
+brost@intel.com/
+> > > drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy:
+> > >   https://lore.kernel.org/dri-devel/20230404002211.3611376-4-matthew.=
+brost@intel.com/
+> > > drm/sched: Start run wq before TDR in drm_sched_start:
+> > >   https://lore.kernel.org/dri-devel/20230404002211.3611376-6-matthew.=
+brost@intel.com/
+> > > drm/sched: Submit job before starting TDR:
+> > >   https://lore.kernel.org/dri-devel/20230404002211.3611376-7-matthew.=
+brost@intel.com/
+> > > drm/sched: Add helper to set TDR timeout:
+> > >   https://lore.kernel.org/dri-devel/20230404002211.3611376-8-matthew.=
+brost@intel.com/
+> >=20
+> > What is the state of those patches? Iirc, we were expecting them to be
+> > merged soon at XDC
+>=20
+> I see there was a new version posted yesterday:
+> https://lists.freedesktop.org/archives/dri-devel/2023-October/428612.html
+>=20
+> It looks pretty close now. We'll rebase our patches so hopefully we have a
+> trivial rebase once they get merged.
 
-> 
-> I don't know whether these may audiences are needed in the CC for this 
-> thread. Let's see what's Andrew Lunn thinks about it?
+It looks like it's been merged last Wednesday, so I guess we can move
+forward on this?
 
-No opinions on my end at least.
+Maxime
 
-BR
-Ramón
+--r3wyv22s6z5b2f2v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUi1SQAKCRDj7w1vZxhR
+xdUsAP4i+05ShczLQ2FI8+SrV8Li2WkzO07REWaHFGt3x7dGewEA7dZ9GE1aIscC
+uvLu+cPb1BHF93SCBChUim7WcipZJgE=
+=OnRV
+-----END PGP SIGNATURE-----
+
+--r3wyv22s6z5b2f2v--
