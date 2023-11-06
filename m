@@ -1,107 +1,114 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857AA1641B
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 10:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D5B17730
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 10:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LW03H6sg"
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0541DB;
-	Mon,  6 Nov 2023 02:12:17 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6bf03b98b9bso4035346b3a.1;
-        Mon, 06 Nov 2023 02:12:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699265537; x=1699870337; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xum/W7MJuOqob9sUjPMH2NvW74OGFL5uRCJzlfRnFqQ=;
-        b=LW03H6sgHkyfpHjAcahw2n3R9t66SsDMV775Kq5wJeNvccD7zee71za9UI47VE6mvD
-         orl0slm6CrCeslY+qy2AiNWyQDLwa6HWOqK6G0oDTbANWqRtqro224hELfVjZhVlPpLx
-         LOvZ7os9K9TxALmvkHH7PJBzpEkbs3wJF5u4q3xV3cQq2ix2+jS8AqMxULZVOZJ0sBku
-         wSMeo7Pe5Cgb3migCRuwbEZi8G3mi5Rpo4sqSVSKm8sBzHUdI434AjAZ0Gje17UGZ9XE
-         wdUDAqTdOUkfsfcz4PXY6FSyqUY5BGHLbtuymmK1SBF34ou1vckp1oZ1pm5fF5k/xoHC
-         9j3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699265537; x=1699870337;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xum/W7MJuOqob9sUjPMH2NvW74OGFL5uRCJzlfRnFqQ=;
-        b=bU2nwtLvjukhLgOseHhjHLAjWVCEnqPGGnkENSarbFCfYzjmiayRV67GKH5WpW+0aZ
-         25G0vlG1jMSBks5hVoOwA+tWHLlvSFmU3HKxGyi+LIMW8ePTpPTDagi1Sj8eX6iBXuzI
-         HHbloofTOhLLL1jgXMCeo8oX/MD5Uwe54lQQPsfb6nCx5diGxf8OP/yiDfOoq9b2do8S
-         +hfhvaFczpLvuhatUDVBIIWgPq5UGoYZ1V5I1bilC6jkHrrr+kxMvzsq7WAj5G0be2jg
-         NuAlGqu9oXAFWnVnHTrxW17TYlngTXn498A5JCeiLmtc/wvr3tMXbp1MqxlEHLt/2hdd
-         C0xQ==
-X-Gm-Message-State: AOJu0YwQhE272Qv+PHowKdTOILpB4Aufsdp1fNuiul+wmLH8A01qSdhW
-	6UXVt/yEscgXRrE/TiCjVRE=
-X-Google-Smtp-Source: AGHT+IELufpf/afAfT2Z7Touti4YQrWwKv1deBMsWqtCBLnXQXbzuPzjEsbciqxS97VmWcBRlb27pA==
-X-Received: by 2002:a05:6a20:9390:b0:159:e4ab:15ce with SMTP id x16-20020a056a20939000b00159e4ab15cemr15313432pzh.15.1699265537393;
-        Mon, 06 Nov 2023 02:12:17 -0800 (PST)
-Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id q4-20020a056a0002a400b006be4bb0d2dcsm5529216pfs.149.2023.11.06.02.12.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 02:12:16 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-	id 8B301803540B; Mon,  6 Nov 2023 17:12:10 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ross Philipson <ross.philipson@oracle.com>,
-	Daniel Kiper <daniel.kiper@oracle.com>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 1/2] Documentation: x86: Indent note directive for protocol version number note
-Date: Mon,  6 Nov 2023 17:12:04 +0700
-Message-ID: <20231106101206.76487-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231106101206.76487-1-bagasdotme@gmail.com>
-References: <20231106101206.76487-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPWl+fsy"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE29A2;
+	Mon,  6 Nov 2023 02:15:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699265709; x=1730801709;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=rl/CQQQAEsiExbTArsSNlwkvoXmROn7Y+a5SKI9y6cY=;
+  b=QPWl+fsyOU8RRjOKMj0yuPyTfKP0EQqQuJtGm/C8nMcnpD/Wv4V0uQ2U
+   ViQPKCoIjwKUDEp6F2XYvHT7CWmiTVH2MGWpdfV3KeEn+HJCjIZJNvDK9
+   +JBrSZpWwdLoHep3hsBWv3efPfwjsibTHjW/bVKcJ9pWbQkUHOtKDwu7Y
+   aDymtxGfjBM7bKQ7tLZ7Y0EN5WWORkZIB9zI8SyZgFNS+F0ah0GT+DSs8
+   j3T2edK1900UINBAOtTSjv1hM8EkTNpfcI76sBAKr40OFBML4dctgrPxj
+   XD/+OleAbf87j2j6YghVYFlydSkEn2oKD8n6yWGI2xZYw99kJ63aFk2CP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="393142060"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="393142060"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 02:15:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797260470"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="797260470"
+Received: from lpilolli-mobl.ger.corp.intel.com (HELO localhost) ([10.252.36.222])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 02:15:05 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Hunter Chasens <hunter.chasens18@ncf.edu>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Lijo Lazar <lijo.lazar@amd.com>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, Linux DRI Development
+ <dri-devel@lists.freedesktop.org>, alexander.deucher@amd.com,
+ evan.quan@amd.com, christian.koenig@amd.com
+Subject: Re: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation warning
+In-Reply-To: <ZUigbshGGc451V5L@debian.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
+ <ZUh2fuCjmgle3vd9@debian.me>
+ <665794d7-38e0-4e74-9af7-eca986792e44@infradead.org>
+ <ZUigbshGGc451V5L@debian.me>
+Date: Mon, 06 Nov 2023 12:15:02 +0200
+Message-ID: <875y2f193t.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1245; i=bagasdotme@gmail.com; h=from:subject; bh=0AsYoOImK8yW9QMJSvMT7LCOsE3kSASqZ9Au0ZMrQ+I=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKkeu/tMQgvmiRbX31xtvJnR69a8J8wL+p2d772ZJldqJ xI55cPNjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEzk1k5GhgkWZya78SyT2Tth xs4iN+3gJd7xlk45q8Mrpvud3hq9KJWRYcN78dxVl7LvnZS7EC2v6mQZwXtQz8tz0wOpTfMZLzl N5wAA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The protocol version number note is between protocol version table and
-memory layout section. As such, Sphinx renders the note directive not
-only on the actual note, but until the end of doc.
+On Mon, 06 Nov 2023, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> On Sun, Nov 05, 2023 at 09:26:26PM -0800, Randy Dunlap wrote:
+>> 
+>> 
+>> On 11/5/23 21:15, Bagas Sanjaya wrote:
+>> > On Sun, Nov 05, 2023 at 04:00:44PM -0500, Hunter Chasens wrote:
+>> >> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>> >> index 517b9fb4624c..703fe2542258 100644
+>> >> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>> >> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>> >> @@ -990,11 +990,14 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
+>> >>   * the power state and the clock information for those levels. If deep sleep is
+>> >>   * applied to a clock, the level will be denoted by a special level 'S:'
+>> >>   * E.g.,
+>> >> - *	S: 19Mhz *
+>> >> - *	0: 615Mhz
+>> >> - *	1: 800Mhz
+>> >> - *	2: 888Mhz
+>> >> - *	3: 1000Mhz
+>> >> + *
+>> >> + * ::
 
-Indent the directive so that only the actual protocol version number
-note is rendered as such.
+The literal block marker :: could be added at the end of the preceding
+paragraph, so it doesn't stand out so much. See [1].
 
-Fixes: 2c33c27fd603 ("x86/boot: Introduce kernel_info")
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/arch/x86/boot.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+BR,
+Jani.
 
-diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
-index f5d2f2414de8b6..22cc7a040dae05 100644
---- a/Documentation/arch/x86/boot.rst
-+++ b/Documentation/arch/x86/boot.rst
-@@ -77,7 +77,7 @@ Protocol 2.14	BURNT BY INCORRECT COMMIT
- Protocol 2.15	(Kernel 5.5) Added the kernel_info and kernel_info.setup_type_max.
- =============	============================================================
- 
--.. note::
-+  .. note::
-      The protocol version number should be changed only if the setup header
-      is changed. There is no need to update the version number if boot_params
-      or kernel_info are changed. Additionally, it is recommended to use
+[1] https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#literal-blocks
+
+>> >> + *
+>> >> + *  S: 19Mhz *
+>> >> + *  0: 615Mhz
+>> >> + *  1: 800Mhz
+>> >> + *  2: 888Mhz
+>> >> + *  3: 1000Mhz
+>> >>   *
+>> >>   *
+>> >>   * To manually adjust these states, first select manual using
+>> > 
+>> > LGTM, thanks!
+>> > 
+>> > Fixes: 615585d09b33 ("Documentation/amdgpu: Modify pp_dpm_*clk details")
+>> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>> > 
+>> 
+>> but can it be done without being so obvious about using Sphinx (or is it ReST?)
+>> in source files?
+>
+> Yes, the comment is included in Documentation/gpu/amdgpu/thermal.rst, so reST
+> syntax applies there.
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Jani Nikula, Intel
