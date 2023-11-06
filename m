@@ -1,49 +1,50 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E6A1641B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C843017730
 	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 10:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eKKInpNX"
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBD1A9;
-	Mon,  6 Nov 2023 02:12:16 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-27d0e3d823fso3076904a91.1;
-        Mon, 06 Nov 2023 02:12:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bLeFYjmx"
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D95DB8;
+	Mon,  6 Nov 2023 02:12:17 -0800 (PST)
+Received: by mail-ot1-x329.google.com with SMTP id 46e09a7af769-6d2fedd836fso2857467a34.1;
+        Mon, 06 Nov 2023 02:12:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1699265536; x=1699870336; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=x1Eb4CFcG9LyCXZVja0bLT9/YYKGtme9c2NcHNtTLNM=;
-        b=eKKInpNXxLwSyptDiXeoA/d8lG8Azlbe5DrFpoZ9K6zxOfqW3UHYicAdaOxyJ/0aHF
-         447coNvlRk9WIm2fPdAHOj+cud5ta55uV01yrVbdk/t/KErJd21xBtyU2OPyY10ozEDl
-         4kXorvhYiWtwqBda6rZ6n10DL8yiMeS/YJxrwAPkfemJTlhzVOszLylV37fZgXjjj+uf
-         jTxj9B1kNiRxe/ds7k86yBluq653cinkSSFOcGlbufZ30GMu48XJzoNgBrfNR8Ex/oLx
-         4qQMBGl7hwbMCGlV/mw7SiD5UF4KOzcNDdG77mLPQbnn2FGlgs+BSXp6E9pNw/JOc3gx
-         aodQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W4r3fxaflm8Rb1r3UO8ZFUzVieAzzOq9dAGwIkPoNP4=;
+        b=bLeFYjmxPXnL3CGCyLjaehGS89KXs2/loHij9r4ozwgnuaFwkiwbijCo3UfvoXnlDE
+         iVdqooJ6DDS1qWEPV1k4KCvkwidbu79riNCNokyXTOE1FznPZ1G9vrEI49Xm61SuDkel
+         /baXxJuH2lLLgB/qzpYPzYV3sQWWPQ/q2qOmCqt4IwXf0XbwXx6fmWY97y/VG7H2J2zC
+         gGgXHcpJGmmwfoQljFp5nPcFtOpbu4DWeBAuJ8sVFZpaD03rbdgmOo1bvKJa9mUigykM
+         zaS6LEtNvADTrKg/dp3yVgJwIPqXgpchu/Ex0cd+A2koKf40VZEXi8w4+J7db4O1Zu77
+         sHAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1699265536; x=1699870336;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x1Eb4CFcG9LyCXZVja0bLT9/YYKGtme9c2NcHNtTLNM=;
-        b=uMbIy6qy4hBtpYf/AhjjH42WqsYk12zPMbAxcPR6qqdYG1HfuklvEqQbIZo6P+da/O
-         +jotlmPAjlV2Wr3IKnrb0g5lFxfE8PEBCXKRyK0qUla7R1GOWCWubEJa5heULgm87DB1
-         +Rf1xrGJTVO/1ujWr1o2Yal28n5thxkMFEyxdT6lUDN0viINU1yHiIFcB8xIRAuJa5oo
-         4YnDNGb/IeW2I5Teu5eRVoGv0Y261BuESxZ/HzS/moKUD+/G7LQKZFu0HRE/gIv32w+P
-         NQlW0Oiq1ELdGtQlq487V0iQAy3Id7MUrN+jTH+LrqTT5AZPUWAx0rJ8bV6XABWcTNYy
-         F4Rw==
-X-Gm-Message-State: AOJu0Yx5TtPkZLbFE5teZ1n4BFtau7ZtFAmGW3ebmMXbp842sXl1qOuX
-	qSIafP2WrViAHmeawVBqohY=
-X-Google-Smtp-Source: AGHT+IGQNoiUnCfGjwXdUlWxqAYwmat1U+sqsjF+Nc2gZDze+QwGS+PwdOrP16gUFZmz3dxfk1wK4w==
-X-Received: by 2002:a17:90a:357:b0:27c:f9e7:30fd with SMTP id 23-20020a17090a035700b0027cf9e730fdmr21616849pjf.7.1699265536275;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W4r3fxaflm8Rb1r3UO8ZFUzVieAzzOq9dAGwIkPoNP4=;
+        b=pXb+6kB2St/8UPTS5x4bNUTaJ5EesJcGtS9v9KkVqbtP536inwATGLCh1YUIQtDl1n
+         9G2uvDHee8eOmXzrBJJbRXuDINyBKealOPN3a2cgqpdZaMNIU7n715sqp+SAe4ycFcEr
+         eNDAzxxEo6dttU+Rlyaqtqdhr9HGlsZRa45eq57k+e6J2hu7In4TIjlpyW72/t/hqsIN
+         ikAEDkxCrregWITqrEWQUAsc8l5bQj1YcJNCwsqtqDbSZdwIMdvmFSFx/n6VoS4kpQCf
+         +0eQLAYC+mqZQL1A54pw/Hvj55gJaIICiv3hQOsjyUg+mZNZM+9z7YEAIUTKtj1hTfHK
+         N6/w==
+X-Gm-Message-State: AOJu0Yxt0kaJleEvqVkQn/ZzADCjevD4lEdgy7W2Z71ixrm5r9G8xJT0
+	DHvWefSEjAB+042wBnc7w04=
+X-Google-Smtp-Source: AGHT+IEG9SVOths7LJ3i0W/+eQV7ES3q00OVVfM8YXr6I9gSd7tf7n2fEHkU1qlVz6xt1wHLyOzQRw==
+X-Received: by 2002:a05:6830:4d8:b0:6b9:6a43:1f7c with SMTP id s24-20020a05683004d800b006b96a431f7cmr28606199otd.26.1699265536451;
         Mon, 06 Nov 2023 02:12:16 -0800 (PST)
 Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id 15-20020a17090a190f00b002802d9d4e96sm5759055pjg.54.2023.11.06.02.12.15
+        by smtp.gmail.com with ESMTPSA id b3-20020a63cf43000000b0056c2f1a2f6bsm5185612pgj.41.2023.11.06.02.12.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 06 Nov 2023 02:12:15 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-	id 5F6A0804FE06; Mon,  6 Nov 2023 17:12:09 +0700 (WIB)
+	id 9E32080FD147; Mon,  6 Nov 2023 17:12:10 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>
@@ -59,39 +60,52 @@ Cc: Thomas Gleixner <tglx@linutronix.de>,
 	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
 	Ard Biesheuvel <ardb@kernel.org>,
 	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 0/2] Documentation: x86: Note fixes for boot protocol doc
-Date: Mon,  6 Nov 2023 17:12:03 +0700
-Message-ID: <20231106101206.76487-1-bagasdotme@gmail.com>
+Subject: [PATCH 2/2] Documentation: x86: Wrap EFI handover deprecation in note block
+Date: Mon,  6 Nov 2023 17:12:05 +0700
+Message-ID: <20231106101206.76487-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231106101206.76487-1-bagasdotme@gmail.com>
+References: <20231106101206.76487-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=772; i=bagasdotme@gmail.com; h=from:subject; bh=rnVwujkPbkHdRjBXslxesHNo1pmoL6QtY0YCVjOyzbQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKkeu1sfLTi+fIFS6M9Vy56dKO3+ErZe47DJ5b0K6n37V 97f0GMf0FHKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJ9Acy/OG+85lfa9bTiI2L HG6vYOrelsPYyHhv/sJFLpu7Wa+z/yhn+J8wvz/wK9fbGe92f03cvJLLpSnnu+Jt9+oUM0GBe// LI9gA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=bagasdotme@gmail.com; h=from:subject; bh=xpTSVbWHAAVOKSR7S+D95bM59pcWw6ryHRaMDExVMuE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKkeu/vs15nunprjf7pgXoLQhjNenApeDwTFtoo87WG6G OosXT+xo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABMxk2L4p8jsO/P7i/XZ1fMd JdqnJEYEh82+m2n3JUymdHdn1OO9kxkZOq5tdul/sGlLB5PQjqwb2gF+u4t4LPw/WbkH5QfnLmv kBwA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-When I was reviewing generated html output of my web font series [1]
-by viewing boot protocol doc (Documentation/output/arch/x86/boot.html),
-I noticed that notes there wasn't right: the first note extended to
-the end of doc; and the last one wasn't marked up as note either.
+EFI handover protocol depreciation note is the only admonition in the
+doc that is written as normal paragraph instead. Use note:: block for
+that purpose.
 
-Let's fix them up.
+Fixes: 8b84769a7a15 ("Documentation/x86, efi/x86: Clarify EFI handover protocol and its requirements")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/arch/x86/boot.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-[1]: https://lore.kernel.org/lkml/20231102120053.30630-1-bagasdotme@gmail.com/
-
-Bagas Sanjaya (2):
-  Documentation: x86: Indent note directive for protocol version number
-    note
-  Documentation: x86: Wrap EFI handover deprecation in note block
-
- Documentation/arch/x86/boot.rst | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-
-base-commit: 77fa2fbe87fc605c4bfa87dff87be9bfded0e9a3
+diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
+index 22cc7a040dae05..67cbb75cea6fdf 100644
+--- a/Documentation/arch/x86/boot.rst
++++ b/Documentation/arch/x86/boot.rst
+@@ -1432,7 +1432,8 @@ The boot loader *must* fill out the following fields in bp::
+ 
+ All other fields should be zero.
+ 
+-NOTE: The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
++.. note::
++      The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+       entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
+       loading protocol (refer to [0] for an example of the bootloader side of
+       this), which removes the need for any knowledge on the part of the EFI
+@@ -1440,4 +1441,4 @@ NOTE: The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+       requirements/limitations regarding the placement of the command line
+       and ramdisk in memory, or the placement of the kernel image itself.
+ 
+-[0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++      [0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
 -- 
 An old man doll... just what I always wanted! - Clara
 
