@@ -1,152 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3652EAFA
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 23:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9C52FE05
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 23:24:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqOYeaGL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E61C2C433C9;
-	Mon,  6 Nov 2023 23:16:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699312572;
-	bh=g7kNIN6Av4zarGbiPnOaX25BkRmH3v9AGZFkhO4WQ24=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RqOYeaGLclbRSlts06nPwlei4nTHn7YZGzOUr0Gq2u2yc+6+a5Se7Cgrz740GPQht
-	 NnRmTFllYEYuE4yXd4dW69VY6Ub9r3zHOQSLdo07mR07b4WhyIQubDO8syL7upsAgh
-	 yf+jl5YowIP+KNR2360zSnfnJ2B4MFgPh1XHefN40BLv46tLBcdJhRa39td56ekhmg
-	 dqSISniTxBsdWI/5bGx+Lyqt1Oic2+3kb2Mo/rZLfpLqEhvqjxcdrve62CggOlQbvh
-	 Ffoi5diXDA5pUVLckgksFRfskrNbdcRArQ7zXzpfXaRj3Op9t9JzuYHH0PvXlGoOh4
-	 HES01+y5A8+pA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Rik van Riel <riel@surriel.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Imran Khan <imran.f.khan@oracle.com>,
-	Leonardo Bras <leobras@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="dfbO0sGa"
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C683C324F
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 15:24:43 -0800 (PST)
+Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-6ce322b62aeso3174343a34.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Nov 2023 15:24:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1699313083; x=1699917883; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WkCaHfeixjvsbU9/HYvSI6qtTRbFXuR0gXBbnJPPGNQ=;
+        b=dfbO0sGa4JTttHk4IZ9ICqrTPrUNPpqIfHQINScp8T+vmhJKaOpx4kjbl7wBjeNGza
+         H23GXpjafzp9/whOSGZvxNCOzgjbyYGOLs1cGZaq0ZoJxL/mmzPKBdHrgC7wwNwFIjuy
+         9ALmWtb41N5AqvtKl/z4v8KyMn8QrHxoCHX6TFlibd2VhvYf29ltHMhR4N7gkrytaW42
+         LiGTifS4N+j7Eql8lYhWCmZgq6cWJG0QLOmwgm97yV4BfSGrXyjni942s3Fadufy+gsb
+         KN/mEdyDPtYBmlqF4b90BjbZMFsRp4DWuPdFHjx3RBMV3mVpNZeccEjfdDUin7XDRdrw
+         McfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699313083; x=1699917883;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WkCaHfeixjvsbU9/HYvSI6qtTRbFXuR0gXBbnJPPGNQ=;
+        b=Mn0oY788QaVl2cd3PxQmx1Kn1AraaUJhH1gEmVx9qqH1dtSZsa8LrL/z9fkc8HQYS0
+         FYWAaHUdp0LqWppuwTpQrSRQT+5SiVie/p+2ztnyqoWQKDPqDqdSNSvFooO2TrOU51CU
+         KCrfgbyuCA8WReVkmKRR72XAI3deYZ5VYUzU3vjdGwzjZc/brFLHbQ8RSBueP0hDDVQy
+         90X4j1+f+QIiZd8qr/RbCPT1rWQz4lgMY6IyTPvnXwiLJADpRTLWY0TtGJ3y3zxO5+oB
+         y6k/7EC+F7OGQHs9ymM1LBBW7MBAmruAsIFvWt1g+iDDqwypns0M5lWMWZ9R6jrPNsIp
+         nx5g==
+X-Gm-Message-State: AOJu0Yz77mu7g/IjONG2GAJwqiNIoOPpv33nnq/XRP1NU/DcSMqU75HC
+	mCeetlKsscXPQJK3zysMCAU+GGkgtSXWvyT2t+zyGw==
+X-Google-Smtp-Source: AGHT+IF8/og5dIycNzK8e9XK0cNUJwSPcyW+Gv0cddk13GTwXNbaarLhy1RvGC1vU82/UZD7JnneRQ==
+X-Received: by 2002:a9d:6b8d:0:b0:6c6:50d0:1104 with SMTP id b13-20020a9d6b8d000000b006c650d01104mr32871637otq.27.1699313083089;
+        Mon, 06 Nov 2023 15:24:43 -0800 (PST)
+Received: from evan.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id f2-20020a9d5e82000000b006d3161e612dsm1422773otl.30.2023.11.06.15.24.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 15:24:42 -0800 (PST)
+From: Evan Green <evan@rivosinc.com>
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sasha Levin <sashal@kernel.org>,
-	tj@kernel.org,
-	rostedt@goodmis.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 08/11] smp,csd: Throw an error if a CSD lock is stuck for too long
-Date: Mon,  6 Nov 2023 18:15:42 -0500
-Message-ID: <20231106231553.3735366-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231106231553.3735366-1-sashal@kernel.org>
-References: <20231106231553.3735366-1-sashal@kernel.org>
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Sunil V L <sunilvl@ventanamicro.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v6] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
+Date: Mon,  6 Nov 2023 15:24:39 -0800
+Message-Id: <20231106232439.3176268-1-evan@rivosinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.61
 Content-Transfer-Encoding: 8bit
 
-From: Rik van Riel <riel@surriel.com>
+In /proc/cpuinfo, most of the information we show for each processor is
+specific to that hart: marchid, mvendorid, mimpid, processor, hart,
+compatible, and the mmu size. But the ISA string gets filtered through a
+lowest common denominator mask, so that if one CPU is missing an ISA
+extension, no CPUs will show it.
 
-[ Upstream commit 94b3f0b5af2c7af69e3d6e0cdd9b0ea535f22186 ]
+Now that we track the ISA extensions for each hart, let's report ISA
+extension info accurately per-hart in /proc/cpuinfo. We cannot change
+the "isa:" line, as usermode may be relying on that line to show only
+the common set of extensions supported across all harts. Add a new "hart
+isa" line instead, which reports the true set of extensions for that
+hart.
 
-The CSD lock seems to get stuck in 2 "modes". When it gets stuck
-temporarily, it usually gets released in a few seconds, and sometimes
-up to one or two minutes.
+Signed-off-by: Evan Green <evan@rivosinc.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-If the CSD lock stays stuck for more than several minutes, it never
-seems to get unstuck, and gradually more and more things in the system
-end up also getting stuck.
-
-In the latter case, we should just give up, so the system can dump out
-a little more information about what went wrong, and, with panic_on_oops
-and a kdump kernel loaded, dump a whole bunch more information about what
-might have gone wrong.  In addition, there is an smp.panic_on_ipistall
-kernel boot parameter that by default retains the old behavior, but when
-set enables the panic after the CSD lock has been stuck for more than
-the specified number of milliseconds, as in 300,000 for five minutes.
-
-[ paulmck: Apply Imran Khan feedback. ]
-[ paulmck: Apply Leonardo Bras feedback. ]
-
-Link: https://lore.kernel.org/lkml/bc7cc8b0-f587-4451-8bcd-0daae627bcc7@paulmck-laptop/
-Signed-off-by: Rik van Riel <riel@surriel.com>
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Reviewed-by: Imran Khan <imran.f.khan@oracle.com>
-Reviewed-by: Leonardo Bras <leobras@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Valentin Schneider <vschneid@redhat.com>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
- kernel/smp.c                                    | 13 ++++++++++++-
- 2 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 31af352b4762d..4ad60e127e048 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5671,6 +5671,13 @@
- 			This feature may be more efficiently disabled
- 			using the csdlock_debug- kernel parameter.
+Changes in v6:
+ - Documention changes (Andrew)
+ - Comment fix
+
+Changes in v5:
+ - Documentation changes (only) (Conor)
+
+Changes in v4:
+ - Documentation: Made the underline match the text line (Conor)
+ - Documentation: hanged "in question" to "being described" (Andrew)
+
+Changes in v3:
+ - Add some documentation (Conor)
+
+Changes in v2:
+ - Added new "hart isa" line rather than altering behavior of existing
+   "isa" line (Conor, Palmer)
+
+ Documentation/riscv/uabi.rst | 20 ++++++++++++++++++++
+ arch/riscv/kernel/cpu.c      | 22 ++++++++++++++++++----
+ 2 files changed, 38 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
+index 8960fac42c40..54d199dce78b 100644
+--- a/Documentation/riscv/uabi.rst
++++ b/Documentation/riscv/uabi.rst
+@@ -42,6 +42,26 @@ An example string following the order is::
  
-+	smp.panic_on_ipistall= [KNL]
-+			If a csd_lock_timeout extends for more than
-+			the specified number of milliseconds, panic the
-+			system.  By default, let CSD-lock acquisition
-+			take as long as they take.  Specifying 300,000
-+			for this value provides a 5-minute timeout.
+    rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+ 
++"isa" and "hart isa" lines in /proc/cpuinfo
++-------------------------------------------
 +
- 	smsc-ircc2.nopnp	[HW] Don't use PNP to discover SMC devices
- 	smsc-ircc2.ircc_cfg=	[HW] Device configuration I/O port
- 	smsc-ircc2.ircc_sir=	[HW] SIR base I/O port
-diff --git a/kernel/smp.c b/kernel/smp.c
-index 06a413987a14a..63e466bb6b03a 100644
---- a/kernel/smp.c
-+++ b/kernel/smp.c
-@@ -185,6 +185,8 @@ static DEFINE_PER_CPU(struct cfd_seq_local, cfd_seq_local);
++The "isa" line in /proc/cpuinfo describes the lowest common denominator of
++RISC-V ISA extensions recognized by the kernel and implemented on all harts. The
++"hart isa" line, in contrast, describes the set of extensions recognized by the
++kernel on the particular hart being described, even if those extensions may not
++be present on all harts in the system.
++
++In both lines, the presence of an extension guarantees only that the hardware
++has the described capability. Additional kernel support or policy changes may be
++required before an extension's capability is fully usable by userspace programs.
++Similarly, for S-mode extensions, presence in one of these lines does not
++guarantee that the kernel is taking advantage of the extension, or that the
++feature will be visible in guest VMs managed by this kernel.
++
++Inversely, the absence of an extension in these lines does not necessarily mean
++the hardware does not support that feature. The running kernel may not recognize
++the extension, or may have deliberately removed it from the listing.
++
+ Misaligned accesses
+ -------------------
  
- static ulong csd_lock_timeout = 5000;  /* CSD lock timeout in milliseconds. */
- module_param(csd_lock_timeout, ulong, 0444);
-+static int panic_on_ipistall;  /* CSD panic timeout in milliseconds, 300000 for five minutes. */
-+module_param(panic_on_ipistall, int, 0444);
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index c17dacb1141c..bcfc0c8dfd01 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -202,9 +202,8 @@ arch_initcall(riscv_cpuinfo_init);
  
- static atomic_t csd_bug_count = ATOMIC_INIT(0);
- static u64 cfd_seq;
-@@ -343,6 +345,7 @@ static bool csd_lock_wait_toolong(struct __call_single_data *csd, u64 ts0, u64 *
- 	}
+ #ifdef CONFIG_PROC_FS
  
- 	ts2 = sched_clock();
-+	/* How long since we last checked for a stuck CSD lock.*/
- 	ts_delta = ts2 - *ts1;
- 	if (likely(ts_delta <= csd_lock_timeout_ns || csd_lock_timeout_ns == 0))
- 		return false;
-@@ -356,9 +359,17 @@ static bool csd_lock_wait_toolong(struct __call_single_data *csd, u64 ts0, u64 *
- 	else
- 		cpux = cpu;
- 	cpu_cur_csd = smp_load_acquire(&per_cpu(cur_csd, cpux)); /* Before func and info. */
-+	/* How long since this CSD lock was stuck. */
-+	ts_delta = ts2 - ts0;
- 	pr_alert("csd: %s non-responsive CSD lock (#%d) on CPU#%d, waiting %llu ns for CPU#%02d %pS(%ps).\n",
--		 firsttime ? "Detected" : "Continued", *bug_id, raw_smp_processor_id(), ts2 - ts0,
-+		 firsttime ? "Detected" : "Continued", *bug_id, raw_smp_processor_id(), ts_delta,
- 		 cpu, csd->func, csd->info);
+-static void print_isa(struct seq_file *f)
++static void print_isa(struct seq_file *f, const unsigned long *isa_bitmap)
+ {
+-	seq_puts(f, "isa\t\t: ");
+ 
+ 	if (IS_ENABLED(CONFIG_32BIT))
+ 		seq_write(f, "rv32", 4);
+@@ -212,7 +211,7 @@ static void print_isa(struct seq_file *f)
+ 		seq_write(f, "rv64", 4);
+ 
+ 	for (int i = 0; i < riscv_isa_ext_count; i++) {
+-		if (!__riscv_isa_extension_available(NULL, riscv_isa_ext[i].id))
++		if (!__riscv_isa_extension_available(isa_bitmap, riscv_isa_ext[i].id))
+ 			continue;
+ 
+ 		/* Only multi-letter extensions are split by underscores */
+@@ -276,7 +275,15 @@ static int c_show(struct seq_file *m, void *v)
+ 
+ 	seq_printf(m, "processor\t: %lu\n", cpu_id);
+ 	seq_printf(m, "hart\t\t: %lu\n", cpuid_to_hartid_map(cpu_id));
+-	print_isa(m);
++
 +	/*
-+	 * If the CSD lock is still stuck after 5 minutes, it is unlikely
-+	 * to become unstuck. Use a signed comparison to avoid triggering
-+	 * on underflows when the TSC is out of sync between sockets.
++	 * For historical raisins, the isa: line is limited to the lowest common
++	 * denominator of extensions supported across all harts. A true list of
++	 * extensions supported on this hart is printed later in the hart isa:
++	 * line.
 +	 */
-+	BUG_ON(panic_on_ipistall > 0 && (s64)ts_delta > ((s64)panic_on_ipistall * NSEC_PER_MSEC));
- 	if (cpu_cur_csd && csd != cpu_cur_csd) {
- 		pr_alert("\tcsd: CSD lock (#%d) handling prior %pS(%ps) request.\n",
- 			 *bug_id, READ_ONCE(per_cpu(cur_csd_func, cpux)),
++	seq_puts(m, "isa\t\t: ");
++	print_isa(m, NULL);
+ 	print_mmu(m);
+ 
+ 	if (acpi_disabled) {
+@@ -292,6 +299,13 @@ static int c_show(struct seq_file *m, void *v)
+ 	seq_printf(m, "mvendorid\t: 0x%lx\n", ci->mvendorid);
+ 	seq_printf(m, "marchid\t\t: 0x%lx\n", ci->marchid);
+ 	seq_printf(m, "mimpid\t\t: 0x%lx\n", ci->mimpid);
++
++	/*
++	 * Print the ISA extensions specific to this hart, which may show
++	 * additional extensions not present across all harts.
++	 */
++	seq_puts(m, "hart isa\t: ");
++	print_isa(m, hart_isa[cpu_id].isa);
+ 	seq_puts(m, "\n");
+ 
+ 	return 0;
 -- 
-2.42.0
+2.34.1
 
