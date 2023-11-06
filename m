@@ -1,75 +1,142 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971271F95A
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 14:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5DA19BA3;
+	Mon,  6 Nov 2023 14:44:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSEMZMdR"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE1EEA
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 06:38:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699281536; x=1730817536;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1Ot3WdSD2mkHdTPn3QIAbdK31967nIHgi9zTSCewLSM=;
-  b=KSEMZMdRBqLixS7RCEdh7tkEGTxmXcLYkVVkZOYRtLxBNLtpTIPTyTrT
-   RyQPIazQZiHNAj23B/qRXs+VC30BTNdsoK2LGE7Nz0CTYaMze0qbWgzdQ
-   4Sn/n2GBUf0pkaebmNBUfmI85jQFSAMFLJP7COjoKTtrDrVJTSA05jvwa
-   MziPKL7iI0C/8Ax44WG19MosRsUsOwhE8o63WKPx/sjgYPqr6Q4fdVau8
-   wcKZF4XB6KELVupgOlrmzY8kYgdyCs4P5JyCgrT9dgIAaY2oxfYjfqXMq
-   yXBvW+IQMugGrp+n2EjddP3HOz1oMisTcu9BsF2FByWjB11cuFhvHNFig
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="420398411"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="420398411"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 06:38:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="791481559"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="791481559"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 06 Nov 2023 06:38:52 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r00kc-0006TY-1l;
-	Mon, 06 Nov 2023 14:38:50 +0000
-Date: Mon, 6 Nov 2023 22:38:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
-	Anshuman Gupta <anshuman.gupta@intel.com>,
-	linux-doc@vger.kernel.org
-Subject: [drm-xe:drm-xe-next 1891/1906] htmldocs: Warning:
- /sys/devices/.../hwmon/hwmon<i>/power1_max_interval is defined 2 times:
-  ./Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:30
-  ./Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:62
-Message-ID: <202311062247.EgHSZqD3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjUNNP4G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED10C433C9;
+	Mon,  6 Nov 2023 14:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699281885;
+	bh=7L3lZ+M6F/MppCLKLJ3iMRw+h1ZtHpfsvkLcJii+LsA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IjUNNP4Gt06LniIuHdfYaXlzq3i4Mb37385CLH7PiVnaf2MlUqv+G6hRGDzHdKoz+
+	 3yg6gp2iA0AFuSRNn7q8XfR7NmNdW/QdgR0a5nuJIlsG8NMxHBKwUfKIZAudcsf3kb
+	 Phvbgfu25RYjdyIO0n9+MTPoVRiorHVNHmBax6VRf/xevRbD8jbaN0BVMpsd9uB24z
+	 GHHcG5Aic/vRwhRKGO5V8r/w6fQGW/H8tThg5HmEbU3y6gJXeHyuyk6OpW3UjZqOPx
+	 +bHa05Lpel4pt+oBEc8YJ+XFxEqUWFaxmTty2qkUhjb83HSh6MPYjA7S4XMgqmrFiC
+	 +zaoNzXbBLahQ==
+Date: Mon, 6 Nov 2023 15:44:43 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH RFC v3 12/37] drm/connector: hdmi: Create Infoframe
+ DebugFS entries
+Message-ID: <fks4th6oyzpvq2hljbpt4kac5yph6lgsevslpcxrukqcxynugu@nje5bxbqxi26>
+References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
+ <20231031-kms-hdmi-connector-state-v3-12-328b0fae43a7@kernel.org>
+ <806f2ad3-c80b-41e5-9388-f1af7bace8e3@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iqczjmp6rdkak4lg"
+Content-Disposition: inline
+In-Reply-To: <806f2ad3-c80b-41e5-9388-f1af7bace8e3@xs4all.nl>
+
+
+--iqczjmp6rdkak4lg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   fc457bcc18109467961edc92c80b238009f6a9fb
-commit: 76bba03c4f90371e7b2da536b966a49c68d589b0 [1891/1906] drm/xe/hwmon: Expose power1_max_interval
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311062247.EgHSZqD3-lkp@intel.com/reproduce)
+Hi Hans,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311062247.EgHSZqD3-lkp@intel.com/
+On Fri, Nov 03, 2023 at 10:05:18AM +0100, Hans Verkuil wrote:
+> Hi Maxime,
+>=20
+> Thank you for posting v3, this time it runs fine on my RPi 4, thank you f=
+or
+> fixing that.
+>=20
+> I'll start working on a conformity checker for this.
 
-All warnings (new ones prefixed by >>):
+Awesome :)
 
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_max_interval is defined 2 times:  ./Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:30  ./Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:62
+> > +static int create_hdmi_infoframe_files(struct drm_connector *connector,
+> > +				       struct dentry *parent)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret =3D CREATE_HDMI_INFOFRAME_FILE(connector, parent, audio);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret =3D CREATE_HDMI_INFOFRAME_FILE(connector, parent, avi);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret =3D CREATE_HDMI_INFOFRAME_FILE(connector, parent, drm);
+>=20
+> Hmm, I had to look into the code to figure out that 'drm' stands for
+> Dynamic Range and Mastering InfoFrame. While entirely correct, it is
+> also very confusing in the context of the 'drm' subsystem.
+>=20
+> I am not quite certain what the best approach is here.
+>=20
+> Internally in the drm code it is talking about 'hdr' or 'hdr metadata',
+> but that's a bit confusing as well since there is also an HDR Dynamic
+> Metadata Extended InfoFrame defined in CTA-861, even though support for
+> that is not (yet) implemented in drm.
+>=20
+> At minimum there should be a comment in the code explaining what drm
+> stands for in this context.
+>=20
+> One option to consider is renaming this file to hdr_drm, thus indicating
+> that this is HDR related.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I ended up doing both, thanks for the suggestion
+
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret =3D CREATE_HDMI_INFOFRAME_FILE(connector, parent, spd);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret =3D CREATE_HDMI_INFOFRAME_FILE(connector, parent, vendor);
+>=20
+> There may be multiple vendor specific InfoFrames in the future, so how
+> would that be handled? Perhaps add a comment here that currently only one
+> vendor specific InfoFrame is supported, but suggest how to handle multiple
+> VSIFs in the future.
+>=20
+> What would actually be nice (although probably not that easy to fix) is if
+> the name of the file would be "vendor-XXXXXX' where 'XXXXXX' is the IEEE =
+OUI
+> number.
+
+I guess it's not entirely clear to me what that would look like. In
+order for the framework to create the debugfs files, we would need some
+enumeration mechanism (probably through a callback?), and then the
+driver would generate the entire content of that file.
+
+Which makes me question whether the framework should be initialised at
+all? Maybe the simpler would be to just have drivers maintain their own
+debugfs files and storing the content in their own, private, structure.
+
+Maxime
+
+--iqczjmp6rdkak4lg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUj72wAKCRDj7w1vZxhR
+xfojAP95jr0AZ4P/3Y/Vc2+1qdxUbHRPfB06V4FUfB1vOsUxEQD+IT5SF4zDLWqj
+FlE+HCqFEp49j6+Zd9e2tvMQ73psaAw=
+=G/8d
+-----END PGP SIGNATURE-----
+
+--iqczjmp6rdkak4lg--
