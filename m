@@ -1,104 +1,99 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768B428ED
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 05:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0D441C
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 06:02:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eRcSAPgh"
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A914EF5;
-	Sun,  5 Nov 2023 21:26:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=zasn4w0oFWumSsqCqP28MJ/uPlB0cSsr7K9bf/OVxqY=; b=eRcSAPghQurk40C3TGIMY4j69Y
-	4Pi1KCpZsK8FUtXRJzZrqZqhaGQTCMmnPvHt7yf1SIBQGmaIHvw/3b3OG6tloG+7KxYwZw5e64w43
-	Ucwd+8TWrzmoY2zVW5Za9kZ/SnJyr/GxpuEOSao0SnwPjkG+SuEpRvMO/VGpWcKudcHkwnjSzGUJQ
-	r8OWlfaYTI1juyHZF1+5L1ps5p+N+8E80SUfDBpNC2SwVEdHSTRuQ+rZT8q3OpTjOQZycGCxzVj/S
-	dW39s1M5goCXED/9TUyown7DWb+MzxF9Y0mn7r9kJvPThVrbnY9MUAXrd88iu546OBAafJ7G/K5su
-	dmuWKKKQ==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qzs83-00Ft8t-2N;
-	Mon, 06 Nov 2023 05:26:27 +0000
-Message-ID: <665794d7-38e0-4e74-9af7-eca986792e44@infradead.org>
-Date: Sun, 5 Nov 2023 21:26:26 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZSDZG2/"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524A4FA
+	for <linux-doc@vger.kernel.org>; Sun,  5 Nov 2023 22:02:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699250546; x=1730786546;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2IvIeBHCR4DRJTRxP2mOe7CLG5lPikuBzxiufFck0/4=;
+  b=nZSDZG2/VVUnE2RBFxm0hBsFklqYcD+zuZjU8fHkld2Ep/PpUJNZQzan
+   AG8aqrLmH8UnJfxJFi/qGzkYtMdlTfiUmL9CSFNjXjylruPgRzSBbDpEv
+   XyrniC7KR/OB4Zss31RDhsVyrnPCl4qECax3SpTry/XAcyolVddMnLLoJ
+   gKKORHNE1lnN1fxUKTNdsn3O/JnIwQo0EIMtfsXgw6gs/1cDNwky3x75G
+   WX/rNylHTovp8+MKuEoMcY8XVIMUMZm00zZNgqeuXYGQicgJDhVc+Pte+
+   xWuAtQIrpBUjn95n8ILfKPR4AJQKQG80BAJfqLb3twhbfDVovjM/CtiQ8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455697633"
+X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
+   d="scan'208";a="455697633"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 22:02:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
+   d="scan'208";a="3516889"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2023 22:02:23 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzsgm-0006Aa-2k;
+	Mon, 06 Nov 2023 06:02:20 +0000
+Date: Mon, 6 Nov 2023 14:00:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [asahilinux:bits/090-spi-hid 13/21]
+ drivers/hid/hid-magicmouse.c:575: warning: This comment starts with '/**',
+ but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202311061305.pqAoqR6N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation
- warning
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Hunter Chasens <hunter.chasens18@ncf.edu>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- Xinhui.Pan@amd.com, christian.koenig@amd.com, alexander.deucher@amd.com,
- evan.quan@amd.com, Lijo Lazar <lijo.lazar@amd.com>
-References: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
- <ZUh2fuCjmgle3vd9@debian.me>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZUh2fuCjmgle3vd9@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   aefaf432ff80e54092c35dcba09404239f181de6
+commit: c45d7d45dd2ec956e9fc4b5fc3c88d43fd638eb9 [13/21] hid: magicmouse: Add MTP multi-touch device support
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311061305.pqAoqR6N-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061305.pqAoqR6N-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311061305.pqAoqR6N-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'pos' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'hdev' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'work' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'battery_timer' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'input_ops' not described in 'magicmouse_sc'
+>> drivers/hid/hid-magicmouse.c:575: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * vendor trackpad report
+   drivers/hid/hid-magicmouse.c:589: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * standard HID mouse report
 
 
+vim +575 drivers/hid/hid-magicmouse.c
 
-On 11/5/23 21:15, Bagas Sanjaya wrote:
-> On Sun, Nov 05, 2023 at 04:00:44PM -0500, Hunter Chasens wrote:
->> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> index 517b9fb4624c..703fe2542258 100644
->> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> @@ -990,11 +990,14 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
->>   * the power state and the clock information for those levels. If deep sleep is
->>   * applied to a clock, the level will be denoted by a special level 'S:'
->>   * E.g.,
->> - *	S: 19Mhz *
->> - *	0: 615Mhz
->> - *	1: 800Mhz
->> - *	2: 888Mhz
->> - *	3: 1000Mhz
->> + *
->> + * ::
->> + *
->> + *  S: 19Mhz *
->> + *  0: 615Mhz
->> + *  1: 800Mhz
->> + *  2: 888Mhz
->> + *  3: 1000Mhz
->>   *
->>   *
->>   * To manually adjust these states, first select manual using
-> 
-> LGTM, thanks!
-> 
-> Fixes: 615585d09b33 ("Documentation/amdgpu: Modify pp_dpm_*clk details")
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> 
-
-but can it be done without being so obvious about using Sphinx (or is it ReST?)
-in source files?
-
-e.g.: (not tested)
-
- * E.g.:
- * *	S: 19Mhz *
- * *	0: 615Mhz
- * *	1: 800Mhz
- * *	2: 888Mhz
- * *	3: 1000Mhz
-
-This is what I have seen done in quite a few source files.
-
-Oh well, lots of files are already infected, so WTH. :(
+   573	
+   574	/**
+ > 575	 * vendor trackpad report
+   576	 *
+   577	 * @num_fingers:	the number of fingers being reported in @fingers
+   578	 * @buttons:		same as HID buttons
+   579	 */
+   580	struct tp_header {
+   581		// HID vendor part, up to 1751 bytes
+   582		u8 unknown[22];
+   583		u8 num_fingers;
+   584		u8 buttons;
+   585		u8 unknown3[14];
+   586	};
+   587	
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
