@@ -1,136 +1,92 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6112529CF7
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 20:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA8033CF
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 21:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HopfvrxU"
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA235103
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 12:58:21 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9de7a43bd1aso347151666b.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Nov 2023 12:58:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699304300; x=1699909100; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZKl8aQiZoT5/Gc1O1HhE3ZzebbwHEfVwbiUJglhZ9UY=;
-        b=HopfvrxUiCnKmh2fP7nl/m5Qjja2uu99EeINNRlzIMJd6oD0+P/rwjX7Zlx/gt7up0
-         mV/2blsThcByk50uDc1/Uzr1zSaih7FS66WBE2OZvMIeuGJXdRMW0vjBVfv9UDQxzhnv
-         229//6BJatA6JpTCoWIFm1J7iJ3Ulh/ArZwAumKpJCxK4lswmJwnEOC5hMq9u6zKsJrw
-         02n7qfpy5nrVkzjPr1Dyy5aGOYp8+wPin0RpxLEIGx+1eBsHpJMOE52N7DQl2gyUQRUY
-         PSPIUsizmdyVQCf4tmpwch7+fovEdo3v9xWqqMFWmqQcLC4LRuX+54wEbhajGxF5tHV+
-         9omg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699304300; x=1699909100;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZKl8aQiZoT5/Gc1O1HhE3ZzebbwHEfVwbiUJglhZ9UY=;
-        b=YAyMzB6BjmOV6JbE8mbQVyHSyf5j857IIa9tA80qpFh32on2bde4ELl2698WyL7bTR
-         M9WZPYFnbUE2VIL5spq5WHdtJ9D2ZGkm3mHvK61Y/bBpE+3/q10WsqMLL72lepFntlJU
-         27mK45jcNc5svZOl8sJkQKqbX1HKQxEH26PcInF5mDL462eAfZEERGjb5DemTIaraib8
-         Iqa3IC3nh1xTbKCwjJpSNV0oDB6PXsTfilOHcuALuW3anag7oQpd7Rxq2CWGxHtl9TwM
-         fpLALUElkF1WTpPqvVMHqfYqqBWdyo4IQdYCFvlr58F8aVyMw0+naBvQ/lp/oaRgR0TM
-         p00w==
-X-Gm-Message-State: AOJu0YwwYeV+xBjMOybDcz9JiXnT3Qunaps68ht2MFqbT0+xiEPps5+U
-	RV1534e5CKKnmw/LrZBc5NsFyQzq5jWtTdM1NkPn7g==
-X-Google-Smtp-Source: AGHT+IFrCXffedtA3mNIcSD9CL5cZrq9gg6yV7X2n90hA137Lzb005Ix2ogp4oXgiw+o+Nq7W19r1UCfCcsA5LCR+3Y=
-X-Received: by 2002:a17:906:da87:b0:9b7:37de:601a with SMTP id
- xh7-20020a170906da8700b009b737de601amr15301903ejb.49.1699304299984; Mon, 06
- Nov 2023 12:58:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sKhhISRq"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F2B198B;
+	Mon,  6 Nov 2023 13:08:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=WcTGKRC8aIgIPpHyxt4LGmD5l1aKIH7ouZAiNt82fgg=; b=sKhhISRqy1vGsTBa4cQkabNGwK
+	Y80kTBPUORC6EOmzuclu5twI3w3XcUEWwHMohljLxE2+7JhgtQ8o9m2vAYgUCGK6NHR5niwvmST52
+	nSj634WUPTTp89u40iIyu3dIUDdKwFHmQJiBeut3uhCoiYEczGA51DKix2AFnRmMRIJsAbwDQwn0Z
+	Aq9VxikIu0Gbef2njHB/Fjc0In45vDqJYFzTy5dQQkyvRvkaImhOsLod4iM0wWGjxGIqSLfhhkDtO
+	hJ3LoY07io4PiRJcq9lQMo1HRc4BG6/2P0EqRn9gW9eN2liJNTwR3ylCzASH6Cm5MECpygt0eqVy8
+	EcAohGXg==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1r06pj-00HZGK-1n;
+	Mon, 06 Nov 2023 21:08:31 +0000
+Message-ID: <aa6b416d-08a4-4f8e-8ab6-f8bf489876d0@infradead.org>
+Date: Mon, 6 Nov 2023 13:08:31 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106183159.3562879-1-nphamcs@gmail.com> <20231106183159.3562879-4-nphamcs@gmail.com>
- <CAJD7tkYcEc03d+6kwkXu8M_fd9ZDzh6B5G+VjmFXx+H09mhfmg@mail.gmail.com> <CAKEwX=PU3z7CseAZHE6v-q_yKQn0PtZqtfsfyKy5KOJpnNiE9Q@mail.gmail.com>
-In-Reply-To: <CAKEwX=PU3z7CseAZHE6v-q_yKQn0PtZqtfsfyKy5KOJpnNiE9Q@mail.gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Mon, 6 Nov 2023 12:57:44 -0800
-Message-ID: <CAJD7tkY+qdYytVKUjdgPypZthWA57gVKuEtjowuVPMpcOmpdLQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] zswap: make shrinking memcg-aware
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm: amd: Resolve Sphinx unexpected indentation
+ warning
+Content-Language: en-US
+To: Hunter Chasens <hunter.chasens18@ncf.edu>, linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> >
-> > This lock is only needed to synchronize updating pool->next_shrink,
-> > right? Can we just use atomic operations instead? (e.g. cmpxchg()).
->
-> I'm not entirely sure. I think in the pool destroy path, we have to also
-> put the next_shrink memcg, so there's that.
 
-We can use xchg() to replace it with NULL, then put the memcg ref, no?
 
-We can also just hold zswap_pools_lock while shrinking the memcg
-perhaps? It's not a contended lock anyway. It just feels weird to add
-a spinlock to protect one pointer.
+On 11/6/23 12:17, Hunter Chasens wrote:
+> Resolves Sphinx unexpected indentation warning when compiling
+> documentation (e.g. `make htmldocs`). Replaces tabs with spaces and adds
+> a literal block to keep vertical formatting of the
+> example power state list.
+> 
+> Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
 
->
-> >
-> > > +               if (pool->next_shrink == memcg)
-> > > +                       pool->next_shrink =
-> > > +                               mem_cgroup_iter(NULL, pool->next_shrink, NULL, true);
-> > > +               spin_unlock(&pool->next_shrink_lock);
-> > > +       }
-> > > +       spin_unlock(&zswap_pools_lock);
-> > > +}
-> > > +
-> > >  /*********************************
-> > >  * zswap entry functions
-> > >  **********************************/
-> > >  static struct kmem_cache *zswap_entry_cache;
-> > >
-> > > -static struct zswap_entry *zswap_entry_cache_alloc(gfp_t gfp)
-> > > +static struct zswap_entry *zswap_entry_cache_alloc(gfp_t gfp, int nid)
-> > >  {
-> > >         struct zswap_entry *entry;
-> > > -       entry = kmem_cache_alloc(zswap_entry_cache, gfp);
-> > > +       entry = kmem_cache_alloc_node(zswap_entry_cache, gfp, nid);
-> > >         if (!entry)
-> > >                 return NULL;
-> > >         entry->refcount = 1;
-> > [..]
-> > > @@ -1233,15 +1369,15 @@ bool zswap_store(struct folio *folio)
-> > >                 zswap_invalidate_entry(tree, dupentry);
-> > >         }
-> > >         spin_unlock(&tree->lock);
-> > > -
-> > > -       /*
-> > > -        * XXX: zswap reclaim does not work with cgroups yet. Without a
-> > > -        * cgroup-aware entry LRU, we will push out entries system-wide based on
-> > > -        * local cgroup limits.
-> > > -        */
-> > >         objcg = get_obj_cgroup_from_folio(folio);
-> > > -       if (objcg && !obj_cgroup_may_zswap(objcg))
-> > > -               goto reject;
-> > > +       if (objcg && !obj_cgroup_may_zswap(objcg)) {
-> > > +               memcg = get_mem_cgroup_from_objcg(objcg);
-> > > +               if (shrink_memcg(memcg)) {
-> > > +                       mem_cgroup_put(memcg);
-> > > +                       goto reject;
-> > > +               }
-> > > +               mem_cgroup_put(memcg);
-> >
-> > Can we just use RCU here as well? (same around memcg_list_lru_alloc()
-> > call below).
->
-> For memcg_list_lru_alloc(): there's potentially sleeping in that piece of
-> code I believe? I believe at the very least we'll have to use this gfp_t
-> flag for it to be rcu-safe:
->
-> GFP_KERNEL | __GFP_NORETRY | __GFP_NOMEMALLOC | __GFP_NOWARN
-> not sure the
->
-> Same go for this particular place IIRC - there's some sleeping done
-> in zswap_writeback_entry(), correct?
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Ah right, I missed this. My bad.
+Thanks.
+
+> ---
+>  drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> index 517b9fb4624c..81b8ceb26890 100644
+> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
+>   * Reading back the files will show you the available power levels within
+>   * the power state and the clock information for those levels. If deep sleep is
+>   * applied to a clock, the level will be denoted by a special level 'S:'
+> - * E.g.,
+> - *	S: 19Mhz *
+> - *	0: 615Mhz
+> - *	1: 800Mhz
+> - *	2: 888Mhz
+> - *	3: 1000Mhz
+> + * E.g.::
+> + *
+> + *  S: 19Mhz *
+> + *  0: 615Mhz
+> + *  1: 800Mhz
+> + *  2: 888Mhz
+> + *  3: 1000Mhz
+>   *
+>   *
+>   * To manually adjust these states, first select manual using
+
+-- 
+~Randy
