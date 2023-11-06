@@ -1,63 +1,63 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1848615AE
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 04:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432E22F27
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 05:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4CnkeUT"
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF9B4DB;
-	Sun,  5 Nov 2023 20:46:14 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6b1e46ca282so4402954b3a.2;
-        Sun, 05 Nov 2023 20:46:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CTPn6r+8"
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09B95F2;
+	Sun,  5 Nov 2023 21:15:51 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6bf03b98b9bso3879918b3a.1;
+        Sun, 05 Nov 2023 21:15:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699245974; x=1699850774; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1699247750; x=1699852550; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=32YDJ9UCxSqwPmBexBFw6Ms3U4O90iERTciee1S7uFw=;
-        b=m4CnkeUTkGzbP0q5uBPryJt6YmKBZ/Ev61svjdIkgxlG9T14neWUixSw33rtcVNObv
-         nomZzq7VADIwPPxI7xXJbPkJV8qcWnEP0CT2Qg97xF0aA1ZBdE4xGem1PX6UHo983SXz
-         la2XyGvPLdZwLLK0+7eS3cqnRjor3agMEB4opVf6vLcNKTVaZE+zPpiPP0Fi9Ox9vjid
-         vAfa2r91pW3GMX3BmGN9lwCqetwsxH99bGNSj34ey9o2hosA9+jGTaeyYegLk/dXvmW4
-         prMqWyHDnwXCTgq59aZS6NAlehYzi3bQrib4cfkwIEJeyCECqyWuc7DmLJY6nyGw6JF/
-         +lkQ==
+        bh=wJQuj+yw5AtCsm3Nh3eaEJ8IPjFc0cjx5pVXpkaybko=;
+        b=CTPn6r+8XnED3e4e/nXoq46KC4uGTNB8b7Zy0rSkcHmgSWteG8jk9zVyG9rwgFBqM8
+         eY0atvtFauJVBOFf66xWKo94KQZG53Z/q+M91KAiI7KGOmdJmlGXTeG//bbd6TXjau9W
+         kGGgDObMwXXNs0+Mh3EEtx3q3HhqPdEYXsYf+I0uHOgKzVNLAHZWXhgrQ8VYM480ILMM
+         pr0NM5OINkOiN+7cvwUawdzL+ap9J2tKqH4ef893pV4eFl0/wV6WL8Bcf2jy/kCCNkuP
+         kaIkYzUKQwB7X2wByAZYHTrxgY3QKKuI89bPpmSoEFXeb9DDOnwXnwJP7nT3JM3tDPnz
+         2L7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699245974; x=1699850774;
+        d=1e100.net; s=20230601; t=1699247750; x=1699852550;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=32YDJ9UCxSqwPmBexBFw6Ms3U4O90iERTciee1S7uFw=;
-        b=LlXBaCs8CEpeifBZqdvJi6WxV6yhj7Hqw5BmU1wjSklmVjEVR0xpi790STNtXg9eSh
-         lLG4Bwu9IuTMslWV83OttW2TVJtIVVQsTFtDe4sa710wOP4oj/Vuy61B/S21IwLn/wl/
-         PADYoRnQqtemD/CrXGkTXFlEki/5UmdREesaiMNTU5Jj4bzho0Of+huLEouBum2Pne3K
-         7zCisAYY8erdY9k3NMQFMs2CQVZnTnUe1J6IEZMvOHSGTOj3ijnoZqolPd6eNywQbQBt
-         VjbV205qZY8T0JZUA/SgMIp7rp6pqTNxGkqbgPqH9awFiZi2FmoePyJGcijfhr+X60zr
-         KEtg==
-X-Gm-Message-State: AOJu0Yz/cjKOuHr9/hS+kPw+noeYPRJ4Aiw7967PgqMrqcZB4QBV3WbC
-	kUD/8h/6VD8cPdHmYZRRlHM=
-X-Google-Smtp-Source: AGHT+IFfATC9E2EJdl6t/GNI8B9ZZ98HIGEZfXC9l8qyYKjBLF3c0dva0LIDFn/gFjZSeVYYioBINw==
-X-Received: by 2002:a05:6a20:144f:b0:13c:ca8b:7e29 with SMTP id a15-20020a056a20144f00b0013cca8b7e29mr35142833pzi.12.1699245974114;
-        Sun, 05 Nov 2023 20:46:14 -0800 (PST)
+        bh=wJQuj+yw5AtCsm3Nh3eaEJ8IPjFc0cjx5pVXpkaybko=;
+        b=wEYq52iTSCt7ET9yDaz4AuPEKJbPCLmv9DiePhlgo7QvLhhI6jcXMVY/BSnwhK2gpt
+         e15cSJvYEZDCApBcpos2e2KL9rKhU9wcUHgIugHvgo0Rh0cWyzS97d70L2KGdX3uZXvX
+         9F2H6Ekm1/L4u4/YtVdUXxOOGNr37cKlXyUvrHYkqGZx8kqn30hADUY4SRkFtilmzWSE
+         pPN7A2EAxgys+qaQ7SA4oU5lyi1SF9xSBuPfcsbfycqsGPsP47V/KPyQnZSnsoDg83oD
+         BpJc/QZtrMz/xflgaXhAVpWEe3rT2ccO9oN/veXYaU8a5BIqF4u7Ofj9zxv4j62WbDda
+         8RSQ==
+X-Gm-Message-State: AOJu0Yz8RLfuJmO87LrN0/ZyjptZe+gIQ0Wdweyrxg3JOUOfsYgoDQJ1
+	14IOJmU8UiiJErBRdo0GYtk=
+X-Google-Smtp-Source: AGHT+IFJnPm4yurMc99aQj3qffQVoJNmBJcK7sbQ+SdUH+x3YGKqHbHy1aOCEnKMvznjVmoguV3Pzw==
+X-Received: by 2002:a05:6a20:2587:b0:181:a5ff:2dfa with SMTP id k7-20020a056a20258700b00181a5ff2dfamr11831872pzd.5.1699247750411;
+        Sun, 05 Nov 2023 21:15:50 -0800 (PST)
 Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id s18-20020a17090330d200b001c627413e87sm4887823plc.290.2023.11.05.20.46.12
+        by smtp.gmail.com with ESMTPSA id s133-20020a632c8b000000b005ab281d0777sm4748640pgs.20.2023.11.05.21.15.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Nov 2023 20:46:13 -0800 (PST)
+        Sun, 05 Nov 2023 21:15:49 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-	id 3EB5A822370C; Mon,  6 Nov 2023 11:46:07 +0700 (WIB)
-Date: Mon, 6 Nov 2023 11:46:07 +0700
+	id EE5B1822370C; Mon,  6 Nov 2023 12:15:43 +0700 (WIB)
+Date: Mon, 6 Nov 2023 12:15:42 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Hunter Chasens <hunter.chasens18@ncf.edu>, corbet@lwn.net,
-	Jani Nikula <jani.nikula@intel.com>,
-	Luca Coelho <luciano.coelho@intel.com>
-Cc: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de,
-	dri-devel@lists.freedesktop.org,
-	Linux Documentation <linux-doc@vger.kernel.org>,
+To: Hunter Chasens <hunter.chasens18@ncf.edu>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] docs: gpu: rfc: i915_scheduler.rst remove unused
- directives for namespacing
-Message-ID: <ZUhvj2uj_PvaDxIM@debian.me>
-References: <20231104134708.69432-1-hunter.chasens18@ncf.edu>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	amd-gfx@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+	Xinhui.Pan@amd.com, christian.koenig@amd.com,
+	alexander.deucher@amd.com, evan.quan@amd.com,
+	Lijo Lazar <lijo.lazar@amd.com>
+Subject: Re: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation
+ warning
+Message-ID: <ZUh2fuCjmgle3vd9@debian.me>
+References: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,55 +65,62 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6Wwjq5qJEKQkV4NO"
+	protocol="application/pgp-signature"; boundary="Z3YYlR3KMg8w41Vy"
 Content-Disposition: inline
-In-Reply-To: <20231104134708.69432-1-hunter.chasens18@ncf.edu>
+In-Reply-To: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
 
 
---6Wwjq5qJEKQkV4NO
+--Z3YYlR3KMg8w41Vy
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 04, 2023 at 09:47:08AM -0400, Hunter Chasens wrote:
-> diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu=
-/rfc/i915_scheduler.rst
-> index c237ebc024cd..23ba7006929b 100644
-> --- a/Documentation/gpu/rfc/i915_scheduler.rst
-> +++ b/Documentation/gpu/rfc/i915_scheduler.rst
-> @@ -135,13 +135,9 @@ Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
->  drm_i915_context_engines_parallel_submit to the uAPI to implement this
->  extension.
-> =20
-> -.. c:namespace-push:: rfc
-> -
->  .. kernel-doc:: include/uapi/drm/i915_drm.h
->          :functions: i915_context_engines_parallel_submit
-> =20
-> -.. c:namespace-pop::
-> -
->  Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
->  -------------------------------------------------------------------
->  Contexts that have been configured with the 'set_parallel' extension can=
- only
+On Sun, Nov 05, 2023 at 04:00:44PM -0500, Hunter Chasens wrote:
+> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/=
+amdgpu_pm.c
+> index 517b9fb4624c..703fe2542258 100644
+> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> @@ -990,11 +990,14 @@ static ssize_t amdgpu_get_pp_features(struct device=
+ *dev,
+>   * the power state and the clock information for those levels. If deep s=
+leep is
+>   * applied to a clock, the level will be denoted by a special level 'S:'
+>   * E.g.,
+> - *	S: 19Mhz *
+> - *	0: 615Mhz
+> - *	1: 800Mhz
+> - *	2: 888Mhz
+> - *	3: 1000Mhz
+> + *
+> + * ::
+> + *
+> + *  S: 19Mhz *
+> + *  0: 615Mhz
+> + *  1: 800Mhz
+> + *  2: 888Mhz
+> + *  3: 1000Mhz
+>   *
+>   *
+>   * To manually adjust these states, first select manual using
 
-The warnings go away, thanks!
+LGTM, thanks!
 
-Fixes: f6757dfcfde7 ("drm/doc: fix duplicate declaration warning")
+Fixes: 615585d09b33 ("Documentation/amdgpu: Modify pp_dpm_*clk details")
 Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---6Wwjq5qJEKQkV4NO
+--Z3YYlR3KMg8w41Vy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUhviAAKCRD2uYlJVVFO
-ozwWAP4tUvIkF1gh+MbNCqESi7gLMuWjBdyWuZTEHcgyN3SBywEAkiw5LRZhtw7s
-X12IB03vD5Sr1fxvaXjdv9YYpRrjywQ=
-=MAkp
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUh2dgAKCRD2uYlJVVFO
+o8u3AP9EGukcdCE9j7syJTFV3j9ZJFi0tBknTBxXtF86voVT7QEA7mRPIMBMAUYJ
+/kqkXet60szZtgn55HRclmw6vzSt9g4=
+=qHmW
 -----END PGP SIGNATURE-----
 
---6Wwjq5qJEKQkV4NO--
+--Z3YYlR3KMg8w41Vy--
