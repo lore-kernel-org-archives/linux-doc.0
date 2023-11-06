@@ -1,236 +1,189 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C2729CE3
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 16:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F408E2D02B;
+	Mon,  6 Nov 2023 18:32:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="okLAZE14"
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64BE125
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 08:57:18 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cc938f9612so25741455ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Nov 2023 08:57:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aW3nFXg7"
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5124FD49;
+	Mon,  6 Nov 2023 10:32:01 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1cc330e8f58so33580215ad.3;
+        Mon, 06 Nov 2023 10:32:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1699289838; x=1699894638; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IAtu3+SFzwI9m4YrirdXu7GL4DTW+zbFpK/FdXlvvTM=;
-        b=okLAZE14Q17zvqYCXVvx1dSJC6m0z7c37uMiiQw5rHgjqfEfbOx708/hJnHzQIBwC8
-         fuD9eyj3kOwBcpDeN42DYyQWfZRuy/dmBeyMM2P4SlNPlpzEuxNfYypLmDlLuEZLs02A
-         0SPErTGLVU2Pwvqqt0QHBAB2jDFmbWaWTl8ZuAa3VNNn780n+HHEBYioV2l4TLBlIAPP
-         64DNmQCIFDJ3WL9jTCVSIMEpqdTer24pc6gPaL+h9ePD2Vzr8qX6Zp68IQDCDPhmGacn
-         RDAKRoomzIn6Rj17aXrqPmBP4eicLZn/UTwZ155kg2txCcPGKT0JbO9+JLUJrns6lmry
-         o5iQ==
+        d=gmail.com; s=20230601; t=1699295521; x=1699900321; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RolW8kmfT6ZCz66bTNAjEmvRmOGj5ZqsnmWESYphJzc=;
+        b=aW3nFXg7W2ZCtG249zntt53EABbUFmLyOWq1xU3YFouZ+/cjAdLhr3/TTUPVBx5/QE
+         vFG7MiqiBvCrCmGhOP7d/e1oee+2R9nIXMAGq8KrsbdXGWeUQ5OWBQqGooMocH3ewtOq
+         pa1COWQj1ODDIzu8V8enTiFwh9cFHi0jwlHoamhT2icH7jwyvZ1lw72i0wuSe+oC7VEH
+         5Ui3ip+lF23Y1Kxm3L597x3atJq8yucY9lBWceTDWVDHkVT0dOqh16oM97a5AOAsHIjN
+         +I8O7UVcaOq/yTnRDjm0Ec+64+AQKAqtTHRqiRA350kPj8fgjieu7H6wjnPICBMLcidu
+         55Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699289838; x=1699894638;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IAtu3+SFzwI9m4YrirdXu7GL4DTW+zbFpK/FdXlvvTM=;
-        b=strG9rJYy3RNPcffhf+E0w2zFkdLwZfp/WrMxiHpStr/sjTFTOH3dgh846k6TJBjYs
-         FxUP5oO4pXcC3Fe53eOCN1+5M875xIIencJujQIX8r8As0VjcEetzZ8x3wSMOMpEcSlQ
-         lb808z+7MPf4wB8VSDkEFRAP7ir2mi1PS8ZTj99nrFBSF+YakCs8FgS6zS5vgthA27S/
-         Mj1BOTl1kE717YDQS8lSm40AoVFuOm5aMhY1PeUs8/zSyLVztkdT84f9YrwvlorgoGH6
-         xssbHh3pJSYZdzV7xFqhLFF9T9fnTRWlOUUHXxTCfEMuBI58c2tq63+caV44Y7ODZ9vL
-         8yYA==
-X-Gm-Message-State: AOJu0Yxh6i65O4o5AF4agL0yl5Cuw84z/cUzmXrp4NT1yiH9C6RWre29
-	Iy5EVLUHxVRLy/ExxQnWdcUPRg==
-X-Google-Smtp-Source: AGHT+IHtAosg/LkVtTBD2+bok4iEa94l++tqcHBvY/TX+5grNORG+M8J7zu3HhDUry5UXuPwJwM/mA==
-X-Received: by 2002:a17:902:cf46:b0:1cc:6cc3:d9ba with SMTP id e6-20020a170902cf4600b001cc6cc3d9bamr13895878plg.4.1699289838227;
-        Mon, 06 Nov 2023 08:57:18 -0800 (PST)
-Received: from ?IPV6:2a03:83e0:1256:2:c51:2090:e106:83fa? ([2620:10d:c090:500::7:3f3c])
-        by smtp.gmail.com with ESMTPSA id a6-20020a170902ee8600b001c0a4146961sm6139074pld.19.2023.11.06.08.57.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Nov 2023 08:57:17 -0800 (PST)
-Message-ID: <9ee972b4-b3ff-4201-b22e-c76080cb8f6e@davidwei.uk>
-Date: Mon, 6 Nov 2023 08:57:15 -0800
+        d=1e100.net; s=20230601; t=1699295521; x=1699900321;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RolW8kmfT6ZCz66bTNAjEmvRmOGj5ZqsnmWESYphJzc=;
+        b=Cpgl65TuxkHH+srSegdn4W5l8ycTCaEdUy1xqdklQeQ9wrTZ7g5Dix9ox6eY1Ak4+M
+         to7GO07XTQhWFocXHvdPrGdhndu7jo2Kz0RfysQmxufukfvC9lCOI91J8IbynGVq4YdD
+         VbRKTTQPNO6d6Q17YUjLFGhHS5pV2tkAQwC/9vMbURMQ1E8eLL2ffhyjcfZm9VHIuLf7
+         zKOHbZHxyVcbHZErbaN01aa0sHbcxZqXX0ypcvierhtgV11hnVAgCIDOobuPElbKyG5d
+         wEbFnGUJEd/v9lN6bobD/cwRD6mwm2MKsayt+f1zMjUxyu9hzgYDJHRKAPUKUDZdY1jy
+         xrlQ==
+X-Gm-Message-State: AOJu0YwRal6Q7FKoLcb8NGpW9LH4Nu+OwU28al+WVp11rHYBpMEX+AU5
+	gKWjo3tedJhUZuz0gtAuOOc=
+X-Google-Smtp-Source: AGHT+IGdvV5WuqZ+RWDIMrRsDenhCX5seXleE023kFPddMhxXei7cSUD1PW2U+fLmxlxyMLTKt2JeQ==
+X-Received: by 2002:a17:903:2013:b0:1cc:251c:c381 with SMTP id s19-20020a170903201300b001cc251cc381mr19680064pla.29.1699295520329;
+        Mon, 06 Nov 2023 10:32:00 -0800 (PST)
+Received: from localhost (fwdproxy-prn-020.fbsv.net. [2a03:2880:ff:14::face:b00c])
+        by smtp.gmail.com with ESMTPSA id u14-20020a170902e5ce00b001c9b35287aesm6213048plf.88.2023.11.06.10.31.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 10:31:59 -0800 (PST)
+From: Nhat Pham <nphamcs@gmail.com>
+To: akpm@linux-foundation.org
+Cc: hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com,
+	yosryahmed@google.com,
+	sjenning@redhat.com,
+	ddstreet@ieee.org,
+	vitaly.wool@konsulko.com,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	chrisl@kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	shuah@kernel.org
+Subject: [PATCH v5 0/6] workload-specific and memory pressure-driven zswap writeback
+Date: Mon,  6 Nov 2023 10:31:53 -0800
+Message-Id: <20231106183159.3562879-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC Draft net-next] docs: netdev: add section on using lei to
- manage netdev mail volume
-Content-Language: en-GB
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, pabeni@redhat.com,
- davem@davemloft.net, corbet@lwn.net, edumazet@google.com
-References: <20231105185014.2523447-1-dw@davidwei.uk>
- <8205a0ba-aeef-4ab6-80cc-87848903f541@kernel.org>
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <8205a0ba-aeef-4ab6-80cc-87848903f541@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 2023-11-06 03:24, Matthieu Baerts wrote:
-> Hi David,
-> 
-> On 05/11/2023 19:50, David Wei wrote:
->> As a beginner to netdev I found the volume of mail to be overwhelming. I only
->> want to focus on core netdev changes and ignore most driver changes. I found a
->> way to do this using lei, filtering the mailing list using lore's query
->> language and writing the results into an IMAP server.
-> 
-> I agree that the volume of mail is too high with a variety of subjects.
-> That's why it is very important to CC the right people (as mentioned by
-> Patchwork [1] ;) )
-> 
-> [1]
-> https://patchwork.kernel.org/project/netdevbpf/patch/20231105185014.2523447-1-dw@davidwei.uk/
+Changelog:
+v5:
+   * Replace reference getting with an rcu_read_lock() section for
+     zswap lru modifications (suggested by Yosry)
+   * Add a new prep patch that allows mem_cgroup_iter() to return
+     online cgroup.
+   * Add a callback that updates pool->next_shrink when the cgroup is
+     offlined (suggested by Yosry Ahmed, Johannes Weiner)
+v4:
+   * Rename list_lru_add to list_lru_add_obj and __list_lru_add to
+     list_lru_add (patch 1) (suggested by Johannes Weiner and
+	 Yosry Ahmed)
+   * Some cleanups on the memcg aware LRU patch (patch 2)
+     (suggested by Yosry Ahmed)
+   * Use event interface for the new per-cgroup writeback counters.
+     (patch 3) (suggested by Yosry Ahmed)
+   * Abstract zswap's lruvec states and handling into 
+     zswap_lruvec_state (patch 5) (suggested by Yosry Ahmed)
+v3:
+   * Add a patch to export per-cgroup zswap writeback counters
+   * Add a patch to update zswap's kselftest
+   * Separate the new list_lru functions into its own prep patch
+   * Do not start from the top of the hierarchy when encounter a memcg
+     that is not online for the global limit zswap writeback (patch 2)
+     (suggested by Yosry Ahmed)
+   * Do not remove the swap entry from list_lru in
+     __read_swapcache_async() (patch 2) (suggested by Yosry Ahmed)
+   * Removed a redundant zswap pool getting (patch 2)
+     (reported by Ryan Roberts)
+   * Use atomic for the nr_zswap_protected (instead of lruvec's lock)
+     (patch 5) (suggested by Yosry Ahmed)
+   * Remove the per-cgroup zswap shrinker knob (patch 5)
+     (suggested by Yosry Ahmed)
+v2:
+   * Fix loongarch compiler errors
+   * Use pool stats instead of memcg stats when !CONFIG_MEMCG_KEM
 
-Sorry and noted, I've now CC'd maintainers mentioned by Patchwork.
+There are currently several issues with zswap writeback:
 
-> 
->> This patch is an RFC draft of updating the maintainer-netdev documentation with
->> this information in the hope of helping out others in the future.
-> 
-> Note that I'm also using lei to filter emails, e.g. to be notified when
-> someone sends a patch modifying this maintainer-netdev.rst file! [2]
-> 
-> But I don't think this issue of "busy mailing list" is specific to
-> netdev. It seems that "lei" is already mentioned in another part of the
-> doc [3]. Maybe this part can be improved? Or the netdev doc could add a
-> reference to the existing part?
+1. There is only a single global LRU for zswap, making it impossible to
+   perform worload-specific shrinking - an memcg under memory pressure
+   cannot determine which pages in the pool it owns, and often ends up
+   writing pages from other memcgs. This issue has been previously
+   observed in practice and mitigated by simply disabling
+   memcg-initiated shrinking:
 
-I think "busy mailing list" is especially bad for netdev. There are many
-tutorials for setting up lei, but my ideal goal is a copy + paste
-command specifically for netdev that outputs into an IMAP server for
-beginners to use. As opposed to writing something more generic.
+   https://lore.kernel.org/all/20230530232435.3097106-1-nphamcs@gmail.com/T/#u
 
-> 
-> (Maybe such info should be present elsewhere, e.g. on vger [4] or lore)
-> 
-> [2]
-> https://lore.kernel.org/netdev/?q=%28dfn%3ADocumentation%2Fnetworking%2Fnetdev-FAQ.rst+OR+dfn%3ADocumentation%2Fprocess%2Fmaintainer-netdev.rst%29+AND+rt%3A1.month.ago..
-> [3]
-> https://docs.kernel.org/maintainer/feature-and-driver-maintainers.html#mailing-list-participation
+   But this solution leaves a lot to be desired, as we still do not
+   have an avenue for an memcg to free up its own memory locked up in
+   the zswap pool.
 
-This document is aimed at kernel maintainers. My concern is that
-beginners would not find or read this document.
+2. We only shrink the zswap pool when the user-defined limit is hit.
+   This means that if we set the limit too high, cold data that are
+   unlikely to be used again will reside in the pool, wasting precious
+   memory. It is hard to predict how much zswap space will be needed
+   ahead of time, as this depends on the workload (specifically, on
+   factors such as memory access patterns and compressibility of the
+   memory pages).
 
-> [4] http://vger.kernel.org/vger-lists.html
+This patch series solves these issues by separating the global zswap
+LRU into per-memcg and per-NUMA LRUs, and performs workload-specific
+(i.e memcg- and NUMA-aware) zswap writeback under memory pressure. The
+new shrinker does not have any parameter that must be tuned by the
+user, and can be opted in or out on a per-memcg basis.
 
-It would be nice to add a link in the netdev list "Info" section. Do you
-know how to update it?
+As a proof of concept, we ran the following synthetic benchmark:
+build the linux kernel in a memory-limited cgroup, and allocate some
+cold data in tmpfs to see if the shrinker could write them out and
+improved the overall performance. Depending on the amount of cold data
+generated, we observe from 14% to 35% reduction in kernel CPU time used
+in the kernel builds.
 
-How about keeping a netdev specific sample lei query in
-maintainer-netdev and refer to it from [4]?
+Domenico Cerasuolo (3):
+  zswap: make shrinking memcg-aware
+  mm: memcg: add per-memcg zswap writeback stat
+  selftests: cgroup: update per-memcg zswap writeback selftest
 
-> 
-> (Note: regarding the commit message here, each line should be limited to
-> max 72 chars ideally)
+Nhat Pham (3):
+  list_lru: allows explicit memcg and NUMA node selection
+  memcontrol: allows mem_cgroup_iter() to check for onlineness
+  zswap: shrinks zswap pool based on memory pressure
 
-Apologies, I may not have line wrap set up properly in my editor.
+ Documentation/admin-guide/mm/zswap.rst      |   7 +
+ drivers/android/binder_alloc.c              |   5 +-
+ fs/dcache.c                                 |   8 +-
+ fs/gfs2/quota.c                             |   6 +-
+ fs/inode.c                                  |   4 +-
+ fs/nfs/nfs42xattr.c                         |   8 +-
+ fs/nfsd/filecache.c                         |   4 +-
+ fs/xfs/xfs_buf.c                            |   6 +-
+ fs/xfs/xfs_dquot.c                          |   2 +-
+ fs/xfs/xfs_qm.c                             |   2 +-
+ include/linux/list_lru.h                    |  46 ++-
+ include/linux/memcontrol.h                  |   9 +-
+ include/linux/mmzone.h                      |   2 +
+ include/linux/vm_event_item.h               |   1 +
+ include/linux/zswap.h                       |  27 +-
+ mm/list_lru.c                               |  48 ++-
+ mm/memcontrol.c                             |  20 +-
+ mm/mmzone.c                                 |   1 +
+ mm/shrinker.c                               |   4 +-
+ mm/swap.h                                   |   3 +-
+ mm/swap_state.c                             |  26 +-
+ mm/vmscan.c                                 |  26 +-
+ mm/vmstat.c                                 |   1 +
+ mm/workingset.c                             |   4 +-
+ mm/zswap.c                                  | 430 +++++++++++++++++---
+ tools/testing/selftests/cgroup/test_zswap.c |  74 ++--
+ 26 files changed, 625 insertions(+), 149 deletions(-)
 
-> 
->> Signed-off-by: David Wei <dw@davidwei.uk>
->> ---
->>  Documentation/process/maintainer-netdev.rst | 39 +++++++++++++++++++++
->>  1 file changed, 39 insertions(+)
->>
->> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
->> index 7feacc20835e..93851783de6f 100644
->> --- a/Documentation/process/maintainer-netdev.rst
->> +++ b/Documentation/process/maintainer-netdev.rst
->> @@ -33,6 +33,45 @@ Aside from subsystems like those mentioned above, all network-related
->>  Linux development (i.e. RFC, review, comments, etc.) takes place on
->>  netdev.
->>  
->> +Managing emails
->> +~~~~~~~~~~~~~~~
->> +
->> +netdev is a busy mailing list with on average over 200 emails received per day,
->> +which can be overwhelming to beginners. Rather than subscribing to the entire
->> +list, considering using ``lei`` to only subscribe to topics that you are
->> +interested in. Konstantin Ryabitsev wrote excellent tutorials on using ``lei``:
->> +
->> + - https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started
->> + - https://people.kernel.org/monsieuricon/lore-lei-part-2-now-with-imap
->> +
->> +As a netdev beginner, you may want to filter out driver changes and only focus
->> +on core netdev changes. Try using the following query with ``lei q``::
->> +
->> +  lei q -o ~/Mail/netdev \
->> +    -I https://lore.kernel.org/all \
->> +    -t '(b:b/net/* AND tc:netdev@vger.kernel.org AND rt:2.week.ago..'
-> 
-> Small optimisations:
-> 
-> - you can remove tc:netdev@vger.kernel.org and modify the '-I' to
-> restrict to netdev instead of querying 'all': -I
-> https://lore.kernel.org/netdev/
-
-Thank you, this is great.
-
-> 
-> - In theory, 'dfn:' should help you to match a filename being modified.
-> But in your case, 'net' is too generic, and I don't think we can specify
-> "starting with 'net'". You can still omit some results after [5] but the
-> syntax doesn't look better :)
-> 
->   dfn:net AND NOT dfn:drivers/net AND NOT dfn:selftests/net AND NOT
-> dfn:tools/net AND rt:2.week.ago..
-
-I initially went with this as well, but found it tedious to add many AND
-NOT statements. My metric was number of emails filtered and matching
-using b:b/net/* produced the least number of emails :)
-
-It would be ideal if we could express dfn:^net/*. I contacted the public
-inbox folks and they said it is not supported :(
-
-> 
-> [5]
-> https://lore.kernel.org/netdev/?q=dfn%3Anet+AND+NOT+dfn%3Adrivers%2Fnet+AND+NOT+dfn%3Aselftests%2Fnet+AND+NOT+dfn%3Atools%2Fnet+AND+rt%3A2.week.ago..
-> 
->> +This query will only match threads containing messages with patches that modify
->> +files in ``net/*``. For more information on the query language, see:
->> +
->> +  https://lore.kernel.org/linux-btrfs/_/text/help/
-> 
-> (if this is specific to 'netdev', best to use '/netdev/', not
-> '/linux-btrfs/')
-
-Thank you, will fix this.
-
-> 
->> +By default ``lei`` will output to a Maildir, but it also supports Mbox and IMAP
->> +by adding a prefix to the output directory ``-o``. For a list of supported
->> +formats and prefix strings, see:
->> +
->> +  https://www.mankier.com/1/lei-q
-> 
-> Maybe safer to point to the official doc?
-> 
-> https://public-inbox.org/lei-q.html
-> 
-> (or 'man lei-q')
-
-Thanks, official manpages are best.
-
-> 
->> +If you would like to use IMAP, Konstantin’s blog is slightly outdated and you
->> +no longer need to use here strings i.e. ``<<<`` or ``<<EOF``.
-> 
-> I think we can still use them. In the part 1, they are not used. Maybe
-> best to contact Konstantin to update his blog post instead of mentioning
-> in the doc that the blog post is outdated?
-
-You're right, I've emailed Konstantin.
-
-> 
->> You can simply
->> +point lei at an IMAP server e.g. ``imaps://imap.gmail.com``::
-> 
-> In Konstantin's blog post, he mentioned different servers with different
-> specificities. Maybe easier to just point to that instead of taking one
-> example without more explanations?
-
-Will do!
-
-> 
-> Cheers,
-> Matt
+-- 
+2.34.1
