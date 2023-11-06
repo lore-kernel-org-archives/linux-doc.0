@@ -1,39 +1,32 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8A928DCF
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 19:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3F814F9B
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 19:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQSbzzqE"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3690F98;
-	Mon,  6 Nov 2023 11:41:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699299692; x=1730835692;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=/ApfnDGctoPRAAUz0Kk3TUlchg/jcOFSHz85tJuZkgQ=;
-  b=iQSbzzqExDIWIJ+5moHdjFlXNT2PSeWgndQxNYMjMiH5utSwZPnOgdCe
-   1obNPwOkUl0J4q4Dgf/q9FoEOne6lp/ahToz7xY43CTcBk1erUXp0Be+a
-   /sTklisw+sCb1LkwDLKntfxTrRbb6/h7ErPy/hQUqzLpjm6RgWTFQL9yB
-   bIgAgFKEXafgHdNWW6ef5CeJkMlcO2l+vvUUWX1AC5lzrE6VFdoB3qfiJ
-   Y91O09XCfmORNb66cwUAGUk5Pj//Kej7y24bXLDxijXJWKrkBriJiPgyL
-   Qk+K91rUItVHYRiwG077LxmILxgLbaLTvBW5b0lOqfsFYjIdMyuQ3WpXE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="393246961"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="393246961"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 11:41:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="3556452"
-Received: from lpilolli-mobl.ger.corp.intel.com (HELO localhost) ([10.252.36.222])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 11:41:29 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Hunter Chasens <hunter.chasens18@ncf.edu>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, corbet@lwn.net, Luca Coelho
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sqN1m8v5"
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C9195;
+	Mon,  6 Nov 2023 11:49:07 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 025052E6;
+	Mon,  6 Nov 2023 19:49:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 025052E6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1699300146; bh=zEQVt6vSfkbE0VtgX8L2A0cLeymcuJsbgzk3kYbgEQ8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=sqN1m8v5uKefgXcVoXs3nzfjFsozgjlQGI2hzYaua1W6UJVYUtoQEMdxWgad9d91C
+	 /Yv54Dus92LipnX/lwyNTjkywG2SImP5uNDW9l6xSGnpYPfZ5F8woJIIdWP0l8CXtc
+	 1jmumAStJiBZfW/uV4BsQuJmzVDRieW054jp1so/livXVp+giY73x/CpypszRdDOrN
+	 YpD1Tes3NCUEjT6HaHFgKopNcqLbIVK+V/N21u+usK4ZYqL1YvUBzJIIdsw0QIZaMH
+	 dIBynHFbcRBeJ0FbH9uiUtBUVifi2bfrcyiCWdFiYc+Q1+F402Ahs8Vuzgkx9rWSvQ
+	 IMldVcCvKLncg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jani Nikula <jani.nikula@intel.com>, Hunter Chasens
+ <hunter.chasens18@ncf.edu>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Luca Coelho
  <luciano.coelho@intel.com>, airlied@gmail.com, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, dri-devel@lists.freedesktop.org, Linux Documentation
@@ -41,139 +34,45 @@ Cc: Bagas Sanjaya <bagasdotme@gmail.com>, corbet@lwn.net, Luca Coelho
  <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v1] docs: gpu: rfc: i915_scheduler.rst remove unused
  directives for namespacing
-In-Reply-To: <CAFJe6O1oJnQvLVSJZP6MMXULGrX=a3SEO1X5b4xff06WhqLw_g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <87edh2zn2y.fsf@intel.com>
 References: <20231104134708.69432-1-hunter.chasens18@ncf.edu>
  <ZUhvj2uj_PvaDxIM@debian.me> <8734xj18ck.fsf@intel.com>
  <CAFJe6O1oJnQvLVSJZP6MMXULGrX=a3SEO1X5b4xff06WhqLw_g@mail.gmail.com>
-Date: Mon, 06 Nov 2023 21:41:25 +0200
-Message-ID: <87edh2zn2y.fsf@intel.com>
+ <87edh2zn2y.fsf@intel.com>
+Date: Mon, 06 Nov 2023 12:49:05 -0700
+Message-ID: <871qd24q8e.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, 06 Nov 2023, Hunter Chasens <hunter.chasens18@ncf.edu> wrote:
-> When running `make htmldocs` the following warnings are given.
+Jani Nikula <jani.nikula@intel.com> writes:
+
+> Looks like this is because namespacing was introduced in Sphinx 3.1
+> [1]. With earlier Sphinx, you get a warning about the namespace
+> directives.
 >
-> ```
-> Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING:
-> Unknown directive type "c:namespace-push".
+> However, with newer Sphinx, you get the warning mentioned in commit
+> f6757dfcfde7 ("drm/doc: fix duplicate declaration warning") if you
+> remove the namespace directives:
 >
-> .. c:namespace-push:: rfc
-> Documentation/gpu/rfc/i915_scheduler.rst:143: WARNING:
-> Unknown directive type "c:namespace-pop".
+> linux/Documentation/gpu/driver-uapi.rst:2279: WARNING: Duplicate C declaration, also defined at rfc/i915_scheduler:3.
+> Declaration is '.. c:struct:: i915_context_engines_parallel_submit'.
 >
-> .. c:namespace-pop::
-> ```
->
-> The kernel test robot also reported it here.
-> Link: https://lore.kernel.org/all/202311061623.86pTQrie-lkp@intel.com/
->
-> Last year Maryam Tahhan <mtahhan@redhat.com> from Redhat noticed something
-> similar. "The missing support of c:namespace-push:: and c:namespace-pop::
-> directives by helper scripts for kernel documentation prevents using the
-> ``c:function::`` directive with proper namespacing." From the context, it
-> sounds like this was brought about from a Sphinx update.
->
-> Link: https://lore.kernel.org/all/20221123092321.88558-3-mtahhan@redhat.c=
-om/
->
-> When compiled the `.. kernel-doc::` literal gives it the same formatting =
-with
-> or without the namespace directives present. Due to the above information=
- I
-> think it safe to remove these, as they don't seem to do anything but
-> throw warnings.
+> It would be short-sighted to just remove the directives. Sooner or later
+> we're gong to bump the (IMO extremely conservative) minimum version
+> requirement.
 
-Not so fast!
+I'd say let's just do that once the merge window is done.  A year ago
+(in 31abfdda6527) I added a warning for <2.4.x, so raising the minimum
+that far would appear to require no thought.  Going up to 3.1 is a step
+beyond that, though, not sure if we want to go that far.
 
-Looks like this is because namespacing was introduced in Sphinx 3.1
-[1]. With earlier Sphinx, you get a warning about the namespace
-directives.
+Something to ask at the LPC session next week.
 
-However, with newer Sphinx, you get the warning mentioned in commit
-f6757dfcfde7 ("drm/doc: fix duplicate declaration warning") if you
-remove the namespace directives:
+Thanks,
 
-linux/Documentation/gpu/driver-uapi.rst:2279: WARNING: Duplicate C declarat=
-ion, also defined at rfc/i915_scheduler:3.
-Declaration is '.. c:struct:: i915_context_engines_parallel_submit'.
-
-It would be short-sighted to just remove the directives. Sooner or later
-we're gong to bump the (IMO extremely conservative) minimum version
-requirement.
-
-
-BR,
-Jani.
-
-
-[1] https://www.sphinx-doc.org/en/master/usage/domains/c.html#namespacing
-
-
->
-> On Mon, Nov 6, 2023 at 5:31=E2=80=AFAM Jani Nikula <jani.nikula@intel.com=
-> wrote:
->>
->> On Mon, 06 Nov 2023, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->> > On Sat, Nov 04, 2023 at 09:47:08AM -0400, Hunter Chasens wrote:
->> >> diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation=
-/gpu/rfc/i915_scheduler.rst
->> >> index c237ebc024cd..23ba7006929b 100644
->> >> --- a/Documentation/gpu/rfc/i915_scheduler.rst
->> >> +++ b/Documentation/gpu/rfc/i915_scheduler.rst
->> >> @@ -135,13 +135,9 @@ Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
->> >>  drm_i915_context_engines_parallel_submit to the uAPI to implement th=
-is
->> >>  extension.
->> >>
->> >> -.. c:namespace-push:: rfc
->> >> -
->> >>  .. kernel-doc:: include/uapi/drm/i915_drm.h
->> >>          :functions: i915_context_engines_parallel_submit
->> >>
->> >> -.. c:namespace-pop::
->> >> -
->>
->> What makes the namespacing unnecessary?
->>
->> $ git grep '.. kernel-doc:: include/uapi/drm/i915_drm.h'
->> Documentation/gpu/driver-uapi.rst:.. kernel-doc:: include/uapi/drm/i915_=
-drm.h
->> Documentation/gpu/rfc/i915_scheduler.rst:.. kernel-doc:: include/uapi/dr=
-m/i915_drm.h
->>
->> And you get [1] and [2].
->>
->> >>  Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
->> >>  -------------------------------------------------------------------
->> >>  Contexts that have been configured with the 'set_parallel' extension=
- can only
->> >
->> > The warnings go away, thanks!
->>
->> What warnings go away?
->>
->> BR,
->> Jani.
->>
->>
->> [1] https://docs.kernel.org/gpu/driver-uapi.html#c.i915_context_engines_=
-parallel_submit
->> [2] https://docs.kernel.org/gpu/rfc/i915_scheduler.html#c.rfc.i915_conte=
-xt_engines_parallel_submit
->>
->> >
->> > Fixes: f6757dfcfde7 ("drm/doc: fix duplicate declaration warning")
->> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->>
->> --
->> Jani Nikula, Intel
-
---=20
-Jani Nikula, Intel
+jon
