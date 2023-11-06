@@ -1,113 +1,104 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208FF8F65
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 05:23:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768B428ED
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 05:26:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LROM2r5h"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5DACF5;
-	Sun,  5 Nov 2023 21:23:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699248236; x=1730784236;
-  h=from:to:cc:subject:date:message-id;
-  bh=fdAGOdpA2R6+OC+nPs2Nw5XTCnL/xZ9metm1cqBG68U=;
-  b=LROM2r5hg0zRVCKLQVgOopDWATD+X4r37hAM+M19ei0Nou65qmuXvGVa
-   fjAOVw1s38pqcybjDGYjXZsv9lLYGn9mFeRXsHXGAlWSzTJYbt85v27pn
-   7OVzR1SUrGMUx2IAl/XVWExXOjh2qz2EVaascZFsN3LABlzbszjAEteBI
-   gD1uU1PPi54tW0nvK3ebcZEWqKGh8/rsV0Lb9BJV/e4nbOEMtVQQD+0Ns
-   8Vkp1RO8l2k80okyLjlmX3xD7phHITpn5qzbgCQ/K56Q5/t6/eG8OGtGh
-   /yJJgk6mH6BmnkuXsO7dK7q0t/Ij1+oGSa+orrbP51X+ylkwCa/mhRVFx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455692972"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="455692972"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 21:23:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="10340714"
-Received: from yzhao56-desk.sh.intel.com ([10.239.159.62])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 21:23:53 -0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	x86@kernel.org
-Cc: dave.hansen@linux.intel.com,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	hpa@zytor.com,
-	corbet@lwn.net,
-	mcgrof@suse.com,
-	andriy.shevchenko@intel.com,
-	kai.huang@intel.com,
-	Yan Zhao <yan.y.zhao@intel.com>,
-	Sean Christopherson <seanjc@google.com>
-Subject: [PATCH] Documentation: x86: Correct effective memory type for MTRR=WC and PAT=UC-
-Date: Mon,  6 Nov 2023 12:53:56 +0800
-Message-Id: <20231106045356.5856-1-yan.y.zhao@intel.com>
-X-Mailer: git-send-email 2.17.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eRcSAPgh"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A914EF5;
+	Sun,  5 Nov 2023 21:26:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=zasn4w0oFWumSsqCqP28MJ/uPlB0cSsr7K9bf/OVxqY=; b=eRcSAPghQurk40C3TGIMY4j69Y
+	4Pi1KCpZsK8FUtXRJzZrqZqhaGQTCMmnPvHt7yf1SIBQGmaIHvw/3b3OG6tloG+7KxYwZw5e64w43
+	Ucwd+8TWrzmoY2zVW5Za9kZ/SnJyr/GxpuEOSao0SnwPjkG+SuEpRvMO/VGpWcKudcHkwnjSzGUJQ
+	r8OWlfaYTI1juyHZF1+5L1ps5p+N+8E80SUfDBpNC2SwVEdHSTRuQ+rZT8q3OpTjOQZycGCxzVj/S
+	dW39s1M5goCXED/9TUyown7DWb+MzxF9Y0mn7r9kJvPThVrbnY9MUAXrd88iu546OBAafJ7G/K5su
+	dmuWKKKQ==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qzs83-00Ft8t-2N;
+	Mon, 06 Nov 2023 05:26:27 +0000
+Message-ID: <665794d7-38e0-4e74-9af7-eca986792e44@infradead.org>
+Date: Sun, 5 Nov 2023 21:26:26 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation
+ warning
+Content-Language: en-US
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Hunter Chasens <hunter.chasens18@ncf.edu>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ amd-gfx@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+ Xinhui.Pan@amd.com, christian.koenig@amd.com, alexander.deucher@amd.com,
+ evan.quan@amd.com, Lijo Lazar <lijo.lazar@amd.com>
+References: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
+ <ZUh2fuCjmgle3vd9@debian.me>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <ZUh2fuCjmgle3vd9@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Correct effective memory type for a WC MTRR on a region with a PAT entry
-UC- from UC to WC.
 
-As per Intel SDM section "Selecting Memory Types for Pentium III and More
-Recent Processor Families", table "Effective Page-Level Memory Types for
-Pentium III and More Recent Processor Families",
 
-================  ===============  =====================
-MTRR Memory Type  PAT Entry Value  Effective Memory Type
-================  ===============  =====================
-      WC               UC-                  WC
+On 11/5/23 21:15, Bagas Sanjaya wrote:
+> On Sun, Nov 05, 2023 at 04:00:44PM -0500, Hunter Chasens wrote:
+>> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>> index 517b9fb4624c..703fe2542258 100644
+>> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>> @@ -990,11 +990,14 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
+>>   * the power state and the clock information for those levels. If deep sleep is
+>>   * applied to a clock, the level will be denoted by a special level 'S:'
+>>   * E.g.,
+>> - *	S: 19Mhz *
+>> - *	0: 615Mhz
+>> - *	1: 800Mhz
+>> - *	2: 888Mhz
+>> - *	3: 1000Mhz
+>> + *
+>> + * ::
+>> + *
+>> + *  S: 19Mhz *
+>> + *  0: 615Mhz
+>> + *  1: 800Mhz
+>> + *  2: 888Mhz
+>> + *  3: 1000Mhz
+>>   *
+>>   *
+>>   * To manually adjust these states, first select manual using
+> 
+> LGTM, thanks!
+> 
+> Fixes: 615585d09b33 ("Documentation/amdgpu: Modify pp_dpm_*clk details")
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> 
 
-the effect of a WC MTRR on a region with a PAT entry UC- will be WC.
+but can it be done without being so obvious about using Sphinx (or is it ReST?)
+in source files?
 
-There's a previous attempt to fix this issue at [1], but not sure why the
-patch got lost.
+e.g.: (not tested)
 
-Fixes: 2f9e897353fc ("x86/mm/mtrr, pat: Document Write Combining MTRR type effects on PAT / non-PAT pages").
-Link: https://lore.kernel.org/all/1457131501-14855-1-git-send-email-mcgrof@kernel.org [1]
-Cc: Sean Christopherson <seanjc@google.com>
-Reviewed-by: Kai Huang <kai.huang@intel.com>
-Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
----
- Documentation/arch/x86/pat.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ * E.g.:
+ * *	S: 19Mhz *
+ * *	0: 615Mhz
+ * *	1: 800Mhz
+ * *	2: 888Mhz
+ * *	3: 1000Mhz
 
-diff --git a/Documentation/arch/x86/pat.rst b/Documentation/arch/x86/pat.rst
-index 5d901771016d..414129efa316 100644
---- a/Documentation/arch/x86/pat.rst
-+++ b/Documentation/arch/x86/pat.rst
-@@ -138,19 +138,19 @@ otherwise not be effective.
-   ====  =======  ===  =========================  =====================
-   MTRR  Non-PAT  PAT  Linux ioremap value        Effective memory type
-   ====  =======  ===  =========================  =====================
-         PAT                                        Non-PAT |  PAT
-         |PCD                                               |
-         ||PWT                                              |
-         |||                                                |
-   WC    000      WB   _PAGE_CACHE_MODE_WB             WC   |   WC
-   WC    001      WC   _PAGE_CACHE_MODE_WC             WC*  |   WC
--  WC    010      UC-  _PAGE_CACHE_MODE_UC_MINUS       WC*  |   UC
-+  WC    010      UC-  _PAGE_CACHE_MODE_UC_MINUS       WC*  |   WC
-   WC    011      UC   _PAGE_CACHE_MODE_UC             UC   |   UC
-   ====  =======  ===  =========================  =====================
- 
-   (*) denotes implementation defined and is discouraged
- 
- .. note:: -- in the above table mean "Not suggested usage for the API". Some
-   of the --'s are strictly enforced by the kernel. Some others are not really
-   enforced today, but may be enforced in future.
- 
+This is what I have seen done in quite a few source files.
 
-base-commit: 1aabbc532413ced293952f8e149ad0a607d6e470
+Oh well, lots of files are already infected, so WTH. :(
+
 -- 
-2.17.1
-
+~Randy
