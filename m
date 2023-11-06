@@ -1,154 +1,82 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9356E2D032
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 18:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E3633CF
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 19:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ncf.edu header.i=@ncf.edu header.b="oAs4IjEF"
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A7341708
-	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 10:32:24 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-5440f25dcc7so6023446a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 Nov 2023 10:32:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ncf.edu header.i=@ncf.edu header.b="GhQMWMCj"
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 267EFA2
+	for <linux-doc@vger.kernel.org>; Mon,  6 Nov 2023 11:06:54 -0800 (PST)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-1f03db0a410so3024969fac.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Nov 2023 11:06:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ncf.edu; s=google; t=1699295542; x=1699900342; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=soe8+lEThbuxrauS3i3IgwpF8YYQwLOsQWEzb/VsikE=;
-        b=oAs4IjEFRF95ingHHSaA9Uf96HNWtATpQJ+CVJjEtVqCLnvh8hvVaxR5bOEUVgwkyb
-         Uap4+3726rES8bomRI4pEbjg1etNdHa+YjXLlOze62fUCyb/LUs78FlTAIDwwaqqZQQN
-         cs5RBRm0mr6SXdqwbqKO98EWN8vp4MB+mhiJ6jLH+p6CLIYj9DxCRXxIcm1gErE86z6T
-         XhhVq2qRSmVYSCzUvb8E2xWmSO838sVjZlSmiUumc/J0819FmX16QlWk64y7xxymOV4g
-         Zx2FWXonlVEv9K88jgp4Rrv/BC8bCaqWq3dr+QdAKtZdjfG80c7e+tbQ/CoY15Ioo7Vc
-         ifeg==
+        d=ncf.edu; s=google; t=1699297613; x=1699902413; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vYgbVooXzG9bXvnAO9hh0cIK7Z3AtpRVQORTv9KMDa0=;
+        b=GhQMWMCj5tCwqthSVNwzIaTq48B+q/dZWKKnlyAo/Mqs0lpBigQJSs3SCVoULGuwCW
+         Z2oVsxSApPrT+A5rbrgv4KDocDVhbK8wz1nZpeam61JB56ymQ74Jcu2vDg9NovC4b701
+         Mg1aaCnj5ePR2zvYBFSuCWZuYroVZ0lZu9Z4Zjxu2bm11G5clSXJjQ3KLfQh0kcEN4jO
+         iiV0ZkPPrgqFDCQOjemjClfnefiq75kxhdJeHwB1KYM894pleyphQYsd6FmAhW5pBhJ2
+         AObnZ8QVEspwEsvcCb+Mwe1vQE011ROPM77yYh1ZIR8muP2EEKQMts61hSGxeq1//FJj
+         sZyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699295542; x=1699900342;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=soe8+lEThbuxrauS3i3IgwpF8YYQwLOsQWEzb/VsikE=;
-        b=YXg5SORyEgQYVEA/uHTNuURmtce/cFdIkynKWbAmISlrdcQpABrAaTQO3Sy3aHhXQi
-         XwWeI4yy7G/q11eEilw8S2myLSPNlVlqzK6wwcWiwuSwYpN9zLaWDOodlWS3awFzRhNL
-         EaAY7WnzP84v+7jjbenG9vVzuo21AeYq/Pq52GrOp0fZxaa4iizP9Ud13rWPHlvtyoXw
-         YywcnDjKEgJOiIM5Dq2xqyYuYlZK4FH7hiuiKDm5FPgeqtuB0kUe7kyMV7sS46W2QreM
-         tImmNiFFPzWX1aI5A6WcG0we792NJGqIT6csJP8CWo7VyMyxSyCS6WoU5+wR4mLdUFdL
-         qh+A==
-X-Gm-Message-State: AOJu0YwniqcRMZsMmXVViLxIh+pBVrYSUNoABQONhcbJMTO9KFM+aQzg
-	NPsaVepS5QFA+Qm4cT8CWe3choC/nhz+1E1GlAPrBg==
-X-Google-Smtp-Source: AGHT+IE3COqO7suPYWfkaoTj6yDKUl996sDTArem8FR8xxzofLxH2XDlLxKp5WUB3vgbmOm3yFfyau3xkkh6Cxyv/u0=
-X-Received: by 2002:a17:907:9413:b0:9b2:b691:9b5f with SMTP id
- dk19-20020a170907941300b009b2b6919b5fmr14911910ejc.41.1699295542171; Mon, 06
- Nov 2023 10:32:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699297613; x=1699902413;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vYgbVooXzG9bXvnAO9hh0cIK7Z3AtpRVQORTv9KMDa0=;
+        b=qGi/e6EuU6dQjr6qD78H+gg4xHORZUhLQtYkBJ7hU2hFB5J1c1sst1vXqULZ8y8zBP
+         8zV3t5njXwipTJ8vNRnVclY3CRXlCfR6mmvKOUrUlmzakYgqX5sxdwBpMutinnSf/Hfk
+         M9XXeqf1/hJwYsQaL4DkiEFBWL5An7f8cU/8B2aYa9FnCYygD3lCnGmkSovjzbMy2nqO
+         BinFx5LMEgmNDxNcGFR1UphfVHCtO6tMCd+YaHiNUuj5uIU5Zp03scimsNmTDN0gjE/Q
+         7OLDh6F2TvVLteiI5Wp7KjyPUYppsVxyi2KlcxQ7HzLfExfpbPIUKd5N/0PSWC1OLWbi
+         lrCw==
+X-Gm-Message-State: AOJu0Yy4vDDzF+chR76zbZvxAsTTEWX63jW792TRKNymYREqZ8M3K3G6
+	moCxYlomaZdKrG6gv7fhRrjVAw==
+X-Google-Smtp-Source: AGHT+IH9OffbmsvZj+QnoxsyZtHU5JoQN6Vh73gHIVV9NgsvSQfbLQDqJBZsTJlf5jNN45d5OrYJSw==
+X-Received: by 2002:a05:6870:11ca:b0:1ea:29a:8628 with SMTP id 10-20020a05687011ca00b001ea029a8628mr549121oav.15.1699297613453;
+        Mon, 06 Nov 2023 11:06:53 -0800 (PST)
+Received: from localhost.localdomain ([2601:580:8201:d0::d089])
+        by smtp.gmail.com with ESMTPSA id ft8-20020a05690c360800b005a7b8d12f52sm4617500ywb.40.2023.11.06.11.06.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 11:06:53 -0800 (PST)
+Date: Mon, 6 Nov 2023 14:06:51 -0500
+From: Hunter Chasens <hunter.chasens18@ncf.edu>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Lijo Lazar <lijo.lazar@amd.com>, Linux Documentation <linux-doc@vger.kernel.org>, 
+	Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, 
+	Linux DRI Development <dri-devel@lists.freedesktop.org>, alexander.deucher@amd.com, evan.quan@amd.com, 
+	christian.koenig@amd.com
+Subject: Re: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation
+ warning
+Message-ID: <irp2myv4jp6o7vut5m7ax4hya5764xzustf2klxfpys42qmevk@yxxus464hito>
+References: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
+ <ZUh2fuCjmgle3vd9@debian.me>
+ <665794d7-38e0-4e74-9af7-eca986792e44@infradead.org>
+ <ZUigbshGGc451V5L@debian.me>
+ <875y2f193t.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231104134708.69432-1-hunter.chasens18@ncf.edu>
- <ZUhvj2uj_PvaDxIM@debian.me> <8734xj18ck.fsf@intel.com>
-In-Reply-To: <8734xj18ck.fsf@intel.com>
-From: Hunter Chasens <hunter.chasens18@ncf.edu>
-Date: Mon, 6 Nov 2023 13:32:11 -0500
-Message-ID: <CAFJe6O1oJnQvLVSJZP6MMXULGrX=a3SEO1X5b4xff06WhqLw_g@mail.gmail.com>
-Subject: Re: [PATCH v1] docs: gpu: rfc: i915_scheduler.rst remove unused
- directives for namespacing
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, corbet@lwn.net, 
-	Luca Coelho <luciano.coelho@intel.com>, airlied@gmail.com, daniel@ffwll.ch, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	dri-devel@lists.freedesktop.org, 
-	Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875y2f193t.fsf@intel.com>
 
-When running `make htmldocs` the following warnings are given.
+First, apologies to Jani Nikula. I accedently top posted on the other thread.
+My email client is giving me a hard time. The following works and, if 
+everyone agrees, I'll send out a v2.
 
-```
-Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING:
-Unknown directive type "c:namespace-push".
-
-.. c:namespace-push:: rfc
-Documentation/gpu/rfc/i915_scheduler.rst:143: WARNING:
-Unknown directive type "c:namespace-pop".
-
-.. c:namespace-pop::
-```
-
-The kernel test robot also reported it here.
-Link: https://lore.kernel.org/all/202311061623.86pTQrie-lkp@intel.com/
-
-Last year Maryam Tahhan <mtahhan@redhat.com> from Redhat noticed something
-similar. "The missing support of c:namespace-push:: and c:namespace-pop::
-directives by helper scripts for kernel documentation prevents using the
-``c:function::`` directive with proper namespacing." From the context, it
-sounds like this was brought about from a Sphinx update.
-
-Link: https://lore.kernel.org/all/20221123092321.88558-3-mtahhan@redhat.com=
-/
-
-When compiled the `.. kernel-doc::` literal gives it the same formatting wi=
-th
-or without the namespace directives present. Due to the above information I
-think it safe to remove these, as they don't seem to do anything but
-throw warnings.
-
-On Mon, Nov 6, 2023 at 5:31=E2=80=AFAM Jani Nikula <jani.nikula@intel.com> =
-wrote:
->
-> On Mon, 06 Nov 2023, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> > On Sat, Nov 04, 2023 at 09:47:08AM -0400, Hunter Chasens wrote:
-> >> diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/=
-gpu/rfc/i915_scheduler.rst
-> >> index c237ebc024cd..23ba7006929b 100644
-> >> --- a/Documentation/gpu/rfc/i915_scheduler.rst
-> >> +++ b/Documentation/gpu/rfc/i915_scheduler.rst
-> >> @@ -135,13 +135,9 @@ Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
-> >>  drm_i915_context_engines_parallel_submit to the uAPI to implement thi=
-s
-> >>  extension.
-> >>
-> >> -.. c:namespace-push:: rfc
-> >> -
-> >>  .. kernel-doc:: include/uapi/drm/i915_drm.h
-> >>          :functions: i915_context_engines_parallel_submit
-> >>
-> >> -.. c:namespace-pop::
-> >> -
->
-> What makes the namespacing unnecessary?
->
-> $ git grep '.. kernel-doc:: include/uapi/drm/i915_drm.h'
-> Documentation/gpu/driver-uapi.rst:.. kernel-doc:: include/uapi/drm/i915_d=
-rm.h
-> Documentation/gpu/rfc/i915_scheduler.rst:.. kernel-doc:: include/uapi/drm=
-/i915_drm.h
->
-> And you get [1] and [2].
->
-> >>  Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
-> >>  -------------------------------------------------------------------
-> >>  Contexts that have been configured with the 'set_parallel' extension =
-can only
-> >
-> > The warnings go away, thanks!
->
-> What warnings go away?
->
-> BR,
-> Jani.
->
->
-> [1] https://docs.kernel.org/gpu/driver-uapi.html#c.i915_context_engines_p=
-arallel_submit
-> [2] https://docs.kernel.org/gpu/rfc/i915_scheduler.html#c.rfc.i915_contex=
-t_engines_parallel_submit
->
-> >
-> > Fixes: f6757dfcfde7 ("drm/doc: fix duplicate declaration warning")
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> --
-> Jani Nikula, Intel
+ * E.g.::
+ *
+ *  S: 19Mhz *
+ *  0: 615Mhz
+ *  1: 800Mhz
+ *  2: 888Mhz
+ *  3: 1000Mhz
