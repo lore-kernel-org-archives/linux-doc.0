@@ -1,57 +1,65 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4373A933;
-	Tue,  7 Nov 2023 01:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA4B20F2;
+	Tue,  7 Nov 2023 02:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FQv/T+GN"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E16103;
-	Mon,  6 Nov 2023 17:27:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699320453; x=1730856453;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7/MIcgTpmOPNsaRiTaeyhdRNpxjoAXZKIkVQzxSboUU=;
-  b=FQv/T+GN3ybCxoKYnloIzREfiOz5OOk7keqqApeJq/NhHH9n3pAeXmR1
-   F2DdKIKifIwTJp/Am0xLUTYwBgV3Ro7rhOBnoPyyEL1gvLeP/lSDXIexR
-   LNlIfNVi+U5tyt434f9FjGjuzaz38d4LZMsRF2diUmh0Tj4JFa2dlVYFN
-   TbMcJiGv4cVJO3+TWnqoi8VlgCKsRyMVo0dEn7CX80QmA85AsOYrAelLN
-   TmDnysssXWK3IdZX9VI773viam9yBb6tpTzv8wVC2GsX3Uei6TbWP6GpA
-   G5/O8LPE2Fg2YyDAt16CDwg8GRyhInSHYSlkFdyhXnsIOmNLfK5oxddws
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="10946743"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="10946743"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 17:27:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="906241833"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="906241833"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Nov 2023 17:27:28 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0AsI-0006se-1G;
-	Tue, 07 Nov 2023 01:27:26 +0000
-Date: Tue, 7 Nov 2023 09:27:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 2/2] hwmon: (pmbus) Add support for MPS Multi-phase
- mp5990
-Message-ID: <202311070822.cgjfXGD7-lkp@intel.com>
-References: <20231103080128.1204218-3-peteryin.openbmc@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dix+WuV7"
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F0610F;
+	Mon,  6 Nov 2023 18:15:24 -0800 (PST)
+Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-7788fb06997so361732685a.0;
+        Mon, 06 Nov 2023 18:15:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699323323; x=1699928123; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fk4C8pGkEaO0aYtx+9DFxGow47hYHSHoEQjYuyisEbA=;
+        b=dix+WuV7WEQduGPYlPNqifTplPY8MSlOy5NxoThRP5XJ1gZ8Joho1r3lrNqEd2C4Qe
+         l+jQN5cLHIibrxMSWl9JsJ9HKJVUjpgQd3a8Kts+mcCsidWyXn7JPcJQLqzlvLNWB+Tr
+         JW7wpvVR+N2yRLXDd37kP94dH760u6PnvKi/QUv965voohrJchnFr83X39gxlPCZ7Z5T
+         5VefmRV3C3T4HxpCGG4EzhcCIcmDvUDalJubIGUaBFaErJyPiiMkQZAmoc7tZEDiOrqJ
+         +Dc/KpkwROrIWMD8qhwCtRRIRoiM4aFwO/NnoOHwVyoNRMHEwqHquyBKKJDC5GggpiFv
+         yVzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699323323; x=1699928123;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fk4C8pGkEaO0aYtx+9DFxGow47hYHSHoEQjYuyisEbA=;
+        b=h53jP+XZTRnd815XfUGDsyBnHGsv6mYSAEzNkTN0qQI1ooGTkD9Ghj3LDSCfiSEtgY
+         pshvuHBCzSgicqnVJeWmaL38kQyfbYGsyZ5i/bPQnG+M8IfR28I90zOyYjzXUtdsSWf9
+         wokeqY8vlUqQ+Zfeiip4R05n0rLt+/efHA3cj5FxiVfYanUFWj0ePPuxXjPqYt7kamry
+         YTCDfSFyaLa6mldeVYZUooOk+YnXndC03fZD0UisseD+SmcBSezMZZ7cjanV1HaZluVu
+         +TpkxVaiuf/mdMR4rusAP+yPK7whIycnqvB283zak56WlxIXbtQLDpcV8wgCb+dc99I6
+         srlw==
+X-Gm-Message-State: AOJu0YxDZyOhyvpt2MIdQMMyMgtZ9xeDgv3DZG28L1kuZWy4l6fTmmYc
+	AX3JYZnfS3nLhJKhoUCY3M0=
+X-Google-Smtp-Source: AGHT+IEsbtgEtm1ThrU0RGNHI2w6rhkc5V3NUgJtzFwqjIS7wWzE7nSayyO4ZlyBcgrFPy4Qz6FqbA==
+X-Received: by 2002:a05:620a:40ca:b0:779:f0a1:3128 with SMTP id g10-20020a05620a40ca00b00779f0a13128mr37320412qko.63.1699323323340;
+        Mon, 06 Nov 2023 18:15:23 -0800 (PST)
+Received: from localhost (modemcable065.128-200-24.mc.videotron.ca. [24.200.128.65])
+        by smtp.gmail.com with ESMTPSA id bs10-20020a05620a470a00b00777611164c6sm3829790qkb.15.2023.11.06.18.15.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 18:15:23 -0800 (PST)
+Date: Mon, 6 Nov 2023 21:15:21 -0500
+From: Benjamin Poirier <benjamin.poirier@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kira <nyakov13@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Sven Joachim <svenjoac@gmx.de>,
+	Ian Kent <raven@themaw.net>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: Revert "staging: qlge: Retire the driver"
+Message-ID: <ZUmduQ_xKMHF6IY9@d3>
+References: <20231030150400.74178-1-benjamin.poirier@gmail.com>
+ <2023110655-swarm-parka-177d@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,47 +68,84 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231103080128.1204218-3-peteryin.openbmc@gmail.com>
+In-Reply-To: <2023110655-swarm-parka-177d@gregkh>
 
-Hi Peter,
+On 2023-11-06 07:54 +0100, Greg Kroah-Hartman wrote:
+> On Tue, Oct 31, 2023 at 02:04:00AM +1100, Benjamin Poirier wrote:
+> > This reverts commit 875be090928d19ff4ae7cbaadb54707abb3befdf.
+> > 
+> > On All Hallows' Eve, fear and cower for it is the return of the undead
+> > driver.
+> > 
+> > There was a report [1] from a user of a QLE8142 device. They would like for
+> > the driver to remain in the kernel. Therefore, revert the removal of the
+> > qlge driver.
+> > 
+> > [1] https://lore.kernel.org/netdev/566c0155-4f80-43ec-be2c-2d1ad631bf25@gmail.com/
+> 
+> <snip>
+> 
+> > --- /dev/null
+> > +++ b/drivers/staging/qlge/TODO
+> > @@ -0,0 +1,28 @@
+> > +* commit 7c734359d350 ("qlge: Size RX buffers based on MTU.", v2.6.33-rc1)
+> > +  introduced dead code in the receive routines, which should be rewritten
+> > +  anyways by the admission of the author himself, see the comment above
+> > +  qlge_build_rx_skb(). That function is now used exclusively to handle packets
+> > +  that underwent header splitting but it still contains code to handle non
+> > +  split cases.
+> > +* truesize accounting is incorrect (ex: a 9000B frame has skb->truesize 10280
+> > +  while containing two frags of order-1 allocations, ie. >16K)
+> > +* while in that area, using two 8k buffers to store one 9k frame is a poor
+> > +  choice of buffer size.
+> > +* in the "chain of large buffers" case, the driver uses an skb allocated with
+> > +  head room but only puts data in the frags.
+> > +* rename "rx" queues to "completion" queues. Calling tx completion queues "rx
+> > +  queues" is confusing.
+> > +* struct rx_ring is used for rx and tx completions, with some members relevant
+> > +  to one case only
+> > +* the flow control implementation in firmware is buggy (sends a flood of pause
+> > +  frames, resets the link, device and driver buffer queues become
+> > +  desynchronized), disable it by default
+> > +* the driver has a habit of using runtime checks where compile time checks are
+> > +  possible (ex. qlge_free_rx_buffers())
+> > +* reorder struct members to avoid holes if it doesn't impact performance
+> > +* use better-suited apis (ex. use pci_iomap() instead of ioremap())
+> > +* remove duplicate and useless comments
+> > +* fix weird line wrapping (all over, ex. the qlge_set_routing_reg() calls in
+> > +  qlge_set_multicast_list()).
+> > +* remove useless casts (ex. memset((void *)mac_iocb_ptr, ...))
+> > +* fix checkpatch issues
+> 
+> In looking at this again, are you sure you all want this in the tree?
+> I'm glad to take the revert but ONLY if you are willing to then take a
+> "move this to drivers/net/" patch for the code as well, WITH an actual
+> maintainer and developer who is willing to do the work for this code.
+> 
+> In all the years that this has been in the staging tree, the listed
+> maintainers have not been active at all from what I can remember, and
+> obviously the above list of "things to fix" have not really been worked
+> on at all.
+> 
+> So why should it be added back?  I understand there is at least one
+> reported user, but for drivers in the staging tree, that's not a good
+> reason to keep them around if there is not an actual maintainer that is
+> willing to do the work.
+> 
+> Which reminds me, we should probably sweep the drivers/staging/ tree
+> again to see what we can remove given a lack of real development.
+> Normally we do that every other year or so, and this driver would fall
+> into the "no one is doing anything with it" category and should be
+> dropped.
 
-kernel test robot noticed the following build warnings:
+Thank you for revisiting this topic. I agree with you that it's better
+not to add orphaned code back into the kernel. I didn't want users to be
+left out in the cold by the removal of the driver, so I just created a
+dkms package as a fallback:
+https://github.com/gobenji/qlge-dkms
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.6 next-20231106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Yin/dt-bindings-hwmon-Add-mps-mp5990-driver-bindings/20231103-160759
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20231103080128.1204218-3-peteryin.openbmc%40gmail.com
-patch subject: [PATCH v1 2/2] hwmon: (pmbus) Add support for MPS Multi-phase mp5990
-config: xtensa-randconfig-001-20231107 (https://download.01.org/0day-ci/archive/20231107/202311070822.cgjfXGD7-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070822.cgjfXGD7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070822.cgjfXGD7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hwmon/pmbus/mp5990.c:66:34: warning: 'mp5990_of_match' defined but not used [-Wunused-const-variable=]
-      66 | static const struct of_device_id mp5990_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~
-
-
-vim +/mp5990_of_match +66 drivers/hwmon/pmbus/mp5990.c
-
-    65	
-  > 66	static const struct of_device_id mp5990_of_match[] = {
-    67		{ .compatible = "mps,mp5990" },
-    68		{}
-    69	};
-    70	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+People who want to use qlge with the latest kernel can use that package.
+Since the driver code is not mainline quality and there isn't much
+willingness to invest in its improvement, I think it's fitting that the
+code lives out of tree. Of course, if somebody takes ownership of the
+code and substantially improves it, they can submit it back to netdev.
