@@ -1,97 +1,136 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6448B34CF4
-	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 17:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D903158C;
+	Tue,  7 Nov 2023 19:02:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="HousSzc/"
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E666D10D7
-	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 09:48:10 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1cc37fb1310so42582565ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Nov 2023 09:48:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRAgALkF"
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E80810A;
+	Tue,  7 Nov 2023 11:02:46 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-577fff1cae6so4446426a12.1;
+        Tue, 07 Nov 2023 11:02:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1699379290; x=1699984090; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TY15kIau+eDARAHjRIt1BbGYq8C7hJS6gitrNXYnQoM=;
-        b=HousSzc/TjsP9QqgcvSIDoufRgk897tprX2D8mQ95adj1B/2RgSgyZNdoHXOAi4POE
-         RyGSeJv4XJeNzp1qJCFnJQQdRkoq56vsC4XirAWI7snyChYAVnTwpS3fa+wBy9WrqElS
-         9R2e8WFkuuqV43XkSuhbARRfsELb92BgB/q37zaN2ZiYWtYUWAt96mKJdUdjhiN0/0FP
-         o4hxVnfu24k/VrGRdQn2TDq9wXbKSdRoTirQs8urvQaLa+An1fTZu6enivRYHA9IM7Yb
-         c87zXju/6oae3/n4iaoZqgW34MushccCIy0qF6RXIroGfOWMsOEZEH+xsciQFGCCFpP0
-         jVmQ==
+        d=gmail.com; s=20230601; t=1699383766; x=1699988566; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=uETg7nqrlrw09uZVX3TWZA1o4y5dupi3TkwOXHUBO7A=;
+        b=mRAgALkFcnQ9qaPnI8wkPD6ZK+Esne4h82Wrqt1nYAdcVBRc4ncBkCA1taQ94oivac
+         GezeZyf3wwEZCwVc5pASkE62C1h0FAm0AEniei96UGIVI7g07KaP7VZFTsVn8DljtX7+
+         /H1H9KxU9ti03hGNY7sc96AmBv2QIq877lgTrBVdXjnFuySJoAlLRW9BqbcBP8v3zCW5
+         k9wv3krjlnxiOsIYwn7jCFXBlPDzFO39L3HY9k0qkQAafA/2yDvadi6ywHWdWi2ZUYxQ
+         kjYIdzq9WdMw1y1G33zneWa2A7DFhMvBfrniYA44e+gksHvhOsUacWXV9i+vgQ/TAq7E
+         wGFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699379290; x=1699984090;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TY15kIau+eDARAHjRIt1BbGYq8C7hJS6gitrNXYnQoM=;
-        b=eBmGm9qsA2AkkpuJ4+N4kO901bGcoN7hQU/5vHMQjPsKjEYeuP0G9L3QCvsVB78lVT
-         DR0A6f3jUWgQSHVl1D9OL+ZMAvFDc+k0m00TQQyEMnQ8aL57Byz/vgFb6mjVxoge7AZt
-         AL0JCGUbe1VIpVmKHj1X/v5c7fo/30rXjNpBeRiakeudW3WjrdvmcvLEfEH7DrfZL1DZ
-         gk9/BUBP050OXyMgjJ4M38c1UbF0qQe683Di6ZTKjcYI+wdimLiMaox3xzhhROAJrJwQ
-         Ap0PHFySwGVbbCpURuL2PlZ2ivi5Pmq0Za9u0VaKquCPeXKeKe/4Smh/U5SiC/VdJ3WH
-         Cqow==
-X-Gm-Message-State: AOJu0YzhXnSCiusxvKxgory1de6C/+D8iawZGvd2wsfHpHXiDT4sGQJk
-	PBNPj2hDmDNjwgUQu3fjqPaITA==
-X-Google-Smtp-Source: AGHT+IE1uUN1bCnM0e+Ov1l1naTtElUtLA3DgMMTfPPCXEEwKaTGd4dv0hVEl36p8Py1780zIW4h7w==
-X-Received: by 2002:a17:902:ccca:b0:1bd:c7e2:462 with SMTP id z10-20020a170902ccca00b001bdc7e20462mr31928892ple.11.1699379290316;
-        Tue, 07 Nov 2023 09:48:10 -0800 (PST)
-Received: from localhost ([192.184.165.199])
-        by smtp.gmail.com with ESMTPSA id l12-20020a170903244c00b001b9be3b94d3sm102654pls.140.2023.11.07.09.48.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 09:48:09 -0800 (PST)
-Date: Tue, 07 Nov 2023 09:48:09 -0800 (PST)
-X-Google-Original-Date: Tue, 07 Nov 2023 09:48:06 PST (-0800)
-Subject:     Re: [PATCH RFC 22/22] riscv: convert to use arch_cpu_is_hotpluggable()
-In-Reply-To: <E1r0JMV-00CTyh-It@rmk-PC.armlinux.org.uk>
-CC: linux-pm@vger.kernel.org, loongarch@lists.linux.dev, linux-acpi@vger.kernel.org,
-  linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-  linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, linux-csky@vger.kernel.org,
-  linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-  salil.mehta@huawei.com, jean-philippe@linaro.org, jianyong.wu@arm.com, justin.he@arm.com,
-  james.morse@arm.com, Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: rmk+kernel@armlinux.org.uk
-Message-ID: <mhng-b535d186-b241-4fe8-a6b5-b06aff516d1c@palmer-ri-x1c9>
+        d=1e100.net; s=20230601; t=1699383766; x=1699988566;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uETg7nqrlrw09uZVX3TWZA1o4y5dupi3TkwOXHUBO7A=;
+        b=mJihnsEPXDFOeM1I4ZYJw0j4aIfDFYjllYtEPL7WAV+5qa+X49we5VTs0vyrdho1hq
+         RPjgt0P69KRvomu1RdbIFDQnlLOUflkUM66bpAz1H017tcw16Zm9A0Neg4mrwdbAOi2b
+         ov33kKIM/V/c6wuGd7j0iqaGFa6AuUF9oNSQdB+do88ktD7if7WoKDyCQKbfUPeqR7gW
+         32665CxZyG/ELBawTtFF4cdkW+A4j1XaBJXCqFsgpFyBPZ9ZlHV6quNoqixYfCtF/SZr
+         ioiryMEuj3Se8XM4lQWi4mdyAcEiNbYhgPbgx+3Gk3RSlscXvVkdD2o5457MAqFwM4iw
+         y5KQ==
+X-Gm-Message-State: AOJu0YzW9hj1cjaq3Dr7ufEfqUKhXVAsHw6SUV8wTt2cu/AvtTFNrkht
+	tHY+rjsql2KmmIHIaL3Qj5Y=
+X-Google-Smtp-Source: AGHT+IHG8f7EVbCLP390BSgk3BzXB03QP5F0o2Xp+ILvSlT1DunvIht/tDZx/zCvjzJxc3fvFoyW5A==
+X-Received: by 2002:a17:90b:4d12:b0:280:2b48:f264 with SMTP id mw18-20020a17090b4d1200b002802b48f264mr5256854pjb.0.1699383765604;
+        Tue, 07 Nov 2023 11:02:45 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q22-20020a17090a2e1600b00280c6f35546sm150057pjd.49.2023.11.07.11.02.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Nov 2023 11:02:45 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <3ea9ef0c-27c0-4304-8bf7-26710224c3b1@roeck-us.net>
+Date: Tue, 7 Nov 2023 11:02:43 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v10 0/3] Support pwm/tach driver for aspeed ast26xx
+Content-Language: en-US
+To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au,
+ andrew@aj.id.au, corbet@lwn.net, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
+ naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, BMC-SW@aspeedtech.com,
+ patrick@stwcx.xyz
+References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 07 Nov 2023 02:31:11 PST (-0800), rmk+kernel@armlinux.org.uk wrote:
-> Convert riscv to use the arch_cpu_is_hotpluggable() helper rather than
-> arch_register_cpu().
->
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> ---
->  arch/riscv/kernel/setup.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> index f8875ae1b0aa..168f0db63d53 100644
-> --- a/arch/riscv/kernel/setup.c
-> +++ b/arch/riscv/kernel/setup.c
-> @@ -294,12 +294,9 @@ void __init setup_arch(char **cmdline_p)
->  	riscv_set_dma_cache_alignment();
->  }
->
-> -int arch_register_cpu(int cpu)
-> +bool arch_cpu_is_hotpluggable(int cpu)
->  {
-> -	struct cpu *c = &per_cpu(cpu_devices, cpu);
-> -
-> -	c->hotpluggable = cpu_has_hotplug(cpu);
-> -	return register_cpu(c, cpu);
-> +	return cpu_has_hotplug(cpu);
->  }
->
->  void free_initmem(void)
+On 11/7/23 02:50, Billy Tsai wrote:
+> Unlike the old design that the register setting of the TACH should based
+> on the configure of the PWM. In ast26xx, the dependency between pwm and
+> tach controller is eliminated and becomes a separate hardware block. One
+> is used to provide pwm output and another is used to monitor the frequency
+> of the input. This driver implements them by exposing two kernel
+> subsystems: PWM and HWMON. The PWM subsystem can be utilized alongside
+> existing drivers for controlling elements such as fans (pwm-fan.c),
+> beepers (pwm-beeper.c) and so on. Through the HWMON subsystem, the driver
+> provides sysfs interfaces for fan.
+> 
+> Changes since v9:
+> Change the type of fan-driving-mode to string
+> Fix some typos and formatting issues.
+> 
 
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+What is the resend about ?
+
+Guenter
+
