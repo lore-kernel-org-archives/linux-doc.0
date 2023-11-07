@@ -1,191 +1,165 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B51468B;
-	Tue,  7 Nov 2023 03:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797DC38B
+	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 04:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oi+Xzv2D"
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE34101;
-	Mon,  6 Nov 2023 19:30:01 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3b40d5ea323so3099485b6e.0;
-        Mon, 06 Nov 2023 19:30:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699327800; x=1699932600; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=PR4pVo5ohCGwHvj2+pxLerF4kRjPdh1NPEv5/1jSHx4=;
-        b=Oi+Xzv2D9FTOb3PuwjjxVa95VKiD8k9f3ss5eHIqS1OorsO0lwqCilGWK1zn7HXfkE
-         zLUaa7o03u6r+Xye3mpol3vRYU8ZGa//i+RYY5A/YZM1cyI1Ub5D+G7BRU1GpOVrEb+U
-         f3dSONDl1m2io2tOo+9ijUBsswrfgEhpL/odR4r2EIY3OCwzBLkLIhzdK9OCW2PeUQTs
-         1E/qG4w+IvZrm6fRvRF8Y24d1/ThIduec9xqbikmrLF2bciqF8fBDZVn1UcLNLzmLS5q
-         FD23SDee0unbIZvyoDGwGBydym4K/BOlYmFfWybX79coQbh1TUKZlcFnH8Huzn34RIIf
-         Xkag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699327800; x=1699932600;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PR4pVo5ohCGwHvj2+pxLerF4kRjPdh1NPEv5/1jSHx4=;
-        b=Zn3OmU7Nu+FfsTOdTa8ts7yyFf7/pvZKS9EGjZaFWvIlZgwVrAIfMjosKdG/Evzf7k
-         tgF++z6zfsqcA355nkUVD6kf2/yTVSYGsefJZxUqjWuP0/NImQju+0urcAAzqaw81Zba
-         +KmwefxYN1F71MChj5lEa5vISGPThbI6zA+KXwi8HQXkg6BXu6Z6U9INAKTPqwT0pI6S
-         UlLRwHyWdwDvRMugElA/In6wdjzWSxmoKg7wOqjdLWFye/T6pwSPOJhTNa4JXHBf0Su8
-         X/GhkjwHXHcuBW4Q0VRnbiFKlhd9hxpINCU/yeGMDnMATFYTxl4rorIu8DRXMm3bpZ40
-         ywLA==
-X-Gm-Message-State: AOJu0YyGGPu70pecgmOU7AU7QDwxijelFu4VZLyVuPYetFenY3JiXVBu
-	0XhIijKKivZAGISbOqodhRZhT2EE6sU=
-X-Google-Smtp-Source: AGHT+IEAShhKAbRmLSNX8rcyN/I1anLhJttiPLSsSN41/umy50w0mk0QwS0fSu+C5tP9UscFVJQotQ==
-X-Received: by 2002:a05:6358:881f:b0:168:ed99:4e74 with SMTP id hv31-20020a056358881f00b00168ed994e74mr45917676rwb.20.1699327800218;
-        Mon, 06 Nov 2023 19:30:00 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id a7-20020a63d407000000b005742092c211sm431141pgh.64.2023.11.06.19.29.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Nov 2023 19:29:59 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4b73a239-c90e-4515-b89d-65de15a1e9a9@roeck-us.net>
-Date: Mon, 6 Nov 2023 19:29:56 -0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lzG+h6QM"
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2062.outbound.protection.outlook.com [40.107.100.62])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF1D9FE;
+	Mon,  6 Nov 2023 20:45:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c4cO3ScXTQqGLZJLdVqg2HqTQcZEVvscq520SLpA9CFmu91ICcSrZskl7h39H2B8aHzNlybp4UBGfnS3MLhO8iP3iJR3Kn2BGknQVRyJomW7SsG7quIF1LXcByp/O845X/VPLUYLmBMtwCl/p7a0DRQujjL77NCKou9JwlvI5DovfVDM3UzFwEHke2Dt9iuRBUy68xG0BCTDawtGROGoXP5T1fbHqmoxydnHnar6woy1LZaQKEC+YPMnzh6nOrlv4DbbCe3t+azU10gCiQSgvj/lQARc7dbfdLwkvp28reMNtaa67q9704/W+1aygN6mmXW0KVV9wYJoZAfglhtJmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZBJqiXb5quAMaV4OK3wIkVWeHlBKk66b0oLyLpQOqXk=;
+ b=Jsnkx1UvAXxCmR3Ef5UxHJiMeHvnfFHPko9MdclejJvjcm2YylpA2BKu9J1GO8Ccmwg3bEkVizTEGHo/mD2AVQybMBMEeC3NZsxk0UZTNiEqdhJWdCwL2MNV0Q7tvFzGc4FHEHqdWsaD9nZ7k1sqEWXNep6/q+MuxSNmR0TRyB66ey97HUps1nKMuIAgGUJTjkcauSOHq15IIUSiEzcO8AKq8O3FSlVZOJBmziIFQqeJboYsLtB01ARqik6eAxC4AdKNNJxwMoXIkiIAdoASBbB9f56KxzwB/bLF/OSdltURgJGjbPkDUhiUNzYY3LxaVi+l1Zkx9+eUuQ3gIyx0iw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZBJqiXb5quAMaV4OK3wIkVWeHlBKk66b0oLyLpQOqXk=;
+ b=lzG+h6QMVGqDlRt1ZtD7N95ONNSLD4V2alReEse+40KduyEZrzWyCs4LNR4xqHox/NBFAr+hG0Iuy6IzqWyJ321NGAs3m9KXvUwDu7aE3PSKKXC6LRrJSjtEifWT31OzJJKwefGdF8jbHtFaoFd5Xnv6T+PtjHL7cSQmhq0jU5U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
+ by PH7PR12MB6563.namprd12.prod.outlook.com (2603:10b6:510:211::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Tue, 7 Nov
+ 2023 04:45:35 +0000
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::ce36:81fc:9c50:c892]) by BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::ce36:81fc:9c50:c892%6]) with mapi id 15.20.6954.028; Tue, 7 Nov 2023
+ 04:45:35 +0000
+Message-ID: <6bd4f6d9-07c9-9ac1-2f3f-bb083b9c8085@amd.com>
+Date: Tue, 7 Nov 2023 10:15:24 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2] drm: amd: Resolve Sphinx unexpected indentation
+ warning
+Content-Language: en-US
+To: Hunter Chasens <hunter.chasens18@ncf.edu>, linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, alexander.deucher@amd.com, airlied@gmail.com,
+ christian.koenig@amd.com
+References: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
+From: "Lazar, Lijo" <lijo.lazar@amd.com>
+In-Reply-To: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0033.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:97::8) To BYAPR12MB4614.namprd12.prod.outlook.com
+ (2603:10b6:a03:a6::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: pmbus: Add ltc4286 driver
-Content-Language: en-US
-To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>,
- "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20231026081514.3610343-1-Delphine_CC_Chiu@Wiwynn.com>
- <20231026081514.3610343-3-Delphine_CC_Chiu@Wiwynn.com>
- <2ef2e804-d498-a2ae-9717-dd03bfd26853@roeck-us.net>
- <SG2PR04MB5543FEAFC1777ADE29239AC9A1A0A@SG2PR04MB5543.apcprd04.prod.outlook.com>
- <e223764a-c081-4634-810b-56886a29804a@roeck-us.net>
- <SG2PR04MB55436CFA902895FD5472838AA1A9A@SG2PR04MB5543.apcprd04.prod.outlook.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <SG2PR04MB55436CFA902895FD5472838AA1A9A@SG2PR04MB5543.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4614:EE_|PH7PR12MB6563:EE_
+X-MS-Office365-Filtering-Correlation-Id: 920f9335-4f17-46ac-b2a0-08dbdf4c60db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	YtOBkitK64/ik9BaRTOtnngxbaqS/eXhgiRVEG10qGk3X7z9aQy5C8+zmr3WU2vP9W4N1+w9j7igd+BWQd4u5Q7tYrs+0trpLVfcx+VqeMH9rsR0TbPBXUDMijwWoha7OH4sBMI7BNSWVS38NxGJqxyTUdyPY4pyw7E/OAVhDj32qdwwFZMomgOYJN/VFV4qI+mUGaLRydVaEkytlZPB4dXIZTvh76hi2UIvcJqI8nPfhlvL8C3k9x0leb2US/XWWpfHchfJ6rHofnnQU1X3hG0OCMMPLzuji86tKkIYIU5uqjVpDnw4x9eI58hBRUdGe1/CjgGegeO8TbZQ9WlwbRk/UEkPbO1MzqCSGsXnuC/7yQCReqDvl92NUTZ+CEasSOmjmRzL+GAae/ZL9IwAsDdjDjILwUMqvxRik3HCOGaC9mKzjuV81Juh2uUZaEv9u1BTRhzIaMVSyg3kuUZRNL8CuESxKv3enXWOslaQQcsKMXxAmJnr6AMN8IrjfLRyLRdI1xQ3y/AqQu+UZm1S1wZlXzXdllHL5J24O/d7ZB4oU7M1CvgwjNmj0Pea9jDZsmdtmZXt82DGjouuwd9EklrCfif42dWoUNbUE+5C1uFH5gZAV1WKsn7LkyYWSHomGgofW535D3ZX2r8s7YLY4vJGPzDvIWc4GUW6lehsW9xKY9drPbslxCkB+h+xV8as
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4614.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(376002)(136003)(346002)(366004)(230173577357003)(230273577357003)(230922051799003)(64100799003)(451199024)(1800799009)(186009)(4326008)(8676002)(8936002)(316002)(41300700001)(36756003)(2906002)(38100700002)(5660300002)(31696002)(53546011)(6486002)(66556008)(6512007)(66476007)(31686004)(86362001)(66946007)(83380400001)(26005)(2616005)(6666004)(478600001)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L2oyS0I3alZ6aDREeDJNc2YzdkJPTU5qcUszWUtKRHd2ZlpMSTNRc3dXWml3?=
+ =?utf-8?B?Zm1lVzV0VHYxRU9VczdJcTFCM1ZiUVRQUjZpcnlFNkx6NVRrRndRaXVqdVcy?=
+ =?utf-8?B?RGM5YzFmYkhQREhpaUQ3TWNialZtc0FGd3l3ZVI2dHVrOWtWYjJUUVRON1Iy?=
+ =?utf-8?B?U0VQb3ZQL3dpMjhHTSsyZkVGazI2TE9CaU93ZXM4TVp4d0dsZFZVUHR3VTRW?=
+ =?utf-8?B?a3lxVHBxeWpxc3JLN1dNRFRrL0xZOXNmaXI3U2JQMTBzamhZaklwR3N5OFBS?=
+ =?utf-8?B?eGVOcUNqam5ZTTYxSGJweU45N2xSR0htbnFNK2szdXM2N0xzaFJZcHZqZFZq?=
+ =?utf-8?B?OEhrNGtDVm04OVRrbUhsUk45WEMxd09vUXBUSUZCcmNKS04wbVBZR0NLK0tQ?=
+ =?utf-8?B?aTdaLysyWWFudXRlUEVsQVcrUUFGci9wN3MwUFlZRkIzMlI0RHpnR3kzeXpB?=
+ =?utf-8?B?WWJsSGx6RVRhWGtjNFBIMEVIbHhsU3lrb2d1YWlsRGNwcTdPRG1jRlYwWEVv?=
+ =?utf-8?B?aThlSXVQam85K21MYllnVUViNkpIZmVlMUh1Q2J2K2YxclZ0bmQ3OHRycWkr?=
+ =?utf-8?B?SFVnejR1SGY0YXZBblJUVzNrejJERXRZMXZqU09Ua04yTW95dEpVNElHSG1j?=
+ =?utf-8?B?N21EVSt6SGpJYUZBcW4vMlNIaS9zcnZ6N2tDbHRCaTU3ejBhT29ZNVQveWVh?=
+ =?utf-8?B?RFAvd2JxUWVCZWRTRmZEcWJydmV1MkFMVW9VaGhxcmU0RjZ4UXJWWFN5UEVv?=
+ =?utf-8?B?MEhhTjAxNUpvSHVtbjZXZGlnQzFrUi80dUxlMThYM3R6SzI1eXd3WUFFZjdP?=
+ =?utf-8?B?bHRWMG5WQVhqWTRUdFpxeW5ZWldBbjdjUzVBQmkxZnlBc1RJL2FLeWhRUFBh?=
+ =?utf-8?B?bkdmWjhFL1VmNE1KK2RsajdFWk94cnBGT0RLN1ZBRHhkamNHVjhmVzZYSFFi?=
+ =?utf-8?B?MkYyUDdnNFUrWTBIelFkaDFJSnhicHBsZnZvS2NhM3ZPSEdPeklTYk92YTc0?=
+ =?utf-8?B?dnNUeko1aXRvYkVsUVprc2NJR0szYWhPdVA4aUEvdGxQTytXQ3pWejdOc2hk?=
+ =?utf-8?B?WkY4V2RnU0xuME1ubXc0cWNIY1lSNTFIVWsvU01QY0xoaGlRdkd5TjVCT0hi?=
+ =?utf-8?B?SHpHUTdITTZQaTAwOGtCUGhuODFqWUcyT1R0elEyZVI4emJUL2ZqS1ZPL0lR?=
+ =?utf-8?B?QUplODRmVFBiYloyTWwrR0ZYTjVuNFM5Q2JRWU1PRE9pR3lkRXdoYWk1dkor?=
+ =?utf-8?B?N0ZFMXFJdm9VNEhaOThmNlpRb29DVU9kM1o5RWRUS3VDNWkwSG9KS3FGOHNG?=
+ =?utf-8?B?bmFHbmNxTGpJV1REZXRTdFpZdHJqdm1yeFBONG9wRjVqUk83bzY5R1BLSUVU?=
+ =?utf-8?B?czE4L25xZ0tEKzNpRHRIMlErVmZkVjRiWmFUL1l6bW1nOTRwTGtkeS9PcGlr?=
+ =?utf-8?B?YWpGcWlOVkdkVjNJNmJrckpSUlEvWnpHbnh4S1JQVHVEREtYSFk5Ym13OE56?=
+ =?utf-8?B?aVAzSENHY0NyZ3kvbENuT1ZYd25uazIwT0hDOW9tcC80RHA0cHprV09CMVN4?=
+ =?utf-8?B?TVFud3pkN0hZc2RERDNMV09BOWJRNG8rb2RDalBuWVZjb2o5S0x0SjB3TWh1?=
+ =?utf-8?B?VkRhN0hwY1ZsMVByWmc5b05qRHQzaVZTVTkxSGRXemhtcWpicDdRcHQycDFW?=
+ =?utf-8?B?NnBKYitGd3lTaVMzODhUYnoyL0Z6SEErR1RhYUlSRnEzdmpRaDdHQWZ3cjNW?=
+ =?utf-8?B?a1pTbzhJVjJBQXBFUm5QL3BmL0oyRTRDbG5VWVZkU0RwK1ZrTERHU0NHVlhM?=
+ =?utf-8?B?UnVwMUFITGF1c2tOdi9OTjhRQXhGWFJrV3oySWhOa1RLbUQvMzkyVTFuSk1z?=
+ =?utf-8?B?YjBhd2FuOVNrUXBFd2dvR0xTUHprWDRwYzdMWUlwWjZsamd1dU1xNGZXNW5Z?=
+ =?utf-8?B?bWtvd2U3UGtwNmhleTVnVmlBdzJIa1Zkc3B6akJYNS9WUjBoanpLZHUwVmw3?=
+ =?utf-8?B?WEtJd2kzTmJHOE5jYkZuUDRxZXU4QXN2cXprRXlWZVd3QXg4NktHTktTczgy?=
+ =?utf-8?B?MXgyaXNDa3d4cm9jUkdMa3FMd0JXTmtIT0owUkVLMUZqUG5JcG1KZlNOcGdT?=
+ =?utf-8?Q?1vNrlLYl21vPcJ0KZB1PNbD6y?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 920f9335-4f17-46ac-b2a0-08dbdf4c60db
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 04:45:34.5723
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vbDNt8cnBRHIcp1R2DLXcohAcS1BiSGfJx2SdcywaDVCuVF/ACieSaEYREicAdSR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6563
 
-On 11/6/23 19:08, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
->> -----Original Message-----
->> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
->> Sent: Tuesday, October 31, 2023 9:47 PM
->> To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>;
->> patrick@stwcx.xyz; Jean Delvare <jdelvare@suse.com>; Jonathan Corbet
->> <corbet@lwn.net>
->> Cc: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
->> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
->> linux-i2c@vger.kernel.org; linux-hwmon@vger.kernel.org;
->> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org;
->> linux-doc@vger.kernel.org
->> Subject: Re: [PATCH v2 2/2] hwmon: pmbus: Add ltc4286 driver
->>
->>    Security Reminder: Please be aware that this email is sent by an external
->> sender.
->>
->> On 10/30/23 23:46, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
->> [ ... ]
->>>>
->>>>> +
->>>>> +     ret = of_property_read_u32(client->dev.of_node,
->>>>> +                                "shunt-resistor-micro-ohms",
->>>> &rsense);
->>>>> +     if (ret < 0)
->>>>> +             return ret;
->>>>> +
->>>>> +     if (rsense == 0)
->>>>> +             return -EINVAL;
->>>>> +
->>>>> +     info = &ltc4286_info;
->>>>> +
->>>>> +     /* Default of VRANGE_SELECT = 1, 102.4V */
->>>>> +     if (device_property_read_bool(&client->dev,
->>>> "adi,vrange-select-25p6")) {
->>>>
->>>> What if the adi,vrange-select-25p6 property is not provided, but the
->>>> chip is programmed for this range ?
->>> The binding document tells programmers how to fill the dts.
->>> Thus, programmers must fill this property if their system is 25.6 volts voltage
->> range.
->>>
->>
->> Sure, but there is no else case, meaning VRANGE_SELECT is unmodified in that
->> case. There is no guarantee that the chip is in its power-on state.
+
+
+On 11/7/2023 1:47 AM, Hunter Chasens wrote:
+> Resolves Sphinx unexpected indentation warning when compiling
+> documentation (e.g. `make htmldocs`). Replaces tabs with spaces and adds
+> a literal block to keep vertical formatting of the
+> example power state list.
 > 
-> The else case is in v2 ltc4286.c line 133
-> It means that the voltage range for programmer is 102.4 volts which is default value,
-> so driver doesn't need to do any change for VRANGE_SELECT bit.
-
-There is no guarantee that the value wasn't changed before the driver was loaded.
-
-Guenter
-
-> Additionally, we have checked the behavior of VRANGE_SELECT bit with vendor.
-> Below is the reply from vendor:
-> [Our question]
-> If we change the VRANGE_SELECT bit value to 0, the value would return to default after we restart this device?
-> Or VRANGE_SELECT bit value would never change util someone change its value?
-> [ADI reply]
-> chip reset will go back to default. Thanks.
+> Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
+> ---
+>   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
 > 
-> Thus, we must overwrite this bit if the user fill adi,vrange-select-25p6 here whenever driver probes
-> 
->>
->> Guenter
-> 
+> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> index 517b9fb4624c..81b8ceb26890 100644
+> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
+>    * Reading back the files will show you the available power levels within
+>    * the power state and the clock information for those levels. If deep sleep is
+>    * applied to a clock, the level will be denoted by a special level 'S:'
+> - * E.g.,
+> - *	S: 19Mhz *
+> - *	0: 615Mhz
+> - *	1: 800Mhz
+> - *	2: 888Mhz
+> - *	3: 1000Mhz
+> + * E.g.::
 
+This will be like E.g.: Could you keep it like E.g.,<space>:: so that :: 
+is taken out?
+
+Thanks,
+Lijo
+
+> + *
+> + *  S: 19Mhz *
+> + *  0: 615Mhz
+> + *  1: 800Mhz
+> + *  2: 888Mhz
+> + *  3: 1000Mhz
+>    *
+>    *
+>    * To manually adjust these states, first select manual using
