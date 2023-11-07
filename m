@@ -1,105 +1,161 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F49C2D05A
-	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 10:56:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198E7651;
+	Tue,  7 Nov 2023 12:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="qkxdtbQu"
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496CB171C
-	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 02:56:28 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-32fa4183535so811524f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Nov 2023 02:56:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1699354586; x=1699959386; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hiqFYUrrovnf1rhzBHvSluIgSBMGKUT9Q2F8cmlGclI=;
-        b=qkxdtbQucEK7DLbiv1cKdTpCrLREePIFWimgYLnxfcHCSbA7Hw/4RlMhTwX/1y8H3i
-         2AiDmSFI5R39zutNt6ytF7rgteIp6ZWOcZSOkBaIw2Yft/iUbjHP5yYW0OrFlOl+OhmD
-         qj/HHvD5wAp/Tg5wI6GLNdwgE09YsQ5v1vCByiqUjqJjY06RVKGCfYkpAvVYZSUP/ccp
-         DvkUxcUGFC3nLlqONCqce/kgc2zhXkFw71pd2axoIKSvio7w0nO9p5mcvIRaSWF4Oayv
-         cqw5JLEsEUKTgB4Xrr0sBDAjMmWNXO5X69EVzHR7Dihj2OnZIXZUHCQ3vAgHPSGM/hmZ
-         cPyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699354586; x=1699959386;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hiqFYUrrovnf1rhzBHvSluIgSBMGKUT9Q2F8cmlGclI=;
-        b=jny5stM+GkQQuLXxFDd+MtRa36WF/jEOjwkN4Ccsi9Xuhp9rWBc3WAhLNppQoax2Py
-         RMd1u1kpa/fBk9viRbqnuq1z/rrdHWdohZe6CbhPzT6qUH9EBpLwsB2yUtUJql43roBa
-         +1EqcZ8h305bUSCutZcInX+2GXuTzPKC0BnwbnaMTxZtL+hSWWbvnihsQcij1XhRCZvb
-         PlbZC7tFQ1b6Q2nDn9zagv3AXaoaAjmcSO/mafI8bTk5ihZag053q/Yj8mNPEcUZiIhG
-         E+NZkjHhFpkcbWX2rah/o3z4hBRngnUXiOd/QXHuZFlfFcdK11/gNgbMY6sB5crZ9tph
-         h/Gg==
-X-Gm-Message-State: AOJu0YxL+yXgixLCIttmY1vvtWKmZbzq1XY6a6w+Sd7GM9ulXvIoComf
-	RKy/9FQ+i5eUWFo4eYYb4eyKZw==
-X-Google-Smtp-Source: AGHT+IF7Zo2YtACLiPHwQ6dLVhxCBp4VHRs60nrkUPyWwGQZ1utTTeaxqjcqGnJKdNMWHeSZvxGiKQ==
-X-Received: by 2002:a05:600c:3b91:b0:407:52f0:b01a with SMTP id n17-20020a05600c3b9100b0040752f0b01amr26054980wms.2.1699354585803;
-        Tue, 07 Nov 2023 02:56:25 -0800 (PST)
-Received: from carbon-x1.. ([2a01:e0a:999:a3a0:7db3:bdd9:4cab:2ee3])
-        by smtp.gmail.com with ESMTPSA id n30-20020a05600c501e00b00405442edc69sm15396853wmr.14.2023.11.07.02.56.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 02:56:24 -0800 (PST)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Evan Green <evan@rivosinc.com>,
-	Conor Dooley <conor@kernel.org>,
-	Samuel Ortiz <sameo@rivosinc.com>
-Subject: [PATCH v3 20/20] dt-bindings: riscv: add Zfa ISA extension description
-Date: Tue,  7 Nov 2023 11:55:56 +0100
-Message-ID: <20231107105556.517187-21-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231107105556.517187-1-cleger@rivosinc.com>
-References: <20231107105556.517187-1-cleger@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JslCy8cz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93009C433C8;
+	Tue,  7 Nov 2023 12:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699358779;
+	bh=9zCpIoWTpAhj1sQ+zAMwyzUr5ZYSTZ2jryJqekmTKMw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JslCy8czwai3/oSeaqGeDqIEHOLhSxEizrUyptdWq2EVBiOLvG8u72/M76Eq/tgg4
+	 9VvD1QfEdQfe2mzJujl0rGHCb6CNv7Zn/3JVmLS2CAbF11Rb75cHa4ZVfIqzBM7bAP
+	 NbL05SWZaExEOpvua+qRE2jFahwHuUg1PdHtOx9J2S42XXOasSpW6kCs2eTZ+YAXzR
+	 lNhZE7E49MO46p02qsOqxcJ3Z/bOCQCctkGv8SVXgSA0Bnkiylf868/87GBtoAcSmC
+	 Go2SgvxBo4cDV+dDPi9DNn+i1mLafewHjBfpp7M2FCUHJYgdD+TqFoJeyx0CJBWcXp
+	 cGEmBFzDEExTA==
+Message-ID: <9e07a8d5-9fc6-44e3-ba98-5235f4c21ed9@kernel.org>
+Date: Tue, 7 Nov 2023 13:06:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC Draft net-next] docs: netdev: add section on using lei to
+ manage netdev mail volume
+Content-Language: en-GB, fr-BE
+To: David Wei <dw@davidwei.uk>, Jakub Kicinski <kuba@kernel.org>,
+ davem@davemloft.net
+Cc: netdev@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, pabeni@redhat.com, corbet@lwn.net,
+ edumazet@google.com
+References: <20231105185014.2523447-1-dw@davidwei.uk>
+ <8205a0ba-aeef-4ab6-80cc-87848903f541@kernel.org>
+ <9ee972b4-b3ff-4201-b22e-c76080cb8f6e@davidwei.uk>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+In-Reply-To: <9ee972b4-b3ff-4201-b22e-c76080cb8f6e@davidwei.uk>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Add description for the Zfa ISA extension[1] which can now be
-reported through hwprobe for userspace usage.
+Hi David,
 
-Link: https://drive.google.com/file/d/1VT6QIggpb59-8QRV266dEE4T8FZTxGq4/view [1]
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
----
- Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+On 06/11/2023 17:57, David Wei wrote:
+> On 2023-11-06 03:24, Matthieu Baerts wrote:
+>> On 05/11/2023 19:50, David Wei wrote:
+>>> As a beginner to netdev I found the volume of mail to be overwhelming. I only
+>>> want to focus on core netdev changes and ignore most driver changes. I found a
+>>> way to do this using lei, filtering the mailing list using lore's query
+>>> language and writing the results into an IMAP server.
+>>
+>> I agree that the volume of mail is too high with a variety of subjects.
+>> That's why it is very important to CC the right people (as mentioned by
+>> Patchwork [1] ;) )
+>>
+>> [1]
+>> https://patchwork.kernel.org/project/netdevbpf/patch/20231105185014.2523447-1-dw@davidwei.uk/
+> 
+> Sorry and noted, I've now CC'd maintainers mentioned by Patchwork.
 
-diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-index 87c7e3608217..dcba5380f923 100644
---- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-+++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-@@ -214,6 +214,12 @@ properties:
-             instructions as ratified at commit 6d33919 ("Merge pull request #158
-             from hirooih/clmul-fix-loop-end-condition") of riscv-bitmanip.
- 
-+        - const: zfa
-+          description:
-+            The standard Zfa extension for additional floating point
-+            instructions, as ratified in commit 056b6ff ("Zfa is ratified") of
-+            riscv-isa-manual.
-+
-         - const: zfh
-           description:
-             The standard Zfh extension for 16-bit half-precision binary
--- 
-2.42.0
+Thanks!
 
+>>> This patch is an RFC draft of updating the maintainer-netdev documentation with
+>>> this information in the hope of helping out others in the future.
+>>
+>> Note that I'm also using lei to filter emails, e.g. to be notified when
+>> someone sends a patch modifying this maintainer-netdev.rst file! [2]
+>>
+>> But I don't think this issue of "busy mailing list" is specific to
+>> netdev. It seems that "lei" is already mentioned in another part of the
+>> doc [3]. Maybe this part can be improved? Or the netdev doc could add a
+>> reference to the existing part?
+> 
+> I think "busy mailing list" is especially bad for netdev. There are many
+> tutorials for setting up lei, but my ideal goal is a copy + paste
+> command specifically for netdev that outputs into an IMAP server for
+> beginners to use. As opposed to writing something more generic.
+
+I see. I don't know if many people are in this case, but having this
+example will certainly help people adapting it to their case!
+
+>> (Maybe such info should be present elsewhere, e.g. on vger [4] or lore)
+>>
+>> [2]
+>> https://lore.kernel.org/netdev/?q=%28dfn%3ADocumentation%2Fnetworking%2Fnetdev-FAQ.rst+OR+dfn%3ADocumentation%2Fprocess%2Fmaintainer-netdev.rst%29+AND+rt%3A1.month.ago..
+>> [3]
+>> https://docs.kernel.org/maintainer/feature-and-driver-maintainers.html#mailing-list-participation
+> 
+> This document is aimed at kernel maintainers. My concern is that
+> beginners would not find or read this document.
+
+Indeed.
+
+>> [4] http://vger.kernel.org/vger-lists.html
+> 
+> It would be nice to add a link in the netdev list "Info" section. Do you
+> know how to update it?
+
+No, sorry. Maybe Jakub or DaveM can help?
+
+> How about keeping a netdev specific sample lei query in
+> maintainer-netdev and refer to it from [4]?
+
+Fine by me, but best to check with Netdev maintainers :)
+
+(...)
+
+> It would be ideal if we could express dfn:^net/*. I contacted the public
+> inbox folks and they said it is not supported :(
+
+Thank you for having asked them and Konstantin. That's a shame we cannot
+use regex. Maybe later.
+
+Cheers,
+Matt
