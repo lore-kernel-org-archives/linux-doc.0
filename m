@@ -1,154 +1,112 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA51B2EB0A;
-	Mon,  6 Nov 2023 23:25:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E63E633
+	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 00:10:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nX5c+gTl"
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09A54468D;
-	Mon,  6 Nov 2023 15:25:16 -0800 (PST)
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7ad501764f4so65940939f.3;
-        Mon, 06 Nov 2023 15:25:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M5xFOTJl"
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CDEEBB;
+	Mon,  6 Nov 2023 16:10:14 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1cc2fc281cdso38270525ad.0;
+        Mon, 06 Nov 2023 16:10:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699313116; x=1699917916; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pFohItga9X0xPgYLEfr2XqF9MUnkolAn3ELAIha/bdg=;
-        b=nX5c+gTlHMYV21PjHlvnvYaZFgZYyzDBFJIqd4monilmsST+GssoWBQVzdj/pF9DH7
-         YTxxMbUmLQ8XiJg3D9EhKkq1uvFtYzcfNZlYeepw3yKW+laVZh71fX4OmS7ttY4K9UIc
-         l/0fOQPcSJYFs2A7d27k9wEOkHhVYQ7vdvxJN/uOj4tmbWzq2oCQoNxNCIGeXaDiZTjU
-         uN3XrxPXaMgi1hpKZ2dbkeuTKZZYc7Q1ar06JMt7l1H2sQPFQGQQX5X/ZweowuVLMjD0
-         fNt3C2WaK/ElpG/+HCvZHdt9Lu94RfAv/TPUgn04dbPIOw4rOVMaY5a0iNn/UzfRXtp4
-         6Gaw==
+        d=gmail.com; s=20230601; t=1699315813; x=1699920613; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n8eZ4f+HKE0Dret1qHPporvZn8dbeKhvVjY9m+eg4eA=;
+        b=M5xFOTJlWBgV4FdrDwYMn2DPKL5Mwp9qeGKKwhS0UNgCStGEThbg6YRYwcQqskMBl3
+         /aa4IriMS+b7t8GsZy8JdYZ3CY3Ex4S6pmzhW/9qu4xYOuZFNU2nYfylCsNgm9z48l2T
+         f8977UpzobGGZo0jAojSS8zOlsTb5dPxgsEZsKS/TWDGM9QA/VQ/4k56k8OajmImzFKG
+         eeAXD5fLIgmR10TbMLg/COEZ5JnQ/mUlqeifcvSdAXme5pj0vAQMVI/4OtMqEeZtnEDg
+         GMY2Mr5V3YVNNfSOZnggGRW1tHwU9C3CUEA+zHf12f1PqciYPY/n1sfuwaZWyaCX+7Vl
+         ufpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699313116; x=1699917916;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pFohItga9X0xPgYLEfr2XqF9MUnkolAn3ELAIha/bdg=;
-        b=KcX4VSuIgr0wrkLccqMrymRLpFnwjJVxfuUD5tG3lHcn3bZ2g+dhfUAHrrW7uqndAE
-         bWCHhpwGC53+5WJEY+oiitHoZMJOWZXSfzUtoZda1C7V0LulfmEa4gMzfLIz5bM2rE9j
-         BqaKcozJQnryN62rovO9MvI27XwAtODffkjHuJ8uZK7lfc9be4ykSjqIyuD/xXP063Ih
-         YcJd+mBYeuc1frYtoMudGbT5/SuPLqQahA5Sch0GJ6QsNF8eZLw++G/SUEdJSWx6IIzt
-         fMYNK9nwDC2sW6YPcjfyan80CdmTS3JlByQldTja/XzbDKLq5g1PiTQp1LVlz+01LYlB
-         w1Lw==
-X-Gm-Message-State: AOJu0Yx66tM6fQyUvTYWlYq5PAwYu4/WmWek4UVzpsXpCxGArKbKgSDi
-	TAyISlrlK/cBCVeaKjVDV+z8M9VkDz71p2aosVM=
-X-Google-Smtp-Source: AGHT+IGV4V0e5c01c8hD3mfdr+jQQ1UjrMZTmWDKErBTA6rVC/kSi+zmq1aFfKbKyQjXxH2oaq8dispeOxZwGbnP91E=
-X-Received: by 2002:a05:6602:2b91:b0:79f:d4e6:5175 with SMTP id
- r17-20020a0566022b9100b0079fd4e65175mr41047243iov.16.1699313116030; Mon, 06
- Nov 2023 15:25:16 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699315813; x=1699920613;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n8eZ4f+HKE0Dret1qHPporvZn8dbeKhvVjY9m+eg4eA=;
+        b=HgpALC45cJqCgZeIBw3vBGAIm0nfqr7LiNep8io4zo5vjXhK4psyzZcicmZhF8/jQa
+         jF+9zjAnabHnTo/lubZnAnoHwxixCZIkO91igrwaGYD3ZnZd/UAqATHY5ocvPbhJygf8
+         cn8or3/xcB6VwMzlcusxW9hY24ymaDKtryIxUiJT1DleKi4gk6WnYqWgnDjTEezV5F0j
+         kZlCVKqTH+aN5xJYRtv0YTveQ9wvCFLTYGwN8bvEGWswKvXJTRlYxg4+PhGeBm5WNHAq
+         R3HC9VMypXiqSiMaM7BUe9ppKHuMKxxLl0Gt9RYDugoyv/V8pNrYWQzAeO6kOndMVJSW
+         J+3Q==
+X-Gm-Message-State: AOJu0Yyk59saSqx41YCX0svAewfohORp65Il6QkOmbGGPeLR/3Tt9jiQ
+	6EcNHTnt1W292D7bWDeyi8E=
+X-Google-Smtp-Source: AGHT+IHrvLSKOdFW+GmkHNiYDqpZ6dXWWQRLcaGPmm9XNsTWQ7pgImbbpKjHA5FepORg8sPiLvZKKA==
+X-Received: by 2002:a17:902:e30a:b0:1cc:644a:211b with SMTP id q10-20020a170902e30a00b001cc644a211bmr14076999plc.47.1699315813424;
+        Mon, 06 Nov 2023 16:10:13 -0800 (PST)
+Received: from [192.168.0.106] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id h3-20020a170902704300b001c613091aeasm6349072plt.297.2023.11.06.16.10.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Nov 2023 16:10:12 -0800 (PST)
+Message-ID: <5282cf04-eae4-4170-a833-cf4c4495a943@gmail.com>
+Date: Tue, 7 Nov 2023 07:10:01 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106183159.3562879-1-nphamcs@gmail.com> <20231106183159.3562879-4-nphamcs@gmail.com>
- <CAJD7tkYcEc03d+6kwkXu8M_fd9ZDzh6B5G+VjmFXx+H09mhfmg@mail.gmail.com>
- <CAKEwX=PU3z7CseAZHE6v-q_yKQn0PtZqtfsfyKy5KOJpnNiE9Q@mail.gmail.com> <CAJD7tkY+qdYytVKUjdgPypZthWA57gVKuEtjowuVPMpcOmpdLQ@mail.gmail.com>
-In-Reply-To: <CAJD7tkY+qdYytVKUjdgPypZthWA57gVKuEtjowuVPMpcOmpdLQ@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 6 Nov 2023 15:25:05 -0800
-Message-ID: <CAKEwX=Outf_hz_4UrzqKTbxxQD7y-Wm1cv9tOWC5J3V1ZmSiaA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] zswap: make shrinking memcg-aware
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] docs: gpu: rfc: i915_scheduler.rst remove unused
+ directives for namespacing
+To: Jani Nikula <jani.nikula@intel.com>,
+ Hunter Chasens <hunter.chasens18@ncf.edu>, corbet@lwn.net,
+ Luca Coelho <luciano.coelho@intel.com>
+Cc: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20231104134708.69432-1-hunter.chasens18@ncf.edu>
+ <ZUhvj2uj_PvaDxIM@debian.me> <8734xj18ck.fsf@intel.com>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <8734xj18ck.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 6, 2023 at 12:58=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com>=
- wrote:
->
-> > >
-> > > This lock is only needed to synchronize updating pool->next_shrink,
-> > > right? Can we just use atomic operations instead? (e.g. cmpxchg()).
-> >
-> > I'm not entirely sure. I think in the pool destroy path, we have to als=
-o
-> > put the next_shrink memcg, so there's that.
->
-> We can use xchg() to replace it with NULL, then put the memcg ref, no?
->
-> We can also just hold zswap_pools_lock while shrinking the memcg
-> perhaps? It's not a contended lock anyway. It just feels weird to add
-> a spinlock to protect one pointer.
+On 06/11/2023 17:31, Jani Nikula wrote:
+> On Mon, 06 Nov 2023, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>> On Sat, Nov 04, 2023 at 09:47:08AM -0400, Hunter Chasens wrote:
+>>> diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
+>>> index c237ebc024cd..23ba7006929b 100644
+>>> --- a/Documentation/gpu/rfc/i915_scheduler.rst
+>>> +++ b/Documentation/gpu/rfc/i915_scheduler.rst
+>>> @@ -135,13 +135,9 @@ Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
+>>>  drm_i915_context_engines_parallel_submit to the uAPI to implement this
+>>>  extension.
+>>>  
+>>> -.. c:namespace-push:: rfc
+>>> -
+>>>  .. kernel-doc:: include/uapi/drm/i915_drm.h
+>>>          :functions: i915_context_engines_parallel_submit
+>>>  
+>>> -.. c:namespace-pop::
+>>> -
+> 
+> What makes the namespacing unnecessary?
+> 
+> $ git grep '.. kernel-doc:: include/uapi/drm/i915_drm.h'
+> Documentation/gpu/driver-uapi.rst:.. kernel-doc:: include/uapi/drm/i915_drm.h
+> Documentation/gpu/rfc/i915_scheduler.rst:.. kernel-doc:: include/uapi/drm/i915_drm.h
+> 
+> And you get [1] and [2].
+> 
+>>>  Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
+>>>  -------------------------------------------------------------------
+>>>  Contexts that have been configured with the 'set_parallel' extension can only
+>>
+>> The warnings go away, thanks!
+> 
+> What warnings go away?
+> 
 
-Ah this sounds good to me I guess. I'm not opposed to this simplification
-of the concurrency scheme.
+Oops, I mean the patch author had silenced these warnings.
 
->
-> >
-> > >
-> > > > +               if (pool->next_shrink =3D=3D memcg)
-> > > > +                       pool->next_shrink =3D
-> > > > +                               mem_cgroup_iter(NULL, pool->next_sh=
-rink, NULL, true);
-> > > > +               spin_unlock(&pool->next_shrink_lock);
-> > > > +       }
-> > > > +       spin_unlock(&zswap_pools_lock);
-> > > > +}
-> > > > +
-> > > >  /*********************************
-> > > >  * zswap entry functions
-> > > >  **********************************/
-> > > >  static struct kmem_cache *zswap_entry_cache;
-> > > >
-> > > > -static struct zswap_entry *zswap_entry_cache_alloc(gfp_t gfp)
-> > > > +static struct zswap_entry *zswap_entry_cache_alloc(gfp_t gfp, int =
-nid)
-> > > >  {
-> > > >         struct zswap_entry *entry;
-> > > > -       entry =3D kmem_cache_alloc(zswap_entry_cache, gfp);
-> > > > +       entry =3D kmem_cache_alloc_node(zswap_entry_cache, gfp, nid=
-);
-> > > >         if (!entry)
-> > > >                 return NULL;
-> > > >         entry->refcount =3D 1;
-> > > [..]
-> > > > @@ -1233,15 +1369,15 @@ bool zswap_store(struct folio *folio)
-> > > >                 zswap_invalidate_entry(tree, dupentry);
-> > > >         }
-> > > >         spin_unlock(&tree->lock);
-> > > > -
-> > > > -       /*
-> > > > -        * XXX: zswap reclaim does not work with cgroups yet. Witho=
-ut a
-> > > > -        * cgroup-aware entry LRU, we will push out entries system-=
-wide based on
-> > > > -        * local cgroup limits.
-> > > > -        */
-> > > >         objcg =3D get_obj_cgroup_from_folio(folio);
-> > > > -       if (objcg && !obj_cgroup_may_zswap(objcg))
-> > > > -               goto reject;
-> > > > +       if (objcg && !obj_cgroup_may_zswap(objcg)) {
-> > > > +               memcg =3D get_mem_cgroup_from_objcg(objcg);
-> > > > +               if (shrink_memcg(memcg)) {
-> > > > +                       mem_cgroup_put(memcg);
-> > > > +                       goto reject;
-> > > > +               }
-> > > > +               mem_cgroup_put(memcg);
-> > >
-> > > Can we just use RCU here as well? (same around memcg_list_lru_alloc()
-> > > call below).
-> >
-> > For memcg_list_lru_alloc(): there's potentially sleeping in that piece =
-of
-> > code I believe? I believe at the very least we'll have to use this gfp_=
-t
-> > flag for it to be rcu-safe:
-> >
-> > GFP_KERNEL | __GFP_NORETRY | __GFP_NOMEMALLOC | __GFP_NOWARN
-> > not sure the
-> >
-> > Same go for this particular place IIRC - there's some sleeping done
-> > in zswap_writeback_entry(), correct?
->
-> Ah right, I missed this. My bad.
+-- 
+An old man doll... just what I always wanted! - Clara
+
