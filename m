@@ -1,153 +1,198 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6A13714F
-	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 20:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFBB2A1BB
+	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 21:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ncf.edu header.i=@ncf.edu header.b="n8C8txHO"
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3C0510FD
-	for <linux-doc@vger.kernel.org>; Tue,  7 Nov 2023 12:34:37 -0800 (PST)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-5a87ac9d245so73965717b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 07 Nov 2023 12:34:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ncf.edu; s=google; t=1699389277; x=1699994077; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:organization:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aWp5Pb+/LdzWJWf4DW8IBglT8Le0ScvSI5TXWdEwNqg=;
-        b=n8C8txHOJBRMO50qXHXTqN3QJ+ZXK1GiARcrHelqpI2qz2ElJyziOHqgfFgtNQ4ch+
-         DG3xM/n8Jovv5wdHAuIY3mh8quCFmMuYu/zzVEb83xaMnBtvEYQys2+4O2YzMwXdnetd
-         ngt1QyG6ec2ShYEYLLGSw4KyMtXRXxIs+p2ZR2vdxSwkRPwSH2D9YxSlsp5daGR5FNlV
-         LFnEmZ2PR1qdkbne8qFyrHKO9yh2nKHbMU/AsSgMVrH0GppibjDI1+eF1GoZNJcz4cy1
-         F4NbrHFQ7E1WPHEnWCazBvwDIZjxIFwR9nXr2M3QVrrsH8GPCPlDshz2xmVKceul2rD/
-         x2Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699389277; x=1699994077;
-        h=mime-version:references:in-reply-to:organization:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aWp5Pb+/LdzWJWf4DW8IBglT8Le0ScvSI5TXWdEwNqg=;
-        b=IAA8z7jj+sUI5velLNcS8a7343M6PxzZjTeRn5smZpDGQ10Hinf3PWGhDoXEk+tabw
-         eQK/r3W2qc4m2FroESl9zrKZRC2n0O6D3tdsdN04JZ2So5QBTPrzD2tutlYOJ4QvQVdg
-         ILvWv1P6VftryaCZUQxOZZCiBEvGZL5uwSSV4gCQsvt97nwCozRn7LswK/SETyPtZmxD
-         eT5RiTDCM0wAkZf6Umv1dOyjOrHx+QvAV8bswTUui/6iYZCjg+M2NuDmitFyiTNQkRLX
-         9bp7pFYiR5lTR3Bu6vWhnKtwBj5U+OdNr5Je3SIkuYKuAvOEFSaeqaj/pGhVWvoFkmPK
-         szRQ==
-X-Gm-Message-State: AOJu0Yy13fPqOEJgjPdg1xKMGVsMjTvwt2pKaasmmZGuBVs5N/zZh2xG
-	yHYU00c05G85OVzrUlHidqzivg==
-X-Google-Smtp-Source: AGHT+IFCLuTnYPZoOwFZ96oW9PizZC3cqb+219coA5tTSa7FD5yZSWjW9IZIkFPmXv9f3dw6ESaCng==
-X-Received: by 2002:a0d:cb16:0:b0:5a7:c6bd:7ac0 with SMTP id n22-20020a0dcb16000000b005a7c6bd7ac0mr14965043ywd.13.1699389276735;
-        Tue, 07 Nov 2023 12:34:36 -0800 (PST)
-Received: from lux.localnet ([2601:580:8201:d0::4174])
-        by smtp.gmail.com with ESMTPSA id u82-20020a816055000000b0059c0629d59csm6051836ywb.115.2023.11.07.12.34.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 12:34:36 -0800 (PST)
-From: Hunter Chasens <hunter.chasens18@ncf.edu>
-To: linux-kernel@vger.kernel.org, "Lazar, Lijo" <lijo.lazar@amd.com>
-Cc: linux-doc@vger.kernel.org, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, alexander.deucher@amd.com, airlied@gmail.com,
- christian.koenig@amd.com
-Subject:
- Re: [PATCH v2] drm: amd: Resolve Sphinx unexpected indentation warning
-Date: Tue, 07 Nov 2023 10:34:35 -0500
-Message-ID: <22087039.EfDdHjke4D@lux>
-Organization: New College of Florida
-In-Reply-To: <6bd4f6d9-07c9-9ac1-2f3f-bb083b9c8085@amd.com>
-References:
- <20231106201739.29507-1-hunter.chasens18@ncf.edu>
- <6bd4f6d9-07c9-9ac1-2f3f-bb083b9c8085@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vvc68D6O"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 220F392;
+	Tue,  7 Nov 2023 13:15:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699391752; x=1730927752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tvrqr3gCoi7R07ZKXs6dBXJsySNmo1jfexcJRbjtD20=;
+  b=Vvc68D6OiQmLNL1Ad0ZAf8HZFuiPgYywtEhwK6AQ47aHRZTC4pNCWv56
+   RdmgJRlf46qrg+YiMQodmV23Ps5d/tXc+U2eGgljfPd5VC8EIcs8022yp
+   FmMsXoM2VOSYABnLnKo//jzRVEXUU91S8L6rWEBAelCUfUYEHJC8TA032
+   PSNnQFrIW41vakE/SYXOjTPgJJAHhy5fgM+Cu4BvWI4g46VoqIKnW/Qcr
+   qAekZCSnW8jsrGKIIbk2OPotcLqggVhRWVZglyhi9ekzZD04EKuK7vanc
+   zoJLDM5Qfp+6Ag2S/ash40lhrNUTbhwjuIqAmBrTtAS7VIUKwEyDsg0DE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="2558705"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
+   d="scan'208";a="2558705"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 13:15:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="739278248"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
+   d="scan'208";a="739278248"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 13:15:38 -0800
+Date: Tue, 7 Nov 2023 13:15:36 -0800
+From: Tony Luck <tony.luck@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v3] x86/resctrl: mba_MBps: Fall back to total b/w if
+ local b/w unavailable
+Message-ID: <ZUqo+MsEQi2Xc/pO@agluck-desk3>
+References: <20231025235046.12940-1-tony.luck@intel.com>
+ <20231026200214.16017-1-tony.luck@intel.com>
+ <0cee68e9-e188-46e9-83a8-02259a9c081f@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart7603761.EvYhyI6sBW";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0cee68e9-e188-46e9-83a8-02259a9c081f@intel.com>
 
---nextPart7603761.EvYhyI6sBW
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Hunter Chasens <hunter.chasens18@ncf.edu>
-To: linux-kernel@vger.kernel.org, "Lazar, Lijo" <lijo.lazar@amd.com>
-Date: Tue, 07 Nov 2023 10:34:35 -0500
-Message-ID: <22087039.EfDdHjke4D@lux>
-Organization: New College of Florida
-In-Reply-To: <6bd4f6d9-07c9-9ac1-2f3f-bb083b9c8085@amd.com>
-MIME-Version: 1.0
+On Fri, Nov 03, 2023 at 02:43:15PM -0700, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 10/26/2023 1:02 PM, Tony Luck wrote:
+> > On Intel the various resource director technology (RDT) features are all
+> > orthogonal and independently enumerated. Thus it is possible to have
+> > a system that  provides "total" memory bandwidth measurements without
+> > providing "local" bandwidth measurements.
+> 
+> This motivation is written in support of Intel systems but from what I
+> can tell the changes impact Intel as well as AMD.
 
-On Monday, November 6, 2023 11:45:24 PM EST Lazar, Lijo wrote:
-> On 11/7/2023 1:47 AM, Hunter Chasens wrote:
-> > Resolves Sphinx unexpected indentation warning when compiling
-> > documentation (e.g. `make htmldocs`). Replaces tabs with spaces and
-> > adds
-> > a literal block to keep vertical formatting of the
-> > example power state list.
+If AMD were to build a system that did this, same fixes would be needed.
+
 > > 
-> > Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
+> > If local bandwidth measurement is not available, do not give up on
+> > providing the "mba_MBps" feedback option completely, make the code fall
+> > back to using total bandwidth.
+> 
+> It is interesting to me that the "fall back" is essentially a drop-in
+> replacement without any adjustments to the data/algorithm.
+
+The algorithm is, by necessity, very simple. Essentially "if measured
+bandwidth is above desired target, apply one step extra throttling.
+Reverse when bandwidth is below desired level." I'm not sure what tweaks
+are possible.
+
+> Can these measurements be considered equivalent? Could a user now perhaps
+> want to experiment by disabling local bandwidth measurement to explore if
+> system behaves differently when using total memory bandwidth? What
+> would have a user choose one over the other (apart from when user
+> is forced by system ability)?
+
+This may be interesting. I dug around in the e-mail archives to see if
+there was any discussion on why "local" was picked as the feedback
+measurement rather that "total". But I couldn't find anything.
+
+Thinking about it now, "total" feels like a better choice. Why would
+you not care about off-package memory bandwidth? In pathological cases
+all the memory traffic might be going off package, but the existing
+mba_MBps algorithm would *reduce* the amount of throttling, eventually
+to zero.
+
+Maybe additional an mount option "mba_MBps_total" so the user can pick
+total instead of local?
+
+> > 
+> > Signed-off-by: Tony Luck <tony.luck@intel.com>
 > > ---
+> > Change since v2:
 > > 
-> >   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
-> >   1 file changed, 7 insertions(+), 6 deletions(-)
+> > Babu doesn't like the global variable. So here's a version without it.
 > > 
-> > diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > b/drivers/gpu/drm/amd/pm/amdgpu_pm.c index 517b9fb4624c..81b8ceb26890
-> > 100644
-> > --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct
-> > device *dev,> 
-> >    * Reading back the files will show you the available power levels
-> >    within
-> >    * the power state and the clock information for those levels. If
-> >    deep sleep is * applied to a clock, the level will be denoted by a
-> >    special level 'S:'> 
-> > - * E.g.,
-> > - *	S: 19Mhz *
-> > - *	0: 615Mhz
-> > - *	1: 800Mhz
-> > - *	2: 888Mhz
-> > - *	3: 1000Mhz
-> 
-> > + * E.g.::
-> This will be like E.g.: Could you keep it like E.g.,<space>:: so that ::
-> is taken out?
-> 
-> Thanks,
-> Lijo
-> 
-> > + *
-> > + *  S: 19Mhz *
-> > + *  0: 615Mhz
-> > + *  1: 800Mhz
-> > + *  2: 888Mhz
-> > + *  3: 1000Mhz
+> > Note that my preference is still the v2 version. But as I tell newbies
+> > to Linux "Your job isn't to get YOUR patch upstream. You job is to get
+> > the problem fixed.".  So taking my own advice I don't really mind
+> > whether v2 or v3 is applied.
 > > 
-> >    *
-> >    *
-> >    * To manually adjust these states, first select manual using
+> >  arch/x86/kernel/cpu/resctrl/monitor.c  | 43 ++++++++++++++++++--------
+> >  arch/x86/kernel/cpu/resctrl/rdtgroup.c |  2 +-
+> >  2 files changed, 31 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+> > index f136ac046851..29e86310677d 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+> > @@ -418,6 +418,20 @@ static int __mon_event_count(u32 rmid, struct rmid_read *rr)
+> >  	return 0;
+> >  }
+> >  
+> > +/*
+> > + * For legacy compatibility use the local memory bandwidth to drive
+> > + * the mba_MBps feedback control loop. But on platforms that do not
+> > + * provide the local event fall back to use the total bandwidth event
+> > + * instead.
+> > + */
+> > +static enum resctrl_event_id pick_mba_mbps_event(void)
+> > +{
+> > +	if (is_mbm_local_enabled())
+> > +		return QOS_L3_MBM_LOCAL_EVENT_ID;
+> > +
+> > +	return QOS_L3_MBM_TOTAL_EVENT_ID;
+> > +}
+> 
+> Can there be a WARN here to catch the unlikely event that
+> !is_mbm_total_enabled()?
+> This may mean the caller (in update_mba_bw()) needs to move
+> to code protected by is_mbm_enabled().
 
-No problem. I'll send a v3 out in a bit.
+All this code is under the protection of the check at mount time
+done by supports_mba_mbps()
 
---nextPart7603761.EvYhyI6sBW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+static bool supports_mba_mbps(void)
+{
+        struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
 
------BEGIN PGP SIGNATURE-----
+        return (is_mbm_enabled() &&
+                r->alloc_capable && is_mba_linear());
+}
 
-iQEzBAABCAAdFiEEFaTi3I3XEd+IzfdZZz/o+CKADX8FAmVKWQsACgkQZz/o+CKA
-DX8MxQf+OReDu+tIzKqafU63tL2/DgaIr4JodkrKVsbt+QyEfbmSWS9mwP5KsOgf
-3Rzv37K/A2OTkRbuWMKE1k+ZJHp/2qrZUJIzZHEE/P9g/LV91biimlgXl9/OI2cp
-nAKt6aPapq6ZqyZrVt+5kmIGgUc+7p71dMJ8H89BLTTx29/mOziAHEV38FdWbQO7
-OEYDa4c1ugKbxqsnU3ni18PFdMxapGIT6mmr4P7GtD+ikCqireQ1zY+VkeefDOu7
-uppL3QTO+AXMNkwhiR6NbaLYyX98pcg6d7Gq3LeGf9CShx+Pz6c28aIiF4KcSk4W
-JBL1EslGewkEHY9C3LlIuow9Pkg30Q==
-=sA05
------END PGP SIGNATURE-----
+Adding even more run-time checks seems overkill.
 
---nextPart7603761.EvYhyI6sBW--
+> One option to consider is to have a single "get_mba_mbps_state()"
+> call (similar to V1) that determines the eventid as above and
+> then calls get_mbm_state() to return a pointer to mbm_state in one
+> call. Starting to seem like nitpicking but I'd thought I'd mention it
+> since it seemed a way to have V1 solution with request to use
+> get_mbm_state() addressed.
 
+It doesn't sound any better than the V3 approach.
 
+> > +
+> >  /*
+> >   * mbm_bw_count() - Update bw count from values previously read by
+> >   *		    __mon_event_count().
+> > @@ -431,9 +445,11 @@ static int __mon_event_count(u32 rmid, struct rmid_read *rr)
+> >   */
+> >  static void mbm_bw_count(u32 rmid, struct rmid_read *rr)
+> >  {
+> > -	struct mbm_state *m = &rr->d->mbm_local[rmid];
+> > +	enum resctrl_event_id mba_mbps_evt_id = pick_mba_mbps_event();
+> >  	u64 cur_bw, bytes, cur_bytes;
+> > +	struct mbm_state *m;
+> >  
+> > +	m = get_mbm_state(rr->d, rmid, mba_mbps_evt_id);
+> >  	cur_bytes = rr->val;
+> >  	bytes = cur_bytes - m->prev_bw_bytes;
+> >  	m->prev_bw_bytes = cur_bytes;
+> 
+> It should not be necessary to pick the event id again. It is available
+> within the struct rmid_read parameter. 
 
+So it is. I can drop the extra pick_mba_mbps_event() call here.
+
+-Tony
