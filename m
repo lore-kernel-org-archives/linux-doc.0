@@ -1,82 +1,158 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCCC30FAF;
-	Wed,  8 Nov 2023 20:27:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA59F374C3;
+	Wed,  8 Nov 2023 21:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PFmhlbFm"
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA4FB2126;
-	Wed,  8 Nov 2023 12:27:29 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 30E3377D;
-	Wed,  8 Nov 2023 20:27:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 30E3377D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1699475249; bh=lcpu4lqmDmvaxi98wOh6OW+as9ZncysjkXCYXHMXnNI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PFmhlbFmAJfzKQZ548sHjF5Hm1esnwtzv3TtqDzvBVoF59MY5fgzvrXPke6BXtnJp
-	 mZE8INxabP9CzQ7aFFqFWIf7t7wN8Upq8gNaXpMJGTIkQlouhxvUdH2jEdunk+CIn8
-	 JHWZez339Snxrs9OS5ocGX/HUjgzAy5VNiqx9c5VU/lu//SJeMAVguaPX4sdao82nW
-	 BcDfU3v/I+ZJ8x+N5EL3GTw1hbH0FYZhG8sP2vTu3j1LDrFDLk5yO2eU2v9F+X+0kd
-	 z7Kg6bTHy+xbZ+H4QDin+MSLfVHwB9ASAC6kQDO6Az0JMvB1mCNDkA0WwFAKvcQ9oE
-	 uCbvFv9x+pYbA==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Breno Leitao <leitao@debian.org>
-Cc: linux-doc@vger.kernel.org, netdev@vger.kernel.org, kuba@kernel.org,
- pabeni@redhat.com, edumazet@google.com
-Subject: Re: [PATCH] Documentation: Document the Netlink spec
-In-Reply-To: <20231103135622.250314-1-leitao@debian.org>
-References: <20231103135622.250314-1-leitao@debian.org>
-Date: Wed, 08 Nov 2023 13:27:28 -0700
-Message-ID: <875y2cxa6n.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqmKSTtA"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D772584;
+	Wed,  8 Nov 2023 13:07:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699477671; x=1731013671;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b6UoMOuB9Vc+Ox/xONoBAd6Z0ZkA6LvZweCBIByPU6I=;
+  b=nqmKSTtAyx8uO4rUfxYFejL31VoPgsoctzN6L8G7dviVAm3EnfNRwIVT
+   KYcdiRX5Ykm+SlF5RhC1z7EAI5Q01JE0DPS8jvEqgcHMPc2GQkr3Ub+An
+   MHoHi43vI+SbWqls0FLHhX7Y5EeRXa0qT1FkJeboe9GryiS8AUyscxnSN
+   2ViWTYUifmMuIqSYL5E9ldOX1BzyENYLFPFbjQ3wBQ4rBxVdh2TCuC0MQ
+   jqibnyHcbnwAdrNElXMgTgte0kOVY5vbHzGiFFWsz5c3zMAJTxJAjfctt
+   NZBwzSjXhyxT3cIwgwIXrpd3qvuIVE+I9L769d14HmkuphLBwSyZrI62D
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="392735140"
+X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
+   d="scan'208";a="392735140"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 13:07:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="756665102"
+X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
+   d="scan'208";a="756665102"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 08 Nov 2023 13:07:44 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r0pm1-0008Bo-21;
+	Wed, 08 Nov 2023 21:07:41 +0000
+Date: Thu, 9 Nov 2023 05:06:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Huan Yang <link@vivo.com>, Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Huang Ying <ying.huang@intel.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+	Yosry Ahmed <yosryahmed@google.com>,
+	Liu Shixin <liushixin2@huawei.com>, Peter Xu <peterx@redhat.com>,
+	Hugh Dickins <hughd@google.com>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
+Subject: Re: [PATCH 4/4] mm: memcg: apply proactive reclaim into cgroupv1
+Message-ID: <202311090446.NKFRnuGv-lkp@intel.com>
+References: <20231108065818.19932-5-link@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231108065818.19932-5-link@vivo.com>
 
-Breno Leitao <leitao@debian.org> writes:
+Hi Huan,
 
-> This is a Sphinx extension that parses the Netlink YAML spec files
-> (Documentation/netlink/specs/), and generates a rst file to be
-> displayed into Documentation pages.
->
-> Create a new Documentation/networking/netlink_spec page, and a sub-page
-> for each Netlink spec that needs to be documented, such as ethtool,
-> devlink, netdev, etc.
->
-> Create a Sphinx directive extension that reads the YAML spec
-> (located under Documentation/netlink/specs), parses it and returns a RST
-> string that is inserted where the Sphinx directive was called.
+kernel test robot noticed the following build warnings:
 
-So I finally had a chance to look a bit at this; I have a few
-impressions.
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tj-cgroup/for-next linus/master v6.6 next-20231108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-First of all, if you put something silly into one of the YAML files, it
-kills the whole docs build, which is ... not desirable:
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/mm-vmscan-LRU-unbalance-cgroup-reclaim/20231108-151757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231108065818.19932-5-link%40vivo.com
+patch subject: [PATCH 4/4] mm: memcg: apply proactive reclaim into cgroupv1
+reproduce: (https://download.01.org/0day-ci/archive/20231109/202311090446.NKFRnuGv-lkp@intel.com/reproduce)
 
-> Exception occurred:
->   File "/usr/lib64/python3.11/site-packages/yaml/scanner.py", line 577, in fetch_value
->     raise ScannerError(None, None,
-> yaml.scanner.ScannerError: mapping values are not allowed here
->   in "/stuff/k/git/kernel/Documentation/netlink/specs/ovs_datapath.yaml", line 14, column 9
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311090446.NKFRnuGv-lkp@intel.com/
 
-That error needs to be caught and handled in some more graceful way.
+All warnings (new ones prefixed by >>):
 
-I do have to wonder, though, whether a sphinx extension is the right way
-to solve this problem.  You're essentially implementing a filter that
-turns one YAML file into one RST file; might it be better to keep that
-outside of sphinx as a standalone script, invoked by the Makefile?
+>> Documentation/admin-guide/cgroup-v1/memory.rst:93: WARNING: Malformed table.
+>> Documentation/admin-guide/cgroup-v1/memory.rst:977: WARNING: Title underline too short.
 
-Note that I'm asking because I wonder, I'm not saying I would block an
-extension-based implementation.
+vim +93 Documentation/admin-guide/cgroup-v1/memory.rst
 
-Thanks,
+    62	
+    63	==================================== ==========================================
+    64	 tasks				     attach a task(thread) and show list of
+    65					     threads
+    66	 cgroup.procs			     show list of processes
+    67	 cgroup.event_control		     an interface for event_fd()
+    68					     This knob is not available on CONFIG_PREEMPT_RT systems.
+    69	 memory.usage_in_bytes		     show current usage for memory
+    70					     (See 5.5 for details)
+    71	 memory.memsw.usage_in_bytes	     show current usage for memory+Swap
+    72					     (See 5.5 for details)
+    73	 memory.limit_in_bytes		     set/show limit of memory usage
+    74	 memory.memsw.limit_in_bytes	     set/show limit of memory+Swap usage
+    75	 memory.failcnt			     show the number of memory usage hits limits
+    76	 memory.memsw.failcnt		     show the number of memory+Swap hits limits
+    77	 memory.max_usage_in_bytes	     show max memory usage recorded
+    78	 memory.memsw.max_usage_in_bytes     show max memory+Swap usage recorded
+    79	 memory.soft_limit_in_bytes	     set/show soft limit of memory usage
+    80					     This knob is not available on CONFIG_PREEMPT_RT systems.
+    81	 memory.stat			     show various statistics
+    82	 memory.use_hierarchy		     set/show hierarchical account enabled
+    83	                                     This knob is deprecated and shouldn't be
+    84	                                     used.
+    85	 memory.force_empty		     trigger forced page reclaim
+    86	 memory.pressure_level		     set memory pressure notifications
+    87	 memory.swappiness		     set/show swappiness parameter of vmscan
+    88					     (See sysctl's vm.swappiness)
+    89	 memory.move_charge_at_immigrate     set/show controls of moving charges
+    90	                                     This knob is deprecated and shouldn't be
+    91	                                     used.
+    92	 memory.oom_control		     set/show oom controls.
+  > 93	 memory.memory		     proactive reclaim.
+    94	 memory.numa_stat		     show the number of memory usage per numa
+    95					     node
+    96	 memory.kmem.limit_in_bytes          Deprecated knob to set and read the kernel
+    97	                                     memory hard limit. Kernel hard limit is not
+    98	                                     supported since 5.16. Writing any value to
+    99	                                     do file will not have any effect same as if
+   100	                                     nokmem kernel parameter was specified.
+   101	                                     Kernel memory is still charged and reported
+   102	                                     by memory.kmem.usage_in_bytes.
+   103	 memory.kmem.usage_in_bytes          show current kernel memory allocation
+   104	 memory.kmem.failcnt                 show the number of kernel memory usage
+   105					     hits limits
+   106	 memory.kmem.max_usage_in_bytes      show max kernel memory usage recorded
+   107	
+   108	 memory.kmem.tcp.limit_in_bytes      set/show hard limit for tcp buf memory
+   109	 memory.kmem.tcp.usage_in_bytes      show current tcp buf memory allocation
+   110	 memory.kmem.tcp.failcnt             show the number of tcp buf memory usage
+   111					     hits limits
+   112	 memory.kmem.tcp.max_usage_in_bytes  show max tcp buf memory usage recorded
+   113	==================================== ==========================================
+   114	
 
-jon
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
