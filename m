@@ -1,58 +1,72 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B9A6AAD
-	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 04:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F72CA61;
+	Wed,  8 Nov 2023 06:59:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UgUqtGK8"
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2081.outbound.protection.outlook.com [40.107.244.81])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92998196;
-	Tue,  7 Nov 2023 20:08:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="XMUbasmo"
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2116.outbound.protection.outlook.com [40.107.255.116])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A04D40;
+	Tue,  7 Nov 2023 22:59:14 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=neyhdcWQe4waLab/G4sIU5ZDwvQYdwJuOyyZOQnNyHp/cH+9sYqrvvLSRJQVRG6/E3OCWCs95RRdy+bnZeoHM1DCAEWlxoTsZEI8fbX2lddb1m7Xqt7fekM0s3B/m/R/c3g3H8ZKSfDCtJF/7rICEu3IC1RzKO2b113n9Y0DQ5vpgNghodDPP+AHlbpME4UD/bDSW67I+ge7f3LsTMhN4w6tPWplesVZUiAom/TjYnmdNheE+/clCb7uU8X+Nmnuzh6U1pm3lv83ev2pRI9/L4iRQSOH+qbROgu8ETGFwPvn74klVlAWYA03fmDXb1yj2woORhBTJXNLxqFzhsdyCQ==
+ b=IP4SwawffZYx0ULPPdlk5r9J4MPkMU5w32/fvdtxLoiIDOcwQgOjDfo1twpYwJHV7cNNmZqClRXaIrN3tbdX529dYD2cBD9BUoti9IA/GsJCo05JHAbR9a+PQkMwXmh2bycDKVXmiknePq67bXlnBOn5yFdKnyUjxxh3ZQeRrOimo/2kcMSVu6ETGKdm23/DmlOjpW2o9pJ4c+pqV7uQcNlsXtEiQ+LD2qj9HEEmpoVuhnCV3iKdsgazmY9qguyT9QLZAGkD0a4KCI0UrsSWoB8fVpa0J9Y6cvprb8nQLxroonHm7SC2jP/pqc8luVB+WbySc0nZLH658nuJL8oMtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fzXBUWkaRKrybs/a1L6ShWowUektlt1gg7GCMQM5IqA=;
- b=YkUS+2y43MSnS2d8tcIVsr0wwK4RWz/h6igaRqPWo0Wqq2g9cQCI+hPiFDfxIqFahJSal86kF/LClNUTc6bLOnfQrKzqKu8UaSlSuvrQ1j4Ip+p3VZHvFAhn9otCkS18CpvzZbUm6BEtWSk5Qo5l8ij8vJYic0dQLNJRg2CWFnzrcXgigQhDkoo5jmAQmPl+j9daq3wMCa5IBIGilDRcgAR0lQGO7siztUcJ4FOEDqjxqtA8DRxp9afWj26pi+tCycQJ49muODcXOd0FexWrJ31Kf14aRpKbf6oKQTiN1Crc0Awywajpq+qztGVw63R88zZePRehBTDagHsKUTFe0w==
+ bh=EJwHBvKSRB1qLVBlu4jz1SWZbwHrtI5njMrqpET2i+0=;
+ b=jZbefsMWX0q7n1lXgwzUTr1A+H0N+r8k+abc5ujKpapMibU72hWG/LQctdB1eTbDPNRgVYpUO6LwrfeLdQljY+sAdTfcDHBa3eMErTyNXUuvulxp9F2+RW3iwTvLtti6qEEo8+6l5zvgAejArQ/fnJBewDQiptHUDafbX1jZIXgD32qjnR6um4l0nVjInePVO75P8EZyuoZiODcaba4nPfNa5XQhpOeACunUBt75vZM3qOezlMeMlIA97lsh2tZPjiJOGpvknIgpfRampF3seZ/pilZ6wu0ZZnhp/rF/hJn8MYbj4djKHhSDnqbihFTQMTcv48UjsVKLPARXRDiBIA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fzXBUWkaRKrybs/a1L6ShWowUektlt1gg7GCMQM5IqA=;
- b=UgUqtGK8WPcB8uYnZR7Pn63w4ztbtT+3eU5/Wn06fguEegVTXjvI4eqRPtVodciE53ukGt5Yn1PqEFsQblLtcGUZUDvlPbu3ULwo4M18pe+RoJj4LNvzYPAublOn/d48pktCWRnm6XHQJiISHJzFVoKl7HQHZSpvpPpS5/cHE2Y=
+ bh=EJwHBvKSRB1qLVBlu4jz1SWZbwHrtI5njMrqpET2i+0=;
+ b=XMUbasmo47WFPOJw++0kAMg2sUs7xZuGcj9P/yPnyeOoNhIvVWtd3zYd1wt5AfG4rri8upxMy9cYtLKKDs1K5s/47xsHqiPEvLhGhebrGUrPXmnCWVdETpqyy+PLZfcehdqRHrhA1IRF5l2w4vCucM0taQMcAZrnEdLPVi6fL9dDxzLHuAX4OwIcFQpAIC87rhC2dgL5vBMhZv/sCzoeZrw+IkxWBttpSTC/JQ9MdtwicXNL0FLj1Hvovo+g4Qk5Mk+PCI/Kx0lzfGQfzxUHxdxebA+thFWWSo8rCzT38RXJ39oYIYsQwRPn0RTZBeEuJ1dgthR9DyEe+/kPqgoniw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
- by BL1PR12MB5946.namprd12.prod.outlook.com (2603:10b6:208:399::8) with
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+ by TYZPR06MB3983.apcprd06.prod.outlook.com (2603:1096:400:2a::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Wed, 8 Nov
- 2023 04:08:00 +0000
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::ce36:81fc:9c50:c892]) by BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::ce36:81fc:9c50:c892%6]) with mapi id 15.20.6954.028; Wed, 8 Nov 2023
- 04:07:59 +0000
-Message-ID: <2853fe7e-7d39-9b32-87b2-93845f16ae51@amd.com>
-Date: Wed, 8 Nov 2023 09:37:48 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v3] drm: amd: Resolve Sphinx unexpected indentation
- warning
-Content-Language: en-US
-To: Hunter Chasens <hunter.chasens18@ncf.edu>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, alexander.deucher@amd.com, airlied@gmail.com,
- christian.koenig@amd.com
-References: <20231107162830.36856-1-hunter.chasens18@ncf.edu>
-From: "Lazar, Lijo" <lijo.lazar@amd.com>
-In-Reply-To: <20231107162830.36856-1-hunter.chasens18@ncf.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0029.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:25::34) To BYAPR12MB4614.namprd12.prod.outlook.com
- (2603:10b6:a03:a6::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.31; Wed, 8 Nov
+ 2023 06:59:09 +0000
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::d754:7b3:dc4c:6b48]) by PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::d754:7b3:dc4c:6b48%6]) with mapi id 15.20.6954.027; Wed, 8 Nov 2023
+ 06:59:09 +0000
+From: Huan Yang <link@vivo.com>
+To: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Huang Ying <ying.huang@intel.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Peter Xu <peterx@redhat.com>,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+	Yosry Ahmed <yosryahmed@google.com>,
+	Liu Shixin <liushixin2@huawei.com>,
+	Hugh Dickins <hughd@google.com>,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: opensource.kernel@vivo.com,
+	Huan Yang <link@vivo.com>
+Subject: [RFC 0/4] Introduce unbalance proactive reclaim
+Date: Wed,  8 Nov 2023 14:58:11 +0800
+Message-Id: <20231108065818.19932-1-link@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0187.apcprd04.prod.outlook.com
+ (2603:1096:4:14::25) To PUZPR06MB5676.apcprd06.prod.outlook.com
+ (2603:1096:301:f8::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,105 +74,174 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB4614:EE_|BL1PR12MB5946:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9f157c9-b9d3-4abe-63e2-08dbe0104a76
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|TYZPR06MB3983:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4a78337a-4ed9-4b85-d066-08dbe02834ca
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	+jTS520tdq4G03LBhseTLU+Ped6Z0ogoQIwR0gnQw8jtEWOxM5EOOOz7PIV7ESnb5o604SVl13d317mcDqSB+G4ivaEA43ADCwTB0Zi4oUvNEBXMGsRAh+O2zXVCeAxtTVl9kgM3otDVKuhnNA5Wq7fYPwTr1LuegQb1fed4UPrVRJjZl8zuHi2e0BbXVaA+nMsIL73xkRdxyS5wXrIu+T/JInzg46GgzJbEPX8BQEPnXg+OXGftUUcMwzyhV11oxKWN6wRt6cDZO36POk7ZTKq6j5WHZ40lw1lwqICJLewJLj/6q9wS8j8ggwcWtNxZxq3zLD5/3kj4ILuP/nhwcw7NnIuY6k97bYFoqnEdkBdiWBDqPnzkzqj2GLtIZqFoDVuK+lxYOznWLrDwEoNDDd8ub8mDlChuCEegmjfyTa8q/AhkZB+8xHR6/EY+8EfnR8GXWIql0IP1Q4ssj+M2DGWgBxJFQWHKWCpjFKDOnyu6tDJ0digWP+N4YzFwbYMQZLS9uFoXk3uMokgP7vQ7+NBv+Wl3bAWo/jD+FShkoygmHQpJUABdCJKbf9He+G0gjtM9ieI55Lgnp8SkzTn775qNHX7Ei+AXm2KiAWocMYiVibv0QLNoILeJkp8d/Z6fymCUgUzaPirNERd7JbPCZrLq+lt8Pf2mxZvOFG3B/HQbr5hPxN3yRoBjd1pIOkcF
+	AcDJ2+BNryLM9yibQTLXMhygNCh1US+C8tYqLOybfFxl9Fa4k8efUbFW4soBfow6f3SHrul/V62JXKFbSgbbVUPeEqTiY+MBB6fcZgUqUUI7BkZ4qsSsLcWjlKaNFkCUVoAhkBHL2yr8lECP7cNPHFNEEFg32QZfdPL9Db18djtxNWKzfAM0GN9oXUkBXmYOFTbi2ssRivrCvieejN4l3DqwLxcPtWDaDcliYAfo9sVJUzQ/q4sIR4oa3ok9rL61cMmVP+8r1jV7O2d7WQt8kyn84i30rPPir5odjoq5orZcbIqR8wFiuJvsPPf/kUfATLuP5yFUG5UWuN2ADf9UBK05Ue96NbBeauDvl0tBHRnQRp4/wWqCW2bMinQvOLifSmYZtbWTHLhaPxRPkLT3yINJYWPhBLQuVdvDJqD0FLRyjU+01kJoKhl4YnDSYJm5iPOScCaXd5//lwKyltwKS8k2nezylI5p8+Gz/ZxALmVMX3jm4zGMp5ZxaV1WaUo+pdm4nnJQfR2CIkeeOp0LuCBcrOulBadCLMhZgw6cBPzF+XOGq48XVfTvnYpUNLpkuwhw1NrCnwJT1qpFfssYJCrd9d6LQ33EhED+NtxE3M9q7YoaR8ZlqxdGmr2F7TqCrAmJnXD37SbGy1mWcF9xMg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4614.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(346002)(396003)(366004)(376002)(230922051799003)(230173577357003)(230273577357003)(64100799003)(186009)(451199024)(1800799009)(2616005)(6666004)(53546011)(6486002)(6512007)(478600001)(6506007)(83380400001)(26005)(66556008)(5660300002)(41300700001)(2906002)(66476007)(4326008)(8936002)(66946007)(316002)(8676002)(36756003)(38100700002)(86362001)(31696002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(346002)(136003)(396003)(39850400004)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(6486002)(6512007)(5660300002)(6506007)(478600001)(52116002)(6666004)(83380400001)(8936002)(8676002)(4326008)(7416002)(316002)(2906002)(26005)(110136005)(66556008)(66476007)(66946007)(86362001)(41300700001)(38100700002)(2616005)(107886003)(1076003)(38350700005)(921008)(36756003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K2NCVERiNTFFSkZ5ODNINzA4Q2FuVWpIbHNmb09kb2JkcXhDelEyclBWSXMz?=
- =?utf-8?B?SmRYWE9RWWVnSEJNbmRmaHVSanZFSVBZQm13eVBQQ1cyOEw2MGx4TXpySWhv?=
- =?utf-8?B?ZW5BQkFNa3hMVkhNUnF0b1l4Z0hBT0RjNS9OMjNnUWZEMVMreFhOWFNiUkh6?=
- =?utf-8?B?RHpMWGVXd0h4YlR1QVRMNEt5dEJzMGI5M2VabVpteFVGNjY5Z2pSNW92MFFS?=
- =?utf-8?B?bVNaa2VsNlZZY3hSMVVNbjQxMFpreUZoSEJwR2haSllKUFF2cm9tRzE1Qm5L?=
- =?utf-8?B?QmhRZDU5LytaL0dmd3ExYmU0c0JGRGg1WGJJT0ZvVnZTNzBrL0VFTUd4RHQ5?=
- =?utf-8?B?cFkwemg0RFJvbzh1bkFZb05RYVIzZEVqWUlNS2FTS1BwSWRCM2ZxbEpyVStN?=
- =?utf-8?B?RHdSOXppeGRZMnZxNkgvaGZ6OXFzN0Nxdk4zWGFZcjNUN09qNnUyQ3pnZFA2?=
- =?utf-8?B?WngvTmFWVnVMa1hOd1dYVEpCZVNIZ0V3MVFDa0ZSRG9SV2o1Wi9GeGFnNXBq?=
- =?utf-8?B?YW03SGV5Vnp4Uk8wcWk3emg0ZmhRdlBmR3ltcGtLc1liNWlVYmpHYUJMaFRy?=
- =?utf-8?B?S3RwektQdHlIRlhmUEhWdzdxS2xXOW5xb00zQlhjcmNzdUU4YmJ2TGszdGR2?=
- =?utf-8?B?RWZTRkd2SzlBelpJbzA3azV6TDRJdUtndVorRktneWFYSW1ySjB4NWlzYXl6?=
- =?utf-8?B?S01lMXpxZWZhUFgvL0ZDdUNNOVlXeWZONC82RXQvOGE0Z0dxSEhKWVZFdlNO?=
- =?utf-8?B?SG9UN0JkekJvZXgzZHFhWG9UVWt2K2w3cmlYdWFwS0ZSS0xDSkprc3JBRWky?=
- =?utf-8?B?bUoyOTdZTWNoMURpMVBVblhBK3IxMDNtbndhUkMrUDBoczN5NGZPL29kWHhQ?=
- =?utf-8?B?TXpoNStaVEo4eVptUStDRVNCUmZ3SWxRbGYwbkVZQnMvLytSaERrVHZmZ2tR?=
- =?utf-8?B?SGNqV0Z6bFRKeDd0aU5NeHRLNEZNcUNLTUY5UHlXZVp2WlZPZkhKb0lSNGRm?=
- =?utf-8?B?YVpPQWdYNW80VVBpWHd2cFcyMGFoMmo5cGZ0Mm1YaHloTU1jSitZZ1RSVTE3?=
- =?utf-8?B?NEdRU252eUZoaG1tWnYrMDVXNHY3WUc5Q3pJMjhBUDZuMlBjSTJkajh5bE1C?=
- =?utf-8?B?N0tzUUlvZjJzS0o3UGdYWEJXUHVVUnZTUkc4Uk14QjlTOUY3SUR5OTFDMzJC?=
- =?utf-8?B?TEJQd3dEWDhhN0taNm0xdER2RzJUOFNOSGVoRDFKK3FKYngwVDBmZ3g0OEtS?=
- =?utf-8?B?Z1A0SjVMVG9vUHk3b0RkT0JqMHd6TkwxYmtmbG1HSVhyRjFTSHR4V0tBYVZS?=
- =?utf-8?B?YTZSYnRScGlLdElJSU15SU9Uck5uL3ppdlBXWUNuTDgrS0pPWGhVcmwwSitx?=
- =?utf-8?B?cmp2dmc1bkhJdVptdFNIY2VudnB0a0dZNXprR2hERFZPaWdVMHl6ZXFVVU9l?=
- =?utf-8?B?TGxucEM2VDZDMG54Q0VjbVI5RW5HNFE5bVNZL2dKR1F4RHp2ZVNndm1hV0hv?=
- =?utf-8?B?VklkV0N3cUNMODVMZ3Z0V2h2VkJRYTRIM1A5N1B1WndxM1A2dmtpRlduUHl1?=
- =?utf-8?B?R0Rvd1RUL1lRWmhRUXlYUzlEU205YkViYzRjVy95b3VBRkVjdmdjRVdJR0RM?=
- =?utf-8?B?eHFNcHJJZ1h2U01leTRDNEtqRkNCMWRpTW9qcVBGcTd3YU1JQW9IS0o3UXVV?=
- =?utf-8?B?UXcyYW9HL1FaTXEvUFp6TlZORmJibmtnc1BGOEZWMlJBRTAwU1MrbjJZYm1U?=
- =?utf-8?B?MDlxN2JvcFNwblJtQ0lZOG1HNHNmQmhCaHVkcjFlTVVBYk5GamNKVHRoVEhq?=
- =?utf-8?B?aXFFR3lON2Q0ZFBmcWovWVhJUVYxYWk3UFhDSWNHWVA0QWhKQjEzNEdzbEFW?=
- =?utf-8?B?aW5mdkMzSG5mUWdJTXNGeXdPckdFWGF0ZFc4azRVSkpUa00xbDhQUXpyR0pZ?=
- =?utf-8?B?Ti9HV0h3TkF3cklnODlmenh3aFRNOGlyYyszNzVYYXVPMzloU1dua2ZEZHdY?=
- =?utf-8?B?VUJQY3FETTJuNGxKZzV0eWxhWTE1d015bzZTanVPNnRRcFR4U1NYU2Y5K2Fq?=
- =?utf-8?B?cklVNmpweVdjMldMN2o3L2drZXI1N0hEQk1hK0N3OE5nN0x2NGZwb0grdUVt?=
- =?utf-8?Q?+wrpxf99cdVP7r3Ze4j+DH19K?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9f157c9-b9d3-4abe-63e2-08dbe0104a76
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
+	=?us-ascii?Q?3jw5ZiC7AK/T6AYy3lwjCIg0CflrHoqdBJQoOIYFePcfG07tAs4toWm+CNkk?=
+ =?us-ascii?Q?g2iuNJnIFbrCVEvnZuH/afWj9A/sFf1Rt0d0m+N9+oh5ca64EXfZVNyjWTAj?=
+ =?us-ascii?Q?9h2AGjfpP+4gse2pV55thh9jeGOE+dzAdmipQXah/g3+Osy4wvrLhvsvEU/g?=
+ =?us-ascii?Q?gPheuoJqY4NzEVThGFE+jjAhglw3BpnBs0Vuxb9JrQlf48M7x3vIZcmfAbpF?=
+ =?us-ascii?Q?V+lwnTyEVo+YQrdBSLjxtDDWGIAXMQCEbARww7/k8UKJLUDa4r4mX2x9VPG0?=
+ =?us-ascii?Q?Y3Gfv4MSdlNMWs+spJIwQKLSGhuZZQ7hmyx0iPE1vylGxf3Xf00QI+DQHHsu?=
+ =?us-ascii?Q?PdK71y7vthXZIsfC2aw9GCGp4tZ/gVXSbHjSlzVrY101cuLiJJHAlTNxWc3c?=
+ =?us-ascii?Q?uc9uEYn/8r8ZOM/Wi5elan3DOVV1xCPFroz+ON8KaZnSN/lDmQZ/l0mMIkon?=
+ =?us-ascii?Q?CVLsp/IVZPIGLYveR58hk5ys5iiO9zKeeY+d24OUyU3oiLcFf9/r7t0FzI8f?=
+ =?us-ascii?Q?Omak5VUe+KalDGGX0AwdAbNTK8cPwtTQ591NyF5IM/uerHy8TvYHe3eIZQtW?=
+ =?us-ascii?Q?A0Qx+8olz/zSJvvy6pwNhZrvMBBrQxKP5G8nPIF6lU1maUE3FA1ViquPSFst?=
+ =?us-ascii?Q?JB8kR24aFSEyffQXQiDwFJqvJWvcaLBvQ767Y4XPjfT22kTgXFpAV+B5w0bl?=
+ =?us-ascii?Q?4pLH8USGR5CI8o4XAkTl0bILqD4fD9l/BT24y2aHEJ+r4Onb+D8xUZzyGjSh?=
+ =?us-ascii?Q?+cNY9LW8Ep4a+8/RI4vV0s79iT04NlAiiy/3He5FaMTQP1FwcAWz9GaDps5l?=
+ =?us-ascii?Q?ptKRNMNw31kyaRJQPtwRE+sG7qmYHchAfPTeQNb19W5Qm7tA3dndpOBAlkiV?=
+ =?us-ascii?Q?mblmuOH3aZg6TYFSJXiUgJY5ETnR6OXQjQRaAmMxoCeFtJVjvgtTTcua8QHS?=
+ =?us-ascii?Q?rshVUOTI8Ezlb19IVku3+tXqBu7ds8y15UD7B4N07fqN+GwsX8m5AWpmc2sC?=
+ =?us-ascii?Q?wvtkNju/rPWCe6U/dinXOJlQoKyW3dOA+t4TWppsiu+D3wStm+pe6/WpdRQI?=
+ =?us-ascii?Q?+VQgpUe29CMYDaPKQrtUyg94Nirj9ey5s+UPlXjcjmt12Ml6Pv3FgzvlFYUJ?=
+ =?us-ascii?Q?4DpK3CC2o3Nkyw7YL4keNLTaFy8rCvTA9iccZt+bTa8h3M7l/SClD+Wn2BV6?=
+ =?us-ascii?Q?r+/yVUDN39l0AK4esDsMrh7xkIOgrHUMGTIRKNwyQAkW43Qjl9KrFCLJWYLK?=
+ =?us-ascii?Q?GB573iJoqWHavJq+wJyIyp/TUAu9K8j740Zw0xcHp1RpVUK16O9TfxjGEBrb?=
+ =?us-ascii?Q?L44Ycc1R4roAlqKEl18tAthN5bl1Nvhz8app1symmVKQh3eOqpBSkVNk4QbJ?=
+ =?us-ascii?Q?eHiHz1r9WW1GnGSzQHPinphZ9eoLketit+DwyeGO2+7+6G8YWYcQN3t/Cxof?=
+ =?us-ascii?Q?lMUf+cxub557TB3CS5l0h9L9FONE/vNA4BjMxnj2H0KF2WGI7rfDYu+q/hen?=
+ =?us-ascii?Q?gkSgtIAM9LnUADX06WMqRdVcQ6G0EAuXArT/Uvgc6lbcNFaEjf0ETTXypCwp?=
+ =?us-ascii?Q?1Ok2uYZQbij+XVAPD0jmlGjcc+h/PJj3fGdxVSri?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a78337a-4ed9-4b85-d066-08dbe02834ca
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 04:07:59.0789
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 06:59:09.3956
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i77XvliEf0grcHJT6kWRMxKEqvv3pMY+aOczmLopHzD/orjjrNLoHztwvCSiRIsV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5946
+X-MS-Exchange-CrossTenant-UserPrincipalName: HJkSgmpAWTASaVKRmesjeUOBOD8Cnet2AL2Io9MBhb5krXHg+BiGZ7wsnZQ8vviyUyJH8yqTO7wc+MDANvGGAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB3983
 
+In some cases, we need to selectively reclaim file pages or anonymous
+pages in an unbalanced manner.
 
+For example, when an application is pushed to the background and frozen,
+it may not be opened for a long time, and we can safely reclaim the
+application's anonymous pages, but we do not want to touch the file pages.
 
-On 11/7/2023 9:58 PM, Hunter Chasens wrote:
-> Resolves Sphinx unexpected indentation warning when compiling
-> documentation (e.g. `make htmldocs`). Replaces tabs with spaces and adds
-> a literal block to keep vertical formatting of the
-> example power state list.
-> 
-> Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
+This patchset extends the proactive reclaim interface to achieve
+unbalanced reclamation. Users can control the reclamation tendency by
+inputting swappiness under the original interface. Specifically, users
+can input special values to extremely reclaim specific pages.
 
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Example:
+  	echo "1G" 200 > memory.reclaim (only reclaim anon)
+	  echo "1G" 0  > memory.reclaim (only reclaim file)
+	  echo "1G" 1  > memory.reclaim (only reclaim file)
 
-Thanks,
-Lijo
+Note that when performing unbalanced reclamation, the cgroup swappiness
+will be temporarily adjusted dynamically to the input value. Therefore,
+if the cgroup swappiness is further modified during runtime, there may
+be some errors.
 
-> ---
->   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> index 517b9fb4624c..576202bf64f3 100644
-> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
->    * Reading back the files will show you the available power levels within
->    * the power state and the clock information for those levels. If deep sleep is
->    * applied to a clock, the level will be denoted by a special level 'S:'
-> - * E.g.,
-> - *	S: 19Mhz *
-> - *	0: 615Mhz
-> - *	1: 800Mhz
-> - *	2: 888Mhz
-> - *	3: 1000Mhz
-> + * E.g., ::
-> + *
-> + *  S: 19Mhz *
-> + *  0: 615Mhz
-> + *  1: 800Mhz
-> + *  2: 888Mhz
-> + *  3: 1000Mhz
->    *
->    *
->    * To manually adjust these states, first select manual using
+However, this is acceptable because the interface is dynamically called
+by the user and the timing should be controlled by the user.
+
+This patchset did not implement the type-based reclamation as expected
+in the documentation.(anon or file) Because in addition to extreme unbalanced
+reclamation, this patchset can also adapt to the reclamation tendency
+allocated according to swappiness, which is more flexible.
+
+Self test
+========
+After applying the following patches and myself debug patch, my self-test
+results are as follows:
+
+1. LRU test
+===========
+  a. Anon unbalance reclaim
+  ```
+  cat memory.stat | grep anon
+    inactive_anon 7634944
+    active_anon 7741440
+
+  echo "200M" 200 > memory.reclaim
+
+  cat memory.stat | grep anon
+    inactive_anon 0
+    active_anon 0
+
+  cat memory.reclaim_stat_summary(self debug interface)
+    [22368]sh total reclaimed 0 file, 3754 anon, covered item=0
+  ```
+
+  b. File unbalance reclaim
+  ```
+  cat memory.stat | grep file
+    inactive_file 82862080
+    active_file 48664576
+
+  echo "100M" 0 > memory.reclaim
+  cat memory.stat | grep file
+    inactive_file 34164736
+    active_file 18370560
+
+  cat memory.reclaim_stat_summary(self debug interface)
+    [22368]sh total reclaimed 13732 file, 0 anon, covered item=0
+  ```
+
+2. MGLRU test
+============
+a. Anon unbalance reclaim
+```
+echo y > /sys/kernel/mm/lru_gen/enabled
+cat /sys/kernel/mm/lru_gen/enabled
+  0x0003
+
+cat memory.stat | grep anon
+  inactive_anon 17653760
+  active_anon 1740800
+
+echo "100M" 200 > memory.reclaim
+
+cat memory.reclaim_stat_summary
+  [8251]sh total reclaimed 0 file, 5393 anon, covered item=0
+```
+
+b. File unbalance reclaim
+```
+cat memory.stat | grep file
+  inactive_file 17858560
+  active_file 5943296
+
+echo "100M" 0 > memory.reclaim
+
+cat memory.stat | grep file
+  inactive_file 491520
+  active_file 2764800
+cat memory.reclaim_stat_summary
+  [8251]sh total reclaimed 5230 file, 0 anon, covered item=0
+```
+
+Patch 1-3 implement the functionality described above.
+Patch 4 aims to implement proactive reclamation to the cgroupv1 interface
+for use on Android.
+
+Huan Yang (4):
+  mm: vmscan: LRU unbalance cgroup reclaim
+  mm: multi-gen LRU: MGLRU unbalance reclaim
+  mm: memcg: implement unbalance proactive reclaim
+  mm: memcg: apply proactive reclaim into cgroupv1
+
+ .../admin-guide/cgroup-v1/memory.rst          |  38 +++++-
+ Documentation/admin-guide/cgroup-v2.rst       |  16 ++-
+ include/linux/swap.h                          |   1 +
+ mm/memcontrol.c                               | 126 ++++++++++++------
+ mm/vmscan.c                                   |  38 +++++-
+ 5 files changed, 169 insertions(+), 50 deletions(-)
+
+-- 
+2.34.1
+
