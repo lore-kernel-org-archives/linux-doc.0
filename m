@@ -1,75 +1,150 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FC636AE6
-	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 18:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uidFvFLQ"
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B728A1FFC
-	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 10:19:55 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-54357417e81so985a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 08 Nov 2023 10:19:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699467594; x=1700072394; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lPzDJOHXaMQ7hDr4fQaud0AOapaYXuR24Rsqmx39kT4=;
-        b=uidFvFLQKH6OQ+EuPzqiej4boBUNsl2clO/meRsB93hUfbpqTXkLPf3FjPx3FoWbpQ
-         HylpPoRgBKzhjL9TF1QKNpD3q8cYuahE/2S/7OLexwPuGuMks1mJEZlcOiAaeqfpXTKc
-         JEljQO4zn3svcbWtV/y4GjmW6i7fiorUUyS4eYqVHbeGjBeCDxDquxoYIMjCxlmnp6ol
-         jXMq1asrezkCwEfMIDUWRdpf3v5iiQkyHlueDWN3f65NnD84DUHi1guTYV4IhHpvOhQ2
-         J9IqyBdUOZC5iZbs5MH+7UTLgGe9g0AfIiaCbUEijU+oajsCAWjuQvuso3Z4rvXaS/CZ
-         4PUg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F1332C67;
+	Wed,  8 Nov 2023 18:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6404ED4F;
+	Wed,  8 Nov 2023 10:21:38 -0800 (PST)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6ce2cf67be2so4300335a34.2;
+        Wed, 08 Nov 2023 10:21:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699467594; x=1700072394;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lPzDJOHXaMQ7hDr4fQaud0AOapaYXuR24Rsqmx39kT4=;
-        b=RgBHpsa2vpzGXGPhDjZVr+bXqJcPXKRjXQPuI7MyN2WmddlZLYrqYokk7gSik57+s+
-         eUQTYXWs7Juc9BSAh8p4A5UlxkCHe9yZtt14DcxGtxUcjuMMUHPFdrPJAJZiTgn17bXq
-         tu7NvqT8m1OWERxpTD4x23sshiG/WTPMkmXCIjyFrnnAie7+VMubJ6ILEJ8l2UwMXYe6
-         Oqa0uQxSl/ORqU6aX1skcssempfV9/F6+3dUZqIrkaCpkT2tvqi1H2IFWPrKp4rISWRP
-         I7uXBrFeuU9k8VF9hyt8icbrIFj8xlvhVHKHCZJUEh7FTLvKqoZX7g6Ey/ypA3nKmwqy
-         31Bw==
-X-Gm-Message-State: AOJu0YxP/E0KAb17QrpIJxUDZqTd8rSly+l2PNZ7uMZruEUnYUy9VNJ7
-	R857tZx3g0HxOjmoRPfOut2OO5s4pZLAJur+/nL6zw==
-X-Google-Smtp-Source: AGHT+IHSTdnHpU+tkokUoN2IxJr6aTuVShMIUkzmKD2yI2R4C/2lgCPoCvm1H+r3Y/W0c7msPJZNhRs4cza7jp5Alq8=
-X-Received: by 2002:aa7:d34a:0:b0:543:fb17:1a8 with SMTP id
- m10-20020aa7d34a000000b00543fb1701a8mr11251edr.3.1699467594084; Wed, 08 Nov
- 2023 10:19:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699467697; x=1700072497;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z8YDEMLMN/UPwuHPhRNHU6MkX7vnIvjMYf9zFqGmA3g=;
+        b=X2SdbRg0il2O4Perq5BRn9QXzs/ucXLuNAhMbAib+hqb9+OpmK2YQyNjFSTtjen5FO
+         eFEWuHBlgkU5lvQrBW2QsIlh5T9ePLvHD8p4xgj/Lh3ufLEPkIHyb2aoa62MU3PaR4aY
+         Jt/2uzh10mDZDO/zDP90G0eMf5WyYQQrxnVZBt8pUVGPu/3FNDsYINY9bMakuQQozT0w
+         a7wJK/vZ5VaoMaFhpxb+LCxILZvijnWTV/T69MMxiEvEzwoItr3Betl/5TmzMjuA9pO/
+         ku3mNxYAM9I9IfykAzUO/mdF7bSLgHt6PqPud9QCh9r+8OaZ+mpbqG5PLb6nzx5pE3bl
+         FGWw==
+X-Gm-Message-State: AOJu0Yybz8/58MZqyK6SB6p3vwL0vRxD/Teiluh0ilG7G7oSzXew0v6b
+	uaLciGZ5dQourXiZaJ8pfw==
+X-Google-Smtp-Source: AGHT+IH936tksBL7gMvhFH0Cu8Ga+1XdgbOvw2iCgQmNwYAwBNf4BgvoX3nEqEXZcFtRnb72jnyg2w==
+X-Received: by 2002:a9d:4801:0:b0:6d3:194f:f132 with SMTP id c1-20020a9d4801000000b006d3194ff132mr2370150otf.30.1699467697587;
+        Wed, 08 Nov 2023 10:21:37 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id dw1-20020a05683033a100b006ce46212341sm1966690otb.54.2023.11.08.10.21.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 10:21:37 -0800 (PST)
+Received: (nullmailer pid 2703586 invoked by uid 1000);
+	Wed, 08 Nov 2023 18:21:35 -0000
+Date: Wed, 8 Nov 2023 12:21:35 -0600
+From: Rob Herring <robh@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Cc: jdelvare@suse.com, linux@roeck-us.net, krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au, corbet@lwn.net, thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de, naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, BMC-SW@aspeedtech.com, patrick@stwcx.xyz
+Subject: Re: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
+ TACH Control
+Message-ID: <20231108182135.GA2698015-robh@kernel.org>
+References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
+ <20231107105025.1480561-3-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231108111806.92604-1-nsaenz@amazon.com> <20231108111806.92604-30-nsaenz@amazon.com>
- <ZUvDZUbUR4s_9VNG@google.com> <c867cd1f-9060-4db9-8a00-4b513f32c2b7@amazon.com>
-In-Reply-To: <c867cd1f-9060-4db9-8a00-4b513f32c2b7@amazon.com>
-From: Jim Mattson <jmattson@google.com>
-Date: Wed, 8 Nov 2023 10:19:39 -0800
-Message-ID: <CALMp9eTmAR_yMMxujiMDQ6_VpUF3ghoKAdy_SYvu-QOAThntZA@mail.gmail.com>
-Subject: Re: [RFC 29/33] KVM: VMX: Save instruction length on EPT violation
-To: Alexander Graf <graf@amazon.com>
-Cc: Sean Christopherson <seanjc@google.com>, Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	pbonzini@redhat.com, vkuznets@redhat.com, anelkz@amazon.com, 
-	dwmw@amazon.co.uk, jgowans@amazon.com, corbert@lwn.net, kys@microsoft.com, 
-	haiyangz@microsoft.com, decui@microsoft.com, x86@kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231107105025.1480561-3-billy_tsai@aspeedtech.com>
 
-On Wed, Nov 8, 2023 at 9:27=E2=80=AFAM Alexander Graf <graf@amazon.com> wro=
-te:
+On Tue, Nov 07, 2023 at 06:50:24PM +0800, Billy Tsai wrote:
+> Document the compatible for aspeed,ast2600-pwm-tach device, which can
+> support up to 16 PWM outputs and 16 fan tach input.
+> 
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++++++++
+>  1 file changed, 69 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+> new file mode 100644
+> index 000000000000..c615fb10705c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (C) 2023 Aspeed, Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ASPEED G6 PWM and Fan Tach controller
+> +
+> +maintainers:
+> +  - Billy Tsai <billy_tsai@aspeedtech.com>
+> +
+> +description: |
+> +  The ASPEED PWM controller can support up to 16 PWM outputs.
+> +  The ASPEED Fan Tacho controller can support up to 16 fan tach input.
+> +  They are independent hardware blocks, which are different from the
+> +  previous version of the ASPEED chip.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aspeed,ast2600-pwm-tach
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  "#pwm-cells":
+> +    const: 3
+> +
+> +patternProperties:
+> +  "^fan-[0-9]+$":
+> +    $ref: fan-common.yaml#
+> +    unevaluatedProperties: false
+> +    required:
+> +      - tach-ch
+> +
+> +required:
+> +  - reg
+> +  - clocks
+> +  - resets
+> +  - "#pwm-cells"
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/aspeed-clock.h>
+> +    pwm_tach: pwm-tach-controller@1e610000 {
+> +      compatible = "aspeed,ast2600-pwm-tach";
+> +      reg = <0x1e610000 0x100>;
+> +      clocks = <&syscon ASPEED_CLK_AHB>;
+> +      resets = <&syscon ASPEED_RESET_PWM>;
+> +      #pwm-cells = <3>;
+> +
+> +      fan-0 {
 
-> My point with the comment on this patch was "Don't break AMD (or ancient
-> VMX without instruction length decoding [Does that exist? I know SVM has
-> old CPUs that don't do it]) please".
+I assume there's a PWM connection here? How do you know which PWM? You 
+said the tach channel is independent, so it is not that.
 
-VM-exit instruction length is not defined for all VM-exit reasons (EPT
-misconfiguration is one that is notably absent), but the field has
-been there since Prescott.
+It should not be 0 from 'fan-0' because that's just a meaningless index. 
+
+You either need 'pwms' here or you can use 'reg' and the reg value is 
+the PWM channel.
+
+> +        tach-ch = /bits/ 8 <0x0>;
+> +      };
+> +
+> +      fan-1 {
+> +        tach-ch = /bits/ 8 <0x1 0x2>;
+> +      };
+> +    };
+> -- 
+> 2.25.1
+> 
