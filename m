@@ -1,150 +1,107 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F1332C67;
-	Wed,  8 Nov 2023 18:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6404ED4F;
-	Wed,  8 Nov 2023 10:21:38 -0800 (PST)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6ce2cf67be2so4300335a34.2;
-        Wed, 08 Nov 2023 10:21:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37BC36B16
+	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 18:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uFaeB68V"
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 347632105
+	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 10:33:14 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5a7bbe0a453so242377b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Nov 2023 10:33:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1699468393; x=1700073193; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=50ipMfBLEUA7xDJ0NQzorJYtn8bk8XRkn5YPeYvT/r0=;
+        b=uFaeB68VTHrGLbgfLw3MxRn1VfxX8HS5w6+ut3fXoq/g75D7YJRACneD44JdFfngkV
+         mvUxjBwP2uuwjEMwKcnmT7q730uXmqiC7j4WpeNZFwI7nP84ei59J7QfxeT0srfBG1HA
+         5TtxaSyoudUXmRc+6pDkIgjPYOirCSryyw2mTLwHQ+rBSNe/6medhZwG8+6xXk+k3JBW
+         u9OBVMN1Zf0tR7S99r3a1Jxl2RoTQW7011X5R4kf8kD/UiWwcpschgeIo3AA6RYEzt0L
+         /M2oc3sRO3PUX9ynqIKlOCHrACijBZQvF3dW3cVWvIRdeQ+cYqmnIEpS2HYI2a86WnHd
+         cRRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699467697; x=1700072497;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z8YDEMLMN/UPwuHPhRNHU6MkX7vnIvjMYf9zFqGmA3g=;
-        b=X2SdbRg0il2O4Perq5BRn9QXzs/ucXLuNAhMbAib+hqb9+OpmK2YQyNjFSTtjen5FO
-         eFEWuHBlgkU5lvQrBW2QsIlh5T9ePLvHD8p4xgj/Lh3ufLEPkIHyb2aoa62MU3PaR4aY
-         Jt/2uzh10mDZDO/zDP90G0eMf5WyYQQrxnVZBt8pUVGPu/3FNDsYINY9bMakuQQozT0w
-         a7wJK/vZ5VaoMaFhpxb+LCxILZvijnWTV/T69MMxiEvEzwoItr3Betl/5TmzMjuA9pO/
-         ku3mNxYAM9I9IfykAzUO/mdF7bSLgHt6PqPud9QCh9r+8OaZ+mpbqG5PLb6nzx5pE3bl
-         FGWw==
-X-Gm-Message-State: AOJu0Yybz8/58MZqyK6SB6p3vwL0vRxD/Teiluh0ilG7G7oSzXew0v6b
-	uaLciGZ5dQourXiZaJ8pfw==
-X-Google-Smtp-Source: AGHT+IH936tksBL7gMvhFH0Cu8Ga+1XdgbOvw2iCgQmNwYAwBNf4BgvoX3nEqEXZcFtRnb72jnyg2w==
-X-Received: by 2002:a9d:4801:0:b0:6d3:194f:f132 with SMTP id c1-20020a9d4801000000b006d3194ff132mr2370150otf.30.1699467697587;
-        Wed, 08 Nov 2023 10:21:37 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id dw1-20020a05683033a100b006ce46212341sm1966690otb.54.2023.11.08.10.21.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 10:21:37 -0800 (PST)
-Received: (nullmailer pid 2703586 invoked by uid 1000);
-	Wed, 08 Nov 2023 18:21:35 -0000
-Date: Wed, 8 Nov 2023 12:21:35 -0600
-From: Rob Herring <robh@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: jdelvare@suse.com, linux@roeck-us.net, krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au, corbet@lwn.net, thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de, naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, BMC-SW@aspeedtech.com, patrick@stwcx.xyz
-Subject: Re: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
- TACH Control
-Message-ID: <20231108182135.GA2698015-robh@kernel.org>
-References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
- <20231107105025.1480561-3-billy_tsai@aspeedtech.com>
+        d=1e100.net; s=20230601; t=1699468393; x=1700073193;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=50ipMfBLEUA7xDJ0NQzorJYtn8bk8XRkn5YPeYvT/r0=;
+        b=HR1YKYvkqUQS8IBNl8/6+K8hXjqtjGEfHUoFIBUpTyO/i+QgYFhHFWH9mww2wjy+6B
+         dPgAn22gmoBYjTSC7RBy5KmHPNEHhzZ97Bz0rVq5/KyTx8G8FPl9zaJ9fk/iu4Xnw1fn
+         g7BduIDas/Wr/cNT1t/3ckldma/VDiuF/iVHapfVrvgdo8/jBUo2NcWGiiRygwWiB4Z3
+         R+oejYEFgQsxmS+sd8hkdC+HzElD/BCBjj1eCiTUphIo119Y2POxwU3P6C1NJcfck3dA
+         tJrgaVHq55HstXcyyY0wgxbR+WJhj0ZGommDYZOPwxtGt/ltVfaWa3AVwkObdGU9OmSR
+         UIJg==
+X-Gm-Message-State: AOJu0YwZtC4/3uxOu/oyOusC4vWTEYBMkvGLOxR8IID/JTUqtcPb/N6C
+	gX82xSrLPs46SYWYXfZdfgL5qEXM3WY=
+X-Google-Smtp-Source: AGHT+IFHQg/YDcEIocO0Ni0JZ0CPuBXAmwWA3839QbB/g3j7+q1xZZYyE3IrNG+D7YVTAx/aop/3By26fig=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:701:b0:d9a:6007:223a with SMTP id
+ k1-20020a056902070100b00d9a6007223amr60840ybt.8.1699468393385; Wed, 08 Nov
+ 2023 10:33:13 -0800 (PST)
+Date: Wed, 8 Nov 2023 10:33:11 -0800
+In-Reply-To: <ZUu9lwJHasi2vKGg@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231107105025.1480561-3-billy_tsai@aspeedtech.com>
+Mime-Version: 1.0
+References: <20231108111806.92604-1-nsaenz@amazon.com> <ZUu9lwJHasi2vKGg@google.com>
+Message-ID: <ZUvUZytj1AabvvrB@google.com>
+Subject: Re: [RFC 0/33] KVM: x86: hyperv: Introduce VSM support
+From: Sean Christopherson <seanjc@google.com>
+To: Nicolas Saenz Julienne <nsaenz@amazon.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
+	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
+	corbert@lwn.net, kys@microsoft.com, haiyangz@microsoft.com, 
+	decui@microsoft.com, x86@kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Nov 07, 2023 at 06:50:24PM +0800, Billy Tsai wrote:
-> Document the compatible for aspeed,ast2600-pwm-tach device, which can
-> support up to 16 PWM outputs and 16 fan tach input.
+On Wed, Nov 08, 2023, Sean Christopherson wrote:
+> On Wed, Nov 08, 2023, Nicolas Saenz Julienne wrote:
+> > This RFC series introduces the necessary infrastructure to emulate VSM
+> > enabled guests. It is a snapshot of the progress we made so far, and its
+> > main goal is to gather design feedback.
 > 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+> Heh, then please provide an overview of the design, and ideally context and/or
+> justification for various design decisions.  It doesn't need to be a proper design
+> doc, and you can certainly point at other documentation for explaining VSM/VTLs,
+> but a few paragraphs and/or verbose bullet points would go a long way.
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
-> new file mode 100644
-> index 000000000000..c615fb10705c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2023 Aspeed, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED G6 PWM and Fan Tach controller
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +description: |
-> +  The ASPEED PWM controller can support up to 16 PWM outputs.
-> +  The ASPEED Fan Tacho controller can support up to 16 fan tach input.
-> +  They are independent hardware blocks, which are different from the
-> +  previous version of the ASPEED chip.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-pwm-tach
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  "#pwm-cells":
-> +    const: 3
-> +
-> +patternProperties:
-> +  "^fan-[0-9]+$":
-> +    $ref: fan-common.yaml#
-> +    unevaluatedProperties: false
-> +    required:
-> +      - tach-ch
-> +
-> +required:
-> +  - reg
-> +  - clocks
-> +  - resets
-> +  - "#pwm-cells"
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    pwm_tach: pwm-tach-controller@1e610000 {
-> +      compatible = "aspeed,ast2600-pwm-tach";
-> +      reg = <0x1e610000 0x100>;
-> +      clocks = <&syscon ASPEED_CLK_AHB>;
-> +      resets = <&syscon ASPEED_RESET_PWM>;
-> +      #pwm-cells = <3>;
-> +
-> +      fan-0 {
-
-I assume there's a PWM connection here? How do you know which PWM? You 
-said the tach channel is independent, so it is not that.
-
-It should not be 0 from 'fan-0' because that's just a meaningless index. 
-
-You either need 'pwms' here or you can use 'reg' and the reg value is 
-the PWM channel.
-
-> +        tach-ch = /bits/ 8 <0x0>;
-> +      };
-> +
-> +      fan-1 {
-> +        tach-ch = /bits/ 8 <0x1 0x2>;
-> +      };
-> +    };
-> -- 
-> 2.25.1
+> The documentation in patch 33 provides an explanation of VSM itself, and a little
+> insight into how userspace can utilize the KVM implementation.  But the documentation
+> provides no explanation of the mechanics that KVM *developers* care about, e.g.
+> the use of memory attributes, how memory attributes are enforced, whether or not
+> an in-kernel local APIC is required, etc.
 > 
+> Nor does the documentation explain *why*, e.g. why store a separate set of memory
+> attributes per VTL "device", which by the by is broken and unnecessary.
+
+After speed reading the series..  An overview of the design, why you made certain
+choices, and the tradeoffs between various options is definitely needed.
+
+A few questions off the top of my head:
+
+ - What is the split between userspace and KVM?  How did you arrive at that split?
+
+ - How much *needs* to be in KVM?  I.e. how much can be pushed to userspace while
+   maintaininly good performance?
+   
+ - Why not make VTLs a first-party concept in KVM?  E.g. rather than bury info
+   in a VTL device and APIC ID groups, why not modify "struct kvm" to support
+   replicating state that needs to be tracked per-VTL?  Because of how memory
+   attributes affect hugepages, duplicating *memslots* might actually be easier
+   than teaching memslots to be VTL-aware.
+
+ - Is "struct kvm_vcpu" the best representation of an execution context (if I'm
+   getting the terminology right)?  E.g. if 90% of the state is guaranteed to be
+   identical for a given vCPU across execution contexts, then modeling that with
+   separate kvm_vcpu structures is very inefficient.  I highly doubt it's 90%,
+   but it might be quite high depending on how much the TFLS restricts the state
+   of the vCPU, e.g. if it's 64-bit only.
+
+The more info you can provide before LPC, the better, e.g. so that we can spend
+time discussing options instead of you getting peppered with questions about the
+requirements and whatnot.
