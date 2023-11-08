@@ -1,116 +1,209 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDF936AFE
-	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 19:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9323936B05
+	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 19:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRhOIFP1"
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425B62136;
-	Wed,  8 Nov 2023 11:04:15 -0800 (PST)
-Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-1efad296d42so4276664fac.2;
-        Wed, 08 Nov 2023 11:04:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699470254; x=1700075054; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PIAfp4n5FTAxG5B/n8MBsaBM3cT8s3lVCrtfOSkbjqw=;
-        b=KRhOIFP1xpTmooxJxWnXLGboBGX0vThLLGkgU+33ALTl1Wqla/NWtFQHad//p95hoj
-         z5dBzwgfx/LdptqllVfetqAiHHMEWlpOBK+WuYYpy7jeQXy1p90DfLr4IoZF25CrlviJ
-         cMw+tjbyvERgVS6qtA67Ppw75WT3j6i/bYOTxMaiU6SPbYEl1aGf0vBCRs0bbRhCtEOS
-         +vOcPkJDCSkfFFm8noS5DNQtoxa5Z0M9RFAgLL5AC3TvzIQhvjU8aUMSjvHHLOas8Y1+
-         N9VuQ7Gari9fFS6yebyir13ieI6IeHTBP4RnTrxIGMqQHGVP2Edg6cX7KM322QoKnGTl
-         mMRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699470254; x=1700075054;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PIAfp4n5FTAxG5B/n8MBsaBM3cT8s3lVCrtfOSkbjqw=;
-        b=sZoumpf8nLvKmXcqkl/aO/jl21ewetoeSyfedLvd46oIjz3XGbEfTJbsWLqqSWb07u
-         kCq5dCMTR8dqxFcuAsMrsBMAZqC1vv64JbLbcwn5R3ULutUmyE7l7WiQsywffpkz4/tz
-         79dyitYE3SHId6Q7g1j7fpJyP/lt1vGicN6O0wEq0hbzdWaiWqyiDE7+mUZDoXIKmyfv
-         e7uLCmGUHsuPtDsLfArmMPnTh/MX/3AuswQAGgSxcIsg+hb7pcwmll8cFNjt52fL19YY
-         2BjRIxrC9m/YrpjW6zOCLZYa+XYBXGE5lYXwoxUl/75bmG4DbZreVoeWvLX1FrTLmDrg
-         nUsA==
-X-Gm-Message-State: AOJu0Yzg7fDyCDY+Ot5u+PyOHkyv3XQgN73bym0bfDgsax0tT12zXPpD
-	mN63lRMnRhiiwwjP0rWqAsy43rYxKLQXXLWKUEw=
-X-Google-Smtp-Source: AGHT+IFMQHWb9vtoHBrkxGDELJboskZE0aJf095yx+v+npphVWFwsJlmyOfvUZWdSPLGSEwyBKaIWu1ACGNqXJ8U2Oo=
-X-Received: by 2002:a05:6870:9551:b0:1ea:7bd1:c495 with SMTP id
- v17-20020a056870955100b001ea7bd1c495mr2449172oal.27.1699470254574; Wed, 08
- Nov 2023 11:04:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eviq/k9L"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06D17210E;
+	Wed,  8 Nov 2023 11:19:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699471180; x=1731007180;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9LP5XzsexOTRXF8If2u9iDZg0YN5GJpyCU4qN42T1QY=;
+  b=eviq/k9LPhVcTii1OITJOUS0ntBXtTF2ll3vzkbumC7Lmrugxvh27JXG
+   /+PF1wIxedc/kZPoXyXJV312GAo+q4495ltXVTGK0aBo2EPPHmqhD+hza
+   D8B7A99lrbfL4J2fbNg3lItPvcj1854Xm4ilgITfafXnHX9Jc7tnLvXPq
+   YXnp2cnc2xBJAfCXA3CizIkihjIVtnypGwQK8Yyrv3LcP1W+nbY6xsyiu
+   gBmqnNXD3cqrnAKJuWqF8SVH5UhD8o41BDkbMKhUNC2Ut2qGyskGvhBZr
+   M63a33whpaZR0H4wIyFftzcLYH92T3WRZcMdGxurnG747pK/8D9nK6/eo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="454142437"
+X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
+   d="scan'208";a="454142437"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:19:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="766735234"
+X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
+   d="scan'208";a="766735234"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:19:39 -0800
+Date: Wed, 8 Nov 2023 11:19:37 -0800
+From: Tony Luck <tony.luck@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v10 4/8] x86/resctrl: Split the rdt_domain and
+ rdt_hw_domain structures
+Message-ID: <ZUvfSbnOY+niAr+e@agluck-desk3>
+References: <20231020213100.123598-1-tony.luck@intel.com>
+ <20231031211708.37390-1-tony.luck@intel.com>
+ <20231031211708.37390-5-tony.luck@intel.com>
+ <51332bf8-d641-4a89-bcec-60b849fc6a34@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231107162830.36856-1-hunter.chasens18@ncf.edu> <2853fe7e-7d39-9b32-87b2-93845f16ae51@amd.com>
-In-Reply-To: <2853fe7e-7d39-9b32-87b2-93845f16ae51@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 8 Nov 2023 14:04:03 -0500
-Message-ID: <CADnq5_O4AXB_x8uv1bx0XZHt+mqxtKdaH0XAFFouuJ0X_QCNhA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm: amd: Resolve Sphinx unexpected indentation warning
-To: "Lazar, Lijo" <lijo.lazar@amd.com>
-Cc: Hunter Chasens <hunter.chasens18@ncf.edu>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Xinhui.Pan@amd.com, 
-	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
-	alexander.deucher@amd.com, christian.koenig@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <51332bf8-d641-4a89-bcec-60b849fc6a34@intel.com>
 
-Applied.  Thanks!
-
-On Tue, Nov 7, 2023 at 11:17=E2=80=AFPM Lazar, Lijo <lijo.lazar@amd.com> wr=
-ote:
->
->
->
-> On 11/7/2023 9:58 PM, Hunter Chasens wrote:
-> > Resolves Sphinx unexpected indentation warning when compiling
-> > documentation (e.g. `make htmldocs`). Replaces tabs with spaces and add=
-s
-> > a literal block to keep vertical formatting of the
-> > example power state list.
-> >
-> > Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
->
-> Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
->
-> Thanks,
-> Lijo
->
+On Mon, Nov 06, 2023 at 04:32:56PM -0800, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 10/31/2023 2:17 PM, Tony Luck wrote:
+> > The same rdt_domain structure is used for both control and monitor
+> > functions. But this results in wasted memory as some of the fields are
+> > only used by control functions, while most are only used for monitor
+> > functions.
+> > 
+> > Split into separate rdt_ctrl_domain and rdt_mon_domain structures with
+> > just the fields required for control and monitoring respectively.
+> > 
+> > Similar split of the rdt_hw_domain structure into rdt_hw_ctrl_domain
+> > and rdt_hw_mon_domain.
+> > 
+> > Signed-off-by: Tony Luck <tony.luck@intel.com>
 > > ---
-> >   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
-> >   1 file changed, 7 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/p=
-m/amdgpu_pm.c
-> > index 517b9fb4624c..576202bf64f3 100644
-> > --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct devi=
-ce *dev,
-> >    * Reading back the files will show you the available power levels wi=
-thin
-> >    * the power state and the clock information for those levels. If dee=
-p sleep is
-> >    * applied to a clock, the level will be denoted by a special level '=
-S:'
-> > - * E.g.,
-> > - *   S: 19Mhz *
-> > - *   0: 615Mhz
-> > - *   1: 800Mhz
-> > - *   2: 888Mhz
-> > - *   3: 1000Mhz
-> > + * E.g., ::
-> > + *
-> > + *  S: 19Mhz *
-> > + *  0: 615Mhz
-> > + *  1: 800Mhz
-> > + *  2: 888Mhz
-> > + *  3: 1000Mhz
-> >    *
-> >    *
-> >    * To manually adjust these states, first select manual using
+> > Changes since v9
+> > Comment against patch 4, but now fixed in patch #2. cpu_mask
+> > is included in common header.
+> > 
+> >  include/linux/resctrl.h                   | 50 +++++++------
+> >  arch/x86/kernel/cpu/resctrl/internal.h    | 60 ++++++++++------
+> >  arch/x86/kernel/cpu/resctrl/core.c        | 87 ++++++++++++-----------
+> >  arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 32 ++++-----
+> >  arch/x86/kernel/cpu/resctrl/monitor.c     | 40 +++++------
+> >  arch/x86/kernel/cpu/resctrl/pseudo_lock.c |  6 +-
+> >  arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 62 ++++++++--------
+> >  7 files changed, 184 insertions(+), 153 deletions(-)
+> > 
+> > diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+> > index 35e700edc6e6..36503e8870cd 100644
+> > --- a/include/linux/resctrl.h
+> > +++ b/include/linux/resctrl.h
+> > @@ -72,7 +72,25 @@ struct rdt_domain_hdr {
+> >  };
+> >  
+> >  /**
+> > - * struct rdt_domain - group of CPUs sharing a resctrl resource
+> > + * struct rdt_ctrl_domain - group of CPUs sharing a resctrl control resource
+> > + * @hdr:		common header for different domain types
+> > + * @cpu_mask:		which CPUs share this resource
+> > + * @plr:		pseudo-locked region (if any) associated with domain
+> > + * @staged_config:	parsed configuration to be applied
+> > + * @mbps_val:		When mba_sc is enabled, this holds the array of user
+> > + *			specified control values for mba_sc in MBps, indexed
+> > + *			by closid
+> > + */
+> > +struct rdt_ctrl_domain {
+> > +	struct rdt_domain_hdr		hdr;
+> > +	struct cpumask			cpu_mask;
+> 
+> This patch did not change what it said it changed.
+
+Reinette,
+
+I'm not sure of the problem. The commit said the patch is splitting the
+rdt_domain structure into rdt_ctrl_domain and rdt_mon_domain.
+
+The piece of the patch where you gave this comment changed like this:
+
+------- Before -------
+/**
+ * struct rdt_domain - group of CPUs sharing a resctrl resource
+ * @hdr:		common header for different domain types
+ * @rmid_busy_llc:	bitmap of which limbo RMIDs are above threshold
+ * @mbm_total:		saved state for MBM total bandwidth
+ * @mbm_local:		saved state for MBM local bandwidth
+ * @mbm_over:		worker to periodically read MBM h/w counters
+ * @cqm_limbo:		worker to periodically read CQM h/w counters
+ * @mbm_work_cpu:	worker CPU for MBM h/w counters
+ * @cqm_work_cpu:	worker CPU for CQM h/w counters
+ * @plr:		pseudo-locked region (if any) associated with domain
+ * @staged_config:	parsed configuration to be applied
+ * @mbps_val:		When mba_sc is enabled, this holds the array of user
+ *			specified control values for mba_sc in MBps, indexed
+ *			by closid
+ */
+struct rdt_domain {
+	struct rdt_domain_hdr		hdr;
+	unsigned long			*rmid_busy_llc;
+	struct mbm_state		*mbm_total;
+	struct mbm_state		*mbm_local;
+	struct delayed_work		mbm_over;
+	struct delayed_work		cqm_limbo;
+	int				mbm_work_cpu;
+	int				cqm_work_cpu;
+	struct pseudo_lock_region	*plr;
+	struct resctrl_staged_config	staged_config[CDP_NUM_TYPES];
+	u32				*mbps_val;
+};
+------- After -------
+/**
+ * struct rdt_ctrl_domain - group of CPUs sharing a resctrl control resource
+ * @hdr:		common header for different domain types
+ * @cpu_mask:		which CPUs share this resource
+ * @plr:		pseudo-locked region (if any) associated with domain
+ * @staged_config:	parsed configuration to be applied
+ * @mbps_val:		When mba_sc is enabled, this holds the array of user
+ *			specified control values for mba_sc in MBps, indexed
+ *			by closid
+ */
+struct rdt_ctrl_domain {
+	struct rdt_domain_hdr		hdr;
+	struct cpumask			cpu_mask;
+	struct pseudo_lock_region	*plr;
+	struct resctrl_staged_config	staged_config[CDP_NUM_TYPES];
+	u32				*mbps_val;
+};
+
+/**
+ * struct rdt_mon_domain - group of CPUs sharing a resctrl control resource
+ * @hdr:		common header for different domain types
+ * @rmid_busy_llc:	bitmap of which limbo RMIDs are above threshold
+ * @mbm_total:		saved state for MBM total bandwidth
+ * @mbm_local:		saved state for MBM local bandwidth
+ * @mbm_over:		worker to periodically read MBM h/w counters
+ * @cqm_limbo:		worker to periodically read CQM h/w counters
+ * @mbm_work_cpu:	worker CPU for MBM h/w counters
+ * @cqm_work_cpu:	worker CPU for CQM h/w counters
+ */
+struct rdt_mon_domain {
+	struct rdt_domain_hdr		hdr;
+	unsigned long			*rmid_busy_llc;
+	struct mbm_state		*mbm_total;
+	struct mbm_state		*mbm_local;
+	struct delayed_work		mbm_over;
+	struct delayed_work		cqm_limbo;
+	int				mbm_work_cpu;
+	int				cqm_work_cpu;
+};
+-----
+
+Which to my eyes looks like exactly what the commit comment says I
+was going to do the in this patch. The old rdt_domain structure has
+been replaced with two structures, with names as described in the commit
+comment. The fields of the orginal structure have been distributed
+betweeen the two new structures based on whether they are used for
+control or monitor functions.
+
+
+What am I missing? (Apart from a silly cut & paste error in the comments
+that I just noticed and will fix now).
+
+-Tony
