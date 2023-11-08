@@ -1,100 +1,120 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4AD30322
-	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 15:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1AF30335;
+	Wed,  8 Nov 2023 15:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="a4Mk9mfH"
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1826D1A1
-	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 07:11:42 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-507a3af69d8so2205151e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 08 Nov 2023 07:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1699456300; x=1700061100; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UUxKSl5xvPnPZc8xesOknmD+ele1gvP9a4k80mJzrYs=;
-        b=a4Mk9mfHLqk/vZgx/naAa18UdyyXhBudweECCBHX+AUJfgMQsOrAzKkSIMmNQlNHZn
-         pJAL6L6vCB6IbFs0U5BY/B8tzRynpcJWtXMCsNk4DVDyj9Pz1QabIrc6xPB/f03BpXup
-         6Y/dhf11TvJHk2m9lUcBJkSMHLeWaN9I1yAkLlbrzoyQKoySFxlwbpLLFb8xpnvR20qF
-         O8U5H90TVJQSG1z2UpZFkAhYGb08572T3dLPvBOJx0mCD3OwreILHETE5ZP74seQ2wmP
-         Nz+Nx5O6eUtx6dBGYb+WTJ+r/z5VzLfWRXXhXa8HhXr2oVRbS7MxetIwjF+oUEdmUm8e
-         7Oog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699456300; x=1700061100;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UUxKSl5xvPnPZc8xesOknmD+ele1gvP9a4k80mJzrYs=;
-        b=CiiSa8uaWwDVc4UyE6JG7rntyL2o1PvBImtXRsPw3W0jpTHisejAAZxY0fZK+8KF7R
-         S49LV9B2tCQM1DKsl1CttxQIz7W70EnIEN6kZYFtHqZDhicivLNes2BnZinn+0rylQyo
-         ZoVTAgXwYlrcPQ2/jkcvVVD4Efe2rDYAQuQOvsWOoSNecVqE99myin7V/QUSr9BarN/t
-         dj7T2r79O88+F3U8MnYIgkYZSeX4qhOXIYzJ/c+MiZ8BcLqKzfcLMw6vy7xJOoVz5/jd
-         N2TcIZZ957YCH9iPcyFyDp3qW8SKqrPrPoZxBbqs2CM7Nh+JPGOHy4uSTW82Z7um+RpV
-         lFqw==
-X-Gm-Message-State: AOJu0YwPwZ4KYTWcJnko8K7lwAWzTypGXkRh7ofmTghYecgmmCs7XrVd
-	copuDfWEcbsjD4jEkKvFxdDyGw==
-X-Google-Smtp-Source: AGHT+IGgd3SIwzRo05crHQZcZdIwfB08YjDuFbDQxrEcjaJXxfyUwP7xDu63tVHI4IbBCdiWq8CvpQ==
-X-Received: by 2002:a19:ad45:0:b0:509:3806:b86 with SMTP id s5-20020a19ad45000000b0050938060b86mr1403227lfd.3.1699456300131;
-        Wed, 08 Nov 2023 07:11:40 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:999:a3a0:22d4:745b:9658:6dd? ([2a01:e0a:999:a3a0:22d4:745b:9658:6dd])
-        by smtp.gmail.com with ESMTPSA id m13-20020adffa0d000000b003143867d2ebsm5159107wrr.63.2023.11.08.07.11.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 07:11:39 -0800 (PST)
-Message-ID: <c5766c6b-5a85-48ab-89c5-9bc43aeb20bd@rivosinc.com>
-Date: Wed, 8 Nov 2023 16:11:39 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YngC7mUw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FC2AC433C7;
+	Wed,  8 Nov 2023 15:17:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699456668;
+	bh=1ZBrzJ0Yznlim0qZbdAj4CfZrk/uA/K/HqKlFtH0340=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YngC7mUwJDFbFuh2azAzFrxI0s1/wo1MDg1tK6txBSU79loH3Mru2lwziqtYhOnz3
+	 At5AUzufWE1EM2IPbRmlh1xJdRBGEJT0jkjhlL5v+g38IsKtFbv1bxbmGdSkjdXzIh
+	 wyM4BYTFTF3o/k9bphvWkH4sq/hoEd4F6kxNC6xLsp8YJxAYeuhxzW2Vo8LSWnkqIm
+	 poukWmBQjAhmiRd+hz7LKbd5aevR14HZP6DEQP71JrOAnpxHoIHc2nqKgR7I4w6rE1
+	 ekMesWrgHEQjwswlu/1a1S1MGQcQhXwMto6H0uWovfdVOfQrV2Q0LG+zlWSR4jD5RZ
+	 dMETWwJFs7kkA==
+Date: Wed, 8 Nov 2023 15:17:43 +0000
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Evan Green <evan@rivosinc.com>, Samuel Ortiz <sameo@rivosinc.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v3 03/20] riscv: add ISA extension parsing for scalar
+ crypto
+Message-ID: <20231108-mystify-marshland-0e35c4524899@spud>
+References: <20231107105556.517187-1-cleger@rivosinc.com>
+ <20231107105556.517187-4-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/20] dt-bindings: riscv: add scalar crypto ISA
- extensions description
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Palmer Dabbelt <palmer@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Jones <ajones@ventanamicro.com>, Evan Green <evan@rivosinc.com>,
- Samuel Ortiz <sameo@rivosinc.com>
-References: <20231107105556.517187-1-cleger@rivosinc.com>
- <20231107105556.517187-6-cleger@rivosinc.com>
- <20231108-grower-handwash-63526d449e9c@spud>
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20231108-grower-handwash-63526d449e9c@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="K8uJBevj2aI55aCy"
+Content-Disposition: inline
+In-Reply-To: <20231107105556.517187-4-cleger@rivosinc.com>
 
 
+--K8uJBevj2aI55aCy
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 08/11/2023 15:57, Conor Dooley wrote:
-> Yo,
-> 
-> On Tue, Nov 07, 2023 at 11:55:41AM +0100, Clément Léger wrote:
->> +        - const: zkr
->> +          description:
->> +            The standard Zkr entropy source extension as ratified in version
->> +            1.0 of RISC-V Cryptography Extensions Volume I specification.
-> 
-> So the topic of the seed CSR came up on the U-Boot ML in the last few
-> days:
-> https://lore.kernel.org/u-boot/20231107212431.GP6601@bill-the-cat
-> I think we need to document that having zkr in riscv,isa-extensions
-> means that the CSR is accessible at the privilege level to which that
-> devicetree has been provided.
+On Tue, Nov 07, 2023 at 11:55:39AM +0100, Cl=E9ment L=E9ger wrote:
+> From: Evan Green <evan@rivosinc.com>
+>=20
+> The Scalar Crypto specification defines Zk as a shorthand for the
+> Zkn, Zkr and Zkt extensions. The same follows for both Zkn, Zks and Zbk,
+> which are all shorthands for various other extensions. The detailed
+> breakdown can be found in their dt-binding entries.
+>=20
+> Since Zkn also implies the Zbkb, Zbkc and Zbkx extensions, simply passing
+> "zk" through a DT should enable all of Zbkb, Zbkc, Zbkx, Zkn, Zkr and Zkt.
+> For example, setting the "riscv,isa" DT property to "rv64imafdc_zk"
+> should generate the following cpuinfo output:
+> "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zbkb_zbkc_zbkx_zknd_zkne_zknh_zkr=
+_zkt"
+>=20
+> riscv_isa_ext_data grows a pair of new members, to permit setting the
+> relevant bits for "bundled" extensions, both while parsing the ISA string
+> and the new dedicated extension properties.
+>=20
+> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Evan Green <evan@rivosinc.com>
+> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
 
-Hi Conor,
+> +static void __init match_isa_ext(const struct riscv_isa_ext_data *ext, c=
+onst char *name,
+> +				 const char *name_end, struct riscv_isainfo *isainfo)
+> +{
+> +	if ((name_end - name =3D=3D strlen(ext->name)) &&
+> +	     !strncasecmp(name, ext->name, name_end - name)) {
+> +		/*
+> +		 * If this is a bundle, enable all the ISA extensions that
+> +		 * comprise the bundle.
+> +		 */
+> +		if (ext->subset_ext_size) {
+> +			for (int i =3D 0; i < ext->subset_ext_size; i++) {
+> +				if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
+> +					set_bit(ext->subset_ext_ids[i], isainfo->isa);
+> +			}
+> +		}
+> +
 
-Indeed, seems like a good idea.
+> +		if (riscv_isa_extension_check(ext->id))
+> +			set_bit(ext->id, isainfo->isa);
+
+Could you add a comment here please about how this is safe to do for the
+bundle extensions?
+
+Otherwise,
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Thanks,
+Conor.
 
-Clément
+--K8uJBevj2aI55aCy
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUumlgAKCRB4tDGHoIJi
+0sLFAP9MVCdVD7MmVFLH6gGIQEZQqzI+aAsU4HQ1BTYh+ed1cQD/bxY92poS1KCt
+K2tEapt7yzFeRtbG6p4k7yMhPuuzgQA=
+=8mxz
+-----END PGP SIGNATURE-----
+
+--K8uJBevj2aI55aCy--
