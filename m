@@ -1,103 +1,81 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4ADB815;
-	Wed,  8 Nov 2023 14:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CC42FE2F;
+	Wed,  8 Nov 2023 14:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="SCmW0XVj"
-Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF20E172E;
-	Wed,  8 Nov 2023 06:42:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1699454526; x=1730990526;
-  h=mime-version:content-transfer-encoding:date:message-id:
-   cc:subject:from:to:references:in-reply-to;
-  bh=m5j5x7nNAFVyRYtdkX1gMrUVJ3IBvqYpFYgMswAfYXw=;
-  b=SCmW0XVjef4+FFJ7VSHSAXoQZINhQwriry2rzIDhgxiv9wJFPbV4PRnL
-   V0BwBluHWYkfkkjnJNyJ2L6gg7mOmp8fqlw7MiXmh62OkSHgOVd5Mar6J
-   zml/+KgWVeyrFSAqsiuLrhZqMr6gS4tsWRGNgQY8QXIDQzgBYQMQy9uFL
-   Q=;
-X-IronPort-AV: E=Sophos;i="6.03,286,1694736000"; 
-   d="scan'208";a="593847629"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-9fe6ad2f.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 14:42:03 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan3.iad.amazon.com [10.32.235.38])
-	by email-inbound-relay-iad-1a-m6i4x-9fe6ad2f.us-east-1.amazon.com (Postfix) with ESMTPS id 0A99C8049A;
-	Wed,  8 Nov 2023 14:42:00 +0000 (UTC)
-Received: from EX19MTAEUA001.ant.amazon.com [10.0.17.79:56026]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.22.222:2525] with esmtp (Farcaster)
- id e7c875e3-d454-4710-a698-3611a062b2a8; Wed, 8 Nov 2023 14:41:59 +0000 (UTC)
-X-Farcaster-Flow-ID: e7c875e3-d454-4710-a698-3611a062b2a8
-Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
- EX19MTAEUA001.ant.amazon.com (10.252.50.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Wed, 8 Nov 2023 14:41:59 +0000
-Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
- (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 8 Nov
- 2023 14:41:55 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q3j5TevN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6465FC433C8;
+	Wed,  8 Nov 2023 14:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699455440;
+	bh=LKL1hs/khI8hKTDotLj4TlzooB07x3t7D/CuzzZG+Oo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q3j5TevN8fsXBPvYnztlof7HiDniQcTKHv3coqsz0QT785G+eoPCtqqMYWpbFO96M
+	 gMvkHunctwfdJGhNwCe8dw1uq3Yxe5U9MJ3CYnAM4u2jwcGEtl5NnZSs1PNQJTdjzj
+	 qv1n3tARR6K9+GS2VGWHJS/G/+j7qLxDQg/RFlUal9qLJVdqA1pCnOGhrkpsKjIfR4
+	 3AZi5nGl5SRtY9i92JjRacjWwn2fyh9kLusChllojkFy1489ygIO8+CGvotGnX8rcZ
+	 JVOwoZxO4xvjiKsPRZgJTqaqAV9w0BFyxaEvM/rSYEudhIiDJ2x2sDxIINRNh4+0ji
+	 +R8XiS//Kmy4w==
+Date: Wed, 8 Nov 2023 14:57:15 +0000
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Evan Green <evan@rivosinc.com>, Samuel Ortiz <sameo@rivosinc.com>
+Subject: Re: [PATCH v3 05/20] dt-bindings: riscv: add scalar crypto ISA
+ extensions description
+Message-ID: <20231108-grower-handwash-63526d449e9c@spud>
+References: <20231107105556.517187-1-cleger@rivosinc.com>
+ <20231107105556.517187-6-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="IXI5peX4j7nYK3nr"
+Content-Disposition: inline
+In-Reply-To: <20231107105556.517187-6-cleger@rivosinc.com>
+
+
+--IXI5peX4j7nYK3nr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Wed, 8 Nov 2023 14:41:51 +0000
-Message-ID: <CWTICGO95L4K.2DL1G1DZ9EW3H@amazon.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
-	<pbonzini@redhat.com>, <seanjc@google.com>, <vkuznets@redhat.com>,
-	<anelkz@amazon.com>, <dwmw@amazon.co.uk>, <jgowans@amazon.com>,
-	<kys@microsoft.com>, <haiyangz@microsoft.com>, <decui@microsoft.com>,
-	<x86@kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [RFC 0/33] KVM: x86: hyperv: Introduce VSM support
-From: Nicolas Saenz Julienne <nsaenz@amazon.com>
-To: Alexander Graf <graf@amazon.com>, <kvm@vger.kernel.org>
-X-Mailer: aerc 0.15.2-182-g389d89a9362e-dirty
-References: <20231108111806.92604-1-nsaenz@amazon.com>
- <a8da9071-68ee-42e6-810a-eac95aff317d@amazon.com>
-In-Reply-To: <a8da9071-68ee-42e6-810a-eac95aff317d@amazon.com>
-X-Originating-IP: [10.13.235.138]
-X-ClientProxiedBy: EX19D037UWC001.ant.amazon.com (10.13.139.197) To
- EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-On Wed Nov 8, 2023 at 11:40 AM UTC, Alexander Graf wrote:
-> Hey Nicolas,
+Yo,
 
-[...]
+On Tue, Nov 07, 2023 at 11:55:41AM +0100, Cl=E9ment L=E9ger wrote:
+> +        - const: zkr
+> +          description:
+> +            The standard Zkr entropy source extension as ratified in ver=
+sion
+> +            1.0 of RISC-V Cryptography Extensions Volume I specification.
 
-> > The series is accompanied by two repositories:
-> >   - A PoC QEMU implementation of VSM [3].
-> >   - VSM kvm-unit-tests [4].
-> >
-> > Note that this isn't a full VSM implementation. For now it only support=
-s
-> > 2 VTLs, and only runs on uniprocessor guests. It is capable of booting
-> > Windows Sever 2016/2019, but is unstable during runtime.
->
-> How much of these limitations are inherent in the current set of=20
-> patches? What is missing to go beyond 2 VTLs and into SMP land? Anything=
-=20
-> that will require API changes?
+So the topic of the seed CSR came up on the U-Boot ML in the last few
+days:
+https://lore.kernel.org/u-boot/20231107212431.GP6601@bill-the-cat
+I think we need to document that having zkr in riscv,isa-extensions
+means that the CSR is accessible at the privilege level to which that
+devicetree has been provided.
 
-The main KVM concepts introduced by this series are ready to deal with
-any number of VTLs (APIC ID groups, VTL KVM device).
+--IXI5peX4j7nYK3nr
+Content-Type: application/pgp-signature; name="signature.asc"
 
-KVM_HV_GET_VSM_STATE should provide a copy of 'vsm_code_page_offsets'
-per-VTL, since the hypercall page is partition wide but per-VTL.
-Attaching that information as a VTL KVM device attribute fits that
-requirement nicely. I'd prefer going that way especially if the VTL KVM
-device has a decent reception. Also, the secure memory intecepts and
-HVCALL_TRANSLATE_VIRTUAL_ADDRESS take some VTL related shortcuts, but
-those are going away. Otherwise, I don't see any necessary in-kernel
-changes.
+-----BEGIN PGP SIGNATURE-----
 
-When virtualizing Windows with VSM I've never seen usages that go beyond
-VTL1. So enabling VTL > 1 will be mostly a kvm-unit-tests effort. As for
-SMP, it just a matter of work. Notably HvStartVirtualProcessor and
-HvGetVpIndexFromApicId need to be implemented, and making sure the QEMU
-VTL scheduling code holds up.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUuhugAKCRB4tDGHoIJi
+0jq9AQCA7EiDhuy9EermqoTOWmWVVqY7W1Mxzc1nVYddhZ9YVAEA5v5PcwTZ0QpO
+ppUXycCAScJGAc/3pFd+DuL0WqaXxAc=
+=fV9h
+-----END PGP SIGNATURE-----
 
-Nicolas
+--IXI5peX4j7nYK3nr--
