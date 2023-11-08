@@ -1,50 +1,44 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDE363C1;
-	Wed,  8 Nov 2023 12:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8278563C1;
+	Wed,  8 Nov 2023 12:46:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Psu9YFrV"
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D171BF0;
-	Wed,  8 Nov 2023 04:44:56 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9d10f94f70bso1038202566b.3;
-        Wed, 08 Nov 2023 04:44:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="LxkkFqJ1"
+Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 825861BF2;
+	Wed,  8 Nov 2023 04:46:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699447495; x=1700052295; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bfIYw/eqVYS+oY4d930Rw+98Y2voJ1fI6YN4DdZy5xw=;
-        b=Psu9YFrVuMTSGQu1GTHajw6CvqGbu7OQL/Ouqkq4R9O4EOAaJTSaYN2GW2+HPmEeb+
-         70QOeL9k+b/eAzJFPYvEbn8HonlWjP8O6nI1Owa8SXnnVA1nQCbwfZ5pzRihXh/uCryC
-         ZizHsnr1lJuYamdErkb/+Yw7BkvRDK3wIfhKJmzm9C3tN5lgkq9p1nqA/Dl/+deSlBjK
-         kNDSs7JGQjMBu9xon1GadH4qzUVkmgsC3WE2shAHvQLjyo08CYLVv00/wuY+2khiRfi5
-         Z5l/+3Tcj1G3w6poHwKd5saFMF0XGOSvKDrIv+mtjcgDcbRp40m4e7yc3YL25lneq11Z
-         X6ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699447495; x=1700052295;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bfIYw/eqVYS+oY4d930Rw+98Y2voJ1fI6YN4DdZy5xw=;
-        b=ZZn/w80VTWHedGYW691sFvd4WIpS4PHx4aeHQBXEtdNlUqyPHfmzcNwuN0sQ/PUut2
-         wi9gd2WqLi1+w8xMoKqYSUMlo3Qr/M5q4vkW3gDDpohEk342797yhyT0SsmFOzCtsHXP
-         Xcf5vfXwFvGc+bFPYCh8G8jFOfDVW/REvQq7vi4mQ9K8Hdl1tkzKmI/gMUwvHjF/eQ5Q
-         iJ+CClefaG7YTAyy79AOk5zBSlCKuLuYG7H3vNQ2VotqpSsJ+JMkALzewWhIDWCO1Re9
-         rM8Rmakysx6pbSjioJrqt1WEckw7UEvEnoFge9IDxQVXzyP5B8QjUwUbUyTHXe38S3zm
-         2ZZA==
-X-Gm-Message-State: AOJu0YwCD8cp1GdhujnDYadqHnshC8OR9aUdG16RYy6E6YblgMV2hqsA
-	m8YhbpNvJBqff7/SuAm3x5k=
-X-Google-Smtp-Source: AGHT+IHpd7EMYPwzVeWvMT/QxCTbAiO3+AWFKUFV0YS7L4f+kzaa4xw/++1WEvWsaPebdQlm/g8/ow==
-X-Received: by 2002:a17:907:934b:b0:9c4:67f:3ef5 with SMTP id bv11-20020a170907934b00b009c4067f3ef5mr1448237ejc.50.1699447495312;
-        Wed, 08 Nov 2023 04:44:55 -0800 (PST)
-Received: from ?IPV6:2a02:8389:41cf:e200:8f74:d45a:3701:5b6? (2a02-8389-41cf-e200-8f74-d45a-3701-05b6.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:8f74:d45a:3701:5b6])
-        by smtp.gmail.com with ESMTPSA id gz11-20020a170906f2cb00b009b2d46425absm989612ejb.85.2023.11.08.04.44.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 04:44:54 -0800 (PST)
-Message-ID: <269222d8-b72f-4c7a-a19e-a82964e29ec8@gmail.com>
-Date: Wed, 8 Nov 2023 13:44:52 +0100
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1699447569; x=1730983569;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=IMs3Jzbr/vq41dM8w9vnjLZzo+zDotJHPcWCxMB6uUE=;
+  b=LxkkFqJ1WYK3Zf0f4L/7l6orz0EObPwspi+16hv4GvE5Y3oUKrkiqPy9
+   kpMeI7TUCACbzUq5QX1n/69n+ffyRHwVxzn2RzUcC2alMQTnJ5wZKkqsQ
+   BEP8/90wEn3pq8opgwX5/VjWUmOh8lTFRzmfsOIvMiFifT4JSRK7+QOwu
+   o=;
+X-IronPort-AV: E=Sophos;i="6.03,286,1694736000"; 
+   d="scan'208";a="369131464"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-9fe6ad2f.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 12:45:58 +0000
+Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan3.iad.amazon.com [10.32.235.38])
+	by email-inbound-relay-iad-1a-m6i4x-9fe6ad2f.us-east-1.amazon.com (Postfix) with ESMTPS id A4E6880E33;
+	Wed,  8 Nov 2023 12:45:54 +0000 (UTC)
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.7.35:19714]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.30.134:2525] with esmtp (Farcaster)
+ id e7d7ba6d-66b4-4fac-9ac6-77ed28c7a2e1; Wed, 8 Nov 2023 12:45:53 +0000 (UTC)
+X-Farcaster-Flow-ID: e7d7ba6d-66b4-4fac-9ac6-77ed28c7a2e1
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.39; Wed, 8 Nov 2023 12:45:44 +0000
+Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
+ (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 8 Nov
+ 2023 12:45:40 +0000
+Message-ID: <c1e85d8a-7f59-4c75-ada1-8a80d79c2b4e@amazon.com>
+Date: Wed, 8 Nov 2023 13:45:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,110 +46,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] dt-bindings: hwmon: Add Amphenol ChipCap 2
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20231020-topic-chipcap2-v1-0-087e21d4b1ed@gmail.com>
- <20231020-topic-chipcap2-v1-4-087e21d4b1ed@gmail.com>
- <5a35f02d-31d0-4cef-9b46-f231d0611c7a@linaro.org>
+Subject: Re: [RFC 30/33] KVM: x86: hyper-v: Introduce
+ KVM_REQ_HV_INJECT_INTERCEPT request
 Content-Language: en-US
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <5a35f02d-31d0-4cef-9b46-f231d0611c7a@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Nicolas Saenz Julienne <nsaenz@amazon.com>, <kvm@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+	<pbonzini@redhat.com>, <seanjc@google.com>, <vkuznets@redhat.com>,
+	<anelkz@amazon.com>, <dwmw@amazon.co.uk>, <jgowans@amazon.com>,
+	<corbert@lwn.net>, <kys@microsoft.com>, <haiyangz@microsoft.com>,
+	<decui@microsoft.com>, <x86@kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231108111806.92604-1-nsaenz@amazon.com>
+ <20231108111806.92604-31-nsaenz@amazon.com>
+From: Alexander Graf <graf@amazon.com>
+In-Reply-To: <20231108111806.92604-31-nsaenz@amazon.com>
+X-Originating-IP: [10.253.83.51]
+X-ClientProxiedBy: EX19D041UWA002.ant.amazon.com (10.13.139.121) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 
-Hello,
+Ck9uIDA4LjExLjIzIDEyOjE4LCBOaWNvbGFzIFNhZW56IEp1bGllbm5lIHdyb3RlOgo+IEludHJv
+ZHVjZSBhIG5ldyByZXF1ZXN0IHR5cGUsIEtWTV9SRVFfSFZfSU5KRUNUX0lOVEVSQ0VQVCB3aGlj
+aCBhbGxvd3MKPiBpbmplY3Rpbmcgb3V0LW9mLWJhbmQgSHlwZXItViBzZWN1cmUgaW50ZXJjZXB0
+cy4gRm9yIG5vdyBvbmx5IG1lbW9yeQo+IGFjY2VzcyBpbnRlcmNlcHRzIGFyZSBzdXBwb3J0ZWQu
+IFRoZXNlIGFyZSB0cmlnZ2VyZWQgd2hlbiBhY2Nlc3MgYSBHUEEKPiBwcm90ZWN0ZWQgYnkgYSBo
+aWdoZXIgVlRMLiBUaGUgbWVtb3J5IGludGVyY2VwdCBtZXRhZGF0YSBpcyBmaWxsZWQgYmFzZWQK
+PiBvbiB0aGUgR1BBIHByb3ZpZGVkIHRocm91Z2ggc3RydWN0IGt2bV92Y3B1X2h2X2ludGVyY2Vw
+dF9pbmZvLCBhbmQKPiBpbmplY3RlZCBpbnRvIHRoZSBndWVzdCB0aHJvdWdoIFN5bklDIG1lc3Nh
+Z2UuCj4KPiBTaWduZWQtb2ZmLWJ5OiBOaWNvbGFzIFNhZW56IEp1bGllbm5lIDxuc2FlbnpAYW1h
+em9uLmNvbT4KCgpJTUhPIG1lbW9yeSBwcm90ZWN0aW9uIHZpb2xhdGlvbnMgc2hvdWxkIHJlc3Vs
+dCBpbiBhIHVzZXIgc3BhY2UgZXhpdC4gClVzZXIgc3BhY2UgY2FuIHRoZW4gdmFsaWRhdGUgd2hh
+dCB0byBkbyB3aXRoIHRoZSB2aW9sYXRpb24gYW5kIGlmIApuZWNlc3NhcnkgaW5qZWN0IGFuIGlu
+dGVyY2VwdC4KClRoYXQgbWVhbnMgZnJvbSBhbiBBUEkgcG9pbnQgb2YgdmlldywgeW91IHdhbnQg
+YSBuZXcgZXhpdCByZWFzb24gCih2aW9sYXRpb24pIGFuZCBhbiBpb2N0bCB0aGF0IGFsbG93cyB5
+b3UgdG8gdHJhbnNtaXQgdGhlIHZpb2xhdGluZyBDUFUgCnN0YXRlIGludG8gdGhlIHRhcmdldCB2
+Q1BVLiBJIGRvbid0IHRoaW5rIHRoZSBpbmplY3Rpb24gc2hvdWxkIGV2ZW4ga25vdyAKdGhhdCB0
+aGUgc291cmNlIG9mIGRhdGEgZm9yIHRoZSB2aW9sYXRpb24gd2FzIGEgdkNQVS4KCgoKQWxleAoK
+CgoKQW1hem9uIERldmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgK
+MTAxMTcgQmVybGluCkdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9u
+YXRoYW4gV2Vpc3MKRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50
+ZXIgSFJCIDE0OTE3MyBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
 
-On 08.11.23 13:34, Krzysztof Kozlowski wrote:
-> On 08/11/2023 13:29, Javier Carrasco wrote:
->> Add device tree bindings and an example for the ChipCap 2 humidity
->> and temperature sensor.
->>
->> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
->> ---
-> 
-> ...
-> 
->> +maintainers:
->> +  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
->> +
->> +description: |
->> +  Relative humidity and temperature sensor on I2C bus.
->> +
->> +  Datasheets:
->> +    https://www.amphenol-sensors.com/en/telaire/humidity/527-humidity-sensors/3095-chipcap-2
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - amphenol,cc2dxx
->> +      - amphenol,cc2dxxs
-> 
-> What does xx stand for? Wildcard? I do not see cc2dxx in part numbers.
-> We expect specific compatibles, not generic. What are the differences
-> between all parts?
-> 
-There are two device families: cc2dxx and cc2dxxs, where xx indicates
-the voltage and the accuracy. That does not change how the devices works
-and it is not relevant for the driver. The 's' indicates that it is a
-sleep device, and that modifies how it works.
-I listed the supported part numbers in the hwmon documentation, where
-they are also divided into these two families.
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 3
->> +    description: |
->> +      The device provides three optional interrupts. READY indicates that
->> +      a measurement was finished. LOW indicates a low humidity alarm and
->> +      HIGH a high humidity alarm.
->> +      All interrupts must be IRQ_TYPE_RISING_EDGE.
-> 
-> Instead use items: with description: for each item.
-> 
->> +
->> +  interrupt-names:
->> +    items:
->> +      - const: READY
->> +      - const: LOW
->> +      - const: HIGH
-> 
-> Lowercase names
-> 
->> +
->> +  vdd-supply:
->> +    description:
->> +      Dedicated, controllable supply-regulator to reset the device and
->> +      enter in command mode. If defined, it must provide a GPIO for its
->> +      control.
-> 
-> I don't understand what GPIO has anything to do with power supply.
-> 
->> +      If not defined, no alarms will be available.
->> +
->> +
-> 
-> Only one blank line.
-> 
->> +required:
->> +  - compatible
->> +  - reg
->> +
->> +additionalProperties: false
-> 
-> Best regards,
-> Krzysztof
-> 
-Thanks for your review.
-
-Best regards,
-Javier Carrasco
