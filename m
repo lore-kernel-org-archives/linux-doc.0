@@ -1,52 +1,51 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE13530353;
-	Wed,  8 Nov 2023 15:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCE430347;
+	Wed,  8 Nov 2023 15:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fmyj4inN"
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9D43138;
-	Wed,  8 Nov 2023 07:37:35 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9a6190af24aso1094626766b.0;
-        Wed, 08 Nov 2023 07:37:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gb3o2tRV"
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054DB1FDA;
+	Wed,  8 Nov 2023 07:37:39 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-53e3b8f906fso11810675a12.2;
+        Wed, 08 Nov 2023 07:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699457854; x=1700062654; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1699457857; x=1700062657; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iR96KjiNOLwJsrZW9YjWEMZZO1SB3q3Gyovy8VvF6lw=;
-        b=Fmyj4inNDf/PbVRfl7yj+0Y6WC6o3IBl1870dr3aXKoc6OSopT7cHFKX/HcAdmpuH5
-         yrupKXmrbRFp+w/Np2unppLEfCLYa7ucunD9Z+CmhrRruG6/f58L9yHLk+cZ9IwY1V4K
-         c1NGLQQPMD01wNmDvrfwURJ9wBO4TWwpQtWzEKTFh+pRJ0ZzAZ4JqvMDcO/dAVYbIoN4
-         rEfqqURIuRB7XOECuPEIJzLLBMKOeUTZ5KQWd3a36h0HsebCeL5mh0M/UzP8z7WD+2Xx
-         1DUB0KMW+OAJ6JtkkyrguDTCwKJZpNxhIvNXF/LwhAurD3NjTneNJzmNpjdIXnNGX53s
-         sTtA==
+        bh=bezVq5NfxD+KhZfkFbZwhXk3BKYmWSQOuA8lFp/Q5CE=;
+        b=Gb3o2tRVoT1jK2jyT4CtxQpuSprDD5KzOM5tizpN9sEJ3fZ+cC7P3hoYKOezeh/LX9
+         6WNTPlsj8TRVhxV2QlpfQ7GUv3AvomKMv0VhBkcifmg2jSXZZ3TT9IDl1t7g9LT+8g6Q
+         DpOWdC1SuqGl+n6roua8k/53GyNOLzX4WHtX8g94CpyTFM6akSuqCZBYvFFEt5io6B3I
+         nVihQX1uGh/NGtxwMoQGYxnwvc3ipaxr+eS07nm7b4TiY5ADHNT/CVCkRtP2f05nRZga
+         dNeXyjgCYmj0gWD2zAgog7FVklRP3pW69HbxzUP+CqnZWJmzDciz6SaZs2Diej8CmaJf
+         sAYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699457854; x=1700062654;
+        d=1e100.net; s=20230601; t=1699457857; x=1700062657;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iR96KjiNOLwJsrZW9YjWEMZZO1SB3q3Gyovy8VvF6lw=;
-        b=e+E23ltbiBuJp+GDsQqL/brH4JNLJO6h1tUxEBCCUlqQt1NdjdyiYZvfHqFmWqbHkj
-         iJLIbomgSMhHJYGnbw9o3pUS0/6/gjDZLluntJJQU8joD7wY9K11YL+05gEKotNyG63s
-         fGbgdGcJ2e8UhuTdxkBtJDe25n14JChn2f1JtCBFnA4lA3u+JbDAIpaYOvoyeKSnKzQi
-         bVoOJF3OJ+bN5sqzsjPJ+y434opXTtMMf/oWIij5VNSreDxbG4YfMBdx+9E10FP5mn7W
-         0yBXR+CIJ9tDC82degVCZNwMrD04FQ4yGalHP/e/LZwo4vKjv48VOekhzWz9Qix14bEV
-         +vvw==
-X-Gm-Message-State: AOJu0YzgcmB+oVrAEBMa/KWoC9IMwD/2OkUhX7bjF6w4AMPJ1xjensgP
-	E5Qqxk6mtCZuOugHbWOOuNM=
-X-Google-Smtp-Source: AGHT+IFvpQz6IU53s8AC35mADYmMKcNfAIOelcC+vnE8De+ZP5TsRdyNdDUhHDounJYANxlk5WvdFQ==
-X-Received: by 2002:a17:907:7e83:b0:9d7:139:ca02 with SMTP id qb3-20020a1709077e8300b009d70139ca02mr1959958ejc.18.1699457854220;
-        Wed, 08 Nov 2023 07:37:34 -0800 (PST)
+        bh=bezVq5NfxD+KhZfkFbZwhXk3BKYmWSQOuA8lFp/Q5CE=;
+        b=wkGM7aI0YjiQ2ggnFNADH93nTmqK8kRnn9HsPDpbGo5J11LYiikeS15u/7Z0BXxx3J
+         +XBDK82meZeUvnPk5sEd0eNoq3uk1tRNewmVmHOEHmJnnWzgberjtGXiMaT2uU7fJj+L
+         KaTk337jHtGnMcDeZ+8ClsIlkcBlFuyK1qTClzfLnlmEH8aQdOnGYFTvGWb2WBWo4Rt6
+         3kWCY1gncbzmbqvSTFvf1LyCdNoeBsH9vd7RIfvmOH8iD8NxDsoCYD+5jKbbwDplpLbX
+         GWV7xPwzkaqX66r2Ki2+Pm/MUjY56RQ9g9/RdEoR28rZaNHIULUAjKKLSGldx+OeuaAc
+         SP9g==
+X-Gm-Message-State: AOJu0Yx5xt3OSfuuk/TcTJMuRhT9fbtkOy5a6p5bFu7Z6dEY0NGfXJTV
+	xvcxJuXkz4KsyByKgG2KX2w=
+X-Google-Smtp-Source: AGHT+IFf5dosgoD1Z/beNxINcyL8uGuFojj7oTj/e5xSGmjEzmvCdA840NrOJrGiIFsuVMbiqbv4PA==
+X-Received: by 2002:a50:8d0b:0:b0:53e:37d1:a31f with SMTP id s11-20020a508d0b000000b0053e37d1a31fmr1918407eds.28.1699457857488;
+        Wed, 08 Nov 2023 07:37:37 -0800 (PST)
 Received: from [127.0.1.1] (2a02-8389-41cf-e200-840c-82c6-68fb-9a49.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:840c:82c6:68fb:9a49])
-        by smtp.gmail.com with ESMTPSA id j28-20020a508a9c000000b0053e3839fc79sm7009966edj.96.2023.11.08.07.37.32
+        by smtp.gmail.com with ESMTPSA id j28-20020a508a9c000000b0053e3839fc79sm7009966edj.96.2023.11.08.07.37.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 07:37:33 -0800 (PST)
+        Wed, 08 Nov 2023 07:37:37 -0800 (PST)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Wed, 08 Nov 2023 16:37:28 +0100
-Subject: [PATCH v2 2/4] hwmon: (core) Add support for humidity min/max
- alarm
+Date: Wed, 08 Nov 2023 16:37:30 +0100
+Subject: [PATCH v2 4/4] dt-bindings: hwmon: Add Amphenol ChipCap 2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,7 +54,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231020-topic-chipcap2-v2-2-f5c325966fdb@gmail.com>
+Message-Id: <20231020-topic-chipcap2-v2-4-f5c325966fdb@gmail.com>
 References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
 In-Reply-To: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>, 
@@ -67,67 +66,96 @@ Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
  linux-doc@vger.kernel.org, Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1699457849; l=2225;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1699457849; l=2364;
  i=javier.carrasco.cruz@gmail.com; s=20230509; h=from:subject:message-id;
- bh=re14X9c0E+VBxIxbVskjRDUjU7zOxmCOyQzwnK834Ds=;
- b=G0ri7HM2GmI44QiKtxd/lNS11ugK3iZG0lzeHXpRUwc1yMr7svZeI+YVxuoqZl0yEb8EdDJJ8
- ThOB3QieZEmCXGwPk4/gVKOcHTQ5fs6gUlDtMLYm9+0d2tRaVMbyKfM
+ bh=d+q16++TF3EsSideU+hM8FP/AieHkXH5vyhNQwTbFHQ=;
+ b=vaBHUKRj7Ud6Yd2UG7HEi9UGVO2wB07a9nPq2uSl7p2TM4ijNt5tX9Kj4Pjen0NvzxNPd0AZZ
+ g8NrFJtNv7NCbvCJ4fVjYQUEcKUv42HoMOv4KHvrKWvc4Rfol1EKHW0
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
 
-Add min_alarm and max_alarm attributes for humidityX to support devices
-that can generate these alarms.
-Such attributes already exist for other magnitudes such as tempX.
-
-Tested with a ChipCap 2 temperature-humidity sensor.
+Add device tree bindings and an example for the ChipCap 2 humidity
+and temperature sensor.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/hwmon/hwmon.c | 2 ++
- include/linux/hwmon.h | 4 ++++
- 2 files changed, 6 insertions(+)
+ .../bindings/hwmon/amphenol,chipcap2.yaml          | 68 ++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
-diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-index c7dd3f5b2bd5..7f92984c37d9 100644
---- a/drivers/hwmon/hwmon.c
-+++ b/drivers/hwmon/hwmon.c
-@@ -579,8 +579,10 @@ static const char * const hwmon_humidity_attr_templates[] = {
- 	[hwmon_humidity_input] = "humidity%d_input",
- 	[hwmon_humidity_label] = "humidity%d_label",
- 	[hwmon_humidity_min] = "humidity%d_min",
-+	[hwmon_humidity_min_alarm] = "humidity%d_min_alarm",
- 	[hwmon_humidity_min_hyst] = "humidity%d_min_hyst",
- 	[hwmon_humidity_max] = "humidity%d_max",
-+	[hwmon_humidity_max_alarm] = "humidity%d_max_alarm",
- 	[hwmon_humidity_max_hyst] = "humidity%d_max_hyst",
- 	[hwmon_humidity_alarm] = "humidity%d_alarm",
- 	[hwmon_humidity_fault] = "humidity%d_fault",
-diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
-index 8cd6a6b33593..154de35e34ac 100644
---- a/include/linux/hwmon.h
-+++ b/include/linux/hwmon.h
-@@ -286,8 +286,10 @@ enum hwmon_humidity_attributes {
- 	hwmon_humidity_input,
- 	hwmon_humidity_label,
- 	hwmon_humidity_min,
-+	hwmon_humidity_min_alarm,
- 	hwmon_humidity_min_hyst,
- 	hwmon_humidity_max,
-+	hwmon_humidity_max_alarm,
- 	hwmon_humidity_max_hyst,
- 	hwmon_humidity_alarm,
- 	hwmon_humidity_fault,
-@@ -299,8 +301,10 @@ enum hwmon_humidity_attributes {
- #define HWMON_H_INPUT			BIT(hwmon_humidity_input)
- #define HWMON_H_LABEL			BIT(hwmon_humidity_label)
- #define HWMON_H_MIN			BIT(hwmon_humidity_min)
-+#define HWMON_H_MIN_ALARM		BIT(hwmon_humidity_min_alarm)
- #define HWMON_H_MIN_HYST		BIT(hwmon_humidity_min_hyst)
- #define HWMON_H_MAX			BIT(hwmon_humidity_max)
-+#define HWMON_H_MAX_ALARM		BIT(hwmon_humidity_max_alarm)
- #define HWMON_H_MAX_HYST		BIT(hwmon_humidity_max_hyst)
- #define HWMON_H_ALARM			BIT(hwmon_humidity_alarm)
- #define HWMON_H_FAULT			BIT(hwmon_humidity_fault)
+diff --git a/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+new file mode 100644
+index 000000000000..8bb6daa293d3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+@@ -0,0 +1,68 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/amphenol,chipcap2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ChipCap 2 humidity and temperature iio sensor
++
++maintainers:
++  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
++
++description: |
++  Relative humidity and temperature sensor on I2C bus.
++
++  Datasheets:
++    https://www.amphenol-sensors.com/en/telaire/humidity/527-humidity-sensors/3095-chipcap-2
++
++properties:
++  compatible:
++    enum:
++      - amphenol,cc2dxx
++      - amphenol,cc2dxxs
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: measurement ready indicator
++      - description: low humidity alarm
++      - description: high humidity alarm
++
++  interrupt-names:
++    items:
++      - const: ready
++      - const: low
++      - const: high
++
++  vdd-supply:
++    description:
++      Dedicated, controllable supply-regulator to reset the device and
++      enter in command mode.
++      If not defined, no alarms will be available.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        humidity@28 {
++            compatible = "amphenol,cc2dxxs";
++            reg = <0x28>;
++            interrupt-parent = <&gpio>;
++            interrupts = <4 IRQ_TYPE_EDGE_RISING>,
++                         <5 IRQ_TYPE_EDGE_RISING>,
++                         <6 IRQ_TYPE_EDGE_RISING>;
++            interrupt-names = "ready", "low", "high";
++            vdd-supply = <&reg_vdd>;
++        };
++    };
 
 -- 
 2.39.2
