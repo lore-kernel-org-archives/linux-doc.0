@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CC42FE2F;
-	Wed,  8 Nov 2023 14:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC5A30320;
+	Wed,  8 Nov 2023 14:59:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q3j5TevN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6465FC433C8;
-	Wed,  8 Nov 2023 14:57:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOouj4dW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B67CFC433C7;
+	Wed,  8 Nov 2023 14:59:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699455440;
-	bh=LKL1hs/khI8hKTDotLj4TlzooB07x3t7D/CuzzZG+Oo=;
+	s=k20201202; t=1699455559;
+	bh=rADyy5yr7+H2mZjnMvdRbduD7lwAsCfnNVr4XTzxvPg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q3j5TevN8fsXBPvYnztlof7HiDniQcTKHv3coqsz0QT785G+eoPCtqqMYWpbFO96M
-	 gMvkHunctwfdJGhNwCe8dw1uq3Yxe5U9MJ3CYnAM4u2jwcGEtl5NnZSs1PNQJTdjzj
-	 qv1n3tARR6K9+GS2VGWHJS/G/+j7qLxDQg/RFlUal9qLJVdqA1pCnOGhrkpsKjIfR4
-	 3AZi5nGl5SRtY9i92JjRacjWwn2fyh9kLusChllojkFy1489ygIO8+CGvotGnX8rcZ
-	 JVOwoZxO4xvjiKsPRZgJTqaqAV9w0BFyxaEvM/rSYEudhIiDJ2x2sDxIINRNh4+0ji
-	 +R8XiS//Kmy4w==
-Date: Wed, 8 Nov 2023 14:57:15 +0000
+	b=FOouj4dWsfpzr7uI3jxC/aKkHDlSoefrYgRLHG21Aw4jKD+yk6+xED90b/4JBfL/L
+	 7PTh+vFsRqMi/x30EjFg64dOrfpTwGWdVicx4fpNwaoQY+5ET1azdTK38QR7T+Ff/G
+	 ozx+5nw8ZflmPwrlXXj1dngTr5myZusiD9aIwEKa1sW0WZ9x5DB/C2IL5Mngm4jeIM
+	 8aHj3NqUFG1AkIwkkxs81gZsr3BWcd+OdsbrQeIBqkZRU1ULdOaF1oLWaRuoapKabm
+	 cwx/SqgrQ2rAkLgVoFEcBNXnJN8vZ+aHOjlvYURgPb8+HXGB+zLCE9JaNucDkL0H2x
+	 GxuI/gGwx3PXw==
+Date: Wed, 8 Nov 2023 14:59:14 +0000
 From: Conor Dooley <conor@kernel.org>
 To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
 Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
@@ -29,11 +29,11 @@ Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
 	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
 	Andrew Jones <ajones@ventanamicro.com>,
 	Evan Green <evan@rivosinc.com>, Samuel Ortiz <sameo@rivosinc.com>
-Subject: Re: [PATCH v3 05/20] dt-bindings: riscv: add scalar crypto ISA
- extensions description
-Message-ID: <20231108-grower-handwash-63526d449e9c@spud>
+Subject: Re: [PATCH v3 20/20] dt-bindings: riscv: add Zfa ISA extension
+ description
+Message-ID: <20231108-basics-delete-710d0682bf0e@spud>
 References: <20231107105556.517187-1-cleger@rivosinc.com>
- <20231107105556.517187-6-cleger@rivosinc.com>
+ <20231107105556.517187-21-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,41 +41,69 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="IXI5peX4j7nYK3nr"
+	protocol="application/pgp-signature"; boundary="JkYUf/ZcAWjBoFXV"
 Content-Disposition: inline
-In-Reply-To: <20231107105556.517187-6-cleger@rivosinc.com>
+In-Reply-To: <20231107105556.517187-21-cleger@rivosinc.com>
 
 
---IXI5peX4j7nYK3nr
+--JkYUf/ZcAWjBoFXV
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Yo,
+On Tue, Nov 07, 2023 at 11:55:56AM +0100, Cl=E9ment L=E9ger wrote:
+> Add description for the Zfa ISA extension[1] which can now be
+> reported through hwprobe for userspace usage.
 
-On Tue, Nov 07, 2023 at 11:55:41AM +0100, Cl=E9ment L=E9ger wrote:
-> +        - const: zkr
+FWIW, hwprobe is not relevant for the dt-bindings.
+
+> Link: https://drive.google.com/file/d/1VT6QIggpb59-8QRV266dEE4T8FZTxGq4/v=
+iew [1]
+> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+Cheers,
+Conor.
+
+> ---
+>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
+cumentation/devicetree/bindings/riscv/extensions.yaml
+> index 87c7e3608217..dcba5380f923 100644
+> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> @@ -214,6 +214,12 @@ properties:
+>              instructions as ratified at commit 6d33919 ("Merge pull requ=
+est #158
+>              from hirooih/clmul-fix-loop-end-condition") of riscv-bitmani=
+p.
+> =20
+> +        - const: zfa
 > +          description:
-> +            The standard Zkr entropy source extension as ratified in ver=
-sion
-> +            1.0 of RISC-V Cryptography Extensions Volume I specification.
+> +            The standard Zfa extension for additional floating point
+> +            instructions, as ratified in commit 056b6ff ("Zfa is ratifie=
+d") of
+> +            riscv-isa-manual.
+> +
+>          - const: zfh
+>            description:
+>              The standard Zfh extension for 16-bit half-precision binary
+> --=20
+> 2.42.0
+>=20
 
-So the topic of the seed CSR came up on the U-Boot ML in the last few
-days:
-https://lore.kernel.org/u-boot/20231107212431.GP6601@bill-the-cat
-I think we need to document that having zkr in riscv,isa-extensions
-means that the CSR is accessible at the privilege level to which that
-devicetree has been provided.
-
---IXI5peX4j7nYK3nr
+--JkYUf/ZcAWjBoFXV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUuhugAKCRB4tDGHoIJi
-0jq9AQCA7EiDhuy9EermqoTOWmWVVqY7W1Mxzc1nVYddhZ9YVAEA5v5PcwTZ0QpO
-ppUXycCAScJGAc/3pFd+DuL0WqaXxAc=
-=fV9h
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUuiQgAKCRB4tDGHoIJi
+0llOAQCViniwIMqamKiIXGkYgPVn8XIdcV77SvS/CGDxg7coMgEA0h28x+pWr9FN
+yF1FraJ1KQm8FDdMDJdiNn511fAr8wI=
+=q5Lh
 -----END PGP SIGNATURE-----
 
---IXI5peX4j7nYK3nr--
+--JkYUf/ZcAWjBoFXV--
