@@ -1,75 +1,56 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EB01A73F
-	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 16:11:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529A53064B;
+	Wed,  8 Nov 2023 16:14:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z38J8OwT"
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4214C1FE1
-	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 08:11:05 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-da0cb98f66cso8050686276.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Nov 2023 08:11:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699459864; x=1700064664; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SCyKbBYBcpAJ2v4LwtdWLPucCqpggSO4tuF11LbpeUo=;
-        b=Z38J8OwTOMzg0ZKkMEdHyv/RLPGlEISvgB2MZxpkcqKIVJ57SAWDNtLcnc6lpO2LFY
-         rhFGFVjHqk2YojbL83tOAT7vSypb3F9pCi0O8cgCArtCwQjz48vcdqd8P+LWtMY0z8Gq
-         tvII1XfL0uCq1JjvGeuXx3nRHD4TzZBmkvkB4v1YKeXH+l+Zs6a6hbzqhr9GVdbh9Loz
-         ZZAkIEag3smj3s/F5WuSHnX8CvZ+nRSVpRTJ2I12w/mp/fPpaOjHzBaB56ZjAmdzIPd+
-         3zW469u2DJ+wQk8CeRN0grCRH7l7w4e0t0JQWVzxHdF0rX70kqjbmUi90+nHKosnakKR
-         vF5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699459864; x=1700064664;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SCyKbBYBcpAJ2v4LwtdWLPucCqpggSO4tuF11LbpeUo=;
-        b=Sfoho2/DkWkrdU/lrpD0M76syANDFXkh0uUemMaLnxo3qv1oQN3h2YL4oCjiYH2CMh
-         sntGW8j3zOHWnr/UjhRnvX4X/yZVQtS7p/hTIkOQQ0Q9j8stF5oAOqvGIgAGrJn6hb1m
-         ttGA340U2L+XbGTIyWso+fJgXDQkWBDD/VFuJ8GwIukWlgwaQ2IMF9dVF6p3aGpAjhHI
-         sB+Q+lW1U7ERsjsgv/X0hZ4YXObFfSFA6tCTM0dIapm+X9/lAfHA6Kcmt90TLzBMytqA
-         XQ6KIpWof60qrpyvjK5v/goBrT8aP/5HwX9RJCf21YPzpdZ0+UwIg8edxoR5xRiv8ZTL
-         HdTQ==
-X-Gm-Message-State: AOJu0YwsbQhhlMbOaGED8L4xUtkvTdPUhkOsdIJp0YIEnayarMlYDql/
-	97n2/nHaiO9PBA0hjFi1WR1nWSCDb68=
-X-Google-Smtp-Source: AGHT+IElPBL0TUz47UKKevcrQ52vnzXf3uBAKsqEBbIPFRFkQe5teIswfhYivY589qMtJ1q1v1W1c+yk5QU=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:24c:b0:da3:ba0f:c84f with SMTP id
- k12-20020a056902024c00b00da3ba0fc84fmr40900ybs.4.1699459864456; Wed, 08 Nov
- 2023 08:11:04 -0800 (PST)
-Date: Wed, 8 Nov 2023 08:11:02 -0800
-In-Reply-To: <20231108111806.92604-2-nsaenz@amazon.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Whrwu6GI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C7C6C433C7;
+	Wed,  8 Nov 2023 16:14:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1699460061;
+	bh=qYaMUn5duRraHp6jr8ZuuZE1fl2gs0KU/LKQTez8o9k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Whrwu6GIg7SpMw2mJOf96NBOwMy7GL3oSYCWku834BMQQcIPlQ10b2+HTcu9rEVyJ
+	 defOtH86G8m6qmQ3/CBDHcfF23pf8xJ0+euljpncO6exp+kIJxzHvn3tV7j+fy/E4k
+	 460UFKjuVzm+Wz3jaa1LWlb9kfB6vzZ9URKq41tI=
+Date: Wed, 8 Nov 2023 08:14:19 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Huan Yang <link@vivo.com>
+Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, Johannes
+ Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, Michal Hocko
+ <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel
+ Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, David
+ Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>, Huang
+ Ying <ying.huang@intel.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Peter Xu <peterx@redhat.com>, "Vishal Moola (Oracle)"
+ <vishal.moola@gmail.com>, Yosry Ahmed <yosryahmed@google.com>, Liu Shixin
+ <liushixin2@huawei.com>, Hugh Dickins <hughd@google.com>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ opensource.kernel@vivo.com
+Subject: Re: [RFC 0/4] Introduce unbalance proactive reclaim
+Message-Id: <20231108081419.1c31f74de8e7fce24f85c967@linux-foundation.org>
+In-Reply-To: <20231108065818.19932-1-link@vivo.com>
+References: <20231108065818.19932-1-link@vivo.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20231108111806.92604-1-nsaenz@amazon.com> <20231108111806.92604-2-nsaenz@amazon.com>
-Message-ID: <ZUuzFshjO7NO5k3b@google.com>
-Subject: Re: [RFC 01/33] KVM: x86: Decouple lapic.h from hyperv.h
-From: Sean Christopherson <seanjc@google.com>
-To: Nicolas Saenz Julienne <nsaenz@amazon.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
-	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
-	corbert@lwn.net, kys@microsoft.com, haiyangz@microsoft.com, 
-	decui@microsoft.com, x86@kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 08, 2023, Nicolas Saenz Julienne wrote:
-> lapic.h has no dependencies with hyperv.h, so don't include it there.
-> 
-> Additionally, cpuid.c implicitly relied on hyperv.h's inclusion through
-> lapic.h, so include it explicitly there.
-> 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
-> ---
+On Wed,  8 Nov 2023 14:58:11 +0800 Huan Yang <link@vivo.com> wrote:
 
-FWIW, feel free to post patches like this without the full context, I'm more than
-happy to take patches that resolve header inclusion issues even if the issue(s)
-only become visible with additional changes.
+> For example, when an application is pushed to the background and frozen,
+> it may not be opened for a long time, and we can safely reclaim the
+> application's anonymous pages, but we do not want to touch the file pages.
 
-I'll earmark this one for 6.8.
+This paragraph is key to the entire patchset and it would benefit from
+some expanding upon.
+
+If the application is dormant, why on earth would we want to evict its
+text but keep its data around?
