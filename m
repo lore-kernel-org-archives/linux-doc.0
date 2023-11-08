@@ -1,102 +1,74 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABB6199B9;
-	Wed,  8 Nov 2023 14:06:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824EC199AE;
+	Wed,  8 Nov 2023 14:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="CTsg3fLL"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B65CF1BEF;
-	Wed,  8 Nov 2023 06:06:50 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E884C21941;
-	Wed,  8 Nov 2023 14:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1699452408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LaClYnaw6igUxX7esICB56ZTaW9lZv4RiLl36XDtkh8=;
-	b=CTsg3fLLzBHl2568mWukL8T40aLJF31TtuAhYR2Jcpfw/k32BffM1bMFFvdei6L2mS4B5g
-	cTnaeoB1LPbVjfBLO7WedjjyNuiUnin5QykKZyH9JGPnRS8i7GqRAvMGikKGEYK1a0NpWD
-	tjCqQvf45TTzHllizF6QAnVTW+wCqFo=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C5233133F5;
-	Wed,  8 Nov 2023 14:06:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id uvYvLfiVS2U7XAAAMHmgww
-	(envelope-from <mhocko@suse.com>); Wed, 08 Nov 2023 14:06:48 +0000
-Date: Wed, 8 Nov 2023 15:06:47 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Huan Yang <link@vivo.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeelb@google.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Huang Ying <ying.huang@intel.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Peter Xu <peterx@redhat.com>,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Yosry Ahmed <yosryahmed@google.com>,
-	Liu Shixin <liushixin2@huawei.com>, Hugh Dickins <hughd@google.com>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	opensource.kernel@vivo.com
-Subject: Re: [RFC 0/4] Introduce unbalance proactive reclaim
-Message-ID: <ZUuV9xOZ5k7Ia_V2@tiehlicka>
-References: <20231108065818.19932-1-link@vivo.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O5GEGOY5"
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B0581FC1;
+	Wed,  8 Nov 2023 06:08:49 -0800 (PST)
+Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-77bb668d941so14619285a.3;
+        Wed, 08 Nov 2023 06:08:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699452528; x=1700057328; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kX7CM/+HFOuoWO0RSAPK5Wud7OOKi/SdZQGaJwTivkY=;
+        b=O5GEGOY5RtmTjVbIHWJkBLUmvS16Tr5+Wqd8c+KSLvlmMYjaHssDM3nSxH6HwZIFbl
+         OtTTtNmaiuKUYVlhZNxdfaPtvdyvNRul+My7wczh9NRQyNGqWr80zhQytulWVePdmGTL
+         z9aVwQQOqWxBH0FfArUKdF8QtrvUe5QWlKBSBKbJQ8KUFv5SDs9OX3nSn2NudeniC+ew
+         wO3QcZ7/u91vmecn5suNEh5t4vbty6e7m+TqE4ryc+tlqAkfezpqP21UjKBDiKHz23VF
+         Yl+flBKAWsjua6yDV9cSWWRHOOHdY7FP3b53JxuOydxKTgeaV2vwnCxUya27cZdH71KJ
+         CbJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699452528; x=1700057328;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kX7CM/+HFOuoWO0RSAPK5Wud7OOKi/SdZQGaJwTivkY=;
+        b=tZw/rwOO461W24QK9fGvfnRXg6zeAxoZBnr2w+PodfzJ226zTTDR8VoBBa/3p7XHHc
+         SFqhim3w155XjUCXgFGWdcdPudnQMkq3p/UjU5fwf+0jn1nljN2SQpxGYX48goFl4yGP
+         WjgENPPVYMFytkOC9OkHa6p5fsCDy/DP3JufKotKsUIeCOSZCjyWXLSawiEE1qFppoP9
+         +q6621VFYd0t0Aa9s017RFTboh68bCqWmTa8eoLWHvSYF/hLCMI1Gi2CqT+O0+oSuNSy
+         bXsW5NwcfQpkfOThFYCixjsJiyUM7Sx9JIStwCimuA9bQV5Bce1roCmjNAz7FX79pqbD
+         dP5Q==
+X-Gm-Message-State: AOJu0YwJ5LlciLufeqaUeovPhBwCrfnWFbtO4FEfG6s87TQBbgsEQggi
+	uVq1GqSA6JIhh3sMFg5J7Bw=
+X-Google-Smtp-Source: AGHT+IHagkHKV+raaU34iTpMYbk7LfATLSymRnVvtHbHkjUYDy0VP9t2kHDEzXzWsAmbc5ZJ20SQvg==
+X-Received: by 2002:a05:620a:2801:b0:77a:565e:3ff0 with SMTP id f1-20020a05620a280100b0077a565e3ff0mr1678930qkp.31.1699452527943;
+        Wed, 08 Nov 2023 06:08:47 -0800 (PST)
+Received: from imac ([88.97.103.74])
+        by smtp.gmail.com with ESMTPSA id d26-20020a05620a141a00b007788bb0ab8esm1075318qkj.19.2023.11.08.06.08.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 06:08:47 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: corbet@lwn.net,  linux-doc@vger.kernel.org,  netdev@vger.kernel.org,
+  kuba@kernel.org,  pabeni@redhat.com,  edumazet@google.com
+Subject: Re: [PATCH] Documentation: Document the Netlink spec
+In-Reply-To: <m2y1f8mjex.fsf@gmail.com> (Donald Hunter's message of "Wed, 08
+	Nov 2023 14:03:34 +0000")
+Date: Wed, 08 Nov 2023 14:08:24 +0000
+Message-ID: <m2pm0kmj6v.fsf@gmail.com>
+References: <20231103135622.250314-1-leitao@debian.org>
+	<m2y1f8mjex.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231108065818.19932-1-link@vivo.com>
+Content-Type: text/plain
 
-On Wed 08-11-23 14:58:11, Huan Yang wrote:
-> In some cases, we need to selectively reclaim file pages or anonymous
-> pages in an unbalanced manner.
-> 
-> For example, when an application is pushed to the background and frozen,
-> it may not be opened for a long time, and we can safely reclaim the
-> application's anonymous pages, but we do not want to touch the file pages.
+Donald Hunter <donald.hunter@gmail.com> writes:
+>
+> I quickly hacked the diff below to see if it would improve the HTML
+> rendering. I think the HTML has fewer odd constructs and the indentation
+> seems better to my eye. My main aim was to ensure that for a given
+> section, each indentation level uses the same construct, whether it be a
+> definition list or a bullet list.
 
-Could you explain why? And also why do you need to swap out in that
-case?
- 
-> This patchset extends the proactive reclaim interface to achieve
-> unbalanced reclamation. Users can control the reclamation tendency by
-> inputting swappiness under the original interface. Specifically, users
-> can input special values to extremely reclaim specific pages.
+Or what Jakub said, use more (sub)+titles and fewer bullet lists.
 
-Other have already touched on this in other replies but v2 doesn't have
-a per-memcg swappiness
-
-> Example:
->   	echo "1G" 200 > memory.reclaim (only reclaim anon)
-> 	  echo "1G" 0  > memory.reclaim (only reclaim file)
-> 	  echo "1G" 1  > memory.reclaim (only reclaim file)
-> 
-> Note that when performing unbalanced reclamation, the cgroup swappiness
-> will be temporarily adjusted dynamically to the input value. Therefore,
-> if the cgroup swappiness is further modified during runtime, there may
-> be some errors.
-
-In general this is a bad semantic. The operation shouldn't have side
-effect that are potentially visible for another operation.
--- 
-Michal Hocko
-SUSE Labs
