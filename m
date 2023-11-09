@@ -1,200 +1,131 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0E4134B5
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 09:43:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3538D12E73
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 09:45:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f6+oEIAS"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF5B272C
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 01:43:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699523027;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OEjQ7xxzDSW6bCsBCGR2pe6qDNDSEL6lx838tIM/GU8=;
-	b=f6+oEIASi65VzaiyTjaD9u+K9jLEYYB14KYR755tiblsv2Eo4qIzmmuAJJyG3PiXjkWptG
-	qbVqlY7RAKtWGUOYTu6FaVBLNFiXxm1n5OP+xyBH879iMbVubfBT1ioo/D77ROwvVORDN2
-	euRlqCT5Vk/t8ZRuKXLsEJCaVD7RIRM=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-203-rm3vgjWmPGm1OttTkBJKZQ-1; Thu, 09 Nov 2023 04:43:45 -0500
-X-MC-Unique: rm3vgjWmPGm1OttTkBJKZQ-1
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-2800fffc08eso186691a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 01:43:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="cR3scnhc"
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CC942715
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 01:45:57 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6b5e6301a19so713572b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 01:45:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1699523157; x=1700127957; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NbSiGKrBhM2/wHXRoKptmfeSde2mpjPrJRJ8xggR25Y=;
+        b=cR3scnhcl4yHgQ7xFD7Kqwpmzp7LL3j7TeGgKlyhYvMWFgNfxArIpu0Hyfipn11rQk
+         ddwpZGrwqtIGebyLVNSNHrUrWqNYYYpSrF99k7o7ptrpO7ZAO4jTM4RfBrQQC+WI5kb2
+         AmVKJz0rhd6dvEagIp+eWk5dDKQAQT3fWobIv2AuUWCzeYnNFl8RcmdlZAn/pfolXSYt
+         oPsknKpwvExD7z0WKOVHHDyUK1o+IISCzgYgTh0wXvrBzreJjn30C7ET4pyUrwjshItq
+         eBgjRiJSkOXA3DYfLIwJ6SKLetTvHCqBYgkwdGe0ai39WmCgiyPXacst6Y6XLB+jGb/t
+         HJwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699523024; x=1700127824;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OEjQ7xxzDSW6bCsBCGR2pe6qDNDSEL6lx838tIM/GU8=;
-        b=ENZlUyzfkqGen9YQ8MH515QbdpcI5nr5HSPux2ckcY8OVUXK5MMw45iwR7yVZOhBDv
-         VyqeOo9bndPbpMIKA37MpenlH94QgmWbSBOokOomhl4tvL76puklJ0lcGJkMB1yzhWjV
-         +NLKpzGOcGmMTtUPa0tdB+G6EFLLh3Y6LtsDQYNL+6WLDGhyTTcpULfLvD0DxdCMOaUS
-         nLrJPG6amBR9HuYDwuXZzcTZR8UEl5QKbAG6jVJ2GBP8hoBG8ICmqxxYeGfVBihRosAV
-         oPPY3w7gq++loYI56vI1Sq40Q1Jtxf3sL1yGHBsAIB1UktYBRSIq2ea+DcUGc2EWNLwd
-         t97Q==
-X-Gm-Message-State: AOJu0YzdvwC1/FV7+zHiValrqISqbZUXn2VCZs/t9naFPjoblqjOI5m0
-	xwZhHx4U7K/10wfAZXbu8HjCLmnaros5K/uf2KCvVFsccrWqMvAmdJm1iSEQl1PC8gNkmkd9wOu
-	KLOB8JuxGKRH/e4yCbnkO
-X-Received: by 2002:a17:902:d4cd:b0:1cc:2bc4:5157 with SMTP id o13-20020a170902d4cd00b001cc2bc45157mr4921105plg.1.1699523024552;
-        Thu, 09 Nov 2023 01:43:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF6RZnogij7LzQU0k7NFPHwR/unfu31fUk7J39NRmSg93ajKyOUqEekd23fy6SG5sWCfMu5eg==
-X-Received: by 2002:a17:902:d4cd:b0:1cc:2bc4:5157 with SMTP id o13-20020a170902d4cd00b001cc2bc45157mr4921073plg.1.1699523024112;
-        Thu, 09 Nov 2023 01:43:44 -0800 (PST)
-Received: from [10.66.61.39] ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id h21-20020a170902eed500b001bf846dd2d0sm3105978plb.13.2023.11.09.01.43.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 01:43:43 -0800 (PST)
-Message-ID: <46faa2bd-9f27-2eea-f46d-f02715e2b540@redhat.com>
-Date: Thu, 9 Nov 2023 17:43:36 +0800
+        d=1e100.net; s=20230601; t=1699523157; x=1700127957;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NbSiGKrBhM2/wHXRoKptmfeSde2mpjPrJRJ8xggR25Y=;
+        b=mITlYm7GCVGwaBBIsSxryuHNQs7TS7g5emYzTHtLOrZJQ06/7Wfv+kQ1yHMIlkH5ID
+         Inun0u+D7kT1e0tMfyUkjWqmx1is7epIWwVTS5DpdhwAM5LvkEh9T2/MoGbqNwNkcxcP
+         yJTRXAeBN5qilLSzsfHvMeZtf7gv0uVVEvXkoXbsiheRQUpLR+4sQ0YRbn78tUooY4EN
+         +PntQQmjHP32KvTSL/yCeXDNb5XV7HvXMrHeISLEfu9DPDfVYnGPyz3svV7fPjlYDpnO
+         KgNsoIiCKrn7UFReRU0pSpbaoRGM89aKL7mMJOzUUQGnMcw7PxNxbkRKYe5oPX9vKIvP
+         TGeA==
+X-Gm-Message-State: AOJu0YxQ4srPxlHm1PJ1VSEbyKHrgDsqglfluVFtYPJTnfCeWXsBkRoT
+	Efii/g6zIldJ8h7MuNy4ECstlA==
+X-Google-Smtp-Source: AGHT+IHcxvykfL05iCgUN8NZYoRBP07ZEj+8KS+NLRxGiL6Z6fO5lkId5FnQ6uAbYO6wWgDNI5Gdhg==
+X-Received: by 2002:a05:6a20:1594:b0:17a:f0e0:ed07 with SMTP id h20-20020a056a20159400b0017af0e0ed07mr5017358pzj.15.1699523156774;
+        Thu, 09 Nov 2023 01:45:56 -0800 (PST)
+Received: from ?IPv6:2402:7500:4ce:aeef:31cf:49a7:c:20d4? ([2402:7500:4ce:aeef:31cf:49a7:c:20d4])
+        by smtp.gmail.com with ESMTPSA id g13-20020aa7874d000000b006c31c0dfb69sm10276439pfo.188.2023.11.09.01.45.53
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 Nov 2023 01:45:56 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH RFC 05/22] ACPI: Move ACPI_HOTPLUG_CPU to be disabled on
- arm64 and riscv
-Content-Language: en-US
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
- linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org,
- linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org
-Cc: Salil Mehta <salil.mehta@huawei.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com,
- justin.he@arm.com, James Morse <james.morse@arm.com>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
-References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
- <E1r0JL6-00CTws-3z@rmk-PC.armlinux.org.uk>
-From: Shaoqin Huang <shahuang@redhat.com>
-In-Reply-To: <E1r0JL6-00CTws-3z@rmk-PC.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.7\))
+Subject: Re: [PATCH v3 06/20] riscv: add ISA extension parsing for vector
+ crypto
+From: Jerry Shih <jerry.shih@sifive.com>
+In-Reply-To: <20231109-prevalent-serrated-d40eb5f71236@wendy>
+Date: Thu, 9 Nov 2023 17:45:51 +0800
+Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
+ linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ Palmer Dabbelt <palmer@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Andrew Jones <ajones@ventanamicro.com>,
+ Evan Green <evan@rivosinc.com>,
+ Conor Dooley <conor@kernel.org>,
+ Samuel Ortiz <sameo@rivosinc.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F2C4CCA2-0513-4988-94C4-1ECEB9F1D578@sifive.com>
+References: <20231107105556.517187-1-cleger@rivosinc.com>
+ <20231107105556.517187-7-cleger@rivosinc.com>
+ <5EF129A2-195B-4207-A2F6-DBA1FBB9F65D@sifive.com>
+ <20231109-revolver-heat-9f4788c51bbf@wendy>
+ <20231109-prevalent-serrated-d40eb5f71236@wendy>
+To: Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: Apple Mail (2.3445.9.7)
 
+On Nov 9, 2023, at 15:54, Conor Dooley <conor.dooley@microchip.com> =
+wrote:
+> On Thu, Nov 09, 2023 at 07:44:46AM +0000, Conor Dooley wrote:
+>> On Thu, Nov 09, 2023 at 10:58:41AM +0800, Jerry Shih wrote:
+>>> On Nov 7, 2023, at 18:55, Cl=C3=A9ment L=C3=A9ger =
+<cleger@rivosinc.com> wrote:
+>>> The Zvknha and Zvknhb are exclusive. It's not the superset =
+relationship.
+>>>=20
+>>> Please check:
+>>> =
+https://github.com/riscv/riscv-crypto/issues/364#issuecomment-1726782096
+>>=20
+>> You got a response to this on the previous version, but didn't engage
+>> with it:
+>> =
+https://lore.kernel.org/all/c64d9ddb-edbd-4c8f-b56f-1b90d82100b7@rivosinc.=
+com/#t
 
+Reply for the thread:
+=
+https://lore.kernel.org/all/c64d9ddb-edbd-4c8f-b56f-1b90d82100b7@rivosinc.=
+com/#t
 
-On 11/7/23 18:29, Russell King (Oracle) wrote:
-> From: James Morse <james.morse@arm.com>
-> 
-> Neither arm64 nor riscv support physical hotadd of CPUs that were not
-> present at boot. For arm64 much of the platform description is in static
-> tables which do not have update methods. arm64 does support HOTPLUG_CPU,
-> which is backed by a firmware interface to turn CPUs on and off.
-> 
-> acpi_processor_hotadd_init() and acpi_processor_remove() are for adding
-> and removing CPUs that were not present at boot. arm64 systems that do this
-> are not supported as there is currently insufficient information in the
-> platform description. (e.g. did the GICR get removed too?)
-> 
-> arm64 currently relies on the MADT enabled flag check in map_gicc_mpidr()
-> to prevent CPUs that were not described as present at boot from being
-> added to the system. Similarly, riscv relies on the same check in
-> map_rintc_hartid(). Both architectures also rely on the weak 'always fails'
-> definitions of acpi_map_cpu() and arch_register_cpu().
-> 
-> Subsequent changes will redefine ACPI_HOTPLUG_CPU as making possible
-> CPUs present. Neither arm64 nor riscv support this.
-> 
-> Disable ACPI_HOTPLUG_CPU for arm64 and riscv by removing 'default y' and
-> selecting it on the other three ACPI architectures. This allows the weak
-> definitions of some symbols to be removed.
-> 
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-Reviewed-by: Shaoqin Huang <shahuang@redhat.com>
-> ---
-> Changes since RFC:
->   * Expanded conditions to avoid ACPI_HOTPLUG_CPU being enabled when
->     HOTPLUG_CPU isn't.
-> Changes since RFC v3:
->   * Dropped ia64 changes
-> ---
->   arch/loongarch/Kconfig        |  1 +
->   arch/x86/Kconfig              |  1 +
->   drivers/acpi/Kconfig          |  1 -
->   drivers/acpi/acpi_processor.c | 18 ------------------
->   4 files changed, 2 insertions(+), 19 deletions(-)
-> 
-> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> index d889a0b97bc1..64620e90c12c 100644
-> --- a/arch/loongarch/Kconfig
-> +++ b/arch/loongarch/Kconfig
-> @@ -5,6 +5,7 @@ config LOONGARCH
->   	select ACPI
->   	select ACPI_GENERIC_GSI if ACPI
->   	select ACPI_MCFG if ACPI
-> +	select ACPI_HOTPLUG_CPU if ACPI_PROCESSOR && HOTPLUG_CPU
->   	select ACPI_PPTT if ACPI
->   	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
->   	select ARCH_BINFMT_ELF_STATE
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 3762f41bb092..dbdcfc708369 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -59,6 +59,7 @@ config X86
->   	#
->   	select ACPI_LEGACY_TABLES_LOOKUP	if ACPI
->   	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
-> +	select ACPI_HOTPLUG_CPU			if ACPI_PROCESSOR && HOTPLUG_CPU
->   	select ARCH_32BIT_OFF_T			if X86_32
->   	select ARCH_CLOCKSOURCE_INIT
->   	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
-> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-> index f819e760ff19..a3acfc750fce 100644
-> --- a/drivers/acpi/Kconfig
-> +++ b/drivers/acpi/Kconfig
-> @@ -310,7 +310,6 @@ config ACPI_HOTPLUG_CPU
->   	bool
->   	depends on ACPI_PROCESSOR && HOTPLUG_CPU
->   	select ACPI_CONTAINER
-> -	default y
->   
->   config ACPI_PROCESSOR_AGGREGATOR
->   	tristate "Processor Aggregator"
-> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
-> index 0f5218e361df..4fe2ef54088c 100644
-> --- a/drivers/acpi/acpi_processor.c
-> +++ b/drivers/acpi/acpi_processor.c
-> @@ -184,24 +184,6 @@ static void __init acpi_pcc_cpufreq_init(void) {}
->   
->   /* Initialization */
->   #ifdef CONFIG_ACPI_HOTPLUG_CPU
-> -int __weak acpi_map_cpu(acpi_handle handle,
-> -		phys_cpuid_t physid, u32 acpi_id, int *pcpu)
-> -{
-> -	return -ENODEV;
-> -}
-> -
-> -int __weak acpi_unmap_cpu(int cpu)
-> -{
-> -	return -ENODEV;
-> -}
-> -
-> -int __weak arch_register_cpu(int cpu)
-> -{
-> -	return -ENODEV;
-> -}
-> -
-> -void __weak arch_unregister_cpu(int cpu) {}
-> -
->   static int acpi_processor_hotadd_init(struct acpi_processor *pr)
->   {
->   	unsigned long long sta;
+> Yes, but for instance, what happens if the user query the zvknha (if =
+it
+> only needs SHA256) but zvknhb is present. If we don't declare zvknha,
+> then it will fail but the support would actually be present due to
+> zvknhb being there.
 
--- 
-Shaoqin
+If we needs SHA256 only, then we should check whether we have zvknha =
+`or` zvknhb.
+=
+https://github.com/openssl/openssl/blob/4d4657cb6ba364dfa60681948b0a30c40b=
+ee31ca/crypto/sha/sha_riscv.c#L24
 
+> Ahh, I now see what that happened. Your mailer is broken and puts the
+> message-id of what you are replying to in the In-Reply-To and Reply-To
+> headers. The former is correct, the latter is bogus & means you don't =
+even
+> get delivered the response.
+
+I use mac builtin `mail` client. And I think I put the `in-reply-to` =
+address to
+the `reply to` field. Hope this one works well. Thank you for the thread =
+forwarding.
+
+-Jerry=
