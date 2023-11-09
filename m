@@ -1,160 +1,123 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4ED19456;
-	Thu,  9 Nov 2023 11:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57342199D5;
+	Thu,  9 Nov 2023 11:25:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DElB3MFN"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD63A271F;
-	Thu,  9 Nov 2023 03:08:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699528135; x=1731064135;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R01ca81ioNmZ4Qa0/4lDzRiUdDaqgXI8cjnkTR00Rw4=;
-  b=DElB3MFN2FJ0w5VEC68PbqjQQkjJ8UtpA++35HiuDXiRQ2bP9e8gpvhI
-   3LvI7O8kTLedlkJgr2638v7M3hEilsP4YHTP8X1uu4iQWpAzvr2JK9qiz
-   jN5el7c06TiBP9y3wXKr8WAfge4uEg5TwZ742w9oywXGj/ZBAc7J4mquA
-   0mbaoObKRZuGXgBQ2BWa8qGOB0sIQZSmPKgqDC566p/DjOmuYe5GwuGfs
-   zdW5j6phSvFYRaT6kGU9XbCoOyyewVL2dZcTnIxl26m7Eqpa9ltBQsvOZ
-   a0xEP7xHoTPAdG/ol8Ce8Hq7fYdyLm3rFC1Q2NESVGk4QJOb41+tnfyX7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="387129127"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="387129127"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 03:08:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="4509037"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 Nov 2023 03:08:50 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r12ty-0008g8-00;
-	Thu, 09 Nov 2023 11:08:46 +0000
-Date: Thu, 9 Nov 2023 19:08:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Huan Yang <link@vivo.com>, Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeelb@google.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Huang Ying <ying.huang@intel.com>,
-	Yosry Ahmed <yosryahmed@google.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Peter Xu <peterx@redhat.com>,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Liu Shixin <liushixin2@huawei.com>, Yue Zhao <findns94@gmail.com>,
-	Hugh Dickins <hughd@google.com>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
-Subject: Re: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
-Message-ID: <202311091842.AqdVBQwL-lkp@intel.com>
-References: <20231108065818.19932-3-link@vivo.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hg5vkPuI"
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2EB62D64;
+	Thu,  9 Nov 2023 03:25:12 -0800 (PST)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-5bf5d6eaf60so5529667b3.2;
+        Thu, 09 Nov 2023 03:25:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699529112; x=1700133912; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/0HXfz/RYRjdCn8R6IffJ7Qc4ROY093vNOoEeYEQ5SY=;
+        b=hg5vkPuIoWuP1HQKsde16/KZFBFDCrDUA1wA0fI/Gg61GYn7uPArlxCm7+t6cXQvWA
+         jyodCm/iSR68FT0yJnkBXBIuMG28J9E1eZWvFrTEiuqwPjrig9HYAh2pOhoAOtgJbpm0
+         wZayujbbvHR66lllaBhaLVTSd1iStw2/v8ycgnAwIjjTY86uc8tp1ogU8Ea3pgvzI8tC
+         QX7b/IToXkcDAwo3piWODEaJHXd9o1CzXNZAHLY5Cc1gVdcO50JWVUqgOMmBrmYt2j5o
+         ji0siRf//OhN3WDxsASg6x54V6RolJv68RggZp+JpZp+DELphdWAKUduUjZcsDZE294T
+         xLwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699529112; x=1700133912;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/0HXfz/RYRjdCn8R6IffJ7Qc4ROY093vNOoEeYEQ5SY=;
+        b=WgrJ+Msrdsw133sEGGtma21utJ+LuNFzd3IdlS5z4Jy/9p1wa+OaMpD16Wf+30561v
+         n+Uzf2DjchpPmDRaLqfpXdkK4GE1/1y2tgDykOJk76TXy7kfLB8JsW5/32Pcy2MZiM7I
+         eYDBaGcN4lyCb0GJMdJH5asP4dbUCgXT28AlJHeslhreS4I2pCPN62pvi9CauGIHengm
+         6CMHaU3OTbLUCRfCnbfSkO1Tya0GPuo4wOcVH73VpD7rq4kCfJnD+6ktc/N7KLl5E0EI
+         ymziPVPCqmnEBTptODNxbiwgJtBFDq7elTPWkjj32/4D7kctvpKB8CQ/07O/qmtgTZrz
+         jsWQ==
+X-Gm-Message-State: AOJu0Yzb3lUrQszh3qt5ysq/BY6hfuvl8KeimW5LL+UQX/dg4RSU6yA/
+	mDyAPjGandUD5yVizO5Rn9B5ENqsXhofS2F2
+X-Google-Smtp-Source: AGHT+IFg4fbgIkMn4hbtwKeaycyyfpogNFQgIp2PbG64oNmhXwEi9viSqmyOnpgf+OdU8NxxfFX5jw==
+X-Received: by 2002:a0d:dd0c:0:b0:586:a684:e7ba with SMTP id g12-20020a0ddd0c000000b00586a684e7bamr4865149ywe.39.1699529111754;
+        Thu, 09 Nov 2023 03:25:11 -0800 (PST)
+Received: from imac ([88.97.103.74])
+        by smtp.gmail.com with ESMTPSA id mh21-20020a056214565500b00641899958efsm1982340qvb.130.2023.11.09.03.25.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Nov 2023 03:25:11 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Breno Leitao <leitao@debian.org>,  linux-doc@vger.kernel.org,
+  netdev@vger.kernel.org,  kuba@kernel.org,  pabeni@redhat.com,
+  edumazet@google.com
+Subject: Re: [PATCH] Documentation: Document the Netlink spec
+In-Reply-To: <875y2cxa6n.fsf@meer.lwn.net> (Jonathan Corbet's message of "Wed,
+	08 Nov 2023 13:27:28 -0700")
+Date: Thu, 09 Nov 2023 11:22:05 +0000
+Message-ID: <m2h6lvmasi.fsf@gmail.com>
+References: <20231103135622.250314-1-leitao@debian.org>
+	<875y2cxa6n.fsf@meer.lwn.net>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231108065818.19932-3-link@vivo.com>
+Content-Type: text/plain
 
-Hi Huan,
+Jonathan Corbet <corbet@lwn.net> writes:
 
-kernel test robot noticed the following build warnings:
+> Breno Leitao <leitao@debian.org> writes:
+>
+>> This is a Sphinx extension that parses the Netlink YAML spec files
+>> (Documentation/netlink/specs/), and generates a rst file to be
+>> displayed into Documentation pages.
+>>
+>> Create a new Documentation/networking/netlink_spec page, and a sub-page
+>> for each Netlink spec that needs to be documented, such as ethtool,
+>> devlink, netdev, etc.
+>>
+>> Create a Sphinx directive extension that reads the YAML spec
+>> (located under Documentation/netlink/specs), parses it and returns a RST
+>> string that is inserted where the Sphinx directive was called.
+>
+> So I finally had a chance to look a bit at this; I have a few
+> impressions.
+>
+> First of all, if you put something silly into one of the YAML files, it
+> kills the whole docs build, which is ... not desirable:
+>
+>> Exception occurred:
+>>   File "/usr/lib64/python3.11/site-packages/yaml/scanner.py", line 577, in fetch_value
+>>     raise ScannerError(None, None,
+>> yaml.scanner.ScannerError: mapping values are not allowed here
+>>   in "/stuff/k/git/kernel/Documentation/netlink/specs/ovs_datapath.yaml", line 14, column 9
+>> 
+>
+> That error needs to be caught and handled in some more graceful way.
+>
+> I do have to wonder, though, whether a sphinx extension is the right way
+> to solve this problem.  You're essentially implementing a filter that
+> turns one YAML file into one RST file; might it be better to keep that
+> outside of sphinx as a standalone script, invoked by the Makefile?
+>
+> Note that I'm asking because I wonder, I'm not saying I would block an
+> extension-based implementation.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tj-cgroup/for-next linus/master v6.6 next-20231109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
++1 to this. The .rst generation can then be easily tested independently
+of the doc build and the stub files could be avoided.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/mm-vmscan-LRU-unbalance-cgroup-reclaim/20231108-151757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231108065818.19932-3-link%40vivo.com
-patch subject: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
-config: x86_64-randconfig-013-20231108 (https://download.01.org/0day-ci/archive/20231109/202311091842.AqdVBQwL-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091842.AqdVBQwL-lkp@intel.com/reproduce)
+Just a note that last year you offered the opposite guidance:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311091842.AqdVBQwL-lkp@intel.com/
+https://lore.kernel.org/linux-doc/87tu4zsfse.fsf@meer.lwn.net/
 
-All warnings (new ones prefixed by >>):
+If the preference now is for standalone scripts invoked by the Makefile
+then this previous patch might be useful:
 
-   mm/vmscan.c: In function 'isolate_folios':
->> mm/vmscan.c:4518:15: warning: 'unbalance' is used uninitialized in this function [-Wuninitialized]
-    4518 |   if (scanned || unbalance)
-         |       ~~~~~~~~^~~~~~~~~~~~
+https://lore.kernel.org/linux-doc/20220922115257.99815-2-donald.hunter@gmail.com/
 
+It would be good to document the preferred approach to this kind of doc
+extension and I'd be happy to contribute an 'Extensions' section for
+contributing.rst in the doc-guide.
 
-vim +/unbalance +4518 mm/vmscan.c
-
-  4480	
-  4481	static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
-  4482				  int *type_scanned, struct list_head *list)
-  4483	{
-  4484		int i;
-  4485		int type;
-  4486		int scanned;
-  4487		int tier = -1;
-  4488		bool unbalance;
-  4489		DEFINE_MIN_SEQ(lruvec);
-  4490	
-  4491		/*
-  4492		 * Try to make the obvious choice first. When anon and file are both
-  4493		 * available from the same generation, interpret swappiness 1 as file
-  4494		 * first and 200 as anon first.
-  4495		 */
-  4496		if (unlikely(unbalance_file_reclaim(sc, swappiness))) {
-  4497			unbalance = true;
-  4498			type = LRU_GEN_FILE;
-  4499		} else if (unlikely(unbalance_anon_reclaim(sc, swappiness))) {
-  4500			unbalance = true;
-  4501			type = LRU_GEN_ANON;
-  4502		} else if (!swappiness)
-  4503			type = LRU_GEN_FILE;
-  4504		else if (min_seq[LRU_GEN_ANON] < min_seq[LRU_GEN_FILE])
-  4505			type = LRU_GEN_ANON;
-  4506		else if (swappiness == 1)
-  4507			type = LRU_GEN_FILE;
-  4508		else if (swappiness == 200)
-  4509			type = LRU_GEN_ANON;
-  4510		else
-  4511			type = get_type_to_scan(lruvec, swappiness, &tier);
-  4512	
-  4513		for (i = !swappiness; i < ANON_AND_FILE; i++) {
-  4514			if (tier < 0)
-  4515				tier = get_tier_idx(lruvec, type);
-  4516	
-  4517			scanned = scan_folios(lruvec, sc, type, tier, list);
-> 4518			if (scanned || unbalance)
-  4519				break;
-  4520	
-  4521			type = !type;
-  4522			tier = -1;
-  4523		}
-  4524	
-  4525		*type_scanned = type;
-  4526	
-  4527		return scanned;
-  4528	}
-  4529	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Thanks,
+>
+> jon
