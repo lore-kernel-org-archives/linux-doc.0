@@ -1,131 +1,143 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3538D12E73
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 09:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28D613AC0;
+	Thu,  9 Nov 2023 09:52:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="cR3scnhc"
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CC942715
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 01:45:57 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6b5e6301a19so713572b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 01:45:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GGft0JbM"
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE1C92726;
+	Thu,  9 Nov 2023 01:52:16 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9d267605ceeso105169466b.2;
+        Thu, 09 Nov 2023 01:52:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1699523157; x=1700127957; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NbSiGKrBhM2/wHXRoKptmfeSde2mpjPrJRJ8xggR25Y=;
-        b=cR3scnhcl4yHgQ7xFD7Kqwpmzp7LL3j7TeGgKlyhYvMWFgNfxArIpu0Hyfipn11rQk
-         ddwpZGrwqtIGebyLVNSNHrUrWqNYYYpSrF99k7o7ptrpO7ZAO4jTM4RfBrQQC+WI5kb2
-         AmVKJz0rhd6dvEagIp+eWk5dDKQAQT3fWobIv2AuUWCzeYnNFl8RcmdlZAn/pfolXSYt
-         oPsknKpwvExD7z0WKOVHHDyUK1o+IISCzgYgTh0wXvrBzreJjn30C7ET4pyUrwjshItq
-         eBgjRiJSkOXA3DYfLIwJ6SKLetTvHCqBYgkwdGe0ai39WmCgiyPXacst6Y6XLB+jGb/t
-         HJwA==
+        d=gmail.com; s=20230601; t=1699523535; x=1700128335; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qyS8DtOu76hKJM8U9iOb6KlcCppdmmmIn9mic1VECzg=;
+        b=GGft0JbM5rxOQDBSq7O+NJlY5UlZRV8bGj8llBLvfuz8DxoGAGBqWlS2/07MSobryg
+         wB7B/OHsx7sZtd45CP0CQ0BhZlqPEoOcCwxSTSEN1B8mLG6JXSWuklvFXQp5AAxPdQj5
+         RQYlfQcoq9VYRDOaIehdqTTP14ZCIeWMrDAC4GoKBWtKB0KVMoepQgn5e+YjZJY+YQWQ
+         /Hjr8sz7kYc/+EfLMcwKhq+x+eVKkBYhcO5Q++w0qWEcg0uHReu8qteRfAe2ouEXWYBG
+         5bfrMzKJHQ61GQHKT5tmEu5jt6+V4vDHBN9rJdKjbWZDmzNwKVW1AN6/yKn8Z5Vyu5Ro
+         MDfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699523157; x=1700127957;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NbSiGKrBhM2/wHXRoKptmfeSde2mpjPrJRJ8xggR25Y=;
-        b=mITlYm7GCVGwaBBIsSxryuHNQs7TS7g5emYzTHtLOrZJQ06/7Wfv+kQ1yHMIlkH5ID
-         Inun0u+D7kT1e0tMfyUkjWqmx1is7epIWwVTS5DpdhwAM5LvkEh9T2/MoGbqNwNkcxcP
-         yJTRXAeBN5qilLSzsfHvMeZtf7gv0uVVEvXkoXbsiheRQUpLR+4sQ0YRbn78tUooY4EN
-         +PntQQmjHP32KvTSL/yCeXDNb5XV7HvXMrHeISLEfu9DPDfVYnGPyz3svV7fPjlYDpnO
-         KgNsoIiCKrn7UFReRU0pSpbaoRGM89aKL7mMJOzUUQGnMcw7PxNxbkRKYe5oPX9vKIvP
-         TGeA==
-X-Gm-Message-State: AOJu0YxQ4srPxlHm1PJ1VSEbyKHrgDsqglfluVFtYPJTnfCeWXsBkRoT
-	Efii/g6zIldJ8h7MuNy4ECstlA==
-X-Google-Smtp-Source: AGHT+IHcxvykfL05iCgUN8NZYoRBP07ZEj+8KS+NLRxGiL6Z6fO5lkId5FnQ6uAbYO6wWgDNI5Gdhg==
-X-Received: by 2002:a05:6a20:1594:b0:17a:f0e0:ed07 with SMTP id h20-20020a056a20159400b0017af0e0ed07mr5017358pzj.15.1699523156774;
-        Thu, 09 Nov 2023 01:45:56 -0800 (PST)
-Received: from ?IPv6:2402:7500:4ce:aeef:31cf:49a7:c:20d4? ([2402:7500:4ce:aeef:31cf:49a7:c:20d4])
-        by smtp.gmail.com with ESMTPSA id g13-20020aa7874d000000b006c31c0dfb69sm10276439pfo.188.2023.11.09.01.45.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 Nov 2023 01:45:56 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+        d=1e100.net; s=20230601; t=1699523535; x=1700128335;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qyS8DtOu76hKJM8U9iOb6KlcCppdmmmIn9mic1VECzg=;
+        b=ZI53jy8d0zJNF4FaTSElvwqXCxO3UjvKkzyTHmnpKcV93Ffa+ZqDeDkjPCdkQNhPtH
+         d6UtK3wvvWwQEeAKmswXITnkxORWYXodzF82b6P9dTZp6p4BrG6ODMwj+suPIybmayEU
+         lgcubowJuD8tf5RKSu4rfOmyTWT3pdRS4QZJsYHztxD1clyMGMi2NbcRgUastToxW+CX
+         UgmT/ff3r+208uYfoTx7S6Dab6t3XAdwskUIh1Ze9eXKN6QcwhdYIMfHD24cnRZ9Wl77
+         jnkKkelhmkRLEfHy96YkY3GqrBLKnR62Zu39uiFurBrij3ntKacLG9nBI3RquJYP+DpR
+         cJwQ==
+X-Gm-Message-State: AOJu0YyyUcSfZukgT6tuKoyu6XgDC0GFaV8rHtbrbHcvn8T7jU6MnYq6
+	56dpSqqFp18OdF/MvW2A5Wl2noyNLKLsjQ==
+X-Google-Smtp-Source: AGHT+IFXieEJ7rWnHwFIcuQX3LAG2VmKFBAL+uQEuCkz2H/rM2eTQk6v6KvWDaR/FcxFiepDS2Liqw==
+X-Received: by 2002:a17:906:478b:b0:9c7:5667:5648 with SMTP id cw11-20020a170906478b00b009c756675648mr3455100ejc.51.1699523535338;
+        Thu, 09 Nov 2023 01:52:15 -0800 (PST)
+Received: from [192.168.100.74] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id ha12-20020a170906a88c00b0099d804da2e9sm2307418ejb.225.2023.11.09.01.52.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 01:52:14 -0800 (PST)
+Message-ID: <1a7adaca-7971-4739-8a0b-04429c08f683@gmail.com>
+Date: Thu, 9 Nov 2023 10:52:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.7\))
-Subject: Re: [PATCH v3 06/20] riscv: add ISA extension parsing for vector
- crypto
-From: Jerry Shih <jerry.shih@sifive.com>
-In-Reply-To: <20231109-prevalent-serrated-d40eb5f71236@wendy>
-Date: Thu, 9 Nov 2023 17:45:51 +0800
-Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org,
- Palmer Dabbelt <palmer@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] hwmon: Add support for Amphenol ChipCap 2
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Jonathan Corbet <corbet@lwn.net>,
- Andrew Jones <ajones@ventanamicro.com>,
- Evan Green <evan@rivosinc.com>,
- Conor Dooley <conor@kernel.org>,
- Samuel Ortiz <sameo@rivosinc.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F2C4CCA2-0513-4988-94C4-1ECEB9F1D578@sifive.com>
-References: <20231107105556.517187-1-cleger@rivosinc.com>
- <20231107105556.517187-7-cleger@rivosinc.com>
- <5EF129A2-195B-4207-A2F6-DBA1FBB9F65D@sifive.com>
- <20231109-revolver-heat-9f4788c51bbf@wendy>
- <20231109-prevalent-serrated-d40eb5f71236@wendy>
-To: Conor Dooley <conor.dooley@microchip.com>
-X-Mailer: Apple Mail (2.3445.9.7)
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20231020-topic-chipcap2-v1-0-087e21d4b1ed@gmail.com>
+ <20231020-topic-chipcap2-v1-3-087e21d4b1ed@gmail.com>
+ <e58cdedb-1825-4713-9d3f-5239bb182230@linaro.org>
+ <285ec1d8-d277-403c-961f-3de523fc799f@gmail.com>
+ <a5b63eb4-4168-425e-a235-15cc7a6f2df3@linaro.org>
+ <f1c6efd3-fad1-453a-b922-41485495385b@gmail.com>
+ <037f44d9-7240-4daf-9fe1-ac89fae9499c@linaro.org>
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <037f44d9-7240-4daf-9fe1-ac89fae9499c@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Nov 9, 2023, at 15:54, Conor Dooley <conor.dooley@microchip.com> =
-wrote:
-> On Thu, Nov 09, 2023 at 07:44:46AM +0000, Conor Dooley wrote:
->> On Thu, Nov 09, 2023 at 10:58:41AM +0800, Jerry Shih wrote:
->>> On Nov 7, 2023, at 18:55, Cl=C3=A9ment L=C3=A9ger =
-<cleger@rivosinc.com> wrote:
->>> The Zvknha and Zvknhb are exclusive. It's not the superset =
-relationship.
->>>=20
->>> Please check:
->>> =
-https://github.com/riscv/riscv-crypto/issues/364#issuecomment-1726782096
->>=20
->> You got a response to this on the previous version, but didn't engage
->> with it:
->> =
-https://lore.kernel.org/all/c64d9ddb-edbd-4c8f-b56f-1b90d82100b7@rivosinc.=
-com/#t
+On 09.11.23 10:35, Krzysztof Kozlowski wrote:
+> On 09/11/2023 09:59, Javier Carrasco wrote:
+>>
+>>
+>> On 09.11.23 09:40, Krzysztof Kozlowski wrote:
+>>> On 08/11/2023 17:35, Javier Carrasco wrote:
+>>>>>> +
+>>>>>> +	data->regulator = devm_regulator_get_optional(dev, "vdd");
+>>>>>> +	if (!IS_ERR(data->regulator)) {
+>>>>>> +		ret = cc2_retrive_alarm_config(data);
+>>>>>> +		if (ret)
+>>>>>> +			goto cleanup;
+>>>>>> +	} else {
+>>>>>> +		/* No access to EEPROM without regulator: no alarm control */
+>>>>>
+>>>>> Test your code with deferred probe. Are you sure you handle it
+>>>>> correctly? To me, it looks like you handle deferred probe the same as
+>>>>> any error.
+>>>>>
+>>>> The -EPROBE_DEFER is propagated to the probe function and it is the
+>>>> returned value. I clarified the error path in v2 so no error messages
+>>>
+>>> Really?
+>>>
+>>> I see:
+>>> if (!IS_ERR(data->regulator)) {
+>>> 	// so you do not go here
+>>> } else {
+>>> 	goto dev_register;
+>>> }
+>>> dev_register is not error path. So how do you return EPROBE_DEFER?
+>>>
+>>> Which line of code does it?
+>>>
+>> EPROBE_DEFER is returned if the command window was missed, which is
+> 
+> How "command window was missed" is related to the place I commented?
+> 
+it is right below the comment you added and hence the misunderstanding.
+But focusing on the line where your comment is, there is no probe
+deferring in that case. This is why I asked if you were talking about
+devm_regulator_get_optional() failing, which is not covered by the
+deferring mechanism in the current form.
 
-Reply for the thread:
-=
-https://lore.kernel.org/all/c64d9ddb-edbd-4c8f-b56f-1b90d82100b7@rivosinc.=
-com/#t
-
-> Yes, but for instance, what happens if the user query the zvknha (if =
-it
-> only needs SHA256) but zvknhb is present. If we don't declare zvknha,
-> then it will fail but the support would actually be present due to
-> zvknhb being there.
-
-If we needs SHA256 only, then we should check whether we have zvknha =
-`or` zvknhb.
-=
-https://github.com/openssl/openssl/blob/4d4657cb6ba364dfa60681948b0a30c40b=
-ee31ca/crypto/sha/sha_riscv.c#L24
-
-> Ahh, I now see what that happened. Your mailer is broken and puts the
-> message-id of what you are replying to in the In-Reply-To and Reply-To
-> headers. The former is correct, the latter is bogus & means you don't =
-even
-> get delivered the response.
-
-I use mac builtin `mail` client. And I think I put the `in-reply-to` =
-address to
-the `reply to` field. Hope this one works well. Thank you for the thread =
-forwarding.
-
--Jerry=
+I have never experienced the case where the regulator was still not
+available, but I suppose there is no reason why that should never happen.
+The regulator is not mandatory and there is no reason to retry if it is
+not defined. But in case it is defined and not available, the deferring
+would make sense. I could consider that case as well.
+>> checked in cc2_retrieve_alarm_config() (there is a typo I just corrected
+>> -> cc2_retrive_alarm_config() in the current version). It could then
+>> happen where you added a comment, but not because
+>> devm_regulator_get_optional() failed.
+>>
+>> Are you expecting a probe deferring if devm_regulator_get_optional()
+>> fails as well? Like if the regulator is still not ready when the
+>> function is called.
+> 
+> We talk only about this place. Not others.
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
+Best regards,
+Javier Carrasco
