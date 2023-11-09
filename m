@@ -1,126 +1,197 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6741018C29
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 15:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68D320321;
+	Thu,  9 Nov 2023 15:36:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pcHcFrqP"
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF4C3590
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 07:22:08 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-5431614d90eso1543291a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 07:22:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kzMGmkHR"
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130CD30D3;
+	Thu,  9 Nov 2023 07:36:07 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9e213f198dfso171574966b.2;
+        Thu, 09 Nov 2023 07:36:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699543327; x=1700148127; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g9yjPWyHeNycl0+imrePDdHzNT0Kg7J5k0khv5k91C0=;
-        b=pcHcFrqPvgTUd5tzeSd+WXY9pVviQbl3wa6IIm/r/Ng8uA7ktaL1k438Kmmtn3zakg
-         8uIKrhZ6Wsf7t2fdHxOk8fMm4V7+UMp1x2ymzJNxre40gPtG7cCqG8rihQZLTKh0Eqxr
-         WIwt/5U2NQPicA2W+jZzZCywVf+kQtOC+1pscT+oQsQgSQBpl3KwXqnYewe0ffLl0s63
-         +x67V3c7V7UZgcQTJGh+jBJ0tjKSWtoJC9dfJ25Fvx3VuocnabnQVjut1x98MAw8uq9h
-         gdJXCyGksKxjPlxJ6ZSOgz33S/saG38p4PzQ2KOWFgbx5J5wV2Ea20/Kn43yEO1/nGjV
-         cttw==
+        d=gmail.com; s=20230601; t=1699544165; x=1700148965; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wi1QpsAJgHUTB4YFMyuEyqEplHtXIeaZSET719WZmlw=;
+        b=kzMGmkHRyQcJYdL73ZjHXmkXhDet2Af3hEO0cNiRTIt1GoB/mSVA4Z+afItzjfohCl
+         RmMEVfIqW8rzsVQPgslD26p5uko0v9SouYXKGy+yZI3ZTUt7X7xqKaGIGR0mvlNFYueA
+         cHlFGHSohHwBEyiqDDNd/sBn3RfjCjH4Mu8H/MEdml/HYzutXkfMmFBqHoSa1ZWLSPUa
+         U7hBq3Cpp9RybHPGjuunI+fsiXsEn6O+x9itbYP4jCxJR5wuvattgtM9hsAVG+QPI2jp
+         WuNoB9zmmBQm0E9dbDwJbbK40JMTadSCtZd+s5JIXd8qan26YTmyIpk91RhMkdZE85oF
+         Sadg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699543327; x=1700148127;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g9yjPWyHeNycl0+imrePDdHzNT0Kg7J5k0khv5k91C0=;
-        b=moRucsnmCCib/kdUQ2njONvO4hfNYZFUe32FCxbVpxHYnYeknm8w1Ull3EXWdDeVge
-         mkrrbKt6v3jKnbZINHA+oo5Hx0YhPNftOXZvWKqFJ1ju4qwMwXy87ZhtEkwRxk0vor9d
-         M5xVMxeVaZtTV5Axga9SBlD0gwa73Wf8Q+a1WdGwa16qMniUTiuK/uYMXAcXfxZOJxOb
-         dsrvkoOk14XjdFmwVYxrbwjmvcWFpsXDuZ7tTXytoXiGREC9uKzX7set9zU0zMn80vIh
-         Pfm7tOAj9T6eafS65q+H3WOB4gek/6v5KlBOiS69BwZlSslPPc5MwQJecl7KWpaMnVx+
-         mC7A==
-X-Gm-Message-State: AOJu0Yw9AXhrNndAxotWCLVHGLlTnLGhs5NO0fCk29lD0iS04BSrvdgY
-	cfrQWraEEgWr0HFZ+yoxOhUGqIeWrrMQMA8Ly27gKQ==
-X-Google-Smtp-Source: AGHT+IGfFfytWgw6WCJi+cIYFYSMlq2RtHRv6vUnGFf1YjYKjtrl0mDF3Pa7FnwbCea9sEsFjZQpYGUtuPm45qSgWfY=
-X-Received: by 2002:a50:c31a:0:b0:540:1824:b8d0 with SMTP id
- a26-20020a50c31a000000b005401824b8d0mr4333869edb.3.1699543327038; Thu, 09 Nov
- 2023 07:22:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699544165; x=1700148965;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wi1QpsAJgHUTB4YFMyuEyqEplHtXIeaZSET719WZmlw=;
+        b=gUINNlZgAHRn4Seak8vbNMyavZdhsjLeZ/pzwOwUV41O/2YcJHgFZQqDhiR5D6cHxb
+         hMo3Pj52qWB8jxJdCPqRzrsHxfM6pM+N4RhvdgAHy8xLD4jKWY1/pcMebbRB32SGDYqA
+         0iNP/Vvyu8GkV1l0XMRKP3fTk7JTcINATAFfmTpJIG9+7SV9W6TnVK8UXpOwCu3iHXAW
+         eO0B/5nFMNOc4UjSuy7s9198BsGHuAIlmo5iRpxOlUECWtvXhVW24FHFl+1XaFE1tdX8
+         gsumxaHKlICi+EFcGXl4bOtBE2A3jnWfTHXWeEXUAPyFGtG2iFASekBkPcoaU7d4GfRm
+         nmhw==
+X-Gm-Message-State: AOJu0YzzuFncSASzbD+y3TF4EK0ntM2/YkQ5w05Ly84NWpkPpneeb7Z0
+	CQAsScijOmyPPO4ZrcM0YAo=
+X-Google-Smtp-Source: AGHT+IFbOVY6fsmj2hkbcNOUMKkyN6BOqaHSSpWwITRx/8cZ3c6X7LtCsDYKBVixxOl9OZltWZkK1A==
+X-Received: by 2002:a17:906:4796:b0:9bf:10f3:e435 with SMTP id cw22-20020a170906479600b009bf10f3e435mr5055466ejc.1.1699544165234;
+        Thu, 09 Nov 2023 07:36:05 -0800 (PST)
+Received: from [192.168.100.74] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id x13-20020a1709065acd00b00992b8d56f3asm2669896ejs.105.2023.11.09.07.36.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 07:36:04 -0800 (PST)
+Message-ID: <a04cc8d1-5239-486a-8c1d-e9bd8bd7868d@gmail.com>
+Date: Thu, 9 Nov 2023 16:36:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <MEYP282MB2697B33940B6E9F3BA802729BBFBA@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
- <ZUTOX0oSCPpdtjJV@nanopsycho>
-In-Reply-To: <ZUTOX0oSCPpdtjJV@nanopsycho>
-From: Loic Poulain <loic.poulain@linaro.org>
-Date: Thu, 9 Nov 2023 16:21:30 +0100
-Message-ID: <CAMZdPi-GgchY2tWobFSohCzc2eBq=dUsSJS5qu_LW3xAPLVwBQ@mail.gmail.com>
-Subject: Re: [net-next v4 0/5] net: wwan: t7xx: fw flashing & coredump support
-To: "SongJinJian@hotmail.com" <songjinjian@hotmail.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, "davem@davemloft.net" <davem@davemloft.net>, 
-	"edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>, 
-	"pabeni@redhat.com" <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"ryazanov.s.a@gmail.com" <ryazanov.s.a@gmail.com>, 
-	"johannes@sipsolutions.net" <johannes@sipsolutions.net>, 
-	"chandrashekar.devegowda@intel.com" <chandrashekar.devegowda@intel.com>, 
-	"linuxwwan@intel.com" <linuxwwan@intel.com>, 
-	"chiranjeevi.rapolu@linux.intel.com" <chiranjeevi.rapolu@linux.intel.com>, 
-	"haijun.liu@mediatek.com" <haijun.liu@mediatek.com>, 
-	"m.chetan.kumar@linux.intel.com" <m.chetan.kumar@linux.intel.com>, 
-	"ricardo.martinez@linux.intel.com" <ricardo.martinez@linux.intel.com>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nmarupaka@google.com" <nmarupaka@google.com>, "vsankar@lenovo.com" <vsankar@lenovo.com>, 
-	"danielwinkler@google.com" <danielwinkler@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] hwmon: Add support for Amphenol ChipCap 2
+Content-Language: en-US
+To: Guenter Roeck <linux@roeck-us.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
+ <20231020-topic-chipcap2-v2-3-f5c325966fdb@gmail.com>
+ <30ccb0a9-c0bd-491e-817f-def0aeda11c6@linaro.org>
+ <d5692ab7-6d11-41f3-89ec-246a2fc045a8@roeck-us.net>
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <d5692ab7-6d11-41f3-89ec-246a2fc045a8@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi JinJian,
+On 09.11.23 15:55, Guenter Roeck wrote:
+> On 11/9/23 00:52, Krzysztof Kozlowski wrote:
+>> On 08/11/2023 16:37, Javier Carrasco wrote:
+>>> The Amphenol ChipCap 2 is a capacitive polymer humidity and temperature
+>>> sensor with an integrated EEPROM and minimum/maximum humidity alarms.
+>>>
+>>> All device variants offer an I2C interface and depending on the part
+>>> number, two different output modes:
+>>> - CC2D: digital output
+>>> - CC2A: analog (PDM) output
+>>>
+>>> This driver adds support for the digital variant (CC2D part numbers),
+>>> which is also divided into two subfamilies [1]:
+>>> - CC2DXX: non-sleep measurement mode
+>>> - CC2DXXS: sleep measurement mode
+>>
+>> ...
+>>
+>>> +
+>>> +static int cc2_probe(struct i2c_client *client)
+>>> +{
+>>> +    struct cc2_data *data;
+>>> +    struct device *dev = &client->dev;
+>>> +    enum cc2_ids chip;
+>>> +    int ret;
+>>> +
+>>> +    if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+>>> +        return -EOPNOTSUPP;
+>>> +
+>>> +    data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+>>> +    if (!data)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    i2c_set_clientdata(client, data);
+>>> +
+>>> +    mutex_init(&data->i2c_lock);
+>>> +    mutex_init(&data->alarm_lock);
+>>> +
+>>> +    data->client = client;
+>>> +
+>>> +    if (client->dev.of_node)
+>>> +        chip = (uintptr_t)of_device_get_match_data(&client->dev);
+>>> +    else
+>>> +        chip = i2c_match_id(cc2_id, client)->driver_data;
+>>> +
+>>> +    data->config = &cc2_config[chip];
+>>> +
+>>> +    ret = cc2_request_ready_irq(data, dev);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    data->regulator = devm_regulator_get_optional(dev, "vdd");
+>>> +    if (!IS_ERR(data->regulator)) {
+>>> +        ret = cc2_retrive_alarm_config(data);
+> 
+> fwiw, s/retrive/retrieve/g
+ack.
+> 
+>>> +        if (ret)
+>>> +            goto cleanup;
+>>> +    } else {
+>>> +        /* No access to EEPROM without regulator: no alarm control */
+>>> +        goto dev_register;
+>>
+>> Nothing improved here.
+>>
+>> Do not send new version of patchset before discussion finishes.
+>>
+> 
+> This driver will take a while to review due to its complexity.
+That is absolutely ok. I will wait for a few days to gather more
+feedback and hopefully send less versions.
+> 
+> As for the code above: Error handling goes first. Something like
+> the above, where the error case is just a goto, is unacceptable and
+> just increases indentation level for the other code and makes it
+> more difficult to read. Also, the above code _will_ have to handle
+> error cases other than -ENODEV. Besides deferred probe, it is
+> completely inappropriate to ignore -EINVAL or -ENOMEM or any other
+> error codes other than -ENODEV.
+> 
+The probe function will return from errors other than -ENODEV directly
+with no goto and checking them first.
+I just need to skip the alarm registration for -ENODEV and do the
+cleanup if an error occurs after enabling the regulator to keep
+enable/disable parity.
+>>> +    }
+>>> +
+>>> +    ret = cc2_request_alarm_irqs(data, dev);
+>>> +    if (ret)
+>>> +        goto cleanup;
+>>> +
+>>> +dev_register:
+>>> +    data->hwmon = devm_hwmon_device_register_with_info(dev,
+>>> client->name,
+>>> +                               data, &cc2_chip_info,
+>>> +                               NULL);
+>>> +    if (IS_ERR(data->hwmon)) {
+>>> +        ret = PTR_ERR(data->hwmon);
+>>> +        goto cleanup;
+>>> +    }
+>>> +
+>>> +    return 0;
+>>> +
+>>> +cleanup:
+>>> +    if (cc2_disable(data))
+>>> +        dev_dbg(dev, "Failed to disable device");
+>>> +
+>>> +    return dev_err_probe(dev, ret,
+>>> +                 "Unable to register hwmon device\n");
+>>
+>> Drop or move to each error path.
+>>
+> This actually follows Documentation/process/coding-style.rst, chapter 7
+> (Centralized exiting of functions).
+> 
+> Guenter
+> 
+Thanks for your comments.
 
-On Fri, 3 Nov 2023 at 11:41, Jiri Pirko <jiri@resnulli.us> wrote:
->
-> Mon, Sep 18, 2023 at 08:56:26AM CEST, SongJinJian@hotmail.com wrote:
-> >Tue, Sep 12, 2023 at 11:48:40AM CEST, songjinjian@hotmail.com wrote:
-> >>>Adds support for t7xx wwan device firmware flashing & coredump
-> >>>collection using devlink.
-> >
-> >>I don't believe that use of devlink is correct here. It seems like a mi=
-sfit. IIUC, what you need is to communicate with the modem. Basically a com=
-munication channel to modem. The other wwan drivers implement these channel=
-s in _ctrl.c files, using multiple protocols. Why can't you do something si=
-milar and let devlink out of this please?
-> >
-> >>Until you put in arguments why you really need devlink and why is it a =
-good fit, I'm against this. Please don't send any other versions of this pa=
-tchset that use devlink.
-> >
-> > Yes, t7xx driver need communicate with modem with a communication chann=
-el to modem.
-> > I took a look at the _ctrl.c files under wwan directory, it seemed the =
-implementation can be well integrated with QualCommon's modem, if we do lik=
-e this, I think we need modem firmware change, maybe not be suitable for cu=
-rrent MTK modem directly.
-> > Except for Qualcomm modem driver, there is also an Intel wwan driver 'i=
-osm' and it use devlink to implement firmware flash(https://www.kernel.org/=
-doc/html/latest/networking/devlink/iosm.html), Intel and MTK design and use=
- devlink to do this work on
->
-> If that exists, I made a mistake as a gatekeeper. That usage looks
-> wrong.
->
->
-> > 'mtk_t7xx' driver and I continue to do this work.
-> >
-> > I think devlink framework can support this scene and if we use devlink =
-we don't need to develop other flash tools or other user space applications=
-, use upstream devlink commands directly.
->
-> Please don't.
-
-So this is clear that devlink should not be used for this wwan
-firmware upgrade, if you still want to abstract the fastboot protocol
-part, maybe the easier would be to move on the generic firmware
-framework, and especially the firmware upload API which seems to be a
-good fit here? https://docs.kernel.org/driver-api/firmware/fw_upload.html#f=
-irmware-upload-api
-
-Regards,
-Loic
+Best regards,
+Javier Carrasco
