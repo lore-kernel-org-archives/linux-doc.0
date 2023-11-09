@@ -1,114 +1,101 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEECEFC0A;
-	Thu,  9 Nov 2023 07:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AF9107B4;
+	Thu,  9 Nov 2023 08:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="lmfL/xfV"
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5224E1716;
-	Wed,  8 Nov 2023 23:54:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1699516486; x=1731052486;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4pPfBmiUINhRoPJo2eY11blRCwfArWzDBp253sWlEgM=;
-  b=lmfL/xfVbi/FgjXF15FlM9eSRO6rBqoTuUQ1RwH1VPBmIgKFBIN5a6+p
-   dhtqBiW5BSEAPC5isoXJewBCe/nikxsx28nh82Rh1ByOWESasXcBW78KH
-   Haz8plwoLjIoOmASDkShf1afE860a50Tv0i3VTlEXMgps2WUnR0ShJUKs
-   QrAdaYlqSvKrX+dZB167+MBpqMpMbID2q8P51GJmt/r+mjhynp7GU0lOD
-   l1F4NS90rF+odv876hBsY6tiDHQznYgCRn2hyl9p4c2qY6N5ej0nhZKRF
-   t37SRElhaGDD1X/eMseLy2eGJ4Ez33IsfpOQYGPvI6L/PHkPZhGhp9YJd
-   g==;
-X-CSE-ConnectionGUID: se6pjHG5SuelUARNIWzFMg==
-X-CSE-MsgGUID: vlGbOKuDThK6JpzYW9mFPQ==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,288,1694761200"; 
-   d="asc'?scan'208";a="12060742"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Nov 2023 00:54:45 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 9 Nov 2023 00:54:35 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Thu, 9 Nov 2023 00:54:32 -0700
-Date: Thu, 9 Nov 2023 07:54:07 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Jerry Shih <jerry.shih@sifive.com>
-CC: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Palmer Dabbelt
-	<palmer@rivosinc.com>, Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Jones <ajones@ventanamicro.com>,
-	Evan Green <evan@rivosinc.com>, Conor Dooley <conor@kernel.org>, Samuel Ortiz
-	<sameo@rivosinc.com>
-Subject: Re: [PATCH v3 06/20] riscv: add ISA extension parsing for vector
- crypto
-Message-ID: <20231109-prevalent-serrated-d40eb5f71236@wendy>
-References: <20231107105556.517187-1-cleger@rivosinc.com>
- <20231107105556.517187-7-cleger@rivosinc.com>
- <5EF129A2-195B-4207-A2F6-DBA1FBB9F65D@sifive.com>
- <20231109-revolver-heat-9f4788c51bbf@wendy>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="s3Ig6YtH"
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 731971FFD;
+	Thu,  9 Nov 2023 00:21:31 -0800 (PST)
+Received: from [192.168.2.39] (77-166-152-30.fixed.kpn.net [77.166.152.30])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 1532B20B74C0;
+	Thu,  9 Nov 2023 00:21:26 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1532B20B74C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1699518090;
+	bh=536QhSnmvjUjksMTxK3AqvYT0q2acvm2TvmKO/JNg/I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=s3Ig6YtH2xeo+PTvKPvXKtQtZ2RQaBN+nhHcTkkMBEF08uYQNcijM+O1oP8zwvlKx
+	 +7rZ0GMkVO3jxS9g5x+tgVFu6wkSLrcxyjBUAYQbUYWoLDxxncUfqjGrnDLVMwx2Cd
+	 4w8XcMlnjAp5L2kkRGbMJY5FZre9PlTj3fcMPI7c=
+Message-ID: <02faa42b-7b10-40b4-8442-5f95a2934f5f@linux.microsoft.com>
+Date: Thu, 9 Nov 2023 09:21:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="LUyl317BBN37OabN"
-Content-Disposition: inline
-In-Reply-To: <20231109-revolver-heat-9f4788c51bbf@wendy>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 15/23] KVM: nVMX: Add support for the secondary VM exit
+ controls
+Content-Language: en-US
+To: Xin Li <xin3.li@intel.com>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc: seanjc@google.com, pbonzini@redhat.com, corbet@lwn.net,
+ kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ vkuznets@redhat.com, peterz@infradead.org, ravi.v.shankar@intel.com
+References: <20231108183003.5981-1-xin3.li@intel.com>
+ <20231108183003.5981-16-xin3.li@intel.com>
+From: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
+In-Reply-To: <20231108183003.5981-16-xin3.li@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---LUyl317BBN37OabN
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 08/11/2023 19:29, Xin Li wrote:
+> Enable the secondary VM exit controls to prepare for nested FRED.
+> 
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> Signed-off-by: Xin Li <xin3.li@intel.com>
+> ---
+>  Documentation/virt/kvm/x86/nested-vmx.rst |  1 +
+>  arch/x86/include/asm/hyperv-tlfs.h        |  1 +
+>  arch/x86/kvm/vmx/capabilities.h           |  1 +
+>  arch/x86/kvm/vmx/hyperv.c                 | 18 +++++++++++++++++-
+>  arch/x86/kvm/vmx/nested.c                 | 18 +++++++++++++++++-
+>  arch/x86/kvm/vmx/vmcs12.c                 |  1 +
+>  arch/x86/kvm/vmx/vmcs12.h                 |  2 ++
+>  arch/x86/kvm/x86.h                        |  2 +-
+>  8 files changed, 41 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/x86/nested-vmx.rst b/Documentation/virt/kvm/x86/nested-vmx.rst
+> index ac2095d41f02..e64ef231f310 100644
+> --- a/Documentation/virt/kvm/x86/nested-vmx.rst
+> +++ b/Documentation/virt/kvm/x86/nested-vmx.rst
+> @@ -217,6 +217,7 @@ struct shadow_vmcs is ever changed.
+>  		u16 host_fs_selector;
+>  		u16 host_gs_selector;
+>  		u16 host_tr_selector;
+> +		u64 secondary_vm_exit_controls;
+>  	};
+>  
+>  
+> diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+> index 2ff26f53cd62..299554708e37 100644
+> --- a/arch/x86/include/asm/hyperv-tlfs.h
+> +++ b/arch/x86/include/asm/hyperv-tlfs.h
+> @@ -616,6 +616,7 @@ struct hv_enlightened_vmcs {
+>  	u64 host_ssp;
+>  	u64 host_ia32_int_ssp_table_addr;
+>  	u64 padding64_6;
+> +	u64 secondary_vm_exit_controls;
+>  } __packed;
+> >  #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE			0
 
-On Thu, Nov 09, 2023 at 07:44:46AM +0000, Conor Dooley wrote:
-> On Thu, Nov 09, 2023 at 10:58:41AM +0800, Jerry Shih wrote:
-> > On Nov 7, 2023, at 18:55, Cl=E9ment L=E9ger <cleger@rivosinc.com> wrote:
-> > > +static const unsigned int riscv_zvknhb_exts[] =3D {
-> > > +	RISCV_ISA_EXT_ZVKNHA
-> > > +};
-> > > +
-> >=20
-> > > +	__RISCV_ISA_EXT_SUPERSET(zvknhb, RISCV_ISA_EXT_ZVKNHB, riscv_zvknhb=
-_exts),
-> > > +	__RISCV_ISA_EXT_BUNDLE(zvks, riscv_zvks_bundled_exts),
-> >=20
-> > The Zvknha and Zvknhb are exclusive. It's not the superset relationship.
-> >=20
-> > Please check:
-> > https://github.com/riscv/riscv-crypto/issues/364#issuecomment-1726782096
->=20
-> You got a response to this on the previous version, but didn't engage
-> with it:
-> https://lore.kernel.org/all/c64d9ddb-edbd-4c8f-b56f-1b90d82100b7@rivosinc=
-=2Ecom/#t
+Hi Xin Li,
 
-Ahh, I now see what that happened. Your mailer is broken and puts the
-message-id of what you are replying to in the In-Reply-To and Reply-To
-headers. The former is correct, the latter is bogus & means you don't even
-get delivered the response.
+The comment at the top of hyperv-tlfs.h says:
+"This file contains definitions from Hyper-V Hypervisor Top-Level Functional Specification (TLFS)"
 
---LUyl317BBN37OabN
-Content-Type: application/pgp-signature; name="signature.asc"
+These struct definitions are shared with the hypervisor, so you can't just add fields to it.
+Same comment for patch 16.
 
------BEGIN PGP SIGNATURE-----
+Would FRED work in nested virtualization if the L0 hypervisor does not support it (or doesn't know
+about it)?
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUyQHwAKCRB4tDGHoIJi
-0nowAP0W6kYqZfjp8aXoOoQXmmbdkMNZc5Iz55LCZY1/uNSHywD9EzrcQKDZ70d+
-CQXwkQCx/EhZ3XtYSRbz+3Q65lor3gQ=
-=zJio
------END PGP SIGNATURE-----
-
---LUyl317BBN37OabN--
+Thanks,
+Jeremi
