@@ -1,50 +1,50 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C69D10782
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 08:52:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A4B107A3
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 08:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cg28cd8m"
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60C2BA4
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 00:52:53 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-32faea0fa1fso336186f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 00:52:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NRpaQ2Tl"
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E75B6182
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 00:53:21 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-32fb190bf9bso1040163f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 00:53:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699519972; x=1700124772; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699520000; x=1700124800; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=rvehk1fV53gG9nJW7yH/BIf42Uaj50NUcQqqGKhqkzY=;
-        b=cg28cd8m1c7NlKBNLJaI3rW2x4fRntoFlWQa1bPQZ/PLmkO7iQzXUW0V2uZAnqwwWA
-         eOOluKq6PDoPtbDQ1LiIWj0WHVO1ll4rBujJQd7dvb2m0iObU6ZYHD2q8p3ZlTmyr2C8
-         HaJaJHcpLfO9HzzEpWb6G5bQfMxx23VCDfT2nRB5ExcjtDu1XYvHSmoVOtO5WZ+OfQWh
-         n8TzCXK4mDVzno3LB26o4OB8iMgF4anakakkIr+IEQCkr5TcD83xdQ4n4JQoZ1AlU19V
-         sfbbyxz9IzAMLcu/rRotUS2HYd0mAbyyZT8K4BWUCRR+uHLjZ92ysqJGgtsjCb/aODOI
-         qdgw==
+        bh=6WtvZr36Dx714TjkyzkHcNu6c/9REnmB1ZaRgn3rKTg=;
+        b=NRpaQ2Tl6XF2XwXr/kFNkTCDBVxqquYvkrp03iUqO3mXdD3B13k2JTdcLWLBNXZbw6
+         +9ic9L6yOkx+s1c5mQxOteXm+n73Y6oOnQEPCeRklfgnp227+R8iM4eHjxZaLtVd1wtU
+         8VHRWozNTJwDoNyeEmb/GViaPnbuwrRQRy/qknvTFIQ5/QPbkf0KTim1sOTbRZa4azOE
+         ri8BFyQ6hDU8iJaBqV/FPI7cukJy68lcsCzzFBLIljau2fCgCo3NgbAUMeycVZgpIhSb
+         01LYvNj6WOPYdMFax3nJuQxkuCnwk7PM/7xVebMU9Hd+iJGSFv3bA2UqKE0mHQnkHJYt
+         NUUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699519972; x=1700124772;
+        d=1e100.net; s=20230601; t=1699520000; x=1700124800;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rvehk1fV53gG9nJW7yH/BIf42Uaj50NUcQqqGKhqkzY=;
-        b=gNuicHtuVpApJNdt0cEzudEngf8yMOTJ42bXj4C66w78b7peg1pbxQHupqYfTIfaf5
-         W5TJyYnY84ZD4F8sxlWAmqlX3TW3Tr7D5KNRkJGUFwQUTnWuLiNODtBV7D9po/qnBeR9
-         LRGswKMtkiVE+CRWjmMwXfrMDvuvF8VecqyqSo/IAGmp9zgPxn7rr65+LSYiWmiTUfJi
-         xWJ6iExHIL9vIKc2oAgl/jxo4mOZbmRq9XoO5t2v7Kd0Wsfflgq9GeLBQWThoT7HGUWr
-         iyG/XY+issoggmRCW9Qomnu6whQ45R/iPpMbZHRb95Zbagy+ck5pnFyQKilLJ0LqOOzW
-         lESw==
-X-Gm-Message-State: AOJu0YxwJD6KkLyw0MQgGUxKK6EbLS5pP+8RTPzzq4PVbKPYJ185tKfQ
-	2ICMerDYWl6CYU75veEUvgOkXQ==
-X-Google-Smtp-Source: AGHT+IHRP2KQj+lro9Fdgd1KyWHS2BorRdoSM6MNLlcFvlh4i9ZdelA+7ithKcjFQGx9EUJxZJTpWQ==
-X-Received: by 2002:a05:6000:11ca:b0:32f:92ca:9e5a with SMTP id i10-20020a05600011ca00b0032f92ca9e5amr5122894wrx.15.1699519971812;
-        Thu, 09 Nov 2023 00:52:51 -0800 (PST)
+        bh=6WtvZr36Dx714TjkyzkHcNu6c/9REnmB1ZaRgn3rKTg=;
+        b=fTkObkMt62fteIt1Qv6WzDnC2ol2jHqMAGUsTJNNWNix0M04bqQMWMvcWJ5sN1VVt1
+         cBrSgeKJOu0kw18cN1Lbebe9uuZVHUXm1d9vhS64lc6qBcaMgCaum7YjpYNNJpKLDKa0
+         w82C2TK2dVHtb3XCVMagcTq+ir65wyUtt2oPvXd1NzWIdd3K5qA9ADSdtX+gUoAFXfDQ
+         tTqUkvR01hl/Cn6bgCZ8S4N41qHwHURjQBElxF8/vvGj8ptb67rOqED/r52y5oCixuSC
+         A9towtjS2Z4ewSVRAu0wjrCZUkXL8i3S7sHbrXTjp87fS5DWm12nyEDvsQSR1cZ+ULA3
+         zKvQ==
+X-Gm-Message-State: AOJu0YwPpaLuV5yRcMPyJ/JTQA7dnkM7gdPTpsGgvYAaMjaADU+OWK1c
+	/oZnSE0A/+3B8m1baGCFjk1XMA==
+X-Google-Smtp-Source: AGHT+IG+ZxFgrKf3lO9MrFJqCBT7KfkszmNhuqk+YCfDPTRDFMxhO4G7Kn904eaLk+03Rr0T46kD/g==
+X-Received: by 2002:adf:d1c6:0:b0:32f:7d50:62f8 with SMTP id b6-20020adfd1c6000000b0032f7d5062f8mr6552479wrd.3.1699520000087;
+        Thu, 09 Nov 2023 00:53:20 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id v5-20020adfa1c5000000b0032d81837433sm6944964wrv.30.2023.11.09.00.52.50
+        by smtp.gmail.com with ESMTPSA id v5-20020adfa1c5000000b0032d81837433sm6944964wrv.30.2023.11.09.00.53.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 00:52:51 -0800 (PST)
-Message-ID: <30ccb0a9-c0bd-491e-817f-def0aeda11c6@linaro.org>
-Date: Thu, 9 Nov 2023 09:52:49 +0100
+        Thu, 09 Nov 2023 00:53:19 -0800 (PST)
+Message-ID: <008715d1-de4a-47dd-955c-e2fb7af36a25@linaro.org>
+Date: Thu, 9 Nov 2023 09:53:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] hwmon: Add support for Amphenol ChipCap 2
+Subject: Re: [PATCH v2 4/4] dt-bindings: hwmon: Add Amphenol ChipCap 2
 Content-Language: en-US
 To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
@@ -64,7 +64,7 @@ Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
  linux-doc@vger.kernel.org
 References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
- <20231020-topic-chipcap2-v2-3-f5c325966fdb@gmail.com>
+ <20231020-topic-chipcap2-v2-4-f5c325966fdb@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -110,99 +110,52 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231020-topic-chipcap2-v2-3-f5c325966fdb@gmail.com>
+In-Reply-To: <20231020-topic-chipcap2-v2-4-f5c325966fdb@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 08/11/2023 16:37, Javier Carrasco wrote:
-> The Amphenol ChipCap 2 is a capacitive polymer humidity and temperature
-> sensor with an integrated EEPROM and minimum/maximum humidity alarms.
+> Add device tree bindings and an example for the ChipCap 2 humidity
+> and temperature sensor.
 > 
-> All device variants offer an I2C interface and depending on the part
-> number, two different output modes:
-> - CC2D: digital output
-> - CC2A: analog (PDM) output
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> ---
+>  .../bindings/hwmon/amphenol,chipcap2.yaml          | 68 ++++++++++++++++++++++
+>  1 file changed, 68 insertions(+)
 > 
-> This driver adds support for the digital variant (CC2D part numbers),
-> which is also divided into two subfamilies [1]:
-> - CC2DXX: non-sleep measurement mode
-> - CC2DXXS: sleep measurement mode
+> diff --git a/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+> new file mode 100644
+> index 000000000000..8bb6daa293d3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+> @@ -0,0 +1,68 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/amphenol,chipcap2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ChipCap 2 humidity and temperature iio sensor
+> +
+> +maintainers:
+> +  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> +
+> +description: |
+> +  Relative humidity and temperature sensor on I2C bus.
+> +
+> +  Datasheets:
+> +    https://www.amphenol-sensors.com/en/telaire/humidity/527-humidity-sensors/3095-chipcap-2
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - amphenol,cc2dxx
+> +      - amphenol,cc2dxxs
+> +
 
-...
+Nothing improved.
 
-> +
-> +static int cc2_probe(struct i2c_client *client)
-> +{
-> +	struct cc2_data *data;
-> +	struct device *dev = &client->dev;
-> +	enum cc2_ids chip;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-> +		return -EOPNOTSUPP;
-> +
-> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	i2c_set_clientdata(client, data);
-> +
-> +	mutex_init(&data->i2c_lock);
-> +	mutex_init(&data->alarm_lock);
-> +
-> +	data->client = client;
-> +
-> +	if (client->dev.of_node)
-> +		chip = (uintptr_t)of_device_get_match_data(&client->dev);
-> +	else
-> +		chip = i2c_match_id(cc2_id, client)->driver_data;
-> +
-> +	data->config = &cc2_config[chip];
-> +
-> +	ret = cc2_request_ready_irq(data, dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	data->regulator = devm_regulator_get_optional(dev, "vdd");
-> +	if (!IS_ERR(data->regulator)) {
-> +		ret = cc2_retrive_alarm_config(data);
-> +		if (ret)
-> +			goto cleanup;
-> +	} else {
-> +		/* No access to EEPROM without regulator: no alarm control */
-> +		goto dev_register;
-
-Nothing improved here.
-
-Do not send new version of patchset before discussion finishes.
-
-> +	}
-> +
-> +	ret = cc2_request_alarm_irqs(data, dev);
-> +	if (ret)
-> +		goto cleanup;
-> +
-> +dev_register:
-> +	data->hwmon = devm_hwmon_device_register_with_info(dev, client->name,
-> +							   data, &cc2_chip_info,
-> +							   NULL);
-> +	if (IS_ERR(data->hwmon)) {
-> +		ret = PTR_ERR(data->hwmon);
-> +		goto cleanup;
-> +	}
-> +
-> +	return 0;
-> +
-> +cleanup:
-> +	if (cc2_disable(data))
-> +		dev_dbg(dev, "Failed to disable device");
-> +
-> +	return dev_err_probe(dev, ret,
-> +			     "Unable to register hwmon device\n");
-
-Drop or move to each error path.
-
-
+Really, you just ignored the review.
 
 Best regards,
 Krzysztof
