@@ -1,50 +1,50 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFA9D2E5
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 08:41:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C69D10782
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 08:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="umn12c4w"
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABB31210A
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 00:41:36 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-9d2e7726d5bso93752266b.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 00:41:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cg28cd8m"
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60C2BA4
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 00:52:53 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-32faea0fa1fso336186f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 00:52:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699519295; x=1700124095; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699519972; x=1700124772; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=cwAgYaVEe5rHd83b9y5VOGV1/NC7G+jo4TvPOlhWbiU=;
-        b=umn12c4weItL4mOxzZdpP3KuvrY1UXGOcjlm1d7Ez3GGEIA54IwugAYCNi6+kfZjkt
-         3Lpqv3ELz0d12NXLXliQJsw+Ol3mMCulEr2m15yuHTrO/X+pagLf8SDtGN9lj5vxNVJw
-         fOpDQ1KQNkzr0RlkUtVp7GD+N2WSwZeOOqtKSUTXgRDG8QmX9x0vB8MmsqUv+rvC+1Od
-         EK025NB/2iwiw4TFkFPIoD7AlwzIKyofLrEqeZejVQV7sm2F2wm+0vnP2tbIWW3+HNfs
-         0vR0/JowFXZpXQLddmo1jct7734gGYK/+IBK7OASxJaSVdVNwODUHuVYxxI0s+F1isVB
-         +aVA==
+        bh=rvehk1fV53gG9nJW7yH/BIf42Uaj50NUcQqqGKhqkzY=;
+        b=cg28cd8m1c7NlKBNLJaI3rW2x4fRntoFlWQa1bPQZ/PLmkO7iQzXUW0V2uZAnqwwWA
+         eOOluKq6PDoPtbDQ1LiIWj0WHVO1ll4rBujJQd7dvb2m0iObU6ZYHD2q8p3ZlTmyr2C8
+         HaJaJHcpLfO9HzzEpWb6G5bQfMxx23VCDfT2nRB5ExcjtDu1XYvHSmoVOtO5WZ+OfQWh
+         n8TzCXK4mDVzno3LB26o4OB8iMgF4anakakkIr+IEQCkr5TcD83xdQ4n4JQoZ1AlU19V
+         sfbbyxz9IzAMLcu/rRotUS2HYd0mAbyyZT8K4BWUCRR+uHLjZ92ysqJGgtsjCb/aODOI
+         qdgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699519295; x=1700124095;
+        d=1e100.net; s=20230601; t=1699519972; x=1700124772;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cwAgYaVEe5rHd83b9y5VOGV1/NC7G+jo4TvPOlhWbiU=;
-        b=GbPbJerMHU56fT7Y+JS9jaMB+AzSpZ2xbYdvKbvKcGvAgpKvNk4f0iixBJKMzR/Vcz
-         17+imENkAjhwpqxi9wOZuthMjJDi3yasYMwv8lsy1yy2MU+kohlMkvaNGMC5PVqTkj7+
-         kMYFSJF9lloco/nuPT8Saad+y2gKybCsPRkKv/GnWwLK3HFRgqLDYTYsI7W+8mLvc94B
-         +mDJaYQxDxLaH6fLBYAlnQEpCD9vufFRFtHe5t3O9EfCBfNzII9yAmnYspDmh4IrMypu
-         sKNU6t8BIHPVnEjJKPfuOaOVN1GH/izMXSfR2eZg0DfHIXNOkVbc4dHaGYlmFiNpMrZk
-         hj+A==
-X-Gm-Message-State: AOJu0YyP4OUKwH7kHGmQ4WJ37LPJdA93/bxFSAC3i+RN82IPMrOvCAyL
-	dbQWKF4oSghQe39vxizWLFGzXQ==
-X-Google-Smtp-Source: AGHT+IFXU8GQ5VEsItHECzXzH7ol2ejhYskhHLowHi54WKakE2jStjce800JYgN47f3BPlQ91jdHsQ==
-X-Received: by 2002:a17:907:2ce2:b0:9e2:d087:86de with SMTP id hz2-20020a1709072ce200b009e2d08786demr3276355ejc.42.1699519295142;
-        Thu, 09 Nov 2023 00:41:35 -0800 (PST)
+        bh=rvehk1fV53gG9nJW7yH/BIf42Uaj50NUcQqqGKhqkzY=;
+        b=gNuicHtuVpApJNdt0cEzudEngf8yMOTJ42bXj4C66w78b7peg1pbxQHupqYfTIfaf5
+         W5TJyYnY84ZD4F8sxlWAmqlX3TW3Tr7D5KNRkJGUFwQUTnWuLiNODtBV7D9po/qnBeR9
+         LRGswKMtkiVE+CRWjmMwXfrMDvuvF8VecqyqSo/IAGmp9zgPxn7rr65+LSYiWmiTUfJi
+         xWJ6iExHIL9vIKc2oAgl/jxo4mOZbmRq9XoO5t2v7Kd0Wsfflgq9GeLBQWThoT7HGUWr
+         iyG/XY+issoggmRCW9Qomnu6whQ45R/iPpMbZHRb95Zbagy+ck5pnFyQKilLJ0LqOOzW
+         lESw==
+X-Gm-Message-State: AOJu0YxwJD6KkLyw0MQgGUxKK6EbLS5pP+8RTPzzq4PVbKPYJ185tKfQ
+	2ICMerDYWl6CYU75veEUvgOkXQ==
+X-Google-Smtp-Source: AGHT+IHRP2KQj+lro9Fdgd1KyWHS2BorRdoSM6MNLlcFvlh4i9ZdelA+7ithKcjFQGx9EUJxZJTpWQ==
+X-Received: by 2002:a05:6000:11ca:b0:32f:92ca:9e5a with SMTP id i10-20020a05600011ca00b0032f92ca9e5amr5122894wrx.15.1699519971812;
+        Thu, 09 Nov 2023 00:52:51 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id r5-20020a170906c28500b009929ab17be0sm2203166ejz.162.2023.11.09.00.41.33
+        by smtp.gmail.com with ESMTPSA id v5-20020adfa1c5000000b0032d81837433sm6944964wrv.30.2023.11.09.00.52.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 00:41:34 -0800 (PST)
-Message-ID: <4b1d6fe8-529b-4cf4-ba0a-697c7aeac174@linaro.org>
-Date: Thu, 9 Nov 2023 09:41:33 +0100
+        Thu, 09 Nov 2023 00:52:51 -0800 (PST)
+Message-ID: <30ccb0a9-c0bd-491e-817f-def0aeda11c6@linaro.org>
+Date: Thu, 9 Nov 2023 09:52:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] dt-bindings: hwmon: Add Amphenol ChipCap 2
+Subject: Re: [PATCH v2 3/4] hwmon: Add support for Amphenol ChipCap 2
 Content-Language: en-US
 To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
@@ -63,10 +63,8 @@ To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
 Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
  linux-doc@vger.kernel.org
-References: <20231020-topic-chipcap2-v1-0-087e21d4b1ed@gmail.com>
- <20231020-topic-chipcap2-v1-4-087e21d4b1ed@gmail.com>
- <5a35f02d-31d0-4cef-9b46-f231d0611c7a@linaro.org>
- <269222d8-b72f-4c7a-a19e-a82964e29ec8@gmail.com>
+References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
+ <20231020-topic-chipcap2-v2-3-f5c325966fdb@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -112,33 +110,98 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <269222d8-b72f-4c7a-a19e-a82964e29ec8@gmail.com>
+In-Reply-To: <20231020-topic-chipcap2-v2-3-f5c325966fdb@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/11/2023 13:44, Javier Carrasco wrote:
+On 08/11/2023 16:37, Javier Carrasco wrote:
+> The Amphenol ChipCap 2 is a capacitive polymer humidity and temperature
+> sensor with an integrated EEPROM and minimum/maximum humidity alarms.
+> 
+> All device variants offer an I2C interface and depending on the part
+> number, two different output modes:
+> - CC2D: digital output
+> - CC2A: analog (PDM) output
+> 
+> This driver adds support for the digital variant (CC2D part numbers),
+> which is also divided into two subfamilies [1]:
+> - CC2DXX: non-sleep measurement mode
+> - CC2DXXS: sleep measurement mode
 
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - amphenol,cc2dxx
->>> +      - amphenol,cc2dxxs
->>
->> What does xx stand for? Wildcard? I do not see cc2dxx in part numbers.
->> We expect specific compatibles, not generic. What are the differences
->> between all parts?
->>
-> There are two device families: cc2dxx and cc2dxxs, where xx indicates
-> the voltage and the accuracy. That does not change how the devices works
-> and it is not relevant for the driver. The 's' indicates that it is a
-> sleep device, and that modifies how it works.
-> I listed the supported part numbers in the hwmon documentation, where
-> they are also divided into these two families.
+...
 
-If the number of devices is relatively small, list them all. Otherwise
-choose one device model and use it. No family models. No wildcards.
+> +
+> +static int cc2_probe(struct i2c_client *client)
+> +{
+> +	struct cc2_data *data;
+> +	struct device *dev = &client->dev;
+> +	enum cc2_ids chip;
+> +	int ret;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+> +		return -EOPNOTSUPP;
+> +
+> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	i2c_set_clientdata(client, data);
+> +
+> +	mutex_init(&data->i2c_lock);
+> +	mutex_init(&data->alarm_lock);
+> +
+> +	data->client = client;
+> +
+> +	if (client->dev.of_node)
+> +		chip = (uintptr_t)of_device_get_match_data(&client->dev);
+> +	else
+> +		chip = i2c_match_id(cc2_id, client)->driver_data;
+> +
+> +	data->config = &cc2_config[chip];
+> +
+> +	ret = cc2_request_ready_irq(data, dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	data->regulator = devm_regulator_get_optional(dev, "vdd");
+> +	if (!IS_ERR(data->regulator)) {
+> +		ret = cc2_retrive_alarm_config(data);
+> +		if (ret)
+> +			goto cleanup;
+> +	} else {
+> +		/* No access to EEPROM without regulator: no alarm control */
+> +		goto dev_register;
 
->>> +
+Nothing improved here.
+
+Do not send new version of patchset before discussion finishes.
+
+> +	}
+> +
+> +	ret = cc2_request_alarm_irqs(data, dev);
+> +	if (ret)
+> +		goto cleanup;
+> +
+> +dev_register:
+> +	data->hwmon = devm_hwmon_device_register_with_info(dev, client->name,
+> +							   data, &cc2_chip_info,
+> +							   NULL);
+> +	if (IS_ERR(data->hwmon)) {
+> +		ret = PTR_ERR(data->hwmon);
+> +		goto cleanup;
+> +	}
+> +
+> +	return 0;
+> +
+> +cleanup:
+> +	if (cc2_disable(data))
+> +		dev_dbg(dev, "Failed to disable device");
+> +
+> +	return dev_err_probe(dev, ret,
+> +			     "Unable to register hwmon device\n");
+
+Drop or move to each error path.
+
 
 
 Best regards,
