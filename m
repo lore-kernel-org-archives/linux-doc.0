@@ -1,130 +1,115 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3D1D2F3
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 10:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B97BD2F3;
+	Thu,  9 Nov 2023 10:52:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BMokZfVx"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABB126AF
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:51:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699527114;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uzXmFfn5zVQ8O2djRIzf4P/RBzxnLFE/MCnf13XN7x8=;
-	b=BMokZfVxwLfSamvGK17HmKIHP+NAyAWAUiEi3VDiBXnUZMOtlekbjmxgYhO6AMsUN70XPr
-	zNuK0ZSKc+zwMdNhSOSiBeRolZQS3vS3rBs0BSp+84tYO+64gmGoi5YgO4T2iRGmgy9D1Y
-	pg5zFYcvQ2kj1zruKkykVi9XN8MwtrI=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-693-JvEECqVQOzO16F-Cfdrbrg-1; Thu, 09 Nov 2023 05:51:53 -0500
-X-MC-Unique: JvEECqVQOzO16F-Cfdrbrg-1
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-1cc34cb3b16so1109595ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 02:51:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsccuNL9"
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81666270C;
+	Thu,  9 Nov 2023 02:52:31 -0800 (PST)
+Received: by mail-oo1-xc34.google.com with SMTP id 006d021491bc7-586ad15f9aaso361910eaf.2;
+        Thu, 09 Nov 2023 02:52:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699527151; x=1700131951; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KAOqnDpMNbOMMNgcliZ7OaUSPhsi2JDqBTtnhKhncro=;
+        b=gsccuNL9v8Jp6qigbz+xAGAj2G2ra6FMV1oVOVZmnjl+zD7QdKoa5VDmSJJ541WEMV
+         6k7l4bpfvs58IXET1gNbxJSiAuuiGntp9W53YQ68e0Lx+UXgJs5NyjGEbEQ03PK4JGH3
+         dtzKAv8OPsUAbx/SWHI7FPYjqdAeA+h5VOx1MfP4za9xC3ZVsBJPwQCsBOvmEhbw4e/Y
+         BW2oBaQSLDrANzPQ73w8wvafV2N6qXTHqEQP4O15YhcR39I4JLxwnkWWTxf1P3+txl9R
+         JD4haVH9Ou+bHEbIkKX0RVjk6glrUHEcAobVuPlaPcmGy5CPDE4em7LHENyw+J/buV7p
+         WqHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699527112; x=1700131912;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uzXmFfn5zVQ8O2djRIzf4P/RBzxnLFE/MCnf13XN7x8=;
-        b=UzbspqisfE1ozQRt8KQBglDGZpYEBXEk7w4PpM5n3mJRKD4aeYY0byzjTKhFr7tAQM
-         0912Z5y4pESRwk4J3zFFB5jGqXvkWOeufQm0m7HF540qGv68Ig+j+ELSbzP9fo89XQ1j
-         o7BSnoBi2o0n6d17HXetvaGSpp1YXlOfMTaIfzxGRnraHvl0ATWKDm5HMa4mSr6dWmrU
-         Wq9VkHblN/WvUpdEnuDgajGareBpA4wG4AMf0Q9NCHga9C0zY3nFrlhmteQUpfWXR43/
-         IrOPxqVwtJDAVvgdx/OjZ/GQ4LsKJNnI4IKxY1tf4pCJURG6OFnNBcC1XkiVKwTDkLFJ
-         CVqg==
-X-Gm-Message-State: AOJu0YxKhOmCiNhNffJiGQ5/xkQhQlCOzk2IUJbtpeihwGYYf37uuWTp
-	Vqs3vYOmPTvduh/QAJ95vlKi81/kqBmwx//eaJ8rDDjBQMoHvTjFmXBZEUieROkLUhJFiyuCZo+
-	9sF80JhtW9Dm+nNUD9N4D
-X-Received: by 2002:a17:902:e5c7:b0:1cc:27fa:1fb7 with SMTP id u7-20020a170902e5c700b001cc27fa1fb7mr4861878plf.5.1699527112443;
-        Thu, 09 Nov 2023 02:51:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHiDKE4c0Ju3XEU4qcUzBfLHE4odbtCyEmKR/OFqWPBbcxkvIL/TmgSbJ2a8W59JHM952t4Zg==
-X-Received: by 2002:a17:902:e5c7:b0:1cc:27fa:1fb7 with SMTP id u7-20020a170902e5c700b001cc27fa1fb7mr4861848plf.5.1699527112117;
-        Thu, 09 Nov 2023 02:51:52 -0800 (PST)
-Received: from [10.66.61.39] ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id y12-20020a170902ed4c00b001b86dd825e7sm3245836plb.108.2023.11.09.02.51.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 02:51:51 -0800 (PST)
-Message-ID: <17dd2b32-079a-101e-e5c1-0166d6dea3b9@redhat.com>
-Date: Thu, 9 Nov 2023 18:51:44 +0800
+        d=1e100.net; s=20230601; t=1699527151; x=1700131951;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KAOqnDpMNbOMMNgcliZ7OaUSPhsi2JDqBTtnhKhncro=;
+        b=YK1C211gzf/7W6iuXZ/a64BTdP6FyL4xISTMTxBeoQt+c1M+JeGBfDPS2xJCzaJBJo
+         vA2E7304AvIBgGAhW0jhJyBdEghaV1v2MOgGUAN4bPXTuz2a8gOJFCU/JFLuBdldGtGi
+         eKI6MDFvjbrYUhrkxGenW2MtK3M7rZix+PDkiUdb/k5CrA87VoS3VnZhLZA5eae/tub2
+         zEtNXQlH7AHLAM5mVGeu03c71RvxClYASMyFI1kC/KafGN+urduhGMX4ruKbrJpcw4Q7
+         WPkj716CX2sa9aILQlQ2rP+J5qXdufcr9GmmBPqn/pVaT0ua2PdLH2o7k7BGHDdes4yQ
+         qCTQ==
+X-Gm-Message-State: AOJu0YxGhYDd9FltUHgTOs6PE7JdRAM/G6nvStRlX7WU4aJpqbUYIqFZ
+	nsrE0KXLLwhIHqSNNf2rOQFZxt5OznMKVJfsY94=
+X-Google-Smtp-Source: AGHT+IEMVB9nGYL9BAj5xM3M9jMord94wUjJC9D5YmMMavvqkvrIsFmhcICz8yHcCr2AhjrxJ6lKSEMeQsYhwEPKzxg=
+X-Received: by 2002:a05:6820:1a47:b0:57b:7e41:9f11 with SMTP id
+ br7-20020a0568201a4700b0057b7e419f11mr4859333oob.2.1699527150705; Thu, 09 Nov
+ 2023 02:52:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH RFC 08/22] drivers: base: Implement weak
- arch_unregister_cpu()
-Content-Language: en-US
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
- linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org,
- linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org
-Cc: Salil Mehta <salil.mehta@huawei.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com,
- justin.he@arm.com, James Morse <james.morse@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
-References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
- <E1r0JLL-00CTxD-Gc@rmk-PC.armlinux.org.uk>
-From: Shaoqin Huang <shahuang@redhat.com>
-In-Reply-To: <E1r0JLL-00CTxD-Gc@rmk-PC.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230914112739.112729-1-alessandro.carminati@gmail.com>
+In-Reply-To: <20230914112739.112729-1-alessandro.carminati@gmail.com>
+From: Alessandro Carminati <alessandro.carminati@gmail.com>
+Date: Thu, 9 Nov 2023 11:51:54 +0100
+Message-ID: <CAPp5cGSij=jOVOtq+jR_TYGvj-ZnvtAbv2sEAPKg6bN-5jhs+Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] Enhancing Boot Speed and Security with Delayed
+ Module Signature Verification
+To: Luis Chamberlain <mcgrof@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Prarit Bhargava <prarit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+
+gentle ping
 
 
-
-On 11/7/23 18:29, Russell King (Oracle) wrote:
-> From: James Morse <james.morse@arm.com>
-> 
-> Add arch_unregister_cpu() to allow the ACPI machinery to call
-> unregister_cpu(). This is enough for arm64, riscv and loongarch, but
-> needs to be overridden by x86 and ia64 who need to do more work.
-> 
-> CC: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Signed-off-by: James Morse <james.morse@arm.com>
-Reviewed-by: Shaoqin Huang <shahuang@redhat.com>
-> ---
-> Changes since v1:
->   * Added CONFIG_HOTPLUG_CPU ifdeffery around unregister_cpu
-> Changes since RFC v2:
->   * Move earlier in the series
-> ---
->   drivers/base/cpu.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-> index 579064fda97b..58bb86091b34 100644
-> --- a/drivers/base/cpu.c
-> +++ b/drivers/base/cpu.c
-> @@ -531,7 +531,14 @@ int __weak arch_register_cpu(int cpu)
->   {
->   	return register_cpu(&per_cpu(cpu_devices, cpu), cpu);
->   }
-> -#endif
-> +
-> +#ifdef CONFIG_HOTPLUG_CPU
-> +void __weak arch_unregister_cpu(int num)
-> +{
-> +	unregister_cpu(&per_cpu(cpu_devices, num));
-> +}
-> +#endif /* CONFIG_HOTPLUG_CPU */
-> +#endif /* CONFIG_GENERIC_CPU_DEVICES */
->   
->   static void __init cpu_dev_register_generic(void)
->   {
-
--- 
-Shaoqin
-
+Il giorno gio 14 set 2023 alle ore 13:28 Alessandro Carminati (Red
+Hat) <alessandro.carminati@gmail.com> ha scritto:
+>
+> This patch sets up a new feature to the Linux kernel to have the ability,
+> while module signature checking is enabled, to delay the moment where
+> these signatures are effectively checked. The feature is structure into
+> two main key points, the feature can be enabled by a new command line
+> kernel argument, while in delay mode, the kernel waits until the
+> userspace communicates to start checking signature modules.
+> This operation can be done by writing a value in a securityfs file,
+> which works the same as /sys/kernel/security/lockdown.
+>
+> Patch 1/2: Modules: Introduce boot-time module signature flexibility
+> The first patch in this set fundamentally alters the kernel's behavior
+> at boot time by implementing a delayed module signature verification
+> mechanism. It introduces a new boot-time kernel argument that allows
+> users to request this delay. By doing so, we aim to capitalize on the
+> cryptographic checks already performed on the kernel and initrd images
+> during the secure boot process. As a result, we can significantly
+> improve the boot speed without compromising system security.
+>
+> Patch 2/2: docs: Update kernel-parameters.txt for signature verification
+> enhancement
+> The second patch is just to update the kernel parameters list
+> documentation.
+>
+> Background and Motivation
+> In certain contexts, boot speed becomes crucial. This patch follows the
+> recognition that security checks can at times be redundant. Therefore,
+> it proves valuable to skip those checks that have already been validated.
+>
+> In a typical Secure Boot startup with an initrd, the bootloader is
+> responsible for verifying artifacts before relinquishing control. In a
+> verified initrd image, it is reasonable to assume that its content is
+> also secure. Consequently, verifying module signatures may be deemed
+> unnecessary.
+> This patch introduces a feature to skip signature verification during
+> the initrd boot phase.
+>
+> Alessandro Carminati (Red Hat) (2):
+>   Modules: Introduce boot-time module signature flexibility
+>   docs: Update kernel-parameters.txt for signature verification
+>     enhancement
+>
+>  .../admin-guide/kernel-parameters.txt         |  9 +++
+>  include/linux/module.h                        |  4 ++
+>  kernel/module/main.c                          | 14 +++--
+>  kernel/module/signing.c                       | 56 +++++++++++++++++++
+>  4 files changed, 77 insertions(+), 6 deletions(-)
+>
+> --
+> 2.34.1
+>
