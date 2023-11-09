@@ -1,243 +1,180 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7AE11199;
-	Thu,  9 Nov 2023 09:16:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCC511199
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 09:20:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="neNNRJtf"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA64225BB;
-	Thu,  9 Nov 2023 01:16:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699521361; x=1731057361;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=52mkSp8/KsbAWxxR8V5BCMtyZjMQqvmRusCjuWuNF54=;
-  b=neNNRJtfmrrFp1LZLY5aWvDPZPq47m5Vg6O/UCBpels+oAgOOdf0MfbT
-   D/C15/yMdk8QU6/X7eyXo6B9O00DZkJwlJDdGJR+62tYoyfuQweuvoKpf
-   lVREMs6I0NaWfvv81wvOxEf5zCNHvYRTPgcLrqlwsfA0tUT9MnmacRyzF
-   sfaCxuFI792q8YBswj3b7/NYavTvDSvQdvZYKGybBC4liU6svv2Y46ypl
-   n93umNwF7NhzlANhI6gGqXsK7YJbohfkKC4jVilJ6dvN4+gQvxSwN/b2x
-   s3lvVfWantU/iE6T9lXOI0ZmJNew5mzUMkSW84EWzai/9S0MmkVTTS+zM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="456442326"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="456442326"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 01:16:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="792478465"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="792478465"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Nov 2023 01:15:59 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 9 Nov 2023 01:15:58 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 9 Nov 2023 01:15:58 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 9 Nov 2023 01:15:57 -0800
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.40) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 9 Nov 2023 01:15:57 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e0gIBvfsg5FOv8zGBfX1XiysGqMDQ7XpaYwxOgA26PaEXx5qREiPqXj3P5c8yOoEWHVOcY4QyWoGQBAC2oE/5ipSd/7+B/oHxwXS/0muZbIc5zJ6bx8PK0l6EN8To1JsP4LSo3XbCPqH8wvl6TUZc1RetEx1nUPyjybbGelD1//USaCLfKoSxk5AhKFZhVCG0cjXM9FBe2vjxW2/AqJb68Fw2bpPzHK/aYnnn4i/yDslfrdwZcsCY7lCuO7D/v2z6LJgG5xV7xrft3P7CbPpnGHkyEvlMpoKVLAr6Es7LW/kZJOQ0myjx62UAyS20tOu2FJW8aRysDjzD8Pu3lSLFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=svItkbB1Lyn1TePmofbb5o1tCnrUxnLykHRNJpJWtrw=;
- b=GWFtoV5N8pM1UF3fxAwLAg1Yo4sLf0QFoMMFiqNB+/VgCu7QpLvbqVvIeTGZIyfW1P0FDSPoa5lXx4kcaxhdrozWdcv7n9L1ubmguzj5rM/Zl1nNhQwkV4BUFqdiMoU5lR/uhTMDyVCDiArius6o994CG0L453/22rBsht7LrKE6h7j9DGT27jnNieGSEc2VXPDx8KlmCGakNYMOz5xEYOyJqjH61iMRI3Qrp113vUABOL9Aung3G+qEoD5jQ5W5+qf+rJ4f3Cv4yPHw2nmKL9hRiRbxFTh9mMcFnwlY0SEsqYkHGWnTSO/hhvcx2njFkcxPbaL+pLFTZUHZT9qfgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by IA1PR11MB7365.namprd11.prod.outlook.com (2603:10b6:208:423::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Thu, 9 Nov
- 2023 09:15:55 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::66ec:5c08:f169:6038]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::66ec:5c08:f169:6038%3]) with mapi id 15.20.6977.018; Thu, 9 Nov 2023
- 09:15:55 +0000
-Date: Thu, 9 Nov 2023 17:15:42 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: Xin Li <xin3.li@intel.com>
-CC: <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <seanjc@google.com>,
-	<pbonzini@redhat.com>, <corbet@lwn.net>, <kys@microsoft.com>,
-	<haiyangz@microsoft.com>, <wei.liu@kernel.org>, <decui@microsoft.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<vkuznets@redhat.com>, <peterz@infradead.org>, <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH v1 06/23] KVM: VMX: Defer enabling FRED MSRs save/load
- until after set CPUID
-Message-ID: <ZUyjPtaxOgDQQUwA@chao-email>
-References: <20231108183003.5981-1-xin3.li@intel.com>
- <20231108183003.5981-7-xin3.li@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231108183003.5981-7-xin3.li@intel.com>
-X-ClientProxiedBy: SI2PR06CA0008.apcprd06.prod.outlook.com
- (2603:1096:4:186::23) To CH3PR11MB8660.namprd11.prod.outlook.com
- (2603:10b6:610:1ce::13)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uJOOgZbf"
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71CCB2702
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 01:20:09 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9e2838bcb5eso102696266b.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 01:20:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699521608; x=1700126408; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0vyFZgshh+dS7jGWpFlg17tBqzL9luaMWJZKdCdlEUk=;
+        b=uJOOgZbf/DylYPsx4oW5m9cxGNG8FhwM1j4l8INkKVRgiU/vXo+LR7NWO1Hjs4kqhm
+         qz3SGWTuywudxMd9DvF7NDiTRmz/wff7Fk9aYH3YNJWdM5DL5bOh+Z/bABg4BnfVggc/
+         Qz/LanwTgyew27wrrKYQOoj47WOmUP/c2c0cxrzBmVbgiTgJNKrOjuewjja648fkG4oa
+         Zela8O2mpkB97gg3oC+NBIvYI4eIkhjlGSIuNr17vETj6Vm2n2v6oSV4S9BT71Kd2ReH
+         wToCokuh7lQ4raU0+p/cAmWlr8YEgqFqwqf05RDhJSe8MC00U/n3GNUt5Dx0X7QUHoqI
+         uQZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699521608; x=1700126408;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0vyFZgshh+dS7jGWpFlg17tBqzL9luaMWJZKdCdlEUk=;
+        b=QtV23xQ4/KZBcFRxFrtqabQ+LKCC8y4vjFJZLRY+huQpDL4M81XrAqMnVEirEYS5qa
+         jpAylmMjcoamjhB+sLQH3WKP3TibdnU7DxBGwIWwHolAbsBklDafktce7wuwwskUGjWJ
+         L8tW0CKjhJ97sXkXVjMJF07ibnxa2eglTDkyzMQQbHUWi1sTw5PQ03TpE96z+siz6zVd
+         qx4p8lvGlApc3PH56Ye+ah7GHhC1PtAxLx3u+EnYtiZ40N6vlKxUwCffuSasapj12J76
+         d7B54MUODjeefd9Iac+ZvRhFBgzRdnbk5CeyCoBw950x/JC6aUYiKuSm9yv0Z64OGl5c
+         HoQw==
+X-Gm-Message-State: AOJu0Yx8iI4DP/8BR01hya6ci9rS/I8INCb0i0amx5MCnl0V5TGeAH3e
+	yfDGC3jngUuM8GwVaBOfm2Jefw==
+X-Google-Smtp-Source: AGHT+IGH+NJHQnwKGOJbdY9S0j2s0lppdIB6kZvn9yLs2zyUjodkEDgVCLQ4mBrxMsWOoAFJYkkORw==
+X-Received: by 2002:a17:907:d27:b0:9b2:abb1:a4ab with SMTP id gn39-20020a1709070d2700b009b2abb1a4abmr4362146ejc.65.1699521607819;
+        Thu, 09 Nov 2023 01:20:07 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.126])
+        by smtp.gmail.com with ESMTPSA id dc17-20020a170906c7d100b009b9aa8fffdasm2274367ejb.131.2023.11.09.01.20.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 01:20:07 -0800 (PST)
+Message-ID: <9fb14ef2-ee2e-41c6-a080-01df2e947091@linaro.org>
+Date: Thu, 9 Nov 2023 10:20:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|IA1PR11MB7365:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef44fc04-3e8b-4d31-399e-08dbe10479c1
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RtOUZcN1/M55GxfXeb9odsGOG0jZ6mo9qBqYGhtx/j3psa7CniWOlCKI5E1VINmB6LztojFZtzf4hT6PPNeN+vAfZZfLivpMCzdg4HGHMVCtRYOqdGLMHNPRqQNlKs/nd8EgHED/BK2yT0l6CmushX0949RfsIv437VvE6YgITDQKV+GFj8KxbHIQVNBSx7L9ctEV04jrjimGWI+HqeCaZ0pcJo1UIYv3y532GhIGUmvW7d1JnkpwC0UVOK3Kqt/6FWpCezbLoLB2BRRzf1CKfTVptQS27R2dI/UH36ZEO1wkA8EXoMXtv4C9vRfhy0USkVrdwmCGIPaQh6+Shru88Uzu/a9lz4s59Pp9Vi+4Atjs4Dx04kUFf/nf4DF1bBa447SrOQJB9u+3v2JzcNX0rUT+fis9iEsrjTdCMObwSeKZJoeLOZR9bYFf3jUOG7GIvZV67vaMwteXwZfGpdhkLsVTkAY/dBnwzA1alXXUsl+d5bRnTVAvyagae0yCpRupn8OKoremsVGx9t32gluJQwoXXbRLbvPZo6vCgiGh/s=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(136003)(346002)(366004)(376002)(396003)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(5660300002)(8936002)(44832011)(6512007)(9686003)(316002)(82960400001)(966005)(6486002)(478600001)(26005)(66556008)(66476007)(6506007)(66946007)(6636002)(6666004)(33716001)(6862004)(8676002)(4326008)(2906002)(38100700002)(83380400001)(7416002)(41300700001)(86362001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vmLCo2G29P2gY50/Q4K6OTsCFt4VY2Gu0LOsYT7utUnKXtBOxNp+BEsW536S?=
- =?us-ascii?Q?1gdIVb0s1Kmdh4M4GWMsfA0FyBUrJ6A8VvhLEzh/lNU+wEUy5e8Da0hFOqZl?=
- =?us-ascii?Q?bllgtdNtQCwD7CIvpCWamzFy7J02POULuIEVu+YRvuZReUtE0PXA3AgmwX0T?=
- =?us-ascii?Q?ObtHTKc4i2ySF33rJdwDYUd1TFolihd1Qa4YSH0cqU4N0o1STA3nphkHKV3p?=
- =?us-ascii?Q?btWFwDlcmkh8mBAJdM0b5U0P71XhXw3v8NiwJN895hmITtqfCGWZzb8OOwBv?=
- =?us-ascii?Q?tOxBQyC5cUqPTg2ayLqdsilFNd9NbIaV0zyoH1kVc0t4IsfDysq55FzalHYr?=
- =?us-ascii?Q?VoxZfC4AAD4sw8mVOhcnIrOMm8nT1L6ZWeszgv/vyr5LJAFaYkSETnmu/h3+?=
- =?us-ascii?Q?V9hIcRt/BKQqeRfl+ErKPSWedes3Qe5WvvtfMZ7Su39rrFWuvTnPvIUYAC+6?=
- =?us-ascii?Q?TmsNbfJUT+SOEP+rqthrlOcL7NOv+WV/XGyC8J09GXpbiv/DtoPHgrQDWL4j?=
- =?us-ascii?Q?bEmx4kJfzVrg6dOGgXtRK+XpLH0Y1geZ2ukWgEsBDZAyCgItvryvuIYshRLo?=
- =?us-ascii?Q?pN8SXhtXheJdmoHJaXLskJJc7HBx8Qcvyl5+BIGsJ4XpCc90QOZYhxzjOOv4?=
- =?us-ascii?Q?oGfBqewdwr3tXxGVq1P1NWjiD5y57u2Zqew3YuuHDpkgOydifWttxniWrMJw?=
- =?us-ascii?Q?H9WrZ0WjaF9frvbsnVPoOLkOBAoAaVO42uNqm2/6UWaONKHSaywo+ts3okfa?=
- =?us-ascii?Q?4XM51bemHCiupNXRcSC6ylCToq9P3fP5ombeYl6cCOZgxyAlmllrRuUBxxm/?=
- =?us-ascii?Q?j4KRy9cPmXD/ZR/p/QujFeZ+1/Qo2EQPB07rGf5I4bOmLtSquskPpEua5XYM?=
- =?us-ascii?Q?aeoqcpF8DpJNkX0RNWPQEZRNc7NZLtz6DjjU33TLVxrju7KzmxnCr2/tX883?=
- =?us-ascii?Q?J08sZsxs0G2kCSpEEycqlzBWIwk+1pfTn6YjI00zxZ5zX9BYnAZH1GDQ5DsU?=
- =?us-ascii?Q?udU6oIQgHbLMPIEhJBzj9ACKbLZjgJYitZTpCzovMmnYScc4OXfPNNhctAo/?=
- =?us-ascii?Q?NH+YLjkLUnqlTolUa5RIUHzgDubaxFeRlpAImI/QBH8/tf0CAFlyZPCpazXa?=
- =?us-ascii?Q?WrKn/87977b05JU7ZEoi6QaragJ5M9gRrOd1amEHCm/P+8eqgDuH8wDmQdat?=
- =?us-ascii?Q?08dqHLsxwWyJPf/Onh2qNcAFwA/paRd9OmSuBlFgtxl3uJtHVZY96wo7+z4X?=
- =?us-ascii?Q?WprBohKtMwz89P673GiXbuZE1OtgnhLMVeeFzlX1cqEGjPlijacEIhFzcY0c?=
- =?us-ascii?Q?FjeTb12zhqraSpfeINmo/PK7HwuVlgs+XMdwKnh218DISWsfkwd/pmDU2S7z?=
- =?us-ascii?Q?vChYDsu3/tQuWU/zwZwUY4evvrMZLqhtpAqg/TQjz4128/TmeOvXgnENqRek?=
- =?us-ascii?Q?PhI5YF7hGJlfS/JXKlZoXu3V+XbUG4F5MxlqgiF2Lz8uWO2kxfAoVkNBmmNN?=
- =?us-ascii?Q?/p/HQCcKW2p27sjTELREeBKCTLzvTfNdNTFdy6QbrrNpt1puvsXezhdg8orh?=
- =?us-ascii?Q?NSqx1cxHupB7dAnHLEJPo1JJMRzBoT0f7R2dOKad?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef44fc04-3e8b-4d31-399e-08dbe10479c1
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2023 09:15:54.5168
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 59wTPq+LmacbB1HdYeeTaE8oGXqf2Pm7bCBWRO6n2pROEYZtfCTRNFxvLp0Y4UOPIzXCmTQAXqJykYGpSVffSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7365
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] dt-bindings: hwmon: Add Amphenol ChipCap 2
+Content-Language: en-US
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
+ <20231020-topic-chipcap2-v2-4-f5c325966fdb@gmail.com>
+ <008715d1-de4a-47dd-955c-e2fb7af36a25@linaro.org>
+ <0b103837-54e7-430f-8a01-94b620b84f89@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <0b103837-54e7-430f-8a01-94b620b84f89@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 08, 2023 at 10:29:46AM -0800, Xin Li wrote:
->Clear FRED VM entry/exit controls when initializing a vCPU, and set
->these controls only if FRED is enumerated after set CPUID.
->
->FRED VM entry/exit controls need to be set to establish context
->sufficient to support FRED event delivery immediately after VM entry
->and exit.  However it is not required to save/load FRED MSRs for
->a non-FRED guest, which aren't supposed to access FRED MSRs.
->
->A non-FRED guest should get #GP upon accessing FRED MSRs, otherwise
->it corrupts host FRED MSRs.
->
->Tested-by: Shan Kang <shan.kang@intel.com>
->Signed-off-by: Xin Li <xin3.li@intel.com>
->---
-> arch/x86/kvm/vmx/vmx.c | 34 +++++++++++++++++++++++++++++++++-
-> 1 file changed, 33 insertions(+), 1 deletion(-)
->
->diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->index 9186f41974ab..5d4786812664 100644
->--- a/arch/x86/kvm/vmx/vmx.c
->+++ b/arch/x86/kvm/vmx/vmx.c
->@@ -4423,6 +4423,9 @@ static u32 vmx_vmentry_ctrl(void)
-> 	if (cpu_has_perf_global_ctrl_bug())
-> 		vmentry_ctrl &= ~VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
+On 09/11/2023 10:02, Javier Carrasco wrote:
 > 
->+	/* Whether to load guest FRED MSRs is deferred until after set CPUID */
->+	vmentry_ctrl &= ~VM_ENTRY_LOAD_IA32_FRED;
->+
-> 	return vmentry_ctrl;
-> }
 > 
->@@ -4458,7 +4461,13 @@ static u32 vmx_vmexit_ctrl(void)
-> 
-> static u64 vmx_secondary_vmexit_ctrl(void)
-> {
->-	return vmcs_config.secondary_vmexit_ctrl;
->+	u64 secondary_vmexit_ctrl = vmcs_config.secondary_vmexit_ctrl;
->+
->+	/* Whether to save/load FRED MSRs is deferred until after set CPUID */
->+	secondary_vmexit_ctrl &= ~(SECONDARY_VM_EXIT_SAVE_IA32_FRED |
->+				   SECONDARY_VM_EXIT_LOAD_IA32_FRED);
->+
->+	return secondary_vmexit_ctrl;
-> }
-> 
-> static void vmx_refresh_apicv_exec_ctrl(struct kvm_vcpu *vcpu)
->@@ -7785,10 +7794,33 @@ static void update_intel_pt_cfg(struct kvm_vcpu *vcpu)
-> 		vmx->pt_desc.ctl_bitmask &= ~(0xfULL << (32 + i * 4));
-> }
-> 
->+static void vmx_vcpu_config_fred_after_set_cpuid(struct kvm_vcpu *vcpu)
->+{
->+	struct vcpu_vmx *vmx = to_vmx(vcpu);
->+
->+	if (!cpu_feature_enabled(X86_FEATURE_FRED) ||
->+	    !guest_cpuid_has(vcpu, X86_FEATURE_FRED))
->+		return;
->+
->+	/* Enable loading guest FRED MSRs from VMCS */
->+	vm_entry_controls_setbit(vmx, VM_ENTRY_LOAD_IA32_FRED);
->+
->+	/*
->+	 * Enable saving guest FRED MSRs into VMCS and loading host FRED MSRs
->+	 * from VMCS.
->+	 */
->+	vm_exit_controls_setbit(vmx, VM_EXIT_ACTIVATE_SECONDARY_CONTROLS);
->+	secondary_vm_exit_controls_setbit(vmx,
->+					  SECONDARY_VM_EXIT_SAVE_IA32_FRED |
->+					  SECONDARY_VM_EXIT_LOAD_IA32_FRED);
+> On 09.11.23 09:53, Krzysztof Kozlowski wrote:
+>> On 08/11/2023 16:37, Javier Carrasco wrote:
+>>> Add device tree bindings and an example for the ChipCap 2 humidity
+>>> and temperature sensor.
+>>>
+>>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>>> ---
+>>>  .../bindings/hwmon/amphenol,chipcap2.yaml          | 68 ++++++++++++++++++++++
+>>>  1 file changed, 68 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+>>> new file mode 100644
+>>> index 000000000000..8bb6daa293d3
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+>>> @@ -0,0 +1,68 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/hwmon/amphenol,chipcap2.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: ChipCap 2 humidity and temperature iio sensor
+>>> +
+>>> +maintainers:
+>>> +  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>>> +
+>>> +description: |
+>>> +  Relative humidity and temperature sensor on I2C bus.
+>>> +
+>>> +  Datasheets:
+>>> +    https://www.amphenol-sensors.com/en/telaire/humidity/527-humidity-sensors/3095-chipcap-2
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - amphenol,cc2dxx
+>>> +      - amphenol,cc2dxxs
+>>> +
+>>
+>> Nothing improved.
+>>
+>> Really, you just ignored the review.
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> I am sorry if I missed something from your first review. I changed the
+> interrupt description to have one per item as you suggested and removed
+> the empty line. I did not change the compatible enum to add all part
+> numbers because it was still under discussion, but now that I know that
+> I have to add all of them, I will change for the next version.
 
-all above vmcs controls need to be cleared if guest doesn't enumerate FRED, see
+And a new patch should not be sent while discussion happens. Literally I
+had no chances to respond to your comment and v2 appears.
 
-https://lore.kernel.org/all/ZJYzPn7ipYfO0fLZ@google.com/
+Best regards,
+Krzysztof
 
-Clearing VM_EXIT_ACTIVATE_SECONDARY_CONTROLS may be problematic when
-new bits are added to secondary vmcs controls. Why not keep
-VM_EXIT_ACTIVATE_SECONDARY_CONTROLS always on if it is supported? or you see
-any perf impact?
-
->+}
->+
-> static void vmx_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
-> {
-> 	struct vcpu_vmx *vmx = to_vmx(vcpu);
-> 
->+	vmx_vcpu_config_fred_after_set_cpuid(vcpu);
->+
-> 	/*
-> 	 * XSAVES is effectively enabled if and only if XSAVE is also exposed
-> 	 * to the guest.  XSAVES depends on CR4.OSXSAVE, and CR4.OSXSAVE can be
->-- 
->2.42.0
->
->
