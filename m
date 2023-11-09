@@ -1,121 +1,201 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB31438DC3
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 23:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4540920B07;
+	Thu,  9 Nov 2023 23:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uubL0Kl4"
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 751604231;
-	Thu,  9 Nov 2023 15:14:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=h0f/DlHStT+Oyt0mkJL4GO5ZZL6rW4mBRECnrVDau8I=; b=uubL0Kl4vqUGiJtp+YKEl0GDvY
-	WGApZsqfrOP4vF8YHxKUBN2tcD7DmhYBp9K7Mrm62ZBBZE3BNO2xswyOyPg3VxVwL9XvDgmAZiefi
-	A5yqCtWsgtAFss6+9hhSOKPVC8D5oxtxYUPmaVL6CiiizmyLB5J9/eBWztqSH0C7/jcT6lenmw9pk
-	D+2j+X08MbkPV7r3/GeTjYFm0h22DrUlPK+i0TaaIVwTAb8N8JpT+qFhum+b93DXT9pXe62GXhUq8
-	JCoE7XQl4/CraPP3UgwgorTBtne0FBgd3/UpdGPnepCmICX6pW7NoXCEV6fy/5wfp6DgUAP7EeLEo
-	xX1e3tLA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1r1EEW-007PiG-2T;
-	Thu, 09 Nov 2023 23:14:44 +0000
-Message-ID: <932eed52-fd9a-4617-84a4-9376861d1c86@infradead.org>
-Date: Thu, 9 Nov 2023 15:14:44 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHvnPBCQ"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97D13868;
+	Thu,  9 Nov 2023 15:50:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699573851; x=1731109851;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=vRiO16edNZkgPzULuOQ/IUBTwsOBdUZa0yBNmPFTM/s=;
+  b=AHvnPBCQxvsUGQu/mI86LxhIoUTMXaxlnj+vCI61dK7meJFo2PEx9Gbs
+   BZDgyHJfOo4rTibMXqCVtlKB7lvay7Yf3aOsBNS8V6LQrMfKMV4r442h0
+   tnPCQ4XZXgYQOWLrwb5e6VpBAJN1oPdE4Qv991c4EikDYN6Xn+yEas3DQ
+   StDMMED8zbliBUifb1A0aBGm1wuT47Bo6FfvzsxsRtmS1y/n52TI3P/Be
+   iFCwbld+TTjhkkJkFdtQuE4gT36mVEUMWeHaKRW7xNlb9Juy1dwn16bhp
+   OCq1jocGbhFIRjkAAaKtdiHDdBUGM8HPtA1cLecmLoQoizn9yKQYZh+cq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="375137973"
+X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
+   d="scan'208";a="375137973"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 15:50:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="937013280"
+X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
+   d="scan'208";a="937013280"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Nov 2023 15:50:50 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 9 Nov 2023 15:50:50 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 9 Nov 2023 15:50:50 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 9 Nov 2023 15:50:50 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 9 Nov 2023 15:50:49 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TRk2xY8Id/Hd1LZISO+XVI3JM91XmGylm54g2K5muQ6Eu/o2L6FlRay/BbDXl2GTlWd7lJMBpVTgxcOEeyh+Qr4/E03z4b9pbmMBytQpU660oYVxVlaEZtFA1CN4ksrMq6HeUNE+s5VBND1QW+YsH4EzternyfToX4fjMjTUckEc9ARIvMOHxSbJOYhcQ8/WC3ZMPY56glIachLlgs7wCM2Af0+cR8oaDLMXcaSG+I0dZTS6sremcwkB+RrX8oYDmHxVXV0vobcyiFknbkZJvxZIqobmeRJUTWVFJisez5pZBAFz/AlfJeoCAM+Qzpqjcu8EcFIlQtGe5ibHWIVTQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HsmRsGEOB0ofWifvbx9SbeXYhmkrLGcTIbMgegTwUCM=;
+ b=GegR1BOF+1YQibQYXsrQuypUSxih/fvKBn5BfO86jsTzB40BIjVrp6qZi8Zr5FDOVit+JrUC9PwtRsJJrW15TJMcb2YfsSLvg4OJ0EZiHQlU1Uaff2tmgLfehutAiOFoPzRUc6GRVKhjOicIcNVGNVLMNPNkDnc859mwbq2yF91BfcvGxCSYjB5ps9HChYWquAz9bI+QxmUBe/rKoK0Eh6OPPztNdEVBYxhn4TRseGKKYuY+HozwPLRtfa2nNej5qQJPVj565pXma4H6ytwg1mVARr4cSBVWqMaDq16QFiOEC7rJA3xZSMxOgHb70gi6KQZ01uyzfeRbXRzVK02FjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6734.namprd11.prod.outlook.com (2603:10b6:806:25d::22)
+ by MW4PR11MB7056.namprd11.prod.outlook.com (2603:10b6:303:21a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Thu, 9 Nov
+ 2023 23:50:37 +0000
+Received: from SA1PR11MB6734.namprd11.prod.outlook.com
+ ([fe80::3d98:6afd:a4b2:49e3]) by SA1PR11MB6734.namprd11.prod.outlook.com
+ ([fe80::3d98:6afd:a4b2:49e3%6]) with mapi id 15.20.6954.028; Thu, 9 Nov 2023
+ 23:50:37 +0000
+From: "Li, Xin3" <xin3.li@intel.com>
+To: "Gao, Chao" <chao.gao@intel.com>
+CC: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "Christopherson,, Sean"
+	<seanjc@google.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "kys@microsoft.com" <kys@microsoft.com>,
+	"haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
+	<wei.liu@kernel.org>, "Cui, Dexuan" <decui@microsoft.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
+	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
+	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "vkuznets@redhat.com"
+	<vkuznets@redhat.com>, "peterz@infradead.org" <peterz@infradead.org>,
+	"Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: RE: [PATCH v1 06/23] KVM: VMX: Defer enabling FRED MSRs save/load
+ until after set CPUID
+Thread-Topic: [PATCH v1 06/23] KVM: VMX: Defer enabling FRED MSRs save/load
+ until after set CPUID
+Thread-Index: AQHaEnYK31xdVTOu4kKzxsXb22qo7rBxtbMAgADxRyA=
+Date: Thu, 9 Nov 2023 23:50:37 +0000
+Message-ID: <SA1PR11MB67347A31E38D604FDF2BD606A8AFA@SA1PR11MB6734.namprd11.prod.outlook.com>
+References: <20231108183003.5981-1-xin3.li@intel.com>
+ <20231108183003.5981-7-xin3.li@intel.com> <ZUyjPtaxOgDQQUwA@chao-email>
+In-Reply-To: <ZUyjPtaxOgDQQUwA@chao-email>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6734:EE_|MW4PR11MB7056:EE_
+x-ms-office365-filtering-correlation-id: 62a8b1ca-2883-42e1-37a4-08dbe17eac51
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: hRoT+4q+CdYe3skxZmKFFatTNU8ocIK+CXcIoh0+YUkP24g5/Ccpp7fClYnduv6dPm+vpSeQJCLpdbbjuILZ/j2RNJaqAz3vHJc7ijQqNPVfc1KL87rtO7sa9hqKuQLBzgDSHCrSV7izjMR0p1bjOvDW9mWn7mg4+VudjaOD0dNstV7L0un1oono9thxrdM1LZbYQ7fqMDR2SSH19KVFrbUzP63wNXghSW8Thzf4QAihgsJNkNAkW+YC9NA+uCzaQ5fx5GffCNQsVWI1GdCDfQUHMOeR4jZuee8/ml+0Apx7LPjXS/0cQu+8wFSxPawfrr4WNWXtD1NMWAGXftR4pRTuHEtUK1F3A6V3P/zt31PD3mvOXmC5OQIbOfVzoCSRBIVDkFoOTATWnAHTMBu/uUV2SG+slS8owxnctmZBEaJs6oJ4s9Mo1TqQKyzBFTBfZ3y5+WzVcI8Uc28wMUvRSV4id3A373SQvC++zBRE+P7zE/vPVjcDf4Leq8Gi4Q76se+Vy3Vcj0eLTKj8Bfx/SiroyuLb4Xj431aI7gGMDhXR/tXkdmgazxZz2PKGSnXXrpztqVbvq4fdKnSooQI6/MyBQSCP91/Qi7lgbualsMI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6734.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(366004)(136003)(39860400002)(376002)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(4326008)(8936002)(9686003)(64756008)(122000001)(52536014)(82960400001)(316002)(478600001)(26005)(966005)(66476007)(66556008)(66446008)(6636002)(66946007)(54906003)(6506007)(7696005)(71200400001)(38070700009)(5660300002)(8676002)(76116006)(55016003)(2906002)(83380400001)(38100700002)(6862004)(41300700001)(33656002)(7416002)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?bRhrnBH8UNe8mS0h/D4sNVpa8Ty4dYYpk82unXQvVxDYP7Wf38jQAXbuoeXj?=
+ =?us-ascii?Q?NHWuAhsl8jIuAzz5g64RHy1MCPvW164TiZweU+rD+qrmbMtyI4ozGpH3G9QQ?=
+ =?us-ascii?Q?q9dFiwY60+CW51uT2IMDBTE5TjdRDkhVMcs6s0BZ4ymHKwM4vi3DdUe2pFX3?=
+ =?us-ascii?Q?tff48OnayUMTnTwFMSHMTh29uJsLRvwda4yrusPTuMEkKTof03yAWvtxN4Qu?=
+ =?us-ascii?Q?gbqA5U8oKofJxxInqbbChFI56VCa8m18ACcBm2lHhnKLWqOdgLhbOQ/aylD9?=
+ =?us-ascii?Q?T8tJz27C7vqKvupJNFA7Up1REv7Mh+jKYTyaqwfHCsQmlZ1+Ip16qw4fHzSl?=
+ =?us-ascii?Q?SyGcDNeVvBWV24SRAp2wYJo7JvEVMJrU7MjYM2QNzZRKI08JCW8quFCG7/Sy?=
+ =?us-ascii?Q?hHnPs8RVM4es1pfJswRHNJsjXDQcRc2msxmJxWYHn0AQf8w8r6u+VN6tmGti?=
+ =?us-ascii?Q?orM+k+ZWKIJBN5dqnWqhdt96F6NpqC1FV82QQhLg9F4h+OiAmsHZW/056eHJ?=
+ =?us-ascii?Q?zv1/0WNhE3UGWggumqjOOW7/2dgqyRXiZiIqBS+x7kUn/NVguJDme5kRemRJ?=
+ =?us-ascii?Q?pf/2J4uqJfx+ruuTva1Twn/NItjoaa7dkZHX4g7FL1NncJMLpicozs10mDLD?=
+ =?us-ascii?Q?0dheiDKlsd+URP0/Ng3phVZxNGaXZATjkG0DVwePT1ms9YljJ2HkttLBrBnP?=
+ =?us-ascii?Q?NkaJUDt8zeR6i4PE24Lu0Osm8ADl+VRfsIGffRd8FoNhAnRu0sIpAW64+wfa?=
+ =?us-ascii?Q?dx8gc6wWWMJ1p2E/uKbaveIYCzVi6QE2dmfegNZRULdRCm/TZ17aoAbyXIjF?=
+ =?us-ascii?Q?O0uWKQVtkG6fOBLVoG8W/IMlM1lmdNPVeeIEFMahuwmU70u06vlGUNU2GfjB?=
+ =?us-ascii?Q?/k0R/wc8GpArxq48apx3o5pZEVAQQEEQTIkErRhz+F0WyvJaReqMaB85ShR4?=
+ =?us-ascii?Q?MQ6gD43kBOSspdNhxaV6cpiA93dTHxnJ4uJ9dJc9uUnl4KSmj2yarg11F9kX?=
+ =?us-ascii?Q?vk4NKXscUMO+Psl49TG2lV5smantkh08eZA8/18NFO/VeH0FA0Yj0DJD1TC9?=
+ =?us-ascii?Q?dG/9/Hn2S0vafCWxbYBe3Ug4lkWrAXqHY5hLFqI7EDOax2VdHKt973Jrs4Ht?=
+ =?us-ascii?Q?YDj7qt/feiyKUf8Ef729nzihCzLxEJV7gtX4uEuV1hm1XbasVIJ1LM0F1J39?=
+ =?us-ascii?Q?JD1hkRCEjxkk/Nqm/ydcGjiaImK7el6NBWFe7YeWVcWaqMiWjQn/ub/cZSys?=
+ =?us-ascii?Q?DGb0YwkFqqA7k2OoRH9nj6M1oI59S6mrF8Pv9bT2WBjICStEKm3CgJwLtL8O?=
+ =?us-ascii?Q?xPJ5szgAQrEnVuwFmPw4W1YCVzrjO3UH1hAzpxVnfq3OYP2yWfGp/vLErQQ0?=
+ =?us-ascii?Q?cPae7C2OJaBIbtZYyvAoXY4G/p4AREkScxpvK4NbcjG2ECRwy8j0GcAeqVLy?=
+ =?us-ascii?Q?vCYqEDQqw/hQxt5YnAYxStFb33Wz3+Nr6cVXtTQZrN6ObwoHwM5fi6RsL5bu?=
+ =?us-ascii?Q?uWlo9kjLcWcnSFt8Dy+L83cNOUisO1UnwOfP0prLHWLK61++wiAHBaMgskot?=
+ =?us-ascii?Q?WxIdKCl5Jg26RaKxEI4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 8/8] x86/resctrl: Update documentation with Sub-NUMA
- cluster changes
-Content-Language: en-US
-To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Peter Newman <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org
-Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
- <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>,
- Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, patches@lists.linux.dev
-References: <20231031211708.37390-1-tony.luck@intel.com>
- <20231109230915.73600-1-tony.luck@intel.com>
- <20231109230915.73600-9-tony.luck@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231109230915.73600-9-tony.luck@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6734.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62a8b1ca-2883-42e1-37a4-08dbe17eac51
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Nov 2023 23:50:37.5903
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JTNXHg7RtycSq4dq2y+fWW6h9M9nsCgk9myfgYYjP7f4ikcJkEWmQu+VkdPepyUfUxmSXIMoy3b3uaARtmy1ig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7056
+X-OriginatorOrg: intel.com
 
-Hi Tony,
+> >+static void vmx_vcpu_config_fred_after_set_cpuid(struct kvm_vcpu *vcpu)
+> >+{
+> >+	struct vcpu_vmx *vmx =3D to_vmx(vcpu);
+> >+
+> >+	if (!cpu_feature_enabled(X86_FEATURE_FRED) ||
+> >+	    !guest_cpuid_has(vcpu, X86_FEATURE_FRED))
+> >+		return;
+> >+
+> >+	/* Enable loading guest FRED MSRs from VMCS */
+> >+	vm_entry_controls_setbit(vmx, VM_ENTRY_LOAD_IA32_FRED);
+> >+
+> >+	/*
+> >+	 * Enable saving guest FRED MSRs into VMCS and loading host FRED MSRs
+> >+	 * from VMCS.
+> >+	 */
+> >+	vm_exit_controls_setbit(vmx,
+> VM_EXIT_ACTIVATE_SECONDARY_CONTROLS);
+> >+	secondary_vm_exit_controls_setbit(vmx,
+> >+					  SECONDARY_VM_EXIT_SAVE_IA32_FRED
+> |
+> >+
+> SECONDARY_VM_EXIT_LOAD_IA32_FRED);
+>=20
+> all above vmcs controls need to be cleared if guest doesn't enumerate FRE=
+D, see
+>=20
+> https://lore.kernel.org/all/ZJYzPn7ipYfO0fLZ@google.com/
 
-If you make any updates to this:
-(but not critical)
+Good point, the user space could set cpuid multiple times...
+=20
+> Clearing VM_EXIT_ACTIVATE_SECONDARY_CONTROLS may be problematic when
+> new bits are added to secondary vmcs controls. Why not keep
+> VM_EXIT_ACTIVATE_SECONDARY_CONTROLS always on if it is supported? or you
+> see any perf impact?
 
-On 11/9/23 15:09, Tony Luck wrote:
-> With Sub-NUMA Cluster mode enabled the scope of monitoring resources is
-> per-NODE instead of per-L3 cache. Suffixes of directories with "L3" in
-> their name refer to Sub-NUMA nodes instead of L3 cache ids.
-> 
-> Users should be aware that SNC mode also affects the amount of L3 cache
-> available for allocation within each SNC node.
-> 
-> Reviewed-by: Peter Newman <peternewman@google.com>
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
->  Documentation/arch/x86/resctrl.rst | 23 ++++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-> index a6279df64a9d..d1db200db5f9 100644
-> --- a/Documentation/arch/x86/resctrl.rst
-> +++ b/Documentation/arch/x86/resctrl.rst
-> @@ -366,9 +366,9 @@ When control is enabled all CTRL_MON groups will also contain:
->  When monitoring is enabled all MON groups will also contain:
->  
->  "mon_data":
-> -	This contains a set of files organized by L3 domain and by
-> -	RDT event. E.g. on a system with two L3 domains there will
-> -	be subdirectories "mon_L3_00" and "mon_L3_01".	Each of these
-> +	This contains a set of files organized by L3 domain or by NUMA
-> +	node (depending on whether Sub-NUMA Cluster (SNC) mode is disabled
-> +	or enabled respectively) and by RDT event.  Each of these
->  	directories have one file per event (e.g. "llc_occupancy",
+I think it from the other way, why keeps hw loading it on every vmentry
+even if it's not used by a guest?
 
-	            has
+Different CPUs may implement it in different ways, which we can't assume.
 
->  	"mbm_total_bytes", and "mbm_local_bytes"). In a MON group these
->  	files provide a read out of the current value of the event for
-> @@ -478,6 +478,23 @@ if non-contiguous 1s value is supported. On a system with a 20-bit mask
->  each bit represents 5% of the capacity of the cache. You could partition
->  the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
->  
-> +Notes on Sub-NUMA Cluster mode
-> +==============================
-> +When SNC mode is enabled Linux may load balance tasks between Sub-NUMA
-> +nodes much more readily than between regular NUMA nodes since the CPUs
-> +on Sub-NUMA nodes share the same L3 cache and the system may report
-> +the NUMA distance between Sub-NUMA nodes with a lower value than used
-> +for regular NUMA nodes.  Users who do not bind tasks to the CPUs of a
-> +specific Sub-NUMA node must read the "llc_occupancy", "mbm_total_bytes",
-> +and "mbm_local_bytes" for all Sub-NUMA nodes where the tasks may execute
-> +to get the full view of traffic for which the tasks were the source.
-> +
-> +The cache allocation feature still provides the same number of
-> +bits in a mask to control allocation into the L3 cache. But each
+Other features needing it should set it separately, say with a refcount.
 
-                                                    cache, but each
-
-> +of those ways has its capacity reduced because the cache is divided
-> +between the SNC nodes. The values reported in the resctrl
-> +"size" files are adjusted accordingly.
-> +
->  Memory bandwidth Allocation and monitoring
->  ==========================================
->  
-
--- 
-~Randy
