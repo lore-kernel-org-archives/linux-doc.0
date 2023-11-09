@@ -1,197 +1,82 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68D320321;
-	Thu,  9 Nov 2023 15:36:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE26208DF;
+	Thu,  9 Nov 2023 16:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kzMGmkHR"
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130CD30D3;
-	Thu,  9 Nov 2023 07:36:07 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9e213f198dfso171574966b.2;
-        Thu, 09 Nov 2023 07:36:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699544165; x=1700148965; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wi1QpsAJgHUTB4YFMyuEyqEplHtXIeaZSET719WZmlw=;
-        b=kzMGmkHRyQcJYdL73ZjHXmkXhDet2Af3hEO0cNiRTIt1GoB/mSVA4Z+afItzjfohCl
-         RmMEVfIqW8rzsVQPgslD26p5uko0v9SouYXKGy+yZI3ZTUt7X7xqKaGIGR0mvlNFYueA
-         cHlFGHSohHwBEyiqDDNd/sBn3RfjCjH4Mu8H/MEdml/HYzutXkfMmFBqHoSa1ZWLSPUa
-         U7hBq3Cpp9RybHPGjuunI+fsiXsEn6O+x9itbYP4jCxJR5wuvattgtM9hsAVG+QPI2jp
-         WuNoB9zmmBQm0E9dbDwJbbK40JMTadSCtZd+s5JIXd8qan26YTmyIpk91RhMkdZE85oF
-         Sadg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699544165; x=1700148965;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wi1QpsAJgHUTB4YFMyuEyqEplHtXIeaZSET719WZmlw=;
-        b=gUINNlZgAHRn4Seak8vbNMyavZdhsjLeZ/pzwOwUV41O/2YcJHgFZQqDhiR5D6cHxb
-         hMo3Pj52qWB8jxJdCPqRzrsHxfM6pM+N4RhvdgAHy8xLD4jKWY1/pcMebbRB32SGDYqA
-         0iNP/Vvyu8GkV1l0XMRKP3fTk7JTcINATAFfmTpJIG9+7SV9W6TnVK8UXpOwCu3iHXAW
-         eO0B/5nFMNOc4UjSuy7s9198BsGHuAIlmo5iRpxOlUECWtvXhVW24FHFl+1XaFE1tdX8
-         gsumxaHKlICi+EFcGXl4bOtBE2A3jnWfTHXWeEXUAPyFGtG2iFASekBkPcoaU7d4GfRm
-         nmhw==
-X-Gm-Message-State: AOJu0YzzuFncSASzbD+y3TF4EK0ntM2/YkQ5w05Ly84NWpkPpneeb7Z0
-	CQAsScijOmyPPO4ZrcM0YAo=
-X-Google-Smtp-Source: AGHT+IFbOVY6fsmj2hkbcNOUMKkyN6BOqaHSSpWwITRx/8cZ3c6X7LtCsDYKBVixxOl9OZltWZkK1A==
-X-Received: by 2002:a17:906:4796:b0:9bf:10f3:e435 with SMTP id cw22-20020a170906479600b009bf10f3e435mr5055466ejc.1.1699544165234;
-        Thu, 09 Nov 2023 07:36:05 -0800 (PST)
-Received: from [192.168.100.74] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id x13-20020a1709065acd00b00992b8d56f3asm2669896ejs.105.2023.11.09.07.36.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 07:36:04 -0800 (PST)
-Message-ID: <a04cc8d1-5239-486a-8c1d-e9bd8bd7868d@gmail.com>
-Date: Thu, 9 Nov 2023 16:36:03 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djNpsXe8"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A35F324A;
+	Thu,  9 Nov 2023 08:13:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699546406; x=1731082406;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wkcdUOlLnNqbWAZ91naJupSPlaSKQ6M7kF1m44fwB6I=;
+  b=djNpsXe89Z19CRNwFzWcz69rmXYUwF+Whr16ef7lQKlQNhfhB2faz/3K
+   z3FWIvdwo4si4LTnySeDNek/zJpmwcYAGV0Qpx44GTakVP70/p1Wgclcr
+   YGW4I2EDBMNsBN7VTdHhg4AQuASk+IlUX88On16FE6v4ODZqe6A82zZt9
+   yc/8/Eedh00RBuP/j48VzIhGrLe09jKHk4ZuTypO8OLvNOLw4RMpK29XR
+   iF8ASkB67ItTZB9kfBUR/eiA3rAoYtoDfBwbctOK9t5Ll9/VU6PLl1X4o
+   MhAqNOFv3cgc+QCR1IiLvgB6XiQzgs0iDkNLxiNEChJrzpajScLOaAQbB
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="11562146"
+X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
+   d="scan'208";a="11562146"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 08:13:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887052432"
+X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
+   d="scan'208";a="887052432"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 09 Nov 2023 08:13:17 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r17ed-0008u2-0E;
+	Thu, 09 Nov 2023 16:13:15 +0000
+Date: Fri, 10 Nov 2023 00:12:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Robert Hu <robert.hu@intel.com>,
+	Farrah Chen <farrah.chen@intel.com>,
+	Danmei Wei <danmei.wei@intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Yu Zhang <yu.c.zhang@linux.intel.com>,
+	Chao Peng <chao.p.peng@linux.intel.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Isaku Yamahata <isaku.yamahata@intel.com>,
+	Michael Roth <michael.roth@amd.com>, linux-doc@vger.kernel.org
+Subject: [kvm:guestmemfd 27/48] htmldocs:
+ Documentation/filesystems/api-summary:74: ./fs/anon_inodes.c:167: WARNING:
+ Unexpected indentation.
+Message-ID: <202311092342.YM1LxaXz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] hwmon: Add support for Amphenol ChipCap 2
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
- <20231020-topic-chipcap2-v2-3-f5c325966fdb@gmail.com>
- <30ccb0a9-c0bd-491e-817f-def0aeda11c6@linaro.org>
- <d5692ab7-6d11-41f3-89ec-246a2fc045a8@roeck-us.net>
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <d5692ab7-6d11-41f3-89ec-246a2fc045a8@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 09.11.23 15:55, Guenter Roeck wrote:
-> On 11/9/23 00:52, Krzysztof Kozlowski wrote:
->> On 08/11/2023 16:37, Javier Carrasco wrote:
->>> The Amphenol ChipCap 2 is a capacitive polymer humidity and temperature
->>> sensor with an integrated EEPROM and minimum/maximum humidity alarms.
->>>
->>> All device variants offer an I2C interface and depending on the part
->>> number, two different output modes:
->>> - CC2D: digital output
->>> - CC2A: analog (PDM) output
->>>
->>> This driver adds support for the digital variant (CC2D part numbers),
->>> which is also divided into two subfamilies [1]:
->>> - CC2DXX: non-sleep measurement mode
->>> - CC2DXXS: sleep measurement mode
->>
->> ...
->>
->>> +
->>> +static int cc2_probe(struct i2c_client *client)
->>> +{
->>> +    struct cc2_data *data;
->>> +    struct device *dev = &client->dev;
->>> +    enum cc2_ids chip;
->>> +    int ret;
->>> +
->>> +    if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
->>> +        return -EOPNOTSUPP;
->>> +
->>> +    data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
->>> +    if (!data)
->>> +        return -ENOMEM;
->>> +
->>> +    i2c_set_clientdata(client, data);
->>> +
->>> +    mutex_init(&data->i2c_lock);
->>> +    mutex_init(&data->alarm_lock);
->>> +
->>> +    data->client = client;
->>> +
->>> +    if (client->dev.of_node)
->>> +        chip = (uintptr_t)of_device_get_match_data(&client->dev);
->>> +    else
->>> +        chip = i2c_match_id(cc2_id, client)->driver_data;
->>> +
->>> +    data->config = &cc2_config[chip];
->>> +
->>> +    ret = cc2_request_ready_irq(data, dev);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    data->regulator = devm_regulator_get_optional(dev, "vdd");
->>> +    if (!IS_ERR(data->regulator)) {
->>> +        ret = cc2_retrive_alarm_config(data);
-> 
-> fwiw, s/retrive/retrieve/g
-ack.
-> 
->>> +        if (ret)
->>> +            goto cleanup;
->>> +    } else {
->>> +        /* No access to EEPROM without regulator: no alarm control */
->>> +        goto dev_register;
->>
->> Nothing improved here.
->>
->> Do not send new version of patchset before discussion finishes.
->>
-> 
-> This driver will take a while to review due to its complexity.
-That is absolutely ok. I will wait for a few days to gather more
-feedback and hopefully send less versions.
-> 
-> As for the code above: Error handling goes first. Something like
-> the above, where the error case is just a goto, is unacceptable and
-> just increases indentation level for the other code and makes it
-> more difficult to read. Also, the above code _will_ have to handle
-> error cases other than -ENODEV. Besides deferred probe, it is
-> completely inappropriate to ignore -EINVAL or -ENOMEM or any other
-> error codes other than -ENODEV.
-> 
-The probe function will return from errors other than -ENODEV directly
-with no goto and checking them first.
-I just need to skip the alarm registration for -ENODEV and do the
-cleanup if an error occurs after enabling the regulator to keep
-enable/disable parity.
->>> +    }
->>> +
->>> +    ret = cc2_request_alarm_irqs(data, dev);
->>> +    if (ret)
->>> +        goto cleanup;
->>> +
->>> +dev_register:
->>> +    data->hwmon = devm_hwmon_device_register_with_info(dev,
->>> client->name,
->>> +                               data, &cc2_chip_info,
->>> +                               NULL);
->>> +    if (IS_ERR(data->hwmon)) {
->>> +        ret = PTR_ERR(data->hwmon);
->>> +        goto cleanup;
->>> +    }
->>> +
->>> +    return 0;
->>> +
->>> +cleanup:
->>> +    if (cc2_disable(data))
->>> +        dev_dbg(dev, "Failed to disable device");
->>> +
->>> +    return dev_err_probe(dev, ret,
->>> +                 "Unable to register hwmon device\n");
->>
->> Drop or move to each error path.
->>
-> This actually follows Documentation/process/coding-style.rst, chapter 7
-> (Centralized exiting of functions).
-> 
-> Guenter
-> 
-Thanks for your comments.
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git guestmemfd
+head:   796edd062c7aeaf9aa58a13f914446cc2282e5a8
+commit: 392201e2d6669b4cb2db021c990797ac3f4663c7 [27/48] KVM: Add KVM_CREATE_GUEST_MEMFD ioctl() for guest-specific backing memory
+reproduce: (https://download.01.org/0day-ci/archive/20231109/202311092342.YM1LxaXz-lkp@intel.com/reproduce)
 
-Best regards,
-Javier Carrasco
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311092342.YM1LxaXz-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/filesystems/api-summary:74: ./fs/anon_inodes.c:167: WARNING: Unexpected indentation.
+>> Documentation/filesystems/api-summary:74: ./fs/anon_inodes.c:168: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
