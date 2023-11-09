@@ -1,175 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF3B1DFEB;
-	Thu,  9 Nov 2023 17:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742F2208D5
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 17:25:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HctJhaRj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AC4EC433C8;
-	Thu,  9 Nov 2023 17:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699549793;
-	bh=9BXK0KwCu9S5adkHNwW6vjWRO10k3ESEGRHXlcO7k/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HctJhaRjYsnF1NnuYAE8SxFhZeb1L+0wgXPBz6YJ5z4Hf4Tz1hCleQELLBMyaF6fy
-	 /n40B19t3cK436cE2fjQrDqjQumZ8UQ4o8++uJsQwikBRGD0m4amYP9oULeED+EClM
-	 4oSoknFoQxQoBT1kB2KnRCtWpF+FpwWRKE9bQ4LpRE59fJLRaPaIxrHA9OpezghYDZ
-	 OD5bwrt8mSSWXln1TpK1dRSrA/8KtwVUCaRMMFwr0jgKtf88SY+UHQLsfZGeyjeeke
-	 MA8ZNGW41A0qxJncJtnC+8R8SIYJTA2X4TIjMySw/46fUArKJLfQHH93tvpqv3uum9
-	 PVeKygKnXwgYA==
-Date: Thu, 9 Nov 2023 17:09:48 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Cc: patrick@stwcx.xyz, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-i2c@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
- bindings
-Message-ID: <20231109-obscurity-dress-4d1d3370ea56@spud>
-References: <20231109014948.2334465-1-Delphine_CC_Chiu@Wiwynn.com>
- <20231109014948.2334465-2-Delphine_CC_Chiu@Wiwynn.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e/cGm8lY"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF6D0325A
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 09:25:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1699550709;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=KM+kZjFHA8E0A+l+o485oGQAZV87bwGJzM3u9NBaaMA=;
+	b=e/cGm8lYKvoeQYINzkmtM+ll6tQjTbbgMlj+O7XVmg9vhZHZdmMZIM5qvj+W8Fr/jFm0ZX
+	P7K3mNfN9ua/yU7uhevO+qWx7CWiFLNOgXUHBEi1pMBJuuU2Hbw2xJihTKJd7U8LdC7q2z
+	XaF5uI6BHfHQ2Em0LlIjGVWeVPKmZ54=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-441-FiDGtgtANRug0aNnu94JCg-1; Thu, 09 Nov 2023 12:25:07 -0500
+X-MC-Unique: FiDGtgtANRug0aNnu94JCg-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4084001846eso7292905e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 09:25:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699550706; x=1700155506;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KM+kZjFHA8E0A+l+o485oGQAZV87bwGJzM3u9NBaaMA=;
+        b=i+wkH0oXuaYPTN23HvE/SWqL4Vf+DpQnaqj2y7QNlLVILeJBCsv2hvmMaMAPgsiUOR
+         9fiOpH5PhOPP6QqClzlCXEED2hDbPiiv2DGNp7UlBgWLPBHmFFcImqeHaovToY0ZxXsw
+         heDDiACRVeC7I+v5vCl0oNo00wom8U/s+XbkXFCotERI+9tfS6yWQbXa2wvUT8XSjJfn
+         ew3BqLar3gsnjLGC5oHkbyA8C1bxI9DtHSOwdMLzC0FIIz2ox0XngMVMETD9vO9+Pvix
+         Bqn8wdGRHI+lRjGbvMCoWbA5TR69UQLWCikEd9q7av5+o5BzdisT80qoE19/hJJBR1gr
+         jvPw==
+X-Gm-Message-State: AOJu0YxhGv4qkYRteMC7TJll8g2XNM7OmoHCjszCXJ4I41NOfDkA1A86
+	ObxOiMRvTAta54TXdK0DHqTGU9FH9jbKW5xwDdfvdzHDBmkrcygaxsL9RiYuXpbDvd9IgFvIi97
+	3tWdQ/p+MMC45B6LHMaIM
+X-Received: by 2002:a05:600c:3d9a:b0:408:5bc6:a7d with SMTP id bi26-20020a05600c3d9a00b004085bc60a7dmr4807914wmb.19.1699550706434;
+        Thu, 09 Nov 2023 09:25:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFBYNpBFpSwc4pVpHVCRnVRLdnQyz2wbfqHlyA9KAIkGVscHGBHFPnaFmMk7VrRW7vmMUDnCw==
+X-Received: by 2002:a05:600c:3d9a:b0:408:5bc6:a7d with SMTP id bi26-20020a05600c3d9a00b004085bc60a7dmr4807894wmb.19.1699550706031;
+        Thu, 09 Nov 2023 09:25:06 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id n18-20020a05600c3b9200b0040839fcb217sm646229wms.8.2023.11.09.09.25.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Nov 2023 09:25:04 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Simon Ser <contact@emersion.fr>,
+	Sima Vetter <daniel.vetter@ffwll.ch>,
+	Pekka Paalanen <pekka.paalanen@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Bilal Elmoussaoui <belmouss@redhat.com>,
+	Erico Nunes <nunes.erico@gmail.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	David Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+	Zack Rusin <zackr@vmware.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	virtualization@lists.linux-foundation.org
+Subject: [PATCH 0/6] drm: Allow the damage helpers to handle buffer damage
+Date: Thu,  9 Nov 2023 18:24:34 +0100
+Message-ID: <20231109172449.1599262-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="r1FpUNa/o+EDNg70"
-Content-Disposition: inline
-In-Reply-To: <20231109014948.2334465-2-Delphine_CC_Chiu@Wiwynn.com>
+Content-Transfer-Encoding: 8bit
+
+Hello,
+
+This series is to fix an issue that surfaced after damage clipping was
+enabled for the virtio-gpu by commit 01f05940a9a7 ("drm/virtio: Enable
+fb damage clips property for the primary plane").
+
+After that change, flickering artifacts was reported to be present with
+both weston and wlroots wayland compositors when running in a virtual
+machine. The cause was identified by Sima Vetter, who pointed out that
+virtio-gpu does per-buffer uploads and for this reason it needs to do
+a buffer damage handling, instead of frame damage handling.
+
+Their suggestion was to extend the damage helpers to cover that case
+and given that there's isn't a buffer damage accumulation algorithm
+(e.g: buffer age), just do a full plane update if the framebuffer that
+is attached to a plane changed since the last plane update (page-flip).
+
+Patch #1 is just a refactoring to allow the logic of the frame damage
+helpers to be shared by the buffer damage helpers.
+
+Patch #2 adds the helpers that are needed for buffer damage handling.
+
+Patch #3 fixes the virtio-gpu damage handling logic by using the
+helper that is required by drivers that need to handle buffer damage.
+
+Patch #4 fixes the vmwgfx similarly, since that driver also needs to
+handle buffer damage and should have the same issue (although I have
+not tested it due not having a VMWare setup).
+
+Patch #5 adds to the KMS damage tracking kernel-doc some paragraphs
+about damage tracking types and references to links that explain
+frame damage vs buffer damage.
+
+Finally patch #6 adds an item to the DRM/KMS todo, about the need to
+implement some buffer damage accumulation algorithm instead of just
+doing a full plane update in this case.
+
+Because commit 01f05940a9a7 landed in v6.4, the first three patches
+are marked as Fixes and Cc stable.
+
+I've tested this on a VM with weston, was able to reproduce the issue
+reported and the patches did fix the problem.
+
+Please let me know what you think. Specially on the wording since could
+made mistakes due just learning about these concepts yesterday thanks to
+Sima, Simon and Pekka.
+
+Best regards,
+Javier
 
 
---r1FpUNa/o+EDNg70
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Javier Martinez Canillas (6):
+  drm: Move drm_atomic_helper_damage_{iter_init,merged}() to helpers
+  drm: Add drm_atomic_helper_buffer_damage_{iter_init,merged}() helpers
+  drm/virtio: Use drm_atomic_helper_buffer_damage_merged() for buffer
+    damage
+  drm/vmwgfx: Use drm_atomic_helper_buffer_damage_iter_init() for buffer
+    damage
+  drm/plane: Extend damage tracking kernel-doc
+  drm/todo: Add entry about implementing buffer age for damage tracking
 
-On Thu, Nov 09, 2023 at 09:49:45AM +0800, Delphine CC Chiu wrote:
-> Add a device tree bindings for ltc4286 device.
->=20
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
->=20
-> Changelog:
->   v4 - Revise some inappropriate writing in yaml file
->   v3 - Revise adi,vrange-select-25p6 to adi,vrange-low-enable
->   v2 - Revise vrange_select_25p6 to adi,vrange-select-25p6
->      - Add type for adi,vrange-select-25p6
->      - Revise rsense-micro-ohms to shunt-resistor-micro-ohms
+ Documentation/gpu/todo.rst             |  20 +++
+ drivers/gpu/drm/drm_damage_helper.c    | 166 +++++++++++++++++++------
+ drivers/gpu/drm/drm_plane.c            |  22 +++-
+ drivers/gpu/drm/virtio/virtgpu_plane.c |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c    |   2 +-
+ include/drm/drm_damage_helper.h        |   7 ++
+ 6 files changed, 173 insertions(+), 46 deletions(-)
 
-Your changelog should be below the --- line.
-You also omitted the tag I left on the previous version.
-With the changelog fixed:
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+-- 
+2.41.0
 
-Cheers,
-Conor.
-
-> ---
->  .../bindings/hwmon/lltc,ltc4286.yaml          | 51 +++++++++++++++++++
->  MAINTAINERS                                   | 10 ++++
->  2 files changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/lltc,ltc4286.=
-yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml b/=
-Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> new file mode 100644
-> index 000000000000..d26f34fb7ea7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> @@ -0,0 +1,51 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/lltc,ltc4286.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LTC4286 power monitors
-> +
-> +maintainers:
-> +  - Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - lltc,ltc4286
-> +      - lltc,ltc4287
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  adi,vrange-low-enable:
-> +    description:
-> +      This property is a bool parameter to represent the
-> +      voltage range is 25.6 volts or 102.4 volts for this chip.
-> +      The default is 102.4 volts.
-> +    type: boolean
-> +
-> +  shunt-resistor-micro-ohms:
-> +    description:
-> +      Resistor value micro-ohms.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - shunt-resistor-micro-ohms
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        power-monitor@40 {
-> +            compatible =3D "lltc,ltc4286";
-> +            reg =3D <0x40>;
-> +            adi,vrange-low-enable;
-> +            shunt-resistor-micro-ohms =3D <300>;
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0b275b8d6bd2..5d439cd64ecb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12609,6 +12609,16 @@ S:	Maintained
->  F:	Documentation/hwmon/ltc4261.rst
->  F:	drivers/hwmon/ltc4261.c
-> =20
-> +LTC4286 HARDWARE MONITOR DRIVER
-> +M:	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-> +L:	linux-i2c@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
-> +F:	Documentation/devicetree/bindings/hwmon/ltc4286.rst
-> +F:	drivers/hwmon/pmbus/Kconfig
-> +F:	drivers/hwmon/pmbus/Makefile
-> +F:	drivers/hwmon/pmbus/ltc4286.c
-> +
->  LTC4306 I2C MULTIPLEXER DRIVER
->  M:	Michael Hennerich <michael.hennerich@analog.com>
->  L:	linux-i2c@vger.kernel.org
-> --=20
-> 2.25.1
->=20
->=20
-
---r1FpUNa/o+EDNg70
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZU0SXAAKCRB4tDGHoIJi
-0o3RAP9LvMj3vo2ZN2flNsUviDAWifQqZBjc1Lz6mrq8eBIYLwD+LT7EN17e+maE
-VSFhoe0qSkogRKsDDObn6ROyOwNV7w4=
-=HQG0
------END PGP SIGNATURE-----
-
---r1FpUNa/o+EDNg70--
