@@ -1,94 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F06539B
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36734C8D
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E1/PhaLR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FFC1C433C8
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:42:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699497731;
-	bh=TS4NArmNX08QlaEz4GZTMc0gnSDo8pxfWNHZHMsNNlk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=E1/PhaLRfJf+zxfg9ScH+/8bdDuFGGbkbizoW9oCiRkj5alN2svu6m/17pXKGv6WL
-	 DnchPn3iFBVM0HDAh4+F3Dt3vRFMIaX1snqQEZSKmNBnV6NDtwfG0f6KbXpfZBnWs0
-	 /ohx4fPRGkIrc2BPwVUzIr7FyWkjnI4/THZoMbeVOIhSFASSsCyJfEan5cTTWbFUkx
-	 3gr6BROLw/aP4F/uwrTCf2LHW2o6LRjY03t+Foz4pPUn7+r2A2GwZOX4xXA7zLFIZZ
-	 EcAW/EnTknByLUCYqFkECMha+EC4o2etMF80zzAqLDnbechjSGWaRTgedajl78xJ0A
-	 Rf3NigEOk/nhw==
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-41cc7b67419so2550301cf.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Nov 2023 18:42:11 -0800 (PST)
-X-Gm-Message-State: AOJu0YxL/EiHSqI8YvLm1kZgn8Lapz8svQfVRgoVUpJqtFU2Vfg3kPWJ
-	bAq56rcqgn5aGx5rmJX8iRZpeqM/pA1mRiBJ2VUM3w==
-X-Google-Smtp-Source: AGHT+IGcIFSAFrs0qInF0exuNbYq2osAesSeB/kePPuC9Ov8rDxwXdDduiIXr8vTvgnCEBXZl0IY9dxfmxJYahnastI=
-X-Received: by 2002:a17:90b:1c88:b0:27c:f80a:2c8a with SMTP id
- oo8-20020a17090b1c8800b0027cf80a2c8amr374608pjb.0.1699497709899; Wed, 08 Nov
- 2023 18:41:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="QWt2lO6z"
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 565881FF6
+	for <linux-doc@vger.kernel.org>; Wed,  8 Nov 2023 18:58:47 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1cc5b705769so3395115ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Nov 2023 18:58:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1699498727; x=1700103527; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:reply-to:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DppDE93uNSB4OmZjw8tLCue7p/imeYMCzu6NlobepZ8=;
+        b=QWt2lO6zuHTDi57JkXBHKz8ANyMR6CcJlEUsLGyDQ2zkXdpj5EgAvuJHKfbT0Q+NRe
+         x02fwDnXGSIo/ay8S1TBbHgUrWOQVh9Z9P6VikzpSEIelUzZ2RuIOIVwLLam6T9Rhhkx
+         Mbv11mtYL9K0Y6Lp9rbfg41XL5ng9l6zISuYunDvIUPsPEvfQZ/beygwF4Av/3lGAfst
+         KIMIFdPJMr/Dz4Upv0IPUotDN08YKAC5YYNrGUqfnuPAEtlAlulMHltNpX+WgAmCDqkC
+         /OhWStF59Zj/bwY7iB5ZLli0W9KHrOauH9siUc5/dUr7dEjx+5a454KWbBWvqf9JnUdr
+         oBcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699498727; x=1700103527;
+        h=to:references:message-id:content-transfer-encoding:reply-to:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DppDE93uNSB4OmZjw8tLCue7p/imeYMCzu6NlobepZ8=;
+        b=eb8Qk3yHoI1h+gOqN1FWsc7d2Z61ssDBqlx969wnFKmd3aTIN7Z8BoKbu6i43rnJpe
+         wFtLEVFbjZvU83Tv9Y55qZG7O5HlfQLSelPsUaEYpyN3ZmX7m6A9Vngdpy4yqy7GU5mu
+         ki+HSJaEJP9tx9RLEBvFzE/op5HTBgak2XKa0lZRnlrR0O1eaabadWr8RtvIIHkqQia8
+         PNh8wLpbs4gUmhY1LYts36IE//VLGwN12XEMAgvYpeBIIsGAzGV+dquAuk4H7h72t5K9
+         WH00DYVYv/SwRV3Xe+zB41Ycy0ke4bGYNq/d0bTc/XQwO6ghxcCwdjWQm/7BzTMBgB1B
+         Uo1A==
+X-Gm-Message-State: AOJu0YwAK5/1KkZfENSkwoHSLe0op9IK1EQNHGcpYaMaC5LrXPWJLmjb
+	qYOGI7wIWsABiMlhl6vYMAbhPg==
+X-Google-Smtp-Source: AGHT+IHn09W1cRZDEkkvIH3Oo47/42K6T4xkwgAHBTl4aY/xkO5ybUHzFNH6lbK8MUVDkJ0h6qQGkQ==
+X-Received: by 2002:a17:903:2341:b0:1c9:e508:ad54 with SMTP id c1-20020a170903234100b001c9e508ad54mr4317917plh.13.1699498726815;
+        Wed, 08 Nov 2023 18:58:46 -0800 (PST)
+Received: from ?IPv6:2402:7500:4ce:aeef:31cf:49a7:c:20d4? ([2402:7500:4ce:aeef:31cf:49a7:c:20d4])
+        by smtp.gmail.com with ESMTPSA id g4-20020a170902740400b001c465bedaccsm2383368pll.83.2023.11.08.18.58.43
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 Nov 2023 18:58:46 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20231102234236.1784543-1-nphamcs@gmail.com> <CAJD7tkapfHVvF1KCm4iUDWGP0n5zV3GBcNAGDiYNHrpuODPPqQ@mail.gmail.com>
- <CAKEwX=MunYMKQXsV58vBXROKnJFDhViCpQgC7RnrLExa_U=n2g@mail.gmail.com>
-In-Reply-To: <CAKEwX=MunYMKQXsV58vBXROKnJFDhViCpQgC7RnrLExa_U=n2g@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Wed, 8 Nov 2023 18:41:38 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuPgWjim82+HmEgkkWrDNwi2co-3ay-35fjoLb8-k9rNXQ@mail.gmail.com>
-Message-ID: <CAF8kJuPgWjim82+HmEgkkWrDNwi2co-3ay-35fjoLb8-k9rNXQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3] zswap: memcontrol: implement zswap writeback disabling
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Yosry Ahmed <yosryahmed@google.com>, akpm@linux-foundation.org, tj@kernel.org, 
-	lizefan.x@bytedance.com, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, david@ixit.cz
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.7\))
+Subject: Re: [PATCH v3 06/20] riscv: add ISA extension parsing for vector
+ crypto
+From: Jerry Shih <jerry.shih@sifive.com>
+In-Reply-To: <20231107105556.517187-7-cleger@rivosinc.com>
+Date: Thu, 9 Nov 2023 10:58:41 +0800
+Cc: linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ Palmer Dabbelt <palmer@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Andrew Jones <ajones@ventanamicro.com>,
+ Evan Green <evan@rivosinc.com>,
+ Conor Dooley <conor@kernel.org>,
+ Samuel Ortiz <sameo@rivosinc.com>
+Reply-To: 20231107105556.517187-7-cleger@rivosinc.com
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <5EF129A2-195B-4207-A2F6-DBA1FBB9F65D@sifive.com>
+References: <20231107105556.517187-1-cleger@rivosinc.com>
+ <20231107105556.517187-7-cleger@rivosinc.com>
+To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+X-Mailer: Apple Mail (2.3445.9.7)
 
-Hi Nhant,
+On Nov 7, 2023, at 18:55, Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com> =
+wrote:
+> +static const unsigned int riscv_zvknhb_exts[] =3D {
+> +	RISCV_ISA_EXT_ZVKNHA
+> +};
+> +
 
-On Fri, Nov 3, 2023 at 12:24=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
-:
-> >
-> > Would it be more convenient if the initial value is inherited from the
-> > parent (the root starts with true)?
-> >
-> > I can see this being useful if we want to set it to false on the
-> > entire machine or one a parent cgroup, we can set it before creating
-> > any children instead of setting it to 0 every time we create a new
-> > cgroup.
->
-> I'm not 100% sure about the benefit or have a strong opinion one way
-> or another, but this sounds like a nice-to-have detail to me, and a relat=
-ively
-> low cost one (both in effort and at runtime) at that too.
->
-> Propagating the change everytime we modify the memory.zswap.writeback
-> value of the ancestor might be data race-prone (and costly, depending on
-> how big the cgroup subtree is), but this is just a one-time-per-cgroup
-> propagation (at the new cgroup creation time).
+> +	__RISCV_ISA_EXT_SUPERSET(zvknhb, RISCV_ISA_EXT_ZVKNHB, =
+riscv_zvknhb_exts),
+> +	__RISCV_ISA_EXT_BUNDLE(zvks, riscv_zvks_bundled_exts),
 
-I think Yosary was suggesting inheriting the initial value from
-parents. That is just one level look up when you create the new
-cgroup, using the parent value as default. No recursive.
-What you described above seems different to me. I understand what you
-are suggesting is that writing to the parent cgroup will recursively
-write to all child cgroup.
->
-> Can anyone come up with a failure case for this change, or why it might b=
-e
-> a bad idea?
+The Zvknha and Zvknhb are exclusive. It's not the superset relationship.
 
-I would suggest against recursive changing value behavior.
-What if you want the parent but also want the child to keep its value
-not changed? Every change to the parent will have to go through the
-child to flip it back.
-Inherit from the parent seems fine.
+Please check:
+https://github.com/riscv/riscv-crypto/issues/364#issuecomment-1726782096
 
-Chris
+-Jerry=
