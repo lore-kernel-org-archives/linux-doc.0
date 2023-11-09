@@ -1,182 +1,148 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E7E11C8D;
-	Thu,  9 Nov 2023 09:21:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D33C111B2;
+	Thu,  9 Nov 2023 09:25:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8s+91y1"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82C1B2702;
-	Thu,  9 Nov 2023 01:21:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699521685; x=1731057685;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=vEishIoYq6wnSkNNYjPoV9mUbQCFvhkm3rTJOXudaLo=;
-  b=V8s+91y1RQfbe7LsqWfxb090fGJDIH39JF2x7MBeGZkUWPhCAxkBkxpt
-   CbEuktE6IPn/+7VoJF/Z14yl0gCV30f0WhbKxYxVOp9zuMJQq61LOpPB2
-   fVH8NVp4ol3owI8x9NSHweppgIk07tMH86fRwvh63qXDvl0haY+L0WaKz
-   P5Srj/jgRm9+2VP8sVbbPw5q8USuZJcuNq8TT8oeUjbh3XcVv93IQuOpR
-   HyD9k6vZPkmrNZlq6oH/mu+tvO/J/OV8j6chnrpj+0u+NeGFgHXfN5xKG
-   r8XHZThmTLouMOV+ugEg9I5zj6bezjcsiuA6/3xhUPGa2aIyg7TogcxLI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="369283039"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="369283039"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 01:21:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="739793433"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="739793433"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Nov 2023 01:21:24 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 9 Nov 2023 01:21:24 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 9 Nov 2023 01:21:24 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 9 Nov 2023 01:21:23 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ac3C8dqv4cBTwG5RGPa78O5VBq99znNcue1ITSyDFWwwEGmbiemRdDz99or5vmJRk1LPZhrZ0vvSP4CG/FVQ/ytl7vXm7KB0ByBKSMmuQc2pAxIiRa+8fri/YMQt4QbNtZoo61MEj85iyGU5xvX5JKOCI6w1Iu/eUYwrctPTIUcnG5tdQgpJb+hmP9ZiU1bG8dcvLyclnJZtV9YpNJF/h3GBFk1Bw/Hg5aMcbEOql2PfYs1qH7xyv1a81WxxiEweWAgDFpZqgWQALND4lGxaNqZlWHxiIJbucev5Sw9ZEkaMzH8BUMOvA9vvX2Re8iM5SfvVAa/SKXccCmW8X2tKug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aLHVWfBCAVUbl+8OjhIs1vvj1O9ki9BFZ7R10kcBjEg=;
- b=TM/LZYGPGQq+uj4oOoXPWE7jCZHNaf0N8afRP3DzzvEBMqWISSpjFxwBVQm8CRWASCQwchzelBL8atGEHrPtub9+G5AKXSTZfaSrYVxwnKaJaiHgVWLThTP1/T1FlyiQ/rmwRHESbdR6ffrZu+hWhGazI7IXuhx3dqzpUSJgKUEZhdX6DvdvdBlQVPU3/WcZ/Kx3hmLA+XSMgm6LoSFaNBwfeWmT9NtfGJUDOFT72V4RlrA4r7c6T+V6OoARIoN0Q0Jg01yjCasLuxhUfGNj71WaqASH9yqaCsYsmMY8xrv2FnEs07Y1USyIEjlnzfNdLHQfg/EhUWI7tRXjJGQtbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by IA1PR11MB7365.namprd11.prod.outlook.com (2603:10b6:208:423::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Thu, 9 Nov
- 2023 09:21:21 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::66ec:5c08:f169:6038]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::66ec:5c08:f169:6038%3]) with mapi id 15.20.6977.018; Thu, 9 Nov 2023
- 09:21:21 +0000
-Date: Thu, 9 Nov 2023 17:21:09 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: Xin Li <xin3.li@intel.com>
-CC: <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <seanjc@google.com>,
-	<pbonzini@redhat.com>, <corbet@lwn.net>, <kys@microsoft.com>,
-	<haiyangz@microsoft.com>, <wei.liu@kernel.org>, <decui@microsoft.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<vkuznets@redhat.com>, <peterz@infradead.org>, <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH v1 07/23] KVM: VMX: Disable intercepting FRED MSRs
-Message-ID: <ZUykhb7TMJntdl0w@chao-email>
-References: <20231108183003.5981-1-xin3.li@intel.com>
- <20231108183003.5981-8-xin3.li@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231108183003.5981-8-xin3.li@intel.com>
-X-ClientProxiedBy: SGXP274CA0004.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::16)
- To CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GI+99Eeo"
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D098F2139;
+	Thu,  9 Nov 2023 01:25:43 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-53de0d1dc46so940607a12.3;
+        Thu, 09 Nov 2023 01:25:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699521942; x=1700126742; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ddej5Z7ryYHDYb4qxJnL2aZwUgy5ZEhIdMI6qR7wpaw=;
+        b=GI+99Eeo8UFqvGatQqkUdBlK4oDA3WEJVOmEwYVcHYhSKN3OkfyYsjW7tv3TJf424R
+         6wsppVltyUrCBUAzQVYnYkJxLatEzUyZ+M6JhjLmwB9izhyO6fEa8dyJEMXS+gfu2YIu
+         vdbngpLVll1imsCkZf9zARFKFoz1cT8ra2FW+ugX6uVBZSUmajO/I/sp2EhwGBMCDyRP
+         ixaKgb72Hx18WTWVTA7PCvXUAdtk1j+5vc+XRcPT9EBMH3bngC3KnWs+gcXnxwwCNbdH
+         NFqm7tQ/YX34Krq7zoXeuBu1sS/XJ5ryQ1I6PID4kdPqrNqhZwEQyqKnL1eHqpDfPx6v
+         BItw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699521942; x=1700126742;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ddej5Z7ryYHDYb4qxJnL2aZwUgy5ZEhIdMI6qR7wpaw=;
+        b=PrQc0ChdHbYVQmd3qx13Wff5f+R2ovrAHcfMvFBkGk+f3M4rDf++1lbSDiyepeJ600
+         lTdWn5DIeu4X/gXVblLFMQTKo00x6h+8Dcei16t82cbkbbOQ2OJVi/gy99O1UTEgaviZ
+         r6CFyl5sFRl5NtTfjIZFoxnagIuCyxdFJU7yZ3U4cNXNjCLoKsFfdfsh1cAcK70fg374
+         pGPkq4HteaAqYBCupdNzLgFLd4huVJVs0vkpzTT3k//V5CXAhdV58633wYK3y1Ys08uu
+         3ud76ajZFKE5mZstckHn6OZLJZTtcBO6LOPSjVvg1sog8BcOgUks08Sess0v7hUoZ1xA
+         GPEw==
+X-Gm-Message-State: AOJu0Yw9IO2gvRk834hfaE2EeKcXAuTBgNQgylXOHUdRovyt0WlX+05D
+	ryWHUarPhhxI7/IWIDfIfLw=
+X-Google-Smtp-Source: AGHT+IHZdY3pka+WKekBvYUW5O/rL60aoxPkmRMx8rYdYWSm08uUzEWUZ9oizBi2QAqpAcbVdrb2lg==
+X-Received: by 2002:a17:907:97cd:b0:9be:562:a44a with SMTP id js13-20020a17090797cd00b009be0562a44amr3421131ejc.23.1699521941746;
+        Thu, 09 Nov 2023 01:25:41 -0800 (PST)
+Received: from [192.168.100.74] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id m9-20020a1709060d8900b0099cd1c0cb21sm2249008eji.129.2023.11.09.01.25.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 01:25:41 -0800 (PST)
+Message-ID: <b39e0a17-0a9a-482d-a584-db8bb79c75dc@gmail.com>
+Date: Thu, 9 Nov 2023 10:25:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|IA1PR11MB7365:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ab18278-ca8b-44f5-11a1-08dbe1053cae
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4E9uAJfS7MByN5NL+uJJ9E3fniPKAbhwzTiAikY8x1ORg/PjtWBYk/sKNNuqJ71bDZvacJtN2TBR1BT8m+8sfCGte81GcQ9JRv1gf9yVQP8i8OmD2Y/ksrGU+eyA/ftaiZP8mWI3xPBu+WxFDTkryock6l78K0Bqhr4X8gxPCw9M9BKxpe8dyhMkH+qdnmOeXIahtX+QQU+bAR+s3GpEWj8uG1Tn9qFPSFfYWcmSeD2pGd9xPXkMcgm7LO5Wf1KCYNT2pdGqeb43CJ/zPDozNAMXb3Yhi6i/xFfxw53BGB/6V3d2emFH65ONzRvW6ZNJPjDgUIzxKXhDy1GptugC9nrkpQkst8SmHGw+NtXYfZB2gcah4ecgfcwdqz8eizxnWfLirfRc4B2wWx5bbF7aVXSLx8hNPNyTfi1f1XwAaUiS7vKjtQnLyxGyjkrjca6JoMDyHysby3z400TF5Lkmobnx91ZfMgelCLLgd/lF3PD05v2d74Id+AUm27LmGG0nPd6ttR71NnE3WO3No3MXOHxWCo9fhFzVD11o2PcgfeeceWGWUqQA/X9XAZfCBT/Y
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(136003)(346002)(366004)(376002)(396003)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(5660300002)(8936002)(44832011)(6512007)(9686003)(316002)(82960400001)(6486002)(478600001)(26005)(66556008)(66476007)(6506007)(66946007)(6636002)(6666004)(33716001)(6862004)(8676002)(4326008)(2906002)(38100700002)(83380400001)(7416002)(41300700001)(86362001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?l/6DRJcJFsge25Z/Sp6hTQGjvhmBpmSi8fv/k80wkuADlCEXY5grM2zit+G+?=
- =?us-ascii?Q?O6MUDAnaZmfM4DZId8fNWwjH/IysGUim4t0smjwBylGrTF4VOP52hE1dhkse?=
- =?us-ascii?Q?DlIVcWJ29/OU3zeSNx7+DC978xZWjtgENoraFTOKEIa49pCwYA+Ls9YQvfTy?=
- =?us-ascii?Q?RfluYxLieYg1r2PtmzYT/893seEE+i+5G22AKqSsuuhq+wgwLJWiTtSu1DNt?=
- =?us-ascii?Q?ZFxuGUfEgA8e08Kvbc+iq5k2ILfk0vS9g2OaYLw0Y4AYhQzToCQnKRjXrGdp?=
- =?us-ascii?Q?mtGnUFdEsFz5Lv0wttjPAvyZepvQOoSAxI3F00dER+TYOKHgXTaw4IA4wmvC?=
- =?us-ascii?Q?2FCrhlC6z/uhPQwjpqpgUj1gqwJShsSktF9zsdcfVm/IH+RU26JH5npd40Us?=
- =?us-ascii?Q?Szvo+OFyPQ472iY9yTGb6Cv3e6kUDI+rlinF+7ekFWD/3nkRsljTtFF/qdIq?=
- =?us-ascii?Q?TV7akt4F2XGqxUDnGvqxSFO8WpKkVzS/fGv0QpDT63Q86klWBJ8lMiqtgZms?=
- =?us-ascii?Q?GmGIwAiQmotfDZgbPhAdowWA96alXZr6oEpNR3slmeuhegy67/mKD5TQIhi/?=
- =?us-ascii?Q?+34rhkvdncBiXD4aEW3DF3kfgZpsZfHiw/zqzL+sYOpPHkYTGQkNgCAo8JgL?=
- =?us-ascii?Q?9B22BloGrz4e2EkX5DtvAIi+kaTGpOhvBBOQnisrnbvHQ4Iu2jSF8eZqJJtm?=
- =?us-ascii?Q?tN6HJU9pCuPK8WFM9Gn9bT8G/O3P9CZgwm+qjfvK2066dXYZ2eGLbHw5O2/k?=
- =?us-ascii?Q?8UMPH4OpTQtBrYs0lF/rvfElxi0do/hz8L+72VD/A2aAql0FRbLAurc2XlAx?=
- =?us-ascii?Q?rLaxsKrAG0Her8+9yrGTD/KJ6HO2rUVC26N7SQNnrfcpDnipHEBJx66h2T5U?=
- =?us-ascii?Q?+jT2guE8m8XVoEizhIVeyT1dAKFbivFZBIKwKrOb6G12df0Pedk0+xzMkv9w?=
- =?us-ascii?Q?6/7D9sf3MzFZU9CqUo59c4+PxiXJLoR/c98Ku6J7X/W1l1GoU2EQldRiZfAQ?=
- =?us-ascii?Q?6+gwZ75SMNVN60wPocZvXdkww2sIOgzcarplMVlyKzpvZ9bS+jjiK/tTR112?=
- =?us-ascii?Q?rS8DalKvRugw01BLoR5CTtyJyU9re+TkgqwQdEV97XBo6mXrr8oSDv3Ojmp4?=
- =?us-ascii?Q?sTlMbeg3kHTAkUQhsvpw7Hzs13eYgJO73gNaHbF8JPNiIXj6aijbb8a7lkpL?=
- =?us-ascii?Q?aDb0UD8gPIw9PabOAfrnReFk4UmKCcKnq6tXrhq+hZIWsUEcmXS9JL3XmJBg?=
- =?us-ascii?Q?iwgEGvXX3qSQfjYusnylFjDJT1jCCTHSylwtSZkA/254avB8RnukwN+exQBt?=
- =?us-ascii?Q?ytvm/gWDSAkL5TdUR0pXqBBzXoSpRrt/UzH22QRALgevcVpqszfGlOzifzMD?=
- =?us-ascii?Q?OiLlVKp+7PrDJOh7Ta4gy3E1ZgGFeE+Co0Ii3hNoezPnfJne9BqJgDd2UfbU?=
- =?us-ascii?Q?YRNZ8zzPX79gh/707uSpxKfSLMlsh/MN+DyIH1KliBzEnHgeUFlYO8BWIezp?=
- =?us-ascii?Q?F3LQ+JpbyGB+nQQ6SvYEx3n9Yh/qDVU+G1OrtJovzHfgFeuOve5iC7SV6Fjw?=
- =?us-ascii?Q?PnHf3qYgL48vRML7K1ywZjUr2JB6GljgnOkPWmiv?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ab18278-ca8b-44f5-11a1-08dbe1053cae
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2023 09:21:21.3353
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gZVhB2ZuvcqTvEkjJclvfHkafFI+w2eFKMuHrFNlkWgTNXHTBV2V468Cq/fGLx2lZJXU+XUnFA19tIMzsrY9NQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7365
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] dt-bindings: hwmon: Add Amphenol ChipCap 2
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
+ <20231020-topic-chipcap2-v2-4-f5c325966fdb@gmail.com>
+ <008715d1-de4a-47dd-955c-e2fb7af36a25@linaro.org>
+ <0b103837-54e7-430f-8a01-94b620b84f89@gmail.com>
+ <9fb14ef2-ee2e-41c6-a080-01df2e947091@linaro.org>
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <9fb14ef2-ee2e-41c6-a080-01df2e947091@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 08, 2023 at 10:29:47AM -0800, Xin Li wrote:
->Add FRED MSRs to the valid passthrough MSR list and disable intercepting
->FRED MSRs only if FRED is enumerated after set CPUID.
->
->Tested-by: Shan Kang <shan.kang@intel.com>
->Signed-off-by: Xin Li <xin3.li@intel.com>
->---
-> arch/x86/kvm/vmx/vmx.c | 13 +++++++++++++
-> 1 file changed, 13 insertions(+)
->
->diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->index 5d4786812664..327e052d90c1 100644
->--- a/arch/x86/kvm/vmx/vmx.c
->+++ b/arch/x86/kvm/vmx/vmx.c
->@@ -700,6 +700,9 @@ static bool is_valid_passthrough_msr(u32 msr)
-> 	case MSR_LBR_CORE_TO ... MSR_LBR_CORE_TO + 8:
-> 		/* LBR MSRs. These are handled in vmx_update_intercept_for_lbr_msrs() */
-> 		return true;
->+	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_CONFIG:
->+		/* FRED MSRs should be passthrough to FRED guests only */
->+		return true;
-> 	}
+
+
+On 09.11.23 10:20, Krzysztof Kozlowski wrote:
+> On 09/11/2023 10:02, Javier Carrasco wrote:
+>>
+>>
+>> On 09.11.23 09:53, Krzysztof Kozlowski wrote:
+>>> On 08/11/2023 16:37, Javier Carrasco wrote:
+>>>> Add device tree bindings and an example for the ChipCap 2 humidity
+>>>> and temperature sensor.
+>>>>
+>>>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>>>> ---
+>>>>  .../bindings/hwmon/amphenol,chipcap2.yaml          | 68 ++++++++++++++++++++++
+>>>>  1 file changed, 68 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..8bb6daa293d3
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+>>>> @@ -0,0 +1,68 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/hwmon/amphenol,chipcap2.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: ChipCap 2 humidity and temperature iio sensor
+>>>> +
+>>>> +maintainers:
+>>>> +  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>>>> +
+>>>> +description: |
+>>>> +  Relative humidity and temperature sensor on I2C bus.
+>>>> +
+>>>> +  Datasheets:
+>>>> +    https://www.amphenol-sensors.com/en/telaire/humidity/527-humidity-sensors/3095-chipcap-2
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    enum:
+>>>> +      - amphenol,cc2dxx
+>>>> +      - amphenol,cc2dxxs
+>>>> +
+>>>
+>>> Nothing improved.
+>>>
+>>> Really, you just ignored the review.
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>>
+>> I am sorry if I missed something from your first review. I changed the
+>> interrupt description to have one per item as you suggested and removed
+>> the empty line. I did not change the compatible enum to add all part
+>> numbers because it was still under discussion, but now that I know that
+>> I have to add all of them, I will change for the next version.
 > 
-> 	r = possible_passthrough_msr_slot(msr) != -ENOENT;
->@@ -7813,6 +7816,16 @@ static void vmx_vcpu_config_fred_after_set_cpuid(struct kvm_vcpu *vcpu)
-> 	secondary_vm_exit_controls_setbit(vmx,
-> 					  SECONDARY_VM_EXIT_SAVE_IA32_FRED |
-> 					  SECONDARY_VM_EXIT_LOAD_IA32_FRED);
->+
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW);
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP1, MSR_TYPE_RW);
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP2, MSR_TYPE_RW);
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP3, MSR_TYPE_RW);
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_STKLVLS, MSR_TYPE_RW);
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP1, MSR_TYPE_RW);
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP2, MSR_TYPE_RW);
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP3, MSR_TYPE_RW);
->+	vmx_disable_intercept_for_msr(vcpu, MSR_IA32_FRED_CONFIG, MSR_TYPE_RW);
+> And a new patch should not be sent while discussion happens. Literally I
+> had no chances to respond to your comment and v2 appears.
+> 
+> Best regards,
+> Krzysztof
+> 
+You are right, there is a lot to review and I should have gathered more
+feedback. I will wait a few days to receive more input and in the
+meantime I will add all part numbers (there is eight of them, which is
+manageable) to the documentation and the device tables. Wildcards and
+families will be dropped.
 
-this has the same issue as patch 6.
+Thank for your feedback and best regards,
+Javier Carrasco
