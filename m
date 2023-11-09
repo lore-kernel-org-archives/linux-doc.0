@@ -1,214 +1,176 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC961802A;
-	Thu,  9 Nov 2023 10:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E2B17741
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 10:59:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="lAJ35mcj"
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2097.outbound.protection.outlook.com [40.107.215.97])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B77CD41;
-	Thu,  9 Nov 2023 02:55:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MlRuYwjdND/HcLQ1o/U2/JQO2qaoHgpVL7brWVVKA6pjRDlmJ4TQGCQ/fhMMFABR8uMkQvJle5IfyGgQ/jxjI5WQxeB5sJXuIeWQGyxpPb2tZQSodT9vESXqfflRE6hvDzoJsmLFb8PZJ6kH1j8iT83BhOkSFhYJ4sCfl3FngtzT1i5ZRbHvZI7ScFxYEhvcID/t1U3eUoFmzySi749IGwh0bPySQyS9JJK3k6hhfbAMBSZ6JdktlCsV00FDjau+4CxpZUwI9g94nSXImE7/Ax92gI0P18EAwjLukIJ45aofEkAJMN7H9XCVmaw76UMatsCbMAzmkfSNkOEhfSPMhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SfMcuMyVa5E3l2CKKN3SYmT7n86qn4rvBZMmCk1ISG0=;
- b=iyI5GDJafXvE790WwMr6/2PdLks/+mWVlFSpRNsei6pJ7NxW6827q4OVFvYh7aoOH420rKh9Pc1HjjCitseVG/soqeoZRY1/TyLd1FgqkmBQoH6dlHoUjO5ydoGuWT8PZENLA3XyA/TsHlxzMY2je1VlcEaTJj7yMIXqPYXqqLdu/2VxsSDglh4aB2lrxsfEK3aIbYq8SauPNIa2xVC2TzRUpSwp1pKy7d1yeAMwPArHHg1OYNC/z94/ILABij8ZGV0PBS4USQi8/G7Fx4yZajcN9gcu44uytTSYS0H0bAsgLrGFtswyBZ9efSy0Km1qy7XW2Bfj5rlimKZiC00exw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SfMcuMyVa5E3l2CKKN3SYmT7n86qn4rvBZMmCk1ISG0=;
- b=lAJ35mcjwvDm7GtVCIFMTmkTtf6i8lSyZw30fwZrh5emCwymNmNph1RRohUqRYCMdwZnKoQrEFHDpI1nj4N9B9ZdqrENwbKh9mrCSF4LsnfYcPXY1MC6irGJc6+DHMjQgpAzXI7Mvovk4//6T6VOduu1p9HsoSvWyc57wom5ck5U4OkWpYeKwo4psVm4CcuYbIN6+mlbrO7r2OvXVzNpf/Gqkn5+7FOxLqug9ksI7AtxNTnmk08RrnXInRT5xUpYMDiM6StyhfJKqhpn9/+1Cap23rC7XumpERo6BjGQtFrmo0LFmJYKCxH1NwKvAnNl83umIpLjWq2HNeYwQ9Rtnw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by SEYPR06MB5815.apcprd06.prod.outlook.com (2603:1096:101:b1::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.31; Thu, 9 Nov
- 2023 10:55:16 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::d754:7b3:dc4c:6b48]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::d754:7b3:dc4c:6b48%6]) with mapi id 15.20.6954.027; Thu, 9 Nov 2023
- 10:55:16 +0000
-Message-ID: <d49acb29-c1e6-429b-8d94-a5a8e1e2f548@vivo.com>
-Date: Thu, 9 Nov 2023 18:55:09 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/4] Introduce unbalance proactive reclaim
-To: Michal Hocko <mhocko@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
- <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
- Huang Ying <ying.huang@intel.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
- Peter Xu <peterx@redhat.com>, "Vishal Moola (Oracle)"
- <vishal.moola@gmail.com>, Yosry Ahmed <yosryahmed@google.com>,
- Liu Shixin <liushixin2@huawei.com>, Hugh Dickins <hughd@google.com>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, opensource.kernel@vivo.com
-References: <20231108065818.19932-1-link@vivo.com>
- <ZUuV9xOZ5k7Ia_V2@tiehlicka> <ccc4094a-54de-4ce4-b8f6-76ee46d8d02d@vivo.com>
- <ZUysGhwqo_XZSV-M@tiehlicka>
-From: Huan Yang <link@vivo.com>
-In-Reply-To: <ZUysGhwqo_XZSV-M@tiehlicka>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR04CA0192.apcprd04.prod.outlook.com
- (2603:1096:4:14::30) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jVy/SlMh"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 808C42728
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:59:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1699527564;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K9U5ygdZjpdfSXw60j6OXFMXdIu25vL99MHEH+w5Ks4=;
+	b=jVy/SlMhSHjD6q6aV9Ap3fm4YrSbHCBJuGMlwIxkRGhTxXFafvo/83GnXruI2pw1RBVPF+
+	p6PhAhxdNtIxj55psyskVCPoyJq3eOKzxEz85NzyKcNF+v4yCd/4gIXhy1muvkf8oA3evO
+	xFovnDKoC4GwcDxmoTR16Adu5tDfg1M=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-629-WYJAI4iqO2iWRqVRkE1FAA-1; Thu, 09 Nov 2023 05:59:23 -0500
+X-MC-Unique: WYJAI4iqO2iWRqVRkE1FAA-1
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-6bde07512bfso228115b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 02:59:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699527562; x=1700132362;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K9U5ygdZjpdfSXw60j6OXFMXdIu25vL99MHEH+w5Ks4=;
+        b=L7kUFmJhPy6msbZyKa8BXjMgRheRlbRnikjXVjnfPEV/AVnJUIdBgfzCicWYDIWmPn
+         CsAcPpbeFFPzj4Zba2kS6govixf+9OOVHpIayYkoVx+QzBiYra40a5ythlTyU7DJp7W8
+         rl0Vqn8KwZufZufeEzlR5ZY8DUKsUNxd6qDsZeGS/PHp0d561Hw6cAvpPCYhG9oXT1g7
+         m1zuoWBYp7rpYQf0KKk41F5dGwIxXycNs1l8tvn1pmllbSVsGv9fS7AFEnW11Keevvy+
+         7tpbkvumsuJ+mIg4bq8upW79Y1BJNtlwPTun9HgAqaP8kE4btlzFgyaaSjusEdxCEkv2
+         OK6A==
+X-Gm-Message-State: AOJu0Yy9kcagmk51KAYMK8Y5Ql4SOrg62e+/TZ6rbNccyiYjqrEeC2Kz
+	K+C4WvHHKuaXDkYOekZw0wxyzhQo3OTUGeQ9F7mV/oYQEUuMwHE41yjB/BDKK9Ww8hygWR60eY4
+	gBzoj7ykux1Qoyny2YMjA
+X-Received: by 2002:a05:6a20:8e14:b0:181:7d6d:c0ee with SMTP id y20-20020a056a208e1400b001817d6dc0eemr5336335pzj.0.1699527562423;
+        Thu, 09 Nov 2023 02:59:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHVGk/5hgPxq0+SsSph+84k4BFGhqdcMPg+KMAt0nXFoQGQf7FXvvQcKVOfijjQlbVGmLH/fA==
+X-Received: by 2002:a05:6a20:8e14:b0:181:7d6d:c0ee with SMTP id y20-20020a056a208e1400b001817d6dc0eemr5336293pzj.0.1699527562066;
+        Thu, 09 Nov 2023 02:59:22 -0800 (PST)
+Received: from [10.66.61.39] ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id x16-20020aa793b0000000b006c344c9f8bfsm10417140pff.87.2023.11.09.02.59.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 02:59:21 -0800 (PST)
+Message-ID: <6c27c39a-a851-52f5-1156-354487bb2821@redhat.com>
+Date: Thu, 9 Nov 2023 18:59:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|SEYPR06MB5815:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0fcecc72-55c6-4ff1-b8d8-08dbe1125b28
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	onyJPUy/Z0AxYVVWj3uvyxaFdzq3FUTgLqsnKiGI/WrfWixM1fqR89RUjE1ycX4KFOO+czW7QFQh2gd5Frd3IoVeR3Z8grMr5XVivHNylvp9IAmZ0mHjcoPOz8+pkcSBSl6PPmIQvY94la6/dySawniBqjrHE40CJu8fLlMIAoQvXwj9zVwkfQ1e45KONg1EWYB6dlVSqaCdQNb9E7qnDU2kh/JT4KOefBP4dXY4YRO8Wg9I/KYbb9FilkPKpszJPRT7AsMTzYUdw5pFPS82UN4YOjB8Hfr41PNxh5EUk2q2EwKDkQj8L86AgoBPgcAN6/5c57ZKuY4Vqk9K4TTOmTSDVG429pHlNxzwaicWnlzAzOjHYILoktgdFTo9VHFVlatNjBkJuUDlLmPBTDrgjCOqcduJg5HeJyCPnEb9UMB/O/PxyHb1sIoow7um9fBPy6q3IbSAKd3agC/70gpcgRH/z/wpGNhgKg7NwEjGY62x6TIZdhDnrtBM/XBHBKMqhFDjwJl/4UE4qgHVXuQBLoRZxI5JTVl2V6zdiRwJzuHBSnSPcopvqhSvdEAig4QIdSph2yYgnLSzlVV0rQLdxDrNoeIxNGEz/Y7anKnSw6VYUux/SOP8Nbbgz6mle0EnUMs1fAPJv4a6sSTIxyXTtzF6EgONU33gEbMDyU5tVwnidlQ31t86KwWcn1l80CG5zVY3aqr8B51K/qaVi3fekoqGEiTBFLfnxr6KFQ3LRgo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(366004)(396003)(39860400002)(376002)(230173577357003)(230922051799003)(230273577357003)(64100799003)(1800799009)(186009)(451199024)(66476007)(66556008)(54906003)(66946007)(26005)(2906002)(316002)(31696002)(83380400001)(6916009)(7416002)(107886003)(86362001)(31686004)(2616005)(5660300002)(6512007)(41300700001)(6506007)(52116002)(38350700005)(478600001)(6666004)(6486002)(36756003)(8936002)(4326008)(8676002)(38100700002)(966005)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ejRoWjBISnRITWc4VTNlUTUxRXpob2JhUjhFRHFES3kxN1VMMUJNQmwyRWNG?=
- =?utf-8?B?WGJtOHJIVDQ4YXFjOFNDeTVyODJod0RzVEplV1k3NFN5TkpMVnFNSTNYcWVQ?=
- =?utf-8?B?NXpweGY5OUpWRnZRaE9BUUFnemRvVS9JU1Z6aEVaWVIxLzQ3QVorM28xSVAy?=
- =?utf-8?B?b0wybHNHcG9lRHp5OHAwU2FmNHFsbVBsQnpKRTVxRjBhMjlXeTRoVGYyRzcy?=
- =?utf-8?B?ZVpRVFpqSmpnaEQ3a1lvT1dyKzVhREpLYnI3eVlGMFdOeERWMVhzV0pTNlVF?=
- =?utf-8?B?YnhNMm9EZnNTcEhHbk9odUVTMXRJSkNjVFdub0lmMTRaQk1uMXF2SFk3N0FS?=
- =?utf-8?B?QWx4MEI3SDRLbnJlK05xL1c3QXpJQVpSbk8rei83eThDdDFIRFVwT1RSc3hP?=
- =?utf-8?B?UkRhNDkwVjFkSEgvNE8zVmdEa2cwcFVBMkJxa2FDSlRjSk9EbDJMTUM3RW41?=
- =?utf-8?B?ODdqVDN1aFJXbHY4dDk4bDJ0akdZcDdyNEl4aXM0MmFhV2k4eWxvTlI5N0hu?=
- =?utf-8?B?NmhqQ1VscnNhTEw3aUhGS3hOeDljK1JuZ01QWWdDVnZZZFFsSzFYUG9KbnJ0?=
- =?utf-8?B?R3ZLK3R1b1M5c29uam5rWnN5clZaYk1sU3F6YTNwUE5ScDhVdEdid1ljeDJF?=
- =?utf-8?B?cXp5T1FyU3BZUDA4Qm5PT2p0QWNncmRQUWR3TlloL3FEOXhMWWxPL002ZzJp?=
- =?utf-8?B?WlBVcmZYS1V0WERPdUoxNEN4V0dtb1RGbHFMeWZGWVJVSVlWT3huWW04aVdX?=
- =?utf-8?B?OUxwWlVUOU4zRjgyUnFvWGRCbmw3VzR2a1poY2xzOS9NcWNXV0pSMkhuM0xm?=
- =?utf-8?B?d1EzNEhpSUpxR1J2dU5zNCs1OEhLMUVWa01GdVBnUU9GM1UyNUZoais2RVhS?=
- =?utf-8?B?cGtYdjF1L2JaSUhWOHJjVDNCUkRUdWUwOFNaZnRPWGdmWDBuU1dIVTYvenFu?=
- =?utf-8?B?MXJnR0pJcTlUZnMxRm5iSkRLekZBekQyaUlQbXgzcDF0VXZPc2Z0QStGWWVP?=
- =?utf-8?B?aFVHdlJBS0M2aUpBcmVaaHY5NHhxMEpRQitiN04wMVkwU25YZkphTENHSnpy?=
- =?utf-8?B?V3hUU1lOMGFVOU5XR2UxdnBTdEdDV1RjVFdiNzRBNlFHWmtRdlkwWFVCTHVB?=
- =?utf-8?B?dzBMZzZ3a28yQmFMbk12NnBYdG51Z3dGZzM4b0tOSHdkK3ZqaWZZOTFTR1Az?=
- =?utf-8?B?Z2JlRTUxK1UzdUNkR0l6OUhlS3hMbU5MMEtXOTVDRzV2aEltU0RaOFl1SkhW?=
- =?utf-8?B?dUdaL3lBQmJ0RWNOWVpRWmlCcyt4QUJnUG0rZ0RETTZxZTlRRHpLNnR1Wlhy?=
- =?utf-8?B?c1pRSnllWWJ2UFp2c0lkKzd5R0NVdWZCSmFMUi84eHNMVTZlWEhIc3J6L2x5?=
- =?utf-8?B?WjB3Tzh5eHUxY1ZPVEthTERGdzdSQk9OSXlqTkRFYWpxOFpPck93VGpyYmlX?=
- =?utf-8?B?OGQrKytBVFNnYzF4L2M3QmsrbklWd1BZQjgrZXNQbXVZV1hqTE1sdzFFSnM5?=
- =?utf-8?B?NUpuOXh1OGlGbkNmSDZRY1FNdW5zTFZ2VnBHaksrWjVmdE5yejY3VkVaZ1E4?=
- =?utf-8?B?a21oQlBPVjVybXdUNi9sUDI3WjBJSTZVOE55bmZRUm5JL2hPWVNUaVZQSDZZ?=
- =?utf-8?B?ZEsxeWhEcGd4ZjhHemN3WUFBeUNZeDkrV1pZTEs3dE1ub284TmFMZndvNHIz?=
- =?utf-8?B?b1FscnJuU1NzTFc4ZjhvMEVDaXlITUxnSFFkN0M5QVZYSnk2bTR5QXlNOWFC?=
- =?utf-8?B?RS9DUVdVTDdVaTNzSEt2RlU3OEtNSFAxMzFtQ1lHWDlYTTZJaS8zZWl4R1JI?=
- =?utf-8?B?MHAvUVphQVI1WWJsNGpWUzJMZVduV1ZHNEh5enI2ZEoyZ1Jla2JCZ0FieWF0?=
- =?utf-8?B?Zjh2ZHFSWHcyTEdlVUZQNlpLYStrSXhKSmdKY1ZYWFlDakM4NU1zY1RQTGgr?=
- =?utf-8?B?cWcyUzRaQnZTUDY4ejBDOUswbk1kQUhBb2VHdWFWSENFQ0F0NkxmczlpbHFS?=
- =?utf-8?B?VWxoWkFDTmJmcnRFUjV5cjJCZ2xuU0FyU0FYdm8vZGtmbFpxL2w5ZURML3hB?=
- =?utf-8?B?dkFJUTVMQXAxU21nZ2lvNENDbDdZdlBnQUNLL1pPOCtBK2xpWk8vdmZ6UWNT?=
- =?utf-8?Q?HM2hw+ZCo1l9Ly5xKazpb6BtR?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fcecc72-55c6-4ff1-b8d8-08dbe1125b28
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2023 10:55:16.0337
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: viMNDxAn52Sx9ul0gsZB5amVP3aROL0qONFvyzRdk8JebzZWzSmd10bbWMYg/odMggBWcw9oDMqsS67Cgl/IAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5815
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH RFC 06/22] drivers: base: Use present CPUs in
+ GENERIC_CPU_DEVICES
+Content-Language: en-US
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org,
+ linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ Salil Mehta <salil.mehta@huawei.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com,
+ justin.he@arm.com, James Morse <james.morse@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Guo Ren <guoren@kernel.org>
+References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
+ <E1r0JLB-00CTwy-7y@rmk-PC.armlinux.org.uk>
+ <f00dd1cf-5b4c-38a8-a337-817d474d53d1@redhat.com>
+ <ZUy0h/lc3QCPsuU8@shell.armlinux.org.uk>
+From: Shaoqin Huang <shahuang@redhat.com>
+In-Reply-To: <ZUy0h/lc3QCPsuU8@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-在 2023/11/9 17:53, Michal Hocko 写道:
-> [Some people who received this message don't often get email from mhocko@suse.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> On Thu 09-11-23 09:56:46, Huan Yang wrote:
->> 在 2023/11/8 22:06, Michal Hocko 写道:
->>> [Some people who received this message don't often get email from mhocko@suse.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+
+On 11/9/23 18:29, Russell King (Oracle) wrote:
+> On Thu, Nov 09, 2023 at 06:09:32PM +0800, Shaoqin Huang wrote:
+>> Hi Russell,
+>>
+>> On 11/7/23 18:29, Russell King (Oracle) wrote:
+>>> From: James Morse <james.morse@arm.com>
 >>>
->>> On Wed 08-11-23 14:58:11, Huan Yang wrote:
->>>> In some cases, we need to selectively reclaim file pages or anonymous
->>>> pages in an unbalanced manner.
->>>>
->>>> For example, when an application is pushed to the background and frozen,
->>>> it may not be opened for a long time, and we can safely reclaim the
->>>> application's anonymous pages, but we do not want to touch the file pages.
->>> Could you explain why? And also why do you need to swap out in that
->>> case?
->> When an application is frozen, it usually means that we predict that
->> it will not be used for a long time. In order to proactively save some
->> memory, our strategy will choose to compress the application's private
->> data into zram. And we will also select some of the cold application
->> data that we think is in zram and swap it out.
->>
->> The above operations assume that anonymous pages are private to the
->> application.  After the application is frozen, compressing these pages
->> into zram can save memory to some extent without worrying about
->> frequent refaults.
-> Why don't you rely on the default reclaim heuristics? In other words do
-As I mentioned earlier, the madvise approach may not be suitable for my 
-needs.
-> you have any numbers showing that a selective reclaim results in a much
-
-In the mobile field, we have a core metric called application residency.
-
-This mechanism can help us improve the application residency if we can 
-provide
-a good freeze detection and proactive reclamation policy.
-
-I can only provide specific data from our internal tests, and it may be 
-older data,
-and it tested using cgroup v1:
-
-In 12G ram phone, app residency improve from 29 to 38.
-
-
-> better behavior? How do you evaluate that?
->
->> And the cost of refaults on zram is lower than that of IO.
->>
->>
->>>> This patchset extends the proactive reclaim interface to achieve
->>>> unbalanced reclamation. Users can control the reclamation tendency by
->>>> inputting swappiness under the original interface. Specifically, users
->>>> can input special values to extremely reclaim specific pages.
->>> Other have already touched on this in other replies but v2 doesn't have
->>> a per-memcg swappiness
+>>> Three of the five ACPI architectures create sysfs entries using
+>>> register_cpu() for present CPUs, whereas arm64, riscv and all
+>>> GENERIC_CPU_DEVICES do this for possible CPUs.
 >>>
->>>> Example:
->>>>         echo "1G" 200 > memory.reclaim (only reclaim anon)
->>>>           echo "1G" 0  > memory.reclaim (only reclaim file)
->>>>           echo "1G" 1  > memory.reclaim (only reclaim file)
->>>>
->>>> Note that when performing unbalanced reclamation, the cgroup swappiness
->>>> will be temporarily adjusted dynamically to the input value. Therefore,
->>>> if the cgroup swappiness is further modified during runtime, there may
->>>> be some errors.
->>> In general this is a bad semantic. The operation shouldn't have side
->>> effect that are potentially visible for another operation.
->> So, maybe pass swappiness into sc and keep a single reclamation ensure that
->> swappiness is not changed?
-> That would be a much saner approach.
->
->> Or, it's a bad idea that use swappiness to control unbalance reclaim.
-> Memory reclaim is not really obliged to consider swappiness. In fact the
-> actual behavior has changed several times in the past and it is safer to
-> assume this might change in the future again.
-Thank you for the guidance.
->
-> --
-> Michal Hocko
-> SUSE Labs
+>>> Registering a CPU is what causes them to show up in sysfs.
+>>>
+>>> It makes very little sense to register all possible CPUs. Registering
+>>> a CPU is what triggers the udev notifications allowing user-space to
+>>> react to newly added CPUs.
+>>>
+>>> To allow all five ACPI architectures to use GENERIC_CPU_DEVICES, change
+>>> it to use for_each_present_cpu(). Making the ACPI architectures use
+>>> GENERIC_CPU_DEVICES is a pre-requisite step to centralise their
+>>> cpu_register() logic, before moving it into the ACPI processor driver.
+>>> When ACPI is disabled this work would be done by
+>>> cpu_dev_register_generic().
+>>
+>> What do you actually mean about when ACPI is disabled this work would be
+> 
+> Firstly, please note that "you" is not appropriate here. This is James'
+> commit message, not mine.
+> 
 
--- 
+Oh, Sorry for that.
+
+>> done by cpu_dev_register_generic()? Is the work means register the cpu?
+> 
+> When ACPI is disabled _and_ CONFIG_GENERIC_CPU_DEVICES is enabled, then
+> cpu_dev_register_generic() will call arch_register_cpu() for each present
+> CPU after this commit, rather than for each _possible_ CPU (which is the
+> actual code change here.)
+> 
+>> I'm not quite understand that, and how about when ACPI is enabled, which
+>> function do this work?
+> 
+> This is what happens later in the series.
+> 
+> "drivers: base: Allow parts of GENERIC_CPU_DEVICES to be overridden"
+> adds a test for CONFIG_GENERIC_CPU_DEVICES, so this will only be used
+> with architectures using GENERIC_CPU_DEVICES. Then in:
+> 
+> "ACPI: processor: Register all CPUs from acpi_processor_get_info()"
+> which is not part of this series, this adds a call to arch_register_cpu()
+> in the ACPI code, and disables this path via a test for !acpi_disabled.
+> 
+> Essentially, this path gets used to register the present CPUs when
+> firmware (ACPI) isn't going to be registering the present CPUs.
+> 
+> I've changed this to:
+> 
+> "It makes very little sense to register all possible CPUs. Registering
+> a CPU is what triggers the udev notifications allowing user-space to
+> react to newly added CPUs.
+> 
+> "To allow all five ACPI architectures to use GENERIC_CPU_DEVICES, change
+> it to use for_each_present_cpu().
+> 
+> "Making the ACPI architectures use GENERIC_CPU_DEVICES is a pre-requisite
+> step to centralise their register_cpu() logic, before moving it into the
+> ACPI processor driver. When we add support for register CPUs from ACPI
+> in a later patch, we will avoid registering CPUs in this path."
+> 
+> which I hope makes it clearer.
+> 
+
+Thanks for your great explanation. Change commit message to this makes 
+me understand well.
+
 Thanks,
-Huan Yang
+Shaoqin
+
+>>> After this change, openrisc and hexagon systems that use the max_cpus
+>>> command line argument would not see the other CPUs present in sysfs.
+>>> This should not be a problem as these CPUs can't bre brought online as
+>>                                               ^ nit: can't be
+> 
+> Thanks, I'll fix that.
+> 
 
