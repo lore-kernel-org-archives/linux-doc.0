@@ -1,83 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49380110E
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:10:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F06539B
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:42:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SpSoYgaM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC14EC433BA
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:10:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E1/PhaLR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FFC1C433C8
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 02:42:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699495833;
-	bh=DVLFCWJnRMkoGOLTyBqnffpxgwHE8qbUIAAHGI0JehY=;
+	s=k20201202; t=1699497731;
+	bh=TS4NArmNX08QlaEz4GZTMc0gnSDo8pxfWNHZHMsNNlk=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SpSoYgaM5E+9cJ+iHccgbzzkJnoR2D5inpMNYNNxkh/BLckbV0HDb8BEAKYzbD5Pk
-	 Po9vE/CCJSFHTwEWx7CHoK7iHjCpwFM4IJ4QQdtDCGIPRiZOzWo5SUuAO2ewkhC2bD
-	 moYBglhUR6t+09zvHQIysPuVDuoAfveaT1s0jFWii69A/ozvYeR4VG/ul8ntZOIzoC
-	 lTr+h8pF76bybG3aDjpbUkuC2bFw45HSCUv1GxQrtJNq4c+xG3E+TXazdBWrW2ZQEk
-	 WDsTz0jr4RIJXL8W7Q84grfYu2DC4tsfLacS6Gdqiixn9MvcWEu6iRHUjVD0Ux8+/V
-	 7bsaT97YIO9Kw==
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5bdb0be3591so294817a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Nov 2023 18:10:33 -0800 (PST)
-X-Gm-Message-State: AOJu0Yy/O8Na0p775JrknIAiTQINQtf+Gj77g9O1B4Muj1XQluG3+DyY
-	jvqgteTyoIWnEi+sM10CkbqOVMpkoD2ObHAbXwGPPw==
-X-Google-Smtp-Source: AGHT+IHmtrIrCFhVDA+PNOLAhehjYlT2Z8PZ6VwoYo9Eyy9bpMSAL2olQgBXd3JCuPc/0Iot3GRqgIvgqwJu+XvWJ2w=
-X-Received: by 2002:a17:90a:4f41:b0:27d:12e1:7e20 with SMTP id
- w1-20020a17090a4f4100b0027d12e17e20mr371864pjl.12.1699495832818; Wed, 08 Nov
- 2023 18:10:32 -0800 (PST)
+	b=E1/PhaLRfJf+zxfg9ScH+/8bdDuFGGbkbizoW9oCiRkj5alN2svu6m/17pXKGv6WL
+	 DnchPn3iFBVM0HDAh4+F3Dt3vRFMIaX1snqQEZSKmNBnV6NDtwfG0f6KbXpfZBnWs0
+	 /ohx4fPRGkIrc2BPwVUzIr7FyWkjnI4/THZoMbeVOIhSFASSsCyJfEan5cTTWbFUkx
+	 3gr6BROLw/aP4F/uwrTCf2LHW2o6LRjY03t+Foz4pPUn7+r2A2GwZOX4xXA7zLFIZZ
+	 EcAW/EnTknByLUCYqFkECMha+EC4o2etMF80zzAqLDnbechjSGWaRTgedajl78xJ0A
+	 Rf3NigEOk/nhw==
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-41cc7b67419so2550301cf.2
+        for <linux-doc@vger.kernel.org>; Wed, 08 Nov 2023 18:42:11 -0800 (PST)
+X-Gm-Message-State: AOJu0YxL/EiHSqI8YvLm1kZgn8Lapz8svQfVRgoVUpJqtFU2Vfg3kPWJ
+	bAq56rcqgn5aGx5rmJX8iRZpeqM/pA1mRiBJ2VUM3w==
+X-Google-Smtp-Source: AGHT+IGcIFSAFrs0qInF0exuNbYq2osAesSeB/kePPuC9Ov8rDxwXdDduiIXr8vTvgnCEBXZl0IY9dxfmxJYahnastI=
+X-Received: by 2002:a17:90b:1c88:b0:27c:f80a:2c8a with SMTP id
+ oo8-20020a17090b1c8800b0027cf80a2c8amr374608pjb.0.1699497709899; Wed, 08 Nov
+ 2023 18:41:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106183159.3562879-1-nphamcs@gmail.com> <CAF8kJuMsXUm9=kiL8qPNVfYPzfyq-JWYSH3KraZadjF+myW-2A@mail.gmail.com>
- <CAKEwX=MNKY0UHbxi6Zfwf0KkepYavFaZo8F6LGe5GyyE3U35Jg@mail.gmail.com>
- <CAF8kJuMx4KT9z2RPy8z+snhM6YUtK=kZ1+BdHjKua2jhwFo-XQ@mail.gmail.com> <CAKEwX=OpQZhDmCr-a+O0=c8LfPoO0r8y=abpQoKXWcOP+V6yYg@mail.gmail.com>
-In-Reply-To: <CAKEwX=OpQZhDmCr-a+O0=c8LfPoO0r8y=abpQoKXWcOP+V6yYg@mail.gmail.com>
+References: <20231102234236.1784543-1-nphamcs@gmail.com> <CAJD7tkapfHVvF1KCm4iUDWGP0n5zV3GBcNAGDiYNHrpuODPPqQ@mail.gmail.com>
+ <CAKEwX=MunYMKQXsV58vBXROKnJFDhViCpQgC7RnrLExa_U=n2g@mail.gmail.com>
+In-Reply-To: <CAKEwX=MunYMKQXsV58vBXROKnJFDhViCpQgC7RnrLExa_U=n2g@mail.gmail.com>
 From: Chris Li <chrisl@kernel.org>
-Date: Wed, 8 Nov 2023 18:10:21 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuNnM_0jDCaAueseiNA1264-MtA0QiQtfjEN1E6aY56MKQ@mail.gmail.com>
-Message-ID: <CAF8kJuNnM_0jDCaAueseiNA1264-MtA0QiQtfjEN1E6aY56MKQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] workload-specific and memory pressure-driven zswap writeback
+Date: Wed, 8 Nov 2023 18:41:38 -0800
+X-Gmail-Original-Message-ID: <CAF8kJuPgWjim82+HmEgkkWrDNwi2co-3ay-35fjoLb8-k9rNXQ@mail.gmail.com>
+Message-ID: <CAF8kJuPgWjim82+HmEgkkWrDNwi2co-3ay-35fjoLb8-k9rNXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3] zswap: memcontrol: implement zswap writeback disabling
 To: Nhat Pham <nphamcs@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Yosry Ahmed <yosryahmed@google.com>, 
-	Seth Jennings <sjenning@redhat.com>, Dan Streetman <ddstreet@ieee.org>, 
-	Vitaly Wool <vitaly.wool@konsulko.com>, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	Shakeel Butt <shakeelb@google.com>, muchun.song@linux.dev, linux-mm <linux-mm@kvack.org>, 
-	kernel-team@meta.com, LKML <linux-kernel@vger.kernel.org>, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org
+Cc: Yosry Ahmed <yosryahmed@google.com>, akpm@linux-foundation.org, tj@kernel.org, 
+	lizefan.x@bytedance.com, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
+	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david@ixit.cz
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 8, 2023 at 4:28=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote:
+Hi Nhant,
+
+On Fri, Nov 3, 2023 at 12:24=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
+:
+> >
+> > Would it be more convenient if the initial value is inherited from the
+> > parent (the root starts with true)?
+> >
+> > I can see this being useful if we want to set it to false on the
+> > entire machine or one a parent cgroup, we can set it before creating
+> > any children instead of setting it to 0 every time we create a new
+> > cgroup.
 >
-> Hmm my guess is that I probably sent this out based on an outdated
-> mm-unstable. There has since been a new zswap selftest merged
-> to mm-unstable (written by no other than myself - oh the irony), so
-> maybe it does not apply cleanly anymore with git am.
+> I'm not 100% sure about the benefit or have a strong opinion one way
+> or another, but this sounds like a nice-to-have detail to me, and a relat=
+ively
+> low cost one (both in effort and at runtime) at that too.
+>
+> Propagating the change everytime we modify the memory.zswap.writeback
+> value of the ancestor might be data race-prone (and costly, depending on
+> how big the cgroup subtree is), but this is just a one-time-per-cgroup
+> propagation (at the new cgroup creation time).
 
-$ git am -3 patches/zswap-pool-lru/0005
-Applying: selftests: cgroup: update per-memcg zswap writeback selftest
-Using index info to reconstruct a base tree...
-M       tools/testing/selftests/cgroup/test_zswap.c
-Falling back to patching base and 3-way merge...
-Auto-merging tools/testing/selftests/cgroup/test_zswap.c
-$ git am -3 patches/zswap-pool-lru/0006
-Applying: zswap: shrinks zswap pool based on memory pressure
-error: sha1 information is lacking or useless (mm/zswap.c).
-error: could not build fake ancestor
-Patch failed at 0001 zswap: shrinks zswap pool based on memory pressure
-hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
+I think Yosary was suggesting inheriting the initial value from
+parents. That is just one level look up when you create the new
+cgroup, using the parent value as default. No recursive.
+What you described above seems different to me. I understand what you
+are suggesting is that writing to the parent cgroup will recursively
+write to all child cgroup.
+>
+> Can anyone come up with a failure case for this change, or why it might b=
+e
+> a bad idea?
 
-I was able to resolve the conflict on patch 6 by hand though. So I am good =
-now.
-
-Thanks
+I would suggest against recursive changing value behavior.
+What if you want the parent but also want the child to keep its value
+not changed? Every change to the parent will have to go through the
+child to flip it back.
+Inherit from the parent seems fine.
 
 Chris
