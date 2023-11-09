@@ -1,26 +1,50 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AF9107B4;
-	Thu,  9 Nov 2023 08:21:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2618934568
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 08:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="s3Ig6YtH"
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 731971FFD;
-	Thu,  9 Nov 2023 00:21:31 -0800 (PST)
-Received: from [192.168.2.39] (77-166-152-30.fixed.kpn.net [77.166.152.30])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 1532B20B74C0;
-	Thu,  9 Nov 2023 00:21:26 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1532B20B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1699518090;
-	bh=536QhSnmvjUjksMTxK3AqvYT0q2acvm2TvmKO/JNg/I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=s3Ig6YtH2xeo+PTvKPvXKtQtZ2RQaBN+nhHcTkkMBEF08uYQNcijM+O1oP8zwvlKx
-	 +7rZ0GMkVO3jxS9g5x+tgVFu6wkSLrcxyjBUAYQbUYWoLDxxncUfqjGrnDLVMwx2Cd
-	 4w8XcMlnjAp5L2kkRGbMJY5FZre9PlTj3fcMPI7c=
-Message-ID: <02faa42b-7b10-40b4-8442-5f95a2934f5f@linux.microsoft.com>
-Date: Thu, 9 Nov 2023 09:21:25 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tk58RRY0"
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC991FFB
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 00:40:32 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-53dfc28a2afso844181a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 00:40:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699519231; x=1700124031; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ap+aKL5g53m3TLoyw+LcX3FR8eWuItSX+wa0xplAHUY=;
+        b=tk58RRY0PbmldA75RL7euE4PU4VF73FuDWp8JwwF6XTay1iBTpSWLrsn2uHwm+iv94
+         Ovzas0fRa6y8PJWrT2zN9oJJZXUuo2bZ4paAsdzJcvotEmT5GcpepJ5VRbYUXxLj5vJ1
+         6ZqYwU62+nfc+YlZA2PtCM7lZA8vtJlVLhBr9RZeOkPlBIk9W86z4XeIpwX0t98Sa6/L
+         9GYQZ1IYMvn0lTO61lAfLFwsovvAAHoYybxfSN+6UZrwO7V3ecwblqzfw5+/MNbmbi9R
+         z+vNaPgm8slwpjZQg+aswAA/77CH5bTeJywAg0/EX/QH4WTdcBV0QrqYRnJpL2dQmHPQ
+         qhYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699519231; x=1700124031;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ap+aKL5g53m3TLoyw+LcX3FR8eWuItSX+wa0xplAHUY=;
+        b=EqhBK9BJHXZYOk78h9Nvmx9e+4v6206UJ5oZ2fibaV4h9QtgPb/6h6yqfoHBhPD8qC
+         CMf7KBJPFYXrz2cDzC6C8yxSDw4SFgT+Sb3rODJ/3trF7j2I+YDhTBuU+RoAcFsG2QCo
+         h9TKNwDdaFQENvMRvvT8BWgz6oJZTjrpgLoz9NV4YDU1V1dYi8s0Z50IVKNZNn70yewD
+         okPieViD9bTQKULx6N4Glq4BAk7HC+lFElH65Zj/jsx+fFYCjwrGvGUTI9I2rGoMA3ds
+         7izCT42cL11edr/89CfZuO6LVGXGcR4nbCMKTcfIsBVSoGM00hEuNCdlqSFDn/bQEJR2
+         H38A==
+X-Gm-Message-State: AOJu0YzHpdC1NGwYGa4Ik+vPT/H4WxtihYUzymJugItivwtXpjim8h9n
+	71zpuk5nK6zDuScMICqOB76Ewg==
+X-Google-Smtp-Source: AGHT+IGNnImLMqbxq+paW4gNCQufTdedF88DlLHT7K2sxaf+X2b4APdnLfKtQKIrLovveuIc+vKItw==
+X-Received: by 2002:a17:907:3ea4:b0:9bd:dfaa:3f2 with SMTP id hs36-20020a1709073ea400b009bddfaa03f2mr3659648ejc.6.1699519230941;
+        Thu, 09 Nov 2023 00:40:30 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.126])
+        by smtp.gmail.com with ESMTPSA id r5-20020a170906c28500b009929ab17be0sm2203166ejz.162.2023.11.09.00.40.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 00:40:30 -0800 (PST)
+Message-ID: <a5b63eb4-4168-425e-a235-15cc7a6f2df3@linaro.org>
+Date: Thu, 9 Nov 2023 09:40:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,74 +52,106 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 15/23] KVM: nVMX: Add support for the secondary VM exit
- controls
+Subject: Re: [PATCH 3/4] hwmon: Add support for Amphenol ChipCap 2
 Content-Language: en-US
-To: Xin Li <xin3.li@intel.com>, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kselftest@vger.kernel.org
-Cc: seanjc@google.com, pbonzini@redhat.com, corbet@lwn.net,
- kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- vkuznets@redhat.com, peterz@infradead.org, ravi.v.shankar@intel.com
-References: <20231108183003.5981-1-xin3.li@intel.com>
- <20231108183003.5981-16-xin3.li@intel.com>
-From: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
-In-Reply-To: <20231108183003.5981-16-xin3.li@intel.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20231020-topic-chipcap2-v1-0-087e21d4b1ed@gmail.com>
+ <20231020-topic-chipcap2-v1-3-087e21d4b1ed@gmail.com>
+ <e58cdedb-1825-4713-9d3f-5239bb182230@linaro.org>
+ <285ec1d8-d277-403c-961f-3de523fc799f@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <285ec1d8-d277-403c-961f-3de523fc799f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/11/2023 19:29, Xin Li wrote:
-> Enable the secondary VM exit controls to prepare for nested FRED.
+On 08/11/2023 17:35, Javier Carrasco wrote:
+>>> +
+>>> +	data->regulator = devm_regulator_get_optional(dev, "vdd");
+>>> +	if (!IS_ERR(data->regulator)) {
+>>> +		ret = cc2_retrive_alarm_config(data);
+>>> +		if (ret)
+>>> +			goto cleanup;
+>>> +	} else {
+>>> +		/* No access to EEPROM without regulator: no alarm control */
+>>
+>> Test your code with deferred probe. Are you sure you handle it
+>> correctly? To me, it looks like you handle deferred probe the same as
+>> any error.
+>>
+> The -EPROBE_DEFER is propagated to the probe function and it is the
+> returned value. I clarified the error path in v2 so no error messages
+
+Really?
+
+I see:
+if (!IS_ERR(data->regulator)) {
+	// so you do not go here
+} else {
+	goto dev_register;
+}
+dev_register is not error path. So how do you return EPROBE_DEFER?
+
+Which line of code does it?
+
+> are displayed in that case, going directly to the dev_err_probe in the
+> probe cleanup.
+> When the EPROBE_DEFER error is returned, the probe function is deferred
+> and called again later on, which is the desired behavior.
 > 
-> Tested-by: Shan Kang <shan.kang@intel.com>
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-> ---
->  Documentation/virt/kvm/x86/nested-vmx.rst |  1 +
->  arch/x86/include/asm/hyperv-tlfs.h        |  1 +
->  arch/x86/kvm/vmx/capabilities.h           |  1 +
->  arch/x86/kvm/vmx/hyperv.c                 | 18 +++++++++++++++++-
->  arch/x86/kvm/vmx/nested.c                 | 18 +++++++++++++++++-
->  arch/x86/kvm/vmx/vmcs12.c                 |  1 +
->  arch/x86/kvm/vmx/vmcs12.h                 |  2 ++
->  arch/x86/kvm/x86.h                        |  2 +-
->  8 files changed, 41 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/x86/nested-vmx.rst b/Documentation/virt/kvm/x86/nested-vmx.rst
-> index ac2095d41f02..e64ef231f310 100644
-> --- a/Documentation/virt/kvm/x86/nested-vmx.rst
-> +++ b/Documentation/virt/kvm/x86/nested-vmx.rst
-> @@ -217,6 +217,7 @@ struct shadow_vmcs is ever changed.
->  		u16 host_fs_selector;
->  		u16 host_gs_selector;
->  		u16 host_tr_selector;
-> +		u64 secondary_vm_exit_controls;
->  	};
->  
->  
-> diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-> index 2ff26f53cd62..299554708e37 100644
-> --- a/arch/x86/include/asm/hyperv-tlfs.h
-> +++ b/arch/x86/include/asm/hyperv-tlfs.h
-> @@ -616,6 +616,7 @@ struct hv_enlightened_vmcs {
->  	u64 host_ssp;
->  	u64 host_ia32_int_ssp_table_addr;
->  	u64 padding64_6;
-> +	u64 secondary_vm_exit_controls;
->  } __packed;
-> >  #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE			0
 
-Hi Xin Li,
 
-The comment at the top of hyperv-tlfs.h says:
-"This file contains definitions from Hyper-V Hypervisor Top-Level Functional Specification (TLFS)"
+Best regards,
+Krzysztof
 
-These struct definitions are shared with the hypervisor, so you can't just add fields to it.
-Same comment for patch 16.
-
-Would FRED work in nested virtualization if the L0 hypervisor does not support it (or doesn't know
-about it)?
-
-Thanks,
-Jeremi
