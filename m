@@ -1,172 +1,200 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52AB1078B
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 09:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0E4134B5
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 09:43:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wj4REZYx"
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C35C62712
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 01:35:44 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2c5056059e0so8325011fa.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 01:35:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699522543; x=1700127343; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=73mU5ZjtYMnmOZJ9gd4UkTXOrS0RPRiuoYmSTTyggiI=;
-        b=wj4REZYx73zjK94OQYBUI/WC3qKjiMf380M9YeKBtZOFOvbZtN0sv/QpSEwvvj5Q9s
-         eKU22UK9UPvjQNz5D6InyGewHePO0uvPAflLR/Dg8AZQ4JCVDAxtAs8bcKFSDGAm7g5C
-         fl5DK78GvGPujg0trda+WdhqvN0y1UE0Zx39jnx+NOzOUx2Cc3qdorWtOL89VsfVOeb6
-         TI685ARJSQ7oADipdtKnXNX/Ef1N4KCuW87AJ10VTokvwwPN7c/P4aoDTx6WCQ0VL8yN
-         w1fO1opEuzSt7uMHippFiB6tYKGISlu9o4x2KgT1TT31qlWEn/muMeeGJ1Ne1w24EA0a
-         Eqzg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f6+oEIAS"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF5B272C
+	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 01:43:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1699523027;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OEjQ7xxzDSW6bCsBCGR2pe6qDNDSEL6lx838tIM/GU8=;
+	b=f6+oEIASi65VzaiyTjaD9u+K9jLEYYB14KYR755tiblsv2Eo4qIzmmuAJJyG3PiXjkWptG
+	qbVqlY7RAKtWGUOYTu6FaVBLNFiXxm1n5OP+xyBH879iMbVubfBT1ioo/D77ROwvVORDN2
+	euRlqCT5Vk/t8ZRuKXLsEJCaVD7RIRM=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-203-rm3vgjWmPGm1OttTkBJKZQ-1; Thu, 09 Nov 2023 04:43:45 -0500
+X-MC-Unique: rm3vgjWmPGm1OttTkBJKZQ-1
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-2800fffc08eso186691a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Nov 2023 01:43:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699522543; x=1700127343;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1699523024; x=1700127824;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=73mU5ZjtYMnmOZJ9gd4UkTXOrS0RPRiuoYmSTTyggiI=;
-        b=Bwh746eksofKfQI/CiPYKXX+0UCS5obJKr4cptqwZynxNXgcFeQ1hJmJ66Hig+sfux
-         P0Oo41aNhd1tcwBCVS87+izlTWG+7ZS5rhyJAfkO/KNYdumiAp3qgcYyzcwn5B8pjeBu
-         ztU1BewqEEJ6QUbYSZFJOkiGuabZ2gyNWnKsyCLTtPKCFpOVTTsVC2tWUviBVrjgB0tK
-         zgAocBtj6fKhlW4xx/oISvExmslaW7DPXG2/6bqhkpWoXmnlr4KlvFw3J1cIV6FUdEGA
-         QnFa9AIFmO2j7cpU5ddVpOJhnBr8gooxMl87DIeBIVR47sr8SS3AskW+CmQ6Vu0ALr43
-         Ynhw==
-X-Gm-Message-State: AOJu0Yyg1+gryHlQkzkjLRVeZndPd4kdvscCQdSWOyzzwu0WrYVfHZSh
-	DwpoLOo/rePeuTTd9MVsv0eHAw==
-X-Google-Smtp-Source: AGHT+IFtQgXZTLwwEFsOtUMMFxL6SbYkRsyymCt7oQntHcwPfmp8c9NkolyeRieJTi4ZQHQnbS6CCg==
-X-Received: by 2002:a05:651c:504:b0:2c5:ffa:375d with SMTP id o4-20020a05651c050400b002c50ffa375dmr3948286ljp.11.1699522543062;
-        Thu, 09 Nov 2023 01:35:43 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id o13-20020a05600c378d00b003fbe4cecc3bsm1493670wmr.16.2023.11.09.01.35.41
+        bh=OEjQ7xxzDSW6bCsBCGR2pe6qDNDSEL6lx838tIM/GU8=;
+        b=ENZlUyzfkqGen9YQ8MH515QbdpcI5nr5HSPux2ckcY8OVUXK5MMw45iwR7yVZOhBDv
+         VyqeOo9bndPbpMIKA37MpenlH94QgmWbSBOokOomhl4tvL76puklJ0lcGJkMB1yzhWjV
+         +NLKpzGOcGmMTtUPa0tdB+G6EFLLh3Y6LtsDQYNL+6WLDGhyTTcpULfLvD0DxdCMOaUS
+         nLrJPG6amBR9HuYDwuXZzcTZR8UEl5QKbAG6jVJ2GBP8hoBG8ICmqxxYeGfVBihRosAV
+         oPPY3w7gq++loYI56vI1Sq40Q1Jtxf3sL1yGHBsAIB1UktYBRSIq2ea+DcUGc2EWNLwd
+         t97Q==
+X-Gm-Message-State: AOJu0YzdvwC1/FV7+zHiValrqISqbZUXn2VCZs/t9naFPjoblqjOI5m0
+	xwZhHx4U7K/10wfAZXbu8HjCLmnaros5K/uf2KCvVFsccrWqMvAmdJm1iSEQl1PC8gNkmkd9wOu
+	KLOB8JuxGKRH/e4yCbnkO
+X-Received: by 2002:a17:902:d4cd:b0:1cc:2bc4:5157 with SMTP id o13-20020a170902d4cd00b001cc2bc45157mr4921105plg.1.1699523024552;
+        Thu, 09 Nov 2023 01:43:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF6RZnogij7LzQU0k7NFPHwR/unfu31fUk7J39NRmSg93ajKyOUqEekd23fy6SG5sWCfMu5eg==
+X-Received: by 2002:a17:902:d4cd:b0:1cc:2bc4:5157 with SMTP id o13-20020a170902d4cd00b001cc2bc45157mr4921073plg.1.1699523024112;
+        Thu, 09 Nov 2023 01:43:44 -0800 (PST)
+Received: from [10.66.61.39] ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id h21-20020a170902eed500b001bf846dd2d0sm3105978plb.13.2023.11.09.01.43.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 01:35:42 -0800 (PST)
-Message-ID: <037f44d9-7240-4daf-9fe1-ac89fae9499c@linaro.org>
-Date: Thu, 9 Nov 2023 10:35:40 +0100
+        Thu, 09 Nov 2023 01:43:43 -0800 (PST)
+Message-ID: <46faa2bd-9f27-2eea-f46d-f02715e2b540@redhat.com>
+Date: Thu, 9 Nov 2023 17:43:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] hwmon: Add support for Amphenol ChipCap 2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH RFC 05/22] ACPI: Move ACPI_HOTPLUG_CPU to be disabled on
+ arm64 and riscv
 Content-Language: en-US
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20231020-topic-chipcap2-v1-0-087e21d4b1ed@gmail.com>
- <20231020-topic-chipcap2-v1-3-087e21d4b1ed@gmail.com>
- <e58cdedb-1825-4713-9d3f-5239bb182230@linaro.org>
- <285ec1d8-d277-403c-961f-3de523fc799f@gmail.com>
- <a5b63eb4-4168-425e-a235-15cc7a6f2df3@linaro.org>
- <f1c6efd3-fad1-453a-b922-41485495385b@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <f1c6efd3-fad1-453a-b922-41485495385b@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+ linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org,
+ linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org
+Cc: Salil Mehta <salil.mehta@huawei.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com,
+ justin.he@arm.com, James Morse <james.morse@arm.com>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Len Brown <lenb@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
+References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
+ <E1r0JL6-00CTws-3z@rmk-PC.armlinux.org.uk>
+From: Shaoqin Huang <shahuang@redhat.com>
+In-Reply-To: <E1r0JL6-00CTws-3z@rmk-PC.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/11/2023 09:59, Javier Carrasco wrote:
+
+
+On 11/7/23 18:29, Russell King (Oracle) wrote:
+> From: James Morse <james.morse@arm.com>
 > 
+> Neither arm64 nor riscv support physical hotadd of CPUs that were not
+> present at boot. For arm64 much of the platform description is in static
+> tables which do not have update methods. arm64 does support HOTPLUG_CPU,
+> which is backed by a firmware interface to turn CPUs on and off.
 > 
-> On 09.11.23 09:40, Krzysztof Kozlowski wrote:
->> On 08/11/2023 17:35, Javier Carrasco wrote:
->>>>> +
->>>>> +	data->regulator = devm_regulator_get_optional(dev, "vdd");
->>>>> +	if (!IS_ERR(data->regulator)) {
->>>>> +		ret = cc2_retrive_alarm_config(data);
->>>>> +		if (ret)
->>>>> +			goto cleanup;
->>>>> +	} else {
->>>>> +		/* No access to EEPROM without regulator: no alarm control */
->>>>
->>>> Test your code with deferred probe. Are you sure you handle it
->>>> correctly? To me, it looks like you handle deferred probe the same as
->>>> any error.
->>>>
->>> The -EPROBE_DEFER is propagated to the probe function and it is the
->>> returned value. I clarified the error path in v2 so no error messages
->>
->> Really?
->>
->> I see:
->> if (!IS_ERR(data->regulator)) {
->> 	// so you do not go here
->> } else {
->> 	goto dev_register;
->> }
->> dev_register is not error path. So how do you return EPROBE_DEFER?
->>
->> Which line of code does it?
->>
-> EPROBE_DEFER is returned if the command window was missed, which is
-
-How "command window was missed" is related to the place I commented?
-
-> checked in cc2_retrieve_alarm_config() (there is a typo I just corrected
-> -> cc2_retrive_alarm_config() in the current version). It could then
-> happen where you added a comment, but not because
-> devm_regulator_get_optional() failed.
+> acpi_processor_hotadd_init() and acpi_processor_remove() are for adding
+> and removing CPUs that were not present at boot. arm64 systems that do this
+> are not supported as there is currently insufficient information in the
+> platform description. (e.g. did the GICR get removed too?)
 > 
-> Are you expecting a probe deferring if devm_regulator_get_optional()
-> fails as well? Like if the regulator is still not ready when the
-> function is called.
+> arm64 currently relies on the MADT enabled flag check in map_gicc_mpidr()
+> to prevent CPUs that were not described as present at boot from being
+> added to the system. Similarly, riscv relies on the same check in
+> map_rintc_hartid(). Both architectures also rely on the weak 'always fails'
+> definitions of acpi_map_cpu() and arch_register_cpu().
+> 
+> Subsequent changes will redefine ACPI_HOTPLUG_CPU as making possible
+> CPUs present. Neither arm64 nor riscv support this.
+> 
+> Disable ACPI_HOTPLUG_CPU for arm64 and riscv by removing 'default y' and
+> selecting it on the other three ACPI architectures. This allows the weak
+> definitions of some symbols to be removed.
+> 
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Reviewed-by: Shaoqin Huang <shahuang@redhat.com>
+> ---
+> Changes since RFC:
+>   * Expanded conditions to avoid ACPI_HOTPLUG_CPU being enabled when
+>     HOTPLUG_CPU isn't.
+> Changes since RFC v3:
+>   * Dropped ia64 changes
+> ---
+>   arch/loongarch/Kconfig        |  1 +
+>   arch/x86/Kconfig              |  1 +
+>   drivers/acpi/Kconfig          |  1 -
+>   drivers/acpi/acpi_processor.c | 18 ------------------
+>   4 files changed, 2 insertions(+), 19 deletions(-)
+> 
+> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+> index d889a0b97bc1..64620e90c12c 100644
+> --- a/arch/loongarch/Kconfig
+> +++ b/arch/loongarch/Kconfig
+> @@ -5,6 +5,7 @@ config LOONGARCH
+>   	select ACPI
+>   	select ACPI_GENERIC_GSI if ACPI
+>   	select ACPI_MCFG if ACPI
+> +	select ACPI_HOTPLUG_CPU if ACPI_PROCESSOR && HOTPLUG_CPU
+>   	select ACPI_PPTT if ACPI
+>   	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
+>   	select ARCH_BINFMT_ELF_STATE
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 3762f41bb092..dbdcfc708369 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -59,6 +59,7 @@ config X86
+>   	#
+>   	select ACPI_LEGACY_TABLES_LOOKUP	if ACPI
+>   	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
+> +	select ACPI_HOTPLUG_CPU			if ACPI_PROCESSOR && HOTPLUG_CPU
+>   	select ARCH_32BIT_OFF_T			if X86_32
+>   	select ARCH_CLOCKSOURCE_INIT
+>   	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
+> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+> index f819e760ff19..a3acfc750fce 100644
+> --- a/drivers/acpi/Kconfig
+> +++ b/drivers/acpi/Kconfig
+> @@ -310,7 +310,6 @@ config ACPI_HOTPLUG_CPU
+>   	bool
+>   	depends on ACPI_PROCESSOR && HOTPLUG_CPU
+>   	select ACPI_CONTAINER
+> -	default y
+>   
+>   config ACPI_PROCESSOR_AGGREGATOR
+>   	tristate "Processor Aggregator"
+> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
+> index 0f5218e361df..4fe2ef54088c 100644
+> --- a/drivers/acpi/acpi_processor.c
+> +++ b/drivers/acpi/acpi_processor.c
+> @@ -184,24 +184,6 @@ static void __init acpi_pcc_cpufreq_init(void) {}
+>   
+>   /* Initialization */
+>   #ifdef CONFIG_ACPI_HOTPLUG_CPU
+> -int __weak acpi_map_cpu(acpi_handle handle,
+> -		phys_cpuid_t physid, u32 acpi_id, int *pcpu)
+> -{
+> -	return -ENODEV;
+> -}
+> -
+> -int __weak acpi_unmap_cpu(int cpu)
+> -{
+> -	return -ENODEV;
+> -}
+> -
+> -int __weak arch_register_cpu(int cpu)
+> -{
+> -	return -ENODEV;
+> -}
+> -
+> -void __weak arch_unregister_cpu(int cpu) {}
+> -
+>   static int acpi_processor_hotadd_init(struct acpi_processor *pr)
+>   {
+>   	unsigned long long sta;
 
-We talk only about this place. Not others.
-
-
-Best regards,
-Krzysztof
+-- 
+Shaoqin
 
