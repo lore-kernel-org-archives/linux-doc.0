@@ -1,186 +1,181 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C29F5668;
-	Thu,  9 Nov 2023 00:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF08360;
+	Thu,  9 Nov 2023 00:25:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItFiPvw8"
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B9DA2685;
-	Wed,  8 Nov 2023 16:02:34 -0800 (PST)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-5b383b4184fso3803107b3.1;
-        Wed, 08 Nov 2023 16:02:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHGJhXeG"
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4354D1BFF;
+	Wed,  8 Nov 2023 16:25:25 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id d9443c01a7336-1cc0e78ec92so1910595ad.3;
+        Wed, 08 Nov 2023 16:25:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699488153; x=1700092953; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=4S3hUwpEwAhRsIK33hvWrkFRJfd6iKru9dgJJTsDG6o=;
-        b=ItFiPvw8bWfimT2ADSZn+NOtiad8oICm1f4A/0F3U8MdzEwszzkFU2b8Uf+77SrHWs
-         gwrbm/vzLLzXGpm0wSsKWOpy/zi7e1xgnmTtvMkdGBHTTL9AVYN1AXLbr9AFDCpBjEAr
-         gF5K1EXQEYbRpZ5y/hFaLjMVI3XrE2gmznAnwSRkuNZdmEL2g/aUvTUc5sRH4RSYbcgB
-         X3tr65gYJl9LAQjdORPvXnq9pPq1XoG9ZL9IuYZH46d1s14UjK4W1UAbS8VP2gzAH+Mb
-         W9OE5Dl+5ebSyWZoDVV6QlOumWVioU/vO4a0TPABu/ZKqLJuvEqZMZqTbka2xUjDCFZ+
-         QKTQ==
+        d=gmail.com; s=20230601; t=1699489524; x=1700094324; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PYg0/Bwt2k4uqOXp/QqUKQgISPeVRvmg1I3hb80MjOo=;
+        b=CHGJhXeGhweO2qVG9W6tcLH8olTOQr33shVNPBjeXwhvObqegpvfMs5T0TJ4YaMiSe
+         mI30o0kKWgq3h0bOLEpCgCS882IQf02qrgkn8lT1j6v1z7RJbQR+9YDJtP/0XvG3HXd8
+         XiX0d8r17kNe9uo8J6KdYXHSWBhzSkGi1ZoOt0cBGWJCMuocv7YPvEounGrJOiVWJUor
+         iKrtpmeTSOD1YASLt6wXgK3pVIvsM/le3azQVoPjf6b93d86oH7fJmea9gADCo19dLcj
+         s/fD4Ka0RDQnlNi1PYtbBnHw10g7ZOz0Q2uFdJJx3ZoN7bF7gJPhssBFQRm7zW+sUIV/
+         Mprg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699488153; x=1700092953;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1699489524; x=1700094324;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4S3hUwpEwAhRsIK33hvWrkFRJfd6iKru9dgJJTsDG6o=;
-        b=u7FrwltY0KoOq8+hzGhCCnq9waHwRR7VR/GFoLqElDHzQGS2clV/zrEuEIcaEWyaZW
-         5auHGKbjs34GaKZuz4oBN7rXvwlajZgI+uhUN1OuEE7ZcTCP8nQnjktFLAbm1UdiEFoM
-         Q/rXekMnL03OQYZn83GFtOCB7lzEC76tBOn3x1jfDGhIkZgJLM9zkLrCFZ/tnt/GXUCC
-         ug6q/FsuiznzjzO0On0PfYrNtRyqzFey2pRgLPc2kSvJKOKNATfLlsxHfClrsnywkRYj
-         eVUcVxyBdSJFf5PtCMc/GzOj9UYrj5tIq7pjXWOt23CLbK3O9l+sP/SCkjGPtU6cuME/
-         eDrg==
-X-Gm-Message-State: AOJu0YxinkLgJs/FtEYOqz9PjkNuBKuV+lZClK1P1Hqp49XvcJLg0cav
-	MfmYhAWsVm+2v9Oua23jop0=
-X-Google-Smtp-Source: AGHT+IF7M4jKHrAJfyC9vLGEIV3Ibl9BE2YgD0HLpg94t/zgChrpWu+z0Mgw8Ztbp8/W5U9l7G1NZg==
-X-Received: by 2002:a81:9185:0:b0:5a5:65e:b847 with SMTP id i127-20020a819185000000b005a5065eb847mr3307746ywg.34.1699488153531;
-        Wed, 08 Nov 2023 16:02:33 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q16-20020a819910000000b005a20ab8a184sm7607523ywg.31.2023.11.08.16.02.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 16:02:32 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <44f1eaa3-a90d-42cf-9808-4f39aacbf270@roeck-us.net>
-Date: Wed, 8 Nov 2023 16:02:29 -0800
+        bh=PYg0/Bwt2k4uqOXp/QqUKQgISPeVRvmg1I3hb80MjOo=;
+        b=xJLzmNoMD8+N+lt0OeMao/mA2w7yxWdgJsYbhp8s1tuFSOMe3cY4V3FCRhaK0PyrHW
+         s3pjAyL/iIW6iy5Kh+nEgR8c2IQGPtWlw8XMRJeDZjATiu6UBjtDdL+RjHhnMsfwtrIc
+         8Bb9nKz8hCvry44Pm6b0dy9mXAsAhrXSRKpZVal/s/VAQgqqm/7ajQvQUpKsZhPrcWaR
+         HCN7cD14owaDubgXhlX602bpKdZqeAUWsiaXkzbPPCt44J5sl/horoj24+2+yrVyi4+X
+         Mq4k1Z9/EXxJZyoE7GvIfthUBGEuBe9QMSQ5V6Kz3/zjYqt7KVM+PZrsFzWHE1yjydAx
+         Y4Jw==
+X-Gm-Message-State: AOJu0YxSXnqEcala9s1G0HBCAfSuyfaT5iJsEUNgq0WAgNe9okDHdGb9
+	AzJQIAGvsM01sZMnZPsO8CweWGsFUeG3
+X-Google-Smtp-Source: AGHT+IGPnnbBYTYzVdIicc6PZI3X0xu/feSIqiTtziNRP5jwGNx+9qgUA2enN/eKVIV4FBs7qh+FHw==
+X-Received: by 2002:a17:902:ec8e:b0:1cc:482c:bc4d with SMTP id x14-20020a170902ec8e00b001cc482cbc4dmr4126391plg.5.1699489524241;
+        Wed, 08 Nov 2023 16:25:24 -0800 (PST)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id b10-20020a170902a9ca00b001bc21222e34sm2219073plr.285.2023.11.08.16.25.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 16:25:23 -0800 (PST)
+From: Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-cxl@vger.kernel.org,
+	linux-mm@kvack.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	ying.huang@intel.com,
+	akpm@linux-foundation.org,
+	mhocko@kernel.org,
+	tj@kernel.org,
+	lizefan.x@bytedance.com,
+	hannes@cmpxchg.org,
+	corbet@lwn.net,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	Gregory Price <gregory.price@memverge.com>
+Subject: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
+Date: Wed,  8 Nov 2023 19:25:14 -0500
+Message-Id: <20231109002517.106829-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] hwmon: (core) Add support for humidity min/max
- alarm
-Content-Language: en-US
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
- <20231020-topic-chipcap2-v2-2-f5c325966fdb@gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20231020-topic-chipcap2-v2-2-f5c325966fdb@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/8/23 07:37, Javier Carrasco wrote:
-> Add min_alarm and max_alarm attributes for humidityX to support devices
-> that can generate these alarms.
-> Such attributes already exist for other magnitudes such as tempX.
-> 
-> Tested with a ChipCap 2 temperature-humidity sensor.
-> 
+This patchset implements weighted interleave and adds a new cgroup
+sysfs entry: cgroup/memory.interleave_weights (excluded from root).
 
-No objection, but the new attributes also need to be added to the ABI
-documentation at
-Documentation/ABI/testing/sysfs-class-hwmon and
-Documentation/hwmon/sysfs-interface.rst
+The il_weight of a node is used by mempolicy to implement weighted
+interleave when `numactl --interleave=...` is invoked.  By default
+il_weight for a node is always 1, which preserves the default round
+robin interleave behavior.
 
-Which made me notice that humidityX_alarm isn't documented either.
-Please document that attribute as well while you are at it.
+Interleave weights denote the number of pages that should be
+allocated from the node when interleaving occurs and have a range
+of 1-255.  The weight of a node can never be 0, and instead the
+preferred way to prevent allocation is to remove the node from the
+cpuset or mempolicy altogether.
 
-Thanks,
-Guenter
+For example, if a node's interleave weight is set to 5, 5 pages
+will be allocated from that node before the next node is scheduled
+for allocations.
 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> ---
->   drivers/hwmon/hwmon.c | 2 ++
->   include/linux/hwmon.h | 4 ++++
->   2 files changed, 6 insertions(+)
-> 
-> diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-> index c7dd3f5b2bd5..7f92984c37d9 100644
-> --- a/drivers/hwmon/hwmon.c
-> +++ b/drivers/hwmon/hwmon.c
-> @@ -579,8 +579,10 @@ static const char * const hwmon_humidity_attr_templates[] = {
->   	[hwmon_humidity_input] = "humidity%d_input",
->   	[hwmon_humidity_label] = "humidity%d_label",
->   	[hwmon_humidity_min] = "humidity%d_min",
-> +	[hwmon_humidity_min_alarm] = "humidity%d_min_alarm",
->   	[hwmon_humidity_min_hyst] = "humidity%d_min_hyst",
->   	[hwmon_humidity_max] = "humidity%d_max",
-> +	[hwmon_humidity_max_alarm] = "humidity%d_max_alarm",
->   	[hwmon_humidity_max_hyst] = "humidity%d_max_hyst",
->   	[hwmon_humidity_alarm] = "humidity%d_alarm",
->   	[hwmon_humidity_fault] = "humidity%d_fault",
-> diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
-> index 8cd6a6b33593..154de35e34ac 100644
-> --- a/include/linux/hwmon.h
-> +++ b/include/linux/hwmon.h
-> @@ -286,8 +286,10 @@ enum hwmon_humidity_attributes {
->   	hwmon_humidity_input,
->   	hwmon_humidity_label,
->   	hwmon_humidity_min,
-> +	hwmon_humidity_min_alarm,
->   	hwmon_humidity_min_hyst,
->   	hwmon_humidity_max,
-> +	hwmon_humidity_max_alarm,
->   	hwmon_humidity_max_hyst,
->   	hwmon_humidity_alarm,
->   	hwmon_humidity_fault,
-> @@ -299,8 +301,10 @@ enum hwmon_humidity_attributes {
->   #define HWMON_H_INPUT			BIT(hwmon_humidity_input)
->   #define HWMON_H_LABEL			BIT(hwmon_humidity_label)
->   #define HWMON_H_MIN			BIT(hwmon_humidity_min)
-> +#define HWMON_H_MIN_ALARM		BIT(hwmon_humidity_min_alarm)
->   #define HWMON_H_MIN_HYST		BIT(hwmon_humidity_min_hyst)
->   #define HWMON_H_MAX			BIT(hwmon_humidity_max)
-> +#define HWMON_H_MAX_ALARM		BIT(hwmon_humidity_max_alarm)
->   #define HWMON_H_MAX_HYST		BIT(hwmon_humidity_max_hyst)
->   #define HWMON_H_ALARM			BIT(hwmon_humidity_alarm)
->   #define HWMON_H_FAULT			BIT(hwmon_humidity_fault)
-> 
+# Set node weight for node 0 to 5
+echo 0:5 > /sys/fs/cgroup/user.slice/memory.interleave_weights
+
+# Set node weight for node 1 to 3
+echo 1:3 > /sys/fs/cgroup/user.slice/memory.interleave_weights
+
+# View the currently set weights
+cat /sys/fs/cgroup/user.slice/memory.interleave_weights
+0:5,1:3
+
+Weights will only be displayed for possible nodes.
+
+With this it becomes possible to set an interleaving strategy
+that fits the available bandwidth for the devices available on
+the system. An example system:
+
+Node 0 - CPU+DRAM, 400GB/s BW (200 cross socket)
+Node 1 - CXL Memory. 64GB/s BW, on Node 0 root complex
+
+In this setup, the effective weights for a node set of [0,1]
+may be may be [86, 14] (86% of memory on Node 0, 14% on node 1)
+or some smaller fraction thereof to encourge quicker rounds
+for better overall distribution.
+
+This spreads memory out across devices which all have different
+latency and bandwidth attributes in a way that can maximize the
+available resources.
+
+~Gregory
+
+=============
+Version Notes:
+
+= v4 notes
+
+Moved interleave weights to cgroups from nodes.
+
+Omitted them from the root cgroup for initial testing/comment, but
+it seems like it may be a reasonable idea to place them there too.
+
+== Weighted interleave
+
+mm/mempolicy: modify interleave mempolicy to use node weights
+
+The mempolicy MPOL_INTERLEAVE utilizes the node weights defined in
+the cgroup memory.interleave_weights interfaces to implement weighted
+interleave.  By default, since all nodes default to a weight of 1,
+the original interleave behavior is retained.
+
+============
+RFC History
+
+Node based weights
+By: Gregory Price
+https://lore.kernel.org/linux-mm/20231031003810.4532-1-gregory.price@memverge.com/
+
+Memory-tier based weights
+By: Ravi Shankar
+https://lore.kernel.org/all/20230927095002.10245-1-ravis.opensrc@micron.com/
+
+Mempolicy multi-node weighting w/ set_mempolicy2:
+By: Gregory Price
+https://lore.kernel.org/all/20231003002156.740595-1-gregory.price@memverge.com/
+
+Hasan Al Maruf: N:M weighting in mempolicy
+https://lore.kernel.org/linux-mm/YqD0%2FtzFwXvJ1gK6@cmpxchg.org/T/
+
+Huang, Ying's presentation in lpc22, 16th slide in
+https://lpc.events/event/16/contributions/1209/attachments/1042/1995/\
+Live%20In%20a%20World%20With%20Multiple%20Memory%20Types.pdf
+
+===================
+
+Gregory Price (3):
+  mm/memcontrol: implement memcg.interleave_weights
+  mm/mempolicy: implement weighted interleave
+  Documentation: sysfs entries for cgroup.memory.interleave_weights
+
+ Documentation/admin-guide/cgroup-v2.rst       |  45 +++++
+ .../admin-guide/mm/numa_memory_policy.rst     |  11 ++
+ include/linux/memcontrol.h                    |  31 ++++
+ include/linux/mempolicy.h                     |   3 +
+ mm/memcontrol.c                               | 172 ++++++++++++++++++
+ mm/mempolicy.c                                | 153 +++++++++++++---
+ 6 files changed, 387 insertions(+), 28 deletions(-)
+
+-- 
+2.39.1
 
