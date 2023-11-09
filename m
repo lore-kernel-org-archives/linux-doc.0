@@ -1,98 +1,149 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AE31E530;
-	Thu,  9 Nov 2023 14:12:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1608D179B1;
+	Thu,  9 Nov 2023 14:47:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RCQPyMxB"
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 453562D75;
-	Thu,  9 Nov 2023 06:12:39 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C48D52C1;
-	Thu,  9 Nov 2023 14:12:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C48D52C1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1699539159; bh=8kev2//0PzKZ/xSG/Y0mE6h/RdMVt+9LuCt1xXu5iDw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RCQPyMxBH4vnMDMhEznJ7OJVwNrup4SoWpRSOVXYIn+/N/he7cwTy9amIWYC0SH5c
-	 AMUK57YCDp0lrT8+boCVA+pXBwJ+UlIshKxC7U/yhCX32+SdCpVw80ZASqbVRVgeko
-	 2scQrp0JGkBAAskrD6ZMjwACzo6yW9Qw5UvrsBLbEMWy6mQf7lxl8ayZK9SlfpBJQA
-	 R5WgIdHQMbPkm2T8amYTMlyQXW9XLeKyGa5nb2nPpv9eiJJ8JP5l5jpET6w2x9Vg9s
-	 PxJKUtPLeDOtA2h7REZUB+ffU/KPxhJvUWI0NlD86iPvZ+ZqKGCV+5I30KrINsd9Kp
-	 4JUf+9Wm8DVuQ==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Breno Leitao <leitao@debian.org>, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, kuba@kernel.org, pabeni@redhat.com,
- edumazet@google.com
-Subject: Re: [PATCH] Documentation: Document the Netlink spec
-In-Reply-To: <m2h6lvmasi.fsf@gmail.com>
-References: <20231103135622.250314-1-leitao@debian.org>
- <875y2cxa6n.fsf@meer.lwn.net> <m2h6lvmasi.fsf@gmail.com>
-Date: Thu, 09 Nov 2023 07:12:38 -0700
-Message-ID: <87r0kzuiax.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cVArIc5N"
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE09325B;
+	Thu,  9 Nov 2023 06:47:15 -0800 (PST)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-5bf58914bacso8362237b3.3;
+        Thu, 09 Nov 2023 06:47:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699541234; x=1700146034; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=VV7Jzetcl/qBR3tZg/th8WOMrz/y0Xa/41dX+nUFncU=;
+        b=cVArIc5NnIDhvODhcATVnppXcf0tW7TUlz6JsNj6YBIJx2CDR++8rcGCblZb5HKGLq
+         /1uYTTCKBzR95mpYvnDylcBkLo0ewM0piiMf1kbIfkwOM0NYWi8eB4sTfvwaeSnIP5ws
+         HDstmoBoC8o3IF7BRLZJjLClsFWWDf6vrNNMSjIXptQydCdAGvvY8z/mLQaja9lBFv8y
+         Mdb1crGf0As7QrTyTu/MYEwj8olyc7oQ/rbtLoZsYMboXLVg7VGe3U+NiTAmB5MOlgmP
+         VJHkfjyxKC1zmRw4UPpaRQEymhrMgmb+A34cpi/srHBoCDTpEv77Ocwc9Mtjr0NwBPVH
+         8VZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699541234; x=1700146034;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VV7Jzetcl/qBR3tZg/th8WOMrz/y0Xa/41dX+nUFncU=;
+        b=G/RmpeUF6AUU2xlez4NfUNdEGas34G/9T6gKYHDXzxT2LFg0rTLSMzxeIzLsb15bRV
+         DHRwV5QsOgLAK59UVq6YVQjoWYhjkTBs4PRkf3Wrxo1E0S+7Q1o7cuv4+cB6aSsy9rxh
+         MnabfHUOAyjquYU6NQ+So3YyjrRTcqQrPerW6Osy1ysuKkaAttWvRjyu2oHl9IxoMqny
+         gVZlmlc1eunbzOuy+FSrRAYqN8v/GD0HBRWmPiFoZ4aYDG4q9512cl+mexli9zFvXs+3
+         koMw51AIE8su+HspsTJxjQweGJyEgtolLLKdxIPObdGeXk3hT8U9/aKbXuWDzSeYCzUM
+         MeiQ==
+X-Gm-Message-State: AOJu0YzN8FVe6iMCuzHgHbhqOJ9rqx+VlLFZ4V04OrzMCYm/XOTXpXJh
+	ru7kFR+fv/NiBRzA/1meKB4=
+X-Google-Smtp-Source: AGHT+IF5d6+q7krI10WZ5H1tVxnyyAaWQzgSB26UudFbzvdHGfsdsyHA/ahP9nbwbvoRFD236bXdGA==
+X-Received: by 2002:a0d:dd53:0:b0:594:e97b:f6fa with SMTP id g80-20020a0ddd53000000b00594e97bf6famr5234134ywe.30.1699541234472;
+        Thu, 09 Nov 2023 06:47:14 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s38-20020a814526000000b005a7bf2aff15sm8060983ywa.95.2023.11.09.06.47.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 06:47:13 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <55391a93-2848-4885-b619-09a11b0ffb5c@roeck-us.net>
+Date: Thu, 9 Nov 2023 06:47:11 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] dt-bindings: hwmon: Add Amphenol ChipCap 2
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20231020-topic-chipcap2-v1-0-087e21d4b1ed@gmail.com>
+ <20231020-topic-chipcap2-v1-4-087e21d4b1ed@gmail.com>
+ <5a35f02d-31d0-4cef-9b46-f231d0611c7a@linaro.org>
+ <269222d8-b72f-4c7a-a19e-a82964e29ec8@gmail.com>
+ <4b1d6fe8-529b-4cf4-ba0a-697c7aeac174@linaro.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <4b1d6fe8-529b-4cf4-ba0a-697c7aeac174@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Donald Hunter <donald.hunter@gmail.com> writes:
+On 11/9/23 00:41, Krzysztof Kozlowski wrote:
+> On 08/11/2023 13:44, Javier Carrasco wrote:
+> 
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    enum:
+>>>> +      - amphenol,cc2dxx
+>>>> +      - amphenol,cc2dxxs
+>>>
+>>> What does xx stand for? Wildcard? I do not see cc2dxx in part numbers.
+>>> We expect specific compatibles, not generic. What are the differences
+>>> between all parts?
+>>>
+>> There are two device families: cc2dxx and cc2dxxs, where xx indicates
+>> the voltage and the accuracy. That does not change how the devices works
+>> and it is not relevant for the driver. The 's' indicates that it is a
+>> sleep device, and that modifies how it works.
+>> I listed the supported part numbers in the hwmon documentation, where
+>> they are also divided into these two families.
+> 
+> If the number of devices is relatively small, list them all. Otherwise
+> choose one device model and use it. No family models. No wildcards.
+> 
 
-> Jonathan Corbet <corbet@lwn.net> writes:
->> I do have to wonder, though, whether a sphinx extension is the right way
->> to solve this problem.  You're essentially implementing a filter that
->> turns one YAML file into one RST file; might it be better to keep that
->> outside of sphinx as a standalone script, invoked by the Makefile?
->>
->> Note that I'm asking because I wonder, I'm not saying I would block an
->> extension-based implementation.
->
-> +1 to this. The .rst generation can then be easily tested independently
-> of the doc build and the stub files could be avoided.
->
-> Just a note that last year you offered the opposite guidance:
->
-> https://lore.kernel.org/linux-doc/87tu4zsfse.fsf@meer.lwn.net/
+Agreed. There is no guarantee that CC2D[00..99][X] will be the same
+devices.
 
-Heh ... I totally forgot about that whole discussion ...
-
-> If the preference now is for standalone scripts invoked by the Makefile
-> then this previous patch might be useful:
->
-> https://lore.kernel.org/linux-doc/20220922115257.99815-2-donald.hunter@gmail.com/
->
-> It would be good to document the preferred approach to this kind of doc
-> extension and I'd be happy to contribute an 'Extensions' section for
-> contributing.rst in the doc-guide.
-
-I think it will vary depending on what we're trying to do, and I think
-we're still working it out - part of why I expressed some uncertainty
-this time around.
-
-For something like the kernel-doc or automarkup, where we are modifying
-existing documents, an extension is the only way to go.  In this case,
-where we are creating new RST files from whole cloth, it's not so clear
-to me.  My feeling (this week at least ;) is that doing it as an
-extension makes things more complicated without a lot of benefit.
-
-FWIW, if something like this is done as a makefile change, I'd do it a
-bit differently than your linked patch above.  Rather than replicate the
-command through the file, I'd just add a new target:
-
-  netlink_specs:
-  	.../scripts/gen-netlink-rst
-
-  htmldocs: netlink_specs
-  	existing stuff here
-
-But that's a detail.
-
-Thanks,
-
-jon
+Guenter
