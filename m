@@ -1,147 +1,234 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6648A46
-	for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 01:25:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4606365;
+	Fri, 10 Nov 2023 02:46:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dxLjbgKf"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED1CF44A4
-	for <linux-doc@vger.kernel.org>; Thu,  9 Nov 2023 17:24:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699579499;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VOeaU4ehAGD9H3QjwT3Yo8UQTF0ixUxWvh3B6xsGYO0=;
-	b=dxLjbgKfK8uh200dOsarlPQ+BDacZvMMq9WD+Ix68TF4vio3ExRpZRHM67clx6R+rJdPi+
-	5jJuV2VuFMAWKubVv9AZPzWfdEZEzKSA2CZd/mK5+8fx1MfjpXajTspOpz1HW9SVjehBTq
-	eVEe71mCYesj7z1mLUJeSqU1xzf+xVk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-681-lbsk-TDLMKGmNmB1vvx0GQ-1; Thu, 09 Nov 2023 20:24:56 -0500
-X-MC-Unique: lbsk-TDLMKGmNmB1vvx0GQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D7FB185A780;
-	Fri, 10 Nov 2023 01:24:55 +0000 (UTC)
-Received: from [10.22.10.178] (unknown [10.22.10.178])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5F3362166B26;
-	Fri, 10 Nov 2023 01:24:54 +0000 (UTC)
-Message-ID: <21ebd168-8b3f-0efc-20f1-89173e79eaed@redhat.com>
-Date: Thu, 9 Nov 2023 20:24:54 -0500
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="PAe2uygv"
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2120.outbound.protection.outlook.com [40.107.215.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA78133;
+	Thu,  9 Nov 2023 18:46:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BoAdCnyFuZn91EZSTzZQDBqeqXq7f2lS7rhBwT4cwLwFDFc0nGHL/tg7sPBqO9WsPCH1rjvdfNh4k3vuM6N6SAnHYzrx+E4NWgJlzBQCjWRA9RLI7s2BjdkBlNL1NAppxWsu8u1gzZVY3umsU2eAaowLe1JOU+imew59aP+gnFVmvr63SDjrn60oWapipm8kYGhaT4Ir6TO/tGSzCju6DH/tLvUPBjXARTDDs2AOEvMVkfU4v8XolhdE8/Ex0ZCNgGaxOlc0jeqdF/1/CjwtPkIqmb+zAegNpYHP41h+bsoipUgHjI3c7AOUKuKwfb3Th9IKurEDh69PfaTQiJnTEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eWCUaVn263Bz0xoiETmgXPyffd0LpAzDQtWx2nPL7NM=;
+ b=Rsp7297xZSF+IOVr/3fSS1OEoJ4Fczr1MzP0mFX/feJLfubfDewGMvrR9LUqf93h7QYV4o+JtYrWknhWTGzp6S24PTbWvQ5UhCegvsTNN4UVJpombslgzefxzN7RXQtSeLZgmMr9YCSXH/Nlib6rzauxbUDpKFqfumkilYgcJFngCOrBWWDRgQbDh2eU6Y19xovBZ+gg/501am6z1PyHjZNpSTHflUl7Sv6YysPDLs/0Osk17YbaY2+UWy6LDtkhKpWu19ufftT7fflo6XTOSOTM80tLtvz8b08CaVVOv0hBLTaEbMXZOjw3cXq7Qr4NIakbteXuVXj6vvNFomKAPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eWCUaVn263Bz0xoiETmgXPyffd0LpAzDQtWx2nPL7NM=;
+ b=PAe2uygv9VedZIMGEGogLRRZWK7LttJk4mgKiBGnsxorO41mEqf4P2gl7t46AG37dPznLTZEsqARZPgGCfOs/qbdGbEYTvbf2pDbD+p6xQ3NPx/PzRaq7D0kbLN16ySp6sWKtlrCjd1Ado8iAaHTgwTrJanRpgvk25O0PJTJ1ef/46J82F4Aqw/IIpgizcDj0NQAtPVNlWnZIRr/5yjHgfNU58iK4f91xarC/0nuyM/PhfMOIYSTPySd5y6nQwbDFZmb6RSUggiHraHYs8CtRMxOlWCnWRSYmk76+AW8Nhsxze+HlUxrS4OLUUJCLpvQD/NbGNPOzK/8efa8sIhYtw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+ by SI2PR06MB3947.apcprd06.prod.outlook.com (2603:1096:4:f6::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6954.31; Fri, 10 Nov 2023 02:44:51 +0000
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::d754:7b3:dc4c:6b48]) by PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::d754:7b3:dc4c:6b48%6]) with mapi id 15.20.6954.027; Fri, 10 Nov 2023
+ 02:44:51 +0000
+Message-ID: <ab108b82-87a9-4927-9d29-f60713281e8a@vivo.com>
+Date: Fri, 10 Nov 2023 10:44:45 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/4] Introduce unbalance proactive reclaim
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Michal Hocko <mhocko@suse.com>, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>, Peter Xu <peterx@redhat.com>,
+ "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+ Yosry Ahmed <yosryahmed@google.com>, Liu Shixin <liushixin2@huawei.com>,
+ Hugh Dickins <hughd@google.com>, cgroups@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ opensource.kernel@vivo.com
+References: <20231108065818.19932-1-link@vivo.com>
+ <ZUuV9xOZ5k7Ia_V2@tiehlicka> <ccc4094a-54de-4ce4-b8f6-76ee46d8d02d@vivo.com>
+ <87msvniplj.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <1e699ff2-0841-490b-a8e7-bb87170d5604@vivo.com> <ZUytB5lSwxeKkBW8@tiehlicka>
+ <6b539e16-c835-49ff-9fae-a65960567657@vivo.com> <ZUy2-vrqDq7URzb6@tiehlicka>
+ <e8c0c069-a685-482d-afad-d1069c6a95ba@vivo.com>
+ <87a5rmiewp.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From: Huan Yang <link@vivo.com>
+In-Reply-To: <87a5rmiewp.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR04CA0183.apcprd04.prod.outlook.com
+ (2603:1096:4:14::21) To PUZPR06MB5676.apcprd06.prod.outlook.com
+ (2603:1096:301:f8::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v2 0/4] cgroup/cpuset: Improve CPU isolation in isolated
- partitions
-Content-Language: en-US
-To: "Zhang, Rui" <rui.zhang@intel.com>, "shuah@kernel.org"
- <shuah@kernel.org>, "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
- "hannes@cmpxchg.org" <hannes@cmpxchg.org>, "tj@kernel.org" <tj@kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "jiangshanlai@gmail.com" <jiangshanlai@gmail.com>
-Cc: "pehunt@redhat.com" <pehunt@redhat.com>,
- "frederic@kernel.org" <frederic@kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-References: <20231025182555.4155614-1-longman@redhat.com>
- <98bea19ca5eb5c19ef0ea55f5167237cc841fe9b.camel@intel.com>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <98bea19ca5eb5c19ef0ea55f5167237cc841fe9b.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|SI2PR06MB3947:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5c6e6c3-bab4-4e3d-f74a-08dbe19702e2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dfpTcCt9jhKWVQ3VBSNpGX9irMfuD3ko6aXzp1vfVE2HLYsG1h9HQPK2Tyb6kWzZt+UHte93C70+TTDInHsMKAf0tdGyoItNqY7QppNx3QA5FSlPVKEVABiZDwPQmDpMwsARGSWcqqpNxVVhssAM2Po1d/Kz3+eTevvVNE4HRADfODkFO6yLcLcGjoyjb87b9sraHaCB3NaUj/T6GLxwUrOncRsxecFy5Ce+6xweu69Xy8lq/zkxVbid/ylFsX+QTQpqt0OlSC76uLR9Dbt7T9Cdma5TzrfvSPXHbFvlpjWE0ih/0gK8uHNckQoVSyiIqLydsxdt72+Y1jqX0L5mp2uAeCfioUMZYQKVXh4yFXpNvfxlQUKwoIrQUkGgElrB/o8tufUmar3lt10nNqQzqlvZsSRmK4ySozMVJ4h3XsbUyDy8dJLtnxzVrKAcc2bdJe3hN7pbDvOnWtus9YY9h61AxTGmHzDXbIr8O6Cv0eiU8TSNBiY+hqQ56Z9ruQ0iLX5tBtn9q6jih6LPoSYMBEqr2rQrXzzO5/miXeXcxIo39vsLggTS11tOqR6wI/M78wVt1qXg5jw6Pkncta77eA3XYkFanT3SYUT1YEJfNCThEpHycUJsoUdmIK1Jiv6K4tw5Y8NmBKIhKVP28w5FyJ4IO5Hn/SkK5QHT7/k02d0uMZ5bgeg8XrhJH8saKoGeQPNuQdlyiBOS4HB3qUoKI8ULGn5gdRxI9zq/RGpleGU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(366004)(396003)(346002)(136003)(230173577357003)(230273577357003)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(6512007)(83380400001)(2616005)(107886003)(966005)(478600001)(6486002)(8936002)(66476007)(36756003)(2906002)(7416002)(8676002)(4326008)(86362001)(6916009)(54906003)(38350700005)(5660300002)(66556008)(66946007)(31696002)(26005)(41300700001)(316002)(6506007)(52116002)(6666004)(31686004)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?S3dHamJBb3pFYVE4dFdGbEFidGtadHRJMEpqZnBNNWlpS3l4UjRBdVZkMWI5?=
+ =?utf-8?B?YTdEdHRxOG5SS0YwZzVpaWVKYWh0UEEvMk1XcUhCaFNvd1dQSU9tY3hBRk1V?=
+ =?utf-8?B?cXRrOFBJK3hVMDZQWUdNaHNqUXBGN2tCczlnaS9zN294aDFhSDZkOXVFU3N5?=
+ =?utf-8?B?OTJBVkdtdENXZG1PUm5JSkx0ZWhRd1BqeVdPYjl2S1F5eFdsNXpCTFdJemht?=
+ =?utf-8?B?eVBSODlxNlJ6WDd5ZUVlM3VaTzZFbERFaUJRb3lGNnpTSkZXeXBseittcEdN?=
+ =?utf-8?B?cnVNZE90L0RGWUVuZko1dnNZeUFKem1tTUUzTGpxVEJqQTN2LzRsZzdNRG1O?=
+ =?utf-8?B?MTVCVXYrMURkMlNlZk45T2hLNmZ6VnR2VDUrQVhkTnRyRHIybHlUQzBGRS9l?=
+ =?utf-8?B?RlVkTnhmMTI0b0gvR3hhLzc4ejhqN0VsMlYvMy9henNTZllEY002MzArUEJV?=
+ =?utf-8?B?cWRlWFh3QkxIc3BiS1BPZ2ZFSlM4aHcrK0tYVXhXaEkyOG03TTYrcDdHVFdp?=
+ =?utf-8?B?cU5LaUFmdzdZd0lZNklqSWg4eXJWci91YTJVVTJvVExINzVwanIrNS8raytV?=
+ =?utf-8?B?dHFtZldVR2M4b0ovUTBjRmMzQmxzYXRLems3L3ZQcUQ4KzNkaXF4RUcrcUoz?=
+ =?utf-8?B?eWFhczJsSVN3ZjVOaWQ3UnhtajNUcUlkZnc5S3BOVTRRRm9ya0l2YzFzUFJL?=
+ =?utf-8?B?dGdlTVdTbHR6WmgwZHFMVENhdDMyU0o5Vk5NWGZza2FsM1AwNVd1bGNjR1l0?=
+ =?utf-8?B?LzMyczh3cHF3bEc2MXEyWGpOTTlnSDBHVGNEL1RVTHZBMGllT0NxNXJMbW53?=
+ =?utf-8?B?T3pxd0UyOHBOazE4dU9JTmFoR3p5dWRSMytYU3Q0U2grcjdjcSszT0tJaHBL?=
+ =?utf-8?B?ais5ZjFFSHQycER4d29vcVkwNExaOEtJZkpQTEVVS3ZITmhpLzg1OStnbFdQ?=
+ =?utf-8?B?Snl5YU96bWNsYjNtMEpUc0IyamlDNmtKU3dmWHBPUHZpUVhBMnpXVzBSSFRR?=
+ =?utf-8?B?Z3h1QWdjVW5MMUVFeStSNFloVDh2MzRLNE9JRjVJRFRLUjlheTFqSk5pbU9W?=
+ =?utf-8?B?bmVDT0xSRDNmL1hoQzRqVVEyY0N3QWpoWklUMzBFVDJKeCtVTm5aK0l4QkE1?=
+ =?utf-8?B?UTdmbDJZS3A2bHo0dXA1bnZFSisyMmJBeStNblduQjVWRWJvYS9TOFdFcUQ5?=
+ =?utf-8?B?RCtIblY5N0VnV3haWE83WSszTWFKaGgrb2pwWm1ld0lsVnoyb0NCbi8rSm1T?=
+ =?utf-8?B?NHdiYmtnR21NSFcyQWNyZWxvMUxvd1d6eVZEUXZPNm1MaytTa2dsM0JyaFRh?=
+ =?utf-8?B?di9FaExWQm5IYjNiNGd0KzFLd0NsblJwaWpOSHZpblU4OVNZbUI1TmNuNldj?=
+ =?utf-8?B?RkREZ3F1OVVUMHZ4NEswM1cwNXNNSjdYNzB5aVFYdDBCWldGWll5UGZzT3Zz?=
+ =?utf-8?B?a2dxb2p1NTlGMlRRVnlsZk1GOTFCSTJVbjA0N3JRZFVGQzRJYXdBQngwRkhN?=
+ =?utf-8?B?TmlsSXFSSjJkUFJiQ005SzhWYmNveVNuRzBWSEdqSE5XMWt5TGUxNTVocU5W?=
+ =?utf-8?B?UzRROU1TM2p3S2VGS0FueDc5Ynd2UUpnS3FTNVdHS0d0UHQweXhWSzM1RG9L?=
+ =?utf-8?B?YkQyVXQySy9WZ3QrZHNKSjIzcmQvaGtybUFoeTBLUGJ4YnA1Vms3ek9mUFRr?=
+ =?utf-8?B?aWpyU01uVi8wNi9nT1I4aDg4UVlHeGpMVWJaNmMySnZRQlJrNmlxU3NyNVFp?=
+ =?utf-8?B?cjdwOWZLdjFDa0RxTlhURU55YUtSYkNaLy9VUmFSZXN5YlVXUzAzYWdpeWEy?=
+ =?utf-8?B?Q3ZadlRoZVB3S3NVdGpZcG51Wkw0anc0Y2M3emUvNmg4Z2tBVGhIWEVhS2xI?=
+ =?utf-8?B?V2NHQmZwNlJIVGIxT1c3Yjl2QTNtWVRPRW1NTThIYjNyL1lVRGhSK0V6TEJv?=
+ =?utf-8?B?RU9FQTAvODZPaXRXODRxZHhwVzQzQWRZUUxJaWJpTG41NU1YbkFtSjFOcldU?=
+ =?utf-8?B?ZTltNnl3Rmg2bXE3WGgreE5Bdmo4UXpsZzdiZzlMQVRSbTcwTDN3TzExcVpL?=
+ =?utf-8?B?cTVUS1ZZdzlJSnY5M2VzaVlmS3I4K1NRMEpUUVZ4MmtWb1JXWHBPYXpoTkNv?=
+ =?utf-8?Q?d14OJTRYsDf2xfBI4GCViZ00O?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5c6e6c3-bab4-4e3d-f74a-08dbe19702e2
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2023 02:44:51.0809
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GzWjIoMGMgRsICgb2sWWeupvsvv3Sl69FBTHdu+964N3Gl/kgpmWkt+oISQ+GeDwkvvdKdiM2oz32bXqY99ggA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB3947
 
-On 11/9/23 04:02, Zhang, Rui wrote:
-> Hi, Waiman,
+
+在 2023/11/10 9:19, Huang, Ying 写道:
+> [Some people who received this message don't often get email from ying.huang@intel.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 >
-> May I know which kernel this patch series is based on?
+> Huan Yang <link@vivo.com> writes:
 >
-> I'd like to test this feature, but cannot apply it cleanly on top of
-> v6.6.
+>> 在 2023/11/9 18:39, Michal Hocko 写道:
+>>> [Some people who received this message don't often get email from mhocko@suse.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>>
+>>> On Thu 09-11-23 18:29:03, Huan Yang wrote:
+>>>> HI Michal Hocko,
+>>>>
+>>>> Thanks for your suggestion.
+>>>>
+>>>> 在 2023/11/9 17:57, Michal Hocko 写道:
+>>>>> [Some people who received this message don't often get email from mhocko@suse.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>>>>
+>>>>> On Thu 09-11-23 11:38:56, Huan Yang wrote:
+>>>>> [...]
+>>>>>>> If so, is it better only to reclaim private anonymous pages explicitly?
+>>>>>> Yes, in practice, we only proactively compress anonymous pages and do not
+>>>>>> want to touch file pages.
+>>>>> If that is the case and this is mostly application centric (which you
+>>>>> seem to be suggesting) then why don't you use madvise(MADV_PAGEOUT)
+>>>>> instead.
+>>>> Madvise  may not be applicable in this scenario.(IMO)
+>>>>
+>>>> This feature is aimed at a core goal, which is to compress the anonymous
+>>>> pages
+>>>> of frozen applications.
+>>>>
+>>>> How to detect that an application is frozen and determine which pages can be
+>>>> safely reclaimed is the responsibility of the policy part.
+>>>>
+>>>> Setting madvise for an application is an active behavior, while the above
+>>>> policy
+>>>> is a passive approach.(If I misunderstood, please let me know if there is a
+>>>> better
+>>>> way to set madvise.)
+>>> You are proposing an extension to the pro-active reclaim interface so
+>>> this is an active behavior pretty much by definition. So I am really not
+>>> following you here. Your agent can simply scan the address space of the
+>>> application it is going to "freeze" and call pidfd_madvise(MADV_PAGEOUT)
+>>> on the private memory is that is really what you want/need.
+>> There is a key point here. We want to use the grouping policy of memcg
+>> to perform
+>> proactive reclamation with certain tendencies. Your suggestion is to
+>> reclaim memory
+>> by scanning the task process space. However, in the mobile field,
+>> memory is usually
+>> viewed at the granularity of an APP.
+>>
+>> Therefore, after an APP is frozen, we hope to reclaim memory uniformly
+>> according
+>> to the pre-grouped APP processes.
+>>
+>> Of course, as you suggested, madvise can also achieve this, but
+>> implementing it in
+>> the agent may be more complex.(In terms of achieving the same goal,
+>> using memcg
+>> to group all the processes of an APP and perform proactive reclamation
+>> is simpler
+>> than using madvise and scanning multiple processes of an application
+>> using an agent?)
+> I still think that it's not too complex to use process_madvise() to do
+> this.  For each process of the application, the agent can read
+> /proc/PID/maps to get all anonymous address ranges, then call
+> process_madvise(MADV_PAGEOUT) to reclaim pages.  This can even filter
+> out shared anonymous pages.  Does this work for you?
 
-It was originally based on the cgroup/for-6.7 branch. It should be 
-applicable to v6.7 kernel now.
+Thanks for this suggestion. This way can avoid touch shared anonymous, it's
+pretty well. But, I have some doubts about this, CPU resources are 
+usually limited in
+embedded devices, and power consumption must also be taken into 
+consideration.
 
-Cheers,
-Longman
+If this approach is adopted, the agent needs to periodically scan frozen 
+applications
+and set pageout for the address space. Is the frequency of this active 
+operation more
+complex and unsuitable for embedded devices compared to reclamation based on
+memcg grouping features?
 
-> thanks,
-> rui
+In addition, without LRU, it is difficult to control the reclamation of 
+only partially cold
+anonymous page data of frozen applications. For example, if I only want 
+to proactively
+reclaim 100MB of anonymous pages and issue the proactive reclamation 
+interface,
+we can use the LRU feature to only reclaim 100MB of cold anonymous pages.
+However, this cannot be achieved through madvise.(If I have 
+misunderstood something,
+please correct me.)
+
 >
-> On Wed, 2023-10-25 at 14:25 -0400, Waiman Long wrote:
->> v2:
->>   - Add 2 read-only workqueue sysfs files to expose the user requested
->>     cpumask as well as the isolated CPUs to be excluded from
->>     wq_unbound_cpumask.
->>   - Ensure that caller of the new workqueue_unbound_exclude_cpumask()
->>     hold cpus_read_lock.
->>   - Update the cpuset code to make sure the cpus_read_lock is held
->>     whenever workqueue_unbound_exclude_cpumask() may be called.
->>
->> Isolated cpuset partition can currently be created to contain an
->> exclusive set of CPUs not used in other cgroups and with load
->> balancing
->> disabled to reduce interference from the scheduler.
->>
->> The main purpose of this isolated partition type is to dynamically
->> emulate what can be done via the "isolcpus" boot command line option,
->> specifically the default domain flag. One effect of the "isolcpus"
->> option
->> is to remove the isolated CPUs from the cpumasks of unbound
->> workqueues
->> since running work functions in an isolated CPU can be a major source
->> of interference. Changing the unbound workqueue cpumasks can be done
->> at
->> run time by writing an appropriate cpumask without the isolated CPUs
->> to
->> /sys/devices/virtual/workqueue/cpumask. So one can set up an isolated
->> cpuset partition and then write to the cpumask sysfs file to achieve
->> similar level of CPU isolation. However, this manual process can be
->> error prone.
->>
->> This patch series implements automatic exclusion of isolated CPUs
->> from
->> unbound workqueue cpumasks when an isolated cpuset partition is
->> created
->> and then adds those CPUs back when the isolated partition is
->> destroyed.
->>
->> There are also other places in the kernel that look at the
->> HK_FLAG_DOMAIN
->> cpumask or other HK_FLAG_* cpumasks and exclude the isolated CPUs
->> from
->> certain actions to further reduce interference. CPUs in an isolated
->> cpuset partition will not be able to avoid those interferences yet.
->> That
->> may change in the future as the need arises.
->>
->> Waiman Long (4):
->>    workqueue: Add workqueue_unbound_exclude_cpumask() to exclude CPUs
->>      from wq_unbound_cpumask
->>    selftests/cgroup: Minor code cleanup and reorganization of
->>      test_cpuset_prs.sh
->>    cgroup/cpuset: Keep track of CPUs in isolated partitions
->>    cgroup/cpuset: Take isolated CPUs out of workqueue unbound cpumask
->>
->>   Documentation/admin-guide/cgroup-v2.rst       |  10 +-
->>   include/linux/workqueue.h                     |   2 +-
->>   kernel/cgroup/cpuset.c                        | 286 +++++++++++++---
->> --
->>   kernel/workqueue.c                            |  91 +++++-
->>   .../selftests/cgroup/test_cpuset_prs.sh       | 216 ++++++++-----
->>   5 files changed, 438 insertions(+), 167 deletions(-)
->>
+> --
+> Best Regards,
+> Huang, Ying
+
+-- 
+Thanks,
+Huan Yang
 
