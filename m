@@ -1,377 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5D1C2D2;
-	Fri, 10 Nov 2023 18:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAE81DFDC;
+	Fri, 10 Nov 2023 18:47:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCXI8xvR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB241C433C9;
-	Fri, 10 Nov 2023 18:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699641785;
-	bh=79RvBLjoz3Bd7Y0ag8toULjdzF47Z40+OXM0MpwXmxU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OCXI8xvRP0lt0TwjRaxQyKejiXVk6LKZ8bPlwq6p/z/I0u7tPyaTkaah2sSpd9RtN
-	 3Mo2hK3lBAPAg0gHkysWxYFzMau6GpoOYLyyKlMQUJuw/orBaPpY8pPSrVDDcIP4e5
-	 6NCXYigh3a3mnWq+ZqntJ8t5IdIITHWgNVOudyrFH+9Y/hDKoLH6C4d9Z+Indge+Mt
-	 Qib8zp9X8DB6Ogv5v4phP03pcVVxKEypR5p1PKAVoNP5uRTTXJMikHFhyBzgYfNciY
-	 szoR34ttdRVNli++WdZvqwNaSAb0iSjK+m2ZQDawd4g4izqdFmLXSAJNNAQtYr/YG3
-	 Avt2j7zGHXQlA==
-Date: Fri, 10 Nov 2023 18:42:56 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Add LTC4282 bindings
-Message-ID: <20231110-astronomy-nicotine-02c798d42910@roley>
-References: <20231110151905.1659873-1-nuno.sa@analog.com>
- <20231110151905.1659873-2-nuno.sa@analog.com>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="QqVm33ZW"
+Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1299217530;
+	Fri, 10 Nov 2023 10:46:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1699642019; x=1731178019;
+  h=mime-version:content-transfer-encoding:date:message-id:
+   cc:from:to:references:in-reply-to:subject;
+  bh=eUUQ7uJNPravSqJNpSE3V121J1GIxRJQS8MdayoT9IE=;
+  b=QqVm33ZW4UoBL9yG0WHc4Md3afUWpUx2fdaNDrZhoWJ9nWYthQUgS2+9
+   z6WAtBPYjwhb9SaX1zV/tvBbzqOr+MZju7dtSClv/vHFSioAo7tAkjDTB
+   pc3XW59UTQq+R4tZA4vQGaqqEEfbT7xLdOEeIxO51ycdlng+SR64og+bR
+   U=;
+X-IronPort-AV: E=Sophos;i="6.03,291,1694736000"; 
+   d="scan'208";a="362160415"
+Subject: Re: [RFC 02/33] KVM: x86: Introduce KVM_CAP_APIC_ID_GROUPS
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-2b-m6i4x-26a610d2.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 18:46:55 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
+	by email-inbound-relay-pdx-2b-m6i4x-26a610d2.us-west-2.amazon.com (Postfix) with ESMTPS id 2D06440E71;
+	Fri, 10 Nov 2023 18:46:54 +0000 (UTC)
+Received: from EX19MTAEUB002.ant.amazon.com [10.0.10.100:14842]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.22.222:2525] with esmtp (Farcaster)
+ id 66695bcb-84df-4eee-8339-5eb6c43ea833; Fri, 10 Nov 2023 18:46:53 +0000 (UTC)
+X-Farcaster-Flow-ID: 66695bcb-84df-4eee-8339-5eb6c43ea833
+Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.79) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.39; Fri, 10 Nov 2023 18:46:52 +0000
+Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
+ (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 10 Nov
+ 2023 18:46:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8eDhNlj9sgP1hXjF"
-Content-Disposition: inline
-In-Reply-To: <20231110151905.1659873-2-nuno.sa@analog.com>
-
-
---8eDhNlj9sgP1hXjF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 10 Nov 2023 18:46:44 +0000
+Message-ID: <CWVCT1QRMRUJ.3TCT5GYO1XMZ9@amazon.com>
+CC: <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-hyperv@vger.kernel.org>, <pbonzini@redhat.com>, <vkuznets@redhat.com>,
+	<anelkz@amazon.com>, <graf@amazon.com>, <dwmw@amazon.co.uk>,
+	<jgowans@amazon.com>, <corbert@lwn.net>, <kys@microsoft.com>,
+	<haiyangz@microsoft.com>, <decui@microsoft.com>, <x86@kernel.org>,
+	<linux-doc@vger.kernel.org>, Anel Orazgaliyeva <anelkz@amazon.de>
+From: Nicolas Saenz Julienne <nsaenz@amazon.com>
+To: Sean Christopherson <seanjc@google.com>
+X-Mailer: aerc 0.15.2-182-g389d89a9362e-dirty
+References: <20231108111806.92604-1-nsaenz@amazon.com>
+ <20231108111806.92604-3-nsaenz@amazon.com> <ZUvJp0XVVA_JrYDW@google.com>
+In-Reply-To: <ZUvJp0XVVA_JrYDW@google.com>
+X-Originating-IP: [10.13.235.138]
+X-ClientProxiedBy: EX19D033UWC004.ant.amazon.com (10.13.139.225) To
+ EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-Yo,
+On Wed Nov 8, 2023 at 5:47 PM UTC, Sean Christopherson wrote:
+> On Wed, Nov 08, 2023, Nicolas Saenz Julienne wrote:
+> > From: Anel Orazgaliyeva <anelkz@amazon.de>
+> >
+> > Introduce KVM_CAP_APIC_ID_GROUPS, this capability segments the VM's API=
+C
+> > ids into two. The lower bits, the physical APIC id, represent the part
+> > that's exposed to the guest. The higher bits, which are private to KVM,
+> > groups APICs together. APICs in different groups are isolated from each
+> > other, and IPIs can only be directed at APICs that share the same group
+> > as its source. Furthermore, groups are only relevant to IPIs, anything
+> > incoming from outside the local APIC complex: from the IOAPIC, MSIs, or
+> > PV-IPIs is targeted at the default APIC group, group 0.
+> >
+> > When routing IPIs with physical destinations, KVM will OR the source's
+> > vCPU APIC group with the ICR's destination ID and use that to resolve
+> > the target lAPIC.
+>
+> Is all of the above arbitrary KVM behavior or defined by the TLFS?
 
-On Fri, Nov 10, 2023 at 04:18:45PM +0100, Nuno Sa wrote:
-> Add bindings for the LTC4282 High Current Hot Swap Controller with I2C
-> Compatible Monitoring.
->=20
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> ---
->  .../bindings/hwmon/adi,ltc4282.yaml           | 228 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 234 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc4282.y=
-aml
->=20
-> diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml b/D=
-ocumentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
-> new file mode 100644
-> index 000000000000..0a5d540f014e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
-> @@ -0,0 +1,228 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/adi,ltc4282.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices LTC4282 I2C High Current Hot Swap Controller over =
-I2C
-> +
-> +maintainers:
-> +  - Nuno Sa <nuno.sa@analog.com>
-> +
-> +description: |
-> +  Analog Devices LTC4282 I2C High Current Hot Swap Controller over I2C.
-> +
-> +  https://www.analog.com/media/en/technical-documentation/data-sheets/lt=
-c4282.pdf
-> +
-> +
+All this matches VSM's expectations to how interrupts are to be handled.
+But APIC groups is a concept we created with the aim of generalizing the
+behaviour as much as possible.
 
-Extra blank line here FYI.
+> > The APIC physical map is also made group aware in
+> > order to speed up this process. For the sake of simplicity, the logical
+> > map is not built while KVM_CAP_APIC_ID_GROUPS is in use and we defer IP=
+I
+> > routing to the slower per-vCPU scan method.
+>
+> Why?  I mean, I kinda sorta understand what it does for VSM, but it's not=
+ at all
+> obvious why this information needs to be shoved into the APIC IDs.  E.g. =
+why not
+> have an explicit group_id and then maintain separate optimization maps fo=
+r each?
 
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,ltc4282
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vdd-supply: true
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  adi,clkout-mode:
-> +    description: |
-> +      Controls in which mode the CLKOUT PIN should work:
-> +        0 - Configures the CLKOUT pin to output the internal system clock
-> +        1 - Configures the CLKOUT pin to output the internal conversion =
-time
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1]
+There are three tricks to APIC groups. One is IPI routing: for ex. the
+ICR phyical destination is mixed with the source vCPU's APIC group to
+find the destination vCPU. Another is presenting a coherent APIC ID
+across VTLs; switching VTLs shouldn't change the guest's view of the
+APIC ID. And ultimately keeps track of the vCPU's VTL level. I don't wee
+why we couldn't decouple them, as long as we keep filtering the APIC ID
+before it reaches the guest.
 
-I really am not a fan of these types of properties. Part of me says that
-if you're outputting clocks from this device, then you should be a clock
-controller. How do consumers of this @clkout@ pin get the rate of the
-clock?
-I'd kinda be expecting to see a clocks property with a maxItems of 1 and
-clock-names with two, mutually exclusive, options.
+> > This capability serves as a building block to implement virtualisation
+> > based security features like Hyper-V's Virtual Secure Mode (VSM). VSM
+> > introduces a para-virtualised switch that allows for guest CPUs to jump
+> > into a different execution context, this switches into a different CPU
+> > state, lAPIC state, and memory protections. We model this in KVM by
+>
+> Who is "we"?  As a general rule, avoid pronouns.  "we" and "us" in partic=
+ular
+> should never show up in a changelog.  I genuinely don't know if "we" mean=
+s
+> userspace or KVM, and the distinction matters because it clarifies whethe=
+r or
+> not KVM is actively involved in the modeling versus KVM being little more=
+ than a
+> dumb pipe to provide the plumbing.
 
-The other part says, and it applies in multiple places here, that having
-integer properties with non-integer meanings is a poor ABI. I'd be vastly
-happier if the various instances in this file became enums of strings,
-or $re=E2=94=A4evant-unit so that a dts containing these properties is
-immediately understandable.
+Sorry, I've been actively trying to avoid pronouns as you already
+mentioned it on a previous review. This one made it through the cracks.
 
-Cheers,
-COnor.
+> > using distinct kvm_vcpus for each context.
+> >
+> > Moreover, execution contexts are hierarchical and its APICs are meant t=
+o
+> > remain functional even when the context isn't 'scheduled in'.
+>
+> Please explain the relationship and rules of execution contexts.  E.g. ar=
+e
+> execution contexts the same thing as VTLs?  Do all "real" vCPUs belong to=
+ every
+> execution context?  If so, is that a requirement?
 
-> +
-> +  adi,rsense-nano-ohms:
-> +    description: Value of the sense resistor.
-> +
-> +  adi,vin-mode-microvolt:
-> +    description:
-> +      Selects operating range for the Undervoltage, Overvoltage and Fold=
-back
-> +      pins. Also for the ADC. Should be set to the nominal input voltage.
-> +    enum: [3300000, 5000000, 12000000, 24000000]
-> +    default: 12000000
-> +
-> +  adi,fet-bad-timeout-ms:
-> +    description:
-> +      From the moment a FET bad conditions is present, this property sel=
-ects the
-> +      wait time/timeout for a FET-bad fault to be signaled. Setting this=
- to 0,
-> +      disables FET bad faults to be reported.
-> +    default: 255
-> +    maximum: 255
-> +
-> +  adi,overvoltage-dividers:
-> +    description: |
-> +      Select which dividers to use for VDD Overvoltage detection. Note t=
-hat
-> +      when the internal dividers are used the threshold is referenced to=
- VDD.
-> +      The percentages in the datasheet are misleading since the actual v=
-alues
-> +      to look for are in the "Absolute Maximum Ratings" table in the
-> +      "Comparator Inputs" section. In there there's a line for each of t=
-he 5%,
-> +      10% and 15% settings with the actual min, typical and max toleranc=
-es.
-> +        0 - Use the external dividers.
-> +        1 - Internal dividers 5%
-> +        2 - Internal dividers 10%
-> +        3 - Internal dividers 15%
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1, 2, 3]
-> +    default: 0
-> +
-> +  adi,undervoltage-dividers:
-> +    description: |
-> +      Select which dividers to use for VDD Overvoltage detection. Note t=
-hat
-> +      when the internal dividers are used the threshold is referenced to=
- VDD.
-> +      The percentages in the datasheet are misleading since the actual v=
-alues
-> +      to look for are in the "Absolute Maximum Ratings" table in the
-> +      "Comparator Inputs" section. In there there's a line for each of t=
-he 5%,
-> +      10% and 15% settings with the actual min, typical and max toleranc=
-es.
-> +        0 - Use the external dividers.
-> +        1 - Internal dividers 5%
-> +        2 - Internal dividers 10%
-> +        3 - Internal dividers 15%
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1, 2, 3]
-> +    default: 0
-> +
-> +  adi,current-limit-microvolt:
-> +    description:
-> +      The current limit sense voltage of the chip is adjustable between
-> +      12.5mV and 34.4mV in 3.1mV steps. This effectively limits the curr=
-ent
-> +      on the load.
-> +    enum: [12500, 15625, 18750, 21875, 25000, 28125, 31250, 34375]
-> +    default: 25000
-> +
-> +  adi,overcurrent-retry:
-> +    description:
-> +      If set, enables the chip to auto-retry 256 timer cycles after an
-> +      Overcurrent fault.
-> +    type: boolean
-> +
-> +  adi,overvoltage-retry-disable:
-> +    description:
-> +      If set, disables the chip to auto-retry 50ms after an Overvoltage =
-fault.
-> +      It's enabled by default.
-> +    type: boolean
-> +
-> +  adi,undervoltage-retry-disable:
-> +    description:
-> +      If set, disables the chip to auto-retry 50ms after an Undervoltage=
- fault.
-> +      It's enabled by default.
-> +    type: boolean
-> +
-> +  adi,fault-log-enable:
-> +    description:
-> +      If set, enables the FAULT_LOG and ADC_ALERT_LOG registers to be wr=
-itten
-> +      to the EEPROM when a fault bit transitions high and hence, will be
-> +      available after a power cycle (the chip loads the contents of
-> +      the EE_FAULT_LOG register - the one in EEPROM - into FAULT_LOG at =
-boot).
-> +    type: boolean
-> +
-> +  adi,gpio-alert:
-> +    description: Use the ALERT pin as a GPIO.
-> +    type: boolean
-> +
-> +  adi,gpio1-mode:
-> +    description: |
-> +      Defines the function of the Pin.
-> +          0 - GPIO Mode.
-> +          1 - Power Bad. Goes into high-z to indicate that the output po=
-wer is
-> +              no longer good.
-> +          2 - Power Good. Pulls low to indicate that the output power is=
- no
-> +              longer good.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maximum: 2
-> +
-> +  adi,gpio2-mode:
-> +    description: |
-> +      Defines the function of the Pin.
-> +          0 - GPIO Mode.
-> +          1 - Acts as an input pin and it is feeded into the ADC.
-> +          2 - Pulls Low when the MOSFET is dissipating power (stress).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maximum: 2
-> +
-> +  adi,gpio3-mode:
-> +    description: |
-> +      Defines the function of the Pin.
-> +          0 - GPIO Mode.
-> +          1 - Acts as an input pin and it is feeded into the ADC.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maximum: 1
-> +
-> +  gpio-controller:
-> +    description:
-> +      This property applies if some of the pins are used as GPIOs.
-> +
-> +  '#gpio-cells':
-> +    const: 2
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - adi,rsense-nano-ohms
-> +
-> +dependencies:
-> +  adi,alert-as-gpio: [gpio-controller, '#gpio-cells']
-> +
-> +allOf:
-> +  - if:
-> +      required:
-> +        - adi,gpio1-mode
-> +    then:
-> +      allOf:
-> +        - if:
-> +            properties:
-> +              adi,gpio0-mode:
-> +                const: 0
-> +          then:
-> +            dependencies:
-> +              adi,gpio0-mode: [gpio-controller, '#gpio-cells']
-> +  - if:
-> +      required:
-> +        - adi,gpio2-mode
-> +    then:
-> +      allOf:
-> +        - if:
-> +            properties:
-> +              adi,gpio1-mode:
-> +                const: 0
-> +          then:
-> +            dependencies:
-> +              adi,gpio1-mode: [gpio-controller, '#gpio-cells']
-> +  - if:
-> +      required:
-> +        - adi,gpio3-mode
-> +    then:
-> +      allOf:
-> +        - if:
-> +            properties:
-> +              adi,gpio2-mode:
-> +                const: 0
-> +          then:
-> +            dependencies:
-> +              adi,gpio2-mode: [gpio-controller, '#gpio-cells']
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        hwmon@50 {
-> +            compatible =3D "adi,ltc4282";
-> +            reg =3D <0x50>;
-> +            adi,rsense-nano-ohms =3D <500>;
-> +
-> +            gpio-controller;
-> +            #gpio-cells =3D <2>;
-> +
-> +            adi,gpio1-mode =3D <2>;
-> +            adi,gpio2-mode =3D <0>;
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 43121073390c..9f9527f6057b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12481,6 +12481,12 @@ S:	Maintained
->  F:	Documentation/hwmon/ltc4261.rst
->  F:	drivers/hwmon/ltc4261.c
-> =20
-> +LTC4282 HARDWARE MONITOR DRIVER
-> +M:	Nuno Sa <nuno.sa@analog.com>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
-> +
->  LTC4306 I2C MULTIPLEXER DRIVER
->  M:	Michael Hennerich <michael.hennerich@analog.com>
->  L:	linux-i2c@vger.kernel.org
-> --=20
-> 2.42.1
->=20
+I left a note about this in my reply to your questions in the cover
+letter.
 
---8eDhNlj9sgP1hXjF
-Content-Type: application/pgp-signature; name="signature.asc"
+> > For example, we have to keep track of
+> > timers' expirations, and interrupt execution of lesser priority context=
+s
+> > when relevant. Hence the need to alias physical APIC ids, while keeping
+> > the ability to target specific execution contexts.
+> >
+> > Signed-off-by: Anel Orazgaliyeva <anelkz@amazon.de>
+> > Co-developed-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
+> > ---
+>
+>
+> > diff --git a/arch/x86/kvm/lapic.h b/arch/x86/kvm/lapic.h
+> > index e1021517cf04..542bd208e52b 100644
+> > --- a/arch/x86/kvm/lapic.h
+> > +++ b/arch/x86/kvm/lapic.h
+> > @@ -97,6 +97,8 @@ void kvm_lapic_set_tpr(struct kvm_vcpu *vcpu, unsigne=
+d long cr8);
+> >  void kvm_lapic_set_eoi(struct kvm_vcpu *vcpu);
+> >  void kvm_lapic_set_base(struct kvm_vcpu *vcpu, u64 value);
+> >  u64 kvm_lapic_get_base(struct kvm_vcpu *vcpu);
+> > +int kvm_vm_ioctl_set_apic_id_groups(struct kvm *kvm,
+> > +                                 struct kvm_apic_id_groups *groups);
+> >  void kvm_recalculate_apic_map(struct kvm *kvm);
+> >  void kvm_apic_set_version(struct kvm_vcpu *vcpu);
+> >  void kvm_apic_after_set_mcg_cap(struct kvm_vcpu *vcpu);
+> > @@ -277,4 +279,35 @@ static inline u8 kvm_xapic_id(struct kvm_lapic *ap=
+ic)
+> >       return kvm_lapic_get_reg(apic, APIC_ID) >> 24;
+> >  }
+> >
+> > +static inline u32 kvm_apic_id(struct kvm_vcpu *vcpu)
+> > +{
+> > +     return vcpu->vcpu_id & ~vcpu->kvm->arch.apic_id_group_mask;
+>
+> This is *extremely* misleading.  KVM forces the x2APIC ID to match vcpu_i=
+d, but
+> in xAPIC mode the ID is fully writable.
 
------BEGIN PGP SIGNATURE-----
+Yes, although I'm under the impression that no sane OS will do so. We
+can decouple the group from the APIC ID, but it still needs to be masked
+before presenting it to the guest. So I guess we'll have to deal with
+the eventuality of apic id writing one way or anoter (a warn only if VSM
+is enabled?).
 
-iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZU55rAAKCRB4tDGHoIJi
-0pvAAP9esODBQZLF7ZBK2MgDPLaXWSCOSQSs3WDKBqqNKVpNZAD/aCn9opeIrbZB
-0100JHXLumH3i4n5PN4e4eROqX9uigk=
-=DUnj
------END PGP SIGNATURE-----
+If we decide the APIC group uAPI is not worth it, we can always create
+an ad-hoc VSM one that explicitly sets the kvm_vcpu's VTL. Then route
+the VTL internally into the APIC which can use still groups (or a
+similar concept).
 
---8eDhNlj9sgP1hXjF--
+Nicolas
