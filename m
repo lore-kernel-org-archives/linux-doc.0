@@ -1,219 +1,143 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35773B291
-	for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 19:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D905A33FA;
+	Fri, 10 Nov 2023 19:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kIY2MI5D"
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B2168BC
-	for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 11:32:11 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-da03390793fso2799166276.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 11:32:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699644730; x=1700249530; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rscOOVYju3IYaiMVnVP6ynDkK2d19s0rTRPZn172d+w=;
-        b=kIY2MI5DJM/qzI+uyaJ+zXU+ZLkWnPqKz4qr6Hbe0AIIZnNxy6OZyl8NAvbJYCWDO9
-         X8anEtkCWZioYhCqIV4l79Sf+3t0jb/YMpjyNDhbpgLmO6qRYCpFB50OmxkM8zSddNxn
-         fGAd/uraB1xQ8IVEI2i0mkh3tnnDFXoItoMyq3jlNJFp6R95LqGY9EL3jJRi+2H5V6C9
-         CM3SeGmJat1BcHy+idyBWYaJQqhbDaItOSh5cp94gO/xB+U11EGFTeJB2S0LVbDkG7fP
-         J5QwD13ehBl8oBW3qlPad/j6VmJu+HmRbkh+Y1BM5Nmervx4Z/W/Eb1fZHpgimydjqN5
-         IBMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699644730; x=1700249530;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rscOOVYju3IYaiMVnVP6ynDkK2d19s0rTRPZn172d+w=;
-        b=moZPUJxmRbftSg2tw9Ev+H6VEbuOVVrIP/Z0xJ4mn3xnApQ4B6roswh3IRqI+n0/zb
-         NFBrWp9NQ6M66vzMKLNwR9Dy0FlSjKituF+0gmlJchFIkNb92y1IkcU0I6cV+Yw8aI91
-         5avzMMGFvUq/cKV/GHlJ+DR2lqfQDvc808Hliqz0Lhz/8mr8ELBoBKPZFFTt65TbpqnD
-         uJ13qk550NSiSC9jLp+4F0FlRToM9MBtdMrYAJ76ONbaQzvN+j2O1nkjkEW7AHf/iFHd
-         2onZxgzcUIQGCd8wSJ+ZGHlPnkIaBP2v1PVAqyu1jZDvU+IjH0qB9GLeMsPwdeUf15Jw
-         5hlQ==
-X-Gm-Message-State: AOJu0YyXkgFAxEDl9WCQ5EOLwB6aBTZSRcQPRpOrMtu8Mzu4iuS8nEJ0
-	lwWNGBhloTztLx14M+lZtPGqgPafQ0I=
-X-Google-Smtp-Source: AGHT+IHHBCWk9v52Oayu+9pKnzADg1rJkQ9vJxLG4FzLGShvKXoBpg0SlnafNs/DMgJlK4ypSOG/E3KH84E=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:9c03:0:b0:d9d:973:a78b with SMTP id
- c3-20020a259c03000000b00d9d0973a78bmr1918ybo.3.1699644730558; Fri, 10 Nov
- 2023 11:32:10 -0800 (PST)
-Date: Fri, 10 Nov 2023 11:32:08 -0800
-In-Reply-To: <CWVBQQ6GVQVG.2FKWLPBUF77UT@amazon.com>
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="p5Jk+7QK"
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2057.outbound.protection.outlook.com [40.107.237.57])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D56268B4;
+	Fri, 10 Nov 2023 11:54:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mo3k6I3L3+GaMcPE9W8IN9T7AObg33M0tnp9fSppm7I2/LPuQ01fvN5xCzFHvPV9FklloyS2iASNPyhGljNo/hMfOzLArTkG4QBLsgFTR5QYkH0FewtmCWNe7VxrGc+An0q7hlb1jzoylRqsxKQJs/Dl9tJcRotEXOr/e0DCXxBZzzQ5anv5xjNxOoUZhlIDcZzdX/hmO5x/m3nBRGle2dHPnfWTLoZZiIK0wxyecKb7n4wDRihwomWJYB/Q49b7j/eN1OpZ97uZF3fmOZKVqJ7QGvZUfTSghLBQu/GAXYvY7yTTXO6jCyn+o3jAZhtwyvpQ1B9uWRZQ9Y2H0D+Mew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5un78N5+jUds3zCNWYGkXwpUGcb9pwtuVmOvn+vG6+g=;
+ b=QHMTCL6K8zA0AUBcjUkc1CbcPCVKn6V+yfJLgCd39uD21xK6QBSGQADwxgQj/giXx7i7WPzSFZKRmEVWwS/JjO4O3xyDNxpSRxsNQ91VgwR3xMH/e//WZ/kJXbXdn/zkXDEMCeiC0jJ3CfYDl2TBK9g00+QlDVoGCX8MrW0Xv9tO/XxB53Zc/mxJSpEB92pgn5SvMryJRi7GP1OdL9Mi6L7lKpsi0C8lM3OESMJUXsLWWDU9jyl2pDC24R/Iq3ZJlOTUzPGj++bBBT414jP/PAetYQnGRdwbZ6BZ5P9CNDHlMwe1Iw3DMPSkfClV202r25e0sdtOHbYkDPIe2grkBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5un78N5+jUds3zCNWYGkXwpUGcb9pwtuVmOvn+vG6+g=;
+ b=p5Jk+7QKKq26MxfR03EpBuuzlDUpmrXloLoD/gB8sz1hXHJffWUEUG7rOx9CVmb/EsVjDnE6moGa1539yOW+fg2GFHhTwCTn6sg1ALmlfPpXSAbCY4Bx1V7ZCaTlUglbwTVNI0fLlUsepn5h9EOHzpAfmUldG4bk0cQtwoVWhjA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by SJ0PR17MB5557.namprd17.prod.outlook.com (2603:10b6:a03:393::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.9; Fri, 10 Nov
+ 2023 19:54:53 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7002.010; Fri, 10 Nov 2023
+ 19:54:53 +0000
+Date: Fri, 10 Nov 2023 14:54:49 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, tj@kernel.org,
+	lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
+	roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev
+Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
+Message-ID: <ZU6KiRv7iy/cUY7N@memverge.com>
+References: <20231109002517.106829-1-gregory.price@memverge.com>
+ <87zfzmf80q.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87zfzmf80q.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: SJ0PR13CA0070.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::15) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231108111806.92604-1-nsaenz@amazon.com> <ZUu9lwJHasi2vKGg@google.com>
- <ZUvUZytj1AabvvrB@google.com> <CWVBQQ6GVQVG.2FKWLPBUF77UT@amazon.com>
-Message-ID: <ZU6FOF0qUAv8b1zm@google.com>
-Subject: Re: [RFC 0/33] KVM: x86: hyperv: Introduce VSM support
-From: Sean Christopherson <seanjc@google.com>
-To: Nicolas Saenz Julienne <nsaenz@amazon.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
-	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
-	corbert@lwn.net, kys@microsoft.com, haiyangz@microsoft.com, 
-	decui@microsoft.com, x86@kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SJ0PR17MB5557:EE_
+X-MS-Office365-Filtering-Correlation-Id: fbe52eac-d646-4b7f-29ec-08dbe226e7b8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ygCsEckYGxQbY5Fk+kAkXixzlSI9OQqJq3C3dErJeDeXmYI7Ff9GFIqKRmZl8wPGsX04Eo+8AjLrQCEOwEbLwZXbGJbbxA01ZpC5TRflDoSwSiD7KOnY3cbVAhOzZdXoN/0zVujiJa03EqE0APEw7Xp9SyL0E7Xbkg15coSc+UXhedooPSjn6I2NrXRQnmxvTUqg6gdi5Mu3fIHmP2FzjXgddx1kcsjvuAk39PXl6a4WvUSRSQtX5eq9GW7zZ684XDwIKFnB2MuOJiY+BPNSeT3IZhu/BkbG/bxzw6LIeUK6DRl/mtwod5oaaQA6/TZOAkALZPDJBpQcrFSmHbK4mzv5bmDS3VTzuhE45dmdlSKeaYTvT0WLMTNjrlPL6jrOypy1jTPI0SnTTh4NQcca2W5AauYpGw7MMisoIs4oonTfcbEVTyV8oNhqV9bw1KUZvoOIgyRkiW4Fd8aBG+bkrcrOAQK0mvU8B+HspjcEoDFqNxlpUgirPnl5Aq2g5JbDG2ZI80Aypc+uQmruEbhpdtU4TnxGFQQf5/hyX/zPj/pq9SFzUCFDcRZfD6zap9CaCJdhvO+YKEw1LcDtcbvUzJyc0vRwBsuoTaZ6dIF4F+4LzEs7fEMYwd2//xbcnBa1
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(39840400004)(136003)(346002)(376002)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(6512007)(6486002)(478600001)(2616005)(6666004)(6506007)(83380400001)(7416002)(26005)(2906002)(66476007)(41300700001)(44832011)(66556008)(66946007)(4326008)(6916009)(8676002)(8936002)(316002)(5660300002)(38100700002)(36756003)(86362001)(16393002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?khNQ6xcg1p90yHKbACXCFKc39HEbFJJisoMILo3STSYeCy0t3dpqPmjHFqZP?=
+ =?us-ascii?Q?Gp2cOQa+bwbDwJNJallvEp6VxTBzdEwdhgth0cPpU6qIlh4+V6P2NO1nS4SX?=
+ =?us-ascii?Q?VJANZVyyAThex6CqY+iB7l8PiWf22APpJz708xq1hRil8/rezuMOybjEBn7P?=
+ =?us-ascii?Q?2jRaqYxfVag/I0fe++KOexK3icwWN17XTa1UgpojBsU0jhDfKZOX9RkWICh4?=
+ =?us-ascii?Q?o+KJvPae1ir+4u3SQDPvmrDUlay0GNVuZe8mLqdIRjJcLY6HaST3EQNDw+cx?=
+ =?us-ascii?Q?zOF9OJLq3gYWdtUm352JCoGujUHCQN+eS7r0LlbevsGEhtBZGwZzEVLWJ4WT?=
+ =?us-ascii?Q?oYiZ9yZ+qPCLkw3chD4xtv6n2zAdzUlVepeGyf+k7g1FLT1cxkUNrWGns5vo?=
+ =?us-ascii?Q?5DgfHhowBdUB9XGKC9K6C0PkQMLcgRFmclQY7SGMSnRq1Vz954/mQe2MrZeX?=
+ =?us-ascii?Q?FwPalIqPIqqxYH5pEJxCNplFcEpfKpukP+VzV5c1Yks2iT2R16Ik7vD2vGmv?=
+ =?us-ascii?Q?1YZ8c3nbSlcd4tlPCPiPuK7Qvjfhq58ldVjB4K9RzwCQtL5ID13QM/K5nxOP?=
+ =?us-ascii?Q?4Kg9PwNCNhBXE+mvMnbN/HyIkxC4PzR1ho75XxKyI6DNCSYo08GYynakTwIP?=
+ =?us-ascii?Q?xY5OJ/ny4seT2vQ2I14Wf9zjtwvhLcg8/X6hV5+mj7Ja7kiCcz0P1uEhG9lw?=
+ =?us-ascii?Q?hMcvWGX8dCQX037xj9yt3f/f/VNNHva8Wtbu8+/Tbt0HQL/YyIaAsWXYtgiV?=
+ =?us-ascii?Q?daKuiVp2CHwrVcdvWIQNQoklgxXO3wQdQ/Aq6/UeBBIVEAVQkFxpkXAVcmvH?=
+ =?us-ascii?Q?qSukY544+4WWUHmtQm7q9Bi/hLPkw9AwDPZS2BHuLX0tZdt56unOirf1IbGJ?=
+ =?us-ascii?Q?dmXD4nRoWWjwz3JF+eYkE4W5+h8PtrAPWo/mscur4QgxCePI/OZ/CAinbxDj?=
+ =?us-ascii?Q?MgPvL9NH2Y3LWl90HlQcKEzdSuUS5KD8RJxss0BOP9VEO2euDEHxZXTm4ycb?=
+ =?us-ascii?Q?sykDGRzTworuitDdGId2rBc2lI1JQ7oFy5GO1OHNnuG94r6EWccqgZgG1xgD?=
+ =?us-ascii?Q?b2NvDlzMd+SujyDNHNZjHO0PuoYtT6iGsBu9VZbZmd+F6RlTo/EPLQpgMRt7?=
+ =?us-ascii?Q?N2DR4Z7mqW7EzXuzTz5sNtT6IB2EvT9Mq1EjdGegNWUnRlrCrArwgnfNk3ag?=
+ =?us-ascii?Q?0BzpqXjNzPWJAHWTuKjAWphHyU7ATZJpTVDwt1iCxfzv5OdgMjBIVubK9JhO?=
+ =?us-ascii?Q?8AgCJLG4fHASOyXkA4/TqXvcdwN+zO2wUDM+wz1FLnafOqgTly7Em/KMu59K?=
+ =?us-ascii?Q?LljvDacrNSwz7f0zpZ6ukiGzKYn8QPFZ8rQA7vkG9iu9/ZrG02q+hkuR2ghO?=
+ =?us-ascii?Q?Z2efm6sLkjQcufdxFBxlsC3VuovSezoUjyE9fGmaDzoTRHm2mcK8MkcFe8RQ?=
+ =?us-ascii?Q?vlj9/U5AU61DJVG1jONFYZ3e92yMQN/hk2HhgFBuNlYNzhiTJES0YBEa/v6N?=
+ =?us-ascii?Q?IpC9QdfWN7rO0/8e0dMQf2d2akOp5IDa93QzAhAtwOOAOPb0mSpZhPChoneL?=
+ =?us-ascii?Q?Iodep4OHQ+byx+m4LxyOx94VnL+9HE7QrV8l/kHRAr7j9KMLq+h21F6CMJuC?=
+ =?us-ascii?Q?ZA=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbe52eac-d646-4b7f-29ec-08dbe226e7b8
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2023 19:54:52.9199
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g6yfi5kzXhOoqRhFI+tMxURcCuLvwl21P/zV2VhUIipZZgNRsyNOQ+fwvRvarmPhjRxwA4QMted4sWmR6ZEOJ/Wfd3Nzp8YKFgvGtRO3pIM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB5557
 
-On Fri, Nov 10, 2023, Nicolas Saenz Julienne wrote:
-> On Wed Nov 8, 2023 at 6:33 PM UTC, Sean Christopherson wrote:
-> >  - What is the split between userspace and KVM?  How did you arrive at =
-that split?
->=20
-> Our original design, which we discussed in the KVM forum 2023 [1] and is
-> public [2], implemented most of VSM in-kernel. Notably we introduced VTL
-> awareness in struct kvm_vcpu.
+On Fri, Nov 10, 2023 at 02:16:05PM +0800, Huang, Ying wrote:
+> Gregory Price <gourry.memverge@gmail.com> writes:
+> 
+> > This patchset implements weighted interleave and adds a new cgroup
+> > sysfs entry: cgroup/memory.interleave_weights (excluded from root).
+> >
+> > The il_weight of a node is used by mempolicy to implement weighted
+> > interleave when `numactl --interleave=...` is invoked.  By default
+> > il_weight for a node is always 1, which preserves the default round
+> > robin interleave behavior.
+> 
+> IIUC, this makes it almost impossible to set the default weight of a
+> node from the node memory bandwidth information.  This will make the
+> life of users a little harder.
+> 
+> If so, how about use a new memory policy mode, for example
+> MPOL_WEIGHTED_INTERLEAVE, etc.
+>
 
-...
+weights are also inherited from parent cgroups, so if you set them in
+parent slices you can automatically set update system settings.
 
-> So we decided to move all this complexity outside of struct kvm_vcpu
-> and, as much as possible, out of the kernel. We figures out the basic
-> kernel building blocks that are absolutely necessary, and let user-space
-> deal with the rest.
+by default the parent slice weights will always be 1 until set
+otherwise.  Once they're set, children inherit naturally.
 
-Sorry, I should have been more clear.  What's the split in terms of respons=
-ibilities,
-i.e. what will KVM's ABI look like?  E.g. if the vCPU=3D>VTLs setup is nons=
-ensical,
-does KVM care?
+Maybe there's an argument here for including interleave_weights in the
+root cgroup.
 
-My general preference is for KVM to be as permissive as possible, i.e. let
-userspace do whatever it wants so long as it doesn't place undue burden on =
-KVM.
-But at the same time I don't to end up in a similar boat as many of the par=
-avirt
-features, where things just stop working if userspace or the guest makes a =
-goof.
-
-> >  - Why not make VTLs a first-party concept in KVM?  E.g. rather than bu=
-ry info
-> >    in a VTL device and APIC ID groups, why not modify "struct kvm" to s=
-upport
-> >    replicating state that needs to be tracked per-VTL?  Because of how =
-memory
-> >    attributes affect hugepages, duplicating *memslots* might actually b=
-e easier
-> >    than teaching memslots to be VTL-aware.
->=20
-> I do agree that we need to introduce some level VTL awareness into
-> memslots. There's the hugepages issues you pointed out. But it'll be
-> also necessary once we look at how to implement overlay pages that are
-> per-VTL. (A topic I didn't mention in the series as I though I had
-> managed to solve memory protections while avoiding the need for multiple
-> slots). What I have in mind is introducing a memory slot address space
-> per-VTL, similar to how we do things with SMM.
-
-Noooooooo (I hate memslot address spaces :-) )
-
-Why not represent each VTL with a separate "struct kvm" instance?  That wou=
-ld
-naturally provide per-VTL behavior for:
-
-  - APIC groups
-  - memslot overlays
-  - memory attributes (and their impact on hugepages)
-  - MMU pages
-
-The only (obvious) issue with that approach would be cross-VTL operations. =
- IIUC,
-sending IPIs across VTLs isn't allowed, but even if it were, that should be=
- easy
-enough to solve, e.g. KVM already supports posting interrupts from non-KVM =
-sources.
-
-GVA=3D>GPA translation would be trickier, but that patch suggests you want =
-to handle
-that in userspace anyways.  And if translation is a rare/slow path, maybe i=
-t could
-simply be punted to userspace?
-
-  NOTE: The hypercall implementation is incomplete and only shared for
-  completion. Additionally we'd like to move the VTL aware parts to
-  user-space.
-
-Ewww, and looking at what it would take to support cross-VM translations sh=
-ows
-another problem with using vCPUs to model VTLs.  Nothing prevents userspace=
- from
-running a virtual CPU at multiple VTLs concurrently, which means that anyth=
-ing
-that uses kvm_hv_get_vtl_vcpu() is unsafe, e.g. walk_mmu->gva_to_gpa() coul=
-d be
-modified while kvm_hv_xlate_va_walk() is running.
-
-I suppose that's not too hard to solve, e.g. mutex_trylock() and bail if so=
-mething
-holds the other kvm_vcpu/VTL's mutex.  Though ideally, KVM would punt all c=
-ross-VTL
-operations to userspace.  :-)
-
-If punting to userspace isn't feasible, using a struct kvm per VTL probably=
- wouldn't
-make the locking and concurrency problems meaningfully easier or harder to =
-solve.
-E.g. KVM could require VTLs, i.e. "struct kvm" instances that are part of a=
- single
-virtual machine, to belong to the same process.  That'd avoid headaches wit=
-h
-mm_struct, at which point I don't _think_ getting and using a kvm_vcpu from=
- a
-different kvm would need special handling?
-
-Heh, another fun one, the VTL handling in kvm_hv_send_ipi() is wildly broke=
-n, the
-in_vtl field is consumed before send_ipi is read from userspace.
-
-	union hv_input_vtl *in_vtl;
-	u64 valid_bank_mask;
-	u32 vector;
-	bool all_cpus;
-	u8 vtl;
-
-	/* VTL is at the same offset on both IPI types */
-	in_vtl =3D &send_ipi.in_vtl;
-	vtl =3D in_vtl->use_target_vtl ? in_vtl->target_vtl : kvm_hv_get_active_vt=
-l(vcpu);
-
-> >    E.g. if 90% of the state is guaranteed to be identical for a given
-> >    vCPU across execution contexts, then modeling that with separate
-> >    kvm_vcpu structures is very inefficient.  I highly doubt it's 90%,
-> >    but it might be quite high depending on how much the TFLS restricts
-> >    the state of the vCPU, e.g. if it's 64-bit only.
->=20
-> For the record here's the private VTL state (TLFS 15.11.1):
->=20
-> "In general, each VTL has its own control registers, RIP register, RSP
->  register, and MSRs:
->=20
->  SYSENTER_CS, SYSENTER_ESP, SYSENTER_EIP, STAR, LSTAR, CSTAR, SFMASK,
->  EFER, PAT, KERNEL_GSBASE, FS.BASE, GS.BASE, TSC_AUX
->  HV_X64_MSR_HYPERCALL
->  HV_X64_MSR_GUEST_OS_ID
->  HV_X64_MSR_REFERENCE_TSC
->  HV_X64_MSR_APIC_FREQUENCY
->  HV_X64_MSR_EOI
->  HV_X64_MSR_ICR
->  HV_X64_MSR_TPR
->  HV_X64_MSR_APIC_ASSIST_PAGE
->  HV_X64_MSR_NPIEP_CONFIG
->  HV_X64_MSR_SIRBP
->  HV_X64_MSR_SCONTROL
->  HV_X64_MSR_SVERSION
->  HV_X64_MSR_SIEFP
->  HV_X64_MSR_SIMP
->  HV_X64_MSR_EOM
->  HV_X64_MSR_SINT0 =E2=80=93 HV_X64_MSR_SINT15
->  HV_X64_MSR_STIMER0_COUNT =E2=80=93 HV_X64_MSR_STIMER3_COUNT
->  Local APIC registers (including CR8/TPR)
-
-Ugh, the APIC state is quite the killer.  And I gotta image things like CET=
- and
-FRED are only going to increase that list.
+~Gregory
