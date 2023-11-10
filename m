@@ -1,98 +1,141 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013113C694;
-	Fri, 10 Nov 2023 22:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B493C6B0;
+	Fri, 10 Nov 2023 22:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7InLcbm"
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 822F24229;
-	Fri, 10 Nov 2023 14:06:01 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6b20577ef7bso2330781b3a.3;
-        Fri, 10 Nov 2023 14:06:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699653961; x=1700258761; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SQsMe074MamB2yzTQo6W7krdrCcJW4RDQzQCxoPsHD4=;
-        b=g7InLcbmdDLab1Lx4iUOYFwcWf5rys/9CPVZDHc+MVA9HxZd+N/QeHGCszQqNX52vA
-         AyUqHKWVqR4nTQGD9/jAeiiB9AmQ8ofIfxhCwFDBAdpDKMmXuDOHkicAMsX1B11aRz44
-         6/SDdn5J/WG4Ur7hXNtGN4ZUzS/vxFq+JEbomXPpr1fDq9wqk2eYqQbLBXJl6q6mI6SR
-         TCfykjAvK6dKJcBtJW5xxwNQiV9yzzKMAq0QNUA3P5RSntzPPO/FajSn5YW06S6KU0gM
-         l1Ky6N2wO5MThQe9e1c4BPdlAR7N+GyLXAn0odULZzvNKIxa6bRzkE9/+VP8A8dqWBa7
-         L4YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699653961; x=1700258761;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SQsMe074MamB2yzTQo6W7krdrCcJW4RDQzQCxoPsHD4=;
-        b=LuzAin1TvQG6FWeWVp3t1bTGWPnO4iL4cPooR1pQKpwBffv+vlbX06L0sYraMOosy+
-         aalQXCubrXtkNYGtJVsIqjEy74J04Csl8CgS+C2E/HaMta2WcX3Fkqem2ADTnSi8d4DG
-         cskTMDS3RPTL8jIPjG9AHZNJPDvWKq3kA9lL03dFxRw8VCRfJrJ4w6gFQCwiJ1zg+usX
-         voAmsvEAiN8wRSuf6Ir80jotFVObqepAXspPG2wc1H4zSaJg0gZZq+q5iKRe4P05kDPa
-         kEvEmjV81xRJ6543g2Kze7gITU8JYAm+hR1PrvhM3nuOSnyno3N6oq2JBmlGK7LwJBfV
-         MO2A==
-X-Gm-Message-State: AOJu0YwkuFq56nYqakA1iMFtVnF3ycVSh76G9776XySEBWUcWcnZ6li4
-	vCAXnYOVKUGhQXPjFnYP+6M5YaedZlM=
-X-Google-Smtp-Source: AGHT+IGmYD+iLSGJMZ1bWcW3JwFA+GQuAkLKnNRr9ZRnrpf2Iuo4IbP+yoj9cl8CDjWN8FMq3eC3SA==
-X-Received: by 2002:a05:6a21:7746:b0:181:a3ae:115b with SMTP id bc6-20020a056a21774600b00181a3ae115bmr438823pzc.61.1699653960858;
-        Fri, 10 Nov 2023 14:06:00 -0800 (PST)
-Received: from localhost ([2620:10d:c090:400::4:7384])
-        by smtp.gmail.com with ESMTPSA id fm26-20020a056a002f9a00b0068620bee456sm180253pfb.209.2023.11.10.14.06.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Nov 2023 14:06:00 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Fri, 10 Nov 2023 12:05:59 -1000
-From: "tj@kernel.org" <tj@kernel.org>
-To: John Groves <john@jagalactic.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"ying.huang@intel.com" <ying.huang@intel.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"mhocko@kernel.org" <mhocko@kernel.org>,
-	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-	"shakeelb@google.com" <shakeelb@google.com>,
-	"muchun.song@linux.dev" <muchun.song@linux.dev>,
-	Gregory Price <gregory.price@memverge.com>,
-	"jgroves@micron.com" <jgroves@micron.com>
-Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
-Message-ID: <ZU6pR46kiuzPricM@slm.duckdns.org>
-References: <20231109002517.106829-1-gregory.price@memverge.com>
- <klhcqksrg7uvdrf6hoi5tegifycjltz2kx2d62hapmw3ulr7oa@woibsnrpgox4>
- <0100018bb64636ef-9daaf0c0-813c-4209-94e4-96ba6854f554-000000@email.amazonses.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="mxZ9ME16"
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3799B4229;
+	Fri, 10 Nov 2023 14:28:36 -0800 (PST)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AAHifV1019404;
+	Fri, 10 Nov 2023 22:28:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2023-03-30;
+ bh=PF3adVbDuDOrhrzIcst51oqzg2T1uPdLomNy2PQ/df0=;
+ b=mxZ9ME161Tpx/sUIktn5cCgEWbUPkYCT4Gopk0IPusYQd16bQbEA2QDRqW10AV2lYExP
+ YTcDZA5XkdVOuwUYunT6X/fKMLtEp+iV8uuT+hi7EA3Qzt4nP6hhA86rKg7UIE4oxHgt
+ MrQSbIwPspaP9IA/psV5wjEFSnqJxICshWAapxdunaKp2GOuWlwZJIOTiwSX4+9tbZ8d
+ htPPyXRjFuljRKUELcpioVxqQJ+tUYjMRSWii2R3xmOrcJ0phC4FxU9SMW1Uz8I+zxAK
+ z9NhWcd06DeWGgueO8zqe+TfI19O0bhPPjrgyYH+nZn+HZRvdi64oMVqYS59RZPdwM17 3w== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3u7w2370up-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Nov 2023 22:28:07 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3AAM4utL023964;
+	Fri, 10 Nov 2023 22:28:05 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3u7w28nb37-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 10 Nov 2023 22:28:05 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3AAMRsaK039112;
+	Fri, 10 Nov 2023 22:28:05 GMT
+Received: from ovs113.us.oracle.com (ovs113.us.oracle.com [10.149.224.213])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3u7w28nayh-12
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 10 Nov 2023 22:28:05 +0000
+From: Ross Philipson <ross.philipson@oracle.com>
+To: linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org
+Cc: ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        ardb@kernel.org, mjg59@srcf.ucam.org,
+        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
+        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
+        trenchboot-devel@googlegroups.com
+Subject: [PATCH v7 11/13] reboot: Secure Launch SEXIT support on reboot paths
+Date: Fri, 10 Nov 2023 17:27:49 -0500
+Message-Id: <20231110222751.219836-12-ross.philipson@oracle.com>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20231110222751.219836-1-ross.philipson@oracle.com>
+References: <20231110222751.219836-1-ross.philipson@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0100018bb64636ef-9daaf0c0-813c-4209-94e4-96ba6854f554-000000@email.amazonses.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-10_20,2023-11-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ spamscore=0 mlxscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311100187
+X-Proofpoint-GUID: dUuthkw529cAhBfrt5o13aJ6-FhLAJsi
+X-Proofpoint-ORIG-GUID: dUuthkw529cAhBfrt5o13aJ6-FhLAJsi
 
-Hello,
+If the MLE kernel is being powered off, rebooted or halted,
+then SEXIT must be called. Note that the SEXIT GETSEC leaf
+can only be called after a machine_shutdown() has been done on
+these paths. The machine_shutdown() is not called on a few paths
+like when poweroff action does not have a poweroff callback (into
+ACPI code) or when an emergency reset is done. In these cases,
+just the TXT registers are finalized but SEXIT is skipped.
 
-On Thu, Nov 09, 2023 at 10:48:56PM +0000, John Groves wrote:
-> This approach checks all the important boxes: it only applies to apps where
-> it's enabled, the weighting can vary from one app to another, the
-> kernel is not affected, and the numa topology is not buried.
+Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+---
+ arch/x86/kernel/reboot.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Can't it be a mempol property which is inherited by child processes? Then
-all you'll need is e.g. adding systemd support to configure this at service
-unit level. I'm having a bit of hard time seeing why this needs to be a
-cgroup feature when it doesn't involve dynamic resource accounting /
-enforcement at all.
-
-Thanks.
-
+diff --git a/arch/x86/kernel/reboot.c b/arch/x86/kernel/reboot.c
+index 830425e6d38e..668cfc5e4c92 100644
+--- a/arch/x86/kernel/reboot.c
++++ b/arch/x86/kernel/reboot.c
+@@ -12,6 +12,7 @@
+ #include <linux/delay.h>
+ #include <linux/objtool.h>
+ #include <linux/pgtable.h>
++#include <linux/slaunch.h>
+ #include <acpi/reboot.h>
+ #include <asm/io.h>
+ #include <asm/apic.h>
+@@ -766,6 +767,7 @@ static void native_machine_restart(char *__unused)
+ 
+ 	if (!reboot_force)
+ 		machine_shutdown();
++	slaunch_finalize(!reboot_force);
+ 	__machine_emergency_restart(0);
+ }
+ 
+@@ -776,6 +778,9 @@ static void native_machine_halt(void)
+ 
+ 	tboot_shutdown(TB_SHUTDOWN_HALT);
+ 
++	/* SEXIT done after machine_shutdown() to meet TXT requirements */
++	slaunch_finalize(1);
++
+ 	stop_this_cpu(NULL);
+ }
+ 
+@@ -784,8 +789,12 @@ static void native_machine_power_off(void)
+ 	if (kernel_can_power_off()) {
+ 		if (!reboot_force)
+ 			machine_shutdown();
++		slaunch_finalize(!reboot_force);
+ 		do_kernel_power_off();
++	} else {
++		slaunch_finalize(0);
+ 	}
++
+ 	/* A fallback in case there is no PM info available */
+ 	tboot_shutdown(TB_SHUTDOWN_HALT);
+ }
+@@ -813,6 +822,7 @@ void machine_shutdown(void)
+ 
+ void machine_emergency_restart(void)
+ {
++	slaunch_finalize(0);
+ 	__machine_emergency_restart(1);
+ }
+ 
 -- 
-tejun
+2.39.3
+
