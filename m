@@ -1,380 +1,380 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18031C28B;
-	Fri, 10 Nov 2023 16:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66CC40AEF;
-	Fri, 10 Nov 2023 08:50:48 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="394111592"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="394111592"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 08:50:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="740197164"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="740197164"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 08:50:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
-	(envelope-from <andy@kernel.org>)
-	id 1r1UiQ-0000000Ctty-0Atx;
-	Fri, 10 Nov 2023 18:50:42 +0200
-Date: Fri, 10 Nov 2023 18:50:41 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Message-ID: <ZU5fYY81L_qSmQWq@smile.fi.intel.com>
-References: <20231110151905.1659873-1-nuno.sa@analog.com>
- <20231110151905.1659873-3-nuno.sa@analog.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83BC20323
+	for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 17:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="19/l+bRp"
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2081.outbound.protection.outlook.com [40.107.94.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C437843F1C;
+	Fri, 10 Nov 2023 09:19:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HF72XYqPsfmFJ7G7lBWcrW/lB4+ivzEOix0/6K8Vo7qPg3dU4MVgpTanMy2w0IcDjlYnyxdLf+sPiJ8zeY5ieaLlT4XLlHn3mxGT361/ZsnOFNi/WexZliq01rkeognQZUOlyZua0EawGnukGOgE5Fr70JQBkqQi4F6/9sFT1MF9Og8z9D7rbg3nhSm5AE0ZEfCEx9PvPd5US5C0X3yxtPCeBp/mbOPPcQxcVhwOAdhcBFUoqjimcW5OGCZNBib6G5NbILac26IchHM1Gmrw7ql2jdliPWX0Z8hKV3YSGRgfc/z54EuV42azlRpe7+aEySnoAQmEAHyiL8aj7FuPtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z5weypW8vdwk+EgDFCm+WGqAPyettDVf8HvAEKL2Vx0=;
+ b=CvGPQQxYUh6EEZfZ7EbvgDUqLbLcGJ9gG7hBcOP6MF3ULGRLAaFPFh4wM4gW0z5B5mYkUsdae5ZgG+DKBBTCiqDnP39N4ReSxqDSlMBqgJSp9XOtxXDdvCQpn+UXQnYvFbhGvdXKZq2Yt/UF0JxLmnfSLuJxtNWZd+drp5lRs9GbLxfHacby1pv1azQoP/m2TR1xgo1tQHs6ifBWazCi2L/yUImUknaScLgC20TICzEvFPtR+Tl2+YJIf4SZ1XscQvG3GTBBvbL7e5ZFw/FwD2wN1kWC/Wrpw8FjN3w4ey3LDRa4y1kLzrOsZXa3zZcSyBWIcuW1l/lRUBYYm0Ue+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z5weypW8vdwk+EgDFCm+WGqAPyettDVf8HvAEKL2Vx0=;
+ b=19/l+bRpq3cGE0hG29rth4qqi7LmD7FtDDdQjk6wT2fK5sXhkSxsnqeQBRzQpUoa5+HIgWAdwwT9+4gxn50skYpmcCxjgNcdEz+4mBwLQsnYWYa+tSkhTYepVlXf/PiA7gq7xNfYzHYkxjDmU+riwMtOWq7Ysrof0kvt4bLBdg4=
+Received: from DM6PR13CA0060.namprd13.prod.outlook.com (2603:10b6:5:134::37)
+ by CY8PR12MB8216.namprd12.prod.outlook.com (2603:10b6:930:78::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Fri, 10 Nov
+ 2023 17:19:34 +0000
+Received: from DS3PEPF000099E1.namprd04.prod.outlook.com
+ (2603:10b6:5:134:cafe::e8) by DM6PR13CA0060.outlook.office365.com
+ (2603:10b6:5:134::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.18 via Frontend
+ Transport; Fri, 10 Nov 2023 17:19:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099E1.mail.protection.outlook.com (10.167.17.196) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6977.16 via Frontend Transport; Fri, 10 Nov 2023 17:19:34 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Fri, 10 Nov
+ 2023 11:19:22 -0600
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+CC: Hamza Mahfooz <hamza.mahfooz@amd.com>, Alex Deucher
+	<alexander.deucher@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, "Pan, Xinhui"
+	<Xinhui.Pan@amd.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Jonathan
+ Corbet" <corbet@lwn.net>, Harry Wentland <harry.wentland@amd.com>, Leo Li
+	<sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, "Wenjing
+ Liu" <wenjing.liu@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+	Qingqing Zhuo <qingqing.zhuo@amd.com>, Fangzhi Zuo <jerry.zuo@amd.com>,
+	Hersen Wu <hersenxs.wu@amd.com>, Alexey Kodanev
+	<aleksei.kodanev@bell-sw.com>, Alan Liu <HaoPing.Liu@amd.com>, Anthony Koo
+	<anthony.koo@amd.com>, Aric Cyr <aric.cyr@amd.com>, Mustapha Ghaddar
+	<mghaddar@amd.com>, Alvin Lee <alvin.lee2@amd.com>, Tony Tascioglu
+	<tony.tascioglu@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+	"Reza Amini" <reza.amini@amd.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/amd/display: add a debugfs interface for the DMUB trace mask
+Date: Fri, 10 Nov 2023 12:18:07 -0500
+Message-ID: <20231110171811.11656-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231110151905.1659873-3-nuno.sa@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-
-On Fri, Nov 10, 2023 at 04:18:46PM +0100, Nuno Sa wrote:
-> The LTC4282 hot swap controller allows a board to be safely inserted and
-> removed from a live backplane. Using one or more external N-channel pass
-> transistors, board supply voltage and inrush current are ramped up at an
-> adjustable rate. An I2C interface and onboard ADC allows for monitoring
-> of board current, voltage, power, energy and fault status.
-
-There are plenty of ltc42xx in the same folder and a lot of other chips.
-Have you checked that none of the existing driver is not close enough and
-brand new driver is indeed required? If so, add a respective paragraph
-somewhere (cover letter? TBH I haven't read it, it's fine if it's already
-explained there).
-
-...
-
-> +#define LTC4282_STATUS_MSB			0x1F
-
-> +#define LTC4282_VSOURCE				0x3a
-> +#define LTC4282_VSOURCE_LOWEST			0x3c
-> +#define LTC4282_VSOURCE_HIGHEST			0x3e
-
-You have an inconsistency in the capitalization of the hexadecimal values.
-
-...
-
-> +/*
-> + * relaxed version of FIELD_PREP() to be used when mask is not a compile time constant
-> + * u32_encode_bits() can't also be used as the compiler needs to be able to evaluate
-> + * mask at compile time.
-> + */
-> +#define LTC4282_FIELD_PREP(m, v)	(((v) << (ffs(m) - 1)) & (m))
-
-Can we name it accordingly as done in other places, and TBH it's a time to move
-it to the header. (At least I know about two more implementations of this).
-
-...
-
-> +struct ltc4282_state {
-> +	struct regmap *map;
-> +	struct device *dev;
-> +	/* Protect against multiple accesses to the device registers */
-> +	struct mutex lock;
-> +	struct gpio_chip gc;
-> +	u64 saved_energy;
-> +	long power_max;
-
-> +	u32 gpio_map[LTC4282_GPIO_NR];
-
-Why is this needed? The valid_mask is not enough?
-
-> +	u32 rsense;
-> +	u32 vin_mode;
-> +	u16 vfs_out;
-> +};
-
-...
-
-> +	/* GPIO_2,3 and the ALERT pin require setting the bit to 1 to pull down the line */
-> +	if (!gpio->active_high)
-
-Hmm... Why do you need a separate flag for this? Shouldn't be described or
-autodetected somehow?
-
-> +		val = !val;
-
-...
-
-> +	*val = DIV_ROUND_CLOSEST_ULL(be16_to_cpu(in) * (u64)fs, U16_MAX);
-
-I'm wondering if you can do some trick to "divide" actually to 2^16 so, it will
-not use division op at all?
-
-...
-
-> +	*val = DIV_ROUND_CLOSEST(in * fs, U8_MAX);
-
-Ditto.
-
-...
-
-> +	/*
-> +	 * Wait for two ADC conversions so we are sure we get one full VDD
-> +	 * measurement.
-> +	 */
-> +	msleep(2 * LTC4282_TCONV_US / MILLI);
-
-fsleep() ?
-
-...
-
-> +static int ltc4282_read_power_word(const struct ltc4282_state *st, u32 reg, long *val)
-> +{
-> +	u64 temp =  DECA * 40ULL * st->vfs_out * 1 << 16, temp_2;
-
-Too many spaces.
-
-"* BIT(16)" / "* BIT_ULL(16)" ?
-
-...
-
-> +		temp = DIV_ROUND_CLOSEST_ULL(power * temp, U16_MAX);
-> +		*val = DIV64_U64_ROUND_CLOSEST(temp * MICRO, U16_MAX * (u64)st->rsense);
-
-> +	*val = DIV64_U64_ROUND_CLOSEST(temp_2, st->rsense * int_pow(U16_MAX, 2));
-
-Same Q about possible optimizations.
-
-...
-
-> +	temp = power * 40 * DECA * st->vfs_out * 256ULL;
-
-BIT_ULL(8) ?
-
-...
-
-> +	*val = DIV64_U64_ROUND_CLOSEST(temp * MICRO, int_pow(U8_MAX, 2) * st->rsense);
-
-Same Q about possible optimizations.
-
-...
-
-> +	if (check_mul_overflow(DECA * st->vfs_out * 40 * 256, energy, &temp)) {
-> +		temp = DIV_ROUND_CLOSEST(DECA * st->vfs_out * 40 * 256, U16_MAX);
-> +		*val = DIV_ROUND_CLOSEST_ULL(temp * energy, st->rsense);
-> +		return ret;
-> +	}
-
-BIT(8) ?
-
-...
-
-> +	*val = DIV64_U64_ROUND_CLOSEST(temp, U16_MAX * (u64)st->rsense);
-
-Same Q about possible optimizations.
-
-...
-
-> +		/*
-> +		 * reset happened... let's read the new energy value that
-
-Reset
-Let's
-
-> +		 * together with the new tick counter should give a sane average
-> +		 * value. Furthermore, we save whatever value we had accumulated
-> +		 * so that the next energy read will have it into account.
-> +		 */
-
-...
-
-> +		/* give some time for accumulation... */
-> +		msleep(2 * LTC4282_TCONV_US / MILLI);
-
-fsleep() ?
-
-...
-
-> +	/*
-> +	 * AVG = E / (Tconv * counter)
-> +	 * We get energy in microJoule, hence dividing it by microSeconds gives Watts. Therefore,
-> +	 * multiplying by MICRO gives us microWatts.
-> +	 */
-
-Here you used long lines, somewhere else, much shorter. Please, choose one
-limit and be consistent with it.
-
-...
-
-> +	temp = val * int_pow(U8_MAX, 2) * st->rsense;
-> +	power = DIV64_U64_ROUND_CLOSEST(temp, MICRO * DECA * 256ULL * st->vfs_out * 40);
-
-As per above.
-
-...
-
-> +	if (val >= fs)
-> +		in = U8_MAX;
-> +	else
-> +		in = DIV_ROUND_CLOSEST(val * U8_MAX, fs);
-
-Can clamp() be used here?
-
-...
-
-> +	/*
-> +	 * Make sure vdd is stable. From the datasheet:
-> +	 * The state of the UV and OV comparators is indicated by the STATUS register
-> +	 * bits 0 and 1 and must be stable for at least 50ms to qualify for turn-on.
-> +	 */
-> +	do {
-> +		ret = regmap_read_poll_timeout(st->map, LTC4282_STATUS_LSB, reg,
-> +					       reg & LTC4282_VDD_STATUS_MASK, 10000, 50000);
-> +		if (!ret)
-> +			continue;
-> +		if (ret != -ETIMEDOUT)
-> +			return dev_err_probe(st->dev, ret, "Failed regmap read\n");
-
-I would do it a bit differently.
-
-> +		break;
-
-> +	} while (n_tries--);
-
-	} while (--n_tries); ?
-
-Altogether:
-
-	do {
-		ret = regmap_read_poll_timeout(st->map, LTC4282_STATUS_LSB, reg,
-					       reg & LTC4282_VDD_STATUS_MASK, 10000, 50000);
-		/* Check if we got timeout which means UV and OV are stable for 50ms */
-		if (ret == -ETIMEDOUT)
-			break;
-		if (ret)
-			return dev_err_probe(st->dev, ret, "Failed regmap read\n");
-	} while (--n_tries);
-
-
-...
-
-> +	if (val > LTC4282_CLKOUT_TICK)
-> +		return dev_err_probe(st->dev, -EINVAL,
-> +				     "Invalid val(%u) for adi,clkout-mode\n", val);
-
-ERANGE?
-
-...
-
-> +	if (rate < LTC4282_CLKIN_MIN || rate > LTC4282_CLKIN_MAX)
-
-in_range() ?
-
-> +		return dev_err_probe(st->dev, -EINVAL, "Invalid clkin range(%lu) [%lu %lu]\n",
-> +				     rate, LTC4282_CLKIN_MIN, LTC4282_CLKIN_MAX);
-
-...
-
-> +	for (gpio = 0; gpio <= LTC4282_GPIO_3; gpio++) {
-
-Is 0 also being defined?
-
-> +		ret = device_property_read_u32(dev, ltc4282_gpio_prop[gpio], &func);
-> +		if (ret)
-> +			continue;
-> +		if (func >= ltc4282_gpios[gpio].n_funcs)
-> +			return dev_err_probe(dev, ret, "Invalid func(%u >= %u) for gpio%u\n",
-> +					     func, ltc4282_gpios[gpio].n_funcs, gpio + 1);
-> +		if (func == LTC4282_PIN_GPIO) {
-> +			st->gpio_map[ngpios++] = gpio;
-> +			if (gpio == LTC4282_GPIO_1) {
-> +				/* default to input GPIO */
-> +				ret = regmap_set_bits(st->map, LTC4282_GPIO_CONFIG,
-> +						      LTC4282_GPIO_1_CONFIG_MASK);
-> +				if (ret)
-> +					return ret;
-> +			}
-> +
-> +			continue;
-> +		}
-
-...
-
-> +		switch (val) {
-> +		case 3300000:
-
-Hmm... Do we have MICROVOLTS_IN_VOLTS or so?
-
-> +			st->vin_mode = LTC4282_VIN_3_3V;
-> +			break;
-> +		case 5000000:
-> +			st->vin_mode = LTC4282_VIN_5V;
-> +			break;
-> +		case 12000000:
-> +			st->vin_mode = LTC4282_VIN_12V;
-> +			break;
-> +		case 24000000:
-> +			st->vin_mode = LTC4282_VIN_24V;
-> +			break;
-> +		default:
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Invalid val(%u) for vin-mode-microvolt\n", val);
-> +		}
-
-...
-
-> +static SENSOR_DEVICE_ATTR(in1_crit_fault_log, 0644, ltc4282_show_fault_log,
-> +			  ltc4282_clear_fault_log, LTC4282_OV_FAULT_MASK);
-> +static SENSOR_DEVICE_ATTR(in1_lcrit_fault_log, 0644, ltc4282_show_fault_log,
-> +			  ltc4282_clear_fault_log, LTC4282_UV_FAULT_MASK);
-> +static SENSOR_DEVICE_ATTR(curr1_crit_fault_log, 0644, ltc4282_show_fault_log,
-> +			  ltc4282_clear_fault_log, LTC4282_OC_FAULT_MASK);
-> +static SENSOR_DEVICE_ATTR(power1_fault_log, 0644, ltc4282_show_fault_log,
-> +			  ltc4282_clear_fault_log, LTC4282_POWER_BAD_FAULT_MASK);
-> +static SENSOR_DEVICE_ATTR(fet_bad_fault_log, 0644, ltc4282_show_fault_log,
-> +			  ltc4282_clear_fault_log, LTC4282_FET_BAD_FAULT_MASK);
-> +static SENSOR_DEVICE_ATTR(fet_short_fault_log, 0644, ltc4282_show_fault_log,
-> +			  ltc4282_clear_fault_log, LTC4282_FET_SHORT_FAULT_MASK);
-
-SENSOR_DEVICE_ATTR_RO() / _RW() ?
-
-...
-
-> +static struct attribute *ltc4282_attrs[] = {
-> +	&sensor_dev_attr_energy1_input.dev_attr.attr,
-> +	&sensor_dev_attr_power1_good.dev_attr.attr,
-> +	&sensor_dev_attr_fet_bad_fault.dev_attr.attr,
-> +	&sensor_dev_attr_fet_short_fault.dev_attr.attr,
-> +	&sensor_dev_attr_in1_crit_fault_log.dev_attr.attr,
-> +	&sensor_dev_attr_in1_lcrit_fault_log.dev_attr.attr,
-> +	&sensor_dev_attr_curr1_crit_fault_log.dev_attr.attr,
-> +	&sensor_dev_attr_power1_fault_log.dev_attr.attr,
-> +	&sensor_dev_attr_fet_bad_fault_log.dev_attr.attr,
-> +	&sensor_dev_attr_fet_short_fault_log.dev_attr.attr,
-> +	NULL,
-
-No comma for the terminator line.
-
-> +};
-
-...
-
-> +	msleep(3200);
-
-Not a single letter to comment such a huge delay :-(
-
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099E1:EE_|CY8PR12MB8216:EE_
+X-MS-Office365-Filtering-Correlation-Id: 295a8b01-338f-42ec-5ecf-08dbe21135b2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	U1IIy0KjIqIxb4xtyzQSrOewx3V4OqZlxyHtylukp+2+bY6+S2Z1KhzXDc7T0utgK7/2N78+HgJ6CZIf3rHq1CZvEOYm8UARSDMhmIIVpCt8KBwYk+xf4drap8vJaW9JJHyCrfiqDJHq1ly410+QIobRZij5AINZ89MHhyv+ItpqWaWRl4xLuMHqJsMjjcv2HZ0OPl2x0xiQALlxG31RKxaMz0SAos2tbtJ5VsJYfsthWEHLQa8KIkeDjBhX8hFci5YyjJDE8OtMMGWqYZY7Aol2DhqHO4VzlImVRRawaKRNEEPQRHJc9hZzD9+o7h966gEXRER+FbnaCM8m9W9lXupPpoGJa5tDt9VEsDitj76e6Gao2v7YliaOkVffGT2fIo1xHXQzK6Q9hjRkwfnKfVO2WTKGSl7wTtahRWBdmem2r8dAXxbbAmMRxLP2hmw103UUT2bYSzCK3XDe5b73FQKaaRcO9dI5BUahxmsryECdnBVuHPfrsnn/sxvsThYok6O4L9qrnSaoRP9ECqCQUNuuFMNis1dZ/3jq+yHz0f2zLZ1+DZWEjZm+U0FKr3Swmh9kUlQvtDJKPhdyoWRltQPoB+Iut7SIsNmUlyTpRzEvyZ0j3Xjr40XP3mIk+SxKUFBbiokJ6RmbpmzlRjVLgpsn2XHYS1Bqode+iR2mr1T1Q1NOiRj/vglUIP2p4/kT1HUW8cM/PwkTPBdcR+BUzXe9zGsHQcv7JekQnSXzVer9x1lH5AUWvauoQSoSAWFaSW8Q8KuioV3KUNFXWc18OOAdAmUJczZOxrFwT9bzUXrtgDs52fyjw5SqM3zaDdkG
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(346002)(136003)(376002)(230922051799003)(186009)(64100799003)(82310400011)(1800799009)(451199024)(40470700004)(46966006)(36840700001)(1076003)(478600001)(44832011)(47076005)(7416002)(41300700001)(70586007)(6666004)(316002)(336012)(4326008)(8936002)(426003)(8676002)(36860700001)(16526019)(2616005)(6916009)(5660300002)(70206006)(26005)(356005)(2906002)(82740400003)(83380400001)(81166007)(86362001)(40460700003)(36756003)(40480700001)(54906003)(36900700001)(16060500005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2023 17:19:34.5010
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 295a8b01-338f-42ec-5ecf-08dbe21135b2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF000099E1.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8216
+
+For features that are implemented primarily in DMUB (e.g. PSR), it is
+useful to be able to trace them at a DMUB level from the kernel,
+especially when debugging issues. So, introduce a debugfs interface that
+is able to read and set the DMUB trace mask dynamically at runtime and
+document how to use it.
+
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+ Documentation/gpu/amdgpu/display/dc-debug.rst | 41 +++++++++
+ .../gpu/amdgpu/display/trace-groups-table.csv | 29 ++++++
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 91 +++++++++++++++++++
+ .../gpu/drm/amd/display/dmub/inc/dmub_cmd.h   | 40 +++++++-
+ 4 files changed, 199 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/gpu/amdgpu/display/trace-groups-table.csv
+
+diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentation/gpu/amdgpu/display/dc-debug.rst
+index 40c55a618918..817631b1dbf3 100644
+--- a/Documentation/gpu/amdgpu/display/dc-debug.rst
++++ b/Documentation/gpu/amdgpu/display/dc-debug.rst
+@@ -75,3 +75,44 @@ change in real-time by using something like::
+ 
+ When reporting a bug related to DC, consider attaching this log before and
+ after you reproduce the bug.
++
++DMUB Firmware Debug
++===================
++
++Sometimes, dmesg logs aren't enough. This is especially true if a feature is
++implemented primarily in DMUB firmware. In such cases, all we see in dmesg when
++an issue arises is some generic timeout error. So, to get more relevant
++information, we can trace DMUB commands by enabling the relevant bits in
++`amdgpu_dm_dmub_trace_mask`.
++
++Currently, we support the tracing of the following groups:
++
++Trace Groups
++------------
++
++.. csv-table::
++   :header-rows: 1
++   :widths: 1, 1
++   :file: ./trace-groups-table.csv
++
++**Note: Not all ASICs support all of the listed trace groups**
++
++So, to enable just PSR tracing you can use the following command::
++
++  # echo 0x8020 > /sys/kernel/debug/dri/0/amdgpu_dm_dmub_trace_mask
++
++Then, you need to enable logging trace events to the buffer, which you can do
++using the following::
++
++  # echo 1 > /sys/kernel/debug/dri/0/amdgpu_dm_dmcub_trace_event_en
++
++Lastly, after you are able to reproduce the issue you are trying to debug,
++you can disable tracing and read the trace log by using the following::
++
++  # echo 0 > /sys/kernel/debug/dri/0/amdgpu_dm_dmcub_trace_event_en
++  # cat /sys/kernel/debug/dri/0/amdgpu_dm_dmub_tracebuffer
++
++So, when reporting bugs related to features such as PSR and ABM, consider
++enabling the relevant bits in the mask before reproducing the issue and
++attach the log that you obtain from the trace buffer in any bug reports that you
++create.
+diff --git a/Documentation/gpu/amdgpu/display/trace-groups-table.csv b/Documentation/gpu/amdgpu/display/trace-groups-table.csv
+new file mode 100644
+index 000000000000..3f6a50d1d883
+--- /dev/null
++++ b/Documentation/gpu/amdgpu/display/trace-groups-table.csv
+@@ -0,0 +1,29 @@
++Name, Mask Value
++INFO, 0x1
++IRQ SVC, 0x2
++VBIOS, 0x4
++REGISTER, 0x8
++PHY DBG, 0x10
++PSR, 0x20
++AUX, 0x40
++SMU, 0x80
++MALL, 0x100
++ABM, 0x200
++ALPM, 0x400
++TIMER, 0x800
++HW LOCK MGR, 0x1000
++INBOX1, 0x2000
++PHY SEQ, 0x4000
++PSR STATE, 0x8000
++ZSTATE, 0x10000
++TRANSMITTER CTL, 0x20000
++PANEL CNTL, 0x40000
++FAMS, 0x80000
++DPIA, 0x100000
++SUBVP, 0x200000
++INBOX0, 0x400000
++SDP, 0x4000000
++REPLAY, 0x8000000
++REPLAY RESIDENCY, 0x20000000
++CURSOR INFO, 0x80000000
++IPS, 0x100000000
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 13a177d34376..06a73f283e9d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -2971,6 +2971,94 @@ static int allow_edp_hotplug_detection_set(void *data, u64 val)
+ 	return 0;
+ }
+ 
++static int dmub_trace_mask_set(void *data, u64 val)
++{
++	struct amdgpu_device *adev = data;
++	struct dmub_srv *srv = adev->dm.dc->ctx->dmub_srv->dmub;
++	enum dmub_gpint_command cmd;
++	enum dmub_status status;
++	u64 mask = 0xffff;
++	u8 shift = 0;
++	u32 res;
++	int i;
++
++	if (!srv->fw_version)
++		return -EINVAL;
++
++	for (i = 0;  i < 4; i++) {
++		res = (val & mask) >> shift;
++
++		switch (i) {
++		case 0:
++			cmd = DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD0;
++			break;
++		case 1:
++			cmd = DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD1;
++			break;
++		case 2:
++			cmd = DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD2;
++			break;
++		case 3:
++			cmd = DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD3;
++			break;
++		}
++
++		status = dmub_srv_send_gpint_command(srv, cmd, res, 30);
++
++		if (status != DMUB_STATUS_OK)
++			return -ETIMEDOUT;
++
++		usleep_range(100, 1000);
++
++		mask <<= 16;
++		shift += 16;
++	}
++
++	return 0;
++}
++
++static int dmub_trace_mask_show(void *data, u64 *val)
++{
++	enum dmub_gpint_command cmd = DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD0;
++	struct amdgpu_device *adev = data;
++	struct dmub_srv *srv = adev->dm.dc->ctx->dmub_srv->dmub;
++	enum dmub_status status;
++	u8 shift = 0;
++	u64 raw = 0;
++	u64 res = 0;
++	int i = 0;
++
++	if (!srv->fw_version)
++		return -EINVAL;
++
++	while (i < 4) {
++		status = dmub_srv_send_gpint_command(srv, cmd, 0, 30);
++
++		if (status == DMUB_STATUS_OK) {
++			status = dmub_srv_get_gpint_response(srv, (u32 *) &raw);
++
++			if (status != DMUB_STATUS_OK)
++				return -ETIMEDOUT;
++		} else {
++			return -ETIMEDOUT;
++		}
++
++		usleep_range(100, 1000);
++
++		cmd++;
++		res |= (raw << shift);
++		shift += 16;
++		i++;
++	}
++
++	*val = res;
++
++	return 0;
++}
++
++DEFINE_DEBUGFS_ATTRIBUTE(dmub_trace_mask_fops, dmub_trace_mask_show,
++			 dmub_trace_mask_set, "0x%llx\n");
++
+ /*
+  * Set dmcub trace event IRQ enable or disable.
+  * Usage to enable dmcub trace event IRQ: echo 1 > /sys/kernel/debug/dri/0/amdgpu_dm_dmcub_trace_event_en
+@@ -3880,6 +3968,9 @@ void dtn_debugfs_init(struct amdgpu_device *adev)
+ 	debugfs_create_file_unsafe("amdgpu_dm_force_timing_sync", 0644, root,
+ 				   adev, &force_timing_sync_ops);
+ 
++	debugfs_create_file_unsafe("amdgpu_dm_dmub_trace_mask", 0644, root,
++				   adev, &dmub_trace_mask_fops);
++
+ 	debugfs_create_file_unsafe("amdgpu_dm_dmcub_trace_event_en", 0644, root,
+ 				   adev, &dmcub_trace_event_state_fops);
+ 
+diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+index ed4379c04715..aa6e6923afed 100644
+--- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
++++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+@@ -818,18 +818,54 @@ enum dmub_gpint_command {
+ 	 * RETURN: Lower 32-bit mask.
+ 	 */
+ 	DMUB_GPINT__UPDATE_TRACE_BUFFER_MASK = 101,
++
+ 	/**
+-	 * DESC: Updates the trace buffer lower 32-bit mask.
++	 * DESC: Updates the trace buffer mask bit0~bit15.
+ 	 * ARGS: The new mask
+ 	 * RETURN: Lower 32-bit mask.
+ 	 */
+ 	DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD0 = 102,
++
+ 	/**
+-	 * DESC: Updates the trace buffer mask bi0~bit15.
++	 * DESC: Updates the trace buffer mask bit16~bit31.
+ 	 * ARGS: The new mask
+ 	 * RETURN: Lower 32-bit mask.
+ 	 */
+ 	DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD1 = 103,
++
++	/**
++	 * DESC: Updates the trace buffer mask bit32~bit47.
++	 * ARGS: The new mask
++	 * RETURN: Lower 32-bit mask.
++	 */
++	DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD2 = 114,
++
++	/**
++	 * DESC: Updates the trace buffer mask bit48~bit63.
++	 * ARGS: The new mask
++	 * RETURN: Lower 32-bit mask.
++	 */
++	DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD3 = 115,
++
++	/**
++	 * DESC: Read the trace buffer mask bi0~bit15.
++	 */
++	DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD0 = 116,
++
++	/**
++	 * DESC: Read the trace buffer mask bit16~bit31.
++	 */
++	DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD1 = 117,
++
++	/**
++	 * DESC: Read the trace buffer mask bi32~bit47.
++	 */
++	DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD2 = 118,
++
++	/**
++	 * DESC: Updates the trace buffer mask bit32~bit63.
++	 */
++	DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD3 = 119,
+ };
+ 
+ /**
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.42.0
 
