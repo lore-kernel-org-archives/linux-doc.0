@@ -1,226 +1,377 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBB030334;
-	Fri, 10 Nov 2023 17:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5D1C2D2;
+	Fri, 10 Nov 2023 18:43:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="gR8tRH/4"
-Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8088167754;
-	Fri, 10 Nov 2023 09:57:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1699639033; x=1731175033;
-  h=mime-version:content-transfer-encoding:date:message-id:
-   cc:from:to:references:in-reply-to:subject;
-  bh=99caKOHgzyDTXwWRsRksd059fQ4JKBbasT1uYz4fi50=;
-  b=gR8tRH/4AimvKaVg1udaJ6UkbZwkA7vL4djAvuGw54nDXEGIhgGaMdiY
-   uRrPT4yyezPIhhd0Lu5SRQpVCP9TYVtDyS57u4AnH18/D17Ycve+aleDh
-   N2wjLxyppSbC4PgDKWYzmTFKroJiT1xb9espARCX4mevFCHuiFDDK4Z+o
-   s=;
-X-IronPort-AV: E=Sophos;i="6.03,291,1694736000"; 
-   d="scan'208";a="42712469"
-Subject: Re: [RFC 0/33] KVM: x86: hyperv: Introduce VSM support
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-m6i4x-8a14c045.us-west-2.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 17:56:52 +0000
-Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan3.pdx.amazon.com [10.39.38.70])
-	by email-inbound-relay-pdx-2a-m6i4x-8a14c045.us-west-2.amazon.com (Postfix) with ESMTPS id 8282689E8A;
-	Fri, 10 Nov 2023 17:56:51 +0000 (UTC)
-Received: from EX19MTAEUA002.ant.amazon.com [10.0.10.100:31125]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.45.210:2525] with esmtp (Farcaster)
- id 62d1a24e-71c0-4a04-9bf1-9657fee25218; Fri, 10 Nov 2023 17:56:50 +0000 (UTC)
-X-Farcaster-Flow-ID: 62d1a24e-71c0-4a04-9bf1-9657fee25218
-Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.124) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Fri, 10 Nov 2023 17:56:49 +0000
-Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
- (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 10 Nov
- 2023 17:56:45 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCXI8xvR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB241C433C9;
+	Fri, 10 Nov 2023 18:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699641785;
+	bh=79RvBLjoz3Bd7Y0ag8toULjdzF47Z40+OXM0MpwXmxU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OCXI8xvRP0lt0TwjRaxQyKejiXVk6LKZ8bPlwq6p/z/I0u7tPyaTkaah2sSpd9RtN
+	 3Mo2hK3lBAPAg0gHkysWxYFzMau6GpoOYLyyKlMQUJuw/orBaPpY8pPSrVDDcIP4e5
+	 6NCXYigh3a3mnWq+ZqntJ8t5IdIITHWgNVOudyrFH+9Y/hDKoLH6C4d9Z+Indge+Mt
+	 Qib8zp9X8DB6Ogv5v4phP03pcVVxKEypR5p1PKAVoNP5uRTTXJMikHFhyBzgYfNciY
+	 szoR34ttdRVNli++WdZvqwNaSAb0iSjK+m2ZQDawd4g4izqdFmLXSAJNNAQtYr/YG3
+	 Avt2j7zGHXQlA==
+Date: Fri, 10 Nov 2023 18:42:56 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Nuno Sa <nuno.sa@analog.com>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Add LTC4282 bindings
+Message-ID: <20231110-astronomy-nicotine-02c798d42910@roley>
+References: <20231110151905.1659873-1-nuno.sa@analog.com>
+ <20231110151905.1659873-2-nuno.sa@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8eDhNlj9sgP1hXjF"
+Content-Disposition: inline
+In-Reply-To: <20231110151905.1659873-2-nuno.sa@analog.com>
+
+
+--8eDhNlj9sgP1hXjF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Fri, 10 Nov 2023 17:56:41 +0000
-Message-ID: <CWVBQQ6GVQVG.2FKWLPBUF77UT@amazon.com>
-CC: <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-hyperv@vger.kernel.org>, <pbonzini@redhat.com>, <vkuznets@redhat.com>,
-	<anelkz@amazon.com>, <graf@amazon.com>, <dwmw@amazon.co.uk>,
-	<jgowans@amazon.com>, <corbert@lwn.net>, <kys@microsoft.com>,
-	<haiyangz@microsoft.com>, <decui@microsoft.com>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>
-From: Nicolas Saenz Julienne <nsaenz@amazon.com>
-To: Sean Christopherson <seanjc@google.com>
-X-Mailer: aerc 0.15.2-182-g389d89a9362e-dirty
-References: <20231108111806.92604-1-nsaenz@amazon.com>
- <ZUu9lwJHasi2vKGg@google.com> <ZUvUZytj1AabvvrB@google.com>
-In-Reply-To: <ZUvUZytj1AabvvrB@google.com>
-X-Originating-IP: [10.13.235.138]
-X-ClientProxiedBy: EX19D044UWA003.ant.amazon.com (10.13.139.43) To
- EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-Hi Sean,
-Thanks for taking the time to review the series. I took note of your
-comments across the series, and will incorporate them into the LPC
-discussion.
+Yo,
 
-On Wed Nov 8, 2023 at 6:33 PM UTC, Sean Christopherson wrote:
-> On Wed, Nov 08, 2023, Sean Christopherson wrote:
-> > On Wed, Nov 08, 2023, Nicolas Saenz Julienne wrote:
-> > > This RFC series introduces the necessary infrastructure to emulate VS=
-M
-> > > enabled guests. It is a snapshot of the progress we made so far, and =
-its
-> > > main goal is to gather design feedback.
-> >
-> > Heh, then please provide an overview of the design, and ideally context=
- and/or
-> > justification for various design decisions.  It doesn't need to be a pr=
-oper design
-> > doc, and you can certainly point at other documentation for explaining =
-VSM/VTLs,
-> > but a few paragraphs and/or verbose bullet points would go a long way.
-> >
-> > The documentation in patch 33 provides an explanation of VSM itself, an=
-d a little
-> > insight into how userspace can utilize the KVM implementation.  But the=
- documentation
-> > provides no explanation of the mechanics that KVM *developers* care abo=
-ut, e.g.
-> > the use of memory attributes, how memory attributes are enforced, wheth=
-er or not
-> > an in-kernel local APIC is required, etc.
-> >
-> > Nor does the documentation explain *why*, e.g. why store a separate set=
- of memory
-> > attributes per VTL "device", which by the by is broken and unnecessary.
->
-> After speed reading the series..  An overview of the design, why you made=
- certain
-> choices, and the tradeoffs between various options is definitely needed.
->
-> A few questions off the top of my head:
->
->  - What is the split between userspace and KVM?  How did you arrive at th=
-at split?
+On Fri, Nov 10, 2023 at 04:18:45PM +0100, Nuno Sa wrote:
+> Add bindings for the LTC4282 High Current Hot Swap Controller with I2C
+> Compatible Monitoring.
+>=20
+> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> ---
+>  .../bindings/hwmon/adi,ltc4282.yaml           | 228 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 234 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc4282.y=
+aml
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml b/D=
+ocumentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
+> new file mode 100644
+> index 000000000000..0a5d540f014e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
+> @@ -0,0 +1,228 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/adi,ltc4282.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices LTC4282 I2C High Current Hot Swap Controller over =
+I2C
+> +
+> +maintainers:
+> +  - Nuno Sa <nuno.sa@analog.com>
+> +
+> +description: |
+> +  Analog Devices LTC4282 I2C High Current Hot Swap Controller over I2C.
+> +
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/lt=
+c4282.pdf
+> +
+> +
 
-Our original design, which we discussed in the KVM forum 2023 [1] and is
-public [2], implemented most of VSM in-kernel. Notably we introduced VTL
-awareness in struct kvm_vcpu. This turned out to be way too complex: now
-vcpus have multiple CPU architectural states, events, apics, mmu, etc.
-First of all, the code turned out to be very intrusive, for example,
-most apic APIs had to be reworked one way or another to accommodate
-the fact there are multiple apics available. Also, we were forced to
-introduce VSM-specific semantics in x86 emulation code. But more
-importantly, the biggest pain has been dealing with state changes, they
-may be triggered remotely through requests, and some are already fairly
-delicate as-is. They involve a multitude of corner cases that almost
-never apply for a VTL aware kvm_vcpu. Especially if you factor in
-features like live migration. It's been a continuous source of
-regressions.
+Extra blank line here FYI.
 
-Memory protections were implemented by using memory slot modifications.
-We introduced a downstream API that allows updating memory slots
-concurrently with vCPUs running. I think there was a similar proposal
-upstream from Red Hat some time ago. The result is complex, hard to
-generalize and slow.
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ltc4282
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vdd-supply: true
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  adi,clkout-mode:
+> +    description: |
+> +      Controls in which mode the CLKOUT PIN should work:
+> +        0 - Configures the CLKOUT pin to output the internal system clock
+> +        1 - Configures the CLKOUT pin to output the internal conversion =
+time
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1]
 
-So we decided to move all this complexity outside of struct kvm_vcpu
-and, as much as possible, out of the kernel. We figures out the basic
-kernel building blocks that are absolutely necessary, and let user-space
-deal with the rest.
+I really am not a fan of these types of properties. Part of me says that
+if you're outputting clocks from this device, then you should be a clock
+controller. How do consumers of this @clkout@ pin get the rate of the
+clock?
+I'd kinda be expecting to see a clocks property with a maxItems of 1 and
+clock-names with two, mutually exclusive, options.
 
->  - How much *needs* to be in KVM?  I.e. how much can be pushed to userspa=
-ce while
->    maintaininly good performance?
+The other part says, and it applies in multiple places here, that having
+integer properties with non-integer meanings is a poor ABI. I'd be vastly
+happier if the various instances in this file became enums of strings,
+or $re=E2=94=A4evant-unit so that a dts containing these properties is
+immediately understandable.
 
-As I said above, the aim of the current design is to keep it as light as
-possible. The biggest move we made was moving VTL switching into
-user-space. We don't see any indication that performance is affected in
-a major way. But we will know for sure once we finish the implementation
-and test it under real use-cases.
+Cheers,
+COnor.
 
->  - Why not make VTLs a first-party concept in KVM?  E.g. rather than bury=
- info
->    in a VTL device and APIC ID groups, why not modify "struct kvm" to sup=
-port
->    replicating state that needs to be tracked per-VTL?  Because of how me=
-mory
->    attributes affect hugepages, duplicating *memslots* might actually be =
-easier
->    than teaching memslots to be VTL-aware.
+> +
+> +  adi,rsense-nano-ohms:
+> +    description: Value of the sense resistor.
+> +
+> +  adi,vin-mode-microvolt:
+> +    description:
+> +      Selects operating range for the Undervoltage, Overvoltage and Fold=
+back
+> +      pins. Also for the ADC. Should be set to the nominal input voltage.
+> +    enum: [3300000, 5000000, 12000000, 24000000]
+> +    default: 12000000
+> +
+> +  adi,fet-bad-timeout-ms:
+> +    description:
+> +      From the moment a FET bad conditions is present, this property sel=
+ects the
+> +      wait time/timeout for a FET-bad fault to be signaled. Setting this=
+ to 0,
+> +      disables FET bad faults to be reported.
+> +    default: 255
+> +    maximum: 255
+> +
+> +  adi,overvoltage-dividers:
+> +    description: |
+> +      Select which dividers to use for VDD Overvoltage detection. Note t=
+hat
+> +      when the internal dividers are used the threshold is referenced to=
+ VDD.
+> +      The percentages in the datasheet are misleading since the actual v=
+alues
+> +      to look for are in the "Absolute Maximum Ratings" table in the
+> +      "Comparator Inputs" section. In there there's a line for each of t=
+he 5%,
+> +      10% and 15% settings with the actual min, typical and max toleranc=
+es.
+> +        0 - Use the external dividers.
+> +        1 - Internal dividers 5%
+> +        2 - Internal dividers 10%
+> +        3 - Internal dividers 15%
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2, 3]
+> +    default: 0
+> +
+> +  adi,undervoltage-dividers:
+> +    description: |
+> +      Select which dividers to use for VDD Overvoltage detection. Note t=
+hat
+> +      when the internal dividers are used the threshold is referenced to=
+ VDD.
+> +      The percentages in the datasheet are misleading since the actual v=
+alues
+> +      to look for are in the "Absolute Maximum Ratings" table in the
+> +      "Comparator Inputs" section. In there there's a line for each of t=
+he 5%,
+> +      10% and 15% settings with the actual min, typical and max toleranc=
+es.
+> +        0 - Use the external dividers.
+> +        1 - Internal dividers 5%
+> +        2 - Internal dividers 10%
+> +        3 - Internal dividers 15%
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2, 3]
+> +    default: 0
+> +
+> +  adi,current-limit-microvolt:
+> +    description:
+> +      The current limit sense voltage of the chip is adjustable between
+> +      12.5mV and 34.4mV in 3.1mV steps. This effectively limits the curr=
+ent
+> +      on the load.
+> +    enum: [12500, 15625, 18750, 21875, 25000, 28125, 31250, 34375]
+> +    default: 25000
+> +
+> +  adi,overcurrent-retry:
+> +    description:
+> +      If set, enables the chip to auto-retry 256 timer cycles after an
+> +      Overcurrent fault.
+> +    type: boolean
+> +
+> +  adi,overvoltage-retry-disable:
+> +    description:
+> +      If set, disables the chip to auto-retry 50ms after an Overvoltage =
+fault.
+> +      It's enabled by default.
+> +    type: boolean
+> +
+> +  adi,undervoltage-retry-disable:
+> +    description:
+> +      If set, disables the chip to auto-retry 50ms after an Undervoltage=
+ fault.
+> +      It's enabled by default.
+> +    type: boolean
+> +
+> +  adi,fault-log-enable:
+> +    description:
+> +      If set, enables the FAULT_LOG and ADC_ALERT_LOG registers to be wr=
+itten
+> +      to the EEPROM when a fault bit transitions high and hence, will be
+> +      available after a power cycle (the chip loads the contents of
+> +      the EE_FAULT_LOG register - the one in EEPROM - into FAULT_LOG at =
+boot).
+> +    type: boolean
+> +
+> +  adi,gpio-alert:
+> +    description: Use the ALERT pin as a GPIO.
+> +    type: boolean
+> +
+> +  adi,gpio1-mode:
+> +    description: |
+> +      Defines the function of the Pin.
+> +          0 - GPIO Mode.
+> +          1 - Power Bad. Goes into high-z to indicate that the output po=
+wer is
+> +              no longer good.
+> +          2 - Power Good. Pulls low to indicate that the output power is=
+ no
+> +              longer good.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    maximum: 2
+> +
+> +  adi,gpio2-mode:
+> +    description: |
+> +      Defines the function of the Pin.
+> +          0 - GPIO Mode.
+> +          1 - Acts as an input pin and it is feeded into the ADC.
+> +          2 - Pulls Low when the MOSFET is dissipating power (stress).
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    maximum: 2
+> +
+> +  adi,gpio3-mode:
+> +    description: |
+> +      Defines the function of the Pin.
+> +          0 - GPIO Mode.
+> +          1 - Acts as an input pin and it is feeded into the ADC.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    maximum: 1
+> +
+> +  gpio-controller:
+> +    description:
+> +      This property applies if some of the pins are used as GPIOs.
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - adi,rsense-nano-ohms
+> +
+> +dependencies:
+> +  adi,alert-as-gpio: [gpio-controller, '#gpio-cells']
+> +
+> +allOf:
+> +  - if:
+> +      required:
+> +        - adi,gpio1-mode
+> +    then:
+> +      allOf:
+> +        - if:
+> +            properties:
+> +              adi,gpio0-mode:
+> +                const: 0
+> +          then:
+> +            dependencies:
+> +              adi,gpio0-mode: [gpio-controller, '#gpio-cells']
+> +  - if:
+> +      required:
+> +        - adi,gpio2-mode
+> +    then:
+> +      allOf:
+> +        - if:
+> +            properties:
+> +              adi,gpio1-mode:
+> +                const: 0
+> +          then:
+> +            dependencies:
+> +              adi,gpio1-mode: [gpio-controller, '#gpio-cells']
+> +  - if:
+> +      required:
+> +        - adi,gpio3-mode
+> +    then:
+> +      allOf:
+> +        - if:
+> +            properties:
+> +              adi,gpio2-mode:
+> +                const: 0
+> +          then:
+> +            dependencies:
+> +              adi,gpio2-mode: [gpio-controller, '#gpio-cells']
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        hwmon@50 {
+> +            compatible =3D "adi,ltc4282";
+> +            reg =3D <0x50>;
+> +            adi,rsense-nano-ohms =3D <500>;
+> +
+> +            gpio-controller;
+> +            #gpio-cells =3D <2>;
+> +
+> +            adi,gpio1-mode =3D <2>;
+> +            adi,gpio2-mode =3D <0>;
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 43121073390c..9f9527f6057b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12481,6 +12481,12 @@ S:	Maintained
+>  F:	Documentation/hwmon/ltc4261.rst
+>  F:	drivers/hwmon/ltc4261.c
+> =20
+> +LTC4282 HARDWARE MONITOR DRIVER
+> +M:	Nuno Sa <nuno.sa@analog.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
+> +
+>  LTC4306 I2C MULTIPLEXER DRIVER
+>  M:	Michael Hennerich <michael.hennerich@analog.com>
+>  L:	linux-i2c@vger.kernel.org
+> --=20
+> 2.42.1
+>=20
 
-I do agree that we need to introduce some level VTL awareness into
-memslots. There's the hugepages issues you pointed out. But it'll be
-also necessary once we look at how to implement overlay pages that are
-per-VTL. (A topic I didn't mention in the series as I though I had
-managed to solve memory protections while avoiding the need for multiple
-slots). What I have in mind is introducing a memory slot address space
-per-VTL, similar to how we do things with SMM.
+--8eDhNlj9sgP1hXjF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It's important to note that requirements for overlay pages and memory
-protections are very different. Overlay pages are scarce, and are setup
-once and never change (AFAICT), so we think stopping all vCPUs, updating
-slots, and resuming execution will provide good enough performance.
-Memory protections happen very frequently, generally with page
-granularity, and may be short-lived.
+-----BEGIN PGP SIGNATURE-----
 
->  - Is "struct kvm_vcpu" the best representation of an execution context (=
-if I'm
->    getting the terminology right)?
+iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZU55rAAKCRB4tDGHoIJi
+0pvAAP9esODBQZLF7ZBK2MgDPLaXWSCOSQSs3WDKBqqNKVpNZAD/aCn9opeIrbZB
+0100JHXLumH3i4n5PN4e4eROqX9uigk=
+=DUnj
+-----END PGP SIGNATURE-----
 
-Let's forget I ever mentioned execution contexts. I used it in the hopes
-of making the VTL concept a little more understandable for non-VSM aware
-people. It's meant to be interchangeable with VTL. But I see how it
-creates confusion.
-
->    E.g. if 90% of the state is guaranteed to be identical for a given
->    vCPU across execution contexts, then modeling that with separate
->    kvm_vcpu structures is very inefficient.  I highly doubt it's 90%,
->    but it might be quite high depending on how much the TFLS restricts
->    the state of the vCPU, e.g. if it's 64-bit only.
-
-For the record here's the private VTL state (TLFS 15.11.1):
-
-"In general, each VTL has its own control registers, RIP register, RSP
- register, and MSRs:
-
- SYSENTER_CS, SYSENTER_ESP, SYSENTER_EIP, STAR, LSTAR, CSTAR, SFMASK,
- EFER, PAT, KERNEL_GSBASE, FS.BASE, GS.BASE, TSC_AUX
- HV_X64_MSR_HYPERCALL
- HV_X64_MSR_GUEST_OS_ID
- HV_X64_MSR_REFERENCE_TSC
- HV_X64_MSR_APIC_FREQUENCY
- HV_X64_MSR_EOI
- HV_X64_MSR_ICR
- HV_X64_MSR_TPR
- HV_X64_MSR_APIC_ASSIST_PAGE
- HV_X64_MSR_NPIEP_CONFIG
- HV_X64_MSR_SIRBP
- HV_X64_MSR_SCONTROL
- HV_X64_MSR_SVERSION
- HV_X64_MSR_SIEFP
- HV_X64_MSR_SIMP
- HV_X64_MSR_EOM
- HV_X64_MSR_SINT0 =E2=80=93 HV_X64_MSR_SINT15
- HV_X64_MSR_STIMER0_COUNT =E2=80=93 HV_X64_MSR_STIMER3_COUNT
- Local APIC registers (including CR8/TPR)
-"
-
-The rest is shared.
-
-Note that we've observed that during normal operation, VTL switches
-don't happen that often. The boot process is the most affected by any
-performance impact VSM might introduce, which issues 100000s (mostly
-memory protections).
-
-Nicolas
-
-[1] https://kvm-forum.qemu.org/2023/talk/TK7YGD/
-[2] Partial rebase of our original implementation:
-    https://github.com/vianpl/linux vsm
+--8eDhNlj9sgP1hXjF--
