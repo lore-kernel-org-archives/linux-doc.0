@@ -1,58 +1,78 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEC811713;
-	Sat, 11 Nov 2023 10:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2924612B7D;
+	Sat, 11 Nov 2023 11:16:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G/7AFJnh"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0971E9F;
-	Sat, 11 Nov 2023 02:41:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699699285; x=1731235285;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yDgF8fRMeA3utzT1N//rBGwE20ulKHntUEzKVUCPbnU=;
-  b=G/7AFJnh69xdrRicGTJKuADo1fv8bkTSUiiTach0yrvgqavPR1oR6V7Y
-   6v9ALgaZnVS8GA/WpHOsRlOj4/0QrasJz2ld4LFyoqU5Z2ZrhFxkjjrrL
-   WNfvb19z/vu4Yt1IK57WzKDNx4vEKu4JmnXVdJkLO/1/Spw+cZqqOHs1+
-   mH1qalv/5lv9jsnPfbaOKWIpkKsWsyV9Zje6GFxRVaeu5uttU0Hv9niZ5
-   utNYeq4Bjav+68aUXyNQYf94Nd/nDPhFCKiYzzqrw4PDF5+nsVK7qReNz
-   N11ppo/6vgTcWA/lUaRjTT2DS3GHld321k21owcJKXjF1dPOScZovh36W
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="394171552"
-X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="394171552"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 02:41:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="1095355185"
-X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="1095355185"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Nov 2023 02:41:18 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1lQS-000ANh-2o;
-	Sat, 11 Nov 2023 10:41:16 +0000
-Date: Sat, 11 Nov 2023 18:41:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ross Philipson <ross.philipson@oracle.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-	kexec@lists.infradead.org, linux-efi@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ross.philipson@oracle.com, dpsmith@apertussolutions.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-	ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, luto@amacapital.net,
-	nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
-	trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v7 09/13] x86: Secure Launch SMP bringup support
-Message-ID: <202311111806.sbmcWUN1-lkp@intel.com>
-References: <20231110222751.219836-10-ross.philipson@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGozbbaP"
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78EBD4220;
+	Sat, 11 Nov 2023 03:16:37 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6c398717726so2644815b3a.2;
+        Sat, 11 Nov 2023 03:16:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699701397; x=1700306197; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YdIfWloVBdEvW1NG4WAbQaqnvny2qdQuJ9vc8aGDWBo=;
+        b=dGozbbaPlFve3vgfcrPVjdbXq4p+EqSS6kusBwHWvEdsZZPK1smJle8K3ZnWMTmipT
+         oHQzC4EH5/0HJ8vRcvbC27xann6gn5AW9p8ZYRRMV/XLSa30BhXe6P1WcU/jCzt6c5Hj
+         LrLH3OOBl7/g5+zZ5N317FXsVB9fVe4TKRn/rScY8q68pmv0VgM21IhrghQZT5rZzvsp
+         1VAaDi+SFGAJX4M0ANOakp5NhBOWyiq95xrmYv0tDx+YfCQz4gKU+dL4cdJDHg2TaTW3
+         ks6x0DZBfvUYUSzVEaNs9kL3yb5Do+6Qcxi0uJv1bcPv6Nbrgb3tTOu6YSzA/uDvud17
+         fcVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699701397; x=1700306197;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YdIfWloVBdEvW1NG4WAbQaqnvny2qdQuJ9vc8aGDWBo=;
+        b=bc405eSjeEyooicChiy3r1rSaGsR6pJeLQPfDRMbaXpky/40O8NK9hezfu0g2VdHq/
+         ZWFLjLUWwHKFMKl+BVt9xhnuetqelKVf/5wO/OjUTdcicVX+GHL8OAbu5eEJSjUVXDWC
+         /3dZRwuluH5EQxrEsvVpHI61O96FFMQaxIX2sBze0sEEqhS99fFhmG9sjMFce+vdZ0CH
+         9x65h/0td81sCmNC733D0ZX0mYScEoA/ktJH4p4Bg1AXfF7lOaO6IWH84ipbDJrLzAHf
+         u5Ez+2fvplo6AAjPjB3bW7CRCwHuj57wMR2+rKA2rzTiWDv/SwGt1sURMEsFecXmy6e4
+         yNEQ==
+X-Gm-Message-State: AOJu0Yy1GZrPq7er8lhcPObb1YJXZ7bvJF8a7GYfgGxG6lRvVodg1tZ2
+	yE+9/Tpi0YKAdTZpYw8CSIo=
+X-Google-Smtp-Source: AGHT+IFh0XZy7zvKvjhxAfnYkqMCzQjdz2EV+ZIVZqjc4fhAaCnvWFjh+X55ab/JLv0N3aWRuDXNKA==
+X-Received: by 2002:a05:6a00:10c1:b0:690:c75e:25c8 with SMTP id d1-20020a056a0010c100b00690c75e25c8mr1361316pfu.7.1699701396667;
+        Sat, 11 Nov 2023 03:16:36 -0800 (PST)
+Received: from localhost ([205.220.129.17])
+        by smtp.gmail.com with ESMTPSA id e20-20020aa78c54000000b006870ed427b2sm1140235pfd.94.2023.11.11.03.16.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Nov 2023 03:16:35 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Sat, 11 Nov 2023 01:16:29 -1000
+From: "tj@kernel.org" <tj@kernel.org>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: John Groves <john@jagalactic.com>,
+	Gregory Price <gourry.memverge@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"ying.huang@intel.com" <ying.huang@intel.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"mhocko@kernel.org" <mhocko@kernel.org>,
+	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+	"shakeelb@google.com" <shakeelb@google.com>,
+	"muchun.song@linux.dev" <muchun.song@linux.dev>,
+	"jgroves@micron.com" <jgroves@micron.com>
+Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
+Message-ID: <ZU9ijZHZZjRgUctq@mtj.duckdns.org>
+References: <20231109002517.106829-1-gregory.price@memverge.com>
+ <klhcqksrg7uvdrf6hoi5tegifycjltz2kx2d62hapmw3ulr7oa@woibsnrpgox4>
+ <0100018bb64636ef-9daaf0c0-813c-4209-94e4-96ba6854f554-000000@email.amazonses.com>
+ <ZU6pR46kiuzPricM@slm.duckdns.org>
+ <ZU6uxSrj75EiXise@memverge.com>
+ <ZU7vjsSkGbRLza-K@slm.duckdns.org>
+ <ZU74L9oxWOoTTfpM@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,128 +81,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231110222751.219836-10-ross.philipson@oracle.com>
+In-Reply-To: <ZU74L9oxWOoTTfpM@memverge.com>
 
-Hi Ross,
+Hello,
 
-kernel test robot noticed the following build warnings:
+On Fri, Nov 10, 2023 at 10:42:39PM -0500, Gregory Price wrote:
+> On Fri, Nov 10, 2023 at 05:05:50PM -1000, tj@kernel.org wrote:
+...
+> I've been considering this as well, but there's more context here being
+> lost.  It's not just about being able to toggle the policy of a single
+> task, or related tasks, but actually in support of a more global data
+> interleaving strategy that makes use of bandwidth more effectively as
+> we begin to memory expansion and bandwidth expansion occur on the
+> PCIE/CXL bus.
+> 
+> If the memory landscape of a system changes, for example due to a
+> hotplug event, you actually want to change the behavior of *every* task
+> that is using interleaving.  The fundamental bandwidth distribution of
+> the entire system changed, so the behavior of every task using that
+> memory should change with it.
+> 
+> We've explored adding weights to: mempolicy, memory tiers, nodes, memcg,
+> and now additionally cpusets. In the last email, I'd asked whether it
+> might actually be worth adding a new mpol component of cgroups to
+> aggregate these issues, rather than jam them into either component.
+> I would love your thoughts on that.
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+As for CXL and the changing memory landscape, I think some caution is
+necessary as with any expected "future" technology changes. The recent
+example with non-volatile memory isn't too far from CXL either. Note that
+this is not to say that we shouldn't change anything until the hardware is
+wildly popular but more that we need to be cognizant of the speculative
+nature and the possibility of overbuilding for it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ross-Philipson/x86-boot-Place-kernel_info-at-a-fixed-offset/20231111-063453
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20231110222751.219836-10-ross.philipson%40oracle.com
-patch subject: [PATCH v7 09/13] x86: Secure Launch SMP bringup support
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231111/202311111806.sbmcWUN1-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111806.sbmcWUN1-lkp@intel.com/reproduce)
+I don't have a golden answer but here are general suggestions: Build
+something which is small and/or useful even outside the context of the
+expected hardware landscape changes. Enable the core feature which is
+absolutely required in a minimal manner. Avoid being maximalist in feature
+and convenience coverage.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311111806.sbmcWUN1-lkp@intel.com/
+Here, even if CXL actually becomes popular, how many are going to use memory
+hotplug and need to dynamically rebalance memory in actively running
+workloads? What's the scenario? Are there going to be an army of data center
+technicians going around plugging and unplugging CXL devices depending on
+system memory usage?
 
-All warnings (new ones prefixed by >>):
+Maybe there are some cases this is actually useful but for those niche use
+cases, isn't per-task interface with iteration enough? How often are these
+hotplug events going to be?
 
->> arch/x86/kernel/smpboot.c:1097:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (slaunch_is_txt_launch())
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/smpboot.c:1107:6: note: uninitialized use occurs here
-           if (ret)
-               ^~~
-   arch/x86/kernel/smpboot.c:1097:2: note: remove the 'if' if its condition is always false
-           if (slaunch_is_txt_launch())
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/smpboot.c:1046:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   1 warning generated.
+> > > So one concrete use case: kubernetes might like change cpusets or move
+> > > tasks from one cgroup to another, or a vm might be migrated from one set
+> > > of nodes to enother (technically not mutually exclusive here).  Some
+> > > memory policy settings (like weights) may no longer apply when this
+> > > happens, so it would be preferable to have a way to change them.
+> > 
+> > Neither covers all use cases. As you noted in your mempolicy message, if the
+> > application wants finer grained control, cgroup interface isn't great. In
+> > general, any changes which are dynamically initiated by the application
+> > itself isn't a great fit for cgroup.
+> 
+> It is certainly simple enough to add weights to mempolicy, but there
+> are limitations.  In particular, mempolicy is extremely `current task`
+> focused, and significant refactor work would need to be done to allow
+> external tasks the ability to toggle a target task's mempolicy.
+> 
+> In particular I worry about the potential concurrency issues since
+> mempolicy can be in the hot allocation path.
 
+Changing mpol from outside the task is a feature which is inherently useful
+regardless of CXL and I don't quite understand why hot path concurrency
+issues would be different whether the configuration is coming from mempol or
+cgroup but that could easily be me not being familiar with the involved
+code.
 
-vim +1097 arch/x86/kernel/smpboot.c
+...
+> > 3. Cgroup can be convenient when group config change is necessary. However,
+> >    we really don't want to keep adding kernel interface just for changing
+> >    configs for a group of threads. For config changes which aren't high
+> >    frequency, userspace iterating the member processes and applying the
+> >    changes if possible is usually good enough which usually involves looping
+> >    until no new process is found. If the looping is problematic, cgroup
+> >    freezer can be used to atomically stop all member threads to provide
+> >    atomicity too.
+> > 
+> 
+> If I can ask, do you think it would be out of line to propose a major
+> refactor to mempolicy to enable external task's the ability to change a
+> running task's mempolicy *as well as* a cgroup-wide mempolicy component?
 
-  1036	
-  1037	/*
-  1038	 * NOTE - on most systems this is a PHYSICAL apic ID, but on multiquad
-  1039	 * (ie clustered apic addressing mode), this is a LOGICAL apic ID.
-  1040	 * Returns zero if startup was successfully sent, else error code from
-  1041	 * ->wakeup_secondary_cpu.
-  1042	 */
-  1043	static int do_boot_cpu(u32 apicid, int cpu, struct task_struct *idle)
-  1044	{
-  1045		unsigned long start_ip = real_mode_header->trampoline_start;
-  1046		int ret;
-  1047	
-  1048	#ifdef CONFIG_X86_64
-  1049		/* If 64-bit wakeup method exists, use the 64-bit mode trampoline IP */
-  1050		if (apic->wakeup_secondary_cpu_64)
-  1051			start_ip = real_mode_header->trampoline_start64;
-  1052	#endif
-  1053		idle->thread.sp = (unsigned long)task_pt_regs(idle);
-  1054		initial_code = (unsigned long)start_secondary;
-  1055	
-  1056		if (IS_ENABLED(CONFIG_X86_32)) {
-  1057			early_gdt_descr.address = (unsigned long)get_cpu_gdt_rw(cpu);
-  1058			initial_stack  = idle->thread.sp;
-  1059		} else if (!(smpboot_control & STARTUP_PARALLEL_MASK)) {
-  1060			smpboot_control = cpu;
-  1061		}
-  1062	
-  1063		/* Enable the espfix hack for this CPU */
-  1064		init_espfix_ap(cpu);
-  1065	
-  1066		/* So we see what's up */
-  1067		announce_cpu(cpu, apicid);
-  1068	
-  1069		/*
-  1070		 * This grunge runs the startup process for
-  1071		 * the targeted processor.
-  1072		 */
-  1073		if (x86_platform.legacy.warm_reset) {
-  1074	
-  1075			pr_debug("Setting warm reset code and vector.\n");
-  1076	
-  1077			smpboot_setup_warm_reset_vector(start_ip);
-  1078			/*
-  1079			 * Be paranoid about clearing APIC errors.
-  1080			*/
-  1081			if (APIC_INTEGRATED(boot_cpu_apic_version)) {
-  1082				apic_write(APIC_ESR, 0);
-  1083				apic_read(APIC_ESR);
-  1084			}
-  1085		}
-  1086	
-  1087		smp_mb();
-  1088	
-  1089		/*
-  1090		 * Wake up a CPU in difference cases:
-  1091		 * - Intel TXT DRTM launch uses its own method to wake the APs
-  1092		 * - Use a method from the APIC driver if one defined, with wakeup
-  1093		 *   straight to 64-bit mode preferred over wakeup to RM.
-  1094		 * Otherwise,
-  1095		 * - Use an INIT boot APIC message
-  1096		 */
-> 1097		if (slaunch_is_txt_launch())
-  1098			slaunch_wakeup_cpu_from_txt(cpu, apicid);
-  1099		else if (apic->wakeup_secondary_cpu_64)
-  1100			ret = apic->wakeup_secondary_cpu_64(apicid, start_ip);
-  1101		else if (apic->wakeup_secondary_cpu)
-  1102			ret = apic->wakeup_secondary_cpu(apicid, start_ip);
-  1103		else
-  1104			ret = wakeup_secondary_cpu_via_init(apicid, start_ip);
-  1105	
-  1106		/* If the wakeup mechanism failed, cleanup the warm reset vector */
-  1107		if (ret)
-  1108			arch_cpuhp_cleanup_kick_cpu(cpu);
-  1109		return ret;
-  1110	}
-  1111	
+I don't think these group configurations fit cgroup filesystem interface
+very well. As these aren't resource allocations, it's unclear what the
+hierarchical relationship means. Besides, it feels awkard to be keep adding
+duplicate interfaces where the modality changes completely based on the
+operation scope.
+
+There are ample examples where other subsystems use cgroup membership
+information and while we haven't expanded that to syscalls yet, I don't see
+why that'd be all that difference. So, maybe it'd make sense to have the new
+mempolicy syscall take a cgroup ID as a target identifier too? ie. so that
+the scope of the operation (e.g. task, process, cgroup) and the content of
+the policy can stay orthogonal?
+
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+tejun
