@@ -1,111 +1,139 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44343D3BE
-	for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 23:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C8E386
+	for <linux-doc@vger.kernel.org>; Sat, 11 Nov 2023 00:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nc+JPMYx"
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5C63C2F
-	for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 15:41:47 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-da307fb7752so3218285276.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 15:41:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="feZhIMDL"
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26793C3D;
+	Fri, 10 Nov 2023 16:10:26 -0800 (PST)
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7a93b7fedc8so101134339f.1;
+        Fri, 10 Nov 2023 16:10:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699659707; x=1700264507; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ltVk616BPyOUD6M/e4/KeQLo/53b8eRdyGVgEa8ceQ=;
-        b=nc+JPMYxEuYFV5eyQS4d7VWWEPgw2sVLTlkiVt05tzOG5zheOwns0mOPOAfnpNk+B/
-         pzycFyiOG14zr/YJlyS8D1Ejfp44KUp1Zs7j+SYjGOo+6tBeTZ68zYAoHpsII1gr3rTX
-         RJmOaQBh0oBy3qxetCWLz9Zm1qprGagTg6cXPq7CztW6WS7dyUoWAWAvUuebXQ+IOc9s
-         HCewTcqiCbq7ni/DCmmgPduGle7iVz6fOz2x8xxjzntXGF0rmheLM8oYt4jw84ifqiB1
-         HzPU6G9C37Y+4DgBasNx8A7bSmugplyvYaKnFQyyZPu8XXGCjtQyCA7A65ZNVglksWf2
-         MGjg==
+        d=gmail.com; s=20230601; t=1699661426; x=1700266226; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cxFVU/O++xjmTUwRIyuxUTtJP9CCcilQCzHndj7FEYs=;
+        b=feZhIMDL7LJc0K0de1Ss7uqYXeQGzb/5AqyauzCHr7whjIpDcr/R+aMxUwtanM0GQ9
+         4HgER7g2TdomJyIcN7PAHT9ywwdNovk18ES5jWa1BT6rrJrZgcbrWFTXj4+RClQp3SpF
+         vsDru4Qxi+PzBh6uxiJsUzSAgC1NP4JW3JFSdtlxFZ+tcILKOMBgp62XHDV+MUfCtW5N
+         HywQp60/FlUAa3lTUjG3EFE7sJALZyRVOWHblP9el+B9QEspV9tWxAqlZMcKn1zg4oLM
+         chuTWQoIVT1bxSQU/acSjSN/ETsh7rlduxjmz2zx2ObA6LgUmN47LRCmzhDtIm8hf+Vb
+         v/Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699659707; x=1700264507;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ltVk616BPyOUD6M/e4/KeQLo/53b8eRdyGVgEa8ceQ=;
-        b=E8MkAAEzIyls77yK3rCk0i6L5QvndmmkSUcgve1mox/Ag24yx9uaeI2hJdfS8kagJg
-         Y5GcCGzL4StZEB7drwlmZ0J75G5zl2NGj6CLK+11Ro8KrWBUtHodYdM5Pw4C6NeIIo13
-         aaL6gMG8XQa7d6VoGQGCain/spfWKBPAfZG4i4MCP5xBU+ZGTGq8tuZf5SoBZ7Xsuc5P
-         7i8aDLurLVfJai7fG+QvHIZLSeZY+vSnFckTx3wu690nDSUI6NXljq6QnsZBd4sLhIor
-         4MchHYvmj2RSWvkcHC9ZEqEy9eg8+qQM+MFFrce3pK0r8tezd6NPy1+Ry5tcbmME5B3M
-         lgRQ==
-X-Gm-Message-State: AOJu0YxnM3hXWDklZZDflqKy5XagHpYfIYoDVqPSCd++jSX5BIyZvawZ
-	XDYprmWYgfdfp0FcDQ8Fbteh4J2fPfY=
-X-Google-Smtp-Source: AGHT+IGBsfnu9DDfS0QMrc7xY+SRPf/NS4ruISrqsheEvpErABAEKuj1dLba039RzL2yA5d0Qtqev7ecdb8=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:182:b0:d9a:ec95:9687 with SMTP id
- t2-20020a056902018200b00d9aec959687mr15566ybh.11.1699659706873; Fri, 10 Nov
- 2023 15:41:46 -0800 (PST)
-Date: Fri, 10 Nov 2023 15:41:45 -0800
-In-Reply-To: <20231110222751.219836-11-ross.philipson@oracle.com>
+        d=1e100.net; s=20230601; t=1699661426; x=1700266226;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cxFVU/O++xjmTUwRIyuxUTtJP9CCcilQCzHndj7FEYs=;
+        b=OZr4rhJRwXVN1FQkHGid6oCP9km79NP72t2bP1udzC9Z18CMaW4R/kJptBTg5P4Hpw
+         yjEF4MiCasT5fJjjR1Xm0HJqUoyCcNPWf8DzvsPXFajQ1hdCFVm0+r+wBNEESMtaWtrO
+         uRn68qYE+hmXPxiOzwlDGptm+SOv5H3JpNoEtVe3nDhSqpB6I6d9el/V0q1TNZONt2Mx
+         xRVNN7zPv1XNeKxp+z2xao68fh4Utl00AHVPJrW3+h2XFurY1v2ttr7HICuy8WZWcHFy
+         dhu8PAAs7nCx13287xX/lFCXkIKVVv6W9APBJfi1EVGJl+fpT0lTt2cVOFHWIjL+yEBZ
+         reXw==
+X-Gm-Message-State: AOJu0YwZeQdflWNyYS8uzIGbASe/0ZtdtrRH0WXRJk40pFeB3vBz5OUZ
+	r3wbg8pFb2H+gIllbKX3eRBE0rGMpmfbJfnR4dI=
+X-Google-Smtp-Source: AGHT+IE5zVX9XFLdvU0U9v6tHC+jPR/bJBfCK2y0DtpDCDOycmbMLl6zIsI6TPPAuAWcAbSWDbmTNSb2EibQvEgEAVU=
+X-Received: by 2002:a5d:9506:0:b0:798:d82b:7b02 with SMTP id
+ d6-20020a5d9506000000b00798d82b7b02mr939096iom.4.1699661426127; Fri, 10 Nov
+ 2023 16:10:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231110222751.219836-1-ross.philipson@oracle.com> <20231110222751.219836-11-ross.philipson@oracle.com>
-Message-ID: <ZU6_uUe45qAx52mI@google.com>
-Subject: Re: [PATCH v7 10/13] kexec: Secure Launch kexec SEXIT support
-From: Sean Christopherson <seanjc@google.com>
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org, 
-	kexec@lists.infradead.org, linux-efi@vger.kernel.org, 
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, hpa@zytor.com, ardb@kernel.org, mjg59@srcf.ucam.org, 
-	James.Bottomley@hansenpartnership.com, luto@amacapital.net, 
-	nivedita@alum.mit.edu, kanth.ghatraju@oracle.com, 
-	trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20231106231158.380730-1-nphamcs@gmail.com> <CAF8kJuPXBLpG2d4sje6ntrA+U-AnLzu3sNpJK02YxNcg04YNng@mail.gmail.com>
+In-Reply-To: <CAF8kJuPXBLpG2d4sje6ntrA+U-AnLzu3sNpJK02YxNcg04YNng@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Fri, 10 Nov 2023 16:10:14 -0800
+Message-ID: <CAKEwX=OgN_xQWrp_OYkK1BRq3DFW4he9OSycdjBm0BNy+vpPAg@mail.gmail.com>
+Subject: Re: [PATCH v4] zswap: memcontrol: implement zswap writeback disabling
+To: Chris Li <chrisl@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, lizefan.x@bytedance.com, 
+	Johannes Weiner <hannes@cmpxchg.org>, Domenico Cerasuolo <cerasuolodomenico@gmail.com>, 
+	Yosry Ahmed <yosryahmed@google.com>, Seth Jennings <sjenning@redhat.com>, 
+	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, Shakeel Butt <shakeelb@google.com>, muchun.song@linux.dev, 
+	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
+	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 10, 2023, Ross Philipson wrote:
-> Prior to running the next kernel via kexec, the Secure Launch code
-> closes down private SMX resources and does an SEXIT. This allows the
-> next kernel to start normally without any issues starting the APs etc.
-> 
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-> ---
->  arch/x86/kernel/slaunch.c | 73 +++++++++++++++++++++++++++++++++++++++
->  kernel/kexec_core.c       |  4 +++
->  2 files changed, 77 insertions(+)
-> 
-> diff --git a/arch/x86/kernel/slaunch.c b/arch/x86/kernel/slaunch.c
-> index cd5aa34e395c..32b0c24a6484 100644
-> --- a/arch/x86/kernel/slaunch.c
-> +++ b/arch/x86/kernel/slaunch.c
-> @@ -523,3 +523,76 @@ void __init slaunch_setup_txt(void)
->  
->  	pr_info("Intel TXT setup complete\n");
->  }
+On Fri, Nov 10, 2023 at 3:10=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
+>
+> Hi Nhat,
+>
+> Acked-by: Chris Li <chrisl@kernel.org>
+
+Thanks, Chris!
+
+>
+> On Mon, Nov 6, 2023 at 3:12=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -219,6 +219,12 @@ struct mem_cgroup {
+>
+>  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+>         unsigned long zswap_max;
 > +
-> +static inline void smx_getsec_sexit(void)
-> +{
-> +	asm volatile (".byte 0x0f,0x37\n"
-> +		      : : "a" (SMX_X86_GETSEC_SEXIT));
+> +       /*
+> +        * Prevent pages from this memcg from being written back from zsw=
+ap to
+> +        * swap, and from being swapped out on zswap store failures.
+> +        */
+> +       bool zswap_writeback;
+>  #endif
+>
+> I notice the bool is between two integers.
+> mem_cgroup structure has a few bool sprinkle in different locations.
+> Arrange them together might save a few padding bytes. We can also
+> consider using bit fields.
+> It is a very minor point, the condition also exists before your change.
 
-SMX has been around for what, two decades?  Is open coding getsec actually necessary?
+This sounds like an optimization worthy of its own patch. Two random
+thoughts however:
 
-> +	/* Disable SMX mode */
+a) Can this be done at the compiler level? I believe you can reduce
+the padding required by sorting the fields of a struct by its size, correct=
+?
+That sounds like a job that a compiler should do for us...
 
-Heh, the code and the comment don't really agree.  I'm guessing the intent of the
-comment is referring to leaving the measured environment, but it looks odd.   If
-manually setting SMXE is necessary, I'd just delete this comment, or maybe move
-it to above SEXIT.
+b) Re: the bitfield idea, some of the fields are CONFIG-dependent (well
+like this one). Might be a bit hairier to do it...
 
-> +	cr4_set_bits(X86_CR4_SMXE);
+>
+> >  #endif /* _LINUX_ZSWAP_H */
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index e43b5aba8efc..9cb3ea912cbe 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -5545,6 +5545,11 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state =
+*parent_css)
+> >         WRITE_ONCE(memcg->soft_limit, PAGE_COUNTER_MAX);
+> >  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+> >         memcg->zswap_max =3D PAGE_COUNTER_MAX;
+> > +
+> > +       if (parent)
+> > +               WRITE_ONCE(memcg->zswap_writeback, READ_ONCE(parent->zs=
+wap_writeback));
+> > +       else
+> > +               WRITE_ONCE(memcg->zswap_writeback, true);
+>
+> You can combine this two WRITE_ONCE to one
+>
+> bool writeback =3D !parent ||   READ_ONCE(parent->zswap_writeback);
+> WRITE_ONCE(memcg->zswap_writeback, writeback);
+>
 
-Is it actually legal to clear CR4.SMXE while post-SENTER?  I don't see anything
-in the SDM that says it's illegal, but allowing software to clear SMXE in that
-case seems all kinds of odd.
+Yeah I originally did something similar, but then decided to do the if-else
+instead. Honest no strong preference here - just felt that the if-else was
+cleaner at that moment.
 
-> +
-> +	/* Do the SEXIT SMX operation */
-> +	smx_getsec_sexit();
-> +
-> +	pr_info("TXT SEXIT complete.\n");
-> +}
+> Chris
