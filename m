@@ -1,139 +1,90 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C8E386
-	for <linux-doc@vger.kernel.org>; Sat, 11 Nov 2023 00:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCD41FA4;
+	Sat, 11 Nov 2023 01:05:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="feZhIMDL"
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26793C3D;
-	Fri, 10 Nov 2023 16:10:26 -0800 (PST)
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7a93b7fedc8so101134339f.1;
-        Fri, 10 Nov 2023 16:10:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699661426; x=1700266226; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cxFVU/O++xjmTUwRIyuxUTtJP9CCcilQCzHndj7FEYs=;
-        b=feZhIMDL7LJc0K0de1Ss7uqYXeQGzb/5AqyauzCHr7whjIpDcr/R+aMxUwtanM0GQ9
-         4HgER7g2TdomJyIcN7PAHT9ywwdNovk18ES5jWa1BT6rrJrZgcbrWFTXj4+RClQp3SpF
-         vsDru4Qxi+PzBh6uxiJsUzSAgC1NP4JW3JFSdtlxFZ+tcILKOMBgp62XHDV+MUfCtW5N
-         HywQp60/FlUAa3lTUjG3EFE7sJALZyRVOWHblP9el+B9QEspV9tWxAqlZMcKn1zg4oLM
-         chuTWQoIVT1bxSQU/acSjSN/ETsh7rlduxjmz2zx2ObA6LgUmN47LRCmzhDtIm8hf+Vb
-         v/Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699661426; x=1700266226;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cxFVU/O++xjmTUwRIyuxUTtJP9CCcilQCzHndj7FEYs=;
-        b=OZr4rhJRwXVN1FQkHGid6oCP9km79NP72t2bP1udzC9Z18CMaW4R/kJptBTg5P4Hpw
-         yjEF4MiCasT5fJjjR1Xm0HJqUoyCcNPWf8DzvsPXFajQ1hdCFVm0+r+wBNEESMtaWtrO
-         uRn68qYE+hmXPxiOzwlDGptm+SOv5H3JpNoEtVe3nDhSqpB6I6d9el/V0q1TNZONt2Mx
-         xRVNN7zPv1XNeKxp+z2xao68fh4Utl00AHVPJrW3+h2XFurY1v2ttr7HICuy8WZWcHFy
-         dhu8PAAs7nCx13287xX/lFCXkIKVVv6W9APBJfi1EVGJl+fpT0lTt2cVOFHWIjL+yEBZ
-         reXw==
-X-Gm-Message-State: AOJu0YwZeQdflWNyYS8uzIGbASe/0ZtdtrRH0WXRJk40pFeB3vBz5OUZ
-	r3wbg8pFb2H+gIllbKX3eRBE0rGMpmfbJfnR4dI=
-X-Google-Smtp-Source: AGHT+IE5zVX9XFLdvU0U9v6tHC+jPR/bJBfCK2y0DtpDCDOycmbMLl6zIsI6TPPAuAWcAbSWDbmTNSb2EibQvEgEAVU=
-X-Received: by 2002:a5d:9506:0:b0:798:d82b:7b02 with SMTP id
- d6-20020a5d9506000000b00798d82b7b02mr939096iom.4.1699661426127; Fri, 10 Nov
- 2023 16:10:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EzV1vbSx"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C607F3C15;
+	Fri, 10 Nov 2023 17:04:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699664699; x=1731200699;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a/WYDyowvn/qeJxIudnok8S85/kUjh7Jm91z5RVre+A=;
+  b=EzV1vbSxAVhNM9qBLOenwGik4mjpK1Xlux7O1gpyBZohH0ZzqCUwZAbB
+   bKCyc6fRpi0d3y9CeeZWEdmhXCcDk0eGMDXBvLeHGhzp/JYd2cbmBxGKy
+   dEj4mSfNFrA9GREEGu+cEgr44L0OsOvgLqUPEA3hOxyvuXxFNIinvDGFA
+   AplpNvlRFztA1hArj4BAQhOfTboZAlzFqGcMvQej01vKf8iyLxJxSFqhE
+   2galhw/H1VnhegrB+5rcK+sU4QudIyy8XM8QfiN+bgLTG02dzIIOpYUhO
+   qI58q3cYnGOKIvrumUGkvKdd4Q5WopxKeWPcci539V15hP1vc4vghVujP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="3236764"
+X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
+   d="scan'208";a="3236764"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 17:04:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
+   d="scan'208";a="5167067"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2023 17:04:55 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1cQf-000A6c-0P;
+	Sat, 11 Nov 2023 01:04:53 +0000
+Date: Sat, 11 Nov 2023 09:04:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nuno Sa <nuno.sa@analog.com>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Guenter Roeck <linux@roeck-us.net>, Nuno Sa <nuno.sa@analog.com>,
+	Rob Herring <robh+dt@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Message-ID: <202311110850.BINBPMG5-lkp@intel.com>
+References: <20231110151905.1659873-3-nuno.sa@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106231158.380730-1-nphamcs@gmail.com> <CAF8kJuPXBLpG2d4sje6ntrA+U-AnLzu3sNpJK02YxNcg04YNng@mail.gmail.com>
-In-Reply-To: <CAF8kJuPXBLpG2d4sje6ntrA+U-AnLzu3sNpJK02YxNcg04YNng@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 10 Nov 2023 16:10:14 -0800
-Message-ID: <CAKEwX=OgN_xQWrp_OYkK1BRq3DFW4he9OSycdjBm0BNy+vpPAg@mail.gmail.com>
-Subject: Re: [PATCH v4] zswap: memcontrol: implement zswap writeback disabling
-To: Chris Li <chrisl@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, lizefan.x@bytedance.com, 
-	Johannes Weiner <hannes@cmpxchg.org>, Domenico Cerasuolo <cerasuolodomenico@gmail.com>, 
-	Yosry Ahmed <yosryahmed@google.com>, Seth Jennings <sjenning@redhat.com>, 
-	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, Shakeel Butt <shakeelb@google.com>, muchun.song@linux.dev, 
-	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
-	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231110151905.1659873-3-nuno.sa@analog.com>
 
-On Fri, Nov 10, 2023 at 3:10=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
->
-> Hi Nhat,
->
-> Acked-by: Chris Li <chrisl@kernel.org>
+Hi Nuno,
 
-Thanks, Chris!
+kernel test robot noticed the following build warnings:
 
->
-> On Mon, Nov 6, 2023 at 3:12=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -219,6 +219,12 @@ struct mem_cgroup {
->
->  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
->         unsigned long zswap_max;
-> +
-> +       /*
-> +        * Prevent pages from this memcg from being written back from zsw=
-ap to
-> +        * swap, and from being swapped out on zswap store failures.
-> +        */
-> +       bool zswap_writeback;
->  #endif
->
-> I notice the bool is between two integers.
-> mem_cgroup structure has a few bool sprinkle in different locations.
-> Arrange them together might save a few padding bytes. We can also
-> consider using bit fields.
-> It is a very minor point, the condition also exists before your change.
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.6 next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This sounds like an optimization worthy of its own patch. Two random
-thoughts however:
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa/dt-bindings-hwmon-Add-LTC4282-bindings/20231110-232017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231110151905.1659873-3-nuno.sa%40analog.com
+patch subject: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110850.BINBPMG5-lkp@intel.com/reproduce)
 
-a) Can this be done at the compiler level? I believe you can reduce
-the padding required by sorting the fields of a struct by its size, correct=
-?
-That sounds like a job that a compiler should do for us...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110850.BINBPMG5-lkp@intel.com/
 
-b) Re: the bitfield idea, some of the fields are CONFIG-dependent (well
-like this one). Might be a bit hairier to do it...
+All warnings (new ones prefixed by >>):
 
->
-> >  #endif /* _LINUX_ZSWAP_H */
-> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> > index e43b5aba8efc..9cb3ea912cbe 100644
-> > --- a/mm/memcontrol.c
-> > +++ b/mm/memcontrol.c
-> > @@ -5545,6 +5545,11 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state =
-*parent_css)
-> >         WRITE_ONCE(memcg->soft_limit, PAGE_COUNTER_MAX);
-> >  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
-> >         memcg->zswap_max =3D PAGE_COUNTER_MAX;
-> > +
-> > +       if (parent)
-> > +               WRITE_ONCE(memcg->zswap_writeback, READ_ONCE(parent->zs=
-wap_writeback));
-> > +       else
-> > +               WRITE_ONCE(memcg->zswap_writeback, true);
->
-> You can combine this two WRITE_ONCE to one
->
-> bool writeback =3D !parent ||   READ_ONCE(parent->zswap_writeback);
-> WRITE_ONCE(memcg->zswap_writeback, writeback);
->
+>> Documentation/hwmon/ltc4282.rst: WARNING: document isn't included in any toctree
 
-Yeah I originally did something similar, but then decided to do the if-else
-instead. Honest no strong preference here - just felt that the if-else was
-cleaner at that moment.
-
-> Chris
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
