@@ -1,76 +1,99 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEF67498
-	for <linux-doc@vger.kernel.org>; Sat, 11 Nov 2023 07:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A1D125A6
+	for <linux-doc@vger.kernel.org>; Sat, 11 Nov 2023 09:22:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lStATqVr"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC5A111
-	for <linux-doc@vger.kernel.org>; Fri, 10 Nov 2023 23:38:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699688312; x=1731224312;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C6BY88badSpVTD6TKEk2NjB+fBSGGycdZUunr9OjOA8=;
-  b=lStATqVrdc70PTW7ZE8iwkL8/nWk0L9RAukeZXxY36U+mHweyieyyvjM
-   RUEc9hASQU6EaOK1KyqjEHzJFwjBlNAHaMDA39nAwONsXHi3ul6iJnSOd
-   L+7ybROpqxG/8FHCd5NVLR+oz14vkh3qXG6L0pPcIx5fv1Z/v+0DDqK5F
-   OQQLeRCmPwzt1yGvS2/v4aeyRrzHxFC29wcyU4DWgHgi1D+ZapRlge+cX
-   9yoR+pr2R+hMMWGTarftsDJGLZJhYPVEEShr97c48FUrxw0QEOCW7WPOH
-   UqjFb20cUORBW+/tPEgYRWvdZP2v1G/oXi1e1PuKUIJ5u0F/zxg8xhGQy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="454563379"
-X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="454563379"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 23:38:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="740318734"
-X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="740318734"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 10 Nov 2023 23:38:30 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1iZY-000AIj-0e;
-	Sat, 11 Nov 2023 07:38:28 +0000
-Date: Sat, 11 Nov 2023 15:38:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Riana Tauro <riana.tauro@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>, linux-doc@vger.kernel.org
-Subject: [drm-xe:drm-xe-next 1708/1927] htmldocs: Warning:
- /sys/devices/.../hwmon/hwmon<i>/power1_max is defined 2 times:
-  ./Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:0
-  ./Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:8
-Message-ID: <202311111546.yozUaR9N-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W87PTl0i"
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91503AA6;
+	Sat, 11 Nov 2023 01:22:56 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-9e62f903e88so208267666b.2;
+        Sat, 11 Nov 2023 01:22:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699694575; x=1700299375; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hf1eecC3Yo7gOC7YXtpAGe0WJRP6o6FR9hdwtJ02C9s=;
+        b=W87PTl0iq594q1PHel9X6InVGdMqFOPoAf6TxyjOeW2Ly1jQx1THftIe/pOiSkgFKu
+         SLP6iFDnkG3FXOYvt8yAZSGJPaiUHqFL4nenhHY+XZvhlTG9YI38lnqK/LdTJlLyDkOi
+         J6T+5NDb0Bo49MBdKkBV7AigoczAzjN0bjvub53wHdUNXYXdb4OlIoX8dqMVS9MDTdza
+         X5Wz/bPJET3DUJMGxLuYqGLYL1n0T2azXmSYM9rnhXGsDnVdijuamQWLkup4hJgnc4B7
+         cAV+6DyfOx00hEP9LEKs6ZAQeS5FN9IFsCy+tbqjLamocZl4NrxaFoUTwWyJVgTrY0l7
+         zrRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699694575; x=1700299375;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hf1eecC3Yo7gOC7YXtpAGe0WJRP6o6FR9hdwtJ02C9s=;
+        b=XrJ+ij1beXCpBKJ8AlHiyony6OGBcpIlbltZs9sWxtcXTKT03rzfpopUC/7r5vhOoG
+         gx66fUmkmD/FHWJwyZD8Mad8nMF4kAzsaZXjuehy8GL3QfBFpXClLSNR/TMBd9nKNGII
+         vdqVgHBBAepqqsEhw+CgO6LrjjPyaPDf0t2t0PtEy+2xvwRelSDdkYAKs2FY4/Xx/m2K
+         GbubrSocqfpiXkyt4SunG7U+QxR1q5YC+DJt5dcM2BazUDp7bXiXbacRYXx+Cunk64H2
+         6FSe4QHk3em//WK6FNeX1Dy4SnKHfT6o5uCmRtLkqDujimQ3wRCDVzBkc1Ihv15BrE9C
+         ZBIw==
+X-Gm-Message-State: AOJu0Yzn1LMmdpMNB7+HDLYaU8pRjRwcbUCpyk9F9QwJofhYHUt61F67
+	gxzFRE+7Cn8xaWgiBoiI8/A=
+X-Google-Smtp-Source: AGHT+IEDC7DeH/pyjS24XiFRf34wIT7xA0ESvF+ILQ6b/JcaSmo/XV7xrxMQDmjA55MQzca81xr7sQ==
+X-Received: by 2002:a17:906:3655:b0:9ae:5253:175b with SMTP id r21-20020a170906365500b009ae5253175bmr1053088ejb.34.1699694575052;
+        Sat, 11 Nov 2023 01:22:55 -0800 (PST)
+Received: from desktop.localdomain ([109.95.114.4])
+        by smtp.gmail.com with ESMTPSA id o7-20020a170906358700b009adc77fe164sm767684ejb.66.2023.11.11.01.22.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Nov 2023 01:22:54 -0800 (PST)
+From: Tadeusz Struk <tstruk@gmail.com>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Logan Gunthorpe <logang@deltatee.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Tadeusz Struk <tstruk@gigaio.com>,
+	linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	stable@kernel.org,
+	Tadeusz Struk <tstruk@gmail.com>
+Subject: [PATCH] Documentation: PCI/P2PDMA: Remove reference to pci_p2pdma_map_sg()
+Date: Sat, 11 Nov 2023 10:22:39 +0100
+Message-ID: <20231111092239.308767-1-tstruk@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: *
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   b3890fb4386dcef68a96888141c4cc773f6241ce
-commit: 1be1e64c654d3c9a22badb904e5b889372c0c918 [1708/1927] drm/xe/hwmon: Expose power attributes
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311111546.yozUaR9N-lkp@intel.com/reproduce)
+From: Tadeusz Struk <tstruk@gigaio.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311111546.yozUaR9N-lkp@intel.com/
+Update Documentation/driver-api/pci/p2pdma.rst doc to
+remove references to the obsolete pci_p2pdma_map_sg() function.
 
-All warnings (new ones prefixed by >>):
+Fixes: 0d06132fc84b ("PCI/P2PDMA: Remove pci_p2pdma_[un]map_sg()")
+Cc: stable <stable@kernel.org>
+Signed-off-by: Tadeusz Struk <tstruk@gigaio.com>
+---
+ Documentation/driver-api/pci/p2pdma.rst | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:0  ./Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:8
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_rated_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:14  ./Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:22
-
+diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+index 44deb52beeb4..9e54ee711b5c 100644
+--- a/Documentation/driver-api/pci/p2pdma.rst
++++ b/Documentation/driver-api/pci/p2pdma.rst
+@@ -83,10 +83,9 @@ this to include other types of resources like doorbells.
+ Client Drivers
+ --------------
+ 
+-A client driver typically only has to conditionally change its DMA map
+-routine to use the mapping function :c:func:`pci_p2pdma_map_sg()` instead
+-of the usual :c:func:`dma_map_sg()` function. Memory mapped in this
+-way does not need to be unmapped.
++A client driver only has to use the mapping api :c:func:`dma_map_sg()`
++and :c:func:`dma_unmap_sg()` functions, as usual, and the implementation
++will do the right thing for the P2P capable memory.
+ 
+ The client may also, optionally, make use of
+ :c:func:`is_pci_p2pdma_page()` to determine when to use the P2P mapping
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
