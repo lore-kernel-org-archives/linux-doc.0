@@ -1,132 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377421C29D
-	for <linux-doc@vger.kernel.org>; Sat, 11 Nov 2023 18:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2626FBE;
+	Sat, 11 Nov 2023 20:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZO32iDzt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3054C433C7
-	for <linux-doc@vger.kernel.org>; Sat, 11 Nov 2023 18:22:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699726953;
-	bh=CW5tpNdFHXddseGoEXwpAJxkp57G2fy3axYjwxjjpHo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ZO32iDztMvq6aVkH3CzD0/r8MBcZaGFWO9eAU3Fq/0ZfNRrV8BpJOACzV+DIPoyUG
-	 IT5GS/ncvux3wNqf1bUBAp/M/c4GaEQFY93g+dBXrAyeP1M/jyz603cvZlLK9U1ZlA
-	 A539Yo8f45/h3KpDGlJy6QWg6z+ogtKq/MRI/c/jmymjKb10ez4nbOzp1U7abQKmzm
-	 m0NJvEJ+wKmwOzLTesmf6SmGJ5yKW8zbGjBVLLnniJA3MHeMXIx7rNUMzpbAwEFoIz
-	 W6+17450o2XA9mU1lTuekTAeL1zaZeCpYxUDmdkUDbYOquNyi6aBF3YAklbVqTUYPp
-	 yWsGFiSiQaCPw==
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1cc329ce84cso27883325ad.2
-        for <linux-doc@vger.kernel.org>; Sat, 11 Nov 2023 10:22:33 -0800 (PST)
-X-Gm-Message-State: AOJu0YyUFLZM/8lpGAuy2GMns68pHZxRjr3/TV0onCzlkxuW8YQPLTPJ
-	iHbj8QfYdKnkV7Ca+w5vQcYhw/bJnSAZvpzi14uyMA==
-X-Google-Smtp-Source: AGHT+IFRst9RU625qAGHUXiFdwUcqInfH7cBpB6bfU2QT9KP7GwFE+6fAD0QjOLiwzcDhmCQ5NB2iGC3TieCzx5Ci+c=
-X-Received: by 2002:a17:90a:eac9:b0:27d:9f6:47a3 with SMTP id
- ev9-20020a17090aeac900b0027d09f647a3mr2745035pjb.31.1699726932330; Sat, 11
- Nov 2023 10:22:12 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="WTKYSRyG";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="WTKYSRyG"
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26EFD72;
+	Sat, 11 Nov 2023 12:36:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1699734993;
+	bh=ON6trIcp7+DuqniQpmZTvh3ZoJcgh3VkSs5gIMRrdsU=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=WTKYSRyGsv4eOSdLugUtX+cv+QbiPhjvvPrjnW6sMArcM4T1WD6UeH9iTOwjh3jSy
+	 iDmBEDpKUiUTUzOc+RxDoRUhRi+yd4bObhI4YYIWNXPtmKxefuQmnf3XHKNGuj24PY
+	 3sDecx94xUTHeTf5WpLpoRx7VMq4BuZeD5vV7GLA=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 3BB58128609B;
+	Sat, 11 Nov 2023 15:36:33 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id z2rW164A0x_h; Sat, 11 Nov 2023 15:36:33 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1699734993;
+	bh=ON6trIcp7+DuqniQpmZTvh3ZoJcgh3VkSs5gIMRrdsU=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=WTKYSRyGsv4eOSdLugUtX+cv+QbiPhjvvPrjnW6sMArcM4T1WD6UeH9iTOwjh3jSy
+	 iDmBEDpKUiUTUzOc+RxDoRUhRi+yd4bObhI4YYIWNXPtmKxefuQmnf3XHKNGuj24PY
+	 3sDecx94xUTHeTf5WpLpoRx7VMq4BuZeD5vV7GLA=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::c14])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 33B2B1286097;
+	Sat, 11 Nov 2023 15:36:31 -0500 (EST)
+Message-ID: <87f56530b85ea894036a74be1824d6f2716f70de.camel@HansenPartnership.com>
+Subject: Re: [PATCH v7 06/13] x86: Add early SHA support for Secure Launch
+ early measurements
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Andrew Cooper <andrew.cooper3@citrix.com>, Eric Biggers
+	 <ebiggers@kernel.org>, Ross Philipson <ross.philipson@oracle.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
+ linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org, 
+ kexec@lists.infradead.org, linux-efi@vger.kernel.org, 
+ dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de,  hpa@zytor.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+ luto@amacapital.net,  nivedita@alum.mit.edu, kanth.ghatraju@oracle.com, 
+ trenchboot-devel@googlegroups.com
+Date: Sat, 11 Nov 2023 15:36:29 -0500
+In-Reply-To: <a16d44c5-2e1a-4e9a-8ca1-c7ca564f61cd@citrix.com>
+References: <20231110222751.219836-1-ross.philipson@oracle.com>
+	 <20231110222751.219836-7-ross.philipson@oracle.com>
+	 <20231111174435.GA998@sol.localdomain>
+	 <a16d44c5-2e1a-4e9a-8ca1-c7ca564f61cd@citrix.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106231158.380730-1-nphamcs@gmail.com> <CAF8kJuPXBLpG2d4sje6ntrA+U-AnLzu3sNpJK02YxNcg04YNng@mail.gmail.com>
- <CAKEwX=OgN_xQWrp_OYkK1BRq3DFW4he9OSycdjBm0BNy+vpPAg@mail.gmail.com>
-In-Reply-To: <CAKEwX=OgN_xQWrp_OYkK1BRq3DFW4he9OSycdjBm0BNy+vpPAg@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Sat, 11 Nov 2023 10:22:00 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuN--EUY95O1jpV39yv5FDu0OYanY6SZeBPk5ng4kRyrjA@mail.gmail.com>
-Message-ID: <CAF8kJuN--EUY95O1jpV39yv5FDu0OYanY6SZeBPk5ng4kRyrjA@mail.gmail.com>
-Subject: Re: [PATCH v4] zswap: memcontrol: implement zswap writeback disabling
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, lizefan.x@bytedance.com, 
-	Johannes Weiner <hannes@cmpxchg.org>, Domenico Cerasuolo <cerasuolodomenico@gmail.com>, 
-	Yosry Ahmed <yosryahmed@google.com>, Seth Jennings <sjenning@redhat.com>, 
-	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, Shakeel Butt <shakeelb@google.com>, muchun.song@linux.dev, 
-	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
-	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 10, 2023 at 4:10=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
-:
-> > I notice the bool is between two integers.
-> > mem_cgroup structure has a few bool sprinkle in different locations.
-> > Arrange them together might save a few padding bytes. We can also
-> > consider using bit fields.
-> > It is a very minor point, the condition also exists before your change.
->
-> This sounds like an optimization worthy of its own patch. Two random
-> thoughts however:
+On Sat, 2023-11-11 at 18:19 +0000, Andrew Cooper wrote:
+> On 11/11/2023 5:44 pm, Eric Biggers wrote:
+> > On Fri, Nov 10, 2023 at 05:27:44PM -0500, Ross Philipson wrote:
+> > >  arch/x86/boot/compressed/early_sha1.c   | 12 ++++
+> > >  lib/crypto/sha1.c                       | 81
+> > > +++++++++++++++++++++++++
+> > It's surprising to still see this new use of SHA-1 after so many
+> > people objected to it in the v6 patchset.  It's also frustrating
+> > that the SHA-1 support is still being obfuscated by being combined
+> > in one patch with SHA-2 support, perhaps in an attempt to conflate
+> > the two algorithms and avoid having to give a rationale for the
+> > inclusion of SHA-1.  Finally, new functions should not be added to
+> > lib/crypto/sha1.c unless those functions have multiple users.
+> 
+> The rational was given.  Let me reiterate it.
+> 
+> There are real TPMs in the world that can't use SHA-2.  The use of
+> SHA-1 is necessary to support DRTM on such systems, and there are
+> real users of such configurations.
 
-Sure. I consider this a very minor point as well.
+Given that TPM 2.0 has been shipping in bulk since Windows 10 (2015)
+and is required for Windows 11 (2021), are there really such huge
+numbers of TPM 1.2 systems involved in security functions?
 
->
-> a) Can this be done at the compiler level? I believe you can reduce
-> the padding required by sorting the fields of a struct by its size, corre=
-ct?
-> That sounds like a job that a compiler should do for us...
+> DRTM with SHA-1-only is a damnsight better than no DTRM, even if SHA-
+> 1 is getting a little long in the tooth.
 
-According to the C standard, the struct member should be layered out
-in the order it was declared. There are too many codes that assume the
-first member has the same address of the struct. Consider we use
-struct for DMA descriptor as well, where the memory layout needs to
-match the underlying hardware. Re-ordering the members will be really
-bad there. There are gcc extensions to do structure member
-randomization. But the randomization layout is determined by the
-randomization seed. The compiler actually doesn't have the flexibility
-to rearrange the member orders to reduce the padding either.
+That's not the problem.  The problem is that sha1 is seen as a
+compromised algorithm by NIST which began deprecating it in 2011 and is
+now requiring it to be removed from all systems supplied to the US
+government by 2030
 
->
-> b) Re: the bitfield idea, some of the fields are CONFIG-dependent (well
-> like this one). Might be a bit hairier to do it...
+https://www.nist.gov/news-events/news/2022/12/nist-retires-sha-1-cryptographic-algorithm
 
-You can declare the bit field under preprocessor condition as well,
-just like a normal declare. Can you clarify why it is more hairier?
-The bitfield does not have a pointer address associated with it, the
-compiler can actually move the bit field bits around. You get the
-compiler to do it for you in this case.
+That means we have to control all uses of sha1 in the kernel and have
+an option to build without it.  FIPS has an even tighter timetable: it
+requires sha1 to be out by 2025.
 
->
-> >
-> > >  #endif /* _LINUX_ZSWAP_H */
-> > > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> > > index e43b5aba8efc..9cb3ea912cbe 100644
-> > > --- a/mm/memcontrol.c
-> > > +++ b/mm/memcontrol.c
-> > > @@ -5545,6 +5545,11 @@ mem_cgroup_css_alloc(struct cgroup_subsys_stat=
-e *parent_css)
-> > >         WRITE_ONCE(memcg->soft_limit, PAGE_COUNTER_MAX);
-> > >  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
-> > >         memcg->zswap_max =3D PAGE_COUNTER_MAX;
-> > > +
-> > > +       if (parent)
-> > > +               WRITE_ONCE(memcg->zswap_writeback, READ_ONCE(parent->=
-zswap_writeback));
-> > > +       else
-> > > +               WRITE_ONCE(memcg->zswap_writeback, true);
-> >
-> > You can combine this two WRITE_ONCE to one
-> >
-> > bool writeback =3D !parent ||   READ_ONCE(parent->zswap_writeback);
-> > WRITE_ONCE(memcg->zswap_writeback, writeback);
-> >
->
-> Yeah I originally did something similar, but then decided to do the if-el=
-se
-> instead. Honest no strong preference here - just felt that the if-else wa=
-s
-> cleaner at that moment.
+> So unless you have a credible plan to upgrade every non-SHA-2 TPM in
+> the world, you are deliberately breaking part of the usecase paying
+> for the effort of trying to upstream DRTM support into Linux.
 
-One WRITE_ONCE will produce slightly better machine code as less
-memory store instructions. Normally the compiler is allowed to do the
-common expression elimination to merge the write. However here it has
-explicite WRITE_ONCE, so the compiler has to place two memory stores
-instructions, because you have two WRITE_ONCE. My suggestion will only
-have one memory store instruction. I agree it is micro optimization.
+Given that most CSOs follow NIST and FIPS it seems a little strange
+that there would be a huge demand for such an intricate security
+protocol as Dynamic Launch on a system that can't be FIPS 140-3
+certified.
 
-Chris
+James
+
