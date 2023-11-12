@@ -1,170 +1,196 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C51156E7;
-	Sun, 12 Nov 2023 18:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C9A168C1;
+	Sun, 12 Nov 2023 19:46:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alyssa.is header.i=@alyssa.is header.b="MPQzx8xw";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p7qDAPRK"
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A6A2726;
-	Sun, 12 Nov 2023 10:08:02 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 8E1BE320085B;
-	Sun, 12 Nov 2023 13:07:58 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sun, 12 Nov 2023 13:08:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1699812478; x=1699898878; bh=dD
-	uhcv1QYeJJwOpTS3JDJhN0uhtR6dQ7KzF3TyM4gRA=; b=MPQzx8xwFEKnzOCSkT
-	kh1cgM8xGf/7ziZVT0XTVWGeUMzgt01pDLkGcp6lOwDiTO3h9+daPJYOi4Htm0gX
-	JHoXFJbEOHJEBJnW0W8B0yGzgJ+MAKrmJhTr0qBNYJ9sSl6cUt2Pn1WO8rinmPu+
-	QpeWw1iej73A9hBhgrwPozIiXlwVqrFtLPAfWsbqVrhsbjx7E2GevLScjsZPZpD3
-	tMe2v9s8mouolaBv6Qv3VZOvKYm1n9gWt+jzFW1zkoxXP9+YeuZFXyFKWNQt0qPX
-	VQA3zjTzRqBI72XVMAKDf1Oh2siyqPM5dOIvjUSpyAIKk+NWHzW5z6KnfUyFoe1z
-	sZNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1699812478; x=1699898878; bh=dDuhcv1QYeJJw
-	OpTS3JDJhN0uhtR6dQ7KzF3TyM4gRA=; b=p7qDAPRKnXnBrevizNRxhKLU4Ua8o
-	qHc3nJg2FEP8MRyHq6Khnrk7yioOSlwz0kXuoi2LoIpqYxVG2ekbn6cCbPz8hK+7
-	M7DBqcVjEs/6x1lifGfGG0g8wbfPjRsnWOBM42a/VbZrrUNKH3HoY48FPehKYtia
-	MRoDusDMTYBTRj8FZB5ojrI1iWKacjYevS6XKecbEC0kS9GM4c9lEd2vrmXLlsAq
-	mDec6Xojhz+cfjme1iby6jCQAfVacesBwOPAGosq6qlwapYZ4ZvQG+gWc34CXyoL
-	G113vUAvKKKb3mbJ6DdAiFPUL9+GBYtzEqPXv+6YVok2cc6oj556uVn7g==
-X-ME-Sender: <xms:fBRRZdn-PjLzyqpEzd_UjRQMy2jmoc3HrZaJU8bUMFYuOiHcgfnCpw>
-    <xme:fBRRZY2Uy2NKuw7usHGToO9bjf_RGSyHHaJgcePl50sBXWaOk4lZYMios6PmnXiDI
-    X_L2gWJR23Nv9yeXg>
-X-ME-Received: <xmr:fBRRZTpGgZRZEjYh_VDGuQ-AacNM45zn3aKpFJaHmHRJ2sGKaF_JIMJClMikGiTC1ojWcFMY8jQqy-5Kxw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddvkedgudduudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehgtdfsredttddvnecuhfhrohhmpeetlhih
-    shhsrgcutfhoshhsuceohhhisegrlhihshhsrgdrihhsqeenucggtffrrghtthgvrhhnpe
-    dtjeeuteekheefueeluefgveeiffekhfetfeeivdefheeuhfejgedvieffiefhieenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehhihesrghlhi
-    hsshgrrdhish
-X-ME-Proxy: <xmx:fBRRZdlufq6OnU3oIGDpgJIqxDsliArdHJJ8d_uebhWMIsQukov7xQ>
-    <xmx:fBRRZb3su33UxIHW2kjrhkClWddzjTIu-kV9JM1QYjWuaBPcvszajA>
-    <xmx:fBRRZcs22ATr3A80AzUix0CDGtjJ_Ry4B9RZMEEQezYrE7wJy03RAQ>
-    <xmx:fhRRZQ5CpDlZMmPW41rCcK7RcUtapaOVlHnqaMYSXRSoQ1Td4A7bmQ>
-Feedback-ID: i12284293:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 12 Nov 2023 13:07:56 -0500 (EST)
-Received: by mbp.qyliss.net (Postfix, from userid 1000)
-	id BEEFA44AA; Sun, 12 Nov 2023 19:07:54 +0100 (CET)
-Date: Sun, 12 Nov 2023 19:07:54 +0100
-From: Alyssa Ross <hi@alyssa.is>
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	iommu@lists.linux-foundation.org, kexec@lists.infradead.org, linux-efi@vger.kernel.org, 
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	hpa@zytor.com, ardb@kernel.org, mjg59@srcf.ucam.org, 
-	James.Bottomley@hansenpartnership.com, luto@amacapital.net, nivedita@alum.mit.edu, 
-	kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v7 02/13] Documentation/x86: Secure Launch kernel
- documentation
-Message-ID: <scpu273f2mprr2uvjlyk2xrjjtcduhse2eb45lmj7givn6jh4u@i2v4f2vbldu4>
-References: <20231110222751.219836-1-ross.philipson@oracle.com>
- <20231110222751.219836-3-ross.philipson@oracle.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SlZGuL1E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA4CC433C8;
+	Sun, 12 Nov 2023 19:46:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699818373;
+	bh=MaALdKM6CkRciDDOKQFdOFbCFn9uUlJOWClVU8b34tU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SlZGuL1E4T3k46McUNsHAf1w2NuqPphfcHyZcICORU0yuRPWSemZxbxascnJEM4wO
+	 RGqzaYcCZwNc+hn+tWm1S1rg4ApB0FK+txAtSBRj88bPz3KUp1YmgrU3mqneE/WQcQ
+	 LRgOIygyg6GiR1u0UPKj92CP9Tdtpb1PRH9r1LNpaqAfPR82U92kkYKhr9mJuIPHKw
+	 mNv4tk7df0CvkpvYf/ccAWDqGNUqntwiHu537rFik2Qun1QdCwd+uZU52uP49w90oJ
+	 FjqEAQwnVGcI2+vci38RO6C4TlriKg9GeNRv8iftoLU5nESSXp+US/N05doraV0GvC
+	 ANjnFjTnid49A==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Brendan Higgins <brendanhiggins@google.com>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/8] DAMOS: Introduce Aim-oriented Feedback-driven Aggressiveness Auto Tuning
+Date: Sun, 12 Nov 2023 19:45:59 +0000
+Message-Id: <20231112194607.61399-1-sj@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="yjlywfhxxmbqgjoq"
-Content-Disposition: inline
-In-Reply-To: <20231110222751.219836-3-ross.philipson@oracle.com>
+Content-Transfer-Encoding: 8bit
+
+Another candidate of the subject was "Let users feed and tame DAMOS".
+
+DAMOS Control Difficulty
+========================
+
+DAMOS helps users easily implementing effective access pattern aware
+system operations.  However, controlling DAMOS in wild is not that easy.
+The basic way to control DAMON is specifying the target access pattern.
+Hence, the user is assumed to know the access pattern of the system and
+the workloads well.  Though some good tools including DAMON can help
+that, it requires time and resource, and the cost depends on the
+complexity and the dynamicity of the system and workloads.  After all,
+the access pattern consist of three ranges, namely ranges of access
+rate, age, and size of the regions.  Tuning six parameters is already
+complex.  It is not doable for everyone.
+
+To ease the control, DAMOS allows users to set the upper-limit of the
+schemes's aggressiveness, namely DAMOS quota.  Then DAMOS prioritizes
+regions to apply the action under the limit based on the action and the
+access pattern of the regions.  For example, use can ask DAMOS to page
+out up to 100 MiB of memory regions per second.  Then DAMOS pages out
+regions that not accessed for longer time first under the limit.  This
+allows users to set access pattern bit more naively, and focus on only
+the one parameter, the quota.  That is, the number of parameters to tune
+with special care can be reduced from six to one.
+
+Still, however, the optimal value for the quota depends on the system
+and the workloads' characteristics, so not that simple.  The number of
+parameters to tune can also increase again if the user needs to run
+multiple schemes, e.g., collapsing hot pages into THP while splitting
+cold pages into regular pages.
+
+In short, the existing approach asks users to find the perfect or
+adapted tuning and instruct DAMOS how to work.  It requires users to be
+deligent.  That's not a virtue of human, but the machine.
+
+Aim-oriented Feedback-driven DAMOS Quota Auto Tuning
+====================================================
+
+Most users would start using DAMOS since there is something they want to
+achieve with DAMOS.  Having such goal metrics like SLO is common.
+Hence, a better approach would be letting users inform DAMOS what they
+aim to achieve, and how well DAMOS is doing that.  Then DAMOS can
+somehow make it.  In detail, users provide feedback for each DAMOS
+scheme.  DAMOS then tune the quota of each scheme based on the users'
+feedback and the current quota values.
+
+This patchset implements the idea.
+
+Implementation
+--------------
+
+The core logic implementation is in the first patch.  In short, it uses
+below simple feedback loop algorithm to get next aggressiveness from the
+current aggressiveness and the feedback (target_core and current_score)
+for the current aggressiveness.
+
+    f(n, target_score, current_score) =
+        max(f(n - 1) * ((target_score - current_score) / target_score + 1), 1)
+
+Note that this algorithm assumes the aggressiveness and the score are
+positively proportional.  Making it true is the feedback provider's
+responsibility.
+
+Test Results
+------------
+
+To show if this provides the expected benefit, we extend the performance
+tests of damon-tests suite to support virtual address space-based
+proactive reclamation scheme that aims 0.5% last 10 seconds some memory
+PSI.  The test suite runs PARSEC3 and SPLASH-2X workloads with the
+scheme and measure the runtime, the RSS, and the PSI for memory (some).
+We do same with the same scheme but not having the goal, and yet another
+variant of it that the target access patterns of the scheme is tuned for
+each workload, in a offline-tuning approach named DAMOOS[1].
+
+The results that normalized to the output that made without any scheme
+are as below.  The PSI for original run (without any scheme) was zero.
+To avoid divide-by-zero, we normalize the value to that of Not-tuned
+scheme's result.
+
+    xx      Not-tuned         Offline-tuned     Online-tuned
+    RSS     0.622688178226118 0.787950678944904 0.740093483278979
+    runtime 1.11767826657912  1.0564674983585   1.0910833880499
+    PSI     1                 0.727521443794069 0.308498846350299
+
+The not-tuned scheme acheives about 38.7% memory saving but incur about
+11.7% runtime slowdown.  The offline-tuned scheme achieves about 22.2%
+memory saving with about 5.5% runtiem slowdown.  It also achieves about
+28.2% PSI saving.  The online-tuned scheme achieves about 26% memory
+saving with about 9.1% runtime slowdown.  It also achieves about 69.1%
+PSI saving.  Given the online-tuned version is using this RFC level
+implementation and the goal (0.5% last-10 secs memory PSI) was made
+after only a few experiments within a day, I think this results show
+some potential of this feedback-driven auto tuning approach.
+
+The test code is available[2], so you can reproduce on your system.
 
 
---yjlywfhxxmbqgjoq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+[1] https://www.amazon.science/publications/daos-data-access-aware-operating-system
+[2] https://github.com/damonitor/damon-tests/commit/3f884e61193f0166b8724554b6d06b0c449a712d
 
-> +Load-time Integrity
-> +-------------------
-> +
-> +It is critical to understand what load-time integrity establishes about a
-> +system and what is assumed, i.e. what is being trusted. Load-time integrity is
-> +when a trusted entity, i.e. an entity with an assumed integrity, takes an
-> +action to assess an entity being loaded into memory before it is used. A
-> +variety of mechanisms may be used to conduct the assessment, each with
-> +different properties. A particular property is whether the mechanism creates an
-> +evidence of the assessment. Often either cryptographic signature checking or
-> +hashing are the common assessment operations used.
-> +
-> +A signature checking assessment functions by requiring a representation of the
-> +accepted authorities and uses those representations to assess if the entity has
-> +been signed by an accepted authority. The benefit to this process is that
-> +assessment process includes an adjudication of the assessment. The drawbacks
-> +are that 1) the adjudication is susceptible to tampering by the Trusted
-> +Computing Base (TCB), 2) there is no evidence to assert that an untampered
-> +adjudication was completed, and 3) the system must be an active participant in
-> +the key management infrastructure.
-> +
-> +A cryptographic hashing assessment does not adjudicate the assessment but
-> +instead, generates evidence of the assessment to be adjudicated independently.
-> +The benefits to this approach is that the assessment may be simple such that it
-> +may be implemented in an immutable mechanism, e.g. in hardware.  Additionally,
-> +it is possible for the adjudication to be conducted where it cannot be tampered
-> +with by the TCB. The drawback is that a compromised environment will be allowed
-> +to execute until an adjudication can be completed.
-> +
-> +Ultimately, load-time integrity provides confidence that the correct entity was
-> +loaded and in the absence of a run-time integrity mechanism assumes, i.e.
-> +trusts, that the entity will never become corrupted.
 
-I'm somewhat familiar with this area, but not massively (so probably the
-sort of person this documentation is aimed at!), and this was the only
-section of the documentation I had trouble understanding.
+Patches Sequence
+================
 
-The thing that confused me was that the first time I read this, I was
-thinking that a hashing assessment would be comparing the generated hash
-to a baked-in known good hash, simliar to how e.g. a verity root hash
-might be specified on the kernel command line, baked in to the OS image.
-This made me wonder why it wasn't considered to be adjudicated during
-assessment.  Upon reading it a second time, I now understand that what
-it's actually talking about is generating a hash, but not comparing it
-automatically against anything, and making it available for external
-adjudication somehow.
+The first four patches implement the core logic and user interfaces for
+the auto tuning.  The first patch implements the core logic for the auto
+tuning, and the API for DAMOS users in the kernel space.  The second
+patch implements basic file operations of DAMON sysfs directories and
+files that will be used for setting the goals and providing the
+feedback.  The third patch connects the quota goals files inputs to the
+DAMOS core logic.  Finally the fourth patch implements a dedicated DAMOS
+sysfs command for efficiently committing the quota goals feedback.
 
-I don't know if the approach I first thought of is used in early boot
-at all, but it might be worth contrasting the cryptographic hashing
-assessment described here with it, because I imagine that I'm not going
-to be the only reader who's more used to thinking about integrity
-slightly later in the boot process where adjudicating based on a static
-hash is common, and who's mind is going to go to that when they read
-about a "cryptographic hashing assessment".
+Two patches for simple test of the logic and interfaces follow.  The
+fifth patch implements the core logic unit test.  The sixth patch
+implements a selftest for the DAMON Sysfs interface for the goals.
 
-The rest of the documentation was easy to understand and very helpful to
-understanding system launch integrity.  Thanks!
+Finally, two patches for documentation follows.  The seventh patch
+documents the design of the feature.  The final eighth patch updates the
+usage document for the features.
 
---yjlywfhxxmbqgjoq
-Content-Type: application/pgp-signature; name="signature.asc"
+SeongJae Park (8):
+  mm/damon/core: implement goal-oriented feedback-driven quota
+    auto-tuning
+  mm/damon/sysfs-schemes: implement scheme quota goals directory
+  mm/damon/sysfs-schemes: commit damos quota goals user input to DAMOS
+    quota auto-tuning
+  mm/damon/sysfs-schemes: implement a command for scheme quota goals
+    only commit
+  mm/damon/core-test: add a unit test for the feedback loop algorithm
+  selftests/damon: test quota goals directory
+  Docs/mm/damon/design: Document DAMOS quota auto tuning
+  Docs/admin-guide/mm/damon/usage: update for quota goals
 
------BEGIN PGP SIGNATURE-----
+ Documentation/admin-guide/mm/damon/usage.rst |  25 +-
+ Documentation/mm/damon/design.rst            |  11 +
+ include/linux/damon.h                        |  19 ++
+ mm/damon/core-test.h                         |  32 +++
+ mm/damon/core.c                              |  65 ++++-
+ mm/damon/sysfs-common.h                      |   3 +
+ mm/damon/sysfs-schemes.c                     | 272 ++++++++++++++++++-
+ mm/damon/sysfs.c                             |  27 ++
+ tools/testing/selftests/damon/sysfs.sh       |  27 ++
+ 9 files changed, 463 insertions(+), 18 deletions(-)
 
-iQIzBAABCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmVRFG8ACgkQ+dvtSFmy
-ccCcEw/+Jw619NXwUMkOs9voraKryzuATed/FO89aG2LRZ7O7WtQMzA5jLC3xZfS
-/u0g17dDX08kUpbik40gguX15sYYQNKyiJITvY+ANpIV/78NEQ8YpfG0deZnUq+8
-CVdQ3uQvyJdvREyw4FTXnMrvxbWNVUMLczTER+VPETScMo8SEtqrZAiUFvaUb224
-RuVBQ9E+Qt3UgQc0NPDKl0aM8zOBS4EKjI0R1+g8Z4M79Gxd42sWrUh3GFBD809g
-QIr5wTKMfJ3t7gfP6mNEiFnnBUeJIv9ZTDZ6WSnvaOx1uM1Qi9N8hod2aSPCAzcS
-AhWYdh/haC8kwlIcEnX4SloCPA73e5FGIY7VPcSfVMd7YayfXhKNoGRm6+ir9y4B
-P2fl4wV5/X+29td/XPoMxpqHgk1ZP0SF8juRFUvsftYZGAs3DO/bNxJFrIpz/433
-1v2j5JT+zUbA653b4FvC664C4vrbOvrJkVpLLtz7Nh1aIrUUwJ+CuDLkxzTlBSsK
-Xy8gclV01t3S03wvcL2Utjb/xyc1yx7nzc1DgkctNxTDjd6DWn9qM3HJXOeFwW9h
-N12uI6+F0FAlUcx8hsKpcmDgW6S1d6RsgDPT/rQoqOltSCPw++G3DKQhHuYkxcI5
-/cmKv6oo0cx3rJ74AxL3QtcbqT4jqAYVgCDL1bYqh9gi280v2f0=
-=I5Za
------END PGP SIGNATURE-----
 
---yjlywfhxxmbqgjoq--
+base-commit: 4f26b84c39fbc6b03208674681bfde06e0bce25a
+-- 
+2.34.1
+
