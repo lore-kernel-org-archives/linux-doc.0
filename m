@@ -1,114 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E4F179BF;
-	Sun, 12 Nov 2023 19:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5431A287;
+	Sun, 12 Nov 2023 21:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m6SJsMg5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91CFC433CD;
-	Sun, 12 Nov 2023 19:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699818378;
-	bh=fBe7fu6fdhvjb2Vl3O+hHCTrOe9yrQAdsDE2H6K6JUw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m6SJsMg5KavzlrZgEup4w6srQLVMAzL1OT3+mkIGn838VdebxO4YPThMRTBxbHVjW
-	 arJxb9kZ9SKHg0X2BJUxftHNHaTNPpPTXR8N974jOsMd+MJc2mvO6cCvMf5pMKR2NX
-	 lHbrm8j2ERD7CrCkcHxTVFX+jc0PdTLZ8B+CmqEXc2xjnLcOghjG8oRZpNLFiTBHFr
-	 LZm9mfo7sUjlJu8DyHzMB55sUkkjMsO/+XXGDDSeH5GvHbyL2WuuXhy5UwbvB+LrGD
-	 eBq+cYwgAFEVvUJR5V+BJ+pMei61W+C9LpZYo+csOCuMf/OiQ/LPjZppZRFO6smDq2
-	 23aDyqdfNzXhA==
-From: SeongJae Park <sj@kernel.org>
-To: 
-Cc: SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gIpAVrGi"
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6437F1BFB;
+	Sun, 12 Nov 2023 13:11:09 -0800 (PST)
+Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-77a277eb084so258435985a.2;
+        Sun, 12 Nov 2023 13:11:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699823468; x=1700428268; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jD91m5sH04Im6nPSCMOzYWxSpBLesOJumIlAWBGHFmk=;
+        b=gIpAVrGiTSxF8SiYXYELq0eH2L8WPT48bz0alvdg6S6PtjE9x3nCE5OLfaOLGIDZMx
+         wgJPJ5n0pGUFzsVoLJwEnjsA5e+ZQaEBKDYVGyqLDpGXaHywXc83Zawwa/op7ReCdvip
+         gZ0idY7Z6W/7uyTfut9src+tk7/XEVnMMQyz/RMbrqCvOS7KPIbkGgzNRSdWHftF1hxH
+         XuB4f40ZH8112x3SqDol3Q7wMqofGx6s9F0Tud3wwkQRpNpIKmLeqO4aUoS/JnGgs6Xk
+         lXPuvkZRVWCJTFV7QNapUzY2CaG/1FzF2u1e+az+kF8TN3gTWkqLW0rMa6tBwor+gO/7
+         GaKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699823468; x=1700428268;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jD91m5sH04Im6nPSCMOzYWxSpBLesOJumIlAWBGHFmk=;
+        b=fxDvOX7hPsggF37uW8B13gJwbYb7hKd25hwIonpz0iwXR32ay1qp02nuNw1oAWIfeu
+         o6bCj6MPvXtHmxsZSnccqO4KoVdGIB0qI8jlNiFKswh4NCZDZih6iMTKMuT0d8rWOLmy
+         ZS4h7+Vd41HUNzVXO6U09WbHjddGH64csnL/+ogL5cGz8v/vBwrafXveQlDu8BGOZSS3
+         cOqn56qqPWZtU+2lC1ieL4oaQkprPYMaNXrnVuwoKvNT3qr05VFi8crAiSpIGpkPB1BM
+         mzvU6DguY4YMOh6ck15/DwWkwkfa4JDYCyYu9VyNadBiDd3v2dK6iFICwC4UcWUSCO6H
+         LWWw==
+X-Gm-Message-State: AOJu0YxaSoqqasxpDZ6NYK51gU7xC9uZZHfthBMZ7NqQMg+ttRwnKJA1
+	bNFRZnzJGL50RvFm1r7Rrmg=
+X-Google-Smtp-Source: AGHT+IHyDp+xYbcN+zjeD/gqHd99HWevyqCMUqBZTteDnxLZATKZX59Azkd7EOlvm/3V3TLxm/PuJA==
+X-Received: by 2002:a05:620a:2801:b0:773:ea6e:e8a4 with SMTP id f1-20020a05620a280100b00773ea6ee8a4mr5627654qkp.44.1699823468434;
+        Sun, 12 Nov 2023 13:11:08 -0800 (PST)
+Received: from localhost ([164.86.0.75])
+        by smtp.gmail.com with ESMTPSA id y6-20020a37e306000000b00770f3e5618esm1389386qki.101.2023.11.12.13.11.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Nov 2023 13:11:07 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Sun, 12 Nov 2023 15:10:59 -0600
+From: Tejun Heo <tj@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 8/8] Docs/admin-guide/mm/damon/usage: update for quota goals
-Date: Sun, 12 Nov 2023 19:46:07 +0000
-Message-Id: <20231112194607.61399-9-sj@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231112194607.61399-1-sj@kernel.org>
-References: <20231112194607.61399-1-sj@kernel.org>
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Peter Hunt <pehunt@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: Re: [PATCH v2 0/4] cgroup/cpuset: Improve CPU isolation in isolated
+ partitions
+Message-ID: <ZVE_YwujdpcFDbGy@mtj.duckdns.org>
+References: <20231025182555.4155614-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231025182555.4155614-1-longman@redhat.com>
 
-Update DAMON sysfs usage for newly added DAMOS quota goals interface.
+On Wed, Oct 25, 2023 at 02:25:51PM -0400, Waiman Long wrote:
+> v2:
+>  - Add 2 read-only workqueue sysfs files to expose the user requested
+>    cpumask as well as the isolated CPUs to be excluded from
+>    wq_unbound_cpumask.
+>  - Ensure that caller of the new workqueue_unbound_exclude_cpumask()
+>    hold cpus_read_lock.
+>  - Update the cpuset code to make sure the cpus_read_lock is held
+>    whenever workqueue_unbound_exclude_cpumask() may be called.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 25 +++++++++++++++-----
- 1 file changed, 19 insertions(+), 6 deletions(-)
+Applied to cgroup/for-6.8 with patch description for the third patch updated
+to reflect the dropping of __DEBUG__ prefix.
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index da94feb97ed1..3a2d308ca1e1 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -83,6 +83,8 @@ comma (","). ::
-     │ │ │ │ │ │ │ │ age/min,max
-     │ │ │ │ │ │ │ quotas/ms,bytes,reset_interval_ms
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-+    │ │ │ │ │ │ │ │ goals/nr_goals
-+    │ │ │ │ │ │ │ │ │ 0/target_value,current_value
-     │ │ │ │ │ │ │ watermarks/metric,interval_us,high,mid,low
-     │ │ │ │ │ │ │ filters/nr_filters
-     │ │ │ │ │ │ │ │ 0/type,matching,memcg_id
-@@ -123,9 +125,12 @@ Reading ``state`` returns ``on`` if the kdamond is currently running, or
- ``off`` if it is not running.  Writing ``on`` or ``off`` makes the kdamond be
- in the state.  Writing ``commit`` to the ``state`` file makes kdamond reads the
- user inputs in the sysfs files except ``state`` file again.  Writing
--``update_schemes_stats`` to ``state`` file updates the contents of stats files
--for each DAMON-based operation scheme of the kdamond.  For details of the
--stats, please refer to :ref:`stats section <sysfs_schemes_stats>`.
-+``commit_schemes_quota_goals`` to the ``state`` file makes kdamond reads the
-+DAMON-based operation schemes' :ref:`quota goals <sysfs_schemes_quota_goals>`
-+of the kdamond.  Writing ``update_schemes_stats`` to ``state`` file updates the
-+contents of stats files for each DAMON-based operation scheme of the kdamond.
-+For details of the stats, please refer to :ref:`stats section
-+<sysfs_schemes_stats>`.
- 
- Writing ``update_schemes_tried_regions`` to ``state`` file updates the
- DAMON-based operation scheme action tried regions directory for each
-@@ -319,8 +324,7 @@ The directory for the :ref:`quotas <damon_design_damos_quotas>` of the given
- DAMON-based operation scheme.
- 
- Under ``quotas`` directory, three files (``ms``, ``bytes``,
--``reset_interval_ms``) and one directory (``weights``) having three files
--(``sz_permil``, ``nr_accesses_permil``, and ``age_permil``) in it exist.
-+``reset_interval_ms``) and two directores (``weights`` and ``goals``) exist.
- 
- You can set the ``time quota`` in milliseconds, ``size quota`` in bytes, and
- ``reset interval`` in milliseconds by writing the values to the three files,
-@@ -330,11 +334,20 @@ apply the action to only up to ``bytes`` bytes of memory regions within the
- ``reset_interval_ms``.  Setting both ``ms`` and ``bytes`` zero disables the
- quota limits.
- 
--You can also set the :ref:`prioritization weights
-+Under ``weights`` directory, three files (``sz_permil``,
-+``nr_accesses_permil``, and ``age_permil``) exist.
-+You can set the :ref:`prioritization weights
- <damon_design_damos_quotas_prioritization>` for size, access frequency, and age
- in per-thousand unit by writing the values to the three files under the
- ``weights`` directory.
- 
-+.. sysfs_schemes_quota_goals
-+
-+schemes/<N>/quotas/goals/
-+-------------------------
-+
-+The directory for the DAMOS goals.
-+
- schemes/<N>/watermarks/
- -----------------------
- 
+Thanks.
+
 -- 
-2.34.1
-
+tejun
