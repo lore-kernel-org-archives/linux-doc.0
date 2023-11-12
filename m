@@ -1,166 +1,76 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D004417C5
-	for <linux-doc@vger.kernel.org>; Sun, 12 Nov 2023 00:07:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EAB17FC
+	for <linux-doc@vger.kernel.org>; Sun, 12 Nov 2023 00:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KhWyhN8+"
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 855643253;
-	Sat, 11 Nov 2023 16:07:10 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id ca18e2360f4ac-7ac61c58d85so135769039f.2;
-        Sat, 11 Nov 2023 16:07:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699747630; x=1700352430; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZIq6EzjNebTJSLRL1CT61ONPXQE/G9+uZ3pGYRIYVRQ=;
-        b=KhWyhN8+bcTfOVJtTNep3lEiPksZPPR9Ut0HKGBSy4Jd+gFqP2DfC9JjKQmhzSsIPM
-         GLUK3HdlUTLh8EGOpNPBFZDR0CFGLAsQ52BaSpO2K2bBbtST7dNWT+0HY3qIgYGvJaJN
-         KZbII1j0+v6Mbq9ivt3gohOTxKB5oGS/vvdjX1wvGsTBvoTGo82u0zF6ftuE7FPlXbY+
-         VivZCP1V/2dXpqbjOjwwVK1E3w22wRPryhQaWgAVY/CcmTutLCwm2+HHBeowIpEpz+9k
-         0PomXMocr6Lb5auKhTphknNjhhVzQwT8q9WHPstDe5224TmjCieJTyTKpL+WY503cj5q
-         DAOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699747630; x=1700352430;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZIq6EzjNebTJSLRL1CT61ONPXQE/G9+uZ3pGYRIYVRQ=;
-        b=JeH9ZK2uCDnJpQfITvG7ej/ECOmL6LSdCZzWINY91mQGpqPm04mSHiIX3iriqpp69a
-         P+oCKiZQFqMQBJgLXAIp6Biyo4RNgusOG8zJfZRiImU5zmcVH+0eXJDi7sq2t4OkeMM5
-         rxajH8AjzsG1ade+WTjjssAQ+HD7cXhFF15QGUa3LMhUrG5Zp09ZgHeyD+0Vwpa8ATf0
-         RW+q4686K5HZUrPn9Pp6cizd4vhizBLAt2rv703t65T2pd6O4/qqmIHK1+nQVnZYNiAg
-         VS/aL/HnnG1h4iGJYI6cZdqZ4QO2EvlH+n0RvVgrz/rVcb3tPjwQBUbQBBasFXryiihq
-         5X7g==
-X-Gm-Message-State: AOJu0YxJxi4VOcDM9aPj8R9OCJCSy1L2wvxGwGeF+nUAVwXCZjdmlpt9
-	T4/Do5Ax41qx4VQficdGf2xrdX6AoZTZ3MNrwlA=
-X-Google-Smtp-Source: AGHT+IGFQmTQBtABTIDx9JT7gq+afKVZZrIts5BpiQWRUEpwTHxC0AiBWp54Bi/ZiGbPnv3gbTAlTDyug+hkn7Fc3Ng=
-X-Received: by 2002:a05:6602:3799:b0:7a9:984c:1427 with SMTP id
- be25-20020a056602379900b007a9984c1427mr4353142iob.21.1699747629734; Sat, 11
- Nov 2023 16:07:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CLW3YqRl"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 904A9C433B6;
+	Sun, 12 Nov 2023 00:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699750546;
+	bh=GWFlwV5YPrVZ6YqtdodHarmTAW1nmW1GwfZG0HStF+4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=CLW3YqRliByr8MVQWRDb96pqbs+bgb8VYnYzh8IgZuWvnLxifxD1laYtt6yXJaCas
+	 mv2WgeLdJKaJNW2i4omu/dTUTBVCDYoOTVuNvNqL1mxZfPoLICkDFUWX5LCAfyZlGw
+	 rWzlCyMrwStgDH/r4b9Xgrs650LOTj3m4AQujf4KSEAo9ZOuKxS2SkGLELPR8H60TW
+	 gUW6+PrJwfGEdTaQxBiAECGR7JgEn9BDdRRsSgl3j5Q+PbfWBetaaVFS3UBwHNhwt7
+	 ZZuOd1sudlgi0QrmPefAsQSKA1aL74V/QYMzTvOc4Trja3vUQH6Bz3ipGNVJaeu6H4
+	 loRxLJnJOUeGA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 71B15E0008A;
+	Sun, 12 Nov 2023 00:55:46 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106231158.380730-1-nphamcs@gmail.com> <CAF8kJuPXBLpG2d4sje6ntrA+U-AnLzu3sNpJK02YxNcg04YNng@mail.gmail.com>
- <CAKEwX=OgN_xQWrp_OYkK1BRq3DFW4he9OSycdjBm0BNy+vpPAg@mail.gmail.com> <CAF8kJuN--EUY95O1jpV39yv5FDu0OYanY6SZeBPk5ng4kRyrjA@mail.gmail.com>
-In-Reply-To: <CAF8kJuN--EUY95O1jpV39yv5FDu0OYanY6SZeBPk5ng4kRyrjA@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Sat, 11 Nov 2023 16:06:58 -0800
-Message-ID: <CAKEwX=PT=5nvLhUyMmi=hq0_2H-4kmO9tOdqFvHEtaWF+e8M1Q@mail.gmail.com>
-Subject: Re: [PATCH v4] zswap: memcontrol: implement zswap writeback disabling
-To: Chris Li <chrisl@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, lizefan.x@bytedance.com, 
-	Johannes Weiner <hannes@cmpxchg.org>, Domenico Cerasuolo <cerasuolodomenico@gmail.com>, 
-	Yosry Ahmed <yosryahmed@google.com>, Seth Jennings <sjenning@redhat.com>, 
-	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, Shakeel Butt <shakeelb@google.com>, muchun.song@linux.dev, 
-	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
-	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v1] docs: move riscv under arch
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <169975054646.11360.7774579809979814716.git-patchwork-notify@kernel.org>
+Date: Sun, 12 Nov 2023 00:55:46 +0000
+References: <20230930185354.3034118-1-costa.shul@redhat.com>
+In-Reply-To: <20230930185354.3034118-1-costa.shul@redhat.com>
+To: Costa Shulyupin <costa.shul@redhat.com>
+Cc: linux-riscv@lists.infradead.org, corbet@lwn.net, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, federico.vaga@vaga.pv.it,
+ alexs@kernel.org, siyanteng@loongson.cn, philmd@linaro.org,
+ hca@linux.ibm.com, ardb@kernel.org, atishp@rivosinc.com,
+ alexghiti@rivosinc.com, sunilvl@ventanamicro.com, evan@rivosinc.com,
+ conor.dooley@microchip.com, heiko@sntech.de, andy.chiu@sifive.com,
+ bhelgaas@google.com, songshuaishuai@tinylab.org, ajones@ventanamicro.com,
+ bjorn@rivosinc.com, anup@brainfault.org, bagasdotme@gmail.com,
+ charlie@rivosinc.com, catalin.marinas@arm.com, bobwxc@email.cn,
+ samitolvanen@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
 
-On Sat, Nov 11, 2023 at 10:22=E2=80=AFAM Chris Li <chrisl@kernel.org> wrote=
-:
->
-> On Fri, Nov 10, 2023 at 4:10=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> > > I notice the bool is between two integers.
-> > > mem_cgroup structure has a few bool sprinkle in different locations.
-> > > Arrange them together might save a few padding bytes. We can also
-> > > consider using bit fields.
-> > > It is a very minor point, the condition also exists before your chang=
-e.
-> >
-> > This sounds like an optimization worthy of its own patch. Two random
-> > thoughts however:
->
-> Sure. I consider this a very minor point as well.
->
-> >
-> > a) Can this be done at the compiler level? I believe you can reduce
-> > the padding required by sorting the fields of a struct by its size, cor=
-rect?
-> > That sounds like a job that a compiler should do for us...
->
-> According to the C standard, the struct member should be layered out
-> in the order it was declared. There are too many codes that assume the
-> first member has the same address of the struct. Consider we use
-> struct for DMA descriptor as well, where the memory layout needs to
-> match the underlying hardware. Re-ordering the members will be really
-> bad there. There are gcc extensions to do structure member
-> randomization. But the randomization layout is determined by the
-> randomization seed. The compiler actually doesn't have the flexibility
-> to rearrange the member orders to reduce the padding either.
->
+Hello:
 
-Ah I see. Yeah then it might be worth tweaking around manually.
-But yeah, we should do this separately from this patch.
+This patch was applied to riscv/linux.git (fixes)
+by Jonathan Corbet <corbet@lwn.net>:
 
-> >
-> > b) Re: the bitfield idea, some of the fields are CONFIG-dependent (well
-> > like this one). Might be a bit hairier to do it...
->
-> You can declare the bit field under preprocessor condition as well,
-> just like a normal declare. Can you clarify why it is more hairier?
-> The bitfield does not have a pointer address associated with it, the
-> compiler can actually move the bit field bits around. You get the
-> compiler to do it for you in this case.
+On Sat, 30 Sep 2023 21:52:00 +0300 you wrote:
+> and fix all in-tree references.
+> 
+> Architecture-specific documentation is being moved into Documentation/arch/
+> as a way of cleaning up the top-level documentation directory and making
+> the docs hierarchy more closely match the source hierarchy.
+> 
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> 
+> [...]
 
-I see hmmm.
+Here is the summary with links:
+  - [v1] docs: move riscv under arch
+    https://git.kernel.org/riscv/c/ed843ae947f8
 
->
-> >
-> > >
-> > > >  #endif /* _LINUX_ZSWAP_H */
-> > > > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> > > > index e43b5aba8efc..9cb3ea912cbe 100644
-> > > > --- a/mm/memcontrol.c
-> > > > +++ b/mm/memcontrol.c
-> > > > @@ -5545,6 +5545,11 @@ mem_cgroup_css_alloc(struct cgroup_subsys_st=
-ate *parent_css)
-> > > >         WRITE_ONCE(memcg->soft_limit, PAGE_COUNTER_MAX);
-> > > >  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
-> > > >         memcg->zswap_max =3D PAGE_COUNTER_MAX;
-> > > > +
-> > > > +       if (parent)
-> > > > +               WRITE_ONCE(memcg->zswap_writeback, READ_ONCE(parent=
-->zswap_writeback));
-> > > > +       else
-> > > > +               WRITE_ONCE(memcg->zswap_writeback, true);
-> > >
-> > > You can combine this two WRITE_ONCE to one
-> > >
-> > > bool writeback =3D !parent ||   READ_ONCE(parent->zswap_writeback);
-> > > WRITE_ONCE(memcg->zswap_writeback, writeback);
-> > >
-> >
-> > Yeah I originally did something similar, but then decided to do the if-=
-else
-> > instead. Honest no strong preference here - just felt that the if-else =
-was
-> > cleaner at that moment.
->
-> One WRITE_ONCE will produce slightly better machine code as less
-> memory store instructions. Normally the compiler is allowed to do the
-> common expression elimination to merge the write. However here it has
-> explicite WRITE_ONCE, so the compiler has to place two memory stores
-> instructions, because you have two WRITE_ONCE. My suggestion will only
-> have one memory store instruction. I agree it is micro optimization.
->
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Ohh I did not think about this. Seems like my original version was more
-than just a clever one-liner haha.
 
-It's a bit of a micro-optimization indeed. But if for some reason I need
-to send v5 or a fixlet, I'll keep this in mind!
-
-Thanks for the explanation, Chris!
-
-> Chris
