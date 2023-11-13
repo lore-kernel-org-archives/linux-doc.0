@@ -1,95 +1,83 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A065213FEF;
-	Mon, 13 Nov 2023 07:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8D6154B3;
+	Mon, 13 Nov 2023 07:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjB5D6dn"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9127A10EF;
-	Sun, 12 Nov 2023 23:35:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icQjKiVn"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D762710F3;
+	Sun, 12 Nov 2023 23:59:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699860941; x=1731396941;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=SepDojjrQ8PITemLNMvPDDyxv0DKdE9A0fJ8P72tZWY=;
-  b=MjB5D6dn2BkaZlTZMP6guWKbvBMfu0ZasC3DeoNJAjaHYmjO7+r4321a
-   nGutMCO0+xNw1B+nDoj1Th0odvbaM7CBiG70TRXO/BJv9ThcSoiq9Okma
-   QPqm+otovzIwptgX6pSTEYfbul1nTZcg1iQ9nee0Sspl7EQQa5QkSnMg5
-   O25dmahws0QGd2/ZoWv7dNpdehoVJQZvwPp2B354P4dOcfPQlspS0rohA
-   3JqSuSdaquj27Hw8Wwchl3uDTotQfe+Nc5+mD0Nk83onD9Fvp6jEQD+GN
-   Tb5GSLzDTuKu2VMEVvRsDTMzuqn6xR9iGkT3aZaqANqODQO7qNQiS1c9W
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="369718742"
+  t=1699862359; x=1731398359;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kTmBPMVE/2ELObgNWHexFQZvYkNCYFwnrNDifYCkE3A=;
+  b=icQjKiVnVe2jxOv/h8Iif/6fu7rgCfUzGOTrJl7TaK/dHxZIHR+VjA9w
+   jNIy0hktv6Eap6qlWlOivT1+YGK+sWODfBSktdvo4s/BZ98AIxxKpBecT
+   sfEVYQDMsXEUmGJCk1rBCk4EpNLCaCQ5kmVB2r7lfap+tBtd3ziszsozs
+   fmyrUap/O5os3fdOKMZE0gAGqSCaTMVREUj3b/81TF8/GzzLufnfaz2np
+   23hERk/qMr0zBETEtiMamsUcwNBET2Ij6eIqrMkmyqQDlKY5SdG0jzlgU
+   ln7kLHA1Olof9T7kceETngigM8VKCRTon38xbtnBgf3qLcr3c6MN0SHTz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="11942357"
 X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
-   d="scan'208";a="369718742"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 23:35:41 -0800
+   d="scan'208";a="11942357"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 23:59:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="881583779"
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="907972813"
 X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
-   d="scan'208";a="881583779"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Nov 2023 23:35:40 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Sun, 12 Nov 2023 23:35:40 -0800
+   d="scan'208";a="907972813"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Nov 2023 23:59:19 -0800
 Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Sun, 12 Nov 2023 23:35:40 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ 15.1.2507.34; Sun, 12 Nov 2023 23:59:18 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Sun, 12 Nov 2023 23:35:40 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.34 via Frontend Transport; Sun, 12 Nov 2023 23:59:18 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Sun, 12 Nov 2023 23:35:40 -0800
+ 15.1.2507.34; Sun, 12 Nov 2023 23:59:18 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fjXIEjUv3xh5dxkNkAOpdIDkUU+LPly7UkYG1cI1FkYtLljlENyRPUZqcZBx9s4v3TQQ4wQR4kpqvW0HuFd4CG1gWwZhMzl4LyPNhQzQ6/PyRFpMJ3Z+8zb30byeVunAvzmbf9NNov3mHATqZVtenr1dJkschs/1PVxfS7EjIdHPF9yu851ZNdHC6UF836Y8agGH2GJEkBiN5UGrXzq7AFGzeym3y1OS66VtV9D0PUX3NFgs+zjH/hOqRZl9UuxYr4JMgFE/EvRnphEnxw/QJfJs5imXrxdT846wBZCgsYeLAcxS57Wxug1jodxoqGN1TzbeLVBYB+1hhiG9CqJAPg==
+ b=Dv6RAkM+duFw53x59Eqpzk6vXf+cTzBX9FWvL1lULlShsgcJz5IH31YpR3Dum13BktBvNNYF6jNmRmU0h/tpHKghalDmmzDC93vO/ecrQKGRJ0C3Qmp0F2swSdGAyFlbBAMDKt04P7TEa8Kn6+W/FqMLHX0dXYvwEQpG1K8gZgIPzrB0Io6dNXQHgDb3wIrtRPlMMqt0eCdtVry/DlM+uZs4sfH17odmlQ+rkO+WdzmHkhgeTgCOJ1lSSQTrogkuFsymCzJ+pNs11KUyjwQpt74wZic6NCMskS4j/J/zDp22d88WL/jNISo2iZw67sVKK22RLHWlq5msPuVXy+LUWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sWBLdGttmWKab373xDqKDgLSToDD/Fg+XMZ6C+8CUgE=;
- b=Ntkhr4UQ8TgrHwK+nbdOOtCrKefjkosdQC5hwHkd6zoXLH7UG1WSal1vJZtMX5Py7lXWKoQ8t8O7ALbJqQke5pqHGuIyVDeK9RnWqLpuHpzZnSYBfLma9Ec3m8sl/M7sMyEk5NMAD3DPfThkbDc/aXnSwpMET6xk2B9F2PkF9GlhV/CAwky55r9TQvI11UEd46KyRTEpDMLf4bEeIqR6KD4XB4VP31JMC4olGEnwhfDrWi7GxSZFvVDbIDpO8viW5d8xvU3cJw3COMzJx3CIevtBJSXM/CpQZaTox3iwkB0wwhnM3azzj0r6ZHgz0+n+36EFxTcULcy/GxIgJPn2pA==
+ bh=QKibrpww95Lyq2q88dFZCqsKzTdI13IDXQYQ0ISR4Bs=;
+ b=QNrc55wWJFNcPDNYV7ryUarUu5Iu3w1g5YaIYGk9JiY8WpWCb4zg8ZId/RnfZdM6o0otQteSfMaD9iQl8SpyGIiF135X2LcbgYXQ0y1ns4kMGXH2O3m329kDE1FAX8CK11XkWAvZ61y6nSrJWJsXKqgboNLooTLDCuatJdK5QQzdxjEblZD5dfGFa+YXq/kqmA0+yJhjrXnaxoJyq7PsZ+/9xIpGhO3fWWYQ5TZOzujZ+LWZBDWwxvmxHLIMLK7WYRJpQdJqIJ0zH5+xbh9sAaosnRPtJcxv/SUpztPEu1O2JzBzNIzB6YVJkyRklc6dM3iKTIcXsuafm7NxJnCxsA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by BL1PR11MB5429.namprd11.prod.outlook.com (2603:10b6:208:30b::13) with
+Received: from PH8PR11MB6779.namprd11.prod.outlook.com (2603:10b6:510:1ca::17)
+ by PH0PR11MB5206.namprd11.prod.outlook.com (2603:10b6:510:3f::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.29; Mon, 13 Nov
- 2023 07:35:37 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::66ec:5c08:f169:6038]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::66ec:5c08:f169:6038%3]) with mapi id 15.20.6977.029; Mon, 13 Nov 2023
- 07:35:36 +0000
-Date: Mon, 13 Nov 2023 15:35:21 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: Xin Li <xin3.li@intel.com>
-CC: <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <seanjc@google.com>,
-	<pbonzini@redhat.com>, <corbet@lwn.net>, <kys@microsoft.com>,
-	<haiyangz@microsoft.com>, <wei.liu@kernel.org>, <decui@microsoft.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<vkuznets@redhat.com>, <peterz@infradead.org>, <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH v1 11/23] KVM: x86: Add kvm_is_fred_enabled()
-Message-ID: <ZVHRufhNmVTvJYWV@chao-email>
-References: <20231108183003.5981-1-xin3.li@intel.com>
- <20231108183003.5981-12-xin3.li@intel.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.19; Mon, 13 Nov
+ 2023 07:59:11 +0000
+Received: from PH8PR11MB6779.namprd11.prod.outlook.com
+ ([fe80::b8:30e8:1502:b2a7]) by PH8PR11MB6779.namprd11.prod.outlook.com
+ ([fe80::b8:30e8:1502:b2a7%4]) with mapi id 15.20.6977.029; Mon, 13 Nov 2023
+ 07:59:11 +0000
+Date: Mon, 13 Nov 2023 15:59:04 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<oliver.sang@intel.com>
+Subject: [viro-vfs:work.dcache2] [__dentry_kill()] 01b17d53ce:
+ WARNING:possible_recursive_locking_detected
+Message-ID: <202311131520.ff2c101e-oliver.sang@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231108183003.5981-12-xin3.li@intel.com>
-X-ClientProxiedBy: SI1PR02CA0020.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::9) To CH3PR11MB8660.namprd11.prod.outlook.com
- (2603:10b6:610:1ce::13)
+X-ClientProxiedBy: SI2PR01CA0028.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::21) To PH8PR11MB6779.namprd11.prod.outlook.com
+ (2603:10b6:510:1ca::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -97,89 +85,168 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|BL1PR11MB5429:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc1e7a13-7412-43f7-57a8-08dbe41b1f01
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6779:EE_|PH0PR11MB5206:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e761ace-3053-4d84-8f07-08dbe41e6bf3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: A9IPHVSMge1h2Ca9YD/yX7ufV32Wr2zKStmADbHkTyNWh6alebYTK+94Vc4id3wXIvSs/CrWwPpAu5lcAlORaSixfRaB3mAXmmnsrBhGxsvrKlwS8fnKyFmS4BCWCPXDsxclLQFN4AwyKZ03HwJbh5HgkDzrfQB+gdcFXzqJo1v7aG/qIMFSRbXBhwj/UZBLqTJwB60kj09RsP9f6c3Cn0zIPhVYCK4/y7s5c8w/CjfugaqsufER/P0oop1YnZ5isZFHWA184K7crMelLCB7DotU1n/7k238a6B5q6Xa+CXSZnAz+s6MiNIYDH7KW4kbrVZ9YujTIzY8z02z+s8VYmJMKfBSlbFKnK+y/5Row53j7S4JQxZOWBRWyIVTkxfMePdkpAMLFpVgf0HRD4QCmIBkE370zy32NkU8CRRdCR3JjJoDDIPyu4f51ByOYlbUTGqyKzCNybBsvsdACtkmVOjGMdV00S1p05JUTAmv2lM6s3p37WMZvVxInzsYAiZ86RvBcPgbhfrXAsFYANWx97H9GQbBAfGqCvCoCJM8IHgBOF7YSvry4lIFtJ8Cv9HiIuBeyM7D/JK9cuPXBUQIak16YNLQGrnEqD3zith+JvQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(136003)(366004)(376002)(346002)(396003)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(2906002)(38100700002)(33716001)(86362001)(82960400001)(8676002)(8936002)(6862004)(4326008)(6666004)(6486002)(478600001)(44832011)(6506007)(41300700001)(316002)(66556008)(66946007)(66476007)(6636002)(5660300002)(7416002)(6512007)(9686003)(26005)(309714004);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: Hd9UYvz2GTxcKUHsH3WmPK8F+1JF5En3TsuHjHbWoL6D/xDtNwWglSK5k58k8FqbrGN2Es34rFP82PIZKKmL4iQsVjN/ouGhE9XckWvnJWNz0t+cS+F3FULZErhfrkdZjXI4GPBhl1Yk4j3A77lXF8f5Ga+XjrwoRsIZn1ykS5AkwxG46vs0AeSdC7vxhsubdUMw7W8opr3D5VsjJsaeEjb++0DL051WCRjy9plY3ul9pIsTizFl9a7ZHIijs6bR7kjlmmESMxqDf5tB2aYLTV1uw5ZvrojiHWlpCfl7XEXg4Brw0IGWdWii5YEmK149UFcMkB+RGMQWq1t1QbHFBUu60Znci1ejRzeFh9ECyJGl8PEKg5PxZ8RjRlUQEAxCl9KUHpmbCb/sMhHeK9uWZFp1zrKqCRVQ+THKvm+F5qrxZx+LbPHsiRn0RkqgCtIkObjdtzHBTSvKbgIQsKPI47QbttcBRRkL9yuF1czTX6fXGdQZSpuGpV2OdgXCvbSiollq42JDuNPqLjy/jQ37SSP9Hiwul1kOUVbJkBbNMekRYq9yRgIXtXfvkAUv0WDEFLhVbJcRrqmJvcQ6s5mHzMCgqCExum9SNaBlKhSZmsFq22rGMcn0RNbX2YgAkIPbwDiSM0AcJmM5DovsWwcLnA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB6779.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(396003)(366004)(39860400002)(376002)(230273577357003)(230922051799003)(230173577357003)(64100799003)(186009)(451199024)(1800799009)(6916009)(2906002)(66476007)(83380400001)(1076003)(107886003)(4326008)(41300700001)(8676002)(8936002)(66556008)(66946007)(38100700002)(316002)(86362001)(5660300002)(478600001)(6512007)(6666004)(6486002)(966005)(6506007)(36756003)(82960400001)(26005)(2616005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0vue49DZfrY1FpKud6gylr6+VlRvZ9RNLIPujJEOY82I1BT240Oqn7jL7gPd?=
- =?us-ascii?Q?9eA0lIZtYsNgmMgaXULPOvmtG0dIbKx4CcVojtcGsCieTz7q1Igpw04GkpSr?=
- =?us-ascii?Q?CofiQWt1/grSSAgiTQ4QXEKcviev41bkh7jqSHmeCh4tneu6t4SKrSWEpmq4?=
- =?us-ascii?Q?4hoknrX3GrGyKQA/PXebHXdOosGS/9yHPAjF2cRGUTTYjXVxIQRk0nN9kZ58?=
- =?us-ascii?Q?17uU7iF0PKXvf2LBQJ9wRrYhzhceGiqREOOITIsfn05qUiBI/iVfq3mYGr/N?=
- =?us-ascii?Q?s7oEWfYVEuu2avpW8uerqu+jeT5RdWCxxx5JJKBPZPI9iQH299sEj0OXf3gi?=
- =?us-ascii?Q?Y+CmKKG9eshBiyBkTZ1bheh+9TVFJpKeVXr/m+ie63jZQeJbjFhnjrYlhRpU?=
- =?us-ascii?Q?KvxthD9cXj6QJ6fVqQhjRUu8VxrR57URr3gkWxfr5zaSSLmXXm1uWfb6lVhq?=
- =?us-ascii?Q?Ym/yPc5Mv74sJHPySC6bCsPMr0fPYsVgNVQP6d8cvhqQhlz67xVLIhOs7cDN?=
- =?us-ascii?Q?eYxUKvp2ELnDm+XqOENBZwlrOyXOvpR8wVLNZCkPPQe5MjTfVHRXYbG+xPyY?=
- =?us-ascii?Q?mXR2ljJm7W+TB8P4UhB+LS0hxzETMbSUSsy9Ru4G8HaRYzZKb86i6Nm2of0X?=
- =?us-ascii?Q?jQSolhOubIcIAkeqV9wsod6pZ/6TnscTHcF9gP5WI7KbmDWHJ0MFpnW6IrCC?=
- =?us-ascii?Q?ivLPSkImkk0AOMr2rvAoE+HjTbVtq/JJKdYtk1sWZXp3coHJhJs/oHORKTsm?=
- =?us-ascii?Q?wUhsNbc32M0jYOCQJBNetV/eBT7AY9nT9X5WKHF/RyR3IeheR7brUpFdEuBw?=
- =?us-ascii?Q?Ze5JVa/zYj3u54Q1aEOB5OKzaLRIed4SdvRDT4adp4i3LzVnH/JJLdKCyTqj?=
- =?us-ascii?Q?rquDOkM4zZWC9+iHnUGYSHsoVNeyuNV8rMlm1VRpF0tcn1sdy5ipMQW0tMv6?=
- =?us-ascii?Q?Cro63B7XgvwDefG/QpzhZITfclF2m+D7Z4bM6ZWn6VaT42WhTh/CBzt/woZK?=
- =?us-ascii?Q?E5Mv3RNwx6Wo8yMkKttejG0PBS2DsuWiDZzbgTmoMWIlkOXwbuOEsHosW3fi?=
- =?us-ascii?Q?k1pY+TRz6XrHECz7iveRjvtueYVgY4pOmV5qOiQSbjdtu3Il4tEwT7Cc0tOF?=
- =?us-ascii?Q?Gs9vi9bR+/u6y4ChTovZ/q+7ewUrjoR9KLGZBikfQeePp8iOT7+vk30K8wZL?=
- =?us-ascii?Q?/g8GhH8KZbckP8kFvUg7aSFUz46Ovap3YerDozc/PyYmP2WFDiIQWMznFKru?=
- =?us-ascii?Q?Pk5fJpMwNnAV3fh8HevQY/ZksouWV9eakKjBAkacMAxv/S3gZ0TdBg9LhhKX?=
- =?us-ascii?Q?QFyguyCMhwu0NGGN/dkXAI0zLDNKA1AGmfNfXyqbDSQFuX8WCUaIbmaUQHQD?=
- =?us-ascii?Q?w/gaezQtfF5ckBXpOBGaVdmsTsIYKm5hSVPlF/5Mf6PISUXJu2hWcaYJ4XHi?=
- =?us-ascii?Q?i33wx3zIIaNfQ40GauSQyOohhH+kZzDzJEdX6sORQuVeKSGUQBCfYHcDKQ1d?=
- =?us-ascii?Q?inWFP6s0aixpDW9e2U6EYPs7o9Bzb3idKaS2dE1tjdOmIHrmg+tDNGG/7D8g?=
- =?us-ascii?Q?JgSqxhDkEZNcYzLpLGsDpG6FY43m6TX9t4Sf2buY?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc1e7a13-7412-43f7-57a8-08dbe41b1f01
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?apTck1odZrVM6XnwUaLsaSux2qujgraWvBNsQG/XBB/fnF1HL5RiOcvlDVxN?=
+ =?us-ascii?Q?hp4tUwG799il+P4wZCiA6YWxefXxNSGwCRaTV0mkJ3qeAsEu1y2b7F3DgNUa?=
+ =?us-ascii?Q?IAUHE3+gjMumB/InctECScXBYost72rpTgvdlO9x1AQFoLniFvH1b4qo7Xh2?=
+ =?us-ascii?Q?rgT9JPqoivGK3OHUddaO31NzfAA5Q52WkeYhjxdxMBSrIAkDTXatJdXFHx4C?=
+ =?us-ascii?Q?qSdDsYfCqtcKKLHvt3coWlAuUAzQ33dVUrONxE7SclQC4Nv/9KAfQqLMw6K1?=
+ =?us-ascii?Q?ft15wL07IuT3HvfadmwQVQ17gBmCBnASHOvaO4NYsd0JGP2UV4XPsVLkBoHY?=
+ =?us-ascii?Q?NmyeMkdDox1vQTMsf9GIZHuQiE1Sq5ogMTWSFf3tZzBxpvozw9vizer70aG+?=
+ =?us-ascii?Q?SsE7SfJbJ/o8QMk9dbAIbr8t10GwIUieIZ4fBUrkgLAvsbJUsZqhRDttgYSr?=
+ =?us-ascii?Q?k3mzNRq8JV5PHjoG0eDlhrW4W8dxtZT7nfl9vpnpuudT9gIgUq7G08J865sv?=
+ =?us-ascii?Q?mBGI01Fp2pfx4YPWolvXT4ehsxdROaKpipI5izJ4EnaJfG5uf0h7E+bty8Ap?=
+ =?us-ascii?Q?wUxOoXbYW1wTTUoMNaSqIAyKul9gXDwn00NOh3u9S7gvrVz3OK/l2KcgtxVD?=
+ =?us-ascii?Q?M/hfb1V+ePHFZpCYpIWrc5G4MRw8lr0bskXsQ4VFSCTV1DH949J6UU8ge8V7?=
+ =?us-ascii?Q?AAi0jwID4CD4VXhMTeUMiiHyFjgSfJw+ax4C4O2kCl82/NygxAuqozVRNWGv?=
+ =?us-ascii?Q?46Gn30V+OVdF7yK8QsOLAdDLv30b74ktLxgGwuUgrMPz5S4TK3L3gEZR7jQL?=
+ =?us-ascii?Q?BEBi3UtoLYP2KAJPft4NESUPKm+RouEReCRt4sTL0PR76MqrK15IWVuQFLAs?=
+ =?us-ascii?Q?J9Gs8T59ci1uH9sip4TDj6QKtA04AWiLvvhYrhHi9rt+0BspT7DefInErCpR?=
+ =?us-ascii?Q?r45wMuUmruhwLfXX2sT9ptLpG79tBD81lWJRyCnPsl46SWbSbQ2QqhYmgymq?=
+ =?us-ascii?Q?O8x0VpdfvV24njoCyIWtWQ9l2fZWKluRhH87byrsRebKM7CXag3Qdq75ieAO?=
+ =?us-ascii?Q?zZz3dRjVMd8M8qGODj4lJahogA4TsrJkqeImNAEqoNf2FY6WlNXqDWpSmKsL?=
+ =?us-ascii?Q?8tLg+cm2dC9ciVvLF7naSOWI8TWq6bM1aOx4tZY+ikWKFb/7HoPNSPXZ1ndn?=
+ =?us-ascii?Q?QgpeHgnFvx9ZFWbs/0o9MYqm/Kniij9mnJQ8kMhZwu/zv8zf1RrzWwUnVrGU?=
+ =?us-ascii?Q?GmlWBSsj4iYGSIqdkpJXPPipfIEcUj+wGoTKbO4l/vA4iz7wIFRHB6+vUktf?=
+ =?us-ascii?Q?06RSpNibKpZ84TyX1QMFCgNgFO4pCrOBbUp69EQZgAmps6nny7DPajrvu+Hj?=
+ =?us-ascii?Q?mYYZlehGsaSZMTkDpWnuR/DSdMoKh/sZj5WsRTpJGePO5AoHTxiorOh7gonh?=
+ =?us-ascii?Q?xFOXaESSAzwab5IV/V6sE2BaJAVAWKAZn8wQ4ykLXvs3Ev8X7bX6VrY9DP3M?=
+ =?us-ascii?Q?gqeD3Efzkv793dX1QPkJZAyN1sWv0H1VljRPaFqqkOtP/j//sEpbGUgTaVWh?=
+ =?us-ascii?Q?VNJ8MyftP6Yh5BzUTbCMTsye8LYY8rzXfUYsHyy/n+05KwoVLNYqrCMwmgce?=
+ =?us-ascii?Q?FA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e761ace-3053-4d84-8f07-08dbe41e6bf3
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6779.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2023 07:35:35.1169
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2023 07:59:11.5950
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VcdnCZ8yuQFZTLr6wfGX9Rm4Au4FB1HL9JwKzQ4fNeYGWA0568tmHzE52JdkGGLtSiMrGPE6Vn8yW3RMoLV1oQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5429
+X-MS-Exchange-CrossTenant-UserPrincipalName: gMmBlUTyq8g8rg4HHzg9iS/y1+WER8tdu67Q7gbFleLhff53JHQBt3mzFkYV1T7fLglDZSkbNGS3c4QH7GiGwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5206
 X-OriginatorOrg: intel.com
 
-On Wed, Nov 08, 2023 at 10:29:51AM -0800, Xin Li wrote:
->Add kvm_is_fred_enabled() to get if FRED is enabled on a vCPU.
->
->Tested-by: Shan Kang <shan.kang@intel.com>
->Signed-off-by: Xin Li <xin3.li@intel.com>
->---
-> arch/x86/kvm/kvm_cache_regs.h | 10 ++++++++++
-> 1 file changed, 10 insertions(+)
->
->diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
->index 75eae9c4998a..390643e8c532 100644
->--- a/arch/x86/kvm/kvm_cache_regs.h
->+++ b/arch/x86/kvm/kvm_cache_regs.h
->@@ -187,6 +187,16 @@ static __always_inline bool kvm_is_cr4_bit_set(struct kvm_vcpu *vcpu,
-> 	return !!kvm_read_cr4_bits(vcpu, cr4_bit);
-> }
-> 
->+static __always_inline bool kvm_is_fred_enabled(struct kvm_vcpu *vcpu)
->+{
->+#ifdef CONFIG_X86_64
->+	return cpu_feature_enabled(X86_FEATURE_FRED) &&
->+	       kvm_is_cr4_bit_set(vcpu, X86_CR4_FRED);
 
-FRED is enabled when CR4.FRED = IA32_EFER.LMA = 1. Any reason to omit
-the check about long mode?
 
->+#else
->+	return false;
->+#endif
->+}
->+
-> static inline ulong kvm_read_cr3(struct kvm_vcpu *vcpu)
-> {
-> 	if (!kvm_register_is_available(vcpu, VCPU_EXREG_CR3))
->-- 
->2.42.0
->
->
+Hello,
+
+kernel test robot noticed "WARNING:possible_recursive_locking_detected" on:
+
+commit: 01b17d53ce197777be701269395edba2fe27069a ("__dentry_kill(): new locking scheme")
+https://git.kernel.org/cgit/linux/kernel/git/viro/vfs.git work.dcache2
+
+in testcase: trinity
+version: trinity-i386-abe9de86-1_20230429
+with following parameters:
+
+	runtime: 300s
+	group: group-00
+	nr_groups: 5
+
+test-description: Trinity is a linux system call fuzz tester.
+test-url: http://codemonkey.org.uk/projects/trinity/
+
+
+compiler: gcc-11
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202311131520.ff2c101e-oliver.sang@intel.com
+
+
+[   12.984549][   T32] WARNING: possible recursive locking detected
+[   12.985224][   T32] 6.6.0-00022-g01b17d53ce19 #1 Tainted: G                T
+[   12.985995][   T32] --------------------------------------------
+[   12.986664][   T32] kworker/u6:1/32 is trying to acquire lock:
+[ 12.987128][ T32] c140539c (&dentry->d_lock){+.+.}-{2:2}, at: __dentry_kill (fs/dcache.c:547 fs/dcache.c:616) 
+[   12.987128][   T32]
+[   12.987128][   T32] but task is already holding lock:
+[ 12.987128][ T32] c1402084 (&dentry->d_lock){+.+.}-{2:2}, at: __dentry_kill (include/linux/spinlock.h:351 fs/dcache.c:615) 
+[   12.987128][   T32]
+[   12.987128][   T32] other info that might help us debug this:
+[   12.987128][   T32]  Possible unsafe locking scenario:
+[   12.987128][   T32]
+[   12.987128][   T32]        CPU0
+[   12.987128][   T32]        ----
+[   12.987128][   T32]   lock(&dentry->d_lock);
+[   12.987128][   T32]
+[   12.987128][   T32]  *** DEADLOCK ***
+[   12.987128][   T32]
+[   12.987128][   T32]  May be due to missing lock nesting notation
+[   12.987128][   T32]
+[   12.987128][   T32] 3 locks held by kworker/u6:1/32:
+[ 12.987128][ T32] #0: c12cb2b8 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work (arch/x86/include/asm/atomic.h:28 include/linux/atomic/atomic-arch-fallback.h:490 include/linux/atomic/atomic-long.h:81 include/linux/atomic/atomic-instrumented.h:3196 kernel/workqueue.c:669 kernel/workqueue.c:696 kernel/workqueue.c:2600) 
+[ 12.987128][ T32] #1: c1ac3f20 ((work_completion)(&entry->work)){+.+.}-{0:0}, at: process_one_work (arch/x86/include/asm/atomic.h:28 include/linux/atomic/atomic-arch-fallback.h:490 include/linux/atomic/atomic-long.h:81 include/linux/atomic/atomic-instrumented.h:3196 kernel/workqueue.c:669 kernel/workqueue.c:696 kernel/workqueue.c:2600) 
+[ 12.987128][ T32] #2: c1402084 (&dentry->d_lock){+.+.}-{2:2}, at: __dentry_kill (include/linux/spinlock.h:351 fs/dcache.c:615) 
+[   12.987128][   T32]
+[   12.987128][   T32] stack backtrace:
+[   12.987128][   T32] CPU: 1 PID: 32 Comm: kworker/u6:1 Tainted: G                T  6.6.0-00022-g01b17d53ce19 #1 330148d6df35f2d99e64624286ad750c7614ad4a
+[   12.987128][   T32] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[   12.987128][   T32] Workqueue: events_unbound async_run_entry_fn
+[   12.987128][   T32] Call Trace:
+[ 12.987128][ T32] dump_stack_lvl (lib/dump_stack.c:107) 
+[ 12.987128][ T32] dump_stack (lib/dump_stack.c:114) 
+[ 12.987128][ T32] print_deadlock_bug (kernel/locking/lockdep.c:3013) 
+[ 12.987128][ T32] validate_chain (kernel/locking/lockdep.c:3858) 
+[ 12.987128][ T32] __lock_acquire (kernel/locking/lockdep.c:5136) 
+[ 12.987128][ T32] lock_acquire (kernel/locking/lockdep.c:467 kernel/locking/lockdep.c:5755) 
+[ 12.987128][ T32] ? __dentry_kill (fs/dcache.c:547 fs/dcache.c:616) 
+[ 12.987128][ T32] _raw_spin_lock (include/linux/spinlock_api_smp.h:134 kernel/locking/spinlock.c:154) 
+[ 12.987128][ T32] ? __dentry_kill (fs/dcache.c:547 fs/dcache.c:616) 
+[ 12.987128][ T32] __dentry_kill (fs/dcache.c:547 fs/dcache.c:616) 
+[ 12.987128][ T32] dput (fs/dcache.c:1990) 
+[ 12.987128][ T32] ? dput (fs/dcache.c:836) 
+[ 12.987128][ T32] dput (fs/dcache.c:858) 
+[ 12.987128][ T32] step_into (fs/namei.c:1556 fs/namei.c:1840) 
+[ 12.987128][ T32] ? walk_component (fs/namei.c:2003) 
+[ 12.987128][ T32] walk_component (fs/namei.c:2008) 
+[ 12.987128][ T32] path_lookupat (fs/namei.c:2482) 
+[ 12.987128][ T32] filename_lookup (fs/namei.c:2513) 
+[ 12.987128][ T32] kern_path (fs/namei.c:2610) 
+[ 12.987128][ T32] init_stat (fs/init.c:133) 
+[ 12.987128][ T32] clean_path (init/initramfs.c:333) 
+[ 12.987128][ T32] do_name (init/initramfs.c:366) 
+[ 12.987128][ T32] unpack_to_rootfs (init/initramfs.c:451 init/initramfs.c:504) 
+[ 12.987128][ T32] ? kvm_clock_get_cycles (arch/x86/include/asm/preempt.h:85 arch/x86/kernel/kvmclock.c:80 arch/x86/kernel/kvmclock.c:86) 
+[ 12.987128][ T32] do_populate_rootfs (init/initramfs.c:693) 
+[ 12.987128][ T32] ? process_one_work (arch/x86/include/asm/atomic.h:28 include/linux/atomic/atomic-arch-fallback.h:490 include/linux/atomic/atomic-long.h:81 include/linux/atomic/atomic-instrumented.h:3196 kernel/workqueue.c:669 kernel/workqueue.c:696 kernel/workqueue.c:2600) 
+[ 12.987128][ T32] async_run_entry_fn (kernel/async.c:129 (discriminator 5)) 
+[ 12.987128][ T32] process_one_work (arch/x86/include/asm/atomic.h:23 include/linux/atomic/atomic-arch-fallback.h:444 include/linux/jump_label.h:260 include/linux/jump_label.h:270 include/trace/events/workqueue.h:108 kernel/workqueue.c:2635) 
+[ 12.987128][ T32] ? process_one_work (arch/x86/include/asm/atomic.h:28 include/linux/atomic/atomic-arch-fallback.h:490 include/linux/atomic/atomic-long.h:81 include/linux/atomic/atomic-instrumented.h:3196 kernel/workqueue.c:669 kernel/workqueue.c:696 kernel/workqueue.c:2600) 
+[ 12.987128][ T32] worker_thread (kernel/workqueue.c:2697 kernel/workqueue.c:2784) 
+[ 12.987128][ T32] ? rescuer_thread (kernel/workqueue.c:2730) 
+[ 12.987128][ T32] kthread (kernel/kthread.c:388) 
+[ 12.987128][ T32] ? rescuer_thread (kernel/workqueue.c:2730) 
+[ 12.987128][ T32] ? kthread_complete_and_exit (kernel/kthread.c:341) 
+[ 12.987128][ T32] ret_from_fork (arch/x86/kernel/process.c:153) 
+[ 12.987128][ T32] ? kthread_complete_and_exit (kernel/kthread.c:341) 
+[ 12.987128][ T32] ret_from_fork_asm (arch/x86/entry/entry_32.S:741) 
+[ 12.987128][ T32] entry_INT80_32 (arch/x86/entry/entry_32.S:944) 
+[   13.024050][   T32] Trying to unpack rootfs image as initramfs...
+[   15.772392][   T32] Freeing initrd memory: 128724K
+[   15.773782][    T1] RAPL PMU: API unit is 2^-32 Joules, 0 fixed counters, 10737418240 ms ovfl timer
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20231113/202311131520.ff2c101e-oliver.sang@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
