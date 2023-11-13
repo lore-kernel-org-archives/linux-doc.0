@@ -1,408 +1,367 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E282121A07;
-	Mon, 13 Nov 2023 15:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC911F612
+	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 16:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efiCWBwR"
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B5ED1728;
-	Mon, 13 Nov 2023 07:52:22 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1cc5fa0e4d5so40856955ad.0;
-        Mon, 13 Nov 2023 07:52:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmzULFqY"
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E5E1A2;
+	Mon, 13 Nov 2023 08:08:28 -0800 (PST)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2c50305c5c4so66430721fa.1;
+        Mon, 13 Nov 2023 08:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699890742; x=1700495542; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XGWunBoOAmKhHVGBNXmLXecareAz0Mh9iiom0qVpKsE=;
-        b=efiCWBwRJwO25JZ01tR5Q0gC7sKzIv7xOWA3P4MGdIPloqBbh6L7MyS/Dh16TcXCXg
-         aOz2klmfWBaBZGmnVhoq10sUbKZQtaP7SgRaCp7qcv150LcK3b8TgzEmQ+CJUFlTkqio
-         rhRK9VtvPZUCokHwqVw5HkoH5WCulw0QwgNZC/SL8NZv3+QIKN5GF5UzyBOJqK/Qd5Wy
-         ocleSSPEZWC4BUzK5TkxuYPyoXPyoQMW1omdn3CVGvOpTwsC+1A37ejSbP4b9diQsfXg
-         wQpmogtXMkxMkYhLjMqkkFaO9sOVhdi40t7wZAacwk4QgUjpPZegjHA58fN8Re8BNSyw
-         e0uA==
+        d=gmail.com; s=20230601; t=1699891706; x=1700496506; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UW5qx6i7b4DrzXNONGQsnNb1tTaIrCw/M1F9WJRKViE=;
+        b=dmzULFqYCb+psiSZppegZ06oDu7SDmiB/G0MNlPa02ztO1A8A8h7BOc4Z14XL7lJ43
+         CGJqkCHBmcE+4j5wiQo6QqNv0JVEOATU+6MXn2rAFcnkULLXH6xRRA4vf5f5uqV1x/yU
+         g/0QE54XIGS7j4d0SJnZmoN8UHQ5bpWM7EwsVVEqbmL/DW76FarPLsNhpy4f086RIs0w
+         +oyoB0PEu4sM1kMQo+74ndiBRj9d5KGJftnJ+Ox3uys01Vb+6+gMNxHOOnPYHbBXk94t
+         RCWGxHPQCNT9QlHcJiObxVkNcu9qotXfgesrStnEUpJcFzmMvSNeGe4S/VIRy4bGtasF
+         ydEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699890742; x=1700495542;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XGWunBoOAmKhHVGBNXmLXecareAz0Mh9iiom0qVpKsE=;
-        b=HOF+FctdwFrQ4qSABvAzMaNZktPBswhnU6VD4O0TCzWT8ZYzSHrKo9cpKHBLflclB6
-         0JgU+l1nvRU+FMnbpizkLr6Pb89wccRN5LaI1edU8CK5T43gXGdSidLA3Pu/IFM8jw5S
-         7SGUnaTortTt/2Yt5aF8+3k6+6NH8IHitlFruVxDLcI55HS/sTjWMLM5T6z/CzvomewX
-         FvCM3UmMTgIiStE8x33cN68FtRh7pF/s0O8Sh/RKUE1j0mi+nQIY43Xm3yaOv0nFW5vQ
-         1sr6Cbqcp4qTunUomVmCmaubK92p3IEITUiKidHIpUt5WCEGKwg7tRTR4Kknxgqt2D57
-         2mZg==
-X-Gm-Message-State: AOJu0YxXYarrVnLgDGavlMXJX0WipLbxI96XcJ2+Z+b/Im4w9Bw+yO0s
-	rRhFU1ptSby6zdAFrSrBeE8=
-X-Google-Smtp-Source: AGHT+IHPK95Y0jTsYoZpz1kAidQYw18LQDzKDYhMvbYR/Ou/QfUIFyBbSQ70pqGwpRyHGLNItPwf8Q==
-X-Received: by 2002:a17:903:32c7:b0:1cc:4828:9b07 with SMTP id i7-20020a17090332c700b001cc48289b07mr9702445plr.0.1699890742023;
-        Mon, 13 Nov 2023 07:52:22 -0800 (PST)
-Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id iw14-20020a170903044e00b001c5076ae6absm4155925plb.126.2023.11.13.07.52.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Nov 2023 07:52:21 -0800 (PST)
-From: Peter Yin <peteryin.openbmc@gmail.com>
-To: patrick@stwcx.xyz,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Joel Stanley <joel@jms.id.au>,
-	Chanh Nguyen <chanh@os.amperecomputing.com>,
-	Peter Yin <peteryin.openbmc@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 2/2] hwmon: (pmbus) Add support for MPS Multi-phase mp5990
-Date: Mon, 13 Nov 2023 23:50:08 +0800
-Message-Id: <20231113155008.2147090-3-peteryin.openbmc@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231113155008.2147090-1-peteryin.openbmc@gmail.com>
-References: <20231113155008.2147090-1-peteryin.openbmc@gmail.com>
+        d=1e100.net; s=20230601; t=1699891706; x=1700496506;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UW5qx6i7b4DrzXNONGQsnNb1tTaIrCw/M1F9WJRKViE=;
+        b=HCTCxAhS9UGQ9ATpEFOFQqnGQyxnhz+BADOBfejfgTUAJ0QvL3fkJ8UnQlZsGPOOnp
+         SymEnfoGjfscyQ4c5FnA0fUgX3HMp0r+nKRPAnmRguYZq0U/lry3PrAyhF06i4X2xjzY
+         kp4X5robGJ1zkpy8j8dx4mjQDZToWaWvELhbjIroD3LbXcDPuFecvHEAQsNJm6ncww9n
+         1Fxh6EUvwUDJ4wEseSZ6Ajn8A//v697MNOLC1qIhuVlDVbs97wGmwiOAznY5CdLOxCcY
+         2qiE9C/OOo5qBq4BNAX0C1B74xgzI6DJlsCtu7kt+i+mwJ88Qpj2MF4cVScQryBg8wKW
+         sUNw==
+X-Gm-Message-State: AOJu0YxfgG43Mzq4VQ2S2EcK99nlIjHeHZxF9UobfsFHGDtC6ZXXno4K
+	RQSguU+Q/BexH5mSsSba7NU=
+X-Google-Smtp-Source: AGHT+IFVnlEmhbk7PU6ep2kZ6m8Y68kvW/3exeN1lgMU8Cg5hlOKcGE46krnpFAtgh78cUaKTp/K+Q==
+X-Received: by 2002:a2e:97c3:0:b0:2bc:f5a0:cc25 with SMTP id m3-20020a2e97c3000000b002bcf5a0cc25mr5234411ljj.2.1699891706026;
+        Mon, 13 Nov 2023 08:08:26 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id p5-20020a7bcc85000000b004081a011c0esm14110746wma.12.2023.11.13.08.08.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Nov 2023 08:08:25 -0800 (PST)
+Message-ID: <4ff1f3f1-15b2-479b-898e-1a4fa50e6f19@gmail.com>
+Date: Mon, 13 Nov 2023 17:08:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd/display: add a debugfs interface for the DMUB
+ trace mask
+Content-Language: en-US
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+Cc: Aric Cyr <aric.cyr@amd.com>, linux-doc@vger.kernel.org,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alexey Kodanev <aleksei.kodanev@bell-sw.com>,
+ dri-devel@lists.freedesktop.org, Reza Amini <reza.amini@amd.com>,
+ Anthony Koo <anthony.koo@amd.com>, Mustapha Ghaddar <mghaddar@amd.com>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Tony Tascioglu <tony.tascioglu@amd.com>,
+ Fangzhi Zuo <jerry.zuo@amd.com>, Aurabindo Pillai
+ <aurabindo.pillai@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Alan Liu <HaoPing.Liu@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Leo Li <sunpeng.li@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Hersen Wu <hersenxs.wu@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20231113145608.20386-1-hamza.mahfooz@amd.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20231113145608.20386-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Add support for mp5990 device from Monolithic Power Systems, Inc. (MPS)
-vendor. This is a Hot-Swap Controller.
+Am 13.11.23 um 15:56 schrieb Hamza Mahfooz:
+> For features that are implemented primarily in DMUB (e.g. PSR), it is
+> useful to be able to trace them at a DMUB level from the kernel,
+> especially when debugging issues. So, introduce a debugfs interface that
+> is able to read and set the DMUB trace mask dynamically at runtime and
+> document how to use it.
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
----
- Documentation/hwmon/index.rst  |   1 +
- Documentation/hwmon/mp5990.rst |  84 ++++++++++++++++
- drivers/hwmon/pmbus/Kconfig    |   9 ++
- drivers/hwmon/pmbus/Makefile   |   1 +
- drivers/hwmon/pmbus/mp5990.c   | 177 +++++++++++++++++++++++++++++++++
- 5 files changed, 272 insertions(+)
- create mode 100644 Documentation/hwmon/mp5990.rst
- create mode 100644 drivers/hwmon/pmbus/mp5990.c
+Acked-by: Christian König <christian.koenig@amd.com>
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 042e1cf9501b..8c70e10fc795 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -157,6 +157,7 @@ Hardware Monitoring Kernel Drivers
-    mp2888
-    mp2975
-    mp5023
-+   mp5990
-    nct6683
-    nct6775
-    nct7802
-diff --git a/Documentation/hwmon/mp5990.rst b/Documentation/hwmon/mp5990.rst
-new file mode 100644
-index 000000000000..6f2f0c099d44
---- /dev/null
-+++ b/Documentation/hwmon/mp5990.rst
-@@ -0,0 +1,84 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver mp5990
-+====================
-+
-+Supported chips:
-+
-+  * MPS MP5990
-+
-+    Prefix: 'mp5990'
-+
-+  * Datasheet
-+
-+    Publicly available at the MPS website : https://www.monolithicpower.com/en/mp5990.html
-+
-+Author:
-+
-+	Peter Yin <peteryin.openbmc@gmail.com>
-+
-+Description
-+-----------
-+
-+This driver implements support for Monolithic Power Systems, Inc. (MPS)
-+MP5990 Hot-Swap Controller.
-+
-+Device compliant with:
-+
-+- PMBus rev 1.3 interface.
-+
-+Device supports direct and linear format for reading input voltage,
-+output voltage, output current, input power and temperature.
-+
-+The driver exports the following attributes via the 'sysfs' files
-+for input voltage:
-+
-+**in1_input**
-+
-+**in1_label**
-+
-+**in1_max**
-+
-+**in1_max_alarm**
-+
-+**in1_min**
-+
-+**in1_min_alarm**
-+
-+The driver provides the following attributes for output voltage:
-+
-+**in2_input**
-+
-+**in2_label**
-+
-+**in2_alarm**
-+
-+The driver provides the following attributes for output current:
-+
-+**curr1_input**
-+
-+**curr1_label**
-+
-+**curr1_alarm**
-+
-+**curr1_max**
-+
-+The driver provides the following attributes for input power:
-+
-+**power1_input**
-+
-+**power1_label**
-+
-+**power1_alarm**
-+
-+The driver provides the following attributes for temperature:
-+
-+**temp1_input**
-+
-+**temp1_max**
-+
-+**temp1_max_alarm**
-+
-+**temp1_crit**
-+
-+**temp1_crit_alarm**
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 270b6336b76d..65a116f7744d 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -326,6 +326,15 @@ config SENSORS_MP5023
- 	  This driver can also be built as a module. If so, the module will
- 	  be called mp5023.
- 
-+config SENSORS_MP5990
-+	tristate "MPS MP5990"
-+	help
-+	  If you say yes here you get hardware monitoring support for MPS
-+	  MP5990.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called mp5990.
-+
- config SENSORS_MPQ7932_REGULATOR
- 	bool "Regulator support for MPQ7932"
- 	depends on SENSORS_MPQ7932 && REGULATOR
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 84ee960a6c2d..212d9ca0acc9 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -35,6 +35,7 @@ obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
- obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
- obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
- obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
-+obj-$(CONFIG_SENSORS_MP5990)	+= mp5990.o
- obj-$(CONFIG_SENSORS_MPQ7932)	+= mpq7932.o
- obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
- obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
-diff --git a/drivers/hwmon/pmbus/mp5990.c b/drivers/hwmon/pmbus/mp5990.c
-new file mode 100644
-index 000000000000..2d721b6acfb8
---- /dev/null
-+++ b/drivers/hwmon/pmbus/mp5990.c
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Driver for MPS MP5990 Hot-Swap Controller
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include "pmbus.h"
-+
-+#define MP5990_EFUSE_CFG	(0xC4)
-+#define MP5990_VOUT_FORMAT	BIT(9)
-+
-+struct mp5990_data {
-+	struct pmbus_driver_info info;
-+	u8 vout_mode;
-+	u8 vout_linear_exponent;
-+};
-+
-+#define to_mp5990_data(x)  container_of(x, struct mp5990_data, info)
-+
-+static int mp5990_read_byte_data(struct i2c_client *client, int page, int reg)
-+{
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct mp5990_data *data = to_mp5990_data(info);
-+
-+	switch (reg) {
-+	case PMBUS_VOUT_MODE:
-+		if (data->vout_mode == linear) {
-+			/*
-+			 * The VOUT format is linear11, not linear16.
-+			 * We should enforce the VOUT in linear mode and
-+			 * return exponent value.
-+			 */
-+			return data->vout_linear_exponent;
-+		}
-+
-+		/*
-+		 * The datasheet does not support the VOUT command,
-+		 * but the device responds with a default value of 0x17.
-+		 * In the standard, 0x17 represents linear mode. However,
-+		 * Therefore, we should enforce the VOUT in the direct format
-+		 * when format use default direct mode.
-+		 */
-+		return PB_VOUT_MODE_DIRECT;
-+
-+	default:
-+		return -ENODATA;
-+	}
-+}
-+
-+static int mp5990_read_word_data(struct i2c_client *client, int page,
-+				 int phase, int reg)
-+{
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct mp5990_data *data = to_mp5990_data(info);
-+	int ret;
-+	s32 mantissa;
-+
-+	switch (reg) {
-+	case PMBUS_READ_VOUT:
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+		/*
-+		 * Because the VOUT mode is linear11 and not linear16,
-+		 * we disregard bits[15:11] and report based on the VOUT mode.
-+		 */
-+		if (data->vout_mode == linear) {
-+			mantissa = ((s16)((ret & 0x7ff) << 5)) >> 5;
-+			ret = mantissa;
-+		}
-+		break;
-+	default:
-+		return -ENODATA;
-+	}
-+
-+	return ret;
-+}
-+
-+static struct pmbus_driver_info mp5990_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = direct,
-+	.format[PSC_VOLTAGE_OUT] = direct,
-+	.format[PSC_CURRENT_OUT] = direct,
-+	.format[PSC_POWER] = direct,
-+	.format[PSC_TEMPERATURE] = direct,
-+	.m[PSC_VOLTAGE_IN] = 32,
-+	.b[PSC_VOLTAGE_IN] = 0,
-+	.R[PSC_VOLTAGE_IN] = 0,
-+	.m[PSC_VOLTAGE_OUT] = 32,
-+	.b[PSC_VOLTAGE_OUT] = 0,
-+	.R[PSC_VOLTAGE_OUT] = 0,
-+	.m[PSC_CURRENT_OUT] = 16,
-+	.b[PSC_CURRENT_OUT] = 0,
-+	.R[PSC_CURRENT_OUT] = 0,
-+	.m[PSC_POWER] = 1,
-+	.b[PSC_POWER] = 0,
-+	.R[PSC_POWER] = 0,
-+	.m[PSC_TEMPERATURE] = 1,
-+	.b[PSC_TEMPERATURE] = 0,
-+	.R[PSC_TEMPERATURE] = 0,
-+	.func[0] =
-+		PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_PIN |
-+		PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT |
-+		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
-+	.read_byte_data = mp5990_read_byte_data,
-+	.read_word_data = mp5990_read_word_data,
-+};
-+
-+static int mp5990_probe(struct i2c_client *client)
-+{
-+	struct pmbus_driver_info *info;
-+	struct mp5990_data *data;
-+	int ret;
-+
-+	data = devm_kzalloc(&client->dev, sizeof(struct mp5990_data),
-+			    GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	memcpy(&data->info, &mp5990_info, sizeof(*info));
-+	info = &data->info;
-+
-+	/* Read Vout Config */
-+	ret = i2c_smbus_read_word_data(client, MP5990_EFUSE_CFG);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "Can't get vout mode.");
-+		return ret;
-+	}
-+
-+	/*
-+	 * EFUSE_CFG (0xC4) bit9=1 is linear mode, bit=0 is direct mode.
-+	 */
-+	if (ret & MP5990_VOUT_FORMAT) {
-+		data->vout_mode = linear;
-+		data->info.format[PSC_VOLTAGE_IN] = linear;
-+		data->info.format[PSC_VOLTAGE_OUT] = linear;
-+		data->info.format[PSC_CURRENT_OUT] = linear;
-+		data->info.format[PSC_POWER] = linear;
-+		ret = i2c_smbus_read_word_data(client, PMBUS_READ_VOUT);
-+		if (ret < 0) {
-+			dev_err(&client->dev, "Can't get vout exponent.");
-+			return ret;
-+		}
-+		data->vout_linear_exponent = (u8)((ret >> 11) & 0x1f);
-+	} else {
-+		data->vout_mode = direct;
-+	}
-+	return pmbus_do_probe(client, info);
-+}
-+
-+static const struct of_device_id mp5990_of_match[] = {
-+	{ .compatible = "mps,mp5990" },
-+	{}
-+};
-+
-+static const struct i2c_device_id mp5990_id[] = {
-+	{"mp5990", 0},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, mp5990_id);
-+
-+static struct i2c_driver mp5990_driver = {
-+	.driver = {
-+		   .name = "mp5990",
-+		   .of_match_table = mp5990_of_match,
-+	},
-+	.probe = mp5990_probe,
-+	.id_table = mp5990_id,
-+};
-+module_i2c_driver(mp5990_driver);
-+
-+MODULE_AUTHOR("Peter Yin <peter.yin@quantatw.com>");
-+MODULE_DESCRIPTION("PMBus driver for MP5990 HSC");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(PMBUS);
--- 
-2.25.1
+> ---
+> v2: only return -ETIMEDOUT for DMUB_STATUS_TIMEOUT
+> ---
+>   Documentation/gpu/amdgpu/display/dc-debug.rst | 41 ++++++++
+>   .../gpu/amdgpu/display/trace-groups-table.csv | 29 ++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 97 +++++++++++++++++++
+>   .../gpu/drm/amd/display/dmub/inc/dmub_cmd.h   | 40 +++++++-
+>   4 files changed, 205 insertions(+), 2 deletions(-)
+>   create mode 100644 Documentation/gpu/amdgpu/display/trace-groups-table.csv
+>
+> diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentation/gpu/amdgpu/display/dc-debug.rst
+> index 40c55a618918..817631b1dbf3 100644
+> --- a/Documentation/gpu/amdgpu/display/dc-debug.rst
+> +++ b/Documentation/gpu/amdgpu/display/dc-debug.rst
+> @@ -75,3 +75,44 @@ change in real-time by using something like::
+>   
+>   When reporting a bug related to DC, consider attaching this log before and
+>   after you reproduce the bug.
+> +
+> +DMUB Firmware Debug
+> +===================
+> +
+> +Sometimes, dmesg logs aren't enough. This is especially true if a feature is
+> +implemented primarily in DMUB firmware. In such cases, all we see in dmesg when
+> +an issue arises is some generic timeout error. So, to get more relevant
+> +information, we can trace DMUB commands by enabling the relevant bits in
+> +`amdgpu_dm_dmub_trace_mask`.
+> +
+> +Currently, we support the tracing of the following groups:
+> +
+> +Trace Groups
+> +------------
+> +
+> +.. csv-table::
+> +   :header-rows: 1
+> +   :widths: 1, 1
+> +   :file: ./trace-groups-table.csv
+> +
+> +**Note: Not all ASICs support all of the listed trace groups**
+> +
+> +So, to enable just PSR tracing you can use the following command::
+> +
+> +  # echo 0x8020 > /sys/kernel/debug/dri/0/amdgpu_dm_dmub_trace_mask
+> +
+> +Then, you need to enable logging trace events to the buffer, which you can do
+> +using the following::
+> +
+> +  # echo 1 > /sys/kernel/debug/dri/0/amdgpu_dm_dmcub_trace_event_en
+> +
+> +Lastly, after you are able to reproduce the issue you are trying to debug,
+> +you can disable tracing and read the trace log by using the following::
+> +
+> +  # echo 0 > /sys/kernel/debug/dri/0/amdgpu_dm_dmcub_trace_event_en
+> +  # cat /sys/kernel/debug/dri/0/amdgpu_dm_dmub_tracebuffer
+> +
+> +So, when reporting bugs related to features such as PSR and ABM, consider
+> +enabling the relevant bits in the mask before reproducing the issue and
+> +attach the log that you obtain from the trace buffer in any bug reports that you
+> +create.
+> diff --git a/Documentation/gpu/amdgpu/display/trace-groups-table.csv b/Documentation/gpu/amdgpu/display/trace-groups-table.csv
+> new file mode 100644
+> index 000000000000..3f6a50d1d883
+> --- /dev/null
+> +++ b/Documentation/gpu/amdgpu/display/trace-groups-table.csv
+> @@ -0,0 +1,29 @@
+> +Name, Mask Value
+> +INFO, 0x1
+> +IRQ SVC, 0x2
+> +VBIOS, 0x4
+> +REGISTER, 0x8
+> +PHY DBG, 0x10
+> +PSR, 0x20
+> +AUX, 0x40
+> +SMU, 0x80
+> +MALL, 0x100
+> +ABM, 0x200
+> +ALPM, 0x400
+> +TIMER, 0x800
+> +HW LOCK MGR, 0x1000
+> +INBOX1, 0x2000
+> +PHY SEQ, 0x4000
+> +PSR STATE, 0x8000
+> +ZSTATE, 0x10000
+> +TRANSMITTER CTL, 0x20000
+> +PANEL CNTL, 0x40000
+> +FAMS, 0x80000
+> +DPIA, 0x100000
+> +SUBVP, 0x200000
+> +INBOX0, 0x400000
+> +SDP, 0x4000000
+> +REPLAY, 0x8000000
+> +REPLAY RESIDENCY, 0x20000000
+> +CURSOR INFO, 0x80000000
+> +IPS, 0x100000000
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> index 45c972f2630d..67dea56cf583 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> @@ -2971,6 +2971,100 @@ static int allow_edp_hotplug_detection_set(void *data, u64 val)
+>   	return 0;
+>   }
+>   
+> +static int dmub_trace_mask_set(void *data, u64 val)
+> +{
+> +	struct amdgpu_device *adev = data;
+> +	struct dmub_srv *srv = adev->dm.dc->ctx->dmub_srv->dmub;
+> +	enum dmub_gpint_command cmd;
+> +	enum dmub_status status;
+> +	u64 mask = 0xffff;
+> +	u8 shift = 0;
+> +	u32 res;
+> +	int i;
+> +
+> +	if (!srv->fw_version)
+> +		return -EINVAL;
+> +
+> +	for (i = 0;  i < 4; i++) {
+> +		res = (val & mask) >> shift;
+> +
+> +		switch (i) {
+> +		case 0:
+> +			cmd = DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD0;
+> +			break;
+> +		case 1:
+> +			cmd = DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD1;
+> +			break;
+> +		case 2:
+> +			cmd = DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD2;
+> +			break;
+> +		case 3:
+> +			cmd = DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD3;
+> +			break;
+> +		}
+> +
+> +		status = dmub_srv_send_gpint_command(srv, cmd, res, 30);
+> +
+> +		if (status == DMUB_STATUS_TIMEOUT)
+> +			return -ETIMEDOUT;
+> +		else if (status != DMUB_STATUS_OK)
+> +			return -EIO;
+> +
+> +		usleep_range(100, 1000);
+> +
+> +		mask <<= 16;
+> +		shift += 16;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int dmub_trace_mask_show(void *data, u64 *val)
+> +{
+> +	enum dmub_gpint_command cmd = DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD0;
+> +	struct amdgpu_device *adev = data;
+> +	struct dmub_srv *srv = adev->dm.dc->ctx->dmub_srv->dmub;
+> +	enum dmub_status status;
+> +	u8 shift = 0;
+> +	u64 raw = 0;
+> +	u64 res = 0;
+> +	int i = 0;
+> +
+> +	if (!srv->fw_version)
+> +		return -EINVAL;
+> +
+> +	while (i < 4) {
+> +		status = dmub_srv_send_gpint_command(srv, cmd, 0, 30);
+> +
+> +		if (status == DMUB_STATUS_OK) {
+> +			status = dmub_srv_get_gpint_response(srv, (u32 *) &raw);
+> +
+> +			if (status == DMUB_STATUS_TIMEOUT)
+> +				return -ETIMEDOUT;
+> +			else if (status != DMUB_STATUS_OK)
+> +				return -EIO;
+> +		} else if (status == DMUB_STATUS_TIMEOUT) {
+> +			return -ETIMEDOUT;
+> +		} else {
+> +			return -EIO;
+> +		}
+> +
+> +		usleep_range(100, 1000);
+> +
+> +		cmd++;
+> +		res |= (raw << shift);
+> +		shift += 16;
+> +		i++;
+> +	}
+> +
+> +	*val = res;
+> +
+> +	return 0;
+> +}
+> +
+> +DEFINE_DEBUGFS_ATTRIBUTE(dmub_trace_mask_fops, dmub_trace_mask_show,
+> +			 dmub_trace_mask_set, "0x%llx\n");
+> +
+>   /*
+>    * Set dmcub trace event IRQ enable or disable.
+>    * Usage to enable dmcub trace event IRQ: echo 1 > /sys/kernel/debug/dri/0/amdgpu_dm_dmcub_trace_event_en
+> @@ -3884,6 +3978,9 @@ void dtn_debugfs_init(struct amdgpu_device *adev)
+>   	debugfs_create_file_unsafe("amdgpu_dm_force_timing_sync", 0644, root,
+>   				   adev, &force_timing_sync_ops);
+>   
+> +	debugfs_create_file_unsafe("amdgpu_dm_dmub_trace_mask", 0644, root,
+> +				   adev, &dmub_trace_mask_fops);
+> +
+>   	debugfs_create_file_unsafe("amdgpu_dm_dmcub_trace_event_en", 0644, root,
+>   				   adev, &dmcub_trace_event_state_fops);
+>   
+> diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+> index ed4379c04715..aa6e6923afed 100644
+> --- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+> +++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+> @@ -818,18 +818,54 @@ enum dmub_gpint_command {
+>   	 * RETURN: Lower 32-bit mask.
+>   	 */
+>   	DMUB_GPINT__UPDATE_TRACE_BUFFER_MASK = 101,
+> +
+>   	/**
+> -	 * DESC: Updates the trace buffer lower 32-bit mask.
+> +	 * DESC: Updates the trace buffer mask bit0~bit15.
+>   	 * ARGS: The new mask
+>   	 * RETURN: Lower 32-bit mask.
+>   	 */
+>   	DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD0 = 102,
+> +
+>   	/**
+> -	 * DESC: Updates the trace buffer mask bi0~bit15.
+> +	 * DESC: Updates the trace buffer mask bit16~bit31.
+>   	 * ARGS: The new mask
+>   	 * RETURN: Lower 32-bit mask.
+>   	 */
+>   	DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD1 = 103,
+> +
+> +	/**
+> +	 * DESC: Updates the trace buffer mask bit32~bit47.
+> +	 * ARGS: The new mask
+> +	 * RETURN: Lower 32-bit mask.
+> +	 */
+> +	DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD2 = 114,
+> +
+> +	/**
+> +	 * DESC: Updates the trace buffer mask bit48~bit63.
+> +	 * ARGS: The new mask
+> +	 * RETURN: Lower 32-bit mask.
+> +	 */
+> +	DMUB_GPINT__SET_TRACE_BUFFER_MASK_WORD3 = 115,
+> +
+> +	/**
+> +	 * DESC: Read the trace buffer mask bi0~bit15.
+> +	 */
+> +	DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD0 = 116,
+> +
+> +	/**
+> +	 * DESC: Read the trace buffer mask bit16~bit31.
+> +	 */
+> +	DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD1 = 117,
+> +
+> +	/**
+> +	 * DESC: Read the trace buffer mask bi32~bit47.
+> +	 */
+> +	DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD2 = 118,
+> +
+> +	/**
+> +	 * DESC: Updates the trace buffer mask bit32~bit63.
+> +	 */
+> +	DMUB_GPINT__GET_TRACE_BUFFER_MASK_WORD3 = 119,
+>   };
+>   
+>   /**
 
