@@ -1,410 +1,117 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609AF1A5B5
-	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 10:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EwQBMe9b"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5030A10C2
-	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 02:19:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699870757;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UNgc0nsmtJybyQg4c0uU1d4cY9GVSwWYNoMAmxmhuWY=;
-	b=EwQBMe9bPyIXTur/xRB5kuWztk5ggmo7ijZvaghBUHINolpGCgUfXeTrIInzRH9Eq5q/GA
-	SfAwo50octtMeVrPJHeTufZ9zz0nVjb/ciQPyELXEWkrGhrs6sXOfVnphp8hQDniZjujU8
-	qD3lOXkg+p/gIa0qhY/dRQCh3RXnBNg=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-217-iUAmyeQVN5yGLKZ5-jSjIw-1; Mon, 13 Nov 2023 05:19:16 -0500
-X-MC-Unique: iUAmyeQVN5yGLKZ5-jSjIw-1
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-41ea8e21785so74316911cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 02:19:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699870755; x=1700475555;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UNgc0nsmtJybyQg4c0uU1d4cY9GVSwWYNoMAmxmhuWY=;
-        b=AbtsL/iXYHPpgAn4VWnMfmRkJ1qfaBFWCA2JcnPvYZDalY0wn5iXUIJfFPA/PVL17r
-         AssAYzKL/O/9iR0/oQpkBTqDxCCwmgHEBFuOv4XJvsoQz6w6jECeFRTZzyK2OxbsjpOx
-         ayRvAmGQq4kDadKVBn36AlST++oVUaHScu8FUgsqZ31eWBCQ726P/8htc48P4zFU0aqd
-         6WMCdGTCgg50lmvNF2gy6650KI24+GvLRDoMs26xnbQtaHideBcByah1cydEctTcDBW2
-         8IkX+cqZ+8g8SSuSu0gorCwu+O9jTUwSjQd7EjSh5JNoeFHwNZu/6UnfJgspYpboT/o3
-         L5vw==
-X-Gm-Message-State: AOJu0Yz+SEkvn7Fr9dct9INb0TG2rDuqJqasfjU7zN4iYuOolVNbvnGw
-	oK2wuvbr0+RZDuhF3FjDAGyMWc4SEUOwJRrHjOPdpjiEDHWYAPmzsG6L4+TOk3RVk9ME8/k1FSi
-	oVnskb8FVLxvNOJOoHwFg9T9biQgqrOecBb1m
-X-Received: by 2002:a05:622a:285:b0:410:9668:530a with SMTP id z5-20020a05622a028500b004109668530amr8724935qtw.21.1699870755460;
-        Mon, 13 Nov 2023 02:19:15 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGL7sVVCGiV4pXAxptHPh8ckOedsYDVGGDqgxsAA6O/8S6nCJJFCuquI5x232xm/lXJhy9Q2703pld34yoErrY=
-X-Received: by 2002:a05:622a:285:b0:410:9668:530a with SMTP id
- z5-20020a05622a028500b004109668530amr8724897qtw.21.1699870755140; Mon, 13 Nov
- 2023 02:19:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C10E1C695;
+	Mon, 13 Nov 2023 11:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 149404781;
+	Mon, 13 Nov 2023 03:26:05 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6983DDA7;
+	Mon, 13 Nov 2023 03:26:38 -0800 (PST)
+Received: from e127643.arm.com (unknown [10.57.71.191])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5B59F3F6C4;
+	Mon, 13 Nov 2023 03:25:50 -0800 (PST)
+From: James Clark <james.clark@arm.com>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org,
+	suzuki.poulose@arm.com,
+	will@kernel.org,
+	mark.rutland@arm.com
+Cc: James Clark <james.clark@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/3] arm64: perf: Add support for event counting threshold
+Date: Mon, 13 Nov 2023 11:25:03 +0000
+Message-Id: <20231113112507.917107-1-james.clark@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230910082911.3378782-1-guoren@kernel.org> <ZUlPwQVG4OTkighB@redhat.com>
- <CAJF2gTSY5dO3iTxidiXSrAyWRRnjsW3WsFZASDpmw0P70rfVvA@mail.gmail.com>
-In-Reply-To: <CAJF2gTSY5dO3iTxidiXSrAyWRRnjsW3WsFZASDpmw0P70rfVvA@mail.gmail.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Mon, 13 Nov 2023 07:19:01 -0300
-Message-ID: <CAJ6HWG51S=W3cEm4TL2HKvpB3rfhv+u2u0ac9+aGcE+f-iW4iA@mail.gmail.com>
-Subject: Re: [PATCH V11 00/17] riscv: Add Native/Paravirt qspinlock support
-To: Guo Ren <guoren@kernel.org>
-Cc: paul.walmsley@sifive.com, anup@brainfault.org, peterz@infradead.org, 
-	mingo@redhat.com, will@kernel.org, palmer@rivosinc.com, longman@redhat.com, 
-	boqun.feng@gmail.com, tglx@linutronix.de, paulmck@kernel.org, 
-	rostedt@goodmis.org, rdunlap@infradead.org, catalin.marinas@arm.com, 
-	conor.dooley@microchip.com, xiaoguang.xing@sophgo.com, bjorn@rivosinc.com, 
-	alexghiti@rivosinc.com, keescook@chromium.org, greentime.hu@sifive.com, 
-	ajones@ventanamicro.com, jszhang@kernel.org, wefu@redhat.com, 
-	wuwei2016@iscas.ac.cn, linux-arch@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
-	kvm@vger.kernel.org, virtualization@lists.linux-foundation.org, 
-	linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 12, 2023 at 1:24=E2=80=AFAM Guo Ren <guoren@kernel.org> wrote:
->
-> On Mon, Nov 6, 2023 at 3:42=E2=80=AFPM Leonardo Bras <leobras@redhat.com>=
- wrote:
-> >
-> > On Sun, Sep 10, 2023 at 04:28:54AM -0400, guoren@kernel.org wrote:
-> > > From: Guo Ren <guoren@linux.alibaba.com>
-> > >
-> > > patch[1 - 10]: Native   qspinlock
-> > > patch[11 -17]: Paravirt qspinlock
-> > >
-> > > patch[4]: Add prefetchw in qspinlock's xchg_tail when cpus >=3D 16k
-> > >
-> > > This series based on:
-> > >  - [RFC PATCH v5 0/5] Rework & improve riscv cmpxchg.h and atomic.h
-> > >    https://lore.kernel.org/linux-riscv/20230810040349.92279-2-leobras=
-@redhat.com/
-> > >  - [PATCH V3] asm-generic: ticket-lock: Optimize arch_spin_value_unlo=
-cked
-> > >    https://lore.kernel.org/linux-riscv/20230908154339.3250567-1-guore=
-n@kernel.org/
-> > >
-> > > I merge them into sg2042-master branch, then you could directly try i=
-t on
-> > > sg2042 hardware platform:
-> > >
-> > > https://github.com/guoren83/linux/tree/sg2042-master-qspinlock-64ilp3=
-2_v5
-> > >
-> > > Use sophgo_mango_ubuntu_defconfig for sg2042 64/128 cores hardware
-> > > platform.
-> > >
-> > > Native qspinlock
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >
-> > > This time we've proved the qspinlock on th1520 [1] & sg2042 [2], whic=
-h
-> > > gives stability and performance improvement. All T-HEAD processors ha=
-ve
-> > > a strong LR/SC forward progress guarantee than the requirements of th=
-e
-> > > ISA, which could satisfy the xchg_tail of native_qspinlock. Now,
-> > > qspinlock has been run with us for more than 1 year, and we have enou=
-gh
-> > > confidence to enable it for all the T-HEAD processors. Of causes, we
-> > > found a livelock problem with the qspinlock lock torture test from th=
-e
-> > > CPU store merge buffer delay mechanism, which caused the queued spinl=
-ock
-> > > becomes a dead ring and RCU warning to come out. We introduce a custo=
-m
-> > > WRITE_ONCE to solve this. Do we need explicit ISA instruction to sign=
-al
-> > > it? Or let hardware handle this.
-> > >
-> > > We've tested the patch on SOPHGO sg2042 & th1520 and passed the stres=
-s
-> > > test on Fedora & Ubuntu & OpenEuler ... Here is the performance
-> > > comparison between qspinlock and ticket_lock on sg2042 (64 cores):
-> > >
-> > > sysbench test=3Dthreads threads=3D32 yields=3D100 lock=3D8 (+13.8%):
-> > >   queued_spinlock 0.5109/0.00
-> > >   ticket_spinlock 0.5814/0.00
-> > >
-> > > perf futex/hash (+6.7%):
-> > >   queued_spinlock 1444393 operations/sec (+- 0.09%)
-> > >   ticket_spinlock 1353215 operations/sec (+- 0.15%)
-> > >
-> > > perf futex/wake-parallel (+8.6%):
-> > >   queued_spinlock (waking 1/64 threads) in 0.0253 ms (+-2.90%)
-> > >   ticket_spinlock (waking 1/64 threads) in 0.0275 ms (+-3.12%)
-> > >
-> > > perf futex/requeue (+4.2%):
-> > >   queued_spinlock Requeued 64 of 64 threads in 0.0785 ms (+-0.55%)
-> > >   ticket_spinlock Requeued 64 of 64 threads in 0.0818 ms (+-4.12%)
-> > >
-> > > System Benchmarks (+6.4%)
-> > >   queued_spinlock:
-> > >     System Benchmarks Index Values               BASELINE       RESUL=
-T    INDEX
-> > >     Dhrystone 2 using register variables         116700.0  628613745.=
-4  53865.8
-> > >     Double-Precision Whetstone                       55.0     182422.=
-8  33167.8
-> > >     Execl Throughput                                 43.0      13116.=
-6   3050.4
-> > >     File Copy 1024 bufsize 2000 maxblocks          3960.0    7762306.=
-2  19601.8
-> > >     File Copy 256 bufsize 500 maxblocks            1655.0    3417556.=
-8  20649.9
-> > >     File Copy 4096 bufsize 8000 maxblocks          5800.0    7427995.=
-7  12806.9
-> > >     Pipe Throughput                               12440.0   23058600.=
-5  18535.9
-> > >     Pipe-based Context Switching                   4000.0    2835617.=
-7   7089.0
-> > >     Process Creation                                126.0      12537.=
-3    995.0
-> > >     Shell Scripts (1 concurrent)                     42.4      57057.=
-4  13456.9
-> > >     Shell Scripts (8 concurrent)                      6.0       7367.=
-1  12278.5
-> > >     System Call Overhead                          15000.0   33308301.=
-3  22205.5
-> > >                                                                      =
-  =3D=3D=3D=3D=3D=3D=3D=3D
-> > >     System Benchmarks Index Score                                    =
-   12426.1
-> > >
-> > >   ticket_spinlock:
-> > >     System Benchmarks Index Values               BASELINE       RESUL=
-T    INDEX
-> > >     Dhrystone 2 using register variables         116700.0  626541701.=
-9  53688.2
-> > >     Double-Precision Whetstone                       55.0     181921.=
-0  33076.5
-> > >     Execl Throughput                                 43.0      12625.=
-1   2936.1
-> > >     File Copy 1024 bufsize 2000 maxblocks          3960.0    6553792.=
-9  16550.0
-> > >     File Copy 256 bufsize 500 maxblocks            1655.0    3189231.=
-6  19270.3
-> > >     File Copy 4096 bufsize 8000 maxblocks          5800.0    7221277.=
-0  12450.5
-> > >     Pipe Throughput                               12440.0   20594018.=
-7  16554.7
-> > >     Pipe-based Context Switching                   4000.0    2571117.=
-7   6427.8
-> > >     Process Creation                                126.0      10798.=
-4    857.0
-> > >     Shell Scripts (1 concurrent)                     42.4      57227.=
-5  13497.1
-> > >     Shell Scripts (8 concurrent)                      6.0       7329.=
-2  12215.3
-> > >     System Call Overhead                          15000.0   30766778.=
-4  20511.2
-> > >                                                                      =
-  =3D=3D=3D=3D=3D=3D=3D=3D
-> > >     System Benchmarks Index Score                                    =
-   11670.7
-> > >
-> > > The qspinlock has a significant improvement on SOPHGO SG2042 64
-> > > cores platform than the ticket_lock.
-> > >
-> > > Paravirt qspinlock
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >
-> > > We implemented kvm_kick_cpu/kvm_wait_cpu and add tracepoints to obser=
-ve the
-> > > behaviors. Also, introduce a new SBI extension SBI_EXT_PVLOCK (0xAB04=
-01). If the
-> > > name and number are approved, I will send a formal proposal to the SB=
-I spec.
-> > >
-> >
-> > Hello Guo Ren,
-> >
-> > Any update on this series?
-> Found a nested virtualization problem, and I'm solving that. After
-> that, I'll update v12.
+Changes since v4:
 
-Oh, nice to hear :)
-I am very excited about this series, please let me know of any update.
+  * Rebase onto v6.7-rc1, it no longer depends on kvmarm/next
+  * Remove change that moved ARMV8_PMU_EVTYPE_MASK to the asm files.
+    This actually depended on those files being included in a certain
+    order with arm_pmuv3.h to avoid circular includes. Now the
+    definition is done programmatically in arm_pmuv3.c instead.
 
-Thanks!
-Leo
+Changes since v3:
 
->
-> >
-> > Thanks!
-> > Leo
-> >
-> >
-> > > Changlog:
-> > > V11:
-> > >  - Based on Leonardo Bras's cmpxchg_small patches v5.
-> > >  - Based on Guo Ren's Optimize arch_spin_value_unlocked patch v3.
-> > >  - Remove abusing alternative framework and use jump_label instead.
-> > >  - Introduce prefetch.w to improve T-HEAD processors' LR/SC forward p=
-rogress
-> > >    guarantee.
-> > >  - Optimize qspinlock xchg_tail when NR_CPUS >=3D 16K.
-> > >
-> > > V10:
-> > > https://lore.kernel.org/linux-riscv/20230802164701.192791-1-guoren@ke=
-rnel.org/
-> > >  - Using an alternative framework instead of static_key_branch in the
-> > >    asm/spinlock.h.
-> > >  - Fixup store merge buffer problem, which causes qspinlock lock
-> > >    torture test livelock.
-> > >  - Add paravirt qspinlock support, include KVM backend
-> > >  - Add Compact NUMA-awared qspinlock support
-> > >
-> > > V9:
-> > > https://lore.kernel.org/linux-riscv/20220808071318.3335746-1-guoren@k=
-ernel.org/
-> > >  - Cleanup generic ticket-lock code, (Using smp_mb__after_spinlock as
-> > >    RCsc)
-> > >  - Add qspinlock and combo-lock for riscv
-> > >  - Add qspinlock to openrisc
-> > >  - Use generic header in csky
-> > >  - Optimize cmpxchg & atomic code
-> > >
-> > > V8:
-> > > https://lore.kernel.org/linux-riscv/20220724122517.1019187-1-guoren@k=
-ernel.org/
-> > >  - Coding convention ticket fixup
-> > >  - Move combo spinlock into riscv and simply asm-generic/spinlock.h
-> > >  - Fixup xchg16 with wrong return value
-> > >  - Add csky qspinlock
-> > >  - Add combo & qspinlock & ticket-lock comparison
-> > >  - Clean up unnecessary riscv acquire and release definitions
-> > >  - Enable ARCH_INLINE_READ*/WRITE*/SPIN* for riscv & csky
-> > >
-> > > V7:
-> > > https://lore.kernel.org/linux-riscv/20220628081946.1999419-1-guoren@k=
-ernel.org/
-> > >  - Add combo spinlock (ticket & queued) support
-> > >  - Rename ticket_spinlock.h
-> > >  - Remove unnecessary atomic_read in ticket_spin_value_unlocked
-> > >
-> > > V6:
-> > > https://lore.kernel.org/linux-riscv/20220621144920.2945595-1-guoren@k=
-ernel.org/
-> > >  - Fixup Clang compile problem Reported-by: kernel test robot
-> > >  - Cleanup asm-generic/spinlock.h
-> > >  - Remove changelog in patch main comment part, suggested by
-> > >    Conor.Dooley
-> > >  - Remove "default y if NUMA" in Kconfig
-> > >
-> > > V5:
-> > > https://lore.kernel.org/linux-riscv/20220620155404.1968739-1-guoren@k=
-ernel.org/
-> > >  - Update comment with RISC-V forward guarantee feature.
-> > >  - Back to V3 direction and optimize asm code.
-> > >
-> > > V4:
-> > > https://lore.kernel.org/linux-riscv/1616868399-82848-4-git-send-email=
--guoren@kernel.org/
-> > >  - Remove custom sub-word xchg implementation
-> > >  - Add ARCH_USE_QUEUED_SPINLOCKS_XCHG32 in locking/qspinlock
-> > >
-> > > V3:
-> > > https://lore.kernel.org/linux-riscv/1616658937-82063-1-git-send-email=
--guoren@kernel.org/
-> > >  - Coding convention by Peter Zijlstra's advices
-> > >
-> > > V2:
-> > > https://lore.kernel.org/linux-riscv/1606225437-22948-2-git-send-email=
--guoren@kernel.org/
-> > >  - Coding convention in cmpxchg.h
-> > >  - Re-implement short xchg
-> > >  - Remove char & cmpxchg implementations
-> > >
-> > > V1:
-> > > https://lore.kernel.org/linux-riscv/20190211043829.30096-1-michaeljcl=
-ark@mac.com/
-> > >  - Using cmpxchg loop to implement sub-word atomic
-> > >
-> > >
-> > > Guo Ren (17):
-> > >   asm-generic: ticket-lock: Reuse arch_spinlock_t of qspinlock
-> > >   asm-generic: ticket-lock: Move into ticket_spinlock.h
-> > >   riscv: Use Zicbop in arch_xchg when available
-> > >   locking/qspinlock: Improve xchg_tail for number of cpus >=3D 16k
-> > >   riscv: qspinlock: Add basic queued_spinlock support
-> > >   riscv: qspinlock: Introduce combo spinlock
-> > >   riscv: qspinlock: Introduce qspinlock param for command line
-> > >   riscv: qspinlock: Add virt_spin_lock() support for KVM guest
-> > >   riscv: qspinlock: errata: Add ERRATA_THEAD_WRITE_ONCE fixup
-> > >   riscv: qspinlock: errata: Enable qspinlock for T-HEAD processors
-> > >   RISC-V: paravirt: pvqspinlock: Add paravirt qspinlock skeleton
-> > >   RISC-V: paravirt: pvqspinlock: Add nopvspin kernel parameter
-> > >   RISC-V: paravirt: pvqspinlock: Add SBI implementation
-> > >   RISC-V: paravirt: pvqspinlock: Add kconfig entry
-> > >   RISC-V: paravirt: pvqspinlock: Add trace point for pv_kick/wait
-> > >   RISC-V: paravirt: pvqspinlock: KVM: Add paravirt qspinlock skeleton
-> > >   RISC-V: paravirt: pvqspinlock: KVM: Implement
-> > >     kvm_sbi_ext_pvlock_kick_cpu()
-> > >
-> > >  .../admin-guide/kernel-parameters.txt         |   8 +-
-> > >  arch/riscv/Kconfig                            |  50 ++++++++
-> > >  arch/riscv/Kconfig.errata                     |  19 +++
-> > >  arch/riscv/errata/thead/errata.c              |  29 +++++
-> > >  arch/riscv/include/asm/Kbuild                 |   2 +-
-> > >  arch/riscv/include/asm/cmpxchg.h              |   4 +-
-> > >  arch/riscv/include/asm/errata_list.h          |  13 --
-> > >  arch/riscv/include/asm/hwcap.h                |   1 +
-> > >  arch/riscv/include/asm/insn-def.h             |   5 +
-> > >  arch/riscv/include/asm/kvm_vcpu_sbi.h         |   1 +
-> > >  arch/riscv/include/asm/processor.h            |  13 ++
-> > >  arch/riscv/include/asm/qspinlock.h            |  35 ++++++
-> > >  arch/riscv/include/asm/qspinlock_paravirt.h   |  29 +++++
-> > >  arch/riscv/include/asm/rwonce.h               |  24 ++++
-> > >  arch/riscv/include/asm/sbi.h                  |  14 +++
-> > >  arch/riscv/include/asm/spinlock.h             | 113 ++++++++++++++++=
-++
-> > >  arch/riscv/include/asm/vendorid_list.h        |  14 +++
-> > >  arch/riscv/include/uapi/asm/kvm.h             |   1 +
-> > >  arch/riscv/kernel/Makefile                    |   1 +
-> > >  arch/riscv/kernel/cpufeature.c                |   1 +
-> > >  arch/riscv/kernel/qspinlock_paravirt.c        |  83 +++++++++++++
-> > >  arch/riscv/kernel/sbi.c                       |   2 +-
-> > >  arch/riscv/kernel/setup.c                     |  60 ++++++++++
-> > >  .../kernel/trace_events_filter_paravirt.h     |  60 ++++++++++
-> > >  arch/riscv/kvm/Makefile                       |   1 +
-> > >  arch/riscv/kvm/vcpu_sbi.c                     |   4 +
-> > >  arch/riscv/kvm/vcpu_sbi_pvlock.c              |  57 +++++++++
-> > >  include/asm-generic/rwonce.h                  |   2 +
-> > >  include/asm-generic/spinlock.h                |  87 +-------------
-> > >  include/asm-generic/spinlock_types.h          |  12 +-
-> > >  include/asm-generic/ticket_spinlock.h         | 103 ++++++++++++++++
-> > >  kernel/locking/qspinlock.c                    |   5 +-
-> > >  32 files changed, 739 insertions(+), 114 deletions(-)
-> > >  create mode 100644 arch/riscv/include/asm/qspinlock.h
-> > >  create mode 100644 arch/riscv/include/asm/qspinlock_paravirt.h
-> > >  create mode 100644 arch/riscv/include/asm/rwonce.h
-> > >  create mode 100644 arch/riscv/include/asm/spinlock.h
-> > >  create mode 100644 arch/riscv/kernel/qspinlock_paravirt.c
-> > >  create mode 100644 arch/riscv/kernel/trace_events_filter_paravirt.h
-> > >  create mode 100644 arch/riscv/kvm/vcpu_sbi_pvlock.c
-> > >  create mode 100644 include/asm-generic/ticket_spinlock.h
-> > >
-> > > --
-> > > 2.36.1
-> > >
-> >
->
->
-> --
-> Best Regards
->  Guo Ren
->
+  * Drop #include changes to KVM source files because since
+    commit bc512d6a9b92 ("KVM: arm64: Make PMEVTYPER<n>_EL0.NSH RES0 if
+    EL2 isn't advertised"), KVM doesn't use ARMV8_PMU_EVTYPE_MASK
+    anymore
+
+Changes since v2:
+
+  * Split threshold_control attribute into two, threshold_compare and
+    threshold_count so that it's easier to use
+  * Add some notes to the first commit message and the cover letter
+    about the behavior in KVM
+  * Update the docs commit with regards to the split attribute
+ 
+Changes since v1:
+
+  * Fix build on aarch32 by disabling FEAT_PMUv3_TH and splitting event
+    type mask between the platforms
+  * Change armv8pmu_write_evtype() to take unsigned long instead of u64
+    so it isn't unnecessarily wide on aarch32
+  * Add UL suffix to aarch64 event type mask definition
+
+----
+
+FEAT_PMUv3_TH (Armv8.8) is a new feature that allows conditional
+counting of PMU events depending on how much the event increments on
+a single cycle. Two new config fields for perf_event_open have been
+added, and a PMU cap file for reading the max_threshold. See the second
+commit message and the docs in the last commit for more details.
+
+The feature is not currently supported on KVM guests, and PMMIR is set
+to read as zero, so it's not advertised as available. But it can be
+added at a later time. Writes to PMEVTYPER.TC and TH from guests are
+already RES0.
+
+The change has been validated on the Arm FVP model:
+
+  # Zero values, works as expected (as before).
+  $ perf stat -e dtlb_walk/threshold=0,threshold_compare=0/ -- true
+
+    5962      dtlb_walk/threshold=0,threshold_compare=0/
+
+  # Threshold >= 255 causes count to be 0 because dtlb_walk doesn't
+  # increase by more than 1 per cycle.
+  $ perf stat -e dtlb_walk/threshold=255,threshold_compare=2/ -- true
+
+    0      dtlb_walk/threshold=255,threshold_compare=2/
+  
+  # Keeping comparison as >= but lowering the threshold to 1 makes the
+  # count return.
+  $ perf stat -e dtlb_walk/threshold=1,threshold_compare=2/ -- true
+
+    6329      dtlb_walk/threshold=1,threshold_compare=2/
+
+James Clark (3):
+  arm64: perf: Include threshold control fields in PMEVTYPER mask
+  arm64: perf: Add support for event counting threshold
+  Documentation: arm64: Document the PMU event counting threshold
+    feature
+
+ Documentation/arch/arm64/perf.rst | 56 ++++++++++++++++++++
+ drivers/perf/arm_pmuv3.c          | 88 ++++++++++++++++++++++++++++++-
+ include/linux/perf/arm_pmuv3.h    |  4 +-
+ 3 files changed, 145 insertions(+), 3 deletions(-)
+
+
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+-- 
+2.34.1
 
