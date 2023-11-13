@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FCF7E
-	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 19:40:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBC92376E
+	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 19:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ot1GGpWS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82143C433C7;
-	Mon, 13 Nov 2023 19:40:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T/22qNo4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E3EBC433C8;
+	Mon, 13 Nov 2023 19:40:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699904426;
-	bh=6Ey5FD6cD8DD07OuQnycttxlCN15n2sNu8xYKDtX44k=;
+	s=k20201202; t=1699904435;
+	bh=nx7dxtYmjGRBmy753Kk0BhkvpRXqbIqSxx3MC3Ik8I8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ot1GGpWSqbRHsMZ4H0AmB0kiKmsncGDemrMZgeUANDBqxnSBsPlXtVHNLwWUVepvE
-	 OGLKYHaHTW8chhxYUPnrTeL0dVPOUOLAKo4OGZtAN1GUP7+RRGploR6exNXPragTHM
-	 3KSpPjzAWkqVfQQCJVwMZ8lfCOuAHOZxCo+jUm1E7kgAJo7/lJdO8/OQ7IuxhFIMNX
-	 Y8Cz7wfeu02bISpUqd2zeENEg9g0yPjpyqk0oSG7C/2sH19CKNwy207VADeVb0U9yS
-	 3gr4N/imrTDW8teHJTTUtxxx7envW4iJrCoAZaUZ91qC2wcqwFH2Z1rnmiZnZ+hFRi
-	 HcEKzbE9rKgVg==
+	b=T/22qNo46KR1wKRMTgq3Y4HCmF10vBRyry/NV7lYdqiNZ26YUU6WfdC63ZNiIvAMN
+	 lHdSYG9rrViPgc5ZhSfWx0eRjk0dNv/qklW8QjRImxLo+MGweTuD1HmkB2cW8QGL17
+	 QkF8DU8K1gy5/jbiIC1e99b4OXi1MX5B2AsUiMWEisYmFF8a696/js4AoGbFjQc2aN
+	 Wi1ZMbTOJyqayvShm75TGkGo5JFD+LoNs0sse5rPlccij1k/qO8oD0Fzlo6P5Db/H5
+	 WEqwCaJqpwKuhnPNT9zfv1teJ3YZOcZAzFqPmKeO3zABQFuIQ0ixmmS12KeWLIcVjx
+	 4HgJ14r4LjMqA==
 From: Mark Brown <broonie@kernel.org>
 To: linux-kernel@vger.kernel.org, 
  Javier Martinez Canillas <javierm@redhat.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+Cc: Randy Dunlap <rdunlap@infradead.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Brian Masney <bmasney@redhat.com>, 
  Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, 
  "Paul E. McKenney" <paulmck@kernel.org>, 
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
- Randy Dunlap <rdunlap@infradead.org>, 
  "Steven Rostedt (Google)" <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20231028102423.179400-1-javierm@redhat.com>
-References: <20231028102423.179400-1-javierm@redhat.com>
-Subject: Re: [PATCH] regulator: core: Add option to prevent disabling
+ linux-doc@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
+In-Reply-To: <20231107190926.1185326-1-javierm@redhat.com>
+References: <20231107190926.1185326-1-javierm@redhat.com>
+Subject: Re: [PATCH v2] regulator: core: Add option to prevent disabling
  unused regulators
-Message-Id: <169990442285.3294075.7217773943260715696.b4-ty@kernel.org>
-Date: Mon, 13 Nov 2023 19:40:22 +0000
+Message-Id: <169990443197.3294075.4873136953876130203.b4-ty@kernel.org>
+Date: Mon, 13 Nov 2023 19:40:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,7 +43,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Sat, 28 Oct 2023 12:24:03 +0200, Javier Martinez Canillas wrote:
+On Tue, 07 Nov 2023 20:09:18 +0100, Javier Martinez Canillas wrote:
 > This may be useful for debugging and develompent purposes, when there are
 > drivers that depend on regulators to be enabled but do not request them.
 > 
