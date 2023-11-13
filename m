@@ -1,99 +1,148 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC911F612
-	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 16:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D956F21A17
+	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 16:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmzULFqY"
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E5E1A2;
-	Mon, 13 Nov 2023 08:08:28 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2c50305c5c4so66430721fa.1;
-        Mon, 13 Nov 2023 08:08:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699891706; x=1700496506; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UW5qx6i7b4DrzXNONGQsnNb1tTaIrCw/M1F9WJRKViE=;
-        b=dmzULFqYCb+psiSZppegZ06oDu7SDmiB/G0MNlPa02ztO1A8A8h7BOc4Z14XL7lJ43
-         CGJqkCHBmcE+4j5wiQo6QqNv0JVEOATU+6MXn2rAFcnkULLXH6xRRA4vf5f5uqV1x/yU
-         g/0QE54XIGS7j4d0SJnZmoN8UHQ5bpWM7EwsVVEqbmL/DW76FarPLsNhpy4f086RIs0w
-         +oyoB0PEu4sM1kMQo+74ndiBRj9d5KGJftnJ+Ox3uys01Vb+6+gMNxHOOnPYHbBXk94t
-         RCWGxHPQCNT9QlHcJiObxVkNcu9qotXfgesrStnEUpJcFzmMvSNeGe4S/VIRy4bGtasF
-         ydEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699891706; x=1700496506;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UW5qx6i7b4DrzXNONGQsnNb1tTaIrCw/M1F9WJRKViE=;
-        b=HCTCxAhS9UGQ9ATpEFOFQqnGQyxnhz+BADOBfejfgTUAJ0QvL3fkJ8UnQlZsGPOOnp
-         SymEnfoGjfscyQ4c5FnA0fUgX3HMp0r+nKRPAnmRguYZq0U/lry3PrAyhF06i4X2xjzY
-         kp4X5robGJ1zkpy8j8dx4mjQDZToWaWvELhbjIroD3LbXcDPuFecvHEAQsNJm6ncww9n
-         1Fxh6EUvwUDJ4wEseSZ6Ajn8A//v697MNOLC1qIhuVlDVbs97wGmwiOAznY5CdLOxCcY
-         2qiE9C/OOo5qBq4BNAX0C1B74xgzI6DJlsCtu7kt+i+mwJ88Qpj2MF4cVScQryBg8wKW
-         sUNw==
-X-Gm-Message-State: AOJu0YxfgG43Mzq4VQ2S2EcK99nlIjHeHZxF9UobfsFHGDtC6ZXXno4K
-	RQSguU+Q/BexH5mSsSba7NU=
-X-Google-Smtp-Source: AGHT+IFVnlEmhbk7PU6ep2kZ6m8Y68kvW/3exeN1lgMU8Cg5hlOKcGE46krnpFAtgh78cUaKTp/K+Q==
-X-Received: by 2002:a2e:97c3:0:b0:2bc:f5a0:cc25 with SMTP id m3-20020a2e97c3000000b002bcf5a0cc25mr5234411ljj.2.1699891706026;
-        Mon, 13 Nov 2023 08:08:26 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id p5-20020a7bcc85000000b004081a011c0esm14110746wma.12.2023.11.13.08.08.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Nov 2023 08:08:25 -0800 (PST)
-Message-ID: <4ff1f3f1-15b2-479b-898e-1a4fa50e6f19@gmail.com>
-Date: Mon, 13 Nov 2023 17:08:21 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nDD7EQdG"
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF86DC6;
+	Mon, 13 Nov 2023 08:22:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ga/27YPqfCEMX73qIeVoFvWw9rSS9x2ZoH8cZC5OXg0hPgvLGdXvrqc836QhBmDtas5Aku03F1whn61ug5FJmCTk/FnMgZIRGVGy26t6Z5KI42hVFbL3QJGudH39Vy98ETZI5dy2JoAPV88t9A2GnTPhmgP4cD2eHRaOXdPUFxEKtz4Qi5fJK18RiQzUvgB61QBU9KnRG+rkF+7PUKVDbsL56otGFGVqcV6mPypDgt3nzE9QvVdwWop08YdM7pMqpFCP7iFHbbuy43uPGa2xTKpgWlZ4o+HijZpSgtcP8idIKGknlzKq+YW8Nqq49FZB9nASCP7xOCIx5b5ljLpf4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vImMuE39MMgKwrXpqB5aAA9UDbYJ6+tGFGOBFB30K00=;
+ b=GCuemRxPcmbf9jIgxizvXuwFugc/81zv+C6ktYByBteUYovzzSjiE6gqgoYaZ2a3QeU9LYu0SdDPEDexgfErIlZ/5OBxl62v4ScWrdJPn6d8zFfbNaMTiwmcDjGovIC5yhBB6gcSGRANXYq7N0pdgp6phsyaxrD7nP/oZodrwpR+YniV5aZekiq+h6AaguecpXTq4lcyiS4FKnsxNXv3vWxfcOwK3v/ydWzagcs7F5lrKkeDoJXmrwaLbqyS9q8quM0HL9iGUsGliUvm3ioZd53i1XWJa7JYCvhu0jDA14/8JFY+nV6TVeQR/PeQGyyjj5YBMtSUZWI5E1Rk6v3BKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vImMuE39MMgKwrXpqB5aAA9UDbYJ6+tGFGOBFB30K00=;
+ b=nDD7EQdG2Hn6E7T4gj5PI4cOPmKuzVQXM0ZzBAZR0yLgveGxj7nDx8rhAmZMUs/OtMzgar3MITmZDzrCx3U1fxFSsgs97IEDDGzshHAr3n6OL9cYiVzxtoZ/lCS1D+jeHkXmjPB/jzTcF7/5+fz1TWDzwZFEF6vNPeVVCRfsS1A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH0PR12MB5284.namprd12.prod.outlook.com (2603:10b6:610:d7::13)
+ by PH8PR12MB7111.namprd12.prod.outlook.com (2603:10b6:510:22d::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.28; Mon, 13 Nov
+ 2023 16:22:11 +0000
+Received: from CH0PR12MB5284.namprd12.prod.outlook.com
+ ([fe80::194a:56d:a41d:3c79]) by CH0PR12MB5284.namprd12.prod.outlook.com
+ ([fe80::194a:56d:a41d:3c79%5]) with mapi id 15.20.6977.029; Mon, 13 Nov 2023
+ 16:22:11 +0000
+Message-ID: <37d00502-0942-ece6-815d-77eeba6ff68a@amd.com>
+Date: Mon, 13 Nov 2023 11:22:04 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd/display: add a debugfs interface for the DMUB
+ trace mask
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Fangzhi Zuo <jerry.zuo@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
+ Alexey Kodanev <aleksei.kodanev@bell-sw.com>, Alan Liu
+ <HaoPing.Liu@amd.com>, Anthony Koo <anthony.koo@amd.com>,
+ Aric Cyr <aric.cyr@amd.com>, Tony Tascioglu <tony.tascioglu@amd.com>,
+ Mustapha Ghaddar <mghaddar@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Reza Amini <reza.amini@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231113145608.20386-1-hamza.mahfooz@amd.com>
+Content-Language: en-CA
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+In-Reply-To: <20231113145608.20386-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0021.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01::29)
+ To CH0PR12MB5284.namprd12.prod.outlook.com (2603:10b6:610:d7::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/amd/display: add a debugfs interface for the DMUB
- trace mask
-Content-Language: en-US
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
-Cc: Aric Cyr <aric.cyr@amd.com>, linux-doc@vger.kernel.org,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alexey Kodanev <aleksei.kodanev@bell-sw.com>,
- dri-devel@lists.freedesktop.org, Reza Amini <reza.amini@amd.com>,
- Anthony Koo <anthony.koo@amd.com>, Mustapha Ghaddar <mghaddar@amd.com>,
- Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Tony Tascioglu <tony.tascioglu@amd.com>,
- Fangzhi Zuo <jerry.zuo@amd.com>, Aurabindo Pillai
- <aurabindo.pillai@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Alan Liu <HaoPing.Liu@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Leo Li <sunpeng.li@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Hersen Wu <hersenxs.wu@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20231113145608.20386-1-hamza.mahfooz@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20231113145608.20386-1-hamza.mahfooz@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5284:EE_|PH8PR12MB7111:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc2b2515-17fa-4f78-4d4b-08dbe464b05c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	+FE4ahWtDHh5rt4wphwg6oZRHn2SLHd2C1Uunto3gcQ0OB7ApU3kPGXDiUA6tf9KdmZW1I/J5iAhDy+bFBSCvXPJqBef07gC3mq8mfW55rF3ZLjYXTfiOOeAcJ4eQwjlq8FuzxFTFFw7MM+GFyjuFVbxsrnvn1HLcsq1cAPDxE+bLmoQg3lahe3zaSVPfKKfobMpYTWQk0ZA/wOpldUH+ceWx4MF0lWVqn0fwY3KCR9+Evhhg6wCNSFVxJl0BTJeOTnCfklCzrFbrZ2Ud8wZ3iBKAmfpOx6AA0PVGTG1AUhev4K6/meVq3DA6/1SXIjp1E/a5snZkOeMGirTcvT5KnhILc6j61c8J4EtaT07U/3xCTbXdDe2VVdi7EhZF6YXSInIaRsNobs129tFzrWGSg/PL5oWA2k+V4T7ebyvohOsFbIto72kSHW5N+/z1k8xgMjB6kbOXL/7TmDu5pyH2PnUIXVzPayFNzzfcfuEbX3ncXVVW48hro4ssf9iLkY7P2MIGMRdZukhvuBtA0Jp4a4pPlipt9+SeMzZ7LAT9Tclg6ZGTD/U2OO3a1rL0ziMxd8+WsxZ4BFODgYMADUBijMNYZvMcrrPT1BqcajcSCBISi9me0Dg01tZGglNSRA26wwqPeeuwfjLkri4xRn8cQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR12MB5284.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(376002)(136003)(346002)(39860400002)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(2906002)(6666004)(6506007)(53546011)(478600001)(86362001)(31696002)(26005)(2616005)(6512007)(54906003)(316002)(66946007)(66476007)(66556008)(6486002)(38100700002)(83380400001)(5660300002)(7416002)(8936002)(36756003)(8676002)(4326008)(44832011)(41300700001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SG5KekVjS3Z0cjBJbTVQLytVb0tEU3NHRzltVitYYUtCcitZS1BsTlFuQlRw?=
+ =?utf-8?B?Y1grdVdtY243OTZZaFlBSkxsYjVDTHZuTmwwSjJiNXBZS3JDOGtvU1FWZStu?=
+ =?utf-8?B?UGp3amRFZHMweG1yQnVvQlVuSVR6L2JsQ0FpUEczY0xndnEzeko2NTRMcDBa?=
+ =?utf-8?B?N0JSZVpHYTdJK2g4ZkJLamZYcjRlMXkrSTN5UWovZUg2QWFqNk15ckkxZG1a?=
+ =?utf-8?B?Zk02UU5wZTloOFJKNEY5RStKSEFpSklyN3Rqdkh3Q1RPWlVROEI1dDNSMWFq?=
+ =?utf-8?B?S3lTOTJ3RllFazFNTXNodDlZYnpnNzdCdnczVnJmNS9WRDlaNGRhck8zRTho?=
+ =?utf-8?B?Z1dSbFBveXNKcCs1bFNzeHZCM0VYc1NLRkxyMXU5UXZuYmlqNXVFZVUwaEo5?=
+ =?utf-8?B?UUpNS0V3OGxQRGEySnJrNE9oZDN4Y2hYYUFSVE9zOFptR2VTbTJOMklCbTZ0?=
+ =?utf-8?B?QW1oNnh3UDBOL1FDZUF3QzhlWDdlVW9xYVM3elh0dkgyWlZoNEhGajVPWGFh?=
+ =?utf-8?B?S1Bmd2VyMHpCazFtaGN6ZTVFMDlIVWMyeTlOUFhNc09CT1JIYXBqVHVQNjFW?=
+ =?utf-8?B?blhqSzJmTndHVDE2TFVLbXJGQ1NSTk4vcjVmWU1zZWZYOENXc2d0Wnd4VmNu?=
+ =?utf-8?B?YnpoUlVNZ1RFdUtnOHVQVzVJRWxkSnI4K0JabDBzelJHaS84OVg4Y0JSNmpY?=
+ =?utf-8?B?ZnJoK3RSQi81TEdGSUVjbVR5ZmxrRFA0WGdtNWtIcUJ6cTRKTE9JeFpFYlVj?=
+ =?utf-8?B?R1NUYzlyWCtVdHZvUzhkT2FzVkw3d3Y2V2RSSis0OTA1NkNSdkMzcnJDRUgx?=
+ =?utf-8?B?cjhPR1pQTGw2WEIvUUFuUm5jWUhveGRicmE5WVFWM1duUVdEbGVWK2Q4WVY4?=
+ =?utf-8?B?QVBqN1ppS2R2UTU4Ujl4ZUhYc2diaXMzTlY2YUxhWkIzVVNTMHRZV2pyRnFD?=
+ =?utf-8?B?ZGt2SVpOZGN2TUhSQnBZekNFbWZwU3JXOU92MVlucnJ4WE4vQWlhWHI0eUgr?=
+ =?utf-8?B?ci9Xb0hsS09XS3Q3R3laZFpvRmRERCtNalpIUzRUOGRWMWs0Nm9ZU2VCaENy?=
+ =?utf-8?B?V1RLRFhnUmc0dDMwZDI2WGdRSnRSQ0F3YjVKVXEvSW9PNkIvRU94NXM5cFhF?=
+ =?utf-8?B?MTdwQS9RZnlPcmlnbUVUdEVqV0JyWjNSVWoyYWZya0RsN1ZIVHduMEtTZWF6?=
+ =?utf-8?B?VjVpUlgvem92aGcyRnlLL2NBK3dFWTgxTTFKM2tOWi83SC9rZmhXU1VtWU9L?=
+ =?utf-8?B?N2xMdFNYYVJrazE4Mzl3UjZsTVpweWF0MUQ2U2xsSm5vODcxQUtGS3BkZU1i?=
+ =?utf-8?B?UWNqczd0S1dXTHMvSk15Vk1JWkczWXhkMFdHM0lhcXBwYTVDVGZXVjB3QjVn?=
+ =?utf-8?B?WjBxa1E3bDZXTjE5dHZRM0VYWXg1V0hxN0d4elB0TzFFbTdtdDVTQXVqRGNr?=
+ =?utf-8?B?Y1ZvYm4yUk5ybndON0JOVE0xemJvN0UrZ0ZEU2lBaG9GeWFmR1o4d3N6c085?=
+ =?utf-8?B?SjYycmM3OHVhZE5nTjJqcmljVGNoV1RrVlp4bE9meHhtdjQwTFViekxwRHc4?=
+ =?utf-8?B?TDRwbFE4ZUd1WFcwS3hIWGVYLzFSdWNuaXdTcHptdWVrRDM1RytGN0lsRHhu?=
+ =?utf-8?B?T3RFNWh0VlU2VXpDODhDYnYyTmFuNWtxbW5NUGgyL01acDZ4VVY1b29reWJM?=
+ =?utf-8?B?UmxSdmU0ZFJtaDlBWlFpZmk1elVUcEJFbXpOVGMyazJmSTRkWFFodDIwcGlC?=
+ =?utf-8?B?ZUlKdW9OREdjb1B5eUVwcmNVdnZGd1lWN2l1aHVyQzAvMVNveFJRWEFObFNE?=
+ =?utf-8?B?UHRCcDhNRnJrbWpUUUdQQnJxNTlpWGd3aXAxNFdkeGRRZzFuczlKL3R1MTVt?=
+ =?utf-8?B?cng2RnZsckdSNm9YQWZ5TndLOTR3d2VWcXdZZjBqNXJaMmVvSjA3Mk5zREY3?=
+ =?utf-8?B?b1VMYkQ2WWVSMk9WMzNsdU0zL3dzeXA4WndZeVRYenNxV1VHemZ5RXNKWHZh?=
+ =?utf-8?B?TXBZeG81djBZSklFaVhmU3ZJT1FCSEREQlgzTGJZajR4WjNOcXhtakRXWHpU?=
+ =?utf-8?B?ekVNcXFteHlpekVMbEdKMzBOaXRkWG9uSjdzdGJReTVKTmV3Q09wMGRMQndp?=
+ =?utf-8?Q?3myFSlQ7yNBkIcN+xcaAu9N8q?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc2b2515-17fa-4f78-4d4b-08dbe464b05c
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5284.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2023 16:22:11.2028
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Th7bUro2jNbLAnCA1iyIoBpUZUfv32LlcJj05rUCXy8leQtoQk4WbUdKdt4eYcwYVmxFQqPTWGv7tyrMK8VhCA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7111
 
-Am 13.11.23 um 15:56 schrieb Hamza Mahfooz:
+
+
+On 11/13/2023 9:56 AM, Hamza Mahfooz wrote:
 > For features that are implemented primarily in DMUB (e.g. PSR), it is
 > useful to be able to trace them at a DMUB level from the kernel,
 > especially when debugging issues. So, introduce a debugfs interface that
 > is able to read and set the DMUB trace mask dynamically at runtime and
 > document how to use it.
->
+> 
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: Mario Limonciello <mario.limonciello@amd.com>
 > Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-
-Acked-by: Christian König <christian.koenig@amd.com>
-
 > ---
 > v2: only return -ETIMEDOUT for DMUB_STATUS_TIMEOUT
 > ---
@@ -103,7 +152,7 @@ Acked-by: Christian König <christian.koenig@amd.com>
 >   .../gpu/drm/amd/display/dmub/inc/dmub_cmd.h   | 40 +++++++-
 >   4 files changed, 205 insertions(+), 2 deletions(-)
 >   create mode 100644 Documentation/gpu/amdgpu/display/trace-groups-table.csv
->
+> 
 > diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentation/gpu/amdgpu/display/dc-debug.rst
 > index 40c55a618918..817631b1dbf3 100644
 > --- a/Documentation/gpu/amdgpu/display/dc-debug.rst
@@ -365,3 +414,4 @@ Acked-by: Christian König <christian.koenig@amd.com>
 >   
 >   /**
 
+Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
