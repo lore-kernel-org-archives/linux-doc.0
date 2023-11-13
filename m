@@ -1,217 +1,541 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14CC1C2AC
-	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 10:01:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396A619465;
+	Mon, 13 Nov 2023 10:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MGH7umgB"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A06F1D59
-	for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 02:01:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699869708;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BAMalQgNM0C7HuKoU35TO9KZ8bUeH1IJgfZxeS8F7ZM=;
-	b=MGH7umgBu+k9C7XpufiLpz8YL/kIEH0nnDFNVXic9FQvayEkEvpWQIqxjdVxOsSFle1cq0
-	PoZ4N65TVIMC8Ggw9yWp4o28i98uMbsYafmE7QoyyM0EyNYE6DRnzDrxfqt+aFwgGnJ8x5
-	jtco2G08IRomVpCW5QXFogG7MRO2h1Q=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-26-BcP9a5eJN6ixPiwCoqhgEg-1; Mon, 13 Nov 2023 05:01:47 -0500
-X-MC-Unique: BcP9a5eJN6ixPiwCoqhgEg-1
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-35aae13867aso14048435ab.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Nov 2023 02:01:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aYyq3i+4"
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88174D58;
+	Mon, 13 Nov 2023 02:10:49 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-53e70b0a218so6495285a12.2;
+        Mon, 13 Nov 2023 02:10:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699870248; x=1700475048; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YdxHVwkkDV2Ld9dGiWwyW8pBUgE/swsfDDpYaQzu++E=;
+        b=aYyq3i+4ni9m/Ey4lXLg36Wa0/2QbOjT8FjF/4hFYewQf+nQzwnCCyDWR1t8/VsZei
+         BRqQqcGCkH+Ac5Z5R7kiRK+i28PX3b7XJP+2XVPwwl1z0/R1uS2rn7l+dC0CbhEHX1VA
+         dRfK/gOrU2IqUII1HPcD0OCVc9bStB/FOgLISXsadOuDZmf1Uzg5tBFHMLvgvO58QZQX
+         uoR4thAWxS9vxOS9DfNfxFgRcDaQ3xCc5ZhsiaISr0YhbDTxfwq6tQWsLeITMyu64MhN
+         vkgB7QAYo+TO+4I/PmdHbN/th+LDZxEIM4GSKxSRl/2G62EBNXci18kDVFlSWi+NEtoo
+         g64A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699869707; x=1700474507;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BAMalQgNM0C7HuKoU35TO9KZ8bUeH1IJgfZxeS8F7ZM=;
-        b=A4HeIjaN8+DKkf3PDu7OfCRiJn/kSz0H6rUj2IpM/qg6OpR0KLJtbwJGHrm9n1G1b0
-         WVGNHntArFGuzZDLtfLk11VvcKWnoRTqu/jXm/GogEQzYkLE5SSJZYzVZchm8VuYWKnW
-         c/1OZVvPrjb2XJHXmyiNMQGXzsoNLxe/Qj/ToqsfDviatk8DKkRCBfKV5A46rB7HVg4A
-         12y0Zmav5YedO0I2TVnhlp/CVMMY8BLNwUdb/wOwhcl9flwx+dLCOhkt/nqvPOcSOLUa
-         VcFKmPzI/ImGIm8AUvKG+5qabSwqywzMwOh0nCB1A4EmDzZbMzqILu5jzNUEFX5YCN4B
-         la7w==
-X-Gm-Message-State: AOJu0YwOVkobSS8+vju8083aqn87hIPnuovm7CDdNS+MCAJXPURvi6lr
-	xILvPUAMqE/DhR1B2E96/0gTYUfG7Fh9pTjd824eqD+09xnUa0NL12lXLXlDwZ9S9ePLSnE+oV8
-	psHnxUISn4VT3YAsqjH5h
-X-Received: by 2002:a05:6e02:1bc7:b0:359:56d2:aa19 with SMTP id x7-20020a056e021bc700b0035956d2aa19mr7258848ilv.6.1699869706808;
-        Mon, 13 Nov 2023 02:01:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH7tmXC6qf2sfNPHtOUIMeBRO/dIRdXhrQyw4Al19wk8aveBy1a/L2HugzHzm+0XUXK3jdUog==
-X-Received: by 2002:a05:6e02:1bc7:b0:359:56d2:aa19 with SMTP id x7-20020a056e021bc700b0035956d2aa19mr7258823ilv.6.1699869706458;
-        Mon, 13 Nov 2023 02:01:46 -0800 (PST)
-Received: from ?IPV6:2001:8003:e5b0:9f00:b890:3e54:96bb:2a15? ([2001:8003:e5b0:9f00:b890:3e54:96bb:2a15])
-        by smtp.gmail.com with ESMTPSA id c9-20020a62e809000000b006c306943730sm3652442pfi.91.2023.11.13.02.01.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Nov 2023 02:01:46 -0800 (PST)
-Message-ID: <29090279-a682-43ff-9710-181cb91bbf91@redhat.com>
-Date: Mon, 13 Nov 2023 20:01:27 +1000
+        d=1e100.net; s=20230601; t=1699870248; x=1700475048;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YdxHVwkkDV2Ld9dGiWwyW8pBUgE/swsfDDpYaQzu++E=;
+        b=YUzdqwdV4PW2iHsLjlkoT3Oaq9d+lmay2uR31/S4yBoOXLGmpThhi1AEd5OGXMLwSv
+         yNQSawQ00Hm+zjbNHHX38Rw67JpjlunqYEvRB122ECtmMqjpM26P2phabvwYxf0IiTnX
+         gZ9xldTPIIluFGf2Eg2t6mrq8BY9ZPwtaqQhYq7EkVUgPxtBCll0PT4BegsZMbxO19Bm
+         cte7FM2DsRl0tBVaJOkPtdNSYE2DB33F6yjOyCrRaGyMUmE0lxmaEtV16OlRPOu67lmf
+         Gv+aEs8ty97mOJKv0i5fwORWTbsEvr02l0saH6AFmLWqtjzgNAOf5hey8tj1Mq13VCZM
+         RUfg==
+X-Gm-Message-State: AOJu0YwsunT3pt3RM8nTKGE58Mw2U96eQTWDyOsBCZyvNugTYJWKZcxt
+	z1t9K+w9AZSDEuZMPUeisieaBtKaI6LLzCgYaa4=
+X-Google-Smtp-Source: AGHT+IEKG/SXFWyTlUP/fjoFcfYNCl774t+JwXV0/jFvFi02fCweXz9HMlJrw9O5Pu04XS0VrrgLJA==
+X-Received: by 2002:a05:6402:1016:b0:540:fde:5407 with SMTP id c22-20020a056402101600b005400fde5407mr4057996edu.34.1699870247641;
+        Mon, 13 Nov 2023 02:10:47 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef1b:2000:361b:8f29:1cbf:5e69? (p200300f6ef1b2000361b8f291cbf5e69.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:361b:8f29:1cbf:5e69])
+        by smtp.gmail.com with ESMTPSA id m20-20020a50d7d4000000b00530bc7cf377sm3531074edj.12.2023.11.13.02.10.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Nov 2023 02:10:47 -0800 (PST)
+Message-ID: <581aec9c6313e3885aae8b1e12dfcc9f392716db.camel@gmail.com>
+Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>, Nuno Sa <nuno.sa@analog.com>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan
+ Corbet <corbet@lwn.net>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Linus Walleij
+ <linus.walleij@linaro.org>, Guenter Roeck <linux@roeck-us.net>, Rob Herring
+ <robh+dt@kernel.org>,  Jean Delvare <jdelvare@suse.com>, Conor Dooley
+ <conor+dt@kernel.org>
+Date: Mon, 13 Nov 2023 11:13:44 +0100
+In-Reply-To: <ZU5fYY81L_qSmQWq@smile.fi.intel.com>
+References: <20231110151905.1659873-1-nuno.sa@analog.com>
+	 <20231110151905.1659873-3-nuno.sa@analog.com>
+	 <ZU5fYY81L_qSmQWq@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 05/22] ACPI: Move ACPI_HOTPLUG_CPU to be disabled on
- arm64 and riscv
-Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
- linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org,
- linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- Salil Mehta <salil.mehta@huawei.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com,
- justin.he@arm.com, James Morse <james.morse@arm.com>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
-References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
- <E1r0JL6-00CTws-3z@rmk-PC.armlinux.org.uk>
- <8e288692-7460-4aa4-86f3-500327256bc3@redhat.com>
- <ZVHkykFMp+CMUqyf@shell.armlinux.org.uk>
-From: Gavin Shan <gshan@redhat.com>
-In-Reply-To: <ZVHkykFMp+CMUqyf@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+On Fri, 2023-11-10 at 18:50 +0200, Andy Shevchenko wrote:
+> On Fri, Nov 10, 2023 at 04:18:46PM +0100, Nuno Sa wrote:
+> > The LTC4282 hot swap controller allows a board to be safely inserted an=
+d
+> > removed from a live backplane. Using one or more external N-channel pas=
+s
+> > transistors, board supply voltage and inrush current are ramped up at a=
+n
+> > adjustable rate. An I2C interface and onboard ADC allows for monitoring
+> > of board current, voltage, power, energy and fault status.
+>=20
+> There are plenty of ltc42xx in the same folder and a lot of other chips.
+> Have you checked that none of the existing driver is not close enough and
+> brand new driver is indeed required? If so, add a respective paragraph
+> somewhere (cover letter? TBH I haven't read it, it's fine if it's already
+> explained there).
+>=20
 
-On 11/13/23 18:56, Russell King (Oracle) wrote:
-> On Mon, Nov 13, 2023 at 10:29:39AM +1000, Gavin Shan wrote:
->> On 11/7/23 20:29, Russell King (Oracle) wrote:
->>> From: James Morse <james.morse@arm.com>
->>>
->>> Neither arm64 nor riscv support physical hotadd of CPUs that were not
->>> present at boot. For arm64 much of the platform description is in static
->>> tables which do not have update methods. arm64 does support HOTPLUG_CPU,
->>> which is backed by a firmware interface to turn CPUs on and off.
->>>
->>> acpi_processor_hotadd_init() and acpi_processor_remove() are for adding
->>> and removing CPUs that were not present at boot. arm64 systems that do this
->>> are not supported as there is currently insufficient information in the
->>> platform description. (e.g. did the GICR get removed too?)
->>>
->>> arm64 currently relies on the MADT enabled flag check in map_gicc_mpidr()
->>> to prevent CPUs that were not described as present at boot from being
->>> added to the system. Similarly, riscv relies on the same check in
->>> map_rintc_hartid(). Both architectures also rely on the weak 'always fails'
->>> definitions of acpi_map_cpu() and arch_register_cpu().
->>>
->>> Subsequent changes will redefine ACPI_HOTPLUG_CPU as making possible
->>> CPUs present. Neither arm64 nor riscv support this.
->>>
->>> Disable ACPI_HOTPLUG_CPU for arm64 and riscv by removing 'default y' and
->>> selecting it on the other three ACPI architectures. This allows the weak
->>> definitions of some symbols to be removed.
->>>
->>> Signed-off-by: James Morse <james.morse@arm.com>
->>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
->>> ---
->>> Changes since RFC:
->>>    * Expanded conditions to avoid ACPI_HOTPLUG_CPU being enabled when
->>>      HOTPLUG_CPU isn't.
->>> Changes since RFC v3:
->>>    * Dropped ia64 changes
->>> ---
->>>    arch/loongarch/Kconfig        |  1 +
->>>    arch/x86/Kconfig              |  1 +
->>>    drivers/acpi/Kconfig          |  1 -
->>>    drivers/acpi/acpi_processor.c | 18 ------------------
->>>    4 files changed, 2 insertions(+), 19 deletions(-)
->>>
->>
->> With the following nits addressed:
->>
->> Reviewed-by: Gavin Shan <gshan@redhat.com>
->>
->>> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
->>> index d889a0b97bc1..64620e90c12c 100644
->>> --- a/arch/loongarch/Kconfig
->>> +++ b/arch/loongarch/Kconfig
->>> @@ -5,6 +5,7 @@ config LOONGARCH
->>>    	select ACPI
->>>    	select ACPI_GENERIC_GSI if ACPI
->>>    	select ACPI_MCFG if ACPI
->>> +	select ACPI_HOTPLUG_CPU if ACPI_PROCESSOR && HOTPLUG_CPU
->>>    	select ACPI_PPTT if ACPI
->>>    	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
->>>    	select ARCH_BINFMT_ELF_STATE
->>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
->>> index 3762f41bb092..dbdcfc708369 100644
->>> --- a/arch/x86/Kconfig
->>> +++ b/arch/x86/Kconfig
->>> @@ -59,6 +59,7 @@ config X86
->>>    	#
->>>    	select ACPI_LEGACY_TABLES_LOOKUP	if ACPI
->>>    	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
->>> +	select ACPI_HOTPLUG_CPU			if ACPI_PROCESSOR && HOTPLUG_CPU
->>>    	select ARCH_32BIT_OFF_T			if X86_32
->>>    	select ARCH_CLOCKSOURCE_INIT
->>>    	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
->>> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
->>> index f819e760ff19..a3acfc750fce 100644
->>> --- a/drivers/acpi/Kconfig
->>> +++ b/drivers/acpi/Kconfig
->>> @@ -310,7 +310,6 @@ config ACPI_HOTPLUG_CPU
->>>    	bool
->>>    	depends on ACPI_PROCESSOR && HOTPLUG_CPU
->>>    	select ACPI_CONTAINER
->>> -	default y
->>>    config ACPI_PROCESSOR_AGGREGATOR
->>>    	tristate "Processor Aggregator"
->>> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
->>> index 0f5218e361df..4fe2ef54088c 100644
->>> --- a/drivers/acpi/acpi_processor.c
->>> +++ b/drivers/acpi/acpi_processor.c
->>> @@ -184,24 +184,6 @@ static void __init acpi_pcc_cpufreq_init(void) {}
->>>    /* Initialization */
->>>    #ifdef CONFIG_ACPI_HOTPLUG_CPU
->>> -int __weak acpi_map_cpu(acpi_handle handle,
->>> -		phys_cpuid_t physid, u32 acpi_id, int *pcpu)
->>> -{
->>> -	return -ENODEV;
->>> -}
->>> -
->>> -int __weak acpi_unmap_cpu(int cpu)
->>> -{
->>> -	return -ENODEV;
->>> -}
->>> -
->>> -int __weak arch_register_cpu(int cpu)
->>> -{
->>> -	return -ENODEV;
->>> -}
->>> -
->>> -void __weak arch_unregister_cpu(int cpu) {}
->>> -
->>
->> Since we're here, EXPORT_SYMBOL() can be dropped for these functions on
->> x86 and loongarch because they're not called from a module?
-> 
-> I'm confused, and don't understand your comment. You've r-b the
-> previous two patches that remove the EXPORT_SYMBOL()s for
-> arch_register_cpu() and arch_unregister_cpu() from x86 and loongarch.
-> So it seems your comment is already addressed, and thus makes no
-> sense.
-> 
-> Please clarify.
-> 
+I can double check but not the last time I looked into those drivers
+> ...
+>=20
+> > +#define LTC4282_STATUS_MSB			0x1F
+>=20
+> > +#define LTC4282_VSOURCE				0x3a
+> > +#define LTC4282_VSOURCE_LOWEST			0x3c
+> > +#define LTC4282_VSOURCE_HIGHEST			0x3e
+>=20
+> You have an inconsistency in the capitalization of the hexadecimal values=
+.
+>=20
 
-Exactly, I must be looking into wrong code when reviewing this patch.
-Please ignore my comments and my r-b still valid. Sorry for the
-unnecessary confusion.
+right...
 
-Thanks,
-Gavin
+> ...
+>=20
+> > +/*
+> > + * relaxed version of FIELD_PREP() to be used when mask is not a compi=
+le
+> > time constant
+> > + * u32_encode_bits() can't also be used as the compiler needs to be ab=
+le to
+> > evaluate
+> > + * mask at compile time.
+> > + */
+> > +#define LTC4282_FIELD_PREP(m, v)	(((v) << (ffs(m) - 1)) & (m))
+>=20
+> Can we name it accordingly as done in other places, and TBH it's a time t=
+o
+> move
+> it to the header. (At least I know about two more implementations of this=
+).
+>=20
+
+Not sure what you mean? Is there some other drivers doing it already? I'll,
+anyways, wait on more feedback for the GPIO stuff because we might end up n=
+ot
+needing it...
+
+> ...
+>=20
+> > +struct ltc4282_state {
+> > +	struct regmap *map;
+> > +	struct device *dev;
+> > +	/* Protect against multiple accesses to the device registers */
+> > +	struct mutex lock;
+> > +	struct gpio_chip gc;
+> > +	u64 saved_energy;
+> > +	long power_max;
+>=20
+> > +	u32 gpio_map[LTC4282_GPIO_NR];
+>=20
+> Why is this needed? The valid_mask is not enough?
+>=20
+
+Hmm I just looked at the valid_mask. So, I can definitely make it work with=
+ it.
+The only thing I see is that we might end up wasting memory in case we are =
+not
+using the 4 available pins. Worst case, we allocate 3 'struct gpio_desc' th=
+at
+will never be used but I guess that's not a real issue... So yeah, I'll use=
+ the
+mask stuff.
+
+> > +	u32 rsense;
+> > +	u32 vin_mode;
+> > +	u16 vfs_out;
+> > +};
+>=20
+> ...
+>=20
+> > +	/* GPIO_2,3 and the ALERT pin require setting the bit to 1 to pull
+> > down the line */
+> > +	if (!gpio->active_high)
+>=20
+> Hmm... Why do you need a separate flag for this? Shouldn't be described o=
+r
+> autodetected somehow?
+
+Well, if a consumer as an active high gpio, it expects to call
+gpiod_set_value(..., 1) and the line to assert, right? To have that, we nee=
+d to
+write 0 on the device register for some of the pins.
+
+And the same story is true for active low. gpiod_set_value(..., 0) will hav=
+e the
+gpiolib to automatically invert the value and we get 1 in the callback.
+=20
+>=20
+> > +		val =3D !val;
+>=20
+> ...
+>=20
+> > +	*val =3D DIV_ROUND_CLOSEST_ULL(be16_to_cpu(in) * (u64)fs, U16_MAX);
+>=20
+> I'm wondering if you can do some trick to "divide" actually to 2^16 so, i=
+t
+> will
+> not use division op at all?
+
+Hmm, not sure if it will be obvious but you mean something like:
+
+*val =3D (be16_to_cpu(in) * (u64)fs) >> 16;
+
+Is this what you mean? If so, we`ll loose the "CLOSEST" handling... Not so =
+sure
+if we need to be "that" performant in such a code path. But Guenter can als=
+o
+share his opinion...
+
+>=20
+> ...
+>=20
+> > +	*val =3D DIV_ROUND_CLOSEST(in * fs, U8_MAX);
+>=20
+> Ditto.
+>=20
+> ...
+>=20
+> > +	/*
+> > +	 * Wait for two ADC conversions so we are sure we get one full VDD
+> > +	 * measurement.
+> > +	 */
+> > +	msleep(2 * LTC4282_TCONV_US / MILLI);
+>=20
+> fsleep() ?
+>=20
+
+Could be but this is going away anyways...
+
+> ...
+>=20
+> > +static int ltc4282_read_power_word(const struct ltc4282_state *st, u32=
+ reg,
+> > long *val)
+> > +{
+> > +	u64 temp =3D=C2=A0 DECA * 40ULL * st->vfs_out * 1 << 16, temp_2;
+>=20
+> Too many spaces.
+>=20
+> "* BIT(16)" / "* BIT_ULL(16)" ?
+
+Well, I can just place the number as in the formula. Not too keen on the BI=
+T()
+macros as this is not really a mask.
+>=20
+> ...
+>=20
+> > +		temp =3D DIV_ROUND_CLOSEST_ULL(power * temp, U16_MAX);
+> > +		*val =3D DIV64_U64_ROUND_CLOSEST(temp * MICRO, U16_MAX *
+> > (u64)st->rsense);
+>=20
+> > +	*val =3D DIV64_U64_ROUND_CLOSEST(temp_2, st->rsense *
+> > int_pow(U16_MAX, 2));
+>=20
+> Same Q about possible optimizations.
+>=20
+> ...
+>=20
+> > +	temp =3D power * 40 * DECA * st->vfs_out * 256ULL;
+>=20
+> BIT_ULL(8) ?
+
+Same, not a mask so I would prefer the plain 256. No strong feeling though.=
+..
+
+>=20
+> ...
+>=20
+> > +	*val =3D DIV64_U64_ROUND_CLOSEST(temp * MICRO, int_pow(U8_MAX, 2) *
+> > st->rsense);
+>=20
+> Same Q about possible optimizations.
+>=20
+> ...
+>=20
+> > +	if (check_mul_overflow(DECA * st->vfs_out * 40 * 256, energy,
+> > &temp)) {
+> > +		temp =3D DIV_ROUND_CLOSEST(DECA * st->vfs_out * 40 * 256,
+> > U16_MAX);
+> > +		*val =3D DIV_ROUND_CLOSEST_ULL(temp * energy, st->rsense);
+> > +		return ret;
+> > +	}
+>=20
+> BIT(8) ?
+>=20
+> ...
+>=20
+> > +	*val =3D DIV64_U64_ROUND_CLOSEST(temp, U16_MAX * (u64)st->rsense);
+>=20
+> Same Q about possible optimizations.
+>=20
+> ...
+>=20
+> > +		/*
+> > +		 * reset happened... let's read the new energy value that
+>=20
+> Reset
+> Let's
+>=20
+> > +		 * together with the new tick counter should give a sane
+> > average
+> > +		 * value. Furthermore, we save whatever value we had
+> > accumulated
+> > +		 * so that the next energy read will have it into account.
+> > +		 */
+>=20
+> ...
+>=20
+> > +		/* give some time for accumulation... */
+> > +		msleep(2 * LTC4282_TCONV_US / MILLI);
+>=20
+> fsleep() ?
+>=20
+> ...
+>=20
+> > +	/*
+> > +	 * AVG =3D E / (Tconv * counter)
+> > +	 * We get energy in microJoule, hence dividing it by microSeconds
+> > gives Watts. Therefore,
+> > +	 * multiplying by MICRO gives us microWatts.
+> > +	 */
+>=20
+> Here you used long lines, somewhere else, much shorter. Please, choose on=
+e
+> limit and be consistent with it.
+>=20
+
+Yeah, maybe not too consistent. I'm still not sure what's the convention in
+hwmon (I mention it in the cover).
+
+> ...
+>=20
+> > +	temp =3D val * int_pow(U8_MAX, 2) * st->rsense;
+> > +	power =3D DIV64_U64_ROUND_CLOSEST(temp, MICRO * DECA * 256ULL * st-
+> > >vfs_out * 40);
+>=20
+> As per above.
+>=20
+> ...
+>=20
+> > +	if (val >=3D fs)
+> > +		in =3D U8_MAX;
+> > +	else
+> > +		in =3D DIV_ROUND_CLOSEST(val * U8_MAX, fs);
+>=20
+> Can clamp() be used here?
+>=20
+
+Yes, I guess it can...
+
+> ...
+>=20
+> > +	/*
+> > +	 * Make sure vdd is stable. From the datasheet:
+> > +	 * The state of the UV and OV comparators is indicated by the
+> > STATUS register
+> > +	 * bits 0 and 1 and must be stable for at least 50ms to qualify for
+> > turn-on.
+> > +	 */
+> > +	do {
+> > +		ret =3D regmap_read_poll_timeout(st->map, LTC4282_STATUS_LSB,
+> > reg,
+> > +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg &
+> > LTC4282_VDD_STATUS_MASK, 10000, 50000);
+> > +		if (!ret)
+> > +			continue;
+> > +		if (ret !=3D -ETIMEDOUT)
+> > +			return dev_err_probe(st->dev, ret, "Failed regmap
+> > read\n");
+>=20
+> I would do it a bit differently.
+>=20
+> > +		break;
+>=20
+> > +	} while (n_tries--);
+>=20
+> 	} while (--n_tries); ?
+>=20
+> Altogether:
+>=20
+> 	do {
+> 		ret =3D regmap_read_poll_timeout(st->map, LTC4282_STATUS_LSB,
+> reg,
+> 					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg & LTC4282_VDD_STATUS_MASK,
+> 10000, 50000);
+> 		/* Check if we got timeout which means UV and OV are stable
+> for 50ms */
+> 		if (ret =3D=3D -ETIMEDOUT)
+> 			break;
+> 		if (ret)
+> 			return dev_err_probe(st->dev, ret, "Failed regmap
+> read\n");
+> 	} while (--n_tries);
+>=20
+>=20
+
+being dropped...
+
+> ...
+>=20
+> > +	if (val > LTC4282_CLKOUT_TICK)
+> > +		return dev_err_probe(st->dev, -EINVAL,
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid val(%u) for adi,clkout-
+> > mode\n", val);
+>=20
+> ERANGE?
+
+Yeah, probably more appropriate.
+
+>=20
+> ...
+>=20
+> > +	if (rate < LTC4282_CLKIN_MIN || rate > LTC4282_CLKIN_MAX)
+>=20
+> in_range() ?
+
+sure...
+
+>=20
+> > +		return dev_err_probe(st->dev, -EINVAL, "Invalid clkin
+> > range(%lu) [%lu %lu]\n",
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0 rate, LTC4282_CLKIN_MIN,
+> > LTC4282_CLKIN_MAX);
+>=20
+> ...
+>=20
+> > +	for (gpio =3D 0; gpio <=3D LTC4282_GPIO_3; gpio++) {
+>=20
+> Is 0 also being defined?
+>=20
+
+Hmm, I guess ARRAY_SIZE(ltc4282_gpio_prop) is better. Not sure why I did no=
+t
+used it...
+
+> > +		ret =3D device_property_read_u32(dev,
+> > ltc4282_gpio_prop[gpio], &func);
+> > +		if (ret)
+> > +			continue;
+> > +		if (func >=3D ltc4282_gpios[gpio].n_funcs)
+> > +			return dev_err_probe(dev, ret, "Invalid func(%u >=3D
+> > %u) for gpio%u\n",
+> > +					=C2=A0=C2=A0=C2=A0=C2=A0 func,
+> > ltc4282_gpios[gpio].n_funcs, gpio + 1);
+> > +		if (func =3D=3D LTC4282_PIN_GPIO) {
+> > +			st->gpio_map[ngpios++] =3D gpio;
+> > +			if (gpio =3D=3D LTC4282_GPIO_1) {
+> > +				/* default to input GPIO */
+> > +				ret =3D regmap_set_bits(st->map,
+> > LTC4282_GPIO_CONFIG,
+> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> > LTC4282_GPIO_1_CONFIG_MASK);
+> > +				if (ret)
+> > +					return ret;
+> > +			}
+> > +
+> > +			continue;
+> > +		}
+>=20
+> ...
+>=20
+> > +		switch (val) {
+> > +		case 3300000:
+>=20
+> Hmm... Do we have MICROVOLTS_IN_VOLTS or so?
+>=20
+
+Not sure, can look for it...
+
+> > +			st->vin_mode =3D LTC4282_VIN_3_3V;
+> > +			break;
+> > +		case 5000000:
+> > +			st->vin_mode =3D LTC4282_VIN_5V;
+> > +			break;
+> > +		case 12000000:
+> > +			st->vin_mode =3D LTC4282_VIN_12V;
+> > +			break;
+> > +		case 24000000:
+> > +			st->vin_mode =3D LTC4282_VIN_24V;
+> > +			break;
+> > +		default:
+> > +			return dev_err_probe(dev, -EINVAL,
+> > +					=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid val(%u) for vin-mode-
+> > microvolt\n", val);
+> > +		}
+>=20
+> ...
+>=20
+> > +static SENSOR_DEVICE_ATTR(in1_crit_fault_log, 0644, ltc4282_show_fault=
+_log,
+> > +			=C2=A0 ltc4282_clear_fault_log, LTC4282_OV_FAULT_MASK);
+> > +static SENSOR_DEVICE_ATTR(in1_lcrit_fault_log, 0644,
+> > ltc4282_show_fault_log,
+> > +			=C2=A0 ltc4282_clear_fault_log, LTC4282_UV_FAULT_MASK);
+> > +static SENSOR_DEVICE_ATTR(curr1_crit_fault_log, 0644,
+> > ltc4282_show_fault_log,
+> > +			=C2=A0 ltc4282_clear_fault_log, LTC4282_OC_FAULT_MASK);
+> > +static SENSOR_DEVICE_ATTR(power1_fault_log, 0644, ltc4282_show_fault_l=
+og,
+> > +			=C2=A0 ltc4282_clear_fault_log,
+> > LTC4282_POWER_BAD_FAULT_MASK);
+> > +static SENSOR_DEVICE_ATTR(fet_bad_fault_log, 0644, ltc4282_show_fault_=
+log,
+> > +			=C2=A0 ltc4282_clear_fault_log,
+> > LTC4282_FET_BAD_FAULT_MASK);
+> > +static SENSOR_DEVICE_ATTR(fet_short_fault_log, 0644,
+> > ltc4282_show_fault_log,
+> > +			=C2=A0 ltc4282_clear_fault_log,
+> > LTC4282_FET_SHORT_FAULT_MASK);
+>=20
+> SENSOR_DEVICE_ATTR_RO() / _RW() ?
+
+will check..
+
+>=20
+> ...
+>=20
+> > +static struct attribute *ltc4282_attrs[] =3D {
+> > +	&sensor_dev_attr_energy1_input.dev_attr.attr,
+> > +	&sensor_dev_attr_power1_good.dev_attr.attr,
+> > +	&sensor_dev_attr_fet_bad_fault.dev_attr.attr,
+> > +	&sensor_dev_attr_fet_short_fault.dev_attr.attr,
+> > +	&sensor_dev_attr_in1_crit_fault_log.dev_attr.attr,
+> > +	&sensor_dev_attr_in1_lcrit_fault_log.dev_attr.attr,
+> > +	&sensor_dev_attr_curr1_crit_fault_log.dev_attr.attr,
+> > +	&sensor_dev_attr_power1_fault_log.dev_attr.attr,
+> > +	&sensor_dev_attr_fet_bad_fault_log.dev_attr.attr,
+> > +	&sensor_dev_attr_fet_short_fault_log.dev_attr.attr,
+> > +	NULL,
+>=20
+> No comma for the terminator line.
+>=20
+
+sure.
+
+> > +};
+>=20
+> ...
+>=20
+> > +	msleep(3200);
+>=20
+> Not a single letter to comment such a huge delay :-(
+>=20
+
+Well, it's after doing a reset so it should be pretty obvious is the number
+given in the DS. But I'll put a comment on it.
+
+- Nuno S=C3=A1
 
