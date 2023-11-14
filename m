@@ -1,48 +1,48 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9915441218
-	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 14:13:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF7A41212
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 14:13:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="EjOWHAfp"
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6389110F4
-	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 06:13:46 -0800 (PST)
-Received: by mail-oi1-x236.google.com with SMTP id 5614622812f47-3b2e08526b9so642658b6e.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 06:13:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="0hFu8LzJ"
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C3C1B9
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 06:13:48 -0800 (PST)
+Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-779d0c05959so55569385a.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 06:13:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1699971225; x=1700576025; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1699971227; x=1700576027; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iEYEszCfp8f2sFaBAy4eKryQQU+hp7kZpXxy9sdi/dQ=;
-        b=EjOWHAfp2Aag2afsEE/uNUpIVu7TqXlONdoGrToLFxc9zjKOx3D3aE88OnEZ2fFpjx
-         B2dgdMiJq1aqAg6RXWsQJVJjXByzmHDNM1ulWT6+3PPnfnbUuBgVZFyQAuFfMdERBRpH
-         WY6rJxm2v5Cji12S7jjw9ny4v592FHg+94PR667cc2YJVJoX6AM1VrEdlR+r1L1sNbDF
-         NsP6rVu+CmKjws2QyUOFxkldQ09L+6qLrWmt2Dw1eQhvxkXQqSzF6N3RaSu617sph3kN
-         FtcIiI/LzdplztCq/cTdZYo4jDoG696ifD1MQiY2PQ162VfgRQYuYytjbJlMUdbRHey+
-         riqg==
+        bh=Ak2BDRIk2vDqh5U51tE5B/vdW3wNdZF+MHtrJJi5jsA=;
+        b=0hFu8LzJy4hfD8J0+/tBOtIJWT5aqMsYZcKW/3+b6BQITqhDlT5jNNlp6tzHZTdNy2
+         z7yomNmeGGQ/zquiK3QP0anWgCfJk/j1h6Ph4VDWgY/LqP7c1eJC3lTsRYLEAA/7e12t
+         CibcLX8kBkTwtlwm4PMTzFPHDn2MxoxgGH+NFD8pF7zaicLbFF8q+wQwBXUv6j8H/+7C
+         gA9Zibe2/72IkwYgqdAfNY2+5B/Ul9AAuubDus+xAF8+oPVWfUquuR7QRCZSX97A+iNB
+         gRlPLKqPLp5DQEY3BTzCqngqs9GXWCvYVpanJGZQHTTUF5GBoSRM6bcBo3iZy3ufYAcI
+         62LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699971225; x=1700576025;
+        d=1e100.net; s=20230601; t=1699971227; x=1700576027;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iEYEszCfp8f2sFaBAy4eKryQQU+hp7kZpXxy9sdi/dQ=;
-        b=i2G2ZERUF/Dri0EdMUQZLEmp1ouz50OgkNXLPaHj1du+X76v7rdYAZd0AJIIK7Bkjt
-         rxbRmClM6NsDt+R6x/bUL5MqqyDho1VGCb82TrnShT3kTBvQMHxRmrAndwDdJSpHqPTk
-         rmPErHDtLmaVqMjK0x6Mi17M8UKAw0ZbWdVAlmGsQG9sK133d9g/w5Rc/Zs8EwOC0YH8
-         4L9qqgQ925imfmH7XaIK7Z36gO/GXJBXEy9DqW/aDekiuylG4x201hiqdDpGLoHNhyW7
-         AiX2jXgsJoXGCQUpP+MaPB/wfU4cKMpe4J9NnqwIiHgHpFPO41vtraJTpps8/eqnO0V9
-         F4WQ==
-X-Gm-Message-State: AOJu0YyZ9cgNJh2/oeMwe8U97twDkBsAgXjyZNUPP7e1MLbEmBoi/+4Y
-	P4iRPiH9uTmx//NV+aYE5DExYg==
-X-Google-Smtp-Source: AGHT+IGZDXgDf7Oyda/sT4+/a1oolhnnDFVdqByG3o5P/z09X4SwtY07cxiO09aQ9LMMrzbgtkqFGw==
-X-Received: by 2002:a54:4688:0:b0:3b2:ef4e:23e1 with SMTP id k8-20020a544688000000b003b2ef4e23e1mr2189020oic.1.1699971225384;
-        Tue, 14 Nov 2023 06:13:45 -0800 (PST)
+        bh=Ak2BDRIk2vDqh5U51tE5B/vdW3wNdZF+MHtrJJi5jsA=;
+        b=wH06hVrWTzBP7uHcUD2c5Cq9di2z8S2kt9t2+7sWDwN0xhrrNAJMsplhDL5bSmFxxq
+         iB8aAaXoYxgJCfyFYtrIecq96EWG2OAMsiRaJbB5gWQRCZlwKWh9JS9z8wfK0hxyGkBn
+         94/EAH7ysKLHJox5c1qwazY7S15NCHzRy1T9pfjOG1w7utrqP670eaJz7r1Yw70bu7DP
+         CkGKP1xwPAQPDcP5lZ0ivCQCTaapGPb0jn8QpjJXmuC7+FDwHG9zHkROrGTRYG4FOxR+
+         NX1tLf+YZYE0HqWH5BM5aMsv7pbs9Oq4jTrlOiUa1bgKGdM7NAPR9RQF42Y/PgHoR8ny
+         se+g==
+X-Gm-Message-State: AOJu0YyEANM7ihL5psjWOhCGxuBg0mfM1Mxv/vs2rqeQ4nyPy0mZVPkm
+	E61zoG2JMlxFoaeXJ0hq74en0Q==
+X-Google-Smtp-Source: AGHT+IF2D+KBDRTw0WcUH3F5f9hiu2zqM89jEEHbneHS+TDtFN6UAjynE2yo55wJNn9K3IiKYTPHXQ==
+X-Received: by 2002:a05:620a:31a8:b0:77a:69a1:b6a3 with SMTP id bi40-20020a05620a31a800b0077a69a1b6a3mr3097295qkb.1.1699971226657;
+        Tue, 14 Nov 2023 06:13:46 -0800 (PST)
 Received: from carbon-x1.. ([12.186.190.2])
-        by smtp.gmail.com with ESMTPSA id m2-20020a05620a220200b00777611164c5sm2701263qkh.106.2023.11.14.06.13.44
+        by smtp.gmail.com with ESMTPSA id m2-20020a05620a220200b00777611164c5sm2701263qkh.106.2023.11.14.06.13.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 06:13:44 -0800 (PST)
+        Tue, 14 Nov 2023 06:13:46 -0800 (PST)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: linux-riscv@lists.infradead.org,
 	devicetree@vger.kernel.org,
@@ -59,10 +59,11 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	Evan Green <evan@rivosinc.com>,
 	Conor Dooley <conor@kernel.org>,
 	Samuel Ortiz <sameo@rivosinc.com>,
-	Jerry Shih <jerry.shih@sifive.com>
-Subject: [PATCH v4 10/20] riscv: hwprobe: export Zfh[min] ISA extensions
-Date: Tue, 14 Nov 2023 09:12:46 -0500
-Message-ID: <20231114141256.126749-11-cleger@rivosinc.com>
+	Jerry Shih <jerry.shih@sifive.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v4 11/20] dt-bindings: riscv: add Zfh[min] ISA extensions description
+Date: Tue, 14 Nov 2023 09:12:47 -0500
+Message-ID: <20231114141256.126749-12-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231114141256.126749-1-cleger@rivosinc.com>
 References: <20231114141256.126749-1-cleger@rivosinc.com>
@@ -75,64 +76,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Export Zfh[min] ISA extensions[1] through hwprobe only if FPU support
-is available.
+Add description of Zfh[min] ISA extensions[1].
 
 Link: https://drive.google.com/file/d/1z3tQQLm5ALsAD77PM0l0CHnapxWCeVzP/view [1]
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
-Reviewed-by: Evan Green <evan@rivosinc.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- Documentation/arch/riscv/hwprobe.rst  | 6 ++++++
- arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
- arch/riscv/kernel/sys_riscv.c         | 5 +++++
- 3 files changed, 13 insertions(+)
+ .../devicetree/bindings/riscv/extensions.yaml       | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index a08fcd899b6d..397d53195f49 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -140,6 +140,12 @@ The following keys are defined:
-   * :c:macro:`RISCV_HWPROBE_EXT_ZVKT`: The Zvkt extension is supported as
-        defined in version 1.0 of the RISC-V Cryptography Extensions Volume II.
+diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+index e845e461b6e1..f3c99e69619b 100644
+--- a/Documentation/devicetree/bindings/riscv/extensions.yaml
++++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+@@ -214,6 +214,19 @@ properties:
+             instructions as ratified at commit 6d33919 ("Merge pull request #158
+             from hirooih/clmul-fix-loop-end-condition") of riscv-bitmanip.
  
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZFH`: The Zfh extension version 1.0 is supported
-+       as defined in the RISC-V ISA manual.
++        - const: zfh
++          description:
++            The standard Zfh extension for 16-bit half-precision binary
++            floating-point instructions, as ratified in commit 64074bc ("Update
++            version numbers for Zfh/Zfinx") of riscv-isa-manual.
 +
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZFHMIN`: The Zfhmin extension version 1.0 is
-+       supported as defined in the RISC-V ISA manual.
++        - const: zfhmin
++          description:
++            The standard Zfhmin extension which provides minimal support for
++            16-bit half-precision binary floating-point instructions, as ratified
++            in commit 64074bc ("Update version numbers for Zfh/Zfinx") of
++            riscv-isa-manual.
 +
- * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
-   information about the selected set of processors.
- 
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 89628a76ca04..2d960777ea43 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -50,6 +50,8 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_EXT_ZVKSED	(1 << 24)
- #define		RISCV_HWPROBE_EXT_ZVKSH		(1 << 25)
- #define		RISCV_HWPROBE_EXT_ZVKT		(1 << 26)
-+#define		RISCV_HWPROBE_EXT_ZFH		(1 << 27)
-+#define		RISCV_HWPROBE_EXT_ZFHMIN	(1 << 28)
- #define RISCV_HWPROBE_KEY_CPUPERF_0	5
- #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-index 9bbcd7334d96..d776c6c39fcd 100644
---- a/arch/riscv/kernel/sys_riscv.c
-+++ b/arch/riscv/kernel/sys_riscv.c
-@@ -186,6 +186,11 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
- 			EXT_KEY(ZVKSH);
- 			EXT_KEY(ZVKT);
- 		}
-+
-+		if (has_fpu()) {
-+			EXT_KEY(ZFH);
-+			EXT_KEY(ZFHMIN);
-+		}
- #undef EXT_KEY
- 	}
- 
+         - const: zk
+           description:
+             The standard Zk Standard Scalar cryptography extension as ratified
 -- 
 2.42.0
 
