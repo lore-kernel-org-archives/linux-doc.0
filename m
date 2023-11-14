@@ -1,122 +1,94 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942922AF09;
-	Tue, 14 Nov 2023 17:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20A541773
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 17:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Vymp8y4N"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2781B11D;
-	Tue, 14 Nov 2023 09:01:16 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4E1B720466;
-	Tue, 14 Nov 2023 17:01:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1699981274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pp5MU1mHRjsqLkYt40/eJ62sb2ubZSHcqYSme/SFRAA=;
-	b=Vymp8y4Np6RqKAUi4obDcB2t1u06UfNJq6yFum9ob2d3yda1xJJIZ4eNApAbtaokGGZN1t
-	httMG8yhPmIA1hjxQ68V6+WkIV9rkPYueMR2yUzOffG1gi6RST9Il1nIzWxofc49KEO6l7
-	oMU3b6ciIU2QAH8IVRv/MS1pqDMpkuQ=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2362513416;
-	Tue, 14 Nov 2023 17:01:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id P9GsBdqnU2XYAwAAMHmgww
-	(envelope-from <mhocko@suse.com>); Tue, 14 Nov 2023 17:01:14 +0000
-Date: Tue, 14 Nov 2023 18:01:13 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: "tj@kernel.org" <tj@kernel.org>, John Groves <john@jagalactic.com>,
-	Gregory Price <gourry.memverge@gmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"ying.huang@intel.com" <ying.huang@intel.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-	"shakeelb@google.com" <shakeelb@google.com>,
-	"muchun.song@linux.dev" <muchun.song@linux.dev>,
-	"jgroves@micron.com" <jgroves@micron.com>
-Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
-Message-ID: <ZVOn2T_Qg_NTKlB2@tiehlicka>
-References: <20231109002517.106829-1-gregory.price@memverge.com>
- <klhcqksrg7uvdrf6hoi5tegifycjltz2kx2d62hapmw3ulr7oa@woibsnrpgox4>
- <0100018bb64636ef-9daaf0c0-813c-4209-94e4-96ba6854f554-000000@email.amazonses.com>
- <ZU6pR46kiuzPricM@slm.duckdns.org>
- <ZU6uxSrj75EiXise@memverge.com>
- <ZU7vjsSkGbRLza-K@slm.duckdns.org>
- <ZU74L9oxWOoTTfpM@memverge.com>
- <ZVNBMW8iJIGDyp0y@tiehlicka>
- <ZVOXWx8XNJJNC23A@memverge.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VjEf0JiO"
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A3CF11D
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 09:20:24 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9e8b36e36e1so371423866b.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 09:20:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1699982423; x=1700587223; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3rKlcLic1qzOex60qzBrHqaG9Vs5/tn6fuZtH/qFUOA=;
+        b=VjEf0JiOpZoFwHFLqXzORodvUwts2fxJT6cldHtqnid3lXj2yjyzUBUV24i+9/Gxzw
+         jzPGi3VxjM6KOaqgrMvTNp+ONMZsAzOsGpFSMYS9LJKXkuFcua4cgTsYZwR+QZam6Wrf
+         ZGZhgx2lScHxMOnoI7GUw3BakiveKKVPoJ6BFr710P1aYh7bSuXUJDieHfCGBkHq/zCL
+         XSpSJRyWJsdyeihHp8yomZsRkx855QAnw0vtryonCsgOxAc8zRTFt6rN9SoaahLZ1Qcp
+         YXUyzbbDatgw3VK58kWEfIoGsiim5+2TJP7lOLP+S9LHWIAk6q2THbhca+RLPz5z6ewU
+         REwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699982423; x=1700587223;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3rKlcLic1qzOex60qzBrHqaG9Vs5/tn6fuZtH/qFUOA=;
+        b=LrmRkXr2g7Jlg16zRg91htE2V8GgNrdJbfoGVQ52LafdjDiZnTmNohzc2twzoVACUM
+         U2voPVd4nj27G+Uamrc7+uZDStkq3f/KbHDkqHO5++gPkJlDdgkpiLLdOmBt47FxybIl
+         YQ4fMsy1DiypubuAGr1O9sBZ2xZOaWavC+3iBd0zJiL8rupPRS1K5CYbO/uFLnpwkGP+
+         Oiy+/DyCjJutlXqlQq9951rmkLcJRV6/HN2VV3qPNCtlAe7izufAzCnxrxiQdd6xs8F9
+         XzzuzeHfwNtYSxXbesgvOUbNXBCqDgpw5MKK+FTMlCYAUCa9/MGh7C2hnx0lYRBgFjje
+         2NJA==
+X-Gm-Message-State: AOJu0YzYCB7vftEFEMEfchqw3TF555tSeweyyyxswjitLUQCMJ6zU15F
+	y3jdyofQa/NrtzDeDCdmaVdzmoQwU821g6bMt69+AQ==
+X-Google-Smtp-Source: AGHT+IGhSisnarNys5lTyq4VL5Encb5qZA5tBioOvi7RCHTSdUTNkv1pqYrWuCzXMyZa6ml0jbKaDxtpHidMHyJEskc=
+X-Received: by 2002:a17:906:c56:b0:9db:e46c:569 with SMTP id
+ t22-20020a1709060c5600b009dbe46c0569mr6783787ejf.45.1699982422867; Tue, 14
+ Nov 2023 09:20:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZVOXWx8XNJJNC23A@memverge.com>
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -7.33
-X-Spamd-Result: default: False [-7.33 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 BAYES_HAM(-1.23)[89.42%];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[18];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[kernel.org,jagalactic.com,gmail.com,vger.kernel.org,kvack.org,intel.com,linux-foundation.org,bytedance.com,cmpxchg.org,lwn.net,linux.dev,google.com,micron.com];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 SUSPICIOUS_RECIPS(1.50)[]
+References: <20231106231158.380730-1-nphamcs@gmail.com>
+In-Reply-To: <20231106231158.380730-1-nphamcs@gmail.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Tue, 14 Nov 2023 09:19:47 -0800
+Message-ID: <CAJD7tkbbkk1anw06fNpkHB==dmVPfDOja+Bae3uB3y7U_NaJnA@mail.gmail.com>
+Subject: Re: [PATCH v4] zswap: memcontrol: implement zswap writeback disabling
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com, 
+	hannes@cmpxchg.org, cerasuolodomenico@gmail.com, sjenning@redhat.com, 
+	ddstreet@ieee.org, vitaly.wool@konsulko.com, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, shakeelb@google.com, muchun.song@linux.dev, 
+	hughd@google.com, corbet@lwn.net, konrad.wilk@oracle.com, 
+	senozhatsky@chromium.org, rppt@kernel.org, linux-mm@kvack.org, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	david@ixit.cz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue 14-11-23 10:50:51, Gregory Price wrote:
-> On Tue, Nov 14, 2023 at 10:43:13AM +0100, Michal Hocko wrote:
-[...]
-> > That being said, I still believe that a cgroup based interface is a much
-> > better choice over a global one. Cpusets seem to be a good fit as the
-> > controller does control memory placement wrt NUMA interfaces.
-> 
-> I think cpusets is a non-starter due to the global spinlock required when
-> reading informaiton from it:
-> 
-> https://elixir.bootlin.com/linux/latest/source/kernel/cgroup/cpuset.c#L391
+On Mon, Nov 6, 2023 at 3:12=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote:
+>
+> During our experiment with zswap, we sometimes observe swap IOs due to
+> occasional zswap store failures and writebacks-to-swap. These swapping
+> IOs prevent many users who cannot tolerate swapping from adopting zswap
+> to save memory and improve performance where possible.
+>
+> This patch adds the option to disable this behavior entirely: do not
+> writeback to backing swapping device when a zswap store attempt fail,
+> and do not write pages in the zswap pool back to the backing swap
+> device (both when the pool is full, and when the new zswap shrinker is
+> called).
+>
+> This new behavior can be opted-in/out on a per-cgroup basis via a new
+> cgroup file. By default, writebacks to swap device is enabled, which is
+> the previous behavior. Initially, writeback is enabled for the root
+> cgroup, and a newly created cgroup will inherit the current setting of
+> its parent.
+>
+> Note that this is subtly different from setting memory.swap.max to 0, as
+> it still allows for pages to be stored in the zswap pool (which itself
+> consumes swap space in its current form).
+>
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
 
-Right, our current cpuset implementation indeed requires callback lock
-from the page allocator. But that is an implementation detail. I do not
-remember bug reports about the lock being a bottle neck though. If
-anything cpusets lock optimizations would be win also for users who do
-not want to use weighted interleave interface.
--- 
-Michal Hocko
-SUSE Labs
+LGTM,
+Reviewed-by: Yosry Ahmed <yosryahmed@google.com>
