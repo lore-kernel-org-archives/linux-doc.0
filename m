@@ -1,152 +1,116 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0648A168B1
-	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 09:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E893C134BE;
+	Tue, 14 Nov 2023 09:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Jp29hjQl"
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F65A1BE;
-	Tue, 14 Nov 2023 01:33:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dIJzcpP3MqmFMwiE0ghPH5dyD0xwwadjYhLbPXdji0X1QbX378N7Dv6N4yweF5aCHnX0IDkMbGVrCjbnOzUIPyvVszfgAvkRoHBdkpzgTjcVhnaXMi+diD3JK6stJkcB+xjVEPdiJ9fOdLFf+od6Vj2P3BrbzN2IJ71zciJHlQtmOOrJX2ZQXPmOrjXYuz1yJyY5nZzEhGIigNE35d7ynpSN3MVbT/nyNsocu8t++plMzJsLMscDd6O4IKcg7P/9sYxxaFIF9nb+HkIum85wPPNtOMFKw9ZTV104HHmzjkE9J+8/rrx0bCR5ioRC+uUgIgC8qUpcyGR5uZBtzQY8fQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wf26LuPwMrrCLn4aSWXWgoaHGclFRYNi2o0RKZWR4vE=;
- b=CyPRwL6IRTzA7wIPBl4dzmMowwOsmrxpKhCW1L9KQF2XEwBXoLrQiqmI201Yi81SamNh22o/SvNqUySi45Rrq/tXvf7QoeqxDPKkhLhmz6FrTktfX+eN6fwkLaNR7/N3VkSxRq02yCMe4Pt8K/2mgsR/wmvMd+x4zZIo4We6xp3UOPdphMi4Xr4/TcKfRUIFBXzOUdLa5fVTOurPsNHUHHdc6mqrS4sGdk5jZo8Nb5jxbfBmnbiJWNmopCVZuQKhddiJ+n0oEiMIhZi8uZsyPHJ5pjCAX/P//zn4ccroX5p1xxga2W76mpXOTjpua2EisGmue+aJLtCLBb4cJ+/iaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=sunsite.dk smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wf26LuPwMrrCLn4aSWXWgoaHGclFRYNi2o0RKZWR4vE=;
- b=Jp29hjQlybwkC3pH1Cba2+Q/BV+0oZ/wbtJ+JJNS+BV3DBEx8KZ6VU4rrTouoteTNNDgr2GUEQerITBdiYZing7Z0I4dwXXKp0z9E7WT4aIz9qQInkMmXlF3zW4o5E6ngBx4tsjj2bkvySuGU2YuIzyW5uJ4ZA4fh14g0wKEyYc=
-Received: from CY5P221CA0162.NAMP221.PROD.OUTLOOK.COM (2603:10b6:930:6a::28)
- by SJ1PR12MB6218.namprd12.prod.outlook.com (2603:10b6:a03:457::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Tue, 14 Nov
- 2023 09:33:33 +0000
-Received: from CY4PEPF0000E9D6.namprd05.prod.outlook.com
- (2603:10b6:930:6a:cafe::4c) by CY5P221CA0162.outlook.office365.com
- (2603:10b6:930:6a::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.32 via Frontend
- Transport; Tue, 14 Nov 2023 09:33:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000E9D6.mail.protection.outlook.com (10.167.241.80) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7002.13 via Frontend Transport; Tue, 14 Nov 2023 09:33:32 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Tue, 14 Nov
- 2023 03:33:32 -0600
-Received: from xhdsgoud40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.32 via Frontend
- Transport; Tue, 14 Nov 2023 03:33:28 -0600
-From: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-To: <git@amd.com>, <michal.simek@amd.com>, <jacmet@sunsite.dk>,
-	<gregkh@linuxfoundation.org>, <jirislaby@kernel.org>,
-	<linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<corbet@lwn.net>, <christophe.leroy@csgroup.eu>, <rdunlap@infradead.org>,
-	<airlied@redhat.com>, <ogabbay@kernel.org>, <linux-doc@vger.kernel.org>
-CC: <radhey.shyam.pandey@amd.com>, <srinivas.goud@amd.com>,
-	<shubhrajyoti.datta@amd.com>, <manion05gk@gmail.com>, Manikanta Guntupalli
-	<manikanta.guntupalli@amd.com>
-Subject: [PATCH V2 2/2] serial: uartlite: Use dynamic allocation for major number when uart ports > 4
-Date: Tue, 14 Nov 2023 15:03:03 +0530
-Message-ID: <20231114093303.2718141-3-manikanta.guntupalli@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231114093303.2718141-1-manikanta.guntupalli@amd.com>
-References: <20231114093303.2718141-1-manikanta.guntupalli@amd.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="NNhnrtvL"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFB61194;
+	Tue, 14 Nov 2023 01:43:17 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E139721898;
+	Tue, 14 Nov 2023 09:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1699954994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mgQsT0odT754L8z+3U8Ly6+wQgAtpd/CnwwQT/eWbGI=;
+	b=NNhnrtvLg8PfB8mUbc7N/HdOLXsPh/5OQiu6/44DHFXkC0f2rDOShtPI6i8AmkRnyQkfkf
+	f/FD25+V3Qbkqh+Rngko70mZD/q5bcV7E8Z+PLl24rZAadbP5r4k3qo3OaXj7tnRDRRtQU
+	OSy2FoNjadPlXc0Mxlo3tWXRjXaEQfg=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A731313416;
+	Tue, 14 Nov 2023 09:43:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id mqVVJzJBU2UgGAAAMHmgww
+	(envelope-from <mhocko@suse.com>); Tue, 14 Nov 2023 09:43:14 +0000
+Date: Tue, 14 Nov 2023 10:43:13 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: "tj@kernel.org" <tj@kernel.org>, John Groves <john@jagalactic.com>,
+	Gregory Price <gourry.memverge@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"ying.huang@intel.com" <ying.huang@intel.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+	"shakeelb@google.com" <shakeelb@google.com>,
+	"muchun.song@linux.dev" <muchun.song@linux.dev>,
+	"jgroves@micron.com" <jgroves@micron.com>
+Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
+Message-ID: <ZVNBMW8iJIGDyp0y@tiehlicka>
+References: <20231109002517.106829-1-gregory.price@memverge.com>
+ <klhcqksrg7uvdrf6hoi5tegifycjltz2kx2d62hapmw3ulr7oa@woibsnrpgox4>
+ <0100018bb64636ef-9daaf0c0-813c-4209-94e4-96ba6854f554-000000@email.amazonses.com>
+ <ZU6pR46kiuzPricM@slm.duckdns.org>
+ <ZU6uxSrj75EiXise@memverge.com>
+ <ZU7vjsSkGbRLza-K@slm.duckdns.org>
+ <ZU74L9oxWOoTTfpM@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D6:EE_|SJ1PR12MB6218:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7e95a56-c706-4ef3-22aa-08dbe4f4c4de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	LBoeoClLeflPZlAX517oUW2rQmcupotq+hXSBMQKWE9JMcSMYdqO4SIM6y/OVoUhGalbGf5loNKgvdzFCwfD/HNenCOhD0rVop2K/1jex4OJXeJlmih/7qSNlBbocIuwGaYt91UJhyhxyUY0bAcZoDqhDxhkX2H+7SBzC/HIjDkx+1Nd2C8MTPKel2yVAuzqwHhvAAZihe5IQgb73hJqHswgIlozi7ZJL9Y3JYLWKZ1k2fvP8qArN0W+xOvF7dTNn1M9iOkhDWAmAoHUsba+SCSoADRPxHZUlG2c1usXrR/L5CYTcv4ZB5/N61iyLGOH8ZneJwyPp3Ad4KuvSFJT0v5q1bidtwudA15ZGT84nK2oncNEbJFpYzgFqmuYQbE7ESc4GmUIUM469hTQbzTD78GFV9UYx65qlPK4KYcu1NU9e3mpevyQkWPbA/JyqwWr5oOmr8wR3IH6CyNbpBYTa+oJikzzugC1zxy/kdvaGHzZx3DNTynoSy3/oxr/AHz95C4IUXuXck7snysQyqF9I9K6ryTrCD/t5Q8kA+BRdyXUJOmkYUh9MqGDwZscbXbcTb2hmR6Y3wlTnTOXe3NvYEk86k/t4vozZIMhJCuYApwmVVUP1nhLJa5vzFi+slEwlwuDMuzaHmfZzOjcw0ijfmXEIiC1wl1ys4vrVd0QQ4QBHZrlvmQTBUknrOQSxfHdPpSbEB7nmhu+jr4/CanbkN4A/umSDELhoLGvUqUTNhNCN4RczNhQuk+zg2RBvain5bxW8RrdOmaYo/pxbAB8+xO6JXv0808qDbJOTuNDXl3509Q+328iKvWQym4oMbM8
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(39860400002)(346002)(136003)(230922051799003)(451199024)(1800799009)(82310400011)(64100799003)(186009)(40470700004)(36840700001)(46966006)(921008)(40480700001)(40460700003)(70206006)(54906003)(110136005)(70586007)(81166007)(82740400003)(356005)(36756003)(86362001)(36860700001)(83380400001)(26005)(426003)(336012)(1076003)(2616005)(6666004)(2906002)(41300700001)(478600001)(966005)(316002)(44832011)(5660300002)(47076005)(8936002)(7416002)(4326008)(8676002)(36900700001)(2101003)(83996005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 09:33:32.8008
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7e95a56-c706-4ef3-22aa-08dbe4f4c4de
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D6.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6218
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZU74L9oxWOoTTfpM@memverge.com>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -3.86
+X-Spamd-Result: default: False [-3.86 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 CLAM_VIRUS_FAIL(0.00)[failed to scan and retransmits exceed];
+	 BAYES_HAM(-1.76)[93.55%];
+	 NEURAL_HAM_LONG(-3.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-1.00)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[18];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[kernel.org,jagalactic.com,gmail.com,vger.kernel.org,kvack.org,intel.com,linux-foundation.org,bytedance.com,cmpxchg.org,lwn.net,linux.dev,google.com,micron.com];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 SUSPICIOUS_RECIPS(1.50)[]
 
-Device number 204 has a range of minors on major number.
-uart_register_driver is failing due to lack of minor numbers
-when more number of uart ports used. So, to avoid minor number
-limitation on 204 major number use dynamic major allocation
-when more than 4 uart ports used otherwise use static major
-allocation.
+On Fri 10-11-23 22:42:39, Gregory Price wrote:
+[...]
+> If I can ask, do you think it would be out of line to propose a major
+> refactor to mempolicy to enable external task's the ability to change a
+> running task's mempolicy *as well as* a cgroup-wide mempolicy component?
 
-https://docs.kernel.org/arch/arm/sa1100/serial_uart.html
+No, I actually think this is a reasonable idea. pidfd_setmempolicy is a
+generally useful extension. The mempolicy code is heavily current task
+based and there might be some challenges but I believe this will a)
+improve the code base and b) allow more usecases.
 
-Signed-off-by: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
----
-Changes for V2:
-Update logic to use either static or dynamic major allocation.
-Update commit description.
-Update description of SERIAL_UARTLITE_NR_UARTS in Kconfig.
----
- drivers/tty/serial/Kconfig    | 2 ++
- drivers/tty/serial/uartlite.c | 5 +++++
- 2 files changed, 7 insertions(+)
-
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index 732c893c8d16..368c63066a86 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -532,6 +532,8 @@ config SERIAL_UARTLITE_NR_UARTS
- 	help
- 	  Set this to the number of uartlites in your system, or the number
- 	  you think you might implement.
-+	  If maximum number of uartlite serial ports more than 4, then driver uses
-+	  dynamic allocation instead of static allocation for major number.
- 
- config SERIAL_SUNCORE
- 	bool
-diff --git a/drivers/tty/serial/uartlite.c b/drivers/tty/serial/uartlite.c
-index 404c14acafa5..517f1f34143d 100644
---- a/drivers/tty/serial/uartlite.c
-+++ b/drivers/tty/serial/uartlite.c
-@@ -24,8 +24,13 @@
- #include <linux/pm_runtime.h>
- 
- #define ULITE_NAME		"ttyUL"
-+#if (CONFIG_SERIAL_UARTLITE_NR_UARTS > 4)
-+#define ULITE_MAJOR             0       /* use dynamic node allocation */
-+#define ULITE_MINOR             0
-+#else
- #define ULITE_MAJOR		204
- #define ULITE_MINOR		187
-+#endif
- #define ULITE_NR_UARTS		CONFIG_SERIAL_UARTLITE_NR_UARTS
- 
- /* ---------------------------------------------------------------------
+That being said, I still believe that a cgroup based interface is a much
+better choice over a global one. Cpusets seem to be a good fit as the
+controller does control memory placement wrt NUMA interfaces.
 -- 
-2.25.1
-
+Michal Hocko
+SUSE Labs
