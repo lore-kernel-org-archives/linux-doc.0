@@ -1,31 +1,31 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CFE2D62C;
-	Tue, 14 Nov 2023 11:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808B83E46A;
+	Tue, 14 Nov 2023 11:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pcoSlQhj"
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0BB1BD;
-	Tue, 14 Nov 2023 03:28:57 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 590736000B;
-	Tue, 14 Nov 2023 11:28:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kX5BXEua"
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9CD6D6B;
+	Tue, 14 Nov 2023 03:29:00 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E88FC60011;
+	Tue, 14 Nov 2023 11:28:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699961336;
+	t=1699961339;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fTFlVLwCnwNosdSRaYT8M2FlIV0h7hvqkTQ58WCJDWw=;
-	b=pcoSlQhjbg9SnMn9iJ0WtD9UD7q1CmUfc7XViSS5jPyQOOB0cEO/sX36IqWGyg4oHIdACV
-	qpiQICAexHuSHe5lzuXtOGv77GC4uwlAYr/0CQQRIN2AsztGYW/9nfN69QoXdaS3xIkUyU
-	Yzfvh6xDO1UZOy5/MhC3zJ32jFgA031LFVxXQpazqCA8RnXR+s+dNlGBXNkJ08MCOzksL9
-	C81RsMYkkuOLQI/m117zipbw/hs1FQ4J0BddIcHMDTxWkIKgTmzivQvTRfQACuP/7meFv+
-	MjeteGVNRrBn8xW5Y2VRdmze997Wdrm6xjU+oAajb7xTefOqKvMMgSa9imvHWg==
+	bh=10SiBN/4Fj+hMV2c6j8AN3pqV9PZiveL87TjssWFLBw=;
+	b=kX5BXEuakP80zkXB1Wo+QuoL8r+kM1cW+aefIK98bBhvLJMSosQHavmDq3e09P4HllWxNb
+	4TRSSYMKpKf4FP5WEEtmSX9zfBFpijdKI8pTuVIkyaBThZEZ0FmU9h4j/ms6NhyiuKQJTc
+	+nKVdDMD/G9P+W0XnNavlY5QLlaPiQxADQFaLIGHWUILied92JsK8LfUBs5tRsZRZgN4Pf
+	2hSuEo8QXL4CMCGX9mI+HDCjPDGQHeL8c1gb25TXFtnDdxWqjyXC4894MeHWxvEcTB4h1U
+	liJ/1geR+j5bLD153qeiB73bJRKh6mX+6U80y8EymPrIrwFIvf19wboU5aPOvQ==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Tue, 14 Nov 2023 12:28:33 +0100
-Subject: [PATCH net-next v7 05/16] net: Make dev_set_hwtstamp_phylib
- accessible
+Date: Tue, 14 Nov 2023 12:28:35 +0100
+Subject: [PATCH net-next v7 07/16] net_tstamp: Add TIMESTAMPING SOFTWARE
+ and HARDWARE mask
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231114-feature_ptp_netnext-v7-5-472e77951e40@bootlin.com>
+Message-Id: <20231114-feature_ptp_netnext-v7-7-472e77951e40@bootlin.com>
 References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
 In-Reply-To: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -59,59 +59,36 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-Make the dev_set_hwtstamp_phylib function accessible in prevision to use
-it from ethtool to reset the tstamp current configuration.
+Timestamping software or hardware flags are often used as a group,
+therefore adding these masks will easier future use.
 
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+I did not use SOF_TIMESTAMPING_SYS_HARDWARE flag as it is deprecated and
+not use at all.
+
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
+ include/uapi/linux/net_tstamp.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Change in v6:
-- Add missing EXPORT_SYMBOL_GPL call.
----
- include/linux/netdevice.h | 3 +++
- net/core/dev_ioctl.c      | 7 ++++---
- 2 files changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index a16c9cc063fe..2d840d7056f2 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -3942,6 +3942,9 @@ int generic_hwtstamp_get_lower(struct net_device *dev,
- int generic_hwtstamp_set_lower(struct net_device *dev,
- 			       struct kernel_hwtstamp_config *kernel_cfg,
- 			       struct netlink_ext_ack *extack);
-+int dev_set_hwtstamp_phylib(struct net_device *dev,
-+			    struct kernel_hwtstamp_config *cfg,
-+			    struct netlink_ext_ack *extack);
- int dev_ethtool(struct net *net, struct ifreq *ifr, void __user *userdata);
- unsigned int dev_get_flags(const struct net_device *);
- int __dev_change_flags(struct net_device *dev, unsigned int flags,
-diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
-index feeddf95f450..9a66cf5015f2 100644
---- a/net/core/dev_ioctl.c
-+++ b/net/core/dev_ioctl.c
-@@ -322,9 +322,9 @@ static int dev_get_hwtstamp(struct net_device *dev, struct ifreq *ifr)
-  * frames and not forward them), it must set IFF_SEE_ALL_HWTSTAMP_REQUESTS in
-  * dev->priv_flags.
-  */
--static int dev_set_hwtstamp_phylib(struct net_device *dev,
--				   struct kernel_hwtstamp_config *cfg,
--				   struct netlink_ext_ack *extack)
-+int dev_set_hwtstamp_phylib(struct net_device *dev,
-+			    struct kernel_hwtstamp_config *cfg,
-+			    struct netlink_ext_ack *extack)
- {
- 	const struct net_device_ops *ops = dev->netdev_ops;
- 	bool phy_ts = phy_has_hwtstamp(dev->phydev);
-@@ -363,6 +363,7 @@ static int dev_set_hwtstamp_phylib(struct net_device *dev,
+diff --git a/include/uapi/linux/net_tstamp.h b/include/uapi/linux/net_tstamp.h
+index a2c66b3d7f0f..df8091998c8d 100644
+--- a/include/uapi/linux/net_tstamp.h
++++ b/include/uapi/linux/net_tstamp.h
+@@ -48,6 +48,14 @@ enum {
+ 					 SOF_TIMESTAMPING_TX_SCHED | \
+ 					 SOF_TIMESTAMPING_TX_ACK)
  
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(dev_set_hwtstamp_phylib);
- 
- static int dev_set_hwtstamp(struct net_device *dev, struct ifreq *ifr)
- {
++#define SOF_TIMESTAMPING_SOFTWARE_MASK	(SOF_TIMESTAMPING_RX_SOFTWARE | \
++					 SOF_TIMESTAMPING_TX_SOFTWARE | \
++					 SOF_TIMESTAMPING_SOFTWARE)
++
++#define SOF_TIMESTAMPING_HARDWARE_MASK	(SOF_TIMESTAMPING_RX_HARDWARE | \
++					 SOF_TIMESTAMPING_TX_HARDWARE | \
++					 SOF_TIMESTAMPING_RAW_HARDWARE)
++
+ /**
+  * struct so_timestamping - SO_TIMESTAMPING parameter
+  *
 
 -- 
 2.25.1
