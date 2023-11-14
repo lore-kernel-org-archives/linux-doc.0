@@ -1,48 +1,48 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F801405F8
-	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 14:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7E3405F8
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 14:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="hUSQzEYx"
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 430AF1988
-	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 06:13:49 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-3b2d9a9c824so804132b6e.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 06:13:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="MY51Ax27"
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70BF6198
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 06:13:51 -0800 (PST)
+Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-77bccdea0ffso8945985a.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 06:13:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1699971229; x=1700576029; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1699971230; x=1700576030; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mh7tTRDZwkplFE7US+z6W8VzyVO8RyK0Ie0Y8NEIF5E=;
-        b=hUSQzEYxSqtpXhZryoDQyf6T2bwSWy2PezPYVtkDwdSNoPNwng/3so7MU1XDNjeA/w
-         QvOI5lXvI28bs3RpdVkrJALKQiwBDDaGa8CScHXgtByUAn1F3pJkGKtJxHWKd8lde5mv
-         W4WfqkWKG8Vw15QMAiRNOD4hUv6kSAf8dAtwMW06N7C8j4XXB/Z+WFscmSyDTqWfcSrv
-         ifteDEfNtrIBbKfjPv6itTdjBL2sBnR6DuZTmzd8GJaRa4i6t7PTkDioqF5VrDr4IDuG
-         oy8GSFb5VO6vBT7WO+AdMgo89i+VVkubA3rsssc+efvpau06eP98/FSCPV0VYPQudjW9
-         HMCw==
+        bh=B5yYxDd+9V9reUvZ2DQpNcNkqEc4BDOdQVkeYdlaxbs=;
+        b=MY51Ax27YlLXH6RdZ9FPltzrsU4CjToYoLGJjczl4zoY/6moxzyB2DhkuP9AeAy3tp
+         b1o8+5toiyB6L2eS0HOBANnRsIl+zMEXS0gs/+PAdv1nBdMIQdMjQeLS4pFqCqMf+DGp
+         l5bkevWMQ9Q50K91C2z9O4KInkCP8O3FwnLufOsaqGoLSAsMsiPMHEE1jJssRBW1D7j2
+         eQuNtwCM6C1FaJiabShZ6jQw6i1kUvLmt/oLZZyBqCv0I/OWy2P2Wfz1ZFrf9LfK8EH+
+         oQ+cHJvxnA0Uc2tTZfdWkqUoxaq5y3wwkuWO6JeHoTBUWSaMqQremWO+jZzOLEYiDY50
+         FjOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699971229; x=1700576029;
+        d=1e100.net; s=20230601; t=1699971230; x=1700576030;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Mh7tTRDZwkplFE7US+z6W8VzyVO8RyK0Ie0Y8NEIF5E=;
-        b=clT71WlcXxxCeeZZlATF9XbQlb5CNvdIIQyp1c6AfuZtkVAP84p7ICzKPyfaXvz+G0
-         kj5fPVu0qXWYE6B41MQdI3/YT5W7+RHVYrDHDsNPIQPthlHod2VD1vq4qQG1Jm5pzNO1
-         hHWRex1x4/T2Q2hl6oArt4/VCGm3oorI84zfgOCRR7qTVyKWqTqKXDe1bfWnMAif1ZrV
-         98GrSWrWHdBtEwv7Ethm7v5FiV3e5xfFRHoDjdAkPump0pvjQ3bi8Ukg3P2ETJmrAP1R
-         FE1Qy8bBdoF7Gyx9suH6s/lRYG41CwWqNgAAL+LXfs7xo3proNaKMuGacDMbcYgJj6dP
-         BioA==
-X-Gm-Message-State: AOJu0YzG6AFEDuRnNh0LmX1AR+ANEzYLs3IUeMXdN8ccEhp1M/bzAUcQ
-	udKVXBsORVGgObD0cGipRy/VSQ==
-X-Google-Smtp-Source: AGHT+IGkxt/nZ/twmuaXiKz9xS1+QSbiEolPjI0eAyguNp2BxYnPRpCdPEUVfljS4ZnrA7PBhdlykg==
-X-Received: by 2002:a05:6808:1a2a:b0:3b5:65c2:fef4 with SMTP id bk42-20020a0568081a2a00b003b565c2fef4mr2571171oib.5.1699971229027;
-        Tue, 14 Nov 2023 06:13:49 -0800 (PST)
+        bh=B5yYxDd+9V9reUvZ2DQpNcNkqEc4BDOdQVkeYdlaxbs=;
+        b=lo93ETDsKugGdEr4+taev2x2hHFOtLUo6omKlnORP8eyinxMbQJze/oNlaeGxMGqrm
+         ZogLCTimewD4R+3SC4MT3v9OQ8pIj2FROf6ma7SbiFjPUDi6WD5DPRT+Y8jfBJyQTvZy
+         6InQt1Lnl8gizFSUSOcaTjc4mV1pgnKb0OuR5gSxPlACUdz4PiFnbTsaAYGT7DOG68MD
+         1jXBQz7dFxRfKycVB8hZEYZG4UmcK4/Lx9YR0YhHieM5tZj0PRcWRIX5ROXQAtCAxbyX
+         zolXzM8okmRgjJk85X+OkrbRCrIBxJx6lmR2dOrOCfo2Dnee98b6oT+l3jrZneBMBKy/
+         Nb0A==
+X-Gm-Message-State: AOJu0YwyEFV/I+d0c98vHD5ozMux6I0Je6nwAjUDtqXjHRCsC1t2LsvL
+	DXo4PcUoRs0HUAxJNu0s4z9JGA==
+X-Google-Smtp-Source: AGHT+IFptxx2Guy0DQYVfc+KvtPdCaNrZCEFFfEn6l2iik1hGkFfOg6ndZjt6u/AUGRVAMsa0MAFtQ==
+X-Received: by 2002:a05:620a:370d:b0:774:17d6:31dc with SMTP id de13-20020a05620a370d00b0077417d631dcmr2397859qkb.4.1699971230375;
+        Tue, 14 Nov 2023 06:13:50 -0800 (PST)
 Received: from carbon-x1.. ([12.186.190.2])
-        by smtp.gmail.com with ESMTPSA id m2-20020a05620a220200b00777611164c5sm2701263qkh.106.2023.11.14.06.13.48
+        by smtp.gmail.com with ESMTPSA id m2-20020a05620a220200b00777611164c5sm2701263qkh.106.2023.11.14.06.13.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 06:13:48 -0800 (PST)
+        Tue, 14 Nov 2023 06:13:49 -0800 (PST)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: linux-riscv@lists.infradead.org,
 	devicetree@vger.kernel.org,
@@ -59,10 +59,11 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	Evan Green <evan@rivosinc.com>,
 	Conor Dooley <conor@kernel.org>,
 	Samuel Ortiz <sameo@rivosinc.com>,
-	Jerry Shih <jerry.shih@sifive.com>
-Subject: [PATCH v4 13/20] riscv: hwprobe: export Zhintntl ISA extension
-Date: Tue, 14 Nov 2023 09:12:49 -0500
-Message-ID: <20231114141256.126749-14-cleger@rivosinc.com>
+	Jerry Shih <jerry.shih@sifive.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v4 14/20] dt-bindings: riscv: add Zihintntl ISA extension description
+Date: Tue, 14 Nov 2023 09:12:50 -0500
+Message-ID: <20231114141256.126749-15-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231114141256.126749-1-cleger@rivosinc.com>
 References: <20231114141256.126749-1-cleger@rivosinc.com>
@@ -75,55 +76,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Export Zihintntl extension[1] through hwprobe.
+Add description for Zihintntl ISA extension[1].
 
 Link: https://drive.google.com/file/d/13_wsN8YmRfH8YWysFyTX-DjTkCnBd9hj/view [1]
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
-Reviewed-by: Evan Green <evan@rivosinc.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- Documentation/arch/riscv/hwprobe.rst  | 3 +++
- arch/riscv/include/uapi/asm/hwprobe.h | 1 +
- arch/riscv/kernel/sys_riscv.c         | 1 +
- 3 files changed, 5 insertions(+)
+ Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 397d53195f49..aa8ebeeddfe6 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -146,6 +146,9 @@ The following keys are defined:
-   * :c:macro:`RISCV_HWPROBE_EXT_ZFHMIN`: The Zfhmin extension version 1.0 is
-        supported as defined in the RISC-V ISA manual.
+diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+index f3c99e69619b..f953c49be90d 100644
+--- a/Documentation/devicetree/bindings/riscv/extensions.yaml
++++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+@@ -339,6 +339,12 @@ properties:
+             The standard Zihintpause extension for pause hints, as ratified in
+             commit d8ab5c7 ("Zihintpause is ratified") of the riscv-isa-manual.
  
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZIHINTNTL`: The Zihintntl extension version 1.0
-+       is supported as defined in the RISC-V ISA manual.
++        - const: zihintntl
++          description:
++            The standard Zihintntl extension for non-temporal locality hints, as
++            ratified in commit 0dc91f5 ("Zihintntl is ratified") of the
++            riscv-isa-manual.
 +
- * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
-   information about the selected set of processors.
- 
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 2d960777ea43..d72c69ea0740 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -52,6 +52,7 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_EXT_ZVKT		(1 << 26)
- #define		RISCV_HWPROBE_EXT_ZFH		(1 << 27)
- #define		RISCV_HWPROBE_EXT_ZFHMIN	(1 << 28)
-+#define		RISCV_HWPROBE_EXT_ZIHINTNTL	(1 << 29)
- #define RISCV_HWPROBE_KEY_CPUPERF_0	5
- #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-index d776c6c39fcd..a46e4f6821dd 100644
---- a/arch/riscv/kernel/sys_riscv.c
-+++ b/arch/riscv/kernel/sys_riscv.c
-@@ -173,6 +173,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
- 		EXT_KEY(ZKSED);
- 		EXT_KEY(ZKSH);
- 		EXT_KEY(ZKT);
-+		EXT_KEY(ZIHINTNTL);
- 
- 		if (has_vector()) {
- 			EXT_KEY(ZVBB);
+         - const: zihpm
+           description:
+             The standard Zihpm extension for hardware performance counters, as
 -- 
 2.42.0
 
