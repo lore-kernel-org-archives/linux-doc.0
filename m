@@ -1,144 +1,122 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCD93E48B
-	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 16:42:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942922AF09;
+	Tue, 14 Nov 2023 17:01:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GERmnqXC"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 314EC120
-	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 08:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699980157;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Vymp8y4N"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2781B11D;
+	Tue, 14 Nov 2023 09:01:16 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4E1B720466;
+	Tue, 14 Nov 2023 17:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1699981274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=S0c77MRIfmEGYCNMMqVyI2qPOnHUBgvpZCQHCynNgK8=;
-	b=GERmnqXCS6btgTnkvNuXwSapr4qSlrZNXnedtzpItu6Alli8MhEmNFIZ1B2bfAhuVLH6FH
-	PmjrjMpyRn5mvrsWxxQWmmHGvzkG3XCeJiUGL4YCkefKnwA52PQVDGTIV3pfQMzyHU1A/h
-	xx01W3rsJ3vqk7XbDym1ycEAvVshJSM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-457-VFCiVRHYOk6BZkmP6rEBqg-1; Tue, 14 Nov 2023 11:42:35 -0500
-X-MC-Unique: VFCiVRHYOk6BZkmP6rEBqg-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-543f1c6dcaeso3929096a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 08:42:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699980155; x=1700584955;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S0c77MRIfmEGYCNMMqVyI2qPOnHUBgvpZCQHCynNgK8=;
-        b=XI8Fmw9+ZNIAtsnZe+byacW+0wkQoyIBYJO9WLjeg2b7oW0Suk7Cpp3NwYKmHbq0pA
-         ze/XdRnXrB3eQvzdEK/EnTMDTtH8aPFNfOr7qkd0VP8qmwFwAf+EJCbNDTqAF3aJ5rnE
-         2rtZjcs1Qrc0xzqm/MjCXH65zFbd8GPKQzNQFa7rfoUcQMN3rub5K1HPihZ2VFIWtXFS
-         NtqlGF59dcj6uA/DrvBgn/P2JYU0NVHdIojHHoZ+2uHlWL4cbzCgxTsHOgTHMFobYvjO
-         bVajkcBFajlYEMLrbChpPce/sRbem7V1qyiuCuvnrqaYVb5Bj5zfoFnJqqSbsgRLqB0H
-         vWkw==
-X-Gm-Message-State: AOJu0YxdGk2iyRUgqlMoYhR6XOTRnMe8cF7uUZ9YiTUkPPKbYg/ASXir
-	IeJAp2n4my/ncKuOS3IAcz7rQWF1LOQGijTF/aXEt81kx00ttyGn5sHMtdcTaar20XgzmMsChSB
-	NqArX/WnyC6/XQHHXj+Y0
-X-Received: by 2002:a17:906:4f13:b0:9df:bc50:2513 with SMTP id t19-20020a1709064f1300b009dfbc502513mr7274337eju.65.1699980154875;
-        Tue, 14 Nov 2023 08:42:34 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHfn4c24R5W4bd+EVwrMNaRwBMuNVIsC9zYOUo2FKiKsCdAOBsvD6dioe9WjEOnxb9D3QGFVw==
-X-Received: by 2002:a17:906:4f13:b0:9df:bc50:2513 with SMTP id t19-20020a1709064f1300b009dfbc502513mr7274298eju.65.1699980154501;
-        Tue, 14 Nov 2023 08:42:34 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b? ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
-        by smtp.gmail.com with ESMTPSA id y19-20020a170906525300b009a13fdc139fsm5766753ejm.183.2023.11.14.08.42.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Nov 2023 08:42:34 -0800 (PST)
-Message-ID: <e517d560-3a1f-4e79-9bec-acdc77784bcd@redhat.com>
-Date: Tue, 14 Nov 2023 17:42:32 +0100
+	bh=pp5MU1mHRjsqLkYt40/eJ62sb2ubZSHcqYSme/SFRAA=;
+	b=Vymp8y4Np6RqKAUi4obDcB2t1u06UfNJq6yFum9ob2d3yda1xJJIZ4eNApAbtaokGGZN1t
+	httMG8yhPmIA1hjxQ68V6+WkIV9rkPYueMR2yUzOffG1gi6RST9Il1nIzWxofc49KEO6l7
+	oMU3b6ciIU2QAH8IVRv/MS1pqDMpkuQ=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2362513416;
+	Tue, 14 Nov 2023 17:01:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id P9GsBdqnU2XYAwAAMHmgww
+	(envelope-from <mhocko@suse.com>); Tue, 14 Nov 2023 17:01:14 +0000
+Date: Tue, 14 Nov 2023 18:01:13 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: "tj@kernel.org" <tj@kernel.org>, John Groves <john@jagalactic.com>,
+	Gregory Price <gourry.memverge@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"ying.huang@intel.com" <ying.huang@intel.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+	"shakeelb@google.com" <shakeelb@google.com>,
+	"muchun.song@linux.dev" <muchun.song@linux.dev>,
+	"jgroves@micron.com" <jgroves@micron.com>
+Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
+Message-ID: <ZVOn2T_Qg_NTKlB2@tiehlicka>
+References: <20231109002517.106829-1-gregory.price@memverge.com>
+ <klhcqksrg7uvdrf6hoi5tegifycjltz2kx2d62hapmw3ulr7oa@woibsnrpgox4>
+ <0100018bb64636ef-9daaf0c0-813c-4209-94e4-96ba6854f554-000000@email.amazonses.com>
+ <ZU6pR46kiuzPricM@slm.duckdns.org>
+ <ZU6uxSrj75EiXise@memverge.com>
+ <ZU7vjsSkGbRLza-K@slm.duckdns.org>
+ <ZU74L9oxWOoTTfpM@memverge.com>
+ <ZVNBMW8iJIGDyp0y@tiehlicka>
+ <ZVOXWx8XNJJNC23A@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 02/20] drm/gpuvm: Helper to get range of unmap from a
- remap op.
-Content-Language: en-US
-To: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org
-Cc: frank.binns@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, faith.ekstrand@collabora.com,
- airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, afd@ti.com, hns@goldelico.com,
- matthew.brost@intel.com, christian.koenig@amd.com, luben.tuikov@amd.com,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20231031151257.90350-1-sarah.walker@imgtec.com>
- <20231031151257.90350-3-sarah.walker@imgtec.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20231031151257.90350-3-sarah.walker@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZVOXWx8XNJJNC23A@memverge.com>
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -7.33
+X-Spamd-Result: default: False [-7.33 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 BAYES_HAM(-1.23)[89.42%];
+	 NEURAL_HAM_LONG(-3.00)[-1.000];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-1.00)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[18];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[kernel.org,jagalactic.com,gmail.com,vger.kernel.org,kvack.org,intel.com,linux-foundation.org,bytedance.com,cmpxchg.org,lwn.net,linux.dev,google.com,micron.com];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 SUSPICIOUS_RECIPS(1.50)[]
 
-On 10/31/23 16:12, Sarah Walker wrote:
-> From: Donald Robson <donald.robson@imgtec.com>
+On Tue 14-11-23 10:50:51, Gregory Price wrote:
+> On Tue, Nov 14, 2023 at 10:43:13AM +0100, Michal Hocko wrote:
+[...]
+> > That being said, I still believe that a cgroup based interface is a much
+> > better choice over a global one. Cpusets seem to be a good fit as the
+> > controller does control memory placement wrt NUMA interfaces.
 > 
-> Determining the start and range of the unmap stage of a remap op is a
-> common piece of code currently implemented by multiple drivers. Add a
-> helper for this.
+> I think cpusets is a non-starter due to the global spinlock required when
+> reading informaiton from it:
 > 
-> Changes since v7:
-> - Renamed helper to drm_gpuva_op_remap_to_unmap_range()
-> - Improved documentation
-> 
-> Changes since v6:
-> - Remove use of __always_inline
-> 
-> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
-> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+> https://elixir.bootlin.com/linux/latest/source/kernel/cgroup/cpuset.c#L391
 
-Reviewed-by: Danilo Krummrich <dakr@redhat.com>
-
-Want me to apply the patch?
-
-> ---
->   include/drm/drm_gpuvm.h | 28 ++++++++++++++++++++++++++++
->   1 file changed, 28 insertions(+)
-> 
-> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> index c7ed6bf441d4..c64585dc4e8e 100644
-> --- a/include/drm/drm_gpuvm.h
-> +++ b/include/drm/drm_gpuvm.h
-> @@ -702,4 +702,32 @@ void drm_gpuva_remap(struct drm_gpuva *prev,
->   
->   void drm_gpuva_unmap(struct drm_gpuva_op_unmap *op);
->   
-> +/**
-> + * drm_gpuva_op_remap_to_unmap_range() - Helper to get the start and range of
-> + * the unmap stage of a remap op.
-> + * @op: Remap op.
-> + * @start_addr: Output pointer for the start of the required unmap.
-> + * @range: Output pointer for the length of the required unmap.
-> + *
-> + * The given start address and range will be set such that they represent the
-> + * range of the address space that was previously covered by the mapping being
-> + * re-mapped, but is now empty.
-> + */
-> +static inline void
-> +drm_gpuva_op_remap_to_unmap_range(const struct drm_gpuva_op_remap *op,
-> +				  u64 *start_addr, u64 *range)
-> +{
-> +	const u64 va_start = op->prev ?
-> +			     op->prev->va.addr + op->prev->va.range :
-> +			     op->unmap->va->va.addr;
-> +	const u64 va_end = op->next ?
-> +			   op->next->va.addr :
-> +			   op->unmap->va->va.addr + op->unmap->va->va.range;
-> +
-> +	if (start_addr)
-> +		*start_addr = va_start;
-> +	if (range)
-> +		*range = va_end - va_start;
-> +}
-> +
->   #endif /* __DRM_GPUVM_H__ */
-
+Right, our current cpuset implementation indeed requires callback lock
+from the page allocator. But that is an implementation detail. I do not
+remember bug reports about the lock being a bottle neck though. If
+anything cpusets lock optimizations would be win also for users who do
+not want to use weighted interleave interface.
+-- 
+Michal Hocko
+SUSE Labs
