@@ -1,258 +1,158 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BBF41762
-	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 15:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AC241771;
+	Tue, 14 Nov 2023 15:51:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MqJBHt7H";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qp1ocROc"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3636212F;
-	Tue, 14 Nov 2023 07:41:02 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A634020292;
-	Tue, 14 Nov 2023 15:41:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1699976460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=HlKJwJwbkvn8CVCt9tJ50RwvruPmU0ls+jBVFbTXQSs=;
-	b=MqJBHt7HpUpC72tXaxADkMsEOh7xii44d3ZNsHMgHo+wecdI2jFsHHpIoQIrCCL76/4fAE
-	Bxd/0fKbnZl6R4yVnF2nxmC6Hx4ZQK9709BVKk+M+jDeSR8QmOeS9BbTQqKvcS+jDUpxpH
-	0xLo+AiLhNiEJyGRmPx+DPrC9EpRg7E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1699976460;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=HlKJwJwbkvn8CVCt9tJ50RwvruPmU0ls+jBVFbTXQSs=;
-	b=qp1ocROcWVcyfokDcmxMCAQZ+gkPyw8ydI02stzPa21teJGFRFx+7Xj/HPlJvL6JJ6Yk4c
-	jpVDIjsEEPoFXnAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 485BB13460;
-	Tue, 14 Nov 2023 15:41:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id krlREAyVU2V8VwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 14 Nov 2023 15:41:00 +0000
-Message-ID: <9296c184-22c1-4d71-8b11-2d26f49a5790@suse.de>
-Date: Tue, 14 Nov 2023 16:40:59 +0100
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="Ygoe5pFV"
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F0EFE;
+	Tue, 14 Nov 2023 07:51:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fBavb1OJRuhNdPmd3WZaXH8ZhV0kzJqo2XZQJsQ4F/1vkcrwFRJFSLI3OQxnG+V1AubVK8rv/hpHa7MafdAj5Wx2ktI83Z/qi9jN7ZmMrUFH73QCgf1ueyioY75B1xn7pQbx5tqlqUz6gjLt0pryECIXw7j7NUpR4gyFLtbyovvxhNZLby7hJr7rzJx6vKUk67lbBHnq6ZR+gOOJccxnW7QxAqIWsvE8qayHatuG0MW/fBepKLkgleOtipxRp7iLsxX3dr+o5Rla1Ij7b20ktyqelp3WpQLaUe2+IWSw9Tyoo7yNueAOAZlaG8WpyQccmJlXA8672DE9hFUh1SBA1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D2s5yCu+VBTc0peJFZhX9wSLIQyGUKKnAx53gD1QYE4=;
+ b=UfMPtXo2iBbwaR0C7zrDUk6t7TZaci4s4KrckfnOAo5yHQ8rrXNYRfHwHjvgRU5jtFqx+BMXBtFg4GSJsN/ozWUmna/2tCPVfW8SO07wUeCZV5IAm0TbUWzXqYud0ZY6rYcaLtUVy0q4BJqqbKEFUik1NA+NWCG1VTxDRjO8JScMoFWjTImGTSjTiaB/cqmts5a3/6BLjxVNzj1ELBlrEBRbQPye7AbCX8akh/0hSyNPAcRcyIHAelrscQgI4scySDHF4moDPn6Q1/YDoP/Wl2Ac5cFATQ0K59NGvd/XF59i8KJ2LqZ5n/vfpSgoU5H1QVY5QRxsm5MWNWfYJR1TlQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D2s5yCu+VBTc0peJFZhX9wSLIQyGUKKnAx53gD1QYE4=;
+ b=Ygoe5pFVCwT/mPn9e3VJ69tteAVgmtVeKvTqkpooOitKFfx7oZKx5b9EWNpwTxmddV9oth8TGOU/5nfwzS/BRhC1BkyjR9LNQ+wpvnqsNORj4nqi8wpx2RUpypgI8RmGxz6MOo1pbSL3hetHQCC3WhtM6FZX5RUtXuI8LWrXsuI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by MN2PR17MB3966.namprd17.prod.outlook.com (2603:10b6:208:20d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.17; Tue, 14 Nov
+ 2023 15:50:57 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7002.015; Tue, 14 Nov 2023
+ 15:50:56 +0000
+Date: Tue, 14 Nov 2023 10:50:51 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Michal Hocko <mhocko@suse.com>
+Cc: "tj@kernel.org" <tj@kernel.org>, John Groves <john@jagalactic.com>,
+	Gregory Price <gourry.memverge@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"ying.huang@intel.com" <ying.huang@intel.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+	"shakeelb@google.com" <shakeelb@google.com>,
+	"muchun.song@linux.dev" <muchun.song@linux.dev>,
+	"jgroves@micron.com" <jgroves@micron.com>
+Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
+Message-ID: <ZVOXWx8XNJJNC23A@memverge.com>
+References: <20231109002517.106829-1-gregory.price@memverge.com>
+ <klhcqksrg7uvdrf6hoi5tegifycjltz2kx2d62hapmw3ulr7oa@woibsnrpgox4>
+ <0100018bb64636ef-9daaf0c0-813c-4209-94e4-96ba6854f554-000000@email.amazonses.com>
+ <ZU6pR46kiuzPricM@slm.duckdns.org>
+ <ZU6uxSrj75EiXise@memverge.com>
+ <ZU7vjsSkGbRLza-K@slm.duckdns.org>
+ <ZU74L9oxWOoTTfpM@memverge.com>
+ <ZVNBMW8iJIGDyp0y@tiehlicka>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZVNBMW8iJIGDyp0y@tiehlicka>
+X-ClientProxiedBy: SJ0PR03CA0090.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::35) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] drm: Allow the damage helpers to handle buffer damage
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Simon Ser <contact@emersion.fr>, Sima Vetter <daniel.vetter@ffwll.ch>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Maxime Ripard <mripard@kernel.org>, Bilal Elmoussaoui <belmouss@redhat.com>,
- Erico Nunes <nunes.erico@gmail.com>, Chia-I Wu <olvaffe@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org
-References: <20231109172449.1599262-1-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20231109172449.1599262-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------5YCjGXD3oNwS5CkagncGMU0C"
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Score: 1.51
-X-Spamd-Result: default: False [1.51 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_SPAM(5.10)[100.00%];
-	 XM_UA_NO_VERSION(0.01)[];
-	 TO_DN_SOME(0.00)[];
-	 HAS_ATTACHMENT(0.00)[];
-	 MIME_BASE64_TEXT_BOGUS(1.00)[];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 MIME_BASE64_TEXT(0.10)[];
-	 SIGNED_PGP(-2.00)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[21];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 FREEMAIL_CC(0.00)[emersion.fr,ffwll.ch,collabora.com,kernel.org,redhat.com,gmail.com,chromium.org,lwn.net,linux.intel.com,vmware.com,lists.freedesktop.org,vger.kernel.org,lists.linux-foundation.org]
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|MN2PR17MB3966:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95a65911-6084-4f78-da6e-08dbe5297d35
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	8Yf3xfwMMjIH4Je8NQjzjuGd7LS9ah7lpYqbWIlKS369fAoBYlfgxLKoM8V0WIj7OEVxm5FsE61UXTtbEAhKp91U4XqdArANuyYcD3tYjtBbgUwYxPSuoOtE4GTHBtZUjVxVDFr0o0992MjYsfnG1QzoDk1SAIPbEYPBFNr9eu0IXnYDKHnXQ1vOw633PJtDy9ij7mXspyN8CCspFZR5PKzOlZdaAAk7fzSTso4f3tJgJeR13jFY71KnTYz05LJV7o56npNP4KJgojfAYQIUOrjUx48Fl6LPho5uDSmFOy2OGH6taEHcfoCfqK0jF28mhQsShIRGeFY3tkmyY3QHB49MasOnGRSsBh4JG5VLOe4pcXOux251iDzo994AuV5wTYW4u3C5eBoBH6SufYnAM/e3gK/lvPsssVPBIyIBVcZ62dgMsG2vghd42raB2JkhzUimbsmYyOMMvmclXe1uEdJlR0ITe/YhS/45KxqQHCyuZINwgD7TW4J0D1rmILL5mBJj/O4LkDPTE7ykBWdXqTKbL+3D1kLacDcXJzjc3sKn4SacObWAeYtEkdmCiCeS1bw1nLpnQRgE9MVoKcuD/+ngD/n533nVd8JT/VaSn44glfUdQ2gcVCCB+tM1j7fmhF7WjtOoK9Ax/iLZjpxSOw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(39840400004)(136003)(376002)(366004)(230273577357003)(230922051799003)(230173577357003)(64100799003)(1800799009)(186009)(451199024)(66476007)(66556008)(54906003)(6916009)(66946007)(86362001)(38100700002)(36756003)(6512007)(83380400001)(26005)(2616005)(6506007)(6666004)(2906002)(41300700001)(478600001)(316002)(6486002)(966005)(44832011)(4326008)(5660300002)(7416002)(8936002)(8676002)(16393002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?N/sMedg17XLb5fEwFbeJRVFghGD9YwHBIIEAujRjxICu4CdNg8xCXUdli+rZ?=
+ =?us-ascii?Q?BcPHOC5Dyxkru7YcPHF1/Uapnru9bFEwXThJCMyS4fhjsxAY3+7WVfbJLadR?=
+ =?us-ascii?Q?uerW2RDTgCadL46jFMFG1Rr+orIR6fmePmPOT6Iqc2wZtNx88qAS9gNTg3S9?=
+ =?us-ascii?Q?hoxHmMSTsQdzR5l5Zok2iBIlojAGD6qQlJ2A7AjRh//0z59Oo2kQXk2AmSyr?=
+ =?us-ascii?Q?Tig1RwinS5Qy3uIPZOis3RgXwbbxHynp0Y0BK+xJ90YQB/Aw1R7UjT30xe15?=
+ =?us-ascii?Q?g/E72kNNwWOo1HrF+5Ed50LcXiQVSl4lSskP0LRBpOoGtJJe2fn7Xmh1MnI0?=
+ =?us-ascii?Q?hAJ2VQiPcUZ8Mser+TgIhNiOXF6bt6s59Am8GMaqiuDxKtZQw2le/BmfVjpM?=
+ =?us-ascii?Q?zQb2KUd6vzdYvSbPI/9mE+NqhyPXwpoEdTkDMS4SFTeLSgSVsv2tWB/TaFh7?=
+ =?us-ascii?Q?dMIbr2lar/mi0qyt4etTOxvQr9+6WvReqFHoRNngGQdvL/k1E3403pzixNfE?=
+ =?us-ascii?Q?ZtsDdCXsjn+jZGD8tEquaLFiCE2eNC2Q2l1UZ/uKcGX8Oi7kFhDkXaj42aXE?=
+ =?us-ascii?Q?FrmcWfLlnMjwl7HsU5yD7O17Kdn8j0fBnL9Ja7mvF71JO5JWcB9v8GgKFQq6?=
+ =?us-ascii?Q?sn0TUT8O7GEVpeYAlZ/j7vVcZ2ViPOab0tLDnAvKIAT9Ul9+cSfIf/OMQEDk?=
+ =?us-ascii?Q?5vVUYGCO7Gh0jgg2bakL+kj1ZmXbUKsKy5GIxsl6rODBgKnSCJh2+oLiAP4q?=
+ =?us-ascii?Q?x8p+gp/Si0sooBw1RYLu4nvYMcDk1oDXRFKDxupKiMc6QjkFRGWOJMvTGU1r?=
+ =?us-ascii?Q?O5SaKmSB7oIfi8TShrHu1H62F3Ym8vbEytFv+xr2YdlCxN3FJ64hH22HJPfm?=
+ =?us-ascii?Q?3TQAAooFIFfu95hUMuGGj6/ISpxJRNSJRnbMrNF6UWQOQ8yRhzQ+9Cd73sXQ?=
+ =?us-ascii?Q?a4Png8FxCcbE7WSZ5B+tE9Vjg+HgIZ2aRs+FsmoQsfolOXvb9KXEFrFVtPDd?=
+ =?us-ascii?Q?cOFrdkpHopMElqfDx1ZUFHgRCF2w62ht4xH6XpQ0MYovixWMMstT3g0CWAZV?=
+ =?us-ascii?Q?6STV5/2pNk3ifBT6VRQJyiuiAhqcKFCEIw+vMCzdj4P5V/cRjdhqR0x6kkzy?=
+ =?us-ascii?Q?aakUJOhUjY6vvf/VffOnhsoWkQjoSxCYfWWjXjfkDGNSJ/arlpJGmtk3aZuL?=
+ =?us-ascii?Q?eNHLbjit/ikVJ/yonpIeM8Kam4gqrDMsX0/7oocb9X648jmlpwK1ksyZf0Hs?=
+ =?us-ascii?Q?BFRdKOwaW5ZQMeEQmlHd30Wre+7TOGmS4SqkJ3HGE3731+THJ1NUdNanERhG?=
+ =?us-ascii?Q?hF3jh7KFLHWS5fhs2Zi+kSHXPJwhqfJ/de/VFWzB4Y8f9/j/ttEPg3zG0aKr?=
+ =?us-ascii?Q?wmzYkzjEA0loZsUBiY9fHzg6ZXiXB0gNDhDvUnrZTacXT9YBH2qOmVXEyAOT?=
+ =?us-ascii?Q?iBHy26BgVHHzGDIVQ2bIbbejLnC/TeQtikFQ3DXaC6evU3j/lPeltk42RyVJ?=
+ =?us-ascii?Q?qiCxI9GlS7Ive0Tt0qUGOpjKiO99rp11RScqvidNE+iBb44geANT22PJ5ybd?=
+ =?us-ascii?Q?yEMwxXwmSuSTaTF+oP5rCX/H6P+H6P/GoO85KMdl6BmqDxgA9QKMNGD7gDaY?=
+ =?us-ascii?Q?TA=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95a65911-6084-4f78-da6e-08dbe5297d35
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 15:50:56.2024
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ygdfaZKyuKRN0kmHIX6KO4u20g8QAoo0d8eWYpPFsq+w0Cnrfgfp+O4FpONt/YcprPCRisf6jHfwzSLHiy3BU7Q7XAj3v/1mSkl1F9qVQRs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR17MB3966
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------5YCjGXD3oNwS5CkagncGMU0C
-Content-Type: multipart/mixed; boundary="------------HZJCdyCPyn0A1rzDfgunjj8L";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Simon Ser <contact@emersion.fr>, Sima Vetter <daniel.vetter@ffwll.ch>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Maxime Ripard <mripard@kernel.org>, Bilal Elmoussaoui <belmouss@redhat.com>,
- Erico Nunes <nunes.erico@gmail.com>, Chia-I Wu <olvaffe@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org
-Message-ID: <9296c184-22c1-4d71-8b11-2d26f49a5790@suse.de>
-Subject: Re: [PATCH 0/6] drm: Allow the damage helpers to handle buffer damage
-References: <20231109172449.1599262-1-javierm@redhat.com>
-In-Reply-To: <20231109172449.1599262-1-javierm@redhat.com>
+On Tue, Nov 14, 2023 at 10:43:13AM +0100, Michal Hocko wrote:
+> On Fri 10-11-23 22:42:39, Gregory Price wrote:
+> [...]
+> > If I can ask, do you think it would be out of line to propose a major
+> > refactor to mempolicy to enable external task's the ability to change a
+> > running task's mempolicy *as well as* a cgroup-wide mempolicy component?
+> 
+> No, I actually think this is a reasonable idea. pidfd_setmempolicy is a
+> generally useful extension. The mempolicy code is heavily current task
+> based and there might be some challenges but I believe this will a)
+> improve the code base and b) allow more usecases.
 
---------------HZJCdyCPyn0A1rzDfgunjj8L
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Just read up on the pidfd_set_mempolicy lore, and yes I'm seeing all the
+same problems (I know there was discussion of vma policies, but i think
+that can be a topic for later).  Have some thoughts on this, but will
+take some time to work through a few refactoring tickets first.
 
-SGkgSmF2aWVyDQoNCkFtIDA5LjExLjIzIHVtIDE4OjI0IHNjaHJpZWIgSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzOg0KPiBIZWxsbywNCj4gDQo+IFRoaXMgc2VyaWVzIGlzIHRvIGZpeCBh
-biBpc3N1ZSB0aGF0IHN1cmZhY2VkIGFmdGVyIGRhbWFnZSBjbGlwcGluZyB3YXMNCj4gZW5h
-YmxlZCBmb3IgdGhlIHZpcnRpby1ncHUgYnkgY29tbWl0IDAxZjA1OTQwYTlhNyAoImRybS92
-aXJ0aW86IEVuYWJsZQ0KPiBmYiBkYW1hZ2UgY2xpcHMgcHJvcGVydHkgZm9yIHRoZSBwcmlt
-YXJ5IHBsYW5lIikuDQo+IA0KPiBBZnRlciB0aGF0IGNoYW5nZSwgZmxpY2tlcmluZyBhcnRp
-ZmFjdHMgd2FzIHJlcG9ydGVkIHRvIGJlIHByZXNlbnQgd2l0aA0KPiBib3RoIHdlc3RvbiBh
-bmQgd2xyb290cyB3YXlsYW5kIGNvbXBvc2l0b3JzIHdoZW4gcnVubmluZyBpbiBhIHZpcnR1
-YWwNCj4gbWFjaGluZS4gVGhlIGNhdXNlIHdhcyBpZGVudGlmaWVkIGJ5IFNpbWEgVmV0dGVy
-LCB3aG8gcG9pbnRlZCBvdXQgdGhhdA0KPiB2aXJ0aW8tZ3B1IGRvZXMgcGVyLWJ1ZmZlciB1
-cGxvYWRzIGFuZCBmb3IgdGhpcyByZWFzb24gaXQgbmVlZHMgdG8gZG8NCj4gYSBidWZmZXIg
-ZGFtYWdlIGhhbmRsaW5nLCBpbnN0ZWFkIG9mIGZyYW1lIGRhbWFnZSBoYW5kbGluZy4NCg0K
-SSdtIGhhdmluZyBwcm9ibGVtIHVuZGVyc3RhbmRpbmcgdGhlIHR5cGVzIG9mIGRhbWFnZS4g
-WW91IG5ldmVyIHNheSB3aGF0IA0KYnVmZmVyIGRhbWFnZSBpcy4gSSBhbHNvIGRvbid0IGtu
-b3cgd2hhdCBhIGZyYW1lIGlzIGluIHRoaXMgY29udGV4dC4NCg0KUmVndWxhciBkYW1hZ2Ug
-aGFuZGxpbmcgbWFya3MgcGFydHMgb2YgYSBwbGFuZSBhcyBkaXJ0eS9kYW1hZ2VkLiBUaGF0
-IGlzIA0KcGVyLXBsYW5lIGRhbWFnZSBoYW5kbGluZy4gVGhlIGluZGl2aWR1YWwgcGxhbmVz
-IG1vcmUgb3IgbGVzcyANCmluZGVwZW5kZW50IGZyb20gZWFjaCBvdGhlci4NCg0KQnVmZmVy
-IGRhbWFnZSwgSSBndWVzcywgbWFya3MgdGhlIHVuZGVybHlpbmcgYnVmZmVyIGFzIGRpcnR5
-IGFuZCANCnJlcXVpcmVzIHN5bmNocm9uaXphdGlvbiBvZiB0aGUgYnVmZmVyIHdpdGggc29t
-ZSBiYWNraW5nIHN0b3JhZ2UuIFRoZSANCnBsYW5lcyB1c2luZyB0aGF0IGJ1ZmZlciBhcmUg
-dGhlbiB1cGRhdGVkIG1vcmUgb3IgbGVzcyBhdXRvbWF0aWNhbGx5Lg0KDQpJcyB0aGF0IHJp
-Z2h0Pw0KDQpBbmQgd2h5IGRvZXMgaXQgZmxpY2tlcj8gSXMgdGhlcmUgb2xkIGRhdGEgc3Rv
-cmVkIHNvbWV3aGVyZT8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gVGhlaXIg
-c3VnZ2VzdGlvbiB3YXMgdG8gZXh0ZW5kIHRoZSBkYW1hZ2UgaGVscGVycyB0byBjb3ZlciB0
-aGF0IGNhc2UNCj4gYW5kIGdpdmVuIHRoYXQgdGhlcmUncyBpc24ndCBhIGJ1ZmZlciBkYW1h
-Z2UgYWNjdW11bGF0aW9uIGFsZ29yaXRobQ0KPiAoZS5nOiBidWZmZXIgYWdlKSwganVzdCBk
-byBhIGZ1bGwgcGxhbmUgdXBkYXRlIGlmIHRoZSBmcmFtZWJ1ZmZlciB0aGF0DQo+IGlzIGF0
-dGFjaGVkIHRvIGEgcGxhbmUgY2hhbmdlZCBzaW5jZSB0aGUgbGFzdCBwbGFuZSB1cGRhdGUg
-KHBhZ2UtZmxpcCkuDQo+IA0KPiBQYXRjaCAjMSBpcyBqdXN0IGEgcmVmYWN0b3JpbmcgdG8g
-YWxsb3cgdGhlIGxvZ2ljIG9mIHRoZSBmcmFtZSBkYW1hZ2UNCj4gaGVscGVycyB0byBiZSBz
-aGFyZWQgYnkgdGhlIGJ1ZmZlciBkYW1hZ2UgaGVscGVycy4NCj4gDQo+IFBhdGNoICMyIGFk
-ZHMgdGhlIGhlbHBlcnMgdGhhdCBhcmUgbmVlZGVkIGZvciBidWZmZXIgZGFtYWdlIGhhbmRs
-aW5nLg0KPiANCj4gUGF0Y2ggIzMgZml4ZXMgdGhlIHZpcnRpby1ncHUgZGFtYWdlIGhhbmRs
-aW5nIGxvZ2ljIGJ5IHVzaW5nIHRoZQ0KPiBoZWxwZXIgdGhhdCBpcyByZXF1aXJlZCBieSBk
-cml2ZXJzIHRoYXQgbmVlZCB0byBoYW5kbGUgYnVmZmVyIGRhbWFnZS4NCj4gDQo+IFBhdGNo
-ICM0IGZpeGVzIHRoZSB2bXdnZnggc2ltaWxhcmx5LCBzaW5jZSB0aGF0IGRyaXZlciBhbHNv
-IG5lZWRzIHRvDQo+IGhhbmRsZSBidWZmZXIgZGFtYWdlIGFuZCBzaG91bGQgaGF2ZSB0aGUg
-c2FtZSBpc3N1ZSAoYWx0aG91Z2ggSSBoYXZlDQo+IG5vdCB0ZXN0ZWQgaXQgZHVlIG5vdCBo
-YXZpbmcgYSBWTVdhcmUgc2V0dXApLg0KPiANCj4gUGF0Y2ggIzUgYWRkcyB0byB0aGUgS01T
-IGRhbWFnZSB0cmFja2luZyBrZXJuZWwtZG9jIHNvbWUgcGFyYWdyYXBocw0KPiBhYm91dCBk
-YW1hZ2UgdHJhY2tpbmcgdHlwZXMgYW5kIHJlZmVyZW5jZXMgdG8gbGlua3MgdGhhdCBleHBs
-YWluDQo+IGZyYW1lIGRhbWFnZSB2cyBidWZmZXIgZGFtYWdlLg0KPiANCj4gRmluYWxseSBw
-YXRjaCAjNiBhZGRzIGFuIGl0ZW0gdG8gdGhlIERSTS9LTVMgdG9kbywgYWJvdXQgdGhlIG5l
-ZWQgdG8NCj4gaW1wbGVtZW50IHNvbWUgYnVmZmVyIGRhbWFnZSBhY2N1bXVsYXRpb24gYWxn
-b3JpdGhtIGluc3RlYWQgb2YganVzdA0KPiBkb2luZyBhIGZ1bGwgcGxhbmUgdXBkYXRlIGlu
-IHRoaXMgY2FzZS4NCj4gDQo+IEJlY2F1c2UgY29tbWl0IDAxZjA1OTQwYTlhNyBsYW5kZWQg
-aW4gdjYuNCwgdGhlIGZpcnN0IHRocmVlIHBhdGNoZXMNCj4gYXJlIG1hcmtlZCBhcyBGaXhl
-cyBhbmQgQ2Mgc3RhYmxlLg0KPiANCj4gSSd2ZSB0ZXN0ZWQgdGhpcyBvbiBhIFZNIHdpdGgg
-d2VzdG9uLCB3YXMgYWJsZSB0byByZXByb2R1Y2UgdGhlIGlzc3VlDQo+IHJlcG9ydGVkIGFu
-ZCB0aGUgcGF0Y2hlcyBkaWQgZml4IHRoZSBwcm9ibGVtLg0KPiANCj4gUGxlYXNlIGxldCBt
-ZSBrbm93IHdoYXQgeW91IHRoaW5rLiBTcGVjaWFsbHkgb24gdGhlIHdvcmRpbmcgc2luY2Ug
-Y291bGQNCj4gbWFkZSBtaXN0YWtlcyBkdWUganVzdCBsZWFybmluZyBhYm91dCB0aGVzZSBj
-b25jZXB0cyB5ZXN0ZXJkYXkgdGhhbmtzIHRvDQo+IFNpbWEsIFNpbW9uIGFuZCBQZWtrYS4N
-Cj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gSmF2aWVyDQo+IA0KPiANCj4gSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzICg2KToNCj4gICAgZHJtOiBNb3ZlIGRybV9hdG9taWNfaGVscGVyX2Rh
-bWFnZV97aXRlcl9pbml0LG1lcmdlZH0oKSB0byBoZWxwZXJzDQo+ICAgIGRybTogQWRkIGRy
-bV9hdG9taWNfaGVscGVyX2J1ZmZlcl9kYW1hZ2Vfe2l0ZXJfaW5pdCxtZXJnZWR9KCkgaGVs
-cGVycw0KPiAgICBkcm0vdmlydGlvOiBVc2UgZHJtX2F0b21pY19oZWxwZXJfYnVmZmVyX2Rh
-bWFnZV9tZXJnZWQoKSBmb3IgYnVmZmVyDQo+ICAgICAgZGFtYWdlDQo+ICAgIGRybS92bXdn
-Zng6IFVzZSBkcm1fYXRvbWljX2hlbHBlcl9idWZmZXJfZGFtYWdlX2l0ZXJfaW5pdCgpIGZv
-ciBidWZmZXINCj4gICAgICBkYW1hZ2UNCj4gICAgZHJtL3BsYW5lOiBFeHRlbmQgZGFtYWdl
-IHRyYWNraW5nIGtlcm5lbC1kb2MNCj4gICAgZHJtL3RvZG86IEFkZCBlbnRyeSBhYm91dCBp
-bXBsZW1lbnRpbmcgYnVmZmVyIGFnZSBmb3IgZGFtYWdlIHRyYWNraW5nDQo+IA0KPiAgIERv
-Y3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0ICAgICAgICAgICAgIHwgIDIwICsrKw0KPiAgIGRy
-aXZlcnMvZ3B1L2RybS9kcm1fZGFtYWdlX2hlbHBlci5jICAgIHwgMTY2ICsrKysrKysrKysr
-KysrKysrKystLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX3BsYW5lLmMgICAgICAg
-ICAgICB8ICAyMiArKystDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3Bs
-YW5lLmMgfCAgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMu
-YyAgICB8ICAgMiArLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmggICAg
-ICAgIHwgICA3ICsrDQo+ICAgNiBmaWxlcyBjaGFuZ2VkLCAxNzMgaW5zZXJ0aW9ucygrKSwg
-NDYgZGVsZXRpb25zKC0pDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjog
-SXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2Vy
-bWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+> 
+> That being said, I still believe that a cgroup based interface is a much
+> better choice over a global one. Cpusets seem to be a good fit as the
+> controller does control memory placement wrt NUMA interfaces.
 
---------------HZJCdyCPyn0A1rzDfgunjj8L--
+I think cpusets is a non-starter due to the global spinlock required when
+reading informaiton from it:
 
---------------5YCjGXD3oNwS5CkagncGMU0C
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+https://elixir.bootlin.com/linux/latest/source/kernel/cgroup/cpuset.c#L391
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVTlQsFAwAAAAAACgkQlh/E3EQov+AU
-exAAnBXx599cv0UeRemGJTExKkAR7gmTXTnqLNbocwONLfWRngHRYw5l7+m+V/1KH4B/FKb5OUib
-/GyB64BWvvRAVNjG/4yVmK6kIb78lFxXwSc4zOSx5trNhTAPjEgP0UJ6oufF6F0Ap4Vw5pW7fq23
-F7HZca4AkH/naE6EPB1LUgAdkolC8v7n5pcjwaKsIWbxVtq7rNIbjwpy8yg7NWZ4TbUjjC5tnEUA
-DXEbZOP6g3ECy1d2HvLDVY2E490BKZg0qM5CH6H7uogMO1VXsMy1T5ZQnRyNSTzCm710QmU8FS9X
-CQBRVMtudqrJXBvWqEz+OJ75XZGxZiFgNd7JrzKNx54wcNNwOY5AjVvxKAPyIer7ge/TcAq9fZI9
-jIt+6sLt/0OmAGdMK78RbjQ1hpi1F7VeE9/kR2CUdlJyW96UrWLJeh6Oo1I0hIS8O18F1t84xGcK
-m2td0Gn7cNMV1uWi2q3pFr3GHCXxFTB2ThffDZzoXqe9DYX62/9VoaQgqFlXCcD/LRuPbhnaW458
-SZ7c25qQTkfDmd6QTkcHQBDdt/nJmvojoHDCAuhKDXtSMGy7w32LQaIeEuSSJGbA8BHHSBICIXTL
-LXmZzaPx+SvbyOVaAOh7FCfm9L3ZntoWFWD9D+kDbEyYC6maXPpLTwlF+BuMkWTBnmtF/UrjhId0
-wgE=
-=nZv3
------END PGP SIGNATURE-----
-
---------------5YCjGXD3oNwS5CkagncGMU0C--
+Unless the proposal is to place the weights as a global cgroups value,
+in which case I think it would be better placed in default_mempolicy :]
