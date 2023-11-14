@@ -1,31 +1,30 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E14723744;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1832377F;
 	Tue, 14 Nov 2023 11:29:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UeNHFzoc"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MOzcmmQE"
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 160131BC3;
-	Tue, 14 Nov 2023 03:28:53 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 855CE60003;
-	Tue, 14 Nov 2023 11:28:51 +0000 (UTC)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7FFD44;
+	Tue, 14 Nov 2023 03:28:51 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 11CDC6000C;
+	Tue, 14 Nov 2023 11:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699961332;
+	t=1699961330;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iLcv2U5/tJBWHcDOVIYyQDAJQb5WKSZvw4UjIoMJnco=;
-	b=UeNHFzoca1jxUrPL+28Ae9JWb/zm78O+AOPDkYg+wTysnLLAkXJGFc59Xt3o88b3hWU32c
-	s7RQrOWZLOlDKjHYXRzrvp2IB5c1nkB1ue567XbrjXplnMqzyyuC2ctGi5FVDdBR2dxi6Z
-	RP72IKdPjeWixKv6iE4CZeAWLHErtyIFZ1pqQceRFlQ5mP0i20Tyx6mqF9VqiHPpnYx27a
-	pcALGz3SQ7ppzvCrmvVUIqZza7EUw1RJH3RZtXBLX0ZOkKjYI4Zwo0hqgvKZGSHBJOsZlR
-	j6t0dcecd570rhwx/Sp6f8Pf6vHXUJUNhgtCn8CJEzbXIz+QbvVw6RCwS+BuDg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=BdKRTtgMkXn0lTN7kUysrsahlaVG/E8SJ2GDly5Qt98=;
+	b=MOzcmmQE9gE7m48o10LS1WziTWo3ZtJkhcizoiAi3/kkupkQEFdqzImphCM+b8ekp7a3Kp
+	tRxbJEQ0s8zo/gBUHWfHwsADjqtTog+KyWby2jsGYJDKuIpalekU7UJ/L9jM/1WYMf1mhb
+	DkQ8o8D07PmeFJPPXpSKB7NppHUY34vBbUM+OJFTXM8Z662JfbndUWc4rj0Be0LDsTqt/p
+	rWPpYkJTDcuPRgf+Tk7KG85J6w2j5pMlO9S7jeSoLsW6k6uApyCX8vXhC8BwUcG4EfnGYa
+	KKMRYnS3/jJge1UoyAXljr2utMoYADjpv5zwowrzQdm3clo1QIiRSJGv9acj/w==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Tue, 14 Nov 2023 12:28:30 +0100
-Subject: [PATCH net-next v7 02/16] net: phy: Remove the call to
- phy_mii_ioctl in phy_hwstamp_get/set
+Subject: [PATCH net-next v7 00/16] net: Make timestamping selectable
+Date: Tue, 14 Nov 2023 12:28:28 +0100
+Message-Id: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,10 +32,11 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231114-feature_ptp_netnext-v7-2-472e77951e40@bootlin.com>
-References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
-In-Reply-To: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIANxZU2UC/22NQQ6CMBREr0L+2pq2CEVW3sMQQvFXfqItaSvBE
+ O5ubVy6nLyZNxsE9IQB2mIDjwsFcjYFdShgnAZ7R0a3lEFyWQouBDM4xJfHfo5zbzFaXCMrjVR
+ NpRpsThrScvZoaM3WK6QS+7agS2SiEJ1/57ulzvxnPv81LzXjTInBmFEqzbG6aOfig+xxdE/o9
+ n3/AIMlbz7CAAAA
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
  Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
@@ -55,51 +55,122 @@ To: Florian Fainelli <florian.fainelli@broadcom.com>,
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Kory Maincent <kory.maincent@bootlin.com>
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Jay Vosburgh <jay.vosburgh@canonical.com>
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-__phy_hwtstamp_set function were calling the phy_mii_ioctl function
-which will then use the ifreq pointer to call the hwtstamp callback.
-Now that ifreq has been removed from the hwstamp callback parameters
-it seems more logical to not go through the phy_mii_ioctl function and pass
-directly kernel_hwtstamp_config parameter to the hwtstamp callback.
+Up until now, there was no way to let the user select the layer at
+which time stamping occurs. The stack assumed that PHY time stamping
+is always preferred, but some MAC/PHY combinations were buggy.
 
-Lets do the same for __phy_hwtstamp_get function and return directly
-EOPNOTSUPP as SIOCGHWTSTAMP is not supported for now for the PHYs.
+This series updates the default MAC/PHY default timestamping and aims to
+allow the user to select the desired layer administratively.
+
+Changes in v2:
+- Move selected_timestamping_layer variable of the concerned patch.
+- Use sysfs_streq instead of strmcmp.
+- Use the PHY timestamp only if available.
+
+Changes in v3:
+- Expose the PTP choice to ethtool instead of sysfs.
+  You can test it with the ethtool source on branch feature_ptp of:
+  https://github.com/kmaincent/ethtool
+- Added a devicetree binding to select the preferred timestamp.
+
+Changes in v4:
+- Move on to ethtool netlink instead of ioctl.
+- Add a netdev notifier to allow packet trapping by the MAC in case of PHY
+  time stamping.
+- Add a PHY whitelist to not break the old PHY default time-stamping
+  preference API.
+
+Changes in v5:
+- Update to ndo_hwstamp_get/set. This bring several new patches.
+- Add few patches to make the glue.
+- Convert macb to ndo_hwstamp_get/set.
+- Add netlink specs description of new ethtool commands.
+- Removed netdev notifier.
+- Split the patches that expose the timestamping to userspace to separate
+  the core and ethtool development.
+- Add description of software timestamping.
+- Convert PHYs hwtstamp callback to use kernel_hwtstamp_config.
+
+Changes in v6:
+- Few fixes from the reviews.
+- Replace the allowlist to default_timestamp flag to know which phy is
+  using old API behavior.
+- Rename the timestamping layer enum values.
+- Move to a simple enum instead of the mix between enum and bitfield.
+- Update ts_info and ts-set in software timestamping case.
+
+Changes in v7:
+- Fix a temporary build error.
+- Link to v6: https://lore.kernel.org/r/20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 ---
- drivers/net/phy/phy.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Kory Maincent (15):
+      net: Convert PHYs hwtstamp callback to use kernel_hwtstamp_config
+      net: phy: Remove the call to phy_mii_ioctl in phy_hwstamp_get/set
+      net: macb: Convert to ndo_hwtstamp_get() and ndo_hwtstamp_set()
+      net: Make dev_set_hwtstamp_phylib accessible
+      net: phy: micrel: fix ts_info value in case of no phc
+      net_tstamp: Add TIMESTAMPING SOFTWARE and HARDWARE mask
+      net: ethtool: Add a command to expose current time stamping layer
+      netlink: specs: Introduce new netlink command to get current timestamp
+      net: ethtool: Add a command to list available time stamping layers
+      netlink: specs: Introduce new netlink command to list available time stamping layers
+      net: Replace hwtstamp_source by timestamping layer
+      net: Change the API of PHY default timestamp to MAC
+      net: ethtool: ts: Update GET_TS to reply the current selected timestamp
+      net: ethtool: ts: Let the active time stamping layer be selectable
+      netlink: specs: Introduce time stamping set command
 
-diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-index d058316666ba..3376e58e2b88 100644
---- a/drivers/net/phy/phy.c
-+++ b/drivers/net/phy/phy.c
-@@ -486,7 +486,7 @@ int __phy_hwtstamp_get(struct phy_device *phydev,
- 	if (!phydev)
- 		return -ENODEV;
- 
--	return phy_mii_ioctl(phydev, config->ifr, SIOCGHWTSTAMP);
-+	return -EOPNOTSUPP;
- }
- 
- /**
-@@ -503,7 +503,10 @@ int __phy_hwtstamp_set(struct phy_device *phydev,
- 	if (!phydev)
- 		return -ENODEV;
- 
--	return phy_mii_ioctl(phydev, config->ifr, SIOCSHWTSTAMP);
-+	if (phydev->mii_ts && phydev->mii_ts->hwtstamp)
-+		return phydev->mii_ts->hwtstamp(phydev->mii_ts, config, extack);
-+
-+	return -EOPNOTSUPP;
- }
- 
- /**
+Richard Cochran (1):
+      net: ethtool: Refactor identical get_ts_info implementations.
 
+ Documentation/netlink/specs/ethtool.yaml           |  57 +++++
+ Documentation/networking/ethtool-netlink.rst       |  63 ++++++
+ drivers/net/bonding/bond_main.c                    |  29 +--
+ drivers/net/ethernet/cadence/macb.h                |  15 +-
+ drivers/net/ethernet/cadence/macb_main.c           |  42 +++-
+ drivers/net/ethernet/cadence/macb_ptp.c            |  28 +--
+ .../net/ethernet/microchip/lan966x/lan966x_main.c  |   6 +-
+ drivers/net/macvlan.c                              |  14 +-
+ drivers/net/phy/bcm-phy-ptp.c                      |  18 +-
+ drivers/net/phy/dp83640.c                          |  27 +--
+ drivers/net/phy/micrel.c                           |  50 ++---
+ drivers/net/phy/mscc/mscc_ptp.c                    |  20 +-
+ drivers/net/phy/nxp-c45-tja11xx.c                  |  20 +-
+ drivers/net/phy/phy.c                              |  28 ++-
+ drivers/net/phy/phy_device.c                       |  37 ++++
+ drivers/ptp/ptp_ines.c                             |  16 +-
+ include/linux/ethtool.h                            |   8 +
+ include/linux/mii_timestamper.h                    |   4 +-
+ include/linux/net_tstamp.h                         |  11 +-
+ include/linux/netdevice.h                          |   8 +
+ include/linux/phy.h                                |  10 +-
+ include/uapi/linux/ethtool_netlink.h               |  29 +++
+ include/uapi/linux/net_tstamp.h                    |  18 ++
+ net/8021q/vlan_dev.c                               |  15 +-
+ net/core/dev.c                                     |   3 +
+ net/core/dev_ioctl.c                               |  43 ++--
+ net/core/timestamping.c                            |  10 +
+ net/ethtool/Makefile                               |   2 +-
+ net/ethtool/common.c                               |  25 ++-
+ net/ethtool/common.h                               |   1 +
+ net/ethtool/netlink.c                              |  28 +++
+ net/ethtool/netlink.h                              |   4 +
+ net/ethtool/ts.c                                   | 244 +++++++++++++++++++++
+ 33 files changed, 732 insertions(+), 201 deletions(-)
+---
+base-commit: 5b7dd66960ba4e5cd2648692a6082a7ac6993867
+change-id: 20231011-feature_ptp_netnext-3f278578e84b
+
+Best regards,
 -- 
-2.25.1
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
