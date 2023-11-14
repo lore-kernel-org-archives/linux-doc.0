@@ -1,186 +1,221 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B8D14A8E;
-	Tue, 14 Nov 2023 08:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B39B291F;
+	Tue, 14 Nov 2023 08:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fzDI3ZTo"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A1F1BE;
-	Tue, 14 Nov 2023 00:16:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699949820; x=1731485820;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=Z7KEnU35348Unr3e5+DghTW8XI+Cs8R8R17LGOXybk8=;
-  b=fzDI3ZTo7GEbvgMOAXpe1dZaDXD01tLkY+MTCNWAA1lbNXJbTSo+sMV8
-   ZTELrT2WaWdbh7dF6IfPZa9NDywinGTfKuNJCJjUxit5leeFcg1zVkf8c
-   VfFVXvLfPS+/xyTkeMePGes8KfP6Q1q+d2+sk7BGU0ctUscJbE7yTas77
-   u9w/aE9Uh8NE8XSDVj+ohjaloMqPcVn8FGtqC3FtaiJ7SgZFOz1Ec3Zdg
-   uXDv9Fp1U9wkzRHSd5XyeRox1yB4i9MXlpGSG43GBzqb1oRLNeZxWKMdf
-   MV7yst88WDwFVDw3bAhABKOeq0/GGlMatT8pSk/CDF0ol8EkspLQLHEOG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="12156186"
-X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
-   d="scan'208";a="12156186"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 00:16:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="908280583"
-X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
-   d="scan'208";a="908280583"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Nov 2023 00:16:59 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 14 Nov 2023 00:16:58 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 14 Nov 2023 00:16:58 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Tue, 14 Nov 2023 00:16:58 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Tue, 14 Nov 2023 00:16:57 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dX2KfH6FsjTIn3HlplA843HogB3n8vLhXfO9IoW9W7QytWSuZndcC1qmkTIpyQIuc7//5QN+K/s3sPAgdg6IWrMXzTraRM86K0SYeEr0751gFrxN63Tljk0yEuh61LPXOiWu6w9rS5sOwGeCK/opqNysujkN23ZitGi0d7MEgzwwHADXgIFWMgs+PONkjSpxoVsPUSAp5173Oz6xOoPxHlVTLZUcNLhTVWHQ8XdAqq1n0UT1S5J/NXV3/VJszClNLmscK8kSecd3Iyvdz7m/CRpgW6m91aQSlHM9RAf4ioRs1l8Mnz9Ma+1bYyZpIxaBAFve3MB2i1aWxO00WPDr1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LDYpyh/H8894Rrr2DdDBmHRFRQ3/a8rOP4Pdr10pYiM=;
- b=Pfos51/IfSszN0unyBmVjw/ZrHhvSwfdxZz1Kzs7gS7JaGutPvoij4niUnMCU7bhIejBW0t0tn8KBtHoPHoRGCOFBagEt3vNugcjSwgTrhOa2yDTfoJhPga37bnuLX5FMTh9msG5hBFU91QpbR/LX+JOoYLj0+c1c77e/RGrU2UJZDMeRLNYzjcE8Wrk6sW5LRt1rWdf0wHhTR3U/n9CYlr6r34Tv28Ld2YjpkFpc5yWznwKYn6e0kWShnGwmy1xh0ZcktY9cwnYelHpcc4in+brvQUoMA4xaMi5VUYZlBjutDFG0J5bNZ55u5+47NrKGRIatlRHELgK1vEjoIRnqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by SN7PR11MB6828.namprd11.prod.outlook.com (2603:10b6:806:2a3::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Tue, 14 Nov
- 2023 08:16:55 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::66ec:5c08:f169:6038]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::66ec:5c08:f169:6038%3]) with mapi id 15.20.7002.015; Tue, 14 Nov 2023
- 08:16:55 +0000
-Date: Tue, 14 Nov 2023 16:16:42 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: "Li, Xin3" <xin3.li@intel.com>
-CC: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "kys@microsoft.com" <kys@microsoft.com>,
-	"haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
-	<wei.liu@kernel.org>, "Cui, Dexuan" <decui@microsoft.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "vkuznets@redhat.com"
-	<vkuznets@redhat.com>, "peterz@infradead.org" <peterz@infradead.org>,
-	"Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH v1 11/23] KVM: x86: Add kvm_is_fred_enabled()
-Message-ID: <ZVMs6vZyoqd2cUiV@chao-email>
-References: <20231108183003.5981-1-xin3.li@intel.com>
- <20231108183003.5981-12-xin3.li@intel.com>
- <ZVHRufhNmVTvJYWV@chao-email>
- <SA1PR11MB6734074A2E482AF6F911693BA8B2A@SA1PR11MB6734.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <SA1PR11MB6734074A2E482AF6F911693BA8B2A@SA1PR11MB6734.namprd11.prod.outlook.com>
-X-ClientProxiedBy: SGXP274CA0009.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::21)
- To CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H62js26N"
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFF2D1A5;
+	Tue, 14 Nov 2023 00:33:12 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9e623356e59so569366566b.0;
+        Tue, 14 Nov 2023 00:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699950791; x=1700555591; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YKuTpCPN16vLxqtxNUoO64nlEyO6OP4oo4zEgiC+VFo=;
+        b=H62js26NeVAoKg/n0v9GTffUyJgNu896aMz8x1OoQpgWh6+LCfhbNwO/zKGxhiL3eQ
+         g5Wt9yUDLwPLt1Q3mgpO1AiCO3Fz8xzZ3o5oY+c5VCPCwsQsbjpWwMwWgB8/uld9UOjx
+         BpLhe6i9ZfjoRodvegfymsqb0KRrcWvL8fZeFY0fJre43HNQ4dsyzc7v/xCDv89L3HRt
+         7z1/pB9Ll1RFYNg/mL/TeVkMWNbyNTEVFLanVFCFbJq3tyPXacXXRvxWake8NCjssL1S
+         SnanwEyjtGhqtUfvCWDaVAfpGG6IZRMF1ysnUQEyZggcYcMq7iFrEaZ14bf1Xs3CPRUU
+         Hgdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699950791; x=1700555591;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YKuTpCPN16vLxqtxNUoO64nlEyO6OP4oo4zEgiC+VFo=;
+        b=c0Q+sgcn5AXSSsPzAdwl/GsUuUAuWYuF+xgnvp1fkHKIFlXK2MsQFd8tRiovpCxzsI
+         0rY5FRpOrhPzNzsYPDRuq+49nCNLEy5GDzjSNxwDsWZpIQ1lHuXmU+K7Ss77CwWHX4KC
+         W5OoZBNJ2yr3o4uL+SVVvPFzvdRvY4j1xS9zfx66BRa1YbR5LcWUxjHF1b6eeOEn94Y5
+         AOoumryjaxIuzv/5WLjRphId+qEKgddUWtSV+qErXM17+N3dGEAE5sJWRk/aZajI1p/q
+         Z9ojI+pzgTXl4lXKRboi4e+gfpoa0P7E2vTmRrd4qFWtCe8ggPnB8fS6uoaYnaZZ+Bkr
+         gNXg==
+X-Gm-Message-State: AOJu0Yz/zPrVCod4HAzPHCerR7voAdjXseKAbRDJsvya4etZz/ruuWpU
+	LjGL5e7kp/1xlBNfLneLCzasQ7HQWnyecXiT2oY=
+X-Google-Smtp-Source: AGHT+IEB9op4P/sigur1MvKvXtbr8TVcL/3UGnaMQfq+6vpzHk5HudqjhagJMT47mz52OydRN0ypiA==
+X-Received: by 2002:a17:906:7185:b0:9e3:85c9:11dc with SMTP id h5-20020a170906718500b009e385c911dcmr6132334ejk.32.1699950790794;
+        Tue, 14 Nov 2023 00:33:10 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef1b:2000:361b:8f29:1cbf:5e69? (p200300f6ef1b2000361b8f291cbf5e69.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:361b:8f29:1cbf:5e69])
+        by smtp.gmail.com with ESMTPSA id pj19-20020a170906d79300b0099ce025f8ccsm5176315ejb.186.2023.11.14.00.33.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Nov 2023 00:33:10 -0800 (PST)
+Message-ID: <fc3304423a57ca8acb40ecf8d2fb641aa280a8c1.camel@gmail.com>
+Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Nuno Sa <nuno.sa@analog.com>, linux-hwmon@vger.kernel.org, 
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Linus Walleij
+ <linus.walleij@linaro.org>,  Guenter Roeck <linux@roeck-us.net>, Rob
+ Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,  Conor
+ Dooley <conor+dt@kernel.org>
+Date: Tue, 14 Nov 2023 09:36:07 +0100
+In-Reply-To: <ZVJPbV2469kjqbHu@smile.fi.intel.com>
+References: <20231110151905.1659873-1-nuno.sa@analog.com>
+	 <20231110151905.1659873-3-nuno.sa@analog.com>
+	 <ZU5fYY81L_qSmQWq@smile.fi.intel.com>
+	 <581aec9c6313e3885aae8b1e12dfcc9f392716db.camel@gmail.com>
+	 <ZVJPbV2469kjqbHu@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|SN7PR11MB6828:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7808bc0-ba95-4745-e037-08dbe4ea0fe5
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t9ZHjtGKDcxBJISDFCvtl6b1UkM4x6CrWcrqsSwtrLasCTOY/7UXd81HSLy+Hq0+Pjr2NXjhSHmM8G4v2AsWGTroCZBmDovXsqtsMylmYrvOYRf28p6oYxql4lI8bBDwj9Lgz0jO9CKFRJNI+5bn64Z/cbfVfsAuNovAPb+36cARrikqJqxY5MpLNQPlV4mRIW64b2scDV/XwXFsea4Xym73GNboUVRVGZ7h9e1uNNnmuL1pBsjMzIcl2TMyY1RM3Bzdjgj0AcOCjrq3hKuS995mFD9n5Uz+wDdIvEPn4br2czHoKkYK1LqS0D2d3QLJDZ9gE1o7FPrhQyM0BErAvQh9QPwKFq0bM/QapMHYmei0F74FJXLzJC89tdr3aDXwNRH9KG9Wq8bj5t0HSjNxqLbnPRRVssBUFtiNLTgN1rTjb/+nCo1E8DwF8jGmyewgPzwXIzuo3nDuOYdywLppZGYq/Giiq7FdwjK/G9CzR1usD/wOA1zRb62teb8H5qWnKfmImwkIvcMgX7GcwZtSpD9aJJGAr+AGy7WRPyg39y4ZFoIBYt2jWsOen2AztQak
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(136003)(366004)(346002)(376002)(396003)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(2906002)(44832011)(7416002)(5660300002)(86362001)(41300700001)(33716001)(26005)(82960400001)(9686003)(66556008)(54906003)(66476007)(316002)(66946007)(6512007)(6636002)(83380400001)(38100700002)(478600001)(6486002)(6666004)(6506007)(8676002)(6862004)(4326008)(8936002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EjsZmtqbUbYNY+SVSiWnvVrV/U9xn3/ZHeERxoLn9FtvRhDI6vJrZyawtX30?=
- =?us-ascii?Q?hwkchTVvgr05fpM8IkfQwAQK/ODMpuPUd2vXZDCe3rTBY8bS1XyOxG9Tyu44?=
- =?us-ascii?Q?wl5JUYcjZIc05Z5YOxPWOgVLWTyOh36enU6wr9T9lVblRgXSO7spCDP8/Apn?=
- =?us-ascii?Q?TZKOPCmqiSFUVfucn5nwoDNoG4plGXxtzblHzxVdEJOgaGE3WnsnDQIyaiUR?=
- =?us-ascii?Q?QAZT+qunlqh91pat2ZKMV9oHBJ9fs6izx+HvviKNdtdX2FU+ZC1NQHZ3sE2H?=
- =?us-ascii?Q?PF4wUFMAeZ/BBshDMCPiBgDEChfo4PjZwYDrKiP2TNmlvMWykb4GMgz3lx65?=
- =?us-ascii?Q?VtGK4Ld6UT4ebX25OPL0tHweGWc9DQoCx1jJV6NozTJVaEPB4NhFwUB9BpYI?=
- =?us-ascii?Q?6efUFnucj6JGfIHcdhABWg/zM7rpbVVOS4LiTx3HfUJZcPSioU5gVWUCcbDI?=
- =?us-ascii?Q?BkBy2kOwkpmkHFBle/7MjkaQ1xMFXamq08dphFzaumq4rzq2s6m0/IUsb2dq?=
- =?us-ascii?Q?seJKwuaM2HCyVc/HMUX66s3fV4sjxAEcl4qxLkF4skYEHkeomBBUmw5Y9jFa?=
- =?us-ascii?Q?EoKwGICmbDjroCidIX/iA5buKZURW0u7cyJJUfgyEuJxLDqQxdqsjoiIseUp?=
- =?us-ascii?Q?i2kDQNy4QHUBtxVUszU9djS/gCsIU30F8UQCt6a+rmSEKM1H+rU89jqH4BJJ?=
- =?us-ascii?Q?FhHcjLeYD0okfkhQdcBa+F/ORBQLBsxIzxwL6zdZRAsgeJtP0nCjWUeFegf4?=
- =?us-ascii?Q?sa7xKjgPu4ChXCAjEcopWJQ4xQWq4GE/t9/RT6ZaZUXs03kB8RTfiEpdC+0w?=
- =?us-ascii?Q?h49CYjFkCRV8KSeta57mqhEPTllO7L0DQVvxuO3TTsNxFA70xFtczvofPq58?=
- =?us-ascii?Q?sg2zThye3a1yRO+fgyjH4fLG+cWjlyf30FqviYThBbYYKUd16wp63FbHdWZr?=
- =?us-ascii?Q?uMUxqK9cn75i+gS6OdmlNjg7uFT6qyQcZJAe6lYWtm1lNspCt8MZQ2dih40K?=
- =?us-ascii?Q?9Wvh2kYULHMtqVsyHimU//4jl7gbB7sO7Khq2t4kZWYkTGvh4Bz89nvsuZFM?=
- =?us-ascii?Q?UiFVYVbE9jg0H/4ncSWwaGLbhN3DipNsTAO0H8R7Dfyyh5TFsx4xWTTubyTz?=
- =?us-ascii?Q?7BNHAbztX8DS1YMGH7CtU08vj8JMOVq1qSg629EJ2hNUw/S6Oo52hvKQrxOj?=
- =?us-ascii?Q?aZCxdo+KzyrIU9t7gm1nX1YYWNdmIyTMB4TWGHSl8sP6Axkp99QAZu+KorUR?=
- =?us-ascii?Q?aZf0LaV+1v9EhN0UOu/62WOf2nx0sXR9tuJf6mM2nmBs+M0OACVTCrpNqcjW?=
- =?us-ascii?Q?vHgF3SQgRKpI3ccSm2Hb12e2BCxiTDuMs3FTdPiVy3DTpEjJe+mKTustQwM1?=
- =?us-ascii?Q?iVfjVAy5+uZiu5wGk8Xp3UpKOYPOFKPWviCktYJ/cHFF7W+BxQKR5jJWQild?=
- =?us-ascii?Q?Fo3RkZTmu27asRhhF0AOFBxWfKiWCP30qUSZ/89gJ7+/2bcoWsAbbXmw4U7J?=
- =?us-ascii?Q?BhHrruIpBRgePMuJrwODZQZRUf8pueAvVWRiNujRxSU+g2W7Imlu2RkJpjx3?=
- =?us-ascii?Q?i7+B8MNj3SUiOuLuc/ipk7njZgCICPETPmOOpgGL?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7808bc0-ba95-4745-e037-08dbe4ea0fe5
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 08:16:54.8792
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p+ia73SwV7XQYyctD+tgrJACrXnGKSueUxUhsEEfOTyK9jFE4zGWZuklgZDAgH/+ZRGcHDvCmg7YtLN8v79pYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6828
-X-OriginatorOrg: intel.com
 
-On Tue, Nov 14, 2023 at 12:42:13PM +0800, Li, Xin3 wrote:
->> >+	return cpu_feature_enabled(X86_FEATURE_FRED) &&
->> >+	       kvm_is_cr4_bit_set(vcpu, X86_CR4_FRED);
->> 
->> FRED is enabled when CR4.FRED = IA32_EFER.LMA = 1. Any reason to omit the
->> check about long mode?
->
->It won' t allow CR4.FRED to be set if not in long mode, I don't expect it
->at runtime.  Or you have one?
+On Mon, 2023-11-13 at 18:31 +0200, Andy Shevchenko wrote:
+> On Mon, Nov 13, 2023 at 11:13:44AM +0100, Nuno S=C3=A1 wrote:
+> > On Fri, 2023-11-10 at 18:50 +0200, Andy Shevchenko wrote:
+> > > On Fri, Nov 10, 2023 at 04:18:46PM +0100, Nuno Sa wrote:
+>=20
+> ...
+>=20
+> > > > +/*
+> > > > + * relaxed version of FIELD_PREP() to be used when mask is not a
+> > > > compile
+> > > > time constant
+> > > > + * u32_encode_bits() can't also be used as the compiler needs to b=
+e
+> > > > able to
+> > > > evaluate
+> > > > + * mask at compile time.
+> > > > + */
+> > > > +#define LTC4282_FIELD_PREP(m, v)	(((v) << (ffs(m) - 1)) & (m))
+> > >=20
+> > > Can we name it accordingly as done in other places, and TBH it's a ti=
+me to
+> > > move
+> > > it to the header. (At least I know about two more implementations of
+> > > this).
+> >=20
+> > Not sure what you mean? Is there some other drivers doing it already? I=
+'ll,
+> > anyways, wait on more feedback for the GPIO stuff because we might end =
+up
+> > not
+> > needing it...
+>=20
+> $ git grep -n 'define field_prep'
+>=20
+> ...
+>=20
+> > > > +	/* GPIO_2,3 and the ALERT pin require setting the bit to 1 to
+> > > > pull
+> > > > down the line */
+> > > > +	if (!gpio->active_high)
+> > >=20
+> > > Hmm... Why do you need a separate flag for this? Shouldn't be describ=
+ed or
+> > > autodetected somehow?
+> >=20
+> > Well, if a consumer as an active high gpio, it expects to call
+> > gpiod_set_value(..., 1) and the line to assert, right? To have that, we=
+ need
+> > to
+> > write 0 on the device register for some of the pins.
+>=20
+> It doesn't matter, the GPIO (not _raw) APIs are using logical levels, 1 =
+=E2=80=94
+> activate,
+> 0 =E2=80=94 deactivate.
+>=20
+> > And the same story is true for active low. gpiod_set_value(..., 0) will=
+ have
+> > the
+> > gpiolib to automatically invert the value and we get 1 in the callback.
+>=20
+> Yes, but why do you have that flag in the structure?
 
-I was thinking about a very contrived case:
+Because one of the pins (GPIO_1) has the opposite behavior...
 
-1. the CPU enters 64-bit long mode and sets CR4.FRED
-2. the CPU switches out of 64-bit long mode
+>=20
+> > > > +		val =3D !val;
+>=20
+> ...
+>=20
+> > > > +	*val =3D DIV_ROUND_CLOSEST_ULL(be16_to_cpu(in) * (u64)fs,
+> > > > U16_MAX);
+> > >=20
+> > > I'm wondering if you can do some trick to "divide" actually to 2^16 s=
+o, it
+> > > will
+> > > not use division op at all?
+> >=20
+> > Hmm, not sure if it will be obvious but you mean something like:
+> >=20
+> > *val =3D (be16_to_cpu(in) * (u64)fs) >> 16;
+> >=20
+> > Is this what you mean? If so, we`ll loose the "CLOSEST" handling... Not=
+ so
+> > sure
+> > if we need to be "that" performant in such a code path. But Guenter can=
+ also
+> > share his opinion...
+>=20
+> 	*val =3D DIV_ROUND_CLOSEST_ULL(be16_to_cpu(in) * (u64)fs + (BIT(16) -
+> 1), BIT(16));
+>=20
+> will give the same result without division, no?
+> What you need is to make sure that the multiplication won't get closer to
+> U64_MAX, which seems not the case here (max 48-bit number).
 
-and SDM vol3 chapter 2.5 CONTROL REGISTERS says:
+Hmm, I must be missing something but you're still using DIV_ROUND_CLOSEST_U=
+LL().
+So, I guess you're rely on some formula optimization that removes the divis=
+ion
+(I'm honestly seeing it) but the result won't be exactly the same (off by 1=
+).
+Again, this is not a fast path (AFAIK) and this is a typical formula to get=
+ a
+value from an ADC so I'm not sure making any super "smart" tricks to make t=
+his
+run faster beats readability.
 
-A 64-bit capable processor will retain the upper 32 bits of each control
-register when transitioning out of IA-32e mode.
+But, I'm still not seeing what you mean so I might change my mind...
 
-so, to me, it is possible that CR4.FRED is 1 while IA32_EFER.LMA is 0.
-and in this case, FRED should be considered disabled.
+>=20
+> Ditto for all other similar cases which I already pointed out.
+>=20
+> ...
+>=20
+> > > > +	u64 temp =3D=C2=A0 DECA * 40ULL * st->vfs_out * 1 << 16, temp_2;
+>=20
+> > >=20
+> > > "* BIT(16)" / "* BIT_ULL(16)" ?
+> >=20
+> > Well, I can just place the number as in the formula. Not too keen on th=
+e
+> > BIT()
+> > macros as this is not really a mask.
+>=20
+> I'm not sure I got this. The << 16 neither a plain number and BIT() is eq=
+ually
 
+Well, I do agree with << 16 part...
 
-Anyway, I think we should align with FRED SPEC. If we deliberately omit
-the check about long mode, please add a comment to explain why it is ok
-to do that.
+> good. With power of two it's most likely that this is due to internal
+> implementation of the firmware or hardware, so again BIT() can be still g=
+ood
+> enough to show that.
+>=20
 
->
->If you are talking about save/restore a corrupted vCPU state, a following
->VM entry should fail anyway.
+I'm still not convinced honestly... I see plain numbers to be a good fit an=
+d
+they match exactly with the DS. I just see things like BIT(), GENMASK, BITM=
+AP
+and the likes to be used on masks.
+
+But I don't really care so unless Guenter has some opinion I can make as yo=
+u
+suggest...
+
+- Nuno S=C3=A1
+
