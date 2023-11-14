@@ -1,101 +1,135 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E740118B13;
-	Tue, 14 Nov 2023 15:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031782AF05
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 16:28:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eyFexgR4"
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89071BB;
-	Tue, 14 Nov 2023 07:52:05 -0800 (PST)
-Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-7789577b53fso355931785a.3;
-        Tue, 14 Nov 2023 07:52:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699977124; x=1700581924; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rDIsw6iCRCkkHtZUOVAOy4wE3ySOPjZG0P1Xurh3oQc=;
-        b=eyFexgR4//MePD+62vo2c25tw8tysVgaXO5LiU7Dv3maN6UOeuNZ2/X+LdIxQhwihi
-         EnMCclhINxv1XBm0q0JJv453y9lI/Tivol1tU6u+FDwQnhI+OFDz2erX8GBGqeY3crSz
-         7agJjszweUbFT8sUVOIMnIR72b4SJb0fYYRYDay853RGBeoLc25SK5g+iCt4Q7oIgdCI
-         iGSrdjmSTr0pNL4BKLMd8xzYDcbe2jal4saIKrL+NPo6VMZgtx/QOmfk6KEmoYsYdX7e
-         MSlbdmcCCpXae0aIybLDUVy+vKKlM/3redz5hOT9O2XHlxD2zfxLDBKiPW6mF/QNAL/A
-         KR+A==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XkBq32wE"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C926B112
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 08:28:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1699979317;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zT55sICneOruB98vZghCPIaAQzAuT2+qJvhhUcjEcFU=;
+	b=XkBq32wEBh2K4uBSL0gBD4FbCaIaLCkSfXN9oHb7Gi8BKTYLsKuMNqtuHEg8wcmLjclaEM
+	BfAjOt8gVbwC7n2iE91LCm4EKwZQayNeFx8BVSqaCrLbETAl+lBX8x2vvTdL0E3C5bRF+7
+	TQOzKaQlNXZJYpfs/3JFnmkeUVFzSME=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-620-H-bfuRLLPWaETRHBezuvaw-1; Tue, 14 Nov 2023 11:28:35 -0500
+X-MC-Unique: H-bfuRLLPWaETRHBezuvaw-1
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-3b2e7ae47d1so6847033b6e.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 08:28:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699977124; x=1700581924;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rDIsw6iCRCkkHtZUOVAOy4wE3ySOPjZG0P1Xurh3oQc=;
-        b=tNkJLDo5z+0ai0CVbxouCNV+8GGGqrYrd38SuMZqahzTgs+2UXLAp50Hq8UOh6x/t+
-         9+i8w71tPJ9lMXJr93uuYcl7/dNPQaSdZmXwVwbhRyPoJGD5xXbuTyP8yIkzd64AseWC
-         WNfb2OeXsLSTbW2/EhG1oBYnkxUMoLfncagdRjFR9EFOSNz2WUtyK3uOQpqKB8m8z6Yn
-         o+qxqdXJMxbXEZtXPN+sBs+8stLwqgzE9cIlhdqVDJPvDtp8uVVEnwOqGKSmovG42fLR
-         MSFIbU48cUakTcVi6BkQAv2kd0mto0URfou38yWigEhB7nvc7RzywLwLDMUi+OObxt2l
-         l+2Q==
-X-Gm-Message-State: AOJu0YzizlfQW7p/ee1rx/kVv4NtPdz9bBuLD8E2BOB8ySEYZanH2RNi
-	ZoanXiLGrYy4+TVWYEDsO64=
-X-Google-Smtp-Source: AGHT+IHYgHhpQNHunVVy4tvWXY0eiuAjucuk61pdXd64PUs0P5jttrqIpT7s44OeH077F3LgTBbkYg==
-X-Received: by 2002:a0c:ebcf:0:b0:66d:25f7:de15 with SMTP id k15-20020a0cebcf000000b0066d25f7de15mr2435603qvq.31.1699977124669;
-        Tue, 14 Nov 2023 07:52:04 -0800 (PST)
-Received: from localhost (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id b11-20020a0ce88b000000b00668bb8be252sm2974542qvo.60.2023.11.14.07.52.04
+        d=1e100.net; s=20230601; t=1699979315; x=1700584115;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zT55sICneOruB98vZghCPIaAQzAuT2+qJvhhUcjEcFU=;
+        b=Z1Tvu+IlpdCqQihdSS+uzlP+/xszeNdjvv8vdMIujNLXypOCTz8wQxKJhXCaabNC6m
+         VoYqLci7UhmE5dGe9NTUJHybnLxQH0vNuSMJD0jrN23V6QQl8K3RTvoXw/KlsxpDLUYY
+         edDZrlOAY22+ApWonUVDGBG6t7eOV4F/AIN4X2Nlku+KirZEu3W0C6DR5tKvTVcbf0cE
+         izrDOd+U4UJM1t7zWerEgS1R6kVnPptKshoukc7FysQBH9YeLi4KHodhxPtBaCUEGbfX
+         5Yl3RoOjOQ0Cl+apsahWIEKVs8vvRP8r98LQtUEfvqcEPYzxnfxMb3kPDfi5TPseziBR
+         /amQ==
+X-Gm-Message-State: AOJu0YxJsIxuLcesGM4exKUlddCWEG3dsNfosryb/t8pjZqJaO2T7HeS
+	8KclaHfTXURMcH4p3o8FwhThQX5A7VTUu7vYDCgUVjJJHKrtG0sqA51xYr4xY9zV4rl/iKXpGSr
+	+ZrKV3Q0Zdf7r8KP5c3g8
+X-Received: by 2002:a05:6808:1b13:b0:3b6:db1b:67be with SMTP id bx19-20020a0568081b1300b003b6db1b67bemr12820718oib.16.1699979315241;
+        Tue, 14 Nov 2023 08:28:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFCs4OZHiYJNQd+EbwIGjg3wDC1a9KzyEDPS/n5hkAeLDacLMu9zBSwKsOA9Yp+3SBU3M3l2g==
+X-Received: by 2002:a05:6808:1b13:b0:3b6:db1b:67be with SMTP id bx19-20020a0568081b1300b003b6db1b67bemr12820694oib.16.1699979314953;
+        Tue, 14 Nov 2023 08:28:34 -0800 (PST)
+Received: from localhost ([195.166.127.210])
+        by smtp.gmail.com with ESMTPSA id t26-20020a05620a005a00b0077263636a95sm2768517qkt.93.2023.11.14.08.28.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 07:52:04 -0800 (PST)
-Date: Tue, 14 Nov 2023 10:52:04 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Kory Maincent <kory.maincent@bootlin.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- Richard Cochran <richardcochran@gmail.com>, 
- Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
- Jay Vosburgh <j.vosburgh@gmail.com>, 
- Andy Gospodarek <andy@greyhouse.net>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Horatiu Vultur <horatiu.vultur@microchip.com>, 
- UNGLinuxDriver@microchip.com, 
- Simon Horman <horms@kernel.org>, 
- Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Kory Maincent <kory.maincent@bootlin.com>
-Message-ID: <655397a41f1bb_125ffe294aa@willemb.c.googlers.com.notmuch>
-In-Reply-To: <20231114-feature_ptp_netnext-v7-7-472e77951e40@bootlin.com>
-References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
- <20231114-feature_ptp_netnext-v7-7-472e77951e40@bootlin.com>
-Subject: Re: [PATCH net-next v7 07/16] net_tstamp: Add TIMESTAMPING SOFTWARE
- and HARDWARE mask
+        Tue, 14 Nov 2023 08:28:34 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Cc: Simon Ser <contact@emersion.fr>, Sima Vetter <daniel.vetter@ffwll.ch>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, Maxime Ripard
+ <mripard@kernel.org>, Bilal Elmoussaoui <belmouss@redhat.com>, Erico Nunes
+ <nunes.erico@gmail.com>, Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, David Airlie
+ <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Gurchetan Singh
+ <gurchetansingh@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, VMware Graphics Reviewers
+ <linux-graphics-maintainer@vmware.com>, Zack Rusin <zackr@vmware.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 0/6] drm: Allow the damage helpers to handle buffer damage
+In-Reply-To: <9296c184-22c1-4d71-8b11-2d26f49a5790@suse.de>
+References: <20231109172449.1599262-1-javierm@redhat.com>
+ <9296c184-22c1-4d71-8b11-2d26f49a5790@suse.de>
+Date: Tue, 14 Nov 2023 17:28:32 +0100
+Message-ID: <87wmuk5mfj.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Kory Maincent wrote:
-> Timestamping software or hardware flags are often used as a group,
-> therefore adding these masks will easier future use.
-> 
-> I did not use SOF_TIMESTAMPING_SYS_HARDWARE flag as it is deprecated and
-> not use at all.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Reviewed-by: Willem de Bruijn <willemb@google.com>
+> Hi Javier
+>
+> Am 09.11.23 um 18:24 schrieb Javier Martinez Canillas:
+>> Hello,
+>> 
+>> This series is to fix an issue that surfaced after damage clipping was
+>> enabled for the virtio-gpu by commit 01f05940a9a7 ("drm/virtio: Enable
+>> fb damage clips property for the primary plane").
+>> 
+>> After that change, flickering artifacts was reported to be present with
+>> both weston and wlroots wayland compositors when running in a virtual
+>> machine. The cause was identified by Sima Vetter, who pointed out that
+>> virtio-gpu does per-buffer uploads and for this reason it needs to do
+>> a buffer damage handling, instead of frame damage handling.
+>
+> I'm having problem understanding the types of damage. You never say what 
+> buffer damage is. I also don't know what a frame is in this context.
+>
+> Regular damage handling marks parts of a plane as dirty/damaged. That is 
+> per-plane damage handling. The individual planes more or less 
+> independent from each other.
+>
+> Buffer damage, I guess, marks the underlying buffer as dirty and 
+> requires synchronization of the buffer with some backing storage. The 
+> planes using that buffer are then updated more or less automatically.
+>
+> Is that right?
+>
+
+In both cases the damage tracking information is the same, they mark
+the damaged regions on the plane in framebuffer coordinates of the
+framebuffer attached to the plane.
+
+The problem as far as I understand is whether the driver expects that
+to determine the area that changed in the plane (and a plane flush is
+enough) or the area that changed since that same buffer was last used.
+
+> And why does it flicker? Is there old data stored somewhere?
+>
+
+It flickers because the framebuffer changed and so the damage tracking
+is not used correctly to flush the damaged areas to the backing storage.
+
+This is my understanding at least, please Sima or Simon correct me if I
+got this wrong.
+
+> Best regards
+> Thomas
+>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
