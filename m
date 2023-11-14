@@ -1,197 +1,184 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80D22C194;
-	Tue, 14 Nov 2023 17:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="D5ixf4Cv"
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85F5D94;
-	Tue, 14 Nov 2023 09:49:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mi2oL2vOpqZT7gq5HmTv7aT6/1n76pU4ELGiL1PHoK9ufX/W7WwNIYbeVZUfSx5Yktr8JgfgXFmSrMySispmj0J7uMMNpKUirMQrRAndE+ywHGY3MwXTZTNzimkTDiQEjZtKrrE4QkFGLOTOoZYzm3XO1eWppLL8q8MnKZTZHB1JfdwAA+3nFDH/AKUI0UYgKGBGMGka2QhNAegVnAnyfFdsnThZJsxUgc/TjQu76ZAlavU1oCALXip70LE9v8EQyJB5shd2KnES5nQwVjVB9AoDWxEKdgG5K2uf49Y3E08QK+e3MZ6Sw3YEe5OCQSQJZmfk/ra+v23t38KfED652Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FylOm7FjvRjEOQJtoTBgTWErNycCvQ5hgLTGsFA0IbE=;
- b=RqLaGrZyzxssSPFd9Li6QaTWMA7vo9T2gvTXw5m/Xd/SQko4EepLzYU+llyaC30Hpn4ZNYXRiUyS4/ThhF1j7o8jQgdT2TaB04Q/tp/tMfJfZRGD0Pqm6ujJTDmHi839NFiJfe3bMhsOQXFDoAlcb2ve4y3kh8MBCTMYsB8okLIrYhY/9rL/L+uZ/Tqre7gxNCaWoYKfbx96oiaKOxDYvFGna+ILX/jLYOcLK5r2qcDVanHBPB12uAHumQX+uKhUx4nKqqMBRofPoqUwbp06vf7BHkfqlGAdnivahH5sVGyIFB/3rXvQdkEjnvyBPYF0Gfi6EsziTn62PSSC/CE/gA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FylOm7FjvRjEOQJtoTBgTWErNycCvQ5hgLTGsFA0IbE=;
- b=D5ixf4Cv2AFentjTAnymC+td9rcjork/JY2/RYXC1JIm/hqWigF+h9Nq2EHZBSXilW3o+m2V78KYVg1ebAYxifQjUsbKVFEI30vWYzHoDwpuET0uueHFjF9qfTM0LsniB4/I2LDbAvsJicGE6hkjAx3iBvDK6tIupPcMevr6eMg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by SJ0PR17MB5653.namprd17.prod.outlook.com (2603:10b6:a03:387::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.17; Tue, 14 Nov
- 2023 17:49:46 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7002.015; Tue, 14 Nov 2023
- 17:49:45 +0000
-Date: Tue, 14 Nov 2023 12:49:36 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Michal Hocko <mhocko@suse.com>
-Cc: "tj@kernel.org" <tj@kernel.org>, John Groves <john@jagalactic.com>,
-	Gregory Price <gourry.memverge@gmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"ying.huang@intel.com" <ying.huang@intel.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-	"shakeelb@google.com" <shakeelb@google.com>,
-	"muchun.song@linux.dev" <muchun.song@linux.dev>,
-	"jgroves@micron.com" <jgroves@micron.com>
-Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
-Message-ID: <ZVOzMEtDYB4l8qFy@memverge.com>
-References: <20231109002517.106829-1-gregory.price@memverge.com>
- <klhcqksrg7uvdrf6hoi5tegifycjltz2kx2d62hapmw3ulr7oa@woibsnrpgox4>
- <0100018bb64636ef-9daaf0c0-813c-4209-94e4-96ba6854f554-000000@email.amazonses.com>
- <ZU6pR46kiuzPricM@slm.duckdns.org>
- <ZU6uxSrj75EiXise@memverge.com>
- <ZU7vjsSkGbRLza-K@slm.duckdns.org>
- <ZU74L9oxWOoTTfpM@memverge.com>
- <ZVNBMW8iJIGDyp0y@tiehlicka>
- <ZVOXWx8XNJJNC23A@memverge.com>
- <ZVOn2T_Qg_NTKlB2@tiehlicka>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZVOn2T_Qg_NTKlB2@tiehlicka>
-X-ClientProxiedBy: PH0P220CA0005.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:d3::25) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5062C182
+	for <linux-doc@vger.kernel.org>; Tue, 14 Nov 2023 18:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D80A6181;
+	Tue, 14 Nov 2023 10:04:34 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50a6ff9881fso7229999e87.1;
+        Tue, 14 Nov 2023 10:04:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699985073; x=1700589873;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ey9erX/YrVlUPvW8qimZgQRTCPhSsciFIT0777za9CM=;
+        b=DZJVbwJNSedgo/bS2hR5rxADTM8P3WjdP5xE8U6At8q3KkDMnCbNUAU3Ud5Gu+yZsi
+         qYV8g2wMNi4qK16SkI1xg2YKE07/T+vikLN098dn8prWL66iF1u5Niai/cVR0PKXa4pr
+         gjlucFgL7T3b5r6ag9pGd2jc2gLIyVphOro6jXRHebWw4tmjTbl8cL3ufcD8DkR8uoAa
+         Ze//4OW6a3Lp/AJLvGayNO+Evq/dsteCFl0N5485D/VS5+VtvWq7KSWRZBYnZOehfLTd
+         XR5HxaDd/QS5ATBK8J11SpsXmKtJOz7ff7a/PirX2VfAz+brFggXWSYjdHq9/MmI7WLZ
+         e0UQ==
+X-Gm-Message-State: AOJu0YyEKgjUUH1zXh/j17IpamBBPfZKuW8uGG7W9TpU2nsYf1upXQnN
+	T5FI4bBJuEJ29pnwuWJvVG5FLo/BLx4=
+X-Google-Smtp-Source: AGHT+IFYwfGAP1QXLzYS/irG8xw6JaTeR+eUlbQEDk65Usr2OGHi+c8qJNznffpy88lJr/IBOr6USQ==
+X-Received: by 2002:a05:6512:3f0:b0:50a:6fc5:e95c with SMTP id n16-20020a05651203f000b0050a6fc5e95cmr6134583lfq.60.1699985072699;
+        Tue, 14 Nov 2023 10:04:32 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::bbbb:121? ([2a0b:e7c0:0:107::bbbb:121])
+        by smtp.gmail.com with ESMTPSA id a67-20020a509ec9000000b0053e43492ef1sm5467491edf.65.2023.11.14.10.04.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Nov 2023 10:04:32 -0800 (PST)
+Message-ID: <5da1d0d3-9677-4c9a-8568-d24db389465c@kernel.org>
+Date: Tue, 14 Nov 2023 19:04:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SJ0PR17MB5653:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6e29f6b-71a6-40b4-0393-08dbe53a16a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	4WMVuJ9JjszrI5ZZwNogLB5Cisbg22SKR4A5dSHxdyEMp4BidOBMDE6pQgSLyTaZUB29l5fYBwXWlIsFTu5LKEqNwrbPojbLqnnWp49tYtSzieTlbEtAz9IgZ10ITFaWxmHh2E0lT3CTT+qHTqGvlzd42OQqhXVoulu2KUDsuJ9Bb3gjxbzGhCXG6qq0SM70ayLxuB4alxHeiiWUo8xg7XFNeqvbT6Sh8PtbZOzJ0QwAxUUeKUDN138v5KAZFkFqggrkCpVSV/fv7duOWgv/h0EADmkB8EZLhjnUu3aiahSDm7qwGSd38uoI3tE5DrVJtKYitXhIZA/Nh21JvrKYQXn6pSKEOZJERLwG3Y50kRxbG7HO35pxtwAzeUF3yXv96YQB/uTrgTO7hnw3YoMtUpBhZjUji5x3CRHeNnNMHtLgUcMk09plXe7OamQSk0t9BH77lfFKGD6JeHor/khZogqWoQsEHeh3MxhCwmsSs8Ukshw5F6CR7C+Dob/rzl6caQqJxI5xX/ch1MehxUyhSy2RFUw4odRzLTnZiCpTgQ0PXyzu8nX0G4+7AZOYRByMYq7ni5Vpv/oEMk/WzFdjjKWPQDmrXNIPq/9UXgn00qo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39840400004)(346002)(396003)(366004)(136003)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(2616005)(6512007)(8676002)(8936002)(6486002)(966005)(478600001)(26005)(44832011)(36756003)(4326008)(86362001)(41300700001)(7416002)(5660300002)(2906002)(66946007)(66476007)(66556008)(54906003)(6916009)(316002)(6666004)(6506007)(38100700002)(83380400001)(16393002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1rN6Of1TuXIsomIpZN4Lo3DR/7aUISuRmT3aRV+AfE06KIW2bL8clhHB9/On?=
- =?us-ascii?Q?6i5RLYXJAo/5KnsLx1s8bjGDa4rYDmKc4WZzWRFny0P28Bf0mCf3+H2ErWLw?=
- =?us-ascii?Q?WETmjFvlIf3IgbQZEBSSi4EsBj3G9kMnBkqs5zU6btsFUxfc2be72WmCqPD8?=
- =?us-ascii?Q?G8OLcizIup8cCEm2k1bUlpvjC1ln6O1zUUVP8s0EynNrLcu/gG7b+dBXtNuV?=
- =?us-ascii?Q?pUCTernyG3zKCn0pqao8cHiBLvukpa1MEXJvm294EI6BjJpG4Kn6C1GCtsls?=
- =?us-ascii?Q?wxSmN6roEqxuDFm5gmqrWPo/KsCKMgGUsMAR9ApNHmCB8P3BvgjasqcYLYl0?=
- =?us-ascii?Q?rLs5yz+4puX8PBmHi0LaxiI1k4et2Y53GH1AkEABH5HpgIGfZGPsZVeNrkPv?=
- =?us-ascii?Q?T1onJP+F6uXSis4FCuxhO8y3Q7cZxqWTTHNFQvK7Cy4IHcZxh1tBIGDJcF0D?=
- =?us-ascii?Q?ZX7gbz/+hJwr1byo8KWt5898z+iJ1ar7wTCD17D9ZVvbH+yOS54vKOL+HU5V?=
- =?us-ascii?Q?wkWDgcOrrapH0fnOyZmbqbxwESNXuLTizodEVD/iin4t+/W6K/wIGgSBZ+GY?=
- =?us-ascii?Q?w/Ok7CHvyfU0knOCkse36a2E6picz73IdhVV/wvmbzU+NusRXGCUS3vBrG2H?=
- =?us-ascii?Q?FjYaV54gYDadzW7V05n8D1gCDmtEZWQkWqoAwmWPKJavi69iMlpmmOtlPFH8?=
- =?us-ascii?Q?eksy+O1xsCJ5rpWkhNuCPgMumUQCJzmvW08HGljm9oU7B2W8rAZi5OQX49ak?=
- =?us-ascii?Q?N6mvKLTVnGUcqbV4OLUBNO7rVqyk+q7hWULq9bbLXTjgfIQhZYkw7vsIuCtL?=
- =?us-ascii?Q?y6AxweChYhSZepfnJsEwi52HGxfp30RJWEDPJzzwbD1d83e5+JDuHZpAwSxJ?=
- =?us-ascii?Q?dT6BfY/Cgax+HyzWjQ0DPqKpR0wxt5A25lX0kMr8CgsvbBN/Q+wauT72anxr?=
- =?us-ascii?Q?0/gnj/gCI+1aZeayeQ8vkCN3lKDEb8bBjqViMcxGDwSephTt9z2eEfd2FSaK?=
- =?us-ascii?Q?r5hjwc8H8jH+H3PAKbzn06RqiW2TeZ1nQC6x7cBuQFktgxa2G2iA3PbdgGbR?=
- =?us-ascii?Q?OSTVZCOdf6TFaKIsDg9KcPhGBwonSjFPL64EgRLi18cqQIsON/Cgj6G5zKB9?=
- =?us-ascii?Q?UM7O7Sv+LbVtlDh5fGQd6I4JoG1QNR2qN8mxQUEnjilvyecF1hZjaaq2Y1FO?=
- =?us-ascii?Q?zuLxGIbaTN7wwbTgrVrvoLB3v2Np3NkqId9/a7Gn6CUdQvOEMiCHgyy+BTqX?=
- =?us-ascii?Q?Cr5CHEbTCWFVr5MgcgziVW2vEes/qiAv4JwGi44vNIBgYepDu3a4L8hsnD5K?=
- =?us-ascii?Q?lXuCR64i2UmPU4hmE1Uch49MSlZnnsGUEH3LGDzWaxumBcpGbQd4vdbQKxUw?=
- =?us-ascii?Q?rOwk5ywpcwY9giwnYrVd9xnzZTR79vI0O9oVsZWLIuinSDX4ECI4DWXBzY+f?=
- =?us-ascii?Q?pUmqUlyvD6lIM3Ekdsfg6lyBmET08OBVvnt1ACmPWNh6ErFiOg27x3kGL3tD?=
- =?us-ascii?Q?U2EpBboSN8ARVACghhRfbWwe6Xyrm5WT/Siywvs6letdu1DKbzKiCfvHE1ip?=
- =?us-ascii?Q?5FVSLob/ogm73ucdoAJkWFjSXyCdEtv5Gvx5CFYM8jXad8eC4wda3tIxFal3?=
- =?us-ascii?Q?Zg=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6e29f6b-71a6-40b4-0393-08dbe53a16a1
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 17:49:45.5272
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hjsiqJxYGuDevKfjU5heqUfS1vPdORSFG6PigprhOUX/c9s6kMAlmCsABjCdo9yPOCTRy/EuPolWCtW5ly4PWJYfEGaixIcWjGWMhl2uuBo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB5653
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] /proc/sysrq-trigger: accept multiple keys at once
+Content-Language: en-US
+To: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+Cc: corbet@lwn.net, gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20231114124152.97010-1-tomas.mudrunka@gmail.com>
+ <20231114151252.117575-1-tomas.mudrunka@gmail.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ xsFNBE6S54YBEACzzjLwDUbU5elY4GTg/NdotjA0jyyJtYI86wdKraekbNE0bC4zV+ryvH4j
+ rrcDwGs6tFVrAHvdHeIdI07s1iIx5R/ndcHwt4fvI8CL5PzPmn5J+h0WERR5rFprRh6axhOk
+ rSD5CwQl19fm4AJCS6A9GJtOoiLpWn2/IbogPc71jQVrupZYYx51rAaHZ0D2KYK/uhfc6neJ
+ i0WqPlbtIlIrpvWxckucNu6ZwXjFY0f3qIRg3Vqh5QxPkojGsq9tXVFVLEkSVz6FoqCHrUTx
+ wr+aw6qqQVgvT/McQtsI0S66uIkQjzPUrgAEtWUv76rM4ekqL9stHyvTGw0Fjsualwb0Gwdx
+ ReTZzMgheAyoy/umIOKrSEpWouVoBt5FFSZUyjuDdlPPYyPav+hpI6ggmCTld3u2hyiHji2H
+ cDpcLM2LMhlHBipu80s9anNeZhCANDhbC5E+NZmuwgzHBcan8WC7xsPXPaiZSIm7TKaVoOcL
+ 9tE5aN3jQmIlrT7ZUX52Ff/hSdx/JKDP3YMNtt4B0cH6ejIjtqTd+Ge8sSttsnNM0CQUkXps
+ w98jwz+Lxw/bKMr3NSnnFpUZaxwji3BC9vYyxKMAwNelBCHEgS/OAa3EJoTfuYOK6wT6nadm
+ YqYjwYbZE5V/SwzMbpWu7Jwlvuwyfo5mh7w5iMfnZE+vHFwp/wARAQABzSFKaXJpIFNsYWJ5
+ IDxqaXJpc2xhYnlAa2VybmVsLm9yZz7CwXcEEwEIACEFAlW3RUwCGwMFCwkIBwIGFQgJCgsC
+ BBYCAwECHgECF4AACgkQvSWxBAa0cEnVTg//TQpdIAr8Tn0VAeUjdVIH9XCFw+cPSU+zMSCH
+ eCZoA/N6gitEcnvHoFVVM7b3hK2HgoFUNbmYC0RdcSc80pOF5gCnACSP9XWHGWzeKCARRcQR
+ 4s5YD8I4VV5hqXcKo2DFAtIOVbHDW+0okOzcecdasCakUTr7s2fXz97uuoc2gIBB7bmHUGAH
+ XQXHvdnCLjDjR+eJN+zrtbqZKYSfj89s/ZHn5Slug6w8qOPT1sVNGG+eWPlc5s7XYhT9z66E
+ l5C0rG35JE4PhC+tl7BaE5IwjJlBMHf/cMJxNHAYoQ1hWQCKOfMDQ6bsEr++kGUCbHkrEFwD
+ UVA72iLnnnlZCMevwE4hc0zVhseWhPc/KMYObU1sDGqaCesRLkE3tiE7X2cikmj/qH0CoMWe
+ gjnwnQ2qVJcaPSzJ4QITvchEQ+tbuVAyvn9H+9MkdT7b7b2OaqYsUP8rn/2k1Td5zknUz7iF
+ oJ0Z9wPTl6tDfF8phaMIPISYrhceVOIoL+rWfaikhBulZTIT5ihieY9nQOw6vhOfWkYvv0Dl
+ o4GRnb2ybPQpfEs7WtetOsUgiUbfljTgILFw3CsPW8JESOGQc0Pv8ieznIighqPPFz9g+zSu
+ Ss/rpcsqag5n9rQp/H3WW5zKUpeYcKGaPDp/vSUovMcjp8USIhzBBrmI7UWAtuedG9prjqfO
+ wU0ETpLnhgEQAM+cDWLL+Wvc9cLhA2OXZ/gMmu7NbYKjfth1UyOuBd5emIO+d4RfFM02XFTI
+ t4MxwhAryhsKQQcA4iQNldkbyeviYrPKWjLTjRXT5cD2lpWzr+Jx7mX7InV5JOz1Qq+P+nJW
+ YIBjUKhI03ux89p58CYil24Zpyn2F5cX7U+inY8lJIBwLPBnc9Z0An/DVnUOD+0wIcYVnZAK
+ DiIXODkGqTg3fhZwbbi+KAhtHPFM2fGw2VTUf62IHzV+eBSnamzPOBc1XsJYKRo3FHNeLuS8
+ f4wUe7bWb9O66PPFK/RkeqNX6akkFBf9VfrZ1rTEKAyJ2uqf1EI1olYnENk4+00IBa+BavGQ
+ 8UW9dGW3nbPrfuOV5UUvbnsSQwj67pSdrBQqilr5N/5H9z7VCDQ0dhuJNtvDSlTf2iUFBqgk
+ 3smln31PUYiVPrMP0V4ja0i9qtO/TB01rTfTyXTRtqz53qO5dGsYiliJO5aUmh8swVpotgK4
+ /57h3zGsaXO9PGgnnAdqeKVITaFTLY1ISg+Ptb4KoliiOjrBMmQUSJVtkUXMrCMCeuPDGHo7
+ 39Xc75lcHlGuM3yEB//htKjyprbLeLf1y4xPyTeeF5zg/0ztRZNKZicgEmxyUNBHHnBKHQxz
+ 1j+mzH0HjZZtXjGu2KLJ18G07q0fpz2ZPk2D53Ww39VNI/J9ABEBAAHCwV8EGAECAAkFAk6S
+ 54YCGwwACgkQvSWxBAa0cEk3tRAAgO+DFpbyIa4RlnfpcW17AfnpZi9VR5+zr496n2jH/1ld
+ wRO/S+QNSA8qdABqMb9WI4BNaoANgcg0AS429Mq0taaWKkAjkkGAT7mD1Q5PiLr06Y/+Kzdr
+ 90eUVneqM2TUQQbK+Kh7JwmGVrRGNqQrDk+gRNvKnGwFNeTkTKtJ0P8jYd7P1gZb9Fwj9YLx
+ jhn/sVIhNmEBLBoI7PL+9fbILqJPHgAwW35rpnq4f/EYTykbk1sa13Tav6btJ+4QOgbcezWI
+ wZ5w/JVfEJW9JXp3BFAVzRQ5nVrrLDAJZ8Y5ioWcm99JtSIIxXxt9FJaGc1Bgsi5K/+dyTKL
+ wLMJgiBzbVx8G+fCJJ9YtlNOPWhbKPlrQ8+AY52Aagi9WNhe6XfJdh5g6ptiOILm330mkR4g
+ W6nEgZVyIyTq3ekOuruftWL99qpP5zi+eNrMmLRQx9iecDNgFr342R9bTDlb1TLuRb+/tJ98
+ f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
+ DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
+ S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
+In-Reply-To: <20231114151252.117575-1-tomas.mudrunka@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 14, 2023 at 06:01:13PM +0100, Michal Hocko wrote:
-> On Tue 14-11-23 10:50:51, Gregory Price wrote:
-> > On Tue, Nov 14, 2023 at 10:43:13AM +0100, Michal Hocko wrote:
-> [...]
-> > > That being said, I still believe that a cgroup based interface is a much
-> > > better choice over a global one. Cpusets seem to be a good fit as the
-> > > controller does control memory placement wrt NUMA interfaces.
-> > 
-> > I think cpusets is a non-starter due to the global spinlock required when
-> > reading informaiton from it:
-> > 
-> > https://elixir.bootlin.com/linux/latest/source/kernel/cgroup/cpuset.c#L391
+On 14. 11. 23, 16:12, Tomas Mudrunka wrote:
+> Just for convenience.
+> This way we can do:
+> `echo _reisub > /proc/sysrq-trigger`
+> Instead of:
+> `for i in r e i s u b; do echo "$i" > /proc/sysrq-trigger; done;`
 > 
-> Right, our current cpuset implementation indeed requires callback lock
-> from the page allocator. But that is an implementation detail. I do not
-> remember bug reports about the lock being a bottle neck though. If
-> anything cpusets lock optimizations would be win also for users who do
-> not want to use weighted interleave interface.
+> This can be very useful when trying to execute sysrq combo remotely
+> or from userspace. When sending keys in multiple separate writes,
+> userspace can be killed before whole combo is completed.
+> Therefore putting all keys in single write is more robust approach.
+> 
+> Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+> ---
+> V5 -> V6: Documentation now has notice about undefined behavior
+> V4 -> V5: Added this list of changes
+> V3 -> V4: Bulk is now bool instead of char (and fixed typo)
+> V2 -> V3: Fixed code styling (and introduced typo)
+> V1 -> V2: Bulk mode only activated by underscore now, added docs
+> 
+>   Documentation/admin-guide/sysrq.rst | 11 ++++++++++-
+>   drivers/tty/sysrq.c                 | 17 ++++++++++++++---
+>   2 files changed, 24 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
+> index 51906e473..e7a82cba7 100644
+> --- a/Documentation/admin-guide/sysrq.rst
+> +++ b/Documentation/admin-guide/sysrq.rst
+> @@ -75,10 +75,19 @@ On other
+>   	submit a patch to be included in this section.
+>   
+>   On all
+> -	Write a character to /proc/sysrq-trigger.  e.g.::
+> +	Write single character to /proc/sysrq-trigger.
 
-Definitely agree, but that's a rather large increase of scope :[
+a single
 
-We could consider a push-model similar to how cpuset nodemasks are
-pushed down to mempolicies, rather than a pull-model of having
-mempolicy read directly from cpusets, at least until cpusets lock
-optimization is undertaken.
+> +	Only first character is interpreted, rest of string is ignored.
 
-This pattern looks like a wart to me, which is why I avoided it, but the
-locking implications on the pull-model make me sad.
+the first; the rest of the string
 
-Would like to point out that Tejun pushed back on implementing weights
-in cgroups (regardless of subcomponent), so I think we need to come
-to a consensus on where this data should live in a "more global"
-context (cpusets, memcg, nodes, etc) before I go mucking around
-further.
+> +	However it is not reccomended to write any extra characters
 
-So far we have:
-* mempolicy: updating weights is a very complicated undertaking,
-             and no (good) way to do this from outside the task.
-	     would be better to have a coarser grained control.
+However, <- comma
+recommended
 
-             New syscall is likely needed to add/set weights in the
-	     per-task mempolicy, or bite the bullet on set_mempolicy2
-	     and make the syscall extensible for the future.
+> +	as the behavior is undefined and might change in the future versions.
+> +	e.g.::
 
-* memtiers: tier=node when devices are already interleaved or when all
-            devices are different, so why add yet another layer of
-	    complexity if other constructs already exist.  Additionally,
-	    you lose task-placement relative weighting (or it becomes
-	    very complex to implement.
+Even the original was lowercase. But it should be "E.g.::", right -- 
+Greg/Jon?
 
-* cgroups: "this doesn't involve dynamic resource accounting /
-            enforcement at all" and "these aren't resource
-	    allocations, it's unclear what the hierarchical
-	    relationship mean".
+>   
+>   		echo t > /proc/sysrq-trigger
+>   
+> +	Alternatively write multiple keys combo prepended by underscore.
 
-* node: too global, explore smaller scope first then expand.
+Alternatively, <- comma
+s/keys/characters/
+an underscore
 
-For now I think there is consensus that mempolicy should have weights
-per-task regardless of how the more-global mechanism is defined, so i'll
-go ahead and put up another RFC for some options on that in the next
-week or so.
+> +	All characters are interpreted this way. e.g.::
 
-The limitations on the first pass will be that only the task is capable
-of re-weighting should cpusets.mems or the nodemask change.
+This way, all characters are interpreted. (IMO this has a different 
+meaning, but natives would have to tell us.)
 
-~Gregory
+> +
+> +		echo _reisub > /proc/sysrq-trigger
+> +
+>   The :kbd:`<command key>` is case sensitive.
+>   
+>   What are the 'command' keys?
+> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
+> index 6b4a28bcf..ad07bc812 100644
+> --- a/drivers/tty/sysrq.c
+> +++ b/drivers/tty/sysrq.c
+> @@ -1150,16 +1150,27 @@ EXPORT_SYMBOL(unregister_sysrq_key);
+>   #ifdef CONFIG_PROC_FS
+>   /*
+>    * writing 'C' to /proc/sysrq-trigger is like sysrq-C
+> + * If first character in write is underscore, all characters are interpreted.
+
+If the first character written is
+
+thanks,
+-- 
+js
+suse labs
+
