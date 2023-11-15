@@ -1,93 +1,116 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A811EB5B
-	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 13:59:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40A121348;
+	Wed, 15 Nov 2023 14:08:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lHim8GjL"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF61FAC
-	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 05:59:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700056760; x=1731592760;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XzC7zCOE4CH5Yyhze0M21STx/sgEyX4bX00oS5Repss=;
-  b=lHim8GjLmukvDBTXnch/5U5d1TYbSbK4JhkKJ/gkC9XYqNpTYKLNXNvD
-   vyQkrJC3ox/6ecbvnmhShjgnv8Y3JlyoBnKVwMm/l22FC7QI+C7XddWba
-   Vn0skQxVRKXhwTaKn9wAA6r+xZR/XQzZWSG1MzrGWtt4Tt3VHr2qNymaw
-   f09Xy/+UtPDCSHdMbsyMaxQnZWwKKj8+vrDtgDnVzayeB1RFrkXxF026s
-   b+WH3k4dmFOuQlcpAALWsn4R6VFlTz1Zg3SaxsqkGIhBnfCREpB6pSyXA
-   m5oWNlb2KRH9aUUOjCWe4KCwlo1nZxOY/NJ2PlQeyHRLq+UjdhjFgoujo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="375918792"
-X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="375918792"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 05:59:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="758502871"
-X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="758502871"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 15 Nov 2023 05:59:19 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3GQG-0000NT-3A;
-	Wed, 15 Nov 2023 13:59:16 +0000
-Date: Wed, 15 Nov 2023 21:58:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sj:damon/next 39/42] htmldocs:
- Documentation/admin-guide/mm/damon/usage.rst:124: WARNING: undefined label:
- sysfs_schemes_quota_goals (if the link has no caption the label must precede
- a section header)
-Message-ID: <202311152116.wp5LS1ON-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cClH3Zzv"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B2DB3;
+	Wed, 15 Nov 2023 06:08:56 -0800 (PST)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AFCgZ3E032064;
+	Wed, 15 Nov 2023 14:08:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=E43rW8abNEmb6j0ipQlvTrBofnJJgY2qLpietswJZ6s=;
+ b=cClH3ZzvoVIBkwf0c6KSR9/qKMmYSuenfHuuntpUMorN/bQ5MwBGfTFZdBdZ7vua3Jx9
+ zUa9HfAbwsnNr98Lg56feXuAQnPOy6Hpd5kOaWQGgRy2O/bQ5gxfMVV1o7uzKm3jd5Nm
+ Ixw6TMG6jl3z6RaCfHX8KpIleMKvL7mHjzNRgjFyWr/2+u6V+6IPsK+NdPOFPNIFENKY
+ 2vWpZiTJKiOzQ7/vdIpbkR/1PQUSBE557yfrQnw/e1KySd41JxnTXxjj/bIDQJbMbkrw
+ lgOiXHRR++L9xorJRqDiXlG9NLqwlUZaVeEiUMrUCnY2m2sodYOjGB7Kx3b063X9uM1h UQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ucmbahfh1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Nov 2023 14:08:41 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AFE8eCl015943
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Nov 2023 14:08:40 GMT
+Received: from akronite-sh-dev02.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.39; Wed, 15 Nov 2023 06:08:37 -0800
+From: Luo Jie <quic_luoj@quicinc.com>
+To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>
+CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v3 0/6] add qca8084 ethernet phy driver
+Date: Wed, 15 Nov 2023 22:06:24 +0800
+Message-ID: <20231115140630.10858-1-quic_luoj@quicinc.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: UqUp-tg-hTFh3LSAaVigv0iWjWbD2Z3o
+X-Proofpoint-ORIG-GUID: UqUp-tg-hTFh3LSAaVigv0iWjWbD2Z3o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-15_12,2023-11-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ adultscore=0 mlxlogscore=776 impostorscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 clxscore=1011 malwarescore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311150109
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   1c0004773dde317766d90f066adee4e2bc22a0d6
-commit: 520566dca2f1ac43c8782bb34f447ee3db88b931 [39/42] Docs/admin-guide/mm/damon/usage: update for quota goals
-reproduce: (https://download.01.org/0day-ci/archive/20231115/202311152116.wp5LS1ON-lkp@intel.com/reproduce)
+QCA8084 is four-port PHY with maximum link capability 2.5G,
+which supports the interface mode qusgmii and sgmii mode,
+there are two PCSs available to connected with ethernet port.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311152116.wp5LS1ON-lkp@intel.com/
+QCA8084 can work in switch mode or PHY mode.
+For switch mode, both PCS0 and PCS1 work on sgmii mode.
+For PHY mode, PCS1 works on qusgmii mode, the last port
+(the fourth port) works on sgmii mode.
 
-All warnings (new ones prefixed by >>):
+Besides this PHY driver patches, the PCS driver is also needed
+to bring up the qca8084 device, which mainly configurs PCS
+and clocks.
 
->> Documentation/admin-guide/mm/damon/usage.rst:124: WARNING: undefined label: sysfs_schemes_quota_goals (if the link has no caption the label must precede a section header)
+Changes in v3:
+	1. pick the two patches to introduce the interface mode
+	10g-qxgmii from Vladimir Oltean(olteanv@gmail.com).
 
-vim +124 Documentation/admin-guide/mm/damon/usage.rst
+	2. add the function phydev_id_is_qca808x to identify the
+	PHY qca8081 and qca8084.
 
-b18402726bd10e SeongJae Park 2022-03-22  123  
-b18402726bd10e SeongJae Park 2022-03-22 @124  Reading ``state`` returns ``on`` if the kdamond is currently running, or
-b18402726bd10e SeongJae Park 2022-03-22  125  ``off`` if it is not running.  Writing ``on`` or ``off`` makes the kdamond be
-adc286e6bdd39e SeongJae Park 2022-05-09  126  in the state.  Writing ``commit`` to the ``state`` file makes kdamond reads the
-adc286e6bdd39e SeongJae Park 2022-05-09  127  user inputs in the sysfs files except ``state`` file again.  Writing
-520566dca2f1ac SeongJae Park 2023-10-31  128  ``commit_schemes_quota_goals`` to the ``state`` file makes kdamond reads the
-520566dca2f1ac SeongJae Park 2023-10-31  129  DAMON-based operation schemes' :ref:`quota goals <sysfs_schemes_quota_goals>`
-520566dca2f1ac SeongJae Park 2023-10-31  130  of the kdamond.  Writing ``update_schemes_stats`` to ``state`` file updates the
-520566dca2f1ac SeongJae Park 2023-10-31  131  contents of stats files for each DAMON-based operation scheme of the kdamond.
-520566dca2f1ac SeongJae Park 2023-10-31  132  For details of the stats, please refer to :ref:`stats section
-520566dca2f1ac SeongJae Park 2023-10-31  133  <sysfs_schemes_stats>`.
-ea7f03a441b58a SeongJae Park 2023-08-02  134  
+	3. update the interface mode name PHY_INTERFACE_MODE_QUSGMII
+	to PHY_INTERFACE_MODE_10G_QXGMII.
 
-:::::: The code at line 124 was first introduced by commit
-:::::: b18402726bd10e122c65eecc244ca1cdcb868cc8 Docs/admin-guide/mm/damon/usage: document DAMON sysfs interface
+Luo Jie (4):
+  net: phy: at803x: add QCA8084 ethernet phy support
+  net: phy: at803x: add the function phydev_id_is_qca808x
+  net: phy: at803x: Add qca8084_config_init function
+  net: phy: qca8084: add qca8084_link_change_notify
 
-:::::: TO: SeongJae Park <sj@kernel.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+Vladimir Oltean (2):
+  net: phylink: move phylink_pcs_neg_mode() to phylink.c
+  net: phy: introduce core support for phy-mode = "10g-qxgmii"
 
+ .../bindings/net/ethernet-controller.yaml     |   1 +
+ Documentation/networking/phy.rst              |   6 +
+ drivers/net/phy/at803x.c                      | 130 +++++++++++++++++-
+ drivers/net/phy/phy-core.c                    |   1 +
+ drivers/net/phy/phylink.c                     |  77 ++++++++++-
+ include/linux/phy.h                           |   4 +
+ include/linux/phylink.h                       |  67 +--------
+ 7 files changed, 212 insertions(+), 74 deletions(-)
+
+
+base-commit: bc962b35b139dd52319e6fc0f4bab00593bf38c9
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
