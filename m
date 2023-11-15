@@ -1,89 +1,125 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eQvSIYdL"
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E42127;
-	Wed, 15 Nov 2023 09:26:03 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id e9e14a558f8ab-359343e399fso25449005ab.0;
-        Wed, 15 Nov 2023 09:26:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700069162; x=1700673962; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TxkFYGMJuy8RDq84rB92XeHb3mxQtE5maYApNhXE5PM=;
-        b=eQvSIYdLajIFnsBiVxxodSx07kzrQ6cyjnCIjCltjHdUjl+BUw2Vg+urQJIKbRRjFO
-         Zc+n9fjtBwaAsr+8LISez3kcpKnsP3EVyolsCA+0tBeaxXAeyHWwBYgHMWaVjlZWB5Vw
-         c+VGArZKWPMqgVzf8qTZUHDmvrLmBYglRy9c3MQkv6CYTGvevXDTk6teRzn2QAxslIkL
-         PuZ6vquk0RqzkORaodNn3sF/2uNViuVySPkF65bMFicvVBt5jHJgOHl0DdxJtWmfoF7e
-         q+bcDkA7kWaguBFrXSEWXr8zcYI1Vm4g+0XMfeXeYMswaUn729Yo1pwmFaSghDtR/F5h
-         mN+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700069162; x=1700673962;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TxkFYGMJuy8RDq84rB92XeHb3mxQtE5maYApNhXE5PM=;
-        b=lYKD9FOerK+yjGK8v09gZWWUS7ml/3kMq0AzS1IF8WWwi7q2ek2zXuKrsHr0KiXcsj
-         lD7VDtDXSLWwiGBM8Y8/kjsXjnUH06JKZd64+I/crGPIuwuo8jslSewiSDfPuDoYSM+w
-         GuV0Jl+RsmJgR9Ye1s6R43PSEpQFw3QXfIH9KMGBFrCQXcqZcC/TzYjmwvt/fpVjWFw+
-         /W1jopCwTw9V/KK8krByKSLzAzT8d489Tu4UUiU6tvVyHPjXTNVltGnhE3ynejjqR0YG
-         ty7iGoOHoUe+kcIcyGhJSU4Q6MNZ0k4WzG2GN+GoWPcWGSxW+ULSUO4eTK2vgCRLxZ0c
-         6IDg==
-X-Gm-Message-State: AOJu0YypLhnnhy/eyYL4yflSYwtUGLxjUk2YsP3Kdjs/N6kIYfAqfVqn
-	hfzXOh85YxML4qU3aPXtTCF05jwWjLfrU0g3pa6UC8Jk6Hk=
-X-Google-Smtp-Source: AGHT+IH34e4GBjpe1mpBbZlZSoOKNesoEU1gW9XC0SNba4mFFL+AdZvbgoUXu86ZZicWfkyXXL+Zw0B7saZHo491jAU=
-X-Received: by 2002:a05:6e02:b2a:b0:359:4e76:fbf4 with SMTP id
- e10-20020a056e020b2a00b003594e76fbf4mr18185838ilu.13.1700069162224; Wed, 15
- Nov 2023 09:26:02 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lfPWiR9A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tD38coEF"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56BC418E;
+	Wed, 15 Nov 2023 09:48:36 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F1CBC1F8BA;
+	Wed, 15 Nov 2023 17:48:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700070515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dVirFhaoEoAX1LEzb5mRTEwNjUcyu3xWdfuMee0UoV8=;
+	b=lfPWiR9Atyz7OYGBbcWnddpsjMxEIsMt7yvvR42DgCwhHU87lj5wxD+Y/b3fDEhXpGzr3f
+	/HwtCDqYciAHIIjoBtY5k2/ou+/RbpfBcm8QSgWrR/uJyejRJU2n2Ci2jvgqAYPICvpt+6
+	1T7OCddHZL7liBBtsPAqY2vRO+4Z3kY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700070515;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dVirFhaoEoAX1LEzb5mRTEwNjUcyu3xWdfuMee0UoV8=;
+	b=tD38coEFHSEmEaDCjSnTkj9DKJrzJCISkjbbAXifYGSgZqY4Gztn4feNszGD5NqnQbHmqS
+	qJKrGhfGyWPfzNBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9A21013587;
+	Wed, 15 Nov 2023 17:48:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 6rL2InIEVWWzVQAAMHmgww
+	(envelope-from <clopez@suse.de>); Wed, 15 Nov 2023 17:48:34 +0000
+From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
+To: linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
+Date: Wed, 15 Nov 2023 18:47:04 +0100
+Message-Id: <20231115174703.1996-1-clopez@suse.de>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106231158.380730-1-nphamcs@gmail.com> <CAF8kJuPXBLpG2d4sje6ntrA+U-AnLzu3sNpJK02YxNcg04YNng@mail.gmail.com>
- <CAKEwX=OgN_xQWrp_OYkK1BRq3DFW4he9OSycdjBm0BNy+vpPAg@mail.gmail.com>
- <CAF8kJuN--EUY95O1jpV39yv5FDu0OYanY6SZeBPk5ng4kRyrjA@mail.gmail.com>
- <CAKEwX=PT=5nvLhUyMmi=hq0_2H-4kmO9tOdqFvHEtaWF+e8M1Q@mail.gmail.com> <20231114145040.4b90d49d4ace1621c87f9c79@linux-foundation.org>
-In-Reply-To: <20231114145040.4b90d49d4ace1621c87f9c79@linux-foundation.org>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 15 Nov 2023 12:25:50 -0500
-Message-ID: <CAKEwX=Nhfd3J03weE2oiGQdV_sPsuPtB6NjvuSYRZBq4Fq0+9g@mail.gmail.com>
-Subject: Re: [PATCH v4] zswap: memcontrol: implement zswap writeback disabling
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Chris Li <chrisl@kernel.org>, Dan Streetman <ddstreet@ieee.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Hugh Dickins <hughd@google.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, 
-	LKML <linux-kernel@vger.kernel.org>, Seth Jennings <sjenning@redhat.com>, 
-	Shakeel Butt <shakeelb@google.com>, Vitaly Wool <vitaly.wool@konsulko.com>, 
-	Yosry Ahmed <yosryahmed@google.com>, corbet@lwn.net, david@ixit.cz, kernel-team@meta.com, 
-	linux-doc@vger.kernel.org, linux-mm <linux-mm@kvack.org>, lizefan.x@bytedance.com, 
-	mhocko@kernel.org, muchun.song@linux.dev, roman.gushchin@linux.dev, 
-	rppt@kernel.org, senozhatsky@chromium.org, tj@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Score: 1.46
+X-Spamd-Result: default: False [1.46 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 R_MIXED_CHARSET(0.56)[subject];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[]
 
-On Tue, Nov 14, 2023 at 5:50=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Sat, 11 Nov 2023 16:06:58 -0800 Nhat Pham <nphamcs@gmail.com> wrote:
->
-> > It's a bit of a micro-optimization indeed. But if for some reason I nee=
-d
-> > to send v5 or a fixlet, I'll keep this in mind!
->
-> I'm seeing a lot of rejects against current mainline, so yes please.
+Improve the description for the KVM_CAP_X86_BUS_LOCK_EXIT capability,
+fixing a few typos and improving grammar for overall clarity.
 
-I should have been clearer - this patch is to be applied on top of the
-shrinker series (which is still under review). I originally included a comm=
-ent
-in the patch log, but it must have been accidentally dropped when I reworke=
-d
-the patch according to Chris' and Johannes' suggestions.
+Signed-off-by: Carlos López <clopez@suse.de>
+---
+ Documentation/virt/kvm/api.rst | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Nevertheless, I have rebased it on top of current mm-unstable
-(with the shrinker series on top), then sent out as v5 (with the second
-suggestion from Chris Li) just in case.
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 7025b3751027..4be0a53d82a7 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -7582,20 +7582,20 @@ KVM_BUS_LOCK_DETECTION_OFF and KVM_BUS_LOCK_DETECTION_EXIT are supported
+ currently and mutually exclusive with each other. More bits can be added in
+ the future.
+ 
+-With KVM_BUS_LOCK_DETECTION_OFF set, bus locks in guest will not cause vm exits
++With KVM_BUS_LOCK_DETECTION_OFF set, bus locks in guest will not cause VM exits
+ so that no additional actions are needed. This is the default mode.
+ 
+-With KVM_BUS_LOCK_DETECTION_EXIT set, vm exits happen when bus lock detected
+-in VM. KVM just exits to userspace when handling them. Userspace can enforce
+-its own throttling or other policy based mitigations.
+-
+-This capability is aimed to address the thread that VM can exploit bus locks to
+-degree the performance of the whole system. Once the userspace enable this
+-capability and select the KVM_BUS_LOCK_DETECTION_EXIT mode, KVM will set the
+-KVM_RUN_BUS_LOCK flag in vcpu-run->flags field and exit to userspace. Concerning
+-the bus lock vm exit can be preempted by a higher priority VM exit, the exit
+-notifications to userspace can be KVM_EXIT_BUS_LOCK or other reasons.
+-KVM_RUN_BUS_LOCK flag is used to distinguish between them.
++With KVM_BUS_LOCK_DETECTION_EXIT set, VM exits happen when a bus lock is
++detected in VM. KVM just exits to userspace when handling them. Userspace can
++enforce its own throttling or other policy based mitigations.
++
++This capability is aimed to address the fact that a VM can exploit bus locks to
++impact the performance of the whole system. Once userspace enables this
++capability and selects the KVM_BUS_LOCK_DETECTION_EXIT mode, KVM will set the
++KVM_RUN_BUS_LOCK flag in the vcpu->run->flags field and exit to userspace.
++Concerning the bus lock, a VM exit can be preempted by a higher priority VM
++exit, so the exit notification to userspace can be KVM_EXIT_BUS_LOCK or another
++reason. KVM_RUN_BUS_LOCK flag is used to distinguish between them.
+ 
+ 7.23 KVM_CAP_PPC_DAWR1
+ ----------------------
+-- 
+2.35.3
 
-Let me know if there are still issues! My apologies for the inconvenience
-and lack of clarity.
