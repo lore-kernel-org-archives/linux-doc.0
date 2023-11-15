@@ -1,133 +1,129 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A96B1A58A
-	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 13:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE4A1A5A2;
+	Wed, 15 Nov 2023 13:25:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hAGv14Er"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0399187
-	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 05:16:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700054166;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LPNZAc6r0CSSO6lMN8bwDAougMdgFH11dwZvW1JyD1g=;
-	b=hAGv14ErPFm7w941J4LZc7lve/yVTpK9Jb3LlRhXVIBuWqPnrCNDuFUSNXRt6NxIqqIJEg
-	jau/i9aJH0AARRoVCf5oQr7rUy2bHRJrd5V7ad5FGEaU/UXLueovmc7INURvz+bY6E0Rdk
-	h0L3BBWZVJH8BcV4ZQ+gPY3GE5Vwbdc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-274-gdhmA71kMr24dhnAjQnIGg-1; Wed, 15 Nov 2023 08:16:04 -0500
-X-MC-Unique: gdhmA71kMr24dhnAjQnIGg-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-32db6a28e24so3208515f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 05:16:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJTWNsPg"
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF6E120;
+	Wed, 15 Nov 2023 05:25:34 -0800 (PST)
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-778925998cbso447128385a.0;
+        Wed, 15 Nov 2023 05:25:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700054733; x=1700659533; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3vuQNx0saY2ItGRKdBl26Lb/Oz25BKx0ZaIePLBjp78=;
+        b=lJTWNsPgkvArhJfx4mLzea66zYOPRDRqShORfizWt7bJwxyfZkIXlZoZpXiNpkYX7b
+         Ie9VxfSoTJ8ISvgqoq4CKoF2O7hVN7TGbaw/AV1H8VDXX9Fxyi+hNyFdbfL+WqPFDQjq
+         AsBN1/AY9K6AOugiCty/leyHi+zlF1Tax1husrlbiGg6nSG7l4+XjPyDk0XaMGx8HlxR
+         C4HqEpQ4WmxM8mR08upTH/Q3Ox5ycJ8673wZ40j4YZFfVbhyrhtFwm7ddZznVH+0B8L8
+         Pk0S9cghW+PejIMoLtKLY1HJvLRJde9RQf3NlOkpWOWhqeknqFoP49lMFOtTH7Jsritj
+         DTRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700054163; x=1700658963;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1700054733; x=1700659533;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LPNZAc6r0CSSO6lMN8bwDAougMdgFH11dwZvW1JyD1g=;
-        b=b8pMcEXXsLzENFc3NdbTr4yhHVL/mvjS6mQMr/C9/9fTgZ0drJmQLDJQx99F5CAn2n
-         ozrSlGd4wlDyj/zUPdiQrcIOWMaVX+BJVfR9h6wW9bPZTVQK/TDdBmArPvd0SyKRH3H7
-         NTmlVP6Fwzubh7EPVPTJw2oLrXcuRretlqZs1CW5IGjJ+FaSD9lGDMCkARb+mu6O1zGA
-         PXbuDV05UvOoahCuT6wVPBCWqLE5lcfMG8baQCJK38PKm4GEBGnpRzrs2HLfMRM6KINq
-         10ki+uoLjJWIXMfLpbfpPMNdbdIrQdnC2rHSl7DO08IvlMpmpM/rQgK1KAlqLmf1tSc3
-         DXzA==
-X-Gm-Message-State: AOJu0YzvSvkKxKgZC/D9lY8OToQdrp4I0l3l/zkY47fsWlBRE1iSHeb6
-	2JzeoaF0RpKBkN211/936re1j9Cwo/ryvK8SVqowyKh+tzuR+VDSv5hIz9E068ZoLFEp33cV/eO
-	FG+mB24aY+EVMUuwMNzW+
-X-Received: by 2002:a5d:6b8f:0:b0:331:4e5e:d9e7 with SMTP id n15-20020a5d6b8f000000b003314e5ed9e7mr5201139wrx.34.1700054163342;
-        Wed, 15 Nov 2023 05:16:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH90wwQXO1DSYdUi0fT0muUxSLgnxdRuPpEfFKAh1lwXIDvxopHNTDogbaEw6FCwpQCc2B74A==
-X-Received: by 2002:a5d:6b8f:0:b0:331:4e5e:d9e7 with SMTP id n15-20020a5d6b8f000000b003314e5ed9e7mr5201118wrx.34.1700054163127;
-        Wed, 15 Nov 2023 05:16:03 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id b1-20020a5d6341000000b00323293bd023sm10579306wrw.6.2023.11.15.05.16.02
+        bh=3vuQNx0saY2ItGRKdBl26Lb/Oz25BKx0ZaIePLBjp78=;
+        b=FUCzcEEjeMTfo1FOEnSEEBRA22fJG7nZNf+lKt7h7euSHz8Vrt2FlQuEPm5KHpqNlB
+         pW/v44mI9udgtjtREu0IMIGXIMOwUrcoDALcIwr4MdOjo3m+gsL81ndVYa7FBKPnYokU
+         T8voOwc9fcJ0W2y4Uu5YszLeMXyEKGAb7HxM6JAud3FzAoXaVUzFMl1fc7PnBZLSPbO4
+         /Z+KMGWK5TDgBD40I2Ijsk46++iZH57VF78zzNp2IhdmfzVgUQFbbuV41s5OLG2o1kRS
+         2gcV9xoUv61Pfs4P0PTzBXFA4Drh4VydVMmsNmvRqy/hGr5kzt47T6IElDl49M3Y5pox
+         kiSQ==
+X-Gm-Message-State: AOJu0Ywej8tnD8LOEx2BzpDxGk7FP1zvO92yRQv0/Iu02rCRHOA2yVXr
+	58VbYV7zrC03zGpNqXppAI2zzSR3wkY=
+X-Google-Smtp-Source: AGHT+IF4gKYfsnPTfy77RCqBJS3PI8cTib/dwl7HH/3rcJTzhH91a7+Qu0a6cI2q5Hc8xdw7+fnmIA==
+X-Received: by 2002:a05:620a:4627:b0:767:923:48e7 with SMTP id br39-20020a05620a462700b00767092348e7mr6223765qkb.5.1700054733626;
+        Wed, 15 Nov 2023 05:25:33 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id dp12-20020a05620a2b4c00b0076f0744ff50sm3433522qkb.136.2023.11.15.05.25.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 05:16:02 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Bilal Elmoussaoui <belmouss@redhat.com>,
-	Simon Ser <contact@emersion.fr>,
-	Erico Nunes <nunes.erico@gmail.com>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sima Vetter <daniel.vetter@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 5/5] drm/todo: Add entry about implementing buffer age for damage tracking
-Date: Wed, 15 Nov 2023 14:15:44 +0100
-Message-ID: <20231115131549.2191589-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231115131549.2191589-1-javierm@redhat.com>
-References: <20231115131549.2191589-1-javierm@redhat.com>
+        Wed, 15 Nov 2023 05:25:33 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 15 Nov 2023 05:25:31 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] hwmon: (core) Add support for humidity min/max
+ alarm
+Message-ID: <1ef7a10c-d9cf-4042-a198-f72dbdf9d05a@roeck-us.net>
+References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
+ <20231020-topic-chipcap2-v2-2-f5c325966fdb@gmail.com>
+ <44f1eaa3-a90d-42cf-9808-4f39aacbf270@roeck-us.net>
+ <25059951-ca50-4b19-8f74-5631b34c719b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <25059951-ca50-4b19-8f74-5631b34c719b@gmail.com>
 
-Currently, only damage tracking for frame damage is supported. If a driver
-needs to do buffer damage (e.g: the framebuffer attached to plane's state
-has changed since the last page-flip), the damage helpers just fallback to
-a full plane update.
+On Thu, Nov 09, 2023 at 07:24:00AM +0100, Javier Carrasco wrote:
+> Hello,
+> 
+> On 09.11.23 01:02, Guenter Roeck wrote:
+> > On 11/8/23 07:37, Javier Carrasco wrote:
+> >> Add min_alarm and max_alarm attributes for humidityX to support devices
+> >> that can generate these alarms.
+> >> Such attributes already exist for other magnitudes such as tempX.
+> >>
+> >> Tested with a ChipCap 2 temperature-humidity sensor.
+> >>
+> > 
+> > No objection, but the new attributes also need to be added to the ABI
+> > documentation at
+> > Documentation/ABI/testing/sysfs-class-hwmon and
+> > Documentation/hwmon/sysfs-interface.rst
+> > 
+> > Which made me notice that humidityX_alarm isn't documented either.
+> > Please document that attribute as well while you are at it.
+> > 
+> > Thanks,
+> > Guenter
+> > 
+> Actually there are several attributes without ABI documentation or at
+> least the attributes enum is much larger than the objects in the ABI
+> documentation (in testing/sysfs-class-hwmon).
+> For humidity there is only input, enable, rated_min and rated_max. Are
+> some attributes not described for a good reason or should all be
+> documented? the current humidity_attributes contains:
+> 
+> hwmon_humidity_enable -> documented in sysfs-class-hwmon
+> hwmon_humidity_input -> documented in sysfs-class-hwmon
+> hwmon_humidity_label
+> hwmon_humidity_min
+> hwmon_humidity_min_hyst
+> hwmon_humidity_max
+> hwmon_humidity_max_hyst
+> hwmon_humidity_alarm
+> hwmon_humidity_fault
+> hwmon_humidity_rated_min -> documented in sysfs-class-hwmon
+> hwmon_humidity_rated_max -> documented in sysfs-class-hwmon
+> 
+> I could not find the temperature counterparts of my new additions
+> (temp_min_alarm and temp_max_alarm).
+> 
+> Should all be added to sysfs-class-hwmon or am I missing some other
+> document? I am alright adding the ones I mentioned.
+> 
 
-Add en entry in the TODO about implementing buffer age or any other damage
-accumulation algorithm for buffer damage handling.
+They should all be documented. It would be great if you volunteer
+to add the missing ones, but that won't be a mandate. I just don't want
+the situation to get worse.
 
-Suggested-by: Simon Ser <contact@emersion.fr>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Simon Ser <contact@emersion.fr>
----
-
-(no changes since v1)
-
- Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index b62c7fa0c2bc..5c43a958814b 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -782,6 +782,26 @@ Contact: Hans de Goede
- 
- Level: Advanced
- 
-+Buffer age or other damage accumulation algorithm for buffer damage handling
-+============================================================================
-+
-+Drivers that do per-buffer uploads, need a buffer damage handling (rather than
-+frame damage like drivers that do per-plane or per-CRTC uploads), but there is
-+no support to get the buffer age or any other damage accumulation algorithm.
-+
-+For this reason, the damage helpers just fallback to a full plane update if the
-+framebuffer attached to a plane has changed since the last page-flip.
-+
-+This should be improved to get damage tracking properly working on drivers that
-+do per-buffer uploads.
-+
-+More information about damage tracking and references to learning materials in
-+`Damage Tracking Properties <https://docs.kernel.org/gpu/drm-kms.html#damage-tracking-properties>`_
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Advanced
-+
- Outside DRM
- ===========
- 
--- 
-2.41.0
-
+Thanks,
+Guenter
