@@ -1,176 +1,160 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11911862D
-	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 12:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B005C1A591
+	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 13:16:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YMO0Hrfi"
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E861BE;
-	Wed, 15 Nov 2023 04:23:42 -0800 (PST)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AFC0DZk022770;
-	Wed, 15 Nov 2023 12:23:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=eHywq8Zwh107MoZU5g4aLiOWOLQNY4JViDCHD9yOF08=;
- b=YMO0Hrfiu77o8xlqC7wBb1w3R1lITaUh0bMFyOTGJjVOhF9BNJ5fBZOjY40pw2QBJqLv
- gPY1MOlc715gCrmmuYLLZD7k9YzVHRhRFoiJ/tmvsZ1NGIVo9tEsx3UxGrtY/pZrTBfb
- uuJi9Emqar8PkaRLryRqDCL9K4LS/wEhAfrF1Lt/eWerNvHOR3ycWdPsMdHUld70RFrW
- lBu5nrP8qaVBf6zNQP0s9OQhBfsnrjj2VbuYP39zfHBEV+khOdIIVYSihvvBZAxb5uV2
- p7iFboJ+LNs0Lx060x0jVNkMH/n6/W29Qu6Wu87VLJXF//XUbArCzSRCAXDKDvOzMJQj jQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ucq5f8xqb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Nov 2023 12:23:26 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AFCNPQL017125
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Nov 2023 12:23:25 GMT
-Received: from hu-nprakash-blr.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Wed, 15 Nov 2023 04:23:19 -0800
-From: Nikhil V <quic_nprakash@quicinc.com>
-To: Len Brown <len.brown@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael
- J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>
-CC: Nikhil V <quic_nprakash@quicinc.com>,
-        Randy Dunlap
-	<rdunlap@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Steven
- Rostedt (Google)" <rostedt@goodmis.org>,
-        Tejun Heo <tj@kernel.org>, "Paul E.
- McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>, <linux-pm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_pkondeti@quicinc.com>, <quic_kprasan@quicinc.com>,
-        <quic_mpilaniy@quicinc.com>, <quic_shrekk@quicinc.com>,
-        <mpleshivenkov@google.com>, <ericyin@google.com>
-Subject: [PATCH RESEND v2 4/4] PM: hibernate: Support to select compression algorithm
-Date: Wed, 15 Nov 2023 17:52:10 +0530
-Message-ID: <4f0854e2892298973d6d50fefc66279961604d12.1700048610.git.quic_nprakash@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1700048610.git.quic_nprakash@quicinc.com>
-References: <cover.1700048610.git.quic_nprakash@quicinc.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c1Wa9htB"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E1F11D
+	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 05:15:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700054158;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4lF7aMHaWE0StDFmSjkvXf9QppPYg6hsJ7Fo37wmlDE=;
+	b=c1Wa9htB+toi/SLnkRoMPPi7JY3pwDmVhsNpG64vB4zYXN0hgMWqNKZjMQUU+v4iJkEabD
+	s+UmjZH/Ulj2jQ4OzPLlMPu7O8AQHoOKl/YzA+Idl17mWq6Ks/kf/qE1bxH6udZPN5xah5
+	ev8lyJm4VQamhE+qFM7pTPn0Yx+WXnk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-509-XBI-ypI5PHihFYyJrdWXqQ-1; Wed, 15 Nov 2023 08:15:54 -0500
+X-MC-Unique: XBI-ypI5PHihFYyJrdWXqQ-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-32dceab634dso3085082f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 05:15:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700054153; x=1700658953;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4lF7aMHaWE0StDFmSjkvXf9QppPYg6hsJ7Fo37wmlDE=;
+        b=sCBvCnMgERG+YRSFI3A8WGdfO2F32une7j+eS4wDqg4QlpMxa+/NgSDo9YiFMB8Ccq
+         YepRL7pAUvz06XFzkfbPBjCAel/YZFnsGB7nFz2FNub6DsGjMx9RDmHwvJcPcThhkZKm
+         QogbsnK9cDUcQVGbhariLvyZI9vXZ7wUiAtdhRkBH3xeFmYnXIzZQHBW0SCBIRUZuyy3
+         Tk8kgcu0dxyOwJjmhoIr39zuANcAkES/JOXYtB0/+48WVJ9ZIF6GlLfNHd2GJuOOepjb
+         psvhnzRV/ShXy2XM+ExFRUXlNjip3noNMGL5Jgi9Y3aqAFeVa72MgcPvxgZScyaliiOI
+         3ZMA==
+X-Gm-Message-State: AOJu0Yxpjt9nnHPsdF7iuwNVUYYj8Z8c2H7U/6PnNe2hvoVZo/w8jZiv
+	jkdDfF35r+rKEfa4e8oKoxZA+hUs4rDvFrm/RX0wwbm1mAjwnUFyE55LsjbM6OhdA9bNxGdqv/R
+	fQDrBlh3Lo9PmHzAv0BEX
+X-Received: by 2002:a5d:64ef:0:b0:31c:8880:5d0f with SMTP id g15-20020a5d64ef000000b0031c88805d0fmr8815325wri.11.1700054153434;
+        Wed, 15 Nov 2023 05:15:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG8Akj/DP0M6gaPcJ9iKzQAqtuUVukMuYMObXNcXMXbVoCf04jCr7iPlpSq+gDQSE1T7tfrhg==
+X-Received: by 2002:a5d:64ef:0:b0:31c:8880:5d0f with SMTP id g15-20020a5d64ef000000b0031c88805d0fmr8815312wri.11.1700054153053;
+        Wed, 15 Nov 2023 05:15:53 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id q12-20020a05600000cc00b0032db4e660d9sm10551595wrx.56.2023.11.15.05.15.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Nov 2023 05:15:52 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Bilal Elmoussaoui <belmouss@redhat.com>,
+	Simon Ser <contact@emersion.fr>,
+	Erico Nunes <nunes.erico@gmail.com>,
+	Pekka Paalanen <pekka.paalanen@collabora.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Sima Vetter <daniel.vetter@ffwll.ch>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	David Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+	Zack Rusin <zackr@vmware.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	virtualization@lists.linux.dev
+Subject: [PATCH v2 0/5] drm: Allow the damage helpers to handle buffer damage
+Date: Wed, 15 Nov 2023 14:15:39 +0100
+Message-ID: <20231115131549.2191589-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Zj_UwvVwYz-k9Ghjr6FOArBCSQt8iEHe
-X-Proofpoint-ORIG-GUID: Zj_UwvVwYz-k9Ghjr6FOArBCSQt8iEHe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-15_10,2023-11-15_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- spamscore=0 phishscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999
- priorityscore=1501 bulkscore=0 malwarescore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311150094
+Content-Transfer-Encoding: 8bit
 
-Currently the default compression algorithm is selected based on
-Kconfig. Introduce a kernel command line parameter "hib_compression" to
-override this behaviour.
+Hello,
 
-Different compression algorithms have different characteristics and
-hibernation may benefit when it uses any of these algorithms, especially
-when a secondary algorithm offers better decompression speeds over a
-default algorithm, which in turn reduces hibernation image restore time.
+This series is to fix an issue that surfaced after damage clipping was
+enabled for the virtio-gpu by commit 01f05940a9a7 ("drm/virtio: Enable
+fb damage clips property for the primary plane").
 
-Users can set "hib_compression" command line parameter to override the
-default algorithm. Currently LZO and LZ4 are the supported algorithms.
-Usage:
-    LZO: hib_compression=lzo
-    LZ4: hib_compression=lz4
+After that change, flickering artifacts was reported to be present with
+both weston and wlroots wayland compositors when running in a virtual
+machine. The cause was identified by Sima Vetter, who pointed out that
+virtio-gpu does per-buffer uploads and for this reason it needs to do
+a buffer damage handling, instead of frame damage handling.
 
-LZO is the default compression algorithm used with hibernation.
+Their suggestion was to extend the damage helpers to cover that case
+and given that there's isn't a buffer damage accumulation algorithm
+(e.g: buffer age), just do a full plane update if the framebuffer that
+is attached to a plane changed since the last plane update (page-flip).
 
-Signed-off-by: Nikhil V <quic_nprakash@quicinc.com>
----
- .../admin-guide/kernel-parameters.txt         |  6 ++++
- kernel/power/hibernate.c                      | 31 ++++++++++++++++++-
- 2 files changed, 36 insertions(+), 1 deletion(-)
+It is a v2 that addresses issues pointed out by Thomas Zimmermann in v1:
+https://lists.freedesktop.org/archives/dri-devel/2023-November/430138.html
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 65731b060e3f..4acc2d95030a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1735,6 +1735,12 @@
- 				(that will set all pages holding image data
- 				during restoration read-only).
- 
-+	hib_compression= [COMPRESSION ALGORITHM]
-+		lzo		Select LZO compression algorithm to compress/decompress
-+				hibernation images.
-+		lz4		Select LZ4 compression algorithm to compress/decompress
-+				hibernation images.
-+
- 	highmem=nn[KMG]	[KNL,BOOT] forces the highmem zone to have an exact
- 			size of <nn>. This works even on boxes that have no
- 			highmem otherwise. This also works to reduce highmem
-diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index 274327232dab..721a9e3e0c9a 100644
---- a/kernel/power/hibernate.c
-+++ b/kernel/power/hibernate.c
-@@ -742,7 +742,8 @@ int hibernate(void)
- 	 * Query for the compression algorithm support if compression is enabled.
- 	 */
- 	if (!nocompress) {
--		strscpy(hib_comp_algo, default_compressor, sizeof(hib_comp_algo));
-+		if (!hib_comp_algo[0])
-+			strscpy(hib_comp_algo, default_compressor, sizeof(hib_comp_algo));
- 		if (crypto_has_comp(hib_comp_algo, 0, 0) != 1) {
- 			pr_err("%s compression is not available\n", hib_comp_algo);
- 			return -EOPNOTSUPP;
-@@ -1416,6 +1417,33 @@ static int __init nohibernate_setup(char *str)
- 	return 1;
- }
- 
-+static const char * const comp_alg_enabled[] = {
-+#if IS_ENABLED(CONFIG_CRYPTO_LZO)
-+	COMPRESSION_ALGO_LZO,
-+#endif
-+#if IS_ENABLED(CONFIG_CRYPTO_LZ4)
-+	COMPRESSION_ALGO_LZ4,
-+#endif
-+};
-+
-+static int __init compression_setup(char *str)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(comp_alg_enabled); i++) {
-+		if (!strcmp(str, comp_alg_enabled[i])) {
-+			strscpy(hib_comp_algo, str, sizeof(hib_comp_algo));
-+			goto setup_done;
-+		}
-+	}
-+	pr_info("Cannot set specified compressor. Falling back to %s\n",
-+		default_compressor);
-+	strscpy(hib_comp_algo, default_compressor, sizeof(hib_comp_algo));
-+
-+setup_done:
-+	return 1;
-+}
-+
- __setup("noresume", noresume_setup);
- __setup("resume_offset=", resume_offset_setup);
- __setup("resume=", resume_setup);
-@@ -1423,3 +1451,4 @@ __setup("hibernate=", hibernate_setup);
- __setup("resumewait", resumewait_setup);
- __setup("resumedelay=", resumedelay_setup);
- __setup("nohibernate", nohibernate_setup);
-+__setup("hib_compression=", compression_setup);
+Patch #1 adds a ignore_damage_clips field to struct drm_plane_state to be
+set by drivers that want the damage helpers to ignore the damage clips.
+
+Patch #2 fixes the virtio-gpu damage handling logic by asking the damage
+helper to ignore the damage clips if the framebuffer attached to a plane
+has changed since the last page-flip.
+
+Patch #3 does the same but for the vmwgfx driver that also needs to handle
+buffer damage and should have the same issue (although I haven't tested it
+due not having a VMWare setup).
+
+Patch #4 adds to the KMS damage tracking kernel-doc some paragraphs about
+damage tracking types and references to links that explain frame damage vs
+buffer damage.
+
+Finally patch #5 adds an item to the DRM todo, about the need to implement
+some buffer damage accumulation algorithm instead of just doing full plane
+updates in this case.
+
+Because commit 01f05940a9a7 landed in v6.4, the first 2 patches are marked
+as Fixes and Cc stable.
+
+I've tested this on a VM with weston, was able to reproduce the issue
+reported and the patches did fix the problem.
+
+Best regards,
+Javier
+
+Changes in v2:
+- Add a struct drm_plane_state .ignore_damage_clips to set in the plane's
+  .atomic_check, instead of having different helpers (Thomas Zimmermann).
+- Set struct drm_plane_state .ignore_damage_clips in virtio-gpu plane's
+  .atomic_check instead of using a different helpers (Thomas Zimmermann).
+- Set struct drm_plane_state .ignore_damage_clips in vmwgfx plane's
+  .atomic_check instead of using a different helpers (Thomas Zimmermann).
+
+Javier Martinez Canillas (5):
+  drm: Allow drivers to indicate the damage helpers to ignore damage
+    clips
+  drm/virtio: Disable damage clipping if FB changed since last page-flip
+  drm/vmwgfx: Disable damage clipping if FB changed since last page-flip
+  drm/plane: Extend damage tracking kernel-doc
+  drm/todo: Add entry about implementing buffer age for damage tracking
+
+ Documentation/gpu/todo.rst             | 20 ++++++++++++++++++++
+ drivers/gpu/drm/drm_damage_helper.c    |  3 ++-
+ drivers/gpu/drm/drm_plane.c            | 20 ++++++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_plane.c | 10 ++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c    | 11 +++++++++++
+ include/drm/drm_plane.h                |  8 ++++++++
+ 6 files changed, 71 insertions(+), 1 deletion(-)
+
 -- 
-2.17.1
+2.41.0
 
