@@ -1,140 +1,93 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593FE18B1B;
-	Wed, 15 Nov 2023 13:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A811EB5B
+	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 13:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HAnb+1dz"
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC902E1;
-	Wed, 15 Nov 2023 05:56:27 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2c788f5bf53so78432861fa.2;
-        Wed, 15 Nov 2023 05:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700056586; x=1700661386; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XzgHXk908oWBPw+MYYi5rg03v0Vm6ncWzqNrtjGiwyM=;
-        b=HAnb+1dzCudRmS9tQG25YIxOn3CKY3N3wf2fyWACbDHPSVZHhiyCKr7iIafBFFAWu9
-         /jELEofULDZYY3BH5shLCH0cHdjse8/XVz8WkDJAIazlE4YqVXzbbx5jx8DN3u2ZcoEF
-         VVFs2oaQpmryDsbHUX1INpymfLHTlAF4OzTA6DScPyc5CCfjtVT+zol1KjzXbVKx07fQ
-         zh1BnBkrtEzsG4bcH/uLdvOwgvRhXYzL142vZsqAypfXXuWv/SmjQ5xyuMy5I8twM3wT
-         Wt1vte2XHz5p4iVMrdeETlJYBoLvrUocGvLZm/3y91m2utDTyiJ8mPlRSnvuxIrGXxoK
-         zHhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700056586; x=1700661386;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XzgHXk908oWBPw+MYYi5rg03v0Vm6ncWzqNrtjGiwyM=;
-        b=qy33dAldtl6E8mROqJ9gLCABfTuykamOxpiWqCBz2peeqlB/TB7oGWCmN8XovEFWDd
-         ojz2uNZ/i2xBRdoGUGJv71AqxK/rkcpLeh6N1ceP6AF5Wk6gCHAQPylWX7wldMXs5f0D
-         DkUTOcWQuKLtNlMQWiyxrYNLuLAS05cyLdVYo6GqU5i/hV1GFe2JyFeaJWEZIYN6CLm0
-         cw34L6KhxjXXqIcEmXazibbXa5oou9dLtnFX0G1yD54ti5rGehau9QdFyuD3lY8Tr2uN
-         v5HQnXYR/FRcxB/LeLR0lFSJqA0VtdkDLzqmUQfRQnGOVIbGZY9oZKo7oL3dXji+Bt55
-         MNfg==
-X-Gm-Message-State: AOJu0YxfdCAdRdOu2UOoNjnuhEcDwnVgjQBtHSBEo+e7KvDGLSZsDyVA
-	2e5J45HyANplTWe6dVzmPpA=
-X-Google-Smtp-Source: AGHT+IFWd8R+CeHKZgVN07woDmZGKwFW/fSViGqEl9rM5aVnTMzjSsEp/U3dLZ4jSSUPz4VqGQ35qw==
-X-Received: by 2002:a05:6512:a96:b0:507:b9db:61dc with SMTP id m22-20020a0565120a9600b00507b9db61dcmr12387035lfu.48.1700056585655;
-        Wed, 15 Nov 2023 05:56:25 -0800 (PST)
-Received: from [192.168.100.74] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id um27-20020a170906cf9b00b009de467a25d5sm7178088ejb.13.2023.11.15.05.56.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Nov 2023 05:56:24 -0800 (PST)
-Message-ID: <a7d9697c-c83e-4ef0-bd8d-025e79e34c3c@gmail.com>
-Date: Wed, 15 Nov 2023 14:56:23 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lHim8GjL"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF61FAC
+	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 05:59:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700056760; x=1731592760;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XzC7zCOE4CH5Yyhze0M21STx/sgEyX4bX00oS5Repss=;
+  b=lHim8GjLmukvDBTXnch/5U5d1TYbSbK4JhkKJ/gkC9XYqNpTYKLNXNvD
+   vyQkrJC3ox/6ecbvnmhShjgnv8Y3JlyoBnKVwMm/l22FC7QI+C7XddWba
+   Vn0skQxVRKXhwTaKn9wAA6r+xZR/XQzZWSG1MzrGWtt4Tt3VHr2qNymaw
+   f09Xy/+UtPDCSHdMbsyMaxQnZWwKKj8+vrDtgDnVzayeB1RFrkXxF026s
+   b+WH3k4dmFOuQlcpAALWsn4R6VFlTz1Zg3SaxsqkGIhBnfCREpB6pSyXA
+   m5oWNlb2KRH9aUUOjCWe4KCwlo1nZxOY/NJ2PlQeyHRLq+UjdhjFgoujo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="375918792"
+X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
+   d="scan'208";a="375918792"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 05:59:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="758502871"
+X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
+   d="scan'208";a="758502871"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 15 Nov 2023 05:59:19 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r3GQG-0000NT-3A;
+	Wed, 15 Nov 2023 13:59:16 +0000
+Date: Wed, 15 Nov 2023 21:58:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [sj:damon/next 39/42] htmldocs:
+ Documentation/admin-guide/mm/damon/usage.rst:124: WARNING: undefined label:
+ sysfs_schemes_quota_goals (if the link has no caption the label must precede
+ a section header)
+Message-ID: <202311152116.wp5LS1ON-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] hwmon: (core) Add support for humidity min/max
- alarm
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20231020-topic-chipcap2-v2-0-f5c325966fdb@gmail.com>
- <20231020-topic-chipcap2-v2-2-f5c325966fdb@gmail.com>
- <44f1eaa3-a90d-42cf-9808-4f39aacbf270@roeck-us.net>
- <25059951-ca50-4b19-8f74-5631b34c719b@gmail.com>
- <1ef7a10c-d9cf-4042-a198-f72dbdf9d05a@roeck-us.net>
-Content-Language: en-US
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <1ef7a10c-d9cf-4042-a198-f72dbdf9d05a@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 15.11.23 14:25, Guenter Roeck wrote:
-> On Thu, Nov 09, 2023 at 07:24:00AM +0100, Javier Carrasco wrote:
->> Hello,
->>
->> On 09.11.23 01:02, Guenter Roeck wrote:
->>> On 11/8/23 07:37, Javier Carrasco wrote:
->>>> Add min_alarm and max_alarm attributes for humidityX to support devices
->>>> that can generate these alarms.
->>>> Such attributes already exist for other magnitudes such as tempX.
->>>>
->>>> Tested with a ChipCap 2 temperature-humidity sensor.
->>>>
->>>
->>> No objection, but the new attributes also need to be added to the ABI
->>> documentation at
->>> Documentation/ABI/testing/sysfs-class-hwmon and
->>> Documentation/hwmon/sysfs-interface.rst
->>>
->>> Which made me notice that humidityX_alarm isn't documented either.
->>> Please document that attribute as well while you are at it.
->>>
->>> Thanks,
->>> Guenter
->>>
->> Actually there are several attributes without ABI documentation or at
->> least the attributes enum is much larger than the objects in the ABI
->> documentation (in testing/sysfs-class-hwmon).
->> For humidity there is only input, enable, rated_min and rated_max. Are
->> some attributes not described for a good reason or should all be
->> documented? the current humidity_attributes contains:
->>
->> hwmon_humidity_enable -> documented in sysfs-class-hwmon
->> hwmon_humidity_input -> documented in sysfs-class-hwmon
->> hwmon_humidity_label
->> hwmon_humidity_min
->> hwmon_humidity_min_hyst
->> hwmon_humidity_max
->> hwmon_humidity_max_hyst
->> hwmon_humidity_alarm
->> hwmon_humidity_fault
->> hwmon_humidity_rated_min -> documented in sysfs-class-hwmon
->> hwmon_humidity_rated_max -> documented in sysfs-class-hwmon
->>
->> I could not find the temperature counterparts of my new additions
->> (temp_min_alarm and temp_max_alarm).
->>
->> Should all be added to sysfs-class-hwmon or am I missing some other
->> document? I am alright adding the ones I mentioned.
->>
-> 
-> They should all be documented. It would be great if you volunteer
-> to add the missing ones, but that won't be a mandate. I just don't want
-> the situation to get worse.
-> 
-> Thanks,
-> Guenter
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   1c0004773dde317766d90f066adee4e2bc22a0d6
+commit: 520566dca2f1ac43c8782bb34f447ee3db88b931 [39/42] Docs/admin-guide/mm/damon/usage: update for quota goals
+reproduce: (https://download.01.org/0day-ci/archive/20231115/202311152116.wp5LS1ON-lkp@intel.com/reproduce)
 
-I will document them in a separate series, so the (probably) long review
-of the original device driver will not have any effect on this task,
-which has nothing to do with the ChipCap 2 anyways.
-I will start asap.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311152116.wp5LS1ON-lkp@intel.com/
 
-Best regards,
-Javier Carrasco
+All warnings (new ones prefixed by >>):
+
+>> Documentation/admin-guide/mm/damon/usage.rst:124: WARNING: undefined label: sysfs_schemes_quota_goals (if the link has no caption the label must precede a section header)
+
+vim +124 Documentation/admin-guide/mm/damon/usage.rst
+
+b18402726bd10e SeongJae Park 2022-03-22  123  
+b18402726bd10e SeongJae Park 2022-03-22 @124  Reading ``state`` returns ``on`` if the kdamond is currently running, or
+b18402726bd10e SeongJae Park 2022-03-22  125  ``off`` if it is not running.  Writing ``on`` or ``off`` makes the kdamond be
+adc286e6bdd39e SeongJae Park 2022-05-09  126  in the state.  Writing ``commit`` to the ``state`` file makes kdamond reads the
+adc286e6bdd39e SeongJae Park 2022-05-09  127  user inputs in the sysfs files except ``state`` file again.  Writing
+520566dca2f1ac SeongJae Park 2023-10-31  128  ``commit_schemes_quota_goals`` to the ``state`` file makes kdamond reads the
+520566dca2f1ac SeongJae Park 2023-10-31  129  DAMON-based operation schemes' :ref:`quota goals <sysfs_schemes_quota_goals>`
+520566dca2f1ac SeongJae Park 2023-10-31  130  of the kdamond.  Writing ``update_schemes_stats`` to ``state`` file updates the
+520566dca2f1ac SeongJae Park 2023-10-31  131  contents of stats files for each DAMON-based operation scheme of the kdamond.
+520566dca2f1ac SeongJae Park 2023-10-31  132  For details of the stats, please refer to :ref:`stats section
+520566dca2f1ac SeongJae Park 2023-10-31  133  <sysfs_schemes_stats>`.
+ea7f03a441b58a SeongJae Park 2023-08-02  134  
+
+:::::: The code at line 124 was first introduced by commit
+:::::: b18402726bd10e122c65eecc244ca1cdcb868cc8 Docs/admin-guide/mm/damon/usage: document DAMON sysfs interface
+
+:::::: TO: SeongJae Park <sj@kernel.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
