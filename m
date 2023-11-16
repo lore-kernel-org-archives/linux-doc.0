@@ -1,126 +1,115 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dm8hPqqp"
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3219C
-	for <linux-doc@vger.kernel.org>; Thu, 16 Nov 2023 04:14:06 -0800 (PST)
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-41b7fd8f458so4020871cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Nov 2023 04:14:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+6naRNg"
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442BD10DA;
+	Thu, 16 Nov 2023 05:14:02 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6bd0e1b1890so687264b3a.3;
+        Thu, 16 Nov 2023 05:14:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700136845; x=1700741645; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cebbXdRvrbvVuyDTJ/a9z4SKNIngllr1lOkeCTh7hc0=;
-        b=dm8hPqqpKFwTB6TSCTaDHvyrDcNg1HJ7Y467pN//iu7kcwfmr/7D8YqrJg9TOAeWWA
-         b71ihHXxH5n/loF+mHJfXIV3PV5JqCm5sdWyXNntJpwzRZIorOF4+tcJ8e6rL3vQ0tKd
-         8Flhqbf4d0Ww/Cgz9yx4GqWqN2L2pvSE+PRQJdjHGSKYWjDA22MnTUEhsbIaZrcFpWvk
-         3AgGJ/EprElEpdO64KGXxj6c7XjzLSRr8rnBRC07TY878EqiZr+pWD/sX61Ivkyin4AW
-         fTJcvwGjNGkzTwdw77iwG/XZr1OuluiaepStDovxG3lPYg4fT5KVPS+khbctbKXjZycn
-         Sz5w==
+        d=gmail.com; s=20230601; t=1700140442; x=1700745242; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IijjW5z83l5PX4DSM0mCw5PGI5YXGJ/C+FpbXJjae/o=;
+        b=e+6naRNgeBJoIVh4aWSE5ORSYIXJm0qylxaXaGIch+G3GUeDuoC/0pVo5iD5yobrNZ
+         yQp/+e3vdF3qbWVGQ7Zc53tEr+/MTHDhTM5UlEpXZaxn2a0JvQrpGzSMPJL33cgcGorZ
+         t+cgeYFFMByLpkNxOqw8SCx8+4M5LUGsHUuAEtPnSHPQWflt3ekaHdnb75fo+9rDHmho
+         fSfVZi10yFMlYIRhgb5pVmFrXEl/YvBXM70/AnrNtZEgUYzRynLif5yrzzc4sSwMU5Yi
+         jC8n4W09IqlLIG6hhNzRLBYfzgizdbD5ozEgb0SyjO/HUv8agfrLw8gEVsc3OFtSA31T
+         V+ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700136845; x=1700741645;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1700140442; x=1700745242;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cebbXdRvrbvVuyDTJ/a9z4SKNIngllr1lOkeCTh7hc0=;
-        b=RY0R3XfXQjz3iXPWmSZgnBAyyhP7vvHE4H3eNg3BZqt2F7GRUpciOXB+LHzUcOUzR0
-         dNPe6u7DxasEgTU4aH0p+O0shrhKCDAqJsONTTaVUoTIBH5JUFxEqIAEjgtFtFgT+luM
-         Xzcm4odniQciI3tzbBNKE/pRzh3d0wYVxtIlpc26Afg6PL3pGxDYqO5D0YHJaa3s3PvD
-         Doj6u9YoEo6Uj/DoHv9NDdPLYSCUZXZBiUZGrhQ8OyEr4KU1iRIirO7Lp46xdDDy0Pua
-         If7He+O1NrNrbn5MVW5Ds9G6EmMUsBSnCArddiGhyOuPcyOPJF2NIwC/s3fkfHa1Stlt
-         xVbA==
-X-Gm-Message-State: AOJu0Yy9vToLOGd9mqeyg5xkiwTSkucqWne0vB7eSJO0+yFjObyhXtSl
-	kaQ2v8dCkGKf3EqCHetxX7SGFw==
-X-Google-Smtp-Source: AGHT+IF1NL0Mg7K+4XgL7Hf64m30dmyiWpT6marfYlO7PGxs9vLOAvtbewKPLKQP+X3DBA4eGyCReg==
-X-Received: by 2002:a05:622a:11c9:b0:421:c58e:f9a2 with SMTP id n9-20020a05622a11c900b00421c58ef9a2mr10452230qtk.32.1700136845585;
-        Thu, 16 Nov 2023 04:14:05 -0800 (PST)
-Received: from [192.168.212.13] ([12.191.197.195])
-        by smtp.gmail.com with ESMTPSA id g4-20020ac870c4000000b004181e5a724csm4289781qtp.88.2023.11.16.04.13.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Nov 2023 04:14:05 -0800 (PST)
-Message-ID: <caff5743-265f-43ac-83fb-4e0fb23a9ff4@linaro.org>
-Date: Thu, 16 Nov 2023 13:13:58 +0100
+        bh=IijjW5z83l5PX4DSM0mCw5PGI5YXGJ/C+FpbXJjae/o=;
+        b=tvLHyazDTyJubS8zRr3MhA1N4Mq0w+SJgpRH9dGIwQ7teb78vRtboFch26WJUUJ9Sk
+         xmICqQqZFIjNYqI0rVbjbG7xqlbq89ERZhdvI8deCb9psoa/FqaJrCjQCa0M0WLxb0g9
+         Pg/Ybhh5B3hhW77vyLM0Noiu4PbNtkHRduwkWLGS9n5cq6CKGQrAR4fbEVVvRVzkBShT
+         exkEA2dKPt/Ot23642inUZW9f/ghgcjP91VSnB5ee2CvTMbRwxfipIsRQ+3CqWwT7GxO
+         RnDopPOcmOCRPWPGReaxFVN/zEpLJmOg8f8ocyGL4taDnsOfMrEUN71jYTR3Fy+xqb0y
+         vd/w==
+X-Gm-Message-State: AOJu0YzeaUknz5GRait9AoIVpnAbzTbU1wzouSa4TCbIZ2uB/CYtZAR8
+	a/TdupQOVAHS7mh0ZerfmdA=
+X-Google-Smtp-Source: AGHT+IEWSiEcX1lNfco4/eSeRq9smE/cTNyoWk8TVFKE59OwR5CRw3g74Fw1pnSPx3oZda7lCOiJHA==
+X-Received: by 2002:a05:6a20:8e1f:b0:187:2c9a:c9ad with SMTP id y31-20020a056a208e1f00b001872c9ac9admr7906794pzj.55.1700140441584;
+        Thu, 16 Nov 2023 05:14:01 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id u17-20020a056a00159100b006c4d2479c1asm4458116pfk.219.2023.11.16.05.14.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Nov 2023 05:14:01 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 0D69C10D76D28; Thu, 16 Nov 2023 20:13:55 +0700 (WIB)
+Date: Thu, 16 Nov 2023 20:13:55 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Danilo Krummrich <dakr@redhat.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Oak Zeng <oak.zeng@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Francois Dugast <francois.dugast@intel.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4] Documentation/gpu: VM_BIND locking document
+Message-ID: <ZVYVk8KutkQE0RDU@archie.me>
+References: <20231115124937.6740-1-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
- bindings
-Content-Language: en-US
-To: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>, patrick@stwcx.xyz,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-i2c@vger.kernel.org,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20231116023027.24855-1-Delphine_CC_Chiu@Wiwynn.com>
- <20231116023027.24855-2-Delphine_CC_Chiu@Wiwynn.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231116023027.24855-2-Delphine_CC_Chiu@Wiwynn.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231115124937.6740-1-thomas.hellstrom@linux.intel.com>
 
-On 16/11/2023 03:30, Delphine CC Chiu wrote:
-> Add a device tree bindings for ltc4286 device.
-> 
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-> 
-> -------------------------------------------------------------
-> Changelog:
->   v5 - Add hyphen under "Changelog" in commit message
+On Wed, Nov 15, 2023 at 01:49:37PM +0100, Thomas Hellström wrote:
+> +TODO: Pointer to the gpuvm code implementation if this iteration and
 
-Apply your patch from the list and check the result... You can easily
-see it's broken. We asked about ---. Please read the message carefully.
+"... implementation of this iteration ..."
 
-Best regards,
-Krzysztof
+> +Using a MMU notifier for device DMA (and other methods) is described in
+> +`this document
+> +<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
 
+You can use internal linking instead:
+
+---- >8 ----
+diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
+index d3c1f6d8c0e0ec..6b5f7e6e7155fb 100644
+--- a/Documentation/core-api/pin_user_pages.rst
++++ b/Documentation/core-api/pin_user_pages.rst
+@@ -153,6 +153,8 @@ NOTE: Some pages, such as DAX pages, cannot be pinned with longterm pins. That's
+ because DAX pages do not have a separate page cache, and so "pinning" implies
+ locking down file system blocks, which is not (yet) supported in that way.
+ 
++.. _mmu-notifier-registration-case:
++
+ CASE 3: MMU notifier registration, with or without page faulting hardware
+ -------------------------------------------------------------------------
+ Device drivers can pin pages via get_user_pages*(), and register for mmu
+diff --git a/Documentation/gpu/drm-vm-bind-locking.rst b/Documentation/gpu/drm-vm-bind-locking.rst
+index bc701157cb3414..08b6a47a6e592f 100644
+--- a/Documentation/gpu/drm-vm-bind-locking.rst
++++ b/Documentation/gpu/drm-vm-bind-locking.rst
+@@ -366,8 +366,7 @@ need to care about, but so far it has proven difficult to exclude
+ certain notifications.
+ 
+ Using a MMU notifier for device DMA (and other methods) is described in
+-`this document
+-<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
++:ref:`pin_user_pages() documentation <mmu-notifier-registration-case>`.
+ 
+ Now the method of obtaining struct page references using
+ get_user_pages() unfortunately can't be used under a dma_resv lock
+
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
