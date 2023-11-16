@@ -1,26 +1,25 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YHVZmMob"
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 946DA126;
-	Thu, 16 Nov 2023 06:01:57 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6F20820004;
-	Thu, 16 Nov 2023 14:01:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Uk7yCNlr"
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64D9A130;
+	Thu, 16 Nov 2023 06:01:59 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3758020005;
+	Thu, 16 Nov 2023 14:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700143316;
+	t=1700143318;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yWD9YrNTyyRNxL/jvzCdcI4G86YYPC0nobZQkHFIfzM=;
-	b=YHVZmMobVurUKpgivgCtynY3fdmpB4WSsy1ZPbV1dLDm4vuNoeoMyZLwKzUuxPWLKviXdI
-	LqWiptoBqhYHSLfi0UQqpOJnfPRlMajUnWmDnsVvus2AUXAjVF16aLgA69EtFpbxeKQtHJ
-	qrhpU74Peshn1wizHHVe0mKnq3BtjYUgTE4xtq4xQxKkMXT+CiDW3QhN4MU30od167Iy3n
-	3FhCoivbp0q0IXxR2JtPv8VKaySK7IoQBk8qDzycV+LUVM5cazWYseI+Bg8oDN1NsWvA0b
-	ezkHGQFOxXEm8sDZzEcotThWz0BdvOexW3ze8l7cplNzk22BhhE+Xg1mZUKINA==
+	bh=eB+GGbS/hOUMve+DoI9/NdA/F1GZ6dfXdqXYjtsj/c4=;
+	b=Uk7yCNlrUalzKwDM9t7v3RP/8lTgkdaiiNkcfy10Aa1dkWWPM+tQ7wFl9Ond9F8c4TF7pw
+	dkmVzujlkYhDI3XZs7istgviz4SeEAtZt9XsUnUt9wKK/MqDW7oZbjSWVhHmNKRS7vHot+
+	s3cMz6bcUlkGZj9Q6EEuYo1bZzXjwTBLZ2ROHJ1gxPTKCU4opVvvOa/N8HI7qMBFHJJbgF
+	5iJaRzs2ONvcBL0nZ/UBEH4JPZYwqSkUhzJR+SWnZzmt2M7crEsyy4PDtXZ7LCNHyygvG+
+	DvNW3vtBsLLzK7omWHGLrSCpJWRd7wHu91vzXgQrG/JCM9lNjQxIh7OIJkI/XA==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Thu, 16 Nov 2023 15:01:33 +0100
-Subject: [PATCH net-next 1/9] net: pse-pd: Rectify and adapt the naming of
- admin_cotrol member of struct pse_control_config
+Date: Thu, 16 Nov 2023 15:01:35 +0100
+Subject: [PATCH net-next 3/9] net: pse-pd: Introduce PSE types enumeration
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -29,7 +28,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231116-feature_poe-v1-1-be48044bf249@bootlin.com>
+Message-Id: <20231116-feature_poe-v1-3-be48044bf249@bootlin.com>
 References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
 In-Reply-To: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -46,91 +45,107 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-In commit 18ff0bcda6d1 ("ethtool: add interface to interact with Ethernet
-Power Equipment"), the 'pse_control_config' structure was introduced,
-housing a single member labeled 'admin_cotrol' responsible for maintaining
-the operational state of the PoDL PSE functions.
-
-A noticeable typographical error exists in the naming of this field
-('cotrol' should be corrected to 'control'), which this commit aims to
-rectify.
-
-Furthermore, with upcoming extensions of this structure to encompass PoE
-functionalities, the field is being renamed to 'podl_admin_state' to
-distinctly indicate that this state is tailored specifically for PoDL."
+Introduce an enumeration to define PSE types (PoE or PoDL),
+utilizing a bitfield for potential future support of both types.
+Include 'pse_get_types' helper for external access to PSE type info
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
- drivers/net/pse-pd/pse_regulator.c | 8 ++++----
- include/linux/pse-pd/pse.h         | 4 ++--
- net/ethtool/pse-pd.c               | 2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/net/pse-pd/pse_core.c      |  9 +++++++++
+ drivers/net/pse-pd/pse_regulator.c |  1 +
+ include/linux/pse-pd/pse.h         | 22 ++++++++++++++++++++++
+ 3 files changed, 32 insertions(+)
 
+diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
+index 146b81f08a89..2959c94f7798 100644
+--- a/drivers/net/pse-pd/pse_core.c
++++ b/drivers/net/pse-pd/pse_core.c
+@@ -312,3 +312,12 @@ int pse_ethtool_set_config(struct pse_control *psec,
+ 	return err;
+ }
+ EXPORT_SYMBOL_GPL(pse_ethtool_set_config);
++
++u32 pse_get_types(struct pse_control *psec)
++{
++	if (!psec->pcdev)
++		return PSE_UNKNOWN;
++	else
++		return psec->pcdev->types;
++}
++EXPORT_SYMBOL_GPL(pse_get_types);
 diff --git a/drivers/net/pse-pd/pse_regulator.c b/drivers/net/pse-pd/pse_regulator.c
-index e2bf8306ca90..1dedf4de296e 100644
+index 1dedf4de296e..e34ab8526067 100644
 --- a/drivers/net/pse-pd/pse_regulator.c
 +++ b/drivers/net/pse-pd/pse_regulator.c
-@@ -31,10 +31,10 @@ pse_reg_ethtool_set_config(struct pse_controller_dev *pcdev, unsigned long id,
- 	struct pse_reg_priv *priv = to_pse_reg(pcdev);
- 	int ret;
- 
--	if (priv->admin_state == config->admin_cotrol)
-+	if (priv->admin_state == config->podl_admin_control)
- 		return 0;
- 
--	switch (config->admin_cotrol) {
-+	switch (config->podl_admin_control) {
- 	case ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED:
- 		ret = regulator_enable(priv->ps);
- 		break;
-@@ -43,14 +43,14 @@ pse_reg_ethtool_set_config(struct pse_controller_dev *pcdev, unsigned long id,
- 		break;
- 	default:
- 		dev_err(pcdev->dev, "Unknown admin state %i\n",
--			config->admin_cotrol);
-+			config->podl_admin_control);
- 		ret = -ENOTSUPP;
- 	}
- 
- 	if (ret)
- 		return ret;
- 
--	priv->admin_state = config->admin_cotrol;
-+	priv->admin_state = config->podl_admin_control;
- 
- 	return 0;
- }
+@@ -116,6 +116,7 @@ pse_reg_probe(struct platform_device *pdev)
+ 	priv->pcdev.owner = THIS_MODULE;
+ 	priv->pcdev.ops = &pse_reg_ops;
+ 	priv->pcdev.dev = dev;
++	priv->pcdev.types = PSE_PODL;
+ 	ret = devm_pse_controller_register(dev, &priv->pcdev);
+ 	if (ret) {
+ 		dev_err(dev, "failed to register PSE controller (%pe)\n",
 diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-index fb724c65c77b..199cf4ae3cf2 100644
+index 25490d0c682d..67a0ff5e480c 100644
 --- a/include/linux/pse-pd/pse.h
 +++ b/include/linux/pse-pd/pse.h
-@@ -15,11 +15,11 @@ struct pse_controller_dev;
- /**
-  * struct pse_control_config - PSE control/channel configuration.
-  *
-- * @admin_cotrol: set PoDL PSE admin control as described in
-+ * @podl_admin_control: set PoDL PSE admin control as described in
-  *	IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl
-  */
- struct pse_control_config {
--	enum ethtool_podl_pse_admin_state admin_cotrol;
-+	enum ethtool_podl_pse_admin_state podl_admin_control;
+@@ -44,6 +44,19 @@ struct pse_control_status {
+ 	enum ethtool_pse_pw_d_status pw_status;
  };
  
++/**
++ * enum - Types of PSE controller.
++ *
++ * @PSE_UNKNOWN: Type of PSE controller is unknown
++ * @PSE_PODL: PSE controller which support PoDL
++ * @PSE_POE: PSE controller which support PoE
++ */
++enum {
++	PSE_UNKNOWN = BIT(0),
++	PSE_PODL = BIT(1),
++	PSE_POE = BIT(2),
++};
++
  /**
-diff --git a/net/ethtool/pse-pd.c b/net/ethtool/pse-pd.c
-index cc478af77111..aef57a058f0d 100644
---- a/net/ethtool/pse-pd.c
-+++ b/net/ethtool/pse-pd.c
-@@ -130,7 +130,7 @@ ethnl_set_pse(struct ethnl_req_info *req_info, struct genl_info *info)
- 	struct phy_device *phydev;
+  * struct pse_controller_ops - PSE controller driver callbacks
+  *
+@@ -77,6 +90,7 @@ struct pse_control;
+  *            device tree to id as given to the PSE control ops
+  * @nr_lines: number of PSE controls in this controller device
+  * @lock: Mutex for serialization access to the PSE controller
++ * @types: types of the PSE controller
+  */
+ struct pse_controller_dev {
+ 	const struct pse_controller_ops *ops;
+@@ -89,6 +103,7 @@ struct pse_controller_dev {
+ 			const struct of_phandle_args *pse_spec);
+ 	unsigned int nr_lines;
+ 	struct mutex lock;
++	u32 types;
+ };
  
- 	/* this values are already validated by the ethnl_pse_set_policy */
--	config.admin_cotrol = nla_get_u32(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
-+	config.podl_admin_control = nla_get_u32(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
+ #if IS_ENABLED(CONFIG_PSE_CONTROLLER)
+@@ -108,6 +123,8 @@ int pse_ethtool_set_config(struct pse_control *psec,
+ 			   struct netlink_ext_ack *extack,
+ 			   const struct pse_control_config *config);
  
- 	phydev = dev->phydev;
- 	if (!phydev) {
++u32 pse_get_types(struct pse_control *psec);
++
+ #else
+ 
+ static inline struct pse_control *of_pse_control_get(struct device_node *node)
+@@ -133,6 +150,11 @@ static inline int pse_ethtool_set_config(struct pse_control *psec,
+ 	return -ENOTSUPP;
+ }
+ 
++static u32 pse_get_types(struct pse_control *psec)
++{
++	return PSE_UNKNOWN;
++}
++
+ #endif
+ 
+ #endif
 
 -- 
 2.25.1
