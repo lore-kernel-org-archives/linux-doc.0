@@ -1,157 +1,97 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="g1QNoJuZ"
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2071.outbound.protection.outlook.com [40.107.96.71])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BEB1D6B;
-	Thu, 16 Nov 2023 05:40:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NDUzuNM2J6l8UAnaVJS9pucDwHeTF5ToTnzoc2YaKdDZo7Aal7q55Ngf/3vGJ+vcsswaPsYKt+9dituH7tb57McUYTSyPq5nmAoNu25SGpzSJ7tIKcuO98f0B/DRSY0I5kxsMujHAFH3sQnmzq9elpA6NvNLfYAjdreiDv8iG1an+vv2bpA85ikzRPabWxhKJRANlN6d+YmpDSjU8qt6vnax0jEhYiVedLGwJsaQuLrmpUmqSR7V3ZYQFTQ2btoQ84C5Xxgowstbs3tYswD6Pv3YWP2tXnOrrzXSygBDqGlckgR3nb8WnxGHBpsGMy8VHaJV2FfxErMLGK8+jNoSYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l21PNP1vluL6YjRe5U7aYOqpJssT+8SA43+k0n1exyw=;
- b=GRonEG+Q8nfJd9n8QaIEV7tc6djKU9Qrn8EYSZmZe4h4PT0ClMcSN2SNCTzYwyitmBU4Se79p6puy8Cu7DRv0okKR5ON5g1qqD81slNDXV5A+X4lUlDH826l5sWEhedef64+Ntwa3XcdmAcoTYqWcFH/mkM4cL6twlPePeuRWAtUXicVuBpgDYSowhuaTBXbmosN0XyH3bJ04DzErFrbpBFAwoSL0y9dw+cY+UdvHQlloXZ6FIRFlspUR1lg0Qxvq1UB+/Nf0revt0NcEGeErkVqO/r+t8HvQ3EStrYLAjh4Afhmjet5sm1pa8p6vKc4pDqEmC4HRtIW7DdDArPbNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=sunsite.dk smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l21PNP1vluL6YjRe5U7aYOqpJssT+8SA43+k0n1exyw=;
- b=g1QNoJuZrwnvENnXCNPO5g8KtbrPRekLWet3eCkV1RoqVQyWjIXUpo9ZKHl5L8V9f2IwCAKnSOpvu/sakEnzLEz3QqVZWoDzXyLb7cZpWyOHEvXzrVI2dcVJ7josqTqMiS9HxEose3ziWYkcgPANckL3B9sa+Oq7QPyIgdcg+cc=
-Received: from CH2PR12CA0017.namprd12.prod.outlook.com (2603:10b6:610:57::27)
- by SA1PR12MB5614.namprd12.prod.outlook.com (2603:10b6:806:228::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Thu, 16 Nov
- 2023 13:40:31 +0000
-Received: from CY4PEPF0000EE34.namprd05.prod.outlook.com
- (2603:10b6:610:57:cafe::76) by CH2PR12CA0017.outlook.office365.com
- (2603:10b6:610:57::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21 via Frontend
- Transport; Thu, 16 Nov 2023 13:40:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EE34.mail.protection.outlook.com (10.167.242.40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7002.20 via Frontend Transport; Thu, 16 Nov 2023 13:40:31 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Thu, 16 Nov
- 2023 07:40:30 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Thu, 16 Nov
- 2023 05:40:30 -0800
-Received: from xhdsgoud40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.32 via Frontend
- Transport; Thu, 16 Nov 2023 07:40:26 -0600
-From: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-To: <git@amd.com>, <michal.simek@amd.com>, <jacmet@sunsite.dk>,
-	<gregkh@linuxfoundation.org>, <jirislaby@kernel.org>,
-	<linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<corbet@lwn.net>, <christophe.leroy@csgroup.eu>, <rdunlap@infradead.org>,
-	<airlied@redhat.com>, <ogabbay@kernel.org>, <linux-doc@vger.kernel.org>
-CC: <radhey.shyam.pandey@amd.com>, <srinivas.goud@amd.com>,
-	<shubhrajyoti.datta@amd.com>, <manion05gk@gmail.com>, Manikanta Guntupalli
-	<manikanta.guntupalli@amd.com>
-Subject: [PATCH V4 2/2] serial: uartlite: Use dynamic allocation for major number when uart ports > 4
-Date: Thu, 16 Nov 2023 19:10:03 +0530
-Message-ID: <20231116134003.3762725-3-manikanta.guntupalli@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231116134003.3762725-1-manikanta.guntupalli@amd.com>
-References: <20231116134003.3762725-1-manikanta.guntupalli@amd.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="C1tm/7LN"
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBDC111F;
+	Thu, 16 Nov 2023 06:01:56 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E37DD2000B;
+	Thu, 16 Nov 2023 14:01:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700143315;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8P6FjfFpdrn/J0iPOo/tPROLgmPLagA4WGaPrF9h4CM=;
+	b=C1tm/7LN72uCg3Ac230rwIqUW4UQb9rhtwN8CbfmUgsas86tBFkdv6CkRia/TZ9g1k5oFU
+	6j63na4cfgUwXLxSW6ZwzgFOjYYU/lSVED3Pkxb2lwPF+m/FojMEDtBlKkiPLHSIpFWFDi
+	T7ePixahMl9nQvEBYpc5oW/10yKuSh/O0XWhkL33WqKL5vWOP5g6WOpm3z+eNGa+NWp+LF
+	BLZvSgeIs+ZCnxw3In8lWddRxbea7gjYrApifgOXFAmpDc1FLiQZaYMOPFieWC4W7O4FEi
+	3yxKIl12nYMQ8tkg9ERSgEvvKNF5IfjydZdVzwtVwvGveJ97CMZyjRgjX/Gyhg==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next 0/9] net: Add support for Power over Ethernet
+ (PoE)
+Date: Thu, 16 Nov 2023 15:01:32 +0100
+Message-Id: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE34:EE_|SA1PR12MB5614:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e2457e8-ba4f-4e1e-d874-08dbe6a99a51
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	WtaoMv9Lr4MnTVFvCOpdU47JcvXwmnhl4Acin/3kA7wULgqB35dATZ/HNHwh/DwS2Mgwbe/i1NAkIAOjfpuI3pEKgYwZ6q6gRbcwcpudxZQ7dPm4Uss+ZGeEbs8YUv0SQsPM+eG4UI0bTil1aE5TNyqwyAPWmX+W6CWPVCRzKO11et86tiKLch12LbN7Fs45OBh8nOBA37R8zd26PhePBnvZjbeG3zbtSEBcZKcq+QME12jbt3U6DN4kT3rqfkgLbQmkkdaw5Pw6CUtles+nQewHzMpQ3Zh1hU3q2JDnylSPPxxpCxhvZ1RV2pbII064bb9xuSWGwx+4PERF3iu8Hb20npXoxVGzsTXPdDKvIyXdqNe9WR+WJbZ+LTMHdmY5yuMcWACp9I3flmvdygSVLAliEyXGK1vAa5CPqFou0n6e8ujkILS2bn1H9aDsixq4PsmyngftYOp7eoKW9sYN6IZU1kgPxlxeeIQoRHDhugzJ7M8VZ9uUaCyV9zI/qh7rf0y02VOeWN3HrbGxMTZkryvBdDlVdtEgaU2M0WHrmjj06+2WH+sXh4EIx+YqOjvWO9pcjDV0ASX+KkaPnKCMB6F8xwqjkavR2j6tIeLpsscerU52f2ATuvfilG0STjaKT9mUElQwlda9J7Uw/iPhXkqnKrqev3D6xOFijxq//DHiglFti1X7MmfGhGz0E8fMyhPBkmJ+ODaj+uP5BtmTj9lxIg345f4VAQ0kPMGxOc8eQlBVZk+zONl/3uI5QSstfAJvjjU2JKBIKp5t9GrlV59HxJmAJjd/rtrki1ZKIil4hqeCcVErFCAMP86iDwjIIs5ipjeHGzjJgs4y8q9wGQ==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(136003)(346002)(376002)(396003)(230922051799003)(451199024)(186009)(82310400011)(1800799009)(64100799003)(36840700001)(40470700004)(46966006)(6666004)(8936002)(8676002)(478600001)(4326008)(54906003)(70206006)(70586007)(110136005)(316002)(40460700003)(966005)(36860700001)(356005)(81166007)(47076005)(41300700001)(36756003)(921008)(2906002)(26005)(1076003)(426003)(44832011)(2616005)(40480700001)(7416002)(83380400001)(336012)(82740400003)(86362001)(5660300002)(36900700001)(2101003)(83996005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 13:40:31.5036
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e2457e8-ba4f-4e1e-d874-08dbe6a99a51
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE34.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5614
+X-B4-Tracking: v=1; b=H4sIALwgVmUC/x3MSwqAIBRG4a3EHSf4gqitRITUb92JhVoE4d6Th
+ t/gnJcSIiPR0LwUcXPiI1SotqFld2GD4LWatNRGSW2Fh8tXxHweEMr0tpfojJWGanFGeH7+20g
+ BWQQ8maZSPvqLrwhnAAAA
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ devicetree@vger.kernel.org, Kory Maincent <kory.maincent@bootlin.com>
+X-Mailer: b4 0.12.4
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Device number 204 has a range of minors on major number.
-uart_register_driver is failing due to lack of minor numbers
-when more number of uart ports used. So, to avoid minor number
-limitation on 204 major number use dynamic major allocation
-when more than 4 uart ports used otherwise use static major
-allocation.
+This patch series aims at adding support for PoE (Power over Ethernet),
+based on the already existing support for PoDL (Power over Data Line)
+implementation. In addition, it adds support for one specific PoE
+controller, the Microchip PD692x0.
 
-https://docs.kernel.org/arch/arm/sa1100/serial_uart.html
+In detail:
+- Patch 1 to 6 prepare net to support PoE devices.
+- Patch 7 adds a new error code to firmware upload API.
+- Patch 8 and 9 add PD692x0 PoE PSE controller driver and its binding.
 
-Signed-off-by: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
-Changes for V2:
-Update logic to use either static or dynamic major allocation.
-Update commit description.
-Update description of SERIAL_UARTLITE_NR_UARTS in Kconfig.
-Changes for V3:
-Fix typo.
-Remove parentheses.
-Changes for V4:
-Fix typo.
----
- drivers/tty/serial/Kconfig    | 3 +++
- drivers/tty/serial/uartlite.c | 5 +++++
- 2 files changed, 8 insertions(+)
+Kory Maincent (9):
+      net: pse-pd: Rectify and adapt the naming of admin_cotrol member of struct pse_control_config
+      ethtool: Expand Ethernet Power Equipment with PoE alongside PoDL
+      net: pse-pd: Introduce PSE types enumeration
+      net: ethtool: pse-pd: Expand pse commands with the PSE PoE interface
+      netlink: specs: Modify pse attribute prefix
+      netlink: specs: Expand the pse netlink command with PoE interface
+      firmware_loader: Expand Firmware upload error codes
+      dt-bindings: net: pse-pd: Add bindings for PD692x0 PSE controller
+      net: pse-pd: Add PD692x0 PSE controller driver
 
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index 732c893c8d16..8b1f5756002f 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -532,6 +532,9 @@ config SERIAL_UARTLITE_NR_UARTS
- 	help
- 	  Set this to the number of uartlites in your system, or the number
- 	  you think you might implement.
-+	  If maximum number of uartlite serial ports is more than 4, then the
-+	  driver uses dynamic allocation instead of static allocation for major
-+	  number.
- 
- config SERIAL_SUNCORE
- 	bool
-diff --git a/drivers/tty/serial/uartlite.c b/drivers/tty/serial/uartlite.c
-index 404c14acafa5..66d751edcf45 100644
---- a/drivers/tty/serial/uartlite.c
-+++ b/drivers/tty/serial/uartlite.c
-@@ -24,8 +24,13 @@
- #include <linux/pm_runtime.h>
- 
- #define ULITE_NAME		"ttyUL"
-+#if CONFIG_SERIAL_UARTLITE_NR_UARTS > 4
-+#define ULITE_MAJOR             0       /* use dynamic node allocation */
-+#define ULITE_MINOR             0
-+#else
- #define ULITE_MAJOR		204
- #define ULITE_MINOR		187
-+#endif
- #define ULITE_NR_UARTS		CONFIG_SERIAL_UARTLITE_NR_UARTS
- 
- /* ---------------------------------------------------------------------
+ .../bindings/net/pse-pd/microchip,pd692x0_i2c.yaml |   70 ++
+ Documentation/netlink/specs/ethtool.yaml           |   33 +-
+ Documentation/networking/ethtool-netlink.rst       |   20 +
+ MAINTAINERS                                        |    7 +
+ drivers/base/firmware_loader/sysfs_upload.c        |    1 +
+ drivers/net/pse-pd/Kconfig                         |   11 +
+ drivers/net/pse-pd/Makefile                        |    1 +
+ drivers/net/pse-pd/pd692x0.c                       | 1049 ++++++++++++++++++++
+ drivers/net/pse-pd/pse_core.c                      |    9 +
+ drivers/net/pse-pd/pse_regulator.c                 |    9 +-
+ include/linux/firmware.h                           |    2 +
+ include/linux/pse-pd/pse.h                         |   35 +-
+ include/uapi/linux/ethtool.h                       |   43 +
+ include/uapi/linux/ethtool_netlink.h               |    3 +
+ net/ethtool/pse-pd.c                               |   64 +-
+ 15 files changed, 1332 insertions(+), 25 deletions(-)
+---
+base-commit: 23dd60286589d9d49c8135dee937fd54efa5643c
+change-id: 20231024-feature_poe-139490e73403
+
+Best regards,
 -- 
-2.25.1
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
