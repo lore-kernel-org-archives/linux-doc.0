@@ -1,150 +1,265 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1xVoe+dZ"
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2086.outbound.protection.outlook.com [40.107.94.86])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632C7120;
-	Wed, 15 Nov 2023 23:30:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jRB8wN2+sttdr4ulM9z5Ig9+dR8eQgZ26hT/6v0dPuhmUmtUXdtFisyFQnOz/ZPPyzzeelmODi1cJadQJizFF1/erhIFFM5YsA/2p4I+oUK2gFQKJlsTcREtR/L9XBLoNzEKKnfgzH6Mhxr8f7FQe92CsZm8OcUSIfgGCdQKEQj4Qo/pAuUqOoQZ+NLhgikYjKA/b+lFel53TNI/ZXS9zdlr/UvplilaI6XxpfXVIIUxp0rqbZ5epbsFKS/hSzsig+1loiDPEYwj4K7UhmxMueiGP/btCuZYx5Gf/Pnqyk8MCSN0cerTL78AocvL1Fwq+Pe8ujMAwspxDWBaUfzgDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LbxsJ4nEKinyfe52jtbkxV//9NLzxkjEFzgjHWqEIwM=;
- b=KszHIaklZURYsNeRZo/wVsJZWBV/rHkB4ztBIG17dAqadJXOEUQ5FOOkMIUVYG+j/nE8wTA8s9EPvgyaPo7zYb7htzuZyq/KKPEum8vu/lZIjXgCWpA/Y0oWVNWTV9zj6o85MQE1cw/LvkXW8hYCDbZgpZgr2pwPofRis7JEUMo2s+gooMvr/jjCZsXdNTMB6iF9Ej1UYvUP/vXYu/zmCtHAe/FBrhj8KyGODghnAKI170rrb9nXr3AMwEP6PXpwpFIQ1m2f3jA6suDfIJ8lDZflBQlQXhOBJKgW6IIhGmWm2JJf/x6D/IgPeM4CIaL3IcqNva++JR0uLrW0u6SVrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=sunsite.dk smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LbxsJ4nEKinyfe52jtbkxV//9NLzxkjEFzgjHWqEIwM=;
- b=1xVoe+dZ/QfdhWrUZiG0hsnKyiGnUDLcHJcHZoVPEPr13EWa7Xcu7psf5skh4t4S5NCT3MwLf+MVDNGywHTj8CE+JQrfFFdcSBQtD4oiedDMsnDX6LoA/6nL3htOu03HZOCRt5skgPRH130LO+o19kBgZzHpfVkb5iBjIsRmWMY=
-Received: from BYAPR06CA0003.namprd06.prod.outlook.com (2603:10b6:a03:d4::16)
- by SA1PR12MB7317.namprd12.prod.outlook.com (2603:10b6:806:2ba::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.18; Thu, 16 Nov
- 2023 07:30:06 +0000
-Received: from MWH0EPF000989E6.namprd02.prod.outlook.com
- (2603:10b6:a03:d4:cafe::44) by BYAPR06CA0003.outlook.office365.com
- (2603:10b6:a03:d4::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.20 via Frontend
- Transport; Thu, 16 Nov 2023 07:30:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MWH0EPF000989E6.mail.protection.outlook.com (10.167.241.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7002.20 via Frontend Transport; Thu, 16 Nov 2023 07:30:05 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Thu, 16 Nov
- 2023 01:29:58 -0600
-Received: from xhdsgoud40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.32 via Frontend
- Transport; Thu, 16 Nov 2023 01:29:40 -0600
-From: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-To: <git@amd.com>, <michal.simek@amd.com>, <jacmet@sunsite.dk>,
-	<gregkh@linuxfoundation.org>, <jirislaby@kernel.org>,
-	<linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<corbet@lwn.net>, <christophe.leroy@csgroup.eu>, <rdunlap@infradead.org>,
-	<airlied@redhat.com>, <ogabbay@kernel.org>, <linux-doc@vger.kernel.org>
-CC: <radhey.shyam.pandey@amd.com>, <srinivas.goud@amd.com>,
-	<shubhrajyoti.datta@amd.com>, <manion05gk@gmail.com>, Manikanta Guntupalli
-	<manikanta.guntupalli@amd.com>
-Subject: [PATCH V3 2/2] serial: uartlite: Use dynamic allocation for major number when uart ports > 4
-Date: Thu, 16 Nov 2023 12:59:15 +0530
-Message-ID: <20231116072915.3338387-3-manikanta.guntupalli@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231116072915.3338387-1-manikanta.guntupalli@amd.com>
-References: <20231116072915.3338387-1-manikanta.guntupalli@amd.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Ef65JlJk"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC91EDD;
+	Wed, 15 Nov 2023 23:32:59 -0800 (PST)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AG4YTml026586;
+	Thu, 16 Nov 2023 07:32:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=c6bDfKqalMc1iw+BQ9T6nolF/0krV2p0p5oysDFOP/U=;
+ b=Ef65JlJkWdZ3APeyyTXnDs4471g8Uo3xhhh26OGg2g0qZyE0cfpy7VWYbtFhIgL9+lCB
+ DPLu/mcwHkF2ui28oS5xn0CmPBfvyMsLehk8Gfh51F3XOACNVE9+VB7+L3VaThSFwAJD
+ oC1k73/w2hYDIw55qb8R/w+H86Z2vobT4qOuvD3u4CfLidxXVLmbEBxTHvKFUcy8iX/N
+ PwMgFu+3x2s0EZ1+LIAuGE6O4+OuF8adblILdc7C7Jc2CA7RR3elw7tPRw39Z3Ion6fg
+ Uq6DyR5/C2cj65MQ6FpuAiX/NqjIXqVGS2uIpLymFHwKwBnRSISoUGMjscN/ye7l0wwj ZQ== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ud6ecgxgn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Nov 2023 07:32:45 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AG7Wi99025541
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Nov 2023 07:32:44 GMT
+Received: from [10.253.72.184] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 15 Nov
+ 2023 23:32:40 -0800
+Message-ID: <7794de4e-b9d6-4b57-aaf1-466a848a311b@quicinc.com>
+Date: Thu, 16 Nov 2023 15:32:38 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989E6:EE_|SA1PR12MB7317:EE_
-X-MS-Office365-Filtering-Correlation-Id: 48dbe2ed-f58b-41d8-09a4-08dbe675da68
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	RVIPCdGAU3wy6NpCJF7PQT8INcUpnTUYXv1NS5xDlYpIXz8lIVzzc7jY+WntJb3JyZiFxWOr/59hxSrx81TLBqBRnlxEAehlF79/S4i/adqz3vHRXviclI1LKoHgPD+cRvcxHC+ohWiqJYLIWZAtwPSyGX5r6HSpGYlMy8QLMl3UPgqWFCMIYGE/6qpKSv95vC5dQXlYCSueVN5XF2gwSFSj+5+ZKV0CsHmsng23+xxGNwv1xFLGGuG+o6UZ4rbllExIW2DHQ/W5iHzuiB2JpxUwa5Ad6yaOVtIXHItDoJIUeZS4xcs0IbTmfl3zlqT1dyHKPoyY+hiCUigB6FrViZVud8kLbhPFMCHlkw9gUgATMzQ+vEpHm5w3WFMZ+Q/DQEpHSnDeQWEo0ukw8vMqHBKnfk9X4X6YzN/E7CuJjQunXr7tP0+I2ZdxKibSZ90+fhJqw7HltFUYG8WKTeB27twNNmPrHg6i8qIOM3O9Wbp0vw8TSo3G6N4AIFC7CsFUsIuJnX0SIUNVFOkG5fxSTDw+j12TA04GC5OTXnsBxkapqt1pv2QfiXX2Fy86itbA3xnJGaSxymNKLOlZ22SdCWIOAs6GkGHfrSTZxm52DVUEdsjAwgU6uKgOhdnWJCQtzItrNbz1RzohWiF3m3MHxLYxUNNW7xTxs1aFlO/JuT0HyUi+RJgikiUkJ0lP1AGgeUV5b5lMJZFQ/UrHhugXq5cZWiHOWwb8CyUOAvhjFcfJXLQXarRVIYaVbhXnXtR9f1jKx4I2gm0zOKH4qUmOwH9V6Tno9lH9TACLaSI8yW2acwMce0zuKCY2ng8zELNOoQw8FDszyfnyC5wD8rNWzA==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(136003)(39860400002)(346002)(230922051799003)(1800799009)(82310400011)(64100799003)(186009)(451199024)(36840700001)(46966006)(40470700004)(41300700001)(921008)(47076005)(316002)(36860700001)(70206006)(54906003)(336012)(426003)(40480700001)(26005)(36756003)(83380400001)(1076003)(82740400003)(356005)(81166007)(7416002)(2616005)(5660300002)(2906002)(478600001)(966005)(44832011)(70586007)(110136005)(6666004)(86362001)(8936002)(40460700003)(4326008)(8676002)(2101003)(83996005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 07:30:05.1464
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48dbe2ed-f58b-41d8-09a4-08dbe675da68
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000989E6.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7317
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] net: phylink: move phylink_pcs_neg_mode() to
+ phylink.c
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+CC: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20231115140630.10858-1-quic_luoj@quicinc.com>
+ <20231115140630.10858-2-quic_luoj@quicinc.com>
+ <ZVTSVIx+S+W/+X4B@shell.armlinux.org.uk>
+Content-Language: en-US
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <ZVTSVIx+S+W/+X4B@shell.armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: IITavh1_vUoOiEH4AKM5mkWyHzosQOdl
+X-Proofpoint-ORIG-GUID: IITavh1_vUoOiEH4AKM5mkWyHzosQOdl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_04,2023-11-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2311160057
 
-Device number 204 has a range of minors on major number.
-uart_register_driver is failing due to lack of minor numbers
-when more number of uart ports used. So, to avoid minor number
-limitation on 204 major number use dynamic major allocation
-when more than 4 uart ports used otherwise use static major
-allocation.
 
-https://docs.kernel.org/arch/arm/sa1100/serial_uart.html
 
-Signed-off-by: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
----
-Changes for V2:
-Update logic to use either static or dynamic major allocation.
-Update commit description.
-Update description of SERIAL_UARTLITE_NR_UARTS in Kconfig.
-Changes for V3:
-Fix typo.
-Remove parentheses.
----
- drivers/tty/serial/Kconfig    | 2 ++
- drivers/tty/serial/uartlite.c | 5 +++++
- 2 files changed, 7 insertions(+)
+On 11/15/2023 10:14 PM, Russell King (Oracle) wrote:
+> Hi,
+> 
+> You don't need this patch for your series, and you're bypassing my
+> ability to decide when this patch should be merged (which is not yet,
+> I want things to remain as-is for another cycle.)
+> 
+> In theory, looking at past history, 6.7 will probably be a LTS kernel,
+> but until that is known for certain, I don't want to commit to moving
+> this function in case LTS gets delayed by a cycle.
+> 
+> Please drop it from your series.
+> 
+> Thanks.
 
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index 732c893c8d16..c3c82b740078 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -532,6 +532,8 @@ config SERIAL_UARTLITE_NR_UARTS
- 	help
- 	  Set this to the number of uartlites in your system, or the number
- 	  you think you might implement.
-+	  If maximum number of uartlite serial ports are more than 4, then driver uses
-+	  dynamic allocation instead of static allocation for major number.
- 
- config SERIAL_SUNCORE
- 	bool
-diff --git a/drivers/tty/serial/uartlite.c b/drivers/tty/serial/uartlite.c
-index 404c14acafa5..66d751edcf45 100644
---- a/drivers/tty/serial/uartlite.c
-+++ b/drivers/tty/serial/uartlite.c
-@@ -24,8 +24,13 @@
- #include <linux/pm_runtime.h>
- 
- #define ULITE_NAME		"ttyUL"
-+#if CONFIG_SERIAL_UARTLITE_NR_UARTS > 4
-+#define ULITE_MAJOR             0       /* use dynamic node allocation */
-+#define ULITE_MINOR             0
-+#else
- #define ULITE_MAJOR		204
- #define ULITE_MINOR		187
-+#endif
- #define ULITE_NR_UARTS		CONFIG_SERIAL_UARTLITE_NR_UARTS
- 
- /* ---------------------------------------------------------------------
--- 
-2.25.1
+Got it, Russell.
+I will drop this patch in the next patch set, Thanks.
 
+> 
+> On Wed, Nov 15, 2023 at 10:06:25PM +0800, Luo Jie wrote:
+>> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+>>
+>> Russell points out that there is no user of phylink_pcs_neg_mode()
+>> outside of phylink.c, nor is there planned to be any, so we can just
+>> move it there.
+>>
+>> Suggested-by: Russell King (Oracle) <linux@armlinux.org.uk>
+>> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+>> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+>> ---
+>>   drivers/net/phy/phylink.c | 65 ++++++++++++++++++++++++++++++++++++++
+>>   include/linux/phylink.h   | 66 ---------------------------------------
+>>   2 files changed, 65 insertions(+), 66 deletions(-)
+>>
+>> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+>> index 25c19496a336..162f51b0986a 100644
+>> --- a/drivers/net/phy/phylink.c
+>> +++ b/drivers/net/phy/phylink.c
+>> @@ -162,6 +162,71 @@ static const char *phylink_an_mode_str(unsigned int mode)
+>>   	return mode < ARRAY_SIZE(modestr) ? modestr[mode] : "unknown";
+>>   }
+>>   
+>> +/**
+>> + * phylink_pcs_neg_mode() - helper to determine PCS inband mode
+>> + * @mode: one of %MLO_AN_FIXED, %MLO_AN_PHY, %MLO_AN_INBAND.
+>> + * @interface: interface mode to be used
+>> + * @advertising: adertisement ethtool link mode mask
+>> + *
+>> + * Determines the negotiation mode to be used by the PCS, and returns
+>> + * one of:
+>> + *
+>> + * - %PHYLINK_PCS_NEG_NONE: interface mode does not support inband
+>> + * - %PHYLINK_PCS_NEG_OUTBAND: an out of band mode (e.g. reading the PHY)
+>> + *   will be used.
+>> + * - %PHYLINK_PCS_NEG_INBAND_DISABLED: inband mode selected but autoneg
+>> + *   disabled
+>> + * - %PHYLINK_PCS_NEG_INBAND_ENABLED: inband mode selected and autoneg enabled
+>> + *
+>> + * Note: this is for cases where the PCS itself is involved in negotiation
+>> + * (e.g. Clause 37, SGMII and similar) not Clause 73.
+>> + */
+>> +static unsigned int phylink_pcs_neg_mode(unsigned int mode, phy_interface_t interface,
+>> +					 const unsigned long *advertising)
+>> +{
+>> +	unsigned int neg_mode;
+>> +
+>> +	switch (interface) {
+>> +	case PHY_INTERFACE_MODE_SGMII:
+>> +	case PHY_INTERFACE_MODE_QSGMII:
+>> +	case PHY_INTERFACE_MODE_QUSGMII:
+>> +	case PHY_INTERFACE_MODE_USXGMII:
+>> +		/* These protocols are designed for use with a PHY which
+>> +		 * communicates its negotiation result back to the MAC via
+>> +		 * inband communication. Note: there exist PHYs that run
+>> +		 * with SGMII but do not send the inband data.
+>> +		 */
+>> +		if (!phylink_autoneg_inband(mode))
+>> +			neg_mode = PHYLINK_PCS_NEG_OUTBAND;
+>> +		else
+>> +			neg_mode = PHYLINK_PCS_NEG_INBAND_ENABLED;
+>> +		break;
+>> +
+>> +	case PHY_INTERFACE_MODE_1000BASEX:
+>> +	case PHY_INTERFACE_MODE_2500BASEX:
+>> +		/* 1000base-X is designed for use media-side for Fibre
+>> +		 * connections, and thus the Autoneg bit needs to be
+>> +		 * taken into account. We also do this for 2500base-X
+>> +		 * as well, but drivers may not support this, so may
+>> +		 * need to override this.
+>> +		 */
+>> +		if (!phylink_autoneg_inband(mode))
+>> +			neg_mode = PHYLINK_PCS_NEG_OUTBAND;
+>> +		else if (linkmode_test_bit(ETHTOOL_LINK_MODE_Autoneg_BIT,
+>> +					   advertising))
+>> +			neg_mode = PHYLINK_PCS_NEG_INBAND_ENABLED;
+>> +		else
+>> +			neg_mode = PHYLINK_PCS_NEG_INBAND_DISABLED;
+>> +		break;
+>> +
+>> +	default:
+>> +		neg_mode = PHYLINK_PCS_NEG_NONE;
+>> +		break;
+>> +	}
+>> +
+>> +	return neg_mode;
+>> +}
+>> +
+>>   static unsigned int phylink_interface_signal_rate(phy_interface_t interface)
+>>   {
+>>   	switch (interface) {
+>> diff --git a/include/linux/phylink.h b/include/linux/phylink.h
+>> index 875439ab45de..d589f89c612c 100644
+>> --- a/include/linux/phylink.h
+>> +++ b/include/linux/phylink.h
+>> @@ -98,72 +98,6 @@ static inline bool phylink_autoneg_inband(unsigned int mode)
+>>   	return mode == MLO_AN_INBAND;
+>>   }
+>>   
+>> -/**
+>> - * phylink_pcs_neg_mode() - helper to determine PCS inband mode
+>> - * @mode: one of %MLO_AN_FIXED, %MLO_AN_PHY, %MLO_AN_INBAND.
+>> - * @interface: interface mode to be used
+>> - * @advertising: adertisement ethtool link mode mask
+>> - *
+>> - * Determines the negotiation mode to be used by the PCS, and returns
+>> - * one of:
+>> - *
+>> - * - %PHYLINK_PCS_NEG_NONE: interface mode does not support inband
+>> - * - %PHYLINK_PCS_NEG_OUTBAND: an out of band mode (e.g. reading the PHY)
+>> - *   will be used.
+>> - * - %PHYLINK_PCS_NEG_INBAND_DISABLED: inband mode selected but autoneg
+>> - *   disabled
+>> - * - %PHYLINK_PCS_NEG_INBAND_ENABLED: inband mode selected and autoneg enabled
+>> - *
+>> - * Note: this is for cases where the PCS itself is involved in negotiation
+>> - * (e.g. Clause 37, SGMII and similar) not Clause 73.
+>> - */
+>> -static inline unsigned int phylink_pcs_neg_mode(unsigned int mode,
+>> -						phy_interface_t interface,
+>> -						const unsigned long *advertising)
+>> -{
+>> -	unsigned int neg_mode;
+>> -
+>> -	switch (interface) {
+>> -	case PHY_INTERFACE_MODE_SGMII:
+>> -	case PHY_INTERFACE_MODE_QSGMII:
+>> -	case PHY_INTERFACE_MODE_QUSGMII:
+>> -	case PHY_INTERFACE_MODE_USXGMII:
+>> -		/* These protocols are designed for use with a PHY which
+>> -		 * communicates its negotiation result back to the MAC via
+>> -		 * inband communication. Note: there exist PHYs that run
+>> -		 * with SGMII but do not send the inband data.
+>> -		 */
+>> -		if (!phylink_autoneg_inband(mode))
+>> -			neg_mode = PHYLINK_PCS_NEG_OUTBAND;
+>> -		else
+>> -			neg_mode = PHYLINK_PCS_NEG_INBAND_ENABLED;
+>> -		break;
+>> -
+>> -	case PHY_INTERFACE_MODE_1000BASEX:
+>> -	case PHY_INTERFACE_MODE_2500BASEX:
+>> -		/* 1000base-X is designed for use media-side for Fibre
+>> -		 * connections, and thus the Autoneg bit needs to be
+>> -		 * taken into account. We also do this for 2500base-X
+>> -		 * as well, but drivers may not support this, so may
+>> -		 * need to override this.
+>> -		 */
+>> -		if (!phylink_autoneg_inband(mode))
+>> -			neg_mode = PHYLINK_PCS_NEG_OUTBAND;
+>> -		else if (linkmode_test_bit(ETHTOOL_LINK_MODE_Autoneg_BIT,
+>> -					   advertising))
+>> -			neg_mode = PHYLINK_PCS_NEG_INBAND_ENABLED;
+>> -		else
+>> -			neg_mode = PHYLINK_PCS_NEG_INBAND_DISABLED;
+>> -		break;
+>> -
+>> -	default:
+>> -		neg_mode = PHYLINK_PCS_NEG_NONE;
+>> -		break;
+>> -	}
+>> -
+>> -	return neg_mode;
+>> -}
+>> -
+>>   /**
+>>    * struct phylink_link_state - link state structure
+>>    * @advertising: ethtool bitmask containing advertised link modes
+>> -- 
+>> 2.42.0
+>>
+>>
+> 
