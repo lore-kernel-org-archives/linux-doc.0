@@ -1,142 +1,124 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hq7bqN7q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UC4DUtwU"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A2C2A0;
-	Thu, 16 Nov 2023 05:38:51 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3566F204FF;
-	Thu, 16 Nov 2023 13:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1700141930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qGlqJ91XgT6zatL0ncRqFs5WPTRXZ76PpGZv2Os9czw=;
-	b=hq7bqN7qAkMVa/iDOqLUpaM+RodtpQsEIXkhW46MJ1L/vJzABEr7fQm/j2SI1xgZ1fN3kS
-	QYWfF+IP1dp22stCfFdVlilyvx/wErZ+MckLhYy1mU1xnMhFROj6+vKb0AknLv2SJxoxH0
-	ZKVr4eJnAuQ076eo78Anb2VZy1+e9Vk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1700141930;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qGlqJ91XgT6zatL0ncRqFs5WPTRXZ76PpGZv2Os9czw=;
-	b=UC4DUtwUxpwUmPDeoE2Kwkgm0sjho0yy1TK7RzO5EZHy58JO53cexW7Cd5YdOX4X3ax2Iu
-	fVx2z4AlhQWg4+CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BE626139C4;
-	Thu, 16 Nov 2023 13:38:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Dx7VKmkbVmXgFgAAMHmgww
-	(envelope-from <clopez@suse.de>); Thu, 16 Nov 2023 13:38:49 +0000
-From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
-To: linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
-Date: Thu, 16 Nov 2023 14:36:29 +0100
-Message-Id: <20231116133628.5976-1-clopez@suse.de>
-X-Mailer: git-send-email 2.35.3
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DFF8E0dY"
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2040.outbound.protection.outlook.com [40.107.223.40])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2C22D6A;
+	Thu, 16 Nov 2023 05:40:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QpNeiG1fTcGxRYvOL9FkXWthBolzCkUGOa7TthpPxTge01pUFoKsDaU746fTmRijToVPKxBCOdZ9a3GoW+X0O5XLzprSGFMJ/PbxxKm/ArrkrnCoB+Yl94eLILLY/YRUnTvBKhMrdh5MwnT32hOtDYg8QLqaLW7S29cug4ABL80GdAmEQideWXjjVBGAKoUKln3lViqHoxTfCLaXm/Zrk63frLWwoZ6JEOiPwM6WflwuYukZxo/qi/PoZoW2GRv7L6OyuqGsFJPOjGHiCQD4xjusDd7I2tAXSlW553iEdesuQbNlYKjidIYg1Xne5X5ZyP7JgOymNQHStm27GBuVYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KWW0Iyu4yUEA1f+RICUrUJBFcZQBj1tcYe55vPXlfeM=;
+ b=noBwJJPGG/uPzbAEE44UtuzmIR/HIW9WOOchp4Eh/nls6B8TsU0Apz20o6eNWp7ZR3HPwSczfWANW8Wt91Dw2cCEvv3dwLsePba7TMqmauH1RyUh4SfZfEDn4T3yWpsdjcK2E0Ic4IytugvC1i7Csa++tgUMWQeVXq/A2OhpGjVh/muwfatr7zskAbq4zua+pdT3DYKNJKNqBa7QAwae+xyRXwqtHJgHB/ZzHTzlEPZ9fK9tMfqEGMsbkHYWwmfzt/yZDHcCRhhpplYBF0pj9JlQ5hYRfPCKZKSBYiYY2t4ylkdTSmjFF5Lr9Hrr6/2gVRHNXQvLfgNfeUm12S4H7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=sunsite.dk smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KWW0Iyu4yUEA1f+RICUrUJBFcZQBj1tcYe55vPXlfeM=;
+ b=DFF8E0dYhDkWjbj5gS7Yl+errGtwB4WEf1rq5aUXV/Ivse5nLTCquA6/tWUg38O/3/c8bJ+LHs1a0aBh1iT+n6ndfJNSXtoI2JS6pcsJUmxySPJ2g4gmbcKFEp0d4TtakXC0YO+iaMvF4KSuy/2dkSv3kTYZeZL4RgUsGYFdh+w=
+Received: from CH2PR12CA0006.namprd12.prod.outlook.com (2603:10b6:610:57::16)
+ by BN9PR12MB5308.namprd12.prod.outlook.com (2603:10b6:408:105::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Thu, 16 Nov
+ 2023 13:40:20 +0000
+Received: from CY4PEPF0000EE34.namprd05.prod.outlook.com
+ (2603:10b6:610:57:cafe::b0) by CH2PR12CA0006.outlook.office365.com
+ (2603:10b6:610:57::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21 via Frontend
+ Transport; Thu, 16 Nov 2023 13:40:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000EE34.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7002.20 via Frontend Transport; Thu, 16 Nov 2023 13:40:18 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Thu, 16 Nov
+ 2023 07:40:17 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Thu, 16 Nov
+ 2023 07:40:17 -0600
+Received: from xhdsgoud40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.32 via Frontend
+ Transport; Thu, 16 Nov 2023 07:40:13 -0600
+From: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
+To: <git@amd.com>, <michal.simek@amd.com>, <jacmet@sunsite.dk>,
+	<gregkh@linuxfoundation.org>, <jirislaby@kernel.org>,
+	<linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<corbet@lwn.net>, <christophe.leroy@csgroup.eu>, <rdunlap@infradead.org>,
+	<airlied@redhat.com>, <ogabbay@kernel.org>, <linux-doc@vger.kernel.org>
+CC: <radhey.shyam.pandey@amd.com>, <srinivas.goud@amd.com>,
+	<shubhrajyoti.datta@amd.com>, <manion05gk@gmail.com>, Manikanta Guntupalli
+	<manikanta.guntupalli@amd.com>
+Subject: [PATCH V4 0/2] Use dynamic allocation for major number when uart ports > 4
+Date: Thu, 16 Nov 2023 19:10:01 +0530
+Message-ID: <20231116134003.3762725-1-manikanta.guntupalli@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE34:EE_|BN9PR12MB5308:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe5c0474-e79d-415c-bc89-08dbe6a9929b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	CaeOfN9Bx1nZ6IuhKd2GHw33Wm1PP84fUdnpx2IwpfAxiXVk9wBQpVH4l/dDSG3nrshWNbD+Ux/oIRsqg2vSKfDl297MtU1LhCqp0JVpZyX6PYpIXI9U5SqPpLlFYxTvrdJobgwZGakCC7+t802llv78jM5R+cCqO1cXBpa8IwcrD4USrjkAVyuDpItEJzK6YrUhZUMqVnmA4CWo386ms8GN6XrBJUGo25ADmx9aPGWKk5VoNWCJP35ATIVBXZc/BqCVSskS0NQyibDuRaPiUADATRiJ/+VcLjGvW1nrvefoq05fRoJ5J4QkzazTHeCCl6GiFntCAxxR6SqUi5NCfXeSBfY3tSpf6E+0Ss3WVvuvg8/wGy+z1i8Jk7vOkwmmzhuR5UEt1YKKVdY5BfnSAvo55zzYLwl1UK43Xli/0lLrYMggoGkPZjSNNitLaifoDKE1MtrBSLA/v2chS8JFBsGKlsBW+8mlLnUIerHNjo2SRkNgowcufxIkD9XD83mVvYu8EV8CjoG6NvzBMxGWKyWsQbhfli98xyojj6YnTyRxNwqzdoScMYs3Gqp/z2EZGT60gavQx7Qlz4N9AAOHOMdmOHrodPrhTj9szYw1cKRbx0bh91Da5T0YcwLDjVrWT8EeLJoBPGdVAb4S/MtaZD2UvsC67EYuzqIerEZuTQRPoq5MtiYDODZFHgLoBIizntG1wju3+6PbhTy8jErRI01cQXnGqVsO1xCQIg8PHT/NgWCwFMofzjGeGPQMqjK8awuA7Q85s+03l4Z69Zy8Li5r5UvwFbKicSSDm30O1xjBPZAbI0N5pWkLmLktozYIxiWbPlXtDoUQzoSODJ5DPg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(346002)(136003)(376002)(230922051799003)(1800799009)(186009)(451199024)(82310400011)(64100799003)(40470700004)(46966006)(36840700001)(6666004)(40460700003)(4744005)(478600001)(921008)(2906002)(7416002)(316002)(110136005)(54906003)(70586007)(86362001)(70206006)(5660300002)(36860700001)(356005)(41300700001)(81166007)(44832011)(47076005)(36756003)(26005)(1076003)(2616005)(8936002)(4326008)(8676002)(40480700001)(83380400001)(82740400003)(426003)(336012)(2101003)(83996005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 13:40:18.5504
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe5c0474-e79d-415c-bc89-08dbe6a9929b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EE34.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5308
 
-Improve the description for the KVM_CAP_X86_BUS_LOCK_EXIT capability,
-fixing a few typos and improving grammar for overall clarity.
-
-Signed-off-by: Carlos López <clopez@suse.de>
+Update ttyUL major number allocation details in documentation.
+Use dynamic allocation for major number when uart ports > 4.
 ---
-v2: Corrected the name of the KVM_RUN_X86_BUS_LOCK flag
+Changes for V2:
+Introduce 1/2 patch.
+Update driver to use either static or dynamic major allocation.
+Update commit description.
+Update description of SERIAL_UARTLITE_NR_UARTS in Kconfig.
+Changes for V3:
+Fix typo.
+Move description to above of ttyUL.
+Remove parentheses.
+Changes for V4:
+Fix typo.
 
- Documentation/virt/kvm/api.rst | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+Manikanta Guntupalli (2):
+  Documentation: devices.txt: Update ttyUL major number allocation
+    details
+  serial: uartlite: Use dynamic allocation for major number when uart
+    ports > 4
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 7025b3751027..4701370bf46f 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6256,9 +6256,9 @@ More architecture-specific flags detailing state of the VCPU that may
- affect the device's behavior. Current defined flags::
- 
-   /* x86, set if the VCPU is in system management mode */
--  #define KVM_RUN_X86_SMM     (1 << 0)
-+  #define KVM_RUN_X86_SMM          (1 << 0)
-   /* x86, set if bus lock detected in VM */
--  #define KVM_RUN_BUS_LOCK    (1 << 1)
-+  #define KVM_RUN_X86_BUS_LOCK     (1 << 1)
-   /* arm64, set for KVM_EXIT_DEBUG */
-   #define KVM_DEBUG_ARCH_HSR_HIGH_VALID  (1 << 0)
- 
-@@ -7582,20 +7582,20 @@ KVM_BUS_LOCK_DETECTION_OFF and KVM_BUS_LOCK_DETECTION_EXIT are supported
- currently and mutually exclusive with each other. More bits can be added in
- the future.
- 
--With KVM_BUS_LOCK_DETECTION_OFF set, bus locks in guest will not cause vm exits
-+With KVM_BUS_LOCK_DETECTION_OFF set, bus locks in guest will not cause VM exits
- so that no additional actions are needed. This is the default mode.
- 
--With KVM_BUS_LOCK_DETECTION_EXIT set, vm exits happen when bus lock detected
--in VM. KVM just exits to userspace when handling them. Userspace can enforce
--its own throttling or other policy based mitigations.
--
--This capability is aimed to address the thread that VM can exploit bus locks to
--degree the performance of the whole system. Once the userspace enable this
--capability and select the KVM_BUS_LOCK_DETECTION_EXIT mode, KVM will set the
--KVM_RUN_BUS_LOCK flag in vcpu-run->flags field and exit to userspace. Concerning
--the bus lock vm exit can be preempted by a higher priority VM exit, the exit
--notifications to userspace can be KVM_EXIT_BUS_LOCK or other reasons.
--KVM_RUN_BUS_LOCK flag is used to distinguish between them.
-+With KVM_BUS_LOCK_DETECTION_EXIT set, VM exits happen when a bus lock is
-+detected in VM. KVM just exits to userspace when handling them. Userspace can
-+enforce its own throttling or other policy based mitigations.
-+
-+This capability is aimed to address the fact that a VM can exploit bus locks to
-+impact the performance of the whole system. Once userspace enables this
-+capability and selects the KVM_BUS_LOCK_DETECTION_EXIT mode, KVM will set the
-+KVM_RUN_X86_BUS_LOCK flag in the vcpu->run->flags field and exit to userspace.
-+Concerning the bus lock, a VM exit can be preempted by a higher priority VM
-+exit, so the exit notification to userspace can be KVM_EXIT_BUS_LOCK or another
-+reason. KVM_RUN_X86_BUS_LOCK flag is used to distinguish between them.
- 
- 7.23 KVM_CAP_PPC_DAWR1
- ----------------------
+ Documentation/admin-guide/devices.txt | 3 +++
+ drivers/tty/serial/Kconfig            | 3 +++
+ drivers/tty/serial/uartlite.c         | 5 +++++
+ 3 files changed, 11 insertions(+)
+
 -- 
-2.35.3
+2.25.1
 
