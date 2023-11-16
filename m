@@ -1,110 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C3349F66
-	for <linux-doc@vger.kernel.org>; Thu, 16 Nov 2023 21:57:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WfIYorTm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5397C4339A
-	for <linux-doc@vger.kernel.org>; Thu, 16 Nov 2023 21:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700171870;
-	bh=Y5SKnI8KWiPUqCAShlWpsNDBct9rlzSkcftG0eIw8Fw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WfIYorTmaGqkMmuIujqaLQj+nw8xPAOLshn000zNkpLE7nSf2lY32H6GrZhJrCwOR
-	 soSRotcmtvWJPSVe0cUWjY7M7abRuK2YXMNvczDxCNyBvj8HdFDcgWuzHuRIN384TD
-	 Vuhr1j0yNIeKTX7Xl1UIvq5gzio9pmYs01Knei3E5yGevNyx++GqrdMCEr0vvusuz4
-	 89zre5xFLS1ZvnJMTxAWcIuc7xoAjnUcLxbbROrxpSw6Z8VrD4HwtFOI1klXYu7RYp
-	 t199ipT9MnRXvBYTXRMrKo8zCTDa/Z+x23NBiB9rwXBStU2EDbywhcFocohpViKnzJ
-	 O4jXPMFhcdnfQ==
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2809414efa9so1093274a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Nov 2023 13:57:50 -0800 (PST)
-X-Gm-Message-State: AOJu0Yx/zGQxF3eIls+N87r3sZnTAMkQgb01qOYWxNd9q+zI58Z2/+7R
-	bBHcQINIzFFCE6gwZoyq2+ti2mjZcr/DzuNK35CzyA==
-X-Google-Smtp-Source: AGHT+IHQj9Vs+x71xRCK4U1CEmrgLgW3GcU2zfeirQPqpe+dAj0kYj5GZ49GtAN9LiWFuD3fPynnNTVXOQDoFvL1gj4=
-X-Received: by 2002:a17:90b:1e4c:b0:27d:5cca:9b69 with SMTP id
- pi12-20020a17090b1e4c00b0027d5cca9b69mr17169313pjb.45.1700171870173; Thu, 16
- Nov 2023 13:57:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbEIPMSN"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF33127;
+	Thu, 16 Nov 2023 14:36:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700174167; x=1731710167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PCo7Q6PwYdHeBIXeCSZfw9NiH4RVxY6/REL0RfEZyvU=;
+  b=bbEIPMSNVYwGxPxMGK9CuKBihlX+X/8RAPHFrarE54YVtHvcO8vNzqc5
+   5ngAl0Gh7K58a0GpRk5MbFc7Z3f91jpl35SZVn93Y44YQuaQtthA+Vy9R
+   hpMQj+VeOJUzB9g+ergi1Go+hrdCYS1JGM0sp2kEB5pfSvyS+ufAIwbPl
+   M4AppyDdLO4F0bg2EZszHMyY2kPmgdSD/KSdD49YLrLSWoHSdpaaLWjID
+   gIyp/BaPGD+jLVBMfxfraoEiLD2uehJykDbHa469Gx37vLRzxZMx8bZOb
+   p6+kUxZD4qIJ17blXvAPq+Q5lU4+mUHlEaQLzYdcNRTPU5oRn035oJlhw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="4323650"
+X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; 
+   d="scan'208";a="4323650"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 14:36:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="938977790"
+X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; 
+   d="scan'208";a="938977790"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 16 Nov 2023 14:36:00 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r3kxp-00026s-2X;
+	Thu, 16 Nov 2023 22:35:57 +0000
+Date: Fri, 17 Nov 2023 06:35:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yi-De Wu <yi-de.wu@mediatek.com>,
+	Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	David Bradil <dbrazdil@google.com>,
+	Trilok Soni <quic_tsoni@quicinc.com>,
+	Jade Shih <jades.shih@mediatek.com>,
+	Ivan Tseng <ivan.tseng@mediatek.com>,
+	My Chuang <my.chuang@mediatek.com>,
+	Shawn Hsiao <shawn.hsiao@mediatek.com>,
+	PeiLun Suei <peilun.suei@mediatek.com>,
+	Liju Chen <liju-clr.chen@mediatek.com>,
+	Willix Yeh <chi-shen.yeh@mediatek.com>,
+	Kevenny Hsieh <kevenny.hsieh@mediatek.com>
+Subject: Re: [PATCH v7 03/16] virt: geniezone: Add GenieZone hypervisor driver
+Message-ID: <202311170638.aouOEHi7-lkp@intel.com>
+References: <20231116152756.4250-4-yi-de.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106183159.3562879-1-nphamcs@gmail.com> <CAF8kJuMsXUm9=kiL8qPNVfYPzfyq-JWYSH3KraZadjF+myW-2A@mail.gmail.com>
- <CAKEwX=MNKY0UHbxi6Zfwf0KkepYavFaZo8F6LGe5GyyE3U35Jg@mail.gmail.com>
- <CAF8kJuMx4KT9z2RPy8z+snhM6YUtK=kZ1+BdHjKua2jhwFo-XQ@mail.gmail.com>
- <CAKEwX=OpQZhDmCr-a+O0=c8LfPoO0r8y=abpQoKXWcOP+V6yYg@mail.gmail.com> <CAF8kJuNnM_0jDCaAueseiNA1264-MtA0QiQtfjEN1E6aY56MKQ@mail.gmail.com>
-In-Reply-To: <CAF8kJuNnM_0jDCaAueseiNA1264-MtA0QiQtfjEN1E6aY56MKQ@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Thu, 16 Nov 2023 13:57:39 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuN5fBBmpOzmR72B5NBmjPNCNk4DALqz=+PKBwQrjvHH2w@mail.gmail.com>
-Message-ID: <CAF8kJuN5fBBmpOzmR72B5NBmjPNCNk4DALqz=+PKBwQrjvHH2w@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] workload-specific and memory pressure-driven zswap writeback
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Yosry Ahmed <yosryahmed@google.com>, 
-	Seth Jennings <sjenning@redhat.com>, Dan Streetman <ddstreet@ieee.org>, 
-	Vitaly Wool <vitaly.wool@konsulko.com>, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	Shakeel Butt <shakeelb@google.com>, muchun.song@linux.dev, linux-mm <linux-mm@kvack.org>, 
-	kernel-team@meta.com, LKML <linux-kernel@vger.kernel.org>, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231116152756.4250-4-yi-de.wu@mediatek.com>
 
-Hi Nhat,
+Hi Yi-De,
 
-I want want to share the high level feedback we discussed here in the
-mailing list as well.
+kernel test robot noticed the following build warnings:
 
-It is my observation that each memcg LRU list can't compare the page
-time order with other memcg.
-It works great when the leaf level memcg hits the memory limit and you
-want to reclaim from that memcg.
-It works less well on the global memory pressure you need to reclaim
-from all memcg. You kind of have to
-scan each all child memcg to find out the best page to shrink from. It
-is less effective to get to the most desirable page quickly.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc1 next-20231116]
+[cannot apply to arm64/for-next/core robh/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This can benefit from a design similar to MGLRU. This idea is
-suggested by Yu Zhao, credit goes to him not me.
-In other words, the current patch is similar to the memcg page list
-pre MGLRU world. We can have a MRLRU
-like per memcg zswap shrink list.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20231116-233442
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231116152756.4250-4-yi-de.wu%40mediatek.com
+patch subject: [PATCH v7 03/16] virt: geniezone: Add GenieZone hypervisor driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231117/202311170638.aouOEHi7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311170638.aouOEHi7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311170638.aouOEHi7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/arm64/geniezone/vm.c:25: warning: Function parameter or member 'a0' not described in 'gzvm_hypcall_wrapper'
+>> arch/arm64/geniezone/vm.c:25: warning: Function parameter or member 'a1' not described in 'gzvm_hypcall_wrapper'
+>> arch/arm64/geniezone/vm.c:25: warning: Function parameter or member 'a2' not described in 'gzvm_hypcall_wrapper'
+>> arch/arm64/geniezone/vm.c:25: warning: Function parameter or member 'a3' not described in 'gzvm_hypcall_wrapper'
+>> arch/arm64/geniezone/vm.c:25: warning: Function parameter or member 'a4' not described in 'gzvm_hypcall_wrapper'
+>> arch/arm64/geniezone/vm.c:25: warning: Function parameter or member 'a5' not described in 'gzvm_hypcall_wrapper'
+>> arch/arm64/geniezone/vm.c:25: warning: Function parameter or member 'a6' not described in 'gzvm_hypcall_wrapper'
+>> arch/arm64/geniezone/vm.c:25: warning: Function parameter or member 'a7' not described in 'gzvm_hypcall_wrapper'
 
 
-Chris
+vim +25 arch/arm64/geniezone/vm.c
 
-On Wed, Nov 8, 2023 at 6:10=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
->
-> On Wed, Nov 8, 2023 at 4:28=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
-> >
-> > Hmm my guess is that I probably sent this out based on an outdated
-> > mm-unstable. There has since been a new zswap selftest merged
-> > to mm-unstable (written by no other than myself - oh the irony), so
-> > maybe it does not apply cleanly anymore with git am.
->
-> $ git am -3 patches/zswap-pool-lru/0005
-> Applying: selftests: cgroup: update per-memcg zswap writeback selftest
-> Using index info to reconstruct a base tree...
-> M       tools/testing/selftests/cgroup/test_zswap.c
-> Falling back to patching base and 3-way merge...
-> Auto-merging tools/testing/selftests/cgroup/test_zswap.c
-> $ git am -3 patches/zswap-pool-lru/0006
-> Applying: zswap: shrinks zswap pool based on memory pressure
-> error: sha1 information is lacking or useless (mm/zswap.c).
-> error: could not build fake ancestor
-> Patch failed at 0001 zswap: shrinks zswap pool based on memory pressure
-> hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
->
-> I was able to resolve the conflict on patch 6 by hand though. So I am goo=
-d now.
->
-> Thanks
->
-> Chris
+    12	
+    13	/**
+    14	 * gzvm_hypcall_wrapper() - the wrapper for hvc calls
+    15	 * @a0-a7: arguments passed in registers 0 to 7
+    16	 * @res: result values from registers 0 to 3
+    17	 *
+    18	 * Return: The wrapper helps caller to convert geniezone errno to Linux errno.
+    19	 */
+    20	int gzvm_hypcall_wrapper(unsigned long a0, unsigned long a1,
+    21				 unsigned long a2, unsigned long a3,
+    22				 unsigned long a4, unsigned long a5,
+    23				 unsigned long a6, unsigned long a7,
+    24				 struct arm_smccc_res *res)
+  > 25	{
+    26		arm_smccc_hvc(a0, a1, a2, a3, a4, a5, a6, a7, res);
+    27		return gzvm_err_to_errno(res->a0);
+    28	}
+    29	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
