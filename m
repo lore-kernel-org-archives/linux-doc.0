@@ -1,119 +1,114 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="IH1ZtbPT"
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31EDAD42;
-	Thu, 16 Nov 2023 02:35:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=hATFZBvv9C0tyg+qA91L6v4ZurGsEZYprS7gdv+GBJ8=; b=IH1ZtbPTAuU0WICTCh4llxJigD
-	E/G3qGRosmSCagARmbK1UzD/WCTB8v3H/CATKlDAxE2+VOad+/3t89p4RArERBubpIpED6d3i3QVx
-	Cow9yH27OMWDCWxDHyiR1Dkfo/41+RFY65o0UsGUORKREvdW1EjViu+TnDMZe7Vj1JL4=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:59436 helo=asus64.hugovil.com)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1r3ZiB-0000sO-Jg; Thu, 16 Nov 2023 05:35:04 -0500
-Date: Thu, 16 Nov 2023 05:35:02 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-Cc: <git@amd.com>, <michal.simek@amd.com>, <jacmet@sunsite.dk>,
- <gregkh@linuxfoundation.org>, <jirislaby@kernel.org>,
- <linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <corbet@lwn.net>, <christophe.leroy@csgroup.eu>, <rdunlap@infradead.org>,
- <airlied@redhat.com>, <ogabbay@kernel.org>, <linux-doc@vger.kernel.org>,
- <radhey.shyam.pandey@amd.com>, <srinivas.goud@amd.com>,
- <shubhrajyoti.datta@amd.com>, <manion05gk@gmail.com>
-Message-Id: <20231116053502.a66a6da2a82db94f4cbdb350@hugovil.com>
-In-Reply-To: <20231116072915.3338387-3-manikanta.guntupalli@amd.com>
-References: <20231116072915.3338387-1-manikanta.guntupalli@amd.com>
-	<20231116072915.3338387-3-manikanta.guntupalli@amd.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="R6BA0qW0"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62118E0;
+	Thu, 16 Nov 2023 03:25:16 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AGAXI6r013372;
+	Thu, 16 Nov 2023 11:25:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=/ooACc8jx1rN0v4nvJOZ7IzOnyVXEda+38RURk8IomU=;
+ b=R6BA0qW0nJkOzOhEeQT+qN8L081L5SybyzNjRHxbOICd/LTL4p6yKrRiSlVIZT/T4U5D
+ goCVMXREhugTlBA1+ro+lGrrhxg2QKJnhXpQvdWq4qyJSzzRL/GJUwPNXph0LYmBDtEu
+ cX3DEFkzD3r+sINMyndwkoTpJI+AF64k7Ac5+bJvlq19xnzMPL2OFOQShG5w0zQfRovn
+ gQG4O4HZ6nPYR5kWg3zedj2Ifr35JScftY3LXWLvOd0iwGxQzV/iB6iz20srICSkjEey
+ nE2gqE5gEm5mqikeTZcIp9Ut1bCqrNAjk2qHojhNhkLRTUTtU2ePorQH2Cf5JSHj+8WB qg== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3udhe1r32j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Nov 2023 11:25:02 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AGBP1x9015792
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Nov 2023 11:25:01 GMT
+Received: from akronite-sh-dev02.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.39; Thu, 16 Nov 2023 03:24:57 -0800
+From: Luo Jie <quic_luoj@quicinc.com>
+To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>
+CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v4 0/6] add qca8084 ethernet phy driver
+Date: Thu, 16 Nov 2023 19:24:31 +0800
+Message-ID: <20231116112437.10578-1-quic_luoj@quicinc.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-Subject: Re: [PATCH V3 2/2] serial: uartlite: Use dynamic allocation for
- major number when uart ports > 4
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 8MM2JxxeT1WhJHQQMKpWI28DIDtTpXuX
+X-Proofpoint-ORIG-GUID: 8MM2JxxeT1WhJHQQMKpWI28DIDtTpXuX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_09,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 mlxlogscore=661
+ clxscore=1015 impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311160091
 
-On Thu, 16 Nov 2023 12:59:15 +0530
-Manikanta Guntupalli <manikanta.guntupalli@amd.com> wrote:
+QCA8084 is four-port PHY with maximum link capability 2.5G,
+which supports the interface mode qusgmii and sgmii mode,
+there are two PCSs available to connected with ethernet port.
 
-Hi,
+QCA8084 can work in switch mode or PHY mode.
+For switch mode, both PCS0 and PCS1 work on sgmii mode.
+For PHY mode, PCS1 works on qusgmii mode, the last port
+(the fourth port) works on sgmii mode.
 
-> Device number 204 has a range of minors on major number.
-> uart_register_driver is failing due to lack of minor numbers
-> when more number of uart ports used. So, to avoid minor number
-> limitation on 204 major number use dynamic major allocation
-> when more than 4 uart ports used otherwise use static major
-> allocation.
-> 
-> https://docs.kernel.org/arch/arm/sa1100/serial_uart.html
-> 
-> Signed-off-by: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-> ---
-> Changes for V2:
-> Update logic to use either static or dynamic major allocation.
-> Update commit description.
-> Update description of SERIAL_UARTLITE_NR_UARTS in Kconfig.
-> Changes for V3:
-> Fix typo.
-> Remove parentheses.
-> ---
->  drivers/tty/serial/Kconfig    | 2 ++
->  drivers/tty/serial/uartlite.c | 5 +++++
->  2 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-> index 732c893c8d16..c3c82b740078 100644
-> --- a/drivers/tty/serial/Kconfig
-> +++ b/drivers/tty/serial/Kconfig
-> @@ -532,6 +532,8 @@ config SERIAL_UARTLITE_NR_UARTS
->  	help
->  	  Set this to the number of uartlites in your system, or the number
->  	  you think you might implement.
-> +	  If maximum number of uartlite serial ports are more than 4, then driver uses
+Besides this PHY driver patches, the PCS driver is also needed
+to bring up the qca8084 device, which mainly configurs PCS
+and clocks.
 
-"are more" -> "is more"
+Changes in v3:
+	* pick the two patches to introduce the interface mode
+	  10g-qxgmii from Vladimir Oltean(olteanv@gmail.com).
+	* add the function phydev_id_is_qca808x to identify the
+	  PHY qca8081 and qca8084.
+	* update the interface mode name PHY_INTERFACE_MODE_QUSGMII
+	  to PHY_INTERFACE_MODE_10G_QXGMII.
 
-"then driver" -> "the driver" (or "then the driver")
+Changes in v4:
+	* remove the following patch:
+	  <net: phylink: move phylink_pcs_neg_mode() to phylink.c>.
+	* split out 10g_qxgmii change of ethernet-controller.yaml.
 
-Hugo.
+Luo Jie (5):
+  dt-bindings: net: ethernet-controller: add 10g-qxgmii mode
+  net: phy: at803x: add QCA8084 ethernet phy support
+  net: phy: at803x: add the function phydev_id_is_qca808x
+  net: phy: at803x: Add qca8084_config_init function
+  net: phy: qca8084: add qca8084_link_change_notify
 
-> +	  dynamic allocation instead of static allocation for major number.
->  
->  config SERIAL_SUNCORE
->  	bool
-> diff --git a/drivers/tty/serial/uartlite.c b/drivers/tty/serial/uartlite.c
-> index 404c14acafa5..66d751edcf45 100644
-> --- a/drivers/tty/serial/uartlite.c
-> +++ b/drivers/tty/serial/uartlite.c
-> @@ -24,8 +24,13 @@
->  #include <linux/pm_runtime.h>
->  
->  #define ULITE_NAME		"ttyUL"
-> +#if CONFIG_SERIAL_UARTLITE_NR_UARTS > 4
-> +#define ULITE_MAJOR             0       /* use dynamic node allocation */
-> +#define ULITE_MINOR             0
-> +#else
->  #define ULITE_MAJOR		204
->  #define ULITE_MINOR		187
-> +#endif
->  #define ULITE_NR_UARTS		CONFIG_SERIAL_UARTLITE_NR_UARTS
->  
->  /* ---------------------------------------------------------------------
-> -- 
-> 2.25.1
-> 
+Vladimir Oltean (1):
+  net: phy: introduce core support for phy-mode = "10g-qxgmii"
+
+ .../bindings/net/ethernet-controller.yaml     |   1 +
+ Documentation/networking/phy.rst              |   6 +
+ drivers/net/phy/at803x.c                      | 130 +++++++++++++++++-
+ drivers/net/phy/phy-core.c                    |   1 +
+ drivers/net/phy/phylink.c                     |  11 +-
+ include/linux/phy.h                           |   4 +
+ include/linux/phylink.h                       |   2 +
+ 7 files changed, 147 insertions(+), 8 deletions(-)
 
 
+base-commit: f31817cbcf48d191faee7cebfb59197d2048cd64
 -- 
-Hugo Villeneuve <hugo@hugovil.com>
+2.42.0
+
