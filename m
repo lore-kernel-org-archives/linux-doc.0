@@ -1,139 +1,257 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="X0HKQvkA"
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EAE173F;
-	Thu, 16 Nov 2023 03:25:34 -0800 (PST)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AG7pCbS022329;
-	Thu, 16 Nov 2023 11:25:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=uxMZ5i08IIj1P3XHjsuTSAB7PjcYnIlgE+t3bDDRN3U=;
- b=X0HKQvkA4gYoCY213I3W79n2ZXn4q/U3vQlWUzX1U9JUzB3bg8ssTvctzbPDamCGMjV8
- qPYB/g833aC74W76WOS0jViuJzM9hxZmb+9b/dmuwJD80QCkRMca9VfC2p3+CLSCSYj5
- Qwwuq859tcDz5Ru7PvEkXs5aXOu3q0VsvpAWu3qnZLDBx27p7dlaS48IVsBXNjmw+/u4
- xWmj3yD2sYrJxOXPr8BLpzorIKxhib6RTUsPGvnambPITA5xXqDj+WiI/8vBH/N/WumW
- H8ClTOKQh5AOJ6vlCHrFx5eFPvHvbXEMgcHGwFCH0VW9L5AAOGYTGJcjQd4Sf9XXYUsr UQ== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ud6echdjy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Nov 2023 11:25:23 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AGBPMU5015808
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Nov 2023 11:25:22 GMT
-Received: from akronite-sh-dev02.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Thu, 16 Nov 2023 03:25:19 -0800
-From: Luo Jie <quic_luoj@quicinc.com>
-To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>
-CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v4 6/6] net: phy: qca8084: add qca8084_link_change_notify
-Date: Thu, 16 Nov 2023 19:24:37 +0800
-Message-ID: <20231116112437.10578-7-quic_luoj@quicinc.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231116112437.10578-1-quic_luoj@quicinc.com>
-References: <20231116112437.10578-1-quic_luoj@quicinc.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LU5Xmw6a";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+U0iK3dI"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFFBEB4;
+	Thu, 16 Nov 2023 04:07:56 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 08BDC22944;
+	Thu, 16 Nov 2023 12:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700136475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=SdmFJRr4Si5h0PIb8OUUGx3aM3YL7HZjF2KKvaXWYpo=;
+	b=LU5Xmw6ajCwHu9Il/zU/lEWWAN7qqJPIVcsgFEnq200tlrHx5PlZwDONUbv0jZUHdShyT7
+	+d0Fk4JUapKT2Qrvbd8exfVCQUwndELJaGg8ljrcdB9XM0Skm2/hmNAPc/qL4DiUouCG4A
+	JVksZYOT13RXtfudBaG72JdaH83xtUE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700136475;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=SdmFJRr4Si5h0PIb8OUUGx3aM3YL7HZjF2KKvaXWYpo=;
+	b=+U0iK3dI2BhFGoIMIyjvRF9IfteLG88eNCFfSTOAqye8Lu8gsx3MufEE54SusBvQp/HBUz
+	jg+xrz36s2A3hXCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 79B3A1377E;
+	Thu, 16 Nov 2023 12:07:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id CMydGhoGVmXCYAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 16 Nov 2023 12:07:54 +0000
+Message-ID: <95ba4d72-441d-4bb2-8fcd-39b748f1eb37@suse.de>
+Date: Thu, 16 Nov 2023 13:07:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: crkXeUhecqFpROZv1m_EzhT65ICmF4yk
-X-Proofpoint-ORIG-GUID: crkXeUhecqFpROZv1m_EzhT65ICmF4yk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_09,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
- definitions=main-2311160091
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] drm: Allow the damage helpers to handle buffer
+ damage
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Bilal Elmoussaoui <belmouss@redhat.com>, Simon Ser <contact@emersion.fr>,
+ Erico Nunes <nunes.erico@gmail.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Chia-I Wu <olvaffe@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, virtualization@lists.linux.dev
+References: <20231115131549.2191589-1-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20231115131549.2191589-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------VD60tmeiTEWkm1bJy0V0MmyH"
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.05
+X-Spamd-Result: default: False [0.05 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_SPAM(4.84)[99.35%];
+	 XM_UA_NO_VERSION(0.01)[];
+	 TO_DN_SOME(0.00)[];
+	 HAS_ATTACHMENT(0.00)[];
+	 REPLY(-4.00)[];
+	 MIME_BASE64_TEXT_BOGUS(1.00)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MIME_BASE64_TEXT(0.10)[];
+	 SIGNED_PGP(-2.00)[];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[21];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 FREEMAIL_CC(0.00)[kernel.org,redhat.com,emersion.fr,gmail.com,collabora.com,ffwll.ch,chromium.org,lwn.net,linux.intel.com,vmware.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev]
 
-When the link is changed, qca8084 needs to do the fifo reset and
-adjust the IPG level for the qusgmii link speed 1000M.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------VD60tmeiTEWkm1bJy0V0MmyH
+Content-Type: multipart/mixed; boundary="------------49dyl47sZl0hpVGsE90avT3q";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Bilal Elmoussaoui <belmouss@redhat.com>, Simon Ser <contact@emersion.fr>,
+ Erico Nunes <nunes.erico@gmail.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Chia-I Wu <olvaffe@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, virtualization@lists.linux.dev
+Message-ID: <95ba4d72-441d-4bb2-8fcd-39b748f1eb37@suse.de>
+Subject: Re: [PATCH v2 0/5] drm: Allow the damage helpers to handle buffer
+ damage
+References: <20231115131549.2191589-1-javierm@redhat.com>
+In-Reply-To: <20231115131549.2191589-1-javierm@redhat.com>
 
-Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
----
- drivers/net/phy/at803x.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+--------------49dyl47sZl0hpVGsE90avT3q
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/net/phy/at803x.c b/drivers/net/phy/at803x.c
-index 06a068ca5539..7267ce858937 100644
---- a/drivers/net/phy/at803x.c
-+++ b/drivers/net/phy/at803x.c
-@@ -289,6 +289,13 @@
- #define QCA8084_MSE_THRESHOLD			0x800a
- #define QCA8084_MSE_THRESHOLD_2P5G_VAL		0x51c6
- 
-+#define QCA8084_FIFO_CONTROL			0x19
-+#define QCA8084_FIFO_MAC_2_PHY			BIT(1)
-+#define QCA8084_FIFO_PHY_2_MAC			BIT(0)
-+
-+#define QCA8084_MMD7_IPG_OP			0x901d
-+#define QCA8084_IPG_10_TO_11_EN			BIT(0)
-+
- MODULE_DESCRIPTION("Qualcomm Atheros AR803x and QCA808X PHY driver");
- MODULE_AUTHOR("Matus Ujhelyi");
- MODULE_LICENSE("GPL");
-@@ -2109,6 +2116,35 @@ static int qca8084_config_init(struct phy_device *phydev)
- 			     QCA8084_MSE_THRESHOLD, QCA8084_MSE_THRESHOLD_2P5G_VAL);
- }
- 
-+static void qca8084_link_change_notify(struct phy_device *phydev)
-+{
-+	int ret;
-+
-+	ret = phy_modify(phydev, QCA8084_FIFO_CONTROL,
-+			 QCA8084_FIFO_MAC_2_PHY | QCA8084_FIFO_PHY_2_MAC,
-+			 0);
-+	if (ret)
-+		return;
-+
-+	/* If the PHY works on PHY_INTERFACE_MODE_10G_QXGMII mode, the fifo needs to
-+	 * be kept as reset state in link down status.
-+	 */
-+	if (phydev->interface != PHY_INTERFACE_MODE_10G_QXGMII || phydev->link) {
-+		msleep(50);
-+		ret = phy_modify(phydev, QCA8084_FIFO_CONTROL,
-+				 QCA8084_FIFO_MAC_2_PHY | QCA8084_FIFO_PHY_2_MAC,
-+				 QCA8084_FIFO_MAC_2_PHY | QCA8084_FIFO_PHY_2_MAC);
-+		if (ret)
-+			return;
-+	}
-+
-+	/* Enable IPG 10 to 11 tuning on link speed 1000M of QUSGMII mode. */
-+	if (phydev->interface == PHY_INTERFACE_MODE_10G_QXGMII)
-+		phy_modify_mmd(phydev, MDIO_MMD_AN, QCA8084_MMD7_IPG_OP,
-+			       QCA8084_IPG_10_TO_11_EN,
-+			       phydev->speed == SPEED_1000 ? QCA8084_IPG_10_TO_11_EN : 0);
-+}
-+
- static struct phy_driver at803x_driver[] = {
- {
- 	/* Qualcomm Atheros AR8035 */
-@@ -2307,6 +2343,7 @@ static struct phy_driver at803x_driver[] = {
- 	.cable_test_start	= qca808x_cable_test_start,
- 	.cable_test_get_status	= qca808x_cable_test_get_status,
- 	.config_init		= qca8084_config_init,
-+	.link_change_notify	= qca8084_link_change_notify,
- }, };
- 
- module_phy_driver(at803x_driver);
--- 
-2.42.0
+SGkgSmF2aWVyLA0KDQpwbGVhc2UgdGFrZSBteQ0KDQpSZXZpZXdlZC1ieTogVGhvbWFzIFpp
+bW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCmZvciB0aGUgd2hvbGUgcGF0Y2gg
+c2V0LiBNYXliZSBjb25zaWRlciBteSBjb21tZW50IG9uIHBhdGNoIDQuDQoNCkJlc3QgcmVn
+YXJkcw0KVGhvbWFzDQoNCkFtIDE1LjExLjIzIHVtIDE0OjE1IHNjaHJpZWIgSmF2aWVyIE1h
+cnRpbmV6IENhbmlsbGFzOg0KPiBIZWxsbywNCj4gDQo+IFRoaXMgc2VyaWVzIGlzIHRvIGZp
+eCBhbiBpc3N1ZSB0aGF0IHN1cmZhY2VkIGFmdGVyIGRhbWFnZSBjbGlwcGluZyB3YXMNCj4g
+ZW5hYmxlZCBmb3IgdGhlIHZpcnRpby1ncHUgYnkgY29tbWl0IDAxZjA1OTQwYTlhNyAoImRy
+bS92aXJ0aW86IEVuYWJsZQ0KPiBmYiBkYW1hZ2UgY2xpcHMgcHJvcGVydHkgZm9yIHRoZSBw
+cmltYXJ5IHBsYW5lIikuDQo+IA0KPiBBZnRlciB0aGF0IGNoYW5nZSwgZmxpY2tlcmluZyBh
+cnRpZmFjdHMgd2FzIHJlcG9ydGVkIHRvIGJlIHByZXNlbnQgd2l0aA0KPiBib3RoIHdlc3Rv
+biBhbmQgd2xyb290cyB3YXlsYW5kIGNvbXBvc2l0b3JzIHdoZW4gcnVubmluZyBpbiBhIHZp
+cnR1YWwNCj4gbWFjaGluZS4gVGhlIGNhdXNlIHdhcyBpZGVudGlmaWVkIGJ5IFNpbWEgVmV0
+dGVyLCB3aG8gcG9pbnRlZCBvdXQgdGhhdA0KPiB2aXJ0aW8tZ3B1IGRvZXMgcGVyLWJ1ZmZl
+ciB1cGxvYWRzIGFuZCBmb3IgdGhpcyByZWFzb24gaXQgbmVlZHMgdG8gZG8NCj4gYSBidWZm
+ZXIgZGFtYWdlIGhhbmRsaW5nLCBpbnN0ZWFkIG9mIGZyYW1lIGRhbWFnZSBoYW5kbGluZy4N
+Cj4gDQo+IFRoZWlyIHN1Z2dlc3Rpb24gd2FzIHRvIGV4dGVuZCB0aGUgZGFtYWdlIGhlbHBl
+cnMgdG8gY292ZXIgdGhhdCBjYXNlDQo+IGFuZCBnaXZlbiB0aGF0IHRoZXJlJ3MgaXNuJ3Qg
+YSBidWZmZXIgZGFtYWdlIGFjY3VtdWxhdGlvbiBhbGdvcml0aG0NCj4gKGUuZzogYnVmZmVy
+IGFnZSksIGp1c3QgZG8gYSBmdWxsIHBsYW5lIHVwZGF0ZSBpZiB0aGUgZnJhbWVidWZmZXIg
+dGhhdA0KPiBpcyBhdHRhY2hlZCB0byBhIHBsYW5lIGNoYW5nZWQgc2luY2UgdGhlIGxhc3Qg
+cGxhbmUgdXBkYXRlIChwYWdlLWZsaXApLg0KPiANCj4gSXQgaXMgYSB2MiB0aGF0IGFkZHJl
+c3NlcyBpc3N1ZXMgcG9pbnRlZCBvdXQgYnkgVGhvbWFzIFppbW1lcm1hbm4gaW4gdjE6DQo+
+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDIz
+LU5vdmVtYmVyLzQzMDEzOC5odG1sDQo+IA0KPiBQYXRjaCAjMSBhZGRzIGEgaWdub3JlX2Rh
+bWFnZV9jbGlwcyBmaWVsZCB0byBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlIHRvIGJlDQo+IHNl
+dCBieSBkcml2ZXJzIHRoYXQgd2FudCB0aGUgZGFtYWdlIGhlbHBlcnMgdG8gaWdub3JlIHRo
+ZSBkYW1hZ2UgY2xpcHMuDQo+IA0KPiBQYXRjaCAjMiBmaXhlcyB0aGUgdmlydGlvLWdwdSBk
+YW1hZ2UgaGFuZGxpbmcgbG9naWMgYnkgYXNraW5nIHRoZSBkYW1hZ2UNCj4gaGVscGVyIHRv
+IGlnbm9yZSB0aGUgZGFtYWdlIGNsaXBzIGlmIHRoZSBmcmFtZWJ1ZmZlciBhdHRhY2hlZCB0
+byBhIHBsYW5lDQo+IGhhcyBjaGFuZ2VkIHNpbmNlIHRoZSBsYXN0IHBhZ2UtZmxpcC4NCj4g
+DQo+IFBhdGNoICMzIGRvZXMgdGhlIHNhbWUgYnV0IGZvciB0aGUgdm13Z2Z4IGRyaXZlciB0
+aGF0IGFsc28gbmVlZHMgdG8gaGFuZGxlDQo+IGJ1ZmZlciBkYW1hZ2UgYW5kIHNob3VsZCBo
+YXZlIHRoZSBzYW1lIGlzc3VlIChhbHRob3VnaCBJIGhhdmVuJ3QgdGVzdGVkIGl0DQo+IGR1
+ZSBub3QgaGF2aW5nIGEgVk1XYXJlIHNldHVwKS4NCj4gDQo+IFBhdGNoICM0IGFkZHMgdG8g
+dGhlIEtNUyBkYW1hZ2UgdHJhY2tpbmcga2VybmVsLWRvYyBzb21lIHBhcmFncmFwaHMgYWJv
+dXQNCj4gZGFtYWdlIHRyYWNraW5nIHR5cGVzIGFuZCByZWZlcmVuY2VzIHRvIGxpbmtzIHRo
+YXQgZXhwbGFpbiBmcmFtZSBkYW1hZ2UgdnMNCj4gYnVmZmVyIGRhbWFnZS4NCj4gDQo+IEZp
+bmFsbHkgcGF0Y2ggIzUgYWRkcyBhbiBpdGVtIHRvIHRoZSBEUk0gdG9kbywgYWJvdXQgdGhl
+IG5lZWQgdG8gaW1wbGVtZW50DQo+IHNvbWUgYnVmZmVyIGRhbWFnZSBhY2N1bXVsYXRpb24g
+YWxnb3JpdGhtIGluc3RlYWQgb2YganVzdCBkb2luZyBmdWxsIHBsYW5lDQo+IHVwZGF0ZXMg
+aW4gdGhpcyBjYXNlLg0KPiANCj4gQmVjYXVzZSBjb21taXQgMDFmMDU5NDBhOWE3IGxhbmRl
+ZCBpbiB2Ni40LCB0aGUgZmlyc3QgMiBwYXRjaGVzIGFyZSBtYXJrZWQNCj4gYXMgRml4ZXMg
+YW5kIENjIHN0YWJsZS4NCj4gDQo+IEkndmUgdGVzdGVkIHRoaXMgb24gYSBWTSB3aXRoIHdl
+c3Rvbiwgd2FzIGFibGUgdG8gcmVwcm9kdWNlIHRoZSBpc3N1ZQ0KPiByZXBvcnRlZCBhbmQg
+dGhlIHBhdGNoZXMgZGlkIGZpeCB0aGUgcHJvYmxlbS4NCj4gDQo+IEJlc3QgcmVnYXJkcywN
+Cj4gSmF2aWVyDQo+IA0KPiBDaGFuZ2VzIGluIHYyOg0KPiAtIEFkZCBhIHN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgLmlnbm9yZV9kYW1hZ2VfY2xpcHMgdG8gc2V0IGluIHRoZSBwbGFuZSdz
+DQo+ICAgIC5hdG9taWNfY2hlY2ssIGluc3RlYWQgb2YgaGF2aW5nIGRpZmZlcmVudCBoZWxw
+ZXJzIChUaG9tYXMgWmltbWVybWFubikuDQo+IC0gU2V0IHN0cnVjdCBkcm1fcGxhbmVfc3Rh
+dGUgLmlnbm9yZV9kYW1hZ2VfY2xpcHMgaW4gdmlydGlvLWdwdSBwbGFuZSdzDQo+ICAgIC5h
+dG9taWNfY2hlY2sgaW5zdGVhZCBvZiB1c2luZyBhIGRpZmZlcmVudCBoZWxwZXJzIChUaG9t
+YXMgWmltbWVybWFubikuDQo+IC0gU2V0IHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgLmlnbm9y
+ZV9kYW1hZ2VfY2xpcHMgaW4gdm13Z2Z4IHBsYW5lJ3MNCj4gICAgLmF0b21pY19jaGVjayBp
+bnN0ZWFkIG9mIHVzaW5nIGEgZGlmZmVyZW50IGhlbHBlcnMgKFRob21hcyBaaW1tZXJtYW5u
+KS4NCj4gDQo+IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyAoNSk6DQo+ICAgIGRybTogQWxs
+b3cgZHJpdmVycyB0byBpbmRpY2F0ZSB0aGUgZGFtYWdlIGhlbHBlcnMgdG8gaWdub3JlIGRh
+bWFnZQ0KPiAgICAgIGNsaXBzDQo+ICAgIGRybS92aXJ0aW86IERpc2FibGUgZGFtYWdlIGNs
+aXBwaW5nIGlmIEZCIGNoYW5nZWQgc2luY2UgbGFzdCBwYWdlLWZsaXANCj4gICAgZHJtL3Zt
+d2dmeDogRGlzYWJsZSBkYW1hZ2UgY2xpcHBpbmcgaWYgRkIgY2hhbmdlZCBzaW5jZSBsYXN0
+IHBhZ2UtZmxpcA0KPiAgICBkcm0vcGxhbmU6IEV4dGVuZCBkYW1hZ2UgdHJhY2tpbmcga2Vy
+bmVsLWRvYw0KPiAgICBkcm0vdG9kbzogQWRkIGVudHJ5IGFib3V0IGltcGxlbWVudGluZyBi
+dWZmZXIgYWdlIGZvciBkYW1hZ2UgdHJhY2tpbmcNCj4gDQo+ICAgRG9jdW1lbnRhdGlvbi9n
+cHUvdG9kby5yc3QgICAgICAgICAgICAgfCAyMCArKysrKysrKysrKysrKysrKysrKw0KPiAg
+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZGFtYWdlX2hlbHBlci5jICAgIHwgIDMgKystDQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL2RybV9wbGFuZS5jICAgICAgICAgICAgfCAyMCArKysrKysrKysr
+KysrKysrKysrKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9wbGFuZS5j
+IHwgMTAgKysrKysrKysrKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2tt
+cy5jICAgIHwgMTEgKysrKysrKysrKysNCj4gICBpbmNsdWRlL2RybS9kcm1fcGxhbmUuaCAg
+ICAgICAgICAgICAgICB8ICA4ICsrKysrKysrDQo+ICAgNiBmaWxlcyBjaGFuZ2VkLCA3MSBp
+bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJt
+YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
+cyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBH
+ZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwg
+Qm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
+--------------49dyl47sZl0hpVGsE90avT3q--
+
+--------------VD60tmeiTEWkm1bJy0V0MmyH
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVWBhoFAwAAAAAACgkQlh/E3EQov+Aa
+5g/+Jevsj8sedobQpP3DVRHU9EreRChHbIu+D4QCWXAM6OcWB361EIMh0+E0KyMoKd2HGGeM0Vsr
+wiNZyfT77r3AC9VBhmyPYkeSy2kfQ+Oy9x7ev9igz6TCCBGq9u9kaHZebbsQaTKHQ/k9lWdJabAz
+jh9ijYbhdHGO6tNtSgsUndDymFSSJSV445fgZ4Y0oaMbQ1mqRYu9ipLRpKT2r3VcAHr8pqPCbDvJ
+DegAJzTIFKffR0foL0SHDU1T20IvO/ANWF2LRoh6+aACDfXutgKLy9d0/f15A5Po7yeqiBfDwIse
+6hh6xqsnz+zSE9/FtCajr3m/U4dbGpZOeBibDBkx/XimqNgk35RwS3MjBtkjYWNeeTaWq00fEJP5
+EmsUclsHNfwV2CyhH3BZ8o7/4gBGGE1hhq4xMB4SuIBese018G7/qaoE/LrqYNDNWbryZ597AB/c
+kCVyfHPuiRyXsjyZ0txjCpuKWI9Kgi/4o/VpbvSex6TKHOORdhNEBWiobQ0Nw6AJoT3AiT5ME1oA
+o5iqJWpLMZP4rSy+iuFcneyu6Yfml9CzzJVw8xv+YBvydaPBF3LmZscFHKjVYlq7vl1rsRWmpzf5
+u572YlGCYN5AXEqe9urOlf+xDtZ/1y7BZZb49fAcflKeJSM11Hkb8Ehwo7/yzUX5vQWh/TVmR8hl
+uwk=
+=j5Mu
+-----END PGP SIGNATURE-----
+
+--------------VD60tmeiTEWkm1bJy0V0MmyH--
