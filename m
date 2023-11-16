@@ -1,40 +1,31 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC09D43146;
-	Thu, 16 Nov 2023 16:37:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nEZnt2rc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E18AC433C8;
-	Thu, 16 Nov 2023 16:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700152637;
-	bh=QGjuNZrD+uRw5CuViihG4gkRO4nc7+UCIp3DDIGJCWw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nEZnt2rcF36Yic6XVYN9V7YFXGbOoN+z0mEYoVo86GMMaHQNLTfoLmnkzS1r4GHsi
-	 wjR01MtYN5Si+JSkGzCStjEzj61iFNifWTQfZVVGci2KIDbHSt9XSIDJbaWHCpWYx5
-	 Oz3dt/QRG2IGVOuZFFn6zsx7zrMf8jKbAnM6Jj0o=
-Date: Thu, 16 Nov 2023 11:37:13 -0500
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 7/9] firmware_loader: Expand Firmware upload
- error codes
-Message-ID: <2023111604-visitor-urgency-a97a@gregkh>
-References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
- <20231116-feature_poe-v1-7-be48044bf249@bootlin.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hmM7Xeaa"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66453181;
+	Thu, 16 Nov 2023 09:35:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=EGB0vGjW+NZmH1KV7ZusM44EJIy7WocoQO8gjJ04laQ=; b=hmM7Xeaa9/7wgUcUiyV0v0TOOr
+	q11CzoIpaSMRn3jbe5Ik3K2TqwgoIH54hHbgK3ZwBEnNXgnfs2i3gs1SZ88ub4PKjZY5HdA1RSPbK
+	nOpMy0eEiglW7sOx8q8LKM0oKmRaIG4I5RFWs9hHmddY9/mDh1o0JPDDIZJTe5UMkxwEEdd/rMiRa
+	fqoaTQn3rZUbRhNm4g1yq8ZwFjYovjI5yE7gl4aXI2kLYKQxgSoz5k/UU6Vba1eBr+TnBgoOvc7oF
+	1D9bxFrjyDMA9tsR3PzgEd+gFbrRDqM+PTOPII+lMN5bfl1wzJ8cmQdD7iGuJGw48Kiq4OZ/fvklq
+	6XySaSTw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1r3gH4-0049tr-0z;
+	Thu, 16 Nov 2023 17:35:30 +0000
+Date: Thu, 16 Nov 2023 09:35:30 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: "Alessandro Carminati (Red Hat)" <alessandro.carminati@gmail.com>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] Modules: Introduce boot-time module signature
+ flexibility
+Message-ID: <ZVZS4hw5dGB4aPz3@bombadil.infradead.org>
+References: <20230914112739.112729-1-alessandro.carminati@gmail.com>
+ <20230914112739.112729-2-alessandro.carminati@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,21 +34,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231116-feature_poe-v1-7-be48044bf249@bootlin.com>
+In-Reply-To: <20230914112739.112729-2-alessandro.carminati@gmail.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
-On Thu, Nov 16, 2023 at 03:01:39PM +0100, Kory Maincent wrote:
-> No error code are available to signal an invalid firmware content.
-> Drivers that can check the firmware content validity can not return this
-> specific failure to the user-space
+On Thu, Sep 14, 2023 at 11:27:38AM +0000, Alessandro Carminati (Red Hat) wrote:
+> This commit introduces a novel boot argument parameter that provides an
+> advanced level of control over the verification of module signatures
+> during the initial stages of booting. With this enhancement, we gain the
+> capability to postpone the verification of module signatures to after
+> intrd stage is finished.
 > 
-> Expand the firmware error code with an additional code:
-> - "firmware invalid" code which can be used when the provided firmware
->   is invalid
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> Given that bootloader-provided artifacts are commonly employed
+> post-verification,
+
+Is such a thing expressed with a kernel config? If so then shouldn't
+this be default for those uses cases?
+
+> Signed-off-by: Alessandro Carminati (Red Hat) <alessandro.carminati@gmail.com>
 > ---
->  drivers/base/firmware_loader/sysfs_upload.c | 1 +
->  include/linux/firmware.h                    | 2 ++
->  2 files changed, 3 insertions(+)
+>  include/linux/module.h  |  4 +++
+>  kernel/module/main.c    | 14 ++++++-----
+>  kernel/module/signing.c | 56 +++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 68 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/module.h b/include/linux/module.h
+> index a98e188cf37b..9899aeac43b0 100644
+> --- a/include/linux/module.h
+> +++ b/include/linux/module.h
+> @@ -34,6 +34,10 @@
+>  
+>  #define MODULE_NAME_LEN MAX_PARAM_PREFIX_LEN
+>  
+> +#ifdef CONFIG_MODULE_SIG
+> +extern int module_sig_check_wait;
+> +#endif
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Please add under is_module_sig_enforced. That's one new line Vs 3 new ones.
+
+I see the code which skips module signature verification and the knobs
+but I don't see the code which complete the promise to do the actual
+signature verification post initrd / initramfs state. What gives?
+
+  Luis
