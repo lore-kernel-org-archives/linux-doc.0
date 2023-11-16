@@ -1,173 +1,83 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4213159D;
+	Thu, 16 Nov 2023 14:30:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vE1y3FGS"
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 292AE135
-	for <linux-doc@vger.kernel.org>; Thu, 16 Nov 2023 06:29:27 -0800 (PST)
-Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-7781b176131so43771185a.1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Nov 2023 06:29:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700144966; x=1700749766; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aay8Gphj0/nuSHPq5fUJSvyLI5CGtbTCBmZdpjsgaw0=;
-        b=vE1y3FGSC7UBHqSveR5bgfH/xKXllkTFdnpzwZlqnbR8238eDEavtF4Yb0haw3UqBb
-         VwOVvw2eBA4q1Yb1xNNGWFp/n4WYZ/fnWI/uTOBF/lB/l4a67tgyqZnFVCWL6ohNv9bi
-         FMTBD5BKW9YYsWkDs3/J7e1l5DfSYLvMahNH6DzMIUThbnK7rv+DaoDBTO689jTnSYto
-         07iNzXhQ6YcP6JVmyR83FJ0jMNZNbCxff6WYAHK/w8fTPtlTnp+9hwfqB3vD2qwCTuyL
-         cdOxVglbhksQFMxHzTXhT9fEN+dHyrqdVL2TkWrJ+gWggsF+UaHI6zpGDTf8MdykjetD
-         FCsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700144966; x=1700749766;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aay8Gphj0/nuSHPq5fUJSvyLI5CGtbTCBmZdpjsgaw0=;
-        b=JoTMSlV7gsKsDcS09EKizXtfZ+k9im86EYviUXmRNAmdYjHvhxsaFwwcAAAzOv5VLj
-         rzI13NcEcrLAPYb3yiy7ct+wyonuf7hdVuBC2p5hU7JtxqiXpSjralLXTpg0ipZTGOcy
-         683pfhi9U/MhdbEY5wC987ocKTP/HJdxffzi7VFX8YYZtd8fLj4/Uan0hMUUR2zyWIem
-         kRyeW8cbvs3M2Vmppdl7EvkkkZ/Dm7UBCa4fwCvnys4vc2uyNMRmZrnZdZ2z2stCUJwg
-         evK52tW7j2GR5gWFpYwKCvCKjb6DAcJdt0Fe8/X4ETbodF1ZsAKY9prL8X/KXv2OR8f5
-         V5iQ==
-X-Gm-Message-State: AOJu0YxHrnUM9mUIMiNgHYw5oIH/ERkIOqEoE8UvT2lr6apbrpaL2pfI
-	P/Z0ujA45bP+pCKLmxrDqYncjA==
-X-Google-Smtp-Source: AGHT+IEYJFIUZmeG+D9pxidkhnHsrB1zDAS2whTr4lQ1Aomvs7qakikml6CMSPQnwA58Mn5GmtGUBA==
-X-Received: by 2002:a05:620a:4489:b0:775:be7b:d9db with SMTP id x9-20020a05620a448900b00775be7bd9dbmr9514049qkp.37.1700144966184;
-        Thu, 16 Nov 2023 06:29:26 -0800 (PST)
-Received: from [10.50.4.74] ([50.201.115.146])
-        by smtp.gmail.com with ESMTPSA id o6-20020a05620a130600b007742bc74184sm4317754qkj.110.2023.11.16.06.29.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Nov 2023 06:29:25 -0800 (PST)
-Message-ID: <faea7171-31bf-43b7-a830-62f69002b823@linaro.org>
-Date: Thu, 16 Nov 2023 15:29:24 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hEvYKp6t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7ADFC433C8;
+	Thu, 16 Nov 2023 14:30:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700145020;
+	bh=hOIVPvdhoBjFYKhZmULCCqOEbzSpvXG69XSPRnCcnc0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hEvYKp6tn+edJXFASdLS/4hWvLo1b/esOxXyhHMo0UM/FDr+10bpe/WwnV7H3Ik70
+	 lIcurmbMrf9VqoPOKZ64HHuZUdC2luHb19tjIRf3a/tKdvKD4XBdXGVTZkkqb0B2po
+	 Z13GuuU/892TnfQJKEI4mYrKrSpYTUQmii6tpTF8pRye4wBrl4P5mICxCJFhZJOrHT
+	 mS4FQxcOQp7833BkOg4fBy8pESRBK7V+4iZcAPwgcUWGH9xFVy4JyBXFF2LDFgUybw
+	 zuhM80oCmmO+N9uqr9yi+GTwuCLjugRvstlJ2gcKzYeYl1lqLlf61qxSI1R7+gpPsJ
+	 i+Mq60EfYRh1A==
+Date: Thu, 16 Nov 2023 14:30:17 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-i2c@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add lltc ltc4286 driver
+ bindings
+Message-ID: <20231116-iodize-wildfowl-f5d72c182658@squawk>
+References: <20231116023027.24855-1-Delphine_CC_Chiu@Wiwynn.com>
+ <20231116023027.24855-2-Delphine_CC_Chiu@Wiwynn.com>
+ <caff5743-265f-43ac-83fb-4e0fb23a9ff4@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 9/9] net: pse-pd: Add PD692x0 PSE controller
- driver
-Content-Language: en-US
-To: Kory Maincent <kory.maincent@bootlin.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>,
- Russ Weight <russ.weight@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
- <20231116-feature_poe-v1-9-be48044bf249@bootlin.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231116-feature_poe-v1-9-be48044bf249@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 16/11/2023 15:01, Kory Maincent wrote:
-> Add a new driver for the PD692x0 I2C Power Sourcing Equipment controller.
-> This driver only support i2c communication for now.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
->  MAINTAINERS                  |    1 +
->  drivers/net/pse-pd/Kconfig   |   11 +
->  drivers/net/pse-pd/Makefile  |    1 +
->  drivers/net/pse-pd/pd692x0.c | 1049 ++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 1062 insertions(+)
-
-....
-
-> +
-> +err_fw_unregister:
-> +	firmware_upload_unregister(priv->fwl);
-> +	return ret;
-> +}
-> +
-> +static void pd692x0_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct pd692x0_priv *priv = i2c_get_clientdata(client);
-> +
-> +	firmware_upload_unregister(priv->fwl);
-> +}
-> +
-> +static const struct i2c_device_id pd692x0_id[] = {
-> +	{ PD692X0_PSE_NAME, 0 },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(i2c, pd692x0_id);
-> +
-> +static const struct of_device_id pd692x0_of_match[] = {
-> +	{ .compatible = "microchip,pd69200", },
-> +	{ .compatible = "microchip,pd69210", },
-> +	{ .compatible = "microchip,pd69220", },
-
-So they are the same from driver point of view.
-
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, pd692x0_of_match);
-> +
-> +static struct i2c_driver pd692x0_driver = {
-> +	.probe		= pd692x0_i2c_probe,
-> +	.remove		= pd692x0_i2c_remove,
-> +	.id_table	= pd692x0_id,
-> +	.driver		= {
-> +		.name		= PD692X0_PSE_NAME,
-> +		.of_match_table = of_match_ptr(pd692x0_of_match),
-
-Drop of_match_ptr, leads to warnings.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lStQTFIwxdtm5lrO"
+Content-Disposition: inline
+In-Reply-To: <caff5743-265f-43ac-83fb-4e0fb23a9ff4@linaro.org>
 
 
-Best regards,
-Krzysztof
+--lStQTFIwxdtm5lrO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Nov 16, 2023 at 01:13:58PM +0100, Krzysztof Kozlowski wrote:
+> On 16/11/2023 03:30, Delphine CC Chiu wrote:
+> > Add a device tree bindings for ltc4286 device.
+> >=20
+> > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+> >=20
+> > -------------------------------------------------------------
+> > Changelog:
+> >   v5 - Add hyphen under "Changelog" in commit message
+>=20
+> Apply your patch from the list and check the result... You can easily
+> see it's broken. We asked about ---. Please read the message carefully.
+
+My reviewed-by was also omitted again, but I suppose that is a good
+thing since I conditionally gave that based on the changelog being
+fixed!
+
+--lStQTFIwxdtm5lrO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZVYndQAKCRB4tDGHoIJi
+0g9pAQDuDPX4/eIC8rfODFMv4qArSDILjwy36Q/U/4fiERcTpgEA3Z9fHBFWkFKS
+oJYaFHnrTAdjn3WnmV9MY9RcWT6kIQY=
+=akaG
+-----END PGP SIGNATURE-----
+
+--lStQTFIwxdtm5lrO--
