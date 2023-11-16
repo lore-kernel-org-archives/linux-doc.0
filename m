@@ -1,445 +1,184 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LIY/yprx"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FF181BC
-	for <linux-doc@vger.kernel.org>; Wed, 15 Nov 2023 19:34:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700105680;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ouWrca3bfYU74kGfYbYL+ROA/NzQPXMR8p7d4VOh00=;
-	b=LIY/yprx2yBkv5ynladimS+ssVB0J1DfTdfL0naaYydeJf+Qr8UXqjCR84PTU1jyZW49mc
-	U4qff32MD4YuAk9wG67VAS9uwLUraSgyMQMIBie1MuTNa/DumULFONs7cqznzEuzHO8Hs+
-	3l17SEWk+roG5ZEKglJGiE6wpBbJRZk=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-631-4XhlI4WwOxOxJiNUoVd5ow-1; Wed,
- 15 Nov 2023 22:34:36 -0500
-X-MC-Unique: 4XhlI4WwOxOxJiNUoVd5ow-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B17701C0432D;
-	Thu, 16 Nov 2023 03:34:35 +0000 (UTC)
-Received: from llong.com (unknown [10.22.8.169])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 56F37492BFD;
-	Thu, 16 Nov 2023 03:34:35 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Peter Hunt <pehunt@redhat.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH v4 4/5] cgroup/cpuset: Keep track of CPUs in isolated partitions
-Date: Wed, 15 Nov 2023 22:34:04 -0500
-Message-Id: <20231116033405.185166-5-longman@redhat.com>
-In-Reply-To: <20231116033405.185166-1-longman@redhat.com>
-References: <20231116033405.185166-1-longman@redhat.com>
+	dkim=pass (1024-bit key) header.d=vmware.com header.i=@vmware.com header.b="YIAoyq/8"
+Received: from CO1PR02CU001.outbound.protection.outlook.com (mail-westus2azon11011010.outbound.protection.outlook.com [52.101.47.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFAA194;
+	Wed, 15 Nov 2023 20:04:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j8X1YInVCvKgnjwMxeMNzmjVM5LIY2jdYvF+PNnC5ATy6J0ZJTEDyJzwxnq7HyvcMwNDGHc3yQF0fY8Ts1vmV5HUP5GskrbN9EyaByJOM00bPParTQ8IiGQr1hDcAOU/VjcLMF7T3J79CdQWZgTOCK63OYrx+1ROlajXaV0J9lkvFt8FN7669UWcX9xmO187GBcJr/tcY/J2OTcd9bGBaHzjdV3hyAdVviDW5jCTypeAB6PLIBjM1N2zC6jVUDXyl2eCfrCctqip2ERHhcKndTx7Me2XZx8LDboSry8vVwbI4Bd9PwblhSyQGS88B2EnqARxcrXBAKwzhn7Ww4+GSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SqOpWDpIjpz7JLEQs3en4srKYpI0tTJ0kmu/3j6aPv0=;
+ b=R8SZEerQB5ekm4czvsTC+bBwrFBxlwvaDIOeYkN8y47hked+7ayGYnhGDbEHK1IeWas7yEDEwsLzKQbZeaAJ1iw3f4ZiCPLWgEiBT8afvcmZP0SlDfPg21w2Ztxudjogppx0FTecqvivio4Ut9KK1OnRRl9mZfLeNul0DPc9Pa3+UrVWCrhsczT9kyeTBmg6kT+kPIe2U3Io49Xfn+GM3pWM7cENJsHL3pwFsJxWc4Fixh0ropkC1bZpF4NP6O2XHFGDW63zzpf5ua1XOyLElpYLVsb/RU9aCHIQCK6ALhdL3IrL81OiFsXsPiuu4ZbA5X6lxYwxYqjS1tXW0Z1gzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SqOpWDpIjpz7JLEQs3en4srKYpI0tTJ0kmu/3j6aPv0=;
+ b=YIAoyq/88JXJQCqcroWqVbbWufLgi8D9+aw3bspuUDoo8CqTHQTZRFjti8mlOZ0/bwqEdaKeXolc5f8HeovvsyBfK5Zkqur6hZLs3xfkRrldK0H5YyeAwoK00wB/OV7+kg0ajaeV2k/El84BJSupABAH+BSBIImqBRzHbYl+FAk=
+Received: from IA0PR05MB9832.namprd05.prod.outlook.com (2603:10b6:208:404::6)
+ by LV3PR05MB10360.namprd05.prod.outlook.com (2603:10b6:408:1a3::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Thu, 16 Nov
+ 2023 04:04:10 +0000
+Received: from IA0PR05MB9832.namprd05.prod.outlook.com
+ ([fe80::7e24:8821:d736:fbb5]) by IA0PR05MB9832.namprd05.prod.outlook.com
+ ([fe80::7e24:8821:d736:fbb5%5]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
+ 04:04:10 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"javierm@redhat.com" <javierm@redhat.com>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "olvaffe@gmail.com"
+	<olvaffe@gmail.com>, "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+	"nunes.erico@gmail.com" <nunes.erico@gmail.com>, "airlied@redhat.com"
+	<airlied@redhat.com>, "pekka.paalanen@collabora.com"
+	<pekka.paalanen@collabora.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"belmouss@redhat.com" <belmouss@redhat.com>, "mripard@kernel.org"
+	<mripard@kernel.org>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+	"gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "kraxel@redhat.com"
+	<kraxel@redhat.com>, "virtualization@lists.linux.dev"
+	<virtualization@lists.linux.dev>, "airlied@gmail.com" <airlied@gmail.com>,
+	Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+	"contact@emersion.fr" <contact@emersion.fr>
+Subject: Re: [PATCH v2 0/5] drm: Allow the damage helpers to handle buffer
+ damage
+Thread-Topic: [PATCH v2 0/5] drm: Allow the damage helpers to handle buffer
+ damage
+Thread-Index: AQHaF8XhF3+4IU0LGkihWLK/H/28urB8VFkA
+Date: Thu, 16 Nov 2023 04:04:09 +0000
+Message-ID: <a16a61582f90a5b490fb7681b44864a4801c830a.camel@vmware.com>
+References: <20231115131549.2191589-1-javierm@redhat.com>
+In-Reply-To: <20231115131549.2191589-1-javierm@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.48.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR05MB9832:EE_|LV3PR05MB10360:EE_
+x-ms-office365-filtering-correlation-id: 99742fab-e917-4742-1eb1-08dbe6591611
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ CmXhMANAiAHuQngj7l0C/d0N4E7kjxNV84l2NfbkkVxCu7TZ5rW7fuXHV6qbyffBaFAN+o8AEEPjvA+wx84yAwcNRcLQVle1ENgqTpLHx1tImS2xAxSTPWCC0L2DTN2w9+I5mlALqAskfQUvDev/a3eJFN1IoXmIkAvWHJlxqQ/WNH/DEYj2O2qQiG3WgqPQRs/FofABT5KS2vpEl7VHxOp3ubX8+QboS1Oj23NhoGlZCniuQozxRV8Kow25KYdDQVXku/lDX6xWhqnkcDO/b8PfYDpdFUBirjmNPmHWL/cIDsKNveE7xuLFrA1kpmAjN28ZaMR02cMp6B6zykShdSC2KozLjvcPw2QigXTXF/cYW2K4qxAoFxBRev24uNvjLUdurNjzmX3/ApHlxlk9WG9tUbRN4fCE8z7Nfo2SMXw0BLl+iXbjF5UbA5hUg6xQV2saQcaLWRvVLYyYiPSqwQcpnxjw+nSapJiwxT9mLPZD1j3BZGgMdJdVlWtuFBKSyr+sIVZWbazPy+I3SN7VcYqveEoFeA99W8UspyI0SRt57a7H9oppv9A9ZJQmF+yhSSNmqu+uoREwgFogixTiPpku3RzkUAqylz/ZIDVE/Xb+2DZTixNizEYpJCLQuMGPhU9M2cN4ZCuPi4wuv+5SahbvMul28+pgdwct6SZpohOtxUXs8zedUwxVFF8/tuqT
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR05MB9832.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(366004)(376002)(396003)(346002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(4001150100001)(122000001)(2906002)(38100700002)(86362001)(7416002)(5660300002)(4326008)(8676002)(8936002)(41300700001)(83380400001)(2616005)(76116006)(66946007)(316002)(36756003)(91956017)(110136005)(66556008)(54906003)(6512007)(26005)(64756008)(66446008)(66476007)(6506007)(45080400002)(71200400001)(6486002)(478600001)(38070700009)(966005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?cnFEeTNOSEpXWXVxaHZCWS92UGxuTkdoMS84azNpRzB5LzBycXluZGExMFV1?=
+ =?utf-8?B?VUd1eS9WZGZlUjE4eWZkT1VvRUJRUXArVFdmZXQzQ1h1QzI2eWVsMTB4TEE4?=
+ =?utf-8?B?WDQ0V3NjS2p3YXcwSDUwMTY0RFo0TmVydzV1a3h0aXVLUW4zOWRWdjhxaGcr?=
+ =?utf-8?B?WWdka1VrQy9rcWZUM2diRTBRYThXRzQ4dXdGWGZuRUtrS3lHVVd0ZS84aTdz?=
+ =?utf-8?B?Q3RNVEMzK3Y1UmVDeVdEcldhM0htQW1BMWxXQ04zQVEwMklGZWRlSStlSnR1?=
+ =?utf-8?B?VkZFQmIwa3RCZWFwd2tzZjBMZDFqSmZ0RVpIdmYvbGJCZGhLNGltTCs1WUdG?=
+ =?utf-8?B?bmRLQ0VoaDVRQzNDU3k3dWE2bE9KVnlzTWJONFFXQWpoZnRKVkdodGpYNGdM?=
+ =?utf-8?B?bGJwOFhadjVMUXd4QmJORlM0d0dnblJ4L1hiQ1RnSFV0WVVwb3NKcHlGdlB5?=
+ =?utf-8?B?QzBWYmpPcVhIcDdHd09ORTZ5V1Z6QTViUnBiN08zVEp2THBnWms1TjhCMXli?=
+ =?utf-8?B?b3dtUS9VVUo4YmlGQTE0b3RXWlRVUGtMVDdqbXRTdWZra2ZKeVpxUkxJMVRJ?=
+ =?utf-8?B?WjV1bTBRRE14REtKRUQxQ2hCT2J4YjUyWFBOMTlFeFl4RmtrZTRCTjloRWFh?=
+ =?utf-8?B?ZXljQjhua212dnczdU8wb1FBUVNOdE1OclNkY01Ca3BMeVdreEQ1aE9LS1ox?=
+ =?utf-8?B?KzE0NlBqMTNJMEQ5QkQvNzg0T2JKbjd1SHY5bkxTbHhiVmNJYjFSbVFnbkR3?=
+ =?utf-8?B?UkdEd0dYejlqcmlGRWQ0bXpqVjBCZlVJcnRjdDJCdkxNZzVVSEM0UW12S3BX?=
+ =?utf-8?B?Mi9tVTdJdm1WVXRyRkxhVlp1RHFGR1dnTktXempyRGVmWjQ1WDk3TFpscXUr?=
+ =?utf-8?B?WjVMYjhKNEI5UUFZdmN0QjF6VDZnckozQ2QxZzhMN0ZKVEhRa0E3M05DdEd3?=
+ =?utf-8?B?TnBYelhBNzZDd2xvdVJxRzNCNTNLYTl4c3BEVXhUcXpjVWduU3lhYldMbnk3?=
+ =?utf-8?B?Q2hTdWpSb0l6V0ZldzdQUjJSaU9RS29UdktmRGxBZ2pRR1dhbzJEQ1AzUFl4?=
+ =?utf-8?B?VEFlanlqcERkNXRjNlVzMlBXNEtnazRMOHJ4ak5xOGtvWnpYVkZZRkwrVjhU?=
+ =?utf-8?B?R0Y4bnphTkZxZXlLM0Y2UVBIZTNGT3c4dEJmdnUxaHhBMGduWVQzREV2WjM1?=
+ =?utf-8?B?ZndYay9FRGlVZHNXdDkyRmU1U0pFbG5oUks2MGlkSVJLSDVXeEh2ODZtVVA4?=
+ =?utf-8?B?K2Ryb2J5WVBWZGgva1RMYW9BWTdCUHZZU3I5M1F4NFNtYUd1UjZhT0M5c0Nh?=
+ =?utf-8?B?ZDVjLzZ4UzJ5L2NGWEpJakpUTnVEbjVCRC9XVFBTK1R5UGhUeFRXV04ycTZy?=
+ =?utf-8?B?KzJoT2J0bStNQ01YUUM5cGRDcmRpQkVLNGRmSnlvZ0kxK2NGNWlBVm1hS3Zz?=
+ =?utf-8?B?NXVvYm1Pekp5STFXNEFLSG93YmV2aklqNkQyU0ZDeUltY012VEdodDdVV0pq?=
+ =?utf-8?B?RjZxV2Q2RElLemJmVUFyOVJYNlRvb0cvWStqblBMSEQzcjIzQWtsdnRQUUNJ?=
+ =?utf-8?B?QmFqQlpPK2cydzY5eU1XdVdSUWRMOElXWUN1MnVxQ29DeHpVdHlyUkcwVmNH?=
+ =?utf-8?B?YVIxVmNLc3JIMW14OU9RRFhuT2VCRm04ckxsSWJaU0Nka1ZRdlVxZzdnSnlP?=
+ =?utf-8?B?VHJJUVZnZWRVQ2NldWNNSDh2d3VhdXFmZDVoTUNFQm9ndnJSbmd0UzdUZkNy?=
+ =?utf-8?B?MDBtY29sNWl1ZnhESUs3V2RieFZGZnQyWUJ0alYzZVhST3l5alVsaWhNU0d0?=
+ =?utf-8?B?aUFxVWNQMkdLVUxFb1BYTDNCV04ySURPS01oQW9JbmZ2U3hsaENUUXZ3M2p1?=
+ =?utf-8?B?TFNyRmNEblJhQjNNV295bTVPTEdTZW5neWVqQTRGc0dUZVhYNmZxdHFWMWpF?=
+ =?utf-8?B?TndKaStlTnlGM3JNRTh6SkdZRmRucVp6eE96TzlwQnVsbXlVRGdTQTNHTnlU?=
+ =?utf-8?B?SDNZeklBcHRIMCsveTFLUGFpOFVRYVNTYXBydzJiQnlCNjJweVBPNDVvaktk?=
+ =?utf-8?B?VFhqMi81SGYrNDdlMHI0UWNoZkRMQzlqUGF1UzdkWEZZSHdQREloMTVHbi81?=
+ =?utf-8?Q?203ZdRWz4IccKRriWOkIE4iaX?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EE4AC92E6A156B45A6ECB149BA68232D@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR05MB9832.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99742fab-e917-4742-1eb1-08dbe6591611
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 04:04:09.9243
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Q8vrMbtPnsKVMnnmwsRnflDHZHsj/VV2UqIAdDLYoNlXPw4V1KX3zoVua019bEyILMjdSognzfUtXIV1relfNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR05MB10360
 
-Add a new internal isolated_cpus mask to keep track of the CPUs that
-are in isolated partitions. Expose that new cpumask as a new root-only
-control file "cpuset.cpus.isolated".
-
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/cgroup/cpuset.c | 190 +++++++++++++++++++++++++++--------------
- 1 file changed, 127 insertions(+), 63 deletions(-)
-
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 615daaf87f1f..a265e559f3fa 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -204,6 +204,11 @@ struct cpuset {
-  */
- static cpumask_var_t	subpartitions_cpus;
- 
-+/*
-+ * Exclusive CPUs in isolated partitions
-+ */
-+static cpumask_var_t	isolated_cpus;
-+
- /* List of remote partition root children */
- static struct list_head remote_children;
- 
-@@ -1317,6 +1322,7 @@ static void compute_effective_cpumask(struct cpumask *new_cpus,
-  */
- enum partition_cmd {
- 	partcmd_enable,		/* Enable partition root	  */
-+	partcmd_enablei,	/* Enable isolated partition root */
- 	partcmd_disable,	/* Disable partition root	  */
- 	partcmd_update,		/* Update parent's effective_cpus */
- 	partcmd_invalidate,	/* Make partition invalid	  */
-@@ -1418,6 +1424,74 @@ static void reset_partition_data(struct cpuset *cs)
- 	}
- }
- 
-+/*
-+ * partition_xcpus_newstate - Exclusive CPUs state change
-+ * @old_prs: old partition_root_state
-+ * @new_prs: new partition_root_state
-+ * @xcpus: exclusive CPUs with state change
-+ */
-+static void partition_xcpus_newstate(int old_prs, int new_prs, struct cpumask *xcpus)
-+{
-+	WARN_ON_ONCE(old_prs == new_prs);
-+	if (new_prs == PRS_ISOLATED)
-+		cpumask_or(isolated_cpus, isolated_cpus, xcpus);
-+	else
-+		cpumask_andnot(isolated_cpus, isolated_cpus, xcpus);
-+}
-+
-+/*
-+ * partition_xcpus_add - Add new exclusive CPUs to partition
-+ * @new_prs: new partition_root_state
-+ * @parent: parent cpuset
-+ * @xcpus: exclusive CPUs to be added
-+ *
-+ * Remote partition if parent == NULL
-+ */
-+static void partition_xcpus_add(int new_prs, struct cpuset *parent,
-+				struct cpumask *xcpus)
-+{
-+	WARN_ON_ONCE(new_prs < 0);
-+	lockdep_assert_held(&callback_lock);
-+	if (!parent)
-+		parent = &top_cpuset;
-+
-+	if (parent == &top_cpuset)
-+		cpumask_or(subpartitions_cpus, subpartitions_cpus, xcpus);
-+
-+	if (new_prs != parent->partition_root_state)
-+		partition_xcpus_newstate(parent->partition_root_state, new_prs,
-+					 xcpus);
-+
-+	cpumask_andnot(parent->effective_cpus, parent->effective_cpus, xcpus);
-+}
-+
-+/*
-+ * partition_xcpus_del - Remove exclusive CPUs from partition
-+ * @old_prs: old partition_root_state
-+ * @parent: parent cpuset
-+ * @xcpus: exclusive CPUs to be removed
-+ *
-+ * Remote partition if parent == NULL
-+ */
-+static void partition_xcpus_del(int old_prs, struct cpuset *parent,
-+				struct cpumask *xcpus)
-+{
-+	WARN_ON_ONCE(old_prs < 0);
-+	lockdep_assert_held(&callback_lock);
-+	if (!parent)
-+		parent = &top_cpuset;
-+
-+	if (parent == &top_cpuset)
-+		cpumask_andnot(subpartitions_cpus, subpartitions_cpus, xcpus);
-+
-+	if (old_prs != parent->partition_root_state)
-+		partition_xcpus_newstate(old_prs, parent->partition_root_state,
-+					 xcpus);
-+
-+	cpumask_and(xcpus, xcpus, cpu_active_mask);
-+	cpumask_or(parent->effective_cpus, parent->effective_cpus, xcpus);
-+}
-+
- /*
-  * compute_effective_exclusive_cpumask - compute effective exclusive CPUs
-  * @cs: cpuset
-@@ -1456,13 +1530,15 @@ static inline bool is_local_partition(struct cpuset *cs)
- /*
-  * remote_partition_enable - Enable current cpuset as a remote partition root
-  * @cs: the cpuset to update
-+ * @new_prs: new partition_root_state
-  * @tmp: temparary masks
-  * Return: 1 if successful, 0 if error
-  *
-  * Enable the current cpuset to become a remote partition root taking CPUs
-  * directly from the top cpuset. cpuset_mutex must be held by the caller.
-  */
--static int remote_partition_enable(struct cpuset *cs, struct tmpmasks *tmp)
-+static int remote_partition_enable(struct cpuset *cs, int new_prs,
-+				   struct tmpmasks *tmp)
- {
- 	/*
- 	 * The user must have sysadmin privilege.
-@@ -1485,18 +1561,14 @@ static int remote_partition_enable(struct cpuset *cs, struct tmpmasks *tmp)
- 		return 0;
- 
- 	spin_lock_irq(&callback_lock);
--	cpumask_andnot(top_cpuset.effective_cpus,
--		       top_cpuset.effective_cpus, tmp->new_cpus);
--	cpumask_or(subpartitions_cpus,
--		   subpartitions_cpus, tmp->new_cpus);
--
-+	partition_xcpus_add(new_prs, NULL, tmp->new_cpus);
-+	list_add(&cs->remote_sibling, &remote_children);
- 	if (cs->use_parent_ecpus) {
- 		struct cpuset *parent = parent_cs(cs);
- 
- 		cs->use_parent_ecpus = false;
- 		parent->child_ecpus_count--;
- 	}
--	list_add(&cs->remote_sibling, &remote_children);
- 	spin_unlock_irq(&callback_lock);
- 
- 	/*
-@@ -1524,13 +1596,8 @@ static void remote_partition_disable(struct cpuset *cs, struct tmpmasks *tmp)
- 	WARN_ON_ONCE(!cpumask_subset(tmp->new_cpus, subpartitions_cpus));
- 
- 	spin_lock_irq(&callback_lock);
--	cpumask_andnot(subpartitions_cpus,
--		       subpartitions_cpus, tmp->new_cpus);
--	cpumask_and(tmp->new_cpus,
--		    tmp->new_cpus, cpu_active_mask);
--	cpumask_or(top_cpuset.effective_cpus,
--		   top_cpuset.effective_cpus, tmp->new_cpus);
- 	list_del_init(&cs->remote_sibling);
-+	partition_xcpus_del(cs->partition_root_state, NULL, tmp->new_cpus);
- 	cs->partition_root_state = -cs->partition_root_state;
- 	if (!cs->prs_err)
- 		cs->prs_err = PERR_INVCPUS;
-@@ -1557,6 +1624,7 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *newmask,
- 			       struct tmpmasks *tmp)
- {
- 	bool adding, deleting;
-+	int prs = cs->partition_root_state;
- 
- 	if (WARN_ON_ONCE(!is_remote_partition(cs)))
- 		return;
-@@ -1580,20 +1648,10 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *newmask,
- 		goto invalidate;
- 
- 	spin_lock_irq(&callback_lock);
--	if (adding) {
--		cpumask_or(subpartitions_cpus,
--			   subpartitions_cpus, tmp->addmask);
--		cpumask_andnot(top_cpuset.effective_cpus,
--			       top_cpuset.effective_cpus, tmp->addmask);
--	}
--	if (deleting) {
--		cpumask_andnot(subpartitions_cpus,
--			       subpartitions_cpus, tmp->delmask);
--		cpumask_and(tmp->delmask,
--			    tmp->delmask, cpu_active_mask);
--		cpumask_or(top_cpuset.effective_cpus,
--			   top_cpuset.effective_cpus, tmp->delmask);
--	}
-+	if (adding)
-+		partition_xcpus_add(prs, NULL, tmp->addmask);
-+	if (deleting)
-+		partition_xcpus_del(prs, NULL, tmp->delmask);
- 	spin_unlock_irq(&callback_lock);
- 
- 	/*
-@@ -1676,11 +1734,11 @@ static bool prstate_housekeeping_conflict(int prstate, struct cpumask *new_cpus)
-  * @tmp:     Temporary addmask and delmask
-  * Return:   0 or a partition root state error code
-  *
-- * For partcmd_enable, the cpuset is being transformed from a non-partition
-- * root to a partition root. The effective_xcpus (cpus_allowed if effective_xcpus
-- * not set) mask of the given cpuset will be taken away from parent's
-- * effective_cpus. The function will return 0 if all the CPUs listed in
-- * effective_xcpus can be granted or an error code will be returned.
-+ * For partcmd_enable*, the cpuset is being transformed from a non-partition
-+ * root to a partition root. The effective_xcpus (cpus_allowed if
-+ * effective_xcpus not set) mask of the given cpuset will be taken away from
-+ * parent's effective_cpus. The function will return 0 if all the CPUs listed
-+ * in effective_xcpus can be granted or an error code will be returned.
-  *
-  * For partcmd_disable, the cpuset is being transformed from a partition
-  * root back to a non-partition root. Any CPUs in effective_xcpus will be
-@@ -1695,7 +1753,7 @@ static bool prstate_housekeeping_conflict(int prstate, struct cpumask *new_cpus)
-  *
-  * For partcmd_invalidate, the current partition will be made invalid.
-  *
-- * The partcmd_enable and partcmd_disable commands are used by
-+ * The partcmd_enable* and partcmd_disable commands are used by
-  * update_prstate(). An error code may be returned and the caller will check
-  * for error.
-  *
-@@ -1760,7 +1818,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 
- 	nocpu = tasks_nocpu_error(parent, cs, xcpus);
- 
--	if (cmd == partcmd_enable) {
-+	if ((cmd == partcmd_enable) || (cmd == partcmd_enablei)) {
- 		/*
- 		 * Enabling partition root is not allowed if its
- 		 * effective_xcpus is empty or doesn't overlap with
-@@ -1783,6 +1841,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 		cpumask_copy(tmp->delmask, xcpus);
- 		deleting = true;
- 		subparts_delta++;
-+		new_prs = (cmd == partcmd_enable) ? PRS_ROOT : PRS_ISOLATED;
- 	} else if (cmd == partcmd_disable) {
- 		/*
- 		 * May need to add cpus to parent's effective_cpus for
-@@ -1792,6 +1851,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 			  cpumask_and(tmp->addmask, xcpus, parent->effective_xcpus);
- 		if (adding)
- 			subparts_delta--;
-+		new_prs = PRS_MEMBER;
- 	} else if (newmask) {
- 		/*
- 		 * Empty cpumask is not allowed
-@@ -1940,37 +2000,24 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 	 * newly deleted ones will be added back to effective_cpus.
- 	 */
- 	spin_lock_irq(&callback_lock);
--	if (adding) {
--		if (parent == &top_cpuset)
--			cpumask_andnot(subpartitions_cpus,
--				       subpartitions_cpus, tmp->addmask);
--		/*
--		 * Some of the CPUs in effective_xcpus might have been offlined.
--		 */
--		cpumask_or(parent->effective_cpus,
--			   parent->effective_cpus, tmp->addmask);
--		cpumask_and(parent->effective_cpus,
--			    parent->effective_cpus, cpu_active_mask);
--	}
--	if (deleting) {
--		if (parent == &top_cpuset)
--			cpumask_or(subpartitions_cpus,
--				   subpartitions_cpus, tmp->delmask);
--		cpumask_andnot(parent->effective_cpus,
--			       parent->effective_cpus, tmp->delmask);
--	}
--
--	if (is_partition_valid(parent)) {
--		parent->nr_subparts += subparts_delta;
--		WARN_ON_ONCE(parent->nr_subparts < 0);
--	}
--
- 	if (old_prs != new_prs) {
- 		cs->partition_root_state = new_prs;
- 		if (new_prs <= 0)
- 			cs->nr_subparts = 0;
- 	}
-+	/*
-+	 * Adding to parent's effective_cpus means deletion CPUs from cs
-+	 * and vice versa.
-+	 */
-+	if (adding)
-+		partition_xcpus_del(old_prs, parent, tmp->addmask);
-+	if (deleting)
-+		partition_xcpus_add(new_prs, parent, tmp->delmask);
- 
-+	if (is_partition_valid(parent)) {
-+		parent->nr_subparts += subparts_delta;
-+		WARN_ON_ONCE(parent->nr_subparts < 0);
-+	}
- 	spin_unlock_irq(&callback_lock);
- 
- 	if ((old_prs != new_prs) && (cmd == partcmd_update))
-@@ -2948,6 +2995,7 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 	int err = PERR_NONE, old_prs = cs->partition_root_state;
- 	struct cpuset *parent = parent_cs(cs);
- 	struct tmpmasks tmpmask;
-+	bool new_xcpus_state = false;
- 
- 	if (old_prs == new_prs)
- 		return 0;
-@@ -2977,6 +3025,9 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 		goto out;
- 
- 	if (!old_prs) {
-+		enum partition_cmd cmd = (new_prs == PRS_ROOT)
-+				       ? partcmd_enable : partcmd_enablei;
-+
- 		/*
- 		 * cpus_allowed cannot be empty.
- 		 */
-@@ -2985,19 +3036,18 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 			goto out;
- 		}
- 
--		err = update_parent_effective_cpumask(cs, partcmd_enable,
--						      NULL, &tmpmask);
-+		err = update_parent_effective_cpumask(cs, cmd, NULL, &tmpmask);
- 		/*
- 		 * If an attempt to become local partition root fails,
- 		 * try to become a remote partition root instead.
- 		 */
--		if (err && remote_partition_enable(cs, &tmpmask))
-+		if (err && remote_partition_enable(cs, new_prs, &tmpmask))
- 			err = 0;
- 	} else if (old_prs && new_prs) {
- 		/*
- 		 * A change in load balance state only, no change in cpumasks.
- 		 */
--		;
-+		new_xcpus_state = true;
- 	} else {
- 		/*
- 		 * Switching back to member is always allowed even if it
-@@ -3029,6 +3079,8 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 	WRITE_ONCE(cs->prs_err, err);
- 	if (!is_partition_valid(cs))
- 		reset_partition_data(cs);
-+	else if (new_xcpus_state)
-+		partition_xcpus_newstate(old_prs, new_prs, cs->effective_xcpus);
- 	spin_unlock_irq(&callback_lock);
- 
- 	/* Force update if switching back to member */
-@@ -3386,6 +3438,7 @@ typedef enum {
- 	FILE_SUBPARTS_CPULIST,
- 	FILE_EXCLUSIVE_CPULIST,
- 	FILE_EFFECTIVE_XCPULIST,
-+	FILE_ISOLATED_CPULIST,
- 	FILE_CPU_EXCLUSIVE,
- 	FILE_MEM_EXCLUSIVE,
- 	FILE_MEM_HARDWALL,
-@@ -3582,6 +3635,9 @@ static int cpuset_common_seq_show(struct seq_file *sf, void *v)
- 	case FILE_SUBPARTS_CPULIST:
- 		seq_printf(sf, "%*pbl\n", cpumask_pr_args(subpartitions_cpus));
- 		break;
-+	case FILE_ISOLATED_CPULIST:
-+		seq_printf(sf, "%*pbl\n", cpumask_pr_args(isolated_cpus));
-+		break;
- 	default:
- 		ret = -EINVAL;
- 	}
-@@ -3875,6 +3931,13 @@ static struct cftype dfl_files[] = {
- 		.flags = CFTYPE_ONLY_ON_ROOT | CFTYPE_DEBUG,
- 	},
- 
-+	{
-+		.name = "cpus.isolated",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_ISOLATED_CPULIST,
-+		.flags = CFTYPE_ONLY_ON_ROOT,
-+	},
-+
- 	{ }	/* terminate */
- };
- 
-@@ -4194,6 +4257,7 @@ int __init cpuset_init(void)
- 	BUG_ON(!alloc_cpumask_var(&top_cpuset.effective_xcpus, GFP_KERNEL));
- 	BUG_ON(!alloc_cpumask_var(&top_cpuset.exclusive_cpus, GFP_KERNEL));
- 	BUG_ON(!zalloc_cpumask_var(&subpartitions_cpus, GFP_KERNEL));
-+	BUG_ON(!zalloc_cpumask_var(&isolated_cpus, GFP_KERNEL));
- 
- 	cpumask_setall(top_cpuset.cpus_allowed);
- 	nodes_setall(top_cpuset.mems_allowed);
--- 
-2.39.3
-
+T24gV2VkLCAyMDIzLTExLTE1IGF0IDE0OjE1ICswMTAwLCBKYXZpZXIgTWFydGluZXogQ2FuaWxs
+YXMgd3JvdGU6DQo+IEhlbGxvLA0KPg0KPiBUaGlzIHNlcmllcyBpcyB0byBmaXggYW4gaXNzdWUg
+dGhhdCBzdXJmYWNlZCBhZnRlciBkYW1hZ2UgY2xpcHBpbmcgd2FzDQo+IGVuYWJsZWQgZm9yIHRo
+ZSB2aXJ0aW8tZ3B1IGJ5IGNvbW1pdCAwMWYwNTk0MGE5YTcgKCJkcm0vdmlydGlvOiBFbmFibGUN
+Cj4gZmIgZGFtYWdlIGNsaXBzIHByb3BlcnR5IGZvciB0aGUgcHJpbWFyeSBwbGFuZSIpLg0KPg0K
+PiBBZnRlciB0aGF0IGNoYW5nZSwgZmxpY2tlcmluZyBhcnRpZmFjdHMgd2FzIHJlcG9ydGVkIHRv
+IGJlIHByZXNlbnQgd2l0aA0KPiBib3RoIHdlc3RvbiBhbmQgd2xyb290cyB3YXlsYW5kIGNvbXBv
+c2l0b3JzIHdoZW4gcnVubmluZyBpbiBhIHZpcnR1YWwNCj4gbWFjaGluZS4gVGhlIGNhdXNlIHdh
+cyBpZGVudGlmaWVkIGJ5IFNpbWEgVmV0dGVyLCB3aG8gcG9pbnRlZCBvdXQgdGhhdA0KPiB2aXJ0
+aW8tZ3B1IGRvZXMgcGVyLWJ1ZmZlciB1cGxvYWRzIGFuZCBmb3IgdGhpcyByZWFzb24gaXQgbmVl
+ZHMgdG8gZG8NCj4gYSBidWZmZXIgZGFtYWdlIGhhbmRsaW5nLCBpbnN0ZWFkIG9mIGZyYW1lIGRh
+bWFnZSBoYW5kbGluZy4NCj4NCj4gVGhlaXIgc3VnZ2VzdGlvbiB3YXMgdG8gZXh0ZW5kIHRoZSBk
+YW1hZ2UgaGVscGVycyB0byBjb3ZlciB0aGF0IGNhc2UNCj4gYW5kIGdpdmVuIHRoYXQgdGhlcmUn
+cyBpc24ndCBhIGJ1ZmZlciBkYW1hZ2UgYWNjdW11bGF0aW9uIGFsZ29yaXRobQ0KPiAoZS5nOiBi
+dWZmZXIgYWdlKSwganVzdCBkbyBhIGZ1bGwgcGxhbmUgdXBkYXRlIGlmIHRoZSBmcmFtZWJ1ZmZl
+ciB0aGF0DQo+IGlzIGF0dGFjaGVkIHRvIGEgcGxhbmUgY2hhbmdlZCBzaW5jZSB0aGUgbGFzdCBw
+bGFuZSB1cGRhdGUgKHBhZ2UtZmxpcCkuDQo+DQo+IEl0IGlzIGEgdjIgdGhhdCBhZGRyZXNzZXMg
+aXNzdWVzIHBvaW50ZWQgb3V0IGJ5IFRob21hcyBaaW1tZXJtYW5uIGluIHYxOg0KPiBodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAyMy1Ob3ZlbWJlci80
+MzAxMzguaHRtbA0KPg0KPiBQYXRjaCAjMSBhZGRzIGEgaWdub3JlX2RhbWFnZV9jbGlwcyBmaWVs
+ZCB0byBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlIHRvIGJlDQo+IHNldCBieSBkcml2ZXJzIHRoYXQg
+d2FudCB0aGUgZGFtYWdlIGhlbHBlcnMgdG8gaWdub3JlIHRoZSBkYW1hZ2UgY2xpcHMuDQo+DQo+
+IFBhdGNoICMyIGZpeGVzIHRoZSB2aXJ0aW8tZ3B1IGRhbWFnZSBoYW5kbGluZyBsb2dpYyBieSBh
+c2tpbmcgdGhlIGRhbWFnZQ0KPiBoZWxwZXIgdG8gaWdub3JlIHRoZSBkYW1hZ2UgY2xpcHMgaWYg
+dGhlIGZyYW1lYnVmZmVyIGF0dGFjaGVkIHRvIGEgcGxhbmUNCj4gaGFzIGNoYW5nZWQgc2luY2Ug
+dGhlIGxhc3QgcGFnZS1mbGlwLg0KPg0KPiBQYXRjaCAjMyBkb2VzIHRoZSBzYW1lIGJ1dCBmb3Ig
+dGhlIHZtd2dmeCBkcml2ZXIgdGhhdCBhbHNvIG5lZWRzIHRvIGhhbmRsZQ0KPiBidWZmZXIgZGFt
+YWdlIGFuZCBzaG91bGQgaGF2ZSB0aGUgc2FtZSBpc3N1ZSAoYWx0aG91Z2ggSSBoYXZlbid0IHRl
+c3RlZCBpdA0KPiBkdWUgbm90IGhhdmluZyBhIFZNV2FyZSBzZXR1cCkuDQo+DQo+IFBhdGNoICM0
+IGFkZHMgdG8gdGhlIEtNUyBkYW1hZ2UgdHJhY2tpbmcga2VybmVsLWRvYyBzb21lIHBhcmFncmFw
+aHMgYWJvdXQNCj4gZGFtYWdlIHRyYWNraW5nIHR5cGVzIGFuZCByZWZlcmVuY2VzIHRvIGxpbmtz
+IHRoYXQgZXhwbGFpbiBmcmFtZSBkYW1hZ2UgdnMNCj4gYnVmZmVyIGRhbWFnZS4NCj4NCj4gRmlu
+YWxseSBwYXRjaCAjNSBhZGRzIGFuIGl0ZW0gdG8gdGhlIERSTSB0b2RvLCBhYm91dCB0aGUgbmVl
+ZCB0byBpbXBsZW1lbnQNCj4gc29tZSBidWZmZXIgZGFtYWdlIGFjY3VtdWxhdGlvbiBhbGdvcml0
+aG0gaW5zdGVhZCBvZiBqdXN0IGRvaW5nIGZ1bGwgcGxhbmUNCj4gdXBkYXRlcyBpbiB0aGlzIGNh
+c2UuDQo+DQo+IEJlY2F1c2UgY29tbWl0IDAxZjA1OTQwYTlhNyBsYW5kZWQgaW4gdjYuNCwgdGhl
+IGZpcnN0IDIgcGF0Y2hlcyBhcmUgbWFya2VkDQo+IGFzIEZpeGVzIGFuZCBDYyBzdGFibGUuDQo+
+DQo+IEkndmUgdGVzdGVkIHRoaXMgb24gYSBWTSB3aXRoIHdlc3Rvbiwgd2FzIGFibGUgdG8gcmVw
+cm9kdWNlIHRoZSBpc3N1ZQ0KPiByZXBvcnRlZCBhbmQgdGhlIHBhdGNoZXMgZGlkIGZpeCB0aGUg
+cHJvYmxlbS4NCj4NCj4gQmVzdCByZWdhcmRzLA0KPiBKYXZpZXINCj4NCj4gQ2hhbmdlcyBpbiB2
+MjoNCj4gLSBBZGQgYSBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlIC5pZ25vcmVfZGFtYWdlX2NsaXBz
+IHRvIHNldCBpbiB0aGUgcGxhbmUncw0KPiAgIC5hdG9taWNfY2hlY2ssIGluc3RlYWQgb2YgaGF2
+aW5nIGRpZmZlcmVudCBoZWxwZXJzIChUaG9tYXMgWmltbWVybWFubikuDQo+IC0gU2V0IHN0cnVj
+dCBkcm1fcGxhbmVfc3RhdGUgLmlnbm9yZV9kYW1hZ2VfY2xpcHMgaW4gdmlydGlvLWdwdSBwbGFu
+ZSdzDQo+ICAgLmF0b21pY19jaGVjayBpbnN0ZWFkIG9mIHVzaW5nIGEgZGlmZmVyZW50IGhlbHBl
+cnMgKFRob21hcyBaaW1tZXJtYW5uKS4NCj4gLSBTZXQgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAu
+aWdub3JlX2RhbWFnZV9jbGlwcyBpbiB2bXdnZnggcGxhbmUncw0KPiAgIC5hdG9taWNfY2hlY2sg
+aW5zdGVhZCBvZiB1c2luZyBhIGRpZmZlcmVudCBoZWxwZXJzIChUaG9tYXMgWmltbWVybWFubiku
+DQoNClRoZSBzZXJpZXMgbG9va3MgZ29vZCB0byBtZSwgdGhhbmtzIGZvciB0YWNrbGluZyB0aGlz
+LiBJJ20gc3VycHJpc2VkIHRoYXQgd2UgZG9uJ3QNCmhhdmUgYW55IElHVCB0ZXN0cyBmb3IgdGhp
+cy4gU2VlbXMgbGlrZSBpdCBzaG91bGRuJ3QgYmUgdG9vIGhhcmQgdG8gdGVzdCBpdCBpbiBhDQpn
+ZW5lcmljIHdheSB3aXRoIGp1c3QgYSBjb3VwbGUgb2YgZHVtYiBidWZmZXJzLg0KDQp6DQo=
