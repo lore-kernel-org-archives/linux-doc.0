@@ -1,80 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="n/XiA9A5"
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D67141A5;
-	Fri, 17 Nov 2023 00:56:55 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C5CD61BF208;
-	Fri, 17 Nov 2023 08:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700211414;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=leBuYmiuIsLgv0yNkP9hLoHkOgcVyrVhTX124DlAon4=;
-	b=n/XiA9A5RLzOYcQ7AabAP58e6appuXIZiPT/cIAikp3A8eCCxbWFxXufGk8si2vkHTDy77
-	fVAPmaAC2hXZCnqNQvBbxnLqK3yCCQkG7XitU4tyQp+iewHV264WrTZQeRAQo1J9+PBKmk
-	sqoABxYhaJ5zD9zQ9ql5h4zRviGWkQGfciH0TEZup0N0PHksnYHqVHJog0mImow3J0IjCV
-	kYR7me680jK9tlMgeW+2D7X7SBy2vilCeKqDlZtC4aPvVNXbYzos347SyC1l5UNgyvadqz
-	XQrmgOpOIi+9x24KtDBmcXmRW8cx3OlEQTS6jUHmU0iMb0ae5lCx/5/KKN9Z9g==
-Date: Fri, 17 Nov 2023 09:56:51 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Conor Dooley <conor@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 7/9] firmware_loader: Expand Firmware upload
- error codes
-Message-ID: <20231117095651.5f569fcb@kmaincent-XPS-13-7390>
-In-Reply-To: <014c6bb7-178f-44cf-872f-eb4d59a80756@lunn.ch>
-References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
-	<20231116-feature_poe-v1-7-be48044bf249@bootlin.com>
-	<20231116-t-shirt-supreme-581c8882d5cc@squawk>
-	<014c6bb7-178f-44cf-872f-eb4d59a80756@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D87B7;
+	Fri, 17 Nov 2023 01:20:48 -0800 (PST)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1r3v0v-000aCz-Kl; Fri, 17 Nov 2023 17:19:50 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 17 Nov 2023 17:19:57 +0800
+Date: Fri, 17 Nov 2023 17:19:57 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: David Gstir <david@sigma-star.at>
+Cc: Mimi Zohar <zohar@linux.ibm.com>, James Bottomley <jejb@linux.ibm.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Shawn Guo <shawnguo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	sigma star Kernel Team <upstream+dcp@sigma-star.at>,
+	David Howells <dhowells@redhat.com>, Li Yang <leoyang.li@nxp.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Tejun Heo <tj@kernel.org>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-security-module@vger.kernel.org,
+	Richard Weinberger <richard@nod.at>,
+	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+Subject: Re: [PATCH v4 1/5] crypto: mxs-dcp: Add support for hardware-bound
+ keys
+Message-ID: <ZVcwPUEbu3Frp61X@gondor.apana.org.au>
+References: <20231024162024.51260-1-david@sigma-star.at>
+ <20231024162024.51260-2-david@sigma-star.at>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231024162024.51260-2-david@sigma-star.at>
 
-On Thu, 16 Nov 2023 22:56:10 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+On Tue, Oct 24, 2023 at 06:20:15PM +0200, David Gstir wrote:
+> DCP is capable of performing AES with two hardware-bound keys:
+> 
+> - The one-time programmable (OTP) key which is burnt via on-chip fuses
+> - The unique key (UK) which is derived from the OTP key
+> 
+> In addition to the two hardware-bound keys, DCP also supports
+> storing keys in 4 dedicated key slots within its secure memory area
+> (internal SRAM).
+> 
+> These keys are not stored in main memory and are therefore
+> not directly accessible by the operating system. To use them
+> for AES operations, a one-byte key reference has to supplied
+> with the DCP operation descriptor in the control register.
+> 
+> This adds support for using any of these 6 keys through the crypto API
+> via their key reference after they have been set up. The main purpose
+> is to add support for DCP-backed trusted keys. Other use cases are
+> possible too (see similar existing paes implementations), but these
+> should carefully be evaluated as e.g. enabling AF_ALG will give
+> userspace full access to use keys. In scenarios with untrustworthy
+> userspace, this will enable en-/decryption oracles.
+> 
+> Co-developed-by: Richard Weinberger <richard@nod.at>
+> Signed-off-by: Richard Weinberger <richard@nod.at>
+> Co-developed-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+> Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+> Signed-off-by: David Gstir <david@sigma-star.at>
+> ---
+>  drivers/crypto/mxs-dcp.c | 104 ++++++++++++++++++++++++++++++++++-----
+>  include/soc/fsl/dcp.h    |  17 +++++++
+>  2 files changed, 110 insertions(+), 11 deletions(-)
+>  create mode 100644 include/soc/fsl/dcp.h
 
-> > This would be rather helpful to me for some stuff that I am currently
-> > working on and was hoping to send to Arnd for inclusion in 6.8:
-> > https://lore.kernel.org/all/20231020-series-uncooked-077b107af3ae@spud/
-> >=20
-> > I'm currently returning a "HW_ERROR" for something that this would fit
-> > the bill for (in mpfs_auto_update_write()). What would the ETA for this
-> > stuff landing via the net tree be?
-> > Since I am not a netdev contributor its hard to tell how controversial
-> > these patches are! =20
->=20
-> It already has the needed ACKs, so it could be merged
-> anytime. However, it seems like two different subsystems are
-> interested in it. So rather than merge it via netdev, it might make
-> sense to merge it via its normal tree, driver-core. Then ask for a
-> stable branch which can be pulled into netdev and arm-soc.
-
-Ok, I will remove this patch from this series in v2 and send it through nor=
-mal
-tree.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
