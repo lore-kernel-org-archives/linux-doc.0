@@ -1,62 +1,147 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CB0YfMGP"
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5715890;
-	Fri, 17 Nov 2023 08:07:26 -0800 (PST)
-Received: from localhost (unknown [75.104.68.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 17CC72F3;
-	Fri, 17 Nov 2023 16:07:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 17CC72F3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1700237246; bh=BC2tbfdaRf5Lo95YlMn9cKPQvKOIugOE7GjfLAsoqJs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CB0YfMGPVJjDcFVp29ZBq/m2IjMmQyZkh5MLhbuefp8kQEz/vjVvOQiDcjShuIuh1
-	 EX1MN9P5ij+fI4pEveQ673LPZkD59HXOBlvlT3K39LFGkulZTVnBsMzC8rPUQBy28E
-	 7YkwuOiL/78eutKo1uYT8hn7mnXafomEUT+lCh73nxB3JmzA10lQUtJ3M4EVUv66wA
-	 MJeRz071X1PoPr40zTecL4jq8ra8kAUm7/x8I7MbHFFRU4cUbjXetXQJ8K1CCLbM//
-	 29dUrXQ39HETSgLDPxaKd6Ag4ePeuWF3LCokQKrg9jiv8NtC47eWEnJRs0TXcS3gXm
-	 o0RBZVZJ6/XFA==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Yuanhsi Chung <freshliver.cys@gmail.com>, rostedt@goodmis.org
-Cc: mingo@redhat.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Yuanhsi Chung <freshliver.cys@gmail.com>
-Subject: Re: [PATCH] Documentation: Fix filename typo in ftrace doc
-In-Reply-To: <20231104103329.215139-1-freshliver.cys@gmail.com>
-References: <20231104103329.215139-1-freshliver.cys@gmail.com>
-Date: Fri, 17 Nov 2023 09:07:14 -0700
-Message-ID: <871qcoxt1p.fsf@meer.lwn.net>
+	dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b="SwYNuwk/"
+Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF12111D;
+	Fri, 17 Nov 2023 08:12:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=5097; q=dns/txt; s=iport;
+  t=1700237552; x=1701447152;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/NH0YWL5gm8V0phm/O3rkb1/g0nTScLJ9wh4qMptA9M=;
+  b=SwYNuwk/05wy3c3g8hVSq3woYVX6p7PeM/Yfryd1m+6u+3cjONH/2M3p
+   I2hXrIWUr/0ml6pWnkQIZPM+YTjux7fX1ODYu/MyygQlseDejJ4FUmZxH
+   MBfJj9yMmdLhnwRRYhF0URWmMsA4LQ4p7Su8+Wbb5dvK4mCER7lXCVs9e
+   4=;
+X-CSE-ConnectionGUID: VPnjM9NWQdGesiVwHAeUUg==
+X-CSE-MsgGUID: MxUbRDLGRvmROIrSK6C1JA==
+X-IronPort-AV: E=Sophos;i="6.04,206,1695686400"; 
+   d="scan'208";a="9619884"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-9.cisco.com) ([173.38.203.22])
+  by aer-iport-4.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 16:12:29 +0000
+Received: from localhost (dhcp-10-61-101-82.cisco.com [10.61.101.82])
+	(authenticated bits=0)
+	by aer-core-9.cisco.com (8.15.2/8.15.2) with ESMTPSA id 3AHGCSUJ047870
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 17 Nov 2023 16:12:28 GMT
+From: Ariel Miculas <amiculas@cisco.com>
+To: linux-doc@vger.kernel.org
+Cc: serge@hallyn.com, Ariel Miculas <amiculas@cisco.com>,
+        Phillip Lougher <phillip@squashfs.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] docs: filesystems: document the squashfs specific mount options
+Date: Fri, 17 Nov 2023 18:12:14 +0200
+Message-ID: <20231117161215.140282-1-amiculas@cisco.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Authenticated-User: amiculas@cisco.com
+X-Outbound-SMTP-Client: 10.61.101.82, dhcp-10-61-101-82.cisco.com
+X-Outbound-Node: aer-core-9.cisco.com
 
-Yuanhsi Chung <freshliver.cys@gmail.com> writes:
+When SQUASHFS_CHOICE_DECOMP_BY_MOUNT is set, the "threads" mount option
+can be used to specify the decompression mode: single-threaded,
+multi-threaded, percpu or the number of threads used for decompression.
+When SQUASHFS_CHOICE_DECOMP_BY_MOUNT is not set, SQUASHFS_DECOMP_MULTI
+and SQUASHFS_MOUNT_DECOMP_THREADS are both set, the "threads" option can
+also be used to specify the number of threads used for decompression.
+This mount option is only mentioned in fs/squashfs/Kconfig, which makes
+it difficult to find.
 
-> The filename for setting the cpumask should be `tracing_cpumask`,
-> instead of `tracing_cpu_mask`.
->
-> Signed-off-by: Yuanhsi Chung <freshliver.cys@gmail.com>
-> ---
->  Documentation/trace/ftrace.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index b37dc19e4d40..b93f11c430a9 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -2524,7 +2524,7 @@ want, depending on your needs.
->  
->  - The cpu number on which the function executed is default
->    enabled.  It is sometimes better to only trace one cpu (see
-> -  tracing_cpu_mask file) or you might sometimes see unordered
-> +  tracing_cpumask file) or you might sometimes see unordered
->    function calls while cpu tracing switch.
+Another mount option available is "errors", which can be configured to
+panic the kernel when squashfs errors are encountered.
 
-Applied, thanks.
+Add both these options to the squashfs documentation, making them more
+noticeable.
 
-jon
+Signed-off-by: Ariel Miculas <amiculas@cisco.com>
+---
+V2 -> V3: When SQUASHFS_CHOICE_DECOMP_BY_MOUNT is not set, the "threads"
+mount option also requires SQUASHFS_MOUNT_DECOMP_THREADS to be set, in
+addition to SQUASHFS_DECOMP_MULTI
+
+V1 -> V2: When SQUASHFS_CHOICE_DECOMP_BY_MOUNT is not set, the "threads"
+mount option also requires SQUASHFS_DECOMP_MULTI to be set
+
+ Documentation/filesystems/squashfs.rst | 60 ++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+
+diff --git a/Documentation/filesystems/squashfs.rst b/Documentation/filesystems/squashfs.rst
+index df42106bae71..4af8d6207509 100644
+--- a/Documentation/filesystems/squashfs.rst
++++ b/Documentation/filesystems/squashfs.rst
+@@ -64,6 +64,66 @@ obtained from this site also.
+ The squashfs-tools development tree is now located on kernel.org
+ 	git://git.kernel.org/pub/scm/fs/squashfs/squashfs-tools.git
+ 
++2.1 Mount options
++-----------------
++===================    =========================================================
++errors=%s              Specify whether squashfs errors trigger a kernel panic
++                       or not
++
++		       ==========  =============================================
++                         continue  errors don't trigger a panic (default)
++                            panic  trigger a panic when errors are encountered,
++                                   similar to several other filesystems (e.g.
++                                   btrfs, ext4, f2fs, GFS2, jfs, ntfs, ubifs)
++
++                                   This allows a kernel dump to be saved,
++                                   useful for analyzing and debugging the
++                                   corruption.
++                       ==========  =============================================
++threads=%s             Select the decompression mode or the number of threads
++
++                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is set:
++
++		       ==========  =============================================
++                           single  use single-threaded decompression (default)
++
++                                   Only one block (data or metadata) can be
++                                   decompressed at any one time. This limits
++                                   CPU and memory usage to a minimum, but it
++                                   also gives poor performance on parallel I/O
++                                   workloads when using multiple CPU machines
++                                   due to waiting on decompressor availability.
++                            multi  use up to two parallel decompressors per core
++
++                                   If you have a parallel I/O workload and your
++                                   system has enough memory, using this option
++                                   may improve overall I/O performance. It
++                                   dynamically allocates decompressors on a
++                                   demand basis.
++                           percpu  use a maximum of one decompressor per core
++
++                                   It uses percpu variables to ensure
++                                   decompression is load-balanced across the
++                                   cores.
++                        1|2|3|...  configure the number of threads used for
++                                   decompression
++
++                                   The upper limit is num_online_cpus() * 2.
++                       ==========  =============================================
++
++                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is **not** set and
++                       SQUASHFS_DECOMP_MULTI, SQUASHFS_MOUNT_DECOMP_THREADS are
++                       both set:
++
++		       ==========  =============================================
++                          2|3|...  configure the number of threads used for
++                                   decompression
++
++                                   The upper limit is num_online_cpus() * 2.
++                       ==========  =============================================
++
++===================    =========================================================
++
+ 3. Squashfs Filesystem Design
+ -----------------------------
+ 
+-- 
+2.42.1
+
