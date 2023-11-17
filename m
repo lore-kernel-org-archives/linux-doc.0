@@ -1,108 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SU3UIyeb"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B30B0;
-	Fri, 17 Nov 2023 00:33:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700209995; x=1731745995;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=LadFFOa9cUtU7ECOTPF5KVOGh+N1azQgLZ4EmevYVpc=;
-  b=SU3UIyebWj6jGxHRvX05dBpekQ3zEExgY9zDPj9Cza05QwwJa/uFxuKk
-   Xu0VPEg53DQ9vX3zskiOb7rCVhXDKlL96mIrpWuuaCgdTJD4v4IF15/E1
-   uEiLLzSYU+0Vmj0NGR5RdHW0DMVZdlShBQXsOWHBDLJzgNqTzL84Nx0zx
-   sYhfnC8BRaHYSaIlESiNxNuS/5Z2eVnltb9N/h1nOSvo/qaqJlh+GXDWm
-   qRkTBBJKgopU5+5yuChI7WzHWU+yXkGOVSyYpR1Lir8efG2XT0Z2YTARd
-   aRP6b2gCmHTlYdCQR5FaWUdi8E5XYrspDa1lqYb7R25jBQLULBhm4pE5z
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="422355776"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="422355776"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 00:33:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="13846915"
-Received: from jpoulsen-mobl.ger.corp.intel.com (HELO [10.249.254.136]) ([10.249.254.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 00:33:11 -0800
-Message-ID: <a1cbe3e8-2b2c-150a-7919-65bdd38f75be@linux.intel.com>
-Date: Fri, 17 Nov 2023 09:33:08 +0100
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E155A1A5;
+	Fri, 17 Nov 2023 00:53:37 -0800 (PST)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0VwZGmH._1700211211;
+Received: from e69b19392.et15sqa.tbsite.net(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0VwZGmH._1700211211)
+          by smtp.aliyun-inc.com;
+          Fri, 17 Nov 2023 16:53:35 +0800
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+To: linux-erofs@lists.ozlabs.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>
+Subject: [PATCH] MAINTAINERS: erofs: add EROFS webpage
+Date: Fri, 17 Nov 2023 16:53:29 +0800
+Message-Id: <20231117085329.1624223-1-hsiangkao@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4] Documentation/gpu: VM_BIND locking document
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>, intel-xe@lists.freedesktop.org
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Oak Zeng <oak.zeng@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Francois Dugast <francois.dugast@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>
-References: <20231115124937.6740-1-thomas.hellstrom@linux.intel.com>
- <ZVYVk8KutkQE0RDU@archie.me>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <ZVYVk8KutkQE0RDU@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Add a new `W:` field of the EROFS entry points to the documentation
+site at <https://erofs.docs.kernel.org>.
 
+In addition, update the in-tree documentation and Kconfig too.
 
-On 11/16/23 14:13, Bagas Sanjaya wrote:
-> On Wed, Nov 15, 2023 at 01:49:37PM +0100, Thomas Hellström wrote:
->> +TODO: Pointer to the gpuvm code implementation if this iteration and
-> "... implementation of this iteration ..."
->
->> +Using a MMU notifier for device DMA (and other methods) is described in
->> +`this document
->> +<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
-> You can use internal linking instead:
->
-> ---- >8 ----
-> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
-> index d3c1f6d8c0e0ec..6b5f7e6e7155fb 100644
-> --- a/Documentation/core-api/pin_user_pages.rst
-> +++ b/Documentation/core-api/pin_user_pages.rst
-> @@ -153,6 +153,8 @@ NOTE: Some pages, such as DAX pages, cannot be pinned with longterm pins. That's
->   because DAX pages do not have a separate page cache, and so "pinning" implies
->   locking down file system blocks, which is not (yet) supported in that way.
->   
-> +.. _mmu-notifier-registration-case:
-> +
->   CASE 3: MMU notifier registration, with or without page faulting hardware
->   -------------------------------------------------------------------------
->   Device drivers can pin pages via get_user_pages*(), and register for mmu
-> diff --git a/Documentation/gpu/drm-vm-bind-locking.rst b/Documentation/gpu/drm-vm-bind-locking.rst
-> index bc701157cb3414..08b6a47a6e592f 100644
-> --- a/Documentation/gpu/drm-vm-bind-locking.rst
-> +++ b/Documentation/gpu/drm-vm-bind-locking.rst
-> @@ -366,8 +366,7 @@ need to care about, but so far it has proven difficult to exclude
->   certain notifications.
->   
->   Using a MMU notifier for device DMA (and other methods) is described in
-> -`this document
-> -<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
-> +:ref:`pin_user_pages() documentation <mmu-notifier-registration-case>`.
->   
->   Now the method of obtaining struct page references using
->   get_user_pages() unfortunately can't be used under a dma_resv lock
->
-> Thanks.
->
-Thanks. I'll take a look at doing this as well.
+Signed-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+---
+ Documentation/filesystems/erofs.rst | 4 ++++
+ MAINTAINERS                         | 1 +
+ fs/erofs/Kconfig                    | 2 +-
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
-Thomas
-
-
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index 57c6ae23b3fc..cc4626d6ee4f 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -91,6 +91,10 @@ compatibility checking tool (fsck.erofs), and a debugging tool (dump.erofs):
+ 
+ - git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
+ 
++For more information, please also refer to the documentation site:
++
++- https://erofs.docs.kernel.org
++
+ Bugs and patches are welcome, please kindly help us and send to the following
+ linux-erofs mailing list:
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 97f51d5ec1cf..cf39d16ad22a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7855,6 +7855,7 @@ R:	Yue Hu <huyue2@coolpad.com>
+ R:	Jeffle Xu <jefflexu@linux.alibaba.com>
+ L:	linux-erofs@lists.ozlabs.org
+ S:	Maintained
++W:	https://erofs.docs.kernel.org
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git
+ F:	Documentation/ABI/testing/sysfs-fs-erofs
+ F:	Documentation/filesystems/erofs.rst
+diff --git a/fs/erofs/Kconfig b/fs/erofs/Kconfig
+index e540648dedc2..1d318f85232d 100644
+--- a/fs/erofs/Kconfig
++++ b/fs/erofs/Kconfig
+@@ -21,7 +21,7 @@ config EROFS_FS
+ 	  performance under extremely memory pressure without extra cost.
+ 
+ 	  See the documentation at <file:Documentation/filesystems/erofs.rst>
+-	  for more details.
++	  and the web pages at <https://erofs.docs.kernel.org> for more details.
+ 
+ 	  If unsure, say N.
+ 
+-- 
+2.39.3
 
