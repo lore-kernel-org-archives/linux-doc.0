@@ -1,100 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0282A194;
-	Fri, 17 Nov 2023 02:25:52 -0800 (PST)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1r3w2j-000bmr-Iu; Fri, 17 Nov 2023 18:25:46 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 17 Nov 2023 18:25:53 +0800
-Date: Fri, 17 Nov 2023 18:25:53 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Srujana Challa <schalla@marvell.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, linux-crypto@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	bbrezillon@kernel.org, arno@natisbad.org, kuba@kernel.org,
-	ndabilpuram@marvell.com, sgoutham@marvell.com
-Subject: Re: [PATCH v1 00/10] Add Marvell CN10KB/CN10KA B0 support
-Message-ID: <ZVc/sQWzWYWYeFSt@gondor.apana.org.au>
-References: <20231103053306.2259753-1-schalla@marvell.com>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bv2DM1K8"
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5CEC2;
+	Fri, 17 Nov 2023 03:15:48 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 71B84FF80A;
+	Fri, 17 Nov 2023 11:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700219747;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MEnAPhotGrymqx9LWYvphkRnK4e8fFIFQk+XIJhM+Ew=;
+	b=bv2DM1K8sfN7my6DGyXah1OW8f8ligLTQQbv2oeWPGfbH3pLz1fHL6HIMNb++VwFLFUVVA
+	FE1nA3josktfusczdxPl+/rQoN0T4Ts/w9mObdtiQ3g+qXqd/2nOanonmA9tPh1TFCGkZy
+	vgD1OEXfv9yMX3wPMJBwJ1L7Fioj7+jPPTa2tP2+0VOLLGbavTY4V6X7mdLdLX74HTOCqa
+	Uym+ZBpydJjuw0j3sGy+LIobi0T+MVrTtbNfVQjq1lvXM7AcZSlCvVEPZTOEYdFSrGkwC5
+	I35VqoXtIL/pbJ6TDyFwSYqTOdtcYWRmlpXFo3EoXpFl4VHg/WpGxLAOmMmI4Q==
+Date: Fri, 17 Nov 2023 12:15:45 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 9/9] net: pse-pd: Add PD692x0 PSE controller
+ driver
+Message-ID: <20231117121545.2f950d43@kmaincent-XPS-13-7390>
+In-Reply-To: <47d42d52-943c-467d-bcc0-fcb274f69841@lunn.ch>
+References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
+	<20231116-feature_poe-v1-9-be48044bf249@bootlin.com>
+	<47d42d52-943c-467d-bcc0-fcb274f69841@lunn.ch>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231103053306.2259753-1-schalla@marvell.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Fri, Nov 03, 2023 at 11:02:56AM +0530, Srujana Challa wrote:
-> Marvell OcteonTX2's next gen platform CN10KB/CN10KA B0
-> introduced changes in CPT SG input format(SGv2) to make
-> it compatibile with NIX SG input format, to support inline
-> IPsec in SG mode.
-> 
-> This patchset modifies the octeontx2 CPT driver code to
-> support SGv2 format for CN10KB/CN10KA B0. And also adds
-> code to configure newly introduced HW registers.
-> This patchset also implements SW workaround for couple of
-> HW erratas.
-> 
-> ---
-> v1:
-> - Documented devlink parameters supported by octeontx2 CPT
->   driver.
-> ---
-> 
-> Nithin Dabilpuram (2):
->   crypto/octeontx2: register error interrupts for inline cptlf
->   crypto: octeontx2: support setting ctx ilen for inline CPT LF
-> 
-> Srujana Challa (8):
->   crypto: octeontx2: remove CPT block reset
->   crypto: octeontx2: add SGv2 support for CN10KB or CN10KA B0
->   crypto: octeontx2: add devlink option to set max_rxc_icb_cnt
->   crypto: octeontx2: add devlink option to set t106 mode
->   crypto: octeontx2: remove errata workaround for CN10KB or CN10KA B0
->     chip.
->   crypto: octeontx2: add LF reset on queue disable
->   octeontx2-af: update CPT inbound inline IPsec mailbox
->   crypto: octeontx2: add ctx_val workaround
-> 
->  Documentation/crypto/device_drivers/index.rst |   9 +
->  .../crypto/device_drivers/octeontx2.rst       |  29 ++
->  Documentation/crypto/index.rst                |   1 +
->  drivers/crypto/marvell/octeontx2/cn10k_cpt.c  |  87 +++++-
->  drivers/crypto/marvell/octeontx2/cn10k_cpt.h  |  25 ++
->  .../marvell/octeontx2/otx2_cpt_common.h       |  68 +++-
->  .../marvell/octeontx2/otx2_cpt_devlink.c      |  88 +++++-
->  .../marvell/octeontx2/otx2_cpt_hw_types.h     |   9 +-
->  .../marvell/octeontx2/otx2_cpt_mbox_common.c  |  26 ++
->  .../marvell/octeontx2/otx2_cpt_reqmgr.h       | 293 ++++++++++++++++++
->  drivers/crypto/marvell/octeontx2/otx2_cptlf.c | 131 +++++---
->  drivers/crypto/marvell/octeontx2/otx2_cptlf.h | 102 ++++--
->  drivers/crypto/marvell/octeontx2/otx2_cptpf.h |   4 +
->  .../marvell/octeontx2/otx2_cptpf_main.c       |  76 ++---
->  .../marvell/octeontx2/otx2_cptpf_mbox.c       |  81 ++++-
->  .../marvell/octeontx2/otx2_cptpf_ucode.c      |  49 +--
->  .../marvell/octeontx2/otx2_cptpf_ucode.h      |   3 +-
->  drivers/crypto/marvell/octeontx2/otx2_cptvf.h |   2 +
->  .../marvell/octeontx2/otx2_cptvf_algs.c       |  31 ++
->  .../marvell/octeontx2/otx2_cptvf_algs.h       |   5 +
->  .../marvell/octeontx2/otx2_cptvf_main.c       |  25 +-
->  .../marvell/octeontx2/otx2_cptvf_mbox.c       |  27 ++
->  .../marvell/octeontx2/otx2_cptvf_reqmgr.c     | 162 +---------
->  .../net/ethernet/marvell/octeontx2/af/rvu.h   |  20 ++
->  .../ethernet/marvell/octeontx2/af/rvu_cpt.c   |  14 +
->  .../ethernet/marvell/octeontx2/af/rvu_reg.h   |   1 +
->  26 files changed, 1063 insertions(+), 305 deletions(-)
->  create mode 100644 Documentation/crypto/device_drivers/index.rst
->  create mode 100644 Documentation/crypto/device_drivers/octeontx2.rst
+On Thu, 16 Nov 2023 23:38:08 +0100
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-Even though this touches drivers/crypto, it appears to be mainly
-a networking patch.  So I'd prefer for this to go through the net
-tree to ensure it gets reviewed properly.
+> > +static int pd692x0_send_msg(struct pd692x0_priv *priv, struct pd692x0_=
+msg
+> > *msg) +{
+> > +	const struct i2c_client *client =3D priv->client;
+> > +	int ret;
+> > +
+> > +	if (msg->content.key =3D=3D PD692X0_KEY_CMD && priv->last_cmd_key) {
+> > +		while (time_is_after_jiffies(msecs_to_jiffies(30) +
+> > priv->last_cmd_key_time))
+> > +			usleep_range(1000, 2000); =20
+>=20
+> That is a bit odd. Could you not just calculate how long a sleep is
+> needed, rather than loop?
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Oh, right indeed! Don't know why my brain wanted a loop here.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
