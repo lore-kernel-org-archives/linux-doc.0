@@ -1,32 +1,33 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="S8AMUbZI"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NYjYoKZi"
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A301EB4;
-	Fri, 17 Nov 2023 13:38:46 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAEAFB8;
+	Fri, 17 Nov 2023 14:17:13 -0800 (PST)
 Received: from localhost (unknown [98.53.138.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 511A72F3;
-	Fri, 17 Nov 2023 21:38:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 511A72F3
+	by ms.lwn.net (Postfix) with ESMTPSA id 48BEA2F3;
+	Fri, 17 Nov 2023 22:17:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 48BEA2F3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1700257126; bh=W5tY8N48/imd5r1zGRD0zjzk3IIZka96QVIe4cEb5Y4=;
+	t=1700259433; bh=+iMSu9G5yo159Da0W+TlYSAqLVEKQPYPsL87vIzTR0E=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=S8AMUbZIKQe5sMX6Nl0/3cph3LWhH0DCo0ffGz8eZ12Mp0rm1uNCFhk4g91gnXy+1
-	 AqkuZySknAANvD1WkXAmTHS/JvcdwqDhHiSWJ8BM7PIs4yf4wBT6aetGbs6sDDZA2d
-	 82DbZzye7kZgn52xBrR5I52JYpLvY2YBEWzHsJJZe9g+oAA9S0ItnpWG1G0mnBsEWH
-	 5WJqZHdXu2L/PMJaZkyVCjToH3HCp8XdReAnpUEWw/7DmyJvWvttDs0cTPWI+0oOKW
-	 GuonAtXayEiMQvn5MBYYwOCrKmSnOdYX15VCmyL6EilYx+3K1u5dTJ9wOK1QN2UhiL
-	 pLsmd7CsE9gpg==
+	b=NYjYoKZifeWoc5EeO5E7HW+n4uJV2C8f/PrKyqy39mTB3ngF8SqierEt7ksjRr2nz
+	 VLi6Iquf0yQXoNffLE2BACfc9csSE1zUZE4V3Z06JCgeOvBkMaPYRxNR1JMTRzf/wd
+	 AKPcCWqdp9/TBLy6SdyEaIeNErljIPYCUeVtvauG7lztG5AZEEZm18D/HLWYWqPghl
+	 YuHXK8RtwnOhMcvhPSkPSJRiQ1HMfBMyHzcFutWc0yNaTH1Tv4VlvDArjlej430S5x
+	 Y42VIrJvfC/VwVqwG4pXbUZkBk8R1ugwtH4AKiTWBYla507gwMjEUMFovXbtcm3R7j
+	 47erXVF184XHQ==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Vegard Nossum
- <vegard.nossum@oracle.com>, Miguel Ojeda <ojeda@kernel.org>
-Subject: Re: [PATCH] Documentation: add tux logo
-In-Reply-To: <20231029074207.297663-1-vegard.nossum@oracle.com>
-References: <20231029074207.297663-1-vegard.nossum@oracle.com>
-Date: Fri, 17 Nov 2023 14:38:35 -0700
-Message-ID: <878r6w83hg.fsf@meer.lwn.net>
+To: Breno Leitao <leitao@debian.org>, netdev@vger.kernel.org,
+ donald.hunter@gmail.com, kuba@kernel.org
+Cc: leit@meta.com, linux-doc@vger.kernel.org, pabeni@redhat.com,
+ edumazet@google.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: Document each netlink family
+In-Reply-To: <20231113202936.242308-1-leitao@debian.org>
+References: <20231113202936.242308-1-leitao@debian.org>
+Date: Fri, 17 Nov 2023 15:17:02 -0700
+Message-ID: <87y1ew6n4x.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,52 +36,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Vegard Nossum <vegard.nossum@oracle.com> writes:
+Breno Leitao <leitao@debian.org> writes:
 
-> We already have the logo, let's use it.
+> This is a simple script that parses the Netlink YAML spec files
+> (Documentation/netlink/specs/), and generates RST files to be rendered
+> in the Network -> Netlink Specification documentation page.
 >
-> Testing: make htmldocs
+> Create a python script that is invoked during 'make htmldocs', reads the
+> YAML specs located under Documentation/netlink/specs, parses one by one
+> and generates a correspondent RST file for each YAML file.
 >
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/conf.py                  | 4 ++++
->  Documentation/sphinx-static/custom.css | 6 ++++++
->  2 files changed, 10 insertions(+)
+> Create a new Documentation/networking/netlink_spec index page, and
+> reference each Netlink RST file that was processed above in this main
+> index.rst file.
 >
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index d4fdf6a3875a..20bd74edcca9 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -357,6 +357,10 @@ html_sidebars = { '**': ['searchbox.html', 'kernel-toc.html', 'sourcelink.html']
->  if html_theme == 'alabaster':
->      html_sidebars['**'].insert(0, 'about.html')
->  
-> +# The name of an image file (relative to this directory) to place at the top
-> +# of the sidebar.
-> +html_logo = 'images/logo.svg'
-> +
->  # Output file base name for HTML help builder.
->  htmlhelp_basename = 'TheLinuxKerneldoc'
->  
-> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-> index 084a884f6fb7..56653f73d8f9 100644
-> --- a/Documentation/sphinx-static/custom.css
-> +++ b/Documentation/sphinx-static/custom.css
-> @@ -20,6 +20,12 @@ div.document {
->      width: auto;
->  }
->  
-> +/* Size the logo appropriately */
-> +img.logo {
-> +    width: 104px;
-> +    margin-bottom: 20px;
-> +}
-> +
->  /*
->   * Parameters for the display of function prototypes and such included
->   * from C source files.
+> In case of any exception during the parsing, dump the error and skip
+> the file.
+>
+> Suggested-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-Applied, thanks.
+In principle I like this approach better.  There is one problem, though:
+
+- In current kernels, on my machine, "make htmldocs" when nothing has
+  changed takes about 6s to complete.
+
+- With this patch applied, it takes a little over 5 *minutes*.
+
+Without having delved into it too far, I am guessing that the
+unconditional recreation of the netlink RST files is causing the rebuild
+of much of the documentation.  Even so, I don't quite get it.
+
+That, clearly, would need to be fixed before this can go in.
+
+Thanks,
 
 jon
