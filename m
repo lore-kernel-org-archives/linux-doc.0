@@ -1,76 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B31NSXJE"
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A4D610D9;
-	Fri, 17 Nov 2023 07:26:42 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6c320a821c4so1929869b3a.2;
-        Fri, 17 Nov 2023 07:26:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700234801; x=1700839601; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ddFA885Lew1a2TIxEdkKv5i0KGKf0gF/uEp1+TNXPM0=;
-        b=B31NSXJER03zss/suRoC8C303zs8N2sFp5oBVjcVsck/QZ/iM8S0WHPA2jlnAnzCfM
-         fj7SA9F0HIU8ayTujLwZorl/Hh7/AfqZCJ9ZQzRb0VpvDmesm/jX6jkXyRKGDCLOyNLr
-         jhR2AemYO31/qX2cbs2tTR5nymo4HENwYLQc3nO5VwewjXkPpKHSTSxAYwRestcy0d0x
-         kuoocZU9o43Fh6T2pQsy6NNR0H72nYhHXz/63LD8ICRCflReIjEOg9Wom/td7iCfnDiH
-         WWJ6/SW+c0O2vZa6ft9DIvt9OZcrSRtIKmjkp5oYmfQ+jLkqHLsPsPiWv1ULY+Hw4mQZ
-         RGBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700234801; x=1700839601;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ddFA885Lew1a2TIxEdkKv5i0KGKf0gF/uEp1+TNXPM0=;
-        b=Gh8Fz97yVdJsmXnqzic/rfZygdKZussZEn+eb6bTH3tsuWVHrpD8As839RkpCUN9Pb
-         qcH+lAcJb/Y6UKFIsAbjbEzPiFs3Am1ztNlTx2z49y432e5kNhRUHcbx9eP0Djfv4kh3
-         g7BnUmOw7hAuTnsGkzns3TZwNWwQafYVTbH6sUTFeGottkMV0S9/R2PjegcitBDkFMA+
-         I6dLlt1VvKL0C5h7FL5ywmH7jN+JVjV2Woj9bqtKxiHtnBQtVfB+kssI9RAohCGjcUio
-         u5ZQjUtcldEgmcABlH3IjTo+B+bJUjzpQesVuR1AP0Jfi3jbcAaBe7mvdVzO5JLt2Z/h
-         qOkw==
-X-Gm-Message-State: AOJu0YxP+nzjchfh4OHdaOZjcSpZyQUPqVLBQRwnw6wTgNi+F5J3Ygk6
-	BA5eCqG4iUI2P377ZTsml1I=
-X-Google-Smtp-Source: AGHT+IGkJBJDsY3m5GSxybyrpFYcyEdmYPgHhELkWF11rl2pBhQgEbEKLNqgWAWqyowjUa0KQp8WWQ==
-X-Received: by 2002:a17:90b:1a8c:b0:27d:ba33:6990 with SMTP id ng12-20020a17090b1a8c00b0027dba336990mr16366785pjb.10.1700234801427;
-        Fri, 17 Nov 2023 07:26:41 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id gq17-20020a17090b105100b00283a09df0besm413384pjb.43.2023.11.17.07.26.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Nov 2023 07:26:41 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 17 Nov 2023 07:26:39 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Yin <peteryin.openbmc@gmail.com>
-Cc: patrick@stwcx.xyz, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Joel Stanley <joel@jms.id.au>,
-	Chanh Nguyen <chanh@os.amperecomputing.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] hwmon: (pmbus) Add support for MPS Multi-phase
- mp5990
-Message-ID: <68bbb3c3-7bb7-4b8f-bfb2-2fb855a9f67a@roeck-us.net>
-References: <20231113155008.2147090-1-peteryin.openbmc@gmail.com>
- <20231113155008.2147090-3-peteryin.openbmc@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KO25bMBh"
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06C01BD5;
+	Fri, 17 Nov 2023 07:41:04 -0800 (PST)
+Received: from localhost (unknown [75.104.68.237])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7C90244A;
+	Fri, 17 Nov 2023 15:41:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7C90244A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1700235664; bh=jVdq+6k0xB9ZmQtIbpMNodvqbQ2endS0oVsG7D/mifQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=KO25bMBhJlIGXc/stKmZEU18nDAzXku8rRwTyrKkMyzIWav2Sj3X7G83PeWa+8LpU
+	 wCycie+pQwo0ngPhTyu4oDbV/vp9HnJ/0o6zyqcS4LZHwY+98Nsly/NMUTZXGgcVWs
+	 v5BGeJ0pzcw8WjeoIUhxbK1sdZgJJ2cmUQlFnzfRP/knaRryvIiyJaMLTaIalwB8da
+	 R32cX7XxBYXInWnQsFQ2XiUDpjRwUwdB9u60Y1M5tJGqS1LFC54REG5zDrucylobfJ
+	 JL2CmHrXaoT3lTvaaDEeYzywNdrqY/l2oesgQ9Y1OZvjXzD7RetaUGqfNdbtUHGAZf
+	 d1kxxGOFB1ipQ==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Carlos Bilbao <carlos.bilbao@amd.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sergio.collado@gmail.com, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] docs/sp_SP: Add translation of
+ process/handling-regressions
+In-Reply-To: <20231031151325.2903088-1-carlos.bilbao@amd.com>
+References: <20231031151325.2903088-1-carlos.bilbao@amd.com>
+Date: Fri, 17 Nov 2023 08:40:57 -0700
+Message-ID: <87msvcxu9i.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231113155008.2147090-3-peteryin.openbmc@gmail.com>
+Content-Type: text/plain
 
-On Mon, Nov 13, 2023 at 11:50:08PM +0800, Peter Yin wrote:
-> Add support for mp5990 device from Monolithic Power Systems, Inc. (MPS)
-> vendor. This is a Hot-Swap Controller.
-> 
-> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-Applied together with the first patch of the series.
+> Translate Documentation/process/handling-regressions.rst into Spanish.
+>
+> Co-developed-by: Sergio Gonzalez <sergio.collado@gmail.com>
+> Signed-off-by: Sergio Gonzalez <sergio.collado@gmail.com>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> ---
+>  .../sp_SP/process/handling-regressions.rst    | 797 ++++++++++++++++++
+>  .../translations/sp_SP/process/index.rst      |   1 +
+>  2 files changed, 798 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/process/handling-regressions.rst
 
-Guenter
+Applied, thanks.
+
+jon
