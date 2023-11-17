@@ -1,94 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jif2+T+S"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53EDB1987
-	for <linux-doc@vger.kernel.org>; Fri, 17 Nov 2023 05:08:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700226505; x=1731762505;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xkaVHL3tFGeBn4BZ93EHL8cAlgVs4wOIQHp2pZFPBFw=;
-  b=jif2+T+Sv2f6+XILReHTEbY3wYJctBHek4FIBBuBtmQoiLK7fPpN3sb6
-   mD2vAVnnY1W9ouHQpPMTa0YdhgtGQtUmUjhmEePqDI3LAhJF850SvZzTA
-   hj/qJHwFiLom0pM7MeuO30Qr6iISHP/xP8Z54tbYRxd7UAG5pjC0X09MF
-   1ygtyvmCyTMIU1xd3BDZ78Um3wPNR9CXVnwbrjcDPOQRYk07E4PqV6TqG
-   t3f3faAfZt/s6Lken32ODw0XfXqwEp6JadVdFImx/JjFuByKJC6HrhXKn
-   RBwmHPNMs8Bg33lMmIjRxYoiSGJd3ybMuAqDbzrkb0ehTP+POcvYgMabE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="395222868"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="395222868"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 05:08:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="1012929239"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="1012929239"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Nov 2023 05:08:23 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3ya4-0002od-39;
-	Fri, 17 Nov 2023 13:08:20 +0000
-Date: Fri, 17 Nov 2023 21:07:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	linux-doc@vger.kernel.org
-Subject: [linux-next:master 1819/1905] htmldocs:
- ./security/landlock/ruleset.h:287: warning: This comment starts with '/**',
- but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202311172010.AfFjwTiU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="OWVZZU4a"
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567FD10D5;
+	Fri, 17 Nov 2023 05:09:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1700226503; x=1700831303; i=markus.elfring@web.de;
+	bh=iZYfyA85WBO41mIJWajYdm+66zp6Smj869NjgfI995I=;
+	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
+	 In-Reply-To;
+	b=OWVZZU4ad9bIVuYSWUi+4xtwKYx9hEdmknfy7WgxMs1XWHHCxQFiBDylSaXf7eUu
+	 3JiDluNOST0hny9812v+8ObZesB7RRvl4yTJ0Wp1NLmvKYlUhM2nVCNmrfYV9D/I7
+	 spEmHsRnEY3l128uEe7M7Ubmr7TnAoydrY5HjiK4+vAk0mKO1DDT9gdp4mrKi0dOK
+	 esuSOUhp5qHQJari9qL/nKgfLgib7Mp/6xnyKRCohMH1gi9IK69HDb4t6n4/lqd1t
+	 uUKaZIQ26AYpBinfJmq9TIHwwb/jugpOdI0NaRf/6Hixtowujq4GEwj98dZ7kR4mZ
+	 zkesh26UwHMyVzOgCA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MrOdp-1rflWC0J9z-00oImp; Fri, 17
+ Nov 2023 14:08:23 +0100
+Message-ID: <2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de>
+Date: Fri, 17 Nov 2023 14:07:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+To: Dmitry Safonov <dima@arista.com>, David Ahern <dsahern@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Andy Lutomirski
+ <luto@amacapital.net>, Ard Biesheuvel <ardb@kernel.org>,
+ Bob Gilligan <gilligan@arista.com>, Dan Carpenter <error27@gmail.com>,
+ David Laight <David.Laight@aculab.com>, Dmitry Safonov
+ <0x7f454c46@gmail.com>, Dominik Gaillardetz <dgaillar@ciena.com>,
+ Donald Cassidy <dcassidy@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Francesco Ruggeri <fruggeri05@gmail.com>,
+ Francois Tetreault <ftetreau@ciena.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Hideaki Yoshifuji <yoshfuji@linux-ipv6.org>,
+ Ivan Delalande <colona@arista.com>, Leonard Crestez <cdleonard@gmail.com>,
+ Mohammad Nassiri <mnassiri@ciena.com>,
+ Salam Noureddine <noureddine@arista.com>, Simon Horman <horms@kernel.org>
+References: <20231023192217.426455-24-dima@arista.com>
+Subject: Re: [PATCH v16 net-next 23/23] Documentation/tcp: Add TCP-AO
+ documentation
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20231023192217.426455-24-dima@arista.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8FSoGo8zdqcp7mpZWq477RGhG5Hqd7w+By7DXykamyPi+Noo7Vt
+ vVSD8kF/TLgjanN0k33t82HAauWC9lOSyztubyi5snvX+a93ra7snpLVaZJHwMkHjmQG9AP
+ o+BTP+d0WFLCHjMz08bTl5W+ZFWiBI4k0DnijEsVF55eb3p8Hqw3x9hdMDgBpfV1zxwnevo
+ pgFtPwH7l19MaQkcwpl5g==
+UI-OutboundReport: notjunk:1;M01:P0:bUxgAhWCPss=;iKMNGM0QHwl6Ll42MyaU2Zdo2hj
+ qlU0gDDLYZtkpKwRkrYShyOzipomjCrzNaLYtBlwJMRyy8SwRYiwyd3NqWOKZAKZFQ9B0waW4
+ d/Y+ugttBNPg2HRD6vb/P0RwiXXXWl3rKhs9g9J9k78lgUE0b0GvZgqLhpMMAhYWQYajimvtL
+ xG1OJch7ytNFWm/GTqdwD/pk8Ffrz20kAZVikF4i7GFf1mwU15jdgEjgea7mYBpakbsv8yT1h
+ ZileBZYvCV90QrSIxpDaieUB3fU6WJCFWiEJzSn+L/3X2TX3rB8z9mwRyievM2g04MGeilL6T
+ vY7cUpbg958ZL8BypOCfYx1N6ActPS+MHeD3mDQI2kci0v1zHk2ylQzVgShwCiCVeJZ88KauY
+ wSAirNtIV9QtaOcwabIF5hwjeeluNoOl13S8F40CafdpwpYSpMpzW6mfqNPauIIEfJ8TVuNTR
+ 40Z5bvy5w2vTCzAYJb+rJFYvWEe+2I1g4WD0KvpgZy0SI20r+YOS/JCGkvntedjuYbgTc5qkl
+ Wuz7b8SJ+s1vUBCDtdnx77iLptzfXHe3DsTNhYoUqL+P9f0gMh0hwnssP3gnHJivPFj7lBkLZ
+ iHajLsbGdCJ9jReEeoxt/SSYAIxAvqzo41bkV048iYxRdVpFKbbnnbP2KOX7Wt6mYUBpnJOxC
+ C548MES1ddI7j/fQLjz7gARDwSbvgOHEMRuUotDa05uta+cN7sUI4p+zwZ8SBSJ10dq+C5tf0
+ TwmUNQdu+OLvhmoulzelccPB3krwcSjiMLBO2v1jk7yrRGn2s694aELOVPLbZd0HE1brm6WgJ
+ akIKv3bp76Kiq4sDM2P974h8nNWJ3kN1QVpWH79+QY+g4LZjtp8gPXNvZn5E8JR2V+ls2n4Or
+ wz9178pqF1zOW37Vwz3+OjCmv/C2W9IZfyzBnFBDrdBe+FvJ74ogY0RB3m/COZQ4bPeKobdfp
+ jb+ohA==
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   eff99d8edbed7918317331ebd1e365d8e955d65e
-commit: f3672f581e951204d0ff4570a04daef1b81e182c [1819/1905] landlock: Add IOCTL access right
-reproduce: (https://download.01.org/0day-ci/archive/20231117/202311172010.AfFjwTiU-lkp@intel.com/reproduce)
+=E2=80=A6
+> +++ b/Documentation/networking/tcp_ao.rst
+> @@ -0,0 +1,444 @@
+=E2=80=A6
+> +                                          =E2=80=A6 failure. But sine k=
+eeping
+=E2=80=A6
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311172010.AfFjwTiU-lkp@intel.com/
+I find this wording improvable.
+How do you think about to use the word =E2=80=9Csince=E2=80=9D here?
 
-All warnings (new ones prefixed by >>):
-
->> ./security/landlock/ruleset.h:287: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-
-vim +287 ./security/landlock/ruleset.h
-
-   285	
-   286	/**
- > 287	 * Returns @access with the synthetic IOCTL group flags enabled if necessary.
-   288	 *
-   289	 * @handled: Handled FS access rights.
-   290	 * @access:  FS access rights to expand.
-   291	 *
-   292	 * Returns:
-   293	 * @access expanded by the necessary flags for the synthetic IOCTL access rights.
-   294	 */
-   295	static inline access_mask_t expand_all_ioctl(access_mask_t handled,
-   296						     access_mask_t access)
-   297	{
-   298		return access |
-   299		       expand_ioctl(handled, access, LANDLOCK_ACCESS_FS_WRITE_FILE,
-   300				    IOCTL_CMD_G1 | IOCTL_CMD_G2 | IOCTL_CMD_G4) |
-   301		       expand_ioctl(handled, access, LANDLOCK_ACCESS_FS_READ_FILE,
-   302				    IOCTL_CMD_G1 | IOCTL_CMD_G2 | IOCTL_CMD_G3) |
-   303		       expand_ioctl(handled, access, LANDLOCK_ACCESS_FS_READ_DIR,
-   304				    IOCTL_CMD_G1);
-   305	}
-   306	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Markus
