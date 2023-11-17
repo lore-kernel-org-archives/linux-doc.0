@@ -1,167 +1,152 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="l8tkBJCf"
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99E81B3;
-	Fri, 17 Nov 2023 08:17:59 -0800 (PST)
-Received: from localhost (unknown [75.104.68.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A3D712F3;
-	Fri, 17 Nov 2023 16:17:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A3D712F3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1700237879; bh=mFiWwbKnYfvY3qTIUsUeh4zZYBejY47lhESfh35MH8g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=l8tkBJCfW+xaqYswMUfTtjOw9T5AO/2mQFbZpmr2TYszVaIJwfXyarkk2GaUNUQ7K
-	 GVV8ZUL33tpFF16LeI2y7wBq75NDaLEMBdwyMCVsZRBO0VjiYKMMul/sopB0bt3y1d
-	 O39/v9voBBW83F6Isvk7fcwQhbmBEOS78sE/9AJrlmhbnrTyIFOq2uWlj/961jmPCX
-	 wrFKbEBxSD1dQnYcdzyutfqjhZ+vKVKDOkJgLnFVXDBcrxSJproeCQCSHyIWU1KQY3
-	 1Czc/C7BShhTO1yV+3j00FchICtnj7gBC+jsC6OVspSBUScT0k/6hVtpuAyFAzY2sN
-	 PyNtUDX4XG6mQ==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Hunter Chasens <hunter.chasens18@ncf.edu>
-Cc: linux-doc@vger.kernel.org, ardb@kernel.org, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, Hunter Chasens <hunter.chasens18@ncf.edu>
-Subject: Re: [PATCH v3 1/2] docs: admin-guide: Update bootloader and
- installation instructions
-In-Reply-To: <20231114030208.30479-1-hunter.chasens18@ncf.edu>
-References: <20231114030208.30479-1-hunter.chasens18@ncf.edu>
-Date: Fri, 17 Nov 2023 09:17:50 -0700
-Message-ID: <87wmugwdzl.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zpw8lGYl"
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 240C7C2;
+	Fri, 17 Nov 2023 08:23:54 -0800 (PST)
+Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-35930447ae9so7624405ab.2;
+        Fri, 17 Nov 2023 08:23:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700238233; x=1700843033; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8HY3OnVTgtQKIkvUFu/Wup26uztbm0Mpw/x2KgDlsNQ=;
+        b=Zpw8lGYlQFPLO3Me2jFMffy+xUITaSKhhlf5cMUIK4W4/tiT+aaGn1TlMpw9iFcekP
+         LRFBCPivmXZVMFMgq8qmcHDO678xX65IOYRTsMtWQMezaEGnUJUDCrtKz4ePnRvUItjg
+         DvvENKT1gPNfXOn+ojCHyeaRohvdZdMIHMU7XIuzpssodtAiTNUrKoTzId+hUmIZ56WJ
+         U2/P+jght3fBfCOVPDtf0qjTcl6eedAa8tXWz2Z651MAJjkUSl7ShAd1jNZU27PhaeyV
+         LLNudVfnHfuVZ0fksw7lYOp76ZLqrF1q53CRnNu6wVoMkYL0BfUO06TMGkVXLh8I8xuS
+         xc+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700238233; x=1700843033;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8HY3OnVTgtQKIkvUFu/Wup26uztbm0Mpw/x2KgDlsNQ=;
+        b=BTn7gPUFEr7ioOeNzefhJJQNceu22pG7XNbarzcJIRMF3coNfHL/z11pZOsemsLyUU
+         2oiEskFegjxY1qUisKdxJpYiuB312rL7gA0jkvTgZG6rK3t1Op0yStEf3D+ldSRRFQRD
+         cNQb4MFO3DiLu9vCU8UqrOCI0mMP41YMYGnj8vyZpLzOfGZhAhKtfBPxxYcy29at/0Gr
+         qpDfbWQvrwKapBjMgwwy6io9xwV/v9FA72KaZncoIHlLcRdFYF0oPit7zEcCeMZCVie8
+         ndQr8g8ybK+i0ryejbhW8nCL/5YYkUG0VAao3PFIreP7ki1TNZQ149uVurIPfskkL/d7
+         7oUQ==
+X-Gm-Message-State: AOJu0Yzy1aNkZGf7hMixH7hNJdW9HeVYvGTPSotM16l0z5Y3MQZJ4lVY
+	dB4TW45djvQG3LOWSy7Yo3me4/t3SyMLVJ7p9X0=
+X-Google-Smtp-Source: AGHT+IE8umluZh8kaxX4xer4Ito39mFDkbM9a2+4ENbNdd1TaPsyCYNPf/DYD9CUEAVPm8cTq7gnKp0bcCEBpoQzxoU=
+X-Received: by 2002:a05:6e02:1c89:b0:359:30de:eb42 with SMTP id
+ w9-20020a056e021c8900b0035930deeb42mr27037936ill.17.1700238233347; Fri, 17
+ Nov 2023 08:23:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20231106183159.3562879-1-nphamcs@gmail.com> <CAF8kJuMsXUm9=kiL8qPNVfYPzfyq-JWYSH3KraZadjF+myW-2A@mail.gmail.com>
+ <CAKEwX=MNKY0UHbxi6Zfwf0KkepYavFaZo8F6LGe5GyyE3U35Jg@mail.gmail.com>
+ <CAF8kJuMx4KT9z2RPy8z+snhM6YUtK=kZ1+BdHjKua2jhwFo-XQ@mail.gmail.com>
+ <CAKEwX=OpQZhDmCr-a+O0=c8LfPoO0r8y=abpQoKXWcOP+V6yYg@mail.gmail.com>
+ <CAF8kJuNnM_0jDCaAueseiNA1264-MtA0QiQtfjEN1E6aY56MKQ@mail.gmail.com> <CAF8kJuN5fBBmpOzmR72B5NBmjPNCNk4DALqz=+PKBwQrjvHH2w@mail.gmail.com>
+In-Reply-To: <CAF8kJuN5fBBmpOzmR72B5NBmjPNCNk4DALqz=+PKBwQrjvHH2w@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Fri, 17 Nov 2023 11:23:42 -0500
+Message-ID: <CAKEwX=P343G80Bfbf1R+FfSxty763Bo3WCo_Pu0GOuZSJjnxRw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] workload-specific and memory pressure-driven zswap writeback
+To: Chris Li <chrisl@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Yosry Ahmed <yosryahmed@google.com>, 
+	Seth Jennings <sjenning@redhat.com>, Dan Streetman <ddstreet@ieee.org>, 
+	Vitaly Wool <vitaly.wool@konsulko.com>, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	Shakeel Butt <shakeelb@google.com>, muchun.song@linux.dev, linux-mm <linux-mm@kvack.org>, 
+	kernel-team@meta.com, LKML <linux-kernel@vger.kernel.org>, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hunter Chasens <hunter.chasens18@ncf.edu> writes:
-
-> Updates the bootloader and installation instructions in
-> admin-guide/README.rst to align with modern practices.
+On Thu, Nov 16, 2023 at 4:57=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
 >
-> Details of Changes:
+> Hi Nhat,
 >
->  - Added guidance on using EFISTUB for UEFI/EFI systems.
->  - Noted that LILO is no longer in active development and provides
->    alternatives.
->  - Kept LILO instructions but marked as Legacy LILO Instructions.
->    Suggest removal in future patch.
+> I want want to share the high level feedback we discussed here in the
+> mailing list as well.
 >
-> Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
-> ---
->  Documentation/admin-guide/README.rst | 69 ++++++++++++++++++----------
->  1 file changed, 45 insertions(+), 24 deletions(-)
+> It is my observation that each memcg LRU list can't compare the page
+> time order with other memcg.
+> It works great when the leaf level memcg hits the memory limit and you
+> want to reclaim from that memcg.
+> It works less well on the global memory pressure you need to reclaim
+> from all memcg. You kind of have to
+> scan each all child memcg to find out the best page to shrink from. It
+> is less effective to get to the most desirable page quickly.
+>
+> This can benefit from a design similar to MGLRU. This idea is
+> suggested by Yu Zhao, credit goes to him not me.
+> In other words, the current patch is similar to the memcg page list
+> pre MGLRU world. We can have a MRLRU
+> like per memcg zswap shrink list.
 
-These seem like good changes in general.  Not too many of us are using
-LILO these days...
+I was gonna summarize the points myself :P But thanks for doing this.
+It's your idea so you're more qualified to explain this anyway ;)
 
-> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-> index 9a969c0157f1..ad53f4245379 100644
-> --- a/Documentation/admin-guide/README.rst
-> +++ b/Documentation/admin-guide/README.rst
-> @@ -262,9 +262,11 @@ Compiling the kernel
->   - Make sure you have at least gcc 5.1 available.
->     For more information, refer to :ref:`Documentation/process/changes.rst <changes>`.
->  
-> - - Do a ``make`` to create a compressed kernel image. It is also
-> -   possible to do ``make install`` if you have lilo installed to suit the
-> -   kernel makefiles, but you may want to check your particular lilo setup first.
-> + - Do a ``make`` to create a compressed kernel image. It is also possible to do
-> +   ``make install`` if you have lilo installed or if your distribution has an
-> +   install script recognised by the kernel's installer. Most popular
-> +   distributions will have a recognized install script. You may want to
-> +   check your distribution's setup first.
+I absolutely agree that having a generation-aware cgroup-aware
+NUMA-aware LRU is the future way to go. Currently, IIUC, the reclaim logic
+selects cgroups in a round-robin-ish manner. It's "fair" in this perspectiv=
+e,
+but I also think it's not ideal. As we have discussed, the current list_lru
+infrastructure only take into account intra-cgroup relative recency, not
+inter-cgroup relative recency. The recently proposed time-based zswap
+reclaim mechanism will provide us with a source of information, but the
+overhead of using this might be too high - and it's very zswap-specific.
 
-Is there a reason to not just suggest looking for installkernel by name?
-This seems more obscure than it needs to be.
+Maybe after this, we should improve zswap reclaim (and perhaps all
+list_lru users) by adding generations to list_lru then take generations
+into account in the vmscan code. This patch series could be merged
+as-is, and once we make list_lru generation-aware, zswap shrinker
+will automagically be improved (along with all other list_lru/shrinker
+users).
 
->     To do the actual install, you have to be root, but none of the normal
->     build should require that. Don't take the name of root in vain.
-> @@ -301,32 +303,51 @@ Compiling the kernel
->     image (e.g. .../linux/arch/x86/boot/bzImage after compilation)
->     to the place where your regular bootable kernel is found.
->  
-> - - Booting a kernel directly from a floppy without the assistance of a
-> -   bootloader such as LILO, is no longer supported.
-> -
-> -   If you boot Linux from the hard drive, chances are you use LILO, which
-> -   uses the kernel image as specified in the file /etc/lilo.conf.  The
-> -   kernel image file is usually /vmlinuz, /boot/vmlinuz, /bzImage or
-> -   /boot/bzImage.  To use the new kernel, save a copy of the old image
-> -   and copy the new image over the old one.  Then, you MUST RERUN LILO
-> -   to update the loading map! If you don't, you won't be able to boot
-> -   the new kernel image.
-> -
-> -   Reinstalling LILO is usually a matter of running /sbin/lilo.
-> -   You may wish to edit /etc/lilo.conf to specify an entry for your
-> -   old kernel image (say, /vmlinux.old) in case the new one does not
-> -   work.  See the LILO docs for more information.
-> -
-> -   After reinstalling LILO, you should be all set.  Shutdown the system,
-> + - Booting a kernel directly from non-volatile memory (e.g. a hard drive)
+I don't know enough about the current design of MGLRU to comment
+too much further, but let me know if this makes sense, and if you have
+objections/other ideas.
 
-"non-volatile memory" has a bit of a different meaning that could
-confuse things here.  "a storage device" perhaps?
+And if you have other documentations for MGLRU than its code, could
+you please let me know? I'm struggling to find more details about this.
 
-> +   without the assistance of a bootloader such as LILO or GRUB, is no longer
-> +   supported in BIOS (non-EFI systems). On UEFI/EFI systems, however, you can
-> +   use EFISTUB which allows the motherboard to boot directly to the kernel.
-> +   On modern workstations and desktops, it's generally recommended to use a
-> +   bootloader as difficulties can arise with multiple kernels and secure boot.
-> +   For more details on EFISTUB,
-> +   see :ref:`Documentation/admin-guide/efi-stub.rst <efi_stub>`.
 
-You can just say "see Documentation/admin-guide/efi-stub.rst" here
-without the extra markup.
-
-> + - It's important to note that as of 2016 LILO (LInux LOader) is no longer in
-> +   active development, though as it was extremely popular, it often comes up
-> +   in documentation. Popular alternatives include GRUB2, rEFInd, Syslinux,
-> +   systemd-boot, or EFISTUB. For various reasons, it's not recommended to use
-> +   software that's no longer in active development.
-
-I honestly wonder if we need to mention LILO at all here.
-
-> + - Chances are your distribution includes an install script and running
-> +   ``make install`` will be all that's needed. Should that not be the case
-> +   you'll have to identify your bootloader and reference its documentation or
-> +   configure your EFI.
-
-Again, name the script directly.
-
-> +Legacy LILO Instructions
-> +------------------------
-> +
-> +
-> + - If you use LILO the kernel images are specified in the file /etc/lilo.conf.
-> +   The kernel image file is usually /vmlinuz, /boot/vmlinuz, /bzImage or
-> +   /boot/bzImage. To use the new kernel, save a copy of the old image and copy
-> +   the new image over the old one. Then, you MUST RERUN LILO to update the
-> +   loading map! If you don't, you won't be able to boot the new kernel image.
-> +
-> + - Reinstalling LILO is usually a matter of running /sbin/lilo. You may wish
-> +   to edit /etc/lilo.conf to specify an entry for your old kernel image
-> +   (say, /vmlinux.old) in case the new one does not work. See the LILO docs
-> +   for more information.
-> +
-> + - After reinstalling LILO, you should be all set. Shutdown the system,
->     reboot, and enjoy!
->  
-> -   If you ever need to change the default root device, video mode,
-> -   etc. in the kernel image, use your bootloader's boot options
-> -   where appropriate.  No need to recompile the kernel to change
-> -   these parameters.
-> + - If you ever need to change the default root device, video mode, etc. in the
-> +   kernel image, use your bootloader's boot options where appropriate. No need
-> +   to recompile the kernel to change these parameters.
->  
->   - Reboot with the new kernel and enjoy.
-
-If it were me I'd probably take this out too...but somebody is bound to
-complain.
-
-Thanks,
-
-jon
+>
+>
+> Chris
+>
+> On Wed, Nov 8, 2023 at 6:10=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote=
+:
+> >
+> > On Wed, Nov 8, 2023 at 4:28=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wr=
+ote:
+> > >
+> > > Hmm my guess is that I probably sent this out based on an outdated
+> > > mm-unstable. There has since been a new zswap selftest merged
+> > > to mm-unstable (written by no other than myself - oh the irony), so
+> > > maybe it does not apply cleanly anymore with git am.
+> >
+> > $ git am -3 patches/zswap-pool-lru/0005
+> > Applying: selftests: cgroup: update per-memcg zswap writeback selftest
+> > Using index info to reconstruct a base tree...
+> > M       tools/testing/selftests/cgroup/test_zswap.c
+> > Falling back to patching base and 3-way merge...
+> > Auto-merging tools/testing/selftests/cgroup/test_zswap.c
+> > $ git am -3 patches/zswap-pool-lru/0006
+> > Applying: zswap: shrinks zswap pool based on memory pressure
+> > error: sha1 information is lacking or useless (mm/zswap.c).
+> > error: could not build fake ancestor
+> > Patch failed at 0001 zswap: shrinks zswap pool based on memory pressure
+> > hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
+> > When you have resolved this problem, run "git am --continue".
+> > If you prefer to skip this patch, run "git am --skip" instead.
+> > To restore the original branch and stop patching, run "git am --abort".
+> >
+> > I was able to resolve the conflict on patch 6 by hand though. So I am g=
+ood now.
+> >
+> > Thanks
+> >
+> > Chris
