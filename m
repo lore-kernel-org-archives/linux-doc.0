@@ -1,33 +1,33 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KO25bMBh"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YnZMivVL"
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06C01BD5;
-	Fri, 17 Nov 2023 07:41:04 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678291706;
+	Fri, 17 Nov 2023 07:42:56 -0800 (PST)
 Received: from localhost (unknown [75.104.68.237])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7C90244A;
-	Fri, 17 Nov 2023 15:41:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7C90244A
+	by ms.lwn.net (Postfix) with ESMTPSA id 5F22144A;
+	Fri, 17 Nov 2023 15:42:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5F22144A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1700235664; bh=jVdq+6k0xB9ZmQtIbpMNodvqbQ2endS0oVsG7D/mifQ=;
+	t=1700235776; bh=y5uEFwYQ2yewPkjfR6+VJLmqWoBBC8vTFyqS4NCQCkg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KO25bMBhJlIGXc/stKmZEU18nDAzXku8rRwTyrKkMyzIWav2Sj3X7G83PeWa+8LpU
-	 wCycie+pQwo0ngPhTyu4oDbV/vp9HnJ/0o6zyqcS4LZHwY+98Nsly/NMUTZXGgcVWs
-	 v5BGeJ0pzcw8WjeoIUhxbK1sdZgJJ2cmUQlFnzfRP/knaRryvIiyJaMLTaIalwB8da
-	 R32cX7XxBYXInWnQsFQ2XiUDpjRwUwdB9u60Y1M5tJGqS1LFC54REG5zDrucylobfJ
-	 JL2CmHrXaoT3lTvaaDEeYzywNdrqY/l2oesgQ9Y1OZvjXzD7RetaUGqfNdbtUHGAZf
-	 d1kxxGOFB1ipQ==
+	b=YnZMivVLK3liC2PcXQ6p5IxcE82VN32R7yai4c8viHHfKZ/K3+wsKaXR/Lj5Er59f
+	 +JSONrVZnn78ydyuzSMQD1RtJIFPp7iWXfWAxRsyMstt4g1lC2snZQECrA49JNfKJb
+	 SZeKQ6Y2z3eeVpsyN/6PeqUi325H7w2uvZktQuWX3UY5sCe/3VVK70JyLXDBOtrUX3
+	 VgPnDMrGrcPiO9kqmprSyeK7e3AjyhHIyL7nda0+yb9KyYri/F0a6psUb+rfXej86T
+	 KEehhaVPIChEueKQIVYjOnHb/0ojhaOtArPXe6m3AJ6SGqvEz/fwB1YC5i3Ve9Yg7B
+	 ckA9Rb177FPlQ==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Carlos Bilbao <carlos.bilbao@amd.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- sergio.collado@gmail.com, Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH] docs/sp_SP: Add translation of
- process/handling-regressions
-In-Reply-To: <20231031151325.2903088-1-carlos.bilbao@amd.com>
-References: <20231031151325.2903088-1-carlos.bilbao@amd.com>
-Date: Fri, 17 Nov 2023 08:40:57 -0700
-Message-ID: <87msvcxu9i.fsf@meer.lwn.net>
+To: Ariel Miculas <amiculas@cisco.com>, linux-doc@vger.kernel.org
+Cc: serge@hallyn.com, Ariel Miculas <amiculas@cisco.com>, "Matthew Wilcox
+ (Oracle)" <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: vfs: fix typo in struct xattr_handlers
+In-Reply-To: <20231027152101.226296-1-amiculas@cisco.com>
+References: <20231027152101.226296-1-amiculas@cisco.com>
+Date: Fri, 17 Nov 2023 08:42:48 -0700
+Message-ID: <87il60xu6f.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -36,18 +36,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+Ariel Miculas <amiculas@cisco.com> writes:
 
-> Translate Documentation/process/handling-regressions.rst into Spanish.
+> The structure is called struct xattr_handler, singular, not plural.
+> Fixing the typo also makes it greppable with the whole word matching
+> flag.
 >
-> Co-developed-by: Sergio Gonzalez <sergio.collado@gmail.com>
-> Signed-off-by: Sergio Gonzalez <sergio.collado@gmail.com>
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> Signed-off-by: Ariel Miculas <amiculas@cisco.com>
 > ---
->  .../sp_SP/process/handling-regressions.rst    | 797 ++++++++++++++++++
->  .../translations/sp_SP/process/index.rst      |   1 +
->  2 files changed, 798 insertions(+)
->  create mode 100644 Documentation/translations/sp_SP/process/handling-regressions.rst
+>  Documentation/filesystems/vfs.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+> index 99acc2e98673..276a219ff8d9 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -437,7 +437,7 @@ field.  This is a pointer to a "struct inode_operations" which describes
+>  the methods that can be performed on individual inodes.
+>  
+>  
+> -struct xattr_handlers
+> +struct xattr_handler
+>  ---------------------
 
 Applied, thanks.
 
