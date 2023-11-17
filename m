@@ -1,101 +1,108 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vnge7/5b"
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A9CD1A1;
-	Thu, 16 Nov 2023 20:54:14 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6b77ab73c6fso1215846b3a.1;
-        Thu, 16 Nov 2023 20:54:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700196854; x=1700801654; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/lmKwmdeL65ZlMvWyE8ViyW/IEvLXZ106QkyWY1HoSE=;
-        b=Vnge7/5biuqSbk0RzDLJ+6eoIX/gdp1M90IHNnXc34hA24LYKK36nbuFSp5Itej4jD
-         B7aUS1/O5ekEtWFsxhwzDCteEoteXGg+0PpdcVuzlbPB3SMhn3/IMynZlaBQmAalNb0n
-         rmL7M9mlC5YKukCNQE8qp/juNsUaixBVg2pwv1wvVAiJF2tAquCsAtkjpJi4SXoXIdv7
-         F4+S1pfyR0aiFTVQZMFif1Y4jOvN42qvMAEJrtcvxoW7nFiZdSvC4G6VUQBIUim+UxZJ
-         6eJdVcvZ7XJvprVAFKEHV4qCqZaNVAYfB3UUU04o3CUu3DNMYi7bhSwIascyyfeVJbp3
-         fZ+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700196854; x=1700801654;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/lmKwmdeL65ZlMvWyE8ViyW/IEvLXZ106QkyWY1HoSE=;
-        b=UJqOY8TQ6WhS2IMtyRY63v2rYoTvKF2mAhqOxXJdyPWCNF5xp4MvKKRc1SXtDA3YlX
-         0K4fdcYADmlxOafEwRVn84P/nMOJqa9wlwU6p/hqr3T7dv0dC2H2a75UOYTPpT+Zxrm7
-         4h4zlAfM65b7i+bKh62T8/eqKmCB59DQjs8HPWCQkPK10nwTao9dqczjjg1BcUfsDCTq
-         4nedr3zr47lxJL4IU/C+HnqNHu3HFfBQyGKUBQpX1beOBEnlHI8QzQ9P1v+lXJ1tsQpy
-         A2wTPmotMBzpa/lD4h31+yLw63g1BqIgP/k7edDnNkkvxVJJodYBUjwmpPcD9VXzmAzd
-         CJuA==
-X-Gm-Message-State: AOJu0Yz/fNLC7RtBiEz9vU1lG33qcqnhSuk7f4z7WD3stw9GWOU7hnVR
-	Rvt4s3+nVbN9YVf8Q/RXTYBTWR6S4tU=
-X-Google-Smtp-Source: AGHT+IGEWBjc364kyBtrL2ltQbOgcPCiHETUvmBsIqW35a7IsgEIWjdVMMe5fccFaEPw0ylxLY/kTA==
-X-Received: by 2002:a05:6a00:310f:b0:6c4:d6fa:ee9d with SMTP id bi15-20020a056a00310f00b006c4d6faee9dmr5104694pfb.1.1700196853698;
-        Thu, 16 Nov 2023 20:54:13 -0800 (PST)
-Received: from [10.10.14.80] (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id v1-20020aa78081000000b0065a1b05193asm568042pff.185.2023.11.16.20.54.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Nov 2023 20:54:13 -0800 (PST)
-Message-ID: <7080c9f3-2a57-4855-be1b-9a206f6ef8e1@gmail.com>
-Date: Fri, 17 Nov 2023 12:52:33 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SU3UIyeb"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B30B0;
+	Fri, 17 Nov 2023 00:33:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700209995; x=1731745995;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=LadFFOa9cUtU7ECOTPF5KVOGh+N1azQgLZ4EmevYVpc=;
+  b=SU3UIyebWj6jGxHRvX05dBpekQ3zEExgY9zDPj9Cza05QwwJa/uFxuKk
+   Xu0VPEg53DQ9vX3zskiOb7rCVhXDKlL96mIrpWuuaCgdTJD4v4IF15/E1
+   uEiLLzSYU+0Vmj0NGR5RdHW0DMVZdlShBQXsOWHBDLJzgNqTzL84Nx0zx
+   sYhfnC8BRaHYSaIlESiNxNuS/5Z2eVnltb9N/h1nOSvo/qaqJlh+GXDWm
+   qRkTBBJKgopU5+5yuChI7WzHWU+yXkGOVSyYpR1Lir8efG2XT0Z2YTARd
+   aRP6b2gCmHTlYdCQR5FaWUdi8E5XYrspDa1lqYb7R25jBQLULBhm4pE5z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="422355776"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="422355776"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 00:33:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="13846915"
+Received: from jpoulsen-mobl.ger.corp.intel.com (HELO [10.249.254.136]) ([10.249.254.136])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 00:33:11 -0800
+Message-ID: <a1cbe3e8-2b2c-150a-7919-65bdd38f75be@linux.intel.com>
+Date: Fri, 17 Nov 2023 09:33:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: Add mps mp5990 driver bindings
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v4] Documentation/gpu: VM_BIND locking document
 Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: patrick@stwcx.xyz, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Joel Stanley <joel@jms.id.au>,
- Chanh Nguyen <chanh@os.amperecomputing.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20231113155008.2147090-1-peteryin.openbmc@gmail.com>
- <20231113155008.2147090-2-peteryin.openbmc@gmail.com>
- <a3445201-58f2-42c6-bef7-ca6968fd80d6@roeck-us.net>
- <69657f96-4849-4134-911d-4785d5d6b8d8@gmail.com>
- <140086a7-c89d-48b7-9574-7db28dcc056e@roeck-us.net>
-From: PeterYin <peteryin.openbmc@gmail.com>
-In-Reply-To: <140086a7-c89d-48b7-9574-7db28dcc056e@roeck-us.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, intel-xe@lists.freedesktop.org
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Oak Zeng <oak.zeng@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>
+References: <20231115124937.6740-1-thomas.hellstrom@linux.intel.com>
+ <ZVYVk8KutkQE0RDU@archie.me>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <ZVYVk8KutkQE0RDU@archie.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Hi,
 
 
-Guenter Roeck 於 11/17/23 12:16 寫道:
-> On Fri, Nov 17, 2023 at 11:18:47AM +0800, PeterYin wrote:
->>
->>
->> Guenter Roeck 於 11/16/23 06:27 寫道:
->>> On Mon, Nov 13, 2023 at 11:50:07PM +0800, Peter Yin wrote:
->>>> Add a device tree bindings for mp5990 device.
->>>>
->>>> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
->>>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->>>
->>> What branch is this patch based on ? git fails to apply it.
->>>
->>> Guenter
->> I think I don't pull the last version. I can rebase it and push the new
->> version. Thanks for your feedback.
-> 
-> Question is: Last version of what ? Best would be if it was based
-> on mainline.
-> 
-> Thanks,
-> Guenter
+On 11/16/23 14:13, Bagas Sanjaya wrote:
+> On Wed, Nov 15, 2023 at 01:49:37PM +0100, Thomas Hellström wrote:
+>> +TODO: Pointer to the gpuvm code implementation if this iteration and
+> "... implementation of this iteration ..."
+>
+>> +Using a MMU notifier for device DMA (and other methods) is described in
+>> +`this document
+>> +<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
+> You can use internal linking instead:
+>
+> ---- >8 ----
+> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
+> index d3c1f6d8c0e0ec..6b5f7e6e7155fb 100644
+> --- a/Documentation/core-api/pin_user_pages.rst
+> +++ b/Documentation/core-api/pin_user_pages.rst
+> @@ -153,6 +153,8 @@ NOTE: Some pages, such as DAX pages, cannot be pinned with longterm pins. That's
+>   because DAX pages do not have a separate page cache, and so "pinning" implies
+>   locking down file system blocks, which is not (yet) supported in that way.
+>   
+> +.. _mmu-notifier-registration-case:
+> +
+>   CASE 3: MMU notifier registration, with or without page faulting hardware
+>   -------------------------------------------------------------------------
+>   Device drivers can pin pages via get_user_pages*(), and register for mmu
+> diff --git a/Documentation/gpu/drm-vm-bind-locking.rst b/Documentation/gpu/drm-vm-bind-locking.rst
+> index bc701157cb3414..08b6a47a6e592f 100644
+> --- a/Documentation/gpu/drm-vm-bind-locking.rst
+> +++ b/Documentation/gpu/drm-vm-bind-locking.rst
+> @@ -366,8 +366,7 @@ need to care about, but so far it has proven difficult to exclude
+>   certain notifications.
+>   
+>   Using a MMU notifier for device DMA (and other methods) is described in
+> -`this document
+> -<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
+> +:ref:`pin_user_pages() documentation <mmu-notifier-registration-case>`.
+>   
+>   Now the method of obtaining struct page references using
+>   get_user_pages() unfortunately can't be used under a dma_resv lock
+>
+> Thanks.
+>
+Thanks. I'll take a look at doing this as well.
 
-It is base on Linux 6.5.4, OpenBMC Kernel tree
-https://github.com/openbmc/linux/commit/2ba0babe7865cd5f4fac3d76ad15d9b6131bd283
+Thomas
 
-I can regenerate it on mainline.
 
-Thanks,
-Peter.
+
