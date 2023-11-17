@@ -1,91 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D87B7;
-	Fri, 17 Nov 2023 01:20:48 -0800 (PST)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1r3v0v-000aCz-Kl; Fri, 17 Nov 2023 17:19:50 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 17 Nov 2023 17:19:57 +0800
-Date: Fri, 17 Nov 2023 17:19:57 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: David Gstir <david@sigma-star.at>
-Cc: Mimi Zohar <zohar@linux.ibm.com>, James Bottomley <jejb@linux.ibm.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Shawn Guo <shawnguo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	sigma star Kernel Team <upstream+dcp@sigma-star.at>,
-	David Howells <dhowells@redhat.com>, Li Yang <leoyang.li@nxp.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Tejun Heo <tj@kernel.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-security-module@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>,
-	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-Subject: Re: [PATCH v4 1/5] crypto: mxs-dcp: Add support for hardware-bound
- keys
-Message-ID: <ZVcwPUEbu3Frp61X@gondor.apana.org.au>
-References: <20231024162024.51260-1-david@sigma-star.at>
- <20231024162024.51260-2-david@sigma-star.at>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jZ9cW8hN"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130BDD75;
+	Fri, 17 Nov 2023 01:44:32 -0800 (PST)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AH6Zubf011447;
+	Fri, 17 Nov 2023 09:44:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Nzl53A6Ojw58hiwRHky2IDpvZAfop6W4exn3T6bQhDU=;
+ b=jZ9cW8hNI+pOhn9EpQImjvx/GYQg3jwg0jD5pWc2YD2lqPJDupizcrUko1CZrjsYcLCk
+ qaV+hDOCJzzj3DV4M/L8WD2bwMYkhKMFiXQWgA7v4gKcqlHLs2BGxy8N8hkl9r5L9AFs
+ +0Ug1budM0Yq6l8tpE2SCvk8fuLuEJ/xkh5skULgd3JaYKW2DQ3eqB0un4nzvrVA/QX4
+ kZwxjvhb0bASnfjqSgQ+Lu8mJ3vV/iw0ZtH9m3u0w1FSsXaM20co7oviW8H5NUwvFiLk
+ lV9UIRPo08rAGr+AEQCN4OyO1f7+ZATbdxAqXWgvelOdQMkqGrhtAjNNlmjuiV3IB2Hg sA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3udmw42afx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 Nov 2023 09:44:15 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AH9iESh005756
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 Nov 2023 09:44:14 GMT
+Received: from [10.253.8.81] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 17 Nov
+ 2023 01:44:10 -0800
+Message-ID: <5103699f-375d-4752-bcb0-9abeb0a86fbe@quicinc.com>
+Date: Fri, 17 Nov 2023 17:44:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231024162024.51260-2-david@sigma-star.at>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/6] dt-bindings: net: ethernet-controller: add
+ 10g-qxgmii mode
+To: Conor Dooley <conor@kernel.org>
+CC: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231116112437.10578-1-quic_luoj@quicinc.com>
+ <20231116112437.10578-3-quic_luoj@quicinc.com>
+ <20231116-flier-washed-eb1a45481323@squawk>
+Content-Language: en-US
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <20231116-flier-washed-eb1a45481323@squawk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Cv7HkOtzsQ3YuNaZP_jp_-b9y1wY-gs7
+X-Proofpoint-ORIG-GUID: Cv7HkOtzsQ3YuNaZP_jp_-b9y1wY-gs7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-17_07,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=972
+ clxscore=1015 suspectscore=0 mlxscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311170071
 
-On Tue, Oct 24, 2023 at 06:20:15PM +0200, David Gstir wrote:
-> DCP is capable of performing AES with two hardware-bound keys:
-> 
-> - The one-time programmable (OTP) key which is burnt via on-chip fuses
-> - The unique key (UK) which is derived from the OTP key
-> 
-> In addition to the two hardware-bound keys, DCP also supports
-> storing keys in 4 dedicated key slots within its secure memory area
-> (internal SRAM).
-> 
-> These keys are not stored in main memory and are therefore
-> not directly accessible by the operating system. To use them
-> for AES operations, a one-byte key reference has to supplied
-> with the DCP operation descriptor in the control register.
-> 
-> This adds support for using any of these 6 keys through the crypto API
-> via their key reference after they have been set up. The main purpose
-> is to add support for DCP-backed trusted keys. Other use cases are
-> possible too (see similar existing paes implementations), but these
-> should carefully be evaluated as e.g. enabling AF_ALG will give
-> userspace full access to use keys. In scenarios with untrustworthy
-> userspace, this will enable en-/decryption oracles.
-> 
-> Co-developed-by: Richard Weinberger <richard@nod.at>
-> Signed-off-by: Richard Weinberger <richard@nod.at>
-> Co-developed-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-> Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-> Signed-off-by: David Gstir <david@sigma-star.at>
-> ---
->  drivers/crypto/mxs-dcp.c | 104 ++++++++++++++++++++++++++++++++++-----
->  include/soc/fsl/dcp.h    |  17 +++++++
->  2 files changed, 110 insertions(+), 11 deletions(-)
->  create mode 100644 include/soc/fsl/dcp.h
 
-Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+
+On 11/16/2023 10:22 PM, Conor Dooley wrote:
+> On Thu, Nov 16, 2023 at 07:24:33PM +0800, Luo Jie wrote:
+>> Add the new interface mode 10g-qxgmii, which is similar to
+>> usxgmii but extend to 4 channels to support maximum of 4
+>> ports with the link speed 10M/100M/1G/2.5G.
+>>
+> 
+>> This patch is separated from Vladimir Oltean's previous patch
+>> <net: phy: introduce core support for phy-mode = "10g-qxgmii">.
+> 
+> This belongs in the changelog under the --- line.
+
+will move out these two lines.
+
+> 
+>>
+>> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> 
+> Are you missing a from: line in this patch?
+
+will modify the author in the next patch set.
+
+> 
+>> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+> 
+> Otherwise,
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+> Cheers,
+> Conor.
+> 
+>> ---
+>>   Documentation/devicetree/bindings/net/ethernet-controller.yaml | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+>> index d14d123ad7a0..0ef6103c5fd8 100644
+>> --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+>> +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+>> @@ -104,6 +104,7 @@ properties:
+>>         - usxgmii
+>>         - 10gbase-r
+>>         - 25gbase-r
+>> +      - 10g-qxgmii
+>>   
+>>     phy-mode:
+>>       $ref: "#/properties/phy-connection-type"
+>> -- 
+>> 2.42.0
+>>
