@@ -1,31 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IC7T0Djf"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bPeyQUbL"
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC59CE6
-	for <linux-doc@vger.kernel.org>; Fri, 17 Nov 2023 07:52:32 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BFA790;
+	Fri, 17 Nov 2023 08:05:47 -0800 (PST)
 Received: from localhost (unknown [75.104.68.237])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 95EB644A;
-	Fri, 17 Nov 2023 15:52:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 95EB644A
+	by ms.lwn.net (Postfix) with ESMTPSA id 7133944A;
+	Fri, 17 Nov 2023 16:05:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7133944A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1700236352; bh=f5f7qZ888nv6RUgDnnDH5JYXJ4dojwp+DFeQyGhkCrQ=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=IC7T0Djf8jBf9OPY3kg8xjKw0vEXNdF6k9rTmSk8730hpkfwV8aDJ0r6qERPJeOQt
-	 LYwuDeNief0tHynZr0Sz54bBKfHw27z8fuJFHq9Vf+jwcaBo9aO6kjMmLqaSiUhmru
-	 ajbxAzLrbNj5BSReCxed9Q0Wrtip0omOmBZQgq9ueDjIsbJqeW4u9cEbLHNxBykzNH
-	 Wy6QkUnmqaDjLuumNISr/VNYXZgt+gRhhgVLwyEhCOEM69bUnVtXnLzwp7CQkmMMcf
-	 FwamzohKbFqreBgeA8v15DXPfUDP950G1S0mN5mBKUnJ5Pk9UUZ6B/wzS7F4yAj8Xl
-	 dGjaPUuIJgRMQ==
+	t=1700237147; bh=myvsvcwBTDBu3p8ZQoWupR+ELqvD/OSm6vnUBlIuGTQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=bPeyQUbLOIqLYf53j98jes4jr241IzIS0ZTgfw6KMyS+Humgt5plQRDTIiMx55J5C
+	 F5cUIUaU1fr4tkMFTvBiFmyNn2xCxscXi/r90CXgOnOI9ynY2wfIJn98KizriTtDjE
+	 fQWc9NacEz3GlldanAzg1NCZia+utXGem24s0tlMucodPELzMFOqywYAU4WVF8KCsm
+	 M6+xZD8FDlq8Et1l05W+GETtzhmojaiv+DiMYO41phgzSP/srr9MKKPO8VLARLVt91
+	 LewnLj19oy3HL4GSKlZPNvkuQ+Ivlm/WuhSiMUCocB2ADj7Sret/WdugIAa1x73b02
+	 NKXxh4hmUdu4Q==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- linux-doc@vger.kernel.org, Brian Johannesmeyer <bjohannesmeyer@gmail.com>
-Subject: Re: [PATCH] docs: dma-api: Fix description of the sync_sg API
-In-Reply-To: <20231103162120.3474026-1-bjohannesmeyer@gmail.com>
-References: <20231103162120.3474026-1-bjohannesmeyer@gmail.com>
-Date: Fri, 17 Nov 2023 08:52:24 -0700
-Message-ID: <87a5rcxtqf.fsf@meer.lwn.net>
+To: Hu Haowen <2023002089@link.tyut.edu.cn>
+Cc: Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/zh_TW: replace my email address
+In-Reply-To: <20231106140140.25455-1-2023002089@link.tyut.edu.cn>
+References: <20231106140140.25455-1-2023002089@link.tyut.edu.cn>
+Date: Fri, 17 Nov 2023 09:05:33 -0700
+Message-ID: <875y20xt4i.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -34,28 +35,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Brian Johannesmeyer <bjohannesmeyer@gmail.com> writes:
+Hu Haowen <2023002089@link.tyut.edu.cn> writes:
 
-> Fix the description of the parameters to dma_sync_sg*. They should be the
-> same as the parameters to dma_map_sg(), not dma_map_single().
+> The Gmail address will not be used often from now on, and replace it
+> with the email which is more frequently accessed by myself.
 >
-> Signed-off-by: Brian Johannesmeyer <bjohannesmeyer@gmail.com>
-> ---
->  Documentation/core-api/dma-api.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-> index 829f20a193ca..8e3cce3d0a23 100644
-> --- a/Documentation/core-api/dma-api.rst
-> +++ b/Documentation/core-api/dma-api.rst
-> @@ -448,7 +448,7 @@ DMA address entries returned.
->  
->  Synchronise a single contiguous or scatter/gather mapping for the CPU
->  and device. With the sync_sg API, all the parameters must be the same
-> -as those passed into the single mapping API. With the sync_single API,
-> +as those passed into the sg mapping API. With the sync_single API,
->  you can use dma_handle and size parameters that aren't identical to
+> Signed-off-by: Hu Haowen <2023002089@link.tyut.edu.cn>
 
-Applied, thanks.
+Applied.  Hopefully this one will last a little longer.
 
 jon
