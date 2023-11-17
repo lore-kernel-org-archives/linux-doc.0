@@ -1,89 +1,150 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="OWVZZU4a"
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567FD10D5;
-	Fri, 17 Nov 2023 05:09:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1700226503; x=1700831303; i=markus.elfring@web.de;
-	bh=iZYfyA85WBO41mIJWajYdm+66zp6Smj869NjgfI995I=;
-	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
-	 In-Reply-To;
-	b=OWVZZU4ad9bIVuYSWUi+4xtwKYx9hEdmknfy7WgxMs1XWHHCxQFiBDylSaXf7eUu
-	 3JiDluNOST0hny9812v+8ObZesB7RRvl4yTJ0Wp1NLmvKYlUhM2nVCNmrfYV9D/I7
-	 spEmHsRnEY3l128uEe7M7Ubmr7TnAoydrY5HjiK4+vAk0mKO1DDT9gdp4mrKi0dOK
-	 esuSOUhp5qHQJari9qL/nKgfLgib7Mp/6xnyKRCohMH1gi9IK69HDb4t6n4/lqd1t
-	 uUKaZIQ26AYpBinfJmq9TIHwwb/jugpOdI0NaRf/6Hixtowujq4GEwj98dZ7kR4mZ
-	 zkesh26UwHMyVzOgCA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MrOdp-1rflWC0J9z-00oImp; Fri, 17
- Nov 2023 14:08:23 +0100
-Message-ID: <2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de>
-Date: Fri, 17 Nov 2023 14:07:47 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b/bNl4Rz"
+Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76C06127;
+	Fri, 17 Nov 2023 05:57:30 -0800 (PST)
+Received: by mail-oo1-xc31.google.com with SMTP id 006d021491bc7-586753b0ab0so1021285eaf.0;
+        Fri, 17 Nov 2023 05:57:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700229450; x=1700834250; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HZqiZe2Na/M2o6TjGam06jgQj8VYgWS8+wJ9Q11mHeE=;
+        b=b/bNl4RznYFQrTDYbh6JOomtaWP9uxpPMVaZTCbPp4gCGF+dGowRLs3zjgxSG+8Ird
+         JdUvl5TrwohWYKk7hUQSzhbJw5d9qzx6+jrqZ0THtgYSwyYlSGIZzSbwy5zINBvOEGfM
+         4bchRBfoyR4uxCaUvKm4GYM9NTMwx+T8XPHHHza/Dn3LIUpbMF1Vfxly+++VkwIk3wsX
+         +LcVrMH9j1lS2Rxw/zserUehgYxQaikxRDgRKkFLEtTrhmjRBJAy+12J/6P3uDTB6/ri
+         U6jAz3MoVqI5PmSAaJApIT4PoY897qKSgutVwfQF15l/U+eyuhl+9huwqgaC/pRqeBwW
+         ZRzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700229450; x=1700834250;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HZqiZe2Na/M2o6TjGam06jgQj8VYgWS8+wJ9Q11mHeE=;
+        b=ky51niPc9o5gug8+sDihbvF2TElxyhhKZyP9o+rz1z9vka7HEXFto9CfakG1sOh66q
+         RHxEVQjKT5KhFE7EChkbSXtA3QwvwFaxO1uJrc4/XkTk+v4zTxMkfZBMXLIdGaQ5dMPo
+         Z0+gXctH1yY0D4x6wa2Gq1XllaNEb+lNqLREX4UnMNftPiNqbYdAjT9PWrLG9YkJnVS8
+         UaS8wlJu5fRENngqwrGQSPzL3IQ2yxFGO+UVZoprZdovEY8j70Mo5dqWNPOffwENNQbB
+         hC0metUDDYwAFDyWAhhr2zloRod67WzpESyoTGxOvRhDNbxuiHagaWcMYmCckZK/PcfS
+         ZtFQ==
+X-Gm-Message-State: AOJu0Yy51C+DRpTMb90lTGiZ02UqKucZGeTS3lO91VUv2XLMsSoi52iC
+	8RQxv5Hw2BUWJV/mSgOmtmx4znZY/c6EslcINEco8aegg2jGlg==
+X-Google-Smtp-Source: AGHT+IGt8YOeNreqecPcygIAHwGujqNzfI1QiDHel/vlu7LoL74duxjWp0RZmpMS8lA3viykBy1GndXGqo5mEm8kGeQ=
+X-Received: by 2002:a4a:9203:0:b0:581:f6d8:5ca2 with SMTP id
+ f3-20020a4a9203000000b00581f6d85ca2mr18524777ooh.6.1700229449572; Fri, 17 Nov
+ 2023 05:57:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Dmitry Safonov <dima@arista.com>, David Ahern <dsahern@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Andy Lutomirski
- <luto@amacapital.net>, Ard Biesheuvel <ardb@kernel.org>,
- Bob Gilligan <gilligan@arista.com>, Dan Carpenter <error27@gmail.com>,
- David Laight <David.Laight@aculab.com>, Dmitry Safonov
- <0x7f454c46@gmail.com>, Dominik Gaillardetz <dgaillar@ciena.com>,
- Donald Cassidy <dcassidy@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Francesco Ruggeri <fruggeri05@gmail.com>,
- Francois Tetreault <ftetreau@ciena.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Hideaki Yoshifuji <yoshfuji@linux-ipv6.org>,
- Ivan Delalande <colona@arista.com>, Leonard Crestez <cdleonard@gmail.com>,
- Mohammad Nassiri <mnassiri@ciena.com>,
- Salam Noureddine <noureddine@arista.com>, Simon Horman <horms@kernel.org>
-References: <20231023192217.426455-24-dima@arista.com>
-Subject: Re: [PATCH v16 net-next 23/23] Documentation/tcp: Add TCP-AO
- documentation
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20231023192217.426455-24-dima@arista.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20230914112739.112729-1-alessandro.carminati@gmail.com>
+ <20230914112739.112729-2-alessandro.carminati@gmail.com> <ZVZS4hw5dGB4aPz3@bombadil.infradead.org>
+In-Reply-To: <ZVZS4hw5dGB4aPz3@bombadil.infradead.org>
+From: Alessandro Carminati <alessandro.carminati@gmail.com>
+Date: Fri, 17 Nov 2023 14:56:53 +0100
+Message-ID: <CAPp5cGTcRGp3z=xbA1svxLYz1LC74_AQrTPSXNmACPRYrpporg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] Modules: Introduce boot-time module signature flexibility
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8FSoGo8zdqcp7mpZWq477RGhG5Hqd7w+By7DXykamyPi+Noo7Vt
- vVSD8kF/TLgjanN0k33t82HAauWC9lOSyztubyi5snvX+a93ra7snpLVaZJHwMkHjmQG9AP
- o+BTP+d0WFLCHjMz08bTl5W+ZFWiBI4k0DnijEsVF55eb3p8Hqw3x9hdMDgBpfV1zxwnevo
- pgFtPwH7l19MaQkcwpl5g==
-UI-OutboundReport: notjunk:1;M01:P0:bUxgAhWCPss=;iKMNGM0QHwl6Ll42MyaU2Zdo2hj
- qlU0gDDLYZtkpKwRkrYShyOzipomjCrzNaLYtBlwJMRyy8SwRYiwyd3NqWOKZAKZFQ9B0waW4
- d/Y+ugttBNPg2HRD6vb/P0RwiXXXWl3rKhs9g9J9k78lgUE0b0GvZgqLhpMMAhYWQYajimvtL
- xG1OJch7ytNFWm/GTqdwD/pk8Ffrz20kAZVikF4i7GFf1mwU15jdgEjgea7mYBpakbsv8yT1h
- ZileBZYvCV90QrSIxpDaieUB3fU6WJCFWiEJzSn+L/3X2TX3rB8z9mwRyievM2g04MGeilL6T
- vY7cUpbg958ZL8BypOCfYx1N6ActPS+MHeD3mDQI2kci0v1zHk2ylQzVgShwCiCVeJZ88KauY
- wSAirNtIV9QtaOcwabIF5hwjeeluNoOl13S8F40CafdpwpYSpMpzW6mfqNPauIIEfJ8TVuNTR
- 40Z5bvy5w2vTCzAYJb+rJFYvWEe+2I1g4WD0KvpgZy0SI20r+YOS/JCGkvntedjuYbgTc5qkl
- Wuz7b8SJ+s1vUBCDtdnx77iLptzfXHe3DsTNhYoUqL+P9f0gMh0hwnssP3gnHJivPFj7lBkLZ
- iHajLsbGdCJ9jReEeoxt/SSYAIxAvqzo41bkV048iYxRdVpFKbbnnbP2KOX7Wt6mYUBpnJOxC
- C548MES1ddI7j/fQLjz7gARDwSbvgOHEMRuUotDa05uta+cN7sUI4p+zwZ8SBSJ10dq+C5tf0
- TwmUNQdu+OLvhmoulzelccPB3krwcSjiMLBO2v1jk7yrRGn2s694aELOVPLbZd0HE1brm6WgJ
- akIKv3bp76Kiq4sDM2P974h8nNWJ3kN1QVpWH79+QY+g4LZjtp8gPXNvZn5E8JR2V+ls2n4Or
- wz9178pqF1zOW37Vwz3+OjCmv/C2W9IZfyzBnFBDrdBe+FvJ74ogY0RB3m/COZQ4bPeKobdfp
- jb+ohA==
 
-=E2=80=A6
-> +++ b/Documentation/networking/tcp_ao.rst
-> @@ -0,0 +1,444 @@
-=E2=80=A6
-> +                                          =E2=80=A6 failure. But sine k=
-eeping
-=E2=80=A6
+Hello Luis,
 
-I find this wording improvable.
-How do you think about to use the word =E2=80=9Csince=E2=80=9D here?
+Thanks a lot for sharing your thoughts about this topic.
 
-Regards,
-Markus
+Il giorno gio 16 nov 2023 alle ore 18:35 Luis Chamberlain
+<mcgrof@kernel.org> ha scritto:
+>
+> On Thu, Sep 14, 2023 at 11:27:38AM +0000, Alessandro Carminati (Red Hat) =
+wrote:
+> > This commit introduces a novel boot argument parameter that provides an
+> > advanced level of control over the verification of module signatures
+> > during the initial stages of booting. With this enhancement, we gain th=
+e
+> > capability to postpone the verification of module signatures to after
+> > intrd stage is finished.
+> >
+> > Given that bootloader-provided artifacts are commonly employed
+> > post-verification,
+>
+> Is such a thing expressed with a kernel config? If so then shouldn't
+> this be default for those uses cases?
+>
+
+I've hesitated to propose this as the default behavior for a few reasons:
+The current patch doesn=E2=80=99t include a check for the secure boot chain=
+ being
+enabled.
+From what I've learned, confirming secure boot mode on UEFI systems,
+especially on non x86 targets, lacks a standardized method.
+Considering this, I've chosen to leave the decision to users who can
+specify a command-line argument during kernel boot.
+
+Implementing a new feature as default in the kernel might face resistance
+and seem intrusive.
+To avoid potential conflicts, I lean towards letting users choose to opt
+into this feature.
+
+Additionally, It=E2=80=99s essential to acknowledge that not all kernels in=
+volve an
+initrd phase.
+Embedded systems often differ in their use of an initrd compared to traditi=
+onal
+Linux distributions.
+Enforcing this feature by default might not align with the preferences of
+the embedded systems community.
+I'm open to investing time in proposing conditions that might pave the way =
+for
+this feature to become default if certain conditions are met.
+
+> > Signed-off-by: Alessandro Carminati (Red Hat) <alessandro.carminati@gma=
+il.com>
+> > ---
+> >  include/linux/module.h  |  4 +++
+> >  kernel/module/main.c    | 14 ++++++-----
+> >  kernel/module/signing.c | 56 +++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 68 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index a98e188cf37b..9899aeac43b0 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -34,6 +34,10 @@
+> >
+> >  #define MODULE_NAME_LEN MAX_PARAM_PREFIX_LEN
+> >
+> > +#ifdef CONFIG_MODULE_SIG
+> > +extern int module_sig_check_wait;
+> > +#endif
+>
+> Please add under is_module_sig_enforced. That's one new line Vs 3 new one=
+s.
+>
+> I see the code which skips module signature verification and the knobs
+> but I don't see the code which complete the promise to do the actual
+> signature verification post initrd / initramfs state. What gives?
+
+My initial intention wasn't centered around providing an automated solution=
+.
+Instead, I envisioned a design where users could manually restore module
+verification during a specific point in their init scripts.
+
+It might be plausible to restore module verification when the rootfs is
+remounted. However, this seems limiting rather than advantageous.
+
+To offer users maximum flexibility, I considered a solution involving a
+sysfs file as a control mechanism.
+
+The objective of the RFC I sent out is to gather opinions on this feature.
+Understanding what people think about it is very welcome. In this context,
+the question arises: would it be better to have an automated solution that
+restores the module signature verification automatically?
+
+>
+>   Luis
