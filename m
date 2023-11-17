@@ -1,98 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="EUHekREu"
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 518F6A5
-	for <linux-doc@vger.kernel.org>; Fri, 17 Nov 2023 09:37:10 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-5098e423ba2so3206458e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 17 Nov 2023 09:37:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1700242628; x=1700847428; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qPWfawxMvCCwqgwMcoz01kVUlEDZwsGaKlCMKco8RAs=;
-        b=EUHekREu0jCPjysi23dKCma4wjjQv4tXXanOI7xgbWblA++fHFQ0InQxfh/3OGuUy+
-         mgO/NfO3oC49RDpqkLjSJ0+FaLr74gQ+lbjuCsvkYtyAJL0Uhhg7huTZzyzNAAeAkBzy
-         cIv3nvmf+JEHvtCsu4sg3h21Ma3C6YCnf9p4qs2RI/YkibdqPY+Z93eZCF8iYtqQ8qFQ
-         5McSAU8KeTfaiUUAqIXr6eyYGdouB2EheCP/XunFKg79wdGFKk077ylOXp2TfY3Ms8w7
-         /Ovdd6iRjz5D8TMzbtLGCPLY2rgbaVemqhZ7745y3vzPCW3I/f2XMWvpeyF9JKMrU3hn
-         mRfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700242628; x=1700847428;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qPWfawxMvCCwqgwMcoz01kVUlEDZwsGaKlCMKco8RAs=;
-        b=UMabvEGqyn8GoQQoZECjZPyik+ys1EYT5z/BG02gqGL9zqWg6IDLIBN2vUgTHIwSe0
-         lACflBMnsRrMkoKc33HIE3PZW135uGckAkWu2E7WC7w2mvBIyzTcnGxr5FTJGC6aa/xK
-         xx2Z2VTjj9UTpFQHUgbp74AbhZYT9jsxgjyA96ii8G2QKAnURg/y4oA0Q8gPY/FSlAvb
-         S0pmRX+otClMfsz5kIOu6vV26LAO0Ki5iTNWxQjpFCIxVk/XJjfq1WsDOWYR5OIGXqtG
-         DqWUNT8AND/sh+sU8yaUBUCV4rpsqHGDg4CnaOYLPEHGhUvtSBikRX4nubQJld6Zkffu
-         h9Fw==
-X-Gm-Message-State: AOJu0YxUaZBaVUpfZAgTJmc1U9E8zWbmXkvV/JFVcCXvwGd2lKGuCrZV
-	pZxRDfNTkqOkgEupUV21IWDlKQ==
-X-Google-Smtp-Source: AGHT+IG8vNGCKqG775W9hqhVbWFrKq/2354SflCixUg3G4oiDXO4NcB1WZozj6WQ/9GOg8GMkwEY4A==
-X-Received: by 2002:a05:6512:48d6:b0:509:49f1:b7c8 with SMTP id er22-20020a05651248d600b0050949f1b7c8mr211662lfb.21.1700242628451;
-        Fri, 17 Nov 2023 09:37:08 -0800 (PST)
-Received: from [10.83.37.178] ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id b8-20020a5d45c8000000b003142e438e8csm2918402wrs.26.2023.11.17.09.37.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Nov 2023 09:37:07 -0800 (PST)
-Message-ID: <f41954c0-e303-4d6c-b308-d0dfd00ee251@arista.com>
-Date: Fri, 17 Nov 2023 17:37:05 +0000
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="n/MhAHSE"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82163A2;
+	Fri, 17 Nov 2023 10:33:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=C80P3w16fs62eEEe4oyApwGuwCnUYxn0YKlH/jCHwaM=; b=n/MhAHSE4jHjt2CLOY1ufmqw9X
+	JckfqhKeZ6MGg5h6TCXxL60IN0qzdL4k06yLalFI7HfFw5UfwZkGlhDhsKYmbKBf8FVJ0hhqt05Wa
+	JrswkPr0WQDZ9FqEaAhAJE0aw92Zf7K7VQuPlevN8gLDhLDvYRazAbx2tlBkN4Oc22uGMkE1eCY1X
+	dvdEp2V9gCyz3D3cb311pllFsnW6Zx3pNMfuAXpsYACUTEHRNtNYBhdd2HmXriXwoOG1KVDVKw5q5
+	zTbjM3KO9xFQX68XeLkORG86DiYGTAs1hKY4Kz5gKgstmfg7woRmIzo8nMDmezYZ3c9JFKzJ6rkKm
+	J10E7aTQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1r43f2-0076OF-0I;
+	Fri, 17 Nov 2023 18:33:48 +0000
+Date: Fri, 17 Nov 2023 10:33:48 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Alessandro Carminati <alessandro.carminati@gmail.com>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] Modules: Introduce boot-time module signature
+ flexibility
+Message-ID: <ZVeyDDLe9B+Aij2O@bombadil.infradead.org>
+References: <20230914112739.112729-1-alessandro.carminati@gmail.com>
+ <20230914112739.112729-2-alessandro.carminati@gmail.com>
+ <ZVZS4hw5dGB4aPz3@bombadil.infradead.org>
+ <CAPp5cGTcRGp3z=xbA1svxLYz1LC74_AQrTPSXNmACPRYrpporg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 net-next 23/23] Documentation/tcp: Add TCP-AO
- documentation
-Content-Language: en-US
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Andy Lutomirski
- <luto@amacapital.net>, Ard Biesheuvel <ardb@kernel.org>,
- Bob Gilligan <gilligan@arista.com>, Dan Carpenter <error27@gmail.com>,
- David Laight <David.Laight@aculab.com>, Dmitry Safonov
- <0x7f454c46@gmail.com>, Dominik Gaillardetz <dgaillar@ciena.com>,
- Donald Cassidy <dcassidy@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Francesco Ruggeri <fruggeri05@gmail.com>,
- Francois Tetreault <ftetreau@ciena.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Hideaki Yoshifuji <yoshfuji@linux-ipv6.org>,
- Ivan Delalande <colona@arista.com>, Leonard Crestez <cdleonard@gmail.com>,
- Mohammad Nassiri <mnassiri@ciena.com>,
- Salam Noureddine <noureddine@arista.com>, Simon Horman <horms@kernel.org>,
- David Ahern <dsahern@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20231023192217.426455-24-dima@arista.com>
- <2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de>
-From: Dmitry Safonov <dima@arista.com>
-In-Reply-To: <2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPp5cGTcRGp3z=xbA1svxLYz1LC74_AQrTPSXNmACPRYrpporg@mail.gmail.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
-Hi Markus,
-
-On 11/17/23 13:07, Markus Elfring wrote:
-> …
->> +++ b/Documentation/networking/tcp_ao.rst
->> @@ -0,0 +1,444 @@
-> …
->> +                                          … failure. But sine keeping
-> …
+On Fri, Nov 17, 2023 at 02:56:53PM +0100, Alessandro Carminati wrote:
+> Il giorno gio 16 nov 2023 alle ore 18:35 Luis Chamberlain
+> <mcgrof@kernel.org> ha scritto:
+> >
+> > I see the code which skips module signature verification and the knobs
+> > but I don't see the code which complete the promise to do the actual
+> > signature verification post initrd / initramfs state. What gives?
 > 
-> I find this wording improvable.
-> How do you think about to use the word “since” here?
+> My initial intention wasn't centered around providing an automated solution.
 
-Nice, there are people who actually read the docs! :-)
+It is not even an automated solution, it's *any* solution. So to be
+clear your patch simply disables module verification, it has no
+solution.
 
-I'll send a patch crediting you.
+> Instead, I envisioned a design where users could manually restore module
+> verification during a specific point in their init scripts.
+> 
+> It might be plausible to restore module verification when the rootfs is
+> remounted. However, this seems limiting rather than advantageous.
 
-Thanks,
-             Dmitry
+The patch as-is describes a lofty world and does nothing other than
+disables module verification. If a patch disables module verification
+it should just do that and describe that. Nothing else. The subject
+of the patch tends to suggest some flexibility it provided but does
+nothing of being flexible, it outright disables module signature
+verification. The commit log and the patch subject description are
+describing something completely different than what the code actually
+does, and it gives me to the concern, to the point that if you didn't
+have a few commit logs in the kernel I would have thought your intent
+was test kernel developers with some AI type of code that does something
+stupid and very carefully crafted commit log.
 
+Nacked-by: Luis Chamberlain <mcgrof@kernel.org>
+
+  Luis
