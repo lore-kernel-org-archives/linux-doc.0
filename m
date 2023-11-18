@@ -1,34 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB7B46435;
-	Fri, 17 Nov 2023 22:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573B1809;
+	Sat, 18 Nov 2023 00:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ixZzA2X2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17850C433C7;
-	Fri, 17 Nov 2023 22:23:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IiRkNMZE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA6F8C433C7;
+	Sat, 18 Nov 2023 00:39:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700259805;
-	bh=6DSf0nVAntIkLaU9iNZUmUavKWJVfxe1caFDUs65/3g=;
+	s=k20201202; t=1700267981;
+	bh=Je/ApF2K7SYvSPIxFVB5Me2FUgzHHhsUTSYdaPeNC2M=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ixZzA2X26bUECEOcgxtNg2do6HNVXqKNT//yk0SBxN3MgFT5jEDTCdbaOFSWpojTg
-	 VsK6GvtACJIGGBATK5YX5gsghJC7DG842otaPfUiNEP0/8hFPoRB5aKRXAEjzEIpFV
-	 rNLIh7MNDaJtm87W0pBJ/Mj1xygY8yvnzVEMuU48Zvj8M/ozmvNEn+Zwy/Ey3HZ32R
-	 ZeSrzn8+nyjG0uA35Cj293gtQkjs/aE0TCpFHllAUfOl+bLgIcB1VbTggElLeB+4ks
-	 IBsaePJzYSQX3rGo4vSHUyYA9+HniIM9aQNJqOhWHb9KPE5mk8dLG1QiO5pytTbmDo
-	 mMKNUeyIsvbrA==
-Date: Fri, 17 Nov 2023 14:23:24 -0800
+	b=IiRkNMZEHCZKk9mAEgz3XMwp/Kpr1kMZDf5cAY6rG5HeZZDPzixvMd8qR6Fj8xuFD
+	 cZqwHUjLKhh2b1MGD4eETVLU/2Bchjyb1yqxJL0X4/cf16yqpnAN3AcaURv+uNDNNa
+	 T/6M6T/aO9SSqKVhXMXSTjgy5BCB3CIRQut3i0KoAllyNEh+d6BhNb0dfKCGv+GbsF
+	 r6Qp0qCQ7GaWaPnhc2x5B4L0eSzAT1mWQ1HIiAgGoN9AQRC4invZO4owDjYwXRSfpw
+	 0JWb7TKjy3qlzWhfyvOxzr6FqW759agQIXUTWV0my+k4T2//Lx1iLWA66ymCW5pgx8
+	 7djxeRIbw8KmQ==
+Date: Fri, 17 Nov 2023 16:39:39 -0800
 From: Jakub Kicinski <kuba@kernel.org>
-To: Kees Cook <keescook@chromium.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, workflows@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Add netdev subsystem profile link
-Message-ID: <20231117142324.522fb816@kernel.org>
-In-Reply-To: <20231116201147.work.668-kees@kernel.org>
-References: <20231116201147.work.668-kees@kernel.org>
+To: leit@meta.com
+Cc: Jonathan Corbet <corbet@lwn.net>, Breno Leitao <leitao@debian.org>,
+ netdev@vger.kernel.org, donald.hunter@gmail.com, linux-doc@vger.kernel.org,
+ pabeni@redhat.com, edumazet@google.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: Document each netlink family
+Message-ID: <20231117163939.2de33e83@kernel.org>
+In-Reply-To: <87y1ew6n4x.fsf@meer.lwn.net>
+References: <20231113202936.242308-1-leitao@debian.org>
+	<87y1ew6n4x.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,12 +37,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 16 Nov 2023 12:11:51 -0800 Kees Cook wrote:
-> The netdev subsystem has had a subsystem process document for a while now.
+On Fri, 17 Nov 2023 15:17:02 -0700 Jonathan Corbet wrote:
+> In principle I like this approach better.  There is one problem, though:
+> 
+> - In current kernels, on my machine, "make htmldocs" when nothing has
+>   changed takes about 6s to complete.
+> 
+> - With this patch applied, it takes a little over 5 *minutes*.
+> 
+> Without having delved into it too far, I am guessing that the
+> unconditional recreation of the netlink RST files is causing the rebuild
+> of much of the documentation.  Even so, I don't quite get it.
+> 
+> That, clearly, would need to be fixed before this can go in.
 
-I wasn't sure if it's technically a profile or not.
+FWIW on the C code-gen side we avoid touching the files if nothing
+changed both at the Makefile level:
 
-Let me widen the CC a bit and see if someone can tell us one way 
-or the other. Our process doc is not listed in
-Documentation/maintainer/maintainer-entry-profile.rst either.
-Perhaps it's good enough for P: but not for linking there.
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/tools/net/ynl/generated/Makefile#n28
+
+And the tool itself actually generates to a tempfile and compares
+if the output changed:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=2b7ac0c87d985c92e519995853c52b9649ea4b07
