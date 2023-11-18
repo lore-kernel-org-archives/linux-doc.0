@@ -1,23 +1,24 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="eGCQe3hg"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="HePM0ZXP"
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935FE1AD;
-	Sat, 18 Nov 2023 09:39:01 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F1B1AD;
+	Sat, 18 Nov 2023 09:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ODf/EeD7TdfM/V4kFavfoqfzEFUPK1joSi1qIu1/vpo=; b=eGCQe3hghc9aC7kqR7Alui+/Y/
-	Wd918gat2/NjcQkpHigcJScHVxcq/DLVNWKzkD+HFQ2J+T2m+AVawujJT/6g6HqDYVLeCdZYXKjVq
-	fSCofpLsEC86sjc2Kmt3dhd7BKkCbqozrCVEHUGaZkmWN5kgWlx50j/BVbDWj0HUXxo0=;
+	bh=+oEK+naRT7fW5EmkfkwfcZ0PjJ55q4+LYYoW9SH6u1U=; b=HePM0ZXPAC/PI8Lw9i2KLfA7mi
+	4EuQtKy3Y7iuastmCWwV8xra5eppTwA+BrM10mzpmi26wbpVpU9I0DwoGDtQHOojDHxjfQzccwCmO
+	U3gNgkxehXqEdI3JkjHR/pWiEPfOxd2+2kr9Fj+XaovLLh/ZtaZwpBsyi2LKHeMtNiQE=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1r4PHH-000WBY-3h; Sat, 18 Nov 2023 18:38:43 +0100
-Date: Sat, 18 Nov 2023 18:38:43 +0100
+	id 1r4PQ6-000WHI-4p; Sat, 18 Nov 2023 18:47:50 +0100
+Date: Sat, 18 Nov 2023 18:47:50 +0100
 From: Andrew Lunn <andrew@lunn.ch>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -31,11 +32,12 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 2/9] ethtool: Expand Ethernet Power Equipment
- with PoE alongside PoDL
-Message-ID: <04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
+Subject: Re: [PATCH net-next 8/9] dt-bindings: net: pse-pd: Add bindings for
+ PD692x0 PSE controller
+Message-ID: <2332a2e2-740f-49a6-8bef-d90ed010a434@lunn.ch>
 References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
- <20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
+ <20231116-feature_poe-v1-8-be48044bf249@bootlin.com>
+ <6b39c522-1486-4e30-b958-b8a57104cede@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,31 +46,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
+In-Reply-To: <6b39c522-1486-4e30-b958-b8a57104cede@linaro.org>
 
-On Thu, Nov 16, 2023 at 03:01:34PM +0100, Kory Maincent wrote:
-> In the current PSE interface for Ethernet Power Equipment, support is
-> limited to PoDL. This patch extends the interface to accommodate the
-> objects specified in IEEE 802.3-2022 145.2 for Power sourcing
-> Equipment (PSE).
+> > +  ports-matrix:
+> > +    description: Port conversion matrix configuration
+> 
+> I do not see such property defined anywhere. Your description should
+> explain what the purpose is and what it is exactly. Currently you just
+> repeat property name, so quite pointless.
 
-Sorry for taking a while getting to these patches. Plumbers and other
-patches have been keeping me busy.
+I have to agree. You appear to have a device which can supply power to
+48 RJ-45 connectors on the front panel? Which probably maps to 48
+ports of a Ethernet switch. How do i use these properties described
+here to say that eth42 connects to port 42 of the PSE?
 
-I'm trying to get my head around naming... Is there some sort of
-hierarchy? Is PSE the generic concept for putting power down the
-cable? Then you have the sub-type PoDL, and the sub-type PoE?
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
+> > +    minItems: 1
+> > +    maxItems: 48
+> > +    items:
+> > +      items:
+> > +        - description: Logical port number
+> > +          minimum: 0
+> > +          maximum: 47
+> > +        - description: Physical port number A (0xff for undefined)
+> > +          oneOf:
+> > +            - minimum: 0
+> > +              maximum: 95
+> > +            - const: 0xff
+> > +        - description: Physical port number B (0xff for undefined)
 
->  struct pse_control_config {
->  	enum ethtool_podl_pse_admin_state podl_admin_control;
-> +	enum ethtool_pse_admin_state admin_control;
+It would be good to explain what Port A and B are. It might be obvious
+to somebody who knows PSE, but i have no idea...
 
-When i look at this, it seems to me admin_control should be generic
-across all schemes which put power down the cable, and
-podl_admin_control is specific to how PoDL puts power down the cable.
-
-Since you appear to be adding support for a second way to put power
-down the cable, i would expect something like poe_admin_control being
-added here. But maybe that is in a later patch?
-
-      Andrew
+   Andrew
