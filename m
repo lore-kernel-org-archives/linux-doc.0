@@ -1,85 +1,65 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0961E508;
+	Sat, 18 Nov 2023 23:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="VLP+pfvd"
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 863A71A1;
-	Sat, 18 Nov 2023 12:19:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=SjXWAYmFEc1rO45Mv1FCK3wC/fa6+5kmEE0zIU9kiS0=; b=VLP+pfvdw1d3r5xTGcSD0PaueI
-	fRcAAr7XA7s+pc4BUmgqQDuhNbefPXcsMgi+BixYwYq/TQY7uZ6ZZyfBYw0XOj/et2KfurHfzYDXa
-	vFJrZg5IX99IXX5Gs3NS/pKMSgKajnXaQpRB1icjMs+NwQwAb5YezfZlmeZFj2S9y+OA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1r4Rn2-000WiP-4j; Sat, 18 Nov 2023 21:19:40 +0100
-Date: Sat, 18 Nov 2023 21:19:40 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Luo Jie <quic_luoj@quicinc.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, hkallweit1@gmail.com, corbet@lwn.net,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
-Message-ID: <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
-References: <20231118062754.2453-1-quic_luoj@quicinc.com>
- <20231118062754.2453-4-quic_luoj@quicinc.com>
- <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
- <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vGdFQ7Fa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC071C433C8;
+	Sat, 18 Nov 2023 23:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700349754;
+	bh=dRhlMOMZc7Ynh+zzEWrF7VAnXdYgBqVfroBd0Kd7Sos=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vGdFQ7FaOy4xdKz5BTNwA6NNCJ5XxGyjM/DjwOke7DlE098ZLfazgXqUKMW/ohXts
+	 ExxSI9xheSdCn8J0KWZqaulzouLOxrOu6O4M1zY6/CB6kJYI/fvaY8/NbnTfuRsN0Q
+	 pXKQgDitNSVfBxUtPXONeiv5lXUvtc0TZxEo2RxAgafNCUxqk/dtnX00AyXd1oYCqx
+	 +FnE6QP9coBcTGPjDZ2oQMwdomm4ANMlWbQAQ7IurFhpu8vLeLKAVUdE3GbZ7eVilj
+	 377MuK/GqWax7f4ND2jQT5U3ifxjDpkZEaw3tVyCYM99+P4i+0fhETI88takISm5A3
+	 cznTd38DgJLwg==
+Date: Sat, 18 Nov 2023 15:22:32 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, corbet@lwn.net, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: try to guide people on dealing with
+ silence
+Message-ID: <20231118152232.787e9ea2@kernel.org>
+In-Reply-To: <dd172cac-f530-4874-a4e7-fc8d7676d708@lunn.ch>
+References: <20231118172412.202605-1-kuba@kernel.org>
+	<dd172cac-f530-4874-a4e7-fc8d7676d708@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> 10G_QXGMII is defined in the Cisco USXGMII multi-port document as one
-> of several possibilities for a USXGMII-M link. The Cisco document can
-> be a little confusing beause it states that 10G_QXGMII supports 10M,
-> 100M, 1G and 2.5G, and then only talks about a 10G and 100M/1G MAC.
+On Sat, 18 Nov 2023 20:09:43 +0100 Andrew Lunn wrote:
+> > +On the other hand, due to the volume of development discussions on netdev
+> > +are very unlikely to be reignited after a week of silence.  
 > 
-> For 10G_QXGMII, there are 4 MAC interfaces. These are connected to a
-> rate "adaption" through symbol replication block, and then on to a
-> clause 49 PCS block.
+> My English parse falls over on 'are', and wants to backtrack and try
+> alternatives.
 > 
-> There is then a port MUX and framing block, followed by the PMA
-> serdes which communicates with the remote end over a single pair of
-> transmit/receive serdes lines.
+> Maybe:
 > 
-> Each interface also has its own clause 37 autoneg block.
-> 
-> So, for an interface to operate in SGMII mode, it would have to be
-> muxed to a different path before being presented to the USXGMII-M
-> block since each interface does not have its own external data lane
-> - thus that's out of scope of USXGMII-M as documented by Cisco.
+> On the other hand, due to the volume of development discussions on
+> netdev, after a week of silence further discussions are very unlikely
+> to occur without prompting.
 
-Hi Russell
+Hm. The whole "On the other hand, due to".. felt a bit clunky from 
+the start, maybe that's the problem? Is this better?
 
-I think it helps.
-
-Where i'm having trouble is deciding if this is actually an interface
-mode. Interface mode is a per PHY property. Where as it seems
-10G_QXGMII is a property of the USXGMII-M link? Should we be
-representing the package with 4 PHYs in it, and specify the package
-has a PMA which is using 10G_QXGMII over USXGMII-M? The PHY interface
-mode is then internal? Its just the link between the PHY and the MUX?
-
-By saying the interface mode is 10G_QXGMII and not describing the PMA
-mode, are we setting ourselves up for problems in the future? Could
-there be a PMA interface which could carry different PHY interface
-modes?
-
-If we decide we do want to use 10G_QXGMII as an interface made, i
-think the driver should be doing some validation. If asked to do
-anything else, it should return -EINVAL.
-
-And i don't yet understand how it can also do 1000BaseX and 2500BaseX
-and SGMII?
-
-    Andrew
+ Generally speaking, the patches get triaged quickly (in less than
+ 48h). But be patient, if your patch is active in patchwork (i.e. it's
+ listed on the project's patch list) the chances it was missed are close to zero.
++
++The high volume of development on netdev makes reviewers move on
++from discussions relatively quickly. New comments and replies 
++are very unlikely to arrive after a week of silence. If patch is
++no longer active in patchwork and the thread went idle for more than
++a week - clarify the next steps and/or post the next version.
