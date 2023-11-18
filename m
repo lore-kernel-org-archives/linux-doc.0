@@ -1,197 +1,105 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63C3101C5;
+	Sat, 18 Nov 2023 15:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L1D97QTZ"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D2FDA2;
-	Sat, 18 Nov 2023 05:43:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700315026; x=1731851026;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7/M5S0nC2Rw3WJg/Loza0Avq02rrTZUsNGGN6T9wjHo=;
-  b=L1D97QTZ7cK0BeuoyebKN50siKFt0LmFz9fVZYT8PUpzpuWXymlHDqgp
-   5opGIvHkFRKtD2AqULo0hi4PYXv11YgaS68I9XIePvi6pv+kWvp7Wv7Ak
-   KjLBEA9AhIvmm3F995gMxWBnh38dMPaysLaVv+v8T+Ki8+JA+O43cqXuv
-   S6bFQeWtbCiEFvxiS5st10ZWGBlN7TK/z898Dm4IeyMAkIyJsn/O3OXGc
-   AyR8ti2O6y+7sOETgfmC5Z1QxhLN7v+JUiSazSZk0dz7TCU/J/zL25u0h
-   CVhLwuccSeuPezb+GhvXtl87NC1LOzCsCc8izWfQi66RI4kDmZhFR5zCO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="371604281"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="371604281"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 05:43:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="759414040"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="759414040"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 18 Nov 2023 05:43:39 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r4Lbk-0003x2-1d;
-	Sat, 18 Nov 2023 13:43:36 +0000
-Date: Sat, 18 Nov 2023 21:43:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yi-De Wu <yi-de.wu@mediatek.com>,
-	Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	David Bradil <dbrazdil@google.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Jade Shih <jades.shih@mediatek.com>,
-	Ivan Tseng <ivan.tseng@mediatek.com>,
-	My Chuang <my.chuang@mediatek.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <peilun.suei@mediatek.com>,
-	Liju Chen <liju-clr.chen@mediatek.com>,
-	Willix Yeh <chi-shen.yeh@mediatek.com>,
-	Kevenny Hsieh <kevenny.hsieh@mediatek.com>
-Subject: Re: [PATCH v7 09/16] virt: geniezone: Add irqfd support
-Message-ID: <202311182112.B1KM0yj9-lkp@intel.com>
-References: <20231116152756.4250-10-yi-de.wu@mediatek.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vB7gC/q6"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E63C2C433C9;
+	Sat, 18 Nov 2023 15:10:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700320227;
+	bh=6UWsJkvAEvj2H3Wa8RCVwzYqgNc80avR/IIJi1BMIxc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=vB7gC/q6cSSItaBEdfFLGgUZ4LAJ7iImYmiosOdJoKcKeiJ+q8bxAiSCZAXieWjjo
+	 E4AlPbH/t7vv+kGSG+dRLVfLLFmUmbJ1eZ906enyR3i/1WVopgqar8oCTkuY3A63Bf
+	 xVenYLpdN/4nuI1rPOnxytOlTc43FtNJHyU6xjLbuax+OIlNcDbnXAjAXpQT1nrZ5A
+	 HA1B4H+cw9+ga75ZSlOW5l37URKqtskwYdoyxk5GdLKu0kz+nW5D9F0KNJJN6zwZUs
+	 iqy6DH+5H59qkF2V8hCcY4uolwn5yNfBd3lClJRWE3FATJO0LcWHUyDe6qCE5LTNBG
+	 mk0vq1gBsEvdQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CCCA0EA6305;
+	Sat, 18 Nov 2023 15:10:26 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231116152756.4250-10-yi-de.wu@mediatek.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v7 00/16] net: Make timestamping selectable
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170032022683.7145.6992267439143242783.git-patchwork-notify@kernel.org>
+Date: Sat, 18 Nov 2023 15:10:26 +0000
+References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
+In-Reply-To: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
+To: =?utf-8?q?K=C3=B6ry_Maincent_=3Ckory=2Emaincent=40bootlin=2Ecom=3E?=@ci.codeaurora.org
+Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ richardcochran@gmail.com, radu-nicolae.pirea@oss.nxp.com,
+ j.vosburgh@gmail.com, andy@greyhouse.net, nicolas.ferre@microchip.com,
+ claudiu.beznea@tuxon.dev, willemdebruijn.kernel@gmail.com, corbet@lwn.net,
+ horatiu.vultur@microchip.com, UNGLinuxDriver@microchip.com, horms@kernel.org,
+ vladimir.oltean@nxp.com, thomas.petazzoni@bootlin.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, maxime.chevallier@bootlin.com,
+ jay.vosburgh@canonical.com
 
-Hi Yi-De,
+Hello:
 
-kernel test robot noticed the following build errors:
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.7-rc1 next-20231117]
-[cannot apply to arm64/for-next/core robh/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue, 14 Nov 2023 12:28:28 +0100 you wrote:
+> Up until now, there was no way to let the user select the layer at
+> which time stamping occurs. The stack assumed that PHY time stamping
+> is always preferred, but some MAC/PHY combinations were buggy.
+> 
+> This series updates the default MAC/PHY default timestamping and aims to
+> allow the user to select the desired layer administratively.
+> 
+> [...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20231116-233442
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231116152756.4250-10-yi-de.wu%40mediatek.com
-patch subject: [PATCH v7 09/16] virt: geniezone: Add irqfd support
-config: arm64-randconfig-r081-20231118 (https://download.01.org/0day-ci/archive/20231118/202311182112.B1KM0yj9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311182112.B1KM0yj9-lkp@intel.com/reproduce)
+Here is the summary with links:
+  - [net-next,v7,01/16] net: Convert PHYs hwtstamp callback to use kernel_hwtstamp_config
+    https://git.kernel.org/netdev/net-next/c/446e2305827b
+  - [net-next,v7,02/16] net: phy: Remove the call to phy_mii_ioctl in phy_hwstamp_get/set
+    https://git.kernel.org/netdev/net-next/c/430dc3256d57
+  - [net-next,v7,03/16] net: ethtool: Refactor identical get_ts_info implementations.
+    https://git.kernel.org/netdev/net-next/c/b8768dc40777
+  - [net-next,v7,04/16] net: macb: Convert to ndo_hwtstamp_get() and ndo_hwtstamp_set()
+    https://git.kernel.org/netdev/net-next/c/202cb220026e
+  - [net-next,v7,05/16] net: Make dev_set_hwtstamp_phylib accessible
+    https://git.kernel.org/netdev/net-next/c/011dd3b3f83f
+  - [net-next,v7,06/16] net: phy: micrel: fix ts_info value in case of no phc
+    https://git.kernel.org/netdev/net-next/c/915d25a9d69b
+  - [net-next,v7,07/16] net_tstamp: Add TIMESTAMPING SOFTWARE and HARDWARE mask
+    https://git.kernel.org/netdev/net-next/c/acec05fb78ab
+  - [net-next,v7,08/16] net: ethtool: Add a command to expose current time stamping layer
+    https://git.kernel.org/netdev/net-next/c/11d55be06df0
+  - [net-next,v7,09/16] netlink: specs: Introduce new netlink command to get current timestamp
+    https://git.kernel.org/netdev/net-next/c/bb8645b00ced
+  - [net-next,v7,10/16] net: ethtool: Add a command to list available time stamping layers
+    https://git.kernel.org/netdev/net-next/c/d905f9c75329
+  - [net-next,v7,11/16] netlink: specs: Introduce new netlink command to list available time stamping layers
+    https://git.kernel.org/netdev/net-next/c/aed5004ee7a0
+  - [net-next,v7,12/16] net: Replace hwtstamp_source by timestamping layer
+    https://git.kernel.org/netdev/net-next/c/51bdf3165f01
+  - [net-next,v7,13/16] net: Change the API of PHY default timestamp to MAC
+    https://git.kernel.org/netdev/net-next/c/0f7f463d4821
+  - [net-next,v7,14/16] net: ethtool: ts: Update GET_TS to reply the current selected timestamp
+    https://git.kernel.org/netdev/net-next/c/091fab122869
+  - [net-next,v7,15/16] net: ethtool: ts: Let the active time stamping layer be selectable
+    https://git.kernel.org/netdev/net-next/c/152c75e1d002
+  - [net-next,v7,16/16] netlink: specs: Introduce time stamping set command
+    https://git.kernel.org/netdev/net-next/c/ee60ea6be0d3
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311182112.B1KM0yj9-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c: In function 'gzvm_irqfd_assign':
->> arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c:185:19: error: implicit declaration of function 'eventfd_ctx_fileget'; did you mean 'eventfd_ctx_fdget'? [-Werror=implicit-function-declaration]
-     185 |         eventfd = eventfd_ctx_fileget(f.file);
-         |                   ^~~~~~~~~~~~~~~~~~~
-         |                   eventfd_ctx_fdget
->> arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c:185:17: warning: assignment to 'struct eventfd_ctx *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     185 |         eventfd = eventfd_ctx_fileget(f.file);
-         |                 ^
-   cc1: some warnings being treated as errors
-
-
-vim +185 arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c
-
-   160	
-   161	static int gzvm_irqfd_assign(struct gzvm *gzvm, struct gzvm_irqfd *args)
-   162	{
-   163		struct gzvm_kernel_irqfd *irqfd, *tmp;
-   164		struct fd f;
-   165		struct eventfd_ctx *eventfd = NULL;
-   166		int ret;
-   167		int idx;
-   168	
-   169		irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL_ACCOUNT);
-   170		if (!irqfd)
-   171			return -ENOMEM;
-   172	
-   173		irqfd->gzvm = gzvm;
-   174		irqfd->gsi = args->gsi;
-   175	
-   176		INIT_LIST_HEAD(&irqfd->list);
-   177		INIT_WORK(&irqfd->shutdown, irqfd_shutdown);
-   178	
-   179		f = fdget(args->fd);
-   180		if (!f.file) {
-   181			ret = -EBADF;
-   182			goto out;
-   183		}
-   184	
- > 185		eventfd = eventfd_ctx_fileget(f.file);
-   186		if (IS_ERR(eventfd)) {
-   187			ret = PTR_ERR(eventfd);
-   188			goto fail;
-   189		}
-   190	
-   191		irqfd->eventfd = eventfd;
-   192	
-   193		/*
-   194		 * Install our own custom wake-up handling so we are notified via
-   195		 * a callback whenever someone signals the underlying eventfd
-   196		 */
-   197		init_waitqueue_func_entry(&irqfd->wait, irqfd_wakeup);
-   198		init_poll_funcptr(&irqfd->pt, irqfd_ptable_queue_proc);
-   199	
-   200		spin_lock_irq(&gzvm->irqfds.lock);
-   201	
-   202		ret = 0;
-   203		list_for_each_entry(tmp, &gzvm->irqfds.items, list) {
-   204			if (irqfd->eventfd != tmp->eventfd)
-   205				continue;
-   206			/* This fd is used for another irq already. */
-   207			pr_err("already used: gsi=%d fd=%d\n", args->gsi, args->fd);
-   208			ret = -EBUSY;
-   209			spin_unlock_irq(&gzvm->irqfds.lock);
-   210			goto fail;
-   211		}
-   212	
-   213		idx = srcu_read_lock(&gzvm->irq_srcu);
-   214	
-   215		list_add_tail(&irqfd->list, &gzvm->irqfds.items);
-   216	
-   217		spin_unlock_irq(&gzvm->irqfds.lock);
-   218	
-   219		vfs_poll(f.file, &irqfd->pt);
-   220	
-   221		srcu_read_unlock(&gzvm->irq_srcu, idx);
-   222	
-   223		/*
-   224		 * do not drop the file until the irqfd is fully initialized, otherwise
-   225		 * we might race against the EPOLLHUP
-   226		 */
-   227		fdput(f);
-   228		return 0;
-   229	
-   230	fail:
-   231		if (eventfd && !IS_ERR(eventfd))
-   232			eventfd_ctx_put(eventfd);
-   233	
-   234		fdput(f);
-   235	
-   236	out:
-   237		kfree(irqfd);
-   238		return ret;
-   239	}
-   240	
-
+You are awesome, thank you!
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
