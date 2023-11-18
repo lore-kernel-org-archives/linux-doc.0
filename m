@@ -1,139 +1,193 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LgskmfOH"
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0DB172C;
-	Fri, 17 Nov 2023 22:28:39 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AI6Fvig020523;
-	Sat, 18 Nov 2023 06:28:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=uxMZ5i08IIj1P3XHjsuTSAB7PjcYnIlgE+t3bDDRN3U=;
- b=LgskmfOHbA7H5DmYYRviSSCoJuQsvUKymFqYty4LhrdQC8FYSPwT7IMabJ1DUbIaAJxj
- Emab7zapMpJ+NClQL+szlgr9VYB4KCeyThpGi2HlsAY0VN4JO6mNoH3sSTpE+VqSylxG
- in7WA8bG9QmmSxEAWUlC21QKpMVOLeHCBvfk7zNw0S7M1+RUcinRdU0aSpoNhhdTm7bB
- fOSht250S2MgWOvRxMz1vJYD5Y3a+8Rz4IzFtA7cEW8JTk0ZrecTAWuiplLwVnbtcqy9
- dEyoh3Sofeq3O++Hm6qqjLzUebhQrO0xookEiqS478kZZpkDiOGmDyEeC5Ej4/95kXWS Nw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uengb85q7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 18 Nov 2023 06:28:28 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AI6SRjQ017424
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 18 Nov 2023 06:28:27 GMT
-Received: from akronite-sh-dev02.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 17 Nov 2023 22:28:24 -0800
-From: Luo Jie <quic_luoj@quicinc.com>
-To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>
-CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v5 6/6] net: phy: qca8084: add qca8084_link_change_notify
-Date: Sat, 18 Nov 2023 14:27:54 +0800
-Message-ID: <20231118062754.2453-7-quic_luoj@quicinc.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231118062754.2453-1-quic_luoj@quicinc.com>
-References: <20231118062754.2453-1-quic_luoj@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OcDGsYj7"
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E915FD6C;
+	Fri, 17 Nov 2023 22:57:45 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c4eb5fda3cso2773520b3a.2;
+        Fri, 17 Nov 2023 22:57:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700290665; x=1700895465; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dmkXYXE30FSJCqGwVrvQdeF2n4RTnA1NPHyhBfzNcpI=;
+        b=OcDGsYj7JT1Yw8AJhJaXi8VPEFrjj20Uu4qYRjA9ezvFiuFuTrV/F0z8cas9pmS32h
+         3HuaOIBYwGT1UxFHbIVJUiQRU+tnl+alFQfmEn+mCnLbbzG+szpVmi/91dN1E02J6bHS
+         56rbNotg1wZCvT6qjy9ZSnt1eo0iesT7hOKQsO2Ovfh4skEpoWbuOSZvIDVo7eGJyuEk
+         xBpNvB8NEDXQUNQhmwDZoRhwkRF1vVYwuin/iLXQkTi3DGVTFw3oJc8FPUuXcNGnk4L4
+         gFXdCBxcgX17yLKTndVOjFqjc/6iH6eanGWh9t/CHFemO9UPVr3jcLaqCwS+LPVe5Uxn
+         O14g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700290665; x=1700895465;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dmkXYXE30FSJCqGwVrvQdeF2n4RTnA1NPHyhBfzNcpI=;
+        b=c90ZBlk6W7qEoi7CSk2GzncmF/sOagAa8i01lzuU59Nox6Ym5aYMZTjppvwOTowMma
+         GjhnIYSWHf3ikhIJZFIGtI2ZR8YvoTVaNA06KEm++AvJGrz3Py69bMjoeagfOjAciLOr
+         G2K+FpdrBu/OvFg57nyK2N0gfIm0A1njeBebQrECkXJEkN3HbASfEtxXV+Lz2jlK0fp/
+         y8hTE9P2U3MKoNoKidXbbhKfPVc+pvegtRt4jaF3DM8CTKYIOPmTwe0SFLsChuHdb4rC
+         QhfSXiGq/fhu16hR5Qt6/6U8h0HrOnPeLbLnfJ/z5usHuNfro8koPSzUhrED9Cdj8eVK
+         +MVQ==
+X-Gm-Message-State: AOJu0YwDeAIa2IfCZcbAVQQiuIkcfYVvTOqmQdFnkhKvm/sx7Szuf8mM
+	2mvSDubKMYfbfHPvhNYniFM=
+X-Google-Smtp-Source: AGHT+IHrWN7H7iZZ0PjIQhwXQnMmrfSgbCkXI+vE4StHgq8rE2EHS8OY7+87OGiINU9TSN8DQGTDww==
+X-Received: by 2002:a05:6a20:3ca5:b0:188:290f:3da7 with SMTP id b37-20020a056a203ca500b00188290f3da7mr1917449pzj.14.1700290665104;
+        Fri, 17 Nov 2023 22:57:45 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id x4-20020a17090ad68400b002802d9d4e96sm4093213pju.54.2023.11.17.22.57.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Nov 2023 22:57:44 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 9F579102A830C; Sat, 18 Nov 2023 13:57:41 +0700 (WIB)
+Date: Sat, 18 Nov 2023 13:57:41 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Ariel Miculas <amiculas@cisco.com>, linux-doc@vger.kernel.org
+Cc: serge@hallyn.com, Phillip Lougher <phillip@squashfs.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] docs: filesystems: document the squashfs specific
+ mount options
+Message-ID: <ZVhgZanTGYE94p1t@archie.me>
+References: <20231117161215.140282-1-amiculas@cisco.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: EpS834BWoF9oLvU4AY5uaWjxyXYWes-w
-X-Proofpoint-ORIG-GUID: EpS834BWoF9oLvU4AY5uaWjxyXYWes-w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-18_04,2023-11-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
- mlxlogscore=999 suspectscore=0 mlxscore=0 bulkscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311180045
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OOjyLEvCGlxJVCOw"
+Content-Disposition: inline
+In-Reply-To: <20231117161215.140282-1-amiculas@cisco.com>
 
-When the link is changed, qca8084 needs to do the fifo reset and
-adjust the IPG level for the qusgmii link speed 1000M.
 
-Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
----
- drivers/net/phy/at803x.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+--OOjyLEvCGlxJVCOw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/net/phy/at803x.c b/drivers/net/phy/at803x.c
-index 06a068ca5539..7267ce858937 100644
---- a/drivers/net/phy/at803x.c
-+++ b/drivers/net/phy/at803x.c
-@@ -289,6 +289,13 @@
- #define QCA8084_MSE_THRESHOLD			0x800a
- #define QCA8084_MSE_THRESHOLD_2P5G_VAL		0x51c6
- 
-+#define QCA8084_FIFO_CONTROL			0x19
-+#define QCA8084_FIFO_MAC_2_PHY			BIT(1)
-+#define QCA8084_FIFO_PHY_2_MAC			BIT(0)
-+
-+#define QCA8084_MMD7_IPG_OP			0x901d
-+#define QCA8084_IPG_10_TO_11_EN			BIT(0)
-+
- MODULE_DESCRIPTION("Qualcomm Atheros AR803x and QCA808X PHY driver");
- MODULE_AUTHOR("Matus Ujhelyi");
- MODULE_LICENSE("GPL");
-@@ -2109,6 +2116,35 @@ static int qca8084_config_init(struct phy_device *phydev)
- 			     QCA8084_MSE_THRESHOLD, QCA8084_MSE_THRESHOLD_2P5G_VAL);
- }
- 
-+static void qca8084_link_change_notify(struct phy_device *phydev)
-+{
-+	int ret;
-+
-+	ret = phy_modify(phydev, QCA8084_FIFO_CONTROL,
-+			 QCA8084_FIFO_MAC_2_PHY | QCA8084_FIFO_PHY_2_MAC,
-+			 0);
-+	if (ret)
-+		return;
-+
-+	/* If the PHY works on PHY_INTERFACE_MODE_10G_QXGMII mode, the fifo needs to
-+	 * be kept as reset state in link down status.
-+	 */
-+	if (phydev->interface != PHY_INTERFACE_MODE_10G_QXGMII || phydev->link) {
-+		msleep(50);
-+		ret = phy_modify(phydev, QCA8084_FIFO_CONTROL,
-+				 QCA8084_FIFO_MAC_2_PHY | QCA8084_FIFO_PHY_2_MAC,
-+				 QCA8084_FIFO_MAC_2_PHY | QCA8084_FIFO_PHY_2_MAC);
-+		if (ret)
-+			return;
-+	}
-+
-+	/* Enable IPG 10 to 11 tuning on link speed 1000M of QUSGMII mode. */
-+	if (phydev->interface == PHY_INTERFACE_MODE_10G_QXGMII)
-+		phy_modify_mmd(phydev, MDIO_MMD_AN, QCA8084_MMD7_IPG_OP,
-+			       QCA8084_IPG_10_TO_11_EN,
-+			       phydev->speed == SPEED_1000 ? QCA8084_IPG_10_TO_11_EN : 0);
-+}
-+
- static struct phy_driver at803x_driver[] = {
- {
- 	/* Qualcomm Atheros AR8035 */
-@@ -2307,6 +2343,7 @@ static struct phy_driver at803x_driver[] = {
- 	.cable_test_start	= qca808x_cable_test_start,
- 	.cable_test_get_status	= qca808x_cable_test_get_status,
- 	.config_init		= qca8084_config_init,
-+	.link_change_notify	= qca8084_link_change_notify,
- }, };
- 
- module_phy_driver(at803x_driver);
--- 
-2.42.0
+On Fri, Nov 17, 2023 at 06:12:14PM +0200, Ariel Miculas wrote:
+> +2.1 Mount options
+> +-----------------
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +errors=3D%s              Specify whether squashfs errors trigger a kerne=
+l panic
+> +                       or not
+> +
+> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +                         continue  errors don't trigger a panic (default)
+> +                            panic  trigger a panic when errors are encou=
+ntered,
+> +                                   similar to several other filesystems =
+(e.g.
+> +                                   btrfs, ext4, f2fs, GFS2, jfs, ntfs, u=
+bifs)
+> +
+> +                                   This allows a kernel dump to be saved,
+> +                                   useful for analyzing and debugging the
+> +                                   corruption.
+> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +threads=3D%s             Select the decompression mode or the number of =
+threads
+> +
+> +                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is set:
+> +
+> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +                           single  use single-threaded decompression (de=
+fault)
+> +
+> +                                   Only one block (data or metadata) can=
+ be
+> +                                   decompressed at any one time. This li=
+mits
+"... at any time ..."?
+> +                                   CPU and memory usage to a minimum, bu=
+t it
+> +                                   also gives poor performance on parall=
+el I/O
+> +                                   workloads when using multiple CPU mac=
+hines
+> +                                   due to waiting on decompressor availa=
+bility.
+> +                            multi  use up to two parallel decompressors =
+per core
+> +
+> +                                   If you have a parallel I/O workload a=
+nd your
+> +                                   system has enough memory, using this =
+option
+> +                                   may improve overall I/O performance. =
+It
+> +                                   dynamically allocates decompressors o=
+n a
+> +                                   demand basis.
+"... on-demand."
+> +                           percpu  use a maximum of one decompressor per=
+ core
+> +
+> +                                   It uses percpu variables to ensure
+> +                                   decompression is load-balanced across=
+ the
+> +                                   cores.
+> +                        1|2|3|...  configure the number of threads used =
+for
+> +                                   decompression
+> +
+> +                                   The upper limit is num_online_cpus() =
+* 2.
+> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is **not** set=
+ and
+> +                       SQUASHFS_DECOMP_MULTI, SQUASHFS_MOUNT_DECOMP_THRE=
+ADS are
+> +                       both set:
+> +
+> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +                          2|3|...  configure the number of threads used =
+for
+> +                                   decompression
+> +
+> +                                   The upper limit is num_online_cpus() =
+* 2.
+> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
 
+Regardless,
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--OOjyLEvCGlxJVCOw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZVhgYQAKCRD2uYlJVVFO
+o0wEAQDCEx69r/MxTfIs1EtCoWEgiy8qma4H4G3Hd+wpZPOUEQEAnI7JrM33/nsT
+qlXLZWbFFQA7dGEauPJSvUjCjiSKeQQ=
+=bOD2
+-----END PGP SIGNATURE-----
+
+--OOjyLEvCGlxJVCOw--
