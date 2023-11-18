@@ -1,193 +1,224 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OcDGsYj7"
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E915FD6C;
-	Fri, 17 Nov 2023 22:57:45 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c4eb5fda3cso2773520b3a.2;
-        Fri, 17 Nov 2023 22:57:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="OgOH+LU+"
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1326D6D
+	for <linux-doc@vger.kernel.org>; Sat, 18 Nov 2023 02:39:06 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1ce618b7919so8862925ad.0
+        for <linux-doc@vger.kernel.org>; Sat, 18 Nov 2023 02:39:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700290665; x=1700895465; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dmkXYXE30FSJCqGwVrvQdeF2n4RTnA1NPHyhBfzNcpI=;
-        b=OcDGsYj7JT1Yw8AJhJaXi8VPEFrjj20Uu4qYRjA9ezvFiuFuTrV/F0z8cas9pmS32h
-         3HuaOIBYwGT1UxFHbIVJUiQRU+tnl+alFQfmEn+mCnLbbzG+szpVmi/91dN1E02J6bHS
-         56rbNotg1wZCvT6qjy9ZSnt1eo0iesT7hOKQsO2Ovfh4skEpoWbuOSZvIDVo7eGJyuEk
-         xBpNvB8NEDXQUNQhmwDZoRhwkRF1vVYwuin/iLXQkTi3DGVTFw3oJc8FPUuXcNGnk4L4
-         gFXdCBxcgX17yLKTndVOjFqjc/6iH6eanGWh9t/CHFemO9UPVr3jcLaqCwS+LPVe5Uxn
-         O14g==
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1700303946; x=1700908746; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zy1KCU9oTgYlIGJ1CmWqV4X6k+RLxXAN+NT2CTiEe4g=;
+        b=OgOH+LU+DlnpLwQZuxxGIoOgEifApS1GwUrc/zmItgbKDpwXwQj0hKw2dQ9h8qisGG
+         31MHSx4nUFyYfqUOeC/KsC8vt5SgGRLy/I9zO62oysgiepVdv2LUStmtrQ9X/5xhn3uu
+         lKBuB2opDvL4jmKeuncrj7+HCzmR4QQNcnAJBWNNXWhg/x9ju08cZTqsCXgxtcZell1t
+         QmMgAU2E12RmFuBRC0Wk9Rxi4J/SDQivi2MuNFNb9l1EfpebPy4SaEuk0cONzx78Klwj
+         H7XiyXqGdxFW/TcDXpPSu1+n8Vzv+NGVm8jIv+Mx53l3el4WUk41UdohTbLybQherx48
+         SklA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700290665; x=1700895465;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dmkXYXE30FSJCqGwVrvQdeF2n4RTnA1NPHyhBfzNcpI=;
-        b=c90ZBlk6W7qEoi7CSk2GzncmF/sOagAa8i01lzuU59Nox6Ym5aYMZTjppvwOTowMma
-         GjhnIYSWHf3ikhIJZFIGtI2ZR8YvoTVaNA06KEm++AvJGrz3Py69bMjoeagfOjAciLOr
-         G2K+FpdrBu/OvFg57nyK2N0gfIm0A1njeBebQrECkXJEkN3HbASfEtxXV+Lz2jlK0fp/
-         y8hTE9P2U3MKoNoKidXbbhKfPVc+pvegtRt4jaF3DM8CTKYIOPmTwe0SFLsChuHdb4rC
-         QhfSXiGq/fhu16hR5Qt6/6U8h0HrOnPeLbLnfJ/z5usHuNfro8koPSzUhrED9Cdj8eVK
-         +MVQ==
-X-Gm-Message-State: AOJu0YwDeAIa2IfCZcbAVQQiuIkcfYVvTOqmQdFnkhKvm/sx7Szuf8mM
-	2mvSDubKMYfbfHPvhNYniFM=
-X-Google-Smtp-Source: AGHT+IHrWN7H7iZZ0PjIQhwXQnMmrfSgbCkXI+vE4StHgq8rE2EHS8OY7+87OGiINU9TSN8DQGTDww==
-X-Received: by 2002:a05:6a20:3ca5:b0:188:290f:3da7 with SMTP id b37-20020a056a203ca500b00188290f3da7mr1917449pzj.14.1700290665104;
-        Fri, 17 Nov 2023 22:57:45 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id x4-20020a17090ad68400b002802d9d4e96sm4093213pju.54.2023.11.17.22.57.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Nov 2023 22:57:44 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 9F579102A830C; Sat, 18 Nov 2023 13:57:41 +0700 (WIB)
-Date: Sat, 18 Nov 2023 13:57:41 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Ariel Miculas <amiculas@cisco.com>, linux-doc@vger.kernel.org
-Cc: serge@hallyn.com, Phillip Lougher <phillip@squashfs.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs: filesystems: document the squashfs specific
- mount options
-Message-ID: <ZVhgZanTGYE94p1t@archie.me>
-References: <20231117161215.140282-1-amiculas@cisco.com>
+        d=1e100.net; s=20230601; t=1700303946; x=1700908746;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zy1KCU9oTgYlIGJ1CmWqV4X6k+RLxXAN+NT2CTiEe4g=;
+        b=WpuI//RqaDk+1IVBEmFrjeU3HkCLw61KQm6LFDGIdXT2OFmkgCX/S8UXKPmTp8NsDQ
+         Ix6FFlgohPDq2io9fuma2RhseNqzxiNdFlbwRgOwazRFi5ZXW6Y3z/yLbHFbn/rDzwPi
+         PHfPbH0bXh5DQ3P6QYpkaYGI6j7kXkL6kl72GGBwHFBA7fEdWw6MbeseqpEMuONy/cJu
+         30y98ObU+kZeosoJ66ujd7h/YhPg/IU6NQ/iWx+vzn0x8s9Bg7Mcgu/HxgV++0z9DGM9
+         8+YB6MXEuvtD6/QROpYAYZhKJ3rA3lO+3HwstTEF/0AcDEZuuqramVk9w8m5iN9m+EFU
+         cTFQ==
+X-Gm-Message-State: AOJu0YwBAQF3h+pYE+m+6uSDlwa0Io8kwC6bcEplmW1hAnLKrXKCB1ES
+	u+kdwGrd8SE019EBrlfhYBIWZQ==
+X-Google-Smtp-Source: AGHT+IF5N3QYbHRaegOcdKOfyplWUxrNW29H3jMu8vldA9SOfJqtKJgbzZKkkQCNxUUc0PsWDQo6Hw==
+X-Received: by 2002:a17:902:e88e:b0:1cc:5aef:f2c3 with SMTP id w14-20020a170902e88e00b001cc5aeff2c3mr11314929plg.22.1700303946093;
+        Sat, 18 Nov 2023 02:39:06 -0800 (PST)
+Received: from [157.82.205.15] ([157.82.205.15])
+        by smtp.gmail.com with ESMTPSA id c11-20020a170902aa4b00b001b896686c78sm2745643plr.66.2023.11.18.02.38.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Nov 2023 02:39:05 -0800 (PST)
+Message-ID: <6253fb6b-9a53-484a-9be5-8facd46c051e@daynix.com>
+Date: Sat, 18 Nov 2023 19:38:58 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OOjyLEvCGlxJVCOw"
-Content-Disposition: inline
-In-Reply-To: <20231117161215.140282-1-amiculas@cisco.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Jason Wang <jasowang@redhat.com>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
+ Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>
+References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
+ <20231015141644.260646-2-akihiko.odaki@daynix.com>
+ <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
+ <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com>
+ <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
+ <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
+ <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
+ <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com>
+In-Reply-To: <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 2023/10/18 4:19, Akihiko Odaki wrote:
+> On 2023/10/18 4:03, Alexei Starovoitov wrote:
+>> On Mon, Oct 16, 2023 at 7:38 PM Jason Wang <jasowang@redhat.com> wrote:
+>>>
+>>> On Tue, Oct 17, 2023 at 7:53 AM Alexei Starovoitov
+>>> <alexei.starovoitov@gmail.com> wrote:
+>>>>
+>>>> On Sun, Oct 15, 2023 at 10:10 AM Akihiko Odaki 
+>>>> <akihiko.odaki@daynix.com> wrote:
+>>>>>
+>>>>> On 2023/10/16 1:07, Alexei Starovoitov wrote:
+>>>>>> On Sun, Oct 15, 2023 at 7:17 AM Akihiko Odaki 
+>>>>>> <akihiko.odaki@daynix.com> wrote:
+>>>>>>>
+>>>>>>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+>>>>>>> index 0448700890f7..298634556fab 100644
+>>>>>>> --- a/include/uapi/linux/bpf.h
+>>>>>>> +++ b/include/uapi/linux/bpf.h
+>>>>>>> @@ -988,6 +988,7 @@ enum bpf_prog_type {
+>>>>>>>           BPF_PROG_TYPE_SK_LOOKUP,
+>>>>>>>           BPF_PROG_TYPE_SYSCALL, /* a program that can execute 
+>>>>>>> syscalls */
+>>>>>>>           BPF_PROG_TYPE_NETFILTER,
+>>>>>>> +       BPF_PROG_TYPE_VNET_HASH,
+>>>>>>
+>>>>>> Sorry, we do not add new stable program types anymore.
+>>>>>>
+>>>>>>> @@ -6111,6 +6112,10 @@ struct __sk_buff {
+>>>>>>>           __u8  tstamp_type;
+>>>>>>>           __u32 :24;              /* Padding, future use. */
+>>>>>>>           __u64 hwtstamp;
+>>>>>>> +
+>>>>>>> +       __u32 vnet_hash_value;
+>>>>>>> +       __u16 vnet_hash_report;
+>>>>>>> +       __u16 vnet_rss_queue;
+>>>>>>>    };
+>>>>>>
+>>>>>> we also do not add anything to uapi __sk_buff.
+>>>>>>
+>>>>>>> +const struct bpf_verifier_ops vnet_hash_verifier_ops = {
+>>>>>>> +       .get_func_proto         = sk_filter_func_proto,
+>>>>>>> +       .is_valid_access        = sk_filter_is_valid_access,
+>>>>>>> +       .convert_ctx_access     = bpf_convert_ctx_access,
+>>>>>>> +       .gen_ld_abs             = bpf_gen_ld_abs,
+>>>>>>> +};
+>>>>>>
+>>>>>> and we don't do ctx rewrites like this either.
+>>>>>>
+>>>>>> Please see how hid-bpf and cgroup rstat are hooking up bpf
+>>>>>> in _unstable_ way.
+>>>>>
+>>>>> Can you describe what "stable" and "unstable" mean here? I'm new to 
+>>>>> BPF
+>>>>> and I'm worried if it may mean the interface stability.
+>>>>>
+>>>>> Let me describe the context. QEMU bundles an eBPF program that is used
+>>>>> for the "eBPF steering program" feature of tun. Now I'm proposing to
+>>>>> extend the feature to allow to return some values to the userspace and
+>>>>> vhost_net. As such, the extension needs to be done in a way that 
+>>>>> ensures
+>>>>> interface stability.
+>>>>
+>>>> bpf is not an option then.
+>>>> we do not add stable bpf program types or hooks any more.
+>>>
+>>> Does this mean eBPF could not be used for any new use cases other than
+>>> the existing ones?
+>>
+>> It means that any new use of bpf has to be unstable for the time being.
+> 
+> Can you elaborate more about making new use unstable "for the time 
+> being?" Is it a temporary situation? What is the rationale for that? 
+> Such information will help devise a solution that is best for both of 
+> the BPF and network subsystems.
+> 
+> I would also appreciate if you have some documentation or link to 
+> relevant discussions on the mailing list. That will avoid having same 
+> discussion you may already have done in the past.
 
---OOjyLEvCGlxJVCOw
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Fri, Nov 17, 2023 at 06:12:14PM +0200, Ariel Miculas wrote:
-> +2.1 Mount options
-> +-----------------
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +errors=3D%s              Specify whether squashfs errors trigger a kerne=
-l panic
-> +                       or not
-> +
-> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +                         continue  errors don't trigger a panic (default)
-> +                            panic  trigger a panic when errors are encou=
-ntered,
-> +                                   similar to several other filesystems =
-(e.g.
-> +                                   btrfs, ext4, f2fs, GFS2, jfs, ntfs, u=
-bifs)
-> +
-> +                                   This allows a kernel dump to be saved,
-> +                                   useful for analyzing and debugging the
-> +                                   corruption.
-> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +threads=3D%s             Select the decompression mode or the number of =
-threads
-> +
-> +                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is set:
-> +
-> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +                           single  use single-threaded decompression (de=
-fault)
-> +
-> +                                   Only one block (data or metadata) can=
- be
-> +                                   decompressed at any one time. This li=
-mits
-"... at any time ..."?
-> +                                   CPU and memory usage to a minimum, bu=
-t it
-> +                                   also gives poor performance on parall=
-el I/O
-> +                                   workloads when using multiple CPU mac=
-hines
-> +                                   due to waiting on decompressor availa=
-bility.
-> +                            multi  use up to two parallel decompressors =
-per core
-> +
-> +                                   If you have a parallel I/O workload a=
-nd your
-> +                                   system has enough memory, using this =
-option
-> +                                   may improve overall I/O performance. =
-It
-> +                                   dynamically allocates decompressors o=
-n a
-> +                                   demand basis.
-"... on-demand."
-> +                           percpu  use a maximum of one decompressor per=
- core
-> +
-> +                                   It uses percpu variables to ensure
-> +                                   decompression is load-balanced across=
- the
-> +                                   cores.
-> +                        1|2|3|...  configure the number of threads used =
-for
-> +                                   decompression
-> +
-> +                                   The upper limit is num_online_cpus() =
-* 2.
-> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +                       If SQUASHFS_CHOICE_DECOMP_BY_MOUNT is **not** set=
- and
-> +                       SQUASHFS_DECOMP_MULTI, SQUASHFS_MOUNT_DECOMP_THRE=
-ADS are
-> +                       both set:
-> +
-> +		       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +                          2|3|...  configure the number of threads used =
-for
-> +                                   decompression
-> +
-> +                                   The upper limit is num_online_cpus() =
-* 2.
-> +                       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
+The discussion has been stuck for a month, but I'd still like to 
+continue figuring out the way best for the whole kernel to implement 
+this feature. I summarize the current situation and question that needs 
+to be answered before push this forward:
 
-Regardless,
+The goal of this RFC is to allow to report hash values calculated with 
+eBPF steering program. It's essentially just to report 4 bytes from the 
+kernel to the userspace.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Unfortunately, however, it is not acceptable for the BPF subsystem 
+because the "stable" BPF is completely fixed these days. The 
+"unstable/kfunc" BPF is an alternative, but the eBPF program will be 
+shipped with a portable userspace program (QEMU)[1] so the lack of 
+interface stability is not tolerable.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Another option is to hardcode the algorithm that was conventionally 
+implemented with eBPF steering program in the kernel[2]. It is possible 
+because the algorithm strictly follows the virtio-net specification[3]. 
+However, there are proposals to add different algorithms to the 
+specification[4], and hardcoding the algorithm to the kernel will 
+require to add more UAPIs and code each time such a specification change 
+happens, which is not good for tuntap.
 
---OOjyLEvCGlxJVCOw
-Content-Type: application/pgp-signature; name="signature.asc"
+In short, the proposed feature requires to make either of three compromises:
 
------BEGIN PGP SIGNATURE-----
+1. Compromise on the BPF side: Relax the "stable" BPF feature freeze 
+once and allow eBPF steering program to report 4 more bytes to the kernel.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZVhgYQAKCRD2uYlJVVFO
-o0wEAQDCEx69r/MxTfIs1EtCoWEgiy8qma4H4G3Hd+wpZPOUEQEAnI7JrM33/nsT
-qlXLZWbFFQA7dGEauPJSvUjCjiSKeQQ=
-=bOD2
------END PGP SIGNATURE-----
+2. Compromise on the tuntap side: Implement the algorithm to the kernel, 
+and abandon the capability to update the algorithm without changing the 
+kernel.
 
---OOjyLEvCGlxJVCOw--
+IMHO, I think it's better to make a compromise on the BPF side (option 
+1). We should minimize the total UAPI changes in the whole kernel, and 
+option 1 is much superior in that sense.
+
+Yet I have to note that such a compromise on the BPF side can risk the 
+"stable" BPF feature freeze fragile and let other people complain like 
+"you allowed to change stable BPF for this, why do you reject [some 
+other request to change stable BPF]?" It is bad for BPF maintainers. (I 
+can imagine that introducing and maintaining widely different BPF 
+interfaces is too much burden.) And, of course, this requires an 
+approval from BPF maintainers.
+
+So I'd like to ask you that which of these compromises you think worse. 
+Please also tell me if you have another idea.
+
+Regards,
+Akihiko Odaki
+
+[1] https://qemu.readthedocs.io/en/v8.1.0/devel/ebpf_rss.html
+[2] 
+https://lore.kernel.org/all/20231008052101.144422-1-akihiko.odaki@daynix.com/
+[3] 
+https://docs.oasis-open.org/virtio/virtio/v1.2/csd01/virtio-v1.2-csd01.html#x1-2400003
+[4] 
+https://lore.kernel.org/all/CACGkMEuBbGKssxNv5AfpaPpWQfk2BHR83rM5AHXN-YVMf2NvpQ@mail.gmail.com/
