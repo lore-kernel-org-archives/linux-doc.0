@@ -1,62 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573B1809;
-	Sat, 18 Nov 2023 00:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IiRkNMZE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA6F8C433C7;
-	Sat, 18 Nov 2023 00:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700267981;
-	bh=Je/ApF2K7SYvSPIxFVB5Me2FUgzHHhsUTSYdaPeNC2M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IiRkNMZEHCZKk9mAEgz3XMwp/Kpr1kMZDf5cAY6rG5HeZZDPzixvMd8qR6Fj8xuFD
-	 cZqwHUjLKhh2b1MGD4eETVLU/2Bchjyb1yqxJL0X4/cf16yqpnAN3AcaURv+uNDNNa
-	 T/6M6T/aO9SSqKVhXMXSTjgy5BCB3CIRQut3i0KoAllyNEh+d6BhNb0dfKCGv+GbsF
-	 r6Qp0qCQ7GaWaPnhc2x5B4L0eSzAT1mWQ1HIiAgGoN9AQRC4invZO4owDjYwXRSfpw
-	 0JWb7TKjy3qlzWhfyvOxzr6FqW759agQIXUTWV0my+k4T2//Lx1iLWA66ymCW5pgx8
-	 7djxeRIbw8KmQ==
-Date: Fri, 17 Nov 2023 16:39:39 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: leit@meta.com
-Cc: Jonathan Corbet <corbet@lwn.net>, Breno Leitao <leitao@debian.org>,
- netdev@vger.kernel.org, donald.hunter@gmail.com, linux-doc@vger.kernel.org,
- pabeni@redhat.com, edumazet@google.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: Document each netlink family
-Message-ID: <20231117163939.2de33e83@kernel.org>
-In-Reply-To: <87y1ew6n4x.fsf@meer.lwn.net>
-References: <20231113202936.242308-1-leitao@debian.org>
-	<87y1ew6n4x.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bzkEC6Sh"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17155D5D;
+	Fri, 17 Nov 2023 22:28:24 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AI6MOOZ031123;
+	Sat, 18 Nov 2023 06:28:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=y3Zz7GCHDFah9QxpNLHMDf5YRAeO9fNs/MMz1Kc2zS0=;
+ b=bzkEC6Sh9LSiNXxP2zAW/U/utVDAUIxAb4dCapg9H36vd1ZvjSWM5spBGT9gdIbeM7qJ
+ fLPHVN9xKxZjBnIO9E/7kRSwIuClZHbTr1FKmJJ/q1hn3D6kKLPSZG/cKE8p+c8wEmO9
+ Ucm+6z7NndZXv1I9vZK9ydOwk2M4AFoBSBbj2yxxNIkenMMA1BqB9EWqi0mVWKswSNX8
+ NGtqVOJ+GZLoG+vXwD8vDBulQgnTP4bZsDDKByrXqFw+nPDtrv4QDsQqzqOCuqmkviFH
+ 91UoZqlhDHTXMOYT+5dsZjj+XkxYstRJVVcR4aTD3pm+RJUKU9TyO3Qw9t9seIqYItNr zQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uem80g8rt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 18 Nov 2023 06:28:07 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AI6S7Am017661
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 18 Nov 2023 06:28:07 GMT
+Received: from akronite-sh-dev02.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 17 Nov 2023 22:28:03 -0800
+From: Luo Jie <quic_luoj@quicinc.com>
+To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>
+CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v5 0/6] add qca8084 ethernet phy driver
+Date: Sat, 18 Nov 2023 14:27:48 +0800
+Message-ID: <20231118062754.2453-1-quic_luoj@quicinc.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _9XxuwS-eAsb7qcFOKPmGfEQ8WWrOf4z
+X-Proofpoint-ORIG-GUID: _9XxuwS-eAsb7qcFOKPmGfEQ8WWrOf4z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-18_04,2023-11-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=638
+ adultscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311180045
 
-On Fri, 17 Nov 2023 15:17:02 -0700 Jonathan Corbet wrote:
-> In principle I like this approach better.  There is one problem, though:
-> 
-> - In current kernels, on my machine, "make htmldocs" when nothing has
->   changed takes about 6s to complete.
-> 
-> - With this patch applied, it takes a little over 5 *minutes*.
-> 
-> Without having delved into it too far, I am guessing that the
-> unconditional recreation of the netlink RST files is causing the rebuild
-> of much of the documentation.  Even so, I don't quite get it.
-> 
-> That, clearly, would need to be fixed before this can go in.
+QCA8084 is four-port PHY with maximum link capability 2.5G,
+which supports the interface mode qusgmii and sgmii mode,
+there are two PCSs available to connected with ethernet port.
 
-FWIW on the C code-gen side we avoid touching the files if nothing
-changed both at the Makefile level:
+QCA8084 can work in switch mode or PHY mode.
+For switch mode, both PCS0 and PCS1 work on sgmii mode.
+For PHY mode, PCS1 works on qusgmii mode, the last port
+(the fourth port) works on sgmii mode.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/tools/net/ynl/generated/Makefile#n28
+Besides this PHY driver patches, the PCS driver is also needed
+to bring up the qca8084 device, which mainly configurs PCS
+and clocks.
 
-And the tool itself actually generates to a tempfile and compares
-if the output changed:
+Changes in v3:
+	* pick the two patches to introduce the interface mode
+	  10g-qxgmii from Vladimir Oltean(olteanv@gmail.com).
+	* add the function phydev_id_is_qca808x to identify the
+	  PHY qca8081 and qca8084.
+	* update the interface mode name PHY_INTERFACE_MODE_QUSGMII
+	  to PHY_INTERFACE_MODE_10G_QXGMII.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=2b7ac0c87d985c92e519995853c52b9649ea4b07
+Changes in v4:
+	* remove the following patch:
+	  <net: phylink: move phylink_pcs_neg_mode() to phylink.c>.
+	* split out 10g_qxgmii change of ethernet-controller.yaml.
+
+Changes in v5:
+	* update the author of the patch below.
+	  <introduce core support for phy-mode = "10g-qxgmii">.
+
+Luo Jie (4):
+  net: phy: at803x: add QCA8084 ethernet phy support
+  net: phy: at803x: add the function phydev_id_is_qca808x
+  net: phy: at803x: Add qca8084_config_init function
+  net: phy: qca8084: add qca8084_link_change_notify
+
+Vladimir Oltean (2):
+  net: phy: introduce core support for phy-mode = "10g-qxgmii"
+  dt-bindings: net: ethernet-controller: add 10g-qxgmii mode
+
+ .../bindings/net/ethernet-controller.yaml     |   1 +
+ Documentation/networking/phy.rst              |   6 +
+ drivers/net/phy/at803x.c                      | 130 +++++++++++++++++-
+ drivers/net/phy/phy-core.c                    |   1 +
+ drivers/net/phy/phylink.c                     |  11 +-
+ include/linux/phy.h                           |   4 +
+ include/linux/phylink.h                       |   2 +
+ 7 files changed, 147 insertions(+), 8 deletions(-)
+
+
+base-commit: eff99d8edbed7918317331ebd1e365d8e955d65e
+-- 
+2.42.0
+
