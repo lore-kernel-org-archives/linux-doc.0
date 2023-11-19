@@ -1,132 +1,196 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EC912B7C;
-	Sun, 19 Nov 2023 21:02:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930551427B
+	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 21:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZpuU0td"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57949C433C9;
-	Sun, 19 Nov 2023 21:02:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cHl3hRuS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15E9FC433C9
+	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 21:50:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700427767;
-	bh=LdCcDCVibEq9XtMPBRAazcWyb1lUm4YRH93xkKpOHbM=;
+	s=k20201202; t=1700430650;
+	bh=zgiu7PKewyccP8U06neS5ipWocpbmMeaRIGLyeoZXWs=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FZpuU0tdRMVqNc17EPw2Yx+O61k7X2a1HFa5dIdI0JeSJbPg+OayhEf8qOUGAqiy3
-	 t65XUeKw8Z935Y5auUU0WejjqnKGgNlEp1OxFv3e2uEtZJlCjgkEV4oIU6FCpC7Ovs
-	 QRuW5N2zde8PrWeKWO39XMJLMQysUEvMBI4N3XDwn/odf4AVo7ewp/Cj5zp56782Vv
-	 uXEpEyQ8f4mV+dC1VwB33IAfg95hhwshydjYwfaxW2yJAJlvzXqSkLtHWFHq0EA08i
-	 vATgFTBKZotJ6LQY5zo+mmwR81AvAOd4c8JUF5epck+DjCpD4r8DMoNr8uQmKeXBP9
-	 R07melvoUfkSw==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c509d5ab43so51544441fa.0;
-        Sun, 19 Nov 2023 13:02:47 -0800 (PST)
-X-Gm-Message-State: AOJu0YwGj2mEpQ+m6A257C8NBKjue25jd2UZAbsg8QKSN2rN22yUTpG2
-	j67ehwwO4XcsCuSfDiuSEysnjYvWqgn36Y8IvOQ=
-X-Google-Smtp-Source: AGHT+IFyYOQHQnx0Par61ni3D+IsRVTlNd6D9SKI0apNaeY6hc8EhMaBYVtDLvZWr7jIRh/7uxjcLeqDv60Mo+HqTn0=
-X-Received: by 2002:a2e:9656:0:b0:2be:54b4:ff90 with SMTP id
- z22-20020a2e9656000000b002be54b4ff90mr2814616ljh.53.1700427765530; Sun, 19
- Nov 2023 13:02:45 -0800 (PST)
+	b=cHl3hRuSnpEYQyOt/yDeEBZciZg96QDrijvu1yCxemF6c6mDRz1pXdpdf1kGc6o2f
+	 j6H5WG/TAR3kOShK1iTA3LLiObfWUrAuv5SX9wNUEXu+QIVqxtA0W95EwISdhzaciF
+	 pZHy1d2WMXb6LFoe9IHi0etunN53faWhl3rWZQUvFwaPifiTO0EcDX+paE8DmMth7Y
+	 SuU3njCKzFjO9rXmceBYhhwv8/MoamumbRgdqJF7WpHjbK47YlLqhDcSv9etmpphcp
+	 y55KICu5IPaWqR+vDW7opigzs0fQjiLyPAO6ng7rm+VLB80egQcMTEHWDOIzbj/frx
+	 SyS4S2MDy8pVw==
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-77bb668d941so244098285a.3
+        for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 13:50:50 -0800 (PST)
+X-Gm-Message-State: AOJu0YwD1B3Zxo4LV5FFviEMwMmVeQ+RX1GJCTQlRhuG2FjYwX6J/G2b
+	RiAM0drq8obew2DHnyxQ2iJgfGpdQ+zmWeXngXPTvQ==
+X-Google-Smtp-Source: AGHT+IGDSa3b6V1ktCcAlvz3eC3dX3eWzMsSdTIQeDuOrw7uz0Sm3h1kayllweq+7zBObq98O0kPxMILbaU8L6e9KgQ=
+X-Received: by 2002:a17:90b:1645:b0:262:f449:4497 with SMTP id
+ il5-20020a17090b164500b00262f4494497mr6088865pjb.2.1700430628843; Sun, 19 Nov
+ 2023 13:50:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
- <20231015141644.260646-2-akihiko.odaki@daynix.com> <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
- <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com> <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
- <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
- <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
- <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com> <6253fb6b-9a53-484a-9be5-8facd46c051e@daynix.com>
- <CAPhsuW5JYoM-Mkehdy=FQsG1nvjbYGzwRZx8BkpG1P7cHdD=eQ@mail.gmail.com> <dba89d4b-84aa-4c9f-b016-56fd3ade04b2@daynix.com>
-In-Reply-To: <dba89d4b-84aa-4c9f-b016-56fd3ade04b2@daynix.com>
-From: Song Liu <song@kernel.org>
-Date: Sun, 19 Nov 2023 13:02:33 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
-Message-ID: <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Jason Wang <jasowang@redhat.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>
+References: <20231115172344.4155593-1-nphamcs@gmail.com> <CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com>
+ <CAJD7tkZ1U+YuvoBAnrXFxQDiQV2hXdbMG-gbzu64R8GLAtNAPA@mail.gmail.com>
+ <CAF8kJuPTNwQM413UdeQTkMQ8HkJFyF4OWVrxJSf7uWbege0CXQ@mail.gmail.com>
+ <CAKEwX=O5M-vZE5YhYQ5_CbCmXovS1XECO4ROXKWo06K880M1Mg@mail.gmail.com>
+ <CAF8kJuOD6zq2VPcVdoZGvkzYX8iXn1akuYhNDJx-LUdS+Sx3GA@mail.gmail.com> <CAKEwX=NdFjemcmf27PVpgHpVHWQEo19KfApepWJBRYeyVCWvCw@mail.gmail.com>
+In-Reply-To: <CAKEwX=NdFjemcmf27PVpgHpVHWQEo19KfApepWJBRYeyVCWvCw@mail.gmail.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Sun, 19 Nov 2023 13:50:17 -0800
+X-Gmail-Original-Message-ID: <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
+Message-ID: <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
+Subject: Re: [PATCH v5] zswap: memcontrol: implement zswap writeback disabling
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Yosry Ahmed <yosryahmed@google.com>, Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, 
+	lizefan.x@bytedance.com, Johannes Weiner <hannes@cmpxchg.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Seth Jennings <sjenning@redhat.com>, 
+	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
+	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
+	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 19, 2023 at 12:03=E2=80=AFAM Akihiko Odaki <akihiko.odaki@dayni=
-x.com> wrote:
+On Sun, Nov 19, 2023 at 11:08=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
 >
-[...]
->
-> Unfortunately no. The communication with the userspace can be done with
-> two different means:
-> - usual socket read/write
-> - vhost for direct interaction with a KVM guest
->
-> The BPF map may be a valid option for socket read/write, but it is not
-> for vhost. In-kernel vhost may fetch hash from the BPF map, but I guess
-> it's not a standard way to have an interaction between the kernel code
-> and a BPF program.
-
-I am very new to areas like vhost and KVM. So I don't really follow.
-Does this mean we have the guest kernel reading data from host eBPF
-programs (loaded by Qemu)?
-
+> On Sun, Nov 19, 2023 at 1:39=E2=80=AFAM Chris Li <chrisl@kernel.org> wrot=
+e:
 > >
-> >>
-> >> Unfortunately, however, it is not acceptable for the BPF subsystem
-> >> because the "stable" BPF is completely fixed these days. The
-> >> "unstable/kfunc" BPF is an alternative, but the eBPF program will be
-> >> shipped with a portable userspace program (QEMU)[1] so the lack of
-> >> interface stability is not tolerable.
+> > On Sat, Nov 18, 2023 at 11:23=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> =
+wrote:
+> > >
+> > > Hmm how about this - in the future, we support the following
+> > > options:
+> > >
+> > > 1. zswap.writeback =3D=3D 1: no limitation to zswap writeback.
+> > > All backing swap devices (sorted by priorities?) are fair game.
+> > >
+> > > 2. zswap.writeback =3D=3D 0: disable all forms of zswap writeback.
+> > >
+> > > 3. zswap.writeback =3D=3D <tiers description>:  attempt to write to e=
+ach
+> > > tier, one at a time.
 > >
-> > bpf kfuncs are as stable as exported symbols. Is exported symbols
-> > like stability enough for the use case? (I would assume yes.)
+> > We can merge the zswap.writeback as it is for now to unblock you.
 > >
-> >>
-> >> Another option is to hardcode the algorithm that was conventionally
-> >> implemented with eBPF steering program in the kernel[2]. It is possibl=
-e
-> >> because the algorithm strictly follows the virtio-net specification[3]=
-.
-> >> However, there are proposals to add different algorithms to the
-> >> specification[4], and hardcoding the algorithm to the kernel will
-> >> require to add more UAPIs and code each time such a specification chan=
-ge
-> >> happens, which is not good for tuntap.
-> >
-> > The requirement looks similar to hid-bpf. Could you explain why that
-> > model is not enough? HID also requires some stability AFAICT.
+> > For the future. I think we should remove zswap.writeback completely.
 >
-> I have little knowledge with hid-bpf, but I assume it is more like a
-> "safe" kernel module; in my understanding, it affects the system state
-> and is intended to be loaded with some kind of a system daemon. It is
-> fine to have the same lifecycle with the kernel for such a BPF program;
-> whenever the kernel is updated, the distributor can recompile the BPF
-> program with the new kernel headers and ship it along with the kernel
-> just as like a kernel module.
+> I'm a bit weary about API changes, especially changes that affect
+> backward compatibility. Breaking existing userspace programs simply
+> with a kernel upgrade does not sound very nice to me.
 >
-> In contrast, our intended use case is more like a normal application.
-> So, for example, a user may download a container and run QEMU (including
-> the BPF program) installed in the container. As such, it is nice if the
-> ABI is stable across kernel releases, but it is not guaranteed for
-> kfuncs. Such a use case is already covered with the eBPF steering
-> program so I want to maintain it if possible.
+> (although I've heard that the eventual plan is to deprecate cgroupv1
+> - not sure how that is gonna proceed).
+>
+> Hence my attempt at creating something that can both serve the
+> current use case, while still remaining (fairly) extensible for future
+> ideas.
 
-TBH, I don't think stability should be a concern for kfuncs used by QEMU.
-Many core BPF APIs are now implemented as kfuncs: bpf_dynptr_*,
-bpf_rcu_*, etc. As long as there are valid use cases,these kfuncs will
-be supported.
+With that reasoning, the "swap.tiers" would serve better than "zswap.writeb=
+ack",
+do you think so?
 
-Thanks,
-Song
+>
+> >
+> > Instead we have:
+> >
+> > swap.tiers =3D=3D <swap_tier_list_name>
+> > swap.tiers =3D=3D "all" all available swap tiers. "zswap + swap file".
+> > This is the default.
+> > swap.tiers =3D=3D "zswap" zswap only, no other swap file. Internally se=
+t
+> > zswap.writeback =3D 0
+> > swap.tiers =3D=3D "foo" foo is a list of swap devices it can use. You c=
+an
+> > define your town custom swap tier list in
+> > swap.tiers =3D=3D "none" or "disabled" Not allowed to swap.
+>
+> swap.tiers =3D=3D "none" or "disabled" means disallowing zswap as
+> well, correct?
+
+Correct, no swap at all.
+
+>
+> >
+> > "all", "zswap", "none" are reserved keywords.
+> > "foo", "bar" etc are custom lists of swap tiers. User define custom
+> > tier list in sys/kernel/mm/swap/tiers:
+> > ssd:zswap,/dev/nvme01p4
+> > hdd:/dev/sda4,/dev/sdb4
+>
+> I don't have any major argument against this. It just seems a bit
+> heavyweight for what we need at the moment (only disabling
+> swap-to-disk usage).
+
+The first milestone we just implement the reserved keywords without
+the custom swap tier list.
+That should be very similar to "zswap.writeback". Instead of writing 0
+to "zswap.writeback".
+You write "zswap" to "swap.tiers". Writing "none" will disable all
+swap. Writing "all" will allow all swap devices.
+I consider this conceptually cleaner than the "zswap.writeback" =3D=3D 0
+will also disable other swap types behavior. "disabled zswap writeback
+=3D=3D disable all swap" feels less natural.
+
+> I'll let other people weigh in about this of course.
+> Johannes, how do you feel about this proposed API?
+>
+> >
+> > That would define two custom tiers. "ssd" can use zswap then /dev/nvme0=
+1p4.
+> > The exact name of the "swap.tiers" and tiers name are open to suggestio=
+ns.
+> >
+> > >
+> > > The first two are basically what we have for this patch.
+> > > The last one will be added in a future patch.
+> > >
+> > > This is from the userspace perspective. Internally, we can modify
+> > > memcg->writeback to be a pointer or a struct instead of this bool.
+> > > (as you suggested).
+> >
+> > Internally I would suggest memcg->swaptiers, the write back name is
+> > somewhat confusing. As your patch indicated. It has two situation:
+> > 1. shrinking from zpool to real swapfile. The write back is appropriate=
+ here.
+> >  2. zswap store failed (compression ratio too low, out of memory etc).
+> > The write back is confusing here. It is more like writing through or
+> > skip.
+> >
+> > >
+> > > This way, the API remains intact and backward compatible
+> > > (and FWIW, I think there are still a lot of values in having simple
+> > > options for the users who have simple memory hierarchies).
+> >
+> > swap.tiers can be simple. For example, you can modify your patch to
+> > "swap.tires =3D=3D zswap" to
+> > set zswap.writeback bool to 0 for now. Most of your patch is still re-u=
+sable.
+> >
+>
+> I'm less concerned about internals - that is always up to changes.
+> I'm a bit more concerned with the API we're exposing to the users.
+
+Me too. I think we are in agreement here. That is why I think
+"swap.tiers" is more general.
+
+>
+> > I think we should discuss if we want to keep zswap.writeback in the
+> > future because that would be some code undeletable and functionally
+> > overlap with swap.tiers
+>
+> This is a fair point.
+
+If you think we have the risk of not being able to obsolete
+"zswap.writeback", then it would be much better not to introduce
+"zswap.writeback" in the first place. Just have a minimal
+implementation of "swap.tiers" instead. I believe from the code
+complexity point of view, the complexity should be very similar.
+
+Chris
