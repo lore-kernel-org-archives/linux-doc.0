@@ -1,129 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GBTYQyJC"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021E2C6
-	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 02:57:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700391449;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=paKcR4aagnq4OR4cFFNyGyCczT8YfM2615gwz6U/Ifs=;
-	b=GBTYQyJCjXzWJayLRZEy4SWH0JNdwmSOGvX9i/zEh+Tzn3y7LijV3ciKjO5PGmXGg+Wnni
-	l5o62/3SDI9+SX1uuaJ0LHm3LC8hMuLNBTqzl5wcLPgFhTFUVBtWv1fzWwG5nNNCIpBY+B
-	Pt/ePNUc9IRo+trHOhoS9iRKwG3abGk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-OUFAoUEpPamskNfFDoG6CA-1; Sun, 19 Nov 2023 05:57:25 -0500
-X-MC-Unique: OUFAoUEpPamskNfFDoG6CA-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-40853e14f16so6119245e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 02:57:25 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236C6C2;
+	Sun, 19 Nov 2023 07:16:50 -0800 (PST)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5842a7fdc61so1889551eaf.3;
+        Sun, 19 Nov 2023 07:16:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700391444; x=1700996244;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=paKcR4aagnq4OR4cFFNyGyCczT8YfM2615gwz6U/Ifs=;
-        b=brC13KE5eu4af2rYMwh8ld1nPkpBdi2gtQDOT4RtzH3B6tWRsx9kEjQ8A0a9cc7S6w
-         kxwpVvz/5czJP3113DYB6pKXVwYFkPejCcBVxG71QxzvmKy3DqvS6chn4okJVQ6qwOJx
-         gWryLs3gMQG3dEgv0frSr1XzivqLfqoeUp/4DPro8Le+grjNZ0jOgdOATSQshOEkfLcH
-         qo/x028a2cYuB6zLJZoGRdh5JPJB3ySc7fR/JYMIW3jj0ehzW6kJ6Lmi45jlNQqmmzQ9
-         zbB6f4E0KPjUvWD+vxoj2+Cn47MOOu7FXegigJlES+KSvLtBnYsVYCNbp/G82gQN4mJa
-         9KIQ==
-X-Gm-Message-State: AOJu0YzLkmjrOpswz2R/uhUmkiMNaeiD95ZE4AsSy93FdafNsu2HivNS
-	02B5ZeEOxXkTR6rtBuPhBGe1oQBI9edoyp8gpNlqQfd99US6kKobUsbF4aS0VyeVwyzU3w3QLj0
-	4Us1dpB++hXNcx0rX0MtF
-X-Received: by 2002:adf:e58b:0:b0:32d:b051:9a27 with SMTP id l11-20020adfe58b000000b0032db0519a27mr2879797wrm.20.1700391444493;
-        Sun, 19 Nov 2023 02:57:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFi7SRJ7y81uoAdnNo/STFG3TuDFoHARhcCF0tpowHTWIp4MigNAbZkJfZ0hoizOoIOzIYjFQ==
-X-Received: by 2002:adf:e58b:0:b0:32d:b051:9a27 with SMTP id l11-20020adfe58b000000b0032db0519a27mr2879785wrm.20.1700391444248;
-        Sun, 19 Nov 2023 02:57:24 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id dm15-20020a0560000bcf00b0032d81837433sm7796649wrb.30.2023.11.19.02.57.22
+        d=1e100.net; s=20230601; t=1700407009; x=1701011809;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dWEPk/3aAzX0I4fI4cuUC5y57V6oWUlKYqFVGCjXpJ4=;
+        b=jYdkgTQCJNpcIhYxrTjCuVXxg8j7bDaurJU0xschcM427IQCk8a5CGBzwTgHG+vSsJ
+         yyptBjjQJMihbcnTi0hgl9sIOPahzvofD2ZkmYnKCtdySFtWmyUx9InMhPnMtF744uWq
+         0SAtEr+gkYEBq0yG56Rt/61GE9ywlWqfxXdzbzWZ23DoePqulNHbZqe9VG2A794Jp61p
+         OFeX4f9S+V69LIbCVku0o/PW15w2zg9k/LFmPsjJioL7Zd6gxFZ8J7njqP/GnhF8A0DQ
+         432+1/gx8D9DEsqygWJ3AsnPFa7ZtRbzxOtsuvEKRnM9BgZCvUgCEflU+gUEr7RXmDdj
+         OqRw==
+X-Gm-Message-State: AOJu0Yz5Rcr/gEWmrXFGpUyknY38xrNNArWpSn3sh+4Z/4Zw5RWkRGbv
+	4Q83zngXKrpTddJzk2VD8Q==
+X-Google-Smtp-Source: AGHT+IFTumx8nyQQh6n2laOF1YkhSXqTh5bw2xAJK/w4wHOJAQlPpzBcTyUNnWCP6irMM3KxJR5Kug==
+X-Received: by 2002:a05:6820:1c84:b0:56c:cd0c:1d67 with SMTP id ct4-20020a0568201c8400b0056ccd0c1d67mr5808089oob.7.1700407009353;
+        Sun, 19 Nov 2023 07:16:49 -0800 (PST)
+Received: from herring.priv ([2607:fb90:45e3:889f:15b4:1348:6d64:224b])
+        by smtp.gmail.com with ESMTPSA id w18-20020a4ae4d2000000b00581fc1af0a7sm1065154oov.28.2023.11.19.07.16.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 02:57:23 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	Sima Vetter <daniel.vetter@ffwll.ch>,
-	Erico Nunes <nunes.erico@gmail.com>,
-	Simon Ser <contact@emersion.fr>,
-	Bilal Elmoussaoui <belmouss@redhat.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 5/5] drm/todo: Add entry about implementing buffer age for damage tracking
-Date: Sun, 19 Nov 2023 11:57:01 +0100
-Message-ID: <20231119105709.3143489-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231119105709.3143489-1-javierm@redhat.com>
-References: <20231119105709.3143489-1-javierm@redhat.com>
+        Sun, 19 Nov 2023 07:16:48 -0800 (PST)
+Received: (nullmailer pid 215792 invoked by uid 1000);
+	Sun, 19 Nov 2023 15:16:43 -0000
+Date: Sun, 19 Nov 2023 09:16:43 -0600
+From: Rob Herring <robh@kernel.org>
+To: Yi-De Wu <yi-de.wu@mediatek.com>
+Cc: Yingshiuan Pan <yingshiuan.pan@mediatek.com>, Ze-Yu Wang <ze-yu.wang@mediatek.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, David Bradil <dbrazdil@google.com>, Trilok Soni <quic_tsoni@quicinc.com>, Jade Shih <jades.shih@mediatek.com>, Ivan Tseng <ivan.tseng@mediatek.com>, My Chuang <my.chuang@mediatek.com>, Shawn Hsiao <shawn.hsiao@mediatek.com>, PeiLun Suei <peilun.suei@mediatek.com>, Liju Chen <liju-clr.chen@mediatek.com>, Willix Yeh <chi-shen.yeh@mediatek.com>, Kevenny Hsieh <kevenny.hsieh@mediatek.com>
+Subject: Re: [PATCH v7 02/16] dt-bindings: hypervisor: Add MediaTek GenieZone
+ hypervisor
+Message-ID: <20231119151643.GA213170-robh@kernel.org>
+References: <20231116152756.4250-1-yi-de.wu@mediatek.com>
+ <20231116152756.4250-3-yi-de.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231116152756.4250-3-yi-de.wu@mediatek.com>
 
-Currently, only damage tracking for frame damage is supported. If a driver
-needs to do buffer damage (e.g: the framebuffer attached to plane's state
-has changed since the last page-flip), the damage helpers just fallback to
-a full plane update.
+On Thu, Nov 16, 2023 at 11:27:42PM +0800, Yi-De Wu wrote:
+> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+> 
+> Add documentation for GenieZone(gzvm) node. This node informs gzvm
+> driver to start probing if geniezone hypervisor is available and
+> able to do virtual machine operations.
+> 
+> [Detail]
+> The debate of using dt or not remains intact, and gentle ping seems not
+> working on this issue. We'll keep this patch for further discussion and
+> move forward in order to rebase based on the latest rc release. For
+> previous discussion, please kindly refer to the following link.
 
-Add en entry in the TODO about implementing buffer age or any other damage
-accumulation algorithm for buffer damage handling.
+Please explain in the commit message why this needs to be in DT and is 
+not discoverable by some other means?
 
-Suggested-by: Simon Ser <contact@emersion.fr>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Simon Ser <contact@emersion.fr>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
-
-(no changes since v1)
-
- Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index b62c7fa0c2bc..5c43a958814b 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -782,6 +782,26 @@ Contact: Hans de Goede
- 
- Level: Advanced
- 
-+Buffer age or other damage accumulation algorithm for buffer damage handling
-+============================================================================
-+
-+Drivers that do per-buffer uploads, need a buffer damage handling (rather than
-+frame damage like drivers that do per-plane or per-CRTC uploads), but there is
-+no support to get the buffer age or any other damage accumulation algorithm.
-+
-+For this reason, the damage helpers just fallback to a full plane update if the
-+framebuffer attached to a plane has changed since the last page-flip.
-+
-+This should be improved to get damage tracking properly working on drivers that
-+do per-buffer uploads.
-+
-+More information about damage tracking and references to learning materials in
-+`Damage Tracking Properties <https://docs.kernel.org/gpu/drm-kms.html#damage-tracking-properties>`_
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Advanced
-+
- Outside DRM
- ===========
- 
--- 
-2.41.0
-
+Rob
