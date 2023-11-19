@@ -1,140 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64F123D2
-	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 08:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A7F63C9
+	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 09:39:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ug45zPft"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 596AFC433D9
-	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 08:50:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EsVABxE2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43682C433C8
+	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 09:39:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700383824;
-	bh=HdzVGxJYk15Gjgr+wFA/oMVK8W+8pHYTJVcgIb7UjyM=;
+	s=k20201202; t=1700386799;
+	bh=1H3PX+IaX0IE7nBiCSB6MDB9bd00MwQRqkdTv+DsTGo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ug45zPftG3vaVau2D0BjDzfacgJX6KCZQW0pOoBmmcFATf8yQwUjQebzLKe9A7YRe
-	 9nK0DcnjsQPE40jU4Ias3rkIL89VndNA9OCZAPdEPsKf/GIg1W5RC6/GgPbfBr4aYw
-	 HeYv7ckdMPN8P5vkWgglvsXN5ngxta858a2MmPEs+A+PMXoNxZWFnEpMRQWkmKkU0h
-	 S/DCpWYZWQ9Clj4Ko9efl3sYWU2sTRKKxo9s9rUrBagEed7OP7ea6EsYoVUHDCOs9u
-	 qT46kuphwFDS8qg3iNm23oeJtfpUqO/a7IfT3SEGuH+0ilyUkE4wP4wlH78AgSzE6C
-	 d1vM/TPpsYm3A==
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6cb749044a2so539762b3a.0
-        for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 00:50:24 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz84jLOvXnGW6j0VQ23IZdaQWfUZ6hNAl9CG0w2RuFPMEjIjIl5
-	2OwaVYtCs5GrQWhQxTH1hIL4Zw3OO2gOlN8KS935Vw==
-X-Google-Smtp-Source: AGHT+IEAJ3AMtVkJ9rRb2qpIkz0E/5/q4lZMJnZLcsbiX1vTfPLQmeoZEoV9XD219E2vj0V6fSQrr67FzD50bpplp3Y=
-X-Received: by 2002:a05:6a21:1c8f:b0:186:7842:ad0c with SMTP id
- sf15-20020a056a211c8f00b001867842ad0cmr5299912pzb.35.1700383823740; Sun, 19
- Nov 2023 00:50:23 -0800 (PST)
+	b=EsVABxE2QSPuRPNXxVij+eCubZJ1e9E8x6eoWSICw8lVVHk51CxTe33X253WZayO3
+	 uPat6h/TJWc2aesdU+wb7C0FsVWC4jlU+UdjjVdgz9P1WwHdz8+3xrGN7tXfhy3jat
+	 RPFf54/wrVsq69zdWfehqN4Vu+DEHn4p5qXs3tB0gcUmlWHiQoZT53qx28TjixvqFo
+	 sA/9y5MECtRaDHYBlWbhykHZ28c8IewO/X1VUw1jpDf8Q2CVfrkCv9H0KisOY3BD3Q
+	 TgBrK4mHwcHY9cXW5z2qMZhbGSrMiSm4+6wK1ojfsY7smBdG/+CanVixK2nqnA1IFo
+	 LxfrWbggjXR/w==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1eb39505ba4so2177871fac.0
+        for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 01:39:59 -0800 (PST)
+X-Gm-Message-State: AOJu0YxMJkakwD9F9CH6rzpLNTNzbC/hOnUs8+Y7p8hJk9S9aiOx0D/u
+	z7IrBtiK2wouX+UpPm5eF7MBPQtR6xeecr3/jkhMGQ==
+X-Google-Smtp-Source: AGHT+IG7ALAXFRt0rSRdXIIOwPxSiyJfQXJRU2wOroVNeGeY/g6Ptf7fNUnIyT383O0M8tozXwhmekS00d5nM2Nnbic=
+X-Received: by 2002:a05:6a20:1612:b0:187:cf88:1a34 with SMTP id
+ l18-20020a056a20161200b00187cf881a34mr5758611pzj.8.1700386778223; Sun, 19 Nov
+ 2023 01:39:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231106183159.3562879-1-nphamcs@gmail.com> <CAF8kJuMsXUm9=kiL8qPNVfYPzfyq-JWYSH3KraZadjF+myW-2A@mail.gmail.com>
- <CAKEwX=MNKY0UHbxi6Zfwf0KkepYavFaZo8F6LGe5GyyE3U35Jg@mail.gmail.com>
- <CAF8kJuMx4KT9z2RPy8z+snhM6YUtK=kZ1+BdHjKua2jhwFo-XQ@mail.gmail.com>
- <CAKEwX=OpQZhDmCr-a+O0=c8LfPoO0r8y=abpQoKXWcOP+V6yYg@mail.gmail.com>
- <CAF8kJuNnM_0jDCaAueseiNA1264-MtA0QiQtfjEN1E6aY56MKQ@mail.gmail.com>
- <CAF8kJuN5fBBmpOzmR72B5NBmjPNCNk4DALqz=+PKBwQrjvHH2w@mail.gmail.com> <CAKEwX=P343G80Bfbf1R+FfSxty763Bo3WCo_Pu0GOuZSJjnxRw@mail.gmail.com>
-In-Reply-To: <CAKEwX=P343G80Bfbf1R+FfSxty763Bo3WCo_Pu0GOuZSJjnxRw@mail.gmail.com>
+References: <20231115172344.4155593-1-nphamcs@gmail.com> <CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com>
+ <CAJD7tkZ1U+YuvoBAnrXFxQDiQV2hXdbMG-gbzu64R8GLAtNAPA@mail.gmail.com>
+ <CAF8kJuPTNwQM413UdeQTkMQ8HkJFyF4OWVrxJSf7uWbege0CXQ@mail.gmail.com> <CAKEwX=O5M-vZE5YhYQ5_CbCmXovS1XECO4ROXKWo06K880M1Mg@mail.gmail.com>
+In-Reply-To: <CAKEwX=O5M-vZE5YhYQ5_CbCmXovS1XECO4ROXKWo06K880M1Mg@mail.gmail.com>
 From: Chris Li <chrisl@kernel.org>
-Date: Sun, 19 Nov 2023 00:50:12 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuOJyiCM7WyW3Jn2Km3WH06OtrQ3hA911jrv2gPG4iqY0Q@mail.gmail.com>
-Message-ID: <CAF8kJuOJyiCM7WyW3Jn2Km3WH06OtrQ3hA911jrv2gPG4iqY0Q@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] workload-specific and memory pressure-driven zswap writeback
+Date: Sun, 19 Nov 2023 01:39:26 -0800
+X-Gmail-Original-Message-ID: <CAF8kJuOD6zq2VPcVdoZGvkzYX8iXn1akuYhNDJx-LUdS+Sx3GA@mail.gmail.com>
+Message-ID: <CAF8kJuOD6zq2VPcVdoZGvkzYX8iXn1akuYhNDJx-LUdS+Sx3GA@mail.gmail.com>
+Subject: Re: [PATCH v5] zswap: memcontrol: implement zswap writeback disabling
 To: Nhat Pham <nphamcs@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Yosry Ahmed <yosryahmed@google.com>, 
-	Seth Jennings <sjenning@redhat.com>, Dan Streetman <ddstreet@ieee.org>, 
-	Vitaly Wool <vitaly.wool@konsulko.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeelb@google.com>, 
-	Muchun Song <muchun.song@linux.dev>, linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
-	LKML <linux-kernel@vger.kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+Cc: Yosry Ahmed <yosryahmed@google.com>, Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, 
+	lizefan.x@bytedance.com, Johannes Weiner <hannes@cmpxchg.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Seth Jennings <sjenning@redhat.com>, 
+	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, Shakeel Butt <shakeelb@google.com>, muchun.song@linux.dev, 
+	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
+	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 17, 2023 at 8:23=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> On Thu, Nov 16, 2023 at 4:57=E2=80=AFPM Chris Li <chrisl@kernel.org> wrot=
+On Sat, Nov 18, 2023 at 11:23=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
 e:
-> >
-> > Hi Nhat,
-> >
-> > I want want to share the high level feedback we discussed here in the
-> > mailing list as well.
-> >
-> > It is my observation that each memcg LRU list can't compare the page
-> > time order with other memcg.
-> > It works great when the leaf level memcg hits the memory limit and you
-> > want to reclaim from that memcg.
-> > It works less well on the global memory pressure you need to reclaim
-> > from all memcg. You kind of have to
-> > scan each all child memcg to find out the best page to shrink from. It
-> > is less effective to get to the most desirable page quickly.
-> >
-> > This can benefit from a design similar to MGLRU. This idea is
-> > suggested by Yu Zhao, credit goes to him not me.
-> > In other words, the current patch is similar to the memcg page list
-> > pre MGLRU world. We can have a MRLRU
-> > like per memcg zswap shrink list.
 >
-> I was gonna summarize the points myself :P But thanks for doing this.
-> It's your idea so you're more qualified to explain this anyway ;)
-
-The MGLRU like shrinker was Zhao Yu's idea. I just observe the problem.
-
+> Hmm how about this - in the future, we support the following
+> options:
 >
-> I absolutely agree that having a generation-aware cgroup-aware
-> NUMA-aware LRU is the future way to go. Currently, IIUC, the reclaim logi=
-c
-> selects cgroups in a round-robin-ish manner. It's "fair" in this perspect=
-ive,
-> but I also think it's not ideal. As we have discussed, the current list_l=
-ru
-> infrastructure only take into account intra-cgroup relative recency, not
-> inter-cgroup relative recency. The recently proposed time-based zswap
-> reclaim mechanism will provide us with a source of information, but the
-> overhead of using this might be too high - and it's very zswap-specific.
+> 1. zswap.writeback =3D=3D 1: no limitation to zswap writeback.
+> All backing swap devices (sorted by priorities?) are fair game.
+>
+> 2. zswap.writeback =3D=3D 0: disable all forms of zswap writeback.
+>
+> 3. zswap.writeback =3D=3D <tiers description>:  attempt to write to each
+> tier, one at a time.
 
-I don't mind it is zswap-specific, as long as it is effective.
-The overhead has two folds:
-1) memory overhead on storing timestamps on per compressed page.
-2) cpu overhead for reading timestamps.
-Using MGLRU likely have advantage over time stamps on both memory and
-cpu. The generation can use fewer bits and doesn't require reading
-time on every page.
+We can merge the zswap.writeback as it is for now to unblock you.
 
-> Maybe after this, we should improve zswap reclaim (and perhaps all
-> list_lru users) by adding generations to list_lru then take generations
-> into account in the vmscan code. This patch series could be merged
+For the future. I think we should remove zswap.writeback completely.
 
-One high level idea is that we can get the page generation in the
-MGLRU before it gets into zswap. Just retain the generation into the
-zpool LRU somehow.
+Instead we have:
 
-> as-is, and once we make list_lru generation-aware, zswap shrinker
-> will automagically be improved (along with all other list_lru/shrinker
-> users).
+swap.tiers =3D=3D <swap_tier_list_name>
+swap.tiers =3D=3D "all" all available swap tiers. "zswap + swap file".
+This is the default.
+swap.tiers =3D=3D "zswap" zswap only, no other swap file. Internally set
+zswap.writeback =3D 0
+swap.tiers =3D=3D "foo" foo is a list of swap devices it can use. You can
+define your town custom swap tier list in
+swap.tiers =3D=3D "none" or "disabled" Not allowed to swap.
 
-I don't think it will automatically improve, you will need to rewrite
-a lot of code in the shrinker as well to best use MGLRU zpool.
+"all", "zswap", "none" are reserved keywords.
+"foo", "bar" etc are custom lists of swap tiers. User define custom
+tier list in sys/kernel/mm/swap/tiers:
+ssd:zswap,/dev/nvme01p4
+hdd:/dev/sda4,/dev/sdb4
+
+That would define two custom tiers. "ssd" can use zswap then /dev/nvme01p4.
+The exact name of the "swap.tiers" and tiers name are open to suggestions.
 
 >
-> I don't know enough about the current design of MGLRU to comment
-> too much further, but let me know if this makes sense, and if you have
-> objections/other ideas.
+> The first two are basically what we have for this patch.
+> The last one will be added in a future patch.
+>
+> This is from the userspace perspective. Internally, we can modify
+> memcg->writeback to be a pointer or a struct instead of this bool.
+> (as you suggested).
 
-Taking the step by step approach is fine by me as long as we are
-making steady progress towards the better end goal.
+Internally I would suggest memcg->swaptiers, the write back name is
+somewhat confusing. As your patch indicated. It has two situation:
+1. shrinking from zpool to real swapfile. The write back is appropriate her=
+e.
+ 2. zswap store failed (compression ratio too low, out of memory etc).
+The write back is confusing here. It is more like writing through or
+skip.
 
 >
-> And if you have other documentations for MGLRU than its code, could
-> you please let me know? I'm struggling to find more details about this.
+> This way, the API remains intact and backward compatible
+> (and FWIW, I think there are still a lot of values in having simple
+> options for the users who have simple memory hierarchies).
 
-I would need to learn MGLRU myself. We can share and compare notes
-when we get to it.
+swap.tiers can be simple. For example, you can modify your patch to
+"swap.tires =3D=3D zswap" to
+set zswap.writeback bool to 0 for now. Most of your patch is still re-usabl=
+e.
+
+I think we should discuss if we want to keep zswap.writeback in the
+future because that would be some code undeletable and functionally
+overlap with swap.tiers
 
 Chris
