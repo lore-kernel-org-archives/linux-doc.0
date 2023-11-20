@@ -1,70 +1,113 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cr09XTOr"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED6F9E
-	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 09:52:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700502777;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EaP8zHgiN92957jp7fZCzqskbnxzXQoKIlUtUyIIKl0=;
-	b=cr09XTOrfBW7FXmOhsLI4KNadMGblW1JIfLiz3AEpFLAL3larsAguJ87nh9X+3mFtfPQsS
-	0HbwBbU+8MZTX9xvWJrqOSbCf0YH4yJy4pgWL5O8rM2zwCKM3yvIfCkbM+wHLPKw5BpYKA
-	Tie+FYF0Vl4KFBmoQPcnGXTuh+M2cno=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-612-5MHgQduvOpGFOS2IHDsWsg-1; Mon,
- 20 Nov 2023 12:52:52 -0500
-X-MC-Unique: 5MHgQduvOpGFOS2IHDsWsg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 980C13C0F429;
-	Mon, 20 Nov 2023 17:52:51 +0000 (UTC)
-Received: from [10.22.33.229] (unknown [10.22.33.229])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D96E410F45;
-	Mon, 20 Nov 2023 17:52:50 +0000 (UTC)
-Message-ID: <eb92acba-6aab-487d-b06f-1da1c4796b4b@redhat.com>
-Date: Mon, 20 Nov 2023 12:52:50 -0500
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="hjw7Emvb"
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C40E92;
+	Mon, 20 Nov 2023 10:00:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=5wD7wBF+lHKdF+Dqen+lnC7hkw+eQyJUlyzbsg0+08c=; b=hjw7EmvbLqLK70QVQXYoHYyWgE
+	RaWMzEwXzQL+xor+owvdn5Wjz6Y5h8Epeo4tVEyFU0JK/NbxjR7oNneI5ZpBkBr4sh33W1orqVd2M
+	qpzH1sFnaWwBCtj6mv06ydHv1PZiHRm2u8s/SmRynOvHJesAIZyNGXRKzx5zDli7KgL8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1r58Z1-000g3L-Tr; Mon, 20 Nov 2023 19:00:03 +0100
+Date: Mon, 20 Nov 2023 19:00:03 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 2/9] ethtool: Expand Ethernet Power Equipment
+ with PoE alongside PoDL
+Message-ID: <2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.ch>
+References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
+ <20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
+ <04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
+ <20231120110944.66938859@kmaincent-XPS-13-7390>
+ <20231120111008.GC590719@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] cgroup/cpuset: Improve CPU isolation in isolated
- partitions
-Content-Language: en-US
-To: Tejun Heo <tj@kernel.org>
-Cc: Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Peter Hunt <pehunt@redhat.com>,
- Frederic Weisbecker <frederic@kernel.org>
-References: <20231116033405.185166-1-longman@redhat.com>
- <ZVoojBi4ZoVR2mOt@slm.duckdns.org>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <ZVoojBi4ZoVR2mOt@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231120111008.GC590719@pengutronix.de>
 
+> > > >  struct pse_control_config {
+> > > >  	enum ethtool_podl_pse_admin_state podl_admin_control;
+> > > > +	enum ethtool_pse_admin_state admin_control;  
+> > > 
+> > > When i look at this, it seems to me admin_control should be generic
+> > > across all schemes which put power down the cable, and
+> > > podl_admin_control is specific to how PoDL puts power down the cable.
+> > >
+> > > Since you appear to be adding support for a second way to put power
+> > > down the cable, i would expect something like poe_admin_control being
+> > > added here. But maybe that is in a later patch?
+> > 
+> > No as said above admin_control is for PoE and podl_admin_control is for PoDL.
+> > Maybe you prefer to use poe_admin_control, and add poe prefix in the poe
+> > variables. It will differ a bit from the IEEE standard naming but I agreed that
+> > it would be more understandable in the development part.
+> 
+> Official name for "PoE" is "Power via Media Dependent Interface". PoE is
+> not used in the IEEE 802.3-2018. Using names not used in the specification,
+> make development even harder :)
+> Especially since there are even more marketing names (names not used in the
+> specification) for different PoE variants:
+> - 802.3af (802.3at Type 1), PoE
+> - 802.3at Type 2, PoE+
+> - 802.3bt Type 3, 4PPoE or PoE++
+> - 802.3bt Type 4, 4PPoE or PoE++
 
-On 11/19/23 10:23, Tejun Heo wrote:
-> On Wed, Nov 15, 2023 at 10:34:00PM -0500, Waiman Long wrote:
->> v4:
->>   - Update patch 1 to move apply_wqattrs_lock() and apply_wqattrs_unlock()
->>     down into CONFIG_SYSFS block to avoid compilation warnings.
-> I already applied v3 to cgroup/for-6.8. Can you please send the fix up patch
-> against that branch?
->
-Sure. I will post another fixup patch.
+From the 2018 standard:
 
-Thanks,
-Longman
+  1.4.407 Power Sourcing Equipment (PSE): A DTE or midspan device that
+  provides the power to a single link section. PSEs are defined for
+  use with two different types of balanced twisted-pair PHYs. When
+  used with 2 or 4 pair balanced twisted-pair (BASE-T) PHYs, (see IEEE
+  Std 802.3, Clause 33), DTE powering is intended to provide a single
+  10BASE-T, 100BASE-TX, or 1000BASE-T device with a unified interface
+  for both the data it requires and the power to process these
+  data. When used with single balanced twisted-pair (BASE-T1) PHYs
+  (see IEEE Std 802.3, Clause 104), DTE powering is intended to
+  provide a single 100BASE-T1 or 1000BASE-T1 device with a unified
+  interface for both the data it requires and the power to process
+  these data. A PSE used with balanced single twisted-pair PHYs is
+  also referred to as a PoDL PSE.
 
+So it seems like, anything not PoDL PSE does not have a name :-(
+
+However, everything not PoDL PSE seems to be clause 33. So how about:
+
+	enum ethtool_podl_pse_admin_state podl_admin_control;
+	enum ethtool_c33_pse_admin_state c33_admin_control;  
+
+At least inside the kernel we use c22, c45, c37 etc. I'm not sure they
+are visible to userspace, but if we don't have a better name, maybe we
+have to use c33 in userspace as well.
+
+I do think naming like this makes it clear we are talking about two
+parallel technologies, not a generic layer and then extensions for
+podl.
+
+What do you think?
+
+	Andrew
