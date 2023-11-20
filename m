@@ -1,122 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BhZjDEmW"
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C1DB7;
-	Sun, 19 Nov 2023 23:41:47 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-32fd7fc9f19so2671575f8f.2;
-        Sun, 19 Nov 2023 23:41:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700466106; x=1701070906; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UcnRCn9RBtyZwzYZjL7Mal3df0TOYaoALw3ajoI8ruo=;
-        b=BhZjDEmWA6rMhy2zRLDgfrKFAF8a/S/0etGDujI+e4o+gnbFdJPTUaqIY6ZnnC/B30
-         TeI4s+w4PXARxXrma6rn9lLXI/mggcJHvq6m8DRQgJ9csaGCgzDnQjLx4a8SvTw6muwf
-         q5HZOe4asiYuZflkKWeKhTZsoSwO5fnMoIiKci2SqpEd71J+smJw0ltd56BvTNk98XdT
-         DiLuiOgegCreNJJU1F8T56KVn1Mr4VQbwWfTEAEICGi3Jv+pZhXkp2sHesE1wJPd6w3J
-         IaS5KU+x49OeJ92wQm+lv39uwnD3XrP+/v4eyJaCmBvoGhOHx1igMi8TTYuteO3BGri8
-         55cQ==
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C962FB4;
+	Sun, 19 Nov 2023 23:45:40 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40806e4106dso8115265e9.1;
+        Sun, 19 Nov 2023 23:45:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700466106; x=1701070906;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1700466339; x=1701071139;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UcnRCn9RBtyZwzYZjL7Mal3df0TOYaoALw3ajoI8ruo=;
-        b=owbAUT75hoLH873t3p7i22kikH65MPqktXNGW0ZnRGYpcYXCEV7G5+oriFcMKpCbjA
-         hkZ1Fpq2XFE1EqpQOZkCcpiC+/QWTz9Hj6dBwUXW2bj8ZJWfwEx5p5c/5u2evFd9R7h6
-         UGuyOTeITPMP2DYe2ByQKjgeWMM6TC11fIOGYASESQJVFeD7jUe30Zk/b6qoJ7cHcCEc
-         tOOARoy4ceO/ICAa3er1RwOlvPiYQz7fqkMGkXqc8+r8uRNog6yp5Vp9DglOQkepmG1e
-         Ho3TJ5PtFi40raDrfiw0TtZGzawNPsUjVACGHZOoWeOy+GEy+7VDzXre3IUQxNM9Smfh
-         ImUA==
-X-Gm-Message-State: AOJu0YzF1SiOipm9gnwkkyvm9TDvSaO6TWcCJOTZVUaNIVlwtA0yZ+up
-	JsSU/8J0PueXQ6C9JhO33IlvnGB7WFMctA==
-X-Google-Smtp-Source: AGHT+IGLxhKtp3IKpPAJiweTS4UYRDByB4GjdiKC0IaFf2a6rUb8Hh+cAbWkEb3mZscgg4QSavm/EA==
-X-Received: by 2002:a5d:48c9:0:b0:331:6ad3:853 with SMTP id p9-20020a5d48c9000000b003316ad30853mr3683767wrs.41.1700466105720;
-        Sun, 19 Nov 2023 23:41:45 -0800 (PST)
-Received: from f (cst-prg-3-109.cust.vodafone.cz. [46.135.3.109])
-        by smtp.gmail.com with ESMTPSA id i13-20020a5d55cd000000b003313426f136sm10142299wrw.39.2023.11.19.23.41.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 23:41:45 -0800 (PST)
-Date: Mon, 20 Nov 2023 08:41:06 +0100
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: kernel test robot <oliver.sang@intel.com>
-Cc: Christian Brauner <brauner@kernel.org>, oe-lkp@lists.linux.dev,
-	lkp@intel.com, linux-kernel@vger.kernel.org,
-	Jann Horn <jannh@google.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
-	gfs2@lists.linux.dev, bpf@vger.kernel.org, ying.huang@intel.com,
-	feng.tang@intel.com, fengwei.yin@intel.com
-Subject: Re: [linus:master] [file]  0ede61d858:  will-it-scale.per_thread_ops
- -2.9% regression
-Message-ID: <ZVsNklEgxi5GkIZ/@f>
-References: <202311201406.2022ca3f-oliver.sang@intel.com>
+        bh=9iPG+meBGpkxceVS3F6vB/et8ulW4BgxlRlyOQXry5Q=;
+        b=nk/4fzzcs6GRrk/XPRfrR6RO0VFeVwZG292XikSrET4Ehw/PDnRG9h8j4zotN7+A7Q
+         7Hmjb5+4vnqNC/s6YcA13e3yb2YgKBvtt4wAAMJQQZ2EtSKKTTEfgKA9hW1lNsbwDY2/
+         WHfbqQ42FNtSgmqjDqMG42WgQee61n3vTMZXhBFtuf9VE/QVXrohGXwc7jRw+AudTL9F
+         wzQDf8bHSkbDJ27q6nfLvxDFC/4sMJdcbgtj85ICQTUC5vAag7JHYin53Eyj0phBbnTo
+         +thS4WvWaaORd8oqn6Ve3CO4BQq1v5qUjL40zzu/yJz1TfHZBxs83GF1Op2o3My+FmsV
+         HSmQ==
+X-Gm-Message-State: AOJu0YxAx/bw4NvD7zbb6dNZb2bjmoTL8a9zBXg7g1nisHOY60+dooPe
+	6xEiA1LLNCoJnUBf4owzq4cAQ64EbyFiMReN
+X-Google-Smtp-Source: AGHT+IHT99AR1RGMDQ+ZFVlEXH1nxQplz8gq1lUq/FR53BOU9Z0fL5Xea7tdAsHEyz1ovK1egmchrw==
+X-Received: by 2002:a05:600c:1d18:b0:403:c70b:b688 with SMTP id l24-20020a05600c1d1800b00403c70bb688mr5163267wms.6.1700466338978;
+        Sun, 19 Nov 2023 23:45:38 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
+        by smtp.gmail.com with ESMTPSA id r5-20020a05600c458500b003fefaf299b6sm12561119wmo.38.2023.11.19.23.45.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Nov 2023 23:45:38 -0800 (PST)
+Message-ID: <ea2fd8b3-95cf-4d50-8fc7-f1391b23a433@kernel.org>
+Date: Mon, 20 Nov 2023 08:45:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202311201406.2022ca3f-oliver.sang@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9] /proc/sysrq-trigger: accept multiple keys at once
+Content-Language: en-US
+To: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+Cc: corbet@lwn.net, gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ rdunlap@infradead.org
+References: <670993bf-a8ef-4561-8213-6a37d0598d83@kernel.org>
+ <20231115103408.193561-1-tomas.mudrunka@gmail.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20231115103408.193561-1-tomas.mudrunka@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 20, 2023 at 03:11:31PM +0800, kernel test robot wrote:
+On 15. 11. 23, 11:34, Tomas Mudrunka wrote:
+> Just for convenience.
+> This way we can do:
+> `echo _reisub > /proc/sysrq-trigger`
+> Instead of:
+> `for i in r e i s u b; do echo "$i" > /proc/sysrq-trigger; done;`
 > 
+> This can be very useful when trying to execute sysrq combo remotely
+> or from userspace. When sending keys in multiple separate writes,
+> userspace can be killed before whole combo is completed.
+> Therefore putting all keys in single write is more robust approach.
 > 
-> Hello,
-> 
-> kernel test robot noticed a -2.9% regression of will-it-scale.per_thread_ops on:
-> 
-> 
-> commit: 0ede61d8589cc2d93aa78230d74ac58b5b8d0244 ("file: convert to SLAB_TYPESAFE_BY_RCU")
-> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
-> 
-> 93faf426e3cc000c 0ede61d8589cc2d93aa78230d74 
-> ---------------- --------------------------- 
->          %stddev     %change         %stddev
->              \          |                \  
-[snip]
->      30.90 ±  4%     -20.6       10.35 ±  2%  perf-profile.self.cycles-pp.__fget_light
->       0.00           +26.5       26.48        perf-profile.self.cycles-pp.__get_file_rcu
-[snip]
+> Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+> ---
+> V8 -> V9: Fixed english bit more
 
-So __fget_light now got a func call.
+Please check my comments to v6 more carefully once again. Plus:
 
-I don't know if this is worth patching (and benchmarking after), but I
-if sorting this out is of interest, triviality below is probably the
-easiest way out:
+> --- a/drivers/tty/sysrq.c
+> +++ b/drivers/tty/sysrq.c
+> @@ -1150,16 +1150,28 @@ EXPORT_SYMBOL(unregister_sysrq_key);
+>   #ifdef CONFIG_PROC_FS
+>   /*
+>    * writing 'C' to /proc/sysrq-trigger is like sysrq-C
+> + * Normally only the first character written is processed.
 
-diff --git a/fs/file.c b/fs/file.c
-index 5fb0b146e79e..d8d3e18800c4 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -856,14 +856,14 @@ void do_close_on_exec(struct files_struct *files)
- 	spin_unlock(&files->file_lock);
- }
- 
--static struct file *__get_file_rcu(struct file __rcu **f)
-+static __always_inline struct file *__get_file_rcu(struct file __rcu **f)
- {
- 	struct file __rcu *file;
- 	struct file __rcu *file_reloaded;
- 	struct file __rcu *file_reloaded_cmp;
- 
- 	file = rcu_dereference_raw(*f);
--	if (!file)
-+	if (unlikely(!file))
- 		return NULL;
- 
- 	if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
-@@ -891,7 +891,7 @@ static struct file *__get_file_rcu(struct file __rcu **f)
- 	 * If the pointers don't match the file has been reallocated by
- 	 * SLAB_TYPESAFE_BY_RCU.
- 	 */
--	if (file == file_reloaded_cmp)
-+	if (likely(file == file_reloaded_cmp))
- 		return file_reloaded;
- 
- 	fput(file);
+Normally, <-- comma
+
+> + * If first character is underscore, all characters are processed.
+
+the first
+an underscore
+
+Maybe it would make sense to prepend "However, " to this very sentence?
+
+thanks,
+-- 
+js
+suse labs
+
