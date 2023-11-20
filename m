@@ -1,90 +1,66 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CACA1D52E;
+	Mon, 20 Nov 2023 16:48:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lXCLjvmP"
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C76494
-	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 08:21:40 -0800 (PST)
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-66d0c777bf0so14327156d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 08:21:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700497300; x=1701102100; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y+cEjF8yivWHKRs1/Mvbzeyp4gbt9nPyK/LY9ULoheM=;
-        b=lXCLjvmP+CHaGpri4tFOQW6WKQONMR0Hlj0xoKc+oBLJmkfw+x7efIkl/qg6tUM5Fk
-         JToiIyL9aubHpv4y4so+Th1PFanvrm/geMUndoVu9oItTH3zc79uGmoSzVGkzZpm+RSO
-         6jcNzG5/VwyLl/U39ovk7sIE/6EsyRknioCytjNN1sOLiLCnA+b/nJlH98aYdMjLBeVa
-         MI89Nj+2MZDwC5r0vKiPozQUfbg/aBafhh1CPrUQ1RRfEC/AUM8gqcaxdnQcWCwbOTWA
-         XLV5rb8CIk51fXDaw1csBzpJemRWLAs0REoM2HISUPc6hrNnIPqxwjGN5cQFX6jV/S1m
-         t0yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700497300; x=1701102100;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y+cEjF8yivWHKRs1/Mvbzeyp4gbt9nPyK/LY9ULoheM=;
-        b=iYazdc/62Yxqg8eLAQ15ylYa+vqhjNi6H50uWM0/YX67+Uo6gFG0az5g4SPwB8VHsw
-         dCSGmyb7jWXmyvdbuGgllnm7B+MynY4w4ZPyux5UDhprZWWGLzVvpcuTy2NmsfWN+i6f
-         d+L/YgPXnMBFKCvsb5MVSLBJyq02OFXx2SSsPyHZrS3q/Qg5aiIDxIQTV+6Il6vnxELI
-         jV78IBYRfgQDrxLHXwJfegbw9Fc9ppUwch8wyLhP0IzuwIK6q5guZumU28ei30zdQnKe
-         fqdJTF25Ae0bYsCitK42cWA3BOGbingsAOlAt73fHBEMcgPQDbBttJvM3BWRNmxy47ZL
-         kjcQ==
-X-Gm-Message-State: AOJu0YybgqZY2B6wf3v+Kon7m6QIZrANwh3AnG7O8i3T7fZkCwu/sLqC
-	rZdT31co2i5029tD42DtPNpy6yCC4m0bMhpAq//K6g==
-X-Google-Smtp-Source: AGHT+IEtPYBbq49KqVNQjGJ/GDDR3Gw4BTcMZhzzT9PPj/JSL5e5Zf0eXOFkX/x3KPc5URlWDs3TZ7+JKzHJiRKIMzs=
-X-Received: by 2002:a05:6214:c49:b0:66d:6afb:ba5d with SMTP id
- r9-20020a0562140c4900b0066d6afbba5dmr9779202qvj.24.1700497299711; Mon, 20 Nov
- 2023 08:21:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fkyLtgYD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91183C433C7;
+	Mon, 20 Nov 2023 16:48:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700498887;
+	bh=ESh01jqSQWkTBYBeIvcosjdQy4FIhEmQsKnmw7vBqNw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fkyLtgYDEV2bf5laQJi0/RvJtLahfgLpzfonczwYtiUCKRzmqrG/k39dKN1XoF6sg
+	 Jc0PXqlhyKurmcq24L6vyVeoLsN9huxzhMQl+Zc1YeG7RbMhMzDTlt5NPof2kqVxHj
+	 keod2SkcB2wGqjre3HrbIJUkjBgoLc01pgh+dpEFg+V+AGK0ITO58tGLii9rPJvqAv
+	 eAEVJpvP668lMwaZiDRczWoa8tm+9fa1SsAsJVRQXoVD+8xnlNybSvj/83fc4Q7hCg
+	 PvGKf+gpB21QW70HQ1M0G5u3N9QokEAA15KNz/peCyxmn79Sh18Er6LMXJqWyE7h5A
+	 ID03DQ4dHFF0Q==
+Date: Mon, 20 Nov 2023 08:48:05 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v7 07/16] net_tstamp: Add TIMESTAMPING SOFTWARE
+ and HARDWARE mask
+Message-ID: <20231120084805.5f012a40@kernel.org>
+In-Reply-To: <20231120100549.22c83bd0@kmaincent-XPS-13-7390>
+References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
+	<20231114-feature_ptp_netnext-v7-7-472e77951e40@bootlin.com>
+	<20231118182247.638c0feb@kernel.org>
+	<20231120100549.22c83bd0@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231103061715.196294-1-sumit.garg@linaro.org>
- <CAFA6WYNW_cAFVMTpqPQjwBASKDp_b=CpccCzx23jHn_+qoJrDQ@mail.gmail.com>
- <87y1es5xsd.fsf@meer.lwn.net> <CAFA6WYN7ZB0Sgc0gB1rQhhirjoOEeyp2Uokzpwy-KFQ_aJQEVg@mail.gmail.com>
-In-Reply-To: <CAFA6WYN7ZB0Sgc0gB1rQhhirjoOEeyp2Uokzpwy-KFQ_aJQEVg@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 20 Nov 2023 17:21:28 +0100
-Message-ID: <CAHUa44EqH+_+CbXAAdW=xGpFm8DCB=fhrFZcXgs1OdW7VRJ6-Q@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: Destage TEE subsystem documentation
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, vegard.nossum@oracle.com, Rijo-john.Thomas@amd.com, 
-	balint.dobszay@arm.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, op-tee@lists.trustedfirmware.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 20, 2023 at 4:35=E2=80=AFPM Sumit Garg <sumit.garg@linaro.org> =
-wrote:
->
-> On Mon, 20 Nov 2023 at 19:31, Jonathan Corbet <corbet@lwn.net> wrote:
-> >
-> > Sumit Garg <sumit.garg@linaro.org> writes:
-> >
-> > > Hi Jonathan,
-> > >
-> > > If you are fine with this destaging TEE documentation patch then will
-> > > you be picking up this patch? Or would you like Jens to pick it up
-> > > with your Ack?
-> >
-> > I'm happy to pick it up.
->
-> Thanks.
->
-> Jens, can we get your ack here for Jonathan to pick it up?
+On Mon, 20 Nov 2023 10:05:49 +0100 K=C3=B6ry Maincent wrote:
+> > Does this really need to be in uAPI? =20
+>=20
+> I have put it in the same place as SOF_TIMESTAMPING_* flags but indeed I =
+am not
+> sure ethtool would need it.
+> I can move it to include/linux/net_tstamp.h and we will move back to uapi=
+ if
+> we see that it is necessary. What do you think?
 
-Sure:
-Acked-by: Jens Wiklander <jens.wiklander@linaro.org>
-
-Thanks,
-Jens
-
->
-> -Sumit
->
-> >
-> > Thanks,
-> >
-> > jon
+include/linux/net_tstamp.h sounds better to me, Willem may disagree..
