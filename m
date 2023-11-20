@@ -1,29 +1,44 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 601E7CF
-	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 02:02:40 -0800 (PST)
-Received: from loongson.cn (unknown [112.20.112.120])
-	by gateway (Coremail) with SMTP id _____8BxIvC+LltlOS87AA--.50621S3;
-	Mon, 20 Nov 2023 18:02:38 +0800 (CST)
-Received: from localhost.localdomain (unknown [112.20.112.120])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxP92yLltlJG5HAA--.27432S5;
-	Mon, 20 Nov 2023 18:02:36 +0800 (CST)
-From: Yanteng Si <siyanteng@loongson.cn>
-To: corbet@lwn.net,
-	seakeel@gmail.com
-Cc: Yanteng Si <siyanteng@loongson.cn>,
-	alexs@kernel.org,
-	bobwxc@email.cn,
-	wu.xiangcheng@linux.dev,
-	yizhou.tang@shopee.com,
-	linux-doc@vger.kernel.org,
-	chenhuacai@kernel.org
-Subject: [PATCH v1 3/3] docs/zh_CN: Update process index to 6.7-rc2
-Date: Mon, 20 Nov 2023 18:02:25 +0800
-Message-Id: <7f79015d251b3ad88d6ea596508e39832623db9d.1700474235.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.31.4
-In-Reply-To: <cover.1700474235.git.siyanteng@loongson.cn>
-References: <cover.1700474235.git.siyanteng@loongson.cn>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VgQrxdeS"
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011E794;
+	Mon, 20 Nov 2023 02:09:47 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2E2DB2000D;
+	Mon, 20 Nov 2023 10:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700474986;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cwpNNNLmUEdlAV7YRR3v1NKd/qp4dY+yMavuDYSXmwI=;
+	b=VgQrxdeSTbCnuH15lof1JX82UZTIKsJA/mcYec4Y57kHWqIikYGBk/gkk5oMa+dnxC5uTj
+	jsEKkaooB9EufqeBsn+vMn47NUN06/wvh5BUJitJnAclyzTch794V1MqWNkNeyj4tJsVbt
+	aKZWT0j6adb23riAIzSKMDr7U7EuIB6qQ5V0rfg4rDWPT2AAa3CbIpVMddHsTioOlcTl2f
+	AqgugCkets/megXLxtVTmor+R6x/GgL1emYZVJcFctXNjL6KwQtkQkhdsI5hgPWQG66rF8
+	A6RS1mVisS2BemRPonuv3VTZqsbK7Z+cTXXJR4Y52G2jn+wwkDUERhLVnPTfmw==
+Date: Mon, 20 Nov 2023 11:09:44 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [PATCH net-next 2/9] ethtool: Expand Ethernet Power Equipment
+ with PoE alongside PoDL
+Message-ID: <20231120110944.66938859@kmaincent-XPS-13-7390>
+In-Reply-To: <04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
+References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
+	<20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
+	<04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -31,132 +46,69 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8CxP92yLltlJG5HAA--.27432S5
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Cry8XryxGw1xJFykJF48KrX_yoW8Kry7pF
-	1DCrySga18Ca4ak3yxKr18WFy5JaykCa9rGF4xKw15XF1Dtr10qr9xtF909ayrGr1Fvay5
-	Xr4fKr45CrWxZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVWxJr0_GcWln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
-	6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
-	jxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
-	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
-	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU82jg7UUUUU==
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Update to commit f1477dbfa562 ("docs: add backporting and conflict
-resolution document")
++Oleksij
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/process/index.rst      | 52 ++++++++++++++++---
- 1 file changed, 44 insertions(+), 8 deletions(-)
+Sorry forgot to CC you the series.
+Maybe you should add yourself to the MAINTAINERS of pse-pd drivers subsyste=
+m?
 
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index 5af0c2735902..3ca02d281be0 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -5,10 +5,11 @@
- 
- .. include:: ../disclaimer-zh_CN.rst
- 
--:Original: :ref:`Documentation/process/index.rst <process_index>`
--:Translator: Alex Shi <alex.shi@linux.alibaba.com>
-+:Original: Documentation/process/index.rst
- 
--.. _cn_process_index:
-+:翻译:
-+
-+ Alex Shi <alex.shi@linux.alibaba.com>
- 
- ========================
- 与Linux 内核社区一起工作
-@@ -23,30 +24,55 @@
- .. toctree::
-    :maxdepth: 1
- 
-+   license-rules
-    howto
-    code-of-conduct
-    code-of-conduct-interpretation
-+   development-process
-    submitting-patches
-    programming-language
-    coding-style
-    maintainer-pgp-guide
--   development-process
-    email-clients
--   license-rules
-    kernel-enforcement-statement
-    kernel-driver-statement
- 
-+TODOLIST:
-+
-+* handling-regressions
-+* maintainer-handbooks
-+
-+安全方面, 请阅读:
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   embargoed-hardware-issues
-+
-+TODOLIST:
-+
-+* security-bugs
-+
- 其它大多数开发人员感兴趣的社区指南：
- 
- 
- .. toctree::
-    :maxdepth: 1
- 
--   submit-checklist
-    stable-api-nonsense
--   stable-kernel-rules
-    management-style
--   embargoed-hardware-issues
-+   stable-kernel-rules
-+   submit-checklist
-+
-+TODOLIST:
-+
-+* changes
-+* kernel-docs
-+* deprecated
-+* maintainers
-+* researcher-guidelines
-+* contribution-maturity-model
-+
- 
- 这些是一些总体性技术指南，由于不大好分类而放在这里：
- 
-@@ -55,6 +81,16 @@
- 
-    magic-number
-    volatile-considered-harmful
-+   ../arch/riscv/patch-acceptance
-+   ../core-api/unaligned-memory-access
-+
-+TODOLIST:
-+
-+* applying-patches
-+* backporting
-+* adding-syscalls
-+* botching-up-ioctls
-+* clang-format
- 
- .. only::  subproject and html
- 
--- 
-2.31.4
+On Sat, 18 Nov 2023 18:38:43 +0100
+Andrew Lunn <andrew@lunn.ch> wrote:
 
+> On Thu, Nov 16, 2023 at 03:01:34PM +0100, Kory Maincent wrote:
+> > In the current PSE interface for Ethernet Power Equipment, support is
+> > limited to PoDL. This patch extends the interface to accommodate the
+> > objects specified in IEEE 802.3-2022 145.2 for Power sourcing
+> > Equipment (PSE). =20
+>=20
+> Sorry for taking a while getting to these patches. Plumbers and other
+> patches have been keeping me busy.
+
+Don't worry you are doing a great job as a net maintainer and I won't raise=
+ any
+remarks on delay considering how you are doing your job.
+Thanks again for your review!!
+
+> I'm trying to get my head around naming... Is there some sort of
+> hierarchy? Is PSE the generic concept for putting power down the
+> cable? Then you have the sub-type PoDL, and the sub-type PoE?
+
+In fact as we discussed with Oleksij I decided to keep the naming as close =
+as
+possible to the IEEE 802.3 standard.
+On the standard the PODL is naming like this aPoDLPSE* (ex: aPoDLPSEAdminSt=
+ate)
+and the PSE is naming like this aPSE* (ex: aPSEAdminState) without any PoE
+prefix. Maybe it is due to PoE being supported before PoDL and they didn't
+expect the PoDL part.
+
+> >  struct pse_control_config {
+> >  	enum ethtool_podl_pse_admin_state podl_admin_control;
+> > +	enum ethtool_pse_admin_state admin_control; =20
+>=20
+> When i look at this, it seems to me admin_control should be generic
+> across all schemes which put power down the cable, and
+> podl_admin_control is specific to how PoDL puts power down the cable.
+>
+> Since you appear to be adding support for a second way to put power
+> down the cable, i would expect something like poe_admin_control being
+> added here. But maybe that is in a later patch?
+
+No as said above admin_control is for PoE and podl_admin_control is for PoD=
+L.
+Maybe you prefer to use poe_admin_control, and add poe prefix in the poe
+variables. It will differ a bit from the IEEE standard naming but I agreed =
+that
+it would be more understandable in the development part.
+
+I am open to the change.
+Oleksij do you agree?
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
