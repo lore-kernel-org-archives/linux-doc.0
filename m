@@ -1,64 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDB73714B;
-	Mon, 20 Nov 2023 20:07:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB13337174;
+	Mon, 20 Nov 2023 20:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZwrlbX4O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38FDDC433C8;
-	Mon, 20 Nov 2023 20:07:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pmySCxX1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8765AC433C8;
+	Mon, 20 Nov 2023 20:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700510827;
-	bh=qDhVmeRxMwWr07EGDhK+eYCT2EyQYeCpb9U7RNVpTcc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZwrlbX4O71gbSINgSdWtmM9Jt8g9BQ1SOH4d9uRzQuzAIa8QKrXb1gMBsLS93Rr24
-	 +M4eZ6XJEFiuiqjoX6CWktLduWna9Jb04nylaCAJalxbIXmw4Ptg6ktNuKcWm1MChi
-	 1n+OqAgi2ClBIpuyvYE2qKsGLBvZ73t8HBJs4V33c/cx1DWFz1iq4+aKFDV/irBkM9
-	 u/2OZSPeJda7jEnxoV7/geclz0+KqSyLRrtcUSPpukUZd2jdGdhTuUM3PWgi7EplKP
-	 GY2ruhmygSJPAaJThHKaYCGLi/5grW5iESxl8dpMjyd1gsdy94zZzgK44vpIGzGKBO
-	 FDU2ZM0U2aHdw==
-Date: Mon, 20 Nov 2023 12:07:06 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: leit@meta.com, Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
- donald.hunter@gmail.com, linux-doc@vger.kernel.org, pabeni@redhat.com,
- edumazet@google.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: Document each netlink family
-Message-ID: <20231120120706.40766380@kernel.org>
-In-Reply-To: <ZVu5rq1SdloY41nH@gmail.com>
-References: <20231113202936.242308-1-leitao@debian.org>
-	<87y1ew6n4x.fsf@meer.lwn.net>
-	<20231117163939.2de33e83@kernel.org>
-	<ZVu5rq1SdloY41nH@gmail.com>
+	s=k20201202; t=1700511204;
+	bh=4sUDEp6FYMfD2QrfOBC4znr4NhcbtUaY8p3AqsjaVX8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pmySCxX1nvFtdQ8UsIeucqu8wgXj0Q3rdUEYubyupWh6P7ZWXqu9pglCx7VFRrVzq
+	 Jj+65pdeF0zLXsCGOO9B6c6RdpYMmpkN87Brsa2BykPRiNMS51ZlFfPk3dwlBKLSJh
+	 94ZMOlh+ksE2Yt2DPLiUkLvCqMTo2Htk92h7Cer17OmW8gYolLT8LRDpV2a2dhGjzR
+	 +q5totgxMTv0OU7XoB+gQ/0+SpcGpky89v80FB9KUFp97xwdhrC/i5JSDRtFMRgcoB
+	 rKwVkk9S7NsBznSw/9kUbx4dbi0yRxFA74tTZTbaXwgBa0dyK95gK65q+YSChZSYb+
+	 u2+5NGOfjzPgQ==
+Date: Mon, 20 Nov 2023 20:13:19 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+	pabeni@redhat.com, andrew@lunn.ch, corbet@lwn.net,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: try to guide people on dealing with
+ silence
+Message-ID: <0d80ee23-e106-487e-a824-b048948a859a@sirena.org.uk>
+References: <20231120200109.620392-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RbKDKJRhjswcAM1A"
+Content-Disposition: inline
+In-Reply-To: <20231120200109.620392-1-kuba@kernel.org>
+X-Cookie: <Manoj> I *like* the chicken
 
-On Mon, 20 Nov 2023 11:55:26 -0800 Breno Leitao wrote:
-> I am not planning to do it, since I would like to trust Make. Let me
-> know if you think this is important and I can do it also.
 
-Makefile is good enough for me.
+--RbKDKJRhjswcAM1A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +$(YNL_INDEX): $(YNL_RST_FILES)
-> +       $(YNL_TOOL) -x # Generate the index
-> +
-> +%.rst: $(YNL_YAMLS_FILES)
-> +       $(YNL_TOOL) -i $(patsubst %.rst,%.yaml, $(@F)) # generate individual rst files
+On Mon, Nov 20, 2023 at 12:01:09PM -0800, Jakub Kicinski wrote:
 
-IDK what @F means, can the tool take one file at a time and then
-we can make the rule a more usual:
+> +Emails saying just "ping" or "bump" are considered rude. If you can't figure
+> +out the status of the patch from patchwork or where the discussion has
+> +landed - describe your best guess and ask if it's correct. For example::
 
-%.rst: $(YNL_YAML_DIR)/%.yaml
-	$(YNL_TOOL) -i $< -o $@
+> +  I don't understand what the next steps are. Person X seems to be unhappy
+> +  with A, should I do B and repost the patches?
 
-?
+This bit (modulo the reference to patchwork) feels like it's generically
+good advice and could find a home in submitting-patches.rst or similar,
+not that it isn't worth repeating here.
 
-> +htmldocs: $(YNL_INDEX)
->         @$(srctree)/scripts/sphinx-pre-install --version-check
->         @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+--RbKDKJRhjswcAM1A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbvd4ACgkQJNaLcl1U
+h9D67Qf9HPgF7lQhJm9GidXfuMsvjIBSe0kH7WnFQND6lioBmMb3AdRniHDNKLx1
+YJLSKE2SAdlUXuFpGtfqwvf4AzaYnkNcDpxPdJBJpeuN+DkJXRguKy6fuzux4CzL
+FKjz8d7B+MIVxB7eaZCi6nuLPoHetW13OSZ/b1mepPRfSkaNDMQtUJ0kJadbzvR4
+eeW+qjZVhislHHtjneQYsgmY6qQRCDBeFryFKdN0ucc5sy/NRzKseWL5dMAzr92D
+9p54Exvw5g8ndtMCarOR2/ULR76NRJfDRBd1gKp1MflakE778m3MZsoG7k5342B4
+3YcT26WP6qpUpLZ7QjTiLGycXUVM/g==
+=d0ou
+-----END PGP SIGNATURE-----
+
+--RbKDKJRhjswcAM1A--
