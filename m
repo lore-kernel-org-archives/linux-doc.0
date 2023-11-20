@@ -1,164 +1,119 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="nxBLRFE7"
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2086.outbound.protection.outlook.com [40.107.241.86])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC701A7;
-	Mon, 20 Nov 2023 04:06:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Lt2nXTiLFyXIDV4DUk80JrN/6pNXoHfS6UgtZXcWGlywA7SVU/lafO9eP71XMB/zHbChEKsS0q1d23RhPP11JSgFVdxqG5DMgys02i7m5GRbYjGhGMvyoo8KQuZIhHn8V4WS+78unc/Exu+rF3VvwMKJCotrWBkRPa5g45UKHteGi4RD8Dj/Lfb0P+8gH+teYww0vRzmehmhrgDrYnodQ462B10aCW1MIErBBSQE90dwt9NqyeIFOyK7UQsFHueBMQ11gDAril8BMHejpspg4CAzKh1hiAVyf+vsr89UCCNDWX2c9/CW2mFjT6OGOYViQplSGSefxxX0kadfsctVOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HDQle/PzHCaZ5EZ3wdcZOKFKkM6smXkz9B5bQpmLh/g=;
- b=SKpoC9pyFLZpUrSUVbRCqEeIkRXIjV8bEqaOeApT0cq3PECU28bpCGvDy3gnKc+imNqb48Une+wpvLfmp1sW4TtoazNrB+6Iiri/UGXyr31YXF0OsVqBlZwc0HRiDtrkkqpH8aEvShrjt194QVwXw7IDr+aM/i/w3lNWa0/Fo2rWPEF3Ql+/oeU0V2dvM36GhfsjCQSk5F/McqzJwpAIMzrhyeG3f4CbjpCJCbwhyniiY/lHZATqeapK9F9YavBlT6kwidl+B2roIADvMlXpBU+jWadEshMa1PB6aFCg+wdUSxV3obXYzNDxJ44a6iBkLv+SGmLoY3WEIsH5ji72hQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HDQle/PzHCaZ5EZ3wdcZOKFKkM6smXkz9B5bQpmLh/g=;
- b=nxBLRFE77mYlSUweZwRNnvh2OkmnC8t5RAKtJbuTfw7ZL7dVd5trAWWeNvdMVXFaQzyoozd9A2igIutpji4v86RO8I0GbyAZDKHpHDcHdlv7weT0xr27QrYsUtLMgfouBz7Pgz5UUw3axM/BiPyXK9N2F2wunKHZcWr9ylGjjGc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by DBBPR04MB7659.eurprd04.prod.outlook.com (2603:10a6:10:209::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.16; Mon, 20 Nov
- 2023 12:06:06 +0000
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::dd33:f07:7cfd:afa4]) by AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::dd33:f07:7cfd:afa4%7]) with mapi id 15.20.7025.015; Mon, 20 Nov 2023
- 12:06:06 +0000
-Date: Mon, 20 Nov 2023 14:06:01 +0200
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NCuTRVCG"
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50617FD
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 04:10:14 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-32f737deedfso2789745f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 04:10:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700482213; x=1701087013; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QS36oLotij0tVUHAFPCkN5+chgBCtn4SQxZS9m139l0=;
+        b=NCuTRVCGoerPqn/1EcxD1D0yS7i7kNMiElPUCpHgf3HTNX2+pUQJNXOvHKN+HRS4zl
+         +TQNuF2qXrpyFlz0CzxsqPLN+xDHToZD5l+/2lXN16E61vN+UD6m9ca9fKjbxhL7CRXO
+         /cUiuRcfYsTuhmShWIXIaCqxY0A4IKVoAq9eXOjUh8eSb4VAVHW0E5BNxGJYH6mzanAp
+         Tk14+2XVzBIaA0q14IyngVyoSQO4NqzvxlwIQ649Sp6osydhKVQWaxnrUsZ82kkRptMp
+         UChKkrB804jKfrNZf73PnBCAVdoiEw4fESvi1K0H6yBzMK4UQoRKMqayS3Z8gFPpJtLc
+         uiDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700482213; x=1701087013;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QS36oLotij0tVUHAFPCkN5+chgBCtn4SQxZS9m139l0=;
+        b=E9yvcMhoSCWIAupRQg1Zs5xbFmuHnNkwYv4xIEenMPRZNAJmCJr23S8AaCqjSRb3C1
+         mdUTy4QRkmWcSEs3g+VesqxsgBxsirsWeOSpov1QOkc3SfI2I7V8LIYChaMA+ze3K8hl
+         NeyHCSNHI54YCeWn03W1niVZGYdyrx2GC1HQP1SHSAW17hu/OrWNbPtZcRX5d0lsEFId
+         95i+5vTvGuVkP0174zsSc2fHCe8gdB5woj2oIDmF71klWeayiopyK8Me2+uZN13QvOAE
+         w0hL6/OZ3du/KeD23wcKJ+W1sk7tQeX8hGPUz9PgQOz5JD1dShW8BEskr55uLBvD/vOg
+         +dbg==
+X-Gm-Message-State: AOJu0Yz5p3kbjMkumg9I+TIgWFRZNCF2YONl9MXxn9QPgOP+i61Kl6jo
+	dCFEjDpwCspI3sY1Nm09WFKaaQ==
+X-Google-Smtp-Source: AGHT+IEAc+7DnU+zQRiFX6lokbetp4JWQwWelJ6KkGXdipUCH1OQi/JBnWUP/lNPhPgciIgsW0sYsg==
+X-Received: by 2002:a5d:47ce:0:b0:332:c31b:249e with SMTP id o14-20020a5d47ce000000b00332c31b249emr2904421wrc.55.1700482212756;
+        Mon, 20 Nov 2023 04:10:12 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o13-20020a5d4a8d000000b00332cbd59f8bsm393192wrq.25.2023.11.20.04.10.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 04:10:12 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 20 Nov 2023 07:10:09 -0500
+To: oe-kbuild@lists.linux.dev, Nuno Sa <nuno.sa@analog.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
- stamping layer be selectable
-Message-ID: <20231120120601.ondrhbkqpnaozl2q@skbuf>
-References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
- <20231114-feature_ptp_netnext-v7-15-472e77951e40@bootlin.com>
- <20231118183433.30ca1d1a@kernel.org>
- <20231120104439.15bfdd09@kmaincent-XPS-13-7390>
- <20231120105255.cgbart5amkg4efaz@skbuf>
- <20231120121440.3274d44c@kmaincent-XPS-13-7390>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231120121440.3274d44c@kmaincent-XPS-13-7390>
-X-ClientProxiedBy: AM0PR02CA0073.eurprd02.prod.outlook.com
- (2603:10a6:208:154::14) To AM0PR04MB6452.eurprd04.prod.outlook.com
- (2603:10a6:208:16d::21)
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Guenter Roeck <linux@roeck-us.net>, Nuno Sa <nuno.sa@analog.com>,
+	Rob Herring <robh+dt@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Message-ID: <63effee3-359b-48a5-b5a4-36b0478f6045@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|DBBPR04MB7659:EE_
-X-MS-Office365-Filtering-Correlation-Id: e40c0d04-1e71-495c-b13d-08dbe9c112db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	99bqGn39xs3X0F48Z7ro8ELl/ujSt7NfEs88QjlAvVAd9fwttoUSoIRxAKIJ1+RYb2CIRx3fu9w2UwzpXKQv09q/pMcY1ZIs7fDGtpd2X8QAfMKRDmPngrEwjYe6ailjytaIb93uvJM/2oCehRxMNDWzXEzYbZ6x9HUOgqTXIBIWcDYw33rEy7/+cg/4N0XQ3Y2yzVO2skLf6cEWppMO2oPUiYI9tAAXAq29Qa4Ls7pmXU4l53Sqyus5Q4TatFHcsvDCA59PGJy1G0h0+weOiwTcpQL7XnUerST07OlrHvCEKfcwFpN201skVJDUMIFiSqzjXs0RuIPn6m+5hOfADD99VFSCdKpcLsof4J4StYEQmFewVTLpaQtd5aXyqC4uHfVCFd1HzlZSiYEnJpmFtjvq8tmPjbdVXryfMn150+uyrwT5Xwyl8s7sAH/FtvKgN+dYPSqU/5yqvMnBU9/fF+dGRc6Wo58nk1gHOBhP9KIOlIVjGz4UgvET8MEnajymCovQZGu//sRV0TtbD0F7OybLH0f8wKCdnlWaEkYIlIFzrdHN+AR6/YEX4kctjpOy
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(376002)(366004)(346002)(136003)(39860400002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(478600001)(6512007)(9686003)(6486002)(1076003)(6666004)(6506007)(26005)(54906003)(66946007)(66556008)(66476007)(316002)(6916009)(33716001)(86362001)(2906002)(44832011)(41300700001)(5660300002)(7416002)(38100700002)(8676002)(4326008)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?Ogfi4AwMtMhLkzM764tRKFJyT1U70sWfLzCJgDhx/jMkDA7hzOR5gGSRiY?=
- =?iso-8859-1?Q?JjBCjuHWdPLvuxPTm9N34xSGuprUkPimV7VZiXYS+0l2kX/poQgUX7yBMw?=
- =?iso-8859-1?Q?WCUTk49UUCsMYBRzLzilg1JS9KChJG9hEgEKlIIqUVZ5jRIIA5GZ/4PX6h?=
- =?iso-8859-1?Q?i6CkIf+Ua5qX2d4LGbR8DjWzQ0bciut8ZAWJao69oylIIfNOqvriiwEOqW?=
- =?iso-8859-1?Q?/sPEq/v1aHJSZCFQTqhLsxi6cv9NGSML22nz2SVh+eP/l75BkE0P413Zln?=
- =?iso-8859-1?Q?/1MEUK5WieDKaArWa75TtKTcF69MoSZP0aZ11HfhChl4WLNA6XPn0C1l5l?=
- =?iso-8859-1?Q?oBPrakbBePv12VJYIZTzwut2947to6b0RTcfLfVLBRmDdKtQg6sYQcnWvc?=
- =?iso-8859-1?Q?y0ocoOwA5GfnroBbhjGwS16KWwJkNGwbUYSBEzgOGQwOXvy8iFacRTpg4E?=
- =?iso-8859-1?Q?b4Z+heSCdUjCRzXmf2ypBXfHO4KjadHo3op0TYDi5xYRE98D9EneWimDd1?=
- =?iso-8859-1?Q?O2L6OsS3+TdjBIgkGcLtYHANcITsgVrOlMeQxUEZYFSt7BQP+Fs35nYS6A?=
- =?iso-8859-1?Q?lumAji9nALFVJauhHniOe7CyJvwj72yQD3mjkvAWqbIUxXdfRSw3lms/Zb?=
- =?iso-8859-1?Q?hkrZN8PGgNeUUIprw4hbUGB3lpJ49XUaaavi1iNB+s8iucHlj9strBi0kJ?=
- =?iso-8859-1?Q?5IU0xKQw5AVmQjz0NHF27BFbD32XJLCsEMGHH1Xv9x7xh9KRJA5mfCRAks?=
- =?iso-8859-1?Q?0U6z8ZkDXxPItxzDjvarwqTr7XpHt8KTTsID2e8UrBX5XY+xogd653TBrD?=
- =?iso-8859-1?Q?Nl/c/xjKgYJF9FvK/aQ1k9G9hGOAkzlhY9WmZSvhpRBbl3DRyrOk20OfQ8?=
- =?iso-8859-1?Q?9x6+L1FW2g98yDVRZPi//SErsdi7efOa2E0k1xfGfS/udxpE46bSV0eBle?=
- =?iso-8859-1?Q?d6VjOHwQ9r3KKi7Ly+A9SNsN4SGtFTma6v11Apjl07jf9RVGhYGNkJ03x9?=
- =?iso-8859-1?Q?vRlNMj6bb4Vnq3tHaGdOo//MSiOx2Z+VrMuONK+22u5BiVWmagmEUOb+KF?=
- =?iso-8859-1?Q?4OFfbHc/zFEpnIz+g4ABEkTtzuKIE5PuTP/sGapqsnZXmdPQsu2+Mwa3ph?=
- =?iso-8859-1?Q?gsFljwOtIYLKPIctwETjzmjeOpX8kokSymGIgqAC+60srCbQLgX6e+bqSk?=
- =?iso-8859-1?Q?JDZFoSGHA5vmIQGO0B2UFL+VflOTaPS1sTFPdgoPX+by22oPCoJVtBMQZT?=
- =?iso-8859-1?Q?iCyeLPlGC1aNvp/WSVX2PIkSQg3Ykzndq0qDjeMM+iySNXU2Q779BxZQd5?=
- =?iso-8859-1?Q?kazT5qgTscqEiqCwTUbD4jTF0vki+O43HD7FMveVXiq4J1m+2BtmiNoj8U?=
- =?iso-8859-1?Q?GwBuaJSfWsbrd9PPWpPiV3YBn8c86aGzkZ0OHln6yO42lAfn4JiDtaT4Ex?=
- =?iso-8859-1?Q?0UixY7+wVbpvvrNrkrccFi/rLxm6TPS6W7FQdcnFk1wDtfojGZ5U6G71KT?=
- =?iso-8859-1?Q?D8+ZIgWottOAeWEX82ZzYyUowjnFHYxoMiH8gBpBYQPopJdn9wlW6vdUIA?=
- =?iso-8859-1?Q?k+BdyV2rZ6oSPO9skfXpqEbRhcaVge+GtzApzlga2+/aPEd1IQXOoeJ/nP?=
- =?iso-8859-1?Q?NW1FjxnxvDMzjQ/Jm8oNb30ZzfRzArWlY4ZjiqDu+anArz+UQ+xt9TyA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e40c0d04-1e71-495c-b13d-08dbe9c112db
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2023 12:06:05.9868
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bjCrl9FYdS77zYGdOkm+E4kh61lYDHQdLLWfucpv5cfdwC8Rj/m+UJcQkFJD/OmZEhDbliJQWgx5I6ic/npwaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7659
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231110151905.1659873-3-nuno.sa@analog.com>
 
-On Mon, Nov 20, 2023 at 12:14:40PM +0100, Köry Maincent wrote:
-> > Does your UAPI proposal make it possible in any way to select
-> > timestamping in phylib PHY A rather than PHY B? Or do you think it is
-> > extensible to support that, somehow?
-> 
-> It does not support it for now.
-> I didn't want to base my work on his series as it could work without it for now
-> and I didn't want to wait to have his series accepted. It is more a future
-> possible support as I don't have anything to test it and I don't know if such
-> hardware exists right now.
-> I think it will be extensible to support that, my thinking was to create this
-> struct in net_device struct:
-> 
-> struct {
-> 	enum layer;
-> 	u32 id;
-> } ts;
-> 
-> With id saving the phy_index of the PHY X used when the layer PHY is selected.
-> This id could also be used to store the timestamp point in case of several
-> timestamp in a MAC.
+Hi Nuno,
 
-Ok, and I suppose the "u32 id" would be numerically the same as the
-ETHTOOL_A_HEADER_PHY_INDEX nlattr that Maxime is proposing?
+kernel test robot noticed the following build warnings:
 
-The next question would be: if a driver performs PHY management in
-firmware, and does not use phylib, how should user space interact with it?
-What timestamping layer and upon what should the ID be chosen?
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Finally (and unrelated to the question above), why is SOFTWARE_TIMESTAMPING
-even a layer exposed in the UAPI? My understanding of this patch set is
-that it is meant to select the source of hardware timestamps that are
-given to a socket. What gap in the UAPI does the introduction of a
-SOFTWARE_TIMESTAMPING hwtstamping layer cover?
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa/dt-bindings-hwmon-Add-LTC4282-bindings/20231110-232017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231110151905.1659873-3-nuno.sa%40analog.com
+patch subject: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+config: i386-randconfig-141-20231112 (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311130219.YBiF8Xu3-lkp@intel.com/
+
+smatch warnings:
+drivers/hwmon/ltc4282.c:859 ltc4282_is_visible() warn: signedness bug returning '(-524)'
+drivers/hwmon/ltc4282.c:1143 ltc4282_gpio_setup() warn: passing zero to 'dev_err_probe'
+
+vim +859 drivers/hwmon/ltc4282.c
+
+31ea069ddf481b Nuno Sa 2023-11-10  844  static umode_t ltc4282_is_visible(const void *data,
+31ea069ddf481b Nuno Sa 2023-11-10  845  				  enum hwmon_sensor_types type,
+31ea069ddf481b Nuno Sa 2023-11-10  846  				  u32 attr, int channel)
+31ea069ddf481b Nuno Sa 2023-11-10  847  {
+31ea069ddf481b Nuno Sa 2023-11-10  848  	switch (type) {
+31ea069ddf481b Nuno Sa 2023-11-10  849  	case hwmon_in:
+31ea069ddf481b Nuno Sa 2023-11-10  850  		return ltc4282_in_is_visible(data, attr);
+31ea069ddf481b Nuno Sa 2023-11-10  851  	case hwmon_curr:
+31ea069ddf481b Nuno Sa 2023-11-10  852  		return ltc4282_curr_is_visible(attr);
+31ea069ddf481b Nuno Sa 2023-11-10  853  	case hwmon_power:
+31ea069ddf481b Nuno Sa 2023-11-10  854  		return ltc4282_power_is_visible(attr);
+31ea069ddf481b Nuno Sa 2023-11-10  855  	case hwmon_energy:
+31ea069ddf481b Nuno Sa 2023-11-10  856  		/* hwmon_energy_enable */
+31ea069ddf481b Nuno Sa 2023-11-10  857  		return 0644;
+31ea069ddf481b Nuno Sa 2023-11-10  858  	default:
+31ea069ddf481b Nuno Sa 2023-11-10 @859  		return -ENOTSUPP;
+
+This function returns umode_t (which must be unsigned and smaller than
+int for this warning to trigger).
+
+31ea069ddf481b Nuno Sa 2023-11-10  860  	}
+31ea069ddf481b Nuno Sa 2023-11-10  861  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
