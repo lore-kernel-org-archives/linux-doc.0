@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aRaCTkfq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJvfITdu"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 495EDD8;
-	Mon, 20 Nov 2023 12:56:57 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF91D2;
+	Mon, 20 Nov 2023 12:57:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700513817; x=1732049817;
+  t=1700513829; x=1732049829;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=RpPnZVfxnjU7YV2tKfj1GhsTUQkslZn6vOv7PSGta4s=;
-  b=aRaCTkfqZng9hrUdymrcpkm5654rEazCxdh6Ju27rPGRlLbvIUebRGeH
-   J26ZTR7oZ7fI9p7ke54gGpP5X+w8XN+2ybYI6t7xIoBlvwEV3BSW/GpLa
-   JiHlHSWqlagEftcT+boKb560gjACzdMhA9Qr15vtAStRkqnKaFAReZR4w
-   5igcSvUEzoyNvLDOAjpgLLJe9f5CzBXUP6dR07n88WpJgs4AQfEceg2uf
-   J5fphixRkzeNpfH9caJTe2nrW5Ab0cgA+Hqt23FFFTOMYj+OtInpvgQ+K
-   pPNpyuWr+0nmJrKyvYRv0liiwXbzKNphjxSuJCkyvd+uU4Fr/XFXMiBJK
+  bh=pNiQdQCtBPWZHa6DncJqBEjOa18ri1ObobyNYXIQJqw=;
+  b=VJvfITdu0bYzb+9izeKYoxzzEsAQ27BU3PT6mvRKtTcRhZG6oQcyqDMH
+   XIumCyuJsbCrQGTYhqeSb3gucSkFJlXKx/SFAdKebFbBtSnomzOz82ZR4
+   4qKJZn0DEmbMjuuNYFv0Hr8KsRNzTZbmRkD7UmXl+Mnckt1u37qluuij7
+   YTiJinA0Dgi4mG00T7bHeeLgynUOLrpXtmxG/fQ2YxTo3MC95S/bTz/OX
+   vcDW/Dj1ybFfLDVwujiq4S3Fl1f1CW9MJOdEC0U2Pb7aDFq7f/gMF/w0t
+   zqJSoyDQNgXTOVpPCc6qroSfH+FpS6CuP+pW9Gl+AuOqZkuzFR6K/LRBX
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="391484341"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="391484400"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="391484341"
+   d="scan'208";a="391484400"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:56:56 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:57:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="857106223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="857106291"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="857106223"
+   d="scan'208";a="857106291"
 Received: from cchircul-mobl2.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.249.46.122])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:56:51 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:57:02 -0800
 From: Ahmed Zaki <ahmed.zaki@intel.com>
 To: netdev@vger.kernel.org
 Cc: intel-wired-lan@lists.osuosl.org,
@@ -46,11 +46,10 @@ Cc: intel-wired-lan@lists.osuosl.org,
 	alexander.duyck@gmail.com,
 	linux-doc@vger.kernel.org,
 	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Dan Nowlin <dan.nowlin@intel.com>,
-	Wojciech Drewek <wojciech.drewek@intel.com>
-Subject: [PATCH net-next v6 5/7] ice: refactor the FD and RSS flow ID generation
-Date: Mon, 20 Nov 2023 13:56:12 -0700
-Message-Id: <20231120205614.46350-6-ahmed.zaki@intel.com>
+	Madhu Chittim <madhu.chittim@intel.com>
+Subject: [PATCH net-next v6 7/7] iavf: enable symmetric-xor RSS for Toeplitz hash function
+Date: Mon, 20 Nov 2023 13:56:14 -0700
+Message-Id: <20231120205614.46350-8-ahmed.zaki@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231120205614.46350-1-ahmed.zaki@intel.com>
 References: <20231120205614.46350-1-ahmed.zaki@intel.com>
@@ -62,492 +61,449 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The flow director and RSS blocks use separate methods to generate a
-unique 64 bit ID for the flow. This is not extendable, especially for
-the RSS that already uses all 64 bit space.
+Allow the user to set the symmetric Toeplitz hash function via:
 
-Refactor the flow generation API so that the ID is generated within
-ice_flow_add_prof(). The FD and RSS blocks caches the generated ID for
-later use.
+    # ethtool -X eth0 hfunc toeplitz symmetric-xor
 
-Suggested-by: Dan Nowlin <dan.nowlin@intel.com>
-Reviewed-by: Wojciech Drewek <wojciech.drewek@intel.com>
+The driver will reject any new RSS configuration if a field other than
+(IP src/dst and L4 src/dst ports) is requested for hashing.
+
+The symmetric RSS will not be supported on PFs not advertising the ADV RSS
+Offload flag (ADV_RSS_SUPPORT()), for example the E700 series (i40e).
+
+Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
 Signed-off-by: Ahmed Zaki <ahmed.zaki@intel.com>
 ---
- .../net/ethernet/intel/ice/ice_ethtool_fdir.c | 31 +++++-------
- .../net/ethernet/intel/ice/ice_flex_pipe.c    | 11 +++++
- .../net/ethernet/intel/ice/ice_flex_type.h    |  6 +++
- drivers/net/ethernet/intel/ice/ice_flow.c     | 47 +++++--------------
- drivers/net/ethernet/intel/ice/ice_flow.h     |  2 +-
- drivers/net/ethernet/intel/ice/ice_main.c     |  5 +-
- drivers/net/ethernet/intel/ice/ice_type.h     |  1 +
- .../ethernet/intel/ice/ice_virtchnl_fdir.c    | 33 ++++---------
- 8 files changed, 55 insertions(+), 81 deletions(-)
+ drivers/net/ethernet/intel/iavf/iavf.h        |  5 +-
+ .../net/ethernet/intel/iavf/iavf_adv_rss.c    |  8 ++-
+ .../net/ethernet/intel/iavf/iavf_adv_rss.h    |  3 +-
+ .../net/ethernet/intel/iavf/iavf_ethtool.c    | 43 ++++++++++++++--
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |  4 ++
+ .../net/ethernet/intel/iavf/iavf_virtchnl.c   | 41 +++++++++++++++
+ drivers/net/ethernet/intel/ice/ice_virtchnl.c | 50 +++++++++++++++++++
+ drivers/net/ethernet/intel/ice/ice_virtchnl.h |  1 +
+ .../intel/ice/ice_virtchnl_allowlist.c        |  1 +
+ include/linux/avf/virtchnl.h                  | 19 +++++++
+ 10 files changed, 166 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/ice/ice_ethtool_fdir.c b/drivers/net/ethernet/intel/ice/ice_ethtool_fdir.c
-index d151e5bacfec..27bb3bf24fff 100644
---- a/drivers/net/ethernet/intel/ice/ice_ethtool_fdir.c
-+++ b/drivers/net/ethernet/intel/ice/ice_ethtool_fdir.c
-@@ -302,9 +302,7 @@ void ice_fdir_rem_adq_chnl(struct ice_hw *hw, u16 vsi_idx)
- 			continue;
+diff --git a/drivers/net/ethernet/intel/iavf/iavf.h b/drivers/net/ethernet/intel/iavf/iavf.h
+index e7ab89dc883a..f83fbcc72075 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf.h
++++ b/drivers/net/ethernet/intel/iavf/iavf.h
+@@ -312,7 +312,8 @@ struct iavf_adapter {
+ #define IAVF_FLAG_AQ_SET_HENA			BIT_ULL(12)
+ #define IAVF_FLAG_AQ_SET_RSS_KEY		BIT_ULL(13)
+ #define IAVF_FLAG_AQ_SET_RSS_LUT		BIT_ULL(14)
+-#define IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE	BIT_ULL(15)
++#define IAVF_FLAG_AQ_SET_RSS_HFUNC		BIT_ULL(15)
++#define IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE	BIT_ULL(16)
+ #define IAVF_FLAG_AQ_ENABLE_VLAN_STRIPPING	BIT_ULL(19)
+ #define IAVF_FLAG_AQ_DISABLE_VLAN_STRIPPING	BIT_ULL(20)
+ #define IAVF_FLAG_AQ_ENABLE_CHANNELS		BIT_ULL(21)
+@@ -414,6 +415,7 @@ struct iavf_adapter {
+ 	struct iavf_vsi vsi;
+ 	u32 aq_wait_count;
+ 	/* RSS stuff */
++	enum virtchnl_rss_algorithm hfunc;
+ 	u64 hena;
+ 	u16 rss_key_size;
+ 	u16 rss_lut_size;
+@@ -539,6 +541,7 @@ void iavf_get_hena(struct iavf_adapter *adapter);
+ void iavf_set_hena(struct iavf_adapter *adapter);
+ void iavf_set_rss_key(struct iavf_adapter *adapter);
+ void iavf_set_rss_lut(struct iavf_adapter *adapter);
++void iavf_set_rss_hfunc(struct iavf_adapter *adapter);
+ void iavf_enable_vlan_stripping(struct iavf_adapter *adapter);
+ void iavf_disable_vlan_stripping(struct iavf_adapter *adapter);
+ void iavf_virtchnl_completion(struct iavf_adapter *adapter,
+diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
+index 6edbf134b73f..a9e1da35e248 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
++++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
+@@ -95,17 +95,21 @@ iavf_fill_adv_rss_sctp_hdr(struct virtchnl_proto_hdr *hdr, u64 hash_flds)
+  * @rss_cfg: the virtchnl message to be filled with RSS configuration setting
+  * @packet_hdrs: the RSS configuration protocol header types
+  * @hash_flds: the RSS configuration protocol hash fields
++ * @symm: if true, symmetric hash is required
+  *
+  * Returns 0 if the RSS configuration virtchnl message is filled successfully
+  */
+ int
+ iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
+-			  u32 packet_hdrs, u64 hash_flds)
++			  u32 packet_hdrs, u64 hash_flds, bool symm)
+ {
+ 	struct virtchnl_proto_hdrs *proto_hdrs = &rss_cfg->proto_hdrs;
+ 	struct virtchnl_proto_hdr *hdr;
  
- 		for (tun = 0; tun < ICE_FD_HW_SEG_MAX; tun++) {
--			u64 prof_id;
--
--			prof_id = flow + tun * ICE_FLTR_PTYPE_MAX;
-+			u64 prof_id = prof->prof_id[tun];
+-	rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
++	if (symm)
++		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
++	else
++		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
  
- 			for (i = 0; i < prof->cnt; i++) {
- 				if (prof->vsi_h[i] != vsi_idx)
-@@ -362,10 +360,9 @@ ice_fdir_erase_flow_from_hw(struct ice_hw *hw, enum ice_block blk, int flow)
- 		return;
+ 	proto_hdrs->tunnel_level = 0;	/* always outer layer */
  
- 	for (tun = 0; tun < ICE_FD_HW_SEG_MAX; tun++) {
--		u64 prof_id;
-+		u64 prof_id = prof->prof_id[tun];
- 		int j;
+diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
+index 4d3be11af7aa..e31eb2afebea 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
++++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
+@@ -80,13 +80,14 @@ struct iavf_adv_rss {
  
--		prof_id = flow + tun * ICE_FLTR_PTYPE_MAX;
- 		for (j = 0; j < prof->cnt; j++) {
- 			u16 vsi_num;
+ 	u32 packet_hdrs;
+ 	u64 hash_flds;
++	bool symm;
  
-@@ -439,12 +436,10 @@ void ice_fdir_replay_flows(struct ice_hw *hw)
- 		for (tun = 0; tun < ICE_FD_HW_SEG_MAX; tun++) {
- 			struct ice_flow_prof *hw_prof;
- 			struct ice_fd_hw_prof *prof;
--			u64 prof_id;
- 			int j;
- 
- 			prof = hw->fdir_prof[flow];
--			prof_id = flow + tun * ICE_FLTR_PTYPE_MAX;
--			ice_flow_add_prof(hw, ICE_BLK_FD, ICE_FLOW_RX, prof_id,
-+			ice_flow_add_prof(hw, ICE_BLK_FD, ICE_FLOW_RX,
- 					  prof->fdir_seg[tun], TNL_SEG_CNT(tun),
- 					  &hw_prof);
- 			for (j = 0; j < prof->cnt; j++) {
-@@ -454,7 +449,7 @@ void ice_fdir_replay_flows(struct ice_hw *hw)
- 
- 				prio = ICE_FLOW_PRIO_NORMAL;
- 				err = ice_flow_add_entry(hw, ICE_BLK_FD,
--							 prof_id,
-+							 hw_prof->id,
- 							 prof->vsi_h[0],
- 							 prof->vsi_h[j],
- 							 prio, prof->fdir_seg,
-@@ -464,6 +459,7 @@ void ice_fdir_replay_flows(struct ice_hw *hw)
- 						flow);
- 					continue;
- 				}
-+				prof->prof_id[tun] = hw_prof->id;
- 				prof->entry_h[j][tun] = entry_h;
- 			}
- 		}
-@@ -638,7 +634,6 @@ ice_fdir_set_hw_fltr_rule(struct ice_pf *pf, struct ice_flow_seg_info *seg,
- 	u64 entry1_h = 0;
- 	u64 entry2_h = 0;
- 	bool del_last;
--	u64 prof_id;
- 	int err;
- 	int idx;
- 
-@@ -686,23 +681,23 @@ ice_fdir_set_hw_fltr_rule(struct ice_pf *pf, struct ice_flow_seg_info *seg,
- 	 * That is the final parameters are 1 header (segment), no
- 	 * actions (NULL) and zero actions 0.
- 	 */
--	prof_id = flow + tun * ICE_FLTR_PTYPE_MAX;
--	err = ice_flow_add_prof(hw, ICE_BLK_FD, ICE_FLOW_RX, prof_id, seg,
-+	err = ice_flow_add_prof(hw, ICE_BLK_FD, ICE_FLOW_RX, seg,
- 				TNL_SEG_CNT(tun), &prof);
- 	if (err)
- 		return err;
--	err = ice_flow_add_entry(hw, ICE_BLK_FD, prof_id, main_vsi->idx,
-+	err = ice_flow_add_entry(hw, ICE_BLK_FD, prof->id, main_vsi->idx,
- 				 main_vsi->idx, ICE_FLOW_PRIO_NORMAL,
- 				 seg, &entry1_h);
- 	if (err)
- 		goto err_prof;
--	err = ice_flow_add_entry(hw, ICE_BLK_FD, prof_id, main_vsi->idx,
-+	err = ice_flow_add_entry(hw, ICE_BLK_FD, prof->id, main_vsi->idx,
- 				 ctrl_vsi->idx, ICE_FLOW_PRIO_NORMAL,
- 				 seg, &entry2_h);
- 	if (err)
- 		goto err_entry;
- 
- 	hw_prof->fdir_seg[tun] = seg;
-+	hw_prof->prof_id[tun] = prof->id;
- 	hw_prof->entry_h[0][tun] = entry1_h;
- 	hw_prof->entry_h[1][tun] = entry2_h;
- 	hw_prof->vsi_h[0] = main_vsi->idx;
-@@ -719,7 +714,7 @@ ice_fdir_set_hw_fltr_rule(struct ice_pf *pf, struct ice_flow_seg_info *seg,
- 
- 		entry1_h = 0;
- 		vsi_h = main_vsi->tc_map_vsi[idx]->idx;
--		err = ice_flow_add_entry(hw, ICE_BLK_FD, prof_id,
-+		err = ice_flow_add_entry(hw, ICE_BLK_FD, prof->id,
- 					 main_vsi->idx, vsi_h,
- 					 ICE_FLOW_PRIO_NORMAL, seg,
- 					 &entry1_h);
-@@ -756,7 +751,7 @@ ice_fdir_set_hw_fltr_rule(struct ice_pf *pf, struct ice_flow_seg_info *seg,
- 
- 		if (!hw_prof->entry_h[idx][tun])
- 			continue;
--		ice_rem_prof_id_flow(hw, ICE_BLK_FD, vsi_num, prof_id);
-+		ice_rem_prof_id_flow(hw, ICE_BLK_FD, vsi_num, prof->id);
- 		ice_flow_rem_entry(hw, ICE_BLK_FD, hw_prof->entry_h[idx][tun]);
- 		hw_prof->entry_h[idx][tun] = 0;
- 		if (del_last)
-@@ -766,10 +761,10 @@ ice_fdir_set_hw_fltr_rule(struct ice_pf *pf, struct ice_flow_seg_info *seg,
- 		hw_prof->cnt = 0;
- err_entry:
- 	ice_rem_prof_id_flow(hw, ICE_BLK_FD,
--			     ice_get_hw_vsi_num(hw, main_vsi->idx), prof_id);
-+			     ice_get_hw_vsi_num(hw, main_vsi->idx), prof->id);
- 	ice_flow_rem_entry(hw, ICE_BLK_FD, entry1_h);
- err_prof:
--	ice_flow_rem_prof(hw, ICE_BLK_FD, prof_id);
-+	ice_flow_rem_prof(hw, ICE_BLK_FD, prof->id);
- 	dev_err(dev, "Failed to add filter.  Flow director filters on each port must have the same input set.\n");
- 
- 	return err;
-diff --git a/drivers/net/ethernet/intel/ice/ice_flex_pipe.c b/drivers/net/ethernet/intel/ice/ice_flex_pipe.c
-index 5ce413965930..b29c0720ce3a 100644
---- a/drivers/net/ethernet/intel/ice/ice_flex_pipe.c
-+++ b/drivers/net/ethernet/intel/ice/ice_flex_pipe.c
-@@ -2118,6 +2118,7 @@ void ice_free_hw_tbls(struct ice_hw *hw)
- 		devm_kfree(ice_hw_to_dev(hw), hw->blk[i].es.ref_count);
- 		devm_kfree(ice_hw_to_dev(hw), hw->blk[i].es.written);
- 		devm_kfree(ice_hw_to_dev(hw), hw->blk[i].es.mask_ena);
-+		devm_kfree(ice_hw_to_dev(hw), hw->blk[i].prof_id.id);
- 	}
- 
- 	list_for_each_entry_safe(r, rt, &hw->rss_list_head, l_entry) {
-@@ -2150,6 +2151,7 @@ void ice_clear_hw_tbls(struct ice_hw *hw)
- 
- 	for (i = 0; i < ICE_BLK_COUNT; i++) {
- 		struct ice_prof_redir *prof_redir = &hw->blk[i].prof_redir;
-+		struct ice_prof_id *prof_id = &hw->blk[i].prof_id;
- 		struct ice_prof_tcam *prof = &hw->blk[i].prof;
- 		struct ice_xlt1 *xlt1 = &hw->blk[i].xlt1;
- 		struct ice_xlt2 *xlt2 = &hw->blk[i].xlt2;
-@@ -2180,6 +2182,8 @@ void ice_clear_hw_tbls(struct ice_hw *hw)
- 		memset(es->ref_count, 0, es->count * sizeof(*es->ref_count));
- 		memset(es->written, 0, es->count * sizeof(*es->written));
- 		memset(es->mask_ena, 0, es->count * sizeof(*es->mask_ena));
-+
-+		memset(prof_id->id, 0, prof_id->count * sizeof(*prof_id->id));
- 	}
- }
- 
-@@ -2196,6 +2200,7 @@ int ice_init_hw_tbls(struct ice_hw *hw)
- 	ice_init_all_prof_masks(hw);
- 	for (i = 0; i < ICE_BLK_COUNT; i++) {
- 		struct ice_prof_redir *prof_redir = &hw->blk[i].prof_redir;
-+		struct ice_prof_id *prof_id = &hw->blk[i].prof_id;
- 		struct ice_prof_tcam *prof = &hw->blk[i].prof;
- 		struct ice_xlt1 *xlt1 = &hw->blk[i].xlt1;
- 		struct ice_xlt2 *xlt2 = &hw->blk[i].xlt2;
-@@ -2301,6 +2306,12 @@ int ice_init_hw_tbls(struct ice_hw *hw)
- 					    sizeof(*es->mask_ena), GFP_KERNEL);
- 		if (!es->mask_ena)
- 			goto err;
-+
-+		prof_id->count = blk_sizes[i].prof_id;
-+		prof_id->id = devm_kcalloc(ice_hw_to_dev(hw), prof_id->count,
-+					   sizeof(*prof_id->id), GFP_KERNEL);
-+		if (!prof_id->id)
-+			goto err;
- 	}
- 	return 0;
- 
-diff --git a/drivers/net/ethernet/intel/ice/ice_flex_type.h b/drivers/net/ethernet/intel/ice/ice_flex_type.h
-index 4f42e14ed3ae..395ebb18950a 100644
---- a/drivers/net/ethernet/intel/ice/ice_flex_type.h
-+++ b/drivers/net/ethernet/intel/ice/ice_flex_type.h
-@@ -304,10 +304,16 @@ struct ice_masks {
- 	struct ice_mask masks[ICE_PROF_MASK_COUNT];
+ 	struct virtchnl_rss_cfg cfg_msg;
  };
  
-+struct ice_prof_id {
-+	unsigned long *id;
-+	int count;
-+};
-+
- /* Tables per block */
- struct ice_blk_info {
- 	struct ice_xlt1 xlt1;
- 	struct ice_xlt2 xlt2;
-+	struct ice_prof_id prof_id;
- 	struct ice_prof_tcam prof;
- 	struct ice_prof_redir prof_redir;
- 	struct ice_es es;
-diff --git a/drivers/net/ethernet/intel/ice/ice_flow.c b/drivers/net/ethernet/intel/ice/ice_flow.c
-index c34be72f99b3..0e2510d7535b 100644
---- a/drivers/net/ethernet/intel/ice/ice_flow.c
-+++ b/drivers/net/ethernet/intel/ice/ice_flow.c
-@@ -1328,7 +1328,6 @@ ice_flow_rem_entry_sync(struct ice_hw *hw, enum ice_block __always_unused blk,
-  * @hw: pointer to the HW struct
-  * @blk: classification stage
-  * @dir: flow direction
-- * @prof_id: unique ID to identify this flow profile
-  * @segs: array of one or more packet segments that describe the flow
-  * @segs_cnt: number of packet segments provided
-  * @prof: stores the returned flow profile added
-@@ -1337,17 +1336,24 @@ ice_flow_rem_entry_sync(struct ice_hw *hw, enum ice_block __always_unused blk,
+ int
+ iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
+-			  u32 packet_hdrs, u64 hash_flds);
++			  u32 packet_hdrs, u64 hash_flds, bool symm);
+ struct iavf_adv_rss *
+ iavf_find_adv_rss_cfg_by_hdrs(struct iavf_adapter *adapter, u32 packet_hdrs);
+ void
+diff --git a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
+index 2f3cd504f249..9fa85b444697 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
++++ b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
+@@ -1540,14 +1540,26 @@ static u32 iavf_adv_rss_parse_hdrs(struct ethtool_rxnfc *cmd)
+ /**
+  * iavf_adv_rss_parse_hash_flds - parses hash fields from RSS hash input
+  * @cmd: ethtool rxnfc command
++ * @symm: true if Symmetric Topelitz is set
+  *
+  * This function parses the rxnfc command and returns intended hash fields for
+  * RSS configuration
   */
- static int
- ice_flow_add_prof_sync(struct ice_hw *hw, enum ice_block blk,
--		       enum ice_flow_dir dir, u64 prof_id,
-+		       enum ice_flow_dir dir,
- 		       struct ice_flow_seg_info *segs, u8 segs_cnt,
- 		       struct ice_flow_prof **prof)
+-static u64 iavf_adv_rss_parse_hash_flds(struct ethtool_rxnfc *cmd)
++static u64 iavf_adv_rss_parse_hash_flds(struct ethtool_rxnfc *cmd, bool symm)
  {
- 	struct ice_flow_prof_params *params;
-+	struct ice_prof_id *ids;
- 	int status;
-+	u64 prof_id;
- 	u8 i;
+ 	u64 hfld = IAVF_ADV_RSS_HASH_INVALID;
  
- 	if (!prof)
++	/* Sanity check: if a symmetric hash is requested, then:
++	 * 1 - no other fields besides IP src/dst and/or L4 src/dst
++	 * 2 - If src is set, dst must also be set
++	 */
++	if (symm &&
++	    ((cmd->data & ~(RXH_IP_SRC | RXH_IP_DST |
++			    RXH_L4_B_0_1 | RXH_L4_B_2_3)) ||
++	     (!!(cmd->data & RXH_IP_SRC) ^ !!(cmd->data & RXH_IP_DST)) ||
++	     (!!(cmd->data & RXH_L4_B_0_1) ^ !!(cmd->data & RXH_L4_B_2_3))))
++		return hfld;
++
+ 	if (cmd->data & RXH_IP_SRC || cmd->data & RXH_IP_DST) {
+ 		switch (cmd->flow_type) {
+ 		case TCP_V4_FLOW:
+@@ -1616,17 +1628,20 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
+ 	struct iavf_adv_rss *rss_old, *rss_new;
+ 	bool rss_new_add = false;
+ 	int count = 50, err = 0;
++	bool symm = false;
+ 	u64 hash_flds;
+ 	u32 hdrs;
+ 
+ 	if (!ADV_RSS_SUPPORT(adapter))
+ 		return -EOPNOTSUPP;
+ 
++	symm = !!(adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC);
++
+ 	hdrs = iavf_adv_rss_parse_hdrs(cmd);
+ 	if (hdrs == IAVF_ADV_RSS_FLOW_SEG_HDR_NONE)
  		return -EINVAL;
  
-+	ids = &hw->blk[blk].prof_id;
-+	prof_id = find_first_zero_bit(ids->id, ids->count);
-+	if (prof_id >= ids->count)
-+		return -ENOSPC;
-+
- 	params = kzalloc(sizeof(*params), GFP_KERNEL);
- 	if (!params)
+-	hash_flds = iavf_adv_rss_parse_hash_flds(cmd);
++	hash_flds = iavf_adv_rss_parse_hash_flds(cmd, symm);
+ 	if (hash_flds == IAVF_ADV_RSS_HASH_INVALID)
+ 		return -EINVAL;
+ 
+@@ -1634,7 +1649,8 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
+ 	if (!rss_new)
  		return -ENOMEM;
-@@ -1393,6 +1399,7 @@ ice_flow_add_prof_sync(struct ice_hw *hw, enum ice_block blk,
  
- 	INIT_LIST_HEAD(&params->prof->entries);
- 	mutex_init(&params->prof->entries_lock);
-+	set_bit(prof_id, ids->id);
- 	*prof = params->prof;
+-	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds)) {
++	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds,
++				      symm)) {
+ 		kfree(rss_new);
+ 		return -EINVAL;
+ 	}
+@@ -1653,9 +1669,11 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
+ 	if (rss_old) {
+ 		if (rss_old->state != IAVF_ADV_RSS_ACTIVE) {
+ 			err = -EBUSY;
+-		} else if (rss_old->hash_flds != hash_flds) {
++		} else if (rss_old->hash_flds != hash_flds ||
++			   rss_old->symm != symm) {
+ 			rss_old->state = IAVF_ADV_RSS_ADD_REQUEST;
+ 			rss_old->hash_flds = hash_flds;
++			rss_old->symm = symm;
+ 			memcpy(&rss_old->cfg_msg, &rss_new->cfg_msg,
+ 			       sizeof(rss_new->cfg_msg));
+ 			adapter->aq_required |= IAVF_FLAG_AQ_ADD_ADV_RSS_CFG;
+@@ -1667,6 +1685,7 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
+ 		rss_new->state = IAVF_ADV_RSS_ADD_REQUEST;
+ 		rss_new->packet_hdrs = hdrs;
+ 		rss_new->hash_flds = hash_flds;
++		rss_new->symm = symm;
+ 		list_add_tail(&rss_new->list, &adapter->adv_rss_list_head);
+ 		adapter->aq_required |= IAVF_FLAG_AQ_ADD_ADV_RSS_CFG;
+ 	}
+@@ -1919,8 +1938,12 @@ static int iavf_get_rxfh(struct net_device *netdev, struct ethtool_rxfh *rxfh,
+ 	struct iavf_adapter *adapter = netdev_priv(netdev);
+ 	u16 i;
  
- out:
-@@ -1436,6 +1443,7 @@ ice_flow_rem_prof_sync(struct ice_hw *hw, enum ice_block blk,
- 	/* Remove all hardware profiles associated with this flow profile */
- 	status = ice_rem_prof(hw, blk, prof->id);
- 	if (!status) {
-+		clear_bit(prof->id, hw->blk[blk].prof_id.id);
- 		list_del(&prof->l_entry);
- 		mutex_destroy(&prof->entries_lock);
- 		devm_kfree(ice_hw_to_dev(hw), prof);
-@@ -1511,14 +1519,13 @@ ice_flow_disassoc_prof(struct ice_hw *hw, enum ice_block blk,
-  * @hw: pointer to the HW struct
-  * @blk: classification stage
-  * @dir: flow direction
-- * @prof_id: unique ID to identify this flow profile
-  * @segs: array of one or more packet segments that describe the flow
-  * @segs_cnt: number of packet segments provided
-  * @prof: stores the returned flow profile added
-  */
- int
- ice_flow_add_prof(struct ice_hw *hw, enum ice_block blk, enum ice_flow_dir dir,
--		  u64 prof_id, struct ice_flow_seg_info *segs, u8 segs_cnt,
-+		  struct ice_flow_seg_info *segs, u8 segs_cnt,
- 		  struct ice_flow_prof **prof)
- {
- 	int status;
-@@ -1538,8 +1545,7 @@ ice_flow_add_prof(struct ice_hw *hw, enum ice_block blk, enum ice_flow_dir dir,
+-	if (rxfh)
++	if (rxfh) {
+ 		rxfh->hfunc = ETH_RSS_HASH_TOP;
++		if (adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
++			rxfh->data |= RXH_HFUNC_SYM_XOR;
++	}
++
+ 	if (key)
+ 		memcpy(key, adapter->rss_key, adapter->rss_key_size);
  
- 	mutex_lock(&hw->fl_profs_locks[blk]);
+@@ -1953,6 +1976,16 @@ static int iavf_set_rxfh(struct net_device *netdev, struct ethtool_rxfh *rxfh,
+ 	    rxfh->hfunc != ETH_RSS_HASH_TOP)
+ 		return -EOPNOTSUPP;
  
--	status = ice_flow_add_prof_sync(hw, blk, dir, prof_id, segs, segs_cnt,
--					prof);
-+	status = ice_flow_add_prof_sync(hw, blk, dir, segs, segs_cnt, prof);
- 	if (!status)
- 		list_add(&(*prof)->l_entry, &hw->fl_profs[blk]);
++	if (rxfh->data & RXH_HFUNC_SYM_XOR) {
++		if (!ADV_RSS_SUPPORT(adapter))
++			return -EOPNOTSUPP;
++		adapter->hfunc = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
++		adapter->aq_required |= IAVF_FLAG_AQ_SET_RSS_HFUNC;
++	} else if (adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC) {
++		adapter->hfunc = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
++		adapter->aq_required |= IAVF_FLAG_AQ_SET_RSS_HFUNC;
++	}
++
+ 	if (!key && !indir)
+ 		return 0;
  
-@@ -2066,28 +2072,6 @@ ice_add_rss_list(struct ice_hw *hw, u16 vsi_handle, struct ice_flow_prof *prof)
- 	return 0;
+diff --git a/drivers/net/ethernet/intel/iavf/iavf_main.c b/drivers/net/ethernet/intel/iavf/iavf_main.c
+index c862ebcd2e39..d96b7a190233 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf_main.c
++++ b/drivers/net/ethernet/intel/iavf/iavf_main.c
+@@ -2169,6 +2169,10 @@ static int iavf_process_aq_command(struct iavf_adapter *adapter)
+ 		iavf_set_rss_lut(adapter);
+ 		return 0;
+ 	}
++	if (adapter->aq_required & IAVF_FLAG_AQ_SET_RSS_HFUNC) {
++		iavf_set_rss_hfunc(adapter);
++		return 0;
++	}
+ 
+ 	if (adapter->aq_required & IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE) {
+ 		iavf_set_promiscuous(adapter);
+diff --git a/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c b/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
+index 64c4443dbef9..64a351e70a56 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
++++ b/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
+@@ -1141,6 +1141,34 @@ void iavf_set_rss_lut(struct iavf_adapter *adapter)
+ 	kfree(vrl);
  }
  
--#define ICE_FLOW_PROF_HASH_S	0
--#define ICE_FLOW_PROF_HASH_M	GENMASK_ULL(31, 0)
--#define ICE_FLOW_PROF_HDR_S	32
--#define ICE_FLOW_PROF_HDR_M	GENMASK_ULL(61, 32)
--#define ICE_FLOW_PROF_ENCAP_S	62
--#define ICE_FLOW_PROF_ENCAP_M	GENMASK_ULL(63, 62)
--
--/* Flow profile ID format:
-- * [0:31] - Packet match fields
-- * [32:61] - Protocol header
-- * [62:63] - Encapsulation flag:
-- *	     0 if non-tunneled
-- *	     1 if tunneled
-- *	     2 for tunneled with outer ipv4
-- *	     3 for tunneled with outer ipv6
-- */
--#define ICE_FLOW_GEN_PROFID(hash, hdr, encap)                                \
--	((u64)(((u64)(hash) & ICE_FLOW_PROF_HASH_M) |                        \
--	       (((u64)(hdr) << ICE_FLOW_PROF_HDR_S) & ICE_FLOW_PROF_HDR_M) | \
--	       (((u64)(encap) << ICE_FLOW_PROF_ENCAP_S) &                    \
--		ICE_FLOW_PROF_ENCAP_M)))
--
++/**
++ * iavf_set_rss_hfunc
++ * @adapter: adapter structure
++ *
++ * Request the PF to set our RSS Hash function
++ **/
++void iavf_set_rss_hfunc(struct iavf_adapter *adapter)
++{
++	struct virtchnl_rss_hfunc *vrh;
++	int len = sizeof(*vrh);
++
++	if (adapter->current_op != VIRTCHNL_OP_UNKNOWN) {
++		/* bail because we already have a command pending */
++		dev_err(&adapter->pdev->dev, "Cannot set RSS Hash function, command %d pending\n",
++			adapter->current_op);
++		return;
++	}
++	vrh = kzalloc(len, GFP_KERNEL);
++	if (!vrh)
++		return;
++	vrh->vsi_id = adapter->vsi.id;
++	vrh->rss_algorithm = adapter->hfunc;
++	adapter->current_op = VIRTCHNL_OP_CONFIG_RSS_HFUNC;
++	adapter->aq_required &= ~IAVF_FLAG_AQ_SET_RSS_HFUNC;
++	iavf_send_pf_msg(adapter, VIRTCHNL_OP_CONFIG_RSS_HFUNC, (u8 *)vrh, len);
++	kfree(vrh);
++}
++
  /**
-  * ice_add_rss_cfg_sync - add an RSS configuration
-  * @hw: pointer to the hardware structure
-@@ -2165,13 +2149,8 @@ ice_add_rss_cfg_sync(struct ice_hw *hw, u16 vsi_handle,
- 		goto exit;
- 	}
+  * iavf_enable_vlan_stripping
+  * @adapter: adapter structure
+@@ -2142,6 +2170,19 @@ void iavf_virtchnl_completion(struct iavf_adapter *adapter,
+ 			dev_warn(&adapter->pdev->dev, "Failed to add VLAN filter, error %s\n",
+ 				 iavf_stat_str(&adapter->hw, v_retval));
+ 			break;
++		case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
++			dev_warn(&adapter->pdev->dev, "Failed to configure hash function, error %s\n",
++				 iavf_stat_str(&adapter->hw, v_retval));
++
++			if (adapter->hfunc ==
++					VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
++				adapter->hfunc =
++					VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
++			else
++				adapter->hfunc =
++					VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
++
++			break;
+ 		default:
+ 			dev_err(&adapter->pdev->dev, "PF returned error %d (%s) to our request %d\n",
+ 				v_retval, iavf_stat_str(&adapter->hw, v_retval),
+diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl.c b/drivers/net/ethernet/intel/ice/ice_virtchnl.c
+index b7b6511d5bb2..f98115bb2136 100644
+--- a/drivers/net/ethernet/intel/ice/ice_virtchnl.c
++++ b/drivers/net/ethernet/intel/ice/ice_virtchnl.c
+@@ -999,6 +999,51 @@ static int ice_vc_config_rss_lut(struct ice_vf *vf, u8 *msg)
+ 				     NULL, 0);
+ }
  
--	/* Create a new flow profile with generated profile and packet
--	 * segment information.
--	 */
-+	/* Create a new flow profile with packet segment information. */
- 	status = ice_flow_add_prof(hw, blk, ICE_FLOW_RX,
--				   ICE_FLOW_GEN_PROFID(cfg->hash_flds,
--						       segs[segs_cnt - 1].hdrs,
--						       cfg->hdr_type),
- 				   segs, segs_cnt, &prof);
- 	if (status)
- 		goto exit;
-diff --git a/drivers/net/ethernet/intel/ice/ice_flow.h b/drivers/net/ethernet/intel/ice/ice_flow.h
-index d1de84b78386..5a39ae0753dc 100644
---- a/drivers/net/ethernet/intel/ice/ice_flow.h
-+++ b/drivers/net/ethernet/intel/ice/ice_flow.h
-@@ -403,7 +403,7 @@ struct ice_rss_cfg {
- 
- int
- ice_flow_add_prof(struct ice_hw *hw, enum ice_block blk, enum ice_flow_dir dir,
--		  u64 prof_id, struct ice_flow_seg_info *segs, u8 segs_cnt,
-+		  struct ice_flow_seg_info *segs, u8 segs_cnt,
- 		  struct ice_flow_prof **prof);
- int ice_flow_rem_prof(struct ice_hw *hw, enum ice_block blk, u64 prof_id);
- int
-diff --git a/drivers/net/ethernet/intel/ice/ice_main.c b/drivers/net/ethernet/intel/ice/ice_main.c
-index 10822011de22..34ab3674ed54 100644
---- a/drivers/net/ethernet/intel/ice/ice_main.c
-+++ b/drivers/net/ethernet/intel/ice/ice_main.c
-@@ -8146,13 +8146,12 @@ static int ice_add_vsi_to_fdir(struct ice_pf *pf, struct ice_vsi *vsi)
- 
- 		for (tun = 0; tun < ICE_FD_HW_SEG_MAX; tun++) {
- 			enum ice_flow_priority prio;
--			u64 prof_id;
- 
- 			/* add this VSI to FDir profile for this flow */
- 			prio = ICE_FLOW_PRIO_NORMAL;
- 			prof = hw->fdir_prof[flow];
--			prof_id = flow + tun * ICE_FLTR_PTYPE_MAX;
--			status = ice_flow_add_entry(hw, ICE_BLK_FD, prof_id,
-+			status = ice_flow_add_entry(hw, ICE_BLK_FD,
-+						    prof->prof_id[tun],
- 						    prof->vsi_h[0], vsi->idx,
- 						    prio, prof->fdir_seg[tun],
- 						    &entry_h);
-diff --git a/drivers/net/ethernet/intel/ice/ice_type.h b/drivers/net/ethernet/intel/ice/ice_type.h
-index a18ca0ff879f..da810068bd41 100644
---- a/drivers/net/ethernet/intel/ice/ice_type.h
-+++ b/drivers/net/ethernet/intel/ice/ice_type.h
-@@ -246,6 +246,7 @@ struct ice_fd_hw_prof {
- 	int cnt;
- 	u64 entry_h[ICE_MAX_FDIR_VSI_PER_FILTER][ICE_FD_HW_SEG_MAX];
- 	u16 vsi_h[ICE_MAX_FDIR_VSI_PER_FILTER];
-+	u64 prof_id[ICE_FD_HW_SEG_MAX];
++/**
++ * ice_vc_config_rss_hfunc
++ * @vf: pointer to the VF info
++ * @msg: pointer to the msg buffer
++ *
++ * Configure the VF's RSS Hash function
++ */
++static int ice_vc_config_rss_hfunc(struct ice_vf *vf, u8 *msg)
++{
++	struct virtchnl_rss_hfunc *vrh = (struct virtchnl_rss_hfunc *)msg;
++	enum virtchnl_status_code v_ret = VIRTCHNL_STATUS_SUCCESS;
++	u8 hfunc = ICE_AQ_VSI_Q_OPT_RSS_HASH_TPLZ;
++	struct ice_vsi *vsi;
++
++	if (!test_bit(ICE_VF_STATE_ACTIVE, vf->vf_states)) {
++		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
++		goto error_param;
++	}
++
++	if (!ice_vc_isvalid_vsi_id(vf, vrh->vsi_id)) {
++		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
++		goto error_param;
++	}
++
++	if (!test_bit(ICE_FLAG_RSS_ENA, vf->pf->flags)) {
++		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
++		goto error_param;
++	}
++
++	vsi = ice_get_vf_vsi(vf);
++	if (!vsi) {
++		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
++		goto error_param;
++	}
++
++	if (vrh->rss_algorithm == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
++		hfunc = ICE_AQ_VSI_Q_OPT_RSS_HASH_SYM_TPLZ;
++
++	if (ice_set_rss_hfunc(vsi, hfunc))
++		v_ret = VIRTCHNL_STATUS_ERR_ADMIN_QUEUE_ERROR;
++error_param:
++	return ice_vc_send_msg_to_vf(vf, VIRTCHNL_OP_CONFIG_RSS_HFUNC, v_ret,
++				     NULL, 0);
++}
++
+ /**
+  * ice_vc_cfg_promiscuous_mode_msg
+  * @vf: pointer to the VF info
+@@ -3742,6 +3787,7 @@ static const struct ice_virtchnl_ops ice_virtchnl_dflt_ops = {
+ 	.cfg_irq_map_msg = ice_vc_cfg_irq_map_msg,
+ 	.config_rss_key = ice_vc_config_rss_key,
+ 	.config_rss_lut = ice_vc_config_rss_lut,
++	.config_rss_hfunc = ice_vc_config_rss_hfunc,
+ 	.get_stats_msg = ice_vc_get_stats_msg,
+ 	.cfg_promiscuous_mode_msg = ice_vc_cfg_promiscuous_mode_msg,
+ 	.add_vlan_msg = ice_vc_add_vlan_msg,
+@@ -3871,6 +3917,7 @@ static const struct ice_virtchnl_ops ice_virtchnl_repr_ops = {
+ 	.cfg_irq_map_msg = ice_vc_cfg_irq_map_msg,
+ 	.config_rss_key = ice_vc_config_rss_key,
+ 	.config_rss_lut = ice_vc_config_rss_lut,
++	.config_rss_hfunc = ice_vc_config_rss_hfunc,
+ 	.get_stats_msg = ice_vc_get_stats_msg,
+ 	.cfg_promiscuous_mode_msg = ice_vc_repr_cfg_promiscuous_mode,
+ 	.add_vlan_msg = ice_vc_add_vlan_msg,
+@@ -4053,6 +4100,9 @@ void ice_vc_process_vf_msg(struct ice_pf *pf, struct ice_rq_event_info *event,
+ 	case VIRTCHNL_OP_CONFIG_RSS_LUT:
+ 		err = ops->config_rss_lut(vf, msg);
+ 		break;
++	case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
++		err = ops->config_rss_hfunc(vf, msg);
++		break;
+ 	case VIRTCHNL_OP_GET_STATS:
+ 		err = ops->get_stats_msg(vf, msg);
+ 		break;
+diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl.h b/drivers/net/ethernet/intel/ice/ice_virtchnl.h
+index cd747718de73..60dfbe05980a 100644
+--- a/drivers/net/ethernet/intel/ice/ice_virtchnl.h
++++ b/drivers/net/ethernet/intel/ice/ice_virtchnl.h
+@@ -32,6 +32,7 @@ struct ice_virtchnl_ops {
+ 	int (*cfg_irq_map_msg)(struct ice_vf *vf, u8 *msg);
+ 	int (*config_rss_key)(struct ice_vf *vf, u8 *msg);
+ 	int (*config_rss_lut)(struct ice_vf *vf, u8 *msg);
++	int (*config_rss_hfunc)(struct ice_vf *vf, u8 *msg);
+ 	int (*get_stats_msg)(struct ice_vf *vf, u8 *msg);
+ 	int (*cfg_promiscuous_mode_msg)(struct ice_vf *vf, u8 *msg);
+ 	int (*add_vlan_msg)(struct ice_vf *vf, u8 *msg);
+diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c b/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
+index 7d547fa616fa..5e19d48a05b4 100644
+--- a/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
++++ b/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
+@@ -68,6 +68,7 @@ static const u32 vlan_v2_allowlist_opcodes[] = {
+ static const u32 rss_pf_allowlist_opcodes[] = {
+ 	VIRTCHNL_OP_CONFIG_RSS_KEY, VIRTCHNL_OP_CONFIG_RSS_LUT,
+ 	VIRTCHNL_OP_GET_RSS_HENA_CAPS, VIRTCHNL_OP_SET_RSS_HENA,
++	VIRTCHNL_OP_CONFIG_RSS_HFUNC,
  };
  
- /* Common HW capabilities for SW use */
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c b/drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c
-index 24b23b7ef04a..de103c5bb8f4 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c
-@@ -10,19 +10,6 @@
- #define to_fltr_conf_from_desc(p) \
- 	container_of(p, struct virtchnl_fdir_fltr_conf, input)
+ /* VIRTCHNL_VF_OFFLOAD_RX_FLEX_DESC */
+diff --git a/include/linux/avf/virtchnl.h b/include/linux/avf/virtchnl.h
+index b0e060cc79ac..a44d9dc7e3eb 100644
+--- a/include/linux/avf/virtchnl.h
++++ b/include/linux/avf/virtchnl.h
+@@ -118,6 +118,7 @@ enum virtchnl_ops {
+ 	VIRTCHNL_OP_GET_STATS = 15,
+ 	VIRTCHNL_OP_RSVD = 16,
+ 	VIRTCHNL_OP_EVENT = 17, /* must ALWAYS be 17 */
++	VIRTCHNL_OP_CONFIG_RSS_HFUNC = 18,
+ 	/* opcode 19 is reserved */
+ 	VIRTCHNL_OP_IWARP = 20, /* advanced opcode */
+ 	VIRTCHNL_OP_RDMA = VIRTCHNL_OP_IWARP,
+@@ -919,6 +920,21 @@ enum virtchnl_rss_algorithm {
+ 	VIRTCHNL_RSS_ALG_XOR_SYMMETRIC		= 3,
+ };
  
--#define ICE_FLOW_PROF_TYPE_S	0
--#define ICE_FLOW_PROF_TYPE_M	(0xFFFFFFFFULL << ICE_FLOW_PROF_TYPE_S)
--#define ICE_FLOW_PROF_VSI_S	32
--#define ICE_FLOW_PROF_VSI_M	(0xFFFFFFFFULL << ICE_FLOW_PROF_VSI_S)
--
--/* Flow profile ID format:
-- * [0:31] - flow type, flow + tun_offs
-- * [32:63] - VSI index
-- */
--#define ICE_FLOW_PROF_FD(vsi, flow, tun_offs) \
--	((u64)(((((flow) + (tun_offs)) & ICE_FLOW_PROF_TYPE_M)) | \
--	      (((u64)(vsi) << ICE_FLOW_PROF_VSI_S) & ICE_FLOW_PROF_VSI_M)))
--
- #define GTPU_TEID_OFFSET 4
- #define GTPU_EH_QFI_OFFSET 1
- #define GTPU_EH_QFI_MASK 0x3F
-@@ -493,6 +480,7 @@ ice_vc_fdir_rem_prof(struct ice_vf *vf, enum ice_fltr_ptype flow, int tun)
- 		return;
- 
- 	vf_prof = fdir->fdir_prof[flow];
-+	prof_id = vf_prof->prof_id[tun];
- 
- 	vf_vsi = ice_get_vf_vsi(vf);
- 	if (!vf_vsi) {
-@@ -503,9 +491,6 @@ ice_vc_fdir_rem_prof(struct ice_vf *vf, enum ice_fltr_ptype flow, int tun)
- 	if (!fdir->prof_entry_cnt[flow][tun])
- 		return;
- 
--	prof_id = ICE_FLOW_PROF_FD(vf_vsi->vsi_num,
--				   flow, tun ? ICE_FLTR_PTYPE_MAX : 0);
--
- 	for (i = 0; i < fdir->prof_entry_cnt[flow][tun]; i++)
- 		if (vf_prof->entry_h[i][tun]) {
- 			u16 vsi_num = ice_get_hw_vsi_num(hw, vf_prof->vsi_h[i]);
-@@ -647,7 +632,6 @@ ice_vc_fdir_write_flow_prof(struct ice_vf *vf, enum ice_fltr_ptype flow,
- 	struct ice_hw *hw;
- 	u64 entry1_h = 0;
- 	u64 entry2_h = 0;
--	u64 prof_id;
- 	int ret;
- 
- 	pf = vf->pf;
-@@ -681,10 +665,7 @@ ice_vc_fdir_write_flow_prof(struct ice_vf *vf, enum ice_fltr_ptype flow,
- 		ice_vc_fdir_rem_prof(vf, flow, tun);
- 	}
- 
--	prof_id = ICE_FLOW_PROF_FD(vf_vsi->vsi_num, flow,
--				   tun ? ICE_FLTR_PTYPE_MAX : 0);
--
--	ret = ice_flow_add_prof(hw, ICE_BLK_FD, ICE_FLOW_RX, prof_id, seg,
-+	ret = ice_flow_add_prof(hw, ICE_BLK_FD, ICE_FLOW_RX, seg,
- 				tun + 1, &prof);
- 	if (ret) {
- 		dev_dbg(dev, "Could not add VSI flow 0x%x for VF %d\n",
-@@ -692,7 +673,7 @@ ice_vc_fdir_write_flow_prof(struct ice_vf *vf, enum ice_fltr_ptype flow,
- 		goto err_exit;
- 	}
- 
--	ret = ice_flow_add_entry(hw, ICE_BLK_FD, prof_id, vf_vsi->idx,
-+	ret = ice_flow_add_entry(hw, ICE_BLK_FD, prof->id, vf_vsi->idx,
- 				 vf_vsi->idx, ICE_FLOW_PRIO_NORMAL,
- 				 seg, &entry1_h);
- 	if (ret) {
-@@ -701,7 +682,7 @@ ice_vc_fdir_write_flow_prof(struct ice_vf *vf, enum ice_fltr_ptype flow,
- 		goto err_prof;
- 	}
- 
--	ret = ice_flow_add_entry(hw, ICE_BLK_FD, prof_id, vf_vsi->idx,
-+	ret = ice_flow_add_entry(hw, ICE_BLK_FD, prof->id, vf_vsi->idx,
- 				 ctrl_vsi->idx, ICE_FLOW_PRIO_NORMAL,
- 				 seg, &entry2_h);
- 	if (ret) {
-@@ -725,14 +706,16 @@ ice_vc_fdir_write_flow_prof(struct ice_vf *vf, enum ice_fltr_ptype flow,
- 	vf_prof->cnt++;
- 	fdir->prof_entry_cnt[flow][tun]++;
- 
-+	vf_prof->prof_id[tun] = prof->id;
++/* VIRTCHNL_OP_CONFIG_RSS_HFUNC
++ * VF sends this message to configure the RSS hash function. Only supported
++ * if both PF and VF drivers set the VIRTCHNL_VF_OFFLOAD_RSS_PF bit during
++ * configuration negotiation.
++ * The hash function is initialized to VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC
++ * by the PF.
++ */
++struct virtchnl_rss_hfunc {
++	u16 vsi_id;
++	u16 rss_algorithm; /* enum virtchnl_rss_algorithm */
++	u32 reserved;
++};
 +
- 	return 0;
- 
- err_entry_1:
- 	ice_rem_prof_id_flow(hw, ICE_BLK_FD,
--			     ice_get_hw_vsi_num(hw, vf_vsi->idx), prof_id);
-+			     ice_get_hw_vsi_num(hw, vf_vsi->idx), prof->id);
- 	ice_flow_rem_entry(hw, ICE_BLK_FD, entry1_h);
- err_prof:
--	ice_flow_rem_prof(hw, ICE_BLK_FD, prof_id);
-+	ice_flow_rem_prof(hw, ICE_BLK_FD, prof->id);
- err_exit:
- 	return ret;
- }
++VIRTCHNL_CHECK_STRUCT_LEN(8, virtchnl_rss_hfunc);
++
+ /* VIRTCHNL_OP_ENABLE_CHANNELS
+  * VIRTCHNL_OP_DISABLE_CHANNELS
+  * VF sends these messages to enable or disable channels based on
+@@ -1542,6 +1558,9 @@ virtchnl_vc_validate_vf_msg(struct virtchnl_version_info *ver, u32 v_opcode,
+ 							 vrl->lut_entries);
+ 		}
+ 		break;
++	case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
++		valid_len = sizeof(struct virtchnl_rss_hfunc);
++		break;
+ 	case VIRTCHNL_OP_GET_RSS_HENA_CAPS:
+ 		break;
+ 	case VIRTCHNL_OP_SET_RSS_HENA:
 -- 
 2.34.1
 
