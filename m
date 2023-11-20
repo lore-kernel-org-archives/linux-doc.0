@@ -1,28 +1,28 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B3A224E2;
+	Mon, 20 Nov 2023 17:37:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NqRwhY2+"
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07AFC3;
-	Mon, 20 Nov 2023 09:17:40 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 986E51BF205;
-	Mon, 20 Nov 2023 17:17:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700500659;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w4teWHQnp+D0qkH3bihHdSeNOl/p47PRZpIXgUC4HDY=;
-	b=NqRwhY2+f05Nry1E99Svu6kbDoDud6ovruayP+67cj6ikMO9tA+TJuC3IH4SESgIPsemRT
-	fGkab3bnPX3EUgU/FU9lsonOIavDqVKlcT9mGWoz07ecxNsmsWSI09ojOAYIcSB7aa0qp0
-	gmUw0w1fER66sYDijIp6/pe/uX78wwvEgOiqxzXEGvZ9C60uU7MtOU7fPNSStzveJuG5XT
-	ILuLCyZ/dwK/EPjVO1O1rr/xq3AeZ2DQoz1nDpxG4QphnpUuvpYyYtUqhbR1bPdgyw7o9e
-	PN8Nw0GzMcuT8AsbanrXDda+qcypNB7OXjUJ67L61CLOwwiVcm769G4RnMJp6g==
-Date: Mon, 20 Nov 2023 18:17:36 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWYJ+uOe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03177C433C7;
+	Mon, 20 Nov 2023 17:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700501845;
+	bh=XvOTh/srznUoYLM2WTLAm4UhF2NlkB1XPEDQdf6C4e4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cWYJ+uOejmw8gg1t2I8ApTuyaqhsivYgHsBvw6o3HRH46GT6iidi3lTR67y12NTZ3
+	 iHXYozPX0WYk8oyXSHgElpYNjrslFH7odgRpXZkfOrXlzsfiVtjCjpQDIt47hnSCuF
+	 wPL9LrGmx5d751IlqTe3/jtJ5Nw33Vqfo0V5LiCunVh+ghg2rvkYLB3/3ujG82R938
+	 CrHaXX7cIsYxXt+9wxFnzGrB9WS56eFVhC3vxf861CgZQJG/HbGwWZwL2o7tWiY1aI
+	 qHlyvxFPSViN4/xZCXrsbx/2GcNJpZaeM8yMX+VfO+kCYKc/LIZYDIB1qqTbkjN26l
+	 6146cd+NGxtxA==
+Date: Mon, 20 Nov 2023 09:37:23 -0800
+From: Jakub Kicinski <kuba@kernel.org>
 To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+Cc: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
  Heiner Kallweit <hkallweit1@gmail.com>, Russell King
  <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
  Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
@@ -38,8 +38,8 @@ Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
  <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
  stamping layer be selectable
-Message-ID: <20231120181736.058fd6e2@kmaincent-XPS-13-7390>
-In-Reply-To: <20231120161004.flnwqv5dousiltcb@skbuf>
+Message-ID: <20231120093723.4d88fb2a@kernel.org>
+In-Reply-To: <20231120142316.d2emoaqeej2pg4s3@skbuf>
 References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
 	<20231114-feature_ptp_netnext-v7-15-472e77951e40@bootlin.com>
 	<20231118183433.30ca1d1a@kernel.org>
@@ -49,67 +49,21 @@ References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
 	<20231120120601.ondrhbkqpnaozl2q@skbuf>
 	<20231120144929.3375317e@kmaincent-XPS-13-7390>
 	<20231120142316.d2emoaqeej2pg4s3@skbuf>
-	<20231120155344.14cd69d9@kmaincent-XPS-13-7390>
-	<20231120161004.flnwqv5dousiltcb@skbuf>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 20 Nov 2023 18:10:04 +0200
-Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
+On Mon, 20 Nov 2023 16:23:16 +0200 Vladimir Oltean wrote:
+> In previous email discussions, I was proposing to Jakub and you "what if
+> we didn't let user space select a specific layer like PHY_TIMESTAMPING
+> or MAC_TIMESTAMPING at all, but just select a specific phc_index as the
+> provider of hardware timestamps"?
 
-> On Mon, Nov 20, 2023 at 03:53:44PM +0100, K=C3=B6ry Maincent wrote:
-> > I did thought about it but I got stuck by the case of hardware timestam=
-ping
-> > without PHC. Richard explained the reason of its existence here:
-> > https://lore.kernel.org/netdev/ZS3MKWlnPqTe8gkq@hoboy.vegasvil.org/#t
-> >=20
-> > Maybe I got a bit stuck in my implementation and should investigate more
-> > your proposition and how to deal with this case. Do you have an idea on=
- how
-> > to solve it? =20
->=20
-> I would take what Richard said with a grain of salt, and interpret as
-> "there exists hardware with hwts but w/o PHC, and that may work for
-> marginal use cases", not that "we should design having that as a
-> first-class citizen in mind".
-
-> When elected as master, it kinda works, and does synchronize with a
-> slave, even if ptp4l gets confused about the phc_index being -1.
->=20
-> But when elected as a slave by the BMCA, ptp4l gets confused and thinks
-> that phc_index =3D=3D -1 means that it's supposed to use software timesta=
-mping.
->=20
-> So, I guess the only thing we need to do to this kind of setup is not do
-> too much harm to it.
->=20
-> We break nothing if we make the phc_index the central aspect of hwts
-> layer selection - except for the fact that such a MAC won't be able to
-> change its timestamping layer to be a PHY.
->=20
-> If we wanted to add such a capability to that MAC driver, the obvious
-> way to solve the lack of a PHC is to create a PHC that returns
-> -EOPNOTSUPP for all of its ptp_clock_info operations (gettime, settime
-> etc). It may possibly be that, in the worst case, ptp4l needs to probe
-> for each syscall on the NIC's PHC being operational before deciding what
-> can be done with it. But that's already an improvement over the current
-> handling to make it more graceful, it's not to keep things on par.
-
-Ok, you convinced me.
-Thanks for your arguments and spending time explaining it.
-
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+What about my use case of having a NIC which can stamp at a low rate
+at the PHY (for PTP) and high rate at the DMA block (for congestion
+control)? Both stamp points have the same PHC index.
