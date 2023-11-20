@@ -1,77 +1,87 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GeZBjfg2"
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90BB3B4
-	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 07:35:00 -0800 (PST)
-Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-6ce2b6b3cb6so2811266a34.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 07:35:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700494500; x=1701099300; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/g2rj348QGTaMUoHfAitiDG5ZGAAe3AXrQUt05vFuko=;
-        b=GeZBjfg2nIo1ZytF+4ndL+wFIZvPeDVWQHvWMaktOXyT5IMI/9nx9o8A0o7VB0OI6z
-         Zr+CCaHURd1B7wTQ1VRNxKD1ZVj0EyyQcDCGMYnZ3ms9OMCuIC4JELEWu7eIp33KoU9f
-         meeALvkxWqMBolyPs8NA5ZnQFvqFLI28rp+kRmPpl4qE6Q98X5EwqgC+xO38zE6ndrLp
-         iEbJ+lXP5SEbkYAHXKkoOHpiPc1JVldH4Wq0swCrDm788u4XpMy8RQyzW4w6G0Kwbd3e
-         E2B/H+dLO392YHZiIPXzI7rUtYo496DtWijYRGLKjH5PVY1rl6jtRRfQB5XNPAWdh17m
-         5pwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700494500; x=1701099300;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/g2rj348QGTaMUoHfAitiDG5ZGAAe3AXrQUt05vFuko=;
-        b=spsDoK/ws2V3bUsoNayKJdcu8kCSTB28ZypSFXHUaxCUx+fY6+M/CfCA0z7A66LxEy
-         I7dEJK3/yllze8DEgugznVx8OgKUGuNmOVhV+CCgil8ILZBsxDUnG1R5sgXVtCWA4Mvl
-         94gKpNgrsZUVict+rRYxAruJ7gO/I2K2PEV5FWPnrMYmzXmsUPlKvueiPTb2zy3tOOaS
-         hCnUC2U8P4c2AXMdoNSk45ZB/gj8cX3ROptCpWCwLb/l44sZNQ/JQZ7q+YjjynTv6axF
-         h4O8oRJAsa6yx8qn7rFNhqszHDq+AqtvFNyhnaU/HGDwNht6X4HjSgE3tn49jyV0Qn3C
-         oNGw==
-X-Gm-Message-State: AOJu0YwLDt4X79DatNnSH15XVd/OGPGJ2yUJ1dpLYiHMv9Ve8eK4QIBi
-	8kwea6ovm79tAl5nCgIdLAfvVXQKBDlVuOM6D25wBA==
-X-Google-Smtp-Source: AGHT+IEb/1/SLpzTzhneVYblRJrocGEMu2RdIxrcZxKtNKLCJyFuPBDDmOa2CJDUAEm6395K+9ibzZoeZAOLMtUfDtg=
-X-Received: by 2002:a05:6359:2eaf:b0:16d:bc40:3055 with SMTP id
- rp47-20020a0563592eaf00b0016dbc403055mr6273826rwb.19.1700494499834; Mon, 20
- Nov 2023 07:34:59 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="MZhPMwca"
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89A4F9F;
+	Mon, 20 Nov 2023 07:35:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=o0mw2JgobxwE3CByukMe4G5waOUJCs1Oqg/+hT2lg0M=; b=MZhPMwcajRhLZ9BHsVAMYvESlP
+	unjmzfPzaUvwIeYdhuX++Sh2goFYq41AnneW4mEzZduSkQu0TCF5uFbT7UXMFxo0xAiQYrzZhZehi
+	HCwTGcu1aMnsiFKPW9OgnQBF7yiwyWyw28BTWjA4EUg0mVDZdAB5AevPSZjr8XkxnLus=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1r56IZ-000ewk-Vn; Mon, 20 Nov 2023 16:34:55 +0100
+Date: Mon, 20 Nov 2023 16:34:55 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jie Luo <quic_luoj@quicinc.com>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, hkallweit1@gmail.com, corbet@lwn.net,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
+Message-ID: <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
+References: <20231118062754.2453-1-quic_luoj@quicinc.com>
+ <20231118062754.2453-4-quic_luoj@quicinc.com>
+ <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
+ <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
+ <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
+ <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231103061715.196294-1-sumit.garg@linaro.org>
- <CAFA6WYNW_cAFVMTpqPQjwBASKDp_b=CpccCzx23jHn_+qoJrDQ@mail.gmail.com> <87y1es5xsd.fsf@meer.lwn.net>
-In-Reply-To: <87y1es5xsd.fsf@meer.lwn.net>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Mon, 20 Nov 2023 21:04:48 +0530
-Message-ID: <CAFA6WYN7ZB0Sgc0gB1rQhhirjoOEeyp2Uokzpwy-KFQ_aJQEVg@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: Destage TEE subsystem documentation
-To: Jonathan Corbet <corbet@lwn.net>, jens.wiklander@linaro.org
-Cc: vegard.nossum@oracle.com, Rijo-john.Thomas@amd.com, balint.dobszay@arm.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	op-tee@lists.trustedfirmware.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
 
-On Mon, 20 Nov 2023 at 19:31, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Sumit Garg <sumit.garg@linaro.org> writes:
->
-> > Hi Jonathan,
-> >
-> > If you are fine with this destaging TEE documentation patch then will
-> > you be picking up this patch? Or would you like Jens to pick it up
-> > with your Ack?
->
-> I'm happy to pick it up.
+> Hi Andrew,
+> The interface mode 10G_QXGMII is a type of USXGMII-M, the other modes
+> such as 20G-QXGMII, 20G-OXGMII...
+> 
+> As for the interface mode 10G-QXGMII, there is a multiplexer for 4 PHYs,
+> then do 66bit/68bit encode in xpcs and pass to PMA, the link topology:
+> quad PHY --- multiplexer ---XPCS --- PMA.
+> the 10G-QXGMII interface block includes multiplexer, XPCS and PMA.
+> 
+> when the PHY works on SGMII mode, then there is no xpcs, the only fourth
+> PHY of qca8084 can work on SGMII mode, the link topology:
+> the fourth PHY --- PCS --- PMA, the SGMII block includes PCS and PMA.
 
-Thanks.
+What i missed is that you have two different PMA blocks. PHY4 can be
+muxed to either the QXGMII PMA or the 2500BaseX PMA. This is not clear
+in the commit message, and i think why you are getting questions about
+how 2500BaseX can work over QXGMII. Please expand you commit message
+to explain the architecture in more detail.
 
-Jens, can we get your ack here for Jonathan to pick it up?
+So, next question. How do you control what PMA PHY4 is connected to?
+Is this going to be based on interface mode? QXGMII it is configured
+to use the QXGMII PMA? SGMII, 1000BaseX, and 2500BaseX it is
+configured to the other PMA?
 
--Sumit
+> Here is a problem as Russell mentioned earlier, we need to know which PHY
+> device is changing the link status when the 10G-QXGMII mode is used,
+> since there are 4 PHYs, when one of them has the link change, there is no
+> PHY device information passed to the PHYLINK, so the PCS driver don't
+> which PHY is changing link status and 10G-QXGMII mode don't know which
+> channel(mapped to PHY) should be configured.
 
->
-> Thanks,
->
-> jon
+This is the first time QXGMII has been seen in mainline, so its good
+to explain the background.
+
+Are you saying there is a USXGMII-M level link change status? The link
+between the SoC and the PHY package is up/down? If it is down, all
+four MAC-PHY links are down. If it is up, it is possible to carry
+frames between the SoC and the PHY package, but maybe the PHYs
+themselves are down?
+
+Withing the four multiplex streams, is there a per stream link change
+indication?
+
+	Andrew
