@@ -1,92 +1,177 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CgzvaRl9"
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B800394;
-	Mon, 20 Nov 2023 01:44:43 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5DD06C0007;
-	Mon, 20 Nov 2023 09:44:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700473482;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KRwo00+jtt7LDV8N20Ju5aZbZkWbKyYh1LA49h3QOv0=;
-	b=CgzvaRl9Tf8DVnPQ5vTuF4NUswYQSOr+/LRzIO4OVH9761SFi8DqK3q6umgXbPC7PvsrOf
-	R6i9fUhyZkmwdJzMZj0vu95uyitf2mdnmE49UjpRV2O3zWvqfm7Q5nOriP61qTNWvnqnG6
-	95x9PRYTkhGS9t7PvN8ILkpSrmJARR0vHeGGjGI6VwF7kwzk38jmnDPceqdYMB0sQ2IAMj
-	S5wpowHzmDyHW4SW8Dj1zIiBi2Ac9BVGBMX0sIgDqhcnaQbnIaYPzgwLZ5ctXZDS2x97nl
-	fNNgtYVIj0+K4aQE5bTOxrELFrAr/yp9iES50Bl8CBh+nsH7F17rYwf0hgHnZQ==
-Date: Mon, 20 Nov 2023 10:44:39 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
- stamping layer be selectable
-Message-ID: <20231120104439.15bfdd09@kmaincent-XPS-13-7390>
-In-Reply-To: <20231118183433.30ca1d1a@kernel.org>
-References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
-	<20231114-feature_ptp_netnext-v7-15-472e77951e40@bootlin.com>
-	<20231118183433.30ca1d1a@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="eAF0KRxg"
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFB6ECD;
+	Mon, 20 Nov 2023 01:58:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=RRH8ihRwgqqNWiOQXVgz2lSe5cF5QqM2TrvGcFPpVxQ=; b=eAF0KRxgbthRFbPQ6izZC3J3oy
+	NoICC18OIT3Qs7cMSCHEyKdPJVEqlqYYz46JeVVogCAoBWUhXiyxhy9SzyCivvREMDfvxXZSrMpqk
+	BHZ3abqeLK7FySm29lIYiV3szbHsZGZ0MEwL9YBdWcQ/tt0m9Epi+ARclf048DAo9sTRBExtXyU2Y
+	OWqc0bZ0sBPg5y7tECdJwrgrcIV0utpcws+XvnYsepZe+SO7zSvE1M0Dc3TnoMMhyx+qLFfvV/gAy
+	zBVN1YBhtJaSqBUjieLhtAr5Xh4FKBvt+x6MQT63nLwsYbtpT2WmNNA7nk4PLOb78D4oGUQs88/cg
+	AGe8pcpA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43368)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1r512Z-0005Gn-2Y;
+	Mon, 20 Nov 2023 09:58:05 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1r512Z-00034w-8Z; Mon, 20 Nov 2023 09:58:03 +0000
+Date: Mon, 20 Nov 2023 09:58:03 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jianyong Wu <Jianyong.Wu@arm.com>
+Cc: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+	"linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Justin He <Justin.He@arm.com>, James Morse <James.Morse@arm.com>,
+	Catalin Marinas <Catalin.Marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <Mark.Rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Subject: Re: [PATCH 34/39] arm64: psci: Ignore DENIED CPUs
+Message-ID: <ZVstq+vhQSP73Nua@shell.armlinux.org.uk>
+References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk>
+ <E1qvJBQ-00AqS8-8B@rmk-PC.armlinux.org.uk>
+ <DB9PR08MB7511B178CA811C412766FDBAF4B0A@DB9PR08MB7511.eurprd08.prod.outlook.com>
+ <ZVsl1ZQ9JRXPf4qH@shell.armlinux.org.uk>
+ <DB9PR08MB7511C8825028074748FBB967F4B4A@DB9PR08MB7511.eurprd08.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DB9PR08MB7511C8825028074748FBB967F4B4A@DB9PR08MB7511.eurprd08.prod.outlook.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Sat, 18 Nov 2023 18:34:33 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+On Mon, Nov 20, 2023 at 09:36:05AM +0000, Jianyong Wu wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Russell King <linux@armlinux.org.uk>
+> > Sent: 2023年11月20日 17:25
+> > To: Jianyong Wu <Jianyong.Wu@arm.com>
+> > Cc: linux-pm@vger.kernel.org; loongarch@lists.linux.dev;
+> > linux-acpi@vger.kernel.org; linux-arch@vger.kernel.org;
+> > linux-kernel@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
+> > linux-riscv@lists.infradead.org; kvmarm@lists.linux.dev; x86@kernel.org;
+> > linux-csky@vger.kernel.org; linux-doc@vger.kernel.org;
+> > linux-ia64@vger.kernel.org; linux-parisc@vger.kernel.org; Salil Mehta
+> > <salil.mehta@huawei.com>; Jean-Philippe Brucker <jean-philippe@linaro.org>;
+> > Justin He <Justin.He@arm.com>; James Morse <James.Morse@arm.com>;
+> > Catalin Marinas <Catalin.Marinas@arm.com>; Will Deacon <will@kernel.org>;
+> > Mark Rutland <Mark.Rutland@arm.com>; Lorenzo Pieralisi
+> > <lpieralisi@kernel.org>
+> > Subject: Re: [PATCH 34/39] arm64: psci: Ignore DENIED CPUs
+> > 
+> > On Thu, Nov 16, 2023 at 07:45:51AM +0000, Jianyong Wu wrote:
+> > > Hi Russell,
+> > >
+> > > One inline comment.
+> > ...
+> > > > Changes since RFC v2
+> > > >  * Add specification reference
+> > > >  * Use EPERM rather than EPROBE_DEFER
+> > ...
+> > > > @@ -40,7 +40,7 @@ static int cpu_psci_cpu_boot(unsigned int cpu)  {
+> > > >  	phys_addr_t pa_secondary_entry = __pa_symbol(secondary_entry);
+> > > >  	int err = psci_ops.cpu_on(cpu_logical_map(cpu), pa_secondary_entry);
+> > > > -	if (err)
+> > > > +	if (err && err != -EPROBE_DEFER)
+> > >
+> > > Should this be EPERM? As the following psci cpu_on op will return it.
+> > > I think you miss to change this when apply Jean-Philippe's patch.
+> > 
+> > It looks like James didn't properly update all places. Also,
+> > 
+> > > > diff --git a/drivers/firmware/psci/psci.c
+> > > > b/drivers/firmware/psci/psci.c index d9629ff87861..ee82e7880d8c
+> > > > 100644
+> > > > --- a/drivers/firmware/psci/psci.c
+> > > > +++ b/drivers/firmware/psci/psci.c
+> > > > @@ -218,6 +218,8 @@ static int __psci_cpu_on(u32 fn, unsigned long
+> > > > cpuid, unsigned long entry_point)
+> > > >  	int err;
+> > > >
+> > > >  	err = invoke_psci_fn(fn, cpuid, entry_point, 0);
+> > > > +	if (err == PSCI_RET_DENIED)
+> > > > +		return -EPERM;
+> > > >  	return psci_to_linux_errno(err);
+> > 
+> > This change is unnecessary - probably comes from when -EPROBE_DEFER was
+> > being used. psci_to_linux_errno() already does:
+> 
+> But may print lots of noise like:
+> 
+> [    0.008955] smp: Bringing up secondary CPUs ...
+> [    0.009661] psci: failed to boot CPU1 (-1)
+> [    0.010360] psci: failed to boot CPU2 (-1)
+> [    0.011164] psci: failed to boot CPU3 (-1)
+> [    0.011946] psci: failed to boot CPU4 (-1)
+> [    0.012764] psci: failed to boot CPU5 (-1)
+> [    0.013534] psci: failed to boot CPU6 (-1)
+> [    0.014349] psci: failed to boot CPU7 (-1)
+> [    0.014820] smp: Brought up 1 node, 1 CPU
+> 
+> Is this expected?
 
-> On Tue, 14 Nov 2023 12:28:43 +0100 Kory Maincent wrote:
-> > +	if (!tb[ETHTOOL_A_TS_LAYER])
-> > +		return 0; =20
->=20
-> GENL_REQ_ATTR_CHECK(), not sure why anyone would issue this command
-> without any useful attr.
->=20
-> > +	/* Disable time stamping in the current layer. */
-> > +	if (netif_device_present(dev) &&
-> > +	    (dev->ts_layer =3D=3D PHY_TIMESTAMPING ||
-> > +	    dev->ts_layer =3D=3D MAC_TIMESTAMPING)) {
-> > +		ret =3D dev_set_hwtstamp_phylib(dev, &config, info->extack);
-> > +		if (ret < 0)
-> > +			return ret; =20
->=20
-> So you only support PHYLIB?
->=20
-> The semantics need to be better documented :(
+Please read my email again, and take note of the _context_ above the
+places that I've commented. Context matters.
 
-Yes as we don't really know how each MAC deal with the timestamping
-before ndo_hwstamp_get/set. Using phylib only allows us to be sure these ND=
-O are
-implemented and the management of timestamping is coherent in the MAC. Also=
- It
-will push people to move on to these NDOs.
+What I'm saying is that this change:
 
-Ok I will add documentation.
+ 	err = invoke_psci_fn(fn, cpuid, entry_point, 0);
++	if (err == PSCI_RET_DENIED)
++		return -EPERM;
+ 	return psci_to_linux_errno(err);
 
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Is unnecessary when psci_to_linux_errno() already does:
+
+static __always_inline int psci_to_linux_errno(int errno)
+{
+	switch (errno) {
+	...
+	case PSCI_RET_DENIED:
+		return -EPERM;
+
+So, a return of PSCI_RET_DENIED from invoke_psci_fn() above will
+_already_ be translated to -EPERM (which is -1) by
+psci_to_linux_errno(). There is no need to add that extra if()
+statement in __psci_cpu_on().
+
+I was _not_ saying that the entire patch was unnecessary.
+
+Context matters. That's why we include context in replies.
+
+Standard email etiquette (before Microsoft messed it up) is to quote the
+email that is being replied to, trimming hard irrelevant content, and to
+place the reply comments immediately below the original content to which
+the comments relate, to give the reply comments the context necessary
+for correct interpretation.
+
+Thanks.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
