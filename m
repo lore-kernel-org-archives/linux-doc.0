@@ -1,21 +1,20 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="OGFm018h"
-X-Greylist: delayed 464 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Nov 2023 01:20:25 PST
+	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="rYi1u8wZ"
 Received: from pv50p00im-ztdg10011201.me.com (pv50p00im-ztdg10011201.me.com [17.58.6.39])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3A4A7
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF96BC1
 	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 01:20:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-	t=1700471570; bh=C6bJm1rJmKMAKTZ+mlTlfG/ccBLTxL7wbEIPZkFpi6U=;
+	t=1700471581; bh=AWaj1ki3rwcuwpTBAPDzYvQWi1J126ZZaCIJ2Nblgd8=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=OGFm018hZkfpIDcLlJ+sDNFLtihksioQkzpq/hBDtx3HOwN/OSl/t3KRJSflD3lkn
-	 4Oho8P1cK4oOiBDjKXPhgKii31LVCFnDxZkWg4LV9s7aVo3kKdbappI8fM7zbUXUaJ
-	 Ls2VyrHamNhu6GyJ69Lzmca4xlw1rg8HAlKzoRn8GJGEymnFE+IxQDdDVfgjo7DdV/
-	 7RXFjxe7O92FBzS1pvbS44OZr4oKNBYci2XXxjlFgDzqnixz6LCnaD/BJXFFb/lMoa
-	 7NrlwA5LJTyMUEOu2R3AEO4Jd2DzNLrV9sQkHI26FuqAzvnAn57I+4QS45NqK/+WlN
-	 znY9Cz0TdrhBg==
+	b=rYi1u8wZOp0OrfiANALqBBzTEN2M0f6lGNJBSLz6HLwevM0aEhdQWh9aoZkirKdFM
+	 NergaZPv15dFBOa6yN26VLwf60oecQ2t1knY4//RG/5gLDDgpr5uOiFdyPBu1dFuK2
+	 uy0BPrTW6OQTPP2WBeurw/gtydeSpsyHK3GGRcaP/eV3OT+42TEaJ8U6TACpXKliX9
+	 39d4pmfOhcG/iHZdyYJWpzdinJSiDGZvUqdrVJdeVscEPGZn85OitiKchCZ9vAVSBT
+	 Nx7zkD344/z0XjshDlf1XVTEi6cOESbvkOasJobMN7rZ1ND1c+fshy8KEdgyoI9x45
+	 W2ZV4djkODAqg==
 Received: from xiongwei.. (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-ztdg10011201.me.com (Postfix) with ESMTPSA id 4C63B680241;
-	Mon, 20 Nov 2023 09:12:45 +0000 (UTC)
+	by pv50p00im-ztdg10011201.me.com (Postfix) with ESMTPSA id BE336680246;
+	Mon, 20 Nov 2023 09:12:56 +0000 (UTC)
 From: sxwjean@me.com
 To: cl@linux.com,
 	penberg@kernel.org,
@@ -28,9 +27,9 @@ Cc: corbet@lwn.net,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] mm/slab: remove slab_nomrege and slab_merge
-Date: Mon, 20 Nov 2023 17:12:12 +0800
-Message-Id: <20231120091214.150502-3-sxwjean@me.com>
+Subject: [PATCH 4/4] mm/slab: move slab merge from slab_common.c to slub.c
+Date: Mon, 20 Nov 2023 17:12:14 +0800
+Message-Id: <20231120091214.150502-5-sxwjean@me.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231120091214.150502-1-sxwjean@me.com>
 References: <20231120091214.150502-1-sxwjean@me.com>
@@ -41,8 +40,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 5R7rj5D1dxnrVnAuK0i15zYpwBZnK12t
-X-Proofpoint-ORIG-GUID: 5R7rj5D1dxnrVnAuK0i15zYpwBZnK12t
+X-Proofpoint-GUID: wmdiAmmV3HG-u_79uyar0KcaBugWOyer
+X-Proofpoint-ORIG-GUID: wmdiAmmV3HG-u_79uyar0KcaBugWOyer
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
  =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
  =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
@@ -54,114 +53,268 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 s
 
 From: Xiongwei Song <xiongwei.song@windriver.com>
 
-Since slab allocatoer has already been removed, so we should also remove
-the related parameters. And change the global flag from slab_nomerge
-to slub_nomerge.
+Since slab allocator has been removed. There is no users about slab
+merge except slub. This commit is almost to revert
+commit 423c929cbbec ("mm/slab_common: commonize slab merge logic").
+
+Also change all prefix of slab merge related functions, variables and
+definitions from "slab/SLAB" to"slub/SLUB".
 
 Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 11 ++---------
- mm/Kconfig                                      |  2 +-
- mm/slab_common.c                                | 13 +++++--------
- 3 files changed, 8 insertions(+), 18 deletions(-)
+ mm/slab.h        |   3 --
+ mm/slab_common.c |  98 ----------------------------------------------
+ mm/slub.c        | 100 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 99 insertions(+), 102 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c7709a11f8ce..afca9ff7c9f0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5870,11 +5870,11 @@
+diff --git a/mm/slab.h b/mm/slab.h
+index 8d20f8c6269d..cd52e705ce28 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -429,9 +429,6 @@ extern void create_boot_cache(struct kmem_cache *, const char *name,
  
- 	slram=		[HW,MTD]
- 
--	slab_merge	[MM]
-+	slub_merge	[MM]
- 			Enable merging of slabs with similar size when the
- 			kernel is built without CONFIG_SLAB_MERGE_DEFAULT.
- 
--	slab_nomerge	[MM]
-+	slub_nomerge	[MM]
- 			Disable merging of slabs with similar size. May be
- 			necessary if there is some reason to distinguish
- 			allocs to different slabs, especially in hardened
-@@ -5915,13 +5915,6 @@
- 			lower than slub_max_order.
- 			For more information see Documentation/mm/slub.rst.
- 
--	slub_merge	[MM, SLUB]
--			Same with slab_merge.
--
--	slub_nomerge	[MM, SLUB]
--			Same with slab_nomerge. This is supported for legacy.
--			See slab_nomerge for more information.
--
- 	smart2=		[HW]
- 			Format: <io1>[,<io2>[,...,<io8>]]
- 
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 766aa8f8e553..87c3f2e1d0d3 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -255,7 +255,7 @@ config SLAB_MERGE_DEFAULT
- 	  cache layout), which makes such heap attacks easier to exploit
- 	  by attackers. By keeping caches unmerged, these kinds of exploits
- 	  can usually only damage objects in the same cache. To disable
--	  merging at runtime, "slab_nomerge" can be passed on the kernel
-+	  merging at runtime, "slub_nomerge" can be passed on the kernel
- 	  command line.
- 
- config SLAB_FREELIST_RANDOM
+ unsigned int calculate_alignment(slab_flags_t flags,
+ 		unsigned int align, unsigned int size);
+-int slab_unmergeable(struct kmem_cache *s);
+-struct kmem_cache *find_mergeable(unsigned size, unsigned align,
+-		slab_flags_t flags, const char *name, void (*ctor)(void *));
+ struct kmem_cache *
+ __kmem_cache_alias(const char *name, unsigned int size, unsigned int align,
+ 		   slab_flags_t flags, void (*ctor)(void *));
 diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 238293b1dbe1..d707abd31926 100644
+index 62eb77fdedf2..6960ae5c35ee 100644
 --- a/mm/slab_common.c
 +++ b/mm/slab_common.c
-@@ -58,26 +58,23 @@ static DECLARE_WORK(slab_caches_to_rcu_destroy_work,
- /*
-  * Merge control. If this is set then no merging of slab caches will occur.
-  */
--static bool slab_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);
-+static bool slub_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);
+@@ -45,36 +45,6 @@ static void slab_caches_to_rcu_destroy_workfn(struct work_struct *work);
+ static DECLARE_WORK(slab_caches_to_rcu_destroy_work,
+ 		    slab_caches_to_rcu_destroy_workfn);
  
- static int __init setup_slab_nomerge(char *str)
- {
--	slab_nomerge = true;
-+	slub_nomerge = true;
- 	return 1;
- }
- 
- static int __init setup_slab_merge(char *str)
- {
--	slab_nomerge = false;
-+	slub_nomerge = false;
- 	return 1;
- }
- 
- __setup_param("slub_nomerge", slub_nomerge, setup_slab_nomerge, 0);
- __setup_param("slub_merge", slub_merge, setup_slab_merge, 0);
- 
--__setup("slab_nomerge", setup_slab_nomerge);
--__setup("slab_merge", setup_slab_merge);
+-/*
+- * Set of flags that will prevent slab merging
+- */
+-#define SLAB_NEVER_MERGE (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
+-		SLAB_TRACE | SLAB_TYPESAFE_BY_RCU | SLAB_NOLEAKTRACE | \
+-		SLAB_FAILSLAB | SLAB_NO_MERGE | kasan_never_merge())
+-
+-#define SLAB_MERGE_SAME (SLAB_RECLAIM_ACCOUNT | SLAB_CACHE_DMA | \
+-			 SLAB_CACHE_DMA32 | SLAB_ACCOUNT)
+-
+-/*
+- * Merge control. If this is set then no merging of slab caches will occur.
+- */
+-static bool slub_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);
+-
+-static int __init setup_slab_nomerge(char *str)
+-{
+-	slub_nomerge = true;
+-	return 1;
+-}
+-
+-static int __init setup_slab_merge(char *str)
+-{
+-	slub_nomerge = false;
+-	return 1;
+-}
+-
+-__setup_param("slub_nomerge", slub_nomerge, setup_slab_nomerge, 0);
+-__setup_param("slub_merge", slub_merge, setup_slab_merge, 0);
 -
  /*
   * Determine the size of a slab object
   */
-@@ -138,7 +135,7 @@ static unsigned int calculate_alignment(slab_flags_t flags,
-  */
- int slab_unmergeable(struct kmem_cache *s)
- {
--	if (slab_nomerge || (s->flags & SLAB_NEVER_MERGE))
-+	if (slub_nomerge || (s->flags & SLAB_NEVER_MERGE))
- 		return 1;
+@@ -130,74 +100,6 @@ unsigned int calculate_alignment(slab_flags_t flags,
+ 	return ALIGN(align, sizeof(void *));
+ }
  
- 	if (s->ctor)
-@@ -163,7 +160,7 @@ struct kmem_cache *find_mergeable(unsigned int size, unsigned int align,
- {
- 	struct kmem_cache *s;
+-/*
+- * Find a mergeable slab cache
+- */
+-int slab_unmergeable(struct kmem_cache *s)
+-{
+-	if (slub_nomerge || (s->flags & SLAB_NEVER_MERGE))
+-		return 1;
+-
+-	if (s->ctor)
+-		return 1;
+-
+-#ifdef CONFIG_HARDENED_USERCOPY
+-	if (s->usersize)
+-		return 1;
+-#endif
+-
+-	/*
+-	 * We may have set a slab to be unmergeable during bootstrap.
+-	 */
+-	if (s->refcount < 0)
+-		return 1;
+-
+-	return 0;
+-}
+-
+-struct kmem_cache *find_mergeable(unsigned int size, unsigned int align,
+-		slab_flags_t flags, const char *name, void (*ctor)(void *))
+-{
+-	struct kmem_cache *s;
+-
+-	if (slub_nomerge)
+-		return NULL;
+-
+-	if (ctor)
+-		return NULL;
+-
+-	size = ALIGN(size, sizeof(void *));
+-	align = calculate_alignment(flags, align, size);
+-	size = ALIGN(size, align);
+-	flags = kmem_cache_flags(size, flags, name);
+-
+-	if (flags & SLAB_NEVER_MERGE)
+-		return NULL;
+-
+-	list_for_each_entry_reverse(s, &slab_caches, list) {
+-		if (slab_unmergeable(s))
+-			continue;
+-
+-		if (size > s->size)
+-			continue;
+-
+-		if ((flags & SLAB_MERGE_SAME) != (s->flags & SLAB_MERGE_SAME))
+-			continue;
+-		/*
+-		 * Check if alignment is compatible.
+-		 * Courtesy of Adrian Drzewiecki
+-		 */
+-		if ((s->size & ~(align - 1)) != s->size)
+-			continue;
+-
+-		if (s->size - size >= sizeof(void *))
+-			continue;
+-
+-		return s;
+-	}
+-	return NULL;
+-}
+-
+ static struct kmem_cache *create_cache(const char *name,
+ 		unsigned int object_size, unsigned int align,
+ 		slab_flags_t flags, unsigned int useroffset,
+diff --git a/mm/slub.c b/mm/slub.c
+index ae1e6e635253..435d9ed140e4 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -709,6 +709,104 @@ static inline bool slab_update_freelist(struct kmem_cache *s, struct slab *slab,
+ 	return false;
+ }
  
--	if (slab_nomerge)
++/*
++ * Set of flags that will prevent slab merging
++ */
++#define SLUB_NEVER_MERGE (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
++		SLAB_TRACE | SLAB_TYPESAFE_BY_RCU | SLAB_NOLEAKTRACE | \
++		SLAB_FAILSLAB | SLAB_NO_MERGE | kasan_never_merge())
++
++#define SLUB_MERGE_SAME (SLAB_RECLAIM_ACCOUNT | SLAB_CACHE_DMA | \
++			 SLAB_CACHE_DMA32 | SLAB_ACCOUNT)
++
++/*
++ * Merge control. If this is set then no merging of slab caches will occur.
++ */
++static bool slub_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);
++
++static int __init setup_slub_nomerge(char *str)
++{
++	slub_nomerge = true;
++	return 1;
++}
++
++static int __init setup_slub_merge(char *str)
++{
++	slub_nomerge = false;
++	return 1;
++}
++
++__setup_param("slub_nomerge", slub_nomerge, setup_slab_nomerge, 0);
++__setup_param("slub_merge", slub_merge, setup_slab_merge, 0);
++
++/*
++ * Find a mergeable slab cache
++ */
++static inline int slub_unmergeable(struct kmem_cache *s)
++{
++	if (slub_nomerge || (s->flags & SLUB_NEVER_MERGE))
++		return 1;
++
++	if (s->ctor)
++		return 1;
++
++#ifdef CONFIG_HARDENED_USERCOPY
++	if (s->usersize)
++		return 1;
++#endif
++
++	/*
++	 * We may have set a slab to be unmergeable during bootstrap.
++	 */
++	if (s->refcount < 0)
++		return 1;
++
++	return 0;
++}
++
++static struct kmem_cache *find_mergeable(unsigned int size, unsigned int align,
++		slab_flags_t flags, const char *name, void (*ctor)(void *))
++{
++	struct kmem_cache *s;
++
 +	if (slub_nomerge)
- 		return NULL;
++		return NULL;
++
++	if (ctor)
++		return NULL;
++
++	size = ALIGN(size, sizeof(void *));
++	align = calculate_alignment(flags, align, size);
++	size = ALIGN(size, align);
++	flags = kmem_cache_flags(size, flags, name);
++
++	if (flags & SLUB_NEVER_MERGE)
++		return NULL;
++
++	list_for_each_entry_reverse(s, &slab_caches, list) {
++		if (slub_unmergeable(s))
++			continue;
++
++		if (size > s->size)
++			continue;
++
++		if ((flags & SLUB_MERGE_SAME) != (s->flags & SLUB_MERGE_SAME))
++			continue;
++		/*
++		 * Check if alignment is compatible.
++		 * Courtesy of Adrian Drzewiecki
++		 */
++		if ((s->size & ~(align - 1)) != s->size)
++			continue;
++
++		if (s->size - size >= sizeof(void *))
++			continue;
++
++		return s;
++	}
++	return NULL;
++}
++
+ #ifdef CONFIG_SLUB_DEBUG
+ static unsigned long object_map[BITS_TO_LONGS(MAX_OBJS_PER_PAGE)];
+ static DEFINE_SPINLOCK(object_map_lock);
+@@ -6679,7 +6777,7 @@ static int sysfs_slab_add(struct kmem_cache *s)
+ 	int err;
+ 	const char *name;
+ 	struct kset *kset = cache_kset(s);
+-	int unmergeable = slab_unmergeable(s);
++	int unmergeable = slub_unmergeable(s);
  
- 	if (ctor)
+ 	if (!unmergeable && disable_higher_order_debug &&
+ 			(slub_debug & DEBUG_METADATA_FLAGS))
 -- 
 2.34.1
 
