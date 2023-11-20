@@ -1,75 +1,207 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB13337174;
-	Mon, 20 Nov 2023 20:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pmySCxX1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8765AC433C8;
-	Mon, 20 Nov 2023 20:13:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700511204;
-	bh=4sUDEp6FYMfD2QrfOBC4znr4NhcbtUaY8p3AqsjaVX8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pmySCxX1nvFtdQ8UsIeucqu8wgXj0Q3rdUEYubyupWh6P7ZWXqu9pglCx7VFRrVzq
-	 Jj+65pdeF0zLXsCGOO9B6c6RdpYMmpkN87Brsa2BykPRiNMS51ZlFfPk3dwlBKLSJh
-	 94ZMOlh+ksE2Yt2DPLiUkLvCqMTo2Htk92h7Cer17OmW8gYolLT8LRDpV2a2dhGjzR
-	 +q5totgxMTv0OU7XoB+gQ/0+SpcGpky89v80FB9KUFp97xwdhrC/i5JSDRtFMRgcoB
-	 rKwVkk9S7NsBznSw/9kUbx4dbi0yRxFA74tTZTbaXwgBa0dyK95gK65q+YSChZSYb+
-	 u2+5NGOfjzPgQ==
-Date: Mon, 20 Nov 2023 20:13:19 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-	pabeni@redhat.com, andrew@lunn.ch, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: netdev: try to guide people on dealing with
- silence
-Message-ID: <0d80ee23-e106-487e-a824-b048948a859a@sirena.org.uk>
-References: <20231120200109.620392-1-kuba@kernel.org>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D90FC7
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 12:42:54 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1r5B68-0002hD-K6; Mon, 20 Nov 2023 21:42:24 +0100
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1r5B65-00AQeu-Id; Mon, 20 Nov 2023 21:42:21 +0100
+Received: from ore by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1r5B65-0031TS-Fa; Mon, 20 Nov 2023 21:42:21 +0100
+Date: Mon, 20 Nov 2023 21:42:21 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 2/9] ethtool: Expand Ethernet Power Equipment
+ with PoE alongside PoDL
+Message-ID: <20231120204221.GD590719@pengutronix.de>
+References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
+ <20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
+ <04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
+ <20231120110944.66938859@kmaincent-XPS-13-7390>
+ <20231120111008.GC590719@pengutronix.de>
+ <2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RbKDKJRhjswcAM1A"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231120200109.620392-1-kuba@kernel.org>
-X-Cookie: <Manoj> I *like* the chicken
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.ch>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
+On Mon, Nov 20, 2023 at 07:00:03PM +0100, Andrew Lunn wrote:
+> > > > >  struct pse_control_config {
+> > > > >  	enum ethtool_podl_pse_admin_state podl_admin_control;
+> > > > > +	enum ethtool_pse_admin_state admin_control;  
+> > > > 
+> > > > When i look at this, it seems to me admin_control should be generic
+> > > > across all schemes which put power down the cable, and
+> > > > podl_admin_control is specific to how PoDL puts power down the cable.
+> > > >
+> > > > Since you appear to be adding support for a second way to put power
+> > > > down the cable, i would expect something like poe_admin_control being
+> > > > added here. But maybe that is in a later patch?
+> > > 
+> > > No as said above admin_control is for PoE and podl_admin_control is for PoDL.
+> > > Maybe you prefer to use poe_admin_control, and add poe prefix in the poe
+> > > variables. It will differ a bit from the IEEE standard naming but I agreed that
+> > > it would be more understandable in the development part.
+> > 
+> > Official name for "PoE" is "Power via Media Dependent Interface". PoE is
+> > not used in the IEEE 802.3-2018. Using names not used in the specification,
+> > make development even harder :)
+> > Especially since there are even more marketing names (names not used in the
+> > specification) for different PoE variants:
+> > - 802.3af (802.3at Type 1), PoE
+> > - 802.3at Type 2, PoE+
+> > - 802.3bt Type 3, 4PPoE or PoE++
+> > - 802.3bt Type 4, 4PPoE or PoE++
+> 
+> From the 2018 standard:
+> 
+>   1.4.407 Power Sourcing Equipment (PSE): A DTE or midspan device that
+>   provides the power to a single link section. PSEs are defined for
+>   use with two different types of balanced twisted-pair PHYs. When
+>   used with 2 or 4 pair balanced twisted-pair (BASE-T) PHYs, (see IEEE
+>   Std 802.3, Clause 33), DTE powering is intended to provide a single
+>   10BASE-T, 100BASE-TX, or 1000BASE-T device with a unified interface
+>   for both the data it requires and the power to process these
+>   data. When used with single balanced twisted-pair (BASE-T1) PHYs
+>   (see IEEE Std 802.3, Clause 104), DTE powering is intended to
+>   provide a single 100BASE-T1 or 1000BASE-T1 device with a unified
+>   interface for both the data it requires and the power to process
+>   these data. A PSE used with balanced single twisted-pair PHYs is
+>   also referred to as a PoDL PSE.
+> 
+> So it seems like, anything not PoDL PSE does not have a name :-(
+> 
+> However, everything not PoDL PSE seems to be clause 33. So how about:
+> 
+> 	enum ethtool_podl_pse_admin_state podl_admin_control;
+> 	enum ethtool_c33_pse_admin_state c33_admin_control;  
+> 
+> At least inside the kernel we use c22, c45, c37 etc. I'm not sure they
+> are visible to userspace, but if we don't have a better name, maybe we
+> have to use c33 in userspace as well.
+> 
+> I do think naming like this makes it clear we are talking about two
+> parallel technologies, not a generic layer and then extensions for
+> podl.
+> 
+> What do you think?
 
---RbKDKJRhjswcAM1A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I'm OK with it.
 
-On Mon, Nov 20, 2023 at 12:01:09PM -0800, Jakub Kicinski wrote:
+Köry, can you please include some kernel documentation in your patches?
+Something like this. I hope it will help to clarify things :) :
 
-> +Emails saying just "ping" or "bump" are considered rude. If you can't figure
-> +out the status of the patch from patchwork or where the discussion has
-> +landed - describe your best guess and ask if it's correct. For example::
+Power Sourcing Equipment (PSE) in IEEE 802.3 Standard
+=====================================================
 
-> +  I don't understand what the next steps are. Person X seems to be unhappy
-> +  with A, should I do B and repost the patches?
+Overview
+--------
 
-This bit (modulo the reference to patchwork) feels like it's generically
-good advice and could find a home in submitting-patches.rst or similar,
-not that it isn't worth repeating here.
+Power Sourcing Equipment (PSE) is essential in networks for delivering power
+along with data over Ethernet cables. It usually refers to devices like
+switches and hubs that supply power to Powered Devices (PDs) such as IP
+cameras, VoIP phones, and wireless access points.
 
---RbKDKJRhjswcAM1A
-Content-Type: application/pgp-signature; name="signature.asc"
+PSE vs. PoDL PSE
+----------------
 
------BEGIN PGP SIGNATURE-----
+PSE in the IEEE 802.3 standard generally refers to equipment that provides
+power alongside data over Ethernet cables, typically associated with Power over
+Ethernet (PoE). 
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbvd4ACgkQJNaLcl1U
-h9D67Qf9HPgF7lQhJm9GidXfuMsvjIBSe0kH7WnFQND6lioBmMb3AdRniHDNKLx1
-YJLSKE2SAdlUXuFpGtfqwvf4AzaYnkNcDpxPdJBJpeuN+DkJXRguKy6fuzux4CzL
-FKjz8d7B+MIVxB7eaZCi6nuLPoHetW13OSZ/b1mepPRfSkaNDMQtUJ0kJadbzvR4
-eeW+qjZVhislHHtjneQYsgmY6qQRCDBeFryFKdN0ucc5sy/NRzKseWL5dMAzr92D
-9p54Exvw5g8ndtMCarOR2/ULR76NRJfDRBd1gKp1MflakE778m3MZsoG7k5342B4
-3YcT26WP6qpUpLZ7QjTiLGycXUVM/g==
-=d0ou
------END PGP SIGNATURE-----
+PoDL PSE, or Power over Data Lines PSE, specifically denotes PSEs operating
+with single balanced twisted-pair PHYs, as per Clause 104 of IEEE 802.3. PoDL
+is significant in contexts like automotive and industrial controls where power
+and data delivery over a single pair is advantageous.
 
---RbKDKJRhjswcAM1A--
+IEEE 802.3-2018 Addendums and Related Clauses
+----------------------------------------------
+
+Key addenda to the IEEE 802.3-2018 standard relevant to power delivery over
+Ethernet are as follows:
+
+- **802.3af (Approved in 2003-06-12)**: Known as PoE in the market, detailed in
+  Clause 33, delivering up to 15.4W of power.
+- **802.3at (Approved in 2009-09-11)**: Marketed as PoE+, enhancing PoE as
+  covered in Clause 33, increasing power delivery to up to 30W.
+- **802.3bt (Approved in 2018-09-27)**: Known as 4PPoE in the market, outlined
+  in Clause 33. Type 3 delivers up to 60W, and Type 4 up to 100W.
+- **802.3bu (Approved in 2016-12-07)**: Formerly referred to as PoDL, detailed
+  in Clause 104. Introduces Classes 0 - 9. Class 9 PoDL PSE delivers up to ~65W
+
+Kernel Naming Convention Recommendations
+----------------------------------------
+
+For clarity and consistency within the Linux kernel's networking subsystem, the
+following naming conventions are recommended:
+
+- For general PSE (PoE) code, use "c33_pse" key words. For example:
+  ``enum ethtool_c33_pse_admin_state c33_admin_control;``.
+  This aligns with Clause 33, encompassing various PoE forms.
+
+- For PoDL PSE - specific code, use "podl_pse". For example:
+  ``enum ethtool_podl_pse_admin_state podl_admin_control;`` to differentiate
+  PoDL PSE settings according to Clause 104.
+
+Summary of Clause 33: Data Terminal Equipment (DTE) Power via Media Dependent Interface (MDI)
+-------------------------------------------------------------------------------------------
+
+Clause 33 of the IEEE 802.3 standard defines the functional and electrical
+characteristics of Powered Device (PD) and Power Sourcing Equipment (PSE).
+These entities enable power delivery using the same generic cabling as for data
+transmission, integrating power with data communication for devices such as
+10BASE-T, 100BASE-TX, or 1000BASE-T.
+
+Summary of Clause 104: Power over Data Lines (PoDL) of Single Balanced Twisted-Pair Ethernet
+-------------------------------------------------------------------------------------------
+
+Clause 104 of the IEEE 802.3 standard delineates the functional and electrical
+characteristics of PoDL Powered Devices (PDs) and PoDL Power Sourcing Equipment
+(PSEs). These are designed for use with single balanced twisted-pair Ethernet
+Physical Layers. In this clause, 'PSE' refers specifically to PoDL PSE, and
+'PD' to PoDL PD. The key intent is to provide devices with a unified interface
+for both data and the power required to process this data over a single
+balanced twisted-pair Ethernet connection.
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
