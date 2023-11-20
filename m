@@ -1,975 +1,239 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IbpImFnT"
-Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DD8E3
-	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 21:05:32 -0800 (PST)
-Received: by mail-ua1-x933.google.com with SMTP id a1e0cc1a2514c-7c40915721aso312255241.0
-        for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 21:05:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700456731; x=1701061531; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/TFvhLb0xnkqv1FD/FHE4F/HboCjUp8WQ3ECUs/3ak=;
-        b=IbpImFnTivLII0uqAZ5L1vVj2NVCMiNSvRH2Mfr8BRW80G2sye1NCcJlO98yviWRIP
-         XSMR2+cwnMbsdmNURHavPT7ArFlQHYjptSNuoZfNHUKJyV16eu4Wn/GbZrEYLaw+0pUb
-         qffZK1vLKeRh7BZkN62HFNjMptF09DLOp6KcGN8+r7f4RO7X7x4wutDERuAF7NSwGPJv
-         3KZ63WFDS7HjbPnCmdeI8EhUkmSco3GEadinC4HvtQGmC3/Zatc/TaF2Msl99zif7rC3
-         AXgACH6VXNz/dS4u6m76fcot2CNLNqqMAIuV0QnOYJjTQehz7teGIztDqW1kepPy+Wsj
-         H/0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700456731; x=1701061531;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l/TFvhLb0xnkqv1FD/FHE4F/HboCjUp8WQ3ECUs/3ak=;
-        b=FIBHVITs2InebW+dwe2GTXNKw9i1xhEP05ymExLRaQZvic/rED1/0tzt/OX7MnRcSP
-         JUzcasOYmLfUa/HECoFgK1qKGmuFj/6TEo7A8XxVsIOhHUtxhQzw4G3ARfXQK3d8ZaBW
-         dd1Yd3CdJRooYHPmr6OOQZrkqJMHw2HlP0vMO9MD1/qt5u+63fNRzr42phpCvFZzM7Ej
-         ok+RmW0Pl2cxVeAm9oNqgk8XnVHMwrEdai6X2Owe6W+unDLHzWjRharAmfWUk+Uub/ot
-         FtBhakXBeIDua+MZhUfPmWCX/IqmPWX7sEO6o4AyvShN6QtvoyUoFxTzAf7tyMYFKKYk
-         KZzw==
-X-Gm-Message-State: AOJu0YwH7/W0MEI2HAxIP/yRLg145YdpFkmplliivoSCZqGLbuz2tvlN
-	HyyV+oVf8rxhaH4cjuxrTey818lodXtAwF+sPQM/Aw==
-X-Google-Smtp-Source: AGHT+IHh6RejaCtMSY7zPcDnGGTivDUHJk6lS0OKjTAztji6DtlMogFHQSbsZToO8G3TWHPtkDJvJP+zAwikeYqTXkU=
-X-Received: by 2002:a05:6102:579a:b0:45d:773b:f57b with SMTP id
- dh26-20020a056102579a00b0045d773bf57bmr10896778vsb.17.1700456730698; Sun, 19
- Nov 2023 21:05:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpYFf6Ek"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2CAACA;
+	Sun, 19 Nov 2023 23:11:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700464305; x=1732000305;
+  h=date:from:to:cc:subject:message-id:
+   content-transfer-encoding:mime-version;
+  bh=8MfPpg6EnfveR7hre4clJNQSoI7fbs5iLJQbPTbleOw=;
+  b=OpYFf6Ek/S/zVIol+h4ZjukFMN1cpwaZOM1TOa/YyTIsuaqtnYv4EE3z
+   rBwch6eS++g3BVxmitgcCELag+rE+MaaYmbf+2yJcR6aqp/LUShiQF7tk
+   ma3V/11Z/mVTEVLhLTPIZKPIEEEOL+gq7CH0tvN7A6swvN3jvXamX4+RX
+   XFZn5d4mBQ+9Ls8sp4a3LJqafy04krsVeCd9PnMFD3DB4n22EmvHnICxw
+   MS/LegzSKPe8pxgImmaM2nbEwTZXuPxIxYT9UFGEcbJzjNxSWatCeIt80
+   0DmM+/uWD6sSYEJVsm6kPop6UYtx2HPBmv7jaR7e0LoI7P4Ll4gW9V1ue
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="391348737"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="391348737"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 23:11:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="883770861"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="883770861"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Nov 2023 23:11:44 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Sun, 19 Nov 2023 23:11:44 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Sun, 19 Nov 2023 23:11:44 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Sun, 19 Nov 2023 23:11:44 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dT7GWvzqAaYujmAgsK0MmhJkUorfOnHmH9rsO0JsZ7ODlzK/5KaKoEYeYaSEB6UPrX5YkiA9TjsFi9V3qBhwnclmYlYgsFTLpT9TWIHwgWjaa/O2FeyHW0nUqazEIhdWHvG0gKHILDHLM+8sA1Li2mQO8/Se8s/jqGYRe1EtZu/W3vyXQobuO5WR6ZTTLKlPL+APUMjeMa7KpUU6WbfaVu/9bTejMhIbBssADPrUcft9CR9bH1VkemYQoP7jpf9vOTG6jsp/BejhDkNJlkbUL5Ov/dt96SgTx2V9W0JmiGc+SifqogeFv7zkNeUF2ZmYH6Al8xZkJv2mQ9g+DjFkHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=azFQSXFTkkVoT7Zb0XkdG5vNFg9g/leUdm1uo+UmPmU=;
+ b=FAJH0gxPCmOMeLygcqwJ0TGj/yZ4Uui6s/4tZ2qLNAhROuhbALSRNf6mbXHhFHVWnTmCzHAnne8Uxyd3R/sw1atDuFF0WqjnfoPbUasKyIELDc0X8ie3Ae0cHp47S9+S/cHyPzqe4li53bQ57UYJ5PidLO9lkajWN31Z8m8Q9E6KR33acrnKduXTVA0041mg4cUp3AhExjL+k/W/QfHWyNzROio8+dSLUMNY3qmlNN0g8F/lf/nDexDCIC+hiJSuBEdtoEiq04N3K3BIV4fll400ejmzMixX9eNWm4gzT0/gTFeyLbKfakzmdF58mONdoCvWAhGiJKKqEvqIF2/QKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by SJ0PR11MB4992.namprd11.prod.outlook.com (2603:10b6:a03:2d4::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.26; Mon, 20 Nov
+ 2023 07:11:42 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f%3]) with mapi id 15.20.7002.027; Mon, 20 Nov 2023
+ 07:11:42 +0000
+Date: Mon, 20 Nov 2023 15:11:31 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
+	Jann Horn <jannh@google.com>, Linus Torvalds <torvalds@linux-foundation.org>,
+	<linux-doc@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<intel-gfx@lists.freedesktop.org>, <linux-fsdevel@vger.kernel.org>,
+	<gfs2@lists.linux.dev>, <bpf@vger.kernel.org>, <ying.huang@intel.com>,
+	<feng.tang@intel.com>, <fengwei.yin@intel.com>, <oliver.sang@intel.com>
+Subject: [linus:master] [file]  0ede61d858:  will-it-scale.per_thread_ops
+ -2.9% regression
+Message-ID: <202311201406.2022ca3f-oliver.sang@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG3P274CA0003.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::15)
+ To LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231103061715.196294-1-sumit.garg@linaro.org>
-In-Reply-To: <20231103061715.196294-1-sumit.garg@linaro.org>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Mon, 20 Nov 2023 10:35:19 +0530
-Message-ID: <CAFA6WYNW_cAFVMTpqPQjwBASKDp_b=CpccCzx23jHn_+qoJrDQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: Destage TEE subsystem documentation
-To: corbet@lwn.net
-Cc: jens.wiklander@linaro.org, vegard.nossum@oracle.com, 
-	Rijo-john.Thomas@amd.com, balint.dobszay@arm.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, op-tee@lists.trustedfirmware.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SJ0PR11MB4992:EE_
+X-MS-Office365-Filtering-Correlation-Id: 42f7e93c-0af9-4224-4cc4-08dbe997f229
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S+/FGfnjrWeIbuVQcjRB6aSBcGzGMmx/aNRm7R5iRLwDjtQ8r/oW7DJKIZwanREWUTV18pJiszG+q45XeMoRYrgaa6NypVErpkNCb0tmJO+6/FpR/rayCsfAuvuFlrWiji1LZo2xh1avzHpZzIEbiulZAEydL99J6Fb/ZV6NOOw9SSVyOBMIay0S6LMegAd/yK81ncdl505v8oEHPJjMNZq5eIUgRINGAsUtzWynQu9agJOnPMjclF0n2pMiR2xi5UzRoTlJbq+34QVLudDmBLDxo1KjKqnFmJ/6Vq2c+Y6fWGWUxKyjbHQryFS4njKcgql+4gNRL64Sd35Mvm8XSD1mSW0Jucp8EDTdmKmnUdaumvB8IbRCo/MFZih48rd5DzsN+b+xfCRPO3RaItY8grxlmVDpUTLgsTmyVibqZothtb4q8Tg2r038HMmQRFH/PEF2c4+wQSTpnf6HzkAb10wRScAZCCxbK7hMVYFeo1Yx9T5d5In2BbUnrF+eRNjOjyKNGyAAG02JbibH1tkT4H5ZOC1zYVhO5qBc6NC6LI1+240CEU3iuF5rH2Fnt19J1uJBaMwQqYQ3z+4BzWHXls26cv3w/mh1PVMIsMvoKYe6C2dAqe0nOSPS+A4VPAV/9gfTUpaTZso9GtP7czlmoA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(39860400002)(346002)(136003)(376002)(230922051799003)(230473577357003)(230373577357003)(186009)(64100799003)(1800799012)(451199024)(54906003)(66556008)(66476007)(66946007)(38100700002)(36756003)(86362001)(82960400001)(6512007)(6506007)(83380400001)(26005)(1076003)(2616005)(107886003)(6666004)(966005)(6486002)(2906002)(6916009)(316002)(478600001)(8676002)(5660300002)(7416002)(4326008)(41300700001)(8936002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?zdP7vedzQPZboc5zyQ94hR7zNiruH0FmXJwF+aQ1igacheFcZ7utLrUzyu?=
+ =?iso-8859-1?Q?6so06iYfOETr7L7sM2r9ngASJUpuudFDgxGExffJzre89OLmn6MDCfSP14?=
+ =?iso-8859-1?Q?EEmV9KXbTHJqG1xZqmLJ53HQrM+JMZmjPyKt5lU8nnhpiXqbPAth6YrMrD?=
+ =?iso-8859-1?Q?mlKVWr+iBf2HnT4TuUhr8t+fBWlNTBmrQ4vXk70jVFIzcgW8RTksPhFSdY?=
+ =?iso-8859-1?Q?9QpiBGM8klgD7vJjrmG+JIdjmuPwPddCQTPJ7F1ACCYqZF5on2H+Taw5Xm?=
+ =?iso-8859-1?Q?4O9GqxQR9dLRqAQnNTXnl//z6gRNR/AB+YMc41NSguu1B/AECSz0qN0mZs?=
+ =?iso-8859-1?Q?kaXtCq57z5uZxQexGs58rIvodjSrmL4srFT6wy5qrJiSwX2Hm/h8rJcwJj?=
+ =?iso-8859-1?Q?8jp2mB12LbA6CuWWyjRG+TeYm9IxH+VIQmJ/NgtWdNqmfzNb+zEXZn487V?=
+ =?iso-8859-1?Q?FDjHbGeOrOMsvB62Qz90pkvk8ZBG5vut3zzt4yjc9GfYd0OZQN6P+/pgfq?=
+ =?iso-8859-1?Q?icmWpep2EGX0Sb4/XvhNDexAcjKaFj1yRmD0cFObnAz2zlaKyNFWW0XgX/?=
+ =?iso-8859-1?Q?ICykdL6wtEanP6o6/X+aEvKHehL3TLoBVyM+an/EkMLhwnsP8eyByAJhKK?=
+ =?iso-8859-1?Q?NDSFcKx5cxvpSi6ySAudgW7/bLXN4Gz2bAu41DfPfLAuH0HLvnj1npaU58?=
+ =?iso-8859-1?Q?VFol9mHWhtNo9v2SSMCKAXzRZTgC18UXv9LurPORAiO4s3HjU8NzDLwCa1?=
+ =?iso-8859-1?Q?lupEvfXWTUFpwdjPXuLxFLLDqquZVv6UZJ76eBmZNTdbtOH80hXNT/TtgH?=
+ =?iso-8859-1?Q?uxvuA+huBrWIPGVExcG0ge0XGcJbhwG8k2nFSsw4cXoXRu6u288SyilFFB?=
+ =?iso-8859-1?Q?maqDrWm9no9bQLeHtb642YjpOaUTnLdiFZTLQ78hkjp40samAJbHCvq1Zh?=
+ =?iso-8859-1?Q?qRk60C+6hLGXhLl5bf8Lg4oRjGHFt4N0rf7g+QToeLBQNJp47UdSCxpqzP?=
+ =?iso-8859-1?Q?CS2Bl5sxh3lhKYcBy2BZDgRgbq06KkxbTnAQtrxGWPGZVq22LuIAKp1/bK?=
+ =?iso-8859-1?Q?wUuaaeuO+4uzlp2yweAkCe98RDq6lsTuAGWkIMcBCmPL7kOtxAiMBFtzrV?=
+ =?iso-8859-1?Q?D4jIXgWZ0O/6HFU11RwPS1ks6DByY0dcF2ZHeJqH4m9xGiHNYKTCJ48koP?=
+ =?iso-8859-1?Q?R0ADP1Qu795p3yOkBWq5mtvZ5B0G0YJkwq7ob7kjywwy/Fo9eQzCZB0G5N?=
+ =?iso-8859-1?Q?OoxjBE4oJukBDEkXRVMB6WrWjcrbZGGIttBEKcYQ4nQPTKmr1zr4v3WaIW?=
+ =?iso-8859-1?Q?CHtYI0WUhYY50z0p9+qXfWexvNAT7mNu/ep5DFTjqtpu0X+7+03wsbZ6lU?=
+ =?iso-8859-1?Q?U2U8ZXEoIRX0sAfKJ8ejMrb2ZvJlyVmHykorGkR9DRw8gRiMuWXR/hBlLv?=
+ =?iso-8859-1?Q?zwoqFvAIngO6iPAYMSh3Bo1QvUwBE/zw2vNOubClmnZ64ROjfRs8Hxb/JH?=
+ =?iso-8859-1?Q?9C6d4lJ4DSbL/P1L1jubooitSKKW0uKGb1PaMvsPOmjeF+lmJSpMc2a4Mk?=
+ =?iso-8859-1?Q?LLER+Mnm5ME+cwjc0B60kKYiMPtFiyaNAUaV05xonXki/X7Mt2ydN+nkGr?=
+ =?iso-8859-1?Q?jmtbTDdPQeL60s+iC43PQ/mu173YtpfiA0k5DIBRyy8+2dG7VcEXhf7A?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42f7e93c-0af9-4224-4cc4-08dbe997f229
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2023 07:11:41.9025
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BoQe5vsYPaBla6nEHJN7mSe/FD1QmAnvQu6V7aOFTdAaScvKbeyzRVnl0tJa8EyKE5TYVxEQxpNHPd28HLpthw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4992
+X-OriginatorOrg: intel.com
 
-Hi Jonathan,
 
-On Fri, 3 Nov 2023 at 11:47, Sumit Garg <sumit.garg@linaro.org> wrote:
->
-> Add a separate documentation directory for TEE subsystem since it is a
-> standalone subsystem which already offers devices consumed by multiple
-> different subsystem drivers.
->
-> Split overall TEE subsystem documentation modularly where:
-> - The userspace API has been moved to Documentation/userspace-api/tee.rst.
-> - The driver API has been moved to Documentation/driver-api/tee.rst.
-> - The first module covers the overview of TEE subsystem.
-> - The further modules are dedicated to different TEE implementations like:
->   - OP-TEE
->   - AMD-TEE
->   - and so on for future TEE implementation support.
->
-> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> ---
->
-> Changes in v2:
-> - Move userspace API to Documentation/userspace-api/tee.rst.
-> - Move driver API to Documentation/driver-api/tee.rst.
->
->  Documentation/driver-api/index.rst    |   1 +
->  Documentation/driver-api/tee.rst      |  66 +++++
->  Documentation/staging/index.rst       |   1 -
->  Documentation/staging/tee.rst         | 364 --------------------------
->  Documentation/subsystem-apis.rst      |   1 +
->  Documentation/tee/amd-tee.rst         |  90 +++++++
->  Documentation/tee/index.rst           |  19 ++
->  Documentation/tee/op-tee.rst          | 166 ++++++++++++
->  Documentation/tee/tee.rst             |  22 ++
->  Documentation/userspace-api/index.rst |   1 +
->  Documentation/userspace-api/tee.rst   |  39 +++
->  MAINTAINERS                           |   4 +-
->  12 files changed, 408 insertions(+), 366 deletions(-)
->  create mode 100644 Documentation/driver-api/tee.rst
->  delete mode 100644 Documentation/staging/tee.rst
->  create mode 100644 Documentation/tee/amd-tee.rst
->  create mode 100644 Documentation/tee/index.rst
->  create mode 100644 Documentation/tee/op-tee.rst
->  create mode 100644 Documentation/tee/tee.rst
->  create mode 100644 Documentation/userspace-api/tee.rst
->
 
-If you are fine with this destaging TEE documentation patch then will
-you be picking up this patch? Or would you like Jens to pick it up
-with your Ack?
+Hello,
 
--Sumit
+kernel test robot noticed a -2.9% regression of will-it-scale.per_thread_ops on:
 
-> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-> index 1e16a40da3ba..b4214d98d7b5 100644
-> --- a/Documentation/driver-api/index.rst
-> +++ b/Documentation/driver-api/index.rst
-> @@ -114,6 +114,7 @@ available subsections can be seen below.
->     zorro
->     hte/index
->     wmi
-> +   tee
->
->  .. only::  subproject and html
->
-> diff --git a/Documentation/driver-api/tee.rst b/Documentation/driver-api/tee.rst
-> new file mode 100644
-> index 000000000000..5eaeb8103988
-> --- /dev/null
-> +++ b/Documentation/driver-api/tee.rst
-> @@ -0,0 +1,66 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===============================================
-> +TEE (Trusted Execution Environment) driver API
-> +===============================================
-> +
-> +Kernel provides a TEE bus infrastructure where a Trusted Application is
-> +represented as a device identified via Universally Unique Identifier (UUID) and
-> +client drivers register a table of supported device UUIDs.
-> +
-> +TEE bus infrastructure registers following APIs:
-> +
-> +match():
-> +  iterates over the client driver UUID table to find a corresponding
-> +  match for device UUID. If a match is found, then this particular device is
-> +  probed via corresponding probe API registered by the client driver. This
-> +  process happens whenever a device or a client driver is registered with TEE
-> +  bus.
-> +
-> +uevent():
-> +  notifies user-space (udev) whenever a new device is registered on
-> +  TEE bus for auto-loading of modularized client drivers.
-> +
-> +TEE bus device enumeration is specific to underlying TEE implementation, so it
-> +is left open for TEE drivers to provide corresponding implementation.
-> +
-> +Then TEE client driver can talk to a matched Trusted Application using APIs
-> +listed in include/linux/tee_drv.h.
-> +
-> +TEE client driver example
-> +-------------------------
-> +
-> +Suppose a TEE client driver needs to communicate with a Trusted Application
-> +having UUID: ``ac6a4085-0e82-4c33-bf98-8eb8e118b6c2``, so driver registration
-> +snippet would look like::
-> +
-> +       static const struct tee_client_device_id client_id_table[] = {
-> +               {UUID_INIT(0xac6a4085, 0x0e82, 0x4c33,
-> +                          0xbf, 0x98, 0x8e, 0xb8, 0xe1, 0x18, 0xb6, 0xc2)},
-> +               {}
-> +       };
-> +
-> +       MODULE_DEVICE_TABLE(tee, client_id_table);
-> +
-> +       static struct tee_client_driver client_driver = {
-> +               .id_table       = client_id_table,
-> +               .driver         = {
-> +                       .name           = DRIVER_NAME,
-> +                       .bus            = &tee_bus_type,
-> +                       .probe          = client_probe,
-> +                       .remove         = client_remove,
-> +               },
-> +       };
-> +
-> +       static int __init client_init(void)
-> +       {
-> +               return driver_register(&client_driver.driver);
-> +       }
-> +
-> +       static void __exit client_exit(void)
-> +       {
-> +               driver_unregister(&client_driver.driver);
-> +       }
-> +
-> +       module_init(client_init);
-> +       module_exit(client_exit);
-> diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-> index ded8254bc0d7..71592f3ce89b 100644
-> --- a/Documentation/staging/index.rst
-> +++ b/Documentation/staging/index.rst
-> @@ -12,5 +12,4 @@ Unsorted Documentation
->     rpmsg
->     speculation
->     static-keys
-> -   tee
->     xz
-> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
-> deleted file mode 100644
-> index 22baa077a3b9..000000000000
-> --- a/Documentation/staging/tee.rst
-> +++ /dev/null
-> @@ -1,364 +0,0 @@
-> -=============
-> -TEE subsystem
-> -=============
-> -
-> -This document describes the TEE subsystem in Linux.
-> -
-> -A TEE (Trusted Execution Environment) is a trusted OS running in some
-> -secure environment, for example, TrustZone on ARM CPUs, or a separate
-> -secure co-processor etc. A TEE driver handles the details needed to
-> -communicate with the TEE.
-> -
-> -This subsystem deals with:
-> -
-> -- Registration of TEE drivers
-> -
-> -- Managing shared memory between Linux and the TEE
-> -
-> -- Providing a generic API to the TEE
-> -
-> -The TEE interface
-> -=================
-> -
-> -include/uapi/linux/tee.h defines the generic interface to a TEE.
-> -
-> -User space (the client) connects to the driver by opening /dev/tee[0-9]* or
-> -/dev/teepriv[0-9]*.
-> -
-> -- TEE_IOC_SHM_ALLOC allocates shared memory and returns a file descriptor
-> -  which user space can mmap. When user space doesn't need the file
-> -  descriptor any more, it should be closed. When shared memory isn't needed
-> -  any longer it should be unmapped with munmap() to allow the reuse of
-> -  memory.
-> -
-> -- TEE_IOC_VERSION lets user space know which TEE this driver handles and
-> -  its capabilities.
-> -
-> -- TEE_IOC_OPEN_SESSION opens a new session to a Trusted Application.
-> -
-> -- TEE_IOC_INVOKE invokes a function in a Trusted Application.
-> -
-> -- TEE_IOC_CANCEL may cancel an ongoing TEE_IOC_OPEN_SESSION or TEE_IOC_INVOKE.
-> -
-> -- TEE_IOC_CLOSE_SESSION closes a session to a Trusted Application.
-> -
-> -There are two classes of clients, normal clients and supplicants. The latter is
-> -a helper process for the TEE to access resources in Linux, for example file
-> -system access. A normal client opens /dev/tee[0-9]* and a supplicant opens
-> -/dev/teepriv[0-9].
-> -
-> -Much of the communication between clients and the TEE is opaque to the
-> -driver. The main job for the driver is to receive requests from the
-> -clients, forward them to the TEE and send back the results. In the case of
-> -supplicants the communication goes in the other direction, the TEE sends
-> -requests to the supplicant which then sends back the result.
-> -
-> -The TEE kernel interface
-> -========================
-> -
-> -Kernel provides a TEE bus infrastructure where a Trusted Application is
-> -represented as a device identified via Universally Unique Identifier (UUID) and
-> -client drivers register a table of supported device UUIDs.
-> -
-> -TEE bus infrastructure registers following APIs:
-> -
-> -match():
-> -  iterates over the client driver UUID table to find a corresponding
-> -  match for device UUID. If a match is found, then this particular device is
-> -  probed via corresponding probe API registered by the client driver. This
-> -  process happens whenever a device or a client driver is registered with TEE
-> -  bus.
-> -
-> -uevent():
-> -  notifies user-space (udev) whenever a new device is registered on
-> -  TEE bus for auto-loading of modularized client drivers.
-> -
-> -TEE bus device enumeration is specific to underlying TEE implementation, so it
-> -is left open for TEE drivers to provide corresponding implementation.
-> -
-> -Then TEE client driver can talk to a matched Trusted Application using APIs
-> -listed in include/linux/tee_drv.h.
-> -
-> -TEE client driver example
-> --------------------------
-> -
-> -Suppose a TEE client driver needs to communicate with a Trusted Application
-> -having UUID: ``ac6a4085-0e82-4c33-bf98-8eb8e118b6c2``, so driver registration
-> -snippet would look like::
-> -
-> -       static const struct tee_client_device_id client_id_table[] = {
-> -               {UUID_INIT(0xac6a4085, 0x0e82, 0x4c33,
-> -                          0xbf, 0x98, 0x8e, 0xb8, 0xe1, 0x18, 0xb6, 0xc2)},
-> -               {}
-> -       };
-> -
-> -       MODULE_DEVICE_TABLE(tee, client_id_table);
-> -
-> -       static struct tee_client_driver client_driver = {
-> -               .id_table       = client_id_table,
-> -               .driver         = {
-> -                       .name           = DRIVER_NAME,
-> -                       .bus            = &tee_bus_type,
-> -                       .probe          = client_probe,
-> -                       .remove         = client_remove,
-> -               },
-> -       };
-> -
-> -       static int __init client_init(void)
-> -       {
-> -               return driver_register(&client_driver.driver);
-> -       }
-> -
-> -       static void __exit client_exit(void)
-> -       {
-> -               driver_unregister(&client_driver.driver);
-> -       }
-> -
-> -       module_init(client_init);
-> -       module_exit(client_exit);
-> -
-> -OP-TEE driver
-> -=============
-> -
-> -The OP-TEE driver handles OP-TEE [1] based TEEs. Currently it is only the ARM
-> -TrustZone based OP-TEE solution that is supported.
-> -
-> -Lowest level of communication with OP-TEE builds on ARM SMC Calling
-> -Convention (SMCCC) [2], which is the foundation for OP-TEE's SMC interface
-> -[3] used internally by the driver. Stacked on top of that is OP-TEE Message
-> -Protocol [4].
-> -
-> -OP-TEE SMC interface provides the basic functions required by SMCCC and some
-> -additional functions specific for OP-TEE. The most interesting functions are:
-> -
-> -- OPTEE_SMC_FUNCID_CALLS_UID (part of SMCCC) returns the version information
-> -  which is then returned by TEE_IOC_VERSION
-> -
-> -- OPTEE_SMC_CALL_GET_OS_UUID returns the particular OP-TEE implementation, used
-> -  to tell, for instance, a TrustZone OP-TEE apart from an OP-TEE running on a
-> -  separate secure co-processor.
-> -
-> -- OPTEE_SMC_CALL_WITH_ARG drives the OP-TEE message protocol
-> -
-> -- OPTEE_SMC_GET_SHM_CONFIG lets the driver and OP-TEE agree on which memory
-> -  range to used for shared memory between Linux and OP-TEE.
-> -
-> -The GlobalPlatform TEE Client API [5] is implemented on top of the generic
-> -TEE API.
-> -
-> -Picture of the relationship between the different components in the
-> -OP-TEE architecture::
-> -
-> -      User space                  Kernel                   Secure world
-> -      ~~~~~~~~~~                  ~~~~~~                   ~~~~~~~~~~~~
-> -   +--------+                                             +-------------+
-> -   | Client |                                             | Trusted     |
-> -   +--------+                                             | Application |
-> -      /\                                                  +-------------+
-> -      || +----------+                                           /\
-> -      || |tee-      |                                           ||
-> -      || |supplicant|                                           \/
-> -      || +----------+                                     +-------------+
-> -      \/      /\                                          | TEE Internal|
-> -   +-------+  ||                                          | API         |
-> -   + TEE   |  ||            +--------+--------+           +-------------+
-> -   | Client|  ||            | TEE    | OP-TEE |           | OP-TEE      |
-> -   | API   |  \/            | subsys | driver |           | Trusted OS  |
-> -   +-------+----------------+----+-------+----+-----------+-------------+
-> -   |      Generic TEE API        |       |     OP-TEE MSG               |
-> -   |      IOCTL (TEE_IOC_*)      |       |     SMCCC (OPTEE_SMC_CALL_*) |
-> -   +-----------------------------+       +------------------------------+
-> -
-> -RPC (Remote Procedure Call) are requests from secure world to kernel driver
-> -or tee-supplicant. An RPC is identified by a special range of SMCCC return
-> -values from OPTEE_SMC_CALL_WITH_ARG. RPC messages which are intended for the
-> -kernel are handled by the kernel driver. Other RPC messages will be forwarded to
-> -tee-supplicant without further involvement of the driver, except switching
-> -shared memory buffer representation.
-> -
-> -OP-TEE device enumeration
-> --------------------------
-> -
-> -OP-TEE provides a pseudo Trusted Application: drivers/tee/optee/device.c in
-> -order to support device enumeration. In other words, OP-TEE driver invokes this
-> -application to retrieve a list of Trusted Applications which can be registered
-> -as devices on the TEE bus.
-> -
-> -OP-TEE notifications
-> ---------------------
-> -
-> -There are two kinds of notifications that secure world can use to make
-> -normal world aware of some event.
-> -
-> -1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
-> -   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
-> -2. Asynchronous notifications delivered with a combination of a non-secure
-> -   edge-triggered interrupt and a fast call from the non-secure interrupt
-> -   handler.
-> -
-> -Synchronous notifications are limited by depending on RPC for delivery,
-> -this is only usable when secure world is entered with a yielding call via
-> -``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
-> -world interrupt handlers.
-> -
-> -An asynchronous notification is delivered via a non-secure edge-triggered
-> -interrupt to an interrupt handler registered in the OP-TEE driver. The
-> -actual notification value are retrieved with the fast call
-> -``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``. Note that one interrupt can represent
-> -multiple notifications.
-> -
-> -One notification value ``OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF`` has a
-> -special meaning. When this value is received it means that normal world is
-> -supposed to make a yielding call ``OPTEE_MSG_CMD_DO_BOTTOM_HALF``. This
-> -call is done from the thread assisting the interrupt handler. This is a
-> -building block for OP-TEE OS in secure world to implement the top half and
-> -bottom half style of device drivers.
-> -
-> -OPTEE_INSECURE_LOAD_IMAGE Kconfig option
-> -----------------------------------------
-> -
-> -The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load the
-> -BL32 OP-TEE image from the kernel after the kernel boots, rather than loading
-> -it from the firmware before the kernel boots. This also requires enabling the
-> -corresponding option in Trusted Firmware for Arm. The Trusted Firmware for Arm
-> -documentation [8] explains the security threat associated with enabling this as
-> -well as mitigations at the firmware and platform level.
-> -
-> -There are additional attack vectors/mitigations for the kernel that should be
-> -addressed when using this option.
-> -
-> -1. Boot chain security.
-> -
-> -   * Attack vector: Replace the OP-TEE OS image in the rootfs to gain control of
-> -     the system.
-> -
-> -   * Mitigation: There must be boot chain security that verifies the kernel and
-> -     rootfs, otherwise an attacker can modify the loaded OP-TEE binary by
-> -     modifying it in the rootfs.
-> -
-> -2. Alternate boot modes.
-> -
-> -   * Attack vector: Using an alternate boot mode (i.e. recovery mode), the
-> -     OP-TEE driver isn't loaded, leaving the SMC hole open.
-> -
-> -   * Mitigation: If there are alternate methods of booting the device, such as a
-> -     recovery mode, it should be ensured that the same mitigations are applied
-> -     in that mode.
-> -
-> -3. Attacks prior to SMC invocation.
-> -
-> -   * Attack vector: Code that is executed prior to issuing the SMC call to load
-> -     OP-TEE can be exploited to then load an alternate OS image.
-> -
-> -   * Mitigation: The OP-TEE driver must be loaded before any potential attack
-> -     vectors are opened up. This should include mounting of any modifiable
-> -     filesystems, opening of network ports or communicating with external
-> -     devices (e.g. USB).
-> -
-> -4. Blocking SMC call to load OP-TEE.
-> -
-> -   * Attack vector: Prevent the driver from being probed, so the SMC call to
-> -     load OP-TEE isn't executed when desired, leaving it open to being executed
-> -     later and loading a modified OS.
-> -
-> -   * Mitigation: It is recommended to build the OP-TEE driver as builtin driver
-> -     rather than as a module to prevent exploits that may cause the module to
-> -     not be loaded.
-> -
-> -AMD-TEE driver
-> -==============
-> -
-> -The AMD-TEE driver handles the communication with AMD's TEE environment. The
-> -TEE environment is provided by AMD Secure Processor.
-> -
-> -The AMD Secure Processor (formerly called Platform Security Processor or PSP)
-> -is a dedicated processor that features ARM TrustZone technology, along with a
-> -software-based Trusted Execution Environment (TEE) designed to enable
-> -third-party Trusted Applications. This feature is currently enabled only for
-> -APUs.
-> -
-> -The following picture shows a high level overview of AMD-TEE::
-> -
-> -                                             |
-> -    x86                                      |
-> -                                             |
-> - User space            (Kernel space)        |    AMD Secure Processor (PSP)
-> - ~~~~~~~~~~            ~~~~~~~~~~~~~~        |    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-> -                                             |
-> - +--------+                                  |       +-------------+
-> - | Client |                                  |       | Trusted     |
-> - +--------+                                  |       | Application |
-> -     /\                                      |       +-------------+
-> -     ||                                      |             /\
-> -     ||                                      |             ||
-> -     ||                                      |             \/
-> -     ||                                      |         +----------+
-> -     ||                                      |         |   TEE    |
-> -     ||                                      |         | Internal |
-> -     \/                                      |         |   API    |
-> - +---------+           +-----------+---------+         +----------+
-> - | TEE     |           | TEE       | AMD-TEE |         | AMD-TEE  |
-> - | Client  |           | subsystem | driver  |         | Trusted  |
-> - | API     |           |           |         |         |   OS     |
-> - +---------+-----------+----+------+---------+---------+----------+
-> - |   Generic TEE API        |      | ASP     |      Mailbox       |
-> - |   IOCTL (TEE_IOC_*)      |      | driver  | Register Protocol  |
-> - +--------------------------+      +---------+--------------------+
-> -
-> -At the lowest level (in x86), the AMD Secure Processor (ASP) driver uses the
-> -CPU to PSP mailbox register to submit commands to the PSP. The format of the
-> -command buffer is opaque to the ASP driver. It's role is to submit commands to
-> -the secure processor and return results to AMD-TEE driver. The interface
-> -between AMD-TEE driver and AMD Secure Processor driver can be found in [6].
-> -
-> -The AMD-TEE driver packages the command buffer payload for processing in TEE.
-> -The command buffer format for the different TEE commands can be found in [7].
-> -
-> -The TEE commands supported by AMD-TEE Trusted OS are:
-> -
-> -* TEE_CMD_ID_LOAD_TA          - loads a Trusted Application (TA) binary into
-> -                                TEE environment.
-> -* TEE_CMD_ID_UNLOAD_TA        - unloads TA binary from TEE environment.
-> -* TEE_CMD_ID_OPEN_SESSION     - opens a session with a loaded TA.
-> -* TEE_CMD_ID_CLOSE_SESSION    - closes session with loaded TA
-> -* TEE_CMD_ID_INVOKE_CMD       - invokes a command with loaded TA
-> -* TEE_CMD_ID_MAP_SHARED_MEM   - maps shared memory
-> -* TEE_CMD_ID_UNMAP_SHARED_MEM - unmaps shared memory
-> -
-> -AMD-TEE Trusted OS is the firmware running on AMD Secure Processor.
-> -
-> -The AMD-TEE driver registers itself with TEE subsystem and implements the
-> -following driver function callbacks:
-> -
-> -* get_version - returns the driver implementation id and capability.
-> -* open - sets up the driver context data structure.
-> -* release - frees up driver resources.
-> -* open_session - loads the TA binary and opens session with loaded TA.
-> -* close_session -  closes session with loaded TA and unloads it.
-> -* invoke_func - invokes a command with loaded TA.
-> -
-> -cancel_req driver callback is not supported by AMD-TEE.
-> -
-> -The GlobalPlatform TEE Client API [5] can be used by the user space (client) to
-> -talk to AMD's TEE. AMD's TEE provides a secure environment for loading, opening
-> -a session, invoking commands and closing session with TA.
-> -
-> -References
-> -==========
-> -
-> -[1] https://github.com/OP-TEE/optee_os
-> -
-> -[2] http://infocenter.arm.com/help/topic/com.arm.doc.den0028a/index.html
-> -
-> -[3] drivers/tee/optee/optee_smc.h
-> -
-> -[4] drivers/tee/optee/optee_msg.h
-> -
-> -[5] http://www.globalplatform.org/specificationsdevice.asp look for
-> -    "TEE Client API Specification v1.0" and click download.
-> -
-> -[6] include/linux/psp-tee.h
-> -
-> -[7] drivers/tee/amdtee/amdtee_if.h
-> -
-> -[8] https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
-> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-> index 90a0535a932a..1666f11de8df 100644
-> --- a/Documentation/subsystem-apis.rst
-> +++ b/Documentation/subsystem-apis.rst
-> @@ -86,3 +86,4 @@ Storage interfaces
->     misc-devices/index
->     peci/index
->     wmi/index
-> +   tee/index
-> diff --git a/Documentation/tee/amd-tee.rst b/Documentation/tee/amd-tee.rst
-> new file mode 100644
-> index 000000000000..51500fde7038
-> --- /dev/null
-> +++ b/Documentation/tee/amd-tee.rst
-> @@ -0,0 +1,90 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=============================================
-> +AMD-TEE (AMD's Trusted Execution Environment)
-> +=============================================
-> +
-> +The AMD-TEE driver handles the communication with AMD's TEE environment. The
-> +TEE environment is provided by AMD Secure Processor.
-> +
-> +The AMD Secure Processor (formerly called Platform Security Processor or PSP)
-> +is a dedicated processor that features ARM TrustZone technology, along with a
-> +software-based Trusted Execution Environment (TEE) designed to enable
-> +third-party Trusted Applications. This feature is currently enabled only for
-> +APUs.
-> +
-> +The following picture shows a high level overview of AMD-TEE::
-> +
-> +                                             |
-> +    x86                                      |
-> +                                             |
-> + User space            (Kernel space)        |    AMD Secure Processor (PSP)
-> + ~~~~~~~~~~            ~~~~~~~~~~~~~~        |    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +                                             |
-> + +--------+                                  |       +-------------+
-> + | Client |                                  |       | Trusted     |
-> + +--------+                                  |       | Application |
-> +     /\                                      |       +-------------+
-> +     ||                                      |             /\
-> +     ||                                      |             ||
-> +     ||                                      |             \/
-> +     ||                                      |         +----------+
-> +     ||                                      |         |   TEE    |
-> +     ||                                      |         | Internal |
-> +     \/                                      |         |   API    |
-> + +---------+           +-----------+---------+         +----------+
-> + | TEE     |           | TEE       | AMD-TEE |         | AMD-TEE  |
-> + | Client  |           | subsystem | driver  |         | Trusted  |
-> + | API     |           |           |         |         |   OS     |
-> + +---------+-----------+----+------+---------+---------+----------+
-> + |   Generic TEE API        |      | ASP     |      Mailbox       |
-> + |   IOCTL (TEE_IOC_*)      |      | driver  | Register Protocol  |
-> + +--------------------------+      +---------+--------------------+
-> +
-> +At the lowest level (in x86), the AMD Secure Processor (ASP) driver uses the
-> +CPU to PSP mailbox register to submit commands to the PSP. The format of the
-> +command buffer is opaque to the ASP driver. It's role is to submit commands to
-> +the secure processor and return results to AMD-TEE driver. The interface
-> +between AMD-TEE driver and AMD Secure Processor driver can be found in [1].
-> +
-> +The AMD-TEE driver packages the command buffer payload for processing in TEE.
-> +The command buffer format for the different TEE commands can be found in [2].
-> +
-> +The TEE commands supported by AMD-TEE Trusted OS are:
-> +
-> +* TEE_CMD_ID_LOAD_TA          - loads a Trusted Application (TA) binary into
-> +                                TEE environment.
-> +* TEE_CMD_ID_UNLOAD_TA        - unloads TA binary from TEE environment.
-> +* TEE_CMD_ID_OPEN_SESSION     - opens a session with a loaded TA.
-> +* TEE_CMD_ID_CLOSE_SESSION    - closes session with loaded TA
-> +* TEE_CMD_ID_INVOKE_CMD       - invokes a command with loaded TA
-> +* TEE_CMD_ID_MAP_SHARED_MEM   - maps shared memory
-> +* TEE_CMD_ID_UNMAP_SHARED_MEM - unmaps shared memory
-> +
-> +AMD-TEE Trusted OS is the firmware running on AMD Secure Processor.
-> +
-> +The AMD-TEE driver registers itself with TEE subsystem and implements the
-> +following driver function callbacks:
-> +
-> +* get_version - returns the driver implementation id and capability.
-> +* open - sets up the driver context data structure.
-> +* release - frees up driver resources.
-> +* open_session - loads the TA binary and opens session with loaded TA.
-> +* close_session -  closes session with loaded TA and unloads it.
-> +* invoke_func - invokes a command with loaded TA.
-> +
-> +cancel_req driver callback is not supported by AMD-TEE.
-> +
-> +The GlobalPlatform TEE Client API [3] can be used by the user space (client) to
-> +talk to AMD's TEE. AMD's TEE provides a secure environment for loading, opening
-> +a session, invoking commands and closing session with TA.
-> +
-> +References
-> +==========
-> +
-> +[1] include/linux/psp-tee.h
-> +
-> +[2] drivers/tee/amdtee/amdtee_if.h
-> +
-> +[3] http://www.globalplatform.org/specificationsdevice.asp look for
-> +    "TEE Client API Specification v1.0" and click download.
-> diff --git a/Documentation/tee/index.rst b/Documentation/tee/index.rst
-> new file mode 100644
-> index 000000000000..a23bd08847e5
-> --- /dev/null
-> +++ b/Documentation/tee/index.rst
-> @@ -0,0 +1,19 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=============
-> +TEE Subsystem
-> +=============
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   tee
-> +   op-tee
-> +   amd-tee
-> +
-> +.. only::  subproject and html
-> +
-> +   Indices
-> +   =======
-> +
-> +   * :ref:`genindex`
-> diff --git a/Documentation/tee/op-tee.rst b/Documentation/tee/op-tee.rst
-> new file mode 100644
-> index 000000000000..b0ac097d5547
-> --- /dev/null
-> +++ b/Documentation/tee/op-tee.rst
-> @@ -0,0 +1,166 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================================================
-> +OP-TEE (Open Portable Trusted Execution Environment)
-> +====================================================
-> +
-> +The OP-TEE driver handles OP-TEE [1] based TEEs. Currently it is only the ARM
-> +TrustZone based OP-TEE solution that is supported.
-> +
-> +Lowest level of communication with OP-TEE builds on ARM SMC Calling
-> +Convention (SMCCC) [2], which is the foundation for OP-TEE's SMC interface
-> +[3] used internally by the driver. Stacked on top of that is OP-TEE Message
-> +Protocol [4].
-> +
-> +OP-TEE SMC interface provides the basic functions required by SMCCC and some
-> +additional functions specific for OP-TEE. The most interesting functions are:
-> +
-> +- OPTEE_SMC_FUNCID_CALLS_UID (part of SMCCC) returns the version information
-> +  which is then returned by TEE_IOC_VERSION
-> +
-> +- OPTEE_SMC_CALL_GET_OS_UUID returns the particular OP-TEE implementation, used
-> +  to tell, for instance, a TrustZone OP-TEE apart from an OP-TEE running on a
-> +  separate secure co-processor.
-> +
-> +- OPTEE_SMC_CALL_WITH_ARG drives the OP-TEE message protocol
-> +
-> +- OPTEE_SMC_GET_SHM_CONFIG lets the driver and OP-TEE agree on which memory
-> +  range to used for shared memory between Linux and OP-TEE.
-> +
-> +The GlobalPlatform TEE Client API [5] is implemented on top of the generic
-> +TEE API.
-> +
-> +Picture of the relationship between the different components in the
-> +OP-TEE architecture::
-> +
-> +      User space                  Kernel                   Secure world
-> +      ~~~~~~~~~~                  ~~~~~~                   ~~~~~~~~~~~~
-> +   +--------+                                             +-------------+
-> +   | Client |                                             | Trusted     |
-> +   +--------+                                             | Application |
-> +      /\                                                  +-------------+
-> +      || +----------+                                           /\
-> +      || |tee-      |                                           ||
-> +      || |supplicant|                                           \/
-> +      || +----------+                                     +-------------+
-> +      \/      /\                                          | TEE Internal|
-> +   +-------+  ||                                          | API         |
-> +   + TEE   |  ||            +--------+--------+           +-------------+
-> +   | Client|  ||            | TEE    | OP-TEE |           | OP-TEE      |
-> +   | API   |  \/            | subsys | driver |           | Trusted OS  |
-> +   +-------+----------------+----+-------+----+-----------+-------------+
-> +   |      Generic TEE API        |       |     OP-TEE MSG               |
-> +   |      IOCTL (TEE_IOC_*)      |       |     SMCCC (OPTEE_SMC_CALL_*) |
-> +   +-----------------------------+       +------------------------------+
-> +
-> +RPC (Remote Procedure Call) are requests from secure world to kernel driver
-> +or tee-supplicant. An RPC is identified by a special range of SMCCC return
-> +values from OPTEE_SMC_CALL_WITH_ARG. RPC messages which are intended for the
-> +kernel are handled by the kernel driver. Other RPC messages will be forwarded to
-> +tee-supplicant without further involvement of the driver, except switching
-> +shared memory buffer representation.
-> +
-> +OP-TEE device enumeration
-> +-------------------------
-> +
-> +OP-TEE provides a pseudo Trusted Application: drivers/tee/optee/device.c in
-> +order to support device enumeration. In other words, OP-TEE driver invokes this
-> +application to retrieve a list of Trusted Applications which can be registered
-> +as devices on the TEE bus.
-> +
-> +OP-TEE notifications
-> +--------------------
-> +
-> +There are two kinds of notifications that secure world can use to make
-> +normal world aware of some event.
-> +
-> +1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
-> +   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
-> +2. Asynchronous notifications delivered with a combination of a non-secure
-> +   edge-triggered interrupt and a fast call from the non-secure interrupt
-> +   handler.
-> +
-> +Synchronous notifications are limited by depending on RPC for delivery,
-> +this is only usable when secure world is entered with a yielding call via
-> +``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
-> +world interrupt handlers.
-> +
-> +An asynchronous notification is delivered via a non-secure edge-triggered
-> +interrupt to an interrupt handler registered in the OP-TEE driver. The
-> +actual notification value are retrieved with the fast call
-> +``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``. Note that one interrupt can represent
-> +multiple notifications.
-> +
-> +One notification value ``OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF`` has a
-> +special meaning. When this value is received it means that normal world is
-> +supposed to make a yielding call ``OPTEE_MSG_CMD_DO_BOTTOM_HALF``. This
-> +call is done from the thread assisting the interrupt handler. This is a
-> +building block for OP-TEE OS in secure world to implement the top half and
-> +bottom half style of device drivers.
-> +
-> +OPTEE_INSECURE_LOAD_IMAGE Kconfig option
-> +----------------------------------------
-> +
-> +The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load the
-> +BL32 OP-TEE image from the kernel after the kernel boots, rather than loading
-> +it from the firmware before the kernel boots. This also requires enabling the
-> +corresponding option in Trusted Firmware for Arm. The Trusted Firmware for Arm
-> +documentation [6] explains the security threat associated with enabling this as
-> +well as mitigations at the firmware and platform level.
-> +
-> +There are additional attack vectors/mitigations for the kernel that should be
-> +addressed when using this option.
-> +
-> +1. Boot chain security.
-> +
-> +   * Attack vector: Replace the OP-TEE OS image in the rootfs to gain control of
-> +     the system.
-> +
-> +   * Mitigation: There must be boot chain security that verifies the kernel and
-> +     rootfs, otherwise an attacker can modify the loaded OP-TEE binary by
-> +     modifying it in the rootfs.
-> +
-> +2. Alternate boot modes.
-> +
-> +   * Attack vector: Using an alternate boot mode (i.e. recovery mode), the
-> +     OP-TEE driver isn't loaded, leaving the SMC hole open.
-> +
-> +   * Mitigation: If there are alternate methods of booting the device, such as a
-> +     recovery mode, it should be ensured that the same mitigations are applied
-> +     in that mode.
-> +
-> +3. Attacks prior to SMC invocation.
-> +
-> +   * Attack vector: Code that is executed prior to issuing the SMC call to load
-> +     OP-TEE can be exploited to then load an alternate OS image.
-> +
-> +   * Mitigation: The OP-TEE driver must be loaded before any potential attack
-> +     vectors are opened up. This should include mounting of any modifiable
-> +     filesystems, opening of network ports or communicating with external
-> +     devices (e.g. USB).
-> +
-> +4. Blocking SMC call to load OP-TEE.
-> +
-> +   * Attack vector: Prevent the driver from being probed, so the SMC call to
-> +     load OP-TEE isn't executed when desired, leaving it open to being executed
-> +     later and loading a modified OS.
-> +
-> +   * Mitigation: It is recommended to build the OP-TEE driver as builtin driver
-> +     rather than as a module to prevent exploits that may cause the module to
-> +     not be loaded.
-> +
-> +References
-> +==========
-> +
-> +[1] https://github.com/OP-TEE/optee_os
-> +
-> +[2] http://infocenter.arm.com/help/topic/com.arm.doc.den0028a/index.html
-> +
-> +[3] drivers/tee/optee/optee_smc.h
-> +
-> +[4] drivers/tee/optee/optee_msg.h
-> +
-> +[5] http://www.globalplatform.org/specificationsdevice.asp look for
-> +    "TEE Client API Specification v1.0" and click download.
-> +
-> +[6] https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
-> diff --git a/Documentation/tee/tee.rst b/Documentation/tee/tee.rst
-> new file mode 100644
-> index 000000000000..fd9f8c4ff63d
-> --- /dev/null
-> +++ b/Documentation/tee/tee.rst
-> @@ -0,0 +1,22 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===================================
-> +TEE (Trusted Execution Environment)
-> +===================================
-> +
-> +This document describes the TEE subsystem in Linux.
-> +
-> +Overview
-> +========
-> +
-> +A TEE is a trusted OS running in some secure environment, for example,
-> +TrustZone on ARM CPUs, or a separate secure co-processor etc. A TEE driver
-> +handles the details needed to communicate with the TEE.
-> +
-> +This subsystem deals with:
-> +
-> +- Registration of TEE drivers
-> +
-> +- Managing shared memory between Linux and the TEE
-> +
-> +- Providing a generic API to the TEE
-> diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-> index 72a65db0c498..24ed39735dd3 100644
-> --- a/Documentation/userspace-api/index.rst
-> +++ b/Documentation/userspace-api/index.rst
-> @@ -32,6 +32,7 @@ place where this information is gathered.
->     sysfs-platform_profile
->     vduse
->     futex2
-> +   tee
->
->  .. only::  subproject and html
->
-> diff --git a/Documentation/userspace-api/tee.rst b/Documentation/userspace-api/tee.rst
-> new file mode 100644
-> index 000000000000..e2368dbc3451
-> --- /dev/null
-> +++ b/Documentation/userspace-api/tee.rst
-> @@ -0,0 +1,39 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. tee:
-> +
-> +==================================================
-> +TEE (Trusted Execution Environment) Userspace API
-> +==================================================
-> +
-> +include/uapi/linux/tee.h defines the generic interface to a TEE.
-> +
-> +User space (the client) connects to the driver by opening /dev/tee[0-9]* or
-> +/dev/teepriv[0-9]*.
-> +
-> +- TEE_IOC_SHM_ALLOC allocates shared memory and returns a file descriptor
-> +  which user space can mmap. When user space doesn't need the file
-> +  descriptor any more, it should be closed. When shared memory isn't needed
-> +  any longer it should be unmapped with munmap() to allow the reuse of
-> +  memory.
-> +
-> +- TEE_IOC_VERSION lets user space know which TEE this driver handles and
-> +  its capabilities.
-> +
-> +- TEE_IOC_OPEN_SESSION opens a new session to a Trusted Application.
-> +
-> +- TEE_IOC_INVOKE invokes a function in a Trusted Application.
-> +
-> +- TEE_IOC_CANCEL may cancel an ongoing TEE_IOC_OPEN_SESSION or TEE_IOC_INVOKE.
-> +
-> +- TEE_IOC_CLOSE_SESSION closes a session to a Trusted Application.
-> +
-> +There are two classes of clients, normal clients and supplicants. The latter is
-> +a helper process for the TEE to access resources in Linux, for example file
-> +system access. A normal client opens /dev/tee[0-9]* and a supplicant opens
-> +/dev/teepriv[0-9].
-> +
-> +Much of the communication between clients and the TEE is opaque to the
-> +driver. The main job for the driver is to receive requests from the
-> +clients, forward them to the TEE and send back the results. In the case of
-> +supplicants the communication goes in the other direction, the TEE sends
-> +requests to the supplicant which then sends back the result.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index dd5de540ec0b..f20d5fb19ebc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -21130,7 +21130,9 @@ M:      Jens Wiklander <jens.wiklander@linaro.org>
->  R:     Sumit Garg <sumit.garg@linaro.org>
->  L:     op-tee@lists.trustedfirmware.org
->  S:     Maintained
-> -F:     Documentation/staging/tee.rst
-> +F:     Documentation/driver-api/tee.rst
-> +F:     Documentation/tee/
-> +F:     Documentation/userspace-api/tee.rst
->  F:     drivers/tee/
->  F:     include/linux/tee_drv.h
->  F:     include/uapi/linux/tee.h
-> --
-> 2.34.1
->
+
+commit: 0ede61d8589cc2d93aa78230d74ac58b5b8d0244 ("file: convert to SLAB_TYPESAFE_BY_RCU")
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+
+testcase: will-it-scale
+test machine: 224 threads 4 sockets Intel(R) Xeon(R) Platinum 8380H CPU @ 2.90GHz (Cooper Lake) with 192G memory
+parameters:
+
+	nr_task: 16
+	mode: thread
+	test: poll2
+	cpufreq_governor: performance
+
+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202311201406.2022ca3f-oliver.sang@intel.com
+
+
+Details are as below:
+-------------------------------------------------------------------------------------------------->
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20231120/202311201406.2022ca3f-oliver.sang@intel.com
+
+=========================================================================================
+compiler/cpufreq_governor/kconfig/mode/nr_task/rootfs/tbox_group/test/testcase:
+  gcc-12/performance/x86_64-rhel-8.3/thread/16/debian-11.1-x86_64-20220510.cgz/lkp-cpl-4sp2/poll2/will-it-scale
+
+commit: 
+  93faf426e3 ("vfs: shave work on failed file open")
+  0ede61d858 ("file: convert to SLAB_TYPESAFE_BY_RCU")
+
+93faf426e3cc000c 0ede61d8589cc2d93aa78230d74 
+---------------- --------------------------- 
+         %stddev     %change         %stddev
+             \          |                \  
+      0.01 ±  9%  +58125.6%       4.17 ±175%  perf-sched.sch_delay.max.ms.schedule_timeout.rcu_gp_fqs_loop.rcu_gp_kthread.kthread
+     89056            -2.0%      87309        proc-vmstat.nr_slab_unreclaimable
+     97958 ±  7%      -9.7%      88449 ±  4%  sched_debug.cpu.avg_idle.stddev
+      0.00 ± 12%     +24.2%       0.00 ± 17%  sched_debug.cpu.next_balance.stddev
+   6391048            -2.9%    6208584        will-it-scale.16.threads
+    399440            -2.9%     388036        will-it-scale.per_thread_ops
+   6391048            -2.9%    6208584        will-it-scale.workload
+     19.99 ±  4%      -2.2       17.74        perf-profile.calltrace.cycles-pp.fput.do_poll.do_sys_poll.__x64_sys_poll.do_syscall_64
+      1.27 ±  5%      +0.8        2.11 ±  3%  perf-profile.calltrace.cycles-pp.__fdget.do_poll.do_sys_poll.__x64_sys_poll.do_syscall_64
+     32.69 ±  4%      +5.0       37.70        perf-profile.calltrace.cycles-pp.__fget_light.do_poll.do_sys_poll.__x64_sys_poll.do_syscall_64
+      0.00           +27.9       27.85        perf-profile.calltrace.cycles-pp.__get_file_rcu.__fget_light.do_poll.do_sys_poll.__x64_sys_poll
+     20.00 ±  4%      -2.3       17.75        perf-profile.children.cycles-pp.fput
+      0.24 ± 10%      -0.1        0.18 ±  2%  perf-profile.children.cycles-pp.syscall_return_via_sysret
+      1.48 ±  5%      +0.5        1.98 ±  3%  perf-profile.children.cycles-pp.__fdget
+     31.85 ±  4%      +6.0       37.86        perf-profile.children.cycles-pp.__fget_light
+      0.00           +27.7       27.67        perf-profile.children.cycles-pp.__get_file_rcu
+     30.90 ±  4%     -20.6       10.35 ±  2%  perf-profile.self.cycles-pp.__fget_light
+     19.94 ±  4%      -2.4       17.53        perf-profile.self.cycles-pp.fput
+      9.81 ±  4%      -2.4        7.42 ±  2%  perf-profile.self.cycles-pp.do_poll
+      0.23 ± 11%      -0.1        0.17 ±  4%  perf-profile.self.cycles-pp.syscall_return_via_sysret
+      0.00           +26.5       26.48        perf-profile.self.cycles-pp.__get_file_rcu
+ 2.146e+10 ±  2%      +8.5%  2.329e+10 ±  2%  perf-stat.i.branch-instructions
+      0.22 ± 14%      -0.0        0.19 ± 14%  perf-stat.i.branch-miss-rate%
+ 1.404e+10 ±  2%      +8.7%  1.526e+10 ±  2%  perf-stat.i.dTLB-stores
+     70.87            -2.3       68.59        perf-stat.i.iTLB-load-miss-rate%
+   5267608            -5.5%    4979133 ±  2%  perf-stat.i.iTLB-load-misses
+   2102507            +5.4%    2215725        perf-stat.i.iTLB-loads
+     18791 ±  3%     +10.5%      20757 ±  2%  perf-stat.i.instructions-per-iTLB-miss
+    266.67 ±  2%      +6.8%     284.75 ±  2%  perf-stat.i.metric.M/sec
+      0.01 ± 10%     -10.5%       0.01 ±  5%  perf-stat.overall.MPKI
+      0.19            -0.0        0.17        perf-stat.overall.branch-miss-rate%
+      0.65            -3.1%       0.63        perf-stat.overall.cpi
+      0.00 ±  4%      -0.0        0.00 ±  4%  perf-stat.overall.dTLB-store-miss-rate%
+     71.48            -2.3       69.21        perf-stat.overall.iTLB-load-miss-rate%
+     18757           +10.0%      20629        perf-stat.overall.instructions-per-iTLB-miss
+      1.54            +3.2%       1.59        perf-stat.overall.ipc
+   4795147            +6.4%    5100406        perf-stat.overall.path-length
+  2.14e+10 ±  2%      +8.5%  2.322e+10 ±  2%  perf-stat.ps.branch-instructions
+   1.4e+10 ±  2%      +8.7%  1.522e+10 ±  2%  perf-stat.ps.dTLB-stores
+   5253923            -5.5%    4966218 ±  2%  perf-stat.ps.iTLB-load-misses
+   2095770            +5.4%    2208605        perf-stat.ps.iTLB-loads
+ 3.065e+13            +3.3%  3.167e+13        perf-stat.total.instructions
+
+
+
+
+Disclaimer:
+Results have been estimated based on internal Intel analysis and are provided
+for informational purposes only. Any difference in system hardware or software
+design or configuration may affect actual performance.
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
