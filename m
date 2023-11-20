@@ -1,196 +1,183 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930551427B
-	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 21:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D394374
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 02:41:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cHl3hRuS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15E9FC433C9
-	for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 21:50:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/0Z/1/j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AFE6C433C8;
+	Mon, 20 Nov 2023 02:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700430650;
-	bh=zgiu7PKewyccP8U06neS5ipWocpbmMeaRIGLyeoZXWs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cHl3hRuSnpEYQyOt/yDeEBZciZg96QDrijvu1yCxemF6c6mDRz1pXdpdf1kGc6o2f
-	 j6H5WG/TAR3kOShK1iTA3LLiObfWUrAuv5SX9wNUEXu+QIVqxtA0W95EwISdhzaciF
-	 pZHy1d2WMXb6LFoe9IHi0etunN53faWhl3rWZQUvFwaPifiTO0EcDX+paE8DmMth7Y
-	 SuU3njCKzFjO9rXmceBYhhwv8/MoamumbRgdqJF7WpHjbK47YlLqhDcSv9etmpphcp
-	 y55KICu5IPaWqR+vDW7opigzs0fQjiLyPAO6ng7rm+VLB80egQcMTEHWDOIzbj/frx
-	 SyS4S2MDy8pVw==
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-77bb668d941so244098285a.3
-        for <linux-doc@vger.kernel.org>; Sun, 19 Nov 2023 13:50:50 -0800 (PST)
-X-Gm-Message-State: AOJu0YwD1B3Zxo4LV5FFviEMwMmVeQ+RX1GJCTQlRhuG2FjYwX6J/G2b
-	RiAM0drq8obew2DHnyxQ2iJgfGpdQ+zmWeXngXPTvQ==
-X-Google-Smtp-Source: AGHT+IGDSa3b6V1ktCcAlvz3eC3dX3eWzMsSdTIQeDuOrw7uz0Sm3h1kayllweq+7zBObq98O0kPxMILbaU8L6e9KgQ=
-X-Received: by 2002:a17:90b:1645:b0:262:f449:4497 with SMTP id
- il5-20020a17090b164500b00262f4494497mr6088865pjb.2.1700430628843; Sun, 19 Nov
- 2023 13:50:28 -0800 (PST)
+	s=k20201202; t=1700448094;
+	bh=UiWuaKeTiSFKQxVccuysbinvCkmLWJ1QXqtmU4c9M9o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o/0Z/1/jlmTimJm9937305yEJETPIoA66Qdh+9bcGh4iO1jC7uwn5sAd36iHbSjfF
+	 y5073eOz1lEnL5m3wFSz+1ILlybe2uy2Rr7g2ANq8FuQVZjZySqzgVBrnuTj55kuec
+	 W/BBC+TgPpbkDkulF6xyej5O57aBSgYOqfSM8dL4QcR5dWPS3Ol+IfXsSKi2L3qPC8
+	 slYmHD0Q0xTpui580WF/xxTH3hnDRteip0YpBaJ4l9c/EObCSkSXsUcMtvI4iMgYcO
+	 rQEGHHyGoNic200lCdcB8PDVuKrs2sR1Ccje+ypBCoXPRrypbL+y3FwSgKbK9M5gr3
+	 Wvs4axuOecFJw==
+Date: Sun, 19 Nov 2023 18:41:32 -0800
+From: Chris Li <chrisl@kernel.org>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Yosry Ahmed <yosryahmed@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org,
+	lizefan.x@bytedance.com, Johannes Weiner <hannes@cmpxchg.org>,
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>,
+	Seth Jennings <sjenning@redhat.com>,
+	Dan Streetman <ddstreet@ieee.org>,
+	Vitaly Wool <vitaly.wool@konsulko.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Hugh Dickins <hughd@google.com>, corbet@lwn.net,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	senozhatsky@chromium.org, rppt@kernel.org,
+	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com,
+	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+	david@ixit.cz
+Subject: Re: [PATCH v5] zswap: memcontrol: implement zswap writeback disabling
+Message-ID: <ZVrHXJLxvs4_CUxc@google.com>
+References: <20231115172344.4155593-1-nphamcs@gmail.com>
+ <CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com>
+ <CAJD7tkZ1U+YuvoBAnrXFxQDiQV2hXdbMG-gbzu64R8GLAtNAPA@mail.gmail.com>
+ <CAF8kJuPTNwQM413UdeQTkMQ8HkJFyF4OWVrxJSf7uWbege0CXQ@mail.gmail.com>
+ <CAKEwX=O5M-vZE5YhYQ5_CbCmXovS1XECO4ROXKWo06K880M1Mg@mail.gmail.com>
+ <CAF8kJuOD6zq2VPcVdoZGvkzYX8iXn1akuYhNDJx-LUdS+Sx3GA@mail.gmail.com>
+ <CAKEwX=NdFjemcmf27PVpgHpVHWQEo19KfApepWJBRYeyVCWvCw@mail.gmail.com>
+ <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231115172344.4155593-1-nphamcs@gmail.com> <CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com>
- <CAJD7tkZ1U+YuvoBAnrXFxQDiQV2hXdbMG-gbzu64R8GLAtNAPA@mail.gmail.com>
- <CAF8kJuPTNwQM413UdeQTkMQ8HkJFyF4OWVrxJSf7uWbege0CXQ@mail.gmail.com>
- <CAKEwX=O5M-vZE5YhYQ5_CbCmXovS1XECO4ROXKWo06K880M1Mg@mail.gmail.com>
- <CAF8kJuOD6zq2VPcVdoZGvkzYX8iXn1akuYhNDJx-LUdS+Sx3GA@mail.gmail.com> <CAKEwX=NdFjemcmf27PVpgHpVHWQEo19KfApepWJBRYeyVCWvCw@mail.gmail.com>
-In-Reply-To: <CAKEwX=NdFjemcmf27PVpgHpVHWQEo19KfApepWJBRYeyVCWvCw@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Sun, 19 Nov 2023 13:50:17 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
-Message-ID: <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
-Subject: Re: [PATCH v5] zswap: memcontrol: implement zswap writeback disabling
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Yosry Ahmed <yosryahmed@google.com>, Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, 
-	lizefan.x@bytedance.com, Johannes Weiner <hannes@cmpxchg.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Seth Jennings <sjenning@redhat.com>, 
-	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
-	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
-	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
 
-On Sun, Nov 19, 2023 at 11:08=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
->
-> On Sun, Nov 19, 2023 at 1:39=E2=80=AFAM Chris Li <chrisl@kernel.org> wrot=
-e:
-> >
-> > On Sat, Nov 18, 2023 at 11:23=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> =
-wrote:
-> > >
-> > > Hmm how about this - in the future, we support the following
-> > > options:
-> > >
-> > > 1. zswap.writeback =3D=3D 1: no limitation to zswap writeback.
-> > > All backing swap devices (sorted by priorities?) are fair game.
-> > >
-> > > 2. zswap.writeback =3D=3D 0: disable all forms of zswap writeback.
-> > >
-> > > 3. zswap.writeback =3D=3D <tiers description>:  attempt to write to e=
-ach
-> > > tier, one at a time.
-> >
-> > We can merge the zswap.writeback as it is for now to unblock you.
-> >
-> > For the future. I think we should remove zswap.writeback completely.
->
-> I'm a bit weary about API changes, especially changes that affect
-> backward compatibility. Breaking existing userspace programs simply
-> with a kernel upgrade does not sound very nice to me.
->
-> (although I've heard that the eventual plan is to deprecate cgroupv1
-> - not sure how that is gonna proceed).
->
-> Hence my attempt at creating something that can both serve the
-> current use case, while still remaining (fairly) extensible for future
-> ideas.
+Hi Nhat,
 
-With that reasoning, the "swap.tiers" would serve better than "zswap.writeb=
-ack",
-do you think so?
+On Sun, Nov 19, 2023 at 01:50:17PM -0800, Chris Li wrote:
+> On Sun, Nov 19, 2023 at 11:08 AM Nhat Pham <nphamcs@gmail.com> wrote:
+> > I don't have any major argument against this. It just seems a bit
+> > heavyweight for what we need at the moment (only disabling
+> > swap-to-disk usage).
+> 
+> The first milestone we just implement the reserved keywords without
+> the custom swap tier list.
+> That should be very similar to "zswap.writeback". Instead of writing 0
+> to "zswap.writeback".
+> You write "zswap" to "swap.tiers". Writing "none" will disable all
+> swap. Writing "all" will allow all swap devices.
+> I consider this conceptually cleaner than the "zswap.writeback" == 0
+> will also disable other swap types behavior. "disabled zswap writeback
+> == disable all swap" feels less natural.
 
->
-> >
-> > Instead we have:
-> >
-> > swap.tiers =3D=3D <swap_tier_list_name>
-> > swap.tiers =3D=3D "all" all available swap tiers. "zswap + swap file".
-> > This is the default.
-> > swap.tiers =3D=3D "zswap" zswap only, no other swap file. Internally se=
-t
-> > zswap.writeback =3D 0
-> > swap.tiers =3D=3D "foo" foo is a list of swap devices it can use. You c=
-an
-> > define your town custom swap tier list in
-> > swap.tiers =3D=3D "none" or "disabled" Not allowed to swap.
->
-> swap.tiers =3D=3D "none" or "disabled" means disallowing zswap as
-> well, correct?
+I implement a minimal version of the "swap.tiers" to replace the "zswap.writeback".
+It only implements the ABI level. Under the hook it is using the writeback bool.
 
-Correct, no swap at all.
+This patch builds on top of your V5 patch.
 
->
-> >
-> > "all", "zswap", "none" are reserved keywords.
-> > "foo", "bar" etc are custom lists of swap tiers. User define custom
-> > tier list in sys/kernel/mm/swap/tiers:
-> > ssd:zswap,/dev/nvme01p4
-> > hdd:/dev/sda4,/dev/sdb4
->
-> I don't have any major argument against this. It just seems a bit
-> heavyweight for what we need at the moment (only disabling
-> swap-to-disk usage).
+implement memory.swap.tiers on top of memory.zswap.writeback.
 
-The first milestone we just implement the reserved keywords without
-the custom swap tier list.
-That should be very similar to "zswap.writeback". Instead of writing 0
-to "zswap.writeback".
-You write "zswap" to "swap.tiers". Writing "none" will disable all
-swap. Writing "all" will allow all swap devices.
-I consider this conceptually cleaner than the "zswap.writeback" =3D=3D 0
-will also disable other swap types behavior. "disabled zswap writeback
-=3D=3D disable all swap" feels less natural.
+"memory.swap.tiers" supports two key words for now:
+all: all swap swap tiers are considered. (previously zswap.writback == 1)
+zswap: only zswap tier are considered. (previously zswap.writeback == 0)
 
-> I'll let other people weigh in about this of course.
-> Johannes, how do you feel about this proposed API?
->
-> >
-> > That would define two custom tiers. "ssd" can use zswap then /dev/nvme0=
-1p4.
-> > The exact name of the "swap.tiers" and tiers name are open to suggestio=
-ns.
-> >
-> > >
-> > > The first two are basically what we have for this patch.
-> > > The last one will be added in a future patch.
-> > >
-> > > This is from the userspace perspective. Internally, we can modify
-> > > memcg->writeback to be a pointer or a struct instead of this bool.
-> > > (as you suggested).
-> >
-> > Internally I would suggest memcg->swaptiers, the write back name is
-> > somewhat confusing. As your patch indicated. It has two situation:
-> > 1. shrinking from zpool to real swapfile. The write back is appropriate=
- here.
-> >  2. zswap store failed (compression ratio too low, out of memory etc).
-> > The write back is confusing here. It is more like writing through or
-> > skip.
-> >
-> > >
-> > > This way, the API remains intact and backward compatible
-> > > (and FWIW, I think there are still a lot of values in having simple
-> > > options for the users who have simple memory hierarchies).
-> >
-> > swap.tiers can be simple. For example, you can modify your patch to
-> > "swap.tires =3D=3D zswap" to
-> > set zswap.writeback bool to 0 for now. Most of your patch is still re-u=
-sable.
-> >
->
-> I'm less concerned about internals - that is always up to changes.
-> I'm a bit more concerned with the API we're exposing to the users.
-
-Me too. I think we are in agreement here. That is why I think
-"swap.tiers" is more general.
-
->
-> > I think we should discuss if we want to keep zswap.writeback in the
-> > future because that would be some code undeletable and functionally
-> > overlap with swap.tiers
->
-> This is a fair point.
-
-If you think we have the risk of not being able to obsolete
-"zswap.writeback", then it would be much better not to introduce
-"zswap.writeback" in the first place. Just have a minimal
-implementation of "swap.tiers" instead. I believe from the code
-complexity point of view, the complexity should be very similar.
-
-Chris
+Index: linux/mm/memcontrol.c
+===================================================================
+--- linux.orig/mm/memcontrol.c
++++ linux/mm/memcontrol.c
+@@ -7992,6 +7992,32 @@ static int swap_events_show(struct seq_f
+ 	return 0;
+ }
+ 
++static int swap_tiers_show(struct seq_file *m, void *v)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
++
++	seq_printf(m, "%s\n", READ_ONCE(memcg->zswap_writeback) ? "all" : "zswap");
++	return 0;
++}
++
++static ssize_t swap_tiers_write(struct kernfs_open_file *of,
++				char *buf, size_t nbytes, loff_t off)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
++	int zswap_writeback;
++
++	buf = strstrip(buf);
++	if (!strcmp(buf, "all"))
++		zswap_writeback = 1;
++	else if (!strcmp(buf, "zswap"))
++		zswap_writeback = 0;
++	else
++		return -EINVAL;
++
++	WRITE_ONCE(memcg->zswap_writeback, zswap_writeback);
++	return nbytes;
++}
++
+ static struct cftype swap_files[] = {
+ 	{
+ 		.name = "swap.current",
+@@ -8021,6 +8047,12 @@ static struct cftype swap_files[] = {
+ 		.file_offset = offsetof(struct mem_cgroup, swap_events_file),
+ 		.seq_show = swap_events_show,
+ 	},
++	{
++		.name = "swap.tiers",
++		.seq_show = swap_tiers_show,
++		.write = swap_tiers_write,
++	},
++
+ 	{ }	/* terminate */
+ };
+ 
+@@ -8183,31 +8215,6 @@ static ssize_t zswap_max_write(struct ke
+ 	return nbytes;
+ }
+ 
+-static int zswap_writeback_show(struct seq_file *m, void *v)
+-{
+-	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+-
+-	seq_printf(m, "%d\n", READ_ONCE(memcg->zswap_writeback));
+-	return 0;
+-}
+-
+-static ssize_t zswap_writeback_write(struct kernfs_open_file *of,
+-				char *buf, size_t nbytes, loff_t off)
+-{
+-	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+-	int zswap_writeback;
+-	ssize_t parse_ret = kstrtoint(strstrip(buf), 0, &zswap_writeback);
+-
+-	if (parse_ret)
+-		return parse_ret;
+-
+-	if (zswap_writeback != 0 && zswap_writeback != 1)
+-		return -EINVAL;
+-
+-	WRITE_ONCE(memcg->zswap_writeback, zswap_writeback);
+-	return nbytes;
+-}
+-
+ static struct cftype zswap_files[] = {
+ 	{
+ 		.name = "zswap.current",
+@@ -8220,11 +8227,6 @@ static struct cftype zswap_files[] = {
+ 		.seq_show = zswap_max_show,
+ 		.write = zswap_max_write,
+ 	},
+-	{
+-		.name = "zswap.writeback",
+-		.seq_show = zswap_writeback_show,
+-		.write = zswap_writeback_write,
+-	},
+ 	{ }	/* terminate */
+ };
+ #endif /* CONFIG_MEMCG_KMEM && CONFIG_ZSWAP */
