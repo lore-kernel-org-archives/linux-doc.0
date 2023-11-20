@@ -1,131 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WU9e64b7"
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67F39116;
-	Mon, 20 Nov 2023 05:49:33 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 143D220010;
-	Mon, 20 Nov 2023 13:49:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700488172;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7GFf2MmlZRbRryB9gq03P/QdrczVE9sVH3xjYJA5blE=;
-	b=WU9e64b7dxhhmS5tY3Ewf9DZhZ4FNQbEc1dqBCABIwKqcCTEGu3N5XUxqYFN6+1NwBXNmL
-	4K0FCzqi7f5BmNvus4CG5MVVkI424l1fUBhRVFGCAMGk9L5sWQilQuHGK+Dxl8QpDwO0ns
-	YxQzQQKvVzIk1c/q7yn4oIIrcGP4tI7+nZGRclVear2DMioqjTi7fvoj0KtQie5zIZjbwR
-	JvpDlLMWXFp8aNbILVoYqrx2asmCQTlgH6WDpTGQhX/QpU4kfMDDztRA0OhcflpcpqSYij
-	u6rH1gWnoPZYryN9ahnkBGNIP6acA8bIUvsQRn200q0fwWgqsrlfHN1p6XNBow==
-Date: Mon, 20 Nov 2023 14:49:29 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
- stamping layer be selectable
-Message-ID: <20231120144929.3375317e@kmaincent-XPS-13-7390>
-In-Reply-To: <20231120120601.ondrhbkqpnaozl2q@skbuf>
-References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
-	<20231114-feature_ptp_netnext-v7-15-472e77951e40@bootlin.com>
-	<20231118183433.30ca1d1a@kernel.org>
-	<20231120104439.15bfdd09@kmaincent-XPS-13-7390>
-	<20231120105255.cgbart5amkg4efaz@skbuf>
-	<20231120121440.3274d44c@kmaincent-XPS-13-7390>
-	<20231120120601.ondrhbkqpnaozl2q@skbuf>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="siMlOYcP"
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B508B113;
+	Mon, 20 Nov 2023 06:01:33 -0800 (PST)
+Received: from localhost (unknown [98.53.138.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4CA05537;
+	Mon, 20 Nov 2023 14:01:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4CA05537
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1700488892; bh=ZXzp3xho3YcWXFR16yxCrIjW/+bZNdVtNTHyia9WmDQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=siMlOYcP0KUqEDXAbCMHBgj3iC+VtsWd0csrPEHuV6DQCsm46yeBpDmoaDw+ztZUY
+	 +dZqwLN8qDb/GuFR4QqZgOQ9Eo4e+A8ycqO7826NrPe6bLMSjKOutLTRNC5ZZzC8UP
+	 d/dAdGxl/acgIgh+Yecn9kNgVs3RQ0BdfD3b1htVTKtqUYhijdVVsfC25fBnBK9J8g
+	 VFV9o9lxYb6dHyAvra+Tuw3M74i8cS3OKxi7vMhV0An7OCdYJhh//wCpy1qBZE6mwc
+	 xLa9eQtGrtglXaD8fgIqKFSCUcAXD76S9NUg6/i0omnoDAXhGth3A2z+q7yji/NS5E
+	 0T1dpQypu4vow==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sumit Garg <sumit.garg@linaro.org>
+Cc: jens.wiklander@linaro.org, vegard.nossum@oracle.com,
+ Rijo-john.Thomas@amd.com, balint.dobszay@arm.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org
+Subject: Re: [PATCH v2] Documentation: Destage TEE subsystem documentation
+In-Reply-To: <CAFA6WYNW_cAFVMTpqPQjwBASKDp_b=CpccCzx23jHn_+qoJrDQ@mail.gmail.com>
+References: <20231103061715.196294-1-sumit.garg@linaro.org>
+ <CAFA6WYNW_cAFVMTpqPQjwBASKDp_b=CpccCzx23jHn_+qoJrDQ@mail.gmail.com>
+Date: Mon, 20 Nov 2023 07:01:22 -0700
+Message-ID: <87y1es5xsd.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain
 
-On Mon, 20 Nov 2023 14:06:01 +0200
-Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
+Sumit Garg <sumit.garg@linaro.org> writes:
 
-> On Mon, Nov 20, 2023 at 12:14:40PM +0100, K=C3=B6ry Maincent wrote:
-> > > Does your UAPI proposal make it possible in any way to select
-> > > timestamping in phylib PHY A rather than PHY B? Or do you think it is
-> > > extensible to support that, somehow? =20
-> >=20
-> > It does not support it for now.
-> > I didn't want to base my work on his series as it could work without it=
- for
-> > now and I didn't want to wait to have his series accepted. It is more a
-> > future possible support as I don't have anything to test it and I don't
-> > know if such hardware exists right now.
-> > I think it will be extensible to support that, my thinking was to create
-> > this struct in net_device struct:
-> >=20
-> > struct {
-> > 	enum layer;
-> > 	u32 id;
-> > } ts;
-> >=20
-> > With id saving the phy_index of the PHY X used when the layer PHY is
-> > selected. This id could also be used to store the timestamp point in ca=
-se
-> > of several timestamp in a MAC. =20
->=20
-> Ok, and I suppose the "u32 id" would be numerically the same as the
-> ETHTOOL_A_HEADER_PHY_INDEX nlattr that Maxime is proposing?
+> Hi Jonathan,
+>
+> If you are fine with this destaging TEE documentation patch then will
+> you be picking up this patch? Or would you like Jens to pick it up
+> with your Ack?
 
-Yes.
+I'm happy to pick it up.
 
-> The next question would be: if a driver performs PHY management in
-> firmware, and does not use phylib, how should user space interact with it?
-> What timestamping layer and upon what should the ID be chosen?
+Thanks,
 
-In that case it could be the second options I refereed to.
-Using the id to select the right timestamp within the NIC driver.
-It indeed won't be called PHY timestamping as it is managed by the NIC firm=
-ware
-but as it is managed by only one firmware and driver using the id to separa=
-te
-the available timestamp seems a good idea.
-
-Another solution would be to create another value in the layer enumeration.
-PHY_NIC_TIMESTAMPING? Better idea? I am not good at naming.
-=20
-> Finally (and unrelated to the question above), why is SOFTWARE_TIMESTAMPI=
-NG
-> even a layer exposed in the UAPI? My understanding of this patch set is
-> that it is meant to select the source of hardware timestamps that are
-> given to a socket. What gap in the UAPI does the introduction of a
-> SOFTWARE_TIMESTAMPING hwtstamping layer cover?
-
-As I explained to Jakub:
-The software timestamping comes from the MAC driver capabilities and I deci=
-ded
-to separate software and MAC timestamping. If we select PHY timestamping we
-can't use software timestamping and for an user, selecting the MAC as
-timestamping seems not logical to use software timestamping (I got confused
-myself when I first dig into it long time ago). Be able to select
-directly Software timestamping seems appropriate and won't bring any harm. =
-What
-do you think?
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+jon
