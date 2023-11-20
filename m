@@ -1,159 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4666FAA;
-	Mon, 20 Nov 2023 11:43:22 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2c875207626so29253871fa.1;
-        Mon, 20 Nov 2023 11:43:22 -0800 (PST)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B10DC;
+	Mon, 20 Nov 2023 11:55:32 -0800 (PST)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9ff26d7c0a6so155005466b.2;
+        Mon, 20 Nov 2023 11:55:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700509400; x=1701114200;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1700510131; x=1701114931;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WoDQY8tzkpHkEpiRQUrc2MUWOLDGwsPrZjscsfAC4Bc=;
-        b=CKHLB+rrRCzojZxK4AcIAcau8Paa9nu+nEb0zXnC6qjIp56sKh8Rp2sHcGE+wn25mN
-         BTJMyfzx2bWiDUweOEX2/By00autxZHw1jFN9p06cXMKrvyq184XWHxor5QIclEbQfzt
-         8cSV1VBL3ebMbeKUN1WfdkzfGoOHYJGkgYLyMNhch0E/XbXhJF9pqQK8yhmyO938oF7E
-         sfIAwCqcBgcSgvn3PFEoIxEDTKXNKIISvC6EMnsyQsIKYlAxkv2y6lqbZokKQZwiSyek
-         /lOpQUUYbh3jJotY6Q3m9M3oEiraZKLIvZyX4snSM4YS7fgc3LO8c/pCdBZuqusWc17G
-         ZaRw==
-X-Gm-Message-State: AOJu0YxeNMj+THOLWAeuRjGg/aGXMe9KV/D+1S0m0Ocvr4Mj4uRWSYZ3
-	WsZsF8y26WKDyoVTkbs+ga8=
-X-Google-Smtp-Source: AGHT+IFgP9xwbAn+TkemJm6kqzasJzlvxUci/1NJbwtda3ur0jxfbWqOdV5Xw2lCvTNCnJ7Bf2qfkA==
-X-Received: by 2002:a2e:9015:0:b0:2c8:3613:d071 with SMTP id h21-20020a2e9015000000b002c83613d071mr5751720ljg.36.1700509400076;
-        Mon, 20 Nov 2023 11:43:20 -0800 (PST)
-Received: from localhost ([137.220.119.58])
-        by smtp.gmail.com with ESMTPSA id j33-20020a05600c1c2100b0040772934b12sm19201399wms.7.2023.11.20.11.43.19
+        bh=ILX+BJpjSKYXyXiiLjvfzvXA9fZPPfuyaLaXpQSKHWM=;
+        b=RbtATF23pvNfujJupUgp4mskaXmmjIB52o8DAY7x3nHguFXPsprOTv7YHbvyvH0hEy
+         P34IDysQ7komM2bAI7wMyqpvggJuS8APiDsQqpGuPH3Wr7y1ScDB3VN0OqEpLZXybHvb
+         LINWSqg53iPclDagv8aroALZPQr92d5jg2InaAwsb68ZkqwKHINj68brBqwYMghTaPq6
+         emSAsIrH2nXdtso2f1GPvZxFxy6VMcYA78/dWxJCTxlkMlm3BQUxIMfphTnTTU/9D/k7
+         nEe/sLswyxLs8+gdiLd9RBbxVqgiKmX6wzJFz5az37ukzNLqwr7zKvp1XtQxyaZajuH5
+         kAEA==
+X-Gm-Message-State: AOJu0YyPLA2q2YAxLT67pzmEz3iu19o7qmRMSPhrXpYtBiKCB6Ppez9G
+	m8DnbDtJuGHXMJ7TD9LDuLc=
+X-Google-Smtp-Source: AGHT+IEYRfWhaOPydo+cJgCSvFCQt4lgNST+TChjxonxA7gTVymXUZgohZHxW4c0vvnFlSJRyT5ghg==
+X-Received: by 2002:a17:906:c80a:b0:9fd:cc75:3393 with SMTP id cx10-20020a170906c80a00b009fdcc753393mr3467635ejb.20.1700510130713;
+        Mon, 20 Nov 2023 11:55:30 -0800 (PST)
+Received: from gmail.com (fwdproxy-cln-022.fbsv.net. [2a03:2880:31ff:16::face:b00c])
+        by smtp.gmail.com with ESMTPSA id e2-20020a170906c00200b009fb1c3ce877sm2726104ejz.76.2023.11.20.11.55.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 11:43:19 -0800 (PST)
-Message-ID: <ea1a678bdbfe5c492aa494d93476bb18e6dfec5e.camel@debian.org>
-Subject: Re: [RFC PATCH 1/2] Modules: Introduce boot-time module signature
- flexibility
-From: Luca Boccassi <bluca@debian.org>
-To: Luis Chamberlain <mcgrof@kernel.org>, Alessandro Carminati
-	 <alessandro.carminati@gmail.com>
-Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-security-module@vger.kernel.org,  jan.setjeeilers@oracle.com,
- linux-efi@vger.kernel.org, ardb@kernel.org
-Date: Mon, 20 Nov 2023 19:43:17 +0000
-In-Reply-To: <ZVeyDDLe9B+Aij2O@bombadil.infradead.org>
-References: <20230914112739.112729-1-alessandro.carminati@gmail.com>
-	 <20230914112739.112729-2-alessandro.carminati@gmail.com>
-	 <ZVZS4hw5dGB4aPz3@bombadil.infradead.org>
-	 <CAPp5cGTcRGp3z=xbA1svxLYz1LC74_AQrTPSXNmACPRYrpporg@mail.gmail.com>
-	 <ZVeyDDLe9B+Aij2O@bombadil.infradead.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-WhGM6ktWMElK5x6aVvyJ"
-User-Agent: Evolution 3.46.4-2 
+        Mon, 20 Nov 2023 11:55:30 -0800 (PST)
+Date: Mon, 20 Nov 2023 11:55:26 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: leit@meta.com, Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	donald.hunter@gmail.com, linux-doc@vger.kernel.org,
+	pabeni@redhat.com, edumazet@google.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: Document each netlink family
+Message-ID: <ZVu5rq1SdloY41nH@gmail.com>
+References: <20231113202936.242308-1-leitao@debian.org>
+ <87y1ew6n4x.fsf@meer.lwn.net>
+ <20231117163939.2de33e83@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231117163939.2de33e83@kernel.org>
 
+On Fri, Nov 17, 2023 at 04:39:39PM -0800, Jakub Kicinski wrote:
+> On Fri, 17 Nov 2023 15:17:02 -0700 Jonathan Corbet wrote:
+> > In principle I like this approach better.  There is one problem, though:
+> > 
+> > - In current kernels, on my machine, "make htmldocs" when nothing has
+> >   changed takes about 6s to complete.
+> > 
+> > - With this patch applied, it takes a little over 5 *minutes*.
+> > 
+> > Without having delved into it too far, I am guessing that the
+> > unconditional recreation of the netlink RST files is causing the rebuild
+> > of much of the documentation.  Even so, I don't quite get it.
+> > 
+> > That, clearly, would need to be fixed before this can go in.
+> 
+> FWIW on the C code-gen side we avoid touching the files if nothing
+> changed both at the Makefile level:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/tools/net/ynl/generated/Makefile#n28
 
---=-WhGM6ktWMElK5x6aVvyJ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I was able to do something similar and it works quite well. Only
+regenerate what is not up-to-date. See below what I am doing. (I needed
+to change the python to adapt)
 
-On Fri, 2023-11-17 at 10:33 -0800, Luis Chamberlain wrote:
-> On Fri, Nov 17, 2023 at 02:56:53PM +0100, Alessandro Carminati wrote:
-> > Il giorno gio 16 nov 2023 alle ore 18:35 Luis Chamberlain
-> > <mcgrof@kernel.org> ha scritto:
-> > >=20
-> > > I see the code which skips module signature verification and the knob=
-s
-> > > but I don't see the code which complete the promise to do the actual
-> > > signature verification post initrd / initramfs state. What gives?
-> >=20
-> > My initial intention wasn't centered around providing an automated solu=
-tion.
->=20
-> It is not even an automated solution, it's *any* solution. So to be
-> clear your patch simply disables module verification, it has no
-> solution.
->=20
-> > Instead, I envisioned a design where users could manually restore modul=
-e
-> > verification during a specific point in their init scripts.
-> >=20
-> > It might be plausible to restore module verification when the rootfs is
-> > remounted. However, this seems limiting rather than advantageous.
->=20
-> The patch as-is describes a lofty world and does nothing other than
-> disables module verification. If a patch disables module verification
-> it should just do that and describe that. Nothing else. The subject
-> of the patch tends to suggest some flexibility it provided but does
-> nothing of being flexible, it outright disables module signature
-> verification. The commit log and the patch subject description are
-> describing something completely different than what the code actually
-> does, and it gives me to the concern, to the point that if you didn't
-> have a few commit logs in the kernel I would have thought your intent
-> was test kernel developers with some AI type of code that does something
-> stupid and very carefully crafted commit log.
->=20
-> Nacked-by: Luis Chamberlain <mcgrof@kernel.org>
->=20
->   Luis
+> And the tool itself actually generates to a tempfile and compares
+> if the output changed:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=2b7ac0c87d985c92e519995853c52b9649ea4b07
 
-Hi,
+I am not planning to do it, since I would like to trust Make. Let me
+know if you think this is important and I can do it also.
 
-On top of that, this change would go counter to the security posture
-that is established by the Lockdown LSM, especially when UEFI Secure
-Boot is used. While it would be great if initrds were only ever read-
-only, signed, and verified, the reality is that on all general purpose
-distributions in use today the initrd is writable by root, and the
-kernel command line is also writable by root.
+--
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2f35793acd2a..dad6e2ecf082 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -97,7 +97,22 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+                cp $(if $(patsubst /%,,$(DOCS_CSS)),$(abspath $(srctree)/$(DOCS_CSS)),$(DOCS_CSS)) $(BUILDDIR)/$3/_stati
+c/; \
+        fi
 
-E.g.: on Debian, one just has to edit /etc/default/grub, run a command
-and at the next reboot arbitrary kernel command line parameters will be
-applied, including this one, and combined with adding an arbitrary
-kernel module to the appropriate path this becomes, de-facto, a uid0-
-to-ring0 privilege escalation avenue, which is something the secure
-boot + shim + lockdown workflow tries very hard to avoid.
-
-While there might be room for such features (e.g.:
-https://docs.kernel.org/admin-guide/LSM/LoadPin.html ) in very specific
-and defined environment or use cases, at the very least there needs to
-be:
-
-- the mechanism to lock it down again very early at boot as indicated
-in the cover letter, which is missing as pointed out by Luis
-- a kconfig governing the availability of the new kernel cmdline
-option, disabled by default
-- ideally a check or hook into the Lockdown LSM, so that it can stop
-the new kernel command line option, if enabled at build time and if
-specified, from actually working when secure boot is enabled, or at the
-very, very minimum taint it
-
-Then users wanting to use such a performance optimization will be able
-to do so in their own special purpose builds, without negatively
-affecting the security story of generalist distributions.
-
---=20
-Kind regards,
-Luca Boccassi
-
---=-WhGM6ktWMElK5x6aVvyJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEErCSqx93EIPGOymuRKGv37813JB4FAmVbttUACgkQKGv37813
-JB5Zyw//Z6kmw2oyyN3baObMYxcX7XlurZnC+rfom0nnnEsICtoxiQb/6o7AOhOh
-5yvG7/I31HacifkXgGRsVc6dowjawZqz5KI92pRrix4tO0O4zmJ43CaKWMvdO0mU
-5i38sc7vrzMKjlKmyqbKNSxmlfpgnbrGi8lMbm/Jh4QIFvUSv94RuNgvdiDW/OP+
-bIrdf55UlS3TdUznrbA8BEAePravcDY8f0KYUIpL2ESau0MWig+n9PUhe5nvsD0E
-j857IH6u9UfEsO6ZbbQnoHnzHxGMJJB3fH5ALOyu5NvDnab5wHtLarSwQneLasUw
-I3bxlUihdwuQIEKTDwNlRFcMwigCh0rww4MeEHUdaleLkHnyxdLWop748L/oBAhI
-60cEb5eUjRomA8K4Eewd0YNgk2ipToHiTiaDW/3coxhCdiLhEOFOAMAGT4Z0wEi1
-Icc/rGOG9lnRDRbjkjBHxFXCZG8rKnfQydnCW1bPQ+ieZ5EnG39DwWbY6cZoUST4
-ggCy063nKyhFu7RYSbXMAbllLkNhOK/LIPOjA08PuZknAQFDryYJh4SyPMK9uVBp
-4431vs3sANoXi9u2rSzwEWJqcBC8CpO8B/94+Gg2bzXFKB0YkOLLqwKWKs377rYT
-FjK8cCylT7OHwAVjMTaMszJViUfABVXg2sPLYaUnQGesRE7U/Yc=
-=50E8
------END PGP SIGNATURE-----
-
---=-WhGM6ktWMElK5x6aVvyJ--
+-htmldocs:
++YNL_TOOL:=$(srctree)/tools/net/ynl/ynl-gen-rst.py
++YNL_YAML_DIR:=$(srctree)/Documentation/netlink/specs
++YNL_RST_DIR:=$(srctree)/Documentation/networking/netlink_spec
++YNL_INDEX:=$(srctree)/Documentation/networking/netlink_spec/index.rst
++
++YNL_YAML_FILES := $(wildcard $(YNL_YAML_DIR)/*.yaml)
++YNL_RST_FILES_TMP := $(patsubst %.yaml,%.rst,$(wildcard $(YNL_YAML_DIR)/*.yaml))
++YNL_RST_FILES := $(patsubst $(YNL_YAML_DIR)%,$(YNL_RST_DIR)%, $(YNL_RST_FILES_TMP))
++
++$(YNL_INDEX): $(YNL_RST_FILES)
++       $(YNL_TOOL) -x # Generate the index
++
++%.rst: $(YNL_YAMLS_FILES)
++       $(YNL_TOOL) -i $(patsubst %.rst,%.yaml, $(@F)) # generate individual rst files
++
++htmldocs: $(YNL_INDEX)
+        @$(srctree)/scripts/sphinx-pre-install --version-check
+        @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
