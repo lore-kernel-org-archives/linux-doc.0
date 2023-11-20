@@ -1,101 +1,90 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="sqnGbTdI"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 867E2F5;
-	Mon, 20 Nov 2023 08:18:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6SCBZOZz6Qup6QX990ipAzjI1yY+8rbPKPGIJ6ySC0E=; b=sqnGbTdIP9eiY5KVdCOGH68mSL
-	OorK3g1mxqMHwNbBHJzmZcfhye06oLl9D7b2ucdzEubIu2uN7K/5btywoIHQon63OGbQX4+wib9Y0
-	r9zZuYEbWzRCNaP121etnyiXDueFvlXYvvlkeNTypWFZwyy8op+KMUUZngzSk1XGQ4IxW3ZeMthf8
-	5ixyIDuhokIU0GdZN3HQWBTnwNcHgBq2DUB4cg6QYKA60cU5qbduXITs9IXyoSTZKDlB6In1gUdX0
-	f5Z1V/OzX5wWjziNXN4L1CR1jORspQPJOx6eF2drxgSc3r6HJJ4aGkG8bunfLvS9YbYcUawr3B8ZP
-	5uoezByg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57710)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1r56yN-0005rP-1I;
-	Mon, 20 Nov 2023 16:18:07 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1r56yN-0003JU-GV; Mon, 20 Nov 2023 16:18:07 +0000
-Date: Mon, 20 Nov 2023 16:18:07 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jie Luo <quic_luoj@quicinc.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, hkallweit1@gmail.com, corbet@lwn.net,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
-Message-ID: <ZVuGv2005eaw+R6u@shell.armlinux.org.uk>
-References: <20231118062754.2453-1-quic_luoj@quicinc.com>
- <20231118062754.2453-4-quic_luoj@quicinc.com>
- <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
- <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
- <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
- <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
- <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lXCLjvmP"
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C76494
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 08:21:40 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-66d0c777bf0so14327156d6.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 08:21:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700497300; x=1701102100; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y+cEjF8yivWHKRs1/Mvbzeyp4gbt9nPyK/LY9ULoheM=;
+        b=lXCLjvmP+CHaGpri4tFOQW6WKQONMR0Hlj0xoKc+oBLJmkfw+x7efIkl/qg6tUM5Fk
+         JToiIyL9aubHpv4y4so+Th1PFanvrm/geMUndoVu9oItTH3zc79uGmoSzVGkzZpm+RSO
+         6jcNzG5/VwyLl/U39ovk7sIE/6EsyRknioCytjNN1sOLiLCnA+b/nJlH98aYdMjLBeVa
+         MI89Nj+2MZDwC5r0vKiPozQUfbg/aBafhh1CPrUQ1RRfEC/AUM8gqcaxdnQcWCwbOTWA
+         XLV5rb8CIk51fXDaw1csBzpJemRWLAs0REoM2HISUPc6hrNnIPqxwjGN5cQFX6jV/S1m
+         t0yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700497300; x=1701102100;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y+cEjF8yivWHKRs1/Mvbzeyp4gbt9nPyK/LY9ULoheM=;
+        b=iYazdc/62Yxqg8eLAQ15ylYa+vqhjNi6H50uWM0/YX67+Uo6gFG0az5g4SPwB8VHsw
+         dCSGmyb7jWXmyvdbuGgllnm7B+MynY4w4ZPyux5UDhprZWWGLzVvpcuTy2NmsfWN+i6f
+         d+L/YgPXnMBFKCvsb5MVSLBJyq02OFXx2SSsPyHZrS3q/Qg5aiIDxIQTV+6Il6vnxELI
+         jV78IBYRfgQDrxLHXwJfegbw9Fc9ppUwch8wyLhP0IzuwIK6q5guZumU28ei30zdQnKe
+         fqdJTF25Ae0bYsCitK42cWA3BOGbingsAOlAt73fHBEMcgPQDbBttJvM3BWRNmxy47ZL
+         kjcQ==
+X-Gm-Message-State: AOJu0YybgqZY2B6wf3v+Kon7m6QIZrANwh3AnG7O8i3T7fZkCwu/sLqC
+	rZdT31co2i5029tD42DtPNpy6yCC4m0bMhpAq//K6g==
+X-Google-Smtp-Source: AGHT+IEtPYBbq49KqVNQjGJ/GDDR3Gw4BTcMZhzzT9PPj/JSL5e5Zf0eXOFkX/x3KPc5URlWDs3TZ7+JKzHJiRKIMzs=
+X-Received: by 2002:a05:6214:c49:b0:66d:6afb:ba5d with SMTP id
+ r9-20020a0562140c4900b0066d6afbba5dmr9779202qvj.24.1700497299711; Mon, 20 Nov
+ 2023 08:21:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20231103061715.196294-1-sumit.garg@linaro.org>
+ <CAFA6WYNW_cAFVMTpqPQjwBASKDp_b=CpccCzx23jHn_+qoJrDQ@mail.gmail.com>
+ <87y1es5xsd.fsf@meer.lwn.net> <CAFA6WYN7ZB0Sgc0gB1rQhhirjoOEeyp2Uokzpwy-KFQ_aJQEVg@mail.gmail.com>
+In-Reply-To: <CAFA6WYN7ZB0Sgc0gB1rQhhirjoOEeyp2Uokzpwy-KFQ_aJQEVg@mail.gmail.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Mon, 20 Nov 2023 17:21:28 +0100
+Message-ID: <CAHUa44EqH+_+CbXAAdW=xGpFm8DCB=fhrFZcXgs1OdW7VRJ6-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: Destage TEE subsystem documentation
+To: Sumit Garg <sumit.garg@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, vegard.nossum@oracle.com, Rijo-john.Thomas@amd.com, 
+	balint.dobszay@arm.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, op-tee@lists.trustedfirmware.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 20, 2023 at 04:34:55PM +0100, Andrew Lunn wrote:
-> Are you saying there is a USXGMII-M level link change status? The link
-> between the SoC and the PHY package is up/down? If it is down, all
-> four MAC-PHY links are down. If it is up, it is possible to carry
-> frames between the SoC and the PHY package, but maybe the PHYs
-> themselves are down?
+On Mon, Nov 20, 2023 at 4:35=E2=80=AFPM Sumit Garg <sumit.garg@linaro.org> =
+wrote:
+>
+> On Mon, 20 Nov 2023 at 19:31, Jonathan Corbet <corbet@lwn.net> wrote:
+> >
+> > Sumit Garg <sumit.garg@linaro.org> writes:
+> >
+> > > Hi Jonathan,
+> > >
+> > > If you are fine with this destaging TEE documentation patch then will
+> > > you be picking up this patch? Or would you like Jens to pick it up
+> > > with your Ack?
+> >
+> > I'm happy to pick it up.
+>
+> Thanks.
+>
+> Jens, can we get your ack here for Jonathan to pick it up?
 
-It shouldn't do. Each "channel" in the USXGMII-M link has its own
-autoneg block at both ends, each conveys link status independently.
+Sure:
+Acked-by: Jens Wiklander <jens.wiklander@linaro.org>
 
-The MAC side structure is:
+Thanks,
+Jens
 
-
-                            +----------+                +-----+
-                    .-XGMII-> Rate     |    PCS         |     |
-MAC1 <-MDI-> PHY <-+        | Adaption <--> Clause 49 <->     |
-                    `-GMII-->          |                |     |
-                            +-----^----+                |     |
-                                  |                     |     |
-                            +-----v---- +               |     |
-                            | Autoneg   |               |     |
-                            | Clause 37 |               |     |
-                            +-----------+               |     |
-                                                        | Mux <--> PMA <-->
-                                                        |     |
-                                                        .......     USXGMII-M
-
-<------------------------------------------------------>
-      These blocks are repeated for each channel
-
-The spec goes on to state that there must be a USXGMII enable bit that
-defaults to disabled and the PHY should assume normal XGMII/XFI
-operation. When enabled, autoneg follows a slight modification of
-clause 37-6.
-
-As far as the USXGMII-M link, I believe 2.7.8 in the USXGMII-M
-documentation covers this, which is "hardware autoneg programming
-sequence". It states that "if 10G link is lost or regained, the
-software is expected to disable autoneg and re-enable autoneg". I
-think "10G link" refers to the USXGMII-M connection, which means
-the loss of that link shold cause software to intervene in each
-of the PCS autoneg blocks. It is, however, rather unclear.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+>
+> -Sumit
+>
+> >
+> > Thanks,
+> >
+> > jon
