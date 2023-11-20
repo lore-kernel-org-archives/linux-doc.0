@@ -1,219 +1,402 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="HnQurvJn";
-	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="eU7ALEdM"
-X-Greylist: delayed 857 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Nov 2023 03:22:50 PST
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com [185.132.180.163])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B3669C;
-	Mon, 20 Nov 2023 03:22:50 -0800 (PST)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
-	by mx07-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AKANcX4018182;
-	Mon, 20 Nov 2023 11:07:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
-	from:to:cc:subject:date:message-id:references:in-reply-to
-	:content-type:content-id:content-transfer-encoding:mime-version;
-	 s=dk201812; bh=gT9aEPkhkumDYCVozRemYeDZn3M4lWFebjHMbHqcLvM=; b=
-	HnQurvJnyjVQBuMorvt2HWI09mCHDNLVphNvKd2FmOjHValQOvcCxdMEs16YTfU7
-	F+1QK+F+GA5whrCEf3GUc+azXP0bDtdw9iZjNRP+h4F3mnh84lFn6pQ3ODBzp17w
-	sf2xc0/G6sWzXDrsYTaqYZZEp4sFCZPVcIN6TGOzY6aFuMNgFd9/Hml1lXcp9t5x
-	sRp45H6/ZAWWJctw2+Amxe/u96vCOlUy1S6c27YYvzQiQpupMqCnvaY8+LOSNy1Z
-	I0skNvr/ubsK/2KEavXa2i0sCOAu/4dHeI3Yw1zpnESzdypTndBQsogFwHjhoLH2
-	l1hiyzMUn3dfAbJnY94X7g==
-Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
-	by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3uep7whcrr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 20 Nov 2023 11:07:39 +0000 (GMT)
-Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 20 Nov 2023 11:07:37 +0000
-Received: from GBR01-CWX-obe.outbound.protection.outlook.com (104.47.85.40) by
- email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34 via Frontend
- Transport; Mon, 20 Nov 2023 11:07:37 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dAdn3PYbudDShca67MUuU6LbNw5bskvcnqozvPrlTdZw09l8amcunV3gWSKys3vnPBK0qtAB+xBZe9Gs4XFyU1zP8cFT+axKJlck1v1PeQmnVr/0qyeSmeSInrTqbUGzZ7raMDgoHmTFnDScbzLTdE8FohY32hTKR1WEN5IDqAx3KvdiICnWIRs/8/wK1RuJPXE4T7FvXcgh7ZgWCcrqQ+v7GLv17V9o0KURn5l3rW3pt9wFv7vs3tdyHGXLU0VRZed9qZMXgSVB2w4EVG5psYQyttQg6ZTjp0xLwzITXFocfDfGyTX3uFbvrhBnpatS8oRGrF24kpkFw92P6yKboQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gT9aEPkhkumDYCVozRemYeDZn3M4lWFebjHMbHqcLvM=;
- b=GG/aDzkmQ7j9KOhyBEulnkbYZtbDJvE7fHrxXRAkNxXxpHaeC6r+3ygxU7Rx4VRMxoFZWVXqTMZVj1AaYP/K7QFxCGTI1XmSX2yebs5SCbEkWv5qH/0wP4PlY80zXMyCsHOBHT0EF2pz9ZJ8G/VR4jseqKsW8ea3rduY5CDH4lT5iRjOb6K8F8av8eZRtbaa+sFkw9/HjVwvy7R/E9dSKV/MVNkJNoEukk2YIquc4Il/vlz2ywbSaDR97sWKiSzZf+eDZCXn+LgsT+y3Ka0eVPAR9QEcsUVHLEe1cVgkw5a3KejEjRiMpvN7MXToqYE/QYjh6LH1SiEw0oScwwID0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gT9aEPkhkumDYCVozRemYeDZn3M4lWFebjHMbHqcLvM=;
- b=eU7ALEdMCjm5a730hFfhrr4kDslnR63Sdc36ZxTMTlWzX3+ADjX/fKfsuVV5OyzDqYs/iqKk0eiVbcNfLZltmo68q/JCJQ89T3GVNUWjB4nt1pAWu7IUxh2spHJHj21vfC391e4DfjC81TTGpr47aNJfrMVSbzX5gcC+JUrUrkU=
-Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a0::8)
- by LO4P265MB6076.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:299::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Mon, 20 Nov
- 2023 11:07:36 +0000
-Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
- ([fe80::a85a:76f7:c085:2b34]) by CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
- ([fe80::a85a:76f7:c085:2b34%3]) with mapi id 15.20.7002.027; Mon, 20 Nov 2023
- 11:07:36 +0000
-From: Donald Robson <Donald.Robson@imgtec.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "dakr@redhat.com" <dakr@redhat.com>,
-        Sarah Walker <Sarah.Walker@imgtec.com>
-CC: "corbet@lwn.net" <corbet@lwn.net>,
-        "luben.tuikov@amd.com"
-	<luben.tuikov@amd.com>,
-        "christian.koenig@amd.com"
-	<christian.koenig@amd.com>,
-        "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>,
-        "tzimmermann@suse.de"
-	<tzimmermann@suse.de>,
-        "hns@goldelico.com" <hns@goldelico.com>,
-        "matthew.brost@intel.com" <matthew.brost@intel.com>,
-        "afd@ti.com"
-	<afd@ti.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-        "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
-        "mripard@kernel.org" <mripard@kernel.org>,
-        "conor+dt@kernel.org"
-	<conor+dt@kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>,
-        Frank Binns <Frank.Binns@imgtec.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "airlied@gmail.com"
-	<airlied@gmail.com>,
-        "faith.ekstrand@collabora.com"
-	<faith.ekstrand@collabora.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v8 02/20] drm/gpuvm: Helper to get range of
- unmap from a remap op.
-Thread-Topic: [EXTERNAL] Re: [PATCH v8 02/20] drm/gpuvm: Helper to get range
- of unmap from a remap op.
-Thread-Index: AQHaDAzFKiN2K/JpiUWrE4UFh12xELB6GwYAgAkQaIA=
-Date: Mon, 20 Nov 2023 11:07:36 +0000
-Message-ID: <60fb969e2faae2137c48e8840ca31626f9a403d8.camel@imgtec.com>
-References: <20231031151257.90350-1-sarah.walker@imgtec.com>
-	 <20231031151257.90350-3-sarah.walker@imgtec.com>
-	 <e517d560-3a1f-4e79-9bec-acdc77784bcd@redhat.com>
-In-Reply-To: <e517d560-3a1f-4e79-9bec-acdc77784bcd@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWLP265MB5770:EE_|LO4P265MB6076:EE_
-x-ms-office365-filtering-correlation-id: c754bef5-2225-42f6-efd3-08dbe9b8e713
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RpJTosNYr7bfc2a7STcHWET61mZGv94sbRysgKdrdshcPbX5tdQv7J7iuOF1qspOWV2AVXtgMqc8Y2OAVr8+pEBZaazpDnLTNC9pAF5y+Z9dCHK+tjfQ1Yr3c/XWZpC5SaOIrgfD1BpymxobyC8ncG0U+6Cn/U3cT2bNJosST/AzmI/34lJwnYPEsBrbOKi0WryZ7PlcLGeDgLrAwUfN+qbG0qOTghNS+OhuqoXXSUf+S/pJhUrJDKqbXFvo6uNwVJTs7lMJMivqOaPoEC38+KPtCMKJPXwSLRwkLnv/MAY0IenBVmziBw0zL5RpzoLiDLt+k/WxtxRqYUlFOP+Ani/mk3AQ16bQzB1p8XMlBNb712pSdDVkT+6R9gdXffKKlhSVG1eKQt9or4LJ2F+TPZzkRTTFFK/DUlltXcOM2o5TdSxjdnmy7P1CktTbyQt/WcgVp+VoW77AzVZdP7hb5bq4VaL91dCOHvC+mMPSwZQxBgPMbHi/i7R3GQKM9I3OfkHU6C1AHodyPAQv7Q0kOkWpeSIugeRq3rLjioGZ3ARD+HjuCtZzf0ggmoR1ABH+GIbFk+hGpUG+nsFR8gJml6ubASR+p/Au2D5YrKAGWfMLj11uQNHpZbvBTRan8440BClms3PtLA7A1r6/1FFPWhZp4ipPiUXw/8dOEcEmX+o=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(346002)(39840400004)(136003)(396003)(376002)(366004)(230273577357003)(230922051799003)(230173577357003)(451199024)(64100799003)(186009)(1800799012)(316002)(6636002)(110136005)(91956017)(54906003)(66476007)(64756008)(66946007)(66556008)(66446008)(76116006)(53546011)(36756003)(6512007)(71200400001)(6506007)(2616005)(26005)(38070700009)(6486002)(478600001)(38100700002)(122000001)(86362001)(4001150100001)(2906002)(7416002)(5660300002)(8936002)(8676002)(4326008)(41300700001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Nk94ZEFmUWZUZnJLekRCTlA1Wng2OE8rK0pFck5nOXN6MWhmQmlQbjk5Wk16?=
- =?utf-8?B?WVhpM1Zjc2hLTDdJVnVvNWlWaGM3VTBZOFJQejd6YjNyZllKNjcxVVkzRlVL?=
- =?utf-8?B?dE1DZDhybDE0bEc3TlUrVkptYVNTNVpSWnJkSm9hOW5lYjE4VzA1ZHBYWHhM?=
- =?utf-8?B?T1hqSGJvMUdHMVc3S1R5MVNQNzdBRm82RHRxRWc3L0Vpb3dLNmZVcnVjLzZZ?=
- =?utf-8?B?WlRzMk9kcTdQM2Rzc2NnZjNTcndaQXlCV2pmeWtBWWpEMEYwbVRNT01HdzE5?=
- =?utf-8?B?eU1DRThoMG1ucElFMHZBNTN4K0NMNVFVRis3ZGE1TDZyTTMwYkl3M21qYzZq?=
- =?utf-8?B?bjVHRy9OVndIMXhRTjJMeGpIM09aNkdvd1BHRTlrWVJoNkpmRDBqUEduWHBZ?=
- =?utf-8?B?c3plSnVVdkdhR3ZwaDh1R2xGd3VoVFhNaDltTVQ2enJUaXFzdFN2Wi9DR2o0?=
- =?utf-8?B?bkcySkxQWTNva3p0bDRtSXpNaW0rSFZhNTVXM0FTczk5eDJuU2d0UXBwMU1E?=
- =?utf-8?B?N05USmQrOSs1S3lxOE9PZWpLK08veiswekp5d2ZlRnprcGUzZmYzb2dpWVor?=
- =?utf-8?B?MDJTekRjVVcrNzlHMGJubVJ4YzR1S3VkdFRTTzh2QUVNUUNscnJvQzBXbElY?=
- =?utf-8?B?WWNMeEhVMnNhTUFoQTIxNStwVkhSTDVjdHFMZnFDRFpUZDFLZ3FSSXlyTlhE?=
- =?utf-8?B?MHpQcGlhSkY3MWwrV3FaM3RLd0pKaVh1WkhqYjVtQ0dKVmg2WkZrTXoxNjd3?=
- =?utf-8?B?c0RyQ3ZNa2hpS3JGeEN2cG1hU0liT3JJKzNvSVE2Q05jaFA3ZStaTjd1QUdH?=
- =?utf-8?B?V2dJeEZuZ3Fmb0syYWc2T1RpcEZkY1dXaEdLU3B3cDdJdjlmelVpYUE0UlBv?=
- =?utf-8?B?ZXBrVHhyVWxtQUJDaXpUdTliWG9Ba29LUGhYaVQzQ2t2T1lRYU15MmdpK05j?=
- =?utf-8?B?TW5CZDc4dGRrdkU1TE1kK1Z5Rm9oSFVOUmlySlJodnNEbERRRFgrTzB3ZXRt?=
- =?utf-8?B?cUgxQmhVZnlxcDVjQW83aUtVVGQ5cVVtTmdacERGb05KenYwcFVOMFduOS9N?=
- =?utf-8?B?QzVKSE0rYXlFQy95L21BNGc2enFSb243aHpvOTFBUk1ZOUVXVGhPY2FmQ2lr?=
- =?utf-8?B?ZTc4dEVKVmlsOFh4eDZVVGhjUzZOdkc3VEExTEYzRXRhd1ZiNjZneWorc3BQ?=
- =?utf-8?B?Vmx0SGRiNU16ZnV0ZkZRQittdU9OL1BEdFVibFA3N2Z1ejZlOHF0aG9kVWZ3?=
- =?utf-8?B?UFBwU1RrNm13OHdrdk9teUVmd1lqYlZGS3dEYVdzVHlDV2NsU0c3c2ZBdmNO?=
- =?utf-8?B?ZktGSzZIelRsVW1nVGFwZHNSV2NHazJHdkhPaUhmS213RFdXZjR2OG4zTTFy?=
- =?utf-8?B?OVRBYmRYcTR5ZWlTS2ZaV0lNRXMwbExaRk9KSEwvNVRqL1pNakRxZjJqc2dU?=
- =?utf-8?B?RGUzTTlXekEvMXloY1F5WnA5MTFFM2JQSFFwVEplaW5zck9Ra3lENDZqekx5?=
- =?utf-8?B?cFVXVXZCUFlGcVNvb3E5Y2tnYkEwQk1jeEsrbmp5M2Irb1dzMWZLcnJNT0tW?=
- =?utf-8?B?VVlBZkovQVNZOXA3SjdTWDgvMXJCbnBLWFdwK1ZFODVKV3lSWTdDemdiaWdG?=
- =?utf-8?B?WUNYb3lNc2k1cmtmNERTN1piSXg3WCtIT1I1VklESkV1OXlkQlgweDg3NnB2?=
- =?utf-8?B?NlljV1hKYmp5bnp3RXI4eGpQMlNFdy9iNFVrdHFFOVhvaEZCTUdBSncxNUV1?=
- =?utf-8?B?cVJ2OG9VL0NCbzJmY2hJTTBEdm9kN0x0b0ZuNXQrT095YXFucm9OK2F6bStF?=
- =?utf-8?B?ZzBJSXgxZStlNTdwRTlHVFRyR1l0M2wycEs4NUNqVTIxR2NxbXI0eUxDVW5n?=
- =?utf-8?B?R3JSTys2U3NaTGQ0aFA0azhRQnRaNmJQUUY3WUxFeEFnbWhDNDBaaWtleGNU?=
- =?utf-8?B?d0tBNkhYV1BKTEZoc0wzKzd0bVppa2VLWG9qQjRNWndyclpNeXVxSlYvRURO?=
- =?utf-8?B?T1l1dkxzVVUyUC85TmZ0ZzA5SnJNQ3FrenBLRlZjNlM4eDFUckNEcWdWc1hp?=
- =?utf-8?B?NGhkMU94V0VJRUNaaHhWbDh0VEE0UWp4K2Y4MXdUeFdXZzZTSkdZUFlueGxY?=
- =?utf-8?B?RGMrSEtORTNMYlVzWnNXODVlVnlxa0srMFIzL0lWQ3VSUkVyeW1QUVVrVkZu?=
- =?utf-8?B?OVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6B1ED3B0AB3DC84EA8A2B49921324A67@GBRP265.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="e5vkjpm0"
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE4889C
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 03:27:07 -0800 (PST)
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231120112705epoutp02cf4166545933ccb1ce547694d13a0ccd~ZUTWnY8pk0879208792epoutp02S
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 11:27:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231120112705epoutp02cf4166545933ccb1ce547694d13a0ccd~ZUTWnY8pk0879208792epoutp02S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1700479625;
+	bh=bpZOhY/GhpO+l6dOnhYbxV5P4wZ4pF9meKRSZnzf1g8=;
+	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+	b=e5vkjpm0LDh/Sa/PxZq0M6Fc5pYJBjtFhs2jRB9V0HVblYBFmbtepLPNVXe54Hy5X
+	 4lXT+UV2IAONpn1yNiF68lz4dTUhoZpYrrn3aui+k+S/LIT7aKKwdoGChZZ2PYifHe
+	 vPavSzCIuaC/uSLBRD55UD9ISRHrRRKxARjAoil4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas2p1.samsung.com (KnoxPortal) with ESMTP id
+	20231120112704epcas2p1e17db548167e332f7e692cebafbf6510~ZUTV48jle1130811308epcas2p1T;
+	Mon, 20 Nov 2023 11:27:04 +0000 (GMT)
+Received: from epsmgec2p1-new.samsung.com (unknown [182.195.36.100]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4SYlbC6L9lz4x9Px; Mon, 20 Nov
+	2023 11:27:03 +0000 (GMT)
+X-AuditID: b6c32a4d-9f7ff70000004a32-d6-655b4287b49c
+Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+	epsmgec2p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	AF.7B.18994.7824B556; Mon, 20 Nov 2023 20:27:03 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c754bef5-2225-42f6-efd3-08dbe9b8e713
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2023 11:07:36.2831
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6AYQQ5JpRMGqgJUhIEsr0eSJ17xkFvpPeiDQ1e8NL0Ep2mx0+9H8VmRGSCAeM8AHsR14LDPxhS2UBgsTYMSN1C5dyeE/j9x1vHCkm7m2qq4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6076
-X-OriginatorOrg: imgtec.com
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: 1JidKZS822c7fy4twkS8dideXvxdTLlg
-X-Proofpoint-ORIG-GUID: 1JidKZS822c7fy4twkS8dideXvxdTLlg
+Mime-Version: 1.0
+Subject: RE:(2) [f2fs-dev] [PATCH v1] f2fs: New victim selection for GC
+Reply-To: yonggil.song@samsung.com
+Sender: Yonggil Song <yonggil.song@samsung.com>
+From: Yonggil Song <yonggil.song@samsung.com>
+To: Jaegeuk Kim <jaegeuk@kernel.org>
+CC: "chao@kernel.org" <chao@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Seokhwan Kim <sukka.kim@samsung.com>, Daejun
+	Park <daejun7.park@samsung.com>, Siwoo Jung <siu.jung@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <ZVekM0GmX-Jz4T0C@google.com>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20231120112702epcms2p4e4408fed82d4385624eb32b17880e613@epcms2p4>
+Date: Mon, 20 Nov 2023 20:27:02 +0900
+X-CMS-MailID: 20231120112702epcms2p4e4408fed82d4385624eb32b17880e613
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEJsWRmVeSWpSXmKPExsWy7bCmhW67U3SqwZPdOhanp55lsnhyoJ3R
+	YtWDcIsn62cxWyxsW8JicWmRu8XlXXPYLM5PfM1ksapjLqMDp8emVZ1sHrsXfGbyWNw3mdWj
+	b8sqRo/Pm+QCWKOybTJSE1NSixRS85LzUzLz0m2VvIPjneNNzQwMdQ0tLcyVFPISc1NtlVx8
+	AnTdMnOAzlFSKEvMKQUKBSQWFyvp29kU5ZeWpCpk5BeX2CqlFqTkFJgX6BUn5haX5qXr5aWW
+	WBkaGBiZAhUmZGcsfdPKXNAZVdFycwNjA2OTWxcjJ4eEgInEq7uXmboYuTiEBPYwSqxbd5ml
+	i5GDg1dAUOLvDmGQGmEBd4m/befZQGwhASWJawd6WSDi+hKbFy9jB7HZBHQl/m5YDmaLCKhI
+	HFp0mR1kJrPABGaJC12v2SCW8UrMaH/KAmFLS2xfvpURxOYU0JL4+fInVFxD4seyXmYIW1Ti
+	5uq37DD2+2PzGSFsEYnWe2ehagQlHvzcDRWXlFh06DwThJ0v8XfFdai9NRJbG9qg4voS1zo2
+	gu3iFfCVuHFhKth8FgFViQOTu6BqXCS6n88FizMLyEtsfzuHGRQmzAKaEut36YOYEgLKEkdu
+	sUBU8El0HP7LDvPhjnlPoKaoSWzetJkVwpaRuPC4DepKD4npO7czTWBUnIUI6FlIds1C2LWA
+	kXkVo1RqQXFuemqyUYGhbl5qOTx+k/NzNzGCE6eW7w7G1+v/6h1iZOJgPMQowcGsJML7TSgi
+	VYg3JbGyKrUoP76oNCe1+BCjKdCnE5mlRJPzgak7ryTe0MTSwMTMzNDcyNTAXEmc917r3BQh
+	gfTEktTs1NSC1CKYPiYOTqkGJrvNbsm7r0aKJM1f/nHLhbudb0PzFY+82cC+dXtrYmgm+0XP
+	C/MWxryyrrbiP/Bbbm/Njg3NG/ZcvM7F8lD60XrfaO/X7+ezBOmvWrf10g/WTI3tb58/ML/+
+	zLlrw+sG44r4aKULTu9u2k2/5v7hyYfr8wQOcJWfeXD+4e6WyZx3bl9xdbm02PjW0lIm73tB
+	i65yfkxJixJc/TF5yvXIGMfXrZbLFwWqnX+/ne+ExAOFjjnhzpbPHfdWKuxrbGz65SB2atGn
+	KeJaqn1fg3c+Y06asuXY8bgJRgfbIjcz5jN9kCp2XVtVI3/4dL9OdOCN3QnVzs/6ZjuYCsUn
+	VbjvsYo/fXszw9bCE+y9mXMmNp9QYinOSDTUYi4qTgQA21tnviUEAAA=
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff
+References: <ZVekM0GmX-Jz4T0C@google.com>
+	<20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p8>
+	<20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41@epcms2p4>
+	<CGME20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p4>
 
-T24gVHVlLCAyMDIzLTExLTE0IGF0IDE3OjQyICswMTAwLCBEYW5pbG8gS3J1bW1yaWNoIHdyb3Rl
-Og0KPiAqKiogQ0FVVElPTjogVGhpcyBlbWFpbCBvcmlnaW5hdGVzIGZyb20gYSBzb3VyY2Ugbm90
-IGtub3duIHRvIEltYWdpbmF0aW9uIFRlY2hub2xvZ2llcy4gVGhpbmsgYmVmb3JlIHlvdSBjbGlj
-ayBhIGxpbmsgb3Igb3BlbiBhbiBhdHRhY2htZW50ICoqKg0KPiANCj4gT24gMTAvMzEvMjMgMTY6
-MTIsIFNhcmFoIFdhbGtlciB3cm90ZToNCj4gPiBGcm9tOiBEb25hbGQgUm9ic29uIDxkb25hbGQu
-cm9ic29uQGltZ3RlYy5jb20+DQo+ID4gDQo+ID4gRGV0ZXJtaW5pbmcgdGhlIHN0YXJ0IGFuZCBy
-YW5nZSBvZiB0aGUgdW5tYXAgc3RhZ2Ugb2YgYSByZW1hcCBvcCBpcyBhDQo+ID4gY29tbW9uIHBp
-ZWNlIG9mIGNvZGUgY3VycmVudGx5IGltcGxlbWVudGVkIGJ5IG11bHRpcGxlIGRyaXZlcnMuIEFk
-ZCBhDQo+ID4gaGVscGVyIGZvciB0aGlzLg0KPiA+IA0KPiA+IENoYW5nZXMgc2luY2Ugdjc6DQo+
-ID4gLSBSZW5hbWVkIGhlbHBlciB0byBkcm1fZ3B1dmFfb3BfcmVtYXBfdG9fdW5tYXBfcmFuZ2Uo
-KQ0KPiA+IC0gSW1wcm92ZWQgZG9jdW1lbnRhdGlvbg0KPiA+IA0KPiA+IENoYW5nZXMgc2luY2Ug
-djY6DQo+ID4gLSBSZW1vdmUgdXNlIG9mIF9fYWx3YXlzX2lubGluZQ0KPiA+IA0KPiA+IFNpZ25l
-ZC1vZmYtYnk6IERvbmFsZCBSb2Jzb24gPGRvbmFsZC5yb2Jzb25AaW1ndGVjLmNvbT4NCj4gPiBT
-aWduZWQtb2ZmLWJ5OiBTYXJhaCBXYWxrZXIgPHNhcmFoLndhbGtlckBpbWd0ZWMuY29tPg0KPiAN
-Cj4gUmV2aWV3ZWQtYnk6IERhbmlsbyBLcnVtbXJpY2ggPGRha3JAcmVkaGF0LmNvbT4NCj4gDQo+
-IFdhbnQgbWUgdG8gYXBwbHkgdGhlIHBhdGNoPw0KDQpZZXMgcGxlYXNlISBUaGFua3MgYWdhaW4g
-RGFuaWxvLg0KDQo+IA0KPiA+IC0tLQ0KPiA+ICAgaW5jbHVkZS9kcm0vZHJtX2dwdXZtLmggfCAy
-OCArKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMjgg
-aW5zZXJ0aW9ucygrKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZ3B1
-dm0uaCBiL2luY2x1ZGUvZHJtL2RybV9ncHV2bS5oDQo+ID4gaW5kZXggYzdlZDZiZjQ0MWQ0Li5j
-NjQ1ODVkYzRlOGUgMTAwNjQ0DQo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2dwdXZtLmgNCj4g
-PiArKysgYi9pbmNsdWRlL2RybS9kcm1fZ3B1dm0uaA0KPiA+IEBAIC03MDIsNCArNzAyLDMyIEBA
-IHZvaWQgZHJtX2dwdXZhX3JlbWFwKHN0cnVjdCBkcm1fZ3B1dmEgKnByZXYsDQo+ID4gICANCj4g
-PiAgIHZvaWQgZHJtX2dwdXZhX3VubWFwKHN0cnVjdCBkcm1fZ3B1dmFfb3BfdW5tYXAgKm9wKTsN
-Cj4gPiAgIA0KPiA+ICsvKioNCj4gPiArICogZHJtX2dwdXZhX29wX3JlbWFwX3RvX3VubWFwX3Jh
-bmdlKCkgLSBIZWxwZXIgdG8gZ2V0IHRoZSBzdGFydCBhbmQgcmFuZ2Ugb2YNCj4gPiArICogdGhl
-IHVubWFwIHN0YWdlIG9mIGEgcmVtYXAgb3AuDQo+ID4gKyAqIEBvcDogUmVtYXAgb3AuDQo+ID4g
-KyAqIEBzdGFydF9hZGRyOiBPdXRwdXQgcG9pbnRlciBmb3IgdGhlIHN0YXJ0IG9mIHRoZSByZXF1
-aXJlZCB1bm1hcC4NCj4gPiArICogQHJhbmdlOiBPdXRwdXQgcG9pbnRlciBmb3IgdGhlIGxlbmd0
-aCBvZiB0aGUgcmVxdWlyZWQgdW5tYXAuDQo+ID4gKyAqDQo+ID4gKyAqIFRoZSBnaXZlbiBzdGFy
-dCBhZGRyZXNzIGFuZCByYW5nZSB3aWxsIGJlIHNldCBzdWNoIHRoYXQgdGhleSByZXByZXNlbnQg
-dGhlDQo+ID4gKyAqIHJhbmdlIG9mIHRoZSBhZGRyZXNzIHNwYWNlIHRoYXQgd2FzIHByZXZpb3Vz
-bHkgY292ZXJlZCBieSB0aGUgbWFwcGluZyBiZWluZw0KPiA+ICsgKiByZS1tYXBwZWQsIGJ1dCBp
-cyBub3cgZW1wdHkuDQo+ID4gKyAqLw0KPiA+ICtzdGF0aWMgaW5saW5lIHZvaWQNCj4gPiArZHJt
-X2dwdXZhX29wX3JlbWFwX3RvX3VubWFwX3JhbmdlKGNvbnN0IHN0cnVjdCBkcm1fZ3B1dmFfb3Bf
-cmVtYXAgKm9wLA0KPiA+ICsJCQkJICB1NjQgKnN0YXJ0X2FkZHIsIHU2NCAqcmFuZ2UpDQo+ID4g
-K3sNCj4gPiArCWNvbnN0IHU2NCB2YV9zdGFydCA9IG9wLT5wcmV2ID8NCj4gPiArCQkJICAgICBv
-cC0+cHJldi0+dmEuYWRkciArIG9wLT5wcmV2LT52YS5yYW5nZSA6DQo+ID4gKwkJCSAgICAgb3At
-PnVubWFwLT52YS0+dmEuYWRkcjsNCj4gPiArCWNvbnN0IHU2NCB2YV9lbmQgPSBvcC0+bmV4dCA/
-DQo+ID4gKwkJCSAgIG9wLT5uZXh0LT52YS5hZGRyIDoNCj4gPiArCQkJICAgb3AtPnVubWFwLT52
-YS0+dmEuYWRkciArIG9wLT51bm1hcC0+dmEtPnZhLnJhbmdlOw0KPiA+ICsNCj4gPiArCWlmIChz
-dGFydF9hZGRyKQ0KPiA+ICsJCSpzdGFydF9hZGRyID0gdmFfc3RhcnQ7DQo+ID4gKwlpZiAocmFu
-Z2UpDQo+ID4gKwkJKnJhbmdlID0gdmFfZW5kIC0gdmFfc3RhcnQ7DQo+ID4gK30NCj4gPiArDQo+
-ID4gICAjZW5kaWYgLyogX19EUk1fR1BVVk1fSF9fICovDQo=
+>Hi Yonggil,
+>
+>On 10/26, Yonggil Song wrote:
+>> Overview
+>> ========
+>> 
+>> Introduce a new way to select the data section first when selecting a
+>> victim in foreground GC. This victim selection method works when the
+>> prefer_data_victim mount option is enabled. If foreground GC migrates only
+>> data sections and runs out of free sections, it cleans dirty node sections
+>> to get more free sections.
+>> 
+>> Problem
+>> =======
+>> 
+>> If the total amount of nodes is larger than the size of one section, nodes
+>> occupy multiple sections, and node victims are often selected because the
+>> gc cost is lowered by data block migration in foreground gc. Since moving
+>> the data section causes frequent node victim selection, victim threshing
+>> occurs in the node section. This results in an increase in WAF.
+>
+>How does that work w/ ATGC?
+>
+
+Hi jaegeuk.
+
+I didn't consider ATGC because this feature is only supported by zoned devices(LFS).
+I didn't add ATGC exception handling because I'm only enabling this feature when
+it's a zoned device, but should I?
+
+>> 
+>> Experiment
+>> ==========
+>> 
+>> Test environment is as follows.
+>> 
+>> 	System info
+>> 	  - 3.6GHz, 16 core CPU
+>> 	  - 36GiB Memory
+>> 	Device info
+>> 	  - a conventional null_blk with 228MiB
+>> 	  - a sequential null_blk with 4068 zones of 8MiB
+>> 	Format
+>> 	  - mkfs.f2fs <conv null_blk> -c <seq null_blk> -m -Z 8 -o 3.89
+>> 	Mount
+>> 	  - mount -o prefer_data_victim <conv null_blk> <mount point>
+>> 	Fio script
+>> 	  - fio --rw=randwrite --bs=4k --ba=4k --filesize=31187m --norandommap --overwrite=1 --name=job1 --filename=./mnt/sustain --io_size=128g
+>> 	WAF calculation
+>> 	  - (IOs on conv. null_blk + IOs on seq. null_blk) / random write IOs
+>> 
+>> Conclusion
+>> ==========
+>> 
+>> This experiment showed that the WAF was reduced by 29% (18.75 -> 13.3) when
+>> the data section was selected first when selecting GC victims. This was
+>> achieved by reducing the migration of the node blocks by 69.4%
+>> (253,131,743 blks -> 77,463,278 blks). It is possible to achieve low WAF
+>> performance with the GC victim selection method in environments where the
+>> section size is relatively small.
+>> 
+>> Signed-off-by: Yonggil Song <yonggil.song@samsung.com>
+>> ---
+>>  Documentation/filesystems/f2fs.rst |   3 +
+>>  fs/f2fs/f2fs.h                     |   2 +
+>>  fs/f2fs/gc.c                       | 100 +++++++++++++++++++++++------
+>>  fs/f2fs/segment.h                  |   2 +
+>>  fs/f2fs/super.c                    |   9 +++
+>>  5 files changed, 95 insertions(+), 21 deletions(-)
+>> 
+>> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+>> index d32c6209685d..58e6d001d7ab 100644
+>> --- a/Documentation/filesystems/f2fs.rst
+>> +++ b/Documentation/filesystems/f2fs.rst
+>> @@ -367,6 +367,9 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
+>>  			 pending node write	drop		keep		N/A
+>>  			 pending meta write	keep		keep		N/A
+>>  			 ====================== =============== =============== ========
+>> +prefer_data_victim	 When selecting victims in foreground GC, victims of data type
+>> +			 are prioritized. This option minimizes GC victim threshing
+>> +			 in the node section to reduce WAF.
+>>  ======================== ============================================================
+>>  
+>>  Debugfs Entries
+>> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+>> index 6d688e42d89c..8b31fa2ea09a 100644
+>> --- a/fs/f2fs/f2fs.h
+>> +++ b/fs/f2fs/f2fs.h
+>> @@ -108,6 +108,7 @@ extern const char *f2fs_fault_name[FAULT_MAX];
+>>  #define	F2FS_MOUNT_GC_MERGE		0x02000000
+>>  #define F2FS_MOUNT_COMPRESS_CACHE	0x04000000
+>>  #define F2FS_MOUNT_AGE_EXTENT_CACHE	0x08000000
+>> +#define F2FS_MOUNT_PREFER_DATA_VICTIM	0x10000000
+>>  
+>>  #define F2FS_OPTION(sbi)	((sbi)->mount_opt)
+>>  #define clear_opt(sbi, option)	(F2FS_OPTION(sbi).opt &= ~F2FS_MOUNT_##option)
+>> @@ -1648,6 +1649,7 @@ struct f2fs_sb_info {
+>>  	struct f2fs_mount_info mount_opt;	/* mount options */
+>>  
+>>  	/* for cleaning operations */
+>> +	bool need_node_clean;			/* only used for prefer_data_victim */
+>>  	struct f2fs_rwsem gc_lock;		/*
+>>  						 * semaphore for GC, avoid
+>>  						 * race between GC and GC or CP
+>> diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c
+>> index f550cdeaa663..8a2da808a5fb 100644
+>> --- a/fs/f2fs/gc.c
+>> +++ b/fs/f2fs/gc.c
+>> @@ -752,6 +752,8 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>>  	unsigned int last_segment;
+>>  	unsigned int nsearched;
+>>  	bool is_atgc;
+>> +	bool is_prefer_data_victim =
+>> +		test_opt(sbi, PREFER_DATA_VICTIM) && gc_type == FG_GC;
+>>  	int ret = 0;
+>>  
+>>  	mutex_lock(&dirty_i->seglist_lock);
+>> @@ -767,6 +769,11 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>>  	p.oldest_age = 0;
+>>  	p.min_cost = get_max_cost(sbi, &p);
+>>  
+>> +	if (is_prefer_data_victim) {
+>> +		p.node_min_cost = p.min_cost;
+>> +		p.node_min_segno = p.min_segno;
+>> +	}
+>> +
+>>  	is_atgc = (p.gc_mode == GC_AT || p.alloc_mode == AT_SSR);
+>>  	nsearched = 0;
+>>  
+>> @@ -884,9 +891,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>>  
+>>  		cost = get_gc_cost(sbi, segno, &p);
+>>  
+>> -		if (p.min_cost > cost) {
+>> -			p.min_segno = segno;
+>> -			p.min_cost = cost;
+>> +		if (is_prefer_data_victim) {
+>> +			if (IS_DATASEG(get_seg_entry(sbi, segno)->type)) {
+>> +				/* update data segments victim */
+>> +				if (p.min_cost > cost) {
+>> +					p.min_segno = segno;
+>> +					p.min_cost = cost;
+>> +				}
+>> +			} else {
+>> +				/* update node segments victim */
+>> +				if (p.node_min_cost > cost) {
+>> +					p.node_min_segno = segno;
+>> +					p.node_min_cost = cost;
+>> +				}
+>> +			}
+>> +		} else {
+>> +			if (p.min_cost > cost) {
+>> +				p.min_segno = segno;
+>> +				p.min_cost = cost;
+>> +			}
+>>  		}
+>>  next:
+>>  		if (nsearched >= p.max_search) {
+>> @@ -901,6 +924,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>>  		}
+>>  	}
+>>  
+>> +	if (is_prefer_data_victim && sbi->need_node_clean) {
+>> +		/* we need to clean node sections */
+>> +		if (p.min_cost > p.node_min_cost) {
+>> +			p.min_segno = p.node_min_segno;
+>> +			p.min_cost = p.node_min_cost;
+>> +		} else {
+>> +			/*
+>> +			 * data victim cost is the lowest.
+>> +			 * if free sections are enough, stop cleaning node victim.
+>> +			 * if not, it goes on by GCing data victims.
+>> +			 */
+>> +			if (has_enough_free_secs(sbi, prefree_segments(sbi), 0)) {
+>> +				sbi->need_node_clean = false;
+>> +				p.min_segno = NULL_SEGNO;
+>> +				goto out;
+>> +			}
+>> +		}
+>> +	}
+>> +
+>>  	/* get victim for GC_AT/AT_SSR */
+>>  	if (is_atgc) {
+>>  		lookup_victim_by_age(sbi, &p);
+>> @@ -1830,8 +1872,27 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>>  		goto stop;
+>>  	}
+>>  
+>> +	__get_secs_required(sbi, NULL, &upper_secs, NULL);
+>> +
+>> +	/*
+>> +	 * Write checkpoint to reclaim prefree segments.
+>> +	 * We need more three extra sections for writer's data/node/dentry.
+>> +	 */
+>> +	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS) {
+>> +		if (test_opt(sbi, PREFER_DATA_VICTIM)) {
+>> +			sbi->need_node_clean = true;
+>> +		}
+>> +		if (prefree_segments(sbi)) {
+>> +			ret = f2fs_write_checkpoint(sbi, &cpc);
+>> +			if (ret)
+>> +				goto stop;
+>> +			/* Reset due to checkpoint */
+>> +			sec_freed = 0;
+>> +		}
+>> +	}
+>> +
+>>  	/* Let's run FG_GC, if we don't have enough space. */
+>> -	if (has_not_enough_free_secs(sbi, 0, 0)) {
+>> +	if (gc_type == BG_GC && has_not_enough_free_secs(sbi, 0, 0)) {
+>>  		gc_type = FG_GC;
+>>  
+>>  		/*
+>> @@ -1882,7 +1943,17 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>>  			if (!gc_control->no_bg_gc &&
+>>  			    total_sec_freed < gc_control->nr_free_secs)
+>>  				goto go_gc_more;
+>> -			goto stop;
+>> +			if (test_opt(sbi, PREFER_DATA_VICTIM)) {
+>> +				/*
+>> +				 * If the need_node_clean flag is set
+>> +				 * even though there are enough free
+>> +				 * sections, node cleaning will continue.
+>> +				 */
+>> +				if (!sbi->need_node_clean)
+>> +					goto stop;
+>> +			} else {
+>> +				goto stop;
+>> +			}
+>>  		}
+>>  		if (sbi->skipped_gc_rwsem)
+>>  			skipped_round++;
+>> @@ -1897,21 +1968,6 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>>  		goto stop;
+>>  	}
+>>  
+>> -	__get_secs_required(sbi, NULL, &upper_secs, NULL);
+>> -
+>> -	/*
+>> -	 * Write checkpoint to reclaim prefree segments.
+>> -	 * We need more three extra sections for writer's data/node/dentry.
+>> -	 */
+>> -	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS &&
+>> -				prefree_segments(sbi)) {
+>> -		stat_inc_cp_call_count(sbi, TOTAL_CALL);
+>> -		ret = f2fs_write_checkpoint(sbi, &cpc);
+>> -		if (ret)
+>> -			goto stop;
+>> -		/* Reset due to checkpoint */
+>> -		sec_freed = 0;
+>> -	}
+>>  go_gc_more:
+>>  	segno = NULL_SEGNO;
+>>  	goto gc_more;
+>> @@ -1920,8 +1976,10 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>>  	SIT_I(sbi)->last_victim[ALLOC_NEXT] = 0;
+>>  	SIT_I(sbi)->last_victim[FLUSH_DEVICE] = gc_control->victim_segno;
+>>  
+>> -	if (gc_type == FG_GC)
+>> +	if (gc_type == FG_GC) {
+>>  		f2fs_unpin_all_sections(sbi, true);
+>> +		sbi->need_node_clean = false;
+>> +	}
+>>  
+>>  	trace_f2fs_gc_end(sbi->sb, ret, total_freed, total_sec_freed,
+>>  				get_pages(sbi, F2FS_DIRTY_NODES),
+>> diff --git a/fs/f2fs/segment.h b/fs/f2fs/segment.h
+>> index 2ca8fb5d0dc4..d55fa1fee2e0 100644
+>> --- a/fs/f2fs/segment.h
+>> +++ b/fs/f2fs/segment.h
+>> @@ -197,8 +197,10 @@ struct victim_sel_policy {
+>>  	unsigned int offset;		/* last scanned bitmap offset */
+>>  	unsigned int ofs_unit;		/* bitmap search unit */
+>>  	unsigned int min_cost;		/* minimum cost */
+>> +	unsigned int node_min_cost;	/* minimum cost of node type section */
+>>  	unsigned long long oldest_age;	/* oldest age of segments having the same min cost */
+>>  	unsigned int min_segno;		/* segment # having min. cost */
+>> +	unsigned int node_min_segno;	/* node segment # having min. cost */
+>>  	unsigned long long age;		/* mtime of GCed section*/
+>>  	unsigned long long age_threshold;/* age threshold */
+>>  };
+>> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+>> index a8c8232852bb..133137dd6fd0 100644
+>> --- a/fs/f2fs/super.c
+>> +++ b/fs/f2fs/super.c
+>> @@ -165,6 +165,7 @@ enum {
+>>  	Opt_memory_mode,
+>>  	Opt_age_extent_cache,
+>>  	Opt_errors,
+>> +	Opt_prefer_data_victim,
+>>  	Opt_err,
+>>  };
+>>  
+>> @@ -245,6 +246,7 @@ static match_table_t f2fs_tokens = {
+>>  	{Opt_memory_mode, "memory=%s"},
+>>  	{Opt_age_extent_cache, "age_extent_cache"},
+>>  	{Opt_errors, "errors=%s"},
+>> +	{Opt_prefer_data_victim, "prefer_data_victim"},
+>>  	{Opt_err, NULL},
+>>  };
+>>  
+>> @@ -1286,6 +1288,13 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
+>>  			}
+>>  			kfree(name);
+>>  			break;
+>> +		case Opt_prefer_data_victim:
+>> +			if (!f2fs_sb_has_blkzoned(sbi)) {
+>> +				f2fs_err(sbi, "prefer_data_victim is only allowed with zoned block device feature");
+>> +				return -EINVAL;
+>> +			}
+>> +			set_opt(sbi, PREFER_DATA_VICTIM);
+>> +			break;
+>>  		default:
+>>  			f2fs_err(sbi, "Unrecognized mount option \"%s\" or missing value",
+>>  				 p);
+>> -- 
+>> 2.34.1
