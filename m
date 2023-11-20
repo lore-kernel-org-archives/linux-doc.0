@@ -1,84 +1,188 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="b1KIjbTv"
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E3F97;
-	Mon, 20 Nov 2023 14:14:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=Oz1szRIZelgpWpLqYCUSXAM3v9p92mCuoFgS4JdSE8Q=; b=b1
-	KIjbTvMoM7PSdR5cFcjvUt8nXka1oMHQrGAooE3TCNJrlij2DWm/bbvwc1yTQZCE3vLUgKWkH8HLU
-	6ZehboeaBcDHgVK/JjO2MZKu1uGEX4ngJ+NC01qizzz4yoD5KWUEHy+kQLDkWLzfo7/CumDcEnvbC
-	6Js/xXq6gxq3eLU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1r5CXI-000hFy-Dg; Mon, 20 Nov 2023 23:14:32 +0100
-Date: Mon, 20 Nov 2023 23:14:32 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 2/9] ethtool: Expand Ethernet Power Equipment
- with PoE alongside PoDL
-Message-ID: <887dbafe-def1-443f-8df2-b20b5ddc4db7@lunn.ch>
-References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
- <20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
- <04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
- <20231120110944.66938859@kmaincent-XPS-13-7390>
- <20231120111008.GC590719@pengutronix.de>
- <2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.ch>
- <20231120204221.GD590719@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lk0Ca0AO"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71FD395;
+	Mon, 20 Nov 2023 14:17:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700518624; x=1732054624;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=zJJOACX2N6ebGpdpSoiwhp4yjdlQlKIFnBsVzh1pAbY=;
+  b=lk0Ca0AOigx+kSLtboZorRJirYjfdLpDMkyPzX407mT2KUGej5hqt99k
+   qIJoM1JfqVJKsLtsmCFhqQxA3ZjnzaSn2G75tLyWgGTyuAuT/eTUFEjvr
+   sS9r2OGr2yrlshiVo9YplFsYddXnL1ti7BrN3nTzQImVdxwRWp35Z5aiq
+   hMH6iJCgInI7sGCnvhx4cHrdYgxqBZQdGlf/9hsMl0ZgHOrz08MLFKgDw
+   T/72801cWLUGOmONi/VmANQLixjiHeuO+JlvRfq/krgfbG1flwFSV0RfV
+   pdIw1FvRtIpZSRHwnEQV+cQYo7mO4ETKxLTOtvWMD9lcJIrXzaQUE1XC8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="391498348"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="391498348"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 14:17:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="832419411"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="832419411"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Nov 2023 14:17:03 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 20 Nov 2023 14:17:02 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 20 Nov 2023 14:17:02 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Mon, 20 Nov 2023 14:17:02 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Mon, 20 Nov 2023 14:17:02 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YfDrVwuNLq7ek/dMRgzlj5zncMQ80C33xlzDTwSzjPMJAVjWoxKG3k/d7F+OThVwq9Ta+/wRoABbIHGzdtHOQSxrF5Hiahv9AqTT5zYW+iqj7pR+HdPjHu+3feZIDiv4mnbQHuPl3hcLMq0ZNsgS/yytu/+wSdepHozBqEIMh5DjNNsoTQ5fabWbFAl7cwBYnyD82sSq1TDgERPC5ClI2FNT8AWftd++Pmu7GDRLO+FZcEPA9BwWEEyN0yCAlPiKHdgMsl40KIz/u4As5NqcaimnRjSWSxfBGpm1Aio0tVW5upr28RT26xq9+nGT15vURhd9rt97IiN/AExnRBMZ+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PFli8ipKUHxeyriUCVzxmQGQB2hJkL6Rv7b6qqAe8oU=;
+ b=CnWZsXsLs9lGp3NsZ1oPt83cpe6o8LLmhQZqT4/V7ymIi2YIwzxfeQwP+TiIURzSipGaYxbiBq4sMVbtPrRBoEHHpnKEX7/iX/Upkl8OWo98weu7KUyA9Gcz4reI8j5qt1LOmO4paIrvGo0Dc+RyZahZaaUby3jjmcKwIOuWU2i8JGSTpk8vdFlMlGCJTCsVlsu0dNeZMKOr1loFo+tKG0z5kGyHTndRJo8Vt9GmOHdiWHE7VrCfflyL6GmPKzWr2uOpJHik1swFjXtTODmWwxJlbHQscs38XevERhCfev+iOiaLxIUMbg/N4ZvCCFHAnoFNM7GJ4XF/hBMGGKHdoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by IA1PR11MB8222.namprd11.prod.outlook.com (2603:10b6:208:44e::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Mon, 20 Nov
+ 2023 22:16:59 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7002.019; Mon, 20 Nov 2023
+ 22:16:59 +0000
+Message-ID: <f8e46bd8-fc27-4bde-bdbe-daac8ed7f27a@intel.com>
+Date: Mon, 20 Nov 2023 14:16:56 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 1/8] x86/resctrl: Prepare for new domain scope
+To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>, "Peter
+ Newman" <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, <x86@kernel.org>
+CC: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
+	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
+	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<patches@lists.linux.dev>
+References: <20231031211708.37390-1-tony.luck@intel.com>
+ <20231109230915.73600-1-tony.luck@intel.com>
+ <20231109230915.73600-2-tony.luck@intel.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20231109230915.73600-2-tony.luck@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW2PR16CA0041.namprd16.prod.outlook.com
+ (2603:10b6:907:1::18) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231120204221.GD590719@pengutronix.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA1PR11MB8222:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a0cb683-ec1f-4172-f04d-08dbea1669d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7vlETkOcXBdHasLflnx5DDjdppRES+ehCUFCNm1hFziX6PVZWmvCpTqpeiO37tTKcUQK9YHfSiRgPlZ+5TiSwUWmAKv6IzneTLzynCvsoPnyZYzH0qPAF8hLsMtK2V872YJmJuRgwzNMGNXYMTndanPLOXrHdXiilGwCLX+yQxOAjCObbb9aFDAwiI5nnX0Hv6YBUnA66AV/rVrdMDEJpewvwjLNZuGwAM6fJ7VSs+SJlUT24ZKxIqrJ5q46Eiidr4FKW1VOCKJVP2n7vOex834wP5LISYB4C3Vu7KeMgt1iLcqk+EbN1toev2d54oWortBlJ3Nj5iL1XvrMrmtye19aBknTVr/Yuc/GGs1lxMGpV9JQ9FcVsZyl7C2lU4ALcXVm5UPc+FOhTGo3hBvVqQRMOxJfkRDZ/e8DKp6qX90EiBIVL++8bebph1ZDwgDxZs4dWac2dIpjdUx8xUPY5i2TqtzS7iQIeTC4+8i9Lo5uonPRsKo+pjTZlk6bFo4ps+WSOMO6EbS8vcBdogZVYdzM2ig7fJMRpGKU9VzO6jzJvPLVDjkxUm6kq5X3IGc3bq4EuNm427cNqAOs2mIvCSfZcVQj8is/u8zt6wOTGJkFb7NEhul3nM28sSgSvyFM6XuNiW3+6NzvVj0L00M1bC4G1IP9cO0Fq8v7WhoIWT9nlpdHHxkXlnQoy3X0Y8MB
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(39860400002)(346002)(136003)(376002)(230173577357003)(230922051799003)(230273577357003)(186009)(451199024)(1800799012)(64100799003)(2906002)(5660300002)(7416002)(44832011)(41300700001)(4326008)(8936002)(8676002)(31686004)(316002)(54906003)(66476007)(66556008)(110136005)(66899024)(86362001)(26005)(6486002)(478600001)(6512007)(6666004)(36756003)(53546011)(6506007)(2616005)(66946007)(83380400001)(38100700002)(31696002)(82960400001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlF0cDlnNzBuQ0RaR1gyU2hhaWlPeENFQ2tUY1lycWpkaXZaaHlkK1NWWGZl?=
+ =?utf-8?B?K0ZsNkEwRE5wVkt3UDZqbnhvejFvYU44Y0FEN1dqeHlEVGt5ZG9IUEVUcXNV?=
+ =?utf-8?B?OS9UVXl4Q0dGY2FmRGJUeExyQ09oSVFRMlpFVlorN0pmMTBuQkZhYUJ6cmhs?=
+ =?utf-8?B?MnM2TG5hQmFBam03bGlSejdWWGs5dk9lWU8zcFkxd3lVZU5ncXVPR1dFNWpO?=
+ =?utf-8?B?YnpJZ2dWYTJoT2dvTjZjcVBDVk0xU2JYZDZXcGtPdGc4QllSY04zRVJTQmZV?=
+ =?utf-8?B?aGNjaHYyZU5PWEFwblRmQmdCMWFYTDFQTG03UktXK3RKM3lHOUxDVzZkTzBZ?=
+ =?utf-8?B?VGRhVUlDRzdqVmU5UTAvMjgyVGsvTDI3LytlZmZERW5Cb2tuUFJpUE1sK0Vs?=
+ =?utf-8?B?K241ZXFETnRjelNCZGxOZkZWZzBSK3pNTlovRk1QcFpnMXlqQ3Z4dlZjakVO?=
+ =?utf-8?B?anRja1JNTmloUjI4NU5YUjExWGx5T2xEdXlobmJnWTNGUEZuWkxIZGpQZ0Q4?=
+ =?utf-8?B?OUFIYURyeGUvSk1LdGlVSVd3LzJwLytWY2hsdS9kcnRIOUJLbjBBUnFUVUhF?=
+ =?utf-8?B?U2dPendIRW9ZTUdLNzVHWGxuN2d4eng3WkphekRlK1dZOU9tVlMxb1hjeUt0?=
+ =?utf-8?B?QmM1ZWd5MzF6NnNpd21KdktyWVFON3JrTzZCM3JvR0wvVzFlOW1LVUFlVmZO?=
+ =?utf-8?B?UzNSOEtidDJ4NSt2RXJVMmltN2lhUTZWbzRDRnVtN0VOTGdjT0hjalRUY3FE?=
+ =?utf-8?B?VHhYcTlzb1E1cUNOLzc3YmV4OC9kU2N2L3VXai9HL0MxYjVuMW1qNE9LRzdt?=
+ =?utf-8?B?bHVMMFFpZmRyU2pwV2F2ZHY1OXVnWkJjZnA3c051cUI5UWxUMkx0YXB6cUVt?=
+ =?utf-8?B?WGVlK3dnbzNQbytHNFd4NXE5eDZXbGs2UW9RU3lNbG8vZjlBL0tmT29tUXNP?=
+ =?utf-8?B?S29SakNocC9SaThSTWx0Ykg1Z2dCaVlPVDNneXd5QVZoTTJyRUwwRGZHZmFR?=
+ =?utf-8?B?RmpIZ1F4Tjg0N0xjMXQ4cEpxaklkRWl1TDRxdmdmZTFjeHNJeWplNG93akNS?=
+ =?utf-8?B?czVkbXJ0UlpkYSt2K3JEWGY5VGZZS084T1pmTzU1b3VNeWp5RnN4NWJ0WUxr?=
+ =?utf-8?B?YUE0N251N3BjaFpEelVQUGZ1KytFbmR3Y29FOVZYMlJQdnZOcUxuYU56NUc2?=
+ =?utf-8?B?enIyVVBINkdYV054ZGhwM1dqUkpmN25GY0JXZmIyaUlpWUFUWDlUaGcwdWJU?=
+ =?utf-8?B?NW93dE9PdUtwWUxwd1JYeFNBeDJGRXVkbjhHRy9RejV3MkFaOUpQMVpLcGVx?=
+ =?utf-8?B?SWR0K0RuUHlpTWtRcm9oNEp4R1hXMXlmdUN5NWFKTCtxQ3hUQ0FSeU5WdnQ0?=
+ =?utf-8?B?bE10MUlCM2JaM3did3BQUy9obTloUUMzOCtycGxnR3gyMXhJU0ViK1g4R1F2?=
+ =?utf-8?B?YXhaaGJRZVYvVCtFTE5lWG41WHhIS3FLSXZuN2w3eWt3QldFL2xKczhVVmcz?=
+ =?utf-8?B?eUxUeXNBdWtjWTk0Y1V4bXo0d0pCUXBBZ2kzT1k4LzBMZzlZaFFTVkJrK29n?=
+ =?utf-8?B?RGJlOWJ3TTZ3VnQvcFFnWGY0RE9PT2I5SDcxMDZ4RFRCdE9oSkpnVHBEdjdp?=
+ =?utf-8?B?NzBYTHNFT3RRZkVmOTgwR1JTSU1mbEM1Mk13Y21panVBZlpSQmdUVFQybDBR?=
+ =?utf-8?B?Lys5RTRGUkx5c3dSRUVEWU5tYU52WlFKWDd1MkVTYjBNaEozSXNRc3NhWkFu?=
+ =?utf-8?B?bGNBWDNucHhQdTZjcWFjUW5tdGxCZy9OeDdWNFJrQ0xWUlJIZWpjV1NGbzZC?=
+ =?utf-8?B?bEI2N00yTWZ4RGNackI4OEZtOTc2bWVwcjNPaWNxZnBsc1p2cDVzblFnUDZj?=
+ =?utf-8?B?R3VrTFRPUEtzUlpTQWNWajhIU2xpYXlJNEo1Z3VSQ0dXU005SFNoZDhBRTJG?=
+ =?utf-8?B?NGZJT01BNTJobjJSNzdoRjFWeW5ZY1d1T1o5VHFBK2REVHl5MUNxOUlyMTBC?=
+ =?utf-8?B?TGxRaEtrWnlrSnJxYWtuMGlqVG4zWnMzZEN4MkRXWnBQV0pkZW1Ddk51dytv?=
+ =?utf-8?B?NFFxYXdiUXJhUityQ0lYZFlOeG9jclJ2Vzg3LytKS3BEbHF2aFVGOHBFSG5v?=
+ =?utf-8?B?bkF0UHVNWTFmaXI2ZStaTUdaTnFmd1JpWk02dUQ1S00xcWV0eXBVTGorejMw?=
+ =?utf-8?B?TWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a0cb683-ec1f-4172-f04d-08dbea1669d5
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2023 22:16:59.0388
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3we6aeDaHlZvi85L/dlmJLTdeMqvuX+bG+VZM5sc075DNpaXXUez6DzPqwdQxnZD+xi0kltccz14dfGTFj50YVgeIzmu2aVGVwUX/DSGR3M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8222
+X-OriginatorOrg: intel.com
 
-> > However, everything not PoDL PSE seems to be clause 33. So how about:
-> > 
-> > 	enum ethtool_podl_pse_admin_state podl_admin_control;
-> > 	enum ethtool_c33_pse_admin_state c33_admin_control;  
-> > 
-> > At least inside the kernel we use c22, c45, c37 etc. I'm not sure they
-> > are visible to userspace, but if we don't have a better name, maybe we
-> > have to use c33 in userspace as well.
-> > 
-> > I do think naming like this makes it clear we are talking about two
-> > parallel technologies, not a generic layer and then extensions for
-> > podl.
-> > 
-> > What do you think?
-> 
-> I'm OK with it.
+Hi Tony,
 
-Great.
+On 11/9/2023 3:09 PM, Tony Luck wrote:
+> @@ -556,13 +567,16 @@ static void domain_add_cpu(int cpu, struct rdt_resource *r)
+>  
+>  static void domain_remove_cpu(int cpu, struct rdt_resource *r)
+>  {
+> -	int id = get_cpu_cacheinfo_id(cpu, r->cache_level);
+> +	int id = get_domain_id_from_scope(cpu, r->scope);
+>  	struct rdt_hw_domain *hw_dom;
+>  	struct rdt_domain *d;
+>  
+> +	if (id < 0)
+> +		return;
+> +
 
-> 
-> Köry, can you please include some kernel documentation in your patches?
-> Something like this. I hope it will help to clarify things :) :
+Apologies for this late comment to this code that has been like this for
+a few versions. Something must have gone really wrong if id < 0 so I do
+not think a silent failure is ideal. Could the same warning as above be
+included here? That is:
 
-This is good. I'm just wondering where to put it. Ideally we want to
-cross reference to it in both this header file, and in the netlink
-UAPI.
+	pr_warn_once("Can't find domain id for CPU:%d scope:%d for resource %s\n",
+		     cpu, r->scope, r->name);
 
-	Andrew
+
+If you agree, please do ensure that this change propagates to
+domain_remove_cpu_ctrl() and domain_remove_cpu_mon() in patches that
+follow, in which case the text is expected to adjust to "Can't find control
+domain id" and "Can't find monitor domain id" respectively. (btw ... is
+the switching between "Can't" and "Couldn't" intentional?)
+
+With this change please feel free to include:
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+
+Reinette
