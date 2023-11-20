@@ -1,170 +1,111 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="OGRyE6wZ"
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B937ED8
-	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 00:05:47 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6be1bc5aa1cso4240916b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 00:05:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1700467547; x=1701072347; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=n4NoqTxZnppS8i0nP/xGCXWB/hxXsx67zIl1hkFjXDo=;
-        b=OGRyE6wZHDiPSa6gF4QXDy5G++VYIEFZkEWmeZEiaskWAB2wUBXtzA5uds46mPpmIB
-         tOe9lhtEvqHdhC3ulemjpZKATvLGbU8hgBrIG5BVVwHGG2ZUNIuZQYotukauA/hBuIRG
-         YptTDtk2RaTYWz51aEQzGQB18IalXh2sqC4SErvC7mZ+3fQwRJA42NBV3fQTU85VvVmv
-         F7RoQe10E6yMVAKEEJcC5js3pXvwarz8J+wa5FW5c4E2S4VaqaBKERXUG+DhVfT2Urnp
-         kRLqGRCEzdGsy85oOI2lKINxkTEKWq3ChqOIkRxk6eeU4aDNjhfThaO37pT2P9HxPaAA
-         b44w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700467547; x=1701072347;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n4NoqTxZnppS8i0nP/xGCXWB/hxXsx67zIl1hkFjXDo=;
-        b=d6GktkqlvGTHIeIqIPc1CXIWZkZgDndyS+E04+MMjqkOl2vUv0wEDMzElUQzQzd9PB
-         LSQhHmwdHrU3EF9DbYdwlyvHW+ozSDJVWh9MDnTyEwUMNbYMq/jcHGSPluQQzyzUo9VK
-         mMAxVMDcp4C3XvgGlNDfoNMqlaidNGuAUUpQoaY1jyF7U2Dxs20l20OolnOCVvsJXDMJ
-         Vk5aQ9yhumciQQOkuVHR0WV2/GADdA9Duu5uYFr12XL7Ol9pmV+qrI1/kK9F4WR45WmM
-         CTRfQPmpCF17kUCXS2nDmrm438NqQZr+WA56cyWHS94krGiuMzCQapx8NDWhQt2XXHFM
-         5i+Q==
-X-Gm-Message-State: AOJu0YwJSR47iXay38wUXHFLxlOoc2TjpEup9lZq+f496guwHTu9O2LH
-	uC0S5dttBaigs4fFz6D1ibSOdw==
-X-Google-Smtp-Source: AGHT+IGssdhQXa2d+roUN7IT+TTU6LwlrMuPiMYOCQM48dnmpaA4XEU9k505dahywkNiyYYGiT6THg==
-X-Received: by 2002:a05:6a00:80a:b0:6cb:910a:c6fe with SMTP id m10-20020a056a00080a00b006cb910ac6femr3670261pfk.7.1700467547194;
-        Mon, 20 Nov 2023 00:05:47 -0800 (PST)
-Received: from [157.82.205.15] ([157.82.205.15])
-        by smtp.gmail.com with ESMTPSA id f32-20020a056a000b2000b006c5da63556dsm5673415pfu.178.2023.11.20.00.05.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 00:05:46 -0800 (PST)
-Message-ID: <a1f09866-a443-4f74-8025-6cdb32eb1d2c@daynix.com>
-Date: Mon, 20 Nov 2023 17:05:40 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0AJXEl/"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C437BBF
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 00:12:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700467946; x=1732003946;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iDoN4VArDMbnGfRVcZ84OMqsii/vglSRn7wrWiTKT3c=;
+  b=A0AJXEl/aqtpGocW2tlvZJv5YA0U38z0TaT7dt3qf5be9V3Upauw2qD4
+   Eb6eKGUelgeuj2aYL0AeHUITxHCkOCshlnuyTzgq8th4QxZ0RQC9fx0ud
+   f5O5SvGBm0lj86biUOHUeTNrEhaE3V6OVDW0TDkR4vKn42qwNcC7HywMt
+   ATpal2uws5pZQLRigqyyp1FjtxmHWnj6Iu5tEWdYORe20xOOpzxYTp34k
+   c/76qhDboYdOpKaTOaRXgeoOGpN/cV5ey+ZYcakoZHbyRdlc05+ijVqDn
+   NzvkTiV8Uqd9gaWK4ZFd8s9VfHLd87TSSdjVHk8brNIo5c8q7/95pdPeB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="391359158"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="391359158"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 00:12:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="801081084"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="801081084"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 20 Nov 2023 00:12:24 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r4zOI-0006Co-1Y;
+	Mon, 20 Nov 2023 08:12:22 +0000
+Date: Mon, 20 Nov 2023 16:11:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Marc Zyngier <maz@kernel.org>, linux-doc@vger.kernel.org
+Subject: [arm-platforms:kvm-arm64/asahi-base-6.6 6/16] dtbs_check:
+ Documentation/devicetree/bindings/spi/apple,spi.yaml:10:11: [error] string
+ value is redundantly quoted with any quotes (quoted-strings)
+Message-ID: <202311201628.TX3Fdb1b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
-To: Song Liu <song@kernel.org>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
- Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>
-References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
- <20231015141644.260646-2-akihiko.odaki@daynix.com>
- <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
- <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com>
- <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
- <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
- <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
- <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com>
- <6253fb6b-9a53-484a-9be5-8facd46c051e@daynix.com>
- <CAPhsuW5JYoM-Mkehdy=FQsG1nvjbYGzwRZx8BkpG1P7cHdD=eQ@mail.gmail.com>
- <dba89d4b-84aa-4c9f-b016-56fd3ade04b2@daynix.com>
- <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023/11/20 6:02, Song Liu wrote:
-> On Sun, Nov 19, 2023 at 12:03 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>
-> [...]
->>
->> Unfortunately no. The communication with the userspace can be done with
->> two different means:
->> - usual socket read/write
->> - vhost for direct interaction with a KVM guest
->>
->> The BPF map may be a valid option for socket read/write, but it is not
->> for vhost. In-kernel vhost may fetch hash from the BPF map, but I guess
->> it's not a standard way to have an interaction between the kernel code
->> and a BPF program.
-> 
-> I am very new to areas like vhost and KVM. So I don't really follow.
-> Does this mean we have the guest kernel reading data from host eBPF
-> programs (loaded by Qemu)?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/asahi-base-6.6
+head:   7e253da2519f4c34d6ef6660c9c2caecc193678a
+commit: 8a95ad8df8049a24febbecbff35f203f4b86cd7d [6/16] Merge remote-tracking branch 'asahi/bits/060-spi' into kvm-arm64/asahi-base-6.6
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201628.TX3Fdb1b-lkp@intel.com/reproduce)
 
-Yes, the guest will read hashes calculated by the host, and the 
-interface is strictly defined with the virtio-net specification.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311201628.TX3Fdb1b-lkp@intel.com/
 
-> 
->>>
->>>>
->>>> Unfortunately, however, it is not acceptable for the BPF subsystem
->>>> because the "stable" BPF is completely fixed these days. The
->>>> "unstable/kfunc" BPF is an alternative, but the eBPF program will be
->>>> shipped with a portable userspace program (QEMU)[1] so the lack of
->>>> interface stability is not tolerable.
->>>
->>> bpf kfuncs are as stable as exported symbols. Is exported symbols
->>> like stability enough for the use case? (I would assume yes.)
->>>
->>>>
->>>> Another option is to hardcode the algorithm that was conventionally
->>>> implemented with eBPF steering program in the kernel[2]. It is possible
->>>> because the algorithm strictly follows the virtio-net specification[3].
->>>> However, there are proposals to add different algorithms to the
->>>> specification[4], and hardcoding the algorithm to the kernel will
->>>> require to add more UAPIs and code each time such a specification change
->>>> happens, which is not good for tuntap.
->>>
->>> The requirement looks similar to hid-bpf. Could you explain why that
->>> model is not enough? HID also requires some stability AFAICT.
->>
->> I have little knowledge with hid-bpf, but I assume it is more like a
->> "safe" kernel module; in my understanding, it affects the system state
->> and is intended to be loaded with some kind of a system daemon. It is
->> fine to have the same lifecycle with the kernel for such a BPF program;
->> whenever the kernel is updated, the distributor can recompile the BPF
->> program with the new kernel headers and ship it along with the kernel
->> just as like a kernel module.
->>
->> In contrast, our intended use case is more like a normal application.
->> So, for example, a user may download a container and run QEMU (including
->> the BPF program) installed in the container. As such, it is nice if the
->> ABI is stable across kernel releases, but it is not guaranteed for
->> kfuncs. Such a use case is already covered with the eBPF steering
->> program so I want to maintain it if possible.
-> 
-> TBH, I don't think stability should be a concern for kfuncs used by QEMU.
-> Many core BPF APIs are now implemented as kfuncs: bpf_dynptr_*,
-> bpf_rcu_*, etc. As long as there are valid use cases,these kfuncs will
-> be supported.
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/spi/apple,spi.yaml:10:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
-Documentation/bpf/kfuncs.rst still says:
- > kfuncs provide a kernel <-> kernel API, and thus are not bound by any
- > of the strict stability restrictions associated with kernel <-> user
- > UAPIs.
+vim +10 Documentation/devicetree/bindings/spi/apple,spi.yaml
 
-Is it possible to change the statement like as follows:
-"Most kfuncs provide a kernel <-> kernel API, and thus are not bound by 
-any of the strict stability restrictions associated with kernel <-> user
-UAPIs. kfuncs that have same stability restrictions associated with 
-UAPIs are exceptional, and must be carefully reviewed by subsystem (and 
-BPF?) maintainers as any other UAPIs are."
+58fdf82c56ee6c Hector Martin 2021-12-12   8  
+58fdf82c56ee6c Hector Martin 2021-12-12   9  allOf:
+58fdf82c56ee6c Hector Martin 2021-12-12 @10    - $ref: "spi-controller.yaml#"
+58fdf82c56ee6c Hector Martin 2021-12-12  11  
+58fdf82c56ee6c Hector Martin 2021-12-12  12  maintainers:
+58fdf82c56ee6c Hector Martin 2021-12-12  13    - Hector Martin <marcan@marcan.st>
+58fdf82c56ee6c Hector Martin 2021-12-12  14  
+58fdf82c56ee6c Hector Martin 2021-12-12  15  properties:
+58fdf82c56ee6c Hector Martin 2021-12-12  16    compatible:
+58fdf82c56ee6c Hector Martin 2021-12-12  17      items:
+58fdf82c56ee6c Hector Martin 2021-12-12  18        - enum:
+58fdf82c56ee6c Hector Martin 2021-12-12  19            - apple,t8103-spi
+58fdf82c56ee6c Hector Martin 2021-12-12  20            - apple,t6000-spi
+58fdf82c56ee6c Hector Martin 2021-12-12  21        - const: apple,spi
+58fdf82c56ee6c Hector Martin 2021-12-12  22  
+58fdf82c56ee6c Hector Martin 2021-12-12  23    reg:
+58fdf82c56ee6c Hector Martin 2021-12-12  24      maxItems: 1
+58fdf82c56ee6c Hector Martin 2021-12-12  25  
+58fdf82c56ee6c Hector Martin 2021-12-12  26    clocks:
+58fdf82c56ee6c Hector Martin 2021-12-12  27      maxItems: 1
+58fdf82c56ee6c Hector Martin 2021-12-12  28  
+58fdf82c56ee6c Hector Martin 2021-12-12  29    interrupts:
+58fdf82c56ee6c Hector Martin 2021-12-12  30      maxItems: 1
+58fdf82c56ee6c Hector Martin 2021-12-12  31  
+58fdf82c56ee6c Hector Martin 2021-12-12  32    power-domains:
+58fdf82c56ee6c Hector Martin 2021-12-12  33      maxItems: 1
+58fdf82c56ee6c Hector Martin 2021-12-12  34  
+58fdf82c56ee6c Hector Martin 2021-12-12  35  required:
+58fdf82c56ee6c Hector Martin 2021-12-12  36    - compatible
+58fdf82c56ee6c Hector Martin 2021-12-12  37    - reg
+58fdf82c56ee6c Hector Martin 2021-12-12  38    - clocks
+58fdf82c56ee6c Hector Martin 2021-12-12  39    - interrupts
+58fdf82c56ee6c Hector Martin 2021-12-12  40    - '#address-cells'
+58fdf82c56ee6c Hector Martin 2021-12-12  41    - '#size-cells'
+58fdf82c56ee6c Hector Martin 2021-12-12  42  
 
-Regards,
-Akihiko Odaki
+:::::: The code at line 10 was first introduced by commit
+:::::: 58fdf82c56ee6cbecefb801f9fb98a7ca6929866 dt-bindings: spi: apple,spi: Add binding for Apple SPI controllers
+
+:::::: TO: Hector Martin <marcan@marcan.st>
+:::::: CC: Hector Martin <marcan@marcan.st>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
