@@ -1,75 +1,44 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h5alUNaa"
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A71529C;
-	Mon, 20 Nov 2023 02:58:54 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5bddf66ed63so2877690a12.1;
-        Mon, 20 Nov 2023 02:58:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700477934; x=1701082734; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hss0DScungQG3wuEN+tDn4zevM2VhdEJWx+ngv2QB2g=;
-        b=h5alUNaa6bBArrEjXy7zfYJ9s2J+tMGXyqjDyzHuPWqFJK4Dt/RXUtIGQyeS5S0sU6
-         FSqLZPUpyXNK1nWFqJb/G1hxBQOVIj9II/nOQE/Tgr8GHgWeZbcrNfQW8TsU24fIS2wL
-         hxTkVD8en2hMoLSk8xR6n7H6uT21hzwQzmS0sVxyuPOgbc61giqFLm5tesF1Sm8o5X8A
-         JYCEvP6c3RGsXTKdpk1k09R0Xl0u7vwZX/+MUFCf8O4XFA5X8MFK6ElFGWmd+wFyBqrK
-         HLMmZEP6Ip9cIu9vklH9FJdEm8I4bGz7NgHejFa5O1QzVBJlMmzjyhIXxMM/CTmwmaGV
-         KTow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700477934; x=1701082734;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hss0DScungQG3wuEN+tDn4zevM2VhdEJWx+ngv2QB2g=;
-        b=VsgoOMU+hxuyvKt3gGaMQgz05ChbYmyvbebv41ezDNDr18i64lOSSq1oVPvsn2/riv
-         aUjt5hi2RE03jICFRy/jXmneD1vxKsqxPj4CPHgruXXqhiOHXBhoTqUUeAOXBPHG4emG
-         UE/oPGcEkeYxiJApI9vUV2+1yIT6E8s30UBl2z/EHyL15x2xPd8S6Ktp8VWFooNawp1I
-         fw7fqbQnM3KzROJ7htg0RVhJYuhs6jcS7jhGzo+29yfHKxESibxRUkSCX68oXcruE1KR
-         vNYA8dxWfhKtrD6/fqwrjg/r6MY7FKX9oqLkpg6h+cAhPqan6FiU/G6LlDPdXKqt53VL
-         riog==
-X-Gm-Message-State: AOJu0YyaZyv7Rh4K1DanXgTeYd9JMiEa3SQJ9kCQEf+ObGxEWoXCSYGT
-	8Ja9klLM1epqptWLNYD+lUI=
-X-Google-Smtp-Source: AGHT+IE0ir36wseZ1ERuTn6WVBZ2hZ9lSDF8lyMELvj+kI6imXtdURMceGktUBcNOEOyuiWaZcapPg==
-X-Received: by 2002:a05:6a20:3d87:b0:187:2b7b:1b87 with SMTP id s7-20020a056a203d8700b001872b7b1b87mr9778084pzi.21.1700477933855;
-        Mon, 20 Nov 2023 02:58:53 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id v10-20020aa7850a000000b006be4bb0d2dcsm6010021pfn.149.2023.11.20.02.58.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 02:58:53 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 667ED101D8174; Mon, 20 Nov 2023 17:58:51 +0700 (WIB)
-Date: Mon, 20 Nov 2023 17:58:51 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Yi-De Wu <yi-de.wu@mediatek.com>,
-	Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A1A199C
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 03:10:48 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1r52AM-000764-P7; Mon, 20 Nov 2023 12:10:10 +0100
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1r52AK-00AKxL-MV; Mon, 20 Nov 2023 12:10:08 +0100
+Received: from ore by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1r52AK-002x1I-Iw; Mon, 20 Nov 2023 12:10:08 +0100
+Date: Mon, 20 Nov 2023 12:10:08 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	David Bradil <dbrazdil@google.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Jade Shih <jades.shih@mediatek.com>,
-	Ivan Tseng <ivan.tseng@mediatek.com>,
-	My Chuang <my.chuang@mediatek.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <peilun.suei@mediatek.com>,
-	Liju Chen <liju-clr.chen@mediatek.com>,
-	Willix Yeh <chi-shen.yeh@mediatek.com>,
-	Kevenny Hsieh <kevenny.hsieh@mediatek.com>
-Subject: Re: [PATCH v7 01/16] docs: geniezone: Introduce GenieZone hypervisor
-Message-ID: <ZVs760ggqT-erCji@archie.me>
-References: <20231116152756.4250-1-yi-de.wu@mediatek.com>
- <20231116152756.4250-2-yi-de.wu@mediatek.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 2/9] ethtool: Expand Ethernet Power Equipment
+ with PoE alongside PoDL
+Message-ID: <20231120111008.GC590719@pengutronix.de>
+References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
+ <20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
+ <04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
+ <20231120110944.66938859@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,214 +47,105 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231116152756.4250-2-yi-de.wu@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231120110944.66938859@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, Nov 16, 2023 at 11:27:41PM +0800, Yi-De Wu wrote:
-> diff --git a/Documentation/virt/geniezone/introduction.rst b/Documentation/virt/geniezone/introduction.rst
-> new file mode 100644
-> index 000000000000..fb9fa41bcfb8
-> --- /dev/null
-> +++ b/Documentation/virt/geniezone/introduction.rst
-> @@ -0,0 +1,86 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +======================
-> +GenieZone Introduction
-> +======================
-> +
-> +Overview
-> +========
-> +GenieZone hypervisor(gzvm) is a type-1 hypervisor that supports various virtual
-"... hypervisor (gzvm) ..."
-> +machine types and provides security features such as TEE-like scenarios and
-> +secure boot. It can create guest VMs for security use cases and has
-> +virtualization capabilities for both platform and interrupt. Although the
-> +hypervisor can be booted independently, it requires the assistance of GenieZone
-> +hypervisor kernel driver(gzvm-ko) to leverage the ability of Linux kernel for
-"hypervisor kernel driver (also named gzvm) ..."
-> +vCPU scheduling, memory management, inter-VM communication and virtio backend
-> +support.
-> +
-> +Supported Architecture
-> +======================
-> +GenieZone now only supports MediaTek ARM64 SoC.
-> +
-> +Features
-> +========
-> +
-> +- vCPU Management
-> +
-> +VM manager aims to provide vCPUs on the basis of time sharing on physical CPUs.
-> +It requires Linux kernel in host VM for vCPU scheduling and VM power management.
-> +
-> +- Memory Management
-> +
-> +Direct use of physical memory from VMs is forbidden and designed to be dictated
-> +to the privilege models managed by GenieZone hypervisor for security reason.
-> +With the help of gzvm-ko, the hypervisor would be able to manipulate memory as
+Köry,
 
-s/gzvm-ko/gzvm module/g
+On Mon, Nov 20, 2023 at 11:09:44AM +0100, Köry Maincent wrote:
+> +Oleksij
+> 
+> Sorry forgot to CC you the series.
+> Maybe you should add yourself to the MAINTAINERS of pse-pd drivers subsystem?
 
-> +objects.
-> +
-> +- Virtual Platform
-> +
-> +We manage to emulate a virtual mobile platform for guest OS running on guest
-> +VM. The platform supports various architecture-defined devices, such as
-> +virtual arch timer, GIC, MMIO, PSCI, and exception watching...etc.
-> +
-> +- Inter-VM Communication
-> +
-> +Communication among guest VMs was provided mainly on RPC. More communication
-> +mechanisms were to be provided in the future based on VirtIO-vsock.
-> +
-> +- Device Virtualization
-> +
-> +The solution is provided using the well-known VirtIO. The gzvm-ko would
-> +redirect MMIO traps back to VMM where the virtual devices are mostly emulated.
-> +Ioeventfd is implemented using eventfd for signaling host VM that some IO
-> +events in guest VMs need to be processed.
-> +
-> +- Interrupt virtualization
-> +
-> +All Interrupts during some guest VMs running would be handled by GenieZone
-> +hypervisor with the help of gzvm-ko, both virtual and physical ones. In case
-> +there's no guest VM running out there, physical interrupts would be handled by
-> +host VM directly for performance reason. Irqfd is also implemented using
-> +eventfd for accepting vIRQ requests in gzvm-ko.
-> +
-> +Platform architecture component
-> +===============================
-> +
-> +- vm
-> +
-> +The vm component is responsible for setting up the capability and memory
-> +management for the protected VMs. The capability is mainly about the lifecycle
-> +control and boot context initialization. And the memory management is highly
-> +integrated with ARM 2-stage translation tables to convert VA to IPA to PA under
-> +proper security measures required by protected VMs.
-> +
-> +- vcpu
-> +
-> +The vcpu component is the core of virtualizing aarch64 physical CPU runnable,
-> +and it controls the vCPU lifecycle including creating, running and destroying.
-> +With self-defined exit handler, the vm component would be able to act
-> +accordingly before terminated.
-> +
-> +- vgic
-> +
-> +The vgic component exposes control interfaces to Linux kernel via irqchip, and
-> +we intend to support all SPI, PPI, and SGI. When it comes to virtual
-> +interrupts, the GenieZone hypervisor would write to list registers and trigger
-> +vIRQ injection in guest VMs via GIC.
+ack, i'll take a look at this.
 
-Descriptions for feature lists can be aligned:
+> On Sat, 18 Nov 2023 18:38:43 +0100
+> Andrew Lunn <andrew@lunn.ch> wrote:
+> 
+> > On Thu, Nov 16, 2023 at 03:01:34PM +0100, Kory Maincent wrote:
+> > > In the current PSE interface for Ethernet Power Equipment, support is
+> > > limited to PoDL. This patch extends the interface to accommodate the
+> > > objects specified in IEEE 802.3-2022 145.2 for Power sourcing
+> > > Equipment (PSE).  
+> > 
+> > Sorry for taking a while getting to these patches. Plumbers and other
+> > patches have been keeping me busy.
+> 
+> Don't worry you are doing a great job as a net maintainer and I won't raise any
+> remarks on delay considering how you are doing your job.
+> Thanks again for your review!!
+> 
+> > I'm trying to get my head around naming... Is there some sort of
+> > hierarchy? Is PSE the generic concept for putting power down the
+> > cable? Then you have the sub-type PoDL, and the sub-type PoE?
+> 
+> In fact as we discussed with Oleksij I decided to keep the naming as close as
+> possible to the IEEE 802.3 standard.
+> On the standard the PODL is naming like this aPoDLPSE* (ex: aPoDLPSEAdminState)
+> and the PSE is naming like this aPSE* (ex: aPSEAdminState) without any PoE
+> prefix. Maybe it is due to PoE being supported before PoDL and they didn't
+> expect the PoDL part.
 
----- >8 ----
-diff --git a/Documentation/virt/geniezone/introduction.rst b/Documentation/virt/geniezone/introduction.rst
-index fb9fa41bcfb8b3..f37ddf4e979992 100644
---- a/Documentation/virt/geniezone/introduction.rst
-+++ b/Documentation/virt/geniezone/introduction.rst
-@@ -24,63 +24,64 @@ Features
- 
- - vCPU Management
- 
--VM manager aims to provide vCPUs on the basis of time sharing on physical CPUs.
--It requires Linux kernel in host VM for vCPU scheduling and VM power management.
-+  VM manager aims to provide vCPUs on the basis of time sharing on physical
-+  CPUs. It requires Linux kernel in host VM for vCPU scheduling and VM power
-+  management.
- 
- - Memory Management
- 
--Direct use of physical memory from VMs is forbidden and designed to be dictated
--to the privilege models managed by GenieZone hypervisor for security reason.
--With the help of gzvm-ko, the hypervisor would be able to manipulate memory as
--objects.
-+  Direct use of physical memory from VMs is forbidden and designed to be
-+  dictated to the privilege models managed by GenieZone hypervisor for security
-+  reason. With the help of gzvm-ko, the hypervisor would be able to manipulate
-+  memory as objects.
- 
- - Virtual Platform
- 
--We manage to emulate a virtual mobile platform for guest OS running on guest
--VM. The platform supports various architecture-defined devices, such as
--virtual arch timer, GIC, MMIO, PSCI, and exception watching...etc.
-+  We manage to emulate a virtual mobile platform for guest OS running on guest
-+  VM. The platform supports various architecture-defined devices, such as
-+  virtual arch timer, GIC, MMIO, PSCI, and exception watching...etc.
- 
- - Inter-VM Communication
- 
--Communication among guest VMs was provided mainly on RPC. More communication
--mechanisms were to be provided in the future based on VirtIO-vsock.
-+  Communication among guest VMs was provided mainly on RPC. More communication
-+  mechanisms were to be provided in the future based on VirtIO-vsock.
- 
- - Device Virtualization
- 
--The solution is provided using the well-known VirtIO. The gzvm-ko would
--redirect MMIO traps back to VMM where the virtual devices are mostly emulated.
--Ioeventfd is implemented using eventfd for signaling host VM that some IO
--events in guest VMs need to be processed.
-+  The solution is provided using the well-known VirtIO. The gzvm-ko would
-+  redirect MMIO traps back to VMM where the virtual devices are mostly
-+  emulated. Ioeventfd is implemented using eventfd for signaling host VM that
-+  some IO events in guest VMs need to be processed.
- 
- - Interrupt virtualization
- 
--All Interrupts during some guest VMs running would be handled by GenieZone
--hypervisor with the help of gzvm-ko, both virtual and physical ones. In case
--there's no guest VM running out there, physical interrupts would be handled by
--host VM directly for performance reason. Irqfd is also implemented using
--eventfd for accepting vIRQ requests in gzvm-ko.
-+  All Interrupts during some guest VMs running would be handled by GenieZone
-+  hypervisor with the help of gzvm-ko, both virtual and physical ones. In case
-+  there's no guest VM running out there, physical interrupts would be handled
-+  by host VM directly for performance reason. Irqfd is also implemented using
-+  eventfd for accepting vIRQ requests in gzvm-ko.
- 
- Platform architecture component
- ===============================
- 
- - vm
- 
--The vm component is responsible for setting up the capability and memory
--management for the protected VMs. The capability is mainly about the lifecycle
--control and boot context initialization. And the memory management is highly
--integrated with ARM 2-stage translation tables to convert VA to IPA to PA under
--proper security measures required by protected VMs.
-+  The vm component is responsible for setting up the capability and memory
-+  management for the protected VMs. The capability is mainly about the
-+  lifecycle control and boot context initialization. And the memory management
-+  is highly integrated with ARM 2-stage translation tables to convert VA to IPA
-+  to PA under proper security measures required by protected VMs.
- 
- - vcpu
- 
--The vcpu component is the core of virtualizing aarch64 physical CPU runnable,
--and it controls the vCPU lifecycle including creating, running and destroying.
--With self-defined exit handler, the vm component would be able to act
--accordingly before terminated.
-+  The vcpu component is the core of virtualizing aarch64 physical CPU runnable,
-+  and it controls the vCPU lifecycle including creating, running and
-+  destroying. With self-defined exit handler, the vm component would be able to
-+  act accordingly before terminated.
- 
- - vgic
- 
--The vgic component exposes control interfaces to Linux kernel via irqchip, and
--we intend to support all SPI, PPI, and SGI. When it comes to virtual
--interrupts, the GenieZone hypervisor would write to list registers and trigger
--vIRQ injection in guest VMs via GIC.
-+  The vgic component exposes control interfaces to Linux kernel via irqchip,
-+  and we intend to support all SPI, PPI, and SGI. When it comes to virtual
-+  interrupts, the GenieZone hypervisor would write to list registers and
-+  trigger vIRQ injection in guest VMs via GIC.
+"PoE" (initially Power via MDI?) and PoDL have kind of different technologies.
+They use different negotiation and need different physical implementation.
+IEEE 802.3 standard is trying to be backwards and kind of forwards compatible
+for PoE. But not compatible between PoE and PoDL.
 
-Thanks.
+In general, it is not just about enabling or disabling power.
+"admin_state" == enable is other way to say - "do the right thing".
+And the "right thing" may include some kind of communication between PSE
+(Power Source Equipment) and PD (Powered Device).
 
+Since, some variants of  Single Pair Ethernet (SPE) are using same
+auto negotiation protocol as not SPE variants. I can imagine, that some
+day we will see a hybrid (SPE+nonSPE) devices. Wich will need to
+support both: PoE and PoDL. I assume, in that case, we wont to be able
+to control both variants separately.
+
+This is why I prefer to have mapping of IEEE 802.3 specification to the
+user space as close as possible.
+
+> > >  struct pse_control_config {
+> > >  	enum ethtool_podl_pse_admin_state podl_admin_control;
+> > > +	enum ethtool_pse_admin_state admin_control;  
+> > 
+> > When i look at this, it seems to me admin_control should be generic
+> > across all schemes which put power down the cable, and
+> > podl_admin_control is specific to how PoDL puts power down the cable.
+> >
+> > Since you appear to be adding support for a second way to put power
+> > down the cable, i would expect something like poe_admin_control being
+> > added here. But maybe that is in a later patch?
+> 
+> No as said above admin_control is for PoE and podl_admin_control is for PoDL.
+> Maybe you prefer to use poe_admin_control, and add poe prefix in the poe
+> variables. It will differ a bit from the IEEE standard naming but I agreed that
+> it would be more understandable in the development part.
+
+Official name for "PoE" is "Power via Media Dependent Interface". PoE is
+not used in the IEEE 802.3-2018. Using names not used in the specification,
+make development even harder :)
+Especially since there are even more marketing names (names not used in the
+specification) for different PoE variants:
+- 802.3af (802.3at Type 1), PoE
+- 802.3at Type 2, PoE+
+- 802.3bt Type 3, 4PPoE or PoE++
+- 802.3bt Type 4, 4PPoE or PoE++
+
+Regards,
+Oleksij
 -- 
-An old man doll... just what I always wanted! - Clara
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
