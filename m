@@ -1,97 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25050194;
-	Sun, 19 Nov 2023 19:23:04 -0800 (PST)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0Vwg0Exo_1700450581;
-Received: from 30.97.48.234(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0Vwg0Exo_1700450581)
-          by smtp.aliyun-inc.com;
-          Mon, 20 Nov 2023 11:23:02 +0800
-Message-ID: <056d09c0-eb0d-2092-0766-bf253a9d8751@linux.alibaba.com>
-Date: Mon, 20 Nov 2023 11:23:00 +0800
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RfxUWsGU"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7145DF2;
+	Sun, 19 Nov 2023 19:29:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700450964; x=1731986964;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=79nx+jYDbS/YIn8ND8Ww6p1B32P9iaQpRFvr5tSfCWY=;
+  b=RfxUWsGU83BkRYGr8AHGQyM6DAbglNW5bd1PoOd1KRQk2yaPaFHijite
+   KppcPv6KQdJWSemACmMONFtZsP6QmoXYiCjtcwbBANJUw4dQiab5l3qtR
+   cMrdOVVP8Qlo39Z2JDrV4FSpJb/J2YAuolXjfc3y6sX4qAHrF0Uk1GvHx
+   fuMkL3zUbV5s1Fbesi7U7ReYObWACHAVPdz2C0y0kWXfE4KhfeyiSf0x0
+   5To2BaijfDq73SCQv5HHpvMo4RJaPfhyiJxMsbzCuKT+V5tldF/rLYHUb
+   FO98Dte39iCOjW7vQ853pyaoc4KxxxTD/TpZgiX7rfULwqLWdJ+xmuRj6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="370886751"
+X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
+   d="scan'208";a="370886751"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 19:29:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
+   d="scan'208";a="7426029"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 19 Nov 2023 19:29:22 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r4uyN-0005tj-2K;
+	Mon, 20 Nov 2023 03:29:19 +0000
+Date: Mon, 20 Nov 2023 11:28:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ulf Hansson <ulf.hansson@linaro.org>, linux-doc@vger.kernel.org
+Subject: drivers/mmc/host/sdhci-omap.c:2: warning: This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202311201117.lFxgJTK6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.1
-Subject: Re: [PATCH] MAINTAINERS: erofs: add EROFS webpage
-To: Chao Yu <chao@kernel.org>, linux-erofs@lists.ozlabs.org
-Cc: Jonathan Corbet <corbet@lwn.net>, LKML <linux-kernel@vger.kernel.org>,
- linux-doc@vger.kernel.org
-References: <20231117085329.1624223-1-hsiangkao@linux.alibaba.com>
- <4e99d1a3-026f-b5f0-fd15-fba57692d973@kernel.org>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <4e99d1a3-026f-b5f0-fd15-fba57692d973@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
+commit: 7d326930d3522a1183b8d54126c524fcbccd3343 mmc: sdhci-omap: Add OMAP SDHCI driver
+date:   6 years ago
+config: x86_64-buildonly-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20231120/202311201117.lFxgJTK6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311201117.lFxgJTK6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311201117.lFxgJTK6-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/mmc/host/sdhci-omap.c:265:6: warning: no previous prototype for 'sdhci_omap_set_ios' [-Wmissing-prototypes]
+     265 | void sdhci_omap_set_ios(struct mmc_host *mmc, struct mmc_ios *ios)
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/mmc/host/sdhci-omap.c:326:6: warning: no previous prototype for 'sdhci_omap_set_power' [-Wmissing-prototypes]
+     326 | void sdhci_omap_set_power(struct sdhci_host *host, unsigned char mode,
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/mmc/host/sdhci-omap.c:347:14: warning: no previous prototype for 'sdhci_omap_get_min_clock' [-Wmissing-prototypes]
+     347 | unsigned int sdhci_omap_get_min_clock(struct sdhci_host *host)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mmc/host/sdhci-omap.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * SDHCI Controller driver for TI's OMAP SoCs
 
 
+vim +2 drivers/mmc/host/sdhci-omap.c
 
-On 2023/11/20 11:18, Chao Yu wrote:
-> On 2023/11/17 16:53, Gao Xiang wrote:
->> Add a new `W:` field of the EROFS entry points to the documentation
->> site at <https://erofs.docs.kernel.org>.
->>
->> In addition, update the in-tree documentation and Kconfig too.
->>
->> Signed-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
-> 
-> Nice work!
-> 
-> Reviewed-by: Chao Yu <chao@kernel.org>
+   > 2	 * SDHCI Controller driver for TI's OMAP SoCs
+     3	 *
+     4	 * Copyright (C) 2017 Texas Instruments
+     5	 * Author: Kishon Vijay Abraham I <kishon@ti.com>
+     6	 *
+     7	 * This program is free software: you can redistribute it and/or modify
+     8	 * it under the terms of the GNU General Public License version 2 of
+     9	 * the License as published by the Free Software Foundation.
+    10	 *
+    11	 * This program is distributed in the hope that it will be useful,
+    12	 * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    13	 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    14	 * GNU General Public License for more details.
+    15	 *
+    16	 * You should have received a copy of the GNU General Public License
+    17	 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    18	 */
+    19	
 
-Hi Chao,
-
-Thanks for the time and review! but I've already do a tag this morning
-for Linus later so it may not contain this tag, sorry about that.
-
-Thanks for the review again!
-
-Thanks,
-Gao Xiang
-
-> 
-> Thanks,
-> 
->> ---
->>   Documentation/filesystems/erofs.rst | 4 ++++
->>   MAINTAINERS                         | 1 +
->>   fs/erofs/Kconfig                    | 2 +-
->>   3 files changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
->> index 57c6ae23b3fc..cc4626d6ee4f 100644
->> --- a/Documentation/filesystems/erofs.rst
->> +++ b/Documentation/filesystems/erofs.rst
->> @@ -91,6 +91,10 @@ compatibility checking tool (fsck.erofs), and a debugging tool (dump.erofs):
->>   - git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
->> +For more information, please also refer to the documentation site:
->> +
->> +- https://erofs.docs.kernel.org
->> +
->>   Bugs and patches are welcome, please kindly help us and send to the following
->>   linux-erofs mailing list:
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 97f51d5ec1cf..cf39d16ad22a 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -7855,6 +7855,7 @@ R:    Yue Hu <huyue2@coolpad.com>
->>   R:    Jeffle Xu <jefflexu@linux.alibaba.com>
->>   L:    linux-erofs@lists.ozlabs.org
->>   S:    Maintained
->> +W:    https://erofs.docs.kernel.org
->>   T:    git git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git
->>   F:    Documentation/ABI/testing/sysfs-fs-erofs
->>   F:    Documentation/filesystems/erofs.rst
->> diff --git a/fs/erofs/Kconfig b/fs/erofs/Kconfig
->> index e540648dedc2..1d318f85232d 100644
->> --- a/fs/erofs/Kconfig
->> +++ b/fs/erofs/Kconfig
->> @@ -21,7 +21,7 @@ config EROFS_FS
->>         performance under extremely memory pressure without extra cost.
->>         See the documentation at <file:Documentation/filesystems/erofs.rst>
->> -      for more details.
->> +      and the web pages at <https://erofs.docs.kernel.org> for more details.
->>         If unsure, say N.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
