@@ -1,65 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7654038DF2
-	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 22:07:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UvzL5MLN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC4C6C433C7;
-	Mon, 20 Nov 2023 22:07:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700518034;
-	bh=pRfngoTn/pdZvbsfo9mWloDhdaSb2Q6x+sHbTJ55rNI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UvzL5MLNpEIN3tQ0N6BcoU9Mj9SfFdXhLBOhd2TNTS34OUXGaTq3TiT1TWrC5c+LU
-	 tXZ5N7Y1isGMSYJc/mG9CA6ar7+ne+x+AzdTvlBZu90w85AWP9fRF/RuQYOn59lENs
-	 1zAfnysjVWiCf/zgF0QaOjN5XlHwn9CyX2Csg3c1GqmWSO00YnOgYN3s7osciD2uqt
-	 hcrzT6BSE+JHFN+jfAry+y38+mOdtx9qV1aV2MNI8eSgiPm2f2m0zpHYCAsvgSHtrU
-	 P6BteFJPFRy+/am830pAdLJmr0w54OYj7qDCZFwyD/pjOKTfCq/6VnStNr5+HibpKv
-	 y/oNLgucTcY4g==
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Tadeusz Struk <tstruk@gmail.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="b1KIjbTv"
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E3F97;
+	Mon, 20 Nov 2023 14:14:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=Oz1szRIZelgpWpLqYCUSXAM3v9p92mCuoFgS4JdSE8Q=; b=b1
+	KIjbTvMoM7PSdR5cFcjvUt8nXka1oMHQrGAooE3TCNJrlij2DWm/bbvwc1yTQZCE3vLUgKWkH8HLU
+	6ZehboeaBcDHgVK/JjO2MZKu1uGEX4ngJ+NC01qizzz4yoD5KWUEHy+kQLDkWLzfo7/CumDcEnvbC
+	6Js/xXq6gxq3eLU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1r5CXI-000hFy-Dg; Mon, 20 Nov 2023 23:14:32 +0100
+Date: Mon, 20 Nov 2023 23:14:32 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	stable@kernel.org,
-	Tadeusz Struk <tstruk@gigaio.com>
-Subject: Re: [PATCH v2] Documentation: PCI/P2PDMA: Remove reference to pci_p2pdma_map_sg()
-Date: Mon, 20 Nov 2023 16:07:13 -0600
-Message-Id: <170051800635.218334.12191403128072786783.b4-ty@google.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231113180325.444692-1-tstruk@gmail.com>
-References: <6eb84bc5-dd58-4745-8e99-ccc97c10fb63@deltatee.com> <20231113180325.444692-1-tstruk@gmail.com>
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 2/9] ethtool: Expand Ethernet Power Equipment
+ with PoE alongside PoDL
+Message-ID: <887dbafe-def1-443f-8df2-b20b5ddc4db7@lunn.ch>
+References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
+ <20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
+ <04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
+ <20231120110944.66938859@kmaincent-XPS-13-7390>
+ <20231120111008.GC590719@pengutronix.de>
+ <2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.ch>
+ <20231120204221.GD590719@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231120204221.GD590719@pengutronix.de>
 
-From: Bjorn Helgaas <bhelgaas@google.com>
-
-
-On Mon, 13 Nov 2023 19:03:25 +0100, Tadeusz Struk wrote:
-> Update Documentation/driver-api/pci/p2pdma.rst doc and
-> remove references to obsolete p2pdma mapping functions.
+> > However, everything not PoDL PSE seems to be clause 33. So how about:
+> > 
+> > 	enum ethtool_podl_pse_admin_state podl_admin_control;
+> > 	enum ethtool_c33_pse_admin_state c33_admin_control;  
+> > 
+> > At least inside the kernel we use c22, c45, c37 etc. I'm not sure they
+> > are visible to userspace, but if we don't have a better name, maybe we
+> > have to use c33 in userspace as well.
+> > 
+> > I do think naming like this makes it clear we are talking about two
+> > parallel technologies, not a generic layer and then extensions for
+> > podl.
+> > 
+> > What do you think?
 > 
-> Fixes: 0d06132fc84b ("PCI/P2PDMA: Remove pci_p2pdma_[un]map_sg()")
-> Cc: stable <stable@kernel.org>
-> Signed-off-by: Tadeusz Struk <tstruk@gigaio.com>
-> ----
+> I'm OK with it.
+
+Great.
+
 > 
-> [...]
+> Köry, can you please include some kernel documentation in your patches?
+> Something like this. I hope it will help to clarify things :) :
 
-Applied to "p2pdma" for v6.8, thanks!
+This is good. I'm just wondering where to put it. Ideally we want to
+cross reference to it in both this header file, and in the netlink
+UAPI.
 
-[1/1] Documentation: PCI/P2PDMA: Remove reference to pci_p2pdma_map_sg()
-      commit: 9a000a72af75886e5de13f4edef7f0d788622e7d
-
-Best regards,
--- 
-Bjorn Helgaas <bhelgaas@google.com>
+	Andrew
