@@ -1,110 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B10DC;
-	Mon, 20 Nov 2023 11:55:32 -0800 (PST)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9ff26d7c0a6so155005466b.2;
-        Mon, 20 Nov 2023 11:55:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700510131; x=1701114931;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ILX+BJpjSKYXyXiiLjvfzvXA9fZPPfuyaLaXpQSKHWM=;
-        b=RbtATF23pvNfujJupUgp4mskaXmmjIB52o8DAY7x3nHguFXPsprOTv7YHbvyvH0hEy
-         P34IDysQ7komM2bAI7wMyqpvggJuS8APiDsQqpGuPH3Wr7y1ScDB3VN0OqEpLZXybHvb
-         LINWSqg53iPclDagv8aroALZPQr92d5jg2InaAwsb68ZkqwKHINj68brBqwYMghTaPq6
-         emSAsIrH2nXdtso2f1GPvZxFxy6VMcYA78/dWxJCTxlkMlm3BQUxIMfphTnTTU/9D/k7
-         nEe/sLswyxLs8+gdiLd9RBbxVqgiKmX6wzJFz5az37ukzNLqwr7zKvp1XtQxyaZajuH5
-         kAEA==
-X-Gm-Message-State: AOJu0YyPLA2q2YAxLT67pzmEz3iu19o7qmRMSPhrXpYtBiKCB6Ppez9G
-	m8DnbDtJuGHXMJ7TD9LDuLc=
-X-Google-Smtp-Source: AGHT+IEYRfWhaOPydo+cJgCSvFCQt4lgNST+TChjxonxA7gTVymXUZgohZHxW4c0vvnFlSJRyT5ghg==
-X-Received: by 2002:a17:906:c80a:b0:9fd:cc75:3393 with SMTP id cx10-20020a170906c80a00b009fdcc753393mr3467635ejb.20.1700510130713;
-        Mon, 20 Nov 2023 11:55:30 -0800 (PST)
-Received: from gmail.com (fwdproxy-cln-022.fbsv.net. [2a03:2880:31ff:16::face:b00c])
-        by smtp.gmail.com with ESMTPSA id e2-20020a170906c00200b009fb1c3ce877sm2726104ejz.76.2023.11.20.11.55.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 11:55:30 -0800 (PST)
-Date: Mon, 20 Nov 2023 11:55:26 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: leit@meta.com, Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	donald.hunter@gmail.com, linux-doc@vger.kernel.org,
-	pabeni@redhat.com, edumazet@google.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: Document each netlink family
-Message-ID: <ZVu5rq1SdloY41nH@gmail.com>
-References: <20231113202936.242308-1-leitao@debian.org>
- <87y1ew6n4x.fsf@meer.lwn.net>
- <20231117163939.2de33e83@kernel.org>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B1337142;
+	Mon, 20 Nov 2023 19:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BKNkukmI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 583B4C433C8;
+	Mon, 20 Nov 2023 19:58:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700510321;
+	bh=kqOXLzKsdX7CU+BiLbd6l4zUkLWhjs83HEjABTqBCM0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BKNkukmIlBs70y1buJVoLbG9KgdLqmiyiai9AM3sC1n6ybQf+tv3usOOs8CEgfQZO
+	 lgSdc/lkoKDZdYxTomFUZNCzWuLZ4+5XgL9lxU2+18+N/avPDB/hMW5OUpWNeqOoNU
+	 ACBvNxjZ5hoUuuj1rXup1tKbFRZHay3gn6bpMdQDa05xOB3sPdvMCteutsVQH50joc
+	 Vsgxoqr/pSEZZIJsfkt2MiUb5k5v+tUntmuwN6U0to9GDNkjWjTdui/2wB65t+IiYZ
+	 a5ps3Z3E9rZdAJenUi5Y421Flyb5YNbxq43UaHsfpWh1uuo/ZFYfVoyFmgIV7yJrCY
+	 hH3QWP8K5Mzaw==
+Date: Mon, 20 Nov 2023 11:58:39 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
+ stamping layer be selectable
+Message-ID: <20231120115839.74ee5492@kernel.org>
+In-Reply-To: <20231120190023.ymog4yb2hcydhmua@skbuf>
+References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
+	<20231114-feature_ptp_netnext-v7-15-472e77951e40@bootlin.com>
+	<20231118183433.30ca1d1a@kernel.org>
+	<20231120104439.15bfdd09@kmaincent-XPS-13-7390>
+	<20231120105255.cgbart5amkg4efaz@skbuf>
+	<20231120121440.3274d44c@kmaincent-XPS-13-7390>
+	<20231120120601.ondrhbkqpnaozl2q@skbuf>
+	<20231120144929.3375317e@kmaincent-XPS-13-7390>
+	<20231120142316.d2emoaqeej2pg4s3@skbuf>
+	<20231120093723.4d88fb2a@kernel.org>
+	<20231120190023.ymog4yb2hcydhmua@skbuf>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231117163939.2de33e83@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 17, 2023 at 04:39:39PM -0800, Jakub Kicinski wrote:
-> On Fri, 17 Nov 2023 15:17:02 -0700 Jonathan Corbet wrote:
-> > In principle I like this approach better.  There is one problem, though:
-> > 
-> > - In current kernels, on my machine, "make htmldocs" when nothing has
-> >   changed takes about 6s to complete.
-> > 
-> > - With this patch applied, it takes a little over 5 *minutes*.
-> > 
-> > Without having delved into it too far, I am guessing that the
-> > unconditional recreation of the netlink RST files is causing the rebuild
-> > of much of the documentation.  Even so, I don't quite get it.
-> > 
-> > That, clearly, would need to be fixed before this can go in.
-> 
-> FWIW on the C code-gen side we avoid touching the files if nothing
-> changed both at the Makefile level:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/tools/net/ynl/generated/Makefile#n28
+On Mon, 20 Nov 2023 21:00:23 +0200 Vladimir Oltean wrote:
+> Well, first of all, given my understanding of the "laws of physics",
+> I think something has to give in your use case description. I can't
+> see how on RX, the NIC can decide in advance whether to provide low
+> rate MAC timestamps for packets going to a socket and high rate DMA
+> timestamps for packets going to another socket. It can either provide
+> MAC timestamps, or DMA timestamps, or an unreliable, unpresentable to
+> user space, mix.
 
-I was able to do something similar and it works quite well. Only
-regenerate what is not up-to-date. See below what I am doing. (I needed
-to change the python to adapt)
+Rx time stamping is configured by filters. Is there a problem with user
+specifying that they want "true" timestamps for PTP/NTP packets, and
+"dma" timestamps for all the rest?
 
-> And the tool itself actually generates to a tempfile and compares
-> if the output changed:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=2b7ac0c87d985c92e519995853c52b9649ea4b07
+Maybe we can extend struct scm_timestamping to carry an indication
+which stamp ended up in ts[2] but that's less important to me than
+the ability to configure the thing. Right now, as I said, mlx5 uses
+an ethtool priv flag :(
 
-I am not planning to do it, since I would like to trust Make. Let me
-know if you think this is important and I can do it also.
+> But maybe I'm wrong and there are NICs which can do that filtering.
+> If such NIC exists, then I guess a SOF_TIMESTAMPING_RX_DMA flag should
+> be added to the socket layer, and the NIC driver provides timestamps
+> according to the skb->sk->sk_tsflags, and that problem is completely out
+> of scope for K=C3=B6ry's patch set - and implicitly compatible with it, s=
+ince
+> as you say, the device-wide timestamping layer - PHC index - does not
+> really change.
 
---
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 2f35793acd2a..dad6e2ecf082 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -97,7 +97,22 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
-                cp $(if $(patsubst /%,,$(DOCS_CSS)),$(abspath $(srctree)/$(DOCS_CSS)),$(DOCS_CSS)) $(BUILDDIR)/$3/_stati
-c/; \
-        fi
+IDK. Maybe the sniffles I picked up at LPC are clouding my judgment
+but to me this patch set is shaped too much by current implementation
+and not enough by what it's modeling. It basically exposes to user
+space the "mux" for choosing NETDEV vs PHYLIB.
 
--htmldocs:
-+YNL_TOOL:=$(srctree)/tools/net/ynl/ynl-gen-rst.py
-+YNL_YAML_DIR:=$(srctree)/Documentation/netlink/specs
-+YNL_RST_DIR:=$(srctree)/Documentation/networking/netlink_spec
-+YNL_INDEX:=$(srctree)/Documentation/networking/netlink_spec/index.rst
-+
-+YNL_YAML_FILES := $(wildcard $(YNL_YAML_DIR)/*.yaml)
-+YNL_RST_FILES_TMP := $(patsubst %.yaml,%.rst,$(wildcard $(YNL_YAML_DIR)/*.yaml))
-+YNL_RST_FILES := $(patsubst $(YNL_YAML_DIR)%,$(YNL_RST_DIR)%, $(YNL_RST_FILES_TMP))
-+
-+$(YNL_INDEX): $(YNL_RST_FILES)
-+       $(YNL_TOOL) -x # Generate the index
-+
-+%.rst: $(YNL_YAMLS_FILES)
-+       $(YNL_TOOL) -i $(patsubst %.rst,%.yaml, $(@F)) # generate individual rst files
-+
-+htmldocs: $(YNL_INDEX)
-        @$(srctree)/scripts/sphinx-pre-install --version-check
-        @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+There are multiple time stamping points as the packet moves thru=20
+the pipeline. Expose them so that SIOC[GS]HWTSTAMP can target each
+on individually.
+
+> If I'm not wrong and the MAC-or-DMA timestamp selection is NIC-wide
+> (which diverges from your problem description),
+
+Nope.
+
+> then neither K=C3=B6ry's work
+> nor my "everything is a phc_index" proposal will bring your use case to
+> fruition without further work. Here I would avoid speculating, because a
+> lot will depend upon the details which you haven't really given.
+
+What are the details you'd like? PTP gets stamped at the PHY/MAC,=20
+the rest gets stamped at DMA. mlx5 achieves this by splitting the
+PTP traffic to a separate queue pair, and configuring that qp to
+capture PHY/MAC stamps, AFAIU.
+
+> One question will be whether, in the case of "NIC-wide DMA timestamps",
+> DMA timestamps should be presented as hardware timestamps - struct
+> scm_timestamping[2] from CMSG_DATA() - or as their own thing, that user
+> space needs explicit support for - by parsing a new cmsg level/type.
+> If DMA timestamps won't look to user space like hardware timestamps,
+> then the use case is again out of scope for K=C3=B6ry's work, as far as I=
+ see
+> it.
+>=20
+> Another simple question is - if NICs do this today - probably by giving
+> the "unrepresentable mix" to user space in an implicit, hardcoded and
+> very fine tuned way such that nobody bats an eye - then what is there
+> more to support? Are you looking at extra UAPI as a way to legitimize
+> hacks, or do you feel there is extra control that applications can gain?
+
+I don't understand what you're asking me.
+
+DMA timestamping is becoming increasingly important. Ready any
+congestion control paper from the last 5 years and chances are
+it will be using delay as a signal. If we're extending uAPI
+for Hw stamping we should make sure to cater to CC use cases.
