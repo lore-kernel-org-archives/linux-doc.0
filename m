@@ -1,203 +1,164 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="VIyvLhG2"
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2084.outbound.protection.outlook.com [40.107.7.84])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF60ED;
-	Mon, 20 Nov 2023 06:23:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XTbRu9DXMDB5w+dTFQttsrAYUVLjEJ922Re3zQxIiZAmLoIFbusOHplmUrYYmtye6kdNTNA6GMBhL4PGrpe/UeZrhldzjdHAwlUBPZHMoMMgy1HUmyrPAq0rvu5jwFBydiXcKDbRHJzvlSG99vpGwQqUXWF0cgzaFphB9rUpAVLjBi0rUlUSA3F5kQQMLBGZGmWZZwWghN6pHyYd1y7JomNeZz+MMcwaEpFcI7Q/m+LCjPaf7J3r9cRw14/iSsWk5lJOi2HAcdVaCLSTktI3XgYl36oVGuzF4s7RtZIKA/WuxzGZnEfw0Xpn7JU5SXP2XDmqP077CqUCo4DQY5HROA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z9Rp6BhjePW4n7yLGOUpJXrOov3HVfU9u50Aa9xjNaw=;
- b=BoDzLw5E2GopaedvGSdAL4UAxKpRB+lCgfvW4Q4EcDAUhnugl9MMtX0tYSkFAJElTLD5hkQm9bhrecJ4/3t0GbOn8fRDX05u2sgv6HFXy9CLlYbGq1MGq2herio/ZoJ8jCLFxXubZdXhJgrI/cRZ0cwxDSAO0zkBR1vse9ZsYcsnVroSecCbc0pDoey/VdWWzs9O5qK+0sioNsBbwOQ0QAivmNk9fYh6ykkQQy0qJgTEbwQZytsGZ9xDpFHh5A6qYlL2694sUCjIR8gol40iFL143jQBlPGVlyvtNQf3JxUSziP8QxuYRMvDjnTcQsy2EXUuj20vc67Y0GyJ70Jo9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z9Rp6BhjePW4n7yLGOUpJXrOov3HVfU9u50Aa9xjNaw=;
- b=VIyvLhG2CgWyhGs12SXBGl4sgdRzAeuPD9Vf96/DpTfjfrTOSt+F6af+cSIGNTd5b608MlWKVjvRClDTrOkxfqbaW7WyNovg9N8DGWh6wF/MuDKpGEIOKndCYgsqrS+O4Bf6lwloMK7Q48yD6VYe0vdVG50DMS8w1vV+qVPBF1Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by PR3PR04MB7468.eurprd04.prod.outlook.com (2603:10a6:102:8d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.16; Mon, 20 Nov
- 2023 14:23:20 +0000
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::dd33:f07:7cfd:afa4]) by AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::dd33:f07:7cfd:afa4%7]) with mapi id 15.20.7025.015; Mon, 20 Nov 2023
- 14:23:20 +0000
-Date: Mon, 20 Nov 2023 16:23:16 +0200
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
- stamping layer be selectable
-Message-ID: <20231120142316.d2emoaqeej2pg4s3@skbuf>
-References: <20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com>
- <20231114-feature_ptp_netnext-v7-15-472e77951e40@bootlin.com>
- <20231118183433.30ca1d1a@kernel.org>
- <20231120104439.15bfdd09@kmaincent-XPS-13-7390>
- <20231120105255.cgbart5amkg4efaz@skbuf>
- <20231120121440.3274d44c@kmaincent-XPS-13-7390>
- <20231120120601.ondrhbkqpnaozl2q@skbuf>
- <20231120144929.3375317e@kmaincent-XPS-13-7390>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231120144929.3375317e@kmaincent-XPS-13-7390>
-X-ClientProxiedBy: AS4PR09CA0001.eurprd09.prod.outlook.com
- (2603:10a6:20b:5e0::7) To AM0PR04MB6452.eurprd04.prod.outlook.com
- (2603:10a6:208:16d::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WvMqMruZ"
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68ABD271B;
+	Mon, 20 Nov 2023 06:52:53 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-da7238b3eb4so4486479276.1;
+        Mon, 20 Nov 2023 06:52:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700491972; x=1701096772; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=3qHPMK/nPQeJpHqpbeb3m3W/Zwv9dUdlHR5D9mZqK24=;
+        b=WvMqMruZG7gsX0qRoN5WBMmSb0RZkm+x8CBiTo0HZBYRyy+s7k9PWzSqhko7+G5Q2V
+         TpOiHDvtrz0ljWqW7RAd79jLxjrlTrQVDXaFDy4dId/GLfsvkxSrzBUwZg8UmJMLy7Q8
+         mTzXRY0Q+IqBKXCt1+87CIkdRVL8esya+JEMMtGG1w3OCnuo5GralL/qJqJAYrvqnGAz
+         INLxPEbZr33wdieB8zBN10NVC5GGyIXlinB5a715w8n86zcSSrdUG6qmDJSkV7O8NB1m
+         OrIg9UKcpZkulfFfHGSfUgk0OhlJkGdsl4xe1beaXvA1HuTRuyuTRfUA5WBiEW2Ni5/U
+         G0iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700491972; x=1701096772;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3qHPMK/nPQeJpHqpbeb3m3W/Zwv9dUdlHR5D9mZqK24=;
+        b=Cz3aOEmiRSTKn84Q7weqwwTEPsgufMldN9lUuR0gXxAB3SIrfGhpK5sjsKHzRnvdpG
+         5OIxCRaQM/PfMR11zli1u2CnXgdVS1Fj5+1MgPUeFmUE1WW1vh8Ww6n0fIUnIFctcIIJ
+         L2YYP6Vwyv21LlUg2ppRk2n1cdoomzsBOdn55wV+6QelVjVlC4DSzCsvsKvbpYj6/37e
+         oE+S7M2ZK1uxwG4ST3K5vPdAuaoP/xpzYHjJlyqZn7qhhEr/LsDKB+8nsrDV6LLXeUTh
+         /ncz7hDegehYUA1HvtFp32APl/FRFZLXAGccIYa2hMQfq0RQIuRJGj/JNIhhEINi9VGT
+         r16w==
+X-Gm-Message-State: AOJu0Yzn6MVU0b/GW2B/uQqsdSVISO3mRJGwPT33soL4wqPr5fNxHPXO
+	EAk1WkQm8raH2J18vJyjUOA=
+X-Google-Smtp-Source: AGHT+IHPesf2IPH8qMkl34QrA2uEejr5dZvuu/lgS1+54IpfxxJID15h0vUj+alIvs2WwwKIdNI6Dg==
+X-Received: by 2002:a25:3452:0:b0:d9c:7d7d:1ac9 with SMTP id b79-20020a253452000000b00d9c7d7d1ac9mr6775451yba.14.1700491972419;
+        Mon, 20 Nov 2023 06:52:52 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 2-20020a251802000000b00d9c7bf8f32fsm48622yby.42.2023.11.20.06.52.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Nov 2023 06:52:52 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7ceb1104-ace0-47a7-93ed-64a03c149f63@roeck-us.net>
+Date: Mon, 20 Nov 2023 06:52:49 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|PR3PR04MB7468:EE_
-X-MS-Office365-Filtering-Correlation-Id: 824bc22b-a8a1-467f-2997-08dbe9d43f03
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	s77GlYJDL4Huga4N5iMx7G/kNieA4sFCH38zrxbSlX6svEwqiAHISjFLcvOZ/Y5Q0ssb9X0jQhCOZPcXco2OMZBnSPVDI1UsiLnHi81DTfquM+O1L/kF+/feUC2wCTouc40mKL2cA/WqlJCcDJ3sjpHKQ/ctsY9n6BVyT3k5pmIT5INvg1qBG4s3B+kT0kzTHft5nRxsluc6J9KYQ9Q/wor1H/kTv5CQ5a6rSK5pAZxB+N59JwyjB28g61J9qUSj/4xa2OKrkVY1pzP/7W6h6VC8QVnPxqJG+b1di5v1TcsQBt/mS+lfAb2DgYTyxPgDFM0sxSi8cwgF1+olhauMuRjQezQDrMQZAnP5/mhtGPw1zftaFuTdQ2mDQR9N/vbQD0RlwUIOS9W03C9U9VeyVQoHiR9M2EjiIgyJVOl4ebLTf5BD7Tm6ev5ZAPcM1DQ4oUdL2C19c7UpwvzQZjOMqF+7L4zSBbWWWaG4U5D4oE3jVmEsZrRpWFJh16IUHhpq2G6tKnaMNNqnnjCnCo9jCsXgh19m9NmylVM+qYXOrFU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(376002)(396003)(366004)(346002)(136003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(54906003)(66476007)(66556008)(316002)(6916009)(6506007)(66946007)(6486002)(478600001)(966005)(6666004)(9686003)(6512007)(38100700002)(26005)(2906002)(8676002)(8936002)(4326008)(5660300002)(1076003)(7416002)(83380400001)(41300700001)(44832011)(66899024)(86362001)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?zgMjhw2lzm6ArnZ2G9jsIltBL0VRyB7Fk+Qx/TCK4PCSt6Nl6y98ibZOBK?=
- =?iso-8859-1?Q?bsuBtrrVsq5nFopoFAGar9hAd3vjCazVchgg/PFWOKU0sgLe4ciMzRY230?=
- =?iso-8859-1?Q?tznvCiB9J6v9Br2l+VDdZCOaNULEoi4/J8OCnq1kRHwvVxOXO7Eb0dr31B?=
- =?iso-8859-1?Q?M+b33i3lC0MYjj7fnZbdmuKWpvdcCGeoUq6+0Pr5GZgwEBvgAxj3ziIKKD?=
- =?iso-8859-1?Q?p2NbgNRrOH5+WYpeWR5/SYwrYiIvAwnERUCdEPmQ35jYHy52ydB0pjkGFe?=
- =?iso-8859-1?Q?vCV3qzBCXSwNN61WzfgMWojBqCNCGIO68knwBsljhhO5srirRNmjCgVOl3?=
- =?iso-8859-1?Q?BXr/t/fsbRola9vXcpc+x4Nx/FJYU+y6aDxf0OTDzeEAxk8Gw9fypT1Ef0?=
- =?iso-8859-1?Q?CEj//YTE+8woMVRghMIysjkrPa5LVTkEHn4y6DV/EnymvwNWkba9Gv7pY7?=
- =?iso-8859-1?Q?zEsI+0+0QP570gdaKv9AosDyu3Znmksa3tYq8u8s0eQDnPWctEs/pwwgf/?=
- =?iso-8859-1?Q?EXMZAZKh3/DTaCpLw+Z1N5OqNuSGsFCmguTJmDM0Sy7AoP2KfOjV5oPB4M?=
- =?iso-8859-1?Q?fJ6E5Vb1ARvPtbQawbdcWUpU/J0HrugalpokvAdOrLQT5hUwVdyAzNezgZ?=
- =?iso-8859-1?Q?SwObbbro2885ASEiYLSlDZtrsmatB80PbQ8J6yz3k7fvDauU8q4lMHMUtW?=
- =?iso-8859-1?Q?UNwI3bHg5tGFNU0BmQfSDa+G5+so3JRANnxhglhijIuMAPOCwLQFbx6WBF?=
- =?iso-8859-1?Q?0kN25FPHZTvhPqyweoJvdY3Tmtd+VnK2qxpEpQ6/ytFY3/CsT4VpV/2oJ/?=
- =?iso-8859-1?Q?Rwnb+oU1Gg3fGbkBRfALyptAf1K1bSfi0jNdoq4q0AJRJ2W1TShAzc0giZ?=
- =?iso-8859-1?Q?PsDutSI8fmxFeafj7yaZum7v13Cx4l5t4jh37YH7ZhVKTWAqVilZZn2mOu?=
- =?iso-8859-1?Q?CARo4Hvzx/VzTzbM0iBkd3XNEI1QurO1Wwc0iJo7fGLlS9ccq+argxgwU7?=
- =?iso-8859-1?Q?WKzHfA0iuIG48QkBdbzXmF+pWAB3UNw0t0ikU+l/GWq0dcYW1IFhFGMW4C?=
- =?iso-8859-1?Q?Cz29gcLtXCWHcCSrlTPbMFUBVfiG3Qsd10MZtmYxrd5xn+8k+b9SgE4uaI?=
- =?iso-8859-1?Q?9U332RvUGEsfzVetBmHBq0IF+P1osaKMZzcJVNbrGpu+KOIaX3O0ZJGeVZ?=
- =?iso-8859-1?Q?Y+ZzEwM4p0sdCGxeefSrOeidVCwv5A9VotCqAiRftCGmNKkWFWHDFbrwbO?=
- =?iso-8859-1?Q?TtlERwlza4tMQaTrJaxGnx2Axky7CRnSJW4J5qmMAQoa4uTVOWasez6TRF?=
- =?iso-8859-1?Q?zTb21crfl29GO6eq7MgmpY5j1nZjpBSFrC2y3GWOyxbrSyHD8DT9yTdaDb?=
- =?iso-8859-1?Q?UsjFoSNMwp0/OxLocHfYB5UCyeqpYhhZtZZaCL7s0qbsbeCGAI+m/S4dH8?=
- =?iso-8859-1?Q?8JZONwz2fs0QkGro60daO6YbIx+ftzMqxhYgrTP+J0j0/CNT6KSWtwIBwm?=
- =?iso-8859-1?Q?/c39aghbvfEjvVNEGwbeu09H9dQdlJGiGJvJXcBE1dG9hpgUyg9bROjUs5?=
- =?iso-8859-1?Q?I9L6tpbky5M6iDu14mJqiDfYiRBshVs/fkQqR3avpHmV+THIL6BOkmVN8S?=
- =?iso-8859-1?Q?xeJnBuxmg3GqzdgwBdCS+0dcR6B3336Jd0f78ewxfn278eZjjdEbRpkQ?=
- =?iso-8859-1?Q?=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 824bc22b-a8a1-467f-2997-08dbe9d43f03
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2023 14:23:20.4585
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eZCCV/GGihoRzApZNS4EJHFeroKCeQ/9wDPRVCc0JRdy8HUQbINd4ZqKesBIr+6UQTW/dgPDNi52Xx8QFGIs/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7468
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Nuno Sa <nuno.sa@analog.com>, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <63effee3-359b-48a5-b5a4-36b0478f6045@suswa.mountain>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <63effee3-359b-48a5-b5a4-36b0478f6045@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 20, 2023 at 02:49:29PM +0100, Köry Maincent wrote:
-> > The next question would be: if a driver performs PHY management in
-> > firmware, and does not use phylib, how should user space interact with it?
-> > What timestamping layer and upon what should the ID be chosen?
+On 11/20/23 04:10, Dan Carpenter wrote:
+> Hi Nuno,
 > 
-> In that case it could be the second options I refereed to.
-> Using the id to select the right timestamp within the NIC driver.
-> It indeed won't be called PHY timestamping as it is managed by the NIC firmware
-> but as it is managed by only one firmware and driver using the id to separate
-> the available timestamp seems a good idea.
+> kernel test robot noticed the following build warnings:
 > 
-> Another solution would be to create another value in the layer enumeration.
-> PHY_NIC_TIMESTAMPING? Better idea? I am not good at naming.
-
-The point I was trying to make is that your current choice of exposing
-PHY_TIMESTAMPING in UAPI, when it really only refers to phylib PHYs,
-would lead exactly to this sort of UAPI balkanization where everyone
-wants to add more timestamping layers, and to define IDs to be specific
-to their own invented layer. Maybe the concept of timestamping layers is
-not what user space should see at all.
-
-In previous email discussions, I was proposing to Jakub and you "what if
-we didn't let user space select a specific layer like PHY_TIMESTAMPING
-or MAC_TIMESTAMPING at all, but just select a specific phc_index as the
-provider of hardware timestamps"?
-
-The limitation we're trying to lift is that currently, there can be only
-a single provider of hardware timestamps. We make that provider customizable.
-There is already a good understanding from user space that, if "ethtool -T"
-on an interface says there is no PHC, then there are going to be no
-hardware timestamps. So I thought it would be much more intuitive if the
-timestamping layer could be selected by the user merely by an unified
-phc_index (provided by a phylib phy or firmware based driver or whatever),
-and everything else would just be an implementation detail of the kernel.
-No one should care that it's a phylib phy, and shouldn't use a different
-procedure to identify its ID based on whether it's a phylib or firmware
-PHY.
-
-It's a bit hard to align my expectation of what this series should offer
-with yours. I think we're talking past each other, which unfortunately
-makes me lose track and interest. I wish you could have answered my
-earlier question about this alternative proposal.
-https://lore.kernel.org/netdev/20231013170903.p3ycicebnfrsmoks@skbuf/
-
-> > Finally (and unrelated to the question above), why is SOFTWARE_TIMESTAMPING
-> > even a layer exposed in the UAPI? My understanding of this patch set is
-> > that it is meant to select the source of hardware timestamps that are
-> > given to a socket. What gap in the UAPI does the introduction of a
-> > SOFTWARE_TIMESTAMPING hwtstamping layer cover?
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> As I explained to Jakub:
-> The software timestamping comes from the MAC driver capabilities and I decided
-> to separate software and MAC timestamping.
+> url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa/dt-bindings-hwmon-Add-LTC4282-bindings/20231110-232017
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+> patch link:    https://lore.kernel.org/r/20231110151905.1659873-3-nuno.sa%40analog.com
+> patch subject: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+> config: i386-randconfig-141-20231112 (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202311130219.YBiF8Xu3-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/hwmon/ltc4282.c:859 ltc4282_is_visible() warn: signedness bug returning '(-524)'
+> drivers/hwmon/ltc4282.c:1143 ltc4282_gpio_setup() warn: passing zero to 'dev_err_probe'
+> 
+> vim +859 drivers/hwmon/ltc4282.c
+> 
+> 31ea069ddf481b Nuno Sa 2023-11-10  844  static umode_t ltc4282_is_visible(const void *data,
+> 31ea069ddf481b Nuno Sa 2023-11-10  845  				  enum hwmon_sensor_types type,
+> 31ea069ddf481b Nuno Sa 2023-11-10  846  				  u32 attr, int channel)
+> 31ea069ddf481b Nuno Sa 2023-11-10  847  {
+> 31ea069ddf481b Nuno Sa 2023-11-10  848  	switch (type) {
+> 31ea069ddf481b Nuno Sa 2023-11-10  849  	case hwmon_in:
+> 31ea069ddf481b Nuno Sa 2023-11-10  850  		return ltc4282_in_is_visible(data, attr);
+> 31ea069ddf481b Nuno Sa 2023-11-10  851  	case hwmon_curr:
+> 31ea069ddf481b Nuno Sa 2023-11-10  852  		return ltc4282_curr_is_visible(attr);
+> 31ea069ddf481b Nuno Sa 2023-11-10  853  	case hwmon_power:
+> 31ea069ddf481b Nuno Sa 2023-11-10  854  		return ltc4282_power_is_visible(attr);
+> 31ea069ddf481b Nuno Sa 2023-11-10  855  	case hwmon_energy:
+> 31ea069ddf481b Nuno Sa 2023-11-10  856  		/* hwmon_energy_enable */
+> 31ea069ddf481b Nuno Sa 2023-11-10  857  		return 0644;
+> 31ea069ddf481b Nuno Sa 2023-11-10  858  	default:
+> 31ea069ddf481b Nuno Sa 2023-11-10 @859  		return -ENOTSUPP;
+> 
+> This function returns umode_t (which must be unsigned and smaller than
+> int for this warning to trigger).
+> 
 
-Why? What was the problem? This confuses me because I don't understand
-what is the problem that the solution is trying to address, and whether
-the solution is orthogonal to all the other UAPI that exists for
-software and hardware timestamping at the socket layer - which AFAIK can
-happily coexist.
+Yes, this is an is_visible() function which should return 0 if the attribute
+isn't visible.
 
-> If we select PHY timestamping we can't use software timestamping and
-> for an user, selecting the MAC as timestamping seems not logical to
-> use software timestamping (I got confused myself when I first dig into
-> it long time ago). Be able to select directly Software timestamping
-> seems appropriate and won't bring any harm. What do you think?
+Guenter
 
-Hmm, can you please explain what is the reason why software timestamping
-can't coexist with PHY timestamping? It is a genuine question to which I
-don't have an answer - I haven't used PHY timestamping. It must be
-something specific to that, since I do know that MAC + software
-timestamping work simultaneously just fine.
