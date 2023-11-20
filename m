@@ -1,169 +1,291 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JF4Fp2nn"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 813E6F3
-	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 02:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700477660;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2zUAf0kRwyhFacdVDNduqaFmW+J2nhNnMJ6K916lSRE=;
-	b=JF4Fp2nnhphCjILUdJ6p0Q5YtN11BxnU1nzbUUcvyCLhCgyk1IQqPz9YDQ2fpgVcS57Q1Q
-	xkhmG7U+YiPmcLhUxSjfT3+XCQahkaY8mVPYyeR2g9tjJUMbuifUg4V4d60LKGTgv6jy29
-	OnfVC9PyYiUTBON91VQL4c2ORJ0rpD8=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-665-36AXMvyaOxGr_IW2ILEnHg-1; Mon, 20 Nov 2023 05:54:19 -0500
-X-MC-Unique: 36AXMvyaOxGr_IW2ILEnHg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9dd89e2ce17so317019366b.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 02:54:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h5alUNaa"
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A71529C;
+	Mon, 20 Nov 2023 02:58:54 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5bddf66ed63so2877690a12.1;
+        Mon, 20 Nov 2023 02:58:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700477934; x=1701082734; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hss0DScungQG3wuEN+tDn4zevM2VhdEJWx+ngv2QB2g=;
+        b=h5alUNaa6bBArrEjXy7zfYJ9s2J+tMGXyqjDyzHuPWqFJK4Dt/RXUtIGQyeS5S0sU6
+         FSqLZPUpyXNK1nWFqJb/G1hxBQOVIj9II/nOQE/Tgr8GHgWeZbcrNfQW8TsU24fIS2wL
+         hxTkVD8en2hMoLSk8xR6n7H6uT21hzwQzmS0sVxyuPOgbc61giqFLm5tesF1Sm8o5X8A
+         JYCEvP6c3RGsXTKdpk1k09R0Xl0u7vwZX/+MUFCf8O4XFA5X8MFK6ElFGWmd+wFyBqrK
+         HLMmZEP6Ip9cIu9vklH9FJdEm8I4bGz7NgHejFa5O1QzVBJlMmzjyhIXxMM/CTmwmaGV
+         KTow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700477658; x=1701082458;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2zUAf0kRwyhFacdVDNduqaFmW+J2nhNnMJ6K916lSRE=;
-        b=HNpR6kpKb5ds08qUeYMeEDNsIvV4Dffm6lxmu711zsnyrE76E3e4eNPwB8fWAiLqMY
-         o4dgyl93ESYcNjhf78KhmCCuReTmakSsIieHPE3ouOz/Rsx3L4LH6dTfiSLlOxT2Th30
-         6hZ7TE/wNVAOH+PzTs99yZ61LFrZ1IURoAQj2eab/S4E7Rz2Zb8Ddjk+dYAELWMDICwa
-         eaxCEvDi7MNezeVMVnEEnkzTG3roCgvRitEkDsi3NGOPbSHUjAYzieq4rmfhIREptDC5
-         UIR0u0+8A5Woh2Vj6AxPUypeOsVOAYROoewH4rJzrF7hZXdn8M7EzhIBejIjvOJfyqj2
-         z/DQ==
-X-Gm-Message-State: AOJu0YwHjDGMR82j6T7ZheA/HCtEgvxqfZiEbB6nEmBqdyizt9AsQrWW
-	jSplSHqapzaVaL9we3UUE3Z+lHaKqH1EdiFxZBorA96GLtc/L8q1VkoWTNwDCeKJViPxnZyKPS/
-	FDGO9HnMFxAWRc4qe8p5w
-X-Received: by 2002:a17:906:32c7:b0:9e7:3af8:1fd0 with SMTP id k7-20020a17090632c700b009e73af81fd0mr5202187ejk.76.1700477658013;
-        Mon, 20 Nov 2023 02:54:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEgoytvF8lwwp8rKx8884Oj65m/vmtmib1MiNPAMSTReWskVDTF1HFC8OJm9t7uAUXBc0cvnQ==
-X-Received: by 2002:a17:906:32c7:b0:9e7:3af8:1fd0 with SMTP id k7-20020a17090632c700b009e73af81fd0mr5202175ejk.76.1700477657734;
-        Mon, 20 Nov 2023 02:54:17 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id jx27-20020a170906ca5b00b009fda627abd9sm1262032ejb.79.2023.11.20.02.54.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 02:54:16 -0800 (PST)
-Message-ID: <76d4f18e-a349-4337-a301-ffebb8f1c5e8@redhat.com>
-Date: Mon, 20 Nov 2023 11:54:16 +0100
+        d=1e100.net; s=20230601; t=1700477934; x=1701082734;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hss0DScungQG3wuEN+tDn4zevM2VhdEJWx+ngv2QB2g=;
+        b=VsgoOMU+hxuyvKt3gGaMQgz05ChbYmyvbebv41ezDNDr18i64lOSSq1oVPvsn2/riv
+         aUjt5hi2RE03jICFRy/jXmneD1vxKsqxPj4CPHgruXXqhiOHXBhoTqUUeAOXBPHG4emG
+         UE/oPGcEkeYxiJApI9vUV2+1yIT6E8s30UBl2z/EHyL15x2xPd8S6Ktp8VWFooNawp1I
+         fw7fqbQnM3KzROJ7htg0RVhJYuhs6jcS7jhGzo+29yfHKxESibxRUkSCX68oXcruE1KR
+         vNYA8dxWfhKtrD6/fqwrjg/r6MY7FKX9oqLkpg6h+cAhPqan6FiU/G6LlDPdXKqt53VL
+         riog==
+X-Gm-Message-State: AOJu0YyaZyv7Rh4K1DanXgTeYd9JMiEa3SQJ9kCQEf+ObGxEWoXCSYGT
+	8Ja9klLM1epqptWLNYD+lUI=
+X-Google-Smtp-Source: AGHT+IE0ir36wseZ1ERuTn6WVBZ2hZ9lSDF8lyMELvj+kI6imXtdURMceGktUBcNOEOyuiWaZcapPg==
+X-Received: by 2002:a05:6a20:3d87:b0:187:2b7b:1b87 with SMTP id s7-20020a056a203d8700b001872b7b1b87mr9778084pzi.21.1700477933855;
+        Mon, 20 Nov 2023 02:58:53 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id v10-20020aa7850a000000b006be4bb0d2dcsm6010021pfn.149.2023.11.20.02.58.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 02:58:53 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 667ED101D8174; Mon, 20 Nov 2023 17:58:51 +0700 (WIB)
+Date: Mon, 20 Nov 2023 17:58:51 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Yi-De Wu <yi-de.wu@mediatek.com>,
+	Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	David Bradil <dbrazdil@google.com>,
+	Trilok Soni <quic_tsoni@quicinc.com>,
+	Jade Shih <jades.shih@mediatek.com>,
+	Ivan Tseng <ivan.tseng@mediatek.com>,
+	My Chuang <my.chuang@mediatek.com>,
+	Shawn Hsiao <shawn.hsiao@mediatek.com>,
+	PeiLun Suei <peilun.suei@mediatek.com>,
+	Liju Chen <liju-clr.chen@mediatek.com>,
+	Willix Yeh <chi-shen.yeh@mediatek.com>,
+	Kevenny Hsieh <kevenny.hsieh@mediatek.com>
+Subject: Re: [PATCH v7 01/16] docs: geniezone: Introduce GenieZone hypervisor
+Message-ID: <ZVs760ggqT-erCji@archie.me>
+References: <20231116152756.4250-1-yi-de.wu@mediatek.com>
+ <20231116152756.4250-2-yi-de.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 0/9] Enable Wifi RFI interference mitigation feature
- support
-Content-Language: en-US, nl
-To: "Ma, Jun" <majun@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
- amd-gfx@lists.freedesktop.org, lenb@kernel.org, johannes@sipsolutions.net,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, alexander.deucher@amd.com, Lijo.Lazar@amd.com,
- mario.limonciello@amd.com
-Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org
-References: <20231017025358.1773598-1-Jun.Ma2@amd.com>
- <5f85eb72-3f34-4006-85ca-2a2181113008@amd.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <5f85eb72-3f34-4006-85ca-2a2181113008@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231116152756.4250-2-yi-de.wu@mediatek.com>
 
-Hi,
+On Thu, Nov 16, 2023 at 11:27:41PM +0800, Yi-De Wu wrote:
+> diff --git a/Documentation/virt/geniezone/introduction.rst b/Documentation/virt/geniezone/introduction.rst
+> new file mode 100644
+> index 000000000000..fb9fa41bcfb8
+> --- /dev/null
+> +++ b/Documentation/virt/geniezone/introduction.rst
+> @@ -0,0 +1,86 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +======================
+> +GenieZone Introduction
+> +======================
+> +
+> +Overview
+> +========
+> +GenieZone hypervisor(gzvm) is a type-1 hypervisor that supports various virtual
+"... hypervisor (gzvm) ..."
+> +machine types and provides security features such as TEE-like scenarios and
+> +secure boot. It can create guest VMs for security use cases and has
+> +virtualization capabilities for both platform and interrupt. Although the
+> +hypervisor can be booted independently, it requires the assistance of GenieZone
+> +hypervisor kernel driver(gzvm-ko) to leverage the ability of Linux kernel for
+"hypervisor kernel driver (also named gzvm) ..."
+> +vCPU scheduling, memory management, inter-VM communication and virtio backend
+> +support.
+> +
+> +Supported Architecture
+> +======================
+> +GenieZone now only supports MediaTek ARM64 SoC.
+> +
+> +Features
+> +========
+> +
+> +- vCPU Management
+> +
+> +VM manager aims to provide vCPUs on the basis of time sharing on physical CPUs.
+> +It requires Linux kernel in host VM for vCPU scheduling and VM power management.
+> +
+> +- Memory Management
+> +
+> +Direct use of physical memory from VMs is forbidden and designed to be dictated
+> +to the privilege models managed by GenieZone hypervisor for security reason.
+> +With the help of gzvm-ko, the hypervisor would be able to manipulate memory as
 
-On 10/19/23 08:17, Ma, Jun wrote:
-> ping...
-> Any other comments?
+s/gzvm-ko/gzvm module/g
 
-Patches 1/9 and 2/9 look reasonable, once the questions about
-use of the _DSM vs directly calling the WBRF ACPI method are
-resolved I can merge patches 1/9 and 2/9 and create an immutable
-feature branch based on 6.7-rc1 + these 2 patches.
+> +objects.
+> +
+> +- Virtual Platform
+> +
+> +We manage to emulate a virtual mobile platform for guest OS running on guest
+> +VM. The platform supports various architecture-defined devices, such as
+> +virtual arch timer, GIC, MMIO, PSCI, and exception watching...etc.
+> +
+> +- Inter-VM Communication
+> +
+> +Communication among guest VMs was provided mainly on RPC. More communication
+> +mechanisms were to be provided in the future based on VirtIO-vsock.
+> +
+> +- Device Virtualization
+> +
+> +The solution is provided using the well-known VirtIO. The gzvm-ko would
+> +redirect MMIO traps back to VMM where the virtual devices are mostly emulated.
+> +Ioeventfd is implemented using eventfd for signaling host VM that some IO
+> +events in guest VMs need to be processed.
+> +
+> +- Interrupt virtualization
+> +
+> +All Interrupts during some guest VMs running would be handled by GenieZone
+> +hypervisor with the help of gzvm-ko, both virtual and physical ones. In case
+> +there's no guest VM running out there, physical interrupts would be handled by
+> +host VM directly for performance reason. Irqfd is also implemented using
+> +eventfd for accepting vIRQ requests in gzvm-ko.
+> +
+> +Platform architecture component
+> +===============================
+> +
+> +- vm
+> +
+> +The vm component is responsible for setting up the capability and memory
+> +management for the protected VMs. The capability is mainly about the lifecycle
+> +control and boot context initialization. And the memory management is highly
+> +integrated with ARM 2-stage translation tables to convert VA to IPA to PA under
+> +proper security measures required by protected VMs.
+> +
+> +- vcpu
+> +
+> +The vcpu component is the core of virtualizing aarch64 physical CPU runnable,
+> +and it controls the vCPU lifecycle including creating, running and destroying.
+> +With self-defined exit handler, the vm component would be able to act
+> +accordingly before terminated.
+> +
+> +- vgic
+> +
+> +The vgic component exposes control interfaces to Linux kernel via irqchip, and
+> +we intend to support all SPI, PPI, and SGI. When it comes to virtual
+> +interrupts, the GenieZone hypervisor would write to list registers and trigger
+> +vIRQ injection in guest VMs via GIC.
 
-I'll then also send a pull-request to the wifi /resp amdgpu
-maintainers from this branch.
+Descriptions for feature lists can be aligned:
 
-I see no acks / reviews from the wifi folks yet,
-so once that immutable feature branch is ready the first
-thing to do is try to get the wifi folks to review + merge WBRF
-support.
+---- >8 ----
+diff --git a/Documentation/virt/geniezone/introduction.rst b/Documentation/virt/geniezone/introduction.rst
+index fb9fa41bcfb8b3..f37ddf4e979992 100644
+--- a/Documentation/virt/geniezone/introduction.rst
++++ b/Documentation/virt/geniezone/introduction.rst
+@@ -24,63 +24,64 @@ Features
+ 
+ - vCPU Management
+ 
+-VM manager aims to provide vCPUs on the basis of time sharing on physical CPUs.
+-It requires Linux kernel in host VM for vCPU scheduling and VM power management.
++  VM manager aims to provide vCPUs on the basis of time sharing on physical
++  CPUs. It requires Linux kernel in host VM for vCPU scheduling and VM power
++  management.
+ 
+ - Memory Management
+ 
+-Direct use of physical memory from VMs is forbidden and designed to be dictated
+-to the privilege models managed by GenieZone hypervisor for security reason.
+-With the help of gzvm-ko, the hypervisor would be able to manipulate memory as
+-objects.
++  Direct use of physical memory from VMs is forbidden and designed to be
++  dictated to the privilege models managed by GenieZone hypervisor for security
++  reason. With the help of gzvm-ko, the hypervisor would be able to manipulate
++  memory as objects.
+ 
+ - Virtual Platform
+ 
+-We manage to emulate a virtual mobile platform for guest OS running on guest
+-VM. The platform supports various architecture-defined devices, such as
+-virtual arch timer, GIC, MMIO, PSCI, and exception watching...etc.
++  We manage to emulate a virtual mobile platform for guest OS running on guest
++  VM. The platform supports various architecture-defined devices, such as
++  virtual arch timer, GIC, MMIO, PSCI, and exception watching...etc.
+ 
+ - Inter-VM Communication
+ 
+-Communication among guest VMs was provided mainly on RPC. More communication
+-mechanisms were to be provided in the future based on VirtIO-vsock.
++  Communication among guest VMs was provided mainly on RPC. More communication
++  mechanisms were to be provided in the future based on VirtIO-vsock.
+ 
+ - Device Virtualization
+ 
+-The solution is provided using the well-known VirtIO. The gzvm-ko would
+-redirect MMIO traps back to VMM where the virtual devices are mostly emulated.
+-Ioeventfd is implemented using eventfd for signaling host VM that some IO
+-events in guest VMs need to be processed.
++  The solution is provided using the well-known VirtIO. The gzvm-ko would
++  redirect MMIO traps back to VMM where the virtual devices are mostly
++  emulated. Ioeventfd is implemented using eventfd for signaling host VM that
++  some IO events in guest VMs need to be processed.
+ 
+ - Interrupt virtualization
+ 
+-All Interrupts during some guest VMs running would be handled by GenieZone
+-hypervisor with the help of gzvm-ko, both virtual and physical ones. In case
+-there's no guest VM running out there, physical interrupts would be handled by
+-host VM directly for performance reason. Irqfd is also implemented using
+-eventfd for accepting vIRQ requests in gzvm-ko.
++  All Interrupts during some guest VMs running would be handled by GenieZone
++  hypervisor with the help of gzvm-ko, both virtual and physical ones. In case
++  there's no guest VM running out there, physical interrupts would be handled
++  by host VM directly for performance reason. Irqfd is also implemented using
++  eventfd for accepting vIRQ requests in gzvm-ko.
+ 
+ Platform architecture component
+ ===============================
+ 
+ - vm
+ 
+-The vm component is responsible for setting up the capability and memory
+-management for the protected VMs. The capability is mainly about the lifecycle
+-control and boot context initialization. And the memory management is highly
+-integrated with ARM 2-stage translation tables to convert VA to IPA to PA under
+-proper security measures required by protected VMs.
++  The vm component is responsible for setting up the capability and memory
++  management for the protected VMs. The capability is mainly about the
++  lifecycle control and boot context initialization. And the memory management
++  is highly integrated with ARM 2-stage translation tables to convert VA to IPA
++  to PA under proper security measures required by protected VMs.
+ 
+ - vcpu
+ 
+-The vcpu component is the core of virtualizing aarch64 physical CPU runnable,
+-and it controls the vCPU lifecycle including creating, running and destroying.
+-With self-defined exit handler, the vm component would be able to act
+-accordingly before terminated.
++  The vcpu component is the core of virtualizing aarch64 physical CPU runnable,
++  and it controls the vCPU lifecycle including creating, running and
++  destroying. With self-defined exit handler, the vm component would be able to
++  act accordingly before terminated.
+ 
+ - vgic
+ 
+-The vgic component exposes control interfaces to Linux kernel via irqchip, and
+-we intend to support all SPI, PPI, and SGI. When it comes to virtual
+-interrupts, the GenieZone hypervisor would write to list registers and trigger
+-vIRQ injection in guest VMs via GIC.
++  The vgic component exposes control interfaces to Linux kernel via irqchip,
++  and we intend to support all SPI, PPI, and SGI. When it comes to virtual
++  interrupts, the GenieZone hypervisor would write to list registers and
++  trigger vIRQ injection in guest VMs via GIC.
 
-Note I plan to not actually merge the feature branch
-into for-next until the wifi folks are happy with the code.
+Thanks.
 
-This way if changes are necessary I can do a v2 feature branch
-and the wifi folks can merge that instead.
-
-Regards,
-
-Hans
-
-
-
-
-> On 10/17/2023 10:53 AM, Ma Jun wrote:
->> Due to electrical and mechanical constraints in certain platform designs there
->> may be likely interference of relatively high-powered harmonics of the (G-)DDR
->> memory clocks with local radio module frequency bands used by Wifi 6/6e/7. To
->> mitigate possible RFI interference we introuduced WBRF(Wifi Band RFI mitigation Feature).
->> Producers can advertise the frequencies in use and consumers can use this information
->> to avoid using these frequencies for sensitive features.
->>
->> The whole patch set is based on Linux 6.5.0. With some brief introductions
->> as below:
->> Patch1:      Document about WBRF
->> Patch2:      Core functionality setup for WBRF feature support
->> Patch3 - 4:  Bring WBRF support to wifi subsystem.
->> Patch5 - 9:  Bring WBRF support to AMD graphics driver.
->>
->> Evan Quan (7):
->>   cfg80211: expose nl80211_chan_width_to_mhz for wide sharing
->>   wifi: mac80211: Add support for WBRF features
->>   drm/amd/pm: update driver_if and ppsmc headers for coming wbrf feature
->>   drm/amd/pm: setup the framework to support Wifi RFI mitigation feature
->>   drm/amd/pm: add flood detection for wbrf events
->>   drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.0
->>   drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
->>
->> Ma Jun (2):
->>   Documentation/driver-api: Add document about WBRF mechanism
->>   platform/x86/amd: Add support for AMD ACPI based Wifi band RFI
->>     mitigation feature
->>
->>  Documentation/driver-api/wbrf.rst             |  71 +++
->>  drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  17 +
->>  drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c     | 214 +++++++++
->>  drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h |  33 ++
->>  .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  14 +-
->>  .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  14 +-
->>  .../pm/swsmu/inc/pmfw_if/smu_v13_0_0_ppsmc.h  |   3 +-
->>  .../pm/swsmu/inc/pmfw_if/smu_v13_0_7_ppsmc.h  |   3 +-
->>  drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h  |   3 +-
->>  drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h  |   3 +
->>  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    |   9 +
->>  .../drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c  |  60 +++
->>  .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  |  59 +++
->>  drivers/gpu/drm/amd/pm/swsmu/smu_internal.h   |   3 +
->>  drivers/platform/x86/amd/Kconfig              |  15 +
->>  drivers/platform/x86/amd/Makefile             |   1 +
->>  drivers/platform/x86/amd/wbrf.c               | 422 ++++++++++++++++++
->>  include/linux/acpi_amd_wbrf.h                 | 101 +++++
->>  include/linux/ieee80211.h                     |   1 +
->>  include/net/cfg80211.h                        |   8 +
->>  net/mac80211/Makefile                         |   2 +
->>  net/mac80211/chan.c                           |   9 +
->>  net/mac80211/ieee80211_i.h                    |   9 +
->>  net/mac80211/main.c                           |   2 +
->>  net/mac80211/wbrf.c                           | 105 +++++
->>  net/wireless/chan.c                           |   3 +-
->>  27 files changed, 1180 insertions(+), 6 deletions(-)
->>  create mode 100644 Documentation/driver-api/wbrf.rst
->>  create mode 100644 drivers/platform/x86/amd/wbrf.c
->>  create mode 100644 include/linux/acpi_amd_wbrf.h
->>  create mode 100644 net/mac80211/wbrf.c
->>
-> 
-
+-- 
+An old man doll... just what I always wanted! - Clara
