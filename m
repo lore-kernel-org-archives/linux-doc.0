@@ -1,100 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DC419BC2;
-	Mon, 20 Nov 2023 20:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDB73714B;
+	Mon, 20 Nov 2023 20:07:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k5qECeYs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2FDC433C8;
-	Mon, 20 Nov 2023 20:01:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZwrlbX4O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38FDDC433C8;
+	Mon, 20 Nov 2023 20:07:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700510472;
-	bh=xhLK50jLAz04UHazu67omTgum5sysPJRblqRFVwcoQM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=k5qECeYsVfWze77kgqY/oCQAC1fqRDNultn3l8W2z1cbdec99TBye+DVRcUkhJuJA
-	 0vP2dfmOjTqCYKFYdUMfngUr3LKDT7iO0xvPAcNZSZk/FkprASJhzqvOOD2VPT9JQ/
-	 /5IVwLlZfHuFpqGBj1SDVJMDJkNUnSq6gHr5fmPMm1sWq/0Cme2ipthhdB7Ke3Iulb
-	 x/cvEPsJW91cHAP8KriLIkreYSov0UPTSUvv+xvqzCK2RF6qumRKLo/5GUCk+k7GVv
-	 5jZuN5qZmIGo1/8fJsQO//3U270ky986bQJSTHia1yzwxqGuhQha44yRpPthEWGFVc
-	 eqp2dRfCXhTZA==
+	s=k20201202; t=1700510827;
+	bh=qDhVmeRxMwWr07EGDhK+eYCT2EyQYeCpb9U7RNVpTcc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZwrlbX4O71gbSINgSdWtmM9Jt8g9BQ1SOH4d9uRzQuzAIa8QKrXb1gMBsLS93Rr24
+	 +M4eZ6XJEFiuiqjoX6CWktLduWna9Jb04nylaCAJalxbIXmw4Ptg6ktNuKcWm1MChi
+	 1n+OqAgi2ClBIpuyvYE2qKsGLBvZ73t8HBJs4V33c/cx1DWFz1iq4+aKFDV/irBkM9
+	 u/2OZSPeJda7jEnxoV7/geclz0+KqSyLRrtcUSPpukUZd2jdGdhTuUM3PWgi7EplKP
+	 GY2ruhmygSJPAaJThHKaYCGLi/5grW5iESxl8dpMjyd1gsdy94zZzgK44vpIGzGKBO
+	 FDU2ZM0U2aHdw==
+Date: Mon, 20 Nov 2023 12:07:06 -0800
 From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	andrew@lunn.ch,
-	Jakub Kicinski <kuba@kernel.org>,
-	corbet@lwn.net,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net] docs: netdev: try to guide people on dealing with silence
-Date: Mon, 20 Nov 2023 12:01:09 -0800
-Message-ID: <20231120200109.620392-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.42.0
+To: Breno Leitao <leitao@debian.org>
+Cc: leit@meta.com, Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+ donald.hunter@gmail.com, linux-doc@vger.kernel.org, pabeni@redhat.com,
+ edumazet@google.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: Document each netlink family
+Message-ID: <20231120120706.40766380@kernel.org>
+In-Reply-To: <ZVu5rq1SdloY41nH@gmail.com>
+References: <20231113202936.242308-1-leitao@debian.org>
+	<87y1ew6n4x.fsf@meer.lwn.net>
+	<20231117163939.2de33e83@kernel.org>
+	<ZVu5rq1SdloY41nH@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-There has been more than a few threads which went idle before
-the merge window and now people came back to them and started
-asking about next steps.
+On Mon, 20 Nov 2023 11:55:26 -0800 Breno Leitao wrote:
+> I am not planning to do it, since I would like to trust Make. Let me
+> know if you think this is important and I can do it also.
 
-We currently tell people to be patient and not to repost too
-often. Our "not too often", however, is still a few orders of
-magnitude faster than other subsystems. Or so I feel after
-hearing people talk about review rates at LPC.
+Makefile is good enough for me.
 
-Clarify in the doc that if the discussion went idle for a week
-on netdev, 95% of the time there's no point waiting longer.
+> +$(YNL_INDEX): $(YNL_RST_FILES)
+> +       $(YNL_TOOL) -x # Generate the index
+> +
+> +%.rst: $(YNL_YAMLS_FILES)
+> +       $(YNL_TOOL) -i $(patsubst %.rst,%.yaml, $(@F)) # generate individual rst files
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-v2:
- - rephrase the first paragraph
-v1: https://lore.kernel.org/all/20231118152232.787e9ea2@kernel.org/
+IDK what @F means, can the tool take one file at a time and then
+we can make the rule a more usual:
 
-CC: corbet@lwn.net
-CC: workflows@vger.kernel.org
-CC: linux-doc@vger.kernel.org
----
- Documentation/process/maintainer-netdev.rst | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+%.rst: $(YNL_YAML_DIR)/%.yaml
+	$(YNL_TOOL) -i $< -o $@
 
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 7feacc20835e..84ee60fceef2 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -193,9 +193,23 @@ Review timelines
- Generally speaking, the patches get triaged quickly (in less than
- 48h). But be patient, if your patch is active in patchwork (i.e. it's
- listed on the project's patch list) the chances it was missed are close to zero.
--Asking the maintainer for status updates on your
--patch is a good way to ensure your patch is ignored or pushed to the
--bottom of the priority list.
-+
-+The high volume of development on netdev makes reviewers move on
-+from discussions relatively quickly. New comments and replies
-+are very unlikely to arrive after a week of silence. If a patch
-+is no longer active in patchwork and the thread went idle for more
-+than a week - clarify the next steps and/or post the next version.
-+
-+For RFC postings specifically, if nobody responded in a week - reviewers
-+either missed the posting or have no strong opinions. If the code is ready,
-+repost as a PATCH.
-+
-+Emails saying just "ping" or "bump" are considered rude. If you can't figure
-+out the status of the patch from patchwork or where the discussion has
-+landed - describe your best guess and ask if it's correct. For example::
-+
-+  I don't understand what the next steps are. Person X seems to be unhappy
-+  with A, should I do B and repost the patches?
- 
- .. _Changes requested:
- 
--- 
-2.42.0
+?
 
+> +htmldocs: $(YNL_INDEX)
+>         @$(srctree)/scripts/sphinx-pre-install --version-check
+>         @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
