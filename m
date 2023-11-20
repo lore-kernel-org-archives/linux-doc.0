@@ -1,177 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="eAF0KRxg"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFB6ECD;
-	Mon, 20 Nov 2023 01:58:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=RRH8ihRwgqqNWiOQXVgz2lSe5cF5QqM2TrvGcFPpVxQ=; b=eAF0KRxgbthRFbPQ6izZC3J3oy
-	NoICC18OIT3Qs7cMSCHEyKdPJVEqlqYYz46JeVVogCAoBWUhXiyxhy9SzyCivvREMDfvxXZSrMpqk
-	BHZ3abqeLK7FySm29lIYiV3szbHsZGZ0MEwL9YBdWcQ/tt0m9Epi+ARclf048DAo9sTRBExtXyU2Y
-	OWqc0bZ0sBPg5y7tECdJwrgrcIV0utpcws+XvnYsepZe+SO7zSvE1M0Dc3TnoMMhyx+qLFfvV/gAy
-	zBVN1YBhtJaSqBUjieLhtAr5Xh4FKBvt+x6MQT63nLwsYbtpT2WmNNA7nk4PLOb78D4oGUQs88/cg
-	AGe8pcpA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43368)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1r512Z-0005Gn-2Y;
-	Mon, 20 Nov 2023 09:58:05 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1r512Z-00034w-8Z; Mon, 20 Nov 2023 09:58:03 +0000
-Date: Mon, 20 Nov 2023 09:58:03 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jianyong Wu <Jianyong.Wu@arm.com>
-Cc: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-	"linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Justin He <Justin.He@arm.com>, James Morse <James.Morse@arm.com>,
-	Catalin Marinas <Catalin.Marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <Mark.Rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>
-Subject: Re: [PATCH 34/39] arm64: psci: Ignore DENIED CPUs
-Message-ID: <ZVstq+vhQSP73Nua@shell.armlinux.org.uk>
-References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk>
- <E1qvJBQ-00AqS8-8B@rmk-PC.armlinux.org.uk>
- <DB9PR08MB7511B178CA811C412766FDBAF4B0A@DB9PR08MB7511.eurprd08.prod.outlook.com>
- <ZVsl1ZQ9JRXPf4qH@shell.armlinux.org.uk>
- <DB9PR08MB7511C8825028074748FBB967F4B4A@DB9PR08MB7511.eurprd08.prod.outlook.com>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 54659137
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 02:02:29 -0800 (PST)
+Received: from loongson.cn (unknown [112.20.112.120])
+	by gateway (Coremail) with SMTP id _____8Bxd+izLltlIi87AA--.15208S3;
+	Mon, 20 Nov 2023 18:02:27 +0800 (CST)
+Received: from localhost.localdomain (unknown [112.20.112.120])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxP92yLltlJG5HAA--.27432S2;
+	Mon, 20 Nov 2023 18:02:26 +0800 (CST)
+From: Yanteng Si <siyanteng@loongson.cn>
+To: corbet@lwn.net,
+	seakeel@gmail.com
+Cc: Yanteng Si <siyanteng@loongson.cn>,
+	alexs@kernel.org,
+	bobwxc@email.cn,
+	wu.xiangcheng@linux.dev,
+	yizhou.tang@shopee.com,
+	linux-doc@vger.kernel.org,
+	chenhuacai@kernel.org
+Subject: [PATCH v1 0/3] docs/zh_CN: Translate maintainer-pgp-guide and adjust magic-number
+Date: Mon, 20 Nov 2023 18:02:22 +0800
+Message-Id: <cover.1700474235.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.31.4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DB9PR08MB7511C8825028074748FBB967F4B4A@DB9PR08MB7511.eurprd08.prod.outlook.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-CM-TRANSID:AQAAf8CxP92yLltlJG5HAA--.27432S2
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrtw4Duw1ktr1xZFW7WryxCrX_yoWxtFc_ZF
+	n8ZayFyr4xtF9rtay09F45ArWDAr4Iga4DJFs5trWUCw4xJrs8XFykAFnYg3y8CFnxtry5
+	KrWkGw1xWF13uosvyTuYvTs0mTUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6F4UJVW0owAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
+	Jw1lYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+	vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j0pB-UUUUU=
 
-On Mon, Nov 20, 2023 at 09:36:05AM +0000, Jianyong Wu wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Russell King <linux@armlinux.org.uk>
-> > Sent: 2023年11月20日 17:25
-> > To: Jianyong Wu <Jianyong.Wu@arm.com>
-> > Cc: linux-pm@vger.kernel.org; loongarch@lists.linux.dev;
-> > linux-acpi@vger.kernel.org; linux-arch@vger.kernel.org;
-> > linux-kernel@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
-> > linux-riscv@lists.infradead.org; kvmarm@lists.linux.dev; x86@kernel.org;
-> > linux-csky@vger.kernel.org; linux-doc@vger.kernel.org;
-> > linux-ia64@vger.kernel.org; linux-parisc@vger.kernel.org; Salil Mehta
-> > <salil.mehta@huawei.com>; Jean-Philippe Brucker <jean-philippe@linaro.org>;
-> > Justin He <Justin.He@arm.com>; James Morse <James.Morse@arm.com>;
-> > Catalin Marinas <Catalin.Marinas@arm.com>; Will Deacon <will@kernel.org>;
-> > Mark Rutland <Mark.Rutland@arm.com>; Lorenzo Pieralisi
-> > <lpieralisi@kernel.org>
-> > Subject: Re: [PATCH 34/39] arm64: psci: Ignore DENIED CPUs
-> > 
-> > On Thu, Nov 16, 2023 at 07:45:51AM +0000, Jianyong Wu wrote:
-> > > Hi Russell,
-> > >
-> > > One inline comment.
-> > ...
-> > > > Changes since RFC v2
-> > > >  * Add specification reference
-> > > >  * Use EPERM rather than EPROBE_DEFER
-> > ...
-> > > > @@ -40,7 +40,7 @@ static int cpu_psci_cpu_boot(unsigned int cpu)  {
-> > > >  	phys_addr_t pa_secondary_entry = __pa_symbol(secondary_entry);
-> > > >  	int err = psci_ops.cpu_on(cpu_logical_map(cpu), pa_secondary_entry);
-> > > > -	if (err)
-> > > > +	if (err && err != -EPROBE_DEFER)
-> > >
-> > > Should this be EPERM? As the following psci cpu_on op will return it.
-> > > I think you miss to change this when apply Jean-Philippe's patch.
-> > 
-> > It looks like James didn't properly update all places. Also,
-> > 
-> > > > diff --git a/drivers/firmware/psci/psci.c
-> > > > b/drivers/firmware/psci/psci.c index d9629ff87861..ee82e7880d8c
-> > > > 100644
-> > > > --- a/drivers/firmware/psci/psci.c
-> > > > +++ b/drivers/firmware/psci/psci.c
-> > > > @@ -218,6 +218,8 @@ static int __psci_cpu_on(u32 fn, unsigned long
-> > > > cpuid, unsigned long entry_point)
-> > > >  	int err;
-> > > >
-> > > >  	err = invoke_psci_fn(fn, cpuid, entry_point, 0);
-> > > > +	if (err == PSCI_RET_DENIED)
-> > > > +		return -EPERM;
-> > > >  	return psci_to_linux_errno(err);
-> > 
-> > This change is unnecessary - probably comes from when -EPROBE_DEFER was
-> > being used. psci_to_linux_errno() already does:
-> 
-> But may print lots of noise like:
-> 
-> [    0.008955] smp: Bringing up secondary CPUs ...
-> [    0.009661] psci: failed to boot CPU1 (-1)
-> [    0.010360] psci: failed to boot CPU2 (-1)
-> [    0.011164] psci: failed to boot CPU3 (-1)
-> [    0.011946] psci: failed to boot CPU4 (-1)
-> [    0.012764] psci: failed to boot CPU5 (-1)
-> [    0.013534] psci: failed to boot CPU6 (-1)
-> [    0.014349] psci: failed to boot CPU7 (-1)
-> [    0.014820] smp: Brought up 1 node, 1 CPU
-> 
-> Is this expected?
+My patch set translates maintainer-pgp-guide into
+Chinese, adjust each line length of magic-number
+and update process/index to latest.
 
-Please read my email again, and take note of the _context_ above the
-places that I've commented. Context matters.
+Yanteng Si (3):
+  docs/zh_CN: add process maintainer-pgp-guide tanslation
+  docs/zh_CN: Adjust the number of characters per line in
+    magic-number.rst to less than 40
+  docs/zh_CN: Update process index to 6.7-rc2
 
-What I'm saying is that this change:
-
- 	err = invoke_psci_fn(fn, cpuid, entry_point, 0);
-+	if (err == PSCI_RET_DENIED)
-+		return -EPERM;
- 	return psci_to_linux_errno(err);
-
-Is unnecessary when psci_to_linux_errno() already does:
-
-static __always_inline int psci_to_linux_errno(int errno)
-{
-	switch (errno) {
-	...
-	case PSCI_RET_DENIED:
-		return -EPERM;
-
-So, a return of PSCI_RET_DENIED from invoke_psci_fn() above will
-_already_ be translated to -EPERM (which is -1) by
-psci_to_linux_errno(). There is no need to add that extra if()
-statement in __psci_cpu_on().
-
-I was _not_ saying that the entire patch was unnecessary.
-
-Context matters. That's why we include context in replies.
-
-Standard email etiquette (before Microsoft messed it up) is to quote the
-email that is being replied to, trimming hard irrelevant content, and to
-place the reply comments immediately below the original content to which
-the comments relate, to give the reply comments the context necessary
-for correct interpretation.
-
-Thanks.
+ .../translations/zh_CN/process/index.rst      |  53 +-
+ .../zh_CN/process/magic-number.rst            |  69 +-
+ .../zh_CN/process/maintainer-pgp-guide.rst    | 789 ++++++++++++++++++
+ 3 files changed, 873 insertions(+), 38 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.31.4
+
