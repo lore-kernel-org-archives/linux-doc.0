@@ -1,32 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C962FB4;
-	Sun, 19 Nov 2023 23:45:40 -0800 (PST)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40806e4106dso8115265e9.1;
-        Sun, 19 Nov 2023 23:45:40 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="OGRyE6wZ"
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B937ED8
+	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 00:05:47 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6be1bc5aa1cso4240916b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 00:05:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1700467547; x=1701072347; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n4NoqTxZnppS8i0nP/xGCXWB/hxXsx67zIl1hkFjXDo=;
+        b=OGRyE6wZHDiPSa6gF4QXDy5G++VYIEFZkEWmeZEiaskWAB2wUBXtzA5uds46mPpmIB
+         tOe9lhtEvqHdhC3ulemjpZKATvLGbU8hgBrIG5BVVwHGG2ZUNIuZQYotukauA/hBuIRG
+         YptTDtk2RaTYWz51aEQzGQB18IalXh2sqC4SErvC7mZ+3fQwRJA42NBV3fQTU85VvVmv
+         F7RoQe10E6yMVAKEEJcC5js3pXvwarz8J+wa5FW5c4E2S4VaqaBKERXUG+DhVfT2Urnp
+         kRLqGRCEzdGsy85oOI2lKINxkTEKWq3ChqOIkRxk6eeU4aDNjhfThaO37pT2P9HxPaAA
+         b44w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700466339; x=1701071139;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1700467547; x=1701072347;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9iPG+meBGpkxceVS3F6vB/et8ulW4BgxlRlyOQXry5Q=;
-        b=nk/4fzzcs6GRrk/XPRfrR6RO0VFeVwZG292XikSrET4Ehw/PDnRG9h8j4zotN7+A7Q
-         7Hmjb5+4vnqNC/s6YcA13e3yb2YgKBvtt4wAAMJQQZ2EtSKKTTEfgKA9hW1lNsbwDY2/
-         WHfbqQ42FNtSgmqjDqMG42WgQee61n3vTMZXhBFtuf9VE/QVXrohGXwc7jRw+AudTL9F
-         wzQDf8bHSkbDJ27q6nfLvxDFC/4sMJdcbgtj85ICQTUC5vAag7JHYin53Eyj0phBbnTo
-         +thS4WvWaaORd8oqn6Ve3CO4BQq1v5qUjL40zzu/yJz1TfHZBxs83GF1Op2o3My+FmsV
-         HSmQ==
-X-Gm-Message-State: AOJu0YxAx/bw4NvD7zbb6dNZb2bjmoTL8a9zBXg7g1nisHOY60+dooPe
-	6xEiA1LLNCoJnUBf4owzq4cAQ64EbyFiMReN
-X-Google-Smtp-Source: AGHT+IHT99AR1RGMDQ+ZFVlEXH1nxQplz8gq1lUq/FR53BOU9Z0fL5Xea7tdAsHEyz1ovK1egmchrw==
-X-Received: by 2002:a05:600c:1d18:b0:403:c70b:b688 with SMTP id l24-20020a05600c1d1800b00403c70bb688mr5163267wms.6.1700466338978;
-        Sun, 19 Nov 2023 23:45:38 -0800 (PST)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id r5-20020a05600c458500b003fefaf299b6sm12561119wmo.38.2023.11.19.23.45.38
+        bh=n4NoqTxZnppS8i0nP/xGCXWB/hxXsx67zIl1hkFjXDo=;
+        b=d6GktkqlvGTHIeIqIPc1CXIWZkZgDndyS+E04+MMjqkOl2vUv0wEDMzElUQzQzd9PB
+         LSQhHmwdHrU3EF9DbYdwlyvHW+ozSDJVWh9MDnTyEwUMNbYMq/jcHGSPluQQzyzUo9VK
+         mMAxVMDcp4C3XvgGlNDfoNMqlaidNGuAUUpQoaY1jyF7U2Dxs20l20OolnOCVvsJXDMJ
+         Vk5aQ9yhumciQQOkuVHR0WV2/GADdA9Duu5uYFr12XL7Ol9pmV+qrI1/kK9F4WR45WmM
+         CTRfQPmpCF17kUCXS2nDmrm438NqQZr+WA56cyWHS94krGiuMzCQapx8NDWhQt2XXHFM
+         5i+Q==
+X-Gm-Message-State: AOJu0YwJSR47iXay38wUXHFLxlOoc2TjpEup9lZq+f496guwHTu9O2LH
+	uC0S5dttBaigs4fFz6D1ibSOdw==
+X-Google-Smtp-Source: AGHT+IGssdhQXa2d+roUN7IT+TTU6LwlrMuPiMYOCQM48dnmpaA4XEU9k505dahywkNiyYYGiT6THg==
+X-Received: by 2002:a05:6a00:80a:b0:6cb:910a:c6fe with SMTP id m10-20020a056a00080a00b006cb910ac6femr3670261pfk.7.1700467547194;
+        Mon, 20 Nov 2023 00:05:47 -0800 (PST)
+Received: from [157.82.205.15] ([157.82.205.15])
+        by smtp.gmail.com with ESMTPSA id f32-20020a056a000b2000b006c5da63556dsm5673415pfu.178.2023.11.20.00.05.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Nov 2023 23:45:38 -0800 (PST)
-Message-ID: <ea2fd8b3-95cf-4d50-8fc7-f1391b23a433@kernel.org>
-Date: Mon, 20 Nov 2023 08:45:37 +0100
+        Mon, 20 Nov 2023 00:05:46 -0800 (PST)
+Message-ID: <a1f09866-a443-4f74-8025-6cdb32eb1d2c@daynix.com>
+Date: Mon, 20 Nov 2023 17:05:40 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -34,98 +47,124 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9] /proc/sysrq-trigger: accept multiple keys at once
+Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
+To: Song Liu <song@kernel.org>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
+ Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>
+References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
+ <20231015141644.260646-2-akihiko.odaki@daynix.com>
+ <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
+ <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com>
+ <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
+ <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
+ <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
+ <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com>
+ <6253fb6b-9a53-484a-9be5-8facd46c051e@daynix.com>
+ <CAPhsuW5JYoM-Mkehdy=FQsG1nvjbYGzwRZx8BkpG1P7cHdD=eQ@mail.gmail.com>
+ <dba89d4b-84aa-4c9f-b016-56fd3ade04b2@daynix.com>
+ <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
 Content-Language: en-US
-To: Tomas Mudrunka <tomas.mudrunka@gmail.com>
-Cc: corbet@lwn.net, gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- rdunlap@infradead.org
-References: <670993bf-a8ef-4561-8213-6a37d0598d83@kernel.org>
- <20231115103408.193561-1-tomas.mudrunka@gmail.com>
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20231115103408.193561-1-tomas.mudrunka@gmail.com>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 15. 11. 23, 11:34, Tomas Mudrunka wrote:
-> Just for convenience.
-> This way we can do:
-> `echo _reisub > /proc/sysrq-trigger`
-> Instead of:
-> `for i in r e i s u b; do echo "$i" > /proc/sysrq-trigger; done;`
+On 2023/11/20 6:02, Song Liu wrote:
+> On Sun, Nov 19, 2023 at 12:03 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>
+> [...]
+>>
+>> Unfortunately no. The communication with the userspace can be done with
+>> two different means:
+>> - usual socket read/write
+>> - vhost for direct interaction with a KVM guest
+>>
+>> The BPF map may be a valid option for socket read/write, but it is not
+>> for vhost. In-kernel vhost may fetch hash from the BPF map, but I guess
+>> it's not a standard way to have an interaction between the kernel code
+>> and a BPF program.
 > 
-> This can be very useful when trying to execute sysrq combo remotely
-> or from userspace. When sending keys in multiple separate writes,
-> userspace can be killed before whole combo is completed.
-> Therefore putting all keys in single write is more robust approach.
+> I am very new to areas like vhost and KVM. So I don't really follow.
+> Does this mean we have the guest kernel reading data from host eBPF
+> programs (loaded by Qemu)?
+
+Yes, the guest will read hashes calculated by the host, and the 
+interface is strictly defined with the virtio-net specification.
+
 > 
-> Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
-> ---
-> V8 -> V9: Fixed english bit more
+>>>
+>>>>
+>>>> Unfortunately, however, it is not acceptable for the BPF subsystem
+>>>> because the "stable" BPF is completely fixed these days. The
+>>>> "unstable/kfunc" BPF is an alternative, but the eBPF program will be
+>>>> shipped with a portable userspace program (QEMU)[1] so the lack of
+>>>> interface stability is not tolerable.
+>>>
+>>> bpf kfuncs are as stable as exported symbols. Is exported symbols
+>>> like stability enough for the use case? (I would assume yes.)
+>>>
+>>>>
+>>>> Another option is to hardcode the algorithm that was conventionally
+>>>> implemented with eBPF steering program in the kernel[2]. It is possible
+>>>> because the algorithm strictly follows the virtio-net specification[3].
+>>>> However, there are proposals to add different algorithms to the
+>>>> specification[4], and hardcoding the algorithm to the kernel will
+>>>> require to add more UAPIs and code each time such a specification change
+>>>> happens, which is not good for tuntap.
+>>>
+>>> The requirement looks similar to hid-bpf. Could you explain why that
+>>> model is not enough? HID also requires some stability AFAICT.
+>>
+>> I have little knowledge with hid-bpf, but I assume it is more like a
+>> "safe" kernel module; in my understanding, it affects the system state
+>> and is intended to be loaded with some kind of a system daemon. It is
+>> fine to have the same lifecycle with the kernel for such a BPF program;
+>> whenever the kernel is updated, the distributor can recompile the BPF
+>> program with the new kernel headers and ship it along with the kernel
+>> just as like a kernel module.
+>>
+>> In contrast, our intended use case is more like a normal application.
+>> So, for example, a user may download a container and run QEMU (including
+>> the BPF program) installed in the container. As such, it is nice if the
+>> ABI is stable across kernel releases, but it is not guaranteed for
+>> kfuncs. Such a use case is already covered with the eBPF steering
+>> program so I want to maintain it if possible.
+> 
+> TBH, I don't think stability should be a concern for kfuncs used by QEMU.
+> Many core BPF APIs are now implemented as kfuncs: bpf_dynptr_*,
+> bpf_rcu_*, etc. As long as there are valid use cases,these kfuncs will
+> be supported.
 
-Please check my comments to v6 more carefully once again. Plus:
+Documentation/bpf/kfuncs.rst still says:
+ > kfuncs provide a kernel <-> kernel API, and thus are not bound by any
+ > of the strict stability restrictions associated with kernel <-> user
+ > UAPIs.
 
-> --- a/drivers/tty/sysrq.c
-> +++ b/drivers/tty/sysrq.c
-> @@ -1150,16 +1150,28 @@ EXPORT_SYMBOL(unregister_sysrq_key);
->   #ifdef CONFIG_PROC_FS
->   /*
->    * writing 'C' to /proc/sysrq-trigger is like sysrq-C
-> + * Normally only the first character written is processed.
+Is it possible to change the statement like as follows:
+"Most kfuncs provide a kernel <-> kernel API, and thus are not bound by 
+any of the strict stability restrictions associated with kernel <-> user
+UAPIs. kfuncs that have same stability restrictions associated with 
+UAPIs are exceptional, and must be carefully reviewed by subsystem (and 
+BPF?) maintainers as any other UAPIs are."
 
-Normally, <-- comma
-
-> + * If first character is underscore, all characters are processed.
-
-the first
-an underscore
-
-Maybe it would make sense to prepend "However, " to this very sentence?
-
-thanks,
--- 
-js
-suse labs
-
+Regards,
+Akihiko Odaki
