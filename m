@@ -1,99 +1,159 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="wv7i7KIs"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C21E3;
-	Mon, 20 Nov 2023 11:10:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=nQggdxI9MQ2FS/W0GEG8D1cdBawPg8AZAzpNVf/hhDE=; b=wv7i7KIsLK5sNs6GxBZ1eTPvBs
-	8D8waGZ6Bwkk1VOH7PyCYlBdY9FsgioEi1s1ihGrbcNKiF9AfI7TAtw9C3PUA/kTAIHd12QNvdw4o
-	DOtwmu10YB8J+ElXm/wS/syMFmzPx6OXbkbgALZ95FKgsPgKIEkAwVFlO2KcY8A133LpHG23/UDXt
-	DxGwZ0Ee1yOjGDnINBC/yfQAQU9K0KOT2AdYYXMPnLAMhzilCsGlSHatd15UG/R4Zf831IuuTQvtR
-	o6JmuUipByC7p2R4IlIWia1+wi6WZUEDC0JRDZ+tVZBruY6fC5yfCeWJPrdORF0W9FOWHPCbxrmm4
-	v6qFC6bA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60598)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1r59ef-00062L-1c;
-	Mon, 20 Nov 2023 19:09:57 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1r59ed-0003Q4-V6; Mon, 20 Nov 2023 19:09:55 +0000
-Date: Mon, 20 Nov 2023 19:09:55 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	=?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
- stamping layer be selectable
-Message-ID: <ZVuvA5V6IWa4fIs3@shell.armlinux.org.uk>
-References: <20231114-feature_ptp_netnext-v7-15-472e77951e40@bootlin.com>
- <20231118183433.30ca1d1a@kernel.org>
- <20231120104439.15bfdd09@kmaincent-XPS-13-7390>
- <20231120105255.cgbart5amkg4efaz@skbuf>
- <20231120121440.3274d44c@kmaincent-XPS-13-7390>
- <20231120120601.ondrhbkqpnaozl2q@skbuf>
- <20231120144929.3375317e@kmaincent-XPS-13-7390>
- <20231120142316.d2emoaqeej2pg4s3@skbuf>
- <20231120093723.4d88fb2a@kernel.org>
- <157c68b0-687e-4333-9d59-fad3f5032345@lunn.ch>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4666FAA;
+	Mon, 20 Nov 2023 11:43:22 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2c875207626so29253871fa.1;
+        Mon, 20 Nov 2023 11:43:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700509400; x=1701114200;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WoDQY8tzkpHkEpiRQUrc2MUWOLDGwsPrZjscsfAC4Bc=;
+        b=CKHLB+rrRCzojZxK4AcIAcau8Paa9nu+nEb0zXnC6qjIp56sKh8Rp2sHcGE+wn25mN
+         BTJMyfzx2bWiDUweOEX2/By00autxZHw1jFN9p06cXMKrvyq184XWHxor5QIclEbQfzt
+         8cSV1VBL3ebMbeKUN1WfdkzfGoOHYJGkgYLyMNhch0E/XbXhJF9pqQK8yhmyO938oF7E
+         sfIAwCqcBgcSgvn3PFEoIxEDTKXNKIISvC6EMnsyQsIKYlAxkv2y6lqbZokKQZwiSyek
+         /lOpQUUYbh3jJotY6Q3m9M3oEiraZKLIvZyX4snSM4YS7fgc3LO8c/pCdBZuqusWc17G
+         ZaRw==
+X-Gm-Message-State: AOJu0YxeNMj+THOLWAeuRjGg/aGXMe9KV/D+1S0m0Ocvr4Mj4uRWSYZ3
+	WsZsF8y26WKDyoVTkbs+ga8=
+X-Google-Smtp-Source: AGHT+IFgP9xwbAn+TkemJm6kqzasJzlvxUci/1NJbwtda3ur0jxfbWqOdV5Xw2lCvTNCnJ7Bf2qfkA==
+X-Received: by 2002:a2e:9015:0:b0:2c8:3613:d071 with SMTP id h21-20020a2e9015000000b002c83613d071mr5751720ljg.36.1700509400076;
+        Mon, 20 Nov 2023 11:43:20 -0800 (PST)
+Received: from localhost ([137.220.119.58])
+        by smtp.gmail.com with ESMTPSA id j33-20020a05600c1c2100b0040772934b12sm19201399wms.7.2023.11.20.11.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 11:43:19 -0800 (PST)
+Message-ID: <ea1a678bdbfe5c492aa494d93476bb18e6dfec5e.camel@debian.org>
+Subject: Re: [RFC PATCH 1/2] Modules: Introduce boot-time module signature
+ flexibility
+From: Luca Boccassi <bluca@debian.org>
+To: Luis Chamberlain <mcgrof@kernel.org>, Alessandro Carminati
+	 <alessandro.carminati@gmail.com>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org,  jan.setjeeilers@oracle.com,
+ linux-efi@vger.kernel.org, ardb@kernel.org
+Date: Mon, 20 Nov 2023 19:43:17 +0000
+In-Reply-To: <ZVeyDDLe9B+Aij2O@bombadil.infradead.org>
+References: <20230914112739.112729-1-alessandro.carminati@gmail.com>
+	 <20230914112739.112729-2-alessandro.carminati@gmail.com>
+	 <ZVZS4hw5dGB4aPz3@bombadil.infradead.org>
+	 <CAPp5cGTcRGp3z=xbA1svxLYz1LC74_AQrTPSXNmACPRYrpporg@mail.gmail.com>
+	 <ZVeyDDLe9B+Aij2O@bombadil.infradead.org>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-WhGM6ktWMElK5x6aVvyJ"
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <157c68b0-687e-4333-9d59-fad3f5032345@lunn.ch>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, Nov 20, 2023 at 07:39:35PM +0100, Andrew Lunn wrote:
-> > What about my use case of having a NIC which can stamp at a low rate
-> > at the PHY (for PTP) and high rate at the DMA block (for congestion
-> > control)? Both stamp points have the same PHC index.
-> 
-> How theoretical is that? To me, it seems more likely you have two PHC.
-> 
-> The PHY stamping tends to be slow because of the MDIO bus. If the MAC
-> has fast access to the PHC, it means its not on the MDIO bus. It
-> probably means you have the PHY integrated into the MAC/SoC, so the
-> MAC can access it. But if its integrated like this, i don't see why
-> PHY stamping should be particularly slow. So you can probably use it
-> for congestion control. And then you don't need DMA stamping.
-> 
-> Do you know of real hardware with a MAC and a PHY sharing a PHC?
 
-Not so much a MAC and PHY sharing a PHC, but I notice in USXGMII-M,
-there is the ability for the PHY to pass the timestamp back to the MAC
-through the USXGMII-M connection - which would eliminate the problems
-of accessing the PHY to get that the timestamps.
+--=-WhGM6ktWMElK5x6aVvyJ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+On Fri, 2023-11-17 at 10:33 -0800, Luis Chamberlain wrote:
+> On Fri, Nov 17, 2023 at 02:56:53PM +0100, Alessandro Carminati wrote:
+> > Il giorno gio 16 nov 2023 alle ore 18:35 Luis Chamberlain
+> > <mcgrof@kernel.org> ha scritto:
+> > >=20
+> > > I see the code which skips module signature verification and the knob=
+s
+> > > but I don't see the code which complete the promise to do the actual
+> > > signature verification post initrd / initramfs state. What gives?
+> >=20
+> > My initial intention wasn't centered around providing an automated solu=
+tion.
+>=20
+> It is not even an automated solution, it's *any* solution. So to be
+> clear your patch simply disables module verification, it has no
+> solution.
+>=20
+> > Instead, I envisioned a design where users could manually restore modul=
+e
+> > verification during a specific point in their init scripts.
+> >=20
+> > It might be plausible to restore module verification when the rootfs is
+> > remounted. However, this seems limiting rather than advantageous.
+>=20
+> The patch as-is describes a lofty world and does nothing other than
+> disables module verification. If a patch disables module verification
+> it should just do that and describe that. Nothing else. The subject
+> of the patch tends to suggest some flexibility it provided but does
+> nothing of being flexible, it outright disables module signature
+> verification. The commit log and the patch subject description are
+> describing something completely different than what the code actually
+> does, and it gives me to the concern, to the point that if you didn't
+> have a few commit logs in the kernel I would have thought your intent
+> was test kernel developers with some AI type of code that does something
+> stupid and very carefully crafted commit log.
+>=20
+> Nacked-by: Luis Chamberlain <mcgrof@kernel.org>
+>=20
+>   Luis
+
+Hi,
+
+On top of that, this change would go counter to the security posture
+that is established by the Lockdown LSM, especially when UEFI Secure
+Boot is used. While it would be great if initrds were only ever read-
+only, signed, and verified, the reality is that on all general purpose
+distributions in use today the initrd is writable by root, and the
+kernel command line is also writable by root.
+
+E.g.: on Debian, one just has to edit /etc/default/grub, run a command
+and at the next reboot arbitrary kernel command line parameters will be
+applied, including this one, and combined with adding an arbitrary
+kernel module to the appropriate path this becomes, de-facto, a uid0-
+to-ring0 privilege escalation avenue, which is something the secure
+boot + shim + lockdown workflow tries very hard to avoid.
+
+While there might be room for such features (e.g.:
+https://docs.kernel.org/admin-guide/LSM/LoadPin.html ) in very specific
+and defined environment or use cases, at the very least there needs to
+be:
+
+- the mechanism to lock it down again very early at boot as indicated
+in the cover letter, which is missing as pointed out by Luis
+- a kconfig governing the availability of the new kernel cmdline
+option, disabled by default
+- ideally a check or hook into the Lockdown LSM, so that it can stop
+the new kernel command line option, if enabled at build time and if
+specified, from actually working when secure boot is enabled, or at the
+very, very minimum taint it
+
+Then users wanting to use such a performance optimization will be able
+to do so in their own special purpose builds, without negatively
+affecting the security story of generalist distributions.
+
+--=20
+Kind regards,
+Luca Boccassi
+
+--=-WhGM6ktWMElK5x6aVvyJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCSqx93EIPGOymuRKGv37813JB4FAmVbttUACgkQKGv37813
+JB5Zyw//Z6kmw2oyyN3baObMYxcX7XlurZnC+rfom0nnnEsICtoxiQb/6o7AOhOh
+5yvG7/I31HacifkXgGRsVc6dowjawZqz5KI92pRrix4tO0O4zmJ43CaKWMvdO0mU
+5i38sc7vrzMKjlKmyqbKNSxmlfpgnbrGi8lMbm/Jh4QIFvUSv94RuNgvdiDW/OP+
+bIrdf55UlS3TdUznrbA8BEAePravcDY8f0KYUIpL2ESau0MWig+n9PUhe5nvsD0E
+j857IH6u9UfEsO6ZbbQnoHnzHxGMJJB3fH5ALOyu5NvDnab5wHtLarSwQneLasUw
+I3bxlUihdwuQIEKTDwNlRFcMwigCh0rww4MeEHUdaleLkHnyxdLWop748L/oBAhI
+60cEb5eUjRomA8K4Eewd0YNgk2ipToHiTiaDW/3coxhCdiLhEOFOAMAGT4Z0wEi1
+Icc/rGOG9lnRDRbjkjBHxFXCZG8rKnfQydnCW1bPQ+ieZ5EnG39DwWbY6cZoUST4
+ggCy063nKyhFu7RYSbXMAbllLkNhOK/LIPOjA08PuZknAQFDryYJh4SyPMK9uVBp
+4431vs3sANoXi9u2rSzwEWJqcBC8CpO8B/94+Gg2bzXFKB0YkOLLqwKWKs377rYT
+FjK8cCylT7OHwAVjMTaMszJViUfABVXg2sPLYaUnQGesRE7U/Yc=
+=50E8
+-----END PGP SIGNATURE-----
+
+--=-WhGM6ktWMElK5x6aVvyJ--
