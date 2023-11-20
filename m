@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P+ZBHUw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MHpRdyQU"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7A0E7;
-	Mon, 20 Nov 2023 12:56:28 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BB5E7;
+	Mon, 20 Nov 2023 12:56:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700513788; x=1732049788;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=wGwsgnA/t7SrzMu/qCHumWhoQ9pMGfMRuWcha0iwNfg=;
-  b=P+ZBHUw2W0qCCHhex0BEfwi+Iw78mptH9vBTNNS8hG6BOA3tN9axMIOZ
-   Lpdqc3wSr7zm1rFvtx46UtOyiweS5X5nypJiWhEoPTy+XABLdstk6RxAw
-   CmHcCg1iIIsFF7d4+Bj7UmOhOl0ICld/Yj5o210DlGv3QM2uBCl4QO74x
-   jtIo1DdXme7CGRaHAjI24MoHbJu5T+0V7Q/5fRjlHMCKc6z3wpgoDUnvd
-   wUSjQiJNTcxr83mLH/2Nmz9BU3pTs+uRUjmK1MeESVFj0lNjZxMufGVAG
-   ZdhHT3llDD5/rtw+NhxIRUx1ldpAphCiZcYvzk0Ies6hySq4h6CcU7dZ6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="391484208"
+  t=1700513800; x=1732049800;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=TzlimL8q8AdyNMObZD/w0OFaDagyeyOJlMpWQu9U78o=;
+  b=MHpRdyQUqVwqO6f5pKjWQgaLSxEaAHC22ko9YTR3XYYWX2aF7FoCUIA6
+   qh/UDqpN6s1KGtbSV6m2pH6Jb5Fw9o/cphTC4gCM/GqrYkybQYHtSdCuk
+   dlGchxwY/bvvNyIrPaHrMZIgCczioqAGMRL3kHz3RfFFUIX51J122Jm5E
+   IMkQJbd6VXVB7tCuZ/+kZjw5tDiVYVYyihmdnzvFUdtAFS6A99rtHTVQw
+   +qsRlPZ+xwU4U9qgZ0mW9t2yfnEgNGAN05KerG73sc88pOdq/t+nCeaqv
+   /AdEQA43hDFEmRl5mthZZhwGBQtAgWMAIJTbdmYFXCGh8rdOHa0ldjpLA
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="391484246"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="391484208"
+   d="scan'208";a="391484246"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:56:27 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:56:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="857106100"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="857106154"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="857106100"
+   d="scan'208";a="857106154"
 Received: from cchircul-mobl2.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.249.46.122])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:56:22 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:56:34 -0800
 From: Ahmed Zaki <ahmed.zaki@intel.com>
 To: netdev@vger.kernel.org
 Cc: intel-wired-lan@lists.osuosl.org,
@@ -45,153 +45,188 @@ Cc: intel-wired-lan@lists.osuosl.org,
 	gal@nvidia.com,
 	alexander.duyck@gmail.com,
 	linux-doc@vger.kernel.org,
-	Ahmed Zaki <ahmed.zaki@intel.com>
-Subject: [PATCH net-next v6 0/7] Support symmetric-xor RSS hash
-Date: Mon, 20 Nov 2023 13:56:07 -0700
-Message-Id: <20231120205614.46350-1-ahmed.zaki@intel.com>
+	Ahmed Zaki <ahmed.zaki@intel.com>,
+	Wojciech Drewek <wojciech.drewek@intel.com>
+Subject: [PATCH net-next v6 2/7] net: ethtool: add support for symmetric-xor RSS hash
+Date: Mon, 20 Nov 2023 13:56:09 -0700
+Message-Id: <20231120205614.46350-3-ahmed.zaki@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231120205614.46350-1-ahmed.zaki@intel.com>
+References: <20231120205614.46350-1-ahmed.zaki@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-Patch 1 modifies the set_rxh ethtool API to take a pointer to struct
-ethtool_rxfh instead of individual params. This will allow future 
-changes to the struct without changing the API.
+Symmetric RSS hash functions are beneficial in applications that monitor
+both Tx and Rx packets of the same flow (IDS, software firewalls, ..etc).
+Getting all traffic of the same flow on the same RX queue results in
+higher CPU cache efficiency.
 
-Patch 2 adds the support at the Kernel level, allowing the user to set a
-symmetric-xor RSS hash for a netdevice via:
+A NIC that supports "symmetric-xor" can achieve this RSS hash symmetry
+by XORing the source and destination fields and pass the values to the
+RSS hash algorithm.
 
-    # ethtool -X eth0 hfunc toeplitz symmetric-xor
+The user may request RSS hash symmetry for a specific algorithm, via:
 
-and clears the flag via:
+    # ethtool -X eth0 hfunc <hash_alg> symmetric-xor
 
-    # ethtool -X eth0 hfunc toeplitz
+or turn symmetry off (asymmetric) by:
 
-The "symmetric-xor" is set in a new "data" field in struct ethtool_rxfh.
-Support for the new "symmetric-xor" flag will be later sent to the
-"ethtool" user-space tool.
+    # ethtool -X eth0 hfunc <hash_alg>
 
-Patch 3 fixes a long standing bug with the ice hash function register
-values. The bug has been benign for now since only (asymmetric) Toeplitz
-hash (Zero) has been used.
+The specific fields for each flow type should then be specified as usual
+via:
+    # ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n
 
-Patches 4 and 5 lay some groundwork refactoring. While the first is
-mainly cosmetic, the second is needed since there is no more room in the
-previous 64-bit RSS profile ID for the symmetric attribute introduced in 
-the next patch.
-
-Finally, patches 6 and 7 add the symmetric-xor support for the ice 
-(E800 PFs) and the iAVF drivers.
-
+Reviewed-by: Wojciech Drewek <wojciech.drewek@intel.com>
+Signed-off-by: Ahmed Zaki <ahmed.zaki@intel.com>
 ---
-v6: switch user interface to "ethtool -X" (ethtool_rxfh) instead of
-    "ethtool -N". Patch (1) is added to allow new params in the get/set_rxh
-    ethtool API. Doc is updated in "Documentation/networking/scaling.rst"
-    to specify how the "symmetric-xor" manipulates the input fields.
+ Documentation/networking/scaling.rst | 15 +++++++++++++++
+ include/uapi/linux/ethtool.h         | 12 +++++++++++-
+ include/uapi/linux/ethtool_netlink.h |  1 +
+ net/ethtool/ioctl.c                  |  4 ++--
+ net/ethtool/rss.c                    |  5 +++++
+ 5 files changed, 34 insertions(+), 3 deletions(-)
 
-v5: move sanity checks from ethtool/ioctl.c to ice's and iavf's rxfnc
-    drivers entries (patches 5 and 6).
-    https://lore.kernel.org/netdev/20231018170635.65409-2-ahmed.zaki@intel.com/T/
-
-v4: add a comment to "#define RXH_SYMMETRIC_XOR" (in uapi/linux/ethtool.h)
-    https://lore.kernel.org/netdev/20231016154937.41224-1-ahmed.zaki@intel.com/T/
-
-v3: rename "symmetric" to "symmetric-xor" and drop "Fixes" tag in patch 2.
-v2: fixed a "Reviewed by" to "Reviewed-by", also need to cc maintainers.
-
-Ahmed Zaki (5):
-  net: ethtool: pass ethtool_rxfh to get/set_rxfh ethtool ops
-  net: ethtool: add support for symmetric-xor RSS hash
-  ice: fix ICE_AQ_VSI_Q_OPT_RSS_* register values
-  ice: refactor the FD and RSS flow ID generation
-  iavf: enable symmetric-xor RSS for Toeplitz hash function
-
-Jeff Guo (1):
-  ice: enable symmetric-xor RSS for Toeplitz hash function
-
-Qi Zhang (1):
-  ice: refactor RSS configuration
-
- Documentation/networking/scaling.rst          |  15 +
- drivers/net/ethernet/amazon/ena/ena_ethtool.c |  13 +-
- drivers/net/ethernet/amd/xgbe/xgbe-ethtool.c  |  15 +-
- .../ethernet/aquantia/atlantic/aq_ethtool.c   |  17 +-
- .../ethernet/broadcom/bnx2x/bnx2x_ethtool.c   |  15 +-
- .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c |  14 +-
- drivers/net/ethernet/broadcom/tg3.c           |  14 +-
- .../ethernet/cavium/thunder/nicvf_ethtool.c   |  15 +-
- .../ethernet/chelsio/cxgb4/cxgb4_ethtool.c    |  14 +-
- .../net/ethernet/cisco/enic/enic_ethtool.c    |  15 +-
- .../net/ethernet/emulex/benet/be_ethtool.c    |  15 +-
- .../ethernet/freescale/enetc/enetc_ethtool.c  |  12 +-
- .../ethernet/fungible/funeth/funeth_ethtool.c |  18 +-
- .../net/ethernet/hisilicon/hns/hns_ethtool.c  |  15 +-
- .../ethernet/hisilicon/hns3/hns3_ethtool.c    |  19 +-
- .../net/ethernet/huawei/hinic/hinic_ethtool.c |  20 +-
- .../net/ethernet/intel/fm10k/fm10k_ethtool.c  |  15 +-
- .../net/ethernet/intel/i40e/i40e_ethtool.c    |  19 +-
- drivers/net/ethernet/intel/iavf/iavf.h        |   5 +-
- .../net/ethernet/intel/iavf/iavf_adv_rss.c    |   8 +-
- .../net/ethernet/intel/iavf/iavf_adv_rss.h    |   3 +-
- .../net/ethernet/intel/iavf/iavf_ethtool.c    |  60 ++-
- drivers/net/ethernet/intel/iavf/iavf_main.c   |   4 +
- .../net/ethernet/intel/iavf/iavf_virtchnl.c   |  41 ++
- drivers/net/ethernet/intel/ice/ice.h          |   2 +
- .../net/ethernet/intel/ice/ice_adminq_cmd.h   |   8 +-
- drivers/net/ethernet/intel/ice/ice_common.h   |   1 +
- drivers/net/ethernet/intel/ice/ice_ethtool.c  |  74 ++-
- .../net/ethernet/intel/ice/ice_ethtool_fdir.c |  35 +-
- .../net/ethernet/intel/ice/ice_flex_pipe.c    |  44 +-
- .../net/ethernet/intel/ice/ice_flex_pipe.h    |   4 +-
- .../net/ethernet/intel/ice/ice_flex_type.h    |   7 +
- drivers/net/ethernet/intel/ice/ice_flow.c     | 482 +++++++++++++-----
- drivers/net/ethernet/intel/ice/ice_flow.h     |  60 ++-
- .../net/ethernet/intel/ice/ice_hw_autogen.h   |   4 +
- drivers/net/ethernet/intel/ice/ice_lib.c      | 116 ++---
- drivers/net/ethernet/intel/ice/ice_main.c     |  58 ++-
- drivers/net/ethernet/intel/ice/ice_type.h     |   1 +
- drivers/net/ethernet/intel/ice/ice_virtchnl.c | 105 +++-
- drivers/net/ethernet/intel/ice/ice_virtchnl.h |   1 +
- .../intel/ice/ice_virtchnl_allowlist.c        |   1 +
- .../ethernet/intel/ice/ice_virtchnl_fdir.c    |  35 +-
- .../net/ethernet/intel/idpf/idpf_ethtool.c    |  19 +-
- drivers/net/ethernet/intel/igb/igb_ethtool.c  |  15 +-
- drivers/net/ethernet/intel/igc/igc_ethtool.c  |  16 +-
- .../net/ethernet/intel/ixgbe/ixgbe_ethtool.c  |  15 +-
- drivers/net/ethernet/intel/ixgbevf/ethtool.c  |   9 +-
- drivers/net/ethernet/marvell/mvneta.c         |  17 +-
- .../net/ethernet/marvell/mvpp2/mvpp2_main.c   |  17 +-
- .../marvell/octeontx2/nic/otx2_ethtool.c      |  14 +-
- .../net/ethernet/mellanox/mlx4/en_ethtool.c   |  20 +-
- drivers/net/ethernet/mellanox/mlx5/core/en.h  |   7 +-
- .../ethernet/mellanox/mlx5/core/en_ethtool.c  |  12 +-
- .../net/ethernet/microchip/lan743x_ethtool.c  |  14 +-
- .../ethernet/microsoft/mana/mana_ethtool.c    |  15 +-
- .../ethernet/netronome/nfp/nfp_net_ethtool.c  |  21 +-
- .../ethernet/pensando/ionic/ionic_ethtool.c   |  15 +-
- .../net/ethernet/qlogic/qede/qede_ethtool.c   |  14 +-
- drivers/net/ethernet/sfc/ethtool_common.c     |  15 +-
- drivers/net/ethernet/sfc/ethtool_common.h     |   8 +-
- drivers/net/ethernet/sfc/falcon/ethtool.c     |  17 +-
- .../net/ethernet/sfc/siena/ethtool_common.c   |  17 +-
- .../net/ethernet/sfc/siena/ethtool_common.h   |   7 +-
- .../ethernet/stmicro/stmmac/stmmac_ethtool.c  |  15 +-
- drivers/net/hyperv/netvsc_drv.c               |  15 +-
- drivers/net/virtio_net.c                      |  13 +-
- drivers/net/vmxnet3/vmxnet3_ethtool.c         |  14 +-
- include/linux/avf/virtchnl.h                  |  35 +-
- include/linux/ethtool.h                       |   8 +-
- include/uapi/linux/ethtool.h                  |  12 +-
- include/uapi/linux/ethtool_netlink.h          |   1 +
- net/ethtool/common.c                          |   2 +-
- net/ethtool/ioctl.c                           |  28 +-
- net/ethtool/rss.c                             |  14 +-
- 74 files changed, 1263 insertions(+), 637 deletions(-)
-
+diff --git a/Documentation/networking/scaling.rst b/Documentation/networking/scaling.rst
+index 03ae19a689fc..4eb50bcb9d42 100644
+--- a/Documentation/networking/scaling.rst
++++ b/Documentation/networking/scaling.rst
+@@ -44,6 +44,21 @@ by masking out the low order seven bits of the computed hash for the
+ packet (usually a Toeplitz hash), taking this number as a key into the
+ indirection table and reading the corresponding value.
+ 
++Some NICs support symmetric RSS hashing where, if the IP (source address,
++destination address) and TCP/UDP (source port, destination port) tuples
++are swapped, the computed hash is the same. This is beneficial in some
++applications that monitor TCP/IP flows (IDS, firewalls, ...etc) and need
++both directions of the flow to land on the same Rx queue (and CPU). The
++"Symmetric-XOR" is a type of RSS algorithms that achieves this hash
++symmetry by XORing the input source and destination fields of the IP
++and/or L4 protocols. This, however, results in reduced input entropy and
++could potentially be exploited. Specifically, the algorithm XORs the input
++as follows::
++
++    # (SRC_IP ^ DST_IP, SRC_IP ^ DST_IP, SRC_PORT ^ DST_PORT, SRC_PORT ^ DST_PORT)
++
++The result is then fed to the underlying RSS algorithm.
++
+ Some advanced NICs allow steering packets to queues based on
+ programmable filters. For example, webserver bound TCP port 80 packets
+ can be directed to their own receive queue. Such “n-tuple” filters can
+diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
+index f7fba0dc87e5..5d629b7b2d55 100644
+--- a/include/uapi/linux/ethtool.h
++++ b/include/uapi/linux/ethtool.h
+@@ -1266,6 +1266,8 @@ struct ethtool_rxfh_indir {
+  *	hardware hash key.
+  * @hfunc: Defines the current RSS hash function used by HW (or to be set to).
+  *	Valid values are one of the %ETH_RSS_HASH_*.
++ * @data: Extension for the RSS hash function. Valid values are one of the
++ *	%RXH_HFUNC_*.
+  * @rsvd8: Reserved for future use; see the note on reserved space.
+  * @rsvd32: Reserved for future use; see the note on reserved space.
+  * @rss_config: RX ring/queue index for each hash value i.e., indirection table
+@@ -1285,7 +1287,8 @@ struct ethtool_rxfh {
+ 	__u32   indir_size;
+ 	__u32   key_size;
+ 	__u8	hfunc;
+-	__u8	rsvd8[3];
++	__u8	data;
++	__u8	rsvd8[2];
+ 	__u32	rsvd32;
+ 	__u32   rss_config[];
+ };
+@@ -1992,6 +1995,13 @@ static inline int ethtool_validate_duplex(__u8 duplex)
+ 
+ #define WOL_MODE_COUNT		8
+ 
++/* RSS hash function data
++ * XOR the corresponding source and destination fields of each specified
++ * protocol. Both copies of the XOR'ed fields are fed into the RSS and RXHASH
++ * calculation.
++ */
++#define	RXH_HFUNC_SYM_XOR	(1 << 0)
++
+ /* L2-L4 network traffic flow types */
+ #define	TCP_V4_FLOW	0x01	/* hash or spec (tcp_ip4_spec) */
+ #define	UDP_V4_FLOW	0x02	/* hash or spec (udp_ip4_spec) */
+diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
+index 73e2c10dc2cc..638fa7f0682f 100644
+--- a/include/uapi/linux/ethtool_netlink.h
++++ b/include/uapi/linux/ethtool_netlink.h
+@@ -908,6 +908,7 @@ enum {
+ 	ETHTOOL_A_RSS_HFUNC,		/* u32 */
+ 	ETHTOOL_A_RSS_INDIR,		/* binary */
+ 	ETHTOOL_A_RSS_HKEY,		/* binary */
++	ETHTOOL_A_RSS_HFUNC_DATA,	/* u32 */
+ 
+ 	__ETHTOOL_A_RSS_CNT,
+ 	ETHTOOL_A_RSS_MAX = (__ETHTOOL_A_RSS_CNT - 1),
+diff --git a/net/ethtool/ioctl.c b/net/ethtool/ioctl.c
+index f4e6067d200f..98726d1bef77 100644
+--- a/net/ethtool/ioctl.c
++++ b/net/ethtool/ioctl.c
+@@ -1195,7 +1195,7 @@ static noinline_for_stack int ethtool_get_rxfh(struct net_device *dev,
+ 	user_key_size = rxfh.key_size;
+ 
+ 	/* Check that reserved fields are 0 for now */
+-	if (rxfh.rsvd8[0] || rxfh.rsvd8[1] || rxfh.rsvd8[2] || rxfh.rsvd32)
++	if (rxfh.rsvd8[0] || rxfh.rsvd8[1] || rxfh.rsvd32)
+ 		return -EINVAL;
+ 	/* Most drivers don't handle rss_context, check it's 0 as well */
+ 	if (rxfh.rss_context && !ops->get_rxfh_context)
+@@ -1268,7 +1268,7 @@ static noinline_for_stack int ethtool_set_rxfh(struct net_device *dev,
+ 		return -EFAULT;
+ 
+ 	/* Check that reserved fields are 0 for now */
+-	if (rxfh.rsvd8[0] || rxfh.rsvd8[1] || rxfh.rsvd8[2] || rxfh.rsvd32)
++	if (rxfh.rsvd8[0] || rxfh.rsvd8[1] || rxfh.rsvd32)
+ 		return -EINVAL;
+ 	/* Most drivers don't handle rss_context, check it's 0 as well */
+ 	if (rxfh.rss_context && !ops->set_rxfh_context)
+diff --git a/net/ethtool/rss.c b/net/ethtool/rss.c
+index 2d11f881810d..99ee061e6582 100644
+--- a/net/ethtool/rss.c
++++ b/net/ethtool/rss.c
+@@ -13,6 +13,7 @@ struct rss_reply_data {
+ 	u32				indir_size;
+ 	u32				hkey_size;
+ 	u32				hfunc;
++	u32				hfunc_data;
+ 	u32				*indir_table;
+ 	u8				*hkey;
+ };
+@@ -97,6 +98,7 @@ rss_prepare_data(const struct ethnl_req_info *req_base,
+ 		goto out_ops;
+ 
+ 	data->hfunc = rxfh.hfunc;
++	data->hfunc_data = rxfh.data;
+ out_ops:
+ 	ethnl_ops_complete(dev);
+ 	return ret;
+@@ -110,6 +112,7 @@ rss_reply_size(const struct ethnl_req_info *req_base,
+ 	int len;
+ 
+ 	len = nla_total_size(sizeof(u32)) +	/* _RSS_HFUNC */
++	      nla_total_size(sizeof(u32)) +	/* _RSS_HFUNC_DATA */
+ 	      nla_total_size(sizeof(u32) * data->indir_size) + /* _RSS_INDIR */
+ 	      nla_total_size(data->hkey_size);	/* _RSS_HKEY */
+ 
+@@ -124,6 +127,8 @@ rss_fill_reply(struct sk_buff *skb, const struct ethnl_req_info *req_base,
+ 
+ 	if ((data->hfunc &&
+ 	     nla_put_u32(skb, ETHTOOL_A_RSS_HFUNC, data->hfunc)) ||
++	    (data->hfunc_data &&
++	     nla_put_u32(skb, ETHTOOL_A_RSS_HFUNC_DATA, data->hfunc_data)) ||
+ 	    (data->indir_size &&
+ 	     nla_put(skb, ETHTOOL_A_RSS_INDIR,
+ 		     sizeof(u32) * data->indir_size, data->indir_table)) ||
 -- 
 2.34.1
 
