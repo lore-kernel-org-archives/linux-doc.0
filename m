@@ -1,129 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5AC6D7D
-	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 05:54:02 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAU-0004uF-PN; Tue, 21 Nov 2023 14:51:58 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAG-00AawM-Tx; Tue, 21 Nov 2023 14:51:44 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAG-004xaX-GV; Tue, 21 Nov 2023 14:51:44 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	James Clark <james.clark@arm.com>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alexander Shiyan <shc_work@mail.ru>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	=?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Michael Walle <michael@walle.cc>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Hammer Hsieh <hammerh0314@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Robert Foss <rfoss@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Anjelique Melendez <quic_amelende@quicinc.com>,
-	Rob Herring <robh@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Luca Weiss <luca@z3ntu.xyz>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Guenter Roeck <groeck@chromium.org>,
-	linux-pwm@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	kernel@pengutronix.de,
-	linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	linux-mips@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	Andy Shevchenko <andy@kernel.org>,
-	linux-gpio@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v3 000/108] pwm: Fix lifetime issues for pwm_chips
-Date: Tue, 21 Nov 2023 14:49:02 +0100
-Message-ID: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="f7mMKdOI"
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A869D75;
+	Tue, 21 Nov 2023 05:56:25 -0800 (PST)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E697766072F1;
+	Tue, 21 Nov 2023 13:56:22 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1700574983;
+	bh=QUgLRv3v8AO4FpbBVhmzxrxkQbyws3HhneTQlbs3Vws=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=f7mMKdOIkJXpPAmQ/MjIJeT4xMpQKKoTD/gGTu+5vn7uSnbIo4UonMFHdXv7julrH
+	 TW2QLae3R3rmGdVhU0thBveEUgyHhYlH+Rl5QY2CuV2Z+m0jcPiF63Mu0Pi8iZlQNR
+	 RezoIQ+6LrQ72h5qSf3Xkh/u2UFKsIu1oIm9IwHN98U7Q8zsj9P6wVokcjqnYLaDuz
+	 oAirSygOip9jrRvRcMd0QJ/OHeMyHs0r3sq1fgaZ+XIzR54rIdv4Tz0YZrgV0edLjv
+	 uMjIu1+jLMK787BOfWi4TKOSA/jvUkCtI6i3rGxDCmP91/N3KgGXyAOL3hIFwnGYl2
+	 5z3orVSpS3tUw==
+Date: Tue, 21 Nov 2023 14:56:19 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+ <dakr@redhat.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Oak
+ Zeng <oak.zeng@intel.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Francois Dugast
+ <francois.dugast@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] Documentation/gpu: VM_BIND locking document
+Message-ID: <20231121145619.7e7cb541@collabora.com>
+In-Reply-To: <20231121104046.3201-1-thomas.hellstrom@linux.intel.com>
+References: <20231121104046.3201-1-thomas.hellstrom@linux.intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -131,278 +43,929 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13692; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=AIujFYbryhkUb49yce8rTc1TVq+JXWaKz1hYnMJpS2Q=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLVNx9CeAdbyattprQ2g7vu4gcu2r04V0SP/U 2mpBpB8zZKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1TQAKCRCPgPtYfRL+ TrlxB/43N0wckzLJJSX+e3ENMERxHIAW2gwyDpqNf2TyBlvH/cbOZ3L4H1wLgtzFn9LX1OEXK2K L6G9v7/uhHZBHiDnWhuZDh1TigSTpxKj8vSkl6ijyGdMj06TsvS8YwnSFmGlGgJABBBKIlzC8Zr H9HmhsUcXka5iM+pJfrdi1U42gmnMLEhF1UyyHBPkvVg9UM4esblTsVXivpIilLWO4tLknAAq3O GjQ1PC6pq/2rq9UQe+0IkUBlF7MObIR2JEzS5mBf6aWHnSqaupMNvoTP9T5I/0L8HXc7j0jtccz 3VSJ4xVUNsj+BFW021bQau27D5yMhDAF1KfN/vmrMfpQmWLt
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, 21 Nov 2023 11:40:46 +0100
+Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
 
-this is v3 of the series improving life-time tracking for PWM chips. The
-urgency is gone as device links now work as expected and so all
-in-kernel users are fine since commit 2e84dc379200 ("driver core:
-Release all resources during unbind before updating device links").
+> Add the first version of the VM_BIND locking document which is
+> intended to be part of the xe driver upstreaming agreement.
+>=20
+> The document describes and discuss the locking used during exec-
+> functions, evicton and for userptr gpu-vmas. Intention is to be using the
+> same nomenclature as the drm-vm-bind-async.rst.
+>=20
+> v2:
+> - s/gvm/gpu_vm/g (Rodrigo Vivi)
+> - Clarify the userptr seqlock with a pointer to mm/mmu_notifier.c
+>   (Rodrigo Vivi)
+> - Adjust commit message accordingly.
+> - Add SPDX license header.
+>=20
+> v3:
+> - Large update to align with the drm_gpuvm manager locking
+> - Add "Efficient userptr gpu_vma exec function iteration" section
+> - Add "Locking at bind- and unbind time" section.
+>=20
+> v4:
+> - Fix tabs vs space errors by untabifying (Rodrigo Vivi)
+> - Minor style fixes and typos (Rodrigo Vivi)
+> - Clarify situations where stale GPU mappings are occurring and how
+>   access through these mappings are blocked. (Rodrigo Vivi)
+> - Insert into the toctree in implementation_guidelines.rst
+>=20
+> v5:
+> - Add a section about recoverable page-faults.
+> - Use local references to other documentation where possible
+>   (Bagas Sanjaya)
+> - General documentation fixes and typos (Danilo Krummrich and
+>   Boris Brezillon)
+> - Improve the documentation around locks that need to be grabbed from the
+>   dm-fence critical section (Boris Brezillon)
+> - Add more references to the DRM GPUVM helpers (Danilo Krummrich and
+>   Boriz Brezillon)
+> - Update the rfc/xe.rst document.
+>=20
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
-However proper lifetime tracking is a precondition to have robust
-character device support, as we cannot kill a userspace process if the
-used pwm driver goes away.
+Still have a few comments (see below), and in general, I find some
+sentences very long, which has the tendency of confusing me (always
+trying to figure out what was the main point, what the pronouns are
+referring to, etc). Anyway, I think it's better to have something
+imperfect than nothing at all, so here is my
 
-Changes since v2:
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora>
 
- - Cc: the relevant maintainers for wider testing/review audience
- - Rebase to v6.7-rc1 + https://lore.kernel.org/linux-pwm/20231121112029.gyv3gqirlycysyr4@pengutronix.de
- - Improvements for things pointed out during review and my own
-   findings here and there.
- - Implementation for a few more ioctls in the WIP commit that adds
-   character support
+Feel free to add it even if you decide to ignore my comments.
 
-To go forward I'd like to get in patches up to #103 (i.e. adding
-pwmchip_parent() (#2), devm_pwmchip_alloc() (#37) and the conversions of
-the drivers to make use of these additions).
+> ---
+>  Documentation/core-api/pin_user_pages.rst     |   2 +
+>  Documentation/gpu/drm-mm.rst                  |   4 +
+>  Documentation/gpu/drm-vm-bind-locking.rst     | 579 ++++++++++++++++++
+>  .../gpu/implementation_guidelines.rst         |   1 +
+>  Documentation/gpu/rfc/xe.rst                  |   5 +
+>  5 files changed, 591 insertions(+)
+>  create mode 100644 Documentation/gpu/drm-vm-bind-locking.rst
+>=20
+> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/co=
+re-api/pin_user_pages.rst
+> index d3c1f6d8c0e0..6b5f7e6e7155 100644
+> --- a/Documentation/core-api/pin_user_pages.rst
+> +++ b/Documentation/core-api/pin_user_pages.rst
+> @@ -153,6 +153,8 @@ NOTE: Some pages, such as DAX pages, cannot be pinned=
+ with longterm pins. That's
+>  because DAX pages do not have a separate page cache, and so "pinning" im=
+plies
+>  locking down file system blocks, which is not (yet) supported in that wa=
+y.
+> =20
+> +.. _mmu-notifier-registration-case:
+> +
+>  CASE 3: MMU notifier registration, with or without page faulting hardware
+>  -------------------------------------------------------------------------
+>  Device drivers can pin pages via get_user_pages*(), and register for mmu
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index acc5901ac840..d55751cad67c 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -466,6 +466,8 @@ DRM MM Range Allocator Function References
+>  .. kernel-doc:: drivers/gpu/drm/drm_mm.c
+>     :export:
+> =20
+> +.. _drm_gpuvm:
+> +
+>  DRM GPUVM
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> @@ -481,6 +483,8 @@ Split and Merge
+>  .. kernel-doc:: drivers/gpu/drm/drm_gpuvm.c
+>     :doc: Split and Merge
+> =20
+> +.. _drm_gpuvm_locking:
+> +
+>  Locking
+>  -------
+> =20
+> diff --git a/Documentation/gpu/drm-vm-bind-locking.rst b/Documentation/gp=
+u/drm-vm-bind-locking.rst
+> new file mode 100644
+> index 000000000000..a7d08eccd50e
+> --- /dev/null
+> +++ b/Documentation/gpu/drm-vm-bind-locking.rst
+> @@ -0,0 +1,579 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +VM_BIND locking
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +This document attempts to describe what's needed to get VM_BIND locking =
+right,
+> +including the userptr mmu_notifier locking and it also discusses some
 
-The few commits that touch drivers not living in drivers/pwm (i.e. #36,
-#100-#103) can go in either via the pwm tree with the rest, or later
----when the used functions are in---via their trees.
+Could we split this long sentence like this?
 
-After all in-tree drivers are prepared with the patches up to #103, we
-can think about when and how we go on with the remaining bits.
+   including the userptr mmu_notifier locking. It also discusses ...
 
-Note that patch #104 breaks all drivers that don't use
-devm_pwmchip_alloc(), so this is the commit that needs coordination with the
-maintainers of
+> +optimizations to get rid of the looping through of all userptr mappings =
+and
+> +external / shared object mappings that is needed in the simplest
+> +implementation. In addition there is a section describing the VM_BIND lo=
+cking
+> +required for implementing recoverable pagefaults.
+> +
+> +The DRM GPUVM set of helpers
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +There is a set of helpers for drivers implementing VM_BIND, and this
 
- drivers/gpio/gpio-mvebu.c
- drivers/gpu/drm/bridge/ti-sn65dsi86.c
- drivers/leds/rgb/leds-qcom-lpg.c
- drivers/staging/greybus/pwm.c
+Nit: I'm not sure drm_gpuvm qualifies as a set of helpers, it's more an
+abstraction layer for GPU VM manipulation that's meant to automate some
+of the logic drivers will have to implement if they want to expose a
+VM_BIND-like uAPI. To me, helpers sound like something you're free to
+use (or not) with little to no overhead, and very little changes to the
+original code. Inheriting from drm_gpuvm (and all its sub-objects)
+sounds a bit more invasive than replacing some internal function by
+helper function calls. That's just my 2 cents, not asking you to
+rephrase that.
 
-The motivation for this series is the last patch. It allows to control a
-pwm device via ioctl. Compared to the sysfs API this already now has
-some advantages:
+> +set of helpers implements much, but not all of the locking described
+> +in this document. In particular it is currently lacking a userptr
+> +implementation. Please refer to the :ref:`DRM GPUVM documentation
+> +<drm_gpuvm>`. This document does not intend to describe the DRM GPUVM
+> +implementation in detail, but in some places uses it as an
+> +implementation example. It is highly recommended for any driver
+> +implementing VM_BIND to use the DRM GPUVM helpers and to extend it if
+> +common functionality is missing.
+> +
+> +Nomenclature
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +* ``Context``: GPU execution context.
+> +* ``gpu_vm``: Abstraction of a virtual GPU address space with
+> +  meta-data. Typically one per client (DRM file-private), or one per
+> +  context.
 
-- It changes all parameters in a single call.
-  This simplifies things similar to the introduction of
-  pwm_apply_state(). With sysfs it can happen that you want to
-  switch polarity but that's refused because 
+I know you don't want to refer to drm_gpuvm, but I would add:
 
-	pwm_get_state(mypwm, &state);
-	state.polarity = new_value;
+  The driver gpu_vm object would typically embed a drm_gpuvm, and
+  extend it with driver-specific fields, if needed.
 
-  sometimes yield an invalid state, e.g. because state.period is
-  in some cases 0 after bootup. Theoretically it can even happen that you have
-  to change two parameters before reaching an applicable state, then you're
-  stuck with sysfs.
+> +* ``gpu_vma``: Abstraction of a GPU address range within a gpu_vm with
+> +  associated meta-data. The backing storage of a gpu_vma can either be
+> +  a GEM object or anonymous pages mapped also into the CPU
+> +  address space for the process.
 
-- It's faster than sysfs. In my measurements with stm32 about a factor
-  4.
+Ditto, with drm_gpuva.
 
-A userspace lib to make use of this can be found at
-https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/libpwm.git/ .
-It makes use of the character devices if available and falls back to
-sysfs. So it's somewhat useful already now.
+> +* ``gpu_vm_bo``: Abstracts the association of a GEM object and
+> +  a VM. The GEM object maintains a list of gpu_vm_bos, and a gpu_vm_bo
+> +  maintains a list of gpu_vmas.
 
-Best regards
-Uwe
+And here as well, with drm_gpu_vm_bo.
 
-Uwe Kleine-König (108):
-  pwm: cros-ec: Change prototype of helper to prepare further changes
-  pwm: Provide a macro to get the parent device of a given chip
-  pwm: ab8500: Make use of pwmchip_parent() macro
-  pwm: atmel: Make use of pwmchip_parent() macro
-  pwm: atmel-tcb: Make use of pwmchip_parent() macro
-  pwm: bcm-kona: Make use of pwmchip_parent() macro
-  pwm: crc: Make use of pwmchip_parent() macro
-  pwm: cros-ec: Make use of pwmchip_parent() macro
-  pwm: dwc: Make use of pwmchip_parent() macro
-  pwm: ep93xx: Make use of pwmchip_parent() macro
-  pwm: fsl-ftm: Make use of pwmchip_parent() macro
-  pwm: img: Make use of parent device pointer in driver data
-  pwm: imx27: Make use of pwmchip_parent() macro
-  pwm: jz4740: Make use of pwmchip_parent() macro
-  pwm: lpc18xx-sct: Make use of parent device pointer in driver data
-  pwm: lpss: Make use of pwmchip_parent() macro
-  pwm: mediatek: Make use of pwmchip_parent() macro
-  pwm: meson: Make use of pwmchip_parent() macro
-  pwm: mtk-disp: Make use of pwmchip_parent() macro
-  pwm: omap: Make use of pwmchip_parent() macro
-  pwm: pca9685: Store parent device in driver data
-  pwm: raspberrypi-poe: Make use of pwmchip_parent() macro
-  pwm: rcar: Make use of pwmchip_parent() macro
-  pwm: rz-mtu3: Make use of pwmchip_parent() macro
-  pwm: samsung: Make use of pwmchip_parent() macro
-  pwm: sifive: Make use of pwmchip_parent() macro
-  pwm: stm32-lp: Make use of pwmchip_parent() macro
-  pwm: stm32: Make use of pwmchip_parent() macro
-  pwm: stmpe: Make use of pwmchip_parent() macro
-  pwm: sun4i: Make use of pwmchip_parent() macro
-  pwm: tiecap: Make use of pwmchip_parent() macro
-  pwm: tiehrpwm: Make use of pwmchip_parent() macro
-  pwm: twl-led: Make use of pwmchip_parent() macro
-  pwm: twl: Make use of pwmchip_parent() macro
-  pwm: vt8500: Make use of pwmchip_parent() macro
-  staging: greybus: pwm: Make use of pwmchip_parent() macro
-  pwm: Provide devm_pwmchip_alloc() function
-  pwm: ab8500: Make use of devm_pwmchip_alloc() function
-  pwm: apple: Make use of devm_pwmchip_alloc() function
-  pwm: atmel-hlcdc: Make use of devm_pwmchip_alloc() function
-  pwm: atmel: Make use of devm_pwmchip_alloc() function
-  pwm: atmel-tcb: Make use of devm_pwmchip_alloc() function
-  pwm: bcm2835: Make use of devm_pwmchip_alloc() function
-  pwm: bcm-iproc: Make use of devm_pwmchip_alloc() function
-  pwm: bcm-kona: Make use of devm_pwmchip_alloc() function
-  pwm: berlin: Make use of devm_pwmchip_alloc() function
-  pwm: brcmstb: Make use of devm_pwmchip_alloc() function
-  pwm: clk: Make use of devm_pwmchip_alloc() function
-  pwm: clps711x: Make use of devm_pwmchip_alloc() function
-  pwm: crc: Make use of devm_pwmchip_alloc() function
-  pwm: cros-ec: Make use of devm_pwmchip_alloc() function
-  pwm: dwc: Make use of devm_pwmchip_alloc() function
-  pwm: ep93xx: Make use of devm_pwmchip_alloc() function
-  pwm: fsl-ftm: Make use of devm_pwmchip_alloc() function
-  pwm: hibvt: Make use of devm_pwmchip_alloc() function
-  pwm: img: Make use of devm_pwmchip_alloc() function
-  pwm: imx1: Make use of devm_pwmchip_alloc() function
-  pwm: imx27: Make use of devm_pwmchip_alloc() function
-  pwm: imx-tpm: Make use of devm_pwmchip_alloc() function
-  pwm: intel-lgm: Make use of devm_pwmchip_alloc() function
-  pwm: iqs620a: Make use of devm_pwmchip_alloc() function
-  pwm: jz4740: Make use of devm_pwmchip_alloc() function
-  pwm: keembay: Make use of devm_pwmchip_alloc() function
-  pwm: lp3943: Make use of devm_pwmchip_alloc() function
-  pwm: lpc18xx-sct: Make use of devm_pwmchip_alloc() function
-  pwm: lpc32xx: Make use of devm_pwmchip_alloc() function
-  pwm: lpss-*: Make use of devm_pwmchip_alloc() function
-  pwm: mediatek: Make use of devm_pwmchip_alloc() function
-  pwm: meson: Make use of devm_pwmchip_alloc() function
-  pwm: microchip-core: Make use of devm_pwmchip_alloc() function
-  pwm: mtk-disp: Make use of devm_pwmchip_alloc() function
-  pwm: mxs: Make use of devm_pwmchip_alloc() function
-  pwm: ntxec: Make use of devm_pwmchip_alloc() function
-  pwm: omap-dmtimer: Make use of devm_pwmchip_alloc() function
-  pwm: pca9685: Make use of devm_pwmchip_alloc() function
-  pwm: pxa: Make use of devm_pwmchip_alloc() function
-  pwm: raspberrypi-poe: Make use of devm_pwmchip_alloc() function
-  pwm: rcar: Make use of devm_pwmchip_alloc() function
-  pwm: renesas-tpu: Make use of devm_pwmchip_alloc() function
-  pwm: rockchip: Make use of devm_pwmchip_alloc() function
-  pwm: rz-mtu3: Make use of devm_pwmchip_alloc() function
-  pwm: samsung: Make use of devm_pwmchip_alloc() function
-  pwm: sifive: Make use of devm_pwmchip_alloc() function
-  pwm: sl28cpld: Make use of devm_pwmchip_alloc() function
-  pwm: spear: Make use of devm_pwmchip_alloc() function
-  pwm: sprd: Make use of devm_pwmchip_alloc() function
-  pwm: sti: Make use of devm_pwmchip_alloc() function
-  pwm: stm32-lp: Make use of devm_pwmchip_alloc() function
-  pwm: stm32: Make use of devm_pwmchip_alloc() function
-  pwm: stmpe: Make use of devm_pwmchip_alloc() function
-  pwm: sun4i: Make use of devm_pwmchip_alloc() function
-  pwm: sunplus: Make use of devm_pwmchip_alloc() function
-  pwm: tegra: Make use of devm_pwmchip_alloc() function
-  pwm: tiecap: Make use of devm_pwmchip_alloc() function
-  pwm: twl-led: Make use of devm_pwmchip_alloc() function
-  pwm: twl: Make use of devm_pwmchip_alloc() function
-  pwm: visconti: Make use of devm_pwmchip_alloc() function
-  pwm: vt8500: Make use of devm_pwmchip_alloc() function
-  pwm: xilinx: Make use of devm_pwmchip_alloc() function
-  gpio: mvebu: Make use of devm_pwmchip_alloc() function
-  drm/bridge: ti-sn65dsi86: Make use of devm_pwmchip_alloc() function
-  leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
-  staging: greybus: pwm: Make use of devm_pwmchip_alloc() function
-  pwm: Ensure that pwm_chips are allocated using pwmchip_alloc()
-  pwm: Ensure a struct pwm has the same lifetime as its pwm_chip
-  pwm: Ensure the memory backing a PWM chip isn't freed while used
-  pwm: Add more locking
-  WIP: pwm: Add support for pwmchip devices for faster and easier
-    userspace access
+> +* ``userptr gpu_vma or just userptr``: A gpu_vma, whose backing store
+> +  is anonymous pages as described above.
+> +* ``revalidating``: Revalidating a gpu_vma means making the latest versi=
+on
+> +  of the backing store resident and making sure the gpu_vma's
+> +  page-table entries point to that backing store.
+> +* ``dma_fence``: A struct dma_fence that is similar to a struct completi=
+on
+> +  and which tracks GPU activity. When the GPU activity is finished,
+> +  the dma_fence signals. Please refer to the ``DMA Fences`` section of
+> +  the :doc:`dma-buf doc </driver-api/dma-buf>`.
+> +* ``dma_resv``: A struct dma_resv (a.k.a reservation object) that is used
+> +  to track GPU activity in the form of multiple dma_fences on a
+> +  gpu_vm or a GEM object. The dma_resv contains an array / list
+> +  of dma_fences and a lock that needs to be held when adding
+> +  additional dma_fences to the dma_resv. The lock is of a type that
+> +  allows deadlock-safe locking of multiple dma_resvs in arbitrary
+> +  order. Please refer to the ``Reservation Objects`` section of the
+> +  :doc:`dma-buf doc </driver-api/dma-buf>`.
+> +* ``exec function``: An exec function is a function that revalidates all
+> +  affected gpu_vmas, submits a GPU command batch and registers the
+> +  dma_fence representing the GPU command's activity with all affected
+> +  dma_resvs. For completeness, although not covered by this document,
+> +  it's worth mentioning that an exec function may also be the
+> +  revalidation worker that is used by some drivers in compute /
+> +  long-running mode.
+> +* ``local object``: A GEM object which is only mapped within a
+> +  single VM. Local GEM objects share the gpu_vm's dma_resv.
+> +* ``external object``: a.k.a shared object: A GEM object which may be sh=
+ared
+> +  by multiple gpu_vms and whose backing storage may be shared with
+> +  other drivers.
+> +
+> +Locks and locking order
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +One of the benefits of VM_BIND is that local GEM objects share the gpu_v=
+m's
+> +dma_resv object and hence the dma_resv lock. So even with a huge
+> +number of local GEM objects, only one lock is needed to make the exec
+> +sequence atomic.
+> +
+> +The following locks and locking orders are used:
+> +
+> +* The ``gpu_vm->lock`` (optionally an rwsem).
 
- .../driver-api/driver-model/devres.rst        |   1 +
- Documentation/driver-api/pwm.rst              |  10 +-
- drivers/gpio/gpio-mvebu.c                     |  18 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  25 +-
- drivers/leds/rgb/leds-qcom-lpg.c              |  30 +-
- drivers/pwm/Kconfig                           |   4 -
- drivers/pwm/Makefile                          |   3 +-
- drivers/pwm/core.c                            | 480 +++++++++++++++---
- drivers/pwm/pwm-ab8500.c                      |  36 +-
- drivers/pwm/pwm-apple.c                       |  18 +-
- drivers/pwm/pwm-atmel-hlcdc.c                 |  35 +-
- drivers/pwm/pwm-atmel-tcb.c                   |  26 +-
- drivers/pwm/pwm-atmel.c                       |  37 +-
- drivers/pwm/pwm-bcm-iproc.c                   |  19 +-
- drivers/pwm/pwm-bcm-kona.c                    |  21 +-
- drivers/pwm/pwm-bcm2835.c                     |  17 +-
- drivers/pwm/pwm-berlin.c                      |  29 +-
- drivers/pwm/pwm-brcmstb.c                     |  17 +-
- drivers/pwm/pwm-clk.c                         |  27 +-
- drivers/pwm/pwm-clps711x.c                    |  21 +-
- drivers/pwm/pwm-crc.c                         |  26 +-
- drivers/pwm/pwm-cros-ec.c                     |  51 +-
- drivers/pwm/pwm-dwc-core.c                    |  25 +-
- drivers/pwm/pwm-dwc.c                         |  18 +-
- drivers/pwm/pwm-dwc.h                         |   9 +-
- drivers/pwm/pwm-ep93xx.c                      |  21 +-
- drivers/pwm/pwm-fsl-ftm.c                     |  48 +-
- drivers/pwm/pwm-hibvt.c                       |  25 +-
- drivers/pwm/pwm-img.c                         |  51 +-
- drivers/pwm/pwm-imx-tpm.c                     |  34 +-
- drivers/pwm/pwm-imx1.c                        |  17 +-
- drivers/pwm/pwm-imx27.c                       |  26 +-
- drivers/pwm/pwm-intel-lgm.c                   |  17 +-
- drivers/pwm/pwm-iqs620a.c                     |  37 +-
- drivers/pwm/pwm-jz4740.c                      |  35 +-
- drivers/pwm/pwm-keembay.c                     |  17 +-
- drivers/pwm/pwm-lp3943.c                      |  17 +-
- drivers/pwm/pwm-lpc18xx-sct.c                 |  35 +-
- drivers/pwm/pwm-lpc32xx.c                     |  19 +-
- drivers/pwm/pwm-lpss-pci.c                    |  10 +-
- drivers/pwm/pwm-lpss-platform.c               |  10 +-
- drivers/pwm/pwm-lpss.c                        |  34 +-
- drivers/pwm/pwm-lpss.h                        |   1 -
- drivers/pwm/pwm-mediatek.c                    |  28 +-
- drivers/pwm/pwm-meson.c                       |  57 ++-
- drivers/pwm/pwm-microchip-core.c              |  17 +-
- drivers/pwm/pwm-mtk-disp.c                    |  25 +-
- drivers/pwm/pwm-mxs.c                         |  32 +-
- drivers/pwm/pwm-ntxec.c                       |  30 +-
- drivers/pwm/pwm-omap-dmtimer.c                |  46 +-
- drivers/pwm/pwm-pca9685.c                     |  98 ++--
- drivers/pwm/pwm-pxa.c                         |  21 +-
- drivers/pwm/pwm-raspberrypi-poe.c             |  20 +-
- drivers/pwm/pwm-rcar.c                        |  25 +-
- drivers/pwm/pwm-renesas-tpu.c                 |  18 +-
- drivers/pwm/pwm-rockchip.c                    |  24 +-
- drivers/pwm/pwm-rz-mtu3.c                     |  38 +-
- drivers/pwm/pwm-samsung.c                     |  56 +-
- drivers/pwm/pwm-sifive.c                      |  30 +-
- drivers/pwm/pwm-sl28cpld.c                    |  13 +-
- drivers/pwm/pwm-spear.c                       |  17 +-
- drivers/pwm/pwm-sprd.c                        |  50 +-
- drivers/pwm/pwm-sti.c                         |  34 +-
- drivers/pwm/pwm-stm32-lp.c                    |  29 +-
- drivers/pwm/pwm-stm32.c                       |  53 +-
- drivers/pwm/pwm-stmpe.c                       |  58 ++-
- drivers/pwm/pwm-sun4i.c                       |  38 +-
- drivers/pwm/pwm-sunplus.c                     |  17 +-
- drivers/pwm/pwm-tegra.c                       |  27 +-
- drivers/pwm/pwm-tiecap.c                      |  55 +-
- drivers/pwm/pwm-tiehrpwm.c                    |  72 +--
- drivers/pwm/pwm-twl-led.c                     |  58 ++-
- drivers/pwm/pwm-twl.c                         |  50 +-
- drivers/pwm/pwm-visconti.c                    |  17 +-
- drivers/pwm/pwm-vt8500.c                      |  41 +-
- drivers/pwm/pwm-xilinx.c                      |  34 +-
- drivers/pwm/sysfs.c                           |  64 +--
- drivers/staging/greybus/pwm.c                 | 130 ++---
- include/linux/platform_data/x86/pwm-lpss.h    |   4 +-
- include/linux/pwm.h                           |  36 +-
- include/uapi/linux/pwm.h                      |  23 +
- 81 files changed, 1651 insertions(+), 1291 deletions(-)
- create mode 100644 include/uapi/linux/pwm.h
+I think it'd be worth expanding on why an rwsem is a good match for
+this lock (allowing several readers to walk the VM tree concurrently?).
 
-base-commit: 869de350ff3834145273a6d39faedea878c6715a
--- 
-2.42.0
+> Protects the gpu_vm's
+> +  data structure keeping track of gpu_vmas. It can also protect the
+> +  gpu_vm's list of userptr gpu_vmas. With a CPU mm analogy this would
+> +  correspond to the mmap_lock.
+> +* The ``userptr_seqlock``. This lock is taken in read mode for each
+> +  userptr gpu_vma on the gpu_vm's userptr list, and in write mode during=
+ mmu
+> +  notifier invalidation. This is not a real seqlock but described in
+> +  ``mm/mmu_notifier.c`` as a "Collision-retry read-side/write-side
+> +  'lock' a lot like a seqcount, however this allows multiple
+> +  write-sides to hold it at once...". The read side critical section
+> +  is enclosed by ``mmu_interval_read_begin() /
+> +  mmu_interval_read_retry()`` with ``mmu_interval_read_begin()``
+> +  sleeping if the write side is held.
+> +  The write side is held by the core mm while calling mmu interval
+> +  invalidation notifiers.
+> +* The ``gpu_vm->resv`` lock. Protects the gpu_vm's list of gpu_vmas need=
+ing
+> +  rebinding, as well as the residency state of all the gpu_vm's local
+> +  GEM objects.
+> +  Furthermore it typically protects the gpu_vm's list of evicted and
+> +  external GEM objects.
+> +* The ``gpu_vm->userptr_notifier_lock``. This is an rwsem that is
+> +  taken in read mode during exec and write mode during a mmu notifier
+> +  invalidation. The userptr notifier lock is per gpu_vm.
+> +* The ``gem_object->gpuva_lock`` This lock protects the GEM object's
+> +  list of gpu_vm_bos. This is usually the same lock as the GEM
+> +  object's dma_resv, but some drivers protects this list differently,
+> +  see below.
+> +* The ``gpu_vm list spinlocks``. With some implementations they are need=
+ed
+> +  to be able to update the gpu_vm evicted- and external object
+> +  list. For those implementations, the spinlocks are grabbed when the
+> +  lists are manipulated. However to avoid locking order violations
+> +  with the dma_resv locks, a special scheme is needed when iterating
+> +  over the lists.
+
+Yeah, still think we'd want to refer to the corresponding locks/objects
+in drm_gpuvm, so we don't end up with new drivers coming up with their
+own locks when one already exists. Not going to block the merging of
+this patch because of that though.
+
+Just to be clear, I'm talking about
+  =20
+   gem_object->gpuva_lock =3D> drm_gem_object::resv if
+                             drm_gem_gpuva_set_lock() is not called by
+                             the driver
+
+   gpu_vm->resv =3D> drm_gpuvm::r_obj::resv
+
+   gpu_vm list spinlocks =3D> drm_gpuvm::{extobj,evict}::lock
+
+> +
+> +.. _gpu_vma lifetime:
+> +
+> +Protection and lifetime of gpu_vm_bos and gpu_vmas
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> +
+> +The GEM object's list of gpu_vm_bos, and the gpu_vm_bo's list of gpu_vmas
+> +is protected by the ``gem_object->gpuva_lock``, which is typically the
+> +same as the GEM object's dma_resv, but if the driver
+> +needs to access these lists from within a dma_fence signalling
+> +critical section, a driver can choose to instead protect it with a
+> +separate lock, which can be locked from within the dma_fence signalling
+> +critical section. Such drivers then need to pay additional attention
+> +to what locks need to be taken from within the loop when iterating
+> +over the gpu_vm_bo and gpu_vma lists to avoid locking-order inversion.
+> +
+> +The DRM GPUVM set of helpers provide lockdep asserts that this lock is
+> +held in relevant situations and also provides a means of making itself
+> +aware of which lock is actually used: :c:func:`drm_gem_gpuva_set_lock`.
+> +
+> +Each gpu_vm_bo holds a reference counted pointer to the underlying GEM
+> +object, and each gpu_vma holds a reference counted pointer to the
+> +gpu_vm_bo. When iterating over the GEM object's list of gpu_vm_bos and
+> +over the gpu_vm_bo's list of gpu_vmas, the ``gem_object->gpuva_lock`` mu=
+st
+> +not be dropped, because if it is dropped, gpu_vmas attached to a
+
+  must not be dropped, otherwise gpu_vmas attached to a ...
+
+> +gpu_vm_bo may disappear without notice because they are not
+
+                                          since those are not
+  reference-counted.
+
+> +reference-counted. A driver may implement its own scheme to allow this
+> +at the expense of additional complexity, and that is out of scope
+
+                                            but this is outside the
+                                            scope of this document.
+
+> +for this document.
+> +
+> +In the DRM GPUVM implementation, each gpu_vm_bo and each gpu_vma
+> +holds a reference count on the gpu_vm itself. Due to this, and to avoid =
+circular
+> +reference counting, cleanup of the gpu_vm's gpu_vmas must not be done fr=
+om the
+> +gpu_vm's destructor. Drivers typically implements a gpu_vm close
+> +function for this cleanup.
+
+Could we maybe detail what is supposed to happen in the VM close path?
+I'm basically doing an unmap on the full VA range of the VM, but this
+has extra implications, like the fact we might end up with GPU faults
+if some GPU contexts were still using the VM when VM_CLOSE
+(well, VM_DESTROY in my naming convention) is called. I mean, that's
+fine if the GPU can gracefully recover from that (we're in that case),
+but I think it's worth mentioning this constraint.
+
+I realize this document is just about the locking, but all these tiny
+pieces of information dispatched all over the place make me think
+we're lacking something describing the big picture of GPU VM management
+(or maybe we do have that already, in which case we should probably
+point to it at the beginning of the doc).
+
+> +
+> +Revalidation and eviction of local objects
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +(Note that in all the code examples given below we use simplified
+> +pseudo-code. In particular, the dma_resv deadlock avoidance algorithm
+> +as well as reserving memory for dma_resv fences is left out).
+
+I would drop the parenthesis, but it looks good otherwise.
+
+> +
+> +Revalidation
+> +____________
+> +With VM_BIND, all local objects need to be resident when the gpu is
+> +executing using the gpu_vm, and the objects need to have valid
+> +gpu_vmas set up pointing to them. Typically each gpu command buffer
+> +submission is therefore preceded with a re-validation section:
+> +
+> +.. code-block:: C
+> +
+> +   dma_resv_lock(gpu_vm->resv);
+> +
+> +   // Validation section starts here.
+> +   for_each_gpu_vm_bo_on_evict_list(&gpu_vm->evict_list, &gpu_vm_bo) {
+> +           validate_gem_bo(&gpu_vm_bo->gem_bo);
+> +
+> +           // The following list iteration needs the Gem object's
+> +           // dma_resv to be held (it protects the gpu_vm_bo's list of
+> +           // gpu_vmas, but since local gem objects share the gpu_vm's
+> +           // dma_resv, it is already held at this point.
+> +           for_each_gpu_vma_of_gpu_vm_bo(&gpu_vm_bo, &gpu_vma)
+> +                  move_gpu_vma_to_rebind_list(&gpu_vma, &gpu_vm->rebind_=
+list);
+> +   }
+> +
+> +   for_each_gpu_vma_on_rebind_list(&gpu vm->rebind_list, &gpu_vma) {
+> +           rebind_gpu_vma(&gpu_vma);
+> +           remove_gpu_vma_from_rebind_list(&gpu_vma);
+> +   }
+> +   // Validation section ends here, and job submission starts.
+> +
+> +   add_dependencies(&gpu_job, &gpu_vm->resv);
+> +   job_dma_fence =3D gpu_submit(&gpu_job));
+> +
+> +   add_dma_fence(job_dma_fence, &gpu_vm->resv);
+> +   dma_resv_unlock(gpu_vm->resv);
+> +
+> +The reason for having a separate gpu_vm rebind list is that there
+> +might be userptr gpu_vmas that are not mapping a buffer object that
+> +also need rebinding.
+> +
+> +Eviction
+> +________
+> +
+> +Eviction of one of these local objects will then look similar to the
+> +following:
+> +
+> +.. code-block:: C
+> +
+> +   obj =3D get_object_from_lru();
+> +
+> +   dma_resv_lock(obj->resv);
+> +   for_each_gpu_vm_bo_of_obj(obj, &gpu_vm_bo);
+> +           add_gpu_vm_bo_to_evict_list(&gpu_vm_bo, &gpu_vm->evict_list);
+> +
+> +   add_dependencies(&eviction_job, &obj->resv);
+> +   job_dma_fence =3D gpu_submit(&eviction_job);
+> +   add_dma_fence(&obj->resv, job_dma_fence);
+> +
+> +   dma_resv_unlock(&obj->resv);
+> +   put_object(obj);
+> +
+> +Note that since the object is local to the gpu_vm, it will share the gpu=
+_vm's
+> +dma_resv lock so that ``obj->resv =3D=3D gpu_vm->resv``.
+
+                 ^ such that ... ?
+
+> +The gpu_vm_bos marked for eviction are put on the gpu_vm's evict list,
+> +which is protected by ``gpu_vm->resv``, that is always locked while
+> +evicting, due to the above equality.
+
+  The gpu_vm_bos marked for eviction are put on the gpu_vm's evict list,
+  which is protected by ``gpu_vm->resv``, which in turn guarantees
+  that all local objects have their resv locked during the iteration,
+  thanks to the above equality.
+
+> +
+> +For VM_BIND gpu_vms, gpu_vmas don't need to be unbound before eviction,
+
+Not sure what 'VM_BIND gpu_vms' means.
+
+> +Since the driver must ensure that the eviction blit or copy will wait
+
+   ^since
+
+> +for GPU idle or depend on all previous GPU activity.
+
+In general, I'm not sure what you were trying to convey with the above
+sentence. I got that the MMU page table teardown can be eluded if the
+VM is idle, and deferred until the GPU uses it again, but the phrasing
+is a bit weird.
+
+> Furthermore, any
+> +subsequent attempt by the GPU to access freed memory through the
+> +gpu_vma will be preceded by a new exec function, with a revalidation
+> +section which will make sure all gpu_vmas are rebound. The eviction
+> +code holding the object's dma_resv while revalidating will ensure a
+> +new exec function may not race with the eviction.
+> +
+> +If a driver, however, is implemented in such a way that, on each exec fu=
+nction,
+> +only a subset of vmas are selected for rebind, then all vmas that are
+> +*not* selected for rebind must be unbound at the time before the exec
+> +function workload is submitted.
+
+Okay, I think it's worth making it super clear that this is the
+LAZY_UNBIND_ON_EVICTION + PARTIAL_VMA_REBIND on revalidation that's
+problematic.
+
+> +
+> +Locking with external buffer objects
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Since external buffer objects may be shared by multiple gpu_vm's they
+> +can't share their reservation object with a single gpu_vm, but will rath=
+er
+> +have a reservation object of their own. The external objects bound to a
+> +gpu_vm using one or many gpu_vmas are therefore put on a
+> +per-gpu_vm list which is protected by the gpu_vm's dma_resv lock or
+> +one of the :ref:`gpu_vm list spinlocks <Spinlock iteration>`. Once
+> +the gpu_vm's reservation object is locked, it is safe to traverse the
+> +external object list and lock the dma_resvs of all external
+> +objects. However if instead a list spinlock is used, a more elaborate
+> +iteration scheme needs to be used.
+> +
+> +At eviction time we now need to put the gpu_vm_bos of *all* the gpu_vms a
+
+                                                                           =
+^an
+
+> +external object is bound to on their gpu_vm's evict list, but we can no =
+longer
+> +be certain that we hold the gpu_vm's dma_resvs of all the gpu_vms the
+> +object is bound to, since at eviction time we only hold the object's
+
+                       since, at eviction time, we ...
+
+> +private dma_resv. If we have a ww_acquire context at hand at eviction
+> +time we could grab the those dma_resvs but that could cause
+
+                      s/the those/those/
+
+> +expensive ww_mutex rollbacks. A simple option is to just mark the
+> +gpu_vm_bos of the evicted gem object with an ``evicted`` bool that
+> +is inspected before the next time the corresponding gpu_vm evicted list =
+needs
+> +to be traversed, when traversing the list of external objects and
+> +locking them.
+
+That's confusing. Can't we just say it's checked next time the external
+object list is walked (which happens on the next EXEC), and such evicted
+objects are moved to the evicted list at that point, because we hold
+all the necessary locks to do the insertion?
+
+> At the time where the evicted list is traversed, the
+> +gpu_vm's dma_resv and the object's dma_resv is held, and the gpu_vm_bo
+> +marked evicted, can then be added to the gpu_vm's list of evicted
+> +gpu_vm_bos.
+
+That's basically what you say here. I feel like the whole paragraph
+could be simplified.
+
+> The ``evicted`` bool is protected by the object's
+> +dma_resv. Note, that if the gpu_vm's evict list is instead protected
+
+             Note that if ...
+
+> +by a gpu_vm list spinlock, we can grab that lock at eviction time and
+> +hence don't need the trick using the ``evicted`` bool.
+
+Do we really need this note? It seems the alternative approach is fully
+described in the next section, so maybe just say that instead of
+teasing how this would work here.
+
+> +
+> +The exec function becomes
+> +
+> +.. code-block:: C
+> +
+> +   dma_resv_lock(gpu_vm->resv);
+> +
+> +   // External object list is protected by the gpu_vm->resv lock.
+> +   for_each_gpu_vm_bo_on_extobj_list(gpu_vm, &gpu_vm_bo) {
+> +           dma_resv_lock(gpu_vm_bo.gem_obj->resv);
+> +           if (gpu_vm_bo_marked_evicted(&gpu_vm_bo))
+> +                   add_gpu_vm_bo_to_evict_list(&gpu_vm_bo, &gpu_vm->evic=
+t_list);
+> +   }
+> +
+> +   for_each_gpu_vm_bo_on_evict_list(&gpu_vm->evict_list, &gpu_vm_bo) {
+> +           validate_gem_bo(&gpu_vm_bo->gem_bo);
+> +
+> +           for_each_gpu_vma_of_gpu_vm_bo(&gpu_vm_bo, &gpu_vma)
+> +                  move_gpu_vma_to_rebind_list(&gpu_vma, &gpu_vm->rebind_=
+list);
+> +   }
+> +
+> +   for_each_gpu_vma_on_rebind_list(&gpu vm->rebind_list, &gpu_vma) {
+> +           rebind_gpu_vma(&gpu_vma);
+> +           remove_gpu_vma_from_rebind_list(&gpu_vma);
+> +   }
+> +
+> +   add_dependencies(&gpu_job, &gpu_vm->resv);
+> +   job_dma_fence =3D gpu_submit(&gpu_job));
+> +
+> +   add_dma_fence(job_dma_fence, &gpu_vm->resv);
+> +   for_each_external_obj(gpu_vm, &obj)
+> +          add_dma_fence(job_dma_fence, &obj->resv);
+> +   dma_resv_unlock_all_resv_locks();
+> +
+> +And the corresponding shared-object aware eviction would look like:
+> +
+> +.. code-block:: C
+> +
+> +   obj =3D get_object_from_lru();
+> +
+> +   dma_resv_lock(obj->resv);
+> +   for_each_gpu_vm_bo_of_obj(obj, &gpu_vm_bo)
+> +           if (object_is_vm_local(obj))
+> +                add_gpu_vm_bo_to_evict_list(&gpu_vm_bo, &gpu_vm->evict_l=
+ist);
+> +           else
+> +                mark_gpu_vm_bo_evicted(&gpu_vm_bo);
+> +
+> +   add_dependencies(&eviction_job, &obj->resv);
+> +   job_dma_fence =3D gpu_submit(&eviction_job);
+> +   add_dma_fence(&obj->resv, job_dma_fence);
+> +
+> +   dma_resv_unlock(&obj->resv);
+> +   put_object(obj);
+> +
+> +.. _Spinlock iteration:
+> +
+> +Accessing the gpu_vm's lists without the dma_resv lock held
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Although some drivers will hold the gpu_vm's dma_resv lock when
+> +accessing the gpu_vm's evict list and external objects lists, there
+> +are drivers that need to access these lists without the dma_resv lock he=
+ld,
+> +for example due to asynchronous state updates from within the
+> +dma_fence signalling critical path. In such case a spinlock can be
+> +used to protect manipulation of the lists. However, since higher level
+> +sleeping locks need to be taken for each list item while iterating
+> +over the lists, the items already iterated over need to be
+> +temporarily moved to a private list and the spinlock released
+> +while processing each item:
+
+I think it would good to clarify the fact item deletion can happen
+concurrently, even if the item has been moved to our local list.
+
+> +
+> +.. code block:: C
+> +
+> +    struct list_head still_in_list;
+> +
+> +    INIT_LIST_HEAD(&still_in_list);
+> +
+> +    spin_lock(&gpu_vm->list_lock);
+> +    do {
+> +            struct list_head *entry =3D list_first_entry_or_null(&gpu_vm=
+->list, head);
+> +
+> +            if (!entry)
+> +                    break;
+> +
+> +            list_move_tail(&entry->head, &still_in_list);
+> +            list_entry_get_unless_zero(entry);
+> +            spin_unlock(&gpu_vm->list_lock);
+> +
+> +            process(entry);
+> +
+> +            spin_lock(&gpu_vm->list_lock);
+> +            list_entry_put(entry);
+> +    } while (true);
+> +
+> +    list_splice_tail(&still_in_list, &gpu_vm->list);
+> +    spin_unlock(&gpu_vm->list_lock);
+> +
+> +Due to the additional locking and atomic operations,
+
+Hm, I don't see any atomic operation in the pseudo-code.
+
+> drivers that *can*
+> +avoid accessing the gpu_vm's list outside of the dma_resv lock
+> +might want to avoid also this iteration scheme. Particularly if the
+> +driver anticipates a large number of list items. For lists where the
+> +anticipated number of list items is small, where list iteration doesn't
+> +happen very often or if there is a significant additional cost
+> +associated with each iteration, the atomic operation overhead
+> +associated with this type of iteration is, most likely, negligible. Note=
+ that
+> +if this scheme is used, it is necessary to make sure this list
+> +iteration is protected by an outer level lock or semaphore, since list
+> +items are temporarily pulled off the list while iterating.
+> +
+> +Please refer to the :ref:`DRM GPUVM locking section
+> +<drm_gpuvm_locking>` and its internal
+> +:c:func:`get_next_vm_bo_from_list` function.
+> +
+> +
+> +userptr gpu_vmas
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +A userptr gpu_vma is a gpu_vma that, instead of mapping a buffer object =
+to a
+> +GPU virtual address range, directly maps a CPU mm range of anonymous-
+> +or file page-cache pages.
+> +A very simple approach would be to just pin the pages using
+> +pin_user_pages() at bind time and unpin them at unbind time, but this
+> +creates a Denial-Of-Service vector since a single user-space process
+> +would be able to pin down all of system memory, which is not
+> +desirable. (For special use-cases and with proper accounting pinning mig=
+ht
+> +still be a desirable feature, though).
+
+  For special use-cases, and assuming proper accounting, pinning might
+  still be a desirable feature though.
+
+> What we need to do in the
+> +general case is to obtain a reference to the desired pages, make sure
+> +we are notified using a MMU notifier just before the CPU mm unmaps the
+> +pages, dirty them if they are not mapped read-only to the GPU, and
+> +then drop the reference.
+> +When we are notified by the MMU notifier that CPU mm is about to drop the
+> +pages, we need to stop GPU access to the pages by waiting for VM idle
+> +in the MMU notifier and make sure that before the next time the GPU
+> +tries to access whatever is now present in the CPU mm range, we unmap
+> +the old pages from the GPU page tables and repeat the process of
+> +obtaining new page references. (See the :ref:`notifier example
+> +<Invalidation example>` below). Note that when the core mm decides to
+> +laundry pages, we get such an unmap MMU notification and can mark the
+> +pages dirty again before the next GPU access. We also get similar MMU
+> +notifications for NUMA accounting which the GPU driver doesn't really
+> +need to care about, but so far it has proven difficult to exclude
+> +certain notifications.
+> +
+> +Using a MMU notifier for device DMA (and other methods) is described in
+> +:ref:`the pin_user_pages() documentation <mmu-notifier-registration-case=
+>`.
+> +
+> +Now the method of obtaining struct page references using
+
+   Now, the method ...
+
+> +get_user_pages() unfortunately can't be used under a dma_resv lock
+> +since that would violate the locking order of the dma_resv lock vs the
+> +mmap_lock that is grabbed when resolving a CPU pagefault. This means
+> +the gpu_vm's list of userptr gpu_vmas needs to be protected by an
+> +outer lock, which in our example below is the ``gpu_vm->lock``.
+> +
+> +The MMU interval seqlock for a userptr gpu_vma is used in the following
+> +way:
+> +
+> +.. code-block:: C
+> +
+> +   // Exclusive locking mode here is strictly needed only if there are
+> +   // invalidated userptr vmas present, to avoid multiple userptr
+> +   // revalidations.
+> +   down_write(&gpu_vm->lock);
+> +   retry:
+> +
+> +   // Note: mmu_interval_read_begin() blocks until there is no
+> +   // invalidation notifier running anymore.
+> +   seq =3D mmu_interval_read_begin(&gpu_vma->userptr_interval);
+> +   if (seq !=3D gpu_vma->saved_seq) {
+> +           obtain_new_page_pointers(&gpu_vma);
+> +           dma_resv_lock(&gpu_vm->resv);
+> +           add_gpu_vma_to_revalidate_list(&gpu_vma, &gpu_vm);
+> +           dma_resv_unlock(&gpu_vm->resv);
+> +           gpu_vma->saved_seq =3D seq;
+> +   }
+> +
+> +   // The usual revalidation goes here.
+> +
+> +   // Final userptr sequence validation may not happen before the
+> +   // submission dma_fence is added to the gpu_vm's resv, from the POW
+> +   // of the MMU invalidation notifier. Hence the
+> +   // userptr_notifier_lock that will make them appear atomic.
+> +
+> +   add_dependencies(&gpu_job, &gpu_vm->resv);
+> +   down_read(&gpu_vm->userptr_notifier_lock);
+> +   if (mmu_interval_read_retry(&gpu_vma->userptr_interval, gpu_vma->save=
+d_seq)) {
+> +          up_read(&gpu_vm->userptr_notifier_lock);
+> +          goto retry;
+> +   }
+> +
+> +   job_dma_fence =3D gpu_submit(&gpu_job));
+> +
+> +   add_dma_fence(job_dma_fence, &gpu_vm->resv);
+> +
+> +   for_each_external_obj(gpu_vm, &obj)
+> +          add_dma_fence(job_dma_fence, &obj->resv);
+> +
+> +   dma_resv_unlock_all_resv_locks();
+> +   up_read(&gpu_vm->userptr_notifier_lock);
+> +   up_write(&gpu_vm->lock);
+> +
+> +The code between ``mmu_interval_read_begin()`` and the
+> +``mmu_interval_read_retry()`` marks the read side critical section of
+> +what we call the ``userptr_seqlock``. In reality the gpu_vm's userptr
+> +gpu_vma list is looped through, and the check is done for *all* of its
+> +userptr gpu_vmas, although we only show a single one here.
+> +
+> +The userptr gpu_vma MMU invalidation notifier might be called from
+> +reclaim context and, again to avoid locking order violations, we can't
+
+                  and, again, to avoid ...
+
+> +take any dma_resv lock nor the gpu_vm->lock from within it.
+> +
+> +.. _Invalidation example:
+> +.. code-block:: C
+> +
+> +  bool gpu_vma_userptr_invalidate(userptr_interval, cur_seq)
+> +  {
+> +          // Make sure the exec function either sees the new sequence
+> +          // and backs off or we wait for the dma-fence:
+> +
+> +          down_write(&gpu_vm->userptr_notifier_lock);
+> +          mmu_interval_set_seq(userptr_interval, cur_seq);
+> +          up_write(&gpu_vm->userptr_notifier_lock);
+> +
+> +          // At this point, the exec function can't succeed in
+> +          // submitting a new job, because cur_seq is an invalid
+> +          // sequence number and will always cause a retry. When all
+> +          // invalidation callbacks, the mmu notifier core will flip
+> +          // the sequence number to a valid one. However we need to
+> +          // stop gpu access to the old pages here.
+> +
+> +          dma_resv_wait_timeout(&gpu_vm->resv, DMA_RESV_USAGE_BOOKKEEP,
+> +                                false, MAX_SCHEDULE_TIMEOUT);
+> +          return true;
+> +  }
+> +
+> +When this invalidation notifier returns, the GPU can no longer be
+> +accessing the old pages of the userptr gpu_vma and needs to redo the
+> +page-binding before a new GPU submission can succeed.
+> +
+> +Efficient userptr gpu_vma exec_function iteration
+> +_________________________________________________
+> +
+> +If the gpu_vm's list of userptr gpu_vmas becomes large, it's
+> +inefficient to iterate through the complete lists of userptrs on each
+> +exec function to check whether each userptr gpu_vma's saved
+> +sequence number is stale. A solution to this is to put all
+> +*invalidated* userptr gpu_vmas on a separate gpu_vm list and
+> +only those gpu_vmas on the list are actually checked on each exec
+
+  and only check the gpu_vmas present in this list on each exec...
+
+> +function. This list will then lend itself very-well to the spinlock
+> +locking scheme that is
+> +:ref:`described in the spinlock iteration section <Spinlock iteration>`,=
+ since
+> +in the mmu notifier, where we add the invalidated gpu_vmas to the
+> +list, it's not possible to take any outer locks like the
+> +``gpu_vm->lock`` or the ``gpu_vm->resv`` lock. Note that the
+> +``gpu_vm->lock`` still needs to be taken while iterating to ensure the l=
+ist is
+> +complete, as also mentioned in that section.
+> +
+> +If using an invalidated userptr list like this, the retry check in the
+> +exec function trivially becomes a check for invalidated list empty.
+> +
+> +Locking at bind and unbind time
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> +
+> +At bind time, assuming a GEM object backed gpu_vma, each
+> +gpu_vma needs to be associated with a gpu_vm_bo and that
+> +gpu_vm_bo in turn needs to be added to the GEM object's
+> +gpu_vm_bo list, and possibly to the gpu_vm's external object
+> +list. This is referred to as *linking* the gpu_vma, and typically
+> +requires that the ``gpu_vm->lock`` and the ``gem_object->gpuva_lock``
+> +are held. When unlinking a gpu_vma the same locks should be held,
+> +and that ensures that when iterating over ``gpu_vmas`, either under
+> +the ``gpu_vm->resv`` or the GEM object's dma_resv, that the gpu_vmas
+> +stay alive as long as the lock under which we iterate is not released. F=
+or
+> +userptr gpu_vmas it's similarly required that during vma destroy, the
+> +outer ``gpu_vm->lock`` is held, since otherwise when iterating over
+> +the invalidated userptr list as described in the previous section,
+> +there is nothing keeping those userptr gpu_vmas alive.
+> +
+> +Locking for recoverable page-fault page-table updates
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +There are two important things we need to ensure with locking for
+> +recoverable page-faults:
+> +
+> +* At the time we return pages back to the system / allocator for
+> +  reuse, there should be no remaining GPU mappings and any GPU TLB
+> +  must have been flushed.
+> +* The unmapping and mapping of a gpu_vma must not race.
+> +
+> +Since the unmapping (or zapping) of GPU ptes is typically taking place
+> +where it is hard or even impossible to take any outer level locks we
+> +must either introduce a new lock that is held at both mapping and
+> +unmapping time, or look at the locks we do hold at unmapping time and
+> +make sure that they are held also at mapping time. For userptr
+> +gpu_vmas, the ``userptr_seqlock`` is held in write mode in the mmu
+> +invalidation notifier where zapping happens. Hence, if the
+> +``userptr_seqlock`` as well as the ``gpu_vm->userptr_notifier_lock``
+> +is held in read mode during mapping, it will not race with the
+> +zapping. For GEM object backed gpu_vmas, zapping will take place under
+> +the GEM object's dma_resv and ensuring that the dma_resv is held also
+> +when populating the page-tables for any gpu_vma pointing to the GEM
+> +object, will similarly ensure we are race-free.
+> +
+> +If any part of the mapping is performed asynchronously
+> +under a dma-fence with these locks released, the zapping will need to
+> +wait for that dma-fence to signal under the relevant lock before
+> +starting to modify the page-table.
+> +
+> +Since modifying the
+> +page-table structure in a way that frees up page-table memory
+> +might also require outer level locks, the zapping of GPU ptes
+> +typically focuses only on zeroing page-table or page-directory entries
+> +and flushing TLB, whereas freeing of page-table memory is deferred to
+> +unbind or rebind time.
+> diff --git a/Documentation/gpu/implementation_guidelines.rst b/Documentat=
+ion/gpu/implementation_guidelines.rst
+> index 138e637dcc6b..dbccfa72f1c9 100644
+> --- a/Documentation/gpu/implementation_guidelines.rst
+> +++ b/Documentation/gpu/implementation_guidelines.rst
+> @@ -7,3 +7,4 @@ Misc DRM driver uAPI- and feature implementation guidelin=
+es
+>  .. toctree::
+> =20
+>     drm-vm-bind-async
+> +   drm-vm-bind-locking
+> diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
+> index c29113a0ac30..ceb21219d52e 100644
+> --- a/Documentation/gpu/rfc/xe.rst
+> +++ b/Documentation/gpu/rfc/xe.rst
+> @@ -123,10 +123,15 @@ Documentation should include:
+> =20
+>   * O(1) complexity under VM_BIND.
+> =20
+> +The document is now included in the drm documentation :doc:`here </gpu/d=
+rm-vm-bind-async>`.
+> +
+>  Some parts of userptr like mmu_notifiers should become GPUVA or DRM help=
+ers when
+>  the second driver supporting VM_BIND+userptr appears. Details to be defi=
+ned when
+>  the time comes.
+> =20
+> +The DRM GPUVM helpers do not yet include the userptr parts, but discussi=
+ons
+> +about implementing them are ongoing.
+> +
+>  Long running compute: minimal data structure/scaffolding
+>  --------------------------------------------------------
+>  The generic scheduler code needs to include the handling of endless comp=
+ute
 
