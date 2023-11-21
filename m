@@ -1,96 +1,197 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="oU7Nb4IX"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7602B1704;
-	Tue, 21 Nov 2023 05:45:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6zOoGrrmAHYsbAYjPwlImlFJnip+vYBWOCuz8Ez17B0=; b=oU7Nb4IXXCx1oE0KlmHdTcLpUu
-	kg/KqIwuxpe4VR+Ms2sPwNfjqTsW28iX6HEpHO0QawAPus9kVilpyvN9KFs240JWrKUXUaIoY0TUL
-	PryuKTIwrKdrPCTN9P+nOVElqmUyTUF5B1vkvUCZb56DexWEnOAHwBAerF/rq4VKcsmjsHh0wvUsm
-	oeUjK0M1VhPsya3CJvb6qbHU0+JLoKJjoOdsK5Jz3Fx2F6Ms9NJd3+XlQJ6FhsWIOJXhKI/m2mgHh
-	gp2IPAWUI+jyk4pKhYJ/1f/Uv+vvd3Q/Z/D9qyW2KqSj7IKYtPaFjvhfVR4zi9y657CGrZnVjXJN1
-	5beqDYGw==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:40512 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1r5R4J-0007Bz-32;
-	Tue, 21 Nov 2023 13:45:35 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1r5R4L-00Ct0d-To; Tue, 21 Nov 2023 13:45:37 +0000
-In-Reply-To: <ZVyz/Ve5pPu8AWoA@shell.armlinux.org.uk>
-References: <ZVyz/Ve5pPu8AWoA@shell.armlinux.org.uk>
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: linux-pm@vger.kernel.org,
-	 loongarch@lists.linux.dev,
-	 linux-acpi@vger.kernel.org,
-	 linux-arch@vger.kernel.org,
-	 linux-kernel@vger.kernel.org,
-	 linux-arm-kernel@lists.infradead.org,
-	 linux-riscv@lists.infradead.org,
-	 kvmarm@lists.linux.dev,
-	 x86@kernel.org,
-	 linux-csky@vger.kernel.org,
-	 linux-doc@vger.kernel.org,
-	 linux-ia64@vger.kernel.org,
-	 linux-parisc@vger.kernel.org
-Cc: Salil Mehta <salil.mehta@huawei.com>,
-	 Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	 jianyong.wu@arm.com,
-	 justin.he@arm.com,
-	 James Morse <james.morse@arm.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Subject: [PATCH 21/21] riscv: convert to use arch_cpu_is_hotpluggable()
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B00D7F
+	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 05:52:15 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAP-0005Pa-11; Tue, 21 Nov 2023 14:51:53 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAO-00Aayl-3k; Tue, 21 Nov 2023 14:51:52 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAN-004xdE-Qg; Tue, 21 Nov 2023 14:51:51 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	James Clark <james.clark@arm.com>,
+	Yang Yingliang <yangyingliang@huawei.com>
+Cc: linux-doc@vger.kernel.org,
+	kernel@pengutronix.de,
+	linux-pwm@vger.kernel.org
+Subject: [PATCH v3 037/108] pwm: Provide devm_pwmchip_alloc() function
+Date: Tue, 21 Nov 2023 14:49:39 +0100
+Message-ID: <20231121134901.208535-38-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+In-Reply-To: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5470; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=33tk1ra3E7BD8UFlUXt1nlBlRpOf0+9wzBGIYwmD0w8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLV13JFQ2jSBSYxXpUv9d/Ktdh466khPgnySq O8g/eU3KjWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1dQAKCRCPgPtYfRL+ TnRpB/9RbdQd2mUV1NTJmpfIIEkhlYHXvynu0S8CbE/SPRq+5dBWZvaHyjyz1mJmKJHemFS/pns AOHLunCN2ae8MYu0W69WqG8tMQ2jkQ68XrcuT2k+g2333qXloV7io9r4nyKUAEH3dN1J64NzIro LZr76SsX4gGYHLRzTOOBJJ/M/gWWPt8+/OfYNSCyGK9ul8NlhRAvxMwOfJ8qbQj1hP4H3QJ7/0q VA7ud+WWFImLYpJIxIa8dGVwhoAmzn03SO1W+VxZJ/i7l0hZIVBTJg8Dd5EcRnQFHnZH+U38/yp XVHh1w4iqED8L4yh2pMDt5X5lbG7Zs9s4CQdQc2iemDtmPmL
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1r5R4L-00Ct0d-To@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Tue, 21 Nov 2023 13:45:37 +0000
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Convert riscv to use the arch_cpu_is_hotpluggable() helper rather than
-arch_register_cpu().
+This function allocates a struct pwm_chip and driver data. Compared to
+the status quo the split into pwm_chip and driver data is new, otherwise
+it doesn't change anything relevant (yet).
 
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-Reviewed-by: Gavin Shan <gshan@redhat.com>
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+The intention is that after all drivers are switched to use this
+allocation function, its possible to add a struct device to struct
+pwm_chip to properly track the latter's lifetime without touching all
+drivers again. Proper lifetime tracking is a necessary precondition to
+introduce character device support for PWMs (that implements atomic
+setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
+userspace support).
+
+The new function pwmchip_priv() (obviously?) only works for chips
+allocated with devm_pwmchip_alloc().
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- arch/riscv/kernel/setup.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ .../driver-api/driver-model/devres.rst        |  1 +
+ Documentation/driver-api/pwm.rst              | 10 +++---
+ drivers/pwm/core.c                            | 32 ++++++++++++++++---
+ include/linux/pwm.h                           |  5 +++
+ 4 files changed, 38 insertions(+), 10 deletions(-)
 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index b3a0aa2b78d5..7493fafbe4cb 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -298,12 +298,9 @@ void __init setup_arch(char **cmdline_p)
- 	riscv_user_isa_enable();
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index c5f99d834ec5..e4df72c408d2 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -420,6 +420,7 @@ POWER
+   devm_reboot_mode_unregister()
+ 
+ PWM
++  devm_pwmchip_alloc()
+   devm_pwmchip_add()
+   devm_pwm_get()
+   devm_fwnode_pwm_get()
+diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+index bb264490a87a..994ea5368805 100644
+--- a/Documentation/driver-api/pwm.rst
++++ b/Documentation/driver-api/pwm.rst
+@@ -134,11 +134,11 @@ to implement the pwm_*() functions itself. This means that it's impossible
+ to have multiple PWM drivers in the system. For this reason it's mandatory
+ for new drivers to use the generic PWM framework.
+ 
+-A new PWM controller/chip can be added using pwmchip_add() and removed
+-again with pwmchip_remove(). pwmchip_add() takes a filled in struct
+-pwm_chip as argument which provides a description of the PWM chip, the
+-number of PWM devices provided by the chip and the chip-specific
+-implementation of the supported PWM operations to the framework.
++A new PWM controller/chip can be allocated using devm_pwmchip_alloc, then added
++using pwmchip_add() and removed again with pwmchip_remove(). pwmchip_add()
++takes a filled in struct pwm_chip as argument which provides a description of
++the PWM chip, the number of PWM devices provided by the chip and the
++chip-specific implementation of the supported PWM operations to the framework.
+ 
+ When implementing polarity support in a PWM driver, make sure to respect the
+ signal conventions in the PWM framework. By definition, normal polarity
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index 58a9d3df73a1..0346709b60d8 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -196,6 +196,30 @@ static bool pwm_ops_check(const struct pwm_chip *chip)
+ 	return true;
  }
  
--int arch_register_cpu(int cpu)
-+bool arch_cpu_is_hotpluggable(int cpu)
++void *pwmchip_priv(struct pwm_chip *chip)
++{
++	return (void *)chip + sizeof(*chip);
++}
++EXPORT_SYMBOL_GPL(pwmchip_priv);
++
++struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv)
++{
++	struct pwm_chip *chip;
++	size_t alloc_size;
++
++	alloc_size = size_add(sizeof(*chip), sizeof_priv);
++
++	chip = devm_kzalloc(parent, alloc_size, GFP_KERNEL);
++	if (!chip)
++		return ERR_PTR(-ENOMEM);
++
++	chip->dev = parent;
++	chip->npwm = npwm;
++
++	return chip;
++}
++EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
++
+ /**
+  * __pwmchip_add() - register a new PWM chip
+  * @chip: the PWM chip to add
+@@ -208,9 +232,8 @@ static bool pwm_ops_check(const struct pwm_chip *chip)
+  */
+ int __pwmchip_add(struct pwm_chip *chip, struct module *owner)
  {
--	struct cpu *c = &per_cpu(cpu_devices, cpu);
--
--	c->hotpluggable = cpu_has_hotplug(cpu);
--	return register_cpu(c, cpu);
-+	return cpu_has_hotplug(cpu);
- }
+-	struct pwm_device *pwm;
+-	unsigned int i;
+ 	int ret;
++	unsigned i;
  
- void free_initmem(void)
+ 	if (!chip || !chip->dev || !chip->ops || !chip->npwm)
+ 		return -EINVAL;
+@@ -220,7 +243,7 @@ int __pwmchip_add(struct pwm_chip *chip, struct module *owner)
+ 
+ 	chip->owner = owner;
+ 
+-	chip->pwms = kcalloc(chip->npwm, sizeof(*pwm), GFP_KERNEL);
++	chip->pwms = kcalloc(chip->npwm, sizeof(*chip->pwms), GFP_KERNEL);
+ 	if (!chip->pwms)
+ 		return -ENOMEM;
+ 
+@@ -234,9 +257,8 @@ int __pwmchip_add(struct pwm_chip *chip, struct module *owner)
+ 	}
+ 
+ 	chip->id = ret;
+-
+ 	for (i = 0; i < chip->npwm; i++) {
+-		pwm = &chip->pwms[i];
++		struct pwm_device *pwm = &chip->pwms[i];
+ 
+ 		pwm->chip = chip;
+ 		pwm->hwpwm = i;
+diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+index dda3a68e06dc..3c62cf329ee0 100644
+--- a/include/linux/pwm.h
++++ b/include/linux/pwm.h
+@@ -5,6 +5,7 @@
+ #include <linux/err.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
++#include <linux/compiler_attributes.h>
+ 
+ struct pwm_chip;
+ 
+@@ -385,6 +386,10 @@ static inline void pwm_disable(struct pwm_device *pwm)
+ int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
+ 		unsigned long timeout);
+ 
++void *pwmchip_priv(struct pwm_chip *chip) __attribute_const__;
++
++struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv);
++
+ int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
+ #define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
+ void pwmchip_remove(struct pwm_chip *chip);
 -- 
-2.30.2
+2.42.0
 
