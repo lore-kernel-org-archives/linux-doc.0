@@ -1,247 +1,235 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqNPhJnw"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE2F2C3;
-	Mon, 20 Nov 2023 17:40:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700530857; x=1732066857;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cPzLkAjUvJHEUSUwneebWHjCl5NvCrkYrwmMYX6CqvU=;
-  b=UqNPhJnwsINvGaSIgNNJa/vEzuf5wPweHCc9MLD2QzBFTOZO+cFcqIP8
-   m7VvGsaezwKFZJPIVd+WaUGh/ek7Vg8wGm2LmSkiz0zXn6w82pe2fZI7E
-   4twrqSUDiNairLQ1PDrxUVy2z9CXfS4HCrtt7zZ1ZG3yHi2rwWx/VIZgh
-   GcPRmNuWnGTVf9BEfQWhHBVdc0qHqItvWPiBUylWnGQZYIAH5ttxT9nKg
-   XXXchsuovqSPduj6pNGWBXQojEopAqj3rbZeeTtDqI4DfLSx9Qegsthnf
-   R+9R8ChMuMD+RxDBjWQ4jf/o4sT8d/efzOn1bZo//VgB6yGnLCwwlfxn7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="456079394"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="456079394"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 17:40:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="716385152"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="716385152"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Nov 2023 17:40:57 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 20 Nov 2023 17:40:57 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Mon, 20 Nov 2023 17:40:57 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Mon, 20 Nov 2023 17:40:54 -0800
+	dkim=pass (1024-bit key) header.d=armh.onmicrosoft.com header.i=@armh.onmicrosoft.com header.b="w5qGAQHj"
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2089.outbound.protection.outlook.com [40.107.21.89])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A784C7;
+	Mon, 20 Nov 2023 17:44:24 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cVXGrx0PUrpeo5tqKhs+Sqvh3hR23bB6v34F9vCHhAmJyK/7S6bbe1mLOoxQ838JASQAhpGhTDqFJH3kFWe5+o4i/9zBLKVRgdFAyWE2yLbT09WEMT0menaYixoiXMPYtSWuMTRO7uo70xSkjKI7/Bcv6FFpcWpZPBHrdoAuwkcnSssKN0hKtsE3kroAzzb6FKH5poZZWMGJ2Uhk5vbdVk3tKn07mcEFYG++Xbrw3FYlsfrCJNOnk/p4m+34kGzkTmriEuouUAGB+w4kl0DGr/c7lLqYcl49BGMub03462Wdw72en/VWP37TjR17b/1SmPUpW8LPbrFPsmDjMng0xQ==
+ b=M8mL5xn/VL10GPjqsuroWjcaFPOVNyOzy92OdupKVksXWsTsFGUfk8XvF1kT+8Bm8x0+/Ap2kfXoadhb5bln45nKuoz040aqJFHegzkXJgKbp1FqulqoHCEMVubU3sXZTnAwkCRBbRP6ffisgKaJ5PbO2NLxUNPvx94jbmHCHZrWnsHXEAq2qB4O8OTtQF5kfCqj5ubFnSW28Uio+SE1ZCL7avKgqZQJhnhb/scaiNlIQPt8Rc+orJ7sot+wzQX6dgPlyDpJchA/jI6SbE8SGoLpZYwRRjsBBDPH4aHeVKdexZdLrNrdnONLA17XRonTjG0g1Ndzjx6mSNGNIRj2hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MWOPlK3FuvHrrkpM7YtbvyOy1VPp/MvoypM+gG1MsSs=;
- b=njlKU06tSAshmVVMlO2ri4aRcLbzLKHrpFJbfmpfSYiYxRBVOvFVW1ofgky6Z3Hlrhi1J4BQUW+1TejFn/Sv+rcUFezwskKt5IgmScSuYj3vqN1Utjt9xbZElzAMJqM8l33R40naMbkHCvxOkeujJMexVrjC7D6yjGDG0R0h6+4N3CYj91TVNrQFKG4EzkGXPznXBeO2kBtaxjmEUBF1UtW2Ae28HIBb/9K6vNqIqiiJnUEGQwRqYc78KcYmfZN/jHmuWWAoPW90xNhVftjn3iHTFHfU5KWb5VdbSkd01WFVK/NoOW24ZwPD+UI4Gq+FeMBud+tfdRYXZzAzzE2GFg==
+ bh=AeV99m1vCdLYWgl2U9ol+duFBCt5rPx4NUJan21Hf0Y=;
+ b=IekfI6qPZCMq0f+cXVyWjjOYFMJwHJWj24U332oSVYx9fTVbtQ7jH/N8AblOKD0MqwPYI8W8vqqSSfsXcMKk1ujOzOpscETalImkJtPwRPgItLRbVFJDedIKqC4hti8OJqkpOvxa+XR9S3nvj8x0xhRqGEGlwGczGMl4teJR9X1GgeshITk40bzxb9lE6j3X/Uma01WkPYG/zGlXQjmNxIOpyeRbDTINvBHvSuZ5gUAdOduIU1CsWXy90hyPE+NMLSN1UqBUEwcF+P/VY+sQgMCKx6q/crKD4D2AgDnXtwPxo4mGREGxzbYjt8x7EXbHDZpRA/AkJusBlc0mOEygPQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SJ0PR11MB5008.namprd11.prod.outlook.com (2603:10b6:a03:2d5::17) with
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AeV99m1vCdLYWgl2U9ol+duFBCt5rPx4NUJan21Hf0Y=;
+ b=w5qGAQHj+uexYTZTQH0wnX/6YJMb0+esWVxgeLYLx5S2hP37avwQcAQHOZkPXBQNKI+hhQbzPj30bZIKXVwXgon7GYYfYumslMSQREnyWHDLsN7DNKs4jTJ78ISYxOnBDOnM8vR6l5tXmi9+yX/FR3p2k7nwvU5FSqiknpqJCr0=
+Received: from DB9PR08MB7511.eurprd08.prod.outlook.com (2603:10a6:10:302::21)
+ by DB9PR08MB6444.eurprd08.prod.outlook.com (2603:10a6:10:23c::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Tue, 21 Nov
- 2023 01:40:52 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7002.027; Tue, 21 Nov 2023
- 01:40:52 +0000
-Date: Tue, 21 Nov 2023 09:36:14 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Larry
- Finger" <Larry.Finger@lwfinger.net>, <linux-doc@vger.kernel.org>
-Subject: drivers/virt/vboxguest/vboxguest_linux.c:65: warning: This comment
- starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202311210515.oI9mxbKB-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SI2PR02CA0046.apcprd02.prod.outlook.com
- (2603:1096:4:196::15) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Tue, 21 Nov
+ 2023 01:44:20 +0000
+Received: from DB9PR08MB7511.eurprd08.prod.outlook.com
+ ([fe80::ed8d:8ab6:c458:5b29]) by DB9PR08MB7511.eurprd08.prod.outlook.com
+ ([fe80::ed8d:8ab6:c458:5b29%6]) with mapi id 15.20.7002.027; Tue, 21 Nov 2023
+ 01:44:20 +0000
+From: Jianyong Wu <Jianyong.Wu@arm.com>
+To: Russell King <linux@armlinux.org.uk>
+CC: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "x86@kernel.org" <x86@kernel.org>,
+	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+	"linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>, Salil Mehta
+	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Justin He <Justin.He@arm.com>, James Morse <James.Morse@arm.com>, Catalin
+ Marinas <Catalin.Marinas@arm.com>, Will Deacon <will@kernel.org>, Mark
+ Rutland <Mark.Rutland@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>
+Subject: RE: [PATCH 34/39] arm64: psci: Ignore DENIED CPUs
+Thread-Topic: [PATCH 34/39] arm64: psci: Ignore DENIED CPUs
+Thread-Index: AQHaBo11gHYttES/S0yWYrYSBJZEoLB8s2AggAZmR4CAAAIx4IAAByeAgAEH5DA=
+Date: Tue, 21 Nov 2023 01:44:20 +0000
+Message-ID:
+ <DB9PR08MB7511C861A96B1206ED685AD8F4BBA@DB9PR08MB7511.eurprd08.prod.outlook.com>
+References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk>
+ <E1qvJBQ-00AqS8-8B@rmk-PC.armlinux.org.uk>
+ <DB9PR08MB7511B178CA811C412766FDBAF4B0A@DB9PR08MB7511.eurprd08.prod.outlook.com>
+ <ZVsl1ZQ9JRXPf4qH@shell.armlinux.org.uk>
+ <DB9PR08MB7511C8825028074748FBB967F4B4A@DB9PR08MB7511.eurprd08.prod.outlook.com>
+ <ZVstq+vhQSP73Nua@shell.armlinux.org.uk>
+In-Reply-To: <ZVstq+vhQSP73Nua@shell.armlinux.org.uk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ts-tracking-id: 0F087C03B5B76740A2DB7146F83F6C3A.0
+x-checkrecipientchecked: true
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB9PR08MB7511:EE_|DB9PR08MB6444:EE_
+x-ms-office365-filtering-correlation-id: e412b7dd-6f59-4eb8-6c37-08dbea3361d3
+nodisclaimer: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ ae/byACqSBX+Dc4j2pPyamqnUs0Rvf1iS0FlSHynXXkQTEvDq3u4kDsr7sEKjz0gDAsR4C821vS4UfYKWegFbdOjBpbakP9DI7Vs8fQUz+6SrjD+NrOeka1srWTwhlNtFkeP3D9CHGMlmi76HuwAKFX9j65iKAwrKBabMOSfm3CR4Ml7DRFWyzN22RBksjRggk4pDSh6ksRHYSx2Oo656LoPVHRq8+RM2k+JXMywJNJtjrBaJSfhtkNcBN7B+It+6XYxIHhuRT05vMYaGJDO98g3KzEfEuYx8ah8UX/H7ymFkIblcvSvcMMw938dFAjNdENLN5fICxgAyMtoWBwU6jV6r9SMEJ1Z1yzf5KTRFBYJqCnYo0n3K0SqgKHrkNCUY1Z2hwJxRMUI7S1Pz8p3tUTKtaFNN7u7cYNNgS6DL3FnNAaoLxlzu7Y0RXKS+wE8IJGPsP9vBrFopdopxxWkoJXZucJlzjcBQ/EujEDKfRF0VqlpfjsbdaCz9d8BSJsXCLuudjg/VVvYQH6rx5P8l9D8RHqLWUd8IRuYA8PnouyWM2RpT0Yr6ltDQECInca34GdoZsRjZcPWTo0JCUMKp9vtuXg9zrQJpZ4BIcer4/k=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7511.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(136003)(366004)(396003)(346002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(76116006)(66946007)(66556008)(316002)(6916009)(64756008)(66446008)(66476007)(54906003)(26005)(52536014)(8936002)(4326008)(8676002)(38070700009)(38100700002)(41300700001)(122000001)(33656002)(86362001)(2906002)(5660300002)(7416002)(966005)(83380400001)(478600001)(55016003)(9686003)(53546011)(7696005)(6506007)(45080400002)(71200400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?YlZDYU9KdTdFeTRENkhKMDNKZmloWHRid2NkZmdxNEg5NFJFQlJrZGc1VTdz?=
+ =?utf-8?B?ajJvcytubkprTDYvNmVFdWcyR0d6K0lZS2hZMUxVODJlWHgxWUkzYUZHS0xt?=
+ =?utf-8?B?TnJHdTVDYWIxUmZtNUlld2ZmUWlFQU1vTVRsQVVOOUtVZGVPNklGbmF5NG1U?=
+ =?utf-8?B?RnZDdllObHZMcVd1T2k4QXhXOVJaVXpQSWN0NHpGSU15dHQvaGQ3SGJBVDhQ?=
+ =?utf-8?B?Y2JpMUtZMGtHa3ZyUTd6RU13bWh6M0c2cTBET2dxTnk1S25ZdHhhQnRKQnEz?=
+ =?utf-8?B?S2F3SXFZOEJSeDRsbE4wSlpSKzVBQVVZSm54cENyYk53U2g0UmVsTUl0a2dy?=
+ =?utf-8?B?WXFaZFk0NEFmc3RGU3BzWkpNNVVhdWRZYWFHb1g4MWJBZURraHVaOFFlanlC?=
+ =?utf-8?B?UzVVYWYyQVdyakxoWldUN0lCQ2pqeFJ3Y2loOFhTN2kvYklLeW9MN2JoRCtI?=
+ =?utf-8?B?VThNd0RsVWsxdXREMVdvdFFYakxmQ21DQ1IvTnZ1aDF2NlV1Q1IxUjdmbndU?=
+ =?utf-8?B?aCtTQnFVTUlPZDF1RzR2MkpQcnU2dE5uOWFOWFVabDV5WVNSQ29uUkNpbUVw?=
+ =?utf-8?B?cTM2MUQ4bnMrK2pYOTZWemNkdXJldVZDbE5HYnZvUXdhYmJPTnFoMEhmYVFi?=
+ =?utf-8?B?aFpyKzgrNSttVUNWTHdMVlE0c3FiWXR5cTkzNjd5SGZQdnhxcDZaWTNCWUNa?=
+ =?utf-8?B?UWZGdEl6ZnQ5amhKT0xYWFQwS3VsNHcxOHB2aXlXbE8ybnh2djBxYk93MXFX?=
+ =?utf-8?B?dHRlMXdzZG9mSEtnYmVPb1VCQ0F4OUV3a0RFOGdwRTJXTzdvd2tka1FiM3Bk?=
+ =?utf-8?B?eFpYR2tEQVk4MVdqMWVpSklqL1Z5Vm9uSGV3VnRzZzQ2ME9qMCtnYUdRQ2tq?=
+ =?utf-8?B?MzFGRXNweGJKRjc5T25Nd2Q0ODVWOUtJbzNwUytLNklHV1NWR3k4N3VhTmo3?=
+ =?utf-8?B?L2hIOGpGQ2dYOHEvdXI2bFo1ZnhLRXdYOXRNeWNMT1lJZDhFb2xRTnBvaXIw?=
+ =?utf-8?B?cHhueDhLaUhBNE91SVNxUXI5aEZvaWxpTUxrcVVDWnRYU2dtZXJ6MjZ5Tzla?=
+ =?utf-8?B?Mmk1My9sVUNmZmRuMFlGL2RCL0l6eUUzOE80N1hzbWN4K3NWdzM3cEVJVnZ3?=
+ =?utf-8?B?bEI2QXY4QTVGL3ZzMldkMlhwdDBDS0dnS25FcGg5QWo0OU90dzZNSmhKTmY2?=
+ =?utf-8?B?bjJmSDVPckE4ZUQ0ckhaaXZmZnJnNEdURzBUbVNPdHJqWjdNUE9lZTc0NFVC?=
+ =?utf-8?B?RGowMlhrMk1rYmlnV3UyRVVRMG95ZmpaK2NXQzg3MnZSZ2huek5qTC9uSXh2?=
+ =?utf-8?B?K1BmTWloZUloZmd4alFXaFFTVTF6alZmMy9CazNwNWw3b0hvSmNXa2VJdGlv?=
+ =?utf-8?B?TldaNzR5ekFkYmx6YjByVnlzeDJaamwzMDJ5UDBNcWlNVnVkbHFhanJ5Qk9Q?=
+ =?utf-8?B?c2U2bGZQeFdaeFhmeFZjWjZVUGF5bFFCSHhmSGxwdnNFTWxiNnVpV2w3bzZm?=
+ =?utf-8?B?clFrV3h3YnRBZmZkRnVsTFhmRzBxZW01SGRkRDVjWmhzRGpOdkFIcmVqTWhY?=
+ =?utf-8?B?WjI0TVRYMzlSbExjeGNpZTVHdit4YmhmVWY5ejVQQlM2WmNqMXhqYURLQjA2?=
+ =?utf-8?B?b2tEeCs1ck83R081RlNhTmdCVyt4bElXZ2gyanM1Z0IxRytsWTFLQjZlcWRx?=
+ =?utf-8?B?UDVJU1J5ZnF5QlU1L0QxUlh3dHpBNG9sSjNsVGU3eXBZTkNNdXRjY0VPRWFv?=
+ =?utf-8?B?aE1WckdnTXEydkJyWTRJKzU5K09GUVdrajhod1FydEI1L3ZIZEpVb1pzS2M0?=
+ =?utf-8?B?TjNPa3R0Z3ZwODFLR3J1bms3Sk1sVEZNRlRXdlF5NnB3eDJtcENsZit1ZVJv?=
+ =?utf-8?B?YVJUNUdoMGY4SURjcFMxR1hHM0pVMkVldEg0ZzV4VGlUUnBwZUNpVFJZUkV4?=
+ =?utf-8?B?SU1BOENNUG1jLy9HTW01cU00WnlFbzRVTU1nVzJiYVZMMFYrL2t3NllKZ1c0?=
+ =?utf-8?B?UlV0QklYYThaM0dJaXpnMlFWR1J5azVycEhhUmFaNVFYczJpZkdCKzUrSzJB?=
+ =?utf-8?B?d3MrRHBpZDZudUNJamt3Zmx0TkdTUjcwcnk2bHRValJFYi9NYSt3S0cwU1Rr?=
+ =?utf-8?Q?NXntFfz9Okgoglm2LwML32hXB?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SJ0PR11MB5008:EE_
-X-MS-Office365-Filtering-Correlation-Id: f45609c7-71d2-4d5a-5627-08dbea32e562
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Or8ruSRPJ39ohoB6xAj4sclVJNro7J5VkLSUYwc7wLBT4MN4wrVxcgiEpg9uY6tI4AC4AixvH0J3JxA+uvytcSifjfzxGvNMA+phio7BicmW5wH8FljNhZOcSrkNmVe7DFK91tJvv2XByZnPploDqvtL2poHC4GYgA+VSPOdxIVu7QrerQiT7Tx57m301ClpE6eSWEwDsG1/Eu5IAVPjKOiIoQjUQGjRrNg+BgtHndSslnzh7p7sLYP8UuGur+xA3PCItMjHYCR58X7aCvHhM07aUaRL6KdbJ/bLxziZwBsEAXy+qQ87PX5ped4xuFyQVe3aQbdWZ3PYn5Z3gg2nRj3zcOLOEvrjNVd3jaK9Hz4UHaaItffvKaxMr3cq3Heai6mDnIRhOATpLFfew42xvtX+fbEA4mLJj8TNM9NIyYXiEKmWKVgDscv+r887E7+VKm/8jQnYBOs7wkN/DcWTlbn5pTxyP95VNJjJw848kbw5Z7pytZOz9RZuE5LTbtvEEQX18BUnhAfdcZMOtdcgiy1ZVnowFspSLzAp3s6vg6itpDqvV2AL/ypNO+LsWtjU9JKnG2Xeu1ukQxYwZSw1DGpxoONTwbiKpPW/g9EuADaGjn74WP8o4FH0Cg+ARzoB7QW6FXs936MsOqyeR/rHyg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(376002)(366004)(396003)(346002)(230922051799003)(230273577357003)(230173577357003)(186009)(64100799003)(451199024)(1800799012)(66946007)(66556008)(316002)(6916009)(66476007)(26005)(8936002)(4326008)(8676002)(36756003)(38100700002)(4001150100001)(41300700001)(82960400001)(86362001)(2906002)(30864003)(5660300002)(966005)(83380400001)(6486002)(478600001)(6512007)(6666004)(6506007)(2616005)(1076003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/kwOuvMnPSKaU3V645eLtQkwcPNa7IWWMuW1xh1OLQHFkvk6Pla7z1bSOM49?=
- =?us-ascii?Q?ghdqxDO6po7U/uATtFQ7L+niHM3gnUElEb12QJBbaiPN8+JTkYbuOng5Ecrc?=
- =?us-ascii?Q?m2TBkN52Eq9jsvmxjTKFUPy/hxeBYV1AeIoDZEA0LytXW6tmoSislsJXLNSy?=
- =?us-ascii?Q?UTNTIfneKUmoRsGgygo+hN/O1XVS8zuxBJ+GcDfJ86i5ceewyGMbIWElwqH0?=
- =?us-ascii?Q?Ia73gihlKM4bH7RnMMeQHzOXYe7jsmPB0F1bm1w/bV67FcELLvtqCbA2O9S7?=
- =?us-ascii?Q?jPF3r+azXEaPuUJuI2lY5CVhOelmYkPS02ptB38nyp8cpr5S/EvOaSiSYPVz?=
- =?us-ascii?Q?TEw9Oh/e5J/y4Wv+VdcYGszPEzLYnfT2PSJZtRmAPyd5/J7TF9nCS6UxNTuc?=
- =?us-ascii?Q?a4GylBw1UgyATY32FiUXbaw6d41L3vHdje/42lZDiuEjOmIET0dzzWi/AKoT?=
- =?us-ascii?Q?jVW9Wd7QGomAKZIxffa6YdznARlCokTO046D6ava7IQrRqQIK8GkzyPnEP2/?=
- =?us-ascii?Q?mEpJZ8nXeWd3XTWaXnjBB3aNHjDZYx/guGIwJwyJbS/FvbYw8qXiQKTB4EBg?=
- =?us-ascii?Q?rC4l+4x0Z3WJA1mfehLT+9j0fz6kk1n+1yWNcHyDFFRH0qxgUuIHvVRH+NY6?=
- =?us-ascii?Q?Fwqa+V0erF+IotI2EeyUT6qC2BcgUoaqnyt+aGf8sMbJQYFWoxJB2CCSe86B?=
- =?us-ascii?Q?AXI3voc6VmksL/Y6yVRwGujRA4QuIRil6Bc36t3TsQS80HsXxykFOfiqnEk9?=
- =?us-ascii?Q?/qT46I59RK6QdeWvKSLoLKbawZdlFz6Zi145dKIJcAQw3yeJYBocPTiC3SvA?=
- =?us-ascii?Q?C2Eppu552uso7JJ6pPajPQruWEXhZeGGtGUE13soKR6VqecXBfYsn1Pjy3is?=
- =?us-ascii?Q?zlK63+P1d+GCjSHMbyEu+ux5f4jVto0ldQgu72iWuwvT8mp3QB+swEH/nBRU?=
- =?us-ascii?Q?MDpyVj1K2YHoaMjZdr6cM30foNgQA3+ZKMMke5wHSt3Zxrc1Z3+Bgkq1xkjY?=
- =?us-ascii?Q?HkpjIrtCV6VCqkGpb7UmWEZgD9FfJhYgS0Lt9zaXoeX/PeZRLTakQQN9K/NV?=
- =?us-ascii?Q?61wc8wAOQfuQ3PxKl+x3GjiBIbdPBUZsj9OhlBY+lD4p3gZCr14kDSk8PhCj?=
- =?us-ascii?Q?cTP1Dg/rkpNce+GZ2aTHk8KMB/maGlDSF/cETh+awgjBmOUexvECwa7TwXWb?=
- =?us-ascii?Q?qOpGptQ5CeK4azK4QxK0PG7Ap2u3azqRwsDfeGuWuGyS8WL8icYKF68qGRIt?=
- =?us-ascii?Q?f9yCiBGNjviAVgNUpzF7xk9aw6YQ1Tnq1NpslYXXQ2FJN4iznRewoj/5Ghd0?=
- =?us-ascii?Q?u/xp/az1MlU+9lgBfPwiim0TJIlZ/XbycSCCzMDUOdCOBu3yBatckxUFha0U?=
- =?us-ascii?Q?4tSwcAC7g96kNuCkGIeEUxDi5tHJM3fnud88M2COuox8HyDb6CiW1lQhs3XK?=
- =?us-ascii?Q?w1aDWdZP7kMQC47C9JfIDbByxjwDKZ3K19OW2C0st+6JD3eqz2DVRZKxR3dM?=
- =?us-ascii?Q?aZ7MFu8lOfvd21g1LlaebHK4/949IgWA6rsnqKfh3QnZiM2m5fE6wBWmQGQk?=
- =?us-ascii?Q?PamjAoksH9yPrW+jFLb1QYshM2dT/A2J6yZ05CH/?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f45609c7-71d2-4d5a-5627-08dbea32e562
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-OriginatorOrg: arm.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 01:40:52.2455
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB7511.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e412b7dd-6f59-4eb8-6c37-08dbea3361d3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Nov 2023 01:44:20.8370
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E/5KUyHXy5V00boxG0OKIzLcDowDMbLfa7KIdBQYVETfFO8f1UK1sZVzq6ACEowq0KPl0w/lpMm1DRlbn03wHA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5008
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vbboXnN8zPTGRoZKUm5qVeKWecQJvzdcEi66GvmE6zJrzUoCpVihSu50tN32wYzV+nRxfnl8yW0Z95qu52dwaw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6444
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-commit: 0ba002bc4393dcfae031fc707b11c094b46a5048 virt: Add vboxguest driver for Virtual Box Guest integration
-config: x86_64-buildonly-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20231121/202311210515.oI9mxbKB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311210515.oI9mxbKB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202311210515.oI9mxbKB-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/virt/vboxguest/vboxguest_linux.c:65: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Close device.
-   drivers/virt/vboxguest/vboxguest_linux.c:78: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Device I/O Control entry point.
-   drivers/virt/vboxguest/vboxguest_linux.c:161: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Called when the input device is first opened.
-   drivers/virt/vboxguest/vboxguest_linux.c:179: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Called if all open handles to the input device are closed.
-   drivers/virt/vboxguest/vboxguest_linux.c:191: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Creates the kernel input device.
-   drivers/virt/vboxguest/vboxguest_linux.c:243: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Does the PCI detection and init of the device.
-   drivers/virt/vboxguest/vboxguest_linux.c:424: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Callback for mouse events.
---
->> drivers/virt/vboxguest/vboxguest_core.c:31: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Reserves memory in which the VMM can relocate any guest mappings
-   drivers/virt/vboxguest/vboxguest_core.c:122: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Undo what vbg_guest_mappings_init did.
-   drivers/virt/vboxguest/vboxguest_core.c:162: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Report the guest information to the host.
-   drivers/virt/vboxguest/vboxguest_core.c:223: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Report the guest driver status to the host.
-   drivers/virt/vboxguest/vboxguest_core.c:254: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Inflate the balloon by one chunk. The caller owns the balloon mutex.
-   drivers/virt/vboxguest/vboxguest_core.c:304: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Deflate the balloon by one chunk. The caller owns the balloon mutex.
-   drivers/virt/vboxguest/vboxguest_core.c:337: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Respond to VMMDEV_EVENT_BALLOON_CHANGE_REQUEST events, query the size
-   drivers/virt/vboxguest/vboxguest_core.c:402: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Callback for heartbeat timer.
-   drivers/virt/vboxguest/vboxguest_core.c:414: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Configure the host to check guest's heartbeat
-   drivers/virt/vboxguest/vboxguest_core.c:440: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Initializes the heartbeat timer. This feature may be disabled by the host.
-   drivers/virt/vboxguest/vboxguest_core.c:477: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Cleanup hearbeat code, stop HB timer and disable host heartbeat checking.
-   drivers/virt/vboxguest/vboxguest_core.c:489: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Applies a change to the bit usage tracker.
-   drivers/virt/vboxguest/vboxguest_core.c:525: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Init and termination worker for resetting the (host) event filter on the host
-   drivers/virt/vboxguest/vboxguest_core.c:551: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Changes the event filter mask for the given session.
-   drivers/virt/vboxguest/vboxguest_core.c:626: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Init and termination worker for set guest capabilities to zero on the host.
-   drivers/virt/vboxguest/vboxguest_core.c:650: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Sets the guest capabilities for a session. Takes the session spinlock.
-   drivers/virt/vboxguest/vboxguest_core.c:721: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * vbg_query_host_version get the host feature mask and version information.
-   drivers/virt/vboxguest/vboxguest_core.c:757: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Initializes the VBoxGuest device extension when the
->> drivers/virt/vboxguest/vboxguest_core.c:866: warning: expecting prototype for Call this on exit to clean-up vboxguest(). Prototype was for vbg_core_exit() instead
-   drivers/virt/vboxguest/vboxguest_core.c:883: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Creates a VBoxGuest user session.
-   drivers/virt/vboxguest/vboxguest_core.c:905: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Closes a VBoxGuest session.
-   drivers/virt/vboxguest/vboxguest_core.c:1063: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Checks if the VMM request is allowed in the context of the given session.
-   drivers/virt/vboxguest/vboxguest_core.c:1423: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Common IOCtl for user to kernel communication.
->> drivers/virt/vboxguest/vboxguest_core.c:1500: warning: expecting prototype for Report guest supported mouse(). Prototype was for vbg_core_set_mouse_status() instead
-   drivers/virt/vboxguest/vboxguest_core.o: warning: objtool: vbg_report_guest_info()+0x80: sibling call from callable instruction with modified stack frame
---
->> drivers/virt/vboxguest/vboxguest_utils.c:225: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Preprocesses the HGCM call, validate parameters, alloc bounce buffers and
-   drivers/virt/vboxguest/vboxguest_utils.c:289: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Translates linear address types to page list direction flags.
-   drivers/virt/vboxguest/vboxguest_utils.c:357: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Initializes the call request that we're sending to the host.
-   drivers/virt/vboxguest/vboxguest_utils.c:413: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Tries to cancel a pending HGCM call.
-   drivers/virt/vboxguest/vboxguest_utils.c:447: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Performs the call and completion wait.
-   drivers/virt/vboxguest/vboxguest_utils.c:528: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copies the result of the call back to the caller info structure and user
-   drivers/virt/vboxguest/vboxguest_utils.o: warning: objtool: vbg_info()+0x6e: sibling call from callable instruction with modified stack frame
-   drivers/virt/vboxguest/vboxguest_utils.o: warning: objtool: vbg_warn()+0x6e: sibling call from callable instruction with modified stack frame
-   drivers/virt/vboxguest/vboxguest_utils.o: warning: objtool: vbg_err()+0x6e: sibling call from callable instruction with modified stack frame
-   drivers/virt/vboxguest/vboxguest_utils.o: warning: objtool: vbg_info.cold()+0x2a: return with modified stack frame
-   drivers/virt/vboxguest/vboxguest_utils.o: warning: objtool: vbg_warn.cold()+0x2a: return with modified stack frame
-   drivers/virt/vboxguest/vboxguest_utils.o: warning: objtool: vbg_err.cold()+0x2a: return with modified stack frame
-
-
-vim +65 drivers/virt/vboxguest/vboxguest_linux.c
-
-0ba002bc4393dc Hans de Goede 2017-11-30  63  
-0ba002bc4393dc Hans de Goede 2017-11-30  64  /**
-0ba002bc4393dc Hans de Goede 2017-11-30 @65   * Close device.
-0ba002bc4393dc Hans de Goede 2017-11-30  66   * Return: 0 on success, negated errno on failure.
-0ba002bc4393dc Hans de Goede 2017-11-30  67   * @inode:		Pointer to inode info structure.
-0ba002bc4393dc Hans de Goede 2017-11-30  68   * @filp:		Associated file pointer.
-0ba002bc4393dc Hans de Goede 2017-11-30  69   */
-0ba002bc4393dc Hans de Goede 2017-11-30  70  static int vbg_misc_device_close(struct inode *inode, struct file *filp)
-0ba002bc4393dc Hans de Goede 2017-11-30  71  {
-0ba002bc4393dc Hans de Goede 2017-11-30  72  	vbg_core_close_session(filp->private_data);
-0ba002bc4393dc Hans de Goede 2017-11-30  73  	filp->private_data = NULL;
-0ba002bc4393dc Hans de Goede 2017-11-30  74  	return 0;
-0ba002bc4393dc Hans de Goede 2017-11-30  75  }
-0ba002bc4393dc Hans de Goede 2017-11-30  76  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUnVzc2VsbCBLaW5nIDxs
+aW51eEBhcm1saW51eC5vcmcudWs+DQo+IFNlbnQ6IDIwMjPlubQxMeaciDIw5pelIDE3OjU4DQo+
+IFRvOiBKaWFueW9uZyBXdSA8SmlhbnlvbmcuV3VAYXJtLmNvbT4NCj4gQ2M6IGxpbnV4LXBtQHZn
+ZXIua2VybmVsLm9yZzsgbG9vbmdhcmNoQGxpc3RzLmxpbnV4LmRldjsNCj4gbGludXgtYWNwaUB2
+Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWFyY2hAdmdlci5rZXJuZWwub3JnOw0KPiBsaW51eC1rZXJu
+ZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7
+DQo+IGxpbnV4LXJpc2N2QGxpc3RzLmluZnJhZGVhZC5vcmc7IGt2bWFybUBsaXN0cy5saW51eC5k
+ZXY7IHg4NkBrZXJuZWwub3JnOw0KPiBsaW51eC1jc2t5QHZnZXIua2VybmVsLm9yZzsgbGludXgt
+ZG9jQHZnZXIua2VybmVsLm9yZzsNCj4gbGludXgtaWE2NEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4
+LXBhcmlzY0B2Z2VyLmtlcm5lbC5vcmc7IFNhbGlsIE1laHRhDQo+IDxzYWxpbC5tZWh0YUBodWF3
+ZWkuY29tPjsgSmVhbi1QaGlsaXBwZSBCcnVja2VyIDxqZWFuLXBoaWxpcHBlQGxpbmFyby5vcmc+
+Ow0KPiBKdXN0aW4gSGUgPEp1c3Rpbi5IZUBhcm0uY29tPjsgSmFtZXMgTW9yc2UgPEphbWVzLk1v
+cnNlQGFybS5jb20+Ow0KPiBDYXRhbGluIE1hcmluYXMgPENhdGFsaW4uTWFyaW5hc0Bhcm0uY29t
+PjsgV2lsbCBEZWFjb24gPHdpbGxAa2VybmVsLm9yZz47DQo+IE1hcmsgUnV0bGFuZCA8TWFyay5S
+dXRsYW5kQGFybS5jb20+OyBMb3JlbnpvIFBpZXJhbGlzaQ0KPiA8bHBpZXJhbGlzaUBrZXJuZWwu
+b3JnPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDM0LzM5XSBhcm02NDogcHNjaTogSWdub3JlIERF
+TklFRCBDUFVzDQo+IA0KPiBPbiBNb24sIE5vdiAyMCwgMjAyMyBhdCAwOTozNjowNUFNICswMDAw
+LCBKaWFueW9uZyBXdSB3cm90ZToNCj4gPg0KPiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3Nh
+Z2UtLS0tLQ0KPiA+ID4gRnJvbTogUnVzc2VsbCBLaW5nIDxsaW51eEBhcm1saW51eC5vcmcudWs+
+DQo+ID4gPiBTZW50OiAyMDIz5bm0MTHmnIgyMOaXpSAxNzoyNQ0KPiA+ID4gVG86IEppYW55b25n
+IFd1IDxKaWFueW9uZy5XdUBhcm0uY29tPg0KPiA+ID4gQ2M6IGxpbnV4LXBtQHZnZXIua2VybmVs
+Lm9yZzsgbG9vbmdhcmNoQGxpc3RzLmxpbnV4LmRldjsNCj4gPiA+IGxpbnV4LWFjcGlAdmdlci5r
+ZXJuZWwub3JnOyBsaW51eC1hcmNoQHZnZXIua2VybmVsLm9yZzsNCj4gPiA+IGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsN
+Cj4gPiA+IGxpbnV4LXJpc2N2QGxpc3RzLmluZnJhZGVhZC5vcmc7IGt2bWFybUBsaXN0cy5saW51
+eC5kZXY7DQo+ID4gPiB4ODZAa2VybmVsLm9yZzsgbGludXgtY3NreUB2Z2VyLmtlcm5lbC5vcmc7
+DQo+ID4gPiBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBsaW51eC1pYTY0QHZnZXIua2VybmVs
+Lm9yZzsNCj4gPiA+IGxpbnV4LXBhcmlzY0B2Z2VyLmtlcm5lbC5vcmc7IFNhbGlsIE1laHRhIDxz
+YWxpbC5tZWh0YUBodWF3ZWkuY29tPjsNCj4gPiA+IEplYW4tUGhpbGlwcGUgQnJ1Y2tlciA8amVh
+bi1waGlsaXBwZUBsaW5hcm8ub3JnPjsgSnVzdGluIEhlDQo+ID4gPiA8SnVzdGluLkhlQGFybS5j
+b20+OyBKYW1lcyBNb3JzZSA8SmFtZXMuTW9yc2VAYXJtLmNvbT47IENhdGFsaW4NCj4gPiA+IE1h
+cmluYXMgPENhdGFsaW4uTWFyaW5hc0Bhcm0uY29tPjsgV2lsbCBEZWFjb24gPHdpbGxAa2VybmVs
+Lm9yZz47DQo+ID4gPiBNYXJrIFJ1dGxhbmQgPE1hcmsuUnV0bGFuZEBhcm0uY29tPjsgTG9yZW56
+byBQaWVyYWxpc2kNCj4gPiA+IDxscGllcmFsaXNpQGtlcm5lbC5vcmc+DQo+ID4gPiBTdWJqZWN0
+OiBSZTogW1BBVENIIDM0LzM5XSBhcm02NDogcHNjaTogSWdub3JlIERFTklFRCBDUFVzDQo+ID4g
+Pg0KPiA+ID4gT24gVGh1LCBOb3YgMTYsIDIwMjMgYXQgMDc6NDU6NTFBTSArMDAwMCwgSmlhbnlv
+bmcgV3Ugd3JvdGU6DQo+ID4gPiA+IEhpIFJ1c3NlbGwsDQo+ID4gPiA+DQo+ID4gPiA+IE9uZSBp
+bmxpbmUgY29tbWVudC4NCj4gPiA+IC4uLg0KPiA+ID4gPiA+IENoYW5nZXMgc2luY2UgUkZDIHYy
+DQo+ID4gPiA+ID4gICogQWRkIHNwZWNpZmljYXRpb24gcmVmZXJlbmNlDQo+ID4gPiA+ID4gICog
+VXNlIEVQRVJNIHJhdGhlciB0aGFuIEVQUk9CRV9ERUZFUg0KPiA+ID4gLi4uDQo+ID4gPiA+ID4g
+QEAgLTQwLDcgKzQwLDcgQEAgc3RhdGljIGludCBjcHVfcHNjaV9jcHVfYm9vdCh1bnNpZ25lZCBp
+bnQgY3B1KSAgew0KPiA+ID4gPiA+ICAJcGh5c19hZGRyX3QgcGFfc2Vjb25kYXJ5X2VudHJ5ID0g
+X19wYV9zeW1ib2woc2Vjb25kYXJ5X2VudHJ5KTsNCj4gPiA+ID4gPiAgCWludCBlcnIgPSBwc2Np
+X29wcy5jcHVfb24oY3B1X2xvZ2ljYWxfbWFwKGNwdSksDQo+IHBhX3NlY29uZGFyeV9lbnRyeSk7
+DQo+ID4gPiA+ID4gLQlpZiAoZXJyKQ0KPiA+ID4gPiA+ICsJaWYgKGVyciAmJiBlcnIgIT0gLUVQ
+Uk9CRV9ERUZFUikNCj4gPiA+ID4NCj4gPiA+ID4gU2hvdWxkIHRoaXMgYmUgRVBFUk0/IEFzIHRo
+ZSBmb2xsb3dpbmcgcHNjaSBjcHVfb24gb3Agd2lsbCByZXR1cm4gaXQuDQo+ID4gPiA+IEkgdGhp
+bmsgeW91IG1pc3MgdG8gY2hhbmdlIHRoaXMgd2hlbiBhcHBseSBKZWFuLVBoaWxpcHBlJ3MgcGF0
+Y2guDQo+ID4gPg0KPiA+ID4gSXQgbG9va3MgbGlrZSBKYW1lcyBkaWRuJ3QgcHJvcGVybHkgdXBk
+YXRlIGFsbCBwbGFjZXMuIEFsc28sDQo+ID4gPg0KPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2Zpcm13YXJlL3BzY2kvcHNjaS5jDQo+ID4gPiA+ID4gYi9kcml2ZXJzL2Zpcm13YXJlL3Bz
+Y2kvcHNjaS5jIGluZGV4IGQ5NjI5ZmY4Nzg2MS4uZWU4MmU3ODgwZDhjDQo+ID4gPiA+ID4gMTAw
+NjQ0DQo+ID4gPiA+ID4gLS0tIGEvZHJpdmVycy9maXJtd2FyZS9wc2NpL3BzY2kuYw0KPiA+ID4g
+PiA+ICsrKyBiL2RyaXZlcnMvZmlybXdhcmUvcHNjaS9wc2NpLmMNCj4gPiA+ID4gPiBAQCAtMjE4
+LDYgKzIxOCw4IEBAIHN0YXRpYyBpbnQgX19wc2NpX2NwdV9vbih1MzIgZm4sIHVuc2lnbmVkDQo+
+ID4gPiA+ID4gbG9uZyBjcHVpZCwgdW5zaWduZWQgbG9uZyBlbnRyeV9wb2ludCkNCj4gPiA+ID4g
+PiAgCWludCBlcnI7DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiAgCWVyciA9IGludm9rZV9wc2NpX2Zu
+KGZuLCBjcHVpZCwgZW50cnlfcG9pbnQsIDApOw0KPiA+ID4gPiA+ICsJaWYgKGVyciA9PSBQU0NJ
+X1JFVF9ERU5JRUQpDQo+ID4gPiA+ID4gKwkJcmV0dXJuIC1FUEVSTTsNCj4gPiA+ID4gPiAgCXJl
+dHVybiBwc2NpX3RvX2xpbnV4X2Vycm5vKGVycik7DQo+ID4gPg0KPiA+ID4gVGhpcyBjaGFuZ2Ug
+aXMgdW5uZWNlc3NhcnkgLSBwcm9iYWJseSBjb21lcyBmcm9tIHdoZW4gLUVQUk9CRV9ERUZFUg0K
+PiA+ID4gd2FzIGJlaW5nIHVzZWQuIHBzY2lfdG9fbGludXhfZXJybm8oKSBhbHJlYWR5IGRvZXM6
+DQo+ID4NCj4gPiBCdXQgbWF5IHByaW50IGxvdHMgb2Ygbm9pc2UgbGlrZToNCj4gPg0KPiA+IFsg
+ICAgMC4wMDg5NTVdIHNtcDogQnJpbmdpbmcgdXAgc2Vjb25kYXJ5IENQVXMgLi4uDQo+ID4gWyAg
+ICAwLjAwOTY2MV0gcHNjaTogZmFpbGVkIHRvIGJvb3QgQ1BVMSAoLTEpDQo+ID4gWyAgICAwLjAx
+MDM2MF0gcHNjaTogZmFpbGVkIHRvIGJvb3QgQ1BVMiAoLTEpDQo+ID4gWyAgICAwLjAxMTE2NF0g
+cHNjaTogZmFpbGVkIHRvIGJvb3QgQ1BVMyAoLTEpDQo+ID4gWyAgICAwLjAxMTk0Nl0gcHNjaTog
+ZmFpbGVkIHRvIGJvb3QgQ1BVNCAoLTEpDQo+ID4gWyAgICAwLjAxMjc2NF0gcHNjaTogZmFpbGVk
+IHRvIGJvb3QgQ1BVNSAoLTEpDQo+ID4gWyAgICAwLjAxMzUzNF0gcHNjaTogZmFpbGVkIHRvIGJv
+b3QgQ1BVNiAoLTEpDQo+ID4gWyAgICAwLjAxNDM0OV0gcHNjaTogZmFpbGVkIHRvIGJvb3QgQ1BV
+NyAoLTEpDQo+ID4gWyAgICAwLjAxNDgyMF0gc21wOiBCcm91Z2h0IHVwIDEgbm9kZSwgMSBDUFUN
+Cj4gPg0KPiA+IElzIHRoaXMgZXhwZWN0ZWQ/DQo+IA0KPiBQbGVhc2UgcmVhZCBteSBlbWFpbCBh
+Z2FpbiwgYW5kIHRha2Ugbm90ZSBvZiB0aGUgX2NvbnRleHRfIGFib3ZlIHRoZSBwbGFjZXMNCj4g
+dGhhdCBJJ3ZlIGNvbW1lbnRlZC4gQ29udGV4dCBtYXR0ZXJzLg0KPiANCj4gV2hhdCBJJ20gc2F5
+aW5nIGlzIHRoYXQgdGhpcyBjaGFuZ2U6DQo+IA0KPiAgCWVyciA9IGludm9rZV9wc2NpX2ZuKGZu
+LCBjcHVpZCwgZW50cnlfcG9pbnQsIDApOw0KPiArCWlmIChlcnIgPT0gUFNDSV9SRVRfREVOSUVE
+KQ0KPiArCQlyZXR1cm4gLUVQRVJNOw0KPiAgCXJldHVybiBwc2NpX3RvX2xpbnV4X2Vycm5vKGVy
+cik7DQo+IA0KPiBJcyB1bm5lY2Vzc2FyeSB3aGVuIHBzY2lfdG9fbGludXhfZXJybm8oKSBhbHJl
+YWR5IGRvZXM6DQo+IA0KPiBzdGF0aWMgX19hbHdheXNfaW5saW5lIGludCBwc2NpX3RvX2xpbnV4
+X2Vycm5vKGludCBlcnJubykgew0KPiAJc3dpdGNoIChlcnJubykgew0KPiAJLi4uDQo+IAljYXNl
+IFBTQ0lfUkVUX0RFTklFRDoNCj4gCQlyZXR1cm4gLUVQRVJNOw0KPiANCj4gU28sIGEgcmV0dXJu
+IG9mIFBTQ0lfUkVUX0RFTklFRCBmcm9tIGludm9rZV9wc2NpX2ZuKCkgYWJvdmUgd2lsbCBfYWxy
+ZWFkeV8gYmUNCj4gdHJhbnNsYXRlZCB0byAtRVBFUk0gKHdoaWNoIGlzIC0xKSBieSBwc2NpX3Rv
+X2xpbnV4X2Vycm5vKCkuIFRoZXJlIGlzIG5vIG5lZWQgdG8NCj4gYWRkIHRoYXQgZXh0cmEgaWYo
+KSBzdGF0ZW1lbnQgaW4gX19wc2NpX2NwdV9vbigpLg0KPiANCj4gSSB3YXMgX25vdF8gc2F5aW5n
+IHRoYXQgdGhlIGVudGlyZSBwYXRjaCB3YXMgdW5uZWNlc3NhcnkuDQo+IA0KPiBDb250ZXh0IG1h
+dHRlcnMuIFRoYXQncyB3aHkgd2UgaW5jbHVkZSBjb250ZXh0IGluIHJlcGxpZXMuDQo+IA0KPiBT
+dGFuZGFyZCBlbWFpbCBldGlxdWV0dGUgKGJlZm9yZSBNaWNyb3NvZnQgbWVzc2VkIGl0IHVwKSBp
+cyB0byBxdW90ZSB0aGUgZW1haWwNCj4gdGhhdCBpcyBiZWluZyByZXBsaWVkIHRvLCB0cmltbWlu
+ZyBoYXJkIGlycmVsZXZhbnQgY29udGVudCwgYW5kIHRvIHBsYWNlIHRoZSByZXBseQ0KPiBjb21t
+ZW50cyBpbW1lZGlhdGVseSBiZWxvdyB0aGUgb3JpZ2luYWwgY29udGVudCB0byB3aGljaCB0aGUg
+Y29tbWVudHMNCj4gcmVsYXRlLCB0byBnaXZlIHRoZSByZXBseSBjb21tZW50cyB0aGUgY29udGV4
+dCBuZWNlc3NhcnkgZm9yIGNvcnJlY3QNCj4gaW50ZXJwcmV0YXRpb24uDQo+IA0KDQpPaCwgc29y
+cnksIG15IG1pc3Rha2UuIElnbm9yZSBteSBsYXN0IGNvbW1lbnQuDQoNClRoYW5rcw0KSmlhbnlv
+bmcNCg0KPiBUaGFua3MuDQo+IA0KPiAtLQ0KPiBSTUsncyBQYXRjaCBzeXN0ZW06IGh0dHBzOi8v
+d3d3LmFybWxpbnV4Lm9yZy51ay9kZXZlbG9wZXIvcGF0Y2hlcy8NCj4gRlRUUCBpcyBoZXJlISA4
+ME1icHMgZG93biAxME1icHMgdXAuIERlY2VudCBjb25uZWN0aXZpdHkgYXQgbGFzdCENCg==
