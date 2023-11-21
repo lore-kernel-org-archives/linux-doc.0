@@ -1,109 +1,98 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CCC20DC7;
+	Tue, 21 Nov 2023 17:43:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lhzywHVT"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C3EC1;
-	Tue, 21 Nov 2023 09:33:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700588013; x=1732124013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OYanv+5lTPi2eNwGcNhRfKpcWpZhpcXv0NNhzmzR7BU=;
-  b=lhzywHVThsn9FVEZtTJyBCCgu+DaGApm6UzxAfE/GODgVM2DW++uGnW0
-   y4VwOpChiVaOI40M+a5I9geKxhAFtAmKeRcqBsG/DNU1I1vEKWot7asLW
-   +JdxOKU465Oqlo02pEeFvjq3NaXBw3ACA2ik+/A1U+d+E4olhP5HeXec/
-   UWD2Wu1lmrta4zaKPBrIiW77BWX+Go2W+RBfst9XYeYvIYldDdwlLpYAw
-   fzlpIAoby3Hkr3O1fKhozbzFN2Cy07KLaT7f1UeEOyDfIO1QQduzuOyTQ
-   mE/n7Q09OkCJPuz3Ea1QQVlFCZHQV3HN7sOnXKCE+pDoVq3KT0jRMSChe
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="10557396"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="10557396"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 09:33:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="766712754"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="766712754"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 21 Nov 2023 09:33:30 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5Ucq-00085O-16;
-	Tue, 21 Nov 2023 17:33:28 +0000
-Date: Wed, 22 Nov 2023 01:33:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [viro-vfs:work.rename 10/10] htmldocs:
- Documentation/filesystems/directory-locking.rst:33: WARNING: Enumerated list
- ends without a blank line; unexpected unindent.
-Message-ID: <202311220106.QLlI24Qn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FqJwICL1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D5D5C433C8;
+	Tue, 21 Nov 2023 17:43:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700588636;
+	bh=gnUMTK1bw92CwGDuRlTgAm7doJIPoMNyCa9J3hZFk0w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FqJwICL1kBDQbIlpNtsh2Lh4TokSiyA5IgHA48yDVQ5hkl4QG4EHxS0/3CnDESTZo
+	 eKUruDuuPsWMn7lBqgiR8ymZBEUyHfs4uhGLeovjKR12R/orFIU379hlSmce0jB1So
+	 owbsZstA5xYQu26HlHm1dSmGs7dNcYNbFvN8EZ12wuZ2JzI5YsNiMW96M84PZP7RVH
+	 d1YeJkqalRcdS4LfnzOUF2kPaE/9uP4bW7jDl6tkiOyZcLf+3DTvZDkViceFDI7+wC
+	 y6/TVZ9BmwA/mKO4zs17YfNmLBMDu0K7OLddMQZOvsj/izW2477J0qV+Ttlo2XsKnD
+	 hf66KY4LtQUhQ==
+Date: Tue, 21 Nov 2023 09:43:54 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
+ stamping layer be selectable
+Message-ID: <20231121094354.635ee8cd@kernel.org>
+In-Reply-To: <20231121183114.727fb6d7@kmaincent-XPS-13-7390>
+References: <20231120105255.cgbart5amkg4efaz@skbuf>
+	<20231120121440.3274d44c@kmaincent-XPS-13-7390>
+	<20231120120601.ondrhbkqpnaozl2q@skbuf>
+	<20231120144929.3375317e@kmaincent-XPS-13-7390>
+	<20231120142316.d2emoaqeej2pg4s3@skbuf>
+	<20231120093723.4d88fb2a@kernel.org>
+	<20231120190023.ymog4yb2hcydhmua@skbuf>
+	<20231120115839.74ee5492@kernel.org>
+	<20231120211759.j5uvijsrgt2jqtwx@skbuf>
+	<20231120133737.70dde657@kernel.org>
+	<20231120220549.cvsz2ni3wj7mcukh@skbuf>
+	<20231121183114.727fb6d7@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.rename
-head:   450e4154067593d27f3bf7e4a19206e00e40b5e6
-commit: 450e4154067593d27f3bf7e4a19206e00e40b5e6 [10/10] rename(): avoid a deadlock in the case of parents having no common ancestor
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220106.QLlI24Qn-lkp@intel.com/reproduce)
+On Tue, 21 Nov 2023 18:31:14 +0100 K=C3=B6ry Maincent wrote:
+> - Expand struct hwtstamp_config with a phc_index member for the SIOCG/SHW=
+TSTAMP
+>   commands.
+>   To keep backward compatibility if phc_index is not set in the hwtstamp_=
+config
+>   data from userspace use the default hwtstamp (the default being selecte=
+d as
+>   done in my patch series).
+>   Is this possible, would it breaks things?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220106.QLlI24Qn-lkp@intel.com/
+I'd skip this bit, and focus on the ETHTOOL_TSINFO. Keep the ioctl as
+"legacy" and do all the extensions in ethtool. TSINFO_GET can serve
+as GET, to avoid adding 3rd command for the same thing. TSINFO_SET
+would be new (as you indicate below).
 
-All warnings (new ones prefixed by >>):
+> - In netlink part, send one netlink tsinfo skb for each phc_index.
 
->> Documentation/filesystems/directory-locking.rst:33: WARNING: Enumerated list ends without a blank line; unexpected unindent.
->> Documentation/filesystems/directory-locking.rst:46: WARNING: Unexpected indentation.
->> Documentation/filesystems/directory-locking.rst:47: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/filesystems/directory-locking.rst:61: WARNING: Definition list ends without a blank line; unexpected unindent.
+phc_index and netdev combination. A DO command can only generate one
+answer (or rather, it should generate only one answer, there are few
+hard rules in netlink). So we need to move that functionality to DUMP.
+We can filter the DUMP based on user-provided ifindex and/or phc_index.
 
-vim +33 Documentation/filesystems/directory-locking.rst
-
-    27	
-    28	4) link creation.  Locking rules:
-    29		* lock the parent
-    30		* check that the source is not a directory
-    31		* lock the source
-    32		* call the method.
-  > 33	All locks are exclusive.
-    34	
-    35	5) rename() that is _not_ cross-directory.  Locking rules:
-    36		* lock the parent
-    37		* find the source and target.
-    38		* decide which of the source and target need to be locked.
-    39	The source needs to be locked if it's a non-directory, target - if it's
-    40	a non-directory or about to be removed.  Take the locks that need to be
-    41	taken, in inode pointer order if need to take both (that can happen only
-    42	when both source and target are non-directories - the source because
-    43	it wouldn't need to be locked otherwise and the target because mixing
-    44	directory and non-directory is allowed only with RENAME_EXCHANGE, and
-    45	that won't be removing the target).
-  > 46		* call the method.
-  > 47	All locks are exclusive.
-    48	
-    49	6) cross-directory rename.  The trickiest in the whole bunch.  Locking
-    50	rules:
-    51		* lock the filesystem
-    52		* if the parents don't have a common ancestor, fail the operation.
-    53		* lock the parents in "ancestors first" order. If neither is an
-    54	ancestor of the other, lock the parent of source first.
-    55		* find the source and target.
-    56		* verify that the source is not a descendent of the target and
-    57	target is not a descendent of source; fail the operation otherwise.
-    58		* lock the subdirectories involved (source before target).
-    59		* lock the non-directories involved, in inode pointer order.
-    60		* call the method.
-  > 61	All ->i_rwsem are taken exclusive.
-    62	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Could be done in a later patch series:
+> - Expand netlink TSINFO with ETHTOOL_A_TSINFO_HWSTAMP_PROVIDER_QUALIFIER.
+>   Describing this struct:
+> enum ethtool_hwstamp_provider_qualifier {
+>  	ETHTOOL_HWSTAMP_PROVIDER_QUALIFIER_PRECISE,
+>  	ETHTOOL_HWSTAMP_PROVIDER_QUALIFIER_APPROX,
+> };=20
+>=20
+>   Set the desired qualifier through TSINFO_SET or through SIOCSHWTSTAMP by
+>   expanding again the struct hwtstamp_config.
+>=20
+> Do you think this is feasible?
