@@ -1,106 +1,112 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kelvie.ca header.i=@kelvie.ca header.b="oDbnF1ZC"
-Received: from mail-108-mta155.mxroute.com (mail-108-mta155.mxroute.com [136.175.108.155])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D29DC
-	for <linux-doc@vger.kernel.org>; Mon, 20 Nov 2023 19:07:17 -0800 (PST)
-Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta155.mxroute.com (ZoneMTA) with ESMTPSA id 18befd89f01000190b.001
- for <linux-doc@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Tue, 21 Nov 2023 03:07:13 +0000
-X-Zone-Loop: 90e2b9d0e2754485f60a9636715a8ab80bb5ba3f6f61
-X-Originating-IP: [136.175.111.2]
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kelvie.ca;
-	s=x; h=Content-Transfer-Encoding:Content-Type:Cc:To:Subject:Message-ID:Date:
-	From:In-Reply-To:References:MIME-Version:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=yv3ur+VJgPZw5HSVfRVyxfBSzyF5tf8z7FkRU5st0L8=; b=oDbnF1ZC4la1YdwywqU+G9G6Qe
-	88QaVloZ0eYUc3Q8326JwRDRR9L7KpUQDUeJHaBpl6vvrw9TPp9mLGogorfxAA8ocY3E2oYaW9fPM
-	nqi6zTnljzLw/5sdUQRGM4YlPHb3sfFtlco5NTPNlx5uaXx5K+//rWwp2R2EXRRvdJey09ucj6AHv
-	w7AJbKxjX+iQIzgqN2rqYHrSYku+Iuq/ONlfFCv1aQnZUqsfUM+KOlsNCQFN3X+OpRF8tbPgj6O9q
-	n/1zy96mP0v3cVtBYBw62qqaRj2s9V7iOUz4fEjBLC66aeRJ2CoiS+hN3CAC8/yrxY+phHLYLTT81
-	zhqqziwg==;
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2851b271e51so1416788a91.1;
-        Mon, 20 Nov 2023 19:07:11 -0800 (PST)
-X-Gm-Message-State: AOJu0Yx7tyGV0qyJbexqXA/sKLzQoyKaLi1uOh8nh69fys8AIvAxm1vc
-	wIXG1Wj5hPZEIYwEm189QkFjwT3Lf9BYZuF36qQ=
-X-Google-Smtp-Source: AGHT+IHon8FUuNWN6OAvDXiT56AU977GCXjbZnY29yNHWhPtGrU+rTKXg7n8CadQaTmdi00890/QXuJBCYzK0xTkkfk=
-X-Received: by 2002:a17:90a:6881:b0:280:a4a1:5d03 with SMTP id
- a1-20020a17090a688100b00280a4a15d03mr2108500pjd.4.1700536030830; Mon, 20 Nov
- 2023 19:07:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="WjE+pQhm"
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2048.outbound.protection.outlook.com [40.107.117.48])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A61FC8;
+	Mon, 20 Nov 2023 21:08:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hzomnzXK4s9lpUve09wNixiYUs+Rfrds0w9KSUW5gRvMIagCKQyDhZMUDQew77+f4o7yXnmU2Tef44kFfeAaum7DEtCQOrVGo5G+rd9c4Jru1Xt2oWNIF5fgVTbvMzkxfCYirbifATEHNHZZjYkpEF+83Mhan5qJhaUrdiTBSxo6vfUsArQ5kStN1JwTBXU6YPSdYVI0xVa940ISHa8mZHWCdrOdxt6zIl1DrM8QuaeRTZeatSIb2N/nDQi+kEFh2B25SNlNvkHbs5P9Zj+MgOFGF8KZ+o2Kd077aL8/+ujkcYB7sAUnqI/8V4oUceAbkEN+jSNTqE9VkMOAhbtU+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7cko7gleIL3yeWi8iBsGI1M2Fp3HUUBQnD5dun6i+ZQ=;
+ b=eylpOpH+YZpzP1TfWdRFVQhZbFC0E08nR9iqKTMB0LCrTIpQeSe25AunT+gsRe7fw/5Zxj++gCQqr0U6IgtthBc8KjQblDz9pKJaahuBt4Peng8YPkL8iLVIkYHpZUILCf88bSP8goRbnj4LB5gHi2AF2jiXPGOuoweoKwc0q21q3G3spK+uEq3owNClEVLj4Ofv9lYxgyNIzaeRpOVFz6DfVsuwUBnQlEXIdd40FW0xB0DJs4dgSYdt7i17wKcCam5KhL/rDTPBqk7RzTQ4jCYMmn2j0RZGwACLI1dmC5/qhULTGWiyGV7T84XxTnrekDyrr51hpOopvKBD0fmNUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7cko7gleIL3yeWi8iBsGI1M2Fp3HUUBQnD5dun6i+ZQ=;
+ b=WjE+pQhmWXRImdtxjToYCdYWRmcyCRtRNLUXi4HoMmoibkHFE6M/Zu13AR0Cpp5sJjnvXAiLkcy/oqTRlO74J8QRWK0FQY68EUGMLkHhHzkIlB010AvSgjVYYbN8xWs8FIyqN692vccFEybepyrL0BumDZlfUuap6M45OgC6c+CIRuk7VFbE9kbRDzHQFTkTmVbVEn5rjWX7CbMndvHtLfaG/T6ONBrGepW1y7Gzc121e0RDzRYDb59VDAhlu7XjGCHtUzOoL7f/HlcSzTSdDwe+ZkHgPLxQPEmou2jUtqNbTC7TpnLa+yd4JO38KCgRc38+DBNhOfXf7D3ENWl6Cg==
+Received: from SG2PR01CA0109.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::13) by PUZPR04MB6158.apcprd04.prod.outlook.com
+ (2603:1096:301:e5::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Tue, 21 Nov
+ 2023 05:08:02 +0000
+Received: from SG2PEPF000B66CC.apcprd03.prod.outlook.com
+ (2603:1096:4:40:cafe::de) by SG2PR01CA0109.outlook.office365.com
+ (2603:1096:4:40::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28 via Frontend
+ Transport; Tue, 21 Nov 2023 05:08:01 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=Wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=Wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of Wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ SG2PEPF000B66CC.mail.protection.outlook.com (10.167.240.25) with Microsoft
+ SMTP Server id 15.20.7025.12 via Frontend Transport; Tue, 21 Nov 2023
+ 05:07:59 +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+To: patrick@stwcx.xyz
+Cc: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-i2c@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v6 0/2] LTC4286 and LTC4287 driver support
+Date: Tue, 21 Nov 2023 13:07:53 +0800
+Message-Id: <20231121050757.2108786-1-Delphine_CC_Chiu@Wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231114022503.6310-1-kelvie@kelvie.ca> <a66a805c-3e1f-4b9a-a38e-aca84b8678a6@infradead.org>
- <CAHC9VhR6mr0XRrq=Apy00HD3tdgpKi4RyMr8f5kdx2sjA0sfig@mail.gmail.com>
-In-Reply-To: <CAHC9VhR6mr0XRrq=Apy00HD3tdgpKi4RyMr8f5kdx2sjA0sfig@mail.gmail.com>
-From: Kelvie Wong <kelvie@kelvie.ca>
-Date: Mon, 20 Nov 2023 19:06:59 -0800
-X-Gmail-Original-Message-ID: <CAK2bC5rN_P7WP_E57wJjz+7icVjrwS0e6fqg_5uNaPhy3YR2dQ@mail.gmail.com>
-Message-ID: <CAK2bC5rN_P7WP_E57wJjz+7icVjrwS0e6fqg_5uNaPhy3YR2dQ@mail.gmail.com>
-Subject: Re: [PATCH RFC] Add a lockdown_hibernate parameter
-To: Paul Moore <paul@paul-moore.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-security-module <linux-security-module@vger.kernel.org>, David Howells <dhowells@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authenticated-Id: kelvie@kelvie.ca
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CC:EE_|PUZPR04MB6158:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 7fb05eb8-fe48-47c8-dca5-08dbea4fd583
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	SX/XLj9qesGDMn+iXa7Xd8rWK0PkMBnJDPH34dW+3cWHnkh88jTRuuVfqmDOqlnsEP7TbceeZAi6MVBayyb/X2m6BvNCgBraJgmJUUSgVokMH3JeCDZxSqqyHm6H4fQiDAKX4LpmP3BuY1GtZCjkLTY0hjFnsw/aPKbpY643VMbo51A9iW4YvS/sVYUpOM3meMa/yqSIusvrQ0zbOoxvPqx2zXk2YXL+OD3hl39wppNDF22bhBF1Ma9lNvZ9kqUIlcsWhm1yAY41/gcqGmQtFtNmPWogOdyVFKQteE2IWHj0uz6Twv5+AD5l+ngwVriVWIJATKLf7NFG7jjpEW93gNKl/FQztDgLqkXP9TeQEO64eFoOpiNgb+xOCF59JvE+JtSRdxNFhTB4I2+ziJb7E97NJvapz/PiCNkyfrj4TLvWUsvgEtoWqdOYgj1d2tZa8R6wa/FRIWCH4bN41TYM3MRpUxE/23tup5+Jn5xylDXS98zkSjg6Vhl40vW0kyqh/E/Mu05MfbTUGC17dU2jEQ58Q3DoDr/wDMIS4AmdqItp4x8mFq7ILpMM1TTvyH5xzMki9BeSylXw8dwOOQ0HTntYpsKF2Ulijl2n9hINvCJPiUyXUfRNQBsA79tanXOGQyS5Dt6+ZTnl3hQ5COzhXwTWkVVTzh+wlr2pj8tIr1U38VYnOX7wd70IJfQsbLZtrPXVflvVwe9WVQuJDB3gFQ==
+X-Forefront-Antispam-Report:
+	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(396003)(346002)(376002)(39860400002)(136003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(82310400011)(46966006)(36840700001)(2906002)(4744005)(7416002)(5660300002)(4326008)(8936002)(8676002)(36860700001)(9316004)(82740400003)(86362001)(36756003)(41300700001)(81166007)(356005)(54906003)(36736006)(70586007)(70206006)(478600001)(6916009)(316002)(40480700001)(1076003)(956004)(336012)(26005)(2616005)(6486002)(47076005)(6666004)(6506007)(6512007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 05:07:59.9186
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fb05eb8-fe48-47c8-dca5-08dbea4fd583
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG2PEPF000B66CC.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR04MB6158
 
-On Mon, 20 Nov 2023 at 13:12, Paul Moore <paul@paul-moore.com> wrote:
-> On Mon, Nov 13, 2023 at 11:01=E2=80=AFPM Randy Dunlap <rdunlap@infradead.=
-org> wrote:
-> >
-> > [add security & dhowells]
-> >
-> > On 11/13/23 18:23, Kelvie Wong wrote:
-> > > This allows the user to tell the kernel that they know better (namely=
-,
-> > > they secured their swap properly), and that it can enable hibernation=
-.
-> > >
-> > > I've been using this for about a year now, as it doesn't seem like
-> > > proper secure hibernation was going to be implemented back then, and
-> > > it's now been a year since I've been building my own kernels with thi=
-s
-> > > patch, so getting this upstreamed would save some CO2 from me buildin=
-g
-> > > my own kernels every upgrade.
-> > >
-> > > Some other not-me users have also tested the patch:
-> > >
-> > > https://community.frame.work/t/guide-fedora-36-hibernation-with-enabl=
-ed-secure-boot-and-full-disk-encryption-fde-decrypting-over-tpm2/25474/17
-> > >
-> > > Signed-off-by: Kelvie Wong <kelvie@kelvie.ca>
->
-> I would feel a lot better about this if there was a way to verify that
-> the swap was protected as opposed to leaving that as a note in a doc
-> that the majority of users will never see, read, or understand.
+v6 - Add LTC4286 and LTC4287 binding document
+   - Add LTC4286 and LTC4287 driver
 
-I'd argue that this wouldn't even be necessary if we detect the swap was
-protected -- hibernation should just be enabled in that case without settin=
-g
-any parameters.
+Delphine CC Chiu (2):
+  dt-bindings: hwmon: Add lltc ltc4286 driver bindings
+  hwmon: pmbus: Add ltc4286 driver
 
-My understanding is that it was disabled waiting for this
-functionality, and it's been
-at least a couple of years now [1], so it looks like it's not such an
-easy problem.
+ .../bindings/hwmon/lltc,ltc4286.yaml          |  50 +++++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/ltc4286.rst               |  95 +++++++++
+ MAINTAINERS                                   |  10 +
+ drivers/hwmon/pmbus/Kconfig                   |  10 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/ltc4286.c                 | 183 ++++++++++++++++++
+ 7 files changed, 350 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/lltc,ltc4286.yaml
+ create mode 100644 Documentation/hwmon/ltc4286.rst
+ create mode 100644 drivers/hwmon/pmbus/ltc4286.c
 
-Anyway, my argument is that the majority of users will never use this kerne=
-l
-parameter anyway, so I think it's a fair assumption that the power users th=
-at
-*do* use this will educate themselves on why this parameter even exists.
+-- 
+2.25.1
 
-[1] https://lwn.net/Articles/847042/
-
---=20
-Kelvie
