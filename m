@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA95E55799;
-	Tue, 21 Nov 2023 23:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62D75579D;
+	Tue, 21 Nov 2023 23:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YguDlj+p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C58AC433C7;
-	Tue, 21 Nov 2023 23:29:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IW/0lAka"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C6C8C433C7;
+	Tue, 21 Nov 2023 23:33:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700609348;
-	bh=fEzPROx42WfkO6ncCKE3bs0DQa21Xu0Wvi6ZF8DSajY=;
+	s=k20201202; t=1700609640;
+	bh=13VVws5PcCjLAP+55UIaYOZrBe+ks7pXu1hqEWmgU6I=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YguDlj+pl7itFbltiXmiLAhBiOkyiiGdJyAI4BCCsdkqNRbkC82NHhpmJZERwVdBm
-	 iHKbJGIvsbOdu7H1eSNxTdDaa4h94SHPK+tF9q0rbcEWXw4ajc1aoUCC61i7VB+33C
-	 Dm80MalZYh/LSDTAyDbn63w8nr28K7/N6Io+6T/mkDuUxxgt9EswN6fvq7RN+KoOfP
-	 HNaUuoqS9BkpHRGL/Mt2tlyGrNMOoApmQEFGq5kNrV3+9eTtp0IFxa4usUQy60xPp5
-	 lUnca9vviogco38F5hZg9YisLK9X6GJ6QAEbfLJ62aUE79J2K5reijKSpaIP0awBph
-	 vXIPMZqMKveiw==
-Date: Tue, 21 Nov 2023 15:29:06 -0800
+	b=IW/0lAkazpPvR2mLvLzKJp3XdexvglQRFUrHW9D4UGKHucfjfAUIv12An/y+VCDZO
+	 /b1jAnN2Om/rHZchAYEXeI1JE00fcnnHidlpBDCr3L5cBKeda0p1BKHxYFNa7A5J9E
+	 rPyyyowS5TCNfJ8ytWsL4UxeXLDpBg/Nk/YlIRnwAhIbJRWRxqAdnGmkqYChaVwwZL
+	 6EugrLGys8ImFsL7sOGmvd2amiHm9yHIRERUWjvvqoZ7Ce0s8UTrynOl101P9C/tW/
+	 F1VNjTJRHfFBa9GXu5DyPvphkTC0cdqipZdkz+zNsCmHYvFEaAg6SG7lLV6RO02gC4
+	 RSqbFpgWJn5KA==
+Date: Tue, 21 Nov 2023 15:33:58 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Ahmed Zaki <ahmed.zaki@intel.com>
 Cc: netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
@@ -25,14 +25,14 @@ Cc: netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
  davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
  vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org,
  mkubecek@suse.cz, willemdebruijn.kernel@gmail.com, gal@nvidia.com,
- alexander.duyck@gmail.com, linux-doc@vger.kernel.org, Igor Bagnucki
- <igor.bagnucki@intel.com>, Jacob Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH net-next v6 1/7] net: ethtool: pass ethtool_rxfh to
- get/set_rxfh ethtool ops
-Message-ID: <20231121152906.2dd5f487@kernel.org>
-In-Reply-To: <20231120205614.46350-2-ahmed.zaki@intel.com>
+ alexander.duyck@gmail.com, linux-doc@vger.kernel.org, Wojciech Drewek
+ <wojciech.drewek@intel.com>
+Subject: Re: [PATCH net-next v6 2/7] net: ethtool: add support for
+ symmetric-xor RSS hash
+Message-ID: <20231121153358.3a6a09de@kernel.org>
+In-Reply-To: <20231120205614.46350-3-ahmed.zaki@intel.com>
 References: <20231120205614.46350-1-ahmed.zaki@intel.com>
-	<20231120205614.46350-2-ahmed.zaki@intel.com>
+	<20231120205614.46350-3-ahmed.zaki@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,40 +42,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 20 Nov 2023 13:56:08 -0700 Ahmed Zaki wrote:
->  	u32	(*get_rxfh_key_size)(struct net_device *);
->  	u32	(*get_rxfh_indir_size)(struct net_device *);
-> -	int	(*get_rxfh)(struct net_device *, u32 *indir, u8 *key,
-> -			    u8 *hfunc);
-> -	int	(*set_rxfh)(struct net_device *, const u32 *indir,
-> -			    const u8 *key, const u8 hfunc);
-> +	int	(*get_rxfh)(struct net_device *, struct ethtool_rxfh *,
-> +			    u32 *indir, u8 *key);
-> +	int	(*set_rxfh)(struct net_device *, struct ethtool_rxfh *,
-> +			    const u32 *indir, const u8 *key);
->  	int	(*get_rxfh_context)(struct net_device *, u32 *indir, u8 *key,
->  				    u8 *hfunc, u32 rss_context);
->  	int	(*set_rxfh_context)(struct net_device *, const u32 *indir,
+On Mon, 20 Nov 2023 13:56:09 -0700 Ahmed Zaki wrote:
+> + * @data: Extension for the RSS hash function. Valid values are one of the
+> + *	%RXH_HFUNC_*.
 
-This conversion looks 1/4th done. You should do the following:
+@data is way too generic. Can we call this key_xfrm? key_preproc?
 
- - First simplify the code by always providing a pointer to all params
-   (indir, key and func); the fact that some of them may be NULL seems
-   like a weird historic thing or a premature optimization.
-   It will simplify the drivers if all pointers are always present.
-   You don't have to remove the if () checks in the existing drivers.
+> +/* RSS hash function data
+> + * XOR the corresponding source and destination fields of each specified
+> + * protocol. Both copies of the XOR'ed fields are fed into the RSS and RXHASH
+> + * calculation.
+> + */
+> +#define	RXH_HFUNC_SYM_XOR	(1 << 0)
 
- - Then make the functions take a dev pointer, and a pointer to a
-   single struct wrapping all arguments. The set_* should also take
-   an extack.
+We need to mention somewhere that sym-xor is unsafe, per Alex's
+comments.
 
- - Add a rss_context member to the argument struct and a capability
-   like cap_link_lanes_supported to indicate whether driver supports
-   rss contexts, then you can remove *et_rxfh_context functions,
-   and instead call *et_rxfh() with a non-zero rss_context.
+> +++ b/include/uapi/linux/ethtool_netlink.h
 
- - Add your new member to the struct wrapping all params.
+You need to fill in the details in:
 
-If you just expose struct ethtool_rxfh to the drivers (a) there are
-fields in there drivers shouldn't touch, and (b) that struct is uAPI
-so we can't add netlink-only fields easily.
+Documentation/networking/ethtool-netlink.rst
+and
+Documentation/netlink/specs/ethtool.yaml
+
+Last but not least please keep the field check you moved to the drivers
+in the core. Nobody will remember to check that other drivers added the
+check as well.
+-- 
+pw-bot: cr
