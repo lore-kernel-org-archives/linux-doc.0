@@ -1,130 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MqoOrrMP"
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E14319C;
-	Tue, 21 Nov 2023 03:15:30 -0800 (PST)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALA99hm005185;
-	Tue, 21 Nov 2023 11:15:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=M9DOrdJVKMsr8o6F5WAHynnyalc9MnI3i2BK37d48Bs=;
- b=MqoOrrMPDIgqJAIFe0l3PAOKMehydECbcWJnSVjdnSKQD3rYREO4d76C/Fjy5hJ1MZNv
- QCuU4w0aAdoEMHyKvJ76Cvk/yT+NHIt2HD5W93EYzeLTVNtiT+lBQvTJPSlqtgS2qTTx
- Na0x7KYRYgkr2OZxFezfGJF4R3/XDzJ/k/xxDxFdcc5RqWoLtEXJhUk3fG8Xyh5pm1GA
- B1XKZ3feoQvAl56dBMgbJx3t3E7Lel4OPkNyiNqwWlRMsdrQJVad7NKtRG+nLV3vt3NB
- 5u7o3QuAsG06XJvKXq+QYUpFxj1eM8pHLDcJ1HLJuiNwZnme7ma2v1vwj6qJ4gCKM742 tQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ugge19evg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 11:15:15 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ALBFErn009234
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 11:15:14 GMT
-Received: from [10.253.72.26] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 21 Nov
- 2023 03:15:10 -0800
-Message-ID: <d123cc36-f467-40b4-b792-98fd2104c878@quicinc.com>
-Date: Tue, 21 Nov 2023 19:15:08 +0800
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEED59C;
+	Tue, 21 Nov 2023 03:17:57 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-548c548c40aso3392981a12.0;
+        Tue, 21 Nov 2023 03:17:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700565476; x=1701170276;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NbfqKc92HY0GWFqXRpFHBsFHHapn1hVDYmvSnYYYEf8=;
+        b=d0qEiUJTMvQW/UJT/2zkzoCmPmfHFBMxhQTArfwM2LMEKekB/74f7LSpe1VKwJTofV
+         Ytg+L/gBsjTitDVzu4gexkaXmdIwsNv8e5ykA8zsQ4ehVTBbc02DjxTZO0onp80GVHWO
+         Qmz7sylSec4aUM/EaoynrhvFQdLFNLLMZgYv9ZAiuJDJL9v3GfyKwPH84OJofUqmKl/Y
+         jgHnukadimn+GUbQPJ1N4D0M5NYm4wkobz88yOeheYi/WwHUPTmyhSgY/ifDZz7MaLSo
+         8XZ5rfLCnuKSmBuJrjRDBSKoPegwps79dlZygKRu1qYzbH27Y9VbsAK9MgxmAIT0ReVN
+         Qsqg==
+X-Gm-Message-State: AOJu0YzeWksLlP5nZ2j5Kgiqk6UbDAs23Zb4AqXBdEuBTqkv7krRyZjR
+	dN8mWZaHYJSRuLDI3szJY5w=
+X-Google-Smtp-Source: AGHT+IGr0PX24+7zBlFIcy4+Pn/Zyyc2ZNMrEAnivGbRyFXWuPFOWQpwnVs7Zx+OkT8QHsVS+XEONA==
+X-Received: by 2002:a17:906:3c17:b0:9ad:8a9e:23ee with SMTP id h23-20020a1709063c1700b009ad8a9e23eemr2121676ejg.13.1700565475979;
+        Tue, 21 Nov 2023 03:17:55 -0800 (PST)
+Received: from gmail.com (fwdproxy-cln-016.fbsv.net. [2a03:2880:31ff:10::face:b00c])
+        by smtp.gmail.com with ESMTPSA id i9-20020a170906250900b009ca522853ecsm5110945ejb.58.2023.11.21.03.17.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 03:17:55 -0800 (PST)
+Date: Tue, 21 Nov 2023 03:17:53 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: leit@meta.com, Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	donald.hunter@gmail.com, linux-doc@vger.kernel.org,
+	pabeni@redhat.com, edumazet@google.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: Document each netlink family
+Message-ID: <ZVyR4dcndNMtLRvb@gmail.com>
+References: <20231113202936.242308-1-leitao@debian.org>
+ <87y1ew6n4x.fsf@meer.lwn.net>
+ <20231117163939.2de33e83@kernel.org>
+ <ZVu5rq1SdloY41nH@gmail.com>
+ <20231120120706.40766380@kernel.org>
+ <ZVvE36Sq1LD++Eb9@gmail.com>
+ <20231120131424.18187f0e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
-Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Andrew Lunn
-	<andrew@lunn.ch>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20231118062754.2453-1-quic_luoj@quicinc.com>
- <20231118062754.2453-4-quic_luoj@quicinc.com>
- <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
- <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
- <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
- <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
- <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
- <ZVuGv2005eaw+R6u@shell.armlinux.org.uk>
-From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <ZVuGv2005eaw+R6u@shell.armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: itCDhuVuSbrHvoLLJx9XAomaO2avh_Rr
-X-Proofpoint-ORIG-GUID: itCDhuVuSbrHvoLLJx9XAomaO2avh_Rr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-21_04,2023-11-21_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- malwarescore=0 mlxscore=0 adultscore=0 mlxlogscore=941 phishscore=0
- priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311210087
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231120131424.18187f0e@kernel.org>
 
+On Mon, Nov 20, 2023 at 01:14:24PM -0800, Jakub Kicinski wrote:
+> On Mon, 20 Nov 2023 12:43:11 -0800 Breno Leitao wrote:
+> > > %.rst: $(YNL_YAML_DIR)/%.yaml
+> > > 	$(YNL_TOOL) -i $< -o $@  
+> > 
+> > That is basically what it does now in the current implementation, but,
+> > you don't need to pass the full path and no output file, since it knows
+> > where to get the file and where to save it to.
+> > 
+> > If you are curious about the current python script, I've pushed it here:
+> > https://github.com/leitao/linux/blob/netdev_discuss/tools/net/ynl/ynl-gen-rst.py
+> > 
+> > I can easily remove the paths inside the python file and only keep it in
+> > the Makefile, so, we can use -i $< and -o $@.
+> 
+> I think switching to -i / -o with full paths and removing the paths
+> from the generator is worthwhile.
+> 
+> We'll need to call the generator for another place sooner or later.
 
-
-On 11/21/2023 12:18 AM, Russell King (Oracle) wrote:
-> On Mon, Nov 20, 2023 at 04:34:55PM +0100, Andrew Lunn wrote:
->> Are you saying there is a USXGMII-M level link change status? The link
->> between the SoC and the PHY package is up/down? If it is down, all
->> four MAC-PHY links are down. If it is up, it is possible to carry
->> frames between the SoC and the PHY package, but maybe the PHYs
->> themselves are down?
-> 
-> It shouldn't do. Each "channel" in the USXGMII-M link has its own
-> autoneg block at both ends, each conveys link status independently.
-> 
-> The MAC side structure is:
-> 
-> 
->                              +----------+                +-----+
->                      .-XGMII-> Rate     |    PCS         |     |
-> MAC1 <-MDI-> PHY <-+        | Adaption <--> Clause 49 <->     |
->                      `-GMII-->          |                |     |
->                              +-----^----+                |     |
->                                    |                     |     |
->                              +-----v---- +               |     |
->                              | Autoneg   |               |     |
->                              | Clause 37 |               |     |
->                              +-----------+               |     |
->                                                          | Mux <--> PMA <-->
->                                                          |     |
->                                                          .......     USXGMII-M
-> 
-> <------------------------------------------------------>
->        These blocks are repeated for each channel
-> 
-> The spec goes on to state that there must be a USXGMII enable bit that
-> defaults to disabled and the PHY should assume normal XGMII/XFI
-> operation. When enabled, autoneg follows a slight modification of
-> clause 37-6.
-> 
-> As far as the USXGMII-M link, I believe 2.7.8 in the USXGMII-M
-> documentation covers this, which is "hardware autoneg programming
-> sequence". It states that "if 10G link is lost or regained, the
-> software is expected to disable autoneg and re-enable autoneg". I
-> think "10G link" refers to the USXGMII-M connection, which means
-> the loss of that link shold cause software to intervene in each
-> of the PCS autoneg blocks. It is, however, rather unclear.
-> 
-
-The link status of PHY is updated, software should do the corresponding
-QXGMII mode configuration per channel for this PHY.
-
-The PCS QXGMII configuration reflects the current link status of the 
-connected PHY.
-
+I do agree with you. Let me update and send a V3 with these changes.
