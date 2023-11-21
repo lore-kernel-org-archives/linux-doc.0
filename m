@@ -1,74 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEED59C;
-	Tue, 21 Nov 2023 03:17:57 -0800 (PST)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-548c548c40aso3392981a12.0;
-        Tue, 21 Nov 2023 03:17:57 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oj/wVkQQ"
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8172110F;
+	Tue, 21 Nov 2023 03:47:04 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c3363a2b93so5158598b3a.3;
+        Tue, 21 Nov 2023 03:47:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700567224; x=1701172024; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Dh0Qezs/2ZRqRfDGUZZwszGFFNv4uXTXsmAQTNvTJ8=;
+        b=Oj/wVkQQqn1YGU3a+RXqlKqr3ABt8yZuvW1qxS0H95dTAclQibbgrG8uHr6/W9bj/s
+         zDsb9xU75Yk1cCgOXByQNi6cfjl2D8MJenfBHH8GS7oIhNzgTzjPNlR0H8dYWYv1F32a
+         l2MBvGNugGYMzRVeXuIeoikkhMz8IW77SZJu49JQCxEcw+ojYM3cqr6Uy89QVstteC3E
+         rxuTWwknuhRvW0CWiaCmVJSfqZAit5vfE8YOP0UqkVBu+L1WKWE3WbQy62MJeaxrp3ya
+         qoeR8VQ3OF9ZnZRHjPwfQ5VtnBToV6Lf+ys/LpvE/4WteHPX5RI+hzxq6OxsNyjwm35c
+         3Ulw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700565476; x=1701170276;
+        d=1e100.net; s=20230601; t=1700567224; x=1701172024;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NbfqKc92HY0GWFqXRpFHBsFHHapn1hVDYmvSnYYYEf8=;
-        b=d0qEiUJTMvQW/UJT/2zkzoCmPmfHFBMxhQTArfwM2LMEKekB/74f7LSpe1VKwJTofV
-         Ytg+L/gBsjTitDVzu4gexkaXmdIwsNv8e5ykA8zsQ4ehVTBbc02DjxTZO0onp80GVHWO
-         Qmz7sylSec4aUM/EaoynrhvFQdLFNLLMZgYv9ZAiuJDJL9v3GfyKwPH84OJofUqmKl/Y
-         jgHnukadimn+GUbQPJ1N4D0M5NYm4wkobz88yOeheYi/WwHUPTmyhSgY/ifDZz7MaLSo
-         8XZ5rfLCnuKSmBuJrjRDBSKoPegwps79dlZygKRu1qYzbH27Y9VbsAK9MgxmAIT0ReVN
-         Qsqg==
-X-Gm-Message-State: AOJu0YzeWksLlP5nZ2j5Kgiqk6UbDAs23Zb4AqXBdEuBTqkv7krRyZjR
-	dN8mWZaHYJSRuLDI3szJY5w=
-X-Google-Smtp-Source: AGHT+IGr0PX24+7zBlFIcy4+Pn/Zyyc2ZNMrEAnivGbRyFXWuPFOWQpwnVs7Zx+OkT8QHsVS+XEONA==
-X-Received: by 2002:a17:906:3c17:b0:9ad:8a9e:23ee with SMTP id h23-20020a1709063c1700b009ad8a9e23eemr2121676ejg.13.1700565475979;
-        Tue, 21 Nov 2023 03:17:55 -0800 (PST)
-Received: from gmail.com (fwdproxy-cln-016.fbsv.net. [2a03:2880:31ff:10::face:b00c])
-        by smtp.gmail.com with ESMTPSA id i9-20020a170906250900b009ca522853ecsm5110945ejb.58.2023.11.21.03.17.55
+        bh=3Dh0Qezs/2ZRqRfDGUZZwszGFFNv4uXTXsmAQTNvTJ8=;
+        b=dKYRpq4hI7nUy6wET6svhmG9YMCQl3X5362YxqFBzGcZQAStEGm/Qxk+mwiCpdN9eb
+         hiIW7m6eQTLG/ZbIJuOOzrFLOQeqBNkBJta+poA++IwiDai1MSxO5tIP+ChMnuckOLua
+         9LcptoFA7BvxhaXyKmIjHKmtPV4ZKZs18f5A/Yb9V/SX8p4EO7dvq5Tpo5RBoqrA1+3+
+         09cBfYJWDfKy4AyBOc2XvG8B/92Xalbxf9umM0pzrQYlkj751dTd6lcqBI3RSWBfiqr/
+         C6UpBbvP6sFWWT3Dv2elbMFTxIm0xyQQnhGlqGVlAr/9vp0rXxd1N9gX42pM2hyS/5N3
+         exSA==
+X-Gm-Message-State: AOJu0YyNRlMWMCDnev61kDlzC0U9yGchRHRZo37X1mP1Sv+1gAfhdtqk
+	EXBDLD0Jhpld8FpC0F+iGRQ=
+X-Google-Smtp-Source: AGHT+IEmfo36HWN/pX5H0L9nVyVz7Ausj0X4uQHMXBuvcd8rGMkt4Nlo44xIhzq9d1YRgU2fBl6rKA==
+X-Received: by 2002:a05:6a20:7353:b0:18a:da5a:8a62 with SMTP id v19-20020a056a20735300b0018ada5a8a62mr1976876pzc.59.1700567223928;
+        Tue, 21 Nov 2023 03:47:03 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id fh33-20020a056a00392100b006c06779e593sm7971334pfb.16.2023.11.21.03.47.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 03:17:55 -0800 (PST)
-Date: Tue, 21 Nov 2023 03:17:53 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: leit@meta.com, Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	donald.hunter@gmail.com, linux-doc@vger.kernel.org,
-	pabeni@redhat.com, edumazet@google.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: Document each netlink family
-Message-ID: <ZVyR4dcndNMtLRvb@gmail.com>
-References: <20231113202936.242308-1-leitao@debian.org>
- <87y1ew6n4x.fsf@meer.lwn.net>
- <20231117163939.2de33e83@kernel.org>
- <ZVu5rq1SdloY41nH@gmail.com>
- <20231120120706.40766380@kernel.org>
- <ZVvE36Sq1LD++Eb9@gmail.com>
- <20231120131424.18187f0e@kernel.org>
+        Tue, 21 Nov 2023 03:47:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id E3EDF102106CB; Tue, 21 Nov 2023 18:47:01 +0700 (WIB)
+Date: Tue, 21 Nov 2023 18:47:01 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux XFS <linux-xfs@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Dave Chinner <dchinner@redhat.com>,
+	Steve French <stfrench@microsoft.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Han <hanchunchao@inspur.com>
+Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
+ subdirectory
+Message-ID: <ZVyYtQ83KwaOtCkL@archie.me>
+References: <20231121095658.28254-1-bagasdotme@gmail.com>
+ <bbf74f50-c026-4f72-8437-8d15821c0340@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vb95jMlk3ed/EOb6"
 Content-Disposition: inline
-In-Reply-To: <20231120131424.18187f0e@kernel.org>
+In-Reply-To: <bbf74f50-c026-4f72-8437-8d15821c0340@oracle.com>
 
-On Mon, Nov 20, 2023 at 01:14:24PM -0800, Jakub Kicinski wrote:
-> On Mon, 20 Nov 2023 12:43:11 -0800 Breno Leitao wrote:
-> > > %.rst: $(YNL_YAML_DIR)/%.yaml
-> > > 	$(YNL_TOOL) -i $< -o $@  
-> > 
-> > That is basically what it does now in the current implementation, but,
-> > you don't need to pass the full path and no output file, since it knows
-> > where to get the file and where to save it to.
-> > 
-> > If you are curious about the current python script, I've pushed it here:
-> > https://github.com/leitao/linux/blob/netdev_discuss/tools/net/ynl/ynl-gen-rst.py
-> > 
-> > I can easily remove the paths inside the python file and only keep it in
-> > the Makefile, so, we can use -i $< and -o $@.
-> 
-> I think switching to -i / -o with full paths and removing the paths
-> from the generator is worthwhile.
-> 
-> We'll need to call the generator for another place sooner or later.
 
-I do agree with you. Let me update and send a V3 with these changes.
+--vb95jMlk3ed/EOb6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Nov 21, 2023 at 11:16:16AM +0100, Vegard Nossum wrote:
+>=20
+> On 21/11/2023 10:56, Bagas Sanjaya wrote:
+> > XFS docs are currently in upper-level Documentation/filesystems.
+> > Although these are currently 4 docs, they are already outstanding as
+> > a group and can be moved to its own subdirectory.
+> >=20
+> > Consolidate them into Documentation/filesystems/xfs/.
+> >=20
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > ---
+> >   Documentation/filesystems/index.rst                |  5 +----
+> >   Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
+> >   .../{ =3D> xfs}/xfs-delayed-logging-design.rst       |  0
+> >   .../{ =3D> xfs}/xfs-maintainer-entry-profile.rst     |  0
+> >   .../{ =3D> xfs}/xfs-online-fsck-design.rst           |  0
+> >   .../{ =3D> xfs}/xfs-self-describing-metadata.rst     |  0
+> >   .../maintainer/maintainer-entry-profile.rst        |  2 +-
+> >   7 files changed, 16 insertions(+), 5 deletions(-)
+> >   create mode 100644 Documentation/filesystems/xfs/index.rst
+> >   rename Documentation/filesystems/{ =3D> xfs}/xfs-delayed-logging-desi=
+gn.rst (100%)
+> >   rename Documentation/filesystems/{ =3D> xfs}/xfs-maintainer-entry-pro=
+file.rst (100%)
+> >   rename Documentation/filesystems/{ =3D> xfs}/xfs-online-fsck-design.r=
+st (100%)
+> >   rename Documentation/filesystems/{ =3D> xfs}/xfs-self-describing-meta=
+data.rst (100%)
+>=20
+> I think you need to update MAINTAINERS as well.
+>=20
+> A project-wide git grep for the document names should have turned it up.
+
+OK, will fix in v2.
+
+Thanks for the suggestion.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--vb95jMlk3ed/EOb6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZVyYtQAKCRD2uYlJVVFO
+o6FAAQCgHyPhsgH3UuKype/Cd5adL0D6qda0lLt60JZiGqWaGAD9HNtW9qQ3A+Kw
+tf8Tfv/syImaeaPMNLMH2ssm9G33Fw4=
+=bpQl
+-----END PGP SIGNATURE-----
+
+--vb95jMlk3ed/EOb6--
