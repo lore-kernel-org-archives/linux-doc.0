@@ -1,92 +1,81 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA95E55799;
+	Tue, 21 Nov 2023 23:29:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQLDQnTY"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFE11A2;
-	Tue, 21 Nov 2023 12:05:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700597117; x=1732133117;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UCGmiu1nxzeNn+cEKPR0gIi35/992X5/vdcGhHlBNsM=;
-  b=kQLDQnTYg/OEBUl5BOXwzL6Ucey77hOaP5ke717dgAS1mCBDwm6ZMFf/
-   i+kGRxJSN+kr/BHKuzyZb/SduE9ri57oZ7c/tqxh7yOl5NGDJKmeEa/bI
-   yPOD6+oa5r6Bs/9fx/sFol0NHDGDFrxenh0EUejMtgFY2XlxU5t2Tp+w9
-   /YDYFS9JxW09o/OospAR6KU+vinTC0WEClYE6x/XOQoOkT09vs/AqtqJf
-   VWuJPmgVlYppiazlX4CAuKj+s58vWvyWe9Dnt18ZKfLXT5lnFGLrY8QVs
-   iBm2H5PQwGuXGaDZk/HdJ3QvMXZWhyenZbAcIQDthx/XlU9SHLEOvgzBk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5046569"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="5046569"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 12:05:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="801660239"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="801660239"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 21 Nov 2023 12:05:12 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5Wzd-0008Cu-2v;
-	Tue, 21 Nov 2023 20:05:09 +0000
-Date: Wed, 22 Nov 2023 04:04:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux XFS <linux-xfs@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Dave Chinner <dchinner@redhat.com>,
-	Steve French <stfrench@microsoft.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Allison Henderson <allison.henderson@oracle.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Charles Han <hanchunchao@inspur.com>
-Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
-Message-ID: <202311220333.acL7LwXY-lkp@intel.com>
-References: <20231121095658.28254-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YguDlj+p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C58AC433C7;
+	Tue, 21 Nov 2023 23:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700609348;
+	bh=fEzPROx42WfkO6ncCKE3bs0DQa21Xu0Wvi6ZF8DSajY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YguDlj+pl7itFbltiXmiLAhBiOkyiiGdJyAI4BCCsdkqNRbkC82NHhpmJZERwVdBm
+	 iHKbJGIvsbOdu7H1eSNxTdDaa4h94SHPK+tF9q0rbcEWXw4ajc1aoUCC61i7VB+33C
+	 Dm80MalZYh/LSDTAyDbn63w8nr28K7/N6Io+6T/mkDuUxxgt9EswN6fvq7RN+KoOfP
+	 HNaUuoqS9BkpHRGL/Mt2tlyGrNMOoApmQEFGq5kNrV3+9eTtp0IFxa4usUQy60xPp5
+	 lUnca9vviogco38F5hZg9YisLK9X6GJ6QAEbfLJ62aUE79J2K5reijKSpaIP0awBph
+	 vXIPMZqMKveiw==
+Date: Tue, 21 Nov 2023 15:29:06 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ahmed Zaki <ahmed.zaki@intel.com>
+Cc: netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ corbet@lwn.net, jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org,
+ mkubecek@suse.cz, willemdebruijn.kernel@gmail.com, gal@nvidia.com,
+ alexander.duyck@gmail.com, linux-doc@vger.kernel.org, Igor Bagnucki
+ <igor.bagnucki@intel.com>, Jacob Keller <jacob.e.keller@intel.com>
+Subject: Re: [PATCH net-next v6 1/7] net: ethtool: pass ethtool_rxfh to
+ get/set_rxfh ethtool ops
+Message-ID: <20231121152906.2dd5f487@kernel.org>
+In-Reply-To: <20231120205614.46350-2-ahmed.zaki@intel.com>
+References: <20231120205614.46350-1-ahmed.zaki@intel.com>
+	<20231120205614.46350-2-ahmed.zaki@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231121095658.28254-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Bagas,
+On Mon, 20 Nov 2023 13:56:08 -0700 Ahmed Zaki wrote:
+>  	u32	(*get_rxfh_key_size)(struct net_device *);
+>  	u32	(*get_rxfh_indir_size)(struct net_device *);
+> -	int	(*get_rxfh)(struct net_device *, u32 *indir, u8 *key,
+> -			    u8 *hfunc);
+> -	int	(*set_rxfh)(struct net_device *, const u32 *indir,
+> -			    const u8 *key, const u8 hfunc);
+> +	int	(*get_rxfh)(struct net_device *, struct ethtool_rxfh *,
+> +			    u32 *indir, u8 *key);
+> +	int	(*set_rxfh)(struct net_device *, struct ethtool_rxfh *,
+> +			    const u32 *indir, const u8 *key);
+>  	int	(*get_rxfh_context)(struct net_device *, u32 *indir, u8 *key,
+>  				    u8 *hfunc, u32 rss_context);
+>  	int	(*set_rxfh_context)(struct net_device *, const u32 *indir,
 
-kernel test robot noticed the following build warnings:
+This conversion looks 1/4th done. You should do the following:
 
-[auto build test WARNING on 98b1cc82c4affc16f5598d4fa14b1858671b2263]
+ - First simplify the code by always providing a pointer to all params
+   (indir, key and func); the fact that some of them may be NULL seems
+   like a weird historic thing or a premature optimization.
+   It will simplify the drivers if all pointers are always present.
+   You don't have to remove the if () checks in the existing drivers.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/Documentation-xfs-consolidate-XFS-docs-into-its-own-subdirectory/20231121-180057
-base:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-patch link:    https://lore.kernel.org/r/20231121095658.28254-1-bagasdotme%40gmail.com
-patch subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220333.acL7LwXY-lkp@intel.com/reproduce)
+ - Then make the functions take a dev pointer, and a pointer to a
+   single struct wrapping all arguments. The set_* should also take
+   an extack.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220333.acL7LwXY-lkp@intel.com/
+ - Add a rss_context member to the argument struct and a capability
+   like cap_link_lanes_supported to indicate whether driver supports
+   rss contexts, then you can remove *et_rxfh_context functions,
+   and instead call *et_rxfh() with a non-zero rss_context.
 
-All warnings (new ones prefixed by >>):
+ - Add your new member to the struct wrapping all params.
 
->> Warning: Documentation/filesystems/xfs/xfs-online-fsck-design.rst references a file that doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-maintainer-entry-profile.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-*
->> MAINTAINERS:53207: WARNING: unknown document: ../filesystems/xfs-maintainer-entry-profile
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+If you just expose struct ethtool_rxfh to the drivers (a) there are
+fields in there drivers shouldn't touch, and (b) that struct is uAPI
+so we can't add netlink-only fields easily.
