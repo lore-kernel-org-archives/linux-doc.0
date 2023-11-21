@@ -1,103 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9972220DE4
-	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 19:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccc0iYNA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7BCC433C9
-	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 19:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700593771;
-	bh=wQqDKRQjn6844OW3n/w7wb8sy0SLbW225b2srtOadSo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ccc0iYNA+ruXpCZTeJMcDBc51/1dKabUqQNxc1hQCOJOE0SuqptNQJe1wJv5Q510b
-	 q2XMuR7kafI97/r18kF9PbcfVbEEVblgXkOXCFftu56SAtex33D+ruTxY7Qc+pQncP
-	 InGXMnq10VNG4SuRP/P9CBrOm7J4gWpOeDKGgZIcDJhilKFxlftzF2I4I4ROwa0FxL
-	 djc/+3iPXe6UHcCU8SlbCvB3klXvFSIxt8myvJtJDFKKNSKRLZUlNzjOS+3X5RfqXp
-	 LS/dsD8to3j15y9frxouKwUbNVBxG64IXomRxa1+yzO0Nrtp/yzo+Mr/y7125FPS6f
-	 VvP252hKUHCgw==
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-77896da2118so389892585a.1
-        for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 11:09:31 -0800 (PST)
-X-Gm-Message-State: AOJu0Yw9aNen5PHobIys67kcUieoZ9bQAqYZRAR64vUMSAFWK5Wmyc2I
-	kczaFtuC5Edvt1ZB+5JLDg87H091tBDRokuUms6v2Q==
-X-Google-Smtp-Source: AGHT+IFj6T6qFwD847PxtZzKZN0ToGw/PjQQlEJhOLHFQIM/P89jcN/ZWDs7l4ENV/joAGnZgLeRSADwaWkhZ9aimOw=
-X-Received: by 2002:a17:90b:1d92:b0:27d:5964:4ee6 with SMTP id
- pf18-20020a17090b1d9200b0027d59644ee6mr163589pjb.2.1700593750122; Tue, 21 Nov
- 2023 11:09:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQLDQnTY"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFE11A2;
+	Tue, 21 Nov 2023 12:05:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700597117; x=1732133117;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UCGmiu1nxzeNn+cEKPR0gIi35/992X5/vdcGhHlBNsM=;
+  b=kQLDQnTYg/OEBUl5BOXwzL6Ucey77hOaP5ke717dgAS1mCBDwm6ZMFf/
+   i+kGRxJSN+kr/BHKuzyZb/SduE9ri57oZ7c/tqxh7yOl5NGDJKmeEa/bI
+   yPOD6+oa5r6Bs/9fx/sFol0NHDGDFrxenh0EUejMtgFY2XlxU5t2Tp+w9
+   /YDYFS9JxW09o/OospAR6KU+vinTC0WEClYE6x/XOQoOkT09vs/AqtqJf
+   VWuJPmgVlYppiazlX4CAuKj+s58vWvyWe9Dnt18ZKfLXT5lnFGLrY8QVs
+   iBm2H5PQwGuXGaDZk/HdJ3QvMXZWhyenZbAcIQDthx/XlU9SHLEOvgzBk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5046569"
+X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
+   d="scan'208";a="5046569"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 12:05:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="801660239"
+X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
+   d="scan'208";a="801660239"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 21 Nov 2023 12:05:12 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5Wzd-0008Cu-2v;
+	Tue, 21 Nov 2023 20:05:09 +0000
+Date: Wed, 22 Nov 2023 04:04:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux XFS <linux-xfs@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Dave Chinner <dchinner@redhat.com>,
+	Steve French <stfrench@microsoft.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Charles Han <hanchunchao@inspur.com>
+Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
+ subdirectory
+Message-ID: <202311220333.acL7LwXY-lkp@intel.com>
+References: <20231121095658.28254-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231115172344.4155593-1-nphamcs@gmail.com> <CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com>
- <CAJD7tkZ1U+YuvoBAnrXFxQDiQV2hXdbMG-gbzu64R8GLAtNAPA@mail.gmail.com>
- <CAF8kJuPTNwQM413UdeQTkMQ8HkJFyF4OWVrxJSf7uWbege0CXQ@mail.gmail.com>
- <CAKEwX=O5M-vZE5YhYQ5_CbCmXovS1XECO4ROXKWo06K880M1Mg@mail.gmail.com>
- <CAF8kJuOD6zq2VPcVdoZGvkzYX8iXn1akuYhNDJx-LUdS+Sx3GA@mail.gmail.com>
- <CAKEwX=NdFjemcmf27PVpgHpVHWQEo19KfApepWJBRYeyVCWvCw@mail.gmail.com>
- <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
- <ZVrHXJLxvs4_CUxc@google.com> <CAKEwX=MR6a-u87p=Oqm+zvwB_1zhrsM_n2=xW1kJz0_AoVwkPA@mail.gmail.com>
-In-Reply-To: <CAKEwX=MR6a-u87p=Oqm+zvwB_1zhrsM_n2=xW1kJz0_AoVwkPA@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Tue, 21 Nov 2023 11:08:59 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuNFQn_e29YEPy-G29FR2RnrPzZNWR07VuadOTNask_Rig@mail.gmail.com>
-Message-ID: <CAF8kJuNFQn_e29YEPy-G29FR2RnrPzZNWR07VuadOTNask_Rig@mail.gmail.com>
-Subject: Re: [PATCH v5] zswap: memcontrol: implement zswap writeback disabling
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Yosry Ahmed <yosryahmed@google.com>, Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, 
-	lizefan.x@bytedance.com, Johannes Weiner <hannes@cmpxchg.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Seth Jennings <sjenning@redhat.com>, 
-	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
-	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
-	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz, 
-	Minchan Kim <minchan@google.com>, Kairui Song <kasong@tencent.com>, 
-	Zhongkun He <hezhongkun.hzk@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121095658.28254-1-bagasdotme@gmail.com>
 
-On Tue, Nov 21, 2023 at 10:13=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
->
-> Hi Chris!
->
-> Thanks for the patch. Would you mind if I spend some time staring
-> at the suggestion again and testing it some more?
+Hi Bagas,
 
-Of course, by all means. That is just the minimal version to be
-functional compatible with your zswap.writeback.
+kernel test robot noticed the following build warnings:
 
-I might consider a follow up patch to add "no_zswap" and "none" to
-convert the SSD only swapfile, which can't be expressed by
-zswap.writeback.
-That should cover all 4 combinations of zswap and swap files without
-creating a custom swap tiers list.
+[auto build test WARNING on 98b1cc82c4affc16f5598d4fa14b1858671b2263]
 
-"all": zswap + swapfile
-"zswap": zswap only
-"no_zswap": swapfile only.
-"none": no swap.
+url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/Documentation-xfs-consolidate-XFS-docs-into-its-own-subdirectory/20231121-180057
+base:   98b1cc82c4affc16f5598d4fa14b1858671b2263
+patch link:    https://lore.kernel.org/r/20231121095658.28254-1-bagasdotme%40gmail.com
+patch subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220333.acL7LwXY-lkp@intel.com/reproduce)
 
-All keyword names are open to suggestions.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220333.acL7LwXY-lkp@intel.com/
 
->
-> If everything is good, I'll squash this patch with the original version,
-> (keeping you as a co-developer of the final patch of course), and
-> update the documentation before re-sending everything as v6.
+All warnings (new ones prefixed by >>):
 
-Great!
+>> Warning: Documentation/filesystems/xfs/xfs-online-fsck-design.rst references a file that doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-maintainer-entry-profile.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-*
+>> MAINTAINERS:53207: WARNING: unknown document: ../filesystems/xfs-maintainer-entry-profile
 
->
-> Anyway, have a nice Thanksgiving break everyone! Thanks for
-> taking the time to review my patch and discuss the API with me!
-
-My pleasure to discuss the swap with you. We should do the online
-"swap meet" and invite other developers who are interested in the swap
-area as well.
-
-Chris
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
