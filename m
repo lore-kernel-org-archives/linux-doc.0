@@ -1,158 +1,118 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ScO8zGFv"
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD6E10E;
-	Tue, 21 Nov 2023 01:57:06 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c39ad730aaso4330094b3a.0;
-        Tue, 21 Nov 2023 01:57:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700560626; x=1701165426; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ka1cD2Bwmz44NS9VOtFyYCz3XAOOJeOGdzsr6w0dbzg=;
-        b=ScO8zGFvQa5SHqShlJIWoT0gQnPVGfuA5/nhXurEY7Zs4K7cmHIFllsV8s5I828Jai
-         fFzwjThO76NmxMvam0IefU2QEh1JhEwJP54SyzaPACDq2wMVbLWIeCb5tghO7Z5MjNb8
-         SbSb6cXM8HX4y4B9Ihbsml+baALw10UwmIYoUXWDAbD91wm1OJw8M2UtQ9eflZ4aE8ns
-         xnY5cZHfXVSDx/UCR5qnLyBLF1R+udzLl86c226hPXJO59vRZbuH3reDmB3fMEoJUNyM
-         O5c5UKDf+8gQzV85QYEEPtIIKei0ZqwtWQQiOhcFe7tbTvs3aPedtqc2G5HkrDJVPOG4
-         d2VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700560626; x=1701165426;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ka1cD2Bwmz44NS9VOtFyYCz3XAOOJeOGdzsr6w0dbzg=;
-        b=Ah+PQpGWEsjnbFUyqfiDw7OyxSGyMjcisr2SOcti/OKOzVwfaQTLLHT3r59IYX6JvO
-         oPB4r+HFchKcNr4iGAGhoYciULhWazgXqqfurbO4+Rvg4egKq8bRh4ICvJP6JDZwC7m8
-         V+27S0Mg6bsy4vCcDXpwz1xOgl6hfuj98H4zKEKqVpV9KdujuTlX0ge51eZIWQoKcZua
-         Wcc9MIwULqZnl9p++CZJSq0wcSE0ZWTX1rolqbgOiNUhv9O3JQL9qVSovAfJIxr2+jP5
-         St+7eJRHHyIhpup/WIWflYGsL8VZ6WoLC0CpQyiD3sLRxUHQpjQdXhkaYIII472H2V3U
-         TkDQ==
-X-Gm-Message-State: AOJu0YxzNXTVg2mCbauXnLspFjgQmjjtDs+66EenTE4ujZ14TBNwydUT
-	Q/qdG822dCybFIomrn0yqqM=
-X-Google-Smtp-Source: AGHT+IHFjOu7YbojQq1PeZl9YrECG/pPN3fCUGfp/6gEV5LyTTPVJc/Wba5hfzQXH/anBJaHwD8BfA==
-X-Received: by 2002:a05:6a20:d38c:b0:166:82cf:424a with SMTP id iq12-20020a056a20d38c00b0016682cf424amr9289456pzb.33.1700560625873;
-        Tue, 21 Nov 2023 01:57:05 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id g7-20020a170902934700b001ca4c7bee0csm7536341plp.232.2023.11.21.01.57.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 01:57:05 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 84D8A102106CF; Tue, 21 Nov 2023 16:57:02 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux XFS <linux-xfs@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Dave Chinner <dchinner@redhat.com>,
-	Steve French <stfrench@microsoft.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Allison Henderson <allison.henderson@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Han <hanchunchao@inspur.com>
-Subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
-Date: Tue, 21 Nov 2023 16:56:58 +0700
-Message-ID: <20231121095658.28254-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.42.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="crT5w6He"
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69CF11A;
+	Tue, 21 Nov 2023 02:02:19 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BD4ACC000B;
+	Tue, 21 Nov 2023 10:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700560938;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZKnahUa3X0OEYKLHF3ihgq745BsVV7IxE68JfJBRJ+c=;
+	b=crT5w6HesfV/u6xGyERcYeNgZCgsabD1xFYjej/WUZ42D13pCT0TXWq4f5+ecD17lChEKW
+	cAm7dkphnYA3l+kkOe8nRrOmzZfEr7Qwuf3Nu8WJtXvURbj8nlKG4EDIMbNP3En5myljqy
+	/Is2eA8NsUUVc2MHiF+F4vLoMzU1LlStER3YnrbDv/y4tauA3eEk4cnH5p806gIFzG14Vv
+	xyaX9XHZ8r9GQ34T2k7nGSkaQfwUpYkQLwXwdKOPzPG4zc00kYrfVCPO24a3ZQWXoAieLQ
+	/fUmbVgbCuI/ajqo5djqrPPd+NmmthXZn+DFnpCd0gpLBkNBEFIiDBazustzxQ==
+Date: Tue, 21 Nov 2023 11:02:15 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
+ <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 2/9] ethtool: Expand Ethernet Power Equipment
+ with PoE alongside PoDL
+Message-ID: <20231121110215.07f61e55@kmaincent-XPS-13-7390>
+In-Reply-To: <2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.ch>
+References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
+	<20231116-feature_poe-v1-2-be48044bf249@bootlin.com>
+	<04cb7d87-bb6b-4997-878d-490c17bfdfd0@lunn.ch>
+	<20231120110944.66938859@kmaincent-XPS-13-7390>
+	<20231120111008.GC590719@pengutronix.de>
+	<2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.ch>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4131; i=bagasdotme@gmail.com; h=from:subject; bh=YcVBndo3Vf30ZXt3UnAKYl//U5fISnvK9iyQHm73b6k=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKkxdarv/O6evnf6wi//GHaJ/WEaGfPyf1jx/P5dIl620 Kd497F7HaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIWX1GhkemD+Y/dmmruL/n vK7xedu/mzXVLadPfXhcsHuh6e7705YxMjy/de3upIDzL+19RV7tLDivzym3I+jO/ee71wnvCXh QfZgfAA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-XFS docs are currently in upper-level Documentation/filesystems.
-Although these are currently 4 docs, they are already outstanding as
-a group and can be moved to its own subdirectory.
+On Mon, 20 Nov 2023 19:00:03 +0100
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-Consolidate them into Documentation/filesystems/xfs/.
+> > Official name for "PoE" is "Power via Media Dependent Interface". PoE is
+> > not used in the IEEE 802.3-2018. Using names not used in the specificat=
+ion,
+> > make development even harder :)
+> > Especially since there are even more marketing names (names not used in=
+ the
+> > specification) for different PoE variants:
+> > - 802.3af (802.3at Type 1), PoE
+> > - 802.3at Type 2, PoE+
+> > - 802.3bt Type 3, 4PPoE or PoE++
+> > - 802.3bt Type 4, 4PPoE or PoE++ =20
+>=20
+> From the 2018 standard:
+>=20
+>   1.4.407 Power Sourcing Equipment (PSE): A DTE or midspan device that
+>   provides the power to a single link section. PSEs are defined for
+>   use with two different types of balanced twisted-pair PHYs. When
+>   used with 2 or 4 pair balanced twisted-pair (BASE-T) PHYs, (see IEEE
+>   Std 802.3, Clause 33), DTE powering is intended to provide a single
+>   10BASE-T, 100BASE-TX, or 1000BASE-T device with a unified interface
+>   for both the data it requires and the power to process these
+>   data. When used with single balanced twisted-pair (BASE-T1) PHYs
+>   (see IEEE Std 802.3, Clause 104), DTE powering is intended to
+>   provide a single 100BASE-T1 or 1000BASE-T1 device with a unified
+>   interface for both the data it requires and the power to process
+>   these data. A PSE used with balanced single twisted-pair PHYs is
+>   also referred to as a PoDL PSE.
+>=20
+> So it seems like, anything not PoDL PSE does not have a name :-(
+>=20
+> However, everything not PoDL PSE seems to be clause 33. So how about:
+>=20
+> 	enum ethtool_podl_pse_admin_state podl_admin_control;
+> 	enum ethtool_c33_pse_admin_state c33_admin_control; =20
+>=20
+> At least inside the kernel we use c22, c45, c37 etc. I'm not sure they
+> are visible to userspace, but if we don't have a better name, maybe we
+> have to use c33 in userspace as well.
+>=20
+> I do think naming like this makes it clear we are talking about two
+> parallel technologies, not a generic layer and then extensions for
+> podl.
+>=20
+> What do you think?
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/filesystems/index.rst                |  5 +----
- Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
- .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
- .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
- .../{ => xfs}/xfs-online-fsck-design.rst           |  0
- .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
- .../maintainer/maintainer-entry-profile.rst        |  2 +-
- 7 files changed, 16 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/filesystems/xfs/index.rst
- rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
- rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
- rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (100%)
- rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
+If we decide to add a prefix, "c33" is precise but less easily understandab=
+le,
+why not using simply "poe" prefix?
+Maybe as POE were originally PMDI you prefer to use c33 which won't change =
+over
+time?=20
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 09cade7eaefc8c..e18bc5ae3b35f8 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -121,8 +121,5 @@ Documentation for filesystem implementations.
-    udf
-    virtiofs
-    vfat
--   xfs-delayed-logging-design
--   xfs-maintainer-entry-profile
--   xfs-self-describing-metadata
--   xfs-online-fsck-design
-+   xfs/index
-    zonefs
-diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
-new file mode 100644
-index 00000000000000..ab66c57a5d18ea
---- /dev/null
-+++ b/Documentation/filesystems/xfs/index.rst
-@@ -0,0 +1,14 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============================
-+XFS Filesystem Documentation
-+============================
-+
-+.. toctree::
-+   :maxdepth: 2
-+   :numbered:
-+
-+   xfs-delayed-logging-design
-+   xfs-maintainer-entry-profile
-+   xfs-self-describing-metadata
-+   xfs-online-fsck-design
-diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
-similarity index 100%
-rename from Documentation/filesystems/xfs-delayed-logging-design.rst
-rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
-diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
-similarity index 100%
-rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
-rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
-diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-similarity index 100%
-rename from Documentation/filesystems/xfs-online-fsck-design.rst
-rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
-similarity index 100%
-rename from Documentation/filesystems/xfs-self-describing-metadata.rst
-rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
-diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-index 7ad4bfc2cc038a..18cee1edaecb6f 100644
---- a/Documentation/maintainer/maintainer-entry-profile.rst
-+++ b/Documentation/maintainer/maintainer-entry-profile.rst
-@@ -105,4 +105,4 @@ to do something different in the near future.
-    ../driver-api/media/maintainer-entry-profile
-    ../driver-api/vfio-pci-device-specific-driver-acceptance
-    ../nvme/feature-and-quirk-policy
--   ../filesystems/xfs-maintainer-entry-profile
-+   ../filesystems/xfs/xfs-maintainer-entry-profile
+Should I also modify the content of the enum?
+ETHTOOL_PSE_ADMIN_STATE_* to ETHTOOL_C33_PSE_ADMIN_*
+ETHTOOL_PSE_PW_D_STATUS_* to ETHTOOL_C33_PSE_PW_D_STATUS_*
 
-base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
--- 
-An old man doll... just what I always wanted! - Clara
 
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
