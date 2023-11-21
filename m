@@ -1,134 +1,158 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIckEBX9"
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A65CA;
-	Tue, 21 Nov 2023 01:02:09 -0800 (PST)
-Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-7ba170ac211so1931030241.2;
-        Tue, 21 Nov 2023 01:02:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ScO8zGFv"
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD6E10E;
+	Tue, 21 Nov 2023 01:57:06 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c39ad730aaso4330094b3a.0;
+        Tue, 21 Nov 2023 01:57:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700557328; x=1701162128; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vySVtlxZasL8ujz46d4j31n+R/7yltOZRIzr3n9abgM=;
-        b=lIckEBX9cdnwHccw/j1P9Vab8LpjlU3l63/9P2jH4wym4fOEt0sM+CM0/TXRygT/7+
-         4l0LZ4vkCAoPmhm+pXTWH6qy7YFMsyUdrIotTbaMUkktRPQXDnjpopv4wQG0n9uKjUdQ
-         Z/H9wm6TT4jB1kXUV2oVzds97hboe4eIPgj+ti9J3jiZA6AdBGqMgPHiI8VMHoxL1XBK
-         jGoVD5d9jPbS8osx3vI6BGGGCK+pLQIYg7TgZeEz2R7vtZUPUhh8Gudmoo1glLmf1gXE
-         zh5coqB67jjVzGGT9U54E48W2q2I9iGbrdYIKpg5d5Lwiyp4Z88L2rH2rnDA8UPE3Db+
-         JIwg==
+        d=gmail.com; s=20230601; t=1700560626; x=1701165426; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ka1cD2Bwmz44NS9VOtFyYCz3XAOOJeOGdzsr6w0dbzg=;
+        b=ScO8zGFvQa5SHqShlJIWoT0gQnPVGfuA5/nhXurEY7Zs4K7cmHIFllsV8s5I828Jai
+         fFzwjThO76NmxMvam0IefU2QEh1JhEwJP54SyzaPACDq2wMVbLWIeCb5tghO7Z5MjNb8
+         SbSb6cXM8HX4y4B9Ihbsml+baALw10UwmIYoUXWDAbD91wm1OJw8M2UtQ9eflZ4aE8ns
+         xnY5cZHfXVSDx/UCR5qnLyBLF1R+udzLl86c226hPXJO59vRZbuH3reDmB3fMEoJUNyM
+         O5c5UKDf+8gQzV85QYEEPtIIKei0ZqwtWQQiOhcFe7tbTvs3aPedtqc2G5HkrDJVPOG4
+         d2VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700557328; x=1701162128;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vySVtlxZasL8ujz46d4j31n+R/7yltOZRIzr3n9abgM=;
-        b=OAHlVWzt39CrM57iKJ+mRagXzsiiUTKvj5i+PXdr6ZH5c91oEAyQzdY6hxl0mM+7ck
-         zwyKXR4Fqqavw9d/ziaAnWQYVmz1u6ao2kXQyrz0BC6Hj3m1CKIFKXH/hkgjTY8B3QaU
-         DcSxibrvdX7Vz6TVkXDZri5a/kZqtNjPuLOceEGRQ0ND+Jm3mDeNX35fWblw/vYbZ2Zj
-         Z2LHebbyMtHKTHlE+4IJxycnZ5ZrQgSMEAZdXV6YD0YXHwrdeNnbkJ0Fd0ghId43BLLq
-         3EMYeo+chW6QDFehppO+h9OPSr60glLjgGl6MSBxn0ku9cOx5Qh1KZkPbzrpSVDcEbJi
-         MddQ==
-X-Gm-Message-State: AOJu0YygDFAlQfQS4kFzOBMWhqOVdaIWkjdVcTp9MgbSXd0aBV3uXJlV
-	/N8LTjXs+RTEyy/qk2puX8ETyIb1Y9Rxh/cduEw=
-X-Google-Smtp-Source: AGHT+IFc+3mDgcjtqb/7aZD84LfT9fY0MiwdUWtRt4/j8EHWdIVuAoKJFJBTNJIKOAFXIiL4CwjNKbdcw3VxpVy01tM=
-X-Received: by 2002:a67:bb10:0:b0:45d:b889:3770 with SMTP id
- m16-20020a67bb10000000b0045db8893770mr7404679vsn.1.1700557328478; Tue, 21 Nov
- 2023 01:02:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700560626; x=1701165426;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ka1cD2Bwmz44NS9VOtFyYCz3XAOOJeOGdzsr6w0dbzg=;
+        b=Ah+PQpGWEsjnbFUyqfiDw7OyxSGyMjcisr2SOcti/OKOzVwfaQTLLHT3r59IYX6JvO
+         oPB4r+HFchKcNr4iGAGhoYciULhWazgXqqfurbO4+Rvg4egKq8bRh4ICvJP6JDZwC7m8
+         V+27S0Mg6bsy4vCcDXpwz1xOgl6hfuj98H4zKEKqVpV9KdujuTlX0ge51eZIWQoKcZua
+         Wcc9MIwULqZnl9p++CZJSq0wcSE0ZWTX1rolqbgOiNUhv9O3JQL9qVSovAfJIxr2+jP5
+         St+7eJRHHyIhpup/WIWflYGsL8VZ6WoLC0CpQyiD3sLRxUHQpjQdXhkaYIII472H2V3U
+         TkDQ==
+X-Gm-Message-State: AOJu0YxzNXTVg2mCbauXnLspFjgQmjjtDs+66EenTE4ujZ14TBNwydUT
+	Q/qdG822dCybFIomrn0yqqM=
+X-Google-Smtp-Source: AGHT+IHFjOu7YbojQq1PeZl9YrECG/pPN3fCUGfp/6gEV5LyTTPVJc/Wba5hfzQXH/anBJaHwD8BfA==
+X-Received: by 2002:a05:6a20:d38c:b0:166:82cf:424a with SMTP id iq12-20020a056a20d38c00b0016682cf424amr9289456pzb.33.1700560625873;
+        Tue, 21 Nov 2023 01:57:05 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id g7-20020a170902934700b001ca4c7bee0csm7536341plp.232.2023.11.21.01.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 01:57:05 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 84D8A102106CF; Tue, 21 Nov 2023 16:57:02 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux XFS <linux-xfs@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Dave Chinner <dchinner@redhat.com>,
+	Steve French <stfrench@microsoft.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Han <hanchunchao@inspur.com>
+Subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
+Date: Tue, 21 Nov 2023 16:56:58 +0700
+Message-ID: <20231121095658.28254-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231120091214.150502-1-sxwjean@me.com> <20231120091214.150502-5-sxwjean@me.com>
-In-Reply-To: <20231120091214.150502-5-sxwjean@me.com>
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Date: Tue, 21 Nov 2023 18:01:57 +0900
-Message-ID: <CAB=+i9RUP+Ar3x63sbDTq8+=nkygp2bJ1Py962U7ATyNU6Npvw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] mm/slab: move slab merge from slab_common.c to slub.c
-To: sxwjean@me.com
-Cc: cl@linux.com, penberg@kernel.org, rientjes@google.com, 
-	iamjoonsoo.kim@lge.com, vbabka@suse.cz, roman.gushchin@linux.dev, 
-	corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4131; i=bagasdotme@gmail.com; h=from:subject; bh=YcVBndo3Vf30ZXt3UnAKYl//U5fISnvK9iyQHm73b6k=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKkxdarv/O6evnf6wi//GHaJ/WEaGfPyf1jx/P5dIl620 Kd497F7HaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIWX1GhkemD+Y/dmmruL/n vK7xedu/mzXVLadPfXhcsHuh6e7705YxMjy/de3upIDzL+19RV7tLDivzym3I+jO/ee71wnvCXh QfZgfAA==
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 20, 2023 at 6:13=E2=80=AFPM <sxwjean@me.com> wrote:
->
-> From: Xiongwei Song <xiongwei.song@windriver.com>
->
-> Since slab allocator has been removed. There is no users about slab
-> merge except slub. This commit is almost to revert
-> commit 423c929cbbec ("mm/slab_common: commonize slab merge logic").
->
-> Also change all prefix of slab merge related functions, variables and
-> definitions from "slab/SLAB" to"slub/SLUB".
->
-> Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
-> ---
->  mm/slab.h        |   3 --
->  mm/slab_common.c |  98 ----------------------------------------------
->  mm/slub.c        | 100 ++++++++++++++++++++++++++++++++++++++++++++++-
->  3 files changed, 99 insertions(+), 102 deletions(-)
-[...]
-> +/*
-> + * Merge control. If this is set then no merging of slab caches will occ=
-ur.
-> + */
-> +static bool slub_nomerge =3D !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);
-> +
-> +static int __init setup_slub_nomerge(char *str)
-> +{
-> +       slub_nomerge =3D true;
-> +       return 1;
-> +}
-> +
-> +static int __init setup_slub_merge(char *str)
-> +{
-> +       slub_nomerge =3D false;
-> +       return 1;
-> +}
-> +
-> +__setup_param("slub_nomerge", slub_nomerge, setup_slab_nomerge, 0);
-> +__setup_param("slub_merge", slub_merge, setup_slab_merge, 0);
+XFS docs are currently in upper-level Documentation/filesystems.
+Although these are currently 4 docs, they are already outstanding as
+a group and can be moved to its own subdirectory.
 
-FYI This hunk breaks kernel builds:
+Consolidate them into Documentation/filesystems/xfs/.
 
-In file included from ./include/linux/printk.h:6,
-                 from ./include/asm-generic/bug.h:22,
-                 from ./arch/x86/include/asm/bug.h:87,
-                 from ./include/linux/bug.h:5,
-                 from ./include/linux/mmdebug.h:5,
-                 from ./include/linux/mm.h:6,
-                 from mm/slub.c:13:
-mm/slub.c:748:45: error: =E2=80=98setup_slab_nomerge=E2=80=99 undeclared he=
-re (not in
-a function); did you mean =E2=80=98setup_slub_nomerge=E2=80=99?
-  748 | __setup_param("slub_nomerge", slub_nomerge, setup_slab_nomerge, 0);
-      |                                             ^~~~~~~~~~~~~~~~~~
-./include/linux/init.h:340:32: note: in definition of macro =E2=80=98__setu=
-p_param=E2=80=99
-  340 |   =3D { __setup_str_##unique_id, fn, early }
-      |                                ^~
-mm/slub.c:749:41: error: =E2=80=98setup_slab_merge=E2=80=99 undeclared here=
- (not in a
-function); did you mean =E2=80=98setup_slub_merge=E2=80=99?
-  749 | __setup_param("slub_merge", slub_merge, setup_slab_merge, 0);
-      |                                         ^~~~~~~~~~~~~~~~
-./include/linux/init.h:340:32: note: in definition of macro =E2=80=98__setu=
-p_param=E2=80=99
-  340 |   =3D { __setup_str_##unique_id, fn, early }
-      |                                ^~
-  CC      kernel/time/ntp.o
-mm/slub.c:742:19: warning: =E2=80=98setup_slub_merge=E2=80=99 defined but n=
-ot used
-[-Wunused-function]
-  742 | static int __init setup_slub_merge(char *str)
-      |                   ^~~~~~~~~~~~~~~~
-mm/slub.c:736:19: warning: =E2=80=98setup_slub_nomerge=E2=80=99 defined but=
- not used
-[-Wunused-function]
-  736 | static int __init setup_slub_nomerge(char *str)
-      |                   ^~~~~~~~~~~~~~~~~~
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/filesystems/index.rst                |  5 +----
+ Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
+ .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
+ .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
+ .../{ => xfs}/xfs-online-fsck-design.rst           |  0
+ .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
+ .../maintainer/maintainer-entry-profile.rst        |  2 +-
+ 7 files changed, 16 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/filesystems/xfs/index.rst
+ rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
+
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 09cade7eaefc8c..e18bc5ae3b35f8 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -121,8 +121,5 @@ Documentation for filesystem implementations.
+    udf
+    virtiofs
+    vfat
+-   xfs-delayed-logging-design
+-   xfs-maintainer-entry-profile
+-   xfs-self-describing-metadata
+-   xfs-online-fsck-design
++   xfs/index
+    zonefs
+diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
+new file mode 100644
+index 00000000000000..ab66c57a5d18ea
+--- /dev/null
++++ b/Documentation/filesystems/xfs/index.rst
+@@ -0,0 +1,14 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================
++XFS Filesystem Documentation
++============================
++
++.. toctree::
++   :maxdepth: 2
++   :numbered:
++
++   xfs-delayed-logging-design
++   xfs-maintainer-entry-profile
++   xfs-self-describing-metadata
++   xfs-online-fsck-design
+diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-delayed-logging-design.rst
+rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
+rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-online-fsck-design.rst
+rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-self-describing-metadata.rst
+rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index 7ad4bfc2cc038a..18cee1edaecb6f 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -105,4 +105,4 @@ to do something different in the near future.
+    ../driver-api/media/maintainer-entry-profile
+    ../driver-api/vfio-pci-device-specific-driver-acceptance
+    ../nvme/feature-and-quirk-policy
+-   ../filesystems/xfs-maintainer-entry-profile
++   ../filesystems/xfs/xfs-maintainer-entry-profile
+
+base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
+-- 
+An old man doll... just what I always wanted! - Clara
+
