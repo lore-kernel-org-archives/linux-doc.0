@@ -1,160 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="p1GSOW5Q"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF7B7100;
-	Tue, 21 Nov 2023 03:52:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=kwc1QROQrLJK6qUZ4szek7aN5NLGZbYDFO7vd+LJx7k=; b=p1GSOW5Q5ngq2gB9UFFHXhhNx2
-	IEEp17E+pQPpltJwXRdYJ4xt88epaNYQHSVeJlwBx3pY1GvtqF3yPohDeG2ViPVgZQYD63lrd5nlb
-	ftQxctWDXh5TNkaajh1PiVXXADlE/+hNNH3JqQfOtoG+gU1tOI4AOZmC1pgajtlRMcbYuTIHoGvOz
-	6X9j4Hci8nDHUrV90T+eCYyxrQS8fdiCt62QlH8h9QROrz7VE1QEV91c0mePwvziTs5TkmP5RxIkP
-	iVLFidZjxjJQ91CA91OOAo59wa8mcZ0A3UpUmNDpH7TbKNB6iNI10CQwqOnn9gl6L9pzHvGurlc0a
-	kAnwc31g==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:41702)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1r5PIq-0006ve-2k;
-	Tue, 21 Nov 2023 11:52:28 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1r5PIp-00049X-Hc; Tue, 21 Nov 2023 11:52:27 +0000
-Date: Tue, 21 Nov 2023 11:52:27 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jie Luo <quic_luoj@quicinc.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, corbet@lwn.net, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
-Message-ID: <ZVyZ+8Q2eNfAKjO/@shell.armlinux.org.uk>
-References: <20231118062754.2453-1-quic_luoj@quicinc.com>
- <20231118062754.2453-4-quic_luoj@quicinc.com>
- <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
- <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
- <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
- <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
- <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
- <316fb626-4dc3-4540-9cc4-e45840e36f77@quicinc.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="b16MAPFI"
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDD1123;
+	Tue, 21 Nov 2023 04:07:56 -0800 (PST)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0404D6607286;
+	Tue, 21 Nov 2023 12:07:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1700568475;
+	bh=OPO6PjGpzSwciJq8nGHbJqxbgmsPtmRTdm9UuIC1Pgg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=b16MAPFIwTHeMbcsiU6r2Bd0R0+l2qT7cBQhhAFvM9Zcbo/c2187N2emtX6AelGCJ
+	 mgb/PyWfqBDozMQ8aYTHTPTF0qyGgq6VlHIsEb3E2aFIen8wAFQEcaOTFEm11890ye
+	 M51/8nU0PGSs3Z10ZzQP9dXXji86lV6pvnSVznG08xcZXqzQCf9QKRJVxZlhubPk8r
+	 FNrst196n38+SDbkJCxWsrtDbeFwtNvqbp+CM1JNr/HYauH0nUfp1F3ROTkg3aruBM
+	 qMgZcnpmvEg4XuCTa2g+xNZiNeGWeqXOteQwnapF2KgQHHka0HxQIuyBPvqUCL9dWK
+	 UPMwNvoNeHXBA==
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
+Date: Tue, 21 Nov 2023 14:07:51 +0200
+Message-ID: <20231121120751.77355-1-cristian.ciocaltea@collabora.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <316fb626-4dc3-4540-9cc4-e45840e36f77@quicinc.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 21, 2023 at 07:10:08PM +0800, Jie Luo wrote:
-> when pcs is configured to SGMII mode, the fourth PHY can reach to
-> maximum speed 2.5G(2500BaseT) that is reached by increasing the clock
-> rate to 312.5MHZ from 125MHZ of 1G speed, but there is no corresponding
-> interface mode can be used to reflect this 2.5G speed mode(sgmii+)
+The virtual widget example makes use of an undefined SND_SOC_DAPM_NOPM
+argument passed to SND_SOC_DAPM_MIXER().  Replace with the correct
+SND_SOC_NOPM definition.
 
-So this comes up again. 2.5G SGMII? What is that?
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+ Documentation/sound/soc/dapm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Let's start off with the basics. SGMII is Cisco's modification of
-1000base-X. The two are broadly compatible in that they can communicate
-with each other provided that the inband control word is disregarded.
-
-2500base-X is generally implemented as 1000base-X over-clocked by 2.5x.
-Some manufacturers state that the inband control word is not supported.
-Others say it can be used. This disparity comes from the lack of early
-IEEE standardisation of this protocol.
-
-Cisco SGMII as defined is a 10M/100M/1G protocol operating at 125MHz
-with a fixed underlying baud rate of 1250Mbaud. Slower speeds are
-achieved via symbol replication by 10x or 100x. The inband control
-word is modified in order to convey this speed information, as well
-as duplex and sometimes also other vendor extensions.
-
-Switching SGMII to be clocked 2.5x faster means that a partner that
-expects SGMII at normal speed sees garbage - it can't recognise the
-waveform. Therefore, it is not possible for inband to convey any
-information. Many vendors explicitly state that symbol replication
-is not supported when "SGMII" is clocked at 2.5x.
-
-All variants of whatever the vendor calls the 2.5G mode tend to use
-the SGMII term because... it's Serial Gigabit... and SGMII even gets
-used by vendors to describe the interface used for 1000base-X.
-Vendors use terms like "HS-SGMII" and other stuff to describe their
-2.5x mode. Some use "2500base-X". Yours seems to use "SGMII+".
-
-SGMII without inband signalling is basically the same as 1000base-X.
-Therefore, SGMII clocked at 2.5x the speed is basically the same as
-2500base-X without inband signalling.
-
-So, the whole area is totally confused, and one should not get too
-hung up on the terminology that vendors are using, but go back to
-precisely what's going on at the hardware level.
-
-We have raised this point almost every time someone talks about an
-up-clocked "SGMII".
-
-
-> Actually we should add a new interface mode such as sgmii+
-> to reflect this 2.5G speed of sgmii
-
-Only if there really is something different about it. For example,
-if it were Cisco SGMII modified to operate always at 312.5MHz with
-inband signalling updated to signal the four speeds. That would
-definitely be a different protocol.
-
-However, it's not that. What it actually is is Cisco SGMII when
-operating at 10M/100M/1G speeds, and 2500base-X without inband
-signalling when operating at 2.5G speed.
-
-We have PHYs that support this (and more) which we support. PHYs
-that switch between 10GBASE-R, 5GBASE-R, 2500BASE-X and Cisco SGMII
-depending on the speed that was negotiated on the media. There is
-no definition of a single interface mode that covers all those,
-because it isn't a single interface mode. It's four separate modes
-that the PHY switches between - and this is no different from what
-is happening with your PHY.
-
-Ultimately, you will need a way to use inband signalling with Cisco
-SGMII for 10M/100M/1G speeds, and then switch to 2500base-X when
-operating at 2.5G speeds, and that is done via the PHY driver
-updating phydev->interface.
-
-What we do need is some way for the PHY to also tell the PCS/MAC
-whether inband should be used. This is something I keep bringing up
-and now that we have PCS drivers revised to use the value from
-phylink_pcs_neg_mode() _and_ a consistent implementation amongst them
-we can now think about signalling to PCS drivers whether inband mode
-needs to be turned off when switching between modes.
-
-There have been patches in the past that allow inband mode to be
-queried from phylib, and this is another important component in
-properly dealing with PHYs that need to use inband signalling with
-Cisco SGMII, but do not support inband signalling when operating at
-2.5G speeds. The problem when operating at 2.5G speed is that the
-base-X protocols are normally for use over fibre, which is the media,
-and therefore the ethtool Autoneg bit should define whether inband
-gets used or not. However, in the case of a PHY using 2500base-X,
-the Autoneg bit continues to define whether autonegotiation should
-be used on the media, and in this case it's the media side of the
-PHY rather than the 2500base-X link.
-
-So, when using a 2500base-X link to a PHY, we need to disregard the
-Autoneg bit, but that then raises the question about how we should
-configure it - and one solution to that would be to entire of phylib
-what the PHY wants to do. Another is to somehow ask the PCS driver
-whether it supports inband signalling at 2500base-X, and resolve
-those capabilities.
-
-That is my view where we need to get to in order to properly resolve
-the ongoing issues about 2500base-X and PHYs that make use of that.
-
+diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
+index 8e44107933ab..c3154ce6e1b2 100644
+--- a/Documentation/sound/soc/dapm.rst
++++ b/Documentation/sound/soc/dapm.rst
+@@ -234,7 +234,7 @@ corresponding soft power control. In this case it is necessary to create
+ a virtual widget - a widget with no control bits e.g.
+ ::
+ 
+-  SND_SOC_DAPM_MIXER("AC97 Mixer", SND_SOC_DAPM_NOPM, 0, 0, NULL, 0),
++  SND_SOC_DAPM_MIXER("AC97 Mixer", SND_SOC_NOPM, 0, 0, NULL, 0),
+ 
+ This can be used to merge to signal paths together in software.
+ 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.42.1
+
