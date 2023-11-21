@@ -1,34 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Gtp1Pjn8"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZbfiNtiK"
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD66D10FA;
-	Tue, 21 Nov 2023 03:01:57 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2964CA;
+	Tue, 21 Nov 2023 03:10:27 -0800 (PST)
 Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALA9geK006337;
-	Tue, 21 Nov 2023 11:01:44 GMT
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALA8dXl004669;
+	Tue, 21 Nov 2023 11:10:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=vOWhqG9rjugWBRBwG5uUjztH4X9sdpkjoV0aEkoYeyY=;
- b=Gtp1Pjn8rND6RE0GYpSP3EgyUA7aa+ktUeroUlCWwOYv+5u+LcVxZaBmcZQfMhxew1a3
- MDMXXt6aRDE25pUUV2hUrdfuSiKf53s6ThnlmE86RqV/DcCzkdJcXKQYqeg7l8r5Avao
- M4ic7yGJRAKdWfgK07VKA6JF+1xDCY+X99nOh6vvtz+W62naB9hCxk27QzodLrlSyoY2
- WiH1TAc7Vh0wsMm6otN+0yj+TnZ5fLhJdpDI7QnPNlXYjlaDxcqVM3LJDM2B5X7JpQgI
- Y2H/UwtA4uo73hhfnfyMg7PDZDevgp3UEds6U23H44cpK6aiSRtykb+ycGRxr+D+KA8k Zw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ugge19d2x-1
+ bh=3jkvNomu/T+rw84AfhK9x8vxgbep/obiHslHag7pVzw=;
+ b=ZbfiNtiKqLpZB72rn5PMgIJXP29IFWS5oTLLk/EYxtlsLBsvIVAjupHcC72ui1t0+5jK
+ faGkvwA09LZJeRzjmBsLwIifytMbacI2p3wn44Ha07tYY3pOtAdmQI882pH7/nOWmvft
+ 7TD581A4cMzXhn7ThrYLzkD5hSgPimVuQSZtaUtDNqdXdga5rJWuFNxlIb89O0ugiFIy
+ JEtWIblwEL2ROWctx5n6IWjj33TdBqFEaxhvDGnD4aRZgk8g/3xWgzA3e2USLCB4BMi/
+ foH3he8OU01QgETG4uOllOLOIdJ7ed39aqpNyUMrn6+LgTTFqbRmgee+Q4DdjkGSPwhc ng== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ugge19ean-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 11:01:43 +0000
+	Tue, 21 Nov 2023 11:10:15 +0000
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ALB18UT004551
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ALBAEJP029315
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 11:01:08 GMT
+	Tue, 21 Nov 2023 11:10:14 GMT
 Received: from [10.253.72.26] (10.80.80.8) by nalasex01c.na.qualcomm.com
  (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 21 Nov
- 2023 03:01:04 -0800
-Message-ID: <cde29373-b341-454a-867c-f6bed051ca95@quicinc.com>
-Date: Tue, 21 Nov 2023 19:01:02 +0800
+ 2023 03:10:10 -0800
+Message-ID: <316fb626-4dc3-4540-9cc4-e45840e36f77@quicinc.com>
+Date: Tue, 21 Nov 2023 19:10:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,22 +38,22 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
 Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-CC: Andrew Lunn <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "Russell King (Oracle)" <linux@armlinux.org.uk>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <hkallweit1@gmail.com>, <corbet@lwn.net>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
 References: <20231118062754.2453-1-quic_luoj@quicinc.com>
  <20231118062754.2453-4-quic_luoj@quicinc.com>
  <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
  <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
  <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
  <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
- <ZVsnFWzi6KMXpJOj@shell.armlinux.org.uk>
+ <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
 From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <ZVsnFWzi6KMXpJOj@shell.armlinux.org.uk>
+In-Reply-To: <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -61,8 +61,8 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: hFbGFThDHljuFobQ52L8YK5KPHMgYd9I
-X-Proofpoint-ORIG-GUID: hFbGFThDHljuFobQ52L8YK5KPHMgYd9I
+X-Proofpoint-GUID: uyxGtoquF84BMYww-SOI5QCz__Kbc_ad
+X-Proofpoint-ORIG-GUID: uyxGtoquF84BMYww-SOI5QCz__Kbc_ad
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-21_04,2023-11-21_01,2023-05-22_02
@@ -74,56 +74,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscor
 
 
 
-On 11/20/2023 5:29 PM, Russell King (Oracle) wrote:
-> On Mon, Nov 20, 2023 at 04:49:59PM +0800, Jie Luo wrote:
->>
->>
->> On 11/19/2023 4:19 AM, Andrew Lunn wrote:
->>>> 10G_QXGMII is defined in the Cisco USXGMII multi-port document as one
->>>> of several possibilities for a USXGMII-M link. The Cisco document can
->>>> be a little confusing beause it states that 10G_QXGMII supports 10M,
->>>> 100M, 1G and 2.5G, and then only talks about a 10G and 100M/1G MAC.
->>>>
->>>> For 10G_QXGMII, there are 4 MAC interfaces. These are connected to a
->>>> rate "adaption" through symbol replication block, and then on to a
->>>> clause 49 PCS block.
->>>>
->>>> There is then a port MUX and framing block, followed by the PMA
->>>> serdes which communicates with the remote end over a single pair of
->>>> transmit/receive serdes lines.
->>>>
->>>> Each interface also has its own clause 37 autoneg block.
->>>>
->>>> So, for an interface to operate in SGMII mode, it would have to be
->>>> muxed to a different path before being presented to the USXGMII-M
->>>> block since each interface does not have its own external data lane
->>>> - thus that's out of scope of USXGMII-M as documented by Cisco.
->>>
->>> Hi Russell
->>>
->>> I think it helps.
->>>
->>> Where i'm having trouble is deciding if this is actually an interface
->>> mode. Interface mode is a per PHY property. Where as it seems
->>> 10G_QXGMII is a property of the USXGMII-M link? Should we be
->>> representing the package with 4 PHYs in it, and specify the package
->>> has a PMA which is using 10G_QXGMII over USXGMII-M? The PHY interface
->>> mode is then internal? Its just the link between the PHY and the MUX?
->>>
->>> By saying the interface mode is 10G_QXGMII and not describing the PMA
->>> mode, are we setting ourselves up for problems in the future? Could
->>> there be a PMA interface which could carry different PHY interface
->>> modes?
->>>
->>> If we decide we do want to use 10G_QXGMII as an interface made, i
->>> think the driver should be doing some validation. If asked to do
->>> anything else, it should return -EINVAL.
->>>
->>> And i don't yet understand how it can also do 1000BaseX and 2500BaseX
->>> and SGMII?
->>>
->>>       Andrew
->>
+On 11/20/2023 11:34 PM, Andrew Lunn wrote:
 >> Hi Andrew,
 >> The interface mode 10G_QXGMII is a type of USXGMII-M, the other modes
 >> such as 20G-QXGMII, 20G-OXGMII...
@@ -132,12 +83,44 @@ On 11/20/2023 5:29 PM, Russell King (Oracle) wrote:
 >> then do 66bit/68bit encode in xpcs and pass to PMA, the link topology:
 >> quad PHY --- multiplexer ---XPCS --- PMA.
 >> the 10G-QXGMII interface block includes multiplexer, XPCS and PMA.
+>>
+>> when the PHY works on SGMII mode, then there is no xpcs, the only fourth
+>> PHY of qca8084 can work on SGMII mode, the link topology:
+>> the fourth PHY --- PCS --- PMA, the SGMII block includes PCS and PMA.
 > 
-> Note that phylink_pcs does *not* cover any PCS on the PHY device side
-> of the link. It only covers a PCS on the MAC side.
+> What i missed is that you have two different PMA blocks. PHY4 can be
+> muxed to either the QXGMII PMA or the 2500BaseX PMA. This is not clear
+> in the commit message, and i think why you are getting questions about
+> how 2500BaseX can work over QXGMII. Please expand you commit message
+> to explain the architecture in more detail.
 
-Ok, even there is only one XPCS multiplex with 4 MACs, we should create
-4 PCS instances for 4 MACs.
+Ok, Andrew, i will give more detail about the pcs utilized in the next
+patch set.
+
+when pcs is configured to QXGMII mode, quad phy can reach to maximum
+speed 2.5G, it is still in qxgmii mode.
+
+when pcs is configured to SGMII mode, the fourth PHY can reach to
+maximum speed 2.5G(2500BaseT) that is reached by increasing the clock
+rate to 312.5MHZ from 125MHZ of 1G speed, but there is no corresponding
+interface mode can be used to reflect this 2.5G speed mode(sgmii+), so
+i use 2500BaseX to reflect this 2.5G link speed, which is same as
+qca8081 PHY. Actually we should add a new interface mode such as sgmii+
+to reflect this 2.5G speed of sgmii, so that the PHYLINK can support
+all supported link speeds(10/100/1000/2500M) with the interface mode
+sgmii+, currently 2500BaseX only advertise 2.5G, sgmii advertise
+10/100/1000 in the PHYLINK framework. but actually qca808x supports
+10/100/1000/2500 speed. how do you think?
+
+> 
+> So, next question. How do you control what PMA PHY4 is connected to?
+> Is this going to be based on interface mode? QXGMII it is configured
+> to use the QXGMII PMA? SGMII, 1000BaseX, and 2500BaseX it is
+> configured to the other PMA?
+
+Yes, there are two different PCS to work on qxgmii and sgmii mode.
+one PCS can be connected with quad phy, another pcs can be connected
+with PHY4.
 
 > 
 >> Here is a problem as Russell mentioned earlier, we need to know which PHY
@@ -146,15 +129,34 @@ Ok, even there is only one XPCS multiplex with 4 MACs, we should create
 >> PHY device information passed to the PHYLINK, so the PCS driver don't
 >> which PHY is changing link status and 10G-QXGMII mode don't know which
 >> channel(mapped to PHY) should be configured.
->>
->> would we add a field such as (int channel) in the struct phy_device?
->> so we can pass this information to PCS driver when the PHY link changed.
 > 
-> Nothing in phylink nor phylib is setup to deal with "channels" within
-> a PHY. The model assumes that a network interface consists of exactly
-> one MAC associated with one active PHY.
+> This is the first time QXGMII has been seen in mainline, so its good
+> to explain the background.
+
+ From PCS hardware perspective, there is only one QXGMII mode instance
+for 4 PHYs and MACs, and the each PHY is related with the channel of
+QXGMII.
+
 > 
-> As there are 4 PHYs, phylib will expect there to be four PHY devices,
-> and there will be expected to be four phylink instances.
+> Are you saying there is a USXGMII-M level link change status? The link
+> between the SoC and the PHY package is up/down? If it is down, all
+> four MAC-PHY links are down. If it is up, it is possible to carry
+> frames between the SoC and the PHY package, but maybe the PHYs
+> themselves are down?
 > 
-make sense, thanks Russell.
+
+There is a per channel(for each PHY) configurations in XPCS XGMII mode,
+if one PHY has the link change, the related channel should be
+configured for this PHY, and multiplex is also used for the connected 4
+MACs, the link change on one phy does not effect the other PHYs.
+
+If the PHY is down, the pipeline of the related channel can't transfer
+data, the phy link status is reflected to XPCS.
+
+> Withing the four multiplex streams, is there a per stream link change
+> indication?
+
+Yes, it is per channel(for each PHY) link change indication in QXGMII.
+
+> 
+> 	Andrew
