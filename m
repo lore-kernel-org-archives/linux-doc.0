@@ -1,75 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60229C12E;
-	Tue, 21 Nov 2023 18:45:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9972220DE4
+	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 19:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCGGh0aD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E70BC433D9;
-	Tue, 21 Nov 2023 18:45:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccc0iYNA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7BCC433C9
+	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 19:09:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700592356;
-	bh=9WC8aqJ6oZ32SlXJ7faib65Qf55EOmQoT+BGw8wVCVY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=kCGGh0aDTr4yCXL3F6PhpNEEg8N3gvA9MiPxP+X+ZS97UEM3YOKUZIiIdbWr/kMKC
-	 pBjJcTPjI3C+mWnPCTvko9Sc525p1YixKgGHn6wqqkCJ6fH6SmVhfWRqmrBLV459Pr
-	 7cqiZXGEbwZXD9Vw1Uzusklfdq261Nhhd7LxYwW3Lr4eWgmhYWO9zXPjGIHR/awWMf
-	 ZDumBxi+JUHERekmp4R+etCrSCoBxiIGDidHCjI2smA9UueC70vq+ZJobMWcOaG6vL
-	 4aoYv5i2RVccARukINsuNDhig3mu1CygEovgHNcBnjGxicaP3BO6ViFCWRA0nUcKZV
-	 E3RHJxW9Tku3w==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20231121120751.77355-1-cristian.ciocaltea@collabora.com>
-References: <20231121120751.77355-1-cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
-Message-Id: <170059235481.1901021.9703531954255937779.b4-ty@kernel.org>
-Date: Tue, 21 Nov 2023 18:45:54 +0000
+	s=k20201202; t=1700593771;
+	bh=wQqDKRQjn6844OW3n/w7wb8sy0SLbW225b2srtOadSo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ccc0iYNA+ruXpCZTeJMcDBc51/1dKabUqQNxc1hQCOJOE0SuqptNQJe1wJv5Q510b
+	 q2XMuR7kafI97/r18kF9PbcfVbEEVblgXkOXCFftu56SAtex33D+ruTxY7Qc+pQncP
+	 InGXMnq10VNG4SuRP/P9CBrOm7J4gWpOeDKGgZIcDJhilKFxlftzF2I4I4ROwa0FxL
+	 djc/+3iPXe6UHcCU8SlbCvB3klXvFSIxt8myvJtJDFKKNSKRLZUlNzjOS+3X5RfqXp
+	 LS/dsD8to3j15y9frxouKwUbNVBxG64IXomRxa1+yzO0Nrtp/yzo+Mr/y7125FPS6f
+	 VvP252hKUHCgw==
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-77896da2118so389892585a.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 11:09:31 -0800 (PST)
+X-Gm-Message-State: AOJu0Yw9aNen5PHobIys67kcUieoZ9bQAqYZRAR64vUMSAFWK5Wmyc2I
+	kczaFtuC5Edvt1ZB+5JLDg87H091tBDRokuUms6v2Q==
+X-Google-Smtp-Source: AGHT+IFj6T6qFwD847PxtZzKZN0ToGw/PjQQlEJhOLHFQIM/P89jcN/ZWDs7l4ENV/joAGnZgLeRSADwaWkhZ9aimOw=
+X-Received: by 2002:a17:90b:1d92:b0:27d:5964:4ee6 with SMTP id
+ pf18-20020a17090b1d9200b0027d59644ee6mr163589pjb.2.1700593750122; Tue, 21 Nov
+ 2023 11:09:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+References: <20231115172344.4155593-1-nphamcs@gmail.com> <CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com>
+ <CAJD7tkZ1U+YuvoBAnrXFxQDiQV2hXdbMG-gbzu64R8GLAtNAPA@mail.gmail.com>
+ <CAF8kJuPTNwQM413UdeQTkMQ8HkJFyF4OWVrxJSf7uWbege0CXQ@mail.gmail.com>
+ <CAKEwX=O5M-vZE5YhYQ5_CbCmXovS1XECO4ROXKWo06K880M1Mg@mail.gmail.com>
+ <CAF8kJuOD6zq2VPcVdoZGvkzYX8iXn1akuYhNDJx-LUdS+Sx3GA@mail.gmail.com>
+ <CAKEwX=NdFjemcmf27PVpgHpVHWQEo19KfApepWJBRYeyVCWvCw@mail.gmail.com>
+ <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
+ <ZVrHXJLxvs4_CUxc@google.com> <CAKEwX=MR6a-u87p=Oqm+zvwB_1zhrsM_n2=xW1kJz0_AoVwkPA@mail.gmail.com>
+In-Reply-To: <CAKEwX=MR6a-u87p=Oqm+zvwB_1zhrsM_n2=xW1kJz0_AoVwkPA@mail.gmail.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Tue, 21 Nov 2023 11:08:59 -0800
+X-Gmail-Original-Message-ID: <CAF8kJuNFQn_e29YEPy-G29FR2RnrPzZNWR07VuadOTNask_Rig@mail.gmail.com>
+Message-ID: <CAF8kJuNFQn_e29YEPy-G29FR2RnrPzZNWR07VuadOTNask_Rig@mail.gmail.com>
+Subject: Re: [PATCH v5] zswap: memcontrol: implement zswap writeback disabling
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Yosry Ahmed <yosryahmed@google.com>, Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, 
+	lizefan.x@bytedance.com, Johannes Weiner <hannes@cmpxchg.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Seth Jennings <sjenning@redhat.com>, 
+	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
+	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
+	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz, 
+	Minchan Kim <minchan@google.com>, Kairui Song <kasong@tencent.com>, 
+	Zhongkun He <hezhongkun.hzk@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 21 Nov 2023 14:07:51 +0200, Cristian Ciocaltea wrote:
-> The virtual widget example makes use of an undefined SND_SOC_DAPM_NOPM
-> argument passed to SND_SOC_DAPM_MIXER().  Replace with the correct
-> SND_SOC_NOPM definition.
-> 
-> 
+On Tue, Nov 21, 2023 at 10:13=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
+>
+> Hi Chris!
+>
+> Thanks for the patch. Would you mind if I spend some time staring
+> at the suggestion again and testing it some more?
 
-Applied to
+Of course, by all means. That is just the minimal version to be
+functional compatible with your zswap.writeback.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I might consider a follow up patch to add "no_zswap" and "none" to
+convert the SSD only swapfile, which can't be expressed by
+zswap.writeback.
+That should cover all 4 combinations of zswap and swap files without
+creating a custom swap tiers list.
 
-Thanks!
+"all": zswap + swapfile
+"zswap": zswap only
+"no_zswap": swapfile only.
+"none": no swap.
 
-[1/1] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
-      commit: 67c7666fe808c3a7af3cc6f9d0a3dd3acfd26115
+All keyword names are open to suggestions.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+>
+> If everything is good, I'll squash this patch with the original version,
+> (keeping you as a co-developer of the final patch of course), and
+> update the documentation before re-sending everything as v6.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Great!
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+>
+> Anyway, have a nice Thanksgiving break everyone! Thanks for
+> taking the time to review my patch and discuss the API with me!
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+My pleasure to discuss the swap with you. We should do the online
+"swap meet" and invite other developers who are interested in the swap
+area as well.
 
-Thanks,
-Mark
-
+Chris
