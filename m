@@ -1,125 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GtHeePB6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G+Blnnuc"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01E68B9;
-	Tue, 21 Nov 2023 02:03:06 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 62A3D2189D;
-	Tue, 21 Nov 2023 10:03:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1700560985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E6qoyWwClhugI9VZwP6suNYgWlewOSxpRzOpSziEEZA=;
-	b=GtHeePB6BAvXazbBiyL1UhF0JAInm19ujuhcw5kw+/Qvx1GNMz4oUpUo1s/sVBfGLgA1It
-	jJU9QZUXN+/Z9jVWwKQEnu/4Ys/ubA7LGk8g9CwJ7PIafqdZNpYWM4c384UA4EMWtpp1p1
-	MvztAt2ayDrSs7n/uaTn1dY1jxW/Lpg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1700560985;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E6qoyWwClhugI9VZwP6suNYgWlewOSxpRzOpSziEEZA=;
-	b=G+BlnnucPVfo1qGtny6AHeirbbuuvmiz0hwFHEYdV/WWHTgyQboeY9pZe0G/1jL52EAm+Y
-	/Gm5nhaq2+vidiDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 31A5E138E3;
-	Tue, 21 Nov 2023 10:03:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id WSFiC1mAXGVgPAAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Tue, 21 Nov 2023 10:03:05 +0000
-Message-ID: <a6472546-b169-a88c-66a5-972d54edcd76@suse.cz>
-Date: Tue, 21 Nov 2023 11:03:04 +0100
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id C7E37A2;
+	Tue, 21 Nov 2023 02:15:05 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EE661FB;
+	Tue, 21 Nov 2023 02:15:52 -0800 (PST)
+Received: from [10.57.42.32] (unknown [10.57.42.32])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A3833F73F;
+	Tue, 21 Nov 2023 02:15:04 -0800 (PST)
+Message-ID: <ce58fda9-e666-4298-a996-eb0cff6b41a6@arm.com>
+Date: Tue, 21 Nov 2023 10:15:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 4/4] mm/slab: move slab merge from slab_common.c to slub.c
-Content-Language: en-US
-To: Hyeonggon Yoo <42.hyeyoo@gmail.com>, sxwjean@me.com
-Cc: cl@linux.com, penberg@kernel.org, rientjes@google.com,
- iamjoonsoo.kim@lge.com, roman.gushchin@linux.dev, corbet@lwn.net,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231120091214.150502-1-sxwjean@me.com>
- <20231120091214.150502-5-sxwjean@me.com>
- <CAB=+i9RFxqFg2jz3ULbmmswqp0K7SK8O9Uv1=wpUZMQUtSGB1Q@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <CAB=+i9RFxqFg2jz3ULbmmswqp0K7SK8O9Uv1=wpUZMQUtSGB1Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: 0.17
-X-Spamd-Result: default: False [0.17 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,me.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 BAYES_HAM(-0.03)[55.48%];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[11];
-	 FREEMAIL_TO(0.00)[gmail.com,me.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] arm64: perf: Include threshold control fields in
+ PMEVTYPER mask
+Content-Language: en-GB
+To: James Clark <james.clark@arm.com>, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, will@kernel.org, mark.rutland@arm.com
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231113112507.917107-1-james.clark@arm.com>
+ <20231113112507.917107-2-james.clark@arm.com>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20231113112507.917107-2-james.clark@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 11/21/23 09:54, Hyeonggon Yoo wrote:
-> On Mon, Nov 20, 2023 at 6:13 PM <sxwjean@me.com> wrote:
->>
->> From: Xiongwei Song <xiongwei.song@windriver.com>
->>
->> Since slab allocator has been removed. There is no users about slab
->> merge except slub. This commit is almost to revert
->> commit 423c929cbbec ("mm/slab_common: commonize slab merge logic").
->>
->> Also change all prefix of slab merge related functions, variables and
->> definitions from "slab/SLAB" to"slub/SLUB".
+On 13/11/2023 11:25, James Clark wrote:
+> FEAT_PMUv3_TH (Armv8.8) adds two new fields to PMEVTYPER, so include
+> them in the mask. These aren't writable on 32 bit kernels as they are in
+> the high part of the register, so only include them for arm64.
 > 
-> Could you please elaborate a little bit?
-> I am not sure if I understand what the last two patches of this series
-> are useful for.
+> It would be difficult to do this statically in the asm header files for
+> each platform without resulting in circular includes or #ifdefs inline
+> in the code. For that reason the ARMV8_PMU_EVTYPE_MASK definition has
+> been removed and the mask is constructed programmatically.
 > 
-> - Why rename variable/function/macro names?
-> - Why move merge related functions from slab_common.c to slub.c?
+> Signed-off-by: James Clark <james.clark@arm.com>
 
-In my series I have moved functions that were part of allocation/free hot
-paths as there should be performance benefits if they are all in the same
-compilation unit.
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 
->   (I mean merging slab_common.c and slub.c into single file might make sense
->    but why move only some parts of one into the other?)
 
-OTOH slub.c becomes quite big, so I think it would make sense to not merge
-mm/slab_common.c fully. The non-hot code that's handling e.g. the caches
-creation and management, such as what this patch is moving, could certainly
-stay away from mm/slub.c. We could just pick a more descriptive name for
-slab_common.c.
-
-I'd even investigate if more parts of slub.c could be split out (to a new
-file/files) without compromising the hot paths, i.e. sysfs, debugging etc.
+> ---
+>   drivers/perf/arm_pmuv3.c       | 9 ++++++++-
+>   include/linux/perf/arm_pmuv3.h | 3 ++-
+>   2 files changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+> index 6ca7be05229c..1d40d794f5e4 100644
+> --- a/drivers/perf/arm_pmuv3.c
+> +++ b/drivers/perf/arm_pmuv3.c
+> @@ -555,8 +555,15 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
+>   static inline void armv8pmu_write_evtype(int idx, u32 val)
+>   {
+>   	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
+> +	unsigned long mask = ARMV8_PMU_EVTYPE_EVENT |
+> +			     ARMV8_PMU_INCLUDE_EL2 |
+> +			     ARMV8_PMU_EXCLUDE_EL0 |
+> +			     ARMV8_PMU_EXCLUDE_EL1;
+>   
+> -	val &= ARMV8_PMU_EVTYPE_MASK;
+> +	if (IS_ENABLED(CONFIG_ARM64))
+> +		mask |= ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_TH;
+> +
+> +	val &= mask;
+>   	write_pmevtypern(counter, val);
+>   }
+>   
+> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
+> index 9c226adf938a..ddd1fec86739 100644
+> --- a/include/linux/perf/arm_pmuv3.h
+> +++ b/include/linux/perf/arm_pmuv3.h
+> @@ -228,7 +228,8 @@
+>   /*
+>    * PMXEVTYPER: Event selection reg
+>    */
+> -#define ARMV8_PMU_EVTYPE_MASK	0xc800ffff	/* Mask for writable bits */
+> +#define ARMV8_PMU_EVTYPE_TH	GENMASK(43, 32)
+> +#define ARMV8_PMU_EVTYPE_TC	GENMASK(63, 61)
+>   #define ARMV8_PMU_EVTYPE_EVENT	0xffff		/* Mask for EVENT bits */
+>   
+>   /*
 
