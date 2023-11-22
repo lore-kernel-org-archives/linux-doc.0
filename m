@@ -1,190 +1,105 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C380311702;
+	Wed, 22 Nov 2023 05:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="otMfKzFa"
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F85D100;
-	Tue, 21 Nov 2023 21:20:21 -0800 (PST)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AM58cv3001116;
-	Tue, 21 Nov 2023 21:19:38 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:references:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=Mmu+FLOvG0jz58tYSkpgZLDSk7KRzKn+9VHfdlMcjow=; b=
-	otMfKzFarPnWnPrDEIKWXUrtPOPaHX69IUXDavDNi9YSS9hRkASpu3L1FuRjGIBo
-	TE5teQOubAku4XnRpzbkWN5K4VNHI8KtuoulbTBXHN2snCdOlga2sXD12xDKHH0F
-	e8AJQBMk9UVePFpm45/kmLBQm1SelBro2exkLYqLg5sBL3rHcQ47yAo803iuZQ7e
-	cQp3GmWXePvRT26ub9n3Gnwxuw2aECzsFDTawIRFLEEGzbmh4vURZvjvPpi8ZlZr
-	1Iq9WHM9ismYvVcPtu3KLn17+YX3f5vqeX0+qBoa/J0r3z0i//rzfFN4Ptw9Tj+7
-	yi2Rng5NyxRK1n8e4G5i2Q==
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uewnktw38-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 21:19:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eYZooL1m1gtKPhDzexsWTupuoLuXIUuMKjNOJ1pk0aTUR3eNFI5i2pwEitP4PgK0QhK4FKeVlhOk/GSmPSlDPszTiL71rWSZzCI7xYT6oKmw8n+nTCdZdzyLwTLX4nY/1cnVYEAWyY/yHXXbxLnsLh0RsQxWJ02axpalnRVt4EybhFjV8HHPVfZJXxEWpGFM1WumLpAsMtLKhiIo+XOy4DIc6sfarI3iXnq1vqcW9j36M5dTzuthk2Y/AvnFsahZQFP3AtorkmCVK93NCEVpxLQBG9+TQhCdNV+iDoY/vUZTbOicV4r8hJutPRZAaYbfLdGff/UOFXQYoiZt7M4b2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mmu+FLOvG0jz58tYSkpgZLDSk7KRzKn+9VHfdlMcjow=;
- b=Twz4kjjzdvQ+aPPR461amDcYNe63ArBRNcF7tSk2gCNcObyG3xMsUO9YUM694fzoXPimCZqFURMiazXrxioip7qfP7wWbQ0JKFC/owfaeX2tLTwkXiCFPjs9xSYAPsbKEJHwfQrgq1lt4NfJGGTjMMSuD6jtqhMbcG8Di7AK2nnMT2/WzWq8jzj+D7FtcxPEKwxdavP4WtQcP+dNGijLC/EYFsGxlVU/YzddiR0+Slk0ZmgClvB5D6qBB+qnE5W4vkYa2wx1M5Yr7fSF0Ip/JCVHJtOzfP/G8AOsXqHDg65Tr2Cbr5xEvof5pkt4aseVT658Cd54DKykBPOYScGL5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB5185.namprd11.prod.outlook.com (2603:10b6:303:6e::11)
- by MN0PR11MB6182.namprd11.prod.outlook.com (2603:10b6:208:3c6::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Wed, 22 Nov
- 2023 05:19:34 +0000
-Received: from CO1PR11MB5185.namprd11.prod.outlook.com
- ([fe80::131a:3b1:ff6f:b730]) by CO1PR11MB5185.namprd11.prod.outlook.com
- ([fe80::131a:3b1:ff6f:b730%7]) with mapi id 15.20.7025.019; Wed, 22 Nov 2023
- 05:19:32 +0000
-From: "Song, Xiongwei" <Xiongwei.Song@windriver.com>
-To: Hyeonggon Yoo <42.hyeyoo@gmail.com>, "sxwjean@me.com" <sxwjean@me.com>
-CC: "cl@linux.com" <cl@linux.com>, "penberg@kernel.org" <penberg@kernel.org>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "iamjoonsoo.kim@lge.com"
-	<iamjoonsoo.kim@lge.com>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-        "corbet@lwn.net"
-	<corbet@lwn.net>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 1/4] Documentation: kernel-parameters: remove
- slab_max_order
-Thread-Topic: [PATCH 1/4] Documentation: kernel-parameters: remove
- slab_max_order
-Thread-Index: AQHaG5G+mV7XM7Qny06N0Pjz5JVDhLCEcrEAgAFdBRA=
-Date: Wed, 22 Nov 2023 05:19:32 +0000
-Message-ID: 
- <CO1PR11MB5185785954F94B92A29567C7ECBAA@CO1PR11MB5185.namprd11.prod.outlook.com>
-References: <20231120091214.150502-1-sxwjean@me.com>
- <20231120091214.150502-2-sxwjean@me.com>
- <CAB=+i9SYr8vMVzRhj2zpK3zX8Qj2pf8yrvVC0_g=cqbOa8n0uA@mail.gmail.com>
-In-Reply-To: 
- <CAB=+i9SYr8vMVzRhj2zpK3zX8Qj2pf8yrvVC0_g=cqbOa8n0uA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO1PR11MB5185:EE_|MN0PR11MB6182:EE_
-x-ms-office365-filtering-correlation-id: 73187b9a-b63e-4e19-ec5b-08dbeb1a9c5f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- JYJzRJJXianl4ZueVLmW28rboqpAOhW3eJhrYx5nQXpEG/YUFqoc1x/XVhTcP/ZR12y/dlnAAvlEsxGeb1uIbQa/ZZm1TQBMnH3FPIXuA1nIcRUwaG6o8y2x5SMBgBf+i5Z6leb2sWET1SVWjEpyjySc8tt2EVOodzT1eCMjW7fy/Gdo6NgU7kpIHlDrlBfFkO5N7urnLk6GsHHaol+ZlENU4W5HSKtCOAa53C4CtKtZrHr7Zx6RPs528mmiqDlpFZjgcEsrIbijen4KmrVdEnvI89SVcBAY31cEUOYFmJ01wBkHk3C+JCy0h6BjrWY9xjO3wsxoU2iGscq4hI6pOjkVk0gFNjIHSoV5ATzb9FlTLkVu5NhdReZyf+Z0VBcgPphtkS4XQfJcm4aEzDWtoo7CRbtcMoGLTpKpUC937SI4B1p7efxgsnQLdCeAVFchVo0HAUTRfzo3GHWzTamMxLPvQ1YilL/WPK9tjrWeQk++U3i2ZK1OA2AneSyViI45MYeIAIHXxMUL+vSuK5JStE7WVEWPI57eU8KUlggOorxV7kd0+bEY3bGfYmwf28Xjs9+BmLZtSXhAu3BIvCW1aI6oVsqJuw+GkFtu58rItktODPbNuo1yV3Mb29WyX/Otzlbox3QkCkUwpCLmfc68IxDEtHOo27dORDzp9b5LgD4=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(39850400004)(376002)(396003)(366004)(230173577357003)(230273577357003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(66476007)(76116006)(66556008)(316002)(64756008)(66446008)(110136005)(66946007)(54906003)(7696005)(53546011)(83380400001)(6506007)(478600001)(71200400001)(9686003)(38100700002)(122000001)(33656002)(86362001)(26005)(38070700009)(55016003)(5660300002)(7416002)(2906002)(8676002)(41300700001)(4326008)(8936002)(52536014);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?YnpFc0lseWE5Q0RjRWlya0txTnNqR1NlUVFhK3FPeVFrQmFBVzUrU3Y5NzM4?=
- =?utf-8?B?Z3Jqc0I1TUR2TUl1VUxmTnZuZkdtdXFrS3BPK3prSnA3cTdsYUNBVFV5V3BR?=
- =?utf-8?B?TVd3cWQxZ1JrektVd2swTFZzTVEySStiSlR0WlVNa2dxSTJIaVRJVUNOb1NY?=
- =?utf-8?B?YkFKeFNlMlJmcEl0WlRNb0ZOb1lDbWR6RnhjSGZrQjNRRWU1VGZkZG9oa0Ux?=
- =?utf-8?B?MjRwSFFmYldlZ2EwcVhSaDVSSlVmelhNM2ZHSkVQbWxYYjRxVExNL0RWRjll?=
- =?utf-8?B?VWQ1S3VyMWhDK3NOOGk3RGJ0Y2ltK3l0R3JBR2oyZC92R1lxYWNzV25GN1Nq?=
- =?utf-8?B?MzN6bmhrb0RRUHI4U3k4ckgyOHY0aTNjSCtLdndqYk9mVVBFTDgxSGxBSVVC?=
- =?utf-8?B?K0g4MVY4UXZqS2hPU0hzU1FvVDVDK2dZZ09JMzRZTldjbEJQT25HN0s4Q2R4?=
- =?utf-8?B?Y2hnQzcvaGlxaXFmL1l5N2R5TUY3ditrWG55NU1MTTZONTlETFZ1NFFxUjhp?=
- =?utf-8?B?Wm9jTWZZZ2Rnb21FQS8yQk8wL1hISnpieENocUcrdTE0SXA2VmV1eWRjV2RU?=
- =?utf-8?B?TlNIM0hyY2V3Q01VTUxCblFoWE5CTXh3c1M5Sy8vb3dzalZkTm5JVDV4NXVh?=
- =?utf-8?B?TVU3Nkp1L2RlbUFFK0NjdWIzUU1abVVISkljbG1hYmxMVFpkbGQ3Y01OSmRJ?=
- =?utf-8?B?aEVIaE53c2xhdHBpeGtmb0ppNTNOV2xzWkYxYUtLRklvRU1ySk53ekwzTlNN?=
- =?utf-8?B?VFNNSEZrbDRDcnJUbENXejdRdmQweXZUcXpmTEZ1ZkVPd1AzLzZQczlDTnpG?=
- =?utf-8?B?OXh2SUVUSEhoWm1ZejhVeFJvMDkzL2xZdU9Ld1pmN1NVaDU3MWR0Nk1Fcjgw?=
- =?utf-8?B?dWdDUXhGZjlyWXpvdGtMb283S3o5b2hFd2t1ZS9QaWZjNU9raFdmWjZlQmJH?=
- =?utf-8?B?QzlJNHJjOGdScVFWRUZiRVMyWklLQy9tQzJPMUVBaExpaFNrY2EyU3FPdklX?=
- =?utf-8?B?ZHZZSEVqWDNDMzFsQitXNGRTaG43TmRnbFV2aEMvb1RZeElWNGNvK3N1MTRN?=
- =?utf-8?B?WFBxdnRrbzZkYTRVM3FLODBHRVQ3akN4cHk1WGJ0bUpYK3hhbmVHalc2aEFr?=
- =?utf-8?B?VnJqak5vcVZsdXZyRXM1bGtlL2Q4YkE5TlczbUVtN1RBSDNVd3VScytGQVVT?=
- =?utf-8?B?RTg3UnhzdFg5MlczSys2dVZyY0JZOVpoMzRISnpqN2U4QXljZjFBbHZKeFRW?=
- =?utf-8?B?MHZQckRiYjIvaHc3YkNleG9iSjIxT2cySzMrYklDUkpKRnFwR1AwVHA1L3ov?=
- =?utf-8?B?SGZaNFNZemdXQjhoK2xIVk1PN0xOWE9hN3ZrZlMxUmRpaEt3SzJUbm5MckFx?=
- =?utf-8?B?TEJqVVJnMGV0KzVPdkFkYkFtL2lEcHhMNDkzME9MdjRxbEVsT2ppckFIZ3dK?=
- =?utf-8?B?TzVNa0w4ZjBkZG54T3lpc0JyZDljcTFJSGNwZlV6MllyTUZiN3dBdjJZTE9I?=
- =?utf-8?B?TEpDNEJBaXJtbkxZS0MwT29pN01WRjUvYXdMckVJSFRldjRJSFZ2cnR0UXZP?=
- =?utf-8?B?N0JHZlQreDBlUjNJcFk5ZmQwOTRMZGV6MXpoQlZ1YllrdTdyUUo0Y1U5QUVT?=
- =?utf-8?B?YUFHd3Y0ejd5VlprY0dQaFYrdkg4QnJvZmRsMVl5NS84ZGgvQW92TXlkbmtl?=
- =?utf-8?B?c2NMaXVGV0IvckNtbHpSY3JpWWE0cGZiWGNzbVhNSXlqbnR5QzRKWWN0M1dD?=
- =?utf-8?B?RE9PNXhiNlo2K0ZwZ21CZlIzNElaam9VMjVpL3kzcnNZZmJ5eFVoc1VJZDJq?=
- =?utf-8?B?VVBBb0pVTmNrMTZ5TEJxazJ2UjJ0a1djMWtKM1BQSGVraGdLV3FJTTFweGVh?=
- =?utf-8?B?UnpUcy9zWldCVkdYK0xaUkdBRlZQODkyajBsVXBrai9nQTErbjNELzVhd3ZM?=
- =?utf-8?B?UXVhWkFJQjlWdURWdnRHc3p4UEh4Wnl3MzFSMGJLMHlCeGUvUllud0cySXpE?=
- =?utf-8?B?dWQvYW1sYXlpcFJWdFZCUVYzenRZL1ViVDMvbW1YVjVmYXJRQ2xYUXBlOTR0?=
- =?utf-8?B?Ty9pTmVGUjdldG5NSE4rS0krUktiMnNlMmdMV0VrZTJCbEt2T0FnWVV6WXRZ?=
- =?utf-8?B?dTVoWENqSVZ4cTluWFRNelZiOVcvRWo0TXcyMWJYa21OTGl3YkNWWWlBWmtq?=
- =?utf-8?B?bHc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="srHVmV7f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5069AC43391;
+	Wed, 22 Nov 2023 05:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700630751;
+	bh=wmWxPUOd6qlcwcRUdP9zuOVzyu62ETC1UMPH8fike0s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=srHVmV7fUud/rEPkwYZ3Cf5j0ftTgJLhUI7Bo8HYn9HEAes9nqIimFw0PB86lodKU
+	 T1ZNMaIbN3euB6D0xE4fwIy6xpxe4lQ4VhtDNaClDULPbIAEsQ8ElQsUqc/6pczdKo
+	 yhUl3o346DRC6NoHNKUFTDvjkq+3ODvzulKTlnJBHirP+OeOAMOvuqrdqc76q1J7QD
+	 wo0rO4lvF3kc/l9eEdZtO5TMRctWyVlE49mL1a1a/gY8ba+WSuDcD7jayvwiKDt5ww
+	 bxRRkRq/1jfo2UzWDhQZc/U/UdcJEFp4zmS7H7BSQGjqzFXTfOqsdelZCW5/y7mQi8
+	 x+sqkgbKWrkLQ==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-507be298d2aso8333707e87.1;
+        Tue, 21 Nov 2023 21:25:51 -0800 (PST)
+X-Gm-Message-State: AOJu0YwwWtFd96QHzKD7yRRBIxrUUhq+6i8J0fHpX1UtCkJXzffg6H6o
+	2/roU9C3j6XToRjtIag0MYRwq1+PGb4D6gsez4c=
+X-Google-Smtp-Source: AGHT+IHCMVEXjnRbdnaoZRHF4v+WDOV92AxJZtPtfrW5rxC0f/SkxPzWTYT9Yga0zajW7oMblajVNdE6RRo1Nyf4qs8=
+X-Received: by 2002:a05:6512:4014:b0:503:258f:fd1b with SMTP id
+ br20-20020a056512401400b00503258ffd1bmr1128073lfb.18.1700630749453; Tue, 21
+ Nov 2023 21:25:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73187b9a-b63e-4e19-ec5b-08dbeb1a9c5f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2023 05:19:32.7786
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: v60HxxXDi59Y+D0eiF6LurLV4Pq3YhsM5e1Dfz82uGo+9PhXbiltodhTqRnlca0c4Rp6ypVu7ii+vc0RsmXN/UrMmXWHFzlAgqYjOt6OWKY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6182
-X-Proofpoint-ORIG-GUID: 5_3miY1nP9Jfg1VEB_jQdWq9CMynN7ow
-X-Proofpoint-GUID: 5_3miY1nP9Jfg1VEB_jQdWq9CMynN7ow
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 spamscore=0
- suspectscore=0 lowpriorityscore=0 clxscore=1011 bulkscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311220037
+References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
+ <20231015141644.260646-2-akihiko.odaki@daynix.com> <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
+ <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com> <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
+ <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
+ <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
+ <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com> <6253fb6b-9a53-484a-9be5-8facd46c051e@daynix.com>
+ <CAPhsuW5JYoM-Mkehdy=FQsG1nvjbYGzwRZx8BkpG1P7cHdD=eQ@mail.gmail.com>
+ <dba89d4b-84aa-4c9f-b016-56fd3ade04b2@daynix.com> <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
+ <a1f09866-a443-4f74-8025-6cdb32eb1d2c@daynix.com>
+In-Reply-To: <a1f09866-a443-4f74-8025-6cdb32eb1d2c@daynix.com>
+From: Song Liu <song@kernel.org>
+Date: Tue, 21 Nov 2023 21:25:37 -0800
+X-Gmail-Original-Message-ID: <CAPhsuW4o5o41a+jVjgGP+Ck3eUD8w6coLXMTYewXKJYmciLLnQ@mail.gmail.com>
+Message-ID: <CAPhsuW4o5o41a+jVjgGP+Ck3eUD8w6coLXMTYewXKJYmciLLnQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Jason Wang <jasowang@redhat.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3duZXItbGludXgtbW1A
-a3ZhY2sub3JnIDxvd25lci1saW51eC1tbUBrdmFjay5vcmc+IE9uIEJlaGFsZiBPZiBIeWVvbmdn
-b24NCj4gWW9vDQo+IFNlbnQ6IFR1ZXNkYXksIE5vdmVtYmVyIDIxLCAyMDIzIDQ6MzAgUE0NCj4g
-VG86IHN4d2plYW5AbWUuY29tDQo+IENjOiBjbEBsaW51eC5jb207IHBlbmJlcmdAa2VybmVsLm9y
-ZzsgcmllbnRqZXNAZ29vZ2xlLmNvbTsgaWFtam9vbnNvby5raW1AbGdlLmNvbTsNCj4gdmJhYmth
-QHN1c2UuY3o7IHJvbWFuLmd1c2hjaGluQGxpbnV4LmRldjsgY29yYmV0QGx3bi5uZXQ7IGxpbnV4
-LW1tQGt2YWNrLm9yZzsgbGludXgtDQo+IGRvY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5l
-bEB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCAxLzRdIERvY3VtZW50YXRp
-b246IGtlcm5lbC1wYXJhbWV0ZXJzOiByZW1vdmUgc2xhYl9tYXhfb3JkZXINCj4gDQo+IENBVVRJ
-T046IFRoaXMgZW1haWwgY29tZXMgZnJvbSBhIG5vbiBXaW5kIFJpdmVyIGVtYWlsIGFjY291bnQh
-DQo+IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3UgcmVj
-b2duaXplIHRoZSBzZW5kZXIgYW5kIGtub3cgdGhlDQo+IGNvbnRlbnQgaXMgc2FmZS4NCj4gDQo+
-IE9uIE1vbiwgTm92IDIwLCAyMDIzIGF0IDY6MTLigK9QTSA8c3h3amVhbkBtZS5jb20+IHdyb3Rl
-Og0KPiA+DQo+ID4gRnJvbTogWGlvbmd3ZWkgU29uZyA8eGlvbmd3ZWkuc29uZ0B3aW5kcml2ZXIu
-Y29tPg0KPiA+DQo+ID4gU2luY2Ugc2xhYiBhbGxvY2F0b3IgaGFzIGFscmVhZHkgYmVlbiByZW1v
-dmVkLiBUaGVyZSBpcyBubyB1c2VycyBhYm91dA0KPiA+IGl0LCBzbyByZW1vdmUgaXQuDQo+ID4N
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBYaW9uZ3dlaSBTb25nIDx4aW9uZ3dlaS5zb25nQHdpbmRyaXZl
-ci5jb20+DQo+ID4gLS0tDQo+ID4gIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBh
-cmFtZXRlcnMudHh0IHwgNiAtLS0tLS0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDYgZGVsZXRpb25z
-KC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJu
-ZWwtcGFyYW1ldGVycy50eHQgYi9Eb2N1bWVudGF0aW9uL2FkbWluLQ0KPiBndWlkZS9rZXJuZWwt
-cGFyYW1ldGVycy50eHQNCj4gPiBpbmRleCA2NTczMWIwNjBlM2YuLmM3NzA5YTExZjhjZSAxMDA2
-NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJz
-LnR4dA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRl
-cnMudHh0DQo+ID4gQEAgLTU4ODcsMTIgKzU4ODcsNiBAQA0KPiA+ICAgICAgICAgICAgICAgICAg
-ICAgICAgIG93bi4NCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBGb3IgbW9yZSBpbmZvcm1h
-dGlvbiBzZWUgRG9jdW1lbnRhdGlvbi9tbS9zbHViLnJzdC4NCj4gPg0KPiA+IC0gICAgICAgc2xh
-Yl9tYXhfb3JkZXI9IFtNTSwgU0xBQl0NCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICBEZXRl
-cm1pbmVzIHRoZSBtYXhpbXVtIGFsbG93ZWQgb3JkZXIgZm9yIHNsYWJzLg0KPiA+IC0gICAgICAg
-ICAgICAgICAgICAgICAgIEEgaGlnaCBzZXR0aW5nIG1heSBjYXVzZSBPT01zIGR1ZSB0byBtZW1v
-cnkNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICBmcmFnbWVudGF0aW9uLiAgRGVmYXVsdHMg
-dG8gMSBmb3Igc3lzdGVtcyB3aXRoDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgbW9yZSB0
-aGFuIDMyTUIgb2YgUkFNLCAwIG90aGVyd2lzZS4NCj4gPiAtDQo+IA0KPiBHb29kIGNhdGNoIQ0K
-PiANCj4gQnkgdGhlIHdheSBJIHRoaW5rIG5vYWxpZW5jYWNoZSBjYW4gYmUgcmVtb3ZlZCB0b28g
-aW4gdGhpcyBwYXRjaCB0b2dldGhlcjoNCg0KVGhhbmtzIEh5ZW9uZ2dvbi4gV2lsbCBkbyB0aGF0
-Lg0KDQpSZWdhcmRzLA0KWGlvbmd3ZWkNCg0KPiA+ICAgICAgICBub2FsaWVuY2FjaGUgICAgW01N
-LCBOVU1BLCBTTEFCXSBEaXNhYmxlcyB0aGUgYWxsb2NhdGlvbiBvZiBhbGllbg0KPiA+ICAgICAg
-ICAgICAgICAgICAgICAgICBjYWNoZXMgaW4gdGhlIHNsYWIgYWxsb2NhdG9yLiAgU2F2ZXMgcGVy
-LW5vZGUgbWVtb3J5LA0KPiA+ICAgICAgICAgICAgICAgICAgICAgIGJ1dCB3aWxsIGltcGFjdCBw
-ZXJmb3JtYW5jZS4NCj4gDQo+IFRoYW5rcywNCj4gSHllb25nZ29uDQoNCg==
+On Mon, Nov 20, 2023 at 12:05=E2=80=AFAM Akihiko Odaki <akihiko.odaki@dayni=
+x.com> wrote:
+>
+> On 2023/11/20 6:02, Song Liu wrote:
+[...]
+> >> In contrast, our intended use case is more like a normal application.
+> >> So, for example, a user may download a container and run QEMU (includi=
+ng
+> >> the BPF program) installed in the container. As such, it is nice if th=
+e
+> >> ABI is stable across kernel releases, but it is not guaranteed for
+> >> kfuncs. Such a use case is already covered with the eBPF steering
+> >> program so I want to maintain it if possible.
+> >
+> > TBH, I don't think stability should be a concern for kfuncs used by QEM=
+U.
+> > Many core BPF APIs are now implemented as kfuncs: bpf_dynptr_*,
+> > bpf_rcu_*, etc. As long as there are valid use cases,these kfuncs will
+> > be supported.
+>
+> Documentation/bpf/kfuncs.rst still says:
+>  > kfuncs provide a kernel <-> kernel API, and thus are not bound by any
+>  > of the strict stability restrictions associated with kernel <-> user
+>  > UAPIs.
+>
+> Is it possible to change the statement like as follows:
+> "Most kfuncs provide a kernel <-> kernel API, and thus are not bound by
+> any of the strict stability restrictions associated with kernel <-> user
+> UAPIs. kfuncs that have same stability restrictions associated with
+> UAPIs are exceptional, and must be carefully reviewed by subsystem (and
+> BPF?) maintainers as any other UAPIs are."
+
+I am afraid this is against the intention to not guarantee UAPI-level stabi=
+lity
+for kfuncs.
+
+Thanks,
+Song
