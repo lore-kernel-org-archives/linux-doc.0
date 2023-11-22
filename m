@@ -1,34 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="dd9NmWSS"
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2073.outbound.protection.outlook.com [40.107.15.73])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10E49101;
-	Wed, 22 Nov 2023 06:08:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="NYjQsM/0"
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2046.outbound.protection.outlook.com [40.107.20.46])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2F6D59;
+	Wed, 22 Nov 2023 06:20:03 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bGDKOOjFMI7+YS8/5UUcfBkKnFh+KYzxvInZ6BtQSzMkUOXYdVZ4R9I5nFPDcDanZa419ZyHexOEhYoDSqSroVJO+ji3gsUzUXaWF3T9rUlrcV89Q0dabSGDtG+Vh0O2J69HVDvVP9BYM1uwOmTmIGyxyEuTStbsQTMdInTLkwXiTFcxe11RNZSkvQfWMCZceMIvIWu2nn7Qop4l7Cw5dbOOotdqwfUXXC2H8HjBiEagdLc1jg9ws1jkxSC168pOaDvsBG4Qy7htc4swOj1ON2rblASEtkOrjAEsLg9NDbrnsqJOIHIpLJfLfSndCIl4WeTIaEURcPDGqQ23uc+B4w==
+ b=N9DvrydSUhOphKj+Q8Ed275jCqP8WNA6r7sMtLGDb0FejyLf4lcFq78M263wbvJoZ4nX78XhEEeH0Jcm+feypMTBUuX6o53dqirhR1sZdWK8I6FTN9XD+D0aBEpkc5SuhHZnW6rWrYlzHDyuEYjFYJbigm8FZTa3jycVACgjLNpQHBV2Dd8Lprir0lwr/oEXo7C7+8X3C+rgDMU6FMIKPIOnSgC1jrL9S+VsPyitKywKufWG4A++duTgwhb8WDRF3iAGHz8oLXVBI6s+JQgzLZpVsiETMmSysJAw5ywgFmRBJRPyV21J0bguP5QeQ7b7HrVAGRCAeDGvnXDyDjkRnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h2t4St3XM9zQS0nrtlT+4PQolMsCsG7LSxflQXBINxI=;
- b=cwWyYutlacPSkORxzBTJWIj0fJpl6cdZDppZmpXKg9V45WW8I3k/O2JFYW0xIZDM0a8m2+WWgyT74WD2/3Vae7t3NuGxs42dgmfRV4RiuNhOFJOTMw+KOagkDqJwIIHgl9wdoAALUgPiJCH0CvapE6BDM3S+HdwNZ/17czIgCoe/JBF+Qc9o59CWuZvNGwZTnXtNVMYUlkEZ8qqMSVAOyywb/sl3X/RwFI5OiVAbGZK9HU8NO5TX0DEokZcJS73skQNEvt22kjMAYew+UpJgRJy0HEidotrOCCLJQtNoiXxKswMtwnuubPsnAUUGnxY2EQnqfZr7UEbfzbfuKVl7qg==
+ bh=ik45CBBHo0WvXAk/+9NMsZcrPQkrfTPEAunpSlZksnw=;
+ b=WNo4PCM79cLBuQghKTCRuUZMs2u3aoEr0YuBI4bTiY34tJQ53H7BXpnafYku4Of00Gf3ORrFYHykYhLbTxvb21FzBIWWDoOOsE9e0hKUpGRWJZakuqm9e6BbemRdMVCKowfRDJ6BaVbysZUE9PrLFatlnjhI7m39DE5tujFEgj6eUoM16tpY6uEgtu+4BkmzsU/YAjrXjzK/n3kfB9opCHD9J2jiXt+eju+NEK/o4j8J3ytPEDG55mxwiVjLEagRx0WaenQwQbzl4TOPDEFPtGXFyrmsafIgmEf95i2N57mI4xrzAq0vsnDx5I2U5UZK2tkX1OaMON2c6dPn5vy19w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h2t4St3XM9zQS0nrtlT+4PQolMsCsG7LSxflQXBINxI=;
- b=dd9NmWSSPOMThrMdo/ViyMvfbHqSMUVBKm8rS1lfnmWL/cheuMb//6V8sNXHaxehAhBXuWWeooOji8xkN/ABDsA0pfs0+JLew0cRfWl8doqS7K2+iHKmmwbKBLo4DvwUgCK25KYsv0CmKA54v7I9FPCuHiazj6J529jYmdYzab4=
+ bh=ik45CBBHo0WvXAk/+9NMsZcrPQkrfTPEAunpSlZksnw=;
+ b=NYjQsM/0GHdgJp+j59FUx4tTLIif63JgsCSGGyX8GAHFUY1p+Zyta+0X0E1ZBjPWv/bvwmGYgkkx7ybV32w8O8oKF+lqGHyCjwT1GDstDpx2A6HcTcyPetfljmI6TlfW1zhUNh/LrtW5F4DaWZIviekZ2EKrCm8h5VMlZY8MSEM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by AM0PR04MB6849.eurprd04.prod.outlook.com (2603:10a6:208:181::7) with
+ by PAXPR04MB8893.eurprd04.prod.outlook.com (2603:10a6:102:20c::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
- 2023 14:08:54 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.17; Wed, 22 Nov
+ 2023 14:20:00 +0000
 Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
  ([fe80::dd33:f07:7cfd:afa4]) by AM0PR04MB6452.eurprd04.prod.outlook.com
  ([fe80::dd33:f07:7cfd:afa4%7]) with mapi id 15.20.7025.017; Wed, 22 Nov 2023
- 14:08:54 +0000
-Date: Wed, 22 Nov 2023 16:08:50 +0200
+ 14:20:00 +0000
+Date: Wed, 22 Nov 2023 16:19:55 +0200
 From: Vladimir Oltean <vladimir.oltean@nxp.com>
 To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -55,9 +55,8 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
  stamping layer be selectable
-Message-ID: <20231122140850.li2mvf6tpo3f2fhh@skbuf>
-References: <20231120142316.d2emoaqeej2pg4s3@skbuf>
- <20231120093723.4d88fb2a@kernel.org>
+Message-ID: <20231122141955.vx6gb4a47jr3bhal@skbuf>
+References: <20231120093723.4d88fb2a@kernel.org>
  <20231120190023.ymog4yb2hcydhmua@skbuf>
  <20231120115839.74ee5492@kernel.org>
  <20231120211759.j5uvijsrgt2jqtwx@skbuf>
@@ -66,12 +65,12 @@ References: <20231120142316.d2emoaqeej2pg4s3@skbuf>
  <20231121183114.727fb6d7@kmaincent-XPS-13-7390>
  <20231121094354.635ee8cd@kernel.org>
  <20231122144453.5eb0382f@kmaincent-XPS-13-7390>
-Content-Type: text/plain; charset=iso-8859-1
+ <20231122140850.li2mvf6tpo3f2fhh@skbuf>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231122144453.5eb0382f@kmaincent-XPS-13-7390>
-X-ClientProxiedBy: AM8P190CA0026.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::31) To AM0PR04MB6452.eurprd04.prod.outlook.com
+In-Reply-To: <20231122140850.li2mvf6tpo3f2fhh@skbuf>
+X-ClientProxiedBy: AM9P250CA0028.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21c::33) To AM0PR04MB6452.eurprd04.prod.outlook.com
  (2603:10a6:208:16d::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -80,152 +79,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|AM0PR04MB6849:EE_
-X-MS-Office365-Filtering-Correlation-Id: c03204a9-532f-4a83-483f-08dbeb648fae
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|PAXPR04MB8893:EE_
+X-MS-Office365-Filtering-Correlation-Id: 008e5905-e3dc-4513-6f63-08dbeb661c99
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	+h0Ihr28AUVhCpyXJS4x02GIBlKniIknzs3SOmpdOX/Ocb5IWHl1HQlh1SMaXCzkdHLZJ6V6od292LaIAb4tBdiB7pj2voPR+YlhHefNzRBkq+nfihPbccCUGClbrsQCB3uI60gue2AIr7Pt+rWtbz6VoHTbKJxcOGm+ZibC8gnjQoqWPC6Cpy4ghV4zyVt2a97fzb3dYO10gqSV4+/UQ3XI/evtROLcGsyW7QyFC0tX99+Zve5za3xDHuV5zcLY4m7sYHdHl1F1NhmSK2u4B8B/J/ekxAmRfdSmmm2T/bB86KtJoMuZmuYt7yMhIbguHZKdYfV6O/1c+AUIR38AgmqA9HL1u/Yscq6Y9U3Z58ZySUW6z0rNyWrj2a69WY12DdLLsUZudanP3A6SgFhaFggl5JA1y4L8b64WRPigGBUaB1MzKVDBo4/W/C00oqIcPnUhixyOvZg3UZxc+x6HWFH8z+9waXrgqdq21kCyvvDf4AcQ0lkEQifEuTK+oBwZilMx19f5j/9Cf9+IQ8Js8x7K+jCqN6NbwVpDCe2xepw=
+	TcqLlS3eMxFIeJxJpJsMXRJ1PGtn0tDBlUAhjKcz2veVxfptQfQzVj4VMpmK1bxkpz7WjIWdk0Z/iwbT3EQZwfUuKmT+6337+onPUqTmtIbQ42RAjQqS9/dNt4fuSiHF1bxKJXh2/WJiqyb8Vkf/siw+D5uz2woPEE52DiItAtJqwvjrsd6UKAy2F+1ASrPLikd6m0sb4IRMwInchpRq+9bRHt+Wq+J0IYjvkO8JlnJ38UaDV0LDCgcrQ5Z3B6fgPtn9YXv6PBUGf5HE/qo4beyub9JeizWBsFoDLtbDwxZlg7h35iX9MkNvHok6vxtKRFEv+RbEI15X2saPsKe9RSlrQu4g35lkHkeZbL39z5Q/NLvDIxm/BFHRP29peHYK27I5z3R0bZOC9szver6WjzCog8Zf6wQcIKTmvdm/jAs9KVOicwmaf/afoNiKROcvXDEVBHiKzYvD8Q3GVdiYy6YUOqOhjs+mtoqGLtgi3pk8umOx6cCgr/Lq9pT1a04iv0X++ANghwj0EBXxRucLbbVeQrf5D7DRKFsX76elk5qe3KM447o6Add0vNzO0XSH
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(136003)(346002)(376002)(39860400002)(366004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(7416002)(41300700001)(8676002)(4326008)(8936002)(44832011)(6506007)(478600001)(6486002)(86362001)(5660300002)(966005)(66556008)(316002)(66476007)(54906003)(2906002)(66946007)(38100700002)(6916009)(66574015)(26005)(83380400001)(33716001)(1076003)(66899024)(6512007)(9686003)(6666004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(376002)(366004)(136003)(39860400002)(396003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(6486002)(478600001)(26005)(6512007)(9686003)(6506007)(33716001)(6666004)(316002)(66556008)(66476007)(54906003)(66946007)(6916009)(1076003)(38100700002)(8936002)(8676002)(4326008)(2906002)(5660300002)(7416002)(4744005)(41300700001)(86362001)(44832011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?FzkRcTyAyFTkrUMwcyXoP83X1gvf3nz7v4zhE4ZTXHXIliF4BAYX+Lqr/+?=
- =?iso-8859-1?Q?hdGeaUOOHGFTOk48xaA8iG9GffkrZm/aQIZZHnBRk+8aOp2rUWUMcg0vuf?=
- =?iso-8859-1?Q?JEs+D2wj1Rauq2tHMej5Cn7lMiSxAyaoXDgmOCbuWz1oD74kWhnmeeaD4M?=
- =?iso-8859-1?Q?3FYfzr3qTMp2U6nv7w3KE14aio5tylJ8WwyCGwJlHEIR1sdtpq831+kR9Y?=
- =?iso-8859-1?Q?9zaZvJoXJAZWGk0ZfNjA3gIGXXIaZH2nBga4MPXTeEj9Mu2K7293PROZsO?=
- =?iso-8859-1?Q?8VW7H3bOrP0MMnhQsEhAcl/7KYLfUy600C9PQevIhxiNSsgdPRdJ11BfQn?=
- =?iso-8859-1?Q?//WVCSM5kzn7oFYzgQPIvWXFNX9xCwkbZAgbv5c+tx4wDeCccG2vpT4fTv?=
- =?iso-8859-1?Q?MWGqzmdwPM/tO76TEDTLXKH6/JHUWHEHmcK8snAJvDWOSfdkesKePFh/x5?=
- =?iso-8859-1?Q?S7nssOpLrLDvH2oTgtTRLe19oEujBNRdlVAike7U6Mwrb/mwl0j0xj8k7r?=
- =?iso-8859-1?Q?L8zp7g8xAw5yhMQevcNC9wwQtfZGT3t3caSD8wvcQ4DYLkivS9UV2I9grm?=
- =?iso-8859-1?Q?J5XJgRYvx36Af1BLAesxy+0KB2AuTHG2JMejQJ4mlWH4xJQwS7mz9pGoXB?=
- =?iso-8859-1?Q?YA32SYqAAQOAdn8XLXhb2IFW3P2iZ9TOVm6aK26q/RBnjC2SAlUJ+ivnd/?=
- =?iso-8859-1?Q?CHasSTYFgKauHq35L1a92oFbcWj8ntWxByQyaeuMxYMAwYUPyXZ/BDOHzE?=
- =?iso-8859-1?Q?TPl4IZHWEELyWRhNnU/SrdkfqPo/tjxzQlVEpNVXt7xz1gck4EZTDmtQDP?=
- =?iso-8859-1?Q?keQ52yoD4cVR0HpRULmjFk5L42KTAOqQWB9D5jBAhAFTTH01LHkdCKfhvf?=
- =?iso-8859-1?Q?xF3KZgsIbE0/ORnHuovnxkKGmJ1SGWuxj4xUPoM7LQtHl5PzSZpHM+Qb/b?=
- =?iso-8859-1?Q?VwO5lvLUB2n2d4alspGXAE76zWP1o9lUCxkR3qVmXyxOfvskaRbPGc3gTv?=
- =?iso-8859-1?Q?tfNLJRijF0I9CM2VHubf/Dxc1Mjt+n5E2UFlL3OExdNaIE3y5mNA7LBdQU?=
- =?iso-8859-1?Q?R5LyDdAFLchQwEn5oH6WCEMIDRj0ueGcRNMLrI2+S2DMkD0DA+bjwFMJTB?=
- =?iso-8859-1?Q?lBysO7OoVrYusTsI9nOj8osjHECDPN6U5IxiX5Cbx+1cG+6ibr0W9BEMPK?=
- =?iso-8859-1?Q?Rul4eC+cfX/uNkEe18J/7zUhEBi0hKWx8APC9IQYE6z79LaNvtP5D5DzF6?=
- =?iso-8859-1?Q?5GfdUdVm+vflqxGsZ1wHftcxFxY90VE/spApJcNEAUCq4itc514Y6G2zys?=
- =?iso-8859-1?Q?4OrkOwp5Rykrd54Wzzgm4zRf9PsvLLDc9Wq8qgsq4dmnA4OvVMPebomZ1S?=
- =?iso-8859-1?Q?X1vDiKzJiPRQjrpjM+c2FOFdR5EzArb9XJa6tuXn+8cimYmQCKOyjWFlrH?=
- =?iso-8859-1?Q?glK8DCUBh72+Z/YWswuqBbkbp8Shy83kar3l/mrmhrtWHBmWf1wcso43YH?=
- =?iso-8859-1?Q?oTp0IDy4D8RDqVo1sqmY15DRYoSGpWp9mzoDD1/PpQS3c3qnIUUFs4tALb?=
- =?iso-8859-1?Q?R6587MVtA9Bv1At84GgHzLdZ2sSJNR07w3h/FEKkn3yM7AsvRB2peqcZZY?=
- =?iso-8859-1?Q?N9po+kgTj87nY5d3pIy27JulZJK/c/xLIyXiBclpXCmsbCXplWJo4oUw?=
- =?iso-8859-1?Q?=3D=3D?=
+	=?us-ascii?Q?o8UrAe0maRwumCphx2MijaFhWOBogc7fPw/j/72JwGA9ToLE2cKEwELqmjsz?=
+ =?us-ascii?Q?MuaygJMRzg2HqkYAbTP22/QfAY1KQK6EFIorsgH5Pv5NNFctohz4ZKNzpDy3?=
+ =?us-ascii?Q?PHHbnjXkBMqTXC11KSY1D2Isw48fdJ/OQdV252GBps9M+siaKlF3Zze/9+XH?=
+ =?us-ascii?Q?8/T0B/6noIjSm/EhjdqZ49LThogFltxsbHoCR+BS1EFUh9iBLW7ox6LlK8Gf?=
+ =?us-ascii?Q?Kr6z0luVAKQoVL5gJZmd1HgbRFURh8rbzvtwDGkrHk0jiIOkei3x1XPA/UTh?=
+ =?us-ascii?Q?HkHNWttzMgrsIY/Lxy3Cbt6+ZNMYFs+a7gu5PvbNnUrEw7c6znmTFmX+npQI?=
+ =?us-ascii?Q?VhQL4w5Rqh++tB2U7GY7U33EcYtGa9ULG5vigBIZYLLrVDPbRpfdNu1qYr4C?=
+ =?us-ascii?Q?theRrF1buncb08b6rp+0j5EVzZ33yUh5D48VOtvlkDECXXyjzErEEuEHksZE?=
+ =?us-ascii?Q?iz+ZGp/krBEaJZG6eeHs8mcFfqFmaPQx+Sw1HONmkD6cwzoe4vfDN0p4uCSh?=
+ =?us-ascii?Q?Sp6P1V1eI1833GgcqUvMelq6f9mPwdfDOsNaIHngIlELkp7ebX9Q5rul5W/k?=
+ =?us-ascii?Q?MZZgAoAbsOcfyRsIy5EUSHy6DwOLTMUBbw39R87AjzNLM1492GQl4Ao6IRPw?=
+ =?us-ascii?Q?eOIe+WPoEjTr/TqIsIoLhBQ+PdZpFGnld3PHXwQpQyRzprh6DveVoe0PBKku?=
+ =?us-ascii?Q?u8Lex/sRmPYreF06lhPd89qj2s2jq+n/xb54GqxhVBN/Bv0ARueKJl87tAbO?=
+ =?us-ascii?Q?zpPvzbFxVcdjf9uz0KqvgixqSlHygS4yMyf+Qhr2jRyh4t79y9zWm05b71NY?=
+ =?us-ascii?Q?xl5NEQoIdHO5ImV//8IgOZ3bbEql4TG+X14jhyY2K5+2heu/QOOF/x2bZ4h5?=
+ =?us-ascii?Q?0Lskartpgnbw4mIRyiErJtdKYw3s+ysH4bwy7AsafZ0LV2DLFaj1N7rC8cFl?=
+ =?us-ascii?Q?rKYBgSgejwrgugOWP5M5bncFx1kXWDEMEW58Muwi2jKNr/Sj6vQjReIzdkO/?=
+ =?us-ascii?Q?8vgXAOL8RUMgZAHFKrEoiFinqogHxYA/VqZ9KqKkFlmRY1TcHyfd2DvD/RXh?=
+ =?us-ascii?Q?lzk0+UrEuU2QqpinDArmnBADPZ574bpqW0c3YGK1Zjle3N2DvNluOongpW98?=
+ =?us-ascii?Q?FlfiuZYzLyQZhtNWh+w8ZcdmuYe6NrnUZQBnvs0HVN24o3RFxrHqCm7H6oRO?=
+ =?us-ascii?Q?Ext7z2i+qeh2E+xvflftXmZDGV95xVpYLb92kgfsjPZnkwkZVB18fBVBt5TB?=
+ =?us-ascii?Q?QPHiL02NCuxrHH30fiwltRR+uJ9U74iu2lAwVkPANKxl7B+smtZYwUDq5aZq?=
+ =?us-ascii?Q?uiQlYJGXSUjXSsrgnfNsxo1gymEFdIPd89v0aAX4bW8iGOznMKU20QAX89hv?=
+ =?us-ascii?Q?sAPGDiGZjDRoqRxVjN3hp0CckiR2zbPbJYIehqhk9BSO2IfQVvkeZalGrLUM?=
+ =?us-ascii?Q?QhHDVqJx0FTPbKwpqBw2/CVz2lcUxl4k+D9nVGwLo1ix1VonDqLZ+JCuewLi?=
+ =?us-ascii?Q?LptY8XWh8/xFmESnabeDYpYGA9LGnavO4wrU6DDs1pdpNoBAzU5JiFJlJzbc?=
+ =?us-ascii?Q?1bcUlEx2Wm8SMMHDl+kqqSYBW+7OrqMr3ObqwHQiQvkEaDx//HgeQxMX4EkQ?=
+ =?us-ascii?Q?qg=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c03204a9-532f-4a83-483f-08dbeb648fae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 008e5905-e3dc-4513-6f63-08dbeb661c99
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 14:08:54.5080
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 14:20:00.5450
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2VN10I0pGK2Tw4+ijryL771zldMHQJQ8O5WwVn32a57gErCFe371pctFslc7ZEdWXdxqtRhCaXKgMcPrmcZoAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6849
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6UC3L/3ERzRLCyTWvbBVlQFgRhh9lu6qGEEXLzd2aZ2T+XwXNAktD5AbP+Ska90LXCT+5r3Szje1bXkJ3BdkbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8893
 
-On Wed, Nov 22, 2023 at 02:44:53PM +0100, Köry Maincent wrote:
-> On Tue, 21 Nov 2023 09:43:54 -0800
-> Jakub Kicinski <kuba@kernel.org> wrote:
-> 
-> > On Tue, 21 Nov 2023 18:31:14 +0100 Köry Maincent wrote:
-> > > - Expand struct hwtstamp_config with a phc_index member for the
-> > > SIOCG/SHWTSTAMP commands.
-> > >   To keep backward compatibility if phc_index is not set in the
-> > > hwtstamp_config data from userspace use the default hwtstamp (the default
-> > > being selected as done in my patch series).
-> > >   Is this possible, would it breaks things?  
-> > 
-> > I'd skip this bit, and focus on the ETHTOOL_TSINFO. Keep the ioctl as
-> > "legacy" and do all the extensions in ethtool. TSINFO_GET can serve
-> > as GET, to avoid adding 3rd command for the same thing. TSINFO_SET
-> > would be new (as you indicate below).
-> 
-> You say this patch series should simply add TSINFO_SET command to set the
-> current phc_index?
-> 
-> It won't solve your requirement of having simultaneous hwtimestamp and
-> enabling/disabling them through rx_filter and tx_types.
-> You want to do this in another patch series alongside a new SIOCG/SHWTSTAMP_2
-> ABI?
-> 
-> > > - In netlink part, send one netlink tsinfo skb for each phc_index.  
-> > 
-> > phc_index and netdev combination. A DO command can only generate one
-> > answer (or rather, it should generate only one answer, there are few
-> > hard rules in netlink). So we need to move that functionality to DUMP.
-> > We can filter the DUMP based on user-provided ifindex and/or phc_index.
-> 
-> Currently, the dumpit function is assigned to ethnl_default_dumpit. Wouldn't
-> the behavior change of the dumpit callback break the ABI?
-> 
-> 
-> > > Could be done in a later patch series:
-> > > - Expand netlink TSINFO with ETHTOOL_A_TSINFO_HWSTAMP_PROVIDER_QUALIFIER.
-> > >   Describing this struct:
-> > > enum ethtool_hwstamp_provider_qualifier {
-> > >  	ETHTOOL_HWSTAMP_PROVIDER_QUALIFIER_PRECISE,
-> > >  	ETHTOOL_HWSTAMP_PROVIDER_QUALIFIER_APPROX,
-> > > }; 
-> > > 
-> > >   Set the desired qualifier through TSINFO_SET or through SIOCSHWTSTAMP by
-> > >   expanding again the struct hwtstamp_config.
-> 
-> Just wondering to have a insight of future support, in the case of several
-> provider qualifier and the SIOCG/SHWTSTAMP_2 layout containing the phc_index.
-> Will we be able to talk to the two providers qualifiers simultaneously or is it
-> not possible. To know if the SIOCG/SHWTSTAMP_2 layout would contain the
-> description of the qualifier provider.
-> If I understand well your mail in the thread it will be the case right?
-> 
-> Regards,
-> -- 
-> Köry Maincent, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com/
+On Wed, Nov 22, 2023 at 04:08:50PM +0200, Vladimir Oltean wrote:
+> The concept of an "active phc_index" would not explicitly exist in the
+> UAPI. Thus I'm not sure what's with this TSINFO_SET being floated around.
+> The only thing would exist is a configurable rx_filter and tx_type per
+> hwtstamp provider (aka "{phc_index, qualifier}"). User space will have
+> to learn to select the hwtstamp provider it wants to configure through
+> netlink, and use for its class of traffic.
 
-My understanding of Jakub's email was that he wants to see the functionality
-offered by SIOCGHWTSTAMP and SIOCSHWTSTAMP converted to netlink. I don't
-think that ethtool is the correct netlink family for that, given that
-these aren't ethtool ioctls to begin with. Maybe the new netdev netlink
-family. The conversion in its basic form would offer exactly the same
-functionality. The extended netlink messages would have extra attributes
-to identify the targeted hwtstamp provider. In the lack of those
-attributes, the default hwtstamp provider is targeted. The definition of
-the default hwtstamp provider should be as per your current patch set
-(netdev, with a whitelist for current phylib PHYs).
-
-The _listing_ of hwtstamp providers is what could be done through ethtool
-netlink, similar but not identical to the way in which you are proposing
-today (you are presenting blanket "layers" which correspond to netdev and
-phylib, rather than individual providers).
-
-The concept of an "active phc_index" would not explicitly exist in the
-UAPI. Thus I'm not sure what's with this TSINFO_SET being floated around.
-The only thing would exist is a configurable rx_filter and tx_type per
-hwtstamp provider (aka "{phc_index, qualifier}"). User space will have
-to learn to select the hwtstamp provider it wants to configure through
-netlink, and use for its class of traffic.
-
-This is why I mentioned by ndo_hwtstamp_set() conversion, because
-suddenly it is a prerequisite for any further progress to be done.
-You can't convert SIOCSHWTSTAMP to netlink if there are some driver
-implementations which still use ndo_eth_ioctl(). They need to be
-UAPI-agnostic.
-
-I'm not sure what's with Richard's mention of the "_2" variants of the
-ioctls. Probably a low-effort suggestion which was a bit out of context.
-His main point, that you cannot extend struct hwtstamp_config as that
-has a fixed binary format, is perfectly valid though. This is why
-netlink is preferable, because if done correctly (meaning not with
-NLA_BINARY attributes), then it is much more extensible because all
-attributes are TLVs. Use NLA_BINARY, and you will run into the exact
-extensibility issues that the ioctl interface has.
+One clarification: the extended timestamping filters are PER NETDEV
+(in addition to being per one of the hwtstamp providers listed for that
+netdev). This was understated from the fact that the netlink interface
+itself targets a netdev, but I didn't say it explicitly.
