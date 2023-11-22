@@ -1,177 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F231A587;
-	Wed, 22 Nov 2023 20:47:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JTZKN5o8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FE42C433C7;
-	Wed, 22 Nov 2023 20:47:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700686039;
-	bh=iOGqsjNrxAouz3AJJHZo7n5yudWeQ8nrq1vq3zxtsBE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JTZKN5o8vBbSuTJ3zDm40Y+bDC/o4pO62dv6Qdw7wjjfuIvXz850E2mN4N0glDyAQ
-	 I24R1FewFREzbe6rsAaoxOszJT3HRAS9FwQcOgcd7p5330hxLb25O+yIbsQjwCTtsn
-	 +UFBAeZhqin2ubNn0OiBQfTXJ3vuEL5ciC2berJUgxbcBx4Aia14ioQrjV7DiaUVSR
-	 st50n8JxEhvGIa27YvK0jqgESrKFfDzRghsbGqbgZ3ITGcJLSxCRtKlTKGWtCMUBqj
-	 XpnKWid20FYJZBoiCILBrxO3xwRpU60BIQ28102Xv1iodp9t4T9w+AQKOUaZTyPQCD
-	 Ac2OW6LMM00DQ==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c874286f4dso13653841fa.0;
-        Wed, 22 Nov 2023 12:47:19 -0800 (PST)
-X-Gm-Message-State: AOJu0YzNuFrwlviDvPvddGrRdGaDalVIHy/mfWHxVn2LmdnpHuqkbVYK
-	7/OccFJZzvNVT1vxx0DuCC4GpJp5X2i1XwC4KQ==
-X-Google-Smtp-Source: AGHT+IGTjq0mZD9i+eUzTXzP28Wi1Bo+2Bm1FI9n8vEQBS5kPkO5fcu9os4HymBwAvrwCsgVBASyxd59bRZr+JZsdyc=
-X-Received: by 2002:a05:6512:3e20:b0:509:4792:25eb with SMTP id
- i32-20020a0565123e2000b00509479225ebmr249053lfv.17.1700686037339; Wed, 22 Nov
- 2023 12:47:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VMN/NCn/"
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4E821A4;
+	Wed, 22 Nov 2023 13:12:05 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id d2e1a72fcca58-6b5cac99cfdso225062b3a.2;
+        Wed, 22 Nov 2023 13:12:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700687525; x=1701292325; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ndk4aGNdhF9GXKkpyyjsozTJ5amtXqJPp+cG2mKjtD0=;
+        b=VMN/NCn/0ASAQmZ66hu4oESJL0srvFqyTlN0Uzf4h/QE9KDJ14ibkDOxebGQDBkWe4
+         hzTSwiH8UTDvauJj5bIk4mEmxcGkF2eAXJglQCPFyE5yETJaV/jFigT3ZW9Dfgb+FY8h
+         RPRa6ZUjSpEZ007Cb7K8XcWpgh41vN7M6Ai6aq9fbnfjRJdv+phB0zTLpl7IFVbbid3A
+         B+iBWdf/vv9Ydfe/D6kWQJkpNmcpS1FStiGWo4NcsnPrSPNlTgYtuomKRVgdmX6fhjKg
+         mDONSLCe5wFPb89F3oDFROwkdMNqk8i5Tjt1Imb8ab6Zuc1su/nUQEgMGmbtEuDRx5BG
+         sjbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700687525; x=1701292325;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ndk4aGNdhF9GXKkpyyjsozTJ5amtXqJPp+cG2mKjtD0=;
+        b=JeJQ3VqkcpnGaCbvXw6Vl7bbQE0SYJzbEkILqXoR8OxZQBGxNnv6frIEMnwnmbLEPk
+         p9qnPOptTurKSEHtSQOpxlGVGOB22fpv1TeeVsoHD/pW7cv3XMkg9ObxF4EFhW4KRcps
+         rGlkzA6vVN/hFDFU//KYHHAGx17IWuATqkRFNcsccKlt+JRTOtgSj+OkOOLZ7op2zRn5
+         Betn7mZMwxzSQNS8Xp82YGa41WZBJKfucWv/wA/sPhGhiDA4SCkhpG+c+jHqslvaisjG
+         LNm3vwcSAOFfhh28FR2ZyVIXnKE/mPR9e7mpjNRDmQ3ASb5f7oIubDg4bvcmOKGNJZ4v
+         S1Rw==
+X-Gm-Message-State: AOJu0YzOgWEEJC+DERJKHSMA6Fmle4jOvorap+aXMZXnPehYaWJZf8CN
+	SsEZ/Ir+ZUfyjMnfhfstEQ==
+X-Google-Smtp-Source: AGHT+IHtVS6qiXCVuICpjIo9v1ArG+K49q8MxhuOD/We1+xNdIENUBBwie8jAWodVY5lm/jNcHZQ+w==
+X-Received: by 2002:a05:6a20:12cd:b0:189:3748:f060 with SMTP id v13-20020a056a2012cd00b001893748f060mr3765980pzg.26.1700687525147;
+        Wed, 22 Nov 2023 13:12:05 -0800 (PST)
+Received: from fedora.mshome.net ([75.167.214.230])
+        by smtp.gmail.com with ESMTPSA id j18-20020a635512000000b005bdbce6818esm132136pgb.30.2023.11.22.13.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Nov 2023 13:12:04 -0800 (PST)
+From: Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To: linux-mm@kvack.org
+Cc: linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	arnd@arndb.de,
+	tglx@linutronix.de,
+	luto@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	mhocko@kernel.org,
+	tj@kernel.org,
+	ying.huang@intel.com,
+	Gregory Price <gregory.price@memverge.com>
+Subject: [RFC PATCH 00/11] mm/mempolicy: Make task->mempolicy externally modifiable via syscall and procfs
+Date: Wed, 22 Nov 2023 16:11:49 -0500
+Message-Id: <20231122211200.31620-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
- <20231107105025.1480561-3-billy_tsai@aspeedtech.com> <20231108182135.GA2698015-robh@kernel.org>
- <SG2PR06MB33655734700697E8F6FD0D1B8BB2A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-In-Reply-To: <SG2PR06MB33655734700697E8F6FD0D1B8BB2A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 22 Nov 2023 13:47:04 -0700
-X-Gmail-Original-Message-ID: <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com>
-Message-ID: <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
- TACH Control
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: "jdelvare@suse.com" <jdelvare@suse.com>, "linux@roeck-us.net" <linux@roeck-us.net>, 
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "joel@jms.id.au" <joel@jms.id.au>, 
-	"andrew@aj.id.au" <andrew@aj.id.au>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"thierry.reding@gmail.com" <thierry.reding@gmail.com>, 
-	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, 
-	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
-	"naresh.solanki@9elements.com" <naresh.solanki@9elements.com>, 
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>, 
-	"patrick@stwcx.xyz" <patrick@stwcx.xyz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 13, 2023 at 8:11=E2=80=AFPM Billy Tsai <billy_tsai@aspeedtech.c=
-om> wrote:
->
-> > > Document the compatible for aspeed,ast2600-pwm-tach device, which can
-> > > support up to 16 PWM outputs and 16 fan tach input.
-> > >
-> > > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> > > ---
-> > >  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++++++=
-++
-> > >  1 file changed, 69 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6=
--pwm-tach.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-ta=
-ch.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
-> > > new file mode 100644
-> > > index 000000000000..c615fb10705c
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
-> > > @@ -0,0 +1,69 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +# Copyright (C) 2023 Aspeed, Inc.
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: ASPEED G6 PWM and Fan Tach controller
-> > > +
-> > > +maintainers:
-> > > +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> > > +
-> > > +description: |
-> > > +  The ASPEED PWM controller can support up to 16 PWM outputs.
-> > > +  The ASPEED Fan Tacho controller can support up to 16 fan tach inpu=
-t.
-> > > +  They are independent hardware blocks, which are different from the
-> > > +  previous version of the ASPEED chip.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - aspeed,ast2600-pwm-tach
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> > > +
-> > > +  resets:
-> > > +    maxItems: 1
-> > > +
-> > > +  "#pwm-cells":
-> > > +    const: 3
-> > > +
-> > > +patternProperties:
-> > > +  "^fan-[0-9]+$":
-> > > +    $ref: fan-common.yaml#
-> > > +    unevaluatedProperties: false
-> > > +    required:
-> > > +      - tach-ch
-> > > +
-> > > +required:
-> > > +  - reg
-> > > +  - clocks
-> > > +  - resets
-> > > +  - "#pwm-cells"
-> > > +  - compatible
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/clock/aspeed-clock.h>
-> > > +    pwm_tach: pwm-tach-controller@1e610000 {
-> > > +      compatible =3D "aspeed,ast2600-pwm-tach";
-> > > +      reg =3D <0x1e610000 0x100>;
-> > > +      clocks =3D <&syscon ASPEED_CLK_AHB>;
-> > > +      resets =3D <&syscon ASPEED_RESET_PWM>;
-> > > +      #pwm-cells =3D <3>;
-> > > +
-> > > +      fan-0 {
->
-> > I assume there's a PWM connection here? How do you know which PWM? You
-> > said the tach channel is independent, so it is not that.
->
-> > It should not be 0 from 'fan-0' because that's just a meaningless index=
-.
->
-> > You either need 'pwms' here or you can use 'reg' and the reg value is
-> > the PWM channel.
->
-> Hi Rob, this binding is used to export the PWM provider and the Fan monit=
-or (i.e., Tach).
-> If the user wants to add the PWM connection for the fan, it can be done a=
-s follows:
->
-> fan0: pwm-fan0 {
->         compatible =3D "pwm-fan";
->         pwms =3D <&pwm_tach 0 40000 0>;
->         cooling-min-state =3D <0>;
->         cooling-max-state =3D <3>;
->         #cooling-cells =3D <2>;
->         cooling-levels =3D <0 15 128 255>;
-> };
->
-> This will reuse the existing PWM fan driver (e.g., pwm-fan.c).
+The patch set changes task->mempolicy to be modifiable by tasks other
+than just current.
 
-I'm confused now. So what are the child nodes you have? You are
-defining the fan in 2 places? The "pwm-fan" driver supports a tach via
-an interrupt, so how would this work in your case?
+The ultimate goal is to make mempolicy more flexible and extensible,
+such as adding interleave weights (which may need to change at runtime
+due to hotplug events).  Making mempolicy externally modifiable allows
+for userland daemons to make runtime performance adjustments to running
+tasks without that software needing to be made numa-aware.
 
-Rob
+This initial RFC involves 3 major updates the mempolicy.
+
+1. Refactor modifying interfaces to accept a task as an argument,
+   and change existing callers to send `current` in to retain
+   the existing behavior.
+
+2. Change locking behaviors to ensure task->mpol is referenced
+   safely by acquiring the task_lock where required.  Since
+   allocators take the alloc lock (task lock), this successfully
+   prevents changes from being made during allocations.
+
+3. Add external interfaces which allow for a task mempolicy to be
+   modified by another task.  This is implemented in 4 syscalls
+   and a procfs interface:
+        sys_set_task_mempolicy
+        sys_get_task_mempolicy
+        sys_set_task_mempolicy_home_node
+        sys_task_mbind
+        /proc/[pid]/mempolicy
+
+The new syscalls are the same as their current-task counterparts,
+except that they take a pid as an argument.  The exception is
+task_mbind, which required a new struct due to the number of args.
+
+The /proc/pid/mempolicy re-uses the interface mpol_parse_str format
+to enable get/set of mempolicy via procsfs.
+
+mpol_parse_str format:
+            <mode>[=<flags>][:<nodelist>]
+
+Example usage:
+
+echo "default" > /proc/pid/mempolicy
+echo "prefer=relative:0" > /proc/pid/mempolicy
+echo "interleave:0-3" > /proc/pid/mempolicy
+
+Changing the mempolicy does not induce memory migrations via the
+procfs interface (which is the exact same behavior as set_mempolicy).
+
+Signed-off-by: Gregory Price <gregory.price@memverge.com>
+
+Gregory Price (11):
+  mm/mempolicy: refactor do_set_mempolicy for code re-use
+  mm/mempolicy: swap cond reference counting logic in do_get_mempolicy
+  mm/mempolicy: refactor set_mempolicy stack to take a task argument
+  mm/mempolicy: modify get_mempolicy call stack to take a task argument
+  mm/mempolicy: modify set_mempolicy_home_node to take a task argument
+  mm/mempolicy: modify do_mbind to operate on task argument instead of
+    current
+  mm/mempolicy: add task mempolicy syscall variants
+  mm/mempolicy: export replace_mempolicy for use by procfs
+  mm/mempolicy: build mpol_parse_str unconditionally
+  mm/mempolicy: mpol_parse_str should ignore trailing characters in
+    nodelist
+  fs/proc: Add mempolicy attribute to allow read/write of task mempolicy
+
+ arch/x86/entry/syscalls/syscall_32.tbl |   4 +
+ arch/x86/entry/syscalls/syscall_64.tbl |   4 +
+ fs/proc/Makefile                       |   1 +
+ fs/proc/base.c                         |   1 +
+ fs/proc/internal.h                     |   1 +
+ fs/proc/mempolicy.c                    | 117 +++++++
+ include/linux/mempolicy.h              |  13 +-
+ include/linux/syscalls.h               |  14 +
+ include/uapi/asm-generic/unistd.h      |  10 +-
+ include/uapi/linux/mempolicy.h         |  10 +
+ mm/mempolicy.c                         | 432 +++++++++++++++++++------
+ 11 files changed, 502 insertions(+), 105 deletions(-)
+ create mode 100644 fs/proc/mempolicy.c
+
+-- 
+2.39.1
+
