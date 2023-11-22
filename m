@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="ny6U6UPY";
-	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="k21OtYvi"
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com [185.132.180.163])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52EA61728;
-	Wed, 22 Nov 2023 08:36:19 -0800 (PST)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
-	by mx07-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AM7ePpw020320;
-	Wed, 22 Nov 2023 16:35:38 GMT
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="dGLAm9d5";
+	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="E7NQPPMW"
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F5041733;
+	Wed, 22 Nov 2023 08:36:20 -0800 (PST)
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+	by mx08-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AMG01mC020623;
+	Wed, 22 Nov 2023 16:35:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:content-transfer-encoding:content-type:mime-version; s=
-	dk201812; bh=PpSb//7rqbKW/e/YhDc9fc0G64kudg3nBRNO7l9/HiM=; b=ny6
-	U6UPY87QmGwPDTTJuScYj6r85f3LViSDddStyAYeG1ScPw7/oCRa39FfRFIz3wxz
-	0glZ69kHQBMmbttPat/s6mYoBbVileACYwRK94O0mVpFRKiCqV/CwyRJ4Glg2iBa
-	rOa2YqrlCherNCRmBSR7Vk+oRRUPBbk9aQqH4bZOGRtPjRHNBCY3KdOY7N2S2VE+
-	BsTnUmm4ptie4tW4UMMScvNibBW+bR9YchK/7JnAdjshAb+XbKq9C1Ig80zai/tW
-	Maqtt69veCQYIAGgdf2g48ZkJE1tNedwumdcWT/DFnjo8fvaIVRJoRG3uoEebA8q
-	9sCGFC0GFybzBPVD/nQ==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
-	by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3ug99g9m2e-1
+	dk201812; bh=0VftBz/02CZjA0gXu84nRn1v6yz3NqW6a7K70Ppl4EQ=; b=dGL
+	Am9d535MltjoSGbn+3Fo5q+DSx6708qDcMmvTHIL9gcjX6bVRRf8V/vBtMmk/Vi7
+	jiywhQCk6sBGCuDcg94HKQNqmLtZC+MjLVJV1LIVLXtHtZCv94tBXrPZBiyWM787
+	zKcJpvTP4HZbR8iFmPQkTkkYrGE7jkVnfMTPzITBAN1T3pxuj6o40xqBGcW3rSmA
+	PXlDBaTc/2wy44CuR5v2oD2KrvYHmkjlW7c3NlRmNaChkZFD5bosPoquRsF3bqUS
+	8G99jk37+hjc37HTJcMpbqir7H0zl5ioKGw0O3/S9KyieWtQ50bYgN/+khIacfKF
+	Y1Cnr0uf1GW3jrE6VzQ==
+Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
+	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3ug99gsf3d-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 22 Nov 2023 16:35:37 +0000 (GMT)
+	Wed, 22 Nov 2023 16:35:35 +0000 (GMT)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 22 Nov 2023 16:35:36 +0000
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.104)
+ 15.1.2507.34; Wed, 22 Nov 2023 16:35:33 +0000
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
  by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 22 Nov 2023 16:35:36 +0000
+ 15.1.2507.34 via Frontend Transport; Wed, 22 Nov 2023 16:35:33 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PxqqKHFq3uRv0Otipk9D4LaFRbwpniqqUt3wsEvgf2VhYxp0jjfGmK9HVjqk/TyCzzSjV/31FaJ3W9eXxY8EC8uurLQ03kaCV4b61+93dfVpFTAHrt9Vk4dxWbGlnyK+/dqChF4gxTpyVTKPSZz1ke+nnwTHmVRi11HAH2VSKrFrsOskUIROGwyhuwmy+kkQ+OMxw9HqZo98OJaojqWfKQLaZB2jmPlRlAhAj4qR7HmJWhjWHDVsUOqX+NgsUWcdpRxxIdFcMdBWS4vezud3Jv/FLW5mvrKKi9j/A4JLaJ1WjuinbD3+r2SEXGdqQtX/W7zmsyPivJtvRPdcGX+z3A==
+ b=V2XXqR2Wj4b4g557zUeEo/JuUdkm4gtzZ3qkRg9K/LfQBoALIshyAk4GeioAylxjnra/eY+aS6Sxq7Ld15uPq3nTwANbXORXu+KM4QJHdhp9i4PHjYMpXfZJxgzOup8ijS0R/HM9NiEwFEHGX+pDcnhuZ9v95EenfE4CsTrSoTuWxGa9vbNMjZqwGjeaui5BlKDmewjxNsUxZcFH4nwzpOPudO7rT2HLLRhejDHXB9OOtQaJ6YDfW0FxAFDU2+cXV425hzv4UX7RNKyOQeypwWAY4wgk1mwdxq7VchbemKzWOtkPy4dVQR/zg6e9lGsBr4ubkZJPW05SlchzA1ZSMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PpSb//7rqbKW/e/YhDc9fc0G64kudg3nBRNO7l9/HiM=;
- b=KdRGZmK3u6o5ewvRBW2AS+n6F7U/TtpI9rrZv8WexCpCd5O0guwPYmeWQ9CAUXOETiv7ifcHZyHorXhsf62cVjJqVhAAIrDUUpOX/95or60EevuKYUEhTezuq0O6uKa4gWu1952cmT3X2018z4f4w4EBdy2EfEzLpkziHC7GFPG9G05n4fGMdrH9UounTKeNyrZF2pLmiWlh3rgVrACHhYrwuMBoMANRlwiQLQj67vSXa/HnuuFJ7RU8oXSFCLkW9VgQwehsPUa2YrsvV+03xYZlOYfhIPpsjb+wOlFamsZV5MNFn4e/EzAapncs7VayIyh1m44eTfkhUjHofUwYBw==
+ bh=0VftBz/02CZjA0gXu84nRn1v6yz3NqW6a7K70Ppl4EQ=;
+ b=R7ifmWa0d9IMyHMUOefiy/ui/+guVFQ7cEuIyiI9Gqf0nXQYVRelOBBgYd+knCCYpedShcC87uULvN+Cr7SYhsT00vwBb+L9TJ70FOGhQ3DGZ7btT231dodFjqUDz/p/SAqTnItxFw2UHtFGZDekU4l0rtT+y3HCn9YhhwkatrpXspkDl9MUpUUsWuhcltGJD3NS36s6d42kTZWJ6RkiBy0m/Hfx6AO5bmSEAOZyvcWw6U/yalhTUBX7HARSrK9vOsqfW39RJ0hvj6QDU1VIS6WEWdouh1sz6ZuL5YZ+11nzlBB0tRQboH+FF0R9oQX5GJxi6pe6WMT4JVrPlNXrjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PpSb//7rqbKW/e/YhDc9fc0G64kudg3nBRNO7l9/HiM=;
- b=k21OtYviOM+TxfwYPIOHyx056VRrnqQ1E2dC8Srwi41QQK+pfVdiTChJtvmGOBXqfQud2JVVsorQW5A7yjb8oTUoGyd4yfRO9bFit0XVUqfpvrdVsDx18U673lu4OZkUbx5hpKASWlI0Oakmh2QRwD496DrM7vfnHdUBjvP69z0=
+ bh=0VftBz/02CZjA0gXu84nRn1v6yz3NqW6a7K70Ppl4EQ=;
+ b=E7NQPPMWci9MI70D3AK6A3BE1/uWDvt7obwRWvpHnJ3MnZKPKpnxcmGs8+AxJIKPYjOocPutx9NdJb5EqRWev1732kpCl0Eial3zkY5aCdzln1p9G+aWV/5cQR9iGiNqnD9BW1U3PX5Aj/TRwQO8Sz3vNQGNdmo/wxIKGnF81iY=
 Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a0::8)
- by LO6P265MB6459.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2df::12) with
+ by CWLP265MB6864.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1fe::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
- 2023 16:35:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19; Wed, 22 Nov
+ 2023 16:35:27 +0000
 Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
  ([fe80::a85a:76f7:c085:2b34]) by CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
  ([fe80::a85a:76f7:c085:2b34%3]) with mapi id 15.20.7025.017; Wed, 22 Nov 2023
- 16:35:22 +0000
+ 16:35:27 +0000
 From: Donald Robson <donald.robson@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
 CC: <frank.binns@imgtec.com>, <matt.coster@imgtec.com>,
@@ -66,9 +66,9 @@ CC: <frank.binns@imgtec.com>, <matt.coster@imgtec.com>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
         <devicetree@vger.kernel.org>, <corbet@lwn.net>,
         <linux-doc@vger.kernel.org>, Sarah Walker <sarah.walker@imgtec.com>
-Subject: [PATCH v9 13/20] drm/imagination: Implement firmware infrastructure and META FW support
-Date: Wed, 22 Nov 2023 16:34:34 +0000
-Message-Id: <bb52a8dc84f296b37dc6668dfe8fbaf2ba551139.1700668843.git.donald.robson@imgtec.com>
+Subject: [PATCH v9 17/20] drm/imagination: Implement job submission and scheduling
+Date: Wed, 22 Nov 2023 16:34:38 +0000
+Message-Id: <c98dab7a5f5fb891fbed7e4990d19b5d13964365.1700668843.git.donald.robson@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1700668843.git.donald.robson@imgtec.com>
 References: <cover.1700668843.git.donald.robson@imgtec.com>
@@ -84,4546 +84,3891 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB5770:EE_|LO6P265MB6459:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd4b744e-663d-4f8c-eb59-08dbeb7905c4
+X-MS-TrafficTypeDiagnostic: CWLP265MB5770:EE_|CWLP265MB6864:EE_
+X-MS-Office365-Filtering-Correlation-Id: d01752ab-6639-4dc6-2e8e-08dbeb790890
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6fyafYG0yIksKdRPs+PPpqiLLcxYo0C2fQHJZbSRxErYjXCfAU9yoUKoehgDE9qLd6LFxg+Xvkn7bDCaWBqJmyvzOeNqEakWkBj3wH+pJUnEWIt7Lp8bwI7YUarxYd+rE1BMAi4dIU/efIM5MX/yy9+Gh+mE+/mbN0ISsj7Y2AsLHh/cphikbgZHvI0HTOpeye6mTnRE10q5I2pyiodJulRtItH3tDIq+iQr3i4UugPkj/qER6QBlnFj8QPrc+zufEUI3YszLrzi/VynWPoCeI89Cc/fBDZBhINV0aWRI3v1A3DFxkTlmukCYQIg4tFIOMD3aqDhHO76fVP6tePqckJpNnp+1UFVStDnra9UfO0tWy1wcClz9nFhEzDw5IX/S5zeI0ZmhToa7BMqDliUFe9kf/dqvBSxkHoNY7DrFn2+2PYYObVh7+Ze1Jxzg+W3lhOwlrgzFuo0rm1Pkvyh2GlP4eUHcbO0PPv/f7pfs87JmaAor1pMw+RBkOiJbONpFP9ml3wkOIdZCPYxWdfhQ4odp+eiFjSqCiMXHYROXxfOOIDY2FubJU5REyICUkCVUYwNZMIrJXbOBE0Dy/K63qgO63BkOQh0Dsu6Nw1oYAZ5TPM4pbBfCSukEi9ttOPr5RLWmpXBsdjdbZ8JkMZA6g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(346002)(396003)(366004)(136003)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(30864003)(36756003)(7416002)(41300700001)(5660300002)(2906002)(86362001)(38350700005)(26005)(6666004)(478600001)(6506007)(2616005)(6486002)(107886003)(6512007)(52116002)(8936002)(8676002)(4326008)(44832011)(66946007)(316002)(6916009)(66556008)(66476007)(83380400001)(38100700002)(559001)(579004)(134885004);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: Ktsbki0cakaG5D4qND6vpiqloob2SiugJ0CWmxEsW4NP/8mqB/rFS5W2LWuNrDMaeEGR9KrlQx4KGg/a82ZulR4nC1NebXOf+Yu1TboA0AzKw+VFMaOCznm1u0F7uCLTh/7NxT22LXbwB/JWft1nCmlDZ2SR3jj3qvzgD3qOBg16E73x8ZfByCp/v1c6urVFReVlfLxdqpV0tGLrG99W7oC4RoD3So1HAe+LN7hQ/v7UOd4nqyEajiWNTKlJsNxg/GE+xGouVWk01p1tIWC1XhBUYMKFyDItt59LLJ46wqnE/ouXuf+dIzmkcvcXagVyHoL/vkzHeuy55uC7L/MLZILX7Rr4d6yirlwFhtz0JiCibg7K6A3GBEHFYoNqbx7ifFD0Ihyq5xZi/b4D4Wz4+jT2LjVacxr36+z9LUdAtxgp6Vw9ZYqh5kzkz+jpeVx4gAqlR/3E8HQXpbo20Qr4cRT3rkUXt+HsXwN4yrH2yHpmdjSUXZ/Pkf4O2zC1b71XR4kIr2/ZJkebqsyxu5Je7zdF7czf7ed49oY1dHCTg9nQu2QAnHDuggHFr+k4YHSqd7zSRB3FfiwnSfibr1jFahxhn+NKeYf7Sovp7N327mg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(376002)(346002)(39850400004)(396003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(52116002)(5660300002)(38350700005)(6666004)(6506007)(6512007)(2616005)(8936002)(8676002)(4326008)(83380400001)(2906002)(7416002)(478600001)(30864003)(66476007)(6916009)(66556008)(107886003)(316002)(26005)(66946007)(6486002)(966005)(44832011)(38100700002)(41300700001)(36756003)(86362001)(559001)(579004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2I6vwWMc5iXhjv8DwHEerhUnYtC+N1CSg+gNbkZ9cOShNqKWJQM58ykqh9eY?=
- =?us-ascii?Q?AQ8lf1I/F8BmeAarASr5HimfzdJ5SRFG9dOdL6pBUHxgft0QVO4TCRErHVwn?=
- =?us-ascii?Q?MExVgFLPF/DFK36i98cdbffWafDx5QyO8mm7JE4IuPDvipFYxJ/22iiagEZy?=
- =?us-ascii?Q?Sz6r8ERcYB9kNAN806lKkQRQKoyTRjx/WluTzbJ0VRWr9VVZ+rz1UK3hQSyz?=
- =?us-ascii?Q?uF8hvGwms6+P3s7ALCVD6Y7sWtZR0UwvkBnS8nC3/N+sHCsP5i07upl674n6?=
- =?us-ascii?Q?trgHXmTkUQHXfdT5aUMV5P7HAVlbqWNtDrFqYKfrwyf2uXbbQ9/Tm0/6ex33?=
- =?us-ascii?Q?UrOQgUjux2EMwUGzpIOgVXObZ5nQHDdaSLg1Sb9RXtJwk+6s69KZTtflkZ6q?=
- =?us-ascii?Q?aoG0G//BKcnYQvNu0aIFUSbcrmYoVsGcgZ8UwfJSet9mLCaxfC523hPYVFd2?=
- =?us-ascii?Q?96FHfiJzhn35x3JYTfTho5La4KQqx3vuo8NOhVR3eOhOTgS58XkPinZp+iQF?=
- =?us-ascii?Q?SGLbJ9ywprTv+T3ZIokxnidi+txWNvEam1iwBWYhxbofBU8EDQLH/Y9XdKjK?=
- =?us-ascii?Q?rnz38TVBGiw7S6VhHyqY40ePVvmSdB1QADE4cjfsFmAaNF3jhx4PBxZ/Yef2?=
- =?us-ascii?Q?sS80ZTPFFnITeguvaI9SokX/MpXnY46LNa9OjyACOBU8Ilr6IMxqHdycOS7C?=
- =?us-ascii?Q?KuBe4x3GndwRAliQhLPQr4xCIuPPBkSPz5luHTaPIE3X0bLfv+KU2Z8nxTaL?=
- =?us-ascii?Q?8eNsTIJWka27C216UfV8dJNDXkzm6AE+cQSa7IpSW2eAknVF5S3t1X8MAeDa?=
- =?us-ascii?Q?YdRp5H8QOqyIA3HwvmHJDI6Pu6VOOCo7SksqyhVHv+Xq+W+uw0+I8+kXpoXf?=
- =?us-ascii?Q?3wnRZrTc1WsI+8N6w5ljUf2p+qSHfDufKFBOnjbAC0TpClA/vlBa3gA9Ron/?=
- =?us-ascii?Q?9qCYGTJmdSvf2dSjuZIRQ2idcyGPz5bhqXUQTVvFWHLWmpVwvZwX6tvs5U5Z?=
- =?us-ascii?Q?QKUZMTXVG/XTBPwWg7sR/g8XyNIOw9jY7AKdd9ygXCzf6A3sfajDnGrk7rK0?=
- =?us-ascii?Q?awoWXuzFWdquOHYNZMP3WKqFB+mwaio4mh1XCFjAnhvXK18hMwTqzch4QnTu?=
- =?us-ascii?Q?bOZpStYTrljC/WMvI6qXpHfugATLWXbkIZYIUOq+fyyqsVpjBrQWBWzZF+ba?=
- =?us-ascii?Q?GhlS4ZH20sJD/ahlGWbltSmU+hJvgy9iCsPAmyb7Y/j65/ZfHwEdfCNcci2K?=
- =?us-ascii?Q?anfCs5HRzRrLP7BEE0nf/Q369W1fISzpMWkzVAhYGifsNyAJuUWMeHnO7KNy?=
- =?us-ascii?Q?nT3uFWbVAaxutXOqTr13QGzottvryeZSH/28FxZYC4htVLtVWmm+BdZ0gszb?=
- =?us-ascii?Q?yFTsEGr7ZEyUTqPusIsTcQDVWO/Rw+1wWn0cBlqgaFyKvf44MifOfTjnbNoi?=
- =?us-ascii?Q?S5kSMkwXl4hLCiouN1gSZQS85mUto85EDGm2OKBCkztup8Npfs3NNVW1nkcD?=
- =?us-ascii?Q?wgefBMYHPC/4PwtuQ8YJuztsfA5M+BWavZX3iVBqCSDAkI+ho3rkj1v3b4v6?=
- =?us-ascii?Q?fpVjdTqdre8DafOubTssnwid+NrL7P3wX4MBVtRdaPb5GBggdEwZKrTfk58M?=
- =?us-ascii?Q?ng=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd4b744e-663d-4f8c-eb59-08dbeb7905c4
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+uYIHVZTgW7vgE3pO/Ooyo1KuGEY2G1BhwCen5FTz/LaaTaGIGA6B8M/1blW?=
+ =?us-ascii?Q?TF+k+xabqEPJyFJcN/keS/NTFqzueXKSWz/0R6Z6eO96UoLIe369lNso7z6e?=
+ =?us-ascii?Q?h+UUEx/E2YmCl6ZWbroVQVyqdJRoHwlR36Hy13d+AJdv2mMCiPZO6O7IuK7P?=
+ =?us-ascii?Q?n86u91zN9DO//0kKJMv7iEdOIPtapqTH/Tj2UUjaoNfVwsZcgypExj3sVOq6?=
+ =?us-ascii?Q?Zmfu8Uk1QuyQBJqjSC6slpxHAUVqFm8eH08SPyzHSyRMmrIwIq+XYS7IucGD?=
+ =?us-ascii?Q?nOs+jXTNPB0u0X8ft0yli7cHFHGyR855MnHVNjYZPGS6vkEZ0ktADT22PYO0?=
+ =?us-ascii?Q?ZKRtRb9Pk+yIPbpHzaj1U/hfX2oWQ3ccbbx19mKYuAt5lGcWybz7+3Wg1Bfk?=
+ =?us-ascii?Q?TmHLOfbR7VJtoVZG09t4TqOdFIxHtSFia8vW+q23zHYSJyc+jIgpFYat4Mpb?=
+ =?us-ascii?Q?Fqr5tXf13u1zDtMpsv8US2VzXFA9k3RkTL30ibveNkv5Wb5YxMf/BdifSY9+?=
+ =?us-ascii?Q?7g7NqsWDhOi/KFELU3eOk4WMeHpCZvS3gLB3gs7nBbytXXHaqGPwv0hBRI+/?=
+ =?us-ascii?Q?uUB/hTPzF0Gi5mPFHOlBFUspRi2RVfV2J72s41fteIvsE7jpZ9vma5VUyhWx?=
+ =?us-ascii?Q?mAh2frOF9nFmcS6qpt+MMTtpIysEkYImVjFmmWDXWfqmsIShG4fsg2AiStW/?=
+ =?us-ascii?Q?psJDTEa6Sk59NXlkMLzT7bIXOWLuwuse83/1KLILQERFNijJ6ENll8c07jcN?=
+ =?us-ascii?Q?3l2lN5476vFI8N+jbC8+DffEphSfjanfJykLpdZ49678emYxE2lJS9xyeSIi?=
+ =?us-ascii?Q?wtZ5jtBelWYDHR6cMlRdwYbktdJWJyKX85B0dmxmqN4CxRwTanWGSiPcGvYb?=
+ =?us-ascii?Q?/cyYyP8YYOZIQmPyVfvGKWtDWQhReKJ3Ebtg4XyG1U2JUl0rUKORMWIzTd1W?=
+ =?us-ascii?Q?GpLXF+WfhN1UbhO8bFhqN1H1q+fGaexuru4nrcYSh41t+beg5xXtEb9If5zf?=
+ =?us-ascii?Q?YPcekoLzxnW396K2UeuDFW5ZrNsDSo3xqXqqnq2UjRHwS+SvoYwpGCledqqr?=
+ =?us-ascii?Q?oTEUHIte+d6RbMTxKhS/9CQY5UlUNEs6aTewik+Vd4Utb2NwYeGNwE+zsUZx?=
+ =?us-ascii?Q?ctDUyczx5BaF3Vh9+6I0RsIBdQm3EM2B2OnKl9XeEZSdPYsYHCx7bFJUn4GO?=
+ =?us-ascii?Q?MPRRKgaqtau0drC0iPtiwd4Scv9RCs5CoFnR7nPeOKyXNRfHuqO3I8iD2hlR?=
+ =?us-ascii?Q?XhNu9caaQt/xuIigJ3wp9LufWMR24CYKTy7mixtmTMSCYnRTXoSTF3cCoUQF?=
+ =?us-ascii?Q?DBoOZE6Q9Ew1Kl+PJzJVNA2Uo5+jjeThU1I7K6c1MV17PKEfmikgXES1z4Om?=
+ =?us-ascii?Q?sYdykS9vXT4584yfMkMb2FmqDfpvW5TwyZSfabE+MbTcksjRuIGmvJ0uuKZI?=
+ =?us-ascii?Q?hV26lFAoLeEQgxlPAUzcSHsBzoSsAbfR8/WlUpnSbEaIkeMHOv1aLjPLWMqt?=
+ =?us-ascii?Q?Ocs4/Z4MyoKFRXsfa8uQS7tFBZzg39M9GWziGxuKKymjQ4R5y2riLsGk32vh?=
+ =?us-ascii?Q?cuRJqqk1nXkl60wLSWPY0x47E/XkWTSu8MADb3kXDtdlRFxFeuzcoKO6Xix4?=
+ =?us-ascii?Q?Hw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d01752ab-6639-4dc6-2e8e-08dbeb790890
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 16:35:22.5132
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 16:35:27.1801
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XTnTZgIcgJrjE6IwQzsAqXPd2Fokd6AK5UxDZS4xdg8wW12HaigCnpt5DoSSHcc0JiW2PGHBDODSJm2cJyp7vkgv03LdOmp2iOaK08f5bO4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6459
+X-MS-Exchange-CrossTenant-UserPrincipalName: PyLAxA6yMzBoFC613dTUSN4lWHgNRp2icA60z4o8DcZ+oAzncavW/CCP8iGvmMy2zTx464BM58Xo8tY1urq3LXAwAHgGjR7sJNmYi4OaO50=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6864
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: D2QpC4nrxwNxwKPDv3kGDXAHBBIIfLy4
-X-Proofpoint-GUID: D2QpC4nrxwNxwKPDv3kGDXAHBBIIfLy4
+X-Proofpoint-GUID: o2arVab-XtYKkCIph77TPo7XRd9koXS8
+X-Proofpoint-ORIG-GUID: o2arVab-XtYKkCIph77TPo7XRd9koXS8
 
 From: Sarah Walker <sarah.walker@imgtec.com>
 
-The infrastructure includes parsing of the firmware image, initialising
-FW-side structures, handling the kernel and firmware command
-ringbuffers and starting & stopping the firmware processor.
+Implement job submission ioctl. Job scheduling is implemented using
+drm_sched.
 
-This patch also adds the necessary support code for the META firmware
-processor.
+Jobs are submitted in a stream format. This is intended to allow the UAPI
+data format to be independent of the actual FWIF structures in use, which
+vary depending on the GPU in use.
+
+The stream formats are documented at:
+https://gitlab.freedesktop.org/mesa/mesa/-/blob/f8d2b42ae65c2f16f36a43e0ae39d288431e4263/src/imagination/csbgen/rogue_kmd_stream.xml
 
 Changes since v8:
-- Fix documentation for pvr_fwccb_process()
+- Updated for upstreamed DRM scheduler changes
+- Removed workaround code for the pending_list previously being updated
+  after run_job() returned
+- Fixed null deref in pvr_queue_cleanup_fw_context() for bad stream ptr
+  given to create_context ioctl
 - Corrected license identifiers
 
+Changes since v7:
+- Updated for v8 "DRM scheduler changes for XE" patchset
+
 Changes since v6:
-- Add a minimum retry count to pvr_kccb_reserve_slot_sync()
+- Fix fence handling in pvr_sync_signal_array_add()
+- Add handling for SUBMIT_JOB_FRAG_CMD_DISABLE_PIXELMERGE flag
+- Fix missing dma_resv locking in job submit path
 
 Changes since v5:
-- Add workaround for BRN 71242
-- Attempt to recover GPU on MMU flush command failure
+- Fix leak in job creation error path
 
 Changes since v4:
-- Remove use of drm_gem_shmem_get_pages()
-- Remove interrupt resource name
+- Use a regular workqueue for job scheduling
 
 Changes since v3:
-- Hard reset FW processor on watchdog timeout
-- Switch to threaded IRQ
-- Rework FW object creation/initialisation to aid hard reset
-- Added MODULE_FIRMWARE()
+- Support partial render jobs
+- Add job timeout handler
+- Split sync handling out of job code
 - Use drm_dev_{enter,exit}
 
-Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
-Signed-off-by: Donald Robson <donald.robson@imgtec.com>
----
- drivers/gpu/drm/imagination/Makefile          |    4 +
- drivers/gpu/drm/imagination/pvr_ccb.c         |  635 ++++++++
- drivers/gpu/drm/imagination/pvr_ccb.h         |   71 +
- drivers/gpu/drm/imagination/pvr_device.c      |  103 ++
- drivers/gpu/drm/imagination/pvr_device.h      |   60 +
- drivers/gpu/drm/imagination/pvr_drv.c         |    1 +
- drivers/gpu/drm/imagination/pvr_fw.c          | 1342 +++++++++++++++++
- drivers/gpu/drm/imagination/pvr_fw.h          |  474 ++++++
- drivers/gpu/drm/imagination/pvr_fw_meta.c     |  554 +++++++
- drivers/gpu/drm/imagination/pvr_fw_meta.h     |   14 +
- .../gpu/drm/imagination/pvr_fw_startstop.c    |  306 ++++
- .../gpu/drm/imagination/pvr_fw_startstop.h    |   13 +
- drivers/gpu/drm/imagination/pvr_fw_trace.c    |  120 ++
- drivers/gpu/drm/imagination/pvr_fw_trace.h    |   78 +
- drivers/gpu/drm/imagination/pvr_mmu.c         |   70 +-
- drivers/gpu/drm/imagination/pvr_power.c       |  166 +-
- drivers/gpu/drm/imagination/pvr_power.h       |    2 +
- drivers/gpu/drm/imagination/pvr_vm.c          |   26 +-
- 18 files changed, 4015 insertions(+), 24 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_ccb.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_ccb.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_meta.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_meta.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_startstop.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_startstop.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_trace.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_trace.h
+Changes since v2:
+- Use drm_sched for job scheduling
 
+Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Co-developed-by: Donald Robson <donald.robson@imgtec.com>
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
+Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+---
+ drivers/gpu/drm/imagination/Kconfig           |    1 +
+ drivers/gpu/drm/imagination/Makefile          |    3 +
+ drivers/gpu/drm/imagination/pvr_context.c     |  125 +-
+ drivers/gpu/drm/imagination/pvr_context.h     |   44 +
+ drivers/gpu/drm/imagination/pvr_device.c      |   31 +
+ drivers/gpu/drm/imagination/pvr_device.h      |   21 +
+ drivers/gpu/drm/imagination/pvr_drv.c         |   40 +-
+ drivers/gpu/drm/imagination/pvr_job.c         |  788 +++++++++
+ drivers/gpu/drm/imagination/pvr_job.h         |  161 ++
+ drivers/gpu/drm/imagination/pvr_power.c       |   28 +
+ drivers/gpu/drm/imagination/pvr_queue.c       | 1432 +++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_queue.h       |  169 ++
+ drivers/gpu/drm/imagination/pvr_stream_defs.c |  226 +++
+ drivers/gpu/drm/imagination/pvr_sync.c        |  289 ++++
+ drivers/gpu/drm/imagination/pvr_sync.h        |   84 +
+ 15 files changed, 3438 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_job.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_job.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_queue.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_queue.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_sync.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_sync.h
+
+diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
+index 0abd1b9bf3be..3bfa2ac212dc 100644
+--- a/drivers/gpu/drm/imagination/Kconfig
++++ b/drivers/gpu/drm/imagination/Kconfig
+@@ -6,6 +6,7 @@ config DRM_POWERVR
+ 	depends on ARM64
+ 	depends on DRM
+ 	depends on PM
++	select DRM_EXEC
+ 	select DRM_GEM_SHMEM_HELPER
+ 	select DRM_SCHED
+ 	select DRM_GPUVM
 diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index d9e00a0db6b2..5c1c918af7a3 100644
+index 7f7bea8c60c4..7e3515c99caa 100644
 --- a/drivers/gpu/drm/imagination/Makefile
 +++ b/drivers/gpu/drm/imagination/Makefile
-@@ -4,10 +4,14 @@
- subdir-ccflags-y := -I$(srctree)/$(src)
- 
- powervr-y := \
-+	pvr_ccb.o \
- 	pvr_device.o \
- 	pvr_device_info.o \
- 	pvr_drv.o \
- 	pvr_fw.o \
-+	pvr_fw_meta.o \
-+	pvr_fw_startstop.o \
-+	pvr_fw_trace.o \
+@@ -18,10 +18,13 @@ powervr-y := \
+ 	pvr_fw_trace.o \
  	pvr_gem.o \
+ 	pvr_hwrt.o \
++	pvr_job.o \
  	pvr_mmu.o \
  	pvr_power.o \
-diff --git a/drivers/gpu/drm/imagination/pvr_ccb.c b/drivers/gpu/drm/imagination/pvr_ccb.c
-new file mode 100644
-index 000000000000..48f06f58f3f1
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_ccb.c
-@@ -0,0 +1,635 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_ccb.h"
-+#include "pvr_device.h"
-+#include "pvr_drv.h"
-+#include "pvr_fw.h"
-+#include "pvr_gem.h"
-+#include "pvr_power.h"
-+
-+#include <drm/drm_managed.h>
-+#include <linux/compiler.h>
-+#include <linux/delay.h>
-+#include <linux/jiffies.h>
-+#include <linux/kernel.h>
-+#include <linux/mutex.h>
-+#include <linux/types.h>
-+#include <linux/workqueue.h>
-+
-+#define RESERVE_SLOT_TIMEOUT (1 * HZ) /* 1s */
-+#define RESERVE_SLOT_MIN_RETRIES 10
-+
-+static void
-+ccb_ctrl_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_ccb_ctl *ctrl = cpu_ptr;
-+	struct pvr_ccb *pvr_ccb = priv;
-+
-+	ctrl->write_offset = 0;
-+	ctrl->read_offset = 0;
-+	ctrl->wrap_mask = pvr_ccb->num_cmds - 1;
-+	ctrl->cmd_size = pvr_ccb->cmd_size;
-+}
-+
-+/**
-+ * pvr_ccb_init() - Initialise a CCB
-+ * @pvr_dev: Device pointer.
-+ * @pvr_ccb: Pointer to CCB structure to initialise.
-+ * @num_cmds_log2: Log2 of number of commands in this CCB.
-+ * @cmd_size: Command size for this CCB.
-+ *
-+ * Return:
-+ *  * Zero on success, or
-+ *  * Any error code returned by pvr_fw_object_create_and_map().
-+ */
-+static int
-+pvr_ccb_init(struct pvr_device *pvr_dev, struct pvr_ccb *pvr_ccb,
-+	     u32 num_cmds_log2, size_t cmd_size)
-+{
-+	u32 num_cmds = 1 << num_cmds_log2;
-+	u32 ccb_size = num_cmds * cmd_size;
-+	int err;
-+
-+	pvr_ccb->num_cmds = num_cmds;
-+	pvr_ccb->cmd_size = cmd_size;
-+
-+	err = drmm_mutex_init(from_pvr_device(pvr_dev), &pvr_ccb->lock);
-+	if (err)
-+		return err;
-+
-+	/*
-+	 * Map CCB and control structure as uncached, so we don't have to flush
-+	 * CPU cache repeatedly when polling for space.
-+	 */
-+	pvr_ccb->ctrl = pvr_fw_object_create_and_map(pvr_dev, sizeof(*pvr_ccb->ctrl),
-+						     PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+						     ccb_ctrl_init, pvr_ccb, &pvr_ccb->ctrl_obj);
-+	if (IS_ERR(pvr_ccb->ctrl))
-+		return PTR_ERR(pvr_ccb->ctrl);
-+
-+	pvr_ccb->ccb = pvr_fw_object_create_and_map(pvr_dev, ccb_size,
-+						    PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+						    NULL, NULL, &pvr_ccb->ccb_obj);
-+	if (IS_ERR(pvr_ccb->ccb)) {
-+		err = PTR_ERR(pvr_ccb->ccb);
-+		goto err_free_ctrl;
-+	}
-+
-+	pvr_fw_object_get_fw_addr(pvr_ccb->ctrl_obj, &pvr_ccb->ctrl_fw_addr);
-+	pvr_fw_object_get_fw_addr(pvr_ccb->ccb_obj, &pvr_ccb->ccb_fw_addr);
-+
-+	WRITE_ONCE(pvr_ccb->ctrl->write_offset, 0);
-+	WRITE_ONCE(pvr_ccb->ctrl->read_offset, 0);
-+	WRITE_ONCE(pvr_ccb->ctrl->wrap_mask, num_cmds - 1);
-+	WRITE_ONCE(pvr_ccb->ctrl->cmd_size, cmd_size);
-+
-+	return 0;
-+
-+err_free_ctrl:
-+	pvr_fw_object_unmap_and_destroy(pvr_ccb->ctrl_obj);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_ccb_fini() - Release CCB structure
-+ * @pvr_ccb: CCB to release.
-+ */
-+void
-+pvr_ccb_fini(struct pvr_ccb *pvr_ccb)
-+{
-+	pvr_fw_object_unmap_and_destroy(pvr_ccb->ccb_obj);
-+	pvr_fw_object_unmap_and_destroy(pvr_ccb->ctrl_obj);
-+}
-+
-+/**
-+ * pvr_ccb_slot_available_locked() - Test whether any slots are available in CCB
-+ * @pvr_ccb: CCB to test.
-+ * @write_offset: Address to store number of next available slot. May be %NULL.
-+ *
-+ * Caller must hold @pvr_ccb->lock.
-+ *
-+ * Return:
-+ *  * %true if a slot is available, or
-+ *  * %false if no slot is available.
-+ */
-+static __always_inline bool
-+pvr_ccb_slot_available_locked(struct pvr_ccb *pvr_ccb, u32 *write_offset)
-+{
-+	struct rogue_fwif_ccb_ctl *ctrl = pvr_ccb->ctrl;
-+	u32 next_write_offset = (READ_ONCE(ctrl->write_offset) + 1) & READ_ONCE(ctrl->wrap_mask);
-+
-+	lockdep_assert_held(&pvr_ccb->lock);
-+
-+	if (READ_ONCE(ctrl->read_offset) != next_write_offset) {
-+		if (write_offset)
-+			*write_offset = next_write_offset;
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+static void
-+process_fwccb_command(struct pvr_device *pvr_dev, struct rogue_fwif_fwccb_cmd *cmd)
-+{
-+	switch (cmd->cmd_type) {
-+	case ROGUE_FWIF_FWCCB_CMD_REQUEST_GPU_RESTART:
-+		pvr_power_reset(pvr_dev, false);
-+		break;
-+
-+	default:
-+		drm_info(from_pvr_device(pvr_dev), "Received unknown FWCCB command %x\n",
-+			 cmd->cmd_type);
-+		break;
-+	}
-+}
-+
-+/**
-+ * pvr_fwccb_process() - Process any pending FWCCB commands
-+ * @pvr_dev: Target PowerVR device
-+ */
-+void pvr_fwccb_process(struct pvr_device *pvr_dev)
-+{
-+	struct rogue_fwif_fwccb_cmd *fwccb = pvr_dev->fwccb.ccb;
-+	struct rogue_fwif_ccb_ctl *ctrl = pvr_dev->fwccb.ctrl;
-+	u32 read_offset;
-+
-+	mutex_lock(&pvr_dev->fwccb.lock);
-+
-+	while ((read_offset = READ_ONCE(ctrl->read_offset)) != READ_ONCE(ctrl->write_offset)) {
-+		struct rogue_fwif_fwccb_cmd cmd = fwccb[read_offset];
-+
-+		WRITE_ONCE(ctrl->read_offset, (read_offset + 1) & READ_ONCE(ctrl->wrap_mask));
-+
-+		/* Drop FWCCB lock while we process command. */
-+		mutex_unlock(&pvr_dev->fwccb.lock);
-+
-+		process_fwccb_command(pvr_dev, &cmd);
-+
-+		mutex_lock(&pvr_dev->fwccb.lock);
-+	}
-+
-+	mutex_unlock(&pvr_dev->fwccb.lock);
-+}
-+
-+/**
-+ * pvr_kccb_capacity() - Returns the maximum number of usable KCCB slots.
-+ * @pvr_dev: Target PowerVR device
-+ *
-+ * Return:
-+ *  * The maximum number of active slots.
-+ */
-+static u32 pvr_kccb_capacity(struct pvr_device *pvr_dev)
-+{
-+	/* Capacity is the number of slot minus one to cope with the wrapping
-+	 * mechanisms. If we were to use all slots, we might end up with
-+	 * read_offset == write_offset, which the FW considers as a KCCB-is-empty
-+	 * condition.
-+	 */
-+	return pvr_dev->kccb.slot_count - 1;
-+}
-+
-+/**
-+ * pvr_kccb_used_slot_count_locked() - Get the number of used slots
-+ * @pvr_dev: Device pointer.
-+ *
-+ * KCCB lock must be held.
-+ *
-+ * Return:
-+ *  * The number of slots currently used.
-+ */
-+static u32
-+pvr_kccb_used_slot_count_locked(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_ccb *pvr_ccb = &pvr_dev->kccb.ccb;
-+	struct rogue_fwif_ccb_ctl *ctrl = pvr_ccb->ctrl;
-+	u32 wr_offset = READ_ONCE(ctrl->write_offset);
-+	u32 rd_offset = READ_ONCE(ctrl->read_offset);
-+	u32 used_count;
-+
-+	lockdep_assert_held(&pvr_ccb->lock);
-+
-+	if (wr_offset >= rd_offset)
-+		used_count = wr_offset - rd_offset;
-+	else
-+		used_count = wr_offset + pvr_dev->kccb.slot_count - rd_offset;
-+
-+	return used_count;
-+}
-+
-+/**
-+ * pvr_kccb_send_cmd_reserved_powered() - Send command to the KCCB, with the PM ref
-+ * held and a slot pre-reserved
-+ * @pvr_dev: Device pointer.
-+ * @cmd: Command to sent.
-+ * @kccb_slot: Address to store the KCCB slot for this command. May be %NULL.
-+ */
-+void
-+pvr_kccb_send_cmd_reserved_powered(struct pvr_device *pvr_dev,
-+				   struct rogue_fwif_kccb_cmd *cmd,
-+				   u32 *kccb_slot)
-+{
-+	struct pvr_ccb *pvr_ccb = &pvr_dev->kccb.ccb;
-+	struct rogue_fwif_kccb_cmd *kccb = pvr_ccb->ccb;
-+	struct rogue_fwif_ccb_ctl *ctrl = pvr_ccb->ctrl;
-+	u32 old_write_offset;
-+	u32 new_write_offset;
-+
-+	WARN_ON(pvr_dev->lost);
-+
-+	mutex_lock(&pvr_ccb->lock);
-+
-+	if (WARN_ON(!pvr_dev->kccb.reserved_count))
-+		goto out_unlock;
-+
-+	old_write_offset = READ_ONCE(ctrl->write_offset);
-+
-+	/* We reserved the slot, we should have one available. */
-+	if (WARN_ON(!pvr_ccb_slot_available_locked(pvr_ccb, &new_write_offset)))
-+		goto out_unlock;
-+
-+	memcpy(&kccb[old_write_offset], cmd,
-+	       sizeof(struct rogue_fwif_kccb_cmd));
-+	if (kccb_slot) {
-+		*kccb_slot = old_write_offset;
-+		/* Clear return status for this slot. */
-+		WRITE_ONCE(pvr_dev->kccb.rtn[old_write_offset],
-+			   ROGUE_FWIF_KCCB_RTN_SLOT_NO_RESPONSE);
-+	}
-+	mb(); /* memory barrier */
-+	WRITE_ONCE(ctrl->write_offset, new_write_offset);
-+	pvr_dev->kccb.reserved_count--;
-+
-+	/* Kick MTS */
-+	pvr_fw_mts_schedule(pvr_dev,
-+			    PVR_FWIF_DM_GP & ~ROGUE_CR_MTS_SCHEDULE_DM_CLRMSK);
-+
-+out_unlock:
-+	mutex_unlock(&pvr_ccb->lock);
-+}
-+
-+/**
-+ * pvr_kccb_try_reserve_slot() - Try to reserve a KCCB slot
-+ * @pvr_dev: Device pointer.
-+ *
-+ * Return:
-+ *  * true if a KCCB slot was reserved, or
-+ *  * false otherwise.
-+ */
-+static bool pvr_kccb_try_reserve_slot(struct pvr_device *pvr_dev)
-+{
-+	bool reserved = false;
-+	u32 used_count;
-+
-+	mutex_lock(&pvr_dev->kccb.ccb.lock);
-+
-+	used_count = pvr_kccb_used_slot_count_locked(pvr_dev);
-+	if (pvr_dev->kccb.reserved_count < pvr_kccb_capacity(pvr_dev) - used_count) {
-+		pvr_dev->kccb.reserved_count++;
-+		reserved = true;
-+	}
-+
-+	mutex_unlock(&pvr_dev->kccb.ccb.lock);
-+
-+	return reserved;
-+}
-+
-+/**
-+ * pvr_kccb_reserve_slot_sync() - Try to reserve a slot synchronously
-+ * @pvr_dev: Device pointer.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * -EBUSY if no slots were reserved after %RESERVE_SLOT_TIMEOUT, with a minimum of
-+ *    %RESERVE_SLOT_MIN_RETRIES retries.
-+ */
-+static int pvr_kccb_reserve_slot_sync(struct pvr_device *pvr_dev)
-+{
-+	unsigned long start_timestamp = jiffies;
-+	bool reserved = false;
-+	u32 retries = 0;
-+
-+	while ((jiffies - start_timestamp) < (u32)RESERVE_SLOT_TIMEOUT ||
-+	       retries < RESERVE_SLOT_MIN_RETRIES) {
-+		reserved = pvr_kccb_try_reserve_slot(pvr_dev);
-+		if (reserved)
-+			break;
-+
-+		usleep_range(1, 50);
-+
-+		if (retries < U32_MAX)
-+			retries++;
-+	}
-+
-+	return reserved ? 0 : -EBUSY;
-+}
-+
-+/**
-+ * pvr_kccb_send_cmd_powered() - Send command to the KCCB, with a PM ref held
-+ * @pvr_dev: Device pointer.
-+ * @cmd: Command to sent.
-+ * @kccb_slot: Address to store the KCCB slot for this command. May be %NULL.
-+ *
-+ * Returns:
-+ *  * Zero on success, or
-+ *  * -EBUSY if timeout while waiting for a free KCCB slot.
-+ */
-+int
-+pvr_kccb_send_cmd_powered(struct pvr_device *pvr_dev, struct rogue_fwif_kccb_cmd *cmd,
-+			  u32 *kccb_slot)
-+{
-+	int err;
-+
-+	err = pvr_kccb_reserve_slot_sync(pvr_dev);
-+	if (err)
-+		return err;
-+
-+	pvr_kccb_send_cmd_reserved_powered(pvr_dev, cmd, kccb_slot);
-+	return 0;
-+}
-+
-+/**
-+ * pvr_kccb_send_cmd() - Send command to the KCCB
-+ * @pvr_dev: Device pointer.
-+ * @cmd: Command to sent.
-+ * @kccb_slot: Address to store the KCCB slot for this command. May be %NULL.
-+ *
-+ * Returns:
-+ *  * Zero on success, or
-+ *  * -EBUSY if timeout while waiting for a free KCCB slot.
-+ */
-+int
-+pvr_kccb_send_cmd(struct pvr_device *pvr_dev, struct rogue_fwif_kccb_cmd *cmd,
-+		  u32 *kccb_slot)
-+{
-+	int err;
-+
-+	err = pvr_power_get(pvr_dev);
-+	if (err)
-+		return err;
-+
-+	err = pvr_kccb_send_cmd_powered(pvr_dev, cmd, kccb_slot);
-+
-+	pvr_power_put(pvr_dev);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_kccb_wait_for_completion() - Wait for a KCCB command to complete
-+ * @pvr_dev: Device pointer.
-+ * @slot_nr: KCCB slot to wait on.
-+ * @timeout: Timeout length (in jiffies).
-+ * @rtn_out: Location to store KCCB command result. May be %NULL.
-+ *
-+ * Returns:
-+ *  * Zero on success, or
-+ *  * -ETIMEDOUT on timeout.
-+ */
-+int
-+pvr_kccb_wait_for_completion(struct pvr_device *pvr_dev, u32 slot_nr,
-+			     u32 timeout, u32 *rtn_out)
-+{
-+	int ret = wait_event_timeout(pvr_dev->kccb.rtn_q, READ_ONCE(pvr_dev->kccb.rtn[slot_nr]) &
-+				     ROGUE_FWIF_KCCB_RTN_SLOT_CMD_EXECUTED, timeout);
-+
-+	if (ret && rtn_out)
-+		*rtn_out = READ_ONCE(pvr_dev->kccb.rtn[slot_nr]);
-+
-+	return ret ? 0 : -ETIMEDOUT;
-+}
-+
-+/**
-+ * pvr_kccb_is_idle() - Returns whether the device's KCCB is idle
-+ * @pvr_dev: Device pointer
-+ *
-+ * Returns:
-+ *  * %true if the KCCB is idle (contains no commands), or
-+ *  * %false if the KCCB contains pending commands.
-+ */
-+bool
-+pvr_kccb_is_idle(struct pvr_device *pvr_dev)
-+{
-+	struct rogue_fwif_ccb_ctl *ctrl = pvr_dev->kccb.ccb.ctrl;
-+	bool idle;
-+
-+	mutex_lock(&pvr_dev->kccb.ccb.lock);
-+
-+	idle = (READ_ONCE(ctrl->write_offset) == READ_ONCE(ctrl->read_offset));
-+
-+	mutex_unlock(&pvr_dev->kccb.ccb.lock);
-+
-+	return idle;
-+}
-+
-+static const char *
-+pvr_kccb_fence_get_driver_name(struct dma_fence *f)
-+{
-+	return PVR_DRIVER_NAME;
-+}
-+
-+static const char *
-+pvr_kccb_fence_get_timeline_name(struct dma_fence *f)
-+{
-+	return "kccb";
-+}
-+
-+static const struct dma_fence_ops pvr_kccb_fence_ops = {
-+	.get_driver_name = pvr_kccb_fence_get_driver_name,
-+	.get_timeline_name = pvr_kccb_fence_get_timeline_name,
-+};
-+
-+/**
-+ * struct pvr_kccb_fence - Fence object used to wait for a KCCB slot
-+ */
-+struct pvr_kccb_fence {
-+	/** @base: Base dma_fence object. */
-+	struct dma_fence base;
-+
-+	/** @node: Node used to insert the fence in the pvr_device::kccb::waiters list. */
-+	struct list_head node;
-+};
-+
-+/**
-+ * pvr_kccb_wake_up_waiters() - Check the KCCB waiters
-+ * @pvr_dev: Target PowerVR device
-+ *
-+ * Signal as many KCCB fences as we have slots available.
-+ */
-+void pvr_kccb_wake_up_waiters(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_kccb_fence *fence, *tmp_fence;
-+	u32 used_count, available_count;
-+
-+	/* Wake up those waiting for KCCB slot execution. */
-+	wake_up_all(&pvr_dev->kccb.rtn_q);
-+
-+	/* Then iterate over all KCCB fences and signal as many as we can. */
-+	mutex_lock(&pvr_dev->kccb.ccb.lock);
-+	used_count = pvr_kccb_used_slot_count_locked(pvr_dev);
-+
-+	if (WARN_ON(used_count + pvr_dev->kccb.reserved_count > pvr_kccb_capacity(pvr_dev)))
-+		goto out_unlock;
-+
-+	available_count = pvr_kccb_capacity(pvr_dev) - used_count - pvr_dev->kccb.reserved_count;
-+	list_for_each_entry_safe(fence, tmp_fence, &pvr_dev->kccb.waiters, node) {
-+		if (!available_count)
-+			break;
-+
-+		list_del(&fence->node);
-+		pvr_dev->kccb.reserved_count++;
-+		available_count--;
-+		dma_fence_signal(&fence->base);
-+		dma_fence_put(&fence->base);
-+	}
-+
-+out_unlock:
-+	mutex_unlock(&pvr_dev->kccb.ccb.lock);
-+}
-+
-+/**
-+ * pvr_kccb_fini() - Cleanup device KCCB
-+ * @pvr_dev: Target PowerVR device
-+ */
-+void pvr_kccb_fini(struct pvr_device *pvr_dev)
-+{
-+	pvr_ccb_fini(&pvr_dev->kccb.ccb);
-+	WARN_ON(!list_empty(&pvr_dev->kccb.waiters));
-+	WARN_ON(pvr_dev->kccb.reserved_count);
-+}
-+
-+/**
-+ * pvr_kccb_init() - Initialise device KCCB
-+ * @pvr_dev: Target PowerVR device
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_ccb_init().
-+ */
-+int
-+pvr_kccb_init(struct pvr_device *pvr_dev)
-+{
-+	pvr_dev->kccb.slot_count = 1 << ROGUE_FWIF_KCCB_NUMCMDS_LOG2_DEFAULT;
-+	INIT_LIST_HEAD(&pvr_dev->kccb.waiters);
-+	pvr_dev->kccb.fence_ctx.id = dma_fence_context_alloc(1);
-+	spin_lock_init(&pvr_dev->kccb.fence_ctx.lock);
-+
-+	return pvr_ccb_init(pvr_dev, &pvr_dev->kccb.ccb,
-+			    ROGUE_FWIF_KCCB_NUMCMDS_LOG2_DEFAULT,
-+			    sizeof(struct rogue_fwif_kccb_cmd));
-+}
-+
-+/**
-+ * pvr_kccb_fence_alloc() - Allocate a pvr_kccb_fence object
-+ *
-+ * Return:
-+ *  * NULL if the allocation fails, or
-+ *  * A valid dma_fence pointer otherwise.
-+ */
-+struct dma_fence *pvr_kccb_fence_alloc(void)
-+{
-+	struct pvr_kccb_fence *kccb_fence;
-+
-+	kccb_fence = kzalloc(sizeof(*kccb_fence), GFP_KERNEL);
-+	if (!kccb_fence)
-+		return NULL;
-+
-+	return &kccb_fence->base;
-+}
-+
-+/**
-+ * pvr_kccb_fence_put() - Drop a KCCB fence reference
-+ * @fence: The fence to drop the reference on.
-+ *
-+ * If the fence hasn't been initialized yet, dma_fence_free() is called. This
-+ * way we have a single function taking care of both cases.
-+ */
-+void pvr_kccb_fence_put(struct dma_fence *fence)
-+{
-+	if (!fence)
-+		return;
-+
-+	if (!fence->ops) {
-+		dma_fence_free(fence);
-+	} else {
-+		WARN_ON(fence->ops != &pvr_kccb_fence_ops);
-+		dma_fence_put(fence);
-+	}
-+}
-+
-+/**
-+ * pvr_kccb_reserve_slot() - Reserve a KCCB slot for later use
-+ * @pvr_dev: Target PowerVR device
-+ * @f: KCCB fence object previously allocated with pvr_kccb_fence_alloc()
-+ *
-+ * Try to reserve a KCCB slot, and if there's no slot available,
-+ * initializes the fence object and queue it to the waiters list.
-+ *
-+ * If NULL is returned, that means the slot is reserved. In that case,
-+ * the @f is freed and shouldn't be accessed after that point.
-+ *
-+ * Return:
-+ *  * NULL if a slot was available directly, or
-+ *  * A valid dma_fence object to wait on if no slot was available.
-+ */
-+struct dma_fence *
-+pvr_kccb_reserve_slot(struct pvr_device *pvr_dev, struct dma_fence *f)
-+{
-+	struct pvr_kccb_fence *fence = container_of(f, struct pvr_kccb_fence, base);
-+	struct dma_fence *out_fence = NULL;
-+	u32 used_count;
-+
-+	mutex_lock(&pvr_dev->kccb.ccb.lock);
-+
-+	used_count = pvr_kccb_used_slot_count_locked(pvr_dev);
-+	if (pvr_dev->kccb.reserved_count >= pvr_kccb_capacity(pvr_dev) - used_count) {
-+		dma_fence_init(&fence->base, &pvr_kccb_fence_ops,
-+			       &pvr_dev->kccb.fence_ctx.lock,
-+			       pvr_dev->kccb.fence_ctx.id,
-+			       atomic_inc_return(&pvr_dev->kccb.fence_ctx.seqno));
-+		out_fence = dma_fence_get(&fence->base);
-+		list_add_tail(&fence->node, &pvr_dev->kccb.waiters);
-+	} else {
-+		pvr_kccb_fence_put(f);
-+		pvr_dev->kccb.reserved_count++;
-+	}
-+
-+	mutex_unlock(&pvr_dev->kccb.ccb.lock);
-+
-+	return out_fence;
-+}
-+
-+/**
-+ * pvr_kccb_release_slot() - Release a KCCB slot reserved with
-+ * pvr_kccb_reserve_slot()
-+ * @pvr_dev: Target PowerVR device
-+ *
-+ * Should only be called if something failed after the
-+ * pvr_kccb_reserve_slot() call and you know you won't call
-+ * pvr_kccb_send_cmd_reserved().
-+ */
-+void pvr_kccb_release_slot(struct pvr_device *pvr_dev)
-+{
-+	mutex_lock(&pvr_dev->kccb.ccb.lock);
-+	if (!WARN_ON(!pvr_dev->kccb.reserved_count))
-+		pvr_dev->kccb.reserved_count--;
-+	mutex_unlock(&pvr_dev->kccb.ccb.lock);
-+}
-+
-+/**
-+ * pvr_fwccb_init() - Initialise device FWCCB
-+ * @pvr_dev: Target PowerVR device
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_ccb_init().
-+ */
-+int
-+pvr_fwccb_init(struct pvr_device *pvr_dev)
-+{
-+	return pvr_ccb_init(pvr_dev, &pvr_dev->fwccb,
-+			    ROGUE_FWIF_FWCCB_NUMCMDS_LOG2,
-+			    sizeof(struct rogue_fwif_fwccb_cmd));
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_ccb.h b/drivers/gpu/drm/imagination/pvr_ccb.h
-new file mode 100644
-index 000000000000..4c8aef31eeb0
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_ccb.h
-@@ -0,0 +1,71 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_CCB_H
-+#define PVR_CCB_H
-+
-+#include "pvr_rogue_fwif.h"
-+
-+#include <linux/mutex.h>
-+#include <linux/types.h>
-+
-+/* Forward declaration from pvr_device.h. */
-+struct pvr_device;
-+
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_fw_object;
-+
-+struct pvr_ccb {
-+	/** @ctrl_obj: FW object representing CCB control structure. */
-+	struct pvr_fw_object *ctrl_obj;
-+	/** @ccb_obj: FW object representing CCB. */
-+	struct pvr_fw_object *ccb_obj;
-+
-+	/** @ctrl_fw_addr: FW virtual address of CCB control structure. */
-+	u32 ctrl_fw_addr;
-+	/** @ccb_fw_addr: FW virtual address of CCB. */
-+	u32 ccb_fw_addr;
-+
-+	/** @num_cmds: Number of commands in this CCB. */
-+	u32 num_cmds;
-+
-+	/** @cmd_size: Size of each command in this CCB, in bytes. */
-+	u32 cmd_size;
-+
-+	/** @lock: Mutex protecting @ctrl and @ccb. */
-+	struct mutex lock;
-+	/**
-+	 * @ctrl: Kernel mapping of CCB control structure. @lock must be held
-+	 *        when accessing.
-+	 */
-+	struct rogue_fwif_ccb_ctl *ctrl;
-+	/** @ccb: Kernel mapping of CCB. @lock must be held when accessing. */
-+	void *ccb;
-+};
-+
-+int pvr_kccb_init(struct pvr_device *pvr_dev);
-+void pvr_kccb_fini(struct pvr_device *pvr_dev);
-+int pvr_fwccb_init(struct pvr_device *pvr_dev);
-+void pvr_ccb_fini(struct pvr_ccb *ccb);
-+
-+void pvr_fwccb_process(struct pvr_device *pvr_dev);
-+
-+struct dma_fence *pvr_kccb_fence_alloc(void);
-+void pvr_kccb_fence_put(struct dma_fence *fence);
-+struct dma_fence *
-+pvr_kccb_reserve_slot(struct pvr_device *pvr_dev, struct dma_fence *f);
-+void pvr_kccb_release_slot(struct pvr_device *pvr_dev);
-+int pvr_kccb_send_cmd(struct pvr_device *pvr_dev,
-+		      struct rogue_fwif_kccb_cmd *cmd, u32 *kccb_slot);
-+int pvr_kccb_send_cmd_powered(struct pvr_device *pvr_dev,
-+			      struct rogue_fwif_kccb_cmd *cmd,
-+			      u32 *kccb_slot);
-+void pvr_kccb_send_cmd_reserved_powered(struct pvr_device *pvr_dev,
-+					struct rogue_fwif_kccb_cmd *cmd,
-+					u32 *kccb_slot);
-+int pvr_kccb_wait_for_completion(struct pvr_device *pvr_dev, u32 slot_nr, u32 timeout,
-+				 u32 *rtn_out);
-+bool pvr_kccb_is_idle(struct pvr_device *pvr_dev);
-+void pvr_kccb_wake_up_waiters(struct pvr_device *pvr_dev);
-+
-+#endif /* PVR_CCB_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-index e16282325178..1be14cdbdace 100644
---- a/drivers/gpu/drm/imagination/pvr_device.c
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -114,6 +114,87 @@ static int pvr_device_clk_init(struct pvr_device *pvr_dev)
- 	return 0;
- }
++	pvr_queue.o \
+ 	pvr_stream.o \
+ 	pvr_stream_defs.o \
++	pvr_sync.o \
+ 	pvr_vm.o \
+ 	pvr_vm_mips.o
  
-+static irqreturn_t pvr_device_irq_thread_handler(int irq, void *data)
-+{
-+	struct pvr_device *pvr_dev = data;
-+	irqreturn_t ret = IRQ_NONE;
-+
-+	/* We are in the threaded handler, we can keep dequeuing events until we
-+	 * don't see any. This should allow us to reduce the number of interrupts
-+	 * when the GPU is receiving a massive amount of short jobs.
-+	 */
-+	while (pvr_fw_irq_pending(pvr_dev)) {
-+		pvr_fw_irq_clear(pvr_dev);
-+
-+		if (pvr_dev->fw_dev.booted) {
-+			pvr_fwccb_process(pvr_dev);
-+			pvr_kccb_wake_up_waiters(pvr_dev);
-+		}
-+
-+		pm_runtime_mark_last_busy(from_pvr_device(pvr_dev)->dev);
-+
-+		ret = IRQ_HANDLED;
-+	}
-+
-+	/* Unmask FW irqs before returning, so new interrupts can be received. */
-+	pvr_fw_irq_enable(pvr_dev);
-+	return ret;
-+}
-+
-+static irqreturn_t pvr_device_irq_handler(int irq, void *data)
-+{
-+	struct pvr_device *pvr_dev = data;
-+
-+	if (!pvr_fw_irq_pending(pvr_dev))
-+		return IRQ_NONE; /* Spurious IRQ - ignore. */
-+
-+	/* Mask the FW interrupts before waking up the thread. Will be unmasked
-+	 * when the thread handler is done processing events.
-+	 */
-+	pvr_fw_irq_disable(pvr_dev);
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+/**
-+ * pvr_device_irq_init() - Initialise IRQ required by a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * Any error returned by platform_get_irq_byname(), or
-+ *  * Any error returned by request_irq().
-+ */
-+static int
-+pvr_device_irq_init(struct pvr_device *pvr_dev)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	struct platform_device *plat_dev = to_platform_device(drm_dev->dev);
-+
-+	init_waitqueue_head(&pvr_dev->kccb.rtn_q);
-+
-+	pvr_dev->irq = platform_get_irq(plat_dev, 0);
-+	if (pvr_dev->irq < 0)
-+		return pvr_dev->irq;
-+
-+	/* Clear any pending events before requesting the IRQ line. */
-+	pvr_fw_irq_clear(pvr_dev);
-+	pvr_fw_irq_enable(pvr_dev);
-+
-+	return request_threaded_irq(pvr_dev->irq, pvr_device_irq_handler,
-+				    pvr_device_irq_thread_handler,
-+				    IRQF_SHARED, "gpu", pvr_dev);
-+}
-+
-+/**
-+ * pvr_device_irq_fini() - Deinitialise IRQ required by a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
-+ */
-+static void
-+pvr_device_irq_fini(struct pvr_device *pvr_dev)
-+{
-+	free_irq(pvr_dev->irq, pvr_dev);
-+}
-+
- /**
-  * pvr_build_firmware_filename() - Construct a PowerVR firmware filename
-  * @pvr_dev: Target PowerVR device.
-@@ -324,7 +405,19 @@ pvr_device_gpu_init(struct pvr_device *pvr_dev)
- 			return PTR_ERR(pvr_dev->kernel_vm_ctx);
- 	}
- 
-+	err = pvr_fw_init(pvr_dev);
-+	if (err)
-+		goto err_vm_ctx_put;
-+
- 	return 0;
-+
-+err_vm_ctx_put:
-+	if (pvr_dev->fw_dev.processor_type != PVR_FW_PROCESSOR_TYPE_MIPS) {
-+		pvr_vm_context_put(pvr_dev->kernel_vm_ctx);
-+		pvr_dev->kernel_vm_ctx = NULL;
-+	}
-+
-+	return err;
- }
- 
- /**
-@@ -334,6 +427,8 @@ pvr_device_gpu_init(struct pvr_device *pvr_dev)
- static void
- pvr_device_gpu_fini(struct pvr_device *pvr_dev)
- {
-+	pvr_fw_fini(pvr_dev);
-+
- 	if (pvr_dev->fw_dev.processor_type != PVR_FW_PROCESSOR_TYPE_MIPS) {
- 		WARN_ON(!pvr_vm_context_put(pvr_dev->kernel_vm_ctx));
- 		pvr_dev->kernel_vm_ctx = NULL;
-@@ -386,10 +481,17 @@ pvr_device_init(struct pvr_device *pvr_dev)
- 	if (err)
- 		goto err_pm_runtime_put;
- 
-+	err = pvr_device_irq_init(pvr_dev);
-+	if (err)
-+		goto err_device_gpu_fini;
-+
- 	pm_runtime_put(dev);
- 
- 	return 0;
- 
-+err_device_gpu_fini:
-+	pvr_device_gpu_fini(pvr_dev);
-+
- err_pm_runtime_put:
- 	pm_runtime_put_sync_suspend(dev);
- 
-@@ -407,6 +509,7 @@ pvr_device_fini(struct pvr_device *pvr_dev)
- 	 * Deinitialization stages are performed in reverse order compared to
- 	 * the initialization stages in pvr_device_init().
- 	 */
-+	pvr_device_irq_fini(pvr_dev);
- 	pvr_device_gpu_fini(pvr_dev);
- }
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 771ba879f02d..39347595c6f0 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -4,6 +4,7 @@
- #ifndef PVR_DEVICE_H
- #define PVR_DEVICE_H
- 
-+#include "pvr_ccb.h"
- #include "pvr_device_info.h"
- #include "pvr_fw.h"
- 
-@@ -123,6 +124,12 @@ struct pvr_device {
- 	 */
- 	struct clk *mem_clk;
- 
-+	/** @irq: IRQ number. */
-+	int irq;
-+
-+	/** @fwccb: Firmware CCB. */
-+	struct pvr_ccb fwccb;
-+
- 	/**
- 	 * @kernel_vm_ctx: Virtual memory context used for kernel mappings.
- 	 *
-@@ -153,6 +160,49 @@ struct pvr_device {
- 		u32 kccb_stall_count;
- 	} watchdog;
- 
-+	struct {
-+		/** @ccb: Kernel CCB. */
-+		struct pvr_ccb ccb;
-+
-+		/** @rtn_q: Waitqueue for KCCB command return waiters. */
-+		wait_queue_head_t rtn_q;
-+
-+		/** @rtn_obj: Object representing KCCB return slots. */
-+		struct pvr_fw_object *rtn_obj;
-+
-+		/**
-+		 * @rtn: Pointer to CPU mapping of KCCB return slots. Must be accessed by
-+		 *       READ_ONCE()/WRITE_ONCE().
-+		 */
-+		u32 *rtn;
-+
-+		/** @slot_count: Total number of KCCB slots available. */
-+		u32 slot_count;
-+
-+		/** @reserved_count: Number of KCCB slots reserved for future use. */
-+		u32 reserved_count;
-+
-+		/**
-+		 * @waiters: List of KCCB slot waiters.
-+		 */
-+		struct list_head waiters;
-+
-+		/** @fence_ctx: KCCB fence context. */
-+		struct {
-+			/** @id: KCCB fence context ID allocated with dma_fence_context_alloc(). */
-+			u64 id;
-+
-+			/** @seqno: Sequence number incremented each time a fence is created. */
-+			atomic_t seqno;
-+
-+			/**
-+			 * @lock: Lock used to synchronize access to fences allocated by this
-+			 * context.
-+			 */
-+			spinlock_t lock;
-+		} fence_ctx;
-+	} kccb;
-+
- 	/**
- 	 * @lost: %true if the device has been lost.
- 	 *
-@@ -161,6 +211,16 @@ struct pvr_device {
- 	 */
- 	bool lost;
- 
-+	/**
-+	 * @reset_sem: Reset semaphore.
-+	 *
-+	 * GPU reset code will lock this for writing. Any code that submits commands to the firmware
-+	 * that isn't in an IRQ handler or on the scheduler workqueue must lock this for reading.
-+	 * Once this has been successfully locked, &pvr_dev->lost _must_ be checked, and -%EIO must
-+	 * be returned if it is set.
-+	 */
-+	struct rw_semaphore reset_sem;
-+
- 	/** @sched_wq: Workqueue for schedulers. */
- 	struct workqueue_struct *sched_wq;
- };
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index 12e136217c45..33b38c0d79c8 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -1331,3 +1331,4 @@ MODULE_AUTHOR("Imagination Technologies Ltd.");
- MODULE_DESCRIPTION(PVR_DRIVER_DESC);
- MODULE_LICENSE("Dual MIT/GPL");
- MODULE_IMPORT_NS(DMA_BUF);
-+MODULE_FIRMWARE("powervr/rogue_33.15.11.3_v1.fw");
-diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
-index a9377c735c9c..f8ed981f1807 100644
---- a/drivers/gpu/drm/imagination/pvr_fw.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw.c
-@@ -1,16 +1,84 @@
- // SPDX-License-Identifier: GPL-2.0-only OR MIT
- /* Copyright (c) 2023 Imagination Technologies Ltd. */
- 
-+#include "pvr_ccb.h"
+diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/imagination/pvr_context.c
+index 6cec5aa5a759..eded5e955cc0 100644
+--- a/drivers/gpu/drm/imagination/pvr_context.c
++++ b/drivers/gpu/drm/imagination/pvr_context.c
+@@ -6,10 +6,12 @@
  #include "pvr_device.h"
- #include "pvr_device_info.h"
- #include "pvr_fw.h"
-+#include "pvr_fw_info.h"
-+#include "pvr_fw_startstop.h"
-+#include "pvr_fw_trace.h"
-+#include "pvr_gem.h"
-+#include "pvr_power.h"
-+#include "pvr_rogue_fwif_dev_info.h"
-+#include "pvr_rogue_heap_config.h"
-+#include "pvr_vm.h"
+ #include "pvr_drv.h"
+ #include "pvr_gem.h"
++#include "pvr_job.h"
+ #include "pvr_power.h"
+ #include "pvr_rogue_fwif.h"
+ #include "pvr_rogue_fwif_common.h"
+ #include "pvr_rogue_fwif_resetframework.h"
++#include "pvr_stream.h"
+ #include "pvr_stream_defs.h"
+ #include "pvr_vm.h"
  
- #include <drm/drm_drv.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_mm.h>
-+#include <linux/clk.h>
- #include <linux/firmware.h>
-+#include <linux/math.h>
-+#include <linux/minmax.h>
- #include <linux/sizes.h>
- 
- #define FW_MAX_SUPPORTED_MAJOR_VERSION 1
- 
-+#define FW_BOOT_TIMEOUT_USEC 5000000
-+
-+/* Config heap occupies top 192k of the firmware heap. */
-+#define PVR_ROGUE_FW_CONFIG_HEAP_GRANULARITY SZ_64K
-+#define PVR_ROGUE_FW_CONFIG_HEAP_SIZE (3 * PVR_ROGUE_FW_CONFIG_HEAP_GRANULARITY)
-+
-+/* Main firmware allocations should come from the remainder of the heap. */
-+#define PVR_ROGUE_FW_MAIN_HEAP_BASE ROGUE_FW_HEAP_BASE
-+
-+/* Offsets from start of configuration area of FW heap. */
-+#define PVR_ROGUE_FWIF_CONNECTION_CTL_OFFSET 0
-+#define PVR_ROGUE_FWIF_OSINIT_OFFSET \
-+	(PVR_ROGUE_FWIF_CONNECTION_CTL_OFFSET + PVR_ROGUE_FW_CONFIG_HEAP_GRANULARITY)
-+#define PVR_ROGUE_FWIF_SYSINIT_OFFSET \
-+	(PVR_ROGUE_FWIF_OSINIT_OFFSET + PVR_ROGUE_FW_CONFIG_HEAP_GRANULARITY)
-+
-+#define PVR_ROGUE_FAULT_PAGE_SIZE SZ_4K
-+
-+#define PVR_SYNC_OBJ_SIZE sizeof(u32)
-+
-+const struct pvr_fw_layout_entry *
-+pvr_fw_find_layout_entry(struct pvr_device *pvr_dev, enum pvr_fw_section_id id)
-+{
-+	const struct pvr_fw_layout_entry *layout_entries = pvr_dev->fw_dev.layout_entries;
-+	u32 num_layout_entries = pvr_dev->fw_dev.header->layout_entry_num;
-+	u32 entry;
-+
-+	for (entry = 0; entry < num_layout_entries; entry++) {
-+		if (layout_entries[entry].id == id)
-+			return &layout_entries[entry];
-+	}
-+
-+	return NULL;
-+}
-+
-+static const struct pvr_fw_layout_entry *
-+pvr_fw_find_private_data(struct pvr_device *pvr_dev)
-+{
-+	const struct pvr_fw_layout_entry *layout_entries = pvr_dev->fw_dev.layout_entries;
-+	u32 num_layout_entries = pvr_dev->fw_dev.header->layout_entry_num;
-+	u32 entry;
-+
-+	for (entry = 0; entry < num_layout_entries; entry++) {
-+		if (layout_entries[entry].id == META_PRIVATE_DATA ||
-+		    layout_entries[entry].id == MIPS_PRIVATE_DATA ||
-+		    layout_entries[entry].id == RISCV_PRIVATE_DATA)
-+			return &layout_entries[entry];
-+	}
-+
-+	return NULL;
-+}
-+
-+#define DEV_INFO_MASK_SIZE(x) DIV_ROUND_UP(x, 64)
-+
- /**
-  * pvr_fw_validate() - Parse firmware header and check compatibility
-  * @pvr_dev: Device pointer.
-@@ -122,6 +190,704 @@ pvr_fw_get_device_info(struct pvr_device *pvr_dev)
- 					    header->feature_param_size);
+@@ -164,6 +166,116 @@ ctx_fw_data_init(void *cpu_ptr, void *priv)
+ 	memcpy(cpu_ptr, ctx->data, ctx->data_size);
  }
  
-+static void
-+layout_get_sizes(struct pvr_device *pvr_dev)
++/**
++ * pvr_context_destroy_queues() - Destroy all queues attached to a context.
++ * @ctx: Context to destroy queues on.
++ *
++ * Should be called when the last reference to a context object is dropped.
++ * It releases all resources attached to the queues bound to this context.
++ */
++static void pvr_context_destroy_queues(struct pvr_context *ctx)
 +{
-+	const struct pvr_fw_layout_entry *layout_entries = pvr_dev->fw_dev.layout_entries;
-+	u32 num_layout_entries = pvr_dev->fw_dev.header->layout_entry_num;
-+	struct pvr_fw_mem *fw_mem = &pvr_dev->fw_dev.mem;
-+
-+	fw_mem->code_alloc_size = 0;
-+	fw_mem->data_alloc_size = 0;
-+	fw_mem->core_code_alloc_size = 0;
-+	fw_mem->core_data_alloc_size = 0;
-+
-+	/* Extract section sizes from FW layout table. */
-+	for (u32 entry = 0; entry < num_layout_entries; entry++) {
-+		switch (layout_entries[entry].type) {
-+		case FW_CODE:
-+			fw_mem->code_alloc_size += layout_entries[entry].alloc_size;
-+			break;
-+		case FW_DATA:
-+			fw_mem->data_alloc_size += layout_entries[entry].alloc_size;
-+			break;
-+		case FW_COREMEM_CODE:
-+			fw_mem->core_code_alloc_size +=
-+				layout_entries[entry].alloc_size;
-+			break;
-+		case FW_COREMEM_DATA:
-+			fw_mem->core_data_alloc_size +=
-+				layout_entries[entry].alloc_size;
-+			break;
-+		case NONE:
-+			break;
-+		}
++	switch (ctx->type) {
++	case DRM_PVR_CTX_TYPE_RENDER:
++		pvr_queue_destroy(ctx->queues.fragment);
++		pvr_queue_destroy(ctx->queues.geometry);
++		break;
++	case DRM_PVR_CTX_TYPE_COMPUTE:
++		pvr_queue_destroy(ctx->queues.compute);
++		break;
++	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
++		pvr_queue_destroy(ctx->queues.transfer);
++		break;
 +	}
 +}
 +
-+int
-+pvr_fw_find_mmu_segment(struct pvr_device *pvr_dev, u32 addr, u32 size, void *fw_code_ptr,
-+			void *fw_data_ptr, void *fw_core_code_ptr, void *fw_core_data_ptr,
-+			void **host_addr_out)
++/**
++ * pvr_context_create_queues() - Create all queues attached to a context.
++ * @ctx: Context to create queues on.
++ * @args: Context creation arguments passed by userspace.
++ * @fw_ctx_map: CPU mapping of the FW context object.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * A negative error code otherwise.
++ */
++static int pvr_context_create_queues(struct pvr_context *ctx,
++				     struct drm_pvr_ioctl_create_context_args *args,
++				     void *fw_ctx_map)
 +{
-+	const struct pvr_fw_layout_entry *layout_entries = pvr_dev->fw_dev.layout_entries;
-+	u32 num_layout_entries = pvr_dev->fw_dev.header->layout_entry_num;
-+	u32 end_addr = addr + size;
-+	int entry = 0;
++	int err;
 +
-+	/* Ensure requested range is not zero, and size is not causing addr to overflow. */
-+	if (end_addr <= addr)
-+		return -EINVAL;
-+
-+	for (entry = 0; entry < num_layout_entries; entry++) {
-+		u32 entry_start_addr = layout_entries[entry].base_addr;
-+		u32 entry_end_addr = entry_start_addr + layout_entries[entry].alloc_size;
-+
-+		if (addr >= entry_start_addr && addr < entry_end_addr &&
-+		    end_addr > entry_start_addr && end_addr <= entry_end_addr) {
-+			switch (layout_entries[entry].type) {
-+			case FW_CODE:
-+				*host_addr_out = fw_code_ptr;
-+				break;
-+
-+			case FW_DATA:
-+				*host_addr_out = fw_data_ptr;
-+				break;
-+
-+			case FW_COREMEM_CODE:
-+				*host_addr_out = fw_core_code_ptr;
-+				break;
-+
-+			case FW_COREMEM_DATA:
-+				*host_addr_out = fw_core_data_ptr;
-+				break;
-+
-+			default:
-+				return -EINVAL;
-+			}
-+			/* Direct Mem write to mapped memory */
-+			addr -= layout_entries[entry].base_addr;
-+			addr += layout_entries[entry].alloc_offset;
-+
-+			/*
-+			 * Add offset to pointer to FW allocation only if that
-+			 * allocation is available
-+			 */
-+			*(u8 **)host_addr_out += addr;
-+			return 0;
++	switch (ctx->type) {
++	case DRM_PVR_CTX_TYPE_RENDER:
++		ctx->queues.geometry = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_GEOMETRY,
++							args, fw_ctx_map);
++		if (IS_ERR(ctx->queues.geometry)) {
++			err = PTR_ERR(ctx->queues.geometry);
++			ctx->queues.geometry = NULL;
++			goto err_destroy_queues;
 +		}
++
++		ctx->queues.fragment = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_FRAGMENT,
++							args, fw_ctx_map);
++		if (IS_ERR(ctx->queues.fragment)) {
++			err = PTR_ERR(ctx->queues.fragment);
++			ctx->queues.fragment = NULL;
++			goto err_destroy_queues;
++		}
++		return 0;
++
++	case DRM_PVR_CTX_TYPE_COMPUTE:
++		ctx->queues.compute = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_COMPUTE,
++						       args, fw_ctx_map);
++		if (IS_ERR(ctx->queues.compute)) {
++			err = PTR_ERR(ctx->queues.compute);
++			ctx->queues.compute = NULL;
++			goto err_destroy_queues;
++		}
++		return 0;
++
++	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
++		ctx->queues.transfer = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_TRANSFER_FRAG,
++							args, fw_ctx_map);
++		if (IS_ERR(ctx->queues.transfer)) {
++			err = PTR_ERR(ctx->queues.transfer);
++			ctx->queues.transfer = NULL;
++			goto err_destroy_queues;
++		}
++		return 0;
 +	}
 +
 +	return -EINVAL;
-+}
 +
-+static int
-+pvr_fw_create_fwif_connection_ctl(struct pvr_device *pvr_dev)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+
-+	fw_dev->fwif_connection_ctl =
-+		pvr_fw_object_create_and_map_offset(pvr_dev,
-+						    fw_dev->fw_heap_info.config_offset +
-+						    PVR_ROGUE_FWIF_CONNECTION_CTL_OFFSET,
-+						    sizeof(*fw_dev->fwif_connection_ctl),
-+						    PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+						    NULL, NULL,
-+						    &fw_dev->mem.fwif_connection_ctl_obj);
-+	if (IS_ERR(fw_dev->fwif_connection_ctl)) {
-+		drm_err(drm_dev,
-+			"Unable to allocate FWIF connection control memory\n");
-+		return PTR_ERR(fw_dev->fwif_connection_ctl);
-+	}
-+
-+	return 0;
-+}
-+
-+static void
-+pvr_fw_fini_fwif_connection_ctl(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+
-+	pvr_fw_object_unmap_and_destroy(fw_dev->mem.fwif_connection_ctl_obj);
-+}
-+
-+static void
-+fw_osinit_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_osinit *fwif_osinit = cpu_ptr;
-+	struct pvr_device *pvr_dev = priv;
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mem *fw_mem = &fw_dev->mem;
-+
-+	fwif_osinit->kernel_ccbctl_fw_addr = pvr_dev->kccb.ccb.ctrl_fw_addr;
-+	fwif_osinit->kernel_ccb_fw_addr = pvr_dev->kccb.ccb.ccb_fw_addr;
-+	pvr_fw_object_get_fw_addr(pvr_dev->kccb.rtn_obj,
-+				  &fwif_osinit->kernel_ccb_rtn_slots_fw_addr);
-+
-+	fwif_osinit->firmware_ccbctl_fw_addr = pvr_dev->fwccb.ctrl_fw_addr;
-+	fwif_osinit->firmware_ccb_fw_addr = pvr_dev->fwccb.ccb_fw_addr;
-+
-+	fwif_osinit->work_est_firmware_ccbctl_fw_addr = 0;
-+	fwif_osinit->work_est_firmware_ccb_fw_addr = 0;
-+
-+	pvr_fw_object_get_fw_addr(fw_mem->hwrinfobuf_obj,
-+				  &fwif_osinit->rogue_fwif_hwr_info_buf_ctl_fw_addr);
-+	pvr_fw_object_get_fw_addr(fw_mem->osdata_obj, &fwif_osinit->fw_os_data_fw_addr);
-+
-+	fwif_osinit->hwr_debug_dump_limit = 0;
-+
-+	rogue_fwif_compchecks_bvnc_init(&fwif_osinit->rogue_comp_checks.hw_bvnc);
-+	rogue_fwif_compchecks_bvnc_init(&fwif_osinit->rogue_comp_checks.fw_bvnc);
-+}
-+
-+static void
-+fw_osdata_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_osdata *fwif_osdata = cpu_ptr;
-+	struct pvr_device *pvr_dev = priv;
-+	struct pvr_fw_mem *fw_mem = &pvr_dev->fw_dev.mem;
-+
-+	pvr_fw_object_get_fw_addr(fw_mem->power_sync_obj, &fwif_osdata->power_sync_fw_addr);
-+}
-+
-+static void
-+fw_fault_page_init(void *cpu_ptr, void *priv)
-+{
-+	u32 *fault_page = cpu_ptr;
-+
-+	for (int i = 0; i < PVR_ROGUE_FAULT_PAGE_SIZE / sizeof(*fault_page); i++)
-+		fault_page[i] = 0xdeadbee0;
-+}
-+
-+static void
-+fw_sysinit_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_sysinit *fwif_sysinit = cpu_ptr;
-+	struct pvr_device *pvr_dev = priv;
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mem *fw_mem = &fw_dev->mem;
-+	dma_addr_t fault_dma_addr = 0;
-+	u32 clock_speed_hz = clk_get_rate(pvr_dev->core_clk);
-+
-+	WARN_ON(!clock_speed_hz);
-+
-+	WARN_ON(pvr_fw_object_get_dma_addr(fw_mem->fault_page_obj, 0, &fault_dma_addr));
-+	fwif_sysinit->fault_phys_addr = (u64)fault_dma_addr;
-+
-+	fwif_sysinit->pds_exec_base = ROGUE_PDSCODEDATA_HEAP_BASE;
-+	fwif_sysinit->usc_exec_base = ROGUE_USCCODE_HEAP_BASE;
-+
-+	pvr_fw_object_get_fw_addr(fw_mem->runtime_cfg_obj, &fwif_sysinit->runtime_cfg_fw_addr);
-+	pvr_fw_object_get_fw_addr(fw_dev->fw_trace.tracebuf_ctrl_obj,
-+				  &fwif_sysinit->trace_buf_ctl_fw_addr);
-+	pvr_fw_object_get_fw_addr(fw_mem->sysdata_obj, &fwif_sysinit->fw_sys_data_fw_addr);
-+	pvr_fw_object_get_fw_addr(fw_mem->gpu_util_fwcb_obj,
-+				  &fwif_sysinit->gpu_util_fw_cb_ctl_fw_addr);
-+	if (fw_mem->core_data_obj) {
-+		pvr_fw_object_get_fw_addr(fw_mem->core_data_obj,
-+					  &fwif_sysinit->coremem_data_store.fw_addr);
-+	}
-+
-+	/* Currently unsupported. */
-+	fwif_sysinit->counter_dump_ctl.buffer_fw_addr = 0;
-+	fwif_sysinit->counter_dump_ctl.size_in_dwords = 0;
-+
-+	/* Skip alignment checks. */
-+	fwif_sysinit->align_checks = 0;
-+
-+	fwif_sysinit->filter_flags = 0;
-+	fwif_sysinit->hw_perf_filter = 0;
-+	fwif_sysinit->firmware_perf = FW_PERF_CONF_NONE;
-+	fwif_sysinit->initial_core_clock_speed = clock_speed_hz;
-+	fwif_sysinit->active_pm_latency_ms = 0;
-+	fwif_sysinit->gpio_validation_mode = ROGUE_FWIF_GPIO_VAL_OFF;
-+	fwif_sysinit->firmware_started = false;
-+	fwif_sysinit->marker_val = 1;
-+
-+	memset(&fwif_sysinit->bvnc_km_feature_flags, 0,
-+	       sizeof(fwif_sysinit->bvnc_km_feature_flags));
-+}
-+
-+#define ROGUE_FWIF_SLC_MIN_SIZE_FOR_DM_OVERLAP_KB 4
-+
-+static void
-+fw_sysdata_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_sysdata *fwif_sysdata = cpu_ptr;
-+	struct pvr_device *pvr_dev = priv;
-+	u32 slc_size_in_kilobytes = 0;
-+	u32 config_flags = 0;
-+
-+	WARN_ON(PVR_FEATURE_VALUE(pvr_dev, slc_size_in_kilobytes, &slc_size_in_kilobytes));
-+
-+	if (slc_size_in_kilobytes < ROGUE_FWIF_SLC_MIN_SIZE_FOR_DM_OVERLAP_KB)
-+		config_flags |= ROGUE_FWIF_INICFG_DISABLE_DM_OVERLAP;
-+
-+	fwif_sysdata->config_flags = config_flags;
-+}
-+
-+static void
-+fw_runtime_cfg_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_runtime_cfg *runtime_cfg = cpu_ptr;
-+	struct pvr_device *pvr_dev = priv;
-+	u32 clock_speed_hz = clk_get_rate(pvr_dev->core_clk);
-+
-+	WARN_ON(!clock_speed_hz);
-+
-+	runtime_cfg->core_clock_speed = clock_speed_hz;
-+	runtime_cfg->active_pm_latency_ms = 0;
-+	runtime_cfg->active_pm_latency_persistant = true;
-+	WARN_ON(PVR_FEATURE_VALUE(pvr_dev, num_clusters,
-+				  &runtime_cfg->default_dusts_num_init) != 0);
-+}
-+
-+static void
-+fw_gpu_util_fwcb_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_gpu_util_fwcb *gpu_util_fwcb = cpu_ptr;
-+
-+	gpu_util_fwcb->last_word = PVR_FWIF_GPU_UTIL_STATE_IDLE;
-+}
-+
-+static int
-+pvr_fw_create_structures(struct pvr_device *pvr_dev)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mem *fw_mem = &fw_dev->mem;
-+	int err;
-+
-+	fw_dev->power_sync = pvr_fw_object_create_and_map(pvr_dev, sizeof(*fw_dev->power_sync),
-+							  PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							  NULL, NULL, &fw_mem->power_sync_obj);
-+	if (IS_ERR(fw_dev->power_sync)) {
-+		drm_err(drm_dev, "Unable to allocate FW power_sync structure\n");
-+		return PTR_ERR(fw_dev->power_sync);
-+	}
-+
-+	fw_dev->hwrinfobuf = pvr_fw_object_create_and_map(pvr_dev, sizeof(*fw_dev->hwrinfobuf),
-+							  PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							  NULL, NULL, &fw_mem->hwrinfobuf_obj);
-+	if (IS_ERR(fw_dev->hwrinfobuf)) {
-+		drm_err(drm_dev,
-+			"Unable to allocate FW hwrinfobuf structure\n");
-+		err = PTR_ERR(fw_dev->hwrinfobuf);
-+		goto err_release_power_sync;
-+	}
-+
-+	err = pvr_fw_object_create(pvr_dev, PVR_SYNC_OBJ_SIZE,
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+				   NULL, NULL, &fw_mem->mmucache_sync_obj);
-+	if (err) {
-+		drm_err(drm_dev,
-+			"Unable to allocate MMU cache sync object\n");
-+		goto err_release_hwrinfobuf;
-+	}
-+
-+	fw_dev->fwif_sysdata = pvr_fw_object_create_and_map(pvr_dev,
-+							    sizeof(*fw_dev->fwif_sysdata),
-+							    PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							    fw_sysdata_init, pvr_dev,
-+							    &fw_mem->sysdata_obj);
-+	if (IS_ERR(fw_dev->fwif_sysdata)) {
-+		drm_err(drm_dev, "Unable to allocate FW SYSDATA structure\n");
-+		err = PTR_ERR(fw_dev->fwif_sysdata);
-+		goto err_release_mmucache_sync_obj;
-+	}
-+
-+	err = pvr_fw_object_create(pvr_dev, PVR_ROGUE_FAULT_PAGE_SIZE,
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+				   fw_fault_page_init, NULL, &fw_mem->fault_page_obj);
-+	if (err) {
-+		drm_err(drm_dev, "Unable to allocate FW fault page\n");
-+		goto err_release_sysdata;
-+	}
-+
-+	err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_gpu_util_fwcb),
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+				   fw_gpu_util_fwcb_init, pvr_dev, &fw_mem->gpu_util_fwcb_obj);
-+	if (err) {
-+		drm_err(drm_dev, "Unable to allocate GPU util FWCB\n");
-+		goto err_release_fault_page;
-+	}
-+
-+	err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_runtime_cfg),
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+				   fw_runtime_cfg_init, pvr_dev, &fw_mem->runtime_cfg_obj);
-+	if (err) {
-+		drm_err(drm_dev, "Unable to allocate FW runtime config\n");
-+		goto err_release_gpu_util_fwcb;
-+	}
-+
-+	err = pvr_fw_trace_init(pvr_dev);
-+	if (err)
-+		goto err_release_runtime_cfg;
-+
-+	fw_dev->fwif_osdata = pvr_fw_object_create_and_map(pvr_dev,
-+							   sizeof(*fw_dev->fwif_osdata),
-+							   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							   fw_osdata_init, pvr_dev,
-+							   &fw_mem->osdata_obj);
-+	if (IS_ERR(fw_dev->fwif_osdata)) {
-+		drm_err(drm_dev, "Unable to allocate FW OSDATA structure\n");
-+		err = PTR_ERR(fw_dev->fwif_osdata);
-+		goto err_fw_trace_fini;
-+	}
-+
-+	fw_dev->fwif_osinit =
-+		pvr_fw_object_create_and_map_offset(pvr_dev,
-+						    fw_dev->fw_heap_info.config_offset +
-+						    PVR_ROGUE_FWIF_OSINIT_OFFSET,
-+						    sizeof(*fw_dev->fwif_osinit),
-+						    PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+						    fw_osinit_init, pvr_dev, &fw_mem->osinit_obj);
-+	if (IS_ERR(fw_dev->fwif_osinit)) {
-+		drm_err(drm_dev, "Unable to allocate FW OSINIT structure\n");
-+		err = PTR_ERR(fw_dev->fwif_osinit);
-+		goto err_release_osdata;
-+	}
-+
-+	fw_dev->fwif_sysinit =
-+		pvr_fw_object_create_and_map_offset(pvr_dev,
-+						    fw_dev->fw_heap_info.config_offset +
-+						    PVR_ROGUE_FWIF_SYSINIT_OFFSET,
-+						    sizeof(*fw_dev->fwif_sysinit),
-+						    PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+						    fw_sysinit_init, pvr_dev, &fw_mem->sysinit_obj);
-+	if (IS_ERR(fw_dev->fwif_sysinit)) {
-+		drm_err(drm_dev, "Unable to allocate FW SYSINIT structure\n");
-+		err = PTR_ERR(fw_dev->fwif_sysinit);
-+		goto err_release_osinit;
-+	}
-+
-+	return 0;
-+
-+err_release_osinit:
-+	pvr_fw_object_unmap_and_destroy(fw_mem->osinit_obj);
-+
-+err_release_osdata:
-+	pvr_fw_object_unmap_and_destroy(fw_mem->osdata_obj);
-+
-+err_fw_trace_fini:
-+	pvr_fw_trace_fini(pvr_dev);
-+
-+err_release_runtime_cfg:
-+	pvr_fw_object_destroy(fw_mem->runtime_cfg_obj);
-+
-+err_release_gpu_util_fwcb:
-+	pvr_fw_object_destroy(fw_mem->gpu_util_fwcb_obj);
-+
-+err_release_fault_page:
-+	pvr_fw_object_destroy(fw_mem->fault_page_obj);
-+
-+err_release_sysdata:
-+	pvr_fw_object_unmap_and_destroy(fw_mem->sysdata_obj);
-+
-+err_release_mmucache_sync_obj:
-+	pvr_fw_object_destroy(fw_mem->mmucache_sync_obj);
-+
-+err_release_hwrinfobuf:
-+	pvr_fw_object_unmap_and_destroy(fw_mem->hwrinfobuf_obj);
-+
-+err_release_power_sync:
-+	pvr_fw_object_unmap_and_destroy(fw_mem->power_sync_obj);
-+
++err_destroy_queues:
++	pvr_context_destroy_queues(ctx);
 +	return err;
 +}
 +
-+static void
-+pvr_fw_destroy_structures(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mem *fw_mem = &fw_dev->mem;
-+
-+	pvr_fw_trace_fini(pvr_dev);
-+	pvr_fw_object_destroy(fw_mem->runtime_cfg_obj);
-+	pvr_fw_object_destroy(fw_mem->gpu_util_fwcb_obj);
-+	pvr_fw_object_destroy(fw_mem->fault_page_obj);
-+	pvr_fw_object_unmap_and_destroy(fw_mem->sysdata_obj);
-+	pvr_fw_object_unmap_and_destroy(fw_mem->sysinit_obj);
-+
-+	pvr_fw_object_destroy(fw_mem->mmucache_sync_obj);
-+	pvr_fw_object_unmap_and_destroy(fw_mem->hwrinfobuf_obj);
-+	pvr_fw_object_unmap_and_destroy(fw_mem->power_sync_obj);
-+	pvr_fw_object_unmap_and_destroy(fw_mem->osdata_obj);
-+	pvr_fw_object_unmap_and_destroy(fw_mem->osinit_obj);
-+}
-+
 +/**
-+ * pvr_fw_process() - Process firmware image, allocate FW memory and create boot
-+ *                    arguments
-+ * @pvr_dev: Device pointer.
++ * pvr_context_kill_queues() - Kill queues attached to context.
++ * @ctx: Context to kill queues on.
 + *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_fw_object_create_and_map_offset(), or
-+ *  * Any error returned by pvr_fw_object_create_and_map().
++ * Killing the queues implies making them unusable for future jobs, while still
++ * letting the currently submitted jobs a chance to finish. Queue resources will
++ * stay around until pvr_context_destroy_queues() is called.
 + */
-+static int
-+pvr_fw_process(struct pvr_device *pvr_dev)
++static void pvr_context_kill_queues(struct pvr_context *ctx)
 +{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	struct pvr_fw_mem *fw_mem = &pvr_dev->fw_dev.mem;
-+	const u8 *fw = pvr_dev->fw_dev.firmware->data;
-+	const struct pvr_fw_layout_entry *private_data;
-+	u8 *fw_code_ptr;
-+	u8 *fw_data_ptr;
-+	u8 *fw_core_code_ptr;
-+	u8 *fw_core_data_ptr;
-+	int err;
-+
-+	layout_get_sizes(pvr_dev);
-+
-+	private_data = pvr_fw_find_private_data(pvr_dev);
-+	if (!private_data)
-+		return -EINVAL;
-+
-+	/* Allocate and map memory for firmware sections. */
-+
-+	/*
-+	 * Code allocation must be at the start of the firmware heap, otherwise
-+	 * firmware processor will be unable to boot.
-+	 *
-+	 * This has the useful side-effect that for every other object in the
-+	 * driver, a firmware address of 0 is invalid.
-+	 */
-+	fw_code_ptr = pvr_fw_object_create_and_map_offset(pvr_dev, 0, fw_mem->code_alloc_size,
-+							  PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							  NULL, NULL, &fw_mem->code_obj);
-+	if (IS_ERR(fw_code_ptr)) {
-+		drm_err(drm_dev, "Unable to allocate FW code memory\n");
-+		return PTR_ERR(fw_code_ptr);
++	switch (ctx->type) {
++	case DRM_PVR_CTX_TYPE_RENDER:
++		pvr_queue_kill(ctx->queues.fragment);
++		pvr_queue_kill(ctx->queues.geometry);
++		break;
++	case DRM_PVR_CTX_TYPE_COMPUTE:
++		pvr_queue_kill(ctx->queues.compute);
++		break;
++	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
++		pvr_queue_kill(ctx->queues.transfer);
++		break;
 +	}
-+
-+	if (pvr_dev->fw_dev.defs->has_fixed_data_addr()) {
-+		u32 base_addr = private_data->base_addr & pvr_dev->fw_dev.fw_heap_info.offset_mask;
-+
-+		fw_data_ptr =
-+			pvr_fw_object_create_and_map_offset(pvr_dev, base_addr,
-+							    fw_mem->data_alloc_size,
-+							    PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							    NULL, NULL, &fw_mem->data_obj);
-+	} else {
-+		fw_data_ptr = pvr_fw_object_create_and_map(pvr_dev, fw_mem->data_alloc_size,
-+							   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							   NULL, NULL, &fw_mem->data_obj);
-+	}
-+	if (IS_ERR(fw_data_ptr)) {
-+		drm_err(drm_dev, "Unable to allocate FW data memory\n");
-+		err = PTR_ERR(fw_data_ptr);
-+		goto err_free_fw_code_obj;
-+	}
-+
-+	/* Core code and data sections are optional. */
-+	if (fw_mem->core_code_alloc_size) {
-+		fw_core_code_ptr =
-+			pvr_fw_object_create_and_map(pvr_dev, fw_mem->core_code_alloc_size,
-+						     PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+						     NULL, NULL, &fw_mem->core_code_obj);
-+		if (IS_ERR(fw_core_code_ptr)) {
-+			drm_err(drm_dev,
-+				"Unable to allocate FW core code memory\n");
-+			err = PTR_ERR(fw_core_code_ptr);
-+			goto err_free_fw_data_obj;
-+		}
-+	} else {
-+		fw_core_code_ptr = NULL;
-+	}
-+
-+	if (fw_mem->core_data_alloc_size) {
-+		fw_core_data_ptr =
-+			pvr_fw_object_create_and_map(pvr_dev, fw_mem->core_data_alloc_size,
-+						     PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+						     NULL, NULL, &fw_mem->core_data_obj);
-+		if (IS_ERR(fw_core_data_ptr)) {
-+			drm_err(drm_dev,
-+				"Unable to allocate FW core data memory\n");
-+			err = PTR_ERR(fw_core_data_ptr);
-+			goto err_free_fw_core_code_obj;
-+		}
-+	} else {
-+		fw_core_data_ptr = NULL;
-+	}
-+
-+	fw_mem->code = kzalloc(fw_mem->code_alloc_size, GFP_KERNEL);
-+	fw_mem->data = kzalloc(fw_mem->data_alloc_size, GFP_KERNEL);
-+	if (fw_mem->core_code_alloc_size)
-+		fw_mem->core_code = kzalloc(fw_mem->core_code_alloc_size, GFP_KERNEL);
-+	if (fw_mem->core_data_alloc_size)
-+		fw_mem->core_data = kzalloc(fw_mem->core_data_alloc_size, GFP_KERNEL);
-+
-+	if (!fw_mem->code || !fw_mem->data ||
-+	    (!fw_mem->core_code && fw_mem->core_code_alloc_size) ||
-+	    (!fw_mem->core_data && fw_mem->core_data_alloc_size)) {
-+		err = -ENOMEM;
-+		goto err_free_kdata;
-+	}
-+
-+	err = pvr_dev->fw_dev.defs->fw_process(pvr_dev, fw,
-+					       fw_mem->code, fw_mem->data, fw_mem->core_code,
-+					       fw_mem->core_data, fw_mem->core_code_alloc_size);
-+
-+	if (err)
-+		goto err_free_fw_core_data_obj;
-+
-+	memcpy(fw_code_ptr, fw_mem->code, fw_mem->code_alloc_size);
-+	memcpy(fw_data_ptr, fw_mem->data, fw_mem->data_alloc_size);
-+	if (fw_mem->core_code)
-+		memcpy(fw_core_code_ptr, fw_mem->core_code, fw_mem->core_code_alloc_size);
-+	if (fw_mem->core_data)
-+		memcpy(fw_core_data_ptr, fw_mem->core_data, fw_mem->core_data_alloc_size);
-+
-+	/* We're finished with the firmware section memory on the CPU, unmap. */
-+	if (fw_core_data_ptr)
-+		pvr_fw_object_vunmap(fw_mem->core_data_obj);
-+	if (fw_core_code_ptr)
-+		pvr_fw_object_vunmap(fw_mem->core_code_obj);
-+	pvr_fw_object_vunmap(fw_mem->data_obj);
-+	fw_data_ptr = NULL;
-+	pvr_fw_object_vunmap(fw_mem->code_obj);
-+	fw_code_ptr = NULL;
-+
-+	err = pvr_fw_create_fwif_connection_ctl(pvr_dev);
-+	if (err)
-+		goto err_free_fw_core_data_obj;
-+
-+	return 0;
-+
-+err_free_kdata:
-+	kfree(fw_mem->core_data);
-+	kfree(fw_mem->core_code);
-+	kfree(fw_mem->data);
-+	kfree(fw_mem->code);
-+
-+err_free_fw_core_data_obj:
-+	if (fw_core_data_ptr)
-+		pvr_fw_object_unmap_and_destroy(fw_mem->core_data_obj);
-+
-+err_free_fw_core_code_obj:
-+	if (fw_core_code_ptr)
-+		pvr_fw_object_unmap_and_destroy(fw_mem->core_code_obj);
-+
-+err_free_fw_data_obj:
-+	if (fw_data_ptr)
-+		pvr_fw_object_vunmap(fw_mem->data_obj);
-+	pvr_fw_object_destroy(fw_mem->data_obj);
-+
-+err_free_fw_code_obj:
-+	if (fw_code_ptr)
-+		pvr_fw_object_vunmap(fw_mem->code_obj);
-+	pvr_fw_object_destroy(fw_mem->code_obj);
-+
-+	return err;
-+}
-+
-+static int
-+pvr_copy_to_fw(struct pvr_fw_object *dest_obj, u8 *src_ptr, u32 size)
-+{
-+	u8 *dest_ptr = pvr_fw_object_vmap(dest_obj);
-+
-+	if (IS_ERR(dest_ptr))
-+		return PTR_ERR(dest_ptr);
-+
-+	memcpy(dest_ptr, src_ptr, size);
-+
-+	pvr_fw_object_vunmap(dest_obj);
-+
-+	return 0;
-+}
-+
-+static int
-+pvr_fw_reinit_code_data(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_mem *fw_mem = &pvr_dev->fw_dev.mem;
-+	int err;
-+
-+	err = pvr_copy_to_fw(fw_mem->code_obj, fw_mem->code, fw_mem->code_alloc_size);
-+	if (err)
-+		return err;
-+
-+	err = pvr_copy_to_fw(fw_mem->data_obj, fw_mem->data, fw_mem->data_alloc_size);
-+	if (err)
-+		return err;
-+
-+	if (fw_mem->core_code) {
-+		err = pvr_copy_to_fw(fw_mem->core_code_obj, fw_mem->core_code,
-+				     fw_mem->core_code_alloc_size);
-+		if (err)
-+			return err;
-+	}
-+
-+	if (fw_mem->core_data) {
-+		err = pvr_copy_to_fw(fw_mem->core_data_obj, fw_mem->core_data,
-+				     fw_mem->core_data_alloc_size);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static void
-+pvr_fw_cleanup(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_mem *fw_mem = &pvr_dev->fw_dev.mem;
-+
-+	pvr_fw_fini_fwif_connection_ctl(pvr_dev);
-+	if (fw_mem->core_code_obj)
-+		pvr_fw_object_destroy(fw_mem->core_code_obj);
-+	if (fw_mem->core_data_obj)
-+		pvr_fw_object_destroy(fw_mem->core_data_obj);
-+	pvr_fw_object_destroy(fw_mem->code_obj);
-+	pvr_fw_object_destroy(fw_mem->data_obj);
-+}
-+
-+/**
-+ * pvr_wait_for_fw_boot() - Wait for firmware to finish booting
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * -%ETIMEDOUT if firmware fails to boot within timeout.
-+ */
-+int
-+pvr_wait_for_fw_boot(struct pvr_device *pvr_dev)
-+{
-+	ktime_t deadline = ktime_add_us(ktime_get(), FW_BOOT_TIMEOUT_USEC);
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+
-+	while (ktime_to_ns(ktime_sub(deadline, ktime_get())) > 0) {
-+		if (READ_ONCE(fw_dev->fwif_sysinit->firmware_started))
-+			return 0;
-+	}
-+
-+	return -ETIMEDOUT;
-+}
-+
-+/*
-+ * pvr_fw_heap_info_init() - Calculate size and masks for FW heap
-+ * @pvr_dev: Target PowerVR device.
-+ * @log2_size: Log2 of raw heap size.
-+ * @reserved_size: Size of reserved area of heap, in bytes. May be zero.
-+ */
-+void
-+pvr_fw_heap_info_init(struct pvr_device *pvr_dev, u32 log2_size, u32 reserved_size)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+
-+	fw_dev->fw_heap_info.gpu_addr = PVR_ROGUE_FW_MAIN_HEAP_BASE;
-+	fw_dev->fw_heap_info.log2_size = log2_size;
-+	fw_dev->fw_heap_info.reserved_size = reserved_size;
-+	fw_dev->fw_heap_info.raw_size = 1 << fw_dev->fw_heap_info.log2_size;
-+	fw_dev->fw_heap_info.offset_mask = fw_dev->fw_heap_info.raw_size - 1;
-+	fw_dev->fw_heap_info.config_offset = fw_dev->fw_heap_info.raw_size -
-+					     PVR_ROGUE_FW_CONFIG_HEAP_SIZE;
-+	fw_dev->fw_heap_info.size = fw_dev->fw_heap_info.raw_size -
-+				    (PVR_ROGUE_FW_CONFIG_HEAP_SIZE + reserved_size);
 +}
 +
  /**
-  * pvr_fw_validate_init_device_info() - Validate firmware and initialise device information
-  * @pvr_dev: Target PowerVR device.
-@@ -143,3 +909,579 @@ pvr_fw_validate_init_device_info(struct pvr_device *pvr_dev)
+  * pvr_context_create() - Create a context.
+  * @pvr_file: File to attach the created context to.
+@@ -214,10 +326,14 @@ int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_co
+ 		goto err_put_vm;
+ 	}
  
- 	return pvr_fw_get_device_info(pvr_dev);
+-	err = init_fw_objs(ctx, args, ctx->data);
++	err = pvr_context_create_queues(ctx, args, ctx->data);
+ 	if (err)
+ 		goto err_free_ctx_data;
+ 
++	err = init_fw_objs(ctx, args, ctx->data);
++	if (err)
++		goto err_destroy_queues;
++
+ 	err = pvr_fw_object_create(pvr_dev, ctx_size, PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
+ 				   ctx_fw_data_init, ctx, &ctx->fw_obj);
+ 	if (err)
+@@ -243,6 +359,9 @@ int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_co
+ err_destroy_fw_obj:
+ 	pvr_fw_object_destroy(ctx->fw_obj);
+ 
++err_destroy_queues:
++	pvr_context_destroy_queues(ctx);
++
+ err_free_ctx_data:
+ 	kfree(ctx->data);
+ 
+@@ -262,6 +381,7 @@ pvr_context_release(struct kref *ref_count)
+ 	struct pvr_device *pvr_dev = ctx->pvr_dev;
+ 
+ 	xa_erase(&pvr_dev->ctx_ids, ctx->ctx_id);
++	pvr_context_destroy_queues(ctx);
+ 	pvr_fw_object_destroy(ctx->fw_obj);
+ 	kfree(ctx->data);
+ 	pvr_vm_context_put(ctx->vm_ctx);
+@@ -299,6 +419,9 @@ pvr_context_destroy(struct pvr_file *pvr_file, u32 handle)
+ 	if (!ctx)
+ 		return -EINVAL;
+ 
++	/* Make sure nothing can be queued to the queues after that point. */
++	pvr_context_kill_queues(ctx);
++
+ 	/* Release the reference held by the handle set. */
+ 	pvr_context_put(ctx);
+ 
+diff --git a/drivers/gpu/drm/imagination/pvr_context.h b/drivers/gpu/drm/imagination/pvr_context.h
+index 502dfad113e4..0c7b97dfa6ba 100644
+--- a/drivers/gpu/drm/imagination/pvr_context.h
++++ b/drivers/gpu/drm/imagination/pvr_context.h
+@@ -15,6 +15,7 @@
+ 
+ #include "pvr_cccb.h"
+ #include "pvr_device.h"
++#include "pvr_queue.h"
+ 
+ /* Forward declaration from pvr_gem.h. */
+ struct pvr_fw_object;
+@@ -58,8 +59,51 @@ struct pvr_context {
+ 
+ 	/** @ctx_id: FW context ID. */
+ 	u32 ctx_id;
++
++	/**
++	 * @faulty: Set to 1 when the context queues had unfinished job when
++	 * a GPU reset happened.
++	 *
++	 * In that case, the context is in an inconsistent state and can't be
++	 * used anymore.
++	 */
++	atomic_t faulty;
++
++	/** @queues: Union containing all kind of queues. */
++	union {
++		struct {
++			/** @geometry: Geometry queue. */
++			struct pvr_queue *geometry;
++
++			/** @fragment: Fragment queue. */
++			struct pvr_queue *fragment;
++		};
++
++		/** @compute: Compute queue. */
++		struct pvr_queue *compute;
++
++		/** @compute: Transfer queue. */
++		struct pvr_queue *transfer;
++	} queues;
+ };
+ 
++static __always_inline struct pvr_queue *
++pvr_context_get_queue_for_job(struct pvr_context *ctx, enum drm_pvr_job_type type)
++{
++	switch (type) {
++	case DRM_PVR_JOB_TYPE_GEOMETRY:
++		return ctx->type == DRM_PVR_CTX_TYPE_RENDER ? ctx->queues.geometry : NULL;
++	case DRM_PVR_JOB_TYPE_FRAGMENT:
++		return ctx->type == DRM_PVR_CTX_TYPE_RENDER ? ctx->queues.fragment : NULL;
++	case DRM_PVR_JOB_TYPE_COMPUTE:
++		return ctx->type == DRM_PVR_CTX_TYPE_COMPUTE ? ctx->queues.compute : NULL;
++	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
++		return ctx->type == DRM_PVR_CTX_TYPE_TRANSFER_FRAG ? ctx->queues.transfer : NULL;
++	}
++
++	return NULL;
++}
++
+ /**
+  * pvr_context_get() - Take additional reference on context.
+  * @ctx: Context pointer.
+diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
+index 2d6db4715f85..199f812d1ee7 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.c
++++ b/drivers/gpu/drm/imagination/pvr_device.c
+@@ -6,7 +6,9 @@
+ 
+ #include "pvr_fw.h"
+ #include "pvr_power.h"
++#include "pvr_queue.h"
+ #include "pvr_rogue_cr_defs.h"
++#include "pvr_stream.h"
+ #include "pvr_vm.h"
+ 
+ #include <drm/drm_print.h>
+@@ -117,6 +119,32 @@ static int pvr_device_clk_init(struct pvr_device *pvr_dev)
+ 	return 0;
  }
+ 
++/**
++ * pvr_device_process_active_queues() - Process all queue related events.
++ * @pvr_dev: PowerVR device to check
++ *
++ * This is called any time we receive a FW event. It iterates over all
++ * active queues and calls pvr_queue_process() on them.
++ */
++void pvr_device_process_active_queues(struct pvr_device *pvr_dev)
++{
++	struct pvr_queue *queue, *tmp_queue;
++	LIST_HEAD(active_queues);
++
++	mutex_lock(&pvr_dev->queues.lock);
++
++	/* Move all active queues to a temporary list. Queues that remain
++	 * active after we're done processing them are re-inserted to
++	 * the queues.active list by pvr_queue_process().
++	 */
++	list_splice_init(&pvr_dev->queues.active, &active_queues);
++
++	list_for_each_entry_safe(queue, tmp_queue, &active_queues, node)
++		pvr_queue_process(queue);
++
++	mutex_unlock(&pvr_dev->queues.lock);
++}
++
+ static irqreturn_t pvr_device_irq_thread_handler(int irq, void *data)
+ {
+ 	struct pvr_device *pvr_dev = data;
+@@ -132,6 +160,7 @@ static irqreturn_t pvr_device_irq_thread_handler(int irq, void *data)
+ 		if (pvr_dev->fw_dev.booted) {
+ 			pvr_fwccb_process(pvr_dev);
+ 			pvr_kccb_wake_up_waiters(pvr_dev);
++			pvr_device_process_active_queues(pvr_dev);
+ 		}
+ 
+ 		pm_runtime_mark_last_busy(from_pvr_device(pvr_dev)->dev);
+@@ -398,6 +427,8 @@ pvr_device_gpu_init(struct pvr_device *pvr_dev)
+ 	else
+ 		return -EINVAL;
+ 
++	pvr_stream_create_musthave_masks(pvr_dev);
++
+ 	err = pvr_set_dma_info(pvr_dev);
+ 	if (err)
+ 		return err;
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+index 299f3e022c82..b6e9a7e8072e 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -173,6 +173,26 @@ struct pvr_device {
+ 	 */
+ 	struct xarray free_list_ids;
+ 
++	/**
++	 * @job_ids: Array of jobs belonging to this device. Array members
++	 *           are of type "struct pvr_job *".
++	 */
++	struct xarray job_ids;
++
++	/**
++	 * @queues: Queue-related fields.
++	 */
++	struct {
++		/** @active: Active queue list. */
++		struct list_head active;
++
++		/** @idle: Idle queue list. */
++		struct list_head idle;
++
++		/** @lock: Lock protecting access to the active/idle lists. */
++		struct mutex lock;
++	} queues;
++
+ 	struct {
+ 		/** @work: Work item for watchdog callback. */
+ 		struct delayed_work work;
+@@ -442,6 +462,7 @@ packed_bvnc_to_pvr_gpu_id(u64 bvnc, struct pvr_gpu_id *gpu_id)
+ 
+ int pvr_device_init(struct pvr_device *pvr_dev);
+ void pvr_device_fini(struct pvr_device *pvr_dev);
++void pvr_device_reset(struct pvr_device *pvr_dev);
+ 
+ bool
+ pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk);
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+index e76363f7dbf7..a6f1d52aaebb 100644
+--- a/drivers/gpu/drm/imagination/pvr_drv.c
++++ b/drivers/gpu/drm/imagination/pvr_drv.c
+@@ -7,6 +7,7 @@
+ #include "pvr_free_list.h"
+ #include "pvr_gem.h"
+ #include "pvr_hwrt.h"
++#include "pvr_job.h"
+ #include "pvr_mmu.h"
+ #include "pvr_power.h"
+ #include "pvr_rogue_defs.h"
+@@ -32,6 +33,8 @@
+ #include <linux/of_device.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/xarray.h>
+ 
+ /**
+  * DOC: PowerVR (Series 6 and later) and IMG Graphics Driver
+@@ -397,7 +400,8 @@ pvr_dev_query_runtime_info_get(struct pvr_device *pvr_dev,
+ 		return 0;
+ 	}
+ 
+-	runtime_info.free_list_min_pages = 0; /* FIXME */
++	runtime_info.free_list_min_pages =
++		pvr_get_free_list_min_pages(pvr_dev);
+ 	runtime_info.free_list_max_pages =
+ 		ROGUE_PM_MAX_FREELIST_SIZE / ROGUE_PM_PAGE_SIZE;
+ 	runtime_info.common_store_alloc_region_size =
+@@ -1137,7 +1141,20 @@ static int
+ pvr_ioctl_submit_jobs(struct drm_device *drm_dev, void *raw_args,
+ 		      struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_submit_jobs_args *args = raw_args;
++	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
++	struct pvr_file *pvr_file = to_pvr_file(file);
++	int idx;
++	int err;
++
++	if (!drm_dev_enter(drm_dev, &idx))
++		return -EIO;
++
++	err = pvr_submit_jobs(pvr_dev, pvr_file, args);
++
++	drm_dev_exit(idx);
++
++	return err;
+ }
+ 
+ int
+@@ -1353,7 +1370,8 @@ pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
+ DEFINE_DRM_GEM_FOPS(pvr_drm_driver_fops);
+ 
+ static struct drm_driver pvr_drm_driver = {
+-	.driver_features = DRIVER_GEM | DRIVER_GEM_GPUVA | DRIVER_RENDER,
++	.driver_features = DRIVER_GEM | DRIVER_GEM_GPUVA | DRIVER_RENDER |
++			   DRIVER_SYNCOBJ | DRIVER_SYNCOBJ_TIMELINE,
+ 	.open = pvr_drm_driver_open,
+ 	.postclose = pvr_drm_driver_postclose,
+ 	.ioctls = pvr_drm_driver_ioctls,
+@@ -1386,8 +1404,15 @@ pvr_probe(struct platform_device *plat_dev)
+ 	drm_dev = &pvr_dev->base;
+ 
+ 	platform_set_drvdata(plat_dev, drm_dev);
++
++	init_rwsem(&pvr_dev->reset_sem);
++
+ 	pvr_context_device_init(pvr_dev);
+ 
++	err = pvr_queue_device_init(pvr_dev);
++	if (err)
++		goto err_context_fini;
++
+ 	devm_pm_runtime_enable(&plat_dev->dev);
+ 	pm_runtime_mark_last_busy(&plat_dev->dev);
+ 
+@@ -1404,6 +1429,7 @@ pvr_probe(struct platform_device *plat_dev)
+ 		goto err_device_fini;
+ 
+ 	xa_init_flags(&pvr_dev->free_list_ids, XA_FLAGS_ALLOC1);
++	xa_init_flags(&pvr_dev->job_ids, XA_FLAGS_ALLOC1);
+ 
+ 	return 0;
+ 
+@@ -1413,6 +1439,11 @@ pvr_probe(struct platform_device *plat_dev)
+ err_watchdog_fini:
+ 	pvr_watchdog_fini(pvr_dev);
+ 
++	pvr_queue_device_fini(pvr_dev);
++
++err_context_fini:
++	pvr_context_device_fini(pvr_dev);
++
+ 	return err;
+ }
+ 
+@@ -1422,14 +1453,17 @@ pvr_remove(struct platform_device *plat_dev)
+ 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
+ 	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
+ 
++	WARN_ON(!xa_empty(&pvr_dev->job_ids));
+ 	WARN_ON(!xa_empty(&pvr_dev->free_list_ids));
+ 
++	xa_destroy(&pvr_dev->job_ids);
+ 	xa_destroy(&pvr_dev->free_list_ids);
+ 
+ 	pm_runtime_suspend(drm_dev->dev);
+ 	pvr_device_fini(pvr_dev);
+ 	drm_dev_unplug(drm_dev);
+ 	pvr_watchdog_fini(pvr_dev);
++	pvr_queue_device_fini(pvr_dev);
+ 	pvr_context_device_fini(pvr_dev);
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/imagination/pvr_job.c b/drivers/gpu/drm/imagination/pvr_job.c
+new file mode 100644
+index 000000000000..9d0812710295
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_job.c
+@@ -0,0 +1,788 @@
++// SPDX-License-Identifier: GPL-2.0-only OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_context.h"
++#include "pvr_device.h"
++#include "pvr_drv.h"
++#include "pvr_gem.h"
++#include "pvr_hwrt.h"
++#include "pvr_job.h"
++#include "pvr_mmu.h"
++#include "pvr_power.h"
++#include "pvr_rogue_fwif.h"
++#include "pvr_rogue_fwif_client.h"
++#include "pvr_stream.h"
++#include "pvr_stream_defs.h"
++#include "pvr_sync.h"
++
++#include <drm/drm_exec.h>
++#include <drm/drm_gem.h>
++#include <linux/types.h>
++#include <uapi/drm/pvr_drm.h>
++
++static void pvr_job_release(struct kref *kref)
++{
++	struct pvr_job *job = container_of(kref, struct pvr_job, ref_count);
++
++	xa_erase(&job->pvr_dev->job_ids, job->id);
++
++	pvr_hwrt_data_put(job->hwrt);
++	pvr_context_put(job->ctx);
++
++	WARN_ON(job->paired_job);
++
++	pvr_queue_job_cleanup(job);
++	pvr_job_release_pm_ref(job);
++
++	kfree(job->cmd);
++	kfree(job);
++}
 +
 +/**
-+ * pvr_fw_init() - Initialise and boot firmware
-+ * @pvr_dev: Target PowerVR device
++ * pvr_job_put() - Release reference on job
++ * @job: Target job.
++ */
++void
++pvr_job_put(struct pvr_job *job)
++{
++	if (job)
++		kref_put(&job->ref_count, pvr_job_release);
++}
++
++/**
++ * pvr_job_process_stream() - Build job FW structure from stream
++ * @pvr_dev: Device pointer.
++ * @cmd_defs: Stream definition.
++ * @stream: Pointer to command stream.
++ * @stream_size: Size of command stream, in bytes.
++ * @job: Pointer to job.
 + *
-+ * On successful completion of the function the PowerVR device will be
-+ * initialised and ready to use.
++ * Caller is responsible for freeing the output structure.
 + *
 + * Returns:
 + *  * 0 on success,
-+ *  * -%EINVAL on invalid firmware image,
 + *  * -%ENOMEM on out of memory, or
-+ *  * -%ETIMEDOUT if firmware processor fails to boot or on register poll timeout.
++ *  * -%EINVAL on malformed stream.
 + */
-+int
-+pvr_fw_init(struct pvr_device *pvr_dev)
++static int
++pvr_job_process_stream(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
++		       void *stream, u32 stream_size, struct pvr_job *job)
 +{
-+	u32 kccb_size_log2 = ROGUE_FWIF_KCCB_NUMCMDS_LOG2_DEFAULT;
-+	u32 kccb_rtn_size = (1 << kccb_size_log2) * sizeof(*pvr_dev->kccb.rtn);
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
 +	int err;
 +
-+	if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_META)
-+		fw_dev->defs = &pvr_fw_defs_meta;
-+	else
++	job->cmd = kzalloc(cmd_defs->dest_size, GFP_KERNEL);
++	if (!job->cmd)
++		return -ENOMEM;
++
++	job->cmd_len = cmd_defs->dest_size;
++
++	err = pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, job->cmd);
++	if (err)
++		kfree(job->cmd);
++
++	return err;
++}
++
++static int pvr_fw_cmd_init(struct pvr_device *pvr_dev, struct pvr_job *job,
++			   const struct pvr_stream_cmd_defs *stream_def,
++			   u64 stream_userptr, u32 stream_len)
++{
++	void *stream;
++	int err;
++
++	stream = kzalloc(stream_len, GFP_KERNEL);
++	if (!stream)
++		return -ENOMEM;
++
++	if (copy_from_user(stream, u64_to_user_ptr(stream_userptr), stream_len)) {
++		err = -EFAULT;
++		goto err_free_stream;
++	}
++
++	err = pvr_job_process_stream(pvr_dev, stream_def, stream, stream_len, job);
++
++err_free_stream:
++	kfree(stream);
++
++	return err;
++}
++
++static u32
++convert_geom_flags(u32 in_flags)
++{
++	u32 out_flags = 0;
++
++	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_FIRST)
++		out_flags |= ROGUE_GEOM_FLAGS_FIRSTKICK;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_LAST)
++		out_flags |= ROGUE_GEOM_FLAGS_LASTKICK;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_SINGLE_CORE)
++		out_flags |= ROGUE_GEOM_FLAGS_SINGLE_CORE;
++
++	return out_flags;
++}
++
++static u32
++convert_frag_flags(u32 in_flags)
++{
++	u32 out_flags = 0;
++
++	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_SINGLE_CORE)
++		out_flags |= ROGUE_FRAG_FLAGS_SINGLE_CORE;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_DEPTHBUFFER)
++		out_flags |= ROGUE_FRAG_FLAGS_DEPTHBUFFER;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_STENCILBUFFER)
++		out_flags |= ROGUE_FRAG_FLAGS_STENCILBUFFER;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_PREVENT_CDM_OVERLAP)
++		out_flags |= ROGUE_FRAG_FLAGS_PREVENT_CDM_OVERLAP;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_SCRATCHBUFFER)
++		out_flags |= ROGUE_FRAG_FLAGS_SCRATCHBUFFER;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_GET_VIS_RESULTS)
++		out_flags |= ROGUE_FRAG_FLAGS_GET_VIS_RESULTS;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_DISABLE_PIXELMERGE)
++		out_flags |= ROGUE_FRAG_FLAGS_DISABLE_PIXELMERGE;
++
++	return out_flags;
++}
++
++static int
++pvr_geom_job_fw_cmd_init(struct pvr_job *job,
++			 struct drm_pvr_job *args)
++{
++	struct rogue_fwif_cmd_geom *cmd;
++	int err;
++
++	if (args->flags & ~DRM_PVR_SUBMIT_JOB_GEOM_CMD_FLAGS_MASK)
 +		return -EINVAL;
 +
-+	err = fw_dev->defs->init(pvr_dev);
++	if (job->ctx->type != DRM_PVR_CTX_TYPE_RENDER)
++		return -EINVAL;
++
++	if (!job->hwrt)
++		return -EINVAL;
++
++	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_GEOM;
++	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_geom_stream,
++			      args->cmd_stream, args->cmd_stream_len);
 +	if (err)
 +		return err;
 +
-+	drm_mm_init(&fw_dev->fw_mm, ROGUE_FW_HEAP_BASE, fw_dev->fw_heap_info.raw_size);
-+	fw_dev->fw_mm_base = ROGUE_FW_HEAP_BASE;
-+	spin_lock_init(&fw_dev->fw_mm_lock);
-+
-+	INIT_LIST_HEAD(&fw_dev->fw_objs.list);
-+	err = drmm_mutex_init(from_pvr_device(pvr_dev), &fw_dev->fw_objs.lock);
-+	if (err)
-+		goto err_mm_takedown;
-+
-+	err = pvr_fw_process(pvr_dev);
-+	if (err)
-+		goto err_mm_takedown;
-+
-+	/* Initialise KCCB and FWCCB. */
-+	err = pvr_kccb_init(pvr_dev);
-+	if (err)
-+		goto err_fw_cleanup;
-+
-+	err = pvr_fwccb_init(pvr_dev);
-+	if (err)
-+		goto err_kccb_fini;
-+
-+	/* Allocate memory for KCCB return slots. */
-+	pvr_dev->kccb.rtn = pvr_fw_object_create_and_map(pvr_dev, kccb_rtn_size,
-+							 PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							 NULL, NULL, &pvr_dev->kccb.rtn_obj);
-+	if (IS_ERR(pvr_dev->kccb.rtn)) {
-+		err = PTR_ERR(pvr_dev->kccb.rtn);
-+		goto err_fwccb_fini;
-+	}
-+
-+	err = pvr_fw_create_structures(pvr_dev);
-+	if (err)
-+		goto err_kccb_rtn_release;
-+
-+	err = pvr_fw_start(pvr_dev);
-+	if (err)
-+		goto err_destroy_structures;
-+
-+	err = pvr_wait_for_fw_boot(pvr_dev);
-+	if (err) {
-+		drm_err(from_pvr_device(pvr_dev), "Firmware failed to boot\n");
-+		goto err_fw_stop;
-+	}
-+
-+	fw_dev->booted = true;
-+
++	cmd = job->cmd;
++	cmd->cmd_shared.cmn.frame_num = 0;
++	cmd->flags = convert_geom_flags(args->flags);
++	pvr_fw_object_get_fw_addr(job->hwrt->fw_obj, &cmd->cmd_shared.hwrt_data_fw_addr);
 +	return 0;
-+
-+err_fw_stop:
-+	pvr_fw_stop(pvr_dev);
-+
-+err_destroy_structures:
-+	pvr_fw_destroy_structures(pvr_dev);
-+
-+err_kccb_rtn_release:
-+	pvr_fw_object_unmap_and_destroy(pvr_dev->kccb.rtn_obj);
-+
-+err_fwccb_fini:
-+	pvr_ccb_fini(&pvr_dev->fwccb);
-+
-+err_kccb_fini:
-+	pvr_kccb_fini(pvr_dev);
-+
-+err_fw_cleanup:
-+	pvr_fw_cleanup(pvr_dev);
-+
-+err_mm_takedown:
-+	drm_mm_takedown(&fw_dev->fw_mm);
-+
-+	if (fw_dev->defs->fini)
-+		fw_dev->defs->fini(pvr_dev);
-+
-+	return err;
 +}
 +
-+/**
-+ * pvr_fw_fini() - Shutdown firmware processor and free associated memory
-+ * @pvr_dev: Target PowerVR device
-+ */
-+void
-+pvr_fw_fini(struct pvr_device *pvr_dev)
++static int
++pvr_frag_job_fw_cmd_init(struct pvr_job *job,
++			 struct drm_pvr_job *args)
 +{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+
-+	fw_dev->booted = false;
-+
-+	pvr_fw_destroy_structures(pvr_dev);
-+	pvr_fw_object_unmap_and_destroy(pvr_dev->kccb.rtn_obj);
-+
-+	/*
-+	 * Ensure FWCCB worker has finished executing before destroying FWCCB. The IRQ handler has
-+	 * been unregistered at this point so no new work should be being submitted.
-+	 */
-+	pvr_ccb_fini(&pvr_dev->fwccb);
-+	pvr_kccb_fini(pvr_dev);
-+	pvr_fw_cleanup(pvr_dev);
-+
-+	mutex_lock(&pvr_dev->fw_dev.fw_objs.lock);
-+	WARN_ON(!list_empty(&pvr_dev->fw_dev.fw_objs.list));
-+	mutex_unlock(&pvr_dev->fw_dev.fw_objs.lock);
-+
-+	drm_mm_takedown(&fw_dev->fw_mm);
-+
-+	if (fw_dev->defs->fini)
-+		fw_dev->defs->fini(pvr_dev);
-+}
-+
-+/**
-+ * pvr_fw_mts_schedule() - Schedule work via an MTS kick
-+ * @pvr_dev: Target PowerVR device
-+ * @val: Kick mask. Should be a combination of %ROGUE_CR_MTS_SCHEDULE_*
-+ */
-+void
-+pvr_fw_mts_schedule(struct pvr_device *pvr_dev, u32 val)
-+{
-+	/* Ensure memory is flushed before kicking MTS. */
-+	wmb();
-+
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_SCHEDULE, val);
-+
-+	/* Ensure the MTS kick goes through before continuing. */
-+	mb();
-+}
-+
-+/**
-+ * pvr_fw_structure_cleanup() - Send FW cleanup request for an object
-+ * @pvr_dev: Target PowerVR device.
-+ * @type: Type of object to cleanup. Must be one of &enum rogue_fwif_cleanup_type.
-+ * @fw_obj: Pointer to FW object containing object to cleanup.
-+ * @offset: Offset within FW object of object to cleanup.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -EBUSY if object is busy,
-+ *  * -ETIMEDOUT on timeout, or
-+ *  * -EIO if device is lost.
-+ */
-+int
-+pvr_fw_structure_cleanup(struct pvr_device *pvr_dev, u32 type, struct pvr_fw_object *fw_obj,
-+			 u32 offset)
-+{
-+	struct rogue_fwif_kccb_cmd cmd;
-+	int slot_nr;
-+	int idx;
++	struct rogue_fwif_cmd_frag *cmd;
 +	int err;
-+	u32 rtn;
 +
-+	struct rogue_fwif_cleanup_request *cleanup_req = &cmd.cmd_data.cleanup_data;
++	if (args->flags & ~DRM_PVR_SUBMIT_JOB_FRAG_CMD_FLAGS_MASK)
++		return -EINVAL;
 +
-+	down_read(&pvr_dev->reset_sem);
++	if (job->ctx->type != DRM_PVR_CTX_TYPE_RENDER)
++		return -EINVAL;
 +
-+	if (!drm_dev_enter(from_pvr_device(pvr_dev), &idx)) {
-+		err = -EIO;
-+		goto err_up_read;
-+	}
++	if (!job->hwrt)
++		return -EINVAL;
 +
-+	cmd.cmd_type = ROGUE_FWIF_KCCB_CMD_CLEANUP;
-+	cmd.kccb_flags = 0;
-+	cleanup_req->cleanup_type = type;
++	job->fw_ccb_cmd_type = (args->flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_PARTIAL_RENDER) ?
++			       ROGUE_FWIF_CCB_CMD_TYPE_FRAG_PR :
++			       ROGUE_FWIF_CCB_CMD_TYPE_FRAG;
++	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_frag_stream,
++			      args->cmd_stream, args->cmd_stream_len);
++	if (err)
++		return err;
 +
-+	switch (type) {
-+	case ROGUE_FWIF_CLEANUP_FWCOMMONCONTEXT:
-+		pvr_fw_object_get_fw_addr_offset(fw_obj, offset,
-+						 &cleanup_req->cleanup_data.context_fw_addr);
-+		break;
-+	case ROGUE_FWIF_CLEANUP_HWRTDATA:
-+		pvr_fw_object_get_fw_addr_offset(fw_obj, offset,
-+						 &cleanup_req->cleanup_data.hwrt_data_fw_addr);
-+		break;
-+	case ROGUE_FWIF_CLEANUP_FREELIST:
-+		pvr_fw_object_get_fw_addr_offset(fw_obj, offset,
-+						 &cleanup_req->cleanup_data.freelist_fw_addr);
-+		break;
++	cmd = job->cmd;
++	cmd->cmd_shared.cmn.frame_num = 0;
++	cmd->flags = convert_frag_flags(args->flags);
++	pvr_fw_object_get_fw_addr(job->hwrt->fw_obj, &cmd->cmd_shared.hwrt_data_fw_addr);
++	return 0;
++}
++
++static u32
++convert_compute_flags(u32 in_flags)
++{
++	u32 out_flags = 0;
++
++	if (in_flags & DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_PREVENT_ALL_OVERLAP)
++		out_flags |= ROGUE_COMPUTE_FLAG_PREVENT_ALL_OVERLAP;
++	if (in_flags & DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_SINGLE_CORE)
++		out_flags |= ROGUE_COMPUTE_FLAG_SINGLE_CORE;
++
++	return out_flags;
++}
++
++static int
++pvr_compute_job_fw_cmd_init(struct pvr_job *job,
++			    struct drm_pvr_job *args)
++{
++	struct rogue_fwif_cmd_compute *cmd;
++	int err;
++
++	if (args->flags & ~DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_FLAGS_MASK)
++		return -EINVAL;
++
++	if (job->ctx->type != DRM_PVR_CTX_TYPE_COMPUTE)
++		return -EINVAL;
++
++	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_CDM;
++	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_compute_stream,
++			      args->cmd_stream, args->cmd_stream_len);
++	if (err)
++		return err;
++
++	cmd = job->cmd;
++	cmd->common.frame_num = 0;
++	cmd->flags = convert_compute_flags(args->flags);
++	return 0;
++}
++
++static u32
++convert_transfer_flags(u32 in_flags)
++{
++	u32 out_flags = 0;
++
++	if (in_flags & DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_SINGLE_CORE)
++		out_flags |= ROGUE_TRANSFER_FLAGS_SINGLE_CORE;
++
++	return out_flags;
++}
++
++static int
++pvr_transfer_job_fw_cmd_init(struct pvr_job *job,
++			     struct drm_pvr_job *args)
++{
++	struct rogue_fwif_cmd_transfer *cmd;
++	int err;
++
++	if (args->flags & ~DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_FLAGS_MASK)
++		return -EINVAL;
++
++	if (job->ctx->type != DRM_PVR_CTX_TYPE_TRANSFER_FRAG)
++		return -EINVAL;
++
++	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_TQ_3D;
++	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_transfer_stream,
++			      args->cmd_stream, args->cmd_stream_len);
++	if (err)
++		return err;
++
++	cmd = job->cmd;
++	cmd->common.frame_num = 0;
++	cmd->flags = convert_transfer_flags(args->flags);
++	return 0;
++}
++
++static int
++pvr_job_fw_cmd_init(struct pvr_job *job,
++		    struct drm_pvr_job *args)
++{
++	switch (args->type) {
++	case DRM_PVR_JOB_TYPE_GEOMETRY:
++		return pvr_geom_job_fw_cmd_init(job, args);
++
++	case DRM_PVR_JOB_TYPE_FRAGMENT:
++		return pvr_frag_job_fw_cmd_init(job, args);
++
++	case DRM_PVR_JOB_TYPE_COMPUTE:
++		return pvr_compute_job_fw_cmd_init(job, args);
++
++	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
++		return pvr_transfer_job_fw_cmd_init(job, args);
++
 +	default:
-+		err = -EINVAL;
-+		goto err_drm_dev_exit;
-+	}
-+
-+	err = pvr_kccb_send_cmd(pvr_dev, &cmd, &slot_nr);
-+	if (err)
-+		goto err_drm_dev_exit;
-+
-+	err = pvr_kccb_wait_for_completion(pvr_dev, slot_nr, HZ, &rtn);
-+	if (err)
-+		goto err_drm_dev_exit;
-+
-+	if (rtn & ROGUE_FWIF_KCCB_RTN_SLOT_CLEANUP_BUSY)
-+		err = -EBUSY;
-+
-+err_drm_dev_exit:
-+	drm_dev_exit(idx);
-+
-+err_up_read:
-+	up_read(&pvr_dev->reset_sem);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_fw_object_fw_map() - Map a FW object in firmware address space
-+ * @pvr_dev: Device pointer.
-+ * @fw_obj: FW object to map.
-+ * @dev_addr: Desired address in device space, if a specific address is
-+ *            required. 0 otherwise.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * -%EINVAL if @fw_obj is already mapped but has no references, or
-+ *  * Any error returned by DRM.
-+ */
-+static int
-+pvr_fw_object_fw_map(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj, u64 dev_addr)
-+{
-+	struct pvr_gem_object *pvr_obj = fw_obj->gem;
-+	struct drm_gem_object *gem_obj = gem_from_pvr_gem(pvr_obj);
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+
-+	int err;
-+
-+	spin_lock(&fw_dev->fw_mm_lock);
-+
-+	if (drm_mm_node_allocated(&fw_obj->fw_mm_node)) {
-+		err = -EINVAL;
-+		goto err_unlock;
-+	}
-+
-+	if (!dev_addr) {
-+		/*
-+		 * Allocate from the main heap only (firmware heap minus
-+		 * config space).
-+		 */
-+		err = drm_mm_insert_node_in_range(&fw_dev->fw_mm, &fw_obj->fw_mm_node,
-+						  gem_obj->size, 0, 0,
-+						  fw_dev->fw_heap_info.gpu_addr,
-+						  fw_dev->fw_heap_info.gpu_addr +
-+						  fw_dev->fw_heap_info.size, 0);
-+		if (err)
-+			goto err_unlock;
-+	} else {
-+		fw_obj->fw_mm_node.start = dev_addr;
-+		fw_obj->fw_mm_node.size = gem_obj->size;
-+		err = drm_mm_reserve_node(&fw_dev->fw_mm, &fw_obj->fw_mm_node);
-+		if (err)
-+			goto err_unlock;
-+	}
-+
-+	spin_unlock(&fw_dev->fw_mm_lock);
-+
-+	/* Map object on GPU. */
-+	err = fw_dev->defs->vm_map(pvr_dev, fw_obj);
-+	if (err)
-+		goto err_remove_node;
-+
-+	fw_obj->fw_addr_offset = (u32)(fw_obj->fw_mm_node.start - fw_dev->fw_mm_base);
-+
-+	return 0;
-+
-+err_remove_node:
-+	spin_lock(&fw_dev->fw_mm_lock);
-+	drm_mm_remove_node(&fw_obj->fw_mm_node);
-+
-+err_unlock:
-+	spin_unlock(&fw_dev->fw_mm_lock);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_fw_object_fw_unmap() - Unmap a previously mapped FW object
-+ * @fw_obj: FW object to unmap.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * -%EINVAL if object is not currently mapped.
-+ */
-+static int
-+pvr_fw_object_fw_unmap(struct pvr_fw_object *fw_obj)
-+{
-+	struct pvr_gem_object *pvr_obj = fw_obj->gem;
-+	struct drm_gem_object *gem_obj = gem_from_pvr_gem(pvr_obj);
-+	struct pvr_device *pvr_dev = to_pvr_device(gem_obj->dev);
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+
-+	fw_dev->defs->vm_unmap(pvr_dev, fw_obj);
-+
-+	spin_lock(&fw_dev->fw_mm_lock);
-+
-+	if (!drm_mm_node_allocated(&fw_obj->fw_mm_node)) {
-+		spin_unlock(&fw_dev->fw_mm_lock);
 +		return -EINVAL;
 +	}
++}
 +
-+	drm_mm_remove_node(&fw_obj->fw_mm_node);
++/**
++ * struct pvr_job_data - Helper container for pairing jobs with the
++ * sync_ops supplied for them by the user.
++ */
++struct pvr_job_data {
++	/** @job: Pointer to the job. */
++	struct pvr_job *job;
 +
-+	spin_unlock(&fw_dev->fw_mm_lock);
++	/** @sync_ops: Pointer to the sync_ops associated with @job. */
++	struct drm_pvr_sync_op *sync_ops;
++
++	/** @sync_op_count: Number of members of @sync_ops. */
++	u32 sync_op_count;
++};
++
++/**
++ * prepare_job_syncs() - Prepare all sync objects for a single job.
++ * @pvr_file: PowerVR file.
++ * @job_data: Precreated job and sync_ops array.
++ * @signal_array: xarray to receive signal sync objects.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * Any error code returned by pvr_sync_signal_array_collect_ops(),
++ *    pvr_sync_add_deps_to_job(), drm_sched_job_add_resv_dependencies() or
++ *    pvr_sync_signal_array_update_fences().
++ */
++static int
++prepare_job_syncs(struct pvr_file *pvr_file,
++		  struct pvr_job_data *job_data,
++		  struct xarray *signal_array)
++{
++	struct dma_fence *done_fence;
++	int err = pvr_sync_signal_array_collect_ops(signal_array,
++						    from_pvr_file(pvr_file),
++						    job_data->sync_op_count,
++						    job_data->sync_ops);
++
++	if (err)
++		return err;
++
++	err = pvr_sync_add_deps_to_job(pvr_file, &job_data->job->base,
++				       job_data->sync_op_count,
++				       job_data->sync_ops, signal_array);
++	if (err)
++		return err;
++
++	if (job_data->job->hwrt) {
++		/* The geometry job writes the HWRT region headers, which are
++		 * then read by the fragment job.
++		 */
++		struct drm_gem_object *obj =
++			gem_from_pvr_gem(job_data->job->hwrt->fw_obj->gem);
++		enum dma_resv_usage usage =
++			dma_resv_usage_rw(job_data->job->type ==
++					  DRM_PVR_JOB_TYPE_GEOMETRY);
++
++		dma_resv_lock(obj->resv, NULL);
++		err = drm_sched_job_add_resv_dependencies(&job_data->job->base,
++							  obj->resv, usage);
++		dma_resv_unlock(obj->resv);
++		if (err)
++			return err;
++	}
++
++	/* We need to arm the job to get the job done fence. */
++	done_fence = pvr_queue_job_arm(job_data->job);
++
++	err = pvr_sync_signal_array_update_fences(signal_array,
++						  job_data->sync_op_count,
++						  job_data->sync_ops,
++						  done_fence);
++	return err;
++}
++
++/**
++ * prepare_job_syncs_for_each() - Prepare all sync objects for an array of jobs.
++ * @file: PowerVR file.
++ * @job_data: Array of precreated jobs and their sync_ops.
++ * @job_count: Number of jobs.
++ * @signal_array: xarray to receive signal sync objects.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * Any error code returned by pvr_vm_bind_job_prepare_syncs().
++ */
++static int
++prepare_job_syncs_for_each(struct pvr_file *pvr_file,
++			   struct pvr_job_data *job_data,
++			   u32 *job_count,
++			   struct xarray *signal_array)
++{
++	for (u32 i = 0; i < *job_count; i++) {
++		int err = prepare_job_syncs(pvr_file, &job_data[i],
++					    signal_array);
++
++		if (err) {
++			*job_count = i;
++			return err;
++		}
++	}
 +
 +	return 0;
 +}
 +
-+static void *
-+pvr_fw_object_create_and_map_common(struct pvr_device *pvr_dev, size_t size,
-+				    u64 flags, u64 dev_addr,
-+				    void (*init)(void *cpu_ptr, void *priv),
-+				    void *init_priv, struct pvr_fw_object **fw_obj_out)
++static struct pvr_job *
++create_job(struct pvr_device *pvr_dev,
++	   struct pvr_file *pvr_file,
++	   struct drm_pvr_job *args)
 +{
-+	struct pvr_fw_object *fw_obj;
-+	void *cpu_ptr;
++	struct pvr_job *job = NULL;
 +	int err;
 +
-+	/* %DRM_PVR_BO_PM_FW_PROTECT is implicit for FW objects. */
-+	flags |= DRM_PVR_BO_PM_FW_PROTECT;
++	if (!args->cmd_stream || !args->cmd_stream_len)
++		return ERR_PTR(-EINVAL);
 +
-+	fw_obj = kzalloc(sizeof(*fw_obj), GFP_KERNEL);
-+	if (!fw_obj)
++	if (args->type != DRM_PVR_JOB_TYPE_GEOMETRY &&
++	    args->type != DRM_PVR_JOB_TYPE_FRAGMENT &&
++	    (args->hwrt.set_handle || args->hwrt.data_index))
++		return ERR_PTR(-EINVAL);
++
++	job = kzalloc(sizeof(*job), GFP_KERNEL);
++	if (!job)
 +		return ERR_PTR(-ENOMEM);
 +
-+	INIT_LIST_HEAD(&fw_obj->node);
-+	fw_obj->init = init;
-+	fw_obj->init_priv = init_priv;
++	kref_init(&job->ref_count);
++	job->type = args->type;
++	job->pvr_dev = pvr_dev;
 +
-+	fw_obj->gem = pvr_gem_object_create(pvr_dev, size, flags);
-+	if (IS_ERR(fw_obj->gem)) {
-+		err = PTR_ERR(fw_obj->gem);
-+		fw_obj->gem = NULL;
-+		goto err_put_object;
-+	}
-+
-+	err = pvr_fw_object_fw_map(pvr_dev, fw_obj, dev_addr);
++	err = xa_alloc(&pvr_dev->job_ids, &job->id, job, xa_limit_32b, GFP_KERNEL);
 +	if (err)
-+		goto err_put_object;
++		goto err_put_job;
 +
-+	cpu_ptr = pvr_fw_object_vmap(fw_obj);
-+	if (IS_ERR(cpu_ptr)) {
-+		err = PTR_ERR(cpu_ptr);
-+		goto err_put_object;
++	job->ctx = pvr_context_lookup(pvr_file, args->context_handle);
++	if (!job->ctx) {
++		err = -EINVAL;
++		goto err_put_job;
 +	}
 +
-+	*fw_obj_out = fw_obj;
++	if (args->hwrt.set_handle) {
++		job->hwrt = pvr_hwrt_data_lookup(pvr_file, args->hwrt.set_handle,
++						 args->hwrt.data_index);
++		if (!job->hwrt) {
++			err = -EINVAL;
++			goto err_put_job;
++		}
++	}
 +
-+	if (fw_obj->init)
-+		fw_obj->init(cpu_ptr, fw_obj->init_priv);
++	err = pvr_job_fw_cmd_init(job, args);
++	if (err)
++		goto err_put_job;
 +
-+	mutex_lock(&pvr_dev->fw_dev.fw_objs.lock);
-+	list_add_tail(&fw_obj->node, &pvr_dev->fw_dev.fw_objs.list);
-+	mutex_unlock(&pvr_dev->fw_dev.fw_objs.lock);
++	err = pvr_queue_job_init(job);
++	if (err)
++		goto err_put_job;
 +
-+	return cpu_ptr;
++	return job;
 +
-+err_put_object:
-+	pvr_fw_object_destroy(fw_obj);
-+
++err_put_job:
++	pvr_job_put(job);
 +	return ERR_PTR(err);
 +}
 +
 +/**
-+ * pvr_fw_object_create() - Create a FW object and map to firmware
-+ * @pvr_dev: PowerVR device pointer.
-+ * @size: Size of object, in bytes.
-+ * @flags: Options which affect both this operation and future mapping
-+ * operations performed on the returned object. Must be a combination of
-+ * DRM_PVR_BO_* and/or PVR_BO_* flags.
-+ * @init: Initialisation callback.
-+ * @init_priv: Private pointer to pass to initialisation callback.
-+ * @fw_obj_out: Pointer to location to store created object pointer.
-+ *
-+ * %DRM_PVR_BO_DEVICE_PM_FW_PROTECT is implied for all FW objects. Consequently,
-+ * this function will fail if @flags has %DRM_PVR_BO_CPU_ALLOW_USERSPACE_ACCESS
-+ * set.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_fw_object_create_common().
++ * pvr_job_data_fini() - Cleanup all allocs used to set up job submission.
++ * @job_data: Job data array.
++ * @job_count: Number of members of @job_data.
 + */
-+int
-+pvr_fw_object_create(struct pvr_device *pvr_dev, size_t size, u64 flags,
-+		     void (*init)(void *cpu_ptr, void *priv), void *init_priv,
-+		     struct pvr_fw_object **fw_obj_out)
++static void
++pvr_job_data_fini(struct pvr_job_data *job_data, u32 job_count)
 +{
-+	void *cpu_ptr;
-+
-+	cpu_ptr = pvr_fw_object_create_and_map_common(pvr_dev, size, flags, 0, init, init_priv,
-+						      fw_obj_out);
-+	if (IS_ERR(cpu_ptr))
-+		return PTR_ERR(cpu_ptr);
-+
-+	pvr_fw_object_vunmap(*fw_obj_out);
-+
-+	return 0;
-+}
-+
-+/**
-+ * pvr_fw_object_create_and_map() - Create a FW object and map to firmware and CPU
-+ * @pvr_dev: PowerVR device pointer.
-+ * @size: Size of object, in bytes.
-+ * @flags: Options which affect both this operation and future mapping
-+ * operations performed on the returned object. Must be a combination of
-+ * DRM_PVR_BO_* and/or PVR_BO_* flags.
-+ * @init: Initialisation callback.
-+ * @init_priv: Private pointer to pass to initialisation callback.
-+ * @fw_obj_out: Pointer to location to store created object pointer.
-+ *
-+ * %DRM_PVR_BO_DEVICE_PM_FW_PROTECT is implied for all FW objects. Consequently,
-+ * this function will fail if @flags has %DRM_PVR_BO_CPU_ALLOW_USERSPACE_ACCESS
-+ * set.
-+ *
-+ * Caller is responsible for calling pvr_fw_object_vunmap() to release the CPU
-+ * mapping.
-+ *
-+ * Returns:
-+ *  * Pointer to CPU mapping of newly created object, or
-+ *  * Any error returned by pvr_fw_object_create(), or
-+ *  * Any error returned by pvr_fw_object_vmap().
-+ */
-+void *
-+pvr_fw_object_create_and_map(struct pvr_device *pvr_dev, size_t size, u64 flags,
-+			     void (*init)(void *cpu_ptr, void *priv),
-+			     void *init_priv, struct pvr_fw_object **fw_obj_out)
-+{
-+	return pvr_fw_object_create_and_map_common(pvr_dev, size, flags, 0, init, init_priv,
-+						   fw_obj_out);
-+}
-+
-+/**
-+ * pvr_fw_object_create_and_map_offset() - Create a FW object and map to
-+ * firmware at the provided offset and to the CPU.
-+ * @pvr_dev: PowerVR device pointer.
-+ * @dev_offset: Base address of desired FW mapping, offset from start of FW heap.
-+ * @size: Size of object, in bytes.
-+ * @flags: Options which affect both this operation and future mapping
-+ * operations performed on the returned object. Must be a combination of
-+ * DRM_PVR_BO_* and/or PVR_BO_* flags.
-+ * @init: Initialisation callback.
-+ * @init_priv: Private pointer to pass to initialisation callback.
-+ * @fw_obj_out: Pointer to location to store created object pointer.
-+ *
-+ * %DRM_PVR_BO_DEVICE_PM_FW_PROTECT is implied for all FW objects. Consequently,
-+ * this function will fail if @flags has %DRM_PVR_BO_CPU_ALLOW_USERSPACE_ACCESS
-+ * set.
-+ *
-+ * Caller is responsible for calling pvr_fw_object_vunmap() to release the CPU
-+ * mapping.
-+ *
-+ * Returns:
-+ *  * Pointer to CPU mapping of newly created object, or
-+ *  * Any error returned by pvr_fw_object_create(), or
-+ *  * Any error returned by pvr_fw_object_vmap().
-+ */
-+void *
-+pvr_fw_object_create_and_map_offset(struct pvr_device *pvr_dev,
-+				    u32 dev_offset, size_t size, u64 flags,
-+				    void (*init)(void *cpu_ptr, void *priv),
-+				    void *init_priv, struct pvr_fw_object **fw_obj_out)
-+{
-+	u64 dev_addr = pvr_dev->fw_dev.fw_mm_base + dev_offset;
-+
-+	return pvr_fw_object_create_and_map_common(pvr_dev, size, flags, dev_addr, init, init_priv,
-+						   fw_obj_out);
-+}
-+
-+/**
-+ * pvr_fw_object_destroy() - Destroy a pvr_fw_object
-+ * @fw_obj: Pointer to object to destroy.
-+ */
-+void pvr_fw_object_destroy(struct pvr_fw_object *fw_obj)
-+{
-+	struct pvr_gem_object *pvr_obj = fw_obj->gem;
-+	struct drm_gem_object *gem_obj = gem_from_pvr_gem(pvr_obj);
-+	struct pvr_device *pvr_dev = to_pvr_device(gem_obj->dev);
-+
-+	mutex_lock(&pvr_dev->fw_dev.fw_objs.lock);
-+	list_del(&fw_obj->node);
-+	mutex_unlock(&pvr_dev->fw_dev.fw_objs.lock);
-+
-+	if (drm_mm_node_allocated(&fw_obj->fw_mm_node)) {
-+		/* If we can't unmap, leak the memory. */
-+		if (WARN_ON(pvr_fw_object_fw_unmap(fw_obj)))
-+			return;
++	for (u32 i = 0; i < job_count; i++) {
++		pvr_job_put(job_data[i].job);
++		kvfree(job_data[i].sync_ops);
 +	}
-+
-+	if (fw_obj->gem)
-+		pvr_gem_object_put(fw_obj->gem);
-+
-+	kfree(fw_obj);
 +}
 +
 +/**
-+ * pvr_fw_object_get_fw_addr_offset() - Return address of object in firmware address space, with
-+ * given offset.
-+ * @fw_obj: Pointer to object.
-+ * @offset: Desired offset from start of object.
-+ * @fw_addr_out: Location to store address to.
++ * pvr_job_data_init() - Init an array of created jobs, associating them with
++ * the appropriate sync_ops args, which will be copied in.
++ * @pvr_dev: Target PowerVR device.
++ * @pvr_file: Pointer to PowerVR file structure.
++ * @job_args: Job args array copied from user.
++ * @job_count: Number of members of @job_args.
++ * @job_data_out: Job data array.
 + */
-+void pvr_fw_object_get_fw_addr_offset(struct pvr_fw_object *fw_obj, u32 offset, u32 *fw_addr_out)
++static int pvr_job_data_init(struct pvr_device *pvr_dev,
++			     struct pvr_file *pvr_file,
++			     struct drm_pvr_job *job_args,
++			     u32 *job_count,
++			     struct pvr_job_data *job_data_out)
 +{
-+	struct pvr_gem_object *pvr_obj = fw_obj->gem;
-+	struct pvr_device *pvr_dev = to_pvr_device(gem_from_pvr_gem(pvr_obj)->dev);
++	int err = 0, i = 0;
 +
-+	*fw_addr_out = pvr_dev->fw_dev.defs->get_fw_addr_with_offset(fw_obj, offset);
-+}
++	for (; i < *job_count; i++) {
++		job_data_out[i].job =
++			create_job(pvr_dev, pvr_file, &job_args[i]);
++		err = PTR_ERR_OR_ZERO(job_data_out[i].job);
 +
-+/*
-+ * pvr_fw_hard_reset() - Re-initialise the FW code and data segments, and reset all global FW
-+ *                       structures
-+ * @pvr_dev: Device pointer
-+ *
-+ * If this function returns an error then the caller must regard the device as lost.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_fw_init_dev_structures() or pvr_fw_reset_all().
-+ */
-+int
-+pvr_fw_hard_reset(struct pvr_device *pvr_dev)
-+{
-+	struct list_head *pos;
-+	int err;
-+
-+	/* Reset all FW objects */
-+	mutex_lock(&pvr_dev->fw_dev.fw_objs.lock);
-+
-+	list_for_each(pos, &pvr_dev->fw_dev.fw_objs.list) {
-+		struct pvr_fw_object *fw_obj = container_of(pos, struct pvr_fw_object, node);
-+		void *cpu_ptr = pvr_fw_object_vmap(fw_obj);
-+
-+		WARN_ON(IS_ERR(cpu_ptr));
-+
-+		if (!(fw_obj->gem->flags & PVR_BO_FW_NO_CLEAR_ON_RESET)) {
-+			memset(cpu_ptr, 0, pvr_gem_object_size(fw_obj->gem));
-+
-+			if (fw_obj->init)
-+				fw_obj->init(cpu_ptr, fw_obj->init_priv);
++		if (err) {
++			*job_count = i;
++			job_data_out[i].job = NULL;
++			goto err_cleanup;
 +		}
 +
-+		pvr_fw_object_vunmap(fw_obj);
++		err = PVR_UOBJ_GET_ARRAY(job_data_out[i].sync_ops,
++					 &job_args[i].sync_ops);
++		if (err) {
++			*job_count = i;
++
++			/* Ensure the job created above is also cleaned up. */
++			i++;
++			goto err_cleanup;
++		}
++
++		job_data_out[i].sync_op_count = job_args[i].sync_ops.count;
 +	}
 +
-+	mutex_unlock(&pvr_dev->fw_dev.fw_objs.lock);
-+
-+	err = pvr_fw_reinit_code_data(pvr_dev);
-+	if (err)
-+		return err;
-+
 +	return 0;
++
++err_cleanup:
++	pvr_job_data_fini(job_data_out, i);
++
++	return err;
 +}
-diff --git a/drivers/gpu/drm/imagination/pvr_fw.h b/drivers/gpu/drm/imagination/pvr_fw.h
-index 8331344e83ea..5cd3ef08d82b 100644
---- a/drivers/gpu/drm/imagination/pvr_fw.h
-+++ b/drivers/gpu/drm/imagination/pvr_fw.h
-@@ -5,6 +5,10 @@
- #define PVR_FW_H
- 
- #include "pvr_fw_info.h"
-+#include "pvr_fw_trace.h"
-+#include "pvr_gem.h"
 +
-+#include <drm/drm_mm.h>
- 
- #include <linux/types.h>
- 
-@@ -12,6 +16,289 @@
- struct pvr_device;
- struct pvr_file;
- 
-+/* Forward declaration from "pvr_vm.h". */
-+struct pvr_vm_context;
++static void
++push_jobs(struct pvr_job_data *job_data, u32 job_count)
++{
++	for (u32 i = 0; i < job_count; i++)
++		pvr_queue_job_push(job_data[i].job);
++}
 +
-+#define ROGUE_FWIF_FWCCB_NUMCMDS_LOG2 5
++static int
++prepare_fw_obj_resv(struct drm_exec *exec, struct pvr_fw_object *fw_obj)
++{
++	return drm_exec_prepare_obj(exec, gem_from_pvr_gem(fw_obj->gem), 1);
++}
 +
-+#define ROGUE_FWIF_KCCB_NUMCMDS_LOG2_DEFAULT 7
++static int
++jobs_lock_all_objs(struct drm_exec *exec, struct pvr_job_data *job_data,
++		   u32 job_count)
++{
++	for (u32 i = 0; i < job_count; i++) {
++		struct pvr_job *job = job_data[i].job;
 +
-+/**
-+ * struct pvr_fw_object - container for firmware memory allocations
-+ */
-+struct pvr_fw_object {
-+	/** @ref_count: FW object reference counter. */
-+	struct kref ref_count;
-+
-+	/** @gem: GEM object backing the FW object. */
-+	struct pvr_gem_object *gem;
-+
-+	/**
-+	 * @fw_mm_node: Node representing mapping in FW address space. @pvr_obj->lock must
-+	 *              be held when writing.
-+	 */
-+	struct drm_mm_node fw_mm_node;
-+
-+	/**
-+	 * @fw_addr_offset: Virtual address offset of firmware mapping. Only
-+	 *                  valid if @flags has %PVR_GEM_OBJECT_FLAGS_FW_MAPPED
-+	 *                  set.
-+	 */
-+	u32 fw_addr_offset;
-+
-+	/**
-+	 * @init: Initialisation callback. Will be called on object creation and FW hard reset.
-+	 *        Object will have been zeroed before this is called.
-+	 */
-+	void (*init)(void *cpu_ptr, void *priv);
-+
-+	/** @init_priv: Private data for initialisation callback. */
-+	void *init_priv;
-+
-+	/** @node: Node for firmware object list. */
-+	struct list_head node;
-+};
-+
-+/**
-+ * struct pvr_fw_defs - FW processor function table and static definitions
-+ */
-+struct pvr_fw_defs {
-+	/**
-+	 * @init:
-+	 *
-+	 * FW processor specific initialisation.
-+	 * @pvr_dev: Target PowerVR device.
-+	 *
-+	 * This function must call pvr_fw_heap_calculate() to initialise the firmware heap for this
-+	 * FW processor.
-+	 *
-+	 * This function is mandatory.
-+	 *
-+	 * Returns:
-+	 *  * 0 on success, or
-+	 *  * Any appropriate error on failure.
-+	 */
-+	int (*init)(struct pvr_device *pvr_dev);
-+
-+	/**
-+	 * @fini:
-+	 *
-+	 * FW processor specific finalisation.
-+	 * @pvr_dev: Target PowerVR device.
-+	 *
-+	 * This function is optional.
-+	 */
-+	void (*fini)(struct pvr_device *pvr_dev);
-+
-+	/**
-+	 * @fw_process:
-+	 *
-+	 * Load and process firmware image.
-+	 * @pvr_dev: Target PowerVR device.
-+	 * @fw: Pointer to firmware image.
-+	 * @fw_code_ptr: Pointer to firmware code section.
-+	 * @fw_data_ptr: Pointer to firmware data section.
-+	 * @fw_core_code_ptr: Pointer to firmware core code section. May be %NULL.
-+	 * @fw_core_data_ptr: Pointer to firmware core data section. May be %NULL.
-+	 * @core_code_alloc_size: Total allocation size of core code section.
-+	 *
-+	 * This function is mandatory.
-+	 *
-+	 * Returns:
-+	 *  * 0 on success, or
-+	 *  * Any appropriate error on failure.
-+	 */
-+	int (*fw_process)(struct pvr_device *pvr_dev, const u8 *fw,
-+			  u8 *fw_code_ptr, u8 *fw_data_ptr, u8 *fw_core_code_ptr,
-+			  u8 *fw_core_data_ptr, u32 core_code_alloc_size);
-+
-+	/**
-+	 * @vm_map:
-+	 *
-+	 * Map FW object into FW processor address space.
-+	 * @pvr_dev: Target PowerVR device.
-+	 * @fw_obj: FW object to map.
-+	 *
-+	 * This function is mandatory.
-+	 *
-+	 * Returns:
-+	 *  * 0 on success, or
-+	 *  * Any appropriate error on failure.
-+	 */
-+	int (*vm_map)(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj);
-+
-+	/**
-+	 * @vm_unmap:
-+	 *
-+	 * Unmap FW object from FW processor address space.
-+	 * @pvr_dev: Target PowerVR device.
-+	 * @fw_obj: FW object to map.
-+	 *
-+	 * This function is mandatory.
-+	 */
-+	void (*vm_unmap)(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj);
-+
-+	/**
-+	 * @get_fw_addr_with_offset:
-+	 *
-+	 * Called to get address of object in firmware address space, with offset.
-+	 * @fw_obj: Pointer to object.
-+	 * @offset: Desired offset from start of object.
-+	 *
-+	 * This function is mandatory.
-+	 *
-+	 * Returns:
-+	 *  * Address in firmware address space.
-+	 */
-+	u32 (*get_fw_addr_with_offset)(struct pvr_fw_object *fw_obj, u32 offset);
-+
-+	/**
-+	 * @wrapper_init:
-+	 *
-+	 * Called to initialise FW wrapper.
-+	 * @pvr_dev: Target PowerVR device.
-+	 *
-+	 * This function is mandatory.
-+	 *
-+	 * Returns:
-+	 *  * 0 on success.
-+	 *  * Any appropriate error on failure.
-+	 */
-+	int (*wrapper_init)(struct pvr_device *pvr_dev);
-+
-+	/**
-+	 * @has_fixed_data_addr:
-+	 *
-+	 * Called to check if firmware fixed data must be loaded at the address given by the
-+	 * firmware layout table.
-+	 *
-+	 * This function is mandatory.
-+	 *
-+	 * Returns:
-+	 *  * %true if firmware fixed data must be loaded at the address given by the firmware
-+	 *    layout table.
-+	 *  * %false otherwise.
-+	 */
-+	bool (*has_fixed_data_addr)(void);
-+
-+	/**
-+	 * @irq: FW Interrupt information.
-+	 *
-+	 * Those are processor dependent, and should be initialized by the
-+	 * processor backend in pvr_fw_funcs::init().
-+	 */
-+	struct {
-+		/** @enable_reg: FW interrupt enable register. */
-+		u32 enable_reg;
-+
-+		/** @status_reg: FW interrupt status register. */
-+		u32 status_reg;
-+
-+		/**
-+		 * @clear_reg: FW interrupt clear register.
-+		 *
-+		 * If @status_reg == @clear_reg, we clear by write a bit to zero,
-+		 * otherwise we clear by writing a bit to one.
++		/* Grab a lock on a the context, to guard against
++		 * concurrent submission to the same queue.
 +		 */
-+		u32 clear_reg;
-+
-+		/** @event_mask: Bitmask of events to listen for. */
-+		u32 event_mask;
-+
-+		/** @clear_mask: Value to write to the clear_reg in order to clear FW IRQs. */
-+		u32 clear_mask;
-+	} irq;
-+};
-+
-+/**
-+ * struct pvr_fw_mem - FW memory allocations
-+ */
-+struct pvr_fw_mem {
-+	/** @code_obj: Object representing firmware code. */
-+	struct pvr_fw_object *code_obj;
-+
-+	/** @data_obj: Object representing firmware data. */
-+	struct pvr_fw_object *data_obj;
-+
-+	/**
-+	 * @core_code_obj: Object representing firmware core code. May be
-+	 *                 %NULL if firmware does not contain this section.
-+	 */
-+	struct pvr_fw_object *core_code_obj;
-+
-+	/**
-+	 * @core_data_obj: Object representing firmware core data. May be
-+	 *                 %NULL if firmware does not contain this section.
-+	 */
-+	struct pvr_fw_object *core_data_obj;
-+
-+	/** @code: Driver-side copy of firmware code. */
-+	u8 *code;
-+
-+	/** @data: Driver-side copy of firmware data. */
-+	u8 *data;
-+
-+	/**
-+	 * @core_code: Driver-side copy of firmware core code. May be %NULL if firmware does not
-+	 *             contain this section.
-+	 */
-+	u8 *core_code;
-+
-+	/**
-+	 * @core_data: Driver-side copy of firmware core data. May be %NULL if firmware does not
-+	 *             contain this section.
-+	 */
-+	u8 *core_data;
-+
-+	/** @code_alloc_size: Allocation size of firmware code section. */
-+	u32 code_alloc_size;
-+
-+	/** @data_alloc_size: Allocation size of firmware data section. */
-+	u32 data_alloc_size;
-+
-+	/** @core_code_alloc_size: Allocation size of firmware core code section. */
-+	u32 core_code_alloc_size;
-+
-+	/** @core_data_alloc_size: Allocation size of firmware core data section. */
-+	u32 core_data_alloc_size;
-+
-+	/**
-+	 * @fwif_connection_ctl_obj: Object representing FWIF connection control
-+	 *                           structure.
-+	 */
-+	struct pvr_fw_object *fwif_connection_ctl_obj;
-+
-+	/** @osinit_obj: Object representing FW OSINIT structure. */
-+	struct pvr_fw_object *osinit_obj;
-+
-+	/** @sysinit_obj: Object representing FW SYSINIT structure. */
-+	struct pvr_fw_object *sysinit_obj;
-+
-+	/** @osdata_obj: Object representing FW OSDATA structure. */
-+	struct pvr_fw_object *osdata_obj;
-+
-+	/** @hwrinfobuf_obj: Object representing FW hwrinfobuf structure. */
-+	struct pvr_fw_object *hwrinfobuf_obj;
-+
-+	/** @sysdata_obj: Object representing FW SYSDATA structure. */
-+	struct pvr_fw_object *sysdata_obj;
-+
-+	/** @power_sync_obj: Object representing power sync state. */
-+	struct pvr_fw_object *power_sync_obj;
-+
-+	/** @fault_page_obj: Object representing FW fault page. */
-+	struct pvr_fw_object *fault_page_obj;
-+
-+	/** @gpu_util_fwcb_obj: Object representing FW GPU utilisation control structure. */
-+	struct pvr_fw_object *gpu_util_fwcb_obj;
-+
-+	/** @runtime_cfg_obj: Object representing FW runtime config structure. */
-+	struct pvr_fw_object *runtime_cfg_obj;
-+
-+	/** @mmucache_sync_obj: Object used as the sync parameter in an MMU cache operation. */
-+	struct pvr_fw_object *mmucache_sync_obj;
-+};
-+
- struct pvr_fw_device {
- 	/** @firmware: Handle to the firmware loaded into the device. */
- 	const struct firmware *firmware;
-@@ -22,13 +309,200 @@ struct pvr_fw_device {
- 	/** @layout_entries: Pointer to firmware layout. */
- 	const struct pvr_fw_layout_entry *layout_entries;
- 
-+	/** @mem: Structure containing objects representing firmware memory allocations. */
-+	struct pvr_fw_mem mem;
-+
-+	/** @booted: %true if the firmware has been booted, %false otherwise. */
-+	bool booted;
-+
- 	/**
- 	 * @processor_type: FW processor type for this device. Must be one of
- 	 *                  %PVR_FW_PROCESSOR_TYPE_*.
- 	 */
- 	u16 processor_type;
-+
-+	/** @funcs: Function table for the FW processor used by this device. */
-+	const struct pvr_fw_defs *defs;
-+
-+	/** @processor_data: Pointer to data specific to FW processor. */
-+	union {
-+		/** @mips_data: Pointer to MIPS-specific data. */
-+		struct pvr_fw_mips_data *mips_data;
-+	} processor_data;
-+
-+	/** @fw_heap_info: Firmware heap information. */
-+	struct {
-+		/** @gpu_addr: Base address of firmware heap in GPU address space. */
-+		u64 gpu_addr;
-+
-+		/** @size: Size of main area of heap. */
-+		u32 size;
-+
-+		/** @offset_mask: Mask for offsets within FW heap. */
-+		u32 offset_mask;
-+
-+		/** @raw_size: Raw size of heap, including reserved areas. */
-+		u32 raw_size;
-+
-+		/** @log2_size: Log2 of raw size of heap. */
-+		u32 log2_size;
-+
-+		/** @config_offset: Offset of config area within heap. */
-+		u32 config_offset;
-+
-+		/** @reserved_size: Size of reserved area in heap. */
-+		u32 reserved_size;
-+	} fw_heap_info;
-+
-+	/** @fw_mm: Firmware address space allocator. */
-+	struct drm_mm fw_mm;
-+
-+	/** @fw_mm_lock: Lock protecting access to &fw_mm. */
-+	spinlock_t fw_mm_lock;
-+
-+	/** @fw_mm_base: Base address of address space managed by @fw_mm. */
-+	u64 fw_mm_base;
-+
-+	/**
-+	 * @fwif_connection_ctl: Pointer to CPU mapping of FWIF connection
-+	 *                       control structure.
-+	 */
-+	struct rogue_fwif_connection_ctl *fwif_connection_ctl;
-+
-+	/** @fwif_sysinit: Pointer to CPU mapping of FW SYSINIT structure. */
-+	struct rogue_fwif_sysinit *fwif_sysinit;
-+
-+	/** @fwif_sysdata: Pointer to CPU mapping of FW SYSDATA structure. */
-+	struct rogue_fwif_sysdata *fwif_sysdata;
-+
-+	/** @fwif_osinit: Pointer to CPU mapping of FW OSINIT structure. */
-+	struct rogue_fwif_osinit *fwif_osinit;
-+
-+	/** @fwif_osdata: Pointer to CPU mapping of FW OSDATA structure. */
-+	struct rogue_fwif_osdata *fwif_osdata;
-+
-+	/** @power_sync: Pointer to CPU mapping of power sync state. */
-+	u32 *power_sync;
-+
-+	/** @hwrinfobuf: Pointer to CPU mapping of FW HWR info buffer. */
-+	struct rogue_fwif_hwrinfobuf *hwrinfobuf;
-+
-+	/** @fw_trace: Device firmware trace buffer state. */
-+	struct pvr_fw_trace fw_trace;
-+
-+	/** @fw_objs: Structure tracking FW objects. */
-+	struct {
-+		/** @list: Head of FW object list. */
-+		struct list_head list;
-+
-+		/** @lock: Lock protecting access to FW object list. */
-+		struct mutex lock;
-+	} fw_objs;
- };
- 
-+#define pvr_fw_irq_read_reg(pvr_dev, name) \
-+	pvr_cr_read32((pvr_dev), (pvr_dev)->fw_dev.defs->irq.name ## _reg)
-+
-+#define pvr_fw_irq_write_reg(pvr_dev, name, value) \
-+	pvr_cr_write32((pvr_dev), (pvr_dev)->fw_dev.defs->irq.name ## _reg, value)
-+
-+#define pvr_fw_irq_pending(pvr_dev) \
-+	(pvr_fw_irq_read_reg(pvr_dev, status) & (pvr_dev)->fw_dev.defs->irq.event_mask)
-+
-+#define pvr_fw_irq_clear(pvr_dev) \
-+	pvr_fw_irq_write_reg(pvr_dev, clear, (pvr_dev)->fw_dev.defs->irq.clear_mask)
-+
-+#define pvr_fw_irq_enable(pvr_dev) \
-+	pvr_fw_irq_write_reg(pvr_dev, enable, (pvr_dev)->fw_dev.defs->irq.event_mask)
-+
-+#define pvr_fw_irq_disable(pvr_dev) \
-+	pvr_fw_irq_write_reg(pvr_dev, enable, 0)
-+
-+extern const struct pvr_fw_defs pvr_fw_defs_meta;
-+extern const struct pvr_fw_defs pvr_fw_defs_mips;
-+
- int pvr_fw_validate_init_device_info(struct pvr_device *pvr_dev);
-+int pvr_fw_init(struct pvr_device *pvr_dev);
-+void pvr_fw_fini(struct pvr_device *pvr_dev);
-+
-+int pvr_wait_for_fw_boot(struct pvr_device *pvr_dev);
-+
-+int
-+pvr_fw_hard_reset(struct pvr_device *pvr_dev);
-+
-+void pvr_fw_mts_schedule(struct pvr_device *pvr_dev, u32 val);
-+
-+void
-+pvr_fw_heap_info_init(struct pvr_device *pvr_dev, u32 log2_size, u32 reserved_size);
-+
-+const struct pvr_fw_layout_entry *
-+pvr_fw_find_layout_entry(struct pvr_device *pvr_dev, enum pvr_fw_section_id id);
-+int
-+pvr_fw_find_mmu_segment(struct pvr_device *pvr_dev, u32 addr, u32 size, void *fw_code_ptr,
-+			void *fw_data_ptr, void *fw_core_code_ptr, void *fw_core_data_ptr,
-+			void **host_addr_out);
-+
-+int
-+pvr_fw_structure_cleanup(struct pvr_device *pvr_dev, u32 type, struct pvr_fw_object *fw_obj,
-+			 u32 offset);
-+
-+int pvr_fw_object_create(struct pvr_device *pvr_dev, size_t size, u64 flags,
-+			 void (*init)(void *cpu_ptr, void *priv), void *init_priv,
-+			 struct pvr_fw_object **pvr_obj_out);
-+
-+void *pvr_fw_object_create_and_map(struct pvr_device *pvr_dev, size_t size, u64 flags,
-+				   void (*init)(void *cpu_ptr, void *priv),
-+				   void *init_priv, struct pvr_fw_object **pvr_obj_out);
-+
-+void *
-+pvr_fw_object_create_and_map_offset(struct pvr_device *pvr_dev, u32 dev_offset, size_t size,
-+				    u64 flags, void (*init)(void *cpu_ptr, void *priv),
-+				    void *init_priv, struct pvr_fw_object **pvr_obj_out);
-+
-+static __always_inline void *
-+pvr_fw_object_vmap(struct pvr_fw_object *fw_obj)
-+{
-+	return pvr_gem_object_vmap(fw_obj->gem);
-+}
-+
-+static __always_inline void
-+pvr_fw_object_vunmap(struct pvr_fw_object *fw_obj)
-+{
-+	pvr_gem_object_vunmap(fw_obj->gem);
-+}
-+
-+void pvr_fw_object_destroy(struct pvr_fw_object *fw_obj);
-+
-+static __always_inline void
-+pvr_fw_object_unmap_and_destroy(struct pvr_fw_object *fw_obj)
-+{
-+	pvr_fw_object_vunmap(fw_obj);
-+	pvr_fw_object_destroy(fw_obj);
-+}
-+
-+/**
-+ * pvr_fw_get_dma_addr() - Get DMA address for given offset in firmware object
-+ * @fw_obj: Pointer to object to lookup address in.
-+ * @offset: Offset within object to lookup address at.
-+ * @dma_addr_out: Pointer to location to store DMA address.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * -%EINVAL if object is not currently backed, or if @offset is out of valid
-+ *    range for this object.
-+ */
-+static __always_inline int
-+pvr_fw_object_get_dma_addr(struct pvr_fw_object *fw_obj, u32 offset, dma_addr_t *dma_addr_out)
-+{
-+	return pvr_gem_get_dma_addr(fw_obj->gem, offset, dma_addr_out);
-+}
-+
-+void pvr_fw_object_get_fw_addr_offset(struct pvr_fw_object *fw_obj, u32 offset, u32 *fw_addr_out);
-+
-+static __always_inline void
-+pvr_fw_object_get_fw_addr(struct pvr_fw_object *fw_obj, u32 *fw_addr_out)
-+{
-+	pvr_fw_object_get_fw_addr_offset(fw_obj, 0, fw_addr_out);
-+}
- 
- #endif /* PVR_FW_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_meta.c b/drivers/gpu/drm/imagination/pvr_fw_meta.c
-new file mode 100644
-index 000000000000..119934c36184
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_meta.c
-@@ -0,0 +1,554 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_device.h"
-+#include "pvr_fw.h"
-+#include "pvr_fw_info.h"
-+#include "pvr_gem.h"
-+#include "pvr_rogue_cr_defs.h"
-+#include "pvr_rogue_meta.h"
-+#include "pvr_vm.h"
-+
-+#include <linux/compiler.h>
-+#include <linux/delay.h>
-+#include <linux/firmware.h>
-+#include <linux/ktime.h>
-+#include <linux/types.h>
-+
-+#define ROGUE_FW_HEAP_META_SHIFT 25 /* 32 MB */
-+
-+#define POLL_TIMEOUT_USEC 1000000
-+
-+/**
-+ * pvr_meta_cr_read32() - Read a META register via the Slave Port
-+ * @pvr_dev: Device pointer.
-+ * @reg_addr: Address of register to read.
-+ * @reg_value_out: Pointer to location to store register value.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_cr_poll_reg32().
-+ */
-+int
-+pvr_meta_cr_read32(struct pvr_device *pvr_dev, u32 reg_addr, u32 *reg_value_out)
-+{
-+	int err;
-+
-+	/* Wait for Slave Port to be Ready. */
-+	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_META_SP_MSLVCTRL1,
-+				ROGUE_CR_META_SP_MSLVCTRL1_READY_EN |
-+					ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN,
-+				ROGUE_CR_META_SP_MSLVCTRL1_READY_EN |
-+					ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN,
-+				POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	/* Issue a Read. */
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_META_SP_MSLVCTRL0,
-+		       reg_addr | ROGUE_CR_META_SP_MSLVCTRL0_RD_EN);
-+	(void)pvr_cr_read32(pvr_dev, ROGUE_CR_META_SP_MSLVCTRL0); /* Fence write. */
-+
-+	/* Wait for Slave Port to be Ready. */
-+	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_META_SP_MSLVCTRL1,
-+				ROGUE_CR_META_SP_MSLVCTRL1_READY_EN |
-+					ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN,
-+				ROGUE_CR_META_SP_MSLVCTRL1_READY_EN |
-+					ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN,
-+				POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	*reg_value_out = pvr_cr_read32(pvr_dev, ROGUE_CR_META_SP_MSLVDATAX);
-+
-+	return 0;
-+}
-+
-+static int
-+pvr_meta_wrapper_init(struct pvr_device *pvr_dev)
-+{
-+	u64 garten_config;
-+
-+	/* Configure META to Master boot. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_META_BOOT, ROGUE_CR_META_BOOT_MODE_EN);
-+
-+	/* Set Garten IDLE to META idle and Set the Garten Wrapper BIF Fence address. */
-+
-+	/* Garten IDLE bit controlled by META. */
-+	garten_config = ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_IDLE_CTRL_META;
-+
-+	/* The fence addr is set during the fw init sequence. */
-+
-+	/* Set PC = 0 for fences. */
-+	garten_config &=
-+		ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_PC_BASE_CLRMSK;
-+	garten_config |=
-+		(u64)MMU_CONTEXT_MAPPING_FWPRIV
-+		<< ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_PC_BASE_SHIFT;
-+
-+	/* Set SLC DM=META. */
-+	garten_config |= ((u64)ROGUE_FW_SEGMMU_META_BIFDM_ID)
-+			 << ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_DM_SHIFT;
-+
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG, garten_config);
-+
-+	return 0;
-+}
-+
-+static __always_inline void
-+add_boot_arg(u32 **boot_conf, u32 param, u32 data)
-+{
-+	*(*boot_conf)++ = param;
-+	*(*boot_conf)++ = data;
-+}
-+
-+static int
-+meta_ldr_cmd_loadmem(struct drm_device *drm_dev, const u8 *fw,
-+		     struct rogue_meta_ldr_l1_data_blk *l1_data, u32 coremem_size, u8 *fw_code_ptr,
-+		     u8 *fw_data_ptr, u8 *fw_core_code_ptr, u8 *fw_core_data_ptr, const u32 fw_size)
-+{
-+	struct rogue_meta_ldr_l2_data_blk *l2_block =
-+		(struct rogue_meta_ldr_l2_data_blk *)(fw +
-+						      l1_data->cmd_data[1]);
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+	u32 offset = l1_data->cmd_data[0];
-+	u32 data_size;
-+	void *write_addr;
-+	int err;
-+
-+	/* Verify header is within bounds. */
-+	if (((u8 *)l2_block - fw) >= fw_size || ((u8 *)(l2_block + 1) - fw) >= fw_size)
-+		return -EINVAL;
-+
-+	data_size = l2_block->length - 6 /* L2 Tag length and checksum */;
-+
-+	/* Verify data is within bounds. */
-+	if (((u8 *)l2_block->block_data - fw) >= fw_size ||
-+	    ((((u8 *)l2_block->block_data) + data_size) - fw) >= fw_size)
-+		return -EINVAL;
-+
-+	if (!ROGUE_META_IS_COREMEM_CODE(offset, coremem_size) &&
-+	    !ROGUE_META_IS_COREMEM_DATA(offset, coremem_size)) {
-+		/* Global range is aliased to local range */
-+		offset &= ~META_MEM_GLOBAL_RANGE_BIT;
-+	}
-+
-+	err = pvr_fw_find_mmu_segment(pvr_dev, offset, data_size, fw_code_ptr, fw_data_ptr,
-+				      fw_core_code_ptr, fw_core_data_ptr, &write_addr);
-+	if (err) {
-+		drm_err(drm_dev,
-+			"Addr 0x%x (size: %d) not found in any firmware segment",
-+			offset, data_size);
-+		return err;
-+	}
-+
-+	memcpy(write_addr, l2_block->block_data, data_size);
-+
-+	return 0;
-+}
-+
-+static int
-+meta_ldr_cmd_zeromem(struct drm_device *drm_dev,
-+		     struct rogue_meta_ldr_l1_data_blk *l1_data, u32 coremem_size,
-+		     u8 *fw_code_ptr, u8 *fw_data_ptr, u8 *fw_core_code_ptr, u8 *fw_core_data_ptr)
-+{
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+	u32 offset = l1_data->cmd_data[0];
-+	u32 byte_count = l1_data->cmd_data[1];
-+	void *write_addr;
-+	int err;
-+
-+	if (ROGUE_META_IS_COREMEM_DATA(offset, coremem_size)) {
-+		/* cannot zero coremem directly */
-+		return 0;
-+	}
-+
-+	/* Global range is aliased to local range */
-+	offset &= ~META_MEM_GLOBAL_RANGE_BIT;
-+
-+	err = pvr_fw_find_mmu_segment(pvr_dev, offset, byte_count, fw_code_ptr, fw_data_ptr,
-+				      fw_core_code_ptr, fw_core_data_ptr, &write_addr);
-+	if (err) {
-+		drm_err(drm_dev,
-+			"Addr 0x%x (size: %d) not found in any firmware segment",
-+			offset, byte_count);
-+		return err;
-+	}
-+
-+	memset(write_addr, 0, byte_count);
-+
-+	return 0;
-+}
-+
-+static int
-+meta_ldr_cmd_config(struct drm_device *drm_dev, const u8 *fw,
-+		    struct rogue_meta_ldr_l1_data_blk *l1_data,
-+		    const u32 fw_size, u32 **boot_conf_ptr)
-+{
-+	struct rogue_meta_ldr_l2_data_blk *l2_block =
-+		(struct rogue_meta_ldr_l2_data_blk *)(fw +
-+						      l1_data->cmd_data[0]);
-+	struct rogue_meta_ldr_cfg_blk *config_command;
-+	u32 l2_block_size;
-+	u32 curr_block_size = 0;
-+	u32 *boot_conf = boot_conf_ptr ? *boot_conf_ptr : NULL;
-+
-+	/* Verify block header is within bounds. */
-+	if (((u8 *)l2_block - fw) >= fw_size || ((u8 *)(l2_block + 1) - fw) >= fw_size)
-+		return -EINVAL;
-+
-+	l2_block_size = l2_block->length - 6 /* L2 Tag length and checksum */;
-+	config_command = (struct rogue_meta_ldr_cfg_blk *)l2_block->block_data;
-+
-+	if (((u8 *)config_command - fw) >= fw_size ||
-+	    ((((u8 *)config_command) + l2_block_size) - fw) >= fw_size)
-+		return -EINVAL;
-+
-+	while (l2_block_size >= 12) {
-+		if (config_command->type != ROGUE_META_LDR_CFG_WRITE)
-+			return -EINVAL;
-+
-+		/*
-+		 * Only write to bootloader if we got a valid pointer to the FW
-+		 * code allocation.
-+		 */
-+		if (boot_conf) {
-+			u32 register_offset = config_command->block_data[0];
-+			u32 register_value = config_command->block_data[1];
-+
-+			/* Do register write */
-+			add_boot_arg(&boot_conf, register_offset,
-+				     register_value);
-+		}
-+
-+		curr_block_size = 12;
-+		l2_block_size -= curr_block_size;
-+		config_command = (struct rogue_meta_ldr_cfg_blk
-+					  *)((uintptr_t)config_command +
-+					     curr_block_size);
-+	}
-+
-+	if (boot_conf_ptr)
-+		*boot_conf_ptr = boot_conf;
-+
-+	return 0;
-+}
-+
-+/**
-+ * process_ldr_command_stream() - Process LDR firmware image and populate
-+ *                                firmware sections
-+ * @pvr_dev: Device pointer.
-+ * @fw: Pointer to firmware image.
-+ * @fw_code_ptr: Pointer to FW code section.
-+ * @fw_data_ptr: Pointer to FW data section.
-+ * @fw_core_code_ptr: Pointer to FW coremem code section.
-+ * @fw_core_data_ptr: Pointer to FW coremem data section.
-+ * @boot_conf_ptr: Pointer to boot config argument pointer.
-+ *
-+ * Returns :
-+ *  * 0 on success, or
-+ *  * -EINVAL on any error in LDR command stream.
-+ */
-+static int
-+process_ldr_command_stream(struct pvr_device *pvr_dev, const u8 *fw, u8 *fw_code_ptr,
-+			   u8 *fw_data_ptr, u8 *fw_core_code_ptr,
-+			   u8 *fw_core_data_ptr, u32 **boot_conf_ptr)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	struct rogue_meta_ldr_block_hdr *ldr_header =
-+		(struct rogue_meta_ldr_block_hdr *)fw;
-+	struct rogue_meta_ldr_l1_data_blk *l1_data =
-+		(struct rogue_meta_ldr_l1_data_blk *)(fw + ldr_header->sl_data);
-+	const u32 fw_size = pvr_dev->fw_dev.firmware->size;
-+	int err;
-+
-+	u32 *boot_conf = boot_conf_ptr ? *boot_conf_ptr : NULL;
-+	u32 coremem_size;
-+
-+	err = PVR_FEATURE_VALUE(pvr_dev, meta_coremem_size, &coremem_size);
-+	if (err)
-+		return err;
-+
-+	coremem_size *= SZ_1K;
-+
-+	while (l1_data) {
-+		/* Verify block header is within bounds. */
-+		if (((u8 *)l1_data - fw) >= fw_size || ((u8 *)(l1_data + 1) - fw) >= fw_size)
-+			return -EINVAL;
-+
-+		if (ROGUE_META_LDR_BLK_IS_COMMENT(l1_data->cmd)) {
-+			/* Don't process comment blocks */
-+			goto next_block;
-+		}
-+
-+		switch (l1_data->cmd & ROGUE_META_LDR_CMD_MASK)
-+		case ROGUE_META_LDR_CMD_LOADMEM: {
-+			err = meta_ldr_cmd_loadmem(drm_dev, fw, l1_data,
-+						   coremem_size,
-+						   fw_code_ptr, fw_data_ptr,
-+						   fw_core_code_ptr,
-+						   fw_core_data_ptr, fw_size);
++		int err = drm_exec_lock_obj(exec,
++					    gem_from_pvr_gem(job->ctx->fw_obj->gem));
++
++		if (err)
++			return err;
++
++		if (job->hwrt) {
++			err = prepare_fw_obj_resv(exec,
++						  job->hwrt->fw_obj);
 +			if (err)
 +				return err;
-+			break;
-+
-+		case ROGUE_META_LDR_CMD_START_THREADS:
-+			/* Don't process this block */
-+			break;
-+
-+		case ROGUE_META_LDR_CMD_ZEROMEM:
-+			err = meta_ldr_cmd_zeromem(drm_dev, l1_data,
-+						   coremem_size,
-+						   fw_code_ptr, fw_data_ptr,
-+						   fw_core_code_ptr,
-+						   fw_core_data_ptr);
-+			if (err)
-+				return err;
-+			break;
-+
-+		case ROGUE_META_LDR_CMD_CONFIG:
-+			err = meta_ldr_cmd_config(drm_dev, fw, l1_data, fw_size,
-+						  &boot_conf);
-+			if (err)
-+				return err;
-+			break;
-+
-+		default:
-+			return -EINVAL;
-+		}
-+
-+next_block:
-+		if (l1_data->next == 0xFFFFFFFF)
-+			break;
-+
-+		l1_data = (struct rogue_meta_ldr_l1_data_blk *)(fw +
-+								l1_data->next);
-+	}
-+
-+	if (boot_conf_ptr)
-+		*boot_conf_ptr = boot_conf;
-+
-+	return 0;
-+}
-+
-+static void
-+configure_seg_id(u64 seg_out_addr, u32 seg_base, u32 seg_limit, u32 seg_id,
-+		 u32 **boot_conf_ptr)
-+{
-+	u32 seg_out_addr0 = seg_out_addr & 0x00000000FFFFFFFFUL;
-+	u32 seg_out_addr1 = (seg_out_addr >> 32) & 0x00000000FFFFFFFFUL;
-+	u32 *boot_conf = *boot_conf_ptr;
-+
-+	/* META segments have a minimum size. */
-+	u32 limit_off = max(seg_limit, ROGUE_FW_SEGMMU_ALIGN);
-+
-+	/* The limit is an offset, therefore off = size - 1. */
-+	limit_off -= 1;
-+
-+	seg_base |= ROGUE_FW_SEGMMU_ALLTHRS_WRITEABLE;
-+
-+	add_boot_arg(&boot_conf, META_CR_MMCU_SEGMENT_N_BASE(seg_id), seg_base);
-+	add_boot_arg(&boot_conf, META_CR_MMCU_SEGMENT_N_LIMIT(seg_id), limit_off);
-+	add_boot_arg(&boot_conf, META_CR_MMCU_SEGMENT_N_OUTA0(seg_id), seg_out_addr0);
-+	add_boot_arg(&boot_conf, META_CR_MMCU_SEGMENT_N_OUTA1(seg_id), seg_out_addr1);
-+
-+	*boot_conf_ptr = boot_conf;
-+}
-+
-+static u64 get_fw_obj_gpu_addr(struct pvr_fw_object *fw_obj)
-+{
-+	struct pvr_device *pvr_dev = to_pvr_device(gem_from_pvr_gem(fw_obj->gem)->dev);
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+
-+	return fw_obj->fw_addr_offset + fw_dev->fw_heap_info.gpu_addr;
-+}
-+
-+static void
-+configure_seg_mmu(struct pvr_device *pvr_dev, u32 **boot_conf_ptr)
-+{
-+	const struct pvr_fw_layout_entry *layout_entries = pvr_dev->fw_dev.layout_entries;
-+	u32 num_layout_entries = pvr_dev->fw_dev.header->layout_entry_num;
-+	u64 seg_out_addr_top;
-+	u32 i;
-+
-+	seg_out_addr_top =
-+		ROGUE_FW_SEGMMU_OUTADDR_TOP_SLC(MMU_CONTEXT_MAPPING_FWPRIV,
-+						ROGUE_FW_SEGMMU_META_BIFDM_ID);
-+
-+	for (i = 0; i < num_layout_entries; i++) {
-+		/*
-+		 * FW code is using the bootloader segment which is already
-+		 * configured on boot. FW coremem code and data don't use the
-+		 * segment MMU. Only the FW data segment needs to be configured.
-+		 */
-+		if (layout_entries[i].type == FW_DATA) {
-+			u32 seg_id = ROGUE_FW_SEGMMU_DATA_ID;
-+			u64 seg_out_addr = get_fw_obj_gpu_addr(pvr_dev->fw_dev.mem.data_obj);
-+
-+			seg_out_addr += layout_entries[i].alloc_offset;
-+			seg_out_addr |= seg_out_addr_top;
-+
-+			/* Write the sequence to the bootldr. */
-+			configure_seg_id(seg_out_addr,
-+					 layout_entries[i].base_addr,
-+					 layout_entries[i].alloc_size, seg_id,
-+					 boot_conf_ptr);
-+
-+			break;
 +		}
 +	}
-+}
 +
-+static void
-+configure_meta_caches(u32 **boot_conf_ptr)
-+{
-+	u32 *boot_conf = *boot_conf_ptr;
-+	u32 d_cache_t0, i_cache_t0;
-+	u32 d_cache_t1, i_cache_t1;
-+	u32 d_cache_t2, i_cache_t2;
-+	u32 d_cache_t3, i_cache_t3;
-+
-+	/* Initialise I/Dcache settings */
-+	d_cache_t0 = META_CR_SYSC_DCPARTX_CACHED_WRITE_ENABLE;
-+	d_cache_t1 = META_CR_SYSC_DCPARTX_CACHED_WRITE_ENABLE;
-+	d_cache_t2 = META_CR_SYSC_DCPARTX_CACHED_WRITE_ENABLE;
-+	d_cache_t3 = META_CR_SYSC_DCPARTX_CACHED_WRITE_ENABLE;
-+	i_cache_t0 = 0;
-+	i_cache_t1 = 0;
-+	i_cache_t2 = 0;
-+	i_cache_t3 = 0;
-+
-+	d_cache_t0 |= META_CR_SYSC_XCPARTX_LOCAL_ADDR_FULL_CACHE;
-+	i_cache_t0 |= META_CR_SYSC_XCPARTX_LOCAL_ADDR_FULL_CACHE;
-+
-+	/* Local region MMU enhanced bypass: WIN-3 mode for code and data caches */
-+	add_boot_arg(&boot_conf, META_CR_MMCU_LOCAL_EBCTRL,
-+		     META_CR_MMCU_LOCAL_EBCTRL_ICWIN |
-+			     META_CR_MMCU_LOCAL_EBCTRL_DCWIN);
-+
-+	/* Data cache partitioning thread 0 to 3 */
-+	add_boot_arg(&boot_conf, META_CR_SYSC_DCPART(0), d_cache_t0);
-+	add_boot_arg(&boot_conf, META_CR_SYSC_DCPART(1), d_cache_t1);
-+	add_boot_arg(&boot_conf, META_CR_SYSC_DCPART(2), d_cache_t2);
-+	add_boot_arg(&boot_conf, META_CR_SYSC_DCPART(3), d_cache_t3);
-+
-+	/* Enable data cache hits */
-+	add_boot_arg(&boot_conf, META_CR_MMCU_DCACHE_CTRL,
-+		     META_CR_MMCU_XCACHE_CTRL_CACHE_HITS_EN);
-+
-+	/* Instruction cache partitioning thread 0 to 3 */
-+	add_boot_arg(&boot_conf, META_CR_SYSC_ICPART(0), i_cache_t0);
-+	add_boot_arg(&boot_conf, META_CR_SYSC_ICPART(1), i_cache_t1);
-+	add_boot_arg(&boot_conf, META_CR_SYSC_ICPART(2), i_cache_t2);
-+	add_boot_arg(&boot_conf, META_CR_SYSC_ICPART(3), i_cache_t3);
-+
-+	/* Enable instruction cache hits */
-+	add_boot_arg(&boot_conf, META_CR_MMCU_ICACHE_CTRL,
-+		     META_CR_MMCU_XCACHE_CTRL_CACHE_HITS_EN);
-+
-+	add_boot_arg(&boot_conf, 0x040000C0, 0);
-+
-+	*boot_conf_ptr = boot_conf;
++	return 0;
 +}
 +
 +static int
-+pvr_meta_fw_process(struct pvr_device *pvr_dev, const u8 *fw,
-+		    u8 *fw_code_ptr, u8 *fw_data_ptr, u8 *fw_core_code_ptr, u8 *fw_core_data_ptr,
-+		    u32 core_code_alloc_size)
++prepare_job_resvs_for_each(struct drm_exec *exec, struct pvr_job_data *job_data,
++			   u32 job_count)
 +{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	u32 *boot_conf;
-+	int err;
++	drm_exec_until_all_locked(exec) {
++		int err = jobs_lock_all_objs(exec, job_data, job_count);
 +
-+	boot_conf = ((u32 *)fw_code_ptr) + ROGUE_FW_BOOTLDR_CONF_OFFSET;
-+
-+	/* Slave port and JTAG accesses are privileged. */
-+	add_boot_arg(&boot_conf, META_CR_SYSC_JTAG_THREAD,
-+		     META_CR_SYSC_JTAG_THREAD_PRIV_EN);
-+
-+	configure_seg_mmu(pvr_dev, &boot_conf);
-+
-+	/* Populate FW sections from LDR image. */
-+	err = process_ldr_command_stream(pvr_dev, fw, fw_code_ptr, fw_data_ptr, fw_core_code_ptr,
-+					 fw_core_data_ptr, &boot_conf);
-+	if (err)
-+		return err;
-+
-+	configure_meta_caches(&boot_conf);
-+
-+	/* End argument list. */
-+	add_boot_arg(&boot_conf, 0, 0);
-+
-+	if (fw_dev->mem.core_code_obj) {
-+		u32 core_code_fw_addr;
-+
-+		pvr_fw_object_get_fw_addr(fw_dev->mem.core_code_obj, &core_code_fw_addr);
-+		add_boot_arg(&boot_conf, core_code_fw_addr, core_code_alloc_size);
-+	} else {
-+		add_boot_arg(&boot_conf, 0, 0);
++		drm_exec_retry_on_contention(exec);
++		if (err)
++			return err;
 +	}
-+	/* None of the cores supported by this driver have META DMA. */
-+	add_boot_arg(&boot_conf, 0, 0);
 +
 +	return 0;
-+}
-+
-+static int
-+pvr_meta_init(struct pvr_device *pvr_dev)
-+{
-+	pvr_fw_heap_info_init(pvr_dev, ROGUE_FW_HEAP_META_SHIFT, 0);
-+
-+	return 0;
-+}
-+
-+static u32
-+pvr_meta_get_fw_addr_with_offset(struct pvr_fw_object *fw_obj, u32 offset)
-+{
-+	u32 fw_addr = fw_obj->fw_addr_offset + offset + ROGUE_FW_SEGMMU_DATA_BASE_ADDRESS;
-+
-+	/* META cacheability is determined by address. */
-+	if (fw_obj->gem->flags & PVR_BO_FW_FLAGS_DEVICE_UNCACHED)
-+		fw_addr |= ROGUE_FW_SEGMMU_DATA_META_UNCACHED |
-+			   ROGUE_FW_SEGMMU_DATA_VIVT_SLC_UNCACHED;
-+
-+	return fw_addr;
-+}
-+
-+static int
-+pvr_meta_vm_map(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
-+{
-+	struct pvr_gem_object *pvr_obj = fw_obj->gem;
-+
-+	return pvr_vm_map(pvr_dev->kernel_vm_ctx, pvr_obj, 0, fw_obj->fw_mm_node.start,
-+			  pvr_gem_object_size(pvr_obj));
 +}
 +
 +static void
-+pvr_meta_vm_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
++update_job_resvs(struct pvr_job *job)
 +{
-+	pvr_vm_unmap(pvr_dev->kernel_vm_ctx, fw_obj->fw_mm_node.start,
-+		     fw_obj->fw_mm_node.size);
++	if (job->hwrt) {
++		enum dma_resv_usage usage = job->type == DRM_PVR_JOB_TYPE_GEOMETRY ?
++					    DMA_RESV_USAGE_WRITE : DMA_RESV_USAGE_READ;
++		struct drm_gem_object *obj = gem_from_pvr_gem(job->hwrt->fw_obj->gem);
++
++		dma_resv_add_fence(obj->resv, &job->base.s_fence->finished, usage);
++	}
 +}
 +
-+static bool
-+pvr_meta_has_fixed_data_addr(void)
++static void
++update_job_resvs_for_each(struct pvr_job_data *job_data, u32 job_count)
 +{
++	for (u32 i = 0; i < job_count; i++)
++		update_job_resvs(job_data[i].job);
++}
++
++static bool can_combine_jobs(struct pvr_job *a, struct pvr_job *b)
++{
++	struct pvr_job *geom_job = a, *frag_job = b;
++	struct dma_fence *fence;
++	unsigned long index;
++
++	/* Geometry and fragment jobs can be combined if they are queued to the
++	 * same context and targeting the same HWRT.
++	 */
++	if (a->type != DRM_PVR_JOB_TYPE_GEOMETRY ||
++	    b->type != DRM_PVR_JOB_TYPE_FRAGMENT ||
++	    a->ctx != b->ctx ||
++	    a->hwrt != b->hwrt)
++		return false;
++
++	xa_for_each(&frag_job->base.dependencies, index, fence) {
++		/* We combine when we see an explicit geom -> frag dep. */
++		if (&geom_job->base.s_fence->scheduled == fence)
++			return true;
++	}
++
 +	return false;
 +}
 +
-+const struct pvr_fw_defs pvr_fw_defs_meta = {
-+	.init = pvr_meta_init,
-+	.fw_process = pvr_meta_fw_process,
-+	.vm_map = pvr_meta_vm_map,
-+	.vm_unmap = pvr_meta_vm_unmap,
-+	.get_fw_addr_with_offset = pvr_meta_get_fw_addr_with_offset,
-+	.wrapper_init = pvr_meta_wrapper_init,
-+	.has_fixed_data_addr = pvr_meta_has_fixed_data_addr,
-+	.irq = {
-+		.enable_reg = ROGUE_CR_META_SP_MSLVIRQENABLE,
-+		.status_reg = ROGUE_CR_META_SP_MSLVIRQSTATUS,
-+		.clear_reg = ROGUE_CR_META_SP_MSLVIRQSTATUS,
-+		.event_mask = ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_EN,
-+		.clear_mask = ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_CLRMSK,
-+	},
-+};
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_meta.h b/drivers/gpu/drm/imagination/pvr_fw_meta.h
-new file mode 100644
-index 000000000000..911ad700cba6
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_meta.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_FW_META_H
-+#define PVR_FW_META_H
-+
-+#include <linux/types.h>
-+
-+/* Forward declaration from pvr_device.h */
-+struct pvr_device;
-+
-+int pvr_meta_cr_read32(struct pvr_device *pvr_dev, u32 reg_addr, u32 *reg_value_out);
-+
-+#endif /* PVR_FW_META_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_startstop.c b/drivers/gpu/drm/imagination/pvr_fw_startstop.c
-new file mode 100644
-index 000000000000..36cec227cfe3
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_startstop.c
-@@ -0,0 +1,306 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_device.h"
-+#include "pvr_fw.h"
-+#include "pvr_fw_meta.h"
-+#include "pvr_fw_startstop.h"
-+#include "pvr_rogue_cr_defs.h"
-+#include "pvr_rogue_meta.h"
-+#include "pvr_vm.h"
-+
-+#include <linux/compiler.h>
-+#include <linux/delay.h>
-+#include <linux/ktime.h>
-+#include <linux/types.h>
-+
-+#define POLL_TIMEOUT_USEC 1000000
-+
-+static void
-+rogue_axi_ace_list_init(struct pvr_device *pvr_dev)
++static struct dma_fence *
++get_last_queued_job_scheduled_fence(struct pvr_queue *queue,
++				    struct pvr_job_data *job_data,
++				    u32 cur_job_pos)
 +{
-+	/* Setup AXI-ACE config. Set everything to outer cache. */
-+	u64 reg_val =
-+		(3U << ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWDOMAIN_NON_SNOOPING_SHIFT) |
-+		(3U << ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_NON_SNOOPING_SHIFT) |
-+		(2U << ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_CACHE_MAINTENANCE_SHIFT) |
-+		(2U << ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWDOMAIN_COHERENT_SHIFT) |
-+		(2U << ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_COHERENT_SHIFT) |
-+		(2U << ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWCACHE_COHERENT_SHIFT) |
-+		(2U << ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARCACHE_COHERENT_SHIFT) |
-+		(2U << ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARCACHE_CACHE_MAINTENANCE_SHIFT);
++	/* We iterate over the current job array in reverse order to grab the
++	 * last to-be-queued job targeting the same queue.
++	 */
++	for (u32 i = cur_job_pos; i > 0; i--) {
++		struct pvr_job *job = job_data[i - 1].job;
 +
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_AXI_ACE_LITE_CONFIGURATION, reg_val);
-+}
++		if (job->ctx == queue->ctx && job->type == queue->type)
++			return dma_fence_get(&job->base.s_fence->scheduled);
++	}
 +
-+static void
-+rogue_bif_init(struct pvr_device *pvr_dev)
-+{
-+	dma_addr_t pc_dma_addr;
-+	u64 pc_addr;
-+
-+	/* Acquire the address of the Kernel Page Catalogue. */
-+	pc_dma_addr = pvr_vm_get_page_table_root_addr(pvr_dev->kernel_vm_ctx);
-+
-+	/* Write the kernel catalogue base. */
-+	pc_addr = ((((u64)pc_dma_addr >> ROGUE_CR_BIF_CAT_BASE0_ADDR_ALIGNSHIFT)
-+		    << ROGUE_CR_BIF_CAT_BASE0_ADDR_SHIFT) &
-+		   ~ROGUE_CR_BIF_CAT_BASE0_ADDR_CLRMSK);
-+
-+	pvr_cr_write64(pvr_dev, BIF_CAT_BASEX(MMU_CONTEXT_MAPPING_FWPRIV),
-+		       pc_addr);
++	/* If we didn't find any, we just return the last queued job scheduled
++	 * fence attached to the queue.
++	 */
++	return dma_fence_get(queue->last_queued_job_scheduled_fence);
 +}
 +
 +static int
-+rogue_slc_init(struct pvr_device *pvr_dev)
++pvr_jobs_link_geom_frag(struct pvr_job_data *job_data, u32 *job_count)
 +{
-+	u16 slc_cache_line_size_bits;
-+	u32 reg_val;
-+	int err;
++	for (u32 i = 0; i < *job_count - 1; i++) {
++		struct pvr_job *geom_job = job_data[i].job;
++		struct pvr_job *frag_job = job_data[i + 1].job;
++		struct pvr_queue *frag_queue;
++		struct dma_fence *f;
 +
-+	/*
-+	 * SLC Misc control.
-+	 *
-+	 * Note: This is a 64bit register and we set only the lower 32bits
-+	 *       leaving the top 32bits (ROGUE_CR_SLC_CTRL_MISC_SCRAMBLE_BITS)
-+	 *       unchanged from the HW default.
-+	 */
-+	reg_val = (pvr_cr_read32(pvr_dev, ROGUE_CR_SLC_CTRL_MISC) &
-+		      ROGUE_CR_SLC_CTRL_MISC_ENABLE_PSG_HAZARD_CHECK_EN) |
-+		     ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_PVR_HASH1;
++		if (!can_combine_jobs(job_data[i].job, job_data[i + 1].job))
++			continue;
 +
-+	err = PVR_FEATURE_VALUE(pvr_dev, slc_cache_line_size_bits, &slc_cache_line_size_bits);
-+	if (err)
-+		return err;
-+
-+	/* Bypass burst combiner if SLC line size is smaller than 1024 bits. */
-+	if (slc_cache_line_size_bits < 1024)
-+		reg_val |= ROGUE_CR_SLC_CTRL_MISC_BYPASS_BURST_COMBINER_EN;
-+
-+	if (PVR_HAS_QUIRK(pvr_dev, 71242) && !PVR_HAS_FEATURE(pvr_dev, gpu_multicore_support))
-+		reg_val |= ROGUE_CR_SLC_CTRL_MISC_LAZYWB_OVERRIDE_EN;
-+
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_SLC_CTRL_MISC, reg_val);
-+
-+	return 0;
-+}
-+
-+/**
-+ * pvr_fw_start() - Start FW processor and boot firmware
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error returned by rogue_slc_init().
-+ */
-+int
-+pvr_fw_start(struct pvr_device *pvr_dev)
-+{
-+	bool has_reset2 = PVR_HAS_FEATURE(pvr_dev, xe_tpu2);
-+	u64 soft_reset_mask;
-+	int err;
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, pbe2_in_xe))
-+		soft_reset_mask = ROGUE_CR_SOFT_RESET__PBE2_XE__MASKFULL;
-+	else
-+		soft_reset_mask = ROGUE_CR_SOFT_RESET_MASKFULL;
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, sys_bus_secure_reset)) {
-+		/*
-+		 * Disable the default sys_bus_secure protection to perform
-+		 * minimal setup.
++		/* The fragment job will be submitted by the geometry queue. We
++		 * need to make sure it comes after all the other fragment jobs
++		 * queued before it.
 +		 */
-+		pvr_cr_write32(pvr_dev, ROGUE_CR_SYS_BUS_SECURE, 0);
-+		(void)pvr_cr_read32(pvr_dev, ROGUE_CR_SYS_BUS_SECURE); /* Fence write */
-+	}
-+
-+	/* Set Rogue in soft-reset. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET, soft_reset_mask);
-+	if (has_reset2)
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET2, ROGUE_CR_SOFT_RESET2_MASKFULL);
-+
-+	/* Read soft-reset to fence previous write in order to clear the SOCIF pipeline. */
-+	(void)pvr_cr_read64(pvr_dev, ROGUE_CR_SOFT_RESET);
-+	if (has_reset2)
-+		(void)pvr_cr_read64(pvr_dev, ROGUE_CR_SOFT_RESET2);
-+
-+	/* Take Rascal and Dust out of reset. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET,
-+		       soft_reset_mask ^ ROGUE_CR_SOFT_RESET_RASCALDUSTS_EN);
-+	if (has_reset2)
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET2, 0);
-+
-+	(void)pvr_cr_read64(pvr_dev, ROGUE_CR_SOFT_RESET);
-+	if (has_reset2)
-+		(void)pvr_cr_read64(pvr_dev, ROGUE_CR_SOFT_RESET2);
-+
-+	/* Take everything out of reset but the FW processor. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET, ROGUE_CR_SOFT_RESET_GARTEN_EN);
-+	if (has_reset2)
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET2, 0);
-+
-+	(void)pvr_cr_read64(pvr_dev, ROGUE_CR_SOFT_RESET);
-+	if (has_reset2)
-+		(void)pvr_cr_read64(pvr_dev, ROGUE_CR_SOFT_RESET2);
-+
-+	err = rogue_slc_init(pvr_dev);
-+	if (err)
-+		goto err_reset;
-+
-+	/* Initialise Firmware wrapper. */
-+	pvr_dev->fw_dev.defs->wrapper_init(pvr_dev);
-+
-+	/* We must init the AXI-ACE interface before first BIF transaction. */
-+	rogue_axi_ace_list_init(pvr_dev);
-+
-+	if (pvr_dev->fw_dev.processor_type != PVR_FW_PROCESSOR_TYPE_MIPS) {
-+		/* Initialise BIF. */
-+		rogue_bif_init(pvr_dev);
-+	}
-+
-+	/* Need to wait for at least 16 cycles before taking the FW processor out of reset ... */
-+	udelay(3);
-+
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET, 0x0);
-+	(void)pvr_cr_read64(pvr_dev, ROGUE_CR_SOFT_RESET);
-+
-+	/* ... and afterwards. */
-+	udelay(3);
-+
-+	return 0;
-+
-+err_reset:
-+	/* Put everything back into soft-reset. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET, soft_reset_mask);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_fw_stop() - Stop FW processor
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_cr_poll_reg32().
-+ */
-+int
-+pvr_fw_stop(struct pvr_device *pvr_dev)
-+{
-+	const u32 sidekick_idle_mask = ROGUE_CR_SIDEKICK_IDLE_MASKFULL &
-+				       ~(ROGUE_CR_SIDEKICK_IDLE_GARTEN_EN |
-+					 ROGUE_CR_SIDEKICK_IDLE_SOCIF_EN |
-+					 ROGUE_CR_SIDEKICK_IDLE_HOSTIF_EN);
-+	bool skip_garten_idle = false;
-+	u32 reg_value;
-+	int err;
-+
-+	/*
-+	 * Wait for Sidekick/Jones to signal IDLE except for the Garten Wrapper.
-+	 * For cores with the LAYOUT_MARS feature, SIDEKICK would have been
-+	 * powered down by the FW.
-+	 */
-+	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE, sidekick_idle_mask,
-+				sidekick_idle_mask, POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	/* Unset MTS DM association with threads. */
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC,
-+		       ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC_MASKFULL &
-+		       ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC_DM_ASSOC_CLRMSK);
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC,
-+		       ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_MASKFULL &
-+		       ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_DM_ASSOC_CLRMSK);
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC,
-+		       ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_MASKFULL &
-+		       ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK);
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC,
-+		       ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_MASKFULL &
-+		       ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK);
-+
-+	/* Extra Idle checks. */
-+	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_BIF_STATUS_MMU, 0,
-+				ROGUE_CR_BIF_STATUS_MMU_MASKFULL,
-+				POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_BIFPM_STATUS_MMU, 0,
-+				ROGUE_CR_BIFPM_STATUS_MMU_MASKFULL,
-+				POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	if (!PVR_HAS_FEATURE(pvr_dev, xt_top_infrastructure)) {
-+		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_BIF_READS_EXT_STATUS, 0,
-+					ROGUE_CR_BIF_READS_EXT_STATUS_MASKFULL,
-+					POLL_TIMEOUT_USEC);
-+		if (err)
-+			return err;
-+	}
-+
-+	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_BIFPM_READS_EXT_STATUS, 0,
-+				ROGUE_CR_BIFPM_READS_EXT_STATUS_MASKFULL,
-+				POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	err = pvr_cr_poll_reg64(pvr_dev, ROGUE_CR_SLC_STATUS1, 0,
-+				ROGUE_CR_SLC_STATUS1_MASKFULL,
-+				POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	/*
-+	 * Wait for SLC to signal IDLE.
-+	 * For cores with the LAYOUT_MARS feature, SLC would have been powered
-+	 * down by the FW.
-+	 */
-+	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SLC_IDLE,
-+				ROGUE_CR_SLC_IDLE_MASKFULL,
-+				ROGUE_CR_SLC_IDLE_MASKFULL, POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	/*
-+	 * Wait for Sidekick/Jones to signal IDLE except for the Garten Wrapper.
-+	 * For cores with the LAYOUT_MARS feature, SIDEKICK would have been powered
-+	 * down by the FW.
-+	 */
-+	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE, sidekick_idle_mask,
-+				sidekick_idle_mask, POLL_TIMEOUT_USEC);
-+	if (err)
-+		return err;
-+
-+	if (pvr_dev->fw_dev.processor_type == PVR_FW_PROCESSOR_TYPE_META) {
-+		err = pvr_meta_cr_read32(pvr_dev, META_CR_TxVECINT_BHALT, &reg_value);
-+		if (err)
-+			return err;
-+
-+		/*
-+		 * Wait for Sidekick/Jones to signal IDLE including the Garten
-+		 * Wrapper if there is no debugger attached (TxVECINT_BHALT =
-+		 * 0x0).
-+		 */
-+		if (reg_value)
-+			skip_garten_idle = true;
-+	}
-+
-+	if (!skip_garten_idle) {
-+		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE,
-+					ROGUE_CR_SIDEKICK_IDLE_GARTEN_EN,
-+					ROGUE_CR_SIDEKICK_IDLE_GARTEN_EN,
-+					POLL_TIMEOUT_USEC);
-+		if (err)
-+			return err;
-+	}
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, pbe2_in_xe))
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET,
-+			       ROGUE_CR_SOFT_RESET__PBE2_XE__MASKFULL);
-+	else
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_SOFT_RESET, ROGUE_CR_SOFT_RESET_MASKFULL);
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_startstop.h b/drivers/gpu/drm/imagination/pvr_fw_startstop.h
-new file mode 100644
-index 000000000000..a3cef061bd60
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_startstop.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_FW_STARTSTOP_H
-+#define PVR_FW_STARTSTOP_H
-+
-+/* Forward declaration from pvr_device.h. */
-+struct pvr_device;
-+
-+int pvr_fw_start(struct pvr_device *pvr_dev);
-+int pvr_fw_stop(struct pvr_device *pvr_dev);
-+
-+#endif /* PVR_FW_STARTSTOP_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.c b/drivers/gpu/drm/imagination/pvr_fw_trace.c
-new file mode 100644
-index 000000000000..0a8340369f1a
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_trace.c
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_device.h"
-+#include "pvr_gem.h"
-+#include "pvr_rogue_fwif.h"
-+#include "pvr_fw_trace.h"
-+
-+#include <drm/drm_file.h>
-+
-+#include <linux/build_bug.h>
-+#include <linux/dcache.h>
-+#include <linux/sysfs.h>
-+#include <linux/types.h>
-+
-+static void
-+tracebuf_ctrl_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_tracebuf *tracebuf_ctrl = cpu_ptr;
-+	struct pvr_fw_trace *fw_trace = priv;
-+	u32 thread_nr;
-+
-+	tracebuf_ctrl->tracebuf_size_in_dwords = ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS;
-+	tracebuf_ctrl->tracebuf_flags = 0;
-+
-+	if (fw_trace->group_mask)
-+		tracebuf_ctrl->log_type = fw_trace->group_mask | ROGUE_FWIF_LOG_TYPE_TRACE;
-+	else
-+		tracebuf_ctrl->log_type = ROGUE_FWIF_LOG_TYPE_NONE;
-+
-+	for (thread_nr = 0; thread_nr < ARRAY_SIZE(fw_trace->buffers); thread_nr++) {
-+		struct rogue_fwif_tracebuf_space *tracebuf_space =
-+			&tracebuf_ctrl->tracebuf[thread_nr];
-+		struct pvr_fw_trace_buffer *trace_buffer = &fw_trace->buffers[thread_nr];
-+
-+		pvr_fw_object_get_fw_addr(trace_buffer->buf_obj,
-+					  &tracebuf_space->trace_buffer_fw_addr);
-+
-+		tracebuf_space->trace_buffer = trace_buffer->buf;
-+		tracebuf_space->trace_pointer = 0;
-+	}
-+}
-+
-+int pvr_fw_trace_init(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_trace *fw_trace = &pvr_dev->fw_dev.fw_trace;
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	u32 thread_nr;
-+	int err;
-+
-+	for (thread_nr = 0; thread_nr < ARRAY_SIZE(fw_trace->buffers); thread_nr++) {
-+		struct pvr_fw_trace_buffer *trace_buffer = &fw_trace->buffers[thread_nr];
-+
-+		trace_buffer->buf =
-+			pvr_fw_object_create_and_map(pvr_dev,
-+						     ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS *
-+						     sizeof(*trace_buffer->buf),
-+						     PVR_BO_FW_FLAGS_DEVICE_UNCACHED |
-+						     PVR_BO_FW_NO_CLEAR_ON_RESET,
-+						     NULL, NULL, &trace_buffer->buf_obj);
-+		if (IS_ERR(trace_buffer->buf)) {
-+			drm_err(drm_dev, "Unable to allocate trace buffer\n");
-+			err = PTR_ERR(trace_buffer->buf);
-+			trace_buffer->buf = NULL;
-+			goto err_free_buf;
++		frag_queue = pvr_context_get_queue_for_job(frag_job->ctx,
++							   frag_job->type);
++		f = get_last_queued_job_scheduled_fence(frag_queue, job_data,
++							i);
++		if (f) {
++			int err = drm_sched_job_add_dependency(&geom_job->base,
++							       f);
++			if (err) {
++				*job_count = i;
++				return err;
++			}
 +		}
-+	}
 +
-+	/* TODO: Provide control of group mask. */
-+	fw_trace->group_mask = 0;
++		/* The KCCB slot will be reserved by the geometry job, so we can
++		 * drop the KCCB fence on the fragment job.
++		 */
++		pvr_kccb_fence_put(frag_job->kccb_fence);
++		frag_job->kccb_fence = NULL;
 +
-+	fw_trace->tracebuf_ctrl =
-+		pvr_fw_object_create_and_map(pvr_dev,
-+					     sizeof(*fw_trace->tracebuf_ctrl),
-+					     PVR_BO_FW_FLAGS_DEVICE_UNCACHED |
-+					     PVR_BO_FW_NO_CLEAR_ON_RESET,
-+					     tracebuf_ctrl_init, fw_trace,
-+					     &fw_trace->tracebuf_ctrl_obj);
-+	if (IS_ERR(fw_trace->tracebuf_ctrl)) {
-+		drm_err(drm_dev, "Unable to allocate trace buffer control structure\n");
-+		err = PTR_ERR(fw_trace->tracebuf_ctrl);
-+		goto err_free_buf;
-+	}
++		geom_job->paired_job = frag_job;
++		frag_job->paired_job = geom_job;
 +
-+	BUILD_BUG_ON(ARRAY_SIZE(fw_trace->tracebuf_ctrl->tracebuf) !=
-+		     ARRAY_SIZE(fw_trace->buffers));
-+
-+	for (thread_nr = 0; thread_nr < ARRAY_SIZE(fw_trace->buffers); thread_nr++) {
-+		struct rogue_fwif_tracebuf_space *tracebuf_space =
-+			&fw_trace->tracebuf_ctrl->tracebuf[thread_nr];
-+		struct pvr_fw_trace_buffer *trace_buffer = &fw_trace->buffers[thread_nr];
-+
-+		trace_buffer->tracebuf_space = tracebuf_space;
++		/* Skip the fragment job we just paired to the geometry job. */
++		i++;
 +	}
 +
 +	return 0;
++}
 +
-+err_free_buf:
-+	for (thread_nr = 0; thread_nr < ARRAY_SIZE(fw_trace->buffers); thread_nr++) {
-+		struct pvr_fw_trace_buffer *trace_buffer = &fw_trace->buffers[thread_nr];
++/**
++ * pvr_submit_jobs() - Submit jobs to the GPU
++ * @pvr_dev: Target PowerVR device.
++ * @pvr_file: Pointer to PowerVR file structure.
++ * @args: Ioctl args.
++ * @job_count: Number of jobs in @jobs_args. On error this will be updated
++ * with the index into @jobs_args where the error occurred.
++ *
++ * This initial implementation is entirely synchronous; on return the GPU will
++ * be idle. This will not be the case for future implementations.
++ *
++ * Returns:
++ *  * 0 on success,
++ *  * -%EFAULT if arguments can not be copied from user space, or
++ *  * -%EINVAL on invalid arguments, or
++ *  * Any other error.
++ */
++int
++pvr_submit_jobs(struct pvr_device *pvr_dev, struct pvr_file *pvr_file,
++		struct drm_pvr_ioctl_submit_jobs_args *args)
++{
++	struct pvr_job_data *job_data = NULL;
++	struct drm_pvr_job *job_args;
++	struct xarray signal_array;
++	u32 jobs_alloced = 0;
++	struct drm_exec exec;
++	int err;
 +
-+		if (trace_buffer->buf)
-+			pvr_fw_object_unmap_and_destroy(trace_buffer->buf_obj);
++	if (!args->jobs.count)
++		return -EINVAL;
++
++	err = PVR_UOBJ_GET_ARRAY(job_args, &args->jobs);
++	if (err)
++		return err;
++
++	job_data = kvmalloc_array(args->jobs.count, sizeof(*job_data),
++				  GFP_KERNEL | __GFP_ZERO);
++	if (!job_data) {
++		err = -ENOMEM;
++		goto out_free;
 +	}
++
++	err = pvr_job_data_init(pvr_dev, pvr_file, job_args, &args->jobs.count,
++				job_data);
++	if (err)
++		goto out_free;
++
++	jobs_alloced = args->jobs.count;
++
++	/*
++	 * Flush MMU if needed - this has been deferred until now to avoid
++	 * overuse of this expensive operation.
++	 */
++	err = pvr_mmu_flush_exec(pvr_dev, false);
++	if (err)
++		goto out_job_data_cleanup;
++
++	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE_DUPLICATES);
++
++	xa_init_flags(&signal_array, XA_FLAGS_ALLOC);
++
++	err = prepare_job_syncs_for_each(pvr_file, job_data, &args->jobs.count,
++					 &signal_array);
++	if (err)
++		goto out_exec_fini;
++
++	err = prepare_job_resvs_for_each(&exec, job_data, args->jobs.count);
++	if (err)
++		goto out_exec_fini;
++
++	err = pvr_jobs_link_geom_frag(job_data, &args->jobs.count);
++	if (err)
++		goto out_exec_fini;
++
++	/* Anything after that point must succeed because we start exposing job
++	 * finished fences to the outside world.
++	 */
++	update_job_resvs_for_each(job_data, args->jobs.count);
++	push_jobs(job_data, args->jobs.count);
++	pvr_sync_signal_array_push_fences(&signal_array);
++	err = 0;
++
++out_exec_fini:
++	drm_exec_fini(&exec);
++	pvr_sync_signal_array_cleanup(&signal_array);
++
++out_job_data_cleanup:
++	pvr_job_data_fini(job_data, jobs_alloced);
++
++out_free:
++	kvfree(job_data);
++	kvfree(job_args);
 +
 +	return err;
 +}
-+
-+void pvr_fw_trace_fini(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_trace *fw_trace = &pvr_dev->fw_dev.fw_trace;
-+	u32 thread_nr;
-+
-+	for (thread_nr = 0; thread_nr < ARRAY_SIZE(fw_trace->buffers); thread_nr++) {
-+		struct pvr_fw_trace_buffer *trace_buffer = &fw_trace->buffers[thread_nr];
-+
-+		pvr_fw_object_unmap_and_destroy(trace_buffer->buf_obj);
-+	}
-+	pvr_fw_object_unmap_and_destroy(fw_trace->tracebuf_ctrl_obj);
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.h b/drivers/gpu/drm/imagination/pvr_fw_trace.h
+diff --git a/drivers/gpu/drm/imagination/pvr_job.h b/drivers/gpu/drm/imagination/pvr_job.h
 new file mode 100644
-index 000000000000..0074d2b18da0
+index 000000000000..0ca003c5c475
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_trace.h
-@@ -0,0 +1,78 @@
++++ b/drivers/gpu/drm/imagination/pvr_job.h
+@@ -0,0 +1,161 @@
 +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_FW_TRACE_H
-+#define PVR_FW_TRACE_H
++#ifndef PVR_JOB_H
++#define PVR_JOB_H
 +
-+#include <drm/drm_file.h>
++#include <uapi/drm/pvr_drm.h>
++
++#include <linux/kref.h>
 +#include <linux/types.h>
 +
-+#include "pvr_rogue_fwif.h"
++#include <drm/drm_gem.h>
++#include <drm/gpu_scheduler.h>
 +
-+/* Forward declaration from pvr_device.h. */
-+struct pvr_device;
-+
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_fw_object;
-+
-+/* Forward declarations from pvr_rogue_fwif.h */
-+struct rogue_fwif_tracebuf;
-+struct rogue_fwif_tracebuf_space;
-+
-+/**
-+ * struct pvr_fw_trace_buffer - Structure representing a trace buffer
-+ */
-+struct pvr_fw_trace_buffer {
-+	/** @buf_obj: FW buffer object representing trace buffer. */
-+	struct pvr_fw_object *buf_obj;
-+
-+	/** @buf: Pointer to CPU mapping of trace buffer. */
-+	u32 *buf;
-+
-+	/**
-+	 * @tracebuf_space: Pointer to FW tracebuf_space structure for this
-+	 *                  trace buffer.
-+	 */
-+	struct rogue_fwif_tracebuf_space *tracebuf_space;
-+};
-+
-+/**
-+ * struct pvr_fw_trace - Device firmware trace data
-+ */
-+struct pvr_fw_trace {
-+	/**
-+	 * @tracebuf_ctrl_obj: Object representing FW trace buffer control
-+	 *                     structure.
-+	 */
-+	struct pvr_fw_object *tracebuf_ctrl_obj;
-+
-+	/**
-+	 * @tracebuf_ctrl: Pointer to CPU mapping of FW trace buffer control
-+	 *                 structure.
-+	 */
-+	struct rogue_fwif_tracebuf *tracebuf_ctrl;
-+
-+	/**
-+	 * @buffers: Array representing the actual trace buffers owned by this
-+	 *           device.
-+	 */
-+	struct pvr_fw_trace_buffer buffers[ROGUE_FW_THREAD_MAX];
-+
-+	/** @group_mask: Mask of enabled trace groups. */
-+	u32 group_mask;
-+};
-+
-+int pvr_fw_trace_init(struct pvr_device *pvr_dev);
-+void pvr_fw_trace_fini(struct pvr_device *pvr_dev);
-+
-+#if defined(CONFIG_DEBUG_FS)
-+/* Forward declaration from <linux/dcache.h>. */
-+struct dentry;
-+
-+void pvr_fw_trace_mask_update(struct pvr_device *pvr_dev, u32 old_mask,
-+			      u32 new_mask);
-+
-+void pvr_fw_trace_debugfs_init(struct pvr_device *pvr_dev, struct dentry *dir);
-+#endif /* defined(CONFIG_DEBUG_FS) */
-+
-+#endif /* PVR_FW_TRACE_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_mmu.c b/drivers/gpu/drm/imagination/pvr_mmu.c
-index 7f77e03df912..b71d30e5f380 100644
---- a/drivers/gpu/drm/imagination/pvr_mmu.c
-+++ b/drivers/gpu/drm/imagination/pvr_mmu.c
-@@ -3,9 +3,11 @@
- 
- #include "pvr_mmu.h"
- 
-+#include "pvr_ccb.h"
- #include "pvr_device.h"
- #include "pvr_fw.h"
- #include "pvr_gem.h"
 +#include "pvr_power.h"
- #include "pvr_rogue_fwif.h"
- #include "pvr_rogue_mmu_defs.h"
- 
-@@ -95,7 +97,7 @@ static void pvr_mmu_set_flush_flags(struct pvr_device *pvr_dev, u32 flags)
-  */
- void pvr_mmu_flush_request_all(struct pvr_device *pvr_dev)
- {
--	/* TODO: implement */
-+	pvr_mmu_set_flush_flags(pvr_dev, PVR_MMU_SYNC_LEVEL_2_FLAGS);
- }
- 
- /**
-@@ -120,8 +122,70 @@ void pvr_mmu_flush_request_all(struct pvr_device *pvr_dev)
-  */
- int pvr_mmu_flush_exec(struct pvr_device *pvr_dev, bool wait)
- {
--	/* TODO: implement */
--	return -ENODEV;
-+	struct rogue_fwif_kccb_cmd cmd_mmu_cache = {};
-+	struct rogue_fwif_mmucachedata *cmd_mmu_cache_data =
-+		&cmd_mmu_cache.cmd_data.mmu_cache_data;
-+	int err = 0;
-+	u32 slot;
-+	int idx;
 +
-+	if (!drm_dev_enter(from_pvr_device(pvr_dev), &idx))
-+		return -EIO;
++/* Forward declaration from "pvr_context.h". */
++struct pvr_context;
 +
-+	/* Can't flush MMU if the firmware hasn't booted yet. */
-+	if (!pvr_dev->fw_dev.booted)
-+		goto err_drm_dev_exit;
++/* Forward declarations from "pvr_device.h". */
++struct pvr_device;
++struct pvr_file;
 +
-+	cmd_mmu_cache_data->cache_flags =
-+		atomic_xchg(&pvr_dev->mmu_flush_cache_flags, 0);
++/* Forward declarations from "pvr_hwrt.h". */
++struct pvr_hwrt_data;
 +
-+	if (!cmd_mmu_cache_data->cache_flags)
-+		goto err_drm_dev_exit;
++/* Forward declaration from "pvr_queue.h". */
++struct pvr_queue;
 +
-+	cmd_mmu_cache.cmd_type = ROGUE_FWIF_KCCB_CMD_MMUCACHE;
++struct pvr_job {
++	/** @base: drm_sched_job object. */
++	struct drm_sched_job base;
 +
-+	pvr_fw_object_get_fw_addr(pvr_dev->fw_dev.mem.mmucache_sync_obj,
-+				  &cmd_mmu_cache_data->mmu_cache_sync_fw_addr);
-+	cmd_mmu_cache_data->mmu_cache_sync_update_value = 0;
++	/** @ref_count: Refcount for job. */
++	struct kref ref_count;
 +
-+	err = pvr_kccb_send_cmd(pvr_dev, &cmd_mmu_cache, &slot);
-+	if (err)
-+		goto err_reset_and_retry;
++	/** @type: Type of job. */
++	enum drm_pvr_job_type type;
 +
-+	err = pvr_kccb_wait_for_completion(pvr_dev, slot, HZ, NULL);
-+	if (err)
-+		goto err_reset_and_retry;
++	/** @id: Job ID number. */
++	u32 id;
 +
-+	drm_dev_exit(idx);
-+
-+	return 0;
-+
-+err_reset_and_retry:
-+	/*
-+	 * Flush command failure is most likely the result of a firmware lockup. Hard
-+	 * reset the GPU and retry.
++	/**
++	 * @paired_job: Job paired to this job.
++	 *
++	 * This field is only meaningful for geometry and fragment jobs.
++	 *
++	 * Paired jobs are executed on the same context, and need to be submitted
++	 * atomically to the FW, to make sure the partial render logic has a
++	 * fragment job to execute when the Parameter Manager runs out of memory.
++	 *
++	 * The geometry job should point to the fragment job it's paired with,
++	 * and the fragment job should point to the geometry job it's paired with.
 +	 */
-+	err = pvr_power_reset(pvr_dev, true);
-+	if (err)
-+		goto err_drm_dev_exit; /* Device is lost. */
++	struct pvr_job *paired_job;
 +
-+	/* Retry sending flush request. */
-+	err = pvr_kccb_send_cmd(pvr_dev, &cmd_mmu_cache, &slot);
-+	if (err) {
-+		pvr_device_lost(pvr_dev);
-+		goto err_drm_dev_exit;
++	/** @cccb_fence: Fence used to wait for CCCB space. */
++	struct dma_fence *cccb_fence;
++
++	/** @kccb_fence: Fence used to wait for KCCB space. */
++	struct dma_fence *kccb_fence;
++
++	/** @done_fence: Fence to signal when the job is done. */
++	struct dma_fence *done_fence;
++
++	/** @pvr_dev: Device pointer. */
++	struct pvr_device *pvr_dev;
++
++	/** @ctx: Pointer to owning context. */
++	struct pvr_context *ctx;
++
++	/** @cmd: Command data. Format depends on @type. */
++	void *cmd;
++
++	/** @cmd_len: Length of command data, in bytes. */
++	u32 cmd_len;
++
++	/**
++	 * @fw_ccb_cmd_type: Firmware CCB command type. Must be one of %ROGUE_FWIF_CCB_CMD_TYPE_*.
++	 */
++	u32 fw_ccb_cmd_type;
++
++	/** @hwrt: HWRT object. Will be NULL for compute and transfer jobs. */
++	struct pvr_hwrt_data *hwrt;
++
++	/**
++	 * @has_pm_ref: True if the job has a power ref, thus forcing the GPU to stay on until
++	 * the job is done.
++	 */
++	bool has_pm_ref;
++};
++
++/**
++ * pvr_job_get() - Take additional reference on job.
++ * @job: Job pointer.
++ *
++ * Call pvr_job_put() to release.
++ *
++ * Returns:
++ *  * The requested job on success, or
++ *  * %NULL if no job pointer passed.
++ */
++static __always_inline struct pvr_job *
++pvr_job_get(struct pvr_job *job)
++{
++	if (job)
++		kref_get(&job->ref_count);
++
++	return job;
++}
++
++void pvr_job_put(struct pvr_job *job);
++
++/**
++ * pvr_job_release_pm_ref() - Release the PM ref if the job acquired it.
++ * @job: The job to release the PM ref on.
++ */
++static __always_inline void
++pvr_job_release_pm_ref(struct pvr_job *job)
++{
++	if (job->has_pm_ref) {
++		pvr_power_put(job->pvr_dev);
++		job->has_pm_ref = false;
 +	}
++}
 +
-+	if (wait) {
-+		err = pvr_kccb_wait_for_completion(pvr_dev, slot, HZ, NULL);
-+		if (err)
-+			pvr_device_lost(pvr_dev);
-+	}
++/**
++ * pvr_job_get_pm_ref() - Get a PM ref and attach it to the job.
++ * @job: The job to attach the PM ref to.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * Any error returned by pvr_power_get() otherwise.
++ */
++static __always_inline int
++pvr_job_get_pm_ref(struct pvr_job *job)
++{
++	int err;
 +
-+err_drm_dev_exit:
-+	drm_dev_exit(idx);
++	if (job->has_pm_ref)
++		return 0;
++
++	err = pvr_power_get(job->pvr_dev);
++	if (!err)
++		job->has_pm_ref = true;
 +
 +	return err;
- }
- 
- /**
++}
++
++int pvr_job_wait_first_non_signaled_native_dep(struct pvr_job *job);
++
++bool pvr_job_non_native_deps_done(struct pvr_job *job);
++
++int pvr_job_fits_in_cccb(struct pvr_job *job, unsigned long native_dep_count);
++
++void pvr_job_submit(struct pvr_job *job);
++
++int pvr_submit_jobs(struct pvr_device *pvr_dev, struct pvr_file *pvr_file,
++		    struct drm_pvr_ioctl_submit_jobs_args *args);
++
++#endif /* PVR_JOB_H */
 diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
-index 88f14a4d31ab..5f7cb7beb879 100644
+index 5f7cb7beb879..ba7816fd28ec 100644
 --- a/drivers/gpu/drm/imagination/pvr_power.c
 +++ b/drivers/gpu/drm/imagination/pvr_power.c
-@@ -3,6 +3,7 @@
- 
- #include "pvr_device.h"
+@@ -5,6 +5,7 @@
  #include "pvr_fw.h"
-+#include "pvr_fw_startstop.h"
+ #include "pvr_fw_startstop.h"
  #include "pvr_power.h"
++#include "pvr_queue.h"
  #include "pvr_rogue_fwif.h"
  
-@@ -21,11 +22,38 @@
- 
- #define WATCHDOG_TIME_MS (500)
- 
-+/**
-+ * pvr_device_lost() - Mark GPU device as lost
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * This will cause the DRM device to be unplugged.
-+ */
-+void
-+pvr_device_lost(struct pvr_device *pvr_dev)
-+{
-+	if (!pvr_dev->lost) {
-+		pvr_dev->lost = true;
-+		drm_dev_unplug(from_pvr_device(pvr_dev));
-+	}
-+}
+ #include <drm/drm_drv.h>
+@@ -155,6 +156,21 @@ pvr_watchdog_kccb_stalled(struct pvr_device *pvr_dev)
+ 			pvr_dev->watchdog.kccb_stall_count = 0;
+ 			return true;
+ 		}
++	} else if (pvr_dev->watchdog.old_kccb_cmds_executed == kccb_cmds_executed) {
++		bool has_active_contexts;
 +
- static int
- pvr_power_send_command(struct pvr_device *pvr_dev, struct rogue_fwif_kccb_cmd *pow_cmd)
- {
--	/* TODO: implement */
--	return -ENODEV;
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	u32 slot_nr;
-+	u32 value;
-+	int err;
++		mutex_lock(&pvr_dev->queues.lock);
++		has_active_contexts = list_empty(&pvr_dev->queues.active);
++		mutex_unlock(&pvr_dev->queues.lock);
 +
-+	WRITE_ONCE(*fw_dev->power_sync, 0);
++		if (has_active_contexts) {
++			/* Send a HEALTH_CHECK command so we can verify FW is still alive. */
++			struct rogue_fwif_kccb_cmd health_check_cmd;
 +
-+	err = pvr_kccb_send_cmd_powered(pvr_dev, pow_cmd, &slot_nr);
-+	if (err)
-+		return err;
++			health_check_cmd.cmd_type = ROGUE_FWIF_KCCB_CMD_HEALTH_CHECK;
 +
-+	/* Wait for FW to acknowledge. */
-+	return readl_poll_timeout(pvr_dev->fw_dev.power_sync, value, value != 0, 100,
-+				  POWER_SYNC_TIMEOUT_US);
- }
- 
- static int
-@@ -71,8 +99,7 @@ pvr_power_fw_disable(struct pvr_device *pvr_dev, bool hard_reset)
- 			return err;
- 	}
- 
--	/* TODO: stop firmware */
--	return -ENODEV;
-+	return pvr_fw_stop(pvr_dev);
- }
- 
- static int
-@@ -80,11 +107,17 @@ pvr_power_fw_enable(struct pvr_device *pvr_dev)
- {
- 	int err;
- 
--	/* TODO: start firmware */
--	err = -ENODEV;
-+	err = pvr_fw_start(pvr_dev);
- 	if (err)
- 		return err;
- 
-+	err = pvr_wait_for_fw_boot(pvr_dev);
-+	if (err) {
-+		drm_err(from_pvr_device(pvr_dev), "Firmware failed to boot\n");
-+		pvr_fw_stop(pvr_dev);
-+		return err;
-+	}
-+
- 	queue_delayed_work(pvr_dev->sched_wq, &pvr_dev->watchdog.work,
- 			   msecs_to_jiffies(WATCHDOG_TIME_MS));
- 
-@@ -94,14 +127,39 @@ pvr_power_fw_enable(struct pvr_device *pvr_dev)
- bool
- pvr_power_is_idle(struct pvr_device *pvr_dev)
- {
--	/* TODO: implement */
--	return true;
-+	/*
-+	 * FW power state can be out of date if a KCCB command has been submitted but the FW hasn't
-+	 * started processing it yet. So also check the KCCB status.
-+	 */
-+	enum rogue_fwif_pow_state pow_state = READ_ONCE(pvr_dev->fw_dev.fwif_sysdata->pow_state);
-+	bool kccb_idle = pvr_kccb_is_idle(pvr_dev);
-+
-+	return (pow_state == ROGUE_FWIF_POW_IDLE) && kccb_idle;
- }
- 
- static bool
- pvr_watchdog_kccb_stalled(struct pvr_device *pvr_dev)
- {
--	/* TODO: implement */
-+	/* Check KCCB commands are progressing. */
-+	u32 kccb_cmds_executed = pvr_dev->fw_dev.fwif_osdata->kccb_cmds_executed;
-+	bool kccb_is_idle = pvr_kccb_is_idle(pvr_dev);
-+
-+	if (pvr_dev->watchdog.old_kccb_cmds_executed == kccb_cmds_executed && !kccb_is_idle) {
-+		pvr_dev->watchdog.kccb_stall_count++;
-+
-+		/*
-+		 * If we have commands pending with no progress for 2 consecutive polls then
-+		 * consider KCCB command processing stalled.
-+		 */
-+		if (pvr_dev->watchdog.kccb_stall_count == 2) {
-+			pvr_dev->watchdog.kccb_stall_count = 0;
-+			return true;
++			pvr_kccb_send_cmd_powered(pvr_dev, &health_check_cmd, NULL);
 +		}
-+	} else {
-+		pvr_dev->watchdog.old_kccb_cmds_executed = kccb_cmds_executed;
-+		pvr_dev->watchdog.kccb_stall_count = 0;
-+	}
-+
- 	return false;
- }
- 
-@@ -118,6 +176,9 @@ pvr_watchdog_worker(struct work_struct *work)
- 	if (pm_runtime_get_if_in_use(from_pvr_device(pvr_dev)->dev) <= 0)
- 		goto out_requeue;
- 
-+	if (!pvr_dev->fw_dev.booted)
-+		goto out_pm_runtime_put;
-+
- 	stalled = pvr_watchdog_kccb_stalled(pvr_dev);
- 
- 	if (stalled) {
-@@ -127,6 +188,7 @@ pvr_watchdog_worker(struct work_struct *work)
- 		/* Device may be lost at this point. */
- 	}
- 
-+out_pm_runtime_put:
- 	pm_runtime_put(from_pvr_device(pvr_dev)->dev);
- 
- out_requeue:
-@@ -158,18 +220,26 @@ pvr_power_device_suspend(struct device *dev)
- 	struct platform_device *plat_dev = to_platform_device(dev);
- 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
- 	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+	int err = 0;
- 	int idx;
- 
- 	if (!drm_dev_enter(drm_dev, &idx))
- 		return -EIO;
- 
-+	if (pvr_dev->fw_dev.booted) {
-+		err = pvr_power_fw_disable(pvr_dev, false);
-+		if (err)
-+			goto err_drm_dev_exit;
-+	}
-+
- 	clk_disable_unprepare(pvr_dev->mem_clk);
- 	clk_disable_unprepare(pvr_dev->sys_clk);
- 	clk_disable_unprepare(pvr_dev->core_clk);
- 
-+err_drm_dev_exit:
- 	drm_dev_exit(idx);
- 
--	return 0;
-+	return err;
- }
- 
- int
-@@ -196,10 +266,19 @@ pvr_power_device_resume(struct device *dev)
- 	if (err)
- 		goto err_sys_clk_disable;
- 
-+	if (pvr_dev->fw_dev.booted) {
-+		err = pvr_power_fw_enable(pvr_dev);
-+		if (err)
-+			goto err_mem_clk_disable;
-+	}
-+
- 	drm_dev_exit(idx);
- 
- 	return 0;
- 
-+err_mem_clk_disable:
-+	clk_disable_unprepare(pvr_dev->mem_clk);
-+
- err_sys_clk_disable:
- 	clk_disable_unprepare(pvr_dev->sys_clk);
- 
-@@ -239,7 +318,6 @@ pvr_power_device_idle(struct device *dev)
+ 	} else {
+ 		pvr_dev->watchdog.old_kccb_cmds_executed = kccb_cmds_executed;
+ 		pvr_dev->watchdog.kccb_stall_count = 0;
+@@ -318,6 +334,7 @@ pvr_power_device_idle(struct device *dev)
  int
  pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
  {
--	/* TODO: Implement hard reset. */
++	bool queues_disabled = false;
  	int err;
  
  	/*
-@@ -248,13 +326,69 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- 	 */
- 	WARN_ON(pvr_power_get(pvr_dev));
+@@ -337,6 +354,11 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
+ 	disable_irq(pvr_dev->irq);
  
--	err = pvr_power_fw_disable(pvr_dev, false);
--	if (err)
--		goto err_power_put;
-+	down_write(&pvr_dev->reset_sem);
+ 	do {
++		if (hard_reset) {
++			pvr_queue_device_pre_reset(pvr_dev);
++			queues_disabled = true;
++		}
 +
-+	if (pvr_dev->lost) {
-+		err = -EIO;
-+		goto err_up_write;
+ 		err = pvr_power_fw_disable(pvr_dev, hard_reset);
+ 		if (!err) {
+ 			if (hard_reset) {
+@@ -372,6 +394,9 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
+ 		}
+ 	} while (err);
+ 
++	if (queues_disabled)
++		pvr_queue_device_post_reset(pvr_dev);
++
+ 	enable_irq(pvr_dev->irq);
+ 
+ 	up_write(&pvr_dev->reset_sem);
+@@ -386,6 +411,9 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
+ 
+ 	/* Leave IRQs disabled if the device is lost. */
+ 
++	if (queues_disabled)
++		pvr_queue_device_post_reset(pvr_dev);
++
+ err_up_write:
+ 	up_write(&pvr_dev->reset_sem);
+ 
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+new file mode 100644
+index 000000000000..d65c3fbedf5a
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_queue.c
+@@ -0,0 +1,1432 @@
++// SPDX-License-Identifier: GPL-2.0-only OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include <drm/drm_managed.h>
++#include <drm/gpu_scheduler.h>
++
++#include "pvr_cccb.h"
++#include "pvr_context.h"
++#include "pvr_device.h"
++#include "pvr_drv.h"
++#include "pvr_job.h"
++#include "pvr_queue.h"
++#include "pvr_vm.h"
++
++#include "pvr_rogue_fwif_client.h"
++
++#define MAX_DEADLINE_MS 30000
++
++#define CTX_COMPUTE_CCCB_SIZE_LOG2 15
++#define CTX_FRAG_CCCB_SIZE_LOG2 15
++#define CTX_GEOM_CCCB_SIZE_LOG2 15
++#define CTX_TRANSFER_CCCB_SIZE_LOG2 15
++
++static int get_xfer_ctx_state_size(struct pvr_device *pvr_dev)
++{
++	u32 num_isp_store_registers;
++
++	if (PVR_HAS_FEATURE(pvr_dev, xe_memory_hierarchy)) {
++		num_isp_store_registers = 1;
++	} else {
++		int err;
++
++		err = PVR_FEATURE_VALUE(pvr_dev, num_isp_ipp_pipes, &num_isp_store_registers);
++		if (WARN_ON(err))
++			return err;
 +	}
 +
-+	/* Disable IRQs for the duration of the reset. */
-+	disable_irq(pvr_dev->irq);
-+
-+	do {
-+		err = pvr_power_fw_disable(pvr_dev, hard_reset);
-+		if (!err) {
-+			if (hard_reset) {
-+				pvr_dev->fw_dev.booted = false;
-+				WARN_ON(pm_runtime_force_suspend(from_pvr_device(pvr_dev)->dev));
-+
-+				err = pvr_fw_hard_reset(pvr_dev);
-+				if (err)
-+					goto err_device_lost;
-+
-+				err = pm_runtime_force_resume(from_pvr_device(pvr_dev)->dev);
-+				pvr_dev->fw_dev.booted = true;
-+				if (err)
-+					goto err_device_lost;
-+			} else {
-+				/* Clear the FW faulted flags. */
-+				pvr_dev->fw_dev.fwif_sysdata->hwr_state_flags &=
-+					~(ROGUE_FWIF_HWR_FW_FAULT |
-+					  ROGUE_FWIF_HWR_RESTART_REQUESTED);
-+			}
-+
-+			pvr_fw_irq_clear(pvr_dev);
-+
-+			err = pvr_power_fw_enable(pvr_dev);
-+		}
-+
-+		if (err && hard_reset)
-+			goto err_device_lost;
-+
-+		if (err && !hard_reset) {
-+			drm_err(from_pvr_device(pvr_dev), "FW stalled, trying hard reset");
-+			hard_reset = true;
-+		}
-+	} while (err);
-+
-+	enable_irq(pvr_dev->irq);
-+
-+	up_write(&pvr_dev->reset_sem);
-+
-+	pvr_power_put(pvr_dev);
-+
-+	return 0;
-+
-+err_device_lost:
-+	drm_err(from_pvr_device(pvr_dev), "GPU device lost");
-+	pvr_device_lost(pvr_dev);
-+
-+	/* Leave IRQs disabled if the device is lost. */
- 
--	err = pvr_power_fw_enable(pvr_dev);
-+err_up_write:
-+	up_write(&pvr_dev->reset_sem);
- 
--err_power_put:
- 	pvr_power_put(pvr_dev);
- 
- 	return err;
-diff --git a/drivers/gpu/drm/imagination/pvr_power.h b/drivers/gpu/drm/imagination/pvr_power.h
-index 360980f454d7..9a9312dcb2da 100644
---- a/drivers/gpu/drm/imagination/pvr_power.h
-+++ b/drivers/gpu/drm/imagination/pvr_power.h
-@@ -12,6 +12,8 @@
- int pvr_watchdog_init(struct pvr_device *pvr_dev);
- void pvr_watchdog_fini(struct pvr_device *pvr_dev);
- 
-+void pvr_device_lost(struct pvr_device *pvr_dev);
-+
- bool pvr_power_is_idle(struct pvr_device *pvr_dev);
- 
- int pvr_power_device_suspend(struct device *dev);
-diff --git a/drivers/gpu/drm/imagination/pvr_vm.c b/drivers/gpu/drm/imagination/pvr_vm.c
-index 4c48a208c390..3ad1366294b9 100644
---- a/drivers/gpu/drm/imagination/pvr_vm.c
-+++ b/drivers/gpu/drm/imagination/pvr_vm.c
-@@ -540,6 +540,16 @@ static const struct drm_gpuvm_ops pvr_vm_gpuva_ops = {
- 	.sm_step_unmap = pvr_vm_gpuva_unmap,
- };
- 
-+static void
-+fw_mem_context_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_fwmemcontext *fw_mem_ctx = cpu_ptr;
-+	struct pvr_vm_context *vm_ctx = priv;
-+
-+	fw_mem_ctx->pc_dev_paddr = pvr_vm_get_page_table_root_addr(vm_ctx);
-+	fw_mem_ctx->page_cat_base_reg_set = ROGUE_FW_BIF_INVALID_PCSET;
++	return sizeof(struct rogue_fwif_frag_ctx_state) +
++	       (num_isp_store_registers *
++		sizeof(((struct rogue_fwif_frag_ctx_state *)0)->frag_reg_isp_store[0]));
 +}
 +
- /**
-  * pvr_vm_create_context() - Create a new VM context.
-  * @pvr_dev: Target PowerVR device.
-@@ -602,13 +612,19 @@ pvr_vm_create_context(struct pvr_device *pvr_dev, bool is_userspace_context)
- 	}
- 
- 	if (is_userspace_context) {
--		/* TODO: Create FW mem context */
--		err = -ENODEV;
--		goto err_put_ctx;
-+		err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_fwmemcontext),
-+					   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+					   fw_mem_context_init, vm_ctx, &vm_ctx->fw_mem_ctx_obj);
++static int get_frag_ctx_state_size(struct pvr_device *pvr_dev)
++{
++	u32 num_isp_store_registers;
++	int err;
 +
++	if (PVR_HAS_FEATURE(pvr_dev, xe_memory_hierarchy)) {
++		err = PVR_FEATURE_VALUE(pvr_dev, num_raster_pipes, &num_isp_store_registers);
++		if (WARN_ON(err))
++			return err;
++
++		if (PVR_HAS_FEATURE(pvr_dev, gpu_multicore_support)) {
++			u32 xpu_max_slaves;
++
++			err = PVR_FEATURE_VALUE(pvr_dev, xpu_max_slaves, &xpu_max_slaves);
++			if (WARN_ON(err))
++				return err;
++
++			num_isp_store_registers *= (1 + xpu_max_slaves);
++		}
++	} else {
++		err = PVR_FEATURE_VALUE(pvr_dev, num_isp_ipp_pipes, &num_isp_store_registers);
++		if (WARN_ON(err))
++			return err;
++	}
++
++	return sizeof(struct rogue_fwif_frag_ctx_state) +
++	       (num_isp_store_registers *
++		sizeof(((struct rogue_fwif_frag_ctx_state *)0)->frag_reg_isp_store[0]));
++}
++
++static int get_ctx_state_size(struct pvr_device *pvr_dev, enum drm_pvr_job_type type)
++{
++	switch (type) {
++	case DRM_PVR_JOB_TYPE_GEOMETRY:
++		return sizeof(struct rogue_fwif_geom_ctx_state);
++	case DRM_PVR_JOB_TYPE_FRAGMENT:
++		return get_frag_ctx_state_size(pvr_dev);
++	case DRM_PVR_JOB_TYPE_COMPUTE:
++		return sizeof(struct rogue_fwif_compute_ctx_state);
++	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
++		return get_xfer_ctx_state_size(pvr_dev);
++	}
++
++	WARN(1, "Invalid queue type");
++	return -EINVAL;
++}
++
++static u32 get_ctx_offset(enum drm_pvr_job_type type)
++{
++	switch (type) {
++	case DRM_PVR_JOB_TYPE_GEOMETRY:
++		return offsetof(struct rogue_fwif_fwrendercontext, geom_context);
++	case DRM_PVR_JOB_TYPE_FRAGMENT:
++		return offsetof(struct rogue_fwif_fwrendercontext, frag_context);
++	case DRM_PVR_JOB_TYPE_COMPUTE:
++		return offsetof(struct rogue_fwif_fwcomputecontext, cdm_context);
++	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
++		return offsetof(struct rogue_fwif_fwtransfercontext, tq_context);
++	}
++
++	return 0;
++}
++
++static const char *
++pvr_queue_fence_get_driver_name(struct dma_fence *f)
++{
++	return PVR_DRIVER_NAME;
++}
++
++static void pvr_queue_fence_release(struct dma_fence *f)
++{
++	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
++
++	pvr_context_put(fence->queue->ctx);
++	dma_fence_free(f);
++}
++
++static const char *
++pvr_queue_job_fence_get_timeline_name(struct dma_fence *f)
++{
++	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
++
++	switch (fence->queue->type) {
++	case DRM_PVR_JOB_TYPE_GEOMETRY:
++		return "geometry";
++
++	case DRM_PVR_JOB_TYPE_FRAGMENT:
++		return "fragment";
++
++	case DRM_PVR_JOB_TYPE_COMPUTE:
++		return "compute";
++
++	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
++		return "transfer";
++	}
++
++	WARN(1, "Invalid queue type");
++	return "invalid";
++}
++
++static const char *
++pvr_queue_cccb_fence_get_timeline_name(struct dma_fence *f)
++{
++	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
++
++	switch (fence->queue->type) {
++	case DRM_PVR_JOB_TYPE_GEOMETRY:
++		return "geometry-cccb";
++
++	case DRM_PVR_JOB_TYPE_FRAGMENT:
++		return "fragment-cccb";
++
++	case DRM_PVR_JOB_TYPE_COMPUTE:
++		return "compute-cccb";
++
++	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
++		return "transfer-cccb";
++	}
++
++	WARN(1, "Invalid queue type");
++	return "invalid";
++}
++
++static const struct dma_fence_ops pvr_queue_job_fence_ops = {
++	.get_driver_name = pvr_queue_fence_get_driver_name,
++	.get_timeline_name = pvr_queue_job_fence_get_timeline_name,
++	.release = pvr_queue_fence_release,
++};
++
++/**
++ * to_pvr_queue_job_fence() - Return a pvr_queue_fence object if the fence is
++ * backed by a UFO.
++ * @f: The dma_fence to turn into a pvr_queue_fence.
++ *
++ * Return:
++ *  * A non-NULL pvr_queue_fence object if the dma_fence is backed by a UFO, or
++ *  * NULL otherwise.
++ */
++static struct pvr_queue_fence *
++to_pvr_queue_job_fence(struct dma_fence *f)
++{
++	struct drm_sched_fence *sched_fence = to_drm_sched_fence(f);
++
++	if (sched_fence)
++		f = sched_fence->parent;
++
++	if (f && f->ops == &pvr_queue_job_fence_ops)
++		return container_of(f, struct pvr_queue_fence, base);
++
++	return NULL;
++}
++
++static const struct dma_fence_ops pvr_queue_cccb_fence_ops = {
++	.get_driver_name = pvr_queue_fence_get_driver_name,
++	.get_timeline_name = pvr_queue_cccb_fence_get_timeline_name,
++	.release = pvr_queue_fence_release,
++};
++
++/**
++ * pvr_queue_fence_put() - Put wrapper for pvr_queue_fence objects.
++ * @f: The dma_fence object to put.
++ *
++ * If the pvr_queue_fence has been initialized, we call dma_fence_put(),
++ * otherwise we free the object with dma_fence_free(). This allows us
++ * to do the right thing before and after pvr_queue_fence_init() had been
++ * called.
++ */
++static void pvr_queue_fence_put(struct dma_fence *f)
++{
++	if (!f)
++		return;
++
++	if (WARN_ON(f->ops &&
++		    f->ops != &pvr_queue_cccb_fence_ops &&
++		    f->ops != &pvr_queue_job_fence_ops))
++		return;
++
++	/* If the fence hasn't been initialized yet, free the object directly. */
++	if (f->ops)
++		dma_fence_put(f);
++	else
++		dma_fence_free(f);
++}
++
++/**
++ * pvr_queue_fence_alloc() - Allocate a pvr_queue_fence fence object
++ *
++ * Call this function to allocate job CCCB and done fences. This only
++ * allocates the objects. Initialization happens when the underlying
++ * dma_fence object is to be returned to drm_sched (in prepare_job() or
++ * run_job()).
++ *
++ * Return:
++ *  * A valid pointer if the allocation succeeds, or
++ *  * NULL if the allocation fails.
++ */
++static struct dma_fence *
++pvr_queue_fence_alloc(void)
++{
++	struct pvr_queue_fence *fence;
++
++	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
++	if (!fence)
++		return NULL;
++
++	return &fence->base;
++}
++
++/**
++ * pvr_queue_fence_init() - Initializes a pvr_queue_fence object.
++ * @f: The fence to initialize
++ * @queue: The queue this fence belongs to.
++ * @fence_ops: The fence operations.
++ * @fence_ctx: The fence context.
++ *
++ * Wrapper around dma_fence_init() that takes care of initializing the
++ * pvr_queue_fence::queue field too.
++ */
++static void
++pvr_queue_fence_init(struct dma_fence *f,
++		     struct pvr_queue *queue,
++		     const struct dma_fence_ops *fence_ops,
++		     struct pvr_queue_fence_ctx *fence_ctx)
++{
++	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
++
++	pvr_context_get(queue->ctx);
++	fence->queue = queue;
++	dma_fence_init(&fence->base, fence_ops,
++		       &fence_ctx->lock, fence_ctx->id,
++		       atomic_inc_return(&fence_ctx->seqno));
++}
++
++/**
++ * pvr_queue_cccb_fence_init() - Initializes a CCCB fence object.
++ * @fence: The fence to initialize.
++ * @queue: The queue this fence belongs to.
++ *
++ * Initializes a fence that can be used to wait for CCCB space.
++ *
++ * Should be called in the ::prepare_job() path, so the fence returned to
++ * drm_sched is valid.
++ */
++static void
++pvr_queue_cccb_fence_init(struct dma_fence *fence, struct pvr_queue *queue)
++{
++	pvr_queue_fence_init(fence, queue, &pvr_queue_cccb_fence_ops,
++			     &queue->cccb_fence_ctx.base);
++}
++
++/**
++ * pvr_queue_job_fence_init() - Initializes a job done fence object.
++ * @fence: The fence to initialize.
++ * @queue: The queue this fence belongs to.
++ *
++ * Initializes a fence that will be signaled when the GPU is done executing
++ * a job.
++ *
++ * Should be called *before* the ::run_job() path, so the fence is initialised
++ * before being placed in the pending_list.
++ */
++static void
++pvr_queue_job_fence_init(struct dma_fence *fence, struct pvr_queue *queue)
++{
++	pvr_queue_fence_init(fence, queue, &pvr_queue_job_fence_ops,
++			     &queue->job_fence_ctx);
++}
++
++/**
++ * pvr_queue_fence_ctx_init() - Queue fence context initialization.
++ * @fence_ctx: The context to initialize
++ */
++static void
++pvr_queue_fence_ctx_init(struct pvr_queue_fence_ctx *fence_ctx)
++{
++	spin_lock_init(&fence_ctx->lock);
++	fence_ctx->id = dma_fence_context_alloc(1);
++	atomic_set(&fence_ctx->seqno, 0);
++}
++
++static u32 ufo_cmds_size(u32 elem_count)
++{
++	/* We can pass at most ROGUE_FWIF_CCB_CMD_MAX_UFOS per UFO-related command. */
++	u32 full_cmd_count = elem_count / ROGUE_FWIF_CCB_CMD_MAX_UFOS;
++	u32 remaining_elems = elem_count % ROGUE_FWIF_CCB_CMD_MAX_UFOS;
++	u32 size = full_cmd_count *
++		   pvr_cccb_get_size_of_cmd_with_hdr(ROGUE_FWIF_CCB_CMD_MAX_UFOS *
++						     sizeof(struct rogue_fwif_ufo));
++
++	if (remaining_elems) {
++		size += pvr_cccb_get_size_of_cmd_with_hdr(remaining_elems *
++							  sizeof(struct rogue_fwif_ufo));
++	}
++
++	return size;
++}
++
++static u32 job_cmds_size(struct pvr_job *job, u32 ufo_wait_count)
++{
++	/* One UFO cmd for the fence signaling, one UFO cmd per native fence native,
++	 * and a command for the job itself.
++	 */
++	return ufo_cmds_size(1) + ufo_cmds_size(ufo_wait_count) +
++	       pvr_cccb_get_size_of_cmd_with_hdr(job->cmd_len);
++}
++
++/**
++ * job_count_remaining_native_deps() - Count the number of non-signaled native dependencies.
++ * @job: Job to operate on.
++ *
++ * Returns: Number of non-signaled native deps remaining.
++ */
++static unsigned long job_count_remaining_native_deps(struct pvr_job *job)
++{
++	unsigned long remaining_count = 0;
++	struct dma_fence *fence = NULL;
++	unsigned long index;
++
++	xa_for_each(&job->base.dependencies, index, fence) {
++		struct pvr_queue_fence *jfence;
++
++		jfence = to_pvr_queue_job_fence(fence);
++		if (!jfence)
++			continue;
++
++		if (!dma_fence_is_signaled(&jfence->base))
++			remaining_count++;
++	}
++
++	return remaining_count;
++}
++
++/**
++ * pvr_queue_get_job_cccb_fence() - Get the CCCB fence attached to a job.
++ * @queue: The queue this job will be submitted to.
++ * @job: The job to get the CCCB fence on.
++ *
++ * The CCCB fence is a synchronization primitive allowing us to delay job
++ * submission until there's enough space in the CCCB to submit the job.
++ *
++ * Return:
++ *  * NULL if there's enough space in the CCCB to submit this job, or
++ *  * A valid dma_fence object otherwise.
++ */
++static struct dma_fence *
++pvr_queue_get_job_cccb_fence(struct pvr_queue *queue, struct pvr_job *job)
++{
++	struct pvr_queue_fence *cccb_fence;
++	unsigned int native_deps_remaining;
++
++	/* If the fence is NULL, that means we already checked that we had
++	 * enough space in the cccb for our job.
++	 */
++	if (!job->cccb_fence)
++		return NULL;
++
++	mutex_lock(&queue->cccb_fence_ctx.job_lock);
++
++	/* Count remaining native dependencies and check if the job fits in the CCCB. */
++	native_deps_remaining = job_count_remaining_native_deps(job);
++	if (pvr_cccb_cmdseq_fits(&queue->cccb, job_cmds_size(job, native_deps_remaining))) {
++		pvr_queue_fence_put(job->cccb_fence);
++		job->cccb_fence = NULL;
++		goto out_unlock;
++	}
++
++	/* There should be no job attached to the CCCB fence context:
++	 * drm_sched_entity guarantees that jobs are submitted one at a time.
++	 */
++	if (WARN_ON(queue->cccb_fence_ctx.job))
++		pvr_job_put(queue->cccb_fence_ctx.job);
++
++	queue->cccb_fence_ctx.job = pvr_job_get(job);
++
++	/* Initialize the fence before returning it. */
++	cccb_fence = container_of(job->cccb_fence, struct pvr_queue_fence, base);
++	if (!WARN_ON(cccb_fence->queue))
++		pvr_queue_cccb_fence_init(job->cccb_fence, queue);
++
++out_unlock:
++	mutex_unlock(&queue->cccb_fence_ctx.job_lock);
++
++	return dma_fence_get(job->cccb_fence);
++}
++
++/**
++ * pvr_queue_get_job_kccb_fence() - Get the KCCB fence attached to a job.
++ * @queue: The queue this job will be submitted to.
++ * @job: The job to get the KCCB fence on.
++ *
++ * The KCCB fence is a synchronization primitive allowing us to delay job
++ * submission until there's enough space in the KCCB to submit the job.
++ *
++ * Return:
++ *  * NULL if there's enough space in the KCCB to submit this job, or
++ *  * A valid dma_fence object otherwise.
++ */
++static struct dma_fence *
++pvr_queue_get_job_kccb_fence(struct pvr_queue *queue, struct pvr_job *job)
++{
++	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
++	struct dma_fence *kccb_fence = NULL;
++
++	/* If the fence is NULL, that means we already checked that we had
++	 * enough space in the KCCB for our job.
++	 */
++	if (!job->kccb_fence)
++		return NULL;
++
++	if (!WARN_ON(job->kccb_fence->ops)) {
++		kccb_fence = pvr_kccb_reserve_slot(pvr_dev, job->kccb_fence);
++		job->kccb_fence = NULL;
++	}
++
++	return kccb_fence;
++}
++
++static struct dma_fence *
++pvr_queue_get_paired_frag_job_dep(struct pvr_queue *queue, struct pvr_job *job)
++{
++	struct pvr_job *frag_job = job->type == DRM_PVR_JOB_TYPE_GEOMETRY ?
++				   job->paired_job : NULL;
++	struct dma_fence *f;
++	unsigned long index;
++
++	if (!frag_job)
++		return NULL;
++
++	xa_for_each(&frag_job->base.dependencies, index, f) {
++		/* Skip already signaled fences. */
++		if (dma_fence_is_signaled(f))
++			continue;
++
++		/* Skip our own fence. */
++		if (f == &job->base.s_fence->scheduled)
++			continue;
++
++		return dma_fence_get(f);
++	}
++
++	return frag_job->base.sched->ops->prepare_job(&frag_job->base, &queue->entity);
++}
++
++/**
++ * pvr_queue_prepare_job() - Return the next internal dependencies expressed as a dma_fence.
++ * @sched_job: The job to query the next internal dependency on
++ * @s_entity: The entity this job is queue on.
++ *
++ * After iterating over drm_sched_job::dependencies, drm_sched let the driver return
++ * its own internal dependencies. We use this function to return our internal dependencies.
++ */
++static struct dma_fence *
++pvr_queue_prepare_job(struct drm_sched_job *sched_job,
++		      struct drm_sched_entity *s_entity)
++{
++	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
++	struct pvr_queue *queue = container_of(s_entity, struct pvr_queue, entity);
++	struct dma_fence *internal_dep = NULL;
++
++	/*
++	 * Initialize the done_fence, so we can signal it. This must be done
++	 * here because otherwise by the time of run_job() the job will end up
++	 * in the pending list without a valid fence.
++	 */
++	if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job) {
++		/*
++		 * This will be called on a paired fragment job after being
++		 * submitted to firmware. We can tell if this is the case and
++		 * bail early from whether run_job() has been called on the
++		 * geometry job, which would issue a pm ref.
++		 */
++		if (job->paired_job->has_pm_ref)
++			return NULL;
++
++		/*
++		 * In this case we need to use the job's own ctx to initialise
++		 * the done_fence.  The other steps are done in the ctx of the
++		 * paired geometry job.
++		 */
++		pvr_queue_job_fence_init(job->done_fence,
++					 job->ctx->queues.fragment);
++	} else {
++		pvr_queue_job_fence_init(job->done_fence, queue);
++	}
++
++	/* CCCB fence is used to make sure we have enough space in the CCCB to
++	 * submit our commands.
++	 */
++	internal_dep = pvr_queue_get_job_cccb_fence(queue, job);
++
++	/* KCCB fence is used to make sure we have a KCCB slot to queue our
++	 * CMD_KICK.
++	 */
++	if (!internal_dep)
++		internal_dep = pvr_queue_get_job_kccb_fence(queue, job);
++
++	/* Any extra internal dependency should be added here, using the following
++	 * pattern:
++	 *
++	 *	if (!internal_dep)
++	 *		internal_dep = pvr_queue_get_job_xxxx_fence(queue, job);
++	 */
++
++	/* The paired job fence should come last, when everything else is ready. */
++	if (!internal_dep)
++		internal_dep = pvr_queue_get_paired_frag_job_dep(queue, job);
++
++	return internal_dep;
++}
++
++/**
++ * pvr_queue_update_active_state_locked() - Update the queue active state.
++ * @queue: Queue to update the state on.
++ *
++ * Locked version of pvr_queue_update_active_state(). Must be called with
++ * pvr_device::queue::lock held.
++ */
++static void pvr_queue_update_active_state_locked(struct pvr_queue *queue)
++{
++	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
++
++	lockdep_assert_held(&pvr_dev->queues.lock);
++
++	/* The queue is temporary out of any list when it's being reset,
++	 * we don't want a call to pvr_queue_update_active_state_locked()
++	 * to re-insert it behind our back.
++	 */
++	if (list_empty(&queue->node))
++		return;
++
++	if (!atomic_read(&queue->in_flight_job_count))
++		list_move_tail(&queue->node, &pvr_dev->queues.idle);
++	else
++		list_move_tail(&queue->node, &pvr_dev->queues.active);
++}
++
++/**
++ * pvr_queue_update_active_state() - Update the queue active state.
++ * @queue: Queue to update the state on.
++ *
++ * Active state is based on the in_flight_job_count value.
++ *
++ * Updating the active state implies moving the queue in or out of the
++ * active queue list, which also defines whether the queue is checked
++ * or not when a FW event is received.
++ *
++ * This function should be called any time a job is submitted or it done
++ * fence is signaled.
++ */
++static void pvr_queue_update_active_state(struct pvr_queue *queue)
++{
++	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
++
++	mutex_lock(&pvr_dev->queues.lock);
++	pvr_queue_update_active_state_locked(queue);
++	mutex_unlock(&pvr_dev->queues.lock);
++}
++
++static void pvr_queue_submit_job_to_cccb(struct pvr_job *job)
++{
++	struct pvr_queue *queue = container_of(job->base.sched, struct pvr_queue, scheduler);
++	struct rogue_fwif_ufo ufos[ROGUE_FWIF_CCB_CMD_MAX_UFOS];
++	struct pvr_cccb *cccb = &queue->cccb;
++	struct pvr_queue_fence *jfence;
++	struct dma_fence *fence;
++	unsigned long index;
++	u32 ufo_count = 0;
++
++	/* We need to add the queue to the active list before updating the CCCB,
++	 * otherwise we might miss the FW event informing us that something
++	 * happened on this queue.
++	 */
++	atomic_inc(&queue->in_flight_job_count);
++	pvr_queue_update_active_state(queue);
++
++	xa_for_each(&job->base.dependencies, index, fence) {
++		jfence = to_pvr_queue_job_fence(fence);
++		if (!jfence)
++			continue;
++
++		/* Skip the partial render fence, we will place it at the end. */
++		if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job &&
++		    &job->paired_job->base.s_fence->scheduled == fence)
++			continue;
++
++		if (dma_fence_is_signaled(&jfence->base))
++			continue;
++
++		pvr_fw_object_get_fw_addr(jfence->queue->timeline_ufo.fw_obj,
++					  &ufos[ufo_count].addr);
++		ufos[ufo_count++].value = jfence->base.seqno;
++
++		if (ufo_count == ARRAY_SIZE(ufos)) {
++			pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_FENCE_PR,
++							   sizeof(ufos), ufos, 0, 0);
++			ufo_count = 0;
++		}
++	}
++
++	/* Partial render fence goes last. */
++	if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job) {
++		jfence = to_pvr_queue_job_fence(job->paired_job->done_fence);
++		if (!WARN_ON(!jfence)) {
++			pvr_fw_object_get_fw_addr(jfence->queue->timeline_ufo.fw_obj,
++						  &ufos[ufo_count].addr);
++			ufos[ufo_count++].value = job->paired_job->done_fence->seqno;
++		}
++	}
++
++	if (ufo_count) {
++		pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_FENCE_PR,
++						   sizeof(ufos[0]) * ufo_count, ufos, 0, 0);
++	}
++
++	if (job->type == DRM_PVR_JOB_TYPE_GEOMETRY && job->paired_job) {
++		struct rogue_fwif_cmd_geom *cmd = job->cmd;
++
++		/* Reference value for the partial render test is the current queue fence
++		 * seqno minus one.
++		 */
++		pvr_fw_object_get_fw_addr(queue->timeline_ufo.fw_obj,
++					  &cmd->partial_render_geom_frag_fence.addr);
++		cmd->partial_render_geom_frag_fence.value = job->done_fence->seqno - 1;
++	}
++
++	/* Submit job to FW */
++	pvr_cccb_write_command_with_header(cccb, job->fw_ccb_cmd_type, job->cmd_len, job->cmd,
++					   job->id, job->id);
++
++	/* Signal the job fence. */
++	pvr_fw_object_get_fw_addr(queue->timeline_ufo.fw_obj, &ufos[0].addr);
++	ufos[0].value = job->done_fence->seqno;
++	pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_UPDATE,
++					   sizeof(ufos[0]), ufos, 0, 0);
++}
++
++/**
++ * pvr_queue_run_job() - Submit a job to the FW.
++ * @sched_job: The job to submit.
++ *
++ * This function is called when all non-native dependencies have been met and
++ * when the commands resulting from this job are guaranteed to fit in the CCCB.
++ */
++static struct dma_fence *pvr_queue_run_job(struct drm_sched_job *sched_job)
++{
++	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
++	struct pvr_device *pvr_dev = job->pvr_dev;
++	int err;
++
++	/* The fragment job is issued along the geometry job when we use combined
++	 * geom+frag kicks. When we get there, we should simply return the
++	 * done_fence that's been initialized earlier.
++	 */
++	if (job->paired_job && job->type == DRM_PVR_JOB_TYPE_FRAGMENT &&
++	    job->done_fence->ops) {
++		return dma_fence_get(job->done_fence);
++	}
++
++	/* The only kind of jobs that can be paired are geometry and fragment, and
++	 * we bail out early if we see a fragment job that's paired with a geomtry
++	 * job.
++	 * Paired jobs must also target the same context and point to the same
++	 * HWRT.
++	 */
++	if (WARN_ON(job->paired_job &&
++		    (job->type != DRM_PVR_JOB_TYPE_GEOMETRY ||
++		     job->paired_job->type != DRM_PVR_JOB_TYPE_FRAGMENT ||
++		     job->hwrt != job->paired_job->hwrt ||
++		     job->ctx != job->paired_job->ctx)))
++		return ERR_PTR(-EINVAL);
++
++	err = pvr_job_get_pm_ref(job);
++	if (WARN_ON(err))
++		return ERR_PTR(err);
++
++	if (job->paired_job) {
++		err = pvr_job_get_pm_ref(job->paired_job);
++		if (WARN_ON(err))
++			return ERR_PTR(err);
++	}
++
++	/* Submit our job to the CCCB */
++	pvr_queue_submit_job_to_cccb(job);
++
++	if (job->paired_job) {
++		struct pvr_job *geom_job = job;
++		struct pvr_job *frag_job = job->paired_job;
++		struct pvr_queue *geom_queue = job->ctx->queues.geometry;
++		struct pvr_queue *frag_queue = job->ctx->queues.fragment;
++
++		/* Submit the fragment job along the geometry job and send a combined kick. */
++		pvr_queue_submit_job_to_cccb(frag_job);
++		pvr_cccb_send_kccb_combined_kick(pvr_dev,
++						 &geom_queue->cccb, &frag_queue->cccb,
++						 pvr_context_get_fw_addr(geom_job->ctx) +
++						 geom_queue->ctx_offset,
++						 pvr_context_get_fw_addr(frag_job->ctx) +
++						 frag_queue->ctx_offset,
++						 job->hwrt,
++						 frag_job->fw_ccb_cmd_type ==
++						 ROGUE_FWIF_CCB_CMD_TYPE_FRAG_PR);
++	} else {
++		struct pvr_queue *queue = container_of(job->base.sched,
++						       struct pvr_queue, scheduler);
++
++		pvr_cccb_send_kccb_kick(pvr_dev, &queue->cccb,
++					pvr_context_get_fw_addr(job->ctx) + queue->ctx_offset,
++					job->hwrt);
++	}
++
++	return dma_fence_get(job->done_fence);
++}
++
++static void pvr_queue_stop(struct pvr_queue *queue, struct pvr_job *bad_job)
++{
++	drm_sched_stop(&queue->scheduler, bad_job ? &bad_job->base : NULL);
++}
++
++static void pvr_queue_start(struct pvr_queue *queue)
++{
++	struct pvr_job *job;
++
++	/* Make sure we CPU-signal the UFO object, so other queues don't get
++	 * blocked waiting on it.
++	 */
++	*queue->timeline_ufo.value = atomic_read(&queue->job_fence_ctx.seqno);
++
++	list_for_each_entry(job, &queue->scheduler.pending_list, base.list) {
++		if (dma_fence_is_signaled(job->done_fence)) {
++			/* Jobs might have completed after drm_sched_stop() was called.
++			 * In that case, re-assign the parent field to the done_fence.
++			 */
++			WARN_ON(job->base.s_fence->parent);
++			job->base.s_fence->parent = dma_fence_get(job->done_fence);
++		} else {
++			/* If we had unfinished jobs, flag the entity as guilty so no
++			 * new job can be submitted.
++			 */
++			atomic_set(&queue->ctx->faulty, 1);
++		}
++	}
++
++	drm_sched_start(&queue->scheduler, true);
++}
++
++/**
++ * pvr_queue_timedout_job() - Handle a job timeout event.
++ * @s_job: The job this timeout occurred on.
++ *
++ * FIXME: We don't do anything here to unblock the situation, we just stop+start
++ * the scheduler, and re-assign parent fences in the middle.
++ *
++ * Return:
++ *  * DRM_GPU_SCHED_STAT_NOMINAL.
++ */
++static enum drm_gpu_sched_stat
++pvr_queue_timedout_job(struct drm_sched_job *s_job)
++{
++	struct drm_gpu_scheduler *sched = s_job->sched;
++	struct pvr_queue *queue = container_of(sched, struct pvr_queue, scheduler);
++	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
++	struct pvr_job *job;
++	u32 job_count = 0;
++
++	dev_err(sched->dev, "Job timeout\n");
++
++	/* Before we stop the scheduler, make sure the queue is out of any list, so
++	 * any call to pvr_queue_update_active_state_locked() that might happen
++	 * until the scheduler is really stopped doesn't end up re-inserting the
++	 * queue in the active list. This would cause
++	 * pvr_queue_signal_done_fences() and drm_sched_stop() to race with each
++	 * other when accessing the pending_list, since drm_sched_stop() doesn't
++	 * grab the job_list_lock when modifying the list (it's assuming the
++	 * only other accessor is the scheduler, and it's safe to not grab the
++	 * lock since it's stopped).
++	 */
++	mutex_lock(&pvr_dev->queues.lock);
++	list_del_init(&queue->node);
++	mutex_unlock(&pvr_dev->queues.lock);
++
++	drm_sched_stop(sched, s_job);
++
++	/* Re-assign job parent fences. */
++	list_for_each_entry(job, &sched->pending_list, base.list) {
++		job->base.s_fence->parent = dma_fence_get(job->done_fence);
++		job_count++;
++	}
++	WARN_ON(atomic_read(&queue->in_flight_job_count) != job_count);
++
++	/* Re-insert the queue in the proper list, and kick a queue processing
++	 * operation if there were jobs pending.
++	 */
++	mutex_lock(&pvr_dev->queues.lock);
++	if (!job_count) {
++		list_move_tail(&queue->node, &pvr_dev->queues.idle);
++	} else {
++		atomic_set(&queue->in_flight_job_count, job_count);
++		list_move_tail(&queue->node, &pvr_dev->queues.active);
++		pvr_queue_process(queue);
++	}
++	mutex_unlock(&pvr_dev->queues.lock);
++
++	drm_sched_start(sched, true);
++
++	return DRM_GPU_SCHED_STAT_NOMINAL;
++}
++
++/**
++ * pvr_queue_free_job() - Release the reference the scheduler had on a job object.
++ * @sched_job: Job object to free.
++ */
++static void pvr_queue_free_job(struct drm_sched_job *sched_job)
++{
++	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
++
++	drm_sched_job_cleanup(sched_job);
++	job->paired_job = NULL;
++	pvr_job_put(job);
++}
++
++static const struct drm_sched_backend_ops pvr_queue_sched_ops = {
++	.prepare_job = pvr_queue_prepare_job,
++	.run_job = pvr_queue_run_job,
++	.timedout_job = pvr_queue_timedout_job,
++	.free_job = pvr_queue_free_job,
++};
++
++/**
++ * pvr_queue_fence_is_ufo_backed() - Check if a dma_fence is backed by a UFO object
++ * @f: Fence to test.
++ *
++ * A UFO-backed fence is a fence that can be signaled or waited upon FW-side.
++ * pvr_job::done_fence objects are backed by the timeline UFO attached to the queue
++ * they are pushed to, but those fences are not directly exposed to the outside
++ * world, so we also need to check if the fence we're being passed is a
++ * drm_sched_fence that was coming from our driver.
++ */
++bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f)
++{
++	struct drm_sched_fence *sched_fence = f ? to_drm_sched_fence(f) : NULL;
++
++	if (sched_fence &&
++	    sched_fence->sched->ops == &pvr_queue_sched_ops)
++		return true;
++
++	if (f && f->ops == &pvr_queue_job_fence_ops)
++		return true;
++
++	return false;
++}
++
++/**
++ * pvr_queue_signal_done_fences() - Signal done fences.
++ * @queue: Queue to check.
++ *
++ * Signal done fences of jobs whose seqno is less than the current value of
++ * the UFO object attached to the queue.
++ */
++static void
++pvr_queue_signal_done_fences(struct pvr_queue *queue)
++{
++	struct pvr_job *job, *tmp_job;
++	u32 cur_seqno;
++
++	spin_lock(&queue->scheduler.job_list_lock);
++	cur_seqno = *queue->timeline_ufo.value;
++	list_for_each_entry_safe(job, tmp_job, &queue->scheduler.pending_list, base.list) {
++		if ((int)(cur_seqno - lower_32_bits(job->done_fence->seqno)) < 0)
++			break;
++
++		if (!dma_fence_is_signaled(job->done_fence)) {
++			dma_fence_signal(job->done_fence);
++			pvr_job_release_pm_ref(job);
++			atomic_dec(&queue->in_flight_job_count);
++		}
++	}
++	spin_unlock(&queue->scheduler.job_list_lock);
++}
++
++/**
++ * pvr_queue_check_job_waiting_for_cccb_space() - Check if the job waiting for CCCB space
++ * can be unblocked
++ * pushed to the CCCB
++ * @queue: Queue to check
++ *
++ * If we have a job waiting for CCCB, and this job now fits in the CCCB, we signal
++ * its CCCB fence, which should kick drm_sched.
++ */
++static void
++pvr_queue_check_job_waiting_for_cccb_space(struct pvr_queue *queue)
++{
++	struct pvr_queue_fence *cccb_fence;
++	u32 native_deps_remaining;
++	struct pvr_job *job;
++
++	mutex_lock(&queue->cccb_fence_ctx.job_lock);
++	job = queue->cccb_fence_ctx.job;
++	if (!job)
++		goto out_unlock;
++
++	/* If we have a job attached to the CCCB fence context, its CCCB fence
++	 * shouldn't be NULL.
++	 */
++	if (WARN_ON(!job->cccb_fence)) {
++		job = NULL;
++		goto out_unlock;
++	}
++
++	/* If we get there, CCCB fence has to be initialized. */
++	cccb_fence = container_of(job->cccb_fence, struct pvr_queue_fence, base);
++	if (WARN_ON(!cccb_fence->queue)) {
++		job = NULL;
++		goto out_unlock;
++	}
++
++	/* Evict signaled dependencies before checking for CCCB space.
++	 * If the job fits, signal the CCCB fence, this should unblock
++	 * the drm_sched_entity.
++	 */
++	native_deps_remaining = job_count_remaining_native_deps(job);
++	if (!pvr_cccb_cmdseq_fits(&queue->cccb, job_cmds_size(job, native_deps_remaining))) {
++		job = NULL;
++		goto out_unlock;
++	}
++
++	dma_fence_signal(job->cccb_fence);
++	pvr_queue_fence_put(job->cccb_fence);
++	job->cccb_fence = NULL;
++	queue->cccb_fence_ctx.job = NULL;
++
++out_unlock:
++	mutex_unlock(&queue->cccb_fence_ctx.job_lock);
++
++	pvr_job_put(job);
++}
++
++/**
++ * pvr_queue_process() - Process events that happened on a queue.
++ * @queue: Queue to check
++ *
++ * Signal job fences and check if jobs waiting for CCCB space can be unblocked.
++ */
++void pvr_queue_process(struct pvr_queue *queue)
++{
++	lockdep_assert_held(&queue->ctx->pvr_dev->queues.lock);
++
++	pvr_queue_check_job_waiting_for_cccb_space(queue);
++	pvr_queue_signal_done_fences(queue);
++	pvr_queue_update_active_state_locked(queue);
++}
++
++static u32 get_dm_type(struct pvr_queue *queue)
++{
++	switch (queue->type) {
++	case DRM_PVR_JOB_TYPE_GEOMETRY:
++		return PVR_FWIF_DM_GEOM;
++	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
++	case DRM_PVR_JOB_TYPE_FRAGMENT:
++		return PVR_FWIF_DM_FRAG;
++	case DRM_PVR_JOB_TYPE_COMPUTE:
++		return PVR_FWIF_DM_CDM;
++	}
++
++	return ~0;
++}
++
++/**
++ * init_fw_context() - Initializes the queue part of a FW context.
++ * @queue: Queue object to initialize the FW context for.
++ * @fw_ctx_map: The FW context CPU mapping.
++ *
++ * FW contexts are containing various states, one of them being a per-queue state
++ * that needs to be initialized for each queue being exposed by a context. This
++ * function takes care of that.
++ */
++static void init_fw_context(struct pvr_queue *queue, void *fw_ctx_map)
++{
++	struct pvr_context *ctx = queue->ctx;
++	struct pvr_fw_object *fw_mem_ctx_obj = pvr_vm_get_fw_mem_context(ctx->vm_ctx);
++	struct rogue_fwif_fwcommoncontext *cctx_fw;
++	struct pvr_cccb *cccb = &queue->cccb;
++
++	cctx_fw = fw_ctx_map + queue->ctx_offset;
++	cctx_fw->ccbctl_fw_addr = cccb->ctrl_fw_addr;
++	cctx_fw->ccb_fw_addr = cccb->cccb_fw_addr;
++
++	cctx_fw->dm = get_dm_type(queue);
++	cctx_fw->priority = ctx->priority;
++	cctx_fw->priority_seq_num = 0;
++	cctx_fw->max_deadline_ms = MAX_DEADLINE_MS;
++	cctx_fw->pid = task_tgid_nr(current);
++	cctx_fw->server_common_context_id = ctx->ctx_id;
++
++	pvr_fw_object_get_fw_addr(fw_mem_ctx_obj, &cctx_fw->fw_mem_context_fw_addr);
++
++	pvr_fw_object_get_fw_addr(queue->reg_state_obj, &cctx_fw->context_state_addr);
++}
++
++/**
++ * pvr_queue_cleanup_fw_context() - Wait for the FW context to be idle and clean it up.
++ * @queue: Queue on FW context to clean up.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * Any error returned by pvr_fw_structure_cleanup() otherwise.
++ */
++static int pvr_queue_cleanup_fw_context(struct pvr_queue *queue)
++{
++	if (!queue->ctx->fw_obj)
++		return 0;
++
++	return pvr_fw_structure_cleanup(queue->ctx->pvr_dev,
++					ROGUE_FWIF_CLEANUP_FWCOMMONCONTEXT,
++					queue->ctx->fw_obj, queue->ctx_offset);
++}
++
++/**
++ * pvr_queue_job_init() - Initialize queue related fields in a pvr_job object.
++ * @job: The job to initialize.
++ *
++ * Bind the job to a queue and allocate memory to guarantee pvr_queue_job_arm()
++ * and pvr_queue_job_push() can't fail. We also make sure the context type is
++ * valid and the job can fit in the CCCB.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * An error code if something failed.
++ */
++int pvr_queue_job_init(struct pvr_job *job)
++{
++	/* Fragment jobs need at least one native fence wait on the geometry job fence. */
++	u32 min_native_dep_count = job->type == DRM_PVR_JOB_TYPE_FRAGMENT ? 1 : 0;
++	struct pvr_queue *queue;
++	int err;
++
++	if (atomic_read(&job->ctx->faulty))
++		return -EIO;
++
++	queue = pvr_context_get_queue_for_job(job->ctx, job->type);
++	if (!queue)
++		return -EINVAL;
++
++	if (!pvr_cccb_cmdseq_can_fit(&queue->cccb, job_cmds_size(job, min_native_dep_count)))
++		return -E2BIG;
++
++	err = drm_sched_job_init(&job->base, &queue->entity, 1, THIS_MODULE);
++	if (err)
++		return err;
++
++	job->cccb_fence = pvr_queue_fence_alloc();
++	job->kccb_fence = pvr_kccb_fence_alloc();
++	job->done_fence = pvr_queue_fence_alloc();
++	if (!job->cccb_fence || !job->kccb_fence || !job->done_fence)
++		return -ENOMEM;
++
++	return 0;
++}
++
++/**
++ * pvr_queue_job_arm() - Arm a job object.
++ * @job: The job to arm.
++ *
++ * Initializes fences and return the drm_sched finished fence so it can
++ * be exposed to the outside world. Once this function is called, you should
++ * make sure the job is pushed using pvr_queue_job_push(), or guarantee that
++ * no one grabbed a reference to the returned fence. The latter can happen if
++ * we do multi-job submission, and something failed when creating/initializing
++ * a job. In that case, we know the fence didn't leave the driver, and we
++ * can thus guarantee nobody will wait on an dead fence object.
++ *
++ * Return:
++ *  * A dma_fence object.
++ */
++struct dma_fence *pvr_queue_job_arm(struct pvr_job *job)
++{
++	drm_sched_job_arm(&job->base);
++
++	return &job->base.s_fence->finished;
++}
++
++/**
++ * pvr_queue_job_cleanup() - Cleanup fence/scheduler related fields in the job object.
++ * @job: The job to cleanup.
++ *
++ * Should be called in the job release path.
++ */
++void pvr_queue_job_cleanup(struct pvr_job *job)
++{
++	pvr_queue_fence_put(job->done_fence);
++	pvr_queue_fence_put(job->cccb_fence);
++	pvr_kccb_fence_put(job->kccb_fence);
++
++	if (job->base.s_fence)
++		drm_sched_job_cleanup(&job->base);
++}
++
++/**
++ * pvr_queue_job_push() - Push a job to its queue.
++ * @job: The job to push.
++ *
++ * Must be called after pvr_queue_job_init() and after all dependencies
++ * have been added to the job. This will effectively queue the job to
++ * the drm_sched_entity attached to the queue. We grab a reference on
++ * the job object, so the caller is free to drop its reference when it's
++ * done accessing the job object.
++ */
++void pvr_queue_job_push(struct pvr_job *job)
++{
++	struct pvr_queue *queue = container_of(job->base.sched, struct pvr_queue, scheduler);
++
++	/* Keep track of the last queued job scheduled fence for combined submit. */
++	dma_fence_put(queue->last_queued_job_scheduled_fence);
++	queue->last_queued_job_scheduled_fence = dma_fence_get(&job->base.s_fence->scheduled);
++
++	pvr_job_get(job);
++	drm_sched_entity_push_job(&job->base);
++}
++
++static void reg_state_init(void *cpu_ptr, void *priv)
++{
++	struct pvr_queue *queue = priv;
++
++	if (queue->type == DRM_PVR_JOB_TYPE_GEOMETRY) {
++		struct rogue_fwif_geom_ctx_state *geom_ctx_state_fw = cpu_ptr;
++
++		geom_ctx_state_fw->geom_core[0].geom_reg_vdm_call_stack_pointer_init =
++			queue->callstack_addr;
++	}
++}
++
++/**
++ * pvr_queue_create() - Create a queue object.
++ * @ctx: The context this queue will be attached to.
++ * @type: The type of jobs being pushed to this queue.
++ * @args: The arguments passed to the context creation function.
++ * @fw_ctx_map: CPU mapping of the FW context object.
++ *
++ * Create a queue object that will be used to queue and track jobs.
++ *
++ * Return:
++ *  * A valid pointer to a pvr_queue object, or
++ *  * An error pointer if the creation/initialization failed.
++ */
++struct pvr_queue *pvr_queue_create(struct pvr_context *ctx,
++				   enum drm_pvr_job_type type,
++				   struct drm_pvr_ioctl_create_context_args *args,
++				   void *fw_ctx_map)
++{
++	static const struct {
++		u32 cccb_size;
++		const char *name;
++	} props[] = {
++		[DRM_PVR_JOB_TYPE_GEOMETRY] = {
++			.cccb_size = CTX_GEOM_CCCB_SIZE_LOG2,
++			.name = "geometry",
++		},
++		[DRM_PVR_JOB_TYPE_FRAGMENT] = {
++			.cccb_size = CTX_FRAG_CCCB_SIZE_LOG2,
++			.name = "fragment"
++		},
++		[DRM_PVR_JOB_TYPE_COMPUTE] = {
++			.cccb_size = CTX_COMPUTE_CCCB_SIZE_LOG2,
++			.name = "compute"
++		},
++		[DRM_PVR_JOB_TYPE_TRANSFER_FRAG] = {
++			.cccb_size = CTX_TRANSFER_CCCB_SIZE_LOG2,
++			.name = "transfer_frag"
++		},
++	};
++	struct pvr_device *pvr_dev = ctx->pvr_dev;
++	struct drm_gpu_scheduler *sched;
++	struct pvr_queue *queue;
++	int ctx_state_size, err;
++	void *cpu_map;
++
++	if (WARN_ON(type >= sizeof(props)))
++		return ERR_PTR(-EINVAL);
++
++	switch (ctx->type) {
++	case DRM_PVR_CTX_TYPE_RENDER:
++		if (type != DRM_PVR_JOB_TYPE_GEOMETRY &&
++		    type != DRM_PVR_JOB_TYPE_FRAGMENT)
++			return ERR_PTR(-EINVAL);
++		break;
++	case DRM_PVR_CTX_TYPE_COMPUTE:
++		if (type != DRM_PVR_JOB_TYPE_COMPUTE)
++			return ERR_PTR(-EINVAL);
++		break;
++	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
++		if (type != DRM_PVR_JOB_TYPE_TRANSFER_FRAG)
++			return ERR_PTR(-EINVAL);
++		break;
++	default:
++		return ERR_PTR(-EINVAL);
++	}
++
++	ctx_state_size = get_ctx_state_size(pvr_dev, type);
++	if (ctx_state_size < 0)
++		return ERR_PTR(ctx_state_size);
++
++	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
++	if (!queue)
++		return ERR_PTR(-ENOMEM);
++
++	queue->type = type;
++	queue->ctx_offset = get_ctx_offset(type);
++	queue->ctx = ctx;
++	queue->callstack_addr = args->callstack_addr;
++	sched = &queue->scheduler;
++	INIT_LIST_HEAD(&queue->node);
++	mutex_init(&queue->cccb_fence_ctx.job_lock);
++	pvr_queue_fence_ctx_init(&queue->cccb_fence_ctx.base);
++	pvr_queue_fence_ctx_init(&queue->job_fence_ctx);
++
++	err = pvr_cccb_init(pvr_dev, &queue->cccb, props[type].cccb_size, props[type].name);
++	if (err)
++		goto err_free_queue;
++
++	err = pvr_fw_object_create(pvr_dev, ctx_state_size,
++				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
++				   reg_state_init, queue, &queue->reg_state_obj);
++	if (err)
++		goto err_cccb_fini;
++
++	init_fw_context(queue, fw_ctx_map);
++
++	if (type != DRM_PVR_JOB_TYPE_GEOMETRY && type != DRM_PVR_JOB_TYPE_FRAGMENT &&
++	    args->callstack_addr) {
++		err = -EINVAL;
++		goto err_release_reg_state;
++	}
++
++	cpu_map = pvr_fw_object_create_and_map(pvr_dev, sizeof(*queue->timeline_ufo.value),
++					       PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
++					       NULL, NULL, &queue->timeline_ufo.fw_obj);
++	if (IS_ERR(cpu_map)) {
++		err = PTR_ERR(cpu_map);
++		goto err_release_reg_state;
++	}
++
++	queue->timeline_ufo.value = cpu_map;
++
++	err = drm_sched_init(&queue->scheduler,
++			     &pvr_queue_sched_ops,
++			     pvr_dev->sched_wq, 1, 64 * 1024, 1,
++			     msecs_to_jiffies(500),
++			     pvr_dev->sched_wq, NULL, "pvr-queue",
++			     pvr_dev->base.dev);
++	if (err)
++		goto err_release_ufo;
++
++	err = drm_sched_entity_init(&queue->entity,
++				    DRM_SCHED_PRIORITY_MIN,
++				    &sched, 1, &ctx->faulty);
++	if (err)
++		goto err_sched_fini;
++
++	mutex_lock(&pvr_dev->queues.lock);
++	list_add_tail(&queue->node, &pvr_dev->queues.idle);
++	mutex_unlock(&pvr_dev->queues.lock);
++
++	return queue;
++
++err_sched_fini:
++	drm_sched_fini(&queue->scheduler);
++
++err_release_ufo:
++	pvr_fw_object_unmap_and_destroy(queue->timeline_ufo.fw_obj);
++
++err_release_reg_state:
++	pvr_fw_object_destroy(queue->reg_state_obj);
++
++err_cccb_fini:
++	pvr_cccb_fini(&queue->cccb);
++
++err_free_queue:
++	mutex_destroy(&queue->cccb_fence_ctx.job_lock);
++	kfree(queue);
++
++	return ERR_PTR(err);
++}
++
++void pvr_queue_device_pre_reset(struct pvr_device *pvr_dev)
++{
++	struct pvr_queue *queue;
++
++	mutex_lock(&pvr_dev->queues.lock);
++	list_for_each_entry(queue, &pvr_dev->queues.idle, node)
++		pvr_queue_stop(queue, NULL);
++	list_for_each_entry(queue, &pvr_dev->queues.active, node)
++		pvr_queue_stop(queue, NULL);
++	mutex_unlock(&pvr_dev->queues.lock);
++}
++
++void pvr_queue_device_post_reset(struct pvr_device *pvr_dev)
++{
++	struct pvr_queue *queue;
++
++	mutex_lock(&pvr_dev->queues.lock);
++	list_for_each_entry(queue, &pvr_dev->queues.active, node)
++		pvr_queue_start(queue);
++	list_for_each_entry(queue, &pvr_dev->queues.idle, node)
++		pvr_queue_start(queue);
++	mutex_unlock(&pvr_dev->queues.lock);
++}
++
++/**
++ * pvr_queue_kill() - Kill a queue.
++ * @queue: The queue to kill.
++ *
++ * Kill the queue so no new jobs can be pushed. Should be called when the
++ * context handle is destroyed. The queue object might last longer if jobs
++ * are still in flight and holding a reference to the context this queue
++ * belongs to.
++ */
++void pvr_queue_kill(struct pvr_queue *queue)
++{
++	drm_sched_entity_destroy(&queue->entity);
++	dma_fence_put(queue->last_queued_job_scheduled_fence);
++	queue->last_queued_job_scheduled_fence = NULL;
++}
++
++/**
++ * pvr_queue_destroy() - Destroy a queue.
++ * @queue: The queue to destroy.
++ *
++ * Cleanup the queue and free the resources attached to it. Should be
++ * called from the context release function.
++ */
++void pvr_queue_destroy(struct pvr_queue *queue)
++{
++	if (!queue)
++		return;
++
++	mutex_lock(&queue->ctx->pvr_dev->queues.lock);
++	list_del_init(&queue->node);
++	mutex_unlock(&queue->ctx->pvr_dev->queues.lock);
++
++	drm_sched_fini(&queue->scheduler);
++	drm_sched_entity_fini(&queue->entity);
++
++	if (WARN_ON(queue->last_queued_job_scheduled_fence))
++		dma_fence_put(queue->last_queued_job_scheduled_fence);
++
++	pvr_queue_cleanup_fw_context(queue);
++
++	pvr_fw_object_unmap_and_destroy(queue->timeline_ufo.fw_obj);
++	pvr_fw_object_destroy(queue->reg_state_obj);
++	pvr_cccb_fini(&queue->cccb);
++	mutex_destroy(&queue->cccb_fence_ctx.job_lock);
++	kfree(queue);
++}
++
++/**
++ * pvr_queue_device_init() - Device-level initialization of queue related fields.
++ * @pvr_dev: The device to initialize.
++ *
++ * Initializes all fields related to queue management in pvr_device.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * An error code on failure.
++ */
++int pvr_queue_device_init(struct pvr_device *pvr_dev)
++{
++	int err;
++
++	INIT_LIST_HEAD(&pvr_dev->queues.active);
++	INIT_LIST_HEAD(&pvr_dev->queues.idle);
++	err = drmm_mutex_init(from_pvr_device(pvr_dev), &pvr_dev->queues.lock);
++	if (err)
++		return err;
++
++	pvr_dev->sched_wq = alloc_workqueue("powervr-sched", WQ_UNBOUND, 0);
++	if (!pvr_dev->sched_wq)
++		return -ENOMEM;
++
++	return 0;
++}
++
++/**
++ * pvr_queue_device_fini() - Device-level cleanup of queue related fields.
++ * @pvr_dev: The device to cleanup.
++ *
++ * Cleanup/free all queue-related resources attached to a pvr_device object.
++ */
++void pvr_queue_device_fini(struct pvr_device *pvr_dev)
++{
++	destroy_workqueue(pvr_dev->sched_wq);
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.h b/drivers/gpu/drm/imagination/pvr_queue.h
+new file mode 100644
+index 000000000000..b5ce2c742150
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_queue.h
+@@ -0,0 +1,169 @@
++/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_QUEUE_H
++#define PVR_QUEUE_H
++
++#include <drm/gpu_scheduler.h>
++
++#include "pvr_cccb.h"
++#include "pvr_device.h"
++
++struct pvr_context;
++struct pvr_queue;
++
++/**
++ * struct pvr_queue_fence_ctx - Queue fence context
++ *
++ * Used to implement dma_fence_ops for pvr_job::{done,cccb}_fence.
++ */
++struct pvr_queue_fence_ctx {
++	/** @id: Fence context ID allocated with dma_fence_context_alloc(). */
++	u64 id;
++
++	/** @seqno: Sequence number incremented each time a fence is created. */
++	atomic_t seqno;
++
++	/** @lock: Lock used to synchronize access to fences allocated by this context. */
++	spinlock_t lock;
++};
++
++/**
++ * struct pvr_queue_cccb_fence_ctx - CCCB fence context
++ *
++ * Context used to manage fences controlling access to the CCCB. No fences are
++ * issued if there's enough space in the CCCB to push job commands.
++ */
++struct pvr_queue_cccb_fence_ctx {
++	/** @base: Base queue fence context. */
++	struct pvr_queue_fence_ctx base;
++
++	/**
++	 * @job: Job waiting for CCCB space.
++	 *
++	 * Thanks to the serializationg done at the drm_sched_entity level,
++	 * there's no more than one job waiting for CCCB at a given time.
++	 *
++	 * This field is NULL if no jobs are currently waiting for CCCB space.
++	 *
++	 * Must be accessed with @job_lock held.
++	 */
++	struct pvr_job *job;
++
++	/** @lock: Lock protecting access to the job object. */
++	struct mutex job_lock;
++};
++
++/**
++ * struct pvr_queue_fence - Queue fence object
++ */
++struct pvr_queue_fence {
++	/** @base: Base dma_fence. */
++	struct dma_fence base;
++
++	/** @queue: Queue that created this fence. */
++	struct pvr_queue *queue;
++};
++
++/**
++ * struct pvr_queue - Job queue
++ *
++ * Used to queue and track execution of pvr_job objects.
++ */
++struct pvr_queue {
++	/** @scheduler: Single entity scheduler use to push jobs to this queue. */
++	struct drm_gpu_scheduler scheduler;
++
++	/** @entity: Scheduling entity backing this queue. */
++	struct drm_sched_entity entity;
++
++	/** @type: Type of jobs queued to this queue. */
++	enum drm_pvr_job_type type;
++
++	/** @ctx: Context object this queue is bound to. */
++	struct pvr_context *ctx;
++
++	/** @node: Used to add the queue to the active/idle queue list. */
++	struct list_head node;
++
++	/**
++	 * @in_flight_job_count: Number of jobs submitted to the CCCB that
++	 * have not been processed yet.
++	 */
++	atomic_t in_flight_job_count;
++
++	/**
++	 * @cccb_fence_ctx: CCCB fence context.
++	 *
++	 * Used to control access to the CCCB is full, such that we don't
++	 * end up trying to push commands to the CCCB if there's not enough
++	 * space to receive all commands needed for a job to complete.
++	 */
++	struct pvr_queue_cccb_fence_ctx cccb_fence_ctx;
++
++	/** @job_fence_ctx: Job fence context object. */
++	struct pvr_queue_fence_ctx job_fence_ctx;
++
++	/** @timeline_ufo: Timeline UFO for the context queue. */
++	struct {
++		/** @fw_obj: FW object representing the UFO value. */
++		struct pvr_fw_object *fw_obj;
++
++		/** @value: CPU mapping of the UFO value. */
++		u32 *value;
++	} timeline_ufo;
++
++	/**
++	 * last_queued_job_scheduled_fence: The scheduled fence of the last
++	 * job queued to this queue.
++	 *
++	 * We use it to insert frag -> geom dependencies when issuing combined
++	 * geom+frag jobs, to guarantee that the fragment job that's part of
++	 * the combined operation comes after all fragment jobs that were queued
++	 * before it.
++	 */
++	struct dma_fence *last_queued_job_scheduled_fence;
++
++	/** @cccb: Client Circular Command Buffer. */
++	struct pvr_cccb cccb;
++
++	/** @reg_state_obj: FW object representing the register state of this queue. */
++	struct pvr_fw_object *reg_state_obj;
++
++	/** @ctx_offset: Offset of the queue context in the FW context object. */
++	u32 ctx_offset;
++
++	/** @callstack_addr: Initial call stack address for register state object. */
++	u64 callstack_addr;
++};
++
++bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f);
++
++int pvr_queue_job_init(struct pvr_job *job);
++
++void pvr_queue_job_cleanup(struct pvr_job *job);
++
++void pvr_queue_job_push(struct pvr_job *job);
++
++struct dma_fence *pvr_queue_job_arm(struct pvr_job *job);
++
++struct pvr_queue *pvr_queue_create(struct pvr_context *ctx,
++				   enum drm_pvr_job_type type,
++				   struct drm_pvr_ioctl_create_context_args *args,
++				   void *fw_ctx_map);
++
++void pvr_queue_kill(struct pvr_queue *queue);
++
++void pvr_queue_destroy(struct pvr_queue *queue);
++
++void pvr_queue_process(struct pvr_queue *queue);
++
++void pvr_queue_device_pre_reset(struct pvr_device *pvr_dev);
++
++void pvr_queue_device_post_reset(struct pvr_device *pvr_dev);
++
++int pvr_queue_device_init(struct pvr_device *pvr_dev);
++
++void pvr_queue_device_fini(struct pvr_device *pvr_dev);
++
++#endif /* PVR_QUEUE_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_stream_defs.c b/drivers/gpu/drm/imagination/pvr_stream_defs.c
+index 59265a7accce..f8bd1a8c01db 100644
+--- a/drivers/gpu/drm/imagination/pvr_stream_defs.c
++++ b/drivers/gpu/drm/imagination/pvr_stream_defs.c
+@@ -43,6 +43,232 @@
+  * existing parameters, to preserve order. As parameters are naturally aligned, care must be taken
+  * with respect to implicit padding in the stream; padding should be minimised as much as possible.
+  */
++static const struct pvr_stream_def rogue_fwif_cmd_geom_stream[] = {
++	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.vdm_ctrl_stream_base, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.tpu_border_colour_table, 64),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_draw_indirect0, 64,
++			       PVR_FEATURE_VDM_DRAWINDIRECT),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_draw_indirect1, 32,
++			       PVR_FEATURE_VDM_DRAWINDIRECT),
++	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.ppp_ctrl, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.te_psg, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.vdm_context_resume_task0_size, 32),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_context_resume_task3_size, 32,
++			       PVR_FEATURE_VDM_OBJECT_LEVEL_LLS),
++	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.view_idx, 32),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.pds_coeff_free_prog, 32,
++			       PVR_FEATURE_TESSELLATION),
++};
++
++static const struct pvr_stream_def rogue_fwif_cmd_geom_stream_brn49927[] = {
++	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.tpu, 32),
++};
++
++static const struct pvr_stream_ext_def cmd_geom_ext_streams_0[] = {
++	{
++		.stream = rogue_fwif_cmd_geom_stream_brn49927,
++		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_geom_stream_brn49927),
++		.header_mask = PVR_STREAM_EXTHDR_GEOM0_BRN49927,
++		.quirk = 49927,
++	},
++};
++
++static const struct pvr_stream_ext_header cmd_geom_ext_headers[] = {
++	{
++		.ext_streams = cmd_geom_ext_streams_0,
++		.ext_streams_num = ARRAY_SIZE(cmd_geom_ext_streams_0),
++		.valid_mask = PVR_STREAM_EXTHDR_GEOM0_VALID,
++	},
++};
++
++const struct pvr_stream_cmd_defs pvr_cmd_geom_stream = {
++	.type = PVR_STREAM_TYPE_GEOM,
++
++	.main_stream = rogue_fwif_cmd_geom_stream,
++	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_geom_stream),
++
++	.ext_nr_headers = ARRAY_SIZE(cmd_geom_ext_headers),
++	.ext_headers = cmd_geom_ext_headers,
++
++	.dest_size = sizeof(struct rogue_fwif_cmd_geom),
++};
++
++static const struct pvr_stream_def rogue_fwif_cmd_frag_stream[] = {
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_scissor_base, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_dbias_base, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_oclqry_base, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_zlsctl, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_zload_store_base, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_stencil_load_store_base, 64),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.fb_cdc_zls, 64,
++			       PVR_FEATURE_REQUIRES_FB_CDC_ZLS_SETUP),
++	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pbe_word),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.tpu_border_colour_table, 64),
++	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pds_bgnd),
++	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pds_pr_bgnd),
++	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.usc_clear_register),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.usc_pixel_output_ctrl, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_bgobjdepth, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_bgobjvals, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_aa, 32),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_xtp_pipe_enable, 32,
++			       PVR_FEATURE_S7_TOP_INFRASTRUCTURE),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_ctl, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.event_pixel_pds_info, 32),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.pixel_phantom, 32,
++			       PVR_FEATURE_CLUSTER_GROUPING),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.view_idx, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.event_pixel_pds_data, 32),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_oclqry_stride, 32,
++			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_zls_pixels, 32,
++			       PVR_FEATURE_ZLS_SUBTILE),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.rgx_cr_blackpearl_fix, 32,
++			       PVR_FEATURE_ISP_ZLS_D24_S8_PACKING_OGL_MODE),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, zls_stride, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, sls_stride, 32),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, execute_count, 32,
++			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
++};
++
++static const struct pvr_stream_def rogue_fwif_cmd_frag_stream_brn47217[] = {
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_oclqry_stride, 32),
++};
++
++static const struct pvr_stream_def rogue_fwif_cmd_frag_stream_brn49927[] = {
++	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.tpu, 32),
++};
++
++static const struct pvr_stream_ext_def cmd_frag_ext_streams_0[] = {
++	{
++		.stream = rogue_fwif_cmd_frag_stream_brn47217,
++		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream_brn47217),
++		.header_mask = PVR_STREAM_EXTHDR_FRAG0_BRN47217,
++		.quirk = 47217,
++	},
++	{
++		.stream = rogue_fwif_cmd_frag_stream_brn49927,
++		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream_brn49927),
++		.header_mask = PVR_STREAM_EXTHDR_FRAG0_BRN49927,
++		.quirk = 49927,
++	},
++};
++
++static const struct pvr_stream_ext_header cmd_frag_ext_headers[] = {
++	{
++		.ext_streams = cmd_frag_ext_streams_0,
++		.ext_streams_num = ARRAY_SIZE(cmd_frag_ext_streams_0),
++		.valid_mask = PVR_STREAM_EXTHDR_FRAG0_VALID,
++	},
++};
++
++const struct pvr_stream_cmd_defs pvr_cmd_frag_stream = {
++	.type = PVR_STREAM_TYPE_FRAG,
++
++	.main_stream = rogue_fwif_cmd_frag_stream,
++	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream),
++
++	.ext_nr_headers = ARRAY_SIZE(cmd_frag_ext_headers),
++	.ext_headers = cmd_frag_ext_headers,
++
++	.dest_size = sizeof(struct rogue_fwif_cmd_frag),
++};
++
++static const struct pvr_stream_def rogue_fwif_cmd_compute_stream[] = {
++	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.tpu_border_colour_table, 64),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb_queue, 64,
++			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb_base, 64,
++			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb, 64,
++			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
++	PVR_STREAM_DEF_NOT_FEATURE(rogue_fwif_cmd_compute, regs.cdm_ctrl_stream_base, 64,
++				   PVR_FEATURE_CDM_USER_MODE_QUEUE),
++	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.cdm_context_state_base_addr, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.cdm_resume_pds1, 32),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_item, 32,
++			       PVR_FEATURE_COMPUTE_MORTON_CAPABLE),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.compute_cluster, 32,
++			       PVR_FEATURE_CLUSTER_GROUPING),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.tpu_tag_cdm_ctrl, 32,
++			       PVR_FEATURE_TPU_DM_GLOBAL_REGISTERS),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, stream_start_offset, 32,
++			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, execute_count, 32,
++			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
++};
++
++static const struct pvr_stream_def rogue_fwif_cmd_compute_stream_brn49927[] = {
++	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.tpu, 32),
++};
++
++static const struct pvr_stream_ext_def cmd_compute_ext_streams_0[] = {
++	{
++		.stream = rogue_fwif_cmd_compute_stream_brn49927,
++		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_compute_stream_brn49927),
++		.header_mask = PVR_STREAM_EXTHDR_COMPUTE0_BRN49927,
++		.quirk = 49927,
++	},
++};
++
++static const struct pvr_stream_ext_header cmd_compute_ext_headers[] = {
++	{
++		.ext_streams = cmd_compute_ext_streams_0,
++		.ext_streams_num = ARRAY_SIZE(cmd_compute_ext_streams_0),
++		.valid_mask = PVR_STREAM_EXTHDR_COMPUTE0_VALID,
++	},
++};
++
++const struct pvr_stream_cmd_defs pvr_cmd_compute_stream = {
++	.type = PVR_STREAM_TYPE_COMPUTE,
++
++	.main_stream = rogue_fwif_cmd_compute_stream,
++	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_compute_stream),
++
++	.ext_nr_headers = ARRAY_SIZE(cmd_compute_ext_headers),
++	.ext_headers = cmd_compute_ext_headers,
++
++	.dest_size = sizeof(struct rogue_fwif_cmd_compute),
++};
++
++static const struct pvr_stream_def rogue_fwif_cmd_transfer_stream[] = {
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd0_base, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd1_base, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd3_sizeinfo, 64),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_mtile_base, 64),
++	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_transfer, regs.pbe_wordx_mrty),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_bgobjvals, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_pixel_output_ctrl, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register0, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register1, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register2, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register3, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_mtile_size, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_render_origin, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_ctl, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_aa, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_info, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_code, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_data, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_render, 32),
++	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_rgn, 32),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_transfer, regs.isp_xtp_pipe_enable, 32,
++			       PVR_FEATURE_S7_TOP_INFRASTRUCTURE),
++	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_transfer, regs.frag_screen, 32,
++			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
++};
++
++const struct pvr_stream_cmd_defs pvr_cmd_transfer_stream = {
++	.type = PVR_STREAM_TYPE_TRANSFER,
++
++	.main_stream = rogue_fwif_cmd_transfer_stream,
++	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_transfer_stream),
++
++	.ext_nr_headers = 0,
++
++	.dest_size = sizeof(struct rogue_fwif_cmd_transfer),
++};
++
+ static const struct pvr_stream_def rogue_fwif_static_render_context_state_stream[] = {
+ 	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
+ 		       geom_reg_vdm_context_state_base_addr, 64),
+diff --git a/drivers/gpu/drm/imagination/pvr_sync.c b/drivers/gpu/drm/imagination/pvr_sync.c
+new file mode 100644
+index 000000000000..129f646d14ba
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_sync.c
+@@ -0,0 +1,289 @@
++// SPDX-License-Identifier: GPL-2.0-only OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include <uapi/drm/pvr_drm.h>
++
++#include <drm/drm_syncobj.h>
++#include <drm/gpu_scheduler.h>
++#include <linux/xarray.h>
++#include <linux/dma-fence-unwrap.h>
++
++#include "pvr_device.h"
++#include "pvr_queue.h"
++#include "pvr_sync.h"
++
++static int
++pvr_check_sync_op(const struct drm_pvr_sync_op *sync_op)
++{
++	u8 handle_type;
++
++	if (sync_op->flags & ~DRM_PVR_SYNC_OP_FLAGS_MASK)
++		return -EINVAL;
++
++	handle_type = sync_op->flags & DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_MASK;
++	if (handle_type != DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_SYNCOBJ &&
++	    handle_type != DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_TIMELINE_SYNCOBJ)
++		return -EINVAL;
++
++	if (handle_type == DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_SYNCOBJ &&
++	    sync_op->value != 0)
++		return -EINVAL;
++
++	return 0;
++}
++
++static void
++pvr_sync_signal_free(struct pvr_sync_signal *sig_sync)
++{
++	if (!sig_sync)
++		return;
++
++	drm_syncobj_put(sig_sync->syncobj);
++	dma_fence_chain_free(sig_sync->chain);
++	dma_fence_put(sig_sync->fence);
++	kfree(sig_sync);
++}
++
++void
++pvr_sync_signal_array_cleanup(struct xarray *array)
++{
++	struct pvr_sync_signal *sig_sync;
++	unsigned long i;
++
++	xa_for_each(array, i, sig_sync)
++		pvr_sync_signal_free(sig_sync);
++
++	xa_destroy(array);
++}
++
++static struct pvr_sync_signal *
++pvr_sync_signal_array_add(struct xarray *array, struct drm_file *file, u32 handle, u64 point)
++{
++	struct pvr_sync_signal *sig_sync;
++	struct dma_fence *cur_fence;
++	int err;
++	u32 id;
++
++	sig_sync = kzalloc(sizeof(*sig_sync), GFP_KERNEL);
++	if (!sig_sync)
++		return ERR_PTR(-ENOMEM);
++
++	sig_sync->handle = handle;
++	sig_sync->point = point;
++
++	if (point > 0) {
++		sig_sync->chain = dma_fence_chain_alloc();
++		if (!sig_sync->chain) {
++			err = -ENOMEM;
++			goto err_free_sig_sync;
++		}
++	}
++
++	sig_sync->syncobj = drm_syncobj_find(file, handle);
++	if (!sig_sync->syncobj) {
++		err = -EINVAL;
++		goto err_free_sig_sync;
++	}
++
++	/* Retrieve the current fence attached to that point. It's
++	 * perfectly fine to get a NULL fence here, it just means there's
++	 * no fence attached to that point yet.
++	 */
++	if (!drm_syncobj_find_fence(file, handle, point, 0, &cur_fence))
++		sig_sync->fence = cur_fence;
++
++	err = xa_alloc(array, &id, sig_sync, xa_limit_32b, GFP_KERNEL);
++	if (err)
++		goto err_free_sig_sync;
++
++	return sig_sync;
++
++err_free_sig_sync:
++	pvr_sync_signal_free(sig_sync);
++	return ERR_PTR(err);
++}
++
++static struct pvr_sync_signal *
++pvr_sync_signal_array_search(struct xarray *array, u32 handle, u64 point)
++{
++	struct pvr_sync_signal *sig_sync;
++	unsigned long i;
++
++	xa_for_each(array, i, sig_sync) {
++		if (handle == sig_sync->handle && point == sig_sync->point)
++			return sig_sync;
++	}
++
++	return NULL;
++}
++
++static struct pvr_sync_signal *
++pvr_sync_signal_array_get(struct xarray *array, struct drm_file *file, u32 handle, u64 point)
++{
++	struct pvr_sync_signal *sig_sync;
++
++	sig_sync = pvr_sync_signal_array_search(array, handle, point);
++	if (sig_sync)
++		return sig_sync;
++
++	return pvr_sync_signal_array_add(array, file, handle, point);
++}
++
++int
++pvr_sync_signal_array_collect_ops(struct xarray *array,
++				  struct drm_file *file,
++				  u32 sync_op_count,
++				  const struct drm_pvr_sync_op *sync_ops)
++{
++	for (u32 i = 0; i < sync_op_count; i++) {
++		struct pvr_sync_signal *sig_sync;
++		int ret;
++
++		if (!(sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL))
++			continue;
++
++		ret = pvr_check_sync_op(&sync_ops[i]);
++		if (ret)
++			return ret;
++
++		sig_sync = pvr_sync_signal_array_get(array, file,
++						     sync_ops[i].handle,
++						     sync_ops[i].value);
++		if (IS_ERR(sig_sync))
++			return PTR_ERR(sig_sync);
++	}
++
++	return 0;
++}
++
++int
++pvr_sync_signal_array_update_fences(struct xarray *array,
++				    u32 sync_op_count,
++				    const struct drm_pvr_sync_op *sync_ops,
++				    struct dma_fence *done_fence)
++{
++	for (u32 i = 0; i < sync_op_count; i++) {
++		struct dma_fence *old_fence;
++		struct pvr_sync_signal *sig_sync;
++
++		if (!(sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL))
++			continue;
++
++		sig_sync = pvr_sync_signal_array_search(array, sync_ops[i].handle,
++							sync_ops[i].value);
++		if (WARN_ON(!sig_sync))
++			return -EINVAL;
++
++		old_fence = sig_sync->fence;
++		sig_sync->fence = dma_fence_get(done_fence);
++		dma_fence_put(old_fence);
++
++		if (WARN_ON(!sig_sync->fence))
++			return -EINVAL;
++	}
++
++	return 0;
++}
++
++void
++pvr_sync_signal_array_push_fences(struct xarray *array)
++{
++	struct pvr_sync_signal *sig_sync;
++	unsigned long i;
++
++	xa_for_each(array, i, sig_sync) {
++		if (sig_sync->chain) {
++			drm_syncobj_add_point(sig_sync->syncobj, sig_sync->chain,
++					      sig_sync->fence, sig_sync->point);
++			sig_sync->chain = NULL;
++		} else {
++			drm_syncobj_replace_fence(sig_sync->syncobj, sig_sync->fence);
++		}
++	}
++}
++
++static int
++pvr_sync_add_dep_to_job(struct drm_sched_job *job, struct dma_fence *f)
++{
++	struct dma_fence_unwrap iter;
++	u32 native_fence_count = 0;
++	struct dma_fence *uf;
++	int err = 0;
++
++	dma_fence_unwrap_for_each(uf, &iter, f) {
++		if (pvr_queue_fence_is_ufo_backed(uf))
++			native_fence_count++;
++	}
++
++	/* No need to unwrap the fence if it's fully non-native. */
++	if (!native_fence_count)
++		return drm_sched_job_add_dependency(job, f);
++
++	dma_fence_unwrap_for_each(uf, &iter, f) {
++		/* There's no dma_fence_unwrap_stop() helper cleaning up the refs
++		 * owned by dma_fence_unwrap(), so let's just iterate over all
++		 * entries without doing anything when something failed.
++		 */
 +		if (err)
-+			goto err_page_table_destroy;
- 	}
- 
- 	return vm_ctx;
- 
-+err_page_table_destroy:
-+	pvr_mmu_context_destroy(vm_ctx->mmu_ctx);
++			continue;
 +
- err_put_ctx:
- 	pvr_vm_context_put(vm_ctx);
- 
-@@ -628,8 +644,8 @@ pvr_vm_context_release(struct kref *ref_count)
- 	struct pvr_vm_context *vm_ctx =
- 		container_of(ref_count, struct pvr_vm_context, ref_count);
- 
--	/* TODO: Destroy FW mem context */
--	WARN_ON(vm_ctx->fw_mem_ctx_obj);
-+	if (vm_ctx->fw_mem_ctx_obj)
-+		pvr_fw_object_destroy(vm_ctx->fw_mem_ctx_obj);
- 
- 	WARN_ON(pvr_vm_unmap(vm_ctx, vm_ctx->gpuvm_mgr.mm_start,
- 			     vm_ctx->gpuvm_mgr.mm_range));
++		if (pvr_queue_fence_is_ufo_backed(uf)) {
++			struct drm_sched_fence *s_fence = to_drm_sched_fence(uf);
++
++			/* If this is a native dependency, we wait for the scheduled fence,
++			 * and we will let pvr_queue_run_job() issue FW waits.
++			 */
++			err = drm_sched_job_add_dependency(job,
++							   dma_fence_get(&s_fence->scheduled));
++		} else {
++			err = drm_sched_job_add_dependency(job, dma_fence_get(uf));
++		}
++	}
++
++	dma_fence_put(f);
++	return err;
++}
++
++int
++pvr_sync_add_deps_to_job(struct pvr_file *pvr_file, struct drm_sched_job *job,
++			 u32 sync_op_count,
++			 const struct drm_pvr_sync_op *sync_ops,
++			 struct xarray *signal_array)
++{
++	int err = 0;
++
++	if (!sync_op_count)
++		return 0;
++
++	for (u32 i = 0; i < sync_op_count; i++) {
++		struct pvr_sync_signal *sig_sync;
++		struct dma_fence *fence;
++
++		if (sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL)
++			continue;
++
++		err = pvr_check_sync_op(&sync_ops[i]);
++		if (err)
++			return err;
++
++		sig_sync = pvr_sync_signal_array_search(signal_array, sync_ops[i].handle,
++							sync_ops[i].value);
++		if (sig_sync) {
++			if (WARN_ON(!sig_sync->fence))
++				return -EINVAL;
++
++			fence = dma_fence_get(sig_sync->fence);
++		} else {
++			err = drm_syncobj_find_fence(from_pvr_file(pvr_file), sync_ops[i].handle,
++						     sync_ops[i].value, 0, &fence);
++			if (err)
++				return err;
++		}
++
++		err = pvr_sync_add_dep_to_job(job, fence);
++		if (err)
++			return err;
++	}
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_sync.h b/drivers/gpu/drm/imagination/pvr_sync.h
+new file mode 100644
+index 000000000000..db6ccfda104a
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_sync.h
+@@ -0,0 +1,84 @@
++/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_SYNC_H
++#define PVR_SYNC_H
++
++#include <uapi/drm/pvr_drm.h>
++
++/* Forward declaration from <linux/xarray.h>. */
++struct xarray;
++
++/* Forward declaration from <drm/drm_file.h>. */
++struct drm_file;
++
++/* Forward declaration from <drm/gpu_scheduler.h>. */
++struct drm_sched_job;
++
++/* Forward declaration from "pvr_device.h". */
++struct pvr_file;
++
++/**
++ * struct pvr_sync_signal - Object encoding a syncobj signal operation
++ *
++ * The job submission logic collects all signal operations in an array of
++ * pvr_sync_signal objects. This array also serves as a cache to get the
++ * latest dma_fence when multiple jobs are submitted at once, and one job
++ * signals a syncobj point that's later waited on by a subsequent job.
++ */
++struct pvr_sync_signal {
++	/** @handle: Handle of the syncobj to signal. */
++	u32 handle;
++
++	/**
++	 * @point: Point to signal in the syncobj.
++	 *
++	 * Only relevant for timeline syncobjs.
++	 */
++	u64 point;
++
++	/** @syncobj: Syncobj retrieved from the handle. */
++	struct drm_syncobj *syncobj;
++
++	/**
++	 * @chain: Chain object used to link the new fence with the
++	 *	   existing timeline syncobj.
++	 *
++	 * Should be zero when manipulating a regular syncobj.
++	 */
++	struct dma_fence_chain *chain;
++
++	/**
++	 * @fence: New fence object to attach to the syncobj.
++	 *
++	 * This pointer starts with the current fence bound to
++	 * the <handle,point> pair.
++	 */
++	struct dma_fence *fence;
++};
++
++void
++pvr_sync_signal_array_cleanup(struct xarray *array);
++
++int
++pvr_sync_signal_array_collect_ops(struct xarray *array,
++				  struct drm_file *file,
++				  u32 sync_op_count,
++				  const struct drm_pvr_sync_op *sync_ops);
++
++int
++pvr_sync_signal_array_update_fences(struct xarray *array,
++				    u32 sync_op_count,
++				    const struct drm_pvr_sync_op *sync_ops,
++				    struct dma_fence *done_fence);
++
++void
++pvr_sync_signal_array_push_fences(struct xarray *array);
++
++int
++pvr_sync_add_deps_to_job(struct pvr_file *pvr_file, struct drm_sched_job *job,
++			 u32 sync_op_count,
++			 const struct drm_pvr_sync_op *sync_ops,
++			 struct xarray *signal_array);
++
++#endif /* PVR_SYNC_H */
 -- 
 2.25.1
 
