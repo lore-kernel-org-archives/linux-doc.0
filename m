@@ -1,134 +1,87 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC4957867;
+	Wed, 22 Nov 2023 16:13:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QyYObT/q"
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC1F7A1;
-	Wed, 22 Nov 2023 08:11:16 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9B70DE0007;
-	Wed, 22 Nov 2023 16:11:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700669475;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QKOV/Z/369p+Ig5Wi5vZTAl5YNXFdkGpmq3M44EHZwA=;
-	b=QyYObT/qeq6FL+xnl+X+3ZYqxKx/6fswUDTCYEAXqwCu+5zig5Aps5cUGkdtWViVXH5SGW
-	ExhYuOBKORylGz2SoHQrfPZrDpWM6hABUjGZmF7OjN02Cu+CVk2XDQeiikJSAR7WNAGLPd
-	/fzB4ZzcFEqyGHEKmI6clLg/1s5mPMOZGx5YOrnrJh4bVwZUGhhSx8Mv9DBgnhMugfDjnc
-	YuCEu60HF8YbAnG1MTH0u+moLMwpw8aq1r4FDue3BqpP2SFM1XbOTj95JGL3L33mcMelJv
-	WhQWj5TzN6/ThTU9bCiCTPK5fBpjm5YnbnKR++1Iqj1oRAwtG2Gh+NSokbneZg==
-Date: Wed, 22 Nov 2023 17:11:12 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 9/9] net: pse-pd: Add PD692x0 PSE controller
- driver
-Message-ID: <20231122171112.59370d21@kmaincent-XPS-13-7390>
-In-Reply-To: <2ff8bea5-5972-4d1a-a692-34ad27b05446@lunn.ch>
-References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
-	<20231116-feature_poe-v1-9-be48044bf249@bootlin.com>
-	<2ff8bea5-5972-4d1a-a692-34ad27b05446@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lG8Qpst2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0371BC433C7;
+	Wed, 22 Nov 2023 16:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700669620;
+	bh=b2nTl96C3C5sv3UzKTb650wEGPo53mm3yZpl9sYxoS0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lG8Qpst2HZvWgqf6mkTFaP5fkgbWBooDCM0ZTYirNIL4XbSPyXfwY6ljuL8tIA5tN
+	 oQTE+0RV8RgBeRZjD15Mm8Jghm38A0FhbdjMsiPcptC4dgZDSmm8HvANrTCe0+ZAp2
+	 RC9ygzbxtd57rFqegIFmwfomhENk/d/GH0RhIKZb76I/0bAwSjCOVIW79OxfXu7WLz
+	 gV3lCOgnLVeZfKOg49NoogyFidRBYzPkKFWcoiHHDk8hdhqU4cD2jd5bbZN7lf0fK1
+	 hxka9hhTad960OppnDBTusNoe2odAKl6D42Fj/XeWOcHCDp85Nb0cX0lX+2ppZY/bS
+	 XvsQpYOmOf8FA==
+Date: Wed, 22 Nov 2023 16:13:35 +0000
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Evan Green <evan@rivosinc.com>, Samuel Ortiz <sameo@rivosinc.com>,
+	Jerry Shih <jerry.shih@sifive.com>
+Subject: Re: [PATCH v4 05/20] dt-bindings: riscv: add scalar crypto ISA
+ extensions description
+Message-ID: <20231122-bulginess-rash-08f811f54f0a@spud>
+References: <20231114141256.126749-1-cleger@rivosinc.com>
+ <20231114141256.126749-6-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="MwP0K8Sf91YW7Tpk"
+Content-Disposition: inline
+In-Reply-To: <20231114141256.126749-6-cleger@rivosinc.com>
+
+
+--MwP0K8Sf91YW7Tpk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-GND-Spam-Score: 400
-X-GND-Status: SPAM
-X-GND-Sasl: kory.maincent@bootlin.com
 
-Thanks for your reviews!
+On Tue, Nov 14, 2023 at 09:12:41AM -0500, Cl=E9ment L=E9ger wrote:
+> Add description for scalar crypto ISA extensions:
+>=20
+> - Zbkb
+> - Zbkc
+> - Zbkx
+> - Zknd
+> - Zkne
+> - Zknh
+> - Zkr
+> - Zksed
+> - Zksh
+> - Zkt
+>=20
+> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
 
-On Thu, 16 Nov 2023 23:54:02 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-> I'm reading this patch first, so this might be a dumb question...
->=20
-> > +static int pd692x0_recv_msg(struct pd692x0_priv *priv,
-> > +			    struct pd692x0_msg *msg,
-> > +			    struct pd692x0_msg_content *buf)
-> > +{ =20
->=20
-> ...
->=20
-> > +	i2c_master_recv(client, (u8 *)buf, sizeof(*buf));
-> > +	if (buf->key)
-> > +		goto out;
-> > +
-> > +	msleep(10000); =20
->=20
-> That is 10 seconds, right?
+Cheers,
+Conor.
 
-Yes, it is in the communication loss procedure.
+--MwP0K8Sf91YW7Tpk
+Content-Type: application/pgp-signature; name="signature.asc"
 
->=20
-> > +static int pd692x0_sendrecv_msg(struct pd692x0_priv *priv,
-> > +				struct pd692x0_msg *msg,
-> > +				struct pd692x0_msg_content *buf)
-> > +{
-> > +	struct device *dev =3D &priv->client->dev;
-> > +	int ret;
-> > +
-> > +	ret =3D pd692x0_send_msg(priv, msg);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D pd692x0_recv_msg(priv, msg, buf); =20
->=20
-> So this function takes at least 10 seconds?
+-----BEGIN PGP SIGNATURE-----
 
-No, on normal communication it takes a bit more than 30ms.
-It could be more if there are communication loss, even reset the controller.
-See the communication loss procedure in "PD692x0 BT Serial Communication
-Protocol User Guide" for details.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZV4orwAKCRB4tDGHoIJi
+0t+FAPwJWXny8MqLPpIpmQrQtwO3Qntn+WM4+IITgS5uuTwgDgEAk2BRuEGqBZid
+AeYQalnd3+AvWO7eHvWwQPyGs3dTUwY=
+=2+fF
+-----END PGP SIGNATURE-----
 
-> > +static int pd692x0_ethtool_set_config(struct pse_controller_dev *pcdev,
-> > +				      unsigned long id,
-> > +				      struct netlink_ext_ack *extack,
-> > +				      const struct pse_control_config
-> > *config) +{ =20
->=20
-> ....
->=20
-> > +	switch (config->admin_control) {
-> > +	case ETHTOOL_PSE_ADMIN_STATE_ENABLED:
-> > +		msg.content.data[0] =3D 0x1;
-> > +		break;
-> > +	case ETHTOOL_PSE_ADMIN_STATE_DISABLED:
-> > +		msg.content.data[0] =3D 0x0;
-> > +		break;
-> > +	default:
-> > +		return -EOPNOTSUPP;
-> > +	}
-> > +
-> > +	msg.content.sub[2] =3D id;
-> > +	ret =3D pd692x0_sendrecv_msg(priv, &msg, &buf); =20
->=20
-> So this is also 10 seconds?=20
->=20
-> Given its name, it looks like this is called via ethtool? Is the
-> ethtool core holding RTNL? It is generally considered bad to hold RTNL for
-> that long.
-
-Yes it is holding RTNL lock. Should I consider another behavior in case of
-communication loss to not holding RTNL lock so long?
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+--MwP0K8Sf91YW7Tpk--
