@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE00758AAC;
-	Wed, 22 Nov 2023 17:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9517584E8;
+	Wed, 22 Nov 2023 18:01:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dOR2PKrT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FD0EC433C9;
-	Wed, 22 Nov 2023 17:55:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nQIgQnzE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0567C433C8;
+	Wed, 22 Nov 2023 18:01:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700675727;
-	bh=NKrLhVxDSneYqBCgaVREfOa2yycpjhLMjCDFnhPnIpo=;
+	s=k20201202; t=1700676111;
+	bh=DWUiekk1hXft3g2yCopiERCaH6fhza4b69cZTvVcpdY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dOR2PKrTFmPPs9/0hWB9mt8n2ESvpeM8wedLTWtBwke6lEOhjDVyFWNHvwr2IK0aZ
-	 YgW3ENr0qW1JAdGvsdxaJYdSAPeMnVhVn57X7EEqN5yyx1jQbLeVTODDy1LtyHZYMM
-	 YlW07D5wXxGE9SYU1aJNMsckLmGb91ESFAjhaTsn40tiHiK22RQex/bbRZxOcQnGRi
-	 Bl7DNCE+4JG/7nTxehf5ML6n/+Kiqx6vLNSBQHnvirnmGt4uafJdfcfOfVRucczSj4
-	 glznnW5TNdm61zY+kocAbaHsQbeSXSrJkeojrZL26mfQYWzd78x5z9SMRsJ0LKb98z
-	 z3jzNIaLyS+OQ==
-Date: Wed, 22 Nov 2023 09:55:25 -0800
+	b=nQIgQnzE8sTuB2DQUrkEMhm03hfOt5YWmPcs0VsVDtftb/G48o6iBHxOmw20lS9be
+	 DaegCqg2DP/BsE/B8n4Bo+08u4yNMfJ8CJZdfsFovhf9u6eORI5FRqev+i/kIJABSs
+	 GZsh+6A2/E5VqM1izplteYHYi4FC5E8h+MfoSvq+GeA6WFIEPfaujwnXieIQ9O93h+
+	 KEIamZvzC6GMENp4JuTC654m+8q97bu1fSkLR/gDkS6e8f7uXGn/yXa96YxBqVf2Og
+	 yntLYbTY6uMkbWuXOV003GzruNZm1V1isg/X+YMlt9/NiKwv651heL0bAY2ffsPmEP
+	 rqsT4iPbYwSSA==
+Date: Wed, 22 Nov 2023 10:01:42 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Vladimir Oltean <vladimir.oltean@nxp.com>
 Cc: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Florian
@@ -38,9 +38,10 @@ Cc: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Florian
  <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
  stamping layer be selectable
-Message-ID: <20231122095525.1438eaa3@kernel.org>
-In-Reply-To: <20231122165955.tujcadked5bgqjet@skbuf>
-References: <20231120115839.74ee5492@kernel.org>
+Message-ID: <20231122100142.338a2092@kernel.org>
+In-Reply-To: <20231122165517.5cqqfor3zjqgyoow@skbuf>
+References: <20231120190023.ymog4yb2hcydhmua@skbuf>
+	<20231120115839.74ee5492@kernel.org>
 	<20231120211759.j5uvijsrgt2jqtwx@skbuf>
 	<20231120133737.70dde657@kernel.org>
 	<20231120220549.cvsz2ni3wj7mcukh@skbuf>
@@ -48,9 +49,8 @@ References: <20231120115839.74ee5492@kernel.org>
 	<20231121094354.635ee8cd@kernel.org>
 	<20231122144453.5eb0382f@kmaincent-XPS-13-7390>
 	<20231122140850.li2mvf6tpo3f2fhh@skbuf>
-	<20231122143618.cqyb45po7bon2xzg@skbuf>
-	<20231122085459.1601141e@kernel.org>
-	<20231122165955.tujcadked5bgqjet@skbuf>
+	<20231122085000.79f2d14c@kernel.org>
+	<20231122165517.5cqqfor3zjqgyoow@skbuf>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,18 +60,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Nov 2023 18:59:55 +0200 Vladimir Oltean wrote:
-> I wouldn't be so sure. The alternative interpretation "for PTP, give me
-> timestamps from both sources" also sounds reasonable for the distant
-> future where that will be possible (with proper cmsg identification).
-> But I don't see how to distinguish the two - the filters, expressed in
-> these terms, would be the same.
+On Wed, 22 Nov 2023 18:55:17 +0200 Vladimir Oltean wrote:
+> > Well, ethtool has been the catch all for a lot of random things
+> > for the longest time. The question is whether we want to extend
+> > ETHTOOL_GET_TS_INFO or add a third API somewhere else. And if we
+> > do - do we also duplicate the functionality of ETHTOOL_GET_TS_INFO
+> > (i.e. getting capabilities)?
+> > 
+> > My vote is that keeping it in ethtool is less bad than 3rd API.  
+> 
+> With SIOCSHWTSTAMP also implemented by CAN (and presumably also by
+> wireless in the future), I do wonder whether ethtool is the right place
+> for the netlink conversion.
 
-We can add an attribute that explicitly says that the configuration
-is only requesting one stamp. But feels like jumping the gun at this
-stage, given we have no other option to express there.
+ethtool currently provides the only way we have to configure ring
+length, ring count, RSS, UDP tunnels etc.
 
-> So the ptp4l source code would have to be modified to still work with
-> the same precision as before? I'm not seeing this through.
+It's a matter of taste, IMO ethtool is a bit of a lost cause already
+and keeping things together (ethtool already has TS_INFO) is cleaner
+than spreading them around.
 
-We can do the opposite and add a socket flag which says "DMA is okay".
+> I wouldn't suggest duplicating ETHTOOL_GET_TS_INFO towards the netdev
+> netlink family.
+
+FTR so far the netdev family is all about SW configuration. We should
+probably keep it that way, so it doesn't become ginormous. It's easy
+enough to create a new family, if needed.
