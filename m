@@ -1,128 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B3056476;
-	Wed, 22 Nov 2023 09:48:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uZVDPcKF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB795C433C9;
-	Wed, 22 Nov 2023 09:48:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700646492;
-	bh=+DcIGbRVvw60QaNepPSRFBnETXstp9aOb5bVveLOaFg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=uZVDPcKFka+wlMJXjfzajobqpM6EaIscRoqp8YtTGuiZLIBclLh/18h+beyzfCCak
-	 O611N3cFEGc9ooTue7jvmAjHduLzlohXVD9CMIjCWn79H/TlnFbuXsNc8sX94PgzpD
-	 CziDJmtJS4Lxr7Q90BN45O6K7RZDp60OhWbeVYOizHCAv+pOxqIKTxJVflyNZ+J6XH
-	 /WFEwQWOydbHD+eyzieR8s/u37khmup0ORNwiLjGPrd5KdyWHwd+12K9tNSjVXsVMU
-	 h4yc9Yk3hd0sUoKwmILtXr0+4rKmOlfPSNZJELuR9deSXlQR1au1DbSTFSMH3s0Dw3
-	 UjGBYMzpNCEaQ==
-From: Mark Brown <broonie@kernel.org>
-Date: Wed, 22 Nov 2023 09:42:49 +0000
-Subject: [PATCH v7 39/39] kselftest/clone3: Enable GCS in the clone3
- selftests
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ftzhYpca";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oN/1qAT6"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4AA512C;
+	Wed, 22 Nov 2023 04:24:54 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1293B21972;
+	Wed, 22 Nov 2023 12:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700655893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EPOJ4cZW9SicxkhV98i+lHL4vEObSuLq+CmYa8fj5jE=;
+	b=ftzhYpcaSzZuXJf9LgRkYiNT16DxNGNgYxkBHGEqMHw8R/03aUMm/lZd+92cg2MQyKqrbC
+	6StNFafH1wSZJwbdfMDjqpYy4fxgpLTbXNaN2ymTO2A7pdsqTd9O2JjLc1FtygjAq/G2tg
+	LeU0SUCitqt52laAiQrDsJXtb1bpl+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700655893;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EPOJ4cZW9SicxkhV98i+lHL4vEObSuLq+CmYa8fj5jE=;
+	b=oN/1qAT61+ieP78HtisRPtJD207pkPkiIfWDl1//zWdEBM6upd2esLhyV1449vH/ZWYVHG
+	HH8vZIgA7g3h6ABg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C35A013461;
+	Wed, 22 Nov 2023 12:24:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 4NXZLhTzXWU2TAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 22 Nov 2023 12:24:52 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@gmail.com,
+	daniel@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	cai.huoqing@linux.dev
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Dave Airlie <airlied@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	stable@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 02/14] drm: Fix TODO list mentioning non-KMS drivers
+Date: Wed, 22 Nov 2023 13:09:31 +0100
+Message-ID: <20231122122449.11588-3-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <20231122122449.11588-1-tzimmermann@suse.de>
+References: <20231122122449.11588-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231122-arm64-gcs-v7-39-201c483bd775@kernel.org>
-References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
-In-Reply-To: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, 
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, 
- Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, 
- Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, 
- "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
- Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, 
- Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Cc: "H.J. Lu" <hjl.tools@gmail.com>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Florian Weimer <fweimer@redhat.com>, Christian Brauner <brauner@kernel.org>, 
- Thiago Jung Bauermann <thiago.bauermann@linaro.org>, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-mm@kvack.org, 
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2416; i=broonie@kernel.org;
- h=from:subject:message-id; bh=+DcIGbRVvw60QaNepPSRFBnETXstp9aOb5bVveLOaFg=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlXc0Uf5JbJdKOG4lKmXzlRMK5DRWagk6L/dGG+
- 23SAtCf39uJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZV3NFAAKCRAk1otyXVSH
- 0HKwB/44qmjC2meQurJ74cEJ5LyDpr1HY6Y1uWSWnrnkSyRi8ifcJAyyiipIeWWT2m2p19Mpf+V
- 5qrOSTOZdbGPeoAgIKaULvFGqHP/ksUE8h92lW7xsOkWWWvpcMBPOCkmhlsIYyaWpVOSMobVII8
- PBDQf7mV3cJuvY8YfCMIkBz3Ul6mwtxdu9vNby4YUtXDRU9U3cGAcL6XtW3KntS2xI0+aDTcs7i
- YX48MJ+hv3H+CYavScUNHVuNSx8y1Q3eta1i1xV3wGLOaAAxBPAvtoCuwkfsLCOAy6jNqbmbBPU
- 2P7pVrY78UsvDTA8mvMcJrJSnASVS4HY2NdgEMkZbCxKMCbn
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.02
+X-Spamd-Result: default: False [-2.02 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 REPLY(-4.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[12];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,linux.dev];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.72)[93.26%]
 
-In order to allow testing without full userspace support for shadow stacks
-the clone3() selftests open code enabling them at runtime, hook up arm64
-support.
+Non-KMS drivers have been removed from DRM. Update the TODO list
+accordingly.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: a276afc19eec ("drm: Remove some obsolete drm pciids(tdfx, mga, i810, savage, r128, sis, via)")
+Cc: Cai Huoqing <cai.huoqing@linux.dev>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.3+
+Cc: linux-doc@vger.kernel.org
 ---
- tools/testing/selftests/clone3/clone3.c | 37 +++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ Documentation/gpu/todo.rst | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/tools/testing/selftests/clone3/clone3.c b/tools/testing/selftests/clone3/clone3.c
-index dbe52582573c..6114a33d6ec2 100644
---- a/tools/testing/selftests/clone3/clone3.c
-+++ b/tools/testing/selftests/clone3/clone3.c
-@@ -432,6 +432,43 @@ static inline void enable_shadow_stack(void)
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index b62c7fa0c2bcc..3bdb8787960be 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -337,8 +337,8 @@ connector register/unregister fixes
  
- #endif
+ Level: Intermediate
  
-+#ifdef __aarc64__
-+#define PR_SET_SHADOW_STACK_STATUS      72
-+# define PR_SHADOW_STACK_ENABLE         (1UL << 0)
-+
-+#define my_syscall2(num, arg1, arg2)                                          \
-+({                                                                            \
-+	register long _num  __asm__ ("x8") = (num);                           \
-+	register long _arg1 __asm__ ("x0") = (long)(arg1);                    \
-+	register long _arg2 __asm__ ("x1") = (long)(arg2);                    \
-+	register long _arg3 __asm__ ("x2") = 0;                               \
-+	register long _arg4 __asm__ ("x3") = 0;                               \
-+	register long _arg5 __asm__ ("x4") = 0;                               \
-+	                                                                      \
-+	__asm__  volatile (                                                   \
-+		"svc #0\n"                                                    \
-+		: "=r"(_arg1)                                                 \
-+		: "r"(_arg1), "r"(_arg2),                                     \
-+		  "r"(_arg3), "r"(_arg4),                                     \
-+		  "r"(_arg5), "r"(_num)					      \
-+		: "memory", "cc"                                              \
-+	);                                                                    \
-+	_arg1;                                                                \
-+})
-+
-+#define ENABLE_SHADOW_STACK
-+static inline void enable_shadow_stack(void)
-+{
-+	int ret;
-+
-+	ret = my_syscall2(__NR_prctl, PR_SET_SHADOW_STACK_STATUS,
-+			  PR_SHADOW_STACK_ENABLE);
-+	if (ret == 0)
-+		shadow_stack_enabled = true;
-+}
-+
-+#endif
-+
- #ifndef ENABLE_SHADOW_STACK
- static void enable_shadow_stack(void)
- {
-
+-Remove load/unload callbacks from all non-DRIVER_LEGACY drivers
+----------------------------------------------------------------
++Remove load/unload callbacks
++----------------------------
+ 
+ The load/unload callbacks in struct &drm_driver are very much midlayers, plus
+ for historical reasons they get the ordering wrong (and we can't fix that)
+@@ -347,8 +347,7 @@ between setting up the &drm_driver structure and calling drm_dev_register().
+ - Rework drivers to no longer use the load/unload callbacks, directly coding the
+   load/unload sequence into the driver's probe function.
+ 
+-- Once all non-DRIVER_LEGACY drivers are converted, disallow the load/unload
+-  callbacks for all modern drivers.
++- Once all drivers are converted, remove the load/unload callbacks.
+ 
+ Contact: Daniel Vetter
+ 
 -- 
-2.39.2
+2.42.1
 
