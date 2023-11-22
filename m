@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="dGLAm9d5";
-	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="E7NQPPMW"
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F5041733;
-	Wed, 22 Nov 2023 08:36:20 -0800 (PST)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
-	by mx08-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AMG01mC020623;
-	Wed, 22 Nov 2023 16:35:36 GMT
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="qaO1tMMT";
+	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="bBoicqfg"
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com [185.132.180.163])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02377D7D;
+	Wed, 22 Nov 2023 08:36:34 -0800 (PST)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+	by mx07-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AM7ePpx020320;
+	Wed, 22 Nov 2023 16:35:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:content-transfer-encoding:content-type:mime-version; s=
-	dk201812; bh=0VftBz/02CZjA0gXu84nRn1v6yz3NqW6a7K70Ppl4EQ=; b=dGL
-	Am9d535MltjoSGbn+3Fo5q+DSx6708qDcMmvTHIL9gcjX6bVRRf8V/vBtMmk/Vi7
-	jiywhQCk6sBGCuDcg94HKQNqmLtZC+MjLVJV1LIVLXtHtZCv94tBXrPZBiyWM787
-	zKcJpvTP4HZbR8iFmPQkTkkYrGE7jkVnfMTPzITBAN1T3pxuj6o40xqBGcW3rSmA
-	PXlDBaTc/2wy44CuR5v2oD2KrvYHmkjlW7c3NlRmNaChkZFD5bosPoquRsF3bqUS
-	8G99jk37+hjc37HTJcMpbqir7H0zl5ioKGw0O3/S9KyieWtQ50bYgN/+khIacfKF
-	Y1Cnr0uf1GW3jrE6VzQ==
-Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
-	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3ug99gsf3d-4
+	dk201812; bh=dzCSCJ4SZFiTLw3KV/nKBlrxEKRvs5uYGqlLu1NVTMI=; b=qaO
+	1tMMT2zSqeaEW6gM7CBrOjn8j/RI8773xtOJ2yTdNVY7JTtc0CyG/7GfuZEH2Ame
+	r4NfiF1/5HrttmUf0qHkwxbj5T1h12jxU+Ze7i5s2d0ceRBOz1b1izl7Npt2OHAJ
+	ZGtqWxVm5yTj47J2Uep4k1hVyxMX6E8G38Ey51jggQHYI/o3P/7gTUo34eJ8ap+T
+	wXsy0iSrmPyFFZzGFVz3BXF6NUyzYiy/5vTHrwIejqK9Gxe7ktcVdC7eVXoR4FkB
+	hGvu3PtrYpDlz7UTS3ceueZxL0qzLYZYhu/55akOFxnwqg2OZp5h1Ur1NGQSDLFW
+	C0mx0UwwCm7JIdN/nPg==
+Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
+	by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3ug99g9m2e-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 22 Nov 2023 16:35:35 +0000 (GMT)
+	Wed, 22 Nov 2023 16:35:38 +0000 (GMT)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
+ HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 22 Nov 2023 16:35:33 +0000
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
+ 15.1.2507.34; Wed, 22 Nov 2023 16:35:36 +0000
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.104)
  by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 22 Nov 2023 16:35:33 +0000
+ 15.1.2507.34 via Frontend Transport; Wed, 22 Nov 2023 16:35:36 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V2XXqR2Wj4b4g557zUeEo/JuUdkm4gtzZ3qkRg9K/LfQBoALIshyAk4GeioAylxjnra/eY+aS6Sxq7Ld15uPq3nTwANbXORXu+KM4QJHdhp9i4PHjYMpXfZJxgzOup8ijS0R/HM9NiEwFEHGX+pDcnhuZ9v95EenfE4CsTrSoTuWxGa9vbNMjZqwGjeaui5BlKDmewjxNsUxZcFH4nwzpOPudO7rT2HLLRhejDHXB9OOtQaJ6YDfW0FxAFDU2+cXV425hzv4UX7RNKyOQeypwWAY4wgk1mwdxq7VchbemKzWOtkPy4dVQR/zg6e9lGsBr4ubkZJPW05SlchzA1ZSMA==
+ b=LtnIdhOGcRPv7gWtcS3HVf4XAR0muizK62BnFg9an2xTGCy4Ai7j5uefbl8B4Ie7UGZ7vdtVuzV/1zbLgDVQNEWuzpi1EhUQLCZHSY5fE/CrulIgh50B41o0XFKhGyjY4c5UbTx0y7PyqrnvgCQX1wh2dtqkWKhWozRhnjqnHtFF+AwDWr4+Q2Xllmh+O/S4/c3N1dKT+u1BJOd/U6PuJNCaPdbdLL/rmzhzjDKQbWmD5OT8YV0XM30YRrcAZM5Gv05SBPoKeOPN+ds3UM6fAkbb0U2OqVVHCGmkxK11En/86Vua6SoVNriBINWpNI1ly5jsRR6Ghtv+uOboO2yVzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0VftBz/02CZjA0gXu84nRn1v6yz3NqW6a7K70Ppl4EQ=;
- b=R7ifmWa0d9IMyHMUOefiy/ui/+guVFQ7cEuIyiI9Gqf0nXQYVRelOBBgYd+knCCYpedShcC87uULvN+Cr7SYhsT00vwBb+L9TJ70FOGhQ3DGZ7btT231dodFjqUDz/p/SAqTnItxFw2UHtFGZDekU4l0rtT+y3HCn9YhhwkatrpXspkDl9MUpUUsWuhcltGJD3NS36s6d42kTZWJ6RkiBy0m/Hfx6AO5bmSEAOZyvcWw6U/yalhTUBX7HARSrK9vOsqfW39RJ0hvj6QDU1VIS6WEWdouh1sz6ZuL5YZ+11nzlBB0tRQboH+FF0R9oQX5GJxi6pe6WMT4JVrPlNXrjg==
+ bh=dzCSCJ4SZFiTLw3KV/nKBlrxEKRvs5uYGqlLu1NVTMI=;
+ b=RBycw7RNWLwilwFkUjfFDkdF+J2vturUiVaDtCok6SYctgPCLJG3ddR+hZ8CItU0iv8DMFD9l9+A7unbmtgqlXusa4kgWCBnIdFxwRW68ZUo07lJorBVPdNm1DbSO/7SC4sXAP+KRDjyWojpQkMj09OdKGS2qRXepwpOCPqG1HPF7PAIv3jgrXaWkWVR/mjsmF7d/mlDB2RfZPkjx3vKjdB6UxgTUzSV/CIcGHxutNQ6b2hj0O5oJs+oagqGIMx3EKWi/af+XenfPYvt5UHChcY+x4HcQlP1K93q+nIgNQrMXsV3J0QY1+JRUtykuUmY/4S1MyGtt2Z56pfIZv1PCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0VftBz/02CZjA0gXu84nRn1v6yz3NqW6a7K70Ppl4EQ=;
- b=E7NQPPMWci9MI70D3AK6A3BE1/uWDvt7obwRWvpHnJ3MnZKPKpnxcmGs8+AxJIKPYjOocPutx9NdJb5EqRWev1732kpCl0Eial3zkY5aCdzln1p9G+aWV/5cQR9iGiNqnD9BW1U3PX5Aj/TRwQO8Sz3vNQGNdmo/wxIKGnF81iY=
+ bh=dzCSCJ4SZFiTLw3KV/nKBlrxEKRvs5uYGqlLu1NVTMI=;
+ b=bBoicqfgEWsRngRAsN1tJkV0YoWgoap4LA0TppAzOHLW4IeLyqiwKRlShTTB7M6nR26m/HE2rG9cR337p6PgHujG7EfZrf+NU2JUwDlWkpBUGBtp3JgNaitqbEXms3botRGweC2ehTilsAP1/aK2cBDAQ9NVA2MNwDFy5pPyuDk=
 Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a0::8)
- by CWLP265MB6864.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1fe::14) with
+ by LO6P265MB6459.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2df::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19; Wed, 22 Nov
- 2023 16:35:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
+ 2023 16:35:13 +0000
 Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
  ([fe80::a85a:76f7:c085:2b34]) by CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
  ([fe80::a85a:76f7:c085:2b34%3]) with mapi id 15.20.7025.017; Wed, 22 Nov 2023
- 16:35:27 +0000
+ 16:35:13 +0000
 From: Donald Robson <donald.robson@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
 CC: <frank.binns@imgtec.com>, <matt.coster@imgtec.com>,
@@ -66,9 +66,9 @@ CC: <frank.binns@imgtec.com>, <matt.coster@imgtec.com>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
         <devicetree@vger.kernel.org>, <corbet@lwn.net>,
         <linux-doc@vger.kernel.org>, Sarah Walker <sarah.walker@imgtec.com>
-Subject: [PATCH v9 17/20] drm/imagination: Implement job submission and scheduling
-Date: Wed, 22 Nov 2023 16:34:38 +0000
-Message-Id: <c98dab7a5f5fb891fbed7e4990d19b5d13964365.1700668843.git.donald.robson@imgtec.com>
+Subject: [PATCH v9 07/20] drm/imagination: Add GPU register headers
+Date: Wed, 22 Nov 2023 16:34:28 +0000
+Message-Id: <9f1fbf6c18e9644ac10712e05893701f06aee6ae.1700668843.git.donald.robson@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1700668843.git.donald.robson@imgtec.com>
 References: <cover.1700668843.git.donald.robson@imgtec.com>
@@ -84,3891 +84,6626 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB5770:EE_|CWLP265MB6864:EE_
-X-MS-Office365-Filtering-Correlation-Id: d01752ab-6639-4dc6-2e8e-08dbeb790890
+X-MS-TrafficTypeDiagnostic: CWLP265MB5770:EE_|LO6P265MB6459:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44a00acc-ae59-4e41-b2c4-08dbeb79003c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ktsbki0cakaG5D4qND6vpiqloob2SiugJ0CWmxEsW4NP/8mqB/rFS5W2LWuNrDMaeEGR9KrlQx4KGg/a82ZulR4nC1NebXOf+Yu1TboA0AzKw+VFMaOCznm1u0F7uCLTh/7NxT22LXbwB/JWft1nCmlDZ2SR3jj3qvzgD3qOBg16E73x8ZfByCp/v1c6urVFReVlfLxdqpV0tGLrG99W7oC4RoD3So1HAe+LN7hQ/v7UOd4nqyEajiWNTKlJsNxg/GE+xGouVWk01p1tIWC1XhBUYMKFyDItt59LLJ46wqnE/ouXuf+dIzmkcvcXagVyHoL/vkzHeuy55uC7L/MLZILX7Rr4d6yirlwFhtz0JiCibg7K6A3GBEHFYoNqbx7ifFD0Ihyq5xZi/b4D4Wz4+jT2LjVacxr36+z9LUdAtxgp6Vw9ZYqh5kzkz+jpeVx4gAqlR/3E8HQXpbo20Qr4cRT3rkUXt+HsXwN4yrH2yHpmdjSUXZ/Pkf4O2zC1b71XR4kIr2/ZJkebqsyxu5Je7zdF7czf7ed49oY1dHCTg9nQu2QAnHDuggHFr+k4YHSqd7zSRB3FfiwnSfibr1jFahxhn+NKeYf7Sovp7N327mg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(376002)(346002)(39850400004)(396003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(52116002)(5660300002)(38350700005)(6666004)(6506007)(6512007)(2616005)(8936002)(8676002)(4326008)(83380400001)(2906002)(7416002)(478600001)(30864003)(66476007)(6916009)(66556008)(107886003)(316002)(26005)(66946007)(6486002)(966005)(44832011)(38100700002)(41300700001)(36756003)(86362001)(559001)(579004);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: ENng27cDBljwO+5VEwNyn9PRPVFQUdZujm5gh8YDv0TiisYsbxjEBvr8wd7kCsA1ARZ1tvhbL7gGr4Ns/ayjVo42H4ZbYbxI8pAMl7Hua1+PSceEKls2d7bzVesAyY159DbH6iWVufHkzBRMctvbfOAGGutRrB7i9W2P0w7kMniYv4OWnXZ38aoCoHpoVIZ0MReoZefSy26Mv7hWABhD0/uS00KPFEOy4gX7A1eFs8VEZ4wQqTAGxQOCulIUaU2MKUo8PBIa9HCjGGK49pOkvawzUBszqiNoovGnJLANobRjBRt6nWLzw/vsdUzeoHILClA1BhC5wHi6bi3BQZuyD6f/zg+dOcBdtuchLCHAydVI8q3Hm9nM2mo1OlE1t9eMh0iTCjFwkGqXtJawMXEwTbTAZZ+i5stXvryJuMyXNrVgcdp4syieZw6qoF2wCtA+WsX2cyh1JLQ4ZFshZRoXGuZvxx+/znbUZqgYib9ZHMQVi0nNnbE0E7gjYA6mSsa74RHprVW6cfpC/JVMcK1t8qZZD4FJ+THuIW95ZLAGtqqOPJMqCbvaXSFvC5U6WlQ3P5qWCVDlJ8dE30SIskFYqOgrDxBXZWdRU2N6zzQ/T9fXb/Z3NmusMlxdlUryp/hl
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(346002)(396003)(366004)(136003)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(30864003)(36756003)(7416002)(41300700001)(5660300002)(2906002)(86362001)(38350700005)(26005)(6666004)(478600001)(6506007)(2616005)(6486002)(107886003)(6512007)(52116002)(8936002)(8676002)(4326008)(44832011)(66946007)(316002)(6916009)(66556008)(66476007)(83380400001)(38100700002)(559001)(579004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+uYIHVZTgW7vgE3pO/Ooyo1KuGEY2G1BhwCen5FTz/LaaTaGIGA6B8M/1blW?=
- =?us-ascii?Q?TF+k+xabqEPJyFJcN/keS/NTFqzueXKSWz/0R6Z6eO96UoLIe369lNso7z6e?=
- =?us-ascii?Q?h+UUEx/E2YmCl6ZWbroVQVyqdJRoHwlR36Hy13d+AJdv2mMCiPZO6O7IuK7P?=
- =?us-ascii?Q?n86u91zN9DO//0kKJMv7iEdOIPtapqTH/Tj2UUjaoNfVwsZcgypExj3sVOq6?=
- =?us-ascii?Q?Zmfu8Uk1QuyQBJqjSC6slpxHAUVqFm8eH08SPyzHSyRMmrIwIq+XYS7IucGD?=
- =?us-ascii?Q?nOs+jXTNPB0u0X8ft0yli7cHFHGyR855MnHVNjYZPGS6vkEZ0ktADT22PYO0?=
- =?us-ascii?Q?ZKRtRb9Pk+yIPbpHzaj1U/hfX2oWQ3ccbbx19mKYuAt5lGcWybz7+3Wg1Bfk?=
- =?us-ascii?Q?TmHLOfbR7VJtoVZG09t4TqOdFIxHtSFia8vW+q23zHYSJyc+jIgpFYat4Mpb?=
- =?us-ascii?Q?Fqr5tXf13u1zDtMpsv8US2VzXFA9k3RkTL30ibveNkv5Wb5YxMf/BdifSY9+?=
- =?us-ascii?Q?7g7NqsWDhOi/KFELU3eOk4WMeHpCZvS3gLB3gs7nBbytXXHaqGPwv0hBRI+/?=
- =?us-ascii?Q?uUB/hTPzF0Gi5mPFHOlBFUspRi2RVfV2J72s41fteIvsE7jpZ9vma5VUyhWx?=
- =?us-ascii?Q?mAh2frOF9nFmcS6qpt+MMTtpIysEkYImVjFmmWDXWfqmsIShG4fsg2AiStW/?=
- =?us-ascii?Q?psJDTEa6Sk59NXlkMLzT7bIXOWLuwuse83/1KLILQERFNijJ6ENll8c07jcN?=
- =?us-ascii?Q?3l2lN5476vFI8N+jbC8+DffEphSfjanfJykLpdZ49678emYxE2lJS9xyeSIi?=
- =?us-ascii?Q?wtZ5jtBelWYDHR6cMlRdwYbktdJWJyKX85B0dmxmqN4CxRwTanWGSiPcGvYb?=
- =?us-ascii?Q?/cyYyP8YYOZIQmPyVfvGKWtDWQhReKJ3Ebtg4XyG1U2JUl0rUKORMWIzTd1W?=
- =?us-ascii?Q?GpLXF+WfhN1UbhO8bFhqN1H1q+fGaexuru4nrcYSh41t+beg5xXtEb9If5zf?=
- =?us-ascii?Q?YPcekoLzxnW396K2UeuDFW5ZrNsDSo3xqXqqnq2UjRHwS+SvoYwpGCledqqr?=
- =?us-ascii?Q?oTEUHIte+d6RbMTxKhS/9CQY5UlUNEs6aTewik+Vd4Utb2NwYeGNwE+zsUZx?=
- =?us-ascii?Q?ctDUyczx5BaF3Vh9+6I0RsIBdQm3EM2B2OnKl9XeEZSdPYsYHCx7bFJUn4GO?=
- =?us-ascii?Q?MPRRKgaqtau0drC0iPtiwd4Scv9RCs5CoFnR7nPeOKyXNRfHuqO3I8iD2hlR?=
- =?us-ascii?Q?XhNu9caaQt/xuIigJ3wp9LufWMR24CYKTy7mixtmTMSCYnRTXoSTF3cCoUQF?=
- =?us-ascii?Q?DBoOZE6Q9Ew1Kl+PJzJVNA2Uo5+jjeThU1I7K6c1MV17PKEfmikgXES1z4Om?=
- =?us-ascii?Q?sYdykS9vXT4584yfMkMb2FmqDfpvW5TwyZSfabE+MbTcksjRuIGmvJ0uuKZI?=
- =?us-ascii?Q?hV26lFAoLeEQgxlPAUzcSHsBzoSsAbfR8/WlUpnSbEaIkeMHOv1aLjPLWMqt?=
- =?us-ascii?Q?Ocs4/Z4MyoKFRXsfa8uQS7tFBZzg39M9GWziGxuKKymjQ4R5y2riLsGk32vh?=
- =?us-ascii?Q?cuRJqqk1nXkl60wLSWPY0x47E/XkWTSu8MADb3kXDtdlRFxFeuzcoKO6Xix4?=
- =?us-ascii?Q?Hw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d01752ab-6639-4dc6-2e8e-08dbeb790890
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Mkh1hnfL+vwDTPPNDG0OJZSxvm06s/n4RIjhUduSKxgsPFD4hfuCYoE3PIIT?=
+ =?us-ascii?Q?AOOliLBS/8WiqjX1/OYa+tCJAsBlZDs0BAziK8Qp3FmQYHz8ZXN0X41MMj2b?=
+ =?us-ascii?Q?N8tPx4+cWgjzN1cpl41D87nQxnALiBxm4R6hIAeW4XH1+5RL85ygtkBHHIq5?=
+ =?us-ascii?Q?RI3OkCUj1eCZzX7R4hpHssftUZ2FIndXArPq2BtXOezKti0CHAKhG71prayy?=
+ =?us-ascii?Q?tGPD2z2qDGdWF86FV9zJmr0h5SXMPnSwQkIQjiTpONxPn4gvBWPXWTTXOwiI?=
+ =?us-ascii?Q?xzNLjYRQYyOAL63Ol/NC43XFXbumIcOVloaL4eA5MjQ+2EfV7AzjmC8u1WLR?=
+ =?us-ascii?Q?NRG+FF8I70xhKT7lTnsjxDih15l0weyDPChuk9t+GDPJZ9aHzSDB10FC17RG?=
+ =?us-ascii?Q?P/lFD5R9TrH7AplBvDXxfDPsEBiAgLkcc4wTVA0pHw9U7ikSs3xAkdNh+DFy?=
+ =?us-ascii?Q?VUe+kKd3gEPvYxPKAPPaEWyEnRQ75amJu0Ogd6JegmN9nn6PjvTB5LySpulP?=
+ =?us-ascii?Q?kLBDCxXAu1lapdmBbjhTu6c33dERUDnMcGc8zFEs1FBYNZxA5oLPcs/MO9Ho?=
+ =?us-ascii?Q?cf4l+6M3FL4F9bNwoaHr+3LEjEouymg9mFXdmHvHkeDPdbV0Z2O9iIzQDlBF?=
+ =?us-ascii?Q?SY7GVm6SUCYwbPkijphzhhQGBrr/KmMrFitfi2GGsksv7Wa1JPtKGMUASP12?=
+ =?us-ascii?Q?vxkE4lEgMPmGKD6At7lKaG28JliyHAvupKrOTEc+GcsOPtH04bPjxSyNbnGO?=
+ =?us-ascii?Q?CvbW3eojRkg9pgkT66eXhw3ctBw0YBXeb9V9Q6HU/Js8A5QJKYpKBrF+ch2W?=
+ =?us-ascii?Q?30ABkBIyvFT+gZ0c8UPB7ugSOkBnaNZ4QOl9nC946c1Xo8hB9xhULVQZ3Zt8?=
+ =?us-ascii?Q?Mn3AatN4wH4NSxSvs6A/tgJJOOvqvHsxNFFvrdF2MEpzrXsXF9mlsP1ku+AB?=
+ =?us-ascii?Q?gSDRD23HRbhTcmE3+qZgK5ckUiaxJqfkStNi39E28FuoZPQ3nm08pO2gYC2Q?=
+ =?us-ascii?Q?/NNdzzW9tyR8T1DGbJWzVOmmuVxmlt4dbZhg+hjZurDmh2bjVk5nsshGdW3r?=
+ =?us-ascii?Q?GUUC9I4IICxPmD31Vm2o7qhMY64J2fsUdyigAW/k47gpMQ3xj7TXOzTaHpDh?=
+ =?us-ascii?Q?bvThYw7CfEmBcF/bULKOwh/Rvj35CyvDPNLw+30acSvrVR5esxsZI2SNhHe2?=
+ =?us-ascii?Q?9StM+XwigyXnWdDPdtlDHoiQMMfAFWeF2NFj9S2Bc7EkFIV+6mMyimHFrQVc?=
+ =?us-ascii?Q?i0VxX3j62RW4+xIbPobJ16XEsbhPprqvoIjwgVWuWtwLWOKWCs68ZrV7C7gh?=
+ =?us-ascii?Q?ebSsAGQC4kqQRQdRqZAcEcoFwNz/gy//E/oWMpWvkjEfQtLFm/x51CrNcHTO?=
+ =?us-ascii?Q?hbvFKucfMec7ozBTeHmPy2x7BhNCKnEH8afwTs3xUBVobh++AuVrFVpMmiKr?=
+ =?us-ascii?Q?F72xU6rN/d+DSHV5Wl8NqkpPr+gD3bcJMEAP1J8o7t3WTntr8fadpZAnW4y9?=
+ =?us-ascii?Q?ZBaJLFCGlpV1/a2HN6SziluR6aMo2v7S7asF0OiB/q8oHmq7p28tXOiGmfEy?=
+ =?us-ascii?Q?HDFwF2DgFpg/rkMzyTi/lAS/BYFe3ZRHTyIFkVh2cpSIE6nYgWeG3XfkPLyG?=
+ =?us-ascii?Q?kQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44a00acc-ae59-4e41-b2c4-08dbeb79003c
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 16:35:27.1801
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 16:35:13.2762
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PyLAxA6yMzBoFC613dTUSN4lWHgNRp2icA60z4o8DcZ+oAzncavW/CCP8iGvmMy2zTx464BM58Xo8tY1urq3LXAwAHgGjR7sJNmYi4OaO50=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6864
+X-MS-Exchange-CrossTenant-UserPrincipalName: N3CnmJI6j3zcyxhRN1LoiPPwLfzgOcv4J4YR5r1++LGK9ei8vgxys+2Bc8BwgCG3xvE3H3pL7Uwa1G6fmgEoSQ7y+NJ7vpJl9Nld35gye8g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6459
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: o2arVab-XtYKkCIph77TPo7XRd9koXS8
-X-Proofpoint-ORIG-GUID: o2arVab-XtYKkCIph77TPo7XRd9koXS8
+X-Proofpoint-ORIG-GUID: kZgH6M4DdkHNw6jDbSs0Jfq47cAopBLl
+X-Proofpoint-GUID: kZgH6M4DdkHNw6jDbSs0Jfq47cAopBLl
 
 From: Sarah Walker <sarah.walker@imgtec.com>
 
-Implement job submission ioctl. Job scheduling is implemented using
-drm_sched.
-
-Jobs are submitted in a stream format. This is intended to allow the UAPI
-data format to be independent of the actual FWIF structures in use, which
-vary depending on the GPU in use.
-
-The stream formats are documented at:
-https://gitlab.freedesktop.org/mesa/mesa/-/blob/f8d2b42ae65c2f16f36a43e0ae39d288431e4263/src/imagination/csbgen/rogue_kmd_stream.xml
-
 Changes since v8:
-- Updated for upstreamed DRM scheduler changes
-- Removed workaround code for the pending_list previously being updated
-  after run_job() returned
-- Fixed null deref in pvr_queue_cleanup_fw_context() for bad stream ptr
-  given to create_context ioctl
 - Corrected license identifiers
 
-Changes since v7:
-- Updated for v8 "DRM scheduler changes for XE" patchset
-
-Changes since v6:
-- Fix fence handling in pvr_sync_signal_array_add()
-- Add handling for SUBMIT_JOB_FRAG_CMD_DISABLE_PIXELMERGE flag
-- Fix missing dma_resv locking in job submit path
-
 Changes since v5:
-- Fix leak in job creation error path
+- Split up header commit due to size
 
-Changes since v4:
-- Use a regular workqueue for job scheduling
-
-Changes since v3:
-- Support partial render jobs
-- Add job timeout handler
-- Split sync handling out of job code
-- Use drm_dev_{enter,exit}
-
-Changes since v2:
-- Use drm_sched for job scheduling
-
-Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Co-developed-by: Donald Robson <donald.robson@imgtec.com>
-Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/imagination/Kconfig           |    1 +
- drivers/gpu/drm/imagination/Makefile          |    3 +
- drivers/gpu/drm/imagination/pvr_context.c     |  125 +-
- drivers/gpu/drm/imagination/pvr_context.h     |   44 +
- drivers/gpu/drm/imagination/pvr_device.c      |   31 +
- drivers/gpu/drm/imagination/pvr_device.h      |   21 +
- drivers/gpu/drm/imagination/pvr_drv.c         |   40 +-
- drivers/gpu/drm/imagination/pvr_job.c         |  788 +++++++++
- drivers/gpu/drm/imagination/pvr_job.h         |  161 ++
- drivers/gpu/drm/imagination/pvr_power.c       |   28 +
- drivers/gpu/drm/imagination/pvr_queue.c       | 1432 +++++++++++++++++
- drivers/gpu/drm/imagination/pvr_queue.h       |  169 ++
- drivers/gpu/drm/imagination/pvr_stream_defs.c |  226 +++
- drivers/gpu/drm/imagination/pvr_sync.c        |  289 ++++
- drivers/gpu/drm/imagination/pvr_sync.h        |   84 +
- 15 files changed, 3438 insertions(+), 4 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_job.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_job.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_queue.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_queue.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_sync.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_sync.h
+ .../gpu/drm/imagination/pvr_rogue_cr_defs.h   | 6193 +++++++++++++++++
+ .../imagination/pvr_rogue_cr_defs_client.h    |  159 +
+ drivers/gpu/drm/imagination/pvr_rogue_defs.h  |  179 +
+ 3 files changed, 6531 insertions(+)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_cr_defs.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_cr_defs_client.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_defs.h
 
-diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
-index 0abd1b9bf3be..3bfa2ac212dc 100644
---- a/drivers/gpu/drm/imagination/Kconfig
-+++ b/drivers/gpu/drm/imagination/Kconfig
-@@ -6,6 +6,7 @@ config DRM_POWERVR
- 	depends on ARM64
- 	depends on DRM
- 	depends on PM
-+	select DRM_EXEC
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_SCHED
- 	select DRM_GPUVM
-diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 7f7bea8c60c4..7e3515c99caa 100644
---- a/drivers/gpu/drm/imagination/Makefile
-+++ b/drivers/gpu/drm/imagination/Makefile
-@@ -18,10 +18,13 @@ powervr-y := \
- 	pvr_fw_trace.o \
- 	pvr_gem.o \
- 	pvr_hwrt.o \
-+	pvr_job.o \
- 	pvr_mmu.o \
- 	pvr_power.o \
-+	pvr_queue.o \
- 	pvr_stream.o \
- 	pvr_stream_defs.o \
-+	pvr_sync.o \
- 	pvr_vm.o \
- 	pvr_vm_mips.o
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/imagination/pvr_context.c
-index 6cec5aa5a759..eded5e955cc0 100644
---- a/drivers/gpu/drm/imagination/pvr_context.c
-+++ b/drivers/gpu/drm/imagination/pvr_context.c
-@@ -6,10 +6,12 @@
- #include "pvr_device.h"
- #include "pvr_drv.h"
- #include "pvr_gem.h"
-+#include "pvr_job.h"
- #include "pvr_power.h"
- #include "pvr_rogue_fwif.h"
- #include "pvr_rogue_fwif_common.h"
- #include "pvr_rogue_fwif_resetframework.h"
-+#include "pvr_stream.h"
- #include "pvr_stream_defs.h"
- #include "pvr_vm.h"
- 
-@@ -164,6 +166,116 @@ ctx_fw_data_init(void *cpu_ptr, void *priv)
- 	memcpy(cpu_ptr, ctx->data, ctx->data_size);
- }
- 
-+/**
-+ * pvr_context_destroy_queues() - Destroy all queues attached to a context.
-+ * @ctx: Context to destroy queues on.
-+ *
-+ * Should be called when the last reference to a context object is dropped.
-+ * It releases all resources attached to the queues bound to this context.
-+ */
-+static void pvr_context_destroy_queues(struct pvr_context *ctx)
-+{
-+	switch (ctx->type) {
-+	case DRM_PVR_CTX_TYPE_RENDER:
-+		pvr_queue_destroy(ctx->queues.fragment);
-+		pvr_queue_destroy(ctx->queues.geometry);
-+		break;
-+	case DRM_PVR_CTX_TYPE_COMPUTE:
-+		pvr_queue_destroy(ctx->queues.compute);
-+		break;
-+	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
-+		pvr_queue_destroy(ctx->queues.transfer);
-+		break;
-+	}
-+}
-+
-+/**
-+ * pvr_context_create_queues() - Create all queues attached to a context.
-+ * @ctx: Context to create queues on.
-+ * @args: Context creation arguments passed by userspace.
-+ * @fw_ctx_map: CPU mapping of the FW context object.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * A negative error code otherwise.
-+ */
-+static int pvr_context_create_queues(struct pvr_context *ctx,
-+				     struct drm_pvr_ioctl_create_context_args *args,
-+				     void *fw_ctx_map)
-+{
-+	int err;
-+
-+	switch (ctx->type) {
-+	case DRM_PVR_CTX_TYPE_RENDER:
-+		ctx->queues.geometry = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_GEOMETRY,
-+							args, fw_ctx_map);
-+		if (IS_ERR(ctx->queues.geometry)) {
-+			err = PTR_ERR(ctx->queues.geometry);
-+			ctx->queues.geometry = NULL;
-+			goto err_destroy_queues;
-+		}
-+
-+		ctx->queues.fragment = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_FRAGMENT,
-+							args, fw_ctx_map);
-+		if (IS_ERR(ctx->queues.fragment)) {
-+			err = PTR_ERR(ctx->queues.fragment);
-+			ctx->queues.fragment = NULL;
-+			goto err_destroy_queues;
-+		}
-+		return 0;
-+
-+	case DRM_PVR_CTX_TYPE_COMPUTE:
-+		ctx->queues.compute = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_COMPUTE,
-+						       args, fw_ctx_map);
-+		if (IS_ERR(ctx->queues.compute)) {
-+			err = PTR_ERR(ctx->queues.compute);
-+			ctx->queues.compute = NULL;
-+			goto err_destroy_queues;
-+		}
-+		return 0;
-+
-+	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
-+		ctx->queues.transfer = pvr_queue_create(ctx, DRM_PVR_JOB_TYPE_TRANSFER_FRAG,
-+							args, fw_ctx_map);
-+		if (IS_ERR(ctx->queues.transfer)) {
-+			err = PTR_ERR(ctx->queues.transfer);
-+			ctx->queues.transfer = NULL;
-+			goto err_destroy_queues;
-+		}
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+
-+err_destroy_queues:
-+	pvr_context_destroy_queues(ctx);
-+	return err;
-+}
-+
-+/**
-+ * pvr_context_kill_queues() - Kill queues attached to context.
-+ * @ctx: Context to kill queues on.
-+ *
-+ * Killing the queues implies making them unusable for future jobs, while still
-+ * letting the currently submitted jobs a chance to finish. Queue resources will
-+ * stay around until pvr_context_destroy_queues() is called.
-+ */
-+static void pvr_context_kill_queues(struct pvr_context *ctx)
-+{
-+	switch (ctx->type) {
-+	case DRM_PVR_CTX_TYPE_RENDER:
-+		pvr_queue_kill(ctx->queues.fragment);
-+		pvr_queue_kill(ctx->queues.geometry);
-+		break;
-+	case DRM_PVR_CTX_TYPE_COMPUTE:
-+		pvr_queue_kill(ctx->queues.compute);
-+		break;
-+	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
-+		pvr_queue_kill(ctx->queues.transfer);
-+		break;
-+	}
-+}
-+
- /**
-  * pvr_context_create() - Create a context.
-  * @pvr_file: File to attach the created context to.
-@@ -214,10 +326,14 @@ int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_co
- 		goto err_put_vm;
- 	}
- 
--	err = init_fw_objs(ctx, args, ctx->data);
-+	err = pvr_context_create_queues(ctx, args, ctx->data);
- 	if (err)
- 		goto err_free_ctx_data;
- 
-+	err = init_fw_objs(ctx, args, ctx->data);
-+	if (err)
-+		goto err_destroy_queues;
-+
- 	err = pvr_fw_object_create(pvr_dev, ctx_size, PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
- 				   ctx_fw_data_init, ctx, &ctx->fw_obj);
- 	if (err)
-@@ -243,6 +359,9 @@ int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_co
- err_destroy_fw_obj:
- 	pvr_fw_object_destroy(ctx->fw_obj);
- 
-+err_destroy_queues:
-+	pvr_context_destroy_queues(ctx);
-+
- err_free_ctx_data:
- 	kfree(ctx->data);
- 
-@@ -262,6 +381,7 @@ pvr_context_release(struct kref *ref_count)
- 	struct pvr_device *pvr_dev = ctx->pvr_dev;
- 
- 	xa_erase(&pvr_dev->ctx_ids, ctx->ctx_id);
-+	pvr_context_destroy_queues(ctx);
- 	pvr_fw_object_destroy(ctx->fw_obj);
- 	kfree(ctx->data);
- 	pvr_vm_context_put(ctx->vm_ctx);
-@@ -299,6 +419,9 @@ pvr_context_destroy(struct pvr_file *pvr_file, u32 handle)
- 	if (!ctx)
- 		return -EINVAL;
- 
-+	/* Make sure nothing can be queued to the queues after that point. */
-+	pvr_context_kill_queues(ctx);
-+
- 	/* Release the reference held by the handle set. */
- 	pvr_context_put(ctx);
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_context.h b/drivers/gpu/drm/imagination/pvr_context.h
-index 502dfad113e4..0c7b97dfa6ba 100644
---- a/drivers/gpu/drm/imagination/pvr_context.h
-+++ b/drivers/gpu/drm/imagination/pvr_context.h
-@@ -15,6 +15,7 @@
- 
- #include "pvr_cccb.h"
- #include "pvr_device.h"
-+#include "pvr_queue.h"
- 
- /* Forward declaration from pvr_gem.h. */
- struct pvr_fw_object;
-@@ -58,8 +59,51 @@ struct pvr_context {
- 
- 	/** @ctx_id: FW context ID. */
- 	u32 ctx_id;
-+
-+	/**
-+	 * @faulty: Set to 1 when the context queues had unfinished job when
-+	 * a GPU reset happened.
-+	 *
-+	 * In that case, the context is in an inconsistent state and can't be
-+	 * used anymore.
-+	 */
-+	atomic_t faulty;
-+
-+	/** @queues: Union containing all kind of queues. */
-+	union {
-+		struct {
-+			/** @geometry: Geometry queue. */
-+			struct pvr_queue *geometry;
-+
-+			/** @fragment: Fragment queue. */
-+			struct pvr_queue *fragment;
-+		};
-+
-+		/** @compute: Compute queue. */
-+		struct pvr_queue *compute;
-+
-+		/** @compute: Transfer queue. */
-+		struct pvr_queue *transfer;
-+	} queues;
- };
- 
-+static __always_inline struct pvr_queue *
-+pvr_context_get_queue_for_job(struct pvr_context *ctx, enum drm_pvr_job_type type)
-+{
-+	switch (type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return ctx->type == DRM_PVR_CTX_TYPE_RENDER ? ctx->queues.geometry : NULL;
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return ctx->type == DRM_PVR_CTX_TYPE_RENDER ? ctx->queues.fragment : NULL;
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return ctx->type == DRM_PVR_CTX_TYPE_COMPUTE ? ctx->queues.compute : NULL;
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return ctx->type == DRM_PVR_CTX_TYPE_TRANSFER_FRAG ? ctx->queues.transfer : NULL;
-+	}
-+
-+	return NULL;
-+}
-+
- /**
-  * pvr_context_get() - Take additional reference on context.
-  * @ctx: Context pointer.
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-index 2d6db4715f85..199f812d1ee7 100644
---- a/drivers/gpu/drm/imagination/pvr_device.c
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -6,7 +6,9 @@
- 
- #include "pvr_fw.h"
- #include "pvr_power.h"
-+#include "pvr_queue.h"
- #include "pvr_rogue_cr_defs.h"
-+#include "pvr_stream.h"
- #include "pvr_vm.h"
- 
- #include <drm/drm_print.h>
-@@ -117,6 +119,32 @@ static int pvr_device_clk_init(struct pvr_device *pvr_dev)
- 	return 0;
- }
- 
-+/**
-+ * pvr_device_process_active_queues() - Process all queue related events.
-+ * @pvr_dev: PowerVR device to check
-+ *
-+ * This is called any time we receive a FW event. It iterates over all
-+ * active queues and calls pvr_queue_process() on them.
-+ */
-+void pvr_device_process_active_queues(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_queue *queue, *tmp_queue;
-+	LIST_HEAD(active_queues);
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+
-+	/* Move all active queues to a temporary list. Queues that remain
-+	 * active after we're done processing them are re-inserted to
-+	 * the queues.active list by pvr_queue_process().
-+	 */
-+	list_splice_init(&pvr_dev->queues.active, &active_queues);
-+
-+	list_for_each_entry_safe(queue, tmp_queue, &active_queues, node)
-+		pvr_queue_process(queue);
-+
-+	mutex_unlock(&pvr_dev->queues.lock);
-+}
-+
- static irqreturn_t pvr_device_irq_thread_handler(int irq, void *data)
- {
- 	struct pvr_device *pvr_dev = data;
-@@ -132,6 +160,7 @@ static irqreturn_t pvr_device_irq_thread_handler(int irq, void *data)
- 		if (pvr_dev->fw_dev.booted) {
- 			pvr_fwccb_process(pvr_dev);
- 			pvr_kccb_wake_up_waiters(pvr_dev);
-+			pvr_device_process_active_queues(pvr_dev);
- 		}
- 
- 		pm_runtime_mark_last_busy(from_pvr_device(pvr_dev)->dev);
-@@ -398,6 +427,8 @@ pvr_device_gpu_init(struct pvr_device *pvr_dev)
- 	else
- 		return -EINVAL;
- 
-+	pvr_stream_create_musthave_masks(pvr_dev);
-+
- 	err = pvr_set_dma_info(pvr_dev);
- 	if (err)
- 		return err;
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 299f3e022c82..b6e9a7e8072e 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -173,6 +173,26 @@ struct pvr_device {
- 	 */
- 	struct xarray free_list_ids;
- 
-+	/**
-+	 * @job_ids: Array of jobs belonging to this device. Array members
-+	 *           are of type "struct pvr_job *".
-+	 */
-+	struct xarray job_ids;
-+
-+	/**
-+	 * @queues: Queue-related fields.
-+	 */
-+	struct {
-+		/** @active: Active queue list. */
-+		struct list_head active;
-+
-+		/** @idle: Idle queue list. */
-+		struct list_head idle;
-+
-+		/** @lock: Lock protecting access to the active/idle lists. */
-+		struct mutex lock;
-+	} queues;
-+
- 	struct {
- 		/** @work: Work item for watchdog callback. */
- 		struct delayed_work work;
-@@ -442,6 +462,7 @@ packed_bvnc_to_pvr_gpu_id(u64 bvnc, struct pvr_gpu_id *gpu_id)
- 
- int pvr_device_init(struct pvr_device *pvr_dev);
- void pvr_device_fini(struct pvr_device *pvr_dev);
-+void pvr_device_reset(struct pvr_device *pvr_dev);
- 
- bool
- pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk);
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index e76363f7dbf7..a6f1d52aaebb 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -7,6 +7,7 @@
- #include "pvr_free_list.h"
- #include "pvr_gem.h"
- #include "pvr_hwrt.h"
-+#include "pvr_job.h"
- #include "pvr_mmu.h"
- #include "pvr_power.h"
- #include "pvr_rogue_defs.h"
-@@ -32,6 +33,8 @@
- #include <linux/of_device.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/xarray.h>
- 
- /**
-  * DOC: PowerVR (Series 6 and later) and IMG Graphics Driver
-@@ -397,7 +400,8 @@ pvr_dev_query_runtime_info_get(struct pvr_device *pvr_dev,
- 		return 0;
- 	}
- 
--	runtime_info.free_list_min_pages = 0; /* FIXME */
-+	runtime_info.free_list_min_pages =
-+		pvr_get_free_list_min_pages(pvr_dev);
- 	runtime_info.free_list_max_pages =
- 		ROGUE_PM_MAX_FREELIST_SIZE / ROGUE_PM_PAGE_SIZE;
- 	runtime_info.common_store_alloc_region_size =
-@@ -1137,7 +1141,20 @@ static int
- pvr_ioctl_submit_jobs(struct drm_device *drm_dev, void *raw_args,
- 		      struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_submit_jobs_args *args = raw_args;
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	int idx;
-+	int err;
-+
-+	if (!drm_dev_enter(drm_dev, &idx))
-+		return -EIO;
-+
-+	err = pvr_submit_jobs(pvr_dev, pvr_file, args);
-+
-+	drm_dev_exit(idx);
-+
-+	return err;
- }
- 
- int
-@@ -1353,7 +1370,8 @@ pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
- DEFINE_DRM_GEM_FOPS(pvr_drm_driver_fops);
- 
- static struct drm_driver pvr_drm_driver = {
--	.driver_features = DRIVER_GEM | DRIVER_GEM_GPUVA | DRIVER_RENDER,
-+	.driver_features = DRIVER_GEM | DRIVER_GEM_GPUVA | DRIVER_RENDER |
-+			   DRIVER_SYNCOBJ | DRIVER_SYNCOBJ_TIMELINE,
- 	.open = pvr_drm_driver_open,
- 	.postclose = pvr_drm_driver_postclose,
- 	.ioctls = pvr_drm_driver_ioctls,
-@@ -1386,8 +1404,15 @@ pvr_probe(struct platform_device *plat_dev)
- 	drm_dev = &pvr_dev->base;
- 
- 	platform_set_drvdata(plat_dev, drm_dev);
-+
-+	init_rwsem(&pvr_dev->reset_sem);
-+
- 	pvr_context_device_init(pvr_dev);
- 
-+	err = pvr_queue_device_init(pvr_dev);
-+	if (err)
-+		goto err_context_fini;
-+
- 	devm_pm_runtime_enable(&plat_dev->dev);
- 	pm_runtime_mark_last_busy(&plat_dev->dev);
- 
-@@ -1404,6 +1429,7 @@ pvr_probe(struct platform_device *plat_dev)
- 		goto err_device_fini;
- 
- 	xa_init_flags(&pvr_dev->free_list_ids, XA_FLAGS_ALLOC1);
-+	xa_init_flags(&pvr_dev->job_ids, XA_FLAGS_ALLOC1);
- 
- 	return 0;
- 
-@@ -1413,6 +1439,11 @@ pvr_probe(struct platform_device *plat_dev)
- err_watchdog_fini:
- 	pvr_watchdog_fini(pvr_dev);
- 
-+	pvr_queue_device_fini(pvr_dev);
-+
-+err_context_fini:
-+	pvr_context_device_fini(pvr_dev);
-+
- 	return err;
- }
- 
-@@ -1422,14 +1453,17 @@ pvr_remove(struct platform_device *plat_dev)
- 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
- 	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
- 
-+	WARN_ON(!xa_empty(&pvr_dev->job_ids));
- 	WARN_ON(!xa_empty(&pvr_dev->free_list_ids));
- 
-+	xa_destroy(&pvr_dev->job_ids);
- 	xa_destroy(&pvr_dev->free_list_ids);
- 
- 	pm_runtime_suspend(drm_dev->dev);
- 	pvr_device_fini(pvr_dev);
- 	drm_dev_unplug(drm_dev);
- 	pvr_watchdog_fini(pvr_dev);
-+	pvr_queue_device_fini(pvr_dev);
- 	pvr_context_device_fini(pvr_dev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/imagination/pvr_job.c b/drivers/gpu/drm/imagination/pvr_job.c
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_cr_defs.h b/drivers/gpu/drm/imagination/pvr_rogue_cr_defs.h
 new file mode 100644
-index 000000000000..9d0812710295
+index 000000000000..2a90d02796d3
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_job.c
-@@ -0,0 +1,788 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_context.h"
-+#include "pvr_device.h"
-+#include "pvr_drv.h"
-+#include "pvr_gem.h"
-+#include "pvr_hwrt.h"
-+#include "pvr_job.h"
-+#include "pvr_mmu.h"
-+#include "pvr_power.h"
-+#include "pvr_rogue_fwif.h"
-+#include "pvr_rogue_fwif_client.h"
-+#include "pvr_stream.h"
-+#include "pvr_stream_defs.h"
-+#include "pvr_sync.h"
-+
-+#include <drm/drm_exec.h>
-+#include <drm/drm_gem.h>
-+#include <linux/types.h>
-+#include <uapi/drm/pvr_drm.h>
-+
-+static void pvr_job_release(struct kref *kref)
-+{
-+	struct pvr_job *job = container_of(kref, struct pvr_job, ref_count);
-+
-+	xa_erase(&job->pvr_dev->job_ids, job->id);
-+
-+	pvr_hwrt_data_put(job->hwrt);
-+	pvr_context_put(job->ctx);
-+
-+	WARN_ON(job->paired_job);
-+
-+	pvr_queue_job_cleanup(job);
-+	pvr_job_release_pm_ref(job);
-+
-+	kfree(job->cmd);
-+	kfree(job);
-+}
-+
-+/**
-+ * pvr_job_put() - Release reference on job
-+ * @job: Target job.
-+ */
-+void
-+pvr_job_put(struct pvr_job *job)
-+{
-+	if (job)
-+		kref_put(&job->ref_count, pvr_job_release);
-+}
-+
-+/**
-+ * pvr_job_process_stream() - Build job FW structure from stream
-+ * @pvr_dev: Device pointer.
-+ * @cmd_defs: Stream definition.
-+ * @stream: Pointer to command stream.
-+ * @stream_size: Size of command stream, in bytes.
-+ * @job: Pointer to job.
-+ *
-+ * Caller is responsible for freeing the output structure.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%ENOMEM on out of memory, or
-+ *  * -%EINVAL on malformed stream.
-+ */
-+static int
-+pvr_job_process_stream(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
-+		       void *stream, u32 stream_size, struct pvr_job *job)
-+{
-+	int err;
-+
-+	job->cmd = kzalloc(cmd_defs->dest_size, GFP_KERNEL);
-+	if (!job->cmd)
-+		return -ENOMEM;
-+
-+	job->cmd_len = cmd_defs->dest_size;
-+
-+	err = pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, job->cmd);
-+	if (err)
-+		kfree(job->cmd);
-+
-+	return err;
-+}
-+
-+static int pvr_fw_cmd_init(struct pvr_device *pvr_dev, struct pvr_job *job,
-+			   const struct pvr_stream_cmd_defs *stream_def,
-+			   u64 stream_userptr, u32 stream_len)
-+{
-+	void *stream;
-+	int err;
-+
-+	stream = kzalloc(stream_len, GFP_KERNEL);
-+	if (!stream)
-+		return -ENOMEM;
-+
-+	if (copy_from_user(stream, u64_to_user_ptr(stream_userptr), stream_len)) {
-+		err = -EFAULT;
-+		goto err_free_stream;
-+	}
-+
-+	err = pvr_job_process_stream(pvr_dev, stream_def, stream, stream_len, job);
-+
-+err_free_stream:
-+	kfree(stream);
-+
-+	return err;
-+}
-+
-+static u32
-+convert_geom_flags(u32 in_flags)
-+{
-+	u32 out_flags = 0;
-+
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_FIRST)
-+		out_flags |= ROGUE_GEOM_FLAGS_FIRSTKICK;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_LAST)
-+		out_flags |= ROGUE_GEOM_FLAGS_LASTKICK;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_GEOM_CMD_SINGLE_CORE)
-+		out_flags |= ROGUE_GEOM_FLAGS_SINGLE_CORE;
-+
-+	return out_flags;
-+}
-+
-+static u32
-+convert_frag_flags(u32 in_flags)
-+{
-+	u32 out_flags = 0;
-+
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_SINGLE_CORE)
-+		out_flags |= ROGUE_FRAG_FLAGS_SINGLE_CORE;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_DEPTHBUFFER)
-+		out_flags |= ROGUE_FRAG_FLAGS_DEPTHBUFFER;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_STENCILBUFFER)
-+		out_flags |= ROGUE_FRAG_FLAGS_STENCILBUFFER;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_PREVENT_CDM_OVERLAP)
-+		out_flags |= ROGUE_FRAG_FLAGS_PREVENT_CDM_OVERLAP;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_SCRATCHBUFFER)
-+		out_flags |= ROGUE_FRAG_FLAGS_SCRATCHBUFFER;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_GET_VIS_RESULTS)
-+		out_flags |= ROGUE_FRAG_FLAGS_GET_VIS_RESULTS;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_DISABLE_PIXELMERGE)
-+		out_flags |= ROGUE_FRAG_FLAGS_DISABLE_PIXELMERGE;
-+
-+	return out_flags;
-+}
-+
-+static int
-+pvr_geom_job_fw_cmd_init(struct pvr_job *job,
-+			 struct drm_pvr_job *args)
-+{
-+	struct rogue_fwif_cmd_geom *cmd;
-+	int err;
-+
-+	if (args->flags & ~DRM_PVR_SUBMIT_JOB_GEOM_CMD_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	if (job->ctx->type != DRM_PVR_CTX_TYPE_RENDER)
-+		return -EINVAL;
-+
-+	if (!job->hwrt)
-+		return -EINVAL;
-+
-+	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_GEOM;
-+	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_geom_stream,
-+			      args->cmd_stream, args->cmd_stream_len);
-+	if (err)
-+		return err;
-+
-+	cmd = job->cmd;
-+	cmd->cmd_shared.cmn.frame_num = 0;
-+	cmd->flags = convert_geom_flags(args->flags);
-+	pvr_fw_object_get_fw_addr(job->hwrt->fw_obj, &cmd->cmd_shared.hwrt_data_fw_addr);
-+	return 0;
-+}
-+
-+static int
-+pvr_frag_job_fw_cmd_init(struct pvr_job *job,
-+			 struct drm_pvr_job *args)
-+{
-+	struct rogue_fwif_cmd_frag *cmd;
-+	int err;
-+
-+	if (args->flags & ~DRM_PVR_SUBMIT_JOB_FRAG_CMD_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	if (job->ctx->type != DRM_PVR_CTX_TYPE_RENDER)
-+		return -EINVAL;
-+
-+	if (!job->hwrt)
-+		return -EINVAL;
-+
-+	job->fw_ccb_cmd_type = (args->flags & DRM_PVR_SUBMIT_JOB_FRAG_CMD_PARTIAL_RENDER) ?
-+			       ROGUE_FWIF_CCB_CMD_TYPE_FRAG_PR :
-+			       ROGUE_FWIF_CCB_CMD_TYPE_FRAG;
-+	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_frag_stream,
-+			      args->cmd_stream, args->cmd_stream_len);
-+	if (err)
-+		return err;
-+
-+	cmd = job->cmd;
-+	cmd->cmd_shared.cmn.frame_num = 0;
-+	cmd->flags = convert_frag_flags(args->flags);
-+	pvr_fw_object_get_fw_addr(job->hwrt->fw_obj, &cmd->cmd_shared.hwrt_data_fw_addr);
-+	return 0;
-+}
-+
-+static u32
-+convert_compute_flags(u32 in_flags)
-+{
-+	u32 out_flags = 0;
-+
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_PREVENT_ALL_OVERLAP)
-+		out_flags |= ROGUE_COMPUTE_FLAG_PREVENT_ALL_OVERLAP;
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_SINGLE_CORE)
-+		out_flags |= ROGUE_COMPUTE_FLAG_SINGLE_CORE;
-+
-+	return out_flags;
-+}
-+
-+static int
-+pvr_compute_job_fw_cmd_init(struct pvr_job *job,
-+			    struct drm_pvr_job *args)
-+{
-+	struct rogue_fwif_cmd_compute *cmd;
-+	int err;
-+
-+	if (args->flags & ~DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	if (job->ctx->type != DRM_PVR_CTX_TYPE_COMPUTE)
-+		return -EINVAL;
-+
-+	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_CDM;
-+	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_compute_stream,
-+			      args->cmd_stream, args->cmd_stream_len);
-+	if (err)
-+		return err;
-+
-+	cmd = job->cmd;
-+	cmd->common.frame_num = 0;
-+	cmd->flags = convert_compute_flags(args->flags);
-+	return 0;
-+}
-+
-+static u32
-+convert_transfer_flags(u32 in_flags)
-+{
-+	u32 out_flags = 0;
-+
-+	if (in_flags & DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_SINGLE_CORE)
-+		out_flags |= ROGUE_TRANSFER_FLAGS_SINGLE_CORE;
-+
-+	return out_flags;
-+}
-+
-+static int
-+pvr_transfer_job_fw_cmd_init(struct pvr_job *job,
-+			     struct drm_pvr_job *args)
-+{
-+	struct rogue_fwif_cmd_transfer *cmd;
-+	int err;
-+
-+	if (args->flags & ~DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	if (job->ctx->type != DRM_PVR_CTX_TYPE_TRANSFER_FRAG)
-+		return -EINVAL;
-+
-+	job->fw_ccb_cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_TQ_3D;
-+	err = pvr_fw_cmd_init(job->pvr_dev, job, &pvr_cmd_transfer_stream,
-+			      args->cmd_stream, args->cmd_stream_len);
-+	if (err)
-+		return err;
-+
-+	cmd = job->cmd;
-+	cmd->common.frame_num = 0;
-+	cmd->flags = convert_transfer_flags(args->flags);
-+	return 0;
-+}
-+
-+static int
-+pvr_job_fw_cmd_init(struct pvr_job *job,
-+		    struct drm_pvr_job *args)
-+{
-+	switch (args->type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return pvr_geom_job_fw_cmd_init(job, args);
-+
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return pvr_frag_job_fw_cmd_init(job, args);
-+
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return pvr_compute_job_fw_cmd_init(job, args);
-+
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return pvr_transfer_job_fw_cmd_init(job, args);
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+/**
-+ * struct pvr_job_data - Helper container for pairing jobs with the
-+ * sync_ops supplied for them by the user.
-+ */
-+struct pvr_job_data {
-+	/** @job: Pointer to the job. */
-+	struct pvr_job *job;
-+
-+	/** @sync_ops: Pointer to the sync_ops associated with @job. */
-+	struct drm_pvr_sync_op *sync_ops;
-+
-+	/** @sync_op_count: Number of members of @sync_ops. */
-+	u32 sync_op_count;
-+};
-+
-+/**
-+ * prepare_job_syncs() - Prepare all sync objects for a single job.
-+ * @pvr_file: PowerVR file.
-+ * @job_data: Precreated job and sync_ops array.
-+ * @signal_array: xarray to receive signal sync objects.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error code returned by pvr_sync_signal_array_collect_ops(),
-+ *    pvr_sync_add_deps_to_job(), drm_sched_job_add_resv_dependencies() or
-+ *    pvr_sync_signal_array_update_fences().
-+ */
-+static int
-+prepare_job_syncs(struct pvr_file *pvr_file,
-+		  struct pvr_job_data *job_data,
-+		  struct xarray *signal_array)
-+{
-+	struct dma_fence *done_fence;
-+	int err = pvr_sync_signal_array_collect_ops(signal_array,
-+						    from_pvr_file(pvr_file),
-+						    job_data->sync_op_count,
-+						    job_data->sync_ops);
-+
-+	if (err)
-+		return err;
-+
-+	err = pvr_sync_add_deps_to_job(pvr_file, &job_data->job->base,
-+				       job_data->sync_op_count,
-+				       job_data->sync_ops, signal_array);
-+	if (err)
-+		return err;
-+
-+	if (job_data->job->hwrt) {
-+		/* The geometry job writes the HWRT region headers, which are
-+		 * then read by the fragment job.
-+		 */
-+		struct drm_gem_object *obj =
-+			gem_from_pvr_gem(job_data->job->hwrt->fw_obj->gem);
-+		enum dma_resv_usage usage =
-+			dma_resv_usage_rw(job_data->job->type ==
-+					  DRM_PVR_JOB_TYPE_GEOMETRY);
-+
-+		dma_resv_lock(obj->resv, NULL);
-+		err = drm_sched_job_add_resv_dependencies(&job_data->job->base,
-+							  obj->resv, usage);
-+		dma_resv_unlock(obj->resv);
-+		if (err)
-+			return err;
-+	}
-+
-+	/* We need to arm the job to get the job done fence. */
-+	done_fence = pvr_queue_job_arm(job_data->job);
-+
-+	err = pvr_sync_signal_array_update_fences(signal_array,
-+						  job_data->sync_op_count,
-+						  job_data->sync_ops,
-+						  done_fence);
-+	return err;
-+}
-+
-+/**
-+ * prepare_job_syncs_for_each() - Prepare all sync objects for an array of jobs.
-+ * @file: PowerVR file.
-+ * @job_data: Array of precreated jobs and their sync_ops.
-+ * @job_count: Number of jobs.
-+ * @signal_array: xarray to receive signal sync objects.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error code returned by pvr_vm_bind_job_prepare_syncs().
-+ */
-+static int
-+prepare_job_syncs_for_each(struct pvr_file *pvr_file,
-+			   struct pvr_job_data *job_data,
-+			   u32 *job_count,
-+			   struct xarray *signal_array)
-+{
-+	for (u32 i = 0; i < *job_count; i++) {
-+		int err = prepare_job_syncs(pvr_file, &job_data[i],
-+					    signal_array);
-+
-+		if (err) {
-+			*job_count = i;
-+			return err;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static struct pvr_job *
-+create_job(struct pvr_device *pvr_dev,
-+	   struct pvr_file *pvr_file,
-+	   struct drm_pvr_job *args)
-+{
-+	struct pvr_job *job = NULL;
-+	int err;
-+
-+	if (!args->cmd_stream || !args->cmd_stream_len)
-+		return ERR_PTR(-EINVAL);
-+
-+	if (args->type != DRM_PVR_JOB_TYPE_GEOMETRY &&
-+	    args->type != DRM_PVR_JOB_TYPE_FRAGMENT &&
-+	    (args->hwrt.set_handle || args->hwrt.data_index))
-+		return ERR_PTR(-EINVAL);
-+
-+	job = kzalloc(sizeof(*job), GFP_KERNEL);
-+	if (!job)
-+		return ERR_PTR(-ENOMEM);
-+
-+	kref_init(&job->ref_count);
-+	job->type = args->type;
-+	job->pvr_dev = pvr_dev;
-+
-+	err = xa_alloc(&pvr_dev->job_ids, &job->id, job, xa_limit_32b, GFP_KERNEL);
-+	if (err)
-+		goto err_put_job;
-+
-+	job->ctx = pvr_context_lookup(pvr_file, args->context_handle);
-+	if (!job->ctx) {
-+		err = -EINVAL;
-+		goto err_put_job;
-+	}
-+
-+	if (args->hwrt.set_handle) {
-+		job->hwrt = pvr_hwrt_data_lookup(pvr_file, args->hwrt.set_handle,
-+						 args->hwrt.data_index);
-+		if (!job->hwrt) {
-+			err = -EINVAL;
-+			goto err_put_job;
-+		}
-+	}
-+
-+	err = pvr_job_fw_cmd_init(job, args);
-+	if (err)
-+		goto err_put_job;
-+
-+	err = pvr_queue_job_init(job);
-+	if (err)
-+		goto err_put_job;
-+
-+	return job;
-+
-+err_put_job:
-+	pvr_job_put(job);
-+	return ERR_PTR(err);
-+}
-+
-+/**
-+ * pvr_job_data_fini() - Cleanup all allocs used to set up job submission.
-+ * @job_data: Job data array.
-+ * @job_count: Number of members of @job_data.
-+ */
-+static void
-+pvr_job_data_fini(struct pvr_job_data *job_data, u32 job_count)
-+{
-+	for (u32 i = 0; i < job_count; i++) {
-+		pvr_job_put(job_data[i].job);
-+		kvfree(job_data[i].sync_ops);
-+	}
-+}
-+
-+/**
-+ * pvr_job_data_init() - Init an array of created jobs, associating them with
-+ * the appropriate sync_ops args, which will be copied in.
-+ * @pvr_dev: Target PowerVR device.
-+ * @pvr_file: Pointer to PowerVR file structure.
-+ * @job_args: Job args array copied from user.
-+ * @job_count: Number of members of @job_args.
-+ * @job_data_out: Job data array.
-+ */
-+static int pvr_job_data_init(struct pvr_device *pvr_dev,
-+			     struct pvr_file *pvr_file,
-+			     struct drm_pvr_job *job_args,
-+			     u32 *job_count,
-+			     struct pvr_job_data *job_data_out)
-+{
-+	int err = 0, i = 0;
-+
-+	for (; i < *job_count; i++) {
-+		job_data_out[i].job =
-+			create_job(pvr_dev, pvr_file, &job_args[i]);
-+		err = PTR_ERR_OR_ZERO(job_data_out[i].job);
-+
-+		if (err) {
-+			*job_count = i;
-+			job_data_out[i].job = NULL;
-+			goto err_cleanup;
-+		}
-+
-+		err = PVR_UOBJ_GET_ARRAY(job_data_out[i].sync_ops,
-+					 &job_args[i].sync_ops);
-+		if (err) {
-+			*job_count = i;
-+
-+			/* Ensure the job created above is also cleaned up. */
-+			i++;
-+			goto err_cleanup;
-+		}
-+
-+		job_data_out[i].sync_op_count = job_args[i].sync_ops.count;
-+	}
-+
-+	return 0;
-+
-+err_cleanup:
-+	pvr_job_data_fini(job_data_out, i);
-+
-+	return err;
-+}
-+
-+static void
-+push_jobs(struct pvr_job_data *job_data, u32 job_count)
-+{
-+	for (u32 i = 0; i < job_count; i++)
-+		pvr_queue_job_push(job_data[i].job);
-+}
-+
-+static int
-+prepare_fw_obj_resv(struct drm_exec *exec, struct pvr_fw_object *fw_obj)
-+{
-+	return drm_exec_prepare_obj(exec, gem_from_pvr_gem(fw_obj->gem), 1);
-+}
-+
-+static int
-+jobs_lock_all_objs(struct drm_exec *exec, struct pvr_job_data *job_data,
-+		   u32 job_count)
-+{
-+	for (u32 i = 0; i < job_count; i++) {
-+		struct pvr_job *job = job_data[i].job;
-+
-+		/* Grab a lock on a the context, to guard against
-+		 * concurrent submission to the same queue.
-+		 */
-+		int err = drm_exec_lock_obj(exec,
-+					    gem_from_pvr_gem(job->ctx->fw_obj->gem));
-+
-+		if (err)
-+			return err;
-+
-+		if (job->hwrt) {
-+			err = prepare_fw_obj_resv(exec,
-+						  job->hwrt->fw_obj);
-+			if (err)
-+				return err;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+prepare_job_resvs_for_each(struct drm_exec *exec, struct pvr_job_data *job_data,
-+			   u32 job_count)
-+{
-+	drm_exec_until_all_locked(exec) {
-+		int err = jobs_lock_all_objs(exec, job_data, job_count);
-+
-+		drm_exec_retry_on_contention(exec);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static void
-+update_job_resvs(struct pvr_job *job)
-+{
-+	if (job->hwrt) {
-+		enum dma_resv_usage usage = job->type == DRM_PVR_JOB_TYPE_GEOMETRY ?
-+					    DMA_RESV_USAGE_WRITE : DMA_RESV_USAGE_READ;
-+		struct drm_gem_object *obj = gem_from_pvr_gem(job->hwrt->fw_obj->gem);
-+
-+		dma_resv_add_fence(obj->resv, &job->base.s_fence->finished, usage);
-+	}
-+}
-+
-+static void
-+update_job_resvs_for_each(struct pvr_job_data *job_data, u32 job_count)
-+{
-+	for (u32 i = 0; i < job_count; i++)
-+		update_job_resvs(job_data[i].job);
-+}
-+
-+static bool can_combine_jobs(struct pvr_job *a, struct pvr_job *b)
-+{
-+	struct pvr_job *geom_job = a, *frag_job = b;
-+	struct dma_fence *fence;
-+	unsigned long index;
-+
-+	/* Geometry and fragment jobs can be combined if they are queued to the
-+	 * same context and targeting the same HWRT.
-+	 */
-+	if (a->type != DRM_PVR_JOB_TYPE_GEOMETRY ||
-+	    b->type != DRM_PVR_JOB_TYPE_FRAGMENT ||
-+	    a->ctx != b->ctx ||
-+	    a->hwrt != b->hwrt)
-+		return false;
-+
-+	xa_for_each(&frag_job->base.dependencies, index, fence) {
-+		/* We combine when we see an explicit geom -> frag dep. */
-+		if (&geom_job->base.s_fence->scheduled == fence)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static struct dma_fence *
-+get_last_queued_job_scheduled_fence(struct pvr_queue *queue,
-+				    struct pvr_job_data *job_data,
-+				    u32 cur_job_pos)
-+{
-+	/* We iterate over the current job array in reverse order to grab the
-+	 * last to-be-queued job targeting the same queue.
-+	 */
-+	for (u32 i = cur_job_pos; i > 0; i--) {
-+		struct pvr_job *job = job_data[i - 1].job;
-+
-+		if (job->ctx == queue->ctx && job->type == queue->type)
-+			return dma_fence_get(&job->base.s_fence->scheduled);
-+	}
-+
-+	/* If we didn't find any, we just return the last queued job scheduled
-+	 * fence attached to the queue.
-+	 */
-+	return dma_fence_get(queue->last_queued_job_scheduled_fence);
-+}
-+
-+static int
-+pvr_jobs_link_geom_frag(struct pvr_job_data *job_data, u32 *job_count)
-+{
-+	for (u32 i = 0; i < *job_count - 1; i++) {
-+		struct pvr_job *geom_job = job_data[i].job;
-+		struct pvr_job *frag_job = job_data[i + 1].job;
-+		struct pvr_queue *frag_queue;
-+		struct dma_fence *f;
-+
-+		if (!can_combine_jobs(job_data[i].job, job_data[i + 1].job))
-+			continue;
-+
-+		/* The fragment job will be submitted by the geometry queue. We
-+		 * need to make sure it comes after all the other fragment jobs
-+		 * queued before it.
-+		 */
-+		frag_queue = pvr_context_get_queue_for_job(frag_job->ctx,
-+							   frag_job->type);
-+		f = get_last_queued_job_scheduled_fence(frag_queue, job_data,
-+							i);
-+		if (f) {
-+			int err = drm_sched_job_add_dependency(&geom_job->base,
-+							       f);
-+			if (err) {
-+				*job_count = i;
-+				return err;
-+			}
-+		}
-+
-+		/* The KCCB slot will be reserved by the geometry job, so we can
-+		 * drop the KCCB fence on the fragment job.
-+		 */
-+		pvr_kccb_fence_put(frag_job->kccb_fence);
-+		frag_job->kccb_fence = NULL;
-+
-+		geom_job->paired_job = frag_job;
-+		frag_job->paired_job = geom_job;
-+
-+		/* Skip the fragment job we just paired to the geometry job. */
-+		i++;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * pvr_submit_jobs() - Submit jobs to the GPU
-+ * @pvr_dev: Target PowerVR device.
-+ * @pvr_file: Pointer to PowerVR file structure.
-+ * @args: Ioctl args.
-+ * @job_count: Number of jobs in @jobs_args. On error this will be updated
-+ * with the index into @jobs_args where the error occurred.
-+ *
-+ * This initial implementation is entirely synchronous; on return the GPU will
-+ * be idle. This will not be the case for future implementations.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%EFAULT if arguments can not be copied from user space, or
-+ *  * -%EINVAL on invalid arguments, or
-+ *  * Any other error.
-+ */
-+int
-+pvr_submit_jobs(struct pvr_device *pvr_dev, struct pvr_file *pvr_file,
-+		struct drm_pvr_ioctl_submit_jobs_args *args)
-+{
-+	struct pvr_job_data *job_data = NULL;
-+	struct drm_pvr_job *job_args;
-+	struct xarray signal_array;
-+	u32 jobs_alloced = 0;
-+	struct drm_exec exec;
-+	int err;
-+
-+	if (!args->jobs.count)
-+		return -EINVAL;
-+
-+	err = PVR_UOBJ_GET_ARRAY(job_args, &args->jobs);
-+	if (err)
-+		return err;
-+
-+	job_data = kvmalloc_array(args->jobs.count, sizeof(*job_data),
-+				  GFP_KERNEL | __GFP_ZERO);
-+	if (!job_data) {
-+		err = -ENOMEM;
-+		goto out_free;
-+	}
-+
-+	err = pvr_job_data_init(pvr_dev, pvr_file, job_args, &args->jobs.count,
-+				job_data);
-+	if (err)
-+		goto out_free;
-+
-+	jobs_alloced = args->jobs.count;
-+
-+	/*
-+	 * Flush MMU if needed - this has been deferred until now to avoid
-+	 * overuse of this expensive operation.
-+	 */
-+	err = pvr_mmu_flush_exec(pvr_dev, false);
-+	if (err)
-+		goto out_job_data_cleanup;
-+
-+	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE_DUPLICATES);
-+
-+	xa_init_flags(&signal_array, XA_FLAGS_ALLOC);
-+
-+	err = prepare_job_syncs_for_each(pvr_file, job_data, &args->jobs.count,
-+					 &signal_array);
-+	if (err)
-+		goto out_exec_fini;
-+
-+	err = prepare_job_resvs_for_each(&exec, job_data, args->jobs.count);
-+	if (err)
-+		goto out_exec_fini;
-+
-+	err = pvr_jobs_link_geom_frag(job_data, &args->jobs.count);
-+	if (err)
-+		goto out_exec_fini;
-+
-+	/* Anything after that point must succeed because we start exposing job
-+	 * finished fences to the outside world.
-+	 */
-+	update_job_resvs_for_each(job_data, args->jobs.count);
-+	push_jobs(job_data, args->jobs.count);
-+	pvr_sync_signal_array_push_fences(&signal_array);
-+	err = 0;
-+
-+out_exec_fini:
-+	drm_exec_fini(&exec);
-+	pvr_sync_signal_array_cleanup(&signal_array);
-+
-+out_job_data_cleanup:
-+	pvr_job_data_fini(job_data, jobs_alloced);
-+
-+out_free:
-+	kvfree(job_data);
-+	kvfree(job_args);
-+
-+	return err;
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_job.h b/drivers/gpu/drm/imagination/pvr_job.h
-new file mode 100644
-index 000000000000..0ca003c5c475
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_job.h
-@@ -0,0 +1,161 @@
++++ b/drivers/gpu/drm/imagination/pvr_rogue_cr_defs.h
+@@ -0,0 +1,6193 @@
 +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_JOB_H
-+#define PVR_JOB_H
++/*  *** Autogenerated C -- do not edit ***  */
 +
-+#include <uapi/drm/pvr_drm.h>
++#ifndef PVR_ROGUE_CR_DEFS_H
++#define PVR_ROGUE_CR_DEFS_H
 +
-+#include <linux/kref.h>
-+#include <linux/types.h>
++/* clang-format off */
 +
-+#include <drm/drm_gem.h>
-+#include <drm/gpu_scheduler.h>
++#define ROGUE_CR_DEFS_REVISION 1
 +
-+#include "pvr_power.h"
++/* Register ROGUE_CR_RASTERISATION_INDIRECT */
++#define ROGUE_CR_RASTERISATION_INDIRECT 0x8238U
++#define ROGUE_CR_RASTERISATION_INDIRECT_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_RASTERISATION_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_RASTERISATION_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFF0U
 +
-+/* Forward declaration from "pvr_context.h". */
-+struct pvr_context;
++/* Register ROGUE_CR_PBE_INDIRECT */
++#define ROGUE_CR_PBE_INDIRECT 0x83E0U
++#define ROGUE_CR_PBE_INDIRECT_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_PBE_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_PBE_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFF0U
 +
-+/* Forward declarations from "pvr_device.h". */
-+struct pvr_device;
-+struct pvr_file;
++/* Register ROGUE_CR_PBE_PERF_INDIRECT */
++#define ROGUE_CR_PBE_PERF_INDIRECT 0x83D8U
++#define ROGUE_CR_PBE_PERF_INDIRECT_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_PBE_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_PBE_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFF0U
 +
-+/* Forward declarations from "pvr_hwrt.h". */
-+struct pvr_hwrt_data;
++/* Register ROGUE_CR_TPU_PERF_INDIRECT */
++#define ROGUE_CR_TPU_PERF_INDIRECT 0x83F0U
++#define ROGUE_CR_TPU_PERF_INDIRECT_MASKFULL 0x0000000000000007ULL
++#define ROGUE_CR_TPU_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_TPU_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFF8U
 +
-+/* Forward declaration from "pvr_queue.h". */
-+struct pvr_queue;
++/* Register ROGUE_CR_RASTERISATION_PERF_INDIRECT */
++#define ROGUE_CR_RASTERISATION_PERF_INDIRECT 0x8318U
++#define ROGUE_CR_RASTERISATION_PERF_INDIRECT_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_RASTERISATION_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_RASTERISATION_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFF0U
 +
-+struct pvr_job {
-+	/** @base: drm_sched_job object. */
-+	struct drm_sched_job base;
++/* Register ROGUE_CR_TPU_MCU_L0_PERF_INDIRECT */
++#define ROGUE_CR_TPU_MCU_L0_PERF_INDIRECT 0x8028U
++#define ROGUE_CR_TPU_MCU_L0_PERF_INDIRECT_MASKFULL 0x0000000000000007ULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_TPU_MCU_L0_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFF8U
 +
-+	/** @ref_count: Refcount for job. */
-+	struct kref ref_count;
++/* Register ROGUE_CR_USC_PERF_INDIRECT */
++#define ROGUE_CR_USC_PERF_INDIRECT 0x8030U
++#define ROGUE_CR_USC_PERF_INDIRECT_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_USC_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_USC_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFF0U
 +
-+	/** @type: Type of job. */
-+	enum drm_pvr_job_type type;
++/* Register ROGUE_CR_BLACKPEARL_INDIRECT */
++#define ROGUE_CR_BLACKPEARL_INDIRECT 0x8388U
++#define ROGUE_CR_BLACKPEARL_INDIRECT_MASKFULL 0x0000000000000003ULL
++#define ROGUE_CR_BLACKPEARL_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BLACKPEARL_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFFCU
 +
-+	/** @id: Job ID number. */
-+	u32 id;
++/* Register ROGUE_CR_BLACKPEARL_PERF_INDIRECT */
++#define ROGUE_CR_BLACKPEARL_PERF_INDIRECT 0x83F8U
++#define ROGUE_CR_BLACKPEARL_PERF_INDIRECT_MASKFULL 0x0000000000000003ULL
++#define ROGUE_CR_BLACKPEARL_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BLACKPEARL_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFFCU
 +
-+	/**
-+	 * @paired_job: Job paired to this job.
-+	 *
-+	 * This field is only meaningful for geometry and fragment jobs.
-+	 *
-+	 * Paired jobs are executed on the same context, and need to be submitted
-+	 * atomically to the FW, to make sure the partial render logic has a
-+	 * fragment job to execute when the Parameter Manager runs out of memory.
-+	 *
-+	 * The geometry job should point to the fragment job it's paired with,
-+	 * and the fragment job should point to the geometry job it's paired with.
-+	 */
-+	struct pvr_job *paired_job;
++/* Register ROGUE_CR_TEXAS3_PERF_INDIRECT */
++#define ROGUE_CR_TEXAS3_PERF_INDIRECT 0x83D0U
++#define ROGUE_CR_TEXAS3_PERF_INDIRECT_MASKFULL 0x0000000000000007ULL
++#define ROGUE_CR_TEXAS3_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_TEXAS3_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFF8U
 +
-+	/** @cccb_fence: Fence used to wait for CCCB space. */
-+	struct dma_fence *cccb_fence;
++/* Register ROGUE_CR_TEXAS_PERF_INDIRECT */
++#define ROGUE_CR_TEXAS_PERF_INDIRECT 0x8288U
++#define ROGUE_CR_TEXAS_PERF_INDIRECT_MASKFULL 0x0000000000000003ULL
++#define ROGUE_CR_TEXAS_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_TEXAS_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFFCU
 +
-+	/** @kccb_fence: Fence used to wait for KCCB space. */
-+	struct dma_fence *kccb_fence;
++/* Register ROGUE_CR_BX_TU_PERF_INDIRECT */
++#define ROGUE_CR_BX_TU_PERF_INDIRECT 0xC900U
++#define ROGUE_CR_BX_TU_PERF_INDIRECT_MASKFULL 0x0000000000000003ULL
++#define ROGUE_CR_BX_TU_PERF_INDIRECT_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BX_TU_PERF_INDIRECT_ADDRESS_CLRMSK 0xFFFFFFFCU
 +
-+	/** @done_fence: Fence to signal when the job is done. */
-+	struct dma_fence *done_fence;
++/* Register ROGUE_CR_CLK_CTRL */
++#define ROGUE_CR_CLK_CTRL 0x0000U
++#define ROGUE_CR_CLK_CTRL__PBE2_XE__MASKFULL 0xFFFFFF003F3FFFFFULL
++#define ROGUE_CR_CLK_CTRL__S7_TOP__MASKFULL 0xCFCF03000F3F3F0FULL
++#define ROGUE_CR_CLK_CTRL_MASKFULL 0xFFFFFF003F3FFFFFULL
++#define ROGUE_CR_CLK_CTRL_BIF_TEXAS_SHIFT 62U
++#define ROGUE_CR_CLK_CTRL_BIF_TEXAS_CLRMSK 0x3FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_BIF_TEXAS_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_BIF_TEXAS_ON 0x4000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_BIF_TEXAS_AUTO 0x8000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_IPP_SHIFT 60U
++#define ROGUE_CR_CLK_CTRL_IPP_CLRMSK 0xCFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_IPP_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_IPP_ON 0x1000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_IPP_AUTO 0x2000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FBC_SHIFT 58U
++#define ROGUE_CR_CLK_CTRL_FBC_CLRMSK 0xF3FFFFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_FBC_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FBC_ON 0x0400000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FBC_AUTO 0x0800000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FBDC_SHIFT 56U
++#define ROGUE_CR_CLK_CTRL_FBDC_CLRMSK 0xFCFFFFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_FBDC_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FBDC_ON 0x0100000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FBDC_AUTO 0x0200000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FB_TLCACHE_SHIFT 54U
++#define ROGUE_CR_CLK_CTRL_FB_TLCACHE_CLRMSK 0xFF3FFFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_FB_TLCACHE_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FB_TLCACHE_ON 0x0040000000000000ULL
++#define ROGUE_CR_CLK_CTRL_FB_TLCACHE_AUTO 0x0080000000000000ULL
++#define ROGUE_CR_CLK_CTRL_USCS_SHIFT 52U
++#define ROGUE_CR_CLK_CTRL_USCS_CLRMSK 0xFFCFFFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_USCS_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_USCS_ON 0x0010000000000000ULL
++#define ROGUE_CR_CLK_CTRL_USCS_AUTO 0x0020000000000000ULL
++#define ROGUE_CR_CLK_CTRL_PBE_SHIFT 50U
++#define ROGUE_CR_CLK_CTRL_PBE_CLRMSK 0xFFF3FFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_PBE_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_PBE_ON 0x0004000000000000ULL
++#define ROGUE_CR_CLK_CTRL_PBE_AUTO 0x0008000000000000ULL
++#define ROGUE_CR_CLK_CTRL_MCU_L1_SHIFT 48U
++#define ROGUE_CR_CLK_CTRL_MCU_L1_CLRMSK 0xFFFCFFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_MCU_L1_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_MCU_L1_ON 0x0001000000000000ULL
++#define ROGUE_CR_CLK_CTRL_MCU_L1_AUTO 0x0002000000000000ULL
++#define ROGUE_CR_CLK_CTRL_CDM_SHIFT 46U
++#define ROGUE_CR_CLK_CTRL_CDM_CLRMSK 0xFFFF3FFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_CDM_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_CDM_ON 0x0000400000000000ULL
++#define ROGUE_CR_CLK_CTRL_CDM_AUTO 0x0000800000000000ULL
++#define ROGUE_CR_CLK_CTRL_SIDEKICK_SHIFT 44U
++#define ROGUE_CR_CLK_CTRL_SIDEKICK_CLRMSK 0xFFFFCFFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_SIDEKICK_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_SIDEKICK_ON 0x0000100000000000ULL
++#define ROGUE_CR_CLK_CTRL_SIDEKICK_AUTO 0x0000200000000000ULL
++#define ROGUE_CR_CLK_CTRL_BIF_SIDEKICK_SHIFT 42U
++#define ROGUE_CR_CLK_CTRL_BIF_SIDEKICK_CLRMSK 0xFFFFF3FFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_BIF_SIDEKICK_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_BIF_SIDEKICK_ON 0x0000040000000000ULL
++#define ROGUE_CR_CLK_CTRL_BIF_SIDEKICK_AUTO 0x0000080000000000ULL
++#define ROGUE_CR_CLK_CTRL_BIF_SHIFT 40U
++#define ROGUE_CR_CLK_CTRL_BIF_CLRMSK 0xFFFFFCFFFFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_BIF_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_BIF_ON 0x0000010000000000ULL
++#define ROGUE_CR_CLK_CTRL_BIF_AUTO 0x0000020000000000ULL
++#define ROGUE_CR_CLK_CTRL_TPU_MCU_DEMUX_SHIFT 28U
++#define ROGUE_CR_CLK_CTRL_TPU_MCU_DEMUX_CLRMSK 0xFFFFFFFFCFFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_TPU_MCU_DEMUX_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_TPU_MCU_DEMUX_ON 0x0000000010000000ULL
++#define ROGUE_CR_CLK_CTRL_TPU_MCU_DEMUX_AUTO 0x0000000020000000ULL
++#define ROGUE_CR_CLK_CTRL_MCU_L0_SHIFT 26U
++#define ROGUE_CR_CLK_CTRL_MCU_L0_CLRMSK 0xFFFFFFFFF3FFFFFFULL
++#define ROGUE_CR_CLK_CTRL_MCU_L0_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_MCU_L0_ON 0x0000000004000000ULL
++#define ROGUE_CR_CLK_CTRL_MCU_L0_AUTO 0x0000000008000000ULL
++#define ROGUE_CR_CLK_CTRL_TPU_SHIFT 24U
++#define ROGUE_CR_CLK_CTRL_TPU_CLRMSK 0xFFFFFFFFFCFFFFFFULL
++#define ROGUE_CR_CLK_CTRL_TPU_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_TPU_ON 0x0000000001000000ULL
++#define ROGUE_CR_CLK_CTRL_TPU_AUTO 0x0000000002000000ULL
++#define ROGUE_CR_CLK_CTRL_USC_SHIFT 20U
++#define ROGUE_CR_CLK_CTRL_USC_CLRMSK 0xFFFFFFFFFFCFFFFFULL
++#define ROGUE_CR_CLK_CTRL_USC_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_USC_ON 0x0000000000100000ULL
++#define ROGUE_CR_CLK_CTRL_USC_AUTO 0x0000000000200000ULL
++#define ROGUE_CR_CLK_CTRL_TLA_SHIFT 18U
++#define ROGUE_CR_CLK_CTRL_TLA_CLRMSK 0xFFFFFFFFFFF3FFFFULL
++#define ROGUE_CR_CLK_CTRL_TLA_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_TLA_ON 0x0000000000040000ULL
++#define ROGUE_CR_CLK_CTRL_TLA_AUTO 0x0000000000080000ULL
++#define ROGUE_CR_CLK_CTRL_SLC_SHIFT 16U
++#define ROGUE_CR_CLK_CTRL_SLC_CLRMSK 0xFFFFFFFFFFFCFFFFULL
++#define ROGUE_CR_CLK_CTRL_SLC_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_SLC_ON 0x0000000000010000ULL
++#define ROGUE_CR_CLK_CTRL_SLC_AUTO 0x0000000000020000ULL
++#define ROGUE_CR_CLK_CTRL_UVS_SHIFT 14U
++#define ROGUE_CR_CLK_CTRL_UVS_CLRMSK 0xFFFFFFFFFFFF3FFFULL
++#define ROGUE_CR_CLK_CTRL_UVS_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_UVS_ON 0x0000000000004000ULL
++#define ROGUE_CR_CLK_CTRL_UVS_AUTO 0x0000000000008000ULL
++#define ROGUE_CR_CLK_CTRL_PDS_SHIFT 12U
++#define ROGUE_CR_CLK_CTRL_PDS_CLRMSK 0xFFFFFFFFFFFFCFFFULL
++#define ROGUE_CR_CLK_CTRL_PDS_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_PDS_ON 0x0000000000001000ULL
++#define ROGUE_CR_CLK_CTRL_PDS_AUTO 0x0000000000002000ULL
++#define ROGUE_CR_CLK_CTRL_VDM_SHIFT 10U
++#define ROGUE_CR_CLK_CTRL_VDM_CLRMSK 0xFFFFFFFFFFFFF3FFULL
++#define ROGUE_CR_CLK_CTRL_VDM_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_VDM_ON 0x0000000000000400ULL
++#define ROGUE_CR_CLK_CTRL_VDM_AUTO 0x0000000000000800ULL
++#define ROGUE_CR_CLK_CTRL_PM_SHIFT 8U
++#define ROGUE_CR_CLK_CTRL_PM_CLRMSK 0xFFFFFFFFFFFFFCFFULL
++#define ROGUE_CR_CLK_CTRL_PM_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_PM_ON 0x0000000000000100ULL
++#define ROGUE_CR_CLK_CTRL_PM_AUTO 0x0000000000000200ULL
++#define ROGUE_CR_CLK_CTRL_GPP_SHIFT 6U
++#define ROGUE_CR_CLK_CTRL_GPP_CLRMSK 0xFFFFFFFFFFFFFF3FULL
++#define ROGUE_CR_CLK_CTRL_GPP_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_GPP_ON 0x0000000000000040ULL
++#define ROGUE_CR_CLK_CTRL_GPP_AUTO 0x0000000000000080ULL
++#define ROGUE_CR_CLK_CTRL_TE_SHIFT 4U
++#define ROGUE_CR_CLK_CTRL_TE_CLRMSK 0xFFFFFFFFFFFFFFCFULL
++#define ROGUE_CR_CLK_CTRL_TE_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_TE_ON 0x0000000000000010ULL
++#define ROGUE_CR_CLK_CTRL_TE_AUTO 0x0000000000000020ULL
++#define ROGUE_CR_CLK_CTRL_TSP_SHIFT 2U
++#define ROGUE_CR_CLK_CTRL_TSP_CLRMSK 0xFFFFFFFFFFFFFFF3ULL
++#define ROGUE_CR_CLK_CTRL_TSP_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_TSP_ON 0x0000000000000004ULL
++#define ROGUE_CR_CLK_CTRL_TSP_AUTO 0x0000000000000008ULL
++#define ROGUE_CR_CLK_CTRL_ISP_SHIFT 0U
++#define ROGUE_CR_CLK_CTRL_ISP_CLRMSK 0xFFFFFFFFFFFFFFFCULL
++#define ROGUE_CR_CLK_CTRL_ISP_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL_ISP_ON 0x0000000000000001ULL
++#define ROGUE_CR_CLK_CTRL_ISP_AUTO 0x0000000000000002ULL
 +
-+	/** @pvr_dev: Device pointer. */
-+	struct pvr_device *pvr_dev;
++/* Register ROGUE_CR_CLK_STATUS */
++#define ROGUE_CR_CLK_STATUS 0x0008U
++#define ROGUE_CR_CLK_STATUS__PBE2_XE__MASKFULL 0x00000001FFF077FFULL
++#define ROGUE_CR_CLK_STATUS__S7_TOP__MASKFULL 0x00000001B3101773ULL
++#define ROGUE_CR_CLK_STATUS_MASKFULL 0x00000001FFF077FFULL
++#define ROGUE_CR_CLK_STATUS_MCU_FBTC_SHIFT 32U
++#define ROGUE_CR_CLK_STATUS_MCU_FBTC_CLRMSK 0xFFFFFFFEFFFFFFFFULL
++#define ROGUE_CR_CLK_STATUS_MCU_FBTC_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_MCU_FBTC_RUNNING 0x0000000100000000ULL
++#define ROGUE_CR_CLK_STATUS_BIF_TEXAS_SHIFT 31U
++#define ROGUE_CR_CLK_STATUS_BIF_TEXAS_CLRMSK 0xFFFFFFFF7FFFFFFFULL
++#define ROGUE_CR_CLK_STATUS_BIF_TEXAS_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_BIF_TEXAS_RUNNING 0x0000000080000000ULL
++#define ROGUE_CR_CLK_STATUS_IPP_SHIFT 30U
++#define ROGUE_CR_CLK_STATUS_IPP_CLRMSK 0xFFFFFFFFBFFFFFFFULL
++#define ROGUE_CR_CLK_STATUS_IPP_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_IPP_RUNNING 0x0000000040000000ULL
++#define ROGUE_CR_CLK_STATUS_FBC_SHIFT 29U
++#define ROGUE_CR_CLK_STATUS_FBC_CLRMSK 0xFFFFFFFFDFFFFFFFULL
++#define ROGUE_CR_CLK_STATUS_FBC_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_FBC_RUNNING 0x0000000020000000ULL
++#define ROGUE_CR_CLK_STATUS_FBDC_SHIFT 28U
++#define ROGUE_CR_CLK_STATUS_FBDC_CLRMSK 0xFFFFFFFFEFFFFFFFULL
++#define ROGUE_CR_CLK_STATUS_FBDC_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_FBDC_RUNNING 0x0000000010000000ULL
++#define ROGUE_CR_CLK_STATUS_FB_TLCACHE_SHIFT 27U
++#define ROGUE_CR_CLK_STATUS_FB_TLCACHE_CLRMSK 0xFFFFFFFFF7FFFFFFULL
++#define ROGUE_CR_CLK_STATUS_FB_TLCACHE_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_FB_TLCACHE_RUNNING 0x0000000008000000ULL
++#define ROGUE_CR_CLK_STATUS_USCS_SHIFT 26U
++#define ROGUE_CR_CLK_STATUS_USCS_CLRMSK 0xFFFFFFFFFBFFFFFFULL
++#define ROGUE_CR_CLK_STATUS_USCS_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_USCS_RUNNING 0x0000000004000000ULL
++#define ROGUE_CR_CLK_STATUS_PBE_SHIFT 25U
++#define ROGUE_CR_CLK_STATUS_PBE_CLRMSK 0xFFFFFFFFFDFFFFFFULL
++#define ROGUE_CR_CLK_STATUS_PBE_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_PBE_RUNNING 0x0000000002000000ULL
++#define ROGUE_CR_CLK_STATUS_MCU_L1_SHIFT 24U
++#define ROGUE_CR_CLK_STATUS_MCU_L1_CLRMSK 0xFFFFFFFFFEFFFFFFULL
++#define ROGUE_CR_CLK_STATUS_MCU_L1_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_MCU_L1_RUNNING 0x0000000001000000ULL
++#define ROGUE_CR_CLK_STATUS_CDM_SHIFT 23U
++#define ROGUE_CR_CLK_STATUS_CDM_CLRMSK 0xFFFFFFFFFF7FFFFFULL
++#define ROGUE_CR_CLK_STATUS_CDM_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_CDM_RUNNING 0x0000000000800000ULL
++#define ROGUE_CR_CLK_STATUS_SIDEKICK_SHIFT 22U
++#define ROGUE_CR_CLK_STATUS_SIDEKICK_CLRMSK 0xFFFFFFFFFFBFFFFFULL
++#define ROGUE_CR_CLK_STATUS_SIDEKICK_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_SIDEKICK_RUNNING 0x0000000000400000ULL
++#define ROGUE_CR_CLK_STATUS_BIF_SIDEKICK_SHIFT 21U
++#define ROGUE_CR_CLK_STATUS_BIF_SIDEKICK_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_CLK_STATUS_BIF_SIDEKICK_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_BIF_SIDEKICK_RUNNING 0x0000000000200000ULL
++#define ROGUE_CR_CLK_STATUS_BIF_SHIFT 20U
++#define ROGUE_CR_CLK_STATUS_BIF_CLRMSK 0xFFFFFFFFFFEFFFFFULL
++#define ROGUE_CR_CLK_STATUS_BIF_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_BIF_RUNNING 0x0000000000100000ULL
++#define ROGUE_CR_CLK_STATUS_TPU_MCU_DEMUX_SHIFT 14U
++#define ROGUE_CR_CLK_STATUS_TPU_MCU_DEMUX_CLRMSK 0xFFFFFFFFFFFFBFFFULL
++#define ROGUE_CR_CLK_STATUS_TPU_MCU_DEMUX_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_TPU_MCU_DEMUX_RUNNING 0x0000000000004000ULL
++#define ROGUE_CR_CLK_STATUS_MCU_L0_SHIFT 13U
++#define ROGUE_CR_CLK_STATUS_MCU_L0_CLRMSK 0xFFFFFFFFFFFFDFFFULL
++#define ROGUE_CR_CLK_STATUS_MCU_L0_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_MCU_L0_RUNNING 0x0000000000002000ULL
++#define ROGUE_CR_CLK_STATUS_TPU_SHIFT 12U
++#define ROGUE_CR_CLK_STATUS_TPU_CLRMSK 0xFFFFFFFFFFFFEFFFULL
++#define ROGUE_CR_CLK_STATUS_TPU_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_TPU_RUNNING 0x0000000000001000ULL
++#define ROGUE_CR_CLK_STATUS_USC_SHIFT 10U
++#define ROGUE_CR_CLK_STATUS_USC_CLRMSK 0xFFFFFFFFFFFFFBFFULL
++#define ROGUE_CR_CLK_STATUS_USC_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_USC_RUNNING 0x0000000000000400ULL
++#define ROGUE_CR_CLK_STATUS_TLA_SHIFT 9U
++#define ROGUE_CR_CLK_STATUS_TLA_CLRMSK 0xFFFFFFFFFFFFFDFFULL
++#define ROGUE_CR_CLK_STATUS_TLA_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_TLA_RUNNING 0x0000000000000200ULL
++#define ROGUE_CR_CLK_STATUS_SLC_SHIFT 8U
++#define ROGUE_CR_CLK_STATUS_SLC_CLRMSK 0xFFFFFFFFFFFFFEFFULL
++#define ROGUE_CR_CLK_STATUS_SLC_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_SLC_RUNNING 0x0000000000000100ULL
++#define ROGUE_CR_CLK_STATUS_UVS_SHIFT 7U
++#define ROGUE_CR_CLK_STATUS_UVS_CLRMSK 0xFFFFFFFFFFFFFF7FULL
++#define ROGUE_CR_CLK_STATUS_UVS_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_UVS_RUNNING 0x0000000000000080ULL
++#define ROGUE_CR_CLK_STATUS_PDS_SHIFT 6U
++#define ROGUE_CR_CLK_STATUS_PDS_CLRMSK 0xFFFFFFFFFFFFFFBFULL
++#define ROGUE_CR_CLK_STATUS_PDS_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_PDS_RUNNING 0x0000000000000040ULL
++#define ROGUE_CR_CLK_STATUS_VDM_SHIFT 5U
++#define ROGUE_CR_CLK_STATUS_VDM_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_CLK_STATUS_VDM_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_VDM_RUNNING 0x0000000000000020ULL
++#define ROGUE_CR_CLK_STATUS_PM_SHIFT 4U
++#define ROGUE_CR_CLK_STATUS_PM_CLRMSK 0xFFFFFFFFFFFFFFEFULL
++#define ROGUE_CR_CLK_STATUS_PM_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_PM_RUNNING 0x0000000000000010ULL
++#define ROGUE_CR_CLK_STATUS_GPP_SHIFT 3U
++#define ROGUE_CR_CLK_STATUS_GPP_CLRMSK 0xFFFFFFFFFFFFFFF7ULL
++#define ROGUE_CR_CLK_STATUS_GPP_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_GPP_RUNNING 0x0000000000000008ULL
++#define ROGUE_CR_CLK_STATUS_TE_SHIFT 2U
++#define ROGUE_CR_CLK_STATUS_TE_CLRMSK 0xFFFFFFFFFFFFFFFBULL
++#define ROGUE_CR_CLK_STATUS_TE_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_TE_RUNNING 0x0000000000000004ULL
++#define ROGUE_CR_CLK_STATUS_TSP_SHIFT 1U
++#define ROGUE_CR_CLK_STATUS_TSP_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_CLK_STATUS_TSP_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_TSP_RUNNING 0x0000000000000002ULL
++#define ROGUE_CR_CLK_STATUS_ISP_SHIFT 0U
++#define ROGUE_CR_CLK_STATUS_ISP_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_CLK_STATUS_ISP_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS_ISP_RUNNING 0x0000000000000001ULL
 +
-+	/** @ctx: Pointer to owning context. */
-+	struct pvr_context *ctx;
++/* Register ROGUE_CR_CORE_ID */
++#define ROGUE_CR_CORE_ID__PBVNC 0x0020U
++#define ROGUE_CR_CORE_ID__PBVNC__MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_CORE_ID__PBVNC__BRANCH_ID_SHIFT 48U
++#define ROGUE_CR_CORE_ID__PBVNC__BRANCH_ID_CLRMSK 0x0000FFFFFFFFFFFFULL
++#define ROGUE_CR_CORE_ID__PBVNC__VERSION_ID_SHIFT 32U
++#define ROGUE_CR_CORE_ID__PBVNC__VERSION_ID_CLRMSK 0xFFFF0000FFFFFFFFULL
++#define ROGUE_CR_CORE_ID__PBVNC__NUMBER_OF_SCALABLE_UNITS_SHIFT 16U
++#define ROGUE_CR_CORE_ID__PBVNC__NUMBER_OF_SCALABLE_UNITS_CLRMSK 0xFFFFFFFF0000FFFFULL
++#define ROGUE_CR_CORE_ID__PBVNC__CONFIG_ID_SHIFT 0U
++#define ROGUE_CR_CORE_ID__PBVNC__CONFIG_ID_CLRMSK 0xFFFFFFFFFFFF0000ULL
 +
-+	/** @cmd: Command data. Format depends on @type. */
-+	void *cmd;
++/* Register ROGUE_CR_CORE_ID */
++#define ROGUE_CR_CORE_ID 0x0018U
++#define ROGUE_CR_CORE_ID_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_CORE_ID_ID_SHIFT 16U
++#define ROGUE_CR_CORE_ID_ID_CLRMSK 0x0000FFFFU
++#define ROGUE_CR_CORE_ID_CONFIG_SHIFT 0U
++#define ROGUE_CR_CORE_ID_CONFIG_CLRMSK 0xFFFF0000U
 +
-+	/** @cmd_len: Length of command data, in bytes. */
-+	u32 cmd_len;
++/* Register ROGUE_CR_CORE_REVISION */
++#define ROGUE_CR_CORE_REVISION 0x0020U
++#define ROGUE_CR_CORE_REVISION_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_CORE_REVISION_DESIGNER_SHIFT 24U
++#define ROGUE_CR_CORE_REVISION_DESIGNER_CLRMSK 0x00FFFFFFU
++#define ROGUE_CR_CORE_REVISION_MAJOR_SHIFT 16U
++#define ROGUE_CR_CORE_REVISION_MAJOR_CLRMSK 0xFF00FFFFU
++#define ROGUE_CR_CORE_REVISION_MINOR_SHIFT 8U
++#define ROGUE_CR_CORE_REVISION_MINOR_CLRMSK 0xFFFF00FFU
++#define ROGUE_CR_CORE_REVISION_MAINTENANCE_SHIFT 0U
++#define ROGUE_CR_CORE_REVISION_MAINTENANCE_CLRMSK 0xFFFFFF00U
 +
-+	/**
-+	 * @fw_ccb_cmd_type: Firmware CCB command type. Must be one of %ROGUE_FWIF_CCB_CMD_TYPE_*.
-+	 */
-+	u32 fw_ccb_cmd_type;
++/* Register ROGUE_CR_DESIGNER_REV_FIELD1 */
++#define ROGUE_CR_DESIGNER_REV_FIELD1 0x0028U
++#define ROGUE_CR_DESIGNER_REV_FIELD1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_DESIGNER_REV_FIELD1_DESIGNER_REV_FIELD1_SHIFT 0U
++#define ROGUE_CR_DESIGNER_REV_FIELD1_DESIGNER_REV_FIELD1_CLRMSK 0x00000000U
 +
-+	/** @hwrt: HWRT object. Will be NULL for compute and transfer jobs. */
-+	struct pvr_hwrt_data *hwrt;
++/* Register ROGUE_CR_DESIGNER_REV_FIELD2 */
++#define ROGUE_CR_DESIGNER_REV_FIELD2 0x0030U
++#define ROGUE_CR_DESIGNER_REV_FIELD2_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_DESIGNER_REV_FIELD2_DESIGNER_REV_FIELD2_SHIFT 0U
++#define ROGUE_CR_DESIGNER_REV_FIELD2_DESIGNER_REV_FIELD2_CLRMSK 0x00000000U
 +
-+	/**
-+	 * @has_pm_ref: True if the job has a power ref, thus forcing the GPU to stay on until
-+	 * the job is done.
-+	 */
-+	bool has_pm_ref;
-+};
++/* Register ROGUE_CR_CHANGESET_NUMBER */
++#define ROGUE_CR_CHANGESET_NUMBER 0x0040U
++#define ROGUE_CR_CHANGESET_NUMBER_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_CHANGESET_NUMBER_CHANGESET_NUMBER_SHIFT 0U
++#define ROGUE_CR_CHANGESET_NUMBER_CHANGESET_NUMBER_CLRMSK 0x0000000000000000ULL
 +
-+/**
-+ * pvr_job_get() - Take additional reference on job.
-+ * @job: Job pointer.
-+ *
-+ * Call pvr_job_put() to release.
-+ *
-+ * Returns:
-+ *  * The requested job on success, or
-+ *  * %NULL if no job pointer passed.
-+ */
-+static __always_inline struct pvr_job *
-+pvr_job_get(struct pvr_job *job)
-+{
-+	if (job)
-+		kref_get(&job->ref_count);
++/* Register ROGUE_CR_CLK_XTPLUS_CTRL */
++#define ROGUE_CR_CLK_XTPLUS_CTRL 0x0080U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_MASKFULL 0x0000003FFFFF0000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_TDM_SHIFT 36U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_TDM_CLRMSK 0xFFFFFFCFFFFFFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_TDM_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_TDM_ON 0x0000001000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_TDM_AUTO 0x0000002000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_ASTC_SHIFT 34U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_ASTC_CLRMSK 0xFFFFFFF3FFFFFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_ASTC_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_ASTC_ON 0x0000000400000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_ASTC_AUTO 0x0000000800000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_IPF_SHIFT 32U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_IPF_CLRMSK 0xFFFFFFFCFFFFFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_IPF_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_IPF_ON 0x0000000100000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_IPF_AUTO 0x0000000200000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_COMPUTE_SHIFT 30U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_COMPUTE_CLRMSK 0xFFFFFFFF3FFFFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_COMPUTE_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_COMPUTE_ON 0x0000000040000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_COMPUTE_AUTO 0x0000000080000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PIXEL_SHIFT 28U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PIXEL_CLRMSK 0xFFFFFFFFCFFFFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PIXEL_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PIXEL_ON 0x0000000010000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PIXEL_AUTO 0x0000000020000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_VERTEX_SHIFT 26U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_VERTEX_CLRMSK 0xFFFFFFFFF3FFFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_VERTEX_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_VERTEX_ON 0x0000000004000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_VERTEX_AUTO 0x0000000008000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USCPS_SHIFT 24U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USCPS_CLRMSK 0xFFFFFFFFFCFFFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USCPS_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USCPS_ON 0x0000000001000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USCPS_AUTO 0x0000000002000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PDS_SHARED_SHIFT 22U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PDS_SHARED_CLRMSK 0xFFFFFFFFFF3FFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PDS_SHARED_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PDS_SHARED_ON 0x0000000000400000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_PDS_SHARED_AUTO 0x0000000000800000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_BIF_BLACKPEARL_SHIFT 20U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_BIF_BLACKPEARL_CLRMSK 0xFFFFFFFFFFCFFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_BIF_BLACKPEARL_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_BIF_BLACKPEARL_ON 0x0000000000100000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_BIF_BLACKPEARL_AUTO 0x0000000000200000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USC_SHARED_SHIFT 18U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USC_SHARED_CLRMSK 0xFFFFFFFFFFF3FFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USC_SHARED_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USC_SHARED_ON 0x0000000000040000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_USC_SHARED_AUTO 0x0000000000080000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_GEOMETRY_SHIFT 16U
++#define ROGUE_CR_CLK_XTPLUS_CTRL_GEOMETRY_CLRMSK 0xFFFFFFFFFFFCFFFFULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_GEOMETRY_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_GEOMETRY_ON 0x0000000000010000ULL
++#define ROGUE_CR_CLK_XTPLUS_CTRL_GEOMETRY_AUTO 0x0000000000020000ULL
 +
-+	return job;
-+}
++/* Register ROGUE_CR_CLK_XTPLUS_STATUS */
++#define ROGUE_CR_CLK_XTPLUS_STATUS 0x0088U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_MASKFULL 0x00000000000007FFULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_TDM_SHIFT 10U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_TDM_CLRMSK 0xFFFFFFFFFFFFFBFFULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_TDM_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_TDM_RUNNING 0x0000000000000400ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_IPF_SHIFT 9U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_IPF_CLRMSK 0xFFFFFFFFFFFFFDFFULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_IPF_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_IPF_RUNNING 0x0000000000000200ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_COMPUTE_SHIFT 8U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_COMPUTE_CLRMSK 0xFFFFFFFFFFFFFEFFULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_COMPUTE_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_COMPUTE_RUNNING 0x0000000000000100ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_ASTC_SHIFT 7U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_ASTC_CLRMSK 0xFFFFFFFFFFFFFF7FULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_ASTC_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_ASTC_RUNNING 0x0000000000000080ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_PIXEL_SHIFT 6U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_PIXEL_CLRMSK 0xFFFFFFFFFFFFFFBFULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_PIXEL_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_PIXEL_RUNNING 0x0000000000000040ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_VERTEX_SHIFT 5U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_VERTEX_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_VERTEX_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_VERTEX_RUNNING 0x0000000000000020ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_USCPS_SHIFT 4U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_USCPS_CLRMSK 0xFFFFFFFFFFFFFFEFULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_USCPS_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_USCPS_RUNNING 0x0000000000000010ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_PDS_SHARED_SHIFT 3U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_PDS_SHARED_CLRMSK 0xFFFFFFFFFFFFFFF7ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_PDS_SHARED_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_PDS_SHARED_RUNNING 0x0000000000000008ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_BIF_BLACKPEARL_SHIFT 2U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_BIF_BLACKPEARL_CLRMSK 0xFFFFFFFFFFFFFFFBULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_BIF_BLACKPEARL_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_BIF_BLACKPEARL_RUNNING 0x0000000000000004ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_USC_SHARED_SHIFT 1U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_USC_SHARED_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_USC_SHARED_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_USC_SHARED_RUNNING 0x0000000000000002ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_GEOMETRY_SHIFT 0U
++#define ROGUE_CR_CLK_XTPLUS_STATUS_GEOMETRY_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_GEOMETRY_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_XTPLUS_STATUS_GEOMETRY_RUNNING 0x0000000000000001ULL
 +
-+void pvr_job_put(struct pvr_job *job);
++/* Register ROGUE_CR_SOFT_RESET */
++#define ROGUE_CR_SOFT_RESET 0x0100U
++#define ROGUE_CR_SOFT_RESET__PBE2_XE__MASKFULL 0xFFEFFFFFFFFFFC3DULL
++#define ROGUE_CR_SOFT_RESET_MASKFULL 0x00E7FFFFFFFFFC3DULL
++#define ROGUE_CR_SOFT_RESET_PHANTOM3_CORE_SHIFT 63U
++#define ROGUE_CR_SOFT_RESET_PHANTOM3_CORE_CLRMSK 0x7FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_PHANTOM3_CORE_EN 0x8000000000000000ULL
++#define ROGUE_CR_SOFT_RESET_PHANTOM2_CORE_SHIFT 62U
++#define ROGUE_CR_SOFT_RESET_PHANTOM2_CORE_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_PHANTOM2_CORE_EN 0x4000000000000000ULL
++#define ROGUE_CR_SOFT_RESET_BERNADO2_CORE_SHIFT 61U
++#define ROGUE_CR_SOFT_RESET_BERNADO2_CORE_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_BERNADO2_CORE_EN 0x2000000000000000ULL
++#define ROGUE_CR_SOFT_RESET_JONES_CORE_SHIFT 60U
++#define ROGUE_CR_SOFT_RESET_JONES_CORE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_JONES_CORE_EN 0x1000000000000000ULL
++#define ROGUE_CR_SOFT_RESET_TILING_CORE_SHIFT 59U
++#define ROGUE_CR_SOFT_RESET_TILING_CORE_CLRMSK 0xF7FFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_TILING_CORE_EN 0x0800000000000000ULL
++#define ROGUE_CR_SOFT_RESET_TE3_SHIFT 58U
++#define ROGUE_CR_SOFT_RESET_TE3_CLRMSK 0xFBFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_TE3_EN 0x0400000000000000ULL
++#define ROGUE_CR_SOFT_RESET_VCE_SHIFT 57U
++#define ROGUE_CR_SOFT_RESET_VCE_CLRMSK 0xFDFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_VCE_EN 0x0200000000000000ULL
++#define ROGUE_CR_SOFT_RESET_VBS_SHIFT 56U
++#define ROGUE_CR_SOFT_RESET_VBS_CLRMSK 0xFEFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_VBS_EN 0x0100000000000000ULL
++#define ROGUE_CR_SOFT_RESET_DPX1_CORE_SHIFT 55U
++#define ROGUE_CR_SOFT_RESET_DPX1_CORE_CLRMSK 0xFF7FFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DPX1_CORE_EN 0x0080000000000000ULL
++#define ROGUE_CR_SOFT_RESET_DPX0_CORE_SHIFT 54U
++#define ROGUE_CR_SOFT_RESET_DPX0_CORE_CLRMSK 0xFFBFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DPX0_CORE_EN 0x0040000000000000ULL
++#define ROGUE_CR_SOFT_RESET_FBA_SHIFT 53U
++#define ROGUE_CR_SOFT_RESET_FBA_CLRMSK 0xFFDFFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_FBA_EN 0x0020000000000000ULL
++#define ROGUE_CR_SOFT_RESET_FB_CDC_SHIFT 51U
++#define ROGUE_CR_SOFT_RESET_FB_CDC_CLRMSK 0xFFF7FFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_FB_CDC_EN 0x0008000000000000ULL
++#define ROGUE_CR_SOFT_RESET_SH_SHIFT 50U
++#define ROGUE_CR_SOFT_RESET_SH_CLRMSK 0xFFFBFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_SH_EN 0x0004000000000000ULL
++#define ROGUE_CR_SOFT_RESET_VRDM_SHIFT 49U
++#define ROGUE_CR_SOFT_RESET_VRDM_CLRMSK 0xFFFDFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_VRDM_EN 0x0002000000000000ULL
++#define ROGUE_CR_SOFT_RESET_MCU_FBTC_SHIFT 48U
++#define ROGUE_CR_SOFT_RESET_MCU_FBTC_CLRMSK 0xFFFEFFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_MCU_FBTC_EN 0x0001000000000000ULL
++#define ROGUE_CR_SOFT_RESET_PHANTOM1_CORE_SHIFT 47U
++#define ROGUE_CR_SOFT_RESET_PHANTOM1_CORE_CLRMSK 0xFFFF7FFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_PHANTOM1_CORE_EN 0x0000800000000000ULL
++#define ROGUE_CR_SOFT_RESET_PHANTOM0_CORE_SHIFT 46U
++#define ROGUE_CR_SOFT_RESET_PHANTOM0_CORE_CLRMSK 0xFFFFBFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_PHANTOM0_CORE_EN 0x0000400000000000ULL
++#define ROGUE_CR_SOFT_RESET_BERNADO1_CORE_SHIFT 45U
++#define ROGUE_CR_SOFT_RESET_BERNADO1_CORE_CLRMSK 0xFFFFDFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_BERNADO1_CORE_EN 0x0000200000000000ULL
++#define ROGUE_CR_SOFT_RESET_BERNADO0_CORE_SHIFT 44U
++#define ROGUE_CR_SOFT_RESET_BERNADO0_CORE_CLRMSK 0xFFFFEFFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_BERNADO0_CORE_EN 0x0000100000000000ULL
++#define ROGUE_CR_SOFT_RESET_IPP_SHIFT 43U
++#define ROGUE_CR_SOFT_RESET_IPP_CLRMSK 0xFFFFF7FFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_IPP_EN 0x0000080000000000ULL
++#define ROGUE_CR_SOFT_RESET_BIF_TEXAS_SHIFT 42U
++#define ROGUE_CR_SOFT_RESET_BIF_TEXAS_CLRMSK 0xFFFFFBFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_BIF_TEXAS_EN 0x0000040000000000ULL
++#define ROGUE_CR_SOFT_RESET_TORNADO_CORE_SHIFT 41U
++#define ROGUE_CR_SOFT_RESET_TORNADO_CORE_CLRMSK 0xFFFFFDFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_TORNADO_CORE_EN 0x0000020000000000ULL
++#define ROGUE_CR_SOFT_RESET_DUST_H_CORE_SHIFT 40U
++#define ROGUE_CR_SOFT_RESET_DUST_H_CORE_CLRMSK 0xFFFFFEFFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DUST_H_CORE_EN 0x0000010000000000ULL
++#define ROGUE_CR_SOFT_RESET_DUST_G_CORE_SHIFT 39U
++#define ROGUE_CR_SOFT_RESET_DUST_G_CORE_CLRMSK 0xFFFFFF7FFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DUST_G_CORE_EN 0x0000008000000000ULL
++#define ROGUE_CR_SOFT_RESET_DUST_F_CORE_SHIFT 38U
++#define ROGUE_CR_SOFT_RESET_DUST_F_CORE_CLRMSK 0xFFFFFFBFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DUST_F_CORE_EN 0x0000004000000000ULL
++#define ROGUE_CR_SOFT_RESET_DUST_E_CORE_SHIFT 37U
++#define ROGUE_CR_SOFT_RESET_DUST_E_CORE_CLRMSK 0xFFFFFFDFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DUST_E_CORE_EN 0x0000002000000000ULL
++#define ROGUE_CR_SOFT_RESET_DUST_D_CORE_SHIFT 36U
++#define ROGUE_CR_SOFT_RESET_DUST_D_CORE_CLRMSK 0xFFFFFFEFFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DUST_D_CORE_EN 0x0000001000000000ULL
++#define ROGUE_CR_SOFT_RESET_DUST_C_CORE_SHIFT 35U
++#define ROGUE_CR_SOFT_RESET_DUST_C_CORE_CLRMSK 0xFFFFFFF7FFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DUST_C_CORE_EN 0x0000000800000000ULL
++#define ROGUE_CR_SOFT_RESET_MMU_SHIFT 34U
++#define ROGUE_CR_SOFT_RESET_MMU_CLRMSK 0xFFFFFFFBFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_MMU_EN 0x0000000400000000ULL
++#define ROGUE_CR_SOFT_RESET_BIF1_SHIFT 33U
++#define ROGUE_CR_SOFT_RESET_BIF1_CLRMSK 0xFFFFFFFDFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_BIF1_EN 0x0000000200000000ULL
++#define ROGUE_CR_SOFT_RESET_GARTEN_SHIFT 32U
++#define ROGUE_CR_SOFT_RESET_GARTEN_CLRMSK 0xFFFFFFFEFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_GARTEN_EN 0x0000000100000000ULL
++#define ROGUE_CR_SOFT_RESET_CPU_SHIFT 32U
++#define ROGUE_CR_SOFT_RESET_CPU_CLRMSK 0xFFFFFFFEFFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_CPU_EN 0x0000000100000000ULL
++#define ROGUE_CR_SOFT_RESET_RASCAL_CORE_SHIFT 31U
++#define ROGUE_CR_SOFT_RESET_RASCAL_CORE_CLRMSK 0xFFFFFFFF7FFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_RASCAL_CORE_EN 0x0000000080000000ULL
++#define ROGUE_CR_SOFT_RESET_DUST_B_CORE_SHIFT 30U
++#define ROGUE_CR_SOFT_RESET_DUST_B_CORE_CLRMSK 0xFFFFFFFFBFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DUST_B_CORE_EN 0x0000000040000000ULL
++#define ROGUE_CR_SOFT_RESET_DUST_A_CORE_SHIFT 29U
++#define ROGUE_CR_SOFT_RESET_DUST_A_CORE_CLRMSK 0xFFFFFFFFDFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_DUST_A_CORE_EN 0x0000000020000000ULL
++#define ROGUE_CR_SOFT_RESET_FB_TLCACHE_SHIFT 28U
++#define ROGUE_CR_SOFT_RESET_FB_TLCACHE_CLRMSK 0xFFFFFFFFEFFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_FB_TLCACHE_EN 0x0000000010000000ULL
++#define ROGUE_CR_SOFT_RESET_SLC_SHIFT 27U
++#define ROGUE_CR_SOFT_RESET_SLC_CLRMSK 0xFFFFFFFFF7FFFFFFULL
++#define ROGUE_CR_SOFT_RESET_SLC_EN 0x0000000008000000ULL
++#define ROGUE_CR_SOFT_RESET_TLA_SHIFT 26U
++#define ROGUE_CR_SOFT_RESET_TLA_CLRMSK 0xFFFFFFFFFBFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_TLA_EN 0x0000000004000000ULL
++#define ROGUE_CR_SOFT_RESET_UVS_SHIFT 25U
++#define ROGUE_CR_SOFT_RESET_UVS_CLRMSK 0xFFFFFFFFFDFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_UVS_EN 0x0000000002000000ULL
++#define ROGUE_CR_SOFT_RESET_TE_SHIFT 24U
++#define ROGUE_CR_SOFT_RESET_TE_CLRMSK 0xFFFFFFFFFEFFFFFFULL
++#define ROGUE_CR_SOFT_RESET_TE_EN 0x0000000001000000ULL
++#define ROGUE_CR_SOFT_RESET_GPP_SHIFT 23U
++#define ROGUE_CR_SOFT_RESET_GPP_CLRMSK 0xFFFFFFFFFF7FFFFFULL
++#define ROGUE_CR_SOFT_RESET_GPP_EN 0x0000000000800000ULL
++#define ROGUE_CR_SOFT_RESET_FBDC_SHIFT 22U
++#define ROGUE_CR_SOFT_RESET_FBDC_CLRMSK 0xFFFFFFFFFFBFFFFFULL
++#define ROGUE_CR_SOFT_RESET_FBDC_EN 0x0000000000400000ULL
++#define ROGUE_CR_SOFT_RESET_FBC_SHIFT 21U
++#define ROGUE_CR_SOFT_RESET_FBC_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_SOFT_RESET_FBC_EN 0x0000000000200000ULL
++#define ROGUE_CR_SOFT_RESET_PM_SHIFT 20U
++#define ROGUE_CR_SOFT_RESET_PM_CLRMSK 0xFFFFFFFFFFEFFFFFULL
++#define ROGUE_CR_SOFT_RESET_PM_EN 0x0000000000100000ULL
++#define ROGUE_CR_SOFT_RESET_PBE_SHIFT 19U
++#define ROGUE_CR_SOFT_RESET_PBE_CLRMSK 0xFFFFFFFFFFF7FFFFULL
++#define ROGUE_CR_SOFT_RESET_PBE_EN 0x0000000000080000ULL
++#define ROGUE_CR_SOFT_RESET_USC_SHARED_SHIFT 18U
++#define ROGUE_CR_SOFT_RESET_USC_SHARED_CLRMSK 0xFFFFFFFFFFFBFFFFULL
++#define ROGUE_CR_SOFT_RESET_USC_SHARED_EN 0x0000000000040000ULL
++#define ROGUE_CR_SOFT_RESET_MCU_L1_SHIFT 17U
++#define ROGUE_CR_SOFT_RESET_MCU_L1_CLRMSK 0xFFFFFFFFFFFDFFFFULL
++#define ROGUE_CR_SOFT_RESET_MCU_L1_EN 0x0000000000020000ULL
++#define ROGUE_CR_SOFT_RESET_BIF_SHIFT 16U
++#define ROGUE_CR_SOFT_RESET_BIF_CLRMSK 0xFFFFFFFFFFFEFFFFULL
++#define ROGUE_CR_SOFT_RESET_BIF_EN 0x0000000000010000ULL
++#define ROGUE_CR_SOFT_RESET_CDM_SHIFT 15U
++#define ROGUE_CR_SOFT_RESET_CDM_CLRMSK 0xFFFFFFFFFFFF7FFFULL
++#define ROGUE_CR_SOFT_RESET_CDM_EN 0x0000000000008000ULL
++#define ROGUE_CR_SOFT_RESET_VDM_SHIFT 14U
++#define ROGUE_CR_SOFT_RESET_VDM_CLRMSK 0xFFFFFFFFFFFFBFFFULL
++#define ROGUE_CR_SOFT_RESET_VDM_EN 0x0000000000004000ULL
++#define ROGUE_CR_SOFT_RESET_TESS_SHIFT 13U
++#define ROGUE_CR_SOFT_RESET_TESS_CLRMSK 0xFFFFFFFFFFFFDFFFULL
++#define ROGUE_CR_SOFT_RESET_TESS_EN 0x0000000000002000ULL
++#define ROGUE_CR_SOFT_RESET_PDS_SHIFT 12U
++#define ROGUE_CR_SOFT_RESET_PDS_CLRMSK 0xFFFFFFFFFFFFEFFFULL
++#define ROGUE_CR_SOFT_RESET_PDS_EN 0x0000000000001000ULL
++#define ROGUE_CR_SOFT_RESET_ISP_SHIFT 11U
++#define ROGUE_CR_SOFT_RESET_ISP_CLRMSK 0xFFFFFFFFFFFFF7FFULL
++#define ROGUE_CR_SOFT_RESET_ISP_EN 0x0000000000000800ULL
++#define ROGUE_CR_SOFT_RESET_TSP_SHIFT 10U
++#define ROGUE_CR_SOFT_RESET_TSP_CLRMSK 0xFFFFFFFFFFFFFBFFULL
++#define ROGUE_CR_SOFT_RESET_TSP_EN 0x0000000000000400ULL
++#define ROGUE_CR_SOFT_RESET_SYSARB_SHIFT 5U
++#define ROGUE_CR_SOFT_RESET_SYSARB_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_SOFT_RESET_SYSARB_EN 0x0000000000000020ULL
++#define ROGUE_CR_SOFT_RESET_TPU_MCU_DEMUX_SHIFT 4U
++#define ROGUE_CR_SOFT_RESET_TPU_MCU_DEMUX_CLRMSK 0xFFFFFFFFFFFFFFEFULL
++#define ROGUE_CR_SOFT_RESET_TPU_MCU_DEMUX_EN 0x0000000000000010ULL
++#define ROGUE_CR_SOFT_RESET_MCU_L0_SHIFT 3U
++#define ROGUE_CR_SOFT_RESET_MCU_L0_CLRMSK 0xFFFFFFFFFFFFFFF7ULL
++#define ROGUE_CR_SOFT_RESET_MCU_L0_EN 0x0000000000000008ULL
++#define ROGUE_CR_SOFT_RESET_TPU_SHIFT 2U
++#define ROGUE_CR_SOFT_RESET_TPU_CLRMSK 0xFFFFFFFFFFFFFFFBULL
++#define ROGUE_CR_SOFT_RESET_TPU_EN 0x0000000000000004ULL
++#define ROGUE_CR_SOFT_RESET_USC_SHIFT 0U
++#define ROGUE_CR_SOFT_RESET_USC_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_SOFT_RESET_USC_EN 0x0000000000000001ULL
 +
-+/**
-+ * pvr_job_release_pm_ref() - Release the PM ref if the job acquired it.
-+ * @job: The job to release the PM ref on.
-+ */
-+static __always_inline void
-+pvr_job_release_pm_ref(struct pvr_job *job)
-+{
-+	if (job->has_pm_ref) {
-+		pvr_power_put(job->pvr_dev);
-+		job->has_pm_ref = false;
-+	}
-+}
++/* Register ROGUE_CR_SOFT_RESET2 */
++#define ROGUE_CR_SOFT_RESET2 0x0108U
++#define ROGUE_CR_SOFT_RESET2_MASKFULL 0x00000000001FFFFFULL
++#define ROGUE_CR_SOFT_RESET2_SPFILTER_SHIFT 12U
++#define ROGUE_CR_SOFT_RESET2_SPFILTER_CLRMSK 0xFFE00FFFU
++#define ROGUE_CR_SOFT_RESET2_TDM_SHIFT 11U
++#define ROGUE_CR_SOFT_RESET2_TDM_CLRMSK 0xFFFFF7FFU
++#define ROGUE_CR_SOFT_RESET2_TDM_EN 0x00000800U
++#define ROGUE_CR_SOFT_RESET2_ASTC_SHIFT 10U
++#define ROGUE_CR_SOFT_RESET2_ASTC_CLRMSK 0xFFFFFBFFU
++#define ROGUE_CR_SOFT_RESET2_ASTC_EN 0x00000400U
++#define ROGUE_CR_SOFT_RESET2_BLACKPEARL_SHIFT 9U
++#define ROGUE_CR_SOFT_RESET2_BLACKPEARL_CLRMSK 0xFFFFFDFFU
++#define ROGUE_CR_SOFT_RESET2_BLACKPEARL_EN 0x00000200U
++#define ROGUE_CR_SOFT_RESET2_USCPS_SHIFT 8U
++#define ROGUE_CR_SOFT_RESET2_USCPS_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_SOFT_RESET2_USCPS_EN 0x00000100U
++#define ROGUE_CR_SOFT_RESET2_IPF_SHIFT 7U
++#define ROGUE_CR_SOFT_RESET2_IPF_CLRMSK 0xFFFFFF7FU
++#define ROGUE_CR_SOFT_RESET2_IPF_EN 0x00000080U
++#define ROGUE_CR_SOFT_RESET2_GEOMETRY_SHIFT 6U
++#define ROGUE_CR_SOFT_RESET2_GEOMETRY_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_SOFT_RESET2_GEOMETRY_EN 0x00000040U
++#define ROGUE_CR_SOFT_RESET2_USC_SHARED_SHIFT 5U
++#define ROGUE_CR_SOFT_RESET2_USC_SHARED_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_SOFT_RESET2_USC_SHARED_EN 0x00000020U
++#define ROGUE_CR_SOFT_RESET2_PDS_SHARED_SHIFT 4U
++#define ROGUE_CR_SOFT_RESET2_PDS_SHARED_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_SOFT_RESET2_PDS_SHARED_EN 0x00000010U
++#define ROGUE_CR_SOFT_RESET2_BIF_BLACKPEARL_SHIFT 3U
++#define ROGUE_CR_SOFT_RESET2_BIF_BLACKPEARL_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_SOFT_RESET2_BIF_BLACKPEARL_EN 0x00000008U
++#define ROGUE_CR_SOFT_RESET2_PIXEL_SHIFT 2U
++#define ROGUE_CR_SOFT_RESET2_PIXEL_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SOFT_RESET2_PIXEL_EN 0x00000004U
++#define ROGUE_CR_SOFT_RESET2_CDM_SHIFT 1U
++#define ROGUE_CR_SOFT_RESET2_CDM_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SOFT_RESET2_CDM_EN 0x00000002U
++#define ROGUE_CR_SOFT_RESET2_VERTEX_SHIFT 0U
++#define ROGUE_CR_SOFT_RESET2_VERTEX_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SOFT_RESET2_VERTEX_EN 0x00000001U
 +
-+/**
-+ * pvr_job_get_pm_ref() - Get a PM ref and attach it to the job.
-+ * @job: The job to attach the PM ref to.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * Any error returned by pvr_power_get() otherwise.
-+ */
-+static __always_inline int
-+pvr_job_get_pm_ref(struct pvr_job *job)
-+{
-+	int err;
++/* Register ROGUE_CR_EVENT_STATUS */
++#define ROGUE_CR_EVENT_STATUS 0x0130U
++#define ROGUE_CR_EVENT_STATUS__ROGUEXE__MASKFULL 0x00000000E01DFFFFULL
++#define ROGUE_CR_EVENT_STATUS__SIGNALS__MASKFULL 0x00000000E007FFFFULL
++#define ROGUE_CR_EVENT_STATUS_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_EVENT_STATUS_TDM_FENCE_FINISHED_SHIFT 31U
++#define ROGUE_CR_EVENT_STATUS_TDM_FENCE_FINISHED_CLRMSK 0x7FFFFFFFU
++#define ROGUE_CR_EVENT_STATUS_TDM_FENCE_FINISHED_EN 0x80000000U
++#define ROGUE_CR_EVENT_STATUS_TDM_BUFFER_STALL_SHIFT 30U
++#define ROGUE_CR_EVENT_STATUS_TDM_BUFFER_STALL_CLRMSK 0xBFFFFFFFU
++#define ROGUE_CR_EVENT_STATUS_TDM_BUFFER_STALL_EN 0x40000000U
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_SIGNAL_FAILURE_SHIFT 29U
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_SIGNAL_FAILURE_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_SIGNAL_FAILURE_EN 0x20000000U
++#define ROGUE_CR_EVENT_STATUS_DPX_OUT_OF_MEMORY_SHIFT 28U
++#define ROGUE_CR_EVENT_STATUS_DPX_OUT_OF_MEMORY_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_EVENT_STATUS_DPX_OUT_OF_MEMORY_EN 0x10000000U
++#define ROGUE_CR_EVENT_STATUS_DPX_MMU_PAGE_FAULT_SHIFT 27U
++#define ROGUE_CR_EVENT_STATUS_DPX_MMU_PAGE_FAULT_CLRMSK 0xF7FFFFFFU
++#define ROGUE_CR_EVENT_STATUS_DPX_MMU_PAGE_FAULT_EN 0x08000000U
++#define ROGUE_CR_EVENT_STATUS_RPM_OUT_OF_MEMORY_SHIFT 26U
++#define ROGUE_CR_EVENT_STATUS_RPM_OUT_OF_MEMORY_CLRMSK 0xFBFFFFFFU
++#define ROGUE_CR_EVENT_STATUS_RPM_OUT_OF_MEMORY_EN 0x04000000U
++#define ROGUE_CR_EVENT_STATUS_FBA_FC3_FINISHED_SHIFT 25U
++#define ROGUE_CR_EVENT_STATUS_FBA_FC3_FINISHED_CLRMSK 0xFDFFFFFFU
++#define ROGUE_CR_EVENT_STATUS_FBA_FC3_FINISHED_EN 0x02000000U
++#define ROGUE_CR_EVENT_STATUS_FBA_FC2_FINISHED_SHIFT 24U
++#define ROGUE_CR_EVENT_STATUS_FBA_FC2_FINISHED_CLRMSK 0xFEFFFFFFU
++#define ROGUE_CR_EVENT_STATUS_FBA_FC2_FINISHED_EN 0x01000000U
++#define ROGUE_CR_EVENT_STATUS_FBA_FC1_FINISHED_SHIFT 23U
++#define ROGUE_CR_EVENT_STATUS_FBA_FC1_FINISHED_CLRMSK 0xFF7FFFFFU
++#define ROGUE_CR_EVENT_STATUS_FBA_FC1_FINISHED_EN 0x00800000U
++#define ROGUE_CR_EVENT_STATUS_FBA_FC0_FINISHED_SHIFT 22U
++#define ROGUE_CR_EVENT_STATUS_FBA_FC0_FINISHED_CLRMSK 0xFFBFFFFFU
++#define ROGUE_CR_EVENT_STATUS_FBA_FC0_FINISHED_EN 0x00400000U
++#define ROGUE_CR_EVENT_STATUS_RDM_FC3_FINISHED_SHIFT 21U
++#define ROGUE_CR_EVENT_STATUS_RDM_FC3_FINISHED_CLRMSK 0xFFDFFFFFU
++#define ROGUE_CR_EVENT_STATUS_RDM_FC3_FINISHED_EN 0x00200000U
++#define ROGUE_CR_EVENT_STATUS_RDM_FC2_FINISHED_SHIFT 20U
++#define ROGUE_CR_EVENT_STATUS_RDM_FC2_FINISHED_CLRMSK 0xFFEFFFFFU
++#define ROGUE_CR_EVENT_STATUS_RDM_FC2_FINISHED_EN 0x00100000U
++#define ROGUE_CR_EVENT_STATUS_SAFETY_SHIFT 20U
++#define ROGUE_CR_EVENT_STATUS_SAFETY_CLRMSK 0xFFEFFFFFU
++#define ROGUE_CR_EVENT_STATUS_SAFETY_EN 0x00100000U
++#define ROGUE_CR_EVENT_STATUS_RDM_FC1_FINISHED_SHIFT 19U
++#define ROGUE_CR_EVENT_STATUS_RDM_FC1_FINISHED_CLRMSK 0xFFF7FFFFU
++#define ROGUE_CR_EVENT_STATUS_RDM_FC1_FINISHED_EN 0x00080000U
++#define ROGUE_CR_EVENT_STATUS_SLAVE_REQ_SHIFT 19U
++#define ROGUE_CR_EVENT_STATUS_SLAVE_REQ_CLRMSK 0xFFF7FFFFU
++#define ROGUE_CR_EVENT_STATUS_SLAVE_REQ_EN 0x00080000U
++#define ROGUE_CR_EVENT_STATUS_RDM_FC0_FINISHED_SHIFT 18U
++#define ROGUE_CR_EVENT_STATUS_RDM_FC0_FINISHED_CLRMSK 0xFFFBFFFFU
++#define ROGUE_CR_EVENT_STATUS_RDM_FC0_FINISHED_EN 0x00040000U
++#define ROGUE_CR_EVENT_STATUS_TDM_CONTEXT_STORE_FINISHED_SHIFT 18U
++#define ROGUE_CR_EVENT_STATUS_TDM_CONTEXT_STORE_FINISHED_CLRMSK 0xFFFBFFFFU
++#define ROGUE_CR_EVENT_STATUS_TDM_CONTEXT_STORE_FINISHED_EN 0x00040000U
++#define ROGUE_CR_EVENT_STATUS_SHG_FINISHED_SHIFT 17U
++#define ROGUE_CR_EVENT_STATUS_SHG_FINISHED_CLRMSK 0xFFFDFFFFU
++#define ROGUE_CR_EVENT_STATUS_SHG_FINISHED_EN 0x00020000U
++#define ROGUE_CR_EVENT_STATUS_SPFILTER_SIGNAL_UPDATE_SHIFT 17U
++#define ROGUE_CR_EVENT_STATUS_SPFILTER_SIGNAL_UPDATE_CLRMSK 0xFFFDFFFFU
++#define ROGUE_CR_EVENT_STATUS_SPFILTER_SIGNAL_UPDATE_EN 0x00020000U
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_BUFFER_STALL_SHIFT 16U
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_BUFFER_STALL_CLRMSK 0xFFFEFFFFU
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_BUFFER_STALL_EN 0x00010000U
++#define ROGUE_CR_EVENT_STATUS_USC_TRIGGER_SHIFT 15U
++#define ROGUE_CR_EVENT_STATUS_USC_TRIGGER_CLRMSK 0xFFFF7FFFU
++#define ROGUE_CR_EVENT_STATUS_USC_TRIGGER_EN 0x00008000U
++#define ROGUE_CR_EVENT_STATUS_ZLS_FINISHED_SHIFT 14U
++#define ROGUE_CR_EVENT_STATUS_ZLS_FINISHED_CLRMSK 0xFFFFBFFFU
++#define ROGUE_CR_EVENT_STATUS_ZLS_FINISHED_EN 0x00004000U
++#define ROGUE_CR_EVENT_STATUS_GPIO_ACK_SHIFT 13U
++#define ROGUE_CR_EVENT_STATUS_GPIO_ACK_CLRMSK 0xFFFFDFFFU
++#define ROGUE_CR_EVENT_STATUS_GPIO_ACK_EN 0x00002000U
++#define ROGUE_CR_EVENT_STATUS_GPIO_REQ_SHIFT 12U
++#define ROGUE_CR_EVENT_STATUS_GPIO_REQ_CLRMSK 0xFFFFEFFFU
++#define ROGUE_CR_EVENT_STATUS_GPIO_REQ_EN 0x00001000U
++#define ROGUE_CR_EVENT_STATUS_POWER_ABORT_SHIFT 11U
++#define ROGUE_CR_EVENT_STATUS_POWER_ABORT_CLRMSK 0xFFFFF7FFU
++#define ROGUE_CR_EVENT_STATUS_POWER_ABORT_EN 0x00000800U
++#define ROGUE_CR_EVENT_STATUS_POWER_COMPLETE_SHIFT 10U
++#define ROGUE_CR_EVENT_STATUS_POWER_COMPLETE_CLRMSK 0xFFFFFBFFU
++#define ROGUE_CR_EVENT_STATUS_POWER_COMPLETE_EN 0x00000400U
++#define ROGUE_CR_EVENT_STATUS_MMU_PAGE_FAULT_SHIFT 9U
++#define ROGUE_CR_EVENT_STATUS_MMU_PAGE_FAULT_CLRMSK 0xFFFFFDFFU
++#define ROGUE_CR_EVENT_STATUS_MMU_PAGE_FAULT_EN 0x00000200U
++#define ROGUE_CR_EVENT_STATUS_PM_3D_MEM_FREE_SHIFT 8U
++#define ROGUE_CR_EVENT_STATUS_PM_3D_MEM_FREE_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_EVENT_STATUS_PM_3D_MEM_FREE_EN 0x00000100U
++#define ROGUE_CR_EVENT_STATUS_PM_OUT_OF_MEMORY_SHIFT 7U
++#define ROGUE_CR_EVENT_STATUS_PM_OUT_OF_MEMORY_CLRMSK 0xFFFFFF7FU
++#define ROGUE_CR_EVENT_STATUS_PM_OUT_OF_MEMORY_EN 0x00000080U
++#define ROGUE_CR_EVENT_STATUS_TA_TERMINATE_SHIFT 6U
++#define ROGUE_CR_EVENT_STATUS_TA_TERMINATE_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_EVENT_STATUS_TA_TERMINATE_EN 0x00000040U
++#define ROGUE_CR_EVENT_STATUS_TA_FINISHED_SHIFT 5U
++#define ROGUE_CR_EVENT_STATUS_TA_FINISHED_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_EVENT_STATUS_TA_FINISHED_EN 0x00000020U
++#define ROGUE_CR_EVENT_STATUS_ISP_END_MACROTILE_SHIFT 4U
++#define ROGUE_CR_EVENT_STATUS_ISP_END_MACROTILE_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_EVENT_STATUS_ISP_END_MACROTILE_EN 0x00000010U
++#define ROGUE_CR_EVENT_STATUS_PIXELBE_END_RENDER_SHIFT 3U
++#define ROGUE_CR_EVENT_STATUS_PIXELBE_END_RENDER_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_EVENT_STATUS_PIXELBE_END_RENDER_EN 0x00000008U
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_FINISHED_SHIFT 2U
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_FINISHED_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_EVENT_STATUS_COMPUTE_FINISHED_EN 0x00000004U
++#define ROGUE_CR_EVENT_STATUS_KERNEL_FINISHED_SHIFT 1U
++#define ROGUE_CR_EVENT_STATUS_KERNEL_FINISHED_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_EVENT_STATUS_KERNEL_FINISHED_EN 0x00000002U
++#define ROGUE_CR_EVENT_STATUS_TLA_COMPLETE_SHIFT 0U
++#define ROGUE_CR_EVENT_STATUS_TLA_COMPLETE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_EVENT_STATUS_TLA_COMPLETE_EN 0x00000001U
 +
-+	if (job->has_pm_ref)
-+		return 0;
++/* Register ROGUE_CR_TIMER */
++#define ROGUE_CR_TIMER 0x0160U
++#define ROGUE_CR_TIMER_MASKFULL 0x8000FFFFFFFFFFFFULL
++#define ROGUE_CR_TIMER_BIT31_SHIFT 63U
++#define ROGUE_CR_TIMER_BIT31_CLRMSK 0x7FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_TIMER_BIT31_EN 0x8000000000000000ULL
++#define ROGUE_CR_TIMER_VALUE_SHIFT 0U
++#define ROGUE_CR_TIMER_VALUE_CLRMSK 0xFFFF000000000000ULL
 +
-+	err = pvr_power_get(job->pvr_dev);
-+	if (!err)
-+		job->has_pm_ref = true;
++/* Register ROGUE_CR_TLA_STATUS */
++#define ROGUE_CR_TLA_STATUS 0x0178U
++#define ROGUE_CR_TLA_STATUS_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_TLA_STATUS_BLIT_COUNT_SHIFT 39U
++#define ROGUE_CR_TLA_STATUS_BLIT_COUNT_CLRMSK 0x0000007FFFFFFFFFULL
++#define ROGUE_CR_TLA_STATUS_REQUEST_SHIFT 7U
++#define ROGUE_CR_TLA_STATUS_REQUEST_CLRMSK 0xFFFFFF800000007FULL
++#define ROGUE_CR_TLA_STATUS_FIFO_FULLNESS_SHIFT 1U
++#define ROGUE_CR_TLA_STATUS_FIFO_FULLNESS_CLRMSK 0xFFFFFFFFFFFFFF81ULL
++#define ROGUE_CR_TLA_STATUS_BUSY_SHIFT 0U
++#define ROGUE_CR_TLA_STATUS_BUSY_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_TLA_STATUS_BUSY_EN 0x0000000000000001ULL
 +
-+	return err;
-+}
++/* Register ROGUE_CR_PM_PARTIAL_RENDER_ENABLE */
++#define ROGUE_CR_PM_PARTIAL_RENDER_ENABLE 0x0338U
++#define ROGUE_CR_PM_PARTIAL_RENDER_ENABLE_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_PM_PARTIAL_RENDER_ENABLE_OP_SHIFT 0U
++#define ROGUE_CR_PM_PARTIAL_RENDER_ENABLE_OP_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_PM_PARTIAL_RENDER_ENABLE_OP_EN 0x00000001U
 +
-+int pvr_job_wait_first_non_signaled_native_dep(struct pvr_job *job);
++/* Register ROGUE_CR_SIDEKICK_IDLE */
++#define ROGUE_CR_SIDEKICK_IDLE 0x03C8U
++#define ROGUE_CR_SIDEKICK_IDLE_MASKFULL 0x000000000000007FULL
++#define ROGUE_CR_SIDEKICK_IDLE_FB_CDC_SHIFT 6U
++#define ROGUE_CR_SIDEKICK_IDLE_FB_CDC_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_SIDEKICK_IDLE_FB_CDC_EN 0x00000040U
++#define ROGUE_CR_SIDEKICK_IDLE_MMU_SHIFT 5U
++#define ROGUE_CR_SIDEKICK_IDLE_MMU_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_SIDEKICK_IDLE_MMU_EN 0x00000020U
++#define ROGUE_CR_SIDEKICK_IDLE_BIF128_SHIFT 4U
++#define ROGUE_CR_SIDEKICK_IDLE_BIF128_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_SIDEKICK_IDLE_BIF128_EN 0x00000010U
++#define ROGUE_CR_SIDEKICK_IDLE_TLA_SHIFT 3U
++#define ROGUE_CR_SIDEKICK_IDLE_TLA_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_SIDEKICK_IDLE_TLA_EN 0x00000008U
++#define ROGUE_CR_SIDEKICK_IDLE_GARTEN_SHIFT 2U
++#define ROGUE_CR_SIDEKICK_IDLE_GARTEN_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SIDEKICK_IDLE_GARTEN_EN 0x00000004U
++#define ROGUE_CR_SIDEKICK_IDLE_HOSTIF_SHIFT 1U
++#define ROGUE_CR_SIDEKICK_IDLE_HOSTIF_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SIDEKICK_IDLE_HOSTIF_EN 0x00000002U
++#define ROGUE_CR_SIDEKICK_IDLE_SOCIF_SHIFT 0U
++#define ROGUE_CR_SIDEKICK_IDLE_SOCIF_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SIDEKICK_IDLE_SOCIF_EN 0x00000001U
 +
-+bool pvr_job_non_native_deps_done(struct pvr_job *job);
++/* Register ROGUE_CR_MARS_IDLE */
++#define ROGUE_CR_MARS_IDLE 0x08F8U
++#define ROGUE_CR_MARS_IDLE_MASKFULL 0x0000000000000007ULL
++#define ROGUE_CR_MARS_IDLE_MH_SYSARB0_SHIFT 2U
++#define ROGUE_CR_MARS_IDLE_MH_SYSARB0_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_MARS_IDLE_MH_SYSARB0_EN 0x00000004U
++#define ROGUE_CR_MARS_IDLE_CPU_SHIFT 1U
++#define ROGUE_CR_MARS_IDLE_CPU_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_MARS_IDLE_CPU_EN 0x00000002U
++#define ROGUE_CR_MARS_IDLE_SOCIF_SHIFT 0U
++#define ROGUE_CR_MARS_IDLE_SOCIF_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MARS_IDLE_SOCIF_EN 0x00000001U
 +
-+int pvr_job_fits_in_cccb(struct pvr_job *job, unsigned long native_dep_count);
++/* Register ROGUE_CR_VDM_CONTEXT_STORE_STATUS */
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS 0x0430U
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_MASKFULL 0x00000000000000F3ULL
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_LAST_PIPE_SHIFT 4U
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_LAST_PIPE_CLRMSK 0xFFFFFF0FU
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_NEED_RESUME_SHIFT 1U
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_NEED_RESUME_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_NEED_RESUME_EN 0x00000002U
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_COMPLETE_SHIFT 0U
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_COMPLETE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_VDM_CONTEXT_STORE_STATUS_COMPLETE_EN 0x00000001U
 +
-+void pvr_job_submit(struct pvr_job *job);
++/* Register ROGUE_CR_VDM_CONTEXT_STORE_TASK0 */
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK0 0x0438U
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK0_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK0_PDS_STATE1_SHIFT 32U
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK0_PDS_STATE1_CLRMSK 0x00000000FFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK0_PDS_STATE0_SHIFT 0U
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK0_PDS_STATE0_CLRMSK 0xFFFFFFFF00000000ULL
 +
-+int pvr_submit_jobs(struct pvr_device *pvr_dev, struct pvr_file *pvr_file,
-+		    struct drm_pvr_ioctl_submit_jobs_args *args);
++/* Register ROGUE_CR_VDM_CONTEXT_STORE_TASK1 */
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK1 0x0440U
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK1_PDS_STATE2_SHIFT 0U
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK1_PDS_STATE2_CLRMSK 0x00000000U
 +
-+#endif /* PVR_JOB_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
-index 5f7cb7beb879..ba7816fd28ec 100644
---- a/drivers/gpu/drm/imagination/pvr_power.c
-+++ b/drivers/gpu/drm/imagination/pvr_power.c
-@@ -5,6 +5,7 @@
- #include "pvr_fw.h"
- #include "pvr_fw_startstop.h"
- #include "pvr_power.h"
-+#include "pvr_queue.h"
- #include "pvr_rogue_fwif.h"
- 
- #include <drm/drm_drv.h>
-@@ -155,6 +156,21 @@ pvr_watchdog_kccb_stalled(struct pvr_device *pvr_dev)
- 			pvr_dev->watchdog.kccb_stall_count = 0;
- 			return true;
- 		}
-+	} else if (pvr_dev->watchdog.old_kccb_cmds_executed == kccb_cmds_executed) {
-+		bool has_active_contexts;
++/* Register ROGUE_CR_VDM_CONTEXT_STORE_TASK2 */
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK2 0x0448U
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK2_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK2_STREAM_OUT2_SHIFT 32U
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK2_STREAM_OUT2_CLRMSK 0x00000000FFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK2_STREAM_OUT1_SHIFT 0U
++#define ROGUE_CR_VDM_CONTEXT_STORE_TASK2_STREAM_OUT1_CLRMSK 0xFFFFFFFF00000000ULL
 +
-+		mutex_lock(&pvr_dev->queues.lock);
-+		has_active_contexts = list_empty(&pvr_dev->queues.active);
-+		mutex_unlock(&pvr_dev->queues.lock);
++/* Register ROGUE_CR_VDM_CONTEXT_RESUME_TASK0 */
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK0 0x0450U
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK0_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK0_PDS_STATE1_SHIFT 32U
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK0_PDS_STATE1_CLRMSK 0x00000000FFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK0_PDS_STATE0_SHIFT 0U
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK0_PDS_STATE0_CLRMSK 0xFFFFFFFF00000000ULL
 +
-+		if (has_active_contexts) {
-+			/* Send a HEALTH_CHECK command so we can verify FW is still alive. */
-+			struct rogue_fwif_kccb_cmd health_check_cmd;
++/* Register ROGUE_CR_VDM_CONTEXT_RESUME_TASK1 */
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK1 0x0458U
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK1_PDS_STATE2_SHIFT 0U
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK1_PDS_STATE2_CLRMSK 0x00000000U
 +
-+			health_check_cmd.cmd_type = ROGUE_FWIF_KCCB_CMD_HEALTH_CHECK;
++/* Register ROGUE_CR_VDM_CONTEXT_RESUME_TASK2 */
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK2 0x0460U
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK2_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK2_STREAM_OUT2_SHIFT 32U
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK2_STREAM_OUT2_CLRMSK 0x00000000FFFFFFFFULL
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK2_STREAM_OUT1_SHIFT 0U
++#define ROGUE_CR_VDM_CONTEXT_RESUME_TASK2_STREAM_OUT1_CLRMSK 0xFFFFFFFF00000000ULL
 +
-+			pvr_kccb_send_cmd_powered(pvr_dev, &health_check_cmd, NULL);
-+		}
- 	} else {
- 		pvr_dev->watchdog.old_kccb_cmds_executed = kccb_cmds_executed;
- 		pvr_dev->watchdog.kccb_stall_count = 0;
-@@ -318,6 +334,7 @@ pvr_power_device_idle(struct device *dev)
- int
- pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- {
-+	bool queues_disabled = false;
- 	int err;
- 
- 	/*
-@@ -337,6 +354,11 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- 	disable_irq(pvr_dev->irq);
- 
- 	do {
-+		if (hard_reset) {
-+			pvr_queue_device_pre_reset(pvr_dev);
-+			queues_disabled = true;
-+		}
++/* Register ROGUE_CR_CDM_CONTEXT_STORE_STATUS */
++#define ROGUE_CR_CDM_CONTEXT_STORE_STATUS 0x04A0U
++#define ROGUE_CR_CDM_CONTEXT_STORE_STATUS_MASKFULL 0x0000000000000003ULL
++#define ROGUE_CR_CDM_CONTEXT_STORE_STATUS_NEED_RESUME_SHIFT 1U
++#define ROGUE_CR_CDM_CONTEXT_STORE_STATUS_NEED_RESUME_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_CDM_CONTEXT_STORE_STATUS_NEED_RESUME_EN 0x00000002U
++#define ROGUE_CR_CDM_CONTEXT_STORE_STATUS_COMPLETE_SHIFT 0U
++#define ROGUE_CR_CDM_CONTEXT_STORE_STATUS_COMPLETE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_CDM_CONTEXT_STORE_STATUS_COMPLETE_EN 0x00000001U
 +
- 		err = pvr_power_fw_disable(pvr_dev, hard_reset);
- 		if (!err) {
- 			if (hard_reset) {
-@@ -372,6 +394,9 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- 		}
- 	} while (err);
- 
-+	if (queues_disabled)
-+		pvr_queue_device_post_reset(pvr_dev);
++/* Register ROGUE_CR_CDM_CONTEXT_PDS0 */
++#define ROGUE_CR_CDM_CONTEXT_PDS0 0x04A8U
++#define ROGUE_CR_CDM_CONTEXT_PDS0_MASKFULL 0xFFFFFFF0FFFFFFF0ULL
++#define ROGUE_CR_CDM_CONTEXT_PDS0_DATA_ADDR_SHIFT 36U
++#define ROGUE_CR_CDM_CONTEXT_PDS0_DATA_ADDR_CLRMSK 0x0000000FFFFFFFFFULL
++#define ROGUE_CR_CDM_CONTEXT_PDS0_DATA_ADDR_ALIGNSHIFT 4U
++#define ROGUE_CR_CDM_CONTEXT_PDS0_DATA_ADDR_ALIGNSIZE 16U
++#define ROGUE_CR_CDM_CONTEXT_PDS0_CODE_ADDR_SHIFT 4U
++#define ROGUE_CR_CDM_CONTEXT_PDS0_CODE_ADDR_CLRMSK 0xFFFFFFFF0000000FULL
++#define ROGUE_CR_CDM_CONTEXT_PDS0_CODE_ADDR_ALIGNSHIFT 4U
++#define ROGUE_CR_CDM_CONTEXT_PDS0_CODE_ADDR_ALIGNSIZE 16U
 +
- 	enable_irq(pvr_dev->irq);
- 
- 	up_write(&pvr_dev->reset_sem);
-@@ -386,6 +411,9 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
- 
- 	/* Leave IRQs disabled if the device is lost. */
- 
-+	if (queues_disabled)
-+		pvr_queue_device_post_reset(pvr_dev);
++/* Register ROGUE_CR_CDM_CONTEXT_PDS1 */
++#define ROGUE_CR_CDM_CONTEXT_PDS1 0x04B0U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__MASKFULL 0x000000007FFFFFFFULL
++#define ROGUE_CR_CDM_CONTEXT_PDS1_MASKFULL 0x000000003FFFFFFFULL
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__PDS_SEQ_DEP_SHIFT 30U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__PDS_SEQ_DEP_CLRMSK 0xBFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__PDS_SEQ_DEP_EN 0x40000000U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_PDS_SEQ_DEP_SHIFT 29U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_PDS_SEQ_DEP_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_PDS_SEQ_DEP_EN 0x20000000U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__USC_SEQ_DEP_SHIFT 29U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__USC_SEQ_DEP_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__USC_SEQ_DEP_EN 0x20000000U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_USC_SEQ_DEP_SHIFT 28U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_USC_SEQ_DEP_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_USC_SEQ_DEP_EN 0x10000000U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__TARGET_SHIFT 28U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__TARGET_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__TARGET_EN 0x10000000U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_TARGET_SHIFT 27U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_TARGET_CLRMSK 0xF7FFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_TARGET_EN 0x08000000U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__UNIFIED_SIZE_SHIFT 22U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__UNIFIED_SIZE_CLRMSK 0xF03FFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_UNIFIED_SIZE_SHIFT 21U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_UNIFIED_SIZE_CLRMSK 0xF81FFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__COMMON_SHARED_SHIFT 21U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__COMMON_SHARED_CLRMSK 0xFFDFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__COMMON_SHARED_EN 0x00200000U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_COMMON_SHARED_SHIFT 20U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_COMMON_SHARED_CLRMSK 0xFFEFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_COMMON_SHARED_EN 0x00100000U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__COMMON_SIZE_SHIFT 12U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__COMMON_SIZE_CLRMSK 0xFFE00FFFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_COMMON_SIZE_SHIFT 11U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_COMMON_SIZE_CLRMSK 0xFFF007FFU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_TEMP_SIZE_SHIFT 7U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_TEMP_SIZE_CLRMSK 0xFFFFF87FU
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__TEMP_SIZE_SHIFT 7U
++#define ROGUE_CR_CDM_CONTEXT_PDS1__TEMPSIZE8__TEMP_SIZE_CLRMSK 0xFFFFF07FU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_DATA_SIZE_SHIFT 1U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_DATA_SIZE_CLRMSK 0xFFFFFF81U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_FENCE_SHIFT 0U
++#define ROGUE_CR_CDM_CONTEXT_PDS1_FENCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_CDM_CONTEXT_PDS1_FENCE_EN 0x00000001U
 +
- err_up_write:
- 	up_write(&pvr_dev->reset_sem);
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
++/* Register ROGUE_CR_CDM_TERMINATE_PDS */
++#define ROGUE_CR_CDM_TERMINATE_PDS 0x04B8U
++#define ROGUE_CR_CDM_TERMINATE_PDS_MASKFULL 0xFFFFFFF0FFFFFFF0ULL
++#define ROGUE_CR_CDM_TERMINATE_PDS_DATA_ADDR_SHIFT 36U
++#define ROGUE_CR_CDM_TERMINATE_PDS_DATA_ADDR_CLRMSK 0x0000000FFFFFFFFFULL
++#define ROGUE_CR_CDM_TERMINATE_PDS_DATA_ADDR_ALIGNSHIFT 4U
++#define ROGUE_CR_CDM_TERMINATE_PDS_DATA_ADDR_ALIGNSIZE 16U
++#define ROGUE_CR_CDM_TERMINATE_PDS_CODE_ADDR_SHIFT 4U
++#define ROGUE_CR_CDM_TERMINATE_PDS_CODE_ADDR_CLRMSK 0xFFFFFFFF0000000FULL
++#define ROGUE_CR_CDM_TERMINATE_PDS_CODE_ADDR_ALIGNSHIFT 4U
++#define ROGUE_CR_CDM_TERMINATE_PDS_CODE_ADDR_ALIGNSIZE 16U
++
++/* Register ROGUE_CR_CDM_TERMINATE_PDS1 */
++#define ROGUE_CR_CDM_TERMINATE_PDS1 0x04C0U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__MASKFULL 0x000000007FFFFFFFULL
++#define ROGUE_CR_CDM_TERMINATE_PDS1_MASKFULL 0x000000003FFFFFFFULL
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__PDS_SEQ_DEP_SHIFT 30U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__PDS_SEQ_DEP_CLRMSK 0xBFFFFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__PDS_SEQ_DEP_EN 0x40000000U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_PDS_SEQ_DEP_SHIFT 29U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_PDS_SEQ_DEP_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_PDS_SEQ_DEP_EN 0x20000000U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__USC_SEQ_DEP_SHIFT 29U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__USC_SEQ_DEP_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__USC_SEQ_DEP_EN 0x20000000U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_USC_SEQ_DEP_SHIFT 28U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_USC_SEQ_DEP_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_USC_SEQ_DEP_EN 0x10000000U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__TARGET_SHIFT 28U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__TARGET_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__TARGET_EN 0x10000000U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_TARGET_SHIFT 27U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_TARGET_CLRMSK 0xF7FFFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_TARGET_EN 0x08000000U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__UNIFIED_SIZE_SHIFT 22U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__UNIFIED_SIZE_CLRMSK 0xF03FFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_UNIFIED_SIZE_SHIFT 21U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_UNIFIED_SIZE_CLRMSK 0xF81FFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__COMMON_SHARED_SHIFT 21U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__COMMON_SHARED_CLRMSK 0xFFDFFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__COMMON_SHARED_EN 0x00200000U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_COMMON_SHARED_SHIFT 20U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_COMMON_SHARED_CLRMSK 0xFFEFFFFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_COMMON_SHARED_EN 0x00100000U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__COMMON_SIZE_SHIFT 12U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__COMMON_SIZE_CLRMSK 0xFFE00FFFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_COMMON_SIZE_SHIFT 11U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_COMMON_SIZE_CLRMSK 0xFFF007FFU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_TEMP_SIZE_SHIFT 7U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_TEMP_SIZE_CLRMSK 0xFFFFF87FU
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__TEMP_SIZE_SHIFT 7U
++#define ROGUE_CR_CDM_TERMINATE_PDS1__TEMPSIZE8__TEMP_SIZE_CLRMSK 0xFFFFF07FU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_DATA_SIZE_SHIFT 1U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_DATA_SIZE_CLRMSK 0xFFFFFF81U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_FENCE_SHIFT 0U
++#define ROGUE_CR_CDM_TERMINATE_PDS1_FENCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_CDM_TERMINATE_PDS1_FENCE_EN 0x00000001U
++
++/* Register ROGUE_CR_CDM_CONTEXT_LOAD_PDS0 */
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0 0x04D8U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_MASKFULL 0xFFFFFFF0FFFFFFF0ULL
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_DATA_ADDR_SHIFT 36U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_DATA_ADDR_CLRMSK 0x0000000FFFFFFFFFULL
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_DATA_ADDR_ALIGNSHIFT 4U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_DATA_ADDR_ALIGNSIZE 16U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_CODE_ADDR_SHIFT 4U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_CODE_ADDR_CLRMSK 0xFFFFFFFF0000000FULL
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_CODE_ADDR_ALIGNSHIFT 4U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS0_CODE_ADDR_ALIGNSIZE 16U
++
++/* Register ROGUE_CR_CDM_CONTEXT_LOAD_PDS1 */
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1 0x04E0U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__MASKFULL 0x000000007FFFFFFFULL
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_MASKFULL 0x000000003FFFFFFFULL
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__PDS_SEQ_DEP_SHIFT 30U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__PDS_SEQ_DEP_CLRMSK 0xBFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__PDS_SEQ_DEP_EN 0x40000000U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_PDS_SEQ_DEP_SHIFT 29U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_PDS_SEQ_DEP_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_PDS_SEQ_DEP_EN 0x20000000U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__USC_SEQ_DEP_SHIFT 29U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__USC_SEQ_DEP_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__USC_SEQ_DEP_EN 0x20000000U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_USC_SEQ_DEP_SHIFT 28U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_USC_SEQ_DEP_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_USC_SEQ_DEP_EN 0x10000000U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__TARGET_SHIFT 28U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__TARGET_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__TARGET_EN 0x10000000U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_TARGET_SHIFT 27U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_TARGET_CLRMSK 0xF7FFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_TARGET_EN 0x08000000U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__UNIFIED_SIZE_SHIFT 22U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__UNIFIED_SIZE_CLRMSK 0xF03FFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_UNIFIED_SIZE_SHIFT 21U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_UNIFIED_SIZE_CLRMSK 0xF81FFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__COMMON_SHARED_SHIFT 21U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__COMMON_SHARED_CLRMSK 0xFFDFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__COMMON_SHARED_EN 0x00200000U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_COMMON_SHARED_SHIFT 20U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_COMMON_SHARED_CLRMSK 0xFFEFFFFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_COMMON_SHARED_EN 0x00100000U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__COMMON_SIZE_SHIFT 12U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__COMMON_SIZE_CLRMSK 0xFFE00FFFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_COMMON_SIZE_SHIFT 11U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_COMMON_SIZE_CLRMSK 0xFFF007FFU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_TEMP_SIZE_SHIFT 7U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_TEMP_SIZE_CLRMSK 0xFFFFF87FU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__TEMP_SIZE_SHIFT 7U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1__TEMPSIZE8__TEMP_SIZE_CLRMSK 0xFFFFF07FU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_DATA_SIZE_SHIFT 1U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_DATA_SIZE_CLRMSK 0xFFFFFF81U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_FENCE_SHIFT 0U
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_FENCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_CDM_CONTEXT_LOAD_PDS1_FENCE_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_WRAPPER_CONFIG */
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG 0x0810U
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_MASKFULL 0x000001030F01FFFFULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_FW_IDLE_ENABLE_SHIFT 40U
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_FW_IDLE_ENABLE_CLRMSK 0xFFFFFEFFFFFFFFFFULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_FW_IDLE_ENABLE_EN 0x0000010000000000ULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_DISABLE_BOOT_SHIFT 33U
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_DISABLE_BOOT_CLRMSK 0xFFFFFFFDFFFFFFFFULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_DISABLE_BOOT_EN 0x0000000200000000ULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_L2_CACHE_OFF_SHIFT 32U
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_L2_CACHE_OFF_CLRMSK 0xFFFFFFFEFFFFFFFFULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_L2_CACHE_OFF_EN 0x0000000100000000ULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_OS_ID_SHIFT 25U
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_OS_ID_CLRMSK 0xFFFFFFFFF1FFFFFFULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_TRUSTED_SHIFT 24U
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_TRUSTED_CLRMSK 0xFFFFFFFFFEFFFFFFULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_TRUSTED_EN 0x0000000001000000ULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_BOOT_ISA_MODE_SHIFT 16U
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_BOOT_ISA_MODE_CLRMSK 0xFFFFFFFFFFFEFFFFULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_BOOT_ISA_MODE_MIPS32 0x0000000000000000ULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_BOOT_ISA_MODE_MICROMIPS 0x0000000000010000ULL
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_REGBANK_BASE_ADDR_SHIFT 0U
++#define ROGUE_CR_MIPS_WRAPPER_CONFIG_REGBANK_BASE_ADDR_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1 */
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1 0x0818U
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_MASKFULL 0x00000000FFFFF001ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_BASE_ADDR_IN_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_BASE_ADDR_IN_CLRMSK 0xFFFFFFFF00000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_MODE_ENABLE_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_MODE_ENABLE_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_MODE_ENABLE_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2 */
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2 0x0820U
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_MASKFULL 0x000000FFFFFFF1FFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_ADDR_OUT_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_ADDR_OUT_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_OS_ID_SHIFT 6U
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_OS_ID_CLRMSK 0xFFFFFFFFFFFFFE3FULL
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_TRUSTED_SHIFT 5U
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_TRUSTED_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_TRUSTED_EN 0x0000000000000020ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_REGION_SIZE_POW2_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_REGION_SIZE_POW2_CLRMSK 0xFFFFFFFFFFFFFFE0ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1 */
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1 0x0828U
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_MASKFULL 0x00000000FFFFF001ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_BASE_ADDR_IN_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_BASE_ADDR_IN_CLRMSK 0xFFFFFFFF00000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_MODE_ENABLE_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_MODE_ENABLE_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_MODE_ENABLE_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2 */
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2 0x0830U
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_MASKFULL 0x000000FFFFFFF1FFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_ADDR_OUT_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_ADDR_OUT_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_OS_ID_SHIFT 6U
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_OS_ID_CLRMSK 0xFFFFFFFFFFFFFE3FULL
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_TRUSTED_SHIFT 5U
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_TRUSTED_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_TRUSTED_EN 0x0000000000000020ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_REGION_SIZE_POW2_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_REGION_SIZE_POW2_CLRMSK 0xFFFFFFFFFFFFFFE0ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1 */
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1 0x0838U
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_MASKFULL 0x00000000FFFFF001ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_BASE_ADDR_IN_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_BASE_ADDR_IN_CLRMSK 0xFFFFFFFF00000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_MODE_ENABLE_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_MODE_ENABLE_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_MODE_ENABLE_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2 */
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2 0x0840U
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_MASKFULL 0x000000FFFFFFF1FFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_ADDR_OUT_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_ADDR_OUT_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_OS_ID_SHIFT 6U
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_OS_ID_CLRMSK 0xFFFFFFFFFFFFFE3FULL
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_TRUSTED_SHIFT 5U
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_TRUSTED_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_TRUSTED_EN 0x0000000000000020ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_REGION_SIZE_POW2_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_REGION_SIZE_POW2_CLRMSK 0xFFFFFFFFFFFFFFE0ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG1 */
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG1 0x0848U
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG1_MASKFULL 0x00000000FFFFF001ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG1_BASE_ADDR_IN_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG1_BASE_ADDR_IN_CLRMSK 0xFFFFFFFF00000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG1_MODE_ENABLE_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG1_MODE_ENABLE_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG1_MODE_ENABLE_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2 */
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2 0x0850U
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_MASKFULL 0x000000FFFFFFF1FFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_ADDR_OUT_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_ADDR_OUT_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_OS_ID_SHIFT 6U
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_OS_ID_CLRMSK 0xFFFFFFFFFFFFFE3FULL
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_TRUSTED_SHIFT 5U
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_TRUSTED_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_TRUSTED_EN 0x0000000000000020ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_REGION_SIZE_POW2_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP4_CONFIG2_REGION_SIZE_POW2_CLRMSK 0xFFFFFFFFFFFFFFE0ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1 */
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1 0x0858U
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_MASKFULL 0x00000000FFFFF001ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_BASE_ADDR_IN_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_BASE_ADDR_IN_CLRMSK 0xFFFFFFFF00000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_MODE_ENABLE_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_MODE_ENABLE_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_MODE_ENABLE_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2 */
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2 0x0860U
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_MASKFULL 0x000000FFFFFFF1FFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_ADDR_OUT_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_ADDR_OUT_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_OS_ID_SHIFT 6U
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_OS_ID_CLRMSK 0xFFFFFFFFFFFFFE3FULL
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_TRUSTED_SHIFT 5U
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_TRUSTED_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_TRUSTED_EN 0x0000000000000020ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_REGION_SIZE_POW2_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_REGION_SIZE_POW2_CLRMSK 0xFFFFFFFFFFFFFFE0ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_STATUS */
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_STATUS 0x0868U
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_STATUS_MASKFULL 0x00000001FFFFFFFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_STATUS_EVENT_SHIFT 32U
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_STATUS_EVENT_CLRMSK 0xFFFFFFFEFFFFFFFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_STATUS_EVENT_EN 0x0000000100000000ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_STATUS_ADDRESS_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_STATUS_ADDRESS_CLRMSK 0xFFFFFFFF00000000ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_CLEAR */
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_CLEAR 0x0870U
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_CLEAR_EVENT_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_CLEAR_EVENT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_ADDR_REMAP_UNMAPPED_CLEAR_EVENT_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG */
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG 0x0878U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_MASKFULL 0xFFFFFFF7FFFFFFBFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_ADDR_OUT_SHIFT 36U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_ADDR_OUT_CLRMSK 0x0000000FFFFFFFFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_OS_ID_SHIFT 32U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_OS_ID_CLRMSK 0xFFFFFFF8FFFFFFFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_BASE_ADDR_IN_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_BASE_ADDR_IN_CLRMSK 0xFFFFFFFF00000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_TRUSTED_SHIFT 11U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_TRUSTED_CLRMSK 0xFFFFFFFFFFFFF7FFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_TRUSTED_EN 0x0000000000000800ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_SHIFT 7U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_CLRMSK 0xFFFFFFFFFFFFF87FULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_4KB 0x0000000000000000ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_16KB 0x0000000000000080ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_64KB 0x0000000000000100ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_256KB 0x0000000000000180ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_1MB 0x0000000000000200ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_4MB 0x0000000000000280ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_16MB 0x0000000000000300ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_64MB 0x0000000000000380ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_REGION_SIZE_256MB 0x0000000000000400ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_ENTRY_SHIFT 1U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_ENTRY_CLRMSK 0xFFFFFFFFFFFFFFC1ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_MODE_ENABLE_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_MODE_ENABLE_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_CONFIG_MODE_ENABLE_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP_RANGE_READ */
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_READ 0x0880U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_READ_MASKFULL 0x000000000000003FULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_READ_ENTRY_SHIFT 1U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_READ_ENTRY_CLRMSK 0xFFFFFFC1U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_READ_REQUEST_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_READ_REQUEST_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_READ_REQUEST_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA */
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA 0x0888U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_MASKFULL 0xFFFFFFF7FFFFFF81ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_ADDR_OUT_SHIFT 36U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_ADDR_OUT_CLRMSK 0x0000000FFFFFFFFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_OS_ID_SHIFT 32U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_OS_ID_CLRMSK 0xFFFFFFF8FFFFFFFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_BASE_ADDR_IN_SHIFT 12U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_BASE_ADDR_IN_CLRMSK 0xFFFFFFFF00000FFFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_TRUSTED_SHIFT 11U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_TRUSTED_CLRMSK 0xFFFFFFFFFFFFF7FFULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_TRUSTED_EN 0x0000000000000800ULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_REGION_SIZE_SHIFT 7U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_REGION_SIZE_CLRMSK 0xFFFFFFFFFFFFF87FULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_MODE_ENABLE_SHIFT 0U
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_MODE_ENABLE_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MIPS_ADDR_REMAP_RANGE_DATA_MODE_ENABLE_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE */
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE 0x08A0U
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE_EVENT_SHIFT 0U
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE_EVENT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE_EVENT_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS */
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS 0x08A8U
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_SHIFT 0U
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR */
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR 0x08B0U
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_EVENT_SHIFT 0U
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_EVENT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_EVENT_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_WRAPPER_NMI_ENABLE */
++#define ROGUE_CR_MIPS_WRAPPER_NMI_ENABLE 0x08B8U
++#define ROGUE_CR_MIPS_WRAPPER_NMI_ENABLE_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_MIPS_WRAPPER_NMI_ENABLE_EVENT_SHIFT 0U
++#define ROGUE_CR_MIPS_WRAPPER_NMI_ENABLE_EVENT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_WRAPPER_NMI_ENABLE_EVENT_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_WRAPPER_NMI_EVENT */
++#define ROGUE_CR_MIPS_WRAPPER_NMI_EVENT 0x08C0U
++#define ROGUE_CR_MIPS_WRAPPER_NMI_EVENT_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_MIPS_WRAPPER_NMI_EVENT_TRIGGER_SHIFT 0U
++#define ROGUE_CR_MIPS_WRAPPER_NMI_EVENT_TRIGGER_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_WRAPPER_NMI_EVENT_TRIGGER_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_DEBUG_CONFIG */
++#define ROGUE_CR_MIPS_DEBUG_CONFIG 0x08C8U
++#define ROGUE_CR_MIPS_DEBUG_CONFIG_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_MIPS_DEBUG_CONFIG_DISABLE_PROBE_DEBUG_SHIFT 0U
++#define ROGUE_CR_MIPS_DEBUG_CONFIG_DISABLE_PROBE_DEBUG_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_DEBUG_CONFIG_DISABLE_PROBE_DEBUG_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_EXCEPTION_STATUS */
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS 0x08D0U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_MASKFULL 0x000000000000003FULL
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_SLEEP_SHIFT 5U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_SLEEP_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_SLEEP_EN 0x00000020U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NMI_TAKEN_SHIFT 4U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NMI_TAKEN_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NMI_TAKEN_EN 0x00000010U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NEST_EXL_SHIFT 3U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NEST_EXL_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NEST_EXL_EN 0x00000008U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NEST_ERL_SHIFT 2U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NEST_ERL_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_NEST_ERL_EN 0x00000004U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_EXL_SHIFT 1U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_EXL_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_EXL_EN 0x00000002U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_ERL_SHIFT 0U
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_ERL_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MIPS_EXCEPTION_STATUS_SI_ERL_EN 0x00000001U
++
++/* Register ROGUE_CR_MIPS_WRAPPER_STATUS */
++#define ROGUE_CR_MIPS_WRAPPER_STATUS 0x08E8U
++#define ROGUE_CR_MIPS_WRAPPER_STATUS_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_MIPS_WRAPPER_STATUS_OUTSTANDING_REQUESTS_SHIFT 0U
++#define ROGUE_CR_MIPS_WRAPPER_STATUS_OUTSTANDING_REQUESTS_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_XPU_BROADCAST */
++#define ROGUE_CR_XPU_BROADCAST 0x0890U
++#define ROGUE_CR_XPU_BROADCAST_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_XPU_BROADCAST_MASK_SHIFT 0U
++#define ROGUE_CR_XPU_BROADCAST_MASK_CLRMSK 0xFFFFFE00U
++
++/* Register ROGUE_CR_META_SP_MSLVDATAX */
++#define ROGUE_CR_META_SP_MSLVDATAX 0x0A00U
++#define ROGUE_CR_META_SP_MSLVDATAX_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_META_SP_MSLVDATAX_MSLVDATAX_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVDATAX_MSLVDATAX_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_META_SP_MSLVDATAT */
++#define ROGUE_CR_META_SP_MSLVDATAT 0x0A08U
++#define ROGUE_CR_META_SP_MSLVDATAT_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_META_SP_MSLVDATAT_MSLVDATAT_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVDATAT_MSLVDATAT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_META_SP_MSLVCTRL0 */
++#define ROGUE_CR_META_SP_MSLVCTRL0 0x0A10U
++#define ROGUE_CR_META_SP_MSLVCTRL0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_META_SP_MSLVCTRL0_ADDR_SHIFT 2U
++#define ROGUE_CR_META_SP_MSLVCTRL0_ADDR_CLRMSK 0x00000003U
++#define ROGUE_CR_META_SP_MSLVCTRL0_AUTOINCR_SHIFT 1U
++#define ROGUE_CR_META_SP_MSLVCTRL0_AUTOINCR_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_META_SP_MSLVCTRL0_AUTOINCR_EN 0x00000002U
++#define ROGUE_CR_META_SP_MSLVCTRL0_RD_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVCTRL0_RD_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_META_SP_MSLVCTRL0_RD_EN 0x00000001U
++
++/* Register ROGUE_CR_META_SP_MSLVCTRL1 */
++#define ROGUE_CR_META_SP_MSLVCTRL1 0x0A18U
++#define ROGUE_CR_META_SP_MSLVCTRL1_MASKFULL 0x00000000F7F4003FULL
++#define ROGUE_CR_META_SP_MSLVCTRL1_DEFERRTHREAD_SHIFT 30U
++#define ROGUE_CR_META_SP_MSLVCTRL1_DEFERRTHREAD_CLRMSK 0x3FFFFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_LOCK2_INTERLOCK_SHIFT 29U
++#define ROGUE_CR_META_SP_MSLVCTRL1_LOCK2_INTERLOCK_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_LOCK2_INTERLOCK_EN 0x20000000U
++#define ROGUE_CR_META_SP_MSLVCTRL1_ATOMIC_INTERLOCK_SHIFT 28U
++#define ROGUE_CR_META_SP_MSLVCTRL1_ATOMIC_INTERLOCK_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_ATOMIC_INTERLOCK_EN 0x10000000U
++#define ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_SHIFT 26U
++#define ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_CLRMSK 0xFBFFFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN 0x04000000U
++#define ROGUE_CR_META_SP_MSLVCTRL1_COREMEM_IDLE_SHIFT 25U
++#define ROGUE_CR_META_SP_MSLVCTRL1_COREMEM_IDLE_CLRMSK 0xFDFFFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_COREMEM_IDLE_EN 0x02000000U
++#define ROGUE_CR_META_SP_MSLVCTRL1_READY_SHIFT 24U
++#define ROGUE_CR_META_SP_MSLVCTRL1_READY_CLRMSK 0xFEFFFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_READY_EN 0x01000000U
++#define ROGUE_CR_META_SP_MSLVCTRL1_DEFERRID_SHIFT 21U
++#define ROGUE_CR_META_SP_MSLVCTRL1_DEFERRID_CLRMSK 0xFF1FFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_DEFERR_SHIFT 20U
++#define ROGUE_CR_META_SP_MSLVCTRL1_DEFERR_CLRMSK 0xFFEFFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_DEFERR_EN 0x00100000U
++#define ROGUE_CR_META_SP_MSLVCTRL1_WR_ACTIVE_SHIFT 18U
++#define ROGUE_CR_META_SP_MSLVCTRL1_WR_ACTIVE_CLRMSK 0xFFFBFFFFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_WR_ACTIVE_EN 0x00040000U
++#define ROGUE_CR_META_SP_MSLVCTRL1_THREAD_SHIFT 4U
++#define ROGUE_CR_META_SP_MSLVCTRL1_THREAD_CLRMSK 0xFFFFFFCFU
++#define ROGUE_CR_META_SP_MSLVCTRL1_TRANS_SIZE_SHIFT 2U
++#define ROGUE_CR_META_SP_MSLVCTRL1_TRANS_SIZE_CLRMSK 0xFFFFFFF3U
++#define ROGUE_CR_META_SP_MSLVCTRL1_BYTE_ROUND_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVCTRL1_BYTE_ROUND_CLRMSK 0xFFFFFFFCU
++
++/* Register ROGUE_CR_META_SP_MSLVHANDSHKE */
++#define ROGUE_CR_META_SP_MSLVHANDSHKE 0x0A50U
++#define ROGUE_CR_META_SP_MSLVHANDSHKE_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_META_SP_MSLVHANDSHKE_INPUT_SHIFT 2U
++#define ROGUE_CR_META_SP_MSLVHANDSHKE_INPUT_CLRMSK 0xFFFFFFF3U
++#define ROGUE_CR_META_SP_MSLVHANDSHKE_OUTPUT_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVHANDSHKE_OUTPUT_CLRMSK 0xFFFFFFFCU
++
++/* Register ROGUE_CR_META_SP_MSLVT0KICK */
++#define ROGUE_CR_META_SP_MSLVT0KICK 0x0A80U
++#define ROGUE_CR_META_SP_MSLVT0KICK_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_META_SP_MSLVT0KICK_MSLVT0KICK_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVT0KICK_MSLVT0KICK_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_META_SP_MSLVT0KICKI */
++#define ROGUE_CR_META_SP_MSLVT0KICKI 0x0A88U
++#define ROGUE_CR_META_SP_MSLVT0KICKI_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_META_SP_MSLVT0KICKI_MSLVT0KICKI_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVT0KICKI_MSLVT0KICKI_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_META_SP_MSLVT1KICK */
++#define ROGUE_CR_META_SP_MSLVT1KICK 0x0A90U
++#define ROGUE_CR_META_SP_MSLVT1KICK_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_META_SP_MSLVT1KICK_MSLVT1KICK_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVT1KICK_MSLVT1KICK_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_META_SP_MSLVT1KICKI */
++#define ROGUE_CR_META_SP_MSLVT1KICKI 0x0A98U
++#define ROGUE_CR_META_SP_MSLVT1KICKI_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_META_SP_MSLVT1KICKI_MSLVT1KICKI_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVT1KICKI_MSLVT1KICKI_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_META_SP_MSLVT2KICK */
++#define ROGUE_CR_META_SP_MSLVT2KICK 0x0AA0U
++#define ROGUE_CR_META_SP_MSLVT2KICK_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_META_SP_MSLVT2KICK_MSLVT2KICK_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVT2KICK_MSLVT2KICK_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_META_SP_MSLVT2KICKI */
++#define ROGUE_CR_META_SP_MSLVT2KICKI 0x0AA8U
++#define ROGUE_CR_META_SP_MSLVT2KICKI_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_META_SP_MSLVT2KICKI_MSLVT2KICKI_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVT2KICKI_MSLVT2KICKI_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_META_SP_MSLVT3KICK */
++#define ROGUE_CR_META_SP_MSLVT3KICK 0x0AB0U
++#define ROGUE_CR_META_SP_MSLVT3KICK_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_META_SP_MSLVT3KICK_MSLVT3KICK_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVT3KICK_MSLVT3KICK_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_META_SP_MSLVT3KICKI */
++#define ROGUE_CR_META_SP_MSLVT3KICKI 0x0AB8U
++#define ROGUE_CR_META_SP_MSLVT3KICKI_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_META_SP_MSLVT3KICKI_MSLVT3KICKI_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVT3KICKI_MSLVT3KICKI_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_META_SP_MSLVRST */
++#define ROGUE_CR_META_SP_MSLVRST 0x0AC0U
++#define ROGUE_CR_META_SP_MSLVRST_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_META_SP_MSLVRST_SOFTRESET_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVRST_SOFTRESET_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_META_SP_MSLVRST_SOFTRESET_EN 0x00000001U
++
++/* Register ROGUE_CR_META_SP_MSLVIRQSTATUS */
++#define ROGUE_CR_META_SP_MSLVIRQSTATUS 0x0AC8U
++#define ROGUE_CR_META_SP_MSLVIRQSTATUS_MASKFULL 0x000000000000000CULL
++#define ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT3_SHIFT 3U
++#define ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT3_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT3_EN 0x00000008U
++#define ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_SHIFT 2U
++#define ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_EN 0x00000004U
++
++/* Register ROGUE_CR_META_SP_MSLVIRQENABLE */
++#define ROGUE_CR_META_SP_MSLVIRQENABLE 0x0AD0U
++#define ROGUE_CR_META_SP_MSLVIRQENABLE_MASKFULL 0x000000000000000CULL
++#define ROGUE_CR_META_SP_MSLVIRQENABLE_EVENT1_SHIFT 3U
++#define ROGUE_CR_META_SP_MSLVIRQENABLE_EVENT1_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_META_SP_MSLVIRQENABLE_EVENT1_EN 0x00000008U
++#define ROGUE_CR_META_SP_MSLVIRQENABLE_EVENT0_SHIFT 2U
++#define ROGUE_CR_META_SP_MSLVIRQENABLE_EVENT0_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_META_SP_MSLVIRQENABLE_EVENT0_EN 0x00000004U
++
++/* Register ROGUE_CR_META_SP_MSLVIRQLEVEL */
++#define ROGUE_CR_META_SP_MSLVIRQLEVEL 0x0AD8U
++#define ROGUE_CR_META_SP_MSLVIRQLEVEL_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_META_SP_MSLVIRQLEVEL_MODE_SHIFT 0U
++#define ROGUE_CR_META_SP_MSLVIRQLEVEL_MODE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_META_SP_MSLVIRQLEVEL_MODE_EN 0x00000001U
++
++/* Register ROGUE_CR_MTS_SCHEDULE */
++#define ROGUE_CR_MTS_SCHEDULE 0x0B00U
++#define ROGUE_CR_MTS_SCHEDULE_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_MTS_SCHEDULE_HOST_SHIFT 8U
++#define ROGUE_CR_MTS_SCHEDULE_HOST_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_MTS_SCHEDULE_HOST_BG_TIMER 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE_HOST_HOST 0x00000100U
++#define ROGUE_CR_MTS_SCHEDULE_PRIORITY_SHIFT 6U
++#define ROGUE_CR_MTS_SCHEDULE_PRIORITY_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_MTS_SCHEDULE_PRIORITY_PRT0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE_PRIORITY_PRT1 0x00000040U
++#define ROGUE_CR_MTS_SCHEDULE_PRIORITY_PRT2 0x00000080U
++#define ROGUE_CR_MTS_SCHEDULE_PRIORITY_PRT3 0x000000C0U
++#define ROGUE_CR_MTS_SCHEDULE_CONTEXT_SHIFT 5U
++#define ROGUE_CR_MTS_SCHEDULE_CONTEXT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SCHEDULE_CONTEXT_BGCTX 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE_CONTEXT_INTCTX 0x00000020U
++#define ROGUE_CR_MTS_SCHEDULE_TASK_SHIFT 4U
++#define ROGUE_CR_MTS_SCHEDULE_TASK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SCHEDULE_TASK_NON_COUNTED 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE_TASK_COUNTED 0x00000010U
++#define ROGUE_CR_MTS_SCHEDULE_DM_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE_DM_CLRMSK 0xFFFFFFF0U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM1 0x00000001U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM2 0x00000002U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM3 0x00000003U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM4 0x00000004U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM5 0x00000005U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM6 0x00000006U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM7 0x00000007U
++#define ROGUE_CR_MTS_SCHEDULE_DM_DM_ALL 0x0000000FU
++
++/* Register ROGUE_CR_MTS_SCHEDULE1 */
++#define ROGUE_CR_MTS_SCHEDULE1 0x10B00U
++#define ROGUE_CR_MTS_SCHEDULE1_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_MTS_SCHEDULE1_HOST_SHIFT 8U
++#define ROGUE_CR_MTS_SCHEDULE1_HOST_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_MTS_SCHEDULE1_HOST_BG_TIMER 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE1_HOST_HOST 0x00000100U
++#define ROGUE_CR_MTS_SCHEDULE1_PRIORITY_SHIFT 6U
++#define ROGUE_CR_MTS_SCHEDULE1_PRIORITY_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_MTS_SCHEDULE1_PRIORITY_PRT0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE1_PRIORITY_PRT1 0x00000040U
++#define ROGUE_CR_MTS_SCHEDULE1_PRIORITY_PRT2 0x00000080U
++#define ROGUE_CR_MTS_SCHEDULE1_PRIORITY_PRT3 0x000000C0U
++#define ROGUE_CR_MTS_SCHEDULE1_CONTEXT_SHIFT 5U
++#define ROGUE_CR_MTS_SCHEDULE1_CONTEXT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SCHEDULE1_CONTEXT_BGCTX 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE1_CONTEXT_INTCTX 0x00000020U
++#define ROGUE_CR_MTS_SCHEDULE1_TASK_SHIFT 4U
++#define ROGUE_CR_MTS_SCHEDULE1_TASK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SCHEDULE1_TASK_NON_COUNTED 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE1_TASK_COUNTED 0x00000010U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_CLRMSK 0xFFFFFFF0U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM1 0x00000001U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM2 0x00000002U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM3 0x00000003U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM4 0x00000004U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM5 0x00000005U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM6 0x00000006U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM7 0x00000007U
++#define ROGUE_CR_MTS_SCHEDULE1_DM_DM_ALL 0x0000000FU
++
++/* Register ROGUE_CR_MTS_SCHEDULE2 */
++#define ROGUE_CR_MTS_SCHEDULE2 0x20B00U
++#define ROGUE_CR_MTS_SCHEDULE2_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_MTS_SCHEDULE2_HOST_SHIFT 8U
++#define ROGUE_CR_MTS_SCHEDULE2_HOST_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_MTS_SCHEDULE2_HOST_BG_TIMER 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE2_HOST_HOST 0x00000100U
++#define ROGUE_CR_MTS_SCHEDULE2_PRIORITY_SHIFT 6U
++#define ROGUE_CR_MTS_SCHEDULE2_PRIORITY_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_MTS_SCHEDULE2_PRIORITY_PRT0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE2_PRIORITY_PRT1 0x00000040U
++#define ROGUE_CR_MTS_SCHEDULE2_PRIORITY_PRT2 0x00000080U
++#define ROGUE_CR_MTS_SCHEDULE2_PRIORITY_PRT3 0x000000C0U
++#define ROGUE_CR_MTS_SCHEDULE2_CONTEXT_SHIFT 5U
++#define ROGUE_CR_MTS_SCHEDULE2_CONTEXT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SCHEDULE2_CONTEXT_BGCTX 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE2_CONTEXT_INTCTX 0x00000020U
++#define ROGUE_CR_MTS_SCHEDULE2_TASK_SHIFT 4U
++#define ROGUE_CR_MTS_SCHEDULE2_TASK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SCHEDULE2_TASK_NON_COUNTED 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE2_TASK_COUNTED 0x00000010U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_CLRMSK 0xFFFFFFF0U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM1 0x00000001U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM2 0x00000002U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM3 0x00000003U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM4 0x00000004U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM5 0x00000005U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM6 0x00000006U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM7 0x00000007U
++#define ROGUE_CR_MTS_SCHEDULE2_DM_DM_ALL 0x0000000FU
++
++/* Register ROGUE_CR_MTS_SCHEDULE3 */
++#define ROGUE_CR_MTS_SCHEDULE3 0x30B00U
++#define ROGUE_CR_MTS_SCHEDULE3_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_MTS_SCHEDULE3_HOST_SHIFT 8U
++#define ROGUE_CR_MTS_SCHEDULE3_HOST_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_MTS_SCHEDULE3_HOST_BG_TIMER 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE3_HOST_HOST 0x00000100U
++#define ROGUE_CR_MTS_SCHEDULE3_PRIORITY_SHIFT 6U
++#define ROGUE_CR_MTS_SCHEDULE3_PRIORITY_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_MTS_SCHEDULE3_PRIORITY_PRT0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE3_PRIORITY_PRT1 0x00000040U
++#define ROGUE_CR_MTS_SCHEDULE3_PRIORITY_PRT2 0x00000080U
++#define ROGUE_CR_MTS_SCHEDULE3_PRIORITY_PRT3 0x000000C0U
++#define ROGUE_CR_MTS_SCHEDULE3_CONTEXT_SHIFT 5U
++#define ROGUE_CR_MTS_SCHEDULE3_CONTEXT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SCHEDULE3_CONTEXT_BGCTX 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE3_CONTEXT_INTCTX 0x00000020U
++#define ROGUE_CR_MTS_SCHEDULE3_TASK_SHIFT 4U
++#define ROGUE_CR_MTS_SCHEDULE3_TASK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SCHEDULE3_TASK_NON_COUNTED 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE3_TASK_COUNTED 0x00000010U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_CLRMSK 0xFFFFFFF0U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM1 0x00000001U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM2 0x00000002U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM3 0x00000003U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM4 0x00000004U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM5 0x00000005U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM6 0x00000006U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM7 0x00000007U
++#define ROGUE_CR_MTS_SCHEDULE3_DM_DM_ALL 0x0000000FU
++
++/* Register ROGUE_CR_MTS_SCHEDULE4 */
++#define ROGUE_CR_MTS_SCHEDULE4 0x40B00U
++#define ROGUE_CR_MTS_SCHEDULE4_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_MTS_SCHEDULE4_HOST_SHIFT 8U
++#define ROGUE_CR_MTS_SCHEDULE4_HOST_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_MTS_SCHEDULE4_HOST_BG_TIMER 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE4_HOST_HOST 0x00000100U
++#define ROGUE_CR_MTS_SCHEDULE4_PRIORITY_SHIFT 6U
++#define ROGUE_CR_MTS_SCHEDULE4_PRIORITY_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_MTS_SCHEDULE4_PRIORITY_PRT0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE4_PRIORITY_PRT1 0x00000040U
++#define ROGUE_CR_MTS_SCHEDULE4_PRIORITY_PRT2 0x00000080U
++#define ROGUE_CR_MTS_SCHEDULE4_PRIORITY_PRT3 0x000000C0U
++#define ROGUE_CR_MTS_SCHEDULE4_CONTEXT_SHIFT 5U
++#define ROGUE_CR_MTS_SCHEDULE4_CONTEXT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SCHEDULE4_CONTEXT_BGCTX 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE4_CONTEXT_INTCTX 0x00000020U
++#define ROGUE_CR_MTS_SCHEDULE4_TASK_SHIFT 4U
++#define ROGUE_CR_MTS_SCHEDULE4_TASK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SCHEDULE4_TASK_NON_COUNTED 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE4_TASK_COUNTED 0x00000010U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_CLRMSK 0xFFFFFFF0U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM1 0x00000001U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM2 0x00000002U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM3 0x00000003U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM4 0x00000004U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM5 0x00000005U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM6 0x00000006U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM7 0x00000007U
++#define ROGUE_CR_MTS_SCHEDULE4_DM_DM_ALL 0x0000000FU
++
++/* Register ROGUE_CR_MTS_SCHEDULE5 */
++#define ROGUE_CR_MTS_SCHEDULE5 0x50B00U
++#define ROGUE_CR_MTS_SCHEDULE5_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_MTS_SCHEDULE5_HOST_SHIFT 8U
++#define ROGUE_CR_MTS_SCHEDULE5_HOST_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_MTS_SCHEDULE5_HOST_BG_TIMER 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE5_HOST_HOST 0x00000100U
++#define ROGUE_CR_MTS_SCHEDULE5_PRIORITY_SHIFT 6U
++#define ROGUE_CR_MTS_SCHEDULE5_PRIORITY_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_MTS_SCHEDULE5_PRIORITY_PRT0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE5_PRIORITY_PRT1 0x00000040U
++#define ROGUE_CR_MTS_SCHEDULE5_PRIORITY_PRT2 0x00000080U
++#define ROGUE_CR_MTS_SCHEDULE5_PRIORITY_PRT3 0x000000C0U
++#define ROGUE_CR_MTS_SCHEDULE5_CONTEXT_SHIFT 5U
++#define ROGUE_CR_MTS_SCHEDULE5_CONTEXT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SCHEDULE5_CONTEXT_BGCTX 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE5_CONTEXT_INTCTX 0x00000020U
++#define ROGUE_CR_MTS_SCHEDULE5_TASK_SHIFT 4U
++#define ROGUE_CR_MTS_SCHEDULE5_TASK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SCHEDULE5_TASK_NON_COUNTED 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE5_TASK_COUNTED 0x00000010U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_CLRMSK 0xFFFFFFF0U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM1 0x00000001U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM2 0x00000002U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM3 0x00000003U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM4 0x00000004U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM5 0x00000005U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM6 0x00000006U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM7 0x00000007U
++#define ROGUE_CR_MTS_SCHEDULE5_DM_DM_ALL 0x0000000FU
++
++/* Register ROGUE_CR_MTS_SCHEDULE6 */
++#define ROGUE_CR_MTS_SCHEDULE6 0x60B00U
++#define ROGUE_CR_MTS_SCHEDULE6_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_MTS_SCHEDULE6_HOST_SHIFT 8U
++#define ROGUE_CR_MTS_SCHEDULE6_HOST_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_MTS_SCHEDULE6_HOST_BG_TIMER 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE6_HOST_HOST 0x00000100U
++#define ROGUE_CR_MTS_SCHEDULE6_PRIORITY_SHIFT 6U
++#define ROGUE_CR_MTS_SCHEDULE6_PRIORITY_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_MTS_SCHEDULE6_PRIORITY_PRT0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE6_PRIORITY_PRT1 0x00000040U
++#define ROGUE_CR_MTS_SCHEDULE6_PRIORITY_PRT2 0x00000080U
++#define ROGUE_CR_MTS_SCHEDULE6_PRIORITY_PRT3 0x000000C0U
++#define ROGUE_CR_MTS_SCHEDULE6_CONTEXT_SHIFT 5U
++#define ROGUE_CR_MTS_SCHEDULE6_CONTEXT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SCHEDULE6_CONTEXT_BGCTX 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE6_CONTEXT_INTCTX 0x00000020U
++#define ROGUE_CR_MTS_SCHEDULE6_TASK_SHIFT 4U
++#define ROGUE_CR_MTS_SCHEDULE6_TASK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SCHEDULE6_TASK_NON_COUNTED 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE6_TASK_COUNTED 0x00000010U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_CLRMSK 0xFFFFFFF0U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM1 0x00000001U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM2 0x00000002U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM3 0x00000003U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM4 0x00000004U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM5 0x00000005U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM6 0x00000006U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM7 0x00000007U
++#define ROGUE_CR_MTS_SCHEDULE6_DM_DM_ALL 0x0000000FU
++
++/* Register ROGUE_CR_MTS_SCHEDULE7 */
++#define ROGUE_CR_MTS_SCHEDULE7 0x70B00U
++#define ROGUE_CR_MTS_SCHEDULE7_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_MTS_SCHEDULE7_HOST_SHIFT 8U
++#define ROGUE_CR_MTS_SCHEDULE7_HOST_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_MTS_SCHEDULE7_HOST_BG_TIMER 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE7_HOST_HOST 0x00000100U
++#define ROGUE_CR_MTS_SCHEDULE7_PRIORITY_SHIFT 6U
++#define ROGUE_CR_MTS_SCHEDULE7_PRIORITY_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_MTS_SCHEDULE7_PRIORITY_PRT0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE7_PRIORITY_PRT1 0x00000040U
++#define ROGUE_CR_MTS_SCHEDULE7_PRIORITY_PRT2 0x00000080U
++#define ROGUE_CR_MTS_SCHEDULE7_PRIORITY_PRT3 0x000000C0U
++#define ROGUE_CR_MTS_SCHEDULE7_CONTEXT_SHIFT 5U
++#define ROGUE_CR_MTS_SCHEDULE7_CONTEXT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SCHEDULE7_CONTEXT_BGCTX 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE7_CONTEXT_INTCTX 0x00000020U
++#define ROGUE_CR_MTS_SCHEDULE7_TASK_SHIFT 4U
++#define ROGUE_CR_MTS_SCHEDULE7_TASK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SCHEDULE7_TASK_NON_COUNTED 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE7_TASK_COUNTED 0x00000010U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_CLRMSK 0xFFFFFFF0U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM0 0x00000000U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM1 0x00000001U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM2 0x00000002U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM3 0x00000003U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM4 0x00000004U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM5 0x00000005U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM6 0x00000006U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM7 0x00000007U
++#define ROGUE_CR_MTS_SCHEDULE7_DM_DM_ALL 0x0000000FU
++
++/* Register ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC */
++#define ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC 0x0B30U
++#define ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_DM_ASSOC_SHIFT 0U
++#define ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_DM_ASSOC_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC */
++#define ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC 0x0B38U
++#define ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_DM_ASSOC_SHIFT 0U
++#define ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC */
++#define ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC 0x0B40U
++#define ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC_DM_ASSOC_SHIFT 0U
++#define ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC_DM_ASSOC_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC */
++#define ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC 0x0B48U
++#define ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_DM_ASSOC_SHIFT 0U
++#define ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG */
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG 0x0B50U
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG__S7_TOP__MASKFULL 0x000FF0FFFFFFF701ULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_MASKFULL 0x0000FFFFFFFFF001ULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_PC_BASE_SHIFT 44U
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_PC_BASE_CLRMSK 0xFFFF0FFFFFFFFFFFULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG__S7_TOP__FENCE_PC_BASE_SHIFT 44U
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG__S7_TOP__FENCE_PC_BASE_CLRMSK 0xFFF00FFFFFFFFFFFULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_DM_SHIFT 40U
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_DM_CLRMSK 0xFFFFF0FFFFFFFFFFULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_ADDR_SHIFT 12U
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_PERSISTENCE_SHIFT 9U
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_PERSISTENCE_CLRMSK 0xFFFFFFFFFFFFF9FFULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_SLC_COHERENT_SHIFT 8U
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_SLC_COHERENT_CLRMSK 0xFFFFFFFFFFFFFEFFULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_FENCE_SLC_COHERENT_EN 0x0000000000000100ULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_IDLE_CTRL_SHIFT 0U
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_IDLE_CTRL_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_IDLE_CTRL_META 0x0000000000000000ULL
++#define ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_IDLE_CTRL_MTS 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MTS_DM0_INTERRUPT_ENABLE */
++#define ROGUE_CR_MTS_DM0_INTERRUPT_ENABLE 0x0B58U
++#define ROGUE_CR_MTS_DM0_INTERRUPT_ENABLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MTS_DM0_INTERRUPT_ENABLE_INT_ENABLE_SHIFT 0U
++#define ROGUE_CR_MTS_DM0_INTERRUPT_ENABLE_INT_ENABLE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_MTS_DM1_INTERRUPT_ENABLE */
++#define ROGUE_CR_MTS_DM1_INTERRUPT_ENABLE 0x0B60U
++#define ROGUE_CR_MTS_DM1_INTERRUPT_ENABLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MTS_DM1_INTERRUPT_ENABLE_INT_ENABLE_SHIFT 0U
++#define ROGUE_CR_MTS_DM1_INTERRUPT_ENABLE_INT_ENABLE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_MTS_DM2_INTERRUPT_ENABLE */
++#define ROGUE_CR_MTS_DM2_INTERRUPT_ENABLE 0x0B68U
++#define ROGUE_CR_MTS_DM2_INTERRUPT_ENABLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MTS_DM2_INTERRUPT_ENABLE_INT_ENABLE_SHIFT 0U
++#define ROGUE_CR_MTS_DM2_INTERRUPT_ENABLE_INT_ENABLE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_MTS_DM3_INTERRUPT_ENABLE */
++#define ROGUE_CR_MTS_DM3_INTERRUPT_ENABLE 0x0B70U
++#define ROGUE_CR_MTS_DM3_INTERRUPT_ENABLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MTS_DM3_INTERRUPT_ENABLE_INT_ENABLE_SHIFT 0U
++#define ROGUE_CR_MTS_DM3_INTERRUPT_ENABLE_INT_ENABLE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_MTS_DM4_INTERRUPT_ENABLE */
++#define ROGUE_CR_MTS_DM4_INTERRUPT_ENABLE 0x0B78U
++#define ROGUE_CR_MTS_DM4_INTERRUPT_ENABLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MTS_DM4_INTERRUPT_ENABLE_INT_ENABLE_SHIFT 0U
++#define ROGUE_CR_MTS_DM4_INTERRUPT_ENABLE_INT_ENABLE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_MTS_DM5_INTERRUPT_ENABLE */
++#define ROGUE_CR_MTS_DM5_INTERRUPT_ENABLE 0x0B80U
++#define ROGUE_CR_MTS_DM5_INTERRUPT_ENABLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MTS_DM5_INTERRUPT_ENABLE_INT_ENABLE_SHIFT 0U
++#define ROGUE_CR_MTS_DM5_INTERRUPT_ENABLE_INT_ENABLE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_MTS_INTCTX */
++#define ROGUE_CR_MTS_INTCTX 0x0B98U
++#define ROGUE_CR_MTS_INTCTX_MASKFULL 0x000000003FFFFFFFULL
++#define ROGUE_CR_MTS_INTCTX_DM_HOST_SCHEDULE_SHIFT 22U
++#define ROGUE_CR_MTS_INTCTX_DM_HOST_SCHEDULE_CLRMSK 0xC03FFFFFU
++#define ROGUE_CR_MTS_INTCTX_DM_PTR_SHIFT 18U
++#define ROGUE_CR_MTS_INTCTX_DM_PTR_CLRMSK 0xFFC3FFFFU
++#define ROGUE_CR_MTS_INTCTX_THREAD_ACTIVE_SHIFT 16U
++#define ROGUE_CR_MTS_INTCTX_THREAD_ACTIVE_CLRMSK 0xFFFCFFFFU
++#define ROGUE_CR_MTS_INTCTX_DM_TIMER_SCHEDULE_SHIFT 8U
++#define ROGUE_CR_MTS_INTCTX_DM_TIMER_SCHEDULE_CLRMSK 0xFFFF00FFU
++#define ROGUE_CR_MTS_INTCTX_DM_INTERRUPT_SCHEDULE_SHIFT 0U
++#define ROGUE_CR_MTS_INTCTX_DM_INTERRUPT_SCHEDULE_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_MTS_BGCTX */
++#define ROGUE_CR_MTS_BGCTX 0x0BA0U
++#define ROGUE_CR_MTS_BGCTX_MASKFULL 0x0000000000003FFFULL
++#define ROGUE_CR_MTS_BGCTX_DM_PTR_SHIFT 10U
++#define ROGUE_CR_MTS_BGCTX_DM_PTR_CLRMSK 0xFFFFC3FFU
++#define ROGUE_CR_MTS_BGCTX_THREAD_ACTIVE_SHIFT 8U
++#define ROGUE_CR_MTS_BGCTX_THREAD_ACTIVE_CLRMSK 0xFFFFFCFFU
++#define ROGUE_CR_MTS_BGCTX_DM_NONCOUNTED_SCHEDULE_SHIFT 0U
++#define ROGUE_CR_MTS_BGCTX_DM_NONCOUNTED_SCHEDULE_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE */
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE 0x0BA8U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM7_SHIFT 56U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM7_CLRMSK 0x00FFFFFFFFFFFFFFULL
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM6_SHIFT 48U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM6_CLRMSK 0xFF00FFFFFFFFFFFFULL
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM5_SHIFT 40U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM5_CLRMSK 0xFFFF00FFFFFFFFFFULL
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM4_SHIFT 32U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM4_CLRMSK 0xFFFFFF00FFFFFFFFULL
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM3_SHIFT 24U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM3_CLRMSK 0xFFFFFFFF00FFFFFFULL
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM2_SHIFT 16U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM2_CLRMSK 0xFFFFFFFFFF00FFFFULL
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM1_SHIFT 8U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM1_CLRMSK 0xFFFFFFFFFFFF00FFULL
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM0_SHIFT 0U
++#define ROGUE_CR_MTS_BGCTX_COUNTED_SCHEDULE_DM0_CLRMSK 0xFFFFFFFFFFFFFF00ULL
++
++/* Register ROGUE_CR_MTS_GPU_INT_STATUS */
++#define ROGUE_CR_MTS_GPU_INT_STATUS 0x0BB0U
++#define ROGUE_CR_MTS_GPU_INT_STATUS_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MTS_GPU_INT_STATUS_STATUS_SHIFT 0U
++#define ROGUE_CR_MTS_GPU_INT_STATUS_STATUS_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_MTS_SCHEDULE_ENABLE */
++#define ROGUE_CR_MTS_SCHEDULE_ENABLE 0x0BC8U
++#define ROGUE_CR_MTS_SCHEDULE_ENABLE_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_MTS_SCHEDULE_ENABLE_MASK_SHIFT 0U
++#define ROGUE_CR_MTS_SCHEDULE_ENABLE_MASK_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_IRQ_OS0_EVENT_STATUS */
++#define ROGUE_CR_IRQ_OS0_EVENT_STATUS 0x0BD8U
++#define ROGUE_CR_IRQ_OS0_EVENT_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS0_EVENT_STATUS_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS0_EVENT_STATUS_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS0_EVENT_STATUS_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS0_EVENT_CLEAR */
++#define ROGUE_CR_IRQ_OS0_EVENT_CLEAR 0x0BE8U
++#define ROGUE_CR_IRQ_OS0_EVENT_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS0_EVENT_CLEAR_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS0_EVENT_CLEAR_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS0_EVENT_CLEAR_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS1_EVENT_STATUS */
++#define ROGUE_CR_IRQ_OS1_EVENT_STATUS 0x10BD8U
++#define ROGUE_CR_IRQ_OS1_EVENT_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS1_EVENT_STATUS_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS1_EVENT_STATUS_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS1_EVENT_STATUS_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS1_EVENT_CLEAR */
++#define ROGUE_CR_IRQ_OS1_EVENT_CLEAR 0x10BE8U
++#define ROGUE_CR_IRQ_OS1_EVENT_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS1_EVENT_CLEAR_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS1_EVENT_CLEAR_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS1_EVENT_CLEAR_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS2_EVENT_STATUS */
++#define ROGUE_CR_IRQ_OS2_EVENT_STATUS 0x20BD8U
++#define ROGUE_CR_IRQ_OS2_EVENT_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS2_EVENT_STATUS_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS2_EVENT_STATUS_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS2_EVENT_STATUS_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS2_EVENT_CLEAR */
++#define ROGUE_CR_IRQ_OS2_EVENT_CLEAR 0x20BE8U
++#define ROGUE_CR_IRQ_OS2_EVENT_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS2_EVENT_CLEAR_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS2_EVENT_CLEAR_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS2_EVENT_CLEAR_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS3_EVENT_STATUS */
++#define ROGUE_CR_IRQ_OS3_EVENT_STATUS 0x30BD8U
++#define ROGUE_CR_IRQ_OS3_EVENT_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS3_EVENT_STATUS_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS3_EVENT_STATUS_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS3_EVENT_STATUS_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS3_EVENT_CLEAR */
++#define ROGUE_CR_IRQ_OS3_EVENT_CLEAR 0x30BE8U
++#define ROGUE_CR_IRQ_OS3_EVENT_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS3_EVENT_CLEAR_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS3_EVENT_CLEAR_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS3_EVENT_CLEAR_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS4_EVENT_STATUS */
++#define ROGUE_CR_IRQ_OS4_EVENT_STATUS 0x40BD8U
++#define ROGUE_CR_IRQ_OS4_EVENT_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS4_EVENT_STATUS_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS4_EVENT_STATUS_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS4_EVENT_STATUS_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS4_EVENT_CLEAR */
++#define ROGUE_CR_IRQ_OS4_EVENT_CLEAR 0x40BE8U
++#define ROGUE_CR_IRQ_OS4_EVENT_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS4_EVENT_CLEAR_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS4_EVENT_CLEAR_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS4_EVENT_CLEAR_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS5_EVENT_STATUS */
++#define ROGUE_CR_IRQ_OS5_EVENT_STATUS 0x50BD8U
++#define ROGUE_CR_IRQ_OS5_EVENT_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS5_EVENT_STATUS_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS5_EVENT_STATUS_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS5_EVENT_STATUS_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS5_EVENT_CLEAR */
++#define ROGUE_CR_IRQ_OS5_EVENT_CLEAR 0x50BE8U
++#define ROGUE_CR_IRQ_OS5_EVENT_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS5_EVENT_CLEAR_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS5_EVENT_CLEAR_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS5_EVENT_CLEAR_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS6_EVENT_STATUS */
++#define ROGUE_CR_IRQ_OS6_EVENT_STATUS 0x60BD8U
++#define ROGUE_CR_IRQ_OS6_EVENT_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS6_EVENT_STATUS_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS6_EVENT_STATUS_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS6_EVENT_STATUS_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS6_EVENT_CLEAR */
++#define ROGUE_CR_IRQ_OS6_EVENT_CLEAR 0x60BE8U
++#define ROGUE_CR_IRQ_OS6_EVENT_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS6_EVENT_CLEAR_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS6_EVENT_CLEAR_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS6_EVENT_CLEAR_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS7_EVENT_STATUS */
++#define ROGUE_CR_IRQ_OS7_EVENT_STATUS 0x70BD8U
++#define ROGUE_CR_IRQ_OS7_EVENT_STATUS_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS7_EVENT_STATUS_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS7_EVENT_STATUS_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS7_EVENT_STATUS_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_IRQ_OS7_EVENT_CLEAR */
++#define ROGUE_CR_IRQ_OS7_EVENT_CLEAR 0x70BE8U
++#define ROGUE_CR_IRQ_OS7_EVENT_CLEAR_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_IRQ_OS7_EVENT_CLEAR_SOURCE_SHIFT 0U
++#define ROGUE_CR_IRQ_OS7_EVENT_CLEAR_SOURCE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_IRQ_OS7_EVENT_CLEAR_SOURCE_EN 0x00000001U
++
++/* Register ROGUE_CR_META_BOOT */
++#define ROGUE_CR_META_BOOT 0x0BF8U
++#define ROGUE_CR_META_BOOT_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_META_BOOT_MODE_SHIFT 0U
++#define ROGUE_CR_META_BOOT_MODE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_META_BOOT_MODE_EN 0x00000001U
++
++/* Register ROGUE_CR_GARTEN_SLC */
++#define ROGUE_CR_GARTEN_SLC 0x0BB8U
++#define ROGUE_CR_GARTEN_SLC_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_GARTEN_SLC_FORCE_COHERENCY_SHIFT 0U
++#define ROGUE_CR_GARTEN_SLC_FORCE_COHERENCY_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_GARTEN_SLC_FORCE_COHERENCY_EN 0x00000001U
++
++/* Register ROGUE_CR_PPP */
++#define ROGUE_CR_PPP 0x0CD0U
++#define ROGUE_CR_PPP_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PPP_CHECKSUM_SHIFT 0U
++#define ROGUE_CR_PPP_CHECKSUM_CLRMSK 0x00000000U
++
++#define ROGUE_CR_ISP_RENDER_DIR_TYPE_MASK 0x00000003U
++/* Top-left to bottom-right */
++#define ROGUE_CR_ISP_RENDER_DIR_TYPE_TL2BR 0x00000000U
++/* Top-right to bottom-left */
++#define ROGUE_CR_ISP_RENDER_DIR_TYPE_TR2BL 0x00000001U
++/* Bottom-left to top-right */
++#define ROGUE_CR_ISP_RENDER_DIR_TYPE_BL2TR 0x00000002U
++/* Bottom-right to top-left */
++#define ROGUE_CR_ISP_RENDER_DIR_TYPE_BR2TL 0x00000003U
++
++#define ROGUE_CR_ISP_RENDER_MODE_TYPE_MASK 0x00000003U
++/* Normal render */
++#define ROGUE_CR_ISP_RENDER_MODE_TYPE_NORM 0x00000000U
++/* Fast 2D render */
++#define ROGUE_CR_ISP_RENDER_MODE_TYPE_FAST_2D 0x00000002U
++/* Fast scale render */
++#define ROGUE_CR_ISP_RENDER_MODE_TYPE_FAST_SCALE 0x00000003U
++
++/* Register ROGUE_CR_ISP_RENDER */
++#define ROGUE_CR_ISP_RENDER 0x0F08U
++#define ROGUE_CR_ISP_RENDER_MASKFULL 0x00000000000001FFULL
++#define ROGUE_CR_ISP_RENDER_FAST_RENDER_FORCE_PROTECT_SHIFT 8U
++#define ROGUE_CR_ISP_RENDER_FAST_RENDER_FORCE_PROTECT_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_ISP_RENDER_FAST_RENDER_FORCE_PROTECT_EN 0x00000100U
++#define ROGUE_CR_ISP_RENDER_PROCESS_PROTECTED_TILES_SHIFT 7U
++#define ROGUE_CR_ISP_RENDER_PROCESS_PROTECTED_TILES_CLRMSK 0xFFFFFF7FU
++#define ROGUE_CR_ISP_RENDER_PROCESS_PROTECTED_TILES_EN 0x00000080U
++#define ROGUE_CR_ISP_RENDER_PROCESS_UNPROTECTED_TILES_SHIFT 6U
++#define ROGUE_CR_ISP_RENDER_PROCESS_UNPROTECTED_TILES_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_ISP_RENDER_PROCESS_UNPROTECTED_TILES_EN 0x00000040U
++#define ROGUE_CR_ISP_RENDER_DISABLE_EOMT_SHIFT 5U
++#define ROGUE_CR_ISP_RENDER_DISABLE_EOMT_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_ISP_RENDER_DISABLE_EOMT_EN 0x00000020U
++#define ROGUE_CR_ISP_RENDER_RESUME_SHIFT 4U
++#define ROGUE_CR_ISP_RENDER_RESUME_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_ISP_RENDER_RESUME_EN 0x00000010U
++#define ROGUE_CR_ISP_RENDER_DIR_SHIFT 2U
++#define ROGUE_CR_ISP_RENDER_DIR_CLRMSK 0xFFFFFFF3U
++#define ROGUE_CR_ISP_RENDER_DIR_TL2BR 0x00000000U
++#define ROGUE_CR_ISP_RENDER_DIR_TR2BL 0x00000004U
++#define ROGUE_CR_ISP_RENDER_DIR_BL2TR 0x00000008U
++#define ROGUE_CR_ISP_RENDER_DIR_BR2TL 0x0000000CU
++#define ROGUE_CR_ISP_RENDER_MODE_SHIFT 0U
++#define ROGUE_CR_ISP_RENDER_MODE_CLRMSK 0xFFFFFFFCU
++#define ROGUE_CR_ISP_RENDER_MODE_NORM 0x00000000U
++#define ROGUE_CR_ISP_RENDER_MODE_FAST_2D 0x00000002U
++#define ROGUE_CR_ISP_RENDER_MODE_FAST_SCALE 0x00000003U
++
++/* Register ROGUE_CR_ISP_CTL */
++#define ROGUE_CR_ISP_CTL 0x0F38U
++#define ROGUE_CR_ISP_CTL_MASKFULL 0x00000000FFFFF3FFULL
++#define ROGUE_CR_ISP_CTL_SKIP_INIT_HDRS_SHIFT 31U
++#define ROGUE_CR_ISP_CTL_SKIP_INIT_HDRS_CLRMSK 0x7FFFFFFFU
++#define ROGUE_CR_ISP_CTL_SKIP_INIT_HDRS_EN 0x80000000U
++#define ROGUE_CR_ISP_CTL_LINE_STYLE_SHIFT 30U
++#define ROGUE_CR_ISP_CTL_LINE_STYLE_CLRMSK 0xBFFFFFFFU
++#define ROGUE_CR_ISP_CTL_LINE_STYLE_EN 0x40000000U
++#define ROGUE_CR_ISP_CTL_LINE_STYLE_PIX_SHIFT 29U
++#define ROGUE_CR_ISP_CTL_LINE_STYLE_PIX_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_ISP_CTL_LINE_STYLE_PIX_EN 0x20000000U
++#define ROGUE_CR_ISP_CTL_PAIR_TILES_VERT_SHIFT 28U
++#define ROGUE_CR_ISP_CTL_PAIR_TILES_VERT_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_ISP_CTL_PAIR_TILES_VERT_EN 0x10000000U
++#define ROGUE_CR_ISP_CTL_PAIR_TILES_SHIFT 27U
++#define ROGUE_CR_ISP_CTL_PAIR_TILES_CLRMSK 0xF7FFFFFFU
++#define ROGUE_CR_ISP_CTL_PAIR_TILES_EN 0x08000000U
++#define ROGUE_CR_ISP_CTL_CREQ_BUF_EN_SHIFT 26U
++#define ROGUE_CR_ISP_CTL_CREQ_BUF_EN_CLRMSK 0xFBFFFFFFU
++#define ROGUE_CR_ISP_CTL_CREQ_BUF_EN_EN 0x04000000U
++#define ROGUE_CR_ISP_CTL_TILE_AGE_EN_SHIFT 25U
++#define ROGUE_CR_ISP_CTL_TILE_AGE_EN_CLRMSK 0xFDFFFFFFU
++#define ROGUE_CR_ISP_CTL_TILE_AGE_EN_EN 0x02000000U
++#define ROGUE_CR_ISP_CTL_ISP_SAMPLE_POS_MODE_SHIFT 23U
++#define ROGUE_CR_ISP_CTL_ISP_SAMPLE_POS_MODE_CLRMSK 0xFE7FFFFFU
++#define ROGUE_CR_ISP_CTL_ISP_SAMPLE_POS_MODE_DX9 0x00000000U
++#define ROGUE_CR_ISP_CTL_ISP_SAMPLE_POS_MODE_DX10 0x00800000U
++#define ROGUE_CR_ISP_CTL_ISP_SAMPLE_POS_MODE_OGL 0x01000000U
++#define ROGUE_CR_ISP_CTL_NUM_TILES_PER_USC_SHIFT 21U
++#define ROGUE_CR_ISP_CTL_NUM_TILES_PER_USC_CLRMSK 0xFF9FFFFFU
++#define ROGUE_CR_ISP_CTL_DBIAS_IS_INT_SHIFT 20U
++#define ROGUE_CR_ISP_CTL_DBIAS_IS_INT_CLRMSK 0xFFEFFFFFU
++#define ROGUE_CR_ISP_CTL_DBIAS_IS_INT_EN 0x00100000U
++#define ROGUE_CR_ISP_CTL_OVERLAP_CHECK_MODE_SHIFT 19U
++#define ROGUE_CR_ISP_CTL_OVERLAP_CHECK_MODE_CLRMSK 0xFFF7FFFFU
++#define ROGUE_CR_ISP_CTL_OVERLAP_CHECK_MODE_EN 0x00080000U
++#define ROGUE_CR_ISP_CTL_PT_UPFRONT_DEPTH_DISABLE_SHIFT 18U
++#define ROGUE_CR_ISP_CTL_PT_UPFRONT_DEPTH_DISABLE_CLRMSK 0xFFFBFFFFU
++#define ROGUE_CR_ISP_CTL_PT_UPFRONT_DEPTH_DISABLE_EN 0x00040000U
++#define ROGUE_CR_ISP_CTL_PROCESS_EMPTY_TILES_SHIFT 17U
++#define ROGUE_CR_ISP_CTL_PROCESS_EMPTY_TILES_CLRMSK 0xFFFDFFFFU
++#define ROGUE_CR_ISP_CTL_PROCESS_EMPTY_TILES_EN 0x00020000U
++#define ROGUE_CR_ISP_CTL_SAMPLE_POS_SHIFT 16U
++#define ROGUE_CR_ISP_CTL_SAMPLE_POS_CLRMSK 0xFFFEFFFFU
++#define ROGUE_CR_ISP_CTL_SAMPLE_POS_EN 0x00010000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_SHIFT 12U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_CLRMSK 0xFFFF0FFFU
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_ONE 0x00000000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_TWO 0x00001000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_THREE 0x00002000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_FOUR 0x00003000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_FIVE 0x00004000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_SIX 0x00005000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_SEVEN 0x00006000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_EIGHT 0x00007000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_NINE 0x00008000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_TEN 0x00009000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_ELEVEN 0x0000A000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_TWELVE 0x0000B000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_THIRTEEN 0x0000C000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_FOURTEEN 0x0000D000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_FIFTEEN 0x0000E000U
++#define ROGUE_CR_ISP_CTL_PIPE_ENABLE_PIPE_SIXTEEN 0x0000F000U
++#define ROGUE_CR_ISP_CTL_VALID_ID_SHIFT 4U
++#define ROGUE_CR_ISP_CTL_VALID_ID_CLRMSK 0xFFFFFC0FU
++#define ROGUE_CR_ISP_CTL_UPASS_START_SHIFT 0U
++#define ROGUE_CR_ISP_CTL_UPASS_START_CLRMSK 0xFFFFFFF0U
++
++/* Register ROGUE_CR_ISP_STATUS */
++#define ROGUE_CR_ISP_STATUS 0x1038U
++#define ROGUE_CR_ISP_STATUS_MASKFULL 0x0000000000000007ULL
++#define ROGUE_CR_ISP_STATUS_SPLIT_MAX_SHIFT 2U
++#define ROGUE_CR_ISP_STATUS_SPLIT_MAX_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_ISP_STATUS_SPLIT_MAX_EN 0x00000004U
++#define ROGUE_CR_ISP_STATUS_ACTIVE_SHIFT 1U
++#define ROGUE_CR_ISP_STATUS_ACTIVE_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_ISP_STATUS_ACTIVE_EN 0x00000002U
++#define ROGUE_CR_ISP_STATUS_EOR_SHIFT 0U
++#define ROGUE_CR_ISP_STATUS_EOR_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_ISP_STATUS_EOR_EN 0x00000001U
++
++/* Register group: ROGUE_CR_ISP_XTP_RESUME, with 64 repeats */
++#define ROGUE_CR_ISP_XTP_RESUME_REPEATCOUNT 64U
++/* Register ROGUE_CR_ISP_XTP_RESUME0 */
++#define ROGUE_CR_ISP_XTP_RESUME0 0x3A00U
++#define ROGUE_CR_ISP_XTP_RESUME0_MASKFULL 0x00000000003FF3FFULL
++#define ROGUE_CR_ISP_XTP_RESUME0_TILE_X_SHIFT 12U
++#define ROGUE_CR_ISP_XTP_RESUME0_TILE_X_CLRMSK 0xFFC00FFFU
++#define ROGUE_CR_ISP_XTP_RESUME0_TILE_Y_SHIFT 0U
++#define ROGUE_CR_ISP_XTP_RESUME0_TILE_Y_CLRMSK 0xFFFFFC00U
++
++/* Register group: ROGUE_CR_ISP_XTP_STORE, with 32 repeats */
++#define ROGUE_CR_ISP_XTP_STORE_REPEATCOUNT 32U
++/* Register ROGUE_CR_ISP_XTP_STORE0 */
++#define ROGUE_CR_ISP_XTP_STORE0 0x3C00U
++#define ROGUE_CR_ISP_XTP_STORE0_MASKFULL 0x000000007F3FF3FFULL
++#define ROGUE_CR_ISP_XTP_STORE0_ACTIVE_SHIFT 30U
++#define ROGUE_CR_ISP_XTP_STORE0_ACTIVE_CLRMSK 0xBFFFFFFFU
++#define ROGUE_CR_ISP_XTP_STORE0_ACTIVE_EN 0x40000000U
++#define ROGUE_CR_ISP_XTP_STORE0_EOR_SHIFT 29U
++#define ROGUE_CR_ISP_XTP_STORE0_EOR_CLRMSK 0xDFFFFFFFU
++#define ROGUE_CR_ISP_XTP_STORE0_EOR_EN 0x20000000U
++#define ROGUE_CR_ISP_XTP_STORE0_TILE_LAST_SHIFT 28U
++#define ROGUE_CR_ISP_XTP_STORE0_TILE_LAST_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_ISP_XTP_STORE0_TILE_LAST_EN 0x10000000U
++#define ROGUE_CR_ISP_XTP_STORE0_MT_SHIFT 24U
++#define ROGUE_CR_ISP_XTP_STORE0_MT_CLRMSK 0xF0FFFFFFU
++#define ROGUE_CR_ISP_XTP_STORE0_TILE_X_SHIFT 12U
++#define ROGUE_CR_ISP_XTP_STORE0_TILE_X_CLRMSK 0xFFC00FFFU
++#define ROGUE_CR_ISP_XTP_STORE0_TILE_Y_SHIFT 0U
++#define ROGUE_CR_ISP_XTP_STORE0_TILE_Y_CLRMSK 0xFFFFFC00U
++
++/* Register group: ROGUE_CR_BIF_CAT_BASE, with 8 repeats */
++#define ROGUE_CR_BIF_CAT_BASE_REPEATCOUNT 8U
++/* Register ROGUE_CR_BIF_CAT_BASE0 */
++#define ROGUE_CR_BIF_CAT_BASE0 0x1200U
++#define ROGUE_CR_BIF_CAT_BASE0_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_BIF_CAT_BASE0_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE0_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_CAT_BASE0_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE0_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_CAT_BASE1 */
++#define ROGUE_CR_BIF_CAT_BASE1 0x1208U
++#define ROGUE_CR_BIF_CAT_BASE1_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_BIF_CAT_BASE1_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE1_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_CAT_BASE1_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE1_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_CAT_BASE2 */
++#define ROGUE_CR_BIF_CAT_BASE2 0x1210U
++#define ROGUE_CR_BIF_CAT_BASE2_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_BIF_CAT_BASE2_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE2_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_CAT_BASE2_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE2_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_CAT_BASE3 */
++#define ROGUE_CR_BIF_CAT_BASE3 0x1218U
++#define ROGUE_CR_BIF_CAT_BASE3_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_BIF_CAT_BASE3_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE3_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_CAT_BASE3_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE3_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_CAT_BASE4 */
++#define ROGUE_CR_BIF_CAT_BASE4 0x1220U
++#define ROGUE_CR_BIF_CAT_BASE4_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_BIF_CAT_BASE4_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE4_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_CAT_BASE4_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE4_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_CAT_BASE5 */
++#define ROGUE_CR_BIF_CAT_BASE5 0x1228U
++#define ROGUE_CR_BIF_CAT_BASE5_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_BIF_CAT_BASE5_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE5_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_CAT_BASE5_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE5_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_CAT_BASE6 */
++#define ROGUE_CR_BIF_CAT_BASE6 0x1230U
++#define ROGUE_CR_BIF_CAT_BASE6_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_BIF_CAT_BASE6_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE6_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_CAT_BASE6_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE6_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_CAT_BASE7 */
++#define ROGUE_CR_BIF_CAT_BASE7 0x1238U
++#define ROGUE_CR_BIF_CAT_BASE7_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_BIF_CAT_BASE7_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE7_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_CAT_BASE7_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_CAT_BASE7_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_CAT_BASE_INDEX */
++#define ROGUE_CR_BIF_CAT_BASE_INDEX 0x1240U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_MASKFULL 0x00070707073F0707ULL
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_RVTX_SHIFT 48U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_RVTX_CLRMSK 0xFFF8FFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_RAY_SHIFT 40U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_RAY_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_HOST_SHIFT 32U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_HOST_CLRMSK 0xFFFFFFF8FFFFFFFFULL
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_TLA_SHIFT 24U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_TLA_CLRMSK 0xFFFFFFFFF8FFFFFFULL
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_TDM_SHIFT 19U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_TDM_CLRMSK 0xFFFFFFFFFFC7FFFFULL
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_CDM_SHIFT 16U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_CDM_CLRMSK 0xFFFFFFFFFFF8FFFFULL
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_PIXEL_SHIFT 8U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_PIXEL_CLRMSK 0xFFFFFFFFFFFFF8FFULL
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_TA_SHIFT 0U
++#define ROGUE_CR_BIF_CAT_BASE_INDEX_TA_CLRMSK 0xFFFFFFFFFFFFFFF8ULL
++
++/* Register ROGUE_CR_BIF_PM_CAT_BASE_VCE0 */
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0 0x1248U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_MASKFULL 0x0FFFFFFFFFFFF003ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_INIT_PAGE_SHIFT 40U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_INIT_PAGE_CLRMSK 0xF00000FFFFFFFFFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_WRAP_SHIFT 1U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_WRAP_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_WRAP_EN 0x0000000000000002ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_VALID_SHIFT 0U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_VALID_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE0_VALID_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_BIF_PM_CAT_BASE_TE0 */
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0 0x1250U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_MASKFULL 0x0FFFFFFFFFFFF003ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_INIT_PAGE_SHIFT 40U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_INIT_PAGE_CLRMSK 0xF00000FFFFFFFFFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_WRAP_SHIFT 1U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_WRAP_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_WRAP_EN 0x0000000000000002ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_VALID_SHIFT 0U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_VALID_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE0_VALID_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_BIF_PM_CAT_BASE_ALIST0 */
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0 0x1260U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_MASKFULL 0x0FFFFFFFFFFFF003ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_INIT_PAGE_SHIFT 40U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_INIT_PAGE_CLRMSK 0xF00000FFFFFFFFFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_WRAP_SHIFT 1U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_WRAP_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_WRAP_EN 0x0000000000000002ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_VALID_SHIFT 0U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_VALID_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST0_VALID_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_BIF_PM_CAT_BASE_VCE1 */
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1 0x1268U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_MASKFULL 0x0FFFFFFFFFFFF003ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_INIT_PAGE_SHIFT 40U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_INIT_PAGE_CLRMSK 0xF00000FFFFFFFFFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_WRAP_SHIFT 1U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_WRAP_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_WRAP_EN 0x0000000000000002ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_VALID_SHIFT 0U
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_VALID_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_VCE1_VALID_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_BIF_PM_CAT_BASE_TE1 */
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1 0x1270U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_MASKFULL 0x0FFFFFFFFFFFF003ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_INIT_PAGE_SHIFT 40U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_INIT_PAGE_CLRMSK 0xF00000FFFFFFFFFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_WRAP_SHIFT 1U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_WRAP_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_WRAP_EN 0x0000000000000002ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_VALID_SHIFT 0U
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_VALID_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_TE1_VALID_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_BIF_PM_CAT_BASE_ALIST1 */
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1 0x1280U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_MASKFULL 0x0FFFFFFFFFFFF003ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_INIT_PAGE_SHIFT 40U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_INIT_PAGE_CLRMSK 0xF00000FFFFFFFFFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_ADDR_SHIFT 12U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_WRAP_SHIFT 1U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_WRAP_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_WRAP_EN 0x0000000000000002ULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_VALID_SHIFT 0U
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_VALID_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_BIF_PM_CAT_BASE_ALIST1_VALID_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_BIF_MMU_ENTRY_STATUS */
++#define ROGUE_CR_BIF_MMU_ENTRY_STATUS 0x1288U
++#define ROGUE_CR_BIF_MMU_ENTRY_STATUS_MASKFULL 0x000000FFFFFFF0F3ULL
++#define ROGUE_CR_BIF_MMU_ENTRY_STATUS_ADDRESS_SHIFT 12U
++#define ROGUE_CR_BIF_MMU_ENTRY_STATUS_ADDRESS_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_BIF_MMU_ENTRY_STATUS_CAT_BASE_SHIFT 4U
++#define ROGUE_CR_BIF_MMU_ENTRY_STATUS_CAT_BASE_CLRMSK 0xFFFFFFFFFFFFFF0FULL
++#define ROGUE_CR_BIF_MMU_ENTRY_STATUS_DATA_TYPE_SHIFT 0U
++#define ROGUE_CR_BIF_MMU_ENTRY_STATUS_DATA_TYPE_CLRMSK 0xFFFFFFFFFFFFFFFCULL
++
++/* Register ROGUE_CR_BIF_MMU_ENTRY */
++#define ROGUE_CR_BIF_MMU_ENTRY 0x1290U
++#define ROGUE_CR_BIF_MMU_ENTRY_MASKFULL 0x0000000000000003ULL
++#define ROGUE_CR_BIF_MMU_ENTRY_ENABLE_SHIFT 1U
++#define ROGUE_CR_BIF_MMU_ENTRY_ENABLE_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_BIF_MMU_ENTRY_ENABLE_EN 0x00000002U
++#define ROGUE_CR_BIF_MMU_ENTRY_PENDING_SHIFT 0U
++#define ROGUE_CR_BIF_MMU_ENTRY_PENDING_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BIF_MMU_ENTRY_PENDING_EN 0x00000001U
++
++/* Register ROGUE_CR_BIF_CTRL_INVAL */
++#define ROGUE_CR_BIF_CTRL_INVAL 0x12A0U
++#define ROGUE_CR_BIF_CTRL_INVAL_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_BIF_CTRL_INVAL_TLB1_SHIFT 3U
++#define ROGUE_CR_BIF_CTRL_INVAL_TLB1_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_BIF_CTRL_INVAL_TLB1_EN 0x00000008U
++#define ROGUE_CR_BIF_CTRL_INVAL_PC_SHIFT 2U
++#define ROGUE_CR_BIF_CTRL_INVAL_PC_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_BIF_CTRL_INVAL_PC_EN 0x00000004U
++#define ROGUE_CR_BIF_CTRL_INVAL_PD_SHIFT 1U
++#define ROGUE_CR_BIF_CTRL_INVAL_PD_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_BIF_CTRL_INVAL_PD_EN 0x00000002U
++#define ROGUE_CR_BIF_CTRL_INVAL_PT_SHIFT 0U
++#define ROGUE_CR_BIF_CTRL_INVAL_PT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BIF_CTRL_INVAL_PT_EN 0x00000001U
++
++/* Register ROGUE_CR_BIF_CTRL */
++#define ROGUE_CR_BIF_CTRL 0x12A8U
++#define ROGUE_CR_BIF_CTRL__XE_MEM__MASKFULL 0x000000000000033FULL
++#define ROGUE_CR_BIF_CTRL_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_CPU_SHIFT 9U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_CPU_CLRMSK 0xFFFFFDFFU
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_CPU_EN 0x00000200U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF4_SHIFT 8U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF4_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF4_EN 0x00000100U
++#define ROGUE_CR_BIF_CTRL_ENABLE_MMU_QUEUE_BYPASS_SHIFT 7U
++#define ROGUE_CR_BIF_CTRL_ENABLE_MMU_QUEUE_BYPASS_CLRMSK 0xFFFFFF7FU
++#define ROGUE_CR_BIF_CTRL_ENABLE_MMU_QUEUE_BYPASS_EN 0x00000080U
++#define ROGUE_CR_BIF_CTRL_ENABLE_MMU_AUTO_PREFETCH_SHIFT 6U
++#define ROGUE_CR_BIF_CTRL_ENABLE_MMU_AUTO_PREFETCH_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_BIF_CTRL_ENABLE_MMU_AUTO_PREFETCH_EN 0x00000040U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF3_SHIFT 5U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF3_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF3_EN 0x00000020U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF2_SHIFT 4U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF2_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF2_EN 0x00000010U
++#define ROGUE_CR_BIF_CTRL_PAUSE_BIF1_SHIFT 3U
++#define ROGUE_CR_BIF_CTRL_PAUSE_BIF1_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_BIF_CTRL_PAUSE_BIF1_EN 0x00000008U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_PM_SHIFT 2U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_PM_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_PM_EN 0x00000004U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF1_SHIFT 1U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF1_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF1_EN 0x00000002U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF0_SHIFT 0U
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF0_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BIF_CTRL_PAUSE_MMU_BIF0_EN 0x00000001U
++
++/* Register ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS */
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS 0x12B0U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_MASKFULL 0x000000000000F775ULL
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_CAT_BASE_SHIFT 12U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_CAT_BASE_CLRMSK 0xFFFF0FFFU
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_PAGE_SIZE_SHIFT 8U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_PAGE_SIZE_CLRMSK 0xFFFFF8FFU
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_DATA_TYPE_SHIFT 5U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_DATA_TYPE_CLRMSK 0xFFFFFF9FU
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_RO_SHIFT 4U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_RO_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_RO_EN 0x00000010U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_PM_META_RO_SHIFT 2U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_PM_META_RO_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_PM_META_RO_EN 0x00000004U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_SHIFT 0U
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BIF_FAULT_BANK0_MMU_STATUS_FAULT_EN 0x00000001U
++
++/* Register ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS */
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS 0x12B8U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS__XE_MEM__MASKFULL 0x001FFFFFFFFFFFF0ULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_MASKFULL 0x0007FFFFFFFFFFF0ULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS__XE_MEM__RNW_SHIFT 52U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS__XE_MEM__RNW_CLRMSK 0xFFEFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS__XE_MEM__RNW_EN 0x0010000000000000ULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_RNW_SHIFT 50U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_RNW_CLRMSK 0xFFFBFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_RNW_EN 0x0004000000000000ULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS__XE_MEM__TAG_SB_SHIFT 46U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS__XE_MEM__TAG_SB_CLRMSK 0xFFF03FFFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_TAG_SB_SHIFT 44U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_TAG_SB_CLRMSK 0xFFFC0FFFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_TAG_ID_SHIFT 40U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_TAG_ID_CLRMSK 0xFFFFF0FFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS__XE_MEM__TAG_ID_SHIFT 40U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS__XE_MEM__TAG_ID_CLRMSK 0xFFFFC0FFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_ADDRESS_SHIFT 4U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_ADDRESS_CLRMSK 0xFFFFFF000000000FULL
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_ADDRESS_ALIGNSHIFT 4U
++#define ROGUE_CR_BIF_FAULT_BANK0_REQ_STATUS_ADDRESS_ALIGNSIZE 16U
++
++/* Register ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS */
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS 0x12C0U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_MASKFULL 0x000000000000F775ULL
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_CAT_BASE_SHIFT 12U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_CAT_BASE_CLRMSK 0xFFFF0FFFU
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_PAGE_SIZE_SHIFT 8U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_PAGE_SIZE_CLRMSK 0xFFFFF8FFU
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_DATA_TYPE_SHIFT 5U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_DATA_TYPE_CLRMSK 0xFFFFFF9FU
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_RO_SHIFT 4U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_RO_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_RO_EN 0x00000010U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_PM_META_RO_SHIFT 2U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_PM_META_RO_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_PM_META_RO_EN 0x00000004U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_SHIFT 0U
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BIF_FAULT_BANK1_MMU_STATUS_FAULT_EN 0x00000001U
++
++/* Register ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS */
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS 0x12C8U
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_MASKFULL 0x0007FFFFFFFFFFF0ULL
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_RNW_SHIFT 50U
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_RNW_CLRMSK 0xFFFBFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_RNW_EN 0x0004000000000000ULL
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_TAG_SB_SHIFT 44U
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_TAG_SB_CLRMSK 0xFFFC0FFFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_TAG_ID_SHIFT 40U
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_TAG_ID_CLRMSK 0xFFFFF0FFFFFFFFFFULL
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_ADDRESS_SHIFT 4U
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_ADDRESS_CLRMSK 0xFFFFFF000000000FULL
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_ADDRESS_ALIGNSHIFT 4U
++#define ROGUE_CR_BIF_FAULT_BANK1_REQ_STATUS_ADDRESS_ALIGNSIZE 16U
++
++/* Register ROGUE_CR_BIF_MMU_STATUS */
++#define ROGUE_CR_BIF_MMU_STATUS 0x12D0U
++#define ROGUE_CR_BIF_MMU_STATUS__XE_MEM__MASKFULL 0x000000001FFFFFF7ULL
++#define ROGUE_CR_BIF_MMU_STATUS_MASKFULL 0x000000001FFFFFF7ULL
++#define ROGUE_CR_BIF_MMU_STATUS_PM_FAULT_SHIFT 28U
++#define ROGUE_CR_BIF_MMU_STATUS_PM_FAULT_CLRMSK 0xEFFFFFFFU
++#define ROGUE_CR_BIF_MMU_STATUS_PM_FAULT_EN 0x10000000U
++#define ROGUE_CR_BIF_MMU_STATUS_PC_DATA_SHIFT 20U
++#define ROGUE_CR_BIF_MMU_STATUS_PC_DATA_CLRMSK 0xF00FFFFFU
++#define ROGUE_CR_BIF_MMU_STATUS_PD_DATA_SHIFT 12U
++#define ROGUE_CR_BIF_MMU_STATUS_PD_DATA_CLRMSK 0xFFF00FFFU
++#define ROGUE_CR_BIF_MMU_STATUS_PT_DATA_SHIFT 4U
++#define ROGUE_CR_BIF_MMU_STATUS_PT_DATA_CLRMSK 0xFFFFF00FU
++#define ROGUE_CR_BIF_MMU_STATUS_STALLED_SHIFT 2U
++#define ROGUE_CR_BIF_MMU_STATUS_STALLED_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_BIF_MMU_STATUS_STALLED_EN 0x00000004U
++#define ROGUE_CR_BIF_MMU_STATUS_PAUSED_SHIFT 1U
++#define ROGUE_CR_BIF_MMU_STATUS_PAUSED_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_BIF_MMU_STATUS_PAUSED_EN 0x00000002U
++#define ROGUE_CR_BIF_MMU_STATUS_BUSY_SHIFT 0U
++#define ROGUE_CR_BIF_MMU_STATUS_BUSY_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BIF_MMU_STATUS_BUSY_EN 0x00000001U
++
++/* Register group: ROGUE_CR_BIF_TILING_CFG, with 8 repeats */
++#define ROGUE_CR_BIF_TILING_CFG_REPEATCOUNT 8U
++/* Register ROGUE_CR_BIF_TILING_CFG0 */
++#define ROGUE_CR_BIF_TILING_CFG0 0x12D8U
++#define ROGUE_CR_BIF_TILING_CFG0_MASKFULL 0xFFFFFFFF0FFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG0_XSTRIDE_SHIFT 61U
++#define ROGUE_CR_BIF_TILING_CFG0_XSTRIDE_CLRMSK 0x1FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG0_ENABLE_SHIFT 60U
++#define ROGUE_CR_BIF_TILING_CFG0_ENABLE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG0_ENABLE_EN 0x1000000000000000ULL
++#define ROGUE_CR_BIF_TILING_CFG0_MAX_ADDRESS_SHIFT 32U
++#define ROGUE_CR_BIF_TILING_CFG0_MAX_ADDRESS_CLRMSK 0xF0000000FFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG0_MAX_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG0_MAX_ADDRESS_ALIGNSIZE 4096U
++#define ROGUE_CR_BIF_TILING_CFG0_MIN_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BIF_TILING_CFG0_MIN_ADDRESS_CLRMSK 0xFFFFFFFFF0000000ULL
++#define ROGUE_CR_BIF_TILING_CFG0_MIN_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG0_MIN_ADDRESS_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_TILING_CFG1 */
++#define ROGUE_CR_BIF_TILING_CFG1 0x12E0U
++#define ROGUE_CR_BIF_TILING_CFG1_MASKFULL 0xFFFFFFFF0FFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG1_XSTRIDE_SHIFT 61U
++#define ROGUE_CR_BIF_TILING_CFG1_XSTRIDE_CLRMSK 0x1FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG1_ENABLE_SHIFT 60U
++#define ROGUE_CR_BIF_TILING_CFG1_ENABLE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG1_ENABLE_EN 0x1000000000000000ULL
++#define ROGUE_CR_BIF_TILING_CFG1_MAX_ADDRESS_SHIFT 32U
++#define ROGUE_CR_BIF_TILING_CFG1_MAX_ADDRESS_CLRMSK 0xF0000000FFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG1_MAX_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG1_MAX_ADDRESS_ALIGNSIZE 4096U
++#define ROGUE_CR_BIF_TILING_CFG1_MIN_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BIF_TILING_CFG1_MIN_ADDRESS_CLRMSK 0xFFFFFFFFF0000000ULL
++#define ROGUE_CR_BIF_TILING_CFG1_MIN_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG1_MIN_ADDRESS_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_TILING_CFG2 */
++#define ROGUE_CR_BIF_TILING_CFG2 0x12E8U
++#define ROGUE_CR_BIF_TILING_CFG2_MASKFULL 0xFFFFFFFF0FFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG2_XSTRIDE_SHIFT 61U
++#define ROGUE_CR_BIF_TILING_CFG2_XSTRIDE_CLRMSK 0x1FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG2_ENABLE_SHIFT 60U
++#define ROGUE_CR_BIF_TILING_CFG2_ENABLE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG2_ENABLE_EN 0x1000000000000000ULL
++#define ROGUE_CR_BIF_TILING_CFG2_MAX_ADDRESS_SHIFT 32U
++#define ROGUE_CR_BIF_TILING_CFG2_MAX_ADDRESS_CLRMSK 0xF0000000FFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG2_MAX_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG2_MAX_ADDRESS_ALIGNSIZE 4096U
++#define ROGUE_CR_BIF_TILING_CFG2_MIN_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BIF_TILING_CFG2_MIN_ADDRESS_CLRMSK 0xFFFFFFFFF0000000ULL
++#define ROGUE_CR_BIF_TILING_CFG2_MIN_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG2_MIN_ADDRESS_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_TILING_CFG3 */
++#define ROGUE_CR_BIF_TILING_CFG3 0x12F0U
++#define ROGUE_CR_BIF_TILING_CFG3_MASKFULL 0xFFFFFFFF0FFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG3_XSTRIDE_SHIFT 61U
++#define ROGUE_CR_BIF_TILING_CFG3_XSTRIDE_CLRMSK 0x1FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG3_ENABLE_SHIFT 60U
++#define ROGUE_CR_BIF_TILING_CFG3_ENABLE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG3_ENABLE_EN 0x1000000000000000ULL
++#define ROGUE_CR_BIF_TILING_CFG3_MAX_ADDRESS_SHIFT 32U
++#define ROGUE_CR_BIF_TILING_CFG3_MAX_ADDRESS_CLRMSK 0xF0000000FFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG3_MAX_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG3_MAX_ADDRESS_ALIGNSIZE 4096U
++#define ROGUE_CR_BIF_TILING_CFG3_MIN_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BIF_TILING_CFG3_MIN_ADDRESS_CLRMSK 0xFFFFFFFFF0000000ULL
++#define ROGUE_CR_BIF_TILING_CFG3_MIN_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG3_MIN_ADDRESS_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_TILING_CFG4 */
++#define ROGUE_CR_BIF_TILING_CFG4 0x12F8U
++#define ROGUE_CR_BIF_TILING_CFG4_MASKFULL 0xFFFFFFFF0FFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG4_XSTRIDE_SHIFT 61U
++#define ROGUE_CR_BIF_TILING_CFG4_XSTRIDE_CLRMSK 0x1FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG4_ENABLE_SHIFT 60U
++#define ROGUE_CR_BIF_TILING_CFG4_ENABLE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG4_ENABLE_EN 0x1000000000000000ULL
++#define ROGUE_CR_BIF_TILING_CFG4_MAX_ADDRESS_SHIFT 32U
++#define ROGUE_CR_BIF_TILING_CFG4_MAX_ADDRESS_CLRMSK 0xF0000000FFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG4_MAX_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG4_MAX_ADDRESS_ALIGNSIZE 4096U
++#define ROGUE_CR_BIF_TILING_CFG4_MIN_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BIF_TILING_CFG4_MIN_ADDRESS_CLRMSK 0xFFFFFFFFF0000000ULL
++#define ROGUE_CR_BIF_TILING_CFG4_MIN_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG4_MIN_ADDRESS_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_TILING_CFG5 */
++#define ROGUE_CR_BIF_TILING_CFG5 0x1300U
++#define ROGUE_CR_BIF_TILING_CFG5_MASKFULL 0xFFFFFFFF0FFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG5_XSTRIDE_SHIFT 61U
++#define ROGUE_CR_BIF_TILING_CFG5_XSTRIDE_CLRMSK 0x1FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG5_ENABLE_SHIFT 60U
++#define ROGUE_CR_BIF_TILING_CFG5_ENABLE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG5_ENABLE_EN 0x1000000000000000ULL
++#define ROGUE_CR_BIF_TILING_CFG5_MAX_ADDRESS_SHIFT 32U
++#define ROGUE_CR_BIF_TILING_CFG5_MAX_ADDRESS_CLRMSK 0xF0000000FFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG5_MAX_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG5_MAX_ADDRESS_ALIGNSIZE 4096U
++#define ROGUE_CR_BIF_TILING_CFG5_MIN_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BIF_TILING_CFG5_MIN_ADDRESS_CLRMSK 0xFFFFFFFFF0000000ULL
++#define ROGUE_CR_BIF_TILING_CFG5_MIN_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG5_MIN_ADDRESS_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_TILING_CFG6 */
++#define ROGUE_CR_BIF_TILING_CFG6 0x1308U
++#define ROGUE_CR_BIF_TILING_CFG6_MASKFULL 0xFFFFFFFF0FFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG6_XSTRIDE_SHIFT 61U
++#define ROGUE_CR_BIF_TILING_CFG6_XSTRIDE_CLRMSK 0x1FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG6_ENABLE_SHIFT 60U
++#define ROGUE_CR_BIF_TILING_CFG6_ENABLE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG6_ENABLE_EN 0x1000000000000000ULL
++#define ROGUE_CR_BIF_TILING_CFG6_MAX_ADDRESS_SHIFT 32U
++#define ROGUE_CR_BIF_TILING_CFG6_MAX_ADDRESS_CLRMSK 0xF0000000FFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG6_MAX_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG6_MAX_ADDRESS_ALIGNSIZE 4096U
++#define ROGUE_CR_BIF_TILING_CFG6_MIN_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BIF_TILING_CFG6_MIN_ADDRESS_CLRMSK 0xFFFFFFFFF0000000ULL
++#define ROGUE_CR_BIF_TILING_CFG6_MIN_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG6_MIN_ADDRESS_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_TILING_CFG7 */
++#define ROGUE_CR_BIF_TILING_CFG7 0x1310U
++#define ROGUE_CR_BIF_TILING_CFG7_MASKFULL 0xFFFFFFFF0FFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG7_XSTRIDE_SHIFT 61U
++#define ROGUE_CR_BIF_TILING_CFG7_XSTRIDE_CLRMSK 0x1FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG7_ENABLE_SHIFT 60U
++#define ROGUE_CR_BIF_TILING_CFG7_ENABLE_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG7_ENABLE_EN 0x1000000000000000ULL
++#define ROGUE_CR_BIF_TILING_CFG7_MAX_ADDRESS_SHIFT 32U
++#define ROGUE_CR_BIF_TILING_CFG7_MAX_ADDRESS_CLRMSK 0xF0000000FFFFFFFFULL
++#define ROGUE_CR_BIF_TILING_CFG7_MAX_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG7_MAX_ADDRESS_ALIGNSIZE 4096U
++#define ROGUE_CR_BIF_TILING_CFG7_MIN_ADDRESS_SHIFT 0U
++#define ROGUE_CR_BIF_TILING_CFG7_MIN_ADDRESS_CLRMSK 0xFFFFFFFFF0000000ULL
++#define ROGUE_CR_BIF_TILING_CFG7_MIN_ADDRESS_ALIGNSHIFT 12U
++#define ROGUE_CR_BIF_TILING_CFG7_MIN_ADDRESS_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_BIF_READS_EXT_STATUS */
++#define ROGUE_CR_BIF_READS_EXT_STATUS 0x1320U
++#define ROGUE_CR_BIF_READS_EXT_STATUS_MASKFULL 0x000000000FFFFFFFULL
++#define ROGUE_CR_BIF_READS_EXT_STATUS_MMU_SHIFT 16U
++#define ROGUE_CR_BIF_READS_EXT_STATUS_MMU_CLRMSK 0xF000FFFFU
++#define ROGUE_CR_BIF_READS_EXT_STATUS_BANK1_SHIFT 0U
++#define ROGUE_CR_BIF_READS_EXT_STATUS_BANK1_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_BIF_READS_INT_STATUS */
++#define ROGUE_CR_BIF_READS_INT_STATUS 0x1328U
++#define ROGUE_CR_BIF_READS_INT_STATUS_MASKFULL 0x0000000007FFFFFFULL
++#define ROGUE_CR_BIF_READS_INT_STATUS_MMU_SHIFT 16U
++#define ROGUE_CR_BIF_READS_INT_STATUS_MMU_CLRMSK 0xF800FFFFU
++#define ROGUE_CR_BIF_READS_INT_STATUS_BANK1_SHIFT 0U
++#define ROGUE_CR_BIF_READS_INT_STATUS_BANK1_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_BIFPM_READS_INT_STATUS */
++#define ROGUE_CR_BIFPM_READS_INT_STATUS 0x1330U
++#define ROGUE_CR_BIFPM_READS_INT_STATUS_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_BIFPM_READS_INT_STATUS_BANK0_SHIFT 0U
++#define ROGUE_CR_BIFPM_READS_INT_STATUS_BANK0_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_BIFPM_READS_EXT_STATUS */
++#define ROGUE_CR_BIFPM_READS_EXT_STATUS 0x1338U
++#define ROGUE_CR_BIFPM_READS_EXT_STATUS_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_BIFPM_READS_EXT_STATUS_BANK0_SHIFT 0U
++#define ROGUE_CR_BIFPM_READS_EXT_STATUS_BANK0_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_BIFPM_STATUS_MMU */
++#define ROGUE_CR_BIFPM_STATUS_MMU 0x1350U
++#define ROGUE_CR_BIFPM_STATUS_MMU_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_BIFPM_STATUS_MMU_REQUESTS_SHIFT 0U
++#define ROGUE_CR_BIFPM_STATUS_MMU_REQUESTS_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_BIF_STATUS_MMU */
++#define ROGUE_CR_BIF_STATUS_MMU 0x1358U
++#define ROGUE_CR_BIF_STATUS_MMU_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_BIF_STATUS_MMU_REQUESTS_SHIFT 0U
++#define ROGUE_CR_BIF_STATUS_MMU_REQUESTS_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_BIF_FAULT_READ */
++#define ROGUE_CR_BIF_FAULT_READ 0x13E0U
++#define ROGUE_CR_BIF_FAULT_READ_MASKFULL 0x000000FFFFFFFFF0ULL
++#define ROGUE_CR_BIF_FAULT_READ_ADDRESS_SHIFT 4U
++#define ROGUE_CR_BIF_FAULT_READ_ADDRESS_CLRMSK 0xFFFFFF000000000FULL
++#define ROGUE_CR_BIF_FAULT_READ_ADDRESS_ALIGNSHIFT 4U
++#define ROGUE_CR_BIF_FAULT_READ_ADDRESS_ALIGNSIZE 16U
++
++/* Register ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS */
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS 0x1430U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_MASKFULL 0x000000000000F775ULL
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_CAT_BASE_SHIFT 12U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_CAT_BASE_CLRMSK 0xFFFF0FFFU
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_PAGE_SIZE_SHIFT 8U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_PAGE_SIZE_CLRMSK 0xFFFFF8FFU
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_DATA_TYPE_SHIFT 5U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_DATA_TYPE_CLRMSK 0xFFFFFF9FU
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_RO_SHIFT 4U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_RO_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_RO_EN 0x00000010U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_PM_META_RO_SHIFT 2U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_PM_META_RO_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_PM_META_RO_EN 0x00000004U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_SHIFT 0U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_MMU_STATUS_FAULT_EN 0x00000001U
++
++/* Register ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS */
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS 0x1438U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_MASKFULL 0x0007FFFFFFFFFFF0ULL
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_RNW_SHIFT 50U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_RNW_CLRMSK 0xFFFBFFFFFFFFFFFFULL
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_RNW_EN 0x0004000000000000ULL
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_TAG_SB_SHIFT 44U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_TAG_SB_CLRMSK 0xFFFC0FFFFFFFFFFFULL
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_TAG_ID_SHIFT 40U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_TAG_ID_CLRMSK 0xFFFFF0FFFFFFFFFFULL
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_ADDRESS_SHIFT 4U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_ADDRESS_CLRMSK 0xFFFFFF000000000FULL
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_ADDRESS_ALIGNSHIFT 4U
++#define ROGUE_CR_TEXAS_BIF_FAULT_BANK0_REQ_STATUS_ADDRESS_ALIGNSIZE 16U
++
++/* Register ROGUE_CR_MCU_FENCE */
++#define ROGUE_CR_MCU_FENCE 0x1740U
++#define ROGUE_CR_MCU_FENCE_MASKFULL 0x000007FFFFFFFFE0ULL
++#define ROGUE_CR_MCU_FENCE_DM_SHIFT 40U
++#define ROGUE_CR_MCU_FENCE_DM_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_MCU_FENCE_DM_VERTEX 0x0000000000000000ULL
++#define ROGUE_CR_MCU_FENCE_DM_PIXEL 0x0000010000000000ULL
++#define ROGUE_CR_MCU_FENCE_DM_COMPUTE 0x0000020000000000ULL
++#define ROGUE_CR_MCU_FENCE_DM_RAY_VERTEX 0x0000030000000000ULL
++#define ROGUE_CR_MCU_FENCE_DM_RAY 0x0000040000000000ULL
++#define ROGUE_CR_MCU_FENCE_DM_FASTRENDER 0x0000050000000000ULL
++#define ROGUE_CR_MCU_FENCE_ADDR_SHIFT 5U
++#define ROGUE_CR_MCU_FENCE_ADDR_CLRMSK 0xFFFFFF000000001FULL
++#define ROGUE_CR_MCU_FENCE_ADDR_ALIGNSHIFT 5U
++#define ROGUE_CR_MCU_FENCE_ADDR_ALIGNSIZE 32U
++
++/* Register group: ROGUE_CR_SCRATCH, with 16 repeats */
++#define ROGUE_CR_SCRATCH_REPEATCOUNT 16U
++/* Register ROGUE_CR_SCRATCH0 */
++#define ROGUE_CR_SCRATCH0 0x1A00U
++#define ROGUE_CR_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH1 */
++#define ROGUE_CR_SCRATCH1 0x1A08U
++#define ROGUE_CR_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH2 */
++#define ROGUE_CR_SCRATCH2 0x1A10U
++#define ROGUE_CR_SCRATCH2_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH2_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH3 */
++#define ROGUE_CR_SCRATCH3 0x1A18U
++#define ROGUE_CR_SCRATCH3_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH3_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH4 */
++#define ROGUE_CR_SCRATCH4 0x1A20U
++#define ROGUE_CR_SCRATCH4_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH4_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH4_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH5 */
++#define ROGUE_CR_SCRATCH5 0x1A28U
++#define ROGUE_CR_SCRATCH5_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH5_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH5_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH6 */
++#define ROGUE_CR_SCRATCH6 0x1A30U
++#define ROGUE_CR_SCRATCH6_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH6_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH6_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH7 */
++#define ROGUE_CR_SCRATCH7 0x1A38U
++#define ROGUE_CR_SCRATCH7_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH7_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH7_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH8 */
++#define ROGUE_CR_SCRATCH8 0x1A40U
++#define ROGUE_CR_SCRATCH8_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH8_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH8_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH9 */
++#define ROGUE_CR_SCRATCH9 0x1A48U
++#define ROGUE_CR_SCRATCH9_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH9_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH9_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH10 */
++#define ROGUE_CR_SCRATCH10 0x1A50U
++#define ROGUE_CR_SCRATCH10_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH10_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH10_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH11 */
++#define ROGUE_CR_SCRATCH11 0x1A58U
++#define ROGUE_CR_SCRATCH11_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH11_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH11_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH12 */
++#define ROGUE_CR_SCRATCH12 0x1A60U
++#define ROGUE_CR_SCRATCH12_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH12_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH12_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH13 */
++#define ROGUE_CR_SCRATCH13 0x1A68U
++#define ROGUE_CR_SCRATCH13_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH13_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH13_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH14 */
++#define ROGUE_CR_SCRATCH14 0x1A70U
++#define ROGUE_CR_SCRATCH14_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH14_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH14_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SCRATCH15 */
++#define ROGUE_CR_SCRATCH15 0x1A78U
++#define ROGUE_CR_SCRATCH15_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SCRATCH15_DATA_SHIFT 0U
++#define ROGUE_CR_SCRATCH15_DATA_CLRMSK 0x00000000U
++
++/* Register group: ROGUE_CR_OS0_SCRATCH, with 2 repeats */
++#define ROGUE_CR_OS0_SCRATCH_REPEATCOUNT 2U
++/* Register ROGUE_CR_OS0_SCRATCH0 */
++#define ROGUE_CR_OS0_SCRATCH0 0x1A80U
++#define ROGUE_CR_OS0_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS0_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_OS0_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS0_SCRATCH1 */
++#define ROGUE_CR_OS0_SCRATCH1 0x1A88U
++#define ROGUE_CR_OS0_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS0_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_OS0_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS0_SCRATCH2 */
++#define ROGUE_CR_OS0_SCRATCH2 0x1A90U
++#define ROGUE_CR_OS0_SCRATCH2_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS0_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_OS0_SCRATCH2_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_OS0_SCRATCH3 */
++#define ROGUE_CR_OS0_SCRATCH3 0x1A98U
++#define ROGUE_CR_OS0_SCRATCH3_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS0_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_OS0_SCRATCH3_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register group: ROGUE_CR_OS1_SCRATCH, with 2 repeats */
++#define ROGUE_CR_OS1_SCRATCH_REPEATCOUNT 2U
++/* Register ROGUE_CR_OS1_SCRATCH0 */
++#define ROGUE_CR_OS1_SCRATCH0 0x11A80U
++#define ROGUE_CR_OS1_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS1_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_OS1_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS1_SCRATCH1 */
++#define ROGUE_CR_OS1_SCRATCH1 0x11A88U
++#define ROGUE_CR_OS1_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS1_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_OS1_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS1_SCRATCH2 */
++#define ROGUE_CR_OS1_SCRATCH2 0x11A90U
++#define ROGUE_CR_OS1_SCRATCH2_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS1_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_OS1_SCRATCH2_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_OS1_SCRATCH3 */
++#define ROGUE_CR_OS1_SCRATCH3 0x11A98U
++#define ROGUE_CR_OS1_SCRATCH3_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS1_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_OS1_SCRATCH3_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register group: ROGUE_CR_OS2_SCRATCH, with 2 repeats */
++#define ROGUE_CR_OS2_SCRATCH_REPEATCOUNT 2U
++/* Register ROGUE_CR_OS2_SCRATCH0 */
++#define ROGUE_CR_OS2_SCRATCH0 0x21A80U
++#define ROGUE_CR_OS2_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS2_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_OS2_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS2_SCRATCH1 */
++#define ROGUE_CR_OS2_SCRATCH1 0x21A88U
++#define ROGUE_CR_OS2_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS2_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_OS2_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS2_SCRATCH2 */
++#define ROGUE_CR_OS2_SCRATCH2 0x21A90U
++#define ROGUE_CR_OS2_SCRATCH2_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS2_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_OS2_SCRATCH2_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_OS2_SCRATCH3 */
++#define ROGUE_CR_OS2_SCRATCH3 0x21A98U
++#define ROGUE_CR_OS2_SCRATCH3_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS2_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_OS2_SCRATCH3_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register group: ROGUE_CR_OS3_SCRATCH, with 2 repeats */
++#define ROGUE_CR_OS3_SCRATCH_REPEATCOUNT 2U
++/* Register ROGUE_CR_OS3_SCRATCH0 */
++#define ROGUE_CR_OS3_SCRATCH0 0x31A80U
++#define ROGUE_CR_OS3_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS3_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_OS3_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS3_SCRATCH1 */
++#define ROGUE_CR_OS3_SCRATCH1 0x31A88U
++#define ROGUE_CR_OS3_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS3_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_OS3_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS3_SCRATCH2 */
++#define ROGUE_CR_OS3_SCRATCH2 0x31A90U
++#define ROGUE_CR_OS3_SCRATCH2_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS3_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_OS3_SCRATCH2_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_OS3_SCRATCH3 */
++#define ROGUE_CR_OS3_SCRATCH3 0x31A98U
++#define ROGUE_CR_OS3_SCRATCH3_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS3_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_OS3_SCRATCH3_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register group: ROGUE_CR_OS4_SCRATCH, with 2 repeats */
++#define ROGUE_CR_OS4_SCRATCH_REPEATCOUNT 2U
++/* Register ROGUE_CR_OS4_SCRATCH0 */
++#define ROGUE_CR_OS4_SCRATCH0 0x41A80U
++#define ROGUE_CR_OS4_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS4_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_OS4_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS4_SCRATCH1 */
++#define ROGUE_CR_OS4_SCRATCH1 0x41A88U
++#define ROGUE_CR_OS4_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS4_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_OS4_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS4_SCRATCH2 */
++#define ROGUE_CR_OS4_SCRATCH2 0x41A90U
++#define ROGUE_CR_OS4_SCRATCH2_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS4_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_OS4_SCRATCH2_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_OS4_SCRATCH3 */
++#define ROGUE_CR_OS4_SCRATCH3 0x41A98U
++#define ROGUE_CR_OS4_SCRATCH3_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS4_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_OS4_SCRATCH3_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register group: ROGUE_CR_OS5_SCRATCH, with 2 repeats */
++#define ROGUE_CR_OS5_SCRATCH_REPEATCOUNT 2U
++/* Register ROGUE_CR_OS5_SCRATCH0 */
++#define ROGUE_CR_OS5_SCRATCH0 0x51A80U
++#define ROGUE_CR_OS5_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS5_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_OS5_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS5_SCRATCH1 */
++#define ROGUE_CR_OS5_SCRATCH1 0x51A88U
++#define ROGUE_CR_OS5_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS5_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_OS5_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS5_SCRATCH2 */
++#define ROGUE_CR_OS5_SCRATCH2 0x51A90U
++#define ROGUE_CR_OS5_SCRATCH2_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS5_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_OS5_SCRATCH2_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_OS5_SCRATCH3 */
++#define ROGUE_CR_OS5_SCRATCH3 0x51A98U
++#define ROGUE_CR_OS5_SCRATCH3_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS5_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_OS5_SCRATCH3_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register group: ROGUE_CR_OS6_SCRATCH, with 2 repeats */
++#define ROGUE_CR_OS6_SCRATCH_REPEATCOUNT 2U
++/* Register ROGUE_CR_OS6_SCRATCH0 */
++#define ROGUE_CR_OS6_SCRATCH0 0x61A80U
++#define ROGUE_CR_OS6_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS6_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_OS6_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS6_SCRATCH1 */
++#define ROGUE_CR_OS6_SCRATCH1 0x61A88U
++#define ROGUE_CR_OS6_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS6_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_OS6_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS6_SCRATCH2 */
++#define ROGUE_CR_OS6_SCRATCH2 0x61A90U
++#define ROGUE_CR_OS6_SCRATCH2_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS6_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_OS6_SCRATCH2_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_OS6_SCRATCH3 */
++#define ROGUE_CR_OS6_SCRATCH3 0x61A98U
++#define ROGUE_CR_OS6_SCRATCH3_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS6_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_OS6_SCRATCH3_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register group: ROGUE_CR_OS7_SCRATCH, with 2 repeats */
++#define ROGUE_CR_OS7_SCRATCH_REPEATCOUNT 2U
++/* Register ROGUE_CR_OS7_SCRATCH0 */
++#define ROGUE_CR_OS7_SCRATCH0 0x71A80U
++#define ROGUE_CR_OS7_SCRATCH0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS7_SCRATCH0_DATA_SHIFT 0U
++#define ROGUE_CR_OS7_SCRATCH0_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS7_SCRATCH1 */
++#define ROGUE_CR_OS7_SCRATCH1 0x71A88U
++#define ROGUE_CR_OS7_SCRATCH1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_OS7_SCRATCH1_DATA_SHIFT 0U
++#define ROGUE_CR_OS7_SCRATCH1_DATA_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OS7_SCRATCH2 */
++#define ROGUE_CR_OS7_SCRATCH2 0x71A90U
++#define ROGUE_CR_OS7_SCRATCH2_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS7_SCRATCH2_DATA_SHIFT 0U
++#define ROGUE_CR_OS7_SCRATCH2_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_OS7_SCRATCH3 */
++#define ROGUE_CR_OS7_SCRATCH3 0x71A98U
++#define ROGUE_CR_OS7_SCRATCH3_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_OS7_SCRATCH3_DATA_SHIFT 0U
++#define ROGUE_CR_OS7_SCRATCH3_DATA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_SPFILTER_SIGNAL_DESCR */
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR 0x2700U
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_SIZE_SHIFT 0U
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_SIZE_CLRMSK 0xFFFF0000U
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_SIZE_ALIGNSHIFT 4U
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_SIZE_ALIGNSIZE 16U
++
++/* Register ROGUE_CR_SPFILTER_SIGNAL_DESCR_MIN */
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_MIN 0x2708U
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_MIN_MASKFULL 0x000000FFFFFFFFF0ULL
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_MIN_ADDR_SHIFT 4U
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_MIN_ADDR_CLRMSK 0xFFFFFF000000000FULL
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_MIN_ADDR_ALIGNSHIFT 4U
++#define ROGUE_CR_SPFILTER_SIGNAL_DESCR_MIN_ADDR_ALIGNSIZE 16U
++
++/* Register group: ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG, with 16 repeats */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG_REPEATCOUNT 16U
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0 0x3000U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1 0x3008U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG1_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2 0x3010U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG2_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3 0x3018U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG3_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4 0x3020U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG4_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5 0x3028U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG5_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6 0x3030U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG6_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7 0x3038U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG7_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8 0x3040U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG8_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9 0x3048U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG9_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10 0x3050U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG10_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11 0x3058U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG11_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12 0x3060U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG12_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13 0x3068U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG13_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14 0x3070U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG14_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15 */
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15 0x3078U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_MASKFULL 0x7FFFF7FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_TRUSTED_SHIFT 62U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_TRUSTED_CLRMSK 0xBFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_TRUSTED_EN 0x4000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_LOAD_STORE_EN_SHIFT 61U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_LOAD_STORE_EN_CLRMSK 0xDFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_LOAD_STORE_EN_EN 0x2000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_FETCH_EN_SHIFT 60U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_FETCH_EN_CLRMSK 0xEFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_FETCH_EN_EN 0x1000000000000000ULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_SIZE_SHIFT 44U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_SIZE_CLRMSK 0xF0000FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_CBASE_SHIFT 40U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_CBASE_CLRMSK 0xFFFFF8FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_DEVVADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_DEVVADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_DEVVADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG15_DEVVADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_BOOT */
++#define ROGUE_CR_FWCORE_BOOT 0x3090U
++#define ROGUE_CR_FWCORE_BOOT_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_FWCORE_BOOT_ENABLE_SHIFT 0U
++#define ROGUE_CR_FWCORE_BOOT_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_FWCORE_BOOT_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_FWCORE_RESET_ADDR */
++#define ROGUE_CR_FWCORE_RESET_ADDR 0x3098U
++#define ROGUE_CR_FWCORE_RESET_ADDR_MASKFULL 0x00000000FFFFFFFEULL
++#define ROGUE_CR_FWCORE_RESET_ADDR_ADDR_SHIFT 1U
++#define ROGUE_CR_FWCORE_RESET_ADDR_ADDR_CLRMSK 0x00000001U
++#define ROGUE_CR_FWCORE_RESET_ADDR_ADDR_ALIGNSHIFT 1U
++#define ROGUE_CR_FWCORE_RESET_ADDR_ADDR_ALIGNSIZE 2U
++
++/* Register ROGUE_CR_FWCORE_WRAPPER_NMI_ADDR */
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_ADDR 0x30A0U
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_ADDR_MASKFULL 0x00000000FFFFFFFEULL
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_ADDR_ADDR_SHIFT 1U
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_ADDR_ADDR_CLRMSK 0x00000001U
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_ADDR_ADDR_ALIGNSHIFT 1U
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_ADDR_ADDR_ALIGNSIZE 2U
++
++/* Register ROGUE_CR_FWCORE_WRAPPER_NMI_EVENT */
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_EVENT 0x30A8U
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_EVENT_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_EVENT_TRIGGER_EN_SHIFT 0U
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_EVENT_TRIGGER_EN_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_FWCORE_WRAPPER_NMI_EVENT_TRIGGER_EN_EN 0x00000001U
++
++/* Register ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS */
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS 0x30B0U
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_MASKFULL 0x000000000000F771ULL
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_CAT_BASE_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_CAT_BASE_CLRMSK 0xFFFF0FFFU
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_PAGE_SIZE_SHIFT 8U
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_PAGE_SIZE_CLRMSK 0xFFFFF8FFU
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_DATA_TYPE_SHIFT 5U
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_DATA_TYPE_CLRMSK 0xFFFFFF9FU
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_FAULT_RO_SHIFT 4U
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_FAULT_RO_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_FAULT_RO_EN 0x00000010U
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_FAULT_SHIFT 0U
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_FAULT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_FWCORE_MEM_FAULT_MMU_STATUS_FAULT_EN 0x00000001U
++
++/* Register ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS */
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS 0x30B8U
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_MASKFULL 0x001FFFFFFFFFFFF0ULL
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_RNW_SHIFT 52U
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_RNW_CLRMSK 0xFFEFFFFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_RNW_EN 0x0010000000000000ULL
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_TAG_SB_SHIFT 46U
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_TAG_SB_CLRMSK 0xFFF03FFFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_TAG_ID_SHIFT 40U
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_TAG_ID_CLRMSK 0xFFFFC0FFFFFFFFFFULL
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_ADDRESS_SHIFT 4U
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_ADDRESS_CLRMSK 0xFFFFFF000000000FULL
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_ADDRESS_ALIGNSHIFT 4U
++#define ROGUE_CR_FWCORE_MEM_FAULT_REQ_STATUS_ADDRESS_ALIGNSIZE 16U
++
++/* Register ROGUE_CR_FWCORE_MEM_CTRL_INVAL */
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL 0x30C0U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_TLB_SHIFT 3U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_TLB_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_TLB_EN 0x00000008U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PC_SHIFT 2U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PC_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PC_EN 0x00000004U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PD_SHIFT 1U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PD_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PD_EN 0x00000002U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PT_SHIFT 0U
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_FWCORE_MEM_CTRL_INVAL_PT_EN 0x00000001U
++
++/* Register ROGUE_CR_FWCORE_MEM_MMU_STATUS */
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS 0x30C8U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_MASKFULL 0x000000000FFFFFF7ULL
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PC_DATA_SHIFT 20U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PC_DATA_CLRMSK 0xF00FFFFFU
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PD_DATA_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PD_DATA_CLRMSK 0xFFF00FFFU
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PT_DATA_SHIFT 4U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PT_DATA_CLRMSK 0xFFFFF00FU
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_STALLED_SHIFT 2U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_STALLED_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_STALLED_EN 0x00000004U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PAUSED_SHIFT 1U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PAUSED_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_PAUSED_EN 0x00000002U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_BUSY_SHIFT 0U
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_BUSY_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_FWCORE_MEM_MMU_STATUS_BUSY_EN 0x00000001U
++
++/* Register ROGUE_CR_FWCORE_MEM_READS_EXT_STATUS */
++#define ROGUE_CR_FWCORE_MEM_READS_EXT_STATUS 0x30D8U
++#define ROGUE_CR_FWCORE_MEM_READS_EXT_STATUS_MASKFULL 0x0000000000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_READS_EXT_STATUS_MMU_SHIFT 0U
++#define ROGUE_CR_FWCORE_MEM_READS_EXT_STATUS_MMU_CLRMSK 0xFFFFF000U
++
++/* Register ROGUE_CR_FWCORE_MEM_READS_INT_STATUS */
++#define ROGUE_CR_FWCORE_MEM_READS_INT_STATUS 0x30E0U
++#define ROGUE_CR_FWCORE_MEM_READS_INT_STATUS_MASKFULL 0x00000000000007FFULL
++#define ROGUE_CR_FWCORE_MEM_READS_INT_STATUS_MMU_SHIFT 0U
++#define ROGUE_CR_FWCORE_MEM_READS_INT_STATUS_MMU_CLRMSK 0xFFFFF800U
++
++/* Register ROGUE_CR_FWCORE_WRAPPER_FENCE */
++#define ROGUE_CR_FWCORE_WRAPPER_FENCE 0x30E8U
++#define ROGUE_CR_FWCORE_WRAPPER_FENCE_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_FWCORE_WRAPPER_FENCE_ID_SHIFT 0U
++#define ROGUE_CR_FWCORE_WRAPPER_FENCE_ID_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_FWCORE_WRAPPER_FENCE_ID_EN 0x00000001U
++
++/* Register group: ROGUE_CR_FWCORE_MEM_CAT_BASE, with 8 repeats */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE_REPEATCOUNT 8U
++/* Register ROGUE_CR_FWCORE_MEM_CAT_BASE0 */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE0 0x30F0U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE0_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE0_ADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE0_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE0_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE0_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_MEM_CAT_BASE1 */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE1 0x30F8U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE1_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE1_ADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE1_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE1_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE1_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_MEM_CAT_BASE2 */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE2 0x3100U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE2_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE2_ADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE2_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE2_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE2_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_MEM_CAT_BASE3 */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE3 0x3108U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE3_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE3_ADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE3_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE3_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE3_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_MEM_CAT_BASE4 */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE4 0x3110U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE4_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE4_ADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE4_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE4_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE4_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_MEM_CAT_BASE5 */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE5 0x3118U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE5_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE5_ADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE5_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE5_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE5_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_MEM_CAT_BASE6 */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE6 0x3120U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE6_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE6_ADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE6_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE6_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE6_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_MEM_CAT_BASE7 */
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE7 0x3128U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE7_MASKFULL 0x000000FFFFFFF000ULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE7_ADDR_SHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE7_ADDR_CLRMSK 0xFFFFFF0000000FFFULL
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE7_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_FWCORE_MEM_CAT_BASE7_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_FWCORE_WDT_RESET */
++#define ROGUE_CR_FWCORE_WDT_RESET 0x3130U
++#define ROGUE_CR_FWCORE_WDT_RESET_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_FWCORE_WDT_RESET_EN_SHIFT 0U
++#define ROGUE_CR_FWCORE_WDT_RESET_EN_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_FWCORE_WDT_RESET_EN_EN 0x00000001U
++
++/* Register ROGUE_CR_FWCORE_WDT_CTRL */
++#define ROGUE_CR_FWCORE_WDT_CTRL 0x3138U
++#define ROGUE_CR_FWCORE_WDT_CTRL_MASKFULL 0x00000000FFFF1F01ULL
++#define ROGUE_CR_FWCORE_WDT_CTRL_PROT_SHIFT 16U
++#define ROGUE_CR_FWCORE_WDT_CTRL_PROT_CLRMSK 0x0000FFFFU
++#define ROGUE_CR_FWCORE_WDT_CTRL_THRESHOLD_SHIFT 8U
++#define ROGUE_CR_FWCORE_WDT_CTRL_THRESHOLD_CLRMSK 0xFFFFE0FFU
++#define ROGUE_CR_FWCORE_WDT_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_FWCORE_WDT_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_FWCORE_WDT_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_FWCORE_WDT_COUNT */
++#define ROGUE_CR_FWCORE_WDT_COUNT 0x3140U
++#define ROGUE_CR_FWCORE_WDT_COUNT_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_FWCORE_WDT_COUNT_VALUE_SHIFT 0U
++#define ROGUE_CR_FWCORE_WDT_COUNT_VALUE_CLRMSK 0x00000000U
++
++/* Register group: ROGUE_CR_FWCORE_DMI_RESERVED0, with 4 repeats */
++#define ROGUE_CR_FWCORE_DMI_RESERVED0_REPEATCOUNT 4U
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED00 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED00 0x3400U
++#define ROGUE_CR_FWCORE_DMI_RESERVED00_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED01 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED01 0x3408U
++#define ROGUE_CR_FWCORE_DMI_RESERVED01_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED02 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED02 0x3410U
++#define ROGUE_CR_FWCORE_DMI_RESERVED02_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED03 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED03 0x3418U
++#define ROGUE_CR_FWCORE_DMI_RESERVED03_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_DATA0 */
++#define ROGUE_CR_FWCORE_DMI_DATA0 0x3420U
++#define ROGUE_CR_FWCORE_DMI_DATA0_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_DATA1 */
++#define ROGUE_CR_FWCORE_DMI_DATA1 0x3428U
++#define ROGUE_CR_FWCORE_DMI_DATA1_MASKFULL 0x0000000000000000ULL
++
++/* Register group: ROGUE_CR_FWCORE_DMI_RESERVED1, with 5 repeats */
++#define ROGUE_CR_FWCORE_DMI_RESERVED1_REPEATCOUNT 5U
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED10 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED10 0x3430U
++#define ROGUE_CR_FWCORE_DMI_RESERVED10_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED11 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED11 0x3438U
++#define ROGUE_CR_FWCORE_DMI_RESERVED11_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED12 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED12 0x3440U
++#define ROGUE_CR_FWCORE_DMI_RESERVED12_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED13 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED13 0x3448U
++#define ROGUE_CR_FWCORE_DMI_RESERVED13_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED14 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED14 0x3450U
++#define ROGUE_CR_FWCORE_DMI_RESERVED14_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_DMCONTROL */
++#define ROGUE_CR_FWCORE_DMI_DMCONTROL 0x3480U
++#define ROGUE_CR_FWCORE_DMI_DMCONTROL_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_DMSTATUS */
++#define ROGUE_CR_FWCORE_DMI_DMSTATUS 0x3488U
++#define ROGUE_CR_FWCORE_DMI_DMSTATUS_MASKFULL 0x0000000000000000ULL
++
++/* Register group: ROGUE_CR_FWCORE_DMI_RESERVED2, with 4 repeats */
++#define ROGUE_CR_FWCORE_DMI_RESERVED2_REPEATCOUNT 4U
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED20 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED20 0x3490U
++#define ROGUE_CR_FWCORE_DMI_RESERVED20_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED21 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED21 0x3498U
++#define ROGUE_CR_FWCORE_DMI_RESERVED21_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED22 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED22 0x34A0U
++#define ROGUE_CR_FWCORE_DMI_RESERVED22_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED23 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED23 0x34A8U
++#define ROGUE_CR_FWCORE_DMI_RESERVED23_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_ABSTRACTCS */
++#define ROGUE_CR_FWCORE_DMI_ABSTRACTCS 0x34B0U
++#define ROGUE_CR_FWCORE_DMI_ABSTRACTCS_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_COMMAND */
++#define ROGUE_CR_FWCORE_DMI_COMMAND 0x34B8U
++#define ROGUE_CR_FWCORE_DMI_COMMAND_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_SBCS */
++#define ROGUE_CR_FWCORE_DMI_SBCS 0x35C0U
++#define ROGUE_CR_FWCORE_DMI_SBCS_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_SBADDRESS0 */
++#define ROGUE_CR_FWCORE_DMI_SBADDRESS0 0x35C8U
++#define ROGUE_CR_FWCORE_DMI_SBADDRESS0_MASKFULL 0x0000000000000000ULL
++
++/* Register group: ROGUE_CR_FWCORE_DMI_RESERVED3, with 2 repeats */
++#define ROGUE_CR_FWCORE_DMI_RESERVED3_REPEATCOUNT 2U
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED30 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED30 0x34D0U
++#define ROGUE_CR_FWCORE_DMI_RESERVED30_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_RESERVED31 */
++#define ROGUE_CR_FWCORE_DMI_RESERVED31 0x34D8U
++#define ROGUE_CR_FWCORE_DMI_RESERVED31_MASKFULL 0x0000000000000000ULL
++
++/* Register group: ROGUE_CR_FWCORE_DMI_SBDATA, with 4 repeats */
++#define ROGUE_CR_FWCORE_DMI_SBDATA_REPEATCOUNT 4U
++/* Register ROGUE_CR_FWCORE_DMI_SBDATA0 */
++#define ROGUE_CR_FWCORE_DMI_SBDATA0 0x35E0U
++#define ROGUE_CR_FWCORE_DMI_SBDATA0_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_SBDATA1 */
++#define ROGUE_CR_FWCORE_DMI_SBDATA1 0x35E8U
++#define ROGUE_CR_FWCORE_DMI_SBDATA1_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_SBDATA2 */
++#define ROGUE_CR_FWCORE_DMI_SBDATA2 0x35F0U
++#define ROGUE_CR_FWCORE_DMI_SBDATA2_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_SBDATA3 */
++#define ROGUE_CR_FWCORE_DMI_SBDATA3 0x35F8U
++#define ROGUE_CR_FWCORE_DMI_SBDATA3_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_FWCORE_DMI_HALTSUM0 */
++#define ROGUE_CR_FWCORE_DMI_HALTSUM0 0x3600U
++#define ROGUE_CR_FWCORE_DMI_HALTSUM0_MASKFULL 0x0000000000000000ULL
++
++/* Register ROGUE_CR_SLC_CTRL_MISC */
++#define ROGUE_CR_SLC_CTRL_MISC 0x3800U
++#define ROGUE_CR_SLC_CTRL_MISC_MASKFULL 0xFFFFFFFF01FF010FULL
++#define ROGUE_CR_SLC_CTRL_MISC_SCRAMBLE_BITS_SHIFT 32U
++#define ROGUE_CR_SLC_CTRL_MISC_SCRAMBLE_BITS_CLRMSK 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_MISC_LAZYWB_OVERRIDE_SHIFT 24U
++#define ROGUE_CR_SLC_CTRL_MISC_LAZYWB_OVERRIDE_CLRMSK 0xFFFFFFFFFEFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_MISC_LAZYWB_OVERRIDE_EN 0x0000000001000000ULL
++#define ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_SHIFT 16U
++#define ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_CLRMSK 0xFFFFFFFFFF00FFFFULL
++#define ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_INTERLEAVED_64_BYTE 0x0000000000000000ULL
++#define ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_INTERLEAVED_128_BYTE 0x0000000000010000ULL
++#define ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_SIMPLE_HASH1 0x0000000000100000ULL
++#define ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_SIMPLE_HASH2 0x0000000000110000ULL
++#define ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_PVR_HASH1 0x0000000000200000ULL
++#define ROGUE_CR_SLC_CTRL_MISC_ADDR_DECODE_MODE_PVR_HASH2_SCRAMBLE 0x0000000000210000ULL
++#define ROGUE_CR_SLC_CTRL_MISC_PAUSE_SHIFT 8U
++#define ROGUE_CR_SLC_CTRL_MISC_PAUSE_CLRMSK 0xFFFFFFFFFFFFFEFFULL
++#define ROGUE_CR_SLC_CTRL_MISC_PAUSE_EN 0x0000000000000100ULL
++#define ROGUE_CR_SLC_CTRL_MISC_RESP_PRIORITY_SHIFT 3U
++#define ROGUE_CR_SLC_CTRL_MISC_RESP_PRIORITY_CLRMSK 0xFFFFFFFFFFFFFFF7ULL
++#define ROGUE_CR_SLC_CTRL_MISC_RESP_PRIORITY_EN 0x0000000000000008ULL
++#define ROGUE_CR_SLC_CTRL_MISC_ENABLE_LINE_USE_LIMIT_SHIFT 2U
++#define ROGUE_CR_SLC_CTRL_MISC_ENABLE_LINE_USE_LIMIT_CLRMSK 0xFFFFFFFFFFFFFFFBULL
++#define ROGUE_CR_SLC_CTRL_MISC_ENABLE_LINE_USE_LIMIT_EN 0x0000000000000004ULL
++#define ROGUE_CR_SLC_CTRL_MISC_ENABLE_PSG_HAZARD_CHECK_SHIFT 1U
++#define ROGUE_CR_SLC_CTRL_MISC_ENABLE_PSG_HAZARD_CHECK_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_SLC_CTRL_MISC_ENABLE_PSG_HAZARD_CHECK_EN 0x0000000000000002ULL
++#define ROGUE_CR_SLC_CTRL_MISC_BYPASS_BURST_COMBINER_SHIFT 0U
++#define ROGUE_CR_SLC_CTRL_MISC_BYPASS_BURST_COMBINER_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_SLC_CTRL_MISC_BYPASS_BURST_COMBINER_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_SLC_CTRL_FLUSH_INVAL */
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL 0x3818U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_MASKFULL 0x0000000080000FFFULL
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_LAZY_SHIFT 31U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_LAZY_CLRMSK 0x7FFFFFFFU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_LAZY_EN 0x80000000U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_FASTRENDER_SHIFT 11U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_FASTRENDER_CLRMSK 0xFFFFF7FFU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_FASTRENDER_EN 0x00000800U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_RAY_VERTEX_SHIFT 10U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_RAY_VERTEX_CLRMSK 0xFFFFFBFFU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_RAY_VERTEX_EN 0x00000400U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_RAY_SHIFT 9U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_RAY_CLRMSK 0xFFFFFDFFU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_RAY_EN 0x00000200U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_FRC_SHIFT 8U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_FRC_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_FRC_EN 0x00000100U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_VXE_SHIFT 7U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_VXE_CLRMSK 0xFFFFFF7FU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_VXE_EN 0x00000080U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_VXD_SHIFT 6U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_VXD_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_VXD_EN 0x00000040U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_HOST_META_SHIFT 5U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_HOST_META_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_HOST_META_EN 0x00000020U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_MMU_SHIFT 4U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_MMU_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_MMU_EN 0x00000010U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_COMPUTE_SHIFT 3U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_COMPUTE_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_COMPUTE_EN 0x00000008U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_PIXEL_SHIFT 2U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_PIXEL_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_PIXEL_EN 0x00000004U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_TA_SHIFT 1U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_TA_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_DM_TA_EN 0x00000002U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_ALL_SHIFT 0U
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_ALL_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SLC_CTRL_FLUSH_INVAL_ALL_EN 0x00000001U
++
++/* Register ROGUE_CR_SLC_STATUS0 */
++#define ROGUE_CR_SLC_STATUS0 0x3820U
++#define ROGUE_CR_SLC_STATUS0_MASKFULL 0x0000000000000007ULL
++#define ROGUE_CR_SLC_STATUS0_FLUSH_INVAL_PENDING_SHIFT 2U
++#define ROGUE_CR_SLC_STATUS0_FLUSH_INVAL_PENDING_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SLC_STATUS0_FLUSH_INVAL_PENDING_EN 0x00000004U
++#define ROGUE_CR_SLC_STATUS0_INVAL_PENDING_SHIFT 1U
++#define ROGUE_CR_SLC_STATUS0_INVAL_PENDING_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SLC_STATUS0_INVAL_PENDING_EN 0x00000002U
++#define ROGUE_CR_SLC_STATUS0_FLUSH_PENDING_SHIFT 0U
++#define ROGUE_CR_SLC_STATUS0_FLUSH_PENDING_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SLC_STATUS0_FLUSH_PENDING_EN 0x00000001U
++
++/* Register ROGUE_CR_SLC_CTRL_BYPASS */
++#define ROGUE_CR_SLC_CTRL_BYPASS 0x3828U
++#define ROGUE_CR_SLC_CTRL_BYPASS__XE_MEM__MASKFULL 0x0FFFFFFFFFFF7FFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_MASKFULL 0x000000000FFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_COMP_ZLS_SHIFT 59U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_COMP_ZLS_CLRMSK 0xF7FFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_COMP_ZLS_EN 0x0800000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_ZLS_HEADER_SHIFT 58U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_ZLS_HEADER_CLRMSK 0xFBFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_ZLS_HEADER_EN 0x0400000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_TCU_HEADER_SHIFT 57U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_TCU_HEADER_CLRMSK 0xFDFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_TCU_HEADER_EN 0x0200000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_ZLS_DATA_SHIFT 56U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_ZLS_DATA_CLRMSK 0xFEFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_ZLS_DATA_EN 0x0100000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_TCU_DATA_SHIFT 55U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_TCU_DATA_CLRMSK 0xFF7FFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_DECOMP_TCU_DATA_EN 0x0080000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_COMP_PBE_SHIFT 54U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_COMP_PBE_CLRMSK 0xFFBFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TFBC_COMP_PBE_EN 0x0040000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TCU_DM_COMPUTE_SHIFT 53U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TCU_DM_COMPUTE_CLRMSK 0xFFDFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TCU_DM_COMPUTE_EN 0x0020000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_PDSRW_NOLINEFILL_SHIFT 52U
++#define ROGUE_CR_SLC_CTRL_BYPASS_PDSRW_NOLINEFILL_CLRMSK 0xFFEFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_PDSRW_NOLINEFILL_EN 0x0010000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_PBE_NOLINEFILL_SHIFT 51U
++#define ROGUE_CR_SLC_CTRL_BYPASS_PBE_NOLINEFILL_CLRMSK 0xFFF7FFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_PBE_NOLINEFILL_EN 0x0008000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_FBC_SHIFT 50U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_FBC_CLRMSK 0xFFFBFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_FBC_EN 0x0004000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_RREQ_SHIFT 49U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_RREQ_CLRMSK 0xFFFDFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_RREQ_EN 0x0002000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_CREQ_SHIFT 48U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_CREQ_CLRMSK 0xFFFEFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_CREQ_EN 0x0001000000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_PREQ_SHIFT 47U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_PREQ_CLRMSK 0xFFFF7FFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_PREQ_EN 0x0000800000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_DBSC_SHIFT 46U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_DBSC_CLRMSK 0xFFFFBFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_DBSC_EN 0x0000400000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TCU_SHIFT 45U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TCU_CLRMSK 0xFFFFDFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TCU_EN 0x0000200000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PBE_SHIFT 44U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PBE_CLRMSK 0xFFFFEFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PBE_EN 0x0000100000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_ISP_SHIFT 43U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_ISP_CLRMSK 0xFFFFF7FFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_ISP_EN 0x0000080000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PM_SHIFT 42U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PM_CLRMSK 0xFFFFFBFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PM_EN 0x0000040000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TDM_SHIFT 41U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TDM_CLRMSK 0xFFFFFDFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TDM_EN 0x0000020000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_CDM_SHIFT 40U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_CDM_CLRMSK 0xFFFFFEFFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_CDM_EN 0x0000010000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_PDS_STATE_SHIFT 39U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_PDS_STATE_CLRMSK 0xFFFFFF7FFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_PDS_STATE_EN 0x0000008000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_DB_SHIFT 38U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_DB_CLRMSK 0xFFFFFFBFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_DB_EN 0x0000004000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_VTX_VAR_SHIFT 37U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_VTX_VAR_CLRMSK 0xFFFFFFDFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TSPF_VTX_VAR_EN 0x0000002000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_VDM_SHIFT 36U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_VDM_CLRMSK 0xFFFFFFEFFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_VDM_EN 0x0000001000000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PSG_STREAM_SHIFT 35U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PSG_STREAM_CLRMSK 0xFFFFFFF7FFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PSG_STREAM_EN 0x0000000800000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PSG_REGION_SHIFT 34U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PSG_REGION_CLRMSK 0xFFFFFFFBFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PSG_REGION_EN 0x0000000400000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_VCE_SHIFT 33U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_VCE_CLRMSK 0xFFFFFFFDFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_VCE_EN 0x0000000200000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PPP_SHIFT 32U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PPP_CLRMSK 0xFFFFFFFEFFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_PPP_EN 0x0000000100000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_FASTRENDER_SHIFT 31U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_FASTRENDER_CLRMSK 0xFFFFFFFF7FFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_FASTRENDER_EN 0x0000000080000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PM_ALIST_SHIFT 30U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PM_ALIST_CLRMSK 0xFFFFFFFFBFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PM_ALIST_EN 0x0000000040000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PB_TE_SHIFT 29U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PB_TE_CLRMSK 0xFFFFFFFFDFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PB_TE_EN 0x0000000020000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PB_VCE_SHIFT 28U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PB_VCE_CLRMSK 0xFFFFFFFFEFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PB_VCE_EN 0x0000000010000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_RAY_VERTEX_SHIFT 27U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_RAY_VERTEX_CLRMSK 0xFFFFFFFFF7FFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_RAY_VERTEX_EN 0x0000000008000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_RAY_SHIFT 26U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_RAY_CLRMSK 0xFFFFFFFFFBFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_RAY_EN 0x0000000004000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_CPF_SHIFT 25U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_CPF_CLRMSK 0xFFFFFFFFFDFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_CPF_EN 0x0000000002000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TPU_SHIFT 24U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TPU_CLRMSK 0xFFFFFFFFFEFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TPU_EN 0x0000000001000000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_FBDC_SHIFT 23U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_FBDC_CLRMSK 0xFFFFFFFFFF7FFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_FBDC_EN 0x0000000000800000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TLA_SHIFT 22U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TLA_CLRMSK 0xFFFFFFFFFFBFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TLA_EN 0x0000000000400000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_BYP_CC_N_SHIFT 21U
++#define ROGUE_CR_SLC_CTRL_BYPASS_BYP_CC_N_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_BYP_CC_N_EN 0x0000000000200000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_BYP_CC_SHIFT 20U
++#define ROGUE_CR_SLC_CTRL_BYPASS_BYP_CC_CLRMSK 0xFFFFFFFFFFEFFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_BYP_CC_EN 0x0000000000100000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MCU_SHIFT 19U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MCU_CLRMSK 0xFFFFFFFFFFF7FFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MCU_EN 0x0000000000080000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PDS_SHIFT 18U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PDS_CLRMSK 0xFFFFFFFFFFFBFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_PDS_EN 0x0000000000040000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TPF_SHIFT 17U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TPF_CLRMSK 0xFFFFFFFFFFFDFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TPF_EN 0x0000000000020000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_TPC_SHIFT 16U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_TPC_CLRMSK 0xFFFFFFFFFFFEFFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_TA_TPC_EN 0x0000000000010000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_OBJ_SHIFT 15U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_OBJ_CLRMSK 0xFFFFFFFFFFFF7FFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_IPF_OBJ_EN 0x0000000000008000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_USC_SHIFT 14U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_USC_CLRMSK 0xFFFFFFFFFFFFBFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_USC_EN 0x0000000000004000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_META_SHIFT 13U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_META_CLRMSK 0xFFFFFFFFFFFFDFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_META_EN 0x0000000000002000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_HOST_SHIFT 12U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_HOST_CLRMSK 0xFFFFFFFFFFFFEFFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_HOST_EN 0x0000000000001000ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PT_SHIFT 11U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PT_CLRMSK 0xFFFFFFFFFFFFF7FFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PT_EN 0x0000000000000800ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PD_SHIFT 10U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PD_CLRMSK 0xFFFFFFFFFFFFFBFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PD_EN 0x0000000000000400ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PC_SHIFT 9U
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PC_CLRMSK 0xFFFFFFFFFFFFFDFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_REQ_MMU_PC_EN 0x0000000000000200ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_FRC_SHIFT 8U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_FRC_CLRMSK 0xFFFFFFFFFFFFFEFFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_FRC_EN 0x0000000000000100ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_VXE_SHIFT 7U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_VXE_CLRMSK 0xFFFFFFFFFFFFFF7FULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_VXE_EN 0x0000000000000080ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_VXD_SHIFT 6U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_VXD_CLRMSK 0xFFFFFFFFFFFFFFBFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_VXD_EN 0x0000000000000040ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_HOST_META_SHIFT 5U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_HOST_META_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_HOST_META_EN 0x0000000000000020ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_MMU_SHIFT 4U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_MMU_CLRMSK 0xFFFFFFFFFFFFFFEFULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_MMU_EN 0x0000000000000010ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_COMPUTE_SHIFT 3U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_COMPUTE_CLRMSK 0xFFFFFFFFFFFFFFF7ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_COMPUTE_EN 0x0000000000000008ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PIXEL_SHIFT 2U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PIXEL_CLRMSK 0xFFFFFFFFFFFFFFFBULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_PIXEL_EN 0x0000000000000004ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_TA_SHIFT 1U
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_TA_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_DM_TA_EN 0x0000000000000002ULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_ALL_SHIFT 0U
++#define ROGUE_CR_SLC_CTRL_BYPASS_ALL_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_SLC_CTRL_BYPASS_ALL_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_SLC_STATUS1 */
++#define ROGUE_CR_SLC_STATUS1 0x3870U
++#define ROGUE_CR_SLC_STATUS1_MASKFULL 0x800003FF03FFFFFFULL
++#define ROGUE_CR_SLC_STATUS1_PAUSED_SHIFT 63U
++#define ROGUE_CR_SLC_STATUS1_PAUSED_CLRMSK 0x7FFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC_STATUS1_PAUSED_EN 0x8000000000000000ULL
++#define ROGUE_CR_SLC_STATUS1_READS1_SHIFT 32U
++#define ROGUE_CR_SLC_STATUS1_READS1_CLRMSK 0xFFFFFC00FFFFFFFFULL
++#define ROGUE_CR_SLC_STATUS1_READS0_SHIFT 16U
++#define ROGUE_CR_SLC_STATUS1_READS0_CLRMSK 0xFFFFFFFFFC00FFFFULL
++#define ROGUE_CR_SLC_STATUS1_READS1_EXT_SHIFT 8U
++#define ROGUE_CR_SLC_STATUS1_READS1_EXT_CLRMSK 0xFFFFFFFFFFFF00FFULL
++#define ROGUE_CR_SLC_STATUS1_READS0_EXT_SHIFT 0U
++#define ROGUE_CR_SLC_STATUS1_READS0_EXT_CLRMSK 0xFFFFFFFFFFFFFF00ULL
++
++/* Register ROGUE_CR_SLC_IDLE */
++#define ROGUE_CR_SLC_IDLE 0x3898U
++#define ROGUE_CR_SLC_IDLE__XE_MEM__MASKFULL 0x00000000000003FFULL
++#define ROGUE_CR_SLC_IDLE_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_SLC_IDLE_MH_SYSARB1_SHIFT 9U
++#define ROGUE_CR_SLC_IDLE_MH_SYSARB1_CLRMSK 0xFFFFFDFFU
++#define ROGUE_CR_SLC_IDLE_MH_SYSARB1_EN 0x00000200U
++#define ROGUE_CR_SLC_IDLE_MH_SYSARB0_SHIFT 8U
++#define ROGUE_CR_SLC_IDLE_MH_SYSARB0_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_SLC_IDLE_MH_SYSARB0_EN 0x00000100U
++#define ROGUE_CR_SLC_IDLE_IMGBV4_SHIFT 7U
++#define ROGUE_CR_SLC_IDLE_IMGBV4_CLRMSK 0xFFFFFF7FU
++#define ROGUE_CR_SLC_IDLE_IMGBV4_EN 0x00000080U
++#define ROGUE_CR_SLC_IDLE_CACHE_BANKS_SHIFT 6U
++#define ROGUE_CR_SLC_IDLE_CACHE_BANKS_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_SLC_IDLE_CACHE_BANKS_EN 0x00000040U
++#define ROGUE_CR_SLC_IDLE_RBOFIFO_SHIFT 5U
++#define ROGUE_CR_SLC_IDLE_RBOFIFO_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_SLC_IDLE_RBOFIFO_EN 0x00000020U
++#define ROGUE_CR_SLC_IDLE_FRC_CONV_SHIFT 4U
++#define ROGUE_CR_SLC_IDLE_FRC_CONV_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_SLC_IDLE_FRC_CONV_EN 0x00000010U
++#define ROGUE_CR_SLC_IDLE_VXE_CONV_SHIFT 3U
++#define ROGUE_CR_SLC_IDLE_VXE_CONV_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_SLC_IDLE_VXE_CONV_EN 0x00000008U
++#define ROGUE_CR_SLC_IDLE_VXD_CONV_SHIFT 2U
++#define ROGUE_CR_SLC_IDLE_VXD_CONV_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SLC_IDLE_VXD_CONV_EN 0x00000004U
++#define ROGUE_CR_SLC_IDLE_BIF1_CONV_SHIFT 1U
++#define ROGUE_CR_SLC_IDLE_BIF1_CONV_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SLC_IDLE_BIF1_CONV_EN 0x00000002U
++#define ROGUE_CR_SLC_IDLE_CBAR_SHIFT 0U
++#define ROGUE_CR_SLC_IDLE_CBAR_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SLC_IDLE_CBAR_EN 0x00000001U
++
++/* Register ROGUE_CR_SLC_STATUS2 */
++#define ROGUE_CR_SLC_STATUS2 0x3908U
++#define ROGUE_CR_SLC_STATUS2_MASKFULL 0x000003FF03FFFFFFULL
++#define ROGUE_CR_SLC_STATUS2_READS3_SHIFT 32U
++#define ROGUE_CR_SLC_STATUS2_READS3_CLRMSK 0xFFFFFC00FFFFFFFFULL
++#define ROGUE_CR_SLC_STATUS2_READS2_SHIFT 16U
++#define ROGUE_CR_SLC_STATUS2_READS2_CLRMSK 0xFFFFFFFFFC00FFFFULL
++#define ROGUE_CR_SLC_STATUS2_READS3_EXT_SHIFT 8U
++#define ROGUE_CR_SLC_STATUS2_READS3_EXT_CLRMSK 0xFFFFFFFFFFFF00FFULL
++#define ROGUE_CR_SLC_STATUS2_READS2_EXT_SHIFT 0U
++#define ROGUE_CR_SLC_STATUS2_READS2_EXT_CLRMSK 0xFFFFFFFFFFFFFF00ULL
++
++/* Register ROGUE_CR_SLC_CTRL_MISC2 */
++#define ROGUE_CR_SLC_CTRL_MISC2 0x3930U
++#define ROGUE_CR_SLC_CTRL_MISC2_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SLC_CTRL_MISC2_SCRAMBLE_BITS_SHIFT 0U
++#define ROGUE_CR_SLC_CTRL_MISC2_SCRAMBLE_BITS_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SLC_CROSSBAR_LOAD_BALANCE */
++#define ROGUE_CR_SLC_CROSSBAR_LOAD_BALANCE 0x3938U
++#define ROGUE_CR_SLC_CROSSBAR_LOAD_BALANCE_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_SLC_CROSSBAR_LOAD_BALANCE_BYPASS_SHIFT 0U
++#define ROGUE_CR_SLC_CROSSBAR_LOAD_BALANCE_BYPASS_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SLC_CROSSBAR_LOAD_BALANCE_BYPASS_EN 0x00000001U
++
++/* Register ROGUE_CR_USC_UVS0_CHECKSUM */
++#define ROGUE_CR_USC_UVS0_CHECKSUM 0x5000U
++#define ROGUE_CR_USC_UVS0_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_USC_UVS0_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_USC_UVS0_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_USC_UVS1_CHECKSUM */
++#define ROGUE_CR_USC_UVS1_CHECKSUM 0x5008U
++#define ROGUE_CR_USC_UVS1_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_USC_UVS1_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_USC_UVS1_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_USC_UVS2_CHECKSUM */
++#define ROGUE_CR_USC_UVS2_CHECKSUM 0x5010U
++#define ROGUE_CR_USC_UVS2_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_USC_UVS2_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_USC_UVS2_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_USC_UVS3_CHECKSUM */
++#define ROGUE_CR_USC_UVS3_CHECKSUM 0x5018U
++#define ROGUE_CR_USC_UVS3_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_USC_UVS3_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_USC_UVS3_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PPP_SIGNATURE */
++#define ROGUE_CR_PPP_SIGNATURE 0x5020U
++#define ROGUE_CR_PPP_SIGNATURE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PPP_SIGNATURE_VALUE_SHIFT 0U
++#define ROGUE_CR_PPP_SIGNATURE_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TE_SIGNATURE */
++#define ROGUE_CR_TE_SIGNATURE 0x5028U
++#define ROGUE_CR_TE_SIGNATURE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TE_SIGNATURE_VALUE_SHIFT 0U
++#define ROGUE_CR_TE_SIGNATURE_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TE_CHECKSUM */
++#define ROGUE_CR_TE_CHECKSUM 0x5110U
++#define ROGUE_CR_TE_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TE_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_TE_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_USC_UVB_CHECKSUM */
++#define ROGUE_CR_USC_UVB_CHECKSUM 0x5118U
++#define ROGUE_CR_USC_UVB_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_USC_UVB_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_USC_UVB_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_VCE_CHECKSUM */
++#define ROGUE_CR_VCE_CHECKSUM 0x5030U
++#define ROGUE_CR_VCE_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_VCE_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_VCE_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_ISP_PDS_CHECKSUM */
++#define ROGUE_CR_ISP_PDS_CHECKSUM 0x5038U
++#define ROGUE_CR_ISP_PDS_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_ISP_PDS_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_ISP_PDS_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_ISP_TPF_CHECKSUM */
++#define ROGUE_CR_ISP_TPF_CHECKSUM 0x5040U
++#define ROGUE_CR_ISP_TPF_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_ISP_TPF_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_ISP_TPF_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TFPU_PLANE0_CHECKSUM */
++#define ROGUE_CR_TFPU_PLANE0_CHECKSUM 0x5048U
++#define ROGUE_CR_TFPU_PLANE0_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TFPU_PLANE0_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_TFPU_PLANE0_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TFPU_PLANE1_CHECKSUM */
++#define ROGUE_CR_TFPU_PLANE1_CHECKSUM 0x5050U
++#define ROGUE_CR_TFPU_PLANE1_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TFPU_PLANE1_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_TFPU_PLANE1_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PBE_CHECKSUM */
++#define ROGUE_CR_PBE_CHECKSUM 0x5058U
++#define ROGUE_CR_PBE_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PBE_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_PBE_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PDS_DOUTM_STM_SIGNATURE */
++#define ROGUE_CR_PDS_DOUTM_STM_SIGNATURE 0x5060U
++#define ROGUE_CR_PDS_DOUTM_STM_SIGNATURE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PDS_DOUTM_STM_SIGNATURE_VALUE_SHIFT 0U
++#define ROGUE_CR_PDS_DOUTM_STM_SIGNATURE_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_IFPU_ISP_CHECKSUM */
++#define ROGUE_CR_IFPU_ISP_CHECKSUM 0x5068U
++#define ROGUE_CR_IFPU_ISP_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_IFPU_ISP_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_IFPU_ISP_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_USC_UVS4_CHECKSUM */
++#define ROGUE_CR_USC_UVS4_CHECKSUM 0x5100U
++#define ROGUE_CR_USC_UVS4_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_USC_UVS4_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_USC_UVS4_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_USC_UVS5_CHECKSUM */
++#define ROGUE_CR_USC_UVS5_CHECKSUM 0x5108U
++#define ROGUE_CR_USC_UVS5_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_USC_UVS5_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_USC_UVS5_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PPP_CLIP_CHECKSUM */
++#define ROGUE_CR_PPP_CLIP_CHECKSUM 0x5120U
++#define ROGUE_CR_PPP_CLIP_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PPP_CLIP_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_PPP_CLIP_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_TA_PHASE */
++#define ROGUE_CR_PERF_TA_PHASE 0x6008U
++#define ROGUE_CR_PERF_TA_PHASE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_TA_PHASE_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_TA_PHASE_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_3D_PHASE */
++#define ROGUE_CR_PERF_3D_PHASE 0x6010U
++#define ROGUE_CR_PERF_3D_PHASE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_3D_PHASE_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_3D_PHASE_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_COMPUTE_PHASE */
++#define ROGUE_CR_PERF_COMPUTE_PHASE 0x6018U
++#define ROGUE_CR_PERF_COMPUTE_PHASE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_COMPUTE_PHASE_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_COMPUTE_PHASE_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_TA_CYCLE */
++#define ROGUE_CR_PERF_TA_CYCLE 0x6020U
++#define ROGUE_CR_PERF_TA_CYCLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_TA_CYCLE_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_TA_CYCLE_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_3D_CYCLE */
++#define ROGUE_CR_PERF_3D_CYCLE 0x6028U
++#define ROGUE_CR_PERF_3D_CYCLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_3D_CYCLE_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_3D_CYCLE_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_COMPUTE_CYCLE */
++#define ROGUE_CR_PERF_COMPUTE_CYCLE 0x6030U
++#define ROGUE_CR_PERF_COMPUTE_CYCLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_COMPUTE_CYCLE_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_COMPUTE_CYCLE_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_TA_OR_3D_CYCLE */
++#define ROGUE_CR_PERF_TA_OR_3D_CYCLE 0x6038U
++#define ROGUE_CR_PERF_TA_OR_3D_CYCLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_TA_OR_3D_CYCLE_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_TA_OR_3D_CYCLE_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_INITIAL_TA_CYCLE */
++#define ROGUE_CR_PERF_INITIAL_TA_CYCLE 0x6040U
++#define ROGUE_CR_PERF_INITIAL_TA_CYCLE_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_INITIAL_TA_CYCLE_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_INITIAL_TA_CYCLE_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_SLC0_READ_STALL */
++#define ROGUE_CR_PERF_SLC0_READ_STALL 0x60B8U
++#define ROGUE_CR_PERF_SLC0_READ_STALL_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_SLC0_READ_STALL_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_SLC0_READ_STALL_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_SLC0_WRITE_STALL */
++#define ROGUE_CR_PERF_SLC0_WRITE_STALL 0x60C0U
++#define ROGUE_CR_PERF_SLC0_WRITE_STALL_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_SLC0_WRITE_STALL_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_SLC0_WRITE_STALL_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_SLC1_READ_STALL */
++#define ROGUE_CR_PERF_SLC1_READ_STALL 0x60E0U
++#define ROGUE_CR_PERF_SLC1_READ_STALL_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_SLC1_READ_STALL_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_SLC1_READ_STALL_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_SLC1_WRITE_STALL */
++#define ROGUE_CR_PERF_SLC1_WRITE_STALL 0x60E8U
++#define ROGUE_CR_PERF_SLC1_WRITE_STALL_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_SLC1_WRITE_STALL_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_SLC1_WRITE_STALL_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_SLC2_READ_STALL */
++#define ROGUE_CR_PERF_SLC2_READ_STALL 0x6158U
++#define ROGUE_CR_PERF_SLC2_READ_STALL_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_SLC2_READ_STALL_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_SLC2_READ_STALL_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_SLC2_WRITE_STALL */
++#define ROGUE_CR_PERF_SLC2_WRITE_STALL 0x6160U
++#define ROGUE_CR_PERF_SLC2_WRITE_STALL_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_SLC2_WRITE_STALL_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_SLC2_WRITE_STALL_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_SLC3_READ_STALL */
++#define ROGUE_CR_PERF_SLC3_READ_STALL 0x6180U
++#define ROGUE_CR_PERF_SLC3_READ_STALL_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_SLC3_READ_STALL_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_SLC3_READ_STALL_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_SLC3_WRITE_STALL */
++#define ROGUE_CR_PERF_SLC3_WRITE_STALL 0x6188U
++#define ROGUE_CR_PERF_SLC3_WRITE_STALL_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_SLC3_WRITE_STALL_COUNT_SHIFT 0U
++#define ROGUE_CR_PERF_SLC3_WRITE_STALL_COUNT_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PERF_3D_SPINUP */
++#define ROGUE_CR_PERF_3D_SPINUP 0x6220U
++#define ROGUE_CR_PERF_3D_SPINUP_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PERF_3D_SPINUP_CYCLES_SHIFT 0U
++#define ROGUE_CR_PERF_3D_SPINUP_CYCLES_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_AXI_ACE_LITE_CONFIGURATION */
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION 0x38C0U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_MASKFULL 0x00003FFFFFFFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ENABLE_FENCE_OUT_SHIFT 45U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ENABLE_FENCE_OUT_CLRMSK 0xFFFFDFFFFFFFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ENABLE_FENCE_OUT_EN 0x0000200000000000ULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_OSID_SECURITY_SHIFT 37U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_OSID_SECURITY_CLRMSK 0xFFFFE01FFFFFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_WRITELINEUNIQUE_SHIFT 36U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_WRITELINEUNIQUE_CLRMSK \
++	0xFFFFFFEFFFFFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_WRITELINEUNIQUE_EN \
++	0x0000001000000000ULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_WRITE_SHIFT 35U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_WRITE_CLRMSK 0xFFFFFFF7FFFFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_WRITE_EN 0x0000000800000000ULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_READ_SHIFT 34U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_READ_CLRMSK 0xFFFFFFFBFFFFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_DISABLE_COHERENT_READ_EN 0x0000000400000000ULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARCACHE_CACHE_MAINTENANCE_SHIFT 30U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARCACHE_CACHE_MAINTENANCE_CLRMSK 0xFFFFFFFC3FFFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARCACHE_COHERENT_SHIFT 26U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARCACHE_COHERENT_CLRMSK 0xFFFFFFFFC3FFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWCACHE_COHERENT_SHIFT 22U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWCACHE_COHERENT_CLRMSK 0xFFFFFFFFFC3FFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_BARRIER_SHIFT 20U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_BARRIER_CLRMSK 0xFFFFFFFFFFCFFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWDOMAIN_BARRIER_SHIFT 18U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWDOMAIN_BARRIER_CLRMSK 0xFFFFFFFFFFF3FFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_CACHE_MAINTENANCE_SHIFT 16U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_CACHE_MAINTENANCE_CLRMSK 0xFFFFFFFFFFFCFFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWDOMAIN_COHERENT_SHIFT 14U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWDOMAIN_COHERENT_CLRMSK 0xFFFFFFFFFFFF3FFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_COHERENT_SHIFT 12U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_COHERENT_CLRMSK 0xFFFFFFFFFFFFCFFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_NON_SNOOPING_SHIFT 10U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARDOMAIN_NON_SNOOPING_CLRMSK 0xFFFFFFFFFFFFF3FFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWDOMAIN_NON_SNOOPING_SHIFT 8U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWDOMAIN_NON_SNOOPING_CLRMSK 0xFFFFFFFFFFFFFCFFULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARCACHE_NON_SNOOPING_SHIFT 4U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_ARCACHE_NON_SNOOPING_CLRMSK 0xFFFFFFFFFFFFFF0FULL
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWCACHE_NON_SNOOPING_SHIFT 0U
++#define ROGUE_CR_AXI_ACE_LITE_CONFIGURATION_AWCACHE_NON_SNOOPING_CLRMSK 0xFFFFFFFFFFFFFFF0ULL
++
++/* Register ROGUE_CR_POWER_ESTIMATE_RESULT */
++#define ROGUE_CR_POWER_ESTIMATE_RESULT 0x6328U
++#define ROGUE_CR_POWER_ESTIMATE_RESULT_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_POWER_ESTIMATE_RESULT_VALUE_SHIFT 0U
++#define ROGUE_CR_POWER_ESTIMATE_RESULT_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TA_PERF */
++#define ROGUE_CR_TA_PERF 0x7600U
++#define ROGUE_CR_TA_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_TA_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_TA_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_TA_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_TA_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_TA_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_TA_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_TA_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_TA_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_TA_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_TA_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_TA_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_TA_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_TA_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_TA_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_TA_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_TA_PERF_SELECT0 */
++#define ROGUE_CR_TA_PERF_SELECT0 0x7608U
++#define ROGUE_CR_TA_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_TA_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_TA_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_TA_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_TA_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_TA_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_TA_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_TA_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_TA_PERF_SELECT1 */
++#define ROGUE_CR_TA_PERF_SELECT1 0x7610U
++#define ROGUE_CR_TA_PERF_SELECT1_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT1_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_TA_PERF_SELECT1_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT1_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_TA_PERF_SELECT1_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT1_MODE_SHIFT 21U
++#define ROGUE_CR_TA_PERF_SELECT1_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT1_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_TA_PERF_SELECT1_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_TA_PERF_SELECT1_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_TA_PERF_SELECT1_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_TA_PERF_SELECT1_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_TA_PERF_SELECT2 */
++#define ROGUE_CR_TA_PERF_SELECT2 0x7618U
++#define ROGUE_CR_TA_PERF_SELECT2_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT2_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_TA_PERF_SELECT2_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT2_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_TA_PERF_SELECT2_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT2_MODE_SHIFT 21U
++#define ROGUE_CR_TA_PERF_SELECT2_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT2_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_TA_PERF_SELECT2_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_TA_PERF_SELECT2_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_TA_PERF_SELECT2_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_TA_PERF_SELECT2_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_TA_PERF_SELECT3 */
++#define ROGUE_CR_TA_PERF_SELECT3 0x7620U
++#define ROGUE_CR_TA_PERF_SELECT3_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT3_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_TA_PERF_SELECT3_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT3_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_TA_PERF_SELECT3_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT3_MODE_SHIFT 21U
++#define ROGUE_CR_TA_PERF_SELECT3_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECT3_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_TA_PERF_SELECT3_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_TA_PERF_SELECT3_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_TA_PERF_SELECT3_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_TA_PERF_SELECT3_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_TA_PERF_SELECTED_BITS */
++#define ROGUE_CR_TA_PERF_SELECTED_BITS 0x7648U
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_REG3_SHIFT 48U
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_REG3_CLRMSK 0x0000FFFFFFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_REG2_SHIFT 32U
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_REG2_CLRMSK 0xFFFF0000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_REG1_SHIFT 16U
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_REG1_CLRMSK 0xFFFFFFFF0000FFFFULL
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_REG0_SHIFT 0U
++#define ROGUE_CR_TA_PERF_SELECTED_BITS_REG0_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_TA_PERF_COUNTER_0 */
++#define ROGUE_CR_TA_PERF_COUNTER_0 0x7650U
++#define ROGUE_CR_TA_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_TA_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TA_PERF_COUNTER_1 */
++#define ROGUE_CR_TA_PERF_COUNTER_1 0x7658U
++#define ROGUE_CR_TA_PERF_COUNTER_1_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_COUNTER_1_REG_SHIFT 0U
++#define ROGUE_CR_TA_PERF_COUNTER_1_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TA_PERF_COUNTER_2 */
++#define ROGUE_CR_TA_PERF_COUNTER_2 0x7660U
++#define ROGUE_CR_TA_PERF_COUNTER_2_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_COUNTER_2_REG_SHIFT 0U
++#define ROGUE_CR_TA_PERF_COUNTER_2_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TA_PERF_COUNTER_3 */
++#define ROGUE_CR_TA_PERF_COUNTER_3 0x7668U
++#define ROGUE_CR_TA_PERF_COUNTER_3_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TA_PERF_COUNTER_3_REG_SHIFT 0U
++#define ROGUE_CR_TA_PERF_COUNTER_3_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_RASTERISATION_PERF */
++#define ROGUE_CR_RASTERISATION_PERF 0x7700U
++#define ROGUE_CR_RASTERISATION_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_RASTERISATION_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_RASTERISATION_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_RASTERISATION_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_RASTERISATION_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_RASTERISATION_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_RASTERISATION_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_RASTERISATION_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_RASTERISATION_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_RASTERISATION_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_RASTERISATION_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_RASTERISATION_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_RASTERISATION_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_RASTERISATION_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_RASTERISATION_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_RASTERISATION_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_RASTERISATION_PERF_SELECT0 */
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0 0x7708U
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_RASTERISATION_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_RASTERISATION_PERF_COUNTER_0 */
++#define ROGUE_CR_RASTERISATION_PERF_COUNTER_0 0x7750U
++#define ROGUE_CR_RASTERISATION_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_RASTERISATION_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_RASTERISATION_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_HUB_BIFPMCACHE_PERF */
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF 0x7800U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0 */
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0 0x7808U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_HUB_BIFPMCACHE_PERF_COUNTER_0 */
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_COUNTER_0 0x7850U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_HUB_BIFPMCACHE_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TPU_MCU_L0_PERF */
++#define ROGUE_CR_TPU_MCU_L0_PERF 0x7900U
++#define ROGUE_CR_TPU_MCU_L0_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_TPU_MCU_L0_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_TPU_MCU_L0_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_TPU_MCU_L0_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_TPU_MCU_L0_PERF_SELECT0 */
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0 0x7908U
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_TPU_MCU_L0_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_TPU_MCU_L0_PERF_COUNTER_0 */
++#define ROGUE_CR_TPU_MCU_L0_PERF_COUNTER_0 0x7950U
++#define ROGUE_CR_TPU_MCU_L0_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TPU_MCU_L0_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_TPU_MCU_L0_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_USC_PERF */
++#define ROGUE_CR_USC_PERF 0x8100U
++#define ROGUE_CR_USC_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_USC_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_USC_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_USC_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_USC_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_USC_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_USC_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_USC_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_USC_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_USC_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_USC_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_USC_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_USC_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_USC_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_USC_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_USC_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_USC_PERF_SELECT0 */
++#define ROGUE_CR_USC_PERF_SELECT0 0x8108U
++#define ROGUE_CR_USC_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_USC_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_USC_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_USC_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_USC_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_USC_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_USC_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_USC_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_USC_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_USC_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_USC_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_USC_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_USC_PERF_COUNTER_0 */
++#define ROGUE_CR_USC_PERF_COUNTER_0 0x8150U
++#define ROGUE_CR_USC_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_USC_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_USC_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_JONES_IDLE */
++#define ROGUE_CR_JONES_IDLE 0x8328U
++#define ROGUE_CR_JONES_IDLE_MASKFULL 0x0000000000007FFFULL
++#define ROGUE_CR_JONES_IDLE_TDM_SHIFT 14U
++#define ROGUE_CR_JONES_IDLE_TDM_CLRMSK 0xFFFFBFFFU
++#define ROGUE_CR_JONES_IDLE_TDM_EN 0x00004000U
++#define ROGUE_CR_JONES_IDLE_FB_CDC_TLA_SHIFT 13U
++#define ROGUE_CR_JONES_IDLE_FB_CDC_TLA_CLRMSK 0xFFFFDFFFU
++#define ROGUE_CR_JONES_IDLE_FB_CDC_TLA_EN 0x00002000U
++#define ROGUE_CR_JONES_IDLE_FB_CDC_SHIFT 12U
++#define ROGUE_CR_JONES_IDLE_FB_CDC_CLRMSK 0xFFFFEFFFU
++#define ROGUE_CR_JONES_IDLE_FB_CDC_EN 0x00001000U
++#define ROGUE_CR_JONES_IDLE_MMU_SHIFT 11U
++#define ROGUE_CR_JONES_IDLE_MMU_CLRMSK 0xFFFFF7FFU
++#define ROGUE_CR_JONES_IDLE_MMU_EN 0x00000800U
++#define ROGUE_CR_JONES_IDLE_TLA_SHIFT 10U
++#define ROGUE_CR_JONES_IDLE_TLA_CLRMSK 0xFFFFFBFFU
++#define ROGUE_CR_JONES_IDLE_TLA_EN 0x00000400U
++#define ROGUE_CR_JONES_IDLE_GARTEN_SHIFT 9U
++#define ROGUE_CR_JONES_IDLE_GARTEN_CLRMSK 0xFFFFFDFFU
++#define ROGUE_CR_JONES_IDLE_GARTEN_EN 0x00000200U
++#define ROGUE_CR_JONES_IDLE_HOSTIF_SHIFT 8U
++#define ROGUE_CR_JONES_IDLE_HOSTIF_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_JONES_IDLE_HOSTIF_EN 0x00000100U
++#define ROGUE_CR_JONES_IDLE_SOCIF_SHIFT 7U
++#define ROGUE_CR_JONES_IDLE_SOCIF_CLRMSK 0xFFFFFF7FU
++#define ROGUE_CR_JONES_IDLE_SOCIF_EN 0x00000080U
++#define ROGUE_CR_JONES_IDLE_TILING_SHIFT 6U
++#define ROGUE_CR_JONES_IDLE_TILING_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_JONES_IDLE_TILING_EN 0x00000040U
++#define ROGUE_CR_JONES_IDLE_IPP_SHIFT 5U
++#define ROGUE_CR_JONES_IDLE_IPP_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_JONES_IDLE_IPP_EN 0x00000020U
++#define ROGUE_CR_JONES_IDLE_USCS_SHIFT 4U
++#define ROGUE_CR_JONES_IDLE_USCS_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_JONES_IDLE_USCS_EN 0x00000010U
++#define ROGUE_CR_JONES_IDLE_PM_SHIFT 3U
++#define ROGUE_CR_JONES_IDLE_PM_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_JONES_IDLE_PM_EN 0x00000008U
++#define ROGUE_CR_JONES_IDLE_CDM_SHIFT 2U
++#define ROGUE_CR_JONES_IDLE_CDM_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_JONES_IDLE_CDM_EN 0x00000004U
++#define ROGUE_CR_JONES_IDLE_VDM_SHIFT 1U
++#define ROGUE_CR_JONES_IDLE_VDM_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_JONES_IDLE_VDM_EN 0x00000002U
++#define ROGUE_CR_JONES_IDLE_BIF_SHIFT 0U
++#define ROGUE_CR_JONES_IDLE_BIF_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_JONES_IDLE_BIF_EN 0x00000001U
++
++/* Register ROGUE_CR_TORNADO_PERF */
++#define ROGUE_CR_TORNADO_PERF 0x8228U
++#define ROGUE_CR_TORNADO_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_TORNADO_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_TORNADO_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_TORNADO_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_TORNADO_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_TORNADO_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_TORNADO_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_TORNADO_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_TORNADO_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_TORNADO_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_TORNADO_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_TORNADO_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_TORNADO_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_TORNADO_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_TORNADO_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_TORNADO_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_TORNADO_PERF_SELECT0 */
++#define ROGUE_CR_TORNADO_PERF_SELECT0 0x8230U
++#define ROGUE_CR_TORNADO_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_TORNADO_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_TORNADO_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_TORNADO_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_TORNADO_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_TORNADO_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_TORNADO_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_TORNADO_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_TORNADO_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_TORNADO_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_TORNADO_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_TORNADO_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_TORNADO_PERF_COUNTER_0 */
++#define ROGUE_CR_TORNADO_PERF_COUNTER_0 0x8268U
++#define ROGUE_CR_TORNADO_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TORNADO_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_TORNADO_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_TEXAS_PERF */
++#define ROGUE_CR_TEXAS_PERF 0x8290U
++#define ROGUE_CR_TEXAS_PERF_MASKFULL 0x000000000000007FULL
++#define ROGUE_CR_TEXAS_PERF_CLR_5_SHIFT 6U
++#define ROGUE_CR_TEXAS_PERF_CLR_5_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_TEXAS_PERF_CLR_5_EN 0x00000040U
++#define ROGUE_CR_TEXAS_PERF_CLR_4_SHIFT 5U
++#define ROGUE_CR_TEXAS_PERF_CLR_4_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_TEXAS_PERF_CLR_4_EN 0x00000020U
++#define ROGUE_CR_TEXAS_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_TEXAS_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_TEXAS_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_TEXAS_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_TEXAS_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_TEXAS_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_TEXAS_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_TEXAS_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_TEXAS_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_TEXAS_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_TEXAS_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_TEXAS_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_TEXAS_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_TEXAS_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_TEXAS_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_TEXAS_PERF_SELECT0 */
++#define ROGUE_CR_TEXAS_PERF_SELECT0 0x8298U
++#define ROGUE_CR_TEXAS_PERF_SELECT0_MASKFULL 0x3FFF3FFF803FFFFFULL
++#define ROGUE_CR_TEXAS_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_TEXAS_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_TEXAS_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_TEXAS_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_TEXAS_PERF_SELECT0_MODE_SHIFT 31U
++#define ROGUE_CR_TEXAS_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFF7FFFFFFFULL
++#define ROGUE_CR_TEXAS_PERF_SELECT0_MODE_EN 0x0000000080000000ULL
++#define ROGUE_CR_TEXAS_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_TEXAS_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFC0FFFFULL
++#define ROGUE_CR_TEXAS_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_TEXAS_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_TEXAS_PERF_COUNTER_0 */
++#define ROGUE_CR_TEXAS_PERF_COUNTER_0 0x82D8U
++#define ROGUE_CR_TEXAS_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_TEXAS_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_TEXAS_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_JONES_PERF */
++#define ROGUE_CR_JONES_PERF 0x8330U
++#define ROGUE_CR_JONES_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_JONES_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_JONES_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_JONES_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_JONES_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_JONES_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_JONES_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_JONES_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_JONES_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_JONES_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_JONES_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_JONES_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_JONES_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_JONES_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_JONES_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_JONES_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_JONES_PERF_SELECT0 */
++#define ROGUE_CR_JONES_PERF_SELECT0 0x8338U
++#define ROGUE_CR_JONES_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_JONES_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_JONES_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_JONES_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_JONES_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_JONES_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_JONES_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_JONES_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_JONES_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_JONES_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_JONES_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_JONES_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_JONES_PERF_COUNTER_0 */
++#define ROGUE_CR_JONES_PERF_COUNTER_0 0x8368U
++#define ROGUE_CR_JONES_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_JONES_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_JONES_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_BLACKPEARL_PERF */
++#define ROGUE_CR_BLACKPEARL_PERF 0x8400U
++#define ROGUE_CR_BLACKPEARL_PERF_MASKFULL 0x000000000000007FULL
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_5_SHIFT 6U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_5_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_5_EN 0x00000040U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_4_SHIFT 5U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_4_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_4_EN 0x00000020U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_BLACKPEARL_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_BLACKPEARL_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_BLACKPEARL_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BLACKPEARL_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_BLACKPEARL_PERF_SELECT0 */
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0 0x8408U
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_MASKFULL 0x3FFF3FFF803FFFFFULL
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_MODE_SHIFT 31U
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFF7FFFFFFFULL
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_MODE_EN 0x0000000080000000ULL
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFC0FFFFULL
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_BLACKPEARL_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_BLACKPEARL_PERF_COUNTER_0 */
++#define ROGUE_CR_BLACKPEARL_PERF_COUNTER_0 0x8448U
++#define ROGUE_CR_BLACKPEARL_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_BLACKPEARL_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_BLACKPEARL_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_PBE_PERF */
++#define ROGUE_CR_PBE_PERF 0x8478U
++#define ROGUE_CR_PBE_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_PBE_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_PBE_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_PBE_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_PBE_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_PBE_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_PBE_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_PBE_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_PBE_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_PBE_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_PBE_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_PBE_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_PBE_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_PBE_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_PBE_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_PBE_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_PBE_PERF_SELECT0 */
++#define ROGUE_CR_PBE_PERF_SELECT0 0x8480U
++#define ROGUE_CR_PBE_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_PBE_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_PBE_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_PBE_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_PBE_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_PBE_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_PBE_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_PBE_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_PBE_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_PBE_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_PBE_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_PBE_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_PBE_PERF_COUNTER_0 */
++#define ROGUE_CR_PBE_PERF_COUNTER_0 0x84B0U
++#define ROGUE_CR_PBE_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_PBE_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_PBE_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_OCP_REVINFO */
++#define ROGUE_CR_OCP_REVINFO 0x9000U
++#define ROGUE_CR_OCP_REVINFO_MASKFULL 0x00000007FFFFFFFFULL
++#define ROGUE_CR_OCP_REVINFO_HWINFO_SYSBUS_SHIFT 33U
++#define ROGUE_CR_OCP_REVINFO_HWINFO_SYSBUS_CLRMSK 0xFFFFFFF9FFFFFFFFULL
++#define ROGUE_CR_OCP_REVINFO_HWINFO_MEMBUS_SHIFT 32U
++#define ROGUE_CR_OCP_REVINFO_HWINFO_MEMBUS_CLRMSK 0xFFFFFFFEFFFFFFFFULL
++#define ROGUE_CR_OCP_REVINFO_HWINFO_MEMBUS_EN 0x0000000100000000ULL
++#define ROGUE_CR_OCP_REVINFO_REVISION_SHIFT 0U
++#define ROGUE_CR_OCP_REVINFO_REVISION_CLRMSK 0xFFFFFFFF00000000ULL
++
++/* Register ROGUE_CR_OCP_SYSCONFIG */
++#define ROGUE_CR_OCP_SYSCONFIG 0x9010U
++#define ROGUE_CR_OCP_SYSCONFIG_MASKFULL 0x0000000000000FFFULL
++#define ROGUE_CR_OCP_SYSCONFIG_DUST2_STANDBY_MODE_SHIFT 10U
++#define ROGUE_CR_OCP_SYSCONFIG_DUST2_STANDBY_MODE_CLRMSK 0xFFFFF3FFU
++#define ROGUE_CR_OCP_SYSCONFIG_DUST1_STANDBY_MODE_SHIFT 8U
++#define ROGUE_CR_OCP_SYSCONFIG_DUST1_STANDBY_MODE_CLRMSK 0xFFFFFCFFU
++#define ROGUE_CR_OCP_SYSCONFIG_DUST0_STANDBY_MODE_SHIFT 6U
++#define ROGUE_CR_OCP_SYSCONFIG_DUST0_STANDBY_MODE_CLRMSK 0xFFFFFF3FU
++#define ROGUE_CR_OCP_SYSCONFIG_RASCAL_STANDBYMODE_SHIFT 4U
++#define ROGUE_CR_OCP_SYSCONFIG_RASCAL_STANDBYMODE_CLRMSK 0xFFFFFFCFU
++#define ROGUE_CR_OCP_SYSCONFIG_STANDBY_MODE_SHIFT 2U
++#define ROGUE_CR_OCP_SYSCONFIG_STANDBY_MODE_CLRMSK 0xFFFFFFF3U
++#define ROGUE_CR_OCP_SYSCONFIG_IDLE_MODE_SHIFT 0U
++#define ROGUE_CR_OCP_SYSCONFIG_IDLE_MODE_CLRMSK 0xFFFFFFFCU
++
++/* Register ROGUE_CR_OCP_IRQSTATUS_RAW_0 */
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_0 0x9020U
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_0_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_0_INIT_MINTERRUPT_RAW_SHIFT 0U
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_0_INIT_MINTERRUPT_RAW_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_0_INIT_MINTERRUPT_RAW_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQSTATUS_RAW_1 */
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_1 0x9028U
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_1_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_1_TARGET_SINTERRUPT_RAW_SHIFT 0U
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_1_TARGET_SINTERRUPT_RAW_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_1_TARGET_SINTERRUPT_RAW_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQSTATUS_RAW_2 */
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_2 0x9030U
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_2_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_2_RGX_IRQ_RAW_SHIFT 0U
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_2_RGX_IRQ_RAW_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQSTATUS_RAW_2_RGX_IRQ_RAW_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQSTATUS_0 */
++#define ROGUE_CR_OCP_IRQSTATUS_0 0x9038U
++#define ROGUE_CR_OCP_IRQSTATUS_0_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQSTATUS_0_INIT_MINTERRUPT_STATUS_SHIFT 0U
++#define ROGUE_CR_OCP_IRQSTATUS_0_INIT_MINTERRUPT_STATUS_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQSTATUS_0_INIT_MINTERRUPT_STATUS_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQSTATUS_1 */
++#define ROGUE_CR_OCP_IRQSTATUS_1 0x9040U
++#define ROGUE_CR_OCP_IRQSTATUS_1_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQSTATUS_1_TARGET_SINTERRUPT_STATUS_SHIFT 0U
++#define ROGUE_CR_OCP_IRQSTATUS_1_TARGET_SINTERRUPT_STATUS_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQSTATUS_1_TARGET_SINTERRUPT_STATUS_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQSTATUS_2 */
++#define ROGUE_CR_OCP_IRQSTATUS_2 0x9048U
++#define ROGUE_CR_OCP_IRQSTATUS_2_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQSTATUS_2_RGX_IRQ_STATUS_SHIFT 0U
++#define ROGUE_CR_OCP_IRQSTATUS_2_RGX_IRQ_STATUS_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQSTATUS_2_RGX_IRQ_STATUS_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQENABLE_SET_0 */
++#define ROGUE_CR_OCP_IRQENABLE_SET_0 0x9050U
++#define ROGUE_CR_OCP_IRQENABLE_SET_0_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQENABLE_SET_0_INIT_MINTERRUPT_ENABLE_SHIFT 0U
++#define ROGUE_CR_OCP_IRQENABLE_SET_0_INIT_MINTERRUPT_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQENABLE_SET_0_INIT_MINTERRUPT_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQENABLE_SET_1 */
++#define ROGUE_CR_OCP_IRQENABLE_SET_1 0x9058U
++#define ROGUE_CR_OCP_IRQENABLE_SET_1_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQENABLE_SET_1_TARGET_SINTERRUPT_ENABLE_SHIFT 0U
++#define ROGUE_CR_OCP_IRQENABLE_SET_1_TARGET_SINTERRUPT_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQENABLE_SET_1_TARGET_SINTERRUPT_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQENABLE_SET_2 */
++#define ROGUE_CR_OCP_IRQENABLE_SET_2 0x9060U
++#define ROGUE_CR_OCP_IRQENABLE_SET_2_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQENABLE_SET_2_RGX_IRQ_ENABLE_SHIFT 0U
++#define ROGUE_CR_OCP_IRQENABLE_SET_2_RGX_IRQ_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQENABLE_SET_2_RGX_IRQ_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQENABLE_CLR_0 */
++#define ROGUE_CR_OCP_IRQENABLE_CLR_0 0x9068U
++#define ROGUE_CR_OCP_IRQENABLE_CLR_0_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQENABLE_CLR_0_INIT_MINTERRUPT_DISABLE_SHIFT 0U
++#define ROGUE_CR_OCP_IRQENABLE_CLR_0_INIT_MINTERRUPT_DISABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQENABLE_CLR_0_INIT_MINTERRUPT_DISABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQENABLE_CLR_1 */
++#define ROGUE_CR_OCP_IRQENABLE_CLR_1 0x9070U
++#define ROGUE_CR_OCP_IRQENABLE_CLR_1_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQENABLE_CLR_1_TARGET_SINTERRUPT_DISABLE_SHIFT 0U
++#define ROGUE_CR_OCP_IRQENABLE_CLR_1_TARGET_SINTERRUPT_DISABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQENABLE_CLR_1_TARGET_SINTERRUPT_DISABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQENABLE_CLR_2 */
++#define ROGUE_CR_OCP_IRQENABLE_CLR_2 0x9078U
++#define ROGUE_CR_OCP_IRQENABLE_CLR_2_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_IRQENABLE_CLR_2_RGX_IRQ_DISABLE_SHIFT 0U
++#define ROGUE_CR_OCP_IRQENABLE_CLR_2_RGX_IRQ_DISABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_IRQENABLE_CLR_2_RGX_IRQ_DISABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_IRQ_EVENT */
++#define ROGUE_CR_OCP_IRQ_EVENT 0x9080U
++#define ROGUE_CR_OCP_IRQ_EVENT_MASKFULL 0x00000000000FFFFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETH_RCVD_UNEXPECTED_RDATA_SHIFT 19U
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETH_RCVD_UNEXPECTED_RDATA_CLRMSK 0xFFFFFFFFFFF7FFFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETH_RCVD_UNEXPECTED_RDATA_EN 0x0000000000080000ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETH_RCVD_UNSUPPORTED_MCMD_SHIFT 18U
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETH_RCVD_UNSUPPORTED_MCMD_CLRMSK 0xFFFFFFFFFFFBFFFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETH_RCVD_UNSUPPORTED_MCMD_EN 0x0000000000040000ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETS_RCVD_UNEXPECTED_RDATA_SHIFT 17U
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETS_RCVD_UNEXPECTED_RDATA_CLRMSK 0xFFFFFFFFFFFDFFFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETS_RCVD_UNEXPECTED_RDATA_EN 0x0000000000020000ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETS_RCVD_UNSUPPORTED_MCMD_SHIFT 16U
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETS_RCVD_UNSUPPORTED_MCMD_CLRMSK 0xFFFFFFFFFFFEFFFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_TARGETS_RCVD_UNSUPPORTED_MCMD_EN 0x0000000000010000ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_IMG_PAGE_BOUNDARY_CROSS_SHIFT 15U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_IMG_PAGE_BOUNDARY_CROSS_CLRMSK 0xFFFFFFFFFFFF7FFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_IMG_PAGE_BOUNDARY_CROSS_EN 0x0000000000008000ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RCVD_RESP_ERR_FAIL_SHIFT 14U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RCVD_RESP_ERR_FAIL_CLRMSK 0xFFFFFFFFFFFFBFFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RCVD_RESP_ERR_FAIL_EN 0x0000000000004000ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RCVD_UNUSED_TAGID_SHIFT 13U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RCVD_UNUSED_TAGID_CLRMSK 0xFFFFFFFFFFFFDFFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RCVD_UNUSED_TAGID_EN 0x0000000000002000ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RDATA_FIFO_OVERFILL_SHIFT 12U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RDATA_FIFO_OVERFILL_CLRMSK 0xFFFFFFFFFFFFEFFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT3_RDATA_FIFO_OVERFILL_EN 0x0000000000001000ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_IMG_PAGE_BOUNDARY_CROSS_SHIFT 11U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_IMG_PAGE_BOUNDARY_CROSS_CLRMSK 0xFFFFFFFFFFFFF7FFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_IMG_PAGE_BOUNDARY_CROSS_EN 0x0000000000000800ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RCVD_RESP_ERR_FAIL_SHIFT 10U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RCVD_RESP_ERR_FAIL_CLRMSK 0xFFFFFFFFFFFFFBFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RCVD_RESP_ERR_FAIL_EN 0x0000000000000400ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RCVD_UNUSED_TAGID_SHIFT 9U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RCVD_UNUSED_TAGID_CLRMSK 0xFFFFFFFFFFFFFDFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RCVD_UNUSED_TAGID_EN 0x0000000000000200ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RDATA_FIFO_OVERFILL_SHIFT 8U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RDATA_FIFO_OVERFILL_CLRMSK 0xFFFFFFFFFFFFFEFFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT2_RDATA_FIFO_OVERFILL_EN 0x0000000000000100ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_IMG_PAGE_BOUNDARY_CROSS_SHIFT 7U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_IMG_PAGE_BOUNDARY_CROSS_CLRMSK 0xFFFFFFFFFFFFFF7FULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_IMG_PAGE_BOUNDARY_CROSS_EN 0x0000000000000080ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RCVD_RESP_ERR_FAIL_SHIFT 6U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RCVD_RESP_ERR_FAIL_CLRMSK 0xFFFFFFFFFFFFFFBFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RCVD_RESP_ERR_FAIL_EN 0x0000000000000040ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RCVD_UNUSED_TAGID_SHIFT 5U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RCVD_UNUSED_TAGID_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RCVD_UNUSED_TAGID_EN 0x0000000000000020ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RDATA_FIFO_OVERFILL_SHIFT 4U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RDATA_FIFO_OVERFILL_CLRMSK 0xFFFFFFFFFFFFFFEFULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT1_RDATA_FIFO_OVERFILL_EN 0x0000000000000010ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_IMG_PAGE_BOUNDARY_CROSS_SHIFT 3U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_IMG_PAGE_BOUNDARY_CROSS_CLRMSK 0xFFFFFFFFFFFFFFF7ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_IMG_PAGE_BOUNDARY_CROSS_EN 0x0000000000000008ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RCVD_RESP_ERR_FAIL_SHIFT 2U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RCVD_RESP_ERR_FAIL_CLRMSK 0xFFFFFFFFFFFFFFFBULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RCVD_RESP_ERR_FAIL_EN 0x0000000000000004ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RCVD_UNUSED_TAGID_SHIFT 1U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RCVD_UNUSED_TAGID_CLRMSK 0xFFFFFFFFFFFFFFFDULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RCVD_UNUSED_TAGID_EN 0x0000000000000002ULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RDATA_FIFO_OVERFILL_SHIFT 0U
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RDATA_FIFO_OVERFILL_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_OCP_IRQ_EVENT_INIT0_RDATA_FIFO_OVERFILL_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_OCP_DEBUG_CONFIG */
++#define ROGUE_CR_OCP_DEBUG_CONFIG 0x9088U
++#define ROGUE_CR_OCP_DEBUG_CONFIG_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_OCP_DEBUG_CONFIG_REG_SHIFT 0U
++#define ROGUE_CR_OCP_DEBUG_CONFIG_REG_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_OCP_DEBUG_CONFIG_REG_EN 0x00000001U
++
++/* Register ROGUE_CR_OCP_DEBUG_STATUS */
++#define ROGUE_CR_OCP_DEBUG_STATUS 0x9090U
++#define ROGUE_CR_OCP_DEBUG_STATUS_MASKFULL 0x001F1F77FFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_SDISCACK_SHIFT 51U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_SDISCACK_CLRMSK 0xFFE7FFFFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_SCONNECT_SHIFT 50U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_SCONNECT_CLRMSK 0xFFFBFFFFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_SCONNECT_EN 0x0004000000000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_MCONNECT_SHIFT 48U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_MCONNECT_CLRMSK 0xFFFCFFFFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_SDISCACK_SHIFT 43U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_SDISCACK_CLRMSK 0xFFFFE7FFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_SCONNECT_SHIFT 42U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_SCONNECT_CLRMSK 0xFFFFFBFFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_SCONNECT_EN 0x0000040000000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_MCONNECT_SHIFT 40U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_MCONNECT_CLRMSK 0xFFFFFCFFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_BUSY_SHIFT 38U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_BUSY_CLRMSK 0xFFFFFFBFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_BUSY_EN 0x0000004000000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_CMD_FIFO_FULL_SHIFT 37U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_CMD_FIFO_FULL_CLRMSK 0xFFFFFFDFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_CMD_FIFO_FULL_EN 0x0000002000000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_SRESP_ERROR_SHIFT 36U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_SRESP_ERROR_CLRMSK 0xFFFFFFEFFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETH_SRESP_ERROR_EN 0x0000001000000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_BUSY_SHIFT 34U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_BUSY_CLRMSK 0xFFFFFFFBFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_BUSY_EN 0x0000000400000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_CMD_FIFO_FULL_SHIFT 33U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_CMD_FIFO_FULL_CLRMSK 0xFFFFFFFDFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_CMD_FIFO_FULL_EN 0x0000000200000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_SRESP_ERROR_SHIFT 32U
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_SRESP_ERROR_CLRMSK 0xFFFFFFFEFFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_TARGETS_SRESP_ERROR_EN 0x0000000100000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_RESERVED_SHIFT 31U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_RESERVED_CLRMSK 0xFFFFFFFF7FFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_RESERVED_EN 0x0000000080000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_SWAIT_SHIFT 30U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_SWAIT_CLRMSK 0xFFFFFFFFBFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_SWAIT_EN 0x0000000040000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_MDISCREQ_SHIFT 29U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_MDISCREQ_CLRMSK 0xFFFFFFFFDFFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_MDISCREQ_EN 0x0000000020000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_MDISCACK_SHIFT 27U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_MDISCACK_CLRMSK 0xFFFFFFFFE7FFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_SCONNECT_SHIFT 26U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_SCONNECT_CLRMSK 0xFFFFFFFFFBFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_SCONNECT_EN 0x0000000004000000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_MCONNECT_SHIFT 24U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT3_MCONNECT_CLRMSK 0xFFFFFFFFFCFFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_RESERVED_SHIFT 23U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_RESERVED_CLRMSK 0xFFFFFFFFFF7FFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_RESERVED_EN 0x0000000000800000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_SWAIT_SHIFT 22U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_SWAIT_CLRMSK 0xFFFFFFFFFFBFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_SWAIT_EN 0x0000000000400000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_MDISCREQ_SHIFT 21U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_MDISCREQ_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_MDISCREQ_EN 0x0000000000200000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_MDISCACK_SHIFT 19U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_MDISCACK_CLRMSK 0xFFFFFFFFFFE7FFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_SCONNECT_SHIFT 18U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_SCONNECT_CLRMSK 0xFFFFFFFFFFFBFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_SCONNECT_EN 0x0000000000040000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_MCONNECT_SHIFT 16U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT2_MCONNECT_CLRMSK 0xFFFFFFFFFFFCFFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_RESERVED_SHIFT 15U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_RESERVED_CLRMSK 0xFFFFFFFFFFFF7FFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_RESERVED_EN 0x0000000000008000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_SWAIT_SHIFT 14U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_SWAIT_CLRMSK 0xFFFFFFFFFFFFBFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_SWAIT_EN 0x0000000000004000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_MDISCREQ_SHIFT 13U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_MDISCREQ_CLRMSK 0xFFFFFFFFFFFFDFFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_MDISCREQ_EN 0x0000000000002000ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_MDISCACK_SHIFT 11U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_MDISCACK_CLRMSK 0xFFFFFFFFFFFFE7FFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_SCONNECT_SHIFT 10U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_SCONNECT_CLRMSK 0xFFFFFFFFFFFFFBFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_SCONNECT_EN 0x0000000000000400ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_MCONNECT_SHIFT 8U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT1_MCONNECT_CLRMSK 0xFFFFFFFFFFFFFCFFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_RESERVED_SHIFT 7U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_RESERVED_CLRMSK 0xFFFFFFFFFFFFFF7FULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_RESERVED_EN 0x0000000000000080ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_SWAIT_SHIFT 6U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_SWAIT_CLRMSK 0xFFFFFFFFFFFFFFBFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_SWAIT_EN 0x0000000000000040ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_MDISCREQ_SHIFT 5U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_MDISCREQ_CLRMSK 0xFFFFFFFFFFFFFFDFULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_MDISCREQ_EN 0x0000000000000020ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_MDISCACK_SHIFT 3U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_MDISCACK_CLRMSK 0xFFFFFFFFFFFFFFE7ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_SCONNECT_SHIFT 2U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_SCONNECT_CLRMSK 0xFFFFFFFFFFFFFFFBULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_SCONNECT_EN 0x0000000000000004ULL
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_MCONNECT_SHIFT 0U
++#define ROGUE_CR_OCP_DEBUG_STATUS_INIT0_MCONNECT_CLRMSK 0xFFFFFFFFFFFFFFFCULL
++
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PM_ALIST_SHIFT 6U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PM_ALIST_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PM_ALIST_EN 0x00000040U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_HOST_SHIFT 5U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_HOST_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_HOST_EN 0x00000020U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_META_SHIFT 4U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_META_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_META_EN 0x00000010U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_ZLS_SHIFT 3U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_ZLS_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_ZLS_EN 0x00000008U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_TE_SHIFT 2U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_TE_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_TE_EN 0x00000004U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_VCE_SHIFT 1U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_VCE_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_PB_VCE_EN 0x00000002U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_TLA_SHIFT 0U
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_TLA_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BIF_TRUST_DM_TYPE_TLA_EN 0x00000001U
++
++#define ROGUE_CR_BIF_TRUST_DM_MASK 0x0000007FU
++
++/* Register ROGUE_CR_BIF_TRUST */
++#define ROGUE_CR_BIF_TRUST 0xA000U
++#define ROGUE_CR_BIF_TRUST_MASKFULL 0x00000000001FFFFFULL
++#define ROGUE_CR_BIF_TRUST_OTHER_RAY_VERTEX_DM_TRUSTED_SHIFT 20U
++#define ROGUE_CR_BIF_TRUST_OTHER_RAY_VERTEX_DM_TRUSTED_CLRMSK 0xFFEFFFFFU
++#define ROGUE_CR_BIF_TRUST_OTHER_RAY_VERTEX_DM_TRUSTED_EN 0x00100000U
++#define ROGUE_CR_BIF_TRUST_MCU_RAY_VERTEX_DM_TRUSTED_SHIFT 19U
++#define ROGUE_CR_BIF_TRUST_MCU_RAY_VERTEX_DM_TRUSTED_CLRMSK 0xFFF7FFFFU
++#define ROGUE_CR_BIF_TRUST_MCU_RAY_VERTEX_DM_TRUSTED_EN 0x00080000U
++#define ROGUE_CR_BIF_TRUST_OTHER_RAY_DM_TRUSTED_SHIFT 18U
++#define ROGUE_CR_BIF_TRUST_OTHER_RAY_DM_TRUSTED_CLRMSK 0xFFFBFFFFU
++#define ROGUE_CR_BIF_TRUST_OTHER_RAY_DM_TRUSTED_EN 0x00040000U
++#define ROGUE_CR_BIF_TRUST_MCU_RAY_DM_TRUSTED_SHIFT 17U
++#define ROGUE_CR_BIF_TRUST_MCU_RAY_DM_TRUSTED_CLRMSK 0xFFFDFFFFU
++#define ROGUE_CR_BIF_TRUST_MCU_RAY_DM_TRUSTED_EN 0x00020000U
++#define ROGUE_CR_BIF_TRUST_ENABLE_SHIFT 16U
++#define ROGUE_CR_BIF_TRUST_ENABLE_CLRMSK 0xFFFEFFFFU
++#define ROGUE_CR_BIF_TRUST_ENABLE_EN 0x00010000U
++#define ROGUE_CR_BIF_TRUST_DM_TRUSTED_SHIFT 9U
++#define ROGUE_CR_BIF_TRUST_DM_TRUSTED_CLRMSK 0xFFFF01FFU
++#define ROGUE_CR_BIF_TRUST_OTHER_COMPUTE_DM_TRUSTED_SHIFT 8U
++#define ROGUE_CR_BIF_TRUST_OTHER_COMPUTE_DM_TRUSTED_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_BIF_TRUST_OTHER_COMPUTE_DM_TRUSTED_EN 0x00000100U
++#define ROGUE_CR_BIF_TRUST_MCU_COMPUTE_DM_TRUSTED_SHIFT 7U
++#define ROGUE_CR_BIF_TRUST_MCU_COMPUTE_DM_TRUSTED_CLRMSK 0xFFFFFF7FU
++#define ROGUE_CR_BIF_TRUST_MCU_COMPUTE_DM_TRUSTED_EN 0x00000080U
++#define ROGUE_CR_BIF_TRUST_PBE_COMPUTE_DM_TRUSTED_SHIFT 6U
++#define ROGUE_CR_BIF_TRUST_PBE_COMPUTE_DM_TRUSTED_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_BIF_TRUST_PBE_COMPUTE_DM_TRUSTED_EN 0x00000040U
++#define ROGUE_CR_BIF_TRUST_OTHER_PIXEL_DM_TRUSTED_SHIFT 5U
++#define ROGUE_CR_BIF_TRUST_OTHER_PIXEL_DM_TRUSTED_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_BIF_TRUST_OTHER_PIXEL_DM_TRUSTED_EN 0x00000020U
++#define ROGUE_CR_BIF_TRUST_MCU_PIXEL_DM_TRUSTED_SHIFT 4U
++#define ROGUE_CR_BIF_TRUST_MCU_PIXEL_DM_TRUSTED_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_BIF_TRUST_MCU_PIXEL_DM_TRUSTED_EN 0x00000010U
++#define ROGUE_CR_BIF_TRUST_PBE_PIXEL_DM_TRUSTED_SHIFT 3U
++#define ROGUE_CR_BIF_TRUST_PBE_PIXEL_DM_TRUSTED_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_BIF_TRUST_PBE_PIXEL_DM_TRUSTED_EN 0x00000008U
++#define ROGUE_CR_BIF_TRUST_OTHER_VERTEX_DM_TRUSTED_SHIFT 2U
++#define ROGUE_CR_BIF_TRUST_OTHER_VERTEX_DM_TRUSTED_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_BIF_TRUST_OTHER_VERTEX_DM_TRUSTED_EN 0x00000004U
++#define ROGUE_CR_BIF_TRUST_MCU_VERTEX_DM_TRUSTED_SHIFT 1U
++#define ROGUE_CR_BIF_TRUST_MCU_VERTEX_DM_TRUSTED_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_BIF_TRUST_MCU_VERTEX_DM_TRUSTED_EN 0x00000002U
++#define ROGUE_CR_BIF_TRUST_PBE_VERTEX_DM_TRUSTED_SHIFT 0U
++#define ROGUE_CR_BIF_TRUST_PBE_VERTEX_DM_TRUSTED_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_BIF_TRUST_PBE_VERTEX_DM_TRUSTED_EN 0x00000001U
++
++/* Register ROGUE_CR_SYS_BUS_SECURE */
++#define ROGUE_CR_SYS_BUS_SECURE 0xA100U
++#define ROGUE_CR_SYS_BUS_SECURE__SECR__MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_SYS_BUS_SECURE_MASKFULL 0x0000000000000001ULL
++#define ROGUE_CR_SYS_BUS_SECURE_ENABLE_SHIFT 0U
++#define ROGUE_CR_SYS_BUS_SECURE_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SYS_BUS_SECURE_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_FBA_FC0_CHECKSUM */
++#define ROGUE_CR_FBA_FC0_CHECKSUM 0xD170U
++#define ROGUE_CR_FBA_FC0_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_FBA_FC0_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_FBA_FC0_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_FBA_FC1_CHECKSUM */
++#define ROGUE_CR_FBA_FC1_CHECKSUM 0xD178U
++#define ROGUE_CR_FBA_FC1_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_FBA_FC1_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_FBA_FC1_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_FBA_FC2_CHECKSUM */
++#define ROGUE_CR_FBA_FC2_CHECKSUM 0xD180U
++#define ROGUE_CR_FBA_FC2_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_FBA_FC2_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_FBA_FC2_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_FBA_FC3_CHECKSUM */
++#define ROGUE_CR_FBA_FC3_CHECKSUM 0xD188U
++#define ROGUE_CR_FBA_FC3_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_FBA_FC3_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_FBA_FC3_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_CLK_CTRL2 */
++#define ROGUE_CR_CLK_CTRL2 0xD200U
++#define ROGUE_CR_CLK_CTRL2_MASKFULL 0x0000000000000F33ULL
++#define ROGUE_CR_CLK_CTRL2_MCU_FBTC_SHIFT 10U
++#define ROGUE_CR_CLK_CTRL2_MCU_FBTC_CLRMSK 0xFFFFFFFFFFFFF3FFULL
++#define ROGUE_CR_CLK_CTRL2_MCU_FBTC_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL2_MCU_FBTC_ON 0x0000000000000400ULL
++#define ROGUE_CR_CLK_CTRL2_MCU_FBTC_AUTO 0x0000000000000800ULL
++#define ROGUE_CR_CLK_CTRL2_VRDM_SHIFT 8U
++#define ROGUE_CR_CLK_CTRL2_VRDM_CLRMSK 0xFFFFFFFFFFFFFCFFULL
++#define ROGUE_CR_CLK_CTRL2_VRDM_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL2_VRDM_ON 0x0000000000000100ULL
++#define ROGUE_CR_CLK_CTRL2_VRDM_AUTO 0x0000000000000200ULL
++#define ROGUE_CR_CLK_CTRL2_SH_SHIFT 4U
++#define ROGUE_CR_CLK_CTRL2_SH_CLRMSK 0xFFFFFFFFFFFFFFCFULL
++#define ROGUE_CR_CLK_CTRL2_SH_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL2_SH_ON 0x0000000000000010ULL
++#define ROGUE_CR_CLK_CTRL2_SH_AUTO 0x0000000000000020ULL
++#define ROGUE_CR_CLK_CTRL2_FBA_SHIFT 0U
++#define ROGUE_CR_CLK_CTRL2_FBA_CLRMSK 0xFFFFFFFFFFFFFFFCULL
++#define ROGUE_CR_CLK_CTRL2_FBA_OFF 0x0000000000000000ULL
++#define ROGUE_CR_CLK_CTRL2_FBA_ON 0x0000000000000001ULL
++#define ROGUE_CR_CLK_CTRL2_FBA_AUTO 0x0000000000000002ULL
++
++/* Register ROGUE_CR_CLK_STATUS2 */
++#define ROGUE_CR_CLK_STATUS2 0xD208U
++#define ROGUE_CR_CLK_STATUS2_MASKFULL 0x0000000000000015ULL
++#define ROGUE_CR_CLK_STATUS2_VRDM_SHIFT 4U
++#define ROGUE_CR_CLK_STATUS2_VRDM_CLRMSK 0xFFFFFFFFFFFFFFEFULL
++#define ROGUE_CR_CLK_STATUS2_VRDM_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS2_VRDM_RUNNING 0x0000000000000010ULL
++#define ROGUE_CR_CLK_STATUS2_SH_SHIFT 2U
++#define ROGUE_CR_CLK_STATUS2_SH_CLRMSK 0xFFFFFFFFFFFFFFFBULL
++#define ROGUE_CR_CLK_STATUS2_SH_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS2_SH_RUNNING 0x0000000000000004ULL
++#define ROGUE_CR_CLK_STATUS2_FBA_SHIFT 0U
++#define ROGUE_CR_CLK_STATUS2_FBA_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_CLK_STATUS2_FBA_GATED 0x0000000000000000ULL
++#define ROGUE_CR_CLK_STATUS2_FBA_RUNNING 0x0000000000000001ULL
++
++/* Register ROGUE_CR_RPM_SHF_FPL */
++#define ROGUE_CR_RPM_SHF_FPL 0xD520U
++#define ROGUE_CR_RPM_SHF_FPL_MASKFULL 0x3FFFFFFFFFFFFFFCULL
++#define ROGUE_CR_RPM_SHF_FPL_SIZE_SHIFT 40U
++#define ROGUE_CR_RPM_SHF_FPL_SIZE_CLRMSK 0xC00000FFFFFFFFFFULL
++#define ROGUE_CR_RPM_SHF_FPL_BASE_SHIFT 2U
++#define ROGUE_CR_RPM_SHF_FPL_BASE_CLRMSK 0xFFFFFF0000000003ULL
++#define ROGUE_CR_RPM_SHF_FPL_BASE_ALIGNSHIFT 2U
++#define ROGUE_CR_RPM_SHF_FPL_BASE_ALIGNSIZE 4U
++
++/* Register ROGUE_CR_RPM_SHF_FPL_READ */
++#define ROGUE_CR_RPM_SHF_FPL_READ 0xD528U
++#define ROGUE_CR_RPM_SHF_FPL_READ_MASKFULL 0x00000000007FFFFFULL
++#define ROGUE_CR_RPM_SHF_FPL_READ_TOGGLE_SHIFT 22U
++#define ROGUE_CR_RPM_SHF_FPL_READ_TOGGLE_CLRMSK 0xFFBFFFFFU
++#define ROGUE_CR_RPM_SHF_FPL_READ_TOGGLE_EN 0x00400000U
++#define ROGUE_CR_RPM_SHF_FPL_READ_OFFSET_SHIFT 0U
++#define ROGUE_CR_RPM_SHF_FPL_READ_OFFSET_CLRMSK 0xFFC00000U
++
++/* Register ROGUE_CR_RPM_SHF_FPL_WRITE */
++#define ROGUE_CR_RPM_SHF_FPL_WRITE 0xD530U
++#define ROGUE_CR_RPM_SHF_FPL_WRITE_MASKFULL 0x00000000007FFFFFULL
++#define ROGUE_CR_RPM_SHF_FPL_WRITE_TOGGLE_SHIFT 22U
++#define ROGUE_CR_RPM_SHF_FPL_WRITE_TOGGLE_CLRMSK 0xFFBFFFFFU
++#define ROGUE_CR_RPM_SHF_FPL_WRITE_TOGGLE_EN 0x00400000U
++#define ROGUE_CR_RPM_SHF_FPL_WRITE_OFFSET_SHIFT 0U
++#define ROGUE_CR_RPM_SHF_FPL_WRITE_OFFSET_CLRMSK 0xFFC00000U
++
++/* Register ROGUE_CR_RPM_SHG_FPL */
++#define ROGUE_CR_RPM_SHG_FPL 0xD538U
++#define ROGUE_CR_RPM_SHG_FPL_MASKFULL 0x3FFFFFFFFFFFFFFCULL
++#define ROGUE_CR_RPM_SHG_FPL_SIZE_SHIFT 40U
++#define ROGUE_CR_RPM_SHG_FPL_SIZE_CLRMSK 0xC00000FFFFFFFFFFULL
++#define ROGUE_CR_RPM_SHG_FPL_BASE_SHIFT 2U
++#define ROGUE_CR_RPM_SHG_FPL_BASE_CLRMSK 0xFFFFFF0000000003ULL
++#define ROGUE_CR_RPM_SHG_FPL_BASE_ALIGNSHIFT 2U
++#define ROGUE_CR_RPM_SHG_FPL_BASE_ALIGNSIZE 4U
++
++/* Register ROGUE_CR_RPM_SHG_FPL_READ */
++#define ROGUE_CR_RPM_SHG_FPL_READ 0xD540U
++#define ROGUE_CR_RPM_SHG_FPL_READ_MASKFULL 0x00000000007FFFFFULL
++#define ROGUE_CR_RPM_SHG_FPL_READ_TOGGLE_SHIFT 22U
++#define ROGUE_CR_RPM_SHG_FPL_READ_TOGGLE_CLRMSK 0xFFBFFFFFU
++#define ROGUE_CR_RPM_SHG_FPL_READ_TOGGLE_EN 0x00400000U
++#define ROGUE_CR_RPM_SHG_FPL_READ_OFFSET_SHIFT 0U
++#define ROGUE_CR_RPM_SHG_FPL_READ_OFFSET_CLRMSK 0xFFC00000U
++
++/* Register ROGUE_CR_RPM_SHG_FPL_WRITE */
++#define ROGUE_CR_RPM_SHG_FPL_WRITE 0xD548U
++#define ROGUE_CR_RPM_SHG_FPL_WRITE_MASKFULL 0x00000000007FFFFFULL
++#define ROGUE_CR_RPM_SHG_FPL_WRITE_TOGGLE_SHIFT 22U
++#define ROGUE_CR_RPM_SHG_FPL_WRITE_TOGGLE_CLRMSK 0xFFBFFFFFU
++#define ROGUE_CR_RPM_SHG_FPL_WRITE_TOGGLE_EN 0x00400000U
++#define ROGUE_CR_RPM_SHG_FPL_WRITE_OFFSET_SHIFT 0U
++#define ROGUE_CR_RPM_SHG_FPL_WRITE_OFFSET_CLRMSK 0xFFC00000U
++
++/* Register ROGUE_CR_SH_PERF */
++#define ROGUE_CR_SH_PERF 0xD5F8U
++#define ROGUE_CR_SH_PERF_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_SH_PERF_CLR_3_SHIFT 4U
++#define ROGUE_CR_SH_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_SH_PERF_CLR_3_EN 0x00000010U
++#define ROGUE_CR_SH_PERF_CLR_2_SHIFT 3U
++#define ROGUE_CR_SH_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_SH_PERF_CLR_2_EN 0x00000008U
++#define ROGUE_CR_SH_PERF_CLR_1_SHIFT 2U
++#define ROGUE_CR_SH_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SH_PERF_CLR_1_EN 0x00000004U
++#define ROGUE_CR_SH_PERF_CLR_0_SHIFT 1U
++#define ROGUE_CR_SH_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SH_PERF_CLR_0_EN 0x00000002U
++#define ROGUE_CR_SH_PERF_CTRL_ENABLE_SHIFT 0U
++#define ROGUE_CR_SH_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SH_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register ROGUE_CR_SH_PERF_SELECT0 */
++#define ROGUE_CR_SH_PERF_SELECT0 0xD600U
++#define ROGUE_CR_SH_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define ROGUE_CR_SH_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define ROGUE_CR_SH_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define ROGUE_CR_SH_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define ROGUE_CR_SH_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define ROGUE_CR_SH_PERF_SELECT0_MODE_SHIFT 21U
++#define ROGUE_CR_SH_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define ROGUE_CR_SH_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define ROGUE_CR_SH_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define ROGUE_CR_SH_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define ROGUE_CR_SH_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define ROGUE_CR_SH_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_SH_PERF_COUNTER_0 */
++#define ROGUE_CR_SH_PERF_COUNTER_0 0xD628U
++#define ROGUE_CR_SH_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SH_PERF_COUNTER_0_REG_SHIFT 0U
++#define ROGUE_CR_SH_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SHF_SHG_CHECKSUM */
++#define ROGUE_CR_SHF_SHG_CHECKSUM 0xD1C0U
++#define ROGUE_CR_SHF_SHG_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SHF_SHG_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_SHF_SHG_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SHF_VERTEX_BIF_CHECKSUM */
++#define ROGUE_CR_SHF_VERTEX_BIF_CHECKSUM 0xD1C8U
++#define ROGUE_CR_SHF_VERTEX_BIF_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SHF_VERTEX_BIF_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_SHF_VERTEX_BIF_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SHF_VARY_BIF_CHECKSUM */
++#define ROGUE_CR_SHF_VARY_BIF_CHECKSUM 0xD1D0U
++#define ROGUE_CR_SHF_VARY_BIF_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SHF_VARY_BIF_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_SHF_VARY_BIF_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_RPM_BIF_CHECKSUM */
++#define ROGUE_CR_RPM_BIF_CHECKSUM 0xD1D8U
++#define ROGUE_CR_RPM_BIF_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_RPM_BIF_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_RPM_BIF_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SHG_BIF_CHECKSUM */
++#define ROGUE_CR_SHG_BIF_CHECKSUM 0xD1E0U
++#define ROGUE_CR_SHG_BIF_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SHG_BIF_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_SHG_BIF_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register ROGUE_CR_SHG_FE_BE_CHECKSUM */
++#define ROGUE_CR_SHG_FE_BE_CHECKSUM 0xD1E8U
++#define ROGUE_CR_SHG_FE_BE_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_SHG_FE_BE_CHECKSUM_VALUE_SHIFT 0U
++#define ROGUE_CR_SHG_FE_BE_CHECKSUM_VALUE_CLRMSK 0x00000000U
++
++/* Register DPX_CR_BF_PERF */
++#define DPX_CR_BF_PERF 0xC458U
++#define DPX_CR_BF_PERF_MASKFULL 0x000000000000001FULL
++#define DPX_CR_BF_PERF_CLR_3_SHIFT 4U
++#define DPX_CR_BF_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define DPX_CR_BF_PERF_CLR_3_EN 0x00000010U
++#define DPX_CR_BF_PERF_CLR_2_SHIFT 3U
++#define DPX_CR_BF_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define DPX_CR_BF_PERF_CLR_2_EN 0x00000008U
++#define DPX_CR_BF_PERF_CLR_1_SHIFT 2U
++#define DPX_CR_BF_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define DPX_CR_BF_PERF_CLR_1_EN 0x00000004U
++#define DPX_CR_BF_PERF_CLR_0_SHIFT 1U
++#define DPX_CR_BF_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define DPX_CR_BF_PERF_CLR_0_EN 0x00000002U
++#define DPX_CR_BF_PERF_CTRL_ENABLE_SHIFT 0U
++#define DPX_CR_BF_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define DPX_CR_BF_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register DPX_CR_BF_PERF_SELECT0 */
++#define DPX_CR_BF_PERF_SELECT0 0xC460U
++#define DPX_CR_BF_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define DPX_CR_BF_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define DPX_CR_BF_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define DPX_CR_BF_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define DPX_CR_BF_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define DPX_CR_BF_PERF_SELECT0_MODE_SHIFT 21U
++#define DPX_CR_BF_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define DPX_CR_BF_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define DPX_CR_BF_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define DPX_CR_BF_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define DPX_CR_BF_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define DPX_CR_BF_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register DPX_CR_BF_PERF_COUNTER_0 */
++#define DPX_CR_BF_PERF_COUNTER_0 0xC488U
++#define DPX_CR_BF_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define DPX_CR_BF_PERF_COUNTER_0_REG_SHIFT 0U
++#define DPX_CR_BF_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register DPX_CR_BT_PERF */
++#define DPX_CR_BT_PERF 0xC3D0U
++#define DPX_CR_BT_PERF_MASKFULL 0x000000000000001FULL
++#define DPX_CR_BT_PERF_CLR_3_SHIFT 4U
++#define DPX_CR_BT_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define DPX_CR_BT_PERF_CLR_3_EN 0x00000010U
++#define DPX_CR_BT_PERF_CLR_2_SHIFT 3U
++#define DPX_CR_BT_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define DPX_CR_BT_PERF_CLR_2_EN 0x00000008U
++#define DPX_CR_BT_PERF_CLR_1_SHIFT 2U
++#define DPX_CR_BT_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define DPX_CR_BT_PERF_CLR_1_EN 0x00000004U
++#define DPX_CR_BT_PERF_CLR_0_SHIFT 1U
++#define DPX_CR_BT_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define DPX_CR_BT_PERF_CLR_0_EN 0x00000002U
++#define DPX_CR_BT_PERF_CTRL_ENABLE_SHIFT 0U
++#define DPX_CR_BT_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define DPX_CR_BT_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register DPX_CR_BT_PERF_SELECT0 */
++#define DPX_CR_BT_PERF_SELECT0 0xC3D8U
++#define DPX_CR_BT_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define DPX_CR_BT_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define DPX_CR_BT_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define DPX_CR_BT_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define DPX_CR_BT_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define DPX_CR_BT_PERF_SELECT0_MODE_SHIFT 21U
++#define DPX_CR_BT_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define DPX_CR_BT_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define DPX_CR_BT_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define DPX_CR_BT_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define DPX_CR_BT_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define DPX_CR_BT_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register DPX_CR_BT_PERF_COUNTER_0 */
++#define DPX_CR_BT_PERF_COUNTER_0 0xC420U
++#define DPX_CR_BT_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define DPX_CR_BT_PERF_COUNTER_0_REG_SHIFT 0U
++#define DPX_CR_BT_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register DPX_CR_RQ_USC_DEBUG */
++#define DPX_CR_RQ_USC_DEBUG 0xC110U
++#define DPX_CR_RQ_USC_DEBUG_MASKFULL 0x00000000FFFFFFFFULL
++#define DPX_CR_RQ_USC_DEBUG_CHECKSUM_SHIFT 0U
++#define DPX_CR_RQ_USC_DEBUG_CHECKSUM_CLRMSK 0xFFFFFFFF00000000ULL
++
++/* Register DPX_CR_BIF_FAULT_BANK_MMU_STATUS */
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS 0xC5C8U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_MASKFULL 0x000000000000F775ULL
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_CAT_BASE_SHIFT 12U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_CAT_BASE_CLRMSK 0xFFFF0FFFU
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_PAGE_SIZE_SHIFT 8U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_PAGE_SIZE_CLRMSK 0xFFFFF8FFU
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_DATA_TYPE_SHIFT 5U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_DATA_TYPE_CLRMSK 0xFFFFFF9FU
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_RO_SHIFT 4U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_RO_CLRMSK 0xFFFFFFEFU
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_RO_EN 0x00000010U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_PM_META_RO_SHIFT 2U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_PM_META_RO_CLRMSK 0xFFFFFFFBU
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_PM_META_RO_EN 0x00000004U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_SHIFT 0U
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_CLRMSK 0xFFFFFFFEU
++#define DPX_CR_BIF_FAULT_BANK_MMU_STATUS_FAULT_EN 0x00000001U
++
++/* Register DPX_CR_BIF_FAULT_BANK_REQ_STATUS */
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS 0xC5D0U
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_MASKFULL 0x03FFFFFFFFFFFFF0ULL
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_RNW_SHIFT 57U
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_RNW_CLRMSK 0xFDFFFFFFFFFFFFFFULL
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_RNW_EN 0x0200000000000000ULL
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_TAG_SB_SHIFT 44U
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_TAG_SB_CLRMSK 0xFE000FFFFFFFFFFFULL
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_TAG_ID_SHIFT 40U
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_TAG_ID_CLRMSK 0xFFFFF0FFFFFFFFFFULL
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_ADDRESS_SHIFT 4U
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_ADDRESS_CLRMSK 0xFFFFFF000000000FULL
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_ADDRESS_ALIGNSHIFT 4U
++#define DPX_CR_BIF_FAULT_BANK_REQ_STATUS_ADDRESS_ALIGNSIZE 16U
++
++/* Register DPX_CR_BIF_MMU_STATUS */
++#define DPX_CR_BIF_MMU_STATUS 0xC5D8U
++#define DPX_CR_BIF_MMU_STATUS_MASKFULL 0x000000000FFFFFF7ULL
++#define DPX_CR_BIF_MMU_STATUS_PC_DATA_SHIFT 20U
++#define DPX_CR_BIF_MMU_STATUS_PC_DATA_CLRMSK 0xF00FFFFFU
++#define DPX_CR_BIF_MMU_STATUS_PD_DATA_SHIFT 12U
++#define DPX_CR_BIF_MMU_STATUS_PD_DATA_CLRMSK 0xFFF00FFFU
++#define DPX_CR_BIF_MMU_STATUS_PT_DATA_SHIFT 4U
++#define DPX_CR_BIF_MMU_STATUS_PT_DATA_CLRMSK 0xFFFFF00FU
++#define DPX_CR_BIF_MMU_STATUS_STALLED_SHIFT 2U
++#define DPX_CR_BIF_MMU_STATUS_STALLED_CLRMSK 0xFFFFFFFBU
++#define DPX_CR_BIF_MMU_STATUS_STALLED_EN 0x00000004U
++#define DPX_CR_BIF_MMU_STATUS_PAUSED_SHIFT 1U
++#define DPX_CR_BIF_MMU_STATUS_PAUSED_CLRMSK 0xFFFFFFFDU
++#define DPX_CR_BIF_MMU_STATUS_PAUSED_EN 0x00000002U
++#define DPX_CR_BIF_MMU_STATUS_BUSY_SHIFT 0U
++#define DPX_CR_BIF_MMU_STATUS_BUSY_CLRMSK 0xFFFFFFFEU
++#define DPX_CR_BIF_MMU_STATUS_BUSY_EN 0x00000001U
++
++/* Register DPX_CR_RT_PERF */
++#define DPX_CR_RT_PERF 0xC700U
++#define DPX_CR_RT_PERF_MASKFULL 0x000000000000001FULL
++#define DPX_CR_RT_PERF_CLR_3_SHIFT 4U
++#define DPX_CR_RT_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define DPX_CR_RT_PERF_CLR_3_EN 0x00000010U
++#define DPX_CR_RT_PERF_CLR_2_SHIFT 3U
++#define DPX_CR_RT_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define DPX_CR_RT_PERF_CLR_2_EN 0x00000008U
++#define DPX_CR_RT_PERF_CLR_1_SHIFT 2U
++#define DPX_CR_RT_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define DPX_CR_RT_PERF_CLR_1_EN 0x00000004U
++#define DPX_CR_RT_PERF_CLR_0_SHIFT 1U
++#define DPX_CR_RT_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define DPX_CR_RT_PERF_CLR_0_EN 0x00000002U
++#define DPX_CR_RT_PERF_CTRL_ENABLE_SHIFT 0U
++#define DPX_CR_RT_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define DPX_CR_RT_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register DPX_CR_RT_PERF_SELECT0 */
++#define DPX_CR_RT_PERF_SELECT0 0xC708U
++#define DPX_CR_RT_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define DPX_CR_RT_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define DPX_CR_RT_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define DPX_CR_RT_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define DPX_CR_RT_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define DPX_CR_RT_PERF_SELECT0_MODE_SHIFT 21U
++#define DPX_CR_RT_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define DPX_CR_RT_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define DPX_CR_RT_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define DPX_CR_RT_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define DPX_CR_RT_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define DPX_CR_RT_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register DPX_CR_RT_PERF_COUNTER_0 */
++#define DPX_CR_RT_PERF_COUNTER_0 0xC730U
++#define DPX_CR_RT_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define DPX_CR_RT_PERF_COUNTER_0_REG_SHIFT 0U
++#define DPX_CR_RT_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register DPX_CR_BX_TU_PERF */
++#define DPX_CR_BX_TU_PERF 0xC908U
++#define DPX_CR_BX_TU_PERF_MASKFULL 0x000000000000001FULL
++#define DPX_CR_BX_TU_PERF_CLR_3_SHIFT 4U
++#define DPX_CR_BX_TU_PERF_CLR_3_CLRMSK 0xFFFFFFEFU
++#define DPX_CR_BX_TU_PERF_CLR_3_EN 0x00000010U
++#define DPX_CR_BX_TU_PERF_CLR_2_SHIFT 3U
++#define DPX_CR_BX_TU_PERF_CLR_2_CLRMSK 0xFFFFFFF7U
++#define DPX_CR_BX_TU_PERF_CLR_2_EN 0x00000008U
++#define DPX_CR_BX_TU_PERF_CLR_1_SHIFT 2U
++#define DPX_CR_BX_TU_PERF_CLR_1_CLRMSK 0xFFFFFFFBU
++#define DPX_CR_BX_TU_PERF_CLR_1_EN 0x00000004U
++#define DPX_CR_BX_TU_PERF_CLR_0_SHIFT 1U
++#define DPX_CR_BX_TU_PERF_CLR_0_CLRMSK 0xFFFFFFFDU
++#define DPX_CR_BX_TU_PERF_CLR_0_EN 0x00000002U
++#define DPX_CR_BX_TU_PERF_CTRL_ENABLE_SHIFT 0U
++#define DPX_CR_BX_TU_PERF_CTRL_ENABLE_CLRMSK 0xFFFFFFFEU
++#define DPX_CR_BX_TU_PERF_CTRL_ENABLE_EN 0x00000001U
++
++/* Register DPX_CR_BX_TU_PERF_SELECT0 */
++#define DPX_CR_BX_TU_PERF_SELECT0 0xC910U
++#define DPX_CR_BX_TU_PERF_SELECT0_MASKFULL 0x3FFF3FFF003FFFFFULL
++#define DPX_CR_BX_TU_PERF_SELECT0_BATCH_MAX_SHIFT 48U
++#define DPX_CR_BX_TU_PERF_SELECT0_BATCH_MAX_CLRMSK 0xC000FFFFFFFFFFFFULL
++#define DPX_CR_BX_TU_PERF_SELECT0_BATCH_MIN_SHIFT 32U
++#define DPX_CR_BX_TU_PERF_SELECT0_BATCH_MIN_CLRMSK 0xFFFFC000FFFFFFFFULL
++#define DPX_CR_BX_TU_PERF_SELECT0_MODE_SHIFT 21U
++#define DPX_CR_BX_TU_PERF_SELECT0_MODE_CLRMSK 0xFFFFFFFFFFDFFFFFULL
++#define DPX_CR_BX_TU_PERF_SELECT0_MODE_EN 0x0000000000200000ULL
++#define DPX_CR_BX_TU_PERF_SELECT0_GROUP_SELECT_SHIFT 16U
++#define DPX_CR_BX_TU_PERF_SELECT0_GROUP_SELECT_CLRMSK 0xFFFFFFFFFFE0FFFFULL
++#define DPX_CR_BX_TU_PERF_SELECT0_BIT_SELECT_SHIFT 0U
++#define DPX_CR_BX_TU_PERF_SELECT0_BIT_SELECT_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register DPX_CR_BX_TU_PERF_COUNTER_0 */
++#define DPX_CR_BX_TU_PERF_COUNTER_0 0xC938U
++#define DPX_CR_BX_TU_PERF_COUNTER_0_MASKFULL 0x00000000FFFFFFFFULL
++#define DPX_CR_BX_TU_PERF_COUNTER_0_REG_SHIFT 0U
++#define DPX_CR_BX_TU_PERF_COUNTER_0_REG_CLRMSK 0x00000000U
++
++/* Register DPX_CR_RS_PDS_RR_CHECKSUM */
++#define DPX_CR_RS_PDS_RR_CHECKSUM 0xC0F0U
++#define DPX_CR_RS_PDS_RR_CHECKSUM_MASKFULL 0x00000000FFFFFFFFULL
++#define DPX_CR_RS_PDS_RR_CHECKSUM_VALUE_SHIFT 0U
++#define DPX_CR_RS_PDS_RR_CHECKSUM_VALUE_CLRMSK 0xFFFFFFFF00000000ULL
++
++/* Register ROGUE_CR_MMU_CBASE_MAPPING_CONTEXT */
++#define ROGUE_CR_MMU_CBASE_MAPPING_CONTEXT 0xE140U
++#define ROGUE_CR_MMU_CBASE_MAPPING_CONTEXT_MASKFULL 0x00000000000000FFULL
++#define ROGUE_CR_MMU_CBASE_MAPPING_CONTEXT_ID_SHIFT 0U
++#define ROGUE_CR_MMU_CBASE_MAPPING_CONTEXT_ID_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_MMU_CBASE_MAPPING */
++#define ROGUE_CR_MMU_CBASE_MAPPING 0xE148U
++#define ROGUE_CR_MMU_CBASE_MAPPING_MASKFULL 0x000000000FFFFFFFULL
++#define ROGUE_CR_MMU_CBASE_MAPPING_BASE_ADDR_SHIFT 0U
++#define ROGUE_CR_MMU_CBASE_MAPPING_BASE_ADDR_CLRMSK 0xF0000000U
++#define ROGUE_CR_MMU_CBASE_MAPPING_BASE_ADDR_ALIGNSHIFT 12U
++#define ROGUE_CR_MMU_CBASE_MAPPING_BASE_ADDR_ALIGNSIZE 4096U
++
++/* Register ROGUE_CR_MMU_FAULT_STATUS */
++#define ROGUE_CR_MMU_FAULT_STATUS 0xE150U
++#define ROGUE_CR_MMU_FAULT_STATUS_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_ADDRESS_SHIFT 28U
++#define ROGUE_CR_MMU_FAULT_STATUS_ADDRESS_CLRMSK 0x000000000FFFFFFFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_CONTEXT_SHIFT 20U
++#define ROGUE_CR_MMU_FAULT_STATUS_CONTEXT_CLRMSK 0xFFFFFFFFF00FFFFFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_TAG_SB_SHIFT 12U
++#define ROGUE_CR_MMU_FAULT_STATUS_TAG_SB_CLRMSK 0xFFFFFFFFFFF00FFFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_REQ_ID_SHIFT 6U
++#define ROGUE_CR_MMU_FAULT_STATUS_REQ_ID_CLRMSK 0xFFFFFFFFFFFFF03FULL
++#define ROGUE_CR_MMU_FAULT_STATUS_LEVEL_SHIFT 4U
++#define ROGUE_CR_MMU_FAULT_STATUS_LEVEL_CLRMSK 0xFFFFFFFFFFFFFFCFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_RNW_SHIFT 3U
++#define ROGUE_CR_MMU_FAULT_STATUS_RNW_CLRMSK 0xFFFFFFFFFFFFFFF7ULL
++#define ROGUE_CR_MMU_FAULT_STATUS_RNW_EN 0x0000000000000008ULL
++#define ROGUE_CR_MMU_FAULT_STATUS_TYPE_SHIFT 1U
++#define ROGUE_CR_MMU_FAULT_STATUS_TYPE_CLRMSK 0xFFFFFFFFFFFFFFF9ULL
++#define ROGUE_CR_MMU_FAULT_STATUS_FAULT_SHIFT 0U
++#define ROGUE_CR_MMU_FAULT_STATUS_FAULT_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MMU_FAULT_STATUS_FAULT_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_MMU_FAULT_STATUS_META */
++#define ROGUE_CR_MMU_FAULT_STATUS_META 0xE158U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_ADDRESS_SHIFT 28U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_ADDRESS_CLRMSK 0x000000000FFFFFFFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_CONTEXT_SHIFT 20U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_CONTEXT_CLRMSK 0xFFFFFFFFF00FFFFFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_TAG_SB_SHIFT 12U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_TAG_SB_CLRMSK 0xFFFFFFFFFFF00FFFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_REQ_ID_SHIFT 6U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_REQ_ID_CLRMSK 0xFFFFFFFFFFFFF03FULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_LEVEL_SHIFT 4U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_LEVEL_CLRMSK 0xFFFFFFFFFFFFFFCFULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_RNW_SHIFT 3U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_RNW_CLRMSK 0xFFFFFFFFFFFFFFF7ULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_RNW_EN 0x0000000000000008ULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_TYPE_SHIFT 1U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_TYPE_CLRMSK 0xFFFFFFFFFFFFFFF9ULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_FAULT_SHIFT 0U
++#define ROGUE_CR_MMU_FAULT_STATUS_META_FAULT_CLRMSK 0xFFFFFFFFFFFFFFFEULL
++#define ROGUE_CR_MMU_FAULT_STATUS_META_FAULT_EN 0x0000000000000001ULL
++
++/* Register ROGUE_CR_SLC3_CTRL_MISC */
++#define ROGUE_CR_SLC3_CTRL_MISC 0xE200U
++#define ROGUE_CR_SLC3_CTRL_MISC_MASKFULL 0x0000000000000107ULL
++#define ROGUE_CR_SLC3_CTRL_MISC_WRITE_COMBINER_SHIFT 8U
++#define ROGUE_CR_SLC3_CTRL_MISC_WRITE_COMBINER_CLRMSK 0xFFFFFEFFU
++#define ROGUE_CR_SLC3_CTRL_MISC_WRITE_COMBINER_EN 0x00000100U
++#define ROGUE_CR_SLC3_CTRL_MISC_ADDR_DECODE_MODE_SHIFT 0U
++#define ROGUE_CR_SLC3_CTRL_MISC_ADDR_DECODE_MODE_CLRMSK 0xFFFFFFF8U
++#define ROGUE_CR_SLC3_CTRL_MISC_ADDR_DECODE_MODE_LINEAR 0x00000000U
++#define ROGUE_CR_SLC3_CTRL_MISC_ADDR_DECODE_MODE_IN_PAGE_HASH 0x00000001U
++#define ROGUE_CR_SLC3_CTRL_MISC_ADDR_DECODE_MODE_FIXED_PVR_HASH 0x00000002U
++#define ROGUE_CR_SLC3_CTRL_MISC_ADDR_DECODE_MODE_SCRAMBLE_PVR_HASH 0x00000003U
++#define ROGUE_CR_SLC3_CTRL_MISC_ADDR_DECODE_MODE_WEAVED_HASH 0x00000004U
++
++/* Register ROGUE_CR_SLC3_SCRAMBLE */
++#define ROGUE_CR_SLC3_SCRAMBLE 0xE208U
++#define ROGUE_CR_SLC3_SCRAMBLE_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC3_SCRAMBLE_BITS_SHIFT 0U
++#define ROGUE_CR_SLC3_SCRAMBLE_BITS_CLRMSK 0x0000000000000000ULL
++
++/* Register ROGUE_CR_SLC3_SCRAMBLE2 */
++#define ROGUE_CR_SLC3_SCRAMBLE2 0xE210U
++#define ROGUE_CR_SLC3_SCRAMBLE2_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC3_SCRAMBLE2_BITS_SHIFT 0U
++#define ROGUE_CR_SLC3_SCRAMBLE2_BITS_CLRMSK 0x0000000000000000ULL
++
++/* Register ROGUE_CR_SLC3_SCRAMBLE3 */
++#define ROGUE_CR_SLC3_SCRAMBLE3 0xE218U
++#define ROGUE_CR_SLC3_SCRAMBLE3_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC3_SCRAMBLE3_BITS_SHIFT 0U
++#define ROGUE_CR_SLC3_SCRAMBLE3_BITS_CLRMSK 0x0000000000000000ULL
++
++/* Register ROGUE_CR_SLC3_SCRAMBLE4 */
++#define ROGUE_CR_SLC3_SCRAMBLE4 0xE260U
++#define ROGUE_CR_SLC3_SCRAMBLE4_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC3_SCRAMBLE4_BITS_SHIFT 0U
++#define ROGUE_CR_SLC3_SCRAMBLE4_BITS_CLRMSK 0x0000000000000000ULL
++
++/* Register ROGUE_CR_SLC3_STATUS */
++#define ROGUE_CR_SLC3_STATUS 0xE220U
++#define ROGUE_CR_SLC3_STATUS_MASKFULL 0xFFFFFFFFFFFFFFFFULL
++#define ROGUE_CR_SLC3_STATUS_WRITES1_SHIFT 48U
++#define ROGUE_CR_SLC3_STATUS_WRITES1_CLRMSK 0x0000FFFFFFFFFFFFULL
++#define ROGUE_CR_SLC3_STATUS_WRITES0_SHIFT 32U
++#define ROGUE_CR_SLC3_STATUS_WRITES0_CLRMSK 0xFFFF0000FFFFFFFFULL
++#define ROGUE_CR_SLC3_STATUS_READS1_SHIFT 16U
++#define ROGUE_CR_SLC3_STATUS_READS1_CLRMSK 0xFFFFFFFF0000FFFFULL
++#define ROGUE_CR_SLC3_STATUS_READS0_SHIFT 0U
++#define ROGUE_CR_SLC3_STATUS_READS0_CLRMSK 0xFFFFFFFFFFFF0000ULL
++
++/* Register ROGUE_CR_SLC3_IDLE */
++#define ROGUE_CR_SLC3_IDLE 0xE228U
++#define ROGUE_CR_SLC3_IDLE_MASKFULL 0x00000000000FFFFFULL
++#define ROGUE_CR_SLC3_IDLE_ORDERQ_DUST2_SHIFT 18U
++#define ROGUE_CR_SLC3_IDLE_ORDERQ_DUST2_CLRMSK 0xFFF3FFFFU
++#define ROGUE_CR_SLC3_IDLE_MMU_SHIFT 17U
++#define ROGUE_CR_SLC3_IDLE_MMU_CLRMSK 0xFFFDFFFFU
++#define ROGUE_CR_SLC3_IDLE_MMU_EN 0x00020000U
++#define ROGUE_CR_SLC3_IDLE_RDI_SHIFT 16U
++#define ROGUE_CR_SLC3_IDLE_RDI_CLRMSK 0xFFFEFFFFU
++#define ROGUE_CR_SLC3_IDLE_RDI_EN 0x00010000U
++#define ROGUE_CR_SLC3_IDLE_IMGBV4_SHIFT 12U
++#define ROGUE_CR_SLC3_IDLE_IMGBV4_CLRMSK 0xFFFF0FFFU
++#define ROGUE_CR_SLC3_IDLE_CACHE_BANKS_SHIFT 4U
++#define ROGUE_CR_SLC3_IDLE_CACHE_BANKS_CLRMSK 0xFFFFF00FU
++#define ROGUE_CR_SLC3_IDLE_ORDERQ_DUST_SHIFT 2U
++#define ROGUE_CR_SLC3_IDLE_ORDERQ_DUST_CLRMSK 0xFFFFFFF3U
++#define ROGUE_CR_SLC3_IDLE_ORDERQ_JONES_SHIFT 1U
++#define ROGUE_CR_SLC3_IDLE_ORDERQ_JONES_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SLC3_IDLE_ORDERQ_JONES_EN 0x00000002U
++#define ROGUE_CR_SLC3_IDLE_XBAR_SHIFT 0U
++#define ROGUE_CR_SLC3_IDLE_XBAR_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SLC3_IDLE_XBAR_EN 0x00000001U
++
++/* Register ROGUE_CR_SLC3_FAULT_STOP_STATUS */
++#define ROGUE_CR_SLC3_FAULT_STOP_STATUS 0xE248U
++#define ROGUE_CR_SLC3_FAULT_STOP_STATUS_MASKFULL 0x0000000000001FFFULL
++#define ROGUE_CR_SLC3_FAULT_STOP_STATUS_BIF_SHIFT 0U
++#define ROGUE_CR_SLC3_FAULT_STOP_STATUS_BIF_CLRMSK 0xFFFFE000U
++
++/* Register ROGUE_CR_VDM_CONTEXT_STORE_MODE */
++#define ROGUE_CR_VDM_CONTEXT_STORE_MODE 0xF048U
++#define ROGUE_CR_VDM_CONTEXT_STORE_MODE_MASKFULL 0x0000000000000003ULL
++#define ROGUE_CR_VDM_CONTEXT_STORE_MODE_MODE_SHIFT 0U
++#define ROGUE_CR_VDM_CONTEXT_STORE_MODE_MODE_CLRMSK 0xFFFFFFFCU
++#define ROGUE_CR_VDM_CONTEXT_STORE_MODE_MODE_INDEX 0x00000000U
++#define ROGUE_CR_VDM_CONTEXT_STORE_MODE_MODE_INSTANCE 0x00000001U
++#define ROGUE_CR_VDM_CONTEXT_STORE_MODE_MODE_LIST 0x00000002U
++
++/* Register ROGUE_CR_CONTEXT_MAPPING0 */
++#define ROGUE_CR_CONTEXT_MAPPING0 0xF078U
++#define ROGUE_CR_CONTEXT_MAPPING0_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING0_2D_SHIFT 24U
++#define ROGUE_CR_CONTEXT_MAPPING0_2D_CLRMSK 0x00FFFFFFU
++#define ROGUE_CR_CONTEXT_MAPPING0_CDM_SHIFT 16U
++#define ROGUE_CR_CONTEXT_MAPPING0_CDM_CLRMSK 0xFF00FFFFU
++#define ROGUE_CR_CONTEXT_MAPPING0_3D_SHIFT 8U
++#define ROGUE_CR_CONTEXT_MAPPING0_3D_CLRMSK 0xFFFF00FFU
++#define ROGUE_CR_CONTEXT_MAPPING0_TA_SHIFT 0U
++#define ROGUE_CR_CONTEXT_MAPPING0_TA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_CONTEXT_MAPPING1 */
++#define ROGUE_CR_CONTEXT_MAPPING1 0xF080U
++#define ROGUE_CR_CONTEXT_MAPPING1_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING1_HOST_SHIFT 8U
++#define ROGUE_CR_CONTEXT_MAPPING1_HOST_CLRMSK 0xFFFF00FFU
++#define ROGUE_CR_CONTEXT_MAPPING1_TLA_SHIFT 0U
++#define ROGUE_CR_CONTEXT_MAPPING1_TLA_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_CONTEXT_MAPPING2 */
++#define ROGUE_CR_CONTEXT_MAPPING2 0xF088U
++#define ROGUE_CR_CONTEXT_MAPPING2_MASKFULL 0x0000000000FFFFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING2_ALIST0_SHIFT 16U
++#define ROGUE_CR_CONTEXT_MAPPING2_ALIST0_CLRMSK 0xFF00FFFFU
++#define ROGUE_CR_CONTEXT_MAPPING2_TE0_SHIFT 8U
++#define ROGUE_CR_CONTEXT_MAPPING2_TE0_CLRMSK 0xFFFF00FFU
++#define ROGUE_CR_CONTEXT_MAPPING2_VCE0_SHIFT 0U
++#define ROGUE_CR_CONTEXT_MAPPING2_VCE0_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_CONTEXT_MAPPING3 */
++#define ROGUE_CR_CONTEXT_MAPPING3 0xF090U
++#define ROGUE_CR_CONTEXT_MAPPING3_MASKFULL 0x0000000000FFFFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING3_ALIST1_SHIFT 16U
++#define ROGUE_CR_CONTEXT_MAPPING3_ALIST1_CLRMSK 0xFF00FFFFU
++#define ROGUE_CR_CONTEXT_MAPPING3_TE1_SHIFT 8U
++#define ROGUE_CR_CONTEXT_MAPPING3_TE1_CLRMSK 0xFFFF00FFU
++#define ROGUE_CR_CONTEXT_MAPPING3_VCE1_SHIFT 0U
++#define ROGUE_CR_CONTEXT_MAPPING3_VCE1_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_BIF_JONES_OUTSTANDING_READ */
++#define ROGUE_CR_BIF_JONES_OUTSTANDING_READ 0xF098U
++#define ROGUE_CR_BIF_JONES_OUTSTANDING_READ_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_BIF_JONES_OUTSTANDING_READ_COUNTER_SHIFT 0U
++#define ROGUE_CR_BIF_JONES_OUTSTANDING_READ_COUNTER_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_BIF_BLACKPEARL_OUTSTANDING_READ */
++#define ROGUE_CR_BIF_BLACKPEARL_OUTSTANDING_READ 0xF0A0U
++#define ROGUE_CR_BIF_BLACKPEARL_OUTSTANDING_READ_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_BIF_BLACKPEARL_OUTSTANDING_READ_COUNTER_SHIFT 0U
++#define ROGUE_CR_BIF_BLACKPEARL_OUTSTANDING_READ_COUNTER_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_BIF_DUST_OUTSTANDING_READ */
++#define ROGUE_CR_BIF_DUST_OUTSTANDING_READ 0xF0A8U
++#define ROGUE_CR_BIF_DUST_OUTSTANDING_READ_MASKFULL 0x000000000000FFFFULL
++#define ROGUE_CR_BIF_DUST_OUTSTANDING_READ_COUNTER_SHIFT 0U
++#define ROGUE_CR_BIF_DUST_OUTSTANDING_READ_COUNTER_CLRMSK 0xFFFF0000U
++
++/* Register ROGUE_CR_CONTEXT_MAPPING4 */
++#define ROGUE_CR_CONTEXT_MAPPING4 0xF210U
++#define ROGUE_CR_CONTEXT_MAPPING4_MASKFULL 0x0000FFFFFFFFFFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING4_3D_MMU_STACK_SHIFT 40U
++#define ROGUE_CR_CONTEXT_MAPPING4_3D_MMU_STACK_CLRMSK 0xFFFF00FFFFFFFFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING4_3D_UFSTACK_SHIFT 32U
++#define ROGUE_CR_CONTEXT_MAPPING4_3D_UFSTACK_CLRMSK 0xFFFFFF00FFFFFFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING4_3D_FSTACK_SHIFT 24U
++#define ROGUE_CR_CONTEXT_MAPPING4_3D_FSTACK_CLRMSK 0xFFFFFFFF00FFFFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING4_TA_MMU_STACK_SHIFT 16U
++#define ROGUE_CR_CONTEXT_MAPPING4_TA_MMU_STACK_CLRMSK 0xFFFFFFFFFF00FFFFULL
++#define ROGUE_CR_CONTEXT_MAPPING4_TA_UFSTACK_SHIFT 8U
++#define ROGUE_CR_CONTEXT_MAPPING4_TA_UFSTACK_CLRMSK 0xFFFFFFFFFFFF00FFULL
++#define ROGUE_CR_CONTEXT_MAPPING4_TA_FSTACK_SHIFT 0U
++#define ROGUE_CR_CONTEXT_MAPPING4_TA_FSTACK_CLRMSK 0xFFFFFFFFFFFFFF00ULL
++
++/* Register ROGUE_CR_MULTICORE_GPU */
++#define ROGUE_CR_MULTICORE_GPU 0xF300U
++#define ROGUE_CR_MULTICORE_GPU_MASKFULL 0x000000000000007FULL
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_FRAGMENT_SHIFT 6U
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_FRAGMENT_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_FRAGMENT_EN 0x00000040U
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_GEOMETRY_SHIFT 5U
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_GEOMETRY_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_GEOMETRY_EN 0x00000020U
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_COMPUTE_SHIFT 4U
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_COMPUTE_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_COMPUTE_EN 0x00000010U
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_PRIMARY_SHIFT 3U
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_PRIMARY_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_MULTICORE_GPU_CAPABILITY_PRIMARY_EN 0x00000008U
++#define ROGUE_CR_MULTICORE_GPU_ID_SHIFT 0U
++#define ROGUE_CR_MULTICORE_GPU_ID_CLRMSK 0xFFFFFFF8U
++
++/* Register ROGUE_CR_MULTICORE_SYSTEM */
++#define ROGUE_CR_MULTICORE_SYSTEM 0xF308U
++#define ROGUE_CR_MULTICORE_SYSTEM_MASKFULL 0x000000000000000FULL
++#define ROGUE_CR_MULTICORE_SYSTEM_GPU_COUNT_SHIFT 0U
++#define ROGUE_CR_MULTICORE_SYSTEM_GPU_COUNT_CLRMSK 0xFFFFFFF0U
++
++/* Register ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON */
++#define ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON 0xF310U
++#define ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON_WORKLOAD_TYPE_SHIFT 30U
++#define ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON_WORKLOAD_TYPE_CLRMSK 0x3FFFFFFFU
++#define ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON_WORKLOAD_EXECUTE_COUNT_SHIFT 8U
++#define ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON_WORKLOAD_EXECUTE_COUNT_CLRMSK 0xC00000FFU
++#define ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON_GPU_ENABLE_SHIFT 0U
++#define ROGUE_CR_MULTICORE_FRAGMENT_CTRL_COMMON_GPU_ENABLE_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON */
++#define ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON 0xF320U
++#define ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON_WORKLOAD_TYPE_SHIFT 30U
++#define ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON_WORKLOAD_TYPE_CLRMSK 0x3FFFFFFFU
++#define ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON_WORKLOAD_EXECUTE_COUNT_SHIFT 8U
++#define ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON_WORKLOAD_EXECUTE_COUNT_CLRMSK 0xC00000FFU
++#define ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON_GPU_ENABLE_SHIFT 0U
++#define ROGUE_CR_MULTICORE_GEOMETRY_CTRL_COMMON_GPU_ENABLE_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON */
++#define ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON 0xF330U
++#define ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON_MASKFULL 0x00000000FFFFFFFFULL
++#define ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON_WORKLOAD_TYPE_SHIFT 30U
++#define ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON_WORKLOAD_TYPE_CLRMSK 0x3FFFFFFFU
++#define ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON_WORKLOAD_EXECUTE_COUNT_SHIFT 8U
++#define ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON_WORKLOAD_EXECUTE_COUNT_CLRMSK 0xC00000FFU
++#define ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON_GPU_ENABLE_SHIFT 0U
++#define ROGUE_CR_MULTICORE_COMPUTE_CTRL_COMMON_GPU_ENABLE_CLRMSK 0xFFFFFF00U
++
++/* Register ROGUE_CR_ECC_RAM_ERR_INJ */
++#define ROGUE_CR_ECC_RAM_ERR_INJ 0xF340U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_ECC_RAM_ERR_INJ_SLC_SIDEKICK_SHIFT 4U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_SLC_SIDEKICK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_ECC_RAM_ERR_INJ_SLC_SIDEKICK_EN 0x00000010U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_USC_SHIFT 3U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_USC_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_USC_EN 0x00000008U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_TPU_MCU_L0_SHIFT 2U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_TPU_MCU_L0_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_ECC_RAM_ERR_INJ_TPU_MCU_L0_EN 0x00000004U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_RASCAL_SHIFT 1U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_RASCAL_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_ECC_RAM_ERR_INJ_RASCAL_EN 0x00000002U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_MARS_SHIFT 0U
++#define ROGUE_CR_ECC_RAM_ERR_INJ_MARS_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_ECC_RAM_ERR_INJ_MARS_EN 0x00000001U
++
++/* Register ROGUE_CR_ECC_RAM_INIT_KICK */
++#define ROGUE_CR_ECC_RAM_INIT_KICK 0xF348U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_ECC_RAM_INIT_KICK_SLC_SIDEKICK_SHIFT 4U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_SLC_SIDEKICK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_ECC_RAM_INIT_KICK_SLC_SIDEKICK_EN 0x00000010U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_USC_SHIFT 3U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_USC_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_USC_EN 0x00000008U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_TPU_MCU_L0_SHIFT 2U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_TPU_MCU_L0_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_ECC_RAM_INIT_KICK_TPU_MCU_L0_EN 0x00000004U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_RASCAL_SHIFT 1U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_RASCAL_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_ECC_RAM_INIT_KICK_RASCAL_EN 0x00000002U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_MARS_SHIFT 0U
++#define ROGUE_CR_ECC_RAM_INIT_KICK_MARS_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_ECC_RAM_INIT_KICK_MARS_EN 0x00000001U
++
++/* Register ROGUE_CR_ECC_RAM_INIT_DONE */
++#define ROGUE_CR_ECC_RAM_INIT_DONE 0xF350U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_MASKFULL 0x000000000000001FULL
++#define ROGUE_CR_ECC_RAM_INIT_DONE_SLC_SIDEKICK_SHIFT 4U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_SLC_SIDEKICK_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_ECC_RAM_INIT_DONE_SLC_SIDEKICK_EN 0x00000010U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_USC_SHIFT 3U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_USC_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_USC_EN 0x00000008U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_TPU_MCU_L0_SHIFT 2U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_TPU_MCU_L0_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_ECC_RAM_INIT_DONE_TPU_MCU_L0_EN 0x00000004U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_RASCAL_SHIFT 1U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_RASCAL_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_ECC_RAM_INIT_DONE_RASCAL_EN 0x00000002U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_MARS_SHIFT 0U
++#define ROGUE_CR_ECC_RAM_INIT_DONE_MARS_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_ECC_RAM_INIT_DONE_MARS_EN 0x00000001U
++
++/* Register ROGUE_CR_SAFETY_EVENT_ENABLE */
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE 0xF390U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__MASKFULL 0x000000000000007FULL
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__CPU_PAGE_FAULT_SHIFT 6U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__CPU_PAGE_FAULT_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__CPU_PAGE_FAULT_EN 0x00000040U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__SAFE_COMPUTE_FAIL_SHIFT 5U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__SAFE_COMPUTE_FAIL_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__SAFE_COMPUTE_FAIL_EN 0x00000020U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__WATCHDOG_TIMEOUT_SHIFT 4U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__WATCHDOG_TIMEOUT_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__WATCHDOG_TIMEOUT_EN 0x00000010U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__TRP_FAIL_SHIFT 3U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__TRP_FAIL_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__TRP_FAIL_EN 0x00000008U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_FW_SHIFT 2U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_FW_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_FW_EN 0x00000004U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_GPU_SHIFT 1U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_GPU_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_GPU_EN 0x00000002U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__GPU_PAGE_FAULT_SHIFT 0U
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__GPU_PAGE_FAULT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SAFETY_EVENT_ENABLE__ROGUEXE__GPU_PAGE_FAULT_EN 0x00000001U
++
++/* Register ROGUE_CR_SAFETY_EVENT_STATUS */
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE 0xF398U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__MASKFULL 0x000000000000007FULL
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__CPU_PAGE_FAULT_SHIFT 6U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__CPU_PAGE_FAULT_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__CPU_PAGE_FAULT_EN 0x00000040U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__SAFE_COMPUTE_FAIL_SHIFT 5U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__SAFE_COMPUTE_FAIL_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__SAFE_COMPUTE_FAIL_EN 0x00000020U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__WATCHDOG_TIMEOUT_SHIFT 4U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__WATCHDOG_TIMEOUT_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__WATCHDOG_TIMEOUT_EN 0x00000010U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__TRP_FAIL_SHIFT 3U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__TRP_FAIL_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__TRP_FAIL_EN 0x00000008U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__FAULT_FW_SHIFT 2U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__FAULT_FW_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__FAULT_FW_EN 0x00000004U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__FAULT_GPU_SHIFT 1U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__FAULT_GPU_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__FAULT_GPU_EN 0x00000002U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__GPU_PAGE_FAULT_SHIFT 0U
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__GPU_PAGE_FAULT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SAFETY_EVENT_STATUS__ROGUEXE__GPU_PAGE_FAULT_EN 0x00000001U
++
++/* Register ROGUE_CR_SAFETY_EVENT_CLEAR */
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE 0xF3A0U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__MASKFULL 0x000000000000007FULL
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__CPU_PAGE_FAULT_SHIFT 6U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__CPU_PAGE_FAULT_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__CPU_PAGE_FAULT_EN 0x00000040U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__SAFE_COMPUTE_FAIL_SHIFT 5U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__SAFE_COMPUTE_FAIL_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__SAFE_COMPUTE_FAIL_EN 0x00000020U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__WATCHDOG_TIMEOUT_SHIFT 4U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__WATCHDOG_TIMEOUT_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__WATCHDOG_TIMEOUT_EN 0x00000010U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__TRP_FAIL_SHIFT 3U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__TRP_FAIL_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__TRP_FAIL_EN 0x00000008U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__FAULT_FW_SHIFT 2U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__FAULT_FW_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__FAULT_FW_EN 0x00000004U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__FAULT_GPU_SHIFT 1U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__FAULT_GPU_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__FAULT_GPU_EN 0x00000002U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__GPU_PAGE_FAULT_SHIFT 0U
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__GPU_PAGE_FAULT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_SAFETY_EVENT_CLEAR__ROGUEXE__GPU_PAGE_FAULT_EN 0x00000001U
++
++/* Register ROGUE_CR_MTS_SAFETY_EVENT_ENABLE */
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE 0xF3D8U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__MASKFULL 0x000000000000007FULL
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__CPU_PAGE_FAULT_SHIFT 6U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__CPU_PAGE_FAULT_CLRMSK 0xFFFFFFBFU
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__CPU_PAGE_FAULT_EN 0x00000040U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__SAFE_COMPUTE_FAIL_SHIFT 5U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__SAFE_COMPUTE_FAIL_CLRMSK 0xFFFFFFDFU
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__SAFE_COMPUTE_FAIL_EN 0x00000020U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__WATCHDOG_TIMEOUT_SHIFT 4U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__WATCHDOG_TIMEOUT_CLRMSK 0xFFFFFFEFU
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__WATCHDOG_TIMEOUT_EN 0x00000010U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__TRP_FAIL_SHIFT 3U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__TRP_FAIL_CLRMSK 0xFFFFFFF7U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__TRP_FAIL_EN 0x00000008U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_FW_SHIFT 2U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_FW_CLRMSK 0xFFFFFFFBU
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_FW_EN 0x00000004U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_GPU_SHIFT 1U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_GPU_CLRMSK 0xFFFFFFFDU
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__FAULT_GPU_EN 0x00000002U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__GPU_PAGE_FAULT_SHIFT 0U
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__GPU_PAGE_FAULT_CLRMSK 0xFFFFFFFEU
++#define ROGUE_CR_MTS_SAFETY_EVENT_ENABLE__ROGUEXE__GPU_PAGE_FAULT_EN 0x00000001U
++
++/* clang-format on */
++
++#endif /* PVR_ROGUE_CR_DEFS_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_cr_defs_client.h b/drivers/gpu/drm/imagination/pvr_rogue_cr_defs_client.h
 new file mode 100644
-index 000000000000..d65c3fbedf5a
+index 000000000000..46186b56effc
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_queue.c
-@@ -0,0 +1,1432 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include <drm/drm_managed.h>
-+#include <drm/gpu_scheduler.h>
-+
-+#include "pvr_cccb.h"
-+#include "pvr_context.h"
-+#include "pvr_device.h"
-+#include "pvr_drv.h"
-+#include "pvr_job.h"
-+#include "pvr_queue.h"
-+#include "pvr_vm.h"
-+
-+#include "pvr_rogue_fwif_client.h"
-+
-+#define MAX_DEADLINE_MS 30000
-+
-+#define CTX_COMPUTE_CCCB_SIZE_LOG2 15
-+#define CTX_FRAG_CCCB_SIZE_LOG2 15
-+#define CTX_GEOM_CCCB_SIZE_LOG2 15
-+#define CTX_TRANSFER_CCCB_SIZE_LOG2 15
-+
-+static int get_xfer_ctx_state_size(struct pvr_device *pvr_dev)
-+{
-+	u32 num_isp_store_registers;
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, xe_memory_hierarchy)) {
-+		num_isp_store_registers = 1;
-+	} else {
-+		int err;
-+
-+		err = PVR_FEATURE_VALUE(pvr_dev, num_isp_ipp_pipes, &num_isp_store_registers);
-+		if (WARN_ON(err))
-+			return err;
-+	}
-+
-+	return sizeof(struct rogue_fwif_frag_ctx_state) +
-+	       (num_isp_store_registers *
-+		sizeof(((struct rogue_fwif_frag_ctx_state *)0)->frag_reg_isp_store[0]));
-+}
-+
-+static int get_frag_ctx_state_size(struct pvr_device *pvr_dev)
-+{
-+	u32 num_isp_store_registers;
-+	int err;
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, xe_memory_hierarchy)) {
-+		err = PVR_FEATURE_VALUE(pvr_dev, num_raster_pipes, &num_isp_store_registers);
-+		if (WARN_ON(err))
-+			return err;
-+
-+		if (PVR_HAS_FEATURE(pvr_dev, gpu_multicore_support)) {
-+			u32 xpu_max_slaves;
-+
-+			err = PVR_FEATURE_VALUE(pvr_dev, xpu_max_slaves, &xpu_max_slaves);
-+			if (WARN_ON(err))
-+				return err;
-+
-+			num_isp_store_registers *= (1 + xpu_max_slaves);
-+		}
-+	} else {
-+		err = PVR_FEATURE_VALUE(pvr_dev, num_isp_ipp_pipes, &num_isp_store_registers);
-+		if (WARN_ON(err))
-+			return err;
-+	}
-+
-+	return sizeof(struct rogue_fwif_frag_ctx_state) +
-+	       (num_isp_store_registers *
-+		sizeof(((struct rogue_fwif_frag_ctx_state *)0)->frag_reg_isp_store[0]));
-+}
-+
-+static int get_ctx_state_size(struct pvr_device *pvr_dev, enum drm_pvr_job_type type)
-+{
-+	switch (type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return sizeof(struct rogue_fwif_geom_ctx_state);
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return get_frag_ctx_state_size(pvr_dev);
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return sizeof(struct rogue_fwif_compute_ctx_state);
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return get_xfer_ctx_state_size(pvr_dev);
-+	}
-+
-+	WARN(1, "Invalid queue type");
-+	return -EINVAL;
-+}
-+
-+static u32 get_ctx_offset(enum drm_pvr_job_type type)
-+{
-+	switch (type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return offsetof(struct rogue_fwif_fwrendercontext, geom_context);
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return offsetof(struct rogue_fwif_fwrendercontext, frag_context);
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return offsetof(struct rogue_fwif_fwcomputecontext, cdm_context);
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return offsetof(struct rogue_fwif_fwtransfercontext, tq_context);
-+	}
-+
-+	return 0;
-+}
-+
-+static const char *
-+pvr_queue_fence_get_driver_name(struct dma_fence *f)
-+{
-+	return PVR_DRIVER_NAME;
-+}
-+
-+static void pvr_queue_fence_release(struct dma_fence *f)
-+{
-+	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
-+
-+	pvr_context_put(fence->queue->ctx);
-+	dma_fence_free(f);
-+}
-+
-+static const char *
-+pvr_queue_job_fence_get_timeline_name(struct dma_fence *f)
-+{
-+	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
-+
-+	switch (fence->queue->type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return "geometry";
-+
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return "fragment";
-+
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return "compute";
-+
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return "transfer";
-+	}
-+
-+	WARN(1, "Invalid queue type");
-+	return "invalid";
-+}
-+
-+static const char *
-+pvr_queue_cccb_fence_get_timeline_name(struct dma_fence *f)
-+{
-+	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
-+
-+	switch (fence->queue->type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return "geometry-cccb";
-+
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return "fragment-cccb";
-+
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return "compute-cccb";
-+
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+		return "transfer-cccb";
-+	}
-+
-+	WARN(1, "Invalid queue type");
-+	return "invalid";
-+}
-+
-+static const struct dma_fence_ops pvr_queue_job_fence_ops = {
-+	.get_driver_name = pvr_queue_fence_get_driver_name,
-+	.get_timeline_name = pvr_queue_job_fence_get_timeline_name,
-+	.release = pvr_queue_fence_release,
-+};
-+
-+/**
-+ * to_pvr_queue_job_fence() - Return a pvr_queue_fence object if the fence is
-+ * backed by a UFO.
-+ * @f: The dma_fence to turn into a pvr_queue_fence.
-+ *
-+ * Return:
-+ *  * A non-NULL pvr_queue_fence object if the dma_fence is backed by a UFO, or
-+ *  * NULL otherwise.
-+ */
-+static struct pvr_queue_fence *
-+to_pvr_queue_job_fence(struct dma_fence *f)
-+{
-+	struct drm_sched_fence *sched_fence = to_drm_sched_fence(f);
-+
-+	if (sched_fence)
-+		f = sched_fence->parent;
-+
-+	if (f && f->ops == &pvr_queue_job_fence_ops)
-+		return container_of(f, struct pvr_queue_fence, base);
-+
-+	return NULL;
-+}
-+
-+static const struct dma_fence_ops pvr_queue_cccb_fence_ops = {
-+	.get_driver_name = pvr_queue_fence_get_driver_name,
-+	.get_timeline_name = pvr_queue_cccb_fence_get_timeline_name,
-+	.release = pvr_queue_fence_release,
-+};
-+
-+/**
-+ * pvr_queue_fence_put() - Put wrapper for pvr_queue_fence objects.
-+ * @f: The dma_fence object to put.
-+ *
-+ * If the pvr_queue_fence has been initialized, we call dma_fence_put(),
-+ * otherwise we free the object with dma_fence_free(). This allows us
-+ * to do the right thing before and after pvr_queue_fence_init() had been
-+ * called.
-+ */
-+static void pvr_queue_fence_put(struct dma_fence *f)
-+{
-+	if (!f)
-+		return;
-+
-+	if (WARN_ON(f->ops &&
-+		    f->ops != &pvr_queue_cccb_fence_ops &&
-+		    f->ops != &pvr_queue_job_fence_ops))
-+		return;
-+
-+	/* If the fence hasn't been initialized yet, free the object directly. */
-+	if (f->ops)
-+		dma_fence_put(f);
-+	else
-+		dma_fence_free(f);
-+}
-+
-+/**
-+ * pvr_queue_fence_alloc() - Allocate a pvr_queue_fence fence object
-+ *
-+ * Call this function to allocate job CCCB and done fences. This only
-+ * allocates the objects. Initialization happens when the underlying
-+ * dma_fence object is to be returned to drm_sched (in prepare_job() or
-+ * run_job()).
-+ *
-+ * Return:
-+ *  * A valid pointer if the allocation succeeds, or
-+ *  * NULL if the allocation fails.
-+ */
-+static struct dma_fence *
-+pvr_queue_fence_alloc(void)
-+{
-+	struct pvr_queue_fence *fence;
-+
-+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-+	if (!fence)
-+		return NULL;
-+
-+	return &fence->base;
-+}
-+
-+/**
-+ * pvr_queue_fence_init() - Initializes a pvr_queue_fence object.
-+ * @f: The fence to initialize
-+ * @queue: The queue this fence belongs to.
-+ * @fence_ops: The fence operations.
-+ * @fence_ctx: The fence context.
-+ *
-+ * Wrapper around dma_fence_init() that takes care of initializing the
-+ * pvr_queue_fence::queue field too.
-+ */
-+static void
-+pvr_queue_fence_init(struct dma_fence *f,
-+		     struct pvr_queue *queue,
-+		     const struct dma_fence_ops *fence_ops,
-+		     struct pvr_queue_fence_ctx *fence_ctx)
-+{
-+	struct pvr_queue_fence *fence = container_of(f, struct pvr_queue_fence, base);
-+
-+	pvr_context_get(queue->ctx);
-+	fence->queue = queue;
-+	dma_fence_init(&fence->base, fence_ops,
-+		       &fence_ctx->lock, fence_ctx->id,
-+		       atomic_inc_return(&fence_ctx->seqno));
-+}
-+
-+/**
-+ * pvr_queue_cccb_fence_init() - Initializes a CCCB fence object.
-+ * @fence: The fence to initialize.
-+ * @queue: The queue this fence belongs to.
-+ *
-+ * Initializes a fence that can be used to wait for CCCB space.
-+ *
-+ * Should be called in the ::prepare_job() path, so the fence returned to
-+ * drm_sched is valid.
-+ */
-+static void
-+pvr_queue_cccb_fence_init(struct dma_fence *fence, struct pvr_queue *queue)
-+{
-+	pvr_queue_fence_init(fence, queue, &pvr_queue_cccb_fence_ops,
-+			     &queue->cccb_fence_ctx.base);
-+}
-+
-+/**
-+ * pvr_queue_job_fence_init() - Initializes a job done fence object.
-+ * @fence: The fence to initialize.
-+ * @queue: The queue this fence belongs to.
-+ *
-+ * Initializes a fence that will be signaled when the GPU is done executing
-+ * a job.
-+ *
-+ * Should be called *before* the ::run_job() path, so the fence is initialised
-+ * before being placed in the pending_list.
-+ */
-+static void
-+pvr_queue_job_fence_init(struct dma_fence *fence, struct pvr_queue *queue)
-+{
-+	pvr_queue_fence_init(fence, queue, &pvr_queue_job_fence_ops,
-+			     &queue->job_fence_ctx);
-+}
-+
-+/**
-+ * pvr_queue_fence_ctx_init() - Queue fence context initialization.
-+ * @fence_ctx: The context to initialize
-+ */
-+static void
-+pvr_queue_fence_ctx_init(struct pvr_queue_fence_ctx *fence_ctx)
-+{
-+	spin_lock_init(&fence_ctx->lock);
-+	fence_ctx->id = dma_fence_context_alloc(1);
-+	atomic_set(&fence_ctx->seqno, 0);
-+}
-+
-+static u32 ufo_cmds_size(u32 elem_count)
-+{
-+	/* We can pass at most ROGUE_FWIF_CCB_CMD_MAX_UFOS per UFO-related command. */
-+	u32 full_cmd_count = elem_count / ROGUE_FWIF_CCB_CMD_MAX_UFOS;
-+	u32 remaining_elems = elem_count % ROGUE_FWIF_CCB_CMD_MAX_UFOS;
-+	u32 size = full_cmd_count *
-+		   pvr_cccb_get_size_of_cmd_with_hdr(ROGUE_FWIF_CCB_CMD_MAX_UFOS *
-+						     sizeof(struct rogue_fwif_ufo));
-+
-+	if (remaining_elems) {
-+		size += pvr_cccb_get_size_of_cmd_with_hdr(remaining_elems *
-+							  sizeof(struct rogue_fwif_ufo));
-+	}
-+
-+	return size;
-+}
-+
-+static u32 job_cmds_size(struct pvr_job *job, u32 ufo_wait_count)
-+{
-+	/* One UFO cmd for the fence signaling, one UFO cmd per native fence native,
-+	 * and a command for the job itself.
-+	 */
-+	return ufo_cmds_size(1) + ufo_cmds_size(ufo_wait_count) +
-+	       pvr_cccb_get_size_of_cmd_with_hdr(job->cmd_len);
-+}
-+
-+/**
-+ * job_count_remaining_native_deps() - Count the number of non-signaled native dependencies.
-+ * @job: Job to operate on.
-+ *
-+ * Returns: Number of non-signaled native deps remaining.
-+ */
-+static unsigned long job_count_remaining_native_deps(struct pvr_job *job)
-+{
-+	unsigned long remaining_count = 0;
-+	struct dma_fence *fence = NULL;
-+	unsigned long index;
-+
-+	xa_for_each(&job->base.dependencies, index, fence) {
-+		struct pvr_queue_fence *jfence;
-+
-+		jfence = to_pvr_queue_job_fence(fence);
-+		if (!jfence)
-+			continue;
-+
-+		if (!dma_fence_is_signaled(&jfence->base))
-+			remaining_count++;
-+	}
-+
-+	return remaining_count;
-+}
-+
-+/**
-+ * pvr_queue_get_job_cccb_fence() - Get the CCCB fence attached to a job.
-+ * @queue: The queue this job will be submitted to.
-+ * @job: The job to get the CCCB fence on.
-+ *
-+ * The CCCB fence is a synchronization primitive allowing us to delay job
-+ * submission until there's enough space in the CCCB to submit the job.
-+ *
-+ * Return:
-+ *  * NULL if there's enough space in the CCCB to submit this job, or
-+ *  * A valid dma_fence object otherwise.
-+ */
-+static struct dma_fence *
-+pvr_queue_get_job_cccb_fence(struct pvr_queue *queue, struct pvr_job *job)
-+{
-+	struct pvr_queue_fence *cccb_fence;
-+	unsigned int native_deps_remaining;
-+
-+	/* If the fence is NULL, that means we already checked that we had
-+	 * enough space in the cccb for our job.
-+	 */
-+	if (!job->cccb_fence)
-+		return NULL;
-+
-+	mutex_lock(&queue->cccb_fence_ctx.job_lock);
-+
-+	/* Count remaining native dependencies and check if the job fits in the CCCB. */
-+	native_deps_remaining = job_count_remaining_native_deps(job);
-+	if (pvr_cccb_cmdseq_fits(&queue->cccb, job_cmds_size(job, native_deps_remaining))) {
-+		pvr_queue_fence_put(job->cccb_fence);
-+		job->cccb_fence = NULL;
-+		goto out_unlock;
-+	}
-+
-+	/* There should be no job attached to the CCCB fence context:
-+	 * drm_sched_entity guarantees that jobs are submitted one at a time.
-+	 */
-+	if (WARN_ON(queue->cccb_fence_ctx.job))
-+		pvr_job_put(queue->cccb_fence_ctx.job);
-+
-+	queue->cccb_fence_ctx.job = pvr_job_get(job);
-+
-+	/* Initialize the fence before returning it. */
-+	cccb_fence = container_of(job->cccb_fence, struct pvr_queue_fence, base);
-+	if (!WARN_ON(cccb_fence->queue))
-+		pvr_queue_cccb_fence_init(job->cccb_fence, queue);
-+
-+out_unlock:
-+	mutex_unlock(&queue->cccb_fence_ctx.job_lock);
-+
-+	return dma_fence_get(job->cccb_fence);
-+}
-+
-+/**
-+ * pvr_queue_get_job_kccb_fence() - Get the KCCB fence attached to a job.
-+ * @queue: The queue this job will be submitted to.
-+ * @job: The job to get the KCCB fence on.
-+ *
-+ * The KCCB fence is a synchronization primitive allowing us to delay job
-+ * submission until there's enough space in the KCCB to submit the job.
-+ *
-+ * Return:
-+ *  * NULL if there's enough space in the KCCB to submit this job, or
-+ *  * A valid dma_fence object otherwise.
-+ */
-+static struct dma_fence *
-+pvr_queue_get_job_kccb_fence(struct pvr_queue *queue, struct pvr_job *job)
-+{
-+	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
-+	struct dma_fence *kccb_fence = NULL;
-+
-+	/* If the fence is NULL, that means we already checked that we had
-+	 * enough space in the KCCB for our job.
-+	 */
-+	if (!job->kccb_fence)
-+		return NULL;
-+
-+	if (!WARN_ON(job->kccb_fence->ops)) {
-+		kccb_fence = pvr_kccb_reserve_slot(pvr_dev, job->kccb_fence);
-+		job->kccb_fence = NULL;
-+	}
-+
-+	return kccb_fence;
-+}
-+
-+static struct dma_fence *
-+pvr_queue_get_paired_frag_job_dep(struct pvr_queue *queue, struct pvr_job *job)
-+{
-+	struct pvr_job *frag_job = job->type == DRM_PVR_JOB_TYPE_GEOMETRY ?
-+				   job->paired_job : NULL;
-+	struct dma_fence *f;
-+	unsigned long index;
-+
-+	if (!frag_job)
-+		return NULL;
-+
-+	xa_for_each(&frag_job->base.dependencies, index, f) {
-+		/* Skip already signaled fences. */
-+		if (dma_fence_is_signaled(f))
-+			continue;
-+
-+		/* Skip our own fence. */
-+		if (f == &job->base.s_fence->scheduled)
-+			continue;
-+
-+		return dma_fence_get(f);
-+	}
-+
-+	return frag_job->base.sched->ops->prepare_job(&frag_job->base, &queue->entity);
-+}
-+
-+/**
-+ * pvr_queue_prepare_job() - Return the next internal dependencies expressed as a dma_fence.
-+ * @sched_job: The job to query the next internal dependency on
-+ * @s_entity: The entity this job is queue on.
-+ *
-+ * After iterating over drm_sched_job::dependencies, drm_sched let the driver return
-+ * its own internal dependencies. We use this function to return our internal dependencies.
-+ */
-+static struct dma_fence *
-+pvr_queue_prepare_job(struct drm_sched_job *sched_job,
-+		      struct drm_sched_entity *s_entity)
-+{
-+	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
-+	struct pvr_queue *queue = container_of(s_entity, struct pvr_queue, entity);
-+	struct dma_fence *internal_dep = NULL;
-+
-+	/*
-+	 * Initialize the done_fence, so we can signal it. This must be done
-+	 * here because otherwise by the time of run_job() the job will end up
-+	 * in the pending list without a valid fence.
-+	 */
-+	if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job) {
-+		/*
-+		 * This will be called on a paired fragment job after being
-+		 * submitted to firmware. We can tell if this is the case and
-+		 * bail early from whether run_job() has been called on the
-+		 * geometry job, which would issue a pm ref.
-+		 */
-+		if (job->paired_job->has_pm_ref)
-+			return NULL;
-+
-+		/*
-+		 * In this case we need to use the job's own ctx to initialise
-+		 * the done_fence.  The other steps are done in the ctx of the
-+		 * paired geometry job.
-+		 */
-+		pvr_queue_job_fence_init(job->done_fence,
-+					 job->ctx->queues.fragment);
-+	} else {
-+		pvr_queue_job_fence_init(job->done_fence, queue);
-+	}
-+
-+	/* CCCB fence is used to make sure we have enough space in the CCCB to
-+	 * submit our commands.
-+	 */
-+	internal_dep = pvr_queue_get_job_cccb_fence(queue, job);
-+
-+	/* KCCB fence is used to make sure we have a KCCB slot to queue our
-+	 * CMD_KICK.
-+	 */
-+	if (!internal_dep)
-+		internal_dep = pvr_queue_get_job_kccb_fence(queue, job);
-+
-+	/* Any extra internal dependency should be added here, using the following
-+	 * pattern:
-+	 *
-+	 *	if (!internal_dep)
-+	 *		internal_dep = pvr_queue_get_job_xxxx_fence(queue, job);
-+	 */
-+
-+	/* The paired job fence should come last, when everything else is ready. */
-+	if (!internal_dep)
-+		internal_dep = pvr_queue_get_paired_frag_job_dep(queue, job);
-+
-+	return internal_dep;
-+}
-+
-+/**
-+ * pvr_queue_update_active_state_locked() - Update the queue active state.
-+ * @queue: Queue to update the state on.
-+ *
-+ * Locked version of pvr_queue_update_active_state(). Must be called with
-+ * pvr_device::queue::lock held.
-+ */
-+static void pvr_queue_update_active_state_locked(struct pvr_queue *queue)
-+{
-+	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
-+
-+	lockdep_assert_held(&pvr_dev->queues.lock);
-+
-+	/* The queue is temporary out of any list when it's being reset,
-+	 * we don't want a call to pvr_queue_update_active_state_locked()
-+	 * to re-insert it behind our back.
-+	 */
-+	if (list_empty(&queue->node))
-+		return;
-+
-+	if (!atomic_read(&queue->in_flight_job_count))
-+		list_move_tail(&queue->node, &pvr_dev->queues.idle);
-+	else
-+		list_move_tail(&queue->node, &pvr_dev->queues.active);
-+}
-+
-+/**
-+ * pvr_queue_update_active_state() - Update the queue active state.
-+ * @queue: Queue to update the state on.
-+ *
-+ * Active state is based on the in_flight_job_count value.
-+ *
-+ * Updating the active state implies moving the queue in or out of the
-+ * active queue list, which also defines whether the queue is checked
-+ * or not when a FW event is received.
-+ *
-+ * This function should be called any time a job is submitted or it done
-+ * fence is signaled.
-+ */
-+static void pvr_queue_update_active_state(struct pvr_queue *queue)
-+{
-+	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+	pvr_queue_update_active_state_locked(queue);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+}
-+
-+static void pvr_queue_submit_job_to_cccb(struct pvr_job *job)
-+{
-+	struct pvr_queue *queue = container_of(job->base.sched, struct pvr_queue, scheduler);
-+	struct rogue_fwif_ufo ufos[ROGUE_FWIF_CCB_CMD_MAX_UFOS];
-+	struct pvr_cccb *cccb = &queue->cccb;
-+	struct pvr_queue_fence *jfence;
-+	struct dma_fence *fence;
-+	unsigned long index;
-+	u32 ufo_count = 0;
-+
-+	/* We need to add the queue to the active list before updating the CCCB,
-+	 * otherwise we might miss the FW event informing us that something
-+	 * happened on this queue.
-+	 */
-+	atomic_inc(&queue->in_flight_job_count);
-+	pvr_queue_update_active_state(queue);
-+
-+	xa_for_each(&job->base.dependencies, index, fence) {
-+		jfence = to_pvr_queue_job_fence(fence);
-+		if (!jfence)
-+			continue;
-+
-+		/* Skip the partial render fence, we will place it at the end. */
-+		if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job &&
-+		    &job->paired_job->base.s_fence->scheduled == fence)
-+			continue;
-+
-+		if (dma_fence_is_signaled(&jfence->base))
-+			continue;
-+
-+		pvr_fw_object_get_fw_addr(jfence->queue->timeline_ufo.fw_obj,
-+					  &ufos[ufo_count].addr);
-+		ufos[ufo_count++].value = jfence->base.seqno;
-+
-+		if (ufo_count == ARRAY_SIZE(ufos)) {
-+			pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_FENCE_PR,
-+							   sizeof(ufos), ufos, 0, 0);
-+			ufo_count = 0;
-+		}
-+	}
-+
-+	/* Partial render fence goes last. */
-+	if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job) {
-+		jfence = to_pvr_queue_job_fence(job->paired_job->done_fence);
-+		if (!WARN_ON(!jfence)) {
-+			pvr_fw_object_get_fw_addr(jfence->queue->timeline_ufo.fw_obj,
-+						  &ufos[ufo_count].addr);
-+			ufos[ufo_count++].value = job->paired_job->done_fence->seqno;
-+		}
-+	}
-+
-+	if (ufo_count) {
-+		pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_FENCE_PR,
-+						   sizeof(ufos[0]) * ufo_count, ufos, 0, 0);
-+	}
-+
-+	if (job->type == DRM_PVR_JOB_TYPE_GEOMETRY && job->paired_job) {
-+		struct rogue_fwif_cmd_geom *cmd = job->cmd;
-+
-+		/* Reference value for the partial render test is the current queue fence
-+		 * seqno minus one.
-+		 */
-+		pvr_fw_object_get_fw_addr(queue->timeline_ufo.fw_obj,
-+					  &cmd->partial_render_geom_frag_fence.addr);
-+		cmd->partial_render_geom_frag_fence.value = job->done_fence->seqno - 1;
-+	}
-+
-+	/* Submit job to FW */
-+	pvr_cccb_write_command_with_header(cccb, job->fw_ccb_cmd_type, job->cmd_len, job->cmd,
-+					   job->id, job->id);
-+
-+	/* Signal the job fence. */
-+	pvr_fw_object_get_fw_addr(queue->timeline_ufo.fw_obj, &ufos[0].addr);
-+	ufos[0].value = job->done_fence->seqno;
-+	pvr_cccb_write_command_with_header(cccb, ROGUE_FWIF_CCB_CMD_TYPE_UPDATE,
-+					   sizeof(ufos[0]), ufos, 0, 0);
-+}
-+
-+/**
-+ * pvr_queue_run_job() - Submit a job to the FW.
-+ * @sched_job: The job to submit.
-+ *
-+ * This function is called when all non-native dependencies have been met and
-+ * when the commands resulting from this job are guaranteed to fit in the CCCB.
-+ */
-+static struct dma_fence *pvr_queue_run_job(struct drm_sched_job *sched_job)
-+{
-+	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
-+	struct pvr_device *pvr_dev = job->pvr_dev;
-+	int err;
-+
-+	/* The fragment job is issued along the geometry job when we use combined
-+	 * geom+frag kicks. When we get there, we should simply return the
-+	 * done_fence that's been initialized earlier.
-+	 */
-+	if (job->paired_job && job->type == DRM_PVR_JOB_TYPE_FRAGMENT &&
-+	    job->done_fence->ops) {
-+		return dma_fence_get(job->done_fence);
-+	}
-+
-+	/* The only kind of jobs that can be paired are geometry and fragment, and
-+	 * we bail out early if we see a fragment job that's paired with a geomtry
-+	 * job.
-+	 * Paired jobs must also target the same context and point to the same
-+	 * HWRT.
-+	 */
-+	if (WARN_ON(job->paired_job &&
-+		    (job->type != DRM_PVR_JOB_TYPE_GEOMETRY ||
-+		     job->paired_job->type != DRM_PVR_JOB_TYPE_FRAGMENT ||
-+		     job->hwrt != job->paired_job->hwrt ||
-+		     job->ctx != job->paired_job->ctx)))
-+		return ERR_PTR(-EINVAL);
-+
-+	err = pvr_job_get_pm_ref(job);
-+	if (WARN_ON(err))
-+		return ERR_PTR(err);
-+
-+	if (job->paired_job) {
-+		err = pvr_job_get_pm_ref(job->paired_job);
-+		if (WARN_ON(err))
-+			return ERR_PTR(err);
-+	}
-+
-+	/* Submit our job to the CCCB */
-+	pvr_queue_submit_job_to_cccb(job);
-+
-+	if (job->paired_job) {
-+		struct pvr_job *geom_job = job;
-+		struct pvr_job *frag_job = job->paired_job;
-+		struct pvr_queue *geom_queue = job->ctx->queues.geometry;
-+		struct pvr_queue *frag_queue = job->ctx->queues.fragment;
-+
-+		/* Submit the fragment job along the geometry job and send a combined kick. */
-+		pvr_queue_submit_job_to_cccb(frag_job);
-+		pvr_cccb_send_kccb_combined_kick(pvr_dev,
-+						 &geom_queue->cccb, &frag_queue->cccb,
-+						 pvr_context_get_fw_addr(geom_job->ctx) +
-+						 geom_queue->ctx_offset,
-+						 pvr_context_get_fw_addr(frag_job->ctx) +
-+						 frag_queue->ctx_offset,
-+						 job->hwrt,
-+						 frag_job->fw_ccb_cmd_type ==
-+						 ROGUE_FWIF_CCB_CMD_TYPE_FRAG_PR);
-+	} else {
-+		struct pvr_queue *queue = container_of(job->base.sched,
-+						       struct pvr_queue, scheduler);
-+
-+		pvr_cccb_send_kccb_kick(pvr_dev, &queue->cccb,
-+					pvr_context_get_fw_addr(job->ctx) + queue->ctx_offset,
-+					job->hwrt);
-+	}
-+
-+	return dma_fence_get(job->done_fence);
-+}
-+
-+static void pvr_queue_stop(struct pvr_queue *queue, struct pvr_job *bad_job)
-+{
-+	drm_sched_stop(&queue->scheduler, bad_job ? &bad_job->base : NULL);
-+}
-+
-+static void pvr_queue_start(struct pvr_queue *queue)
-+{
-+	struct pvr_job *job;
-+
-+	/* Make sure we CPU-signal the UFO object, so other queues don't get
-+	 * blocked waiting on it.
-+	 */
-+	*queue->timeline_ufo.value = atomic_read(&queue->job_fence_ctx.seqno);
-+
-+	list_for_each_entry(job, &queue->scheduler.pending_list, base.list) {
-+		if (dma_fence_is_signaled(job->done_fence)) {
-+			/* Jobs might have completed after drm_sched_stop() was called.
-+			 * In that case, re-assign the parent field to the done_fence.
-+			 */
-+			WARN_ON(job->base.s_fence->parent);
-+			job->base.s_fence->parent = dma_fence_get(job->done_fence);
-+		} else {
-+			/* If we had unfinished jobs, flag the entity as guilty so no
-+			 * new job can be submitted.
-+			 */
-+			atomic_set(&queue->ctx->faulty, 1);
-+		}
-+	}
-+
-+	drm_sched_start(&queue->scheduler, true);
-+}
-+
-+/**
-+ * pvr_queue_timedout_job() - Handle a job timeout event.
-+ * @s_job: The job this timeout occurred on.
-+ *
-+ * FIXME: We don't do anything here to unblock the situation, we just stop+start
-+ * the scheduler, and re-assign parent fences in the middle.
-+ *
-+ * Return:
-+ *  * DRM_GPU_SCHED_STAT_NOMINAL.
-+ */
-+static enum drm_gpu_sched_stat
-+pvr_queue_timedout_job(struct drm_sched_job *s_job)
-+{
-+	struct drm_gpu_scheduler *sched = s_job->sched;
-+	struct pvr_queue *queue = container_of(sched, struct pvr_queue, scheduler);
-+	struct pvr_device *pvr_dev = queue->ctx->pvr_dev;
-+	struct pvr_job *job;
-+	u32 job_count = 0;
-+
-+	dev_err(sched->dev, "Job timeout\n");
-+
-+	/* Before we stop the scheduler, make sure the queue is out of any list, so
-+	 * any call to pvr_queue_update_active_state_locked() that might happen
-+	 * until the scheduler is really stopped doesn't end up re-inserting the
-+	 * queue in the active list. This would cause
-+	 * pvr_queue_signal_done_fences() and drm_sched_stop() to race with each
-+	 * other when accessing the pending_list, since drm_sched_stop() doesn't
-+	 * grab the job_list_lock when modifying the list (it's assuming the
-+	 * only other accessor is the scheduler, and it's safe to not grab the
-+	 * lock since it's stopped).
-+	 */
-+	mutex_lock(&pvr_dev->queues.lock);
-+	list_del_init(&queue->node);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+
-+	drm_sched_stop(sched, s_job);
-+
-+	/* Re-assign job parent fences. */
-+	list_for_each_entry(job, &sched->pending_list, base.list) {
-+		job->base.s_fence->parent = dma_fence_get(job->done_fence);
-+		job_count++;
-+	}
-+	WARN_ON(atomic_read(&queue->in_flight_job_count) != job_count);
-+
-+	/* Re-insert the queue in the proper list, and kick a queue processing
-+	 * operation if there were jobs pending.
-+	 */
-+	mutex_lock(&pvr_dev->queues.lock);
-+	if (!job_count) {
-+		list_move_tail(&queue->node, &pvr_dev->queues.idle);
-+	} else {
-+		atomic_set(&queue->in_flight_job_count, job_count);
-+		list_move_tail(&queue->node, &pvr_dev->queues.active);
-+		pvr_queue_process(queue);
-+	}
-+	mutex_unlock(&pvr_dev->queues.lock);
-+
-+	drm_sched_start(sched, true);
-+
-+	return DRM_GPU_SCHED_STAT_NOMINAL;
-+}
-+
-+/**
-+ * pvr_queue_free_job() - Release the reference the scheduler had on a job object.
-+ * @sched_job: Job object to free.
-+ */
-+static void pvr_queue_free_job(struct drm_sched_job *sched_job)
-+{
-+	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
-+
-+	drm_sched_job_cleanup(sched_job);
-+	job->paired_job = NULL;
-+	pvr_job_put(job);
-+}
-+
-+static const struct drm_sched_backend_ops pvr_queue_sched_ops = {
-+	.prepare_job = pvr_queue_prepare_job,
-+	.run_job = pvr_queue_run_job,
-+	.timedout_job = pvr_queue_timedout_job,
-+	.free_job = pvr_queue_free_job,
-+};
-+
-+/**
-+ * pvr_queue_fence_is_ufo_backed() - Check if a dma_fence is backed by a UFO object
-+ * @f: Fence to test.
-+ *
-+ * A UFO-backed fence is a fence that can be signaled or waited upon FW-side.
-+ * pvr_job::done_fence objects are backed by the timeline UFO attached to the queue
-+ * they are pushed to, but those fences are not directly exposed to the outside
-+ * world, so we also need to check if the fence we're being passed is a
-+ * drm_sched_fence that was coming from our driver.
-+ */
-+bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f)
-+{
-+	struct drm_sched_fence *sched_fence = f ? to_drm_sched_fence(f) : NULL;
-+
-+	if (sched_fence &&
-+	    sched_fence->sched->ops == &pvr_queue_sched_ops)
-+		return true;
-+
-+	if (f && f->ops == &pvr_queue_job_fence_ops)
-+		return true;
-+
-+	return false;
-+}
-+
-+/**
-+ * pvr_queue_signal_done_fences() - Signal done fences.
-+ * @queue: Queue to check.
-+ *
-+ * Signal done fences of jobs whose seqno is less than the current value of
-+ * the UFO object attached to the queue.
-+ */
-+static void
-+pvr_queue_signal_done_fences(struct pvr_queue *queue)
-+{
-+	struct pvr_job *job, *tmp_job;
-+	u32 cur_seqno;
-+
-+	spin_lock(&queue->scheduler.job_list_lock);
-+	cur_seqno = *queue->timeline_ufo.value;
-+	list_for_each_entry_safe(job, tmp_job, &queue->scheduler.pending_list, base.list) {
-+		if ((int)(cur_seqno - lower_32_bits(job->done_fence->seqno)) < 0)
-+			break;
-+
-+		if (!dma_fence_is_signaled(job->done_fence)) {
-+			dma_fence_signal(job->done_fence);
-+			pvr_job_release_pm_ref(job);
-+			atomic_dec(&queue->in_flight_job_count);
-+		}
-+	}
-+	spin_unlock(&queue->scheduler.job_list_lock);
-+}
-+
-+/**
-+ * pvr_queue_check_job_waiting_for_cccb_space() - Check if the job waiting for CCCB space
-+ * can be unblocked
-+ * pushed to the CCCB
-+ * @queue: Queue to check
-+ *
-+ * If we have a job waiting for CCCB, and this job now fits in the CCCB, we signal
-+ * its CCCB fence, which should kick drm_sched.
-+ */
-+static void
-+pvr_queue_check_job_waiting_for_cccb_space(struct pvr_queue *queue)
-+{
-+	struct pvr_queue_fence *cccb_fence;
-+	u32 native_deps_remaining;
-+	struct pvr_job *job;
-+
-+	mutex_lock(&queue->cccb_fence_ctx.job_lock);
-+	job = queue->cccb_fence_ctx.job;
-+	if (!job)
-+		goto out_unlock;
-+
-+	/* If we have a job attached to the CCCB fence context, its CCCB fence
-+	 * shouldn't be NULL.
-+	 */
-+	if (WARN_ON(!job->cccb_fence)) {
-+		job = NULL;
-+		goto out_unlock;
-+	}
-+
-+	/* If we get there, CCCB fence has to be initialized. */
-+	cccb_fence = container_of(job->cccb_fence, struct pvr_queue_fence, base);
-+	if (WARN_ON(!cccb_fence->queue)) {
-+		job = NULL;
-+		goto out_unlock;
-+	}
-+
-+	/* Evict signaled dependencies before checking for CCCB space.
-+	 * If the job fits, signal the CCCB fence, this should unblock
-+	 * the drm_sched_entity.
-+	 */
-+	native_deps_remaining = job_count_remaining_native_deps(job);
-+	if (!pvr_cccb_cmdseq_fits(&queue->cccb, job_cmds_size(job, native_deps_remaining))) {
-+		job = NULL;
-+		goto out_unlock;
-+	}
-+
-+	dma_fence_signal(job->cccb_fence);
-+	pvr_queue_fence_put(job->cccb_fence);
-+	job->cccb_fence = NULL;
-+	queue->cccb_fence_ctx.job = NULL;
-+
-+out_unlock:
-+	mutex_unlock(&queue->cccb_fence_ctx.job_lock);
-+
-+	pvr_job_put(job);
-+}
-+
-+/**
-+ * pvr_queue_process() - Process events that happened on a queue.
-+ * @queue: Queue to check
-+ *
-+ * Signal job fences and check if jobs waiting for CCCB space can be unblocked.
-+ */
-+void pvr_queue_process(struct pvr_queue *queue)
-+{
-+	lockdep_assert_held(&queue->ctx->pvr_dev->queues.lock);
-+
-+	pvr_queue_check_job_waiting_for_cccb_space(queue);
-+	pvr_queue_signal_done_fences(queue);
-+	pvr_queue_update_active_state_locked(queue);
-+}
-+
-+static u32 get_dm_type(struct pvr_queue *queue)
-+{
-+	switch (queue->type) {
-+	case DRM_PVR_JOB_TYPE_GEOMETRY:
-+		return PVR_FWIF_DM_GEOM;
-+	case DRM_PVR_JOB_TYPE_TRANSFER_FRAG:
-+	case DRM_PVR_JOB_TYPE_FRAGMENT:
-+		return PVR_FWIF_DM_FRAG;
-+	case DRM_PVR_JOB_TYPE_COMPUTE:
-+		return PVR_FWIF_DM_CDM;
-+	}
-+
-+	return ~0;
-+}
-+
-+/**
-+ * init_fw_context() - Initializes the queue part of a FW context.
-+ * @queue: Queue object to initialize the FW context for.
-+ * @fw_ctx_map: The FW context CPU mapping.
-+ *
-+ * FW contexts are containing various states, one of them being a per-queue state
-+ * that needs to be initialized for each queue being exposed by a context. This
-+ * function takes care of that.
-+ */
-+static void init_fw_context(struct pvr_queue *queue, void *fw_ctx_map)
-+{
-+	struct pvr_context *ctx = queue->ctx;
-+	struct pvr_fw_object *fw_mem_ctx_obj = pvr_vm_get_fw_mem_context(ctx->vm_ctx);
-+	struct rogue_fwif_fwcommoncontext *cctx_fw;
-+	struct pvr_cccb *cccb = &queue->cccb;
-+
-+	cctx_fw = fw_ctx_map + queue->ctx_offset;
-+	cctx_fw->ccbctl_fw_addr = cccb->ctrl_fw_addr;
-+	cctx_fw->ccb_fw_addr = cccb->cccb_fw_addr;
-+
-+	cctx_fw->dm = get_dm_type(queue);
-+	cctx_fw->priority = ctx->priority;
-+	cctx_fw->priority_seq_num = 0;
-+	cctx_fw->max_deadline_ms = MAX_DEADLINE_MS;
-+	cctx_fw->pid = task_tgid_nr(current);
-+	cctx_fw->server_common_context_id = ctx->ctx_id;
-+
-+	pvr_fw_object_get_fw_addr(fw_mem_ctx_obj, &cctx_fw->fw_mem_context_fw_addr);
-+
-+	pvr_fw_object_get_fw_addr(queue->reg_state_obj, &cctx_fw->context_state_addr);
-+}
-+
-+/**
-+ * pvr_queue_cleanup_fw_context() - Wait for the FW context to be idle and clean it up.
-+ * @queue: Queue on FW context to clean up.
-+ *
-+ * Return:
-+ *  * 0 on success,
-+ *  * Any error returned by pvr_fw_structure_cleanup() otherwise.
-+ */
-+static int pvr_queue_cleanup_fw_context(struct pvr_queue *queue)
-+{
-+	if (!queue->ctx->fw_obj)
-+		return 0;
-+
-+	return pvr_fw_structure_cleanup(queue->ctx->pvr_dev,
-+					ROGUE_FWIF_CLEANUP_FWCOMMONCONTEXT,
-+					queue->ctx->fw_obj, queue->ctx_offset);
-+}
-+
-+/**
-+ * pvr_queue_job_init() - Initialize queue related fields in a pvr_job object.
-+ * @job: The job to initialize.
-+ *
-+ * Bind the job to a queue and allocate memory to guarantee pvr_queue_job_arm()
-+ * and pvr_queue_job_push() can't fail. We also make sure the context type is
-+ * valid and the job can fit in the CCCB.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * An error code if something failed.
-+ */
-+int pvr_queue_job_init(struct pvr_job *job)
-+{
-+	/* Fragment jobs need at least one native fence wait on the geometry job fence. */
-+	u32 min_native_dep_count = job->type == DRM_PVR_JOB_TYPE_FRAGMENT ? 1 : 0;
-+	struct pvr_queue *queue;
-+	int err;
-+
-+	if (atomic_read(&job->ctx->faulty))
-+		return -EIO;
-+
-+	queue = pvr_context_get_queue_for_job(job->ctx, job->type);
-+	if (!queue)
-+		return -EINVAL;
-+
-+	if (!pvr_cccb_cmdseq_can_fit(&queue->cccb, job_cmds_size(job, min_native_dep_count)))
-+		return -E2BIG;
-+
-+	err = drm_sched_job_init(&job->base, &queue->entity, 1, THIS_MODULE);
-+	if (err)
-+		return err;
-+
-+	job->cccb_fence = pvr_queue_fence_alloc();
-+	job->kccb_fence = pvr_kccb_fence_alloc();
-+	job->done_fence = pvr_queue_fence_alloc();
-+	if (!job->cccb_fence || !job->kccb_fence || !job->done_fence)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+/**
-+ * pvr_queue_job_arm() - Arm a job object.
-+ * @job: The job to arm.
-+ *
-+ * Initializes fences and return the drm_sched finished fence so it can
-+ * be exposed to the outside world. Once this function is called, you should
-+ * make sure the job is pushed using pvr_queue_job_push(), or guarantee that
-+ * no one grabbed a reference to the returned fence. The latter can happen if
-+ * we do multi-job submission, and something failed when creating/initializing
-+ * a job. In that case, we know the fence didn't leave the driver, and we
-+ * can thus guarantee nobody will wait on an dead fence object.
-+ *
-+ * Return:
-+ *  * A dma_fence object.
-+ */
-+struct dma_fence *pvr_queue_job_arm(struct pvr_job *job)
-+{
-+	drm_sched_job_arm(&job->base);
-+
-+	return &job->base.s_fence->finished;
-+}
-+
-+/**
-+ * pvr_queue_job_cleanup() - Cleanup fence/scheduler related fields in the job object.
-+ * @job: The job to cleanup.
-+ *
-+ * Should be called in the job release path.
-+ */
-+void pvr_queue_job_cleanup(struct pvr_job *job)
-+{
-+	pvr_queue_fence_put(job->done_fence);
-+	pvr_queue_fence_put(job->cccb_fence);
-+	pvr_kccb_fence_put(job->kccb_fence);
-+
-+	if (job->base.s_fence)
-+		drm_sched_job_cleanup(&job->base);
-+}
-+
-+/**
-+ * pvr_queue_job_push() - Push a job to its queue.
-+ * @job: The job to push.
-+ *
-+ * Must be called after pvr_queue_job_init() and after all dependencies
-+ * have been added to the job. This will effectively queue the job to
-+ * the drm_sched_entity attached to the queue. We grab a reference on
-+ * the job object, so the caller is free to drop its reference when it's
-+ * done accessing the job object.
-+ */
-+void pvr_queue_job_push(struct pvr_job *job)
-+{
-+	struct pvr_queue *queue = container_of(job->base.sched, struct pvr_queue, scheduler);
-+
-+	/* Keep track of the last queued job scheduled fence for combined submit. */
-+	dma_fence_put(queue->last_queued_job_scheduled_fence);
-+	queue->last_queued_job_scheduled_fence = dma_fence_get(&job->base.s_fence->scheduled);
-+
-+	pvr_job_get(job);
-+	drm_sched_entity_push_job(&job->base);
-+}
-+
-+static void reg_state_init(void *cpu_ptr, void *priv)
-+{
-+	struct pvr_queue *queue = priv;
-+
-+	if (queue->type == DRM_PVR_JOB_TYPE_GEOMETRY) {
-+		struct rogue_fwif_geom_ctx_state *geom_ctx_state_fw = cpu_ptr;
-+
-+		geom_ctx_state_fw->geom_core[0].geom_reg_vdm_call_stack_pointer_init =
-+			queue->callstack_addr;
-+	}
-+}
-+
-+/**
-+ * pvr_queue_create() - Create a queue object.
-+ * @ctx: The context this queue will be attached to.
-+ * @type: The type of jobs being pushed to this queue.
-+ * @args: The arguments passed to the context creation function.
-+ * @fw_ctx_map: CPU mapping of the FW context object.
-+ *
-+ * Create a queue object that will be used to queue and track jobs.
-+ *
-+ * Return:
-+ *  * A valid pointer to a pvr_queue object, or
-+ *  * An error pointer if the creation/initialization failed.
-+ */
-+struct pvr_queue *pvr_queue_create(struct pvr_context *ctx,
-+				   enum drm_pvr_job_type type,
-+				   struct drm_pvr_ioctl_create_context_args *args,
-+				   void *fw_ctx_map)
-+{
-+	static const struct {
-+		u32 cccb_size;
-+		const char *name;
-+	} props[] = {
-+		[DRM_PVR_JOB_TYPE_GEOMETRY] = {
-+			.cccb_size = CTX_GEOM_CCCB_SIZE_LOG2,
-+			.name = "geometry",
-+		},
-+		[DRM_PVR_JOB_TYPE_FRAGMENT] = {
-+			.cccb_size = CTX_FRAG_CCCB_SIZE_LOG2,
-+			.name = "fragment"
-+		},
-+		[DRM_PVR_JOB_TYPE_COMPUTE] = {
-+			.cccb_size = CTX_COMPUTE_CCCB_SIZE_LOG2,
-+			.name = "compute"
-+		},
-+		[DRM_PVR_JOB_TYPE_TRANSFER_FRAG] = {
-+			.cccb_size = CTX_TRANSFER_CCCB_SIZE_LOG2,
-+			.name = "transfer_frag"
-+		},
-+	};
-+	struct pvr_device *pvr_dev = ctx->pvr_dev;
-+	struct drm_gpu_scheduler *sched;
-+	struct pvr_queue *queue;
-+	int ctx_state_size, err;
-+	void *cpu_map;
-+
-+	if (WARN_ON(type >= sizeof(props)))
-+		return ERR_PTR(-EINVAL);
-+
-+	switch (ctx->type) {
-+	case DRM_PVR_CTX_TYPE_RENDER:
-+		if (type != DRM_PVR_JOB_TYPE_GEOMETRY &&
-+		    type != DRM_PVR_JOB_TYPE_FRAGMENT)
-+			return ERR_PTR(-EINVAL);
-+		break;
-+	case DRM_PVR_CTX_TYPE_COMPUTE:
-+		if (type != DRM_PVR_JOB_TYPE_COMPUTE)
-+			return ERR_PTR(-EINVAL);
-+		break;
-+	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
-+		if (type != DRM_PVR_JOB_TYPE_TRANSFER_FRAG)
-+			return ERR_PTR(-EINVAL);
-+		break;
-+	default:
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	ctx_state_size = get_ctx_state_size(pvr_dev, type);
-+	if (ctx_state_size < 0)
-+		return ERR_PTR(ctx_state_size);
-+
-+	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-+	if (!queue)
-+		return ERR_PTR(-ENOMEM);
-+
-+	queue->type = type;
-+	queue->ctx_offset = get_ctx_offset(type);
-+	queue->ctx = ctx;
-+	queue->callstack_addr = args->callstack_addr;
-+	sched = &queue->scheduler;
-+	INIT_LIST_HEAD(&queue->node);
-+	mutex_init(&queue->cccb_fence_ctx.job_lock);
-+	pvr_queue_fence_ctx_init(&queue->cccb_fence_ctx.base);
-+	pvr_queue_fence_ctx_init(&queue->job_fence_ctx);
-+
-+	err = pvr_cccb_init(pvr_dev, &queue->cccb, props[type].cccb_size, props[type].name);
-+	if (err)
-+		goto err_free_queue;
-+
-+	err = pvr_fw_object_create(pvr_dev, ctx_state_size,
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+				   reg_state_init, queue, &queue->reg_state_obj);
-+	if (err)
-+		goto err_cccb_fini;
-+
-+	init_fw_context(queue, fw_ctx_map);
-+
-+	if (type != DRM_PVR_JOB_TYPE_GEOMETRY && type != DRM_PVR_JOB_TYPE_FRAGMENT &&
-+	    args->callstack_addr) {
-+		err = -EINVAL;
-+		goto err_release_reg_state;
-+	}
-+
-+	cpu_map = pvr_fw_object_create_and_map(pvr_dev, sizeof(*queue->timeline_ufo.value),
-+					       PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+					       NULL, NULL, &queue->timeline_ufo.fw_obj);
-+	if (IS_ERR(cpu_map)) {
-+		err = PTR_ERR(cpu_map);
-+		goto err_release_reg_state;
-+	}
-+
-+	queue->timeline_ufo.value = cpu_map;
-+
-+	err = drm_sched_init(&queue->scheduler,
-+			     &pvr_queue_sched_ops,
-+			     pvr_dev->sched_wq, 1, 64 * 1024, 1,
-+			     msecs_to_jiffies(500),
-+			     pvr_dev->sched_wq, NULL, "pvr-queue",
-+			     pvr_dev->base.dev);
-+	if (err)
-+		goto err_release_ufo;
-+
-+	err = drm_sched_entity_init(&queue->entity,
-+				    DRM_SCHED_PRIORITY_MIN,
-+				    &sched, 1, &ctx->faulty);
-+	if (err)
-+		goto err_sched_fini;
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+	list_add_tail(&queue->node, &pvr_dev->queues.idle);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+
-+	return queue;
-+
-+err_sched_fini:
-+	drm_sched_fini(&queue->scheduler);
-+
-+err_release_ufo:
-+	pvr_fw_object_unmap_and_destroy(queue->timeline_ufo.fw_obj);
-+
-+err_release_reg_state:
-+	pvr_fw_object_destroy(queue->reg_state_obj);
-+
-+err_cccb_fini:
-+	pvr_cccb_fini(&queue->cccb);
-+
-+err_free_queue:
-+	mutex_destroy(&queue->cccb_fence_ctx.job_lock);
-+	kfree(queue);
-+
-+	return ERR_PTR(err);
-+}
-+
-+void pvr_queue_device_pre_reset(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_queue *queue;
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+	list_for_each_entry(queue, &pvr_dev->queues.idle, node)
-+		pvr_queue_stop(queue, NULL);
-+	list_for_each_entry(queue, &pvr_dev->queues.active, node)
-+		pvr_queue_stop(queue, NULL);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+}
-+
-+void pvr_queue_device_post_reset(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_queue *queue;
-+
-+	mutex_lock(&pvr_dev->queues.lock);
-+	list_for_each_entry(queue, &pvr_dev->queues.active, node)
-+		pvr_queue_start(queue);
-+	list_for_each_entry(queue, &pvr_dev->queues.idle, node)
-+		pvr_queue_start(queue);
-+	mutex_unlock(&pvr_dev->queues.lock);
-+}
-+
-+/**
-+ * pvr_queue_kill() - Kill a queue.
-+ * @queue: The queue to kill.
-+ *
-+ * Kill the queue so no new jobs can be pushed. Should be called when the
-+ * context handle is destroyed. The queue object might last longer if jobs
-+ * are still in flight and holding a reference to the context this queue
-+ * belongs to.
-+ */
-+void pvr_queue_kill(struct pvr_queue *queue)
-+{
-+	drm_sched_entity_destroy(&queue->entity);
-+	dma_fence_put(queue->last_queued_job_scheduled_fence);
-+	queue->last_queued_job_scheduled_fence = NULL;
-+}
-+
-+/**
-+ * pvr_queue_destroy() - Destroy a queue.
-+ * @queue: The queue to destroy.
-+ *
-+ * Cleanup the queue and free the resources attached to it. Should be
-+ * called from the context release function.
-+ */
-+void pvr_queue_destroy(struct pvr_queue *queue)
-+{
-+	if (!queue)
-+		return;
-+
-+	mutex_lock(&queue->ctx->pvr_dev->queues.lock);
-+	list_del_init(&queue->node);
-+	mutex_unlock(&queue->ctx->pvr_dev->queues.lock);
-+
-+	drm_sched_fini(&queue->scheduler);
-+	drm_sched_entity_fini(&queue->entity);
-+
-+	if (WARN_ON(queue->last_queued_job_scheduled_fence))
-+		dma_fence_put(queue->last_queued_job_scheduled_fence);
-+
-+	pvr_queue_cleanup_fw_context(queue);
-+
-+	pvr_fw_object_unmap_and_destroy(queue->timeline_ufo.fw_obj);
-+	pvr_fw_object_destroy(queue->reg_state_obj);
-+	pvr_cccb_fini(&queue->cccb);
-+	mutex_destroy(&queue->cccb_fence_ctx.job_lock);
-+	kfree(queue);
-+}
-+
-+/**
-+ * pvr_queue_device_init() - Device-level initialization of queue related fields.
-+ * @pvr_dev: The device to initialize.
-+ *
-+ * Initializes all fields related to queue management in pvr_device.
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * An error code on failure.
-+ */
-+int pvr_queue_device_init(struct pvr_device *pvr_dev)
-+{
-+	int err;
-+
-+	INIT_LIST_HEAD(&pvr_dev->queues.active);
-+	INIT_LIST_HEAD(&pvr_dev->queues.idle);
-+	err = drmm_mutex_init(from_pvr_device(pvr_dev), &pvr_dev->queues.lock);
-+	if (err)
-+		return err;
-+
-+	pvr_dev->sched_wq = alloc_workqueue("powervr-sched", WQ_UNBOUND, 0);
-+	if (!pvr_dev->sched_wq)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+/**
-+ * pvr_queue_device_fini() - Device-level cleanup of queue related fields.
-+ * @pvr_dev: The device to cleanup.
-+ *
-+ * Cleanup/free all queue-related resources attached to a pvr_device object.
-+ */
-+void pvr_queue_device_fini(struct pvr_device *pvr_dev)
-+{
-+	destroy_workqueue(pvr_dev->sched_wq);
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_queue.h b/drivers/gpu/drm/imagination/pvr_queue.h
-new file mode 100644
-index 000000000000..b5ce2c742150
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_queue.h
-@@ -0,0 +1,169 @@
++++ b/drivers/gpu/drm/imagination/pvr_rogue_cr_defs_client.h
+@@ -0,0 +1,159 @@
 +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_QUEUE_H
-+#define PVR_QUEUE_H
++#ifndef PVR_ROGUE_CR_DEFS_CLIENT_H
++#define PVR_ROGUE_CR_DEFS_CLIENT_H
 +
-+#include <drm/gpu_scheduler.h>
++/* clang-format off */
 +
-+#include "pvr_cccb.h"
-+#include "pvr_device.h"
-+
-+struct pvr_context;
-+struct pvr_queue;
-+
-+/**
-+ * struct pvr_queue_fence_ctx - Queue fence context
++/*
++ * This register controls the anti-aliasing mode of the Tiling Co-Processor, independent control is
++ * provided in both X & Y axis.
++ * This register needs to be set based on the ISP Samples Per Pixel a core supports.
 + *
-+ * Used to implement dma_fence_ops for pvr_job::{done,cccb}_fence.
-+ */
-+struct pvr_queue_fence_ctx {
-+	/** @id: Fence context ID allocated with dma_fence_context_alloc(). */
-+	u64 id;
-+
-+	/** @seqno: Sequence number incremented each time a fence is created. */
-+	atomic_t seqno;
-+
-+	/** @lock: Lock used to synchronize access to fences allocated by this context. */
-+	spinlock_t lock;
-+};
-+
-+/**
-+ * struct pvr_queue_cccb_fence_ctx - CCCB fence context
++ * When ISP Samples Per Pixel = 1:
++ * 2xmsaa is achieved by enabling Y - TE does AA on Y plane only
++ * 4xmsaa is achieved by enabling Y and X - TE does AA on X and Y plane
++ * 8xmsaa not supported by XE cores
 + *
-+ * Context used to manage fences controlling access to the CCCB. No fences are
-+ * issued if there's enough space in the CCCB to push job commands.
-+ */
-+struct pvr_queue_cccb_fence_ctx {
-+	/** @base: Base queue fence context. */
-+	struct pvr_queue_fence_ctx base;
-+
-+	/**
-+	 * @job: Job waiting for CCCB space.
-+	 *
-+	 * Thanks to the serializationg done at the drm_sched_entity level,
-+	 * there's no more than one job waiting for CCCB at a given time.
-+	 *
-+	 * This field is NULL if no jobs are currently waiting for CCCB space.
-+	 *
-+	 * Must be accessed with @job_lock held.
-+	 */
-+	struct pvr_job *job;
-+
-+	/** @lock: Lock protecting access to the job object. */
-+	struct mutex job_lock;
-+};
-+
-+/**
-+ * struct pvr_queue_fence - Queue fence object
-+ */
-+struct pvr_queue_fence {
-+	/** @base: Base dma_fence. */
-+	struct dma_fence base;
-+
-+	/** @queue: Queue that created this fence. */
-+	struct pvr_queue *queue;
-+};
-+
-+/**
-+ * struct pvr_queue - Job queue
++ * When ISP Samples Per Pixel = 2:
++ * 2xmsaa is achieved by enabling X2 - does not affect TE
++ * 4xmsaa is achieved by enabling Y and X2 - TE does AA on Y plane only
++ * 8xmsaa is achieved by enabling Y, X and X2 - TE does AA on X and Y plane
++ * 8xmsaa not supported by XE cores
 + *
-+ * Used to queue and track execution of pvr_job objects.
++ * When ISP Samples Per Pixel = 4:
++ * 2xmsaa is achieved by enabling X2 - does not affect TE
++ * 4xmsaa is achieved by enabling Y2 and X2 - TE does AA on Y plane only
++ * 8xmsaa not supported by XE cores
 + */
-+struct pvr_queue {
-+	/** @scheduler: Single entity scheduler use to push jobs to this queue. */
-+	struct drm_gpu_scheduler scheduler;
++/* Register ROGUE_CR_TE_AA */
++#define ROGUE_CR_TE_AA 0x0C00U
++#define ROGUE_CR_TE_AA_MASKFULL 0x000000000000000Full
++/* Y2
++ * Indicates 4xmsaa when X2 and Y2 are set to 1. This does not affect TE and is only used within
++ * TPW.
++ */
++#define ROGUE_CR_TE_AA_Y2_SHIFT 3
++#define ROGUE_CR_TE_AA_Y2_CLRMSK 0xFFFFFFF7
++#define ROGUE_CR_TE_AA_Y2_EN 0x00000008
++/* Y
++ * Anti-Aliasing in Y Plane Enabled
++ */
++#define ROGUE_CR_TE_AA_Y_SHIFT 2
++#define ROGUE_CR_TE_AA_Y_CLRMSK 0xFFFFFFFB
++#define ROGUE_CR_TE_AA_Y_EN 0x00000004
++/* X
++ * Anti-Aliasing in X Plane Enabled
++ */
++#define ROGUE_CR_TE_AA_X_SHIFT 1
++#define ROGUE_CR_TE_AA_X_CLRMSK 0xFFFFFFFD
++#define ROGUE_CR_TE_AA_X_EN 0x00000002
++/* X2
++ * 2x Anti-Aliasing Enabled, affects PPP only
++ */
++#define ROGUE_CR_TE_AA_X2_SHIFT                             (0U)
++#define ROGUE_CR_TE_AA_X2_CLRMSK                            (0xFFFFFFFEU)
++#define ROGUE_CR_TE_AA_X2_EN                                (0x00000001U)
 +
-+	/** @entity: Scheduling entity backing this queue. */
-+	struct drm_sched_entity entity;
++/* MacroTile Boundaries X Plane */
++/* Register ROGUE_CR_TE_MTILE1 */
++#define ROGUE_CR_TE_MTILE1 0x0C08
++#define ROGUE_CR_TE_MTILE1_MASKFULL 0x0000000007FFFFFFull
++/* X1 default: 0x00000004
++ * X1 MacroTile boundary, left tile X for second column of macrotiles (16MT mode) - 32 pixels across
++ * tile
++ */
++#define ROGUE_CR_TE_MTILE1_X1_SHIFT 18
++#define ROGUE_CR_TE_MTILE1_X1_CLRMSK 0xF803FFFF
++/* X2 default: 0x00000008
++ * X2 MacroTile boundary, left tile X for third(16MT) column of macrotiles - 32 pixels across tile
++ */
++#define ROGUE_CR_TE_MTILE1_X2_SHIFT 9U
++#define ROGUE_CR_TE_MTILE1_X2_CLRMSK 0xFFFC01FF
++/* X3 default: 0x0000000c
++ * X3 MacroTile boundary, left tile X for fourth column of macrotiles (16MT) - 32 pixels across tile
++ */
++#define ROGUE_CR_TE_MTILE1_X3_SHIFT 0
++#define ROGUE_CR_TE_MTILE1_X3_CLRMSK 0xFFFFFE00
 +
-+	/** @type: Type of jobs queued to this queue. */
-+	enum drm_pvr_job_type type;
++/* MacroTile Boundaries Y Plane. */
++/* Register ROGUE_CR_TE_MTILE2 */
++#define ROGUE_CR_TE_MTILE2 0x0C10
++#define ROGUE_CR_TE_MTILE2_MASKFULL 0x0000000007FFFFFFull
++/* Y1 default: 0x00000004
++ * X1 MacroTile boundary, ltop tile Y for second column of macrotiles (16MT mode) - 32 pixels tile
++ * height
++ */
++#define ROGUE_CR_TE_MTILE2_Y1_SHIFT 18
++#define ROGUE_CR_TE_MTILE2_Y1_CLRMSK 0xF803FFFF
++/* Y2 default: 0x00000008
++ * X2 MacroTile boundary, top tile Y for third(16MT) column of macrotiles - 32 pixels tile height
++ */
++#define ROGUE_CR_TE_MTILE2_Y2_SHIFT 9
++#define ROGUE_CR_TE_MTILE2_Y2_CLRMSK 0xFFFC01FF
++/* Y3 default: 0x0000000c
++ * X3 MacroTile boundary, top tile Y for fourth column of macrotiles (16MT) - 32 pixels tile height
++ */
++#define ROGUE_CR_TE_MTILE2_Y3_SHIFT 0
++#define ROGUE_CR_TE_MTILE2_Y3_CLRMSK 0xFFFFFE00
 +
-+	/** @ctx: Context object this queue is bound to. */
-+	struct pvr_context *ctx;
++/*
++ * In order to perform the tiling operation and generate the display list the maximum screen size
++ * must be configured in terms of the number of tiles in X & Y axis.
++ */
 +
-+	/** @node: Used to add the queue to the active/idle queue list. */
-+	struct list_head node;
++/* Register ROGUE_CR_TE_SCREEN */
++#define ROGUE_CR_TE_SCREEN 0x0C18U
++#define ROGUE_CR_TE_SCREEN_MASKFULL 0x00000000001FF1FFull
++/* YMAX default: 0x00000010
++ * Maximum Y tile address visible on screen, 32 pixel tile height, 16Kx16K max screen size
++ */
++#define ROGUE_CR_TE_SCREEN_YMAX_SHIFT 12
++#define ROGUE_CR_TE_SCREEN_YMAX_CLRMSK 0xFFE00FFF
++/* XMAX default: 0x00000010
++ * Maximum X tile address visible on screen, 32 pixel tile width, 16Kx16K max screen size
++ */
++#define ROGUE_CR_TE_SCREEN_XMAX_SHIFT 0
++#define ROGUE_CR_TE_SCREEN_XMAX_CLRMSK 0xFFFFFE00
 +
-+	/**
-+	 * @in_flight_job_count: Number of jobs submitted to the CCCB that
-+	 * have not been processed yet.
-+	 */
-+	atomic_t in_flight_job_count;
++/*
++ * In order to perform the tiling operation and generate the display list the maximum screen size
++ * must be configured in terms of the number of pixels in X & Y axis since this may not be the same
++ * as the number of tiles defined in the RGX_CR_TE_SCREEN register.
++ */
++/* Register ROGUE_CR_PPP_SCREEN */
++#define ROGUE_CR_PPP_SCREEN 0x0C98
++#define ROGUE_CR_PPP_SCREEN_MASKFULL 0x000000007FFF7FFFull
++/* PIXYMAX
++ * Screen height in pixels. (16K x 16K max screen size)
++ */
++#define ROGUE_CR_PPP_SCREEN_PIXYMAX_SHIFT 16
++#define ROGUE_CR_PPP_SCREEN_PIXYMAX_CLRMSK 0x8000FFFF
++/* PIXXMAX
++ * Screen width in pixels.(16K x 16K max screen size)
++ */
++#define ROGUE_CR_PPP_SCREEN_PIXXMAX_SHIFT 0
++#define ROGUE_CR_PPP_SCREEN_PIXXMAX_CLRMSK 0xFFFF8000
 +
-+	/**
-+	 * @cccb_fence_ctx: CCCB fence context.
-+	 *
-+	 * Used to control access to the CCCB is full, such that we don't
-+	 * end up trying to push commands to the CCCB if there's not enough
-+	 * space to receive all commands needed for a job to complete.
-+	 */
-+	struct pvr_queue_cccb_fence_ctx cccb_fence_ctx;
++/* Register ROGUE_CR_ISP_MTILE_SIZE */
++#define ROGUE_CR_ISP_MTILE_SIZE 0x0F18
++#define ROGUE_CR_ISP_MTILE_SIZE_MASKFULL 0x0000000003FF03FFull
++/* X
++ * Macrotile width, in tiles. A value of zero corresponds to the maximum size
++ */
++#define ROGUE_CR_ISP_MTILE_SIZE_X_SHIFT 16
++#define ROGUE_CR_ISP_MTILE_SIZE_X_CLRMSK 0xFC00FFFF
++#define ROGUE_CR_ISP_MTILE_SIZE_X_ALIGNSHIFT 0
++#define ROGUE_CR_ISP_MTILE_SIZE_X_ALIGNSIZE 1
++/* Y
++ * Macrotile height, in tiles. A value of zero corresponds to the maximum size
++ */
++#define ROGUE_CR_ISP_MTILE_SIZE_Y_SHIFT 0
++#define ROGUE_CR_ISP_MTILE_SIZE_Y_CLRMSK 0xFFFFFC00
++#define ROGUE_CR_ISP_MTILE_SIZE_Y_ALIGNSHIFT 0
++#define ROGUE_CR_ISP_MTILE_SIZE_Y_ALIGNSIZE 1
 +
-+	/** @job_fence_ctx: Job fence context object. */
-+	struct pvr_queue_fence_ctx job_fence_ctx;
++/* clang-format on */
 +
-+	/** @timeline_ufo: Timeline UFO for the context queue. */
-+	struct {
-+		/** @fw_obj: FW object representing the UFO value. */
-+		struct pvr_fw_object *fw_obj;
-+
-+		/** @value: CPU mapping of the UFO value. */
-+		u32 *value;
-+	} timeline_ufo;
-+
-+	/**
-+	 * last_queued_job_scheduled_fence: The scheduled fence of the last
-+	 * job queued to this queue.
-+	 *
-+	 * We use it to insert frag -> geom dependencies when issuing combined
-+	 * geom+frag jobs, to guarantee that the fragment job that's part of
-+	 * the combined operation comes after all fragment jobs that were queued
-+	 * before it.
-+	 */
-+	struct dma_fence *last_queued_job_scheduled_fence;
-+
-+	/** @cccb: Client Circular Command Buffer. */
-+	struct pvr_cccb cccb;
-+
-+	/** @reg_state_obj: FW object representing the register state of this queue. */
-+	struct pvr_fw_object *reg_state_obj;
-+
-+	/** @ctx_offset: Offset of the queue context in the FW context object. */
-+	u32 ctx_offset;
-+
-+	/** @callstack_addr: Initial call stack address for register state object. */
-+	u64 callstack_addr;
-+};
-+
-+bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f);
-+
-+int pvr_queue_job_init(struct pvr_job *job);
-+
-+void pvr_queue_job_cleanup(struct pvr_job *job);
-+
-+void pvr_queue_job_push(struct pvr_job *job);
-+
-+struct dma_fence *pvr_queue_job_arm(struct pvr_job *job);
-+
-+struct pvr_queue *pvr_queue_create(struct pvr_context *ctx,
-+				   enum drm_pvr_job_type type,
-+				   struct drm_pvr_ioctl_create_context_args *args,
-+				   void *fw_ctx_map);
-+
-+void pvr_queue_kill(struct pvr_queue *queue);
-+
-+void pvr_queue_destroy(struct pvr_queue *queue);
-+
-+void pvr_queue_process(struct pvr_queue *queue);
-+
-+void pvr_queue_device_pre_reset(struct pvr_device *pvr_dev);
-+
-+void pvr_queue_device_post_reset(struct pvr_device *pvr_dev);
-+
-+int pvr_queue_device_init(struct pvr_device *pvr_dev);
-+
-+void pvr_queue_device_fini(struct pvr_device *pvr_dev);
-+
-+#endif /* PVR_QUEUE_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_stream_defs.c b/drivers/gpu/drm/imagination/pvr_stream_defs.c
-index 59265a7accce..f8bd1a8c01db 100644
---- a/drivers/gpu/drm/imagination/pvr_stream_defs.c
-+++ b/drivers/gpu/drm/imagination/pvr_stream_defs.c
-@@ -43,6 +43,232 @@
-  * existing parameters, to preserve order. As parameters are naturally aligned, care must be taken
-  * with respect to implicit padding in the stream; padding should be minimised as much as possible.
-  */
-+static const struct pvr_stream_def rogue_fwif_cmd_geom_stream[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.vdm_ctrl_stream_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.tpu_border_colour_table, 64),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_draw_indirect0, 64,
-+			       PVR_FEATURE_VDM_DRAWINDIRECT),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_draw_indirect1, 32,
-+			       PVR_FEATURE_VDM_DRAWINDIRECT),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.ppp_ctrl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.te_psg, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.vdm_context_resume_task0_size, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.vdm_context_resume_task3_size, 32,
-+			       PVR_FEATURE_VDM_OBJECT_LEVEL_LLS),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.view_idx, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_geom, regs.pds_coeff_free_prog, 32,
-+			       PVR_FEATURE_TESSELLATION),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_geom_stream_brn49927[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_geom, regs.tpu, 32),
-+};
-+
-+static const struct pvr_stream_ext_def cmd_geom_ext_streams_0[] = {
-+	{
-+		.stream = rogue_fwif_cmd_geom_stream_brn49927,
-+		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_geom_stream_brn49927),
-+		.header_mask = PVR_STREAM_EXTHDR_GEOM0_BRN49927,
-+		.quirk = 49927,
-+	},
-+};
-+
-+static const struct pvr_stream_ext_header cmd_geom_ext_headers[] = {
-+	{
-+		.ext_streams = cmd_geom_ext_streams_0,
-+		.ext_streams_num = ARRAY_SIZE(cmd_geom_ext_streams_0),
-+		.valid_mask = PVR_STREAM_EXTHDR_GEOM0_VALID,
-+	},
-+};
-+
-+const struct pvr_stream_cmd_defs pvr_cmd_geom_stream = {
-+	.type = PVR_STREAM_TYPE_GEOM,
-+
-+	.main_stream = rogue_fwif_cmd_geom_stream,
-+	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_geom_stream),
-+
-+	.ext_nr_headers = ARRAY_SIZE(cmd_geom_ext_headers),
-+	.ext_headers = cmd_geom_ext_headers,
-+
-+	.dest_size = sizeof(struct rogue_fwif_cmd_geom),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_frag_stream[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_scissor_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_dbias_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_oclqry_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_zlsctl, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_zload_store_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_stencil_load_store_base, 64),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.fb_cdc_zls, 64,
-+			       PVR_FEATURE_REQUIRES_FB_CDC_ZLS_SETUP),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pbe_word),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.tpu_border_colour_table, 64),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pds_bgnd),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.pds_pr_bgnd),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_frag, regs.usc_clear_register),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.usc_pixel_output_ctrl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_bgobjdepth, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_bgobjvals, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_aa, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_xtp_pipe_enable, 32,
-+			       PVR_FEATURE_S7_TOP_INFRASTRUCTURE),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_ctl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.event_pixel_pds_info, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.pixel_phantom, 32,
-+			       PVR_FEATURE_CLUSTER_GROUPING),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.view_idx, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.event_pixel_pds_data, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_oclqry_stride, 32,
-+			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.isp_zls_pixels, 32,
-+			       PVR_FEATURE_ZLS_SUBTILE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, regs.rgx_cr_blackpearl_fix, 32,
-+			       PVR_FEATURE_ISP_ZLS_D24_S8_PACKING_OGL_MODE),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, zls_stride, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, sls_stride, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_frag, execute_count, 32,
-+			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_frag_stream_brn47217[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.isp_oclqry_stride, 32),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_frag_stream_brn49927[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_frag, regs.tpu, 32),
-+};
-+
-+static const struct pvr_stream_ext_def cmd_frag_ext_streams_0[] = {
-+	{
-+		.stream = rogue_fwif_cmd_frag_stream_brn47217,
-+		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream_brn47217),
-+		.header_mask = PVR_STREAM_EXTHDR_FRAG0_BRN47217,
-+		.quirk = 47217,
-+	},
-+	{
-+		.stream = rogue_fwif_cmd_frag_stream_brn49927,
-+		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream_brn49927),
-+		.header_mask = PVR_STREAM_EXTHDR_FRAG0_BRN49927,
-+		.quirk = 49927,
-+	},
-+};
-+
-+static const struct pvr_stream_ext_header cmd_frag_ext_headers[] = {
-+	{
-+		.ext_streams = cmd_frag_ext_streams_0,
-+		.ext_streams_num = ARRAY_SIZE(cmd_frag_ext_streams_0),
-+		.valid_mask = PVR_STREAM_EXTHDR_FRAG0_VALID,
-+	},
-+};
-+
-+const struct pvr_stream_cmd_defs pvr_cmd_frag_stream = {
-+	.type = PVR_STREAM_TYPE_FRAG,
-+
-+	.main_stream = rogue_fwif_cmd_frag_stream,
-+	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_frag_stream),
-+
-+	.ext_nr_headers = ARRAY_SIZE(cmd_frag_ext_headers),
-+	.ext_headers = cmd_frag_ext_headers,
-+
-+	.dest_size = sizeof(struct rogue_fwif_cmd_frag),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_compute_stream[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.tpu_border_colour_table, 64),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb_queue, 64,
-+			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb_base, 64,
-+			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_cb, 64,
-+			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF_NOT_FEATURE(rogue_fwif_cmd_compute, regs.cdm_ctrl_stream_base, 64,
-+				   PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.cdm_context_state_base_addr, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.cdm_resume_pds1, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.cdm_item, 32,
-+			       PVR_FEATURE_COMPUTE_MORTON_CAPABLE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.compute_cluster, 32,
-+			       PVR_FEATURE_CLUSTER_GROUPING),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, regs.tpu_tag_cdm_ctrl, 32,
-+			       PVR_FEATURE_TPU_DM_GLOBAL_REGISTERS),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, stream_start_offset, 32,
-+			       PVR_FEATURE_CDM_USER_MODE_QUEUE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_compute, execute_count, 32,
-+			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_compute_stream_brn49927[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_compute, regs.tpu, 32),
-+};
-+
-+static const struct pvr_stream_ext_def cmd_compute_ext_streams_0[] = {
-+	{
-+		.stream = rogue_fwif_cmd_compute_stream_brn49927,
-+		.stream_len = ARRAY_SIZE(rogue_fwif_cmd_compute_stream_brn49927),
-+		.header_mask = PVR_STREAM_EXTHDR_COMPUTE0_BRN49927,
-+		.quirk = 49927,
-+	},
-+};
-+
-+static const struct pvr_stream_ext_header cmd_compute_ext_headers[] = {
-+	{
-+		.ext_streams = cmd_compute_ext_streams_0,
-+		.ext_streams_num = ARRAY_SIZE(cmd_compute_ext_streams_0),
-+		.valid_mask = PVR_STREAM_EXTHDR_COMPUTE0_VALID,
-+	},
-+};
-+
-+const struct pvr_stream_cmd_defs pvr_cmd_compute_stream = {
-+	.type = PVR_STREAM_TYPE_COMPUTE,
-+
-+	.main_stream = rogue_fwif_cmd_compute_stream,
-+	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_compute_stream),
-+
-+	.ext_nr_headers = ARRAY_SIZE(cmd_compute_ext_headers),
-+	.ext_headers = cmd_compute_ext_headers,
-+
-+	.dest_size = sizeof(struct rogue_fwif_cmd_compute),
-+};
-+
-+static const struct pvr_stream_def rogue_fwif_cmd_transfer_stream[] = {
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd0_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd1_base, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.pds_bgnd3_sizeinfo, 64),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_mtile_base, 64),
-+	PVR_STREAM_DEF_ARRAY(rogue_fwif_cmd_transfer, regs.pbe_wordx_mrty),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_bgobjvals, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_pixel_output_ctrl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register0, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register1, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register2, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.usc_clear_register3, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_mtile_size, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_render_origin, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_ctl, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_aa, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_info, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_code, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.event_pixel_pds_data, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_render, 32),
-+	PVR_STREAM_DEF(rogue_fwif_cmd_transfer, regs.isp_rgn, 32),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_transfer, regs.isp_xtp_pipe_enable, 32,
-+			       PVR_FEATURE_S7_TOP_INFRASTRUCTURE),
-+	PVR_STREAM_DEF_FEATURE(rogue_fwif_cmd_transfer, regs.frag_screen, 32,
-+			       PVR_FEATURE_GPU_MULTICORE_SUPPORT),
-+};
-+
-+const struct pvr_stream_cmd_defs pvr_cmd_transfer_stream = {
-+	.type = PVR_STREAM_TYPE_TRANSFER,
-+
-+	.main_stream = rogue_fwif_cmd_transfer_stream,
-+	.main_stream_len = ARRAY_SIZE(rogue_fwif_cmd_transfer_stream),
-+
-+	.ext_nr_headers = 0,
-+
-+	.dest_size = sizeof(struct rogue_fwif_cmd_transfer),
-+};
-+
- static const struct pvr_stream_def rogue_fwif_static_render_context_state_stream[] = {
- 	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
- 		       geom_reg_vdm_context_state_base_addr, 64),
-diff --git a/drivers/gpu/drm/imagination/pvr_sync.c b/drivers/gpu/drm/imagination/pvr_sync.c
++#endif /* PVR_ROGUE_CR_DEFS_CLIENT_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_defs.h b/drivers/gpu/drm/imagination/pvr_rogue_defs.h
 new file mode 100644
-index 000000000000..129f646d14ba
+index 000000000000..932b01686008
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_sync.c
-@@ -0,0 +1,289 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include <uapi/drm/pvr_drm.h>
-+
-+#include <drm/drm_syncobj.h>
-+#include <drm/gpu_scheduler.h>
-+#include <linux/xarray.h>
-+#include <linux/dma-fence-unwrap.h>
-+
-+#include "pvr_device.h"
-+#include "pvr_queue.h"
-+#include "pvr_sync.h"
-+
-+static int
-+pvr_check_sync_op(const struct drm_pvr_sync_op *sync_op)
-+{
-+	u8 handle_type;
-+
-+	if (sync_op->flags & ~DRM_PVR_SYNC_OP_FLAGS_MASK)
-+		return -EINVAL;
-+
-+	handle_type = sync_op->flags & DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_MASK;
-+	if (handle_type != DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_SYNCOBJ &&
-+	    handle_type != DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_TIMELINE_SYNCOBJ)
-+		return -EINVAL;
-+
-+	if (handle_type == DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_SYNCOBJ &&
-+	    sync_op->value != 0)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static void
-+pvr_sync_signal_free(struct pvr_sync_signal *sig_sync)
-+{
-+	if (!sig_sync)
-+		return;
-+
-+	drm_syncobj_put(sig_sync->syncobj);
-+	dma_fence_chain_free(sig_sync->chain);
-+	dma_fence_put(sig_sync->fence);
-+	kfree(sig_sync);
-+}
-+
-+void
-+pvr_sync_signal_array_cleanup(struct xarray *array)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+	unsigned long i;
-+
-+	xa_for_each(array, i, sig_sync)
-+		pvr_sync_signal_free(sig_sync);
-+
-+	xa_destroy(array);
-+}
-+
-+static struct pvr_sync_signal *
-+pvr_sync_signal_array_add(struct xarray *array, struct drm_file *file, u32 handle, u64 point)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+	struct dma_fence *cur_fence;
-+	int err;
-+	u32 id;
-+
-+	sig_sync = kzalloc(sizeof(*sig_sync), GFP_KERNEL);
-+	if (!sig_sync)
-+		return ERR_PTR(-ENOMEM);
-+
-+	sig_sync->handle = handle;
-+	sig_sync->point = point;
-+
-+	if (point > 0) {
-+		sig_sync->chain = dma_fence_chain_alloc();
-+		if (!sig_sync->chain) {
-+			err = -ENOMEM;
-+			goto err_free_sig_sync;
-+		}
-+	}
-+
-+	sig_sync->syncobj = drm_syncobj_find(file, handle);
-+	if (!sig_sync->syncobj) {
-+		err = -EINVAL;
-+		goto err_free_sig_sync;
-+	}
-+
-+	/* Retrieve the current fence attached to that point. It's
-+	 * perfectly fine to get a NULL fence here, it just means there's
-+	 * no fence attached to that point yet.
-+	 */
-+	if (!drm_syncobj_find_fence(file, handle, point, 0, &cur_fence))
-+		sig_sync->fence = cur_fence;
-+
-+	err = xa_alloc(array, &id, sig_sync, xa_limit_32b, GFP_KERNEL);
-+	if (err)
-+		goto err_free_sig_sync;
-+
-+	return sig_sync;
-+
-+err_free_sig_sync:
-+	pvr_sync_signal_free(sig_sync);
-+	return ERR_PTR(err);
-+}
-+
-+static struct pvr_sync_signal *
-+pvr_sync_signal_array_search(struct xarray *array, u32 handle, u64 point)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+	unsigned long i;
-+
-+	xa_for_each(array, i, sig_sync) {
-+		if (handle == sig_sync->handle && point == sig_sync->point)
-+			return sig_sync;
-+	}
-+
-+	return NULL;
-+}
-+
-+static struct pvr_sync_signal *
-+pvr_sync_signal_array_get(struct xarray *array, struct drm_file *file, u32 handle, u64 point)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+
-+	sig_sync = pvr_sync_signal_array_search(array, handle, point);
-+	if (sig_sync)
-+		return sig_sync;
-+
-+	return pvr_sync_signal_array_add(array, file, handle, point);
-+}
-+
-+int
-+pvr_sync_signal_array_collect_ops(struct xarray *array,
-+				  struct drm_file *file,
-+				  u32 sync_op_count,
-+				  const struct drm_pvr_sync_op *sync_ops)
-+{
-+	for (u32 i = 0; i < sync_op_count; i++) {
-+		struct pvr_sync_signal *sig_sync;
-+		int ret;
-+
-+		if (!(sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL))
-+			continue;
-+
-+		ret = pvr_check_sync_op(&sync_ops[i]);
-+		if (ret)
-+			return ret;
-+
-+		sig_sync = pvr_sync_signal_array_get(array, file,
-+						     sync_ops[i].handle,
-+						     sync_ops[i].value);
-+		if (IS_ERR(sig_sync))
-+			return PTR_ERR(sig_sync);
-+	}
-+
-+	return 0;
-+}
-+
-+int
-+pvr_sync_signal_array_update_fences(struct xarray *array,
-+				    u32 sync_op_count,
-+				    const struct drm_pvr_sync_op *sync_ops,
-+				    struct dma_fence *done_fence)
-+{
-+	for (u32 i = 0; i < sync_op_count; i++) {
-+		struct dma_fence *old_fence;
-+		struct pvr_sync_signal *sig_sync;
-+
-+		if (!(sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL))
-+			continue;
-+
-+		sig_sync = pvr_sync_signal_array_search(array, sync_ops[i].handle,
-+							sync_ops[i].value);
-+		if (WARN_ON(!sig_sync))
-+			return -EINVAL;
-+
-+		old_fence = sig_sync->fence;
-+		sig_sync->fence = dma_fence_get(done_fence);
-+		dma_fence_put(old_fence);
-+
-+		if (WARN_ON(!sig_sync->fence))
-+			return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+void
-+pvr_sync_signal_array_push_fences(struct xarray *array)
-+{
-+	struct pvr_sync_signal *sig_sync;
-+	unsigned long i;
-+
-+	xa_for_each(array, i, sig_sync) {
-+		if (sig_sync->chain) {
-+			drm_syncobj_add_point(sig_sync->syncobj, sig_sync->chain,
-+					      sig_sync->fence, sig_sync->point);
-+			sig_sync->chain = NULL;
-+		} else {
-+			drm_syncobj_replace_fence(sig_sync->syncobj, sig_sync->fence);
-+		}
-+	}
-+}
-+
-+static int
-+pvr_sync_add_dep_to_job(struct drm_sched_job *job, struct dma_fence *f)
-+{
-+	struct dma_fence_unwrap iter;
-+	u32 native_fence_count = 0;
-+	struct dma_fence *uf;
-+	int err = 0;
-+
-+	dma_fence_unwrap_for_each(uf, &iter, f) {
-+		if (pvr_queue_fence_is_ufo_backed(uf))
-+			native_fence_count++;
-+	}
-+
-+	/* No need to unwrap the fence if it's fully non-native. */
-+	if (!native_fence_count)
-+		return drm_sched_job_add_dependency(job, f);
-+
-+	dma_fence_unwrap_for_each(uf, &iter, f) {
-+		/* There's no dma_fence_unwrap_stop() helper cleaning up the refs
-+		 * owned by dma_fence_unwrap(), so let's just iterate over all
-+		 * entries without doing anything when something failed.
-+		 */
-+		if (err)
-+			continue;
-+
-+		if (pvr_queue_fence_is_ufo_backed(uf)) {
-+			struct drm_sched_fence *s_fence = to_drm_sched_fence(uf);
-+
-+			/* If this is a native dependency, we wait for the scheduled fence,
-+			 * and we will let pvr_queue_run_job() issue FW waits.
-+			 */
-+			err = drm_sched_job_add_dependency(job,
-+							   dma_fence_get(&s_fence->scheduled));
-+		} else {
-+			err = drm_sched_job_add_dependency(job, dma_fence_get(uf));
-+		}
-+	}
-+
-+	dma_fence_put(f);
-+	return err;
-+}
-+
-+int
-+pvr_sync_add_deps_to_job(struct pvr_file *pvr_file, struct drm_sched_job *job,
-+			 u32 sync_op_count,
-+			 const struct drm_pvr_sync_op *sync_ops,
-+			 struct xarray *signal_array)
-+{
-+	int err = 0;
-+
-+	if (!sync_op_count)
-+		return 0;
-+
-+	for (u32 i = 0; i < sync_op_count; i++) {
-+		struct pvr_sync_signal *sig_sync;
-+		struct dma_fence *fence;
-+
-+		if (sync_ops[i].flags & DRM_PVR_SYNC_OP_FLAG_SIGNAL)
-+			continue;
-+
-+		err = pvr_check_sync_op(&sync_ops[i]);
-+		if (err)
-+			return err;
-+
-+		sig_sync = pvr_sync_signal_array_search(signal_array, sync_ops[i].handle,
-+							sync_ops[i].value);
-+		if (sig_sync) {
-+			if (WARN_ON(!sig_sync->fence))
-+				return -EINVAL;
-+
-+			fence = dma_fence_get(sig_sync->fence);
-+		} else {
-+			err = drm_syncobj_find_fence(from_pvr_file(pvr_file), sync_ops[i].handle,
-+						     sync_ops[i].value, 0, &fence);
-+			if (err)
-+				return err;
-+		}
-+
-+		err = pvr_sync_add_dep_to_job(job, fence);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_sync.h b/drivers/gpu/drm/imagination/pvr_sync.h
-new file mode 100644
-index 000000000000..db6ccfda104a
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_sync.h
-@@ -0,0 +1,84 @@
++++ b/drivers/gpu/drm/imagination/pvr_rogue_defs.h
+@@ -0,0 +1,179 @@
 +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_SYNC_H
-+#define PVR_SYNC_H
++#ifndef PVR_ROGUE_DEFS_H
++#define PVR_ROGUE_DEFS_H
 +
-+#include <uapi/drm/pvr_drm.h>
++#include "pvr_rogue_cr_defs.h"
 +
-+/* Forward declaration from <linux/xarray.h>. */
-+struct xarray;
++#include <linux/bits.h>
 +
-+/* Forward declaration from <drm/drm_file.h>. */
-+struct drm_file;
-+
-+/* Forward declaration from <drm/gpu_scheduler.h>. */
-+struct drm_sched_job;
-+
-+/* Forward declaration from "pvr_device.h". */
-+struct pvr_file;
-+
-+/**
-+ * struct pvr_sync_signal - Object encoding a syncobj signal operation
-+ *
-+ * The job submission logic collects all signal operations in an array of
-+ * pvr_sync_signal objects. This array also serves as a cache to get the
-+ * latest dma_fence when multiple jobs are submitted at once, and one job
-+ * signals a syncobj point that's later waited on by a subsequent job.
++/*
++ ******************************************************************************
++ * ROGUE Defines
++ ******************************************************************************
 + */
-+struct pvr_sync_signal {
-+	/** @handle: Handle of the syncobj to signal. */
-+	u32 handle;
 +
-+	/**
-+	 * @point: Point to signal in the syncobj.
-+	 *
-+	 * Only relevant for timeline syncobjs.
-+	 */
-+	u64 point;
++#define ROGUE_FW_MAX_NUM_OS (8U)
++#define ROGUE_FW_HOST_OS (0U)
++#define ROGUE_FW_GUEST_OSID_START (1U)
 +
-+	/** @syncobj: Syncobj retrieved from the handle. */
-+	struct drm_syncobj *syncobj;
++#define ROGUE_FW_THREAD_0 (0U)
++#define ROGUE_FW_THREAD_1 (1U)
 +
-+	/**
-+	 * @chain: Chain object used to link the new fence with the
-+	 *	   existing timeline syncobj.
-+	 *
-+	 * Should be zero when manipulating a regular syncobj.
-+	 */
-+	struct dma_fence_chain *chain;
++#define GET_ROGUE_CACHE_LINE_SIZE(x) ((((s32)(x)) > 0) ? ((x) / 8) : (0))
 +
-+	/**
-+	 * @fence: New fence object to attach to the syncobj.
-+	 *
-+	 * This pointer starts with the current fence bound to
-+	 * the <handle,point> pair.
-+	 */
-+	struct dma_fence *fence;
-+};
++#define MAX_HW_GEOM_FRAG_CONTEXTS 2U
 +
-+void
-+pvr_sync_signal_array_cleanup(struct xarray *array);
++#define ROGUE_CR_CLK_CTRL_ALL_ON \
++	(0x5555555555555555ull & ROGUE_CR_CLK_CTRL_MASKFULL)
++#define ROGUE_CR_CLK_CTRL_ALL_AUTO \
++	(0xaaaaaaaaaaaaaaaaull & ROGUE_CR_CLK_CTRL_MASKFULL)
++#define ROGUE_CR_CLK_CTRL2_ALL_ON \
++	(0x5555555555555555ull & ROGUE_CR_CLK_CTRL2_MASKFULL)
++#define ROGUE_CR_CLK_CTRL2_ALL_AUTO \
++	(0xaaaaaaaaaaaaaaaaull & ROGUE_CR_CLK_CTRL2_MASKFULL)
 +
-+int
-+pvr_sync_signal_array_collect_ops(struct xarray *array,
-+				  struct drm_file *file,
-+				  u32 sync_op_count,
-+				  const struct drm_pvr_sync_op *sync_ops);
++#define ROGUE_CR_SOFT_RESET_DUST_n_CORE_EN    \
++	(ROGUE_CR_SOFT_RESET_DUST_A_CORE_EN | \
++	 ROGUE_CR_SOFT_RESET_DUST_B_CORE_EN | \
++	 ROGUE_CR_SOFT_RESET_DUST_C_CORE_EN | \
++	 ROGUE_CR_SOFT_RESET_DUST_D_CORE_EN | \
++	 ROGUE_CR_SOFT_RESET_DUST_E_CORE_EN | \
++	 ROGUE_CR_SOFT_RESET_DUST_F_CORE_EN | \
++	 ROGUE_CR_SOFT_RESET_DUST_G_CORE_EN | \
++	 ROGUE_CR_SOFT_RESET_DUST_H_CORE_EN)
 +
-+int
-+pvr_sync_signal_array_update_fences(struct xarray *array,
-+				    u32 sync_op_count,
-+				    const struct drm_pvr_sync_op *sync_ops,
-+				    struct dma_fence *done_fence);
++/* SOFT_RESET Rascal and DUSTs bits */
++#define ROGUE_CR_SOFT_RESET_RASCALDUSTS_EN    \
++	(ROGUE_CR_SOFT_RESET_RASCAL_CORE_EN | \
++	 ROGUE_CR_SOFT_RESET_DUST_n_CORE_EN)
 +
-+void
-+pvr_sync_signal_array_push_fences(struct xarray *array);
++/* SOFT_RESET steps as defined in the TRM */
++#define ROGUE_S7_SOFT_RESET_DUSTS (ROGUE_CR_SOFT_RESET_DUST_n_CORE_EN)
 +
-+int
-+pvr_sync_add_deps_to_job(struct pvr_file *pvr_file, struct drm_sched_job *job,
-+			 u32 sync_op_count,
-+			 const struct drm_pvr_sync_op *sync_ops,
-+			 struct xarray *signal_array);
++#define ROGUE_S7_SOFT_RESET_JONES                                 \
++	(ROGUE_CR_SOFT_RESET_PM_EN | ROGUE_CR_SOFT_RESET_VDM_EN | \
++	 ROGUE_CR_SOFT_RESET_ISP_EN)
 +
-+#endif /* PVR_SYNC_H */
++#define ROGUE_S7_SOFT_RESET_JONES_ALL                             \
++	(ROGUE_S7_SOFT_RESET_JONES | ROGUE_CR_SOFT_RESET_BIF_EN | \
++	 ROGUE_CR_SOFT_RESET_SLC_EN | ROGUE_CR_SOFT_RESET_GARTEN_EN)
++
++#define ROGUE_S7_SOFT_RESET2                                                  \
++	(ROGUE_CR_SOFT_RESET2_BLACKPEARL_EN | ROGUE_CR_SOFT_RESET2_PIXEL_EN | \
++	 ROGUE_CR_SOFT_RESET2_CDM_EN | ROGUE_CR_SOFT_RESET2_VERTEX_EN)
++
++#define ROGUE_BIF_PM_PHYSICAL_PAGE_ALIGNSHIFT (12U)
++#define ROGUE_BIF_PM_PHYSICAL_PAGE_SIZE \
++	BIT(ROGUE_BIF_PM_PHYSICAL_PAGE_ALIGNSHIFT)
++
++#define ROGUE_BIF_PM_VIRTUAL_PAGE_ALIGNSHIFT (14U)
++#define ROGUE_BIF_PM_VIRTUAL_PAGE_SIZE BIT(ROGUE_BIF_PM_VIRTUAL_PAGE_ALIGNSHIFT)
++
++#define ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE (16U)
++
++/*
++ * To get the number of required Dusts, divide the number of
++ * clusters by 2 and round up
++ */
++#define ROGUE_REQ_NUM_DUSTS(CLUSTERS) (((CLUSTERS) + 1U) / 2U)
++
++/*
++ * To get the number of required Bernado/Phantom(s), divide
++ * the number of clusters by 4 and round up
++ */
++#define ROGUE_REQ_NUM_PHANTOMS(CLUSTERS) (((CLUSTERS) + 3U) / 4U)
++#define ROGUE_REQ_NUM_BERNADOS(CLUSTERS) (((CLUSTERS) + 3U) / 4U)
++#define ROGUE_REQ_NUM_BLACKPEARLS(CLUSTERS) (((CLUSTERS) + 3U) / 4U)
++
++/*
++ * FW MMU contexts
++ */
++#define MMU_CONTEXT_MAPPING_FWPRIV (0x0) /* FW code/private data */
++#define MMU_CONTEXT_MAPPING_FWIF (0x0) /* Host/FW data */
++
++/*
++ * Utility macros to calculate CAT_BASE register addresses
++ */
++#define BIF_CAT_BASEX(n)          \
++	(ROGUE_CR_BIF_CAT_BASE0 + \
++	 (n) * (ROGUE_CR_BIF_CAT_BASE1 - ROGUE_CR_BIF_CAT_BASE0))
++
++#define FWCORE_MEM_CAT_BASEX(n)                 \
++	(ROGUE_CR_FWCORE_MEM_CAT_BASE0 +        \
++	 (n) * (ROGUE_CR_FWCORE_MEM_CAT_BASE1 - \
++		ROGUE_CR_FWCORE_MEM_CAT_BASE0))
++
++/*
++ * FWCORE wrapper register defines
++ */
++#define FWCORE_ADDR_REMAP_CONFIG0_MMU_CONTEXT_SHIFT \
++	ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_CBASE_SHIFT
++#define FWCORE_ADDR_REMAP_CONFIG0_MMU_CONTEXT_CLRMSK \
++	ROGUE_CR_FWCORE_ADDR_REMAP_CONFIG0_CBASE_CLRMSK
++#define FWCORE_ADDR_REMAP_CONFIG0_SIZE_ALIGNSHIFT (12U)
++
++#define ROGUE_MAX_COMPUTE_SHARED_REGISTERS (2 * 1024)
++#define ROGUE_MAX_VERTEX_SHARED_REGISTERS 1024
++#define ROGUE_MAX_PIXEL_SHARED_REGISTERS 1024
++#define ROGUE_CSRM_LINE_SIZE_IN_DWORDS (64 * 4 * 4)
++
++#define ROGUE_CDMCTRL_USC_COMMON_SIZE_ALIGNSIZE 64
++#define ROGUE_CDMCTRL_USC_COMMON_SIZE_UPPER 256
++
++/*
++ * The maximum amount of local memory which can be allocated by a single kernel
++ * (in dwords/32-bit registers).
++ *
++ * ROGUE_CDMCTRL_USC_COMMON_SIZE_ALIGNSIZE is in bytes so we divide by four.
++ */
++#define ROGUE_MAX_PER_KERNEL_LOCAL_MEM_SIZE_REGS ((ROGUE_CDMCTRL_USC_COMMON_SIZE_ALIGNSIZE * \
++						   ROGUE_CDMCTRL_USC_COMMON_SIZE_UPPER) >> 2)
++
++/*
++ ******************************************************************************
++ * WA HWBRNs
++ ******************************************************************************
++ */
++
++/* GPU CR timer tick in GPU cycles */
++#define ROGUE_CRTIME_TICK_IN_CYCLES (256U)
++
++/* for nohw multicore return max cores possible to client */
++#define ROGUE_MULTICORE_MAX_NOHW_CORES (4U)
++
++/*
++ * If the size of the SLC is less than this value then the TPU bypasses the SLC.
++ */
++#define ROGUE_TPU_CACHED_SLC_SIZE_THRESHOLD (128U * 1024U)
++
++/*
++ * If the size of the SLC is bigger than this value then the TCU must not be
++ * bypassed in the SLC.
++ * In XE_MEMORY_HIERARCHY cores, the TCU is bypassed by default.
++ */
++#define ROGUE_TCU_CACHED_SLC_SIZE_THRESHOLD (32U * 1024U)
++
++/*
++ * Register used by the FW to track the current boot stage (not used in MIPS)
++ */
++#define ROGUE_FW_BOOT_STAGE_REGISTER (ROGUE_CR_POWER_ESTIMATE_RESULT)
++
++/*
++ * Virtualisation definitions
++ */
++#define ROGUE_VIRTUALISATION_REG_SIZE_PER_OS \
++	(ROGUE_CR_MTS_SCHEDULE1 - ROGUE_CR_MTS_SCHEDULE)
++
++/*
++ * Macro used to indicate which version of HWPerf is active
++ */
++#define ROGUE_FEATURE_HWPERF_ROGUE
++
++/*
++ * Maximum number of cores supported by TRP
++ */
++#define ROGUE_TRP_MAX_NUM_CORES (4U)
++
++#endif /* PVR_ROGUE_DEFS_H */
 -- 
 2.25.1
 
