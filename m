@@ -1,100 +1,131 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LgKniuUK"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC10AD40
-	for <linux-doc@vger.kernel.org>; Wed, 22 Nov 2023 04:50:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700657399;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Azq5OYes"
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B2DD54;
+	Wed, 22 Nov 2023 05:44:58 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A59D71BF206;
+	Wed, 22 Nov 2023 13:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700660697;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=t7CwGgnA5jX9Ulr8vRs5/VIijolfgnKW6FNaANq6NMw=;
-	b=LgKniuUK1qMEE26G4bb+UQyvZWVjzjQ+6Ao9XZrVnihGm44Tryt2u1WSXRSRTtBDGWf9Wm
-	cFAV6kWmJPbehkpjIdm5joNSQaTNz2jTc4HklDFbvzKCA0eD2Iq2IjgdbghgGkO436hIxU
-	zMBptiz0w6oa1Or9pwq6TwU11JR1+M0=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-pKTBIl2VOoimuEVrSZTqfQ-1; Wed, 22 Nov 2023 07:49:58 -0500
-X-MC-Unique: pKTBIl2VOoimuEVrSZTqfQ-1
-Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2c876d239e6so38371071fa.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Nov 2023 04:49:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700657397; x=1701262197;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t7CwGgnA5jX9Ulr8vRs5/VIijolfgnKW6FNaANq6NMw=;
-        b=wWiQO8/Zsl6QY8AT9NzN43T05ZvTJA4T3Y+R5jMWuPcjIZYgYkDUAc8nnHrR+V+beQ
-         WfwY7VyexlXgvqh1RMkxf6PhZa7Kow5GPazHL2ksZMuQ65NxLlITND9hLJ9ejMB0SvN+
-         bH64sBaQsA/oaJ41c1dMy6YcOVgQP0L8hYXaHgq+0A5blfeMyLYy4wXTR6t2poqywM2P
-         7ZRWPIVdpDV8DBdlEWsQdWF5OMedauRthtO6Esr9BrWt4Nuki5u2a/zqDIrYcmKpftjU
-         g5xhDIJblQ6MvB/ZgQNL54SJ1RVjdu9k+9ZQ8k3Cx277gKYqR8x1i2FTI7/WkoQiMl7P
-         TcUA==
-X-Gm-Message-State: AOJu0Yw1/vqtVVp6HRRB0n7uEqyUxmzLWHB50PmjF8QLQTxzUpQ66A0R
-	dE+XT/StrjOXG6MsbLzlUh0aj557bNk8y9ptm/jmmNfjViFS+5/Dd4ukiVhRanHwqMeJ8PlWxFT
-	p+PavS3fObN1o/hAYHSQX
-X-Received: by 2002:a2e:98c2:0:b0:2c5:2132:24f6 with SMTP id s2-20020a2e98c2000000b002c5213224f6mr1644885ljj.12.1700657397036;
-        Wed, 22 Nov 2023 04:49:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHjsqJ2SuGehTUxt/XdTWeav04muk69t7/+AFuoFYCMhKZg56Vp4jkvGQpcnN18Ay8LgHfnHQ==
-X-Received: by 2002:a2e:98c2:0:b0:2c5:2132:24f6 with SMTP id s2-20020a2e98c2000000b002c5213224f6mr1644863ljj.12.1700657396682;
-        Wed, 22 Nov 2023 04:49:56 -0800 (PST)
-Received: from localhost ([90.167.94.248])
-        by smtp.gmail.com with ESMTPSA id bg36-20020a05600c3ca400b0040775501256sm2103506wmb.16.2023.11.22.04.49.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 04:49:56 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Albert Esteve <aesteve@redhat.com>, Simon Ser <contact@emersion.fr>
-Cc: qemu-devel@nongnu.org, zackr@vmware.com, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- iforbes@vmware.com, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Chia-I Wu <olvaffe@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Hans de Goede <hdegoede@redhat.com>, Matt Roper
- <matthew.d.roper@intel.com>, David Airlie <airlied@gmail.com>,
- banackm@vmware.com, Rob Clark <robdclark@gmail.com>, krastevm@vmware.com,
- spice-devel@lists.freedesktop.org, Gurchetan Singh
- <gurchetansingh@chromium.org>, Jonathan Corbet <corbet@lwn.net>, David
- Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, mombasawalam@vmware.com, Daniel Vetter
- <daniel@ffwll.ch>, ppaalanen@gmail.com, VMware Graphics Reviewers
- <linux-graphics-maintainer@vmware.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v6 0/9] Fix cursor planes with virtualized drivers
-In-Reply-To: <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com>
-References: <20231023074613.41327-1-aesteve@redhat.com>
- <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr>
- <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com>
-Date: Wed, 22 Nov 2023 13:49:55 +0100
-Message-ID: <87y1eqc5qk.fsf@minerva.mail-host-address-is-not-set>
+	bh=HYGwltdt7UObW6m6TQ25cKM4YubrRmxjcFZzyasRZoE=;
+	b=Azq5OYesRze4Ajgq1X2y6Rlqfe3W2ZoOlUQoeG1wJLotR/9VVFNBphuxj42UDzVKdrXQjy
+	9J56sFXmNMc9wrx+YEcpbHSJiQgwOUd8F4JQNU7O4bHRX+dVDUdasgfDd9O0H7T3M1b3Dn
+	K1a5pXmttrk+jp6YLCwnw22xH011ECFtj7Ah0XLyEp0smrxan4YDdibKh58B9zfFOhGCXO
+	mJAfGFHLGMD0V+oBvkyldD3GciM/GRX5qSWa+eoCX3B8ffXDl6QKceKhcXUbQ1DqzfyrED
+	kt7Va5FGV08YXUCT1hF6KvShuTAQac8lU1ANUKXuTvN78G8FPCeCM3bZmnN5Ng==
+Date: Wed, 22 Nov 2023 14:44:53 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
+ stamping layer be selectable
+Message-ID: <20231122144453.5eb0382f@kmaincent-XPS-13-7390>
+In-Reply-To: <20231121094354.635ee8cd@kernel.org>
+References: <20231120105255.cgbart5amkg4efaz@skbuf>
+	<20231120121440.3274d44c@kmaincent-XPS-13-7390>
+	<20231120120601.ondrhbkqpnaozl2q@skbuf>
+	<20231120144929.3375317e@kmaincent-XPS-13-7390>
+	<20231120142316.d2emoaqeej2pg4s3@skbuf>
+	<20231120093723.4d88fb2a@kernel.org>
+	<20231120190023.ymog4yb2hcydhmua@skbuf>
+	<20231120115839.74ee5492@kernel.org>
+	<20231120211759.j5uvijsrgt2jqtwx@skbuf>
+	<20231120133737.70dde657@kernel.org>
+	<20231120220549.cvsz2ni3wj7mcukh@skbuf>
+	<20231121183114.727fb6d7@kmaincent-XPS-13-7390>
+	<20231121094354.635ee8cd@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Albert Esteve <aesteve@redhat.com> writes:
+On Tue, 21 Nov 2023 09:43:54 -0800
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-Hello,
+> On Tue, 21 Nov 2023 18:31:14 +0100 K=C3=B6ry Maincent wrote:
+> > - Expand struct hwtstamp_config with a phc_index member for the
+> > SIOCG/SHWTSTAMP commands.
+> >   To keep backward compatibility if phc_index is not set in the
+> > hwtstamp_config data from userspace use the default hwtstamp (the defau=
+lt
+> > being selected as done in my patch series).
+> >   Is this possible, would it breaks things? =20
+>=20
+> I'd skip this bit, and focus on the ETHTOOL_TSINFO. Keep the ioctl as
+> "legacy" and do all the extensions in ethtool. TSINFO_GET can serve
+> as GET, to avoid adding 3rd command for the same thing. TSINFO_SET
+> would be new (as you indicate below).
 
-[...]
+You say this patch series should simply add TSINFO_SET command to set the
+current phc_index?
 
->
->> > Mutter patch:
->> > https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
->>
->> Seems like this link is same as IGT? Copy-pasta fail maybe?
->>
->>
-> Ah yes, my bad, this is the correct link:
-> https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3337
+It won't solve your requirement of having simultaneous hwtimestamp and
+enabling/disabling them through rx_filter and tx_types.
+You want to do this in another patch series alongside a new SIOCG/SHWTSTAMP=
+_2
+ABI?
 
-The mutter chages are already in good shape and the MR has even be
-approved by a mutter developer. Any objections to merge the series ?
+> > - In netlink part, send one netlink tsinfo skb for each phc_index. =20
+>=20
+> phc_index and netdev combination. A DO command can only generate one
+> answer (or rather, it should generate only one answer, there are few
+> hard rules in netlink). So we need to move that functionality to DUMP.
+> We can filter the DUMP based on user-provided ifindex and/or phc_index.
 
--- 
-Best regards,
+Currently, the dumpit function is assigned to ethnl_default_dumpit. Wouldn't
+the behavior change of the dumpit callback break the ABI?
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
+> > Could be done in a later patch series:
+> > - Expand netlink TSINFO with ETHTOOL_A_TSINFO_HWSTAMP_PROVIDER_QUALIFIE=
+R.
+> >   Describing this struct:
+> > enum ethtool_hwstamp_provider_qualifier {
+> >  	ETHTOOL_HWSTAMP_PROVIDER_QUALIFIER_PRECISE,
+> >  	ETHTOOL_HWSTAMP_PROVIDER_QUALIFIER_APPROX,
+> > };=20
+> >=20
+> >   Set the desired qualifier through TSINFO_SET or through SIOCSHWTSTAMP=
+ by
+> >   expanding again the struct hwtstamp_config.
+
+Just wondering to have a insight of future support, in the case of several
+provider qualifier and the SIOCG/SHWTSTAMP_2 layout containing the phc_inde=
+x.
+Will we be able to talk to the two providers qualifiers simultaneously or i=
+s it
+not possible. To know if the SIOCG/SHWTSTAMP_2 layout would contain the
+description of the qualifier provider.
+If I understand well your mail in the thread it will be the case right?
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
