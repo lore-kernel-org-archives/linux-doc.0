@@ -1,83 +1,103 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EA7FCz0R"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC21195
-	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 18:45:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700621121; x=1732157121;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+SRKTY82F5RwG3K6X109BY32eywlj2KI1nBKJq1iZnY=;
-  b=EA7FCz0RL15j/jaQSHw8omANQZSupQSXbbe9ojpLN5yymT3G2Iu9P+fr
-   5wcNg2sk9z2juCup2UmwVzjaqUnyskVHoiPrDuFUdBnJ9aDuFWloI+PID
-   N6WwZWXcQiX+23OPx0w8wL/kRzIN+Cy1lNG2gu0rbBFhpT+XkVsuNLHkI
-   UKYMGGqq436Qb12nAwc/or2HjSYjiEvlLv/T7s+7L6g/JIKiq27MmvANA
-   ipyw/zCQkxoI7PfEoEiR/FYpS2wrPAwsx1W1jcVOHaEoI5RbWqN7E1bY2
-   b+dlGmnGBs5J9go8BORLc6ugoiDNVCTictRbeAWaqEEuWk9YjaCIWR1yB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="372142829"
-X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="372142829"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 18:45:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="760300438"
-X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="760300438"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 21 Nov 2023 18:45:19 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5dDQ-0008ZA-0e;
-	Wed, 22 Nov 2023 02:44:42 +0000
-Date: Wed, 22 Nov 2023 10:36:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>, linux-doc@vger.kernel.org
-Subject: [asahilinux:bits/200-dcp 126/145]
- drivers/mux/apple-display-crossbar.c:22: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202311221053.cOjeBbia-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="qcH4hEee"
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2062.outbound.protection.outlook.com [40.107.255.62])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D6B197;
+	Tue, 21 Nov 2023 19:23:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mtscoswv/BxhDv2X/y3oEpIdbJm4LvZw0ps3u0vWG38xpOpNoiHKJahYZm/nlffbE84xR4dof+JMSGJ5+rG0BPAHjwgnXRPVAaG/8tSzDc8ywDhd+ZEtuta9mFC5o9VHtj7/px4U3w9uQOaTsGTvjX3veQJEiBKRSjSiZ7SAkz5qVo+s0vuhjJLuqX+7kjj7o8hB3kZS05taSzAt87SWApUyvSllRF1YnLtjpjSq8EMSHngUo5BtXWACEzgJ5A//8jf95gfZEltn9+URFRlXaaHy/UpHagik+MmUTx7AVXfYoOsQ2/i7Sdr+ZfqQHX1VuqsxfWUSwxy8TqP/19Xs+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DV+AT0j7zdkc5daB1loqGuFLWJsc9iguLBX/Ldd0yQ8=;
+ b=i3HB1g8059Q3Eh3st7J5Y7fOc/wKMpyrH0AVI+WB+52m5lg4V5TNVvDBKJdYiEeFjxlXD0nUFhVkx6bEgq2d54rFvkenNDlhfKGcKz7L3rN0npzumPI3JGFDtVoMu6REL5foI25mR2587cs9jEOjiQzDZLfEyYDKbj8VQB3U5cdDCZ6RlkXimihBlAL6nD3SUdyw5wH89qso/UBH06h/XtlOnGHdKrWAOM6+9Wn+Be3LSTy5ESZhFlzhdhmXAc07kysno1/RxRR+JuUAiz5X6/iqodWVIzXL6USbqyUh/FCRO4k+pQCrjjrXIQIATvlbItRTDfzuHY7fnS3V6aa1hg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DV+AT0j7zdkc5daB1loqGuFLWJsc9iguLBX/Ldd0yQ8=;
+ b=qcH4hEeeOgOFd69xHY+6ldkCAuZCtvLxfW0qPAEOZBcQm0vbd/WGl0u4V5zoljcMJ8bD+EbGm97J2JFrQuRRisG16oIhIlvxD1PCD/+fxOpMBeHkyMa0dGdAwvIPm7Qy1IfKEiGHSyuh4xOad4CjIP/MQh+HNYcv4yXY+i5oa5s5kbCLwJQX86eaXHn+cUS15T+JPx3NrmL3LnVzXcIYlWn/ZRvF50s0WOAclcK6+y/dfVsULNobR9oPBdrVW0AwGTtbZEkqWUeKKsWBfYElvKMgijhGzxR4OAOaJOEbfTiyyeh9wKw0+d0Js2nKKzxbDW3ljhSriFZYfMsE8HQOGQ==
+Received: from KL1PR02CA0035.apcprd02.prod.outlook.com (2603:1096:820:d::22)
+ by SEZPR04MB5778.apcprd04.prod.outlook.com (2603:1096:101:76::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
+ 2023 03:23:47 +0000
+Received: from HK3PEPF00000220.apcprd03.prod.outlook.com
+ (2603:1096:820:d:cafe::71) by KL1PR02CA0035.outlook.office365.com
+ (2603:1096:820:d::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18 via Frontend
+ Transport; Wed, 22 Nov 2023 03:23:46 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ HK3PEPF00000220.mail.protection.outlook.com (10.167.8.42) with Microsoft SMTP
+ Server id 15.20.7025.12 via Frontend Transport; Wed, 22 Nov 2023 03:23:45
+ +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz
+Cc: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v1 0/2] Add adm1281 support
+Date: Wed, 22 Nov 2023 11:23:40 +0800
+Message-Id: <20231122032343.2794903-1-Delphine_CC_Chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF00000220:EE_|SEZPR04MB5778:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: c568bf1f-e362-479a-9040-08dbeb0a6fab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	LW44VxbMvpFpG0c5PuBjW9/nvDZ3uw2tcc7/1cQMCz+GXZ/dvMpHbH/YFedIYa2cSMGZdbBlnzWbk8lhwkKYirSFwTPoZrzH4df0j0VLGHgGgH1BMkNM1zTX6OPXpeF0RuoX34iqM1UTXE5hcP6zQ1eoWyj+3Sk14Dn+WqQU2AiicJ5Z8gGiQJbZjNouN0AAEHVkoHQIZME3PuWZFHbOJ7ubqAZVzMzUQGDntA074AZ+vOJ1gnL71nxJbjDZn9s1hA+XEP4sk1y+QTPMMnWm3MLitkYL3wFJTSSumHXysU+zPzq16dFZ2iE2cjqfxM2DA5OHnX3E2lIF2wsG1GPv2IrjrPfLMPgNucJTa4AHJ+AN6F8NhUaIpMsV5N0hpIpMSbk3XUAFbSI/nF7huJiFK3aIN+SzoMdWqzYSkHthbxP1l96mJX6xzWT1yGNNbIOcvqlN7D15imn/ugJpLe8QJ9gFfnXM5nR3rFIpI2dw2By9K4DVb9UK5ah/l+izhF6NhByA7dZffsqsENSC0ENG+d06i+FpThnQSgScU3+taVKCV+svZsP2KPJB5Bq61Js5n5IXkb/mQr5jY3Frn2dNdfI0fUw0pw5NW6iJuMSY0+EsXycvV+9F4/2tRhbFrgbB5F83jVmn+UE8LHDimj5lJEMhm9jyXVseSFloV3oLD61P7eVwdvL1wdA+4iNnfMyx6kxAgw/sBWTTkjZFea29mg==
+X-Forefront-Antispam-Report:
+	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(39860400002)(136003)(346002)(376002)(396003)(230922051799003)(451199024)(82310400011)(1800799012)(64100799003)(186009)(36840700001)(46966006)(36756003)(4744005)(5660300002)(7416002)(86362001)(41300700001)(2906002)(2616005)(9316004)(6506007)(6512007)(82740400003)(956004)(83380400001)(1076003)(336012)(26005)(6486002)(478600001)(6666004)(70586007)(47076005)(36860700001)(81166007)(356005)(316002)(6916009)(54906003)(36736006)(40480700001)(70206006)(4326008)(8936002)(8676002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 03:23:45.5178
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c568bf1f-e362-479a-9040-08dbeb0a6fab
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource:
+	HK3PEPF00000220.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB5778
 
-tree:   https://github.com/AsahiLinux/linux bits/200-dcp
-head:   e3a82f03cd81edb4608ab6dde0e073ac91e2fdb8
-commit: 592b58213f6556b76911d71b22f1d1de1e1a88ac [126/145] mux: apple dp crossbar: Support t602x DP cross bar variant
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231122/202311221053.cOjeBbia-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221053.cOjeBbia-lkp@intel.com/reproduce)
+v1 - Add adm1281 binding document and driver support
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311221053.cOjeBbia-lkp@intel.com/
+Delphine CC Chiu (2):
+  hwmon: pmbus: Add adm1281 support
+  dt-bindings: hwmon: pmbus: Add adm1281 support
 
-All warnings (new ones prefixed by >>):
-
->> drivers/mux/apple-display-crossbar.c:22: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * T602x register interface is cleary different so most of the nemes below are
-   drivers/mux/apple-display-crossbar.c:44: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * T8013, T600x, T8112 dp crossbar registers.
-
-
-vim +22 drivers/mux/apple-display-crossbar.c
-
-    20	
-    21	/**
-  > 22	 * T602x register interface is cleary different so most of the nemes below are
-    23	 * probly wrong.
-    24	 */
-    25	
+ Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml | 2 ++
+ Documentation/hwmon/adm1275.rst                          | 8 ++++++++
+ drivers/hwmon/pmbus/adm1275.c                            | 8 ++++++--
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
