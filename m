@@ -1,101 +1,174 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="wlRIYxOK"
-Received: from pv50p00im-tydg10021701.me.com (pv50p00im-tydg10021701.me.com [17.58.6.54])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210C1D45
-	for <linux-doc@vger.kernel.org>; Wed, 22 Nov 2023 06:36:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-	t=1700663801; bh=XgzjOA6VpboUIsRQsEa1gBHvNAppeoyf1BK3/lsO7ME=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=wlRIYxOKQN7njqHYi+70m8lPG9FNloZ/OdsLuREfLjMZIM8hG5gzKlHkuvUph9q6D
-	 +bNnQmTgHis1orJIKSEB2URIbFRk1lt4/xHeVCSLwQOQcCOpytnMbZlgj6KLeUWq1L
-	 wZcTPqOjDUUGpaSar+q5W3kyYBsfeiuRj+fLuy9hgVqHUugcRVcDKD/IieGQuFV/6o
-	 ghxsXSj/J3J9hUG2COAMzHug83bqURMctL2C6QJnbN3XqJeadP+GlAH4EJyNLjwgY/
-	 odoa5pbQxI4gLWUp+/BhUto2ZvnU0jv6mkxosVRuuUKIicP1KNxoHmy1Taw4AID8bm
-	 aboBe2u/Y6Lig==
-Received: from xiongwei.. (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-tydg10021701.me.com (Postfix) with ESMTPSA id 5770A3A0C18;
-	Wed, 22 Nov 2023 14:36:36 +0000 (UTC)
-From: sxwjean@me.com
-To: 42.hyeyoo@gmail.com,
-	vbabka@suse.cz,
-	linux-mm@kvack.org
-Cc: cl@linux.com,
-	penberg@kernel.org,
-	rientjes@google.com,
-	iamjoonsoo.kim@lge.com,
-	akpm@linux-foundation.org,
-	roman.gushchin@linux.dev,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xiongwei Song <xiongwei.song@windriver.com>
-Subject: [PATCH v2] Documentation: kernel-parameters: remove slab_max_order and noaliencache
-Date: Wed, 22 Nov 2023 22:36:03 +0800
-Message-Id: <20231122143603.85297-1-sxwjean@me.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ElUVf52+"
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E736B92;
+	Wed, 22 Nov 2023 06:57:13 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6CD9560002;
+	Wed, 22 Nov 2023 14:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700665032;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hEmwuFGNOf1bLX/AP2CQhltFnx9imN/bGp+B001wyFc=;
+	b=ElUVf52+FchZK9prPh2LVDQqZW0Ix2vq0JlPDM4xdIBS3a1EDetBne4DdPi/RKcwRE07or
+	C9YF0b50dr9OEphHo+C+IXAyMas6tlttgDBCy6ISi4afmig70QBAhuF0eU4CdfZmioEXt7
+	JHWkE+xbi+C88fj9hqdXM0UNFBM1+se39k19ivP+skbjYJnmGuC5P1DtXHPmC1P5tAQuBb
+	xrzB4YpByNNqtpr189vM5jvTSn8yP2gUxeFDA0cErXvhIm/b3wPkB+ton6e9TvoLaWDWcI
+	Epxw2kliGN2Xt78nFdhbP8Ca67rIYUmRC03pitURVM6HGj0h35VouZkhBDEQuA==
+Date: Wed, 22 Nov 2023 15:57:09 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
+ stamping layer be selectable
+Message-ID: <20231122155709.70f0d70a@kmaincent-XPS-13-7390>
+In-Reply-To: <20231122140850.li2mvf6tpo3f2fhh@skbuf>
+References: <20231120142316.d2emoaqeej2pg4s3@skbuf>
+ <20231120093723.4d88fb2a@kernel.org>
+ <20231120190023.ymog4yb2hcydhmua@skbuf>
+ <20231120115839.74ee5492@kernel.org>
+ <20231120211759.j5uvijsrgt2jqtwx@skbuf>
+ <20231120133737.70dde657@kernel.org>
+ <20231120220549.cvsz2ni3wj7mcukh@skbuf>
+ <20231121183114.727fb6d7@kmaincent-XPS-13-7390>
+ <20231121094354.635ee8cd@kernel.org>
+ <20231122144453.5eb0382f@kmaincent-XPS-13-7390>
+ <20231122140850.li2mvf6tpo3f2fhh@skbuf>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: l_lta4UJLzCFmn3o1DnHmhiV8lrNyLv4
-X-Proofpoint-ORIG-GUID: l_lta4UJLzCFmn3o1DnHmhiV8lrNyLv4
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.572,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-06-21=5F01:2022-06-21=5F01,2020-02-14=5F11,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- adultscore=0 bulkscore=0 spamscore=0 mlxscore=0 clxscore=1011
- mlxlogscore=840 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2308100000 definitions=main-2311220104
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-From: Xiongwei Song <xiongwei.song@windriver.com>
+On Wed, 22 Nov 2023 16:08:50 +0200
+Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
 
-Since slab allocator has already been removed. There is no users about
-slab_max_order and noaliencache, so let's remove them.
+> On Wed, Nov 22, 2023 at 02:44:53PM +0100, K=C3=B6ry Maincent wrote:
+> > On Tue, 21 Nov 2023 09:43:54 -0800
+> > Jakub Kicinski <kuba@kernel.org> wrote:
+> >  =20
+> > > On Tue, 21 Nov 2023 18:31:14 +0100 K=C3=B6ry Maincent wrote: =20
+> > > > - Expand struct hwtstamp_config with a phc_index member for the
+> > > > SIOCG/SHWTSTAMP commands.
+> > > >   To keep backward compatibility if phc_index is not set in the
+> > > > hwtstamp_config data from userspace use the default hwtstamp (the
+> > > > default being selected as done in my patch series).
+> > > >   Is this possible, would it breaks things?   =20
+> > >=20
+> > > I'd skip this bit, and focus on the ETHTOOL_TSINFO. Keep the ioctl as
+> > > "legacy" and do all the extensions in ethtool. TSINFO_GET can serve
+> > > as GET, to avoid adding 3rd command for the same thing. TSINFO_SET
+> > > would be new (as you indicate below). =20
+> >=20
+> > You say this patch series should simply add TSINFO_SET command to set t=
+he
+> > current phc_index?
+> >=20
+> > It won't solve your requirement of having simultaneous hwtimestamp and
+> > enabling/disabling them through rx_filter and tx_types.
+> > You want to do this in another patch series alongside a new
+> > SIOCG/SHWTSTAMP_2 ABI?
+> >  =20
+> > > > - In netlink part, send one netlink tsinfo skb for each phc_index. =
+  =20
+> > >=20
+> > > phc_index and netdev combination. A DO command can only generate one
+> > > answer (or rather, it should generate only one answer, there are few
+> > > hard rules in netlink). So we need to move that functionality to DUMP.
+> > > We can filter the DUMP based on user-provided ifindex and/or phc_inde=
+x. =20
+> >=20
+> > Currently, the dumpit function is assigned to ethnl_default_dumpit. Wou=
+ldn't
+> > the behavior change of the dumpit callback break the ABI?
+> >=20
+> >  =20
+> > > > Could be done in a later patch series:
+> > > > - Expand netlink TSINFO with
+> > > > ETHTOOL_A_TSINFO_HWSTAMP_PROVIDER_QUALIFIER. Describing this struct:
+> > > > enum ethtool_hwstamp_provider_qualifier {
+> > > >  	ETHTOOL_HWSTAMP_PROVIDER_QUALIFIER_PRECISE,
+> > > >  	ETHTOOL_HWSTAMP_PROVIDER_QUALIFIER_APPROX,
+> > > > };=20
+> > > >=20
+> > > >   Set the desired qualifier through TSINFO_SET or through SIOCSHWTS=
+TAMP
+> > > > by expanding again the struct hwtstamp_config. =20
+> >=20
+> > Just wondering to have a insight of future support, in the case of seve=
+ral
+> > provider qualifier and the SIOCG/SHWTSTAMP_2 layout containing the
+> > phc_index. Will we be able to talk to the two providers qualifiers
+> > simultaneously or is it not possible. To know if the SIOCG/SHWTSTAMP_2
+> > layout would contain the description of the qualifier provider.
+> > If I understand well your mail in the thread it will be the case right?
 
-Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
----
-v2: Hyeonggon Yoo <42.hyeyoo@gmail.com> suggested that noaliencache should be
-removed too. Here adding this change. The patch is based on [1].
+> My understanding of Jakub's email was that he wants to see the functional=
+ity
+> offered by SIOCGHWTSTAMP and SIOCSHWTSTAMP converted to netlink. I don't
+> think that ethtool is the correct netlink family for that, given that
+> these aren't ethtool ioctls to begin with. Maybe the new netdev netlink
+> family. The conversion in its basic form would offer exactly the same
+> functionality. The extended netlink messages would have extra attributes
+> to identify the targeted hwtstamp provider. In the lack of those
+> attributes, the default hwtstamp provider is targeted. The definition of
+> the default hwtstamp provider should be as per your current patch set
+> (netdev, with a whitelist for current phylib PHYs).
+>=20
+> The _listing_ of hwtstamp providers is what could be done through ethtool
+> netlink, similar but not identical to the way in which you are proposing
+> today (you are presenting blanket "layers" which correspond to netdev and
+> phylib, rather than individual providers).
+>=20
+> The concept of an "active phc_index" would not explicitly exist in the
+> UAPI. Thus I'm not sure what's with this TSINFO_SET being floated around.
+> The only thing would exist is a configurable rx_filter and tx_type per
+> hwtstamp provider (aka "{phc_index, qualifier}"). User space will have
+> to learn to select the hwtstamp provider it wants to configure through
+> netlink, and use for its class of traffic.
+>=20
+> This is why I mentioned by ndo_hwtstamp_set() conversion, because
+> suddenly it is a prerequisite for any further progress to be done.
+> You can't convert SIOCSHWTSTAMP to netlink if there are some driver
+> implementations which still use ndo_eth_ioctl(). They need to be
+> UAPI-agnostic.
+>=20
+> I'm not sure what's with Richard's mention of the "_2" variants of the
+> ioctls. Probably a low-effort suggestion which was a bit out of context.
+> His main point, that you cannot extend struct hwtstamp_config as that
+> has a fixed binary format, is perfectly valid though. This is why
+> netlink is preferable, because if done correctly (meaning not with
+> NLA_BINARY attributes), then it is much more extensible because all
+> attributes are TLVs. Use NLA_BINARY, and you will run into the exact
+> extensibility issues that the ioctl interface has.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=slab-remove-slab-v2r1
+I appreciate the clarification, it now makes more sense to me.
 
-v1: https://lore.kernel.org/linux-mm/20231120091214.150502-1-sxwjean@me.com/T/#m55ebb45851bc86d650baf65dfe8296d33c5b1126
----
- Documentation/admin-guide/kernel-parameters.txt | 10 ----------
- 1 file changed, 10 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 65731b060e3f..d56a5beefe24 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3740,10 +3740,6 @@
- 	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
- 			kernel to use 4-level paging instead.
- 
--	noaliencache	[MM, NUMA, SLAB] Disables the allocation of alien
--			caches in the slab allocator.  Saves per-node memory,
--			but will impact performance.
--
- 	noalign		[KNL,ARM]
- 
- 	noaltinstr	[S390] Disables alternative instructions patching
-@@ -5887,12 +5883,6 @@
- 			own.
- 			For more information see Documentation/mm/slub.rst.
- 
--	slab_max_order=	[MM, SLAB]
--			Determines the maximum allowed order for slabs.
--			A high setting may cause OOMs due to memory
--			fragmentation.  Defaults to 1 for systems with
--			more than 32MB of RAM, 0 otherwise.
--
- 	slub_debug[=options[,slabs][;[options[,slabs]]...]	[MM, SLUB]
- 			Enabling slub_debug allows one to determine the
- 			culprit if slab objects become corrupted. Enabling
--- 
-2.34.1
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
