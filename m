@@ -1,133 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bbGzPYp2"
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A39E8197;
-	Tue, 21 Nov 2023 17:19:32 -0800 (PST)
-Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-7a6774da682so273773139f.3;
-        Tue, 21 Nov 2023 17:19:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700615972; x=1701220772; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cihilcVY5OStqtWe30Okdv2euw2yNNgkn3qMNIzpAgo=;
-        b=bbGzPYp26QGA584/5mltjnFsDCneQVIlgsquIf91ol0mxp7Onz0lBhrrLF3cjI+1mg
-         NvwS141ssTORi3f2pfYtix993l7nCfm2+B2S1Rl2PHB4Xkmn0C4apG7SvMFh1hZjbBY/
-         nKYoilBSwz9cwvXT35roMYZvOaTAosfYQjOQ0IN0a8T0p3QkWSAxPiUgb4h3uUN65CPV
-         JMVhPgdJtrthq7LL7i+RJnzhFQqwvijRJszhdVcrPlc0mazwsmO1d94bowelQyV/dN+R
-         sIbYBzLPq4KvmPT0+o7c4LCaKi2I2iqzmuvLQ+3a+1KwFg8aW2lSpO+TcNNAtKVhTsij
-         oMfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700615972; x=1701220772;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cihilcVY5OStqtWe30Okdv2euw2yNNgkn3qMNIzpAgo=;
-        b=fzN8eUNrUR1y7HKJFOzcfR0Q1uqknZbi76J6kUlizmbf2FY8GMgfbeL3jD9HqIqGTi
-         EQijQFkpTxgvV0VdceWkcErIdndxUrVAFVGyscdwtANLpjfpmnf75lPM7eom7pLZj8UD
-         AYzDActwDY7Tg3TqM8wLvP3JXRdB9CP+z/78tvf9yPp3gkwcr2Z3ixHjus4vfALT3Gwh
-         +NsN6aKZJIEZ40aDPmhFS6CQdFeMf/D+NwBL/CvMTU6VH27FyOAmkQ7iXOAmisSLbh4p
-         igdaz825WHMMW4XmHZqV4XV0HpClRJ1ZcNmRBomyzcMFhWSiO/bJn5eHBfidOGxL7M0f
-         WcoA==
-X-Gm-Message-State: AOJu0YyPi7yS/mhmuTT1B+cqdYyCK1Apbi+um88/e/8mPanJhiM0zGnB
-	+lbQrPOolc+oNx63c7UwJxHoVKqgLian3TZfEp0=
-X-Google-Smtp-Source: AGHT+IE6W+Qq26H8vhTNqXDl2/rLQcAxjTvAPuQ9FR9DHaFVqUa+5jIx+4GJB/W5WQBTbwRqtf6oMtvFHyqFXFzoNPg=
-X-Received: by 2002:a05:6602:3999:b0:7a6:7e4c:1bf0 with SMTP id
- bw25-20020a056602399900b007a67e4c1bf0mr855787iob.16.1700615971940; Tue, 21
- Nov 2023 17:19:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EA7FCz0R"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC21195
+	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 18:45:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700621121; x=1732157121;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+SRKTY82F5RwG3K6X109BY32eywlj2KI1nBKJq1iZnY=;
+  b=EA7FCz0RL15j/jaQSHw8omANQZSupQSXbbe9ojpLN5yymT3G2Iu9P+fr
+   5wcNg2sk9z2juCup2UmwVzjaqUnyskVHoiPrDuFUdBnJ9aDuFWloI+PID
+   N6WwZWXcQiX+23OPx0w8wL/kRzIN+Cy1lNG2gu0rbBFhpT+XkVsuNLHkI
+   UKYMGGqq436Qb12nAwc/or2HjSYjiEvlLv/T7s+7L6g/JIKiq27MmvANA
+   ipyw/zCQkxoI7PfEoEiR/FYpS2wrPAwsx1W1jcVOHaEoI5RbWqN7E1bY2
+   b+dlGmnGBs5J9go8BORLc6ugoiDNVCTictRbeAWaqEEuWk9YjaCIWR1yB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="372142829"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="372142829"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 18:45:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="760300438"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="760300438"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 21 Nov 2023 18:45:19 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5dDQ-0008ZA-0e;
+	Wed, 22 Nov 2023 02:44:42 +0000
+Date: Wed, 22 Nov 2023 10:36:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>, linux-doc@vger.kernel.org
+Subject: [asahilinux:bits/200-dcp 126/145]
+ drivers/mux/apple-display-crossbar.c:22: warning: This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202311221053.cOjeBbia-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231115172344.4155593-1-nphamcs@gmail.com> <CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com>
- <CAJD7tkZ1U+YuvoBAnrXFxQDiQV2hXdbMG-gbzu64R8GLAtNAPA@mail.gmail.com>
- <CAF8kJuPTNwQM413UdeQTkMQ8HkJFyF4OWVrxJSf7uWbege0CXQ@mail.gmail.com>
- <CAKEwX=O5M-vZE5YhYQ5_CbCmXovS1XECO4ROXKWo06K880M1Mg@mail.gmail.com>
- <CAF8kJuOD6zq2VPcVdoZGvkzYX8iXn1akuYhNDJx-LUdS+Sx3GA@mail.gmail.com>
- <CAKEwX=NdFjemcmf27PVpgHpVHWQEo19KfApepWJBRYeyVCWvCw@mail.gmail.com>
- <CAF8kJuOCyd5r0LQ3m8fQp0GtxxNUKSmwURJH6V9aApefvX8xCA@mail.gmail.com>
- <ZVrHXJLxvs4_CUxc@google.com> <CAKEwX=MR6a-u87p=Oqm+zvwB_1zhrsM_n2=xW1kJz0_AoVwkPA@mail.gmail.com>
- <CAF8kJuNFQn_e29YEPy-G29FR2RnrPzZNWR07VuadOTNask_Rig@mail.gmail.com>
-In-Reply-To: <CAF8kJuNFQn_e29YEPy-G29FR2RnrPzZNWR07VuadOTNask_Rig@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 21 Nov 2023 17:19:19 -0800
-Message-ID: <CAKEwX=NpKqjApRKk2Qp9Hp63xSjRwD-DEu9yX4BvbMd86x2b1g@mail.gmail.com>
-Subject: Re: [PATCH v5] zswap: memcontrol: implement zswap writeback disabling
-To: Chris Li <chrisl@kernel.org>
-Cc: Yosry Ahmed <yosryahmed@google.com>, Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, 
-	lizefan.x@bytedance.com, Johannes Weiner <hannes@cmpxchg.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, Seth Jennings <sjenning@redhat.com>, 
-	Dan Streetman <ddstreet@ieee.org>, Vitaly Wool <vitaly.wool@konsulko.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
-	Hugh Dickins <hughd@google.com>, corbet@lwn.net, 
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm <linux-mm@kvack.org>, kernel-team@meta.com, 
-	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, david@ixit.cz, 
-	Minchan Kim <minchan@google.com>, Kairui Song <kasong@tencent.com>, 
-	Zhongkun He <hezhongkun.hzk@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Nov 21, 2023 at 11:09=E2=80=AFAM Chris Li <chrisl@kernel.org> wrote=
-:
->
-> On Tue, Nov 21, 2023 at 10:13=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wr=
-ote:
-> >
-> > Hi Chris!
-> >
-> > Thanks for the patch. Would you mind if I spend some time staring
-> > at the suggestion again and testing it some more?
->
-> Of course, by all means. That is just the minimal version to be
-> functional compatible with your zswap.writeback.
->
-> I might consider a follow up patch to add "no_zswap" and "none" to
-> convert the SSD only swapfile, which can't be expressed by
-> zswap.writeback.
-> That should cover all 4 combinations of zswap and swap files without
-> creating a custom swap tiers list.
->
-> "all": zswap + swapfile
-> "zswap": zswap only
-> "no_zswap": swapfile only.
-> "none": no swap.
->
-> All keyword names are open to suggestions.
+tree:   https://github.com/AsahiLinux/linux bits/200-dcp
+head:   e3a82f03cd81edb4608ab6dde0e073ac91e2fdb8
+commit: 592b58213f6556b76911d71b22f1d1de1e1a88ac [126/145] mux: apple dp crossbar: Support t602x DP cross bar variant
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231122/202311221053.cOjeBbia-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221053.cOjeBbia-lkp@intel.com/reproduce)
 
-SGTM! There might be some functionality duplication between
-memory.swap.tiers =3D no_zswap and memory.zswap.max =3D 0, but
-otherwise this seems reasonable to me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311221053.cOjeBbia-lkp@intel.com/
 
-no_zswap sounds a bit awkward, but I can't come up with a better
-name.
+All warnings (new ones prefixed by >>):
 
->
-> >
-> > If everything is good, I'll squash this patch with the original version=
-,
-> > (keeping you as a co-developer of the final patch of course), and
-> > update the documentation before re-sending everything as v6.
->
-> Great!
->
-> >
-> > Anyway, have a nice Thanksgiving break everyone! Thanks for
-> > taking the time to review my patch and discuss the API with me!
->
-> My pleasure to discuss the swap with you. We should do the online
-> "swap meet" and invite other developers who are interested in the swap
-> area as well.
+>> drivers/mux/apple-display-crossbar.c:22: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * T602x register interface is cleary different so most of the nemes below are
+   drivers/mux/apple-display-crossbar.c:44: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * T8013, T600x, T8112 dp crossbar registers.
 
-I look forward to this meeting! I'd love to discuss more about (z)swap
-development (and more generally, multi-tier memory management).
 
-Generic page promoter/demoter that takes into account workload
-(cgroup), access recency (LRU + generations)/frequency, and tier
-characteristics (latency, bandwidth, etc.) will be awesome to explore!
+vim +22 drivers/mux/apple-display-crossbar.c
 
->
-> Chris
+    20	
+    21	/**
+  > 22	 * T602x register interface is cleary different so most of the nemes below are
+    23	 * probly wrong.
+    24	 */
+    25	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
