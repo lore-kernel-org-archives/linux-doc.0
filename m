@@ -1,133 +1,129 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="em2DzhAj"
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0789185
-	for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 21:36:39 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5bdb0be3591so4883782a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Nov 2023 21:36:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PFbUvzwi"
+Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A781210C;
+	Tue, 21 Nov 2023 21:59:48 -0800 (PST)
+Received: by mail-ua1-x92a.google.com with SMTP id a1e0cc1a2514c-7bae0c07007so1486121241.1;
+        Tue, 21 Nov 2023 21:59:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1700631399; x=1701236199; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OPmH0R/ZGatN6+UwwJY3MEok1l+rZDRi+gW+Psbpgp4=;
-        b=em2DzhAjzA6+M6CAZujzfRwbEZCqdGSRYk74aXSfvrwfC9i0A5Oyz+J+5tXb6LB8dK
-         pb1g2PGElnuo2VdvsfPqhH/zL4esxIz8rbH83DzmAT67TQcpdWYKKVZUIut7hb1C1Dbk
-         SSU7+oZWwp6PD3mXy/vhPNk2gTDZAD15xboH/Ew9BYswQvTRf1/GEiDSNQyn9VaGj5b4
-         uApyRPYUw0IJVUcMc8WuX08ZPTfmQ8+6n3cXr8qZCA5fJ6k/UaM5+Ibswq/4Y3EzKHvu
-         R9g/W7fzIJjmilMuHgWda6NsgQYaM4/F5jzzQu3bTAx4UkOXhFHVQUVBoyK2tkqx17Ww
-         LxCg==
+        d=gmail.com; s=20230601; t=1700632788; x=1701237588; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GRblTu4ml6hVfmv/M7Om0SzMbiMU6JrjrAw45Kacwyg=;
+        b=PFbUvzwiTcfFfnc6rO+YRVQNds176ifC3u3ZEjfET3Y9whzgMHCgsJrJddpOEkpZ7h
+         5nJK0RcwDHdq2hyD1zYz+NlBRiltXfmCjiiHuguSCb+faWIQDOd9jSMSHxDOa+HDN6FH
+         xbXsu0RUA0IJjbuSBC3rLXqdmRojqsX6Rvf9/KNuSaOlqjKb/+JHy63TlkO/bOWn8yuI
+         AAG+VnP3YvOUKPy5BLPJblN82hNYtrxkwhmJwljJlDel7iZDD4axKBh+W9qvwlKiRxiW
+         13EDo04d00LioxO7Jw/mxM+3U9nkJfrAJORi6o/JbRewugB7pCfYzs/+M9t8/0kNBwR+
+         i8CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700631399; x=1701236199;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OPmH0R/ZGatN6+UwwJY3MEok1l+rZDRi+gW+Psbpgp4=;
-        b=djL05gSnL47h05eNAK/7y2xQ8vssKB4vGA99pSOTw41PdTTQKOS9RjJPP6KExmRuMK
-         HZeW+DDGoc4/lMbzh/cOEW0jDeaX4yXFyO6sgIgMK8235KByr1mSKEQ/rTzHJRgFjGVE
-         3odhFGaasjhVvgolgMGt16jAcp7F2cR7UsA/IIGqoytK515/pbMUoTdEdqxez4B/upok
-         Id6SQBs1D1p1BGn+y88RWb25yGEjyd3ZvJmwTTcjnk2bC2YtaZZuFh/xOcv6eijjwJy8
-         eLq34un8LUecTMLRGxOfcTf9dDjtPfiBFJQEV/1ILDqUFez/1chnB0HjM0I6Tfu4pDuT
-         h7aw==
-X-Gm-Message-State: AOJu0YzIszL7r0kAuHb0wBKl02S0dGM5MV+8UrkunaNyfkdjZzTbdLAS
-	j33SzYI2sZ1rwC1Qcmj0whItkQ==
-X-Google-Smtp-Source: AGHT+IE67Eq9oO1uEot/zjxOXNvgyCk21nCZbXVKotApAyu3bet6Avb8lU17DWWWT9joNIuvOnZhJw==
-X-Received: by 2002:a05:6a20:8f1d:b0:17a:e941:b0a3 with SMTP id b29-20020a056a208f1d00b0017ae941b0a3mr1395905pzk.39.1700631399364;
-        Tue, 21 Nov 2023 21:36:39 -0800 (PST)
-Received: from [157.82.205.15] ([157.82.205.15])
-        by smtp.gmail.com with ESMTPSA id gj13-20020a17090b108d00b002839a4f65c5sm454781pjb.30.2023.11.21.21.36.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 21:36:39 -0800 (PST)
-Message-ID: <664003d3-aadb-4938-80f6-67fab1c9dcdd@daynix.com>
-Date: Wed, 22 Nov 2023 14:36:32 +0900
+        d=1e100.net; s=20230601; t=1700632788; x=1701237588;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GRblTu4ml6hVfmv/M7Om0SzMbiMU6JrjrAw45Kacwyg=;
+        b=HmoYM8TnOGj/cB4c91OUXbgCz3CT1/Qg5uobaySXbHW8Qt4rbpJpGThMcFgIL/oSYb
+         sn7PcFTntVsJsVach0f2iVIWG76PBtbA8c6NQgMl/lSs8wYn3ch3QXkZtsDgI0mgcH7j
+         Bw7oGqkmSpwZJNBgSeR1SPGYykcSFiAE9m80OWyigzOIGm/26V92vk/UYv2gqdzHRAK8
+         YR+RAfc077B6oGPlS1OZ5DotMNIowGozltXlSvwCgmwBl7eDd8rbs5HJfR44k19bvnUQ
+         nLX356NIMK+DPPOBsaQGK1inLY7+AO/PRJX99KJSrIExnbh4A8PKKc+v1mnqNkW0SCkH
+         YBKA==
+X-Gm-Message-State: AOJu0Yz9RFu7xWhkT60EOEkvcwfenkTn2hDmw5i9mScHFp4FrBO6chDN
+	BkjV48wfi6trBMZnqv6Tv1FdH5OeZHdF2ZXAGWU=
+X-Google-Smtp-Source: AGHT+IHFKQeeC2S+TQAawEjhySClwPyCEXpsw360upok0riC3QEOTrEExQQd9eciMhcRR6UorZiBsMcAlJE6UPvvS7U=
+X-Received: by 2002:a67:ebd8:0:b0:462:71c3:99aa with SMTP id
+ y24-20020a67ebd8000000b0046271c399aamr1271437vso.19.1700632787592; Tue, 21
+ Nov 2023 21:59:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
-To: Song Liu <song@kernel.org>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
- Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>
-References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
- <20231015141644.260646-2-akihiko.odaki@daynix.com>
- <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
- <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com>
- <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
- <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
- <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
- <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com>
- <6253fb6b-9a53-484a-9be5-8facd46c051e@daynix.com>
- <CAPhsuW5JYoM-Mkehdy=FQsG1nvjbYGzwRZx8BkpG1P7cHdD=eQ@mail.gmail.com>
- <dba89d4b-84aa-4c9f-b016-56fd3ade04b2@daynix.com>
- <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
- <a1f09866-a443-4f74-8025-6cdb32eb1d2c@daynix.com>
- <CAPhsuW4o5o41a+jVjgGP+Ck3eUD8w6coLXMTYewXKJYmciLLnQ@mail.gmail.com>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <CAPhsuW4o5o41a+jVjgGP+Ck3eUD8w6coLXMTYewXKJYmciLLnQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231120091214.150502-1-sxwjean@me.com> <20231120091214.150502-3-sxwjean@me.com>
+ <CAB=+i9TxzvHpDjZHhRfX-Cox_GuYg6-uGaG3eBhZh5vCJwpgmw@mail.gmail.com> <CO1PR11MB5185A5481010CF8B541EA7A7ECBAA@CO1PR11MB5185.namprd11.prod.outlook.com>
+In-Reply-To: <CO1PR11MB5185A5481010CF8B541EA7A7ECBAA@CO1PR11MB5185.namprd11.prod.outlook.com>
+From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Date: Wed, 22 Nov 2023 14:59:36 +0900
+Message-ID: <CAB=+i9QW-ORVTQpC15-GNTwj8Qk7mRawS33dW0gWmhxV64DA1w@mail.gmail.com>
+Subject: Re: [PATCH 2/4] mm/slab: remove slab_nomrege and slab_merge
+To: "Song, Xiongwei" <Xiongwei.Song@windriver.com>
+Cc: "sxwjean@me.com" <sxwjean@me.com>, "cl@linux.com" <cl@linux.com>, 
+	"penberg@kernel.org" <penberg@kernel.org>, "rientjes@google.com" <rientjes@google.com>, 
+	"iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2023/11/22 14:25, Song Liu wrote:
-> On Mon, Nov 20, 2023 at 12:05 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>
->> On 2023/11/20 6:02, Song Liu wrote:
-> [...]
->>>> In contrast, our intended use case is more like a normal application.
->>>> So, for example, a user may download a container and run QEMU (including
->>>> the BPF program) installed in the container. As such, it is nice if the
->>>> ABI is stable across kernel releases, but it is not guaranteed for
->>>> kfuncs. Such a use case is already covered with the eBPF steering
->>>> program so I want to maintain it if possible.
->>>
->>> TBH, I don't think stability should be a concern for kfuncs used by QEMU.
->>> Many core BPF APIs are now implemented as kfuncs: bpf_dynptr_*,
->>> bpf_rcu_*, etc. As long as there are valid use cases,these kfuncs will
->>> be supported.
->>
->> Documentation/bpf/kfuncs.rst still says:
->>   > kfuncs provide a kernel <-> kernel API, and thus are not bound by any
->>   > of the strict stability restrictions associated with kernel <-> user
->>   > UAPIs.
->>
->> Is it possible to change the statement like as follows:
->> "Most kfuncs provide a kernel <-> kernel API, and thus are not bound by
->> any of the strict stability restrictions associated with kernel <-> user
->> UAPIs. kfuncs that have same stability restrictions associated with
->> UAPIs are exceptional, and must be carefully reviewed by subsystem (and
->> BPF?) maintainers as any other UAPIs are."
-> 
-> I am afraid this is against the intention to not guarantee UAPI-level stability
-> for kfuncs.
+On Wed, Nov 22, 2023 at 2:27=E2=80=AFPM Song, Xiongwei
+<Xiongwei.Song@windriver.com> wrote:
+>
+> Hi Hyeonggon,
+>
+> > -----Original Message-----
+> > From: owner-linux-mm@kvack.org <owner-linux-mm@kvack.org> On Behalf Of =
+Hyeonggon
+> > Yoo
+> > Sent: Tuesday, November 21, 2023 4:44 PM
+> > To: sxwjean@me.com
+> > Cc: cl@linux.com; penberg@kernel.org; rientjes@google.com; iamjoonsoo.k=
+im@lge.com;
+> > vbabka@suse.cz; roman.gushchin@linux.dev; corbet@lwn.net; linux-mm@kvac=
+k.org; linux-
+> > doc@vger.kernel.org; linux-kernel@vger.kernel.org
+> > Subject: Re: [PATCH 2/4] mm/slab: remove slab_nomrege and slab_merge
+> >
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the sender =
+and know the
+> > content is safe.
+> >
+> > On Mon, Nov 20, 2023 at 6:12=E2=80=AFPM <sxwjean@me.com> wrote:
+> > >
+> > > From: Xiongwei Song <xiongwei.song@windriver.com>
+> > >
+> > > Since slab allocatoer has already been removed, so we should also rem=
+ove
+> > > the related parameters. And change the global flag from slab_nomerge
+> > > to slub_nomerge.
+> >
+> > No, kernel parameters should be changed only in a backward-compatible
+> > way (if possible)
+> >
+> > Before slab merging was supported in SLAB, only SLUB supported it.
+> > After commit 423c929cbbec ("mm/slab_common: commonize slab merge logic"=
+), using
+> > slab_[no]merge parameters for CONFIG_SLUB builds became legal.
+> >
+> > I think what the documentation says is "slab_[no]merge enables or
+> > disables slab merging
+> > and slub_[no]merge remain supported only for backward compatibility"
+>
+> Yes. But slab allocator will not exist anymore. Is slab_[no]merge still p=
+roper?
+> Will the term "slab/SLAB" still be used in the future?
 
-Is it possible to ensure that a QEMU binary with the eBPF program 
-included works on different kernel versions without UAPI-level stability 
-then? Otherwise, I think we need to think of the minimal UAPI addition 
-that exposes the feature I propose, and the two options I presented 
-first are the candidates of such: the stable BPF change or tuntap 
-interface change.
+Well, why break existing users for no strong reason?
 
-Regards,
-Akihiko Odaki
+The reason why commit 423c929c did not drop slub_[no]merge after commonizat=
+ion
+is to support existing users and avoid breaking what worked before.
+
+Removing slab_max_order made sense because SLAB has gone and
+it didn't have any effect on SLUB, but slab_[no]merge are not the case.
+
+Also, technically SLUB is an implementation of the slab allocator concept,
+so IMHO it is not an improper name.
+
+and (let's say) even if it is improper, I'm not sure if changing
+everything would be worth it:
+$ git grep 'slab' mm | wc -l
+2365
+
+--
+Thanks!
+Hyeonggon
