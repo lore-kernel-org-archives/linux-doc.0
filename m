@@ -1,176 +1,177 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4571BD;
-	Wed, 22 Nov 2023 12:16:50 -0800 (PST)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1f4b29abdbcso21055fac.0;
-        Wed, 22 Nov 2023 12:16:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700684210; x=1701289010;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U+AKNbPfGcSitF9DQBk43/GENfS9BTVC5pjwY2CWch8=;
-        b=Bu5pFWc2ETKxL65yawgTFd7QN/bAEYfIseyHUYG/wZv4J0cEI8nhynLHfTa7QvWgpn
-         UY6i6wsyCO4nqk7poMpH3gwZFogrqI2UlMoZKhy385XeLHqUGBy6p4Gj3K26HIjo5vbT
-         SFdIwNj1diF59CY/axcaC0cN3zzJUehQvNm7WSmq2Q3+sE0ji2i2enNeYb6w7XS33RN0
-         kC1unYUAdEH+y/gchfS7wg79HZqn6UjveITZ7SmkAOqx+ySIfBe05J3oJrMx2v5sTQhu
-         ACPcVkA83B2SibqwvK88yc7xy6DPcyQ4RlnlNZDvltTwmpQLhWw2KjJeHh8qpYJawe/7
-         CM+A==
-X-Gm-Message-State: AOJu0YwBcB68LlYn0Nia3sbFrGu7yDB2adf3QhBmPUfU8N4gDfZlEFcg
-	7Zyt40jhWHNXp1YmKF13Aa/UVAfIY6EGdYP8jrKalExF
-X-Google-Smtp-Source: AGHT+IEZOuwWL+O8Ns2NywQDonavCXvBHcgdxxi2QZSHFBHwzFPNR8Ac+xre6B7/Fz+/eqIGB2UbpAfb/c6ikknz6l8=
-X-Received: by 2002:a05:6871:7a0:b0:1e9:8a7e:5893 with SMTP id
- o32-20020a05687107a000b001e98a7e5893mr4323044oap.5.1700684209905; Wed, 22 Nov
- 2023 12:16:49 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F231A587;
+	Wed, 22 Nov 2023 20:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JTZKN5o8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FE42C433C7;
+	Wed, 22 Nov 2023 20:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700686039;
+	bh=iOGqsjNrxAouz3AJJHZo7n5yudWeQ8nrq1vq3zxtsBE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=JTZKN5o8vBbSuTJ3zDm40Y+bDC/o4pO62dv6Qdw7wjjfuIvXz850E2mN4N0glDyAQ
+	 I24R1FewFREzbe6rsAaoxOszJT3HRAS9FwQcOgcd7p5330hxLb25O+yIbsQjwCTtsn
+	 +UFBAeZhqin2ubNn0OiBQfTXJ3vuEL5ciC2berJUgxbcBx4Aia14ioQrjV7DiaUVSR
+	 st50n8JxEhvGIa27YvK0jqgESrKFfDzRghsbGqbgZ3ITGcJLSxCRtKlTKGWtCMUBqj
+	 XpnKWid20FYJZBoiCILBrxO3xwRpU60BIQ28102Xv1iodp9t4T9w+AQKOUaZTyPQCD
+	 Ac2OW6LMM00DQ==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c874286f4dso13653841fa.0;
+        Wed, 22 Nov 2023 12:47:19 -0800 (PST)
+X-Gm-Message-State: AOJu0YzNuFrwlviDvPvddGrRdGaDalVIHy/mfWHxVn2LmdnpHuqkbVYK
+	7/OccFJZzvNVT1vxx0DuCC4GpJp5X2i1XwC4KQ==
+X-Google-Smtp-Source: AGHT+IGTjq0mZD9i+eUzTXzP28Wi1Bo+2Bm1FI9n8vEQBS5kPkO5fcu9os4HymBwAvrwCsgVBASyxd59bRZr+JZsdyc=
+X-Received: by 2002:a05:6512:3e20:b0:509:4792:25eb with SMTP id
+ i32-20020a0565123e2000b00509479225ebmr249053lfv.17.1700686037339; Wed, 22 Nov
+ 2023 12:47:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZVyz/Ve5pPu8AWoA@shell.armlinux.org.uk> <E1r5R31-00Csyt-Jq@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1r5R31-00Csyt-Jq@rmk-PC.armlinux.org.uk>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 22 Nov 2023 21:16:39 +0100
-Message-ID: <CAJZ5v0iYRXh369M3XTM0V8Q9mWkAT2y+9pJMD7HMaGjgpvFEMw@mail.gmail.com>
-Subject: Re: [PATCH 05/21] ACPI: Move ACPI_HOTPLUG_CPU to be disabled on arm64
- and riscv
-To: Russell King <rmk+kernel@armlinux.org.uk>
-Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	Salil Mehta <salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, 
-	justin.he@arm.com, James Morse <james.morse@arm.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>
+References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
+ <20231107105025.1480561-3-billy_tsai@aspeedtech.com> <20231108182135.GA2698015-robh@kernel.org>
+ <SG2PR06MB33655734700697E8F6FD0D1B8BB2A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+In-Reply-To: <SG2PR06MB33655734700697E8F6FD0D1B8BB2A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 22 Nov 2023 13:47:04 -0700
+X-Gmail-Original-Message-ID: <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com>
+Message-ID: <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com>
+Subject: Re: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
+ TACH Control
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Cc: "jdelvare@suse.com" <jdelvare@suse.com>, "linux@roeck-us.net" <linux@roeck-us.net>, 
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "joel@jms.id.au" <joel@jms.id.au>, 
+	"andrew@aj.id.au" <andrew@aj.id.au>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>, 
+	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, 
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+	"naresh.solanki@9elements.com" <naresh.solanki@9elements.com>, 
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>, 
+	"patrick@stwcx.xyz" <patrick@stwcx.xyz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 21, 2023 at 2:44=E2=80=AFPM Russell King <rmk+kernel@armlinux.o=
-rg.uk> wrote:
+On Mon, Nov 13, 2023 at 8:11=E2=80=AFPM Billy Tsai <billy_tsai@aspeedtech.c=
+om> wrote:
 >
-> From: James Morse <james.morse@arm.com>
+> > > Document the compatible for aspeed,ast2600-pwm-tach device, which can
+> > > support up to 16 PWM outputs and 16 fan tach input.
+> > >
+> > > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> > > ---
+> > >  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++++++=
+++
+> > >  1 file changed, 69 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6=
+-pwm-tach.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-ta=
+ch.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+> > > new file mode 100644
+> > > index 000000000000..c615fb10705c
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+> > > @@ -0,0 +1,69 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +# Copyright (C) 2023 Aspeed, Inc.
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: ASPEED G6 PWM and Fan Tach controller
+> > > +
+> > > +maintainers:
+> > > +  - Billy Tsai <billy_tsai@aspeedtech.com>
+> > > +
+> > > +description: |
+> > > +  The ASPEED PWM controller can support up to 16 PWM outputs.
+> > > +  The ASPEED Fan Tacho controller can support up to 16 fan tach inpu=
+t.
+> > > +  They are independent hardware blocks, which are different from the
+> > > +  previous version of the ASPEED chip.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - aspeed,ast2600-pwm-tach
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  resets:
+> > > +    maxItems: 1
+> > > +
+> > > +  "#pwm-cells":
+> > > +    const: 3
+> > > +
+> > > +patternProperties:
+> > > +  "^fan-[0-9]+$":
+> > > +    $ref: fan-common.yaml#
+> > > +    unevaluatedProperties: false
+> > > +    required:
+> > > +      - tach-ch
+> > > +
+> > > +required:
+> > > +  - reg
+> > > +  - clocks
+> > > +  - resets
+> > > +  - "#pwm-cells"
+> > > +  - compatible
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/clock/aspeed-clock.h>
+> > > +    pwm_tach: pwm-tach-controller@1e610000 {
+> > > +      compatible =3D "aspeed,ast2600-pwm-tach";
+> > > +      reg =3D <0x1e610000 0x100>;
+> > > +      clocks =3D <&syscon ASPEED_CLK_AHB>;
+> > > +      resets =3D <&syscon ASPEED_RESET_PWM>;
+> > > +      #pwm-cells =3D <3>;
+> > > +
+> > > +      fan-0 {
 >
-> Neither arm64 nor riscv support physical hotadd of CPUs that were not
-> present at boot. For arm64 much of the platform description is in static
-> tables which do not have update methods. arm64 does support HOTPLUG_CPU,
-> which is backed by a firmware interface to turn CPUs on and off.
+> > I assume there's a PWM connection here? How do you know which PWM? You
+> > said the tach channel is independent, so it is not that.
 >
-> acpi_processor_hotadd_init() and acpi_processor_remove() are for adding
-> and removing CPUs that were not present at boot. arm64 systems that do th=
-is
-> are not supported as there is currently insufficient information in the
-> platform description. (e.g. did the GICR get removed too?)
+> > It should not be 0 from 'fan-0' because that's just a meaningless index=
+.
 >
-> arm64 currently relies on the MADT enabled flag check in map_gicc_mpidr()
-> to prevent CPUs that were not described as present at boot from being
-> added to the system. Similarly, riscv relies on the same check in
-> map_rintc_hartid(). Both architectures also rely on the weak 'always fail=
-s'
-> definitions of acpi_map_cpu() and arch_register_cpu().
+> > You either need 'pwms' here or you can use 'reg' and the reg value is
+> > the PWM channel.
 >
-> Subsequent changes will redefine ACPI_HOTPLUG_CPU as making possible
-> CPUs present. Neither arm64 nor riscv support this.
+> Hi Rob, this binding is used to export the PWM provider and the Fan monit=
+or (i.e., Tach).
+> If the user wants to add the PWM connection for the fan, it can be done a=
+s follows:
 >
-> Disable ACPI_HOTPLUG_CPU for arm64 and riscv by removing 'default y' and
-> selecting it on the other three ACPI architectures. This allows the weak
-> definitions of some symbols to be removed.
+> fan0: pwm-fan0 {
+>         compatible =3D "pwm-fan";
+>         pwms =3D <&pwm_tach 0 40000 0>;
+>         cooling-min-state =3D <0>;
+>         cooling-max-state =3D <3>;
+>         #cooling-cells =3D <2>;
+>         cooling-levels =3D <0 15 128 255>;
+> };
 >
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Reviewed-by: Shaoqin Huang <shahuang@redhat.com>
-> Reviewed-by: Gavin Shan <gshan@redhat.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> This will reuse the existing PWM fan driver (e.g., pwm-fan.c).
 
-I can apply this if it gets ACKs from the maintainers of the affected
-architectures.
+I'm confused now. So what are the child nodes you have? You are
+defining the fan in 2 places? The "pwm-fan" driver supports a tach via
+an interrupt, so how would this work in your case?
 
-> ---
-> Changes since RFC:
->  * Expanded conditions to avoid ACPI_HOTPLUG_CPU being enabled when
->    HOTPLUG_CPU isn't.
-> Changes since RFC v3:
->  * Dropped ia64 changes
-> ---
->  arch/loongarch/Kconfig        |  1 +
->  arch/x86/Kconfig              |  1 +
->  drivers/acpi/Kconfig          |  1 -
->  drivers/acpi/acpi_processor.c | 18 ------------------
->  4 files changed, 2 insertions(+), 19 deletions(-)
->
-> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> index ee123820a476..331becb2cb4f 100644
-> --- a/arch/loongarch/Kconfig
-> +++ b/arch/loongarch/Kconfig
-> @@ -5,6 +5,7 @@ config LOONGARCH
->         select ACPI
->         select ACPI_GENERIC_GSI if ACPI
->         select ACPI_MCFG if ACPI
-> +       select ACPI_HOTPLUG_CPU if ACPI_PROCESSOR && HOTPLUG_CPU
->         select ACPI_PPTT if ACPI
->         select ACPI_SYSTEM_POWER_STATES_SUPPORT if ACPI
->         select ARCH_BINFMT_ELF_STATE
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 3762f41bb092..dbdcfc708369 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -59,6 +59,7 @@ config X86
->         #
->         select ACPI_LEGACY_TABLES_LOOKUP        if ACPI
->         select ACPI_SYSTEM_POWER_STATES_SUPPORT if ACPI
-> +       select ACPI_HOTPLUG_CPU                 if ACPI_PROCESSOR && HOTP=
-LUG_CPU
->         select ARCH_32BIT_OFF_T                 if X86_32
->         select ARCH_CLOCKSOURCE_INIT
->         select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
-> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-> index f819e760ff19..a3acfc750fce 100644
-> --- a/drivers/acpi/Kconfig
-> +++ b/drivers/acpi/Kconfig
-> @@ -310,7 +310,6 @@ config ACPI_HOTPLUG_CPU
->         bool
->         depends on ACPI_PROCESSOR && HOTPLUG_CPU
->         select ACPI_CONTAINER
-> -       default y
->
->  config ACPI_PROCESSOR_AGGREGATOR
->         tristate "Processor Aggregator"
-> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.=
-c
-> index 0f5218e361df..4fe2ef54088c 100644
-> --- a/drivers/acpi/acpi_processor.c
-> +++ b/drivers/acpi/acpi_processor.c
-> @@ -184,24 +184,6 @@ static void __init acpi_pcc_cpufreq_init(void) {}
->
->  /* Initialization */
->  #ifdef CONFIG_ACPI_HOTPLUG_CPU
-> -int __weak acpi_map_cpu(acpi_handle handle,
-> -               phys_cpuid_t physid, u32 acpi_id, int *pcpu)
-> -{
-> -       return -ENODEV;
-> -}
-> -
-> -int __weak acpi_unmap_cpu(int cpu)
-> -{
-> -       return -ENODEV;
-> -}
-> -
-> -int __weak arch_register_cpu(int cpu)
-> -{
-> -       return -ENODEV;
-> -}
-> -
-> -void __weak arch_unregister_cpu(int cpu) {}
-> -
->  static int acpi_processor_hotadd_init(struct acpi_processor *pr)
->  {
->         unsigned long long sta;
-> --
-> 2.30.2
->
+Rob
