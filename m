@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FC64BABC;
-	Wed, 22 Nov 2023 16:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3164B5AD;
+	Wed, 22 Nov 2023 16:55:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fPSeQNCQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A345C433C7;
-	Wed, 22 Nov 2023 16:50:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KR4e4C+o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC1BC433C8;
+	Wed, 22 Nov 2023 16:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700671802;
-	bh=ZFMcFjU59M2XNKlhy1XsxNfFuYDu0NpI3SyILQsRT0Y=;
+	s=k20201202; t=1700672101;
+	bh=/HIV4nv7BwN/w2cy+QdtiFk+dKAvRZKKzDdyVmdvCTU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fPSeQNCQqy1/x5905Xjdl5nq7QlL/tId3x7pQFXoAGW37wFFRtiWTGUUKJ/YJUR4e
-	 /9Nxv3QiRn8YLbTS71k2DfvyQ873pq9HsTshUHDbAfumGHRH/hgfGs37zMYSknImv9
-	 2xRa9GS6P1vBKasQ+XP/mf0W5RFjTGB6kwo6DeL1O3Fp+5kESIh3JsdUS0G7XAUsjb
-	 ZF4IxuO7V4cc8x+FJfcCYQkcPXegfEeqzgJX/x+Q9hBd7sxwgthverEd2ugTpnjJ/3
-	 h2rS0RRV8qd1ovaKTwKS7AR9+USkfjbswYTljgoSpMPAywz1G34liMSX23P6pfv+2w
-	 935H/le0J7+hg==
-Date: Wed, 22 Nov 2023 08:50:00 -0800
+	b=KR4e4C+osYMJhRZdNk+Z3tKtx/ELNllIcM5ctQ9iaKO/6UFJbizuxnjIiS2OOIIag
+	 H0G7j6JiBnn0YVPusnWuQpsYzxS7GXtTXiZ/eLmYWiCO5gvsmuxh8C0rPn9DQTTnqI
+	 thM63BtDn5Br5fHgqgFW0LtSOpSXNEGUV6/Iedzgumz8b9Lvksq8qM1nGp8QSTrkNa
+	 RntTFRZDf+9oG7HpE/SHRdxc/dI4lJfqd5ZGg/LSA7osksz1MiHtnGPbHsm4Y1ORKV
+	 LrOpnjkDbTvuM1lMh+rO9OBlFR2dXpkpAecUBmmyBogBNsDom/dhIw8KoXbCkM9ia6
+	 fcci4vBjOdv8w==
+Date: Wed, 22 Nov 2023 08:54:59 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Vladimir Oltean <vladimir.oltean@nxp.com>
 Cc: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Florian
@@ -38,10 +38,9 @@ Cc: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Florian
  <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
  stamping layer be selectable
-Message-ID: <20231122085000.79f2d14c@kernel.org>
-In-Reply-To: <20231122140850.li2mvf6tpo3f2fhh@skbuf>
-References: <20231120142316.d2emoaqeej2pg4s3@skbuf>
-	<20231120093723.4d88fb2a@kernel.org>
+Message-ID: <20231122085459.1601141e@kernel.org>
+In-Reply-To: <20231122143618.cqyb45po7bon2xzg@skbuf>
+References: <20231120093723.4d88fb2a@kernel.org>
 	<20231120190023.ymog4yb2hcydhmua@skbuf>
 	<20231120115839.74ee5492@kernel.org>
 	<20231120211759.j5uvijsrgt2jqtwx@skbuf>
@@ -51,6 +50,7 @@ References: <20231120142316.d2emoaqeej2pg4s3@skbuf>
 	<20231121094354.635ee8cd@kernel.org>
 	<20231122144453.5eb0382f@kmaincent-XPS-13-7390>
 	<20231122140850.li2mvf6tpo3f2fhh@skbuf>
+	<20231122143618.cqyb45po7bon2xzg@skbuf>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,49 +60,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Nov 2023 16:08:50 +0200 Vladimir Oltean wrote:
-> My understanding of Jakub's email was that he wants to see the functionality
-> offered by SIOCGHWTSTAMP and SIOCSHWTSTAMP converted to netlink. I don't
-> think that ethtool is the correct netlink family for that, given that
-> these aren't ethtool ioctls to begin with. Maybe the new netdev netlink
-> family. The conversion in its basic form would offer exactly the same
-> functionality.
-
-Well, ethtool has been the catch all for a lot of random things
-for the longest time. The question is whether we want to extend
-ETHTOOL_GET_TS_INFO or add a third API somewhere else. And if we
-do - do we also duplicate the functionality of ETHTOOL_GET_TS_INFO
-(i.e. getting capabilities)?
-
-My vote is that keeping it in ethtool is less bad than 3rd API.
-
-> The _listing_ of hwtstamp providers is what could be done through ethtool
-> netlink, similar but not identical to the way in which you are proposing
-> today (you are presenting blanket "layers" which correspond to netdev and
-> phylib, rather than individual providers).
+On Wed, 22 Nov 2023 16:36:18 +0200 Vladimir Oltean wrote:
+> @Jakub, for your long-term "MAC timestamps for PTP, DMA for everything else".
+> How do you see this? I guess we need some sort of priority function in
+> the UAPI between hwtstamp providers.
 > 
-> The concept of an "active phc_index" would not explicitly exist in the
-> UAPI. Thus I'm not sure what's with this TSINFO_SET being floated around.
-> The only thing would exist is a configurable rx_filter and tx_type per
-> hwtstamp provider (aka "{phc_index, qualifier}"). User space will have
-> to learn to select the hwtstamp provider it wants to configure through
-> netlink, and use for its class of traffic.
+> And even with that, I think the enums that we currently have for filters
+> are not specific enough. The most we could expose is:
+> 
+>                       MAC provider                      DMA provider
+> 
+> hwtstamp_rx_filters   HWTSTAMP_FILTER_PTP_V2_EVENT      HWTSTAMP_FILTER_ALL
+> tx_type               HWTSTAMP_TX_ON                    HWTSTAMP_TX_ON
+> 
+> but it isn't clear: for PTP, does the DMA provider give you an RX
+> timestamp too?
 
-"Active provider" is the one that has TX_ON, rx != FILTER_NONE, right?
+If we phrase it as "precise / approximate" rather than "MAC / DMA" - it
+seems fairly intuitive to give the best timestamp available for a given
+packet, no?
 
-> This is why I mentioned by ndo_hwtstamp_set() conversion, because
-> suddenly it is a prerequisite for any further progress to be done.
-> You can't convert SIOCSHWTSTAMP to netlink if there are some driver
-> implementations which still use ndo_eth_ioctl(). They need to be
-> UAPI-agnostic.
+> What about a TX timestamp?
 
-Right, definitely.
-
-> I'm not sure what's with Richard's mention of the "_2" variants of the
-> ioctls. Probably a low-effort suggestion which was a bit out of context.
-> His main point, that you cannot extend struct hwtstamp_config as that
-> has a fixed binary format, is perfectly valid though. This is why
-> netlink is preferable, because if done correctly (meaning not with
-> NLA_BINARY attributes), then it is much more extensible because all
-> attributes are TLVs. Use NLA_BINARY, and you will run into the exact
-> extensibility issues that the ioctl interface has.
+I was thinking - socket flag to make packets for a given socket request
+precise timestamps.
