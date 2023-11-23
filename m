@@ -1,75 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by lindbergh.monkeyblade.net (Postfix) with SMTP id D062E189
-	for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 10:17:05 -0800 (PST)
-Received: (qmail 9883 invoked by uid 1000); 23 Nov 2023 13:17:03 -0500
-Date: Thu, 23 Nov 2023 13:17:03 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Hardik Gajjar <hgajjar@de.adit-jv.com>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, tj@kernel.org,
-  rdunlap@infradead.org, paulmck@kernel.org, linux-doc@vger.kernel.org,
-  linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-  erosca@de.adit-jv.com, Martin.Mueller5@de.bosch.com
-Subject: Re: [PATCH] usb: hubs: Decrease IN-endpoint poll interval for
- Microchip USB491x hub
-Message-ID: <988f4311-a726-4a7e-b0bf-6aeec13d8f23@rowland.harvard.edu>
-References: <20231123081948.58776-1-hgajjar@de.adit-jv.com>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=emersion.fr header.i=@emersion.fr header.b="cKWk6SyY"
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64EF51B6
+	for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 14:11:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+	s=protonmail2; t=1700777494; x=1701036694;
+	bh=1FSAtIYmUftMaxOldMoteCptRTxIkeeuJnWLHgIXrlA=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=cKWk6SyY7AK0lUuCp5Xn1fwoCcUc2EdFsBbzXNqYMgHpOlmoEFhqIx7LNPXCVydfZ
+	 hp8uUX5zJnqE9v/ix0YVj0RqzUUCHMvjOCeH2Xwd2xHH0McUo9+3qYY54YBj84GacZ
+	 pWI5jsjKxxLgTTePqS7y3u9F9k8ieFvYSl6Q6iK44gNmnWkWXB9Sy3Crf/06IaxflB
+	 N+kSQL2L8hcB8CWR5XWZrqB6Bu0trOXoYPLKmAlRKP1X1oQuAlUPc6Uvripwnl25Fb
+	 MZGqoGbgOMKE23vmgO0yvUp/CeMO2Lo1MNJHA1ZzK19jncMnk7Wwh95LC069Y4Wno8
+	 XFTP4BYoDTbUg==
+Date: Thu, 23 Nov 2023 22:11:14 +0000
+To: Javier Martinez Canillas <javierm@redhat.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: Albert Esteve <aesteve@redhat.com>, qemu-devel@nongnu.org, zackr@vmware.com, linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, iforbes@vmware.com, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Chia-I Wu <olvaffe@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>, Matt Roper <matthew.d.roper@intel.com>, David Airlie <airlied@gmail.com>, banackm@vmware.com, Rob Clark <robdclark@gmail.com>, krastevm@vmware.com, spice-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>, Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org, mombasawalam@vmware.com, Daniel Vetter <daniel@ffwll.ch>, ppaalanen@gmail.com, VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v6 0/9] Fix cursor planes with virtualized drivers
+Message-ID: <xUgaKXv4lqgCEWWlB4KRGx-yLXefTg-uXEdXaTqAhOTxC4G7bCILTK9SH6ymdmMMBLooAl3_Kdvl5JXeUA8Hofg9PcCMBhPWhVhnCoxvgqA=@emersion.fr>
+In-Reply-To: <87y1eqc5qk.fsf@minerva.mail-host-address-is-not-set>
+References: <20231023074613.41327-1-aesteve@redhat.com> <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr> <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com> <87y1eqc5qk.fsf@minerva.mail-host-address-is-not-set>
+Feedback-ID: 1358184:user:proton
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231123081948.58776-1-hgajjar@de.adit-jv.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 23, 2023 at 09:19:48AM +0100, Hardik Gajjar wrote:
-> There is a potential delay in announcing downstream USB bus activity to
-> Linux USB drivers due to the default interrupt endpoint having a poll
-> interval of 256ms.
-> 
-> Microchip has recommended ignoring the device descriptor and reducing
-> that value to 32ms, as it was too late to modify it in silicon.
-> 
-> This patch aims to speed up the USB enumeration process, facilitating
-> the successful completion of Apple CarPlay certifications and enhancing
-> user experience when utilizing USB devices through the Microchip Multihost
-> Hub.
-> 
-> A new quirk, USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL, accelerates the
-> notification process by changing the Endpoint interrupt poll interval
-> from 256ms to 32ms.
+On Wednesday, November 22nd, 2023 at 13:49, Javier Martinez Canillas <javie=
+rm@redhat.com> wrote:
 
-But this is meant to apply only to hubs, right?  So shouldn't it be a 
-HUB_QUIRK_32_MS_INTR_INTERVAL macro, used in hub.c's hub_id_table, 
-rather than a general USB quirk?
+> Any objections to merge the series ?
 
-> Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  4 ++++
->  drivers/usb/core/config.c                       |  8 ++++++++
->  drivers/usb/core/quirks.c                       | 11 +++++++++++
->  include/linux/usb/quirks.h                      |  5 +++++
->  4 files changed, 28 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 65731b060e3f..6b0a66f0e6bf 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6908,6 +6908,10 @@
->  					pause after every control message);
->  				o = USB_QUIRK_HUB_SLOW_RESET (Hub needs extra
->  					delay after resetting its port);
-> +				p = USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL (Set
-> +					bInterval to a Maximum of 9 to Reduce
-> +					default Poll Rate from 256 ms to
-> +					32 ms);
-
-256 ms and 32 ms are _periods_ (or intervals), not _rates_.
-
-bInterval=9 corresponds to 32 ms only for High Speed and SuperSpeed* 
-devices.  For Low and Full Speed it corresponds to 9 ms.  Explanatory 
-comments should strive not to be misleading.
-
-Alan Stern
+No objections from me :)
