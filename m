@@ -1,104 +1,137 @@
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4AA60191;
-	Wed, 22 Nov 2023 21:50:16 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 519771042;
-	Wed, 22 Nov 2023 21:51:02 -0800 (PST)
-Received: from [10.163.39.193] (unknown [10.163.39.193])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9B7683F6C4;
-	Wed, 22 Nov 2023 21:50:12 -0800 (PST)
-Message-ID: <0bcda96e-df9a-4342-af4e-e4485c33ff55@arm.com>
-Date: Thu, 23 Nov 2023 11:20:10 +0530
+X-Greylist: delayed 553 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Nov 2023 00:29:20 PST
+Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A9E5B9
+	for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 00:29:20 -0800 (PST)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+	by hi1smtp01.de.adit-jv.com (Postfix) with ESMTP id 825C2520165;
+	Thu, 23 Nov 2023 09:20:05 +0100 (CET)
+Received: from vmlxhi-118.adit-jv.com (10.72.93.77) by hi2exch02.adit-jv.com
+ (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.34; Thu, 23 Nov
+ 2023 09:20:05 +0100
+From: Hardik Gajjar <hgajjar@de.adit-jv.com>
+To: <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
+	<corbet@lwn.net>
+CC: <tj@kernel.org>, <rdunlap@infradead.org>, <paulmck@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <erosca@de.adit-jv.com>,
+	<hgajjar@de.adit-jv.com>, <Martin.Mueller5@de.bosch.com>
+Subject: [PATCH] usb: hubs: Decrease IN-endpoint poll interval for Microchip USB491x hub
+Date: Thu, 23 Nov 2023 09:19:48 +0100
+Message-ID: <20231123081948.58776-1-hgajjar@de.adit-jv.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] Documentation: arm64: Document the PMU event
- counting threshold feature
-Content-Language: en-US
-To: Namhyung Kim <namhyung@gmail.com>, James Clark <james.clark@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
- suzuki.poulose@arm.com, will@kernel.org, mark.rutland@arm.com,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231113112507.917107-1-james.clark@arm.com>
- <20231113112507.917107-4-james.clark@arm.com>
- <CAM9d7ciDq-te1DQPrMrZQC9er0pSMY24nvC-atxdRu1C6uD08A@mail.gmail.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <CAM9d7ciDq-te1DQPrMrZQC9er0pSMY24nvC-atxdRu1C6uD08A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
 
+There is a potential delay in announcing downstream USB bus activity to
+Linux USB drivers due to the default interrupt endpoint having a poll
+interval of 256ms.
 
+Microchip has recommended ignoring the device descriptor and reducing
+that value to 32ms, as it was too late to modify it in silicon.
 
-On 11/21/23 03:01, Namhyung Kim wrote:
-> On Mon, Nov 13, 2023 at 3:26 AM James Clark <james.clark@arm.com> wrote:
->> Add documentation for the new Perf event open parameters and
->> the threshold_max capability file.
->>
->> Signed-off-by: James Clark <james.clark@arm.com>
->> ---
->>  Documentation/arch/arm64/perf.rst | 56 +++++++++++++++++++++++++++++++
->>  1 file changed, 56 insertions(+)
->>
->> diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
->> index 1f87b57c2332..36b8111a710d 100644
->> --- a/Documentation/arch/arm64/perf.rst
->> +++ b/Documentation/arch/arm64/perf.rst
->> @@ -164,3 +164,59 @@ and should be used to mask the upper bits as needed.
->>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
->>  .. _tools/lib/perf/tests/test-evsel.c:
->>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
->> +
->> +Event Counting Threshold
->> +==========================================
->> +
->> +Overview
->> +--------
->> +
->> +FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
->> +events whose count meets a specified threshold condition. For example if
->> +threshold_compare is set to 2 ('Greater than or equal'), and the
->> +threshold is set to 2, then the PMU counter will now only increment by
->> +when an event would have previously incremented the PMU counter by 2 or
->> +more on a single processor cycle.
->> +
->> +To increment by 1 after passing the threshold condition instead of the
->> +number of events on that cycle, add the 'threshold_count' option to the
->> +commandline.
->> +
->> +How-to
->> +------
->> +
->> +The threshold, threshold_compare and threshold_count values can be
->> +provided per event:
->> +
->> +.. code-block:: sh
->> +
->> +  perf stat -e stall_slot/threshold=2,threshold_compare=2/ \
->> +            -e dtlb_walk/threshold=10,threshold_compare=3,threshold_count/
-> Can you please explain this a bit more?
-> 
-> I guess the first event counts stall_slot PMU if the event if it's
-> greater than or equal to 2.  And as threshold_count is not set,
-> it'd count the stall_slot as is.  E.g. it counts 3 when it sees 3.
+This patch aims to speed up the USB enumeration process, facilitating
+the successful completion of Apple CarPlay certifications and enhancing
+user experience when utilizing USB devices through the Microchip Multihost
+Hub.
 
-Hence without 'threshold_count' being set, the other two config requests
-will not have an effect, is that correct ?
+A new quirk, USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL, accelerates the
+notification process by changing the Endpoint interrupt poll interval
+from 256ms to 32ms.
 
-> 
-> OTOH, dtlb_walk will count 1 if it sees an event less than 10.
-> Is my understanding correct?
+Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  4 ++++
+ drivers/usb/core/config.c                       |  8 ++++++++
+ drivers/usb/core/quirks.c                       | 11 +++++++++++
+ include/linux/usb/quirks.h                      |  5 +++++
+ 4 files changed, 28 insertions(+)
 
-'Equals' and 'Greater-than-or-equal' makes sense and are intuitive. Just
-wondering what will happen for 'Not-equal' and 'Less-than' - when would
-the counter count in such cases ?
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 65731b060e3f..6b0a66f0e6bf 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6908,6 +6908,10 @@
+ 					pause after every control message);
+ 				o = USB_QUIRK_HUB_SLOW_RESET (Hub needs extra
+ 					delay after resetting its port);
++				p = USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL (Set
++					bInterval to a Maximum of 9 to Reduce
++					default Poll Rate from 256 ms to
++					32 ms);
+ 			Example: quirks=0781:5580:bk,0a5c:5834:gij
+ 
+ 	usbhid.mousepoll=
+diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+index b19e38d5fd10..4edbb5922872 100644
+--- a/drivers/usb/core/config.c
++++ b/drivers/usb/core/config.c
+@@ -355,6 +355,14 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
+ 				n = clamp(fls(d->bInterval), i, j);
+ 				i = j = n;
+ 			}
++
++			/*
++			 * This quirk limits bInterval to 9 (32 ms).
++			 */
++			if (udev->quirks & USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL) {
++				n = clamp(fls(d->bInterval), i, min(j, 9));
++				i = j = n;
++			}
+ 			break;
+ 		default:		/* USB_SPEED_FULL or _LOW */
+ 			/*
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 15e9bd180a1d..243ae5981cc8 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -138,6 +138,9 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
+ 			case 'o':
+ 				flags |= USB_QUIRK_HUB_SLOW_RESET;
+ 				break;
++			case 'p':
++				flags |= USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL;
++				break;
+ 			/* Ignore unrecognized flag characters */
+ 			}
+ 		}
+@@ -211,6 +214,14 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	/* USB3503 */
+ 	{ USB_DEVICE(0x0424, 0x3503), .driver_info = USB_QUIRK_RESET_RESUME },
+ 
++	/* USB491x hubs need 32ms instead of 256ms bInterval */
++	{ USB_DEVICE(0x0424, 0x4913), .driver_info =
++			USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL},
++	{ USB_DEVICE(0x0424, 0x4914), .driver_info =
++			USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL},
++	{ USB_DEVICE(0x0424, 0x4915), .driver_info =
++			USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL},
++
+ 	/* Microsoft Wireless Laser Mouse 6000 Receiver */
+ 	{ USB_DEVICE(0x045e, 0x00e1), .driver_info = USB_QUIRK_RESET_RESUME },
+ 
+diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
+index eeb7c2157c72..8fbcca4432bf 100644
+--- a/include/linux/usb/quirks.h
++++ b/include/linux/usb/quirks.h
+@@ -72,4 +72,9 @@
+ /* device has endpoints that should be ignored */
+ #define USB_QUIRK_ENDPOINT_IGNORE		BIT(15)
+ 
++/*
++ * Limits the bInterval value to 9 instead of default value 16
++ */
++#define USB_QUIRK_REDUCE_FRAME_INTR_BINTERVAL	BIT(16)
++
+ #endif /* __LINUX_USB_QUIRKS_H */
+-- 
+2.17.1
 
-  0: Not-equal
-  1: Equals
-  2: Greater-than-or-equal
-  3: Less-than
