@@ -1,121 +1,98 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfJtLU3M"
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DBB100;
-	Wed, 22 Nov 2023 16:33:25 -0800 (PST)
-Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-45dadc5bf51so108814137.2;
-        Wed, 22 Nov 2023 16:33:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="LMJg2PM1"
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E3B21A5
+	for <linux-doc@vger.kernel.org>; Wed, 22 Nov 2023 17:03:24 -0800 (PST)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-1f5bd86ceb3so266786fac.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Nov 2023 17:03:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700699604; x=1701304404; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gQkTqySKm3AYLOoiK0RjjGYCG28Vh+/Qg1tc7GPocew=;
-        b=XfJtLU3McNnfwZOJKKxnXOqcRGKW/XtGP6niux2nAD+HT7Q/wVIfOteyB/UXIhEPsy
-         p0nnv6vmkx7vyb2rPmLON8VfOFZRF90FTAVeaGS1rCOl+E4QFSvARNgkeqAFF0LbrZTf
-         dOPtjlUK4K/N1sVLNBH4dD9aDLyL7gG44Gu0x5JgK3f1l1umh9njQlGfOpXS+6F9xvPQ
-         Z91oLPPLyDxh45KC/CnMco6T2ghbvDhT7xYuohmtBYV96v+gF+XHeWDHZn/ZmXrbIldU
-         ayN4qv2b26vS4CY4OEO3QDtDJ5CI0jwjSPWHDaTtkwXqTBVApBXv25E4q+8Adtck5PNu
-         t8rw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1700701403; x=1701306203; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qXabQ8A/xezWt9SHwrUsDTpRrD0byx6vytti1k+h2UE=;
+        b=LMJg2PM112Id3QTK20OuNoQGlqTFWQ8P05NwSaSgctPCtcLvwCM0b6NARl5H5W9e1f
+         lW5IbQK/islbtaM/eHlFQPwIVXGM44yl+zdW8ZiettigoT0Wb52xma98LUg+ivJXpYzf
+         vfe5JK6v9soMHl/F53MkanffUypkWwnb+fMCKMssMiAYsQYQ+PW1yLPtfYkOF4rAn4sZ
+         8UXTuDEKYqSrnvDA6ar+jQmLGbELXFB7Cp3SjEjjf061yJo/Uqk9cOJ4upzVZX3f1j8p
+         VbLxOm6A/9wxaNNjw+AFz7OpN+LKmV0lshrgwJQV4jhGMaAWVboMS30cwAiVnL4Jl0d6
+         QA3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700699604; x=1701304404;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gQkTqySKm3AYLOoiK0RjjGYCG28Vh+/Qg1tc7GPocew=;
-        b=fJdCBvWPxdJepfboeHoJoy/CqtF1tfYhK7oxgmXtWWK8+gy5Ggg8lb4A5wKxPhCX5N
-         1is2p3nUMCu3fb5UnsNXeThGzhAUhDADm/NEHZYWZorZ4zxtI58tfIdu6Fh9TM82o82z
-         2HN974I8QzOtYyxSLL4khjtVFV5Tw0JDiwYXHYN7Yp9v+iViFm87PHT1w0XL325zeNf1
-         qNsniNeINdKVszk//oCEO2r5KKUSioptYG43KwrjgFBZsPOPodmgJQS3VKZKtgpK9hvX
-         nfZ1UJn3mhqqvovLFPOtA7UEKwVkJkraijwmmQs5JbONigzuPHfQqOtSYWvpoYBGme0B
-         rokw==
-X-Gm-Message-State: AOJu0YwF4dx3dwZmFM9XUSDww/v2mSM6QpZvkUjix2REhppVGMmVg+9V
-	XES5eKRMe5bioeWNUEyy21yDmG624ih82y5NqzA=
-X-Google-Smtp-Source: AGHT+IGRsfh+KoICfTW4Y8/al6sTqCNFplBIRKlv5HamItqROgWZ9DLrG0yYMSdK6qq7/wjQ8ZoCEmi4odMMtGUSSok=
-X-Received: by 2002:a67:fc48:0:b0:45d:b5a2:1516 with SMTP id
- p8-20020a67fc48000000b0045db5a21516mr4450188vsq.34.1700699604130; Wed, 22 Nov
- 2023 16:33:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700701403; x=1701306203;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qXabQ8A/xezWt9SHwrUsDTpRrD0byx6vytti1k+h2UE=;
+        b=pHfa6Stau22BX7xIlVVjJZcVPRkSoWRx5wqYxZQhXCgbBxk/7TfV1n2VqErklbuuSe
+         Bx+OwFqdQGzbk1JUeYG7qmiDaYPoKHdCcApqhZ8KKw3fXSWj1RjTX3o5R4DzwAWnYaqZ
+         LM1rujzCN+LPM9YwBlqAGdb410VnOdcBvTV0Wguk5F1PDBuAbNiRzQbCxw4BtF0df420
+         2l9K7y+3rt96PC7xGPyCu4mE4hVGD0e2F4bkxj1ra/E58zZ1UWua+SOqnoHbNmGq/yN8
+         R4K7UAaMYXiJ0pRw6RFBSnG2bS85srNauAVJ+N3I6siyJtFOo4wEHnlu4PZBy7AqCWOk
+         uzbw==
+X-Gm-Message-State: AOJu0Yx+FNrMOMxOjC+u+YGEsCxxawynn2G30rrsRbrFgGkAj3rNyGI2
+	oQsG2pWCY1Aw+9ComGkkC7KqJw==
+X-Google-Smtp-Source: AGHT+IE3OiXSh/n62NzPcNJaO+UHvJxiRtnLq/HYy1a6CdXhApFeh1e7Zqff1Hl+t3oaIiBUu1WcOw==
+X-Received: by 2002:a05:6871:e405:b0:1ef:f14e:6f0a with SMTP id py5-20020a056871e40500b001eff14e6f0amr5800832oac.0.1700701403123;
+        Wed, 22 Nov 2023 17:03:23 -0800 (PST)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id oq12-20020a0568707d8c00b001dcfaba6d22sm65834oab.46.2023.11.22.17.03.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Nov 2023 17:03:22 -0800 (PST)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH 0/2] riscv: Create and document
+ PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+Date: Wed, 22 Nov 2023 17:03:19 -0800
+Message-Id: <20231122-fencei-v1-0-bec0811cb212@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231122143603.85297-1-sxwjean@me.com>
-In-Reply-To: <20231122143603.85297-1-sxwjean@me.com>
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Date: Thu, 23 Nov 2023 09:33:12 +0900
-Message-ID: <CAB=+i9S3zduJUbzoFxGQqMPKbA3N2bbUw4xkM3JA+rRK0Vr7UA@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: kernel-parameters: remove
- slab_max_order and noaliencache
-To: sxwjean@me.com
-Cc: vbabka@suse.cz, linux-mm@kvack.org, cl@linux.com, penberg@kernel.org, 
-	rientjes@google.com, iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, 
-	roman.gushchin@linux.dev, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiongwei Song <xiongwei.song@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANekXmUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2NDQ0Nz3bTUvOTUTN00yzQzgxRzC5O0RAMloOKCotS0zAqwQdGxtbUABi+
+ 6+VgAAAA=
+To: Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1700701401; l=1107;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=auzvGFp5g/T2qKBKlxbBfjnxEnv0hfKBNeuhh4Tx5wI=;
+ b=RjXz/cYS321dvE4vAtGlRzqisR7ZU2GZV1umThCtWmuouptXgJgCogbp8jWViNc1v5bECzLkH
+ JXVo2y0JtX4AkFFBaia53RtJSeZ1kp+askJq0Sm+YQhWqXbnbXRZHBN
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-On Wed, Nov 22, 2023 at 11:36=E2=80=AFPM <sxwjean@me.com> wrote:
->
-> From: Xiongwei Song <xiongwei.song@windriver.com>
->
-> Since slab allocator has already been removed. There is no users about
-> slab_max_order and noaliencache, so let's remove them.
->
-> Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
-> ---
-> v2: Hyeonggon Yoo <42.hyeyoo@gmail.com> suggested that noaliencache shoul=
-d be
-> removed too. Here adding this change. The patch is based on [1].
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/=
-?h=3Dslab-remove-slab-v2r1
->
-> v1: https://lore.kernel.org/linux-mm/20231120091214.150502-1-sxwjean@me.c=
-om/T/#m55ebb45851bc86d650baf65dfe8296d33c5b1126
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 65731b060e3f..d56a5beefe24 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3740,10 +3740,6 @@
->         no5lvl          [X86-64,RISCV] Disable 5-level paging mode. Force=
-s
->                         kernel to use 4-level paging instead.
->
-> -       noaliencache    [MM, NUMA, SLAB] Disables the allocation of alien
-> -                       caches in the slab allocator.  Saves per-node mem=
-ory,
-> -                       but will impact performance.
-> -
->         noalign         [KNL,ARM]
->
->         noaltinstr      [S390] Disables alternative instructions patching
-> @@ -5887,12 +5883,6 @@
->                         own.
->                         For more information see Documentation/mm/slub.rs=
-t.
->
-> -       slab_max_order=3D [MM, SLAB]
-> -                       Determines the maximum allowed order for slabs.
-> -                       A high setting may cause OOMs due to memory
-> -                       fragmentation.  Defaults to 1 for systems with
-> -                       more than 32MB of RAM, 0 otherwise.
-> -
->         slub_debug[=3Doptions[,slabs][;[options[,slabs]]...]      [MM, SL=
-UB]
->                         Enabling slub_debug allows one to determine the
->                         culprit if slab objects become corrupted. Enablin=
-g
+Improve the performance of icache flushing by creating a new prctl flag
+PR_RISCV_SET_ICACHE_FLUSH_CTX. The interface is left generic to allow
+for future expansions such as with the proposed J extension [1].
 
-Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Documentation is also provided to explain the use case.
 
-Thanks!
+[1] https://github.com/riscv/riscv-j-extension
 
---
-Hyeonggon
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+---
+Charlie Jenkins (2):
+      riscv: Include riscv_set_icache_flush_ctx prctl
+      documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+
+ Documentation/arch/riscv/cmodx.rst | 98 ++++++++++++++++++++++++++++++++++++++
+ Documentation/arch/riscv/index.rst |  1 +
+ arch/riscv/include/asm/mmu.h       |  2 +
+ arch/riscv/include/asm/processor.h |  6 +++
+ arch/riscv/mm/cacheflush.c         | 37 ++++++++++++++
+ arch/riscv/mm/context.c            |  8 ++--
+ include/uapi/linux/prctl.h         |  3 ++
+ kernel/sys.c                       |  6 +++
+ 8 files changed, 158 insertions(+), 3 deletions(-)
+---
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+change-id: 20231117-fencei-f9f60d784fa0
+-- 
+- Charlie
+
