@@ -1,128 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id F2D45C1;
-	Thu, 23 Nov 2023 07:45:14 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 25C4512FC;
-	Thu, 23 Nov 2023 07:46:01 -0800 (PST)
-Received: from [10.57.3.62] (unknown [10.57.3.62])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DE0C3F6C4;
-	Thu, 23 Nov 2023 07:45:13 -0800 (PST)
-Message-ID: <4f959354-74c7-5240-bf8f-78a49fb34437@arm.com>
-Date: Thu, 23 Nov 2023 15:45:11 +0000
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W7Zri+G3"
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 435261701
+	for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 08:07:27 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso137741466b.1
+        for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 08:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700755645; x=1701360445; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m+HLaQ4LBn/sUNR9G8JbWf1oEDH+SCWwSR/AdZg4c2Y=;
+        b=W7Zri+G3aiK6XVTpfVwlxAq+BWwbYCHIT1ossIXHWaainEBIyS8vASvwJSpuDzB6jg
+         y+AwoWcsKRKiiJ33LPst+wzvSqDViqy9imxAkEvhrnl7pmCQzZGDYxrYcBFkpvtl1HxB
+         jCKSAR2KgJ8sEEDiTgn9+NWK5dV7bqk1+fpzdl9Ld5XC/Oy4QGey1g+yVgBU+jSjstP5
+         +TPOmFaxX34G/dtjD8nwxjDCZtoRHWP35ye9R1JqPIPzBKTBe/Rh/MfHACCzDZ7Y9WSC
+         xKOCuC145YUudpiYpnOPXqM4ubQEU8N4oDN5clogXOYIjrTv/HUdbJo5qs15r7bUiyHp
+         l/1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700755645; x=1701360445;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m+HLaQ4LBn/sUNR9G8JbWf1oEDH+SCWwSR/AdZg4c2Y=;
+        b=WGk/P/ztcX2VGEhYZojpq10xNUxd9Rz8lKIiWmJlbosD8GiVkOUWRd7GRa/eXGrMUF
+         UBlAO//P1WcR51Ae/rKKhQXDaDK64VK3YXlpyWGapYHxA46O0tgeVBuglUqW0e32LXP0
+         F/AZvn24e5pv9XVBNbyyE+LTvYP5O0XGOHy+QD1GlJIDcmSri/RtO83KDroZoRYrt3Vk
+         k0I1DQFEKO49Nrr8qaxcWf2tqy1MBfvVa5rq1Oxeo2m6QsktRgv6/30xm14awVMyvXUt
+         H67R9DAdt9yr3/Lm9iM8aXX+I1Ey1A1Be4fJc2uDTbQc1UZV+US4vhRODoV4Qa4kRcsq
+         b7hQ==
+X-Gm-Message-State: AOJu0YyXAdBkoSDwH+1YUbTATC7rlRmo/O90tn6JYKeh8WsRtLhPlIIb
+	2Rot1eSKbHxZtmC1fHbtt9YXyw==
+X-Google-Smtp-Source: AGHT+IFQndvSZg4w3rJtAcl353aA4kMN8cLIKAAKZ1SYxXym9WFmaRRbVMUT8K1eNEDWBPB5R6KVdw==
+X-Received: by 2002:a17:906:19:b0:9e6:1dc9:9807 with SMTP id 25-20020a170906001900b009e61dc99807mr2768988eja.77.1700755645627;
+        Thu, 23 Nov 2023 08:07:25 -0800 (PST)
+Received: from 1.. ([79.115.63.75])
+        by smtp.gmail.com with ESMTPSA id h21-20020a1709070b1500b00a0180de2797sm941490ejl.74.2023.11.23.08.07.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 08:07:24 -0800 (PST)
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+To: pratyush@kernel.org,
+	michael@walle.cc
+Cc: linux-mtd@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	Tudor Ambarus <tudor.ambarus@linaro.org>
+Subject: [PATCH 0/2] docs: mtd: spi-nor: add sections about flash additions and testing
+Date: Thu, 23 Nov 2023 18:07:19 +0200
+Message-Id: <20231123160721.64561-1-tudor.ambarus@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v5 3/3] Documentation: arm64: Document the PMU event
- counting threshold feature
-Content-Language: en-US
-To: Anshuman Khandual <anshuman.khandual@arm.com>,
- Namhyung Kim <namhyung@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
- suzuki.poulose@arm.com, will@kernel.org, mark.rutland@arm.com,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231113112507.917107-1-james.clark@arm.com>
- <20231113112507.917107-4-james.clark@arm.com>
- <CAM9d7ciDq-te1DQPrMrZQC9er0pSMY24nvC-atxdRu1C6uD08A@mail.gmail.com>
- <0bcda96e-df9a-4342-af4e-e4485c33ff55@arm.com>
-From: James Clark <james.clark@arm.com>
-In-Reply-To: <0bcda96e-df9a-4342-af4e-e4485c33ff55@arm.com>
-Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=626; i=tudor.ambarus@linaro.org; h=from:subject; bh=RUUGrpTnn+dK3J0RLE96RVqrRMkZ9QBsAMu5cYh/kLM=; b=owEBbQGS/pANAwAKAUtVT0eljRTpAcsmYgBlX3i4B51az5Zp+f+mQkihPnjD3/FOh65ZfsOfe LO5hsaU/3CJATMEAAEKAB0WIQQdQirKzw7IbV4d/t9LVU9HpY0U6QUCZV94uAAKCRBLVU9HpY0U 6dgvB/4jv9Tw8sjK0Hr3+ZlkwR6ZRSeTFWb4Sqnu8Mu9jjD4Vj2mesXCjLdT/uVvUlAS0NEFfJQ POEmupH6KVbZ1uCcquSiT7+1b7toRJgCRKNGoV/1lmjX+9sg/2jjyWm4Q98S+qJKKmuogY1gFfh CHSG+ExydRc8n87+Tj4IjSrLdSaZGk7gj7gEdgC7MG1B5zFzyXSjhDvr43s6Pn/1GcBbeyFw4Jx H89+OrQceFSqVhgoNyb1jV85H2z66DrgXpctb+Jgoku//MRltAAdBhF91R+TCzSFW3z4h2qGEF9 MzX8jBpS5XtL60zmNynrExjwpTnGHI57xiz3gzXbUfuFXQ4h
+X-Developer-Key: i=tudor.ambarus@linaro.org; a=openpgp; fpr=280B06FD4CAAD2980C46DDDF4DB1B079AD29CF3D
 Content-Transfer-Encoding: 8bit
 
+Introduce guide about when to propose a new flash addition and what are
+the minimum test requirements. Dropped the old documentation as it no
+longer applies to the current SPI NOR framework state.
 
+Generate the htmldoc by using ``make htmldocs`` and then find the
+SPI NOR documentation at
+``Documentation/output/driver-api/mtd/spi-nor.html``
 
-On 23/11/2023 05:50, Anshuman Khandual wrote:
-> 
-> 
-> On 11/21/23 03:01, Namhyung Kim wrote:
->> On Mon, Nov 13, 2023 at 3:26 AM James Clark <james.clark@arm.com> wrote:
->>> Add documentation for the new Perf event open parameters and
->>> the threshold_max capability file.
->>>
->>> Signed-off-by: James Clark <james.clark@arm.com>
->>> ---
->>>  Documentation/arch/arm64/perf.rst | 56 +++++++++++++++++++++++++++++++
->>>  1 file changed, 56 insertions(+)
->>>
->>> diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
->>> index 1f87b57c2332..36b8111a710d 100644
->>> --- a/Documentation/arch/arm64/perf.rst
->>> +++ b/Documentation/arch/arm64/perf.rst
->>> @@ -164,3 +164,59 @@ and should be used to mask the upper bits as needed.
->>>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
->>>  .. _tools/lib/perf/tests/test-evsel.c:
->>>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
->>> +
->>> +Event Counting Threshold
->>> +==========================================
->>> +
->>> +Overview
->>> +--------
->>> +
->>> +FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
->>> +events whose count meets a specified threshold condition. For example if
->>> +threshold_compare is set to 2 ('Greater than or equal'), and the
->>> +threshold is set to 2, then the PMU counter will now only increment by
->>> +when an event would have previously incremented the PMU counter by 2 or
->>> +more on a single processor cycle.
->>> +
->>> +To increment by 1 after passing the threshold condition instead of the
->>> +number of events on that cycle, add the 'threshold_count' option to the
->>> +commandline.
->>> +
->>> +How-to
->>> +------
->>> +
->>> +The threshold, threshold_compare and threshold_count values can be
->>> +provided per event:
->>> +
->>> +.. code-block:: sh
->>> +
->>> +  perf stat -e stall_slot/threshold=2,threshold_compare=2/ \
->>> +            -e dtlb_walk/threshold=10,threshold_compare=3,threshold_count/
->> Can you please explain this a bit more?
->>
->> I guess the first event counts stall_slot PMU if the event if it's
->> greater than or equal to 2.  And as threshold_count is not set,
->> it'd count the stall_slot as is.  E.g. it counts 3 when it sees 3.
-> 
-> Hence without 'threshold_count' being set, the other two config requests
-> will not have an effect, is that correct ?
+Tudor Ambarus (2):
+  docs: mtd: spi-nor: add sections about flash additions and testing
+  docs: mtd: spi-nor: drop obsolete info
 
-Yeah I can mention this. It's implied because 0 is the default value of
-config fields, and 0 is a valid value for compare and count field, so
-threshold=0 has to be the way to disable it. But I can mention it
-explicitly.
+ Documentation/driver-api/mtd/spi-nor.rst | 249 +++++++++++++++++------
+ 1 file changed, 188 insertions(+), 61 deletions(-)
 
-> 
->>
->> OTOH, dtlb_walk will count 1 if it sees an event less than 10.
->> Is my understanding correct?
-> 
-> 'Equals' and 'Greater-than-or-equal' makes sense and are intuitive. Just
-> wondering what will happen for 'Not-equal' and 'Less-than' - when would
-> the counter count in such cases ?
-> 
->   0: Not-equal
->   1: Equals
->   2: Greater-than-or-equal
->   3: Less-than
-> 
+-- 
+2.34.1
 
-They would count when the event is not equal to or less than the
-threshold value on any cycle. Probably going into more detail would
-start to reproduce what's in the reference manual. All the pseudocode is
-in there which describes how it works.
-
-As for use cases, I'm not really sure. It probably wasn't any effort to
-add into the hardware with a single not gate, and something could have
-been missed if it wasn't added. You might be able to do things like
-count the inverse of something without having to open another event to
-subtract from to find what the inverse would be.
