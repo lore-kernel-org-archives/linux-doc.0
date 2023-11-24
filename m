@@ -1,138 +1,187 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RVexKku5"
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C6E199A
-	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 07:57:08 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9fffa4c4f43so295562966b.3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 07:57:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700841426; x=1701446226; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZF6yae9bb5tDXC/CsnvGYPJ3X5s4815eVzyjB3BR8k8=;
-        b=RVexKku5lciK7stmLKBVUIcyJ/EvkeoI2yvaHDdoUJrWwmzZNdDDN5uHDs+3VnMFUK
-         zBUlvNmOZOoTfvEw+F9bI1F8MF3DxAz2eOJA6VwSbWpuICdjALsTbyICPaU7UwlIURCf
-         ChQzkJLMRnAxm9d0WchcYDH0Ia6xuNTPitggNAZOMsMgPRiyHfuhkPN+NoVnM7QRJs7+
-         bGEWyF+a7F6rWjqJGakN6yenzs3RhUv3GglOen0c+tNpbybGHhAhcQfoeuN00yVLEb1r
-         WWAOiFUtnooVlUJMLZ/1BCCh6HlOhZG+NYmwEE6TXvVPiYo3hW+3KB6Ud8MzPPj4SKIL
-         5RMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700841426; x=1701446226;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZF6yae9bb5tDXC/CsnvGYPJ3X5s4815eVzyjB3BR8k8=;
-        b=PRZ7sVZNSUEcDOvKuJIYZMZFrwsnxOCDZtZVTfwMSfcnMNrXorHLjULQR0RQ1s63Sv
-         oB7VjuKOvapZ+vO6Vpw3fxBeeGeNcgsg8T2d201IRI3f43+pY759+29uyzDho8dVofaU
-         BLJz9NF5mNgMGJdNDhUNm/l4R1IB8GzIozVnqI4OxU1PHCLnulZqV60vGMJwcJJW0cJW
-         TL9mV/vohvDJiE4cKoYYK3tI727QOZ1E3+GI9TPfW7LJ4Lhi40Dg3aqA6jWN3tfZ2ZH5
-         ngid9rXkN0G1p+EII37BFlG6pr7OYTPubcgnKQigMzdJl0bfsw3EZJW7ooNAcGYZ0e/E
-         9RKQ==
-X-Gm-Message-State: AOJu0YwZPqL8LdWlT0o9E7PkQeLZruIuy/RcSdLRB44wU20yacAR1VZR
-	S5FjwflUXN4j8vJDQfwE1y+XdEbejiV2vMhNUzQ=
-X-Google-Smtp-Source: AGHT+IFEf8Zmz3QMkGFpwb/grFbBwT9wDbpNPDHQrgCCp5UTdMYETULTAfdNeVMu4HrvKK4xKSxTEg==
-X-Received: by 2002:a17:907:740a:b0:9e5:d618:d6c1 with SMTP id gj10-20020a170907740a00b009e5d618d6c1mr2310550ejc.19.1700841426518;
-        Fri, 24 Nov 2023 07:57:06 -0800 (PST)
-Received: from [192.168.2.107] ([79.115.63.75])
-        by smtp.gmail.com with ESMTPSA id jj13-20020a170907984d00b009b65a834dd6sm2195878ejc.215.2023.11.24.07.57.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Nov 2023 07:57:06 -0800 (PST)
-Message-ID: <42cc0ae2-d61a-41cc-b46e-132dace301b0@linaro.org>
-Date: Fri, 24 Nov 2023 15:57:04 +0000
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="i+W8szTl"
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [IPv6:2001:41d0:1004:224b::b1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF19B19A8
+	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 08:10:32 -0800 (PST)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1700841906;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NktJjNztL6a9VBLs/6z7OLOrm+oRflq1cbNxypOGnd4=;
+	b=i+W8szTlF1ZX//o0zn3QXAeuBOk3WNLnWrfX5T3uvLsnI36AB7e/JcQq1ZVfElXuFUCQXz
+	qpCWKdhKVria4lWjdzd3wZ9V2f5GIGFYJH3nIjNlrv9obtGy0dGn2kphhkIOrUMcO7FLV5
+	mNDt4JzjkDsY9M8Yk0SE0GLdTzj/1WE=
+From: Sergei Shtepa <sergei.shtepa@linux.dev>
+To: axboe@kernel.dk,
+	hch@infradead.org,
+	corbet@lwn.net,
+	snitzer@kernel.org
+Cc: mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	bristot@redhat.com,
+	vschneid@redhat.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	gregkh@linuxfoundation.org,
+	arnd@arndb.de,
+	christian.koenig@amd.com,
+	yi.l.liu@intel.com,
+	jirislaby@kernel.org,
+	stfrench@microsoft.com,
+	jpanis@baylibre.com,
+	jgg@ziepe.ca,
+	contact@emersion.fr,
+	dchinner@redhat.com,
+	jack@suse.cz,
+	linux@weissschuh.net,
+	min15.li@samsung.com,
+	dlemoal@kernel.org,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Sergei Shtepa <sergei.shtepa@veeam.com>
+Subject: [PATCH v6 01/11] documentation: Block Device Filtering Mechanism
+Date: Fri, 24 Nov 2023 17:04:49 +0100
+Message-Id: <20231124160459.26227-2-sergei.shtepa@linux.dev>
+In-Reply-To: <20231124160459.26227-1-sergei.shtepa@linux.dev>
+References: <20231124160459.26227-1-sergei.shtepa@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: mtd: spi-nor: add sections about flash
- additions and testing
-Content-Language: en-US
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: michael@walle.cc, linux-mtd@lists.infradead.org,
- linux-doc@vger.kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org
-References: <20231123160721.64561-1-tudor.ambarus@linaro.org>
- <20231123160721.64561-2-tudor.ambarus@linaro.org>
- <mafs0sf4vdxqd.fsf@kernel.org>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <mafs0sf4vdxqd.fsf@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
+From: Sergei Shtepa <sergei.shtepa@veeam.com>
 
+The document contains:
+* Describes the purpose of the mechanism
+* A little historical background on the capabilities of handling I/O
+  units of the Linux kernel
+* Brief description of the design
+* Reference to interface description
 
-On 11/24/23 14:36, Pratyush Yadav wrote:
-> Hi,
-> 
-> 
-> On Thu, Nov 23 2023, Tudor Ambarus wrote:
-> 
->> Add sections about how to propose a new flash addition and about the
->> minimum testing requirements.
->>
->> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
->> ---
->>  Documentation/driver-api/mtd/spi-nor.rst | 189 +++++++++++++++++++++++
->>  1 file changed, 189 insertions(+)
->>
->> diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driver-api/mtd/spi-nor.rst
->> index c22f8c0f7950..cc8e81e09544 100644
->> --- a/Documentation/driver-api/mtd/spi-nor.rst
->> +++ b/Documentation/driver-api/mtd/spi-nor.rst
->> @@ -63,3 +63,192 @@ The main API is spi_nor_scan(). Before you call the hook, a driver should
->>  initialize the necessary fields for spi_nor{}. Please see
->>  drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to spi-fsl-qspi.c
->>  when you want to write a new driver for a SPI NOR controller.
-> [...]
->> +4/ Use `mtd-utils <https://git.infradead.org/mtd-utils.git>`__
->> +and verify that erase, read and page program operations work fine.
->> +
->> +a/ Generate a 2 MB file::
->> +
->> +    root@1:~# dd if=/dev/urandom of=./spi_test bs=1M count=2
->> +    2+0 records in
->> +    2+0 records out
->> +    2097152 bytes (2.1 MB, 2.0 MiB) copied, 0.848566 s, 2.5 MB/s
->> +
->> +b/ Verify erase::
->> +
->> +    root@1:~# mtd_debug write /dev/mtd1 0 2097152 spi_test
->> +    Copied 2097152 bytes from spi_test to address 0x00000000 in flash
-> 
-> Perhaps mention that the 2 MiB region should already be erased.
-> Otherwise some flashes might refuse the writes (like the ones with ECC
+Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+---
+ Documentation/block/blkfilter.rst | 66 +++++++++++++++++++++++++++++++
+ Documentation/block/index.rst     |  1 +
+ MAINTAINERS                       |  6 +++
+ 3 files changed, 73 insertions(+)
+ create mode 100644 Documentation/block/blkfilter.rst
 
-right, then maybe we could do a
+diff --git a/Documentation/block/blkfilter.rst b/Documentation/block/blkfilter.rst
+new file mode 100644
+index 000000000000..4e148e78f3d4
+--- /dev/null
++++ b/Documentation/block/blkfilter.rst
+@@ -0,0 +1,66 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++================================
++Block Device Filtering Mechanism
++================================
++
++The block device filtering mechanism provides the ability to attach block
++device filters. Block device filters allow performing additional processing
++for I/O units.
++
++Introduction
++============
++
++The idea of handling I/O units on block devices is not new. Back in the
++2.6 kernel, there was an undocumented possibility of handling I/O units
++by substituting the make_request_fn() function, which belonged to the
++request_queue structure. But none of the in-tree kernel modules used this
++feature, and it was eliminated in the 5.10 kernel.
++
++The block device filtering mechanism returns the ability to handle I/O units.
++It is possible to safely attach a filter to a block device "on the fly" without
++changing the structure of the block device's stack.
++
++It supports attaching one filter to one block device, because there is only
++one filter implementation in the kernel yet.
++See Documentation/block/blksnap.rst.
++
++Design
++======
++
++The block device filtering mechanism provides registration and unregistration
++for filter operations. The struct blkfilter_operations contains a pointer to
++the callback functions for the filter. After registering the filter operations,
++the filter can be managed using block device ioctls BLKFILTER_ATTACH,
++BLKFILTER_DETACH and BLKFILTER_CTL.
++
++When the filter is attached, the callback function is called for each I/O unit
++for a block device, providing I/O unit filtering. Depending on the result of
++filtering the I/O unit, it can either be passed for subsequent processing by
++the block layer, or skipped.
++
++The filter can be implemented as a loadable module. In this case, the filter
++module cannot be unloaded while the filter is attached to at least one of the
++block devices.
++
++Interface description
++=====================
++
++The ioctl BLKFILTER_ATTACH allows user-space programs to attach a block device
++filter to a block device. The ioctl BLKFILTER_DETACH allows user-space programs
++to detach it. Both ioctls use &struct blkfilter_name. The ioctl BLKFILTER_CTL
++allows user-space programs to send a filter-specific command. It use &struct
++blkfilter_ctl.
++
++.. kernel-doc:: include/uapi/linux/blk-filter.h
++
++To register in the system, the filter uses the &struct blkfilter_operations,
++which contains callback functions, unique filter name and module owner. When
++attaching a filter to a block device, the filter creates a &struct blkfilter.
++The pointer to the &struct blkfilter allows the filter to determine for which
++block device the callback functions are being called.
++
++.. kernel-doc:: include/linux/blk-filter.h
++
++.. kernel-doc:: block/blk-filter.c
++   :export:
+diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
+index 9fea696f9daa..e9712f72cd6d 100644
+--- a/Documentation/block/index.rst
++++ b/Documentation/block/index.rst
+@@ -10,6 +10,7 @@ Block
+    bfq-iosched
+    biovecs
+    blk-mq
++   blkfilter
+    cmdline-partition
+    data-integrity
+    deadline-iosched
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 97f51d5ec1cf..c20cbec81b58 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3584,6 +3584,12 @@ M:	Jan-Simon Moeller <jansimon.moeller@gmx.de>
+ S:	Maintained
+ F:	drivers/leds/leds-blinkm.c
+ 
++BLOCK DEVICE FILTERING MECHANISM
++M:	Sergei Shtepa <sergei.shtepa@veeam.com>
++L:	linux-block@vger.kernel.org
++S:	Supported
++F:	Documentation/block/blkfilter.rst
++
+ BLOCK LAYER
+ M:	Jens Axboe <axboe@kernel.dk>
+ L:	linux-block@vger.kernel.org
+-- 
+2.20.1
 
-/erase
-/read
-/dump and see 0xff
-/sha1sum to have the 0xff checksum
-/write
-/read what was written
-/sha1sum on the read to make it's different that the 0xff checksum and
-that the write worked
-
-> -- Cypress S28 family comes to mind). Experienced engineers should know
-> this already but it might trip up some beginners.
-> 
-> Looks good otherwise. Thanks for working on this.
-> 
-> Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
-> 
->> +
->> +    root@1:~# mtd_debug erase /dev/mtd1 0 2097152
->> +    Erased 2097152 bytes from address 0x00000000 in flash
->> +
->> +    root@1:~# mtd_debug read /dev/mtd1 0 2097152 spi_read
->> +    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
->> +
->> +    root@1:~# hexdump -C spi_read
->> +    00000000  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
->> +    *
->> +    00200000
->> +
-> [...]
-> 
