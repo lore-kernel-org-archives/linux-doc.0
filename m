@@ -1,219 +1,145 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vrull.eu header.i=@vrull.eu header.b="pLeWM1Wj"
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C311730
-	for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 23:22:37 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50aa8c0af41so2734842e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 23:22:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vrull.eu; s=google; t=1700810555; x=1701415355; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dTCTYVT+alIj/hXglZXCEukMBb5xc4LjFRdKzIJrwQI=;
-        b=pLeWM1Wjrk4Dz9WkKNV01mgNP1ma6s/hKogEJidXf+J9gOAkpwXh//dHrq/gZ1tbsg
-         TsIAElOopAnVwT2e2/6HUpdRm3CBh7pNKhAib4zB1tGi8/eqy2db5u8vQ6VGKLtPEdVJ
-         wq8F5cQpm+Rxp/MP46M1rXGnZRtKa77xuAo2/wtCMdw+rhzaPweYwe6PJjAhf/U3j4Ij
-         F2GR6EwPFrAPyjC3mrg9OaPmeaEpTJMeQlN4VZtaLAW1TlMI9ocafd3OTgts04dP3DMO
-         IzHqZA1dEgtuRW+CnkcBE+ohEwosxA5p4ax9TXT/Hc8wbQ9s1YNZmwTJcvpHSvgIh/Nb
-         Dzfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700810555; x=1701415355;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dTCTYVT+alIj/hXglZXCEukMBb5xc4LjFRdKzIJrwQI=;
-        b=klNmNOfU8RGZZrWNB4t6RKQy6ekkdnZxjZChYQrGY1rwTtQkG0T0mr0nNO5dZ3dsx8
-         pSQ8ALDmQSmqDuPn7Y8WG/D6CVnzNeccXD/SiAyF0sZMWqg3AwWlEYnG9ThqX2fZTAvH
-         ZI9cIOe7GPl+9wOLoGREF0qN5mxAcU1oDgOr+3CUab9T0QRfiTVeFqeuiAegm2jo8qpk
-         eYztc2PGbaIM/CdWIOH35Z3xaJETLLkO9tgsNZyXfbEaRTOQ9ZZbmGsPHwlb6S4UDuWj
-         QyoxflEz+mqEEf8X/TCHH9RWyJ8NFXRpvigFqOGXN0nivmIInvVWQV+BESTvVJoTsXLn
-         GiPg==
-X-Gm-Message-State: AOJu0Yw2CM++cIAk+q2EwHXIIukwaEJE04HUeEfb15X9AXvR2MBt0mrq
-	pGhtUIB52kqiwpAlaa2SZoWfWGrMwLV3md8pahHuZlOG
-X-Google-Smtp-Source: AGHT+IFRswhz1gVkvMsF4D/eVNQFjsDNT0mxrUgf8ssfidkb6p0pdysEYXgPfpWNEDJ755CSdEkwNA==
-X-Received: by 2002:a17:906:100e:b0:9f2:8220:3f57 with SMTP id 14-20020a170906100e00b009f282203f57mr4003586ejm.8.1700810534715;
-        Thu, 23 Nov 2023 23:22:14 -0800 (PST)
-Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at. [62.178.148.172])
-        by smtp.gmail.com with ESMTPSA id q18-20020a1709060e5200b00992f2befcbcsm1709930eji.180.2023.11.23.23.22.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 23:22:14 -0800 (PST)
-From: Christoph Muellner <christoph.muellner@vrull.eu>
-To: linux-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Philipp Tomsich <philipp.tomsich@vrull.eu>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Guo Ren <guoren@kernel.org>,
-	Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Peter Zijlstra <peterz@infradead.org>
-Cc: =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Subject: [RFC PATCH 5/5] RISC-V: selftests: Add DTSO tests
-Date: Fri, 24 Nov 2023 08:21:42 +0100
-Message-ID: <20231124072142.2786653-6-christoph.muellner@vrull.eu>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
-References: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CKvDX34v"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAA0D71;
+	Fri, 24 Nov 2023 01:47:25 -0800 (PST)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AO7j93Y021237;
+	Fri, 24 Nov 2023 09:47:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ZPXgpnugqVZGKoYb8pnDz47Cff9lnhLDr+ItJWa9BP0=;
+ b=CKvDX34v3pYSFKvSejLvOoMkallkW6vB/ysTYKNxV66DhGomXgb2z95XAdt9TLLcoRp6
+ 02H3T/LP1DRi3K6kJctxQV182IJOcNfZpbo95tMKxTW+0I8euV32KSuBnYd8GGPUinSv
+ ZUKIhQzW0ragJW8ddlsR68bKHIVJ1T+6R7MurZAKXTjtKUnm9B0fcQLMP1wMgDZ2i6my
+ +H3Vso8D8mgfqIyIRgPkKIOUTzDjoD/0wla4e1kbVCSBRomMOtzVhbL8X6eZ0s/R2wch
+ 51L5mnKIOn9N4kraX0+/zTQaJiKcqPeouAY1OxLmtQ2NQ31FnhRyyTlZtPoWVIqAPK0W qA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uj30xagya-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Nov 2023 09:47:11 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AO9lA2G019302
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Nov 2023 09:47:10 GMT
+Received: from [10.253.33.181] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 24 Nov
+ 2023 01:47:07 -0800
+Message-ID: <1bd2f3a9-3dd1-4c95-b4e5-c9bf2274f271@quicinc.com>
+Date: Fri, 24 Nov 2023 17:47:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+CC: Andrew Lunn <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20231118062754.2453-1-quic_luoj@quicinc.com>
+ <20231118062754.2453-4-quic_luoj@quicinc.com>
+ <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
+ <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
+ <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
+ <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
+ <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
+ <316fb626-4dc3-4540-9cc4-e45840e36f77@quicinc.com>
+ <ZVyZ+8Q2eNfAKjO/@shell.armlinux.org.uk>
+ <d2ac542c-aae3-49ae-ae2b-9defc4ca98eb@quicinc.com>
+ <ZV8+/4eNzLpLzSDG@shell.armlinux.org.uk>
+Content-Language: en-US
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <ZV8+/4eNzLpLzSDG@shell.armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: aiyM4pSnaDMmdiJAqPYIRFscEDZWJEmM
+X-Proofpoint-GUID: aiyM4pSnaDMmdiJAqPYIRFscEDZWJEmM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-23_15,2023-11-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ mlxscore=0 bulkscore=0 phishscore=0 adultscore=0 clxscore=1015
+ mlxlogscore=999 lowpriorityscore=0 impostorscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311240076
 
-From: Christoph Müllner <christoph.muellner@vrull.eu>
 
-This patch tests the dynamic memory consistency model prctl() behaviour
-on RISC-V. It does not depend on CONFIG_RISCV_ISA_SSDTSO or the availability
-of Ssdtso, but will test other aspects if these are not given.
 
-Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
----
- tools/testing/selftests/riscv/Makefile        |  2 +-
- tools/testing/selftests/riscv/dtso/.gitignore |  1 +
- tools/testing/selftests/riscv/dtso/Makefile   | 11 +++
- tools/testing/selftests/riscv/dtso/dtso.c     | 77 +++++++++++++++++++
- 4 files changed, 90 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/riscv/dtso/.gitignore
- create mode 100644 tools/testing/selftests/riscv/dtso/Makefile
- create mode 100644 tools/testing/selftests/riscv/dtso/dtso.c
+On 11/23/2023 8:01 PM, Russell King (Oracle) wrote:
+> On Thu, Nov 23, 2023 at 06:57:59PM +0800, Jie Luo wrote:
+>> On 11/21/2023 7:52 PM, Russell King (Oracle) wrote:
+>>> Ultimately, you will need a way to use inband signalling with Cisco
+>>> SGMII for 10M/100M/1G speeds, and then switch to 2500base-X when
+>>> operating at 2.5G speeds, and that is done via the PHY driver
+>>> updating phydev->interface.
+>>>
+>>> What we do need is some way for the PHY to also tell the PCS/MAC
+>>> whether inband should be used. This is something I keep bringing up
+>>> and now that we have PCS drivers revised to use the value from
+>>> phylink_pcs_neg_mode() _and_ a consistent implementation amongst them
+>>> we can now think about signalling to PCS drivers whether inband mode
+>>> needs to be turned off when switching between modes.
+>>
+>> Yes, we can switch the interface mode according to the current link
+>> speed in the pcs driver.
+>> but the issue is that the phy-mode i specified for the PHYLINK,
+>> if phy-mode is sgmii, the support capability is limited to maximum
+>> capability 1G during the PHYLINK setup and i can't configure it to 2.5G
+>> dynamically, if the phy-mode is 2500base-x, then PHY capability will
+>> be modified to only support 2.5G, other speeds can't be linked up.
+> 
+> So you need my patches that add "possible_interfaces" to phylib so you
+> can tell phylink that you will be switching between SGMII and
+> 2500base-X. Please see the RFC posting of those patches I sent
+> yesterday and try them out - you will need to modify your phylib
+> driver to fill in phydev->possible_interfaces.
 
-diff --git a/tools/testing/selftests/riscv/Makefile b/tools/testing/selftests/riscv/Makefile
-index 4a9ff515a3a0..1421c21841f9 100644
---- a/tools/testing/selftests/riscv/Makefile
-+++ b/tools/testing/selftests/riscv/Makefile
-@@ -5,7 +5,7 @@
- ARCH ?= $(shell uname -m 2>/dev/null || echo not)
- 
- ifneq (,$(filter $(ARCH),riscv))
--RISCV_SUBTARGETS ?= hwprobe vector mm
-+RISCV_SUBTARGETS ?= dtso hwprobe vector mm
- else
- RISCV_SUBTARGETS :=
- endif
-diff --git a/tools/testing/selftests/riscv/dtso/.gitignore b/tools/testing/selftests/riscv/dtso/.gitignore
-new file mode 100644
-index 000000000000..217d01679115
---- /dev/null
-+++ b/tools/testing/selftests/riscv/dtso/.gitignore
-@@ -0,0 +1 @@
-+dtso
-diff --git a/tools/testing/selftests/riscv/dtso/Makefile b/tools/testing/selftests/riscv/dtso/Makefile
-new file mode 100644
-index 000000000000..a1ffbdd3da85
---- /dev/null
-+++ b/tools/testing/selftests/riscv/dtso/Makefile
-@@ -0,0 +1,11 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2023 VRULL
-+
-+CFLAGS += -I$(top_srcdir)/tools/include
-+
-+TEST_GEN_PROGS := dtso
-+
-+include ../../lib.mk
-+
-+$(OUTPUT)/dtso: dtso.c ../hwprobe/sys_hwprobe.S
-+	$(CC) -static -o$@ $(CFLAGS) $(LDFLAGS) $^
-diff --git a/tools/testing/selftests/riscv/dtso/dtso.c b/tools/testing/selftests/riscv/dtso/dtso.c
-new file mode 100644
-index 000000000000..b9ca33ca6551
---- /dev/null
-+++ b/tools/testing/selftests/riscv/dtso/dtso.c
-@@ -0,0 +1,77 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* dtso - used for functional tests of memory consistency model switching
-+ * at run-time.
-+ *
-+ * Copyright (c) 2023 Christoph Muellner <christoph.muellner@vrull.eu>
-+ */
-+
-+#include <sys/prctl.h>
-+#include <unistd.h>
-+#include <errno.h>
-+
-+#include "../hwprobe/hwprobe.h"
-+#include "../../kselftest_harness.h"
-+
-+/*
-+ * We have the following cases:
-+ * 1) DTSO support disabed in the kernel config:
-+ *    - Ssdtso is not detected
-+ *    - {G,S}ET_MEMORY_CONSISTENCY_MODEL fails with EINVAL
-+ * 2) DTSO support enabled and Ssdtso not available:
-+ *    - Ssdtso is not detected
-+ *    - {G,S}ET_MEMORY_CONSISTENCY_MODEL works for WMO and fails for TSO with EINVAL:
-+ * 3) DTSO support enabled and Ssdtso available
-+ *    - Ssdtso is detected
-+ *    - {G,S}ET_MEMORY_CONSISTENCY_MODEL works for WMO and TSO
-+ */
-+
-+TEST(dtso)
-+{
-+	struct riscv_hwprobe pair;
-+	int ret;
-+	bool ssdtso_configured;
-+	bool ssdtso_available;
-+
-+	ret = prctl(PR_GET_MEMORY_CONSISTENCY_MODEL);
-+	if (ret < 0) {
-+		ASSERT_EQ(errno, EINVAL);
-+		ssdtso_configured = false;
-+	} else {
-+		ASSERT_TRUE(ret == PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO ||
-+			    ret == PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO);
-+		ssdtso_configured = true;
-+	}
-+
-+	pair.key = RISCV_HWPROBE_KEY_IMA_EXT_0;
-+	ret = riscv_hwprobe(&pair, 1, 0, NULL, 0);
-+	ASSERT_GE(ret, 0);
-+	ASSERT_EQ(pair.key, RISCV_HWPROBE_KEY_IMA_EXT_0);
-+	ssdtso_available = !!(pair.value & RISCV_HWPROBE_EXT_SSDTSO);
-+
-+	if (ssdtso_configured) {
-+		ret = prctl(PR_GET_MEMORY_CONSISTENCY_MODEL);
-+		ASSERT_TRUE(ret == PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO ||
-+			    ret == PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO);
-+
-+		if (ssdtso_available) {
-+			ret = prctl(PR_SET_MEMORY_CONSISTENCY_MODEL,
-+				    PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO);
-+			ASSERT_EQ(ret, 0);
-+			ret = prctl(PR_GET_MEMORY_CONSISTENCY_MODEL);
-+			ASSERT_TRUE(ret == PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO);
-+		} else {
-+			ksft_test_result_skip("Ssdtso not available\n");
-+		}
-+
-+		ret = prctl(PR_SET_MEMORY_CONSISTENCY_MODEL,
-+			    PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO);
-+		ASSERT_EQ(ret, 0);
-+		ret = prctl(PR_GET_MEMORY_CONSISTENCY_MODEL);
-+		ASSERT_TRUE(ret == PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO);
-+	} else {
-+		ASSERT_EQ(ssdtso_available, false);
-+		ksft_test_result_skip("Ssdtso not configured\n");
-+	}
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.41.0
+Your patches work on my board, thanks Russell.
 
+> 
+>>> There have been patches in the past that allow inband mode to be
+>>> queried from phylib, and this is another important component in
+>>> properly dealing with PHYs that need to use inband signalling with
+>>> Cisco SGMII, but do not support inband signalling when operating at
+>>> 2.5G speeds. The problem when operating at 2.5G speed is that the
+>>> base-X protocols are normally for use over fibre, which is the media,
+>>> and therefore the ethtool Autoneg bit should define whether inband
+>>> gets used or not. However, in the case of a PHY using 2500base-X,
+>>> the Autoneg bit continues to define whether autonegotiation should
+>>> be used on the media, and in this case it's the media side of the
+>>> PHY rather than the 2500base-X link.
+>>>
+>>> So, when using a 2500base-X link to a PHY, we need to disregard the
+>>> Autoneg bit, but that then raises the question about how we should
+>>> configure it - and one solution to that would be to entire of phylib
+>>> what the PHY wants to do. Another is to somehow ask the PCS driver
+>>> whether it supports inband signalling at 2500base-X, and resolve
+>>> those capabilities.
+>>
+>> For the qca808x PHY, when it is linked in 2.5G, the autoneg is also
+>> disabled in PCS hardware, so the sgmii+ of qca808x PHY is almost
+>> same as 2500base-X.
+> 
+> Not "almost". It _is_ the same. This is the point I've been trying
+> to get across to you. Without inband signalling, 1000base-X and SGMII
+> (when operating at 1G) are _identical_ and entirely compatible.
+> 
+> You've said that your 2.5G "SGMII" mode has inband signalling disabled,
+> and thus it without inband signalling, 2500base-X and this 2.5G mode
+> are again identical and entirely compatible. There's no "almost" about
+> it.
+> 
+> 
+Yes, confirmed with HW guy, they work on the same way.
