@@ -1,98 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="u89kb9KN"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D2492;
-	Fri, 24 Nov 2023 01:53:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rCFKbF3m"
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE811719;
+	Fri, 24 Nov 2023 02:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hkZni39lbThoT9dZBCT30ULv0iuj2C5j0MgE1MKeF0E=; b=u89kb9KNOXkwb+aJrX/Vnv9C1R
-	DD98mqnrqIV4CabFKki8ZszmNGdHErw74EtPGWOV0q5hSFvJJhywAUzq2cCKwaHBuGDrbqu3ug/Sh
-	/PmwolaGt17qexnLdVsIBx2jetgQa7yN8ejqUcg2vc5qAvVV72wJYEi5PcaxMHtP/NS60rZSawMMS
-	pQLx78j3VHSbpKOIqtJT4BGhCnN67R6b2bzj9Dlv00byPC1DlK6EyLjT+lep8P8CubwMegnX6Qafr
-	jLiYrPwDUyvgxi+c/XZWErC4f7q+6KmFKJHV6cpJpIYNH8a2W5mNk6R8emkcuHMASu4Dc4/JtFSV1
-	aVSl7GpQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35134)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1r6SsS-0002de-1D;
-	Fri, 24 Nov 2023 09:53:36 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1r6SsR-00078v-Ge; Fri, 24 Nov 2023 09:53:35 +0000
-Date: Fri, 24 Nov 2023 09:53:35 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jie Luo <quic_luoj@quicinc.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, corbet@lwn.net, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
-Message-ID: <ZWByn7HpAmPTP3GJ@shell.armlinux.org.uk>
-References: <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
- <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
- <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
- <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
- <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
- <316fb626-4dc3-4540-9cc4-e45840e36f77@quicinc.com>
- <ZVyZ+8Q2eNfAKjO/@shell.armlinux.org.uk>
- <d2ac542c-aae3-49ae-ae2b-9defc4ca98eb@quicinc.com>
- <ZV8+/4eNzLpLzSDG@shell.armlinux.org.uk>
- <1bd2f3a9-3dd1-4c95-b4e5-c9bf2274f271@quicinc.com>
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=X/ymfIJYGS3rgfsyyKZPvatWK1hMRdU56iYMTo6mr84=; b=rCFKbF3mDACBFhTXzRNdFrFO4O
+	eoXOKmJ9nZiGJbfFMIBv6nwz3CsjBdIoMhWkUoG1xIESyQX9y7utknNb2crx4yYaVl0TokaNQnX59
+	UQEefO9tha/lsxyx4F65ZPyZ5QCqVo0rlZL/kdkYuCLGIjIenfBE0G4ANfmh4TiCyiHjQw5pCSoOw
+	9nE6YLG7xrJLF6VvKnJbRf5H0lcpRBYkeFjXyVCwHcJ8GALVBfL/W2eebEDWHFXmQx9wxeHAVLh5J
+	AP7Md+iD5Lbnbp5HhKqJfhCerVvC52VYb0wyb/cpFm3UZZNXbX+76free6tqI6J6N/OKWjkdwAGLS
+	Lh31sbQw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1r6TDU-00DqKC-0M;
+	Fri, 24 Nov 2023 10:15:20 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 83119300338; Fri, 24 Nov 2023 11:15:19 +0100 (CET)
+Date: Fri, 24 Nov 2023 11:15:19 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Christoph Muellner <christoph.muellner@vrull.eu>
+Cc: linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Philipp Tomsich <philipp.tomsich@vrull.eu>,
+	Andrew Jones <ajones@ventanamicro.com>, Guo Ren <guoren@kernel.org>,
+	Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Will Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>
+Subject: Re: [RFC PATCH 0/5] RISC-V: Add dynamic TSO support
+Message-ID: <20231124101519.GP3818@noisy.programming.kicks-ass.net>
+References: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1bd2f3a9-3dd1-4c95-b4e5-c9bf2274f271@quicinc.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
 
-On Fri, Nov 24, 2023 at 05:47:04PM +0800, Jie Luo wrote:
+On Fri, Nov 24, 2023 at 08:21:37AM +0100, Christoph Muellner wrote:
+> From: Christoph Müllner <christoph.muellner@vrull.eu>
 > 
-> 
-> On 11/23/2023 8:01 PM, Russell King (Oracle) wrote:
-> > On Thu, Nov 23, 2023 at 06:57:59PM +0800, Jie Luo wrote:
-> > > On 11/21/2023 7:52 PM, Russell King (Oracle) wrote:
-> > > > Ultimately, you will need a way to use inband signalling with Cisco
-> > > > SGMII for 10M/100M/1G speeds, and then switch to 2500base-X when
-> > > > operating at 2.5G speeds, and that is done via the PHY driver
-> > > > updating phydev->interface.
-> > > > 
-> > > > What we do need is some way for the PHY to also tell the PCS/MAC
-> > > > whether inband should be used. This is something I keep bringing up
-> > > > and now that we have PCS drivers revised to use the value from
-> > > > phylink_pcs_neg_mode() _and_ a consistent implementation amongst them
-> > > > we can now think about signalling to PCS drivers whether inband mode
-> > > > needs to be turned off when switching between modes.
-> > > 
-> > > Yes, we can switch the interface mode according to the current link
-> > > speed in the pcs driver.
-> > > but the issue is that the phy-mode i specified for the PHYLINK,
-> > > if phy-mode is sgmii, the support capability is limited to maximum
-> > > capability 1G during the PHYLINK setup and i can't configure it to 2.5G
-> > > dynamically, if the phy-mode is 2500base-x, then PHY capability will
-> > > be modified to only support 2.5G, other speeds can't be linked up.
-> > 
-> > So you need my patches that add "possible_interfaces" to phylib so you
-> > can tell phylink that you will be switching between SGMII and
-> > 2500base-X. Please see the RFC posting of those patches I sent
-> > yesterday and try them out - you will need to modify your phylib
-> > driver to fill in phydev->possible_interfaces.
-> 
-> Your patches work on my board, thanks Russell.
+> The upcoming RISC-V Ssdtso specification introduces a bit in the senvcfg
+> CSR to switch the memory consistency model at run-time from RVWMO to TSO
+> (and back). The active consistency model can therefore be switched on a
+> per-hart base and managed by the kernel on a per-process/thread base.
 
-Please can you reply to the covering email for that series giving your
-tested-by? Thanks.
+You guys, computers are hartless, nobody told ya?
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+> This patch implements basic Ssdtso support and adds a prctl API on top
+> so that user-space processes can switch to a stronger memory consistency
+> model (than the kernel was written for) at run-time.
+> 
+> I am not sure if other architectures support switching the memory
+> consistency model at run-time, but designing the prctl API in an
+> arch-independent way allows reusing it in the future.
+
+IIRC some Sparc chips could do this, but I don't think anybody ever
+exposed this to userspace (or used it much).
+
+IA64 had planned to do this, except they messed it up and did it the
+wrong way around (strong first and then relax it later), which lead to
+the discovery that all existing software broke (d'uh).
+
+I think ARM64 approached this problem by adding the
+load-acquire/store-release instructions and for TSO based code,
+translate into those (eg. x86 -> arm64 transpilers).
+
+IIRC Risc-V actually has such instructions as well, so *why* are you
+doing this?!?!
