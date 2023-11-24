@@ -1,19 +1,20 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ufUApXbk"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PHd1A8+F"
 X-Greylist: delayed 325 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Nov 2023 08:10:32 PST
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AB5D199A
-	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 08:10:32 -0800 (PST)
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [IPv6:2001:41d0:1004:224b::ae])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E50919A2;
+	Fri, 24 Nov 2023 08:10:32 -0800 (PST)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1700841904;
+	t=1700841907;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=9n3c1WXBz4lxlyB6dBEMGNuqryUbttK1iJefoc3GvV0=;
-	b=ufUApXbkL4u8/4es/MN12fyBMDrWdeSuZO9T4Q4cExLIsNgxLNsikNO3pQoyjRxWphsZHt
-	RPTGkMn6TAouyrZgF+bHYgVnl0El5K+X0TznhffRH0f3w6HUZCsG6AKZsm2DRoIiLuLgIw
-	53LePh6Cp2om5pkGkFD0Jc1WCwg/6cE=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c0AFCXYWnD8+A9LPjk6gYMyLJ/8u6+TPPOfbw4VMVDQ=;
+	b=PHd1A8+F4iOVbolCBeQS2xqTgfT/NSxBRVV5LM/BufjFt9+Ihbgr7zXbv4aenKVl536xl7
+	Diwa2kS4gXZrAasVPtUq6VKQR+mvp4iTZ/wepY3A4WefI4VQcKOnkHDfzlmFSdiVs/l6jx
+	FEV7O2eYJD4hnoYoV6ppc0tlaOo4JEQ=
 From: Sergei Shtepa <sergei.shtepa@linux.dev>
 To: axboe@kernel.dk,
 	hch@infradead.org,
@@ -49,10 +50,14 @@ Cc: mingo@redhat.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	Sergei Shtepa <sergei.shtepa@veeam.com>
-Subject: [PATCH v6 00/11] blksnap - block devices snapshots module
-Date: Fri, 24 Nov 2023 17:04:48 +0100
-Message-Id: <20231124160459.26227-1-sergei.shtepa@linux.dev>
+	Sergei Shtepa <sergei.shtepa@veeam.com>,
+	Donald Buczek <buczek@molgen.mpg.de>,
+	Fabio Fantoni <fantonifabio@tiscali.it>
+Subject: [PATCH v6 02/11] block: Block Device Filtering Mechanism
+Date: Fri, 24 Nov 2023 17:04:50 +0100
+Message-Id: <20231124160459.26227-3-sergei.shtepa@linux.dev>
+In-Reply-To: <20231124160459.26227-1-sergei.shtepa@linux.dev>
+References: <20231124160459.26227-1-sergei.shtepa@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,222 +69,702 @@ X-Migadu-Flow: FLOW_OUT
 
 From: Sergei Shtepa <sergei.shtepa@veeam.com>
 
-Hi all.
+The block device filtering mechanism is an API that allows to attach
+block device filters. Block device filters allow perform additional
+processing for I/O units.
 
-I am happy to offer an improved version of the Block Devices Snapshots
-Module. It allows creating non-persistent snapshots of any block devices.
-The main purpose of such snapshots is to provide backups of block devices.
-See more in Documentation/block/blksnap.rst.
+The idea of handling I/O units on block devices is not new. Back in the
+2.6 kernel, there was an undocumented possibility of handling I/O units
+by substituting the make_request_fn() function, which belonged to the
+request_queue structure. But none of the in-tree kernel modules used
+this feature, and it was eliminated in the 5.10 kernel.
 
-The Block Device Filtering Mechanism is added to the block layer. This
-allows attaching and detaching block device filters to the block layer.
-Filters allow extending the functionality of the block layer. See more
-in Documentation/block/blkfilter.rst.
+The block device filtering mechanism returns the ability to handle I/O
+units. It is possible to safely attach filter to a block device "on the
+fly" without changing the structure of block devices stack.
 
-The tool, library and tests for working with blksnap can be found on github.
-Link: https://github.com/veeam/blksnap/tree/stable-v2.0
-From the documentation, it is possible to learn how to manage the module
-using the library and console tool.
-
-In the new version, the method of saving snapshot difference has been
-changed. Why this should have been done, Dave Chinner <david@fromorbit.com>
-described in detail in the comments to the previous version.
-Link: https://lore.kernel.org/lkml/20230612135228.10702-1-sergei.shtepa@veeam.com/T/#mfe9b8f46833011deea4b24714212230ac38db978
-
-The module is incompatible with features hardware inline encryption and
-data integrity. Thanks to Eric Biggers <ebiggers@kernel.org>.
-Link: https://lore.kernel.org/lkml/20230612135228.10702-1-sergei.shtepa@veeam.com/T/#m3f13e580876bff1d283eb2a79d1ecdef3b98cc42
-Unfortunately, I didn't have a chance to check it, since I don't have such
-equipment.
-
-And it is impossible to determine the presence of a blk-crypto-fallback at
-the block layer filter level. The filter receives already encrypted data.
-The original device continues to work without problems, but the data in
-the snapshot is encrypted. Perhaps they can be decrypted if specify the
-correct key when mounting the file system for snapshot image.
-
-Tested on amd64 and ppc64le with a page size of 64KiB and a storage block
-size of 4KiB.
-
-Based on LK v6.7-rc2.
-Compatible with branch 'for-next'.
-link: https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git 
-
-v6 changes:
-- The difference storage has been changed.
-  In the previous version, the file was created only to reserve sector
-  ranges on a block device. The data was stored directly to the block
-  device in these sector ranges. Now saving and reading data is done using
-  'VFS' using vfs_iter_write() and vfs_iter_read() functions. This allows
-  not to depend on the filesystem and use, for example, tmpfs. Using an
-  unnamed temporary file allows hiding it from other processes and
-  automatically release it when the snapshot is closed.
-  However, now the module does not allow adding a block device to the
-  snapshot on which the difference storage is located. There is no way to
-  ensure the immutability of file metadata when writing data to a file.
-  This means that the metadata of the filesystem may change, which may
-  cause damage to the snapshot.
-- _IOW and _IOR were mixed up - fixed. 
-- Protection against the use of the snapshots for block devices with
-  hardware inline encryption and data integrity was implemented.
-  Compatibility with them was not planned and has not been tested at the
-  moment.
-
-v5 changes:
-- Rebase for "kernel/git/axboe/linux-block.git" branch "for-6.5/block".
-  Link: https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git/log/?h=for-6.5/block
-
-v4 changes:
-- Structures for describing the state of chunks are allocated dynamically.
-  This reduces memory consumption, since the struct chunk is allocated only
-  for those blocks for which the snapshot image state differs from the
-  original block device.
-- The algorithm for calculating the chunk size depending on the size of the
-  block device has been changed. For large block devices, it is now
-  possible to allocate a larger number of chunks, and their size is smaller.
-- For block devices, a 'filter' file has been added to /sys/block/<device>.
-  It displays the name of the filter that is attached to the block device.
-- Fixed a problem with the lack of protection against re-adding a block
-  device to a snapshot.
-- Fixed a bug in the algorithm of allocating the next bio for a chunk.
-  This problem was occurred on large disks, for which a chunk consists of
-  at least two bio.
-- The ownership mechanism of the diff_area structure has been changed.
-  This fixed the error of prematurely releasing the diff_area structure
-  when destroying the snapshot.
-- Documentation corrected.
-- The Sparse analyzer is passed.
-- Use __u64 type instead pointers in UAPI.
-
-v3 changes:
-- New block device I/O controls BLKFILTER_ATTACH and BLKFILTER_DETACH allow
-  to attach and detach filters.
-- New block device I/O control BLKFILTER_CTL allow sending command to
-  attached block device filter.
-- The copy-on-write algorithm for processing I/O units has been optimized
-  and has become asynchronous.
-- The snapshot image reading algorithm has been optimized and has become
-  asynchronous.
-- Optimized the finite state machine for processing chunks.
-- Fixed a tracking block size calculation bug.
-
-v2 changes:
-- Added documentation for Block Device Filtering Mechanism.
-- Added documentation for Block Devices Snapshots Module (blksnap).
-- The MAINTAINERS file has been updated.
-- Optimized queue code for snapshot images.
-- Fixed comments, log messages and code for better readability.
-
-v1 changes:
-- Forgotten "static" declarations have been added.
-- The text of the comments has been corrected.
-- It is possible to connect only one filter, since there are no others in
-  upstream.
-- Do not have additional locks for attach/detach filter.
-- blksnap.h moved to include/uapi/.
-- #pragma once and commented code removed.
-- uuid_t removed from user API.
-- Removed default values for module parameters from the configuration file.
-- The debugging code for tracking memory leaks has been removed.
-- Simplified Makefile.
-- Optimized work with large memory buffers, CBT tables are now in virtual
-  memory.
-- The allocation code of minor numbers has been optimized.
-- The implementation of the snapshot image block device has been
-  simplified, now it is a bio-based block device.
-- Removed initialization of global variables with null values.
-- only one bio is used to copy one chunk.
-- Checked on ppc64le.
-
-
-Sergei Shtepa (11):
-  documentation: Block Device Filtering Mechanism
-  block: Block Device Filtering Mechanism
-  documentation: Block Devices Snapshots Module
-  blksnap: header file of the module interface
-  blksnap: module management interface functions
-  blksnap: handling and tracking I/O units
-  blksnap: difference storage and chunk
-  blksnap: event queue from the difference storage
-  blksnap: snapshot and snapshot image block device
-  blksnap: Kconfig and Makefile
-  blksnap: prevents using devices with data integrity or inline
-    encryption
-
- Documentation/block/blkfilter.rst             |  66 ++
- Documentation/block/blksnap.rst               | 352 +++++++++
- Documentation/block/index.rst                 |   2 +
- .../userspace-api/ioctl/ioctl-number.rst      |   1 +
- MAINTAINERS                                   |  17 +
- block/Makefile                                |   3 +-
- block/bdev.c                                  |   2 +
- block/blk-core.c                              |  35 +-
- block/blk-filter.c                            | 238 +++++++
- block/blk.h                                   |  11 +
- block/genhd.c                                 |  10 +
- block/ioctl.c                                 |   7 +
- block/partitions/core.c                       |   9 +
- drivers/block/Kconfig                         |   2 +
- drivers/block/Makefile                        |   2 +
- drivers/block/blksnap/Kconfig                 |  31 +
- drivers/block/blksnap/Makefile                |  15 +
- drivers/block/blksnap/cbt_map.c               | 228 ++++++
- drivers/block/blksnap/cbt_map.h               |  90 +++
- drivers/block/blksnap/chunk.c                 | 667 ++++++++++++++++++
- drivers/block/blksnap/chunk.h                 | 142 ++++
- drivers/block/blksnap/diff_area.c             | 601 ++++++++++++++++
- drivers/block/blksnap/diff_area.h             | 175 +++++
- drivers/block/blksnap/diff_buffer.c           | 115 +++
- drivers/block/blksnap/diff_buffer.h           |  37 +
- drivers/block/blksnap/diff_storage.c          | 291 ++++++++
- drivers/block/blksnap/diff_storage.h          | 104 +++
- drivers/block/blksnap/event_queue.c           |  81 +++
- drivers/block/blksnap/event_queue.h           |  64 ++
- drivers/block/blksnap/main.c                  | 475 +++++++++++++
- drivers/block/blksnap/params.h                |  16 +
- drivers/block/blksnap/snapimage.c             | 134 ++++
- drivers/block/blksnap/snapimage.h             |  10 +
- drivers/block/blksnap/snapshot.c              | 457 ++++++++++++
- drivers/block/blksnap/snapshot.h              |  64 ++
- drivers/block/blksnap/tracker.c               | 358 ++++++++++
- drivers/block/blksnap/tracker.h               |  78 ++
- include/linux/blk-filter.h                    |  51 ++
- include/linux/blk_types.h                     |   1 +
- include/linux/blkdev.h                        |   1 +
- include/linux/sched.h                         |   1 +
- include/uapi/linux/blk-filter.h               |  35 +
- include/uapi/linux/blksnap.h                  | 388 ++++++++++
- include/uapi/linux/fs.h                       |   3 +
- 44 files changed, 5468 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/block/blkfilter.rst
- create mode 100644 Documentation/block/blksnap.rst
+Co-developed-by: Christoph Hellwig <hch@infradead.org>
+Signed-off-by: Christoph Hellwig <hch@infradead.org>
+Tested-by: Donald Buczek <buczek@molgen.mpg.de>
+Tested-by: Fabio Fantoni <fantonifabio@tiscali.it>
+Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+---
+ MAINTAINERS                     |   3 +
+ block/Makefile                  |   3 +-
+ block/bdev.c                    |   2 +
+ block/blk-core.c                |  35 ++++-
+ block/blk-filter.c              | 238 ++++++++++++++++++++++++++++++++
+ block/blk.h                     |  11 ++
+ block/genhd.c                   |  10 ++
+ block/ioctl.c                   |   7 +
+ block/partitions/core.c         |   9 ++
+ include/linux/blk-filter.h      |  51 +++++++
+ include/linux/blk_types.h       |   1 +
+ include/linux/blkdev.h          |   1 +
+ include/linux/sched.h           |   1 +
+ include/uapi/linux/blk-filter.h |  35 +++++
+ include/uapi/linux/fs.h         |   3 +
+ 15 files changed, 408 insertions(+), 2 deletions(-)
  create mode 100644 block/blk-filter.c
- create mode 100644 drivers/block/blksnap/Kconfig
- create mode 100644 drivers/block/blksnap/Makefile
- create mode 100644 drivers/block/blksnap/cbt_map.c
- create mode 100644 drivers/block/blksnap/cbt_map.h
- create mode 100644 drivers/block/blksnap/chunk.c
- create mode 100644 drivers/block/blksnap/chunk.h
- create mode 100644 drivers/block/blksnap/diff_area.c
- create mode 100644 drivers/block/blksnap/diff_area.h
- create mode 100644 drivers/block/blksnap/diff_buffer.c
- create mode 100644 drivers/block/blksnap/diff_buffer.h
- create mode 100644 drivers/block/blksnap/diff_storage.c
- create mode 100644 drivers/block/blksnap/diff_storage.h
- create mode 100644 drivers/block/blksnap/event_queue.c
- create mode 100644 drivers/block/blksnap/event_queue.h
- create mode 100644 drivers/block/blksnap/main.c
- create mode 100644 drivers/block/blksnap/params.h
- create mode 100644 drivers/block/blksnap/snapimage.c
- create mode 100644 drivers/block/blksnap/snapimage.h
- create mode 100644 drivers/block/blksnap/snapshot.c
- create mode 100644 drivers/block/blksnap/snapshot.h
- create mode 100644 drivers/block/blksnap/tracker.c
- create mode 100644 drivers/block/blksnap/tracker.h
  create mode 100644 include/linux/blk-filter.h
  create mode 100644 include/uapi/linux/blk-filter.h
- create mode 100644 include/uapi/linux/blksnap.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c20cbec81b58..ef90cd0fec9c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3589,6 +3589,9 @@ M:	Sergei Shtepa <sergei.shtepa@veeam.com>
+ L:	linux-block@vger.kernel.org
+ S:	Supported
+ F:	Documentation/block/blkfilter.rst
++F:	block/blk-filter.c
++F:	include/linux/blk-filter.h
++F:	include/uapi/linux/blk-filter.h
+ 
+ BLOCK LAYER
+ M:	Jens Axboe <axboe@kernel.dk>
+diff --git a/block/Makefile b/block/Makefile
+index 46ada9dc8bbf..041c54eb0240 100644
+--- a/block/Makefile
++++ b/block/Makefile
+@@ -9,7 +9,8 @@ obj-y		:= bdev.o fops.o bio.o elevator.o blk-core.o blk-sysfs.o \
+ 			blk-lib.o blk-mq.o blk-mq-tag.o blk-stat.o \
+ 			blk-mq-sysfs.o blk-mq-cpumap.o blk-mq-sched.o ioctl.o \
+ 			genhd.o ioprio.o badblocks.o partitions/ blk-rq-qos.o \
+-			disk-events.o blk-ia-ranges.o early-lookup.o
++			disk-events.o blk-ia-ranges.o early-lookup.o \
++			blk-filter.o
+ 
+ obj-$(CONFIG_BOUNCE)		+= bounce.o
+ obj-$(CONFIG_BLK_DEV_BSG_COMMON) += bsg.o
+diff --git a/block/bdev.c b/block/bdev.c
+index e4cfb7adb645..6039d99b3a75 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -412,6 +412,7 @@ struct block_device *bdev_alloc(struct gendisk *disk, u8 partno)
+ 		return NULL;
+ 	}
+ 	bdev->bd_disk = disk;
++	bdev->bd_filter = NULL;
+ 	return bdev;
+ }
+ 
+@@ -1018,6 +1019,7 @@ void bdev_mark_dead(struct block_device *bdev, bool surprise)
+ 	}
+ 
+ 	invalidate_bdev(bdev);
++	blkfilter_detach(bdev);
+ }
+ /*
+  * New drivers should not use this directly.  There are some drivers however
+diff --git a/block/blk-core.c b/block/blk-core.c
+index fdf25b8d6e78..1de74240892a 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -18,6 +18,7 @@
+ #include <linux/blkdev.h>
+ #include <linux/blk-pm.h>
+ #include <linux/blk-integrity.h>
++#include <linux/blk-filter.h>
+ #include <linux/highmem.h>
+ #include <linux/mm.h>
+ #include <linux/pagemap.h>
+@@ -592,12 +593,34 @@ static inline blk_status_t blk_check_zone_append(struct request_queue *q,
+ 
+ static void __submit_bio(struct bio *bio)
+ {
++	struct request_queue *q = bdev_get_queue(bio->bi_bdev);
++	bool skip_bio = false;
++
++	if (unlikely(bio_queue_enter(bio)))
++		return;
++
++	if (bio->bi_bdev->bd_filter &&
++	    bio->bi_bdev->bd_filter != current->blk_filter) {
++		struct blkfilter *prev = current->blk_filter;
++
++		current->blk_filter = bio->bi_bdev->bd_filter;
++		skip_bio = bio->bi_bdev->bd_filter->ops->submit_bio(bio);
++		current->blk_filter = prev;
++	}
++
++	blk_queue_exit(q);
++	if (skip_bio)
++		return;
++
+ 	if (unlikely(!blk_crypto_bio_prep(&bio)))
+ 		return;
+ 
+ 	if (!bio->bi_bdev->bd_has_submit_bio) {
+ 		blk_mq_submit_bio(bio);
+-	} else if (likely(bio_queue_enter(bio) == 0)) {
++		return;
++	}
++
++	if (likely(bio_queue_enter(bio) == 0)) {
+ 		struct gendisk *disk = bio->bi_bdev->bd_disk;
+ 
+ 		disk->fops->submit_bio(bio);
+@@ -681,6 +704,15 @@ static void __submit_bio_noacct_mq(struct bio *bio)
+ 	current->bio_list = NULL;
+ }
+ 
++/**
++ * submit_bio_noacct_nocheck - re-submit a bio to the block device layer for I/O
++ *	from block device filter.
++ * @bio:  The bio describing the location in memory and on the device.
++ *
++ * This is a version of submit_bio() that shall only be used for I/O that is
++ * resubmitted to lower level by block device filters.  All file  systems and
++ * other upper level users of the block layer should use submit_bio() instead.
++ */
+ void submit_bio_noacct_nocheck(struct bio *bio)
+ {
+ 	blk_cgroup_bio_start(bio);
+@@ -708,6 +740,7 @@ void submit_bio_noacct_nocheck(struct bio *bio)
+ 	else
+ 		__submit_bio_noacct(bio);
+ }
++EXPORT_SYMBOL_GPL(submit_bio_noacct_nocheck);
+ 
+ /**
+  * submit_bio_noacct - re-submit a bio to the block device layer for I/O
+diff --git a/block/blk-filter.c b/block/blk-filter.c
+new file mode 100644
+index 000000000000..8e2550bed0c5
+--- /dev/null
++++ b/block/blk-filter.c
+@@ -0,0 +1,238 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Copyright (C) 2023 Veeam Software Group GmbH */
++#include <linux/blk-filter.h>
++#include <linux/blk-mq.h>
++#include <linux/module.h>
++
++#include "blk.h"
++
++static LIST_HEAD(blkfilters);
++static DEFINE_SPINLOCK(blkfilters_lock);
++
++static inline struct blkfilter_operations *__blkfilter_find(const char *name)
++{
++	struct blkfilter_operations *ops;
++
++	list_for_each_entry(ops, &blkfilters, link)
++		if (strncmp(ops->name, name, BLKFILTER_NAME_LENGTH) == 0)
++			return ops;
++
++	return NULL;
++}
++
++static inline struct blkfilter_operations *blkfilter_find_get(const char *name)
++{
++	struct blkfilter_operations *ops;
++
++	spin_lock(&blkfilters_lock);
++	ops = __blkfilter_find(name);
++	if (ops && !try_module_get(ops->owner))
++		ops = NULL;
++	spin_unlock(&blkfilters_lock);
++
++	return ops;
++}
++
++static inline void blkfilter_put(const struct blkfilter_operations *ops)
++{
++	module_put(ops->owner);
++}
++
++int blkfilter_ioctl_attach(struct block_device *bdev,
++		    struct blkfilter_name __user *argp)
++{
++	struct blkfilter_name name;
++	struct blkfilter_operations *ops;
++	struct blkfilter *flt;
++	int ret;
++
++	if (copy_from_user(&name, argp, sizeof(name)))
++		return -EFAULT;
++
++	ops = blkfilter_find_get(name.name);
++	if (!ops)
++		return -ENOENT;
++
++	mutex_lock(&bdev->bd_disk->open_mutex);
++	if (!disk_live(bdev->bd_disk)) {
++		ret = -ENODEV;
++		goto out_mutex_unlock;
++	}
++	ret = freeze_bdev(bdev);
++	if (ret)
++		goto out_mutex_unlock;
++	blk_mq_freeze_queue(bdev->bd_queue);
++
++	if (bdev->bd_filter) {
++		if (bdev->bd_filter->ops == ops)
++			ret = -EALREADY;
++		else
++			ret = -EBUSY;
++		goto out_unfreeze;
++	}
++
++	flt = ops->attach(bdev);
++	if (IS_ERR(flt)) {
++		ret = PTR_ERR(flt);
++		goto out_unfreeze;
++	}
++
++	flt->ops = ops;
++	bdev->bd_filter = flt;
++
++out_unfreeze:
++	blk_mq_unfreeze_queue(bdev->bd_queue);
++	thaw_bdev(bdev);
++out_mutex_unlock:
++	mutex_unlock(&bdev->bd_disk->open_mutex);
++	if (ret)
++		blkfilter_put(ops);
++	return ret;
++}
++
++static void __blkfilter_detach(struct block_device *bdev)
++{
++	struct blkfilter *flt = bdev->bd_filter;
++	const struct blkfilter_operations *ops = flt->ops;
++
++	bdev->bd_filter = NULL;
++	ops->detach(flt);
++	blkfilter_put(ops);
++}
++
++void blkfilter_detach(struct block_device *bdev)
++{
++	if (bdev->bd_filter) {
++		blk_mq_freeze_queue(bdev->bd_queue);
++		__blkfilter_detach(bdev);
++		blk_mq_unfreeze_queue(bdev->bd_queue);
++	}
++}
++
++int blkfilter_ioctl_detach(struct block_device *bdev,
++		    struct blkfilter_name __user *argp)
++{
++	struct blkfilter_name name;
++	int ret = 0;
++
++	if (copy_from_user(&name, argp, sizeof(name)))
++		return -EFAULT;
++
++	mutex_lock(&bdev->bd_disk->open_mutex);
++	if (!disk_live(bdev->bd_disk)) {
++		ret = -ENODEV;
++		goto out_mutex_unlock;
++	}
++	blk_mq_freeze_queue(bdev->bd_queue);
++	if (!bdev->bd_filter) {
++		ret = -ENOENT;
++		goto out_unfreeze;
++	}
++	if (strncmp(bdev->bd_filter->ops->name, name.name,
++			BLKFILTER_NAME_LENGTH)) {
++		ret = -EINVAL;
++		goto out_unfreeze;
++	}
++
++	__blkfilter_detach(bdev);
++out_unfreeze:
++	blk_mq_unfreeze_queue(bdev->bd_queue);
++out_mutex_unlock:
++	mutex_unlock(&bdev->bd_disk->open_mutex);
++	return ret;
++}
++
++int blkfilter_ioctl_ctl(struct block_device *bdev,
++		    struct blkfilter_ctl __user *argp)
++{
++	struct blkfilter_ctl ctl;
++	struct blkfilter *flt;
++	int ret;
++
++	if (copy_from_user(&ctl, argp, sizeof(ctl)))
++		return -EFAULT;
++
++	mutex_lock(&bdev->bd_disk->open_mutex);
++	if (!disk_live(bdev->bd_disk)) {
++		ret = -ENODEV;
++		goto out_mutex_unlock;
++	}
++	ret = blk_queue_enter(bdev_get_queue(bdev), 0);
++	if (ret)
++		goto out_mutex_unlock;
++
++	flt = bdev->bd_filter;
++	if (!flt || strncmp(flt->ops->name, ctl.name, BLKFILTER_NAME_LENGTH)) {
++		ret = -ENOENT;
++		goto out_queue_exit;
++	}
++
++	if (!flt->ops->ctl) {
++		ret = -ENOTTY;
++		goto out_queue_exit;
++	}
++
++	ret = flt->ops->ctl(flt, ctl.cmd, u64_to_user_ptr(ctl.opt),
++			    &ctl.optlen);
++out_queue_exit:
++	blk_queue_exit(bdev_get_queue(bdev));
++out_mutex_unlock:
++	mutex_unlock(&bdev->bd_disk->open_mutex);
++	return ret;
++}
++
++ssize_t blkfilter_show(struct block_device *bdev, char *buf)
++{
++	ssize_t ret = 0;
++
++	blk_mq_freeze_queue(bdev->bd_queue);
++	if (bdev->bd_filter)
++		ret = sprintf(buf, "%s\n", bdev->bd_filter->ops->name);
++	else
++		ret = sprintf(buf, "\n");
++	blk_mq_unfreeze_queue(bdev->bd_queue);
++
++	return ret;
++}
++
++/**
++ * blkfilter_register() - Register block device filter operations
++ * @ops:	The operations to register.
++ *
++ * Return:
++ *	0 if succeeded,
++ *	-EBUSY if a block device filter with the same name is already
++ *	registered.
++ */
++int blkfilter_register(struct blkfilter_operations *ops)
++{
++	struct blkfilter_operations *found;
++	int ret = 0;
++
++	spin_lock(&blkfilters_lock);
++	found = __blkfilter_find(ops->name);
++	if (found)
++		ret = -EBUSY;
++	else
++		list_add_tail(&ops->link, &blkfilters);
++	spin_unlock(&blkfilters_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(blkfilter_register);
++
++/**
++ * blkfilter_unregister() - Unregister block device filter operations
++ * @ops:	The operations to unregister.
++ *
++ * Important: before unloading, it is necessary to detach the filter from all
++ * block devices.
++ *
++ */
++void blkfilter_unregister(struct blkfilter_operations *ops)
++{
++	spin_lock(&blkfilters_lock);
++	list_del(&ops->link);
++	spin_unlock(&blkfilters_lock);
++}
++EXPORT_SYMBOL_GPL(blkfilter_unregister);
+diff --git a/block/blk.h b/block/blk.h
+index 08a358bc0919..1f104f4865c3 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -7,6 +7,8 @@
+ #include <xen/xen.h>
+ #include "blk-crypto-internal.h"
+ 
++struct blkfilter_ctl;
++struct blkfilter_name;
+ struct elevator_type;
+ 
+ /* Max future timer expiry for timeouts */
+@@ -474,6 +476,15 @@ long compat_blkdev_ioctl(struct file *file, unsigned cmd, unsigned long arg);
+ 
+ extern const struct address_space_operations def_blk_aops;
+ 
++int blkfilter_ioctl_attach(struct block_device *bdev,
++		    struct blkfilter_name __user *argp);
++int blkfilter_ioctl_detach(struct block_device *bdev,
++		    struct blkfilter_name __user *argp);
++int blkfilter_ioctl_ctl(struct block_device *bdev,
++		    struct blkfilter_ctl __user *argp);
++void blkfilter_detach(struct block_device *bdev);
++ssize_t blkfilter_show(struct block_device *bdev, char *buf);
++
+ int disk_register_independent_access_ranges(struct gendisk *disk);
+ void disk_unregister_independent_access_ranges(struct gendisk *disk);
+ 
+diff --git a/block/genhd.c b/block/genhd.c
+index c9d06f72c587..ba744e3fd581 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -26,6 +26,7 @@
+ #include <linux/badblocks.h>
+ #include <linux/part_stat.h>
+ #include <linux/blktrace_api.h>
++#include <linux/blk-filter.h>
+ 
+ #include "blk-throttle.h"
+ #include "blk.h"
+@@ -654,6 +655,7 @@ void del_gendisk(struct gendisk *disk)
+ 	mutex_lock(&disk->open_mutex);
+ 	xa_for_each(&disk->part_tbl, idx, part)
+ 		remove_inode_hash(part->bd_inode);
++	blkfilter_detach(disk->part0);
+ 	mutex_unlock(&disk->open_mutex);
+ 
+ 	/*
+@@ -1044,6 +1046,12 @@ static ssize_t diskseq_show(struct device *dev,
+ 	return sprintf(buf, "%llu\n", disk->diskseq);
+ }
+ 
++static ssize_t disk_filter_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	return blkfilter_show(dev_to_bdev(dev), buf);
++}
++
+ static DEVICE_ATTR(range, 0444, disk_range_show, NULL);
+ static DEVICE_ATTR(ext_range, 0444, disk_ext_range_show, NULL);
+ static DEVICE_ATTR(removable, 0444, disk_removable_show, NULL);
+@@ -1057,6 +1065,7 @@ static DEVICE_ATTR(stat, 0444, part_stat_show, NULL);
+ static DEVICE_ATTR(inflight, 0444, part_inflight_show, NULL);
+ static DEVICE_ATTR(badblocks, 0644, disk_badblocks_show, disk_badblocks_store);
+ static DEVICE_ATTR(diskseq, 0444, diskseq_show, NULL);
++static DEVICE_ATTR(filter, 0444, disk_filter_show, NULL);
+ 
+ #ifdef CONFIG_FAIL_MAKE_REQUEST
+ ssize_t part_fail_show(struct device *dev,
+@@ -1103,6 +1112,7 @@ static struct attribute *disk_attrs[] = {
+ 	&dev_attr_events_async.attr,
+ 	&dev_attr_events_poll_msecs.attr,
+ 	&dev_attr_diskseq.attr,
++	&dev_attr_filter.attr,
+ #ifdef CONFIG_FAIL_MAKE_REQUEST
+ 	&dev_attr_fail.attr,
+ #endif
+diff --git a/block/ioctl.c b/block/ioctl.c
+index 4160f4e6bd5b..1b11303e213b 100644
+--- a/block/ioctl.c
++++ b/block/ioctl.c
+@@ -2,6 +2,7 @@
+ #include <linux/capability.h>
+ #include <linux/compat.h>
+ #include <linux/blkdev.h>
++#include <linux/blk-filter.h>
+ #include <linux/export.h>
+ #include <linux/gfp.h>
+ #include <linux/blkpg.h>
+@@ -572,6 +573,12 @@ static int blkdev_common_ioctl(struct block_device *bdev, blk_mode_t mode,
+ 		return blkdev_pr_preempt(bdev, mode, argp, true);
+ 	case IOC_PR_CLEAR:
+ 		return blkdev_pr_clear(bdev, mode, argp);
++	case BLKFILTER_ATTACH:
++		return blkfilter_ioctl_attach(bdev, argp);
++	case BLKFILTER_DETACH:
++		return blkfilter_ioctl_detach(bdev, argp);
++	case BLKFILTER_CTL:
++		return blkfilter_ioctl_ctl(bdev, argp);
+ 	default:
+ 		return -ENOIOCTLCMD;
+ 	}
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index f47ffcfdfcec..19c69dc23d2c 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -10,6 +10,7 @@
+ #include <linux/ctype.h>
+ #include <linux/vmalloc.h>
+ #include <linux/raid/detect.h>
++#include <linux/blk-filter.h>
+ #include "check.h"
+ 
+ static int (*const check_part[])(struct parsed_partitions *) = {
+@@ -200,6 +201,12 @@ static ssize_t part_discard_alignment_show(struct device *dev,
+ 	return sprintf(buf, "%u\n", bdev_discard_alignment(dev_to_bdev(dev)));
+ }
+ 
++static ssize_t part_filter_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	return blkfilter_show(dev_to_bdev(dev), buf);
++}
++
+ static DEVICE_ATTR(partition, 0444, part_partition_show, NULL);
+ static DEVICE_ATTR(start, 0444, part_start_show, NULL);
+ static DEVICE_ATTR(size, 0444, part_size_show, NULL);
+@@ -208,6 +215,7 @@ static DEVICE_ATTR(alignment_offset, 0444, part_alignment_offset_show, NULL);
+ static DEVICE_ATTR(discard_alignment, 0444, part_discard_alignment_show, NULL);
+ static DEVICE_ATTR(stat, 0444, part_stat_show, NULL);
+ static DEVICE_ATTR(inflight, 0444, part_inflight_show, NULL);
++static DEVICE_ATTR(filter, 0444, part_filter_show, NULL);
+ #ifdef CONFIG_FAIL_MAKE_REQUEST
+ static struct device_attribute dev_attr_fail =
+ 	__ATTR(make-it-fail, 0644, part_fail_show, part_fail_store);
+@@ -222,6 +230,7 @@ static struct attribute *part_attrs[] = {
+ 	&dev_attr_discard_alignment.attr,
+ 	&dev_attr_stat.attr,
+ 	&dev_attr_inflight.attr,
++	&dev_attr_filter.attr,
+ #ifdef CONFIG_FAIL_MAKE_REQUEST
+ 	&dev_attr_fail.attr,
+ #endif
+diff --git a/include/linux/blk-filter.h b/include/linux/blk-filter.h
+new file mode 100644
+index 000000000000..0afdb40f3bab
+--- /dev/null
++++ b/include/linux/blk-filter.h
+@@ -0,0 +1,51 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (C) 2023 Veeam Software Group GmbH */
++#ifndef _LINUX_BLK_FILTER_H
++#define _LINUX_BLK_FILTER_H
++
++#include <uapi/linux/blk-filter.h>
++
++struct bio;
++struct block_device;
++struct blkfilter_operations;
++
++/**
++ * struct blkfilter - Block device filter.
++ *
++ * @ops:	Block device filter operations.
++ *
++ * For each filtered block device, the filter creates a data structure
++ * associated with this device. The data in this structure is specific to the
++ * filter, but it must contain a pointer to the block device filter account.
++ */
++struct blkfilter {
++	const struct blkfilter_operations *ops;
++};
++
++/**
++ * struct blkfilter_operations - Block device filter operations.
++ *
++ * @link:	Entry in the global list of filter drivers
++ *		(must not be accessed by the driver).
++ * @owner:	Module implementing the filter driver.
++ * @name:	Name of the filter driver.
++ * @attach:	Attach the filter driver to the block device.
++ * @detach:	Detach the filter driver from the block device.
++ * @ctl:	Send a control command to the filter driver.
++ * @submit_bio:	Handle bio submissions to the filter driver.
++ */
++struct blkfilter_operations {
++	struct list_head link;
++	struct module *owner;
++	const char *name;
++	struct blkfilter *(*attach)(struct block_device *bdev);
++	void (*detach)(struct blkfilter *flt);
++	int (*ctl)(struct blkfilter *flt, const unsigned int cmd,
++		   __u8 __user *buf, __u32 *plen);
++	bool (*submit_bio)(struct bio *bio);
++};
++
++int blkfilter_register(struct blkfilter_operations *ops);
++void blkfilter_unregister(struct blkfilter_operations *ops);
++
++#endif /* _UAPI_LINUX_BLK_FILTER_H */
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index d5c5e59ddbd2..490865292fde 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -74,6 +74,7 @@ struct block_device {
+ 	 * path
+ 	 */
+ 	struct device		bd_device;
++	struct blkfilter	*bd_filter;
+ } __randomize_layout;
+ 
+ #define bdev_whole(_bdev) \
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 51fa7ffdee83..6a0754007d1d 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -834,6 +834,7 @@ void blk_request_module(dev_t devt);
+ 
+ extern int blk_register_queue(struct gendisk *disk);
+ extern void blk_unregister_queue(struct gendisk *disk);
++void submit_bio_noacct_nocheck(struct bio *bio);
+ void submit_bio_noacct(struct bio *bio);
+ struct bio *bio_split_to_limits(struct bio *bio);
+ 
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 292c31697248..e7c3cd490a80 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1190,6 +1190,7 @@ struct task_struct {
+ 
+ 	/* Stack plugging: */
+ 	struct blk_plug			*plug;
++	struct blkfilter		*blk_filter;
+ 
+ 	/* VM state: */
+ 	struct reclaim_state		*reclaim_state;
+diff --git a/include/uapi/linux/blk-filter.h b/include/uapi/linux/blk-filter.h
+new file mode 100644
+index 000000000000..18885dc1b717
+--- /dev/null
++++ b/include/uapi/linux/blk-filter.h
+@@ -0,0 +1,35 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/* Copyright (C) 2023 Veeam Software Group GmbH */
++#ifndef _UAPI_LINUX_BLK_FILTER_H
++#define _UAPI_LINUX_BLK_FILTER_H
++
++#include <linux/types.h>
++
++#define BLKFILTER_NAME_LENGTH	32
++
++/**
++ * struct blkfilter_name - parameter for BLKFILTER_ATTACH and BLKFILTER_DETACH
++ *      ioctl.
++ *
++ * @name:       Name of block device filter.
++ */
++struct blkfilter_name {
++	__u8 name[BLKFILTER_NAME_LENGTH];
++};
++
++/**
++ * struct blkfilter_ctl - parameter for BLKFILTER_CTL ioctl
++ *
++ * @name:	Name of block device filter.
++ * @cmd:	The filter-specific operation code of the command.
++ * @optlen:	Size of data at @opt.
++ * @opt:	Userspace buffer with options.
++ */
++struct blkfilter_ctl {
++	__u8 name[BLKFILTER_NAME_LENGTH];
++	__u32 cmd;
++	__u32 optlen;
++	__u64 opt;
++};
++
++#endif /* _UAPI_LINUX_BLK_FILTER_H */
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index da43810b7485..f96809cd2f50 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -189,6 +189,9 @@ struct fsxattr {
+  * A jump here: 130-136 are reserved for zoned block devices
+  * (see uapi/linux/blkzoned.h)
+  */
++#define BLKFILTER_ATTACH	_IOWR(0x12, 140, struct blkfilter_name)
++#define BLKFILTER_DETACH	_IOWR(0x12, 141, struct blkfilter_name)
++#define BLKFILTER_CTL		_IOWR(0x12, 142, struct blkfilter_ctl)
+ 
+ #define BMAP_IOCTL 1		/* obsolete - kept for compatibility */
+ #define FIBMAP	   _IO(0x00,1)	/* bmap access */
 -- 
 2.20.1
 
