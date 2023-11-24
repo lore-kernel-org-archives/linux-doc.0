@@ -1,97 +1,147 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Kr9xJILE"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B49E7D46
-	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 02:56:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700823411;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4lIC23ZyZLJj/oYUj3wwJ9PbugdSurQXfcrH9U9VfYw=;
-	b=Kr9xJILEsCPZcG+HXfPp/9dtj5Z9MEmt4nGvPpZjmT9PMzHxukUHX/ZqnAsZzlCaxAZH6v
-	b7OA2vhSZQkmy7jqNLcqN+1+UsKV4RFKmUGNfsEGUIfwaplqNb2yAP1NViRi445qEQY0CH
-	nlzYIPC2iH8M785p+acQ4w1cLESXDf4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-609-liTB31jrPhGRtC5v4UpwOA-1; Fri, 24 Nov 2023 05:56:49 -0500
-X-MC-Unique: liTB31jrPhGRtC5v4UpwOA-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-332c4291572so1028230f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 02:56:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700823408; x=1701428208;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4lIC23ZyZLJj/oYUj3wwJ9PbugdSurQXfcrH9U9VfYw=;
-        b=IO9uepte5OnU6mMzdVQHcJ4CQ03tr0z/6cYpuqccqkxc6XBIe0GCFXeAnqatBDoM6f
-         jIHXnqSLdtXzvy4QhqRCcWBW3TH4AljXqOn5uIR+lheWiKefHPtfSBrWVUx4u3wVmemv
-         5FASO0xu0pO+s2OhEnhliYNlBbYWLJui+tVCpBUumklW/ygYhP71TC1ns6ePkTKb82tO
-         i1RiZZba+FO6QKjmbcsEm/W004CqvxXUHhIi5k20OyuqtZF/tm5LEiLsXEIu+NQQ1jud
-         HGeECxkxEQDz0P+TSiVGsPYBuS7mDAnZ7RL+rgTr9YfFsXFDTezt2HTl4rRogjzSrZVp
-         FJmg==
-X-Gm-Message-State: AOJu0YwWN+risPE48Jj1YJVlNZcg0F28O2bkKxwZwH2dzOh6U9s58Pjm
-	MTqbXgqgl+XPrGZ4QjfJswVz6uS9430Q6tFa5v9+cdso8C94m5yXAmRliwhQ3jgge0LF2+NbfKq
-	omeYHPBmNYhiqW2GD2FDH
-X-Received: by 2002:adf:b1d5:0:b0:32d:aa11:221d with SMTP id r21-20020adfb1d5000000b0032daa11221dmr1609058wra.27.1700823408225;
-        Fri, 24 Nov 2023 02:56:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF8B1Z5Xh4NJM4v+jFXHb5dS3jyH1zOINaNv+9ttW9vntLWVjkhOG5VMvKimijwhgUpy+ZIgA==
-X-Received: by 2002:adf:b1d5:0:b0:32d:aa11:221d with SMTP id r21-20020adfb1d5000000b0032daa11221dmr1609038wra.27.1700823407919;
-        Fri, 24 Nov 2023 02:56:47 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id i2-20020adffc02000000b00327de0173f6sm4052394wrr.115.2023.11.24.02.56.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 02:56:47 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Simon Ser <contact@emersion.fr>
-Cc: Albert Esteve <aesteve@redhat.com>, qemu-devel@nongnu.org,
- zackr@vmware.com, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- iforbes@vmware.com, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Chia-I Wu <olvaffe@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Hans de Goede <hdegoede@redhat.com>, Matt Roper
- <matthew.d.roper@intel.com>, David Airlie <airlied@gmail.com>,
- banackm@vmware.com, Rob Clark <robdclark@gmail.com>, krastevm@vmware.com,
- spice-devel@lists.freedesktop.org, Gurchetan Singh
- <gurchetansingh@chromium.org>, Jonathan Corbet <corbet@lwn.net>, David
- Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, mombasawalam@vmware.com, Daniel Vetter
- <daniel@ffwll.ch>, ppaalanen@gmail.com, VMware Graphics Reviewers
- <linux-graphics-maintainer@vmware.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v6 0/9] Fix cursor planes with virtualized drivers
-In-Reply-To: <xUgaKXv4lqgCEWWlB4KRGx-yLXefTg-uXEdXaTqAhOTxC4G7bCILTK9SH6ymdmMMBLooAl3_Kdvl5JXeUA8Hofg9PcCMBhPWhVhnCoxvgqA=@emersion.fr>
-References: <20231023074613.41327-1-aesteve@redhat.com>
- <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr>
- <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com>
- <87y1eqc5qk.fsf@minerva.mail-host-address-is-not-set>
- <xUgaKXv4lqgCEWWlB4KRGx-yLXefTg-uXEdXaTqAhOTxC4G7bCILTK9SH6ymdmMMBLooAl3_Kdvl5JXeUA8Hofg9PcCMBhPWhVhnCoxvgqA=@emersion.fr>
-Date: Fri, 24 Nov 2023 11:56:46 +0100
-Message-ID: <87leanctch.fsf@minerva.mail-host-address-is-not-set>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+X-Greylist: delayed 491 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Nov 2023 03:32:26 PST
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B194B10F4
+	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 03:32:26 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CA73D1FD49;
+	Fri, 24 Nov 2023 11:24:11 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD77613A98;
+	Fri, 24 Nov 2023 11:24:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id O5n8KduHYGV7DQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 24 Nov 2023 11:24:11 +0000
+Message-ID: <7512b350-4317-21a0-fab3-4101bc4d8f7a@suse.cz>
+Date: Fri, 24 Nov 2023 12:24:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2] Documentation: kernel-parameters: remove
+ slab_max_order and noaliencache
+Content-Language: en-US
+To: sxwjean@me.com, 42.hyeyoo@gmail.com, linux-mm@kvack.org
+Cc: cl@linux.com, penberg@kernel.org, rientjes@google.com,
+ iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, roman.gushchin@linux.dev,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Xiongwei Song <xiongwei.song@windriver.com>
+References: <20231122143603.85297-1-sxwjean@me.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20231122143603.85297-1-sxwjean@me.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Bar: ++++++++++++++++++++
+Authentication-Results: smtp-out2.suse.de;
+	dkim=none;
+	dmarc=none;
+	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of vbabka@suse.cz) smtp.mailfrom=vbabka@suse.cz
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [20.99 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_SPAM(5.10)[100.00%];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 R_SPF_SOFTFAIL(4.60)[~all];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 MX_GOOD(-0.01)[];
+	 FREEMAIL_TO(0.00)[me.com,gmail.com,kvack.org];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,me.com];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DMARC_NA(1.20)[suse.cz];
+	 NEURAL_SPAM_SHORT(3.00)[1.000];
+	 NEURAL_SPAM_LONG(3.50)[1.000];
+	 RCPT_COUNT_TWELVE(0.00)[13];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:email,me.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: 20.99
+X-Rspamd-Queue-Id: CA73D1FD49
 
-Simon Ser <contact@emersion.fr> writes:
+On 11/22/23 15:36, sxwjean@me.com wrote:
+> From: Xiongwei Song <xiongwei.song@windriver.com>
+> 
+> Since slab allocator has already been removed. There is no users about
+> slab_max_order and noaliencache, so let's remove them.
+> 
+> Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
+> ---
+> v2: Hyeonggon Yoo <42.hyeyoo@gmail.com> suggested that noaliencache should be
+> removed too. Here adding this change. The patch is based on [1].
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=slab-remove-slab-v2r1
+> 
+> v1: https://lore.kernel.org/linux-mm/20231120091214.150502-1-sxwjean@me.com/T/#m55ebb45851bc86d650baf65dfe8296d33c5b1126
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 10 ----------
+>  1 file changed, 10 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 65731b060e3f..d56a5beefe24 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3740,10 +3740,6 @@
+>  	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
+>  			kernel to use 4-level paging instead.
+>  
+> -	noaliencache	[MM, NUMA, SLAB] Disables the allocation of alien
+> -			caches in the slab allocator.  Saves per-node memory,
+> -			but will impact performance.
 
-Hello Simon,
+No question about this one, can be deleted.
 
-> On Wednesday, November 22nd, 2023 at 13:49, Javier Martinez Canillas <javierm@redhat.com> wrote:
->
->> Any objections to merge the series ?
->
-> No objections from me :)
->
+> -
+>  	noalign		[KNL,ARM]
+>  
+>  	noaltinstr	[S390] Disables alternative instructions patching
+> @@ -5887,12 +5883,6 @@
+>  			own.
+>  			For more information see Documentation/mm/slub.rst.
+>  
+> -	slab_max_order=	[MM, SLAB]
+> -			Determines the maximum allowed order for slabs.
+> -			A high setting may cause OOMs due to memory
+> -			fragmentation.  Defaults to 1 for systems with
+> -			more than 32MB of RAM, 0 otherwise.
 
-Perfect, I'll merge this series then to unblock the mutter MR. Thanks again!
+I think here we should consider the long-term plan first. It's a bit
+unfortunate (in hindsight) SLUB brought its own prefix of parameters, even
+if some became interchangeable aliases later (slab/slub_nomerge), some not.
+I think it would be best to unify them, and consider the string "slub" an
+implementation detail of the general "slab allocator" term going forward.
 
--- 
-Best regards,
+So what I'd propose is that we change all parameters to accept a
+"slab_$param" as a primary and documented name (and the description can
+contain just [MM] tag, no [SLAB] or [SLUB] needed), with "slub_$param" is
+also accepted as an alias where it exists today, and there's just a note
+that the slub_$param name is also accepted in the description of the
+canonical parameter, not in a separate description. Then maybe in a few
+years we can mark the old names as deprecated and start issuing low-key
+warnings (while still accepting them), and in 10 years maybe remove them
+completely. Thoughts?
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> -
+>  	slub_debug[=options[,slabs][;[options[,slabs]]...]	[MM, SLUB]
+>  			Enabling slub_debug allows one to determine the
+>  			culprit if slab objects become corrupted. Enabling
 
