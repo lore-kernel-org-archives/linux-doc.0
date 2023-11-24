@@ -1,111 +1,97 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vrull.eu header.i=@vrull.eu header.b="EJcSyp3Y"
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC831AE
-	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 02:53:19 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-285636785ddso1216278a91.3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 02:53:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vrull.eu; s=google; t=1700823199; x=1701427999; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G13q4Npyv/Ly9t6e83+KIY+krKu4thVjMslYff6WcPI=;
-        b=EJcSyp3YLMqAnDWIZf7+QSxzyWIrVOM7ZFjx3xpbO/iP6aZZA8sQDS1x5VcRUmyycm
-         dqvXwdlpdXnCxTwaAR7UYflX8598ojNcUeCB/Fl1x0g+vAZ8fI/W1nozcP7/sA3f0r8P
-         WtSmDnbYwSYLuD5NVoJ/qBU7lBd30GunQ5oXSebijFz6c+O0sMrNsYUf8PLqI8bbYByX
-         ix0CmYpasQuH+G/2OIgkff6IKJZwZOUjLLSAT4fTBZqBuZNdZsto2hV6ZcmHikQX1EuD
-         sIVd03GrhmBpIOrvB5n5gjljOU2GhlaQOtCIS/S/PF8OX+dpamYYua+nsW+vREnthu0n
-         PcxQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Kr9xJILE"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B49E7D46
+	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 02:56:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700823411;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4lIC23ZyZLJj/oYUj3wwJ9PbugdSurQXfcrH9U9VfYw=;
+	b=Kr9xJILEsCPZcG+HXfPp/9dtj5Z9MEmt4nGvPpZjmT9PMzHxukUHX/ZqnAsZzlCaxAZH6v
+	b7OA2vhSZQkmy7jqNLcqN+1+UsKV4RFKmUGNfsEGUIfwaplqNb2yAP1NViRi445qEQY0CH
+	nlzYIPC2iH8M785p+acQ4w1cLESXDf4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-609-liTB31jrPhGRtC5v4UpwOA-1; Fri, 24 Nov 2023 05:56:49 -0500
+X-MC-Unique: liTB31jrPhGRtC5v4UpwOA-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-332c4291572so1028230f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 02:56:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700823199; x=1701427999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G13q4Npyv/Ly9t6e83+KIY+krKu4thVjMslYff6WcPI=;
-        b=AdMN89jT8kTd/MsvjzOdVo+XaApp6WoWwOoSCYkFvjmRrzc3B+iV3pPzM+Y6p2h/ZR
-         ZIEPN48XfNgDJZhLW2SLwCw010a/RBZWn90yTSGcl1DTV/I/jB93bdxTa9EpBKOTClYD
-         y6X8J0hEUNLR77vvrxeP8OXyfuizo1nMWg3e1qSlEUw0qVzqF4ERxmsysSw9es0+2Sv5
-         /2u48s3vvQfTGnHWmkew2iIygw1qCmZw22s9oCORcFR0VFi3E0vruO+YjEj0C2FqDGtM
-         urdVqZmllPsM6wNTLTc/4ezjmvnwu2vaMxe8FcLf+qnzA1BlrkhHuG5lXF19H0grRd5o
-         tlvA==
-X-Gm-Message-State: AOJu0Yxg3XFjWoGBhFx0IGultNL/BPGA7e/hCUXlYHzmw+9whX68FysN
-	OeF+fCkIGDYd+Bt8qF1R74nCZHcpm3FHalGho167Zg==
-X-Google-Smtp-Source: AGHT+IFIeQIFowpfBFOWrzbJuo6dqXpVySOYNiIwl+Kh/YJg26vm2tehxdWw4alf5s2od+tF6f8fxXN9ap5KOjqXBjQ=
-X-Received: by 2002:a17:90b:4d0e:b0:280:62a7:3743 with SMTP id
- mw14-20020a17090b4d0e00b0028062a73743mr2278223pjb.30.1700823199176; Fri, 24
- Nov 2023 02:53:19 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700823408; x=1701428208;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4lIC23ZyZLJj/oYUj3wwJ9PbugdSurQXfcrH9U9VfYw=;
+        b=IO9uepte5OnU6mMzdVQHcJ4CQ03tr0z/6cYpuqccqkxc6XBIe0GCFXeAnqatBDoM6f
+         jIHXnqSLdtXzvy4QhqRCcWBW3TH4AljXqOn5uIR+lheWiKefHPtfSBrWVUx4u3wVmemv
+         5FASO0xu0pO+s2OhEnhliYNlBbYWLJui+tVCpBUumklW/ygYhP71TC1ns6ePkTKb82tO
+         i1RiZZba+FO6QKjmbcsEm/W004CqvxXUHhIi5k20OyuqtZF/tm5LEiLsXEIu+NQQ1jud
+         HGeECxkxEQDz0P+TSiVGsPYBuS7mDAnZ7RL+rgTr9YfFsXFDTezt2HTl4rRogjzSrZVp
+         FJmg==
+X-Gm-Message-State: AOJu0YwWN+risPE48Jj1YJVlNZcg0F28O2bkKxwZwH2dzOh6U9s58Pjm
+	MTqbXgqgl+XPrGZ4QjfJswVz6uS9430Q6tFa5v9+cdso8C94m5yXAmRliwhQ3jgge0LF2+NbfKq
+	omeYHPBmNYhiqW2GD2FDH
+X-Received: by 2002:adf:b1d5:0:b0:32d:aa11:221d with SMTP id r21-20020adfb1d5000000b0032daa11221dmr1609058wra.27.1700823408225;
+        Fri, 24 Nov 2023 02:56:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF8B1Z5Xh4NJM4v+jFXHb5dS3jyH1zOINaNv+9ttW9vntLWVjkhOG5VMvKimijwhgUpy+ZIgA==
+X-Received: by 2002:adf:b1d5:0:b0:32d:aa11:221d with SMTP id r21-20020adfb1d5000000b0032daa11221dmr1609038wra.27.1700823407919;
+        Fri, 24 Nov 2023 02:56:47 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id i2-20020adffc02000000b00327de0173f6sm4052394wrr.115.2023.11.24.02.56.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 02:56:47 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Simon Ser <contact@emersion.fr>
+Cc: Albert Esteve <aesteve@redhat.com>, qemu-devel@nongnu.org,
+ zackr@vmware.com, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ iforbes@vmware.com, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Chia-I Wu <olvaffe@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hans de Goede <hdegoede@redhat.com>, Matt Roper
+ <matthew.d.roper@intel.com>, David Airlie <airlied@gmail.com>,
+ banackm@vmware.com, Rob Clark <robdclark@gmail.com>, krastevm@vmware.com,
+ spice-devel@lists.freedesktop.org, Gurchetan Singh
+ <gurchetansingh@chromium.org>, Jonathan Corbet <corbet@lwn.net>, David
+ Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, mombasawalam@vmware.com, Daniel Vetter
+ <daniel@ffwll.ch>, ppaalanen@gmail.com, VMware Graphics Reviewers
+ <linux-graphics-maintainer@vmware.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v6 0/9] Fix cursor planes with virtualized drivers
+In-Reply-To: <xUgaKXv4lqgCEWWlB4KRGx-yLXefTg-uXEdXaTqAhOTxC4G7bCILTK9SH6ymdmMMBLooAl3_Kdvl5JXeUA8Hofg9PcCMBhPWhVhnCoxvgqA=@emersion.fr>
+References: <20231023074613.41327-1-aesteve@redhat.com>
+ <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr>
+ <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com>
+ <87y1eqc5qk.fsf@minerva.mail-host-address-is-not-set>
+ <xUgaKXv4lqgCEWWlB4KRGx-yLXefTg-uXEdXaTqAhOTxC4G7bCILTK9SH6ymdmMMBLooAl3_Kdvl5JXeUA8Hofg9PcCMBhPWhVhnCoxvgqA=@emersion.fr>
+Date: Fri, 24 Nov 2023 11:56:46 +0100
+Message-ID: <87leanctch.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231124072142.2786653-1-christoph.muellner@vrull.eu> <20231124101519.GP3818@noisy.programming.kicks-ass.net>
-In-Reply-To: <20231124101519.GP3818@noisy.programming.kicks-ass.net>
-From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Date: Fri, 24 Nov 2023 11:53:06 +0100
-Message-ID: <CAEg0e7j1AvzTyaQ45wUP9QnsMpCG=ZMzcLNFYhGPPSgAwsty6A@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/5] RISC-V: Add dynamic TSO support
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Andrew Morton <akpm@linux-foundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Anup Patel <apatel@ventanamicro.com>, 
-	Philipp Tomsich <philipp.tomsich@vrull.eu>, Andrew Jones <ajones@ventanamicro.com>, 
-	Guo Ren <guoren@kernel.org>, Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
-	Alan Stern <stern@rowland.harvard.edu>, Andrea Parri <parri.andrea@gmail.com>, 
-	Will Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Fri, Nov 24, 2023 at 11:15=E2=80=AFAM Peter Zijlstra <peterz@infradead.o=
-rg> wrote:
->
-> On Fri, Nov 24, 2023 at 08:21:37AM +0100, Christoph Muellner wrote:
-> > From: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-> >
-> > The upcoming RISC-V Ssdtso specification introduces a bit in the senvcf=
-g
-> > CSR to switch the memory consistency model at run-time from RVWMO to TS=
-O
-> > (and back). The active consistency model can therefore be switched on a
-> > per-hart base and managed by the kernel on a per-process/thread base.
->
-> You guys, computers are hartless, nobody told ya?
+Simon Ser <contact@emersion.fr> writes:
 
-That's why they came up with RISC-V, the ISA with hart!
+Hello Simon,
 
-> > This patch implements basic Ssdtso support and adds a prctl API on top
-> > so that user-space processes can switch to a stronger memory consistenc=
-y
-> > model (than the kernel was written for) at run-time.
-> >
-> > I am not sure if other architectures support switching the memory
-> > consistency model at run-time, but designing the prctl API in an
-> > arch-independent way allows reusing it in the future.
+> On Wednesday, November 22nd, 2023 at 13:49, Javier Martinez Canillas <javierm@redhat.com> wrote:
 >
-> IIRC some Sparc chips could do this, but I don't think anybody ever
-> exposed this to userspace (or used it much).
+>> Any objections to merge the series ?
 >
-> IA64 had planned to do this, except they messed it up and did it the
-> wrong way around (strong first and then relax it later), which lead to
-> the discovery that all existing software broke (d'uh).
+> No objections from me :)
 >
-> I think ARM64 approached this problem by adding the
-> load-acquire/store-release instructions and for TSO based code,
-> translate into those (eg. x86 -> arm64 transpilers).
->
-> IIRC Risc-V actually has such instructions as well, so *why* are you
-> doing this?!?!
 
-Not needing a transpiler is already a benefit.
-And the DTSO approach also covers the cases where transpilers can't be used
-(e.g. binary-only executables or libraries).
+Perfect, I'll merge this series then to unblock the mutter MR. Thanks again!
 
-We are also working on extending ld.so such, that it switches to DTSO
-(if available) in case the user wants to start an executable that was
-compiled for Ztso or loads a library that was compiled for Ztso.
-This would utilize the API that is introduced in this patchset.
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
