@@ -1,93 +1,155 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R+HwbpZo"
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7126F1735
-	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 12:20:53 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-54b18dbf148so103362a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 12:20:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1LcHPJrk"
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAD4A1990
+	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 12:48:21 -0800 (PST)
+Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-423a125d23cso81391cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 12:48:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700857252; x=1701462052; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1700858901; x=1701463701; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ViRdTSishNWqaCbUV2uSiB5xfGwWROv1i1ATWCTnWTA=;
-        b=R+HwbpZoTKxb9HCK8daSFvrA68GKJoJdKGpmkh76wMxNmonp/oedt9z1ibJLExAYfD
-         clsxh3Vn75qAoKA3Ugl96Ej+7p/dOfAkd448k5oFJrctZtEqvTfPP3y1VQZgBnKE0LXr
-         X99URVnewv+1JjMmmT1YHIoLDL7UY2xLQBK5lqUD8c9x8/6sDXjRYyEroS6n6dIxxuMP
-         7L5TQ1gQcNQH0xbSRmu2GLkUsFGr2Ykc0j9qO3iUdBCFtoUSJHVi8SSfXcx+TV/nXRS7
-         jop4MjQc1EghdUSJD08BsqEw6KTyw/S/rUW2WTi6WQ0b17HRFwDT69ITTtHZiSBeQofC
-         63UA==
+        bh=tFQWMpDN2F24cc/J03f4NVx2U6EwlQXtQnJp1TM3/K8=;
+        b=1LcHPJrkSE6LmyHMrgDoIEpZNHn/ywCyZYHVujYiNCy8y8v5qEqT6rE/drq/47cIwa
+         4yfcCQKfCCfSy+UnOyeX3+nAPOvRqPInA7EJWxm6m1GpsIsdUo733GMKcvRBufgfZjDa
+         Hyi6KwukEDyLeESd6CtwH8oGuWPzbUaN0jrkPf6UfaWubZpx4FX8kBmN7V/DRglmIwl0
+         NPcgFok1JYzrSMZp8Y5sVp4ms/ZycId2UIRAU1OJR5b8YPrarK1ipy/ATnbNqLvc57Mi
+         HVCyuEohN3wMNlt6WJxkBQL9fUlQP85/c6ET6wYrQ2F/fPRcVMOzhQ3/+7fuUsrG992f
+         vKxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700857252; x=1701462052;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1700858901; x=1701463701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ViRdTSishNWqaCbUV2uSiB5xfGwWROv1i1ATWCTnWTA=;
-        b=LggSZGeltwk4LILXlrpekvqjS/89X/zUNz0UdOsLSUm8aZJKmRm+I5vEGKQOHvOmn3
-         sLsx+f/hyTOi2bY7xMf+fLpSLjJTUO8FC8zDPHQMRNpHUhmAU7lbt2DJFGrYwdznVSV3
-         OI8ELHUimdzRELtKlkhvrH2+qXmm7pMauJSPfjJSR2IdTl1J5+Q4tde0yKoNl4EglPY0
-         6rhL+9B/JjIJmTcm97OEFU4/rH0DGvT79g9cE2WUcQJEoGERbnF8KKLUq5mIPFd8XBgB
-         rahLz66juU4pdzm3VBZuGa2Hnl2sP4VD8fmcwAywZB8Q7vurF+YlGK0nEdFqPTUd1rw3
-         nhcg==
-X-Gm-Message-State: AOJu0YwZiSEtJ8tcaubqtuUxoNn5xsZg/Mcgd+CRh3AkZDByxkzCgE2D
-	Oomkoan8040iVBbeylJMaWMDFQ==
-X-Google-Smtp-Source: AGHT+IFn1Sx7rXRl6dVxMZBYTRWrjxX7S2eKanbthlEva2ddzupq9Obo7nDZY2VTzHvPyL/U1S/CTw==
-X-Received: by 2002:a17:907:d407:b0:a02:ad84:3ab3 with SMTP id vi7-20020a170907d40700b00a02ad843ab3mr4271261ejc.44.1700857251967;
-        Fri, 24 Nov 2023 12:20:51 -0800 (PST)
-Received: from 1.. ([79.115.63.75])
-        by smtp.gmail.com with ESMTPSA id cf16-20020a170906b2d000b0099bd7b26639sm2458153ejb.6.2023.11.24.12.20.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 12:20:51 -0800 (PST)
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-To: pratyush@kernel.org,
-	michael@walle.cc,
-	bagasdotme@gmail.com,
-	Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: linux-mtd@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] docs: mtd: spi-nor: add sections about flash additions and testing
-Date: Fri, 24 Nov 2023 22:20:42 +0200
-Message-Id: <170085693794.1196935.11331460822270915583.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231124184902.1194235-1-tudor.ambarus@linaro.org>
-References: <20231124184902.1194235-1-tudor.ambarus@linaro.org>
+        bh=tFQWMpDN2F24cc/J03f4NVx2U6EwlQXtQnJp1TM3/K8=;
+        b=a49tFLBG3p4WNe52i8g0IN+a53m9l6usng3BA2leIc4nIlRg/Docsr4RxmbvfOePY+
+         V7qzTzVZNTDp2T7nPho+YSbJP5koeI1y8WWJVUqo1FGkYb+Z5PMO27tncBR69avrc9Wi
+         SwJuhUKptco/bKf+kkv/lzdpDqmj+F2iawb61OMnKDIehF+YdU1d393zOw0KSocTL8Tc
+         QgOmQnku/qgeYJzWXO+FU7Ewahy/EMLJ2DJ/axEg1P0/XDccfa7ICPEqgXSvuLbPXEkx
+         3OkHQYR9fDmifI7MumCxQj2UfFlGzfKiwKKYzf1V8yE3Z2Llt9dbD7Xur4G3Ky87Zibw
+         5hrg==
+X-Gm-Message-State: AOJu0YyWBb3K9TIMjJ3VD/U9ZUm1HgmjzMc/8gFNRgBpeC/fe6PouGPu
+	t7NcMhPvUsEDM0ps2h4nVKkKX5TdIaM72qX6AANziQ==
+X-Google-Smtp-Source: AGHT+IFlw/BprWhMGyCnxPL0swEeuxm4RjdXSiWCk+/jHDaoAAmc3zBMtDvNW474MpL5i9yKSS1/AA2MWkWolILaYOk=
+X-Received: by 2002:ac8:5885:0:b0:421:c8d7:58f1 with SMTP id
+ t5-20020ac85885000000b00421c8d758f1mr705562qta.4.1700858900765; Fri, 24 Nov
+ 2023 12:48:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1005; i=tudor.ambarus@linaro.org; h=from:subject:message-id; bh=z5Gv5g8CG0O6R3uZ2jYBbxtCMSKnIZn+Qt1oDzYZlX0=; b=owEBbQGS/pANAwAKAUtVT0eljRTpAcsmYgBlYQWZHXwqSKgQJis+6i9/ivqKhWebRQEeB3NCf HUNer9eXrSJATMEAAEKAB0WIQQdQirKzw7IbV4d/t9LVU9HpY0U6QUCZWEFmQAKCRBLVU9HpY0U 6VpvB/9TU12yTGGWVuKnS9CNZLjA0Pi8FLC646PN3qnQl5UnNCb25Q7R1O3g0prog9w1+JIPllP nXVBrD2MlMfqA9c86jeSoo6zNQeCtjCBFMkT5ho59k8ZP1OWIwSu61IvQV93vDt6TNYa9DXcTO0 dfYXCF4gAv0uzHju2RnRBnVGttNq4j/bMUaZticjbjFDv04gZso01Fowq+ZHICq+ODtEsfZq7e5 gQPhXCXYzTwyMsCdwpeXXUGQJjY++kh4hLHGbdEckM9LFNwg7wZrAlUOlTaMd0crUXUx7Wjg4ic qm6C8Y8hAhC/cK+NBSwhzbw+XpUwuD/VbNeMoNUdqs85Q5/G
-X-Developer-Key: i=tudor.ambarus@linaro.org; a=openpgp; fpr=280B06FD4CAAD2980C46DDDF4DB1B079AD29CF3D
-Content-Transfer-Encoding: 8bit
+References: <20231120220549.cvsz2ni3wj7mcukh@skbuf> <20231121183114.727fb6d7@kmaincent-XPS-13-7390>
+ <20231121094354.635ee8cd@kernel.org> <20231122144453.5eb0382f@kmaincent-XPS-13-7390>
+ <20231122140850.li2mvf6tpo3f2fhh@skbuf> <20231122085000.79f2d14c@kernel.org>
+ <20231122165517.5cqqfor3zjqgyoow@skbuf> <20231122100142.338a2092@kernel.org>
+ <20231123160056.070f3311@kmaincent-XPS-13-7390> <20231123093205.484356fc@kernel.org>
+ <20231124154343.sr3ajyueoshke6tn@skbuf> <20231124183431.5d4cc189@kmaincent-XPS-13-7390>
+In-Reply-To: <20231124183431.5d4cc189@kmaincent-XPS-13-7390>
+From: Willem de Bruijn <willemb@google.com>
+Date: Fri, 24 Nov 2023 15:47:43 -0500
+Message-ID: <CA+FuTSfQgqQyBHSgx32Vdnxs4wgMSyB9yEpJTObS5t1iYFcWBA@mail.gmail.com>
+Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
+ stamping layer be selectable
+To: =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, 
+	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, 
+	Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Simon Horman <horms@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 24 Nov 2023 20:49:00 +0200, Tudor Ambarus wrote:
-> v2:
-> - specify that we prefer to dump the SFDP data with ``xxd -p`` (Michael)
-> - update the mtd-utils tests (Pratyush)
-> - fix formatting (Bagas)
-> 
-> Introduce guide about when to propose a new flash addition and what are
-> the minimum testing requirements. Dropped the old documentation as it
-> no longer applies to the current SPI NOR framework state.
-> 
-> [...]
+On Fri, Nov 24, 2023 at 12:34=E2=80=AFPM K=C3=B6ry Maincent
+<kory.maincent@bootlin.com> wrote:
+>
+> On Fri, 24 Nov 2023 17:43:43 +0200
+> Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
+>
+> > On Thu, Nov 23, 2023 at 09:32:05AM -0800, Jakub Kicinski wrote:
+> > > On Thu, Nov 23, 2023 at 04:00:56PM +0100, K=C3=B6ry Maincent wrote:
+> > > > So, do we have a consensus? Vlad, do you agree on putting all under
+> > > > ethtool?
+> > > >
+> > > > ETHTOOL_GET_TS_INFO will be in charge of replacing the SIOCGHWSTAMP
+> > > > implementation. Need to add ETHTOOL_A_TSINFO_PHC_INDEX
+> > > > ETHTOOL_A_TSINFO_QUALIFIER to the request.
+> > > >
+> > > > ETHTOOL_GET_TS_INFO will list all the hwtstamp provider (aka "{phc_=
+index,
+> > > > qualifier}") through the dumpit callback. I will add a filter to be=
+ able
+> > > > to list only the hwtstamp provider of one netdev.
+> > > >
+> > > > ETHTOOL_SET_TS_INFO will be in charge of replacing the SIOCSHWSTAMP
+> > > > implementation.
+> > >
+> > > If not we can do a vote/poll? Maybe others don't find the configurati=
+on
+> > > of timestamping as confusing as me.
+> >
+> > If you mean the ETHTOOL_MSG_TSINFO_GET netlink message (ETHTOOL_GET_TS_=
+INFO
+> > is an ioctl), you're saying that you want to move the entire contents o=
+f
+> > SIOCGHWSTAMP there, by making the kernel call ndo_hwtstamp_get() in
+> > addition to the existing __ethtool_get_ts_info()?
+>
+> Yes.
+>
+> > Yeah, I don't know, I don't have a real objection, I guess it's fine.
+> >
+> > What will be a bit of an "?!" moment for users is when ethtool gains
+> > support for the SIOCGHWSTAMP/SIOCSHWSTAMP netlink replacements, but not
+> > for the original ioctls. So hwstamp_ctl will be able to change timestam=
+ping
+> > configuration, but ethtool wouldn't - all on the same system. Unless
+> > ethtool gains an ioctl fallback for a ioctl that was never down its all=
+ey.
+>
+> Yes indeed. Would it break things if both ioctls and netlink can get and =
+set
+> the hwtstamps configuration? It is only configuration. Both happen under
+> rtnl_lock it should be alright.
+>
+> The question is which hwtstamp provider will the original ioctls be able =
+to
+> change? Maybe the default one (MAC with phy whitelist) and only this one.
+>
+> > But by all means, still hold a poll if you want to. I would vote for
+> > ethtool netlink, not because it's great, just because I don't have a
+> > better alternative to propose.
+>
+> If you agree on that choice, let's go. Jakub and your are the most proact=
+ive
+> reviewers in this patch series. Willem you are the timestamping maintaine=
+r do
+> you also agree on this?
 
-Introduced the extra erase test. I guess the proposed mtd-utils
-test suite can be implemented as a dedicated mtd-utils standard test.
-Exercise for the readers or for future self.
+I don't have a strong opinion. Ethtool netlink SGTM.
 
-Applied to git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git,
-spi-nor/next branch. Thanks!
+For new network configuration we are moving away from ioctl towards
+netlink in general.
 
-[1/2] docs: mtd: spi-nor: add sections about flash additions and testing
-      https://git.kernel.org/mtd/c/bb1f9e39c1bf
-[2/2] docs: mtd: spi-nor: drop obsolete info
-      https://git.kernel.org/mtd/c/9b3eae3486c8
+Ethtool itself made this move, where the old ioctl way of things
+continues to work, but will no longer be extended.
 
-Cheers,
--- 
-Tudor Ambarus <tudor.ambarus@linaro.org>
+Since one of the APIs we use already uses ethtool, converting the
+other two there makes sense to me.
+
+I'm not familiar enough with configuring CAN or wireless to know
+whether it would pose a problem for these mentioned cases.
+
+> If anyone have another proposition let them speak now, or forever remain
+> silent! ;)
