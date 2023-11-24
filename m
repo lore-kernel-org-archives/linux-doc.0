@@ -1,282 +1,173 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QYjsUSXN"
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D62F910F0
-	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 11:53:57 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-54b07ba599eso854849a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 11:53:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700855636; x=1701460436; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=akxw437hH7pv9R9a7Z4VdJ7EFr4IKHM7FwBvILtqxGE=;
-        b=QYjsUSXN3h9WEUqdCyF0hGOYCr2TItVX83MF5+CrRJl9jeuhBUDEUFxX0LNkdVw+KX
-         5kZzQ/CgiG3ecW8kT/4/NDgcsYxEysv16ZrnEYO6KUdX+FkaFWuWlYnYKSQAUUkPkOmo
-         byXJ57iiFMkUWGrujc78a+unYm071i3GTI2NBtzw/8GUS5O3cpHpGw2IkligtLzw6JDK
-         wg3T1c2F2Sn2VpX7upPq45x6543N2X/vTa3ksnSZe5HTo+JB5r1ylary0mSnvO46Kwyq
-         241Sq7f17NvvpzktyNJtY36OxwuGKu2McSJb3r/MMk/CCnyZ75gwPc605MunmlwNoiZt
-         +c+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700855636; x=1701460436;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=akxw437hH7pv9R9a7Z4VdJ7EFr4IKHM7FwBvILtqxGE=;
-        b=pjdlKRWILWGPazmBc9q5X+w1LS4gq1H6DBm2iBD6CuHNnPhNb6EyHisMNr8jVtO0YT
-         EeDye1oyYEr6m9I73MUYt7IpKcDTUko7znQ/Ss8WBHPY3nUSy+KlwW6EGqEL86SLQqL1
-         uOTPntE03YozS/0tt8Y/dRfGRynXV63YC+afv/8M2wUWGMKGO7MaB1M61IRW1epKAkbC
-         4mvfwPea9M27kBkwtvdO78/Ztyc7EI7FD5LnxgSqk/INeH001bX2m3QGUN4CT/Rxu/9S
-         DZABQkuP5MSAX7WccMa9VIz1Kn7Q8vQXzmPdFkpswQlXr+2wBjMrYd+Mkt+APQ9wqkOd
-         FNag==
-X-Gm-Message-State: AOJu0YwStUzoXHzWfJIyz7Ea0wxIui7mv0mWiLaoRJinEOPRtsLBK8VE
-	VnLSay7pixKEQrBKy7E5pWxqXg==
-X-Google-Smtp-Source: AGHT+IF9A1fX43xCXs6oYY++234A06E7jGHzgfWUKypH/RSJLy3jbfomkr/OxJCgLD9RNycCET/UUg==
-X-Received: by 2002:a05:6402:22e8:b0:54b:1a4c:8719 with SMTP id dn8-20020a05640222e800b0054b1a4c8719mr83838edb.9.1700855636302;
-        Fri, 24 Nov 2023 11:53:56 -0800 (PST)
-Received: from [192.168.0.174] ([79.115.63.75])
-        by smtp.gmail.com with ESMTPSA id z15-20020aa7d40f000000b005488bf98309sm2131071edq.56.2023.11.24.11.53.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Nov 2023 11:53:55 -0800 (PST)
-Message-ID: <0abce5f8-2688-451d-8c70-8fc32c73f8be@linaro.org>
-Date: Fri, 24 Nov 2023 21:53:52 +0200
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="iuwS64VM"
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2063.outbound.protection.outlook.com [40.107.22.63])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B4A172A;
+	Fri, 24 Nov 2023 11:57:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UqouQIz6WHjvOIFQJ53rulQh9QCqGEBIR0f5VsvPq1HNNBXGW3oNhCORO3PuFKboSRDFRf7bfBHYwpcWzKSROxKlSnuhzIYN+xFaCOwa2D2nL/qIqk4BOyTa66svyuLFgXxGrnLy/si3C0unoJVpGMiCuDhOeHjDJkYNGlO63GFom0DVhO2+/p9waYkdDQAq1MY0jA+CGQFDt1gjW8j+vhjRHnEwsQ7M42CTOlAlN1H3A8C9N+ECz3wXU2PIos70UdYZoNI806u9k8KEXk6Xu948on4n+XD87P+L1iUD9ihbASGgFH5jKsbQD+0sZSCSvL26zvVTuiAWvwGN6zt3Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mT/9nCUvTCqDxUkJRY0/HG06RPp5bIjOpEjU3OhtAek=;
+ b=WuGk7qtVUCSt7gvryRI4waqueVKB39QXk+j8x1R2jSkRK3MVmAKKuHueyn4qLYmHS2kIYJORTrUW97N/6tKOImRl7pW8rkJF+43BHOadx78jxEZ/8+qC4vQ6Wo3UXWxPpIQLZIyH87VNg0mHPj7InVLdrlQGNvGDHyZSMAGcKhBjThkPmFBwMgwP/eJjhLrjC2xBsTbAp4bObJ7Gvnm9ZZeIjk1XBKGYCEvTAXBBnWwtjYno+QRbozOZ+sJan7J6lEKDeqEA/OO6Uw+XrOqIrJbsmWSYu9HjNwVFGQTiDdevtR00WPfvngMcThmxAnfnk5f9rJaU3Bz/hifMabRiyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mT/9nCUvTCqDxUkJRY0/HG06RPp5bIjOpEjU3OhtAek=;
+ b=iuwS64VM7T0GdBg+zHUv+et623pNnT8iR+f6JhksIKaxuX4XUcqQWQp0CP7UN/YX04lAMwXUrx6RZmj4YjCbd5tfd/553Ca2KQy1j077YXe8R9g4GUhEHocKiQFWXZkWITtMBbNV85zlmDiW5xazM5nGjCOCeiwpc7DXojO+Z7A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
+ by AM8PR04MB7841.eurprd04.prod.outlook.com (2603:10a6:20b:244::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.14; Fri, 24 Nov
+ 2023 19:57:14 +0000
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::dd33:f07:7cfd:afa4]) by AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::dd33:f07:7cfd:afa4%7]) with mapi id 15.20.7046.015; Fri, 24 Nov 2023
+ 19:57:13 +0000
+Date: Fri, 24 Nov 2023 21:57:09 +0200
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
+ stamping layer be selectable
+Message-ID: <20231124195709.wkhplnhtpxf75a6n@skbuf>
+References: <20231121094354.635ee8cd@kernel.org>
+ <20231122144453.5eb0382f@kmaincent-XPS-13-7390>
+ <20231122140850.li2mvf6tpo3f2fhh@skbuf>
+ <20231122085000.79f2d14c@kernel.org>
+ <20231122165517.5cqqfor3zjqgyoow@skbuf>
+ <20231122100142.338a2092@kernel.org>
+ <20231123160056.070f3311@kmaincent-XPS-13-7390>
+ <20231123093205.484356fc@kernel.org>
+ <20231124154343.sr3ajyueoshke6tn@skbuf>
+ <20231124183431.5d4cc189@kmaincent-XPS-13-7390>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231124183431.5d4cc189@kmaincent-XPS-13-7390>
+X-ClientProxiedBy: FR0P281CA0249.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:af::15) To AM0PR04MB6452.eurprd04.prod.outlook.com
+ (2603:10a6:208:16d::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] docs: mtd: spi-nor: add sections about flash
- additions and testing
-Content-Language: en-US
-To: pratyush@kernel.org, michael@walle.cc, bagasdotme@gmail.com
-Cc: linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org, corbet@lwn.net,
- linux-kernel@vger.kernel.org
-References: <20231124184902.1194235-1-tudor.ambarus@linaro.org>
- <20231124184902.1194235-2-tudor.ambarus@linaro.org>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20231124184902.1194235-2-tudor.ambarus@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|AM8PR04MB7841:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a694f66-bbcb-411e-4f43-08dbed278d61
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	91dovqOrl2999KXizCSjAtSx7Jpo+aVMwoBzbBUfvH/xYG0n/ubW35oA293sssjV7+i6Tt/8gn/ZauG0mwp2kpSosifNu78xUnqA89J7nRxSv6FdhJrPa06bQSobh1C+JTu9mBS7H4oMj0IFFL8y6MmaFVQyoaD922bW8Re9FtQ4gNrpxi1Fi+0u+impqgeq9xcxsQimSVh+u6lRwEUL02OAArp4WhCtBx5/Egiy+rpWkJ6jGTlUinl55sfkHin8YVjScRVzcZhjArQ0fXWH4aDww3gFXS1ZhpS14RT1y5FGuvDEQ9uTta8tMY4vmsDvk9A0lseyq9GNV/NszNGfMFfyl+JfYBmrwc7I33GYk7Mp/+eyTWCLLFW2l41Oen+2FIjZP8yIPG74jaDPtw5VOOxg9HQZ2gt9ApYnAD635sDLOHrEcYgYUGBIebEU/jjWZDIjUfcb+TrGREjeHo089OXegWbJbDdbsZm+Ei0XchJAgQ+X6LrozGdHgf7KzXHe3k006E4kCOBcji/2ELBXRCoQI2jthYvUDZ/k8bX18BU3c2K5aiIWHDpgsXQHAxhj
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(366004)(39860400002)(396003)(376002)(136003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(26005)(478600001)(1076003)(66574015)(83380400001)(6666004)(6506007)(6512007)(9686003)(6486002)(41300700001)(44832011)(5660300002)(7416002)(2906002)(8936002)(33716001)(8676002)(316002)(4326008)(66556008)(66476007)(6916009)(54906003)(66946007)(86362001)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?Wkex0m7PZrPvpo9BsQOLIu1skeNmEhc3f4MKsCbWCBYNpTpP57jJXeWaf6?=
+ =?iso-8859-1?Q?ZoddXENoFZ48JqrcNXuG1lDai1cgpeE+VoCZ1jF6VhZBBbHngr26bM3fRD?=
+ =?iso-8859-1?Q?DLztvjgBD5Vgz+L9yLLo5HeHfL3MH1EYTBKph0tjo+8c5K6rKoKCR7tgaK?=
+ =?iso-8859-1?Q?dktwNjX15GL1rlipSxfZyxZiFfT/Pl20hwH1hztJFsVLPdI8nWzX3HqYUN?=
+ =?iso-8859-1?Q?NRFoUnRcvDYW4/U/GFaLidJ6RrkmoIqgfa9OphkEIoKsUbJv3MgVSytr6V?=
+ =?iso-8859-1?Q?rzJBXW1i4Mkcf4qL9OI8AsQX4W/e8bybVx85U7O/KqyYcQdHguqtwnxsts?=
+ =?iso-8859-1?Q?Pgzf44417R5p5R527GGWcndtk1ZfwugTVI0THQ0VhQMTXnKl/y+otWqXSP?=
+ =?iso-8859-1?Q?SzwiviYNbJHv4+GqUItJdoj+8lqmmKqOqdSNkCYn3g2sJX6eY0YjeG/RuB?=
+ =?iso-8859-1?Q?Ii39cGhGEgJslVVVr2cFIKI4jST1X1Uv+5sawp/TnGvbFoym0y2LYIpMbP?=
+ =?iso-8859-1?Q?gYQ92q82P5pqT73VfbT2OzW14aDd3U3itQCQESbyy8nKypbVUD/WZBMaxm?=
+ =?iso-8859-1?Q?SP5+EEkEMvW3Xp/a7LAX2p9NOb6wa7QiKG7ePKJ+p7xbr+D1Lyo6fqKxEC?=
+ =?iso-8859-1?Q?NIrQ7d20WwsVjATCZRumIownakcD9D92Gt8WdDc6LAzuRZYNk/MMwZoyw0?=
+ =?iso-8859-1?Q?biBGSDa9CtdxhVRp4q2tRk70a/D5FaEFuZtgccaI1OVKBk5ck1kV4nNlBV?=
+ =?iso-8859-1?Q?cIs/D9MzgT6II6pRswPLPrlM1CLzlr46hyEhPvYfl6pAHgeaJuJpCkNHm3?=
+ =?iso-8859-1?Q?5niPVaASOXPeXBPSLJXoNmhIIMDTldmC0D6bKT6w9GJ6K/QkU/zoR79m4l?=
+ =?iso-8859-1?Q?cOqTL1Pbu1XuhaSYUcS2jpBJWRbOTpS2x01L0i0Ts63kwczQKwgKs2PxAz?=
+ =?iso-8859-1?Q?VaDqQcSIVcBhNDJpzOeXGZYjR5anZq5JsxjlML3i7fQaSlu0Xrr24NQZ7K?=
+ =?iso-8859-1?Q?8ZMIR/FVdWPHvtUW0ZLxa2YTaAGIvpq9NYSF40ZCi1HzO6XZ93o2+GCP3P?=
+ =?iso-8859-1?Q?o0iKbm6oXxQ2janPrjPjXOb0Y8bTh4iUZDs+oL3rhOADjoV1XVRuX3NRlN?=
+ =?iso-8859-1?Q?EYKEu3dE+bSptGQ9y/QfY6yBC7MZv3Y0j1CzqZU0IYIcDlFgSsrFWiQDoB?=
+ =?iso-8859-1?Q?nzPTJo5yBld2IpsW6AaRJY0RkV6UnD7nu4oXhEj7l4g7ZE5U/tWTA430wj?=
+ =?iso-8859-1?Q?V9Y3VRqyWA5oTtkAzOTyv2MZqhUXyUcvkAGcYJiyDaIL2PiVD0+ZxysdrL?=
+ =?iso-8859-1?Q?54wM/lL2VSKFu6B0znny7XP3kMsnB8IZgK+Si8xeLQ6KhhztCmwzVngFHC?=
+ =?iso-8859-1?Q?fmJbgAV84XL58TbTP1jJjB+6xw5L2cEsulY43fkzhdm6Dfwyxpy80VvD30?=
+ =?iso-8859-1?Q?/f+nyTbG3MG2wXBZe1sETa1bNWhGadkwD+Ggzy0s8Chn7ODOJLC1o8b/mp?=
+ =?iso-8859-1?Q?KD7dyb9L4C0LrJ26QwEFaxFSXJrC6S8v+P+4+ZkjvF6nR5Y6GmcJSFizKV?=
+ =?iso-8859-1?Q?QiKR2oxNGyMUz4xYhpox52Qad7Od6SMYmdebmQDcH7VXKDiBTXkEmc01y0?=
+ =?iso-8859-1?Q?GbUkskPSPy1zSiftkjvBxyEDLAbhOPh4SEtcGxGWgfUgKJ6+OEqyoQ7g?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a694f66-bbcb-411e-4f43-08dbed278d61
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2023 19:57:13.6645
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ayoa6SdvlfIKCmwLjtsccc4kKyiOb9YIWOMozEfIo8JB1L8n2odpqNwOYvzM1Ewlumfrtp6l52SjZ5a14w9cgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7841
 
+On Fri, Nov 24, 2023 at 06:34:31PM +0100, Köry Maincent wrote:
+> Would it break things if both ioctls and netlink can get and set the
+> hwtstamps configuration?
 
+Uhm, obviously? It would break things if ioctl and netlink were _not_
+freely interchangeable, and you couldn't see in a ioctl GET what got set
+through a netlink SET.
 
-On 24.11.2023 20:49, Tudor Ambarus wrote:
-> Add sections about how to propose a new flash addition and about the
-> minimum testing requirements.
+> It is only configuration. Both happen under rtnl_lock it should be
+> alright.
+
+Yeah, but you always need to keep the API interchangeability in mind
+during the implementation.
+
+> The question is which hwtstamp provider will the original ioctls be able to
+> change? Maybe the default one (MAC with phy whitelist) and only this one.
+
+TL;DR: yeah.
+
+Remember one single rule and go from there: new development should not
+change established setups. So SIOCSHWSTAMPs should continue to behave
+"as before".
+
+This is also the exact reason why I asked for the phy whitelist. The
+introduction of CONFIG_NETWORK_PHY_TIMESTAMPING introduced exactly that:
+a breaking change in the mode in which deployed setups operate.
+
+> > But by all means, still hold a poll if you want to. I would vote for
+> > ethtool netlink, not because it's great, just because I don't have a
+> > better alternative to propose.
 > 
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
-> Reviewed-by: Michael Walle <michael@walle.cc>
-> Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
-> ---
->  Documentation/driver-api/mtd/spi-nor.rst | 187 +++++++++++++++++++++++
->  1 file changed, 187 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driver-api/mtd/spi-nor.rst
-> index c22f8c0f7950..3b2e1a6a88bf 100644
-> --- a/Documentation/driver-api/mtd/spi-nor.rst
-> +++ b/Documentation/driver-api/mtd/spi-nor.rst
-> @@ -63,3 +63,190 @@ The main API is spi_nor_scan(). Before you call the hook, a driver should
->  initialize the necessary fields for spi_nor{}. Please see
->  drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to spi-fsl-qspi.c
->  when you want to write a new driver for a SPI NOR controller.
-> +
-> +How to propose a new flash addition
-> +-----------------------------------
-> +
-> +Most SPI NOR flashes comply with the JEDEC JESD216
-> +Serial Flash Discoverable Parameter (SFDP) standard. SFDP describes
-> +the functional and feature capabilities of serial flash devices in a
-> +standard set of internal read-only parameter tables.
-> +
-> +The SPI NOR driver queries the SFDP tables in order to determine the
-> +flash's parameters and settings. If the flash defines the SFDP tables
-> +it's likely that you won't need a flash entry at all, and instead
-> +rely on the generic flash driver which probes the flash solely based
-> +on its SFDP data. All one has to do is to specify the "jedec,spi-nor"
-> +compatible in the device tree.
-> +
-> +There are cases however where you need to define an explicit flash
-> +entry. This typically happens when the flash has settings or support
-> +that is not covered by the SFDP tables (e.g. Block Protection), or
-> +when the flash contains mangled SFDP data. If the later, one needs
-> +to implement the ``spi_nor_fixups`` hooks in order to amend the SFDP
-> +parameters with the correct values.
-> +
-> +Minimum testing requirements
-> +-----------------------------
-> +
-> +Do all the tests from below and paste them in the commit's comments
-> +section, after the ``---`` marker.
-> +
-> +1) Specify the controller that you used to test the flash and specify
-> +   the frequency at which the flash was operated, e.g.::
-> +
-> +    This flash is populated on the X board and was tested at Y
-> +    frequency using the Z (put compatible) SPI controller.
-> +
-> +2) Dump the sysfs entries and print the md5/sha1/sha256 SFDP checksum::
-> +
-> +    root@1:~#  cat /sys/bus/spi/devices/spi0.0/spi-nor/partname
-> +    sst26vf064b
-> +    root@1:~#  cat /sys/bus/spi/devices/spi0.0/spi-nor/jedec_id
-> +    bf2643
-> +    root@1:~#  cat /sys/bus/spi/devices/spi0.0/spi-nor/manufacturer
-> +    sst
-> +    root@1:~# xxd -p /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
-> +    53464450060102ff00060110300000ff81000106000100ffbf0001180002
-> +    0001fffffffffffffffffffffffffffffffffd20f1ffffffff0344eb086b
-> +    083b80bbfeffffffffff00ffffff440b0c200dd80fd810d820914824806f
-> +    1d81ed0f773830b030b0f7ffffff29c25cfff030c080ffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffff0004fff37f0000f57f0000f9ff
-> +    7d00f57f0000f37f0000ffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-> +    ffffbf2643ffb95ffdff30f260f332ff0a122346ff0f19320f1919ffffff
-> +    ffffffff00669938ff05013506040232b03072428de89888a585c09faf5a
-> +    ffff06ec060c0003080bffffffffff07ffff0202ff060300fdfd040700fc
-> +    0300fefe0202070e
-> +    root@1:~# sha256sum /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
-> +    428f34d0461876f189ac97f93e68a05fa6428c6650b3b7baf736a921e5898ed1  /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
-> +
-> +   Please dump the SFDP tables using ``xxd -p``. It enables us to do
-> +   the reverse operation and convert the hexdump to binary with
-> +   ``xxd -rp``. Dumping the SFDP data with ``hexdump -Cv`` is accepted,
-> +   but less desirable.
-> +
-> +3) Dump debugfs data::
-> +
-> +    root@1:~# cat /sys/kernel/debug/spi-nor/spi0.0/capabilities
-> +    Supported read modes by the flash
-> +     1S-1S-1S
-> +      opcode		0x03
-> +      mode cycles	0
-> +      dummy cycles	0
-> +     1S-1S-1S (fast read)
-> +      opcode		0x0b
-> +      mode cycles	0
-> +      dummy cycles	8
-> +     1S-1S-2S
-> +      opcode		0x3b
-> +      mode cycles	0
-> +      dummy cycles	8
-> +     1S-2S-2S
-> +      opcode		0xbb
-> +      mode cycles	4
-> +      dummy cycles	0
-> +     1S-1S-4S
-> +      opcode		0x6b
-> +      mode cycles	0
-> +      dummy cycles	8
-> +     1S-4S-4S
-> +      opcode		0xeb
-> +      mode cycles	2
-> +      dummy cycles	4
-> +     4S-4S-4S
-> +      opcode		0x0b
-> +      mode cycles	2
-> +      dummy cycles	4
-> +
-> +    Supported page program modes by the flash
-> +     1S-1S-1S
-> +      opcode	0x02
-> +
-> +    root@1:~# cat /sys/kernel/debug/spi-nor/spi0.0/params
-> +    name		sst26vf064b
-> +    id			bf 26 43 bf 26 43
-> +    size		8.00 MiB
-> +    write size		1
-> +    page size		256
-> +    address nbytes	3
-> +    flags		HAS_LOCK | HAS_16BIT_SR | SOFT_RESET | SWP_IS_VOLATILE
-> +
-> +    opcodes
-> +     read		0xeb
-> +      dummy cycles	6
-> +     erase		0x20
-> +     program		0x02
-> +     8D extension	none
-> +
-> +    protocols
-> +     read		1S-4S-4S
-> +     write		1S-1S-1S
-> +     register		1S-1S-1S
-> +
-> +    erase commands
-> +     20 (4.00 KiB) [0]
-> +     d8 (8.00 KiB) [1]
-> +     d8 (32.0 KiB) [2]
-> +     d8 (64.0 KiB) [3]
-> +     c7 (8.00 MiB)
-> +
-> +    sector map
-> +     region (in hex)   | erase mask | flags
-> +     ------------------+------------+----------
-> +     00000000-00007fff |     [01  ] |
-> +     00008000-0000ffff |     [0 2 ] |
-> +     00010000-007effff |     [0  3] |
-> +     007f0000-007f7fff |     [0 2 ] |
-> +     007f8000-007fffff |     [01  ] |
-> +
-> +4) Use `mtd-utils <https://git.infradead.org/mtd-utils.git>`__
-> +   and verify that erase, read and page program operations work fine::
-> +
-> +    root@1:~# dd if=/dev/urandom of=./spi_test bs=1M count=2
-> +    2+0 records in
-> +    2+0 records out
-> +    2097152 bytes (2.1 MB, 2.0 MiB) copied, 0.848566 s, 2.5 MB/s
-> +
-> +    root@1:~# mtd_debug erase /dev/mtd0 0 2097152
-> +    Erased 2097152 bytes from address 0x00000000 in flash
-> +
-> +    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
-> +    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
-> +
-> +    root@1:~# hexdump spi_read
-> +    0000000 ffff ffff ffff ffff ffff ffff ffff ffff
-> +    *
-> +    0200000
+> If you agree on that choice, let's go. Jakub and your are the most proactive
+> reviewers in this patch series. Willem you are the timestamping maintainer do
+> you also agree on this? 
+> If anyone have another proposition let them speak now, or forever remain
+> silent! ;)
 
-it's not enough. If the flash comes erased by default, and erase opcode
-is ignored, we won't catch it. Thus we'll need a second erase, after we
-verify the write.
-
-> +
-> +    root@1:~# sha256sum spi_read
-> +    4bda3a28f4ffe603c0ec1258c0034d65a1a0d35ab7bd523a834608adabf03cc5  spi_read
-> +
-> +    root@1:~# mtd_debug write /dev/mtd0 0 2097152 spi_test
-> +    Copied 2097152 bytes from spi_test to address 0x00000000 in flash
-> +
-> +    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
-> +    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
-> +
-> +    root@1:~# sha256sum spi*
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_read
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_test
-
-here again:
-	root@1:~# mtd_debug erase /dev/mtd0 0 2097152
-	root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
-	root@1:~# sha256sum spi_read
-
-
-> +
-> +    root@1:~# mtd_debug info /dev/mtd0
-> +    mtd.type = MTD_NORFLASH
-> +    mtd.flags = MTD_CAP_NORFLASH
-> +    mtd.size = 8388608 (8M)
-> +    mtd.erasesize = 4096 (4K)
-> +    mtd.writesize = 1
-> +    mtd.oobsize = 0
-> +    regions = 0
+Hmm, proactive means doing stuff in anticipation of being requested to
+do it. I'd use the work "active" at most...
