@@ -1,72 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aOt6UeWc"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0711F10DA
-	for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 14:13:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700777610;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7MuULYoz5ao+rLNA+YbUecP2cAJXv6WyavKrHjMaHS4=;
-	b=aOt6UeWcVqoKQsY1VWAMoc6/ClcXYWhG8fH0/PAIhFnCd9LXN6TEJFArIMEY+Q9I3s52ZM
-	YVkfE1kMN+NBvW4RMSmqmuz0nBPJMv3dn4L+7jyUOsWEZH0bN94DLnVyHhUVIIo9JPlJTT
-	lrKSk3Gsr3ymZ6oWTtjOkag3gfZ6JBk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-674-pwfpocDTP7-Cez02t42OFg-1; Thu, 23 Nov 2023 17:13:28 -0500
-X-MC-Unique: pwfpocDTP7-Cez02t42OFg-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-332e2e0b98bso640083f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 14:13:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="kuZ0+Y15"
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD14419E
+	for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 16:27:31 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c5071165d5so18148011fa.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Nov 2023 16:27:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google; t=1700785650; x=1701390450; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
+        b=kuZ0+Y15aZOHrCN9ILYMuzyTZdieBL7vLkhqKn9r8miQfqXTteHyAKyIrWNKqfIRD0
+         PcltV302f7NG7g/Ou+M02IdWVYcKpNMCvCLdxFcXyNi1uEtXYg1mI2nCz2U24Zow4Lvt
+         mvtPfh2uN9WRwsiYo1GXP7uiUCs/YClsiwzXKWYfhqRZO7jviNxuuAZ9MknB2jp5Iqgy
+         Q8+9hg8DGYwLkXY/TZUETAVEJ+4QzNXHovp4+ZZqWJKs9UpskErUvXHWgjhEG0IcbDwT
+         rI0IOpQoBlT5kHCtS6PiIRK1RmNRB/T7gav60+N/QsIvjSZ7u+EUbU9TFpDeprbZZY1f
+         W3mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700777607; x=1701382407;
+        d=1e100.net; s=20230601; t=1700785650; x=1701390450;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7MuULYoz5ao+rLNA+YbUecP2cAJXv6WyavKrHjMaHS4=;
-        b=Yr32UYufVJ8FI9FAY3/N8t4nB6h8xPNkn1293pt6PlbRaf2h7GtFsnkkWZunaZova6
-         4Mdbssf4gO/Ncxv6GgFq2g2syek9z28tEZSwbM4YCqWrxxyqN2qzgVhoIhg5VImD29Zw
-         5WHZ8v0dh79/rcZBTIBEhpqjJPuXQDyg451l10jSgElTamUnm/mk7d/2b0FLCndP2YbE
-         HRDJwvHJ3gcgH1tr9Q+tdnt4ewkMi8xs2POGjhnqRAc1Dg3AI1qQ/7NRAn5nwVPEf0YP
-         LoeD1P/87P/gQmn86T2sykFysMDoeqoSluoTx2mZPojj9vHOi70yGxEwjrQepwZcaftn
-         BFag==
-X-Gm-Message-State: AOJu0YzDJ4WiREpJ4k6gS0nISv6nEMGxDchzUfTcf78R47AkmQasc5+O
-	XaUTmrS4HZlXh+uF5f95uoHOLR7weX8fZ8BIodCRwvcE6VK2ujzETgHzQy9k2u9PK0wxIMKAQV3
-	+Huog88so6eFBUbiVohbu
-X-Received: by 2002:a5d:40c8:0:b0:332:e777:a8d4 with SMTP id b8-20020a5d40c8000000b00332e777a8d4mr565977wrq.36.1700777607602;
-        Thu, 23 Nov 2023 14:13:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFbblMAN+hzDoQaplfSW1Ls9XUsnDbl4YuadfKrIq6lj50fMHkQHToWy2rbRvbEJLq7TAFUoA==
-X-Received: by 2002:a5d:40c8:0:b0:332:e777:a8d4 with SMTP id b8-20020a5d40c8000000b00332e777a8d4mr565964wrq.36.1700777607350;
-        Thu, 23 Nov 2023 14:13:27 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id s7-20020a5d5107000000b00332c6a52040sm2681153wrt.100.2023.11.23.14.13.26
+        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
+        b=pS0+qMAAgxNK6WpAJELVKmkf+fg+OPYOz++ZkTMzx4+8sT5+qhNbDeO/Lgjxd98yeL
+         zstGgRVqdHIZEoHO35ZF7rLlU1VXQXKXsZz73Tty//Nxql7tkloWNyEp7GA5AN1RTH8f
+         eCQn4iAvU79BoKDhN0pR9oYjs17fMjwN1ckRIyhNr2Ue5h2+ASO580Y9oHT0JntZvecj
+         g2cFFvyu9zSc05JdOB7DYa1RyMgiXpjScI0pSzhbYVzmD41RwFXUO67TAoz6enfAewAN
+         grclUBdurtJfNQygATbXjbmD/P8tQS4eETYI8HDBSonwGFTluue+vmqTvgxF49HSD8vr
+         X/VA==
+X-Gm-Message-State: AOJu0YwxEkHOPjPzpnZ3tfFyZEVwYniBG/XbaONFz3+X3ACTtb033seV
+	nq0nI7Kx/7wlhzUTRyHfzRWGqw==
+X-Google-Smtp-Source: AGHT+IHvSX4dfruCcOgcRtZCAUPbc5qH1FOaW1B+QFPdn0Cp+RKfLN7Aj9D7LHFfPa23KeJI5ynAGQ==
+X-Received: by 2002:a05:651c:1208:b0:2c8:8813:2e7b with SMTP id i8-20020a05651c120800b002c888132e7bmr649558lja.2.1700785649997;
+        Thu, 23 Nov 2023 16:27:29 -0800 (PST)
+Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id g9-20020a05600c310900b004094e565e71sm3453230wmo.23.2023.11.23.16.27.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 14:13:27 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Zack Rusin <zackr@vmware.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	Bilal Elmoussaoui <belmouss@redhat.com>,
-	Simon Ser <contact@emersion.fr>,
-	Erico Nunes <nunes.erico@gmail.com>,
-	Sima Vetter <daniel.vetter@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
+        Thu, 23 Nov 2023 16:27:29 -0800 (PST)
+From: Dmitry Safonov <dima@arista.com>
+To: David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: linux-kernel@vger.kernel.org,
+	Dmitry Safonov <dima@arista.com>,
+	Dmitry Safonov <0x7f454c46@gmail.com>,
+	Francesco Ruggeri <fruggeri05@gmail.com>,
+	Salam Noureddine <noureddine@arista.com>,
+	Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org,
+	Markus Elfring <Markus.Elfring@web.de>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v4 5/5] drm/todo: Add entry about implementing buffer age for damage tracking
-Date: Thu, 23 Nov 2023 23:13:04 +0100
-Message-ID: <20231123221315.3579454-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231123221315.3579454-1-javierm@redhat.com>
-References: <20231123221315.3579454-1-javierm@redhat.com>
+Subject: [PATCH v2 1/7] Documentation/tcp: Fix an obvious typo
+Date: Fri, 24 Nov 2023 00:27:14 +0000
+Message-ID: <20231124002720.102537-2-dima@arista.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231124002720.102537-1-dima@arista.com>
+References: <20231124002720.102537-1-dima@arista.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,63 +68,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, only damage tracking for frame damage is supported. If a driver
-needs to do buffer damage (e.g: the framebuffer attached to plane's state
-has changed since the last page-flip), the damage helpers just fallback to
-a full plane update.
+Yep, my VIM spellchecker is not good enough for typos like this one.
 
-Add en entry in the TODO about implementing buffer age or any other damage
-accumulation algorithm for buffer damage handling.
-
-Suggested-by: Simon Ser <contact@emersion.fr>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Simon Ser <contact@emersion.fr>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Zack Rusin <zackr@vmware.com>
-Acked-by: Sima Vetter <daniel.vetter@ffwll.ch>
+Fixes: 7fe0e38bb669 ("Documentation/tcp: Add TCP-AO documentation")
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Reported-by: Markus Elfring <Markus.Elfring@web.de>
+Closes: https://lore.kernel.org/all/2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de/
+Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
+ Documentation/networking/tcp_ao.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v4:
-- Reference the &drm_plane_state.ignore_damage_clips and the damage helpers
-  in the buffer damage TODO entry (Sima Vetter).
-
- Documentation/gpu/todo.rst | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index b62c7fa0c2bc..503d57c75215 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -782,6 +782,29 @@ Contact: Hans de Goede
+diff --git a/Documentation/networking/tcp_ao.rst b/Documentation/networking/tcp_ao.rst
+index cfa5bf1cc542..8a58321acce7 100644
+--- a/Documentation/networking/tcp_ao.rst
++++ b/Documentation/networking/tcp_ao.rst
+@@ -99,7 +99,7 @@ also [6.1]::
+    when it is no longer considered permitted.
  
- Level: Advanced
- 
-+Buffer age or other damage accumulation algorithm for buffer damage
-+===================================================================
-+
-+Drivers that do per-buffer uploads, need a buffer damage handling (rather than
-+frame damage like drivers that do per-plane or per-CRTC uploads), but there is
-+no support to get the buffer age or any other damage accumulation algorithm.
-+
-+For this reason, the damage helpers just fallback to a full plane update if the
-+framebuffer attached to a plane has changed since the last page-flip. Drivers
-+set &drm_plane_state.ignore_damage_clips to true as indication to
-+drm_atomic_helper_damage_iter_init() and drm_atomic_helper_damage_iter_next()
-+helpers that the damage clips should be ignored.
-+
-+This should be improved to get damage tracking properly working on drivers that
-+do per-buffer uploads.
-+
-+More information about damage tracking and references to learning materials can
-+be found in :ref:`damage_tracking_properties`.
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Advanced
-+
- Outside DRM
- ===========
- 
+ Linux TCP-AO will try its best to prevent you from removing a key that's
+-being used, considering it a key management failure. But sine keeping
++being used, considering it a key management failure. But since keeping
+ an outdated key may become a security issue and as a peer may
+ unintentionally prevent the removal of an old key by always setting
+ it as RNextKeyID - a forced key removal mechanism is provided, where
 -- 
-2.41.0
+2.43.0
 
