@@ -1,112 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8080E1727;
-	Fri, 24 Nov 2023 01:52:03 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2E591063;
-	Fri, 24 Nov 2023 01:52:49 -0800 (PST)
-Received: from [192.168.1.3] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E34173F7A6;
-	Fri, 24 Nov 2023 01:52:01 -0800 (PST)
-Message-ID: <b85d165d-7f21-5896-a969-1f162903582b@arm.com>
-Date: Fri, 24 Nov 2023 09:52:00 +0000
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="u89kb9KN"
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D2492;
+	Fri, 24 Nov 2023 01:53:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=hkZni39lbThoT9dZBCT30ULv0iuj2C5j0MgE1MKeF0E=; b=u89kb9KNOXkwb+aJrX/Vnv9C1R
+	DD98mqnrqIV4CabFKki8ZszmNGdHErw74EtPGWOV0q5hSFvJJhywAUzq2cCKwaHBuGDrbqu3ug/Sh
+	/PmwolaGt17qexnLdVsIBx2jetgQa7yN8ejqUcg2vc5qAvVV72wJYEi5PcaxMHtP/NS60rZSawMMS
+	pQLx78j3VHSbpKOIqtJT4BGhCnN67R6b2bzj9Dlv00byPC1DlK6EyLjT+lep8P8CubwMegnX6Qafr
+	jLiYrPwDUyvgxi+c/XZWErC4f7q+6KmFKJHV6cpJpIYNH8a2W5mNk6R8emkcuHMASu4Dc4/JtFSV1
+	aVSl7GpQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35134)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1r6SsS-0002de-1D;
+	Fri, 24 Nov 2023 09:53:36 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1r6SsR-00078v-Ge; Fri, 24 Nov 2023 09:53:35 +0000
+Date: Fri, 24 Nov 2023 09:53:35 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jie Luo <quic_luoj@quicinc.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	hkallweit1@gmail.com, corbet@lwn.net, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
+Message-ID: <ZWByn7HpAmPTP3GJ@shell.armlinux.org.uk>
+References: <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
+ <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
+ <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
+ <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
+ <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
+ <316fb626-4dc3-4540-9cc4-e45840e36f77@quicinc.com>
+ <ZVyZ+8Q2eNfAKjO/@shell.armlinux.org.uk>
+ <d2ac542c-aae3-49ae-ae2b-9defc4ca98eb@quicinc.com>
+ <ZV8+/4eNzLpLzSDG@shell.armlinux.org.uk>
+ <1bd2f3a9-3dd1-4c95-b4e5-c9bf2274f271@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v5 3/3] Documentation: arm64: Document the PMU event
- counting threshold feature
-From: James Clark <james.clark@arm.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>,
- Namhyung Kim <namhyung@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
- suzuki.poulose@arm.com, will@kernel.org, mark.rutland@arm.com,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231113112507.917107-1-james.clark@arm.com>
- <20231113112507.917107-4-james.clark@arm.com>
- <CAM9d7ciDq-te1DQPrMrZQC9er0pSMY24nvC-atxdRu1C6uD08A@mail.gmail.com>
- <0bcda96e-df9a-4342-af4e-e4485c33ff55@arm.com>
- <4f959354-74c7-5240-bf8f-78a49fb34437@arm.com>
-Content-Language: en-US
-In-Reply-To: <4f959354-74c7-5240-bf8f-78a49fb34437@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1bd2f3a9-3dd1-4c95-b4e5-c9bf2274f271@quicinc.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-
-
-On 23/11/2023 15:45, James Clark wrote:
+On Fri, Nov 24, 2023 at 05:47:04PM +0800, Jie Luo wrote:
 > 
 > 
-> On 23/11/2023 05:50, Anshuman Khandual wrote:
->>
->>
->> On 11/21/23 03:01, Namhyung Kim wrote:
->>> On Mon, Nov 13, 2023 at 3:26 AM James Clark <james.clark@arm.com> wrote:
->>>> Add documentation for the new Perf event open parameters and
->>>> the threshold_max capability file.
->>>>
->>>> Signed-off-by: James Clark <james.clark@arm.com>
->>>> ---
->>>>  Documentation/arch/arm64/perf.rst | 56 +++++++++++++++++++++++++++++++
->>>>  1 file changed, 56 insertions(+)
->>>>
->>>> diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
->>>> index 1f87b57c2332..36b8111a710d 100644
->>>> --- a/Documentation/arch/arm64/perf.rst
->>>> +++ b/Documentation/arch/arm64/perf.rst
->>>> @@ -164,3 +164,59 @@ and should be used to mask the upper bits as needed.
->>>>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
->>>>  .. _tools/lib/perf/tests/test-evsel.c:
->>>>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
->>>> +
->>>> +Event Counting Threshold
->>>> +==========================================
->>>> +
->>>> +Overview
->>>> +--------
->>>> +
->>>> +FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
->>>> +events whose count meets a specified threshold condition. For example if
->>>> +threshold_compare is set to 2 ('Greater than or equal'), and the
->>>> +threshold is set to 2, then the PMU counter will now only increment by
->>>> +when an event would have previously incremented the PMU counter by 2 or
->>>> +more on a single processor cycle.
->>>> +
->>>> +To increment by 1 after passing the threshold condition instead of the
->>>> +number of events on that cycle, add the 'threshold_count' option to the
->>>> +commandline.
->>>> +
->>>> +How-to
->>>> +------
->>>> +
->>>> +The threshold, threshold_compare and threshold_count values can be
->>>> +provided per event:
->>>> +
->>>> +.. code-block:: sh
->>>> +
->>>> +  perf stat -e stall_slot/threshold=2,threshold_compare=2/ \
->>>> +            -e dtlb_walk/threshold=10,threshold_compare=3,threshold_count/
->>> Can you please explain this a bit more?
->>>
->>> I guess the first event counts stall_slot PMU if the event if it's
->>> greater than or equal to 2.  And as threshold_count is not set,
->>> it'd count the stall_slot as is.  E.g. it counts 3 when it sees 3.
->>
->> Hence without 'threshold_count' being set, the other two config requests
->> will not have an effect, is that correct ?
+> On 11/23/2023 8:01 PM, Russell King (Oracle) wrote:
+> > On Thu, Nov 23, 2023 at 06:57:59PM +0800, Jie Luo wrote:
+> > > On 11/21/2023 7:52 PM, Russell King (Oracle) wrote:
+> > > > Ultimately, you will need a way to use inband signalling with Cisco
+> > > > SGMII for 10M/100M/1G speeds, and then switch to 2500base-X when
+> > > > operating at 2.5G speeds, and that is done via the PHY driver
+> > > > updating phydev->interface.
+> > > > 
+> > > > What we do need is some way for the PHY to also tell the PCS/MAC
+> > > > whether inband should be used. This is something I keep bringing up
+> > > > and now that we have PCS drivers revised to use the value from
+> > > > phylink_pcs_neg_mode() _and_ a consistent implementation amongst them
+> > > > we can now think about signalling to PCS drivers whether inband mode
+> > > > needs to be turned off when switching between modes.
+> > > 
+> > > Yes, we can switch the interface mode according to the current link
+> > > speed in the pcs driver.
+> > > but the issue is that the phy-mode i specified for the PHYLINK,
+> > > if phy-mode is sgmii, the support capability is limited to maximum
+> > > capability 1G during the PHYLINK setup and i can't configure it to 2.5G
+> > > dynamically, if the phy-mode is 2500base-x, then PHY capability will
+> > > be modified to only support 2.5G, other speeds can't be linked up.
+> > 
+> > So you need my patches that add "possible_interfaces" to phylib so you
+> > can tell phylink that you will be switching between SGMII and
+> > 2500base-X. Please see the RFC posting of those patches I sent
+> > yesterday and try them out - you will need to modify your phylib
+> > driver to fill in phydev->possible_interfaces.
 > 
-> Yeah I can mention this. It's implied because 0 is the default value of
-> config fields, and 0 is a valid value for compare and count field, so
-> threshold=0 has to be the way to disable it. But I can mention it
-> explicitly.
-> 
+> Your patches work on my board, thanks Russell.
 
-To avoid any confusion, I thought you meant threshold here instead of
-threshold_count. But I replied in more detail about the same issue on
-patch 2.
+Please can you reply to the covering email for that series giving your
+tested-by? Thanks.
 
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
