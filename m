@@ -1,156 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-X-Greylist: delayed 76 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Nov 2023 06:59:25 PST
-Received: from mxout014.mail.hostpoint.ch (mxout014.mail.hostpoint.ch [IPv6:2a00:d70:0:e::314])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF622D72;
-	Fri, 24 Nov 2023 06:59:25 -0800 (PST)
-Received: from [10.0.2.44] (helo=asmtp014.mail.hostpoint.ch)
-	by mxout014.mail.hostpoint.ch with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2 (FreeBSD))
-	(envelope-from <code@stefan-gloor.ch>)
-	id 1r6Xd3-0007WZ-06;
-	Fri, 24 Nov 2023 15:58:01 +0100
-Received: from 157.20.79.83.dynamic.wline.res.cust.swisscom.ch ([83.79.20.157] helo=thinkpad.localdomain)
-	by asmtp014.mail.hostpoint.ch with esmtpa (Exim 4.96.2 (FreeBSD))
-	(envelope-from <code@stefan-gloor.ch>)
-	id 1r6Xd2-000C8u-1q;
-	Fri, 24 Nov 2023 15:58:00 +0100
-X-Authenticated-Sender-Id: code@stefan-gloor.ch
-From: Stefan Gloor <code@stefan-gloor.ch>
-To: jdelvare@suse.com,
-	linux@roeck-us.net,
-	corbet@lwn.net,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Stefan Gloor <code@stefan-gloor.ch>
-Subject: [PATCH] hwmon: sht3x: read out sensor serial number
-Date: Fri, 24 Nov 2023 15:55:20 +0100
-Message-ID: <20231124145519.11599-2-code@stefan-gloor.ch>
-X-Mailer: git-send-email 2.41.0
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jA5L1cm3"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5172B1723
+	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 07:23:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700839433; x=1732375433;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Gbt7Cns5bhaIfCib3tyKiX6EXzUD1luuycqs/bp6HhA=;
+  b=jA5L1cm36v9mTCbsCNzzEd5FUZQiTeXlX7ltNWfFOKslIq/Iy2V54YYR
+   tA6lwbWA2eRhlX3S83skKYXz24tZADs42lep9Je9d4LyFZOn1KuQlWl+N
+   0C3SJv8OyqSQUn0UTLI5lDPHG420TK2j5rikgAxuBmq28Ze9RasbMMCB+
+   xVNHIpDlnp5+p8D8jRkFdx8vEivcnfC+9hSAWmuWSd/I+RQ9Pk6EAREO0
+   tv77WUCQtRwFd2lhoNkoDAJ/a3Xw2X2+6pYn+rMoyeB65+Y7ykq21yr3M
+   o71SmsNk7CEA8XsZEtqxzLQoLI3KQn4yjRN6OKoiCqDFQJtQMwBnl0j8w
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5660661"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="5660661"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:23:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="16002337"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 24 Nov 2023 07:23:52 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r6Y21-0002wW-2B;
+	Fri, 24 Nov 2023 15:23:49 +0000
+Date: Fri, 24 Nov 2023 23:23:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [krzk-github:n/dts-coding-style 3/3] htmldocs:
+ Documentation/devicetree/bindings/dts-coding-style.rst:118: WARNING:
+ Unexpected indentation.
+Message-ID: <202311241657.nCWkQcA4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Vs-State: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Some of the temperature/humidity sensors of the STS3x/SHT3x family are
-calibrated and factory-programmed with a unique serial number. This serial
-number can be used to obtain a calibration certificate via an API provided
-by the manufacturer (Sensirion). The serial number is exposed as a
-non-standard sysfs attribute.
+tree:   https://github.com/krzk/linux n/dts-coding-style
+head:   21eb006c7a0e6004e6c2b0637c872a0d8e13068e
+commit: 21eb006c7a0e6004e6c2b0637c872a0d8e13068e [3/3] sq
+reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241657.nCWkQcA4-lkp@intel.com/reproduce)
 
-This feature is only available for STS32, STS33 and SHT33. The capability
-to read out the serial number is not documented for other sensors such as
-the STS31, but it is implemented in the ones I tested. To be safe, the
-driver will silently set the serial number to zero if it can not be read.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241657.nCWkQcA4-lkp@intel.com/
 
-Tested with:
-1x STS32: serial number present
-2x STS31: serial number present (feature not documented)
-1x SHT31: serial number present (feature not documented)
+All warnings (new ones prefixed by >>):
 
-Signed-off-by: Stefan Gloor <code@stefan-gloor.ch>
----
- Documentation/hwmon/sht3x.rst |  2 ++
- drivers/hwmon/sht3x.c         | 39 +++++++++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+>> Documentation/devicetree/bindings/dts-coding-style.rst:118: WARNING: Unexpected indentation.
+>> Documentation/devicetree/bindings/dts-coding-style.rst:119: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-diff --git a/Documentation/hwmon/sht3x.rst b/Documentation/hwmon/sht3x.rst
-index 87864ffd1777..1727994f4a4a 100644
---- a/Documentation/hwmon/sht3x.rst
-+++ b/Documentation/hwmon/sht3x.rst
-@@ -85,4 +85,6 @@ repeatability:      write or read repeatability, higher repeatability means
-                         - 0: low repeatability
-                         - 1: medium repeatability
-                         - 2: high repeatability
-+serial_number:      unique serial number of the sensor in decimal, 0 if
-+                    unavailable
- =================== ============================================================
-diff --git a/drivers/hwmon/sht3x.c b/drivers/hwmon/sht3x.c
-index 79657910b79e..e4d436af1097 100644
---- a/drivers/hwmon/sht3x.c
-+++ b/drivers/hwmon/sht3x.c
-@@ -41,6 +41,7 @@ static const unsigned char sht3x_cmd_heater_off[]              = { 0x30, 0x66 };
- /* other commands */
- static const unsigned char sht3x_cmd_read_status_reg[]         = { 0xf3, 0x2d };
- static const unsigned char sht3x_cmd_clear_status_reg[]        = { 0x30, 0x41 };
-+static const unsigned char sht3x_cmd_read_serial_number[]      = { 0x37, 0x80 };
- 
- /* delays for single-shot mode i2c commands, both in us */
- #define SHT3X_SINGLE_WAIT_TIME_HPM  15000
-@@ -169,6 +170,7 @@ struct sht3x_data {
- 	u32 wait_time;			/* in us*/
- 	unsigned long last_update;	/* last update in periodic mode*/
- 	enum sht3x_repeatability repeatability;
-+	u32 serial_number;
- 
- 	/*
- 	 * cached values for temperature and humidity and limits
-@@ -606,6 +608,33 @@ static int update_interval_write(struct device *dev, int val)
- 	return 0;
- }
- 
-+static int serial_number_read(struct sht3x_data *data)
-+{
-+	int ret;
-+	char buffer[SHT3X_RESPONSE_LENGTH];
-+	struct i2c_client *client = data->client;
-+
-+	ret = sht3x_read_from_command(client, data,
-+				      sht3x_cmd_read_serial_number,
-+				      buffer,
-+				      SHT3X_RESPONSE_LENGTH, 0);
-+	if (ret)
-+		return ret;
-+
-+	data->serial_number = (buffer[0] << 24) | (buffer[1] << 16) |
-+			      (buffer[3] << 8) | buffer[4];
-+	return ret;
-+}
-+
-+static ssize_t serial_number_show(struct device *dev,
-+				  struct device_attribute *attr,
-+				  char *buf)
-+{
-+	struct sht3x_data *data = dev_get_drvdata(dev);
-+
-+	return sysfs_emit(buf, "%d\n", data->serial_number);
-+}
-+
- static ssize_t repeatability_show(struct device *dev,
- 				  struct device_attribute *attr,
- 				  char *buf)
-@@ -639,10 +668,12 @@ static ssize_t repeatability_store(struct device *dev,
- 
- static SENSOR_DEVICE_ATTR_RW(heater_enable, heater_enable, 0);
- static SENSOR_DEVICE_ATTR_RW(repeatability, repeatability, 0);
-+static SENSOR_DEVICE_ATTR_RO(serial_number, serial_number, 0);
- 
- static struct attribute *sht3x_attrs[] = {
- 	&sensor_dev_attr_heater_enable.dev_attr.attr,
- 	&sensor_dev_attr_repeatability.dev_attr.attr,
-+	&sensor_dev_attr_serial_number.dev_attr.attr,
- 	NULL
- };
- 
-@@ -899,6 +930,14 @@ static int sht3x_probe(struct i2c_client *client)
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * Serial number readout is not documented for the whole
-+	 * STS3x/SHT3x series, so we don't return on error here.
-+	 */
-+	ret = serial_number_read(data);
-+	if (ret)
-+		data->serial_number = 0;
-+
- 	hwmon_dev = devm_hwmon_device_register_with_info(dev,
- 							 client->name,
- 							 data,
+vim +118 Documentation/devicetree/bindings/dts-coding-style.rst
+
+   115	
+   116	Above order follows approach:
+   117	1. Most important property at the top (compatible then bus addressing to match
+ > 118	   unit address).
+ > 119	2. Each node will have common properties in similar place.
+   120	3. Status is the last information to annotate that device node is or is not
+   121	   finished (board resources are needed).
+   122	
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
