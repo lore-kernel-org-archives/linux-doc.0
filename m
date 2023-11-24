@@ -1,131 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YS/3MDkQ"
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A3B1BC1
-	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 09:00:30 -0800 (PST)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1700845228;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QWk7YTMvB3DTfZc9sNUwNxdg+CAbRo1hOQbqO2wSQ6A=;
-	b=YS/3MDkQDJLZ1KOe1iNDAZDteB/JflqObZ/sxnSGYirEVXMmWDGjQitpPoxMWbwITRRGcK
-	lCaiEJ8jACRUkhE5INGw8DLQ17uYGYUcBA+kCBAPjM3CKQX83iJY0AdVDX5aUYv45OjLes
-	yYiDU6Zy3ApLCGmeU0KMq1smX6MXIK4=
-From: Sergei Shtepa <sergei.shtepa@linux.dev>
-To: axboe@kernel.dk,
-	hch@infradead.org,
-	corbet@lwn.net,
-	snitzer@kernel.org
-Cc: mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Sergei Shtepa <sergei.shtepa@veeam.com>,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH v6 11/11] blksnap: prevents using devices with data integrity or inline encryption
-Date: Fri, 24 Nov 2023 17:59:33 +0100
-Message-Id: <20231124165933.27580-12-sergei.shtepa@linux.dev>
-In-Reply-To: <20231124165933.27580-1-sergei.shtepa@linux.dev>
-References: <20231124165933.27580-1-sergei.shtepa@linux.dev>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VwCbSmup"
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D8F1FF9
+	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 09:02:01 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-a00a9c6f1e9so313765766b.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 09:02:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700845320; x=1701450120; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=43E23uAnd+k2rGiCz48QeTcuuPvbRuPzS8smKDyaGvc=;
+        b=VwCbSmupocpzDeosNfLh7kHXy1eo2BxVw1J3vsuaJ26PXrVqNdlMi1kC5eVLU4JLCt
+         wCeo2EckUXIS5c9wAgWqxc3DR9V8lVy/F5H8KvRB8kNYAe6NshBBle5myL+hjV/VosrT
+         uev/A6BFSA1b43q7tiw9JUnkkqkhAozOt5KSsYDLZ0R8KDwSHRbOI7gobSW/QnwRhaGB
+         6VsiiHmQ2lLcOjPZxPpiynVZBJYWcQjJewLWnACObPylH3grAZaa2XODHcjjziEUYjIn
+         0It8/Xp03zb0z4+0GEVYd2WddFREczCxlYkEi/MfYZGMz8bc+oTZ+1xHRUdkrCL0qYIx
+         QGoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700845320; x=1701450120;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=43E23uAnd+k2rGiCz48QeTcuuPvbRuPzS8smKDyaGvc=;
+        b=bEdzScCpf5v1JtmxP2P8FrlBVHHfkyArAVJYQN5jMVFwNE68sHhIJrZxYPfKlgKKuN
+         EoNjwE/dmajUsmZv/GIpxJSkNeKJrka4nrqp4nSnZFdEo9NdU1is6Y8/xBYTdyDcMMHm
+         nv59xMp/l15OUB0Q1KFOHaUAq5TQ+BQNXEOwHsnFezaYc+SR4hDpSIYTUm9NLlauaDRu
+         FdpAAtyZ5m4hXoz1cQyrrqMKnJTQY/CJ7nH5uzc7P4eAy8u6YGZBP9SMZMMUGxEcfKnk
+         1OPUbBimys4F0bpU4ca3ZKHj9An52S/PzRzH9/TnOtuZdmfaT8VjVsICBl6ky9iQJX9f
+         8iRw==
+X-Gm-Message-State: AOJu0YzdfIXUx8Qvp+icvQm+/P8L4LpfAuNx08K24yR4Kx0bgPbBR7xa
+	45ny8lGyi8ppEeSw/rj0RzyA2Q==
+X-Google-Smtp-Source: AGHT+IElUO+l51/8AnXdUmo/6bFieTHSrdY6icuz5IXr0X61Q6SkPXMM+wDGNFKRt6RKrJ9IHvi+Ig==
+X-Received: by 2002:a17:906:856:b0:a00:2de3:73cc with SMTP id f22-20020a170906085600b00a002de373ccmr2137734ejd.69.1700845319366;
+        Fri, 24 Nov 2023 09:01:59 -0800 (PST)
+Received: from [192.168.0.174] ([79.115.63.75])
+        by smtp.gmail.com with ESMTPSA id r17-20020a170906a21100b009ae57888718sm2260761ejy.207.2023.11.24.09.01.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Nov 2023 09:01:58 -0800 (PST)
+Message-ID: <9b0cf286-b938-4a89-bd5e-c2c00cea020a@linaro.org>
+Date: Fri, 24 Nov 2023 19:01:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: mtd: spi-nor: add sections about flash
+ additions and testing
+To: Bagas Sanjaya <bagasdotme@gmail.com>, pratyush@kernel.org,
+ michael@walle.cc
+Cc: Linux MTD <linux-mtd@lists.infradead.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>, corbet@lwn.net,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20231123160721.64561-1-tudor.ambarus@linaro.org>
+ <20231123160721.64561-2-tudor.ambarus@linaro.org>
+ <ZWBMyPIPwq9L-5pG@archie.me>
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+Content-Language: en-US
+In-Reply-To: <ZWBMyPIPwq9L-5pG@archie.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Sergei Shtepa <sergei.shtepa@veeam.com>
 
-There is an opinion that the use of the blksnap module may violate the
-security of encrypted data. The difference storage file may be located
-on an unreliable disk or even network storage. To implement secure
-compatibility with hardware inline encrypted devices will require
-discussion of algorithms and restrictions. For example, a restriction
-on the location of the difference storage only in virtual memory might
-help. Currently, there is no need for compatibility of the blksnap
-module and hardware inline encryption.
 
-I see no obstacles to ensuring the compatibility of the blksnap module
-and block devices with data integrity. However, this functionality was
-not planned or tested. Perhaps in the future this compatibility can be
-implemented.
+On 24.11.2023 09:12, Bagas Sanjaya wrote:
+> The numbered lists don't properly rendered, so I have to fix it up:
 
-Theoretically possible that the block device was added to the snapshot
-before crypto_profile and integrity.profile were initialized.
-Checking the values of bi_crypt_context and bi_integrity ensures that
-the blksnap will not perform any actions with I/O units with which it
-is not compatible.
+Thanks, Bagas! It looks better, indeed. I'll include the diff in the
+next version.
 
-Reported-by: Eric Biggers <ebiggers@kernel.org>
-Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
----
- drivers/block/blksnap/snapshot.c | 17 +++++++++++++++++
- drivers/block/blksnap/tracker.c  | 14 ++++++++++++++
- 2 files changed, 31 insertions(+)
-
-diff --git a/drivers/block/blksnap/snapshot.c b/drivers/block/blksnap/snapshot.c
-index 21d94f12b5fc..a7675fdcf359 100644
---- a/drivers/block/blksnap/snapshot.c
-+++ b/drivers/block/blksnap/snapshot.c
-@@ -149,6 +149,23 @@ int snapshot_add_device(const uuid_t *id, struct tracker *tracker)
- 	int ret = 0;
- 	struct snapshot *snapshot = NULL;
- 
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+	if (tracker->orig_bdev->bd_disk->queue->integrity.profile) {
-+		pr_err("Blksnap is not compatible with data integrity\n");
-+		ret = -EPERM;
-+		goto out_up;
-+	} else
-+		pr_debug("Data integrity not found\n");
-+#endif
-+
-+#ifdef CONFIG_BLK_INLINE_ENCRYPTION
-+	if (tracker->orig_bdev->bd_disk->queue->crypto_profile) {
-+		pr_err("Blksnap is not compatible with hardware inline encryption\n");
-+		ret = -EPERM;
-+		goto out_up;
-+	} else
-+		pr_debug("Inline encryption not found\n");
-+#endif
- 	snapshot = snapshot_get_by_id(id);
- 	if (!snapshot)
- 		return -ESRCH;
-diff --git a/drivers/block/blksnap/tracker.c b/drivers/block/blksnap/tracker.c
-index 2b8978a2f42e..b38ead9afa69 100644
---- a/drivers/block/blksnap/tracker.c
-+++ b/drivers/block/blksnap/tracker.c
-@@ -57,6 +57,20 @@ static bool tracker_submit_bio(struct bio *bio)
- 	if (diff_area_is_corrupted(tracker->diff_area))
- 		return false;
- 
-+#ifdef CONFIG_BLK_INLINE_ENCRYPTION
-+	if (bio->bi_crypt_context) {
-+		pr_err_once("Hardware inline encryption is not supported\n");
-+		diff_area_set_corrupted(tracker->diff_area, -EPERM);
-+		return false;
-+	}
-+#endif
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+	if (bio->bi_integrity) {
-+		pr_err_once("Data integrity is not supported\n");
-+		diff_area_set_corrupted(tracker->diff_area, -EPERM);
-+		return false;
-+	}
-+#endif
- 	return diff_area_cow(bio, tracker->diff_area, &copy_iter);
- }
- 
--- 
-2.20.1
-
+Cheers,
+ta
