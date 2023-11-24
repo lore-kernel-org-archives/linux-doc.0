@@ -1,82 +1,136 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="Muf2VTyw"
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0279D71;
-	Fri, 24 Nov 2023 05:05:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1700831128;
-	bh=6Y8qQKiNapfxIiyPU0awITssjjLEv8Lqe9dkOsuewfU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Muf2VTywqEgHzegB/nAYDtxju24jHb7b6xljhCIq+59yo1LqKOiMI8hHN6TIOQj/t
-	 JOZD4Ol4zOUuz//nId6dzwBldfv9dLBQoc4UI5Dp3ykNfbtRGTdZzdEzf9Y6v0Wg1O
-	 0VXZwf9FDnMLX+W/BaGAdfkK1N0pQBZKgeAA33boLATaOM+7T7QOo3aNyvWElDUhN2
-	 jmnA8eUVZfkfo9aeoHFOMrzbRMCT4mu+SyCm18IPUmCOPybpxWQ4rJsG6sKGgTwQBt
-	 ewBl8pQYuqBGWOSUCH2d7wN8BzI3M2I5i/g2OjApQ8plVpz84DtFeRrbzd0DwlcHVz
-	 pa11Xh/2NXhTQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4ScFZm6CGZz4xNt;
-	Sat, 25 Nov 2023 00:05:20 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Peter Zijlstra <peterz@infradead.org>, Jonas Oberhauser
- <jonas.oberhauser@huaweicloud.com>
-Cc: Christoph Muellner <christoph.muellner@vrull.eu>,
- linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Palmer Dabbelt
- <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Andrew Morton <akpm@linux-foundation.org>, Shuah
- Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Anup Patel
- <apatel@ventanamicro.com>, Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Andrew Jones <ajones@ventanamicro.com>, Guo Ren <guoren@kernel.org>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, Conor Dooley
- <conor.dooley@microchip.com>, =?utf-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@rivosinc.com>, Alan Stern
- <stern@rowland.harvard.edu>, Andrea Parri <parri.andrea@gmail.com>, Will
- Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>
-Subject: Re: [RFC PATCH 0/5] RISC-V: Add dynamic TSO support
-In-Reply-To: <20231124115430.GS3818@noisy.programming.kicks-ass.net>
-References: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
- <20231124101519.GP3818@noisy.programming.kicks-ass.net>
- <59da3e41-abb3-405a-8f98-c74bdf26935b@huaweicloud.com>
- <20231124115430.GS3818@noisy.programming.kicks-ass.net>
-Date: Sat, 25 Nov 2023 00:05:16 +1100
-Message-ID: <87plzzqp2r.fsf@mail.lhotse>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jc7pzhnd"
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6032B1721;
+	Fri, 24 Nov 2023 05:31:23 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a00f67f120aso263956766b.2;
+        Fri, 24 Nov 2023 05:31:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700832682; x=1701437482; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xqoNh8/DGOCDjWGBAsyHy8zDaolvBGz6WR/aPalN8vA=;
+        b=jc7pzhndHV74TrW5Y6euP8yk3htKIp8W3o1J4svRrdUUZjIdDRWgvExoS9S0QJD/zU
+         rBFEIT2MxFeZ/RzClYiIL0/02BNJdUr2xcGIsYQ77LaRf35g73whiGnOOChNAdVWSOrI
+         3hoq8vKd69rpowWA013qKYH7Bo61cWyy4QgiMXLsdISIwruZm2QyMOky9gdvpigFT2kh
+         1fDO4jvhAIcvXHr6BSmtl7uTFXktnDXDFMVWUS4DaHBnHSBtYtswpMLFp79/pPk1yWRG
+         hmZEhc/S29RsphTAt0pf2F0NPDGxYOfd/0JNu3TNk7MPkdFYp/43uE6PvHkLxFHbM6ee
+         ZfYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700832682; x=1701437482;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xqoNh8/DGOCDjWGBAsyHy8zDaolvBGz6WR/aPalN8vA=;
+        b=C0nGbEllQd0ZR9UGYNYIabEcZU4JD8C4NYjDZNpA7s+0dg2NqPP62OPWLMLz/5M+78
+         tmpXg8oVR1r1kZlVcj8bEdUHzE3TPASfVNWVYIHvrhKOQoQYzN0wuRoyMRLPPE/+6Ovy
+         ZADRjidfCaGRO9R8L+NVGSt9DfoHfPWXnLMvxpTMKbojBG56AvwWtji0wwC1jWKR/131
+         /BKk4Zi6MGdDyIz9IRP9E/sQDEELpVn1H/Ist3FnTBsPOM0reHjQ0Xr+OaRIPGOobYge
+         XINBminf+wxL25fA4hoDhLRwrTKsXxPIaP0D1X5uq7tFW57KBgHdj36ParxPaVNgGetL
+         ah2g==
+X-Gm-Message-State: AOJu0Yxm62nmPBvJXSHKOOIkD7oKbpAsw8xRU5Yr17p55DoW6b0eC3DF
+	kyWzyWAWzcpI3hUuINPbNBs=
+X-Google-Smtp-Source: AGHT+IF2CMWqW6QgTEUE8dPizHd4yGlrN9Vk/VgdOvaxxbdjXw50mDYgNNx7FjDnvVExXduvtyJWvw==
+X-Received: by 2002:a17:906:5da:b0:a03:a857:c6e0 with SMTP id t26-20020a17090605da00b00a03a857c6e0mr1663923ejt.77.1700832681495;
+        Fri, 24 Nov 2023 05:31:21 -0800 (PST)
+Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id c24-20020a170906529800b009fe2f96ee9bsm2064075ejm.8.2023.11.24.05.31.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 05:31:21 -0800 (PST)
+Date: Fri, 24 Nov 2023 14:31:18 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Sean Young <sean@mess.org>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Gross <markgross@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] pwm: rename pwm_apply_state() to
+ pwm_apply_cansleep()
+Message-ID: <ZWClpnMRg_vjuI_R@orome.fritz.box>
+References: <cover.1700323916.git.sean@mess.org>
+ <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="mURPCj0PduVIws0V"
+Content-Disposition: inline
+In-Reply-To: <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-Peter Zijlstra <peterz@infradead.org> writes:
-> On Fri, Nov 24, 2023 at 12:04:09PM +0100, Jonas Oberhauser wrote:
->
->> > I think ARM64 approached this problem by adding the
->> > load-acquire/store-release instructions and for TSO based code,
->> > translate into those (eg. x86 -> arm64 transpilers).
->> 
->> 
->> Although those instructions have a bit more ordering constraints.
->> 
->> I have heard rumors that the apple chips also have a register that can be
->> set at runtime.
->
-> Oh, I thought they made do with the load-acquire/store-release thingies.
-> But to be fair, I haven't been paying *that* much attention to the apple
-> stuff.
->
-> I did read about how they fudged some of the x86 flags thing.
->
->> And there are some IBM machines that have a setting, but not sure how it is
->> controlled.
->
-> Cute, I'm assuming this is the Power series (s390 already being TSO)? I
-> wasn't aware they had this.
 
-Are you referring to Strong Access Ordering? That is a per-page
-attribute, not a CPU mode, and was removed in ISA v3.1 anyway.
+--mURPCj0PduVIws0V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-cheers
+On Sat, Nov 18, 2023 at 04:16:17PM +0000, Sean Young wrote:
+> In order to introduce a pwm api which can be used from atomic context,
+> we will need two functions for applying pwm changes:
+>=20
+> 	int pwm_apply_cansleep(struct pwm *, struct pwm_state *);
+> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
+>=20
+> This commit just deals with renaming pwm_apply_state(), a following
+> commit will introduce the pwm_apply_atomic() function.
+
+Sorry, I still don't agree with that _cansleep suffix. I think it's the
+wrong terminology. Just because something can sleep doesn't mean that it
+ever will. "Might sleep" is much more accurate because it says exactly
+what might happen and indicates what we're guarding against.
+
+Thierry
+
+--mURPCj0PduVIws0V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVgpaQACgkQ3SOs138+
+s6HS8A/7BjtLlUH5CMfFlBTprZQsDfOXKtQTFT7vSIrS5EOAuemIkCNWaesc5juC
+gFpHk93q2Y8+pTg499tii+Ztr7m6Z00sAA8fpGEFwUn03iU9qrrC6/7gwVu8Dsjv
+m326JeQsUo8SL3s5JqH7vKQDUU0agG/rMAFwo5nIzD5xRGmtg1VB+Vg57/T0K4a4
+W99vEqpxwYAZLNQeId2ZTCZHREypDELrwcq0l0JYOOXdsvYa4r34dPep1KDfTvxK
+p6fGafsCc1qJ8S9ygxlTGPv/5+56JXyOEB75XXxBK2QaqEz9iHPxgfJsHz7K3DFx
+cpZtcEd899PpMbAiW5fag0BJcnUNffFf4CoZU34H8MPsp4DzKs7UvJlbQ79KNz6N
+VIjXUsk876G5NuLjwomvkmaxx1cQPbom4YknTav6Zm5dloV36kppnYuZ9+PV8NlW
+uudn06BsR8Yp7d2hpCHK6Vou1zbJtQHxQosq3e4e11mnMXxpnftSCuWZCeUedAhG
+zufpjdOkX1q24J9odZWGWz8rhGWgJUwtIpF8SOkPromrYAxZK+yJAb7AvepYNQNh
+i3X0j8HUnYCWUx7ty20NjF5rVY/GJh5DXncoB5cQqVlLCr8YUvFsOQ9YaUuFa/J5
+M/YrTcS9Bi0p3ps9qE3ec5+WY2E85s4+KeG0Z0/GD1ifS+r4fls=
+=1cUS
+-----END PGP SIGNATURE-----
+
+--mURPCj0PduVIws0V--
