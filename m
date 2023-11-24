@@ -1,129 +1,134 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NEgPb+vO"
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B771BC1;
-	Fri, 24 Nov 2023 09:34:38 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3954620005;
-	Fri, 24 Nov 2023 17:34:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700847276;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=laVIeNuGyFNN2rVJzpoTnXeNYtbS9ZVvlwtfDxQdzIk=;
-	b=NEgPb+vOyRQ1ywouxZWdYL2UIT0XGQo8B+dEqnidX5Zf5XUSs5CzP59hDWMa/19kgEUU+3
-	XlwIG+5nrVnuOSfJhXCPDGQYfCSjuRuqCcAQrENgGuWkqD2qFKxGiYEEQ073A6N4nx/KD5
-	CijJY2CwV9x0+DVAjbZfUKsb1AbxzXpLuP229W0teCce18Fp3jiYPkPgfbY6yByFBn5GMJ
-	J6gtEPcx1KcrXfDsBArJH2zkti+xFPVEgP90EBFl4873ggMU+qv/KmISx/YC9tJYK4feKG
-	oir2q+YPUObGtB+L03HCeTRDkiHog+Zy+1sWEbD7IMb9Q+y4zxQbRv0GPVLQrA==
-Date: Fri, 24 Nov 2023 18:34:31 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v7 15/16] net: ethtool: ts: Let the active time
- stamping layer be selectable
-Message-ID: <20231124183431.5d4cc189@kmaincent-XPS-13-7390>
-In-Reply-To: <20231124154343.sr3ajyueoshke6tn@skbuf>
-References: <20231120220549.cvsz2ni3wj7mcukh@skbuf>
-	<20231121183114.727fb6d7@kmaincent-XPS-13-7390>
-	<20231121094354.635ee8cd@kernel.org>
-	<20231122144453.5eb0382f@kmaincent-XPS-13-7390>
-	<20231122140850.li2mvf6tpo3f2fhh@skbuf>
-	<20231122085000.79f2d14c@kernel.org>
-	<20231122165517.5cqqfor3zjqgyoow@skbuf>
-	<20231122100142.338a2092@kernel.org>
-	<20231123160056.070f3311@kmaincent-XPS-13-7390>
-	<20231123093205.484356fc@kernel.org>
-	<20231124154343.sr3ajyueoshke6tn@skbuf>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCnVa/lW"
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0BD91BC2;
+	Fri, 24 Nov 2023 09:34:51 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-3b2ec9a79bdso1367818b6e.3;
+        Fri, 24 Nov 2023 09:34:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700847291; x=1701452091; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=emE8oCCMObVTti3WryKtK+jq28122RLCctiS74g2B70=;
+        b=bCnVa/lWH7mzaYA+rJh+LPMPjnQ0O9roHMhel5jVynA7L2pXLZO5iLh9SbFvpsTZfE
+         Z9C2EelYFv3/LB7NT1LGMOW7Bxlf6qXqd+Z8qG3nyiA397kNy+49ccl6AhJPpStF5LdT
+         I/FR3PAOYlrZWyM7su+7l6qp1H/q3+ytx2dsUrKWqOvy9vb+lBZKPQrN93ZWhSBHtKAf
+         6zVCspmluioGI7xHlSnUrUPFaqe6Y3VXabd0wiZjkWKWrVozEqxbepCGDlYyO+znZuiS
+         jlJINVmemDTF+aGvMq+olmsW9Oj0igNZKKEbDmJJCWelP2BNMCuGBkQ7DSjNLok7zjP3
+         YvNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700847291; x=1701452091;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=emE8oCCMObVTti3WryKtK+jq28122RLCctiS74g2B70=;
+        b=r5HteV0Qxcqq3Dwdc77DH5YD2mJ023Z0M/OQ7ESn1vBknA4eOUqsBml5nBGaKUYcYs
+         5PK9qhm+IrF9wcOqsZrfr42u+2xiIBKTeUlkSS+45+i6M3asl05R/XOS3qK3TMdWSnTA
+         yvA2XRwsa2ticdUxIXKVgyhDX78SeAfTnZz/VkkJtzbmWox+5ZV64wLOdGZvbs50UjmF
+         88kRkIC18cFrTRcAklPNPjl4HzBxIgDGh+vcmifOwfVzlItXAoVGk7kTivHlY6tdowuW
+         8GOSsWKuBXUYhTigdzLIBrxgI2pKbjuFQ/pM1dhIaZMm3/0c623yN3pgC7AtEg0o44dH
+         m2FQ==
+X-Gm-Message-State: AOJu0YyLI9kSoSiouQmlJvFO+5JDjte4nCFMN9VJVapf0eDqaxkmajI5
+	SEfdaMHEzYUNETpzVMjQPB6dsxBivgM=
+X-Google-Smtp-Source: AGHT+IGEmQFPKJVdsB1JTaoH8/GVfWDjbl7LsFS0JEMsBIAesCPzS5YzxGLI472GNutJ8XgZvNO7Hw==
+X-Received: by 2002:a05:6808:219b:b0:3b6:d371:d4d4 with SMTP id be27-20020a056808219b00b003b6d371d4d4mr4765282oib.37.1700847290908;
+        Fri, 24 Nov 2023 09:34:50 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id r30-20020a63515e000000b005b4b70738e5sm3348124pgl.8.2023.11.24.09.34.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Nov 2023 09:34:50 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <52909c46-4699-442b-9303-ec914fba093b@roeck-us.net>
+Date: Fri, 24 Nov 2023 09:34:48 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hwmon: sht3x: read out sensor serial number
+Content-Language: en-US
+To: Stefan Gloor <code@stefan-gloor.ch>, jdelvare@suse.com, corbet@lwn.net,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231124145519.11599-2-code@stefan-gloor.ch>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20231124145519.11599-2-code@stefan-gloor.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 24 Nov 2023 17:43:43 +0200
-Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
+On 11/24/23 06:55, Stefan Gloor wrote:
+> Some of the temperature/humidity sensors of the STS3x/SHT3x family are
+> calibrated and factory-programmed with a unique serial number. This serial
+> number can be used to obtain a calibration certificate via an API provided
+> by the manufacturer (Sensirion). The serial number is exposed as a
+> non-standard sysfs attribute.
+> 
+> This feature is only available for STS32, STS33 and SHT33. The capability
+> to read out the serial number is not documented for other sensors such as
+> the STS31, but it is implemented in the ones I tested. To be safe, the
+> driver will silently set the serial number to zero if it can not be read.
+> 
+> Tested with:
+> 1x STS32: serial number present
+> 2x STS31: serial number present (feature not documented)
+> 1x SHT31: serial number present (feature not documented)
+> 
+> Signed-off-by: Stefan Gloor <code@stefan-gloor.ch>
 
-> On Thu, Nov 23, 2023 at 09:32:05AM -0800, Jakub Kicinski wrote:
-> > On Thu, Nov 23, 2023 at 04:00:56PM +0100, K=C3=B6ry Maincent wrote: =20
-> > > So, do we have a consensus? Vlad, do you agree on putting all under
-> > > ethtool?
-> > >=20
-> > > ETHTOOL_GET_TS_INFO will be in charge of replacing the SIOCGHWSTAMP
-> > > implementation. Need to add ETHTOOL_A_TSINFO_PHC_INDEX
-> > > ETHTOOL_A_TSINFO_QUALIFIER to the request.
-> > >=20
-> > > ETHTOOL_GET_TS_INFO will list all the hwtstamp provider (aka "{phc_in=
-dex,
-> > > qualifier}") through the dumpit callback. I will add a filter to be a=
-ble
-> > > to list only the hwtstamp provider of one netdev.
-> > >=20
-> > > ETHTOOL_SET_TS_INFO will be in charge of replacing the SIOCSHWSTAMP
-> > > implementation. =20
-> >=20
-> > If not we can do a vote/poll? Maybe others don't find the configuration
-> > of timestamping as confusing as me. =20
->=20
-> If you mean the ETHTOOL_MSG_TSINFO_GET netlink message (ETHTOOL_GET_TS_IN=
-FO
-> is an ioctl), you're saying that you want to move the entire contents of
-> SIOCGHWSTAMP there, by making the kernel call ndo_hwtstamp_get() in
-> addition to the existing __ethtool_get_ts_info()?
+I am not going to accept this as sysfs attribute. Please implement
+using debugfs.
 
-Yes.
-=20
-> Yeah, I don't know, I don't have a real objection, I guess it's fine.
->=20
-> What will be a bit of an "?!" moment for users is when ethtool gains
-> support for the SIOCGHWSTAMP/SIOCSHWSTAMP netlink replacements, but not
-> for the original ioctls. So hwstamp_ctl will be able to change timestampi=
-ng
-> configuration, but ethtool wouldn't - all on the same system. Unless
-> ethtool gains an ioctl fallback for a ioctl that was never down its alley.
 
-Yes indeed. Would it break things if both ioctls and netlink can get and set
-the hwtstamps configuration? It is only configuration. Both happen under
-rtnl_lock it should be alright.
+Also, the attribute (sysfs or debugfs) should not exist if not supported.
+Please only provide if supported.
 
-The question is which hwtstamp provider will the original ioctls be able to
-change? Maybe the default one (MAC with phy whitelist) and only this one.
+Thanks,
+Guenter
 
-> But by all means, still hold a poll if you want to. I would vote for
-> ethtool netlink, not because it's great, just because I don't have a
-> better alternative to propose.
-
-If you agree on that choice, let's go. Jakub and your are the most proactive
-reviewers in this patch series. Willem you are the timestamping maintainer =
-do
-you also agree on this?=20
-If anyone have another proposition let them speak now, or forever remain
-silent! ;)
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
