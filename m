@@ -1,244 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2AF0D18E;
-	Fri, 24 Nov 2023 02:31:50 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 662C11424;
-	Fri, 24 Nov 2023 02:32:36 -0800 (PST)
-Received: from e127643.arm.com (unknown [10.57.5.4])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2350F3F7A6;
-	Fri, 24 Nov 2023 02:31:48 -0800 (PST)
-From: James Clark <james.clark@arm.com>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	suzuki.poulose@arm.com,
-	will@kernel.org,
-	mark.rutland@arm.com,
-	anshuman.khandual@arm.com,
-	namhyung@gmail.com
-Cc: James Clark <james.clark@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/3] arm64: perf: Add support for event counting threshold
-Date: Fri, 24 Nov 2023 10:28:56 +0000
-Message-Id: <20231124102857.1106453-3-james.clark@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231124102857.1106453-1-james.clark@arm.com>
-References: <20231124102857.1106453-1-james.clark@arm.com>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iwYrsNlf"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8931B2;
+	Fri, 24 Nov 2023 02:41:30 -0800 (PST)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AO6ijpT003533;
+	Fri, 24 Nov 2023 10:41:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=I0mFE74+HCAZHSs5OcFV/WmM4ST9H8Z6coVPOaLZ/zg=;
+ b=iwYrsNlf0qflB8nGDpXnQ+T6s4IWkBlHahjYNhQDZjspPcImpVgSM+ssSXBT9M/xHWj1
+ yO3v7EomkXjNRRs738D5h7sH/q3OwudBtHm8gkXSPS1slNKYq+ViUvHUX7LpT+3PBG+O
+ Bm2U7duwJKcFujpFjEaWHApPNsRWy7XxzcXvDNmTbbNoVGnUJ+o8XCjgrLv5HlEHsO6g
+ P0lIVIV2PceGOqujayiH+KnCuwoD4QaBwaOVzHc6IbbkUD3wGI7PPpqas1ZruSvD46pa
+ c0yQbMpGArI6tIdb7myvcWOiAePQ9gMa4hRNLxcbcFEM+keiRIHETNjjHysUyyyQzt98 4w== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ujptr0q17-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Nov 2023 10:41:16 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AOAfGXG028633
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Nov 2023 10:41:16 GMT
+Received: from [10.253.33.181] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 24 Nov
+ 2023 02:41:12 -0800
+Message-ID: <b5e6c55c-af6b-4a29-95bd-389a9323920b@quicinc.com>
+Date: Fri, 24 Nov 2023 18:41:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/6] net: phy: at803x: add QCA8084 ethernet phy support
+Content-Language: en-US
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+CC: Andrew Lunn <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <1eb60a08-f095-421a-bec6-96f39db31c09@lunn.ch>
+ <ZVkRkhMHWcAR37fW@shell.armlinux.org.uk>
+ <eee39816-b0b8-475c-aa4a-8500ba488a29@lunn.ch>
+ <fef2ab86-ccd7-4693-8a7e-2dac2c80fd53@quicinc.com>
+ <1d4d7761-6b42-48ec-af40-747cb4b84ca5@lunn.ch>
+ <316fb626-4dc3-4540-9cc4-e45840e36f77@quicinc.com>
+ <ZVyZ+8Q2eNfAKjO/@shell.armlinux.org.uk>
+ <d2ac542c-aae3-49ae-ae2b-9defc4ca98eb@quicinc.com>
+ <ZV8+/4eNzLpLzSDG@shell.armlinux.org.uk>
+ <1bd2f3a9-3dd1-4c95-b4e5-c9bf2274f271@quicinc.com>
+ <ZWByn7HpAmPTP3GJ@shell.armlinux.org.uk>
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <ZWByn7HpAmPTP3GJ@shell.armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: XdTt8mComxSESH2LtOToWtzuUVmA7tdM
+X-Proofpoint-GUID: XdTt8mComxSESH2LtOToWtzuUVmA7tdM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-23_15,2023-11-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
+ bulkscore=0 mlxscore=0 suspectscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 mlxlogscore=999 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311240084
 
-FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
-events whose count meets a specified threshold condition. For example if
-PMEVTYPERn.TC (Threshold Control) is set to 0b101 (Greater than or
-equal, count), and the threshold is set to 2, then the PMU counter will
-now only increment by 1 when an event would have previously incremented
-the PMU counter by 2 or more on a single processor cycle.
 
-Three new Perf event config fields, 'threshold', 'threshold_compare' and
-'threshold_count' have been added to control the feature.
-threshold_compare maps to the upper two bits of PMEVTYPERn.TC and
-threshold_count maps to the first bit of TC. These separate attributes
-have been picked rather than enumerating all the possible combinations
-of the TC field as in the Arm ARM. The attributes would be used on a
-Perf command line like this:
 
-  $ perf stat -e stall_slot/threshold=2,threshold_compare=2/
-
-A new capability for reading out the maximum supported threshold value
-has also been added:
-
-  $ cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
-
-  0x000000ff
-
-If a threshold higher than threshold_max is provided, then no error is
-generated but the threshold is clamped to the max value. If
-FEAT_PMUv3_TH isn't implemented or a 32 bit kernel is running, then
-threshold_max reads zero, and neither the 'threshold' nor
-'threshold_control' parameters will be used.
-
-The threshold is per PMU counter, and there are potentially different
-threshold_max values per PMU type on heterogeneous systems.
-
-Bits higher than 32 now need to be written into PMEVTYPER, so
-armv8pmu_write_evtype() has to be updated to take an unsigned long value
-rather than u32 which gives the correct behavior on both aarch32 and 64.
-
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Signed-off-by: James Clark <james.clark@arm.com>
----
- drivers/perf/arm_pmuv3.c       | 84 +++++++++++++++++++++++++++++++++-
- include/linux/perf/arm_pmuv3.h |  1 +
- 2 files changed, 84 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
-index 1d40d794f5e4..eb1ef84e1dbb 100644
---- a/drivers/perf/arm_pmuv3.c
-+++ b/drivers/perf/arm_pmuv3.c
-@@ -15,6 +15,7 @@
- #include <clocksource/arm_arch_timer.h>
- 
- #include <linux/acpi.h>
-+#include <linux/bitfield.h>
- #include <linux/clocksource.h>
- #include <linux/of.h>
- #include <linux/perf/arm_pmu.h>
-@@ -294,9 +295,20 @@ static const struct attribute_group armv8_pmuv3_events_attr_group = {
- 	.is_visible = armv8pmu_event_attr_is_visible,
- };
- 
-+#define THRESHOLD_LOW		2
-+#define THRESHOLD_HIGH		13
-+#define THRESHOLD_CNT		14
-+#define THRESHOLD_CMP_LO	15
-+#define THRESHOLD_CMP_HI	16
-+
- PMU_FORMAT_ATTR(event, "config:0-15");
- PMU_FORMAT_ATTR(long, "config1:0");
- PMU_FORMAT_ATTR(rdpmc, "config1:1");
-+PMU_FORMAT_ATTR(threshold, "config1:" __stringify(THRESHOLD_LOW) "-"
-+				      __stringify(THRESHOLD_HIGH));
-+PMU_FORMAT_ATTR(threshold_compare, "config1:" __stringify(THRESHOLD_CMP_LO) "-"
-+					      __stringify(THRESHOLD_CMP_HI));
-+PMU_FORMAT_ATTR(threshold_count, "config1:" __stringify(THRESHOLD_CNT));
- 
- static int sysctl_perf_user_access __read_mostly;
- 
-@@ -310,10 +322,33 @@ static inline bool armv8pmu_event_want_user_access(struct perf_event *event)
- 	return event->attr.config1 & 0x2;
- }
- 
-+static inline u32 armv8pmu_event_threshold(struct perf_event_attr *attr)
-+{
-+	return FIELD_GET(GENMASK(THRESHOLD_HIGH, THRESHOLD_LOW), attr->config1);
-+}
-+
-+static inline u8 armv8pmu_event_threshold_control(struct perf_event_attr *attr)
-+{
-+	u8 th_compare = FIELD_GET(GENMASK(THRESHOLD_CMP_HI, THRESHOLD_CMP_LO),
-+				  attr->config1);
-+	u8 th_count = FIELD_GET(BIT(THRESHOLD_CNT), attr->config1);
-+
-+	/*
-+	 * The count bit is always the bottom bit of the full control field, and
-+	 * the comparison is the upper two bits, but it's not explicitly
-+	 * labelled in the Arm ARM. For the Perf interface we split it into two
-+	 * fields, so reconstruct it here.
-+	 */
-+	return (th_compare << 1) | th_count;
-+}
-+
- static struct attribute *armv8_pmuv3_format_attrs[] = {
- 	&format_attr_event.attr,
- 	&format_attr_long.attr,
- 	&format_attr_rdpmc.attr,
-+	&format_attr_threshold.attr,
-+	&format_attr_threshold_compare.attr,
-+	&format_attr_threshold_count.attr,
- 	NULL,
- };
- 
-@@ -365,10 +400,38 @@ static ssize_t bus_width_show(struct device *dev, struct device_attribute *attr,
- 
- static DEVICE_ATTR_RO(bus_width);
- 
-+static u32 threshold_max(struct arm_pmu *cpu_pmu)
-+{
-+	/*
-+	 * PMMIR.THWIDTH is readable and non-zero on aarch32, but it would be
-+	 * impossible to write the threshold in the upper 32 bits of PMEVTYPER.
-+	 */
-+	if (IS_ENABLED(CONFIG_ARM))
-+		return 0;
-+
-+	/*
-+	 * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
-+	 * (2 ^ PMMIR.THWIDTH) - 1.
-+	 */
-+	return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
-+}
-+
-+static ssize_t threshold_max_show(struct device *dev,
-+				  struct device_attribute *attr, char *page)
-+{
-+	struct pmu *pmu = dev_get_drvdata(dev);
-+	struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
-+
-+	return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
-+}
-+
-+static DEVICE_ATTR_RO(threshold_max);
-+
- static struct attribute *armv8_pmuv3_caps_attrs[] = {
- 	&dev_attr_slots.attr,
- 	&dev_attr_bus_slots.attr,
- 	&dev_attr_bus_width.attr,
-+	&dev_attr_threshold_max.attr,
- 	NULL,
- };
- 
-@@ -552,7 +615,7 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
- 		armv8pmu_write_hw_counter(event, value);
- }
- 
--static inline void armv8pmu_write_evtype(int idx, u32 val)
-+static inline void armv8pmu_write_evtype(int idx, unsigned long val)
- {
- 	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
- 	unsigned long mask = ARMV8_PMU_EVTYPE_EVENT |
-@@ -921,6 +984,10 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
- 				     struct perf_event_attr *attr)
- {
- 	unsigned long config_base = 0;
-+	struct perf_event *perf_event = container_of(attr, struct perf_event,
-+						     attr);
-+	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
-+	u32 th, th_max;
- 
- 	if (attr->exclude_idle)
- 		return -EPERM;
-@@ -952,6 +1019,21 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
- 	if (attr->exclude_user)
- 		config_base |= ARMV8_PMU_EXCLUDE_EL0;
- 
-+	/*
-+	 * Insert event counting threshold (FEAT_PMUv3_TH) values. If
-+	 * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max) will be
-+	 * 0 and no values will be written.
-+	 */
-+	th_max = threshold_max(cpu_pmu);
-+	if (IS_ENABLED(CONFIG_ARM64) && th_max) {
-+		th = min(armv8pmu_event_threshold(attr), th_max);
-+		if (th) {
-+			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
-+			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
-+						  armv8pmu_event_threshold_control(attr));
-+		}
-+	}
-+
- 	/*
- 	 * Install the filter into config_base as this is used to
- 	 * construct the event type.
-diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
-index ddd1fec86739..ccbc0f9a74d8 100644
---- a/include/linux/perf/arm_pmuv3.h
-+++ b/include/linux/perf/arm_pmuv3.h
-@@ -258,6 +258,7 @@
- #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
- #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
- #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
-+#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
- 
- /*
-  * This code is really good
--- 
-2.34.1
-
+On 11/24/2023 5:53 PM, Russell King (Oracle) wrote:
+> On Fri, Nov 24, 2023 at 05:47:04PM +0800, Jie Luo wrote:
+>>
+>>
+>> On 11/23/2023 8:01 PM, Russell King (Oracle) wrote:
+>>> On Thu, Nov 23, 2023 at 06:57:59PM +0800, Jie Luo wrote:
+>>>> On 11/21/2023 7:52 PM, Russell King (Oracle) wrote:
+>>>>> Ultimately, you will need a way to use inband signalling with Cisco
+>>>>> SGMII for 10M/100M/1G speeds, and then switch to 2500base-X when
+>>>>> operating at 2.5G speeds, and that is done via the PHY driver
+>>>>> updating phydev->interface.
+>>>>>
+>>>>> What we do need is some way for the PHY to also tell the PCS/MAC
+>>>>> whether inband should be used. This is something I keep bringing up
+>>>>> and now that we have PCS drivers revised to use the value from
+>>>>> phylink_pcs_neg_mode() _and_ a consistent implementation amongst them
+>>>>> we can now think about signalling to PCS drivers whether inband mode
+>>>>> needs to be turned off when switching between modes.
+>>>>
+>>>> Yes, we can switch the interface mode according to the current link
+>>>> speed in the pcs driver.
+>>>> but the issue is that the phy-mode i specified for the PHYLINK,
+>>>> if phy-mode is sgmii, the support capability is limited to maximum
+>>>> capability 1G during the PHYLINK setup and i can't configure it to 2.5G
+>>>> dynamically, if the phy-mode is 2500base-x, then PHY capability will
+>>>> be modified to only support 2.5G, other speeds can't be linked up.
+>>>
+>>> So you need my patches that add "possible_interfaces" to phylib so you
+>>> can tell phylink that you will be switching between SGMII and
+>>> 2500base-X. Please see the RFC posting of those patches I sent
+>>> yesterday and try them out - you will need to modify your phylib
+>>> driver to fill in phydev->possible_interfaces.
+>>
+>> Your patches work on my board, thanks Russell.
+> 
+> Please can you reply to the covering email for that series giving your
+> tested-by? Thanks.
+> 
+Ok.
