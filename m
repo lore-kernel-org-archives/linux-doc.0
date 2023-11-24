@@ -1,85 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rCFKbF3m"
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE811719;
-	Fri, 24 Nov 2023 02:15:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=X/ymfIJYGS3rgfsyyKZPvatWK1hMRdU56iYMTo6mr84=; b=rCFKbF3mDACBFhTXzRNdFrFO4O
-	eoXOKmJ9nZiGJbfFMIBv6nwz3CsjBdIoMhWkUoG1xIESyQX9y7utknNb2crx4yYaVl0TokaNQnX59
-	UQEefO9tha/lsxyx4F65ZPyZ5QCqVo0rlZL/kdkYuCLGIjIenfBE0G4ANfmh4TiCyiHjQw5pCSoOw
-	9nE6YLG7xrJLF6VvKnJbRf5H0lcpRBYkeFjXyVCwHcJ8GALVBfL/W2eebEDWHFXmQx9wxeHAVLh5J
-	AP7Md+iD5Lbnbp5HhKqJfhCerVvC52VYb0wyb/cpFm3UZZNXbX+76free6tqI6J6N/OKWjkdwAGLS
-	Lh31sbQw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6TDU-00DqKC-0M;
-	Fri, 24 Nov 2023 10:15:20 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 83119300338; Fri, 24 Nov 2023 11:15:19 +0100 (CET)
-Date: Fri, 24 Nov 2023 11:15:19 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Christoph Muellner <christoph.muellner@vrull.eu>
-Cc: linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Philipp Tomsich <philipp.tomsich@vrull.eu>,
-	Andrew Jones <ajones@ventanamicro.com>, Guo Ren <guoren@kernel.org>,
-	Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Will Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>
-Subject: Re: [RFC PATCH 0/5] RISC-V: Add dynamic TSO support
-Message-ID: <20231124101519.GP3818@noisy.programming.kicks-ass.net>
-References: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id B65A21B2;
+	Fri, 24 Nov 2023 02:31:47 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEF0B1424;
+	Fri, 24 Nov 2023 02:32:33 -0800 (PST)
+Received: from e127643.arm.com (unknown [10.57.5.4])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AAF083F7A6;
+	Fri, 24 Nov 2023 02:31:45 -0800 (PST)
+From: James Clark <james.clark@arm.com>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org,
+	suzuki.poulose@arm.com,
+	will@kernel.org,
+	mark.rutland@arm.com,
+	anshuman.khandual@arm.com,
+	namhyung@gmail.com
+Cc: James Clark <james.clark@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 1/3] arm64: perf: Include threshold control fields in PMEVTYPER mask
+Date: Fri, 24 Nov 2023 10:28:55 +0000
+Message-Id: <20231124102857.1106453-2-james.clark@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231124102857.1106453-1-james.clark@arm.com>
+References: <20231124102857.1106453-1-james.clark@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
 
-On Fri, Nov 24, 2023 at 08:21:37AM +0100, Christoph Muellner wrote:
-> From: Christoph Müllner <christoph.muellner@vrull.eu>
-> 
-> The upcoming RISC-V Ssdtso specification introduces a bit in the senvcfg
-> CSR to switch the memory consistency model at run-time from RVWMO to TSO
-> (and back). The active consistency model can therefore be switched on a
-> per-hart base and managed by the kernel on a per-process/thread base.
+FEAT_PMUv3_TH (Armv8.8) adds two new fields to PMEVTYPER, so include
+them in the mask. These aren't writable on 32 bit kernels as they are in
+the high part of the register, so only include them for arm64.
 
-You guys, computers are hartless, nobody told ya?
+It would be difficult to do this statically in the asm header files for
+each platform without resulting in circular includes or #ifdefs inline
+in the code. For that reason the ARMV8_PMU_EVTYPE_MASK definition has
+been removed and the mask is constructed programmatically.
 
-> This patch implements basic Ssdtso support and adds a prctl API on top
-> so that user-space processes can switch to a stronger memory consistency
-> model (than the kernel was written for) at run-time.
-> 
-> I am not sure if other architectures support switching the memory
-> consistency model at run-time, but designing the prctl API in an
-> arch-independent way allows reusing it in the future.
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Signed-off-by: James Clark <james.clark@arm.com>
+---
+ drivers/perf/arm_pmuv3.c       | 9 ++++++++-
+ include/linux/perf/arm_pmuv3.h | 3 ++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-IIRC some Sparc chips could do this, but I don't think anybody ever
-exposed this to userspace (or used it much).
+diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+index 6ca7be05229c..1d40d794f5e4 100644
+--- a/drivers/perf/arm_pmuv3.c
++++ b/drivers/perf/arm_pmuv3.c
+@@ -555,8 +555,15 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
+ static inline void armv8pmu_write_evtype(int idx, u32 val)
+ {
+ 	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
++	unsigned long mask = ARMV8_PMU_EVTYPE_EVENT |
++			     ARMV8_PMU_INCLUDE_EL2 |
++			     ARMV8_PMU_EXCLUDE_EL0 |
++			     ARMV8_PMU_EXCLUDE_EL1;
+ 
+-	val &= ARMV8_PMU_EVTYPE_MASK;
++	if (IS_ENABLED(CONFIG_ARM64))
++		mask |= ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_TH;
++
++	val &= mask;
+ 	write_pmevtypern(counter, val);
+ }
+ 
+diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
+index 9c226adf938a..ddd1fec86739 100644
+--- a/include/linux/perf/arm_pmuv3.h
++++ b/include/linux/perf/arm_pmuv3.h
+@@ -228,7 +228,8 @@
+ /*
+  * PMXEVTYPER: Event selection reg
+  */
+-#define ARMV8_PMU_EVTYPE_MASK	0xc800ffff	/* Mask for writable bits */
++#define ARMV8_PMU_EVTYPE_TH	GENMASK(43, 32)
++#define ARMV8_PMU_EVTYPE_TC	GENMASK(63, 61)
+ #define ARMV8_PMU_EVTYPE_EVENT	0xffff		/* Mask for EVENT bits */
+ 
+ /*
+-- 
+2.34.1
 
-IA64 had planned to do this, except they messed it up and did it the
-wrong way around (strong first and then relax it later), which lead to
-the discovery that all existing software broke (d'uh).
-
-I think ARM64 approached this problem by adding the
-load-acquire/store-release instructions and for TSO based code,
-translate into those (eg. x86 -> arm64 transpilers).
-
-IIRC Risc-V actually has such instructions as well, so *why* are you
-doing this?!?!
