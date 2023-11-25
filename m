@@ -1,129 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJk7n/+f"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA68D1990;
-	Fri, 24 Nov 2023 15:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700869203; x=1732405203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BBPN3UdJMvFNoexMmj/RYUS6v8k8qPrmPLFVGwaOepI=;
-  b=UJk7n/+f5b+UTAUf2I/XlwEN2dUoBSinbIEBrxCI2e/cxO3wPuvk2Erx
-   arhXGtMQ0s9sXKbuFEGtp/bmX9khVPuuado/PC6/WqoEmS3w5IOTBzOG1
-   B9Psm0XgNeilbLhhOuBVgJ4Wsc6UFzonLp6GDMgx/Nf1+7U72WBXLLrww
-   FQnOSKG+vYQS1gLxcBC6hCipkzLaNrZU5LR5HyUE9p5UzznHKf+iESkxZ
-   ZReLv4X60bIn3vJ5zuzjrzDFHi+0w8Gzzh9kDMrIQx6R2LLOH5MelmLkN
-   /UPKijKvkgcY/9KEhimaQ1AExec3Y2Y9UBJyjQYrkLza4howUxI4by6hw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="396383137"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="396383137"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 15:40:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="1015007948"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="1015007948"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Nov 2023 15:39:59 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r6fm9-0003OE-10;
-	Fri, 24 Nov 2023 23:39:57 +0000
-Date: Sat, 25 Nov 2023 07:39:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Andy Shevchenko <andy@kernel.org>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Message-ID: <202311250548.lUn3bm1A-lkp@intel.com>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7617198D
+	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 18:08:55 -0800 (PST)
+Received: from kwepemm000004.china.huawei.com (unknown [172.30.72.57])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4ScZy75z8dzWhfR;
+	Sat, 25 Nov 2023 10:08:15 +0800 (CST)
+Received: from huawei.com (10.67.174.93) by kwepemm000004.china.huawei.com
+ (7.193.23.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Sat, 25 Nov
+ 2023 10:08:52 +0800
+From: Wenyu Huang <huangwenyu5@huawei.com>
+To: <corbet@lwn.net>, <alexs@kernel.org>, <siyanteng@loongson.cn>
+CC: <mingo@kernel.org>, <peterz@infradead.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH] sched/eevdf/doc: Modify the list of hooks and synchronize Chinese version
+Date: Sat, 25 Nov 2023 02:05:27 +0000
+Message-ID: <20231125020527.965230-1-huangwenyu5@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemm000004.china.huawei.com (7.193.23.18)
+X-CFilter-Loop: Reflected
 
-Hi Nuno,
+commit e23edc86b09d ("sched/fair: Rename check_preempt_curr() to
+wakeup_preempt()") renamed the check_preempt_curr() to wakeup_preempt().
 
-kernel test robot noticed the following build warnings:
+commit 03b7fad167ef ("sched: Add task_struct pointer to sched_class::set_curr_task")
+renamed the 'set_curr_task' to 'set_next_task'.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.7-rc2 next-20231124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+They didn't modify the documentation. Now I modify them.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa-via-B4-Relay/hwmon-ltc4282-add-support-for-the-LTC4282-chip/20231124-231842
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20231124-ltc4282-support-v2-2-952bf926f83c%40analog.com
-patch subject: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-config: x86_64-randconfig-161-20231125 (https://download.01.org/0day-ci/archive/20231125/202311250548.lUn3bm1A-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311250548.lUn3bm1A-lkp@intel.com/reproduce)
+commit 2f88c8e802c8 ("sched/eevdf/doc: Modify the documented knob to
+base_slice_ns as well") renamed the 'min_granularity_ns' sysctl to 'base_slice_ns'
+, but the Chinese translation doesn't rename it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311250548.lUn3bm1A-lkp@intel.com/
+Fixes: e23edc86b09d ("sched/fair: Rename check_preempt_curr() to wakeup_preempt()")
+Fixes: 03b7fad167ef ("sched: Add task_struct pointer to sched_class::set_curr_task")
+Fixes: 2f88c8e802c8 ("sched/eevdf/doc: Modify the documented knob to base_slice_ns as well")
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Wenyu Huang <huangwenyu5@huawei.com>
+---
+ Documentation/scheduler/sched-design-CFS.rst              | 8 ++++----
+ .../translations/zh_CN/scheduler/sched-design-CFS.rst     | 8 ++++----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
->> drivers/hwmon/ltc4282.c:347:6: warning: no previous prototype for 'ltc4282_round_rate' [-Wmissing-prototypes]
-     347 | long ltc4282_round_rate(struct clk_hw *hw, unsigned long rate,
-         |      ^~~~~~~~~~~~~~~~~~
->> drivers/hwmon/ltc4282.c:356:15: warning: no previous prototype for 'ltc4282_recalc_rate' [-Wmissing-prototypes]
-     356 | unsigned long ltc4282_recalc_rate(struct clk_hw *hw, unsigned long parent)
-         |               ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/ltc4282_round_rate +347 drivers/hwmon/ltc4282.c
-
-   346	
- > 347	long ltc4282_round_rate(struct clk_hw *hw, unsigned long rate,
-   348				unsigned long *parent_rate)
-   349	{
-   350		int idx = find_closest(rate, ltc4282_out_rates,
-   351				       ARRAY_SIZE(ltc4282_out_rates));
-   352	
-   353		return ltc4282_out_rates[idx];
-   354	}
-   355	
- > 356	unsigned long ltc4282_recalc_rate(struct clk_hw *hw, unsigned long parent)
-   357	{
-   358		struct ltc4282_state *st = container_of(hw, struct ltc4282_state,
-   359							clk_hw);
-   360		u32 clkdiv;
-   361		int ret;
-   362	
-   363		ret = regmap_read(st->map, LTC4282_CLK_DIV, &clkdiv);
-   364		if (ret)
-   365			return 0;
-   366	
-   367		clkdiv = FIELD_GET(LTC4282_CLKOUT_MASK, clkdiv);
-   368		if (!clkdiv)
-   369			return 0;
-   370		if (clkdiv == LTC4282_CLKOUT_INT)
-   371			return LTC4282_CLKOUT_SYSTEM;
-   372	
-   373		return LTC4282_CLKOUT_CNV;
-   374	}
-   375	
-
+diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
+index f68919800f05..6cffffe26500 100644
+--- a/Documentation/scheduler/sched-design-CFS.rst
++++ b/Documentation/scheduler/sched-design-CFS.rst
+@@ -180,7 +180,7 @@ This is the (partial) list of the hooks:
+    compat_yield sysctl is turned on; in that case, it places the scheduling
+    entity at the right-most end of the red-black tree.
+ 
+- - check_preempt_curr(...)
++ - wakeup_preempt(...)
+ 
+    This function checks if a task that entered the runnable state should
+    preempt the currently running task.
+@@ -189,10 +189,10 @@ This is the (partial) list of the hooks:
+ 
+    This function chooses the most appropriate task eligible to run next.
+ 
+- - set_curr_task(...)
++ - set_next_task(...)
+ 
+-   This function is called when a task changes its scheduling class or changes
+-   its task group.
++   This function is called when a task changes its scheduling class, changes
++   its task group or is scheduled.
+ 
+  - task_tick(...)
+ 
+diff --git a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
+index 3076402406c4..abc6709ec3b2 100644
+--- a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
++++ b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
+@@ -80,7 +80,7 @@ p->se.vruntime。一旦p->se.vruntime变得足够大，其它的任务将成为
+ CFS使用纳秒粒度的计时，不依赖于任何jiffies或HZ的细节。因此CFS并不像之前的调度器那样
+ 有“时间片”的概念，也没有任何启发式的设计。唯一可调的参数（你需要打开CONFIG_SCHED_DEBUG）是：
+ 
+-   /sys/kernel/debug/sched/min_granularity_ns
++   /sys/kernel/debug/sched/base_slice_ns
+ 
+ 它可以用来将调度器从“桌面”模式（也就是低时延）调节为“服务器”（也就是高批处理）模式。
+ 它的默认设置是适合桌面的工作负载。SCHED_BATCH也被CFS调度器模块处理。
+@@ -147,7 +147,7 @@ array）。
+    这个函数的行为基本上是出队，紧接着入队，除非compat_yield sysctl被开启。在那种情况下，
+    它将调度实体放在红黑树的最右端。
+ 
+- - check_preempt_curr(...)
++ - wakeup_preempt(...)
+ 
+    这个函数检查进入可运行状态的任务能否抢占当前正在运行的任务。
+ 
+@@ -155,9 +155,9 @@ array）。
+ 
+    这个函数选择接下来最适合运行的任务。
+ 
+- - set_curr_task(...)
++ - set_next_task(...)
+ 
+-   这个函数在任务改变调度类或改变任务组时被调用。
++   这个函数在任务改变调度类，改变任务组时，或者任务被调度时被调用。
+ 
+  - task_tick(...)
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
