@@ -1,116 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7617198D
-	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 18:08:55 -0800 (PST)
-Received: from kwepemm000004.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4ScZy75z8dzWhfR;
-	Sat, 25 Nov 2023 10:08:15 +0800 (CST)
-Received: from huawei.com (10.67.174.93) by kwepemm000004.china.huawei.com
- (7.193.23.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Sat, 25 Nov
- 2023 10:08:52 +0800
-From: Wenyu Huang <huangwenyu5@huawei.com>
-To: <corbet@lwn.net>, <alexs@kernel.org>, <siyanteng@loongson.cn>
-CC: <mingo@kernel.org>, <peterz@infradead.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH] sched/eevdf/doc: Modify the list of hooks and synchronize Chinese version
-Date: Sat, 25 Nov 2023 02:05:27 +0000
-Message-ID: <20231125020527.965230-1-huangwenyu5@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ncf.edu header.i=@ncf.edu header.b="WbhAdX9d"
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFA21990
+	for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 18:42:34 -0800 (PST)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-5c08c47c055so23398277b3.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 Nov 2023 18:42:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ncf.edu; s=google; t=1700880153; x=1701484953; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:organization:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hyf0Z+cxJ/W3oT7C0OJIc/PCTRVv14uANGjF4ZAEDSw=;
+        b=WbhAdX9dfnA7LrwPupxKGjkvxS7jwE02Cn1jJVfEgAaC1FaJfUahy5FavBIZkDyEZg
+         k5lm1jucMTHd2Pj+vtlZpSmfHs/OOu82NVbX/EoWDDcXQIigreyCpvlmfjhD0t/JSygZ
+         SIU7Kx64/wsg3bAwkuPgh07AitGqqPS2HGs7KzbZ/b7z4/ChGhwN7gZCedS0eJRz1ws7
+         8B/aqQNhzQuQKaXdF0xJpzPFAV3prlLqFid8QNObx0Ct8M146TEig6wZ5b93eRP4TM5U
+         cpzeg1KKYuw3d3pp1Qv+fqINLfVYPa6W7rrxzMZFdV2pZXuu4PxITfLl/z1tSs5JCAPy
+         LibA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700880153; x=1701484953;
+        h=mime-version:references:in-reply-to:organization:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hyf0Z+cxJ/W3oT7C0OJIc/PCTRVv14uANGjF4ZAEDSw=;
+        b=Nh3GfKpmPng8uhVzyTfy0ZUxUgAaq+PAaMN+r7Web6EXtfN6Gqlu0Qhy0bs0UXFkR4
+         PLkDMJ4aDu/zuPGiUollpuWeiF79mzuJrbeK/u/P2kQBrlg+AkKlW7O9aHcMAMGPVbuk
+         gldW3eXMnM0GDS6d+BR4zJHdR8w4YCSuJ89wEP+AiLvZxD9LAqJlXPPNJdZZ5wVfImJE
+         GRbOKBSSpKbS+4M3kQxNsEkMfII1Gzm5DnZLFNF8aH36zbNN402T4RPgGjgvYu2FN4zJ
+         7buyIVfORbyxqF63QYexpiGsDTfwOIiJj00GPJUlaKXe0kBBfFBTCH7sERV8mgKn2b2B
+         w50A==
+X-Gm-Message-State: AOJu0Ywl5etgX61asdAQVrFCVCJN5TKMAtCfhSYFV5glklbOLVQoC1Zd
+	Ts0LbFSQvBO5Vtz3d1Kd6wGdOuQd/TGLXkW6cGo=
+X-Google-Smtp-Source: AGHT+IHtZ42ierZtnGi10mXOo6CZvlvjnES3nwJxqf12LEm+cLdiRM+zBhpCVnFUTB+pTVenapmVnA==
+X-Received: by 2002:a0d:d54b:0:b0:5c9:d870:cb18 with SMTP id x72-20020a0dd54b000000b005c9d870cb18mr4916615ywd.21.1700880153184;
+        Fri, 24 Nov 2023 18:42:33 -0800 (PST)
+Received: from lux.localnet ([2601:580:8201:d0::4da5])
+        by smtp.gmail.com with ESMTPSA id d196-20020a0ddbcd000000b005ccf7fc2197sm1371945ywe.24.2023.11.24.18.42.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 18:42:32 -0800 (PST)
+From: Hunter Chasens <hunter.chasens18@ncf.edu>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v3 1/2] docs: admin-guide: Update bootloader and installation
+ instructions
+Date: Fri, 24 Nov 2023 21:42:32 -0500
+Message-ID: <6005603.lOV4Wx5bFT@lux>
+Organization: New College of Florida
+In-Reply-To: <87leanw0ms.fsf@meer.lwn.net>
+References:
+ <20231114030208.30479-1-hunter.chasens18@ncf.edu> <4525208.LvFx2qVVIh@lux>
+ <87leanw0ms.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemm000004.china.huawei.com (7.193.23.18)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; boundary="nextPart4890171.31r3eYUQgx";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 
-commit e23edc86b09d ("sched/fair: Rename check_preempt_curr() to
-wakeup_preempt()") renamed the check_preempt_curr() to wakeup_preempt().
+--nextPart4890171.31r3eYUQgx
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Hunter Chasens <hunter.chasens18@ncf.edu>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Fri, 24 Nov 2023 21:42:32 -0500
+Message-ID: <6005603.lOV4Wx5bFT@lux>
+Organization: New College of Florida
+In-Reply-To: <87leanw0ms.fsf@meer.lwn.net>
+MIME-Version: 1.0
 
-commit 03b7fad167ef ("sched: Add task_struct pointer to sched_class::set_curr_task")
-renamed the 'set_curr_task' to 'set_next_task'.
+On Friday, November 24, 2023 11:56:43 AM EST you wrote:
 
-They didn't modify the documentation. Now I modify them.
+> But the makefile is looking for "installkernel", right?  Unless I'm
+> missing something, that's the one that will work with "make install". ?
 
-commit 2f88c8e802c8 ("sched/eevdf/doc: Modify the documented knob to
-base_slice_ns as well") renamed the 'min_granularity_ns' sysctl to 'base_slice_ns'
-, but the Chinese translation doesn't rename it.
+The `make install` calls `/scripts/install.sh`. `/scripts/install.sh` uses 
+a variable called $INSTALLKERNEL to search a few directories. If it can't 
+find what it's looking for it searches for an `install.sh` script in 
+srctree/arch/$arch/. `kernel-install` is part of the systemd stack, and can 
+be invoked as `installkernel`. It gets invoked as installkernel during 
+`make install` through some wizardry I'm not super familiar with. I guess 
+it's more of an install binary than an install script, but there's no 
+`installkernel.sh` on many current distributions. Just programs that 
+pretend to be `installkernel.sh` which might confuse a user looking for 
+such a script.
 
-Fixes: e23edc86b09d ("sched/fair: Rename check_preempt_curr() to wakeup_preempt()")
-Fixes: 03b7fad167ef ("sched: Add task_struct pointer to sched_class::set_curr_task")
-Fixes: 2f88c8e802c8 ("sched/eevdf/doc: Modify the documented knob to base_slice_ns as well")
+I suppose it would be more accurate to say something like: "It is also 
+possible to do `make install` if you have lilo installed or if your 
+distribution has an installer compatible with the kernel's makefile."
 
-Signed-off-by: Wenyu Huang <huangwenyu5@huawei.com>
----
- Documentation/scheduler/sched-design-CFS.rst              | 8 ++++----
- .../translations/zh_CN/scheduler/sched-design-CFS.rst     | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+Thank you for your feedback,
+    Hunter
 
-diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
-index f68919800f05..6cffffe26500 100644
---- a/Documentation/scheduler/sched-design-CFS.rst
-+++ b/Documentation/scheduler/sched-design-CFS.rst
-@@ -180,7 +180,7 @@ This is the (partial) list of the hooks:
-    compat_yield sysctl is turned on; in that case, it places the scheduling
-    entity at the right-most end of the red-black tree.
- 
-- - check_preempt_curr(...)
-+ - wakeup_preempt(...)
- 
-    This function checks if a task that entered the runnable state should
-    preempt the currently running task.
-@@ -189,10 +189,10 @@ This is the (partial) list of the hooks:
- 
-    This function chooses the most appropriate task eligible to run next.
- 
-- - set_curr_task(...)
-+ - set_next_task(...)
- 
--   This function is called when a task changes its scheduling class or changes
--   its task group.
-+   This function is called when a task changes its scheduling class, changes
-+   its task group or is scheduled.
- 
-  - task_tick(...)
- 
-diff --git a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-index 3076402406c4..abc6709ec3b2 100644
---- a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-+++ b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-@@ -80,7 +80,7 @@ p->se.vruntime。一旦p->se.vruntime变得足够大，其它的任务将成为
- CFS使用纳秒粒度的计时，不依赖于任何jiffies或HZ的细节。因此CFS并不像之前的调度器那样
- 有“时间片”的概念，也没有任何启发式的设计。唯一可调的参数（你需要打开CONFIG_SCHED_DEBUG）是：
- 
--   /sys/kernel/debug/sched/min_granularity_ns
-+   /sys/kernel/debug/sched/base_slice_ns
- 
- 它可以用来将调度器从“桌面”模式（也就是低时延）调节为“服务器”（也就是高批处理）模式。
- 它的默认设置是适合桌面的工作负载。SCHED_BATCH也被CFS调度器模块处理。
-@@ -147,7 +147,7 @@ array）。
-    这个函数的行为基本上是出队，紧接着入队，除非compat_yield sysctl被开启。在那种情况下，
-    它将调度实体放在红黑树的最右端。
- 
-- - check_preempt_curr(...)
-+ - wakeup_preempt(...)
- 
-    这个函数检查进入可运行状态的任务能否抢占当前正在运行的任务。
- 
-@@ -155,9 +155,9 @@ array）。
- 
-    这个函数选择接下来最适合运行的任务。
- 
-- - set_curr_task(...)
-+ - set_next_task(...)
- 
--   这个函数在任务改变调度类或改变任务组时被调用。
-+   这个函数在任务改变调度类，改变任务组时，或者任务被调度时被调用。
- 
-  - task_tick(...)
- 
--- 
-2.34.1
+
+
+
+--nextPart4890171.31r3eYUQgx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEFaTi3I3XEd+IzfdZZz/o+CKADX8FAmVhXxgACgkQZz/o+CKA
+DX8Zigf/eTnaLygqZ016WcuPu9H/SLzLYeVu13uhK630jtWnzObk61wTEo56mqO1
++xHspXMFagC9nXqk+yYAZIYoWzZgJRjTBKvERV1wYjEqKhd9hFeBm2Zb4nj3WYkr
+sN3QuVUfcJTOrhwRKiLV5ukpjkZ2iPbt3A6awVCwXbV3Q6oeXVqR8yRohhewltkw
+k/U+50L9+JvADEMtg5LvVpwdrx8hVce+eU92iAoLRuRpZMaNZJFmARRLISKflitd
+Ylwnd/EJlgtblNx0TcqphRvYWThkx4CZ6ubcZ1u5TCIgkNnrYSP3DuFBBZYnpLTT
+c4MMmcipAHWRgpr8GyQCAlYn9GcrSw==
+=c9Gl
+-----END PGP SIGNATURE-----
+
+--nextPart4890171.31r3eYUQgx--
+
+
 
