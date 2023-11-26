@@ -1,32 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="bZphnMMw"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZK1Xn+aV"
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B432CB;
-	Sun, 26 Nov 2023 09:31:19 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC2C1DD;
+	Sun, 26 Nov 2023 09:48:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=lFwfHbim/2vFGOOUw2BBRulKU/qvSJ7bd4ioRytIvOY=; b=bZphnMMwRL8NoGO7bP7d7ax2wZ
-	39ZLwMO0xqqwvJB4VZzKNVLoSRiSD9LN5xvEtGv/U7+uo3ddQVIDtiF6RAel4mQmwhFnHqzVYegJS
-	bTeyvumF24hZ01lft/xCi0Ov3rtke8QOnerGyscp7EteXScPN9Y1lh5arTKF2SPbjKkM=;
+	bh=P+MMY/H9HFvWRq/TZPXfzpfMq3RLmEgdkEE9wrSqusE=; b=ZK1Xn+aVbP+grqplmNoNPl/JFs
+	tdqVCS3ZE4Jt1ffDtrPn4OMhzm4zhF1OO/YzWxla+LZx6dFXZPsIuvOEz/1WMe8lk47VLg12prwn2
+	Tl1HVsDqUmWdr6SlgvLkVUkqNY0LGcaMsQis5uj6R/afxgJMm+a5uq60ZNlRtVNdWnaU=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1r7IyK-001GHE-3q; Sun, 26 Nov 2023 18:31:08 +0100
-Date: Sun, 26 Nov 2023 18:31:08 +0100
+	id 1r7JEr-001GJ7-Ig; Sun, 26 Nov 2023 18:48:13 +0100
+Date: Sun, 26 Nov 2023 18:48:13 +0100
 From: Andrew Lunn <andrew@lunn.ch>
-To: Luo Jie <quic_luoj@quicinc.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 3/6] net: phy: at803x: add QCA8084 ethernet phy support
-Message-ID: <0b22dd51-417c-436d-87ce-7ebc41185860@lunn.ch>
-References: <20231126060732.31764-1-quic_luoj@quicinc.com>
- <20231126060732.31764-4-quic_luoj@quicinc.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
+Message-ID: <4fa1e860-48bd-456b-ab0b-88215c2b8d1b@lunn.ch>
+References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
+ <a3b65c90-afc9-4caf-8744-112369a838d2@lunn.ch>
+ <15292222-39b3-4e9e-a6c1-26fba8f5efcd@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,29 +53,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231126060732.31764-4-quic_luoj@quicinc.com>
+In-Reply-To: <15292222-39b3-4e9e-a6c1-26fba8f5efcd@linaro.org>
 
-> +		/* There are two PCSs available for QCA8084, which support the
-> +		 * following interface modes.
-> +		 *
-> +		 * 1. PHY_INTERFACE_MODE_10G_QXGMII utilizes PCS1 for all
-> +		 * available 4 ports, which is for all link speeds.
-> +		 *
-> +		 * 2. PHY_INTERFACE_MODE_2500BASEX utilizes PCS0 for the
-> +		 * fourth port, which is only for the link speed 2500M same
-> +		 * as QCA8081.
-> +		 *
-> +		 * 3. PHY_INTERFACE_MODE_SGMII utilizes PCS0 for the fourth
-> +		 * port, which is for the link speed 10M, 100M and 1000M same
-> +		 * as QCA8081.
-> +		 */
+On Sun, Nov 26, 2023 at 11:38:38AM +0100, Krzysztof Kozlowski wrote:
+> On 25/11/2023 20:47, Andrew Lunn wrote:
+> >> +=====================================
+> >> +Devicetree Sources (DTS) Coding Style
+> >> +=====================================
+> >> +
+> >> +When writing Devicetree Sources (DTS) please observe below guidelines.  They
+> >> +should be considered complementary to any rules expressed already in Devicetree
+> >> +Specification and dtc compiler (including W=1 and W=2 builds).
+> >> +
+> >> +Individual architectures and sub-architectures can add additional rules, making
+> >> +the style stricter.
+> > 
+> > It would be nice to add a pointer where such rules are documented.
+> 
+> Subsystem profile or any other place. The generic doc should not point
+> to specific ones.
 
-How are these 3 modes configured? I don't see any software
-configuration of this in these drivers. Can it only by configured by
-strapping?
+That is not so friendly for a developer. A reviewer points out that a
+file is not consistent with the coding style. So they go away and fix
+it, as described here. They then get a second review which say, no,
+you to do X, Y and Z, despite them actually following the coding
+style.
 
-I think there should be some validation of the phydev->interface
-mode. Are ports 1-3 set to PHY_INTERFACE_MODE_10G_QXGMII? Is port 4
-interface mode consistent with the strapping?
+Maybe add to the paragraph above:
 
-	  Andrew
+These further restrictions are voluntary, until added to this
+document.
+
+This should encourage those architectures to document their coding
+style.
+
+> The root node is a bit special, but other than that mixing nodes with
+> and without unit address is discouraged practice.
+
+If the root node is special, maybe it needs a few rules of its own?
+All properties without an address come first, then properties with
+addresses. Sorting within these classes follow the normal rules
+already stated?
+
+> >> +Indentation
+> >> +-----------
+> >> +
+> >> +1. Use indentation according to :ref:`codingstyle`.
+> >> +2. For arrays spanning across lines, it is preferred to align the continued
+> >> +   entries with opening < from the first line.
+> >> +3. Each entry in arrays with multiple cells (e.g. "reg" with two IO addresses)
+> >> +   shall be enclosed in <>.
+> >> +
+> >> +Example::
+> >> +
+> >> +	thermal-sensor@c271000 {
+> >> +		compatible = "qcom,sm8550-tsens", "qcom,tsens-v2";
+> >> +		reg = <0x0 0x0c271000 0x0 0x1000>,
+> >> +		      <0x0 0x0c222000 0x0 0x1000>;
+> >> +	};
+> > 
+> > I'm not sure i understand this. Is this example correct?
+> > 
+> >                 gpio-fan,speed-map = <0    0
+> >                                       3000 1
+> >                                       6000 2>;
+> > 
+> > It exists a lot in todays files.
+> 
+> Depends on the binidng. Is it matrix? If yes, then it is not correct.
+
+It seems to me, rules 2 and 3 should be swapped. You can only align
+the <, if you have <. So logically, the rule about having < should
+come first.
+
+     Andrew
