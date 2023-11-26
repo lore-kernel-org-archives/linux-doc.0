@@ -1,108 +1,368 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585F9A52;
-	Sun, 26 Nov 2023 12:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ovWSeHXB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B280C433C8;
-	Sun, 26 Nov 2023 12:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701002082;
-	bh=M5JWFk6PhkRfznjeZqDoIn4AkQrs7NTEUWLaLy4lG2k=;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OTEswugx"
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78DEDAD;
+	Sun, 26 Nov 2023 06:53:36 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1205DFB;
+	Sun, 26 Nov 2023 15:52:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701010380;
+	bh=AScBigMMoxvIudHp2y6aSkxQE1voP62bO/mFLNnb8z0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ovWSeHXBh0A2MZJQ/EfKKAo8vihoDaRc/mmDRXRdZQ1cymyR0CZgi2+igVHtCrM2T
-	 zqqSG8YZAp82QWv2sbNPyhWyFUsKHKpYsHcDv/yL1TwhHNn80ikMyGbRxW/AsJ3/d5
-	 Vm6XKs9LhdGkTTqWQJnmEsmkJumf6kcCT2bhDu1akObRN0JiM0Ceexv5U37GwnqANA
-	 Dpr5xqPzxoq4wDmqbalgFplpTcuwjlLc39CQ06Tn6GYOZBUu3KNL+K+8FmVBN1Ku59
-	 sVaVZoylBh8Q0y0qCxpzCZWRTkPcPKHQs483GcS1P5Q80sSQGesUi/xPMhvNqxbSFN
-	 PzW9WCdyeh7rg==
-Date: Sun, 26 Nov 2023 07:34:30 -0500
-From: Guo Ren <guoren@kernel.org>
-To: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Christoph Muellner <christoph.muellner@vrull.eu>,
-	linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Philipp Tomsich <philipp.tomsich@vrull.eu>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Will Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>
-Subject: Re: [RFC PATCH 0/5] RISC-V: Add dynamic TSO support
-Message-ID: <ZWM7VvHNkW2iIRCg@gmail.com>
-References: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
- <20231124101519.GP3818@noisy.programming.kicks-ass.net>
- <59da3e41-abb3-405a-8f98-c74bdf26935b@huaweicloud.com>
- <20231124115430.GS3818@noisy.programming.kicks-ass.net>
+	b=OTEswugxEJFn50dRIRN05JkP7AWavj4Tsl0Yi4/CXFdgtTY1MyH/QuMFQ7uEEcmoY
+	 aVZMbUAsOnLDKuQfYpfdnbdF+Ukjg/UyD+qpSFj948y+zuvnQ/HZEX/JsXU/xBoRiz
+	 zZSmyvEANRUZeDqDFqr/HGB8VXpEkCPIWk/7SVFg=
+Date: Sun, 26 Nov 2023 16:53:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>,
+	Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
+Message-ID: <20231126145340.GA19999@pendragon.ideasonboard.com>
+References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
+ <20231125193737.GD7486@pendragon.ideasonboard.com>
+ <26f095ab-c47d-4bcb-9830-4493b1c0cc75@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231124115430.GS3818@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <26f095ab-c47d-4bcb-9830-4493b1c0cc75@linaro.org>
 
-On Fri, Nov 24, 2023 at 12:54:30PM +0100, Peter Zijlstra wrote:
-> On Fri, Nov 24, 2023 at 12:04:09PM +0100, Jonas Oberhauser wrote:
-> 
-> > > I think ARM64 approached this problem by adding the
-> > > load-acquire/store-release instructions and for TSO based code,
-> > > translate into those (eg. x86 -> arm64 transpilers).
-> > 
-> > 
-> > Although those instructions have a bit more ordering constraints.
-> > 
-> > I have heard rumors that the apple chips also have a register that can be
-> > set at runtime.
-I could understand the rumor, smart design! Thx for sharing.
+Hi Krzysztof,
 
-> 
-> Oh, I thought they made do with the load-acquire/store-release thingies.
-> But to be fair, I haven't been paying *that* much attention to the apple
-> stuff.
-> 
-> I did read about how they fudged some of the x86 flags thing.
-> 
-> > And there are some IBM machines that have a setting, but not sure how it is
-> > controlled.
-> 
-> Cute, I'm assuming this is the Power series (s390 already being TSO)? I
-> wasn't aware they had this.
-> 
-> > > IIRC Risc-V actually has such instructions as well, so *why* are you
-> > > doing this?!?!
+On Sun, Nov 26, 2023 at 11:32:17AM +0100, Krzysztof Kozlowski wrote:
+> On 25/11/2023 20:37, Laurent Pinchart wrote:
+> > On Sat, Nov 25, 2023 at 07:44:22PM +0100, Krzysztof Kozlowski wrote:
+> >> Document preferred coding style for Devicetree sources (DTS and DTSI),
+> >> to bring consistency among all (sub)architectures and ease in reviews.
+> >>
+> >> Cc: Andrew Davis <afd@ti.com>
+> >> cc: Andrew Lunn <andrew@lunn.ch>
+> >> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> >> Cc: Arnd Bergmann <arnd@arndb.de>
+> >> Cc: Bjorn Andersson <andersson@kernel.org>
+> >> Cc: Chen-Yu Tsai <wens@kernel.org>
+> >> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> >> Cc: Heiko Stuebner <heiko@sntech.de>
+> >> Cc: Jonathan Corbet <corbet@lwn.net>
+> >> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+> >> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> >> Cc: Michal Simek <michal.simek@amd.com>
+> >> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> >> Cc: Nishanth Menon <nm@ti.com>
+> >> Cc: Olof Johansson <olof@lixom.net>
+> >> Cc: Rafał Miłecki <zajec5@gmail.com>
+> >> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+> >> Acked-by: Heiko Stuebner <heiko@sntech.de>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>
+> >> ---
+> >>
+> >> Merging idea: Rob/DT bindings
+> >>
+> >> Changes in v3
+> >> =============
+> >> 1. should->shall (Angelo)
+> >> 2. Comments // -> /* (Angelo, Michal)
+> >> 3. Use imaginary example in "Order of Properties in Device Node"
+> >>    (Angelo)
+> >> 4. Added paragraphs for three sections with justifications of chosen
+> >>    style.
+> >> 5. Allow two style of ordering overrides in board DTS: alphabetically or
+> >>    by order of DTSI (Rob).
+> >> 6. I did not incorporate feedback about, due to lack of consensus and my
+> >>    disagreement:
+> >>    a. SoM being DTS without DTSI in "Organizing DTSI and DTS"
+> >>
+> >> Changes in v2
+> >> =============
+> >> 1. Hopefully incorporate entire feedback from comments:
+> >> a. Fix \ { => / { (Rob)
+> >> b. Name: dts-coding-style (Rob)
+> >> c. Exceptions for ordering nodes by name for Renesas and pinctrl (Geert,
+> >>    Konrad)
+> >> d. Ordering properties by common/vendor (Rob)
+> >> e. Array entries in <> (Rob)
+> >>
+> >> 2. New chapter: Organizing DTSI and DTS
+> >>
+> >> 3. Several grammar fixes (missing articles)
+> >>
+> >> Cc: linux-rockchip@lists.infradead.org
+> >> Cc: linux-mediatek@lists.infradead.org
+> >> Cc: linux-samsung-soc@vger.kernel.org
+> >> Cc: linux-amlogic@lists.infradead.org
+> >> Cc: linux-arm-kernel@lists.infradead.org
+> >> Cc: linux-arm-msm@vger.kernel.org
+> >> Cc: workflows@vger.kernel.org
+> >> Cc: linux-doc@vger.kernel.org
+> >> ---
+> >>  .../devicetree/bindings/dts-coding-style.rst  | 194 ++++++++++++++++++
+> >>  Documentation/devicetree/bindings/index.rst   |   1 +
+> >>  2 files changed, 195 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/dts-coding-style.rst
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/dts-coding-style.rst b/Documentation/devicetree/bindings/dts-coding-style.rst
+> >> new file mode 100644
+> >> index 000000000000..e374bec0f555
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/dts-coding-style.rst
+> >> @@ -0,0 +1,194 @@
+> >> +.. SPDX-License-Identifier: GPL-2.0
+> >> +.. _dtscodingstyle:
+> >> +
+> >> +=====================================
+> >> +Devicetree Sources (DTS) Coding Style
+> >> +=====================================
+> >> +
+> >> +When writing Devicetree Sources (DTS) please observe below guidelines.  They
+> >> +should be considered complementary to any rules expressed already in Devicetree
+> >> +Specification and dtc compiler (including W=1 and W=2 builds).
+> >> +
+> >> +Individual architectures and sub-architectures can add additional rules, making
+> >> +the style stricter.
+> >> +
+> >> +Naming and Valid Characters
+> >> +---------------------------
+> >> +
+> >> +Devicetree specification allows broader range of characters in node and
 > > 
+> > s/Devicetree specification/The Devicetree specification/
+> > s/broader range/a broad range/
+> 
+> Ack, but I really expect people finish with grammar and style fixes at
+> v3. Please point the language things now or just let it go.
+
+v3 is the first version that ended up in my inbox. I haven't noticed any
+other spelling or grammar error in this patch, but I can't guarantee I
+won't see any in new text that gets introduced in a future version :-)
+
+> >> +property names, but for code readability the choice shall be narrowed.
+> >> +
+> >> +1. Node and property names are allowed to use only:
+> >> +
+> >> +   * lowercase characters: [a-z]
+> >> +   * digits: [0-9]
+> >> +   * dash: -
+> >> +
+> >> +2. Labels are allowed to use only:
+> >> +
+> >> +   * lowercase characters: [a-z]
+> >> +   * digits: [0-9]
+> >> +   * underscore: _
+> >> +
+> >> +3. Unit addresses shall use lowercase hex, without leading zeros (padding).
 > > 
-> > Unfortunately, at least last time I checked RISC-V still hadn't gotten such
-> > instructions.
-> > What they have is the *semantics* of the instructions, but no actual opcodes
-> > to encode them.
+> > I'm curious, what's the reason for this ? I think it makes the sources
+> > less readable. If the rule is "just" because that's how DT sources are
+> > written today and it would be too complicated to change that, that's
+> > fine with me.
 > 
-> Well, that sucks..
+> Warning (unit_address_format): /cpus/cpu@0100: unit name should not have
+> leading 0s
 > 
-> > I argued for them in the RISC-V memory group, but it was considered to be
-> > outside the scope of that group.
+> And we fixed all or most of DTS some time ago.
+
+It's the current practice in DT sources and I understand it won't get
+changed, but I was more curious about the rationale behind that.
+
+> >> +
+> >> +4. Hex values in properties, e.g. "reg", shall use lowercase hex.  The address
+> >> +   part can be padded with leading zeros.
+> >> +
+> >> +Example::
+> >> +
+> >> +	gpi_dma2: dma-controller@800000 {
+> >> +		compatible = "qcom,sm8550-gpi-dma", "qcom,sm6350-gpi-dma";
+> >> +		reg = <0x0 0x00800000 0x0 0x60000>;
+> >> +	}
+> >> +
+> >> +Order of Nodes
+> >> +--------------
+> >> +
+> >> +1. Nodes within any bus, thus using unit addresses for children, shall be
+> >> +   ordered incrementally by unit address.
+> >> +   Alternatively for some sub-architectures, nodes of the same type can be
+> >> +   grouped together (e.g. all I2C controllers one after another even if this
+> >> +   breaks unit address ordering).
+> >> +
+> >> +2. Nodes without unit addresses shall be ordered alpha-numerically by the node
+> >> +   name.  For a few types of nodes, they can be ordered by the main property
+> >> +   (e.g. pin configuration states ordered by value of "pins" property).
+> >> +
+> >> +3. When extending nodes in the board DTS via &label, the entries shall be
+> >> +   ordered either alpha-numerically or by keeping the order from DTSI (choice
+> >> +   depending on sub-architecture).
+> >> +
+> >> +Above ordering rules are easy to enforce during review, reduce chances of
+> >> +conflicts for simultaneous additions (new nodes) to a file and help in
+> >> +navigating through the DTS source.
+> >> +
+> >> +Example::
+> >> +
+> >> +	/* SoC DTSI */
+> >> +
+> >> +	/ {
+> >> +		cpus {
+> >> +			/* ... */
+> >> +		};
+> >> +
+> >> +		psci {
+> >> +			/* ... */
+> >> +		};
+> >> +
+> >> +		soc@ {
+> >> +			dma: dma-controller@10000 {
+> >> +				/* ... */
+> >> +			};
+> >> +
+> >> +			clk: clock-controller@80000 {
+> >> +				/* ... */
+> >> +			};
+> >> +		};
+> >> +	};
+> >> +
+> >> +	/* Board DTS - alphabetical order */
+> >> +
+> >> +	&clk {
+> >> +		/* ... */
+> >> +	};
+> >> +
+> >> +	&dma {
+> >> +		/* ... */
+> >> +	};
+> >> +
+> >> +	/* Board DTS - alternative order, keep as DTSI */
+> >> +
+> >> +	&dma {
+> >> +		/* ... */
+> >> +	};
+> >> +
+> >> +	&clk {
+> >> +		/* ... */
+> >> +	};
+> >> +
+> >> +Order of Properties in Device Node
+> >> +----------------------------------
+> >> +
+> >> +Following order of properties in device nodes is preferred:
+> >> +
+> >> +1. compatible
+> >> +2. reg
+> >> +3. ranges
+> >> +4. Standard/common properties (defined by common bindings, e.g. without
+> >> +   vendor-prefixes)
+> >> +5. Vendor-specific properties
+> >> +6. status (if applicable)
+> >> +7. Child nodes, where each node is preceded with a blank line
+> >> +
+> >> +The "status" property is by default "okay", thus it can be omitted.
+> >> +
+> >> +Above order follows approach:
+> >> +
+> >> +1. Most important properties start the node: compatible then bus addressing to
+> >> +   match unit address.
+> >> +2. Each node will have common properties in similar place.
+> >> +3. Status is the last information to annotate that device node is or is not
+> >> +   finished (board resources are needed).
+> >> +
+> >> +Example::
+> >> +
+> >> +	/* SoC DTSI */
+> >> +
+> >> +	device_node: device-class@6789abc {
+> >> +		compatible = "vendor,device";
+> >> +		reg = <0x0 0x06789abc 0x0 0xa123>;
+> >> +		ranges = <0x0 0x0 0x06789abc 0x1000>;
+> >> +		#dma-cells = <1>;
+> >> +		clocks = <&clock_controller 0>, <&clock_controller 1>;
+> >> +		clock-names = "bus", "host";
+> >> +		vendor,custom-property = <2>;
+> >> +		status = "disabled";
+> >> +
+> >> +		child_node: child-class@100 {
+> >> +			reg = <0x100 0x200>;
+> >> +			/* ... */
+> >> +		};
+> >> +	};
+> >> +
+> >> +	/* Board DTS */
+> >> +
+> >> +	&device_node {
+> >> +		vdd-supply = <&board_vreg1>;
+> >> +		status = "okay";
+> >> +	}
+> >> +
+> >> +Indentation
+> >> +-----------
+> >> +
+> >> +1. Use indentation according to :ref:`codingstyle`.
+> >> +2. For arrays spanning across lines, it is preferred to align the continued
+> >> +   entries with opening < from the first line.
+> >> +3. Each entry in arrays with multiple cells (e.g. "reg" with two IO addresses)
+> >> +   shall be enclosed in <>.
+> >> +
+> >> +Example::
+> >> +
+> >> +	thermal-sensor@c271000 {
+> >> +		compatible = "qcom,sm8550-tsens", "qcom,tsens-v2";
+> >> +		reg = <0x0 0x0c271000 0x0 0x1000>,
+> >> +		      <0x0 0x0c222000 0x0 0x1000>;
+> >> +	};
+> >> +
+> >> +Organizing DTSI and DTS
+> >> +-----------------------
+> >> +
+> >> +The DTSI and DTS files shall be organized in a way representing the common
+> >> +(and re-usable) parts of the hardware.  Typically this means organizing DTSI
+> >> +and DTS files into several files:
+> >> +
+> >> +1. DTSI with contents of the entire SoC (without nodes for hardware not present
+> >> +   on the SoC).
+> >> +2. If applicable: DTSI with common or re-usable parts of the hardware (e.g.
+> >> +   entire System-on-Module).
+> >> +3. DTS representing the board.
+> >> +
+> >> +Hardware components which are present on the board shall be placed in the
+> >> +board DTS, not in the SoC or SoM DTSI.  A partial exception is a common
+> >> +external reference SoC-input clock, which could be coded as a fixed-clock in
+> >> +the SoC DTSI with its frequency provided by each board DTS.
 > > 
-> > Transpiling with sufficient DMB ISH to get the desired ordering is really
-> > bad for performance.
-> 
-> Ha!, quite dreadful I would imagine.
-> 
-> > That is not to say that linux should support this. Perhaps linux should
-> > pressure RISC-V into supporting implicit barriers instead.
-> 
-> I'm not sure I count for much in this regard, but yeah, that sounds like
-> a plan :-)
-> 
+> > I'm looking forward to discussing how to organize overlays. That
+> > discussion should be separate though, or this patch will never get
+> > merged :-)
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+-- 
+Regards,
+
+Laurent Pinchart
