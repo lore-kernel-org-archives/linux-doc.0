@@ -1,103 +1,106 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="qh760psJ"
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD5118A;
-	Mon, 27 Nov 2023 02:45:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1701081936; x=1732617936;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XsgutPECrC8l5gZt5+iuVfsFhO1Zmfqw++3pChr2uHc=;
-  b=qh760psJeXKP2+K+/updKoyvsVNsQqTxVuyc+xozoKNJqV7GCR82tPl1
-   0YWvvoUEUsmPT4pMX8msClqbxzbtoq8BnLUE4ibM8jRfp3ezqkCBx+kVo
-   iYzgJ8HStCRd85srYfSaZeaya5ojdJBEo7egvdHUbBPoTROf5dA2iLhQb
-   DSP68PIsWMSwZ8ZLp0awIfpJFFjTwF9DdAu2qKn13WVC6qx7UKrl/hql3
-   G+ShpPzB7iBzljGvtmoo5XCB+kA2RgidWLwy6bBPu/kKT8zJV1VFwidHY
-   iL33dv50fTaT4M8JxO+z1JPL9PrT3HBhF3E0XU30mIeKUqc8I/jwGXj/t
-   Q==;
-X-CSE-ConnectionGUID: rYZD7AvDRIS8Nns1pfsCSg==
-X-CSE-MsgGUID: ITAVCmDsQuKHnJuT89msKA==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="asc'?scan'208";a="12250830"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Nov 2023 03:45:31 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Nov 2023 03:45:25 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Mon, 27 Nov 2023 03:45:23 -0700
-Date: Mon, 27 Nov 2023 10:44:54 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-CC: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
-	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet
-	<corbet@lwn.net>, <linux-riscv@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
-Message-ID: <20231127-epilogue-frying-4d5ba926617c@wendy>
-References: <20231122-fencei-v1-0-bec0811cb212@rivosinc.com>
- <20231122-fencei-v1-1-bec0811cb212@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ATqUzkBA"
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 515AB136;
+	Mon, 27 Nov 2023 03:17:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=cAMYRwVtTk4t4CFVybTFSaosFfl7UAZUdZLXZwoFExo=; b=ATqUzkBAXvyJcu5VDkL3MVJVfz
+	M/w2F2dpijW6LxyJLlqXBnQ0lCixTGvRKNlSoSiX09wPSklZT/HtWrEsqMUIdkq93s+4dAO9uWxTV
+	zMJVEfgI4+fLLB/BspixOggT0/648mr9X8rGlX6pT0ysMRuueX9ZH2SJCHA6yABLLJ3WdeVUQ9nkx
+	7hkUh0jav76aCSftSKzOTTuPr4TusyFps7ll+zKj+RPzbY6WUbwHRxY8UE9/5HR6OBjEBqv0sRGhO
+	1hHs7A0mYGz4bDCYmyPGoVMW2Gwqq/97kzONjxkB6w/6NX7lo3vhxYcv3rFdjOgVRN8vrcTve873R
+	d3HFyzHg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1r7ZbZ-00G258-25;
+	Mon, 27 Nov 2023 11:16:46 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 17B3A3002F1; Mon, 27 Nov 2023 12:16:44 +0100 (CET)
+Date: Mon, 27 Nov 2023 12:16:43 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Guo Ren <guoren@kernel.org>
+Cc: Christoph Muellner <christoph.muellner@vrull.eu>,
+	linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Philipp Tomsich <philipp.tomsich@vrull.eu>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Will Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>
+Subject: Re: [RFC PATCH 0/5] RISC-V: Add dynamic TSO support
+Message-ID: <20231127111643.GV3818@noisy.programming.kicks-ass.net>
+References: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
+ <20231124101519.GP3818@noisy.programming.kicks-ass.net>
+ <ZWFhSYalMCgTo+SG@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2dabZgh7yH7Wi+77"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231122-fencei-v1-1-bec0811cb212@rivosinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZWFhSYalMCgTo+SG@gmail.com>
 
---2dabZgh7yH7Wi+77
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Nov 24, 2023 at 09:51:53PM -0500, Guo Ren wrote:
+> On Fri, Nov 24, 2023 at 11:15:19AM +0100, Peter Zijlstra wrote:
+> > On Fri, Nov 24, 2023 at 08:21:37AM +0100, Christoph Muellner wrote:
+> > > From: Christoph Müllner <christoph.muellner@vrull.eu>
+> > > 
+> > > The upcoming RISC-V Ssdtso specification introduces a bit in the senvcfg
+> > > CSR to switch the memory consistency model at run-time from RVWMO to TSO
+> > > (and back). The active consistency model can therefore be switched on a
+> > > per-hart base and managed by the kernel on a per-process/thread base.
+> > 
+> > You guys, computers are hartless, nobody told ya?
+> > 
+> > > This patch implements basic Ssdtso support and adds a prctl API on top
+> > > so that user-space processes can switch to a stronger memory consistency
+> > > model (than the kernel was written for) at run-time.
+> > > 
+> > > I am not sure if other architectures support switching the memory
+> > > consistency model at run-time, but designing the prctl API in an
+> > > arch-independent way allows reusing it in the future.
+> > 
+> > IIRC some Sparc chips could do this, but I don't think anybody ever
+> > exposed this to userspace (or used it much).
+> > 
+> > IA64 had planned to do this, except they messed it up and did it the
+> > wrong way around (strong first and then relax it later), which lead to
+> > the discovery that all existing software broke (d'uh).
+> > 
+> > I think ARM64 approached this problem by adding the
+> > load-acquire/store-release instructions and for TSO based code,
+> > translate into those (eg. x86 -> arm64 transpilers).
 
-On Wed, Nov 22, 2023 at 05:03:20PM -0800, Charlie Jenkins wrote:
-> +
-> +/**
-> + * Enable userspace to emit icache flushing instructions.
-> + *
-> + * When in per-process context, there may be multiple threads using the same mm.
-> + * Therefore, the icache can never be assumed clean when. Multiple threads in
-> + * the process may modify instructions in the mm concurrently.
-> + *
-> + * In per-thread context, it can be assumed that all modifications to
-> + * instructions in memory will be performed by this thread. When the thread is
-> + * migrated the icache will be flushed.
-> + *
-> + * @arg arg: Sets the type of context
-> + *  - PR_RISCV_CTX_SW_FENCEI: Allow fence.i in userspace. Another fence.i will
-> + *			      emitted on thread/process migration.
-> + * @arg per_thread: When set to 0, will use the default behavior of setting the
-> + *  icache flush context per process. When set to 1, will use a per thread
-> + *  context.
-> + */
+> Keeping global TSO order is easier and faster than mixing
+> acquire/release and regular load/store. That means when ssdtso is
+> enabled, the transpiler's load-acquire/store-release becomes regular
+> load/store. Some micro-arch hardwares could speed up the performance.
 
-FYI, this is not valid kerneldoc and breaks allmodconfig builds:
- arch/riscv/mm/cacheflush.c:159: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Why is it faster? Because the release+acquire thing becomes RcSC instead
+of RcTSO? Surely that can be fixed with a weaker store-release variant
+ot something?
 
-> +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread)
+The problem I have with all of this is that you need to context switch
+this state and that you need to deal with exceptions, which must be
+written for the weak model but then end up running in the tso model --
+possibly slower than desired.
+
+If OTOH you only have a single model, everything becomes so much
+simpler. You just need to be able to express exactly what you want.
 
 
-Cheers,
-Conor.
-
---2dabZgh7yH7Wi+77
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWRzJgAKCRB4tDGHoIJi
-0oqZAP44BpqU7jjixzWH8EBV8qfD5EEkTbqtGTccnCfX4BmMOgEA+me3rwJrd9e/
-7h830aetbBTs0XpjcvFkekSOcjjKfwg=
-=GeQD
------END PGP SIGNATURE-----
-
---2dabZgh7yH7Wi+77--
