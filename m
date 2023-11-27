@@ -1,184 +1,153 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BCkxOV1d"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BknhSvk1"
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C834D63
-	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 11:51:18 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96551194
+	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 11:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701114677;
+	s=mimecast20190719; t=1701114895;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=yetQtQw07rU4YZ4FG3ra/SKREh1x+pvvLVJIVKSvN98=;
-	b=BCkxOV1desifHDX+UhQFWsWazYyEvBM8C/IngvftiyPMJNbj2PqIf7qn2WOC+uRxvLn6Is
-	jmnZIdPgo1DpKQjdd4Yhib0ftxHQQ1LeAc80hnebL3+iGmWo5gfER5g/xJ/O2qfB9nxemF
-	7fXg/lAoXndN162BsBGrwyFDn0VE3to=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+viejdGrXzmIzPjCsTE2dERIUwjgFpRXidRJ+El7Zb0=;
+	b=BknhSvk1bgLbumk0hFUIZx6/dCZScvUq0ppNkgOP8+Kjoa4UndPU5ibEyDauHailES6FqK
+	zJchlVl8npR7LM1NoLOr4AQzEmi8kZbyWDg17xMlGfToc82Xz5J9nkE543bFXSFVNLGvdk
+	7IHLQnNLpU3z4TdjLAzZUiiPuV7qc1k=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-68-8QI2V3YVMdKdlmPH0cmaFA-1; Mon, 27 Nov 2023 14:51:13 -0500
-X-MC-Unique: 8QI2V3YVMdKdlmPH0cmaFA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A75F6185A780;
-	Mon, 27 Nov 2023 19:51:12 +0000 (UTC)
-Received: from llong.com (unknown [10.22.8.93])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0D435492BE9;
-	Mon, 27 Nov 2023 19:51:12 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>
-Cc: cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH] cgroup/cpuset: Expose cpuset.cpus.isolated
-Date: Mon, 27 Nov 2023 14:51:05 -0500
-Message-Id: <20231127195105.290402-1-longman@redhat.com>
+ us-mta-128-nSROuJLNOyGFeE4gqVO_ww-1; Mon, 27 Nov 2023 14:54:54 -0500
+X-MC-Unique: nSROuJLNOyGFeE4gqVO_ww-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a02b9c28a08so356365066b.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 11:54:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701114893; x=1701719693;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+viejdGrXzmIzPjCsTE2dERIUwjgFpRXidRJ+El7Zb0=;
+        b=KgQqAMV9FAdVyaHlvlQwuUN1KTv7VwkUpzvs99+0HdI/1qGAkypdrElgsWaiAHMqIp
+         fMKQoOG+Uq9MRKxk6+ajZaYK0Hjb7jzSJA2gkNnUW8li6efv7Xu+OUaCmsKJef6ksv8Q
+         FGcwaKa8xBM0u+9WqAtdZneqBIgSTxhTWBhjBL4uQEyked7FMspQNAN1Aur9CxWlugVQ
+         UV76xTKnSsesNAFcQWgIf0dox/OmOs27/TmPm3i/7+OTqibI9L2cC7OpRS+8E4LODvxV
+         BzBmIb570g/X3avBfwQFPJ1xvJHo1DrUvK4X7NF0FHmgXk2keJJ3XDORF72kGBTHIuP4
+         6XTg==
+X-Gm-Message-State: AOJu0YwXe/pM+CQXYCfvgzcO3QBDgcuSouOAlC2UYDU6Jo4govC4Msbi
+	8ZVGPx2gick+LQIjRVZ3zFrmW8iuDAmKoOGpq4Th1H+JZOfEFdps/NnKa973XVaV26GrensU4se
+	hLkVH/1tgfaPTfry6ip3d
+X-Received: by 2002:a17:907:c708:b0:9b2:d78c:afe9 with SMTP id ty8-20020a170907c70800b009b2d78cafe9mr12510217ejc.49.1701114893230;
+        Mon, 27 Nov 2023 11:54:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEqsjQCsAPoPOd6g0Qn1BKTS65cz8ECHJlGNLkABKEDrEEApBu5Jji0dCbisefe04GfKIqPgw==
+X-Received: by 2002:a17:907:c708:b0:9b2:d78c:afe9 with SMTP id ty8-20020a170907c70800b009b2d78cafe9mr12510207ejc.49.1701114892974;
+        Mon, 27 Nov 2023 11:54:52 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b? ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+        by smtp.gmail.com with ESMTPSA id e27-20020a1709062c1b00b009fda627abd9sm5988845ejh.79.2023.11.27.11.54.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Nov 2023 11:54:52 -0800 (PST)
+Message-ID: <6a30b834-fa29-41aa-bf91-4ab887dc2a56@redhat.com>
+Date: Mon, 27 Nov 2023 20:54:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] Documentation/gpu: VM_BIND locking document
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: intel-xe@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Oak Zeng <oak.zeng@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231121104046.3201-1-thomas.hellstrom@linux.intel.com>
+ <20231121145619.7e7cb541@collabora.com>
+ <574ec6bd-22ff-ec66-0bfe-35b51b7142f6@linux.intel.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <574ec6bd-22ff-ec66-0bfe-35b51b7142f6@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-The root-only cpuset.cpus.isolated control file shows the current set
-of isolated CPUs in isolated partitions. This control file is currently
-exposed only with the cgroup_debug boot command line option which also
-adds the ".__DEBUG__." prefix. This is actually a useful control file if
-users want to find out which CPUs are currently in an isolated state by
-the cpuset controller. Remove CFTYPE_DEBUG flag for this control file and
-make it available by default without any prefix.
+On 11/22/23 08:49, Thomas Hellström wrote:
+> 
+> On 11/21/23 14:56, Boris Brezillon wrote:
+>> On Tue, 21 Nov 2023 11:40:46 +0100
+>> Thomas Hellström <thomas.hellstrom@linux.intel.com> wrote:
+>>
+>>> Add the first version of the VM_BIND locking document which is
+>>> intended to be part of the xe driver upstreaming agreement.
+>>>
+>>> The document describes and discuss the locking used during exec-
+>>> functions, evicton and for userptr gpu-vmas. Intention is to be using the
+>>> same nomenclature as the drm-vm-bind-async.rst.
+>>>
+>>> v2:
+>>> - s/gvm/gpu_vm/g (Rodrigo Vivi)
+>>> - Clarify the userptr seqlock with a pointer to mm/mmu_notifier.c
+>>>    (Rodrigo Vivi)
+>>> - Adjust commit message accordingly.
+>>> - Add SPDX license header.
+>>>
+>>> v3:
+>>> - Large update to align with the drm_gpuvm manager locking
+>>> - Add "Efficient userptr gpu_vma exec function iteration" section
+>>> - Add "Locking at bind- and unbind time" section.
+>>>
+>>> v4:
+>>> - Fix tabs vs space errors by untabifying (Rodrigo Vivi)
+>>> - Minor style fixes and typos (Rodrigo Vivi)
+>>> - Clarify situations where stale GPU mappings are occurring and how
+>>>    access through these mappings are blocked. (Rodrigo Vivi)
+>>> - Insert into the toctree in implementation_guidelines.rst
+>>>
+>>> v5:
+>>> - Add a section about recoverable page-faults.
+>>> - Use local references to other documentation where possible
+>>>    (Bagas Sanjaya)
+>>> - General documentation fixes and typos (Danilo Krummrich and
+>>>    Boris Brezillon)
+>>> - Improve the documentation around locks that need to be grabbed from the
+>>>    dm-fence critical section (Boris Brezillon)
+>>> - Add more references to the DRM GPUVM helpers (Danilo Krummrich and
+>>>    Boriz Brezillon)
+>>> - Update the rfc/xe.rst document.
+>>>
+>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Still have a few comments (see below), and in general, I find some
+>> sentences very long, which has the tendency of confusing me (always
+>> trying to figure out what was the main point, what the pronouns are
+>> referring to, etc). Anyway, I think it's better to have something
+>> imperfect than nothing at all, so here is my
+>>
+>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora>
+>>
+>> Feel free to add it even if you decide to ignore my comments.
+> 
+> Thanks for reviewing, Boris!
+> 
+> I'll make a final version incorporating much of the comments and suggestions, much appreciated.
+> 
+> I still think, though, that in principle the referral between gpuvm and this document should be the other way around, or it should all sit in gpuvm. In any case this is an initial version and as more comments and suggestions land, we can certainly update.
 
-The test_cpuset_prs.sh test script and the cgroup-v2.rst documentation
-file are also updated accordingly. Minor code change is also made in
-test_cpuset_prs.sh to avoid false test failure when running on debug
-kernel.
+I think if we agree that GPUVM should be the common component that we recommend
+drivers to use, we should reference to GPUVM whenever possible. However, I'm not
+sure whether we'd want to dedicate *all* documentation to GPUVM. Since the topic
+is rather complex, I can see that it might be beneficial to do both, discuss it
+from a more abstract point of view and document the corresponding common component.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/admin-guide/cgroup-v2.rst       |  7 ++++
- kernel/cgroup/cpuset.c                        |  2 +-
- .../selftests/cgroup/test_cpuset_prs.sh       | 32 +++++++++++--------
- 3 files changed, 26 insertions(+), 15 deletions(-)
+Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index cf5651a11df8..30f6ff2eba47 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2316,6 +2316,13 @@ Cpuset Interface Files
- 	treated to have an implicit value of "cpuset.cpus" in the
- 	formation of local partition.
- 
-+  cpuset.cpus.isolated
-+	A read-only and root cgroup only multiple values file.
-+
-+	This file shows the set of all isolated CPUs used in existing
-+	isolated partitions. It will be empty if no isolated partition
-+	is created.
-+
-   cpuset.cpus.partition
- 	A read-write single value file which exists on non-root
- 	cpuset-enabled cgroups.  This flag is owned by the parent cgroup
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 1bad4007ff4b..2a16df86c55c 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -3974,7 +3974,7 @@ static struct cftype dfl_files[] = {
- 		.name = "cpus.isolated",
- 		.seq_show = cpuset_common_seq_show,
- 		.private = FILE_ISOLATED_CPULIST,
--		.flags = CFTYPE_ONLY_ON_ROOT | CFTYPE_DEBUG,
-+		.flags = CFTYPE_ONLY_ON_ROOT,
- 	},
- 
- 	{ }	/* terminate */
-diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-index 7b7c4c2b6d85..b5eb1be2248c 100755
---- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-+++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-@@ -508,7 +508,7 @@ dump_states()
- 		XECPUS=$DIR/cpuset.cpus.exclusive.effective
- 		PRS=$DIR/cpuset.cpus.partition
- 		PCPUS=$DIR/.__DEBUG__.cpuset.cpus.subpartitions
--		ISCPUS=$DIR/.__DEBUG__.cpuset.cpus.isolated
-+		ISCPUS=$DIR/cpuset.cpus.isolated
- 		[[ -e $CPUS   ]] && echo "$CPUS: $(cat $CPUS)"
- 		[[ -e $XCPUS  ]] && echo "$XCPUS: $(cat $XCPUS)"
- 		[[ -e $ECPUS  ]] && echo "$ECPUS: $(cat $ECPUS)"
-@@ -593,17 +593,17 @@ check_cgroup_states()
- 
- #
- # Get isolated (including offline) CPUs by looking at
--# /sys/kernel/debug/sched/domains and *cpuset.cpus.isolated control file,
-+# /sys/kernel/debug/sched/domains and cpuset.cpus.isolated control file,
- # if available, and compare that with the expected value.
- #
- # Note that isolated CPUs from the sched/domains context include offline
- # CPUs as well as CPUs in non-isolated 1-CPU partition. Those CPUs may
--# not be included in the *cpuset.cpus.isolated control file which contains
-+# not be included in the cpuset.cpus.isolated control file which contains
- # only CPUs in isolated partitions.
- #
- # $1 - expected isolated cpu list(s) <isolcpus1>{,<isolcpus2>}
- # <isolcpus1> - expected sched/domains value
--# <isolcpus2> - *cpuset.cpus.isolated value = <isolcpus1> if not defined
-+# <isolcpus2> - cpuset.cpus.isolated value = <isolcpus1> if not defined
- #
- check_isolcpus()
- {
-@@ -611,7 +611,7 @@ check_isolcpus()
- 	ISOLCPUS=
- 	LASTISOLCPU=
- 	SCHED_DOMAINS=/sys/kernel/debug/sched/domains
--	ISCPUS=${CGROUP2}/.__DEBUG__.cpuset.cpus.isolated
-+	ISCPUS=${CGROUP2}/cpuset.cpus.isolated
- 	if [[ $EXPECT_VAL = . ]]
- 	then
- 		EXPECT_VAL=
-@@ -692,14 +692,18 @@ test_fail()
- null_isolcpus_check()
- {
- 	[[ $VERBOSE -gt 0 ]] || return 0
--	pause 0.02
--	check_isolcpus "."
--	if [[ $? -ne 0 ]]
--	then
--		echo "Unexpected isolated CPUs: $ISOLCPUS"
--		dump_states
--		exit 1
--	fi
-+	# Retry a few times before printing error
-+	RETRY=0
-+	while [[ $RETRY -lt 5 ]]
-+	do
-+		pause 0.01
-+		check_isolcpus "."
-+		[[ $? -eq 0 ]] && return 0
-+		((RETRY++))
-+	done
-+	echo "Unexpected isolated CPUs: $ISOLCPUS"
-+	dump_states
-+	exit 1
- }
- 
- #
-@@ -776,7 +780,7 @@ run_state_test()
- 		#
- 		NEWLIST=$(cat cpuset.cpus.effective)
- 		RETRY=0
--		while [[ $NEWLIST != $CPULIST && $RETRY -lt 5 ]]
-+		while [[ $NEWLIST != $CPULIST && $RETRY -lt 8 ]]
- 		do
- 			# Wait a bit longer & recheck a few times
- 			pause 0.01
--- 
-2.39.3
+> 
+> Thanks,
+> 
+> Thomas
+> 
 
