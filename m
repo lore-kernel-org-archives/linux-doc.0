@@ -1,118 +1,103 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A252F51;
+	Mon, 27 Nov 2023 21:43:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jo/rt8mF"
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EAEEC0;
-	Mon, 27 Nov 2023 13:02:57 -0800 (PST)
-Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1f066fc2a2aso2423592fac.0;
-        Mon, 27 Nov 2023 13:02:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701118976; x=1701723776; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n/URjZ8nADYYERle5yEbSZ8yEpn5y/9V4VSzkBZxEyA=;
-        b=jo/rt8mF4Sw3TRIhVkmCJMAWddfMgDhq6Lx9VSW+V9K+0NN/NUYALYVGSHq2gz6rJ5
-         x9Dz5mBl6X91WFdEfekQEZEzmm3NKbs3CAMfrT6eWgXQvuzLoQraZ8aOGBjUXlV02ch6
-         DwtBHj9Ql4MEDGWTtQ1iOvcgzaQE9KZ7MVs0sia3DLIeHywwXE0UDzq0lfl4zo5NWGA5
-         7K8cbhbbh26E73NIKZo/O7t2vbIXvUYZx1VQ08OVgNcsjAoz3ZInGCuAkqmui3t3ITQ3
-         c04UWqwhBCLm2xRr+6xwO7BGtw4WGYC7lIHaCBMADMbmWEedAfzJ3zsKgAmnjf+84Vhh
-         jAgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701118976; x=1701723776;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n/URjZ8nADYYERle5yEbSZ8yEpn5y/9V4VSzkBZxEyA=;
-        b=E3GduKk+mSNo6TsQjqJVpT/Fmhh0syTSEmhQdwOfQclWCaMtWg0c4eNNzMeR7nn8Cw
-         sPnExJHMP46HoVouVefKH1m0svbmXOOggloLXJslGzy6OXbB7iXy+pPH0DVkwRbPTfvz
-         hW2SbA0QXu7v3eb+L5PqzaqmRjffiNr0u7lLu9U8Xy/TQcqo2coftdOf5maYvTUKtPRB
-         9qCxd0Zv5jN0+lvGs+62YKvRxYOZAWSwyHJngaJm1q/v9ZnR+82EDkghbybfwaK9RAFW
-         xDkEC0h/01BOfE2W5Ix3eCWZVywsXLe0l3eCxSa9+zRU2H5F4N5RMpbRbn2FllYPYNqu
-         /JLw==
-X-Gm-Message-State: AOJu0Yx3REbTuBRVKYfLlEnSPYNiUGGQDXJzrMXRKL+Zpcb/ktZACvav
-	O6fLnYksQdT6HToYQA5tl1ylesMUsinDf3P0QS9sdySy
-X-Google-Smtp-Source: AGHT+IHQhapSzKaJWN9AXlYSZ1KiLZ6SHYBMuIwFWgsyRpoLqjNDWWg/Ayr1LN6eJbSc36wevU+by4X07E5yovjRXf8=
-X-Received: by 2002:a05:6871:d217:b0:1fa:cdd:c0fb with SMTP id
- pk23-20020a056871d21700b001fa0cddc0fbmr14400149oac.7.1701118976475; Mon, 27
- Nov 2023 13:02:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="RERa00m1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A920C433C7;
+	Mon, 27 Nov 2023 21:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1701121380;
+	bh=CoO2w1Aaayjts+dtvAb8Eh6H5/dRtPDx1TPM+uYjYAI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RERa00m1APTZ4nW8M04Rfr5i0iygE8BDQ0e6DmhSMgrHZ7Jw8YuA+xtP69/WxezsS
+	 rJMo7RPAVGmSaP6y2uf2uCKw0+eW38cOjgSScmhCD+QpioQ4N661eUERXRrVP0Lsvr
+	 wLF7BGf+jgv/d4EqPdkzSwHborOYqRliIGg2SYhE=
+Date: Mon, 27 Nov 2023 13:42:59 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: hannes@cmpxchg.org, cerasuolodomenico@gmail.com, yosryahmed@google.com,
+ sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
+ mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+ muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org,
+ kernel-team@meta.com, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v6 2/6] memcontrol: allows mem_cgroup_iter() to check
+ for onlineness
+Message-Id: <20231127134259.67b69ab47f4f88c9751e5222@linux-foundation.org>
+In-Reply-To: <20231127193703.1980089-3-nphamcs@gmail.com>
+References: <20231127193703.1980089-1-nphamcs@gmail.com>
+	<20231127193703.1980089-3-nphamcs@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20231122122449.11588-1-tzimmermann@suse.de> <20231122122449.11588-3-tzimmermann@suse.de>
-In-Reply-To: <20231122122449.11588-3-tzimmermann@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Nov 2023 16:02:45 -0500
-Message-ID: <CADnq5_PwgV=SpuzdD==R-3nxz+Em4AiVmriODxyxZgoeZu7Yrw@mail.gmail.com>
-Subject: Re: [PATCH 02/14] drm: Fix TODO list mentioning non-KMS drivers
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, cai.huoqing@linux.dev, Jonathan Corbet <corbet@lwn.net>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>, linux-doc@vger.kernel.org, stable@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 22, 2023 at 7:25=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Non-KMS drivers have been removed from DRM. Update the TODO list
-> accordingly.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: a276afc19eec ("drm: Remove some obsolete drm pciids(tdfx, mga, i81=
-0, savage, r128, sis, via)")
-> Cc: Cai Huoqing <cai.huoqing@linux.dev>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.3+
-> Cc: linux-doc@vger.kernel.org
+On Mon, 27 Nov 2023 11:36:59 -0800 Nhat Pham <nphamcs@gmail.com> wrote:
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> The new zswap writeback scheme requires an online-only memcg hierarchy
+> traversal. Add a new parameter to mem_cgroup_iter() to check for
+> onlineness before returning.
 
-> ---
->  Documentation/gpu/todo.rst | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index b62c7fa0c2bcc..3bdb8787960be 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -337,8 +337,8 @@ connector register/unregister fixes
->
->  Level: Intermediate
->
-> -Remove load/unload callbacks from all non-DRIVER_LEGACY drivers
-> ----------------------------------------------------------------
-> +Remove load/unload callbacks
-> +----------------------------
->
->  The load/unload callbacks in struct &drm_driver are very much midlayers,=
- plus
->  for historical reasons they get the ordering wrong (and we can't fix tha=
-t)
-> @@ -347,8 +347,7 @@ between setting up the &drm_driver structure and call=
-ing drm_dev_register().
->  - Rework drivers to no longer use the load/unload callbacks, directly co=
-ding the
->    load/unload sequence into the driver's probe function.
->
-> -- Once all non-DRIVER_LEGACY drivers are converted, disallow the load/un=
-load
-> -  callbacks for all modern drivers.
-> +- Once all drivers are converted, remove the load/unload callbacks.
->
->  Contact: Daniel Vetter
->
-> --
-> 2.42.1
->
+I get a few build errors, perhaps because of patch timing issues...
+
+mm/shrinker_debug.c: In function 'shrinker_debugfs_count_show':
+mm/shrinker_debug.c:64:17: error: too few arguments to function 'mem_cgroup_iter'
+   64 |         memcg = mem_cgroup_iter(NULL, NULL, NULL);
+      |                 ^~~~~~~~~~~~~~~
+In file included from mm/shrinker_debug.c:7:
+./include/linux/memcontrol.h:833:20: note: declared here
+  833 | struct mem_cgroup *mem_cgroup_iter(struct mem_cgroup *,
+      |                    ^~~~~~~~~~~~~~~
+mm/shrinker_debug.c:89:27: error: too few arguments to function 'mem_cgroup_iter'
+   89 |         } while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
+      |                           ^~~~~~~~~~~~~~~
+./include/linux/memcontrol.h:833:20: note: declared here
+  833 | struct mem_cgroup *mem_cgroup_iter(struct mem_cgroup *,
+      |                    ^~~~~~~~~~~~~~~
+mm/damon/sysfs-schemes.c: In function 'damon_sysfs_memcg_path_to_id':
+mm/damon/sysfs-schemes.c:1594:22: error: too few arguments to function 'mem_cgroup_iter'
+ 1594 |         for (memcg = mem_cgroup_iter(NULL, NULL, NULL); memcg;
+      |                      ^~~~~~~~~~~~~~~
+In file included from ./include/linux/damon.h:11,
+                 from mm/damon/sysfs-common.h:8,
+                 from mm/damon/sysfs-schemes.c:10:
+./include/linux/memcontrol.h:833:20: note: declared here
+  833 | struct mem_cgroup *mem_cgroup_iter(struct mem_cgroup *,
+      |                    ^~~~~~~~~~~~~~~
+mm/damon/sysfs-schemes.c:1595:33: error: too few arguments to function 'mem_cgroup_iter'
+ 1595 |                         memcg = mem_cgroup_iter(NULL, memcg, NULL)) {
+      |                                 ^~~~~~~~~~~~~~~
+./include/linux/memcontrol.h:833:20: note: declared here
+  833 | struct mem_cgroup *mem_cgroup_iter(struct mem_cgroup *,
+      |                    ^~~~~~~~~~~~~~~
+
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -832,7 +832,7 @@ static inline void mem_cgroup_put(struct mem_cgroup *memcg)
+>  
+>  struct mem_cgroup *mem_cgroup_iter(struct mem_cgroup *,
+>  				   struct mem_cgroup *,
+> -				   struct mem_cgroup_reclaim_cookie *);
+> +				   struct mem_cgroup_reclaim_cookie *, bool online);
+
+How many callsites do we expect to utilize the new `online' argument? 
+Few, I suspect.
+
+How about we fix the above and simplify the patch by adding a new
+mem_cgroup_iter_online() and make mem_cgroup_iter() a one-line wrapper
+which calls that and adds the online=false argument?
+
+I also saw this, didn't investigate.
+
+drivers/android/binder_alloc.c: In function 'binder_update_page_range':
+drivers/android/binder_alloc.c:237:34: error: too few arguments to function 'list_lru_del'
+  237 |                         on_lru = list_lru_del(&binder_alloc_lru, &page->lru);
+
