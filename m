@@ -1,144 +1,153 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vrull.eu header.i=@vrull.eu header.b="JC4miItv"
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74BBDD4E
-	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 06:37:09 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-5c2b7ec93bbso1307537a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 06:37:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vrull.eu; s=google; t=1701095829; x=1701700629; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sTOVcypQtVTFXZLfWHCe+N3Q12yUhXgQHc0UVNtkCoA=;
-        b=JC4miItvz+NNVDj+y3lT1yhmxlqFLhlRLgpxdSIpZq/XysiB9qs8kFDJqLnWKKEdvA
-         zTvAixW8G1yrdu/1zfm3ED6XUuHXwts5h9rGRNpJ/CHg7UQ2DEILf9VMJ2VCaDCPxngA
-         Xgev0L4WZg3F59EWaXc4iVfrmyRrTXhVT3Hhv3su9y6EKaH7GTQEDjq0UnqlU50YrS8z
-         v3fYwnkEgYfRiqmO+9SwlyVvApjfNTvdnBUuLife6k24ENvxJHIl7TVGArrzHOaD0dsm
-         NDkj3oK53dtUvsHi3aAHAwUuQs1qz1WJl8FfVBgRLnLa+e1NHGz9lLnIB0GguYYkpG1M
-         Kopg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701095829; x=1701700629;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sTOVcypQtVTFXZLfWHCe+N3Q12yUhXgQHc0UVNtkCoA=;
-        b=W7yE1WAmwbhKiIL/Ia6gzNX+Epvf/8pOxY83JIjSfByBwD/d9NGlHNVZXFFN8Wx4ng
-         ha2TCU7rbNY80q54j7lP9yZ07BpklwEyKHL44kTHVbcYf7MtZw1954tpWQWKUSb1tmv7
-         pcXoDk3q6VKEArkoIYB8Lq7LtCtLMidIZuIUQQ4nK1QAIsLTLHu66GziStTVe8Z5N6hi
-         NBAxj2jrs+4XVzvufAUPRjasvGaDCAzU/9lR3RWOfstJs2LSJ5ZoH1iSTESeotnvOHyC
-         rJn2tGJDyH33Xux1X9NdPKUkiBTP9WSOpNDGL5kPFG0Hw1AFUG9/QweqfzDAYV41Ngjk
-         b8jw==
-X-Gm-Message-State: AOJu0YyKydd0prft1cthH6B6x+Ky7Dmx7aVANmeABOxegYAwhJQ1Lmkx
-	V0aBHSR4W9G9ra2PpIZqKjzU19NPo+Hraf97tkAejg==
-X-Google-Smtp-Source: AGHT+IEqiGw8cZsLsTuXV7V9RWHgcqAqIuGMwaeWQRzgkPyJ/z9ud9P0jKpwYm+TXJaPLPaE+VQDYAAo3ye99gZjpCI=
-X-Received: by 2002:a17:90b:1b07:b0:285:9d0d:7e3 with SMTP id
- nu7-20020a17090b1b0700b002859d0d07e3mr10951786pjb.38.1701095828964; Mon, 27
- Nov 2023 06:37:08 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="OOXAB+Dp"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30B342117;
+	Mon, 27 Nov 2023 07:29:59 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8CB2A21B58;
+	Mon, 27 Nov 2023 15:29:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1701098997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ll683VjO5cgdZEXvfYTUzLYylEdUG/UQv49Lu4Sc7rA=;
+	b=OOXAB+DpFUt4iwizIQsg9NdOIv7EkWhpXPvrvm3xSPIkYK01e48JBaP6McNQXVt1W4HMcp
+	FzhsJfz4OLu8cI2pA+kFgSSwrdgoVb/idRWXuLd+Fx/rh355mLKnibOH8SOrq1VdRhoTdr
+	woqZH0y3y+TGG/qALZCHEensDf8Z/lc=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 714C11367B;
+	Mon, 27 Nov 2023 15:29:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id e1MKGvW1ZGVHRQAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Mon, 27 Nov 2023 15:29:57 +0000
+Date: Mon, 27 Nov 2023 16:29:56 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, arnd@arndb.de, tglx@linutronix.de,
+	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	tj@kernel.org, ying.huang@intel.com
+Subject: Re: [RFC PATCH 00/11] mm/mempolicy: Make task->mempolicy externally
+ modifiable via syscall and procfs
+Message-ID: <ZWS19JFHm_LFSsFd@tiehlicka>
+References: <20231122211200.31620-1-gregory.price@memverge.com>
+ <20231122133348.d27c09a90bce755dc1c0f251@linux-foundation.org>
+ <ZV5/ilfUoqC2PW0D@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
- <20231124072142.2786653-3-christoph.muellner@vrull.eu> <2de6d526-918b-44f6-b26a-a0f30c42c5b3@sifive.com>
-In-Reply-To: <2de6d526-918b-44f6-b26a-a0f30c42c5b3@sifive.com>
-From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Date: Mon, 27 Nov 2023 15:36:57 +0100
-Message-ID: <CAEg0e7hPvpCcqn4VLsmuUkyoZSZ_oTBLJraR653yUcFPKsq3vw@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/5] RISC-V: Expose Ssdtso via hwprobe API
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Andrew Morton <akpm@linux-foundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Anup Patel <apatel@ventanamicro.com>, 
-	Philipp Tomsich <philipp.tomsich@vrull.eu>, Andrew Jones <ajones@ventanamicro.com>, 
-	Guo Ren <guoren@kernel.org>, Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
-	Alan Stern <stern@rowland.harvard.edu>, Andrea Parri <parri.andrea@gmail.com>, 
-	Will Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>, 
-	Peter Zijlstra <peterz@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZV5/ilfUoqC2PW0D@memverge.com>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.10
+X-Spamd-Result: default: False [-1.10 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 RCPT_COUNT_TWELVE(0.00)[19];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[linux-foundation.org,gmail.com,kvack.org,vger.kernel.org,arndb.de,linutronix.de,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,intel.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
 
-On Mon, Nov 27, 2023 at 3:32=E2=80=AFPM Samuel Holland
-<samuel.holland@sifive.com> wrote:
->
-> Hi Christoph,
->
-> On 2023-11-24 1:21 AM, Christoph Muellner wrote:
-> > From: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-> >
-> > This patch adds Ssdtso to the list of extensions which
-> > are announced to user-space using te hwprobe API.
-> >
-> > Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-> > ---
-> >  Documentation/arch/riscv/hwprobe.rst  | 3 +++
-> >  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
-> >  arch/riscv/kernel/sys_riscv.c         | 1 +
-> >  3 files changed, 5 insertions(+)
-> >
-> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/=
-riscv/hwprobe.rst
-> > index 7b2384de471f..8de3349e0ca2 100644
-> > --- a/Documentation/arch/riscv/hwprobe.rst
-> > +++ b/Documentation/arch/riscv/hwprobe.rst
-> > @@ -80,6 +80,9 @@ The following keys are defined:
-> >    * :c:macro:`RISCV_HWPROBE_EXT_ZICBOZ`: The Zicboz extension is suppo=
-rted, as
-> >         ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv=
--CMOs.
-> >
-> > +  * :c:macro:`RISCV_HWPROBE_EXT_ZICBOZ`: The Ssdtso extension is suppo=
-rted, as
->
-> Should be RISCV_HWPROBE_EXT_SSDTSO.
+Sorry, didn't have much time to do a proper review. Couple of points
+here at least.
 
-Thanks for reporting!
-I've fixed this now as well in the github branch:
-  https://github.com/cmuellner/linux/tree/ssdtso
+On Wed 22-11-23 17:24:10, Gregory Price wrote:
+> On Wed, Nov 22, 2023 at 01:33:48PM -0800, Andrew Morton wrote:
+> > On Wed, 22 Nov 2023 16:11:49 -0500 Gregory Price <gourry.memverge@gmail.com> wrote:
+> > 
+> > > The patch set changes task->mempolicy to be modifiable by tasks other
+> > > than just current.
+> > > 
+> > > The ultimate goal is to make mempolicy more flexible and extensible,
+> > > such as adding interleave weights (which may need to change at runtime
+> > > due to hotplug events).  Making mempolicy externally modifiable allows
+> > > for userland daemons to make runtime performance adjustments to running
+> > > tasks without that software needing to be made numa-aware.
+> > 
+> > Please add to this [0/N] a full description of the security aspect: who
+> > can modify whose mempolicy, along with a full description of the
+> > reasoning behind this decision.
+> > 
+> 
+> Will do. For the sake of v0 for now:
+> 
+> 1) the task itself (task == current)
+>    for obvious reasons: it already can
+> 
+> 2) from external interfaces: CAP_SYS_NICE
 
-BR
-Christoph
+Makes sense.
 
->
-> Regards,
-> Samuel
->
-> > +       in version v1.0-draft2 of the corresponding extension.
-> > +
-> >  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains perf=
-ormance
-> >    information about the selected set of processors.
-> >
-> > diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include=
-/uapi/asm/hwprobe.h
-> > index b659ffcfcdb4..ed450c64e6b2 100644
-> > --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> > +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> > @@ -30,6 +30,7 @@ struct riscv_hwprobe {
-> >  #define              RISCV_HWPROBE_EXT_ZBB           (1 << 4)
-> >  #define              RISCV_HWPROBE_EXT_ZBS           (1 << 5)
-> >  #define              RISCV_HWPROBE_EXT_ZICBOZ        (1 << 6)
-> > +#define              RISCV_HWPROBE_EXT_SSDTSO        (1 << 7)
-> >  #define RISCV_HWPROBE_KEY_CPUPERF_0  5
-> >  #define              RISCV_HWPROBE_MISALIGNED_UNKNOWN        (0 << 0)
-> >  #define              RISCV_HWPROBE_MISALIGNED_EMULATED       (1 << 0)
-> > diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_risc=
-v.c
-> > index c712037dbe10..c654f43b9699 100644
-> > --- a/arch/riscv/kernel/sys_riscv.c
-> > +++ b/arch/riscv/kernel/sys_riscv.c
-> > @@ -162,6 +162,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *=
-pair,
-> >               EXT_KEY(ZBB);
-> >               EXT_KEY(ZBS);
-> >               EXT_KEY(ZICBOZ);
-> > +             EXT_KEY(SSDTSO);
-> >  #undef EXT_KEY
-> >       }
-> >
->
+[...]
+> > > 3. Add external interfaces which allow for a task mempolicy to be
+> > >    modified by another task.  This is implemented in 4 syscalls
+> > >    and a procfs interface:
+> > >         sys_set_task_mempolicy
+> > >         sys_get_task_mempolicy
+> > >         sys_set_task_mempolicy_home_node
+> > >         sys_task_mbind
+> > >         /proc/[pid]/mempolicy
+> > 
+> > Why is the procfs interface needed?  Doesn't it simply duplicate the
+> > syscall interface?  Please update [0/N] with a description of this
+> > decision.
+> > 
+> 
+> Honestly I wrote the procfs interface first, and then came back around
+> to just implement the syscalls.  mbind is not friendly to being procfs'd
+> so if the preference is to have only one, not both, then it should
+> probably be the syscalls.
+> 
+> That said, when I introduce weighted interleave on top of this, having a
+> simple procfs interface to those weights would be valuable, so I
+> imagined something like `proc/mempolicy` to determine if interleave was
+> being used and something like `proc/mpol_interleave_weights` for a clean
+> interface to update weights.
+> 
+> However, in the same breath, I have a prior RFC with set/get_mempolicy2
+> which could probably take all future mempolicy extensions and wrap them
+> up into one pair of syscalls, instead of us ending up with 200 more
+> sys_mempolicy_whatever as memory attached fabrics become more common.
+> 
+> So... yeah... the is one area I think the community very much needs to
+> comment:  set/get_mempolicy2, many new mempolicy syscalls, procfs? All
+> of the above?
+
+I think we should actively avoid using proc interface. The most
+reasonable way would be to add get_mempolicy2 interface that would allow
+extensions and then create a pidfd counterpart to allow acting on a
+remote task. The latter would require some changes to make mempolicy
+code less current oriented.
+-- 
+Michal Hocko
+SUSE Labs
