@@ -1,203 +1,78 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861F11798D;
+	Mon, 27 Nov 2023 10:13:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dgyZ8Azr"
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55590E1;
-	Mon, 27 Nov 2023 02:11:37 -0800 (PST)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AR7vNnT021251;
-	Mon, 27 Nov 2023 10:11:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=EY/c6/Ci98EonGSNUz6fVfm6jLBxiwZHNUrcbJIhhUc=;
- b=dgyZ8AzrEPdMj/muYfIY6vmUUgXJ221mbT63cmMQh6IWmaPLdMtfQkcM8HkdYM1Y91Vm
- e+Eaa7XDLPLUlXzCFdJf8g/Xp6+ILKhodQb38KqIGqseMEabwkqPFmtUbQ0fEfxZa6/X
- rGhH4S8ArhNtC4HGmEDp7qtcSp8nrEC5478A8GQwRJfvnq6MOJnMYsaqLa7BcAe2q23W
- f0LplwPmfHnQrstICNVYEIMiYOr6+u639WhfKJZIQet/fOSSJcwixOH9ssYBcjYGi5+7
- qzeZBGVubFQlS3Z1D0MF7jfJzZCAxgg2e7O0Smxzvdq7wgQCVeNxvKUCckM3QKdp5wzI WA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uk69uc435-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Nov 2023 10:11:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ARABACA005140
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Nov 2023 10:11:10 GMT
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 27 Nov 2023 02:11:00 -0800
-Date: Mon, 27 Nov 2023 15:40:57 +0530
-From: Pavan Kondeti <quic_pkondeti@quicinc.com>
-To: Mukesh Ojha <quic_mojha@quicinc.com>
-CC: <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <keescook@chromium.org>, <tony.luck@intel.com>, <gpiccoli@igalia.com>,
-        <mathieu.poirier@linaro.org>, <vigneshr@ti.com>, <nm@ti.com>,
-        <matthias.bgg@gmail.com>, <kgene@kernel.org>,
-        <alim.akhtar@samsung.com>, <bmasney@redhat.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>
-Subject: Re: [Patch v6 11/12] pstore/ram: Add ramoops ready notifier support
-Message-ID: <3636dc3a-b62b-4ff9-bdc3-fec496a804b7@quicinc.com>
-References: <1700864395-1479-1-git-send-email-quic_mojha@quicinc.com>
- <1700864395-1479-12-git-send-email-quic_mojha@quicinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gua2LBTg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8059AC433C7;
+	Mon, 27 Nov 2023 10:13:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701079987;
+	bh=fGgNP5lLqq06gIKE/Ay6zDb25xpoQWkuhpClm6E4Od8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gua2LBTgox+kA/7qWhP6aBawjywyAf4plI5DEpsh3Ijh1TglJVJalcbdoLVzj+4dc
+	 QSMDDVQUYBZq1RQQekKvMiY6PsTT6dCQ73qwrTxCOVqua3ItxtNNh1CT5mMK1rwkOo
+	 pNmaaaZz8ibyvGn9pVWA4lfTSRxkUENw1NZF/9NxE7CpRhALbo9b8kxwPL+7e+tpwW
+	 hsJPsy3p5qFhBnTvSRETrsFsNAloxWs+4rOiSkqNw7cPppUIDXmoc2h/jD710Ik/tG
+	 IqbNDJzviU6gnDPxieDGBRlc5nKcmAT2tWnTWaAy3wiDb1nqr1v6ODL4SEN8gHX01N
+	 FGTK2menaKnbw==
+Date: Mon, 27 Nov 2023 11:13:00 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: kernel test robot <oliver.sang@intel.com>, oe-lkp@lists.linux.dev,
+	lkp@intel.com, linux-kernel@vger.kernel.org,
+	Jann Horn <jannh@google.com>, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, intel-gfx@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev,
+	bpf@vger.kernel.org, ying.huang@intel.com, feng.tang@intel.com,
+	fengwei.yin@intel.com
+Subject: Re: [linus:master] [file] 0ede61d858: will-it-scale.per_thread_ops
+ -2.9% regression
+Message-ID: <20231127-protokollieren-ermuntern-748cc3855fe8@brauner>
+References: <202311201406.2022ca3f-oliver.sang@intel.com>
+ <CAHk-=wjMKONPsXAJ=yJuPBEAx6HdYRkYE8TdYVBvpm3=x_EnCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1700864395-1479-12-git-send-email-quic_mojha@quicinc.com>
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 1IOVxm-ZeU_nBthYVKeJDrGdxnOedH7K
-X-Proofpoint-GUID: 1IOVxm-ZeU_nBthYVKeJDrGdxnOedH7K
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-27_08,2023-11-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- adultscore=0 spamscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
- priorityscore=1501 suspectscore=0 lowpriorityscore=0 impostorscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311270070
+In-Reply-To: <CAHk-=wjMKONPsXAJ=yJuPBEAx6HdYRkYE8TdYVBvpm3=x_EnCw@mail.gmail.com>
 
-On Sat, Nov 25, 2023 at 03:49:54AM +0530, Mukesh Ojha wrote:
-> Client like minidump, is only interested in ramoops
-> region addresses/size so that it could register them
-> with its table and also it is only deals with ram
-> backend and does not use pstorefs to read the records.
-> Let's introduce a client notifier in ramoops which
-> gets called when ramoops driver probes successfully
-> and it passes the ramoops region information to the
-> passed callback by the client and If the call for
-> ramoops ready register comes after ramoops probe
-> than call the callback directly.
+> I took a look at the code generation, and honestly, I think we're
+> better off just making __fget_files_rcu() have special logic for this
+> all, and not use __get_file_rcu().
+
+My initial massaging of the patch did that btw. Then I sat there
+wondering whether it would matter if we just made it possible to reuse
+that code and I went through a bunch of iterations. Oh well, it seems to
+matter.
+
+> Comments? I also looked at that odd OPTIMIZER_HIDE_VAR() that
+
+Concept looks sane to me.
+
+> __get_file_rcu() does, and I don't get it. Both things come from
+> volatile accesses, I don't see the point of those games, but I also
+> didn't care, since it's no longer in a critical code path.
 > 
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> ---
->  fs/pstore/ram.c            | 77 ++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/pstore_ram.h |  6 ++++
->  2 files changed, 83 insertions(+)
-> 
-> diff --git a/fs/pstore/ram.c b/fs/pstore/ram.c
-> index a6c0da8cfdd4..72341fd21aec 100644
-> --- a/fs/pstore/ram.c
-> +++ b/fs/pstore/ram.c
-> @@ -22,6 +22,7 @@
->  #include <linux/of_address.h>
->  #include <linux/memblock.h>
->  #include <linux/mm.h>
-> +#include <linux/mutex.h>
->  
->  #include "internal.h"
->  #include "ram_internal.h"
-> @@ -101,6 +102,14 @@ struct ramoops_context {
->  	unsigned int ftrace_read_cnt;
->  	unsigned int pmsg_read_cnt;
->  	struct pstore_info pstore;
-> +	/*
-> +	 * Lock to serialize calls to register_ramoops_ready_notifier,
-> +	 * ramoops_ready_notifier and read/modification of 'ramoops_ready'.
-> +	 */
-> +	struct mutex lock;
-> +	bool ramoops_ready;
-> +	int (*callback)(const char *name, int id, void *vaddr,
-> +			phys_addr_t paddr, size_t size);
->  };
->  
->  static struct platform_device *dummy;
-> @@ -488,6 +497,7 @@ static int ramoops_pstore_erase(struct pstore_record *record)
->  }
->  
->  static struct ramoops_context oops_cxt = {
-> +	.lock   = __MUTEX_INITIALIZER(oops_cxt.lock),
->  	.pstore = {
->  		.owner	= THIS_MODULE,
->  		.name	= "ramoops",
-> @@ -662,6 +672,68 @@ static int ramoops_init_prz(const char *name,
->  	return 0;
->  }
->  
-> +void ramoops_ready_notifier(struct ramoops_context *cxt)
-> +{
-> +	struct persistent_ram_zone *prz;
-> +	int i;
-> +
-> +	if (!cxt->callback)
-> +		return;
-> +
-> +	for (i = 0; i < cxt->max_dump_cnt; i++) {
-> +		prz = cxt->dprzs[i];
-> +		cxt->callback("dmesg", i, prz->vaddr, prz->paddr, prz->size);
-> +	}
-> +
-> +	if (cxt->console_size) {
-> +		prz = cxt->cprz;
-> +		cxt->callback("console", 0, prz->vaddr, prz->paddr, prz->size);
-> +	}
-> +
-> +	for (i = 0; i < cxt->max_ftrace_cnt; i++) {
-> +		prz = cxt->fprzs[i];
-> +		cxt->callback("ftrace", i, prz->vaddr, prz->paddr, prz->size);
-> +	}
-> +
-> +	if (cxt->pmsg_size) {
-> +		prz = cxt->mprz;
-> +		cxt->callback("pmsg", 0, prz->vaddr, prz->paddr, prz->size);
-> +	}
-> +}
-> +
-> +int register_ramoops_ready_notifier(int (*fn)(const char *, int,
-> +				   void *, phys_addr_t, size_t))
-> +{
-> +	struct ramoops_context *cxt = &oops_cxt;
-> +
-> +	mutex_lock(&cxt->lock);
-> +	if (cxt->callback) {
-> +		mutex_unlock(&cxt->lock);
-> +		return -EEXIST;
-> +	}
-> +
-> +	cxt->callback = fn;
-> +	if (cxt->ramoops_ready)
-> +		ramoops_ready_notifier(cxt);
-> +
-> +	mutex_unlock(&cxt->lock);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(register_ramoops_ready_notifier);
-> +
+> Christian?
 
-Can you please elaborate on why do we need this custom notifier logic? 
+Puts his completely imagined "I understand RCU head on".
+SLAB_TYPESAFE_BY_RCU makes the RCU consume memory ordering that the
+compiler doesn't officialy support (afaik) a bit wonky.
 
-why would not a standard notifier (include/linux/notifier.h) work here? 
-The notifier_call callback can recieve custom data from the 
-notifier chain implementer. All we need is to define a custom struct like
+So the thinking was that we could have code patterns where you could
+free the object and reallocate it while legitimatly passing the pointer
+recheck. In that case there is no memory ordering between the allocation
+and the pointer recheck because the last (re)allocation could have been
+after the rcu_dereference().
 
-struct pstore_ramoops_zone_data {
-	const char *name;
-	int id;
-	void *vaddr;
-	phys_addr_t paddr;
-	size_t size;
-};
+To combat that all future loads were made to have a dependency on the
+first load using the hidevar trick.
 
-and pass the pointer to array of this struct. 
-
-
-btw, the current logic only supports just one client and this limitation
-is not highlighted any where.
-
-Thanks,
-Pavan
-
+I guess that might only be theoretically possible but not in practice?
+But then I liked that we explicitly commented on it as a reminder.
