@@ -1,80 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AF13716A;
-	Mon, 27 Nov 2023 18:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fbwviPv1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEE7C433C7;
-	Mon, 27 Nov 2023 18:04:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701108299;
-	bh=yZAd/k08GdcTOr/Fs5n1V5VQl7oMldA6TqSlVGcOWQA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fbwviPv1dKJaPLc0mEB/gU/U5HQ9sxxhmTt2ywizmRonX8X5jx9fQnlqvTROeXeLw
-	 UneGMpLbqDgFR6nx1jr0mGGdF9mpMqy3sYSrRDhoJR6JSZyBAlOS+Qr68o0Ti0tcWb
-	 HYjoHmsTHdfjpWaYSeXQIBB15vlhYlaXoU7TY0Z/uBf7+eKq1dNywBbzq9wUD8yn68
-	 HeiXfFJn8JW6YLNetu8GFmGyZSLdkUS0Hy/VopQwr6N9cipd+iTXxRVFQzXLjg3b4l
-	 dn80JJlLrOmkh5r51G83Zt0bIugxxrZmNvmCj5p4Z12FlVeDJwkDHldBfQNZZ81dAB
-	 cRcjrAUGkdWWA==
-Date: Mon, 27 Nov 2023 10:04:58 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Edward Cree <ecree.xilinx@gmail.com>
-Cc: Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, corbet@lwn.net,
- jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org,
- mkubecek@suse.cz, willemdebruijn.kernel@gmail.com, gal@nvidia.com,
- alexander.duyck@gmail.com, linux-doc@vger.kernel.org, Igor Bagnucki
- <igor.bagnucki@intel.com>, Jacob Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH net-next v6 1/7] net: ethtool: pass ethtool_rxfh to
- get/set_rxfh ethtool ops
-Message-ID: <20231127100458.48e0ff6e@kernel.org>
-In-Reply-To: <81014d9d-4642-6a6b-2a44-02229cd734f9@gmail.com>
-References: <20231120205614.46350-1-ahmed.zaki@intel.com>
-	<20231120205614.46350-2-ahmed.zaki@intel.com>
-	<20231121152906.2dd5f487@kernel.org>
-	<4945c089-3817-47b2-9a02-2532995d3a46@intel.com>
-	<20231127085552.396f9375@kernel.org>
-	<81014d9d-4642-6a6b-2a44-02229cd734f9@gmail.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="BA//TnZG"
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F65C19D
+	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 10:16:03 -0800 (PST)
+Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-58d06bfadf8so2761014eaf.1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 10:16:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1701108962; x=1701713762; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FxoxtfZyYEABjHZ6RtVtSj3aKhK7A/US0jtAU3g5OGk=;
+        b=BA//TnZGQIcE9zbe35i7lFPkNDKCQV27j+1h/F8ePFjQyxsl4hGSl9jaymPMCYIMej
+         8JzcJQsXp3XPHdb3Bgi9ZZG/RPuTr2aJ6jCvNdK/B19YU4qLeY5IhW4wSnoMt49qW9bI
+         Pfl+nWyqFPQi4b8sT0rJGHoez0l4jLvX2SMunRI6AmuIRQKrexBBRkAF2cYqrtdsjoJL
+         yR97/L5hr6aH7fB+NC1e2JHWyQZGU+tZ/TkbAzitdfSISHOpAqf77RQVyIYzoDisIfEb
+         ST1bjWnjRbkZJrKDm/O8ccQRRu0A+bMoBtIQXmgTJVVfweRTkCUfUPOFMvB+AVyAcV1t
+         JsYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701108962; x=1701713762;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FxoxtfZyYEABjHZ6RtVtSj3aKhK7A/US0jtAU3g5OGk=;
+        b=V0w7NLKkE4kw/MQPy09asS+nqo4X07Y7wLt6aWKMxyBNUjxWbrcMjHjVyr7YLEs7N8
+         mImUR0V2/1KLNZRQyTGBDpQP+6DJn3cElXXbAYyhO4sHxJcu/d2x5z9ZAuRg0GIV4N7O
+         2XTKxIqfBeb12xtCh1Hz6WAclfKtxkCYZJERviLYw9SjKcUtOTz3z/AjoEyAgVQswZws
+         agUuYDbpEJ/6K3Ywcw8nXJrQkd+LQGg8Y3UNZTD8Wt9j+xvXxpxVTB6bh6SyqOsBgknX
+         CJZaFNrzmP2fGraZADgeFZ7BruWhtiZvn00GIFihsvI7PZbWSU/Nl3fWtVsRu76s0j9S
+         n3zA==
+X-Gm-Message-State: AOJu0YzjPpaECmJ3a3ux2cuhMYcesye58eZTjbJJpGTz4MT+R/Ik9ke/
+	aEFl0j9VG7L28TIfUzcXVQWrEw==
+X-Google-Smtp-Source: AGHT+IE+v6fFB7xdHxMtYP8G0Nfw9Tf/7BYotEm3H1gVkhmuH+mh9vYsMGoDKYeeMoWzyCVVgNRotw==
+X-Received: by 2002:a05:6820:809:b0:58d:a6ed:5601 with SMTP id bg9-20020a056820080900b0058da6ed5601mr1113420oob.1.1701108962609;
+        Mon, 27 Nov 2023 10:16:02 -0800 (PST)
+Received: from ghost ([2601:647:5700:6860:a896:28e0:13ca:92d8])
+        by smtp.gmail.com with ESMTPSA id b18-20020a4ac292000000b00581daa5c5fdsm1572457ooq.29.2023.11.27.10.16.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 10:16:01 -0800 (PST)
+Date: Mon, 27 Nov 2023 10:15:59 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
+Message-ID: <ZWTc3/FeBbXHs7aM@ghost>
+References: <20231122-fencei-v1-0-bec0811cb212@rivosinc.com>
+ <20231122-fencei-v1-1-bec0811cb212@rivosinc.com>
+ <20231127-epilogue-frying-4d5ba926617c@wendy>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231127-epilogue-frying-4d5ba926617c@wendy>
 
-On Mon, 27 Nov 2023 17:10:37 +0000 Edward Cree wrote:
-> Yep, I had noticed.  Was wondering how the removal of the old
->  [sg]et_rxfh_context functions would interact with my new API,
->  which has three ops (create/modify/delete) and thus can't
->  really be wedged into the [sg]et_rxfh() like that.
+On Mon, Nov 27, 2023 at 10:44:54AM +0000, Conor Dooley wrote:
+> On Wed, Nov 22, 2023 at 05:03:20PM -0800, Charlie Jenkins wrote:
+> > +
+> > +/**
+> > + * Enable userspace to emit icache flushing instructions.
+> > + *
+> > + * When in per-process context, there may be multiple threads using the same mm.
+> > + * Therefore, the icache can never be assumed clean when. Multiple threads in
+> > + * the process may modify instructions in the mm concurrently.
+> > + *
+> > + * In per-thread context, it can be assumed that all modifications to
+> > + * instructions in memory will be performed by this thread. When the thread is
+> > + * migrated the icache will be flushed.
+> > + *
+> > + * @arg arg: Sets the type of context
+> > + *  - PR_RISCV_CTX_SW_FENCEI: Allow fence.i in userspace. Another fence.i will
+> > + *			      emitted on thread/process migration.
+> > + * @arg per_thread: When set to 0, will use the default behavior of setting the
+> > + *  icache flush context per process. When set to 1, will use a per thread
+> > + *  context.
+> > + */
+> 
+> FYI, this is not valid kerneldoc and breaks allmodconfig builds:
+>  arch/riscv/mm/cacheflush.c:159: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+> 
+> > +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread)
+> 
+> 
+> Cheers,
+> Conor.
 
-Set side looks fairly straightforward. Get is indeed more tricky.
+Thank you, I will fix that in the next version.
 
-> Tbh I'd rather move in the direction of using the new API (and
->  associated state-in-core) for everything, even context 0, so
->  that the behaviour is consistent between default and custom
->  contexts for NICs that support the latter.  Not 100% sure how
->  exactly that would work in practice yet though; drivers are
->  currently responsible for populating ctx 0 (indir, key, etc)
->  at probe time so how do you read that state into the core?
+- Charlie
 
-We can try to slowly move drivers over from the "pull model"
-to a "push model" where they inform the core about the change
-they have made. The main thing to worry about will probably
-be the indirection table, as queues get reconfigured.
-
-Maybe we can tie the switch over to the multi-context support?
-
-Or wait with the conversion until the new API gets some use
-for the non-0 context..
-
-> And I promise v5 of the rework is coming eventually, bosses
->  just keep prioritising everything but this :(
-
-Right, which is why I'm not asking Ahmed to worry about/wait for 
-your work :)
