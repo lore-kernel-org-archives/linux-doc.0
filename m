@@ -1,398 +1,286 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4C64JAH"
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4420519B0;
-	Sun, 26 Nov 2023 21:39:05 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6be0277c05bso3205414b3a.0;
-        Sun, 26 Nov 2023 21:39:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701063545; x=1701668345; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NX4xnb+Y6UTiviuMBl/tewe6sCua/bVxOuCKRZ4I0bo=;
-        b=Y4C64JAHip6YkDnrt3omo/0CbjbqYGqHVLPnnzA+LeFVy+JXX9CzKWqrx025orThR6
-         fNaHRbuEHSnOrzSYJSD7XHeNE3pTStL0BN+rvVkJ6e6nwG4zIDuoALEWFUNxo0MNrFMy
-         h7VS8uGowfEaihLkirf46DLpc6xOazbqA/UES2m0RSljb2lcC+OmVZtoBfwJ+xCBm8GJ
-         RcaOU8EjKPPBE4S7zQEoSHTpRhUMO4ljOnAzOqtD6XkoDxplKnE+vIENMbUUhAOvXjb2
-         CxJK/bHh6MgoJevEJJiNIMIFMSybPC3yqWWQ9rpgtSv36yKKLybhvRHdldgjsO32djkv
-         QCcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701063545; x=1701668345;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NX4xnb+Y6UTiviuMBl/tewe6sCua/bVxOuCKRZ4I0bo=;
-        b=E26Il8Vo61V61xYt13C02F/f39m4EFfu0VVUhSl8AKPgAZCjSW0i2Yrj9HOKDQBzDj
-         DcverOQkDfQDviRJHNYP3IiVpE3nr4HYFIo+hniVsRqinsOJxIH5rTqw3kf3qyJ6Gx3a
-         Fp05boWWpCzSBHZ8VT9V/9MJMoOP557q6+v2YPrG1tWFQjByGBwKDBz3DUqWmNobl7ow
-         0t6gyjI6U+/dhCbicoeTUlANqNpFyQzeooOKiWT9PXiUqpSWZJ7ZNvbBGxAQhQlNvWAC
-         ristGapMuf9DjbITDnFjs3D/5nCrCZC1phNyRujPIJgI+Nszu+tB7By5Xk02YjKz9PHr
-         BVDQ==
-X-Gm-Message-State: AOJu0Yxff6S3TOlQN27UFnNCBFm7CBgxye5l7OD8j8U2ULbx/QYIIAmq
-	zHX4ZL98e8zg8V3C8wtWHKQ=
-X-Google-Smtp-Source: AGHT+IEXfuisJUFusS+Gaj5RNsLQEjGTROBbYT0tKXPV6334Nlqt2LUywy6CWVwD0CXcxJLfxejR3Q==
-X-Received: by 2002:a05:6a00:2d07:b0:6be:2991:d878 with SMTP id fa7-20020a056a002d0700b006be2991d878mr11641552pfb.15.1701063544569;
-        Sun, 26 Nov 2023 21:39:04 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id gu23-20020a056a004e5700b006cb6fa32590sm6532374pfb.148.2023.11.26.21.39.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 21:39:03 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 70C781033A242; Mon, 27 Nov 2023 12:38:59 +0700 (WIB)
-Date: Mon, 27 Nov 2023 12:38:59 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net, agross@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-	mathieu.poirier@linaro.org, vigneshr@ti.com, nm@ti.com,
-	matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
-	bmasney@redhat.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
-Subject: Re: [Patch v6 03/12] docs: qcom: Add qualcomm minidump guide
-Message-ID: <ZWQrc7w2AD2WvwkK@archie.me>
-References: <1700864395-1479-1-git-send-email-quic_mojha@quicinc.com>
- <1700864395-1479-4-git-send-email-quic_mojha@quicinc.com>
+	dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b="BIF2DD/u"
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2139.outbound.protection.outlook.com [40.107.255.139])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95970124;
+	Sun, 26 Nov 2023 21:45:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VzkADlpYwBdxIQZkKvGEsXNleWvVYZdrWMn+2LtgbS5D5q3vtzGbq63LLzjToOTHvKZmXF+dPSvE6E5qHDMtxPQOZBuUQWlyMWWKOjzPTIob+KTIhJdirUgeyFCfKRx52tSqSiCnE0io0wkVRfF8O4KxsZFyvkADDmpZmeav/nb2/d20cOLHpC+/AUjFZ+q51NuDdWjPVFYVx6sdxdaFiQ+5VYgAlJr+Tp4owimGn3RoML9Z04Vd18Mag6gr4vcJPdWfmP19vV3EwvQs4KQ1rumezZIbLGHQICOMLEmsJ/N2a65tR7o8ugJ676HjdRnMZpx02qegTOCxHGEhlKbPUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1He1AIe8gVwfcHdPJ1xuf6rTQn/3S/Q7MBx3NAb/4ok=;
+ b=SopVUE0l6FcvkefrotdsGF0AmfcZInhkadcNFdOBlWFbkH2eWtqgtt/s82Gq1dgd4p9MbzKgvS9Hx3ZcVkWpTC6PP9jb0svorAualSzLa09guyRllxkSnHNUv/t5dSTGo4NMuq6cUm895kesyQG2jW3XLZlOXyljzzRZxtZImNZi018Zqv+TiSZYROD9zDFL8dG2rYynD69LF5GRbVS81V5msyJb2QYEYNMMq++YMO2UtSqR3NVzVSU/GZXsT06VvHN6k62iBBl9149u9H6uy4ry4uIzgSquKYH5cuoMU8CEc4aW/IAIcDBdKcqBgGg09WhB+DEpxp/uEnhpGQr2Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1He1AIe8gVwfcHdPJ1xuf6rTQn/3S/Q7MBx3NAb/4ok=;
+ b=BIF2DD/uBI6NIJ78yYI5bUu4EQT02WlR+0qlBm90HemvEmX26IN/F4ne5BMWJCLGmiS4DUl4F8LZ88WXwHtfHWfPMSg1P/zHij/Gs3O7qIs/3UGwaRSNtPoJ1G4brmp1i7P1Q7x2/Lj9feg4V57nm4xNC4cbcTQUsySSnCmNfaLTx+iou/OuENqxTh0ECveygOUjE5AbOEibmbAdrqCnw1mrqBOvVyLTfhGkWEuUdLbABw4ByMZXXA6AYSDzmPgoNyiZ7lLkjM2x6mWlV/XHx8h8QiI5cdxRHkfUo5hV1zEb3VKb/84IgFfx/fnYMr2HEqRI74cbM7oU9f7iFmkI5g==
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
+ SEYPR06MB6062.apcprd06.prod.outlook.com (2603:1096:101:d4::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7025.27; Mon, 27 Nov 2023 05:45:49 +0000
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::55c4:990b:3f5c:b5a1]) by SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::55c4:990b:3f5c:b5a1%4]) with mapi id 15.20.7025.022; Mon, 27 Nov 2023
+ 05:45:49 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Rob Herring <robh@kernel.org>
+CC: "jdelvare@suse.com" <jdelvare@suse.com>, "linux@roeck-us.net"
+	<linux@roeck-us.net>, "krzysztof.kozlowski+dt@linaro.org"
+	<krzysztof.kozlowski+dt@linaro.org>, "joel@jms.id.au" <joel@jms.id.au>,
+	"andrew@aj.id.au" <andrew@aj.id.au>, "corbet@lwn.net" <corbet@lwn.net>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+	"naresh.solanki@9elements.com" <naresh.solanki@9elements.com>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-pwm@vger.kernel.org"
+	<linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>,
+	"patrick@stwcx.xyz" <patrick@stwcx.xyz>
+Subject: Re: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
+ TACH Control
+Thread-Topic: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
+ TACH Control
+Thread-Index: AQHaEWg/mi95vh4kakyU/BlPzwqmf7Bwvf+AgAhoGLuADcExAIAAWWVx
+Date: Mon, 27 Nov 2023 05:45:48 +0000
+Message-ID:
+ <SG2PR06MB3365CAEE9CE3F691DA1CA1E28BB9A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
+ <20231107105025.1480561-3-billy_tsai@aspeedtech.com>
+ <20231108182135.GA2698015-robh@kernel.org>
+ <SG2PR06MB33655734700697E8F6FD0D1B8BB2A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+ <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com>
+In-Reply-To:
+ <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|SEYPR06MB6062:EE_
+x-ms-office365-filtering-correlation-id: 75a7f0a6-49ab-4a71-4a74-08dbef0c1bb0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 2yuYAnquRS+OsUBKEGhxrBpuHtyptqnvSZ5jV1B2OveHC5ub984Oec5vNhyHhRQ7nV3DAiNV4NXQcc9ZUORX4xu3+YAYA0wlX6KVl3Ka/1W31DYOSMrGnT1uFf/5UHUfccei8IVhI9Kz/+Y+hnmXMRPnwYbVPEehuUHjLvahq8bBZH1erm9QWjyO0dRLCt2cvSvUCqrQqSnSIMOfbeJLvO6fzfeV87JE3wNNyfv45/S6BaKNvon9nHKrjsKKqY0Z9iiLDSKRGYMDo0X6TMN7w2ClrSwiFygARKcEUaFfMtuxJ7KenHgokKaHNHQGm28NiKeUS91x1gXqfdIJbRTlwg0tO+V9QYFIUN2L0cKK1KarPMpZS2vZPCIKWSCGhX3/NeZtjjvP83S+c14nDMvqoUI7HQZQV3TM19VQYJPyT4QFcYCYy4P76Ds697DUI7fUFysr76zEmdvBEc3LPtnE7RyohbFud8K+ox+JlDDndN5WvwMADHuf5ac2PBuHnLZvVki9y8zt3ydj+gbUNK1Wn9IMBqGcSd3uAKzbEjs1g9ygf5P9Slby6sr+o5lpH5shbiK7DMcoenVgOZmAUsgtSU9ed75e0GkC+7JpELZTa48=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39840400004)(396003)(136003)(366004)(376002)(346002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(86362001)(38100700002)(122000001)(38070700009)(33656002)(478600001)(966005)(66556008)(66476007)(66446008)(6916009)(316002)(54906003)(64756008)(76116006)(66946007)(91956017)(26005)(55016003)(7696005)(6506007)(71200400001)(55236004)(9686003)(5660300002)(2906002)(7416002)(4326008)(41300700001)(8936002)(8676002)(52536014)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?plNvgKRUVn92ViCKiO6Ig4/GvkqKZVX6J9I802BehG7GfEV/ClKORlx+7u?=
+ =?iso-8859-1?Q?1r6yuH+RKylhsO7EvKCSP06rqdNNIjd5W8+sJR1wgsNhACp97SSxH/Qqzb?=
+ =?iso-8859-1?Q?ZSTqYo7akUjLCu3z0yBc+a9KQyMxNW9WOBjkZ6Mednflx2cVNDvhMF2w+S?=
+ =?iso-8859-1?Q?oVjpe6nNbR4qejMO+okXIaDsEIUIPyJKaLykzhpKB92V44VQMjdwi63c4P?=
+ =?iso-8859-1?Q?8fWUNrX88GBiLpPw+I6mZGcKR9vDY9rIKD2ZMUJTMq/yvgQSrZJgyCmsMV?=
+ =?iso-8859-1?Q?jl/UhvpR0A8Sd7r2SY/XzY+55hlAcqP1fXu2WcsMkFAeUjsw0zlQzKAMTH?=
+ =?iso-8859-1?Q?GMr9r32nuFmsqGn7eaXTicpaI0H/5i+rEBpUuAY7M5ZyrdidM2s28pDBdJ?=
+ =?iso-8859-1?Q?gTWU2/tpe6RsXvbfmCMG0/srb0TTebN18+zIuAbeEE/JVsta2qfty2Ejzm?=
+ =?iso-8859-1?Q?7EFyTkC5qxr4CuY1JTmv1+3ATWB0gG+GkGafpcYZng0kecKd/hAxj+zrxQ?=
+ =?iso-8859-1?Q?mwYDKCYCGiQ5uyVUUpoXtIk5D9rygVq2xZ6Qj14s8JBjgj1nPpBqYXaBum?=
+ =?iso-8859-1?Q?+z/JadAMdVK0smyFqgDL90D6objuVMZ08tg+etGoqoaqtp44oPwF7gD9cC?=
+ =?iso-8859-1?Q?l2HBPmohJNwbujfqzwOG+vMxlhPACseAGOOlbSy4E+g6pmlfCLykmf4xBi?=
+ =?iso-8859-1?Q?5+AZfo9PfwDoWYsNyCLXpK9uuXKrmGbI0oMGiS6yCLdaJjtvpW1SsF9ofE?=
+ =?iso-8859-1?Q?floZeQpwFCykAABBcb4gQC4D1ctdA58xqXoNO0sDiH2+BK+FTzYyRblnAU?=
+ =?iso-8859-1?Q?e5BBY+a9ZT/KqgbMITyKIlmWcwHGSGZphJ4MO96cIKfn/LAe4qr4VStezi?=
+ =?iso-8859-1?Q?l71BTuwjE0eT1ZzNl1WKO2QrmT6eoR6kVUU28F/LqtwQ+xHjZ21sfTUnpk?=
+ =?iso-8859-1?Q?IwpblTWYbIpiRAPjNRzFE0Kj9/6iPWG36naDjlefh9J5xEWTG7Fogr93R9?=
+ =?iso-8859-1?Q?xJntXIS8CLsJAGjpPU9KkdoUyEtDWFCuImcEqJeJ1rxAlsqZC12RvxU04R?=
+ =?iso-8859-1?Q?Ez3LYUCdFbO4rOvxvzE5nP0my0aj2P3hC2Ny2AHiGVqAPVpzs98ADfts9o?=
+ =?iso-8859-1?Q?wbFkfT7UfMcy7nJfofo8HTbfu9JqpdRzs8Y7HOzRQsg3FppqJgaGqUoXwW?=
+ =?iso-8859-1?Q?J9qjDLLw1opfESolxfRcFwTzXNWx0yh2CYKggL+hxhuwYc/kepNaIaJ/8w?=
+ =?iso-8859-1?Q?bL9XBVsOkFJUGpSb5xCAlumRhqc9ig51XmCMFu2/mGpfLfGlVZyztTrD7U?=
+ =?iso-8859-1?Q?aq0aKD1rUfSO/Un4GadsK1VIW61n9HdUeO75X8nB8WpfjSuV00mRQtCakJ?=
+ =?iso-8859-1?Q?E5vMgC+fNrKWBcLI0NjHpmIugfbbYeynnK6U4khN2X+8fb1E5r7/HiMPqv?=
+ =?iso-8859-1?Q?07xXqQsoMHJlte8zb/iy+9h97edxddcRtdu7hEozdSATQtiARd/dBSXMou?=
+ =?iso-8859-1?Q?iWdCzxkAgf7/QoZU5aw561nSzhyL8oe4rIsc4d/WIHLRrvoUzPGaad6o5S?=
+ =?iso-8859-1?Q?hcW9ajTSj/R7BcYJrAoDb8+JWpz6My5V+Pt0FZ3hC/xsvE6qaqHSJTdyui?=
+ =?iso-8859-1?Q?Z5n3dKVV6MoBLpr9CGwtoRWvQ93bBwkqvi?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BuCQw3fkz+a4hLx6"
-Content-Disposition: inline
-In-Reply-To: <1700864395-1479-4-git-send-email-quic_mojha@quicinc.com>
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75a7f0a6-49ab-4a71-4a74-08dbef0c1bb0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2023 05:45:48.5969
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vzdsqUIkQu2XfkFtPswWaxUG3WB0yIm4vu4aV3q9cfqw0C68ekyE2C30nUhZnehrLQO+XCBwtEQuuKl7FpcmcST6y6TlsrZjS4bqFlnDcI0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6062
 
-
---BuCQw3fkz+a4hLx6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Nov 25, 2023 at 03:49:46AM +0530, Mukesh Ojha wrote:
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-gu=
-ide/index.rst
-> index 43ea35613dfc..251d070486c2 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -120,6 +120,7 @@ configure specific aspects of kernel behavior to your=
- liking.
->     perf-security
->     pm/index
->     pnp
-> +   qcom_minidump
->     rapidio
->     ras
->     rtc
-> diff --git a/Documentation/admin-guide/qcom_minidump.rst b/Documentation/=
-admin-guide/qcom_minidump.rst
-> new file mode 100644
-> index 000000000000..b492f2b79639
-> --- /dev/null
-> +++ b/Documentation/admin-guide/qcom_minidump.rst
-> @@ -0,0 +1,272 @@
-> +Qualcomm minidump feature
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> +
-> +Introduction
-> +------------
-> +
-> +Minidump is a best effort mechanism to collect useful and predefined
-> +data for first level of debugging on end user devices running on
-> +Qualcomm SoCs. It is built on the premise that System on Chip (SoC)
-> +or subsystem part of SoC crashes, due to a range of hardware and
-> +software bugs. Hence, the ability to collect accurate data is only
-> +a best-effort. The data collected could be invalid or corrupted, data
-> +collection itself could fail, and so on.
-> +
-> +Qualcomm devices in engineering mode provides a mechanism for generating
-> +full system RAM dumps for post-mortem debugging. But in some cases it's
-> +however not feasible to capture the entire content of RAM. The minidump
-> +mechanism provides the means for selected region should be included in
-> +the ramdump.
-> +
-> +
-> +::
-> +
-> +   +-----------------------------------------------+
-> +   |   DDR                       +-------------+   |
-> +   |                             |      SS0-ToC|   |
-> +   | +----------------+     +----------------+ |   |
-> +   | |Shared memory   |     |         SS1-ToC| |   |
-> +   | |(SMEM)          |     |                | |   |
-> +   | |                | +-->|--------+       | |   |
-> +   | |G-ToC           | |   | SS-ToC  \      | |   |
-> +   | |+-------------+ | |   | +-----------+  | |   |
-> +   | ||-------------| | |   | |-----------|  | |   |
-> +   | || SS0-ToC     | | | +-|<|SS1 region1|  | |   |
-> +   | ||-------------| | | | | |-----------|  | |   |
-> +   | || SS1-ToC     |-|>+ | | |SS1 region2|  | |   |
-> +   | ||-------------| |   | | |-----------|  | |   |
-> +   | || SS2-ToC     | |   | | |  ...      |  | |   |
-> +   | ||-------------| |   | | |-----------|  | |   |
-> +   | ||  ...        | |   |-|<|SS1 regionN|  | |   |
-> +   | ||-------------| |   | | |-----------|  | |   |
-> +   | || SSn-ToC     | |   | | +-----------+  | |   |
-> +   | |+-------------+ |   | |                | |   |
-> +   | |                |   | |----------------| |   |
-> +   | |                |   +>|  regionN       | |   |
-> +   | |                |   | |----------------| |   |
-> +   | +----------------+   | |                | |   |
-> +   |                      | |----------------| |   |
-> +   |                      +>|  region1       | |   |
-> +   |                        |----------------| |   |
-> +   |                        |                | |   |
-> +   |                        |----------------|-+   |
-> +   |                        |  region5       |     |
-> +   |                        |----------------|     |
-> +   |                        |                |     |
-> +   |  Region information    +----------------+     |
-> +   | +---------------+                             |
-> +   | |region name    |                             |
-> +   | |---------------|                             |
-> +   | |region address |                             |
-> +   | |---------------|                             |
-> +   | |region size    |                             |
-> +   | +---------------+                             |
-> +   +-----------------------------------------------+
-> +       G-ToC: Global table of contents
-> +       SS-ToC: Subsystem table of contents
-> +       SS0-SSn: Subsystem numbered from 0 to n
-> +
-> +It depends on SoC where the underlying firmware is keeping the
-> +minidump global table taking care of subsystem ToC part for
-> +minidump like for above diagram, it is for shared memory sitting
-> +in DDR and it is shared among various master however it is possible
-> +that this could be implemented via memory mapped regions but the
-> +general idea should remain same. Here, various subsystem could be
-> +DSP's like ADSP/CDSP/MODEM etc, along with Application processor
-> +(APSS) where Linux runs. DSP minidump gets collected when DSP's goes
-> +for recovery followed by a crash. The minidump part of code for
-> +that resides in ``qcom_rproc_minidump.c``.
-> +
-> +
-> +SMEM as backend
-> +----------------
-> +
-> +In this document, SMEM will be used as the backend implementation
-> +of minidump.
-> +
-> +The core of minidump feature is part of Qualcomm's boot firmware code.
-> +It initializes shared memory (SMEM), which is a part of DDR and
-> +allocates a small section of it to minidump table, i.e. also called
-> +global table of contents (G-ToC). Each subsystem (APSS, ADSP, ...) has
-> +its own table of segments to be included in the minidump, all
-> +references from a descriptor in SMEM (G-ToC). Each segment/region has
-> +some details like name, physical address and its size etc. and it
-> +could be anywhere scattered in the DDR.
-> +
-> +Qualcomm APSS Minidump kernel driver concept
-> +--------------------------------------------
-> +
-> +Qualcomm APSS minidump kernel driver adds the capability to add Linux
-> +region to be dumped as part of RAM dump collection. At the moment,
-> +shared memory driver creates platform device for minidump driver and
-> +give a means to APSS minidump to initialize itself on probe.
-> +
-> +This driver provides ``qcom_minidump_region_register`` and
-> +``qcom_minidump_region_unregister`` API's to register and unregister
-> +APSS minidump region. It also supports registration for the clients
-> +who came before minidump driver was initialized. It maintains pending
-> +list of clients who came before minidump and once minidump is initialized
-> +it registers them in one go.
-> +
-> +To simplify post-mortem debugging, driver creates and maintain an ELF
-> +header as first region that gets updated each time a new region gets
-> +registered.
-> +
-> +The solution supports extracting the RAM dump/minidump produced either
-> +over USB or stored to an attached storage device.
-> +
-> +Dependency of minidump kernel driver
-> +------------------------------------
-> +
-> +It is to note that whole of minidump depends on Qualcomm boot firmware
-> +whether it supports minidump or not. So, if the minidump SMEM ID is
-> +present in shared memory, it indicates that minidump is supported from
-> +boot firmware and it is possible to dump Linux (APSS) region as part
-> +of minidump collection.
-> +
-> +How a kernel client driver can register region with minidump
-> +------------------------------------------------------------
-> +
-> +Client driver can use ``qcom_minidump_region_register`` API's to register
-> +and ``qcom_minidump_region_unregister`` to unregister their region from
-> +minidump driver.
-> +
-> +Client needs to fill their region by filling ``qcom_minidump_region``
-> +structure object which consists of the region name, region's virtual
-> +and physical address and its size.
-> +
-> +Below, is one sample client driver snippet which tries to allocate a
-> +region from kernel heap of certain size and it writes a certain known
-> +pattern (that can help in verification after collection that we got
-> +the exact pattern, what we wrote) and registers it with minidump.
-> +
-> + .. code-block:: c
-> +
-> +  #include <soc/qcom/qcom_minidump.h>
-> +  [...]
-> +
-> +
-> +  [... inside a function ...]
-> +  struct qcom_minidump_region region;
-> +
-> +  [...]
-> +
-> +  client_mem_region =3D kzalloc(region_size, GFP_KERNEL);
-> +  if (!client_mem_region)
-> +	return -ENOMEM;
-> +
-> +  [... Just write a pattern ...]
-> +  memset(client_mem_region, 0xAB, region_size);
-> +
-> +  [... Fill up the region object ...]
-> +  strlcpy(region.name, "REGION_A", sizeof(region.name));
-> +  region.virt_addr =3D client_mem_region;
-> +  region.phys_addr =3D virt_to_phys(client_mem_region);
-> +  region.size =3D region_size;
-> +
-> +  ret =3D qcom_minidump_region_register(&region);
-> +  if (ret < 0) {
-> +	pr_err("failed to add region in minidump: err: %d\n", ret);
-> +	return ret;
-> +  }
-> +
-> +  [...]
-> +
-> +
-> +Test
-> +----
-> +
-> +Existing Qualcomm devices already supports entire RAM dump (also called
-> +full dump) by writing appropriate value to Qualcomm's top control and
-> +status register (tcsr) in ``driver/firmware/qcom_scm.c`` .
-> +
-> +SCM device Tree bindings required to support download mode
-> +For example (sm8450) ::
-> +
-> +	/ {
-> +
-> +	[...]
-> +
-> +		firmware {
-> +			scm: scm {
-> +				compatible =3D "qcom,scm-sm8450", "qcom,scm";
-> +				[... tcsr register ... ]
-> +				qcom,dload-mode =3D <&tcsr 0x13000>;
-> +
-> +				[...]
-> +			};
-> +		};
-> +
-> +	[...]
-> +
-> +		soc: soc@0 {
-> +
-> +			[...]
-> +
-> +			tcsr: syscon@1fc0000 {
-> +				compatible =3D "qcom,sm8450-tcsr", "syscon";
-> +				reg =3D <0x0 0x1fc0000 0x0 0x30000>;
-> +			};
-> +
-> +			[...]
-> +		};
-> +	[...]
-> +
-> +	};
-> +
-> +User of minidump can pass ``qcom_scm.download_mode=3D"mini"`` to kernel
-> +commandline to set the current download mode to minidump.
-> +Similarly, ``"full"`` is passed to set the download mode to full dump
-> +where entire RAM dump will be collected while setting it ``"full,mini"``
-> +will collect minidump along with fulldump.
-> +
-> +Writing to sysfs node can also be used to set the mode to minidump::
-> +
-> +	echo "mini" > /sys/module/qcom_scm/parameter/download_mode
-> +
-> +Once the download mode is set, any kind of crash will make the device co=
-llect
-> +respective dump as per set download mode.
-> +
-> +Dump collection
-> +---------------
-> +::
-> +
-> +	+-----------+
-> +	|           |
-> +	|           |         +------+
-> +	|           |         |      |
-> +	|           |         +--+---+ Product(Qualcomm SoC)
-> +	+-----------+             |
-> +	|+++++++++++|<------------+
-> +	|+++++++++++|    usb cable
-> +	+-----------+
-> +            x86_64 PC
-> +
-> +The solution supports a product running with Qualcomm SoC (where minidum=
-p)
-> +is supported from the firmware) connected to x86_64 host PC running PCAT
-> +tool. It supports downloading the minidump produced from product to the
-> +host PC over USB or to save the minidump to the product attached storage
-> +device(UFS/eMMC/SD Card) into minidump dedicated partition.
-> +
-> +By default, dumps are downloaded via USB to the attached x86_64 PC runni=
-ng
-> +PCAT (Qualcomm tool) software. Upon download, we will see a set of binary
-> +blobs starting with name ``md_*`` in PCAT configured directory in x86_64
-> +machine, so for above example from the client it will be ``md_REGION_A.B=
-IN``.
-> +This binary blob depends on region content to determine whether it needs
-> +external parser support to get the content of the region, so for simple
-> +plain ASCII text we don't need any parsing and the content can be seen
-> +just opening the binary file.
-> +
-> +To collect the dump to attached storage type, one needs to write appropr=
-iate
-> +value to IMEM register, in that case dumps are collected in rawdump
-> +partition on the product device itself.
-> +
-> +One needs to read the entire rawdump partition and pull out content to
-> +save it onto the attached x86_64 machine over USB. Later, this rawdump
-> +can be passed to another tool (``dexter.exe`` [Qualcomm tool]) which
-> +converts this into the similar binary blobs which we have got it when
-> +download type was set to USB, i.e. a set of registered regions as blobs
-> +and their name starts with ``md_*``.
-> +
-> +Replacing the ``dexter.exe`` with some open source tool can be added as =
-future
-> +scope of this document.
-
-LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---BuCQw3fkz+a4hLx6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWQrbQAKCRD2uYlJVVFO
-o16CAQC7qBNMo3GAelqbYCC7X0VFYpjeiiqcRiy6GrizoTGcCgD8D5mzVjQfqBvY
-bh6PeiYqzBUUfBhACG4CtQpxBGryGwk=
-=BPu8
------END PGP SIGNATURE-----
-
---BuCQw3fkz+a4hLx6--
+> > > > Document the compatible for aspeed,ast2600-pwm-tach device, which c=
+an=0A=
+> > > > support up to 16 PWM outputs and 16 fan tach input.=0A=
+> > > >=0A=
+> > > > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>=0A=
+> > > > ---=0A=
+> > > >  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++++=
+++++=0A=
+> > > >  1 file changed, 69 insertions(+)=0A=
+> > > >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,=
+g6-pwm-tach.yaml=0A=
+> > > >=0A=
+> > > > diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-=
+tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml=
+=0A=
+> > > > new file mode 100644=0A=
+> > > > index 000000000000..c615fb10705c=0A=
+> > > > --- /dev/null=0A=
+> > > > +++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.ya=
+ml=0A=
+> > > > @@ -0,0 +1,69 @@=0A=
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)=0A=
+> > > > +# Copyright (C) 2023 Aspeed, Inc.=0A=
+> > > > +%YAML 1.2=0A=
+> > > > +---=0A=
+> > > > +$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#=
+=0A=
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#=0A=
+> > > > +=0A=
+> > > > +title: ASPEED G6 PWM and Fan Tach controller=0A=
+> > > > +=0A=
+> > > > +maintainers:=0A=
+> > > > +  - Billy Tsai <billy_tsai@aspeedtech.com>=0A=
+> > > > +=0A=
+> > > > +description: |=0A=
+> > > > +  The ASPEED PWM controller can support up to 16 PWM outputs.=0A=
+> > > > +  The ASPEED Fan Tacho controller can support up to 16 fan tach in=
+put.=0A=
+> > > > +  They are independent hardware blocks, which are different from t=
+he=0A=
+> > > > +  previous version of the ASPEED chip.=0A=
+> > > > +=0A=
+> > > > +properties:=0A=
+> > > > +  compatible:=0A=
+> > > > +    enum:=0A=
+> > > > +      - aspeed,ast2600-pwm-tach=0A=
+> > > > +=0A=
+> > > > +  reg:=0A=
+> > > > +    maxItems: 1=0A=
+> > > > +=0A=
+> > > > +  clocks:=0A=
+> > > > +    maxItems: 1=0A=
+> > > > +=0A=
+> > > > +  resets:=0A=
+> > > > +    maxItems: 1=0A=
+> > > > +=0A=
+> > > > +  "#pwm-cells":=0A=
+> > > > +    const: 3=0A=
+> > > > +=0A=
+> > > > +patternProperties:=0A=
+> > > > +  "^fan-[0-9]+$":=0A=
+> > > > +    $ref: fan-common.yaml#=0A=
+> > > > +    unevaluatedProperties: false=0A=
+> > > > +    required:=0A=
+> > > > +      - tach-ch=0A=
+> > > > +=0A=
+> > > > +required:=0A=
+> > > > +  - reg=0A=
+> > > > +  - clocks=0A=
+> > > > +  - resets=0A=
+> > > > +  - "#pwm-cells"=0A=
+> > > > +  - compatible=0A=
+> > > > +=0A=
+> > > > +additionalProperties: false=0A=
+> > > > +=0A=
+> > > > +examples:=0A=
+> > > > +  - |=0A=
+> > > > +    #include <dt-bindings/clock/aspeed-clock.h>=0A=
+> > > > +    pwm_tach: pwm-tach-controller@1e610000 {=0A=
+> > > > +      compatible =3D "aspeed,ast2600-pwm-tach";=0A=
+> > > > +      reg =3D <0x1e610000 0x100>;=0A=
+> > > > +      clocks =3D <&syscon ASPEED_CLK_AHB>;=0A=
+> > > > +      resets =3D <&syscon ASPEED_RESET_PWM>;=0A=
+> > > > +      #pwm-cells =3D <3>;=0A=
+> > > > +=0A=
+> > > > +      fan-0 {=0A=
+> >=0A=
+> > > I assume there's a PWM connection here? How do you know which PWM? Yo=
+u=0A=
+> > > said the tach channel is independent, so it is not that.=0A=
+> >=0A=
+> > > It should not be 0 from 'fan-0' because that's just a meaningless ind=
+ex.=0A=
+> >=0A=
+> > > You either need 'pwms' here or you can use 'reg' and the reg value is=
+=0A=
+> > > the PWM channel.=0A=
+> >=0A=
+> > Hi Rob, this binding is used to export the PWM provider and the Fan mon=
+itor (i.e., Tach).=0A=
+> > If the user wants to add the PWM connection for the fan, it can be done=
+ as follows:=0A=
+> >=0A=
+> > fan0: pwm-fan0 {=0A=
+> >         compatible =3D "pwm-fan";=0A=
+> >         pwms =3D <&pwm_tach 0 40000 0>;=0A=
+> >         cooling-min-state =3D <0>;=0A=
+> >         cooling-max-state =3D <3>;=0A=
+> >         #cooling-cells =3D <2>;=0A=
+> >         cooling-levels =3D <0 15 128 255>;=0A=
+> > };=0A=
+> >=0A=
+> > This will reuse the existing PWM fan driver (e.g., pwm-fan.c).=0A=
+=0A=
+> I'm confused now. So what are the child nodes you have? You are=0A=
+> defining the fan in 2 places? The "pwm-fan" driver supports a tach via=0A=
+> an interrupt, so how would this work in your case?=0A=
+=0A=
+Hi Rob,=0A=
+=0A=
+The tach interrupt for the pwm-fan is option. In our case, the dts just reu=
+se the pwm control function=0A=
+of the pwm-fan, and the part of the tach monitor will be created by our fan=
+ child nodes.=0A=
+So the dts will like followings:=0A=
+=0A=
+// Use to declare the tach monitor for fan.=0A=
+&pwm_tach {=0A=
+        fan-0 {=0A=
+		tach-ch =3D /bits/ 8 <0x0>;=0A=
+	};=0A=
+	fan-1 {=0A=
+		tach-ch =3D /bits/ 8 <0x1>;=0A=
+	};=0A=
+        ...=0A=
+}=0A=
+=0A=
+// Reuse the pwm-fan.c to control the behavior of the PWM for fan.=0A=
+fan0: pwm-fan0 {=0A=
+        compatible =3D "pwm-fan";=0A=
+        pwms =3D <&pwm_tach 0 40000 0>;   /* Target freq:25 kHz */=0A=
+        cooling-min-state =3D <0>;=0A=
+        cooling-max-state =3D <3>;=0A=
+        #cooling-cells =3D <2>;=0A=
+        cooling-levels =3D <0 15 128 255>;=0A=
+};=0A=
+=0A=
+fan1: pwm-fan1 {=0A=
+        compatible =3D "pwm-fan";=0A=
+        pwms =3D <&pwm_tach 1 40000 0>;   /* Target freq:25 kHz */=0A=
+        cooling-min-state =3D <0>;=0A=
+        cooling-max-state =3D <3>;=0A=
+        #cooling-cells =3D <2>;=0A=
+        cooling-levels =3D <0 15 128 255>;=0A=
+};=0A=
+=0A=
+Thanks=
