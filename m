@@ -1,15 +1,34 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id E9538F0;
-	Sun, 26 Nov 2023 21:50:47 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EECA2F4;
-	Sun, 26 Nov 2023 21:51:35 -0800 (PST)
-Received: from [10.162.41.8] (a077893.blr.arm.com [10.162.41.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 180743F6C4;
-	Sun, 26 Nov 2023 21:50:43 -0800 (PST)
-Message-ID: <6bb84dec-42de-431a-b2e2-ebb532e0375e@arm.com>
-Date: Mon, 27 Nov 2023 11:20:40 +0530
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mrDBRmM4"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A33AE1;
+	Sun, 26 Nov 2023 22:12:50 -0800 (PST)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AR263eq015676;
+	Mon, 27 Nov 2023 06:12:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Nw//Q0T2ItPW3xNVWkuPhtnEwG+agGNfwZ8OqqbER20=;
+ b=mrDBRmM4W5BJJ/RSJMrSSZWtX2600J7lqT6+tPcBO04E4iZJYGBnHPJ+Ghf3EJ2gMSc+
+ vG5zwZit2gtQRyVmK2SRKtxo0eYfSYIyFNQpjU1AD6D3ZYfDuLJZCOtFrNHmcBi28EsE
+ yUC/3+4l1xmfqEdkTpstxa9ZrOH4SuRohg/Obv8z2QdUuERkvrrLuk3kMHiIEx4zeCRw
+ xhy5W4RBjkxJ1QLN8tuU/+MZJ1fAWkq8Kg5as/pmiRPh2QcZ9ZUe2ARnI5FbygdaGlxH
+ zpczCysdzm1io+zxnBB7fD7vfLWQM0/qqOEjUyROIfNBLYOgKYHqsF/gQ7rJubx7VryO Ew== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uk7xmbew3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 Nov 2023 06:12:31 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AR6CUCX020583
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 Nov 2023 06:12:30 GMT
+Received: from [10.253.33.46] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 26 Nov
+ 2023 22:12:27 -0800
+Message-ID: <826700de-ed89-4ed9-b225-e0453ecbfd3f@quicinc.com>
+Date: Mon, 27 Nov 2023 14:12:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -17,112 +36,71 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] Documentation: arm64: Document the PMU event
- counting threshold feature
+Subject: Re: [PATCH v6 1/6] net: phy: introduce core support for phy-mode =
+ "10g-qxgmii"
+To: Andrew Lunn <andrew@lunn.ch>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231126060732.31764-1-quic_luoj@quicinc.com>
+ <20231126060732.31764-2-quic_luoj@quicinc.com>
+ <f97fd2f0-3e39-4de0-8b1c-f333a0f56a7f@lunn.ch>
 Content-Language: en-US
-To: James Clark <james.clark@arm.com>, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, suzuki.poulose@arm.com, will@kernel.org,
- mark.rutland@arm.com, namhyung@gmail.com
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231124102857.1106453-1-james.clark@arm.com>
- <20231124102857.1106453-4-james.clark@arm.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20231124102857.1106453-4-james.clark@arm.com>
-Content-Type: text/plain; charset=UTF-8
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <f97fd2f0-3e39-4de0-8b1c-f333a0f56a7f@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: LpBQzuSRG-iAGm7WdZcBygis0OlOfSLD
+X-Proofpoint-GUID: LpBQzuSRG-iAGm7WdZcBygis0OlOfSLD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-27_03,2023-11-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ mlxlogscore=800 clxscore=1015 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 phishscore=0 impostorscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311270041
 
 
 
-On 11/24/23 15:58, James Clark wrote:
-> Add documentation for the new Perf event open parameters and
-> the threshold_max capability file.
+On 11/27/2023 1:20 AM, Andrew Lunn wrote:
+> On Sun, Nov 26, 2023 at 02:07:27PM +0800, Luo Jie wrote:
+>> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+>>
+>> 10G-QXGMII is a MAC-to-PHY interface defined by the USXGMII multiport
+>> specification. It uses the same signaling as USXGMII, but it multiplexes
+>> 4 ports over the link, resulting in a maximum speed of 2.5G per port.
+>>
+>> Some in-tree SoCs like the NXP LS1028A use "usxgmii" when they mean
+>> either the single-port USXGMII or the quad-port 10G-QXGMII variant, and
+>> they could get away just fine with that thus far. But there is a need to
+>> distinguish between the 2 as far as SerDes drivers are concerned.
 > 
-> Signed-off-by: James Clark <james.clark@arm.com>
-> ---
->  Documentation/arch/arm64/perf.rst | 72 +++++++++++++++++++++++++++++++
->  1 file changed, 72 insertions(+)
-> 
-> diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
-> index 1f87b57c2332..41eee68951ff 100644
-> --- a/Documentation/arch/arm64/perf.rst
-> +++ b/Documentation/arch/arm64/perf.rst
-> @@ -164,3 +164,75 @@ and should be used to mask the upper bits as needed.
->     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
->  .. _tools/lib/perf/tests/test-evsel.c:
->     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
-> +
-> +Event Counting Threshold
-> +==========================================
-> +
-> +Overview
-> +--------
-> +
-> +FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
-> +events whose count meets a specified threshold condition. For example if
-> +threshold_compare is set to 2 ('Greater than or equal'), and the
-> +threshold is set to 2, then the PMU counter will now only increment by
-> +when an event would have previously incremented the PMU counter by 2 or
-> +more on a single processor cycle.
-> +
-> +To increment by 1 after passing the threshold condition instead of the
-> +number of events on that cycle, add the 'threshold_count' option to the
-> +commandline.
-> +
-> +How-to
-> +------
-> +
-> +These are the parameters for controlling the feature:
-> +
-> +.. list-table::
-> +   :header-rows: 1
-> +
-> +   * - Parameter
-> +     - Description
-> +   * - threshold
-> +     - Value to threshold the event by. A value of 0 means that
-> +       thresholding is disabled and the other parameters have no effect.
-> +   * - threshold_compare
-> +     - | Comparison function to use, with the following values supported:
-> +       |
-> +       | 0: Not-equal
-> +       | 1: Equals
-> +       | 2: Greater-than-or-equal
-> +       | 3: Less-than
-> +   * - threshold_count
-> +     - If this is set, count by 1 after passing the threshold condition
-> +       instead of the value of the event on this cycle.
-> +
-> +The threshold, threshold_compare and threshold_count values can be
-> +provided per event, for example:
-> +
-> +.. code-block:: sh
-> +
-> +  perf stat -e stall_slot/threshold=2,threshold_compare=2/ \
-> +            -e dtlb_walk/threshold=10,threshold_compare=3,threshold_count/
-> +
-> +In this example the stall_slot event will count by 2 or more on every
-> +cycle where 2 or more stalls happen. And dtlb_walk will count by 1 on
-> +every cycle where the number of dtlb walks were less than 10.
-> +
-> +The maximum supported threshold value can be read from the caps of each
-> +PMU, for example:
-> +
-> +.. code-block:: sh
-> +
-> +  cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
-> +
-> +  0x000000ff
-> +
-> +If a value higher than this is given, then it will be silently clamped
-> +to the maximum. The highest possible maximum is 4095, as the config
-> +field for threshold is limited to 12 bits, and the Perf tool will refuse
-> +to parse higher values.
-> +
-> +If the PMU doesn't support FEAT_PMUv3_TH, then threshold_max will read
-> +0, and both threshold and threshold_compare will be silently ignored.
-> +threshold_max will also read as 0 on aarch32 guests, even if the host
-> +is running on hardware with the feature.
+> Can this is split into two patches?
 
-Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+This patch is a single logical for introducing the mode 10g-qxgmii,
+looks it's better to keep it within a single patch.
+
+> 
+>>   	switch (interface) {
+>>   	case PHY_INTERFACE_MODE_USXGMII:
+>> -		caps |= MAC_10000FD | MAC_5000FD | MAC_2500FD;
+>> +		caps |= MAC_10000FD | MAC_5000FD;
+>> +		fallthrough;
+> 
+> This change seems to refer to the second paragraph, where as the rest
+> of the code is about the first. Or does splitting this cause a bisect
+> problem?
+> 
+> 	Andrew
+
+Since the caps change is related to the new added interface mode
+10g-qxgmii, it is reasonable to keep the changes integrated here.
+
