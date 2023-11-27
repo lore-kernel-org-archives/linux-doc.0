@@ -1,78 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861F11798D;
-	Mon, 27 Nov 2023 10:13:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gua2LBTg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8059AC433C7;
-	Mon, 27 Nov 2023 10:13:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701079987;
-	bh=fGgNP5lLqq06gIKE/Ay6zDb25xpoQWkuhpClm6E4Od8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gua2LBTgox+kA/7qWhP6aBawjywyAf4plI5DEpsh3Ijh1TglJVJalcbdoLVzj+4dc
-	 QSMDDVQUYBZq1RQQekKvMiY6PsTT6dCQ73qwrTxCOVqua3ItxtNNh1CT5mMK1rwkOo
-	 pNmaaaZz8ibyvGn9pVWA4lfTSRxkUENw1NZF/9NxE7CpRhALbo9b8kxwPL+7e+tpwW
-	 hsJPsy3p5qFhBnTvSRETrsFsNAloxWs+4rOiSkqNw7cPppUIDXmoc2h/jD710Ik/tG
-	 IqbNDJzviU6gnDPxieDGBRlc5nKcmAT2tWnTWaAy3wiDb1nqr1v6ODL4SEN8gHX01N
-	 FGTK2menaKnbw==
-Date: Mon, 27 Nov 2023 11:13:00 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: kernel test robot <oliver.sang@intel.com>, oe-lkp@lists.linux.dev,
-	lkp@intel.com, linux-kernel@vger.kernel.org,
-	Jann Horn <jannh@google.com>, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, intel-gfx@lists.freedesktop.org,
-	linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev,
-	bpf@vger.kernel.org, ying.huang@intel.com, feng.tang@intel.com,
-	fengwei.yin@intel.com
-Subject: Re: [linus:master] [file] 0ede61d858: will-it-scale.per_thread_ops
- -2.9% regression
-Message-ID: <20231127-protokollieren-ermuntern-748cc3855fe8@brauner>
-References: <202311201406.2022ca3f-oliver.sang@intel.com>
- <CAHk-=wjMKONPsXAJ=yJuPBEAx6HdYRkYE8TdYVBvpm3=x_EnCw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESm/FWjn"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B0CCE;
+	Mon, 27 Nov 2023 02:21:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701080513; x=1732616513;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7ys8XwLQh3l2KF6BGHrQz531VXoPnwLZjyOw4eVo+Sg=;
+  b=ESm/FWjnF6tlzhGZrBKAcFjUKDpr/ECj5BLdjIz3ljti1WJfVxs5Xwyb
+   reUe+y03oVDBp7FBNQR3Lf0V5ow9ySHqNj5poiMbNifhX3YzyuQpGNgGr
+   FLCdsJRZpkqcfYiwe+duSp737CJXeu2WtK67IeBM6fZFCGP97gxucCfE9
+   EXaVgTUkZVGGb/cQmy9brGtgFWy9kvjMkf6CptRDrIvDaxRKbts1qj7o0
+   MtYH6Dx2mlnxXfi1BHQVA9TuMHIOGB+S6Cm8PbTe/2v4m2bPUC/hQdJ6z
+   g9nElOKG6bEz/bnLZnKQKFSu0NowQjJCecEAivnZngEVacKymFptMzBvR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="372835270"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="372835270"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 02:21:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="912058091"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="912058091"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 27 Nov 2023 02:21:50 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7YkN-00069M-2v;
+	Mon, 27 Nov 2023 10:21:47 +0000
+Date: Mon, 27 Nov 2023 18:20:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Message-ID: <202311271611.huVhrU16-lkp@intel.com>
+References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wjMKONPsXAJ=yJuPBEAx6HdYRkYE8TdYVBvpm3=x_EnCw@mail.gmail.com>
+In-Reply-To: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
 
-> I took a look at the code generation, and honestly, I think we're
-> better off just making __fget_files_rcu() have special logic for this
-> all, and not use __get_file_rcu().
+Hi Nuno,
 
-My initial massaging of the patch did that btw. Then I sat there
-wondering whether it would matter if we just made it possible to reuse
-that code and I went through a bunch of iterations. Oh well, it seems to
-matter.
+kernel test robot noticed the following build warnings:
 
-> Comments? I also looked at that odd OPTIMIZER_HIDE_VAR() that
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.7-rc3 next-20231127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Concept looks sane to me.
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa-via-B4-Relay/hwmon-ltc4282-add-support-for-the-LTC4282-chip/20231124-231842
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231124-ltc4282-support-v2-2-952bf926f83c%40analog.com
+patch subject: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+config: nios2-randconfig-r111-20231127 (https://download.01.org/0day-ci/archive/20231127/202311271611.huVhrU16-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231127/202311271611.huVhrU16-lkp@intel.com/reproduce)
 
-> __get_file_rcu() does, and I don't get it. Both things come from
-> volatile accesses, I don't see the point of those games, but I also
-> didn't care, since it's no longer in a critical code path.
-> 
-> Christian?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311271611.huVhrU16-lkp@intel.com/
 
-Puts his completely imagined "I understand RCU head on".
-SLAB_TYPESAFE_BY_RCU makes the RCU consume memory ordering that the
-compiler doesn't officialy support (afaik) a bit wonky.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/ltc4282.c:347:6: sparse: sparse: symbol 'ltc4282_round_rate' was not declared. Should it be static?
+>> drivers/hwmon/ltc4282.c:356:15: sparse: sparse: symbol 'ltc4282_recalc_rate' was not declared. Should it be static?
+>> drivers/hwmon/ltc4282.c:967:34: sparse: sparse: dubious: x & !y
+   drivers/hwmon/ltc4282.c:1057:34: sparse: sparse: dubious: x & !y
+   drivers/hwmon/ltc4282.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
 
-So the thinking was that we could have code patterns where you could
-free the object and reallocate it while legitimatly passing the pointer
-recheck. In that case there is no memory ordering between the allocation
-and the pointer recheck because the last (re)allocation could have been
-after the rcu_dereference().
+vim +/ltc4282_round_rate +347 drivers/hwmon/ltc4282.c
 
-To combat that all future loads were made to have a dependency on the
-first load using the hidevar trick.
+   346	
+ > 347	long ltc4282_round_rate(struct clk_hw *hw, unsigned long rate,
+   348				unsigned long *parent_rate)
+   349	{
+   350		int idx = find_closest(rate, ltc4282_out_rates,
+   351				       ARRAY_SIZE(ltc4282_out_rates));
+   352	
+   353		return ltc4282_out_rates[idx];
+   354	}
+   355	
+ > 356	unsigned long ltc4282_recalc_rate(struct clk_hw *hw, unsigned long parent)
+   357	{
+   358		struct ltc4282_state *st = container_of(hw, struct ltc4282_state,
+   359							clk_hw);
+   360		u32 clkdiv;
+   361		int ret;
+   362	
+   363		ret = regmap_read(st->map, LTC4282_CLK_DIV, &clkdiv);
+   364		if (ret)
+   365			return 0;
+   366	
+   367		clkdiv = FIELD_GET(LTC4282_CLKOUT_MASK, clkdiv);
+   368		if (!clkdiv)
+   369			return 0;
+   370		if (clkdiv == LTC4282_CLKOUT_INT)
+   371			return LTC4282_CLKOUT_SYSTEM;
+   372	
+   373		return LTC4282_CLKOUT_CNV;
+   374	}
+   375	
 
-I guess that might only be theoretically possible but not in practice?
-But then I liked that we explicitly commented on it as a reminder.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
