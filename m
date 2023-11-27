@@ -1,42 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ErbuYcjT"
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C22FD72
-	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 06:32:47 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-507a3b8b113so5604380e87.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 06:32:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fmoezKAO"
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C2BD3AB3
+	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 06:32:48 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-332c7d4a6a7so2867912f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 06:32:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701095565; x=1701700365; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+3q1R9G6lEi+npsw/lKpAN9ZaKMnvPi0OuvIH02EHfA=;
-        b=ErbuYcjTg94zudsQWK5IjrwDKcvikX6576r5XSjXeZFG9eZ+T3C4gbmr8NE6hiEngx
-         ic3yhRkhPkBhxgNXfDFiMsxwt/g6iG6hzpC0W9phMkDD0td59WafayisxLG/XUPiXkJ/
-         odS9NWbOryDhjUcPQ0kSBTR1P6rXw+zF6tCBXdD5e2SxSgZjgBlOEc/NVJZBmSaHhVON
-         ioNJSzqrh461f32n4gfGnfak41qFJ/9YBXYYuosSrayxftPVfvy3TpH9+771KdGSYQgg
-         Vrx4qCyc6f6dKokO/aWDbq7VQAHwaWivunMk+BYkXR+E8VcPmv30NPdm9/GUj6wwOXnd
-         HuvQ==
+        d=linaro.org; s=google; t=1701095566; x=1701700366; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=upZpVA0tlCoRPsg8kkcdwGVw/b1lGAqxUFlkoCvAoGU=;
+        b=fmoezKAOb1W/sj+j5/Gt8mn7rB/DSKZdbvNuTZCdqbIklthyYkTUuMNYrCwIy9s3e1
+         /prEL7paMGkBEX5n9TMWN8MdaovOoYjFqVVlZC08xclDPAqm7oBgYhdtTAi6BzjgFgkK
+         WsQEVpj4BfeOCPvgeXRDxI6Ge0lsqoLMCMWPtivHMc8hEYV3JGwGYzn/BU8geiAHekgb
+         /7nfUn8KaWHo1NOT+6w2FdJ3bDgiugStjVT+oucog0RtqUpGMRK/6sCuuTTYx2gFZ87d
+         e07RwJFy8JFCtA+lTDDLtdV0ZxTrR04l3CyzP2siqupOT05sqky17WuIfyR75Ag4DSL/
+         60KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701095565; x=1701700365;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+3q1R9G6lEi+npsw/lKpAN9ZaKMnvPi0OuvIH02EHfA=;
-        b=I9TAKaR+fV2ATe3by/+6J1Prm4B7d0nwgvwt4Tl90f+bGceMLPEr3w/oFtXtVhhFhJ
-         wj3evMdSoG7HYnOCVqnSSYl3hP3EpIWi6jhy1AongiqQbp8vbwA6ZzQGb99FIvvuORaZ
-         bsTN4GEfXSdSIYTzO4c2M96muv1H9D6urydlSUFIsZk11t5E7W63YsGGgtTe3F5vQPgv
-         Lj22jgSrYyYu4RwAZ9P6vvtaYqOxxFMQJ8PyzvfsYH/8NHFW0Jfo8bYAws+OK+S/mnIv
-         jR1sDXJ8dUm71HXu2Otel/zYujxx7EyxMgiBWeV4muTlMX+1oqruDceOjgVDaZv7MpAG
-         br1w==
-X-Gm-Message-State: AOJu0YyOgAZa2JRSGBDN7ueyrUbuXcjIXFsZ2/TrA++0/ARJMaEYDWL2
-	VLO7DWCLyXqt7pZ5p1dSXvZ8vA==
-X-Google-Smtp-Source: AGHT+IEMAUx5BrW7D++3HuEOtz0D8KaYwxeqiB/PU5mG4/gN9yOD+SB4KZf/WRNsSf90SI4Tnl1Nag==
-X-Received: by 2002:a05:6512:3996:b0:50a:3c38:778c with SMTP id j22-20020a056512399600b0050a3c38778cmr10150685lfu.12.1701095564776;
-        Mon, 27 Nov 2023 06:32:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701095566; x=1701700366;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=upZpVA0tlCoRPsg8kkcdwGVw/b1lGAqxUFlkoCvAoGU=;
+        b=AKKeKdrT8Fu6vNN09gT5QQ/peXbSeYVn2huhLN8t0bLNqFMzK4304GfhNeoXQMUvaF
+         /G3quWHVQ8sBd4M3f5IV2ve6JkvEzz3qQLj4NYgH1rYjRsKDSbGZbCNDMi4atEnZ0eHQ
+         JL2KyaoG5fitPzPqHNASomV0LwYiBy1yCQr5tp54p5NZGOx3IonYqlcBRuoL2tomWtXI
+         6xYK5qpC69gDFWYGFscTVrwo1uL94DCqAzaD7cjgKk9apojY9aBaK3r31FNzq5EAZDm2
+         AUzEqFJ86YeQxF/Zwu7EZGQ5JHPpSTodRu9YrIdSN/j0BRQEKiAgMcn/ME7QrGFqw5Y1
+         hC/A==
+X-Gm-Message-State: AOJu0YzuOGJYXrLYYkgwkVZUgD6pU1LC2uk7mSre11yix0VaXshD7Dy7
+	sWLnfvYd4zb+nYZp+uJKze1emg==
+X-Google-Smtp-Source: AGHT+IG3mkxEPBcpN0Vxajluo5DqH7FwDhIAuT9yaPcYW9daZFgR1Gebry2Swi1Gpv9ecTlM2MOzlA==
+X-Received: by 2002:adf:e548:0:b0:332:d518:d668 with SMTP id z8-20020adfe548000000b00332d518d668mr8831652wrm.52.1701095566098;
+        Mon, 27 Nov 2023 06:32:46 -0800 (PST)
 Received: from vingu-book.. ([2a01:e0a:f:6020:cc67:4d1a:fe5d:819a])
-        by smtp.gmail.com with ESMTPSA id i2-20020adffc02000000b0032f7f4089b7sm12174392wrr.43.2023.11.27.06.32.43
+        by smtp.gmail.com with ESMTPSA id i2-20020adffc02000000b0032f7f4089b7sm12174392wrr.43.2023.11.27.06.32.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 06:32:44 -0800 (PST)
+        Mon, 27 Nov 2023 06:32:45 -0800 (PST)
 From: Vincent Guittot <vincent.guittot@linaro.org>
 To: mingo@redhat.com,
 	peterz@infradead.org,
@@ -56,10 +57,12 @@ To: mingo@redhat.com,
 Cc: lukasz.luba@arm.com,
 	hongyan.xia2@arm.com,
 	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: [PATCH 0/2] Simplify Util_est
-Date: Mon, 27 Nov 2023 15:32:36 +0100
-Message-Id: <20231127143238.1216582-1-vincent.guittot@linaro.org>
+Subject: [PATCH 1/2] sched/fair: Remove SCHED_FEAT(UTIL_EST_FASTUP, true)
+Date: Mon, 27 Nov 2023 15:32:37 +0100
+Message-Id: <20231127143238.1216582-2-vincent.guittot@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231127143238.1216582-1-vincent.guittot@linaro.org>
+References: <20231127143238.1216582-1-vincent.guittot@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,23 +71,79 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Following comment in [1], I prepared a patch to remove UTIL_EST_FASTUP.
-This enables us to simplify util_est behavior as proposed in patch 2.
+sched_feat(UTIL_EST_FASTUP) has been added to easily disable the feature
+in order to check for possibly related regressions. After 3 years, it has
+never been used and no regression has been reported. Let remove it
+and make fast increase a permanent behavior.
 
-[1] https://lore.kernel.org/lkml/CAKfTPtCAZWp7tRgTpwJmyEAkyN65acmYrfu9naEUpBZVWNTcQA@mail.gmail.com/
+Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
+---
 
-Vincent Guittot (2):
-  sched/fair: Remove SCHED_FEAT(UTIL_EST_FASTUP, true)
-  sched/fair: Simplify util_est
+I haven't updated the chinese documentation which also refers to
+UTIL_EST_FASTUP. IIUC, this will be updated afterward by the 
+Translations' maintainers.
 
- Documentation/scheduler/schedutil.rst |  7 +--
- include/linux/sched.h                 | 35 ++----------
- kernel/sched/debug.c                  |  7 +--
- kernel/sched/fair.c                   | 81 ++++++++++-----------------
- kernel/sched/features.h               |  1 -
- kernel/sched/pelt.h                   |  4 +-
- 6 files changed, 43 insertions(+), 92 deletions(-)
+ Documentation/scheduler/schedutil.rst | 7 +++----
+ kernel/sched/fair.c                   | 8 +++-----
+ kernel/sched/features.h               | 1 -
+ 3 files changed, 6 insertions(+), 10 deletions(-)
 
+diff --git a/Documentation/scheduler/schedutil.rst b/Documentation/scheduler/schedutil.rst
+index 32c7d69fc86c..803fba8fc714 100644
+--- a/Documentation/scheduler/schedutil.rst
++++ b/Documentation/scheduler/schedutil.rst
+@@ -90,8 +90,8 @@ For more detail see:
+  - Documentation/scheduler/sched-capacity.rst:"1. CPU Capacity + 2. Task utilization"
+ 
+ 
+-UTIL_EST / UTIL_EST_FASTUP
+-==========================
++UTIL_EST
++========
+ 
+ Because periodic tasks have their averages decayed while they sleep, even
+ though when running their expected utilization will be the same, they suffer a
+@@ -99,8 +99,7 @@ though when running their expected utilization will be the same, they suffer a
+ 
+ To alleviate this (a default enabled option) UTIL_EST drives an Infinite
+ Impulse Response (IIR) EWMA with the 'running' value on dequeue -- when it is
+-highest. A further default enabled option UTIL_EST_FASTUP modifies the IIR
+-filter to instantly increase and only decay on decrease.
++highest. UTIL_EST filters to instantly increase and only decay on decrease.
+ 
+ A further runqueue wide sum (of runnable tasks) is maintained of:
+ 
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 34fe6e9490c2..146329678cb8 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -4870,11 +4870,9 @@ static inline void util_est_update(struct cfs_rq *cfs_rq,
+ 	 * to smooth utilization decreases.
+ 	 */
+ 	ue.enqueued = task_util(p);
+-	if (sched_feat(UTIL_EST_FASTUP)) {
+-		if (ue.ewma < ue.enqueued) {
+-			ue.ewma = ue.enqueued;
+-			goto done;
+-		}
++	if (ue.ewma < ue.enqueued) {
++		ue.ewma = ue.enqueued;
++		goto done;
+ 	}
+ 
+ 	/*
+diff --git a/kernel/sched/features.h b/kernel/sched/features.h
+index a3ddf84de430..143f55df890b 100644
+--- a/kernel/sched/features.h
++++ b/kernel/sched/features.h
+@@ -83,7 +83,6 @@ SCHED_FEAT(WA_BIAS, true)
+  * UtilEstimation. Use estimated CPU utilization.
+  */
+ SCHED_FEAT(UTIL_EST, true)
+-SCHED_FEAT(UTIL_EST_FASTUP, true)
+ 
+ SCHED_FEAT(LATENCY_WARN, false)
+ 
 -- 
 2.34.1
 
