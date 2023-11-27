@@ -1,131 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D23D10A28;
-	Mon, 27 Nov 2023 08:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6v7l+Nw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 134B1C433C8;
-	Mon, 27 Nov 2023 08:12:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701072741;
-	bh=89Osf04W2a/k7i/UC2ydsCIp/o6tir3VsWUrVtErmQM=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=N6v7l+NwERgYfhK0Csksn9xTGbJhTCV7QubRZ9jWuRREJ0AzPO+jqcXtnnTLY0XLq
-	 f8gliMlXzZ7g/lDoVZg0fNOpTIftXagnfJS7oxp8tEStme6e4tjqsP0WNoeeICE77Y
-	 z3utCnwayszo1l258/hSqbjHlM/nO4NSXTv2bmnVAoYFvPVlcjDclCLj7jMUTLEx0N
-	 eCLicZQU86zU5sGbhXpF0FTrb9s+KYraWyZDYL7GQvODsA6p0thimTQ3o863oSch0a
-	 rW9jsiCgAUZ35F/dslg1QPVylAxEirF/cO89mJMka8BHuAH2KUBUWSE0XjTv+vAzvz
-	 ILEWIgvnZr4mw==
-Message-ID: <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
-Date: Mon, 27 Nov 2023 09:12:14 +0100
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B436189;
+	Mon, 27 Nov 2023 00:39:27 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5cc55b82ee5so36481257b3.2;
+        Mon, 27 Nov 2023 00:39:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701074366; x=1701679166;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qGuTrQtJmC2L2mzLaPy/bZacJMxGnwxM8Kv0t6QXz2o=;
+        b=pnBhezs5g79m9E1xx+zKCYm6ZamZBmZi/4hD5VJpMiHZ2Z1AzJsYuZrdqQuONhXMHr
+         RP2FXC9n/+2KZybH2d++zSsC4QSJx0JGDBc/qN3eBbBhWNLX8ck9UChjNtDijdXP3C48
+         7WQLe2Vh++uLZqRmiRzvD/ANRjFgpgU4ltghHddG3/1TmfMtlB4i74bJH45M/c7vZh4s
+         As0P65C+7ZDJ30mGBVA2jO9ChaJxY34QFKW+C64EAsQT8FbywMYm+wuZfScbKj+4/2hz
+         20X0qJbg/hGZW3AbRHlNQY40TRiPPAptzIg69vo9hUWMTFuAF/g2MLV60ACpkd+BiqQ9
+         l3cQ==
+X-Gm-Message-State: AOJu0Yz0kf3zm9cyByOoC8crRhgz7pkUhnLgTfx9kKTOl0LNbixJ1HXt
+	h65o2YamMUuUDoXOuujlORnVQnJo9Mrdrw==
+X-Google-Smtp-Source: AGHT+IGVpGvKnIuymN3eWsRySACsSnSBEz6HqHrwBOaCFz7bW+zIlO6lFaWoJlknsUy5fq9A8Qw7JA==
+X-Received: by 2002:a81:8491:0:b0:5c9:be:57c0 with SMTP id u139-20020a818491000000b005c900be57c0mr10661493ywf.24.1701074366673;
+        Mon, 27 Nov 2023 00:39:26 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id l17-20020a0de211000000b005a8d713a91esm3122305ywe.15.2023.11.27.00.39.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Nov 2023 00:39:25 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5cfc3a48ab2so8754947b3.0;
+        Mon, 27 Nov 2023 00:39:25 -0800 (PST)
+X-Received: by 2002:a0d:eb07:0:b0:5ad:716b:ead3 with SMTP id
+ u7-20020a0deb07000000b005ad716bead3mr6535204ywe.28.1701074365164; Mon, 27 Nov
+ 2023 00:39:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- kernel test robot <lkp@intel.com>,
- Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij
- <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
- <202311250548.lUn3bm1A-lkp@intel.com>
- <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
- <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1700668843.git.donald.robson@imgtec.com> <deb0a4659423a3b8a74addee7178b6df7679575d.1700668843.git.donald.robson@imgtec.com>
+In-Reply-To: <deb0a4659423a3b8a74addee7178b6df7679575d.1700668843.git.donald.robson@imgtec.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 27 Nov 2023 09:39:07 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWkQeJzmJhHcOsXRUGQjFmJJvSd_6=tvmPp1edh8oXdpw@mail.gmail.com>
+Message-ID: <CAMuHMdWkQeJzmJhHcOsXRUGQjFmJJvSd_6=tvmPp1edh8oXdpw@mail.gmail.com>
+Subject: Re: [PATCH v9 03/20] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR/IMG GPU
+To: Donald Robson <donald.robson@imgtec.com>
+Cc: dri-devel@lists.freedesktop.org, frank.binns@imgtec.com, 
+	matt.coster@imgtec.com, boris.brezillon@collabora.com, 
+	faith.ekstrand@collabora.com, airlied@gmail.com, daniel@ffwll.ch, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	afd@ti.com, hns@goldelico.com, matthew.brost@intel.com, 
+	christian.koenig@amd.com, luben.tuikov@amd.com, dakr@redhat.com, 
+	linux-kernel@vger.kernel.org, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	devicetree@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	Sarah Walker <sarah.walker@imgtec.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27/11/2023 09:10, Krzysztof Kozlowski wrote:
-> On 27/11/2023 08:53, Nuno Sá wrote:
->>>    355  
->>>  > 356  unsigned long ltc4282_recalc_rate(struct clk_hw *hw, unsigned long parent)
->>>    357  {
->>>    358          struct ltc4282_state *st = container_of(hw, struct ltc4282_state,
->>>    359                                                  clk_hw);
->>>    360          u32 clkdiv;
->>>    361          int ret;
->>>    362  
->>>    363          ret = regmap_read(st->map, LTC4282_CLK_DIV, &clkdiv);
->>>    364          if (ret)
->>>    365                  return 0;
->>>    366  
->>>    367          clkdiv = FIELD_GET(LTC4282_CLKOUT_MASK, clkdiv);
->>>    368          if (!clkdiv)
->>>    369                  return 0;
->>>    370          if (clkdiv == LTC4282_CLKOUT_INT)
->>>    371                  return LTC4282_CLKOUT_SYSTEM;
->>>    372  
->>>    373          return LTC4282_CLKOUT_CNV;
->>>    374  }
->>>    375  
->>>
->>
->> Arghh, I do need to see if I can add some test branch of my own to the test robot :/.
->> Anyways, will wait for some more reviewing before sending v3 to address this.
-> 
-> It's easy to test your patches on your own machines...  Just build few
-> different configs.
-> 
+Hi Donald,
 
-Wait, this was not even unusual test, just standard compile, which means
-you did not do basic tests on your end. You must build your new driver
-with W=1, smatch, sparse and coccinelle before sending upstream.
+On Wed, Nov 22, 2023 at 5:36=E2=80=AFPM Donald Robson <donald.robson@imgtec=
+.com> wrote:
+> From: Sarah Walker <sarah.walker@imgtec.com>
+>
+> Add the device tree binding documentation for the IMG AXE GPU used in
+> TI AM62 SoCs.
+>
+> Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+> Signed-off-by: Frank Binns <frank.binns@imgtec.com>
+> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 
-Best regards,
-Krzysztof
+Thanks for your patch, which is now commit 6a85c3b14728f0d5
+("dt-bindings: gpu: Add Imagination Technologies PowerVR/IMG GPU") in
+drm-misc/for-linux-next.
 
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - ti,am62-gpu
+> +      - const: img,img-axe # IMG AXE GPU model/revision is fully discove=
+rable
+
+Why the double "img", and not just "img,axe"?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
