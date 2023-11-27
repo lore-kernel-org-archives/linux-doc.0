@@ -1,286 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b="BIF2DD/u"
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2139.outbound.protection.outlook.com [40.107.255.139])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95970124;
-	Sun, 26 Nov 2023 21:45:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VzkADlpYwBdxIQZkKvGEsXNleWvVYZdrWMn+2LtgbS5D5q3vtzGbq63LLzjToOTHvKZmXF+dPSvE6E5qHDMtxPQOZBuUQWlyMWWKOjzPTIob+KTIhJdirUgeyFCfKRx52tSqSiCnE0io0wkVRfF8O4KxsZFyvkADDmpZmeav/nb2/d20cOLHpC+/AUjFZ+q51NuDdWjPVFYVx6sdxdaFiQ+5VYgAlJr+Tp4owimGn3RoML9Z04Vd18Mag6gr4vcJPdWfmP19vV3EwvQs4KQ1rumezZIbLGHQICOMLEmsJ/N2a65tR7o8ugJ676HjdRnMZpx02qegTOCxHGEhlKbPUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1He1AIe8gVwfcHdPJ1xuf6rTQn/3S/Q7MBx3NAb/4ok=;
- b=SopVUE0l6FcvkefrotdsGF0AmfcZInhkadcNFdOBlWFbkH2eWtqgtt/s82Gq1dgd4p9MbzKgvS9Hx3ZcVkWpTC6PP9jb0svorAualSzLa09guyRllxkSnHNUv/t5dSTGo4NMuq6cUm895kesyQG2jW3XLZlOXyljzzRZxtZImNZi018Zqv+TiSZYROD9zDFL8dG2rYynD69LF5GRbVS81V5msyJb2QYEYNMMq++YMO2UtSqR3NVzVSU/GZXsT06VvHN6k62iBBl9149u9H6uy4ry4uIzgSquKYH5cuoMU8CEc4aW/IAIcDBdKcqBgGg09WhB+DEpxp/uEnhpGQr2Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1He1AIe8gVwfcHdPJ1xuf6rTQn/3S/Q7MBx3NAb/4ok=;
- b=BIF2DD/uBI6NIJ78yYI5bUu4EQT02WlR+0qlBm90HemvEmX26IN/F4ne5BMWJCLGmiS4DUl4F8LZ88WXwHtfHWfPMSg1P/zHij/Gs3O7qIs/3UGwaRSNtPoJ1G4brmp1i7P1Q7x2/Lj9feg4V57nm4xNC4cbcTQUsySSnCmNfaLTx+iou/OuENqxTh0ECveygOUjE5AbOEibmbAdrqCnw1mrqBOvVyLTfhGkWEuUdLbABw4ByMZXXA6AYSDzmPgoNyiZ7lLkjM2x6mWlV/XHx8h8QiI5cdxRHkfUo5hV1zEb3VKb/84IgFfx/fnYMr2HEqRI74cbM7oU9f7iFmkI5g==
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
- SEYPR06MB6062.apcprd06.prod.outlook.com (2603:1096:101:d4::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7025.27; Mon, 27 Nov 2023 05:45:49 +0000
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::55c4:990b:3f5c:b5a1]) by SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::55c4:990b:3f5c:b5a1%4]) with mapi id 15.20.7025.022; Mon, 27 Nov 2023
- 05:45:49 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Rob Herring <robh@kernel.org>
-CC: "jdelvare@suse.com" <jdelvare@suse.com>, "linux@roeck-us.net"
-	<linux@roeck-us.net>, "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>, "joel@jms.id.au" <joel@jms.id.au>,
-	"andrew@aj.id.au" <andrew@aj.id.au>, "corbet@lwn.net" <corbet@lwn.net>,
-	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-	"naresh.solanki@9elements.com" <naresh.solanki@9elements.com>,
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-pwm@vger.kernel.org"
-	<linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>,
-	"patrick@stwcx.xyz" <patrick@stwcx.xyz>
-Subject: Re: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
- TACH Control
-Thread-Topic: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
- TACH Control
-Thread-Index: AQHaEWg/mi95vh4kakyU/BlPzwqmf7Bwvf+AgAhoGLuADcExAIAAWWVx
-Date: Mon, 27 Nov 2023 05:45:48 +0000
-Message-ID:
- <SG2PR06MB3365CAEE9CE3F691DA1CA1E28BB9A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
- <20231107105025.1480561-3-billy_tsai@aspeedtech.com>
- <20231108182135.GA2698015-robh@kernel.org>
- <SG2PR06MB33655734700697E8F6FD0D1B8BB2A@SG2PR06MB3365.apcprd06.prod.outlook.com>
- <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com>
-In-Reply-To:
- <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|SEYPR06MB6062:EE_
-x-ms-office365-filtering-correlation-id: 75a7f0a6-49ab-4a71-4a74-08dbef0c1bb0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 2yuYAnquRS+OsUBKEGhxrBpuHtyptqnvSZ5jV1B2OveHC5ub984Oec5vNhyHhRQ7nV3DAiNV4NXQcc9ZUORX4xu3+YAYA0wlX6KVl3Ka/1W31DYOSMrGnT1uFf/5UHUfccei8IVhI9Kz/+Y+hnmXMRPnwYbVPEehuUHjLvahq8bBZH1erm9QWjyO0dRLCt2cvSvUCqrQqSnSIMOfbeJLvO6fzfeV87JE3wNNyfv45/S6BaKNvon9nHKrjsKKqY0Z9iiLDSKRGYMDo0X6TMN7w2ClrSwiFygARKcEUaFfMtuxJ7KenHgokKaHNHQGm28NiKeUS91x1gXqfdIJbRTlwg0tO+V9QYFIUN2L0cKK1KarPMpZS2vZPCIKWSCGhX3/NeZtjjvP83S+c14nDMvqoUI7HQZQV3TM19VQYJPyT4QFcYCYy4P76Ds697DUI7fUFysr76zEmdvBEc3LPtnE7RyohbFud8K+ox+JlDDndN5WvwMADHuf5ac2PBuHnLZvVki9y8zt3ydj+gbUNK1Wn9IMBqGcSd3uAKzbEjs1g9ygf5P9Slby6sr+o5lpH5shbiK7DMcoenVgOZmAUsgtSU9ed75e0GkC+7JpELZTa48=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39840400004)(396003)(136003)(366004)(376002)(346002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(86362001)(38100700002)(122000001)(38070700009)(33656002)(478600001)(966005)(66556008)(66476007)(66446008)(6916009)(316002)(54906003)(64756008)(76116006)(66946007)(91956017)(26005)(55016003)(7696005)(6506007)(71200400001)(55236004)(9686003)(5660300002)(2906002)(7416002)(4326008)(41300700001)(8936002)(8676002)(52536014)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?plNvgKRUVn92ViCKiO6Ig4/GvkqKZVX6J9I802BehG7GfEV/ClKORlx+7u?=
- =?iso-8859-1?Q?1r6yuH+RKylhsO7EvKCSP06rqdNNIjd5W8+sJR1wgsNhACp97SSxH/Qqzb?=
- =?iso-8859-1?Q?ZSTqYo7akUjLCu3z0yBc+a9KQyMxNW9WOBjkZ6Mednflx2cVNDvhMF2w+S?=
- =?iso-8859-1?Q?oVjpe6nNbR4qejMO+okXIaDsEIUIPyJKaLykzhpKB92V44VQMjdwi63c4P?=
- =?iso-8859-1?Q?8fWUNrX88GBiLpPw+I6mZGcKR9vDY9rIKD2ZMUJTMq/yvgQSrZJgyCmsMV?=
- =?iso-8859-1?Q?jl/UhvpR0A8Sd7r2SY/XzY+55hlAcqP1fXu2WcsMkFAeUjsw0zlQzKAMTH?=
- =?iso-8859-1?Q?GMr9r32nuFmsqGn7eaXTicpaI0H/5i+rEBpUuAY7M5ZyrdidM2s28pDBdJ?=
- =?iso-8859-1?Q?gTWU2/tpe6RsXvbfmCMG0/srb0TTebN18+zIuAbeEE/JVsta2qfty2Ejzm?=
- =?iso-8859-1?Q?7EFyTkC5qxr4CuY1JTmv1+3ATWB0gG+GkGafpcYZng0kecKd/hAxj+zrxQ?=
- =?iso-8859-1?Q?mwYDKCYCGiQ5uyVUUpoXtIk5D9rygVq2xZ6Qj14s8JBjgj1nPpBqYXaBum?=
- =?iso-8859-1?Q?+z/JadAMdVK0smyFqgDL90D6objuVMZ08tg+etGoqoaqtp44oPwF7gD9cC?=
- =?iso-8859-1?Q?l2HBPmohJNwbujfqzwOG+vMxlhPACseAGOOlbSy4E+g6pmlfCLykmf4xBi?=
- =?iso-8859-1?Q?5+AZfo9PfwDoWYsNyCLXpK9uuXKrmGbI0oMGiS6yCLdaJjtvpW1SsF9ofE?=
- =?iso-8859-1?Q?floZeQpwFCykAABBcb4gQC4D1ctdA58xqXoNO0sDiH2+BK+FTzYyRblnAU?=
- =?iso-8859-1?Q?e5BBY+a9ZT/KqgbMITyKIlmWcwHGSGZphJ4MO96cIKfn/LAe4qr4VStezi?=
- =?iso-8859-1?Q?l71BTuwjE0eT1ZzNl1WKO2QrmT6eoR6kVUU28F/LqtwQ+xHjZ21sfTUnpk?=
- =?iso-8859-1?Q?IwpblTWYbIpiRAPjNRzFE0Kj9/6iPWG36naDjlefh9J5xEWTG7Fogr93R9?=
- =?iso-8859-1?Q?xJntXIS8CLsJAGjpPU9KkdoUyEtDWFCuImcEqJeJ1rxAlsqZC12RvxU04R?=
- =?iso-8859-1?Q?Ez3LYUCdFbO4rOvxvzE5nP0my0aj2P3hC2Ny2AHiGVqAPVpzs98ADfts9o?=
- =?iso-8859-1?Q?wbFkfT7UfMcy7nJfofo8HTbfu9JqpdRzs8Y7HOzRQsg3FppqJgaGqUoXwW?=
- =?iso-8859-1?Q?J9qjDLLw1opfESolxfRcFwTzXNWx0yh2CYKggL+hxhuwYc/kepNaIaJ/8w?=
- =?iso-8859-1?Q?bL9XBVsOkFJUGpSb5xCAlumRhqc9ig51XmCMFu2/mGpfLfGlVZyztTrD7U?=
- =?iso-8859-1?Q?aq0aKD1rUfSO/Un4GadsK1VIW61n9HdUeO75X8nB8WpfjSuV00mRQtCakJ?=
- =?iso-8859-1?Q?E5vMgC+fNrKWBcLI0NjHpmIugfbbYeynnK6U4khN2X+8fb1E5r7/HiMPqv?=
- =?iso-8859-1?Q?07xXqQsoMHJlte8zb/iy+9h97edxddcRtdu7hEozdSATQtiARd/dBSXMou?=
- =?iso-8859-1?Q?iWdCzxkAgf7/QoZU5aw561nSzhyL8oe4rIsc4d/WIHLRrvoUzPGaad6o5S?=
- =?iso-8859-1?Q?hcW9ajTSj/R7BcYJrAoDb8+JWpz6My5V+Pt0FZ3hC/xsvE6qaqHSJTdyui?=
- =?iso-8859-1?Q?Z5n3dKVV6MoBLpr9CGwtoRWvQ93bBwkqvi?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id E9538F0;
+	Sun, 26 Nov 2023 21:50:47 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EECA2F4;
+	Sun, 26 Nov 2023 21:51:35 -0800 (PST)
+Received: from [10.162.41.8] (a077893.blr.arm.com [10.162.41.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 180743F6C4;
+	Sun, 26 Nov 2023 21:50:43 -0800 (PST)
+Message-ID: <6bb84dec-42de-431a-b2e2-ebb532e0375e@arm.com>
+Date: Mon, 27 Nov 2023 11:20:40 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75a7f0a6-49ab-4a71-4a74-08dbef0c1bb0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2023 05:45:48.5969
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vzdsqUIkQu2XfkFtPswWaxUG3WB0yIm4vu4aV3q9cfqw0C68ekyE2C30nUhZnehrLQO+XCBwtEQuuKl7FpcmcST6y6TlsrZjS4bqFlnDcI0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6062
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] Documentation: arm64: Document the PMU event
+ counting threshold feature
+Content-Language: en-US
+To: James Clark <james.clark@arm.com>, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, suzuki.poulose@arm.com, will@kernel.org,
+ mark.rutland@arm.com, namhyung@gmail.com
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231124102857.1106453-1-james.clark@arm.com>
+ <20231124102857.1106453-4-james.clark@arm.com>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20231124102857.1106453-4-james.clark@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> > > > Document the compatible for aspeed,ast2600-pwm-tach device, which c=
-an=0A=
-> > > > support up to 16 PWM outputs and 16 fan tach input.=0A=
-> > > >=0A=
-> > > > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>=0A=
-> > > > ---=0A=
-> > > >  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++++=
-++++=0A=
-> > > >  1 file changed, 69 insertions(+)=0A=
-> > > >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,=
-g6-pwm-tach.yaml=0A=
-> > > >=0A=
-> > > > diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-=
-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml=
-=0A=
-> > > > new file mode 100644=0A=
-> > > > index 000000000000..c615fb10705c=0A=
-> > > > --- /dev/null=0A=
-> > > > +++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.ya=
-ml=0A=
-> > > > @@ -0,0 +1,69 @@=0A=
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)=0A=
-> > > > +# Copyright (C) 2023 Aspeed, Inc.=0A=
-> > > > +%YAML 1.2=0A=
-> > > > +---=0A=
-> > > > +$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#=
-=0A=
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#=0A=
-> > > > +=0A=
-> > > > +title: ASPEED G6 PWM and Fan Tach controller=0A=
-> > > > +=0A=
-> > > > +maintainers:=0A=
-> > > > +  - Billy Tsai <billy_tsai@aspeedtech.com>=0A=
-> > > > +=0A=
-> > > > +description: |=0A=
-> > > > +  The ASPEED PWM controller can support up to 16 PWM outputs.=0A=
-> > > > +  The ASPEED Fan Tacho controller can support up to 16 fan tach in=
-put.=0A=
-> > > > +  They are independent hardware blocks, which are different from t=
-he=0A=
-> > > > +  previous version of the ASPEED chip.=0A=
-> > > > +=0A=
-> > > > +properties:=0A=
-> > > > +  compatible:=0A=
-> > > > +    enum:=0A=
-> > > > +      - aspeed,ast2600-pwm-tach=0A=
-> > > > +=0A=
-> > > > +  reg:=0A=
-> > > > +    maxItems: 1=0A=
-> > > > +=0A=
-> > > > +  clocks:=0A=
-> > > > +    maxItems: 1=0A=
-> > > > +=0A=
-> > > > +  resets:=0A=
-> > > > +    maxItems: 1=0A=
-> > > > +=0A=
-> > > > +  "#pwm-cells":=0A=
-> > > > +    const: 3=0A=
-> > > > +=0A=
-> > > > +patternProperties:=0A=
-> > > > +  "^fan-[0-9]+$":=0A=
-> > > > +    $ref: fan-common.yaml#=0A=
-> > > > +    unevaluatedProperties: false=0A=
-> > > > +    required:=0A=
-> > > > +      - tach-ch=0A=
-> > > > +=0A=
-> > > > +required:=0A=
-> > > > +  - reg=0A=
-> > > > +  - clocks=0A=
-> > > > +  - resets=0A=
-> > > > +  - "#pwm-cells"=0A=
-> > > > +  - compatible=0A=
-> > > > +=0A=
-> > > > +additionalProperties: false=0A=
-> > > > +=0A=
-> > > > +examples:=0A=
-> > > > +  - |=0A=
-> > > > +    #include <dt-bindings/clock/aspeed-clock.h>=0A=
-> > > > +    pwm_tach: pwm-tach-controller@1e610000 {=0A=
-> > > > +      compatible =3D "aspeed,ast2600-pwm-tach";=0A=
-> > > > +      reg =3D <0x1e610000 0x100>;=0A=
-> > > > +      clocks =3D <&syscon ASPEED_CLK_AHB>;=0A=
-> > > > +      resets =3D <&syscon ASPEED_RESET_PWM>;=0A=
-> > > > +      #pwm-cells =3D <3>;=0A=
-> > > > +=0A=
-> > > > +      fan-0 {=0A=
-> >=0A=
-> > > I assume there's a PWM connection here? How do you know which PWM? Yo=
-u=0A=
-> > > said the tach channel is independent, so it is not that.=0A=
-> >=0A=
-> > > It should not be 0 from 'fan-0' because that's just a meaningless ind=
-ex.=0A=
-> >=0A=
-> > > You either need 'pwms' here or you can use 'reg' and the reg value is=
-=0A=
-> > > the PWM channel.=0A=
-> >=0A=
-> > Hi Rob, this binding is used to export the PWM provider and the Fan mon=
-itor (i.e., Tach).=0A=
-> > If the user wants to add the PWM connection for the fan, it can be done=
- as follows:=0A=
-> >=0A=
-> > fan0: pwm-fan0 {=0A=
-> >         compatible =3D "pwm-fan";=0A=
-> >         pwms =3D <&pwm_tach 0 40000 0>;=0A=
-> >         cooling-min-state =3D <0>;=0A=
-> >         cooling-max-state =3D <3>;=0A=
-> >         #cooling-cells =3D <2>;=0A=
-> >         cooling-levels =3D <0 15 128 255>;=0A=
-> > };=0A=
-> >=0A=
-> > This will reuse the existing PWM fan driver (e.g., pwm-fan.c).=0A=
-=0A=
-> I'm confused now. So what are the child nodes you have? You are=0A=
-> defining the fan in 2 places? The "pwm-fan" driver supports a tach via=0A=
-> an interrupt, so how would this work in your case?=0A=
-=0A=
-Hi Rob,=0A=
-=0A=
-The tach interrupt for the pwm-fan is option. In our case, the dts just reu=
-se the pwm control function=0A=
-of the pwm-fan, and the part of the tach monitor will be created by our fan=
- child nodes.=0A=
-So the dts will like followings:=0A=
-=0A=
-// Use to declare the tach monitor for fan.=0A=
-&pwm_tach {=0A=
-        fan-0 {=0A=
-		tach-ch =3D /bits/ 8 <0x0>;=0A=
-	};=0A=
-	fan-1 {=0A=
-		tach-ch =3D /bits/ 8 <0x1>;=0A=
-	};=0A=
-        ...=0A=
-}=0A=
-=0A=
-// Reuse the pwm-fan.c to control the behavior of the PWM for fan.=0A=
-fan0: pwm-fan0 {=0A=
-        compatible =3D "pwm-fan";=0A=
-        pwms =3D <&pwm_tach 0 40000 0>;   /* Target freq:25 kHz */=0A=
-        cooling-min-state =3D <0>;=0A=
-        cooling-max-state =3D <3>;=0A=
-        #cooling-cells =3D <2>;=0A=
-        cooling-levels =3D <0 15 128 255>;=0A=
-};=0A=
-=0A=
-fan1: pwm-fan1 {=0A=
-        compatible =3D "pwm-fan";=0A=
-        pwms =3D <&pwm_tach 1 40000 0>;   /* Target freq:25 kHz */=0A=
-        cooling-min-state =3D <0>;=0A=
-        cooling-max-state =3D <3>;=0A=
-        #cooling-cells =3D <2>;=0A=
-        cooling-levels =3D <0 15 128 255>;=0A=
-};=0A=
-=0A=
-Thanks=
+
+
+On 11/24/23 15:58, James Clark wrote:
+> Add documentation for the new Perf event open parameters and
+> the threshold_max capability file.
+> 
+> Signed-off-by: James Clark <james.clark@arm.com>
+> ---
+>  Documentation/arch/arm64/perf.rst | 72 +++++++++++++++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+> 
+> diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
+> index 1f87b57c2332..41eee68951ff 100644
+> --- a/Documentation/arch/arm64/perf.rst
+> +++ b/Documentation/arch/arm64/perf.rst
+> @@ -164,3 +164,75 @@ and should be used to mask the upper bits as needed.
+>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
+>  .. _tools/lib/perf/tests/test-evsel.c:
+>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
+> +
+> +Event Counting Threshold
+> +==========================================
+> +
+> +Overview
+> +--------
+> +
+> +FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
+> +events whose count meets a specified threshold condition. For example if
+> +threshold_compare is set to 2 ('Greater than or equal'), and the
+> +threshold is set to 2, then the PMU counter will now only increment by
+> +when an event would have previously incremented the PMU counter by 2 or
+> +more on a single processor cycle.
+> +
+> +To increment by 1 after passing the threshold condition instead of the
+> +number of events on that cycle, add the 'threshold_count' option to the
+> +commandline.
+> +
+> +How-to
+> +------
+> +
+> +These are the parameters for controlling the feature:
+> +
+> +.. list-table::
+> +   :header-rows: 1
+> +
+> +   * - Parameter
+> +     - Description
+> +   * - threshold
+> +     - Value to threshold the event by. A value of 0 means that
+> +       thresholding is disabled and the other parameters have no effect.
+> +   * - threshold_compare
+> +     - | Comparison function to use, with the following values supported:
+> +       |
+> +       | 0: Not-equal
+> +       | 1: Equals
+> +       | 2: Greater-than-or-equal
+> +       | 3: Less-than
+> +   * - threshold_count
+> +     - If this is set, count by 1 after passing the threshold condition
+> +       instead of the value of the event on this cycle.
+> +
+> +The threshold, threshold_compare and threshold_count values can be
+> +provided per event, for example:
+> +
+> +.. code-block:: sh
+> +
+> +  perf stat -e stall_slot/threshold=2,threshold_compare=2/ \
+> +            -e dtlb_walk/threshold=10,threshold_compare=3,threshold_count/
+> +
+> +In this example the stall_slot event will count by 2 or more on every
+> +cycle where 2 or more stalls happen. And dtlb_walk will count by 1 on
+> +every cycle where the number of dtlb walks were less than 10.
+> +
+> +The maximum supported threshold value can be read from the caps of each
+> +PMU, for example:
+> +
+> +.. code-block:: sh
+> +
+> +  cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
+> +
+> +  0x000000ff
+> +
+> +If a value higher than this is given, then it will be silently clamped
+> +to the maximum. The highest possible maximum is 4095, as the config
+> +field for threshold is limited to 12 bits, and the Perf tool will refuse
+> +to parse higher values.
+> +
+> +If the PMU doesn't support FEAT_PMUv3_TH, then threshold_max will read
+> +0, and both threshold and threshold_compare will be silently ignored.
+> +threshold_max will also read as 0 on aarch32 guests, even if the host
+> +is running on hardware with the feature.
+
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
