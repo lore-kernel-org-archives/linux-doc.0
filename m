@@ -1,34 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GwVCRhSU"
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B2BA5
-	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 09:38:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XriM3MjP"
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 663E2189;
+	Mon, 27 Nov 2023 09:52:05 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 36ADA2D7;
-	Mon, 27 Nov 2023 17:38:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 36ADA2D7
+	by ms.lwn.net (Postfix) with ESMTPSA id 0E1BF2D7;
+	Mon, 27 Nov 2023 17:52:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0E1BF2D7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1701106691; bh=S9cGUdfm6UAfAGQ0XpoJy32WAYrerUepKH4+ZnLa+ik=;
+	t=1701107525; bh=zZ/bza4MDEjj1yNcX/92zO0s45RTP0WbGzGyikArnbY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=GwVCRhSU2QPDEMVugfqvuTxuAMpu2HIn9j7ik3WJ4ZD5FYKygZEYEcOqb/t+Sb7ZE
-	 xA99akZeNI3iayZJa2b9A//EeWUxngCBqpTHxqegQeDQucKpbCI/vWgsTLKRjCK1l7
-	 NQrMPO/oLIk2pMcsCvgJev68cuaLxP+haitslbzVRiv+bwsOerS9qzVOrAX9r4Iptt
-	 aSdDtluZv9v1Qf8L0oA2Cw+5UzgTKcSLvsSPQ6etO4mdUN8PSKSYxo8uy2scW8WRG4
-	 7WNl5ALT/8l96Byw41BqX8KtEpSjX8JQSFxY3e/Bwww9dP2xvL0YaMfsyoTwzjAlhX
-	 0+sE3BbRsOLcg==
+	b=XriM3MjPOyAwGbdRhfZRzEZlQW8QmwQ6BhyL+DHbDzO66VY8LGIlZmSWZAr9kZpmS
+	 ktPCNDBW5Fs4bF0qLUTVsyXwuvxGupxV68nvwX8mGnsd5vIOFhaLSQE0FuG59Ya3Yi
+	 FY/AmtXUgREtDuHXe5HAq5Gw9mHOhqEOmeb/9p+tW8GooiyDDIPHtiKmsqJF9lVuv6
+	 ProFylXRVeR+0u3xVg3C3dtRsfUY7IQxvZQDm8TXTK4QKwyXqUZss4i8GsX7AHvGhT
+	 GhQHuo2MR8fVhApFE6TkVxGo28cPj7Z6rOo79BzX76ZZ5f2pJDtGq1teY8tZeX9RPV
+	 jbC1+bvk6rLYw==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Yanteng Si <siyanteng@loongson.cn>, seakeel@gmail.com
-Cc: Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org, bobwxc@email.cn,
- wu.xiangcheng@linux.dev, yizhou.tang@shopee.com,
- linux-doc@vger.kernel.org, chenhuacai@kernel.org
-Subject: Re: [PATCH v1 0/3] docs/zh_CN: Translate maintainer-pgp-guide and
- adjust magic-number
-In-Reply-To: <cover.1700474235.git.siyanteng@loongson.cn>
-References: <cover.1700474235.git.siyanteng@loongson.cn>
-Date: Mon, 27 Nov 2023 10:38:10 -0700
-Message-ID: <87leajyu4d.fsf@meer.lwn.net>
+To: Sumit Garg <sumit.garg@linaro.org>, jens.wiklander@linaro.org
+Cc: vegard.nossum@oracle.com, Rijo-john.Thomas@amd.com,
+ balint.dobszay@arm.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, op-tee@lists.trustedfirmware.org, Sumit Garg
+ <sumit.garg@linaro.org>
+Subject: Re: [PATCH v2] Documentation: Destage TEE subsystem documentation
+In-Reply-To: <20231103061715.196294-1-sumit.garg@linaro.org>
+References: <20231103061715.196294-1-sumit.garg@linaro.org>
+Date: Mon, 27 Nov 2023 10:52:04 -0700
+Message-ID: <87h6l7yth7.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,24 +37,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Yanteng Si <siyanteng@loongson.cn> writes:
+Sumit Garg <sumit.garg@linaro.org> writes:
 
-> My patch set translates maintainer-pgp-guide into
-> Chinese, adjust each line length of magic-number
-> and update process/index to latest.
+> Add a separate documentation directory for TEE subsystem since it is a
+> standalone subsystem which already offers devices consumed by multiple
+> different subsystem drivers.
 >
-> Yanteng Si (3):
->   docs/zh_CN: add process maintainer-pgp-guide tanslation
->   docs/zh_CN: Adjust the number of characters per line in
->     magic-number.rst to less than 40
->   docs/zh_CN: Update process index to 6.7-rc2
+> Split overall TEE subsystem documentation modularly where:
+> - The userspace API has been moved to Documentation/userspace-api/tee.rst.
+> - The driver API has been moved to Documentation/driver-api/tee.rst.
+> - The first module covers the overview of TEE subsystem.
+> - The further modules are dedicated to different TEE implementations like:
+>   - OP-TEE
+>   - AMD-TEE
+>   - and so on for future TEE implementation support.
 >
->  .../translations/zh_CN/process/index.rst      |  53 +-
->  .../zh_CN/process/magic-number.rst            |  69 +-
->  .../zh_CN/process/maintainer-pgp-guide.rst    | 789 ++++++++++++++++++
->  3 files changed, 873 insertions(+), 38 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> ---
+>
+> Changes in v2:
+> - Move userspace API to Documentation/userspace-api/tee.rst.
+> - Move driver API to Documentation/driver-api/tee.rst.
+>
+>  Documentation/driver-api/index.rst    |   1 +
+>  Documentation/driver-api/tee.rst      |  66 +++++
+>  Documentation/staging/index.rst       |   1 -
+>  Documentation/staging/tee.rst         | 364 --------------------------
+>  Documentation/subsystem-apis.rst      |   1 +
+>  Documentation/tee/amd-tee.rst         |  90 +++++++
+>  Documentation/tee/index.rst           |  19 ++
+>  Documentation/tee/op-tee.rst          | 166 ++++++++++++
+>  Documentation/tee/tee.rst             |  22 ++
+>  Documentation/userspace-api/index.rst |   1 +
+>  Documentation/userspace-api/tee.rst   |  39 +++
+>  MAINTAINERS                           |   4 +-
+>  12 files changed, 408 insertions(+), 366 deletions(-)
+>  create mode 100644 Documentation/driver-api/tee.rst
+>  delete mode 100644 Documentation/staging/tee.rst
+>  create mode 100644 Documentation/tee/amd-tee.rst
+>  create mode 100644 Documentation/tee/index.rst
+>  create mode 100644 Documentation/tee/op-tee.rst
+>  create mode 100644 Documentation/tee/tee.rst
+>  create mode 100644 Documentation/userspace-api/tee.rst
 
-Applied, thanks.
+So I finally got around to applying this...after dealing with the fact
+that it doesn't apply to docs-next, I found that it adds a couple of
+warnings:
+
+> Warning: Documentation/security/keys/trusted-encrypted.rst references a file that doesn't exist: Documentation/staging/tee.rst
+> Warning: drivers/tee/optee/Kconfig references a file that doesn't exist: Documentation/staging/tee.rst
+
+Can I get a version that doesn't leave dangling references like that
+around?
+
+Thanks,
 
 jon
