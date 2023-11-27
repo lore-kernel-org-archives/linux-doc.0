@@ -1,168 +1,373 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD6323C8
+	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 03:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q2kYWlSA"
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35757111
-	for <linux-doc@vger.kernel.org>; Sun, 26 Nov 2023 18:57:14 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-a049d19b63bso506832266b.2
-        for <linux-doc@vger.kernel.org>; Sun, 26 Nov 2023 18:57:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701053832; x=1701658632; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UYVKnC0HtykEFyaxX4FgS+XCA7S3ZvPglDZZKrkn8l4=;
-        b=Q2kYWlSAKuJw/WpP6Crua6VInSwa7tSsDEbO1+G7Ug+GaMBVsoleOXETY4hT1/87SJ
-         S6dN4B//tfqAE8QyyJOWAiLMQY6K/IeOThijdJyWZ00rs/TrG1p9q6YbCGzqHi1FyyUg
-         7lm8dicThENVfto0YFARl+ZtCoQp4qBzjKxsAaNYhDEFsr/gRWe/q1rSL69AWh15XJj6
-         LLF75Jnu/ZfBnqNG/Vh8M0Zz1JGACaWM7YiHDN7N4pUM7ju6LX0fRNGNf5gBC0ELHbDR
-         5aOZcZJKsEvbnZZ12B7JHxG9t/ChXJ1IK5KgDNldomXLvhw6wv+oiHwebSoL71U0MUMT
-         8heg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701053832; x=1701658632;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UYVKnC0HtykEFyaxX4FgS+XCA7S3ZvPglDZZKrkn8l4=;
-        b=bJOO/JYZgiBDO4xl6nL1hQZhcmnKLQbYCBLdLVI1qiNEIAzOiLH2xVklJX5ahfNkUC
-         wkUP8cga44aIpSr29D0v/kI0Zixx6t4+syqHUSL7HWRMwLB2SOhok1iqHQ2L1JroJE/q
-         fGVu3sKHKU8LwikcLBGZScvqbdEiM0oUhSJmggpiFmNUyzAVNyqj984U0pcGQ1HRd0Wy
-         2FMcg+AIMCFEeFWSH6kt8aBDANWSIF7WK0vvroaI+TXyjpN7vc2cLjYz76eu71V60Ihf
-         WUnxOCLrvj682yZo7vFwf0eDp6dsMbfmpZxODQ+hmjAjnShDkc5JnXSxz343Faj6AoZ+
-         0CBA==
-X-Gm-Message-State: AOJu0YxZ9frU+KX79Y25Cr373g33LRjrM+7EEMH421LUrVGbljQgstXv
-	qJPesWVvNj9Xskl8xuUBBetBk2hjnm3b/Ufnl+ftd4OVgHnwbw==
-X-Google-Smtp-Source: AGHT+IGpXZyH3JmcMy1Yw/3XTc2GhT/Czj5d+zH62neqBj0RRh+GFSuLGdMSOy7qlkOjwRXZH1o39TRH5pPHtq+Pli4=
-X-Received: by 2002:a17:907:9009:b0:9fe:81a:c24c with SMTP id
- ay9-20020a170907900900b009fe081ac24cmr6657094ejc.67.1701053832497; Sun, 26
- Nov 2023 18:57:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vJfOh+xi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55782C433C7;
+	Mon, 27 Nov 2023 03:23:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701055418;
+	bh=Eodz2pVLOUXaoWfjoYzlXcohlYoJ3kVQaJUJpSKosJM=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=vJfOh+ximXtmPtldUYzo4a28ZtUogNPKD50qT9PraPzCPfz52oxpPva8HpCyqsGMQ
+	 UgMHscOJtKCf1yIIFGIe6b1749Y82RZPiVwLCk4gAhdenNw0pW+eRNomxHdIDvrgg4
+	 +camY5Vw7dSq9W7h9MtmN2Bsa4lweWo+2WkIaN9xCYSynVPQqUFEngbfhkCClJY5fn
+	 njdN5tPHyQpr2U3jYa9MdTOKp4JZa4WONBza3DS/TMibyatfyaNa1wd+ZHeRzo2qFU
+	 eIbjDp+lyI8PT9chKSa1O7BvhUIucfJ0NAvE97m0BN7ETFMvCmwCPwGsm1AXAftVbV
+	 KqxSSFSZR4VJw==
+Message-ID: <f59b8c00-3628-6318-ee69-1caf79a03f2b@kernel.org>
+Date: Mon, 27 Nov 2023 11:23:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1700474235.git.siyanteng@loongson.cn> <b3c1b55a442280c583518c45495e5540d6797548.1700474235.git.siyanteng@loongson.cn>
-In-Reply-To: <b3c1b55a442280c583518c45495e5540d6797548.1700474235.git.siyanteng@loongson.cn>
-From: Alex Shi <seakeel@gmail.com>
-Date: Mon, 27 Nov 2023 10:56:36 +0800
-Message-ID: <CAJy-AmkQMKL9uGK_AaKE5LgaVLqX64k7rYCPFZxZnM9K90Cq5g@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] docs/zh_CN: Adjust the number of characters per
- line in magic-number.rst to less than 40
-To: Yanteng Si <siyanteng@loongson.cn>
-Cc: corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn, wu.xiangcheng@linux.dev, 
-	yizhou.tang@shopee.com, linux-doc@vger.kernel.org, chenhuacai@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [f2fs-dev] [PATCH v1] f2fs: New victim selection for GC
+Content-Language: en-US
+To: yonggil.song@samsung.com, "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "linux-f2fs-devel@lists.sourceforge.net"
+ <linux-f2fs-devel@lists.sourceforge.net>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Seokhwan Kim <sukka.kim@samsung.com>, Daejun Park
+ <daejun7.park@samsung.com>, Siwoo Jung <siu.jung@samsung.com>
+References: <20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p8>
+ <CGME20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p4>
+ <20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41@epcms2p4>
+From: Chao Yu <chao@kernel.org>
+In-Reply-To: <20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41@epcms2p4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-TEdUTQ0KUmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJuZWwub3JnPg0KDQpPbiBNb24s
-IE5vdiAyMCwgMjAyMyBhdCA2OjAy4oCvUE0gWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29u
-LmNuPiB3cm90ZToNCj4NCj4gVGhlIGN1cnJlbnQgbGluZXMgYXJlIHRvbyBsb25nIGFuZCB1bmZy
-aWVuZGx5IHRvIGRldmVsb3BlcnMgd2hvIHVzZQ0KPiB2aW0gdG8gcmVhZCBkb2N1bWVudHMsIGVz
-cGVjaWFsbHkgb24gc21hbGwgbW9uaXRvcnMsIHNvIGxldCdzIGFkanVzdA0KPiB0byBsZXNzIHRo
-YW4gNDAgY2hhcmFjdGVycy4NCj4NCj4gSW4gYWRkaXRpb24sIHNvbWUgdHJhbnNsYXRpb25zIHdl
-cmUgbW9kaWZpZWQgaW5jaWRlbnRhbGx5Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNp
-IDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+IC0tLQ0KPiAgLi4uL3poX0NOL3Byb2Nlc3MvbWFn
-aWMtbnVtYmVyLnJzdCAgICAgICAgICAgIHwgNjkgKysrKysrKysrKystLS0tLS0tLQ0KPiAgMSBm
-aWxlIGNoYW5nZWQsIDM5IGluc2VydGlvbnMoKyksIDMwIGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZm
-IC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vzcy9tYWdpYy1u
-dW1iZXIucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vzcy9tYWdp
-Yy1udW1iZXIucnN0DQo+IGluZGV4IDRhOTJlYmI2MTllZS4uNGU0YWVhY2E3OTZjIDEwMDY0NA0K
-PiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9wcm9jZXNzL21hZ2ljLW51
-bWJlci5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vz
-cy9tYWdpYy1udW1iZXIucnN0DQo+IEBAIC0xLDU4ICsxLDY3IEBADQo+IC0uLiBfY25fbWFnaWNu
-dW1iZXJzOg0KPiAtDQo+ICAuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4N
-Cj4gLTpPcmlnaW5hbDogOnJlZjpgRG9jdW1lbnRhdGlvbi9wcm9jZXNzL21hZ2ljLW51bWJlci5y
-c3QgPG1hZ2ljbnVtYmVycz5gDQo+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vcHJvY2Vzcy9t
-YWdpYy1udW1iZXIucnN0DQo+ICsNCj4gKzrnv7vor5E6DQo+DQo+IC3lpoLmnpzmg7Por4Torrrm
-iJbmm7TmlrDmnKzmlofnmoTlhoXlrrnvvIzor7fnm7TmjqXlj5Hkv6HliLBMS01M44CC5aaC5p6c
-5L2g5L2/55So6Iux5paH5Lqk5rWB5pyJ5Zuw6Zq+55qE6K+d77yM5Lmf5Y+vDQo+IC3ku6XlkJHk
-uK3mlofniYjnu7TmiqTogIXmsYLliqnjgILlpoLmnpzmnKznv7vor5Hmm7TmlrDkuI3lj4rml7bm
-iJbogIXnv7vor5HlrZjlnKjpl67popjvvIzor7fogZTns7vkuK3mlofniYjnu7TmiqTogIU6Og0K
-PiArIOi0vuWogeWogSBKaWEgV2VpIFdlaSA8aGFycnl4aXlvdUBnbWFpbC5jb20+DQo+DQo+IC0g
-ICAgICAgIOS4reaWh+eJiOe7tOaKpOiAhe+8miDotL7lqIHlqIEgSmlhIFdlaSBXZWkgPGhhcnJ5
-eGl5b3VAZ21haWwuY29tPg0KPiAtICAgICAgICDkuK3mlofniYjnv7vor5HogIXvvJog6LS+5aiB
-5aiBIEppYSBXZWkgV2VpIDxoYXJyeXhpeW91QGdtYWlsLmNvbT4NCj4gLSAgICAgICAg5Lit5paH
-54mI5qCh6K+R6ICF77yaIOi0vuWogeWogSBKaWEgV2VpIFdlaSA8aGFycnl4aXlvdUBnbWFpbC5j
-b20+DQo+ICs65qCh6K+ROg0KPiArDQo+ICsg5Y+45bu26IW+IFlhbnRlbmcgU2kgPHNpeWFudGVu
-Z0Bsb29uZ3Nvbi5jbj4NCj4NCj4gIExpbnV4IOmtlOacr+aVsA0KPiAgPT09PT09PT09PT09DQo+
-DQo+IC3ov5nkuKrmlofku7bmmK/mnInlhbPlvZPliY3kvb/nlKjnmoTprZTmnK/lgLzms6jlhozo
-oajjgILlvZPkvaDnu5nkuIDkuKrnu5PmnoTmt7vliqDkuobkuIDkuKrprZTmnK/lgLzvvIzkvaDk
-uZ/lupTor6Xmiorov5nkuKrprZTmnK/lgLzmt7vliqDliLDov5nkuKrmlofku7bvvIzlm6DkuLrm
-iJHku6zmnIDlpb3miornlKjkuo7lkITnp43nu5PmnoTnmoTprZTmnK/lgLznu5/kuIDotbfmnaXj
-gIINCj4gK+i/meS4quaWh+S7tuaYr+acieWFs+W9k+WJjeS9v+eUqOeahOmtlOacr+WAvOazqOWG
-jOihqOOAguW9k+S9oOe7meS4gOS4que7k+aehOS9k+a3u+WKoOS6huS4gOS4qumtlOacr+WAvO+8
-jOS9oOS5nw0KPiAr5bqU6K+l5oqK6L+Z5Liq6a2U5pyv5YC85re75Yqg5Yiw6L+Z5Liq5paH5Lu2
-77yM5Zug5Li65oiR5Lus5pyA5aW95oqK55So5LqO5ZCE56eN57uT5p6E5L2T55qE6a2U5pyv5YC8
-57uf5LiA6LW35p2l44CCDQo+DQo+IC3kvb/nlKjprZTmnK/lgLzmnaXkv53miqTlhoXmoLjmlbDm
-ja7nu5PmnoTmmK/kuIDkuKrpnZ7luLjlpb3nmoTkuLvmhI/jgILov5nlsLHlhYHorrjkvaDlnKjo
-v5DooYzmnJ/mo4Dmn6UoYSnkuIDkuKrnu5PmnoTmmK/lkKblt7Lnu4/ooqvmlLvlh7vvvIzmiJbo
-gIUoYinkvaDlt7Lnu4/nu5nkuIDkuKrkvovooYznqIvluo/pgJrov4fkuobkuIDkuKrplJnor6/n
-moTnu5PmnoTjgILlkI7kuIDnp43mg4XlhrXnibnliKvlnLDmnInnlKgtLS3nibnliKvmmK/lvZPk
-vaDpgJrov4fkuIDkuKrnqbrmjIfpkojmjIflkJHnu5PmnoTkvZPnmoTml7blgJnjgIJ0dHnmupDn
-oIHvvIzkvovlpoLvvIznu4/luLjpgJrov4fnibnlrprpqbHliqjkvb/nlKjov5nnp43mlrnms5Xl
-ubbkuJTlj43lpI3lnLDmjpLliJfnibnlrprmlrnpnaLnmoTnu5PmnoTjgIINCj4gK+S9v+eUqOmt
-lOacr+WAvOadpeS/neaKpOWGheaguOaVsOaNrue7k+aehOaYr+S4gOS4qiAqKumdnuW4uOWlveea
-hOS4u+aEjyoqIOOAgui/meWwseWFgeiuuOS9oOWcqOi/kOihjOaXtuajgA0KPiAr5p+l5LiA5Liq
-57uT5p6E5L2TKGEp5piv5ZCm5bey57uP6KKr5pS75Ye777yM5oiW6ICFKGIp5L2g5bey57uP57uZ
-5LiA5Liq5L6L56iL5Lyg6YCS5LqG5LiA5Liq6ZSZ6K+v55qE57uT5p6EDQo+ICvkvZPjgILmnIDl
-kI7kuIDnp43mg4XlhrXnibnliKvlnLDmnInnlKgtLS3nibnliKvmmK/lvZPkvaDpgJrov4fkuIDk
-uKrnqbrmjIfpkojmjIflkJHnu5PmnoTkvZPnmoTml7blgJnjgILkvovlpoLvvIwNCj4gK3R0eea6
-kOeggee7j+W4uOmAmui/h+eJueWumumpseWKqOS9v+eUqOi/meenjeaWueazleeUqOadpeWPjeWk
-jeWcsOaOkuWIl+eJueWumuaWuemdoueahOe7k+aehOS9k+OAgg0KPg0KPiAt5L2/55So6a2U5pyv
-5YC855qE5pa55rOV5piv5Zyo57uT5p6E55qE5byA5aeL5aSE5aOw5piO55qE77yM5aaC5LiLOjoN
-Cj4gK+S9v+eUqOmtlOacr+WAvOeahOaWueazleaYr+WcqOe7k+aehOS9k+eahOW8gOWktOWjsOaY
-juWug+S7rO+8jOWmguS4izo6DQo+DQo+ICAgICAgICAgIHN0cnVjdCB0dHlfbGRpc2Mgew0KPiAg
-ICAgICAgICAgICAgICAgaW50ICAgICBtYWdpYzsNCj4gICAgICAgICAgICAgICAgIC4uLg0KPiAg
-ICAgICAgICB9Ow0KPg0KPiAt5b2T5L2g5Lul5ZCO57uZ5YaF5qC45re75Yqg5aKe5by65Yqf6IO9
-55qE5pe25YCZ77yM6K+36YG15a6I6L+Z5p2h6KeE5YiZ77yB6L+Z5qC35bCx5Lya6IqC55yB5pWw
-5LiN5riF55qE6LCD6K+V5pe26Ze077yM54m55Yir5piv5LiA5Lqb5Y+k5oCq55qE5oOF5Ya177yM
-5L6L5aaC77yM5pWw57uE6LaF5Ye66IyD5Zu05bm25LiU6YeN5paw5YaZ5LqG6LaF5Ye66YOo5YiG
-44CC6YG15a6I6L+Z5Liq6KeE5YiZ77yM6L+Z5Lqb5oOF5Ya15Y+v5Lul6KKr5b+r6YCf5Zyw77yM
-5a6J5YWo5Zyw6YG/5YWN44CCDQo+ICvlvZPkvaDku6XlkI7nu5nlhoXmoLjmt7vliqDlop7lvLrl
-ip/og73nmoTml7blgJnvvIzor7fpgbXlrojov5nmnaHop4TliJnvvIHov5nmoLflsLHkvJroioLn
-nIHmlbDkuI3muIXnmoTosIPor5UNCj4gK+aXtumXtO+8jOeJueWIq+aYr+S4gOS6m+WPpOaAquea
-hOaDheWGte+8jOS+i+Wmgu+8jOaVsOe7hOi2heWHuuiMg+WbtOW5tuS4lOimhuebluWGmeS6hui2
-heWHuumDqOWIhuOAguWIqeeUqOi/mQ0KPiAr5Liq6KeE5YiZ77yM6L+Z5Lqb5oOF5Ya15Y+v5Lul
-6KKr5b+r6YCf5Zyw77yM5a6J5YWo5Zyw5qOA5rWL5Yiw6L+Z5Lqb5qGI5L6L44CCDQo+ICsNCj4g
-K+WPmOabtOaXpeW/lzo6DQo+DQo+IC0gICAgICAgICAgICAgICBUaGVvZG9yZSBUcydvDQo+IC0g
-ICAgICAgICAgICAgICAgIDMxIE1hciA5NA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgVGhlb2RvcmUgVHMnbw0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgMzEgTWFyIDk0DQo+DQo+IC3nu5nlvZPliY3nmoRMaW51eCAyLjEuNTXmt7vl
-iqDprZTmnK/ooajjgIINCj4gKyAg57uZ5b2T5YmN55qETGludXggMi4xLjU15re75Yqg6a2U5pyv
-6KGo44CCDQo+DQo+IC0gICAgICAgICAgICAgICBNaWNoYWVsIENoYXN0YWluDQo+IC0gICAgICAg
-ICAgICAgICA8bWFpbHRvOm1lY0BzaG91dC5uZXQ+DQo+IC0gICAgICAgICAgICAgICAyMiBTZXAg
-MTk5Nw0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTWljaGFlbCBD
-aGFzdGFpbg0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPG1haWx0
-bzptZWNAc2hvdXQubmV0Pg0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgMjIgU2VwIDE5OTcNCj4NCj4gLeeOsOWcqOW6lOivpeacgOaWsOeahExpbnV4IDIuMS4xMTIu
-5Zug5Li65Zyo54m55oCn5Ya757uT5pyf6Ze077yM5LiN6IO95ZyoMi4yLnjliY3mlLnlj5jku7vk
-vZXkuJzopb/jgILov5nkupvmnaHnm67ooqvmlbDln5/miYDmjpLluo/jgIINCj4gKyAg546w5Zyo
-5bqU6K+l5pyA5paw55qETGludXggMi4xLjExMi7lm6DkuLrlnKjnibnmgKflhrvnu5PmnJ/pl7Tv
-vIzkuI3og73lnKgyLjIueOWJjeaUueWPmOS7uw0KPiArICDkvZXkuJzopb/jgILov5nkupvmnaHn
-m67ooqvmlbDln5/miYDmjpLluo/jgIINCj4NCj4gLSAgICAgICAgICAgICAgIEtyenlzenRvZiBH
-LkJhcmFub3dza2kNCj4gLSAgICAgICAgICAgICAgIDxtYWlsdG86IGtnYkBrbm0ub3JnLnBsPg0K
-PiAtICAgICAgICAgICAgICAgMjkgSnVsIDE5OTgNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIEtyenlzenRvZiBHLkJhcmFub3dza2kNCj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIDxtYWlsdG86IGtnYkBrbm0ub3JnLnBsPg0KPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMjkgSnVsIDE5OTgNCj4NCj4gLeab
-tOaWsOmtlOacr+ihqOWIsExpbnV4IDIuNS40NeOAguWImuWlvei2iui/h+eJueaAp+WGu+e7k++8
-jOS9huaYr+acieWPr+iDvei/mOS8muacieS4gOS6m+aWsOeahOmtlOacr+WAvOWcqDIuNi545LmL
-5YmN6J6N5YWl5Yiw5YaF5qC45Lit44CCDQo+ICsgIOabtOaWsOmtlOacr+ihqOWIsExpbnV4IDIu
-NS40NeOAguWImuWlvei2iui/h+eJueaAp+WGu+e7k++8jOS9huaYr+acieWPr+iDvei/mOS8muac
-ieS4gOS6m+aWsOeahOmtlA0KPiArICDmnK/lgLzlnKgyLjYueOS5i+WJjeiejeWFpeWIsOWGheag
-uOS4reOAgg0KPg0KPiAtICAgICAgICAgICAgICAgUGV0ciBCYXVkaXMNCj4gLSAgICAgICAgICAg
-ICAgIDxwYXNreUB1Y3cuY3o+DQo+IC0gICAgICAgICAgICAgICAwMyBOb3YgMjAwMg0KPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUGV0ciBCYXVkaXMNCj4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxwYXNreUB1Y3cuY3o+DQo+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwMyBOb3YgMjAwMg0KPg0KPiAt5pu0
-5paw6a2U5pyv6KGo5YiwTGludXggMi41Ljc044CCDQo+ICsgIOabtOaWsOmtlOacr+ihqOWIsExp
-bnV4IDIuNS43NOOAgg0KPg0KPiAtICAgICAgICAgICAgICAgRmFiaWFuIEZyZWRlcmljaw0KPiAt
-ICAgICAgICAgICAgICAgIDxmZnJlZGVyaWNrQHVzZXJzLnNvdXJjZWZvcmdlLm5ldD4NCj4gLSAg
-ICAgICAgICAgICAgIDA5IEp1bCAyMDAzDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBGYWJpYW4gRnJlZGVyaWNrDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICA8ZmZyZWRlcmlja0B1c2Vycy5zb3VyY2Vmb3JnZS5uZXQ+DQo+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwOSBKdWwgMjAwMw0KPg0KPiAgPT09
-PT09PT09PT09PT09PT09PT09ID09PT09PT09PT09PT09PT0gPT09PT09PT09PT09PT09PT09PT09
-PT09ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiAg6a2U5pyv
-5pWw5ZCNICAgICAgICAgICAgICDmlbDlrZcgICAgICAgICAgICAg57uT5p6EICAgICAgICAgICAg
-ICAgICAgICAg5paH5Lu2DQo+IC0tDQo+IDIuMzEuNA0KPg0K
+Hi Yonggil,
+
+On 2023/10/26 17:18, Yonggil Song wrote:
+> Overview
+> ========
+> 
+> Introduce a new way to select the data section first when selecting a
+> victim in foreground GC. This victim selection method works when the
+> prefer_data_victim mount option is enabled. If foreground GC migrates only
+> data sections and runs out of free sections, it cleans dirty node sections
+> to get more free sections.
+
+What about introducing parameter to adjust cost calculated by get_gc_cost()?
+
+Something like:
+
+get_gc_cost()
+
+	if (p->gc_mode == GC_GREEDY) {
+		vblocks = get_valid_blocks();
+		if (seg_type is data)
+			return vblocks * data_factor;
+		return vblock * node_factor;
+	}
+
+If we prefer to select data segment during fggc, we can config data/node factor
+as 1 and 512?
+
+Thoughts?
+
+Thanks,
+
+> 
+> Problem
+> =======
+> 
+> If the total amount of nodes is larger than the size of one section, nodes
+> occupy multiple sections, and node victims are often selected because the
+> gc cost is lowered by data block migration in foreground gc. Since moving
+> the data section causes frequent node victim selection, victim threshing
+> occurs in the node section. This results in an increase in WAF.
+> 
+> Experiment
+> ==========
+> 
+> Test environment is as follows.
+> 
+> 	System info
+> 	  - 3.6GHz, 16 core CPU
+> 	  - 36GiB Memory
+> 	Device info
+> 	  - a conventional null_blk with 228MiB
+> 	  - a sequential null_blk with 4068 zones of 8MiB
+> 	Format
+> 	  - mkfs.f2fs <conv null_blk> -c <seq null_blk> -m -Z 8 -o 3.89
+> 	Mount
+> 	  - mount -o prefer_data_victim <conv null_blk> <mount point>
+> 	Fio script
+> 	  - fio --rw=randwrite --bs=4k --ba=4k --filesize=31187m --norandommap --overwrite=1 --name=job1 --filename=./mnt/sustain --io_size=128g
+> 	WAF calculation
+> 	  - (IOs on conv. null_blk + IOs on seq. null_blk) / random write IOs
+> 
+> Conclusion
+> ==========
+> 
+> This experiment showed that the WAF was reduced by 29% (18.75 -> 13.3) when
+> the data section was selected first when selecting GC victims. This was
+> achieved by reducing the migration of the node blocks by 69.4%
+> (253,131,743 blks -> 77,463,278 blks). It is possible to achieve low WAF
+> performance with the GC victim selection method in environments where the
+> section size is relatively small.
+> 
+> Signed-off-by: Yonggil Song <yonggil.song@samsung.com>
+> ---
+>   Documentation/filesystems/f2fs.rst |   3 +
+>   fs/f2fs/f2fs.h                     |   2 +
+>   fs/f2fs/gc.c                       | 100 +++++++++++++++++++++++------
+>   fs/f2fs/segment.h                  |   2 +
+>   fs/f2fs/super.c                    |   9 +++
+>   5 files changed, 95 insertions(+), 21 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+> index d32c6209685d..58e6d001d7ab 100644
+> --- a/Documentation/filesystems/f2fs.rst
+> +++ b/Documentation/filesystems/f2fs.rst
+> @@ -367,6 +367,9 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
+>   			 pending node write	drop		keep		N/A
+>   			 pending meta write	keep		keep		N/A
+>   			 ====================== =============== =============== ========
+> +prefer_data_victim	 When selecting victims in foreground GC, victims of data type
+> +			 are prioritized. This option minimizes GC victim threshing
+> +			 in the node section to reduce WAF.
+>   ======================== ============================================================
+>   
+>   Debugfs Entries
+> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+> index 6d688e42d89c..8b31fa2ea09a 100644
+> --- a/fs/f2fs/f2fs.h
+> +++ b/fs/f2fs/f2fs.h
+> @@ -108,6 +108,7 @@ extern const char *f2fs_fault_name[FAULT_MAX];
+>   #define	F2FS_MOUNT_GC_MERGE		0x02000000
+>   #define F2FS_MOUNT_COMPRESS_CACHE	0x04000000
+>   #define F2FS_MOUNT_AGE_EXTENT_CACHE	0x08000000
+> +#define F2FS_MOUNT_PREFER_DATA_VICTIM	0x10000000
+>   
+>   #define F2FS_OPTION(sbi)	((sbi)->mount_opt)
+>   #define clear_opt(sbi, option)	(F2FS_OPTION(sbi).opt &= ~F2FS_MOUNT_##option)
+> @@ -1648,6 +1649,7 @@ struct f2fs_sb_info {
+>   	struct f2fs_mount_info mount_opt;	/* mount options */
+>   
+>   	/* for cleaning operations */
+> +	bool need_node_clean;			/* only used for prefer_data_victim */
+>   	struct f2fs_rwsem gc_lock;		/*
+>   						 * semaphore for GC, avoid
+>   						 * race between GC and GC or CP
+> diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c
+> index f550cdeaa663..8a2da808a5fb 100644
+> --- a/fs/f2fs/gc.c
+> +++ b/fs/f2fs/gc.c
+> @@ -752,6 +752,8 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>   	unsigned int last_segment;
+>   	unsigned int nsearched;
+>   	bool is_atgc;
+> +	bool is_prefer_data_victim =
+> +		test_opt(sbi, PREFER_DATA_VICTIM) && gc_type == FG_GC;
+>   	int ret = 0;
+>   
+>   	mutex_lock(&dirty_i->seglist_lock);
+> @@ -767,6 +769,11 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>   	p.oldest_age = 0;
+>   	p.min_cost = get_max_cost(sbi, &p);
+>   
+> +	if (is_prefer_data_victim) {
+> +		p.node_min_cost = p.min_cost;
+> +		p.node_min_segno = p.min_segno;
+> +	}
+> +
+>   	is_atgc = (p.gc_mode == GC_AT || p.alloc_mode == AT_SSR);
+>   	nsearched = 0;
+>   
+> @@ -884,9 +891,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>   
+>   		cost = get_gc_cost(sbi, segno, &p);
+>   
+> -		if (p.min_cost > cost) {
+> -			p.min_segno = segno;
+> -			p.min_cost = cost;
+> +		if (is_prefer_data_victim) {
+> +			if (IS_DATASEG(get_seg_entry(sbi, segno)->type)) {
+> +				/* update data segments victim */
+> +				if (p.min_cost > cost) {
+> +					p.min_segno = segno;
+> +					p.min_cost = cost;
+> +				}
+> +			} else {
+> +				/* update node segments victim */
+> +				if (p.node_min_cost > cost) {
+> +					p.node_min_segno = segno;
+> +					p.node_min_cost = cost;
+> +				}
+> +			}
+> +		} else {
+> +			if (p.min_cost > cost) {
+> +				p.min_segno = segno;
+> +				p.min_cost = cost;
+> +			}
+>   		}
+>   next:
+>   		if (nsearched >= p.max_search) {
+> @@ -901,6 +924,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>   		}
+>   	}
+>   
+> +	if (is_prefer_data_victim && sbi->need_node_clean) {
+> +		/* we need to clean node sections */
+> +		if (p.min_cost > p.node_min_cost) {
+> +			p.min_segno = p.node_min_segno;
+> +			p.min_cost = p.node_min_cost;
+> +		} else {
+> +			/*
+> +			 * data victim cost is the lowest.
+> +			 * if free sections are enough, stop cleaning node victim.
+> +			 * if not, it goes on by GCing data victims.
+> +			 */
+> +			if (has_enough_free_secs(sbi, prefree_segments(sbi), 0)) {
+> +				sbi->need_node_clean = false;
+> +				p.min_segno = NULL_SEGNO;
+> +				goto out;
+> +			}
+> +		}
+> +	}
+> +
+>   	/* get victim for GC_AT/AT_SSR */
+>   	if (is_atgc) {
+>   		lookup_victim_by_age(sbi, &p);
+> @@ -1830,8 +1872,27 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>   		goto stop;
+>   	}
+>   
+> +	__get_secs_required(sbi, NULL, &upper_secs, NULL);
+> +
+> +	/*
+> +	 * Write checkpoint to reclaim prefree segments.
+> +	 * We need more three extra sections for writer's data/node/dentry.
+> +	 */
+> +	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS) {
+> +		if (test_opt(sbi, PREFER_DATA_VICTIM)) {
+> +			sbi->need_node_clean = true;
+> +		}
+> +		if (prefree_segments(sbi)) {
+> +			ret = f2fs_write_checkpoint(sbi, &cpc);
+> +			if (ret)
+> +				goto stop;
+> +			/* Reset due to checkpoint */
+> +			sec_freed = 0;
+> +		}
+> +	}
+> +
+>   	/* Let's run FG_GC, if we don't have enough space. */
+> -	if (has_not_enough_free_secs(sbi, 0, 0)) {
+> +	if (gc_type == BG_GC && has_not_enough_free_secs(sbi, 0, 0)) {
+>   		gc_type = FG_GC;
+>   
+>   		/*
+> @@ -1882,7 +1943,17 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>   			if (!gc_control->no_bg_gc &&
+>   			    total_sec_freed < gc_control->nr_free_secs)
+>   				goto go_gc_more;
+> -			goto stop;
+> +			if (test_opt(sbi, PREFER_DATA_VICTIM)) {
+> +				/*
+> +				 * If the need_node_clean flag is set
+> +				 * even though there are enough free
+> +				 * sections, node cleaning will continue.
+> +				 */
+> +				if (!sbi->need_node_clean)
+> +					goto stop;
+> +			} else {
+> +				goto stop;
+> +			}
+>   		}
+>   		if (sbi->skipped_gc_rwsem)
+>   			skipped_round++;
+> @@ -1897,21 +1968,6 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>   		goto stop;
+>   	}
+>   
+> -	__get_secs_required(sbi, NULL, &upper_secs, NULL);
+> -
+> -	/*
+> -	 * Write checkpoint to reclaim prefree segments.
+> -	 * We need more three extra sections for writer's data/node/dentry.
+> -	 */
+> -	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS &&
+> -				prefree_segments(sbi)) {
+> -		stat_inc_cp_call_count(sbi, TOTAL_CALL);
+> -		ret = f2fs_write_checkpoint(sbi, &cpc);
+> -		if (ret)
+> -			goto stop;
+> -		/* Reset due to checkpoint */
+> -		sec_freed = 0;
+> -	}
+>   go_gc_more:
+>   	segno = NULL_SEGNO;
+>   	goto gc_more;
+> @@ -1920,8 +1976,10 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>   	SIT_I(sbi)->last_victim[ALLOC_NEXT] = 0;
+>   	SIT_I(sbi)->last_victim[FLUSH_DEVICE] = gc_control->victim_segno;
+>   
+> -	if (gc_type == FG_GC)
+> +	if (gc_type == FG_GC) {
+>   		f2fs_unpin_all_sections(sbi, true);
+> +		sbi->need_node_clean = false;
+> +	}
+>   
+>   	trace_f2fs_gc_end(sbi->sb, ret, total_freed, total_sec_freed,
+>   				get_pages(sbi, F2FS_DIRTY_NODES),
+> diff --git a/fs/f2fs/segment.h b/fs/f2fs/segment.h
+> index 2ca8fb5d0dc4..d55fa1fee2e0 100644
+> --- a/fs/f2fs/segment.h
+> +++ b/fs/f2fs/segment.h
+> @@ -197,8 +197,10 @@ struct victim_sel_policy {
+>   	unsigned int offset;		/* last scanned bitmap offset */
+>   	unsigned int ofs_unit;		/* bitmap search unit */
+>   	unsigned int min_cost;		/* minimum cost */
+> +	unsigned int node_min_cost;	/* minimum cost of node type section */
+>   	unsigned long long oldest_age;	/* oldest age of segments having the same min cost */
+>   	unsigned int min_segno;		/* segment # having min. cost */
+> +	unsigned int node_min_segno;	/* node segment # having min. cost */
+>   	unsigned long long age;		/* mtime of GCed section*/
+>   	unsigned long long age_threshold;/* age threshold */
+>   };
+> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+> index a8c8232852bb..133137dd6fd0 100644
+> --- a/fs/f2fs/super.c
+> +++ b/fs/f2fs/super.c
+> @@ -165,6 +165,7 @@ enum {
+>   	Opt_memory_mode,
+>   	Opt_age_extent_cache,
+>   	Opt_errors,
+> +	Opt_prefer_data_victim,
+>   	Opt_err,
+>   };
+>   
+> @@ -245,6 +246,7 @@ static match_table_t f2fs_tokens = {
+>   	{Opt_memory_mode, "memory=%s"},
+>   	{Opt_age_extent_cache, "age_extent_cache"},
+>   	{Opt_errors, "errors=%s"},
+> +	{Opt_prefer_data_victim, "prefer_data_victim"},
+>   	{Opt_err, NULL},
+>   };
+>   
+> @@ -1286,6 +1288,13 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
+>   			}
+>   			kfree(name);
+>   			break;
+> +		case Opt_prefer_data_victim:
+> +			if (!f2fs_sb_has_blkzoned(sbi)) {
+> +				f2fs_err(sbi, "prefer_data_victim is only allowed with zoned block device feature");
+> +				return -EINVAL;
+> +			}
+> +			set_opt(sbi, PREFER_DATA_VICTIM);
+> +			break;
+>   		default:
+>   			f2fs_err(sbi, "Unrecognized mount option \"%s\" or missing value",
+>   				 p);
