@@ -1,67 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="h393ToUK"
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF31198;
-	Mon, 27 Nov 2023 08:47:42 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A11122CD;
-	Mon, 27 Nov 2023 16:47:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A11122CD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1701103661; bh=PElfCpTsbglocYhm74CbnFUGOn2AgVQ5W+x0cQZ4w0Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=h393ToUKr/8LyxxGob4vtHlmR2jz5oVauXHvneNcvXAQN2IMSLemP8RKRh6gzIzmz
-	 QhayC0Twti6twe4AIx+OEKZJjhUpiJx3oFsPDjOWngKcb59zctYJArtnN3jniq42fI
-	 9zbpSelIfR3vabzVJMGbytQajb1pTwAwmz372/CqfuWiaOq3nzqLOdr4s+LaKvHW2b
-	 iFZJk0AjwBUQsohnAnREIsehnoRuZAxvWEiwXDiurOzPR4gJkTrs+Yd+j82bLuLa38
-	 lJspGVv4xZoFn9YsWBw99cQgdTerUsj3A4FoKn4bQl1RVqFNYLQgh+Ud0Jyur22wyI
-	 7n9OIi5FRJ5Eg==
-From: Jonathan Corbet <corbet@lwn.net>
-To: attreyee-muk <tintinm2017@gmail.com>, jpoimboe@kernel.org,
- jikos@kernel.org, mbenes@suse.cz, pmladek@suse.com,
- joe.lawrence@redhat.com
-Cc: attreyee-muk <tintinm2017@gmail.com>, live-patching@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Took care of some grammatical mistakes
-In-Reply-To: <20231127155758.33070-1-tintinm2017@gmail.com>
-References: <20231127155758.33070-1-tintinm2017@gmail.com>
-Date: Mon, 27 Nov 2023 09:47:40 -0700
-Message-ID: <87ttp7ywgj.fsf@meer.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318BA3FB05;
+	Mon, 27 Nov 2023 16:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ApaAD5lm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E34DBC433CA;
+	Mon, 27 Nov 2023 16:55:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701104153;
+	bh=z8KCkkZNLqEq+EoG4f1wJkwaMH1lYNHFYV6XyQ+Y8LY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ApaAD5lmJaaOwDNmhqKgvGY1DEd0Ta8O46rH9L9dM4TmWKob8VQU9/x6KvoLB58nY
+	 oWVPsrBHAw91L66h5i7JWdvBhC8rnAA1dgU4AK25IuzIEEAC52DdIURCACc7IFDeTd
+	 H+hh4iOD5KIJtwtKSmO7VZ9OiaW98JtC03jXSfiQk2Sar5O8YuhznNTNVhTvtrly9F
+	 iukymwGCI6hMhf6P9vaBSb4mEvXh957GZX2NZscQixT8wBio47kB5wkQmden2dMxmQ
+	 gqjEDOFHKdU00wjYwy38Cb+Jnxg8VG4j/2mPfugCr2Bm6lTEDhBc+Yc2BMDtNTIcpD
+	 u7AI9jciuTBvA==
+Date: Mon, 27 Nov 2023 08:55:52 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ahmed Zaki <ahmed.zaki@intel.com>, Edward Cree <ecree.xilinx@gmail.com>
+Cc: <netdev@vger.kernel.org>, <intel-wired-lan@lists.osuosl.org>,
+ <corbet@lwn.net>, <jesse.brandeburg@intel.com>,
+ <anthony.l.nguyen@intel.com>, <davem@davemloft.net>, <edumazet@google.com>,
+ <pabeni@redhat.com>, <vladimir.oltean@nxp.com>, <andrew@lunn.ch>,
+ <horms@kernel.org>, <mkubecek@suse.cz>, <willemdebruijn.kernel@gmail.com>,
+ <gal@nvidia.com>, <alexander.duyck@gmail.com>, <linux-doc@vger.kernel.org>,
+ Igor Bagnucki <igor.bagnucki@intel.com>, Jacob Keller
+ <jacob.e.keller@intel.com>
+Subject: Re: [PATCH net-next v6 1/7] net: ethtool: pass ethtool_rxfh to
+ get/set_rxfh ethtool ops
+Message-ID: <20231127085552.396f9375@kernel.org>
+In-Reply-To: <4945c089-3817-47b2-9a02-2532995d3a46@intel.com>
+References: <20231120205614.46350-1-ahmed.zaki@intel.com>
+	<20231120205614.46350-2-ahmed.zaki@intel.com>
+	<20231121152906.2dd5f487@kernel.org>
+	<4945c089-3817-47b2-9a02-2532995d3a46@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-attreyee-muk <tintinm2017@gmail.com> writes:
+On Mon, 27 Nov 2023 07:14:51 -0700 Ahmed Zaki wrote:
+> >   - First simplify the code by always providing a pointer to all params
+> >     (indir, key and func); the fact that some of them may be NULL seems
+> >     like a weird historic thing or a premature optimization.
+> >     It will simplify the drivers if all pointers are always present.
+> >     You don't have to remove the if () checks in the existing drivers.
+> > 
+> >   - Then make the functions take a dev pointer, and a pointer to a
+> >     single struct wrapping all arguments. The set_* should also take
+> >     an extack.  
+> 
+> Can we skip the "extack" part for this series? There is no 
+> "ETHTOOL_MSG_RSS_SET" netlink message, which is needed for user-space to 
+> get the ACK and adding all the netlink stuff seems a bit out of scope.
 
-> Respected Maintainers, 
->
-> I have made some grammatical changes in the livepatch.rst file where I
-> felt that the sentence would have sounded more correct and would have become easy for
-> beginners to understand by reading. 
-> Requesting review of my proposed changes from the mainatiners. 
->
-> Thank You
-> Attreyee Mukherjee
->
-> Signed-off-by: attreyee-muk <tintinm2017@gmail.com>
-> ---
->  Documentation/livepatch/livepatch.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+Fair point, yes, that's fine.
 
-Your changes seem OK as far as they go.  But please read our
-documentation on patch submission:
-
-  https://docs.kernel.org/process/submitting-patches.html
-
-..and specifically the parts about writing proper changelogs and the use
-of a full name for your signoff.
-
-Thanks,
-
-jon
+BTW, Ed, this series will conflict with your RSS context rework.
+Not sure if it is on your radar.
