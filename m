@@ -1,105 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B436189;
-	Mon, 27 Nov 2023 00:39:27 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5cc55b82ee5so36481257b3.2;
-        Mon, 27 Nov 2023 00:39:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701074366; x=1701679166;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qGuTrQtJmC2L2mzLaPy/bZacJMxGnwxM8Kv0t6QXz2o=;
-        b=pnBhezs5g79m9E1xx+zKCYm6ZamZBmZi/4hD5VJpMiHZ2Z1AzJsYuZrdqQuONhXMHr
-         RP2FXC9n/+2KZybH2d++zSsC4QSJx0JGDBc/qN3eBbBhWNLX8ck9UChjNtDijdXP3C48
-         7WQLe2Vh++uLZqRmiRzvD/ANRjFgpgU4ltghHddG3/1TmfMtlB4i74bJH45M/c7vZh4s
-         As0P65C+7ZDJ30mGBVA2jO9ChaJxY34QFKW+C64EAsQT8FbywMYm+wuZfScbKj+4/2hz
-         20X0qJbg/hGZW3AbRHlNQY40TRiPPAptzIg69vo9hUWMTFuAF/g2MLV60ACpkd+BiqQ9
-         l3cQ==
-X-Gm-Message-State: AOJu0Yz0kf3zm9cyByOoC8crRhgz7pkUhnLgTfx9kKTOl0LNbixJ1HXt
-	h65o2YamMUuUDoXOuujlORnVQnJo9Mrdrw==
-X-Google-Smtp-Source: AGHT+IGVpGvKnIuymN3eWsRySACsSnSBEz6HqHrwBOaCFz7bW+zIlO6lFaWoJlknsUy5fq9A8Qw7JA==
-X-Received: by 2002:a81:8491:0:b0:5c9:be:57c0 with SMTP id u139-20020a818491000000b005c900be57c0mr10661493ywf.24.1701074366673;
-        Mon, 27 Nov 2023 00:39:26 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id l17-20020a0de211000000b005a8d713a91esm3122305ywe.15.2023.11.27.00.39.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Nov 2023 00:39:25 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5cfc3a48ab2so8754947b3.0;
-        Mon, 27 Nov 2023 00:39:25 -0800 (PST)
-X-Received: by 2002:a0d:eb07:0:b0:5ad:716b:ead3 with SMTP id
- u7-20020a0deb07000000b005ad716bead3mr6535204ywe.28.1701074365164; Mon, 27 Nov
- 2023 00:39:25 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="BhCfOJN+"
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC16183;
+	Mon, 27 Nov 2023 00:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=WA1izUMF049A+uaOpu99QoR6RRA3zCpzmZ7zrTZEUrY=; b=BhCfOJN+3BuUwuenz7TV/mQ1Jk
+	IuNW9a/5L2VfSpwOGLEoxqyXKwrXZbLRR8948VsH+P7OpWq+H1j8fKuKj2PFzuLBpnEOGJWMzf9C4
+	g75/PZFBjeFvZl3jxJKvY28sqJ00e+/V1oDrxXFmTRgFyRyaHIcPmsgD9KrCDQaKtirefRSXQwDBG
+	sPbmTQ/acpEW+rjrNRiT4VYMcYSiCde63vzxwxbsHV8i1AzrN6DDRaYlvlp3KozUrRp0zZ3hOzigX
+	eLS8cFC7Qytd25rqkSg7Yqy4gD2nUAbU8zw9W7mZQiTW8POItIxrqy9ML89LMPGwJaY9Xdc+RChyd
+	dmuqOVpQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:40150)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1r7XDf-0005VP-0Q;
+	Mon, 27 Nov 2023 08:43:55 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1r7XDe-0001ll-KJ; Mon, 27 Nov 2023 08:43:54 +0000
+Date: Mon, 27 Nov 2023 08:43:54 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Luo Jie <quic_luoj@quicinc.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, hkallweit1@gmail.com, corbet@lwn.net,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 1/6] net: phy: introduce core support for phy-mode =
+ "10g-qxgmii"
+Message-ID: <ZWRWylzfCLu2XXHy@shell.armlinux.org.uk>
+References: <20231126060732.31764-1-quic_luoj@quicinc.com>
+ <20231126060732.31764-2-quic_luoj@quicinc.com>
+ <f97fd2f0-3e39-4de0-8b1c-f333a0f56a7f@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1700668843.git.donald.robson@imgtec.com> <deb0a4659423a3b8a74addee7178b6df7679575d.1700668843.git.donald.robson@imgtec.com>
-In-Reply-To: <deb0a4659423a3b8a74addee7178b6df7679575d.1700668843.git.donald.robson@imgtec.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 27 Nov 2023 09:39:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWkQeJzmJhHcOsXRUGQjFmJJvSd_6=tvmPp1edh8oXdpw@mail.gmail.com>
-Message-ID: <CAMuHMdWkQeJzmJhHcOsXRUGQjFmJJvSd_6=tvmPp1edh8oXdpw@mail.gmail.com>
-Subject: Re: [PATCH v9 03/20] dt-bindings: gpu: Add Imagination Technologies
- PowerVR/IMG GPU
-To: Donald Robson <donald.robson@imgtec.com>
-Cc: dri-devel@lists.freedesktop.org, frank.binns@imgtec.com, 
-	matt.coster@imgtec.com, boris.brezillon@collabora.com, 
-	faith.ekstrand@collabora.com, airlied@gmail.com, daniel@ffwll.ch, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	afd@ti.com, hns@goldelico.com, matthew.brost@intel.com, 
-	christian.koenig@amd.com, luben.tuikov@amd.com, dakr@redhat.com, 
-	linux-kernel@vger.kernel.org, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	Sarah Walker <sarah.walker@imgtec.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f97fd2f0-3e39-4de0-8b1c-f333a0f56a7f@lunn.ch>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi Donald,
+On Sun, Nov 26, 2023 at 06:20:16PM +0100, Andrew Lunn wrote:
+> On Sun, Nov 26, 2023 at 02:07:27PM +0800, Luo Jie wrote:
+> >  	switch (interface) {
+> >  	case PHY_INTERFACE_MODE_USXGMII:
+> > -		caps |= MAC_10000FD | MAC_5000FD | MAC_2500FD;
+> > +		caps |= MAC_10000FD | MAC_5000FD;
+> > +		fallthrough;
+> 
+> This change seems to refer to the second paragraph, where as the rest
+> of the code is about the first. Or does splitting this cause a bisect
+> problem?
 
-On Wed, Nov 22, 2023 at 5:36=E2=80=AFPM Donald Robson <donald.robson@imgtec=
-.com> wrote:
-> From: Sarah Walker <sarah.walker@imgtec.com>
->
-> Add the device tree binding documentation for the IMG AXE GPU used in
-> TI AM62 SoCs.
->
-> Co-developed-by: Frank Binns <frank.binns@imgtec.com>
-> Signed-off-by: Frank Binns <frank.binns@imgtec.com>
-> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
-> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
+I'm not sure what you're referring to here, and by over-trimming the
+context, this probably gives an insight into a misunderstanding.
 
-Thanks for your patch, which is now commit 6a85c3b14728f0d5
-("dt-bindings: gpu: Add Imagination Technologies PowerVR/IMG GPU") in
-drm-misc/for-linux-next.
+This hunk (and the next) does _not_ change what USXGMII ends up with.
+It moves MAC_2500FD to be under the 10G_QXGMII case from the USXGMII
+case, and we will _fallthrough_ from the USXGMII case into thte
+10G_QXGMII case. So, USXGMII still ends up with MAC_2500FD.
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
-
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - ti,am62-gpu
-> +      - const: img,img-axe # IMG AXE GPU model/revision is fully discove=
-rable
-
-Why the double "img", and not just "img,axe"?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
