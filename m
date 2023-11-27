@@ -1,259 +1,398 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 84ABEE3;
-	Sun, 26 Nov 2023 21:33:06 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C65412F4;
-	Sun, 26 Nov 2023 21:33:52 -0800 (PST)
-Received: from [10.162.41.8] (a077893.blr.arm.com [10.162.41.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E861F3F73F;
-	Sun, 26 Nov 2023 21:33:01 -0800 (PST)
-Message-ID: <2988dbfe-1384-4b2f-9450-29212c835d6d@arm.com>
-Date: Mon, 27 Nov 2023 11:02:58 +0530
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4C64JAH"
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4420519B0;
+	Sun, 26 Nov 2023 21:39:05 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6be0277c05bso3205414b3a.0;
+        Sun, 26 Nov 2023 21:39:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701063545; x=1701668345; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NX4xnb+Y6UTiviuMBl/tewe6sCua/bVxOuCKRZ4I0bo=;
+        b=Y4C64JAHip6YkDnrt3omo/0CbjbqYGqHVLPnnzA+LeFVy+JXX9CzKWqrx025orThR6
+         fNaHRbuEHSnOrzSYJSD7XHeNE3pTStL0BN+rvVkJ6e6nwG4zIDuoALEWFUNxo0MNrFMy
+         h7VS8uGowfEaihLkirf46DLpc6xOazbqA/UES2m0RSljb2lcC+OmVZtoBfwJ+xCBm8GJ
+         RcaOU8EjKPPBE4S7zQEoSHTpRhUMO4ljOnAzOqtD6XkoDxplKnE+vIENMbUUhAOvXjb2
+         CxJK/bHh6MgoJevEJJiNIMIFMSybPC3yqWWQ9rpgtSv36yKKLybhvRHdldgjsO32djkv
+         QCcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701063545; x=1701668345;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NX4xnb+Y6UTiviuMBl/tewe6sCua/bVxOuCKRZ4I0bo=;
+        b=E26Il8Vo61V61xYt13C02F/f39m4EFfu0VVUhSl8AKPgAZCjSW0i2Yrj9HOKDQBzDj
+         DcverOQkDfQDviRJHNYP3IiVpE3nr4HYFIo+hniVsRqinsOJxIH5rTqw3kf3qyJ6Gx3a
+         Fp05boWWpCzSBHZ8VT9V/9MJMoOP557q6+v2YPrG1tWFQjByGBwKDBz3DUqWmNobl7ow
+         0t6gyjI6U+/dhCbicoeTUlANqNpFyQzeooOKiWT9PXiUqpSWZJ7ZNvbBGxAQhQlNvWAC
+         ristGapMuf9DjbITDnFjs3D/5nCrCZC1phNyRujPIJgI+Nszu+tB7By5Xk02YjKz9PHr
+         BVDQ==
+X-Gm-Message-State: AOJu0Yxff6S3TOlQN27UFnNCBFm7CBgxye5l7OD8j8U2ULbx/QYIIAmq
+	zHX4ZL98e8zg8V3C8wtWHKQ=
+X-Google-Smtp-Source: AGHT+IEXfuisJUFusS+Gaj5RNsLQEjGTROBbYT0tKXPV6334Nlqt2LUywy6CWVwD0CXcxJLfxejR3Q==
+X-Received: by 2002:a05:6a00:2d07:b0:6be:2991:d878 with SMTP id fa7-20020a056a002d0700b006be2991d878mr11641552pfb.15.1701063544569;
+        Sun, 26 Nov 2023 21:39:04 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id gu23-20020a056a004e5700b006cb6fa32590sm6532374pfb.148.2023.11.26.21.39.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Nov 2023 21:39:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 70C781033A242; Mon, 27 Nov 2023 12:38:59 +0700 (WIB)
+Date: Mon, 27 Nov 2023 12:38:59 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net, agross@kernel.org,
+	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+	mathieu.poirier@linaro.org, vigneshr@ti.com, nm@ti.com,
+	matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
+	bmasney@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
+Subject: Re: [Patch v6 03/12] docs: qcom: Add qualcomm minidump guide
+Message-ID: <ZWQrc7w2AD2WvwkK@archie.me>
+References: <1700864395-1479-1-git-send-email-quic_mojha@quicinc.com>
+ <1700864395-1479-4-git-send-email-quic_mojha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/3] arm64: perf: Add support for event counting
- threshold
-Content-Language: en-US
-To: James Clark <james.clark@arm.com>, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, suzuki.poulose@arm.com, will@kernel.org,
- mark.rutland@arm.com, namhyung@gmail.com
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231124102857.1106453-1-james.clark@arm.com>
- <20231124102857.1106453-3-james.clark@arm.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20231124102857.1106453-3-james.clark@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BuCQw3fkz+a4hLx6"
+Content-Disposition: inline
+In-Reply-To: <1700864395-1479-4-git-send-email-quic_mojha@quicinc.com>
 
 
+--BuCQw3fkz+a4hLx6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/24/23 15:58, James Clark wrote:
-> FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
-> events whose count meets a specified threshold condition. For example if
-> PMEVTYPERn.TC (Threshold Control) is set to 0b101 (Greater than or
-> equal, count), and the threshold is set to 2, then the PMU counter will
-> now only increment by 1 when an event would have previously incremented
-> the PMU counter by 2 or more on a single processor cycle.
-> 
-> Three new Perf event config fields, 'threshold', 'threshold_compare' and
-> 'threshold_count' have been added to control the feature.
-> threshold_compare maps to the upper two bits of PMEVTYPERn.TC and
-> threshold_count maps to the first bit of TC. These separate attributes
-> have been picked rather than enumerating all the possible combinations
-> of the TC field as in the Arm ARM. The attributes would be used on a
-> Perf command line like this:
-> 
->   $ perf stat -e stall_slot/threshold=2,threshold_compare=2/
-> 
-> A new capability for reading out the maximum supported threshold value
-> has also been added:
-> 
->   $ cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
-> 
->   0x000000ff
-> 
-> If a threshold higher than threshold_max is provided, then no error is
-> generated but the threshold is clamped to the max value. If
-> FEAT_PMUv3_TH isn't implemented or a 32 bit kernel is running, then
-> threshold_max reads zero, and neither the 'threshold' nor
-> 'threshold_control' parameters will be used.
-> 
-> The threshold is per PMU counter, and there are potentially different
-> threshold_max values per PMU type on heterogeneous systems.
-> 
-> Bits higher than 32 now need to be written into PMEVTYPER, so
-> armv8pmu_write_evtype() has to be updated to take an unsigned long value
-> rather than u32 which gives the correct behavior on both aarch32 and 64.
-> 
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Signed-off-by: James Clark <james.clark@arm.com>
-> ---
->  drivers/perf/arm_pmuv3.c       | 84 +++++++++++++++++++++++++++++++++-
->  include/linux/perf/arm_pmuv3.h |  1 +
->  2 files changed, 84 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
-> index 1d40d794f5e4..eb1ef84e1dbb 100644
-> --- a/drivers/perf/arm_pmuv3.c
-> +++ b/drivers/perf/arm_pmuv3.c
-> @@ -15,6 +15,7 @@
->  #include <clocksource/arm_arch_timer.h>
->  
->  #include <linux/acpi.h>
-> +#include <linux/bitfield.h>
->  #include <linux/clocksource.h>
->  #include <linux/of.h>
->  #include <linux/perf/arm_pmu.h>
-> @@ -294,9 +295,20 @@ static const struct attribute_group armv8_pmuv3_events_attr_group = {
->  	.is_visible = armv8pmu_event_attr_is_visible,
->  };
->  
-> +#define THRESHOLD_LOW		2
-> +#define THRESHOLD_HIGH		13
-> +#define THRESHOLD_CNT		14
-> +#define THRESHOLD_CMP_LO	15
-> +#define THRESHOLD_CMP_HI	16
+On Sat, Nov 25, 2023 at 03:49:46AM +0530, Mukesh Ojha wrote:
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-gu=
+ide/index.rst
+> index 43ea35613dfc..251d070486c2 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -120,6 +120,7 @@ configure specific aspects of kernel behavior to your=
+ liking.
+>     perf-security
+>     pm/index
+>     pnp
+> +   qcom_minidump
+>     rapidio
+>     ras
+>     rtc
+> diff --git a/Documentation/admin-guide/qcom_minidump.rst b/Documentation/=
+admin-guide/qcom_minidump.rst
+> new file mode 100644
+> index 000000000000..b492f2b79639
+> --- /dev/null
+> +++ b/Documentation/admin-guide/qcom_minidump.rst
+> @@ -0,0 +1,272 @@
+> +Qualcomm minidump feature
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
 > +
->  PMU_FORMAT_ATTR(event, "config:0-15");
->  PMU_FORMAT_ATTR(long, "config1:0");
->  PMU_FORMAT_ATTR(rdpmc, "config1:1");
-> +PMU_FORMAT_ATTR(threshold, "config1:" __stringify(THRESHOLD_LOW) "-"
-> +				      __stringify(THRESHOLD_HIGH));
-> +PMU_FORMAT_ATTR(threshold_compare, "config1:" __stringify(THRESHOLD_CMP_LO) "-"
-> +					      __stringify(THRESHOLD_CMP_HI));
-> +PMU_FORMAT_ATTR(threshold_count, "config1:" __stringify(THRESHOLD_CNT));
-
-Small nit - could this be formatted better ? Is not that the column could go
-upto 100 without setting off checkpatch.pl warning these days ?
-
->  
->  static int sysctl_perf_user_access __read_mostly;
->  
-> @@ -310,10 +322,33 @@ static inline bool armv8pmu_event_want_user_access(struct perf_event *event)
->  	return event->attr.config1 & 0x2;
->  }
->  
-> +static inline u32 armv8pmu_event_threshold(struct perf_event_attr *attr)
-> +{
-> +	return FIELD_GET(GENMASK(THRESHOLD_HIGH, THRESHOLD_LOW), attr->config1);
-> +}
+> +Introduction
+> +------------
 > +
-> +static inline u8 armv8pmu_event_threshold_control(struct perf_event_attr *attr)
-> +{
-> +	u8 th_compare = FIELD_GET(GENMASK(THRESHOLD_CMP_HI, THRESHOLD_CMP_LO),
-> +				  attr->config1);
-
-Ditto
-
-> +	u8 th_count = FIELD_GET(BIT(THRESHOLD_CNT), attr->config1);
+> +Minidump is a best effort mechanism to collect useful and predefined
+> +data for first level of debugging on end user devices running on
+> +Qualcomm SoCs. It is built on the premise that System on Chip (SoC)
+> +or subsystem part of SoC crashes, due to a range of hardware and
+> +software bugs. Hence, the ability to collect accurate data is only
+> +a best-effort. The data collected could be invalid or corrupted, data
+> +collection itself could fail, and so on.
 > +
-> +	/*
-> +	 * The count bit is always the bottom bit of the full control field, and
-> +	 * the comparison is the upper two bits, but it's not explicitly
-> +	 * labelled in the Arm ARM. For the Perf interface we split it into two
-> +	 * fields, so reconstruct it here.
-> +	 */
-> +	return (th_compare << 1) | th_count;
-> +}
+> +Qualcomm devices in engineering mode provides a mechanism for generating
+> +full system RAM dumps for post-mortem debugging. But in some cases it's
+> +however not feasible to capture the entire content of RAM. The minidump
+> +mechanism provides the means for selected region should be included in
+> +the ramdump.
 > +
->  static struct attribute *armv8_pmuv3_format_attrs[] = {
->  	&format_attr_event.attr,
->  	&format_attr_long.attr,
->  	&format_attr_rdpmc.attr,
-> +	&format_attr_threshold.attr,
-> +	&format_attr_threshold_compare.attr,
-> +	&format_attr_threshold_count.attr,
->  	NULL,
->  };
->  
-> @@ -365,10 +400,38 @@ static ssize_t bus_width_show(struct device *dev, struct device_attribute *attr,
->  
->  static DEVICE_ATTR_RO(bus_width);
->  
-> +static u32 threshold_max(struct arm_pmu *cpu_pmu)
-> +{
-> +	/*
-> +	 * PMMIR.THWIDTH is readable and non-zero on aarch32, but it would be
-> +	 * impossible to write the threshold in the upper 32 bits of PMEVTYPER.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_ARM))
-> +		return 0;
 > +
-> +	/*
-> +	 * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
-> +	 * (2 ^ PMMIR.THWIDTH) - 1.
-> +	 */
-> +	return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
-> +}
+> +::
 > +
-> +static ssize_t threshold_max_show(struct device *dev,
-> +				  struct device_attribute *attr, char *page)
-> +{
-> +	struct pmu *pmu = dev_get_drvdata(dev);
-> +	struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
+> +   +-----------------------------------------------+
+> +   |   DDR                       +-------------+   |
+> +   |                             |      SS0-ToC|   |
+> +   | +----------------+     +----------------+ |   |
+> +   | |Shared memory   |     |         SS1-ToC| |   |
+> +   | |(SMEM)          |     |                | |   |
+> +   | |                | +-->|--------+       | |   |
+> +   | |G-ToC           | |   | SS-ToC  \      | |   |
+> +   | |+-------------+ | |   | +-----------+  | |   |
+> +   | ||-------------| | |   | |-----------|  | |   |
+> +   | || SS0-ToC     | | | +-|<|SS1 region1|  | |   |
+> +   | ||-------------| | | | | |-----------|  | |   |
+> +   | || SS1-ToC     |-|>+ | | |SS1 region2|  | |   |
+> +   | ||-------------| |   | | |-----------|  | |   |
+> +   | || SS2-ToC     | |   | | |  ...      |  | |   |
+> +   | ||-------------| |   | | |-----------|  | |   |
+> +   | ||  ...        | |   |-|<|SS1 regionN|  | |   |
+> +   | ||-------------| |   | | |-----------|  | |   |
+> +   | || SSn-ToC     | |   | | +-----------+  | |   |
+> +   | |+-------------+ |   | |                | |   |
+> +   | |                |   | |----------------| |   |
+> +   | |                |   +>|  regionN       | |   |
+> +   | |                |   | |----------------| |   |
+> +   | +----------------+   | |                | |   |
+> +   |                      | |----------------| |   |
+> +   |                      +>|  region1       | |   |
+> +   |                        |----------------| |   |
+> +   |                        |                | |   |
+> +   |                        |----------------|-+   |
+> +   |                        |  region5       |     |
+> +   |                        |----------------|     |
+> +   |                        |                |     |
+> +   |  Region information    +----------------+     |
+> +   | +---------------+                             |
+> +   | |region name    |                             |
+> +   | |---------------|                             |
+> +   | |region address |                             |
+> +   | |---------------|                             |
+> +   | |region size    |                             |
+> +   | +---------------+                             |
+> +   +-----------------------------------------------+
+> +       G-ToC: Global table of contents
+> +       SS-ToC: Subsystem table of contents
+> +       SS0-SSn: Subsystem numbered from 0 to n
 > +
-> +	return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
-> +}
+> +It depends on SoC where the underlying firmware is keeping the
+> +minidump global table taking care of subsystem ToC part for
+> +minidump like for above diagram, it is for shared memory sitting
+> +in DDR and it is shared among various master however it is possible
+> +that this could be implemented via memory mapped regions but the
+> +general idea should remain same. Here, various subsystem could be
+> +DSP's like ADSP/CDSP/MODEM etc, along with Application processor
+> +(APSS) where Linux runs. DSP minidump gets collected when DSP's goes
+> +for recovery followed by a crash. The minidump part of code for
+> +that resides in ``qcom_rproc_minidump.c``.
 > +
-> +static DEVICE_ATTR_RO(threshold_max);
 > +
->  static struct attribute *armv8_pmuv3_caps_attrs[] = {
->  	&dev_attr_slots.attr,
->  	&dev_attr_bus_slots.attr,
->  	&dev_attr_bus_width.attr,
-> +	&dev_attr_threshold_max.attr,
->  	NULL,
->  };
->  
-> @@ -552,7 +615,7 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
->  		armv8pmu_write_hw_counter(event, value);
->  }
->  
-> -static inline void armv8pmu_write_evtype(int idx, u32 val)
-> +static inline void armv8pmu_write_evtype(int idx, unsigned long val)
->  {
->  	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
->  	unsigned long mask = ARMV8_PMU_EVTYPE_EVENT |
-> @@ -921,6 +984,10 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
->  				     struct perf_event_attr *attr)
->  {
->  	unsigned long config_base = 0;
-> +	struct perf_event *perf_event = container_of(attr, struct perf_event,
-> +						     attr);
+> +SMEM as backend
+> +----------------
+> +
+> +In this document, SMEM will be used as the backend implementation
+> +of minidump.
+> +
+> +The core of minidump feature is part of Qualcomm's boot firmware code.
+> +It initializes shared memory (SMEM), which is a part of DDR and
+> +allocates a small section of it to minidump table, i.e. also called
+> +global table of contents (G-ToC). Each subsystem (APSS, ADSP, ...) has
+> +its own table of segments to be included in the minidump, all
+> +references from a descriptor in SMEM (G-ToC). Each segment/region has
+> +some details like name, physical address and its size etc. and it
+> +could be anywhere scattered in the DDR.
+> +
+> +Qualcomm APSS Minidump kernel driver concept
+> +--------------------------------------------
+> +
+> +Qualcomm APSS minidump kernel driver adds the capability to add Linux
+> +region to be dumped as part of RAM dump collection. At the moment,
+> +shared memory driver creates platform device for minidump driver and
+> +give a means to APSS minidump to initialize itself on probe.
+> +
+> +This driver provides ``qcom_minidump_region_register`` and
+> +``qcom_minidump_region_unregister`` API's to register and unregister
+> +APSS minidump region. It also supports registration for the clients
+> +who came before minidump driver was initialized. It maintains pending
+> +list of clients who came before minidump and once minidump is initialized
+> +it registers them in one go.
+> +
+> +To simplify post-mortem debugging, driver creates and maintain an ELF
+> +header as first region that gets updated each time a new region gets
+> +registered.
+> +
+> +The solution supports extracting the RAM dump/minidump produced either
+> +over USB or stored to an attached storage device.
+> +
+> +Dependency of minidump kernel driver
+> +------------------------------------
+> +
+> +It is to note that whole of minidump depends on Qualcomm boot firmware
+> +whether it supports minidump or not. So, if the minidump SMEM ID is
+> +present in shared memory, it indicates that minidump is supported from
+> +boot firmware and it is possible to dump Linux (APSS) region as part
+> +of minidump collection.
+> +
+> +How a kernel client driver can register region with minidump
+> +------------------------------------------------------------
+> +
+> +Client driver can use ``qcom_minidump_region_register`` API's to register
+> +and ``qcom_minidump_region_unregister`` to unregister their region from
+> +minidump driver.
+> +
+> +Client needs to fill their region by filling ``qcom_minidump_region``
+> +structure object which consists of the region name, region's virtual
+> +and physical address and its size.
+> +
+> +Below, is one sample client driver snippet which tries to allocate a
+> +region from kernel heap of certain size and it writes a certain known
+> +pattern (that can help in verification after collection that we got
+> +the exact pattern, what we wrote) and registers it with minidump.
+> +
+> + .. code-block:: c
+> +
+> +  #include <soc/qcom/qcom_minidump.h>
+> +  [...]
+> +
+> +
+> +  [... inside a function ...]
+> +  struct qcom_minidump_region region;
+> +
+> +  [...]
+> +
+> +  client_mem_region =3D kzalloc(region_size, GFP_KERNEL);
+> +  if (!client_mem_region)
+> +	return -ENOMEM;
+> +
+> +  [... Just write a pattern ...]
+> +  memset(client_mem_region, 0xAB, region_size);
+> +
+> +  [... Fill up the region object ...]
+> +  strlcpy(region.name, "REGION_A", sizeof(region.name));
+> +  region.virt_addr =3D client_mem_region;
+> +  region.phys_addr =3D virt_to_phys(client_mem_region);
+> +  region.size =3D region_size;
+> +
+> +  ret =3D qcom_minidump_region_register(&region);
+> +  if (ret < 0) {
+> +	pr_err("failed to add region in minidump: err: %d\n", ret);
+> +	return ret;
+> +  }
+> +
+> +  [...]
+> +
+> +
+> +Test
+> +----
+> +
+> +Existing Qualcomm devices already supports entire RAM dump (also called
+> +full dump) by writing appropriate value to Qualcomm's top control and
+> +status register (tcsr) in ``driver/firmware/qcom_scm.c`` .
+> +
+> +SCM device Tree bindings required to support download mode
+> +For example (sm8450) ::
+> +
+> +	/ {
+> +
+> +	[...]
+> +
+> +		firmware {
+> +			scm: scm {
+> +				compatible =3D "qcom,scm-sm8450", "qcom,scm";
+> +				[... tcsr register ... ]
+> +				qcom,dload-mode =3D <&tcsr 0x13000>;
+> +
+> +				[...]
+> +			};
+> +		};
+> +
+> +	[...]
+> +
+> +		soc: soc@0 {
+> +
+> +			[...]
+> +
+> +			tcsr: syscon@1fc0000 {
+> +				compatible =3D "qcom,sm8450-tcsr", "syscon";
+> +				reg =3D <0x0 0x1fc0000 0x0 0x30000>;
+> +			};
+> +
+> +			[...]
+> +		};
+> +	[...]
+> +
+> +	};
+> +
+> +User of minidump can pass ``qcom_scm.download_mode=3D"mini"`` to kernel
+> +commandline to set the current download mode to minidump.
+> +Similarly, ``"full"`` is passed to set the download mode to full dump
+> +where entire RAM dump will be collected while setting it ``"full,mini"``
+> +will collect minidump along with fulldump.
+> +
+> +Writing to sysfs node can also be used to set the mode to minidump::
+> +
+> +	echo "mini" > /sys/module/qcom_scm/parameter/download_mode
+> +
+> +Once the download mode is set, any kind of crash will make the device co=
+llect
+> +respective dump as per set download mode.
+> +
+> +Dump collection
+> +---------------
+> +::
+> +
+> +	+-----------+
+> +	|           |
+> +	|           |         +------+
+> +	|           |         |      |
+> +	|           |         +--+---+ Product(Qualcomm SoC)
+> +	+-----------+             |
+> +	|+++++++++++|<------------+
+> +	|+++++++++++|    usb cable
+> +	+-----------+
+> +            x86_64 PC
+> +
+> +The solution supports a product running with Qualcomm SoC (where minidum=
+p)
+> +is supported from the firmware) connected to x86_64 host PC running PCAT
+> +tool. It supports downloading the minidump produced from product to the
+> +host PC over USB or to save the minidump to the product attached storage
+> +device(UFS/eMMC/SD Card) into minidump dedicated partition.
+> +
+> +By default, dumps are downloaded via USB to the attached x86_64 PC runni=
+ng
+> +PCAT (Qualcomm tool) software. Upon download, we will see a set of binary
+> +blobs starting with name ``md_*`` in PCAT configured directory in x86_64
+> +machine, so for above example from the client it will be ``md_REGION_A.B=
+IN``.
+> +This binary blob depends on region content to determine whether it needs
+> +external parser support to get the content of the region, so for simple
+> +plain ASCII text we don't need any parsing and the content can be seen
+> +just opening the binary file.
+> +
+> +To collect the dump to attached storage type, one needs to write appropr=
+iate
+> +value to IMEM register, in that case dumps are collected in rawdump
+> +partition on the product device itself.
+> +
+> +One needs to read the entire rawdump partition and pull out content to
+> +save it onto the attached x86_64 machine over USB. Later, this rawdump
+> +can be passed to another tool (``dexter.exe`` [Qualcomm tool]) which
+> +converts this into the similar binary blobs which we have got it when
+> +download type was set to USB, i.e. a set of registered regions as blobs
+> +and their name starts with ``md_*``.
+> +
+> +Replacing the ``dexter.exe`` with some open source tool can be added as =
+future
+> +scope of this document.
 
-Ditto
+LGTM, thanks!
 
-> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
-> +	u32 th, th_max;
->  
->  	if (attr->exclude_idle)
->  		return -EPERM;
-> @@ -952,6 +1019,21 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
->  	if (attr->exclude_user)
->  		config_base |= ARMV8_PMU_EXCLUDE_EL0;
->  
-> +	/*
-> +	 * Insert event counting threshold (FEAT_PMUv3_TH) values. If
-> +	 * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max) will be
-> +	 * 0 and no values will be written.
-> +	 */
-> +	th_max = threshold_max(cpu_pmu);
-> +	if (IS_ENABLED(CONFIG_ARM64) && th_max) {
-> +		th = min(armv8pmu_event_threshold(attr), th_max);
-> +		if (th) {
-> +			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
-> +			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
-> +						  armv8pmu_event_threshold_control(attr));
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Ditto. As mentioned earlier this could have been avoided using a local variable.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-> +		}
-> +	}
-> +
->  	/*
->  	 * Install the filter into config_base as this is used to
->  	 * construct the event type.
-> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
-> index ddd1fec86739..ccbc0f9a74d8 100644
-> --- a/include/linux/perf/arm_pmuv3.h
-> +++ b/include/linux/perf/arm_pmuv3.h
-> @@ -258,6 +258,7 @@
->  #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
->  #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
->  #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
-> +#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
->  
->  /*
->   * This code is really good
+--BuCQw3fkz+a4hLx6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Otherwise LGTM
+-----BEGIN PGP SIGNATURE-----
 
-Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWQrbQAKCRD2uYlJVVFO
+o16CAQC7qBNMo3GAelqbYCC7X0VFYpjeiiqcRiy6GrizoTGcCgD8D5mzVjQfqBvY
+bh6PeiYqzBUUfBhACG4CtQpxBGryGwk=
+=BPu8
+-----END PGP SIGNATURE-----
+
+--BuCQw3fkz+a4hLx6--
