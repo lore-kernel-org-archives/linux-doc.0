@@ -1,153 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="OOXAB+Dp"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30B342117;
-	Mon, 27 Nov 2023 07:29:59 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8CB2A21B58;
-	Mon, 27 Nov 2023 15:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1701098997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ll683VjO5cgdZEXvfYTUzLYylEdUG/UQv49Lu4Sc7rA=;
-	b=OOXAB+DpFUt4iwizIQsg9NdOIv7EkWhpXPvrvm3xSPIkYK01e48JBaP6McNQXVt1W4HMcp
-	FzhsJfz4OLu8cI2pA+kFgSSwrdgoVb/idRWXuLd+Fx/rh355mLKnibOH8SOrq1VdRhoTdr
-	woqZH0y3y+TGG/qALZCHEensDf8Z/lc=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 714C11367B;
-	Mon, 27 Nov 2023 15:29:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id e1MKGvW1ZGVHRQAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Mon, 27 Nov 2023 15:29:57 +0000
-Date: Mon, 27 Nov 2023 16:29:56 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, arnd@arndb.de, tglx@linutronix.de,
-	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	tj@kernel.org, ying.huang@intel.com
-Subject: Re: [RFC PATCH 00/11] mm/mempolicy: Make task->mempolicy externally
- modifiable via syscall and procfs
-Message-ID: <ZWS19JFHm_LFSsFd@tiehlicka>
-References: <20231122211200.31620-1-gregory.price@memverge.com>
- <20231122133348.d27c09a90bce755dc1c0f251@linux-foundation.org>
- <ZV5/ilfUoqC2PW0D@memverge.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YV2ORvXz"
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B348BCE;
+	Mon, 27 Nov 2023 08:03:35 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1cfc2d03b3aso9291245ad.1;
+        Mon, 27 Nov 2023 08:03:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701101015; x=1701705815; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ovFrH1/AjRvHdNMB/VJzZliD8vmbG1p5UDUluMTuF88=;
+        b=YV2ORvXzh7l35zmejRS8FCx/Gp0ta6nYjxeLnvEmtB7Pc2eS7r5BOEpp5Us+R1OVz4
+         6rKDUFglNapdQbwUL9jSRU1Q5zWIJcY8h2/oRWskQDwYqD0bmKdwZaFXisQjlydfIdoe
+         ydqk1YjZDWqWtXkVK2VrwNDdndVTcd6orHlQPTZZBM7J64byN5AGGVkoKXMT/AAUI3xX
+         84CqDzU/pxr3DErSBCGvB5qVhN/n6pKsyqCQK0Mgpu1RQvHfl8HcxIOoYHxP/AasI3x5
+         zp+9dn4FcM6a1KQjn2YRRYCe1BTEiYZeyYn78mnF2J7tUQm1zdDSOqdq74b+n10tv0A5
+         2OPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701101015; x=1701705815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ovFrH1/AjRvHdNMB/VJzZliD8vmbG1p5UDUluMTuF88=;
+        b=u3I6ToS6h8E4sHnle6Zrr/9D1pknySsSy6AvSDrUJdRcr+tsM1UpcUuZc4dUBeTd9W
+         OxrZqg1Yg0ddZBPJEFMQ/7vuVC3tqsRvbmJJ89inlMmrDgqHF1UpbFXO8BBeRm8o/a6M
+         UTxm114PiDDdErbKhLR7oGaXw6F4Wyjojl+hg/9ISSs4roPVQw6JNzsIoHVpWvqWFF7M
+         ITORovKb6DVE9E//pWu9A/eGuKKLUmad48Eff8QgcUfCzNgq0pKk8tAI4KqzuZcHxTyn
+         GoF2X8kC17NQT5qdGtIxMo69xVrplWCiUmBbm21GH//ErHo1VVAIo1MZxgKQe5utQy+F
+         MLJg==
+X-Gm-Message-State: AOJu0YxU1St3So7P364bRAT4XxyvKZkcqxS5vQ9dlKUGT4cktQno+AOE
+	UEzQzprkadXmMaqh7KBXkMs=
+X-Google-Smtp-Source: AGHT+IGnxD/CA9o+aJGc6sy/WMss+ZbwTeVZIqa0C9egy5zZUpC4NNFjbJIiL7xBxYNlaQK7er42SQ==
+X-Received: by 2002:a17:90b:1d09:b0:285:80d5:6e51 with SMTP id on9-20020a17090b1d0900b0028580d56e51mr10792245pjb.21.1701101015022;
+        Mon, 27 Nov 2023 08:03:35 -0800 (PST)
+Received: from attreyee-HP-Pavilion-Laptop-14-ec0xxx.. ([60.243.28.47])
+        by smtp.gmail.com with ESMTPSA id hg18-20020a17090b301200b002836c720713sm7470143pjb.24.2023.11.27.08.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 08:03:34 -0800 (PST)
+From: attreyee-muk <tintinm2017@gmail.com>
+To: jpoimboe@kernel.org,
+	jikos@kernel.org,
+	mbenes@suse.cz,
+	pmladek@suse.com,
+	joe.lawrence@redhat.com,
+	corbet@lwn.net
+Cc: attreyee-muk <tintinm2017@gmail.com>,
+	live-patching@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Took care of some grammatical mistakes
+Date: Mon, 27 Nov 2023 21:27:59 +0530
+Message-Id: <20231127155758.33070-1-tintinm2017@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZV5/ilfUoqC2PW0D@memverge.com>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.10
-X-Spamd-Result: default: False [-1.10 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 RCPT_COUNT_TWELVE(0.00)[19];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[linux-foundation.org,gmail.com,kvack.org,vger.kernel.org,arndb.de,linutronix.de,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,intel.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
+Content-Transfer-Encoding: 8bit
 
-Sorry, didn't have much time to do a proper review. Couple of points
-here at least.
+Respected Maintainers, 
 
-On Wed 22-11-23 17:24:10, Gregory Price wrote:
-> On Wed, Nov 22, 2023 at 01:33:48PM -0800, Andrew Morton wrote:
-> > On Wed, 22 Nov 2023 16:11:49 -0500 Gregory Price <gourry.memverge@gmail.com> wrote:
-> > 
-> > > The patch set changes task->mempolicy to be modifiable by tasks other
-> > > than just current.
-> > > 
-> > > The ultimate goal is to make mempolicy more flexible and extensible,
-> > > such as adding interleave weights (which may need to change at runtime
-> > > due to hotplug events).  Making mempolicy externally modifiable allows
-> > > for userland daemons to make runtime performance adjustments to running
-> > > tasks without that software needing to be made numa-aware.
-> > 
-> > Please add to this [0/N] a full description of the security aspect: who
-> > can modify whose mempolicy, along with a full description of the
-> > reasoning behind this decision.
-> > 
-> 
-> Will do. For the sake of v0 for now:
-> 
-> 1) the task itself (task == current)
->    for obvious reasons: it already can
-> 
-> 2) from external interfaces: CAP_SYS_NICE
+I have made some grammatical changes in the livepatch.rst file where I
+felt that the sentence would have sounded more correct and would have become easy for
+beginners to understand by reading. 
+Requesting review of my proposed changes from the mainatiners. 
 
-Makes sense.
+Thank You
+Attreyee Mukherjee
 
-[...]
-> > > 3. Add external interfaces which allow for a task mempolicy to be
-> > >    modified by another task.  This is implemented in 4 syscalls
-> > >    and a procfs interface:
-> > >         sys_set_task_mempolicy
-> > >         sys_get_task_mempolicy
-> > >         sys_set_task_mempolicy_home_node
-> > >         sys_task_mbind
-> > >         /proc/[pid]/mempolicy
-> > 
-> > Why is the procfs interface needed?  Doesn't it simply duplicate the
-> > syscall interface?  Please update [0/N] with a description of this
-> > decision.
-> > 
-> 
-> Honestly I wrote the procfs interface first, and then came back around
-> to just implement the syscalls.  mbind is not friendly to being procfs'd
-> so if the preference is to have only one, not both, then it should
-> probably be the syscalls.
-> 
-> That said, when I introduce weighted interleave on top of this, having a
-> simple procfs interface to those weights would be valuable, so I
-> imagined something like `proc/mempolicy` to determine if interleave was
-> being used and something like `proc/mpol_interleave_weights` for a clean
-> interface to update weights.
-> 
-> However, in the same breath, I have a prior RFC with set/get_mempolicy2
-> which could probably take all future mempolicy extensions and wrap them
-> up into one pair of syscalls, instead of us ending up with 200 more
-> sys_mempolicy_whatever as memory attached fabrics become more common.
-> 
-> So... yeah... the is one area I think the community very much needs to
-> comment:  set/get_mempolicy2, many new mempolicy syscalls, procfs? All
-> of the above?
+Signed-off-by: attreyee-muk <tintinm2017@gmail.com>
+---
+ Documentation/livepatch/livepatch.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-I think we should actively avoid using proc interface. The most
-reasonable way would be to add get_mempolicy2 interface that would allow
-extensions and then create a pidfd counterpart to allow acting on a
-remote task. The latter would require some changes to make mempolicy
-code less current oriented.
+diff --git a/Documentation/livepatch/livepatch.rst b/Documentation/livepatch/livepatch.rst
+index 68e3651e8af9..a2d2317b7d6b 100644
+--- a/Documentation/livepatch/livepatch.rst
++++ b/Documentation/livepatch/livepatch.rst
+@@ -35,11 +35,11 @@ and livepatching:
+     compiler using the '-pg' gcc option.
+ 
+   - Livepatching typically needs to redirect the code at the very beginning
+-    of the function entry before the function parameters or the stack
++    of the function entry, before the function parameters or the stack
+     are in any way modified.
+ 
+ All three approaches need to modify the existing code at runtime. Therefore
+-they need to be aware of each other and not step over each other's toes.
++they need to be aware of each other and not step over each others' toes.
+ Most of these problems are solved by using the dynamic ftrace framework as
+ a base. A Kprobe is registered as a ftrace handler when the function entry
+ is probed, see CONFIG_KPROBES_ON_FTRACE. Also an alternative function from
+@@ -50,8 +50,8 @@ some limitations, see below.
+ 3. Consistency model
+ ====================
+ 
+-Functions are there for a reason. They take some input parameters, get or
+-release locks, read, process, and even write some data in a defined way,
++Functions are there for a reason. They take some input parameters, acquire or
++release locks, read, process, write some data in a defined way, and also
+ have return values. In other words, each function has a defined semantic.
+ 
+ Many fixes do not change the semantic of the modified functions. For
 -- 
-Michal Hocko
-SUSE Labs
+2.34.1
+
