@@ -1,100 +1,95 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E2E358B3;
+	Mon, 27 Nov 2023 17:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nF/gRJ8x"
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66AA085;
-	Mon, 27 Nov 2023 09:28:22 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E4FC14000B;
-	Mon, 27 Nov 2023 17:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701106101;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cgRUTwLXcNd58EG84hnaXaWLqxXMccudnE3zQ48EYVQ=;
-	b=nF/gRJ8xfx+oSU3Q8tKHoRZUEPdMORtKkZXe1y9wvSBw1LzUXyhzdMd5avFCzZ6iaSZTzh
-	ygc0xDl00VLDGTbWbG1KcXy06Iutu8rta3w9rAU+rXz4piOf8BXP0hGyEHjgjOyjmhA1GF
-	6O8IJKtjly+NQEmAwu3BpvxS2eqbh68CSdriYdPRAh7aEuj2pG4NUbv44RtfAZAt/qBzPj
-	oQ1Ml6uEn44cMzzyEIWj2acon53DwEflAJU7sKnLoBnZAPg7L3SHUmXyrzKu5PM3sSzGa9
-	7GXGLwAoxlF+Z62ykJgSjmfRN23UTP/cRg8QvZgN0HMNZusvH6N617R1QRttWQ==
-Date: Mon, 27 Nov 2023 18:28:19 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 9/9] net: pse-pd: Add PD692x0 PSE controller
- driver
-Message-ID: <20231127182819.11ee98d2@kmaincent-XPS-13-7390>
-In-Reply-To: <cde6c19f-01ba-4f6c-9e73-00e4789fb69c@lunn.ch>
-References: <20231116-feature_poe-v1-0-be48044bf249@bootlin.com>
-	<20231116-feature_poe-v1-9-be48044bf249@bootlin.com>
-	<45694d77-bcf8-4377-9aa0-046796de8d74@lunn.ch>
-	<20231122174828.7625d7f4@kmaincent-XPS-13-7390>
-	<cde6c19f-01ba-4f6c-9e73-00e4789fb69c@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zyseagj8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32784C433C7;
+	Mon, 27 Nov 2023 17:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701106434;
+	bh=4sXySQchTuW8h+aOTNQyzU6G4RPf33PoqMAO4ZKZSNg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zyseagj8U+MIhkThFmLfwbzPrVUYzPUIDmxEORqw7b3WqnjDJGDdMXthWDoPKG8UM
+	 OhT8o8lpnZLDgvsa5/1y97sBT5xUcKIG/jhuOF4UlO3zaKnfYy/LzW25vF7tq7jH+u
+	 0W+u768afJEGa77/4TWt4QgmOhgFe+jejOeP8oBJEtwlfbQKqsM1Y41jhqaAxWNY6/
+	 /+9qyKoH3E1EQ6iacJ0fccJKDvKSBGjpver+r9MqxiYfhZxvR5h6e/dGVB4sDtC/vv
+	 IE7YKnDSBIB1fcFSugGfSZTINGkZFRIsfy/qyZBfpBSAChOqmzwmHxx/kBcdSyO/Mx
+	 ROmP9HsoifxAw==
+Date: Mon, 27 Nov 2023 17:33:48 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add LTC4282 bindings
+Message-ID: <20231127-payback-bulginess-3afd21d0e0fb@spud>
+References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
+ <20231124-ltc4282-support-v2-1-952bf926f83c@analog.com>
+ <20231125-chivalry-bargraph-cb6bb2b1ed66@spud>
+ <ac3d17579847686f9800567aecfeb749c04ba759.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="sSckkexfIMYASZhR"
+Content-Disposition: inline
+In-Reply-To: <ac3d17579847686f9800567aecfeb749c04ba759.camel@gmail.com>
+
+
+--sSckkexfIMYASZhR
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
 
-On Wed, 22 Nov 2023 18:11:25 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
-
-> > > Is the firmware in Motorola SREC format? I thought the kernel had a
-> > > helper for that, but a quick search did not find it. So maybe i'm
-> > > remembering wrongly. But it seems silly for every driver to implement
-> > > an SREC parser. =20
+On Mon, Nov 27, 2023 at 08:56:36AM +0100, Nuno S=E1 wrote:
+> On Sat, 2023-11-25 at 11:56 +0000, Conor Dooley wrote:
+> > On Fri, Nov 24, 2023 at 03:18:16PM +0100, Nuno Sa via B4 Relay wrote:
 > >=20
-> > Oh, I didn't know this format. =20
+> > > +=A0 adi,gpio1-mode:
+> > > +=A0=A0=A0 description: Defines the function of the Pin.
+> > > +=A0=A0=A0 $ref: /schemas/types.yaml#/definitions/string
+> > > +=A0=A0=A0 enum: [gpio, power_bad, power_good]
+> > > +
+> > > +=A0 adi,gpio2-mode:
+> > > +=A0=A0=A0 description: Defines the function of the Pin.
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 0 - GPIO Mode.
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 1 - Acts as an input pin and it is feede=
+d into the ADC.
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 2 - Pulls Low when the MOSFET is dissipa=
+ting power (stress).
+> >=20
+> > These three descriptions here probably need to be updated, one for being
+> > too short and these two for still having the integer stuff in the
+> > descriptions. Otherwise I think this is looking okay.
+> >=20
 >=20
-> Its often used in small deeply embedded systems. Microcontrollers,
-> rather than something which can run Linux.
->=20
-> > The firmware seems indeed to match this format
-> > specification.
-> > I found two reference of this Firmware format in the kernel:
-> > https://elixir.bootlin.com/linux/v6.5.7/source/sound/soc/codecs/zl38060=
-.c#L178
-> > https://elixir.bootlin.com/linux/v6.5.7/source/drivers/staging/wlan-ng/=
-prism2fw.c
-> > =20
->=20
-> Ah, all inside a header file. Probably why i missed it. But ihex is
-> not SREC. ihex came from Intel. SREC from Motorola.
->=20
-> So i would follow the basic flow in include/linux/ihex.h, add an
-> include/linux/srec.h but adapt it for SREC.
+> Yeah, the integer stuff are leftovers. I can also try to add more into the
+> description.
 
-In fact the ihex.h header is only adding the ihex_validate_fw and the
-request_ihex_firmware functions. In my case I do not use request firmware b=
-ut
-sysfs firmware loader. I could add srec_validate_fw but I am already
-checking the firmware during the flashing process due to its special flashi=
-ng
-process.
-I could not treat the firmware to one blob to be send. Each byte need to be
-send in one i2c messages and at the end of eaxch line we need to wait a "\r=
-\n"
-(within 30ms) before sending next line. Yes, it takes time to be flashed!
+That'd be great, thanks.
 
-Do you see generic helper that I could add?=20
+--sSckkexfIMYASZhR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWTS/AAKCRB4tDGHoIJi
+0uuwAP4kjTrjXbUqkYAUovnUt/B2RFg6oZ4kGaG4G1wAsfZKqwD9E4mdinkpH6bj
+TJpLbUTYSremMCno0sBVGAYoa51tvwA=
+=eMK4
+-----END PGP SIGNATURE-----
+
+--sSckkexfIMYASZhR--
