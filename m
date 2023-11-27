@@ -1,97 +1,73 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4903E490;
+	Mon, 27 Nov 2023 22:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jzCS4G0s"
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 499BF137;
-	Mon, 27 Nov 2023 14:46:52 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6c320a821c4so4128515b3a.2;
-        Mon, 27 Nov 2023 14:46:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701125212; x=1701730012; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1oCTGiSWgB9NsXiyG8nsZcknofook+2izslwvO0IvTU=;
-        b=jzCS4G0sHsouh0ifFdwoiS3GlA2BszjlZHS3kCWqxN+eQSTkHaEQ9PpIPviCQzzTIg
-         qUYBXHTJW0gshTMQQMOJz9QVwfFmgtYMldKODHPY9MFAP/Rt8bPtGJ08IABkvlb63LWF
-         oIY7j7Rj/UvlFeoyim3THydk7Nh7MRxrrsfexmB3s6PcizhdpS5R7rD5/6zleNVoIBrT
-         zTjp4DpEszp20UQuckI8mE+/yEsrLm1d+qDwh01RB4CUgOraOxE5P7IIuXBfOqNlz882
-         jIouhs0PJNx+3zlhvtnzetvKzuMVmR3IARHNYxFrQmEARdcWZuntJAPLO1oit33D8r6S
-         7JUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701125212; x=1701730012;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1oCTGiSWgB9NsXiyG8nsZcknofook+2izslwvO0IvTU=;
-        b=X8RXYdE+0gaqHvNZMXaEB+sBOzSUt111ehoKPLmAR0iwn0qMFurKZQQsM0YlIEOb8W
-         dYFZaS6TqOuA6yKNKQO6TFdI6rrs8nOMOTKPv7IT2Ba/p5HxrbyCqbsMtrxWCrdBP/4d
-         7vAP24K0aYTczhGNJzEotuGTZGwKlyHAO98cwAGGvUm1hN0mFBFHzY1+HbHyQjO8InWq
-         WRaNAK4Qro/ZTDYB77coAq/2hsXsJmjoYzhZjUPXn0C7AQT8AvsxUfyRZJP0HBdSioml
-         LwN+N71q7f8YWPaXLdN+Hm8LNf9jvF9Du9WBdvbyr1MwbmD63ZIAPc+uGuDdpzajPdLv
-         k6Yg==
-X-Gm-Message-State: AOJu0YzocVgzfKMqWQgseYZyTBAseV5NY/ljNeBxxDA8gWPv/VCbNGbe
-	TUtCGAZwZ3TfLZuJDPlA9QZd9rLt43I=
-X-Google-Smtp-Source: AGHT+IGKeqtz/gytGYQg7Gh1zFzW6bXH0N87MgWSyLX0d4AxerflPbMRaTGFF8CtCxibds40VZi0pw==
-X-Received: by 2002:a05:6a00:2d90:b0:6c9:9e11:859d with SMTP id fb16-20020a056a002d9000b006c99e11859dmr14050165pfb.1.1701125211462;
-        Mon, 27 Nov 2023 14:46:51 -0800 (PST)
-Received: from localhost (fwdproxy-prn-023.fbsv.net. [2a03:2880:ff:17::face:b00c])
-        by smtp.gmail.com with ESMTPSA id h5-20020a056a00218500b00690ca67d429sm7615145pfi.100.2023.11.27.14.46.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 14:46:51 -0800 (PST)
-From: Nhat Pham <nphamcs@gmail.com>
-To: akpm@linux-foundation.org
-Cc: hannes@cmpxchg.org,
-	cerasuolodomenico@gmail.com,
-	yosryahmed@google.com,
-	sjenning@redhat.com,
-	ddstreet@ieee.org,
-	vitaly.wool@konsulko.com,
-	mhocko@kernel.org,
-	roman.gushchin@linux.dev,
-	shakeelb@google.com,
-	muchun.song@linux.dev,
-	chrisl@kernel.org,
-	linux-mm@kvack.org,
-	kernel-team@meta.com,
-	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	shuah@kernel.org
-Subject: [PATCH v6 1/6] list_lru: allows explicit memcg and NUMA node selection (fix)
-Date: Mon, 27 Nov 2023 14:46:50 -0800
-Message-Id: <20231127224650.2636224-1-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231127193703.1980089-2-nphamcs@gmail.com>
-References: <20231127193703.1980089-2-nphamcs@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RCXakQs3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11659C433C8;
+	Mon, 27 Nov 2023 22:47:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701125241;
+	bh=Y4oxrecu9ql/C7+/pWvE72XQSeQO0hmoCWBxJdrSTgs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RCXakQs3Lvm/NZ4IohSRSzS5ha4CpLf9iXXNE2gzU12WjlKhA6BByL06gdkR2Yl8N
+	 qIcbnyv/O/hUAE+YcK+WEBL2opMGlawyFsswlIlOShGrocyxQsiF/ltCEsVRgtzk6f
+	 ZS1CgRTABTLrtC+wT2c06detaejWQs7FwoXclVZmVSEdLvZfQHU8tnC4lJtGkItyiC
+	 H/JZmfFNJQNuKYaHn7Y57Z5hYpiqPthrcfgNzEzAdOom/D01+Tp+ialYIspQdPEP4P
+	 HzC/JlWUWvBbXJFZHsI9Lo164J6yw4L4tpYyy8dFb/sUnoEAFYJl9n4RgmXEv+hAtE
+	 Ygv1bcTo7hedw==
+Date: Mon, 27 Nov 2023 14:47:19 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Sergei Shtepa <sergei.shtepa@linux.dev>
+Cc: axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org,
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Sergei Shtepa <sergei.shtepa@veeam.com>
+Subject: Re: [PATCH v6 11/11] blksnap: prevents using devices with data
+ integrity or inline encryption
+Message-ID: <20231127224719.GD1463@sol.localdomain>
+References: <20231124165933.27580-1-sergei.shtepa@linux.dev>
+ <20231124165933.27580-12-sergei.shtepa@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231124165933.27580-12-sergei.shtepa@linux.dev>
 
-The original patch missed a list_lru_del() -> list_lru_del_obj()
-conversion. This patch fixed that.
+On Fri, Nov 24, 2023 at 05:59:33PM +0100, Sergei Shtepa wrote:
+> There is an opinion that the use of the blksnap module may violate the
+> security of encrypted data. The difference storage file may be located
+> on an unreliable disk or even network storage. 
 
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
----
- drivers/android/binder_alloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think this misses the point slightly.  The main problem is that blksnap writes
+data in plaintext that is supposed to be encrypted, as indicated by the bio
+having an encryption context.  That's just what it does, at least based on the
+last patchset; it's not just "an opinion".  See
+https://lore.kernel.org/linux-block/20a5802d-424d-588a-c497-1d1236c52880@veeam.com/
 
-diff --git a/drivers/android/binder_alloc.c b/drivers/android/binder_alloc.c
-index e80669d4e037..f69d30c9f50f 100644
---- a/drivers/android/binder_alloc.c
-+++ b/drivers/android/binder_alloc.c
-@@ -234,7 +234,7 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
- 		if (page->page_ptr) {
- 			trace_binder_alloc_lru_start(alloc, index);
- 
--			on_lru = list_lru_del(&binder_alloc_lru, &page->lru);
-+			on_lru = list_lru_del_obj(&binder_alloc_lru, &page->lru);
- 			WARN_ON(!on_lru);
- 
- 			trace_binder_alloc_lru_end(alloc, index);
--- 
-2.34.1
+> +#ifdef CONFIG_BLK_INLINE_ENCRYPTION
+> +	if (bio->bi_crypt_context) {
+> +		pr_err_once("Hardware inline encryption is not supported\n");
+> +		diff_area_set_corrupted(tracker->diff_area, -EPERM);
+> +		return false;
+> +	}
+> +#endif
+
+The error message for ->bi_crypt_context being set should say
+"Inline encryption", not "Hardware inline encryption".  The submitter of the bio
+may have intended to use blk-crypto-fallback.
+
+Anyway, this patch is better than ignoring the problem.  It's worth noting,
+though, that this patch does not prevent blksnap from being set up on a block
+device on which blk-crypto-fallback is already being used (or will be used).
+When that happens, I/O will suddenly start failing.  For usability reasons,
+ideally that would be prevented somehow.
+
+- Eric
