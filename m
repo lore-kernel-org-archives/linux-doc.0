@@ -1,373 +1,259 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD6323C8
-	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 03:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vJfOh+xi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55782C433C7;
-	Mon, 27 Nov 2023 03:23:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701055418;
-	bh=Eodz2pVLOUXaoWfjoYzlXcohlYoJ3kVQaJUJpSKosJM=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=vJfOh+ximXtmPtldUYzo4a28ZtUogNPKD50qT9PraPzCPfz52oxpPva8HpCyqsGMQ
-	 UgMHscOJtKCf1yIIFGIe6b1749Y82RZPiVwLCk4gAhdenNw0pW+eRNomxHdIDvrgg4
-	 +camY5Vw7dSq9W7h9MtmN2Bsa4lweWo+2WkIaN9xCYSynVPQqUFEngbfhkCClJY5fn
-	 njdN5tPHyQpr2U3jYa9MdTOKp4JZa4WONBza3DS/TMibyatfyaNa1wd+ZHeRzo2qFU
-	 eIbjDp+lyI8PT9chKSa1O7BvhUIucfJ0NAvE97m0BN7ETFMvCmwCPwGsm1AXAftVbV
-	 KqxSSFSZR4VJw==
-Message-ID: <f59b8c00-3628-6318-ee69-1caf79a03f2b@kernel.org>
-Date: Mon, 27 Nov 2023 11:23:31 +0800
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 84ABEE3;
+	Sun, 26 Nov 2023 21:33:06 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C65412F4;
+	Sun, 26 Nov 2023 21:33:52 -0800 (PST)
+Received: from [10.162.41.8] (a077893.blr.arm.com [10.162.41.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E861F3F73F;
+	Sun, 26 Nov 2023 21:33:01 -0800 (PST)
+Message-ID: <2988dbfe-1384-4b2f-9450-29212c835d6d@arm.com>
+Date: Mon, 27 Nov 2023 11:02:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [f2fs-dev] [PATCH v1] f2fs: New victim selection for GC
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/3] arm64: perf: Add support for event counting
+ threshold
 Content-Language: en-US
-To: yonggil.song@samsung.com, "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "linux-f2fs-devel@lists.sourceforge.net"
- <linux-f2fs-devel@lists.sourceforge.net>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Seokhwan Kim <sukka.kim@samsung.com>, Daejun Park
- <daejun7.park@samsung.com>, Siwoo Jung <siu.jung@samsung.com>
-References: <20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p8>
- <CGME20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p4>
- <20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41@epcms2p4>
-From: Chao Yu <chao@kernel.org>
-In-Reply-To: <20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41@epcms2p4>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: James Clark <james.clark@arm.com>, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, suzuki.poulose@arm.com, will@kernel.org,
+ mark.rutland@arm.com, namhyung@gmail.com
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231124102857.1106453-1-james.clark@arm.com>
+ <20231124102857.1106453-3-james.clark@arm.com>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20231124102857.1106453-3-james.clark@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Yonggil,
 
-On 2023/10/26 17:18, Yonggil Song wrote:
-> Overview
-> ========
-> 
-> Introduce a new way to select the data section first when selecting a
-> victim in foreground GC. This victim selection method works when the
-> prefer_data_victim mount option is enabled. If foreground GC migrates only
-> data sections and runs out of free sections, it cleans dirty node sections
-> to get more free sections.
 
-What about introducing parameter to adjust cost calculated by get_gc_cost()?
-
-Something like:
-
-get_gc_cost()
-
-	if (p->gc_mode == GC_GREEDY) {
-		vblocks = get_valid_blocks();
-		if (seg_type is data)
-			return vblocks * data_factor;
-		return vblock * node_factor;
-	}
-
-If we prefer to select data segment during fggc, we can config data/node factor
-as 1 and 512?
-
-Thoughts?
-
-Thanks,
-
+On 11/24/23 15:58, James Clark wrote:
+> FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
+> events whose count meets a specified threshold condition. For example if
+> PMEVTYPERn.TC (Threshold Control) is set to 0b101 (Greater than or
+> equal, count), and the threshold is set to 2, then the PMU counter will
+> now only increment by 1 when an event would have previously incremented
+> the PMU counter by 2 or more on a single processor cycle.
 > 
-> Problem
-> =======
+> Three new Perf event config fields, 'threshold', 'threshold_compare' and
+> 'threshold_count' have been added to control the feature.
+> threshold_compare maps to the upper two bits of PMEVTYPERn.TC and
+> threshold_count maps to the first bit of TC. These separate attributes
+> have been picked rather than enumerating all the possible combinations
+> of the TC field as in the Arm ARM. The attributes would be used on a
+> Perf command line like this:
 > 
-> If the total amount of nodes is larger than the size of one section, nodes
-> occupy multiple sections, and node victims are often selected because the
-> gc cost is lowered by data block migration in foreground gc. Since moving
-> the data section causes frequent node victim selection, victim threshing
-> occurs in the node section. This results in an increase in WAF.
+>   $ perf stat -e stall_slot/threshold=2,threshold_compare=2/
 > 
-> Experiment
-> ==========
+> A new capability for reading out the maximum supported threshold value
+> has also been added:
 > 
-> Test environment is as follows.
+>   $ cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
 > 
-> 	System info
-> 	  - 3.6GHz, 16 core CPU
-> 	  - 36GiB Memory
-> 	Device info
-> 	  - a conventional null_blk with 228MiB
-> 	  - a sequential null_blk with 4068 zones of 8MiB
-> 	Format
-> 	  - mkfs.f2fs <conv null_blk> -c <seq null_blk> -m -Z 8 -o 3.89
-> 	Mount
-> 	  - mount -o prefer_data_victim <conv null_blk> <mount point>
-> 	Fio script
-> 	  - fio --rw=randwrite --bs=4k --ba=4k --filesize=31187m --norandommap --overwrite=1 --name=job1 --filename=./mnt/sustain --io_size=128g
-> 	WAF calculation
-> 	  - (IOs on conv. null_blk + IOs on seq. null_blk) / random write IOs
+>   0x000000ff
 > 
-> Conclusion
-> ==========
+> If a threshold higher than threshold_max is provided, then no error is
+> generated but the threshold is clamped to the max value. If
+> FEAT_PMUv3_TH isn't implemented or a 32 bit kernel is running, then
+> threshold_max reads zero, and neither the 'threshold' nor
+> 'threshold_control' parameters will be used.
 > 
-> This experiment showed that the WAF was reduced by 29% (18.75 -> 13.3) when
-> the data section was selected first when selecting GC victims. This was
-> achieved by reducing the migration of the node blocks by 69.4%
-> (253,131,743 blks -> 77,463,278 blks). It is possible to achieve low WAF
-> performance with the GC victim selection method in environments where the
-> section size is relatively small.
+> The threshold is per PMU counter, and there are potentially different
+> threshold_max values per PMU type on heterogeneous systems.
 > 
-> Signed-off-by: Yonggil Song <yonggil.song@samsung.com>
+> Bits higher than 32 now need to be written into PMEVTYPER, so
+> armv8pmu_write_evtype() has to be updated to take an unsigned long value
+> rather than u32 which gives the correct behavior on both aarch32 and 64.
+> 
+> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Signed-off-by: James Clark <james.clark@arm.com>
 > ---
->   Documentation/filesystems/f2fs.rst |   3 +
->   fs/f2fs/f2fs.h                     |   2 +
->   fs/f2fs/gc.c                       | 100 +++++++++++++++++++++++------
->   fs/f2fs/segment.h                  |   2 +
->   fs/f2fs/super.c                    |   9 +++
->   5 files changed, 95 insertions(+), 21 deletions(-)
+>  drivers/perf/arm_pmuv3.c       | 84 +++++++++++++++++++++++++++++++++-
+>  include/linux/perf/arm_pmuv3.h |  1 +
+>  2 files changed, 84 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-> index d32c6209685d..58e6d001d7ab 100644
-> --- a/Documentation/filesystems/f2fs.rst
-> +++ b/Documentation/filesystems/f2fs.rst
-> @@ -367,6 +367,9 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
->   			 pending node write	drop		keep		N/A
->   			 pending meta write	keep		keep		N/A
->   			 ====================== =============== =============== ========
-> +prefer_data_victim	 When selecting victims in foreground GC, victims of data type
-> +			 are prioritized. This option minimizes GC victim threshing
-> +			 in the node section to reduce WAF.
->   ======================== ============================================================
->   
->   Debugfs Entries
-> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-> index 6d688e42d89c..8b31fa2ea09a 100644
-> --- a/fs/f2fs/f2fs.h
-> +++ b/fs/f2fs/f2fs.h
-> @@ -108,6 +108,7 @@ extern const char *f2fs_fault_name[FAULT_MAX];
->   #define	F2FS_MOUNT_GC_MERGE		0x02000000
->   #define F2FS_MOUNT_COMPRESS_CACHE	0x04000000
->   #define F2FS_MOUNT_AGE_EXTENT_CACHE	0x08000000
-> +#define F2FS_MOUNT_PREFER_DATA_VICTIM	0x10000000
->   
->   #define F2FS_OPTION(sbi)	((sbi)->mount_opt)
->   #define clear_opt(sbi, option)	(F2FS_OPTION(sbi).opt &= ~F2FS_MOUNT_##option)
-> @@ -1648,6 +1649,7 @@ struct f2fs_sb_info {
->   	struct f2fs_mount_info mount_opt;	/* mount options */
->   
->   	/* for cleaning operations */
-> +	bool need_node_clean;			/* only used for prefer_data_victim */
->   	struct f2fs_rwsem gc_lock;		/*
->   						 * semaphore for GC, avoid
->   						 * race between GC and GC or CP
-> diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c
-> index f550cdeaa663..8a2da808a5fb 100644
-> --- a/fs/f2fs/gc.c
-> +++ b/fs/f2fs/gc.c
-> @@ -752,6 +752,8 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
->   	unsigned int last_segment;
->   	unsigned int nsearched;
->   	bool is_atgc;
-> +	bool is_prefer_data_victim =
-> +		test_opt(sbi, PREFER_DATA_VICTIM) && gc_type == FG_GC;
->   	int ret = 0;
->   
->   	mutex_lock(&dirty_i->seglist_lock);
-> @@ -767,6 +769,11 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
->   	p.oldest_age = 0;
->   	p.min_cost = get_max_cost(sbi, &p);
->   
-> +	if (is_prefer_data_victim) {
-> +		p.node_min_cost = p.min_cost;
-> +		p.node_min_segno = p.min_segno;
-> +	}
+> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+> index 1d40d794f5e4..eb1ef84e1dbb 100644
+> --- a/drivers/perf/arm_pmuv3.c
+> +++ b/drivers/perf/arm_pmuv3.c
+> @@ -15,6 +15,7 @@
+>  #include <clocksource/arm_arch_timer.h>
+>  
+>  #include <linux/acpi.h>
+> +#include <linux/bitfield.h>
+>  #include <linux/clocksource.h>
+>  #include <linux/of.h>
+>  #include <linux/perf/arm_pmu.h>
+> @@ -294,9 +295,20 @@ static const struct attribute_group armv8_pmuv3_events_attr_group = {
+>  	.is_visible = armv8pmu_event_attr_is_visible,
+>  };
+>  
+> +#define THRESHOLD_LOW		2
+> +#define THRESHOLD_HIGH		13
+> +#define THRESHOLD_CNT		14
+> +#define THRESHOLD_CMP_LO	15
+> +#define THRESHOLD_CMP_HI	16
 > +
->   	is_atgc = (p.gc_mode == GC_AT || p.alloc_mode == AT_SSR);
->   	nsearched = 0;
->   
-> @@ -884,9 +891,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
->   
->   		cost = get_gc_cost(sbi, segno, &p);
->   
-> -		if (p.min_cost > cost) {
-> -			p.min_segno = segno;
-> -			p.min_cost = cost;
-> +		if (is_prefer_data_victim) {
-> +			if (IS_DATASEG(get_seg_entry(sbi, segno)->type)) {
-> +				/* update data segments victim */
-> +				if (p.min_cost > cost) {
-> +					p.min_segno = segno;
-> +					p.min_cost = cost;
-> +				}
-> +			} else {
-> +				/* update node segments victim */
-> +				if (p.node_min_cost > cost) {
-> +					p.node_min_segno = segno;
-> +					p.node_min_cost = cost;
-> +				}
-> +			}
-> +		} else {
-> +			if (p.min_cost > cost) {
-> +				p.min_segno = segno;
-> +				p.min_cost = cost;
-> +			}
->   		}
->   next:
->   		if (nsearched >= p.max_search) {
-> @@ -901,6 +924,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
->   		}
->   	}
->   
-> +	if (is_prefer_data_victim && sbi->need_node_clean) {
-> +		/* we need to clean node sections */
-> +		if (p.min_cost > p.node_min_cost) {
-> +			p.min_segno = p.node_min_segno;
-> +			p.min_cost = p.node_min_cost;
-> +		} else {
-> +			/*
-> +			 * data victim cost is the lowest.
-> +			 * if free sections are enough, stop cleaning node victim.
-> +			 * if not, it goes on by GCing data victims.
-> +			 */
-> +			if (has_enough_free_secs(sbi, prefree_segments(sbi), 0)) {
-> +				sbi->need_node_clean = false;
-> +				p.min_segno = NULL_SEGNO;
-> +				goto out;
-> +			}
-> +		}
-> +	}
+>  PMU_FORMAT_ATTR(event, "config:0-15");
+>  PMU_FORMAT_ATTR(long, "config1:0");
+>  PMU_FORMAT_ATTR(rdpmc, "config1:1");
+> +PMU_FORMAT_ATTR(threshold, "config1:" __stringify(THRESHOLD_LOW) "-"
+> +				      __stringify(THRESHOLD_HIGH));
+> +PMU_FORMAT_ATTR(threshold_compare, "config1:" __stringify(THRESHOLD_CMP_LO) "-"
+> +					      __stringify(THRESHOLD_CMP_HI));
+> +PMU_FORMAT_ATTR(threshold_count, "config1:" __stringify(THRESHOLD_CNT));
+
+Small nit - could this be formatted better ? Is not that the column could go
+upto 100 without setting off checkpatch.pl warning these days ?
+
+>  
+>  static int sysctl_perf_user_access __read_mostly;
+>  
+> @@ -310,10 +322,33 @@ static inline bool armv8pmu_event_want_user_access(struct perf_event *event)
+>  	return event->attr.config1 & 0x2;
+>  }
+>  
+> +static inline u32 armv8pmu_event_threshold(struct perf_event_attr *attr)
+> +{
+> +	return FIELD_GET(GENMASK(THRESHOLD_HIGH, THRESHOLD_LOW), attr->config1);
+> +}
 > +
->   	/* get victim for GC_AT/AT_SSR */
->   	if (is_atgc) {
->   		lookup_victim_by_age(sbi, &p);
-> @@ -1830,8 +1872,27 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
->   		goto stop;
->   	}
->   
-> +	__get_secs_required(sbi, NULL, &upper_secs, NULL);
+> +static inline u8 armv8pmu_event_threshold_control(struct perf_event_attr *attr)
+> +{
+> +	u8 th_compare = FIELD_GET(GENMASK(THRESHOLD_CMP_HI, THRESHOLD_CMP_LO),
+> +				  attr->config1);
+
+Ditto
+
+> +	u8 th_count = FIELD_GET(BIT(THRESHOLD_CNT), attr->config1);
 > +
 > +	/*
-> +	 * Write checkpoint to reclaim prefree segments.
-> +	 * We need more three extra sections for writer's data/node/dentry.
+> +	 * The count bit is always the bottom bit of the full control field, and
+> +	 * the comparison is the upper two bits, but it's not explicitly
+> +	 * labelled in the Arm ARM. For the Perf interface we split it into two
+> +	 * fields, so reconstruct it here.
 > +	 */
-> +	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS) {
-> +		if (test_opt(sbi, PREFER_DATA_VICTIM)) {
-> +			sbi->need_node_clean = true;
-> +		}
-> +		if (prefree_segments(sbi)) {
-> +			ret = f2fs_write_checkpoint(sbi, &cpc);
-> +			if (ret)
-> +				goto stop;
-> +			/* Reset due to checkpoint */
-> +			sec_freed = 0;
+> +	return (th_compare << 1) | th_count;
+> +}
+> +
+>  static struct attribute *armv8_pmuv3_format_attrs[] = {
+>  	&format_attr_event.attr,
+>  	&format_attr_long.attr,
+>  	&format_attr_rdpmc.attr,
+> +	&format_attr_threshold.attr,
+> +	&format_attr_threshold_compare.attr,
+> +	&format_attr_threshold_count.attr,
+>  	NULL,
+>  };
+>  
+> @@ -365,10 +400,38 @@ static ssize_t bus_width_show(struct device *dev, struct device_attribute *attr,
+>  
+>  static DEVICE_ATTR_RO(bus_width);
+>  
+> +static u32 threshold_max(struct arm_pmu *cpu_pmu)
+> +{
+> +	/*
+> +	 * PMMIR.THWIDTH is readable and non-zero on aarch32, but it would be
+> +	 * impossible to write the threshold in the upper 32 bits of PMEVTYPER.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_ARM))
+> +		return 0;
+> +
+> +	/*
+> +	 * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
+> +	 * (2 ^ PMMIR.THWIDTH) - 1.
+> +	 */
+> +	return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
+> +}
+> +
+> +static ssize_t threshold_max_show(struct device *dev,
+> +				  struct device_attribute *attr, char *page)
+> +{
+> +	struct pmu *pmu = dev_get_drvdata(dev);
+> +	struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
+> +
+> +	return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
+> +}
+> +
+> +static DEVICE_ATTR_RO(threshold_max);
+> +
+>  static struct attribute *armv8_pmuv3_caps_attrs[] = {
+>  	&dev_attr_slots.attr,
+>  	&dev_attr_bus_slots.attr,
+>  	&dev_attr_bus_width.attr,
+> +	&dev_attr_threshold_max.attr,
+>  	NULL,
+>  };
+>  
+> @@ -552,7 +615,7 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
+>  		armv8pmu_write_hw_counter(event, value);
+>  }
+>  
+> -static inline void armv8pmu_write_evtype(int idx, u32 val)
+> +static inline void armv8pmu_write_evtype(int idx, unsigned long val)
+>  {
+>  	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
+>  	unsigned long mask = ARMV8_PMU_EVTYPE_EVENT |
+> @@ -921,6 +984,10 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
+>  				     struct perf_event_attr *attr)
+>  {
+>  	unsigned long config_base = 0;
+> +	struct perf_event *perf_event = container_of(attr, struct perf_event,
+> +						     attr);
+
+Ditto
+
+> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
+> +	u32 th, th_max;
+>  
+>  	if (attr->exclude_idle)
+>  		return -EPERM;
+> @@ -952,6 +1019,21 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
+>  	if (attr->exclude_user)
+>  		config_base |= ARMV8_PMU_EXCLUDE_EL0;
+>  
+> +	/*
+> +	 * Insert event counting threshold (FEAT_PMUv3_TH) values. If
+> +	 * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max) will be
+> +	 * 0 and no values will be written.
+> +	 */
+> +	th_max = threshold_max(cpu_pmu);
+> +	if (IS_ENABLED(CONFIG_ARM64) && th_max) {
+> +		th = min(armv8pmu_event_threshold(attr), th_max);
+> +		if (th) {
+> +			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
+> +			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
+> +						  armv8pmu_event_threshold_control(attr));
+
+Ditto. As mentioned earlier this could have been avoided using a local variable.
+
 > +		}
 > +	}
 > +
->   	/* Let's run FG_GC, if we don't have enough space. */
-> -	if (has_not_enough_free_secs(sbi, 0, 0)) {
-> +	if (gc_type == BG_GC && has_not_enough_free_secs(sbi, 0, 0)) {
->   		gc_type = FG_GC;
->   
->   		/*
-> @@ -1882,7 +1943,17 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
->   			if (!gc_control->no_bg_gc &&
->   			    total_sec_freed < gc_control->nr_free_secs)
->   				goto go_gc_more;
-> -			goto stop;
-> +			if (test_opt(sbi, PREFER_DATA_VICTIM)) {
-> +				/*
-> +				 * If the need_node_clean flag is set
-> +				 * even though there are enough free
-> +				 * sections, node cleaning will continue.
-> +				 */
-> +				if (!sbi->need_node_clean)
-> +					goto stop;
-> +			} else {
-> +				goto stop;
-> +			}
->   		}
->   		if (sbi->skipped_gc_rwsem)
->   			skipped_round++;
-> @@ -1897,21 +1968,6 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
->   		goto stop;
->   	}
->   
-> -	__get_secs_required(sbi, NULL, &upper_secs, NULL);
-> -
-> -	/*
-> -	 * Write checkpoint to reclaim prefree segments.
-> -	 * We need more three extra sections for writer's data/node/dentry.
-> -	 */
-> -	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS &&
-> -				prefree_segments(sbi)) {
-> -		stat_inc_cp_call_count(sbi, TOTAL_CALL);
-> -		ret = f2fs_write_checkpoint(sbi, &cpc);
-> -		if (ret)
-> -			goto stop;
-> -		/* Reset due to checkpoint */
-> -		sec_freed = 0;
-> -	}
->   go_gc_more:
->   	segno = NULL_SEGNO;
->   	goto gc_more;
-> @@ -1920,8 +1976,10 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
->   	SIT_I(sbi)->last_victim[ALLOC_NEXT] = 0;
->   	SIT_I(sbi)->last_victim[FLUSH_DEVICE] = gc_control->victim_segno;
->   
-> -	if (gc_type == FG_GC)
-> +	if (gc_type == FG_GC) {
->   		f2fs_unpin_all_sections(sbi, true);
-> +		sbi->need_node_clean = false;
-> +	}
->   
->   	trace_f2fs_gc_end(sbi->sb, ret, total_freed, total_sec_freed,
->   				get_pages(sbi, F2FS_DIRTY_NODES),
-> diff --git a/fs/f2fs/segment.h b/fs/f2fs/segment.h
-> index 2ca8fb5d0dc4..d55fa1fee2e0 100644
-> --- a/fs/f2fs/segment.h
-> +++ b/fs/f2fs/segment.h
-> @@ -197,8 +197,10 @@ struct victim_sel_policy {
->   	unsigned int offset;		/* last scanned bitmap offset */
->   	unsigned int ofs_unit;		/* bitmap search unit */
->   	unsigned int min_cost;		/* minimum cost */
-> +	unsigned int node_min_cost;	/* minimum cost of node type section */
->   	unsigned long long oldest_age;	/* oldest age of segments having the same min cost */
->   	unsigned int min_segno;		/* segment # having min. cost */
-> +	unsigned int node_min_segno;	/* node segment # having min. cost */
->   	unsigned long long age;		/* mtime of GCed section*/
->   	unsigned long long age_threshold;/* age threshold */
->   };
-> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-> index a8c8232852bb..133137dd6fd0 100644
-> --- a/fs/f2fs/super.c
-> +++ b/fs/f2fs/super.c
-> @@ -165,6 +165,7 @@ enum {
->   	Opt_memory_mode,
->   	Opt_age_extent_cache,
->   	Opt_errors,
-> +	Opt_prefer_data_victim,
->   	Opt_err,
->   };
->   
-> @@ -245,6 +246,7 @@ static match_table_t f2fs_tokens = {
->   	{Opt_memory_mode, "memory=%s"},
->   	{Opt_age_extent_cache, "age_extent_cache"},
->   	{Opt_errors, "errors=%s"},
-> +	{Opt_prefer_data_victim, "prefer_data_victim"},
->   	{Opt_err, NULL},
->   };
->   
-> @@ -1286,6 +1288,13 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
->   			}
->   			kfree(name);
->   			break;
-> +		case Opt_prefer_data_victim:
-> +			if (!f2fs_sb_has_blkzoned(sbi)) {
-> +				f2fs_err(sbi, "prefer_data_victim is only allowed with zoned block device feature");
-> +				return -EINVAL;
-> +			}
-> +			set_opt(sbi, PREFER_DATA_VICTIM);
-> +			break;
->   		default:
->   			f2fs_err(sbi, "Unrecognized mount option \"%s\" or missing value",
->   				 p);
+>  	/*
+>  	 * Install the filter into config_base as this is used to
+>  	 * construct the event type.
+> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
+> index ddd1fec86739..ccbc0f9a74d8 100644
+> --- a/include/linux/perf/arm_pmuv3.h
+> +++ b/include/linux/perf/arm_pmuv3.h
+> @@ -258,6 +258,7 @@
+>  #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
+>  #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
+>  #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
+> +#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
+>  
+>  /*
+>   * This code is really good
+
+Otherwise LGTM
+
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
