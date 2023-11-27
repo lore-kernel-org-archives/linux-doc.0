@@ -1,96 +1,170 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB241A286;
-	Mon, 27 Nov 2023 20:56:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D812031735;
+	Mon, 27 Nov 2023 21:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONp5tQ+1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF93C433C8;
-	Mon, 27 Nov 2023 20:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701118604;
-	bh=lAsbEbppacCJFKnkajKXtFhGpV+NdV4a4bQb09RY8Aw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ONp5tQ+1r4zJ1gt/iClLw0JzXs1DJH3EI1HopPJZYAPlXZKqmsUSaCQAU38NmOsNL
-	 WIY69MhtaS1Mg5YsO4ju7vNFfoV+EpiBfz1qZZkj27su/8OVFwCry981GVREaEHHkI
-	 wbHChghp9P/iYM0zxZRqHEo2qMNZS6S0uEbo97M61hkOGGWqgF7TpGQgX6yRZ7n0eV
-	 lxLtvoQS8bFYErLVIbAkBWREWNBw07ObuOBvbA+zMosA6EI4BQvIpCpXnexWxr5a7I
-	 gPvtdmDEgbMuIhD8sD5clM+XxoJ1PLRJlFnk4LthvMnPItg5gN5Ci4kxV4x2xs/wet
-	 icfmMlD3Q23pg==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	Jakub Kicinski <kuba@kernel.org>,
-	corbet@lwn.net,
-	leitao@debian.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next] docs: netlink: link to family documentations from spec info
-Date: Mon, 27 Nov 2023 12:56:42 -0800
-Message-ID: <20231127205642.2293153-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.42.0
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="yzDbR+kT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1E8DC433C9;
+	Mon, 27 Nov 2023 21:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1701118857;
+	bh=d0FagZci1PXFMezi/BonwyYv+7yV34Dht6vxRLQOKK8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=yzDbR+kT8L1Ms6G8xL0TrV5ITh7u9pHV2Tf3NB55xhtilyqokg+gTeQDHkcIheVm8
+	 DFA9Di1naDUQ7+V1qm6//jzz5SoG4oQI202ZHvMMcRWO/D2v+XJx6r6wBn7BU8ic6i
+	 nNpDcKvEsu+FmI1qaMNFFOqckiGwHehyfX1VN2tA=
+Date: Mon, 27 Nov 2023 13:00:55 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: hannes@cmpxchg.org, cerasuolodomenico@gmail.com, yosryahmed@google.com,
+ sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
+ mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+ muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org,
+ kernel-team@meta.com, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v6 6/6] zswap: shrinks zswap pool based on memory
+ pressure
+Message-Id: <20231127130055.30c455906d912e09dcb7e79b@linux-foundation.org>
+In-Reply-To: <20231127193703.1980089-7-nphamcs@gmail.com>
+References: <20231127193703.1980089-1-nphamcs@gmail.com>
+	<20231127193703.1980089-7-nphamcs@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-To increase the chances of people finding the rendered docs
-add a link to specs.rst. Add a label in the generated index.rst
-and while at it adjust the title a little bit.
+On Mon, 27 Nov 2023 11:37:03 -0800 Nhat Pham <nphamcs@gmail.com> wrote:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: corbet@lwn.net
-CC: leitao@debian.org
-CC: linux-doc@vger.kernel.org
----
- Documentation/userspace-api/netlink/specs.rst | 2 +-
- tools/net/ynl/ynl-gen-rst.py                  | 8 +++++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+> Currently, we only shrink the zswap pool when the user-defined limit is
+> hit. This means that if we set the limit too high, cold data that are
+> unlikely to be used again will reside in the pool, wasting precious
+> memory. It is hard to predict how much zswap space will be needed ahead
+> of time, as this depends on the workload (specifically, on factors such
+> as memory access patterns and compressibility of the memory pages).
+> 
+> This patch implements a memcg- and NUMA-aware shrinker for zswap, that
+> is initiated when there is memory pressure. The shrinker does not
+> have any parameter that must be tuned by the user, and can be opted in
+> or out on a per-memcg basis.
+> 
+> Furthermore, to make it more robust for many workloads and prevent
+> overshrinking (i.e evicting warm pages that might be refaulted into
+> memory), we build in the following heuristics:
+> 
+> * Estimate the number of warm pages residing in zswap, and attempt to
+>   protect this region of the zswap LRU.
+> * Scale the number of freeable objects by an estimate of the memory
+>   saving factor. The better zswap compresses the data, the fewer pages
+>   we will evict to swap (as we will otherwise incur IO for relatively
+>   small memory saving).
+> * During reclaim, if the shrinker encounters a page that is also being
+>   brought into memory, the shrinker will cautiously terminate its
+>   shrinking action, as this is a sign that it is touching the warmer
+>   region of the zswap LRU.
+> 
+> As a proof of concept, we ran the following synthetic benchmark:
+> build the linux kernel in a memory-limited cgroup, and allocate some
+> cold data in tmpfs to see if the shrinker could write them out and
+> improved the overall performance. Depending on the amount of cold data
+> generated, we observe from 14% to 35% reduction in kernel CPU time used
+> in the kernel builds.
+> 
+> ...
+>
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -22,6 +22,7 @@
+>  #include <linux/mm_types.h>
+>  #include <linux/page-flags.h>
+>  #include <linux/local_lock.h>
+> +#include <linux/zswap.h>
+>  #include <asm/page.h>
+>  
+>  /* Free memory management - zoned buddy allocator.  */
+> @@ -641,6 +642,7 @@ struct lruvec {
+>  #ifdef CONFIG_MEMCG
+>  	struct pglist_data *pgdat;
+>  #endif
+> +	struct zswap_lruvec_state zswap_lruvec_state;
 
-diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
-index c1b951649113..1b50d97d8d7c 100644
---- a/Documentation/userspace-api/netlink/specs.rst
-+++ b/Documentation/userspace-api/netlink/specs.rst
-@@ -15,7 +15,7 @@ kernel headers directly.
- Internally kernel uses the YAML specs to generate:
+Normally we'd put this in #ifdef CONFIG_ZSWAP.
+
+> --- a/include/linux/zswap.h
+> +++ b/include/linux/zswap.h
+> @@ -5,20 +5,40 @@
+>  #include <linux/types.h>
+>  #include <linux/mm_types.h>
+>  
+> +struct lruvec;
+> +
+>  extern u64 zswap_pool_total_size;
+>  extern atomic_t zswap_stored_pages;
+>  
+>  #ifdef CONFIG_ZSWAP
+>  
+> +struct zswap_lruvec_state {
+> +	/*
+> +	 * Number of pages in zswap that should be protected from the shrinker.
+> +	 * This number is an estimate of the following counts:
+> +	 *
+> +	 * a) Recent page faults.
+> +	 * b) Recent insertion to the zswap LRU. This includes new zswap stores,
+> +	 *    as well as recent zswap LRU rotations.
+> +	 *
+> +	 * These pages are likely to be warm, and might incur IO if the are written
+> +	 * to swap.
+> +	 */
+> +	atomic_long_t nr_zswap_protected;
+> +};
+> +
+>  bool zswap_store(struct folio *folio);
+>  bool zswap_load(struct folio *folio);
+>  void zswap_invalidate(int type, pgoff_t offset);
+>  void zswap_swapon(int type);
+>  void zswap_swapoff(int type);
+>  void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg);
+> -
+> +void zswap_lruvec_state_init(struct lruvec *lruvec);
+> +void zswap_lruvec_swapin(struct page *page);
+>  #else
+>  
+> +struct zswap_lruvec_state {};
+
+But instead you made it an empty struct in this case.
+
+That's a bit funky, but I guess OK.  It does send a careful reader of
+struct lruvec over to look at the zswap_lruvec_state definition to
+understand what's going on.
+
+>  static inline bool zswap_store(struct folio *folio)
+>  {
+>  	return false;
+> @@ -33,7 +53,8 @@ static inline void zswap_invalidate(int type, pgoff_t offset) {}
+>  static inline void zswap_swapon(int type) {}
+>  static inline void zswap_swapoff(int type) {}
+>  static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg) {}
+> -
+> +static inline void zswap_lruvec_init(struct lruvec *lruvec) {}
+> +static inline void zswap_lruvec_swapin(struct page *page) {}
+
+Needed this build fix:
+
+--- a/include/linux/zswap.h~zswap-shrinks-zswap-pool-based-on-memory-pressure-fix
++++ a/include/linux/zswap.h
+@@ -54,6 +54,7 @@ static inline void zswap_swapon(int type
+ static inline void zswap_swapoff(int type) {}
+ static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg) {}
+ static inline void zswap_lruvec_init(struct lruvec *lruvec) {}
++static inline void zswap_lruvec_state_init(struct lruvec *lruvec) {}
+ static inline void zswap_lruvec_swapin(struct page *page) {}
+ #endif
  
-  - the C uAPI header
-- - documentation of the protocol as a ReST file
-+ - documentation of the protocol as a ReST file - see :ref:`Documentation/networking/netlink_spec/index.rst <specs>`
-  - policy tables for input attribute validation
-  - operation tables
- 
-diff --git a/tools/net/ynl/ynl-gen-rst.py b/tools/net/ynl/ynl-gen-rst.py
-index b6292109e236..2c0b80071bcd 100755
---- a/tools/net/ynl/ynl-gen-rst.py
-+++ b/tools/net/ynl/ynl-gen-rst.py
-@@ -122,6 +122,11 @@ SPACE_PER_LEVEL = 4
-     return "\n".join(lines)
- 
- 
-+def rst_label(title) -> str:
-+    """Return a formatted label"""
-+    return f".. _{title}:\n\n"
-+
-+
- # Parsers
- # =======
- 
-@@ -349,7 +354,8 @@ SPACE_PER_LEVEL = 4
-     lines = []
- 
-     lines.append(rst_header())
--    lines.append(rst_title("Netlink Specification"))
-+    lines.append(rst_label("specs"))
-+    lines.append(rst_title("Netlink Family Specifications"))
-     lines.append(rst_toctree(1))
- 
-     index_dir = os.path.dirname(output)
--- 
-2.42.0
+_
 
