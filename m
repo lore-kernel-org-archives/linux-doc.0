@@ -1,368 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFD63D0D8
-	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 19:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMuRrqy6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D965C433C7;
-	Tue, 28 Nov 2023 19:01:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701198088;
-	bh=YM/fDWb8SpoSk5G6S1jb55t2PHHiK2SZUyJiz1/31ps=;
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RY+zlK73"
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA599D66;
+	Tue, 28 Nov 2023 11:19:16 -0800 (PST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8352C40E0195;
+	Tue, 28 Nov 2023 19:19:14 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id kZwaEBiXw0lG; Tue, 28 Nov 2023 19:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1701199152; bh=g5Mn3al0jfBF2Tc5wdFDpfH6j9nnJam8vvaA6CzuQO0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QMuRrqy6/MPRVOTI88KEnStCIp6guPvbd2R5SS+gznFY2ZfD4r5UbTdUlOcqaG7fu
-	 BYFgpYfmICxUK9jx6YiQM4FTu4pVLlkprgCmr8DsIXoyP/DbdyFYW7okbmQJ3oS2tC
-	 uR1eie3kibpu5t405jR+Eq2a7tSxtSezK3NWe+s9mfXzM+Q6tfZxuM+mD/iCgkbxPv
-	 Cgb3rkD3fqlxZUw4z9jqVvJpH4mAv70amzvEkLlnE6JusRnuCzhke+83aO4Jezp2P3
-	 ueE0W3zkJr0r9tM0n8V4iU5YloaF/rZKOXnnH+xx738U9xxWFQPcEOpyf+9NYR5UU4
-	 NoGxfgln0SMTg==
-Date: Tue, 28 Nov 2023 11:01:26 -0800
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Yonggil Song <yonggil.song@samsung.com>, gg@google.com
-Cc: "chao@kernel.org" <chao@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
+	b=RY+zlK738bCdkjafOW/V4nnZkY05ywQPnrWVB+d3C58AHMANGruc+O4gqMj87sCo8
+	 MHFuVexopL8HzEHdGlTSWn6aYW4utbPnl1oZNDLUySXdxmccA9uYoyZwm9tJaO9Zct
+	 bHTOI0Lz40C9i6AboHFAKMJCFgAJXRon8/+UyTJ4R6lY8h3lXOq9s+N+C/DK5+5ITv
+	 MRvAWiI/e8bs2qKj6sLM0LKJhKWgGS9x1up2i3Muagi9zDDYjxLo+Na+rLPqEGcJnr
+	 TMDsYWzdbzbpYUjnBsCraFphskDd+LXJN3mnyc12EpYKyXDNKA8B73FRpAPDsW340o
+	 aVQLz32kGRCtitobbENoKLorI70wVbAENFxQMWHMmyMmxggWAa5WiTkDiiPypxxKQe
+	 D3xEe9CCNd0QTPz85sS7S0HED4LrWmPvPySTmA//rAy2VoXeO8LcGM7H4vIF3uhx8w
+	 83JaBy4uRgI0daywYmI55bpcOvThNMvh7vV4TblLP/xZg8I8NQUYLQ1PqLsNq+T2ZN
+	 RHi1c0M6hb48t4V1io8+ATkvHlkps0GClejTQvhNQ2/TCiCkRCAxEITdjHT5cFKFHm
+	 BBnMRZAVISopwt4jD/3fm1Dek3PFT9OzznmkCjuEeRXGq00E+IigRL08qs6TtyO9hw
+	 foVI56DUkjq2/5lxqyuHUIsI=
+Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6D25E40E0031;
+	Tue, 28 Nov 2023 19:18:50 +0000 (UTC)
+Date: Tue, 28 Nov 2023 20:18:49 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: "Li, Xin3" <xin3.li@intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>,
 	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Seokhwan Kim <sukka.kim@samsung.com>,
-	Daejun Park <daejun7.park@samsung.com>,
-	Siwoo Jung <siu.jung@samsung.com>
-Subject: Re: (2) [f2fs-dev] [PATCH v1] f2fs: New victim selection for GC
-Message-ID: <ZWY5Bntn42SnsclR@google.com>
-References: <ZVekM0GmX-Jz4T0C@google.com>
- <20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p8>
- <20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41@epcms2p4>
- <CGME20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p4>
- <20231120112702epcms2p4e4408fed82d4385624eb32b17880e613@epcms2p4>
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"Lutomirski, Andy" <luto@kernel.org>,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>,
+	"seanjc@google.com" <seanjc@google.com>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"Gross, Jurgen" <jgross@suse.com>,
+	"Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+	"mhiramat@kernel.org" <mhiramat@kernel.org>,
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+	"jiangshanlai@gmail.com" <jiangshanlai@gmail.com>,
+	"nik.borisov@suse.com" <nik.borisov@suse.com>
+Subject: Re: [PATCH v12 24/37] x86/idtentry: Incorporate
+ definitions/declarations of the FRED entries
+Message-ID: <20231128191849.GEZWY9GbzySrVI1vpv@fat_crate.local>
+References: <20231003062458.23552-1-xin3.li@intel.com>
+ <20231003062458.23552-25-xin3.li@intel.com>
+ <20231128100910.GSZWW8RnyhX0YQjwDm@fat_crate.local>
+ <SA1PR11MB6734A1E439870989C7006166A8BCA@SA1PR11MB6734.namprd11.prod.outlook.com>
+ <EE769C0F-FA81-49AD-A90B-F0E5D2A1DA7B@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231120112702epcms2p4e4408fed82d4385624eb32b17880e613@epcms2p4>
+In-Reply-To: <EE769C0F-FA81-49AD-A90B-F0E5D2A1DA7B@zytor.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 11/20, Yonggil Song wrote:
-> >Hi Yonggil,
-> >
-> >On 10/26, Yonggil Song wrote:
-> >> Overview
-> >> ========
-> >> 
-> >> Introduce a new way to select the data section first when selecting a
-> >> victim in foreground GC. This victim selection method works when the
-> >> prefer_data_victim mount option is enabled. If foreground GC migrates only
-> >> data sections and runs out of free sections, it cleans dirty node sections
-> >> to get more free sections.
-> >> 
-> >> Problem
-> >> =======
-> >> 
-> >> If the total amount of nodes is larger than the size of one section, nodes
-> >> occupy multiple sections, and node victims are often selected because the
-> >> gc cost is lowered by data block migration in foreground gc. Since moving
-> >> the data section causes frequent node victim selection, victim threshing
-> >> occurs in the node section. This results in an increase in WAF.
-> >
-> >How does that work w/ ATGC?
-> >
-> 
-> Hi jaegeuk.
-> 
-> I didn't consider ATGC because this feature is only supported by zoned devices(LFS).
-> I didn't add ATGC exception handling because I'm only enabling this feature when
-> it's a zoned device, but should I?
+On Tue, Nov 28, 2023 at 10:58:50AM -0800, H. Peter Anvin wrote:
+> >You have a very good sense =F0=9F=98=8A
 
-I'm open to apply this to the existing flow in general. Can you take a look at
-that way?
+I've been reading code of a couple of people for a couple of years. :-)
 
-> 
-> >> 
-> >> Experiment
-> >> ==========
-> >> 
-> >> Test environment is as follows.
-> >> 
-> >> 	System info
-> >> 	  - 3.6GHz, 16 core CPU
-> >> 	  - 36GiB Memory
-> >> 	Device info
-> >> 	  - a conventional null_blk with 228MiB
-> >> 	  - a sequential null_blk with 4068 zones of 8MiB
-> >> 	Format
-> >> 	  - mkfs.f2fs <conv null_blk> -c <seq null_blk> -m -Z 8 -o 3.89
-> >> 	Mount
-> >> 	  - mount -o prefer_data_victim <conv null_blk> <mount point>
-> >> 	Fio script
-> >> 	  - fio --rw=randwrite --bs=4k --ba=4k --filesize=31187m --norandommap --overwrite=1 --name=job1 --filename=./mnt/sustain --io_size=128g
-> >> 	WAF calculation
-> >> 	  - (IOs on conv. null_blk + IOs on seq. null_blk) / random write IOs
-> >> 
-> >> Conclusion
-> >> ==========
-> >> 
-> >> This experiment showed that the WAF was reduced by 29% (18.75 -> 13.3) when
-> >> the data section was selected first when selecting GC victims. This was
-> >> achieved by reducing the migration of the node blocks by 69.4%
-> >> (253,131,743 blks -> 77,463,278 blks). It is possible to achieve low WAF
-> >> performance with the GC victim selection method in environments where the
-> >> section size is relatively small.
-> >> 
-> >> Signed-off-by: Yonggil Song <yonggil.song@samsung.com>
-> >> ---
-> >>  Documentation/filesystems/f2fs.rst |   3 +
-> >>  fs/f2fs/f2fs.h                     |   2 +
-> >>  fs/f2fs/gc.c                       | 100 +++++++++++++++++++++++------
-> >>  fs/f2fs/segment.h                  |   2 +
-> >>  fs/f2fs/super.c                    |   9 +++
-> >>  5 files changed, 95 insertions(+), 21 deletions(-)
-> >> 
-> >> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-> >> index d32c6209685d..58e6d001d7ab 100644
-> >> --- a/Documentation/filesystems/f2fs.rst
-> >> +++ b/Documentation/filesystems/f2fs.rst
-> >> @@ -367,6 +367,9 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
-> >>  			 pending node write	drop		keep		N/A
-> >>  			 pending meta write	keep		keep		N/A
-> >>  			 ====================== =============== =============== ========
-> >> +prefer_data_victim	 When selecting victims in foreground GC, victims of data type
-> >> +			 are prioritized. This option minimizes GC victim threshing
-> >> +			 in the node section to reduce WAF.
-> >>  ======================== ============================================================
-> >>  
-> >>  Debugfs Entries
-> >> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-> >> index 6d688e42d89c..8b31fa2ea09a 100644
-> >> --- a/fs/f2fs/f2fs.h
-> >> +++ b/fs/f2fs/f2fs.h
-> >> @@ -108,6 +108,7 @@ extern const char *f2fs_fault_name[FAULT_MAX];
-> >>  #define	F2FS_MOUNT_GC_MERGE		0x02000000
-> >>  #define F2FS_MOUNT_COMPRESS_CACHE	0x04000000
-> >>  #define F2FS_MOUNT_AGE_EXTENT_CACHE	0x08000000
-> >> +#define F2FS_MOUNT_PREFER_DATA_VICTIM	0x10000000
-> >>  
-> >>  #define F2FS_OPTION(sbi)	((sbi)->mount_opt)
-> >>  #define clear_opt(sbi, option)	(F2FS_OPTION(sbi).opt &= ~F2FS_MOUNT_##option)
-> >> @@ -1648,6 +1649,7 @@ struct f2fs_sb_info {
-> >>  	struct f2fs_mount_info mount_opt;	/* mount options */
-> >>  
-> >>  	/* for cleaning operations */
-> >> +	bool need_node_clean;			/* only used for prefer_data_victim */
-> >>  	struct f2fs_rwsem gc_lock;		/*
-> >>  						 * semaphore for GC, avoid
-> >>  						 * race between GC and GC or CP
-> >> diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c
-> >> index f550cdeaa663..8a2da808a5fb 100644
-> >> --- a/fs/f2fs/gc.c
-> >> +++ b/fs/f2fs/gc.c
-> >> @@ -752,6 +752,8 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
-> >>  	unsigned int last_segment;
-> >>  	unsigned int nsearched;
-> >>  	bool is_atgc;
-> >> +	bool is_prefer_data_victim =
-> >> +		test_opt(sbi, PREFER_DATA_VICTIM) && gc_type == FG_GC;
-> >>  	int ret = 0;
-> >>  
-> >>  	mutex_lock(&dirty_i->seglist_lock);
-> >> @@ -767,6 +769,11 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
-> >>  	p.oldest_age = 0;
-> >>  	p.min_cost = get_max_cost(sbi, &p);
-> >>  
-> >> +	if (is_prefer_data_victim) {
-> >> +		p.node_min_cost = p.min_cost;
-> >> +		p.node_min_segno = p.min_segno;
-> >> +	}
-> >> +
-> >>  	is_atgc = (p.gc_mode == GC_AT || p.alloc_mode == AT_SSR);
-> >>  	nsearched = 0;
-> >>  
-> >> @@ -884,9 +891,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
-> >>  
-> >>  		cost = get_gc_cost(sbi, segno, &p);
-> >>  
-> >> -		if (p.min_cost > cost) {
-> >> -			p.min_segno = segno;
-> >> -			p.min_cost = cost;
-> >> +		if (is_prefer_data_victim) {
-> >> +			if (IS_DATASEG(get_seg_entry(sbi, segno)->type)) {
-> >> +				/* update data segments victim */
-> >> +				if (p.min_cost > cost) {
-> >> +					p.min_segno = segno;
-> >> +					p.min_cost = cost;
-> >> +				}
-> >> +			} else {
-> >> +				/* update node segments victim */
-> >> +				if (p.node_min_cost > cost) {
-> >> +					p.node_min_segno = segno;
-> >> +					p.node_min_cost = cost;
-> >> +				}
-> >> +			}
-> >> +		} else {
-> >> +			if (p.min_cost > cost) {
-> >> +				p.min_segno = segno;
-> >> +				p.min_cost = cost;
-> >> +			}
-> >>  		}
-> >>  next:
-> >>  		if (nsearched >= p.max_search) {
-> >> @@ -901,6 +924,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
-> >>  		}
-> >>  	}
-> >>  
-> >> +	if (is_prefer_data_victim && sbi->need_node_clean) {
-> >> +		/* we need to clean node sections */
-> >> +		if (p.min_cost > p.node_min_cost) {
-> >> +			p.min_segno = p.node_min_segno;
-> >> +			p.min_cost = p.node_min_cost;
-> >> +		} else {
-> >> +			/*
-> >> +			 * data victim cost is the lowest.
-> >> +			 * if free sections are enough, stop cleaning node victim.
-> >> +			 * if not, it goes on by GCing data victims.
-> >> +			 */
-> >> +			if (has_enough_free_secs(sbi, prefree_segments(sbi), 0)) {
-> >> +				sbi->need_node_clean = false;
-> >> +				p.min_segno = NULL_SEGNO;
-> >> +				goto out;
-> >> +			}
-> >> +		}
-> >> +	}
-> >> +
-> >>  	/* get victim for GC_AT/AT_SSR */
-> >>  	if (is_atgc) {
-> >>  		lookup_victim_by_age(sbi, &p);
-> >> @@ -1830,8 +1872,27 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
-> >>  		goto stop;
-> >>  	}
-> >>  
-> >> +	__get_secs_required(sbi, NULL, &upper_secs, NULL);
-> >> +
-> >> +	/*
-> >> +	 * Write checkpoint to reclaim prefree segments.
-> >> +	 * We need more three extra sections for writer's data/node/dentry.
-> >> +	 */
-> >> +	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS) {
-> >> +		if (test_opt(sbi, PREFER_DATA_VICTIM)) {
-> >> +			sbi->need_node_clean = true;
-> >> +		}
-> >> +		if (prefree_segments(sbi)) {
-> >> +			ret = f2fs_write_checkpoint(sbi, &cpc);
-> >> +			if (ret)
-> >> +				goto stop;
-> >> +			/* Reset due to checkpoint */
-> >> +			sec_freed = 0;
-> >> +		}
-> >> +	}
-> >> +
-> >>  	/* Let's run FG_GC, if we don't have enough space. */
-> >> -	if (has_not_enough_free_secs(sbi, 0, 0)) {
-> >> +	if (gc_type == BG_GC && has_not_enough_free_secs(sbi, 0, 0)) {
-> >>  		gc_type = FG_GC;
-> >>  
-> >>  		/*
-> >> @@ -1882,7 +1943,17 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
-> >>  			if (!gc_control->no_bg_gc &&
-> >>  			    total_sec_freed < gc_control->nr_free_secs)
-> >>  				goto go_gc_more;
-> >> -			goto stop;
-> >> +			if (test_opt(sbi, PREFER_DATA_VICTIM)) {
-> >> +				/*
-> >> +				 * If the need_node_clean flag is set
-> >> +				 * even though there are enough free
-> >> +				 * sections, node cleaning will continue.
-> >> +				 */
-> >> +				if (!sbi->need_node_clean)
-> >> +					goto stop;
-> >> +			} else {
-> >> +				goto stop;
-> >> +			}
-> >>  		}
-> >>  		if (sbi->skipped_gc_rwsem)
-> >>  			skipped_round++;
-> >> @@ -1897,21 +1968,6 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
-> >>  		goto stop;
-> >>  	}
-> >>  
-> >> -	__get_secs_required(sbi, NULL, &upper_secs, NULL);
-> >> -
-> >> -	/*
-> >> -	 * Write checkpoint to reclaim prefree segments.
-> >> -	 * We need more three extra sections for writer's data/node/dentry.
-> >> -	 */
-> >> -	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS &&
-> >> -				prefree_segments(sbi)) {
-> >> -		stat_inc_cp_call_count(sbi, TOTAL_CALL);
-> >> -		ret = f2fs_write_checkpoint(sbi, &cpc);
-> >> -		if (ret)
-> >> -			goto stop;
-> >> -		/* Reset due to checkpoint */
-> >> -		sec_freed = 0;
-> >> -	}
-> >>  go_gc_more:
-> >>  	segno = NULL_SEGNO;
-> >>  	goto gc_more;
-> >> @@ -1920,8 +1976,10 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
-> >>  	SIT_I(sbi)->last_victim[ALLOC_NEXT] = 0;
-> >>  	SIT_I(sbi)->last_victim[FLUSH_DEVICE] = gc_control->victim_segno;
-> >>  
-> >> -	if (gc_type == FG_GC)
-> >> +	if (gc_type == FG_GC) {
-> >>  		f2fs_unpin_all_sections(sbi, true);
-> >> +		sbi->need_node_clean = false;
-> >> +	}
-> >>  
-> >>  	trace_f2fs_gc_end(sbi->sb, ret, total_freed, total_sec_freed,
-> >>  				get_pages(sbi, F2FS_DIRTY_NODES),
-> >> diff --git a/fs/f2fs/segment.h b/fs/f2fs/segment.h
-> >> index 2ca8fb5d0dc4..d55fa1fee2e0 100644
-> >> --- a/fs/f2fs/segment.h
-> >> +++ b/fs/f2fs/segment.h
-> >> @@ -197,8 +197,10 @@ struct victim_sel_policy {
-> >>  	unsigned int offset;		/* last scanned bitmap offset */
-> >>  	unsigned int ofs_unit;		/* bitmap search unit */
-> >>  	unsigned int min_cost;		/* minimum cost */
-> >> +	unsigned int node_min_cost;	/* minimum cost of node type section */
-> >>  	unsigned long long oldest_age;	/* oldest age of segments having the same min cost */
-> >>  	unsigned int min_segno;		/* segment # having min. cost */
-> >> +	unsigned int node_min_segno;	/* node segment # having min. cost */
-> >>  	unsigned long long age;		/* mtime of GCed section*/
-> >>  	unsigned long long age_threshold;/* age threshold */
-> >>  };
-> >> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-> >> index a8c8232852bb..133137dd6fd0 100644
-> >> --- a/fs/f2fs/super.c
-> >> +++ b/fs/f2fs/super.c
-> >> @@ -165,6 +165,7 @@ enum {
-> >>  	Opt_memory_mode,
-> >>  	Opt_age_extent_cache,
-> >>  	Opt_errors,
-> >> +	Opt_prefer_data_victim,
-> >>  	Opt_err,
-> >>  };
-> >>  
-> >> @@ -245,6 +246,7 @@ static match_table_t f2fs_tokens = {
-> >>  	{Opt_memory_mode, "memory=%s"},
-> >>  	{Opt_age_extent_cache, "age_extent_cache"},
-> >>  	{Opt_errors, "errors=%s"},
-> >> +	{Opt_prefer_data_victim, "prefer_data_victim"},
-> >>  	{Opt_err, NULL},
-> >>  };
-> >>  
-> >> @@ -1286,6 +1288,13 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
-> >>  			}
-> >>  			kfree(name);
-> >>  			break;
-> >> +		case Opt_prefer_data_victim:
-> >> +			if (!f2fs_sb_has_blkzoned(sbi)) {
-> >> +				f2fs_err(sbi, "prefer_data_victim is only allowed with zoned block device feature");
-> >> +				return -EINVAL;
-> >> +			}
-> >> +			set_opt(sbi, PREFER_DATA_VICTIM);
-> >> +			break;
-> >>  		default:
-> >>  			f2fs_err(sbi, "Unrecognized mount option \"%s\" or missing value",
-> >>  				 p);
-> >> -- 
-> >> 2.34.1
+> Remember that Signed-off-by: relates to the *patch flow*.
+
+Yes, you should take the time to read Documentation/process/ and
+especially submitting-patches.rst.
+
+We have it all written down and I point new(-er) people at that
+directory at least once a week. :-\
+
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
