@@ -1,220 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE825E0CE;
-	Tue, 28 Nov 2023 16:32:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pz7PxjXP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99617C433C8;
-	Tue, 28 Nov 2023 16:32:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701189175;
-	bh=VqwYFsYHgSQ8CyCGvVqeYL2Kouihl83vwFCUUepGWfI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pz7PxjXPGQGLsinMNEMBDkmAyuEpMnUG+Jm7gW6FcUO24AfwJb/D0iAk/OuIx4pU/
-	 qQf9myOFtKdJwc2uV/uuafK6fvgEd+95aiAqkGk2zNNav8o0Dwku9x65PpKbXXqwKA
-	 Ue2ZGVwKZVyXoc4E1TUfhPpgw9Fq/AOEAZHGoiYoRN3fAG2LA3cunU4yzAH3Xud74d
-	 nKRX6z0acKx0A+PI059ekv0O4P5R1ahYnQmr9fkj1yfxC3vs/s3ciLPXKQHalVcy5q
-	 DlkD1Y1ndCU+zThaemauUXEUNA1O2fQTBjvJ70WZ7+aCrkIXcFslM2Qo8rtrdutfq6
-	 zK1MrgY8MECYg==
-Date: Tue, 28 Nov 2023 08:32:55 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux XFS <linux-xfs@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Dave Chinner <dchinner@redhat.com>,
-	Steve French <stfrench@microsoft.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Allison Henderson <allison.henderson@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH RESEND v2] Documentation: xfs: consolidate XFS docs into
- its own subdirectory
-Message-ID: <20231128163255.GV2766956@frogsfrogsfrogs>
-References: <20231128124522.28499-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NaNNIfLg"
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F0AA10E2
+	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 08:33:54 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-da04fb79246so6783662276.2
+        for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 08:33:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701189233; x=1701794033; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vo/95/Uj9Fg4uJeKo+eJAx6dpBh0gdcUuvBHqXATckU=;
+        b=NaNNIfLgB93VcUkI9OpjV5L9tEcnng14sJr3vjy0Q0Z1j8TSQS7jFTvfS6Qk+vhNH9
+         IftTXZYyVs24Tm/f9sEZeWtq2MdPFTNlZmHeWvfzjQlkGq3zyUztRufC+Ae/f+HK/9pQ
+         tDW25YoSaXzX0dUundpAGiO7c2s2UjOdiP4rOK/CgTFEGg+KKcLpiI68c7v4QjYTmKO9
+         xIgCqxej0Yv4rg2ceCMe2b9DP+/uBcijwB+Car0nsTvaFB+R9MgJNOUSOnXbjqq17z7/
+         srTEWRmqK+1/pxlBb/oJMm5/e3L8+PxUJXDG4if1Mqx3mm8CRfClJqrzku7EmUWx9PIi
+         xjdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701189233; x=1701794033;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vo/95/Uj9Fg4uJeKo+eJAx6dpBh0gdcUuvBHqXATckU=;
+        b=RQMiBx8DN6wzYs+pprocqxfIE6Md1eSGzE2NdKZExJKgfY28AtunzYbIDfmBRDzAp3
+         Bby7TsvjBLi3vPuZYGHk6HUrmUy13GKR2NDizopKS7y23CiE//Gnh4KTNpTuWhGNNM4d
+         OTFMalNtIaKLOQRqjxu/66SIggqBARSH2GyrknwdO6CbCbVsUxOMA3aAyELkABNyo3Q1
+         jVxI8mnkkkkY7W0Xd/L0Blsf8IWvF+GVBuuhzU/xsUfhTU7pV0oW/TqFL00HP7oXIfAm
+         Aah+HFVAUe/EQxC59u+9GyZhzT8pLbadR+1k79qD5RcyCRwo5vcF2BxWNyyfZWnvmxwx
+         t3Og==
+X-Gm-Message-State: AOJu0YwQ65B/1qq+K4yYGanNkWcKSIF1oOxK0jCxbgMavdbPxlrOFcrz
+	lWGfv/ngZi0Q15Vrm2wpBLvEDAkq0T8=
+X-Google-Smtp-Source: AGHT+IEo0YpirGMFLOQPu1+JPSR0DG5FDk303PQza9eOuDyOragnS042ndzE8Pd0ow1j/PtRzL0iHYgXDSU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:d081:0:b0:d9a:fd29:4fe6 with SMTP id
+ h123-20020a25d081000000b00d9afd294fe6mr562511ybg.3.1701189233386; Tue, 28 Nov
+ 2023 08:33:53 -0800 (PST)
+Date: Tue, 28 Nov 2023 08:33:51 -0800
+In-Reply-To: <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128124522.28499-1-bagasdotme@gmail.com>
+Mime-Version: 1.0
+References: <20231108111806.92604-1-nsaenz@amazon.com> <20231108111806.92604-6-nsaenz@amazon.com>
+ <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
+Message-ID: <ZWYWb3OQG3CaS7-f@google.com>
+Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return
+ prologues in hypercall page
+From: Sean Christopherson <seanjc@google.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
+	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
+	corbert@lwn.net, kys@microsoft.com, haiyangz@microsoft.com, 
+	decui@microsoft.com, x86@kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Nov 28, 2023 at 07:45:22PM +0700, Bagas Sanjaya wrote:
-> XFS docs are currently in upper-level Documentation/filesystems.
-> Although these are currently 4 docs, they are already outstanding as
-> a group and can be moved to its own subdirectory.
+On Tue, Nov 28, 2023, Maxim Levitsky wrote:
+> On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
+> > diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+> > index 78d053042667..d4b1b53ea63d 100644
+> > --- a/arch/x86/kvm/hyperv.c
+> > +++ b/arch/x86/kvm/hyperv.c
+> > @@ -259,7 +259,8 @@ static void synic_exit(struct kvm_vcpu_hv_synic *synic, u32 msr)
+> >  static int patch_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
+> >  {
+> >  	struct kvm *kvm = vcpu->kvm;
+> > -	u8 instructions[9];
+> > +	struct kvm_hv *hv = to_kvm_hv(kvm);
+> > +	u8 instructions[0x30];
+> >  	int i = 0;
+> >  	u64 addr;
+> >  
+> > @@ -285,6 +286,81 @@ static int patch_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
+> >  	/* ret */
+> >  	((unsigned char *)instructions)[i++] = 0xc3;
+> >  
+> > +	/* VTL call/return entries */
+> > +	if (!kvm_xen_hypercall_enabled(kvm) && kvm_hv_vsm_enabled(kvm)) {
+> > +#ifdef CONFIG_X86_64
+> > +		if (is_64_bit_mode(vcpu)) {
+> > +			/*
+> > +			 * VTL call 64-bit entry prologue:
+> > +			 * 	mov %rcx, %rax
+> > +			 * 	mov $0x11, %ecx
+> > +			 * 	jmp 0:
 > 
-> Consolidate them into Documentation/filesystems/xfs/.
+> This isn't really 'jmp 0' as I first wondered but actually backward jump 32
+> bytes back (if I did the calculation correctly).  This is very dangerous
+> because code that was before can change and in fact I don't think that this
+> offset is even correct now, and on top of that it depends on support for xen
+> hypercalls as well.
 > 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Changes since v1 [1]:
-> 
->   * Also update references to old doc path to address kernel test robot
->     warnings [2].
-> 
-> [1]: https://lore.kernel.org/linux-doc/20231121095658.28254-1-bagasdotme@gmail.com/
-> [2]: https://lore.kernel.org/linux-doc/a9abc5ec-f3cd-4a1a-81b9-a6900124d38b@gmail.com/
-> 
->  Documentation/filesystems/index.rst                |  5 +----
->  Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
->  .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
->  .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
->  .../{ => xfs}/xfs-online-fsck-design.rst           |  2 +-
->  .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
->  .../maintainer/maintainer-entry-profile.rst        |  2 +-
->  MAINTAINERS                                        |  4 ++--
->  8 files changed, 19 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/filesystems/xfs/index.rst
->  rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
->  rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
->  rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (99%)
->  rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
-
-I think the rst filename should drop the 'xfs-' prefix, e.g.
-
-	Documentation/filesystems/xfs/delayed-logging-design.rst
-
-since that seems to be what most filesystems do:
-
-Documentation/filesystems/caching/backend-api.rst
-Documentation/filesystems/caching/cachefiles.rst
-Documentation/filesystems/caching/fscache.rst
-Documentation/filesystems/caching/index.rst
-Documentation/filesystems/caching/netfs-api.rst
-Documentation/filesystems/cifs/cifsroot.rst
-Documentation/filesystems/cifs/index.rst
-Documentation/filesystems/cifs/ksmbd.rst
-Documentation/filesystems/ext4/about.rst
-Documentation/filesystems/ext4/allocators.rst
-Documentation/filesystems/ext4/attributes.rst
-<snip>
-Documentation/filesystems/ext4/special_inodes.rst
-Documentation/filesystems/ext4/super.rst
-Documentation/filesystems/ext4/verity.rst
-Documentation/filesystems/nfs/client-identifier.rst
-Documentation/filesystems/nfs/exporting.rst
-Documentation/filesystems/nfs/index.rst
-Documentation/filesystems/nfs/knfsd-stats.rst
-Documentation/filesystems/nfs/nfs41-server.rst
-Documentation/filesystems/nfs/pnfs.rst
-Documentation/filesystems/nfs/reexport.rst
-Documentation/filesystems/nfs/rpc-cache.rst
-Documentation/filesystems/nfs/rpc-server-gss.rst
-Documentation/filesystems/smb/cifsroot.rst
-Documentation/filesystems/smb/index.rst
-Documentation/filesystems/smb/ksmbd.rst
-Documentation/filesystems/spufs/index.rst
-Documentation/filesystems/spufs/spu_create.rst
-Documentation/filesystems/spufs/spufs.rst
-Documentation/filesystems/spufs/spu_run.rst
-
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 09cade7eaefc8c..e18bc5ae3b35f8 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -121,8 +121,5 @@ Documentation for filesystem implementations.
->     udf
->     virtiofs
->     vfat
-> -   xfs-delayed-logging-design
-> -   xfs-maintainer-entry-profile
-> -   xfs-self-describing-metadata
-> -   xfs-online-fsck-design
-> +   xfs/index
->     zonefs
-> diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
-> new file mode 100644
-> index 00000000000000..ab66c57a5d18ea
-> --- /dev/null
-> +++ b/Documentation/filesystems/xfs/index.rst
-> @@ -0,0 +1,14 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============================
-> +XFS Filesystem Documentation
-> +============================
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +   :numbered:
-> +
-> +   xfs-delayed-logging-design
-> +   xfs-maintainer-entry-profile
-> +   xfs-self-describing-metadata
-> +   xfs-online-fsck-design
-> diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
-> similarity index 100%
-> rename from Documentation/filesystems/xfs-delayed-logging-design.rst
-> rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
-> diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
-> similarity index 100%
-> rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
-> rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
-> diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> similarity index 99%
-> rename from Documentation/filesystems/xfs-online-fsck-design.rst
-> rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> index a0678101a7d02d..352516feef6ffe 100644
-> --- a/Documentation/filesystems/xfs-online-fsck-design.rst
-> +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> @@ -962,7 +962,7 @@ disk, but these buffer verifiers cannot provide any consistency checking
->  between metadata structures.
->  
->  For more information, please see the documentation for
-> -Documentation/filesystems/xfs-self-describing-metadata.rst
-> +Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
->  
->  Reverse Mapping
->  ---------------
-> diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
-> similarity index 100%
-> rename from Documentation/filesystems/xfs-self-describing-metadata.rst
-> rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
-> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-> index 7ad4bfc2cc038a..18cee1edaecb6f 100644
-> --- a/Documentation/maintainer/maintainer-entry-profile.rst
-> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
-> @@ -105,4 +105,4 @@ to do something different in the near future.
->     ../driver-api/media/maintainer-entry-profile
->     ../driver-api/vfio-pci-device-specific-driver-acceptance
->     ../nvme/feature-and-quirk-policy
-> -   ../filesystems/xfs-maintainer-entry-profile
-> +   ../filesystems/xfs/xfs-maintainer-entry-profile
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ea790149af7951..fd288ac57e19fb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -23893,10 +23893,10 @@ S:	Supported
->  W:	http://xfs.org/
->  C:	irc://irc.oftc.net/xfs
->  T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
-> -P:	Documentation/filesystems/xfs-maintainer-entry-profile.rst
-> +P:	Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
->  F:	Documentation/ABI/testing/sysfs-fs-xfs
->  F:	Documentation/admin-guide/xfs.rst
-> -F:	Documentation/filesystems/xfs-*
-> +F:	Documentation/filesystems/xfs/xfs-*
-
-Shouldn't this be "Documentation/filesystems/xfs/*" ?
-
---D
-
->  F:	fs/xfs/
->  F:	include/uapi/linux/dqblk_xfs.h
->  F:	include/uapi/linux/fsmap.h
-> 
-> base-commit: 9c235dfc3d3f901fe22acb20f2ab37ff39f2ce02
-> -- 
-> An old man doll... just what I always wanted! - Clara
+> This can be fixed by calculating the offset in runtime, however I am
+> thinking:
 > 
 > 
+> Since userspace will have to be aware of the offsets in this page, and since
+> pretty much everything else is done in userspace, it might make sense to
+> create the hypercall page in the userspace.
+> 
+> In fact, the fact that KVM currently overwrites the guest page, is a
+> violation of the HV spec.
+> 
+> It's more correct regardless of VTL to do userspace vm exit and let the
+> userspace put a memslot ("overlay") over the address, and put whatever
+> userspace wants there, including the above code.
+> 
+> Then we won't need the new ioctl as well.
+> 
+> To support this I think that we can add a userspace msr filter on the
+> HV_X64_MSR_HYPERCALL, although I am not 100% sure if a userspace msr filter
+> overrides the in-kernel msr handling.
+
+Yep, userspace MSR filters override in-kernel handling.
