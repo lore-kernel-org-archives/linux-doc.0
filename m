@@ -1,78 +1,71 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3FE37D37;
+	Tue, 28 Nov 2023 17:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G/2XhO33"
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD8210F0;
-	Tue, 28 Nov 2023 09:04:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=/89j1WGuOEhmXDZoAr89HAOtI8MBBJgAUvR0nYQq0uo=; b=G/2XhO33W4alzsVgatxhkuF5Ik
-	diPRGUuTND1Zgj2NbdUNI6RtWqDOu1MqUYsIwrEPaDT9cmShRs0AHkfoQn/EnNf/Qnwc8cSWTUT/6
-	KoYcj7Etw1II8BHVeX+/IojXl2Oki7ZpsVYPuSpWjprnIJO5hyhUoUnF5s8p5HnaL0eoNJBvGDlmL
-	0PqXELudFq+zLsHuYvaBmsvLyyq0mU4TWqycFECLZ1UGGU14jRV/BPfG/djPyXaHV0g9UuXm56kTZ
-	cvQPCn+mSZN0vjlM0RHfvv5iwO6zcaXAXUkHPcMBTPlrEV3LWRhZlk3laLOqatEPHdjEmNOwdnD+X
-	dbYyjY8Q==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1r81VX-005sqQ-0v;
-	Tue, 28 Nov 2023 17:04:23 +0000
-Message-ID: <7c5c3634-7a89-48b3-96fa-4d9f3be3ba05@infradead.org>
-Date: Tue, 28 Nov 2023 09:04:22 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DTHgE9PP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7251DC433C7;
+	Tue, 28 Nov 2023 17:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701191905;
+	bh=V7IKAf0Hbu6oP2LSWp5l10ZwtBSliEPvVOx9m0gWfYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DTHgE9PPklBAMdua0Gq+s/PRw++bw+Gj2frl4hyn3VWGoVDnO+zsrE+nNNl9kJCnm
+	 Aif6OPqLGkuMeO87bQeZNkZxecGgE35op+PwvNVEC2SVi6UE42oxDvc1NCf0whVyze
+	 u8jJwbYkbzVJX9f4i+TBbmFu3kC7Li++6kX/8uQ9anTcQ4LX74JdAzadEKlFWGdl5W
+	 h4rVFVKK67H6Cj6TLoi6TfcG2mi/7B1FgCnuhoSHVgdEqmLzIa4r2Lgph6KRcxAgDc
+	 GLP7RCT6Ldry21zdNGa0876otyOA+nuP48lukN/ibWTlhZV9gY3exB+auhSbDec+Yn
+	 v/iSmyghEjysQ==
+Date: Tue, 28 Nov 2023 09:18:23 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Sergei Shtepa <sergei.shtepa@linux.dev>
+Cc: axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org,
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Sergei Shtepa <sergei.shtepa@veeam.com>
+Subject: Re: [PATCH v6 11/11] blksnap: prevents using devices with data
+ integrity or inline encryption
+Message-ID: <20231128171823.GA1148@sol.localdomain>
+References: <20231124165933.27580-1-sergei.shtepa@linux.dev>
+ <20231124165933.27580-12-sergei.shtepa@linux.dev>
+ <20231127224719.GD1463@sol.localdomain>
+ <6cabaa42-c366-4928-8294-ad261dae0043@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Begin a RAS section
-Content-Language: en-US
-To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: Muralidhara M K <muralimk@amd.com>, linux-edac@vger.kernel.org,
- linux-kernel@vger.kernel.org, Muralidhara M K <muralidhara.mk@amd.com>,
- linux-doc@vger.kernel.org
-References: <20231102114225.2006878-1-muralimk@amd.com>
- <20231102114225.2006878-2-muralimk@amd.com>
- <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6cabaa42-c366-4928-8294-ad261dae0043@linux.dev>
 
-Hi,
-
-On 11/28/23 06:20, Borislav Petkov wrote:
-> On Thu, Nov 02, 2023 at 11:42:22AM +0000, Muralidhara M K wrote:
->> From: Muralidhara M K <muralidhara.mk@amd.com>
->>
->> AMD systems with Scalable MCA, each machine check error of a SMCA bank
->> type has an associated bit position in the bank's control (CTL) register.
+On Tue, Nov 28, 2023 at 12:00:17PM +0100, Sergei Shtepa wrote:
+> But I haven't tested the code on a device where hardware inline encryption is
+> available. I would be glad if anyone could help with this.
+> > 
+> > Anyway, this patch is better than ignoring the problem.  It's worth noting,
+> > though, that this patch does not prevent blksnap from being set up on a block
+> > device on which blk-crypto-fallback is already being used (or will be used).
+> > When that happens, I/O will suddenly start failing.  For usability reasons,
+> > ideally that would be prevented somehow.
 > 
-> Ontop of this. It is long overdue:
-> 
-> ---
-> From: "Borislav Petkov (AMD)" <bp@alien8.de>
-> Date: Tue, 28 Nov 2023 14:37:56 +0100
-> 
-> Add some initial RAS documentation. The expectation is for this to
-> collect all the user-visible features for interacting with the RAS
-> features of the kernel.
-> 
+> I didn't observe any failures during testing. It's just that the snapshot
+> image shows files with encrypted names and data. Backup in this case is
+> useless. Unfortunately, there is no way to detect a blk-crypto-fallback on
+> the block device filter level.
 
-In general, does RAS include EDAC and MCE?
+Huh, I thought that this patch is supposed to exclude blk-crypto-fallback too.
+__submit_bio() calls bio->bi_bdev->bd_filter->ops->submit_bio(bio) before
+blk_crypto_bio_prep(), so doesn't your check of ->bi_crypt_context exclude
+blk-crypto-fallback?
 
-Thanks.
+I think you're right that it might actually be fine to use blksnap with
+blk-crypto-fallback, provided that the encryption is done first.  I would like
+to see a proper explanation of that, though.  And we still have this patch which
+claims that it doesn't work, which is confusing.
 
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> ---
->  Documentation/RAS/ras.rst | 26 ++++++++++++++++++++++++++
->  Documentation/index.rst   |  1 +
->  2 files changed, 27 insertions(+)
->  create mode 100644 Documentation/RAS/ras.rst
-> 
-
-
--- 
-~Randy
+- Eric
