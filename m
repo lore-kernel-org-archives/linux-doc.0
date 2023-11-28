@@ -1,178 +1,121 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SWMPbqs9"
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B9ECC5;
-	Tue, 28 Nov 2023 07:46:46 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-332e40322f0so3505182f8f.3;
-        Tue, 28 Nov 2023 07:46:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701186404; x=1701791204; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eaSqohHugtt6grw6CEKXWSAnRWopnEUVV/N+wIwdxWQ=;
-        b=SWMPbqs9ng1eB6exXFiWps/Of1W0zWcMVl40ANAUMY6CFq3ffjDiQA7iIBlpics069
-         on0aUhJCLr18i+WfqDYdeTz3DAEodZZ52KMRzWDA2S4TJDym/wIkqrjrGOYZ/U4YlXVF
-         31594k8MtqLzpnbpTFI4to1c+2bb8MvS12csrxeKtwvVHYFqEjUT/BeMKWIb92CkgMjo
-         r5k7ol9pj5CV/EMx35++IbdMK2EOeKAAEyaBNJ9+kgy8UtBvrJxRkSrh1NYu89AjjNTb
-         Up0pGXfUNPsd377Lkx2vIRhDrCeOW0hNBNIHvSa78U2Y6uwNviVm2CsDzZR5qhk9flZJ
-         xC4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701186404; x=1701791204;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eaSqohHugtt6grw6CEKXWSAnRWopnEUVV/N+wIwdxWQ=;
-        b=shFPklkm3JMSoG4oF1vrA1Myv3iKEnSdVkgALhE8SWTfe9QFN1aI3tKMXbpzzDETOr
-         4z39n5sTzEiEIg9YpdUQycCLt/rhwm5pgkQn6oSbU580ETuLrox5VK6b+f6++ENtT+Ai
-         1Oue6gpDGTZXYY2qCGcysjEySANJxBJM6T7cif8Z3gkSplGos7kA2QzUb4U8wnlIwm8Y
-         zQO4mjB5XAlBOZCD6Rd97ETNtwKQZhi97giLJXal7zd1qbiJAXkv2PIM8Y/o0qrfANLF
-         pb8fNna5UWfiOmzQrARrzB9HaNWKO8nBkOxfw1mWBvPI+HkGyQBfm5eMWzE1Hm+ryRq8
-         tsfg==
-X-Gm-Message-State: AOJu0YwvcLIfqHBsxUcgCPlBYqXW7SQ+PLOnrsozpgLC5xQoMtyeQHTF
-	IbxcwtSn5MMCi50O881qMsE=
-X-Google-Smtp-Source: AGHT+IHuXzZ/2bcrZP6mKjeZQFKF3z9OOwNPyxBC+M2EUC+TojqMO8yb/JYBs7Ci1biEYfYlmxZPEQ==
-X-Received: by 2002:adf:fa8d:0:b0:333:12f9:d381 with SMTP id h13-20020adffa8d000000b0033312f9d381mr746477wrr.36.1701186403956;
-        Tue, 28 Nov 2023 07:46:43 -0800 (PST)
-Received: from ?IPv6:2003:f6:ef1b:2000:4423:d503:bf11:e8c6? (p200300f6ef1b20004423d503bf11e8c6.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:4423:d503:bf11:e8c6])
-        by smtp.gmail.com with ESMTPSA id o10-20020adfcf0a000000b00332cda91c85sm15264190wrj.12.2023.11.28.07.46.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 07:46:43 -0800 (PST)
-Message-ID: <e4147e797ee2a35092f4dbf9e8687fb63f7a8c5a.camel@gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add LTC4282 bindings
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Rob Herring <robh@kernel.org>, Nuno Sa <nuno.sa@analog.com>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
- <linux@roeck-us.net>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, 
- Linus Walleij <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>
-Date: Tue, 28 Nov 2023 16:49:43 +0100
-In-Reply-To: <20231128153733.GA3313427-robh@kernel.org>
-References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
-	 <20231124-ltc4282-support-v2-1-952bf926f83c@analog.com>
-	 <20231128153733.GA3313427-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3e341XC"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AD5790;
+	Tue, 28 Nov 2023 07:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701186723; x=1732722723;
+  h=message-id:subject:from:to:cc:in-reply-to:references:
+   content-transfer-encoding:mime-version:date;
+  bh=G6WuKwckF5V3NRC/1N7CGXl15yQ58N1giIylX483ywI=;
+  b=C3e341XCyrYHEtGowdrHkyYfnNf6eMxjH7b3chqjHiRDd5ozaVWexk7C
+   vY0VZJ8qXTCdfkDCdoFuytaWZzEBvREbZ08JBFm5q+UvLj24uDRD2gNuf
+   yhva0NNnRSWCeNvN1EagP2249FOyL7JVH8BltesWQ64mk3MKHMLEDLts8
+   MT7qpozJJDNsXYjLM6XCzPmPuSpMkuiAXu9iiNNfoyBDQoqIAiwRkb3ff
+   p+0pD9RBrt7k6770hKJwlK6cLmTuG2ipM3JaTp5Or1jRZNI9UNEGzt8F0
+   CvJKHV4YngTZf7YetucSxUCSlcw9KmWOkJyN3LiuwXy29PdJMkvkKw9Y/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="372323268"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="372323268"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 07:51:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="802983212"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="802983212"
+Received: from lapeders-mobl1.ger.corp.intel.com (HELO [10.249.254.81]) ([10.249.254.81])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 07:51:49 -0800
+Message-ID: <03712311650b5fcf7162309f13a18dbd240e8a9f.camel@linux.intel.com>
+Subject: Re: [Intel-xe] [PATCH v5] Documentation/gpu: VM_BIND locking
+ document
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-xe@lists.freedesktop.org, Francois Dugast
+ <francois.dugast@intel.com>,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Boris Brezillon
+ <boris.brezillon@collabora.com>, Danilo Krummrich <dakr@redhat.com>, 
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>
+In-Reply-To: <ZWTvohD9rTx9aAWa@intel.com>
+References: <20231121104046.3201-1-thomas.hellstrom@linux.intel.com>
+	 <ZWTvohD9rTx9aAWa@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Date: Tue, 28 Nov 2023 16:51:25 +0100
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 
-On Tue, 2023-11-28 at 09:37 -0600, Rob Herring wrote:
-> On Fri, Nov 24, 2023 at 03:18:16PM +0100, Nuno Sa wrote:
-> > Add bindings for the LTC4282 High Current Hot Swap Controller with I2C
-> > Compatible Monitoring.
+On Mon, 2023-11-27 at 14:36 -0500, Rodrigo Vivi wrote:
+> On Tue, Nov 21, 2023 at 11:40:46AM +0100, Thomas Hellstr=C3=B6m wrote:
+> > Add the first version of the VM_BIND locking document which is
+> > intended to be part of the xe driver upstreaming agreement.
 > >=20
-> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> > ---
-> > =C2=A0.../devicetree/bindings/hwmon/adi,ltc4282.yaml=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 206
-> > +++++++++++++++++++++
-> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +
-> > =C2=A02 files changed, 212 insertions(+)
+> > The document describes and discuss the locking used during exec-
+> > functions, evicton and for userptr gpu-vmas. Intention is to be
+> > using the
+> > same nomenclature as the drm-vm-bind-async.rst.
 > >=20
-> > diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
-> > b/Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
-> > new file mode 100644
-> > index 000000000000..6c979f70687e
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
-> > @@ -0,0 +1,206 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/hwmon/adi,ltc4282.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Analog Devices LTC4282 I2C High Current Hot Swap Controller ove=
-r I2C
-> > +
-> > +maintainers:
-> > +=C2=A0 - Nuno Sa <nuno.sa@analog.com>
-> > +
-> > +description: |
-> > +=C2=A0 Analog Devices LTC4282 I2C High Current Hot Swap Controller ove=
-r I2C.
-> > +
-> > +=C2=A0
-> > https://www.analog.com/media/en/technical-documentation/data-sheets/ltc=
-4282.pdf
-> > +
-> > +properties:
-> > +=C2=A0 compatible:
-> > +=C2=A0=C2=A0=C2=A0 enum:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,ltc4282
-> > +
-> > +=C2=A0 reg:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +
-> > +=C2=A0 vdd-supply: true
-> > +
-> > +=C2=A0 clocks:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +
-> > +=C2=A0 '#clock-cells':
-> > +=C2=A0=C2=A0=C2=A0 const: 0
-> > +
-> > +=C2=A0 adi,rsense-nano-ohms:
-> > +=C2=A0=C2=A0=C2=A0 description: Value of the sense resistor.
-> > +
-> > +=C2=A0 adi,vin-mode-microvolt:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Selects operating range for the Undervo=
-ltage, Overvoltage and
-> > Foldback
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pins. Also for the ADC. Should be set t=
-o the nominal input voltage.
-> > +=C2=A0=C2=A0=C2=A0 enum: [3300000, 5000000, 12000000, 24000000]
-> > +=C2=A0=C2=A0=C2=A0 default: 12000000
-> > +
-> > +=C2=A0 adi,fet-bad-timeout-ms:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 From the moment a FET bad conditions is=
- present, this property
-> > selects the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wait time/timeout for a FET-bad fault t=
-o be signaled. Setting this to
-> > 0,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 disables FET bad faults to be reported.
-> > +=C2=A0=C2=A0=C2=A0 default: 255
-> > +=C2=A0=C2=A0=C2=A0 maximum: 255
-> > +
-> > +=C2=A0 adi,overvoltage-dividers:
-> > +=C2=A0=C2=A0=C2=A0 description: |
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Select which dividers to use for VDD Ov=
-ervoltage detection. Note that
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 when the internal dividers are used the=
- threshold is referenced to
-> > VDD.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The percentages in the datasheet are mi=
-sleading since the actual
-> > values
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to look for are in the "Absolute Maximu=
-m Ratings" table in the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Comparator Inputs" section. In there t=
-here's a line for each of the
-> > 5%,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10% and 15% settings with the actual mi=
-n, typical and max tolerances.
-> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/string
-> > +=C2=A0=C2=A0=C2=A0 enum: [external, vdd_5_percent, vdd_10_percent, vdd=
-_15_percent]
-> > +=C2=A0=C2=A0=C2=A0 default: 0
+> > v2:
+> > - s/gvm/gpu_vm/g (Rodrigo Vivi)
+> > - Clarify the userptr seqlock with a pointer to mm/mmu_notifier.c
+> > =C2=A0 (Rodrigo Vivi)
+> > - Adjust commit message accordingly.
+> > - Add SPDX license header.
+> >=20
+> > v3:
+> > - Large update to align with the drm_gpuvm manager locking
+> > - Add "Efficient userptr gpu_vma exec function iteration" section
+> > - Add "Locking at bind- and unbind time" section.
+> >=20
+> > v4:
+> > - Fix tabs vs space errors by untabifying (Rodrigo Vivi)
+> > - Minor style fixes and typos (Rodrigo Vivi)
+> > - Clarify situations where stale GPU mappings are occurring and how
+> > =C2=A0 access through these mappings are blocked. (Rodrigo Vivi)
+> > - Insert into the toctree in implementation_guidelines.rst
+> >=20
+> > v5:
+> > - Add a section about recoverable page-faults.
+> > - Use local references to other documentation where possible
+> > =C2=A0 (Bagas Sanjaya)
+> > - General documentation fixes and typos (Danilo Krummrich and
+> > =C2=A0 Boris Brezillon)
+> > - Improve the documentation around locks that need to be grabbed
+> > from the
+> > =C2=A0 dm-fence critical section (Boris Brezillon)
+> > - Add more references to the DRM GPUVM helpers (Danilo Krummrich
+> > and
+> > =C2=A0 Boriz Brezillon)
+> > - Update the rfc/xe.rst document.
+> >=20
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 >=20
-> Default is an integer yet the type is a string?
-
-Argh, another leftover from v1. Thanks for catching it... Will change it in=
- v3.
-
-- Nuno S=C3=A1
+> First of all, with Bagas and Boris latest suggestions, already few
+> free to use:
 >=20
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>=20
+> But a few minor comments below. Mostly trying to address Boris
+> feeling
+> of long sentences. However, take them with a grain of salt since I'm
+> not
+> a native english speaker. :)=20
+
+Hi, Rodrigo.
+
+Thanks for the reviewing. I've added most but not all of the
+suggestions in v6. Regarding the comment about "zapping", that's used
+by the core mm for the process of unmapping page-table entries;
+zap_vma_ptes() etc. Merely following that, although I'm not really
+against using unmapping etc.
+
+/Thomas
+
