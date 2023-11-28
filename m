@@ -1,102 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="mu35PtE5"
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91427210B
-	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 12:49:57 -0800 (PST)
-Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-67a35b68c34so18752496d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 12:49:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="X+/VFNzF"
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B1941998
+	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 12:57:59 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40b472f98b1so19450125e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 12:57:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701204596; x=1701809396; darn=vger.kernel.org;
+        d=arista.com; s=google; t=1701205078; x=1701809878; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YSGX0jW3To7/xuABL7QXXsr1KCFhu7Z9tThr0mLMrMc=;
-        b=mu35PtE5c/9BIjstdYyMmHY7Fsp4p47cAFfxKfLsRGnfxku0i2aSW554C1uqlvpsQG
-         7n+YTN7UVvy9Da+sXvjnrRbhflbjotnxSYc46MNpmRLi4IO0BtuqyB4DTLVKFRZBCQT6
-         Gem7H6rBonm0+z37Y3eiO2PmFX83B5wvl1i16H3zAMIqCd+ebFYbcpQsJs88KGdQ3aQo
-         dilQXr6/WXD8tF4AcdIY0AMHMjtiN5cKy4+xcwwc8ETsP9hjskymCjjVw3r727nJcZ4l
-         P7VdPRIIVUXbGZOMRd7My622YMXRlrcltPLBtBUm4FJxlJ4gez9R4x93FrfNE6OSIGVC
-         3cTw==
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
+        b=X+/VFNzFRdRO9vBk8qEUd1Xvnsy/r8oXPIUgzuf9V+Ogbhq1xvTehaKGXbUxcuXqrt
+         /DOT0HsWiA9Vgk1onV/SRvIeZz7VVAYPoMo2M9y3GM8SRf1LhRAS+CP7uIf6Y6DSsGQt
+         VrqDihOSSvduP61EtuSPyhLTkmaWLvyxkW1uzWYR/b7TUzwKfFPjjqdg0SWXbeiPVpYP
+         hMfMo1Z8klVPM+a/7M6NxSm9jj+VztXDyN7XfzzonPBa1QzWKSa/wWJ481a86OUkzly6
+         DCsKuF8h9ZyLyQ6aqjySmL0nQwBSPJUiFLuIzfTt7EbHxyp4M28vIa2eG2IPbavVuxOT
+         dP2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204596; x=1701809396;
+        d=1e100.net; s=20230601; t=1701205078; x=1701809878;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YSGX0jW3To7/xuABL7QXXsr1KCFhu7Z9tThr0mLMrMc=;
-        b=er7YO7VqXxjH5wUU056puWuQfq9frcWK1lQhy+o83DS2gDj/JIZrJbUlPvOMOFj0lN
-         TVbQyuHXJGdhDT56doQenuFUUchuvK2hZwP95Jo1Zmy/YixW66XwLPlYJFi1jyiwVHB3
-         AJDg5XxdIEzEZSorIg+/L4DpdEHJUxL3aAKul8np7oiccET5Qu6L+rVH1+r84Mbn4fh+
-         IO4/L1rAze2EbVn+HqqBz+SnbPsTK8XlQNSORoDB19PA5zBOc27Djxhs/sEzS4jfI5PP
-         SsGJJMwQ2aIGSrgev18MDSy9/0i9H6ri6/7umaYUkpJMAhJ6BqmCiF+oe+ewGbxsWABa
-         8qPw==
-X-Gm-Message-State: AOJu0Ywi3mwP2w1H43lhwMXPPub5kiv5RKl1TbY1O4z9Bu1MojYsDNFB
-	/MKgeCYQL5AsI+RymcbvuZ3RpA==
-X-Google-Smtp-Source: AGHT+IH3XyzLx3HqaxxWdryJd33MqMJHkx6z6Xt3swBEGkMdx9JQSLka9GW0WH1FkTVqo27TzFUimQ==
-X-Received: by 2002:a05:6214:246f:b0:67a:4ba1:84d5 with SMTP id im15-20020a056214246f00b0067a4ba184d5mr7928400qvb.16.1701204596396;
-        Tue, 28 Nov 2023 12:49:56 -0800 (PST)
-Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
-        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.55
+        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
+        b=vY4yHj4bi+cgonwHobSirQQJQg/E6aE+UPFBjy4SxxxB42E5PR2Qxj3ePhGrnH6x4u
+         tLUm9X/aVH+wyeLItjwawQf+qFxxtXBltLdSv0xzMtWgNDj1ELkIlN/6Xhawun4a4X/U
+         7acHMequMN/CsGGybsq/78LCTkB9StMBKmfg19YTNrI6Q1/h7INBj/nE3Hd/azwPcYWA
+         Buome8KiefMHvO3Ccm3OnfCiYJXOQZt9nOYjg34e3MRSTpSUQdkIPL75YXBV6wiYQ0YQ
+         AoiU5DZI+0Xhq1Njwu477sykdpHHoBUu+qw0A+BQ5YgJhm4wUz8tFynyJ+9/UrClaSmO
+         ep4A==
+X-Gm-Message-State: AOJu0Ywb/BfHpG+c9chieduIj9Nmy2uIEO4zAWKz4ETffdcXQHTO+MaH
+	7LVz/vBMfv8+R9wRor6O2AQPrw==
+X-Google-Smtp-Source: AGHT+IHe75ef2Bg0woYokUOqVhJa3Jdl5ifX0suMTxQoZY02Pt5ZCRGaUum+XIxfq3e9yYFWh54Hfg==
+X-Received: by 2002:a05:600c:3b0c:b0:40a:6235:e82d with SMTP id m12-20020a05600c3b0c00b0040a6235e82dmr11675354wms.15.1701205077998;
+        Tue, 28 Nov 2023 12:57:57 -0800 (PST)
+Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id o19-20020a05600c4fd300b0040b45356b72sm9247423wmq.33.2023.11.28.12.57.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:49:56 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: akpm@linux-foundation.org,
-	alex.williamson@redhat.com,
-	alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com,
-	bhelgaas@google.com,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	david@redhat.com,
-	dwmw2@infradead.org,
-	hannes@cmpxchg.org,
-	heiko@sntech.de,
-	iommu@lists.linux.dev,
-	jasowang@redhat.com,
-	jernej.skrabec@gmail.com,
-	jgg@ziepe.ca,
-	jonathanh@nvidia.com,
-	joro@8bytes.org,
-	kevin.tian@intel.com,
-	krzysztof.kozlowski@linaro.org,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	lizefan.x@bytedance.com,
-	marcan@marcan.st,
-	mhiramat@kernel.org,
-	mst@redhat.com,
-	m.szyprowski@samsung.com,
+        Tue, 28 Nov 2023 12:57:57 -0800 (PST)
+From: Dmitry Safonov <dima@arista.com>
+To: David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: linux-kernel@vger.kernel.org,
+	Dmitry Safonov <dima@arista.com>,
+	Dmitry Safonov <0x7f454c46@gmail.com>,
+	Francesco Ruggeri <fruggeri05@gmail.com>,
+	Salam Noureddine <noureddine@arista.com>,
+	Simon Horman <horms@kernel.org>,
 	netdev@vger.kernel.org,
-	pasha.tatashin@soleen.com,
-	paulmck@kernel.org,
-	rdunlap@infradead.org,
-	robin.murphy@arm.com,
-	samuel@sholland.org,
-	suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev,
-	thierry.reding@gmail.com,
-	tj@kernel.org,
-	tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com,
-	virtualization@lists.linux.dev,
-	wens@csie.org,
-	will@kernel.org,
-	yu-cheng.yu@intel.com
-Subject: [PATCH 16/16] vfio: account iommu allocations
-Date: Tue, 28 Nov 2023 20:49:38 +0000
-Message-ID: <20231128204938.1453583-17-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
-In-Reply-To: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+	Markus Elfring <Markus.Elfring@web.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 1/7] Documentation/tcp: Fix an obvious typo
+Date: Tue, 28 Nov 2023 20:57:43 +0000
+Message-ID: <20231128205749.312759-2-dima@arista.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231128205749.312759-1-dima@arista.com>
+References: <20231128205749.312759-1-dima@arista.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -105,47 +68,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-iommu allocations should be accounted in order to allow admins to
-monitor and limit the amount of iommu memory.
+Yep, my VIM spellchecker is not good enough for typos like this one.
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+Fixes: 7fe0e38bb669 ("Documentation/tcp: Add TCP-AO documentation")
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Reported-by: Markus Elfring <Markus.Elfring@web.de>
+Closes: https://lore.kernel.org/all/2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de/
+Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
- drivers/vfio/vfio_iommu_type1.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ Documentation/networking/tcp_ao.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index eacd6ec04de5..b2854d7939ce 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -1436,7 +1436,7 @@ static int vfio_iommu_map(struct vfio_iommu *iommu, dma_addr_t iova,
- 	list_for_each_entry(d, &iommu->domain_list, next) {
- 		ret = iommu_map(d->domain, iova, (phys_addr_t)pfn << PAGE_SHIFT,
- 				npage << PAGE_SHIFT, prot | IOMMU_CACHE,
--				GFP_KERNEL);
-+				GFP_KERNEL_ACCOUNT);
- 		if (ret)
- 			goto unwind;
+diff --git a/Documentation/networking/tcp_ao.rst b/Documentation/networking/tcp_ao.rst
+index cfa5bf1cc542..8a58321acce7 100644
+--- a/Documentation/networking/tcp_ao.rst
++++ b/Documentation/networking/tcp_ao.rst
+@@ -99,7 +99,7 @@ also [6.1]::
+    when it is no longer considered permitted.
  
-@@ -1750,7 +1750,8 @@ static int vfio_iommu_replay(struct vfio_iommu *iommu,
- 			}
- 
- 			ret = iommu_map(domain->domain, iova, phys, size,
--					dma->prot | IOMMU_CACHE, GFP_KERNEL);
-+					dma->prot | IOMMU_CACHE,
-+					GFP_KERNEL_ACCOUNT);
- 			if (ret) {
- 				if (!dma->iommu_mapped) {
- 					vfio_unpin_pages_remote(dma, iova,
-@@ -1845,7 +1846,8 @@ static void vfio_test_domain_fgsp(struct vfio_domain *domain, struct list_head *
- 			continue;
- 
- 		ret = iommu_map(domain->domain, start, page_to_phys(pages), PAGE_SIZE * 2,
--				IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE, GFP_KERNEL);
-+				IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE,
-+				GFP_KERNEL_ACCOUNT);
- 		if (!ret) {
- 			size_t unmapped = iommu_unmap(domain->domain, start, PAGE_SIZE);
- 
+ Linux TCP-AO will try its best to prevent you from removing a key that's
+-being used, considering it a key management failure. But sine keeping
++being used, considering it a key management failure. But since keeping
+ an outdated key may become a security issue and as a peer may
+ unintentionally prevent the removal of an old key by always setting
+ it as RNextKeyID - a forced key removal mechanism is provided, where
 -- 
-2.43.0.rc2.451.g8631bc7472-goog
+2.43.0
 
