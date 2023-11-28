@@ -1,102 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H9pKmYpw"
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE983D4B;
-	Tue, 28 Nov 2023 09:01:47 -0800 (PST)
-Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-67a295e40baso18800576d6.1;
-        Tue, 28 Nov 2023 09:01:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701190907; x=1701795707; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9PqjX8MOTxb1SOKCk/xBi+5E9akrq+S2fSUS82B/9Jw=;
-        b=H9pKmYpwkbTQw9ARYG2xZMJP3khjDaaN71Bbvr0SfQ7hslNjQLUzDzpWNI6kkCJBox
-         bvl3bg1QZOw5NRHj0ctLivTy7GQWqJpiTuRBWMyv082rAFgSSO2a6LVHYu7SDspQZ6It
-         QcaawZkfaN6jpTVjewV0kxMWqaZdSGHjXHFKgB/+wfbRK72N9f44b1MDn9eegqlsn3I5
-         u2wh/916Tm+W0FcnE8CLz2hYD9LSqO6GVDklplfFwUtLA4uP2HuMY2LX1IT9ZGKYoYGB
-         BrZQW8qgWxn3yjP8MMU2eCHQ56AMIYQ5NfMX7CjD9etCh2G2xsTdA5nkjMrGEQKmVPqM
-         L87w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701190907; x=1701795707;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9PqjX8MOTxb1SOKCk/xBi+5E9akrq+S2fSUS82B/9Jw=;
-        b=uF3lZbO0gb0+PTM3f9Cxop0FCpjzAIBJpn41bExgtIh7EzjhGV3HxEyA4OzxqLtiCn
-         IfNtvQgRsneKs8hqs5qHpyF5VR94/wUMeUAWLlHFMQSysdqhJn2lXa8H06tsqZsbFeIr
-         JmuIWKChQIx+5B+7ge8WystTH/hdjr8xKRBLKZAnxW+J0Dfy2L+YT9AxKaNAz7Qr0jf3
-         0VjwIk7mbiDRVAyJRu6rxHKZ1K/QxgpBvhyg0INIfzmsSgt/2SfJJcKdRuuTHRs8Pend
-         aDK+hIuHPa29jiMWXjOJMd31ufDGzXGL/UV20QV4aUqENaAU2PjXc9/qM+a6QJZ4vioB
-         4Rvw==
-X-Gm-Message-State: AOJu0YwQAMtc76g98TeSXuKpOWACaPTFt8bpOLtHVb+9gmTWH7nVbxKb
-	wCt8lIVj7yhnVdGLNfaI9YIY+bOlQzVe7WqTpKmCZSH9Jf0=
-X-Google-Smtp-Source: AGHT+IEMZ3vVr6Jl4jSd075/USecySxeDQcTTDwr/o/Vk4iia4tS13RutWkwZH6QfLRK6EpZ7s8lHcNMTPCB4mP0c7o=
-X-Received: by 2002:a05:6214:8ea:b0:675:3fed:ed with SMTP id
- dr10-20020a05621408ea00b006753fed00edmr16716189qvb.44.1701190906747; Tue, 28
- Nov 2023 09:01:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G/2XhO33"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD8210F0;
+	Tue, 28 Nov 2023 09:04:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=/89j1WGuOEhmXDZoAr89HAOtI8MBBJgAUvR0nYQq0uo=; b=G/2XhO33W4alzsVgatxhkuF5Ik
+	diPRGUuTND1Zgj2NbdUNI6RtWqDOu1MqUYsIwrEPaDT9cmShRs0AHkfoQn/EnNf/Qnwc8cSWTUT/6
+	KoYcj7Etw1II8BHVeX+/IojXl2Oki7ZpsVYPuSpWjprnIJO5hyhUoUnF5s8p5HnaL0eoNJBvGDlmL
+	0PqXELudFq+zLsHuYvaBmsvLyyq0mU4TWqycFECLZ1UGGU14jRV/BPfG/djPyXaHV0g9UuXm56kTZ
+	cvQPCn+mSZN0vjlM0RHfvv5iwO6zcaXAXUkHPcMBTPlrEV3LWRhZlk3laLOqatEPHdjEmNOwdnD+X
+	dbYyjY8Q==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1r81VX-005sqQ-0v;
+	Tue, 28 Nov 2023 17:04:23 +0000
+Message-ID: <7c5c3634-7a89-48b3-96fa-4d9f3be3ba05@infradead.org>
+Date: Tue, 28 Nov 2023 09:04:22 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
- <202311250548.lUn3bm1A-lkp@intel.com> <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
- <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org> <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
- <ZWS90GQTJWA7DrML@smile.fi.intel.com> <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-In-Reply-To: <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 28 Nov 2023 19:01:10 +0200
-Message-ID: <CAHp75VdwiFLBtxm6vpM1dmrw_UTJ6cZSHQ0yQwKD1ngag7JRDw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andy Shevchenko <andy@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>, 
-	kernel test robot <lkp@intel.com>, 
-	Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: Begin a RAS section
+Content-Language: en-US
+To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+ Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: Muralidhara M K <muralimk@amd.com>, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Muralidhara M K <muralidhara.mk@amd.com>,
+ linux-doc@vger.kernel.org
+References: <20231102114225.2006878-1-muralimk@amd.com>
+ <20231102114225.2006878-2-muralimk@amd.com>
+ <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 28, 2023 at 6:51=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
-> On 27/11/2023 17:03, Andy Shevchenko wrote:
-> > On Mon, Nov 27, 2023 at 09:12:14AM +0100, Krzysztof Kozlowski wrote:
-> >> On 27/11/2023 09:10, Krzysztof Kozlowski wrote:
+Hi,
 
-...
+On 11/28/23 06:20, Borislav Petkov wrote:
+> On Thu, Nov 02, 2023 at 11:42:22AM +0000, Muralidhara M K wrote:
+>> From: Muralidhara M K <muralidhara.mk@amd.com>
+>>
+>> AMD systems with Scalable MCA, each machine check error of a SMCA bank
+>> type has an associated bit position in the bank's control (CTL) register.
+> 
+> Ontop of this. It is long overdue:
+> 
+> ---
+> From: "Borislav Petkov (AMD)" <bp@alien8.de>
+> Date: Tue, 28 Nov 2023 14:37:56 +0100
+> 
+> Add some initial RAS documentation. The expectation is for this to
+> collect all the user-visible features for interacting with the RAS
+> features of the kernel.
+> 
 
-> >> Wait, this was not even unusual test, just standard compile, which mea=
-ns
-> >> you did not do basic tests on your end. You must build your new driver
-> >> with W=3D1, smatch, sparse and coccinelle before sending upstream.
-> >
-> > Well, sparse is lagging in development, for the last year it's at least=
- two
-> > times it broke kernel builds because of being not ready for the new stu=
-ff used
-> > in the kernel. Do we have anybody to sync this? I don't think so, hence
-> > requiring this from developer is doubtful. Otherwise I agree, that basi=
-c
-> > compilation with GCC/LLVM must be done.
->
-> Sparse still detects several issues and handles lock annotations, so it
-> is useful.
+In general, does RAS include EDAC and MCE?
 
-Absolutely.
+Thanks.
 
-> But if you disagree with that part, I still insist on Smatch
-> (which is actively developed and works great) and Coccinelle (also
-> actively developed).
+> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> ---
+>  Documentation/RAS/ras.rst | 26 ++++++++++++++++++++++++++
+>  Documentation/index.rst   |  1 +
+>  2 files changed, 27 insertions(+)
+>  create mode 100644 Documentation/RAS/ras.rst
+> 
 
-No disagreement on the usefulness of the sparse, my point is that its
-development is lagging and hence diminishes the value of the tool to
-the developer.
 
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+~Randy
