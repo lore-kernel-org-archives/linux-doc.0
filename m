@@ -1,116 +1,87 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Q08NRJnA"
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D78AA7;
-	Tue, 28 Nov 2023 00:51:55 -0800 (PST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1AEFA40E0195;
-	Tue, 28 Nov 2023 08:51:53 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ChluQ_0bI5c3; Tue, 28 Nov 2023 08:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1701161510; bh=b8kwNDDb/tymHpQVlkI8A91DHBnyujPGQHRX1wsU7tw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q08NRJnAt21ZSfXI9PipunbDM7nORGQfk8q2MESUfrbhwdKcDNj/lvfrYaXQO6WrR
-	 Uu/ou1jioWe9ismICRfRUVg3d+FQm/wPx6FZWqYIkuOj00lA7FTXRPgomSFC12JB9p
-	 jx/Z+egKyrd9s+V6EUpP+PM29kiHtGxAEP6D+mj4x/WjUbMc5t6epBadUQmbQ6T59d
-	 OHk9CXHFlXeMht5fKmdxwhaqaJsJcYjQcCwAG14XuoCwOAs3qO/8qwx/JlqJ47/JYv
-	 +APDpeBEVPM7yMnVxkTaHX1cKKlYOzNJVz9G0G08aIT//tOtvT3TSq6/suZGzKM0iW
-	 3xkbwEKeMxRkIQ1+WXUKcxmhbpGn8ST23QukmzUcDnTznWywJX4RBZBJ8xABUD/x/q
-	 LpqrCLx8GqTQcvX46p79XCA7vm/VHTiyKe0iNeXxQqdC6Df8FkqJr0G6fi36OCuyGb
-	 m5Jnl1QGqjQufT6g7fBC7LdpVg2DsriyG5b8QRGrNW+ZxiZWZHnDQ/wPnEwrzPEhcD
-	 M/86WHzJqxUVJPuatkx67BNxXkgs8VEkb78/GQIFTZBVSPRw+rz5eNeMgEWAoMpQX2
-	 q2gDBvCHdO54qtQ99xUVX3BvzTocJHZahfSUqyeY3gOuejIEZg/bj1NCSFqFY7mArL
-	 sGFHikREKV+Z0TDiEnXHYFYs=
-Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2C26740E0031;
-	Tue, 28 Nov 2023 08:51:28 +0000 (UTC)
-Date: Tue, 28 Nov 2023 09:51:22 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Xin Li <xin3.li@intel.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, luto@kernel.org, pbonzini@redhat.com,
-	seanjc@google.com, peterz@infradead.org, jgross@suse.com,
-	ravi.v.shankar@intel.com, mhiramat@kernel.org,
-	andrew.cooper3@citrix.com, jiangshanlai@gmail.com,
-	nik.borisov@suse.com
-Subject: Re: [PATCH v12 16/37] x86/ptrace: Add FRED additional information to
- the pt_regs structure
-Message-ID: <20231128085122.GPZWWqCrPYnzB8BqFB@fat_crate.local>
-References: <20231003062458.23552-1-xin3.li@intel.com>
- <20231003062458.23552-17-xin3.li@intel.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="whC9yfCx"
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66ED2138;
+	Tue, 28 Nov 2023 01:00:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=+Kqd0ZZyXT9nJQi9dwXBehSCo6NOmmyqnNaiHd+uCVU=; b=whC9yfCx0Udo9iFHwXHWMOFPVR
+	V5pix6ulLuyYpHr+vYNyG5y5shQMv5R56u/HNcczCtE12sF417Sh5VoAau4XYBvP0ucOKbg+cBHGY
+	skbfXPYP+CDqWw3kHXC7uK/b+gcwsV7YjmeGv/th7SdJnMW7aSQAf3+0fU+5hcindJuh+Ogh4WWVa
+	XEgCpz3IU8sANK+HWysINamznqtYNEEsT9zCxnc0ypRQ+aqWtVHMza67VPg2b25bHLPQA4u6WbNh6
+	c1LaLqoqViolzvrgpCaTyQHSYKtevKB6iSLJEgcHZ56MoXMq5OsbFxJZdzLD3Qs7kLTrFenybszgR
+	ngb0hEJg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:39606)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1r7txG-0006zt-20;
+	Tue, 28 Nov 2023 09:00:30 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1r7txF-0002oc-FO; Tue, 28 Nov 2023 09:00:29 +0000
+Date: Tue, 28 Nov 2023 09:00:29 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jie Luo <quic_luoj@quicinc.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	hkallweit1@gmail.com, corbet@lwn.net, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 3/6] net: phy: at803x: add QCA8084 ethernet phy support
+Message-ID: <ZWWsLf/w82N0vwBq@shell.armlinux.org.uk>
+References: <20231126060732.31764-1-quic_luoj@quicinc.com>
+ <20231126060732.31764-4-quic_luoj@quicinc.com>
+ <0b22dd51-417c-436d-87ce-7ebc41185860@lunn.ch>
+ <f0604c25-87a7-497a-8884-7a779ee7a2f5@quicinc.com>
+ <8e4046dd-813c-4766-83fb-c54a700caf31@lunn.ch>
+ <9c4c1fe7-5d71-4bb2-8b92-f4e9a136e93d@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231003062458.23552-17-xin3.li@intel.com>
+In-Reply-To: <9c4c1fe7-5d71-4bb2-8b92-f4e9a136e93d@quicinc.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, Oct 02, 2023 at 11:24:37PM -0700, Xin Li wrote:
-> FRED defines additional information in the upper 48 bits of cs/ss
-> fields. Therefore add the information definitions into the pt_regs
-> structure.
+On Tue, Nov 28, 2023 at 03:16:45PM +0800, Jie Luo wrote:
+> > > The interface mode is passed in the .config_init, which is configured
+> > > by the PCS driver, the hardware register is located in the PCS, this
+> > > driver will be pushed later.
+> > 
+> > Is this the same as how the syqca807x works? Can the PCS driver be
+> > shared by these two drivers?
 > 
-> Specially introduce a new structure fred_ss to denote the FRED flags
-> above SS selector, which avoids FRED_SSX_ macros and makes the code
-> simpler and easier to read.
+> I am not sure syqca807x, would you point me the code path of this driver?
 > 
-> Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+> > 
+> > What i don't like at the moment is that we have two driver
+> > developments going on at once for hardware which seems very similar,
+> > but no apparent cooperation?
+> > 
+> > 	Andrew
+> 
+> The PCS of qca8084 is the PHY PCS, which should be new PCS driver,
+> in the previous chips, we don't have this kind of PHY PCS.
 
-You and hpa need to go through all the patches and figure out who's the
-author that's going to land in git.
+No. PCS drivers are for MAC-side PCS drivers, not PHY-side PCS drivers.
 
-Because this and others have hpa's SOB first, suggesting he's the
-author. However, the mail doesn't start with
-
-From: H. Peter Anvin (Intel) <hpa@zytor.com>
-
-and then git will make *you* the author.
-
-> Tested-by: Shan Kang <shan.kang@intel.com>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-
-...
-
->  	union {
-> -		u64	ssx;	// The full 64-bit data slot containing SS
-> -		u16	ss;	// SS selector
-> +		/* SS selector */
-> +		u16		ss;
-> +		/* The extended 64-bit data slot containing SS */
-> +		u64		ssx;
-> +		/* The FRED SS extension */
-> +		struct fred_ss	fred_ss;
-
-Aha, sanity about the right comments has come to your mind in this next
-patch. :-P
-
-Just do them right in the previous one.
-
->  	/*
-> -	 * Top of stack on IDT systems.
-> +	 * Top of stack on IDT systems, while FRED systems have extra fields
-> +	 * defined above for storing exception related information, e.g. CR2 or
-> +	 * DR6.
-
-Btw, I really appreciate the good commenting - thanks for that!
+                     +-------------
+		     |     PHY
+MAC---PCS --- link --- PCS --- ...
+       ^             |  ^
+       |	     +--|----------
+  For this PCS          |
+                  Not for this PCS
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
