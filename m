@@ -1,118 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920D45915C;
-	Tue, 28 Nov 2023 16:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgfTaApW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C86E1C433C7;
-	Tue, 28 Nov 2023 16:51:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701190266;
-	bh=7W/vahT7ggXSZ6p6vtoTRcfcRPo0VstJTQk4dlT3coI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZgfTaApWwtZva/r+hXbrrj5VlwER4fSbB/AGB21yqYbDcGJo7P74s/sJmSUrErb17
-	 YZzC57HnyRFxdhY/iLlplZR1mjBT8WnG1ksoUIKOqXvrbrqWkiqMcxdGAsTOwtixNs
-	 RLmJzM57IDyI5qPoTeykDvvV8FaBx+xwBkzfFUR/MeHDcOmqaKJ6Omo0pYReG8Kkg2
-	 LtfTEayeC9ipg0DVDfVdo0gPNsh0wcODekvJWnR2gUn60hsXwblVEzzXImP7QgUpxa
-	 eWyjWIoLRiUSlCqe4NWKvsMT2RGZ+gZINszc8t79gzVAKHjNXslNkgnf1sEE0uTuzp
-	 qXKs+lKUeLcRQ==
-Message-ID: <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-Date: Tue, 28 Nov 2023 17:50:55 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c1csWw9Z"
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15033D51;
+	Tue, 28 Nov 2023 08:54:08 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id ca18e2360f4ac-7b389399dfdso133526339f.2;
+        Tue, 28 Nov 2023 08:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701190447; x=1701795247; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r85ydUJh41VHrUAuuHTOjnQ7J8TNkgJ1y7qjmCMSTu8=;
+        b=c1csWw9ZHwTNRyZ1Cf739uEAA/rE3GFkeHYDXFBlk+AMOgvY+IRBV6q8bb8eSYhwD2
+         RCIQEZf/PcKj/0SdILO4J1eMZqW42d9kDY0P5PP5JgKbVmZm8gq7DIhYS0Iyo1E0SjMY
+         i3pu7ouHtbMyb5C4wvqtkRUEMCRWifL9QAxYQB9gmmCeua1VarKvcjoyo4j4dhhdaLez
+         2PMhFQrAAYjXtAGc+xWAlCQcyyLPCAvRRtNHQ73mbNbjFK+wpi/6oimer+tesQUqsqoD
+         Gi8Fxl6q+u/QZidszp8MeNhY6OZHTt7NXnmISm4n42RB+X4hY4YQ1kltZ0BgCY5/m/bP
+         6m0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701190447; x=1701795247;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r85ydUJh41VHrUAuuHTOjnQ7J8TNkgJ1y7qjmCMSTu8=;
+        b=VtaD63cLFaC+uZNGdh81O2iDArlzTsQ4Up7lEVA1g8EkNNgbCNzUQcBb7YiMrwkVJM
+         8xn+uvC2bcJFAvfVbqJ12D1HaWRqsoqORwcgbZXdF9sMgnJcKFL1CtJgDDXV4s1I1Oqn
+         MTdSt/cqkLUow/sfEEZORJgpLEnCxyPA0K5fnQsLWwj79J6P42G3eOIv2grUbVMGomqw
+         qXQT4GBTGL6cJdX2HmbiMnl7cEUuUg2Vee9OmPHgGj9C2bFw86pqf/HYIGZa5Q4S3mw5
+         WaKyxduVB6CpxYlbfA4YfGCkiOEu27X53RtganEMOhCBGWBzJ8KTbyTSKrPdut7h1UNm
+         n3Pg==
+X-Gm-Message-State: AOJu0YyajVmdDgAlCd2+XNjTEbEsANaO6WviLqlLjBXDdefFwyMrXoho
+	N/PV/8fgwk+8N23t2LOnKSNu7G8HRc3nocd4PoU=
+X-Google-Smtp-Source: AGHT+IFb7aDwTf03bZeLB0LqchAfMqNlPpSgWV8SqzBEtOOj8il9iQK8ry85o7b804gzWK+PQJN1JfAhCluvV7Dli6w=
+X-Received: by 2002:a6b:3fc3:0:b0:79f:96db:f33d with SMTP id
+ m186-20020a6b3fc3000000b0079f96dbf33dmr12580697ioa.9.1701190447244; Tue, 28
+ Nov 2023 08:54:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Content-Language: en-US
-To: Andy Shevchenko <andy@kernel.org>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- kernel test robot <lkp@intel.com>,
- Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Linus Walleij <linus.walleij@linaro.org>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
- <202311250548.lUn3bm1A-lkp@intel.com>
- <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
- <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
- <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
- <ZWS90GQTJWA7DrML@smile.fi.intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ZWS90GQTJWA7DrML@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231127193703.1980089-1-nphamcs@gmail.com> <20231127193703.1980089-3-nphamcs@gmail.com>
+ <ZWW1IG0Mv3r0m4mp@tiehlicka>
+In-Reply-To: <ZWW1IG0Mv3r0m4mp@tiehlicka>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 28 Nov 2023 08:53:56 -0800
+Message-ID: <CAKEwX=OGtkqWys9VM9EBScoCdAjSdfPjEkvoY7_u9udDZBFFpw@mail.gmail.com>
+Subject: Re: [PATCH v6 2/6] memcontrol: allows mem_cgroup_iter() to check for onlineness
+To: Michal Hocko <mhocko@suse.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
+	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
+	vitaly.wool@konsulko.com, roman.gushchin@linux.dev, shakeelb@google.com, 
+	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27/11/2023 17:03, Andy Shevchenko wrote:
-> On Mon, Nov 27, 2023 at 09:12:14AM +0100, Krzysztof Kozlowski wrote:
->> On 27/11/2023 09:10, Krzysztof Kozlowski wrote:
-> 
-> ...
-> 
->> Wait, this was not even unusual test, just standard compile, which means
->> you did not do basic tests on your end. You must build your new driver
->> with W=1, smatch, sparse and coccinelle before sending upstream.
-> 
-> Well, sparse is lagging in development, for the last year it's at least two
-> times it broke kernel builds because of being not ready for the new stuff used
-> in the kernel. Do we have anybody to sync this? I don't think so, hence
-> requiring this from developer is doubtful. Otherwise I agree, that basic
-> compilation with GCC/LLVM must be done.
+On Tue, Nov 28, 2023 at 1:38=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrot=
+e:
+>
+> On Mon 27-11-23 11:36:59, Nhat Pham wrote:
+> > The new zswap writeback scheme requires an online-only memcg hierarchy
+> > traversal. Add a new parameter to mem_cgroup_iter() to check for
+> > onlineness before returning.
+>
+> Why is this needed?
 
-Sparse still detects several issues and handles lock annotations, so it
-is useful. But if you disagree with that part, I still insist on Smatch
-(which is actively developed and works great) and Coccinelle (also
-actively developed).
+For context, in patch 3 of this series, Domenico and I are adding
+cgroup-aware LRU to zswap, so that we can perform workload-specific
+zswap writeback. When the reclaim happens due to the global zswap
+limit being hit, a cgroup is selected by the mem_cgroup_iter(), and
+the last one selected is saved in the zswap pool (so that the
+iteration can follow from there next time the limit is hit).
 
-Best regards,
-Krzysztof
+However, one problem with this scheme is we will be pinning the
+reference to that saved memcg until the next global reclaim attempt,
+which could prevent it from being killed for quite some time after it
+has been offlined. Johannes, Yosry, and I discussed a couple of
+approaches for a while, and decided to add a callback that would
+release the reference held by the zswap pool when the memcg is
+offlined, and the zswap pool will obtain the reference to the next
+online memcg in the traversal (or at least one that has not had the
+zswap-memcg-release-callback run on it yet).
 
+> --
+> Michal Hocko
+> SUSE Labs
