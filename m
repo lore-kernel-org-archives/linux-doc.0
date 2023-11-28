@@ -1,112 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPGndlVu"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 982391BB;
-	Tue, 28 Nov 2023 05:49:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701179376; x=1732715376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ho8ya67y0bcAC8iRE41B+MB3YSCUZNByqFAIWF4TZg8=;
-  b=HPGndlVuHasbVuRsfz4yI9RO89sry5KLzLp2AkdsjazcIgwsgjFtzv6O
-   oa1F/rZYDpgA04yo57DUT3vhQ5UucrlAk2jQuC772WTFjs1jA/RiqrhDt
-   Ei1R0mWvvHeuJtQtn6OdGrlWa39/mycnacPbKL59QRq+wcHFn/ePFk8Be
-   MWSaW6ZFPz5c4aENMcrB6Enov2Q64uC2m5jPB2em6et9RtSJvpSjkyx9C
-   AmJ1JUb+Jsfr+vuLRgIK6wOOTzBi3J+Y+V/4u3fnKf2/BBeBE+hQe2IdJ
-   g/SV5HFIp198uQO7G+sFzEf8hbWFxWx5M1pncDmtQD+k0by75r7ZxqE1/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="392676347"
-X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="392676347"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 05:49:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="761938211"
-X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="761938211"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga007.jf.intel.com with SMTP; 28 Nov 2023 05:49:08 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 28 Nov 2023 15:49:08 +0200
-Date: Tue, 28 Nov 2023 15:49:08 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <ZWXv1Oi_sH0BRWao@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE909B5;
+	Tue, 28 Nov 2023 05:55:40 -0800 (PST)
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SfkVd4WZ8z6JB96;
+	Tue, 28 Nov 2023 21:55:21 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 774E61400C9;
+	Tue, 28 Nov 2023 21:55:38 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 28 Nov
+ 2023 13:55:37 +0000
+Date: Tue, 28 Nov 2023 13:55:36 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+CC: Gavin Shan <gshan@redhat.com>, <linux-pm@vger.kernel.org>,
+	<loongarch@lists.linux.dev>, <linux-acpi@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
+	<kvmarm@lists.linux.dev>, <x86@kernel.org>, <linux-csky@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, <jianyong.wu@arm.com>,
+	<justin.he@arm.com>, James Morse <james.morse@arm.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH RFC 10/22] drivers: base: Move cpu_dev_init() after
+ node_dev_init()
+Message-ID: <20231128135536.00002ab9@Huawei.com>
+In-Reply-To: <ZVywLPwhILp083Jk@shell.armlinux.org.uk>
+References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
+	<E1r0JLV-00CTxS-QB@rmk-PC.armlinux.org.uk>
+	<095c2d24-735b-4ce2-ba2e-9ec2164f2237@redhat.com>
+	<ZVHXk9JG7gUjtERt@shell.armlinux.org.uk>
+	<ZVywLPwhILp083Jk@shell.armlinux.org.uk>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
-> Hi Jani,
-> 
-> On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
-> > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> > > All the drm_connector_init variants take at least a pointer to the
-> > > device, connector and hooks implementation.
-> > >
-> > > However, none of them check their value before dereferencing those
-> > > pointers which can lead to a NULL-pointer dereference if the author
-> > > isn't careful.
+On Tue, 21 Nov 2023 13:27:08 +0000
+"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
+
+> On Mon, Nov 13, 2023 at 08:00:19AM +0000, Russell King (Oracle) wrote:
+> > On Mon, Nov 13, 2023 at 10:58:46AM +1000, Gavin Shan wrote:  
+> > > 
+> > > 
+> > > On 11/7/23 20:30, Russell King (Oracle) wrote:  
+> > > > From: James Morse <james.morse@arm.com>
+> > > > 
+> > > > NUMA systems require the node descriptions to be ready before CPUs are
+> > > > registered. This is so that the node symlinks can be created in sysfs.
+> > > > 
+> > > > Currently no NUMA platform uses GENERIC_CPU_DEVICES, meaning that CPUs
+> > > > are registered by arch code, instead of cpu_dev_init().
+> > > > 
+> > > > Move cpu_dev_init() after node_dev_init() so that NUMA architectures
+> > > > can use GENERIC_CPU_DEVICES.
+> > > > 
+> > > > Signed-off-by: James Morse <james.morse@arm.com>
+> > > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> > > > ---
+> > > > Note: Jonathan's comment still needs addressing - see
+> > > >    https://lore.kernel.org/r/20230914121612.00006ac7@Huawei.com
+> > > > ---
+> > > >   drivers/base/init.c | 2 +-
+> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >   
+> > > 
+> > > With Jonathan's comments addressed:  
 > > 
-> > Arguably oopsing on the spot is preferrable when this can't be caused by
-> > user input. It's always a mistake that should be caught early during
-> > development.
-> > 
-> > Not everyone checks the return value of drm_connector_init and friends,
-> > so those cases will lead to more mysterious bugs later. And probably
-> > oopses as well.
+> > That needs James' input, which is why I made the note on the patch.  
 > 
-> So maybe we can do both then, with something like
+> I'm going to be posting the series without RFC soon, and it will be
+> with Jonathan's comment unaddressed - because as I've said several
+> times it needs James' input and we have sadly not yet received that.
 > 
-> if (WARN_ON(!dev))
->    return -EINVAL
+> Short of waiting until James can respond, I don't think there are
+> any other alternatives.
+
+In the interests of expediency I'm fine with that.  (To be honest I'd
+forgotten I even made that comment ;)
+
+Jonathan
+
 > 
-> if (drm_WARN_ON(dev, !connector || !funcs))
->    return -EINVAL;
+> I do hope we can get this queued up for v6.8 though.
 > 
-> I'd still like to check for this, so we can have proper testing, and we
-> already check for those pointers in some places (like funcs in
-> drm_connector_init), so if we don't cover everything we're inconsistent.
 
-People will invariably cargo-cult this kind of stuff absolutely
-everywhere and then all your functions will have tons of dead
-code to check their arguments. I'd prefer not to go there
-usually.
-
-Should we perhaps start to use the (arguably hideous)
- - void f(struct foo *bar)
- + void f(struct foo bar[static 1])
-syntax to tell the compiler we don't accept NULL pointers?
-
-Hmm. Apparently that has the same problem as using any
-other kind of array syntax in the prototype. That is,
-the compiler demands to know the definition of 'struct foo'
-even though we're passing in effectively a pointer. Sigh.
-
--- 
-Ville Syrjälä
-Intel
