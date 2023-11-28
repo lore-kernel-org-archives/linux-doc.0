@@ -1,116 +1,86 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NaNNIfLg"
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F0AA10E2
-	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 08:33:54 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-da04fb79246so6783662276.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 08:33:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZUfLZDq6"
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D40BD60;
+	Tue, 28 Nov 2023 08:46:56 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cf8b35a6dbso42380835ad.0;
+        Tue, 28 Nov 2023 08:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701189233; x=1701794033; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vo/95/Uj9Fg4uJeKo+eJAx6dpBh0gdcUuvBHqXATckU=;
-        b=NaNNIfLgB93VcUkI9OpjV5L9tEcnng14sJr3vjy0Q0Z1j8TSQS7jFTvfS6Qk+vhNH9
-         IftTXZYyVs24Tm/f9sEZeWtq2MdPFTNlZmHeWvfzjQlkGq3zyUztRufC+Ae/f+HK/9pQ
-         tDW25YoSaXzX0dUundpAGiO7c2s2UjOdiP4rOK/CgTFEGg+KKcLpiI68c7v4QjYTmKO9
-         xIgCqxej0Yv4rg2ceCMe2b9DP+/uBcijwB+Car0nsTvaFB+R9MgJNOUSOnXbjqq17z7/
-         srTEWRmqK+1/pxlBb/oJMm5/e3L8+PxUJXDG4if1Mqx3mm8CRfClJqrzku7EmUWx9PIi
-         xjdA==
+        d=gmail.com; s=20230601; t=1701190016; x=1701794816; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QF0jQrbImKsqRryD9dUhKvVAunTRGm29eICOfeWxfPI=;
+        b=ZUfLZDq6RMZix/CxUgi9IQckGXS0aZBdtFussqFoYabtjNrTqAWWxg9ACy/N3r3Bcl
+         rbpAnMunOYmTyoLAwCJeDirt6ALYuTFNxQHXBqzYwzCpO6A3I+w8VOxDFP9QbyN3d/9U
+         6hVQDtKRNCseRDR7l2uGt9Et05Y6JS0BymYGa27JbYKm1RKPcccDUNxQeiqqTr47ziRH
+         uiYWuPjgkTfl7dVUgzF4Rl9cWS24nUet3XzAS+6Ptuj9w8O7TghVcRyO4zJkAHgOKL5f
+         DP48Z/C53jgxdkodQHzXV/xw2Bx1b8WcHemVlTdJ2DtfJBjWSTd1lgWwvOneVBQ6z5Yj
+         GwvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701189233; x=1701794033;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vo/95/Uj9Fg4uJeKo+eJAx6dpBh0gdcUuvBHqXATckU=;
-        b=RQMiBx8DN6wzYs+pprocqxfIE6Md1eSGzE2NdKZExJKgfY28AtunzYbIDfmBRDzAp3
-         Bby7TsvjBLi3vPuZYGHk6HUrmUy13GKR2NDizopKS7y23CiE//Gnh4KTNpTuWhGNNM4d
-         OTFMalNtIaKLOQRqjxu/66SIggqBARSH2GyrknwdO6CbCbVsUxOMA3aAyELkABNyo3Q1
-         jVxI8mnkkkkY7W0Xd/L0Blsf8IWvF+GVBuuhzU/xsUfhTU7pV0oW/TqFL00HP7oXIfAm
-         Aah+HFVAUe/EQxC59u+9GyZhzT8pLbadR+1k79qD5RcyCRwo5vcF2BxWNyyfZWnvmxwx
-         t3Og==
-X-Gm-Message-State: AOJu0YwQ65B/1qq+K4yYGanNkWcKSIF1oOxK0jCxbgMavdbPxlrOFcrz
-	lWGfv/ngZi0Q15Vrm2wpBLvEDAkq0T8=
-X-Google-Smtp-Source: AGHT+IEo0YpirGMFLOQPu1+JPSR0DG5FDk303PQza9eOuDyOragnS042ndzE8Pd0ow1j/PtRzL0iHYgXDSU=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:d081:0:b0:d9a:fd29:4fe6 with SMTP id
- h123-20020a25d081000000b00d9afd294fe6mr562511ybg.3.1701189233386; Tue, 28 Nov
- 2023 08:33:53 -0800 (PST)
-Date: Tue, 28 Nov 2023 08:33:51 -0800
-In-Reply-To: <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
+        d=1e100.net; s=20230601; t=1701190016; x=1701794816;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QF0jQrbImKsqRryD9dUhKvVAunTRGm29eICOfeWxfPI=;
+        b=tQl0kqLXMSD+pEo0bVpnoYRWvLzdrNa3vG0A7GwNSmABBgIAUG9yh+wOyrwlv6+cSl
+         tEEhpWIcJvIjsTE5lmym/Ra94oFki3RSeR+cNJOmVO9Wcuvj3pZwtgY5doDxR2sS1YvS
+         MHIKeG64KckhEunhs4nIHPf9XCqsz8be2k3WPYmOE/fbiAaKjXCxgYhS5xQ8cxtgUMAB
+         BuhjgiqCoSWSf8clWRwF2PV8Wd2L/TrOryfQJ8iWTdCtXerH48bqE+fPMC5EEkejT9Rh
+         qopbHRUpyG0Qew7waMoktWnmj/kWzTAc5qDwj8I8S5Juu1sxNgzTx7eDORoHYH/T45OQ
+         imkA==
+X-Gm-Message-State: AOJu0YzFS7Cq1pz5pyB4T5/KkDZtw9UF2idgzGjmt3KA/o0maOxjfDNB
+	ueLkdZpPuyeP0R/QZiRgSMg=
+X-Google-Smtp-Source: AGHT+IHC0Z/LpbadDOSSKuc66dS0Spd9JiEzilUwBkxoCjJ2rgnU0DbzPG8S1hC8sSmFhIL7b+XWww==
+X-Received: by 2002:a17:902:c407:b0:1cf:8ebd:4eae with SMTP id k7-20020a170902c40700b001cf8ebd4eaemr18129335plk.69.1701190015917;
+        Tue, 28 Nov 2023 08:46:55 -0800 (PST)
+Received: from localhost (dhcp-72-253-202-210.hawaiiantel.net. [72.253.202.210])
+        by smtp.gmail.com with ESMTPSA id a1-20020a170902ecc100b001cff3536e51sm1888091plh.303.2023.11.28.08.46.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 08:46:55 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Tue, 28 Nov 2023 06:46:54 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH] cgroup/cpuset: Expose cpuset.cpus.isolated
+Message-ID: <ZWYZfqAtObghsqxS@slm.duckdns.org>
+References: <20231127195105.290402-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231108111806.92604-1-nsaenz@amazon.com> <20231108111806.92604-6-nsaenz@amazon.com>
- <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
-Message-ID: <ZWYWb3OQG3CaS7-f@google.com>
-Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return
- prologues in hypercall page
-From: Sean Christopherson <seanjc@google.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Cc: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
-	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
-	corbert@lwn.net, kys@microsoft.com, haiyangz@microsoft.com, 
-	decui@microsoft.com, x86@kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231127195105.290402-1-longman@redhat.com>
 
-On Tue, Nov 28, 2023, Maxim Levitsky wrote:
-> On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
-> > diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-> > index 78d053042667..d4b1b53ea63d 100644
-> > --- a/arch/x86/kvm/hyperv.c
-> > +++ b/arch/x86/kvm/hyperv.c
-> > @@ -259,7 +259,8 @@ static void synic_exit(struct kvm_vcpu_hv_synic *synic, u32 msr)
-> >  static int patch_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
-> >  {
-> >  	struct kvm *kvm = vcpu->kvm;
-> > -	u8 instructions[9];
-> > +	struct kvm_hv *hv = to_kvm_hv(kvm);
-> > +	u8 instructions[0x30];
-> >  	int i = 0;
-> >  	u64 addr;
-> >  
-> > @@ -285,6 +286,81 @@ static int patch_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
-> >  	/* ret */
-> >  	((unsigned char *)instructions)[i++] = 0xc3;
-> >  
-> > +	/* VTL call/return entries */
-> > +	if (!kvm_xen_hypercall_enabled(kvm) && kvm_hv_vsm_enabled(kvm)) {
-> > +#ifdef CONFIG_X86_64
-> > +		if (is_64_bit_mode(vcpu)) {
-> > +			/*
-> > +			 * VTL call 64-bit entry prologue:
-> > +			 * 	mov %rcx, %rax
-> > +			 * 	mov $0x11, %ecx
-> > +			 * 	jmp 0:
-> 
-> This isn't really 'jmp 0' as I first wondered but actually backward jump 32
-> bytes back (if I did the calculation correctly).  This is very dangerous
-> because code that was before can change and in fact I don't think that this
-> offset is even correct now, and on top of that it depends on support for xen
-> hypercalls as well.
-> 
-> This can be fixed by calculating the offset in runtime, however I am
-> thinking:
-> 
-> 
-> Since userspace will have to be aware of the offsets in this page, and since
-> pretty much everything else is done in userspace, it might make sense to
-> create the hypercall page in the userspace.
-> 
-> In fact, the fact that KVM currently overwrites the guest page, is a
-> violation of the HV spec.
-> 
-> It's more correct regardless of VTL to do userspace vm exit and let the
-> userspace put a memslot ("overlay") over the address, and put whatever
-> userspace wants there, including the above code.
-> 
-> Then we won't need the new ioctl as well.
-> 
-> To support this I think that we can add a userspace msr filter on the
-> HV_X64_MSR_HYPERCALL, although I am not 100% sure if a userspace msr filter
-> overrides the in-kernel msr handling.
+Hello,
 
-Yep, userspace MSR filters override in-kernel handling.
+On Mon, Nov 27, 2023 at 02:51:05PM -0500, Waiman Long wrote:
+> The root-only cpuset.cpus.isolated control file shows the current set
+> of isolated CPUs in isolated partitions. This control file is currently
+> exposed only with the cgroup_debug boot command line option which also
+> adds the ".__DEBUG__." prefix. This is actually a useful control file if
+> users want to find out which CPUs are currently in an isolated state by
+> the cpuset controller. Remove CFTYPE_DEBUG flag for this control file and
+> make it available by default without any prefix.
+> 
+> The test_cpuset_prs.sh test script and the cgroup-v2.rst documentation
+> file are also updated accordingly. Minor code change is also made in
+> test_cpuset_prs.sh to avoid false test failure when running on debug
+> kernel.
+
+Applied to cgroup/for-6.8 but I wonder whether this would be useful in
+non-root cgroups too. e.g. In a delegated partition which is namespaced,
+wouldn't this be useful too?
+
+Thanks.
+
+-- 
+tejun
