@@ -1,85 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5034A35267;
-	Tue, 28 Nov 2023 15:52:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA13F3526C
+	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 15:56:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qhCM0efN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69B3AC433C7;
-	Tue, 28 Nov 2023 15:52:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3utn8bT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 311AEC433C8;
+	Tue, 28 Nov 2023 15:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701186757;
-	bh=W49ajMFtN9aTN86Tnl430idPA/txjACjmrkpyxn3DE8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qhCM0efNQ55/CadBsgmu3A+z7I663gGmRlop+aHtsSVP3W3KCJxS4fFnJj2rO9RpG
-	 y+R924PIXTrR+evJd3GTxqaL5irmDkrqNbRWw9SV1YHNS71I8J/El1OHEQtPkEIRyr
-	 Afc1O5Xcnr2agGFbz1OiKZ75NeDBlttGNDF5zEkddR7IRkSJ/bYJXRhvwXvYTDouWl
-	 WOc9GyV32DURezCRx7CTi+a6DGNmgsBWfsB2RHkt8xIdcAxiZzDkyVQICDB2vFML3C
-	 hmh8wYtpto+fz3KlsQeu2I/pmzyU/Po0vKVV7MZySBCX95gqixVMLw42/5bpJlCqj3
-	 T2wz5oaTTY4Gw==
-Date: Tue, 28 Nov 2023 16:52:31 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: kernel test robot <oliver.sang@intel.com>, oe-lkp@lists.linux.dev,
-	lkp@intel.com, linux-kernel@vger.kernel.org,
-	Jann Horn <jannh@google.com>, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, intel-gfx@lists.freedesktop.org,
-	linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev,
-	bpf@vger.kernel.org, ying.huang@intel.com, feng.tang@intel.com,
-	fengwei.yin@intel.com
-Subject: Re: [linus:master] [file] 0ede61d858: will-it-scale.per_thread_ops
- -2.9% regression
-Message-ID: <20231128-serpentinen-sinnieren-e186ea8742e9@brauner>
-References: <202311201406.2022ca3f-oliver.sang@intel.com>
- <CAHk-=wjMKONPsXAJ=yJuPBEAx6HdYRkYE8TdYVBvpm3=x_EnCw@mail.gmail.com>
- <CAHk-=wiCJtLbFWNURB34b9a_R_unaH3CiMRXfkR0-iihB_z68A@mail.gmail.com>
- <20231127-kirschen-dissens-b511900fa85a@brauner>
- <CAHk-=wgwpzgoSYU9Ob+MRyFuHRow4s5J099=DsCo1hGT=bkCtw@mail.gmail.com>
+	s=k20201202; t=1701187010;
+	bh=ErOez7LtTIIlU6uCAGYZae93iSfxpHNPOaxqhC3H1FM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=J3utn8bTcJ1cmN7Bvm3YfgFjGz08H29IA5GdCAsIqol/Dwe2eltl2dwCjTlyI8JsH
+	 FFTXmB+EDNxEmtYPUmOdCKEfDyQrmcj7oBdr7zc+G4QmeAl/oZz8BERw2mDhr70Vhm
+	 nGtJE5HFDnb5CbJ/jXjkxuQEOAeMeDH8JiVtftrkrNHaL3T2G32LzuOjGIQPMoq8VM
+	 BOOkZEhNjlH8YVLKLHvJkmNruZ/xDga3NWglGHFPpZmiF0IuCfXEmiuE5SZPocz0JI
+	 GwD3fnHOY54fJ56pLltUsxsiXWifjER3mQfEWXMjhrvsMUZ19nxiPPpZHpk+JWDPvf
+	 wa4Q88tbBf6pw==
+Date: Tue, 28 Nov 2023 16:56:45 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: Raise the minimum Sphinx requirement to 2.4.4
+Message-ID: <20231128165645.2dbe416c@coco.lan>
+In-Reply-To: <877cm2uegr.fsf@meer.lwn.net>
+References: <87sf4qvkmc.fsf@meer.lwn.net>
+	<20231128023015.0e446a06@coco.lan>
+	<877cm2uegr.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgwpzgoSYU9Ob+MRyFuHRow4s5J099=DsCo1hGT=bkCtw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 27, 2023 at 09:10:54AM -0800, Linus Torvalds wrote:
-> On Mon, 27 Nov 2023 at 02:27, Christian Brauner <brauner@kernel.org> wrote:
+Em Tue, 28 Nov 2023 07:42:12 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
+
+> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
+> 
+> > Em Mon, 27 Nov 2023 16:31:39 -0700
+> > Jonathan Corbet <corbet@lwn.net> escreveu:  
+> 
+> >> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+> >> index 1fb88fdceec3..db75b1b86086 100755
+> >> --- a/scripts/sphinx-pre-install
+> >> +++ b/scripts/sphinx-pre-install
+> >> @@ -32,8 +32,7 @@ my $python_cmd = "";
+> >>  my $activate_cmd;
+> >>  my $min_version;
+> >>  my $cur_version;
+> >> -my $rec_version = "1.7.9";	# PDF won't build here
+> >> -my $min_pdf_version = "2.4.4";	# Min version where pdf builds
+> >> +my $rec_version = "3.0";  
 > >
-> > So I've picked up your patch (vfs.misc). It's clever alright so thanks
-> > for the comments in there otherwise I would've stared at this for far
-> > too long.
+> > Please don't. 3.0 version has a broken C domain, not properly supported.
+> > The fixes arrived only starting at 3.1 (I guess some went to 3.2, but
+> > 3.1 is usable, as far as I remember).  
 > 
-> Note that I should probably have commented on one other thing: that
-> whole "just load from fd[0] is always safe, because the fd[] array
-> always exists".
+> So you're asking for 3.1 or 3.2 instead of 3.0?
 
-I added a comment to that effect in the code.
+Yes. 
 
 > 
-> IOW, that whole "load and mask" thing only works when you know the
-> array exists at all.
-> 
-> Doing that "just mask the index" wouldn't be valid if "size = 0" is an
-> option and might mean that we don't have an array at all (ie if "->fd"
-> itself could be NULL.
-> 
-> But we never have a completely empty file descriptor array, and
-> fdp->fd is never NULL.  At a minimum 'max_fds' is NR_OPEN_DEFAULT.
-> 
-> (The whole 'tsk->files' could be NULL, but only for kernel threads or
-> when exiting, so fget_task() will check for *that*, but it's a
-> separate thing)
+> Honestly, I just picked 3.0 out of the air in the hopes of eventually
+> deprecating 2.x.  Not lots of thought has gone into that
+> number...perhaps we should recommend higher yet?
 
-Yep.
+Well, we could recommend a higher version, but I can't see much
+differences between 3.2 and the latest version: for what we use,
+both will work on a similar way. Ok, layout may be different, there
+were some improvements on PDF output, etc. but they will all produce
+a decent documentation.
 
-> 
-> So that's why it's safe to *entirely* remove the whole
-> 
->                 if (unlikely(fd >= fdt->max_fds))
-> 
-> test, and do it *all* with just "mask the index, and mask the resulting load".
+Yet, while most C domain bugs introduced on 3.0 were solved in 3.1
+and 3.2, there's one still pending issue[1].
 
-Yep.
+Once C domain finally gets rid from this long term bug that having:
+
+	.. c:struct:: foo
+
+	.. c:function:: void foo(void)
+
+Produce warnings that "foo" id duplicated, then we'll have, IMO,
+our next recommended version :-)
+
+While Sphinx developers don't fix such bug, it doesn't really matter 
+what version user will pick, so I would just pick the fastest one
+as a recommendation, starting from 3.1 or 3.2 as our currently
+recommended version.
+
+[1] https://github.com/sphinx-doc/sphinx/pull/8313
+
+While I didn't make any benchmarks, I remember people reported
+poor performance with newer versions, so, without thinking to
+much, 3.1 or 3.2 seems a good candidate for the recommended
+version.
+
+Regards,
+Mauro
