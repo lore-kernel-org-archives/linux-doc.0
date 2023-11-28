@@ -1,95 +1,104 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C0ZRrpJq"
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B2C1B5;
-	Tue, 28 Nov 2023 08:18:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=V1WnKx0mNAa03IEWmc37OFz377UE9cZb+Km5Xefp1Ig=; b=C0ZRrpJq0LDHq8RIXd2ExZ4sXy
-	O4mtpphrw9MK6ViAUZRvrozzydvNCAmGRiumtJyRQNviWjfkPMwyQQfakMUA38LhkgB/UxZqnImF3
-	io4KzM/7/83HA1vaVEttoBiBf493QjtIpP4xpe93W9zDwDpur+G9lczCYuy56CEZZQ4PawPtwngWt
-	L+nBUP0Y5Q4a+J0O/2v1bfRfljRxCcEMKGfeWL6fH0XQKDCQ6WDVKKVLCMGHaXL8Fcx64O8LrlTQo
-	faaxFY8sxQ1040mnwdteL++9kk0t1EjmCLgvPp2OcBlgZloMvzt2nbGOttTVeCXKNjnDpj4ZWN0HK
-	hXzye7AA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1r80nH-005nLP-2m;
-	Tue, 28 Nov 2023 16:18:39 +0000
-Message-ID: <0e7941d8-d9b2-4253-9ad5-0f7806e45e2e@infradead.org>
-Date: Tue, 28 Nov 2023 08:18:37 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BEHt+235"
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0681D1A5
+	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 08:31:21 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-daee86e2d70so7108168276.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 08:31:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701189080; x=1701793880; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LkifhWeFq2AKAH7BOOvlkDTRE/IRSV6lCofOJbiTrgk=;
+        b=BEHt+2359ElZZ5O0q5swBpofB3e6PlqcIlk9Jhlt46Dl+Yy3jDhtYUk75bjhSEioVQ
+         NbplDtP+BZciI/dlgikmxAZ8z91Sj4kap+/Ywalcuh495XRDah5bTqjYwk8a162uyXbP
+         spMayaUrIAN6BA/t8MbzvJ9RKaQnMdVnt25GwubQPqrYosf6RC9fLLTOrD8nsumc3cAF
+         i/qvqcvuf0R3q7sMOFR+pc6oCE3L5GOLrUhoXvXLDpnhPWMX/fOfmuz7IUd0FcxEw+NF
+         BXvSNJDpjauz44b7gsRkDKhDCkoHLFW9KSAEsJAcuNoKXsLDH2Z6OOLJV2fWfd/swzsF
+         +KyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701189080; x=1701793880;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LkifhWeFq2AKAH7BOOvlkDTRE/IRSV6lCofOJbiTrgk=;
+        b=vnkD+hIbj/LgpZn2jy7t2eNpV/MW1t+vD/vSNHPbUeAbNghZ5vfW7kDypW7nkxGSco
+         RR63SyUAJGyZZC17Lk7Z1Du2vdcFLViup/2obmfA6+DMXHzNInZL5cVhJJtdF1r4QUuH
+         Ja1kVFKdD4fSdmILNe5h7w5BbmWadkLo02lZ23a9TV6rWpKGRQgV9Y6mrU/E04gGTJH9
+         eHqJe1nrirdNeXVZeiWJBTt17ory+PjNpSGdK/r9Y+TonpX9ufEAXJ4zb9wVkUDvs4mA
+         Vsx/ZdXXymeTNE0hRcShKN8KsrMGE0HVu2BWNyLnF4S3op5jKYH2Qk2W9ZvGYaRvnljb
+         0w+Q==
+X-Gm-Message-State: AOJu0Ywsu9BADKYbhHCZw2ShFDbLe6doiwm13VDso6YyYcn+XRdEFmWn
+	MKXtZ9X0/nr+hrod0x4m17NklwFuOvE=
+X-Google-Smtp-Source: AGHT+IE6iXeIU9xVOZUNgTDVtSSOhSFc12TNtoEA7Y1QnCurGnLjmDvGB9zjJ61WPs74wQDuAfvDjFcCHnc=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:d4c6:0:b0:dae:292e:68de with SMTP id
+ m189-20020a25d4c6000000b00dae292e68demr498633ybf.6.1701189080247; Tue, 28 Nov
+ 2023 08:31:20 -0800 (PST)
+Date: Tue, 28 Nov 2023 08:31:18 -0800
+In-Reply-To: <69c10848d4a4f36ab71ca518f4b23d4dee377572.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Took care of some grammatical mistakes
-Content-Language: en-US
-To: Matthew Wilcox <willy@infradead.org>
-Cc: attreyee-muk <tintinm2017@gmail.com>, jpoimboe@kernel.org,
- jikos@kernel.org, mbenes@suse.cz, pmladek@suse.com, joe.lawrence@redhat.com,
- corbet@lwn.net, live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231127155758.33070-1-tintinm2017@gmail.com>
- <202dbdf5-1adf-4ffa-a50d-0424967286ba@infradead.org>
- <ZWX1ZB5p5Vhz7WD2@casper.infradead.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZWX1ZB5p5Vhz7WD2@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20231108111806.92604-1-nsaenz@amazon.com> <20231108111806.92604-17-nsaenz@amazon.com>
+ <69c10848d4a4f36ab71ca518f4b23d4dee377572.camel@redhat.com>
+Message-ID: <ZWYVw93lixTmlCqD@google.com>
+Subject: Re: [RFC 16/33] KVM: x86/mmu: Expose R/W/X flags during memory fault exits
+From: Sean Christopherson <seanjc@google.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
+	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
+	corbert@lwn.net, kys@microsoft.com, haiyangz@microsoft.com, 
+	decui@microsoft.com, x86@kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-
-
-On 11/28/23 06:12, Matthew Wilcox wrote:
-> On Mon, Nov 27, 2023 at 11:41:31AM -0800, Randy Dunlap wrote:
->> Hi,
->>
->> On 11/27/23 07:57, attreyee-muk wrote:
->>> Respected Maintainers, 
->>>
->>> I have made some grammatical changes in the livepatch.rst file where I
->>> felt that the sentence would have sounded more correct and would have become easy for
->>> beginners to understand by reading. 
->>> Requesting review of my proposed changes from the mainatiners. 
->>>
->>> Thank You
->>> Attreyee Mukherjee
->>>
->>> Signed-off-by: attreyee-muk <tintinm2017@gmail.com>
->>> ---
->>>  Documentation/livepatch/livepatch.rst | 8 ++++----
->>>  1 file changed, 4 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/Documentation/livepatch/livepatch.rst b/Documentation/livepatch/livepatch.rst
->>> index 68e3651e8af9..a2d2317b7d6b 100644
->>> --- a/Documentation/livepatch/livepatch.rst
->>> +++ b/Documentation/livepatch/livepatch.rst
->>> @@ -35,11 +35,11 @@ and livepatching:
->>>  
->>>  All three approaches need to modify the existing code at runtime. Therefore
->>> -they need to be aware of each other and not step over each other's toes.
->>> +they need to be aware of each other and not step over each others' toes.
->>
->> I've never seen that written like that, so I disagree here. FWIW.
+On Tue, Nov 28, 2023, Maxim Levitsky wrote:
+> On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
+> > Include the fault's read, write and execute status when exiting to
+> > user-space.
+> > 
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
+> > ---
+> >  arch/x86/kvm/mmu/mmu.c   | 4 ++--
+> >  include/linux/kvm_host.h | 9 +++++++--
+> >  include/uapi/linux/kvm.h | 6 ++++++
+> >  3 files changed, 15 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index 4e02d506cc25..feca077c0210 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -4300,8 +4300,8 @@ static inline u8 kvm_max_level_for_order(int order)
+> >  static void kvm_mmu_prepare_memory_fault_exit(struct kvm_vcpu *vcpu,
+> >  					      struct kvm_page_fault *fault)
+> >  {
+> > -	kvm_prepare_memory_fault_exit(vcpu, fault->gfn << PAGE_SHIFT,
+> > -				      PAGE_SIZE, fault->write, fault->exec,
+> > +	kvm_prepare_memory_fault_exit(vcpu, fault->gfn << PAGE_SHIFT, PAGE_SIZE,
+> > +				      fault->write, fault->exec, fault->user,
+> >  				      fault->is_private);
+> >  }
+> >  
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 71e1e8cf8936..631fd532c97a 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -2367,14 +2367,19 @@ static inline void kvm_account_pgtable_pages(void *virt, int nr)
+> >  static inline void kvm_prepare_memory_fault_exit(struct kvm_vcpu *vcpu,
+> >  						 gpa_t gpa, gpa_t size,
+> >  						 bool is_write, bool is_exec,
+> > -						 bool is_private)
+> > +						 bool is_read, bool is_private)
 > 
-> "Step over" is new to me too.  I see "step on" much more often.
+> It almost feels like there is a need for a struct to hold all of those parameters.
 
-Agreed.
+The most obvious solution would be to make "struct kvm_page_fault" common, e.g.
+ARM's user_mem_abort() fills RWX booleans just like x86 fills kvm_page_fault.
+But I think it's best to wait to do something like that until after Anish's series
+lands[*].  That way the conversion can be more of a pure refactoring.
 
-> As far as placement of the apostrophe,
-> https://ludwig.guru/s/step+on+each+others+toes
-> suggests either omitting the apostrophe or placing it after the s,
-> as attreyee-muk has done is most common.
+[*] https://lore.kernel.org/all/20231109210325.3806151-1-amoorthy@google.com
 
-Apparently you can find anything on the internet.  :)
-
-Here's the other side:
-
-https://jakubmarian.com/each-others-vs-each-others-in-english/
-
-
--- 
-~Randy
