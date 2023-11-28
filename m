@@ -1,93 +1,201 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4615C1845
+	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 01:30:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bla1sqwC"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E962192;
-	Mon, 27 Nov 2023 16:19:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701130781; x=1732666781;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m4hnithTNjgXBjhTnLc84gB3+CVEbfaWk2bfkvNoaT4=;
-  b=bla1sqwCp3BqVOb0yNJn7Qulw7ykE3EvsBAY+q7mTZ90vbkrxrEcjynC
-   pN2uQD4UKQ4DyzT/B4AD5ImJsOm/frkbhOz1n/g04EOs6Slt7wb/0b13C
-   +mYS3CnDPya5Opo+FQ/pUHbJjdAKKQV0dJybrh4gjjWZn+ohUCwAhcK9L
-   2geGUhMWY2zl/cKGH23xHq9ze1My02K/Vt+AHVTb0k9vUx4iSwfLSJrHr
-   ZN38jY605pVZYfYB2r4haFYSlym/drixrW4juQPKZKO34C4hJF72bhCcj
-   hwQMaIcQq3PDnotszETMMtCoLuaALjZSmt7nKnzer3e8xmzHomYmFJqaM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="14374357"
-X-IronPort-AV: E=Sophos;i="6.04,232,1695711600"; 
-   d="scan'208";a="14374357"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 16:19:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="941743828"
-X-IronPort-AV: E=Sophos;i="6.04,232,1695711600"; 
-   d="scan'208";a="941743828"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 27 Nov 2023 16:19:39 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r7lpA-0006nu-35;
-	Tue, 28 Nov 2023 00:19:36 +0000
-Date: Tue, 28 Nov 2023 08:19:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andreas Klinger <ak@it-klinger.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-doc@vger.kernel.org
-Subject: dtbs_check:
- Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml:
- properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const':
- '$ref'}
-Message-ID: <202311280502.L6YVZhv5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Arg2BfI3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70E3C433C7;
+	Tue, 28 Nov 2023 01:30:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701135019;
+	bh=0rFWgVK0EFg6Nsa6a/EQ3Wk7q2M/kSfWg8x1h5DBihU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Arg2BfI3fBExEIRK2OQBaMUtoxslsQazNKrQYkWXGZp2xdlvhsbbmrzk9z1/6GbGA
+	 73vRa9/3FvEt/Iv4drpjgv74AP5ctUheZCsGeSNc0+awIJYwxxYp8eAzZSLJUTLuS6
+	 etHAxv/1VwwQbCidnzLhp0e6o4FXY9Ch23SRWo1Q047A1e37JqDscchXY/FItMCi9Y
+	 NCAg+y6GnAqedOHpSiokSJtRmUaixxZUfqBMS8T7vSnG8rhCbl1MOZKhTu45NE1vIv
+	 VbyfRj4pkNKoXZJf8pGgUJN/E9NfDY8bAlh5GBOux1NwVyFf8NRMMPr1WUdRHZohEj
+	 qntfofivLC1Mw==
+Date: Tue, 28 Nov 2023 02:30:15 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: Raise the minimum Sphinx requirement to 2.4.4
+Message-ID: <20231128023015.0e446a06@coco.lan>
+In-Reply-To: <87sf4qvkmc.fsf@meer.lwn.net>
+References: <87sf4qvkmc.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
-commit: a765c985e69671054f397046b1d94d8c6e34149e dt-bindings: iio: pressure: Support Honeywell mprls0025pa sensor
-date:   6 months ago
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231128/202311280502.L6YVZhv5-lkp@intel.com/reproduce)
+Em Mon, 27 Nov 2023 16:31:39 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311280502.L6YVZhv5-lkp@intel.com/
+> Commit 31abfdda6527 (docs: Deprecate use of Sphinx < 2.4.x) in 6.2 added a
+> warning that support for older versions of Sphinx would be going away.
+> There have been no complaints, so the time has come.  Raise the minimum
+> Sphinx version to 2.4.4 and clean out some compatibility code that we no
+> longer need.
+> 
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Akira Yokosawa <akiyks@gmail.com>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/conf.py              |  2 +-
+>  Documentation/doc-guide/sphinx.rst |  2 +-
+>  Documentation/process/changes.rst  |  2 +-
+>  Documentation/sphinx/automarkup.py |  6 +-----
+>  Documentation/sphinx/cdomain.py    |  6 +-----
+>  Documentation/sphinx/kfigure.py    |  8 +-------
+>  scripts/sphinx-pre-install         | 10 +---------
+>  7 files changed, 7 insertions(+), 29 deletions(-)
+> 
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 20bd74edcca9..3a1a804c3a13 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -47,7 +47,7 @@ from load_config import loadConfig
+>  # -- General configuration ------------------------------------------------
+>  
+>  # If your documentation needs a minimal Sphinx version, state it here.
+> -needs_sphinx = '1.7'
+> +needs_sphinx = '2.4.4'
+>  
+>  # Add any Sphinx extension module names here, as strings. They can be
+>  # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+> index bb7971643fcf..3d125fb4139d 100644
+> --- a/Documentation/doc-guide/sphinx.rst
+> +++ b/Documentation/doc-guide/sphinx.rst
+> @@ -28,7 +28,7 @@ Sphinx Install
+>  ==============
+>  
+>  The ReST markups currently used by the Documentation/ files are meant to be
+> -built with ``Sphinx`` version 1.7 or higher.
+> +built with ``Sphinx`` version 2.4.4 or higher.
+>  
+>  There's a script that checks for the Sphinx requirements. Please see
+>  :ref:`sphinx-pre-install` for further details.
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index bb96ca0f774b..559587a89974 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -58,7 +58,7 @@ mcelog                 0.6              mcelog --version
+>  iptables               1.4.2            iptables -V
+>  openssl & libcrypto    1.0.0            openssl version
+>  bc                     1.06.95          bc --version
+> -Sphinx\ [#f1]_         1.7              sphinx-build --version
+> +Sphinx\ [#f1]_         2.4.4            sphinx-build --version
+>  cpio                   any              cpio --version
+>  GNU tar                1.28             tar --version
+>  gtags (optional)       6.6.5            gtags --version
+> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+> index acc6d55718bd..a413f8dd5115 100644
+> --- a/Documentation/sphinx/automarkup.py
+> +++ b/Documentation/sphinx/automarkup.py
+> @@ -7,11 +7,7 @@
+>  from docutils import nodes
+>  import sphinx
+>  from sphinx import addnodes
+> -if sphinx.version_info[0] < 2 or \
+> -   sphinx.version_info[0] == 2 and sphinx.version_info[1] < 1:
+> -    from sphinx.environment import NoUri
+> -else:
+> -    from sphinx.errors import NoUri
+> +from sphinx.errors import NoUri
+>  import re
+>  from itertools import chain
+>  
+> diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+> index 4eb150bf509c..e6959af25402 100644
+> --- a/Documentation/sphinx/cdomain.py
+> +++ b/Documentation/sphinx/cdomain.py
+> @@ -127,11 +127,7 @@ def setup(app):
+>  
+>      # Handle easy Sphinx 3.1+ simple new tags: :c:expr and .. c:namespace::
+>      app.connect('source-read', c_markups)
+> -
+> -    if (major == 1 and minor < 8):
+> -        app.override_domain(CDomain)
+> -    else:
+> -        app.add_domain(CDomain, override=True)
+> +    app.add_domain(CDomain, override=True)
+>  
+>      return dict(
+>          version = __version__,
+> diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
+> index 13e885bbd499..97166333b727 100644
+> --- a/Documentation/sphinx/kfigure.py
+> +++ b/Documentation/sphinx/kfigure.py
+> @@ -61,13 +61,7 @@ import sphinx
+>  from sphinx.util.nodes import clean_astext
+>  import kernellog
+>  
+> -# Get Sphinx version
+> -major, minor, patch = sphinx.version_info[:3]
+> -if major == 1 and minor > 3:
+> -    # patches.Figure only landed in Sphinx 1.4
+> -    from sphinx.directives.patches import Figure  # pylint: disable=C0413
+> -else:
+> -    Figure = images.Figure
+> +Figure = images.Figure
+>  
+>  __version__  = '1.0.0'
+>  
+> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+> index 1fb88fdceec3..db75b1b86086 100755
+> --- a/scripts/sphinx-pre-install
+> +++ b/scripts/sphinx-pre-install
+> @@ -32,8 +32,7 @@ my $python_cmd = "";
+>  my $activate_cmd;
+>  my $min_version;
+>  my $cur_version;
+> -my $rec_version = "1.7.9";	# PDF won't build here
+> -my $min_pdf_version = "2.4.4";	# Min version where pdf builds
+> +my $rec_version = "3.0";
 
-dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/phy/brcm,brcmstb-usb-phy.yaml: allOf:0:if:properties:compatible:contains:enum: 'oneOf' conditional failed, one must be fixed:
-   	{'const': 'brcm,bcm4908-usb-phy'} is not of type 'integer'
-   	{'const': 'brcm,bcm4908-usb-phy'} is not of type 'string'
-   	{'const': 'brcm,brcmstb-usb-phy'} is not of type 'integer'
-   	{'const': 'brcm,brcmstb-usb-phy'} is not of type 'string'
-   	hint: "enum" must be an array of either integers or strings
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-   Documentation/devicetree/bindings/clock/brcm,bcm63268-timer-clocks.yaml: title: 'Broadcom BCM63268 Timer Clock and Reset Device Tree Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
->> Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/remoteproc/ti,pru-consumer.yaml: title: 'Common TI PRU Consumer Binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/clock/imx8mp-audiomix.yaml: title: 'NXP i.MX8MP AudioMIX Block Control Binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/sound/microchip,sama7g5-pdmc.yaml: properties:microchip,mic-pos:items: 'oneOf' conditional failed, one must be fixed:
-   	{'items': [{'description': 'value for DS line'}, {'description': 'value for sampling edge'}], 'anyOf': [{'enum': [[0, 0], [0, 1], [1, 0], [1, 1]]}]} is not of type 'array'
+Please don't. 3.0 version has a broken C domain, not properly supported.
+The fixes arrived only starting at 3.1 (I guess some went to 3.2, but
+3.1 is usable, as far as I remember).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With such change, feel free to add:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+>  my $latest_avail_ver;
+>  
+>  #
+> @@ -791,9 +790,6 @@ sub recommend_sphinx_version($)
+>  
+>  	# Version is OK. Nothing to do.
+>  	if ($cur_version && ($cur_version ge $rec_version)) {
+> -		if ($cur_version lt $min_pdf_version) {
+> -			print "note: If you want pdf, you need at least Sphinx $min_pdf_version.\n";
+> -		}
+>  		return;
+>  	};
+>  
+> @@ -842,10 +838,6 @@ sub recommend_sphinx_version($)
+>  			printf "\t. $activate_cmd\n";
+>  			deactivate_help();
+>  
+> -			if ($latest_avail_ver lt $min_pdf_version) {
+> -				print "note: If you want pdf, you need at least Sphinx $min_pdf_version.\n";
+> -			}
+> -
+>  			return;
+>  		}
+>  
+
+
+
+Thanks,
+Mauro
