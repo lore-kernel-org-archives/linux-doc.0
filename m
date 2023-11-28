@@ -1,223 +1,282 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D70C4F200;
-	Tue, 28 Nov 2023 10:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UviENr0K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D49ACC433CB;
-	Tue, 28 Nov 2023 10:26:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701167190;
-	bh=3B4cKJeyaHEA4qnMRAdXt6vbTh9xnPoZLjBoO+s6BVk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UviENr0KU7qEqL8RRpEUOEGTsRHP+8x/a97x4AOGceNrPhzwqUozmS/ShjhNz+z5N
-	 Iklo9xyQxHGH51jVntqdKtGBdHs4jv1JKidhc9aYfssSpDHL9ykrpO7psGNMU85xWa
-	 VPBuFXhmXo+lD7C31YoUmuqWe+RSrjLTOM/UgrYEfGVt0pHPCbSD8qpldFJ/51YnMt
-	 2z3lZRPkApBp0mXsatxoB8WGTxmahn9GFsKMjS6eSW2nMgySZG0zzcVA8ZCQ7T7LJf
-	 /mGln/pjKoQBC8bqLFRKs6WGBQxtJ22+ufy9UtAJ9BVrHY2wjFbBhEpfy/A+nLfNTB
-	 iE6nbGPqrU22A==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 28 Nov 2023 11:24:56 +0100
-Subject: [PATCH v4 45/45] drm/sun4i: hdmi: Switch to HDMI connector
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oyKSQb4y"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C764ED6D;
+	Tue, 28 Nov 2023 02:33:18 -0800 (PST)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AS9IOKA030987;
+	Tue, 28 Nov 2023 10:32:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=6WJrDs6aXBvRV/cHzyTFtHB3cjvoU5uFPQPLuXGwXh4=;
+ b=oyKSQb4yUVsiTvtgVlnCchbcwTqCsKms8gp+pNTQQ+dka3v/ZaReHN4opnVCpE7nP3CF
+ 6SBKSdBj+Z/xQLOAXFoOc2mGRme+GYGCYO85PVD0YqaATHIg0s/FQgOnHTOCS1HB5wrZ
+ rixDvAMBLXBapiEx++tWW218UIBUqSqhhD93s/wysZmrj/eEYS7hYzIYYc5tzKtpePz8
+ QV6hPgrZdkJLYqTlAmO/RunKvHwgEzREDOe8rMLxFltU3wbQYO6biEANVX4PyzpYwdTl
+ gdCg4Q3EX3OlrCha7+9PSsLlHa5TNLcxkvpTbKGl06czSfrt7bUl8pfuIkG/OhuUYlTR Hw== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3un02h1xbj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Nov 2023 10:32:53 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ASAWp99022084
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Nov 2023 10:32:51 GMT
+Received: from [10.214.66.81] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 28 Nov
+ 2023 02:32:40 -0800
+Message-ID: <d5fa95e7-ad2a-0dc7-5c79-6a9a789dad5f@quicinc.com>
+Date: Tue, 28 Nov 2023 16:02:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [Patch v6 10/12] pstore/ram: Add dynamic ramoops region support
+ through commandline
+To: Pavan Kondeti <quic_pkondeti@quicinc.com>
+CC: <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>, <gpiccoli@igalia.com>,
+        <mathieu.poirier@linaro.org>, <vigneshr@ti.com>, <nm@ti.com>,
+        <matthias.bgg@gmail.com>, <kgene@kernel.org>,
+        <alim.akhtar@samsung.com>, <bmasney@redhat.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>
+References: <1700864395-1479-1-git-send-email-quic_mojha@quicinc.com>
+ <1700864395-1479-11-git-send-email-quic_mojha@quicinc.com>
+ <ad38fb23-e2a2-448e-bdea-fa0985f82b50@quicinc.com>
+Content-Language: en-US
+From: Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <ad38fb23-e2a2-448e-bdea-fa0985f82b50@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231128-kms-hdmi-connector-state-v4-45-c7602158306e@kernel.org>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
-In-Reply-To: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6185; i=mripard@kernel.org;
- h=from:subject:message-id; bh=3B4cKJeyaHEA4qnMRAdXt6vbTh9xnPoZLjBoO+s6BVk=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmp+y8vi7i530nsylKvjZdE7N2CNy/Sb58vsKApymPN+
- 2v9cRWcHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZhI3iKG/0nu7SqTZYRYr/Rv
- W2X0XvrR9aPu2Svk3k089GuJlwSj8AaGf9oMH5VW3zuXELvmwYQls4IyF3J6X9x2Tqjva0HlTC6
- DNlYA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 51E3dRmfj17vx50XeFUlt--L527HdirG
+X-Proofpoint-ORIG-GUID: 51E3dRmfj17vx50XeFUlt--L527HdirG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-28_08,2023-11-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 malwarescore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 mlxscore=0 phishscore=0 bulkscore=0
+ mlxlogscore=999 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2311280083
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index b7cf369b1906..8a9106a39f23 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -36,30 +36,24 @@
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
-@@ -82,14 +76,18 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
-@@ -142,7 +140,8 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
-@@ -195,7 +194,7 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
-@@ -206,8 +205,11 @@ static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
-@@ -253,6 +255,11 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
-@@ -274,11 +281,17 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
-@@ -637,10 +650,19 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
+On 11/27/2023 5:04 PM, Pavan Kondeti wrote:
+> On Sat, Nov 25, 2023 at 03:49:53AM +0530, Mukesh Ojha wrote:
+>> The reserved memory region for ramoops is assumed to be at a fixed
+>> and known location when read from the devicetree. This may not be
+>> required for something like Qualcomm's minidump which is interested
+>> in knowing addresses of ramoops region but it does not put hard
+>> requirement of address being fixed as most of it's SoC does not
+>> support warm reset and does not use pstorefs at all instead it has
+>> firmware way of collecting ramoops region if it gets to know the
+>> address and register it with apss minidump table which is sitting
+>> in shared memory region in DDR and firmware will have access to
+>> these table during reset and collects it on crash of SoC.
+>>
+>> So, add the support of reserving ramoops region to be dynamically
+>> allocated early during boot if it is request through command line
+>> via 'dyn_ramoops_size=<size>' and fill up reserved resource structure
+>> and export the structure, so that it can be read by ramoops driver.
+>>
+>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+>> ---
+>>   Documentation/admin-guide/ramoops.rst |  7 ++++
+>>   fs/pstore/Kconfig                     | 15 +++++++++
+>>   fs/pstore/ram.c                       | 62 ++++++++++++++++++++++++++++++++---
+>>   include/linux/pstore_ram.h            |  5 +++
+>>   init/main.c                           |  2 ++
+>>   5 files changed, 87 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/ramoops.rst b/Documentation/admin-guide/ramoops.rst
+>> index e9f85142182d..af737adbf079 100644
+>> --- a/Documentation/admin-guide/ramoops.rst
+>> +++ b/Documentation/admin-guide/ramoops.rst
+>> @@ -33,6 +33,13 @@ memory are implementation defined, and won't work on many ARMs such as omaps.
+>>   Setting ``mem_type=2`` attempts to treat the memory region as normal memory,
+>>   which enables full cache on it. This can improve the performance.
+>>   
+>> +Ramoops memory region can also be allocated dynamically for a special case where
+>> +there is no requirement to access the logs from pstorefs on next boot instead there
+>> +is separate backend mechanism like minidump present which has awareness about the
+>> +dynamic ramoops region and can recover the logs. This is enabled via command line
+>> +parameter ``dyn_ramoops_size=<size>`` and should not be used in absence of
+>> +separate backend which knows how to recover this dynamic region.
+>> +
+>>   The memory area is divided into ``record_size`` chunks (also rounded down to
+>>   power of two) and each kmesg dump writes a ``record_size`` chunk of
+>>   information.
+>> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
+>> index 3acc38600cd1..e13e53d7a225 100644
+>> --- a/fs/pstore/Kconfig
+>> +++ b/fs/pstore/Kconfig
+>> @@ -81,6 +81,21 @@ config PSTORE_RAM
+>>   
+>>   	  For more information, see Documentation/admin-guide/ramoops.rst.
+>>   
+>> +config PSTORE_DYNAMIC_RAMOOPS_REGION_RESERVATION
+>> +	bool "Reserve ramoops region dynamically"
+>> +	select PSTORE_RAM
+>> +	help
+>> +	  This enables the dynamic reservation of ramoops region for a special case
+>> +	  where there is no requirement to access the logs from pstorefs on next boot
+>> +	  instead there is separate backend mechanism like minidump present which has
+>> +	  awareness about the dynamic ramoops region and can recover the logs. This is
+>> +	  enabled via command line parameter dyn_ramoops_size=<size> and should not be
+>> +	  used in absence of separate backend which knows how to recover this dynamic
+>> +	  region.
+>> +
+>> +	  Note whenever this config is selected ramoops driver will be build statically
+>> +	  into kernel.
+>> +
+> 
+> Is there any advantage if we decouple this memory reservation from
+> pstore ram so that pstore ram can still be compiled as module? Asking
+> because you explicitly mentioned this limitation.
 
--- 
-2.41.0
+This is doable and it will be needing export(may be _NS) of
+ramoops resource if ramoops needs to be build as modules.
 
+Thanks for suggestion.
+But Let's hear it from other people as well if they have something
+to add otherwise, will do it next series.
+
+> 
+>>   config PSTORE_ZONE
+>>   	tristate
+>>   	depends on PSTORE
+>> diff --git a/fs/pstore/ram.c b/fs/pstore/ram.c
+>> index 88b34fdbf759..a6c0da8cfdd4 100644
+>> --- a/fs/pstore/ram.c
+>> +++ b/fs/pstore/ram.c
+>> @@ -20,6 +20,7 @@
+>>   #include <linux/compiler.h>
+>>   #include <linux/of.h>
+>>   #include <linux/of_address.h>
+>> +#include <linux/memblock.h>
+>>   #include <linux/mm.h>
+>>   
+>>   #include "internal.h"
+>> @@ -103,6 +104,55 @@ struct ramoops_context {
+>>   };
+>>   
+>>   static struct platform_device *dummy;
+>> +static int dyn_ramoops_size;
+>> +/* Location of the reserved area for the dynamic ramoops */
+>> +static struct resource dyn_ramoops_res = {
+>> +	.name  = "ramoops",
+>> +	.start = 0,
+>> +	.end   = 0,
+>> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>> +	.desc  = IORES_DESC_NONE,
+>> +};
+>> +
+>> +static int __init parse_dyn_ramoops_size(char *p)
+>> +{
+>> +	char *tmp;
+>> +
+>> +	dyn_ramoops_size = memparse(p, &tmp);
+>> +	if (p == tmp) {
+>> +		pr_err("ramoops: memory size expected\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +early_param("dyn_ramoops_size", parse_dyn_ramoops_size);
+> 
+> should not this code be under
+> CONFIG_PSTORE_DYNAMIC_RAMOOPS_REGION_RESERVATION?
+
+Yeah, looks to be miss., thanks again..
+
+> 
+>> +
+>> +#ifdef CONFIG_PSTORE_DYNAMIC_RAMOOPS_REGION_RESERVATION
+>> +/*
+>> + * setup_dynamic_ramoops() - reserves memory for dynamic ramoops
+>> + *
+>> + * This enable dynamic reserve memory support for ramoops through
+>> + * command line.
+>> + */
+>> +void __init setup_dynamic_ramoops(void)
+>> +{
+>> +	unsigned long long ramoops_base;
+>> +	unsigned long long ramoops_size;
+>> +
+>> +	ramoops_base = memblock_phys_alloc_range(dyn_ramoops_size, SMP_CACHE_BYTES,
+>> +						 0, MEMBLOCK_ALLOC_NOLEAKTRACE);
+>> +	if (!ramoops_base) {
+>> +		pr_err("cannot allocate ramoops dynamic memory (size:0x%llx).\n",
+>> +			ramoops_size);
+>> +		return;
+>> +	}
+> 
+> This error needs to be propagated to ramoops_register_dummy() since it
+> rely on !dyn_ramoops_size . one way is to set dyn_ramoops_size to 0.
+
+Good point, will do that..
+
+> 
+>> +
+>> +	dyn_ramoops_res.start = ramoops_base;
+>> +	dyn_ramoops_res.end = ramoops_base + dyn_ramoops_size - 1;
+>> +	insert_resource(&iomem_resource, &dyn_ramoops_res);
+>> +}
+>> +#endif
+>>   
+>>   static int ramoops_pstore_open(struct pstore_info *psi)
+>>   {
+>> @@ -915,14 +965,18 @@ static void __init ramoops_register_dummy(void)
+>>   
+>>   	/*
+>>   	 * Prepare a dummy platform data structure to carry the module
+>> -	 * parameters. If mem_size isn't set, then there are no module
+>> -	 * parameters, and we can skip this.
+>> +	 * parameters. If mem_size isn't set, check for dynamic ramoops
+>> +	 * size and use if it is set.
+>>   	 */
+>> -	if (!mem_size)
+>> +	if (!mem_size && !dyn_ramoops_size)
+>>   		return;
+>>   
+> 
+> If mem_size and dyn_ramoops_size are set, you are taking
+> dyn_ramoops_size precedence here. The comment is a bit confusing, pls
+> review it once.
+
+Ideally, both should not be set and there will always be
+confusion.
+
+Do you think, if we use mem_size a single variable both for earlier
+and dynamic ramoops where based on dyn_ramoops_size=true/on a boolean
+it will take dynamic ramoops path and if not mentioned it will take 
+older path.
+
+-Mukesh
+> 
+>> -	pr_info("using module parameters\n");
+>> +	if (dyn_ramoops_size) {
+>> +		mem_size = dyn_ramoops_size;
+>> +		mem_address = dyn_ramoops_res.start;
+>> +	}
+>>   
+> 
+> Overall it Looks good to me. Thanks.
