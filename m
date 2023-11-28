@@ -1,201 +1,129 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4615C1845
-	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 01:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1138186D;
+	Tue, 28 Nov 2023 01:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Arg2BfI3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70E3C433C7;
-	Tue, 28 Nov 2023 01:30:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nk8o12nC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 594CCC433C7;
+	Tue, 28 Nov 2023 01:42:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701135019;
-	bh=0rFWgVK0EFg6Nsa6a/EQ3Wk7q2M/kSfWg8x1h5DBihU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Arg2BfI3fBExEIRK2OQBaMUtoxslsQazNKrQYkWXGZp2xdlvhsbbmrzk9z1/6GbGA
-	 73vRa9/3FvEt/Iv4drpjgv74AP5ctUheZCsGeSNc0+awIJYwxxYp8eAzZSLJUTLuS6
-	 etHAxv/1VwwQbCidnzLhp0e6o4FXY9Ch23SRWo1Q047A1e37JqDscchXY/FItMCi9Y
-	 NCAg+y6GnAqedOHpSiokSJtRmUaixxZUfqBMS8T7vSnG8rhCbl1MOZKhTu45NE1vIv
-	 VbyfRj4pkNKoXZJf8pGgUJN/E9NfDY8bAlh5GBOux1NwVyFf8NRMMPr1WUdRHZohEj
-	 qntfofivLC1Mw==
-Date: Tue, 28 Nov 2023 02:30:15 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH] docs: Raise the minimum Sphinx requirement to 2.4.4
-Message-ID: <20231128023015.0e446a06@coco.lan>
-In-Reply-To: <87sf4qvkmc.fsf@meer.lwn.net>
-References: <87sf4qvkmc.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1701135747;
+	bh=gtoVfYSIc48oSQYnR6eKhSs43P+8J2vX1BS8SV6N/hI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nk8o12nCdnazZwWAAjT8gchuydW9Vv64z+vCVutfYWriReDKwgr/i+BKyLX7pfn+8
+	 hj7dATcDAsJX5v2Evf0eErl2Ht6SIrpM1OHVjz6w7wjovojzHxv0zXqRozFVa0DglC
+	 5j0oRUVRTsfzZiZVsl0/r+D2x/eRc4FAVo8nbkdNi7UXhEZVUhjgj00m3zRyymcaY+
+	 4235eXWNZI+xcseo0KRe/ruqI2ayKp94ON/ogL+B3xGLDhXgfdfeEE/TyIfsY4NlSp
+	 3VzVpX24BDwnZ+PshVTXffZjYUydM4+uLVsq+jNvhyXpNmN2Qw8o13Ueb+GCh92VZn
+	 DkPIUA43kAECQ==
+Date: Mon, 27 Nov 2023 20:42:19 -0500
+From: Guo Ren <guoren@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Christoph Muellner <christoph.muellner@vrull.eu>,
+	linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Philipp Tomsich <philipp.tomsich@vrull.eu>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Will Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>
+Subject: Re: [RFC PATCH 0/5] RISC-V: Add dynamic TSO support
+Message-ID: <ZWVFe4SzeGMLD4wj@gmail.com>
+References: <20231124072142.2786653-1-christoph.muellner@vrull.eu>
+ <20231124101519.GP3818@noisy.programming.kicks-ass.net>
+ <ZWFhSYalMCgTo+SG@gmail.com>
+ <20231127111643.GV3818@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231127111643.GV3818@noisy.programming.kicks-ass.net>
 
-Em Mon, 27 Nov 2023 16:31:39 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> Commit 31abfdda6527 (docs: Deprecate use of Sphinx < 2.4.x) in 6.2 added a
-> warning that support for older versions of Sphinx would be going away.
-> There have been no complaints, so the time has come.  Raise the minimum
-> Sphinx version to 2.4.4 and clean out some compatibility code that we no
-> longer need.
+On Mon, Nov 27, 2023 at 12:16:43PM +0100, Peter Zijlstra wrote:
+> On Fri, Nov 24, 2023 at 09:51:53PM -0500, Guo Ren wrote:
+> > On Fri, Nov 24, 2023 at 11:15:19AM +0100, Peter Zijlstra wrote:
+> > > On Fri, Nov 24, 2023 at 08:21:37AM +0100, Christoph Muellner wrote:
+> > > > From: Christoph Müllner <christoph.muellner@vrull.eu>
+> > > > 
+> > > > The upcoming RISC-V Ssdtso specification introduces a bit in the senvcfg
+> > > > CSR to switch the memory consistency model at run-time from RVWMO to TSO
+> > > > (and back). The active consistency model can therefore be switched on a
+> > > > per-hart base and managed by the kernel on a per-process/thread base.
+> > > 
+> > > You guys, computers are hartless, nobody told ya?
+> > > 
+> > > > This patch implements basic Ssdtso support and adds a prctl API on top
+> > > > so that user-space processes can switch to a stronger memory consistency
+> > > > model (than the kernel was written for) at run-time.
+> > > > 
+> > > > I am not sure if other architectures support switching the memory
+> > > > consistency model at run-time, but designing the prctl API in an
+> > > > arch-independent way allows reusing it in the future.
+> > > 
+> > > IIRC some Sparc chips could do this, but I don't think anybody ever
+> > > exposed this to userspace (or used it much).
+> > > 
+> > > IA64 had planned to do this, except they messed it up and did it the
+> > > wrong way around (strong first and then relax it later), which lead to
+> > > the discovery that all existing software broke (d'uh).
+> > > 
+> > > I think ARM64 approached this problem by adding the
+> > > load-acquire/store-release instructions and for TSO based code,
+> > > translate into those (eg. x86 -> arm64 transpilers).
 > 
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Akira Yokosawa <akiyks@gmail.com>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/conf.py              |  2 +-
->  Documentation/doc-guide/sphinx.rst |  2 +-
->  Documentation/process/changes.rst  |  2 +-
->  Documentation/sphinx/automarkup.py |  6 +-----
->  Documentation/sphinx/cdomain.py    |  6 +-----
->  Documentation/sphinx/kfigure.py    |  8 +-------
->  scripts/sphinx-pre-install         | 10 +---------
->  7 files changed, 7 insertions(+), 29 deletions(-)
+> > Keeping global TSO order is easier and faster than mixing
+> > acquire/release and regular load/store. That means when ssdtso is
+> > enabled, the transpiler's load-acquire/store-release becomes regular
+> > load/store. Some micro-arch hardwares could speed up the performance.
 > 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 20bd74edcca9..3a1a804c3a13 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -47,7 +47,7 @@ from load_config import loadConfig
->  # -- General configuration ------------------------------------------------
->  
->  # If your documentation needs a minimal Sphinx version, state it here.
-> -needs_sphinx = '1.7'
-> +needs_sphinx = '2.4.4'
->  
->  # Add any Sphinx extension module names here, as strings. They can be
->  # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-> index bb7971643fcf..3d125fb4139d 100644
-> --- a/Documentation/doc-guide/sphinx.rst
-> +++ b/Documentation/doc-guide/sphinx.rst
-> @@ -28,7 +28,7 @@ Sphinx Install
->  ==============
->  
->  The ReST markups currently used by the Documentation/ files are meant to be
-> -built with ``Sphinx`` version 1.7 or higher.
-> +built with ``Sphinx`` version 2.4.4 or higher.
->  
->  There's a script that checks for the Sphinx requirements. Please see
->  :ref:`sphinx-pre-install` for further details.
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index bb96ca0f774b..559587a89974 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -58,7 +58,7 @@ mcelog                 0.6              mcelog --version
->  iptables               1.4.2            iptables -V
->  openssl & libcrypto    1.0.0            openssl version
->  bc                     1.06.95          bc --version
-> -Sphinx\ [#f1]_         1.7              sphinx-build --version
-> +Sphinx\ [#f1]_         2.4.4            sphinx-build --version
->  cpio                   any              cpio --version
->  GNU tar                1.28             tar --version
->  gtags (optional)       6.6.5            gtags --version
-> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-> index acc6d55718bd..a413f8dd5115 100644
-> --- a/Documentation/sphinx/automarkup.py
-> +++ b/Documentation/sphinx/automarkup.py
-> @@ -7,11 +7,7 @@
->  from docutils import nodes
->  import sphinx
->  from sphinx import addnodes
-> -if sphinx.version_info[0] < 2 or \
-> -   sphinx.version_info[0] == 2 and sphinx.version_info[1] < 1:
-> -    from sphinx.environment import NoUri
-> -else:
-> -    from sphinx.errors import NoUri
-> +from sphinx.errors import NoUri
->  import re
->  from itertools import chain
->  
-> diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-> index 4eb150bf509c..e6959af25402 100644
-> --- a/Documentation/sphinx/cdomain.py
-> +++ b/Documentation/sphinx/cdomain.py
-> @@ -127,11 +127,7 @@ def setup(app):
->  
->      # Handle easy Sphinx 3.1+ simple new tags: :c:expr and .. c:namespace::
->      app.connect('source-read', c_markups)
-> -
-> -    if (major == 1 and minor < 8):
-> -        app.override_domain(CDomain)
-> -    else:
-> -        app.add_domain(CDomain, override=True)
-> +    app.add_domain(CDomain, override=True)
->  
->      return dict(
->          version = __version__,
-> diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
-> index 13e885bbd499..97166333b727 100644
-> --- a/Documentation/sphinx/kfigure.py
-> +++ b/Documentation/sphinx/kfigure.py
-> @@ -61,13 +61,7 @@ import sphinx
->  from sphinx.util.nodes import clean_astext
->  import kernellog
->  
-> -# Get Sphinx version
-> -major, minor, patch = sphinx.version_info[:3]
-> -if major == 1 and minor > 3:
-> -    # patches.Figure only landed in Sphinx 1.4
-> -    from sphinx.directives.patches import Figure  # pylint: disable=C0413
-> -else:
-> -    Figure = images.Figure
-> +Figure = images.Figure
->  
->  __version__  = '1.0.0'
->  
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index 1fb88fdceec3..db75b1b86086 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -32,8 +32,7 @@ my $python_cmd = "";
->  my $activate_cmd;
->  my $min_version;
->  my $cur_version;
-> -my $rec_version = "1.7.9";	# PDF won't build here
-> -my $min_pdf_version = "2.4.4";	# Min version where pdf builds
-> +my $rec_version = "3.0";
+> Why is it faster? Because the release+acquire thing becomes RcSC instead
+> of RcTSO? Surely that can be fixed with a weaker store-release variant
+> ot something?
+The "ld.acq + st.rel" could only be close to the ideal RCtso because
+maintaining "ld.acq + st.rel + ld + st" is more complex in LSU than "ld
++ st" by global TSO.  So, that is why we want a global TSO flag to
+simplify the micro-arch implementation, especially for some small
+processors in the big-little system.
 
-Please don't. 3.0 version has a broken C domain, not properly supported.
-The fixes arrived only starting at 3.1 (I guess some went to 3.2, but
-3.1 is usable, as far as I remember).
+> 
+> The problem I have with all of this is that you need to context switch
+> this state and that you need to deal with exceptions, which must be
+> written for the weak model but then end up running in the tso model --
+> possibly slower than desired.
+The s-mode TSO is useless for the riscv Linux kernel and this patch only
+uses u-mode TSO. So, the exception handler and the whole kernel always
+run in WMO.
 
-With such change, feel free to add:
+Two years ago, we worried about stuff like io_uring, which means
+io_uring userspace is in TSO, but the kernel side is in WMO. But it
+still seems like no problem because every side has a different
+implementation, but they all ensure their order. So, there should be no
+problem between TSO & WMO io_uring communication. The only things we
+need to prevent are:
+1. Do not let the WMO code run in TSO mode, which is inefficient. (you mentioned)
+2. Do not let the TSO code run in WMO mode, which is incorrect.
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> If OTOH you only have a single model, everything becomes so much
+> simpler. You just need to be able to express exactly what you want.
+The ssdtso is no harm to the current WMO; it's just a tradeoff for
+micro-arch implementation. You still could use "ld + st" are "ld.acq +
+st.rl", but they are the same in the global tso state.
 
->  my $latest_avail_ver;
->  
->  #
-> @@ -791,9 +790,6 @@ sub recommend_sphinx_version($)
->  
->  	# Version is OK. Nothing to do.
->  	if ($cur_version && ($cur_version ge $rec_version)) {
-> -		if ($cur_version lt $min_pdf_version) {
-> -			print "note: If you want pdf, you need at least Sphinx $min_pdf_version.\n";
-> -		}
->  		return;
->  	};
->  
-> @@ -842,10 +838,6 @@ sub recommend_sphinx_version($)
->  			printf "\t. $activate_cmd\n";
->  			deactivate_help();
->  
-> -			if ($latest_avail_ver lt $min_pdf_version) {
-> -				print "note: If you want pdf, you need at least Sphinx $min_pdf_version.\n";
-> -			}
-> -
->  			return;
->  		}
->  
-
-
-
-Thanks,
-Mauro
+> 
+> 
+> 
