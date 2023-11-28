@@ -1,120 +1,223 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F0F4E1CA;
+	Tue, 28 Nov 2023 10:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="de3wIVJh"
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4403FE4;
-	Tue, 28 Nov 2023 02:21:48 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40b472f99a0so13439635e9.3;
-        Tue, 28 Nov 2023 02:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701166906; x=1701771706; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=doZxVarw4yWuYz9GLd1CkeNGgwRvUrOLU0u2bie84jA=;
-        b=de3wIVJhO9Ovv0sSo7Klp4C3HtICepzp7wOUxa/udqSt36vfCy1Td48enGjG0+QTdg
-         fgbBm5zqamjVW5hGoeUT5N89pg+/fjHox5rDXiFXOnfR2eroEjw47/oPVgdXFlrWIGYy
-         dH4/s6eIquzLOFh+uIhMx/ed1RUlX5s2VypPSZ+x3NHtgOzcXnxb5uky13uc8C6w2KdX
-         MGkbzKB47OckHDp8quKThQE9AsOyzkMd77kgTYxGyevWroOKtrZGEMB/kvXBme6Uphem
-         rMzhMBtjrOb2m9HYpncNXkVFro5NOvW+peVXPXCJpJFVmucE48TMuGJnI9Ty0shj893b
-         fD9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701166906; x=1701771706;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=doZxVarw4yWuYz9GLd1CkeNGgwRvUrOLU0u2bie84jA=;
-        b=Y+EeUbD0cwBW+LbG4npiewZyiP7k9aNygKoZL6pOLGRhC+hWP/3EYNO7n48YyYEqxD
-         mqtxnt1wjmhr5S4DUPYXH0Z4ZyjeGcdFIeTu9TFDszAwoVJDT4v0l25sCDy59am0Na+U
-         jzqHIn2WXu6bfNbpDfdtqyPEph7Gpf6GouvXY5yJcmC7qVkNOYXRwdck2P/7WSiBIy6q
-         14aVj8IISG45nnV71qZVJiu09YowM9KKKx4e4GBzgjUo8NximMA9zVDEck/sXux596Y4
-         CgP77+ITAnBAN8QsUl/0NTHQupi+hVBcNutK+RPB/2eyMRw4ytWKYHCFKc3M43yl+17G
-         qGHQ==
-X-Gm-Message-State: AOJu0YwinHqnhEAlU6lHmE/frykqSEZ47hy3Y/EvsE0ZaMsbFgdVL7wJ
-	DAIt0Ep6m/bwfIdgJ3gkNZm58rqQ1Fe58w==
-X-Google-Smtp-Source: AGHT+IEViRgEV2pMIv6kyvj4s1ko5EpvSZDqRr/sFKlgMMcYYCvm9fSuVqeyovLGpF7jZ9b4Q2lVeQ==
-X-Received: by 2002:a05:600c:1f93:b0:40b:3dc0:1ff with SMTP id je19-20020a05600c1f9300b0040b3dc001ffmr7878883wmb.6.1701166905801;
-        Tue, 28 Nov 2023 02:21:45 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:804c:ab2b:6aea:3a2d])
-        by smtp.gmail.com with ESMTPSA id w21-20020a05600c475500b0040b2976eb02sm16852740wmo.10.2023.11.28.02.21.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 02:21:44 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net,  netdev@vger.kernel.org,  edumazet@google.com,
-  pabeni@redhat.com,  corbet@lwn.net,  leitao@debian.org,
-  linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: netlink: link to family documentations
- from spec info
-In-Reply-To: <20231127205642.2293153-1-kuba@kernel.org> (Jakub Kicinski's
-	message of "Mon, 27 Nov 2023 12:56:42 -0800")
-Date: Tue, 28 Nov 2023 10:21:30 +0000
-Message-ID: <m2leai89g5.fsf@gmail.com>
-References: <20231127205642.2293153-1-kuba@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9L+6QCM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97CA6C433C7;
+	Tue, 28 Nov 2023 10:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701167062;
+	bh=qYMomW8pY6YBLbLameKXjKgQdEQkpgpJT4hyaH2avZQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=R9L+6QCM8mKAqcCvs65DNHxiFBZttUtgtTgG7HGa3ThKymGHaK6Te+GS/jEa2hueD
+	 BZAFuEEgeSWoqepxLfIbE6Fq6ueL/CiSfgnM6Tc0hClzrj+WsbZW0BAnIJijBcozN4
+	 k7758Su0wDlUyWgE9N4EQlXK8ugxITO1UUAbRzx76rCyW5SYMF1WcOt0Gv7k9YRgwO
+	 +Y+0vm2GZ2gBu3Fq1/CJMGLqIueLEpYKWou0z2xuz5pRP5kvTBkUbf/vbgKYC3gzip
+	 nJBie7PIeIB1SDrUDo0K+CCSNYPZZqTVsseMcskBp3UQoM9nndXPvHTQUSoYJAUuUd
+	 /CY1dVZiIU5jA==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v4 00/45] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Tue, 28 Nov 2023 11:24:11 +0100
+Message-Id: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMu/ZWUC/43MTQrCMBQE4KuUrI3kr0nqynuIi9j32obaBJJSk
+ NK7G1woIhRXwzDMt5KMyWMmp2olCReffQylqENF2sGFHqmH0olgQjLLFR2nTAeYPG1jCNjOMdE
+ 8uxmp5tpYg9o0wpByH3wu4+MlL7zE5Q9k4ZRRpiyrFXRS1+o8Ygp4P8bUk2tRF/GRGsF2JFEkb
+ hopwAGAgR9JviXOJN+RZJGksDfWOVTSmS9p27YnBGrQqkUBAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8165; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=qYMomW8pY6YBLbLameKXjKgQdEQkpgpJT4hyaH2avZQ=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmp+y/07FgpoN3aZONQF/Bs86WPnx/4HnwvL7T4uURkw
+ JWC5MuvO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjARl4cMv9l3SGmEMrG65p4y
+ 9Zj5KpIz6JyF39S7VS8dlwt2CsUr3GdkOPNYWa96ZcaNdWWX7vduUF6yp/f+i/j0yH3991b23+z
+ ZyA4A
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Hi,
 
-> To increase the chances of people finding the rendered docs
-> add a link to specs.rst. Add a label in the generated index.rst
-> and while at it adjust the title a little bit.
+Here's a series that creates some extra infrastructure specifically
+targeted at HDMI controllers.
 
-It might be useful to also link to the rendered docs directly from the
-"Netlink Handbook" at Documentation/userspace-api/netlink/index.rst?
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else.
 
-Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: corbet@lwn.net
-> CC: leitao@debian.org
-> CC: linux-doc@vger.kernel.org
-> ---
->  Documentation/userspace-api/netlink/specs.rst | 2 +-
->  tools/net/ynl/ynl-gen-rst.py                  | 8 +++++++-
->  2 files changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
-> index c1b951649113..1b50d97d8d7c 100644
-> --- a/Documentation/userspace-api/netlink/specs.rst
-> +++ b/Documentation/userspace-api/netlink/specs.rst
-> @@ -15,7 +15,7 @@ kernel headers directly.
->  Internally kernel uses the YAML specs to generate:
->  
->   - the C uAPI header
-> - - documentation of the protocol as a ReST file
-> + - documentation of the protocol as a ReST file - see :ref:`Documentation/networking/netlink_spec/index.rst <specs>`
->   - policy tables for input attribute validation
->   - operation tables
->  
-> diff --git a/tools/net/ynl/ynl-gen-rst.py b/tools/net/ynl/ynl-gen-rst.py
-> index b6292109e236..2c0b80071bcd 100755
-> --- a/tools/net/ynl/ynl-gen-rst.py
-> +++ b/tools/net/ynl/ynl-gen-rst.py
-> @@ -122,6 +122,11 @@ SPACE_PER_LEVEL = 4
->      return "\n".join(lines)
->  
->  
-> +def rst_label(title) -> str:
-> +    """Return a formatted label"""
-> +    return f".. _{title}:\n\n"
-> +
-> +
->  # Parsers
->  # =======
->  
-> @@ -349,7 +354,8 @@ SPACE_PER_LEVEL = 4
->      lines = []
->  
->      lines.append(rst_header())
-> -    lines.append(rst_title("Netlink Specification"))
-> +    lines.append(rst_label("specs"))
-> +    lines.append(rst_title("Netlink Family Specifications"))
->      lines.append(rst_toctree(1))
->  
->      index_dir = os.path.dirname(output)
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
+
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
+
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
+
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
+
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing an
+infoframe-decode tool.
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+I also used the occasion to unit-test everything but the infoframe
+generation, which can come later once I get a proper understanding of
+what the infoframe are supposed to look like. This required to add some
+extra kunit helpers and infrastructure to have multiple EDIDs and allow
+each test to run with a particular set of capabilities.
+
+This entire series has been tested on a Pi4, passes all its unittests
+(125 new tests), and has only been build-tested for sunxi and rockchip.
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v4:
+- Create unit tests for everything but infoframes
+- Fix a number of bugs identified by the unit tests
+- Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
+- Drop RFC status
+- Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
+
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (45):
+      drm/tests: helpers: Include missing drm_drv header
+      drm/tests: helpers: Add atomic helpers
+      drm/tests: Add helper to create mock plane
+      drm/tests: Add helper to create mock crtc
+      drm/connector: Check drm_connector_init pointers arguments
+      drm/tests: connector: Add tests for drmm_connector_init
+      drm/connector: Introduce an HDMI connector initialization function
+      drm/connector: hdmi: Create an HDMI sub-state
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/connector: hdmi: Add support for output format
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/connector: hdmi: Add Infoframes generation
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Create destroy state implementation
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/vc4: tests: Remove vc4_dummy_plane structure
+      drm/vc4: tests: Convert to plane creation helper
+      drm/rockchip: inno_hdmi: Remove useless mode_fixup
+      drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
+      drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
+      drm/rockchip: inno_hdmi: Get rid of mode_set
+      drm/rockchip: inno_hdmi: no need to store vic
+      drm/rockchip: inno_hdmi: Remove unneeded has audio flag
+      drm/rockchip: inno_hdmi: Remove useless input format
+      drm/rockchip: inno_hdmi: Remove useless output format
+      drm/rockchip: inno_hdmi: Remove useless colorimetry
+      drm/rockchip: inno_hdmi: Remove useless enum
+      drm/rockchip: inno_hdmi: Remove tmds rate from structure
+      drm/rockchip: inno_hdmi: Remove useless coeff_csc matrix
+      drm/rockchip: inno_hdmi: Remove useless mode_valid
+      drm/rockchip: inno_hdmi: Move infoframe disable to separate function
+      drm/rockchip: inno_hdmi: Create mask retrieval functions
+      drm/rockchip: inno_hdmi: Switch to infoframe type
+      drm/rockchip: inno_hdmi: Remove unused drm device pointer
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Convert encoder to atomic
+      drm/sun4i: hdmi: Move mode_set into enable
+      drm/sun4i: hdmi: Switch to container_of_const
+      drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv               |    1 -
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/drm_atomic.c                       |   11 +
+ drivers/gpu/drm/drm_atomic_state_helper.c          |  659 ++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
+ drivers/gpu/drm/drm_connector.c                    |  249 +++
+ drivers/gpu/drm/drm_debugfs.c                      |  110 ++
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  409 ++---
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  203 ++-
+ drivers/gpu/drm/tests/Makefile                     |    1 +
+ .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 1728 ++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_connector_test.c         | 1345 ++++++++++++++-
+ drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 ++++++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c          |  150 ++
+ drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  624 +------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
+ include/drm/drm_atomic_state_helper.h              |   12 +
+ include/drm/drm_connector.h                        |  257 +++
+ include/drm/drm_kunit_helpers.h                    |   23 +
+ 23 files changed, 5389 insertions(+), 989 deletions(-)
+---
+base-commit: 815d8b0425ad1164e45953ac3d56a9f6f63792cc
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
