@@ -1,156 +1,115 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B20RADcp"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 706781AE
-	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 23:16:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701155779;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+wPQpfAGbhR2fcRE9CwV+QhwuDv286D2znD8D3G529g=;
-	b=B20RADcpmy/+II5C76Ld4M3+ErJ+GcIaQ/C3K+U/1xhsArGU+/eEjBvyUxTscaqLiMYJj3
-	1yWz+45f81vWhKQCL2mnS+xproQu80rHy3SuMQvB5b7O2lyxHa5/zcSYvOJ3dESsZbHcvg
-	kZwZSQGKjD/BPiAUVfzVSv83lFQR8L8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-530-BfURrQLkPc-N1su5piiz3w-1; Tue, 28 Nov 2023 02:16:17 -0500
-X-MC-Unique: BfURrQLkPc-N1su5piiz3w-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-40b4e24adc7so1311085e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 23:16:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701155776; x=1701760576;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+wPQpfAGbhR2fcRE9CwV+QhwuDv286D2znD8D3G529g=;
-        b=iTXY5fxF9UGhuVI/GeF8uc5kskw2sIhSfDl0NaeBES77HPQPFPi7HmpJYY+iViqh5a
-         rKc7THEemaAKCcJNZM75TEvLwTat+HtQvssKaPPAfHmQWyM/1P8UE6XtZMhrjDO+Ntc+
-         UoGQ3bNbUr8ty5W/eq0CY1ZgN+KDWA0JNOMdeFWY0HGWv1KKsytFbqfDHSPnRUbogIfC
-         Vjfob9AhvNo3pTbhytl0UQnVZhfmnGju+nv+2xlFDD7WzrZNjrXJ1XpRpdpsNCrM+QKW
-         vb7mhN4/I5MA+D/sC3lNKmg0rWp4hM9biMrVq3AhAVYkUxRevmV008mkPntoc45b9/1j
-         c7uw==
-X-Gm-Message-State: AOJu0YyZFn3c1FPcBoCb1882OdLP/K9rqKmkWrlDsQaPBUQXwXO+RqqI
-	GUE2bUKSe4Kg7N5jaRChvACq5TYzbBeAJXy3z3Vg4K97DzcWJsG5FU8IvUaoubLgu9YjkJwqveG
-	8Rxmnx+v7Sqbxw1IHFMcj
-X-Received: by 2002:a05:600c:4ecb:b0:40b:4b29:aa1c with SMTP id g11-20020a05600c4ecb00b0040b4b29aa1cmr1045332wmq.30.1701155776323;
-        Mon, 27 Nov 2023 23:16:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHWP9ONc9tOktke0kByXQi1XOIYmIVsWXsJAFkQI6HA50Moog1GCqH/U1U/uYGzT3LG1oIEyA==
-X-Received: by 2002:a05:600c:4ecb:b0:40b:4b29:aa1c with SMTP id g11-20020a05600c4ecb00b0040b4b29aa1cmr1045311wmq.30.1701155775947;
-        Mon, 27 Nov 2023 23:16:15 -0800 (PST)
-Received: from starship ([77.137.131.4])
-        by smtp.gmail.com with ESMTPSA id m8-20020a05600c4f4800b0040b347d90d0sm16983794wmq.12.2023.11.27.23.16.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 23:16:15 -0800 (PST)
-Message-ID: <fcd7567a1b45c6779882f696fe2fdac8c6702b3b.camel@redhat.com>
-Subject: Re: [RFC 07/33] KVM: x86: hyper-v: Introduce KVM_CAP_HYPERV_VSM
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
- pbonzini@redhat.com, seanjc@google.com, vkuznets@redhat.com,
- anelkz@amazon.com,  graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com,
- corbert@lwn.net,  kys@microsoft.com, haiyangz@microsoft.com,
- decui@microsoft.com, x86@kernel.org,  linux-doc@vger.kernel.org
-Date: Tue, 28 Nov 2023 09:16:13 +0200
-In-Reply-To: <20231108111806.92604-8-nsaenz@amazon.com>
-References: <20231108111806.92604-1-nsaenz@amazon.com>
-	 <20231108111806.92604-8-nsaenz@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HvKJb6X7"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 432E7D4B;
+	Mon, 27 Nov 2023 23:17:10 -0800 (PST)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AS5TPPG009575;
+	Tue, 28 Nov 2023 07:16:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=x6K4f+OPEftNFmuo369lliTD2CG6kzo5gCB7A0J1JUo=;
+ b=HvKJb6X7jfrCJ/jBEjfvG8idvHVgOGLW7sSR/9XkZ0XgfAQT2dCVwQ3FlgMr1zHLv7Bd
+ k0Qde/VsA4P1krjzB+vDDfFRQR8SvjZADITqwI105hwueMJ+zKEpm/nn75DmzHyMTING
+ IYcE+45JEvFLVj56O2vwP3bBiGmKYglh6nbdia0QuOSSxG6YwxkaYodcUm+uDAgxrtNK
+ D8havENIU+ItbQVt9xTRMg/Ue8UqryiMsW8sMJbLLcbHS3vorLCA1I78mcNvo1Sk2dsI
+ FJiwC1SDa22bRSdxSJbhUiMgQBo69znm/hwWorBvcPDFhGvhY6KStjUB/F33Mpih2Pas Qg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3umt632mk1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Nov 2023 07:16:52 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AS7GpMj014522
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Nov 2023 07:16:51 GMT
+Received: from [10.253.72.234] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 27 Nov
+ 2023 23:16:47 -0800
+Message-ID: <9c4c1fe7-5d71-4bb2-8b92-f4e9a136e93d@quicinc.com>
+Date: Tue, 28 Nov 2023 15:16:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/6] net: phy: at803x: add QCA8084 ethernet phy support
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231126060732.31764-1-quic_luoj@quicinc.com>
+ <20231126060732.31764-4-quic_luoj@quicinc.com>
+ <0b22dd51-417c-436d-87ce-7ebc41185860@lunn.ch>
+ <f0604c25-87a7-497a-8884-7a779ee7a2f5@quicinc.com>
+ <8e4046dd-813c-4766-83fb-c54a700caf31@lunn.ch>
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <8e4046dd-813c-4766-83fb-c54a700caf31@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: sQivrcbt6sr1381r_AlFHt39Y1KM7cWh
+X-Proofpoint-ORIG-GUID: sQivrcbt6sr1381r_AlFHt39Y1KM7cWh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-28_05,2023-11-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ mlxlogscore=734 bulkscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0
+ malwarescore=0 phishscore=0 clxscore=1015 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2311280055
 
-On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
-> Introduce a new capability to enable Hyper-V Virtual Secure Mode (VSM)
-> emulation support.
+
+
+On 11/27/2023 9:22 PM, Andrew Lunn wrote:
+> On Mon, Nov 27, 2023 at 02:21:46PM +0800, Jie Luo wrote:
+>>
+>>
+>> On 11/27/2023 1:31 AM, Andrew Lunn wrote:
+>>>> +		/* There are two PCSs available for QCA8084, which support the
+>>>> +		 * following interface modes.
+>>>> +		 *
+>>>> +		 * 1. PHY_INTERFACE_MODE_10G_QXGMII utilizes PCS1 for all
+>>>> +		 * available 4 ports, which is for all link speeds.
+>>>> +		 *
+>>>> +		 * 2. PHY_INTERFACE_MODE_2500BASEX utilizes PCS0 for the
+>>>> +		 * fourth port, which is only for the link speed 2500M same
+>>>> +		 * as QCA8081.
+>>>> +		 *
+>>>> +		 * 3. PHY_INTERFACE_MODE_SGMII utilizes PCS0 for the fourth
+>>>> +		 * port, which is for the link speed 10M, 100M and 1000M same
+>>>> +		 * as QCA8081.
+>>>> +		 */
+>>>
+>>> How are these 3 modes configured? I don't see any software
+>>> configuration of this in these drivers. Can it only by configured by
+>>> strapping?
+>>
+>> The interface mode is passed in the .config_init, which is configured
+>> by the PCS driver, the hardware register is located in the PCS, this
+>> driver will be pushed later.
 > 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
-> ---
->  arch/x86/include/asm/kvm_host.h | 2 ++
->  arch/x86/kvm/hyperv.h           | 5 +++++
->  arch/x86/kvm/x86.c              | 5 +++++
->  include/uapi/linux/kvm.h        | 1 +
->  4 files changed, 13 insertions(+)
+> Is this the same as how the syqca807x works? Can the PCS driver be
+> shared by these two drivers?
+
+I am not sure syqca807x, would you point me the code path of this driver?
+
 > 
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index 00cd21b09f8c..7712e31b7537 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -1118,6 +1118,8 @@ struct kvm_hv {
->  
->  	struct hv_partition_assist_pg *hv_pa_pg;
->  	struct kvm_hv_syndbg hv_syndbg;
-> +
-> +	bool hv_enable_vsm;
->  };
->  
->  struct msr_bitmap_range {
-> diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-> index f83b8db72b11..2bfed69ba0db 100644
-> --- a/arch/x86/kvm/hyperv.h
-> +++ b/arch/x86/kvm/hyperv.h
-> @@ -238,4 +238,9 @@ static inline int kvm_hv_verify_vp_assist(struct kvm_vcpu *vcpu)
->  
->  int kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu);
->  
-> +static inline bool kvm_hv_vsm_enabled(struct kvm *kvm)
-> +{
-> +       return kvm->arch.hyperv.hv_enable_vsm;
-> +}
-> +
->  #endif
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 4cd3f00475c1..b0512e433032 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -4485,6 +4485,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->  	case KVM_CAP_HYPERV_CPUID:
->  	case KVM_CAP_HYPERV_ENFORCE_CPUID:
->  	case KVM_CAP_SYS_HYPERV_CPUID:
-> +	case KVM_CAP_HYPERV_VSM:
->  	case KVM_CAP_PCI_SEGMENT:
->  	case KVM_CAP_DEBUGREGS:
->  	case KVM_CAP_X86_ROBUST_SINGLESTEP:
-> @@ -6519,6 +6520,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->  		}
->  		mutex_unlock(&kvm->lock);
->  		break;
-> +	case KVM_CAP_HYPERV_VSM:
-> +		kvm->arch.hyperv.hv_enable_vsm = true;
-> +		r = 0;
-> +		break;
->  	default:
->  		r = -EINVAL;
->  		break;
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 5ce06a1eee2b..168b6ac6ebe5 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1226,6 +1226,7 @@ struct kvm_ppc_resize_hpt {
->  #define KVM_CAP_GUEST_MEMFD 233
->  #define KVM_CAP_VM_TYPES 234
->  #define KVM_CAP_APIC_ID_GROUPS 235
-> +#define KVM_CAP_HYPERV_VSM 237
->  
->  #ifdef KVM_CAP_IRQ_ROUTING
->  
+> What i don't like at the moment is that we have two driver
+> developments going on at once for hardware which seems very similar,
+> but no apparent cooperation?
+> 
+> 	Andrew
 
-Do we actually need this? Can we detect if the userspace wants VSM using
-guest CPUID?
-
-Of course if we need to add a new ioctl or something it will have to be
-done together with a new capability, and since we will need at least to
-know a vCPU's VTL, we will probably need this capability.
-
-Best regards,
-	Maxim Levitsky
-
-
-
+The PCS of qca8084 is the PHY PCS, which should be new PCS driver,
+in the previous chips, we don't have this kind of PHY PCS.
