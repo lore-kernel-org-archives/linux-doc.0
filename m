@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RqK/fJnc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T0/1u7Df"
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 344F5183
-	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 23:41:58 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A3F01AE
+	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 23:42:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701157317;
+	s=mimecast20190719; t=1701157363;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hj+ePaztyH38XwsDFKaGQMIHjoROMLLdxOGdK4dpGbY=;
-	b=RqK/fJncvV/YqSmiQRrvFTCEhjIf3tYiT4j7tIV+J/DejOWlx9kZuQC0eC4W/mXl8qfUxl
-	IE0f2jXlv1segst86694EFHRi/q2ex5qSZoCK8C9mfXrN1WehMNxyVTwhtsZe7WF9j5i5q
-	JJSpey4kdMvIyx1XhJO20yBZm0tM12U=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=CEnBNNAbZDViVxp0lQwkboLBGvebtjQoRjp+wXTMCDw=;
+	b=T0/1u7DfvtfrKyVMXsGOcywzvoFBqZkE19XLDuCGuI5Iyfgz6KHAzAZK0/5NwmrWKnBOnL
+	ufjkO01EF9Jfd29X4jxysBhH8mGCu4G6hLbzZfkYjuKAV6lUHvBdx4RKaDlEl1NKJGWP3U
+	Cvagzd/Dn0rEJsa14ig8tnuZsT2M0pk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-47-MTWyVOurOzqFyjDTx53JRA-1; Tue, 28 Nov 2023 02:41:50 -0500
-X-MC-Unique: MTWyVOurOzqFyjDTx53JRA-1
-Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2c8749e1c2dso43485441fa.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 23:41:50 -0800 (PST)
+ us-mta-183-LOdCgPArPcWn3lz6D_TlfQ-1; Tue, 28 Nov 2023 02:42:42 -0500
+X-MC-Unique: LOdCgPArPcWn3lz6D_TlfQ-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-40b32faeb7eso29435965e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 23:42:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701157309; x=1701762109;
+        d=1e100.net; s=20230601; t=1701157361; x=1701762161;
         h=content-transfer-encoding:mime-version:user-agent:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=hj+ePaztyH38XwsDFKaGQMIHjoROMLLdxOGdK4dpGbY=;
-        b=laXdvPPkts3ko8wDwPs/n0k9Jns6CALpe6qV0ghI9piTablEXHxjmdY+GimQxO0dCm
-         aKBQ/WXDE/4CPl/3YxDUZHzyo8cRR/XQu1ngvzUhh9UOK3rfEmhe/ZzZd5X5SQREs1ap
-         lJGXXDhAk0ifu4dKhiWQ9372K8kShB6UVQ4shuQD5sn53DwmXfZYKjPxDtudJ62qjR4n
-         yy8uca+EXXuFoBGRnZ277/K7SkgWe3r2GO1z+V9Cg7H5vGErw22l7rU3E4f0spNkT1sP
-         YdxjgC/KrOqN+tJQBHVk+LM+PWiNOAh/d4JDkwV4hB062j9EnteRE6APqK17tzVeAu/m
-         o0Bg==
-X-Gm-Message-State: AOJu0YxcAbSxzRIWvVbd8LbYFqQED1epEBxZQ4DiBZspd2rBHHP7GJMl
-	h/6S2HZtkAaDwNr3OVSuad2rXt1nsKGUZh/c1QsVcWesy+RYqUabuobi6o7OfKCbslAxGKmehXi
-	4BSpHFEojmRcTyMgo0Lqo
-X-Received: by 2002:a2e:9e8a:0:b0:2b9:412a:111d with SMTP id f10-20020a2e9e8a000000b002b9412a111dmr9369587ljk.42.1701157309359;
-        Mon, 27 Nov 2023 23:41:49 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH3FE3J5y8X/hBV92oAOBL8IN3pj8MBH48Z78QOogI1DEahZHBZbEG4Kbce22YYj3CMRPt4sQ==
-X-Received: by 2002:a2e:9e8a:0:b0:2b9:412a:111d with SMTP id f10-20020a2e9e8a000000b002b9412a111dmr9369570ljk.42.1701157309050;
-        Mon, 27 Nov 2023 23:41:49 -0800 (PST)
+        bh=CEnBNNAbZDViVxp0lQwkboLBGvebtjQoRjp+wXTMCDw=;
+        b=h48edhlWgZcLXMb7mLBQkq41IQGiJ1RAJhntCYMXLt/yf64rlzpQv3V71cwqjW76Df
+         YR1rIHvrXhXydvzWwNo63UzpEtgLs2V2q3N7Kmw9liaivk9JsnO1c1Eipqn8Mr+qG4zE
+         +GbeKxzVTJSW/kHkUCw7DyKjBwStQzlnNWIanNK+BwLgdFd2bE5W7RQ4W/mb36Og2Vlu
+         VM1RQNiHeUHxsHkKU2k0uBlOL2g28vbZJVqRPj+IOturVaYXs7yEpM4F9x3sDy5FayUy
+         tMy+Bd0fwGV2CTRGYNs+cAnpDOjAfx+/qnzxAMMeVqQjwXDNTPX0nlnOeEifk1hf2Iv3
+         t5hQ==
+X-Gm-Message-State: AOJu0YxSgLf6nSB2mqqXk3otSs7Zmg7/THQhNEQiVfE2oClEcr4tyXP1
+	7nK9x6hEUeUUdawWlqmtKwxFTPbOgVqR3qn7byZpcxJ+Rz574XTAKg5kt9RGA/m3Hrsj4jhSsB1
+	JSItjlFYmLGvJt+97GLKH
+X-Received: by 2002:a05:600c:19d1:b0:40b:4268:f375 with SMTP id u17-20020a05600c19d100b0040b4268f375mr5201161wmq.36.1701157360945;
+        Mon, 27 Nov 2023 23:42:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE53k66r5nMv2GqUUxSBwpFlLDQ3zS3AaZuf2whu3bEH/EglPV34ja5GP+W5nD3vDIW9KcsQg==
+X-Received: by 2002:a05:600c:19d1:b0:40b:4268:f375 with SMTP id u17-20020a05600c19d100b0040b4268f375mr5201138wmq.36.1701157360670;
+        Mon, 27 Nov 2023 23:42:40 -0800 (PST)
 Received: from starship ([77.137.131.4])
-        by smtp.gmail.com with ESMTPSA id q19-20020a05600c46d300b0040b35195e54sm16408634wmo.5.2023.11.27.23.41.47
+        by smtp.gmail.com with ESMTPSA id p34-20020a05600c1da200b00406408dc788sm17210463wms.44.2023.11.27.23.42.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 23:41:48 -0800 (PST)
-Message-ID: <24f037ee4547a1726e358900a63755f5db0e6f39.camel@redhat.com>
-Subject: Re: [RFC 18/33] KVM: x86: Decouple kvm_get_memory_attributes() from
- struct kvm's mem_attr_array
+        Mon, 27 Nov 2023 23:42:40 -0800 (PST)
+Message-ID: <78f8ff04c20c45525321247336e16d06063e57d0.camel@redhat.com>
+Subject: Re: [RFC 19/33] KVM: x86: Decouple
+ kvm_range_has_memory_attributes() from struct kvm's mem_attr_array
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
@@ -54,10 +54,10 @@ Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
  anelkz@amazon.com,  graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com,
  corbert@lwn.net,  kys@microsoft.com, haiyangz@microsoft.com,
  decui@microsoft.com, x86@kernel.org,  linux-doc@vger.kernel.org
-Date: Tue, 28 Nov 2023 09:41:46 +0200
-In-Reply-To: <20231108111806.92604-19-nsaenz@amazon.com>
+Date: Tue, 28 Nov 2023 09:42:38 +0200
+In-Reply-To: <20231108111806.92604-20-nsaenz@amazon.com>
 References: <20231108111806.92604-1-nsaenz@amazon.com>
-	 <20231108111806.92604-19-nsaenz@amazon.com>
+	 <20231108111806.92604-20-nsaenz@amazon.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 Precedence: bulk
@@ -69,73 +69,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
 On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
-> Decouple kvm_get_memory_attributes() from struct kvm's mem_attr_array to
-> allow other memory attribute sources to use the function.
+> Decouple kvm_range_has_memory_attributes() from struct kvm's
+> mem_attr_array to allow other memory attribute sources to use the
+> function.
 > 
 > Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
 > ---
->  arch/x86/kvm/mmu/mmu.c   | 5 +++--
->  include/linux/kvm_host.h | 8 +++++---
->  2 files changed, 8 insertions(+), 5 deletions(-)
+>  arch/x86/kvm/mmu/mmu.c   | 3 ++-
+>  include/linux/kvm_host.h | 4 ++--
+>  virt/kvm/kvm_main.c      | 9 +++++----
+>  3 files changed, 9 insertions(+), 7 deletions(-)
 > 
 > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index a1fbb905258b..96421234ca88 100644
+> index 96421234ca88..4ace2f8660b0 100644
 > --- a/arch/x86/kvm/mmu/mmu.c
 > +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -7301,7 +7301,7 @@ static bool hugepage_has_attrs(struct kvm *kvm, struct kvm_memory_slot *slot,
+> @@ -7297,7 +7297,8 @@ static bool hugepage_has_attrs(struct kvm *kvm, struct kvm_memory_slot *slot,
+>  	const unsigned long end = start + KVM_PAGES_PER_HPAGE(level);
+>  
+>  	if (level == PG_LEVEL_2M)
+> -		return kvm_range_has_memory_attributes(kvm, start, end, attrs);
+> +		return kvm_range_has_memory_attributes(&kvm->mem_attr_array,
+> +						       start, end, attrs);
 >  
 >  	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1)) {
 >  		if (hugepage_test_mixed(slot, gfn, level - 1) ||
-> -		    attrs != kvm_get_memory_attributes(kvm, gfn))
-> +		    attrs != kvm_get_memory_attributes(&kvm->mem_attr_array, gfn))
->  			return false;
->  	}
->  	return true;
-> @@ -7401,7 +7401,8 @@ void kvm_mmu_init_memslot_memory_attributes(struct kvm *kvm,
->  		 * be manually checked as the attributes may already be mixed.
->  		 */
->  		for (gfn = start; gfn < end; gfn += nr_pages) {
-> -			unsigned long attrs = kvm_get_memory_attributes(kvm, gfn);
-> +			unsigned long attrs =
-> +				kvm_get_memory_attributes(&kvm->mem_attr_array, gfn);
->  
->  			if (hugepage_has_attrs(kvm, slot, gfn, level, attrs))
->  				hugepage_clear_mixed(slot, gfn, level);
 > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 631fd532c97a..4242588e3dfb 100644
+> index 4242588e3dfb..32cf05637647 100644
 > --- a/include/linux/kvm_host.h
 > +++ b/include/linux/kvm_host.h
-> @@ -2385,9 +2385,10 @@ static inline void kvm_prepare_memory_fault_exit(struct kvm_vcpu *vcpu,
+> @@ -2391,8 +2391,8 @@ kvm_get_memory_attributes(struct xarray *mem_attr_array, gfn_t gfn)
+>  	return xa_to_value(xa_load(mem_attr_array, gfn));
 >  }
 >  
->  #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
-> -static inline unsigned long kvm_get_memory_attributes(struct kvm *kvm, gfn_t gfn)
-> +static inline unsigned long
-> +kvm_get_memory_attributes(struct xarray *mem_attr_array, gfn_t gfn)
+> -bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+> -				     unsigned long attrs);
+> +bool kvm_range_has_memory_attributes(struct xarray *mem_attr_array, gfn_t start,
+> +				     gfn_t end, unsigned long attrs);
+>  bool kvm_arch_pre_set_memory_attributes(struct kvm *kvm,
+>  					struct kvm_gfn_range *range);
+>  bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index fde004a0ac46..6bb23eaf7aa6 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -2440,10 +2440,10 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+>   * Returns true if _all_ gfns in the range [@start, @end) have attributes
+>   * matching @attrs.
+>   */
+> -bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+> -				     unsigned long attrs)
+> +bool kvm_range_has_memory_attributes(struct xarray *mem_attr_array, gfn_t start,
+> +				     gfn_t end, unsigned long attrs)
 >  {
-> -	return xa_to_value(xa_load(&kvm->mem_attr_array, gfn));
-> +	return xa_to_value(xa_load(mem_attr_array, gfn));
->  }
-
-Can we wrap the 'struct xarray *' with a struct even if it will have a single member
-to make it clearer what type the 'kvm_get_memory_attributes' receives.
-Also maybe rename this to something like 'kvm_get_memory_attributes_for_gfn'?
-
+> -	XA_STATE(xas, &kvm->mem_attr_array, start);
+> +	XA_STATE(xas, mem_attr_array, start);
+>  	unsigned long index;
+>  	bool has_attrs;
+>  	void *entry;
+> @@ -2582,7 +2582,8 @@ static int kvm_vm_set_mem_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+>  	mutex_lock(&kvm->slots_lock);
 >  
->  bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
-> @@ -2400,7 +2401,8 @@ bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
->  static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
->  {
->  	return IS_ENABLED(CONFIG_KVM_PRIVATE_MEM) &&
-> -	       kvm_get_memory_attributes(kvm, gfn) & KVM_MEMORY_ATTRIBUTE_PRIVATE;
-> +	       kvm_get_memory_attributes(&kvm->mem_attr_array, gfn) &
-> +		       KVM_MEMORY_ATTRIBUTE_PRIVATE;
->  }
->  #else
->  static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
+>  	/* Nothing to do if the entire range as the desired attributes. */
+> -	if (kvm_range_has_memory_attributes(kvm, start, end, attributes))
+> +	if (kvm_range_has_memory_attributes(&kvm->mem_attr_array, start, end,
+> +					    attributes))
+>  		goto out_unlock;
+>  
+>  	/*
 
 
-Also if we go with VM per VTL approach, we won't need this, each VM can already have its own memory attributes.
+Same comments as for previous patch + how about 
+'kvm_gfn_range_has_memory_attributes'
+
+(I didn't review the memfd patch series and it shows :( )
 
 Best regards,
 	Maxim Levitsky
