@@ -1,71 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3FE37D37;
-	Tue, 28 Nov 2023 17:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DTHgE9PP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7251DC433C7;
-	Tue, 28 Nov 2023 17:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701191905;
-	bh=V7IKAf0Hbu6oP2LSWp5l10ZwtBSliEPvVOx9m0gWfYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DTHgE9PPklBAMdua0Gq+s/PRw++bw+Gj2frl4hyn3VWGoVDnO+zsrE+nNNl9kJCnm
-	 Aif6OPqLGkuMeO87bQeZNkZxecGgE35op+PwvNVEC2SVi6UE42oxDvc1NCf0whVyze
-	 u8jJwbYkbzVJX9f4i+TBbmFu3kC7Li++6kX/8uQ9anTcQ4LX74JdAzadEKlFWGdl5W
-	 h4rVFVKK67H6Cj6TLoi6TfcG2mi/7B1FgCnuhoSHVgdEqmLzIa4r2Lgph6KRcxAgDc
-	 GLP7RCT6Ldry21zdNGa0876otyOA+nuP48lukN/ibWTlhZV9gY3exB+auhSbDec+Yn
-	 v/iSmyghEjysQ==
-Date: Tue, 28 Nov 2023 09:18:23 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Sergei Shtepa <sergei.shtepa@linux.dev>
-Cc: axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org,
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Sergei Shtepa <sergei.shtepa@veeam.com>
-Subject: Re: [PATCH v6 11/11] blksnap: prevents using devices with data
- integrity or inline encryption
-Message-ID: <20231128171823.GA1148@sol.localdomain>
-References: <20231124165933.27580-1-sergei.shtepa@linux.dev>
- <20231124165933.27580-12-sergei.shtepa@linux.dev>
- <20231127224719.GD1463@sol.localdomain>
- <6cabaa42-c366-4928-8294-ad261dae0043@linux.dev>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="6XE+gwUS"
+Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B8F410CB;
+	Tue, 28 Nov 2023 09:19:17 -0800 (PST)
+Received: from [127.0.0.1] ([98.35.210.218])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 3ASHIMck585558
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 28 Nov 2023 09:18:23 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3ASHIMck585558
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2023111101; t=1701191904;
+	bh=f6l68iGv5eAcjwGj55E8OL6CF5X9iU8J74t2PrTG5YA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=6XE+gwUSIscmXlxZmR/obyqPnRdyFc9SgOdDhOLZ5zIn1Qj3I3XIlJN7R91edhLqJ
+	 3ATaGYKTRv7hC69ocMawcn/GiY4V77tWz594FEnWHS1T/g+UF3/dc6k9z0gaybTIHl
+	 sdQV9dZqS9FscMeWhYHdMnochTHoBUVyrWGiTY2zNzeuYMHsP9gBs5xV7h8+eLlOz8
+	 5O5NkXqRyj9mjLrHrEoT9mG7b2dvs/x/bc4pP1UavUy6IAgToEPxAtQdtXqZvS6W9m
+	 YOJM6Xe1gTSAM8HoXUXn+o/WwGXl2uufOA2uqrbGW6boguYBo3j4/dND+m2saj1FAf
+	 JdMK7bWrvWlow==
+Date: Tue, 28 Nov 2023 09:18:21 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Borislav Petkov <bp@alien8.de>, Xin Li <xin3.li@intel.com>
+CC: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+        x86@kernel.org, luto@kernel.org, pbonzini@redhat.com,
+        seanjc@google.com, peterz@infradead.org, jgross@suse.com,
+        ravi.v.shankar@intel.com, mhiramat@kernel.org,
+        andrew.cooper3@citrix.com, jiangshanlai@gmail.com,
+        nik.borisov@suse.com
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v12_16/37=5D_x86/ptrace=3A_Add_FRED_ad?= =?US-ASCII?Q?ditional_information_to_the_pt=5Fregs_structure?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20231128085122.GPZWWqCrPYnzB8BqFB@fat_crate.local>
+References: <20231003062458.23552-1-xin3.li@intel.com> <20231003062458.23552-17-xin3.li@intel.com> <20231128085122.GPZWWqCrPYnzB8BqFB@fat_crate.local>
+Message-ID: <E5913DD8-7C41-4658-9E42-63C01E2209B2@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6cabaa42-c366-4928-8294-ad261dae0043@linux.dev>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 28, 2023 at 12:00:17PM +0100, Sergei Shtepa wrote:
-> But I haven't tested the code on a device where hardware inline encryption is
-> available. I would be glad if anyone could help with this.
-> > 
-> > Anyway, this patch is better than ignoring the problem.  It's worth noting,
-> > though, that this patch does not prevent blksnap from being set up on a block
-> > device on which blk-crypto-fallback is already being used (or will be used).
-> > When that happens, I/O will suddenly start failing.  For usability reasons,
-> > ideally that would be prevented somehow.
-> 
-> I didn't observe any failures during testing. It's just that the snapshot
-> image shows files with encrypted names and data. Backup in this case is
-> useless. Unfortunately, there is no way to detect a blk-crypto-fallback on
-> the block device filter level.
+On November 28, 2023 12:51:22 AM PST, Borislav Petkov <bp@alien8=2Ede> wrot=
+e:
+>On Mon, Oct 02, 2023 at 11:24:37PM -0700, Xin Li wrote:
+>> FRED defines additional information in the upper 48 bits of cs/ss
+>> fields=2E Therefore add the information definitions into the pt_regs
+>> structure=2E
+>>=20
+>> Specially introduce a new structure fred_ss to denote the FRED flags
+>> above SS selector, which avoids FRED_SSX_ macros and makes the code
+>> simpler and easier to read=2E
+>>=20
+>> Signed-off-by: H=2E Peter Anvin (Intel) <hpa@zytor=2Ecom>
+>
+>You and hpa need to go through all the patches and figure out who's the
+>author that's going to land in git=2E
+>
+>Because this and others have hpa's SOB first, suggesting he's the
+>author=2E However, the mail doesn't start with
+>
+>From: H=2E Peter Anvin (Intel) <hpa@zytor=2Ecom>
+>
+>and then git will make *you* the author=2E
+>
+>> Tested-by: Shan Kang <shan=2Ekang@intel=2Ecom>
+>> Signed-off-by: Thomas Gleixner <tglx@linutronix=2Ede>
+>> Signed-off-by: Xin Li <xin3=2Eli@intel=2Ecom>
+>
+>=2E=2E=2E
+>
+>>  	union {
+>> -		u64	ssx;	// The full 64-bit data slot containing SS
+>> -		u16	ss;	// SS selector
+>> +		/* SS selector */
+>> +		u16		ss;
+>> +		/* The extended 64-bit data slot containing SS */
+>> +		u64		ssx;
+>> +		/* The FRED SS extension */
+>> +		struct fred_ss	fred_ss;
+>
+>Aha, sanity about the right comments has come to your mind in this next
+>patch=2E :-P
+>
+>Just do them right in the previous one=2E
+>
+>>  	/*
+>> -	 * Top of stack on IDT systems=2E
+>> +	 * Top of stack on IDT systems, while FRED systems have extra fields
+>> +	 * defined above for storing exception related information, e=2Eg=2E =
+CR2 or
+>> +	 * DR6=2E
+>
+>Btw, I really appreciate the good commenting - thanks for that!
+>
 
-Huh, I thought that this patch is supposed to exclude blk-crypto-fallback too.
-__submit_bio() calls bio->bi_bdev->bd_filter->ops->submit_bio(bio) before
-blk_crypto_bio_prep(), so doesn't your check of ->bi_crypt_context exclude
-blk-crypto-fallback?
+For Xin, mainly:
 
-I think you're right that it might actually be fine to use blksnap with
-blk-crypto-fallback, provided that the encryption is done first.  I would like
-to see a proper explanation of that, though.  And we still have this patch which
-claims that it doesn't work, which is confusing.
+Standard practice is:
 
-- Eric
+1=2E For a patch with relatively small modifications, or where the changes=
+ are mainly in comments or the patch message:
+
+Keep the authorship, but put a description of what you have changed in bra=
+ckets with your username at the bottom of the description, immediately befo=
+re Signed-off-by:
+
+[ xin: changed foo, bar, baz ]
+
+
+2=2E For a patch with major rewrites:
+
+Take authorship on the From: line, but have an Originally-by: tag (rather =
+than a Signed-off-by: by the original author):
+
+Originally-by: Someone Else <someone@elsewhere=2Edom>
+
+
+3=2E For a patch which is fully or nearly fully your own work (a total rew=
+rite, or based on a concept idea rather than actual code), credit the origi=
+nal in the patch comment:
+
+Based on an idea by Someone Else <someone@elsewhere=2Edom> (optional link =
+to lore=2Ekernel=2Eorg)=2E
