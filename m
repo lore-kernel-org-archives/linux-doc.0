@@ -1,258 +1,197 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xdub+mKZ"
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3F56D72;
-	Tue, 28 Nov 2023 03:45:06 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-a0029289b1bso738876366b.1;
-        Tue, 28 Nov 2023 03:45:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hzezjavT"
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2341BEC;
+	Tue, 28 Nov 2023 04:45:35 -0800 (PST)
+Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-35cb5b21c41so8798355ab.1;
+        Tue, 28 Nov 2023 04:45:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701171905; x=1701776705; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qVyoKGbm9uEoi/X6H5927NF7CsFAti82Jkn535IWRLU=;
-        b=Xdub+mKZ4E5rvw0u08NmZivgSNMIYs8i46MSGr05zh0HKze7gfXg7rY02PuNkRIAyY
-         zQ3NDcCLl1fC0Rh9wCCq7TR7Z3iR+Lhg8Wa2OuA0ja2PWztoIHnl/ZJVC97O3Mb38veK
-         C4RWTf1bybgCj/mlBJkdmf5rQAQPKSZwUcPw238sX6nxBXLC6yUmTx944RdQw1qUxyEf
-         vdLgw9Myoxn+u6OnpU+72pESHXizBJFWhWaSPN9DYoVXzDEIfTQpqpiHOCsuJ7GW9Tu0
-         YtyiSoiHi3FEpvg/4Xnd6tslqFgMMxjH4dl4xJo0lIxUPh9sGYvJuVdX+4THGAgoI5/N
-         CI5Q==
+        d=gmail.com; s=20230601; t=1701175534; x=1701780334; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l59sLPegN1fDsu66rSuuCLp/yRRxYIU/BkresE88jUI=;
+        b=hzezjavTwir2WpoD7tz97aIJvOYbmlTGE9t3BkfozP0adjWAqbaUC7Fzon2sf73F4y
+         v8eB9BRyz3Vt7RYEHksttPfQDu1nXtyykIowyiMc6kJiZ5DnM7ZFEM9Ub6BeCcKpxbsi
+         WLyUVie1WR1xjaWelOif4mVXYa/Vs/em/7hkXtVLl8PKnCpMRZf4jXC9hBrD6SqzJN0U
+         OFwyMvfnjYpYAqdD3G7KgCVjqcrT/am4GlbeOzaxk8u6VhO7GQMdQfRU8RiKyXsgUY7Q
+         3MZWkIRP7pTdfumrg3F50abauyd3t82v9ZdoOaBGhdpEwCO0NZjRDVyfve9Vyf/KUMlI
+         +ERw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701171905; x=1701776705;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qVyoKGbm9uEoi/X6H5927NF7CsFAti82Jkn535IWRLU=;
-        b=wsKpX+46MtdfMdZfrQ56SJsZPKTJIRipEhEg8x6Im3aRLPoU2O4v3P3MBVjaIkK2LB
-         XbQEhrdhXXtKtl8YG2MVfHPDwzL9n/GPtwqkH4Eqz/kKo6TIkgE6SKmlEz6BE2zjw/b7
-         K0SX5NOPMp4EHzVrXC6dKnxZMYU67qaNhDOR3W1ScmehsRcFnEmYF2RrpFUSHASQgAfw
-         o7wEgpxdhydcYEH+CdOZAO2DruWH/2S8I8tb7wA67Dp3apEhywTHYTF1OkYmWF17sEBz
-         LPZ1SbOx2+IhE5W/gs4F/WIFZkI3ynpFpZHmZ00G3e1EAss34FjsRBnDod8VpKfT9U9b
-         lMMQ==
-X-Gm-Message-State: AOJu0Yx/TyLPLAtcqH5gf3534oZ+Uso3RM6ozB4L9N2Tgt7ObTMTeM50
-	0YaCmwzCPrvy6rHXF+IW+TQ=
-X-Google-Smtp-Source: AGHT+IHdLHq7SVACyp0TGOAJ7YYU9KjyyngMti1/L69SMz2NBoKFv/CGPDJ9/NE3UAOVE/5bAaEY0Q==
-X-Received: by 2002:a17:906:693:b0:9fc:9b28:7ff7 with SMTP id u19-20020a170906069300b009fc9b287ff7mr12075812ejb.60.1701171904683;
-        Tue, 28 Nov 2023 03:45:04 -0800 (PST)
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id j25-20020a170906051900b00a0bdfab0f02sm4004423eja.77.2023.11.28.03.45.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 03:45:04 -0800 (PST)
-Message-ID: <c34a6eb0-d436-931b-d08d-f3449be84a4c@gmail.com>
-Date: Tue, 28 Nov 2023 12:45:02 +0100
+        d=1e100.net; s=20230601; t=1701175534; x=1701780334;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l59sLPegN1fDsu66rSuuCLp/yRRxYIU/BkresE88jUI=;
+        b=VWgfQN7wkHZB3dIWUlQgAkDjBfzFVrW5kXUv0/di0zwNxicX6GNAWG8imE3GwiaF3K
+         T/z/eWD6SV4dWtyXAOtQupRI4Vz3iXRN35h4WMbw1v7VXcPfQtcwk6y+2mz7K+gE/C5k
+         d551pHhXVEs5ULRyltvhP6qK1KpdzsGwB/+LC9QzqVEyraoX7ZPrch5tqa3iXZ+oM1zI
+         c9PXCN1LrEGvAEZ8I+XjkzlsbFSg96Q0fYonqj4lhEcYMLEGPmgltzcoYtrHZH+t2UlC
+         VwNaqiF33BFMZehNquhS4WHAdMjqhAMb/W91bQEWS8/w4S2bbd+ek55E6xHLOlwy8ypL
+         UMzg==
+X-Gm-Message-State: AOJu0YzhZcD9jo/NMmTVnVOg0lfocWui+ny09uDeqEDWIHBw64qzx8rP
+	71/5yBWuVDjdwI3zsomWc5E=
+X-Google-Smtp-Source: AGHT+IH37NCK5YZX5pRanYp5XFBJqXj8YDveWJKzSc7jDwsbzMwfZZyeCtWrlDUtrRKTvjKKnB58kA==
+X-Received: by 2002:a92:d446:0:b0:35d:1ea0:f252 with SMTP id r6-20020a92d446000000b0035d1ea0f252mr784028ilm.28.1701175533763;
+        Tue, 28 Nov 2023 04:45:33 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id s12-20020a056a00194c00b006c4d4d5a197sm9076478pfk.171.2023.11.28.04.45.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 04:45:33 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id E1B4C100EE62F; Tue, 28 Nov 2023 19:45:29 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux XFS <linux-xfs@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Dave Chinner <dchinner@redhat.com>,
+	Steve French <stfrench@microsoft.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Han <hanchunchao@inspur.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH RESEND v2] Documentation: xfs: consolidate XFS docs into its own subdirectory
+Date: Tue, 28 Nov 2023 19:45:22 +0700
+Message-ID: <20231128124522.28499-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 38/45] drm/rockchip: inno_hdmi: Switch to infoframe
- type
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-38-c7602158306e@kernel.org>
-Content-Language: en-US
-From: Johan Jonker <jbx6244@gmail.com>
-In-Reply-To: <20231128-kms-hdmi-connector-state-v4-38-c7602158306e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5653; i=bagasdotme@gmail.com; h=from:subject; bh=2P9AXl78KfG0g8eCnYV7l8hPNPJiwGakqJSYbpOC4Ck=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKmp97d9r2mVW6p8zSRT9Y5bkdqmM0ossxqsV70+0mx+4 FKC9Z+GjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAExk51RGhr5ZP5kWXqiczRtY kHZPsiWzbcGnzV+8hRwPRs0yefLZ7Dcjw4mFl08X6QX4nNhz+KSRzVH16Nw4473T2aSuv7s1973 /X3YA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Hi,
+XFS docs are currently in upper-level Documentation/filesystems.
+Although these are currently 4 docs, they are already outstanding as
+a group and can be moved to its own subdirectory.
 
-Maximum for inno_hdmi is: 1920x1080.
+Consolidate them into Documentation/filesystems/xfs/.
 
-Do we still need INFOFRAME_VSI?
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v1 [1]:
 
-From Rockchip RK3036 TRM V1.0 20150907-Part2 Peripheral and Interface.pdf:
+  * Also update references to old doc path to address kernel test robot
+    warnings [2].
 
-- HDMI 1.4a/b/1.3/1.2/1.1, HDCP 1.2 and DVI 1.0 standard compliant transmitter
-- Supports all DTV resolutions including 480p/576p/720p/1080p
+[1]: https://lore.kernel.org/linux-doc/20231121095658.28254-1-bagasdotme@gmail.com/
+[2]: https://lore.kernel.org/linux-doc/a9abc5ec-f3cd-4a1a-81b9-a6900124d38b@gmail.com/
 
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_edid.c#L7015
+ Documentation/filesystems/index.rst                |  5 +----
+ Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
+ .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
+ .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
+ .../{ => xfs}/xfs-online-fsck-design.rst           |  2 +-
+ .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
+ .../maintainer/maintainer-entry-profile.rst        |  2 +-
+ MAINTAINERS                                        |  4 ++--
+ 8 files changed, 19 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/filesystems/xfs/index.rst
+ rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
+ rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (99%)
+ rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
 
-* HDMI spec says if a mode is found in HDMI 1.4b 4K modes
-* we should send its VIC in vendor infoframes, else send the
-* VIC in AVI infoframes. Lets check if this mode is present in
-* HDMI 1.4b 4K modes https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_edid.c#L7212 * Note that there's is a need to send HDMI vendor infoframes only when using a
-* 4k or stereoscopic 3D mode. So when giving any other mode as input this
-* function will return -EINVAL, error that can be safely ignored.
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 09cade7eaefc8c..e18bc5ae3b35f8 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -121,8 +121,5 @@ Documentation for filesystem implementations.
+    udf
+    virtiofs
+    vfat
+-   xfs-delayed-logging-design
+-   xfs-maintainer-entry-profile
+-   xfs-self-describing-metadata
+-   xfs-online-fsck-design
++   xfs/index
+    zonefs
+diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
+new file mode 100644
+index 00000000000000..ab66c57a5d18ea
+--- /dev/null
++++ b/Documentation/filesystems/xfs/index.rst
+@@ -0,0 +1,14 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================
++XFS Filesystem Documentation
++============================
++
++.. toctree::
++   :maxdepth: 2
++   :numbered:
++
++   xfs-delayed-logging-design
++   xfs-maintainer-entry-profile
++   xfs-self-describing-metadata
++   xfs-online-fsck-design
+diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-delayed-logging-design.rst
+rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
+rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+similarity index 99%
+rename from Documentation/filesystems/xfs-online-fsck-design.rst
+rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+index a0678101a7d02d..352516feef6ffe 100644
+--- a/Documentation/filesystems/xfs-online-fsck-design.rst
++++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+@@ -962,7 +962,7 @@ disk, but these buffer verifiers cannot provide any consistency checking
+ between metadata structures.
+ 
+ For more information, please see the documentation for
+-Documentation/filesystems/xfs-self-describing-metadata.rst
++Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+ 
+ Reverse Mapping
+ ---------------
+diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+similarity index 100%
+rename from Documentation/filesystems/xfs-self-describing-metadata.rst
+rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index 7ad4bfc2cc038a..18cee1edaecb6f 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -105,4 +105,4 @@ to do something different in the near future.
+    ../driver-api/media/maintainer-entry-profile
+    ../driver-api/vfio-pci-device-specific-driver-acceptance
+    ../nvme/feature-and-quirk-policy
+-   ../filesystems/xfs-maintainer-entry-profile
++   ../filesystems/xfs/xfs-maintainer-entry-profile
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ea790149af7951..fd288ac57e19fb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23893,10 +23893,10 @@ S:	Supported
+ W:	http://xfs.org/
+ C:	irc://irc.oftc.net/xfs
+ T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
+-P:	Documentation/filesystems/xfs-maintainer-entry-profile.rst
++P:	Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+ F:	Documentation/ABI/testing/sysfs-fs-xfs
+ F:	Documentation/admin-guide/xfs.rst
+-F:	Documentation/filesystems/xfs-*
++F:	Documentation/filesystems/xfs/xfs-*
+ F:	fs/xfs/
+ F:	include/uapi/linux/dqblk_xfs.h
+ F:	include/uapi/linux/fsmap.h
 
+base-commit: 9c235dfc3d3f901fe22acb20f2ab37ff39f2ce02
+-- 
+An old man doll... just what I always wanted! - Clara
 
-On 11/28/23 11:24, Maxime Ripard wrote:
-> The inno_hdmi driver relies on its own internal infoframe type matching
-> the hardware.
->
-> This works fine, but in order to make further reworks easier, let's
-> switch to the HDMI spec definition of those types.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/rockchip/inno_hdmi.c | 71 +++++++++++++++++++++++-------------
->  1 file changed, 45 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> index bc7fb1278cb2..ed1d10efbef4 100644
-> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> @@ -156,61 +156,80 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
->  	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
->  }
->  
-> +static u32 inno_hdmi_get_frame_index(struct inno_hdmi *hdmi,
-> +				    enum hdmi_infoframe_type type)
-> +{
-> +	struct drm_device *drm = hdmi->connector.dev;
-> +
-> +	switch (type) {
-> +	case HDMI_INFOFRAME_TYPE_VENDOR:
-> +		return INFOFRAME_VSI;
-> +	case HDMI_INFOFRAME_TYPE_AVI:
-> +		return INFOFRAME_AVI;
-> +	default:
-> +		drm_err(drm, "Unknown infoframe type: %u\n", type);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static u32 inno_hdmi_get_frame_mask(struct inno_hdmi *hdmi,
-> -				    u32 frame_index)
-> +				    enum hdmi_infoframe_type type)
->  {
->  	struct drm_device *drm = hdmi->connector.dev;
->  
-> -	switch (frame_index) {
-> -	case INFOFRAME_VSI:
-> +	switch (type) {
-> +	case HDMI_INFOFRAME_TYPE_VENDOR:
->  		return m_PACKET_VSI_EN;
-> -	case INFOFRAME_AVI:
-> +	case HDMI_INFOFRAME_TYPE_AVI:
->  		return 0;
->  	default:
-> -		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
-> +		drm_err(drm, "Unknown infoframe type: %u\n", type);
->  	}
->  
->  	return 0;
->  }
->  
->  static u32 inno_hdmi_get_frame_disable(struct inno_hdmi *hdmi,
-> -				       u32 frame_index)
-> +				       enum hdmi_infoframe_type type)
->  {
->  	struct drm_device *drm = hdmi->connector.dev;
->  
-> -	switch (frame_index) {
-> -	case INFOFRAME_VSI:
-> +	switch (type) {
-> +	case HDMI_INFOFRAME_TYPE_VENDOR:
->  		return v_PACKET_VSI_EN(0);
-> -	case INFOFRAME_AVI:
-> +	case HDMI_INFOFRAME_TYPE_AVI:
->  		return 0;
->  	default:
-> -		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
-> +		drm_err(drm, "Unknown infoframe type: %u\n", type);
->  	}
->  
->  	return 0;
->  }
->  
->  static u32 inno_hdmi_get_frame_enable(struct inno_hdmi *hdmi,
-> -				      u32 frame_index)
-> +				      enum hdmi_infoframe_type type)
->  {
->  	struct drm_device *drm = hdmi->connector.dev;
->  
-> -	switch (frame_index) {
-> -	case INFOFRAME_VSI:
-> +	switch (type) {
-> +	case HDMI_INFOFRAME_TYPE_VENDOR:
->  		return v_PACKET_VSI_EN(1);
-> -	case INFOFRAME_AVI:
-> +	case HDMI_INFOFRAME_TYPE_AVI:
->  		return 0;
->  	default:
-> -		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
-> +		drm_err(drm, "Unknown infoframe type: %u\n", type);
->  	}
->  
->  	return 0;
->  }
->  
-> -static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
-> +static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
-> +				    enum hdmi_infoframe_type type)
->  {
-> -	u32 disable = inno_hdmi_get_frame_disable(hdmi, frame_index);
-> -	u32 mask = inno_hdmi_get_frame_mask(hdmi, frame_index);
-> +	u32 frame_index = inno_hdmi_get_frame_index(hdmi, type);
-> +	u32 disable = inno_hdmi_get_frame_disable(hdmi, type);
-> +	u32 mask = inno_hdmi_get_frame_mask(hdmi, type);
->  
->  	if (mask)
->  		hdmi_modb(hdmi, HDMI_PACKET_SEND_AUTO, mask, disable);
-> @@ -219,14 +238,14 @@ static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
->  }
->  
->  static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
-> -				  union hdmi_infoframe *frame, u32 frame_index)
-> +				  union hdmi_infoframe *frame, enum hdmi_infoframe_type type)
->  {
-> -	u32 enable = inno_hdmi_get_frame_enable(hdmi, frame_index);
-> -	u32 mask = inno_hdmi_get_frame_mask(hdmi, frame_index);
-> +	u32 enable = inno_hdmi_get_frame_enable(hdmi, type);
-> +	u32 mask = inno_hdmi_get_frame_mask(hdmi, type);
->  	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
->  	ssize_t rc, i;
->  
-> -	inno_hdmi_disable_frame(hdmi, frame_index);
-> +	inno_hdmi_disable_frame(hdmi, type);
->  
->  	rc = hdmi_infoframe_pack(frame, packed_frame,
->  				 sizeof(packed_frame));
-> @@ -253,11 +272,11 @@ static int inno_hdmi_config_video_vsi(struct inno_hdmi *hdmi,
->  							 &hdmi->connector,
->  							 mode);
->  	if (rc) {
-> -		inno_hdmi_disable_frame(hdmi, INFOFRAME_VSI);
-> +		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_VENDOR);
->  		return rc;
->  	}
->  
-> -	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_VSI);
-> +	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_VENDOR);
->  }
->  
->  static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
-> @@ -270,13 +289,13 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
->  						      &hdmi->connector,
->  						      mode);
->  	if (rc) {
-> -		inno_hdmi_disable_frame(hdmi, INFOFRAME_AVI);
-> +		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_AVI);
->  		return rc;
->  	}
->  
->  	frame.avi.colorspace = HDMI_COLORSPACE_RGB;
->  
-> -	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_AVI);
-> +	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
->  }
->  
->  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
->
