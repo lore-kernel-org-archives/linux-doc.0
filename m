@@ -1,46 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="whC9yfCx"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66ED2138;
-	Tue, 28 Nov 2023 01:00:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=+Kqd0ZZyXT9nJQi9dwXBehSCo6NOmmyqnNaiHd+uCVU=; b=whC9yfCx0Udo9iFHwXHWMOFPVR
-	V5pix6ulLuyYpHr+vYNyG5y5shQMv5R56u/HNcczCtE12sF417Sh5VoAau4XYBvP0ucOKbg+cBHGY
-	skbfXPYP+CDqWw3kHXC7uK/b+gcwsV7YjmeGv/th7SdJnMW7aSQAf3+0fU+5hcindJuh+Ogh4WWVa
-	XEgCpz3IU8sANK+HWysINamznqtYNEEsT9zCxnc0ypRQ+aqWtVHMza67VPg2b25bHLPQA4u6WbNh6
-	c1LaLqoqViolzvrgpCaTyQHSYKtevKB6iSLJEgcHZ56MoXMq5OsbFxJZdzLD3Qs7kLTrFenybszgR
-	ngb0hEJg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:39606)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1r7txG-0006zt-20;
-	Tue, 28 Nov 2023 09:00:30 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1r7txF-0002oc-FO; Tue, 28 Nov 2023 09:00:29 +0000
-Date: Tue, 28 Nov 2023 09:00:29 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jie Luo <quic_luoj@quicinc.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, corbet@lwn.net, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 3/6] net: phy: at803x: add QCA8084 ethernet phy support
-Message-ID: <ZWWsLf/w82N0vwBq@shell.armlinux.org.uk>
-References: <20231126060732.31764-1-quic_luoj@quicinc.com>
- <20231126060732.31764-4-quic_luoj@quicinc.com>
- <0b22dd51-417c-436d-87ce-7ebc41185860@lunn.ch>
- <f0604c25-87a7-497a-8884-7a779ee7a2f5@quicinc.com>
- <8e4046dd-813c-4766-83fb-c54a700caf31@lunn.ch>
- <9c4c1fe7-5d71-4bb2-8b92-f4e9a136e93d@quicinc.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="cAWK9vir"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABD8A3;
+	Tue, 28 Nov 2023 01:38:42 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2293821989;
+	Tue, 28 Nov 2023 09:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1701164321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+KUlvMVVq0kzWkSg0J1DwGMUzVoldnKYXOLEGIYlAks=;
+	b=cAWK9virywTZ532MDIgO1gy44OyyHrGCDU3wFS4vwwkNsW/vKW1ledm8n6gZv1rRBCK5ny
+	TGnyw24WV2gXW3ycdO9GlCA3lf2XXWbkgTirCzOlLMWXWGyWWHV7V6juL75W9SKAKHOsKJ
+	SjyuFMC7qaohToamRE1g+RCeRp6vxrA=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F25001343E;
+	Tue, 28 Nov 2023 09:38:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 23klOCC1ZWVtYgAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Tue, 28 Nov 2023 09:38:40 +0000
+Date: Tue, 28 Nov 2023 10:38:40 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com, yosryahmed@google.com,
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
+	roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org,
+	kernel-team@meta.com, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v6 2/6] memcontrol: allows mem_cgroup_iter() to check for
+ onlineness
+Message-ID: <ZWW1IG0Mv3r0m4mp@tiehlicka>
+References: <20231127193703.1980089-1-nphamcs@gmail.com>
+ <20231127193703.1980089-3-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,39 +51,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9c4c1fe7-5d71-4bb2-8b92-f4e9a136e93d@quicinc.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20231127193703.1980089-3-nphamcs@gmail.com>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.02
+X-Spamd-Result: default: False [-2.02 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 RCPT_COUNT_TWELVE(0.00)[19];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[linux-foundation.org,cmpxchg.org,gmail.com,google.com,redhat.com,ieee.org,konsulko.com,linux.dev,kernel.org,kvack.org,meta.com,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.42)[91.09%]
 
-On Tue, Nov 28, 2023 at 03:16:45PM +0800, Jie Luo wrote:
-> > > The interface mode is passed in the .config_init, which is configured
-> > > by the PCS driver, the hardware register is located in the PCS, this
-> > > driver will be pushed later.
-> > 
-> > Is this the same as how the syqca807x works? Can the PCS driver be
-> > shared by these two drivers?
-> 
-> I am not sure syqca807x, would you point me the code path of this driver?
-> 
-> > 
-> > What i don't like at the moment is that we have two driver
-> > developments going on at once for hardware which seems very similar,
-> > but no apparent cooperation?
-> > 
-> > 	Andrew
-> 
-> The PCS of qca8084 is the PHY PCS, which should be new PCS driver,
-> in the previous chips, we don't have this kind of PHY PCS.
+On Mon 27-11-23 11:36:59, Nhat Pham wrote:
+> The new zswap writeback scheme requires an online-only memcg hierarchy
+> traversal. Add a new parameter to mem_cgroup_iter() to check for
+> onlineness before returning.
 
-No. PCS drivers are for MAC-side PCS drivers, not PHY-side PCS drivers.
-
-                     +-------------
-		     |     PHY
-MAC---PCS --- link --- PCS --- ...
-       ^             |  ^
-       |	     +--|----------
-  For this PCS          |
-                  Not for this PCS
-
+Why is this needed?
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Michal Hocko
+SUSE Labs
