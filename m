@@ -1,63 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TPfT+/II"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230D410C3
-	for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 23:53:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cyV1YIaB"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D226495
+	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 00:19:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701157993;
+	s=mimecast20190719; t=1701159571;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jjvXCqaDg/PDFR1CIU19n539Mqy9U46sCLk0Pho1wkM=;
-	b=TPfT+/II64ViUH2Bx8u7nNqBcdy9UPQLqjsYDeBW8m1Z8Rt1QNmuEQhECb3WNfLPdtvQWP
-	93NO2kOz1jtQNlBrqOqBwVj41sAq/DE8Et0ij/uqE+xkPGP2VdSKrezzDU03ngsOzefyww
-	snlbVO4Pqe45y7BMpt8Gql0CwRd3qdA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=f+G3v9b7nc6doBY8tEy1SAvHLZUUfAmJX3ZXkH6zFBI=;
+	b=cyV1YIaB4eOlT8LCQQO4XfvEtW2dN6gE631Bsj8wjJQSLYARB12/pf+w+XZ8VGJiIpyp86
+	+vapFGLKbEG2E9YGBC/B2toqSXD5cPXQYBP/iwJyV4DKTDxSHjDN4I2EOJ0eOYclZkUpls
+	HBuXd9fYF+2+yiyyHJCwmMC3iBrycnE=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-362-ZK4VOmVROqCEeuyS84vmCg-1; Tue, 28 Nov 2023 02:53:11 -0500
-X-MC-Unique: ZK4VOmVROqCEeuyS84vmCg-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40b2977d7c5so30192025e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Nov 2023 23:53:11 -0800 (PST)
+ us-mta-327-BzHQUHwSNiWM4S0hbElWPQ-1; Tue, 28 Nov 2023 03:19:29 -0500
+X-MC-Unique: BzHQUHwSNiWM4S0hbElWPQ-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2c8749e1c2dso43773711fa.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 00:19:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701157990; x=1701762790;
+        d=1e100.net; s=20230601; t=1701159567; x=1701764367;
         h=content-transfer-encoding:mime-version:user-agent:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=jjvXCqaDg/PDFR1CIU19n539Mqy9U46sCLk0Pho1wkM=;
-        b=dmO2YIhau7Vl2V0gUkKkgMyI38SkNmi343ZK6zU54QzopKexsv0Q6+RjHMxqqSiajk
-         fe0sbHLGZHN30YgUGKVUeejga8A3ib41Q8qa8Xq1aAwsk4iJQBiJf/1PsqFxnUz60xWd
-         T+4ZC3GGtmmbxvHnQIyqiCBENpWMxpYqBd0nf0uBGRBAqy3hweof+e/05UnJsf0GvesH
-         Kf/eiKA9HvAd++EqntSyECbftSvYCpboRLUMG4PmsWkI+hODPQ/IWbNyM60wOdYndaAX
-         rkglFCHb/SAXe3SjQyoSzgwlfZwqsYMHuyhTcp6+2dVCkmW2z1jh0UOVMXGWLAoNVH8G
-         NaPA==
-X-Gm-Message-State: AOJu0YyU4bnQxyJ290cziPKbg37V5xqY2dXa8RsACJBi1GcCYHRR7Thw
-	uhzXmB0Mvk8ilobUjI5Yx74svzOf8UnMJilnGdwSr1XmNHE5OK3xJomLsz70FImFpqSWowUcgfU
-	3yepITSPXMBtW6S7g54PQ
-X-Received: by 2002:a05:600c:4312:b0:40a:5b3c:403 with SMTP id p18-20020a05600c431200b0040a5b3c0403mr9591493wme.14.1701157990543;
-        Mon, 27 Nov 2023 23:53:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFkKv1KOQdshB9/dvB9axHpdpJTKux/xN+DaSsnqos22H4Ya2ymZa3yFlYzeR7EMvJI63X0EA==
-X-Received: by 2002:a05:600c:4312:b0:40a:5b3c:403 with SMTP id p18-20020a05600c431200b0040a5b3c0403mr9591465wme.14.1701157990169;
-        Mon, 27 Nov 2023 23:53:10 -0800 (PST)
+        bh=f+G3v9b7nc6doBY8tEy1SAvHLZUUfAmJX3ZXkH6zFBI=;
+        b=hqyU4DwSK1CSwqbEgbmif4vFSF23GR9cVDAAKAI2BJvA86Gn/maRWf5RH2chBkYsRr
+         9MjjRsi9wOtvpLx+Y+oJ1vX2yVMqZgyjbr3lMGR8c6ZoGIA/dTC47Ll5pWHt5k52Xzl6
+         c/9tr0W27gjJy+S7J2N1/HkXeaxI6oUF5eliGyEcqvsL3vE8OsfYWHiV2G6jJd3E1XfG
+         afQ3pcGMkFecH171UbViLjkihhxlXkWFJ4FDZ2a3UlbxEHSfTZBn8lWRiNemQGnwfFVx
+         qn/snyfcpKYe7kOG/2mp6Bt92eewkFiBqHhpf6K+iAtxB1kAkAjMCIvfKOwp11sTQ/9R
+         R0XA==
+X-Gm-Message-State: AOJu0YxbWcZgngamxkivTESvNb8L+6qgG9DQV2Mk3wevnyogoShTpT3r
+	HIgL/IancPYY5G+WaM/8HRLotUMuUyqxCd8bdBYUif5dKU5P0AjRHkLTORvKQgA8MiTKky1KYXH
+	OJ9/9l76LYr76LvpX0OP5
+X-Received: by 2002:a2e:a41c:0:b0:2c5:12c4:5ff with SMTP id p28-20020a2ea41c000000b002c512c405ffmr9560487ljn.17.1701159567535;
+        Tue, 28 Nov 2023 00:19:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF8J321zKyNiQZhG7Be94fxSQDf1M4PnV1imORFlb0gJSJnp5IpNNTD4MOQzziOdmxEQkRtdw==
+X-Received: by 2002:a2e:a41c:0:b0:2c5:12c4:5ff with SMTP id p28-20020a2ea41c000000b002c512c405ffmr9560473ljn.17.1701159567209;
+        Tue, 28 Nov 2023 00:19:27 -0800 (PST)
 Received: from starship ([77.137.131.4])
-        by smtp.gmail.com with ESMTPSA id c37-20020a05600c4a2500b003fee6e170f9sm16206179wmp.45.2023.11.27.23.53.08
+        by smtp.gmail.com with ESMTPSA id o36-20020a05600c512400b0040596352951sm17418065wms.5.2023.11.28.00.19.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 23:53:09 -0800 (PST)
-Message-ID: <4eda2ec5444cc151279d5b571a158a60a5406e1f.camel@redhat.com>
-Subject: Re: [RFC 28/33] x86/hyper-v: Introduce memory intercept message
- structure
+        Tue, 28 Nov 2023 00:19:26 -0800 (PST)
+Message-ID: <a19e0fd07f591dc768403544f92227b1121e068d.camel@redhat.com>
+Subject: Re: [RFC 30/33] KVM: x86: hyper-v: Introduce
+ KVM_REQ_HV_INJECT_INTERCEPT request
 From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org
+To: Nicolas Saenz Julienne <nsaenz@amazon.com>, Alexander Graf
+ <graf@amazon.com>,  kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
  pbonzini@redhat.com, seanjc@google.com, vkuznets@redhat.com,
- anelkz@amazon.com,  graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com,
- corbert@lwn.net,  kys@microsoft.com, haiyangz@microsoft.com,
- decui@microsoft.com, x86@kernel.org,  linux-doc@vger.kernel.org
-Date: Tue, 28 Nov 2023 09:53:07 +0200
-In-Reply-To: <20231108111806.92604-29-nsaenz@amazon.com>
+ anelkz@amazon.com,  dwmw@amazon.co.uk, jgowans@amazon.com, corbert@lwn.net,
+ kys@microsoft.com,  haiyangz@microsoft.com, decui@microsoft.com,
+ x86@kernel.org,  linux-doc@vger.kernel.org
+Date: Tue, 28 Nov 2023 10:19:24 +0200
+In-Reply-To: <CWTH00RO3SCI.31S210JQ8XP8J@amazon.com>
 References: <20231108111806.92604-1-nsaenz@amazon.com>
-	 <20231108111806.92604-29-nsaenz@amazon.com>
+	 <20231108111806.92604-31-nsaenz@amazon.com>
+	 <c1e85d8a-7f59-4c75-ada1-8a80d79c2b4e@amazon.com>
+	 <CWTH00RO3SCI.31S210JQ8XP8J@amazon.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 Precedence: bulk
@@ -68,163 +71,116 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2023-11-08 at 11:18 +0000, Nicolas Saenz Julienne wrote:
-> Introduce struct hv_memory_intercept_message, which is used when issuing
-> memory intercepts to a Hyper-V VSM guest.
+On Wed, 2023-11-08 at 13:38 +0000, Nicolas Saenz Julienne wrote:
+> On Wed Nov 8, 2023 at 12:45 PM UTC, Alexander Graf wrote:
+> > On 08.11.23 12:18, Nicolas Saenz Julienne wrote:
+> > > Introduce a new request type, KVM_REQ_HV_INJECT_INTERCEPT which allows
+> > > injecting out-of-band Hyper-V secure intercepts. For now only memory
+> > > access intercepts are supported. These are triggered when access a GPA
+> > > protected by a higher VTL. The memory intercept metadata is filled based
+> > > on the GPA provided through struct kvm_vcpu_hv_intercept_info, and
+> > > injected into the guest through SynIC message.
+> > > 
+> > > Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
+> > 
+> > IMHO memory protection violations should result in a user space exit. 
 > 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
-> ---
->  arch/x86/include/asm/hyperv-tlfs.h | 76 ++++++++++++++++++++++++++++++
->  1 file changed, 76 insertions(+)
+> It already does, it's not very explicit from the patch itself, since the
+> functionality was introduced in through the "KVM: guest_memfd() and
+> per-page attributes" series [1].
 > 
-> diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-> index af594aa65307..d3d74fde6da1 100644
-> --- a/arch/x86/include/asm/hyperv-tlfs.h
-> +++ b/arch/x86/include/asm/hyperv-tlfs.h
-> @@ -799,6 +799,82 @@ struct hv_get_vp_from_apic_id_in {
->  	u32 apic_ids[];
->  } __packed;
->  
-> +
-> +/* struct hv_intercept_header::access_type_mask */
-> +#define HV_INTERCEPT_ACCESS_MASK_NONE    0
-> +#define HV_INTERCEPT_ACCESS_MASK_READ    1
-> +#define HV_INTERCEPT_ACCESS_MASK_WRITE   2
-> +#define HV_INTERCEPT_ACCESS_MASK_EXECUTE 4
-> +
-> +/* struct hv_intercept_exception::cache_type */
-> +#define HV_X64_CACHE_TYPE_UNCACHED       0
-> +#define HV_X64_CACHE_TYPE_WRITECOMBINING 1
-> +#define HV_X64_CACHE_TYPE_WRITETHROUGH   4
-> +#define HV_X64_CACHE_TYPE_WRITEPROTECTED 5
-> +#define HV_X64_CACHE_TYPE_WRITEBACK      6
-> +
-> +/* Intecept message header */
-> +struct hv_intercept_header {
-> +	__u32 vp_index;
-> +	__u8 instruction_length;
-> +#define HV_INTERCEPT_ACCESS_READ    0
-> +#define HV_INTERCEPT_ACCESS_WRITE   1
-> +#define HV_INTERCEPT_ACCESS_EXECUTE 2
-> +	__u8 access_type_mask;
-> +	union {
-> +		__u16 as_u16;
-> +		struct {
-> +			__u16 cpl:2;
-> +			__u16 cr0_pe:1;
-> +			__u16 cr0_am:1;
-> +			__u16 efer_lma:1;
-> +			__u16 debug_active:1;
-> +			__u16 interruption_pending:1;
-> +			__u16 reserved:9;
-> +		};
-> +	} exec_state;
-> +	struct hv_x64_segment_register cs;
-> +	__u64 rip;
-> +	__u64 rflags;
-> +} __packed;
+> See this snippet in patch #27:
+> 
+> +	if (kvm_hv_vsm_enabled(vcpu->kvm)) {
+> +		if (kvm_hv_faultin_pfn(vcpu, fault)) {
+> +			kvm_mmu_prepare_memory_fault_exit(vcpu, fault);
+> +			return -EFAULT;
+> +		}
+> +	}
+> 
+> Otherwise the doc in patch #33 also mentions this. :)
+> 
+> > User space can then validate what to do with the violation and if 
+> > necessary inject an intercept.
+> 
+> I do agree that secure intercept injection should be moved into to
+> user-space, and happen as a reaction to a user-space memory fault exit.
+> I was unable to do so yet, since the intercepts require a level of
+> introspection that is not yet available to QEMU. For example, providing
+> the length of the instruction that caused the fault. I'll work on
+> exposing the necessary information to user-space and move the whole
+> intercept concept there.
+
+All the missing information should be included in the new userspace VM exit payload.
 
 
-Although the struct/field names in the TLFS spec are terrible for obvious reasons,
-we should still try to stick to them as much as possible to make one's life
-less miserable when trying to find them in the spec.
+Also I would like to share my knowledge of SYNIC and how to deal with it in userspace,
+because you will have to send lots of SYNC messages from userspace if we go with
+the suggested approach of doing it in the userspace.
 
-It is also a good idea to mention from which part of the spec these fields
-come (hint, it's not from VSM part).
+- SYNIC has one message per channel, so there is no way to queue more than one
+message in the same channel. Usually only channel 0 is used (but I haven't researched
+this much).
 
-Copying here the structs that I found in the spec:
+- In-kernel STIMER emulation queues Synic messages, but it always does this in
+the vCPU thread by processing the request 'KVM_REQ_HV_STIMER', and when userspace
+wants to queue something with SYNIC it also does this on vCPU thread, this is how
+races are avoided.
 
-typedef struct
-{
-	HV_VP_INDEX VpIndex;
-	UINT8 InstructionLength;
-	HV_INTERCEPT_ACCESS_TYPE_MASK InterceptAccessType;
-	HV_X64_VP_EXECUTION_STATE ExecutionState;
-	HV_X64_SEGMENT_REGISTER CsSegment;
-	UINT64 Rip;
-	UINT64 Rflags;
-} HV_X64_INTERCEPT_MESSAGE_HEADER;
+kvm_hv_process_stimers -> stimer_expiration -> stimer_send_msg(stimer);
 
+If the delivery fails (that is if SYNIC slot already has a message pending there),
+then the timer remains pending and the next KVM_REQ_HV_STIMER request will attempt to
+deliver it again.
+ 
+After the guest processes a SYNIC message, it erases it by overwriting its message type with 0,
+and then the guest notifies the hypervisor about a free slot by either doing a write
+to a special MSR (HV_X64_MSR_EOM) or by EOI'ing the APIC interrupt.
 
-typedef struct
-{
-	UINT16 Cpl:2;
-	UINT16 Cr0Pe:1;
-	UINT16 Cr0Am:1;
-	UINT16 EferLma:1;
-	UINT16 DebugActive:1;
-	UINT16 InterruptionPending:1;
-	UINT16 Reserved:4;
-	UINT16 Reserved:5;
-} HV_X64_VP_EXECUTION_STATE;
+According to my observation windows uses the second approach (EOI),
+which thankfully works even on AVIC because the Sync Interrupts happen to be level triggered,
+and AVIC does intercept level triggered EOI.
 
+Once intercepted the EOI event triggers a delivery of an another stimer message via the vCPU thread,
+by raising another KVM_REQ_HV_STIMER request on it.
 
-For example 'access_type_mask' should be called intercept_access_type,
-and so on.
+kvm_hv_notify_acked_sint -> stimer_mark_pending -> kvm_make_request(KVM_REQ_HV_STIMER, vcpu);
 
 
+Now if the userspace faces already full SYNIC slot, it has to wait, and I don't know if
+it can be notified of an EOI or it busy waits somehow.
 
-> +
-> +union hv_x64_memory_access_info {
-> +	__u8 as_u8;
-> +	struct {
-> +		__u8 gva_valid:1;
-> +		__u8 _reserved:7;
-> +	};
-> +};
+Note that Qemu's VMBUS/SYNC implementation was never tested in production IMHO, it was once implemented
+and is only used currently by a few unit tests.
 
-typedef struct
-{
-	UINT8 GvaValid:1;
-	UINT8 Reserved:7;
-
-} HV_X64_MEMORY_ACCESS_INFO;
-
-> +
-> +struct hv_memory_intercept_message {
-> +	struct hv_intercept_header header;
-> +	__u32 cache_type;
-> +	__u8 instruction_byte_count;
-
-If I understand correctly this is the size of the following
-'instruction_bytes' field?
+It might make sense to add userspace SYNIC message queuing to the kernel,
+so that userspace could queue as many messages as it wants and let the kernel
+copy the first message in the queue to the actual SYNIC slot, every time
+it becomes free.
 
 
-> +	union hv_x64_memory_access_info memory_access_info;
-> +	__u16 _reserved;
-> +	__u64 gva;
-> +	__u64 gpa;
-> +	__u8 instruction_bytes[16];
-> +	struct hv_x64_segment_register ds;
-> +	struct hv_x64_segment_register ss;
-> +	__u64 rax;
-> +	__u64 rcx;
-> +	__u64 rdx;
-> +	__u64 rbx;
-> +	__u64 rsp;
-> +	__u64 rbp;
-> +	__u64 rsi;
-> +	__u64 rdi;
-> +	__u64 r8;
-> +	__u64 r9;
-> +	__u64 r10;
-> +	__u64 r11;
-> +	__u64 r12;
-> +	__u64 r13;
-> +	__u64 r14;
-> +	__u64 r15;
-> +} __packed;
+Final note on SYNIC is that qemu's synic code actually installs an overlay
+page over sync slots area and writes to it when it queues a message, 
+but the in-kernel stimer code just writes to the GPA regardless
+if there is an overlay memslot or not.
 
-I can't seem to find this struct at all in the spec. If it was reverse-engineered,
-then we must document everything that we know to help future readers of this code.
+Another benefit of a proper way of queuing SYNIC messages from the userspace,
+is that it might enable the kernel's STIMER to queue the SYNIC message
+directly from the timer interrupt routine, which will remove about 1000 vmexits per second that
+are caused by KVM_REQ_HV_STIMER on vCPU0, even when posted timer interrupts are used.
 
+I can implement this if you think that this makes sense.
+
+Those are my 0.2 cents.
 
 Best regards,
 	Maxim Levitsky
 
-> +
->  #include <asm-generic/hyperv-tlfs.h>
->  
->  #endif
+
+> 
+> Nicolas
+> 
+> [1] https://lore.kernel.org/lkml/20231105163040.14904-1-pbonzini@redhat.com/.
+> 
 
 
