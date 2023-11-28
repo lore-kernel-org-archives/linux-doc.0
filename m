@@ -1,87 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB8AD60;
-	Tue, 28 Nov 2023 06:41:02 -0800 (PST)
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SflQ45R4nz6J6v1;
-	Tue, 28 Nov 2023 22:36:28 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id E3876140682;
-	Tue, 28 Nov 2023 22:41:00 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 28 Nov
- 2023 14:41:00 +0000
-Date: Tue, 28 Nov 2023 14:40:59 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Russell King <rmk+kernel@armlinux.org.uk>
-CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<x86@kernel.org>, <linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
-	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse
-	<james.morse@arm.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH RFC 02/22] x86: intel_epb: Don't rely on link order
-Message-ID: <20231128144059.000042c8@Huawei.com>
-In-Reply-To: <E1r0JKq-00CTwZ-Mh@rmk-PC.armlinux.org.uk>
-References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
-	<E1r0JKq-00CTwZ-Mh@rmk-PC.armlinux.org.uk>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="L6Qdp4uW"
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 630CA1B5;
+	Tue, 28 Nov 2023 06:42:13 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 010DC37A;
+	Tue, 28 Nov 2023 14:42:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 010DC37A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1701182533; bh=5elQIPUJPWpjgXXToRm5fp9MBpDID3GOJ20HSNpr5Uc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=L6Qdp4uWFPDCMGX4Z1HHOzPXo0jPZVQjGxpmHpMK9AnJxWGfJm92pXlZUW7A2Mju7
+	 dIRwq9istL0sYg7ei3FwKTBDXlvoJWy+ol2CWXcpS7P8xzue/JB48fcSuIrBgZHXBT
+	 dmvl1ZFsH04Ogm6dXL26LsvaeAOgXjhTB4cfj9hglJzUqba1fq2LIgJ6nffjLHiyuN
+	 rJwAjA4Mk4WyLuu1m4dyu9aPR8vpuKLvGQuxr2aVFEXc9KTguiK8HvTGjZUrhNY1J3
+	 fjfzqcgB0S8d+oJi4G4CvrHOstevwWuuaN1drgdvE/gHANgtnSumlBJGd2cXSUzik+
+	 QeyEe5YDF82Kw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: Raise the minimum Sphinx requirement to 2.4.4
+In-Reply-To: <20231128023015.0e446a06@coco.lan>
+References: <87sf4qvkmc.fsf@meer.lwn.net> <20231128023015.0e446a06@coco.lan>
+Date: Tue, 28 Nov 2023 07:42:12 -0700
+Message-ID: <877cm2uegr.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain
 
-On Tue, 07 Nov 2023 10:29:28 +0000
-Russell King <rmk+kernel@armlinux.org.uk> wrote:
+Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-> From: James Morse <james.morse@arm.com>
-> 
-> intel_epb_init() is called as a subsys_initcall() to register cpuhp
-> callbacks. The callbacks make use of get_cpu_device() which will return
-> NULL unless register_cpu() has been called. register_cpu() is called
-> from topology_init(), which is also a subsys_initcall().
-> 
-> This is fragile. Moving the register_cpu() to a different
-> subsys_initcall()  leads to a NULL dereference during boot.
-> 
-> Make intel_epb_init() a late_initcall(), user-space can't provide a
-> policy before this point anyway.
-> 
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Em Mon, 27 Nov 2023 16:31:39 -0700
+> Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Seems reasonable. FWIW
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+>> index 1fb88fdceec3..db75b1b86086 100755
+>> --- a/scripts/sphinx-pre-install
+>> +++ b/scripts/sphinx-pre-install
+>> @@ -32,8 +32,7 @@ my $python_cmd = "";
+>>  my $activate_cmd;
+>>  my $min_version;
+>>  my $cur_version;
+>> -my $rec_version = "1.7.9";	# PDF won't build here
+>> -my $min_pdf_version = "2.4.4";	# Min version where pdf builds
+>> +my $rec_version = "3.0";
+>
+> Please don't. 3.0 version has a broken C domain, not properly supported.
+> The fixes arrived only starting at 3.1 (I guess some went to 3.2, but
+> 3.1 is usable, as far as I remember).
 
-> ---
-> subsys_initcall_sync() would be an option, but moving the register_cpu()
-> calls into ACPI also means adding a safety net for CPUs that are online
-> but not described properly by firmware. This lives in subsys_initcall_sync().
-> ---
->  arch/x86/kernel/cpu/intel_epb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/intel_epb.c b/arch/x86/kernel/cpu/intel_epb.c
-> index e4c3ba91321c..f18d35fe27a9 100644
-> --- a/arch/x86/kernel/cpu/intel_epb.c
-> +++ b/arch/x86/kernel/cpu/intel_epb.c
-> @@ -237,4 +237,4 @@ static __init int intel_epb_init(void)
->  	cpuhp_remove_state(CPUHP_AP_X86_INTEL_EPB_ONLINE);
->  	return ret;
->  }
-> -subsys_initcall(intel_epb_init);
-> +late_initcall(intel_epb_init);
+So you're asking for 3.1 or 3.2 instead of 3.0?
 
+Honestly, I just picked 3.0 out of the air in the hopes of eventually
+deprecating 2.x.  Not lots of thought has gone into that
+number...perhaps we should recommend higher yet?
+
+Thanks,
+
+jon
