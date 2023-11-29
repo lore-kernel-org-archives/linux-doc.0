@@ -1,115 +1,206 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKlf5lT5"
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6961BCF;
-	Wed, 29 Nov 2023 02:13:19 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50bc8a9503fso74775e87.3;
-        Wed, 29 Nov 2023 02:13:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MERiSA2b"
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C30410C4
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 02:16:38 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-54af1daf6a9so1387157a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 02:16:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701252797; x=1701857597; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
-        b=GKlf5lT5LfTn+FOIKdk4+B/fsnJPS5/dZaR06MKOv57OcUU11MD9L/FVkI2tSsJpOW
-         17Z34nxsL7V7w49178dmUlbgWCtUIxQCGTGXGFZNSM8tmet1Xm3nvJYTJ4pB3I8ncCXx
-         JFljOhwkeriSwVBgPGEVCLGyC1i4o54dArHOPssOmTq3Y1+cV7nbMQWwSGuLmk7EvZ6h
-         4w0EVo5MZfE/zt3qU1C+rkGy8ogu4pxx6ye/1W6X9yK+aHHxyBx+MT9iYboTuTk0hw5T
-         WzGoz5hvq5ofm1F/d1WNBbb5FCZ9+tYMiBUDEYEDI8voEHzd0pEeGszidbRcc2/OUhQW
-         yzkw==
+        d=linaro.org; s=google; t=1701252997; x=1701857797; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mtc4c0Qc+Eu0vsDQ9fqBtQVu0ExHjq28ELJTpnawBxM=;
+        b=MERiSA2bxjaTVu07Yoiisg2NJ1EodPqrjYQXxeNoubGDYiqbXmJtEVKKluyELdhmNi
+         iLtf72ngS4TfJjXz++Wkzgic36vMxIphu50AM9lnuvfijZa4hcfOd4gMk76vPaXCrzen
+         o3+AZ8KidYf2mjHRBLvR1yFCw1OJrHqNze5GJz8Fr8lWu3GvFPPnMSI9kGUI1rzh82EJ
+         3bQofIqmvr3P+qAIys2yqwVAlxWfsRfQ0Dak9nEEnNWWLfCk72Cbd5TG53gTeZ3Qsx/e
+         DY8+yXs9yXc+ExwOCfhnXfnZuGXgYqlbx1+GsL/2cwM148H0L9HI8SYggtHN2TNpEZ+P
+         Zt8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701252797; x=1701857597;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
-        b=p9dtK1arQeX5CrM7b1F+lJ6jg30D+7RIfUaxkyHKSB/KMUZINPwCpbB4SGq16UiOZZ
-         wJoTrjdPFyV2c4jMZ+Mgtht009NSDV70R4Trv+HdjdGdHA+ylpt82hggsuPOpGToHzsa
-         rnS7AFQUb5WljNSRXih7Tp0lyTWC8bdTs7+U8NuNU8RMyt5xyE06H/LQpwhBSFMxfYFv
-         Ptnqqmw0jUHx1Xp48XR5PpQYb0GoH5jzJqqUgiom0mQY4OjZXkESYfW8AF27mHX+qV7m
-         lH/NWi5HidUjCyvhThE3PenXOkSGH6gUG6f20rwTW+7blDwk3/OgDZa2NPq62SwSNUHF
-         3Ghw==
-X-Gm-Message-State: AOJu0YxjUosEhzCYnYuRberXMNI0QsimDNpOeSnGBmtzRAKC/sqdRwOD
-	AuA+QFN2nHG/v6T5pQ08yFg=
-X-Google-Smtp-Source: AGHT+IEqoByK4nUUfepBkFUQYGj/+qIG7mkFMGeDo/wE/qhqodU6sLdPk1cmUua5FNVdwpoUj02mkQ==
-X-Received: by 2002:a19:f60e:0:b0:507:cfbc:bf8d with SMTP id x14-20020a19f60e000000b00507cfbcbf8dmr11730596lfe.16.1701252797196;
-        Wed, 29 Nov 2023 02:13:17 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id q9-20020a0565123a8900b0050abbda2c52sm2140292lfu.157.2023.11.29.02.13.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 02:13:16 -0800 (PST)
-Date: Wed, 29 Nov 2023 12:12:59 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Sandy
- Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <20231129121259.47746996@eldfell>
-In-Reply-To: <ZWXv1Oi_sH0BRWao@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
-	<20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
-	<87h6l66nth.fsf@intel.com>
-	<v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
-	<ZWXv1Oi_sH0BRWao@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+        d=1e100.net; s=20230601; t=1701252997; x=1701857797;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mtc4c0Qc+Eu0vsDQ9fqBtQVu0ExHjq28ELJTpnawBxM=;
+        b=dpb1B+Ft8XHgM8cb37p6wW1rWhAV4CqfL6sxjW/dBIZm5uLpgVWN8k8Vg2DxRqxwAn
+         o1aFB/abuHqrfiV4Vt2NOMZ9Lw30RI6Jqs1WeaE7bQ9BtkFgA0owy2JYsbw5s/Y2sziU
+         mSLM2cA7Hqq901c2fgRf5B8yZX7Finp7uldpFWstD6WMsERGY4XOVOQadjwn8OifcYky
+         o3p0bBq/35nV19NK/wV4hUci1u7WR9G6E/e+7/rNJ6LvvbRdIs3BrgekGPoqN+iamSp0
+         4C9OmpseJlTKqfrcTaS4OvQqlgV/VpvqQ3I6DgpqQBgXJfUu9QGunTI2AgQNiiB97kt8
+         i5pQ==
+X-Gm-Message-State: AOJu0Yx3+rde1E6IncBDnRrFCkhjB3YUM3WuLGPWRzrmiAmNlDCcJD1F
+	xzdjo4C2BUms9Oiryg1z81MpVA==
+X-Google-Smtp-Source: AGHT+IGu/8SPkF/vFZGrEhiHZ4PgqS2y+L0isIf4cuQ2LgVvEv7goCfc9sLO+3AtcNQJ40HNnSWJnQ==
+X-Received: by 2002:aa7:d8d8:0:b0:54b:346d:cf00 with SMTP id k24-20020aa7d8d8000000b0054b346dcf00mr11346439eds.18.1701252996881;
+        Wed, 29 Nov 2023 02:16:36 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id c21-20020a056402101500b0053e5f67d637sm7175580edu.9.2023.11.29.02.16.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 02:16:36 -0800 (PST)
+Message-ID: <b606b44d-6b2f-4b0f-912d-b73847073616@linaro.org>
+Date: Wed, 29 Nov 2023 11:16:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+ Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Michal Simek
+ <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
+ <CAMuHMdUYEwMuxJ2Xx=KRVKneRT-e+uHz8LE1JVY5zLDkWksqKw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <CAMuHMdUYEwMuxJ2Xx=KRVKneRT-e+uHz8LE1JVY5zLDkWksqKw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Tue, 28 Nov 2023 15:49:08 +0200
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+On 27/11/2023 15:19, Geert Uytterhoeven wrote:
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/dts-coding-style.rst
+> 
+>> +       /* SoC DTSI */
+>> +
+>> +       / {
+>> +               cpus {
+>> +                       /* ... */
+>> +               };
+>> +
+>> +               psci {
+>> +                       /* ... */
+>> +               };
+>> +
+>> +               soc@ {
+> 
+> "soc@" is invalid, that should be "soc".
 
-> Should we perhaps start to use the (arguably hideous)
->  - void f(struct foo *bar)
->  + void f(struct foo bar[static 1])
-> syntax to tell the compiler we don't accept NULL pointers?
->=20
-> Hmm. Apparently that has the same problem as using any
-> other kind of array syntax in the prototype. That is,
-> the compiler demands to know the definition of 'struct foo'
-> even though we're passing in effectively a pointer. Sigh.
+soc@0 is valid.
 
+> 
+> As the "soc" node is special, you may want to elaborate:
+> 
+>                 compatible = "simple-bus";
+>                 #address-cells = <1>;
+>                 #size-cells = <1>;
+>                 ranges;
 
-__attribute__((nonnull)) ?
+but then we go to missing address/size cells in root node. Your comment
+is in general correct, but what you propose here is not a coding style,
+but DTS correctness and I only wanted to show the order of nodes. dtc
+already enforces the proper unit addresses, ranges and cells.
 
+> 
+>> +                       dma: dma-controller@10000 {
+>> +                               /* ... */
+>> +                       };
+>> +
+>> +                       clk: clock-controller@80000 {
+>> +                               /* ... */
+>> +                       };
+>> +               };
+>> +       };
+>> +
+>> +       /* Board DTS - alphabetical order */
+>> +
+>> +       &clk {
+>> +               /* ... */
+>> +       };
+>> +
+>> +       &dma {
+>> +               /* ... */
+>> +       };
+>> +
+>> +       /* Board DTS - alternative order, keep as DTSI */
+>> +
+>> +       &dma {
+>> +               /* ... */
+>> +       };
+>> +
+>> +       &clk {
+>> +               /* ... */
+>> +       };
+> 
+> IMO that alternative order is hard to review: you need to have multiple
+> files open.  It will also make validation hard, as you can only validate
+> the end result, not individual files.
 
-Thanks,
-pq
+Rob commented on this - tools (will) solve the issue. :)
 
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+> 
+> Anyway, this is already quite usable so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Krzysztof
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVnDqsACgkQI1/ltBGq
-qqde7A/+LfG5e8v6ABH2JqANkfijej4EDU9sSC3ZWBaUspi3UJEY1U0ZrDHgQd27
-lLSoxs0tguK5Dtehhk/Mn4S1XmyDtRrKNB/2L/rNqilREqQa5ciQG9OFjpqnepS2
-3kONuuooZchgnujkUjmgCg+L1X05peA166I3R9MkD4N3eqBH++XmohBaeUJDpUnN
-n1OATmnWyX2df7p/qBpOhVaNT+zu8HCgsIZq//PDNTxQxmHP5CPqbxbxuBjcwFHt
-bX1coZ602jx16CsrwaVYgVsHehXW0ru901OSPJ4flgpx/EyAjA4hHuVg+lJIZKqs
-wQRR4p/QdyBRULqGl/+4VML92ccuHFCedEtbLyH+RXSTlM547Q9nwtUPw1lB7tYQ
-Zx0BchNXyqKGnYvQUx5rTpJlTjwwq/IqkGkXnzpc3tIuj7hNTXEE1+3voPqNlnlU
-J16Lt49s2r4J2ufAykGzgqC19HM5baSykl006GFCpzLrH6iETMejOymRxAFlnE8m
-NdVHVD2YMPW9c21sJ+UjfbGrvF3H6E6MYZLDQLRnL44aHuYkCK6uSBfpgF1ugEqP
-Tzqd5wGEhEeH6OmzYEiwWHBkNJdiGnA4yo1dzpLdgdGaEKHRfdcGePGcNlLdtNcI
-AQZwl9NR+mk0zozfoa9HsXTUv+Su0TXpgD/prZ7PyqzSeM/SmkE=
-=Sfat
------END PGP SIGNATURE-----
-
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz--
