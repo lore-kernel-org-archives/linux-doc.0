@@ -1,116 +1,417 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gDwjyiF7"
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088C21998
-	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 16:31:05 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-54b545ec229so3960185a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 16:31:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701217863; x=1701822663; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yDVw23sOg2UrJKrxIvmA3Ztov9BQ3aaP2pKc9NVQp+Q=;
-        b=gDwjyiF7xNTtWpq7+MYFD/sxdzxaRyGsMPmmguE6RLn9kMovj79BXTluE+6i4TQyWC
-         /sVq1cKGb+r9h7ZU21fez0kbz3B6t2VAohfsCM3+3AaLjFTOhrwuGJ6lkhxbobIG/sIl
-         N3U5AwUGZXsTAJ2WcKn1qO0yCbQdipNorV4GlHJKl0EyMJKmM2yMY8TTl1x/GBNiLRnj
-         eEg/gnWreW4Ql8i3VMqQyOt7wAjrmbgNfd4pH1QdTnxKlV2FUXP7ZpTUWX4ydvmDAI4x
-         jMUcsziXQf71dqjWrWOHnMAqxfmly1bHEKlaZp1DIOrJVbVAtd+Ul9CbM8qtQzUQvY1I
-         GqlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701217863; x=1701822663;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yDVw23sOg2UrJKrxIvmA3Ztov9BQ3aaP2pKc9NVQp+Q=;
-        b=QFr/xl5/AQpM2RtYt6yDUN97ih9cdFlcN74FRgxSQ0EACA/QWg+TwQQ/1m0yQvYe0f
-         f6vCmG+JpCgKVXCwNbh1+fWM8qdOzkdGgnxdW0T4eDeBNOfj5vpfK0+0GvosMEZbzRjk
-         DiKFbQKDpZgj8fC8hbiYO4jyi9JRjRHxDklGqDPiebLFDPjbYW+i1TZZi2+wQTppGhWk
-         tDCtFa0Qw7xZMxcXSQCb2SGCtNFTcYvzOHyGqoO7DV88ATn1UfNiEN0dQbDkiNiEmtK8
-         c35z+LIP1UQOHmqN4XNBrAMK3s2CTZKPttYLujsvOoJmSG6XtDTIicoNh4jpIPtMKul8
-         b3tA==
-X-Gm-Message-State: AOJu0YzEt4H3Zdq1Ia3pP4RZct1dtSMhgr/byZkzWcFuVToL+xlB7HVO
-	Kh3OlqFeY4F2bCWvlQAxpVJICHNufQSoxhfHRq2vdg==
-X-Google-Smtp-Source: AGHT+IHC8UEOvU50jtsS7Vr0gcms1iLEnVOENRdNMxAoPBJBLye7+u3ipcvLY8pzJUFqT19PG/Ngi5chQxCjwtOqCvY=
-X-Received: by 2002:a17:906:48d5:b0:a11:7ba8:6891 with SMTP id
- d21-20020a17090648d500b00a117ba86891mr5048211ejt.67.1701217863358; Tue, 28
- Nov 2023 16:31:03 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="jWS4mu0i"
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14BB619A6
+	for <linux-doc@vger.kernel.org>; Tue, 28 Nov 2023 16:48:35 -0800 (PST)
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231129004831epoutp04ddbbf8ea95c64aa50ed494f8631ecd30~b8ZYpTSNl2666526665epoutp04T
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 00:48:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231129004831epoutp04ddbbf8ea95c64aa50ed494f8631ecd30~b8ZYpTSNl2666526665epoutp04T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1701218911;
+	bh=Qzp6nCDk/Vjnk32mVn6dw2vfjibBtxf/78xER5otpwY=;
+	h=Subject:Reply-To:From:To:In-Reply-To:Date:References:From;
+	b=jWS4mu0iuivW7ItJRwH3NhbAEdGlA9zSGe+Chs4J+VxXPAWbokKAeSVf6JTHT9Vva
+	 GzVk6UguJACLipIrSi7TGxXl7Pj1EpR3v0Yvp+2u74CP3F9f03bkpn6KMosHjN/OLR
+	 h0HMq6smflJBysqQy3/dOuKDeZU/15oqzN86Jn/s=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTP id
+	20231129004830epcas2p27c67488d7b3162c3a1894db1707e582e~b8ZYC6dFL2827028270epcas2p2R;
+	Wed, 29 Nov 2023 00:48:30 +0000 (GMT)
+Received: from epsmges2p4.samsung.com (unknown [182.195.36.98]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4Sg10G1ymCz4x9Q0; Wed, 29 Nov
+	2023 00:48:30 +0000 (GMT)
+X-AuditID: b6c32a48-bcdfd70000002587-05-65668a5ef8d2
+Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
+	epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+	46.8D.09607.E5A86656; Wed, 29 Nov 2023 09:48:30 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <CAJD7tkb1FqTqwONrp2nphBDkEamQtPCOFm0208H3tp0Gq2OLMQ@mail.gmail.com>
- <CA+CK2bB3nHfu1Z6_6fqN3YTAzKXMiJ12MOWpbs8JY7rQo4Fq0g@mail.gmail.com>
- <CAJD7tkZZNhf4KGV+7N+z8NFpJrvyeNudXU-WdVeE8Rm9pobfgQ@mail.gmail.com>
- <20231128235214.GD1312390@ziepe.ca> <CAJD7tkbbq6bHtPn7yE3wSS693OSthh1eBDvF-_MWZfDMXDYPKw@mail.gmail.com>
- <20231129002826.GG1312390@ziepe.ca>
-In-Reply-To: <20231129002826.GG1312390@ziepe.ca>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Tue, 28 Nov 2023 16:30:27 -0800
-Message-ID: <CAJD7tkbxhK7XFcf7h+XE2poNuOsFBQFrxZyeFr=9DoEG_acssA@mail.gmail.com>
-Subject: Re: [PATCH 00/16] IOMMU memory observability
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org, 
-	alex.williamson@redhat.com, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jasowang@redhat.com, jernej.skrabec@gmail.com, 
-	jonathanh@nvidia.com, joro@8bytes.org, kevin.tian@intel.com, 
-	krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, mst@redhat.com, m.szyprowski@samsung.com, 
-	netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org, 
-	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, virtualization@lists.linux.dev, 
-	wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Subject: RE:(2) [f2fs-dev] [PATCH v1] f2fs: New victim selection for GC
+Reply-To: yonggil.song@samsung.com
+Sender: Yonggil Song <yonggil.song@samsung.com>
+From: Yonggil Song <yonggil.song@samsung.com>
+To: Chao Yu <chao@kernel.org>, "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>, "linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Seokhwan Kim <sukka.kim@samsung.com>, Daejun
+	Park <daejun7.park@samsung.com>, Siwoo Jung <siu.jung@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <f59b8c00-3628-6318-ee69-1caf79a03f2b@kernel.org>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20231129004829epcms2p424135b51305a8d006835109dcfa0f1c5@epcms2p4>
+Date: Wed, 29 Nov 2023 09:48:29 +0900
+X-CMS-MailID: 20231129004829epcms2p424135b51305a8d006835109dcfa0f1c5
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupjk+LIzCtJLcpLzFFi42LZdljTTDeuKy3VYNUTbovTU88yWTw50M5o
+	sepBuMWT9bOYLRa2LWGxuLTI3eLyrjlsFucnvmayWNUxl9GB02PTqk42j90LPjN5LO6bzOrR
+	t2UVo8fnTXIBrFHZNhmpiSmpRQqpecn5KZl56bZK3sHxzvGmZgaGuoaWFuZKCnmJuam2Si4+
+	AbpumTlA5ygplCXmlAKFAhKLi5X07WyK8ktLUhUy8otLbJVSC1JyCswL9IoTc4tL89L18lJL
+	rAwNDIxMgQoTsjNmH7nPUvAnpuL8+i/MDYwX3bsYOTkkBEwk1vb3sHUxcnEICexglFi35ilz
+	FyMHB6+AoMTfHcIgNcIC7hJ/286zgdhCAkoS1w70skDE9SU2L17GDmKzCehK/N2wnB1kjojA
+	RmaJaV/XMUIs4JWY0f6UBcKWlti+fCtYnFPATmL5ylXsEHENiR/LepkhbFGJm6vfssPY74/N
+	h5ojItF67yxUjaDEg5+7oeKSEosOnWeCsPMl/q64zgZh10hsbWiDiutLXOvYCHYDr4CvRPOc
+	nawgNouAqsTv15+gbnOR6O5rBZvJLCAvsf3tHHA4MAtoSqzfpQ9iSggoSxy5xQJRwSfRcfgv
+	O8yHO+Y9gdqkJrF502ZWCFtG4sLjNqgrPSSm79zOBAnCXiaJ/q7qCYwKsxABPQvJ3lkIexcw
+	Mq9iFEstKM5NTy02KjCBx21yfu4mRnDC1PLYwTj77Qe9Q4xMHIyHGCU4mJVEePU+JqcK8aYk
+	VlalFuXHF5XmpBYfYjQF+ngis5Rocj4wZeeVxBuaWBqYmJkZmhuZGpgrifPea52bIiSQnliS
+	mp2aWpBaBNPHxMEp1cAkt4dT7kHC9Jay1NqnbDF81Z/UAsySxCSfahxZtefEucd5B25csf6/
+	sGxav5XBjSNy5cezws+f5eVgbXE4/Hx/tW/GOc95U7/JOBg/X9yj0dv7dXPeIfnjP4TNbq7c
+	yZN0eNX3GQbvz79i47T9k3T4xcacKKU51nlWzhf0T71R39td6ZG2nWPHo0lr+ThN+0NKFPKE
+	V/j3lD9gzInMqRRePfG5WCLbOod7jsKMMx3qPZ5xdEkZzY4Ra7rI1pnyqPq4QNZfpzxtFYu4
+	FKHeZx+UDmZOWNHxrmV+6TsDfb+6/Q1Hde5FzC0T6Pl7y177yy1J7n4uHznVjKlLny+IubWy
+	63/twwKed4IV10MDXiqxFGckGmoxFxUnAgD0tm/zIQQAAA==
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff
+References: <f59b8c00-3628-6318-ee69-1caf79a03f2b@kernel.org>
+	<20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p8>
+	<20231026091838epcms2p46f14260fdaf53e27ee6374887ed87f41@epcms2p4>
+	<CGME20231012100345epcms2p84b95e24ee5e7965858ab8be99fbc3eff@epcms2p4>
 
-On Tue, Nov 28, 2023 at 4:28=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
+>Hi Yonggil,
 >
-> On Tue, Nov 28, 2023 at 04:25:03PM -0800, Yosry Ahmed wrote:
+>On 2023/10/26 17:18, Yonggil Song wrote:
+>> Overview
+>> ========
+>> 
+>> Introduce a new way to select the data section first when selecting a
+>> victim in foreground GC. This victim selection method works when the
+>> prefer_data_victim mount option is enabled. If foreground GC migrates only
+>> data sections and runs out of free sections, it cleans dirty node sections
+>> to get more free sections.
 >
-> > > > Right, but as I mention above, if userspace starts depending on thi=
-s
-> > > > equation, we won't be able to add any more classes of "secondary" p=
-age
-> > > > tables to SecPageTables. I'd like to avoid that if possible. We can=
- do
-> > > > the subtraction in the kernel.
-> > >
-> > > What Sean had suggested was that SecPageTables was always intended to
-> > > account all the non-primary mmu memory used by page tables. If this i=
-s
-> > > the case we shouldn't be trying to break it apart into finer
-> > > counters. These are big picture counters, not detailed allocation by
-> > > owner counters.
-> >
-> > Right, I agree with that, but if SecPageTables includes page tables
-> > from multiple sources, and it is observed to be suspiciously high, the
-> > logical next step is to try to find the culprit, right?
+>What about introducing parameter to adjust cost calculated by get_gc_cost()?
 >
-> You can make that case already, if it is high wouldn't you want to
-> find the exact VMM process that was making it high?
+>Something like:
 >
-> It is a sign of fire, not a detailed debug tool.
+>get_gc_cost()
+>
+>	if (p->gc_mode == GC_GREEDY) {
+>		vblocks = get_valid_blocks();
+>		if (seg_type is data)
+>			return vblocks * data_factor;
+>		return vblock * node_factor;
+>	}
+>
+>If we prefer to select data segment during fggc, we can config data/node factor
+>as 1 and 512?
+>
+>Thoughts?
+>
+>Thanks,
+>
 
-Fair enough. We can always add separate counters later if needed,
-potentially under KVM stats to get more fine-grained details as you
-mentioned.
+Hi Chao.
 
-I am only worried about users subtracting the iommu-only counter to
-get a KVM counter. We should at least document that  SecPageTables may
-be expanded to include other sources later to avoid that.
+I think that's a simpler way to do it.
+I'll work on v2 with your idea.
+Thanks for the feedback
 
->
-> Jason
+>> 
+>> Problem
+>> =======
+>> 
+>> If the total amount of nodes is larger than the size of one section, nodes
+>> occupy multiple sections, and node victims are often selected because the
+>> gc cost is lowered by data block migration in foreground gc. Since moving
+>> the data section causes frequent node victim selection, victim threshing
+>> occurs in the node section. This results in an increase in WAF.
+>> 
+>> Experiment
+>> ==========
+>> 
+>> Test environment is as follows.
+>> 
+>> 	System info
+>> 	  - 3.6GHz, 16 core CPU
+>> 	  - 36GiB Memory
+>> 	Device info
+>> 	  - a conventional null_blk with 228MiB
+>> 	  - a sequential null_blk with 4068 zones of 8MiB
+>> 	Format
+>> 	  - mkfs.f2fs <conv null_blk> -c <seq null_blk> -m -Z 8 -o 3.89
+>> 	Mount
+>> 	  - mount -o prefer_data_victim <conv null_blk> <mount point>
+>> 	Fio script
+>> 	  - fio --rw=randwrite --bs=4k --ba=4k --filesize=31187m --norandommap --overwrite=1 --name=job1 --filename=./mnt/sustain --io_size=128g
+>> 	WAF calculation
+>> 	  - (IOs on conv. null_blk + IOs on seq. null_blk) / random write IOs
+>> 
+>> Conclusion
+>> ==========
+>> 
+>> This experiment showed that the WAF was reduced by 29% (18.75 -> 13.3) when
+>> the data section was selected first when selecting GC victims. This was
+>> achieved by reducing the migration of the node blocks by 69.4%
+>> (253,131,743 blks -> 77,463,278 blks). It is possible to achieve low WAF
+>> performance with the GC victim selection method in environments where the
+>> section size is relatively small.
+>> 
+>> Signed-off-by: Yonggil Song <yonggil.song@samsung.com>
+>> ---
+>>   Documentation/filesystems/f2fs.rst |   3 +
+>>   fs/f2fs/f2fs.h                     |   2 +
+>>   fs/f2fs/gc.c                       | 100 +++++++++++++++++++++++------
+>>   fs/f2fs/segment.h                  |   2 +
+>>   fs/f2fs/super.c                    |   9 +++
+>>   5 files changed, 95 insertions(+), 21 deletions(-)
+>> 
+>> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+>> index d32c6209685d..58e6d001d7ab 100644
+>> --- a/Documentation/filesystems/f2fs.rst
+>> +++ b/Documentation/filesystems/f2fs.rst
+>> @@ -367,6 +367,9 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
+>>   			 pending node write	drop		keep		N/A
+>>   			 pending meta write	keep		keep		N/A
+>>   			 ====================== =============== =============== ========
+>> +prefer_data_victim	 When selecting victims in foreground GC, victims of data type
+>> +			 are prioritized. This option minimizes GC victim threshing
+>> +			 in the node section to reduce WAF.
+>>   ======================== ============================================================
+>>   
+>>   Debugfs Entries
+>> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+>> index 6d688e42d89c..8b31fa2ea09a 100644
+>> --- a/fs/f2fs/f2fs.h
+>> +++ b/fs/f2fs/f2fs.h
+>> @@ -108,6 +108,7 @@ extern const char *f2fs_fault_name[FAULT_MAX];
+>>   #define	F2FS_MOUNT_GC_MERGE		0x02000000
+>>   #define F2FS_MOUNT_COMPRESS_CACHE	0x04000000
+>>   #define F2FS_MOUNT_AGE_EXTENT_CACHE	0x08000000
+>> +#define F2FS_MOUNT_PREFER_DATA_VICTIM	0x10000000
+>>   
+>>   #define F2FS_OPTION(sbi)	((sbi)->mount_opt)
+>>   #define clear_opt(sbi, option)	(F2FS_OPTION(sbi).opt &= ~F2FS_MOUNT_##option)
+>> @@ -1648,6 +1649,7 @@ struct f2fs_sb_info {
+>>   	struct f2fs_mount_info mount_opt;	/* mount options */
+>>   
+>>   	/* for cleaning operations */
+>> +	bool need_node_clean;			/* only used for prefer_data_victim */
+>>   	struct f2fs_rwsem gc_lock;		/*
+>>   						 * semaphore for GC, avoid
+>>   						 * race between GC and GC or CP
+>> diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c
+>> index f550cdeaa663..8a2da808a5fb 100644
+>> --- a/fs/f2fs/gc.c
+>> +++ b/fs/f2fs/gc.c
+>> @@ -752,6 +752,8 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>>   	unsigned int last_segment;
+>>   	unsigned int nsearched;
+>>   	bool is_atgc;
+>> +	bool is_prefer_data_victim =
+>> +		test_opt(sbi, PREFER_DATA_VICTIM) && gc_type == FG_GC;
+>>   	int ret = 0;
+>>   
+>>   	mutex_lock(&dirty_i->seglist_lock);
+>> @@ -767,6 +769,11 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>>   	p.oldest_age = 0;
+>>   	p.min_cost = get_max_cost(sbi, &p);
+>>   
+>> +	if (is_prefer_data_victim) {
+>> +		p.node_min_cost = p.min_cost;
+>> +		p.node_min_segno = p.min_segno;
+>> +	}
+>> +
+>>   	is_atgc = (p.gc_mode == GC_AT || p.alloc_mode == AT_SSR);
+>>   	nsearched = 0;
+>>   
+>> @@ -884,9 +891,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>>   
+>>   		cost = get_gc_cost(sbi, segno, &p);
+>>   
+>> -		if (p.min_cost > cost) {
+>> -			p.min_segno = segno;
+>> -			p.min_cost = cost;
+>> +		if (is_prefer_data_victim) {
+>> +			if (IS_DATASEG(get_seg_entry(sbi, segno)->type)) {
+>> +				/* update data segments victim */
+>> +				if (p.min_cost > cost) {
+>> +					p.min_segno = segno;
+>> +					p.min_cost = cost;
+>> +				}
+>> +			} else {
+>> +				/* update node segments victim */
+>> +				if (p.node_min_cost > cost) {
+>> +					p.node_min_segno = segno;
+>> +					p.node_min_cost = cost;
+>> +				}
+>> +			}
+>> +		} else {
+>> +			if (p.min_cost > cost) {
+>> +				p.min_segno = segno;
+>> +				p.min_cost = cost;
+>> +			}
+>>   		}
+>>   next:
+>>   		if (nsearched >= p.max_search) {
+>> @@ -901,6 +924,25 @@ int f2fs_get_victim(struct f2fs_sb_info *sbi, unsigned int *result,
+>>   		}
+>>   	}
+>>   
+>> +	if (is_prefer_data_victim && sbi->need_node_clean) {
+>> +		/* we need to clean node sections */
+>> +		if (p.min_cost > p.node_min_cost) {
+>> +			p.min_segno = p.node_min_segno;
+>> +			p.min_cost = p.node_min_cost;
+>> +		} else {
+>> +			/*
+>> +			 * data victim cost is the lowest.
+>> +			 * if free sections are enough, stop cleaning node victim.
+>> +			 * if not, it goes on by GCing data victims.
+>> +			 */
+>> +			if (has_enough_free_secs(sbi, prefree_segments(sbi), 0)) {
+>> +				sbi->need_node_clean = false;
+>> +				p.min_segno = NULL_SEGNO;
+>> +				goto out;
+>> +			}
+>> +		}
+>> +	}
+>> +
+>>   	/* get victim for GC_AT/AT_SSR */
+>>   	if (is_atgc) {
+>>   		lookup_victim_by_age(sbi, &p);
+>> @@ -1830,8 +1872,27 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>>   		goto stop;
+>>   	}
+>>   
+>> +	__get_secs_required(sbi, NULL, &upper_secs, NULL);
+>> +
+>> +	/*
+>> +	 * Write checkpoint to reclaim prefree segments.
+>> +	 * We need more three extra sections for writer's data/node/dentry.
+>> +	 */
+>> +	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS) {
+>> +		if (test_opt(sbi, PREFER_DATA_VICTIM)) {
+>> +			sbi->need_node_clean = true;
+>> +		}
+>> +		if (prefree_segments(sbi)) {
+>> +			ret = f2fs_write_checkpoint(sbi, &cpc);
+>> +			if (ret)
+>> +				goto stop;
+>> +			/* Reset due to checkpoint */
+>> +			sec_freed = 0;
+>> +		}
+>> +	}
+>> +
+>>   	/* Let's run FG_GC, if we don't have enough space. */
+>> -	if (has_not_enough_free_secs(sbi, 0, 0)) {
+>> +	if (gc_type == BG_GC && has_not_enough_free_secs(sbi, 0, 0)) {
+>>   		gc_type = FG_GC;
+>>   
+>>   		/*
+>> @@ -1882,7 +1943,17 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>>   			if (!gc_control->no_bg_gc &&
+>>   			    total_sec_freed < gc_control->nr_free_secs)
+>>   				goto go_gc_more;
+>> -			goto stop;
+>> +			if (test_opt(sbi, PREFER_DATA_VICTIM)) {
+>> +				/*
+>> +				 * If the need_node_clean flag is set
+>> +				 * even though there are enough free
+>> +				 * sections, node cleaning will continue.
+>> +				 */
+>> +				if (!sbi->need_node_clean)
+>> +					goto stop;
+>> +			} else {
+>> +				goto stop;
+>> +			}
+>>   		}
+>>   		if (sbi->skipped_gc_rwsem)
+>>   			skipped_round++;
+>> @@ -1897,21 +1968,6 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>>   		goto stop;
+>>   	}
+>>   
+>> -	__get_secs_required(sbi, NULL, &upper_secs, NULL);
+>> -
+>> -	/*
+>> -	 * Write checkpoint to reclaim prefree segments.
+>> -	 * We need more three extra sections for writer's data/node/dentry.
+>> -	 */
+>> -	if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS &&
+>> -				prefree_segments(sbi)) {
+>> -		stat_inc_cp_call_count(sbi, TOTAL_CALL);
+>> -		ret = f2fs_write_checkpoint(sbi, &cpc);
+>> -		if (ret)
+>> -			goto stop;
+>> -		/* Reset due to checkpoint */
+>> -		sec_freed = 0;
+>> -	}
+>>   go_gc_more:
+>>   	segno = NULL_SEGNO;
+>>   	goto gc_more;
+>> @@ -1920,8 +1976,10 @@ int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
+>>   	SIT_I(sbi)->last_victim[ALLOC_NEXT] = 0;
+>>   	SIT_I(sbi)->last_victim[FLUSH_DEVICE] = gc_control->victim_segno;
+>>   
+>> -	if (gc_type == FG_GC)
+>> +	if (gc_type == FG_GC) {
+>>   		f2fs_unpin_all_sections(sbi, true);
+>> +		sbi->need_node_clean = false;
+>> +	}
+>>   
+>>   	trace_f2fs_gc_end(sbi->sb, ret, total_freed, total_sec_freed,
+>>   				get_pages(sbi, F2FS_DIRTY_NODES),
+>> diff --git a/fs/f2fs/segment.h b/fs/f2fs/segment.h
+>> index 2ca8fb5d0dc4..d55fa1fee2e0 100644
+>> --- a/fs/f2fs/segment.h
+>> +++ b/fs/f2fs/segment.h
+>> @@ -197,8 +197,10 @@ struct victim_sel_policy {
+>>   	unsigned int offset;		/* last scanned bitmap offset */
+>>   	unsigned int ofs_unit;		/* bitmap search unit */
+>>   	unsigned int min_cost;		/* minimum cost */
+>> +	unsigned int node_min_cost;	/* minimum cost of node type section */
+>>   	unsigned long long oldest_age;	/* oldest age of segments having the same min cost */
+>>   	unsigned int min_segno;		/* segment # having min. cost */
+>> +	unsigned int node_min_segno;	/* node segment # having min. cost */
+>>   	unsigned long long age;		/* mtime of GCed section*/
+>>   	unsigned long long age_threshold;/* age threshold */
+>>   };
+>> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+>> index a8c8232852bb..133137dd6fd0 100644
+>> --- a/fs/f2fs/super.c
+>> +++ b/fs/f2fs/super.c
+>> @@ -165,6 +165,7 @@ enum {
+>>   	Opt_memory_mode,
+>>   	Opt_age_extent_cache,
+>>   	Opt_errors,
+>> +	Opt_prefer_data_victim,
+>>   	Opt_err,
+>>   };
+>>   
+>> @@ -245,6 +246,7 @@ static match_table_t f2fs_tokens = {
+>>   	{Opt_memory_mode, "memory=%s"},
+>>   	{Opt_age_extent_cache, "age_extent_cache"},
+>>   	{Opt_errors, "errors=%s"},
+>> +	{Opt_prefer_data_victim, "prefer_data_victim"},
+>>   	{Opt_err, NULL},
+>>   };
+>>   
+>> @@ -1286,6 +1288,13 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
+>>   			}
+>>   			kfree(name);
+>>   			break;
+>> +		case Opt_prefer_data_victim:
+>> +			if (!f2fs_sb_has_blkzoned(sbi)) {
+>> +				f2fs_err(sbi, "prefer_data_victim is only allowed with zoned block device feature");
+>> +				return -EINVAL;
+>> +			}
+>> +			set_opt(sbi, PREFER_DATA_VICTIM);
+>> +			break;
+>>   		default:
+>>   			f2fs_err(sbi, "Unrecognized mount option \"%s\" or missing value",
+>>   				 p);
