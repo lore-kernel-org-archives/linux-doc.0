@@ -1,87 +1,97 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Bp9Ils0f"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDD7F4
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 05:53:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701266005;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fCRlZ8oiqaJTBcB7G2DHmy/vp26Z550XjGVY3C3y2Oo=;
-	b=Bp9Ils0fKZ2EoAPIbvNkEYO+UTkL9GZnYvtvkblh6i2jQZZG9Gqz3chpLjxWdg2DTktc6m
-	T8qSvLoOwChGOhqlNXbwdjYB8D+ehWhrn+994v2dRi8+RGCD2vL57mDxm057XIpUKUckGI
-	l1l9XKeGzGju1uNsk/ahLJnDTOqDFT0=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-177-bP9z3HV5Ph-jUj0aBCc_lw-1; Wed, 29 Nov 2023 08:53:24 -0500
-X-MC-Unique: bP9z3HV5Ph-jUj0aBCc_lw-1
-Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-4644ca0a48aso156863137.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 05:53:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R3QmAJVi"
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AACAB5
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:10:39 -0800 (PST)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-5cc636d8a21so57547117b3.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:10:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701267038; x=1701871838; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F4YgMwpWk3DM18zVHWXUshQ7Hq2vVbZ+qHKkATPOglw=;
+        b=R3QmAJViKCnqEXpBIOWIsJW1pVQisVrOvuhtN6K3kOLKaiFCwLY734PAJaIKAdKHcF
+         d1kr4AzCBMB0BCXAy0ADUScO7zjTv7urUSqHKh4Vn0Uayu988b1UvsfOEJqQMV9r7fuF
+         FxM4qfGQPr1jTCVW+Qqaw0FWoUPFnEDRH0IhXfXgAH65JzRFDEbSwM76EjDkkvMPVsee
+         i0Ex/TA0z/b47OyyuzUNAN9G6HRzlhrWwD8EblbuPYEu+lHZd+SmXux6jYSO7lJp3vJx
+         HtOMufY5X9cR1fpIZyw6L9RCrijm6NpbkY8KNUeRpRfayDfd2VD/fKpQidmroM6U4EyW
+         97bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701266004; x=1701870804;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fCRlZ8oiqaJTBcB7G2DHmy/vp26Z550XjGVY3C3y2Oo=;
-        b=l7+VKBXLn5VId/MUvr6V4A7OoboI2PKJ5hrTaF1E0Iatv0RxGTtWUfpnBmct3oBmy1
-         cXYycaYRTRADtvzm4OGk6+hDANmIyvz0oUCHvXjHak2LgsU6H0KmOd4fbJd7LLS24ttq
-         S9Fv1ZD0lFbvgItOC9pWgoRTjHrq9LijlDHHx8H0X06YZ3TbLbvKnFfZlPmRQdZoD/Rx
-         pXj2pTu5jgvSfqAbORssZjLFVOpcZqF6nUs1Gem0GE3AoqBeCnKjvxOTQqkZBcS6phQa
-         c8unPv1KPTla04wvE/oXkoCmjvlSy9Df/tHJ6XugT08nRVp3mrxvj8SWx8BUDY+g2l5z
-         9kJQ==
-X-Gm-Message-State: AOJu0Yz/6znVUzj0l4e15ASiNGeSxnMj1AwXsj+h/eYafwJh0GfSuBXp
-	nx0xPGKZkRo8odPhHtDZEkmQ70EecYKzyZmZCbAAUAbn9nCDm9LkKpYjOcTX6RtO7VR3cj1Zq59
-	1B28+4Gh0fhXIk2LfmnPuWyzQqSdZ
-X-Received: by 2002:a05:6102:34d1:b0:464:4f99:67cd with SMTP id a17-20020a05610234d100b004644f9967cdmr898010vst.25.1701266003946;
-        Wed, 29 Nov 2023 05:53:23 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG6XeoX3LySftJvfhNd92B8TROaD2k49rLLui+JpiO50N4F9wBA4UISs6o9ymk2BLyZlpB5+Q==
-X-Received: by 2002:a05:6102:34d1:b0:464:4f99:67cd with SMTP id a17-20020a05610234d100b004644f9967cdmr897999vst.25.1701266003740;
-        Wed, 29 Nov 2023 05:53:23 -0800 (PST)
-Received: from [192.168.1.9] (pool-68-160-135-240.bstnma.fios.verizon.net. [68.160.135.240])
-        by smtp.gmail.com with ESMTPSA id s7-20020a0cf647000000b0067a4396f9cdsm3018175qvm.8.2023.11.29.05.53.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 05:53:23 -0800 (PST)
-Message-ID: <ac7a90a7-4d29-059b-fbff-6b67e6f5c2d3@redhat.com>
-Date: Wed, 29 Nov 2023 08:53:22 -0500
+        d=1e100.net; s=20230601; t=1701267038; x=1701871838;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F4YgMwpWk3DM18zVHWXUshQ7Hq2vVbZ+qHKkATPOglw=;
+        b=nagCHFj/WvUEekekLWMqfyM1Ig47+KpM1yEOFyEm3dhwIwLzRNC6gCMdmsLVvZMybP
+         FGkDP3TCRCHOmjAMgq9llBHZXKpuc3oSBndeN8Xxfz6b+OADArdDOoW5DZHY1zWW99y4
+         0NihiMkjd/huCLCjfmvINvy0+cc58AVyyo3ewDvMnY8OW/9wJ7OH3cmC4u42Bf48KGzZ
+         ot/EeL/ooxXAvpTS9Mrh3ctXpOWxspMxLOOt3QrYzwxufjdfeB+/pjutodKVdGE659Ls
+         xtNuwdhVVSjz/o4GW7fBDzcpJP7cwxx4MqhLjVvuIu4eZnuX5np1jmLer5oDvfTdDgf3
+         LWcw==
+X-Gm-Message-State: AOJu0YzarQRvLgjy5pKEo/teTea0jcS2JmNCGgKY3g+PaW1oGKrSa+0a
+	L6na4kuMl3bqHgP8D5LwXB8RLLqSUWZTPEKOhW7ASEAYnQJShr2+
+X-Google-Smtp-Source: AGHT+IFYRZbtLNDuKxAN7bokht3V/01ANp2eTBXMc6bL/P9sgi01OUjcqSjDqOZSFH3dshHDFn84juUVViO24APqGvk=
+X-Received: by 2002:a81:9bcc:0:b0:5d0:d517:a8ee with SMTP id
+ s195-20020a819bcc000000b005d0d517a8eemr7832100ywg.31.1701267038552; Wed, 29
+ Nov 2023 06:10:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Livepatching <live-patching@vger.kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
- Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Attreyee Mukherjee <tintinm2017@gmail.com>
-References: <20231129132527.8078-1-bagasdotme@gmail.com>
-From: Joe Lawrence <joe.lawrence@redhat.com>
-Subject: Re: [PATCH 0/2] Minor grammatical fixup for livepatch docs
-In-Reply-To: <20231129132527.8078-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+ <202311250548.lUn3bm1A-lkp@intel.com> <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
+ <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org> <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
+ <ZWS90GQTJWA7DrML@smile.fi.intel.com> <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
+ <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net> <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
+ <d4a9bd79-1cb6-4da6-9380-bb8085866533@kernel.org>
+In-Reply-To: <d4a9bd79-1cb6-4da6-9380-bb8085866533@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 29 Nov 2023 15:10:27 +0100
+Message-ID: <CACRpkdaQ0=KduRoSOn+NKNOXvL2HqL_xeCR-LQZWh6CdRMf1Pw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Andy Shevchenko <andy@kernel.org>, kernel test robot <lkp@intel.com>, 
+	Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, 
+	Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/29/23 08:25, Bagas Sanjaya wrote:
-> I was prompted to write this little grammar fix series when reading
-> the fix from Attreyee [1], with review comments requesting changes
-> to that fix. So here's my version of the fix, with reviews from [1]
-> addressed (and distinct grammar fixes splitted).
-> 
+On Wed, Nov 29, 2023 at 9:45=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+> On 29/11/2023 09:35, Nuno S=C3=A1 wrote:
 
-Typical kernel workflow would be for Attreyee to incorporate feedback
-and post their v2 after a day or two.  From the format they posted, it
-appears to be a first(ish) kernel contribution post.  Let's be kind and
-patient so they we all may benefit from the practice of iterating on
-their patch.
+> > world. If we are now going to ask to run smatch, cocci, sparse and so o=
+n, we will
+> > scare even more developers from the community... I mean, the bots are a=
+lso in place
+>
+> This is not related to Linux at all.
 
--- 
-Joe
+Smatch, main author Dan Carpenter
+Coccinelle, main author Julia Lawall
+Sparse, main author Linus Torvalds
 
+To be fair I think these tools has quite a lot to do with Linux, being deve=
+loped
+for the kernel as the primary use case, by Linux kernel contributors.
+
+> When you develop any C or C++ code,
+> you run these tools. Upstream or downstream, does not matter. Why would
+> you not use automated, free and easy tools to detect errors in your
+> code? It's just a matter of professional approach to your code.
+
+This I agree with. We just happen to have some especially
+talented C developers who write some novel tooling.
+
+(I think developers should be able to rely on robots to run them though,
+we all seem to agree on that.)
+
+Yours,
+Linus Walleij
