@@ -1,185 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="taIgII0y"
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD264C4
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:50:01 -0800 (PST)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5ccf64439bdso7999547b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:50:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="lR2QXSey"
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49219130
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 07:03:03 -0800 (PST)
+Received: by mail-qt1-x82c.google.com with SMTP id d75a77b69052e-423e8145018so4380331cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 07:03:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701269401; x=1701874201; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OhKeP/2tChma4nLl2fipRCbsIXhCJ2Ql2fHfvqdfSF4=;
-        b=taIgII0yRfSpWHl0rL/sC26C16ad/kzr9+L1NTjdkd+0oEL1o97qsv7sThaJ8mpPOR
-         LkobQkk8+ZlUCtiwc53klj505J28qktSG4RNk2f5uqeBqGKy2IC+YnkUAGyb0iy3Mmo9
-         DAjwC6DxysrpDJ49o/Syi4UYDmlgzvwE+hO7nioj0kaLHoXMthAVqtvfbR7/z0Iji4Wd
-         w7e/VosvxquzH/vLdHF/2IHrE/0qDE8SkugYEZWrz3SaVK18wB1afSn4O3C1SovwQzVd
-         l4TGTpmk9m+bRYJR5oPRkPW8wE9q8RdwtCgHv6K+W2uthVVeTtsfWFr+cTa2B9l0NoH7
-         VsNQ==
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1701270182; x=1701874982; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C2wsVpYCu/TCERAyV7xfQRsKsQF4XxordQuNYbkUm7A=;
+        b=lR2QXSeyGT5u4GTVYZfZxg2iG6AejM9Ph6SIbN/jgglTsbTqFyyEj1A0wmuT2klFiR
+         9WGsBbaEgsq1RMpCBN0deZVdSn1zXmq4NIkJyPpPIy83+v9jBdHsOhyNC0vUO/NQt4JR
+         gZRz3CgBFmFF+ZVACuabXxTKJk5y4NIRql82g3V+gBPp/G8M6J57TJ89CTKampvTyjzK
+         FtLBzxIk5yeeAVpq9cpM6sxhftbHuMKc/oASLG11grxJ/WtyHlFunaX9g6EVBCdT7M7F
+         osOWCloTiMT4LUxi1FN2U6nJ+6fvwjnU91AGzp/o7k7GKaKg9p0JCdd6ROwPGeLyV4l7
+         7B4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701269401; x=1701874201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OhKeP/2tChma4nLl2fipRCbsIXhCJ2Ql2fHfvqdfSF4=;
-        b=OKh/qkvMKJSDqguxgJt3KHTJx0f70nxvI2zGEytnR+CAgXV7FikEFPb4pNQAD3eZhl
-         ea7n+KqwKdXkdMU+zIVvvMViTn7c4bR7e2hTr5YF6pFu67RgnzYrPyWlwQa/AxmqcA5M
-         ljBI4OJv8mjH6P0Jj0CSJFTDNo9MubHmeKxmPHp9vbSEuLgj98nR9tmpxLmL8i9BlNFB
-         ffcTyxXmNRqx5fIax7+ybGz5vJjyD2laDaGZpODmg9MPUQ9sdi4pg1ry04yeW9DPRC4l
-         fdib+vHNQRLlchPMplyxphqpswYArgu2XjxjTiPpPU+sbdjCZMpX7e5XHTF5CFiDB4ln
-         RpYA==
-X-Gm-Message-State: AOJu0Yzp8TxlZVJyC+eQWudXFoJL6dCwWgAa7vxTwW1cjy5kQyJwegIl
-	by+R89Ekj8Ncri3cR4V0nILMG54eKl77E28kEb+gtoUnRWuOoQ8MFIw=
-X-Google-Smtp-Source: AGHT+IGVvGtWUCNcwNIqqWT4FI0ZK8ySjPr60DSojrMHvp+1VCvIaWJzbx2ZBbM/ASOStaPF82gKQ66tjacLTeXhKlw=
-X-Received: by 2002:a0d:d814:0:b0:5c1:25f:567d with SMTP id
- a20-20020a0dd814000000b005c1025f567dmr17123038ywe.16.1701269400974; Wed, 29
- Nov 2023 06:50:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701270182; x=1701874982;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C2wsVpYCu/TCERAyV7xfQRsKsQF4XxordQuNYbkUm7A=;
+        b=m5NMMdcURTbhUUSyyC9NJu2zUqHT70wtHzPinch8TiHsB8XNpeInzYX2LvY7gNCT63
+         8v9YM0dhyQ3TUkSIBxegwb4yYYFHJLdbBgGf6Aq+PaoAMSWfOccjz1toogu9VBw7V6RY
+         8nbVASWf187l4c+/Ju6tGGg0gFO9vPJXNhfzqNTL9EQERKSMrlPWo6TWKb/GdCa41br1
+         OA7aE/SFM2kCL0qSkub6JIPjCmphxfLVOJc/nFl9bUZK4ad1VQwON5lUExzUEIsKVBs4
+         fxfJM2x0FY90vAVg8KzyAQ5ju/GfdBZZQ6ynT47XIelyA5OtPcnhKG9JBvENieMmNDOK
+         KhUA==
+X-Gm-Message-State: AOJu0YzhzGJB29X9txChp1HQ3SyGu7DLsZ2MmUVAgKB6B7SkDY6NuuMl
+	J46G8SZkuRcgAyKc4UTVqvsKug==
+X-Google-Smtp-Source: AGHT+IFhbxa568oWRmeUGcBeIbWIWKZfp+eJgBPEkoaJAKk9/smfQhel6cgM7NgfceIz+TM9Gd82+g==
+X-Received: by 2002:a05:622a:a14:b0:423:f0aa:a82c with SMTP id bv20-20020a05622a0a1400b00423f0aaa82cmr1468250qtb.32.1701270182230;
+        Wed, 29 Nov 2023 07:03:02 -0800 (PST)
+Received: from localhost (2603-7000-0c01-2716-da5e-d3ff-fee7-26e7.res6.spectrum.com. [2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id fx10-20020a05622a4aca00b00423de58d3d8sm1366432qtb.40.2023.11.29.07.03.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 07:03:01 -0800 (PST)
+Date: Wed, 29 Nov 2023 10:02:59 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, cerasuolodomenico@gmail.com,
+	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org,
+	vitaly.wool@konsulko.com, mhocko@kernel.org,
+	roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org,
+	kernel-team@meta.com, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v7 1/6] list_lru: allows explicit memcg and NUMA node
+ selection
+Message-ID: <20231129150259.GA135852@cmpxchg.org>
+References: <20231127234600.2971029-1-nphamcs@gmail.com>
+ <20231127234600.2971029-2-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com> <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-In-Reply-To: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 29 Nov 2023 15:49:48 +0100
-Message-ID: <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-To: nuno.sa@analog.com
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231127234600.2971029-2-nphamcs@gmail.com>
 
-Hi Nuno,
+On Mon, Nov 27, 2023 at 03:45:55PM -0800, Nhat Pham wrote:
+> The interface of list_lru is based on the assumption that the list node
+> and the data it represents belong to the same allocated on the correct
+> node/memcg. While this assumption is valid for existing slab objects LRU
+> such as dentries and inodes, it is undocumented, and rather inflexible
+> for certain potential list_lru users (such as the upcoming zswap
+> shrinker and the THP shrinker). It has caused us a lot of issues during
+> our development.
+> 
+> This patch changes list_lru interface so that the caller must explicitly
+> specify numa node and memcg when adding and removing objects. The old
+> list_lru_add() and list_lru_del() are renamed to list_lru_add_obj() and
+> list_lru_del_obj(), respectively.
+> 
+> It also extends the list_lru API with a new function, list_lru_putback,
+> which undoes a previous list_lru_isolate call. Unlike list_lru_add, it
+> does not increment the LRU node count (as list_lru_isolate does not
+> decrement the node count). list_lru_putback also allows for explicit
+> memcg and NUMA node selection.
+> 
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
 
-GPIO-related review as requested! Thanks for your patch!
-
-On Fri, Nov 24, 2023 at 3:18=E2=80=AFPM Nuno Sa via B4 Relay
-<devnull+nuno.sa.analog.com@kernel.org> wrote:
-
-> +config SENSORS_LTC4282
-> +       tristate "Analog Devices LTC4282"
-> +       depends on I2C
-> +       select REGMAP_I2C
-
-select GPIOLIB
-
-potentially also
-
-select GPIO_REGMAP, see below.
-
-> +struct ltc4282_gpio {
-> +       const char * const *funcs;
-> +       u32 out_reg;
-> +       u32 out_mask;
-> +       u32 in_reg;
-> +       u32 in_mask;
-> +       bool active_high;
-> +       u8 n_funcs;
-> +};
-
-So pretty simple dedicated bits.
-
-> +static int ltc4282_gpio_input_set(struct gpio_chip *chip, unsigned int o=
-ffset)
-> +{
-> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
-> +
-> +       /* we can only control this for GPIO_1 */
-> +       if (offset !=3D LTC4282_GPIO_1)
-> +               return 0;
-> +
-> +       return regmap_set_bits(st->map, LTC4282_GPIO_CONFIG,
-> +                              LTC4282_GPIO_1_CONFIG_MASK);
-> +}
-> +
-> +static int ltc4282_gpio_output_set(struct gpio_chip *chip, unsigned int =
-offset,
-> +                                  int val)
-> +{
-> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
-> +       const struct ltc4282_gpio *gpio =3D &ltc4282_gpios[offset];
-> +
-> +       guard(mutex)(&st->lock);
-> +       /*
-> +        * Explicitly setting the pin as output can only be done for GPIO=
-_1. For
-> +        * the other pins we just pull the line down or high-z.
-> +        */
-> +       if (offset =3D=3D LTC4282_GPIO_1) {
-> +               int ret;
-> +
-> +               ret =3D regmap_update_bits(st->map, LTC4282_GPIO_CONFIG,
-> +                                        LTC4282_GPIO_1_CONFIG_MASK,
-> +                                        FIELD_PREP(LTC4282_GPIO_1_CONFIG=
-_MASK, 2));
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       /*
-> +        * GPIO_2,3 and the ALERT pin require setting the bit to 1 to pul=
-l down
-> +        * the line
-> +        */
-> +       if (!gpio->active_high)
-> +               val =3D !val;
-> +
-> +       return regmap_update_bits(st->map, gpio->out_reg, gpio->out_mask,
-> +                                 field_prep(gpio->out_mask, val));
-> +}
-> +
-> +static void ltc4282_gpio_set(struct gpio_chip *chip, unsigned int offset=
-,
-> +                            int val)
-> +{
-> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
-> +       const struct ltc4282_gpio *gpio =3D &ltc4282_gpios[offset];
-> +
-> +       if (!gpio->active_high)
-> +               val =3D !val;
-> +
-> +       regmap_update_bits(st->map, gpio->out_reg, gpio->out_mask,
-> +                          field_prep(gpio->out_mask, val));
-> +}
-> +
-> +static int ltc4282_gpio_get(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
-> +       const struct ltc4282_gpio *gpio =3D &ltc4282_gpios[offset];
-> +       int ret;
-> +       u32 val;
-> +
-> +       ret =3D regmap_read(st->map, gpio->in_reg, &val);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return !!(val & gpio->in_mask);
-> +}
-> +
-> +static int ltc4282_gpio_valid_mask(struct gpio_chip *chip,
-> +                                  unsigned long *valid_mask,
-> +                                  unsigned int ngpios)
-> +{
-> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
-> +
-> +       *valid_mask =3D st->valid_mask;
-> +       return 0;
-> +}
-
-Some of this looks like it could use GPIO_REGMAP, look into other
-drivers using these helpers such as
-drivers/gpio/gpio-ds4520.c and see how small it becomes.
-
-It may or may not help you. But take a look.
-
-Other than that it looks fine.
-
-Yours,
-Linus Walleij
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
