@@ -1,83 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="Cc5TfHiv"
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83C62F4
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 09:00:03 -0800 (PST)
-Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-7788ebea620so357048585a.3
-        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 09:00:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1701277202; x=1701882002; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8mgkS00IbNP5jyZ+NO8ODgKFBs6g0ytgBOeKMTZ8ns=;
-        b=Cc5TfHivfaAnMCl2wCcKTmQ8V6KSXeBQ94Qc/hQQqHLMx94l/6q7kPVNFzn7Dor7Om
-         6r5o64nLBMpemmWLPtav/sto+wf49O3ontvSa18PfOd0XXjiMnKZtOqqCXk4x/3rwyzH
-         hQurXNSbwCRv1XenKKEVXvAtxgRL+DXNm9JeEvd+/mwrPPmI5BU/y6SAEoauTneFXVNz
-         iAL1/AENwaUWINoEwMac8Z93ItWqw77TbXbLuXyx+HAL5Iq7+JhO6rV8OxiIGkr454FE
-         5t/LT3LM3bnUyefxYAHxY4BKVtLnyH7KYRruznsMa0lB7/xjGjzc+fVK8VK3xX62Nax9
-         GazQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701277202; x=1701882002;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U8mgkS00IbNP5jyZ+NO8ODgKFBs6g0ytgBOeKMTZ8ns=;
-        b=DkIrFcJVXW8QIlW0qLefpCe1dcUBPr6oXRIVSjzsGZ9HlTRq7ujIW99XQ5q5JXZKoF
-         ovRR8lDdm6UZUPinQ5LQBA3UFTTwGNSYMGz4wpShpE2IdgynfW8Njn+E4qTX3QSfymbX
-         6dBHeHv7IUpFxGIdoeiUXq/u5hZHUVUSh0OT0y6YEbL38jihl7QczFMgL7Ob9juudHSP
-         UuKssPQBlIYfsPTMOCcqB/hpfe1NsqSosvCH3i/AvyH6m5L8/FhTN4ZXTrhSJVmyo+5Q
-         qZtyo3LcQJe4SByN4aKm9jCuL9W9REdVWNRLV4PnJhc+JtSHc6u/UUy5prUTlpOwrDsZ
-         kX/A==
-X-Gm-Message-State: AOJu0Yx92QoFF72SxgZ49e6gL/S6YI7+aQUIqdZQSFotzlCtudmsHrN5
-	8FRoFNXkJjd5yueByaujlQAqPg==
-X-Google-Smtp-Source: AGHT+IFMmcjiCa+i8CW0+x0EBy+ZJodS4kAFY34IuEihW6YJGVum8lmU2DvIyHxJC59g78xXhTu4kQ==
-X-Received: by 2002:a05:620a:2707:b0:77d:a0ee:f196 with SMTP id b7-20020a05620a270700b0077da0eef196mr14597254qkp.5.1701277202618;
-        Wed, 29 Nov 2023 09:00:02 -0800 (PST)
-Received: from localhost ([2620:10d:c091:400::5:ffba])
-        by smtp.gmail.com with ESMTPSA id rg7-20020a05620a8ec700b0077d8622ee6csm4397763qkn.81.2023.11.29.09.00.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 09:00:02 -0800 (PST)
-Date: Wed, 29 Nov 2023 12:00:01 -0500
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, cerasuolodomenico@gmail.com,
-	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org,
-	vitaly.wool@konsulko.com, mhocko@kernel.org,
-	roman.gushchin@linux.dev, shakeelb@google.com,
-	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org,
-	kernel-team@meta.com, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH v7 2/6] memcontrol: add a new function to traverse
- online-only memcg hierarchy
-Message-ID: <20231129170001.GF135852@cmpxchg.org>
-References: <20231127234600.2971029-1-nphamcs@gmail.com>
- <20231127234600.2971029-3-nphamcs@gmail.com>
- <20231129150403.GB135852@cmpxchg.org>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A98E894;
+	Wed, 29 Nov 2023 09:07:56 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="11894699"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="11894699"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 09:07:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="912911714"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="912911714"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 09:07:44 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1r8O2H-00000000V0x-1fbR;
+	Wed, 29 Nov 2023 19:07:41 +0200
+Date: Wed, 29 Nov 2023 19:07:41 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, nuno.sa@analog.com,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Message-ID: <ZWdv3a_LIXBnagNB@smile.fi.intel.com>
+References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
+ <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+ <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
+ <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
+ <ZWdkXakM4lRe1bij@smile.fi.intel.com>
+ <41bba20f6417333919294eedd9860dee7f0fc01f.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231129150403.GB135852@cmpxchg.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <41bba20f6417333919294eedd9860dee7f0fc01f.camel@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Nov 29, 2023 at 10:04:05AM -0500, Johannes Weiner wrote:
-> On Mon, Nov 27, 2023 at 03:45:56PM -0800, Nhat Pham wrote:
-> > The new zswap writeback scheme requires an online-only memcg hierarchy
-> > traversal. Add this functionality via the new mem_cgroup_iter_online()
-> > function - the old mem_cgroup_iter() is a special case of this new
-> > function.
+On Wed, Nov 29, 2023 at 05:21:28PM +0100, Nuno Sá wrote:
+> On Wed, 2023-11-29 at 18:18 +0200, Andy Shevchenko wrote:
+> > On Wed, Nov 29, 2023 at 05:08:41PM +0100, Nuno Sá wrote:
+> > > On Wed, 2023-11-29 at 15:49 +0100, Linus Walleij wrote:
+> > > > On Fri, Nov 24, 2023 at 3:18 PM Nuno Sa via B4 Relay
+> > > > <devnull+nuno.sa.analog.com@kernel.org> wrote:
+
+...
+
+> > > > Other than that it looks fine.
+> > > 
+> > > Cool, I actually thought that having the direction + get/set stuff would be
+> > > weird given the fact that we can only PULL_LOW or HIGH_Z the pins.
 > > 
-> > Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> > Oh, then it's probably should be a pin config involved.
 > 
-> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> Well, that was what I stated in the cover [1]. Please give a look and see if what I'm
+> saying in there makes any sense.
 
-I saw Michal's reply on the other thread only after I sent this.
+I could tell only WRT GPIO/pin control. And I think what you would benefit from
+is the pin configuration and "pin control as basic GPIO" (note, latter is not
+in the upstream yet, but was submitted for review, interesting idea nevertheless).
 
-I agree with him it would be better to just check mem_cgroup_online()
-in the shinker callsite and leave mem_cgroup_iter() as-is. If it's
-offline, just continue to the next mem_cgroup_iter() invocation.
+> [1]: https://lore.kernel.org/linux-hwmon/20231110151905.1659873-1-nuno.sa@analog.com/
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
