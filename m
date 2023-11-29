@@ -1,183 +1,220 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="azMsKPAw"
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13F141AE
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 02:19:20 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54b7ef7f4d5so3882748a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 02:19:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701253158; x=1701857958; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZgUs8TNBWSvX+Jw36S2+v7tW/A1ICX2uch1ZvXrvqmc=;
-        b=azMsKPAw6NJWHPqdr2E72si7D5WFxE7dnd8wB8O2JdDkZ+h7T4U0YIixjVvjOLvqRH
-         xm4WkeTX3TeKNJFZFP9nY3Kx5/8ciooeJq2qMpFU9glP8h23ZJ7YPq1r3d17d4KDnd0c
-         RROtBDds9+440s7QAYZwfoN93dlaDLnt71//mcj/fYP7jcSaUAHT6xUNYYtqNDLADETL
-         W42OE94gf8+qIeCgQenW9Z+TfLeitaRUWK821/UNwZwOvBJ+5SuBQ8pABp9yfvFy8wGx
-         Y8Lp206nUn2vJSIlW4DGcv3sxh4JQ5U1X+Bpf8hBGitoI5WnG7+nTlW6e+/mWRAz6Tsx
-         WzJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701253158; x=1701857958;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZgUs8TNBWSvX+Jw36S2+v7tW/A1ICX2uch1ZvXrvqmc=;
-        b=xGg57sa/bwHGOXiEN067p9I1gdm4eGGEECCoW+84uDG3I2hAQITubPps6ArN/AfznX
-         nBGUZ9PxzfJpl7n8pKJli2X0rhXe+5at5zJlW52Dz0oy17W1V6XSvPV+kewxpZmRc3T5
-         EvEswAHTtwwloJ5uH10IsDp87/Ok0RkvYbJdecOAig1RP5m8f/9TXGiHDE+rdG/R2AoO
-         v8ThsNTZXtQZMJQrCIx2jgHbbps3cunyPcXIhpUgAZnuZjB/WZRkHEp3Cw6+uimSjTW5
-         orMBofEco7vkyvrqFyROAQJ70caG+gKeFCKBt/5mctPR2ONvfIVynHRln1jr3uyoER4r
-         p9nA==
-X-Gm-Message-State: AOJu0Yx8rrYjQqE1b83Q/XsUcd/+tfKyRJ4a27UXDUnkMBOY+WznUi6G
-	6UYoLUKLJgv5awMTDkto4zf2LQ==
-X-Google-Smtp-Source: AGHT+IGGNLDD1SmsCmB/BOBGu2q2gM5rjZKR//wWsqBvJ2rQtIypG4PZ6unz3UPYelxpx5vp9P483g==
-X-Received: by 2002:a50:cdda:0:b0:54b:1ca8:8520 with SMTP id h26-20020a50cdda000000b0054b1ca88520mr12005347edj.1.1701253158492;
-        Wed, 29 Nov 2023 02:19:18 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id j18-20020a508a92000000b0054bbfe0c5fcsm1064282edj.94.2023.11.29.02.19.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 02:19:17 -0800 (PST)
-Message-ID: <46f30852-4824-45b3-bf01-4a4a5ff2cff7@linaro.org>
-Date: Wed, 29 Nov 2023 11:19:15 +0100
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="J8KfmemK"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ACCED6C;
+	Wed, 29 Nov 2023 02:20:07 -0800 (PST)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AT4pp4H024125;
+	Wed, 29 Nov 2023 10:19:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ofNrLaFHuTHD21qgrZ0jFGb9u6mJ9w59ETMZ/XgMEeQ=;
+ b=J8KfmemKXBfJxdBtQ67t+ToRjfYg/+/5qR+rbi/2uGMoE40sei1OoXA0BmfQAwTOs39X
+ B/c5dCYyiDxd58gU7Q8G8ctElmJnkrDf2c6nMt3hMB6XSSD9BzYKjqDqV/vknEe4JdAz
+ JJXQqsKPTsFslQpt7NwvHtYBx4Yh4o8ygMGV3R1LiqCeRrEohdQILualLehqVHrsn/xR
+ juzh4wLv1lA2t19mt70wxgiFpmWiyol3t8T3uETzi8gQBRaOl/+1yRT09afBYWbfIp+m
+ uWjq1GmpJUZZAoVO10rVThqruwKkHeagCEeWQvS8E3pqWcFRLVPbX0Xy6Nfs0DxmDbiG Og== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ungruay6f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Nov 2023 10:19:47 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ATAJkBV008994
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Nov 2023 10:19:46 GMT
+Received: from [10.216.19.148] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 29 Nov
+ 2023 02:19:39 -0800
+Message-ID: <2153c549-2a45-3d1d-a407-e175a34b77bf@quicinc.com>
+Date: Wed, 29 Nov 2023 15:49:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
+Subject: Re: [PATCH RESEND v2 0/4] PM: hibernate: LZ4 compression support
+To: Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+        "Rafael J.
+ Wysocki" <rafael@kernel.org>
+CC: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Steven Rostedt (Google)"
+	<rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>, "Paul E. McKenney"
+	<paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>, <linux-pm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_pkondeti@quicinc.com>, <quic_kprasan@quicinc.com>,
+        <quic_mpilaniy@quicinc.com>, <quic_shrekk@quicinc.com>,
+        <mpleshivenkov@google.com>, <ericyin@google.com>
+References: <cover.1700048610.git.quic_nprakash@quicinc.com>
 Content-Language: en-US
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>,
- Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Michal Simek
- <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
- <ZWboWqELHbIrblnz@francesco-nb.int.toradex.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZWboWqELHbIrblnz@francesco-nb.int.toradex.com>
-Content-Type: text/plain; charset=UTF-8
+From: Nikhil V <quic_nprakash@quicinc.com>
+In-Reply-To: <cover.1700048610.git.quic_nprakash@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: D2UV9IUTVY72oSXmHAhNleX6Qw4PO4VD
+X-Proofpoint-ORIG-GUID: D2UV9IUTVY72oSXmHAhNleX6Qw4PO4VD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-29_07,2023-11-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311290077
 
-On 29/11/2023 08:29, Francesco Dolcini wrote:
-> On Sat, Nov 25, 2023 at 07:44:22PM +0100, Krzysztof Kozlowski wrote:
->> Document preferred coding style for Devicetree sources (DTS and DTSI),
->> to bring consistency among all (sub)architectures and ease in reviews.
+
+
+On 11/15/2023 5:52 PM, Nikhil V wrote:
+> This patch series covers the following:
+> 1. Renaming lzo* to generic names, except for lzo_xxx() APIs. This is
+> used in the next patch where we move to crypto based APIs for
+> compression. There are no functional changes introduced by this
+> approach.
 > 
-> Thank Krzysztof, we had most of this collected as BKM in some internal
-> documents and it's great to see the effort to consolidate this and add
-> it to the kernel documentation.
 > 
->> ---
->> +Following order of properties in device nodes is preferred:
->> +
->> +1. compatible
->> +2. reg
->> +3. ranges
->> +4. Standard/common properties (defined by common bindings, e.g. without
->> +   vendor-prefixes)
->> +5. Vendor-specific properties
->> +6. status (if applicable)
->> +7. Child nodes, where each node is preceded with a blank line
+> 2. Replace LZO library calls with crypto generic APIs
 > 
-> On point 4, do you have a more explicit way to define what is an actual
-> standard/common property? You mention the vendor-prefixes as an example,
-> is this just an example or this is the whole definition?
-
-The actual definition is: defined by common bindings, which are:
-meta-schemas and schemas in dtschema, and common bindings per subsystem
-(e.g. leds/common.yaml).
-
-Lack of vendor-prefix is I think 99% accurate in this matter, but there
-are some "linux," ones.
-
+> Currently for hibernation, LZO is the only compression algorithm
+> available and uses the existing LZO library calls. However, there
+> is no flexibility to switch to other algorithms which provides better
+> results. The main idea is that different compression algorithms have
+> different characteristics and hibernation may benefit when it uses
+> alternate algorithms.
 > 
-> What would be the order for this for example (from an existing DTS file)?
+> By moving to crypto based APIs, it lays a foundation to use other
+> compression algorithms for hibernation.
 > 
-> 	reg_sdhc1_vmmc: regulator-sdhci1 {
-> 		compatible = "regulator-fixed";
-> 		pinctrl-names = "default";
-> 		pinctrl-0 = <&pinctrl_sd1_pwr_en>;
-> 		enable-active-high;
-> 		gpio = <&main_gpio0 29 GPIO_ACTIVE_HIGH>;
-> 		off-on-delay-us = <100000>;
-> 		regulator-max-microvolt = <3300000>;
-> 		regulator-min-microvolt = <3300000>;
-> 		regulator-name = "+V3.3_SD";
-> 		startup-delay-us = <2000>;
-> 	};
 > 
-> I guess the point that is not obvious to me here is where do we want
-> pinctrl. I like it at position between 3 and 4, the rationale is that is
-> a very frequent property and this way it will be in a similar place for
-> every node.
+> 3. LZ4 compression
+> 
+> Extend the support for LZ4 compression to be used with hibernation.
+> The main idea is that different compression algorithms have different
+> characteristics and hibernation may benefit when it uses any of these
+> algorithms: a default algorithm, having higher compression rate but is
+> slower(compression/decompression) and a secondary algorithm, that is
+> faster(compression/decompression) but has lower compression rate.
+> 
+> LZ4 algorithm has better decompression speeds over LZO. This reduces
+> the hibernation image restore time.
+> As per test results:
+>                                      LZO             LZ4
+> Size before Compression(bytes)   682696704       682393600
+> Size after Compression(bytes)    146502402       155993547
+> Decompression Rate               335.02 MB/s     501.05 MB/s
+> Restore time                       4.4s             3.8s
+> 
+> LZO is the default compression algorithm used for hibernation. Enable
+> CONFIG_HIBERNATION_DEF_COMP_LZ4 to set the default compressor as LZ4.
+> 
+> Compression Benchmarks: https://github.com/lz4/lz4
+> 
+> 
+> 4. Support to select compression algorithm
+> 
+> Currently the default compression algorithm is selected based on
+> Kconfig. Introduce a kernel command line parameter "hib_compression" to
+> override this behaviour.
+> 
+> Users can set "hib_compression" command line parameter to specify
+> the algorithm.
+> Usage:
+>      LZO: hib_compression=lzo
+>      LZ4: hib_compression=lz4
+> LZO is the default compression algorithm used with hibernation.
+> 
+> 
+> Changes in v2:
+>   - Fixed build issues reported by kernel test robot for ARCH=sh, [1].
+> [1] https://lore.kernel.org/oe-kbuild-all/202310171226.pLUPeuC7-lkp@intel.com/
+> 
+> Nikhil V (4):
+>    PM: hibernate: Rename lzo* to make it generic
+>    PM: hibernate: Move to crypto APIs for LZO compression
+>    PM: hibernate: Add support for LZ4 compression for hibernation
+>    PM: hibernate: Support to select compression algorithm
+> 
+>   .../admin-guide/kernel-parameters.txt         |   6 +
+>   kernel/power/Kconfig                          |  26 ++-
+>   kernel/power/hibernate.c                      |  85 +++++++-
+>   kernel/power/power.h                          |  19 ++
+>   kernel/power/swap.c                           | 189 +++++++++++-------
+>   5 files changed, 251 insertions(+), 74 deletions(-)
+> 
+> 
+> base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+
+Hi @Rafael/@Pavel/@Len,
+
+Could you please let me know if you have any concerns on this approach?
+
+FYI: We have tested this on QEMU and its working fine.
+
+Logs(suspend):
+[   75.242227] PM: Using 3 thread(s) for lz4 compression
+[   75.243043] PM: Compressing and saving image data (17495 pages)...
+[   75.243917] PM: Image saving progress:   0%
+[   75.261727] PM: Image saving progress:  10%
+[   75.277968] PM: Image saving progress:  20%
+[   75.290927] PM: Image saving progress:  30%
+[   75.305186] PM: Image saving progress:  40%
+[   75.318252] PM: Image saving progress:  50%
+[   75.330310] PM: Image saving progress:  60%
+[   75.345906] PM: Image saving progress:  70%
+[   75.359054] PM: Image saving progress:  80%
+[   75.372176] PM: Image saving progress:  90%
+[   75.388411] PM: Image saving progress: 100%
+[   75.389775] PM: Image saving done
+[   75.390397] PM: hibernation: Wrote 69980 kbytes in 0.14 seconds 
+(499.85 MB/s)
+[   75.391591] PM: Image size after compression: 28242 kbytes
+[   75.393089] PM: S|
+[   75.399784] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[   75.439170] sd 0:0:0:0: [sda] Stopping disk
+[   75.501461] ACPI: PM: Preparing to enter system sleep state S5
+[   75.502766] reboot: Power down
 
 
-Order here is correct but all of them are generic properties, thus this
-coding style does not define ordering within.
 
-Best regards,
-Krzysztof
+Logs(resume):
+[    1.063248] PM: hibernation: resume from hibernation
+[    1.072868] Freezing user space processes
+[    1.073707] Freezing user space processes completed (elapsed 0.000 
+seconds)
+[    1.075192] OOM killer disabled.
+[    1.075837] Freezing remaining freezable tasks
+[    1.078010] Freezing remaining freezable tasks completed (elapsed 
+0.001 seconds)
+[    1.087489] PM: Using 3 thread(s) for lz4 decompression
+[    1.088570] PM: Loading and decompressing image data (17495 pages)...
+[    1.125549] PM: Image loading progress:   0%
+[    1.190380] PM: Image loading progress:  10%
+[    1.204963] PM: Image loading progress:  20%
+[    1.218988] PM: Image loading progress:  30%
+[    1.233697] PM: Image loading progress:  40%
+[    1.248658] PM: Image loading progress:  50%
+[    1.262910] PM: Image loading progress:  60%
+[    1.276966] PM: Image loading progress:  70%
+[    1.290517] PM: Image loading progress:  80%
+[    1.305427] PM: Image loading progress:  90%
+[    1.320666] PM: Image loading progress: 100%
+[    1.321866] PM: Image loading done
+[    1.322599] PM: hibernation: Read 69980 kbytes in 0.23 seconds 
+(304.26 MB/s)
+[    1.324795] printk: Suspending console(s) (use no_console_suspend to 
+debug)
+[   74.943801] ata1.00: Entering standby power mode
 
+
+Thanks,
+Nikhil V
