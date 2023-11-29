@@ -1,121 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id E02CAB0;
-	Wed, 29 Nov 2023 08:48:53 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96AD0C15;
-	Wed, 29 Nov 2023 08:49:40 -0800 (PST)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 69D1A3F73F;
-	Wed, 29 Nov 2023 08:48:47 -0800 (PST)
-Message-ID: <52de3aca-41b1-471e-8f87-1a77de547510@arm.com>
-Date: Wed, 29 Nov 2023 16:48:43 +0000
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="Tp265x1f"
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36C4BE
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 08:57:31 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40838915cecso50807005e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 08:57:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google; t=1701277050; x=1701881850; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
+        b=Tp265x1fhPLXtlKDHuVj5etiN7JYsgEtxBISRdzxuZZU0HwArfSUI3KpGecEM84dzY
+         Zihc23R+ePWn5NtRAhrQpRqAOUNwio2Yg82pq2u/2OVKbmCHoN0kQ7Jf5d5GDsCBNj2W
+         DtQnOKJo0irihLhy3eueXLosXVWrqcQcN7gL65JsJCOv1Sxj0KzWQV5nVGPvnY3j+SMD
+         awlodOIqem9lH9wjHogG7ihyUeftCSgHHXSFtfwHY6R5ejzXZaIBCmwOIU8ilTetrPJH
+         kOHGq0t0ss/gYnowWWuf0Ie+oDuWc1np+iqxrnMI9H/WrKBClBzqpH50FHMu6l8bzQbx
+         PZRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701277050; x=1701881850;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
+        b=XovKWA7hMgqAitWl9XKrDTL7iY/sTyn26ZJl8it5pZMJpJ/lYhTaZAs3vLxPhnJdEN
+         uwHvJ0VYW10WIK2yy382DN8jM0+vIs/4pMLzXZd/Bk17MuQcnbPfZz1rnSVelItKA86N
+         mzwIYsoomVMH2HHXg/kOYz2JQrwPXf4swCvPliZicyWsqCEBETiHR4rT+hSQVOUCS9Fr
+         QLwVJcdfgVmkTjg/yQNxlqNuPmPIIEaVoDUroRWrzU95QddE8cKUq+iiBT4MKBqsp4rl
+         03oRV64T/jf90wiBzULcbHgi4Ltm716/2oXLIoXAOWCVT32Mqmdj9YU/SYxy4WpRhpnK
+         QCiQ==
+X-Gm-Message-State: AOJu0YxeVodjnNsOUkK36gv6S2xJ3arnXAlwx23+xUhwG2SCzhzk6Che
+	LNBv5onyceXG8pRx9TnM+jFHUA==
+X-Google-Smtp-Source: AGHT+IGJnXl3K0OuahWJysbyTRWRNB8Me8pMC0aRC2KPiav1kUKZXJAHnaxaCezYw9nnmAEbaRY6hw==
+X-Received: by 2002:a05:600c:524a:b0:40b:4ba1:c502 with SMTP id fc10-20020a05600c524a00b0040b4ba1c502mr4512827wmb.37.1701277050092;
+        Wed, 29 Nov 2023 08:57:30 -0800 (PST)
+Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id s20-20020a05600c45d400b003fe1fe56202sm2876823wmo.33.2023.11.29.08.57.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 08:57:29 -0800 (PST)
+From: Dmitry Safonov <dima@arista.com>
+To: David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: linux-kernel@vger.kernel.org,
+	Dmitry Safonov <dima@arista.com>,
+	Dmitry Safonov <0x7f454c46@gmail.com>,
+	Francesco Ruggeri <fruggeri05@gmail.com>,
+	Salam Noureddine <noureddine@arista.com>,
+	Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org,
+	Markus Elfring <Markus.Elfring@web.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v4 1/7] Documentation/tcp: Fix an obvious typo
+Date: Wed, 29 Nov 2023 16:57:15 +0000
+Message-ID: <20231129165721.337302-2-dima@arista.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231129165721.337302-1-dima@arista.com>
+References: <20231129165721.337302-1-dima@arista.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/16] iommu/fsl: use page allocation function provided by
- iommu-pages.h
-Content-Language: en-GB
-To: Jason Gunthorpe <jgg@ziepe.ca>, Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
- alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev,
- baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org,
- corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
- heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
- jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
- kevin.tian@intel.com, krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st,
- mhiramat@kernel.org, mst@redhat.com, m.szyprowski@samsung.com,
- netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org,
- samuel@sholland.org, suravee.suthikulpanit@amd.com, sven@svenpeter.dev,
- thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com,
- vdumpa@nvidia.com, virtualization@lists.linux.dev, wens@csie.org,
- will@kernel.org, yu-cheng.yu@intel.com
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-9-pasha.tatashin@soleen.com>
- <1c6156de-c6c7-43a7-8c34-8239abee3978@arm.com>
- <CA+CK2bCOtwZxTUS60PHOQ3szXdCzau7OpopgFEbbC6a9Frxafg@mail.gmail.com>
- <20231128235037.GC1312390@ziepe.ca>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20231128235037.GC1312390@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 28/11/2023 11:50 pm, Jason Gunthorpe wrote:
-> On Tue, Nov 28, 2023 at 06:00:13PM -0500, Pasha Tatashin wrote:
->> On Tue, Nov 28, 2023 at 5:53 PM Robin Murphy <robin.murphy@arm.com> wrote:
->>>
->>> On 2023-11-28 8:49 pm, Pasha Tatashin wrote:
->>>> Convert iommu/fsl_pamu.c to use the new page allocation functions
->>>> provided in iommu-pages.h.
->>>
->>> Again, this is not a pagetable. This thing doesn't even *have* pagetables.
->>>
->>> Similar to patches #1 and #2 where you're lumping in configuration
->>> tables which belong to the IOMMU driver itself, as opposed to pagetables
->>> which effectively belong to an IOMMU domain's user. But then there are
->>> still drivers where you're *not* accounting similar configuration
->>> structures, so I really struggle to see how this metric is useful when
->>> it's so completely inconsistent in what it's counting :/
->>
->> The whole IOMMU subsystem allocates a significant amount of kernel
->> locked memory that we want to at least observe. The new field in
->> vmstat does just that: it reports ALL buddy allocator memory that
->> IOMMU allocates. However, for accounting purposes, I agree, we need to
->> do better, and separate at least iommu pagetables from the rest.
->>
->> We can separate the metric into two:
->> iommu pagetable only
->> iommu everything
->>
->> or into three:
->> iommu pagetable only
->> iommu dma
->> iommu everything
->>
->> What do you think?
-> 
-> I think I said this at LPC - if you want to have fine grained
-> accounting of memory by owner you need to go talk to the cgroup people
-> and come up with something generic. Adding ever open coded finer
-> category breakdowns just for iommu doesn't make alot of sense.
-> 
-> You can make some argument that the pagetable memory should be counted
-> because kvm counts it's shadow memory, but I wouldn't go into further
-> detail than that with hand coded counters..
+Yep, my VIM spellchecker is not good enough for typos like this one.
 
-Right, pagetable memory is interesting since it's something that any 
-random kernel user can indirectly allocate via iommu_domain_alloc() and 
-iommu_map(), and some of those users may even be doing so on behalf of 
-userspace. I have no objection to accounting and potentially applying 
-limits to *that*.
+Fixes: 7fe0e38bb669 ("Documentation/tcp: Add TCP-AO documentation")
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Reported-by: Markus Elfring <Markus.Elfring@web.de>
+Closes: https://lore.kernel.org/all/2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de/
+Signed-off-by: Dmitry Safonov <dima@arista.com>
+---
+ Documentation/networking/tcp_ao.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Beyond that, though, there is nothing special about "the IOMMU 
-subsystem". The amount of memory an IOMMU driver needs to allocate for 
-itself in order to function is not of interest beyond curiosity, it just 
-is what it is; limiting it would only break the IOMMU, and if a user 
-thinks it's "too much", the only actionable thing that might help is to 
-physically remove devices from the system. Similar for DMA buffers; it 
-might be intriguing to account those, but it's not really an actionable 
-metric - in the overwhelming majority of cases you can't simply tell a 
-driver to allocate less than what it needs. And that is of course 
-assuming if we were to account *all* DMA buffers, since whether they 
-happen to have an IOMMU translation or not is irrelevant (we'd have 
-already accounted the pagetables as pagetables if so).
+diff --git a/Documentation/networking/tcp_ao.rst b/Documentation/networking/tcp_ao.rst
+index cfa5bf1cc542..8a58321acce7 100644
+--- a/Documentation/networking/tcp_ao.rst
++++ b/Documentation/networking/tcp_ao.rst
+@@ -99,7 +99,7 @@ also [6.1]::
+    when it is no longer considered permitted.
+ 
+ Linux TCP-AO will try its best to prevent you from removing a key that's
+-being used, considering it a key management failure. But sine keeping
++being used, considering it a key management failure. But since keeping
+ an outdated key may become a security issue and as a peer may
+ unintentionally prevent the removal of an old key by always setting
+ it as RNextKeyID - a forced key removal mechanism is provided, where
+-- 
+2.43.0
 
-I bet "the networking subsystem" also consumes significant memory on the 
-same kind of big systems where IOMMU pagetables would be of any concern. 
-I believe some of the some of the "serious" NICs can easily run up 
-hundreds of megabytes if not gigabytes worth of queues, SKB pools, etc. 
-- would you propose accounting those too?
-
-Thanks,
-Robin.
