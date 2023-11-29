@@ -1,119 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FdbZffxY"
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DBA910C0
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 12:45:02 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bba815f30so336460e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 12:45:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CQEG1oDC"
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B86D010D1
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 12:55:48 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5cece20f006so2071027b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 12:55:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701290700; x=1701895500; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701291348; x=1701896148; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tlZYiStM5KCC7J/v+177rjHqt9KWJCfJWFMkelab9t4=;
-        b=FdbZffxY5wQE+/0cxXCbRI/zPDDidiVXjjUtYaRCjcBeQNV8h6tZEhOFNmoiYL7FiG
-         h1K6pRO8QjrrRpKLtVPO4KusIRh7cFjdTbXZrtnRwsrN9zOW761HtsD0DnDQGZcBO4B4
-         zZlRZaXN56UCW9RjgD3piveQC/RlmHoA707iaWD4ZKMsSGCKKX0wS590lk9hL1bOd4IZ
-         7f3rTyKVruPGPNdmdliTvnn9TTnMX3gBAn3rgBg3AHi7tU6xptVxJXv22YHnauF+xp/J
-         vi7OWlea2BYfXpETx4UFSoOwGVhEA35lLfaJJPqVDZIFT4A3eDZKoi2IYAMKrMsVwmSJ
-         8bzQ==
+        bh=TYo9siRRukjyydYpWOxu+G5v9shMXxvSYO9qfz7LOa0=;
+        b=CQEG1oDC57aOHEeElqbxX/8RuWEse9qb9F5n1cPybUXnf2XnjDI6lmffgslSxkXHKj
+         re30QX+97AgjXEruLqA7By6uc/9ldSAfSjcleTUmF8++hyIVUubhVEBRQtk5AudH6D+v
+         tLX2ps+WlXSQqK2N+pRP0dJGfH6Mug7y6l7w5Lw1OVogTgqDzJ7lnxtwiL0tqwetopzk
+         v8eTM5z30V9meqFvRIaJNdWOt3kfDwBi/qq6oIJDkU/VMBVAHy0ahoACczIk0bBGGY2Z
+         9kQZ6mAZMSDLYasj5Fbci9No208TRKPFLkTDgQ3Euj7rkP/ASOiML+4ocPHNlxebjxJg
+         gaHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701290700; x=1701895500;
+        d=1e100.net; s=20230601; t=1701291348; x=1701896148;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tlZYiStM5KCC7J/v+177rjHqt9KWJCfJWFMkelab9t4=;
-        b=XUGFObgBTAUbw09/PIpgqSlA+82siy5aMTHUitfhBb8MdPCQ6AzNBpd87cA+hl6jZj
-         ar0973SMeUOtQwc/Ywdkd4p0oXiZa8d5SZ109D7Kqiz8HMfKstvGLAMCNoBjga5ql1GR
-         hyWoO099W1GZXdtz+HzQAL/Q5DFgY7TGDWAOJWc60qw6ncPS74GMe9yubu93xUKDLfQQ
-         5SPNck8TbjR3NVzhx1YCtRTNoi4bqk9hnmK2JuoNY0orj/PWFFQEcUWTEW0JEiJHPRfC
-         hYw1fkdwP6OLqNlxdh6oB959drN29ceGZkpIgWGW77kvrLNiAvQqmcV46gOn+8OD9Sk6
-         C4Zg==
-X-Gm-Message-State: AOJu0YzlohhrLF/cbTgv8CcmX2oxzT5cPlgJNVbcUFLmACIvjz3b4Jej
-	DysbaEEoeC1V3pi8cZHL++PlofuDE68QbqYIOQsfiQ==
-X-Google-Smtp-Source: AGHT+IGMB2fUN71OTthlqnqBV10GCXDIRhuYgMFmlKYXWcCU4XgzYTup+BcRc5IJEjmMB4Fgw8Ibq0j5FX6Di+vVaiM=
-X-Received: by 2002:ac2:4a6f:0:b0:50b:cb50:401 with SMTP id
- q15-20020ac24a6f000000b0050bcb500401mr153882lfp.34.1701290700342; Wed, 29 Nov
- 2023 12:45:00 -0800 (PST)
+        bh=TYo9siRRukjyydYpWOxu+G5v9shMXxvSYO9qfz7LOa0=;
+        b=dXOVHoNRUJCCV7eVpx9zPYNZBbarRhjno+RXiG6doxhB5uFC6/tP/3ITf0QKWS5lKe
+         nMIhXNvpqPUlFXAm4hal6xiO1JvGmjbWWmWefCJifB/aTMytp1M6VWUwtN5AEbW/b/cU
+         ZoCtoP/Kz7VdVE8HyFDsxn6SEvl7eaEpEancQG3omT/H5oBr+oTUXLOhrI+aE1rS8irt
+         WrEdwDkzbBwNJc8IIR8qKFn2Hxg5rwq7i2SwcSzjoH+TiZItt8om9q971Av3vXuLY+0o
+         pyp1KCwlP40IeMc+IJerbZ0fnlkBD9OlZS9Gv2I7UB/JjrWUgNYLTPhzmTZFQViJZSm4
+         YdSQ==
+X-Gm-Message-State: AOJu0Yy+j9R51SF2SgFrlbrmupikvcMFOsX/h2iW5VQF5rjmVA+Bn6U9
+	i/PLl7UrUpZJSFdn1ciZQfwLF+h4Qt2qxGkIAWVxFQ==
+X-Google-Smtp-Source: AGHT+IHY5Wklar4mLgKVnkc8NkfHKvGY1m88CFYYIg2W1tC54blVltwsxR7dwpNX9DudxX79+O8uwT3RD441V3yMglQ=
+X-Received: by 2002:a81:9e0f:0:b0:591:15a6:c11f with SMTP id
+ m15-20020a819e0f000000b0059115a6c11fmr17702431ywj.50.1701291347861; Wed, 29
+ Nov 2023 12:55:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-9-pasha.tatashin@soleen.com> <1c6156de-c6c7-43a7-8c34-8239abee3978@arm.com>
- <CA+CK2bCOtwZxTUS60PHOQ3szXdCzau7OpopgFEbbC6a9Frxafg@mail.gmail.com>
- <20231128235037.GC1312390@ziepe.ca> <52de3aca-41b1-471e-8f87-1a77de547510@arm.com>
- <CA+CK2bCcfS1Fo8RvTeGXj_ejPRX9--sh5Jz8nzhkZnut4juDmg@mail.gmail.com> <20231129200305.GI1312390@ziepe.ca>
-In-Reply-To: <20231129200305.GI1312390@ziepe.ca>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 29 Nov 2023 15:44:21 -0500
-Message-ID: <CA+CK2bA05Bh+H4qsP7ZM6ZcnBXu64frEfpCDYZuLOQ4UxJC4EA@mail.gmail.com>
-Subject: Re: [PATCH 08/16] iommu/fsl: use page allocation function provided by iommu-pages.h
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Robin Murphy <robin.murphy@arm.com>, akpm@linux-foundation.org, 
-	alex.williamson@redhat.com, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jasowang@redhat.com, jernej.skrabec@gmail.com, 
-	jonathanh@nvidia.com, joro@8bytes.org, kevin.tian@intel.com, 
-	krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, mst@redhat.com, m.szyprowski@samsung.com, 
-	netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org, 
-	samuel@sholland.org, suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
-	thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
-	vdumpa@nvidia.com, virtualization@lists.linux.dev, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com
+References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
+ <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com> <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
+ <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
+In-Reply-To: <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 29 Nov 2023 21:55:35 +0100
+Message-ID: <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 29, 2023 at 3:03=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
->
-> On Wed, Nov 29, 2023 at 02:45:03PM -0500, Pasha Tatashin wrote:
->
-> > > same kind of big systems where IOMMU pagetables would be of any conce=
-rn.
-> > > I believe some of the some of the "serious" NICs can easily run up
-> > > hundreds of megabytes if not gigabytes worth of queues, SKB pools, et=
-c.
-> > > - would you propose accounting those too?
-> >
-> > Yes. Any kind of kernel memory that is proportional to the workload
-> > should be accountable. Someone is using those resources compared to
-> > the idling system, and that someone should be charged.
->
-> There is a difference between charged and accounted
->
-> You should be running around adding GFP_KERNEL_ACCOUNT, yes. I already
-> did a bunch of that work. Split that out from this series and send it
-> to the right maintainers.
+On Wed, Nov 29, 2023 at 5:08=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.com=
+> wrote:
 
-I will do that.
+> Cool, I actually thought that having the direction + get/set stuff would =
+be weird
+> given the fact that we can only PULL_LOW or HIGH_Z the pins.
 
->
-> Adding a counter for allocations and showing in procfs is a very
-> different question. IMHO that should not be done in micro, the
-> threshold to add a new counter should be high.
+There are several drivers in the kernel that implement .set_config(),
+it's existing and should be enabled if it has uses.
 
-I agree, /proc/meminfo, should not include everything, however overall
-network consumption that includes memory allocated by network driver
-would be useful to have, may be it should be exported by device
-drivers and added to the protocol memory. We already have network
-protocol memory consumption in procfs:
+As Andy points out: when the driver reaches a certain complexity,
+such as a huge table of muxable pins (that need to be configured to
+a certain muxing from device tree), and numerous complicated
+pin config options (also needing to be set up from device tree),
+it may be worth to implement a separate pin control driver that
+act as "backend" for the GPIO driver.
 
-# awk '{printf "%-10s %s\n", $1, $4}' /proc/net/protocols | grep  -v '\-1'
-protocol   memory
-UDPv6      22673
-TCPv6      16961
+I think a separate pin control driver would be overkill in this case,
+it's a PWM driver with some smallish GPIO portions AFAICT,
+but you get to decide.
 
-> There is definately room for a generic debugging feature to break down
-> GFP_KERNEL_ACCOUNT by owernship somehow. Maybe it can already be done
-> with BPF. IDK
+Yours,
+Linus Walleij
