@@ -1,90 +1,171 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpKMgZcl"
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 026D310EF;
-	Wed, 29 Nov 2023 08:21:36 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a03a900956dso211856666b.1;
-        Wed, 29 Nov 2023 08:21:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="oczT/7yN"
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC21310C4
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 08:21:56 -0800 (PST)
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-67a3f1374bdso21352716d6.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 08:21:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701274894; x=1701879694; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WJHcxsyCuO5jfq20DdxN0Xy0rqvWVqdfgS77h1CsJ8Y=;
-        b=WpKMgZcln11eSTVtmyDVVuxAOjxO7GSvxfSAnbGhQShugJuMDwM1VzoBL6bxnFt+m4
-         vrNfYKYtW8koLUomwGmRUTAZ2HBN0ETj44SCojKdTeNc0IzUMrFxE84sz2M3zGRwDmkU
-         DjA/TGJCprvLsJqJvVg6kcSF2LzwuBjxFt059UJE+lNy9eaNAVd9Nugw7BxGcFP5JmKS
-         wteyzwYtdx2uSzGqEP6JPneO0eWYs/9kq1oSecc1wDzSC3qyoryE2O+I8EH5B1uC8O4e
-         Otr8Ea4VWcXYQ4vJXeNw4P+9a0wvtcT9/3a2I5LMiZ2/Qh4pfemvW/lATCydE91DeQc1
-         mZ2g==
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1701274916; x=1701879716; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hYHLv9CSAfTThewWoacMTkgj93sBj76qjRtYqdHw6QM=;
+        b=oczT/7yNyh2rO2+7Z2ZVrnrrRD6hoAnih2ZVATXEbWprimOauqiUxqBSSikHAUTivz
+         qNzZEic2KGFZmNoMXcNva4w1+GHOGVpTsihm5aOpN2xls3bhXDn2c4IlEm2UzuLMzVlF
+         /X4VkDvU0oXFoeFNdYCsnxllbNUy79mj/O1p8QW7RzNSnvJ6TA8Hndix9jm8lmYhrE2o
+         +lz2X2SCA9qvQuO8xUHF2Epm1wgGHMB1b9t1rHD3+iuQ+sC6mTRTm94Y5dMxl4B8BzUY
+         QVdab3hzh0OfMkziuJTW74gffSal0jYV5unfwo++rkSmKFcB1tssNiihW24TIpnPJJUw
+         GbGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701274894; x=1701879694;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WJHcxsyCuO5jfq20DdxN0Xy0rqvWVqdfgS77h1CsJ8Y=;
-        b=NYMAl/JakIKucofJAry50V2VjvfEwO1f0+bto3ruTL5YKlYBRUbByFWw4vGtUkvEUe
-         ++wzJQJeqd2EsotS/qvooklBH4dmUmQPpO32jWWV9jbwNFg6eCZlpH3F+fAD+glKSFOC
-         lW+8MiP47mrKbO1EP3npcVqLvU1eaqiQk7PhyCnKx2hu4uV/KModyjhqcfZyGI4Di5Lt
-         YWQkZ3VM2lqxCalMMgUdrCjcWsRT+7mvCfadh3MbnOhLWb5vs0dP8sq9P6P08BaCg6v5
-         dO2L9j546MUx2jStYeuMLk4feaZIfLdmQFeA67JUpNFT6+W5cF5VDG3yMmsQuDYVhUfw
-         11bg==
-X-Gm-Message-State: AOJu0YyIYsN+GPHkKBt/EVRW71r12313NkkHUiYHXEUZR+RJJorIdovk
-	sdbvjJk5+mmFUn2XWjd6x1Y=
-X-Google-Smtp-Source: AGHT+IH4EFqSuuZGCurYaKfETbcvilxco2xCrvJUYclXfnUU2/v9u7aihyeBcZgiC9Q7ypu+3XqEYg==
-X-Received: by 2002:a17:906:11e:b0:a01:ae9a:c1d3 with SMTP id 30-20020a170906011e00b00a01ae9ac1d3mr18436616eje.11.1701274894133;
-        Wed, 29 Nov 2023 08:21:34 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id f3-20020a170906c08300b00a0a25541153sm6278275ejz.93.2023.11.29.08.21.33
+        d=1e100.net; s=20230601; t=1701274916; x=1701879716;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hYHLv9CSAfTThewWoacMTkgj93sBj76qjRtYqdHw6QM=;
+        b=bezihJgPqd6D4c845bFgqyjH3S5UurZnpqrcFSX+V7n0xmlHsQFFz4BSCWcFUPrjua
+         Nda/Dl7LMxuq6SudxwoUYt8K4dLmYCvvUmISYIH6jY+Srvl8rhdTBsxDoUj051ltFwYy
+         HWLWzV85b8rBgAiqhEn+jgqkkOB5NJpnVNO3aRNHddgT2D9sKaJN7f2l1xLsokIfO3ng
+         6yHHzuvzL/YArCy+nnWxEjBlStHRt5Z/1eNedJmUHinJQOPdS3LiYrWVwkSKtSOb1zou
+         ngS7ZWFl13Bbz73GCGe3D9FhJPGvM87newqhACM9/XOmucNEtCHMTY+8izge7kJw+p38
+         fd7g==
+X-Gm-Message-State: AOJu0YyO5sYqdQkv8oopyOC6rs2ClOUfy4v6rZnz/7VcsUUCDjGhVXZ0
+	urpFinWIz6bmKKRxUvACFdZaJA==
+X-Google-Smtp-Source: AGHT+IExE8UXik9bRCJxcJyoMa34oV6Hn3YLIHwRECfowsGDeobteC5UhV2ag8pFjY+6iqyHgOuSyg==
+X-Received: by 2002:a05:6214:86:b0:67a:2b0b:c591 with SMTP id n6-20020a056214008600b0067a2b0bc591mr16240106qvr.25.1701274915900;
+        Wed, 29 Nov 2023 08:21:55 -0800 (PST)
+Received: from localhost (2603-7000-0c01-2716-da5e-d3ff-fee7-26e7.res6.spectrum.com. [2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id k14-20020ad4450e000000b0067a26d7ce6fsm4550774qvu.55.2023.11.29.08.21.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 08:21:33 -0800 (PST)
-Message-ID: <41bba20f6417333919294eedd9860dee7f0fc01f.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, nuno.sa@analog.com, 
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
- <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 29 Nov 2023 17:21:28 +0100
-In-Reply-To: <ZWdkXakM4lRe1bij@smile.fi.intel.com>
-References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
-	 <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-	 <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
-	 <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
-	 <ZWdkXakM4lRe1bij@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Wed, 29 Nov 2023 08:21:55 -0800 (PST)
+Date: Wed, 29 Nov 2023 11:21:50 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, cerasuolodomenico@gmail.com,
+	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org,
+	vitaly.wool@konsulko.com, mhocko@kernel.org,
+	roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org,
+	kernel-team@meta.com, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v7 6/6] zswap: shrinks zswap pool based on memory pressure
+Message-ID: <20231129162150.GE135852@cmpxchg.org>
+References: <20231127234600.2971029-1-nphamcs@gmail.com>
+ <20231127234600.2971029-7-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231127234600.2971029-7-nphamcs@gmail.com>
 
-On Wed, 2023-11-29 at 18:18 +0200, Andy Shevchenko wrote:
-> On Wed, Nov 29, 2023 at 05:08:41PM +0100, Nuno S=C3=A1 wrote:
-> > On Wed, 2023-11-29 at 15:49 +0100, Linus Walleij wrote:
-> > > On Fri, Nov 24, 2023 at 3:18=E2=80=AFPM Nuno Sa via B4 Relay
-> > > <devnull+nuno.sa.analog.com@kernel.org> wrote:
->=20
-> ...
->=20
-> > > Other than that it looks fine.
-> >=20
-> > Cool, I actually thought that having the direction + get/set stuff woul=
-d be
-> > weird given the fact that we can only PULL_LOW or HIGH_Z the pins.
->=20
-> Oh, then it's probably should be a pin config involved.
->=20
+On Mon, Nov 27, 2023 at 03:46:00PM -0800, Nhat Pham wrote:
+> Currently, we only shrink the zswap pool when the user-defined limit is
+> hit. This means that if we set the limit too high, cold data that are
+> unlikely to be used again will reside in the pool, wasting precious
+> memory. It is hard to predict how much zswap space will be needed ahead
+> of time, as this depends on the workload (specifically, on factors such
+> as memory access patterns and compressibility of the memory pages).
+> 
+> This patch implements a memcg- and NUMA-aware shrinker for zswap, that
+> is initiated when there is memory pressure. The shrinker does not
+> have any parameter that must be tuned by the user, and can be opted in
+> or out on a per-memcg basis.
+> 
+> Furthermore, to make it more robust for many workloads and prevent
+> overshrinking (i.e evicting warm pages that might be refaulted into
+> memory), we build in the following heuristics:
+> 
+> * Estimate the number of warm pages residing in zswap, and attempt to
+>   protect this region of the zswap LRU.
+> * Scale the number of freeable objects by an estimate of the memory
+>   saving factor. The better zswap compresses the data, the fewer pages
+>   we will evict to swap (as we will otherwise incur IO for relatively
+>   small memory saving).
+> * During reclaim, if the shrinker encounters a page that is also being
+>   brought into memory, the shrinker will cautiously terminate its
+>   shrinking action, as this is a sign that it is touching the warmer
+>   region of the zswap LRU.
+> 
+> As a proof of concept, we ran the following synthetic benchmark:
+> build the linux kernel in a memory-limited cgroup, and allocate some
+> cold data in tmpfs to see if the shrinker could write them out and
+> improved the overall performance. Depending on the amount of cold data
+> generated, we observe from 14% to 35% reduction in kernel CPU time used
+> in the kernel builds.
 
-Well, that was what I stated in the cover [1]. Please give a look and see i=
-f what I'm
-saying in there makes any sense.
+I think this is a really important piece of functionality for zswap.
 
-[1]: https://lore.kernel.org/linux-hwmon/20231110151905.1659873-1-nuno.sa@a=
-nalog.com/
+Memory compression has been around and in use for a long time, but the
+question of zswap vs swap sizing has been in the room since the hybrid
+mode was first proposed. Because depending on the reuse patterns,
+putting zswap with a static size limit in front of an existing swap
+file can be a net negative for performance as it consumes more memory.
+
+It's great to finally see a solution to this which makes zswap *much*
+more general purpose. And something that distributions might want to
+turn on per default when swap is configured.
+
+Actually to the point where I think there should be a config option to
+enable the shrinker per default. Maybe not right away, but in a few
+releases when this feature has racked up some more production time.
+
+> @@ -687,6 +687,7 @@ struct page *swap_cluster_readahead(swp_entry_t entry, gfp_t gfp_mask,
+>  					&page_allocated, false);
+>  	if (unlikely(page_allocated))
+>  		swap_readpage(page, false, NULL);
+> +	zswap_lruvec_swapin(page);
+
+The "lruvec" in the name vs the page parameter is a bit odd.
+zswap_page_swapin() would be slightly better, but it still also sounds
+like it would cause an actual swapin of some sort.
+
+zswap_record_swapin()?
+
+> @@ -520,6 +575,95 @@ static struct zswap_entry *zswap_entry_find_get(struct rb_root *root,
+>  	return entry;
+>  }
+>  
+> +/*********************************
+> +* shrinker functions
+> +**********************************/
+> +static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_one *l,
+> +				       spinlock_t *lock, void *arg);
+> +
+> +static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+> +		struct shrink_control *sc)
+> +{
+> +	struct lruvec *lruvec = mem_cgroup_lruvec(sc->memcg, NODE_DATA(sc->nid));
+> +	unsigned long shrink_ret, nr_protected, lru_size;
+> +	struct zswap_pool *pool = shrinker->private_data;
+> +	bool encountered_page_in_swapcache = false;
+> +
+> +	nr_protected =
+> +		atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_protected);
+> +	lru_size = list_lru_shrink_count(&pool->list_lru, sc);
+> +
+> +	/*
+> +	 * Abort if the shrinker is disabled or if we are shrinking into the
+> +	 * protected region.
+> +	 */
+> +	if (!zswap_shrinker_enabled || nr_protected >= lru_size - sc->nr_to_scan) {
+> +		sc->nr_scanned = 0;
+> +		return SHRINK_STOP;
+> +	}
+
+I'm scratching my head at the protection check. zswap_shrinker_count()
+already factors protection into account, so sc->nr_to_scan should only
+be what is left on the list after excluding the protected area.
+
+Do we even get here if the whole list is protected? Is this to protect
+against concurrent shrinking of the list through multiple shrinkers or
+swapins? If so, a comment would be nice :)
+
+Otherwise, this looks great to me!
+
+Just nitpicks, no show stoppers:
+
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
