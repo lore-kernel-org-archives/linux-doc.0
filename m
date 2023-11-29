@@ -1,147 +1,177 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2hmSJZi2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YAhU6Phs"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F961AE;
-	Wed, 29 Nov 2023 02:08:52 -0800 (PST)
-Received: from relay2.suse.de (unknown [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 4224D1F8B9;
-	Wed, 29 Nov 2023 10:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1701252528; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J7JfkCPCOox035EJ8rHsuyLyZw+nbqdhxo9abnfk9bU=;
-	b=2hmSJZi2fN90o4KRs7/4rSIhKpjeAHDMx4NZnd/YUzHRAY75MWQtg7vc9tpIkqCgYK47vx
-	1T4teG1V6QHdkAwzhEoqgSxYCRWrOu8eowQUte+VjGfXEbT02KIU2qFQ4f2RD9zqavl7VL
-	0iWQz+BsNOimqhYlrZ/Lx4ARL8U/+4Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1701252528;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J7JfkCPCOox035EJ8rHsuyLyZw+nbqdhxo9abnfk9bU=;
-	b=YAhU6PhsnycWzJEdUnMlLYKVSrz/FjudowBcx1LIumBDTHTs8cyPpDqM/ZjIU3WgRGIHtE
-	WhFQbmYa6PcfVEDA==
-Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id EC9B32C161;
-	Wed, 29 Nov 2023 10:08:45 +0000 (UTC)
-Date: Wed, 29 Nov 2023 11:08:46 +0100 (CET)
-From: Miroslav Benes <mbenes@suse.cz>
-To: Randy Dunlap <rdunlap@infradead.org>
-cc: Matthew Wilcox <willy@infradead.org>, attreyee-muk <tintinm2017@gmail.com>, 
-    jpoimboe@kernel.org, jikos@kernel.org, pmladek@suse.com, 
-    joe.lawrence@redhat.com, corbet@lwn.net, live-patching@vger.kernel.org, 
-    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Took care of some grammatical mistakes
-In-Reply-To: <0e7941d8-d9b2-4253-9ad5-0f7806e45e2e@infradead.org>
-Message-ID: <alpine.LSU.2.21.2311291105430.12159@pobox.suse.cz>
-References: <20231127155758.33070-1-tintinm2017@gmail.com> <202dbdf5-1adf-4ffa-a50d-0424967286ba@infradead.org> <ZWX1ZB5p5Vhz7WD2@casper.infradead.org> <0e7941d8-d9b2-4253-9ad5-0f7806e45e2e@infradead.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YFt1X9D5"
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B967E1;
+	Wed, 29 Nov 2023 02:12:30 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-3331974c2d2so226515f8f.2;
+        Wed, 29 Nov 2023 02:12:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701252748; x=1701857548; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/AbJYNCZCEXbvI4J2J2Wp9nxKJb3engyS4lA/qlDLGo=;
+        b=YFt1X9D5N/q4miq1WJL8tfvnHnb+n6NcxwOQnqD1blR/ePiChKEzM8+k5ZHS7g++Ia
+         2n+E0OB2cUUWxRUjL2Tz3CyPeoKoNr+KDs2q4v8veBsIdOFp2/hmVQHZGC4rwgarsbht
+         W3u7ggTz3HpMh7/IH6GipYyOdE5/ltXkvjPl0BmGp2OEvrGdmcHYWvODIWMOKbm5FCu3
+         raRQ3VG9Yp6Li1sunhFflOOAJqDWMCcL00d9ye0pgkmDb500VlI9oxXzsIqjzcAHauRz
+         Ct4gYWGxvcEmFHfHZt4hBR3Ez/aIqiO2LGPVdEWEOXK4yXlHcPs1tOD8oTVCzzzTyPfL
+         JmRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701252748; x=1701857548;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/AbJYNCZCEXbvI4J2J2Wp9nxKJb3engyS4lA/qlDLGo=;
+        b=ULkDitU0l2um8nELLhiREOm+C4wD/ZoZBTEweQq4OPnbFc3xBwVFjD/6R3rhRP0CLu
+         DAfGlu+TRbH1bYkKcQH4KULB4hwVdzOifl/xq7PiU9aDfMY5hxi63U8OKsyEzGZIkLcK
+         mVNo6R1CR92Pdpp+dOTLQzEQjlXuqQ/W9qDNrv48FstuyFeixscjGVv0ioS7jTY+gQh1
+         UFPc5b4SMLvZG9cbLV0HZ/TU+CkEqp8JLcCG9geB9mH0stQmJv3L2H0zMoSzwOKrhM5N
+         yXFMwFmxdA4GBMnuXigjLuAWyPIuRAmNJx+Aw+zwMXF/pW3nWpBDimkOfuYHJv3/SlPQ
+         Ymsw==
+X-Gm-Message-State: AOJu0YzqKUss/1dZV0ZMSHUVTF4X/1yYrhvfyaqnvQn2PGsE12mxqIDu
+	/sVdi1YZL7nperL36aCBp2O9Q21RXg+1bA==
+X-Google-Smtp-Source: AGHT+IFPod///Z4kO2+zFmFB6JpGBcttSNViYKLHLZAGJBR0BhpdkxGCQLHmd8IBUT7CJWTH2+xyqQ==
+X-Received: by 2002:a5d:4b88:0:b0:332:cb97:2cbf with SMTP id b8-20020a5d4b88000000b00332cb972cbfmr11492828wrt.24.1701252747575;
+        Wed, 29 Nov 2023 02:12:27 -0800 (PST)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:648d:8c5c:f210:5d75])
+        by smtp.gmail.com with ESMTPSA id k24-20020a5d5258000000b00332d04514b9sm17296877wrc.95.2023.11.29.02.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 02:12:27 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: donald.hunter@redhat.com,
+	Donald Hunter <donald.hunter@gmail.com>
+Subject: [RFC PATCH net-next v1 0/6] tools/net/ynl: Add dynamic selector for options attrs
+Date: Wed, 29 Nov 2023 10:11:53 +0000
+Message-ID: <20231129101159.99197-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Bar: ++++++++++++++
-X-Spam-Score: 14.49
-X-Rspamd-Server: rspamd1
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none;
-	spf=pass (smtp-out2.suse.de: domain of mbenes@suse.cz designates 149.44.160.134 as permitted sender) smtp.mailfrom=mbenes@suse.cz;
-	dmarc=none
-X-Rspamd-Queue-Id: 4224D1F8B9
-X-Spamd-Result: default: False [14.49 / 50.00];
-	 RDNS_NONE(1.00)[];
-	 SPAMHAUS_XBL(0.00)[149.44.160.134:from];
-	 TO_DN_SOME(0.00)[];
-	 RWL_MAILSPIKE_GOOD(0.00)[149.44.160.134:from];
-	 R_SPF_ALLOW(-0.20)[+ip4:149.44.0.0/16];
-	 HFILTER_HELO_IP_A(1.00)[relay2.suse.de];
-	 HFILTER_HELO_NORES_A_OR_MX(0.30)[relay2.suse.de];
-	 R_RATELIMIT(0.00)[rip(RLa6h5sh378tcam5q78u)];
-	 MID_RHS_MATCH_FROMTLD(0.00)[];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[11];
-	 RCVD_NO_TLS_LAST(0.10)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RDNS_DNSFAIL(0.00)[];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DMARC_NA(1.20)[suse.cz];
-	 NEURAL_SPAM_SHORT(3.00)[1.000];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_SPAM_LONG(3.50)[1.000];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[jakubmarian.com:url,ludwig.guru:url];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[infradead.org,gmail.com,kernel.org,suse.com,redhat.com,lwn.net,vger.kernel.org];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 HFILTER_HOSTNAME_UNKNOWN(2.50)[]
+Content-Transfer-Encoding: 8bit
 
-On Tue, 28 Nov 2023, Randy Dunlap wrote:
+This patchset adds a dynamic selector mechanism to YNL for kind-specific
+options attributes. I am sending this as an RFC solicit feedback on a
+couple of issues before I complete the patchset.
 
-> 
-> 
-> On 11/28/23 06:12, Matthew Wilcox wrote:
-> > On Mon, Nov 27, 2023 at 11:41:31AM -0800, Randy Dunlap wrote:
-> >> Hi,
-> >>
-> >> On 11/27/23 07:57, attreyee-muk wrote:
-> >>> Respected Maintainers, 
-> >>>
-> >>> I have made some grammatical changes in the livepatch.rst file where I
-> >>> felt that the sentence would have sounded more correct and would have become easy for
-> >>> beginners to understand by reading. 
-> >>> Requesting review of my proposed changes from the mainatiners. 
-> >>>
-> >>> Thank You
-> >>> Attreyee Mukherjee
-> >>>
-> >>> Signed-off-by: attreyee-muk <tintinm2017@gmail.com>
-> >>> ---
-> >>>  Documentation/livepatch/livepatch.rst | 8 ++++----
-> >>>  1 file changed, 4 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/livepatch/livepatch.rst b/Documentation/livepatch/livepatch.rst
-> >>> index 68e3651e8af9..a2d2317b7d6b 100644
-> >>> --- a/Documentation/livepatch/livepatch.rst
-> >>> +++ b/Documentation/livepatch/livepatch.rst
-> >>> @@ -35,11 +35,11 @@ and livepatching:
-> >>>  
-> >>>  All three approaches need to modify the existing code at runtime. Therefore
-> >>> -they need to be aware of each other and not step over each other's toes.
-> >>> +they need to be aware of each other and not step over each others' toes.
-> >>
-> >> I've never seen that written like that, so I disagree here. FWIW.
-> > 
-> > "Step over" is new to me too.  I see "step on" much more often.
-> 
-> Agreed.
+I started adding this feature for the rt_link spec which is monomorphic,
+i.e. the kind-specific 'data' attribute is always a nest. The selector
+looked like this:
 
-Yes. Attreyee, please fix this instead.
- 
-> > As far as placement of the apostrophe,
-> > https://ludwig.guru/s/step+on+each+others+toes
-> > suggests either omitting the apostrophe or placing it after the s,
-> > as attreyee-muk has done is most common.
-> 
-> Apparently you can find anything on the internet.  :)
-> 
-> Here's the other side:
-> 
-> https://jakubmarian.com/each-others-vs-each-others-in-english/
+  -
+    name: data
+    type: dynamic
+    selector:
+      attribute: kind
+      list:
+        -
+          value: bridge
+          nested-attributes: linkinfo-bridge-attrs
+        -
+          value: erspan
+          nested-attributes: linkinfo-gre-attrs
 
-I am not a native speaker, but "step on each other's toe" sounds the best 
-to me. Or perhaps even "they need to be aware of each other and not step 
-on their toes" since it is then kind of implied? English is difficult :).
+Then I started working on tc and found that the 'options' attribute is
+poymorphic. It is typically either a C struct or a nest. So I extended the
+dynamic selector to include a 'type' field and type-specific sub-fields:
 
-Miroslav
+  -
+    name: options
+    type: dynamic
+    selector:
+      attribute: kind
+      list:
+        -
+          value: bfifo
+          type: binary
+          struct: tc-fifo-qopt
+        -
+          value: cake
+          type: nest
+          nested-attributes: tc-cake-attrs
+        -
+          value: cbs
+          type: nest
+          nested-attributes: tc-cbs-attrs
+
+Then I encountered 'netem' which has a nest with a C struct header. I
+realised that maybe my mental model had been wrong and that all cases
+could be supported by a nest type with an optional fixed-header followed
+by zero or more nlattrs.
+
+  -
+    value: netem
+    type: nest
+    fixed-header: tc-netem-qopt
+    nested-attributes: tc-netem-attrs
+
+Perhaps it is attribute-sets in general that should have an optional
+fixed-header, which would also work for fixed-headers at the start of
+genetlink messages. I originally added fixed-header support to
+operations for genetlink, but fixed headers on attribute sets would work
+for all these cases.
+
+I now see a few possible ways forward and would like feedback on the
+preferred approach:
+
+1. Simplify the current patchset to implement fixed-header & nest
+   support in the dynamic selector. This would leave existing
+   fixed-header support for messages unchanged. We could drop the 'type'
+   field.
+
+   -
+     value: netem
+     fixed-header: tc-netem-qopt
+     nested-attributes: tc-netem-attrs
+
+2. Keep the 'type' field and support for the 'binary' type which is
+   useful for specifying nests with unknown attribute spaces. An
+   alternative would be to default to 'binary' behaviour if there is no
+   selector entry.
+
+3. Refactor the existing fixed-header support to be an optional part of
+   all attribute sets instead of just messages (in legacy and raw specs)
+   and dynamic attribute nests (in raw specs).
+
+   attribute-sets:
+     -
+       name: tc-netem-attrs
+       fixed-header: tc-netem-qopt
+       attributes:
+         ...
+
+Thoughts?
+
+Patch 1 adds missing scalars to the netlink-raw schema
+Patch 2 and 3 add dynamic nest support to the schema and ynl
+Patches 4 and 5 contain specs that use dynamic nests
+Patch 6 adds support for nests with a fixed-header
+
+Donald Hunter (6):
+  doc/netlink: Add bitfield32, s8, s16 to the netlink-raw schema
+  doc/netlink: Add a nest selector to netlink-raw schema
+  tools/net/ynl: Add dynamic attribute decoding to ynl
+  doc/netlink/specs: add dynamic nest selector for rt_link data
+  doc/netlink/specs: Add a spec for tc
+  tools/net/ynl: Add optional fixed-header to dynamic nests
+
+ Documentation/netlink/netlink-raw.yaml   |   43 +-
+ Documentation/netlink/specs/rt_link.yaml |  278 ++-
+ Documentation/netlink/specs/tc.yaml      | 2074 ++++++++++++++++++++++
+ tools/net/ynl/lib/nlspec.py              |   27 +
+ tools/net/ynl/lib/ynl.py                 |   54 +-
+ 5 files changed, 2462 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/netlink/specs/tc.yaml
+
+-- 
+2.42.0
+
