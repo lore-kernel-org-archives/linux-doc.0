@@ -1,214 +1,150 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="WS0m9G0n";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rQPYt4rH"
-X-Greylist: delayed 356 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Nov 2023 23:55:47 PST
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEF91710;
-	Tue, 28 Nov 2023 23:55:47 -0800 (PST)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 9064C580A2F;
-	Wed, 29 Nov 2023 02:49:50 -0500 (EST)
-Received: from imap53 ([10.202.2.103])
-  by compute1.internal (MEProxy); Wed, 29 Nov 2023 02:49:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1701244190; x=1701251390; bh=ww
-	kE8lsdD1lmCvJ6vHeRL3ETi3+Yj2miubjiEiAIJqc=; b=WS0m9G0nx6dD9iEji/
-	fBqlaAFY/rMIvdHqXU7tZxzaCT6/WaZqN24lhBSrCWbph5RWVn8OG0wIE3vLDiA7
-	dOWPtjwm4K1LXbVSgViqbhQnGAqsI7zVo/p5C5Cc2lkcP6BvkMMbJJPRLlk6Obqn
-	AHfiWue+I4lT9KO4M5IqOwcDkJ9k3rIoOQzzkgfdeVW+FPwIkWR8otEXHsC4vN5M
-	YRFUR7qjaXjm+/zVf+gwWpzm9l6TfNicjYV48mg69Jf51d7lmUwmWy0QDMagwX+h
-	my8WMJddQ84zOCl6wx49JlxbWBkrLfSX8dsYvVyefTTM6PDNHjgdqGvgdPI98pTh
-	CeVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1701244190; x=1701251390; bh=wwkE8lsdD1lmC
-	vJ6vHeRL3ETi3+Yj2miubjiEiAIJqc=; b=rQPYt4rH1AA0LiTAAnJGE//YvqNCw
-	0qwLht7gsUZGiRgP8vOuUojrK3gXdkIqqQy8kh1RU6M48Z+Q1F0tnQhr+VVyl2w5
-	NmyzspDEFgY404mNlejNyplFYnmca/DQjbd3xvYN1Ln64vKHdITrMssLqBon8Ujn
-	P7Qb4qPDUzh92GrFKk6+AzOXk04amTS8z6iqjc442y/87PjOdgE3r4Ts0YSlpbOW
-	dquGLaB3VxWfcHpWrswAQY2/Rw9xn8Jq2WVIEzpZjj1/JtoUjjzbJm94BlKfxFeu
-	aDZFAe2s9qDxCwDO/RDxvPYqUWrMro5Rq5vNlH5XTTV2LcBscKUpE50kw==
-X-ME-Sender: <xms:HO1mZWwi-0PHwgZ7UGdDg2Nfu1cPQBmbtYZcjowlgAyQ0BQky2hXjA>
-    <xme:HO1mZSTMYD4qqQdTonZ8IGVDTRfv30PWEOnWS8uEzYlouq8tMUIbuyDbZitdKhK-h
-    lPnAf3-fMz25n81ToA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeigedguddutdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedflfgr
-    nhhnvgcuifhruhhnrghufdcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvg
-    hrnhepteeugeeltdelffetleetudejgfejieegudekleekleeifffffefgfefgfeeukeef
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjh
-    grnhhnrghurdhnvght
-X-ME-Proxy: <xmx:HO1mZYWbL-dzWpMIvCrcF_hkcPxVblMr6At8rrdkDOd5QKecybyP8A>
-    <xmx:HO1mZcghfi5RLWq0pFjhso2VXNF7V40Fof9Xj8XlOYXvC_owwh5wlQ>
-    <xmx:HO1mZYDWse66_RKIUSsZ-t0CzxR6dHcZEVv_0jTO_L-qPjoGwVzSYQ>
-    <xmx:Hu1mZerEKP658mX4LK_6tKFnkmAWe_WKTSc7PfS_s-S-h8Msb1Q_lw>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5DF0E3640069; Wed, 29 Nov 2023 02:49:48 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1234-gac66594aae-fm-20231122.001-gac66594a
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="klk7NFSX"
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B72FAF;
+	Wed, 29 Nov 2023 00:35:08 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a0064353af8so125680366b.0;
+        Wed, 29 Nov 2023 00:35:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701246907; x=1701851707; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cA14jHG61e0KGqj1Ve4QFXbJJfNMDY5MU0/yKOooMVo=;
+        b=klk7NFSXVv+cMbzNo8pUfNWp/oFaCv2WBFqEaj3O31GsYUl2v15cmNZwk98qWwxkgj
+         NpGKeeBeHLMaOH9lT77R6f6rhZYxYGaAJ7o6gOe46PiLpvnh3Rj3aoHdJFLg7ng5Og6J
+         tnzJ8A+EzwqZGOI2A8Qn9AH/RXuZNiKE3MwaO2ECAUYWhT8EqDFfY8OlMqpJfUz9BmmQ
+         m4Sd4wx8TKw0miBTNYGfXZP0uB1vm/QxzhxkWHcvN6KRBfmJ21tdKGOD34F+235bd3vl
+         8rjUnX/HQC+G7ZmY5+wnqRrEtH2FeezBJGIXbvJJ/G0fnq9wjYWdMJmvj2Wr+0/1XUKZ
+         rfvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701246907; x=1701851707;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cA14jHG61e0KGqj1Ve4QFXbJJfNMDY5MU0/yKOooMVo=;
+        b=IxFnBfmuGuXJJ7pNbzM0Sh5wMNiutdv3K9aejAIKk95W9J/mZn/hEcqmL6JqRbhpMB
+         3cqWTPiI+Bjs0OS5yftxu3bAWlqTawXnk7pSsfIBX3DlQo1ZuFZXY+4naGvCz7bV+WyP
+         qAPwiCsLxrl6S/VWNBNCbueqKS82hXhMIPlMERIOUqbYO40Ke1OsKf3Ad9vXj1m2aZa7
+         KQRwo4Mj4Yyo+BvxPW5Y7zRBF4XHTtxG5my9K2FCary3PonbVJblQEwjSUxgosPE8vVJ
+         ApdljGsMQ+3PraUC1ABXMaRG+DPsqC2h6vk9kK2H7A4mvr3oRnNWFTBtCEZ8sBRyGltk
+         WZTQ==
+X-Gm-Message-State: AOJu0YzAuMcykUmqJqyIwPYm2YEa1PCPetWxnJ9ShkdOrjnrxNgZ4iqM
+	+1fmol3rOg+b1dFheK+oHXA=
+X-Google-Smtp-Source: AGHT+IEE6I9n61Xm1Iz80V1aFTp6aYbe+xjhdNzzLS9CFM4DqBZUgnD6kwJlhDE+5KvGvUof24ydHQ==
+X-Received: by 2002:a17:906:2dc:b0:a0f:c538:4612 with SMTP id 28-20020a17090602dc00b00a0fc5384612mr6422237ejk.28.1701246906447;
+        Wed, 29 Nov 2023 00:35:06 -0800 (PST)
+Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
+        by smtp.gmail.com with ESMTPSA id t17-20020a170906a11100b00a015eac52dcsm7615127ejy.108.2023.11.29.00.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 00:35:05 -0800 (PST)
+Message-ID: <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>, Krzysztof Kozlowski
+ <krzk@kernel.org>,  Andy Shevchenko <andy@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, Nuno Sa via B4 Relay
+ <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, Rob
+ Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij
+ <linus.walleij@linaro.org>
+Date: Wed, 29 Nov 2023 09:35:05 +0100
+In-Reply-To: <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
+References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+	 <202311250548.lUn3bm1A-lkp@intel.com>
+	 <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
+	 <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
+	 <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
+	 <ZWS90GQTJWA7DrML@smile.fi.intel.com>
+	 <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
+	 <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <ca7a025d-8154-4509-b8ab-2a17e53ccbef@app.fastmail.com>
-In-Reply-To: <20231128204938.1453583-5-pasha.tatashin@soleen.com>
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-5-pasha.tatashin@soleen.com>
-Date: Wed, 29 Nov 2023 08:49:18 +0100
-From: "Janne Grunau" <j@jannau.net>
-To: "Pasha Tatashin" <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
- alex.williamson@redhat.com, alim.akhtar@samsung.com,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- "Lu Baolu" <baolu.lu@linux.intel.com>, bhelgaas@google.com,
- cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
- "David Woodhouse" <dwmw2@infradead.org>, hannes@cmpxchg.org,
- heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
- jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com,
- "Joerg Roedel" <joro@8bytes.org>, "Kevin Tian" <kevin.tian@intel.com>,
- krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
- "Hector Martin" <marcan@marcan.st>, mhiramat@kernel.org, mst@redhat.com,
- m.szyprowski@samsung.com, netdev@vger.kernel.org, paulmck@kernel.org,
- rdunlap@infradead.org, "Robin Murphy" <robin.murphy@arm.com>,
- samuel@sholland.org, suravee.suthikulpanit@amd.com,
- "Sven Peter" <sven@svenpeter.dev>, thierry.reding@gmail.com,
- tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com,
- virtualization@lists.linux.dev, wens@csie.org,
- "Will Deacon" <will@kernel.org>, yu-cheng.yu@intel.com
-Subject: Re: [PATCH 04/16] iommu/io-pgtable-dart: use page allocation function provided
- by iommu-pages.h
-Content-Type: text/plain
 
-Hej,
+On Tue, 2023-11-28 at 10:03 -0800, Guenter Roeck wrote:
+> On 11/28/23 08:50, Krzysztof Kozlowski wrote:
+> > On 27/11/2023 17:03, Andy Shevchenko wrote:
+> > > On Mon, Nov 27, 2023 at 09:12:14AM +0100, Krzysztof Kozlowski wrote:
+> > > > On 27/11/2023 09:10, Krzysztof Kozlowski wrote:
+> > >=20
+> > > ...
+> > >=20
+> > > > Wait, this was not even unusual test, just standard compile, which =
+means
+> > > > you did not do basic tests on your end. You must build your new dri=
+ver
+> > > > with W=3D1, smatch, sparse and coccinelle before sending upstream.
+> > >=20
+> > > Well, sparse is lagging in development, for the last year it's at lea=
+st two
+> > > times it broke kernel builds because of being not ready for the new s=
+tuff used
+> > > in the kernel. Do we have anybody to sync this? I don't think so, hen=
+ce
+> > > requiring this from developer is doubtful. Otherwise I agree, that ba=
+sic
+> > > compilation with GCC/LLVM must be done.
+> >=20
+> > Sparse still detects several issues and handles lock annotations, so it
+> > is useful. But if you disagree with that part, I still insist on Smatch
+> > (which is actively developed and works great) and Coccinelle (also
+> > actively developed).
+> >=20
+>=20
+> Quite frankly, for my part I would be more than happy if people would rea=
+d
+> and follow Documentation/hwmon/submitting-patches.rst. Most submitters do=
+n't
+> bother. That doesn't even mention building with W=3D1 (the much more opti=
+mistic
+> me who wrote that document several years ago thought that would be obviou=
+s),
+> much less running any source code analysis tools . Feel free to submit a =
+patch
+> to strengthen the wording there. If you do that, it would have to be more=
+ explicit
+> then "run smatch" or "run coccinelle" because hardly anyone would know ho=
+w
+> to do that.
+>=20
 
-On Tue, Nov 28, 2023, at 21:49, Pasha Tatashin wrote:
-> Convert iommu/io-pgtable-dart.c to use the new page allocation functions
-> provided in iommu-pages.h.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
->  drivers/iommu/io-pgtable-dart.c | 37 +++++++++++++--------------------
->  1 file changed, 14 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
-> index 74b1ef2b96be..ad28031e1e93 100644
-> --- a/drivers/iommu/io-pgtable-dart.c
-> +++ b/drivers/iommu/io-pgtable-dart.c
-> @@ -23,6 +23,7 @@
->  #include <linux/types.h>
-> 
->  #include <asm/barrier.h>
-> +#include "iommu-pages.h"
-> 
->  #define DART1_MAX_ADDR_BITS	36
-> 
-> @@ -106,18 +107,12 @@ static phys_addr_t iopte_to_paddr(dart_iopte pte,
->  	return paddr;
->  }
-> 
-> -static void *__dart_alloc_pages(size_t size, gfp_t gfp,
-> -				    struct io_pgtable_cfg *cfg)
-> +static void *__dart_alloc_pages(size_t size, gfp_t gfp)
->  {
->  	int order = get_order(size);
-> -	struct page *p;
-> 
->  	VM_BUG_ON((gfp & __GFP_HIGHMEM));
-> -	p = alloc_pages(gfp | __GFP_ZERO, order);
-> -	if (!p)
-> -		return NULL;
-> -
-> -	return page_address(p);
-> +	return iommu_alloc_pages(gfp, order);
->  }
-> 
->  static int dart_init_pte(struct dart_io_pgtable *data,
-> @@ -262,13 +257,13 @@ static int dart_map_pages(struct io_pgtable_ops 
-> *ops, unsigned long iova,
-> 
->  	/* no L2 table present */
->  	if (!pte) {
-> -		cptep = __dart_alloc_pages(tblsz, gfp, cfg);
-> +		cptep = __dart_alloc_pages(tblsz, gfp);
->  		if (!cptep)
->  			return -ENOMEM;
-> 
->  		pte = dart_install_table(cptep, ptep, 0, data);
->  		if (pte)
-> -			free_pages((unsigned long)cptep, get_order(tblsz));
-> +			iommu_free_pages(cptep, get_order(tblsz));
-> 
->  		/* L2 table is present (now) */
->  		pte = READ_ONCE(*ptep);
-> @@ -419,8 +414,7 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg 
-> *cfg, void *cookie)
->  	cfg->apple_dart_cfg.n_ttbrs = 1 << data->tbl_bits;
-> 
->  	for (i = 0; i < cfg->apple_dart_cfg.n_ttbrs; ++i) {
-> -		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL,
-> -					   cfg);
-> +		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL);
->  		if (!data->pgd[i])
->  			goto out_free_data;
->  		cfg->apple_dart_cfg.ttbr[i] = virt_to_phys(data->pgd[i]);
-> @@ -429,9 +423,10 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg 
-> *cfg, void *cookie)
->  	return &data->iop;
-> 
->  out_free_data:
-> -	while (--i >= 0)
-> -		free_pages((unsigned long)data->pgd[i],
-> -			   get_order(DART_GRANULE(data)));
-> +	while (--i >= 0) {
-> +		iommu_free_pages(data->pgd[i],
-> +				 get_order(DART_GRANULE(data)));
-> +	}
->  	kfree(data);
->  	return NULL;
->  }
-> @@ -439,6 +434,7 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg 
-> *cfg, void *cookie)
->  static void apple_dart_free_pgtable(struct io_pgtable *iop)
->  {
->  	struct dart_io_pgtable *data = io_pgtable_to_data(iop);
-> +	int order = get_order(DART_GRANULE(data));
->  	dart_iopte *ptep, *end;
->  	int i;
-> 
-> @@ -449,15 +445,10 @@ static void apple_dart_free_pgtable(struct 
-> io_pgtable *iop)
->  		while (ptep != end) {
->  			dart_iopte pte = *ptep++;
-> 
-> -			if (pte) {
-> -				unsigned long page =
-> -					(unsigned long)iopte_deref(pte, data);
-> -
-> -				free_pages(page, get_order(DART_GRANULE(data)));
-> -			}
-> +			if (pte)
-> +				iommu_free_pages(iopte_deref(pte, data), order);
->  		}
-> -		free_pages((unsigned long)data->pgd[i],
-> -			   get_order(DART_GRANULE(data)));
-> +		iommu_free_pages(data->pgd[i], order);
->  	}
-> 
->  	kfree(data);
+IMO, submitting patches to linux is already not the most straightforward th=
+ing in the
+world. If we are now going to ask to run smatch, cocci, sparse and so on, w=
+e will
+scare even more developers from the community... I mean, the bots are also =
+in place
+to help with these kind of more advanced analysis, right?
 
-Reviewed-by: Janne Grunau <j@jannau.net>
+> Until then, there isn't really anything to insist on. I even had submitte=
+rs
+> react angry when I asked them to follow the guidance in that document,
+> so I won't insist on anything that isn't documented as requirement.
+> Quite frankly, most of the time I'd probably fix up issues such as missin=
+g
+> "static" myself because I am tired having to argue about it with submitte=
+rs
+> who don't care.
+>=20
 
-Janne
+For the record, I do care about the code I submit and missing 'static' is q=
+uite
+embarrassing, yes. The only reason why I still dind't send the v3 fixing th=
+at is
+because I'm giving more time to see if you can review some of the other cha=
+nges. I'm
+pretty sure I'll be asked to change more things in v2 (as stated in the cov=
+er, there
+are still some shady things in the driver).
+
+- Nuno S=C3=A1
+
