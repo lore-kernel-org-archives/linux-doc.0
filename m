@@ -1,224 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECC520310;
-	Wed, 29 Nov 2023 13:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="udDTPg/Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB338C433C7;
-	Wed, 29 Nov 2023 13:26:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701264368;
-	bh=TUtFqUYMxnqyBPs9bbVQmVM4vqhJdSRfDfGOD1whTY4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=udDTPg/QJRBP5QkpTiMeh9UGd3LbkIMJ6OSPtVr20lXV2I0dSmD487VSLmr4+dqmS
-	 vJlRP0vpDsNw7Iwl4FU3MqaW+PIcEuvFqVcO5vM7Om6rCkZ8ccS7B5TBf3SnzFQ+lx
-	 Gb+zwkl+A0q2bPQy4qnxPBJdhuZ16ezAceq6u74P8hwadHT3y+T6sS2sBzEVBkkbZv
-	 ZYMnNWDnUJgkFyAN0fyACMe9PDIsBSIDt/UK+Bu+rGG8Nalg/o+G3M2fn/JbbzNtC6
-	 6jCaKByn83ISVpSAPlJHtjfOUqJQyuN2HnQzcer9cY8HAL4qMIm9SG9Vsl/PCPUywk
-	 G7B81I+QbUNpQ==
-Date: Wed, 29 Nov 2023 14:26:05 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, 
-	Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <xnhbd52q3sicro6heheu6fb3zo3g342njbz67dki44wumhy57i@aaovlbqhojan>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
- <8734wo7vbx.fsf@intel.com>
- <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
- <87ttp46b49.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Bp9Ils0f"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDD7F4
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 05:53:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701266005;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fCRlZ8oiqaJTBcB7G2DHmy/vp26Z550XjGVY3C3y2Oo=;
+	b=Bp9Ils0fKZ2EoAPIbvNkEYO+UTkL9GZnYvtvkblh6i2jQZZG9Gqz3chpLjxWdg2DTktc6m
+	T8qSvLoOwChGOhqlNXbwdjYB8D+ehWhrn+994v2dRi8+RGCD2vL57mDxm057XIpUKUckGI
+	l1l9XKeGzGju1uNsk/ahLJnDTOqDFT0=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-177-bP9z3HV5Ph-jUj0aBCc_lw-1; Wed, 29 Nov 2023 08:53:24 -0500
+X-MC-Unique: bP9z3HV5Ph-jUj0aBCc_lw-1
+Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-4644ca0a48aso156863137.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 05:53:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701266004; x=1701870804;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fCRlZ8oiqaJTBcB7G2DHmy/vp26Z550XjGVY3C3y2Oo=;
+        b=l7+VKBXLn5VId/MUvr6V4A7OoboI2PKJ5hrTaF1E0Iatv0RxGTtWUfpnBmct3oBmy1
+         cXYycaYRTRADtvzm4OGk6+hDANmIyvz0oUCHvXjHak2LgsU6H0KmOd4fbJd7LLS24ttq
+         S9Fv1ZD0lFbvgItOC9pWgoRTjHrq9LijlDHHx8H0X06YZ3TbLbvKnFfZlPmRQdZoD/Rx
+         pXj2pTu5jgvSfqAbORssZjLFVOpcZqF6nUs1Gem0GE3AoqBeCnKjvxOTQqkZBcS6phQa
+         c8unPv1KPTla04wvE/oXkoCmjvlSy9Df/tHJ6XugT08nRVp3mrxvj8SWx8BUDY+g2l5z
+         9kJQ==
+X-Gm-Message-State: AOJu0Yz/6znVUzj0l4e15ASiNGeSxnMj1AwXsj+h/eYafwJh0GfSuBXp
+	nx0xPGKZkRo8odPhHtDZEkmQ70EecYKzyZmZCbAAUAbn9nCDm9LkKpYjOcTX6RtO7VR3cj1Zq59
+	1B28+4Gh0fhXIk2LfmnPuWyzQqSdZ
+X-Received: by 2002:a05:6102:34d1:b0:464:4f99:67cd with SMTP id a17-20020a05610234d100b004644f9967cdmr898010vst.25.1701266003946;
+        Wed, 29 Nov 2023 05:53:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG6XeoX3LySftJvfhNd92B8TROaD2k49rLLui+JpiO50N4F9wBA4UISs6o9ymk2BLyZlpB5+Q==
+X-Received: by 2002:a05:6102:34d1:b0:464:4f99:67cd with SMTP id a17-20020a05610234d100b004644f9967cdmr897999vst.25.1701266003740;
+        Wed, 29 Nov 2023 05:53:23 -0800 (PST)
+Received: from [192.168.1.9] (pool-68-160-135-240.bstnma.fios.verizon.net. [68.160.135.240])
+        by smtp.gmail.com with ESMTPSA id s7-20020a0cf647000000b0067a4396f9cdsm3018175qvm.8.2023.11.29.05.53.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 05:53:23 -0800 (PST)
+Message-ID: <ac7a90a7-4d29-059b-fbff-6b67e6f5c2d3@redhat.com>
+Date: Wed, 29 Nov 2023 08:53:22 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7y6ja2ijtruwy6p6"
-Content-Disposition: inline
-In-Reply-To: <87ttp46b49.fsf@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Content-Language: en-US
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Livepatching <live-patching@vger.kernel.org>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Attreyee Mukherjee <tintinm2017@gmail.com>
+References: <20231129132527.8078-1-bagasdotme@gmail.com>
+From: Joe Lawrence <joe.lawrence@redhat.com>
+Subject: Re: [PATCH 0/2] Minor grammatical fixup for livepatch docs
+In-Reply-To: <20231129132527.8078-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 11/29/23 08:25, Bagas Sanjaya wrote:
+> I was prompted to write this little grammar fix series when reading
+> the fix from Attreyee [1], with review comments requesting changes
+> to that fix. So here's my version of the fix, with reviews from [1]
+> addressed (and distinct grammar fixes splitted).
+> 
 
---7y6ja2ijtruwy6p6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Typical kernel workflow would be for Attreyee to incorporate feedback
+and post their v2 after a day or two.  From the format they posted, it
+appears to be a first(ish) kernel contribution post.  Let's be kind and
+patient so they we all may benefit from the practice of iterating on
+their patch.
 
-On Wed, Nov 29, 2023 at 01:40:38PM +0200, Jani Nikula wrote:
-> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> > On Wed, Nov 29, 2023 at 11:38:42AM +0200, Jani Nikula wrote:
-> >> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> >> > Hi Ville,
-> >> >
-> >> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=E4l=E4 wrote:
-> >> >> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
-> >> >> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
-> >> >> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> >> >> > > > All the drm_connector_init variants take at least a pointer t=
-o the
-> >> >> > > > device, connector and hooks implementation.
-> >> >> > > >
-> >> >> > > > However, none of them check their value before dereferencing =
-those
-> >> >> > > > pointers which can lead to a NULL-pointer dereference if the =
-author
-> >> >> > > > isn't careful.
-> >> >> > >=20
-> >> >> > > Arguably oopsing on the spot is preferrable when this can't be =
-caused by
-> >> >> > > user input. It's always a mistake that should be caught early d=
-uring
-> >> >> > > development.
-> >> >> > >=20
-> >> >> > > Not everyone checks the return value of drm_connector_init and =
-friends,
-> >> >> > > so those cases will lead to more mysterious bugs later. And pro=
-bably
-> >> >> > > oopses as well.
-> >> >> >=20
-> >> >> > So maybe we can do both then, with something like
-> >> >> >=20
-> >> >> > if (WARN_ON(!dev))
-> >> >> >    return -EINVAL
-> >> >> >=20
-> >> >> > if (drm_WARN_ON(dev, !connector || !funcs))
-> >> >> >    return -EINVAL;
-> >> >> >=20
-> >> >> > I'd still like to check for this, so we can have proper testing, =
-and we
-> >> >> > already check for those pointers in some places (like funcs in
-> >> >> > drm_connector_init), so if we don't cover everything we're incons=
-istent.
-> >> >>=20
-> >> >> People will invariably cargo-cult this kind of stuff absolutely
-> >> >> everywhere and then all your functions will have tons of dead
-> >> >> code to check their arguments.
-> >> >
-> >> > And that's a bad thing because... ?
-> >> >
-> >> > Also, are you really saying that checking that your arguments make s=
-ense
-> >> > is cargo-cult?
-> >>=20
-> >> It's a powerful thing to be able to assume a NULL argument is always a
-> >> fatal programming error on the caller's side, and should oops and get
-> >> caught immediately. It's an assertion.
-> >
-> > Yeah, but we're not really doing that either. We have no explicit
-> > assertion anywhere. We take a pointer in, and just hope that it will be
-> > dereferenced later on and that the kernel will crash. The pointer to the
-> > functions especially is only deferenced very later on.
-> >
-> > And assertions might be powerful, but being able to notice errors and
-> > debug them is too. A panic takes away basically any remote access to
-> > debug. If you don't have a console, you're done.
-> >
-> >> We're not talking about user input or anything like that here.
-> >>=20
-> >> If you start checking for things that can't happen, and return errors
-> >> for them, you start gracefully handling things that don't have anything
-> >> graceful about them.
-> >
-> > But there's nothing graceful to do here: you just return from your probe
-> > function that you couldn't probe and that's it. Just like you do when
-> > you can't map your registers, or get your interrupt, or register into
-> > any framework (including drm_dev_register that pretty much every driver
-> > handles properly if it returns an error, without being graceful about
-> > it).
->=20
-> Those are all dynamic things that can fail.
->=20
-> Quite different from passing NULL dev, connector, or funcs to
-> drm_connector_init() and friends.
->=20
-> I think it's wrong to set the example that everything needs to be
-> checked, everything needs to return an error, every call needs to check
-> for error return, all the time, everywhere. People absolutely will cargo
-> cult that, and that's what Ville is referring to.
->=20
-> If you pass NULL dev, connector, or funcs to drm_connector_init() I
-> think you absolutely deserve to get an oops.
->=20
-> For dev, you could possibly not have reached the function with NULL
-> dev. (And __drm_connector_init() has dev->mode_config before the check,
-> so you'll get a static analyzer warning about dereference before the
-> check.) If you have NULL connector, you didn't check for allocation
-> failure earlier. If you have NULL funcs, you just passed NULL, because
-> it's generally supposed to be a pointer to a static const struct.
->=20
-> >> Having such checks in place trains people to think they *may* happen.
-> >
-> > In most cases, kmalloc can't fail. We seem to have a very different
-> > policy towards it.
->=20
-> Again, dynamic in nature and can fail.
->=20
-> >> While it should fail fast and loud at the developer's first smoke test,
-> >> and get fixed then and there.
-> >
-> > Returning an error + a warning also qualifies for "fail fast and loud".
-> > But keeps the system alive for someone to notice in any case.
->=20
-> But where do you draw the line?
+-- 
+Joe
 
-This also applies to static things then.
-drm_connector_attach_scaling_mode_property() or
-drm_mode_create_colorspace_property() (or plenty of others) will check
-on the value of the supported scaling modes colorspaces, even though
-they are static.
-
-It looks like we have that policy of "just assert and roll with it" for
-pointers, but not for other static values passed to those initialization
-functions.
-
-> If we keep adding these checks to things that actually can't happen,
-> we teach developers we need to check for impossible things. And we
-> teach them not to trust anything.
-
-Well, I certainly don't trust drivers to get things right.
-
-> I scroll down the file and reach drm_connector_attach_edid_property().
-> Should we NULL check connector? Should we change the function to int
-> and return a value? Should the caller check the value? Then there's
-> drm_connector_attach_encoder(). And
-> drm_connector_has_possible_encoder(). And so on and so forth.
->=20
-> Where do you draw the line?
-
-If things can fail, we should expect the caller to handle the failure
-somehow. The documentation of drm_connector_attach_encoder() states that
-it can fail, so we should expect it.
-drm_connector_has_possible_encoder() doesn't so we can assume it can't
-fail.
-
-If the function can fail but wasn't designed or documented as such, then
-it's on the function. If it was but the caller didn't handle the error
-case, then that's on the caller.
-
-Maxime
-
---7y6ja2ijtruwy6p6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWc77AAKCRDj7w1vZxhR
-xcPrAQDQgezjaCRFLrm1ci7OMYB0pviCvKKwSrlxIJ/UMQY1KAEA8KhoH2NL0IXS
-+jKammOWS5C+nAavD5K9RVEDaU4Cpw8=
-=E2qM
------END PGP SIGNATURE-----
-
---7y6ja2ijtruwy6p6--
