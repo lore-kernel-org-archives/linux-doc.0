@@ -1,192 +1,185 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Gy4jYh2v"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E49BE
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:49:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701269378;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eyLQTp+JLssTFO7PTCnsYpTGzUnGh3A+zjTA8FqixQ4=;
-	b=Gy4jYh2v/jqHZLswd6RtoGXp6DkzUxigpul0EvvUI2ZS1vsCO+2uFkQuVo/VTH+iImZgIL
-	/F8sKAkdhCOZEZ87SC5t1uscphn+RMK1kNfqrzQMlKSaUYs83n20dJl5UHyz7PQ+0os+J3
-	LxIlFl7B7+WV38Ng1w9ZzW0qEuCT7FM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-641-WY2o3njJNzC_159Nb6RHdg-1; Wed, 29 Nov 2023 09:49:34 -0500
-X-MC-Unique: WY2o3njJNzC_159Nb6RHdg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD99C185A782;
-	Wed, 29 Nov 2023 14:49:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.17.161])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 957D4C1596F;
-	Wed, 29 Nov 2023 14:49:32 +0000 (UTC)
-Date: Wed, 29 Nov 2023 08:49:31 -0600
-From: Bill O'Donnell <bodonnel@redhat.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux XFS <linux-xfs@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Dave Chinner <dchinner@redhat.com>,
-	Steve French <stfrench@microsoft.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Allison Henderson <allison.henderson@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH v3] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
-Message-ID: <ZWdPewywDy_3UutV@redhat.com>
-References: <20231129123947.4706-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="taIgII0y"
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD264C4
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:50:01 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5ccf64439bdso7999547b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:50:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701269401; x=1701874201; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OhKeP/2tChma4nLl2fipRCbsIXhCJ2Ql2fHfvqdfSF4=;
+        b=taIgII0yRfSpWHl0rL/sC26C16ad/kzr9+L1NTjdkd+0oEL1o97qsv7sThaJ8mpPOR
+         LkobQkk8+ZlUCtiwc53klj505J28qktSG4RNk2f5uqeBqGKy2IC+YnkUAGyb0iy3Mmo9
+         DAjwC6DxysrpDJ49o/Syi4UYDmlgzvwE+hO7nioj0kaLHoXMthAVqtvfbR7/z0Iji4Wd
+         w7e/VosvxquzH/vLdHF/2IHrE/0qDE8SkugYEZWrz3SaVK18wB1afSn4O3C1SovwQzVd
+         l4TGTpmk9m+bRYJR5oPRkPW8wE9q8RdwtCgHv6K+W2uthVVeTtsfWFr+cTa2B9l0NoH7
+         VsNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701269401; x=1701874201;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OhKeP/2tChma4nLl2fipRCbsIXhCJ2Ql2fHfvqdfSF4=;
+        b=OKh/qkvMKJSDqguxgJt3KHTJx0f70nxvI2zGEytnR+CAgXV7FikEFPb4pNQAD3eZhl
+         ea7n+KqwKdXkdMU+zIVvvMViTn7c4bR7e2hTr5YF6pFu67RgnzYrPyWlwQa/AxmqcA5M
+         ljBI4OJv8mjH6P0Jj0CSJFTDNo9MubHmeKxmPHp9vbSEuLgj98nR9tmpxLmL8i9BlNFB
+         ffcTyxXmNRqx5fIax7+ybGz5vJjyD2laDaGZpODmg9MPUQ9sdi4pg1ry04yeW9DPRC4l
+         fdib+vHNQRLlchPMplyxphqpswYArgu2XjxjTiPpPU+sbdjCZMpX7e5XHTF5CFiDB4ln
+         RpYA==
+X-Gm-Message-State: AOJu0Yzp8TxlZVJyC+eQWudXFoJL6dCwWgAa7vxTwW1cjy5kQyJwegIl
+	by+R89Ekj8Ncri3cR4V0nILMG54eKl77E28kEb+gtoUnRWuOoQ8MFIw=
+X-Google-Smtp-Source: AGHT+IGVvGtWUCNcwNIqqWT4FI0ZK8ySjPr60DSojrMHvp+1VCvIaWJzbx2ZBbM/ASOStaPF82gKQ66tjacLTeXhKlw=
+X-Received: by 2002:a0d:d814:0:b0:5c1:25f:567d with SMTP id
+ a20-20020a0dd814000000b005c1025f567dmr17123038ywe.16.1701269400974; Wed, 29
+ Nov 2023 06:50:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231129123947.4706-1-bagasdotme@gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com> <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+In-Reply-To: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 29 Nov 2023 15:49:48 +0100
+Message-ID: <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+To: nuno.sa@analog.com
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 29, 2023 at 07:39:47PM +0700, Bagas Sanjaya wrote:
-> XFS docs are currently in upper-level Documentation/filesystems.
-> Although these are currently 4 docs, they are already outstanding as
-> a group and can be moved to its own subdirectory.
-> 
-> Consolidate them into Documentation/filesystems/xfs/.
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Hi Nuno,
 
-Looks good to me.
-Reviewed-by: Bill O'Donnell <bodonnel@redhat.com>
+GPIO-related review as requested! Thanks for your patch!
 
-> ---
-> Changes since v2 [1]:
-> 
->   * Adjust MAINTAINERS pattern to include all docs in the subdirectory
->     by using wildcard.
-> 
-> [1]: https://lore.kernel.org/linux-doc/20231128124522.28499-1-bagasdotme@gmail.com/
-> 
->  Documentation/filesystems/index.rst                |  5 +----
->  Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
->  .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
->  .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
->  .../{ => xfs}/xfs-online-fsck-design.rst           |  2 +-
->  .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
->  .../maintainer/maintainer-entry-profile.rst        |  2 +-
->  MAINTAINERS                                        |  4 ++--
->  8 files changed, 19 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/filesystems/xfs/index.rst
->  rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
->  rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
->  rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (99%)
->  rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
-> 
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 09cade7eaefc8c..e18bc5ae3b35f8 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -121,8 +121,5 @@ Documentation for filesystem implementations.
->     udf
->     virtiofs
->     vfat
-> -   xfs-delayed-logging-design
-> -   xfs-maintainer-entry-profile
-> -   xfs-self-describing-metadata
-> -   xfs-online-fsck-design
-> +   xfs/index
->     zonefs
-> diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
-> new file mode 100644
-> index 00000000000000..ab66c57a5d18ea
-> --- /dev/null
-> +++ b/Documentation/filesystems/xfs/index.rst
-> @@ -0,0 +1,14 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+On Fri, Nov 24, 2023 at 3:18=E2=80=AFPM Nuno Sa via B4 Relay
+<devnull+nuno.sa.analog.com@kernel.org> wrote:
+
+> +config SENSORS_LTC4282
+> +       tristate "Analog Devices LTC4282"
+> +       depends on I2C
+> +       select REGMAP_I2C
+
+select GPIOLIB
+
+potentially also
+
+select GPIO_REGMAP, see below.
+
+> +struct ltc4282_gpio {
+> +       const char * const *funcs;
+> +       u32 out_reg;
+> +       u32 out_mask;
+> +       u32 in_reg;
+> +       u32 in_mask;
+> +       bool active_high;
+> +       u8 n_funcs;
+> +};
+
+So pretty simple dedicated bits.
+
+> +static int ltc4282_gpio_input_set(struct gpio_chip *chip, unsigned int o=
+ffset)
+> +{
+> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
 > +
-> +============================
-> +XFS Filesystem Documentation
-> +============================
+> +       /* we can only control this for GPIO_1 */
+> +       if (offset !=3D LTC4282_GPIO_1)
+> +               return 0;
 > +
-> +.. toctree::
-> +   :maxdepth: 2
-> +   :numbered:
+> +       return regmap_set_bits(st->map, LTC4282_GPIO_CONFIG,
+> +                              LTC4282_GPIO_1_CONFIG_MASK);
+> +}
 > +
-> +   xfs-delayed-logging-design
-> +   xfs-maintainer-entry-profile
-> +   xfs-self-describing-metadata
-> +   xfs-online-fsck-design
-> diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
-> similarity index 100%
-> rename from Documentation/filesystems/xfs-delayed-logging-design.rst
-> rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
-> diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
-> similarity index 100%
-> rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
-> rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
-> diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> similarity index 99%
-> rename from Documentation/filesystems/xfs-online-fsck-design.rst
-> rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> index a0678101a7d02d..352516feef6ffe 100644
-> --- a/Documentation/filesystems/xfs-online-fsck-design.rst
-> +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> @@ -962,7 +962,7 @@ disk, but these buffer verifiers cannot provide any consistency checking
->  between metadata structures.
->  
->  For more information, please see the documentation for
-> -Documentation/filesystems/xfs-self-describing-metadata.rst
-> +Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
->  
->  Reverse Mapping
->  ---------------
-> diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
-> similarity index 100%
-> rename from Documentation/filesystems/xfs-self-describing-metadata.rst
-> rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
-> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-> index 7ad4bfc2cc038a..18cee1edaecb6f 100644
-> --- a/Documentation/maintainer/maintainer-entry-profile.rst
-> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
-> @@ -105,4 +105,4 @@ to do something different in the near future.
->     ../driver-api/media/maintainer-entry-profile
->     ../driver-api/vfio-pci-device-specific-driver-acceptance
->     ../nvme/feature-and-quirk-policy
-> -   ../filesystems/xfs-maintainer-entry-profile
-> +   ../filesystems/xfs/xfs-maintainer-entry-profile
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ea790149af7951..5ad039cfe9c794 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -23893,10 +23893,10 @@ S:	Supported
->  W:	http://xfs.org/
->  C:	irc://irc.oftc.net/xfs
->  T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
-> -P:	Documentation/filesystems/xfs-maintainer-entry-profile.rst
-> +P:	Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
->  F:	Documentation/ABI/testing/sysfs-fs-xfs
->  F:	Documentation/admin-guide/xfs.rst
-> -F:	Documentation/filesystems/xfs-*
-> +F:	Documentation/filesystems/xfs/*
->  F:	fs/xfs/
->  F:	include/uapi/linux/dqblk_xfs.h
->  F:	include/uapi/linux/fsmap.h
-> 
-> base-commit: 9c235dfc3d3f901fe22acb20f2ab37ff39f2ce02
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
-> 
+> +static int ltc4282_gpio_output_set(struct gpio_chip *chip, unsigned int =
+offset,
+> +                                  int val)
+> +{
+> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
+> +       const struct ltc4282_gpio *gpio =3D &ltc4282_gpios[offset];
+> +
+> +       guard(mutex)(&st->lock);
+> +       /*
+> +        * Explicitly setting the pin as output can only be done for GPIO=
+_1. For
+> +        * the other pins we just pull the line down or high-z.
+> +        */
+> +       if (offset =3D=3D LTC4282_GPIO_1) {
+> +               int ret;
+> +
+> +               ret =3D regmap_update_bits(st->map, LTC4282_GPIO_CONFIG,
+> +                                        LTC4282_GPIO_1_CONFIG_MASK,
+> +                                        FIELD_PREP(LTC4282_GPIO_1_CONFIG=
+_MASK, 2));
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       /*
+> +        * GPIO_2,3 and the ALERT pin require setting the bit to 1 to pul=
+l down
+> +        * the line
+> +        */
+> +       if (!gpio->active_high)
+> +               val =3D !val;
+> +
+> +       return regmap_update_bits(st->map, gpio->out_reg, gpio->out_mask,
+> +                                 field_prep(gpio->out_mask, val));
+> +}
+> +
+> +static void ltc4282_gpio_set(struct gpio_chip *chip, unsigned int offset=
+,
+> +                            int val)
+> +{
+> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
+> +       const struct ltc4282_gpio *gpio =3D &ltc4282_gpios[offset];
+> +
+> +       if (!gpio->active_high)
+> +               val =3D !val;
+> +
+> +       regmap_update_bits(st->map, gpio->out_reg, gpio->out_mask,
+> +                          field_prep(gpio->out_mask, val));
+> +}
+> +
+> +static int ltc4282_gpio_get(struct gpio_chip *chip, unsigned int offset)
+> +{
+> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
+> +       const struct ltc4282_gpio *gpio =3D &ltc4282_gpios[offset];
+> +       int ret;
+> +       u32 val;
+> +
+> +       ret =3D regmap_read(st->map, gpio->in_reg, &val);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return !!(val & gpio->in_mask);
+> +}
+> +
+> +static int ltc4282_gpio_valid_mask(struct gpio_chip *chip,
+> +                                  unsigned long *valid_mask,
+> +                                  unsigned int ngpios)
+> +{
+> +       struct ltc4282_state *st =3D gpiochip_get_data(chip);
+> +
+> +       *valid_mask =3D st->valid_mask;
+> +       return 0;
+> +}
 
+Some of this looks like it could use GPIO_REGMAP, look into other
+drivers using these helpers such as
+drivers/gpio/gpio-ds4520.c and see how small it becomes.
+
+It may or may not help you. But take a look.
+
+Other than that it looks fine.
+
+Yours,
+Linus Walleij
