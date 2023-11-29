@@ -1,98 +1,259 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="Tp265x1f"
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36C4BE
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 08:57:31 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40838915cecso50807005e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 08:57:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HZI3HVQI"
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA09210C3;
+	Wed, 29 Nov 2023 08:59:07 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40b4f60064eso17004705e9.1;
+        Wed, 29 Nov 2023 08:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1701277050; x=1701881850; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
-        b=Tp265x1fhPLXtlKDHuVj5etiN7JYsgEtxBISRdzxuZZU0HwArfSUI3KpGecEM84dzY
-         Zihc23R+ePWn5NtRAhrQpRqAOUNwio2Yg82pq2u/2OVKbmCHoN0kQ7Jf5d5GDsCBNj2W
-         DtQnOKJo0irihLhy3eueXLosXVWrqcQcN7gL65JsJCOv1Sxj0KzWQV5nVGPvnY3j+SMD
-         awlodOIqem9lH9wjHogG7ihyUeftCSgHHXSFtfwHY6R5ejzXZaIBCmwOIU8ilTetrPJH
-         kOHGq0t0ss/gYnowWWuf0Ie+oDuWc1np+iqxrnMI9H/WrKBClBzqpH50FHMu6l8bzQbx
-         PZRw==
+        d=gmail.com; s=20230601; t=1701277146; x=1701881946; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BOfb4QUnr3jYEHugyY71tdfEezoV7AI3GfOfIzO0Gg8=;
+        b=HZI3HVQITfyKwUqMCrrIRQud4WNxawjzuqGWlwea31+1EBh43VYgd54BCtb+152VtM
+         /+/h/aAJp6Ig6ZQJrwCmwJ1ugxEdXcsW6fG2KCdfGs7+cF8MQQqDC26EZsKob1vzJUE1
+         BbWJeP5CKIwOEba5iTxaxOR435gFfu1A2RbdenTLlaYehVGnwn2i5x6EkWMJfDlWLKiO
+         Lp9I+SAWoOQzcw7GIQ8COC8usAoOuLaWmExqzHhCalNYdOAbcupAVjW7r+1GiA8y9WNO
+         SEDC9+AMcezhF4hiZa217CV24pMZXk+QUed3K2U5+R2tgovLKt3c/7XiPBmxjvHDyUWw
+         5FZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701277050; x=1701881850;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
-        b=XovKWA7hMgqAitWl9XKrDTL7iY/sTyn26ZJl8it5pZMJpJ/lYhTaZAs3vLxPhnJdEN
-         uwHvJ0VYW10WIK2yy382DN8jM0+vIs/4pMLzXZd/Bk17MuQcnbPfZz1rnSVelItKA86N
-         mzwIYsoomVMH2HHXg/kOYz2JQrwPXf4swCvPliZicyWsqCEBETiHR4rT+hSQVOUCS9Fr
-         QLwVJcdfgVmkTjg/yQNxlqNuPmPIIEaVoDUroRWrzU95QddE8cKUq+iiBT4MKBqsp4rl
-         03oRV64T/jf90wiBzULcbHgi4Ltm716/2oXLIoXAOWCVT32Mqmdj9YU/SYxy4WpRhpnK
-         QCiQ==
-X-Gm-Message-State: AOJu0YxeVodjnNsOUkK36gv6S2xJ3arnXAlwx23+xUhwG2SCzhzk6Che
-	LNBv5onyceXG8pRx9TnM+jFHUA==
-X-Google-Smtp-Source: AGHT+IGJnXl3K0OuahWJysbyTRWRNB8Me8pMC0aRC2KPiav1kUKZXJAHnaxaCezYw9nnmAEbaRY6hw==
-X-Received: by 2002:a05:600c:524a:b0:40b:4ba1:c502 with SMTP id fc10-20020a05600c524a00b0040b4ba1c502mr4512827wmb.37.1701277050092;
-        Wed, 29 Nov 2023 08:57:30 -0800 (PST)
-Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id s20-20020a05600c45d400b003fe1fe56202sm2876823wmo.33.2023.11.29.08.57.28
+        d=1e100.net; s=20230601; t=1701277146; x=1701881946;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BOfb4QUnr3jYEHugyY71tdfEezoV7AI3GfOfIzO0Gg8=;
+        b=oKhvRjEZkoc9jzdm/jj57+JgZXEcFomLwE3nWzPzXpKqUIKTgzjL4qGRo6BqwZViNq
+         Pbeu5f0oZHLl5s/1gnUI/O3fRyhTCsQNGwXDZ+o4TvofxZESg2KDIxbW+J+k3dScJbvc
+         Y1w5goR4YZgOwTlE7N+XNlVLaHLlqQwJqdBGfWdCkoZA7SWQmrQ/6Ux0eYAzDdvDQXPU
+         ZBXEKIwb/oRJR6H81RIzNOy8+KCp7tGMBvVQcFGEeMPlUYkR70BZB6TZj9s3x2wlUEid
+         hczQkdLVoOuMwN+RzMNElzyirq/VMHMmOHNzavvJ2vdYbE35JxnAIlrmzL8DdD+56mhg
+         DFWw==
+X-Gm-Message-State: AOJu0Yze5wtIRe2htpgWUGVsUIAAFEh1NcoXdZWaVnH2jb0oRrphWHiO
+	3d8EfG0PN9ioeyT2jXKkQrIboQLV5vAGZQ==
+X-Google-Smtp-Source: AGHT+IGQtns4j8/Ahi1fstWxcuVWc8JuyIpdfN54lYXjzgNg19SQQsD3ajr2bIfSXG90ojpfmM+XqA==
+X-Received: by 2002:a05:600c:4fd0:b0:40b:5401:f02 with SMTP id o16-20020a05600c4fd000b0040b54010f02mr1566980wmq.32.1701277146025;
+        Wed, 29 Nov 2023 08:59:06 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:1c53:9d4e:6a62:308f])
+        by smtp.gmail.com with ESMTPSA id u19-20020a05600c139300b0040b540ff0a5sm2486600wmf.19.2023.11.29.08.59.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 08:57:29 -0800 (PST)
-From: Dmitry Safonov <dima@arista.com>
-To: David Ahern <dsahern@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>
-Cc: linux-kernel@vger.kernel.org,
-	Dmitry Safonov <dima@arista.com>,
-	Dmitry Safonov <0x7f454c46@gmail.com>,
-	Francesco Ruggeri <fruggeri05@gmail.com>,
-	Salam Noureddine <noureddine@arista.com>,
-	Simon Horman <horms@kernel.org>,
-	netdev@vger.kernel.org,
-	Markus Elfring <Markus.Elfring@web.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v4 1/7] Documentation/tcp: Fix an obvious typo
-Date: Wed, 29 Nov 2023 16:57:15 +0000
-Message-ID: <20231129165721.337302-2-dima@arista.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231129165721.337302-1-dima@arista.com>
-References: <20231129165721.337302-1-dima@arista.com>
+        Wed, 29 Nov 2023 08:59:05 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
+ Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
+ Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,
+  donald.hunter@redhat.com
+Subject: Re: [RFC PATCH net-next v1 0/6] tools/net/ynl: Add dynamic selector
+ for options attrs
+In-Reply-To: <20231129080943.01d81902@kernel.org> (Jakub Kicinski's message of
+	"Wed, 29 Nov 2023 08:09:43 -0800")
+Date: Wed, 29 Nov 2023 16:58:57 +0000
+Message-ID: <m2bkbc8pim.fsf@gmail.com>
+References: <20231129101159.99197-1-donald.hunter@gmail.com>
+	<20231129080943.01d81902@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Yep, my VIM spellchecker is not good enough for typos like this one.
+Jakub Kicinski <kuba@kernel.org> writes:
 
-Fixes: 7fe0e38bb669 ("Documentation/tcp: Add TCP-AO documentation")
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Reported-by: Markus Elfring <Markus.Elfring@web.de>
-Closes: https://lore.kernel.org/all/2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de/
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- Documentation/networking/tcp_ao.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Wed, 29 Nov 2023 10:11:53 +0000 Donald Hunter wrote:
+>> This patchset adds a dynamic selector mechanism to YNL for kind-specific
+>> options attributes. I am sending this as an RFC solicit feedback on a
+>> couple of issues before I complete the patchset.
+>
+> Exciting stuff!
+>  
+>> I started adding this feature for the rt_link spec which is monomorphic,
+>> i.e. the kind-specific 'data' attribute is always a nest. The selector
+>> looked like this:
+>> 
+>>   -
+>>     name: data
+>>     type: dynamic
+>>     selector:
+>>       attribute: kind
+>>       list:
+>>         -
+>>           value: bridge
+>>           nested-attributes: linkinfo-bridge-attrs
+>>         -
+>>           value: erspan
+>>           nested-attributes: linkinfo-gre-attrs
+>
+> It's kinda moot given your discovery below :(, but FWIW this is very
+> close to what I've been thinking.
+>
+> After some pondering I thought it'd be better to structure it just
+> a bit differently:
+>
+>  -
+>    name: data
+>    type: poly-nest
+>    selector: kind    # which attr carries the key
+>
+> that's it for the attr, and then in attr-set I'd add a "key":
+>
+>  -
+>    name: linkinfo-bridge-attrs
+>    poly-key: bridge
+>
+> putting the key on the attr set is worse if we ever need to "key"
+> the same attr set with different selectors, but it makes the attr
+> definition a lot smaller. And in practice I didn't expect us
+> to ever need keying into one attr set with different selectors. 
+> If we did - we could complicate it later, but start simple.
 
-diff --git a/Documentation/networking/tcp_ao.rst b/Documentation/networking/tcp_ao.rst
-index cfa5bf1cc542..8a58321acce7 100644
---- a/Documentation/networking/tcp_ao.rst
-+++ b/Documentation/networking/tcp_ao.rst
-@@ -99,7 +99,7 @@ also [6.1]::
-    when it is no longer considered permitted.
- 
- Linux TCP-AO will try its best to prevent you from removing a key that's
--being used, considering it a key management failure. But sine keeping
-+being used, considering it a key management failure. But since keeping
- an outdated key may become a security issue and as a peer may
- unintentionally prevent the removal of an old key by always setting
- it as RNextKeyID - a forced key removal mechanism is provided, where
--- 
-2.43.0
+rt_link shares attribute-sets between different kinds of link so I think
+that rules out putting the key on the attribute-set. I think we may also
+see reuse across stats attribute sets in tc.
 
+FWIW I initially considered avoiding a selector list by using a template
+to generate the attribute set name, but that broke pretty quickly.
+
+>> ...
+>> I now see a few possible ways forward and would like feedback on the
+>> preferred approach:
+>> 
+>> 1. Simplify the current patchset to implement fixed-header & nest
+>>    support in the dynamic selector. This would leave existing
+>>    fixed-header support for messages unchanged. We could drop the 'type'
+>>    field.
+>> 
+>>    -
+>>      value: netem
+>>      fixed-header: tc-netem-qopt
+>>      nested-attributes: tc-netem-attrs
+>> 
+>> 2. Keep the 'type' field and support for the 'binary' type which is
+>>    useful for specifying nests with unknown attribute spaces. An
+>>    alternative would be to default to 'binary' behaviour if there is no
+>>    selector entry.
+>> 
+>> 3. Refactor the existing fixed-header support to be an optional part of
+>>    all attribute sets instead of just messages (in legacy and raw specs)
+>>    and dynamic attribute nests (in raw specs).
+>> 
+>>    attribute-sets:
+>>      -
+>>        name: tc-netem-attrs
+>>        fixed-header: tc-netem-qopt
+>>        attributes:
+>
+> Reading this makes me feel like netem wants to be a "sub-message"?
+> It has a fixed header followed by attrs, that's quite message-like.
+
+Yeah, I guess we could call it sub-message because it's not a pure nest
+and the different name makes it an explicitly netlink-raw concept.
+
+> Something along the lines of 1 makes most sense to me, but can we
+> put the "selector ladder" out-of-line? I'm worried that the attr
+> definition will get crazy long.
+
+It seems reasonable to pull the selector list out of line because
+they do get big, e.g. over 100 lines for tc "options".
+
+My preference is 1, probably including a fallback to "binary" if there
+is no selector match.
+
+> attribute-sets:
+>   -
+>     name: outside-attrs
+>     attributes:
+>       ...
+>       -
+>          name: kind
+>          type: string
+>       -
+>          name: options
+>          type: sub-message
+>          sub-type: inside-msg  # reuse sub-type or new property?
+>          selector: kind
+>     ...
+>   -
+>     name: inside-attrs:
+>     attributes: 
+>       ...
+>
+> sub-messages:
+>   list:
+>     -
+>       name: inside-msg
+>       formats: # not a great name?..
+>         -
+>           value: some-value
+>           fixed-header: struct-name
+>         -
+>           value: other-value
+>           fixed-header: struct-name-two
+>           nested-attributes: inside-attrs
+>         -
+>           value: another-one
+>           nested-attributes: inside-attrs
+>     -
+>       name: different-inside-msg
+>       ...
+>
+> operations:
+>   ...
+>
+> At least that's what comes to my mind after reading the problem
+> description. Does it make sense?
+
+I think that once you have broken out to a sub-message, they're no
+longer "nested-attributes" and we should maybe reuse "attribute-set".
+
+I don't think we can reuse "sub-type" because the schema for it is the
+set of netlink type names, not a free string. Maybe we add "sub-message"
+instead? So how about this:
+
+attribute-sets:
+  -
+    name: outside-attrs
+    attributes:
+      ...
+      -
+         name: kind
+         type: string
+      -
+         name: options
+         type: sub-message
+         sub-message: inside-msg
+         selector: kind
+    ...
+  -
+    name: inside-attrs:
+    attributes:
+      ...
+
+sub-messages:
+  -
+    name: inside-msg
+    formats:
+      -
+        value: some-value
+        fixed-header: struct-name
+      -
+        value: other-value
+        fixed-header: struct-name-two
+        attribute-set: inside-attrs
+      -
+        value: another-one
+        attribute-set: inside-attrs
+  -
+    name: different-inside-msg
+    ...
+
+operations:
+  ...
+
+I cannot think of a better name than "formats" so happy to go with that.
+Did you want an explicit "list:" in the yaml schema?
+
+Thanks,
+Donald.
