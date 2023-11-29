@@ -1,86 +1,224 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECC520310;
+	Wed, 29 Nov 2023 13:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vn/UUsYF"
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E75AA3;
-	Wed, 29 Nov 2023 05:25:38 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1cc9b626a96so51964065ad.2;
-        Wed, 29 Nov 2023 05:25:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701264337; x=1701869137; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s+ZIlO4sg/cP7zZFMR0rAT4hiXFZZBZjMQhwTCp44A4=;
-        b=Vn/UUsYFa/vtxTlQyo2fh93u4tFOTG5TqrtwjLebIkfx7VNyF3zq7m8QQ02S+MRsVB
-         JmspCM/CuiKCtqkQQNuPjR/xLsc5fl2UdvSHrJH+6GsuYFLP3oH6ACnaVrTYOgxkQzPd
-         n6bQtyc30pCPd61f2N1T52GBTreIWhIogSsHwwPh67301Hd6bRjdqau7OKqo4saJq1Fz
-         YKkKGEpTeEJiGpfwFuKPlKxsmlHKsG9GlEYzdHVHLZr2o810lna3U/SM8huxivOK7lQi
-         KAEtqU6XwreoA+8Ny/fjb66X8k4ATlRoiHYc3kpS2zU0HlUWpHIiivBpkeLNzWXK1On5
-         Q8cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701264337; x=1701869137;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s+ZIlO4sg/cP7zZFMR0rAT4hiXFZZBZjMQhwTCp44A4=;
-        b=Z++asUhYpBxQ2CyatXoEG/bF34YFRb4pwWy7y1S7SvsStJWKEfRd1HfS71nsd/3Y7b
-         ZGqEewpgC/4iRgOUSv6G718D5GvFAtTerfcT8gBOIok/Vwj3g58A7FPPz0xHfF4mspsd
-         u+/2Op9DG8ll/2k4jEdE4Wz8DwwTvawb6kBcQKNUqf7611kaXyhIHLMu4cEA56bzIcXy
-         1x43jRDd9QoCNZTF9XwpovBmJGe+8N+MnG+BewZEnok7uMrPRQlI+TlGbYz5ki0euDQX
-         E0EQWznb2Y8L+Dwoj2+doPAhMdrtObDY0KzZPK+3AKp/X4YwJqDGZl8z0M/DSZHnI5NU
-         EaHA==
-X-Gm-Message-State: AOJu0YztrlP9PX0yB2HJBEZVozRdHOx9NY39pZ6O2+Ak4jaBnRg9W5JQ
-	dkWr5bthN9P/VRW1MBCszPA=
-X-Google-Smtp-Source: AGHT+IEbsFuMGe2f9WoNKNKVLwvzz6h3eC7ARvS/r+5SojZiyj1DRk/Ol14MDcz8mvHmLeEdkNH/KQ==
-X-Received: by 2002:a17:902:b608:b0:1cf:8cca:4f62 with SMTP id b8-20020a170902b60800b001cf8cca4f62mr16041606pls.46.1701264337664;
-        Wed, 29 Nov 2023 05:25:37 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id e13-20020a170902d38d00b001cf5c99f031sm10220343pld.283.2023.11.29.05.25.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 05:25:35 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 09B1310205C79; Wed, 29 Nov 2023 20:25:29 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Livepatching <live-patching@vger.kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Miroslav Benes <mbenes@suse.cz>,
-	Petr Mladek <pmladek@suse.com>,
-	Joe Lawrence <joe.lawrence@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Attreyee Mukherjee <tintinm2017@gmail.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 0/2] Minor grammatical fixup for livepatch docs
-Date: Wed, 29 Nov 2023 20:25:25 +0700
-Message-ID: <20231129132527.8078-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="udDTPg/Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB338C433C7;
+	Wed, 29 Nov 2023 13:26:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701264368;
+	bh=TUtFqUYMxnqyBPs9bbVQmVM4vqhJdSRfDfGOD1whTY4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=udDTPg/QJRBP5QkpTiMeh9UGd3LbkIMJ6OSPtVr20lXV2I0dSmD487VSLmr4+dqmS
+	 vJlRP0vpDsNw7Iwl4FU3MqaW+PIcEuvFqVcO5vM7Om6rCkZ8ccS7B5TBf3SnzFQ+lx
+	 Gb+zwkl+A0q2bPQy4qnxPBJdhuZ16ezAceq6u74P8hwadHT3y+T6sS2sBzEVBkkbZv
+	 ZYMnNWDnUJgkFyAN0fyACMe9PDIsBSIDt/UK+Bu+rGG8Nalg/o+G3M2fn/JbbzNtC6
+	 6jCaKByn83ISVpSAPlJHtjfOUqJQyuN2HnQzcer9cY8HAL4qMIm9SG9Vsl/PCPUywk
+	 G7B81I+QbUNpQ==
+Date: Wed, 29 Nov 2023 14:26:05 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, 
+	Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, 
+	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
+ pointers arguments
+Message-ID: <xnhbd52q3sicro6heheu6fb3zo3g342njbz67dki44wumhy57i@aaovlbqhojan>
+References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+ <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+ <87h6l66nth.fsf@intel.com>
+ <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+ <ZWXv1Oi_sH0BRWao@intel.com>
+ <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
+ <8734wo7vbx.fsf@intel.com>
+ <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
+ <87ttp46b49.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=717; i=bagasdotme@gmail.com; h=from:subject; bh=gsdJWBuTmbS/IXxeLqNBKuw152ChX0KZJGcFrysa+Aw=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKnp1ocE/nG4mD8rDm1iiIhuPL52icCSvVs2S2xpqz+6p /T5gv9xHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIBlWGf+rTzte3fcvlzYu0 8P1x8+zeoOTKs78v971VCVf+8fPKSX6gCr+U+/cF88xa1kcdELmjN+GgnffeLGYtqUdVV3as8TF jBQA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
-
-I was prompted to write this little grammar fix series when reading
-the fix from Attreyee [1], with review comments requesting changes
-to that fix. So here's my version of the fix, with reviews from [1]
-addressed (and distinct grammar fixes splitted).
-
-[1]: https://lore.kernel.org/lkml/20231127155758.33070-1-tintinm2017@gmail.com/
-
-Bagas Sanjaya (2):
-  Documentation: livepatch: Correct "step on each other's toes" idiom
-  Documentation: livepatch: Correct opposite of releasing locks
-
- Documentation/livepatch/livepatch.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7y6ja2ijtruwy6p6"
+Content-Disposition: inline
+In-Reply-To: <87ttp46b49.fsf@intel.com>
 
 
-base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
--- 
-An old man doll... just what I always wanted! - Clara
+--7y6ja2ijtruwy6p6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Nov 29, 2023 at 01:40:38PM +0200, Jani Nikula wrote:
+> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> > On Wed, Nov 29, 2023 at 11:38:42AM +0200, Jani Nikula wrote:
+> >> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> >> > Hi Ville,
+> >> >
+> >> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=E4l=E4 wrote:
+> >> >> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
+> >> >> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
+> >> >> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> >> >> > > > All the drm_connector_init variants take at least a pointer t=
+o the
+> >> >> > > > device, connector and hooks implementation.
+> >> >> > > >
+> >> >> > > > However, none of them check their value before dereferencing =
+those
+> >> >> > > > pointers which can lead to a NULL-pointer dereference if the =
+author
+> >> >> > > > isn't careful.
+> >> >> > >=20
+> >> >> > > Arguably oopsing on the spot is preferrable when this can't be =
+caused by
+> >> >> > > user input. It's always a mistake that should be caught early d=
+uring
+> >> >> > > development.
+> >> >> > >=20
+> >> >> > > Not everyone checks the return value of drm_connector_init and =
+friends,
+> >> >> > > so those cases will lead to more mysterious bugs later. And pro=
+bably
+> >> >> > > oopses as well.
+> >> >> >=20
+> >> >> > So maybe we can do both then, with something like
+> >> >> >=20
+> >> >> > if (WARN_ON(!dev))
+> >> >> >    return -EINVAL
+> >> >> >=20
+> >> >> > if (drm_WARN_ON(dev, !connector || !funcs))
+> >> >> >    return -EINVAL;
+> >> >> >=20
+> >> >> > I'd still like to check for this, so we can have proper testing, =
+and we
+> >> >> > already check for those pointers in some places (like funcs in
+> >> >> > drm_connector_init), so if we don't cover everything we're incons=
+istent.
+> >> >>=20
+> >> >> People will invariably cargo-cult this kind of stuff absolutely
+> >> >> everywhere and then all your functions will have tons of dead
+> >> >> code to check their arguments.
+> >> >
+> >> > And that's a bad thing because... ?
+> >> >
+> >> > Also, are you really saying that checking that your arguments make s=
+ense
+> >> > is cargo-cult?
+> >>=20
+> >> It's a powerful thing to be able to assume a NULL argument is always a
+> >> fatal programming error on the caller's side, and should oops and get
+> >> caught immediately. It's an assertion.
+> >
+> > Yeah, but we're not really doing that either. We have no explicit
+> > assertion anywhere. We take a pointer in, and just hope that it will be
+> > dereferenced later on and that the kernel will crash. The pointer to the
+> > functions especially is only deferenced very later on.
+> >
+> > And assertions might be powerful, but being able to notice errors and
+> > debug them is too. A panic takes away basically any remote access to
+> > debug. If you don't have a console, you're done.
+> >
+> >> We're not talking about user input or anything like that here.
+> >>=20
+> >> If you start checking for things that can't happen, and return errors
+> >> for them, you start gracefully handling things that don't have anything
+> >> graceful about them.
+> >
+> > But there's nothing graceful to do here: you just return from your probe
+> > function that you couldn't probe and that's it. Just like you do when
+> > you can't map your registers, or get your interrupt, or register into
+> > any framework (including drm_dev_register that pretty much every driver
+> > handles properly if it returns an error, without being graceful about
+> > it).
+>=20
+> Those are all dynamic things that can fail.
+>=20
+> Quite different from passing NULL dev, connector, or funcs to
+> drm_connector_init() and friends.
+>=20
+> I think it's wrong to set the example that everything needs to be
+> checked, everything needs to return an error, every call needs to check
+> for error return, all the time, everywhere. People absolutely will cargo
+> cult that, and that's what Ville is referring to.
+>=20
+> If you pass NULL dev, connector, or funcs to drm_connector_init() I
+> think you absolutely deserve to get an oops.
+>=20
+> For dev, you could possibly not have reached the function with NULL
+> dev. (And __drm_connector_init() has dev->mode_config before the check,
+> so you'll get a static analyzer warning about dereference before the
+> check.) If you have NULL connector, you didn't check for allocation
+> failure earlier. If you have NULL funcs, you just passed NULL, because
+> it's generally supposed to be a pointer to a static const struct.
+>=20
+> >> Having such checks in place trains people to think they *may* happen.
+> >
+> > In most cases, kmalloc can't fail. We seem to have a very different
+> > policy towards it.
+>=20
+> Again, dynamic in nature and can fail.
+>=20
+> >> While it should fail fast and loud at the developer's first smoke test,
+> >> and get fixed then and there.
+> >
+> > Returning an error + a warning also qualifies for "fail fast and loud".
+> > But keeps the system alive for someone to notice in any case.
+>=20
+> But where do you draw the line?
+
+This also applies to static things then.
+drm_connector_attach_scaling_mode_property() or
+drm_mode_create_colorspace_property() (or plenty of others) will check
+on the value of the supported scaling modes colorspaces, even though
+they are static.
+
+It looks like we have that policy of "just assert and roll with it" for
+pointers, but not for other static values passed to those initialization
+functions.
+
+> If we keep adding these checks to things that actually can't happen,
+> we teach developers we need to check for impossible things. And we
+> teach them not to trust anything.
+
+Well, I certainly don't trust drivers to get things right.
+
+> I scroll down the file and reach drm_connector_attach_edid_property().
+> Should we NULL check connector? Should we change the function to int
+> and return a value? Should the caller check the value? Then there's
+> drm_connector_attach_encoder(). And
+> drm_connector_has_possible_encoder(). And so on and so forth.
+>=20
+> Where do you draw the line?
+
+If things can fail, we should expect the caller to handle the failure
+somehow. The documentation of drm_connector_attach_encoder() states that
+it can fail, so we should expect it.
+drm_connector_has_possible_encoder() doesn't so we can assume it can't
+fail.
+
+If the function can fail but wasn't designed or documented as such, then
+it's on the function. If it was but the caller didn't handle the error
+case, then that's on the caller.
+
+Maxime
+
+--7y6ja2ijtruwy6p6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWc77AAKCRDj7w1vZxhR
+xcPrAQDQgezjaCRFLrm1ci7OMYB0pviCvKKwSrlxIJ/UMQY1KAEA8KhoH2NL0IXS
++jKammOWS5C+nAavD5K9RVEDaU4Cpw8=
+=E2qM
+-----END PGP SIGNATURE-----
+
+--7y6ja2ijtruwy6p6--
