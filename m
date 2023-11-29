@@ -1,74 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183B332C82;
-	Wed, 29 Nov 2023 16:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MtBFHGVo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7F11C433C8;
-	Wed, 29 Nov 2023 16:13:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701274409;
-	bh=p+RQX74HwwmDvDtwcup4EpjJ5YUNoNydNJ2G0J9Vk7U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MtBFHGVor1ZjdSoE6YY61j93TqDWBS7haGxokvvjSnzxe/6C3jAuiaUZkM0AeHx0t
-	 kLES4PgMni59ge3NXU9AicqBF3GO5S+C+JoxHazk6gOv9iEv9M/DmOaps6rCMkTQpj
-	 8JM38jGgoV6gSvVMMsLk9i2SO79lo0M9ApmpSFj40yE6uo68NqlSAYKHPgnmUvS9n9
-	 kN1PI/mih9b447Oo4tpqHwLE/JmppqKQYKZniubEnVzaKYDBBXKz2exiqj6jvozHd8
-	 p/B29PszXrO5hUzyT9wUiirdSNIDkVFOEEuqE9fP9wzavr7mjrk7LNh+hCzVRV3wJ+
-	 G/lLrabyGQXyg==
-Date: Wed, 29 Nov 2023 08:13:29 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux XFS <linux-xfs@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9951F10E3;
+	Wed, 29 Nov 2023 08:18:45 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="479389564"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="479389564"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 08:18:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="839475132"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="839475132"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 08:18:41 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1r8NGo-00000000U2X-0Hrq;
+	Wed, 29 Nov 2023 18:18:38 +0200
+Date: Wed, 29 Nov 2023 18:18:37 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, nuno.sa@analog.com,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Dave Chinner <dchinner@redhat.com>,
-	Steve French <stfrench@microsoft.com>,
-	Allison Henderson <allison.henderson@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH RESEND v2] Documentation: xfs: consolidate XFS docs into
- its own subdirectory
-Message-ID: <20231129161329.GV36211@frogsfrogsfrogs>
-References: <20231128124522.28499-1-bagasdotme@gmail.com>
- <20231128163255.GV2766956@frogsfrogsfrogs>
- <20231129052400.GS4167244@frogsfrogsfrogs>
- <ZWdilJHU2RqMwBUW@casper.infradead.org>
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Message-ID: <ZWdkXakM4lRe1bij@smile.fi.intel.com>
+References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
+ <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+ <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
+ <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZWdilJHU2RqMwBUW@casper.infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Nov 29, 2023 at 04:11:00PM +0000, Matthew Wilcox wrote:
-> On Tue, Nov 28, 2023 at 09:24:00PM -0800, Darrick J. Wong wrote:
-> > Actually, ignore this suggestion.  I forgot that I have vim paths
-> > trained on the Documentation/filesystems/ directory, which means I'll
-> > lose the ability to
-> > 
-> > :f xfs-online-fsck-design.rst
-> > 
-> > and pop it open.  Not that I expect many more filesystems to grow online
-> > fsck capabilities, but you get the point...
-> 
-> Wouldn't you instead do:
-> 
-> :f xfs/online-fsck-design.rst
-> 
-> ie change one character (- to /)
+On Wed, Nov 29, 2023 at 05:08:41PM +0100, Nuno Sá wrote:
+> On Wed, 2023-11-29 at 15:49 +0100, Linus Walleij wrote:
+> > On Fri, Nov 24, 2023 at 3:18 PM Nuno Sa via B4 Relay
+> > <devnull+nuno.sa.analog.com@kernel.org> wrote:
 
-No, I'd change the vim paths to Documentation/xfs/ because I don't
-need quick :find support for the rest of the kernel documentation.
+...
 
---D
+> > Other than that it looks fine.
+> 
+> Cool, I actually thought that having the direction + get/set stuff would be
+> weird given the fact that we can only PULL_LOW or HIGH_Z the pins.
+
+Oh, then it's probably should be a pin config involved.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
