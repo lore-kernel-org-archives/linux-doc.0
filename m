@@ -1,118 +1,236 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA84B63AE;
-	Wed, 29 Nov 2023 04:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA5F6FCA;
+	Wed, 29 Nov 2023 05:24:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8VSEY6Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8936C433C7;
-	Wed, 29 Nov 2023 04:14:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XjkTUBkk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928D0C433C7;
+	Wed, 29 Nov 2023 05:24:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701231274;
-	bh=XD/RBlDsVQGj3kZTyVUAALtmbZJmgeU+U/q5t8pz5/Y=;
-	h=From:To:Cc:Subject:Date:From;
-	b=T8VSEY6Zc6TxGO7Z6r+IiwoOeJTrPWb2kpquzFRvjhzq7Igx4vaa5upBe2cr+LJrl
-	 pEzTLXkZgsOwYJKdpvl+/g4nvJvC+Jq+xUk/ee+iauahdSnU0wi7Fhwx1fpwFUbMoJ
-	 t1QZmD7t6mANaNCDOVq5Suu6N7w7MfHejtEIvkDvxFL/q5f15+KHh9XlKKZVUuki2e
-	 C4G7vNhyMkMMs/lkZV6q1up2tWm1K2959Qps1DHJTlxdMaROWO8n3xWMPk1H5zdBCN
-	 8opMmsN6WwrfzmamNILAaQJZ8sgN83bYMriOjQbqx4ES0z8fo8ZSlZn5mYe7tyg6/b
-	 6bX93/eL6Gcjg==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	Jakub Kicinski <kuba@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v2] docs: netlink: link to family documentations from spec info
-Date: Tue, 28 Nov 2023 20:14:27 -0800
-Message-ID: <20231129041427.2763074-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1701235440;
+	bh=0RjlCL8ZpHOp9jN53bdGFyIhRGuacuo/NihvRqf9ep8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XjkTUBkkvuiepU3/L/B7LqhGvH6OXLqvyWlSpZFV/AYQxim0dYpGTjbAFj6ZsqwaM
+	 FLDfKb2KpO18FJwoSHsZIjxWVHfdJHUd6l1Djmk/WvFyRfIKF3tdzV4N17LkWlwitl
+	 NtXM2ZN1l5FEU/tURcGsliHz8ThEokdX1t4UUIVaaWg7ZyxiubI9mpgkI2/8/DokDc
+	 +1PHXs2LXxiVsAodh8eI3gGJLf1hRxANAntFy3VCQqs8B/sAq9+yGWtqWBlot7r/ix
+	 y4Fm4IG515HvkMgIEVeGg10JKN0QOISOVDyPQJRA2bHZ82LPkBDVKjK6O0bgqpNCu1
+	 VUUxRhDooeqaA==
+Date: Tue, 28 Nov 2023 21:24:00 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux XFS <linux-xfs@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Dave Chinner <dchinner@redhat.com>,
+	Steve French <stfrench@microsoft.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Han <hanchunchao@inspur.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>
+Subject: Re: [PATCH RESEND v2] Documentation: xfs: consolidate XFS docs into
+ its own subdirectory
+Message-ID: <20231129052400.GS4167244@frogsfrogsfrogs>
+References: <20231128124522.28499-1-bagasdotme@gmail.com>
+ <20231128163255.GV2766956@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231128163255.GV2766956@frogsfrogsfrogs>
 
-To increase the chances of people finding the rendered docs
-add a link to specs.rst and index.rst.
+On Tue, Nov 28, 2023 at 08:32:55AM -0800, Darrick J. Wong wrote:
+> On Tue, Nov 28, 2023 at 07:45:22PM +0700, Bagas Sanjaya wrote:
+> > XFS docs are currently in upper-level Documentation/filesystems.
+> > Although these are currently 4 docs, they are already outstanding as
+> > a group and can be moved to its own subdirectory.
+> > 
+> > Consolidate them into Documentation/filesystems/xfs/.
+> > 
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > ---
+> > Changes since v1 [1]:
+> > 
+> >   * Also update references to old doc path to address kernel test robot
+> >     warnings [2].
+> > 
+> > [1]: https://lore.kernel.org/linux-doc/20231121095658.28254-1-bagasdotme@gmail.com/
+> > [2]: https://lore.kernel.org/linux-doc/a9abc5ec-f3cd-4a1a-81b9-a6900124d38b@gmail.com/
+> > 
+> >  Documentation/filesystems/index.rst                |  5 +----
+> >  Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
+> >  .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
+> >  .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
+> >  .../{ => xfs}/xfs-online-fsck-design.rst           |  2 +-
+> >  .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
+> >  .../maintainer/maintainer-entry-profile.rst        |  2 +-
+> >  MAINTAINERS                                        |  4 ++--
+> >  8 files changed, 19 insertions(+), 8 deletions(-)
+> >  create mode 100644 Documentation/filesystems/xfs/index.rst
+> >  rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
+> >  rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
+> >  rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (99%)
+> >  rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
+> 
+> I think the rst filename should drop the 'xfs-' prefix, e.g.
+> 
+> 	Documentation/filesystems/xfs/delayed-logging-design.rst
+> 
+> since that seems to be what most filesystems do:
 
-Add a label in the generated index.rst and while at it adjust
-the title a little bit.
+Actually, ignore this suggestion.  I forgot that I have vim paths
+trained on the Documentation/filesystems/ directory, which means I'll
+lose the ability to
 
-Reviewed-by: Breno Leitao <leitao@debian.org>
-Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-v2:
- - add type to the arg
- - link from index
-v1: https://lore.kernel.org/all/20231127205642.2293153-1-kuba@kernel.org/
+:f xfs-online-fsck-design.rst
 
-CC: corbet@lwn.net
-CC: linux-doc@vger.kernel.org
----
- Documentation/userspace-api/netlink/index.rst | 4 +++-
- Documentation/userspace-api/netlink/specs.rst | 2 +-
- tools/net/ynl/ynl-gen-rst.py                  | 8 +++++++-
- 3 files changed, 11 insertions(+), 3 deletions(-)
+and pop it open.  Not that I expect many more filesystems to grow online
+fsck capabilities, but you get the point...
 
-diff --git a/Documentation/userspace-api/netlink/index.rst b/Documentation/userspace-api/netlink/index.rst
-index 62725dafbbdb..c1b6765cc963 100644
---- a/Documentation/userspace-api/netlink/index.rst
-+++ b/Documentation/userspace-api/netlink/index.rst
-@@ -16,4 +16,6 @@ Netlink documentation for users.
-    genetlink-legacy
-    netlink-raw
- 
--See also :ref:`Documentation/core-api/netlink.rst <kernel_netlink>`.
-+See also:
-+ - :ref:`Documentation/core-api/netlink.rst <kernel_netlink>`
-+ - :ref:`Documentation/networking/netlink_spec/index.rst <specs>`
-diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
-index c1b951649113..1b50d97d8d7c 100644
---- a/Documentation/userspace-api/netlink/specs.rst
-+++ b/Documentation/userspace-api/netlink/specs.rst
-@@ -15,7 +15,7 @@ kernel headers directly.
- Internally kernel uses the YAML specs to generate:
- 
-  - the C uAPI header
-- - documentation of the protocol as a ReST file
-+ - documentation of the protocol as a ReST file - see :ref:`Documentation/networking/netlink_spec/index.rst <specs>`
-  - policy tables for input attribute validation
-  - operation tables
- 
-diff --git a/tools/net/ynl/ynl-gen-rst.py b/tools/net/ynl/ynl-gen-rst.py
-index b6292109e236..8c62e040df5d 100755
---- a/tools/net/ynl/ynl-gen-rst.py
-+++ b/tools/net/ynl/ynl-gen-rst.py
-@@ -122,6 +122,11 @@ SPACE_PER_LEVEL = 4
-     return "\n".join(lines)
- 
- 
-+def rst_label(title: str) -> str:
-+    """Return a formatted label"""
-+    return f".. _{title}:\n\n"
-+
-+
- # Parsers
- # =======
- 
-@@ -349,7 +354,8 @@ SPACE_PER_LEVEL = 4
-     lines = []
- 
-     lines.append(rst_header())
--    lines.append(rst_title("Netlink Specification"))
-+    lines.append(rst_label("specs"))
-+    lines.append(rst_title("Netlink Family Specifications"))
-     lines.append(rst_toctree(1))
- 
-     index_dir = os.path.dirname(output)
--- 
-2.43.0
+> Documentation/filesystems/caching/backend-api.rst
+> Documentation/filesystems/caching/cachefiles.rst
+> Documentation/filesystems/caching/fscache.rst
+> Documentation/filesystems/caching/index.rst
+> Documentation/filesystems/caching/netfs-api.rst
+> Documentation/filesystems/cifs/cifsroot.rst
+> Documentation/filesystems/cifs/index.rst
+> Documentation/filesystems/cifs/ksmbd.rst
+> Documentation/filesystems/ext4/about.rst
+> Documentation/filesystems/ext4/allocators.rst
+> Documentation/filesystems/ext4/attributes.rst
+> <snip>
+> Documentation/filesystems/ext4/special_inodes.rst
+> Documentation/filesystems/ext4/super.rst
+> Documentation/filesystems/ext4/verity.rst
+> Documentation/filesystems/nfs/client-identifier.rst
+> Documentation/filesystems/nfs/exporting.rst
+> Documentation/filesystems/nfs/index.rst
+> Documentation/filesystems/nfs/knfsd-stats.rst
+> Documentation/filesystems/nfs/nfs41-server.rst
+> Documentation/filesystems/nfs/pnfs.rst
+> Documentation/filesystems/nfs/reexport.rst
+> Documentation/filesystems/nfs/rpc-cache.rst
+> Documentation/filesystems/nfs/rpc-server-gss.rst
+> Documentation/filesystems/smb/cifsroot.rst
+> Documentation/filesystems/smb/index.rst
+> Documentation/filesystems/smb/ksmbd.rst
+> Documentation/filesystems/spufs/index.rst
+> Documentation/filesystems/spufs/spu_create.rst
+> Documentation/filesystems/spufs/spufs.rst
+> Documentation/filesystems/spufs/spu_run.rst
+> 
+> > diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> > index 09cade7eaefc8c..e18bc5ae3b35f8 100644
+> > --- a/Documentation/filesystems/index.rst
+> > +++ b/Documentation/filesystems/index.rst
+> > @@ -121,8 +121,5 @@ Documentation for filesystem implementations.
+> >     udf
+> >     virtiofs
+> >     vfat
+> > -   xfs-delayed-logging-design
+> > -   xfs-maintainer-entry-profile
+> > -   xfs-self-describing-metadata
+> > -   xfs-online-fsck-design
+> > +   xfs/index
+> >     zonefs
+> > diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
+> > new file mode 100644
+> > index 00000000000000..ab66c57a5d18ea
+> > --- /dev/null
+> > +++ b/Documentation/filesystems/xfs/index.rst
+> > @@ -0,0 +1,14 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +============================
+> > +XFS Filesystem Documentation
+> > +============================
+> > +
+> > +.. toctree::
+> > +   :maxdepth: 2
+> > +   :numbered:
+> > +
+> > +   xfs-delayed-logging-design
+> > +   xfs-maintainer-entry-profile
+> > +   xfs-self-describing-metadata
+> > +   xfs-online-fsck-design
+> > diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+> > similarity index 100%
+> > rename from Documentation/filesystems/xfs-delayed-logging-design.rst
+> > rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+> > diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+> > similarity index 100%
+> > rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
+> > rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+> > diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> > similarity index 99%
+> > rename from Documentation/filesystems/xfs-online-fsck-design.rst
+> > rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> > index a0678101a7d02d..352516feef6ffe 100644
+> > --- a/Documentation/filesystems/xfs-online-fsck-design.rst
+> > +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> > @@ -962,7 +962,7 @@ disk, but these buffer verifiers cannot provide any consistency checking
+> >  between metadata structures.
+> >  
+> >  For more information, please see the documentation for
+> > -Documentation/filesystems/xfs-self-describing-metadata.rst
+> > +Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+> >  
+> >  Reverse Mapping
+> >  ---------------
+> > diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+> > similarity index 100%
+> > rename from Documentation/filesystems/xfs-self-describing-metadata.rst
+> > rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+> > diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+> > index 7ad4bfc2cc038a..18cee1edaecb6f 100644
+> > --- a/Documentation/maintainer/maintainer-entry-profile.rst
+> > +++ b/Documentation/maintainer/maintainer-entry-profile.rst
+> > @@ -105,4 +105,4 @@ to do something different in the near future.
+> >     ../driver-api/media/maintainer-entry-profile
+> >     ../driver-api/vfio-pci-device-specific-driver-acceptance
+> >     ../nvme/feature-and-quirk-policy
+> > -   ../filesystems/xfs-maintainer-entry-profile
+> > +   ../filesystems/xfs/xfs-maintainer-entry-profile
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index ea790149af7951..fd288ac57e19fb 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -23893,10 +23893,10 @@ S:	Supported
+> >  W:	http://xfs.org/
+> >  C:	irc://irc.oftc.net/xfs
+> >  T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
+> > -P:	Documentation/filesystems/xfs-maintainer-entry-profile.rst
+> > +P:	Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+> >  F:	Documentation/ABI/testing/sysfs-fs-xfs
+> >  F:	Documentation/admin-guide/xfs.rst
+> > -F:	Documentation/filesystems/xfs-*
+> > +F:	Documentation/filesystems/xfs/xfs-*
+> 
+> Shouldn't this be "Documentation/filesystems/xfs/*" ?
 
+...though this suggestion remains standing.
+
+--D
+
+> --D
+> 
+> >  F:	fs/xfs/
+> >  F:	include/uapi/linux/dqblk_xfs.h
+> >  F:	include/uapi/linux/fsmap.h
+> > 
+> > base-commit: 9c235dfc3d3f901fe22acb20f2ab37ff39f2ce02
+> > -- 
+> > An old man doll... just what I always wanted! - Clara
+> > 
+> > 
+> 
