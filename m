@@ -1,196 +1,199 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="YUTwYCyg"
-Received: from mail.manjaro.org (mail.manjaro.org [IPv6:2a01:4f8:c0c:51f3::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B081EAF;
-	Wed, 29 Nov 2023 03:37:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IVIY59PY"
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 29 Nov 2023 03:41:49 PST
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8703C4;
+	Wed, 29 Nov 2023 03:41:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701258110; x=1732794110;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=w91TqZU/Sz95TBAtE+lLgPRTyMnYI3/7ak+ZXvIxwqY=;
+  b=IVIY59PY2nmI34Vxl+3e70xlIK4bnrx6q7yyTPt0My8bGdNinYgSBbIy
+   OElb5mjET9zVtpoTq2JdYV8ARKdl/9dOPQVFUD88SimIq1a6D4swPHpAB
+   ai5mXguu4Ry/0T3sdLLLw89UzK4FJhAB98+lufdce4aTwJn5uANQGFGpw
+   olcagkl67s51Jz3KcyksvcIxoJcCWmgS1w3g7yST8g2X/lhyj7Vs6e/L9
+   0IcME2kDIFWl2vVo0W3LRa0GBFnp9CFLTyT1hwT0gtMaJPZOtG1PS971k
+   /bNjkOxwyKglRkseeGlrVr5gvIGNUyI4unFHw+5IC/7u8LHLMTOMasbNL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="35035"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="35035"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 03:40:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="942291528"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="942291528"
+Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost) ([10.252.60.61])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 03:40:40 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Thomas
+ Zimmermann
+ <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org, Samuel Holland
+ <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org, Hans Verkuil
+ <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, Chen-Yu Tsai
+ <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
+ pointers arguments
+In-Reply-To: <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+ <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+ <87h6l66nth.fsf@intel.com>
+ <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+ <ZWXv1Oi_sH0BRWao@intel.com>
+ <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
+ <8734wo7vbx.fsf@intel.com>
+ <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
+Date: Wed, 29 Nov 2023 13:40:38 +0200
+Message-ID: <87ttp46b49.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1701257848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zFMkyI45VT7UXczSOfK7lHaQtQAsm/dZT4KJu3kbR6M=;
-	b=YUTwYCygZsU6Xp6EA/BNba80tC0tNo4Lj5ACDCNmLzJogjTYp7Lee8wOoW6F3wmz8j1e4B
-	gT9p9h9p6IL5YpXbFPyDy7tW1GV4ySnd9idxr+Yl07Az/bD3Bww+PyC5u01Rglv6Z4h86b
-	Jx7it0g9Ar9kd/DHDNiyE8BTFXzRFwL65dzkfiW1wzMnxIzoPAvsIHmeyrl86t2UxsKmZq
-	wBTDB+AMPpuHw3zcwlPDg+I+5bFDJc01y0Bpn+L2WpdxEKUcz7dMrNIWvzMbVPnOAHJ2/h
-	vq7XGBYrnKNgVWA315hLJ8qlYrXmCUQzi+0uMWP9aeQwh15V7XVeiUxo0j5fTw==
-Date: Wed, 29 Nov 2023 12:37:26 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>, Andrew Lunn
- <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson
- <andersson@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>, Konrad
- Dybcio <konrad.dybcio@linaro.org>, Michal Simek <michal.simek@amd.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Nishanth Menon <nm@ti.com>, Olof
- Johansson <olof@lixom.net>, =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=
- <zajec5@gmail.com>, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
-In-Reply-To: <0bcc0679-b883-4435-8843-cc830122c0e1@linaro.org>
-References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
- <63ec18b2758a9e385f446fb00b60ee69@manjaro.org>
- <0bcc0679-b883-4435-8843-cc830122c0e1@linaro.org>
-Message-ID: <83b413441a953e8f2bc56adf09511a80@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2023-11-29 11:43, Krzysztof Kozlowski wrote:
-> On 28/11/2023 21:00, Dragan Simic wrote:
->> 
->> I went through the language of the entire patch, after the notice that
->> the v4 would no longer accept language improvements.  My wording- and
->> grammar-related suggestions are available inline below.
-> 
-> Thanks. I want to finish this at some point and it might not happen if
-> grammar fixes will be coming every patch revision. Then after we finish
-> review, new feedback will appear about using British or American
-> spelling (which reminds me old quote/email about which variant of
-> English is most popular in Linux kernel: the incorrect one).
+On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> On Wed, Nov 29, 2023 at 11:38:42AM +0200, Jani Nikula wrote:
+>> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+>> > Hi Ville,
+>> >
+>> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=C3=A4l=C3=A4 wrot=
+e:
+>> >> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
+>> >> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
+>> >> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+>> >> > > > All the drm_connector_init variants take at least a pointer to =
+the
+>> >> > > > device, connector and hooks implementation.
+>> >> > > >
+>> >> > > > However, none of them check their value before dereferencing th=
+ose
+>> >> > > > pointers which can lead to a NULL-pointer dereference if the au=
+thor
+>> >> > > > isn't careful.
+>> >> > >=20
+>> >> > > Arguably oopsing on the spot is preferrable when this can't be ca=
+used by
+>> >> > > user input. It's always a mistake that should be caught early dur=
+ing
+>> >> > > development.
+>> >> > >=20
+>> >> > > Not everyone checks the return value of drm_connector_init and fr=
+iends,
+>> >> > > so those cases will lead to more mysterious bugs later. And proba=
+bly
+>> >> > > oopses as well.
+>> >> >=20
+>> >> > So maybe we can do both then, with something like
+>> >> >=20
+>> >> > if (WARN_ON(!dev))
+>> >> >    return -EINVAL
+>> >> >=20
+>> >> > if (drm_WARN_ON(dev, !connector || !funcs))
+>> >> >    return -EINVAL;
+>> >> >=20
+>> >> > I'd still like to check for this, so we can have proper testing, an=
+d we
+>> >> > already check for those pointers in some places (like funcs in
+>> >> > drm_connector_init), so if we don't cover everything we're inconsis=
+tent.
+>> >>=20
+>> >> People will invariably cargo-cult this kind of stuff absolutely
+>> >> everywhere and then all your functions will have tons of dead
+>> >> code to check their arguments.
+>> >
+>> > And that's a bad thing because... ?
+>> >
+>> > Also, are you really saying that checking that your arguments make sen=
+se
+>> > is cargo-cult?
+>>=20
+>> It's a powerful thing to be able to assume a NULL argument is always a
+>> fatal programming error on the caller's side, and should oops and get
+>> caught immediately. It's an assertion.
+>
+> Yeah, but we're not really doing that either. We have no explicit
+> assertion anywhere. We take a pointer in, and just hope that it will be
+> dereferenced later on and that the kernel will crash. The pointer to the
+> functions especially is only deferenced very later on.
+>
+> And assertions might be powerful, but being able to notice errors and
+> debug them is too. A panic takes away basically any remote access to
+> debug. If you don't have a console, you're done.
+>
+>> We're not talking about user input or anything like that here.
+>>=20
+>> If you start checking for things that can't happen, and return errors
+>> for them, you start gracefully handling things that don't have anything
+>> graceful about them.
+>
+> But there's nothing graceful to do here: you just return from your probe
+> function that you couldn't probe and that's it. Just like you do when
+> you can't map your registers, or get your interrupt, or register into
+> any framework (including drm_dev_register that pretty much every driver
+> handles properly if it returns an error, without being graceful about
+> it).
 
-Ah, that's a good one. :)  Basically, both English variants should be 
-fine, but a single document should obviously use only one variant.
+Those are all dynamic things that can fail.
 
->>> +=====================================
->>> +Devicetree Sources (DTS) Coding Style
->>> +=====================================
->>> +
->>> +When writing Devicetree Sources (DTS) please observe below 
->>> guidelines.
->>>  They
->> 
->> The sentence above should be replaced with: "The following guidelines
->> are to be followed when writing Devicetree Source (DTS) files."
-> 
-> Are you sure? It's passive and I was taught it is discouraged for
-> writing. See for example:
-> https://www.hamilton.edu/academics/centers/writing/seven-sins-of-writing/1
+Quite different from passing NULL dev, connector, or funcs to
+drm_connector_init() and friends.
 
-Hmm, you're right, passive voice is usually not the best choice.  Here's 
-my take two for the suggested replacement sentence, which is actually a 
-simplified version:
+I think it's wrong to set the example that everything needs to be
+checked, everything needs to return an error, every call needs to check
+for error return, all the time, everywhere. People absolutely will cargo
+cult that, and that's what Ville is referring to.
 
-"This document contains the guidelines for writing Devicetree Source 
-(DTS) files."
+If you pass NULL dev, connector, or funcs to drm_connector_init() I
+think you absolutely deserve to get an oops.
 
->>> +should be considered complementary to any rules expressed already in
->>> Devicetree
->>> +Specification and dtc compiler (including W=1 and W=2 builds).
->> 
->> A definite article ("the") should be added before "Devicetree
-> 
-> ack
-> 
->> Specification" and "dtc".  Also, "Specification" in "Devicetree
->> Specification" should be capitalized.
-> 
-> It was.
+For dev, you could possibly not have reached the function with NULL
+dev. (And __drm_connector_init() has dev->mode_config before the check,
+so you'll get a static analyzer warning about dereference before the
+check.) If you have NULL connector, you didn't check for allocation
+failure earlier. If you have NULL funcs, you just passed NULL, because
+it's generally supposed to be a pointer to a static const struct.
 
-Oh, sorry, I see now.  IIRC, it wasn't capitalized in some places, so I 
-made a mistake here.
+>> Having such checks in place trains people to think they *may* happen.
+>
+> In most cases, kmalloc can't fail. We seem to have a very different
+> policy towards it.
 
->>> +
->>> +Individual architectures and sub-architectures can add additional
->>> rules, making
->>> +the style stricter.
->> 
->> "Sub-architectures" should be replaced with "subarchitectures".  "Can
-> 
-> A hint, you can write such review feedback as:
-> s/sub-architectures/subarchitectures/
+Again, dynamic in nature and can fail.
 
-Sure, but I specifically wanted to be less terse, as a way to be 
-respectful.
+>> While it should fail fast and loud at the developer's first smoke test,
+>> and get fixed then and there.
+>
+> Returning an error + a warning also qualifies for "fail fast and loud".
+> But keeps the system alive for someone to notice in any case.
 
-> BTW, my language spelling points "subarchitectures" as mistake, but
-> sure, ack.
+But where do you draw the line? If we keep adding these checks to things
+that actually can't happen, we teach developers we need to check for
+impossible things. And we teach them not to trust anything.
 
-Using hyphens or not is almost always debatable, but modern English in 
-general leans toward not using them.
+I scroll down the file and reach
+drm_connector_attach_edid_property(). Should we NULL check connector?
+Should we change the function to int and return a value? Should the
+caller check the value? Then there's drm_connector_attach_encoder(). And
+drm_connector_has_possible_encoder(). And so on and so forth.
 
->>> +3. Unit addresses shall use lowercase hex, without leading zeros
->>> (padding).
->> 
->> "Lowercase hex" should be replaced with "lowercase hexadecimal 
->> digits".
->> 
->>> +
->>> +4. Hex values in properties, e.g. "reg", shall use lowercase hex.  
->>> The
->>> address
->>> +   part can be padded with leading zeros.
->> 
->> "Hex values" should be replaced with "Hexadecimal values".  "Lowercase
->> hex" should be replaced with "lowercase hexadecimal digits".
-> 
-> ack, but that's quite picky. We are (software) engineers so we are
-> supposed to know the slang.
+Where do you draw the line?
 
-Sure, but this document is of a bit formal nature, so using slightly 
-more formal language can only be helpful.
 
->>> +2. Nodes without unit addresses shall be ordered alpha-numerically 
->>> by
->>> the node
->>> +   name.  For a few types of nodes, they can be ordered by the main
->>> property
->>> +   (e.g. pin configuration states ordered by value of "pins"
->>> property).
->> 
->> "Alpha-numerically" should be replaced with "alphabetically".
-> 
-> Are you sure? Does alphabetical order include numbers?
+BR,
+Jani.
 
-That's a good question, which also crossed my mind while writing the 
-suggestions down.  A more correct word would be "lexicographically", 
-with something like ", with the already defined valid characters making 
-the symbol set and the ACSII character set defining the ordering, " 
-serving as an additional explanation.
 
-This would be a rather formal, but also very precise definition of the 
-applied ordering.
-
->>> +3. When extending nodes in the board DTS via &label, the entries 
->>> shall
->>> be
->>> +   ordered either alpha-numerically or by keeping the order from 
->>> DTSI
->>> (choice
->>> +   depending on sub-architecture).
->> 
->> "Alpha-numerically" should be replaced with "alphabetically".
-> 
-> Similar concern
-
-I agree.  We could use "lexicographically" instead, with the precise 
-definition already established earlier in the document.
-
->>> +board DTS, not in the SoC or SoM DTSI.  A partial exception is a
->>> common
->>> +external reference SoC-input clock, which could be coded as a
->>> fixed-clock in
->> 
->> "SoC-input" should be replaced with "SoC input".
-> 
-> ack, thanks!
-
-Thank you once again for working on this document!
+--=20
+Jani Nikula, Intel
