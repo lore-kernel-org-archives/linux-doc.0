@@ -1,171 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A71111B9;
-	Wed, 29 Nov 2023 08:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CSxUPZel"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 245B5C433CA;
-	Wed, 29 Nov 2023 08:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701247516;
-	bh=UXdPU/00DOBx8I3/wE+x2tqcMD+K75S/uS9lQYcwxkc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CSxUPZelmFUI0WhsDPo+TfYQ4f3DZ6eBQvGwkxs7C7+C5w66e93Uxmi6gJ39HReig
-	 XASsYsEBDJXkGcbt9R5Defn6J9KPYbe5LuEbpVpmDZNANWJzpaK//Rj/Lw/12TdOco
-	 8PBcJzIc3q66JcRdza4mHysFkQMk2Wqk7+Wqgl8hk1CWgL4H3wGskUzTJs2KihIOr1
-	 dMrecvR3TqPeA7qZkgrg+Em/Y2jyjykDRDdmmJo626DWe84qwkPR7phmGxsf78Ob+q
-	 3ENGT/jnvFxVvXp9S7f7OQdr5ot4zaAAHUuUu/Fq/vIQyINclnspoVS6kjvcHhPcHP
-	 7mbItS1O+oX2w==
-Message-ID: <d4a9bd79-1cb6-4da6-9380-bb8085866533@kernel.org>
-Date: Wed, 29 Nov 2023 09:45:07 +0100
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E53B0;
+	Wed, 29 Nov 2023 00:47:55 -0800 (PST)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5cbcfdeaff3so66495557b3.0;
+        Wed, 29 Nov 2023 00:47:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701247675; x=1701852475;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mLerLul424y9KF+UL/6zr3ivEhD1RgHSR/3xjytvLS8=;
+        b=ZkemoQjO/bBTd8d+LsdUMD4ToLFvR20uTycUuPxASEp1Wv2jracDpJVgxuRhBKgrEe
+         Dv8UdOCyYtn4jolKAK4sP6RSsPGdC2iMkUPZ0S5x5T3GOJUs4mGd0o+GP3c0bN61YS+v
+         reWI8SIzVw3ops8uEEJRZuKt+F021WhZYGbnzgWtzawtgIzARNp5p2IpIdcWRxPw1inS
+         KX4TqE7nxu4NOKRYqZzv7i4LINXvhKAjvbWkAOH0idqiR1rbe5WeryFNRl3ruKGmXupS
+         XotY6M5C+57zYE9/5WtXUVdimrFItNhI8//XtzhFOi2crDcWuQgN+HmH5Zy2mNAS+S/g
+         RlDA==
+X-Gm-Message-State: AOJu0YwhAMu2qlqPqdc4Z90/V5/ZBk4IYYMRuHFYGGJUPwSY2LlQlfYj
+	1fLzznAmzfiVy805JgkGlhzy5QFijUR+NA==
+X-Google-Smtp-Source: AGHT+IHIJ2CnpACRf14tRnG90JPNWlW5HmFEZrLCws+3jYIXscmZFWQC37s6lXP2Vkxf3COSceFtOw==
+X-Received: by 2002:a0d:cbd0:0:b0:5ce:9d68:2b81 with SMTP id n199-20020a0dcbd0000000b005ce9d682b81mr14200254ywd.28.1701247674706;
+        Wed, 29 Nov 2023 00:47:54 -0800 (PST)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id t184-20020a8183c1000000b005cb7fccffe2sm4409502ywf.126.2023.11.29.00.47.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 00:47:54 -0800 (PST)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-db49ab94768so3541001276.2;
+        Wed, 29 Nov 2023 00:47:54 -0800 (PST)
+X-Received: by 2002:a25:3d1:0:b0:db4:47e1:407d with SMTP id
+ 200-20020a2503d1000000b00db447e1407dmr16074846ybd.60.1701247673674; Wed, 29
+ Nov 2023 00:47:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Content-Language: en-US
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Guenter Roeck <linux@roeck-us.net>, Andy Shevchenko <andy@kernel.org>
-Cc: kernel test robot <lkp@intel.com>,
- Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
- <202311250548.lUn3bm1A-lkp@intel.com>
- <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
- <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
- <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
- <ZWS90GQTJWA7DrML@smile.fi.intel.com>
- <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
- <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
- <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org> <ZWboWqELHbIrblnz@francesco-nb.int.toradex.com>
+In-Reply-To: <ZWboWqELHbIrblnz@francesco-nb.int.toradex.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 29 Nov 2023 09:47:42 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVSAgihFAuPecyrR+Wvzqr58z_fkWkShOSu+HnHzZnW2g@mail.gmail.com>
+Message-ID: <CAMuHMdVSAgihFAuPecyrR+Wvzqr58z_fkWkShOSu+HnHzZnW2g@mail.gmail.com>
+Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Michal Simek <michal.simek@amd.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 29/11/2023 09:35, Nuno Sá wrote:
-> On Tue, 2023-11-28 at 10:03 -0800, Guenter Roeck wrote:
->> On 11/28/23 08:50, Krzysztof Kozlowski wrote:
->>> On 27/11/2023 17:03, Andy Shevchenko wrote:
->>>> On Mon, Nov 27, 2023 at 09:12:14AM +0100, Krzysztof Kozlowski wrote:
->>>>> On 27/11/2023 09:10, Krzysztof Kozlowski wrote:
->>>>
->>>> ...
->>>>
->>>>> Wait, this was not even unusual test, just standard compile, which means
->>>>> you did not do basic tests on your end. You must build your new driver
->>>>> with W=1, smatch, sparse and coccinelle before sending upstream.
->>>>
->>>> Well, sparse is lagging in development, for the last year it's at least two
->>>> times it broke kernel builds because of being not ready for the new stuff used
->>>> in the kernel. Do we have anybody to sync this? I don't think so, hence
->>>> requiring this from developer is doubtful. Otherwise I agree, that basic
->>>> compilation with GCC/LLVM must be done.
->>>
->>> Sparse still detects several issues and handles lock annotations, so it
->>> is useful. But if you disagree with that part, I still insist on Smatch
->>> (which is actively developed and works great) and Coccinelle (also
->>> actively developed).
->>>
->>
->> Quite frankly, for my part I would be more than happy if people would read
->> and follow Documentation/hwmon/submitting-patches.rst. Most submitters don't
->> bother. That doesn't even mention building with W=1 (the much more optimistic
->> me who wrote that document several years ago thought that would be obvious),
->> much less running any source code analysis tools . Feel free to submit a patch
->> to strengthen the wording there. If you do that, it would have to be more explicit
->> then "run smatch" or "run coccinelle" because hardly anyone would know how
->> to do that.
->>
-> 
-> IMO, submitting patches to linux is already not the most straightforward thing in the
+Hi Francesco,
 
-True...
+On Wed, Nov 29, 2023 at 8:29=E2=80=AFAM Francesco Dolcini <francesco@dolcin=
+i.it> wrote:
+> On Sat, Nov 25, 2023 at 07:44:22PM +0100, Krzysztof Kozlowski wrote:
+> > Document preferred coding style for Devicetree sources (DTS and DTSI),
+> > to bring consistency among all (sub)architectures and ease in reviews.
+>
+> Thank Krzysztof, we had most of this collected as BKM in some internal
+> documents and it's great to see the effort to consolidate this and add
+> it to the kernel documentation.
+>
+> > ---
+> > +Following order of properties in device nodes is preferred:
+> > +
+> > +1. compatible
+> > +2. reg
+> > +3. ranges
+> > +4. Standard/common properties (defined by common bindings, e.g. withou=
+t
+> > +   vendor-prefixes)
+> > +5. Vendor-specific properties
+> > +6. status (if applicable)
+> > +7. Child nodes, where each node is preceded with a blank line
+>
+> On point 4, do you have a more explicit way to define what is an actual
+> standard/common property? You mention the vendor-prefixes as an example,
+> is this just an example or this is the whole definition?
 
-> world. If we are now going to ask to run smatch, cocci, sparse and so on, we will
-> scare even more developers from the community... I mean, the bots are also in place
+I think there are three classes of standard properties:
+  1. Device Tree Specification (from devicetree.org)
+  2. dt-schema
+  3. Common subsystem bindings (Documentation/devicetree/bindings/)
+     (may be moved to 2).
 
-This is not related to Linux at all. When you develop any C or C++ code,
-you run these tools. Upstream or downstream, does not matter. Why would
-you not use automated, free and easy tools to detect errors in your
-code? It's just a matter of professional approach to your code.
+> What would be the order for this for example (from an existing DTS file)?
+>
+>         reg_sdhc1_vmmc: regulator-sdhci1 {
+>                 compatible =3D "regulator-fixed";
+>                 pinctrl-names =3D "default";
+>                 pinctrl-0 =3D <&pinctrl_sd1_pwr_en>;
+>                 enable-active-high;
+>                 gpio =3D <&main_gpio0 29 GPIO_ACTIVE_HIGH>;
+>                 off-on-delay-us =3D <100000>;
+>                 regulator-max-microvolt =3D <3300000>;
+>                 regulator-min-microvolt =3D <3300000>;
+>                 regulator-name =3D "+V3.3_SD";
+>                 startup-delay-us =3D <2000>;
+>         };
+>
+> I guess the point that is not obvious to me here is where do we want
+> pinctrl. I like it at position between 3 and 4, the rationale is that is
+> a very frequent property and this way it will be in a similar place for
+> every node.
 
-> to help with these kind of more advanced analysis, right?
+The pinctrl properties are only present in board DTS files, not in
+SoC DTSi files.  There are two classes of them:
+  1. Extension of on-SoC devices, where they are added to already
+     existing nodes, defined in the SoC DTSi files, e.g. (from the same
+     existing DTS file):
 
-They do not come for free (someone is paying for them even if they are
-for free to you) and they have delays in responses.
+         &cpsw3g {
+                 pinctrl-names =3D "default";
+                 pinctrl-0 =3D <&pinctrl_rgmii1>;
+                 status =3D "disabled";
+         };
 
-> 
->> Until then, there isn't really anything to insist on. I even had submitters
->> react angry when I asked them to follow the guidance in that document,
->> so I won't insist on anything that isn't documented as requirement.
->> Quite frankly, most of the time I'd probably fix up issues such as missing
->> "static" myself because I am tired having to argue about it with submitters
->> who don't care.
->>
-> 
-> For the record, I do care about the code I submit and missing 'static' is quite
-> embarrassing, yes. The only reason why I still dind't send the v3 fixing that is
-> because I'm giving more time to see if you can review some of the other changes. I'm
-> pretty sure I'll be asked to change more things in v2 (as stated in the cover, there
-> are still some shady things in the driver).
+  2. Pure board devices, in new nodes (e.g. your regulator example).
+     These are less common, so I don't even know from the top of my
+     mind when I last added one, and where ;-)
+     I'd guess after all standard properties?
 
-Sure, mistakes happen. I did my share as well. I only brought the point
-that contributor should use automated tools available for free to them
-before using community resources. Community resources, including the
-most expensive one - review by maintainers, are scarce.
+Gr{oetje,eeting}s,
 
-Best regards,
-Krzysztof
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
