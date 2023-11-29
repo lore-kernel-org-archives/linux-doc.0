@@ -1,93 +1,192 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="idNnUYi6"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Gy4jYh2v"
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 328E4D71
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:48:12 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E49BE
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701269291;
+	s=mimecast20190719; t=1701269378;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MFzqrh0xCRuB2+k7XQGRqfBWGZI6cFLK12C66Jum2dE=;
-	b=idNnUYi6G4FXVwbQiLDkt9dSajm2Oa8kNOeYcEuEJGlmTNUAhJm8M6rwpBBOM/0+aNT9Nz
-	jA9I55xBOLOH1Wwhgw4rDSAgZAwqCByT4U2KRPaCPDUQRB1vvhU/gf2YQ59XTIdmkDfU31
-	0ikHOQoOyCu46DiHtA6E+X0jkmz9dkU=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=eyLQTp+JLssTFO7PTCnsYpTGzUnGh3A+zjTA8FqixQ4=;
+	b=Gy4jYh2v/jqHZLswd6RtoGXp6DkzUxigpul0EvvUI2ZS1vsCO+2uFkQuVo/VTH+iImZgIL
+	/F8sKAkdhCOZEZ87SC5t1uscphn+RMK1kNfqrzQMlKSaUYs83n20dJl5UHyz7PQ+0os+J3
+	LxIlFl7B7+WV38Ng1w9ZzW0qEuCT7FM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-kJAvWlEDN-eEMsb7PP7-kg-1; Wed, 29 Nov 2023 09:48:09 -0500
-X-MC-Unique: kJAvWlEDN-eEMsb7PP7-kg-1
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-67a36efeab4so44320426d6.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 06:48:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701269289; x=1701874089;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MFzqrh0xCRuB2+k7XQGRqfBWGZI6cFLK12C66Jum2dE=;
-        b=ncS2zUrzCJWu5U0DMqiCHMv98IsxXox5V8zCoUe7Vt0Ya+sgsh/XDHjwtN+y/keg9i
-         fuk12B90RXWYCXuXeq8HuaB9uCRUo3Co9FOEIwtB4G/HJT2p95AqSuM5mg+pQicVCTPy
-         4OMmkmLa8EMOgQ7oh5Vwj8ieKJNIFFy4GepqKfRzwrTo38avyiNw2tOWkAWVk0/U7QIE
-         aOfJDLVqNH5Od8sPWly8kv8cBQ/kMyGt0HO+kkoWLTxGkGCmi/+VZ2t7xQ4hAog70RAu
-         9KU8UdcxUzZh70gdZvFSG9S2MQjKW/1RxdLZeX/RTbQ7sl4NrLoFnFqRyperwFzChqXM
-         atVQ==
-X-Gm-Message-State: AOJu0YwaaN+jP7OXBbpZ2WTPSbTdgzIp7PeWF3JK6tLTBr0ZZYMOeomg
-	nCT+3rVlmwCaKENJs+tamK0f7AxmD7NaS/9509nSLTU9R35pKjHSx1r5uB4T3DTXFFGCfOeG1cg
-	exElqD8pxc2XOGy2z9b87
-X-Received: by 2002:ad4:4690:0:b0:66d:3716:4e14 with SMTP id pl16-20020ad44690000000b0066d37164e14mr13906373qvb.4.1701269289426;
-        Wed, 29 Nov 2023 06:48:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGR1J+F2tJR6UUsOb1ujw2zvaJBctB34SjfXwongFIrxqaUpUhB2SgOTZ7ODXSst5RgCPwkog==
-X-Received: by 2002:ad4:4690:0:b0:66d:3716:4e14 with SMTP id pl16-20020ad44690000000b0066d37164e14mr13906356qvb.4.1701269289190;
-        Wed, 29 Nov 2023 06:48:09 -0800 (PST)
-Received: from [192.168.1.9] (pool-68-160-135-240.bstnma.fios.verizon.net. [68.160.135.240])
-        by smtp.gmail.com with ESMTPSA id ea14-20020ad458ae000000b0067a33b921cdsm4059978qvb.42.2023.11.29.06.48.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 06:48:08 -0800 (PST)
-Message-ID: <1f66c647-e51b-4640-cbff-67b17e2077ad@redhat.com>
-Date: Wed, 29 Nov 2023 09:48:07 -0500
+ us-mta-641-WY2o3njJNzC_159Nb6RHdg-1; Wed, 29 Nov 2023 09:49:34 -0500
+X-MC-Unique: WY2o3njJNzC_159Nb6RHdg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD99C185A782;
+	Wed, 29 Nov 2023 14:49:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.17.161])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 957D4C1596F;
+	Wed, 29 Nov 2023 14:49:32 +0000 (UTC)
+Date: Wed, 29 Nov 2023 08:49:31 -0600
+From: Bill O'Donnell <bodonnel@redhat.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux XFS <linux-xfs@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Dave Chinner <dchinner@redhat.com>,
+	Steve French <stfrench@microsoft.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Han <hanchunchao@inspur.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>
+Subject: Re: [PATCH v3] Documentation: xfs: consolidate XFS docs into its own
+ subdirectory
+Message-ID: <ZWdPewywDy_3UutV@redhat.com>
+References: <20231129123947.4706-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Content-Language: en-US
-To: Miroslav Benes <mbenes@suse.cz>
-Cc: Matthew Wilcox <willy@infradead.org>, attreyee-muk
- <tintinm2017@gmail.com>, jpoimboe@kernel.org, jikos@kernel.org,
- pmladek@suse.com, corbet@lwn.net, live-patching@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>
-References: <20231127155758.33070-1-tintinm2017@gmail.com>
- <202dbdf5-1adf-4ffa-a50d-0424967286ba@infradead.org>
- <ZWX1ZB5p5Vhz7WD2@casper.infradead.org>
- <0e7941d8-d9b2-4253-9ad5-0f7806e45e2e@infradead.org>
- <alpine.LSU.2.21.2311291105430.12159@pobox.suse.cz>
-From: Joe Lawrence <joe.lawrence@redhat.com>
-Subject: Re: [PATCH] Took care of some grammatical mistakes
-In-Reply-To: <alpine.LSU.2.21.2311291105430.12159@pobox.suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231129123947.4706-1-bagasdotme@gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-On 11/29/23 05:08, Miroslav Benes wrote:
+On Wed, Nov 29, 2023 at 07:39:47PM +0700, Bagas Sanjaya wrote:
+> XFS docs are currently in upper-level Documentation/filesystems.
+> Although these are currently 4 docs, they are already outstanding as
+> a group and can be moved to its own subdirectory.
 > 
-> I am not a native speaker, but "step on each other's toe" sounds the best 
-> to me. Or perhaps even "they need to be aware of each other and not step 
-> on their toes" since it is then kind of implied? English is difficult :).
+> Consolidate them into Documentation/filesystems/xfs/.
 > 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Native speaker here, so don't ask me what's grammatically accurate :D  I
-would definitely say "step on" vs. "step over".  I would also write
-"each other's toes", but not flinch if I read "each others' toes" or
-even "each others toes".
+Looks good to me.
+Reviewed-by: Bill O'Donnell <bodonnel@redhat.com>
 
-After thinking about it for more that 30s, I might consider rewording
-the sentence to avoid the idiom altogether, something like:  "Therefore
-they need to coordinate to avoid interfering with each other."
-
--- 
-Joe
+> ---
+> Changes since v2 [1]:
+> 
+>   * Adjust MAINTAINERS pattern to include all docs in the subdirectory
+>     by using wildcard.
+> 
+> [1]: https://lore.kernel.org/linux-doc/20231128124522.28499-1-bagasdotme@gmail.com/
+> 
+>  Documentation/filesystems/index.rst                |  5 +----
+>  Documentation/filesystems/xfs/index.rst            | 14 ++++++++++++++
+>  .../{ => xfs}/xfs-delayed-logging-design.rst       |  0
+>  .../{ => xfs}/xfs-maintainer-entry-profile.rst     |  0
+>  .../{ => xfs}/xfs-online-fsck-design.rst           |  2 +-
+>  .../{ => xfs}/xfs-self-describing-metadata.rst     |  0
+>  .../maintainer/maintainer-entry-profile.rst        |  2 +-
+>  MAINTAINERS                                        |  4 ++--
+>  8 files changed, 19 insertions(+), 8 deletions(-)
+>  create mode 100644 Documentation/filesystems/xfs/index.rst
+>  rename Documentation/filesystems/{ => xfs}/xfs-delayed-logging-design.rst (100%)
+>  rename Documentation/filesystems/{ => xfs}/xfs-maintainer-entry-profile.rst (100%)
+>  rename Documentation/filesystems/{ => xfs}/xfs-online-fsck-design.rst (99%)
+>  rename Documentation/filesystems/{ => xfs}/xfs-self-describing-metadata.rst (100%)
+> 
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index 09cade7eaefc8c..e18bc5ae3b35f8 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -121,8 +121,5 @@ Documentation for filesystem implementations.
+>     udf
+>     virtiofs
+>     vfat
+> -   xfs-delayed-logging-design
+> -   xfs-maintainer-entry-profile
+> -   xfs-self-describing-metadata
+> -   xfs-online-fsck-design
+> +   xfs/index
+>     zonefs
+> diff --git a/Documentation/filesystems/xfs/index.rst b/Documentation/filesystems/xfs/index.rst
+> new file mode 100644
+> index 00000000000000..ab66c57a5d18ea
+> --- /dev/null
+> +++ b/Documentation/filesystems/xfs/index.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============================
+> +XFS Filesystem Documentation
+> +============================
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +   :numbered:
+> +
+> +   xfs-delayed-logging-design
+> +   xfs-maintainer-entry-profile
+> +   xfs-self-describing-metadata
+> +   xfs-online-fsck-design
+> diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+> similarity index 100%
+> rename from Documentation/filesystems/xfs-delayed-logging-design.rst
+> rename to Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+> diff --git a/Documentation/filesystems/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+> similarity index 100%
+> rename from Documentation/filesystems/xfs-maintainer-entry-profile.rst
+> rename to Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+> diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> similarity index 99%
+> rename from Documentation/filesystems/xfs-online-fsck-design.rst
+> rename to Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> index a0678101a7d02d..352516feef6ffe 100644
+> --- a/Documentation/filesystems/xfs-online-fsck-design.rst
+> +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> @@ -962,7 +962,7 @@ disk, but these buffer verifiers cannot provide any consistency checking
+>  between metadata structures.
+>  
+>  For more information, please see the documentation for
+> -Documentation/filesystems/xfs-self-describing-metadata.rst
+> +Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+>  
+>  Reverse Mapping
+>  ---------------
+> diff --git a/Documentation/filesystems/xfs-self-describing-metadata.rst b/Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+> similarity index 100%
+> rename from Documentation/filesystems/xfs-self-describing-metadata.rst
+> rename to Documentation/filesystems/xfs/xfs-self-describing-metadata.rst
+> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+> index 7ad4bfc2cc038a..18cee1edaecb6f 100644
+> --- a/Documentation/maintainer/maintainer-entry-profile.rst
+> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
+> @@ -105,4 +105,4 @@ to do something different in the near future.
+>     ../driver-api/media/maintainer-entry-profile
+>     ../driver-api/vfio-pci-device-specific-driver-acceptance
+>     ../nvme/feature-and-quirk-policy
+> -   ../filesystems/xfs-maintainer-entry-profile
+> +   ../filesystems/xfs/xfs-maintainer-entry-profile
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ea790149af7951..5ad039cfe9c794 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23893,10 +23893,10 @@ S:	Supported
+>  W:	http://xfs.org/
+>  C:	irc://irc.oftc.net/xfs
+>  T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
+> -P:	Documentation/filesystems/xfs-maintainer-entry-profile.rst
+> +P:	Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+>  F:	Documentation/ABI/testing/sysfs-fs-xfs
+>  F:	Documentation/admin-guide/xfs.rst
+> -F:	Documentation/filesystems/xfs-*
+> +F:	Documentation/filesystems/xfs/*
+>  F:	fs/xfs/
+>  F:	include/uapi/linux/dqblk_xfs.h
+>  F:	include/uapi/linux/fsmap.h
+> 
+> base-commit: 9c235dfc3d3f901fe22acb20f2ab37ff39f2ce02
+> -- 
+> An old man doll... just what I always wanted! - Clara
+> 
+> 
 
