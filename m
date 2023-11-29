@@ -1,43 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="lR2QXSey"
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49219130
-	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 07:03:03 -0800 (PST)
-Received: by mail-qt1-x82c.google.com with SMTP id d75a77b69052e-423e8145018so4380331cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 07:03:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="gSS0f7dA"
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFEFFDD
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 07:04:05 -0800 (PST)
+Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-3b83c4c5aefso4339908b6e.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 07:04:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1701270182; x=1701874982; darn=vger.kernel.org;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1701270245; x=1701875045; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=C2wsVpYCu/TCERAyV7xfQRsKsQF4XxordQuNYbkUm7A=;
-        b=lR2QXSeyGT5u4GTVYZfZxg2iG6AejM9Ph6SIbN/jgglTsbTqFyyEj1A0wmuT2klFiR
-         9WGsBbaEgsq1RMpCBN0deZVdSn1zXmq4NIkJyPpPIy83+v9jBdHsOhyNC0vUO/NQt4JR
-         gZRz3CgBFmFF+ZVACuabXxTKJk5y4NIRql82g3V+gBPp/G8M6J57TJ89CTKampvTyjzK
-         FtLBzxIk5yeeAVpq9cpM6sxhftbHuMKc/oASLG11grxJ/WtyHlFunaX9g6EVBCdT7M7F
-         osOWCloTiMT4LUxi1FN2U6nJ+6fvwjnU91AGzp/o7k7GKaKg9p0JCdd6ROwPGeLyV4l7
-         7B4Q==
+        bh=k4Ao7lBgcd+ybKERFuAK+nkaWPQkkI/HHB0oBMFxsuY=;
+        b=gSS0f7dAo5U6qPxA1nJZhCvK3efZkpX2hHe1X5YJwzEYgO1JPkVVR74+2rL4K89BLn
+         O2Oy2+0zz+PYTICB8bkCYCerNH0YnDWaZZdXfZUhScHR/Pet9FXUsyqoFJigyzdOuZpm
+         nlN8Pk+4TBBKdq+mkP3ZYilYOIE7XNbdx1z8AlNuTPpdiSALL1VyENFlDySig7htomBJ
+         aVpig6LbmyRTnvE3lnpXOSogTLzqmfRGmQBD8rjkUjbX3RyKeZ4Jx6KHRwmA2lGyoEE9
+         ZosTbaORpqwBrcDEWOYSSZnUcGAlW1LN7cpy/zGh1c0obLUR4qkPjld8uSxgXjHRffbx
+         JY3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701270182; x=1701874982;
+        d=1e100.net; s=20230601; t=1701270245; x=1701875045;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C2wsVpYCu/TCERAyV7xfQRsKsQF4XxordQuNYbkUm7A=;
-        b=m5NMMdcURTbhUUSyyC9NJu2zUqHT70wtHzPinch8TiHsB8XNpeInzYX2LvY7gNCT63
-         8v9YM0dhyQ3TUkSIBxegwb4yYYFHJLdbBgGf6Aq+PaoAMSWfOccjz1toogu9VBw7V6RY
-         8nbVASWf187l4c+/Ju6tGGg0gFO9vPJXNhfzqNTL9EQERKSMrlPWo6TWKb/GdCa41br1
-         OA7aE/SFM2kCL0qSkub6JIPjCmphxfLVOJc/nFl9bUZK4ad1VQwON5lUExzUEIsKVBs4
-         fxfJM2x0FY90vAVg8KzyAQ5ju/GfdBZZQ6ynT47XIelyA5OtPcnhKG9JBvENieMmNDOK
-         KhUA==
-X-Gm-Message-State: AOJu0YzhzGJB29X9txChp1HQ3SyGu7DLsZ2MmUVAgKB6B7SkDY6NuuMl
-	J46G8SZkuRcgAyKc4UTVqvsKug==
-X-Google-Smtp-Source: AGHT+IFhbxa568oWRmeUGcBeIbWIWKZfp+eJgBPEkoaJAKk9/smfQhel6cgM7NgfceIz+TM9Gd82+g==
-X-Received: by 2002:a05:622a:a14:b0:423:f0aa:a82c with SMTP id bv20-20020a05622a0a1400b00423f0aaa82cmr1468250qtb.32.1701270182230;
-        Wed, 29 Nov 2023 07:03:02 -0800 (PST)
+        bh=k4Ao7lBgcd+ybKERFuAK+nkaWPQkkI/HHB0oBMFxsuY=;
+        b=YOPI/KjSTljmlUHrCBuI9yAH4sMd6SKJt6lVLgRCPicp5eMj4DpOqfsSipYP0m1fsx
+         1hp130Xn4L6rXQMuKFVLVIPvYe/9s1L9IWKixp9mzBjYr71ZmgyNYVF+ATTctpyNUTDs
+         yic6a/zMjpuAWjql6p7PUaa9HYJQI3aQNGmnY/zGB6S8+7IBQYQDK5UpSoNuVMnHpu2u
+         tF2GqMljJlSiph5k/3N1fPhLUiHxZL/YgvOaAdxmGsbRSascHlhzqef7B/DTeVK7IBrM
+         McO7k39sCq2tjK/qOvhAeswuIGOZ2BpKzKDYZvgenTO0drH4V+ZghNVdCk+AKZl5ww0l
+         fbhA==
+X-Gm-Message-State: AOJu0YxFkJ+vZj7izwA7KTaiAoEtiPxAGe1glIBoYHARYhbh0du+7xgy
+	FJz1vl84R56MxD73AyX9Gz39Bg==
+X-Google-Smtp-Source: AGHT+IHD70IfG8FBZ3xYBo0dZ2qCdJIWjr46lOgat1KTOIvbAN1mbw/QRSgQ4yJcSH/qhXAu2olYow==
+X-Received: by 2002:a05:6808:1288:b0:3b5:84b0:6be6 with SMTP id a8-20020a056808128800b003b584b06be6mr28312075oiw.47.1701270245316;
+        Wed, 29 Nov 2023 07:04:05 -0800 (PST)
 Received: from localhost (2603-7000-0c01-2716-da5e-d3ff-fee7-26e7.res6.spectrum.com. [2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id fx10-20020a05622a4aca00b00423de58d3d8sm1366432qtb.40.2023.11.29.07.03.00
+        by smtp.gmail.com with ESMTPSA id r10-20020ad4522a000000b0067a769e2259sm198042qvq.141.2023.11.29.07.04.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 07:03:01 -0800 (PST)
-Date: Wed, 29 Nov 2023 10:02:59 -0500
+        Wed, 29 Nov 2023 07:04:05 -0800 (PST)
+Date: Wed, 29 Nov 2023 10:04:03 -0500
 From: Johannes Weiner <hannes@cmpxchg.org>
 To: Nhat Pham <nphamcs@gmail.com>
 Cc: akpm@linux-foundation.org, cerasuolodomenico@gmail.com,
@@ -48,11 +48,11 @@ Cc: akpm@linux-foundation.org, cerasuolodomenico@gmail.com,
 	kernel-team@meta.com, linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH v7 1/6] list_lru: allows explicit memcg and NUMA node
- selection
-Message-ID: <20231129150259.GA135852@cmpxchg.org>
+Subject: Re: [PATCH v7 2/6] memcontrol: add a new function to traverse
+ online-only memcg hierarchy
+Message-ID: <20231129150403.GB135852@cmpxchg.org>
 References: <20231127234600.2971029-1-nphamcs@gmail.com>
- <20231127234600.2971029-2-nphamcs@gmail.com>
+ <20231127234600.2971029-3-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,29 +61,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231127234600.2971029-2-nphamcs@gmail.com>
+In-Reply-To: <20231127234600.2971029-3-nphamcs@gmail.com>
 
-On Mon, Nov 27, 2023 at 03:45:55PM -0800, Nhat Pham wrote:
-> The interface of list_lru is based on the assumption that the list node
-> and the data it represents belong to the same allocated on the correct
-> node/memcg. While this assumption is valid for existing slab objects LRU
-> such as dentries and inodes, it is undocumented, and rather inflexible
-> for certain potential list_lru users (such as the upcoming zswap
-> shrinker and the THP shrinker). It has caused us a lot of issues during
-> our development.
+On Mon, Nov 27, 2023 at 03:45:56PM -0800, Nhat Pham wrote:
+> The new zswap writeback scheme requires an online-only memcg hierarchy
+> traversal. Add this functionality via the new mem_cgroup_iter_online()
+> function - the old mem_cgroup_iter() is a special case of this new
+> function.
 > 
-> This patch changes list_lru interface so that the caller must explicitly
-> specify numa node and memcg when adding and removing objects. The old
-> list_lru_add() and list_lru_del() are renamed to list_lru_add_obj() and
-> list_lru_del_obj(), respectively.
-> 
-> It also extends the list_lru API with a new function, list_lru_putback,
-> which undoes a previous list_lru_isolate call. Unlike list_lru_add, it
-> does not increment the LRU node count (as list_lru_isolate does not
-> decrement the node count). list_lru_putback also allows for explicit
-> memcg and NUMA node selection.
-> 
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
 > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
 
 Acked-by: Johannes Weiner <hannes@cmpxchg.org>
