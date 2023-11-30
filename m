@@ -1,124 +1,123 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3KHjea1"
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EA8D10F1;
-	Thu, 30 Nov 2023 01:55:21 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a0029289b1bso92484566b.1;
-        Thu, 30 Nov 2023 01:55:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vv94PjPR"
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E95C81737;
+	Thu, 30 Nov 2023 02:20:35 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-332e58d4219so446681f8f.0;
+        Thu, 30 Nov 2023 02:20:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701338120; x=1701942920; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dMJA5AfP0P9yxCn+eRvuLh+vUtXzzmDbdcliSqXeJ88=;
-        b=W3KHjea1Zs6fa9m28KdNeZdNzjrrIu+QW896YKa+THlaJ8ZuJFWxv0lqUMEDtP4nH3
-         1SlEzfgn4zfZ9MOOMPeV6nfaB09wAMIvuPQLhQkNr4rA6yQRsFdHmARRTV6awLGSBrAd
-         mN7lTATKEFG2YALqGnslQDi9e9NJlup15l3u6bU0mpC8Qh127wgeXcHc3L+miW+qw7P4
-         RGkLklW1rVobS3Xu5mBY9wjNZPW2tpHW7365xsXs5loyLNkMC4i715pvy1bQ8ve1z4cU
-         BNnwaHYoLMpXZKeguKPJmcsBfl1jMh1vICAoyXY+WjZgcRtzo6uJEGtIKzXbhFUZ2+x6
-         HL2g==
+        d=gmail.com; s=20230601; t=1701339634; x=1701944434; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+ENkTeWKgGbNcGzhVyIelDFWcUGoKs+6RWlRK8agZtQ=;
+        b=Vv94PjPRXUbpMSqBx7pjlPLgquTkckhUCwqPohI5VuWWYvFWar0Y907cO2D1Ff3mBp
+         KHLaWXzVmWlXmG68inmZcb8JPtX9mE51L8v5UQdZmRKC41p27QtuaLHVODlUHfnVGBAx
+         +r4gxqm6vE4ERdTfNteJzFJU36+MFP2dqF/jMkpfHT8HXCTNYPGr+uIpB62Y+5aUyGYQ
+         ZodduHF2oRswx1EGqiXPAYIVL6HLlVC3NVBhTtiGWajt5dzHf7YoUwqXGyZhDFUYH2j3
+         qqCJ6xwiirXi3ek7QcqXw7CGxlyJDucl19D/j31RAiUyk58ccKE/AZbMWuNAVcXkFS/p
+         AjNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701338120; x=1701942920;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dMJA5AfP0P9yxCn+eRvuLh+vUtXzzmDbdcliSqXeJ88=;
-        b=H8jxijvqpKXsZhqhqYddSBh1RMWTtAn9kiAUEAl/mETdgARFcir15z/VGc34ycjhev
-         a+VR1kP4xq/FJyikW97aXlsaE1ugph6fbETcPcw2QQMGlM+2sawtEJym4gCXXYlUJkCG
-         CUGkfU72i6nNICgga43IXrpysFahoyA3UZSo/rcCCaRV9JBTY85dECAIh+XUnHqyNOyB
-         +osPGfIEEXIFRJbTYAJ+7jEBgkpWeEPV7w6kuOEy8zmks2DfSqXZq9Iyh3YVsFtb17Xg
-         JTq5t70XuvvIL6bdiel5n0EMiKf4kW64ptDIc2KWC98uvqhyw9fbFPvSARxai4lkQh+l
-         MNcw==
-X-Gm-Message-State: AOJu0YyrgIR4VFAuh8FiZQ6tk7OeaTkHbveeVzl5baoVoHwLWWJiPpk3
-	kja4t12om7iDXvJ5UO7WltA=
-X-Google-Smtp-Source: AGHT+IEijT5IFhagvVJj2BSYxgKTlTUs0axftnkLk/i64ubFWskQfwihXRFfFN0WF38+KIQ8nTV70A==
-X-Received: by 2002:a17:906:ca14:b0:a07:16e0:e0bc with SMTP id jt20-20020a170906ca1400b00a0716e0e0bcmr13673278ejb.76.1701338119585;
-        Thu, 30 Nov 2023 01:55:19 -0800 (PST)
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:257f:2c3:4a4d:4a99])
-        by smtp.gmail.com with ESMTPSA id x24-20020a1709064a9800b00a0cd9d89a00sm485050eju.151.2023.11.30.01.55.18
+        d=1e100.net; s=20230601; t=1701339634; x=1701944434;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+ENkTeWKgGbNcGzhVyIelDFWcUGoKs+6RWlRK8agZtQ=;
+        b=ZfeHTQrG7eakn7/dP/wa0iKtEgDqPOy88IhgsDi/iDVCfGatAbZIOM0UHNOIJSt9Zm
+         DoUSkMvEYd1k5llgEWlsMer52rPN5EV9OWxCIf0epSmlwcnQKOapIANAlPLRxXjCDZJN
+         BbTt88wybkQMcIueo5lQURIIpbvJEaq752NAl+UFPg9WTU6oIDE3hcE3O1qBvgYyS3Z5
+         TOA3R/nvwmdaHnxvYiwBiWPd2whwp/PZN5XNWi7+ElNZMTaVqJcKJeHPSlS4iU+6vhQK
+         R3DacKg9tKAKl9pbHgKyz2ffVSCiH1KeYwD6dHZjAaWYfqxODdij4VsKacXuVfqYu2Nj
+         hMFw==
+X-Gm-Message-State: AOJu0Yx0rHv8n5ipBL9NQMCcPEShs/ZH+pl87SRW7Ifdkoj8GuYfE6EN
+	QZjmywk2jddIZvM0OtCPdxzEk0nNyxQRwEgf
+X-Google-Smtp-Source: AGHT+IF4NXr04ovSdSepSgCurWmhN9L/62dYg5ABTXGLAIDsHR8tgu1dpG6Klbn/dSHhs9pxkVRkQQ==
+X-Received: by 2002:a5d:4e10:0:b0:333:12be:f39c with SMTP id p16-20020a5d4e10000000b0033312bef39cmr4923663wrt.41.1701339634101;
+        Thu, 30 Nov 2023 02:20:34 -0800 (PST)
+Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
+        by smtp.gmail.com with ESMTPSA id y7-20020a5d6147000000b003330b55b941sm1117877wrt.77.2023.11.30.02.20.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 01:55:19 -0800 (PST)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Vlastimil Babka <vbabka@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] docs: admin-guide: remove obsolete advice related to SLAB allocator
-Date: Thu, 30 Nov 2023 10:55:15 +0100
-Message-Id: <20231130095515.21586-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 30 Nov 2023 02:20:33 -0800 (PST)
+Message-ID: <971eb35068639ec404669ea5320c8183ea71a7d0.camel@gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-doc@vger.kernel.org, Jean Delvare
+ <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Andy
+ Shevchenko <andy@kernel.org>
+Date: Thu, 30 Nov 2023 11:20:32 +0100
+In-Reply-To: <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
+References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
+	 <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+	 <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
+	 <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
+	 <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
 
-Commit 1db9d06aaa55 ("mm/slab: remove CONFIG_SLAB from all Kconfig and
-Makefile") removes the config SLAB and makes the SLUB allocator the only
-default allocator in the kernel. Hence, the advice on reducing OS jitter
-due to kworker kernel threads to build with CONFIG_SLUB instead of
-CONFIG_SLAB is obsolete.
+On Wed, 2023-11-29 at 21:55 +0100, Linus Walleij wrote:
+> On Wed, Nov 29, 2023 at 5:08=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.c=
+om> wrote:
+>=20
+> > Cool, I actually thought that having the direction + get/set stuff woul=
+d be weird
+> > given the fact that we can only PULL_LOW or HIGH_Z the pins.
+>=20
+> There are several drivers in the kernel that implement .set_config(),
+> it's existing and should be enabled if it has uses.
+>=20
 
-Remove the obsolete advice to build with SLUB instead of SLAB.
+Yeah, it might make sense to support it specially for the input case. AFAIC=
+T, if I
+use the .set_config() (but from a quick look I think we will need to add su=
+pport for
+it in gpiolib for the high-z configuration), then I can't use the gpio_regm=
+ap stuff.
+As the driver stands I don't think I could do it anyways because setting gp=
+io2-3 and
+alert requires to write 0 on the register rather than 1. But again, I'm sti=
+ll very
+suspicious about the whole thing. The datasheet states:
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- .../admin-guide/kernel-per-CPU-kthreads.rst      | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+"GPIO1-GPIO3 and ALERT all have comparators monitoring
+the voltage on these pins with a threshold of 1.28V even when
+the pins are configured as outputs."
 
-diff --git a/Documentation/admin-guide/kernel-per-CPU-kthreads.rst b/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
-index 993c2a05f5ee..b6aeae3327ce 100644
---- a/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
-+++ b/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
-@@ -243,13 +243,9 @@ To reduce its OS jitter, do any of the following:
- 3.	Do any of the following needed to avoid jitter that your
- 	application cannot tolerate:
- 
--	a.	Build your kernel with CONFIG_SLUB=y rather than
--		CONFIG_SLAB=y, thus avoiding the slab allocator's periodic
--		use of each CPU's workqueues to run its cache_reap()
--		function.
--	b.	Avoid using oprofile, thus avoiding OS jitter from
-+	a.	Avoid using oprofile, thus avoiding OS jitter from
- 		wq_sync_buffer().
--	c.	Limit your CPU frequency so that a CPU-frequency
-+	b.	Limit your CPU frequency so that a CPU-frequency
- 		governor is not required, possibly enlisting the aid of
- 		special heatsinks or other cooling technologies.  If done
- 		correctly, and if you CPU architecture permits, you should
-@@ -259,7 +255,7 @@ To reduce its OS jitter, do any of the following:
- 
- 		WARNING:  Please check your CPU specifications to
- 		make sure that this is safe on your particular system.
--	d.	As of v3.18, Christoph Lameter's on-demand vmstat workers
-+	c.	As of v3.18, Christoph Lameter's on-demand vmstat workers
- 		commit prevents OS jitter due to vmstat_update() on
- 		CONFIG_SMP=y systems.  Before v3.18, is not possible
- 		to entirely get rid of the OS jitter, but you can
-@@ -274,7 +270,7 @@ To reduce its OS jitter, do any of the following:
- 		(based on an earlier one from Gilad Ben-Yossef) that
- 		reduces or even eliminates vmstat overhead for some
- 		workloads at https://lore.kernel.org/r/00000140e9dfd6bd-40db3d4f-c1be-434f-8132-7820f81bb586-000000@email.amazonses.com.
--	e.	If running on high-end powerpc servers, build with
-+	d.	If running on high-end powerpc servers, build with
- 		CONFIG_PPC_RTAS_DAEMON=n.  This prevents the RTAS
- 		daemon from running on each CPU every second or so.
- 		(This will require editing Kconfig files and will defeat
-@@ -282,12 +278,12 @@ To reduce its OS jitter, do any of the following:
- 		due to the rtas_event_scan() function.
- 		WARNING:  Please check your CPU specifications to
- 		make sure that this is safe on your particular system.
--	f.	If running on Cell Processor, build your kernel with
-+	e.	If running on Cell Processor, build your kernel with
- 		CBE_CPUFREQ_SPU_GOVERNOR=n to avoid OS jitter from
- 		spu_gov_work().
- 		WARNING:  Please check your CPU specifications to
- 		make sure that this is safe on your particular system.
--	g.	If running on PowerMAC, build your kernel with
-+	f.	If running on PowerMAC, build your kernel with
- 		CONFIG_PMAC_RACKMETER=n to disable the CPU-meter,
- 		avoiding OS jitter from rackmeter_do_timer().
- 
--- 
-2.17.1
+But we can't really set the direction for gpio2-3 and the alert pins (only =
+getting
+the level and setting it as PULL_LOW or HIGH_Z. gpio1 is the only one where=
+ we can
+configure it as input or open drain ouput. Bah, I'll try to see if someone =
+internally
+can shed some light on this.
+=20
+> As Andy points out: when the driver reaches a certain complexity,
+> such as a huge table of muxable pins (that need to be configured to
+> a certain muxing from device tree), and numerous complicated
+> pin config options (also needing to be set up from device tree),
+> it may be worth to implement a separate pin control driver that
+> act as "backend" for the GPIO driver.
+>=20
+> I think a separate pin control driver would be overkill in this case,
+> it's a PWM driver with some smallish GPIO portions AFAICT,
+> but you get to decide.
+>=20
+
+Agreed, the chip only supports 4 pins and it is an optional feature. The ma=
+in usage
+for the chip iis to act as an hot swap controller (which maps into hwmon).
+
+- Nuno S=C3=A1
+
 
