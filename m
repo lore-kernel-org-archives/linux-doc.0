@@ -1,179 +1,138 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="DG3KIdcP"
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E947719A0
-	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:15:17 -0800 (PST)
-Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-67a47104064so7657396d6.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:15:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lT+0NxUg"
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3195106;
+	Thu, 30 Nov 2023 12:28:37 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso1449445276.2;
+        Thu, 30 Nov 2023 12:28:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701375317; x=1701980117; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Nk58INbxx30xLOHUnMGn9OdPuZubp6H+G9gT2CVk01Q=;
-        b=DG3KIdcPWSPhvrI24R2yPywnWd22F+iBx3WlRdOltvRY0Sii72Lc1kKHEDP6+GWAzC
-         a1YyCvr851G96f6nsxNcxKrEv2IojfTTwq4F9oyqTuWkCMSCU4BXK0rJUeDjrR1Cmbgx
-         Ftlrexb+4koXwddoNm8+26IdW25lYphdEMRwtYEOPE+EN/DZ0hR7fzyrXZG1oHrVQjpz
-         9U96cwYZuZZ6zW+Nfi20znE5cxiKfH0nimxd+1QGK/3Rt/QwiycSA/v94nME74OWxfsk
-         lVV3xtnzoRur7J8d3eLocUUi6tciH5+UWjYGLQKbDe9ovY8/kDfRdhGH82VaDQq03vVN
-         B9nw==
+        d=gmail.com; s=20230601; t=1701376117; x=1701980917; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YYgokxpdXnom83isGSeLIiEWyDvQWuc8uahFIcEFCiU=;
+        b=lT+0NxUgwEKXHXQwHxoAPu8UiUMQRKxIr/R2Wo/G87IfsGfZLZqqMfT/MAgw1agiY5
+         NbYzaAuSQXMqkwA/ZGRj9AAHLyI9HhXDxpk56CUrSFUurGa3Mm5YqPsJhZLW+rKGSEag
+         8d9ooJHB83tjWRd4eV85vB1r1g7G/K8N1aBTbz/TxYAu0aWmcoqUgdK4jN1gsrxcND79
+         CD1x9LP7qJYwP/5VAZMK6zqSClv7W/L78hfQe2yrEXO9XnR2qvL2pUz44VFG5Spb9gmj
+         leELW/F/dPzivqrVV+8ptS2aqMX4G1ccDrVXkzfB/7ixMa2dii/gsUzy237VCuZktGrN
+         o7Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701375317; x=1701980117;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Nk58INbxx30xLOHUnMGn9OdPuZubp6H+G9gT2CVk01Q=;
-        b=PSexhksdXf9H3FCF0XHRy0gCFvPkzSLNlcjQKQs0hEsYaWq5e6gAmKBliZAEv+3Kzu
-         12Alt207bVNvygOnIxEhgDe52lNVsFB1CUvzqZ7apXenj6oa2QcGvDbx5nEwWJgvnEXY
-         HXHIvxUqnHAvPbDG7ETGKjBJ0o2AQqoTXjVPVQvvLL0T0Qap/vVFpjf+Z7PhJX3Z8d3y
-         MHy6zjFyUiGYcffYSNSSzeOMT3UfYKPONlAibH/NNgaTMqqAJKXTpCsCneg1hkUPX+0N
-         9M0LfnGVYKaxD4Iok1buO+p1mRgTI/YNyrV1uQyBtz9Yhe65eDnUziV/+3HbxPloOexh
-         QMNw==
-X-Gm-Message-State: AOJu0YyWTpMSE+uYmbtHpIEDBZERFCIl9jhbCZQ//KncWH//CctkAWPb
-	dtwRdKMVpfLqZDcVJ7z6TNYGaw==
-X-Google-Smtp-Source: AGHT+IGvd2g71GGje9dR/iX9F2NrVDVxx6CHTrqO1K3GZh4lvqRPIVhnZdc8oub8jQLvnHQLKAhyCg==
-X-Received: by 2002:a05:6214:16d:b0:67a:2942:988 with SMTP id y13-20020a056214016d00b0067a29420988mr18670319qvs.21.1701375317117;
-        Thu, 30 Nov 2023 12:15:17 -0800 (PST)
-Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
-        by smtp.gmail.com with ESMTPSA id e1-20020a0cb441000000b0067a35608186sm795252qvf.28.2023.11.30.12.15.16
+        d=1e100.net; s=20230601; t=1701376117; x=1701980917;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YYgokxpdXnom83isGSeLIiEWyDvQWuc8uahFIcEFCiU=;
+        b=jAriABDXGTvtxfziSgX8WzTBROg+F99vUmLUVwpjs9FDFIVRtlI70okz3Nd6HygIRG
+         gKQa2z0lmNGDaiZhhHum8Os8sln/kXSq8Yxwer5AsNcksrUgEaZ3v8SEpsyOF+jyrYfy
+         xcTFv73bCZQYf7c1wiursiLS0pYgzAC556iRfbdBXft2c0xAqnpmdmZH0Ps8WBhe8AxX
+         2b2h/V+Eyfz1wnXkUfumLaQYVet2lNSC5p4zBLFi5pxfYG6l9Eb5D1VoFj2SRGI23KwA
+         XCl9DjxgjIoocyT90eUvkjewsYA+RvIhg6WVbGSBTfemJje+Rk1P4ZlEXIAn4rwADHXu
+         ZMQw==
+X-Gm-Message-State: AOJu0YzG/k8xhQpOWbgfLgU3ni+kYhrO4IWcrfBER35PPr0b/jgP5bn2
+	RJaNN5C8ZMm3Zy0adOsw9mk=
+X-Google-Smtp-Source: AGHT+IHYZiQbkBLJ008rJXlLXZbrmVVGfJZyhDvQvrE7IAhJuIYy3iC3ruuDLfNDxv8+R4e1qKgz3Q==
+X-Received: by 2002:a25:268f:0:b0:db5:4938:483 with SMTP id m137-20020a25268f000000b00db549380483mr975627ybm.32.1701376116773;
+        Thu, 30 Nov 2023 12:28:36 -0800 (PST)
+Received: from localhost (114.66.194.35.bc.googleusercontent.com. [35.194.66.114])
+        by smtp.gmail.com with ESMTPSA id q2-20020a0c9a42000000b00679d7e76b64sm800622qvd.126.2023.11.30.12.28.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 12:15:16 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: akpm@linux-foundation.org,
-	alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com,
-	bhelgaas@google.com,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	david@redhat.com,
-	dwmw2@infradead.org,
-	hannes@cmpxchg.org,
-	heiko@sntech.de,
-	iommu@lists.linux.dev,
-	jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com,
-	joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	lizefan.x@bytedance.com,
-	marcan@marcan.st,
-	mhiramat@kernel.org,
-	m.szyprowski@samsung.com,
-	pasha.tatashin@soleen.com,
-	paulmck@kernel.org,
-	rdunlap@infradead.org,
-	robin.murphy@arm.com,
-	samuel@sholland.org,
-	suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev,
-	thierry.reding@gmail.com,
-	tj@kernel.org,
-	tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com,
-	wens@csie.org,
-	will@kernel.org,
-	yu-cheng.yu@intel.com
-Subject: [PATCH v2 10/10] iommu: account IOMMU allocated memory
-Date: Thu, 30 Nov 2023 20:15:04 +0000
-Message-ID: <20231130201504.2322355-11-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
-In-Reply-To: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+        Thu, 30 Nov 2023 12:28:36 -0800 (PST)
+Date: Thu, 30 Nov 2023 15:28:36 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Song Yoong Siang <yoong.siang.song@intel.com>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Bjorn Topel <bjorn@kernel.org>, 
+ Magnus Karlsson <magnus.karlsson@intel.com>, 
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+ Jonathan Lemon <jonathan.lemon@gmail.com>, 
+ Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Stanislav Fomichev <sdf@google.com>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, 
+ Tariq Toukan <tariqt@nvidia.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Mykola Lysenko <mykolal@fb.com>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ KP Singh <kpsingh@kernel.org>, 
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, 
+ Shuah Khan <shuah@kernel.org>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jose Abreu <joabreu@synopsys.com>
+Cc: netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ bpf@vger.kernel.org, 
+ xdp-hints@xdp-project.net, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-kselftest@vger.kernel.org, 
+ Song Yoong Siang <yoong.siang.song@intel.com>
+Message-ID: <6568f07418508_fbb8229478@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20231130162028.852006-2-yoong.siang.song@intel.com>
+References: <20231130162028.852006-1-yoong.siang.song@intel.com>
+ <20231130162028.852006-2-yoong.siang.song@intel.com>
+Subject: Re: [PATCH bpf-next 1/3] xsk: add launch time support to XDP Tx
+ metadata
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-In order to be able to limit the amount of memory that is allocated
-by IOMMU subsystem, the memory must be accounted.
+Song Yoong Siang wrote:
+> This patch extends the XDP Tx metadata framework to include Time-Based
+> Scheduling (TBS) support where the NIC will schedule a packet for
+> transmission at a pre-determined time called launch time. The value of
+> launch time is communicated from user space to Ethernet driver via
+> launch_time field of struct xsk_tx_metadata.
+> 
+> Suggested-by: Stanislav Fomichev <sdf@google.com>
+> Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
+> ---
+>  Documentation/netlink/specs/netdev.yaml      |  4 ++++
+>  Documentation/networking/xsk-tx-metadata.rst |  5 +++++
+>  include/net/xdp_sock.h                       | 10 ++++++++++
+>  include/net/xdp_sock_drv.h                   |  1 +
+>  include/uapi/linux/if_xdp.h                  |  9 +++++++++
+>  include/uapi/linux/netdev.h                  |  3 +++
+>  net/core/netdev-genl.c                       |  2 ++
+>  net/xdp/xsk.c                                |  3 +++
+>  tools/include/uapi/linux/if_xdp.h            |  9 +++++++++
+>  tools/include/uapi/linux/netdev.h            |  3 +++
+>  tools/net/ynl/generated/netdev-user.c        |  1 +
+>  11 files changed, 50 insertions(+)
+> 
+> diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+> index 00439bcbd2e3..a602776bbfb4 100644
+> --- a/Documentation/netlink/specs/netdev.yaml
+> +++ b/Documentation/netlink/specs/netdev.yaml
+> @@ -66,6 +66,10 @@ definitions:
+>          name: tx-checksum
+>          doc:
+>            L3 checksum HW offload is supported by the driver.
+> +      -
+> +        name: launch-time
+> +        doc:
+> +          HW Time-Based Scheduling (TBS) is supported by the driver.
 
-Account IOMMU as part of the secondary pagetables as it was discussed
-at LPC.
+Can we avoid introducing another term? We already have too many:
+launchtime, earliest delivery time (EDT), SO_TXTIME,
+pacing offload, earliest txtime first (ETF).  
 
-The value of SecPageTables now contains mmeory allocation by IOMMU
-and KVM.
-
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 2 +-
- Documentation/filesystems/proc.rst      | 4 ++--
- drivers/iommu/iommu-pages.h             | 2 ++
- include/linux/mmzone.h                  | 2 +-
- 4 files changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 3f85254f3cef..e004e05a7cde 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1418,7 +1418,7 @@ PAGE_SIZE multiple when read back.
- 	  sec_pagetables
- 		Amount of memory allocated for secondary page tables,
- 		this currently includes KVM mmu allocations on x86
--		and arm64.
-+		and arm64 and IOMMU page tables.
- 
- 	  percpu (npn)
- 		Amount of memory used for storing per-cpu kernel
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 49ef12df631b..86f137a9b66b 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1110,8 +1110,8 @@ KernelStack
- PageTables
-               Memory consumed by userspace page tables
- SecPageTables
--              Memory consumed by secondary page tables, this currently
--              currently includes KVM mmu allocations on x86 and arm64.
-+              Memory consumed by secondary page tables, this currently includes
-+              KVM mmu and IOMMU allocations on x86 and arm64.
- NFS_Unstable
-               Always zero. Previous counted pages which had been written to
-               the server, but has not been committed to stable storage.
-diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
-index 69895a355c0c..cdd257585284 100644
---- a/drivers/iommu/iommu-pages.h
-+++ b/drivers/iommu/iommu-pages.h
-@@ -27,6 +27,7 @@ static inline void __iommu_alloc_account(struct page *pages, int order)
- 	const long pgcnt = 1l << order;
- 
- 	mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, pgcnt);
-+	mod_lruvec_page_state(pages, NR_SECONDARY_PAGETABLE, pgcnt);
- }
- 
- /**
-@@ -39,6 +40,7 @@ static inline void __iommu_free_account(struct page *pages, int order)
- 	const long pgcnt = 1l << order;
- 
- 	mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, -pgcnt);
-+	mod_lruvec_page_state(pages, NR_SECONDARY_PAGETABLE, -pgcnt);
- }
- 
- /**
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 1a4d0bba3e8b..aaabb385663c 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -199,7 +199,7 @@ enum node_stat_item {
- 	NR_KERNEL_SCS_KB,	/* measured in KiB */
- #endif
- 	NR_PAGETABLE,		/* used for pagetables */
--	NR_SECONDARY_PAGETABLE, /* secondary pagetables, e.g. KVM pagetables */
-+	NR_SECONDARY_PAGETABLE, /* secondary pagetables, KVM & IOMMU */
- #ifdef CONFIG_IOMMU_SUPPORT
- 	NR_IOMMU_PAGES,		/* # of pages allocated by IOMMU */
- #endif
--- 
-2.43.0.rc2.451.g8631bc7472-goog
 
