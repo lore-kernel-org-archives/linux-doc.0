@@ -1,99 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="FTaxNY5G"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50652199F;
-	Thu, 30 Nov 2023 04:17:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=xIf2EIwYoaPmQHLlqFmW3VwET/3yB8a9DutsaY8oDIQ=; b=FTaxNY5GHJeGYAg7/aa/E7lEd/
-	qMw/ks71XLrE4Bikt/adHddh5szYMLLdqLILVIoymEpf5KLJY/ZSGWp5z+h2+KcPnlMq6o3g5NWi7
-	3AGeSuQJXa9Q2v+zt/g3yAjTIqWEuEAHozw87psltN3EBDWDqpfqkbu6wZfiB+vZxAbAQrsEZpgj5
-	W+6vQ6f8QcXiyrk/svKx1p7iaymf3R1GcGn+28pZ2dVgiuui26ig2MUMpUcvwPLi/scVVp9UgUHMj
-	4JmE+d2GQQoJp9dJcG2viQ0Slymk3v30atTHyckCNO5LeFIbPt8H2F4M67roxt80LrXWWDypoY4u8
-	czJBEcXg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34218)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1r8fyg-0001gn-2D;
-	Thu, 30 Nov 2023 12:17:10 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1r8fyi-00050h-6g; Thu, 30 Nov 2023 12:17:12 +0000
-Date: Thu, 30 Nov 2023 12:17:12 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Gavin Shan <gshan@redhat.com>
-Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, linux-csky@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org,
-	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH RFC 10/22] drivers: base: Move cpu_dev_init() after
- node_dev_init()
-Message-ID: <ZWh9SMOGSrmaNidw@shell.armlinux.org.uk>
-References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
- <E1r0JLV-00CTxS-QB@rmk-PC.armlinux.org.uk>
- <095c2d24-735b-4ce2-ba2e-9ec2164f2237@redhat.com>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id EE4DBD7F;
+	Thu, 30 Nov 2023 04:52:35 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E1621042;
+	Thu, 30 Nov 2023 04:53:22 -0800 (PST)
+Received: from [10.57.5.51] (unknown [10.57.5.51])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D65BF3F5A1;
+	Thu, 30 Nov 2023 04:52:31 -0800 (PST)
+Message-ID: <f20c8c30-1379-4706-b980-73d2f7e5912a@arm.com>
+Date: Thu, 30 Nov 2023 12:53:30 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <095c2d24-735b-4ce2-ba2e-9ec2164f2237@redhat.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Simplify Util_est
+Content-Language: en-US
+To: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: hongyan.xia2@arm.com, mingo@redhat.com, alexs@kernel.org,
+ linux-kernel@vger.kernel.org, vschneid@redhat.com, bristot@redhat.com,
+ bsegall@google.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
+ peterz@infradead.org, juri.lelli@redhat.com, mgorman@suse.de,
+ corbet@lwn.net, siyanteng@loongson.cn, qyousef@layalina.io,
+ linux-doc@vger.kernel.org
+References: <20231127143238.1216582-1-vincent.guittot@linaro.org>
+From: Lukasz Luba <lukasz.luba@arm.com>
+In-Reply-To: <20231127143238.1216582-1-vincent.guittot@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 13, 2023 at 10:58:46AM +1000, Gavin Shan wrote:
+Hi Vincent,
+
+On 11/27/23 14:32, Vincent Guittot wrote:
+> Following comment in [1], I prepared a patch to remove UTIL_EST_FASTUP.
+> This enables us to simplify util_est behavior as proposed in patch 2.
 > 
+> [1] https://lore.kernel.org/lkml/CAKfTPtCAZWp7tRgTpwJmyEAkyN65acmYrfu9naEUpBZVWNTcQA@mail.gmail.com/
 > 
-> On 11/7/23 20:30, Russell King (Oracle) wrote:
-> > From: James Morse <james.morse@arm.com>
-> > 
-> > NUMA systems require the node descriptions to be ready before CPUs are
-> > registered. This is so that the node symlinks can be created in sysfs.
-> > 
-> > Currently no NUMA platform uses GENERIC_CPU_DEVICES, meaning that CPUs
-> > are registered by arch code, instead of cpu_dev_init().
-> > 
-> > Move cpu_dev_init() after node_dev_init() so that NUMA architectures
-> > can use GENERIC_CPU_DEVICES.
-> > 
-> > Signed-off-by: James Morse <james.morse@arm.com>
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > ---
-> > Note: Jonathan's comment still needs addressing - see
-> >    https://lore.kernel.org/r/20230914121612.00006ac7@Huawei.com
-> > ---
-> >   drivers/base/init.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
+> Vincent Guittot (2):
+>    sched/fair: Remove SCHED_FEAT(UTIL_EST_FASTUP, true)
+>    sched/fair: Simplify util_est
 > 
-> With Jonathan's comments addressed:
+>   Documentation/scheduler/schedutil.rst |  7 +--
+>   include/linux/sched.h                 | 35 ++----------
+>   kernel/sched/debug.c                  |  7 +--
+>   kernel/sched/fair.c                   | 81 ++++++++++-----------------
+>   kernel/sched/features.h               |  1 -
+>   kernel/sched/pelt.h                   |  4 +-
+>   6 files changed, 43 insertions(+), 92 deletions(-)
 > 
-> Reviewed-by: Gavin Shan <gshan@redhat.com>
 
-Can I assume, given Jonathan's reply later in this sub-thread, that you
-are happy for me to add your r-b without the referred comment having
-been addressed - Jonathan says tit was a "nice to have" and he's fine
-without the requested change.
+I recovered my pixel6 and applied these changes.
+No power regression in Jankbench. No performance regression in GB5.
+Better score in Chrome running Speedometer +3..5%.
 
-See https://lore.kernel.org/r/20231128150017.000069eb@Huawei.com
+The code looks much more clean, without the 'struct util_est'
+(we will have to adjust our trace events to that change but it's worth).
 
-Thanks.
+Also, I was a bit surprised that the UTIL_EST_FASTUP wasn't helping
+that much comparing to that new 'runnable' signal for the
+underestimation corner case...
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Reviewed-and-tested-by: Lukasz Luba <lukasz.luba@arm.com>
