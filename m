@@ -1,105 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716BB125C3
-	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 08:27:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8Qm7sIY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E76C433C8;
-	Thu, 30 Nov 2023 08:27:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701332858;
-	bh=LdjNKOLHbMhRShAwFebAAZRIVcHBzVh9Y/dtmWC97qA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=T8Qm7sIY6gw2R8rh3tADIiIBNUsRxau6g0HY+bBy27PL1WMKFxbi/9i8Rcd4OgTm8
-	 aU7zulW30HDJbeXOWbAiQeH2iSvXZBzYxzMhM5vn7IeJGz8lXaqU7cOJa6ELd32qbf
-	 aYgKvCkuEA/NduZ42Rtd+1HQahVNtg0NvgJfFkA6IZMxOrYEqI91lGdGGKUmw5O4+d
-	 TBbZM+LRf/DChu/dAn9hfATiiYRkTXEz9tcw6lVBHydfCgHtCQttrovv8ZfAH0h1kS
-	 F3xK8SFlrHWmr0WHzMZTOo1R+U4NkAnOVAMWI9O5+rimzUNQVgzKLtopl2TtdwMLqe
-	 Ac0hp0iRYE/5A==
-Date: Thu, 30 Nov 2023 09:27:33 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Raise the minimum Sphinx requirement to 2.4.4
-Message-ID: <20231130092733.26f0b7c4@coco.lan>
-In-Reply-To: <c3accd5b-c8d9-4eb9-86a1-054e89893a8f@gmail.com>
-References: <87sf4qvkmc.fsf@meer.lwn.net>
-	<20231128023015.0e446a06@coco.lan>
-	<877cm2uegr.fsf@meer.lwn.net>
-	<20231128165645.2dbe416c@coco.lan>
-	<c3accd5b-c8d9-4eb9-86a1-054e89893a8f@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kHKcJXP/"
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAB312C;
+	Thu, 30 Nov 2023 00:48:49 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40b27b498c3so6177315e9.0;
+        Thu, 30 Nov 2023 00:48:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701334128; x=1701938928; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M3ajxpNuNT1dCx3mefyTr59eDGpG6y+eao1lQOpzASM=;
+        b=kHKcJXP/mo50B3GlcW3AB23B9gCjFXIn0lSC7zr5UqrBv+U36lHSz46Ffrlg6L/bNK
+         7nmicSvaAj8rGT2prMmb8oJ28chhJAZoYT8RGN6qjNjI/j6+E69DlyHBistj1D1Xw5hf
+         2fhoyD0+cSnUiCrUB02Pxh6HWVRC4MXIo4x8PpWqqqTZWS3cadMYd+yyU1GagO66xc1b
+         O88vTkFHJhL9iJuof7OawUsP1zkv8ZuhuEvimxRVJw1ZNY+KKxJeImukzABMpPWpUEKa
+         jJfMBi0aKR9gwFS+9EoKM7sSc9/tGqFIY8s7lrZal0gseYycvc94K8LqpTppvCKOWYLC
+         M5ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701334128; x=1701938928;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M3ajxpNuNT1dCx3mefyTr59eDGpG6y+eao1lQOpzASM=;
+        b=L3aIaEB1IqBnS51LXnv5MU4/nPbFv7TAA2pA8q86W2AKgJRwokyrnvFOczCIlKYeaZ
+         wZKOAwP3Bh1k/Pcy7GCp4q03/eN08ZhGrgYIsz7+Ca4E7N73LHV95Z0W8fnFAS4z/MbA
+         f5jbN8CXfcmChkFIKj85/tpMlEEFYRz4bNeq43JQCTDc7dEFAAxylZRpsVABSDz2M5UV
+         mrpRJugRMLS0Df4zUpfq/oz1cWDZysfxRA0/V86ovfAr79IS93Q1vmUmWz9ne5NANCxj
+         gQ4PQ8RN3eN2qPTbZfBB+6tThcgUjJyQI8m+gHe/5JZOwUtsiQt2RKDgSlil88Wfd/7W
+         xHPA==
+X-Gm-Message-State: AOJu0YwKFdCqm5Wp4TkBRvLxb0YIG5hmysZeVOPiywI3Watr5gpG/94t
+	Dzgik6ksdPJimedmLuuXLKs=
+X-Google-Smtp-Source: AGHT+IGAQVJP/FzQhN1xlzFrdJXK+CEaUamkwsCPSkwa6a8V8/i6FRfWyzBnjtKOZPSed4yFY2eaew==
+X-Received: by 2002:a05:6000:c03:b0:333:92b:5f47 with SMTP id dn3-20020a0560000c0300b00333092b5f47mr5871965wrb.48.1701334127750;
+        Thu, 30 Nov 2023 00:48:47 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:1c53:9d4e:6a62:308f])
+        by smtp.gmail.com with ESMTPSA id q6-20020adff506000000b0032f7fab0712sm897142wro.52.2023.11.30.00.48.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 00:48:46 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
+ Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
+ Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,
+  donald.hunter@redhat.com
+Subject: Re: [RFC PATCH net-next v1 0/6] tools/net/ynl: Add dynamic selector
+ for options attrs
+In-Reply-To: <20231129094943.13f1ae0c@kernel.org> (Jakub Kicinski's message of
+	"Wed, 29 Nov 2023 09:49:43 -0800")
+Date: Thu, 30 Nov 2023 08:48:40 +0000
+Message-ID: <m234wn8w47.fsf@gmail.com>
+References: <20231129101159.99197-1-donald.hunter@gmail.com>
+	<20231129080943.01d81902@kernel.org> <m2bkbc8pim.fsf@gmail.com>
+	<20231129094943.13f1ae0c@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Thu, 30 Nov 2023 16:33:56 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+Jakub Kicinski <kuba@kernel.org> writes:
+>
+>> Did you want an explicit "list:" in the yaml schema?
+>
+> You mean instead of the "formats" or in addition somewhere?
+> Under sub-messages?
+>
+> The "formats" is basically a "list", just feels less artificial
+> to call it something else than "list". No strong preference, tho.
+>
+> If you mean under "sub-messages" - I can't think of any extra property
+> we may want to put there. So going directly to entries seems fine.
 
-> Hi,
-> 
-> On 2023/11/29 0:56, Mauro Carvalho Chehab wrote:
-> [snip]
-> 
-> > While I didn't make any benchmarks, I remember people reported
-> > poor performance with newer versions, so, without thinking to
-> > much, 3.1 or 3.2 seems a good candidate for the recommended
-> > version.  
-> 
-> Well, I have different impressions on the performance of Sphinx >=3.1
-> and have done some quick benchmarks.
-> Here are results on a not-so-performant machine.
-> 
-> Benchmark of building htmldocs on Ubuntu 22.04 (after "make cleandocs"):
-> 
-> Sphinx   elapesed   maxresident (k)
-> ======== ========== ===============
->  2.4.5     7m44.57     2806152      (parallel slot = 3)
->  3.1.2    11m25.28     1036264      (parallel slot = 4)
->  3.4.3    10m22.26     1067100      (ditto.)
->  4.2.0    10m16.53     1151220
->  4.3.2    10m06.07     1123432      (distro pkg of Ubuntu 22.04LTS)
->  5.3.0    10m18.73     1145524
->  7.2.6     9m53.80     1261736
-> 
-> python3: Python 3.10.12
-> 
-> Sidenotes:
-> 
->   1: Sphinx 4.3.0 officially added Python 3.10 support.
->      Sphinx 4.2.0 also works with Python 3.10.
->      Sphinx <3.5.0 happen to work with Python 3.10.
->   2: Sphinx 7.2.0 obsoleted Python 3.8.
->   3: Sphinx 6.0.0 obsoleted Python 3.6 and 3.7.
-> 
-> 
-> And here is a table of distro Sphinx packages:
-> 
->           As of 2023.11.30
-> 
-> ----------------------------------
-> Distro              Sphinx Python3
-> =================== ====== =======
-> Ubuntu 22.04 LTS    4.3.2  3.10.12
-> Debian 11           3.4.3  3.9.2
-> Debian 12           5.3.0  3.11.2
-> Fedora 39           6.2.1  3.12.0
-> RHEL 9              3.4.3  3.9.18
-> Mageia 9            6.1.3  3.10.11
-> openSUSE Leap 15.5  4.2.0  3.6.15  (provided as python3-Sphinx_4_2_0)
-> ----------------------------------
-> 
-> So, I think Sphinx 3.4.3 would be a reasonable choice for
-> recommending.
+Sorry, I wasn't clear - yes, under sub-messages.
 
-Works for me.
-
-Regards,
-Mauro
+Thanks!
