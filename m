@@ -1,129 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id B69C910DB;
-	Thu, 30 Nov 2023 02:36:18 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A27C143D;
-	Thu, 30 Nov 2023 02:37:05 -0800 (PST)
-Received: from [10.57.41.237] (unknown [10.57.41.237])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB8C93F6C4;
-	Thu, 30 Nov 2023 02:36:16 -0800 (PST)
-Message-ID: <31b68b10-9819-4c96-a237-ac04887be305@arm.com>
-Date: Thu, 30 Nov 2023 10:36:15 +0000
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="GbSXqQ+v"
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 152D3C1;
+	Thu, 30 Nov 2023 04:10:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=2TjoRav92l6lGBHcgQ1IFwrVpqblxm0gDdEjjO9i59E=; b=GbSXqQ+vl+tK08waHI4y515wqP
+	Q86qDI1AgJw1pLC5ZapIOzsHoJpbnsFqID0QXfxFNjS8NE1MxyGJvaPAqP8UXgXPG+OkIiwqvFlE5
+	DgMw0T2oet8bb4vL8QGSd9PVtRm2H4WDDGvigxdO5dtwqWYIgGY2ZdIGbI4X/r0gW1UEzOMr2Dmde
+	viBSuF8wOnZothwOKj7mlCWoQjHiCqAqz6lM/4ThVWLIR5o09TLvAb3QvQ8+pRelrxSE2XAmAfbqe
+	GcIF1ksl2SBgzx/SYAZ9ZHOSd1E0v1qAotFN0UA7XzmyxTTFDemZpu8Qw++hpXqEzqrc9ikD4vd5b
+	kcwkIMUQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51064)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1r8frh-0001gG-1i;
+	Thu, 30 Nov 2023 12:09:57 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1r8frg-00050Q-P4; Thu, 30 Nov 2023 12:09:56 +0000
+Date: Thu, 30 Nov 2023 12:09:56 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
+	x86@kernel.org, linux-csky@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org,
+	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	jianyong.wu@arm.com, justin.he@arm.com,
+	James Morse <james.morse@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH RFC 14/22] arm64: convert to arch_cpu_is_hotpluggable()
+Message-ID: <ZWh7lA9+goBzAprN@shell.armlinux.org.uk>
+References: <ZUoRY33AAHMc5ThW@shell.armlinux.org.uk>
+ <E1r0JLq-00CTxq-CF@rmk-PC.armlinux.org.uk>
+ <20231128151115.00007726@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] Documentation: arm64: Document the PMU event
- counting threshold feature
-To: James Clark <james.clark@arm.com>, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, will@kernel.org, mark.rutland@arm.com,
- anshuman.khandual@arm.com, namhyung@gmail.com
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231124102857.1106453-1-james.clark@arm.com>
- <20231124102857.1106453-4-james.clark@arm.com>
-Content-Language: en-GB
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20231124102857.1106453-4-james.clark@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231128151115.00007726@Huawei.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 24/11/2023 10:28, James Clark wrote:
-> Add documentation for the new Perf event open parameters and
-> the threshold_max capability file.
+On Tue, Nov 28, 2023 at 03:11:15PM +0000, Jonathan Cameron wrote:
+> On Tue, 07 Nov 2023 10:30:30 +0000
+> "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk> wrote:
 > 
-> Signed-off-by: James Clark <james.clark@arm.com>
-
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-
-
-> ---
->   Documentation/arch/arm64/perf.rst | 72 +++++++++++++++++++++++++++++++
->   1 file changed, 72 insertions(+)
+> > Convert arm64 to use the arch_cpu_is_hotpluggable() helper rather than
+> > arch_register_cpu().
+> > 
+> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Ah. Or previous patch needs a forwards reference to the tweaking
+> of it it here.
 > 
-> diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
-> index 1f87b57c2332..41eee68951ff 100644
-> --- a/Documentation/arch/arm64/perf.rst
-> +++ b/Documentation/arch/arm64/perf.rst
-> @@ -164,3 +164,75 @@ and should be used to mask the upper bits as needed.
->      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
->   .. _tools/lib/perf/tests/test-evsel.c:
->      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
-> +
-> +Event Counting Threshold
-> +==========================================
-> +
-> +Overview
-> +--------
-> +
-> +FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
-> +events whose count meets a specified threshold condition. For example if
-> +threshold_compare is set to 2 ('Greater than or equal'), and the
-> +threshold is set to 2, then the PMU counter will now only increment by
-> +when an event would have previously incremented the PMU counter by 2 or
-> +more on a single processor cycle.
-> +
-> +To increment by 1 after passing the threshold condition instead of the
-> +number of events on that cycle, add the 'threshold_count' option to the
-> +commandline.
-> +
-> +How-to
-> +------
-> +
-> +These are the parameters for controlling the feature:
-> +
-> +.. list-table::
-> +   :header-rows: 1
-> +
-> +   * - Parameter
-> +     - Description
-> +   * - threshold
-> +     - Value to threshold the event by. A value of 0 means that
-> +       thresholding is disabled and the other parameters have no effect.
-> +   * - threshold_compare
-> +     - | Comparison function to use, with the following values supported:
-> +       |
-> +       | 0: Not-equal
-> +       | 1: Equals
-> +       | 2: Greater-than-or-equal
-> +       | 3: Less-than
-> +   * - threshold_count
-> +     - If this is set, count by 1 after passing the threshold condition
-> +       instead of the value of the event on this cycle.
-> +
-> +The threshold, threshold_compare and threshold_count values can be
-> +provided per event, for example:
-> +
-> +.. code-block:: sh
-> +
-> +  perf stat -e stall_slot/threshold=2,threshold_compare=2/ \
-> +            -e dtlb_walk/threshold=10,threshold_compare=3,threshold_count/
-> +
-> +In this example the stall_slot event will count by 2 or more on every
-> +cycle where 2 or more stalls happen. And dtlb_walk will count by 1 on
-> +every cycle where the number of dtlb walks were less than 10.
-> +
-> +The maximum supported threshold value can be read from the caps of each
-> +PMU, for example:
-> +
-> +.. code-block:: sh
-> +
-> +  cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
-> +
-> +  0x000000ff
-> +
-> +If a value higher than this is given, then it will be silently clamped
-> +to the maximum. The highest possible maximum is 4095, as the config
-> +field for threshold is limited to 12 bits, and the Perf tool will refuse
-> +to parse higher values.
-> +
-> +If the PMU doesn't support FEAT_PMUv3_TH, then threshold_max will read
-> +0, and both threshold and threshold_compare will be silently ignored.
-> +threshold_max will also read as 0 on aarch32 guests, even if the host
-> +is running on hardware with the feature.
+> Maybe just smash the 2 together with a Co-developed: ?
 
+I wanted to keep the two separate to preserve the authorship of the
+individual patches, so I'll take the former. Thanks.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
