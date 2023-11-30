@@ -1,124 +1,99 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="keGMdGID"
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB498B9;
-	Wed, 29 Nov 2023 23:34:00 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1cf8e569c35so5927645ad.0;
-        Wed, 29 Nov 2023 23:34:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701329640; x=1701934440; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3mnK86zS9kgkKOxmm/9KwAlPUykH+ThgLDfr/k2vMa8=;
-        b=keGMdGID7pcMfKzk3mefpVaDWSUQsqqMEHN1h8EOvxmS3Zqcq4PBkskdzOPr1ybNi7
-         GqoLSA+AMqAYGEMcYE8h0BM3m0xPBiW/hLZfHB6tdK8ktnakLHysHKrFuXRcvySUXCYv
-         s4MjsyV1HKnY/lg+jHjJ3z0jzmMnIun4pPyIaGEcClBoPhQNDBHSBcg+PMztaod8/z8i
-         Cs1m5BgjcQ3/5kyJO29IKOBbQNpauITr+urZH3PyVziog4uYdEUwmoQOGGDAnyh32aij
-         Yc84yghwLO86r3z5cbm+hNxLPIMb3CqFoHdi7lWRAeC50UyPSLELJ980FrwPsGgqNvXw
-         OplQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701329640; x=1701934440;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3mnK86zS9kgkKOxmm/9KwAlPUykH+ThgLDfr/k2vMa8=;
-        b=v7oKB37/sDAWpfUYtec057MmUCO7nam6BAx6rTiLySwb3QLY/hdrVirvjTmHbjZO66
-         FSQBML5ryIErZjz4XlIwZFV+c07P91/EZjU5ztdGle9c7+a0lyOb2UEuC/+QlECZyfRh
-         YtRkwycp6enFMfaXAwo/h0av8+4cC0F79RImB4vW2H7uKNIPHt2NIE90N2Q6i7LkllQ2
-         zo6w3BVf9XS3qgjDBBDbT3UE5cCgBErjxUnVvgZ8ETams9P4GNyYaHd4tV3D76PdX+4J
-         cBP+TQ0/L97T410IwbyTRjXZ/k0pmXGNE5kLLFP9Aj3l6997lbfydu/sBpApzmusXHAH
-         C1Ag==
-X-Gm-Message-State: AOJu0YzbQf46BiTajrrNBZEk5qVxoY5xlUjhE2ACoGQrrc2NC6MHmX3Q
-	aAa4BHhOKgPJUIC0douOjKaPxuCA/uk+Mw==
-X-Google-Smtp-Source: AGHT+IHudgUyHU7NAs9q70jlysfskaogusgM3hhNgTORctTs9pQLzQLv8sy/F+dxr8fk7Rg0ZeBhow==
-X-Received: by 2002:a17:902:d4c1:b0:1cf:c329:6204 with SMTP id o1-20020a170902d4c100b001cfc3296204mr15511555plg.14.1701329640291;
-        Wed, 29 Nov 2023 23:34:00 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id i16-20020a170902c95000b001c7283d3089sm612789pla.273.2023.11.29.23.33.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 23:33:59 -0800 (PST)
-Message-ID: <c3accd5b-c8d9-4eb9-86a1-054e89893a8f@gmail.com>
-Date: Thu, 30 Nov 2023 16:33:56 +0900
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="S1sdqEiO"
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E455010F3;
+	Wed, 29 Nov 2023 23:55:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=2eIWjuIhqmVk8xKXkSIoxQ/LjUg3fvZYc/KvlVrGF6M=; b=S1sdqEiOkM3l/NQpRyFQccHCgl
+	1QNfXqBwtBQavzZ+WATlHGz784Rl6O6x9691v3cQ+SA4iulj3pXGM4sMXTGl28VTUEGMst76voiEA
+	9p3q9SL5iEPzWkLc82bPoBA1Pr13cvOyDtVApmQVzQINN4HeMa3lxUOTOQ3pP3KHbwmCokyb6e95S
+	naIkWQeAr430h1JclsAxwUn4/0tnfwzq+ZqukkAUCO5lqoqSAKbBs/1t0e2+Jj82Wo+SxMpxsj9TJ
+	Yri9hcb6cmHmRl0nvT2H4+xz66ozCY4ZZCIrehwVNOG7O+D69O0KO2oqdipv25mRAgWE8xX8RmIZB
+	91IdWvKg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1r8btX-005INn-2p;
+	Thu, 30 Nov 2023 07:55:35 +0000
+Date: Thu, 30 Nov 2023 07:55:35 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: kernel test robot <oliver.sang@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org,
+	ying.huang@intel.com, feng.tang@intel.com, fengwei.yin@intel.com
+Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()]  1b738f196e:
+ stress-ng.sysinfo.ops_per_sec -27.2% regression
+Message-ID: <20231130075535.GN38156@ZenIV>
+References: <202311300906.1f989fa8-oliver.sang@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Raise the minimum Sphinx requirement to 2.4.4
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <87sf4qvkmc.fsf@meer.lwn.net> <20231128023015.0e446a06@coco.lan>
- <877cm2uegr.fsf@meer.lwn.net> <20231128165645.2dbe416c@coco.lan>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20231128165645.2dbe416c@coco.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202311300906.1f989fa8-oliver.sang@intel.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi,
+On Thu, Nov 30, 2023 at 12:54:01PM +0800, kernel test robot wrote:
 
-On 2023/11/29 0:56, Mauro Carvalho Chehab wrote:
-[snip]
-
-> While I didn't make any benchmarks, I remember people reported
-> poor performance with newer versions, so, without thinking to
-> much, 3.1 or 3.2 seems a good candidate for the recommended
-> version.
-
-Well, I have different impressions on the performance of Sphinx >=3.1
-and have done some quick benchmarks.
-Here are results on a not-so-performant machine.
-
-Benchmark of building htmldocs on Ubuntu 22.04 (after "make cleandocs"):
-
-Sphinx   elapesed   maxresident (k)
-======== ========== ===============
- 2.4.5     7m44.57     2806152      (parallel slot = 3)
- 3.1.2    11m25.28     1036264      (parallel slot = 4)
- 3.4.3    10m22.26     1067100      (ditto.)
- 4.2.0    10m16.53     1151220
- 4.3.2    10m06.07     1123432      (distro pkg of Ubuntu 22.04LTS)
- 5.3.0    10m18.73     1145524
- 7.2.6     9m53.80     1261736
-
-python3: Python 3.10.12
-
-Sidenotes:
-
-  1: Sphinx 4.3.0 officially added Python 3.10 support.
-     Sphinx 4.2.0 also works with Python 3.10.
-     Sphinx <3.5.0 happen to work with Python 3.10.
-  2: Sphinx 7.2.0 obsoleted Python 3.8.
-  3: Sphinx 6.0.0 obsoleted Python 3.6 and 3.7.
-
-
-And here is a table of distro Sphinx packages:
-
-          As of 2023.11.30
-
-----------------------------------
-Distro              Sphinx Python3
-=================== ====== =======
-Ubuntu 22.04 LTS    4.3.2  3.10.12
-Debian 11           3.4.3  3.9.2
-Debian 12           5.3.0  3.11.2
-Fedora 39           6.2.1  3.12.0
-RHEL 9              3.4.3  3.9.18
-Mageia 9            6.1.3  3.10.11
-openSUSE Leap 15.5  4.2.0  3.6.15  (provided as python3-Sphinx_4_2_0)
-----------------------------------
-
-So, I think Sphinx 3.4.3 would be a reasonable choice for
-recommending.
-
-HTH,
-Akira
-
+> The kernel config and materials to reproduce are available at:
+> https://download.01.org/0day-ci/archive/20231130/202311300906.1f989fa8-oliver.sang@intel.com
 > 
-> Regards,
-> Mauro
+> =========================================================================================
+> class/compiler/cpufreq_governor/disk/fs/kconfig/nr_threads/rootfs/tbox_group/test/testcase/testtime:
+>   os/gcc-12/performance/1HDD/ext4/x86_64-rhel-8.3/10%/debian-11.1-x86_64-20220510.cgz/lkp-icl-2sp7/sysinfo/stress-ng/60s
+> 
+> commit: 
+>   e3640d37d0 ("d_prune_aliases(): use a shrink list")
+>   1b738f196e ("__dentry_kill(): new locking scheme")
+
+Very interesting...  Out of curiosity, what effect would the following
+have on top of 1b738f196e?
+
+diff --git a/fs/dcache.c b/fs/dcache.c
+index b212a65ed190..d4a95e690771 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -1053,16 +1053,14 @@ void d_prune_aliases(struct inode *inode)
+ }
+ EXPORT_SYMBOL(d_prune_aliases);
+ 
+-static inline void shrink_kill(struct dentry *victim)
++static inline void shrink_kill(struct dentry *victim, struct list_head *list)
+ {
+-	do {
+-		rcu_read_unlock();
+-		victim = __dentry_kill(victim);
+-		rcu_read_lock();
+-	} while (victim && lock_for_kill(victim));
+ 	rcu_read_unlock();
+-	if (victim)
++	victim = __dentry_kill(victim);
++	if (victim) {
++		to_shrink_list(victim, list);
+ 		spin_unlock(&victim->d_lock);
++	}
+ }
+ 
+ void shrink_dentry_list(struct list_head *list)
+@@ -1084,7 +1082,7 @@ void shrink_dentry_list(struct list_head *list)
+ 			continue;
+ 		}
+ 		d_shrink_del(dentry);
+-		shrink_kill(dentry);
++		shrink_kill(dentry, list);
+ 	}
+ }
+ 
+@@ -1514,7 +1512,7 @@ void shrink_dcache_parent(struct dentry *parent)
+ 				spin_unlock(&data.victim->d_lock);
+ 				rcu_read_unlock();
+ 			} else {
+-				shrink_kill(data.victim);
++				shrink_kill(data.victim, &data.dispose);
+ 			}
+ 		}
+ 		if (!list_empty(&data.dispose))
