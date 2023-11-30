@@ -1,99 +1,124 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="S1sdqEiO"
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E455010F3;
-	Wed, 29 Nov 2023 23:55:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=2eIWjuIhqmVk8xKXkSIoxQ/LjUg3fvZYc/KvlVrGF6M=; b=S1sdqEiOkM3l/NQpRyFQccHCgl
-	1QNfXqBwtBQavzZ+WATlHGz784Rl6O6x9691v3cQ+SA4iulj3pXGM4sMXTGl28VTUEGMst76voiEA
-	9p3q9SL5iEPzWkLc82bPoBA1Pr13cvOyDtVApmQVzQINN4HeMa3lxUOTOQ3pP3KHbwmCokyb6e95S
-	naIkWQeAr430h1JclsAxwUn4/0tnfwzq+ZqukkAUCO5lqoqSAKbBs/1t0e2+Jj82Wo+SxMpxsj9TJ
-	Yri9hcb6cmHmRl0nvT2H4+xz66ozCY4ZZCIrehwVNOG7O+D69O0KO2oqdipv25mRAgWE8xX8RmIZB
-	91IdWvKg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8btX-005INn-2p;
-	Thu, 30 Nov 2023 07:55:35 +0000
-Date: Thu, 30 Nov 2023 07:55:35 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: kernel test robot <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org,
-	ying.huang@intel.com, feng.tang@intel.com, fengwei.yin@intel.com
-Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()]  1b738f196e:
- stress-ng.sysinfo.ops_per_sec -27.2% regression
-Message-ID: <20231130075535.GN38156@ZenIV>
-References: <202311300906.1f989fa8-oliver.sang@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hkc85nqZ"
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A412A3;
+	Thu, 30 Nov 2023 00:04:44 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cc9b626a96so6584415ad.2;
+        Thu, 30 Nov 2023 00:04:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701331484; x=1701936284; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bgB6RoiFobLknzEtO8MoirvVaa88Hx4zUcBwWoGsM5M=;
+        b=hkc85nqZxyWeTZmix33vJMZGwli9+hCPe7VJIUw4DKH5c0Cqla8yawWXNXelM7tLdJ
+         buIUWH2KTFIrYGwIRQSRhZfRbvYE2T9tS9LXJSGwHW8JodouWhumdupGyIsSfuTRIrpa
+         BasjGRxz4ktiw0XFzMgLHhrrMC2BjobuTmNRNNNrUL7Yq4KWDZqU7fwV4Fyfwp7okk+9
+         hJA3VvDxCLsXejRk+erpjrjp5PbRWbrnGoO7xkUDbO0h9GWPzhesWSqT5H08Ui+41Xgb
+         hQuJvf98wdln+k9xbyNWJ8FJFo/tkrVkR5XT1ZskBQrh6BCIgdApDCQumw6/nStH0g5K
+         kEXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701331484; x=1701936284;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bgB6RoiFobLknzEtO8MoirvVaa88Hx4zUcBwWoGsM5M=;
+        b=R0wtYRH60ky1CAr5RLIn4LbH7Y9/u5WFlqEj0unYRaOu0/CBEEQu74Uzm/G4uWjsZx
+         532LU/KiF//Z/1/O10CVGHdjE0qAxP46fe4ZZRUgAc5t8XjXwuzeMJ09X9QC6dP80vtE
+         B5A8TXgQaIJAckIEZkR7IoUTIWFN7ppZ9Dnjl+4JDAgDxhJqw1jJ21m8MxSEm4eEpBUc
+         gmkMEpLr+SS+jlIEvpy6Ztrs17BHIRzf3P8SE8fN4yYK9WeKsvnsshttyAM797ceuhJY
+         YWzdsnpmxkLaYzTmDFrWcEbIElDHC+xKCWUIvlv6QfkbfPUuPivoClgEifiQjZQ7BL9h
+         fU1Q==
+X-Gm-Message-State: AOJu0Yyr5+bndC8i1ewoMoLhCV9uy3HG3fnddlXYqSh0FfMdgEZwBWTL
+	cc2mOjRBP6dexaQnU2DuZGI=
+X-Google-Smtp-Source: AGHT+IEGoOdRQFIyflKN6XFRtYjPec4rcSFOpDa2HyGuCnXvq+plqF4HG9/xF+7ogLVZ5KUFPMcqAA==
+X-Received: by 2002:a17:902:db06:b0:1cf:c376:6d8d with SMTP id m6-20020a170902db0600b001cfc3766d8dmr15663408plx.32.1701331483766;
+        Thu, 30 Nov 2023 00:04:43 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id 10-20020a170902c20a00b001c9dac0fbbasm697119pll.63.2023.11.30.00.04.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 00:04:41 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id F2BF610F63FA9; Thu, 30 Nov 2023 15:04:38 +0700 (WIB)
+Date: Thu, 30 Nov 2023 15:04:38 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Joe Lawrence <joe.lawrence@redhat.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Livepatching <live-patching@vger.kernel.org>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>,
+	Attreyee Mukherjee <tintinm2017@gmail.com>
+Subject: Re: [PATCH 0/2] Minor grammatical fixup for livepatch docs
+Message-ID: <ZWhCFic541YaYf4w@archie.me>
+References: <20231129132527.8078-1-bagasdotme@gmail.com>
+ <ac7a90a7-4d29-059b-fbff-6b67e6f5c2d3@redhat.com>
+ <a4da77c2-7a23-4988-b65a-a58c105d89a4@gmail.com>
+ <87h6l4ksni.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="p+we3TKRNR7h2S1s"
 Content-Disposition: inline
-In-Reply-To: <202311300906.1f989fa8-oliver.sang@intel.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <87h6l4ksni.fsf@meer.lwn.net>
 
-On Thu, Nov 30, 2023 at 12:54:01PM +0800, kernel test robot wrote:
 
-> The kernel config and materials to reproduce are available at:
-> https://download.01.org/0day-ci/archive/20231130/202311300906.1f989fa8-oliver.sang@intel.com
-> 
-> =========================================================================================
-> class/compiler/cpufreq_governor/disk/fs/kconfig/nr_threads/rootfs/tbox_group/test/testcase/testtime:
->   os/gcc-12/performance/1HDD/ext4/x86_64-rhel-8.3/10%/debian-11.1-x86_64-20220510.cgz/lkp-icl-2sp7/sysinfo/stress-ng/60s
-> 
-> commit: 
->   e3640d37d0 ("d_prune_aliases(): use a shrink list")
->   1b738f196e ("__dentry_kill(): new locking scheme")
+--p+we3TKRNR7h2S1s
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Very interesting...  Out of curiosity, what effect would the following
-have on top of 1b738f196e?
+On Wed, Nov 29, 2023 at 05:10:25PM -0700, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+>=20
+> > On 11/29/23 20:53, Joe Lawrence wrote:
+> >> On 11/29/23 08:25, Bagas Sanjaya wrote:
+> >>> I was prompted to write this little grammar fix series when reading
+> >>> the fix from Attreyee [1], with review comments requesting changes
+> >>> to that fix. So here's my version of the fix, with reviews from [1]
+> >>> addressed (and distinct grammar fixes splitted).
+> >>>
+> >>=20
+> >> Typical kernel workflow would be for Attreyee to incorporate feedback
+> >> and post their v2 after a day or two.  From the format they posted, it
+> >> appears to be a first(ish) kernel contribution post.  Let's be kind and
+> >> patient so they we all may benefit from the practice of iterating on
+> >> their patch.
+> >>=20
+> >
+> > I do this posting because I thought the OP (Attreyee) didn't respond in
+> > timely manner (just like random Chinese contributors like @cdjrlc.com
+> > and @208suo.com people).
+>=20
+> Seriously?  The original post was on Monday, yours came less than 48
+> hours later.  Not only can we not expect that kind of rapid turnaround
+> from anybody, but we actively discourage rapid resending of patches.
+> Rather than dig yourself in deeper, I suggest you simply apologize to
+> the original poster and find something more useful to do.
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index b212a65ed190..d4a95e690771 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1053,16 +1053,14 @@ void d_prune_aliases(struct inode *inode)
- }
- EXPORT_SYMBOL(d_prune_aliases);
- 
--static inline void shrink_kill(struct dentry *victim)
-+static inline void shrink_kill(struct dentry *victim, struct list_head *list)
- {
--	do {
--		rcu_read_unlock();
--		victim = __dentry_kill(victim);
--		rcu_read_lock();
--	} while (victim && lock_for_kill(victim));
- 	rcu_read_unlock();
--	if (victim)
-+	victim = __dentry_kill(victim);
-+	if (victim) {
-+		to_shrink_list(victim, list);
- 		spin_unlock(&victim->d_lock);
-+	}
- }
- 
- void shrink_dentry_list(struct list_head *list)
-@@ -1084,7 +1082,7 @@ void shrink_dentry_list(struct list_head *list)
- 			continue;
- 		}
- 		d_shrink_del(dentry);
--		shrink_kill(dentry);
-+		shrink_kill(dentry, list);
- 	}
- }
- 
-@@ -1514,7 +1512,7 @@ void shrink_dcache_parent(struct dentry *parent)
- 				spin_unlock(&data.victim->d_lock);
- 				rcu_read_unlock();
- 			} else {
--				shrink_kill(data.victim);
-+				shrink_kill(data.victim, &data.dispose);
- 			}
- 		}
- 		if (!list_empty(&data.dispose))
+Done, thanks!
+
+And yes, I'm also focusing on regression tracking and Bugzilla
+triaging.
+
+Ciao, Bagas.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--p+we3TKRNR7h2S1s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWhCBgAKCRD2uYlJVVFO
+o4KyAP9QAMwScjDOefXLk7AsKL3A93x/m/r/RPaaE04kNiQHzAEA2Wo/kuHugyoY
+7LAoCn4OIfARydmbZskeF2tkU8O70gU=
+=HZuv
+-----END PGP SIGNATURE-----
+
+--p+we3TKRNR7h2S1s--
