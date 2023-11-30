@@ -1,93 +1,106 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOgMPLvS"
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A46C1;
-	Thu, 30 Nov 2023 07:49:13 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40859dee28cso9262135e9.0;
-        Thu, 30 Nov 2023 07:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701359352; x=1701964152; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:references:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G8ImaGSq+yK32uci9kQ8gJDa7ZpsaoeN49Mmc0aXtG4=;
-        b=LOgMPLvSO1wo4/NWXGQZLGa4gzMaod1ajDjN+AmhtWIXIKpJHHvBjj8jbSPaB3tOzo
-         /y3Ak0CFwbpbbdM5crV7IYCTBGVxAaF5k34D1akQP1svwIrVGbzZd99uJGVa7MXfymg3
-         UoNVcI7kVuajnNwMwDMVAsdvKsJDIlNL5CfGtVkC6r4pDXtuJmIZuKkmGN+SJ0ehHXx1
-         hm6zpGOF8bCgav8wIDIraFjRBiTR3bhoDmOYKLknmszvYi3TX0x+An+uOjdXtaDKjNB+
-         OK8LmHyZ15Ko6GHTPxx0ZXEu+q+/dw+lEjjRw81mXmEa78qAjAwAWb83kJDENfPVsHub
-         NfQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701359352; x=1701964152;
-        h=content-transfer-encoding:in-reply-to:organization:references:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G8ImaGSq+yK32uci9kQ8gJDa7ZpsaoeN49Mmc0aXtG4=;
-        b=XizxQv0PLD9oUNACzbjz/j+Z7dAVcX0CPxiLOWT81vTbeS7fNCiAwbuwbVQg+R0kQJ
-         3kb0GFKCfSxU4qZQ+DP/2toX2onBLSMh4AameX243danvUi+gAhokavdBV7rMWdaAmKg
-         GCYulJJXyJi9+ylX+jw+S5z6HrIPn5r/u7zckvALcaQzIqbJGtOyClOVnlsZnB/qbryj
-         9KcueSJs2uDV5/CWu3y+cOEnHNXNefJh5J6k12BDOXS7fd4SyLJ4AZNWS4JLTpCjYzQK
-         C+GHYry7Ux8DrjLTT0kMHcN/E106iaT4FQlK8qUVmXmIGEKxzWvzDBx63zpab4hT0uZe
-         uKqw==
-X-Gm-Message-State: AOJu0YxxSUBj0wUfj0MfCuhoh1AnHnN+EF1y7CICkdtCC5jP0V5dgvTZ
-	myzkNltGlgPH7yje1DmXqScYL+tNni0ucMOF
-X-Google-Smtp-Source: AGHT+IEB9DPksNcsSDJF+gYbx+4U10uRUhKK0tMFC5I8x3MPbxcI5/dtvTBLoAnKpdVt/viAq1hJTw==
-X-Received: by 2002:adf:f985:0:b0:332:c9be:d9bd with SMTP id f5-20020adff985000000b00332c9bed9bdmr14938111wrr.45.1701359351919;
-        Thu, 30 Nov 2023 07:49:11 -0800 (PST)
-Received: from [192.168.17.228] (54-240-197-239.amazon.com. [54.240.197.239])
-        by smtp.gmail.com with ESMTPSA id d9-20020a056000114900b00332e8dd713fsm1846302wrx.74.2023.11.30.07.49.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Nov 2023 07:49:11 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <b28dc7d2-a83d-4e0e-8a01-524baeb23151@xen.org>
-Date: Thu, 30 Nov 2023 15:49:07 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFzfS9av"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2D1170B;
+	Thu, 30 Nov 2023 08:20:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701361250; x=1732897250;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Jmp58BhNqYVS6hDCJmPrbUZy8u/nlUohDAInUqFsi9A=;
+  b=mFzfS9avtitnCyffQHB9EyviOXf0yDOqiuomP1f2R47HuV6++ZtfRP7X
+   zGJ6RFq7QUQiZ8rl40qAXPJ6wG6tWkt0D1iyvJTBV3EyxU8CNd+TOMzR3
+   z/VZCmEkhKel84axCSOWs3YCjxHCfKOzX6NBXvk/fivEP9pZhkQGMfSl/
+   C4OeEks7WfpJmJbX6lU75mmtHLPTy274omq8fQ+mQLSwCmLPK01l2yBDL
+   PsJXcI+jcA/XIaYTWnB+MYI59yjjSMbv/ABnb40b55PbLNdd2vQicasSK
+   Q+OISi5n0xbrmH7BlOnCSg79c1ypGEJ7lGRZTOkT5EMXNUzF8Im8s9K5V
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="383744345"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="383744345"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 08:20:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="803757991"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="803757991"
+Received: from p12ill20yoongsia.png.intel.com ([10.88.227.28])
+  by orsmga001.jf.intel.com with ESMTP; 30 Nov 2023 08:20:40 -0800
+From: Song Yoong Siang <yoong.siang.song@intel.com>
+To: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Topel <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@google.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	bpf@vger.kernel.org,
+	xdp-hints@xdp-project.net,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org,
+	Song Yoong Siang <yoong.siang.song@intel.com>
+Subject: [PATCH bpf-next 0/3] xsk: TX metadata launch time support
+Date: Fri,  1 Dec 2023 00:20:25 +0800
+Message-Id: <20231130162028.852006-1-yoong.siang.song@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [PATCH v5] KVM x86/xen: add an override for
- PVCLOCK_TSC_STABLE_BIT
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Sean Christopherson <seanjc@google.com>
-References: <20231102162128.2353459-1-paul@xen.org>
- <356a88e424a58990a1b83afa719662e75f42bf98.camel@infradead.org>
-Organization: Xen Project
-In-Reply-To: <356a88e424a58990a1b83afa719662e75f42bf98.camel@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 08/11/2023 18:39, David Woodhouse wrote:
-> On Thu, 2023-11-02 at 16:21 +0000, Paul Durrant wrote:
->> From: Paul Durrant <pdurrant@amazon.com>
->>
->> Unless explicitly told to do so (by passing 'clocksource=tsc' and
->> 'tsc=stable:socket', and then jumping through some hoops concerning
->> potential CPU hotplug) Xen will never use TSC as its clocksource.
->> Hence, by default, a Xen guest will not see PVCLOCK_TSC_STABLE_BIT set
->> in either the primary or secondary pvclock memory areas. This has
->> led to bugs in some guest kernels which only become evident if
->> PVCLOCK_TSC_STABLE_BIT *is* set in the pvclocks. Hence, to support
->> such guests, give the VMM a new Xen HVM config flag to tell KVM to
->> forcibly clear the bit in the Xen pvclocks.
->>
->> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-> 
-> Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+This series expands XDP TX metadata framework to include HW launch time offload.
 
-Sean,
+Song Yoong Siang (3):
+  xsk: add launch time support to XDP Tx metadata
+  net: stmmac: Add launch time support to XDP ZC
+  selftests/bpf: Add launch time to xdp_hw_metadata
 
-   Is any more work needed on this?
+ Documentation/netlink/specs/netdev.yaml        |  4 ++++
+ Documentation/networking/xsk-tx-metadata.rst   |  5 +++++
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h   |  2 ++
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c  | 13 +++++++++++++
+ include/net/xdp_sock.h                         | 10 ++++++++++
+ include/net/xdp_sock_drv.h                     |  1 +
+ include/uapi/linux/if_xdp.h                    |  9 +++++++++
+ include/uapi/linux/netdev.h                    |  3 +++
+ net/core/netdev-genl.c                         |  2 ++
+ net/xdp/xsk.c                                  |  3 +++
+ tools/include/uapi/linux/if_xdp.h              |  9 +++++++++
+ tools/include/uapi/linux/netdev.h              |  3 +++
+ tools/net/ynl/generated/netdev-user.c          |  1 +
+ tools/testing/selftests/bpf/xdp_hw_metadata.c  | 18 +++++++++++++++++-
+ 14 files changed, 82 insertions(+), 1 deletion(-)
 
-   Paul
+-- 
+2.34.1
+
