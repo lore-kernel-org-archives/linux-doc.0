@@ -1,206 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q4i3Zyhn"
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F9110DF;
-	Thu, 30 Nov 2023 09:37:09 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40b4744d603so10659885e9.2;
-        Thu, 30 Nov 2023 09:37:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701365827; x=1701970627; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QsQQPUJFA0N9J6n5x1AuH73vk59hYe/eciqUbvnbPDs=;
-        b=Q4i3ZyhnYqAnC5xetz3AnhBtP5ixdmvlalqHXLpns7RsP64t0Zwz3eVmjE+ecO/iA8
-         iDy09NxDI6o/G7pS/8nxxDZBczc3xDhyg0//uoNGhuj3Azbsz8n6EvzRw8zen4fA70Kf
-         +P7X1pY5oc3CtlI48PjXHjwfVH2RoPd/L/SjgZZDpw1qCFRRLB8gC5ozfBWfXh+ItDBG
-         FePX+NlhOjipST6hVM91ogICU+tWul++Ci/PCNZgyphirLTtXdkUBk/0756rFmbgSNmR
-         lJuSRQRVF9/rOCQvsTiIUoTTHGzI3CmUhIj5+PFxvvLnqb19LJFbfT126oeqj1tIjt3p
-         Uu+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701365827; x=1701970627;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QsQQPUJFA0N9J6n5x1AuH73vk59hYe/eciqUbvnbPDs=;
-        b=QgenBGk/Vmhd0JBb/HYF/By1gJlgGEowssoVFILY5WeRQCX3bZBJPn6pQ1RYVtOaTG
-         x2fQ56zlMTH0w2PRlv74j2l9oCXjMiVbt5U7ZGtWXgBb7yfl/tOnFaGR952+PL3fdhnE
-         bTAjTZw5ptuW6w4LiNxk7DCt+IFWIDUTCAK9A3G2ecOqqJ7iRGnfgCBaWudOeZtvRv5s
-         KAlsNJHrEF6g4O9jOGOzeBEo0EShnaeJeDQw6UuMQqpTxDSDVqwnH/duPpHE9PVRlojP
-         153cS8SP4//mf4PKgT5n2hyMYNjCjyXxF7kvBVjHU4HV4wOjshrIOZnAHM6wAMoQ7U6H
-         jFGg==
-X-Gm-Message-State: AOJu0YzcE/W4voCDdP1oOXuI+xra4iBtqKTNyokGyCW44GSpJqZ1GBfo
-	VLxB1bao5gYiWs6yRcb2liX/iuYXIsj9kw==
-X-Google-Smtp-Source: AGHT+IE5faEIkI09n5rI5etseYzweeI9aTeCq2ocgEFRooRPIxnCBE6QCV+ZBcFNokX5vGG4+Gr4xA==
-X-Received: by 2002:a05:600c:4e8e:b0:40b:3d92:de29 with SMTP id f14-20020a05600c4e8e00b0040b3d92de29mr5929wmq.14.1701364246505;
-        Thu, 30 Nov 2023 09:10:46 -0800 (PST)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:4842:bce4:1c44:6271])
-        by smtp.gmail.com with ESMTPSA id f14-20020adfe90e000000b00327b5ca093dsm2014531wrm.117.2023.11.30.09.10.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 09:10:45 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>
-Cc: donald.hunter@redhat.com,
-	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v1 2/6] doc/netlink: Add sub-message support to netlink-raw
-Date: Thu, 30 Nov 2023 17:10:15 +0000
-Message-ID: <20231130171019.12775-3-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231130171019.12775-1-donald.hunter@gmail.com>
-References: <20231130171019.12775-1-donald.hunter@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="a27xugt2"
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 259E810D0;
+	Thu, 30 Nov 2023 10:35:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=qQKU50vKbXATuSXglJgEj5fFzmKu+YBO07b8qJOOdtA=; b=a27xugt2s7VCRZavZTnsN7HQZG
+	49KGSFnP/lAr4dvK7i3HDJ4RMmY5/nj+Q/JtVwbX2EuSbtBP1TjOeJMiHUf17uTVAJdLo1VZZ8F7w
+	f71Vg7/+DA5n6sUIJ030PbPVYq4bFV/2Q2Ch0CQ0wUYSClwjbvJxHySEDNe+p12tTfX4vqeMoQWG/
+	RhpFELpiLJn1M+ZCQSbXXoxilSLcvbQDkXyKOLFhzt6YooPUXC46hvY+yy3pK5WjJBP/Ib1g29m8f
+	ILI8SIpHjF0/ndrR5p2Q8uZNWd++lBHHKEPQf23MjpSx3hP2l9JhKT9Be1BvgumVRJd2JPK/YsJ32
+	OHAR/qMA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1r8lss-00Ek8D-29; Thu, 30 Nov 2023 18:35:34 +0000
+Date: Thu, 30 Nov 2023 18:35:34 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Yangtao Li <frank.li@vivo.com>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Wenbo Hong <wenbo.hong@vivo.com>,
+	linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] f2fs: add support for an i_version counter
+Message-ID: <ZWjV9obu2mvBfXbk@casper.infradead.org>
+References: <20231130090413.1291703-1-frank.li@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231130090413.1291703-1-frank.li@vivo.com>
 
-Add a 'sub-message' attribute type with a selector that supports
-polymorphic attribute formats for raw netlink families like tc.
+On Thu, Nov 30, 2023 at 02:04:09AM -0700, Yangtao Li wrote:
+> NFSv4 mandates a change attribute to avoid problems with timestamp
+> granularity, which Linux implements using the i_version counter. This is
+> particularly important when the underlying filesystem is fast.
+> 
+> BTW introduce a new mount option to enable the iversion functionality,
+> and disabling it by default.
 
-A sub-message attribute uses the value of another attribute as a
-selector key to choose the right sub-message format. For example if the
-following attribute has already been decoded:
-
-  { "kind": "gre" }
-
-and we encounter the following attribute spec:
-
-  -
-    name: data
-    type: sub-message
-    sub-message: linkinfo-data-msg
-    selector: kind
-
-Then we look for a sub-message definition called 'linkinfo-data-msg' and
-use the value of the 'kind' attribute i.e. 'gre' as the key to choose
-the correct format for the sub-message:
-
-  sub-messages:
-    name: linkinfo-data-msg
-    formats:
-      -
-        value: bridge
-        attribute-set: linkinfo-bridge-attrs
-      -
-        value: gre
-        attribute-set: linkinfo-gre-attrs
-      -
-        value: geneve
-        attribute-set: linkinfo-geneve-attrs
-
-This would decode the attribute value as a sub-message with the
-attribute-set called 'linkinfo-gre-attrs' as the attribute space.
-
-A sub-message can have an optional 'fixed-header' followed by zero or
-more attributes from an attribute-set. For example the following
-'tc-options-msg' sub-message defines message formats that use a mixture
-of fixed-header, attribute-set or both together:
-
-  sub-messages:
-    -
-      name: tc-options-msg
-      formats:
-        -
-          value: bfifo
-          fixed-header: tc-fifo-qopt
-        -
-          value: cake
-          attribute-set: tc-cake-attrs
-        -
-          value: netem
-          fixed-header: tc-netem-qopt
-          attribute-set: tc-netem-attrs
-
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/netlink/netlink-raw.yaml | 51 +++++++++++++++++++++++++-
- 1 file changed, 50 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/netlink/netlink-raw.yaml b/Documentation/netlink/netlink-raw.yaml
-index ad5395040765..26203282422f 100644
---- a/Documentation/netlink/netlink-raw.yaml
-+++ b/Documentation/netlink/netlink-raw.yaml
-@@ -202,7 +202,8 @@ properties:
-                 description: The netlink attribute type
-                 enum: [ unused, pad, flag, binary, bitfield32,
-                         u8, u16, u32, u64, s8, s16, s32, s64,
--                        string, nest, array-nest, nest-type-value ]
-+                        string, nest, array-nest, nest-type-value,
-+                        sub-message ]
-               doc:
-                 description: Documentation of the attribute.
-                 type: string
-@@ -261,6 +262,17 @@ properties:
-                 description: Name of the struct type used for the attribute.
-                 type: string
-               # End genetlink-legacy
-+              # Start netlink-raw
-+              sub-message:
-+                description:
-+                  Name of the sub-message definition to use for the attribute.
-+                type: string
-+              selector:
-+                description:
-+                  Name of the attribute to use for dynamic selection of sub-message
-+                  format specifier.
-+                type: string
-+              # End netlink-raw
- 
-       # Make sure name-prefix does not appear in subsets (subsets inherit naming)
-       dependencies:
-@@ -283,6 +295,43 @@ properties:
-             items:
-               required: [ type ]
- 
-+  # Start netlink-raw
-+  sub-messages:
-+    description: Definition of sub message attributes
-+    type: array
-+    items:
-+      type: object
-+      additionalProperties: False
-+      required: [ name, formats ]
-+      properties:
-+        name:
-+          description: Name of the sub-message definition
-+          type: string
-+        formats:
-+          description: Dynamically selected format specifiers
-+          type: array
-+          items:
-+            type: object
-+            additionalProperties: False
-+            required: [ value ]
-+            properties:
-+              value:
-+                description:
-+                  Value to match for dynamic selection of sub-message format
-+                  specifier.
-+                type: string
-+              fixed-header:
-+                description:
-+                  Name of the struct definition to use as the fixed header
-+                  for the sub message.
-+                type: string
-+              attribute-set:
-+                description:
-+                  Name of the attribute space from which to resolve attributes
-+                  in the sub message.
-+                type: string
-+  # End netlink-raw
-+
-   operations:
-     description: Operations supported by the protocol.
-     type: object
--- 
-2.42.0
-
+Why do you want to replicate the mistake made in ext4 and undone by
+commit 1ff20307393e ?
