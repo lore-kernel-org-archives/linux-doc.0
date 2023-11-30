@@ -1,124 +1,128 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="fGRMAL4O"
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD491708
-	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:35:28 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id 46e09a7af769-6ce2988d62eso843849a34.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:35:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c68nmUyn"
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00995D54
+	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:48:34 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-40b51e26a7aso1315e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:48:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1701376527; x=1701981327; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=BvSdTJaNOnOGpTCIQ0TIiZEwNuG0mo2jRjX7yhoMQa8=;
-        b=fGRMAL4OPiTkIzFJswEDKdRw+1J3cpDDOc4JliQMvfFrlXvpw7TVvCUsVJKTSinxla
-         yY5zpSyiD4X/YVNaLQA2lVpLwB7Dh4oD4Eecdmz/GK1g1EiiIzWgggBa7QbnawKhSCdU
-         yMqOTyE+ji9YiyU8a4kTlwcj5cXDolg2Me4QiYebp++IoZWPIMxyfQF0955r++RKt7d0
-         qQrtzPFa56W8VeVCg/2JbsJoJfUoTIs/ZY+HjxhoVRdu0Os5BP8XC0D4dFru63rTSjFS
-         MHY4bnxI227DNv59FARhNaDXXdeXObmSgjk48ue+I+1BZxc4p35Da+DJY27NcS4NN8OT
-         0mWA==
+        d=google.com; s=20230601; t=1701377313; x=1701982113; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lDbR5wn/ymhzANEbstkor6jRTtY0ksRtmkAGEgVn3ME=;
+        b=c68nmUyn7+GdxK0l9ja1a0VcOWtqcXOOGjajdIyD6+8k0y0R4Au3jI6lvPrQzmZyJN
+         2PkvNbIRZCddExGR53DD36OXokzDkVXErQ+FBTKB6RY1Fx8Sciw85Wov/ssJbyDlPUQX
+         wvmK+GYxpc343e/HeTKnQqlPslSAXrZYxxvG3E7rFxjMo5dOWh4emMvPXVOF9VSgeafJ
+         55TT8smWaxH/e3bg8/oNBF9e2z13IgauuQR73DiNJe8SzrHLah5EbKWBO1GqDA0g9OB9
+         RBE4syT1eo9KbhesACFq1vBiXm1AX7PhChy8PYKzKeoW8xTfMiv14wgpncY4V0wmNU0K
+         0Qdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701376527; x=1701981327;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BvSdTJaNOnOGpTCIQ0TIiZEwNuG0mo2jRjX7yhoMQa8=;
-        b=KAIone0vInL5KS1Uiu20bH7goaaF4rsUio2yaDhf56Mgpf/H7R7Uc/9ha7oeiFTO4e
-         EX42z2hcSEpfykXjc+iD7/zMcHdJQTyD+MewfORK5NYbunyU3btOLIgurJJbJoSevH2f
-         Ki4N5A6Y5xNWYMhpkFqaFW0ZFoocADEArMhDfc5c4DImMpnP4BjYpI5JzEFh7I9Y0inH
-         VIHtLHsFe5O0aL125iOb7WhH60DlHuaCN4HzlfrRbT5aqLOKvGM1Mrhw/U/ZAHHgMizc
-         RAkegzRnuYFYsl4wjpAautfKKZtCMcge0lOS/P23wm9BZ+JL0F86boAMI9I374531vp0
-         8iKA==
-X-Gm-Message-State: AOJu0YwGbcCmB11mjxgauQxShANtV1mS8RVqeMxTbf9e3k81bdBn8EOh
-	q/uSEw3rBaS/YrZPjp5I41xopw==
-X-Google-Smtp-Source: AGHT+IHJ7OLYrr+3HHJd78vh493YJrStqv/97nm/tolthFXTq9aW9P83YmmgwtFds6L9t5rJr1+WbA==
-X-Received: by 2002:a05:6830:4423:b0:6d8:5027:4620 with SMTP id q35-20020a056830442300b006d850274620mr946111otv.24.1701376527391;
-        Thu, 30 Nov 2023 12:35:27 -0800 (PST)
-Received: from localhost (2603-7000-0c01-2716-da5e-d3ff-fee7-26e7.res6.spectrum.com. [2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id eq8-20020a05622a5e0800b0042404e87331sm66369qtb.64.2023.11.30.12.35.26
+        d=1e100.net; s=20230601; t=1701377313; x=1701982113;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lDbR5wn/ymhzANEbstkor6jRTtY0ksRtmkAGEgVn3ME=;
+        b=wQW/EHOCC8mjkJMDeDPYNDgIga6tP45FEeKWoTKQUkQPf96OFohcW0/7fCMmSvNok/
+         2MrGNsdf01dM4KgK9BMaCw3xdjdq9iLSYJCwLyOD1iVSXWPXsqqqzai0G4F54u7HwdO6
+         smezByMTBsXPyaePZXXrOihdPuRk6/9wJVJg+97yjApY7u41j3f6yoWYw4H9QgZqDuAr
+         tNR8JCnWXb0HfkoaRdO4dNqW2azMs1En99jOzqlWGHubJo5ifXdnKKpxQy+1+pZiw6wo
+         ZIEhbFRai71S3SwA7jECEqfQF351g1l3rhdpQQwD3T/Mv1yJPgXpKctiTLZBlW7CY0sN
+         f1iw==
+X-Gm-Message-State: AOJu0YxBlTeCrPcOwgsMry1Du9aUNq32YrUtj6SGuylVdmZd0l84BK7K
+	Yb6kCYwlcF/GTkkrPH5n8WKTVQ==
+X-Google-Smtp-Source: AGHT+IEWEtiVFKWOO64KC6IV7yjdz4Ob7/rD3TYHW6b0lUwhNd8FJc+db/wlIt7p6MnnQ9/yGFkmqA==
+X-Received: by 2002:a1c:7202:0:b0:40b:4355:a04b with SMTP id n2-20020a1c7202000000b0040b4355a04bmr15152wmc.6.1701377313270;
+        Thu, 30 Nov 2023 12:48:33 -0800 (PST)
+Received: from localhost ([2a00:79e0:9d:4:9869:5af3:4653:dd50])
+        by smtp.gmail.com with ESMTPSA id h19-20020a05600c351300b0040b347d90d0sm6680258wmq.12.2023.11.30.12.48.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 12:35:26 -0800 (PST)
-Date: Thu, 30 Nov 2023 15:35:22 -0500
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, akpm@linux-foundation.org,
-	cerasuolodomenico@gmail.com, yosryahmed@google.com,
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
-	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org,
-	kernel-team@meta.com, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH v8 1/6] list_lru: allows explicit memcg and NUMA node
- selection
-Message-ID: <20231130203522.GC543908@cmpxchg.org>
-References: <20231130194023.4102148-1-nphamcs@gmail.com>
- <20231130194023.4102148-2-nphamcs@gmail.com>
- <ZWjpNr3ZzvU4TDC8@casper.infradead.org>
- <CAKEwX=MV-F50i_=sZ0unfbgjrdxSTio00c4xTM19113BAN3-wA@mail.gmail.com>
+        Thu, 30 Nov 2023 12:48:32 -0800 (PST)
+From: Jann Horn <jannh@google.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>
+Cc: Waiman Long <longman@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] locking: Document that mutex_unlock() is non-atomic
+Date: Thu, 30 Nov 2023 21:48:17 +0100
+Message-ID: <20231130204817.2031407-1-jannh@google.com>
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKEwX=MV-F50i_=sZ0unfbgjrdxSTio00c4xTM19113BAN3-wA@mail.gmail.com>
 
-On Thu, Nov 30, 2023 at 12:07:41PM -0800, Nhat Pham wrote:
-> On Thu, Nov 30, 2023 at 11:57 AM Matthew Wilcox <willy@infradead.org> wrote:
-> >
-> > On Thu, Nov 30, 2023 at 11:40:18AM -0800, Nhat Pham wrote:
-> > > This patch changes list_lru interface so that the caller must explicitly
-> > > specify numa node and memcg when adding and removing objects. The old
-> > > list_lru_add() and list_lru_del() are renamed to list_lru_add_obj() and
-> > > list_lru_del_obj(), respectively.
-> >
-> > Wouldn't it be better to add list_lru_add_memcg() and
-> > list_lru_del_memcg() and have:
-> >
-> > +bool list_lru_del(struct list_lru *lru, struct list_head *item)
-> > +{
-> > +       int nid = page_to_nid(virt_to_page(item));
-> > +       struct mem_cgroup *memcg = list_lru_memcg_aware(lru) ?
-> > +               mem_cgroup_from_slab_obj(item) : NULL;
-> > +
-> > +       return list_lru_del_memcg(lru, item, nid, memcg);
-> > +}
-> >
-> > Seems like _most_ callers will want the original versions and only
-> > a few will want the explicit memcg/nid versions.  No?
-> >
-> 
-> I actually did something along that line in earlier iterations of this
-> patch series (albeit with poorer naming - __list_lru_add() instead of
-> list_lru_add_memcg()). The consensus after some back and forth was
-> that the original list_lru_add() was not a very good design (the
-> better one was this new version that allows for explicit numa/memcg
-> selection). So I agreed to fix it everywhere as a prep patch.
-> 
-> I don't have strong opinions here to be completely honest, but I do
-> think this new API makes more sense (at the cost of quite a bit of
-> elbow grease to fix every callsites and extra reviewing).
+I have seen several cases of attempts to use mutex_unlock() to release an
+object such that the object can then be freed by another task.
+My understanding is that this is not safe because mutex_unlock(), in the
+MUTEX_FLAG_WAITERS && !MUTEX_FLAG_HANDOFF case, accesses the mutex
+structure after having marked it as unlocked; so mutex_unlock() requires
+its caller to ensure that the mutex stays alive until mutex_unlock()
+returns.
 
-Maybe I can shed some light since I was pushing for doing it this way.
+If MUTEX_FLAG_WAITERS is set and there are real waiters, those waiters
+have to keep the mutex alive, I think; but we could have a spurious
+MUTEX_FLAG_WAITERS left if an interruptible/killable waiter bailed
+between the points where __mutex_unlock_slowpath() did the cmpxchg
+reading the flags and where it acquired the wait_lock.
 
-The quiet assumption that 'struct list_head *item' is (embedded in) a
-slab object that is also charged to a cgroup is a bit much, given that
-nothing in the name or documentation of the function points to that.
+(With spinlocks, that kind of code pattern is allowed and, from what I
+remember, used in several places in the kernel.)
 
-It bit us in the THP shrinker where that list head is embedded in a
-tailpage (virt_to_page(page) is fun to debug). And it caused some
-confusion in this case as well, where the zswap entry is a slab object
-but not charged (the entry descriptor is not attractive for cgroup
-accounting, only the backing memory it points to.)
+If my understanding of this is correct, we should probably document this -
+I think such a semantic difference between mutexes and spinlocks is fairly
+unintuitive.
 
-Yes, for most users - at least right now - the current assumption is
-accurate. The thinking was just that if we do have to differentiate
-callers now anyway, we might as well make the interface a bit more
-self-documenting and harder to misuse going forward, even if it's a
-bit more churn now.
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+I hope for some thorough review on this patch to make sure the comments
+I'm adding are actually true, and to confirm that mutexes intentionally
+do not support this usage pattern.
 
+ Documentation/locking/mutex-design.rst | 6 ++++++
+ kernel/locking/mutex.c                 | 5 +++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/Documentation/locking/mutex-design.rst b/Documentation/locking/mutex-design.rst
+index 78540cd7f54b..087716bfa7b2 100644
+--- a/Documentation/locking/mutex-design.rst
++++ b/Documentation/locking/mutex-design.rst
+@@ -101,6 +101,12 @@ features that make lock debugging easier and faster:
+     - Detects multi-task circular deadlocks and prints out all affected
+       locks and tasks (and only those tasks).
+ 
++Releasing a mutex is not an atomic operation: Once a mutex release operation
++has begun, another context may be able to acquire the mutex before the release
++operation has completed. The mutex user must ensure that the mutex is not
++destroyed while a release operation is still in progress - in other words,
++callers of 'mutex_unlock' must ensure that the mutex stays alive until
++'mutex_unlock' has returned.
+ 
+ Interfaces
+ ----------
+diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+index 2deeeca3e71b..4c6b83bab643 100644
+--- a/kernel/locking/mutex.c
++++ b/kernel/locking/mutex.c
+@@ -532,6 +532,11 @@ static noinline void __sched __mutex_unlock_slowpath(struct mutex *lock, unsigne
+  * This function must not be used in interrupt context. Unlocking
+  * of a not locked mutex is not allowed.
+  *
++ * The caller must ensure that the mutex stays alive until this function has
++ * returned - mutex_unlock() can NOT directly be used to release an object such
++ * that another concurrent task can free it.
++ * Mutexes are different from spinlocks in this aspect.
++ *
+  * This function is similar to (but not equivalent to) up().
+  */
+ void __sched mutex_unlock(struct mutex *lock)
+
+base-commit: 3b47bc037bd44f142ac09848e8d3ecccc726be99
+-- 
+2.43.0.rc2.451.g8631bc7472-goog
 
