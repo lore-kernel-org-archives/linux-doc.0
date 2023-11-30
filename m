@@ -1,367 +1,230 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e8SLiguR"
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F4F10E4
-	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 15:24:29 -0800 (PST)
-Received: by mail-il1-x134.google.com with SMTP id e9e14a558f8ab-35cfd975a53so1339165ab.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 15:24:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1701386668; x=1701991468; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8BaziYlHsY9fMqNNZOEE/jx4yQID7G/xy+alsqAMnPY=;
-        b=e8SLiguRBDemfWgnCWd1bixt5DKGZ0C1Mp24gYI0InNqvCyLfV6HxhSst5MxHwwXiJ
-         Suq1zoFRyik5Yp/Rk7ayt4GwnWcwbRfKmL6SKXToVHkwWfrrt4UZ2FFTqr0jgF8Cm1iG
-         kdYE4r5FF3ht2ou/dttP9j6qYBHPS3bJQeHg0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701386668; x=1701991468;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8BaziYlHsY9fMqNNZOEE/jx4yQID7G/xy+alsqAMnPY=;
-        b=Kj/PU8fH5nWiaeL48fyz1fWhEPdSFmxmWXCyGKA4hCMNqYcFXXCghedQeX/199+Q3m
-         ayCySqpvg6UoHZ7ic4eeTBO0KTBxMHAnvzS7rPFKweIj8xnfvGMEQSIC4Ek2VzYc3jX7
-         wClgDSYslviKkXWapKYoofX1MPriXovEBfJw8QwHxyB47bA+ZNHG9zDjHPqi2cMxTIjW
-         jrrZuTbTwlv6PegQRNsG9QpRAGC0rpkY4v/yCCvTDjNi7xUofxl+N9DasEKLMZ11A/EA
-         B6FGb4zVHBH7YeNRZmK4nsqp0rGFEkLRlmvinL4zTD5NzsQPUbOVJlYbtzC4gapc4JX0
-         NxGw==
-X-Gm-Message-State: AOJu0YzM5jM6mFC6ZlSwLwf/MfmNZ/pHg9GaHGxC2MCx5kfOIlScW0xY
-	1wo3nTLFOw76cgIg/WGfJCpWRg==
-X-Google-Smtp-Source: AGHT+IFx3UAfwhkzPyyzSL1KrlK2TWouSoy5yNWf6tc5Sew109QS+ikT41CysfChpOSiNyus5Pnmgg==
-X-Received: by 2002:a6b:660f:0:b0:7b3:58c4:b894 with SMTP id a15-20020a6b660f000000b007b358c4b894mr20751057ioc.1.1701386668362;
-        Thu, 30 Nov 2023 15:24:28 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id f19-20020a02b793000000b00451b5feb80fsm550629jam.8.2023.11.30.15.24.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Nov 2023 15:24:27 -0800 (PST)
-Message-ID: <f9d82fa6-08d7-4ab6-badc-691987b37a82@linuxfoundation.org>
-Date: Thu, 30 Nov 2023 16:24:26 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MGIflrOg"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1DD0172A;
+	Thu, 30 Nov 2023 15:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701387659; x=1732923659;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=b2ABMl5a8IPS2taARrSicD/3l+YFmUqeyiYnq7oJdlE=;
+  b=MGIflrOgXU+dNoc1en196nRZraWbDvgS4ViRj2knva7sNqIP7Hs0RoIN
+   stB3YKAUptsbLCEjLZa7m6AJLO/3PB5OC/JIoXvmv4eZJnv7AVqHnAtgD
+   M8b/iOFSQMxlfkxS/B58nfBuVIM8YY1HeptjJu/wFph2rH8HDcFhWysnf
+   /DnbIESbErcEjZaWfekWV4StQLusMp5J6SuMX8A73c85gd63QV+CS1ldV
+   wqZi7xK6JliUkmvvVEh498Vzeb5PVKTBfkvtchywAz1iU4TOSzSL12l3I
+   egoF/i1OA8I+Q8cJ+v7ReIbOGKE1WOLib01M5HMMBlpDlzlLd9AmYNI/P
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="14958897"
+X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
+   d="scan'208";a="14958897"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 15:40:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="860366907"
+X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
+   d="scan'208";a="860366907"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 30 Nov 2023 15:40:57 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 30 Nov 2023 15:40:57 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 30 Nov 2023 15:40:57 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 30 Nov 2023 15:40:57 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mj83EAnXMoO+TOq8tsQVgr6BiTBBAbKdhKWWJNdbtxSvaHARbvawZg7JFyyDWyCpD1TAzV9sKCn6OTruzKz1yNHgjC3JyFG7M8PRM8HdJRYpb+3PKNHLuey++vs6rzV5MQtz2cavpAcFKmlgFLbxnNoNHjZAGRLEnzYdse13xgRteEie1VusbLY6LFMJAUukxCIxG1lZuuAhSj3aC+SB+20yBEc+5XYt29KureOjIINBiZ5AlhT26HWXtyLt63XiXLY+LjPgXjKm+sLC5FDCSb/Z54oIU0lhKhev38kc866TAA0EpD90d/z3Rf+8R5S8QZ2FE0qo7mnl9WzPMZnqaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UO24XW4ydpdVOID+RUGqffbmdGEN6Mqph1RYvReDCOg=;
+ b=PsnCkozyQdxaxBJncY/O7RAgx+5Eq1dZj9Jc2S0QZuGH99FpgcysNOPC1kWVNFdQE01qZAx6NHykuoLckJzXXOcdzHDJViFzfM2Ml7Ib1cy+94fjWDVfIZHThmJzOjQ0OERklIjb7k1VfH2ZI5naGc3bSbyOH1T5KuWdqG9FDZItk87D0exfL8krs5ig4n1bmKDyAFkSiw/Sq9zC9i1QGURJfBiXnY3RR/eW96SF0W5+pdfxHkhUVzDj8P2TM0NCEYEodMwGukaeD77pNeWMreY7Yftg/bo8WpNKT9oak+U2LwA1VFBXQnCdJYCs76wydzMy2Brle8J1ZiNl547Wlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by PH7PR11MB8571.namprd11.prod.outlook.com (2603:10b6:510:2fd::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.22; Thu, 30 Nov
+ 2023 23:40:55 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
+ 23:40:55 +0000
+Message-ID: <5078f930-e56e-45b5-9df3-99e88c0858dd@intel.com>
+Date: Thu, 30 Nov 2023 15:40:52 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 7/8] x86/resctrl: Sub NUMA Cluster detection and
+ enable
+Content-Language: en-US
+To: Tony Luck <tony.luck@intel.com>
+CC: Fam Zheng <fam@euphon.net>, Fenghua Yu <fenghua.yu@intel.com>, "Peter
+ Newman" <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, <x86@kernel.org>, Shaopeng Tan
+	<tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>, Jamie Iles
+	<quic_jiles@quicinc.com>, Babu Moger <babu.moger@amd.com>, Randy Dunlap
+	<rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <patches@lists.linux.dev>, Shaopeng Tan
+	<tan.shaopeng@jp.fujitsu.com>
+References: <20231109230915.73600-1-tony.luck@intel.com>
+ <20231130003418.89964-1-tony.luck@intel.com>
+ <20231130003418.89964-8-tony.luck@intel.com> <ZWjOBw0Ygyw226Cc@dell>
+ <ZWj3NdI/qLNOgyg0@agluck-desk3>
+ <1c1a16a5-f235-4179-9d0f-1556e11d9c11@intel.com>
+ <ZWkQBwwtSae4nGgH@agluck-desk3>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <ZWkQBwwtSae4nGgH@agluck-desk3>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P223CA0004.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:303:80::9) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] selftests: livepatch: Test livepatching a heavily
- called syscall
-Content-Language: en-US
-To: Marcos Paulo de Souza <mpdesouza@suse.com>, Shuah Khan
- <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- live-patching@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com>
- <20231031-send-lp-kselftests-v3-3-2b1655c2605f@suse.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20231031-send-lp-kselftests-v3-3-2b1655c2605f@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH7PR11MB8571:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49ab40fa-0512-4bf3-fa45-08dbf1fdcb86
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yRO5p8/lRlHEz/bEn77IBfyEksOKZaBL3IFR0wL80JMda2FS0a2QBqGY/lX10xdfAx7vpCwEb0/PMsfodUlY6SQE7ec3mzcxwRHJ+dEP70qr1WXdJG38HP3UHgx9+NWPOuKBUvcdDzrW6XFV+4TC8GGJxHdFoSkgRW8eZyjLtMKI0bpvHtACVUKxuEH9p5qTBMTv9CrlAwMkehFIeMOTUn7HvKtSGsllWf1A+HucuL/fA68IbDpF8UvnU7U5D+q9XxIq3/thw8aREUDWCC+vF39Eqnp0CQQx7rUojvvGhklmaBUdmz7bEmM4EgUHNFHkPwzW2faJPqK4V2HpIIx2fkGo7ER5o1twAN+RjBAfMduAkySIA3jJPaJoei+f86mlnhDq0I26D83mG6z1CNTR3t9+VQDXvnyshpGkWWQbHWHIcKzwCxuPjDoXxYhV5Coo0vk5LIJNMbYpzrgEpSLUWDZzlg7/sFuBHRtuPB6eyLgR2zOZpBwF7ut4fDjlfbOnlm0q6Ivwq5LjMa4OhW5G3nYCf5IfiREdE0Fd9Y7Anec2y2/R55pVQV4BZDRceON/NO8JYWq4ujxKTgXoh3ZRUHsp5gkCZiDHAFGdPl005DrybFCW+Q0lHuQQOh7C+I/hEqCreW0AvQGeyqNtPp3CkA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39860400002)(396003)(136003)(366004)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(6512007)(2616005)(6666004)(26005)(478600001)(66476007)(7416002)(37006003)(41300700001)(6636002)(83380400001)(44832011)(6506007)(6862004)(6486002)(53546011)(5660300002)(8936002)(66946007)(54906003)(66556008)(4326008)(316002)(8676002)(2906002)(82960400001)(36756003)(86362001)(31696002)(38100700002)(31686004)(66899024)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ODhRSFhYUnY1bXpkN2UrOXVGM2NaQis0SVVVcW1DT1ZNYXYybmdDeVhlMEw4?=
+ =?utf-8?B?azJ6bGErUGdvaTRNMlpiajdVR1NIM2JWTmpMOCtIWnNuaVpySkVGOFVmYkpD?=
+ =?utf-8?B?SWR3UjFhQ0k1RUoxSWtjeVg5dHZnL1N3SVFsNEVsS1pxWDYrazNWQk5xUzJH?=
+ =?utf-8?B?ZVgvb1lYT3B1aGQyYjFpMVY0aCtJV1JQWFdnSUNtSmRjam95R1YwZVg5UVh2?=
+ =?utf-8?B?SnJidzhVZ1hJV2h3WFlaVlJXdVllcmlQampYWkM0S24zU0Y0UW52aGxkZW9v?=
+ =?utf-8?B?ODBtU2hvS2JOeFhiM1BURFF4TmFFQlhPSkc1RWZ4elBtbE5RRWgxWS9lN2dF?=
+ =?utf-8?B?cXNuZG1UWE1JUTNiV2h1dzB6VFJHRXpXYitHc0JWdlZUa25kaytDVTdLeXZO?=
+ =?utf-8?B?bFVDOFV0ZmFraWZSekc1VEM0dWZBa250d0xjbDIxcUc2RWU2WG1KR0hMMndi?=
+ =?utf-8?B?d2dIMElJYVZYM29pT3dwTlMyUkxjREV6cUN4VmZ5azZiYWkvWlpIMmNSYklL?=
+ =?utf-8?B?RkxrcVVyZEZJZ0V3dmllWDd4dU95ZDR5S29xOFVVTHhmTE5ZYnJLYkE4aWlR?=
+ =?utf-8?B?eEg5OWJZc3p2bTJrQ0pVVC8xTnRqQ1VMWXZNNFdBL3lxeFNpeHo2L0YvVHlD?=
+ =?utf-8?B?Uk5JeURrOVZmai94dHZ1Uk0zZTlmYkFKaEJOSTVKVmJpSUlGZnpob0JRajdl?=
+ =?utf-8?B?RFpJMC9sYXZYODZWNnZ5NWFidnVXQldWZ0RTc1MvRmZvb29kSml0SjlTbUlY?=
+ =?utf-8?B?dEpPSStxeloyVjR0emFnZTRTQlRZaVBacFdmQ3M5MTFRcHAyTXE4d2lGUjNI?=
+ =?utf-8?B?RU0vTUhCd0thSGR6aTYycUlrSWRjeUV1dHhjRVR4Mlg1amIzZGxQMlRsNFY1?=
+ =?utf-8?B?c0V5SmwyVzVkbFpqMUc5MGxrY2ppNE12U1QzK3B3K0RnZHJTTnZRSlJoNi8x?=
+ =?utf-8?B?aHl4c0pIaURHTGpaUFVrcXZmazhaam1lYzJObHAxTkxVNDViNE5yVHRnSkE3?=
+ =?utf-8?B?aVVmU1luN0xCV3NnemUzUTE1STdHTFVxNnU4T1JpZndvTUNEclV2bFA4QVlv?=
+ =?utf-8?B?M2pkc1ZMbWM3R2FRWGUrRkh6MCtYc2U0Nk10UU41SFRnUnR4bk85L1FoUGNT?=
+ =?utf-8?B?enN6RjF2YktFYUFQMk5DQ1JoNlVxckZ6MGVSZzlpSkxJVHhNRUUwUWxucHZB?=
+ =?utf-8?B?SWNxRnBOVUJuejMrZTdRMUVlVnZvSlhiTW1wdmdFc0VyWVVjVzJYSmFwR2o2?=
+ =?utf-8?B?akRDQm4xb1UxSy9ueFZmYkxTMkFUeWtpR2ptVE5JdzY0MEo4QlFGTnhWYWJt?=
+ =?utf-8?B?L1lSNE11WEpydGxrTjM5S0QyelMwWDh4Z01DN2Q2UjdFYXJxenJaZCtVZzQr?=
+ =?utf-8?B?M2xCOXJzSFZKa2RsYkNEcGdlUFl6R25YQjArekhzRG1yaTRvRUVLSDJFV3R4?=
+ =?utf-8?B?UkF3dzdCQVJJSWpqaEQ5TlU4YW9LczhvRjRiQ0ZWdHJNTC9HazgySDhhQXMr?=
+ =?utf-8?B?QmI5RDZDZlFiT3RwUzd2TTBqWk5CNzRYa2FXekZjNlhvbTJGRTBWUHBobXh1?=
+ =?utf-8?B?VmNMeUt5ZFYvTFphWlBIM0VpVWVsbk1SU0Y2djBoQ1M2bjlkWkJIeHkxUW9z?=
+ =?utf-8?B?d1BpS3RkQzZDODBrUFc2Wjh5NHhtbnM1WEhIMHluTk1IdFNWM1ZCRjNvcWsx?=
+ =?utf-8?B?anJWcjFoQWh4eTBEbUdSTm91eEFjSG85WTQ0OUgxV3Z0dUhRbWpFNzRjNFNv?=
+ =?utf-8?B?RjBzZHpoeDZhbHplUVVNVGhubk5POXBHVUkyeFExc2xJV3g0OXZqa3RWa3M4?=
+ =?utf-8?B?K29nV0twTHFSOGh4QSsyUXRXVWplcis1RjBXYXd0RENEbEZlRUxQQUV2cWR2?=
+ =?utf-8?B?YUZ3OFNPUzl3WG1wQ2g3M2FZRkxGVkVnOHFjdTRSN2l4WVdpRUptUTZxOFV2?=
+ =?utf-8?B?dWgxVWtLcnJmckZqTmdpZE9JazJwWEJXZVFINm01c3NrZ1AxRHBtb1p2VGg3?=
+ =?utf-8?B?ZFBITEJEWUJvUFpBYmorV252WEtnMlFGR3cwWWxXU1NqRTNwZkxYa3dIb1Iv?=
+ =?utf-8?B?QWIyTnRGOTlER3lGaFVuVE9TcjJyajZ3VVpnZFpiTlZyb0c5aG1ZbjRIZFE4?=
+ =?utf-8?B?YmNxTUlybDFQK2RSQk5TaXdhTUU0dFZpNlZaUXNmVjc3dU44TW5WRTlGYzZT?=
+ =?utf-8?B?SXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49ab40fa-0512-4bf3-fa45-08dbf1fdcb86
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 23:40:54.9094
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wr2CewPyPLOsgXHXLJBheuYOp/iTj7ZhMjgf4gYs9/MWZHMZJ37kkmjh7pWed+iSGDpBdWD9GBhuBfUm7lx3QToDocxItnIiihnaxLPpg8Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8571
+X-OriginatorOrg: intel.com
 
-On 10/31/23 15:10, Marcos Paulo de Souza wrote:
-> The test proves that a syscall can be livepatched. It is interesting
-> because syscalls are called a tricky way. Also the process gets
-> livepatched either when sleeping in the userspace or when entering
-> or leaving the kernel space.
-> 
-> The livepatch is a bit tricky:
->    1. The syscall function name is architecture specific. Also
->       ARCH_HAS_SYSCALL_WRAPPER must be taken in account.
-> 
->    2. The syscall must stay working the same way for other processes
->       on the system. It is solved by decrementing a counter only
->       for PIDs of the test processes. It means that the test processes
->       has to call the livepatched syscall at least once.
-> 
-> The test creates one userspace process per online cpu. The processes
-> are calling getpid in a busy loop. The intention is to create random
-> locations when the livepatch gets enabled. Nothing is guarantted.
-> The magic is in the randomness.
-> 
-> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
-> ---
->   tools/testing/selftests/livepatch/Makefile         |   4 +-
->   tools/testing/selftests/livepatch/test-syscall.sh  |  53 ++++++++++
->   .../selftests/livepatch/test_klp-call_getpid.c     |  44 ++++++++
->   .../selftests/livepatch/test_modules/Makefile      |   3 +-
->   .../livepatch/test_modules/test_klp_syscall.c      | 116 +++++++++++++++++++++
->   5 files changed, 218 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/livepatch/Makefile b/tools/testing/selftests/livepatch/Makefile
-> index 119e2bbebe5d..35418a4790be 100644
-> --- a/tools/testing/selftests/livepatch/Makefile
-> +++ b/tools/testing/selftests/livepatch/Makefile
-> @@ -1,5 +1,6 @@
->   # SPDX-License-Identifier: GPL-2.0
->   
-> +TEST_GEN_FILES := test_klp-call_getpid
->   TEST_GEN_MODS_DIR := test_modules
->   TEST_PROGS_EXTENDED := functions.sh
->   TEST_PROGS := \
-> @@ -8,7 +9,8 @@ TEST_PROGS := \
->   	test-shadow-vars.sh \
->   	test-state.sh \
->   	test-ftrace.sh \
-> -	test-sysfs.sh
-> +	test-sysfs.sh \
-> +	test-syscall.sh
->   
->   TEST_FILES := settings
->   
-> diff --git a/tools/testing/selftests/livepatch/test-syscall.sh b/tools/testing/selftests/livepatch/test-syscall.sh
-> new file mode 100755
-> index 000000000000..b76a881d4013
-> --- /dev/null
-> +++ b/tools/testing/selftests/livepatch/test-syscall.sh
-> @@ -0,0 +1,53 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (C) 2023 SUSE
-> +# Author: Marcos Paulo de Souza <mpdesouza@suse.com>
-> +
-> +. $(dirname $0)/functions.sh
-> +
-> +MOD_SYSCALL=test_klp_syscall
-> +
-> +setup_config
-> +
-> +# - Start _NRPROC processes calling getpid and load a livepatch to patch the
-> +#   getpid syscall. Check if all the processes transitioned to the livepatched
-> +#   state.
-> +
-> +start_test "patch getpid syscall while being heavily hammered"
-> +
-> +for i in $(seq 1 $(getconf _NPROCESSORS_ONLN)); do
-> +	./test_klp-call_getpid &
-> +	pids[$i]="$!"
-> +done
-> +
-> +pid_list=$(echo ${pids[@]} | tr ' ' ',')
-> +load_lp $MOD_SYSCALL klp_pids=$pid_list
-> +
-> +# wait for all tasks to transition to patched state
-> +loop_until 'grep -q '^0$' /sys/kernel/test_klp_syscall/npids'
-> +
-> +pending_pids=$(cat /sys/kernel/test_klp_syscall/npids)
-> +log "$MOD_SYSCALL: Remaining not livepatched processes: $pending_pids"
-> +
-> +for pid in ${pids[@]}; do
-> +	kill $pid || true
-> +done
-> +
-> +disable_lp $MOD_SYSCALL
-> +unload_lp $MOD_SYSCALL
-> +
-> +check_result "% insmod test_modules/$MOD_SYSCALL.ko klp_pids=$pid_list
-> +livepatch: enabling patch '$MOD_SYSCALL'
-> +livepatch: '$MOD_SYSCALL': initializing patching transition
-> +livepatch: '$MOD_SYSCALL': starting patching transition
-> +livepatch: '$MOD_SYSCALL': completing patching transition
-> +livepatch: '$MOD_SYSCALL': patching complete
-> +$MOD_SYSCALL: Remaining not livepatched processes: 0
-> +% echo 0 > /sys/kernel/livepatch/$MOD_SYSCALL/enabled
-> +livepatch: '$MOD_SYSCALL': initializing unpatching transition
-> +livepatch: '$MOD_SYSCALL': starting unpatching transition
-> +livepatch: '$MOD_SYSCALL': completing unpatching transition
-> +livepatch: '$MOD_SYSCALL': unpatching complete
-> +% rmmod $MOD_SYSCALL"
-> +
-> +exit 0
-> diff --git a/tools/testing/selftests/livepatch/test_klp-call_getpid.c b/tools/testing/selftests/livepatch/test_klp-call_getpid.c
-> new file mode 100644
-> index 000000000000..ce321a2d7308
-> --- /dev/null
-> +++ b/tools/testing/selftests/livepatch/test_klp-call_getpid.c
-> @@ -0,0 +1,44 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2023 SUSE
-> + * Authors: Libor Pechacek <lpechacek@suse.cz>
-> + *          Marcos Paulo de Souza <mpdesouza@suse.com>
-> + */
-> +
-> +#include <stdio.h>
-> +#include <unistd.h>
-> +#include <sys/syscall.h>
-> +#include <sys/types.h>
-> +#include <signal.h>
-> +
-> +static int stop;
-> +static int sig_int;
-> +
-> +void hup_handler(int signum)
-> +{
-> +	stop = 1;
-> +}
-> +
-> +void int_handler(int signum)
-> +{
-> +	stop = 1;
-> +	sig_int = 1;
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +	long count = 0;
-> +
-> +	signal(SIGHUP, &hup_handler);
-> +	signal(SIGINT, &int_handler);
-> +
-> +	while (!stop) {
-> +		(void)syscall(SYS_getpid);
-> +		count++;
-> +	}
-> +
-> +	if (sig_int)
-> +		printf("%ld iterations done\n", count);
-> +
-> +	return 0;
-> +}
-> diff --git a/tools/testing/selftests/livepatch/test_modules/Makefile b/tools/testing/selftests/livepatch/test_modules/Makefile
-> index 6f7c2103d27d..f5e880269bff 100644
-> --- a/tools/testing/selftests/livepatch/test_modules/Makefile
-> +++ b/tools/testing/selftests/livepatch/test_modules/Makefile
-> @@ -10,7 +10,8 @@ obj-m += test_klp_atomic_replace.o \
->   	test_klp_state.o \
->   	test_klp_state2.o \
->   	test_klp_state3.o \
-> -	test_klp_shadow_vars.o
-> +	test_klp_shadow_vars.o \
-> +	test_klp_syscall.o
->   
->   modules:
->   	$(Q)$(MAKE) -C $(KDIR) modules KBUILD_EXTMOD=$(TESTMODS_DIR)
-> diff --git a/tools/testing/selftests/livepatch/test_modules/test_klp_syscall.c b/tools/testing/selftests/livepatch/test_modules/test_klp_syscall.c
-> new file mode 100644
-> index 000000000000..619496cc3481
-> --- /dev/null
-> +++ b/tools/testing/selftests/livepatch/test_modules/test_klp_syscall.c
-> @@ -0,0 +1,116 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2017-2023 SUSE
-> + * Authors: Libor Pechacek <lpechacek@suse.cz>
-> + *          Nicolai Stange <nstange@suse.de>
-> + *          Marcos Paulo de Souza <mpdesouza@suse.com>
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/kernel.h>
-> +#include <linux/sched.h>
-> +#include <linux/slab.h>
-> +#include <linux/livepatch.h>
-> +
-> +#if defined(__x86_64__)
-> +#define FN_PREFIX __x64_
-> +#elif defined(__s390x__)
-> +#define FN_PREFIX __s390x_
-> +#elif defined(__aarch64__)
-> +#define FN_PREFIX __arm64_
-> +#else
-> +/* powerpc does not select ARCH_HAS_SYSCALL_WRAPPER */
-> +#define FN_PREFIX
-> +#endif
-> +
-> +/* Protects klp_pids */
-> +static DEFINE_MUTEX(kpid_mutex);
-> +
-> +static unsigned int npids, npids_pending;
-> +static int klp_pids[NR_CPUS];
-> +module_param_array(klp_pids, int, &npids_pending, 0);
-> +MODULE_PARM_DESC(klp_pids, "Array of pids to be transitioned to livepatched state.");
-> +
-> +static ssize_t npids_show(struct kobject *kobj, struct kobj_attribute *attr,
-> +			  char *buf)
-> +{
-> +	return sprintf(buf, "%u\n", npids_pending);
-> +}
-> +
-> +static struct kobj_attribute klp_attr = __ATTR_RO(npids);
-> +static struct kobject *klp_kobj;
-> +
-> +asmlinkage long lp_sys_getpid(void)
-> +{
-> +	int i;
-> +
-> +	mutex_lock(&kpid_mutex);
-> +	if (npids_pending > 0) {
-> +		for (i = 0; i < npids; i++) {
-> +			if (current->pid == klp_pids[i]) {
-> +				klp_pids[i] = 0;
-> +				npids_pending--;
-> +				break;
-> +			}
-> +		}
-> +	}
-> +	mutex_unlock(&kpid_mutex);
-> +
-> +	return task_tgid_vnr(current);
-> +}
-> +
-> +static struct klp_func vmlinux_funcs[] = {
-> +	{
-> +		.old_name = __stringify(FN_PREFIX) "sys_getpid",
-> +		.new_func = lp_sys_getpid,
-> +	}, {}
-> +};
-> +
-> +static struct klp_object objs[] = {
-> +	{
-> +		/* name being NULL means vmlinux */
-> +		.funcs = vmlinux_funcs,
-> +	}, {}
-> +};
-> +
-> +static struct klp_patch patch = {
-> +	.mod = THIS_MODULE,
-> +	.objs = objs,
-> +};
-> +
-> +static int livepatch_init(void)
-> +{
-> +	int ret;
-> +
-> +	klp_kobj = kobject_create_and_add("test_klp_syscall", kernel_kobj);
-> +	if (!klp_kobj)
-> +		return -ENOMEM;
-> +
-> +	ret = sysfs_create_file(klp_kobj, &klp_attr.attr);
-> +	if (ret) {
-> +		kobject_put(klp_kobj);
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * Save the number pids to transition to livepatched state before the
-> +	 * number of pending pids is decremented.
-> +	 */
-> +	npids = npids_pending;
-> +
-> +	return klp_enable_patch(&patch);
-> +}
-> +
-> +static void livepatch_exit(void)
-> +{
-> +	kobject_put(klp_kobj);
-> +}
-> +
-> +module_init(livepatch_init);
-> +module_exit(livepatch_exit);
-> +MODULE_LICENSE("GPL");
-> +MODULE_INFO(livepatch, "Y");
-> +MODULE_AUTHOR("Libor Pechacek <lpechacek@suse.cz>");
-> +MODULE_AUTHOR("Nicolai Stange <nstange@suse.de>");
-> +MODULE_AUTHOR("Marcos Paulo de Souza <mpdesouza@suse.com>");
-> +MODULE_DESCRIPTION("Livepatch test: syscall transition");
+Hi Tony,
 
-Missing module name? Is there a reason to not name this module?
+On 11/30/2023 2:43 PM, Tony Luck wrote:
+> On Thu, Nov 30, 2023 at 01:47:10PM -0800, Reinette Chatre wrote:
 
-thanks,
--- Shuah
+...
+
+>>>  	if (!x86_match_cpu(snc_cpu_ids))
+>>>  		return 1;
+>>
+>> I understand and welcome this change as motivated by robustness. Apart
+>> from that, with this being a model specific feature for this particular
+>> group of systems, it it not clear to me in which scenarios this could
+>> run on a system where a present CPU does not have access to L3 cache.
+> 
+> Agreed that on these systems there should always be an L3 cache. Should
+> I drop the check for "-1"?
+
+Please do keep it. I welcome the additional robustness. The static checker I
+tried did not complain about this but I expect that it is something that
+could trigger checks.
+
+> 
+>>>  
+>>> -	node_caches = bitmap_zalloc(nr_node_ids, GFP_KERNEL);
+>>> +	node_caches = bitmap_zalloc(num_online_cpus(), GFP_KERNEL);
+>>
+>> Please do take care to take new bitmap size into account in all
+>> places. From what I can tell there is a later bitmap_weight() call that
+>> still uses nr_node_ids as size.
+> 
+> Oops. I was also using num_online_cpus() before cpus_read_lock(), so
+> things could theoretically change before the bitmap_weight() call.
+> I switched to using num_present_cpus() in both places.
+
+Thanks for catching this. I am not sure if num_present_cpus() is the right
+choice. I found its comment to say "If HOTPLUG is enabled, then cpu_present_mask
+varies dynamically ...". num_possible_cpus() seems more appropriate when looking
+for something that does not change while not holding the hotplug lock. Reading its
+description more closely also makes me wonder if the later
+	num_online_cpus() != num_present_cpus()
+should also maybe be 
+	num_online_cpus() != num_possible_cpus() ?
+It seems to more closely match the intention.
+
+>>>  	if (!node_caches)
+>>>  		return 1;
+>>>  
+>>> @@ -1072,10 +1073,13 @@ static __init int snc_get_config(void)
+>>>  
+>>>  	for_each_node(node) {
+>>>  		cpu = cpumask_first(cpumask_of_node(node));
+>>> -		if (cpu < nr_cpu_ids)
+>>> -			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
+>>> -		else
+>>> +		if (cpu < nr_cpu_ids) {
+>>> +			cache_id = get_cpu_cacheinfo_id(cpu, 3);
+>>> +			if (cache_id != -1)
+>>> +				set_bit(cache_id, node_caches);
+>>> +		} else {
+>>>  			mem_only_nodes++;
+>>> +		}
+>>>  	}
+>>>  	cpus_read_unlock();
+>>>  
+>>
+>> Could this code be made even more robust by checking the computed
+>> snc_nodes_per_l3_cache against the limited actually possible values?
+>> Forcing it to 1 if something went wrong?
+> 
+> Added a couple of extra sanity checks. See updated incremental patch
+> below.
+
+Thank you very much. The additional checks look good to me.
+
+Reinette
