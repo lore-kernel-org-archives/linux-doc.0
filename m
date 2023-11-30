@@ -1,142 +1,148 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id AD73E1703;
-	Thu, 30 Nov 2023 12:30:05 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 30A2C1042;
-	Thu, 30 Nov 2023 12:30:52 -0800 (PST)
-Received: from [10.57.82.136] (unknown [10.57.82.136])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D6A03F73F;
-	Thu, 30 Nov 2023 12:30:02 -0800 (PST)
-Message-ID: <8009d5c4-4012-44a2-883c-0d7f74c4a2c1@arm.com>
-Date: Thu, 30 Nov 2023 20:30:01 +0000
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ckmxY9i3"
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA6541703
+	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:34:07 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id ca18e2360f4ac-7b0683ff3c8so40262539f.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:34:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701376447; x=1701981247; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XXRrWs5DXJwxwGqPai+zsQ4ZfWnj9YsfxyCdirfcQYs=;
+        b=ckmxY9i30/GS3ITnNDm0E+ptKQ1Sqz7Pe/KZsG9OHs3a0QGXw2dG1+y6i+CVrD0tpU
+         XOZzhB2QOtl00HUa5y4xkG2VeKjZl5LhrlO4KCy1VlMi4r7j3HR1K9sLbfbCQKYJBpMN
+         IiiPOuYUzgP7UUDwxTLQVAneYXNYmNbSWCCps=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701376447; x=1701981247;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XXRrWs5DXJwxwGqPai+zsQ4ZfWnj9YsfxyCdirfcQYs=;
+        b=qXmrAC6+NvA5pDsU4hxz5W30yoT8R2D1tWqgnbdDwMmmBth6hZFHglFJfi0PJCt11l
+         wAlay9BWv1hZhFHniIGKe8k3sXNGzWz1mMurGl7FepLQra4UhAtRuBScLMrC8rQw4FRL
+         +JXHLxoA6xpllXZSPc8WOe+UEY1CcA7xKKxxQt5AVgepS59SF93PafZEVRQlABMM+f6L
+         tnEGQoC6SQDOa52g9xjVoB8WnwQwm6v50DcoPZQQmv0+0QBV9h01uqHRUOgP3ogKY/mw
+         g0qirihhOL+SkBmvhcfsPdTwLSQo2GLnBgGSLFoX+geIDNGy7AGnslqDxydKzD9fb/Gi
+         puhA==
+X-Gm-Message-State: AOJu0YyFEvqH7kOHn5uYDbjomOMVmn/GKLzVknw0LnexJxM6HlV4d2ut
+	mUCfUcvBbqp4yyQXk/H0QfdhWA==
+X-Google-Smtp-Source: AGHT+IE4ZiKtC3C0LWUhphjc5pFc+x3DQeUolNyPVmSK92iDtbxcs0WdG2nxUMCfHZ7sJr/zWX/9nQ==
+X-Received: by 2002:a05:6602:3a11:b0:79f:cdb4:3f87 with SMTP id by17-20020a0566023a1100b0079fcdb43f87mr23799870iob.4.1701376447077;
+        Thu, 30 Nov 2023 12:34:07 -0800 (PST)
+Received: from kea.bld.corp.google.com ([2620:15c:183:200:d134:ced6:d34f:38a6])
+        by smtp.gmail.com with ESMTPSA id r21-20020a056638101500b004665c3f56ebsm484788jab.15.2023.11.30.12.34.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 12:34:06 -0800 (PST)
+From: Simon Glass <sjg@chromium.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
+	lkml <linux-kernel@vger.kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Tom Rini <trini@konsulko.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Simon Glass <sjg@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>,
+	Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH v8 0/2] arm64: Add a build target for Flat Image Tree
+Date: Thu, 30 Nov 2023 13:33:53 -0700
+Message-ID: <20231130203358.879796-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] sched/fair: Remove SCHED_FEAT(UTIL_EST_FASTUP, true)
-Content-Language: en-US
-To: Vincent Guittot <vincent.guittot@linaro.org>, mingo@redhat.com,
- peterz@infradead.org, juri.lelli@redhat.com, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
- bristot@redhat.com, vschneid@redhat.com, corbet@lwn.net, alexs@kernel.org,
- siyanteng@loongson.cn, qyousef@layalina.io, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: lukasz.luba@arm.com
-References: <20231127143238.1216582-1-vincent.guittot@linaro.org>
- <20231127143238.1216582-2-vincent.guittot@linaro.org>
-From: Hongyan Xia <hongyan.xia2@arm.com>
-In-Reply-To: <20231127143238.1216582-2-vincent.guittot@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 27/11/2023 14:32, Vincent Guittot wrote:
-> sched_feat(UTIL_EST_FASTUP) has been added to easily disable the feature
-> in order to check for possibly related regressions. After 3 years, it has
-> never been used and no regression has been reported. Let remove it
-> and make fast increase a permanent behavior.
-> 
-> Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
-> ---
-> 
-> I haven't updated the chinese documentation which also refers to
-> UTIL_EST_FASTUP. IIUC, this will be updated afterward by the
-> Translations' maintainers.
+Flat Image Tree (FIT) is a widely used file format for packaging a
+kernel and associated devicetree files[1]. It is not specific to any
+one bootloader, as it is supported by U-Boot, coreboot, Linuxboot,
+Tianocore and Barebox.
 
-Here it is in case you have to provide the translation:
+This series adds support for building a FIT as part of the kernel
+build. This makes it easy to try out the kernel - just load the FIT
+onto your tftp server and it will run automatically on any supported
+arm64 board.
 
-diff --git a/Documentation/translations/zh_CN/scheduler/schedutil.rst 
-b/Documentation/translations/zh_CN/scheduler/schedutil.rst
-index d1ea68007520..7c8d87f21c42 100644
---- a/Documentation/translations/zh_CN/scheduler/schedutil.rst
-+++ b/Documentation/translations/zh_CN/scheduler/schedutil.rst
-@@ -89,16 +89,15 @@ 
-r_cpu被定义为当前CPU的最高性能水平与系统中任何其它CPU的最
-   - Documentation/translations/zh_CN/scheduler/sched-capacity.rst:"1. 
-CPU Capacity + 2. Task utilization"
+The script is written in Python, since it is easy to build a FIT using
+the Python libfdt bindings. For now, no attempt is made to compress
+files in parallel, so building the 900-odd files takes a while, about
+6 seconds with my testing.
 
+The series also includes a few minor clean-up patches.
 
--UTIL_EST / UTIL_EST_FASTUP
--==========================
-+UTIL_EST
-+========
+[1] https://github.com/open-source-firmware/flat-image-tree
 
- 
-由于周期性任务的平均数在睡眠时会衰减，而在运行时其预期利用率会和睡眠前相同，
-  因此它们在再次运行后会面临（DVFS）的上涨。
+Changes in v8:
+- Drop compatible string in FDT node
+- Correct sorting of MAINTAINERS to before ARM64 PORT
+- Turn compress part of the make_fit.py comment in to a sentence
+- Add two blank lines before parse_args() and setup_fit()
+- Use 'image.fit: dtbs' instead of BUILD_DTBS var
+- Use '$(<D)/dts' instead of '$(dir $<)dts'
+- Add 'mkimage' details Documentation/process/changes.rst
+- Allow changing the compression used
+- Tweak cover letter since there is only one clean-up patch
 
-  为了缓解这个问题，（一个默认使能的编译选项）UTIL_EST驱动一个无限脉冲响应
-  （Infinite Impulse Response，IIR）的EWMA，“运行”值在出队时是最高的。
--另一个默认使能的编译选项UTIL_EST_FASTUP修改了IIR滤波器，使其允许立即增加，
--仅在利用率下降时衰减。
-+UTIL_EST滤波使其在遇到更高值时立刻增加，而遇到低值时会缓慢衰减。
+Changes in v7:
+- Drop the kbuild tag
+- Add Image as a dependency of image.fit
+- Drop kbuild tag
+- Add dependency on dtbs
+- Drop unnecessary path separator for dtbs
+- Rebase to -next
 
-  进一步，运行队列的（可运行任务的）利用率之和由下式计算：
+Changes in v6:
+- Drop the unwanted .gz suffix
 
-> 
->   Documentation/scheduler/schedutil.rst | 7 +++----
->   kernel/sched/fair.c                   | 8 +++-----
->   kernel/sched/features.h               | 1 -
->   3 files changed, 6 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/scheduler/schedutil.rst b/Documentation/scheduler/schedutil.rst
-> index 32c7d69fc86c..803fba8fc714 100644
-> --- a/Documentation/scheduler/schedutil.rst
-> +++ b/Documentation/scheduler/schedutil.rst
-> @@ -90,8 +90,8 @@ For more detail see:
->    - Documentation/scheduler/sched-capacity.rst:"1. CPU Capacity + 2. Task utilization"
->   
->   
-> -UTIL_EST / UTIL_EST_FASTUP
-> -==========================
-> +UTIL_EST
-> +========
->   
->   Because periodic tasks have their averages decayed while they sleep, even
->   though when running their expected utilization will be the same, they suffer a
-> @@ -99,8 +99,7 @@ though when running their expected utilization will be the same, they suffer a
->   
->   To alleviate this (a default enabled option) UTIL_EST drives an Infinite
->   Impulse Response (IIR) EWMA with the 'running' value on dequeue -- when it is
-> -highest. A further default enabled option UTIL_EST_FASTUP modifies the IIR
-> -filter to instantly increase and only decay on decrease.
-> +highest. UTIL_EST filters to instantly increase and only decay on decrease.
->   
->   A further runqueue wide sum (of runnable tasks) is maintained of:
->   
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index 34fe6e9490c2..146329678cb8 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -4870,11 +4870,9 @@ static inline void util_est_update(struct cfs_rq *cfs_rq,
->   	 * to smooth utilization decreases.
->   	 */
->   	ue.enqueued = task_util(p);
-> -	if (sched_feat(UTIL_EST_FASTUP)) {
-> -		if (ue.ewma < ue.enqueued) {
-> -			ue.ewma = ue.enqueued;
-> -			goto done;
-> -		}
-> +	if (ue.ewma < ue.enqueued) {
-> +		ue.ewma = ue.enqueued;
-> +		goto done;
->   	}
->   
->   	/*
-> diff --git a/kernel/sched/features.h b/kernel/sched/features.h
-> index a3ddf84de430..143f55df890b 100644
-> --- a/kernel/sched/features.h
-> +++ b/kernel/sched/features.h
-> @@ -83,7 +83,6 @@ SCHED_FEAT(WA_BIAS, true)
->    * UtilEstimation. Use estimated CPU utilization.
->    */
->   SCHED_FEAT(UTIL_EST, true)
-> -SCHED_FEAT(UTIL_EST_FASTUP, true)
->   
->   SCHED_FEAT(LATENCY_WARN, false)
->   
+Changes in v5:
+- Drop patch previously applied
+- Correct compression rule which was broken in v4
 
-Reviewed-by: Hongyan Xia <hongyan.xia2@arm.com>
+Changes in v4:
+- Use single quotes for UIMAGE_NAME
+
+Changes in v3:
+- Drop temporary file image.itk
+- Drop patch 'Use double quotes for image name'
+- Drop double quotes in use of UIMAGE_NAME
+- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+- Avoid hard-coding "arm64" for the DT architecture
+
+Changes in v2:
+- Drop patch previously applied
+- Add .gitignore file
+- Move fit rule to Makefile.lib using an intermediate file
+- Drop dependency on CONFIG_EFI_ZBOOT
+- Pick up .dtb files separately from the kernel
+- Correct pylint too-many-args warning for write_kernel()
+- Include the kernel image in the file count
+- Add a pointer to the FIT spec and mention of its wide industry usage
+- Mention the kernel version in the FIT description
+
+Simon Glass (2):
+  arm64: Add BOOT_TARGETS variable
+  arm64: boot: Support Flat Image Tree
+
+ Documentation/process/changes.rst |   9 +
+ MAINTAINERS                       |   7 +
+ arch/arm64/Makefile               |  11 +-
+ arch/arm64/boot/.gitignore        |   1 +
+ arch/arm64/boot/Makefile          |   9 +-
+ scripts/Makefile.lib              |  13 ++
+ scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
+ 7 files changed, 338 insertions(+), 3 deletions(-)
+ create mode 100755 scripts/make_fit.py
+
+-- 
+2.43.0.rc2.451.g8631bc7472-goog
+
