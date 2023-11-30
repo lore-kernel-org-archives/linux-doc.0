@@ -1,89 +1,113 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJQOf7LJ"
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF1312F;
-	Wed, 29 Nov 2023 15:58:26 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso308753a12.3;
-        Wed, 29 Nov 2023 15:58:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="iOzGNPoh"
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF7FD10C9
+	for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 16:03:01 -0800 (PST)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-1fa22332ca1so688392fac.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Nov 2023 16:03:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701302306; x=1701907106; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iHdPtaafU6Wwj9lczBiTyHEzwKcHpmc5GjndOH0Df1k=;
-        b=iJQOf7LJDwPVT992bpVFufNyDxO1w9o0BQ+JULpfrlCNjnXc4hZ0c+XKLEbigMUlZ/
-         QQRm/PUUEzvPlIk/0dIvmGzbKv18U3YqrMXYrTwt8sqGQ9n98HiGsvbtxyhydeuuXxOt
-         BsDVR0TfdKuG6vOLhk20cU5X2UmIstmy/ffxiB4vYE9AuIAnM3YbDgDKIsygm8/KsEz/
-         p40k7lOF6sdZNMV/TR0d75NSWLiozLQfp0GGIkGr0Bmtd2a7GVMxJsKqi6l8cg5g8Q8k
-         QHLnMX/AI/3BCnm889eSqBlfpw2SUq/MP4OcUv8TqTuBYgpprkww5d6bv9llGQOsIqHS
-         zkag==
+        d=ziepe.ca; s=google; t=1701302581; x=1701907381; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iqaBGyfV5ntKwlfmxQAMawFx8i861c6WUBXKE0OU9B4=;
+        b=iOzGNPohtJhV5ZKZto6OPi9ScC3+3i49b+LcVuxDq9mtzkWFxOvciaUfeoR4sw7MAj
+         QkroWu54eoGEksnarJc5KLNbJjo2b9/mRbC+ARswRHSJSyHf6r8cA77yjWE15tnQlLyz
+         LBW/x9VdJrPUIKxS84g8k0Qs9ndFvOUUMlXB7Nqmt7sEcoM/fPyFN2BUh3cbS5mvHdg0
+         VdkVOj4Kg/Qxda/ukbmSUzOpmMJI+XXCavYOg10/lBhhL0UvytuwbmpE/8guWJYyiZ+X
+         V6X2LIvossUNdgs1k1Z5XJ0azlmaKkohR5dD+1WWKcXd1aFqIkEqAhpHzDOqblxLktkC
+         OKmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701302306; x=1701907106;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1701302581; x=1701907381;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iHdPtaafU6Wwj9lczBiTyHEzwKcHpmc5GjndOH0Df1k=;
-        b=lfhXJ/iyCyInoh04GvwqZ1rUNf06q8aIHauVWNEFpO0stphFYsaO19LU8HlaWchZ1B
-         O9ah1GTUQPtyT75KqiMg4xwfeXcU25TSANmVCrxgBcVPa+kBXD5CukhbuQ4K4x0ZxASo
-         hGAarxrMl1UHdQzUDyvm8hAMvD0jgMk0R2c8Vy00CyEOlsds+1U1mvWHsBP3Q46NHMTe
-         GJpsGdso541vePN9WkE8F9qXD6oLxkRCJTjNPGyix5cxO6GN3XNt/MUxo6l6oKLkWe82
-         wnVNHnCw/kT+b3A8kZqYabCBUZgh3Li1z7s6RWtZ//90UansEv7h/ZA9eiq+toTRstX+
-         WJzQ==
-X-Gm-Message-State: AOJu0YwHvKVnQq71PybXasdBRBXXHgsqDdOzCGUxdVU8zifOhbqp3vRY
-	dR1DdK32KbNEO5mezVxvYJI=
-X-Google-Smtp-Source: AGHT+IE5iVgJ/0wBhz60uoZ7QxT3BbNNUPQ1+4gd8tEvsTb3f+ujTdZ+GhlDvPSj0M1h3g+4MSpSpg==
-X-Received: by 2002:a05:6a20:7351:b0:187:eea9:73c5 with SMTP id v17-20020a056a20735100b00187eea973c5mr26200160pzc.3.1701302306082;
-        Wed, 29 Nov 2023 15:58:26 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id nt9-20020a17090b248900b002802d264240sm2005370pjb.29.2023.11.29.15.58.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 15:58:24 -0800 (PST)
-Message-ID: <a4da77c2-7a23-4988-b65a-a58c105d89a4@gmail.com>
-Date: Thu, 30 Nov 2023 06:58:16 +0700
+        bh=iqaBGyfV5ntKwlfmxQAMawFx8i861c6WUBXKE0OU9B4=;
+        b=NwbRxDLOPQoU9pJr27JiLeqEE9r++WIhZE/EBMzxZWkjsfgsIwDllYfG6IwKz3mmOs
+         P6QQ7qnWMq5/5FiUT9J4DQCW6sOELKp2PvS+36/AJjzQ7LLxLrxda4+c7iYH+2DQhL/g
+         ZUmtZ4Np+Ew0k36PWdcKPUUi4inT40rhf6NdQK8Y+Bw9jGdi+BdBNuDd78KLBwaaUhYx
+         zR7XpXIDqHaJ8N0mKVWyF3QBN1TJfTMWTQJFmCFixZ0Hqso2MgPtnPToSboDVHk33RDs
+         JDDLDCHxTAabwKEl9pqQxzYuqTsNbe2jbDzv3rIl0PIl/EGufYbS5+7T5HB9NOljf7kz
+         T8jA==
+X-Gm-Message-State: AOJu0YzPfCNFBUqHjgobgeuNqcZaZNowKlnYBRl3GO6C3OuNNC1tSBV9
+	0VCKlcl7xffHS2QJGTuVAvMriA==
+X-Google-Smtp-Source: AGHT+IH9mJrgeBca3QDmdqlZSO64E6UWuuZZMjhMVoz9rZsKA5pWXiF1aXxzzo/4HFbYhkfRvbso7A==
+X-Received: by 2002:a05:6870:1603:b0:1f9:eb7e:6621 with SMTP id b3-20020a056870160300b001f9eb7e6621mr10166623oae.18.1701302580971;
+        Wed, 29 Nov 2023 16:03:00 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-134-23-187.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.134.23.187])
+        by smtp.gmail.com with ESMTPSA id ry4-20020a056871208400b001efa3446d4esm3609159oab.43.2023.11.29.16.03.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 16:03:00 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1r8UWB-005qQQ-Hz;
+	Wed, 29 Nov 2023 20:02:59 -0400
+Date: Wed, 29 Nov 2023 20:02:59 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io,
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com,
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net,
+	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
+	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
+	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+	kevin.tian@intel.com, krzysztof.kozlowski@linaro.org,
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, mst@redhat.com,
+	m.szyprowski@samsung.com, netdev@vger.kernel.org,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com,
+	virtualization@lists.linux.dev, wens@csie.org, will@kernel.org,
+	yu-cheng.yu@intel.com
+Subject: Re: [PATCH 09/16] iommu/iommufd: use page allocation function
+ provided by iommu-pages.h
+Message-ID: <20231130000259.GS1312390@ziepe.ca>
+References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+ <20231128204938.1453583-10-pasha.tatashin@soleen.com>
+ <20231128235254.GE1312390@ziepe.ca>
+ <CA+CK2bC=vMU54wXz1GSzpOcLFCuX5vuE6tD49JF8cMbz4tis-g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Minor grammatical fixup for livepatch docs
-Content-Language: en-US
-To: Joe Lawrence <joe.lawrence@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Livepatching <live-patching@vger.kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
- Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Attreyee Mukherjee <tintinm2017@gmail.com>
-References: <20231129132527.8078-1-bagasdotme@gmail.com>
- <ac7a90a7-4d29-059b-fbff-6b67e6f5c2d3@redhat.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <ac7a90a7-4d29-059b-fbff-6b67e6f5c2d3@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bC=vMU54wXz1GSzpOcLFCuX5vuE6tD49JF8cMbz4tis-g@mail.gmail.com>
 
-On 11/29/23 20:53, Joe Lawrence wrote:
-> On 11/29/23 08:25, Bagas Sanjaya wrote:
->> I was prompted to write this little grammar fix series when reading
->> the fix from Attreyee [1], with review comments requesting changes
->> to that fix. So here's my version of the fix, with reviews from [1]
->> addressed (and distinct grammar fixes splitted).
->>
+On Wed, Nov 29, 2023 at 04:59:43PM -0500, Pasha Tatashin wrote:
+> On Tue, Nov 28, 2023 at 6:52 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Tue, Nov 28, 2023 at 08:49:31PM +0000, Pasha Tatashin wrote:
+> > > Convert iommu/iommufd/* files to use the new page allocation functions
+> > > provided in iommu-pages.h.
+> > >
+> > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > ---
+> > >  drivers/iommu/iommufd/iova_bitmap.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > This is a short term allocation, it should not be counted, that is why
+> > it is already not using GFP_KERNEL_ACCOUNT.
 > 
-> Typical kernel workflow would be for Attreyee to incorporate feedback
-> and post their v2 after a day or two.  From the format they posted, it
-> appears to be a first(ish) kernel contribution post.  Let's be kind and
-> patient so they we all may benefit from the practice of iterating on
-> their patch.
-> 
+> I made this change for completeness. I changed all calls to
+> get_free_page/alloc_page etc under driver/iommu to use the
+> iommu_alloc_* variants, this also helps future developers in this area
+> to use the right allocation functions.
+> The accounting is implemented using cheap per-cpu counters, so should
+> not affect the performance, I think it is OK to keep them here.
 
-I do this posting because I thought the OP (Attreyee) didn't respond in
-timely manner (just like random Chinese contributors like @cdjrlc.com
-and @208suo.com people).
+Except it is a mis use of an API that should only be used for page
+table memory :(
 
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+Jason
