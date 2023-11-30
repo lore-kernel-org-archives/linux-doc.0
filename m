@@ -1,201 +1,367 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="boGAoV3c"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E15133;
-	Thu, 30 Nov 2023 14:43:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701384201; x=1732920201;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ul6wDHt3NtaWD+zCoELgS9GAvRpyrDS6easDGhJqmco=;
-  b=boGAoV3cmGpgzUFfrBKozh46zGrw4qN6Mfwka0TGGCg4c40p8vQb2696
-   K09919cJy9yvodQhrXlRrxTn0AmsSXgiZAJCMPHH4h+4uaZ0q/tCOW1Lm
-   2xruReaKNsWRnsVtMH5UdorJjc4a09oWrkRmnbQGzM+HsM0dYF7/y2K/1
-   cZnWAiaKSi0dzYrFjYHq1ZPg1MgbsVCZlTMKb0hs6EcYiyJHmy16oM6Fb
-   B1uws/ifkieEywnoa0O7T3V7MpwY+UPgYi4XkIqb7qRrx4ZZxKfWq2W3N
-   /3FgO9BINSCh2j/G/0wH2WC+FuSaVMxHLuMtMf315zKNrdDUrd8otJ3Dn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="378432541"
-X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
-   d="scan'208";a="378432541"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 14:43:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="835555500"
-X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
-   d="scan'208";a="835555500"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 14:43:20 -0800
-Date: Thu, 30 Nov 2023 14:43:19 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Fam Zheng <fam@euphon.net>, Fenghua Yu <fenghua.yu@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, patches@lists.linux.dev,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-Subject: Re: [PATCH v12 7/8] x86/resctrl: Sub NUMA Cluster detection and
- enable
-Message-ID: <ZWkQBwwtSae4nGgH@agluck-desk3>
-References: <20231109230915.73600-1-tony.luck@intel.com>
- <20231130003418.89964-1-tony.luck@intel.com>
- <20231130003418.89964-8-tony.luck@intel.com>
- <ZWjOBw0Ygyw226Cc@dell>
- <ZWj3NdI/qLNOgyg0@agluck-desk3>
- <1c1a16a5-f235-4179-9d0f-1556e11d9c11@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e8SLiguR"
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F4F10E4
+	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 15:24:29 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id e9e14a558f8ab-35cfd975a53so1339165ab.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 15:24:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1701386668; x=1701991468; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8BaziYlHsY9fMqNNZOEE/jx4yQID7G/xy+alsqAMnPY=;
+        b=e8SLiguRBDemfWgnCWd1bixt5DKGZ0C1Mp24gYI0InNqvCyLfV6HxhSst5MxHwwXiJ
+         Suq1zoFRyik5Yp/Rk7ayt4GwnWcwbRfKmL6SKXToVHkwWfrrt4UZ2FFTqr0jgF8Cm1iG
+         kdYE4r5FF3ht2ou/dttP9j6qYBHPS3bJQeHg0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701386668; x=1701991468;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8BaziYlHsY9fMqNNZOEE/jx4yQID7G/xy+alsqAMnPY=;
+        b=Kj/PU8fH5nWiaeL48fyz1fWhEPdSFmxmWXCyGKA4hCMNqYcFXXCghedQeX/199+Q3m
+         ayCySqpvg6UoHZ7ic4eeTBO0KTBxMHAnvzS7rPFKweIj8xnfvGMEQSIC4Ek2VzYc3jX7
+         wClgDSYslviKkXWapKYoofX1MPriXovEBfJw8QwHxyB47bA+ZNHG9zDjHPqi2cMxTIjW
+         jrrZuTbTwlv6PegQRNsG9QpRAGC0rpkY4v/yCCvTDjNi7xUofxl+N9DasEKLMZ11A/EA
+         B6FGb4zVHBH7YeNRZmK4nsqp0rGFEkLRlmvinL4zTD5NzsQPUbOVJlYbtzC4gapc4JX0
+         NxGw==
+X-Gm-Message-State: AOJu0YzM5jM6mFC6ZlSwLwf/MfmNZ/pHg9GaHGxC2MCx5kfOIlScW0xY
+	1wo3nTLFOw76cgIg/WGfJCpWRg==
+X-Google-Smtp-Source: AGHT+IFx3UAfwhkzPyyzSL1KrlK2TWouSoy5yNWf6tc5Sew109QS+ikT41CysfChpOSiNyus5Pnmgg==
+X-Received: by 2002:a6b:660f:0:b0:7b3:58c4:b894 with SMTP id a15-20020a6b660f000000b007b358c4b894mr20751057ioc.1.1701386668362;
+        Thu, 30 Nov 2023 15:24:28 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id f19-20020a02b793000000b00451b5feb80fsm550629jam.8.2023.11.30.15.24.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Nov 2023 15:24:27 -0800 (PST)
+Message-ID: <f9d82fa6-08d7-4ab6-badc-691987b37a82@linuxfoundation.org>
+Date: Thu, 30 Nov 2023 16:24:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1c1a16a5-f235-4179-9d0f-1556e11d9c11@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] selftests: livepatch: Test livepatching a heavily
+ called syscall
+Content-Language: en-US
+To: Marcos Paulo de Souza <mpdesouza@suse.com>, Shuah Khan
+ <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+ Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ live-patching@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com>
+ <20231031-send-lp-kselftests-v3-3-2b1655c2605f@suse.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20231031-send-lp-kselftests-v3-3-2b1655c2605f@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 30, 2023 at 01:47:10PM -0800, Reinette Chatre wrote:
-> Hi Tony,
-> > diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-> > index 3293ab4c58b0..85f8a1b3feaf 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/core.c
-> > +++ b/arch/x86/kernel/cpu/resctrl/core.c
-> > @@ -1056,12 +1056,13 @@ static __init int snc_get_config(void)
-> >  	unsigned long *node_caches;
-> >  	int mem_only_nodes = 0;
-> >  	int cpu, node, ret;
-> > +	int cache_id;
-> >  	int num_l3_caches;
+On 10/31/23 15:10, Marcos Paulo de Souza wrote:
+> The test proves that a syscall can be livepatched. It is interesting
+> because syscalls are called a tricky way. Also the process gets
+> livepatched either when sleeping in the userspace or when entering
+> or leaving the kernel space.
 > 
-> Please do maintain reverse fir order.
-
-Fixed.
-
+> The livepatch is a bit tricky:
+>    1. The syscall function name is architecture specific. Also
+>       ARCH_HAS_SYSCALL_WRAPPER must be taken in account.
 > 
-> >  
-> >  	if (!x86_match_cpu(snc_cpu_ids))
-> >  		return 1;
+>    2. The syscall must stay working the same way for other processes
+>       on the system. It is solved by decrementing a counter only
+>       for PIDs of the test processes. It means that the test processes
+>       has to call the livepatched syscall at least once.
 > 
-> I understand and welcome this change as motivated by robustness. Apart
-> from that, with this being a model specific feature for this particular
-> group of systems, it it not clear to me in which scenarios this could
-> run on a system where a present CPU does not have access to L3 cache.
-
-Agreed that on these systems there should always be an L3 cache. Should
-I drop the check for "-1"?
-
-> >  
-> > -	node_caches = bitmap_zalloc(nr_node_ids, GFP_KERNEL);
-> > +	node_caches = bitmap_zalloc(num_online_cpus(), GFP_KERNEL);
+> The test creates one userspace process per online cpu. The processes
+> are calling getpid in a busy loop. The intention is to create random
+> locations when the livepatch gets enabled. Nothing is guarantted.
+> The magic is in the randomness.
 > 
-> Please do take care to take new bitmap size into account in all
-> places. From what I can tell there is a later bitmap_weight() call that
-> still uses nr_node_ids as size.
-
-Oops. I was also using num_online_cpus() before cpus_read_lock(), so
-things could theoretically change before the bitmap_weight() call.
-I switched to using num_present_cpus() in both places.
-
-> >  	if (!node_caches)
-> >  		return 1;
-> >  
-> > @@ -1072,10 +1073,13 @@ static __init int snc_get_config(void)
-> >  
-> >  	for_each_node(node) {
-> >  		cpu = cpumask_first(cpumask_of_node(node));
-> > -		if (cpu < nr_cpu_ids)
-> > -			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
-> > -		else
-> > +		if (cpu < nr_cpu_ids) {
-> > +			cache_id = get_cpu_cacheinfo_id(cpu, 3);
-> > +			if (cache_id != -1)
-> > +				set_bit(cache_id, node_caches);
-> > +		} else {
-> >  			mem_only_nodes++;
-> > +		}
-> >  	}
-> >  	cpus_read_unlock();
-> >  
+> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
+> ---
+>   tools/testing/selftests/livepatch/Makefile         |   4 +-
+>   tools/testing/selftests/livepatch/test-syscall.sh  |  53 ++++++++++
+>   .../selftests/livepatch/test_klp-call_getpid.c     |  44 ++++++++
+>   .../selftests/livepatch/test_modules/Makefile      |   3 +-
+>   .../livepatch/test_modules/test_klp_syscall.c      | 116 +++++++++++++++++++++
+>   5 files changed, 218 insertions(+), 2 deletions(-)
 > 
-> Could this code be made even more robust by checking the computed
-> snc_nodes_per_l3_cache against the limited actually possible values?
-> Forcing it to 1 if something went wrong?
+> diff --git a/tools/testing/selftests/livepatch/Makefile b/tools/testing/selftests/livepatch/Makefile
+> index 119e2bbebe5d..35418a4790be 100644
+> --- a/tools/testing/selftests/livepatch/Makefile
+> +++ b/tools/testing/selftests/livepatch/Makefile
+> @@ -1,5 +1,6 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   
+> +TEST_GEN_FILES := test_klp-call_getpid
+>   TEST_GEN_MODS_DIR := test_modules
+>   TEST_PROGS_EXTENDED := functions.sh
+>   TEST_PROGS := \
+> @@ -8,7 +9,8 @@ TEST_PROGS := \
+>   	test-shadow-vars.sh \
+>   	test-state.sh \
+>   	test-ftrace.sh \
+> -	test-sysfs.sh
+> +	test-sysfs.sh \
+> +	test-syscall.sh
+>   
+>   TEST_FILES := settings
+>   
+> diff --git a/tools/testing/selftests/livepatch/test-syscall.sh b/tools/testing/selftests/livepatch/test-syscall.sh
+> new file mode 100755
+> index 000000000000..b76a881d4013
+> --- /dev/null
+> +++ b/tools/testing/selftests/livepatch/test-syscall.sh
+> @@ -0,0 +1,53 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Copyright (C) 2023 SUSE
+> +# Author: Marcos Paulo de Souza <mpdesouza@suse.com>
+> +
+> +. $(dirname $0)/functions.sh
+> +
+> +MOD_SYSCALL=test_klp_syscall
+> +
+> +setup_config
+> +
+> +# - Start _NRPROC processes calling getpid and load a livepatch to patch the
+> +#   getpid syscall. Check if all the processes transitioned to the livepatched
+> +#   state.
+> +
+> +start_test "patch getpid syscall while being heavily hammered"
+> +
+> +for i in $(seq 1 $(getconf _NPROCESSORS_ONLN)); do
+> +	./test_klp-call_getpid &
+> +	pids[$i]="$!"
+> +done
+> +
+> +pid_list=$(echo ${pids[@]} | tr ' ' ',')
+> +load_lp $MOD_SYSCALL klp_pids=$pid_list
+> +
+> +# wait for all tasks to transition to patched state
+> +loop_until 'grep -q '^0$' /sys/kernel/test_klp_syscall/npids'
+> +
+> +pending_pids=$(cat /sys/kernel/test_klp_syscall/npids)
+> +log "$MOD_SYSCALL: Remaining not livepatched processes: $pending_pids"
+> +
+> +for pid in ${pids[@]}; do
+> +	kill $pid || true
+> +done
+> +
+> +disable_lp $MOD_SYSCALL
+> +unload_lp $MOD_SYSCALL
+> +
+> +check_result "% insmod test_modules/$MOD_SYSCALL.ko klp_pids=$pid_list
+> +livepatch: enabling patch '$MOD_SYSCALL'
+> +livepatch: '$MOD_SYSCALL': initializing patching transition
+> +livepatch: '$MOD_SYSCALL': starting patching transition
+> +livepatch: '$MOD_SYSCALL': completing patching transition
+> +livepatch: '$MOD_SYSCALL': patching complete
+> +$MOD_SYSCALL: Remaining not livepatched processes: 0
+> +% echo 0 > /sys/kernel/livepatch/$MOD_SYSCALL/enabled
+> +livepatch: '$MOD_SYSCALL': initializing unpatching transition
+> +livepatch: '$MOD_SYSCALL': starting unpatching transition
+> +livepatch: '$MOD_SYSCALL': completing unpatching transition
+> +livepatch: '$MOD_SYSCALL': unpatching complete
+> +% rmmod $MOD_SYSCALL"
+> +
+> +exit 0
+> diff --git a/tools/testing/selftests/livepatch/test_klp-call_getpid.c b/tools/testing/selftests/livepatch/test_klp-call_getpid.c
+> new file mode 100644
+> index 000000000000..ce321a2d7308
+> --- /dev/null
+> +++ b/tools/testing/selftests/livepatch/test_klp-call_getpid.c
+> @@ -0,0 +1,44 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2023 SUSE
+> + * Authors: Libor Pechacek <lpechacek@suse.cz>
+> + *          Marcos Paulo de Souza <mpdesouza@suse.com>
+> + */
+> +
+> +#include <stdio.h>
+> +#include <unistd.h>
+> +#include <sys/syscall.h>
+> +#include <sys/types.h>
+> +#include <signal.h>
+> +
+> +static int stop;
+> +static int sig_int;
+> +
+> +void hup_handler(int signum)
+> +{
+> +	stop = 1;
+> +}
+> +
+> +void int_handler(int signum)
+> +{
+> +	stop = 1;
+> +	sig_int = 1;
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +	long count = 0;
+> +
+> +	signal(SIGHUP, &hup_handler);
+> +	signal(SIGINT, &int_handler);
+> +
+> +	while (!stop) {
+> +		(void)syscall(SYS_getpid);
+> +		count++;
+> +	}
+> +
+> +	if (sig_int)
+> +		printf("%ld iterations done\n", count);
+> +
+> +	return 0;
+> +}
+> diff --git a/tools/testing/selftests/livepatch/test_modules/Makefile b/tools/testing/selftests/livepatch/test_modules/Makefile
+> index 6f7c2103d27d..f5e880269bff 100644
+> --- a/tools/testing/selftests/livepatch/test_modules/Makefile
+> +++ b/tools/testing/selftests/livepatch/test_modules/Makefile
+> @@ -10,7 +10,8 @@ obj-m += test_klp_atomic_replace.o \
+>   	test_klp_state.o \
+>   	test_klp_state2.o \
+>   	test_klp_state3.o \
+> -	test_klp_shadow_vars.o
+> +	test_klp_shadow_vars.o \
+> +	test_klp_syscall.o
+>   
+>   modules:
+>   	$(Q)$(MAKE) -C $(KDIR) modules KBUILD_EXTMOD=$(TESTMODS_DIR)
+> diff --git a/tools/testing/selftests/livepatch/test_modules/test_klp_syscall.c b/tools/testing/selftests/livepatch/test_modules/test_klp_syscall.c
+> new file mode 100644
+> index 000000000000..619496cc3481
+> --- /dev/null
+> +++ b/tools/testing/selftests/livepatch/test_modules/test_klp_syscall.c
+> @@ -0,0 +1,116 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2017-2023 SUSE
+> + * Authors: Libor Pechacek <lpechacek@suse.cz>
+> + *          Nicolai Stange <nstange@suse.de>
+> + *          Marcos Paulo de Souza <mpdesouza@suse.com>
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/kernel.h>
+> +#include <linux/sched.h>
+> +#include <linux/slab.h>
+> +#include <linux/livepatch.h>
+> +
+> +#if defined(__x86_64__)
+> +#define FN_PREFIX __x64_
+> +#elif defined(__s390x__)
+> +#define FN_PREFIX __s390x_
+> +#elif defined(__aarch64__)
+> +#define FN_PREFIX __arm64_
+> +#else
+> +/* powerpc does not select ARCH_HAS_SYSCALL_WRAPPER */
+> +#define FN_PREFIX
+> +#endif
+> +
+> +/* Protects klp_pids */
+> +static DEFINE_MUTEX(kpid_mutex);
+> +
+> +static unsigned int npids, npids_pending;
+> +static int klp_pids[NR_CPUS];
+> +module_param_array(klp_pids, int, &npids_pending, 0);
+> +MODULE_PARM_DESC(klp_pids, "Array of pids to be transitioned to livepatched state.");
+> +
+> +static ssize_t npids_show(struct kobject *kobj, struct kobj_attribute *attr,
+> +			  char *buf)
+> +{
+> +	return sprintf(buf, "%u\n", npids_pending);
+> +}
+> +
+> +static struct kobj_attribute klp_attr = __ATTR_RO(npids);
+> +static struct kobject *klp_kobj;
+> +
+> +asmlinkage long lp_sys_getpid(void)
+> +{
+> +	int i;
+> +
+> +	mutex_lock(&kpid_mutex);
+> +	if (npids_pending > 0) {
+> +		for (i = 0; i < npids; i++) {
+> +			if (current->pid == klp_pids[i]) {
+> +				klp_pids[i] = 0;
+> +				npids_pending--;
+> +				break;
+> +			}
+> +		}
+> +	}
+> +	mutex_unlock(&kpid_mutex);
+> +
+> +	return task_tgid_vnr(current);
+> +}
+> +
+> +static struct klp_func vmlinux_funcs[] = {
+> +	{
+> +		.old_name = __stringify(FN_PREFIX) "sys_getpid",
+> +		.new_func = lp_sys_getpid,
+> +	}, {}
+> +};
+> +
+> +static struct klp_object objs[] = {
+> +	{
+> +		/* name being NULL means vmlinux */
+> +		.funcs = vmlinux_funcs,
+> +	}, {}
+> +};
+> +
+> +static struct klp_patch patch = {
+> +	.mod = THIS_MODULE,
+> +	.objs = objs,
+> +};
+> +
+> +static int livepatch_init(void)
+> +{
+> +	int ret;
+> +
+> +	klp_kobj = kobject_create_and_add("test_klp_syscall", kernel_kobj);
+> +	if (!klp_kobj)
+> +		return -ENOMEM;
+> +
+> +	ret = sysfs_create_file(klp_kobj, &klp_attr.attr);
+> +	if (ret) {
+> +		kobject_put(klp_kobj);
+> +		return ret;
+> +	}
+> +
+> +	/*
+> +	 * Save the number pids to transition to livepatched state before the
+> +	 * number of pending pids is decremented.
+> +	 */
+> +	npids = npids_pending;
+> +
+> +	return klp_enable_patch(&patch);
+> +}
+> +
+> +static void livepatch_exit(void)
+> +{
+> +	kobject_put(klp_kobj);
+> +}
+> +
+> +module_init(livepatch_init);
+> +module_exit(livepatch_exit);
+> +MODULE_LICENSE("GPL");
+> +MODULE_INFO(livepatch, "Y");
+> +MODULE_AUTHOR("Libor Pechacek <lpechacek@suse.cz>");
+> +MODULE_AUTHOR("Nicolai Stange <nstange@suse.de>");
+> +MODULE_AUTHOR("Marcos Paulo de Souza <mpdesouza@suse.com>");
+> +MODULE_DESCRIPTION("Livepatch test: syscall transition");
 
-Added a couple of extra sanity checks. See updated incremental patch
-below.
+Missing module name? Is there a reason to not name this module?
 
--Tony
-
-
-diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-index 3293ab4c58b0..3684c6bf8224 100644
---- a/arch/x86/kernel/cpu/resctrl/core.c
-+++ b/arch/x86/kernel/cpu/resctrl/core.c
-@@ -1057,11 +1057,12 @@ static __init int snc_get_config(void)
- 	int mem_only_nodes = 0;
- 	int cpu, node, ret;
- 	int num_l3_caches;
-+	int cache_id;
- 
- 	if (!x86_match_cpu(snc_cpu_ids))
- 		return 1;
- 
--	node_caches = bitmap_zalloc(nr_node_ids, GFP_KERNEL);
-+	node_caches = bitmap_zalloc(num_present_cpus(), GFP_KERNEL);
- 	if (!node_caches)
- 		return 1;
- 
-@@ -1072,23 +1073,39 @@ static __init int snc_get_config(void)
- 
- 	for_each_node(node) {
- 		cpu = cpumask_first(cpumask_of_node(node));
--		if (cpu < nr_cpu_ids)
--			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
--		else
-+		if (cpu < nr_cpu_ids) {
-+			cache_id = get_cpu_cacheinfo_id(cpu, 3);
-+			if (cache_id != -1)
-+				set_bit(cache_id, node_caches);
-+		} else {
- 			mem_only_nodes++;
-+		}
- 	}
- 	cpus_read_unlock();
- 
--	num_l3_caches = bitmap_weight(node_caches, nr_node_ids);
-+	num_l3_caches = bitmap_weight(node_caches, num_present_cpus());
- 	kfree(node_caches);
- 
- 	if (!num_l3_caches)
- 		return 1;
- 
-+	/* sanity check #1: Number of CPU nodes must be multiple of num_l3_caches */
-+	if ((nr_node_ids - mem_only_nodes) % num_l3_caches)
-+		return 1;
-+
- 	ret = (nr_node_ids - mem_only_nodes) / num_l3_caches;
- 
--	if (ret > 1)
-+	/* sanity check #2: Only valid results are 1, 2, 4 */
-+	switch (ret) {
-+	case 1:
-+		break;
-+	case 2:
-+	case 4:
- 		rdt_resources_all[RDT_RESOURCE_L3].r_resctrl.mon_scope = RESCTRL_NODE;
-+		break;
-+	default:
-+		return 1;
-+	}
- 
- 	return ret;
- }
--- 
-2.41.0
-
+thanks,
+-- Shuah
