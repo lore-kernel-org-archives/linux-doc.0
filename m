@@ -1,591 +1,218 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nkgAwLTk"
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889C51704;
-	Thu, 30 Nov 2023 11:40:30 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-5c5f0e325a6so1072585a12.1;
-        Thu, 30 Nov 2023 11:40:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701373230; x=1701978030; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FOTrbD43X5foLPygmCbyWFshwNlSfN2deu74f1mt++U=;
-        b=nkgAwLTkJ4h53vbKYQ6m1T/pNS7dyxjdSdjcYRk0ef9IzKKTvO1fRBDAMimdiyxBro
-         u8Lc/Qlf/Vxkiq5Gyoq5Z6NyCCEMOYqug9923bz2raPEIYpkD0HPxG375rjVaXkd6U+s
-         Lbfjqv9T/Dw8/2RTCybRrs4oDw4p5PUMmTd1WdOIE/G8KKLOB6BOaTZt8uJxgI3dVDMz
-         Fyr1cuJ2uJty9HkTeGETD1Ree2C/AUk0Mm7HfmqZHE5H1dyRTqQHkCOlo/jkaq6pe4od
-         lk5l1nWXAy+hy/uyjGa5pRbyOl8RASeC2sqXix2xlVJ1HAjez7wmEHZug6n/6va/IZHt
-         Gy4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701373230; x=1701978030;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FOTrbD43X5foLPygmCbyWFshwNlSfN2deu74f1mt++U=;
-        b=IzNXk/4Ij0E6nSXtiFaKoW4dWSbB8Sxyb+mbweZe9e0V13buxjfhh+inoO9K4axbEn
-         PKfYMCXnrhNvDoutr66K5EHH0V5yisrMqCkey21MvaEGGeNBMvXCuL6gd0Y0yM7EvNLL
-         Y32Yf1AiWbzEmlFNOzAie8GU/tBWs6pytIU91Vv9qSfB8QX1S+fkHD4brmQ5+q8/6e3V
-         2o2U3Xkq6cn9VDycvAim7xx7LPEMOS8eGNOgWtWQmEn2HQ+0surFwgLaNQ+SxGdOC/4A
-         S6sm9UlwAsJJYtQKRUo1BaU7NlvGdegyGlaTOKcDvQNrI85d3G2EoLyAa5BNjNJcK4oN
-         AC/A==
-X-Gm-Message-State: AOJu0YwNOm/YS2PXeODlqbywaNuw3qMwccYBteBUrrUY2GCX5YAytQV2
-	q+aFxSRXYeu/kXgeIhPRtmM=
-X-Google-Smtp-Source: AGHT+IGaumhZJXtT2QsELkZoY43dA6mpkVGgVoU4LYVN4sVEkb6O8Rspok/DiV7ZBZIKbo1xAKEgbA==
-X-Received: by 2002:a17:90b:3890:b0:285:ad29:416c with SMTP id mu16-20020a17090b389000b00285ad29416cmr16868361pjb.46.1701373229504;
-        Thu, 30 Nov 2023 11:40:29 -0800 (PST)
-Received: from localhost (fwdproxy-prn-026.fbsv.net. [2a03:2880:ff:1a::face:b00c])
-        by smtp.gmail.com with ESMTPSA id gf18-20020a17090ac7d200b0028098225450sm3669723pjb.1.2023.11.30.11.40.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 11:40:29 -0800 (PST)
-From: Nhat Pham <nphamcs@gmail.com>
-To: akpm@linux-foundation.org
-Cc: hannes@cmpxchg.org,
-	cerasuolodomenico@gmail.com,
-	yosryahmed@google.com,
-	sjenning@redhat.com,
-	ddstreet@ieee.org,
-	vitaly.wool@konsulko.com,
-	mhocko@kernel.org,
-	roman.gushchin@linux.dev,
-	shakeelb@google.com,
-	muchun.song@linux.dev,
-	chrisl@kernel.org,
-	linux-mm@kvack.org,
-	kernel-team@meta.com,
-	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	shuah@kernel.org
-Subject: [PATCH v8 6/6] zswap: shrinks zswap pool based on memory pressure
-Date: Thu, 30 Nov 2023 11:40:23 -0800
-Message-Id: <20231130194023.4102148-7-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231130194023.4102148-1-nphamcs@gmail.com>
-References: <20231130194023.4102148-1-nphamcs@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CXUEnFQx"
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44293D67;
+	Thu, 30 Nov 2023 11:42:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=c5k9veNqTToqL9+XdH56Iz//beSleQMWbtOD1W9tZho=; b=CXUEnFQxz9jpx0CBLkAxOLNUUw
+	kGUYJ/9sLYXjwGxLKKlNpTvIr1Ez7lzHVHte0myrYf5oA9bWX9ovjVQExgUcPT8r5HwCtDj5AnOxS
+	lpLTX5PRyeoOFyJtBnpl3xL/FcUOTLQmd6fLLy6EsSUhmZd9lV7aOMf1q+Jkvmr5No2/JGmpdrBP0
+	gXZPjdmMwyvgy5vzAlQgw8b+K8qHTrGiB+4p7yLQaXMh/jQGSbHBgji1s8aRPt53Fw2+ruN9U7jcg
+	Y++p+SMz3PoBwDjE1f9dyMbvL4HCgkNV9WPnRmHOr6l7CadsmpAnoz0SU6WvGpI+TMy8QkLwoV/l4
+	d5at56Kw==;
+Received: from [2001:8b0:10b:5:a0cd:e6b5:a7e0:d455] (helo=u3832b3a9db3152.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1r8mv9-00EnMY-Pe; Thu, 30 Nov 2023 19:41:59 +0000
+Message-ID: <9718326e9b187b075de2df1059325aaa58cac900.camel@infradead.org>
+Subject: Re: [PATCH v5] KVM x86/xen: add an override for
+ PVCLOCK_TSC_STABLE_BIT
+From: David Woodhouse <dwmw2@infradead.org>
+To: paul@xen.org, Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,  kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,  Andrew Cooper
+ <andrew.cooper3@citrix.com>
+Date: Thu, 30 Nov 2023 19:41:58 +0000
+In-Reply-To: <504ca757-c5b9-4d3b-900c-c5f401a02027@xen.org>
+References: <20231102162128.2353459-1-paul@xen.org>
+	 <ZWi6IKGFtQGpu6oR@google.com>
+	 <504ca757-c5b9-4d3b-900c-c5f401a02027@xen.org>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-HWi3NidfV+mdsiInJPu6"
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-Currently, we only shrink the zswap pool when the user-defined limit is
-hit. This means that if we set the limit too high, cold data that are
-unlikely to be used again will reside in the pool, wasting precious
-memory. It is hard to predict how much zswap space will be needed ahead
-of time, as this depends on the workload (specifically, on factors such
-as memory access patterns and compressibility of the memory pages).
 
-This patch implements a memcg- and NUMA-aware shrinker for zswap, that
-is initiated when there is memory pressure. The shrinker does not
-have any parameter that must be tuned by the user, and can be opted in
-or out on a per-memcg basis.
+--=-HWi3NidfV+mdsiInJPu6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Furthermore, to make it more robust for many workloads and prevent
-overshrinking (i.e evicting warm pages that might be refaulted into
-memory), we build in the following heuristics:
+On Thu, 2023-11-30 at 16:41 +0000, Paul Durrant wrote:
+> On 30/11/2023 16:36, Sean Christopherson wrote:
+> > +Andrew
+> >=20
+> > On Thu, Nov 02, 2023, Paul Durrant wrote:
+> > > From: Paul Durrant <pdurrant@amazon.com>
+> > >=20
+> > > Unless explicitly told to do so (by passing 'clocksource=3Dtsc' and
+> > > 'tsc=3Dstable:socket', and then jumping through some hoops concerning
+> > > potential CPU hotplug) Xen will never use TSC as its clocksource.
+> > > Hence, by default, a Xen guest will not see PVCLOCK_TSC_STABLE_BIT se=
+t
+> > > in either the primary or secondary pvclock memory areas. This has
+> > > led to bugs in some guest kernels which only become evident if
+> > > PVCLOCK_TSC_STABLE_BIT *is* set in the pvclocks. Hence, to support
+> > > such guests, give the VMM a new Xen HVM config flag to tell KVM to
+> > > forcibly clear the bit in the Xen pvclocks.
+> >=20
+> > ...
+> >=20
+> > > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/=
+api.rst
+> > > index 7025b3751027..a9bdd25826d1 100644
+> > > --- a/Documentation/virt/kvm/api.rst
+> > > +++ b/Documentation/virt/kvm/api.rst
+> > > @@ -8374,6 +8374,7 @@ PVHVM guests. Valid flags are::
+> > > =C2=A0=C2=A0=C2=A0 #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0(1 << 4)
+> > > =C2=A0=C2=A0=C2=A0 #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0(1 =
+<< 5)
+> > > =C2=A0=C2=A0=C2=A0 #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0(1 << 6)
+> > > +=C2=A0 #define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0(1 << 7)
+> >=20
+> > Does Xen actually support PVCLOCK_TSC_STABLE_BIT?=C2=A0 I.e. do we need=
+ new uAPI to
+> > fix this, or can/should KVM simply _never_ set PVCLOCK_TSC_STABLE_BIT f=
+or Xen
+> > clocks?=C2=A0 At a glance, PVCLOCK_TSC_STABLE_BIT looks like it was add=
+ed as a purely
+> > Linux/KVM-only thing.
+>=20
+> It's certainly tested in arch/x86/xen/time.c, in=20
+> xen_setup_vsyscall_time_info() and xen_time_init(), so I'd guess it is=
+=20
+> considered to be supported.
 
-* Estimate the number of warm pages residing in zswap, and attempt to
-  protect this region of the zswap LRU.
-* Scale the number of freeable objects by an estimate of the memory
-  saving factor. The better zswap compresses the data, the fewer pages
-  we will evict to swap (as we will otherwise incur IO for relatively
-  small memory saving).
-* During reclaim, if the shrinker encounters a page that is also being
-  brought into memory, the shrinker will cautiously terminate its
-  shrinking action, as this is a sign that it is touching the warmer
-  region of the zswap LRU.
+And yes, Xen does set it, if you jump through the right hoops to make
+Xen actually use the TSC as its clocksource.
 
-As a proof of concept, we ran the following synthetic benchmark:
-build the linux kernel in a memory-limited cgroup, and allocate some
-cold data in tmpfs to see if the shrinker could write them out and
-improved the overall performance. Depending on the amount of cold data
-generated, we observe from 14% to 35% reduction in kernel CPU time used
-in the kernel builds.
+The new uAPI is just a single bit in the KVM_XEN_HVM_CONFIG
+capabilities; I think it's reasonable enough.
 
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
----
- Documentation/admin-guide/mm/zswap.rst |  10 ++
- include/linux/mmzone.h                 |   2 +
- include/linux/zswap.h                  |  25 +++-
- mm/Kconfig                             |  14 ++
- mm/mmzone.c                            |   1 +
- mm/swap_state.c                        |   2 +
- mm/zswap.c                             | 185 ++++++++++++++++++++++++-
- 7 files changed, 233 insertions(+), 6 deletions(-)
+--=-HWi3NidfV+mdsiInJPu6
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
-index 45b98390e938..62fc244ec702 100644
---- a/Documentation/admin-guide/mm/zswap.rst
-+++ b/Documentation/admin-guide/mm/zswap.rst
-@@ -153,6 +153,16 @@ attribute, e. g.::
- 
- Setting this parameter to 100 will disable the hysteresis.
- 
-+When there is a sizable amount of cold memory residing in the zswap pool, it
-+can be advantageous to proactively write these cold pages to swap and reclaim
-+the memory for other use cases. By default, the zswap shrinker is disabled.
-+User can enable it as follows:
-+
-+  echo Y > /sys/module/zswap/parameters/shrinker_enabled
-+
-+This can be enabled at the boot time if ``CONFIG_ZSWAP_SHRINKER_DEFAULT_ON`` is
-+selected.
-+
- A debugfs interface is provided for various statistic about pool size, number
- of pages stored, same-value filled pages and various counters for the reasons
- pages are rejected.
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 7b1816450bfc..b23bc5390240 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -22,6 +22,7 @@
- #include <linux/mm_types.h>
- #include <linux/page-flags.h>
- #include <linux/local_lock.h>
-+#include <linux/zswap.h>
- #include <asm/page.h>
- 
- /* Free memory management - zoned buddy allocator.  */
-@@ -641,6 +642,7 @@ struct lruvec {
- #ifdef CONFIG_MEMCG
- 	struct pglist_data *pgdat;
- #endif
-+	struct zswap_lruvec_state zswap_lruvec_state;
- };
- 
- /* Isolate for asynchronous migration */
-diff --git a/include/linux/zswap.h b/include/linux/zswap.h
-index e571e393669b..08c240e16a01 100644
---- a/include/linux/zswap.h
-+++ b/include/linux/zswap.h
-@@ -5,20 +5,40 @@
- #include <linux/types.h>
- #include <linux/mm_types.h>
- 
-+struct lruvec;
-+
- extern u64 zswap_pool_total_size;
- extern atomic_t zswap_stored_pages;
- 
- #ifdef CONFIG_ZSWAP
- 
-+struct zswap_lruvec_state {
-+	/*
-+	 * Number of pages in zswap that should be protected from the shrinker.
-+	 * This number is an estimate of the following counts:
-+	 *
-+	 * a) Recent page faults.
-+	 * b) Recent insertion to the zswap LRU. This includes new zswap stores,
-+	 *    as well as recent zswap LRU rotations.
-+	 *
-+	 * These pages are likely to be warm, and might incur IO if the are written
-+	 * to swap.
-+	 */
-+	atomic_long_t nr_zswap_protected;
-+};
-+
- bool zswap_store(struct folio *folio);
- bool zswap_load(struct folio *folio);
- void zswap_invalidate(int type, pgoff_t offset);
- void zswap_swapon(int type);
- void zswap_swapoff(int type);
- void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg);
--
-+void zswap_lruvec_state_init(struct lruvec *lruvec);
-+void zswap_page_swapin(struct page *page);
- #else
- 
-+struct zswap_lruvec_state {};
-+
- static inline bool zswap_store(struct folio *folio)
- {
- 	return false;
-@@ -33,7 +53,8 @@ static inline void zswap_invalidate(int type, pgoff_t offset) {}
- static inline void zswap_swapon(int type) {}
- static inline void zswap_swapoff(int type) {}
- static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg) {}
--
-+static inline void zswap_lruvec_state_init(struct lruvec *lruvec) {}
-+static inline void zswap_page_swapin(struct page *page) {}
- #endif
- 
- #endif /* _LINUX_ZSWAP_H */
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 57cd378c73d6..ca87cdb72f11 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -61,6 +61,20 @@ config ZSWAP_EXCLUSIVE_LOADS_DEFAULT_ON
- 	  The cost is that if the page was never dirtied and needs to be
- 	  swapped out again, it will be re-compressed.
- 
-+config ZSWAP_SHRINKER_DEFAULT_ON
-+	bool "Shrink the zswap pool on memory pressure"
-+	depends on ZSWAP
-+	default n
-+	help
-+	  If selected, the zswap shrinker will be enabled, and the pages
-+	  stored in the zswap pool will become available for reclaim (i.e
-+	  written back to the backing swap device) on memory pressure.
-+
-+	  This means that zswap writeback could happen even if the pool is
-+	  not yet full, or the cgroup zswap limit has not been reached,
-+	  reducing the chance that cold pages will reside in the zswap pool
-+	  and consume memory indefinitely.
-+
- choice
- 	prompt "Default compressor"
- 	depends on ZSWAP
-diff --git a/mm/mmzone.c b/mm/mmzone.c
-index b594d3f268fe..c01896eca736 100644
---- a/mm/mmzone.c
-+++ b/mm/mmzone.c
-@@ -78,6 +78,7 @@ void lruvec_init(struct lruvec *lruvec)
- 
- 	memset(lruvec, 0, sizeof(struct lruvec));
- 	spin_lock_init(&lruvec->lru_lock);
-+	zswap_lruvec_state_init(lruvec);
- 
- 	for_each_lru(lru)
- 		INIT_LIST_HEAD(&lruvec->lists[lru]);
-diff --git a/mm/swap_state.c b/mm/swap_state.c
-index 6c84236382f3..c597cec606e4 100644
---- a/mm/swap_state.c
-+++ b/mm/swap_state.c
-@@ -687,6 +687,7 @@ struct page *swap_cluster_readahead(swp_entry_t entry, gfp_t gfp_mask,
- 					&page_allocated, false);
- 	if (unlikely(page_allocated))
- 		swap_readpage(page, false, NULL);
-+	zswap_page_swapin(page);
- 	return page;
- }
- 
-@@ -862,6 +863,7 @@ static struct page *swap_vma_readahead(swp_entry_t targ_entry, gfp_t gfp_mask,
- 					&page_allocated, false);
- 	if (unlikely(page_allocated))
- 		swap_readpage(page, false, NULL);
-+	zswap_page_swapin(page);
- 	return page;
- }
- 
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 49b79393e472..0f086ffd7b6a 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -148,6 +148,11 @@ module_param_named(exclusive_loads, zswap_exclusive_loads_enabled, bool, 0644);
- /* Number of zpools in zswap_pool (empirically determined for scalability) */
- #define ZSWAP_NR_ZPOOLS 32
- 
-+/* Enable/disable memory pressure-based shrinker. */
-+static bool zswap_shrinker_enabled = IS_ENABLED(
-+		CONFIG_ZSWAP_SHRINKER_DEFAULT_ON);
-+module_param_named(shrinker_enabled, zswap_shrinker_enabled, bool, 0644);
-+
- /*********************************
- * data structures
- **********************************/
-@@ -177,6 +182,8 @@ struct zswap_pool {
- 	char tfm_name[CRYPTO_MAX_ALG_NAME];
- 	struct list_lru list_lru;
- 	struct mem_cgroup *next_shrink;
-+	struct shrinker *shrinker;
-+	atomic_t nr_stored;
- };
- 
- /*
-@@ -275,17 +282,26 @@ static bool zswap_can_accept(void)
- 			DIV_ROUND_UP(zswap_pool_total_size, PAGE_SIZE);
- }
- 
-+static u64 get_zswap_pool_size(struct zswap_pool *pool)
-+{
-+	u64 pool_size = 0;
-+	int i;
-+
-+	for (i = 0; i < ZSWAP_NR_ZPOOLS; i++)
-+		pool_size += zpool_get_total_size(pool->zpools[i]);
-+
-+	return pool_size;
-+}
-+
- static void zswap_update_total_size(void)
- {
- 	struct zswap_pool *pool;
- 	u64 total = 0;
--	int i;
- 
- 	rcu_read_lock();
- 
- 	list_for_each_entry_rcu(pool, &zswap_pools, list)
--		for (i = 0; i < ZSWAP_NR_ZPOOLS; i++)
--			total += zpool_get_total_size(pool->zpools[i]);
-+		total += get_zswap_pool_size(pool);
- 
- 	rcu_read_unlock();
- 
-@@ -344,13 +360,34 @@ static void zswap_entry_cache_free(struct zswap_entry *entry)
- 	kmem_cache_free(zswap_entry_cache, entry);
- }
- 
-+/*********************************
-+* zswap lruvec functions
-+**********************************/
-+void zswap_lruvec_state_init(struct lruvec *lruvec)
-+{
-+	atomic_long_set(&lruvec->zswap_lruvec_state.nr_zswap_protected, 0);
-+}
-+
-+void zswap_page_swapin(struct page *page)
-+{
-+	struct lruvec *lruvec;
-+
-+	if (page) {
-+		lruvec = folio_lruvec(page_folio(page));
-+		atomic_long_inc(&lruvec->zswap_lruvec_state.nr_zswap_protected);
-+	}
-+}
-+
- /*********************************
- * lru functions
- **********************************/
- static void zswap_lru_add(struct list_lru *list_lru, struct zswap_entry *entry)
- {
-+	atomic_long_t *nr_zswap_protected;
-+	unsigned long lru_size, old, new;
- 	int nid = entry_to_nid(entry);
- 	struct mem_cgroup *memcg;
-+	struct lruvec *lruvec;
- 
- 	/*
- 	 * Note that it is safe to use rcu_read_lock() here, even in the face of
-@@ -368,6 +405,19 @@ static void zswap_lru_add(struct list_lru *list_lru, struct zswap_entry *entry)
- 	memcg = mem_cgroup_from_entry(entry);
- 	/* will always succeed */
- 	list_lru_add(list_lru, &entry->lru, nid, memcg);
-+
-+	/* Update the protection area */
-+	lru_size = list_lru_count_one(list_lru, nid, memcg);
-+	lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(nid));
-+	nr_zswap_protected = &lruvec->zswap_lruvec_state.nr_zswap_protected;
-+	old = atomic_long_inc_return(nr_zswap_protected);
-+	/*
-+	 * Decay to avoid overflow and adapt to changing workloads.
-+	 * This is based on LRU reclaim cost decaying heuristics.
-+	 */
-+	do {
-+		new = old > lru_size / 4 ? old / 2 : old;
-+	} while (!atomic_long_try_cmpxchg(nr_zswap_protected, &old, new));
- 	rcu_read_unlock();
- }
- 
-@@ -389,6 +439,7 @@ static void zswap_lru_putback(struct list_lru *list_lru,
- 	int nid = entry_to_nid(entry);
- 	spinlock_t *lock = &list_lru->node[nid].lock;
- 	struct mem_cgroup *memcg;
-+	struct lruvec *lruvec;
- 
- 	rcu_read_lock();
- 	memcg = mem_cgroup_from_entry(entry);
-@@ -396,6 +447,10 @@ static void zswap_lru_putback(struct list_lru *list_lru,
- 	/* we cannot use list_lru_add here, because it increments node's lru count */
- 	list_lru_putback(list_lru, &entry->lru, nid, memcg);
- 	spin_unlock(lock);
-+
-+	lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(entry_to_nid(entry)));
-+	/* increment the protection area to account for the LRU rotation. */
-+	atomic_long_inc(&lruvec->zswap_lruvec_state.nr_zswap_protected);
- 	rcu_read_unlock();
- }
- 
-@@ -485,6 +540,7 @@ static void zswap_free_entry(struct zswap_entry *entry)
- 	else {
- 		zswap_lru_del(&entry->pool->list_lru, entry);
- 		zpool_free(zswap_find_zpool(entry), entry->handle);
-+		atomic_dec(&entry->pool->nr_stored);
- 		zswap_pool_put(entry->pool);
- 	}
- 	zswap_entry_cache_free(entry);
-@@ -526,6 +582,102 @@ static struct zswap_entry *zswap_entry_find_get(struct rb_root *root,
- 	return entry;
- }
- 
-+/*********************************
-+* shrinker functions
-+**********************************/
-+static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_one *l,
-+				       spinlock_t *lock, void *arg);
-+
-+static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
-+		struct shrink_control *sc)
-+{
-+	struct lruvec *lruvec = mem_cgroup_lruvec(sc->memcg, NODE_DATA(sc->nid));
-+	unsigned long shrink_ret, nr_protected, lru_size;
-+	struct zswap_pool *pool = shrinker->private_data;
-+	bool encountered_page_in_swapcache = false;
-+
-+	nr_protected =
-+		atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_protected);
-+	lru_size = list_lru_shrink_count(&pool->list_lru, sc);
-+
-+	/*
-+	 * Abort if the shrinker is disabled or if we are shrinking into the
-+	 * protected region.
-+	 *
-+	 * This short-circuiting is necessary because if we have too many multiple
-+	 * concurrent reclaimers getting the freeable zswap object counts at the
-+	 * same time (before any of them made reasonable progress), the total
-+	 * number of reclaimed objects might be more than the number of unprotected
-+	 * objects (i.e the reclaimers will reclaim into the protected area of the
-+	 * zswap LRU).
-+	 */
-+	if (!zswap_shrinker_enabled || nr_protected >= lru_size - sc->nr_to_scan) {
-+		sc->nr_scanned = 0;
-+		return SHRINK_STOP;
-+	}
-+
-+	shrink_ret = list_lru_shrink_walk(&pool->list_lru, sc, &shrink_memcg_cb,
-+		&encountered_page_in_swapcache);
-+
-+	if (encountered_page_in_swapcache)
-+		return SHRINK_STOP;
-+
-+	return shrink_ret ? shrink_ret : SHRINK_STOP;
-+}
-+
-+static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
-+		struct shrink_control *sc)
-+{
-+	struct zswap_pool *pool = shrinker->private_data;
-+	struct mem_cgroup *memcg = sc->memcg;
-+	struct lruvec *lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(sc->nid));
-+	unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
-+
-+#ifdef CONFIG_MEMCG_KMEM
-+	cgroup_rstat_flush(memcg->css.cgroup);
-+	nr_backing = memcg_page_state(memcg, MEMCG_ZSWAP_B) >> PAGE_SHIFT;
-+	nr_stored = memcg_page_state(memcg, MEMCG_ZSWAPPED);
-+#else
-+	/* use pool stats instead of memcg stats */
-+	nr_backing = get_zswap_pool_size(pool) >> PAGE_SHIFT;
-+	nr_stored = atomic_read(&pool->nr_stored);
-+#endif
-+
-+	if (!zswap_shrinker_enabled || !nr_stored)
-+		return 0;
-+
-+	nr_protected =
-+		atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_protected);
-+	nr_freeable = list_lru_shrink_count(&pool->list_lru, sc);
-+	/*
-+	 * Subtract the lru size by an estimate of the number of pages
-+	 * that should be protected.
-+	 */
-+	nr_freeable = nr_freeable > nr_protected ? nr_freeable - nr_protected : 0;
-+
-+	/*
-+	 * Scale the number of freeable pages by the memory saving factor.
-+	 * This ensures that the better zswap compresses memory, the fewer
-+	 * pages we will evict to swap (as it will otherwise incur IO for
-+	 * relatively small memory saving).
-+	 */
-+	return mult_frac(nr_freeable, nr_backing, nr_stored);
-+}
-+
-+static void zswap_alloc_shrinker(struct zswap_pool *pool)
-+{
-+	pool->shrinker =
-+		shrinker_alloc(SHRINKER_NUMA_AWARE | SHRINKER_MEMCG_AWARE, "mm-zswap");
-+	if (!pool->shrinker)
-+		return;
-+
-+	pool->shrinker->private_data = pool;
-+	pool->shrinker->scan_objects = zswap_shrinker_scan;
-+	pool->shrinker->count_objects = zswap_shrinker_count;
-+	pool->shrinker->batch = 0;
-+	pool->shrinker->seeks = DEFAULT_SEEKS;
-+}
-+
- /*********************************
- * per-cpu code
- **********************************/
-@@ -721,6 +873,7 @@ static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_o
- 				       spinlock_t *lock, void *arg)
- {
- 	struct zswap_entry *entry = container_of(item, struct zswap_entry, lru);
-+	bool *encountered_page_in_swapcache = (bool *)arg;
- 	struct zswap_tree *tree;
- 	pgoff_t swpoffset;
- 	enum lru_status ret = LRU_REMOVED_RETRY;
-@@ -756,6 +909,17 @@ static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_o
- 		zswap_reject_reclaim_fail++;
- 		zswap_lru_putback(&entry->pool->list_lru, entry);
- 		ret = LRU_RETRY;
-+
-+		/*
-+		 * Encountering a page already in swap cache is a sign that we are shrinking
-+		 * into the warmer region. We should terminate shrinking (if we're in the dynamic
-+		 * shrinker context).
-+		 */
-+		if (writeback_result == -EEXIST && encountered_page_in_swapcache) {
-+			ret = LRU_SKIP;
-+			*encountered_page_in_swapcache = true;
-+		}
-+
- 		goto put_unlock;
- 	}
- 	zswap_written_back_pages++;
-@@ -913,6 +1077,11 @@ static struct zswap_pool *zswap_pool_create(char *type, char *compressor)
- 				       &pool->node);
- 	if (ret)
- 		goto error;
-+
-+	zswap_alloc_shrinker(pool);
-+	if (!pool->shrinker)
-+		goto error;
-+
- 	pr_debug("using %s compressor\n", pool->tfm_name);
- 
- 	/* being the current pool takes 1 ref; this func expects the
-@@ -920,13 +1089,19 @@ static struct zswap_pool *zswap_pool_create(char *type, char *compressor)
- 	 */
- 	kref_init(&pool->kref);
- 	INIT_LIST_HEAD(&pool->list);
--	list_lru_init_memcg(&pool->list_lru, NULL);
-+	if (list_lru_init_memcg(&pool->list_lru, pool->shrinker))
-+		goto lru_fail;
-+	shrinker_register(pool->shrinker);
- 	INIT_WORK(&pool->shrink_work, shrink_worker);
-+	atomic_set(&pool->nr_stored, 0);
- 
- 	zswap_pool_debug("created", pool);
- 
- 	return pool;
- 
-+lru_fail:
-+	list_lru_destroy(&pool->list_lru);
-+	shrinker_free(pool->shrinker);
- error:
- 	if (pool->acomp_ctx)
- 		free_percpu(pool->acomp_ctx);
-@@ -984,6 +1159,7 @@ static void zswap_pool_destroy(struct zswap_pool *pool)
- 
- 	zswap_pool_debug("destroying", pool);
- 
-+	shrinker_free(pool->shrinker);
- 	cpuhp_state_remove_instance(CPUHP_MM_ZSWP_POOL_PREPARE, &pool->node);
- 	free_percpu(pool->acomp_ctx);
- 	list_lru_destroy(&pool->list_lru);
-@@ -1540,6 +1716,7 @@ bool zswap_store(struct folio *folio)
- 	if (entry->length) {
- 		INIT_LIST_HEAD(&entry->lru);
- 		zswap_lru_add(&entry->pool->list_lru, entry);
-+		atomic_inc(&entry->pool->nr_stored);
- 	}
- 	spin_unlock(&tree->lock);
- 
--- 
-2.34.1
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMxMTMwMTk0MTU4WjAvBgkqhkiG9w0BCQQxIgQgosDqY7+6
+ouHnIWvbaXuR5b/o3yJ5lMpQ4bZLlrRqDRgwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAvUo0243nK7Z3uVdYLX0klmhqZY7r5XHVm
+YYf4zdnZvH77iYTXkgYurZS9ppKlU4IqCh1ToQ4pTF9jk5x9a10gsktgMQ0RBUprETiOqRwCYI4D
+zOu1ssuJoGFl+ABWEdjNvOJjxPQ/f5PgjZT+IECCoygdm/rvc+0JeKwz2gRR/zKU57Vhbxa5whK/
+FD1rV8Uhp6zUWWsvwxUkqZLpO5sqfm0jAcNYITSshxe3Qmjb8WdGDiGEmCMc8hn1NBbwNQ5H/c2P
+hYWgyGXqLLbKwQS+mU6lx6Kd0fo/GevfxwLrXNom3bENsVL5Oog4W1CipzVCfU0kDjCVCOCCMNE0
+22h9OpkC45AvMNb7LaOSPxoCD7iS9gKvsm+BXQDwJvT7tJeADfwJ/gT45CbD9GpNQeys9ZP7qQBA
++V3RwHWKFwZCYd9wqST3n7TZo5wbQf+BFHwAAsVpDcK/dwKCnCPdqVFwhFO+dqFuy/bw0ysDIO/Q
+4fF0MfBhY1p/vjjkGgyquSDfEmoPBOh5IJAqER3Jp9WzF2DdIQEfw65m5xxkToV/q8v9J02eKNF8
+RPpgdABOlmA2t+5X8uykZd/63TA/mEJTbC9uN4ZomkBxKQU+O2Bc0ELMkJ6tbn7xh3NkSq89jCNz
+3Cuo8gORw1G2/hdqIObfF6Nu1TK7W/2V6tOsvMfyIwAAAAAAAA==
+
+
+--=-HWi3NidfV+mdsiInJPu6--
