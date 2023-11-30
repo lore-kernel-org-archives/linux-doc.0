@@ -1,124 +1,105 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716BB125C3
+	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 08:27:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hkc85nqZ"
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A412A3;
-	Thu, 30 Nov 2023 00:04:44 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cc9b626a96so6584415ad.2;
-        Thu, 30 Nov 2023 00:04:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701331484; x=1701936284; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bgB6RoiFobLknzEtO8MoirvVaa88Hx4zUcBwWoGsM5M=;
-        b=hkc85nqZxyWeTZmix33vJMZGwli9+hCPe7VJIUw4DKH5c0Cqla8yawWXNXelM7tLdJ
-         buIUWH2KTFIrYGwIRQSRhZfRbvYE2T9tS9LXJSGwHW8JodouWhumdupGyIsSfuTRIrpa
-         BasjGRxz4ktiw0XFzMgLHhrrMC2BjobuTmNRNNNrUL7Yq4KWDZqU7fwV4Fyfwp7okk+9
-         hJA3VvDxCLsXejRk+erpjrjp5PbRWbrnGoO7xkUDbO0h9GWPzhesWSqT5H08Ui+41Xgb
-         hQuJvf98wdln+k9xbyNWJ8FJFo/tkrVkR5XT1ZskBQrh6BCIgdApDCQumw6/nStH0g5K
-         kEXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701331484; x=1701936284;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bgB6RoiFobLknzEtO8MoirvVaa88Hx4zUcBwWoGsM5M=;
-        b=R0wtYRH60ky1CAr5RLIn4LbH7Y9/u5WFlqEj0unYRaOu0/CBEEQu74Uzm/G4uWjsZx
-         532LU/KiF//Z/1/O10CVGHdjE0qAxP46fe4ZZRUgAc5t8XjXwuzeMJ09X9QC6dP80vtE
-         B5A8TXgQaIJAckIEZkR7IoUTIWFN7ppZ9Dnjl+4JDAgDxhJqw1jJ21m8MxSEm4eEpBUc
-         gmkMEpLr+SS+jlIEvpy6Ztrs17BHIRzf3P8SE8fN4yYK9WeKsvnsshttyAM797ceuhJY
-         YWzdsnpmxkLaYzTmDFrWcEbIElDHC+xKCWUIvlv6QfkbfPUuPivoClgEifiQjZQ7BL9h
-         fU1Q==
-X-Gm-Message-State: AOJu0Yyr5+bndC8i1ewoMoLhCV9uy3HG3fnddlXYqSh0FfMdgEZwBWTL
-	cc2mOjRBP6dexaQnU2DuZGI=
-X-Google-Smtp-Source: AGHT+IEGoOdRQFIyflKN6XFRtYjPec4rcSFOpDa2HyGuCnXvq+plqF4HG9/xF+7ogLVZ5KUFPMcqAA==
-X-Received: by 2002:a17:902:db06:b0:1cf:c376:6d8d with SMTP id m6-20020a170902db0600b001cfc3766d8dmr15663408plx.32.1701331483766;
-        Thu, 30 Nov 2023 00:04:43 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id 10-20020a170902c20a00b001c9dac0fbbasm697119pll.63.2023.11.30.00.04.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 00:04:41 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id F2BF610F63FA9; Thu, 30 Nov 2023 15:04:38 +0700 (WIB)
-Date: Thu, 30 Nov 2023 15:04:38 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Joe Lawrence <joe.lawrence@redhat.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Livepatching <live-patching@vger.kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>,
-	Attreyee Mukherjee <tintinm2017@gmail.com>
-Subject: Re: [PATCH 0/2] Minor grammatical fixup for livepatch docs
-Message-ID: <ZWhCFic541YaYf4w@archie.me>
-References: <20231129132527.8078-1-bagasdotme@gmail.com>
- <ac7a90a7-4d29-059b-fbff-6b67e6f5c2d3@redhat.com>
- <a4da77c2-7a23-4988-b65a-a58c105d89a4@gmail.com>
- <87h6l4ksni.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8Qm7sIY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E76C433C8;
+	Thu, 30 Nov 2023 08:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701332858;
+	bh=LdjNKOLHbMhRShAwFebAAZRIVcHBzVh9Y/dtmWC97qA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=T8Qm7sIY6gw2R8rh3tADIiIBNUsRxau6g0HY+bBy27PL1WMKFxbi/9i8Rcd4OgTm8
+	 aU7zulW30HDJbeXOWbAiQeH2iSvXZBzYxzMhM5vn7IeJGz8lXaqU7cOJa6ELd32qbf
+	 aYgKvCkuEA/NduZ42Rtd+1HQahVNtg0NvgJfFkA6IZMxOrYEqI91lGdGGKUmw5O4+d
+	 TBbZM+LRf/DChu/dAn9hfATiiYRkTXEz9tcw6lVBHydfCgHtCQttrovv8ZfAH0h1kS
+	 F3xK8SFlrHWmr0WHzMZTOo1R+U4NkAnOVAMWI9O5+rimzUNQVgzKLtopl2TtdwMLqe
+	 Ac0hp0iRYE/5A==
+Date: Thu, 30 Nov 2023 09:27:33 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: Raise the minimum Sphinx requirement to 2.4.4
+Message-ID: <20231130092733.26f0b7c4@coco.lan>
+In-Reply-To: <c3accd5b-c8d9-4eb9-86a1-054e89893a8f@gmail.com>
+References: <87sf4qvkmc.fsf@meer.lwn.net>
+	<20231128023015.0e446a06@coco.lan>
+	<877cm2uegr.fsf@meer.lwn.net>
+	<20231128165645.2dbe416c@coco.lan>
+	<c3accd5b-c8d9-4eb9-86a1-054e89893a8f@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p+we3TKRNR7h2S1s"
-Content-Disposition: inline
-In-Reply-To: <87h6l4ksni.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Thu, 30 Nov 2023 16:33:56 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
---p+we3TKRNR7h2S1s
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Hi,
+> 
+> On 2023/11/29 0:56, Mauro Carvalho Chehab wrote:
+> [snip]
+> 
+> > While I didn't make any benchmarks, I remember people reported
+> > poor performance with newer versions, so, without thinking to
+> > much, 3.1 or 3.2 seems a good candidate for the recommended
+> > version.  
+> 
+> Well, I have different impressions on the performance of Sphinx >=3.1
+> and have done some quick benchmarks.
+> Here are results on a not-so-performant machine.
+> 
+> Benchmark of building htmldocs on Ubuntu 22.04 (after "make cleandocs"):
+> 
+> Sphinx   elapesed   maxresident (k)
+> ======== ========== ===============
+>  2.4.5     7m44.57     2806152      (parallel slot = 3)
+>  3.1.2    11m25.28     1036264      (parallel slot = 4)
+>  3.4.3    10m22.26     1067100      (ditto.)
+>  4.2.0    10m16.53     1151220
+>  4.3.2    10m06.07     1123432      (distro pkg of Ubuntu 22.04LTS)
+>  5.3.0    10m18.73     1145524
+>  7.2.6     9m53.80     1261736
+> 
+> python3: Python 3.10.12
+> 
+> Sidenotes:
+> 
+>   1: Sphinx 4.3.0 officially added Python 3.10 support.
+>      Sphinx 4.2.0 also works with Python 3.10.
+>      Sphinx <3.5.0 happen to work with Python 3.10.
+>   2: Sphinx 7.2.0 obsoleted Python 3.8.
+>   3: Sphinx 6.0.0 obsoleted Python 3.6 and 3.7.
+> 
+> 
+> And here is a table of distro Sphinx packages:
+> 
+>           As of 2023.11.30
+> 
+> ----------------------------------
+> Distro              Sphinx Python3
+> =================== ====== =======
+> Ubuntu 22.04 LTS    4.3.2  3.10.12
+> Debian 11           3.4.3  3.9.2
+> Debian 12           5.3.0  3.11.2
+> Fedora 39           6.2.1  3.12.0
+> RHEL 9              3.4.3  3.9.18
+> Mageia 9            6.1.3  3.10.11
+> openSUSE Leap 15.5  4.2.0  3.6.15  (provided as python3-Sphinx_4_2_0)
+> ----------------------------------
+> 
+> So, I think Sphinx 3.4.3 would be a reasonable choice for
+> recommending.
 
-On Wed, Nov 29, 2023 at 05:10:25PM -0700, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
->=20
-> > On 11/29/23 20:53, Joe Lawrence wrote:
-> >> On 11/29/23 08:25, Bagas Sanjaya wrote:
-> >>> I was prompted to write this little grammar fix series when reading
-> >>> the fix from Attreyee [1], with review comments requesting changes
-> >>> to that fix. So here's my version of the fix, with reviews from [1]
-> >>> addressed (and distinct grammar fixes splitted).
-> >>>
-> >>=20
-> >> Typical kernel workflow would be for Attreyee to incorporate feedback
-> >> and post their v2 after a day or two.  From the format they posted, it
-> >> appears to be a first(ish) kernel contribution post.  Let's be kind and
-> >> patient so they we all may benefit from the practice of iterating on
-> >> their patch.
-> >>=20
-> >
-> > I do this posting because I thought the OP (Attreyee) didn't respond in
-> > timely manner (just like random Chinese contributors like @cdjrlc.com
-> > and @208suo.com people).
->=20
-> Seriously?  The original post was on Monday, yours came less than 48
-> hours later.  Not only can we not expect that kind of rapid turnaround
-> from anybody, but we actively discourage rapid resending of patches.
-> Rather than dig yourself in deeper, I suggest you simply apologize to
-> the original poster and find something more useful to do.
+Works for me.
 
-Done, thanks!
-
-And yes, I'm also focusing on regression tracking and Bugzilla
-triaging.
-
-Ciao, Bagas.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---p+we3TKRNR7h2S1s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWhCBgAKCRD2uYlJVVFO
-o4KyAP9QAMwScjDOefXLk7AsKL3A93x/m/r/RPaaE04kNiQHzAEA2Wo/kuHugyoY
-7LAoCn4OIfARydmbZskeF2tkU8O70gU=
-=HZuv
------END PGP SIGNATURE-----
-
---p+we3TKRNR7h2S1s--
+Regards,
+Mauro
