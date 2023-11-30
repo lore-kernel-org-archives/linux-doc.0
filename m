@@ -1,15 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E89510C6;
-	Wed, 29 Nov 2023 22:21:42 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 972201042;
-	Wed, 29 Nov 2023 22:22:28 -0800 (PST)
-Received: from [10.162.41.8] (a077893.blr.arm.com [10.162.41.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D6423F5A1;
-	Wed, 29 Nov 2023 22:21:38 -0800 (PST)
-Message-ID: <62245c89-2881-411f-9685-a3df022921bc@arm.com>
-Date: Thu, 30 Nov 2023 11:51:35 +0530
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="keGMdGID"
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB498B9;
+	Wed, 29 Nov 2023 23:34:00 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1cf8e569c35so5927645ad.0;
+        Wed, 29 Nov 2023 23:34:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701329640; x=1701934440; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3mnK86zS9kgkKOxmm/9KwAlPUykH+ThgLDfr/k2vMa8=;
+        b=keGMdGID7pcMfKzk3mefpVaDWSUQsqqMEHN1h8EOvxmS3Zqcq4PBkskdzOPr1ybNi7
+         GqoLSA+AMqAYGEMcYE8h0BM3m0xPBiW/hLZfHB6tdK8ktnakLHysHKrFuXRcvySUXCYv
+         s4MjsyV1HKnY/lg+jHjJ3z0jzmMnIun4pPyIaGEcClBoPhQNDBHSBcg+PMztaod8/z8i
+         Cs1m5BgjcQ3/5kyJO29IKOBbQNpauITr+urZH3PyVziog4uYdEUwmoQOGGDAnyh32aij
+         Yc84yghwLO86r3z5cbm+hNxLPIMb3CqFoHdi7lWRAeC50UyPSLELJ980FrwPsGgqNvXw
+         OplQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701329640; x=1701934440;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3mnK86zS9kgkKOxmm/9KwAlPUykH+ThgLDfr/k2vMa8=;
+        b=v7oKB37/sDAWpfUYtec057MmUCO7nam6BAx6rTiLySwb3QLY/hdrVirvjTmHbjZO66
+         FSQBML5ryIErZjz4XlIwZFV+c07P91/EZjU5ztdGle9c7+a0lyOb2UEuC/+QlECZyfRh
+         YtRkwycp6enFMfaXAwo/h0av8+4cC0F79RImB4vW2H7uKNIPHt2NIE90N2Q6i7LkllQ2
+         zo6w3BVf9XS3qgjDBBDbT3UE5cCgBErjxUnVvgZ8ETams9P4GNyYaHd4tV3D76PdX+4J
+         cBP+TQ0/L97T410IwbyTRjXZ/k0pmXGNE5kLLFP9Aj3l6997lbfydu/sBpApzmusXHAH
+         C1Ag==
+X-Gm-Message-State: AOJu0YzbQf46BiTajrrNBZEk5qVxoY5xlUjhE2ACoGQrrc2NC6MHmX3Q
+	aAa4BHhOKgPJUIC0douOjKaPxuCA/uk+Mw==
+X-Google-Smtp-Source: AGHT+IHudgUyHU7NAs9q70jlysfskaogusgM3hhNgTORctTs9pQLzQLv8sy/F+dxr8fk7Rg0ZeBhow==
+X-Received: by 2002:a17:902:d4c1:b0:1cf:c329:6204 with SMTP id o1-20020a170902d4c100b001cfc3296204mr15511555plg.14.1701329640291;
+        Wed, 29 Nov 2023 23:34:00 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id i16-20020a170902c95000b001c7283d3089sm612789pla.273.2023.11.29.23.33.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 23:33:59 -0800 (PST)
+Message-ID: <c3accd5b-c8d9-4eb9-86a1-054e89893a8f@gmail.com>
+Date: Thu, 30 Nov 2023 16:33:56 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -17,284 +47,78 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/3] arm64: perf: Add support for event counting
- threshold
+Subject: Re: [PATCH] docs: Raise the minimum Sphinx requirement to 2.4.4
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <87sf4qvkmc.fsf@meer.lwn.net> <20231128023015.0e446a06@coco.lan>
+ <877cm2uegr.fsf@meer.lwn.net> <20231128165645.2dbe416c@coco.lan>
 Content-Language: en-US
-To: James Clark <james.clark@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, suzuki.poulose@arm.com, will@kernel.org,
- mark.rutland@arm.com, namhyung@gmail.com
-References: <20231124102857.1106453-1-james.clark@arm.com>
- <20231124102857.1106453-3-james.clark@arm.com>
- <2988dbfe-1384-4b2f-9450-29212c835d6d@arm.com>
- <4515569f-04f8-402f-612d-738184d8baed@arm.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <4515569f-04f8-402f-612d-738184d8baed@arm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20231128165645.2dbe416c@coco.lan>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi,
+
+On 2023/11/29 0:56, Mauro Carvalho Chehab wrote:
+[snip]
+
+> While I didn't make any benchmarks, I remember people reported
+> poor performance with newer versions, so, without thinking to
+> much, 3.1 or 3.2 seems a good candidate for the recommended
+> version.
+
+Well, I have different impressions on the performance of Sphinx >=3.1
+and have done some quick benchmarks.
+Here are results on a not-so-performant machine.
+
+Benchmark of building htmldocs on Ubuntu 22.04 (after "make cleandocs"):
+
+Sphinx   elapesed   maxresident (k)
+======== ========== ===============
+ 2.4.5     7m44.57     2806152      (parallel slot = 3)
+ 3.1.2    11m25.28     1036264      (parallel slot = 4)
+ 3.4.3    10m22.26     1067100      (ditto.)
+ 4.2.0    10m16.53     1151220
+ 4.3.2    10m06.07     1123432      (distro pkg of Ubuntu 22.04LTS)
+ 5.3.0    10m18.73     1145524
+ 7.2.6     9m53.80     1261736
+
+python3: Python 3.10.12
+
+Sidenotes:
+
+  1: Sphinx 4.3.0 officially added Python 3.10 support.
+     Sphinx 4.2.0 also works with Python 3.10.
+     Sphinx <3.5.0 happen to work with Python 3.10.
+  2: Sphinx 7.2.0 obsoleted Python 3.8.
+  3: Sphinx 6.0.0 obsoleted Python 3.6 and 3.7.
 
 
-On 11/27/23 15:54, James Clark wrote:
-> 
-> 
-> On 27/11/2023 05:32, Anshuman Khandual wrote:
->>
->>
->> On 11/24/23 15:58, James Clark wrote:
->>> FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
->>> events whose count meets a specified threshold condition. For example if
->>> PMEVTYPERn.TC (Threshold Control) is set to 0b101 (Greater than or
->>> equal, count), and the threshold is set to 2, then the PMU counter will
->>> now only increment by 1 when an event would have previously incremented
->>> the PMU counter by 2 or more on a single processor cycle.
->>>
->>> Three new Perf event config fields, 'threshold', 'threshold_compare' and
->>> 'threshold_count' have been added to control the feature.
->>> threshold_compare maps to the upper two bits of PMEVTYPERn.TC and
->>> threshold_count maps to the first bit of TC. These separate attributes
->>> have been picked rather than enumerating all the possible combinations
->>> of the TC field as in the Arm ARM. The attributes would be used on a
->>> Perf command line like this:
->>>
->>>   $ perf stat -e stall_slot/threshold=2,threshold_compare=2/
->>>
->>> A new capability for reading out the maximum supported threshold value
->>> has also been added:
->>>
->>>   $ cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
->>>
->>>   0x000000ff
->>>
->>> If a threshold higher than threshold_max is provided, then no error is
->>> generated but the threshold is clamped to the max value. If
->>> FEAT_PMUv3_TH isn't implemented or a 32 bit kernel is running, then
->>> threshold_max reads zero, and neither the 'threshold' nor
->>> 'threshold_control' parameters will be used.
->>>
->>> The threshold is per PMU counter, and there are potentially different
->>> threshold_max values per PMU type on heterogeneous systems.
->>>
->>> Bits higher than 32 now need to be written into PMEVTYPER, so
->>> armv8pmu_write_evtype() has to be updated to take an unsigned long value
->>> rather than u32 which gives the correct behavior on both aarch32 and 64.
->>>
->>> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
->>> Signed-off-by: James Clark <james.clark@arm.com>
->>> ---
->>>  drivers/perf/arm_pmuv3.c       | 84 +++++++++++++++++++++++++++++++++-
->>>  include/linux/perf/arm_pmuv3.h |  1 +
->>>  2 files changed, 84 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
->>> index 1d40d794f5e4..eb1ef84e1dbb 100644
->>> --- a/drivers/perf/arm_pmuv3.c
->>> +++ b/drivers/perf/arm_pmuv3.c
->>> @@ -15,6 +15,7 @@
->>>  #include <clocksource/arm_arch_timer.h>
->>>  
->>>  #include <linux/acpi.h>
->>> +#include <linux/bitfield.h>
->>>  #include <linux/clocksource.h>
->>>  #include <linux/of.h>
->>>  #include <linux/perf/arm_pmu.h>
->>> @@ -294,9 +295,20 @@ static const struct attribute_group armv8_pmuv3_events_attr_group = {
->>>  	.is_visible = armv8pmu_event_attr_is_visible,
->>>  };
->>>  
->>> +#define THRESHOLD_LOW		2
->>> +#define THRESHOLD_HIGH		13
->>> +#define THRESHOLD_CNT		14
->>> +#define THRESHOLD_CMP_LO	15
->>> +#define THRESHOLD_CMP_HI	16
->>> +
->>>  PMU_FORMAT_ATTR(event, "config:0-15");
->>>  PMU_FORMAT_ATTR(long, "config1:0");
->>>  PMU_FORMAT_ATTR(rdpmc, "config1:1");
->>> +PMU_FORMAT_ATTR(threshold, "config1:" __stringify(THRESHOLD_LOW) "-"
->>> +				      __stringify(THRESHOLD_HIGH));
->>> +PMU_FORMAT_ATTR(threshold_compare, "config1:" __stringify(THRESHOLD_CMP_LO) "-"
->>> +					      __stringify(THRESHOLD_CMP_HI));
->>> +PMU_FORMAT_ATTR(threshold_count, "config1:" __stringify(THRESHOLD_CNT));
->>
->> Small nit - could this be formatted better ? Is not that the column could go
->> upto 100 without setting off checkpatch.pl warning these days ?
-> 
-> I think it looks perfectly readable to me, is there a specific
-> formatting rule that's been broken? And no, it can't be unindented
-> without exceeding the 100 char limit.
+And here is a table of distro Sphinx packages:
 
-Fair enough. There is nothing broken in here, otherwise checkpatch.pl
-would have warned. I was just wondering if the indentation could have
-been avoided. But as you mentioned, it cannot be without going beyond
-the 100 char limit.
+          As of 2023.11.30
+
+----------------------------------
+Distro              Sphinx Python3
+=================== ====== =======
+Ubuntu 22.04 LTS    4.3.2  3.10.12
+Debian 11           3.4.3  3.9.2
+Debian 12           5.3.0  3.11.2
+Fedora 39           6.2.1  3.12.0
+RHEL 9              3.4.3  3.9.18
+Mageia 9            6.1.3  3.10.11
+openSUSE Leap 15.5  4.2.0  3.6.15  (provided as python3-Sphinx_4_2_0)
+----------------------------------
+
+So, I think Sphinx 3.4.3 would be a reasonable choice for
+recommending.
+
+HTH,
+Akira
 
 > 
->>
->>>  
->>>  static int sysctl_perf_user_access __read_mostly;
->>>  
->>> @@ -310,10 +322,33 @@ static inline bool armv8pmu_event_want_user_access(struct perf_event *event)
->>>  	return event->attr.config1 & 0x2;
->>>  }
->>>  
->>> +static inline u32 armv8pmu_event_threshold(struct perf_event_attr *attr)
->>> +{
->>> +	return FIELD_GET(GENMASK(THRESHOLD_HIGH, THRESHOLD_LOW), attr->config1);
->>> +}
->>> +
->>> +static inline u8 armv8pmu_event_threshold_control(struct perf_event_attr *attr)
->>> +{
->>> +	u8 th_compare = FIELD_GET(GENMASK(THRESHOLD_CMP_HI, THRESHOLD_CMP_LO),
->>> +				  attr->config1);
->>
->> Ditto
->>
-> 
-> There's no rule saying that you can't indent _before_ 100 chars. Most of
-> the code in this file is indented at 80 chars, and consistency is
-> usually valued above other things.
-
-Fair enough.
-
-> 
->>> +	u8 th_count = FIELD_GET(BIT(THRESHOLD_CNT), attr->config1);
->>> +
->>> +	/*
->>> +	 * The count bit is always the bottom bit of the full control field, and
->>> +	 * the comparison is the upper two bits, but it's not explicitly
->>> +	 * labelled in the Arm ARM. For the Perf interface we split it into two
->>> +	 * fields, so reconstruct it here.
->>> +	 */
->>> +	return (th_compare << 1) | th_count;
->>> +}
->>> +
->>>  static struct attribute *armv8_pmuv3_format_attrs[] = {
->>>  	&format_attr_event.attr,
->>>  	&format_attr_long.attr,
->>>  	&format_attr_rdpmc.attr,
->>> +	&format_attr_threshold.attr,
->>> +	&format_attr_threshold_compare.attr,
->>> +	&format_attr_threshold_count.attr,
->>>  	NULL,
->>>  };
->>>  
->>> @@ -365,10 +400,38 @@ static ssize_t bus_width_show(struct device *dev, struct device_attribute *attr,
->>>  
->>>  static DEVICE_ATTR_RO(bus_width);
->>>  
->>> +static u32 threshold_max(struct arm_pmu *cpu_pmu)
->>> +{
->>> +	/*
->>> +	 * PMMIR.THWIDTH is readable and non-zero on aarch32, but it would be
->>> +	 * impossible to write the threshold in the upper 32 bits of PMEVTYPER.
->>> +	 */
->>> +	if (IS_ENABLED(CONFIG_ARM))
->>> +		return 0;
->>> +
->>> +	/*
->>> +	 * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
->>> +	 * (2 ^ PMMIR.THWIDTH) - 1.
->>> +	 */
->>> +	return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
->>> +}
->>> +
->>> +static ssize_t threshold_max_show(struct device *dev,
->>> +				  struct device_attribute *attr, char *page)
->>> +{
->>> +	struct pmu *pmu = dev_get_drvdata(dev);
->>> +	struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
->>> +
->>> +	return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
->>> +}
->>> +
->>> +static DEVICE_ATTR_RO(threshold_max);
->>> +
->>>  static struct attribute *armv8_pmuv3_caps_attrs[] = {
->>>  	&dev_attr_slots.attr,
->>>  	&dev_attr_bus_slots.attr,
->>>  	&dev_attr_bus_width.attr,
->>> +	&dev_attr_threshold_max.attr,
->>>  	NULL,
->>>  };
->>>  
->>> @@ -552,7 +615,7 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
->>>  		armv8pmu_write_hw_counter(event, value);
->>>  }
->>>  
->>> -static inline void armv8pmu_write_evtype(int idx, u32 val)
->>> +static inline void armv8pmu_write_evtype(int idx, unsigned long val)
->>>  {
->>>  	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
->>>  	unsigned long mask = ARMV8_PMU_EVTYPE_EVENT |
->>> @@ -921,6 +984,10 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
->>>  				     struct perf_event_attr *attr)
->>>  {
->>>  	unsigned long config_base = 0;
->>> +	struct perf_event *perf_event = container_of(attr, struct perf_event,
->>> +						     attr);
->>
->> Ditto
->>
->>> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
->>> +	u32 th, th_max;
->>>  
->>>  	if (attr->exclude_idle)
->>>  		return -EPERM;
->>> @@ -952,6 +1019,21 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
->>>  	if (attr->exclude_user)
->>>  		config_base |= ARMV8_PMU_EXCLUDE_EL0;
->>>  
->>> +	/*
->>> +	 * Insert event counting threshold (FEAT_PMUv3_TH) values. If
->>> +	 * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max) will be
->>> +	 * 0 and no values will be written.
->>> +	 */
->>> +	th_max = threshold_max(cpu_pmu);
->>> +	if (IS_ENABLED(CONFIG_ARM64) && th_max) {
->>> +		th = min(armv8pmu_event_threshold(attr), th_max);
->>> +		if (th) {
->>> +			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
->>> +			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
->>> +						  armv8pmu_event_threshold_control(attr));
->>
->> Ditto. As mentioned earlier this could have been avoided using a local variable.
->>
-> 
-> But explained why it's like that on the previous review. It's completely
-> down to personal preference whether a local variable is used or not. I
-> don't see why this is a review comment, it doesn't affect how the code
-> behaves or the readability in any way.
-> 
-> And what could be avoided? No formatting rules have been broken.
-
-Just an indentation could have been avoided, but again nothing is broken
-here to be clear, neither functionality nor the formatting. It was just
-a suggestion, which you could very well ignore.
-
-> 
->>> +		}
->>> +	}
->>> +
->>>  	/*
->>>  	 * Install the filter into config_base as this is used to
->>>  	 * construct the event type.
->>> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
->>> index ddd1fec86739..ccbc0f9a74d8 100644
->>> --- a/include/linux/perf/arm_pmuv3.h
->>> +++ b/include/linux/perf/arm_pmuv3.h
->>> @@ -258,6 +258,7 @@
->>>  #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
->>>  #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
->>>  #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
->>> +#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
->>>  
->>>  /*
->>>   * This code is really good
->>
->> Otherwise LGTM
->>
->> Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
->>
+> Regards,
+> Mauro
