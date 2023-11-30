@@ -1,121 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 26F8619F;
-	Thu, 30 Nov 2023 05:42:46 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7ABAE143D;
-	Thu, 30 Nov 2023 05:43:32 -0800 (PST)
-Received: from [192.168.178.6] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 608C93F5A1;
-	Thu, 30 Nov 2023 05:42:43 -0800 (PST)
-Message-ID: <b5d83fcd-09fb-4680-a594-d4848fddc50a@arm.com>
-Date: Thu, 30 Nov 2023 14:42:43 +0100
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avlGWeL7"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FCFE10D0;
+	Thu, 30 Nov 2023 06:04:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701353098; x=1732889098;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xqtTZvY053veljR4ETMpWFPpHyKU0+OBKnIK2FZ1Hl0=;
+  b=avlGWeL7GR+bfL4sLs8D28WpOgVx3rntBWjjPBJdKGaYjItkV057D1h2
+   KOMi7hYeHo8KWjIxpO48etDu3gzRVLOK+DyZ9xuI1jhqvQ+Nkua7GL0Dn
+   IJlPSXhbEBn7THFH8C90SnkLy7IIrkeaZfnQZgVEGt/pXL291otCBF3jH
+   dxwFI85OuM2xLn/6Fo8uOp2ErW9TnNjE8J/LWkuJfrkHHS7gJFmC8slrK
+   ZPvJk9lgsOEmFdHxjceNmeS67A3UIFaWUEzdM/rkOGjdtNXr4xmj8jCky
+   sZFXw+s3VllVS7etz+dm0bDt4xrcgg+SSMumLp8cPOMra2AqZJgRCYqja
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="226591"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="226591"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 06:04:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="1016636131"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="1016636131"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 30 Nov 2023 06:03:57 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8hdz-00025l-1H;
+	Thu, 30 Nov 2023 14:03:55 +0000
+Date: Thu, 30 Nov 2023 22:03:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
+	alex.williamson@redhat.com, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jasowang@redhat.com,
+	jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com,
+	joro@8bytes.org, kevin.tian@intel.com,
+	krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 13/16] iommu: observability of the IOMMU allocations
+Message-ID: <202311302108.WERv9oSO-lkp@intel.com>
+References: <20231128204938.1453583-14-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] sched/fair: Simplify util_est
-Content-Language: en-US
-To: Vincent Guittot <vincent.guittot@linaro.org>, mingo@redhat.com,
- peterz@infradead.org, juri.lelli@redhat.com, rostedt@goodmis.org,
- bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
- vschneid@redhat.com, corbet@lwn.net, alexs@kernel.org,
- siyanteng@loongson.cn, qyousef@layalina.io, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: lukasz.luba@arm.com, hongyan.xia2@arm.com
-References: <20231127143238.1216582-1-vincent.guittot@linaro.org>
- <20231127143238.1216582-3-vincent.guittot@linaro.org>
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20231127143238.1216582-3-vincent.guittot@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231128204938.1453583-14-pasha.tatashin@soleen.com>
 
-On 27/11/2023 15:32, Vincent Guittot wrote:
-> With UTIL_EST_FASTUP now being permanent, we can take advantage of the
-> fact that the ewma jumps directly to a higher utilization at dequeue to
-> simplify util_est and remove the enqueued field.
-> 
+Hi Pasha,
 
-Did some simple test with a ramp-up/ramp_down (10-80-10%) task affine to
-a CPU.
+kernel test robot noticed the following build errors:
 
-https://nbviewer.org/github/deggeman/lisa/blob/ipynbs/ipynb/scratchpad/util_est_fastup.ipynb
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on awilliam-vfio/for-linus linus/master v6.7-rc3]
+[cannot apply to joro-iommu/next awilliam-vfio/next next-20231130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-LGTM.
+url:    https://github.com/intel-lab-lkp/linux/commits/Pasha-Tatashin/iommu-vt-d-add-wrapper-functions-for-page-allocations/20231129-054908
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231128204938.1453583-14-pasha.tatashin%40soleen.com
+patch subject: [PATCH 13/16] iommu: observability of the IOMMU allocations
+config: sparc64-randconfig-r054-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302108.WERv9oSO-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311302108.WERv9oSO-lkp@intel.com/reproduce)
 
-[...]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311302108.WERv9oSO-lkp@intel.com/
 
-> @@ -4879,27 +4865,22 @@ static inline void util_est_update(struct cfs_rq *cfs_rq,
->  	 * Skip update of task's estimated utilization when its members are
->  	 * already ~1% close to its last activation value.
->  	 */
-> -	last_ewma_diff = ue.enqueued - ue.ewma;
-> -	last_enqueued_diff -= ue.enqueued;
-> -	if (within_margin(last_ewma_diff, UTIL_EST_MARGIN)) {
-> -		if (!within_margin(last_enqueued_diff, UTIL_EST_MARGIN))
-> -			goto done;
-> -
-> -		return;
-> -	}
-> +	last_ewma_diff = ewma - dequeued;
-> +	if (last_ewma_diff < UTIL_EST_MARGIN)
-> +		goto done;
->  
->  	/*
->  	 * To avoid overestimation of actual task utilization, skip updates if
->  	 * we cannot grant there is idle time in this CPU.
->  	 */
-> -	if (task_util(p) > arch_scale_cpu_capacity(cpu_of(rq_of(cfs_rq))))
-> +	if (dequeued > arch_scale_cpu_capacity(cpu_of(rq_of(cfs_rq))))
->  		return;
+All errors (new ones prefixed by >>):
 
-Not directly related to the changes: Should we not use `goto done` here
-is well to rearm UTIL_AVG_UNCHANGED?
-
->  	/*
->  	 * To avoid underestimate of task utilization, skip updates of EWMA if
->  	 * we cannot grant that thread got all CPU time it wanted.
->  	 */
-> -	if ((ue.enqueued + UTIL_EST_MARGIN) < task_runnable(p))
-> +	if ((dequeued + UTIL_EST_MARGIN) < task_runnable(p))
->  		goto done;
->  
->  
-> @@ -4914,18 +4895,18 @@ static inline void util_est_update(struct cfs_rq *cfs_rq,
->  	 *  ewma(t) = w *  task_util(p) + (1-w) * ewma(t-1)
->  	 *          = w *  task_util(p) +         ewma(t-1)  - w * ewma(t-1)
->  	 *          = w * (task_util(p) -         ewma(t-1)) +     ewma(t-1)
-> -	 *          = w * (      last_ewma_diff            ) +     ewma(t-1)
-> -	 *          = w * (last_ewma_diff  +  ewma(t-1) / w)
-> +	 *          = w * (      -last_ewma_diff           ) +     ewma(t-1)
-> +	 *          = w * (-last_ewma_diff +  ewma(t-1) / w)
->  	 *
->  	 * Where 'w' is the weight of new samples, which is configured to be
->  	 * 0.25, thus making w=1/4 ( >>= UTIL_EST_WEIGHT_SHIFT)
->  	 */
-
-The text above still mentioned ue.enqueued and that we store the current
-PELT value ... which isn't the case anymore.
+   In file included from drivers/iommu/iommufd/iova_bitmap.c:11:
+   drivers/iommu/iommufd/../iommu-pages.h: In function '__iommu_alloc_account':
+>> drivers/iommu/iommufd/../iommu-pages.h:29:48: error: 'NR_IOMMU_PAGES' undeclared (first use in this function)
+      29 |         mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, pgcnt);
+         |                                                ^~~~~~~~~~~~~~
+   drivers/iommu/iommufd/../iommu-pages.h:29:48: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/iommu/iommufd/../iommu-pages.h: In function '__iommu_free_account':
+   drivers/iommu/iommufd/../iommu-pages.h:41:48: error: 'NR_IOMMU_PAGES' undeclared (first use in this function)
+      41 |         mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, -pgcnt);
+         |                                                ^~~~~~~~~~~~~~
 
 
-> -	ue.ewma <<= UTIL_EST_WEIGHT_SHIFT;
-> -	ue.ewma  += last_ewma_diff;
-> -	ue.ewma >>= UTIL_EST_WEIGHT_SHIFT;
-> +	ewma <<= UTIL_EST_WEIGHT_SHIFT;
-> +	ewma  -= last_ewma_diff;
-> +	ewma >>= UTIL_EST_WEIGHT_SHIFT;
->  done:
-> -	ue.enqueued |= UTIL_AVG_UNCHANGED;
-> -	WRITE_ONCE(p->se.avg.util_est, ue);
-> +	ewma |= UTIL_AVG_UNCHANGED;
-> +	WRITE_ONCE(p->se.avg.util_est, ewma);
->  
->  	trace_sched_util_est_se_tp(&p->se);
->  }
+vim +/NR_IOMMU_PAGES +29 drivers/iommu/iommufd/../iommu-pages.h
 
-[...]
+    13	
+    14	/*
+    15	 * All page allocation that are performed in the IOMMU subsystem must use one of
+    16	 * the functions below.  This is necessary for the proper accounting as IOMMU
+    17	 * state can be rather large, i.e. multiple gigabytes in size.
+    18	 */
+    19	
+    20	/**
+    21	 * __iommu_alloc_account - account for newly allocated page.
+    22	 * @pages: head struct page of the page.
+    23	 * @order: order of the page
+    24	 */
+    25	static inline void __iommu_alloc_account(struct page *pages, int order)
+    26	{
+    27		const long pgcnt = 1l << order;
+    28	
+  > 29		mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, pgcnt);
+    30	}
+    31	
 
-Reviewed-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
