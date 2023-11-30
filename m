@@ -1,130 +1,212 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="VRCEDbxy"
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D93910FC;
-	Thu, 30 Nov 2023 12:08:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=pyLKFFJL0+QHAkvFUr9epX+zDms0kHGRY+0nNCweE+4=; b=VRCEDbxyM4FF5Dt9ADAKKchvzy
-	K5FxoPzCUxIch4XBRnoCKBVF4kaTMkl00Pi7kuUWTciw8vZwbQr7NOF5IHA9qYSbrkCIANQ/OrjyK
-	pfzIhvTkDb8r72PrdWrTG20n7y9aLnVpk+Zcjf9NT2joLBNPRsg6RrlDomc4WbtGy8Ou1nfIi3LB2
-	h7rIziMyU2ojrcQ5SCnLKZx9dCLZZDTviZK0GIb9h66ltoLbuhBZdDGzsa6h9Qs4B0bf8PX2lFbRj
-	wDoAQgQaBlB4SsYGXAb25JNXN1c8HjPRH6MKkx78LDf6qTbSvx725N6gmUGtzFUext3qMALJTcxsI
-	LFt/SvWg==;
-Received: from [191.193.131.178] (helo=steammachine.lan)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1r8nKC-008wQ8-W1; Thu, 30 Nov 2023 21:07:53 +0100
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: kernel-dev@igalia.com,
-	alexander.deucher@amd.com,
-	christian.koenig@amd.com,
-	Simon Ser <contact@emersion.fr>,
-	Rob Clark <robdclark@gmail.com>,
-	Pekka Paalanen <ppaalanen@gmail.com>,
-	daniel@ffwll.ch,
-	Daniel Stone <daniel@fooishbar.org>,
-	=?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
-	Dave Airlie <airlied@gmail.com>,
-	=?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="mUaVC/ga"
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBFA51700
+	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:15:08 -0800 (PST)
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-41cd97d7272so8035481cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 12:15:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1701375308; x=1701980108; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X5AMqGJYt6SEyyaxLyp7JmYGeHIyK2cLcP93CB0xsAo=;
+        b=mUaVC/gamRdj9qV4/WCNqD5F1p2LBWIHcnN/DlliTxfnZ7YW0GUoveVSmO8w+MTU7S
+         0C1ZJOKMnSR3+gA4xgdR75ON06IKP68Gzgus3OAsHnOo0S3S4MeSz0AsF7AdXjB3yeEk
+         ZgFrq86t/qxtYS147lcHR/tZW6VvlKlzlPD9W9E2FB52gHkY2u9mBkmEjyEqusWPx2HR
+         Rn5MzeBipy5/L02dPpgHNETqL8b44Qc+c5v2zrfm3asxHEIhyiT/lLPQjlL1XtQkPjaj
+         dHo4fWCxOUdEdStaoQuhb4qXZ4HldNQfLG/tLes/8aSjw6TeTpWW/NOUTejBlhbwZlKQ
+         VfkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701375308; x=1701980108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X5AMqGJYt6SEyyaxLyp7JmYGeHIyK2cLcP93CB0xsAo=;
+        b=RaxBR/iJhIYL+PlG+1/RTLgq5waxQZKp0eW14IfzSbbNZpth0yaYl3E5kkq+aaS+jU
+         5QOvAQn1fkkq6ZUKVJc6StakamcK2epEUMOapNnRQVs+1stjSmJ/IJRYr3JGLzbCRsi9
+         6/xu8quBfb5tvBcakWhUFFaaJCOXCOktkymuI63uRHh6OSYASnYYMo4rDQIZJ1x/jVcu
+         XXpEfW5FRd/K8qjeljpvAaFXFcqLpWviqiSx3GpYIV+/3DgmSVugb4J5A3gnS9Vy5nAy
+         3e7WPUqjvM6Q53oUPnEArYUV6tkb/j+dQxxNriwjTeScFhqO33gQzTfYRdJ8x19bvHp1
+         e6qA==
+X-Gm-Message-State: AOJu0YySh4dvW/jh284eBFjGdanxMMqcG/WJUqr4edyi+A54+lAY5tPL
+	d0RnBhZFugHnFW25FYx8GYif1Q==
+X-Google-Smtp-Source: AGHT+IEJXctu9WcvSzFXt39rV8QEM3y7T1pFE0WiGQYLYtGfkA61KyCWh7Z0c00L3koHxXYwUBpejQ==
+X-Received: by 2002:ad4:41c8:0:b0:67a:45e5:4aed with SMTP id a8-20020ad441c8000000b0067a45e54aedmr13542036qvq.21.1701375307954;
+        Thu, 30 Nov 2023 12:15:07 -0800 (PST)
+Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
+        by smtp.gmail.com with ESMTPSA id e1-20020a0cb441000000b0067a35608186sm795252qvf.28.2023.11.30.12.15.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 12:15:07 -0800 (PST)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: akpm@linux-foundation.org,
+	alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com,
+	bhelgaas@google.com,
+	cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	david@redhat.com,
+	dwmw2@infradead.org,
+	hannes@cmpxchg.org,
+	heiko@sntech.de,
+	iommu@lists.linux.dev,
+	jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com,
+	joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org,
 	linux-doc@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH] drm/doc: Define KMS atomic state set
-Date: Thu, 30 Nov 2023 17:07:40 -0300
-Message-ID: <20231130200740.53454-1-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.43.0
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	lizefan.x@bytedance.com,
+	marcan@marcan.st,
+	mhiramat@kernel.org,
+	m.szyprowski@samsung.com,
+	pasha.tatashin@soleen.com,
+	paulmck@kernel.org,
+	rdunlap@infradead.org,
+	robin.murphy@arm.com,
+	samuel@sholland.org,
+	suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev,
+	thierry.reding@gmail.com,
+	tj@kernel.org,
+	tomas.mudrunka@gmail.com,
+	vdumpa@nvidia.com,
+	wens@csie.org,
+	will@kernel.org,
+	yu-cheng.yu@intel.com
+Subject: [PATCH v2 00/10] IOMMU memory observability
+Date: Thu, 30 Nov 2023 20:14:54 +0000
+Message-ID: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
+From: Pasha Tatashin <tatashin@google.com>
 
-Specify how the atomic state is maintained between userspace and
-kernel, plus the special case for async flips.
+----------------------------------------------------------------------
+Changelog
+----------------------------------------------------------------------
+v2:
+- Added Reviewed-by Janne Grunau
+- Sync with 6.7.0-rc3, 3b47bc037bd44f142ac09848e8d3ecccc726be99
+- Separated form the series patches:
+vhost-vdpa: account iommu allocations
+https://lore.kernel.org/all/20231130200447.2319543-1-pasha.tatashin@soleen.com
+vfio: account iommu allocations
+https://lore.kernel.org/all/20231130200900.2320829-1-pasha.tatashin@soleen.com
+as suggested by Jason Gunthorpe
+- Fixed SPARC build issue detected by kernel test robot
+- Drop the following patches as they do account iommu page tables:
+iommu/dma: use page allocation function provided by iommu-pages.h
+iommu/fsl: use page allocation function provided by iommu-pages.h
+iommu/iommufd: use page allocation function provided by iommu-pages.h
+as suggested by Robin Murphy. These patches are not related to IOMMU
+page tables. We might need to do a separate work to support DMA
+observability.
+- Remove support iommu/io-pgtable-arm-v7s as the 2nd level pages are
+under a page size, thanks Robin Murphy for pointing this out.
 
-Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
+----------------------------------------------------------------------
+Description
+----------------------------------------------------------------------
+IOMMU subsystem may contain state that is in gigabytes. Majority of that
+state is iommu page tables. Yet, there is currently, no way to observe
+how much memory is actually used by the iommu subsystem.
 
-This is a standalone patch from the following serie, the other patches are
-already merged:
-https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.com/
+This patch series solves this problem by adding both observability to
+all pages that are allocated by IOMMU, and also accountability, so
+admins can limit the amount if via cgroups.
 
- Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+The system-wide observability is using /proc/meminfo:
+SecPageTables:    438176 kB
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 370d820be248..d0693f902a5c 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -570,3 +570,50 @@ dma-buf interoperability
- 
- Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
- information on how dma-buf is integrated and exposed within DRM.
-+
-+KMS atomic state
-+================
-+
-+An atomic commit can change multiple KMS properties in an atomic fashion,
-+without ever applying intermediate or partial state changes.  Either the whole
-+commit succeeds or fails, and it will never be applied partially. This is the
-+fundamental improvement of the atomic API over the older non-atomic API which is
-+referred to as the "legacy API".  Applying intermediate state could unexpectedly
-+fail, cause visible glitches, or delay reaching the final state.
-+
-+An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
-+complete state change is validated but not applied.  Userspace should use this
-+flag to validate any state change before asking to apply it. If validation fails
-+for any reason, userspace should attempt to fall back to another, perhaps
-+simpler, final state.  This allows userspace to probe for various configurations
-+without causing visible glitches on screen and without the need to undo a
-+probing change.
-+
-+The changes recorded in an atomic commit apply on top the current KMS state in
-+the kernel. Hence, the complete new KMS state is the complete old KMS state with
-+the committed property settings done on top. The kernel will try to avoid
-+no-operation changes, so it is safe for userspace to send redundant property
-+settings.  However, not every situation allows for no-op changes, due to the
-+need to acquire locks for some attributes. Userspace needs to be aware that some
-+redundant information might result in oversynchronization issues.  No-operation
-+changes do not count towards actually needed changes, e.g.  setting MODE_ID to a
-+different blob with identical contents as the current KMS state shall not be a
-+modeset on its own. As a special exception for VRR needs, explicitly setting
-+FB_ID to its current value is not a no-op.
-+
-+A "modeset" is a change in KMS state that might enable, disable, or temporarily
-+disrupt the emitted video signal, possibly causing visible glitches on screen. A
-+modeset may also take considerably more time to complete than other kinds of
-+changes, and the video sink might also need time to adapt to the new signal
-+properties. Therefore a modeset must be explicitly allowed with the flag
-+DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
-+DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state change is
-+likely to cause visible disruption on screen and avoid such changes when end
-+users do not expect them.
-+
-+An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
-+effectively change only the FB_ID property on any planes. No-operation changes
-+are ignored as always. Changing any other property will cause the commit to be
-+rejected. Each driver may relax this restriction if they have guarantees that
-+such property change doesn't cause modesets. Userspace can use TEST_ONLY commits
-+to query the driver about this.
+Contains IOMMU and KVM memory.
+
+Per-node observability:
+/sys/devices/system/node/nodeN/meminfo
+Node N SecPageTables:    422204 kB
+
+Contains IOMMU and KVM memory memory in the given NUMA node.
+
+Per-node IOMMU only observability:
+/sys/devices/system/node/nodeN/vmstat
+nr_iommu_pages 105555
+
+Contains number of pages IOMMU allocated in the given node.
+
+Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
+
+With the change, iova_stress[1] stops as limit is reached:
+
+# ./iova_stress
+iova space:     0T      free memory:   497G
+iova space:     1T      free memory:   495G
+iova space:     2T      free memory:   493G
+iova space:     3T      free memory:   491G
+
+stops as limit is reached.
+
+This series encorporates suggestions that came from the discussion
+at LPC [2].
+----------------------------------------------------------------------
+[1] https://github.com/soleen/iova_stress
+[2] https://lpc.events/event/17/contributions/1466
+----------------------------------------------------------------------
+Previous versions
+v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
+----------------------------------------------------------------------
+
+Pasha Tatashin (10):
+  iommu/vt-d: add wrapper functions for page allocations
+  iommu/amd: use page allocation function provided by iommu-pages.h
+  iommu/io-pgtable-arm: use page allocation function provided by
+    iommu-pages.h
+  iommu/io-pgtable-dart: use page allocation function provided by
+    iommu-pages.h
+  iommu/exynos: use page allocation function provided by iommu-pages.h
+  iommu/rockchip: use page allocation function provided by iommu-pages.h
+  iommu/sun50i: use page allocation function provided by iommu-pages.h
+  iommu/tegra-smmu: use page allocation function provided by
+    iommu-pages.h
+  iommu: observability of the IOMMU allocations
+  iommu: account IOMMU allocated memory
+
+ Documentation/admin-guide/cgroup-v2.rst |   2 +-
+ Documentation/filesystems/proc.rst      |   4 +-
+ drivers/iommu/amd/amd_iommu.h           |   8 -
+ drivers/iommu/amd/init.c                |  91 +++++-----
+ drivers/iommu/amd/io_pgtable.c          |  13 +-
+ drivers/iommu/amd/io_pgtable_v2.c       |  20 +-
+ drivers/iommu/amd/iommu.c               |  13 +-
+ drivers/iommu/exynos-iommu.c            |  14 +-
+ drivers/iommu/intel/dmar.c              |  10 +-
+ drivers/iommu/intel/iommu.c             |  47 ++---
+ drivers/iommu/intel/iommu.h             |   2 -
+ drivers/iommu/intel/irq_remapping.c     |  10 +-
+ drivers/iommu/intel/pasid.c             |  12 +-
+ drivers/iommu/intel/svm.c               |   7 +-
+ drivers/iommu/io-pgtable-arm.c          |   7 +-
+ drivers/iommu/io-pgtable-dart.c         |  37 ++--
+ drivers/iommu/iommu-pages.h             | 231 ++++++++++++++++++++++++
+ drivers/iommu/rockchip-iommu.c          |  14 +-
+ drivers/iommu/sun50i-iommu.c            |   7 +-
+ drivers/iommu/tegra-smmu.c              |  18 +-
+ include/linux/mmzone.h                  |   5 +-
+ mm/vmstat.c                             |   3 +
+ 22 files changed, 390 insertions(+), 185 deletions(-)
+ create mode 100644 drivers/iommu/iommu-pages.h
+
 -- 
-2.43.0
+2.43.0.rc2.451.g8631bc7472-goog
 
