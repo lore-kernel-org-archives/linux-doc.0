@@ -1,123 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vv94PjPR"
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E95C81737;
-	Thu, 30 Nov 2023 02:20:35 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-332e58d4219so446681f8f.0;
-        Thu, 30 Nov 2023 02:20:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701339634; x=1701944434; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+ENkTeWKgGbNcGzhVyIelDFWcUGoKs+6RWlRK8agZtQ=;
-        b=Vv94PjPRXUbpMSqBx7pjlPLgquTkckhUCwqPohI5VuWWYvFWar0Y907cO2D1Ff3mBp
-         KHLaWXzVmWlXmG68inmZcb8JPtX9mE51L8v5UQdZmRKC41p27QtuaLHVODlUHfnVGBAx
-         +r4gxqm6vE4ERdTfNteJzFJU36+MFP2dqF/jMkpfHT8HXCTNYPGr+uIpB62Y+5aUyGYQ
-         ZodduHF2oRswx1EGqiXPAYIVL6HLlVC3NVBhTtiGWajt5dzHf7YoUwqXGyZhDFUYH2j3
-         qqCJ6xwiirXi3ek7QcqXw7CGxlyJDucl19D/j31RAiUyk58ccKE/AZbMWuNAVcXkFS/p
-         AjNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701339634; x=1701944434;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+ENkTeWKgGbNcGzhVyIelDFWcUGoKs+6RWlRK8agZtQ=;
-        b=ZfeHTQrG7eakn7/dP/wa0iKtEgDqPOy88IhgsDi/iDVCfGatAbZIOM0UHNOIJSt9Zm
-         DoUSkMvEYd1k5llgEWlsMer52rPN5EV9OWxCIf0epSmlwcnQKOapIANAlPLRxXjCDZJN
-         BbTt88wybkQMcIueo5lQURIIpbvJEaq752NAl+UFPg9WTU6oIDE3hcE3O1qBvgYyS3Z5
-         TOA3R/nvwmdaHnxvYiwBiWPd2whwp/PZN5XNWi7+ElNZMTaVqJcKJeHPSlS4iU+6vhQK
-         R3DacKg9tKAKl9pbHgKyz2ffVSCiH1KeYwD6dHZjAaWYfqxODdij4VsKacXuVfqYu2Nj
-         hMFw==
-X-Gm-Message-State: AOJu0Yx0rHv8n5ipBL9NQMCcPEShs/ZH+pl87SRW7Ifdkoj8GuYfE6EN
-	QZjmywk2jddIZvM0OtCPdxzEk0nNyxQRwEgf
-X-Google-Smtp-Source: AGHT+IF4NXr04ovSdSepSgCurWmhN9L/62dYg5ABTXGLAIDsHR8tgu1dpG6Klbn/dSHhs9pxkVRkQQ==
-X-Received: by 2002:a5d:4e10:0:b0:333:12be:f39c with SMTP id p16-20020a5d4e10000000b0033312bef39cmr4923663wrt.41.1701339634101;
-        Thu, 30 Nov 2023 02:20:34 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id y7-20020a5d6147000000b003330b55b941sm1117877wrt.77.2023.11.30.02.20.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 02:20:33 -0800 (PST)
-Message-ID: <971eb35068639ec404669ea5320c8183ea71a7d0.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-doc@vger.kernel.org, Jean Delvare
- <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Andy
- Shevchenko <andy@kernel.org>
-Date: Thu, 30 Nov 2023 11:20:32 +0100
-In-Reply-To: <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
-References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
-	 <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-	 <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
-	 <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
-	 <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id B69C910DB;
+	Thu, 30 Nov 2023 02:36:18 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A27C143D;
+	Thu, 30 Nov 2023 02:37:05 -0800 (PST)
+Received: from [10.57.41.237] (unknown [10.57.41.237])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB8C93F6C4;
+	Thu, 30 Nov 2023 02:36:16 -0800 (PST)
+Message-ID: <31b68b10-9819-4c96-a237-ac04887be305@arm.com>
+Date: Thu, 30 Nov 2023 10:36:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] Documentation: arm64: Document the PMU event
+ counting threshold feature
+To: James Clark <james.clark@arm.com>, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, will@kernel.org, mark.rutland@arm.com,
+ anshuman.khandual@arm.com, namhyung@gmail.com
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231124102857.1106453-1-james.clark@arm.com>
+ <20231124102857.1106453-4-james.clark@arm.com>
+Content-Language: en-GB
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20231124102857.1106453-4-james.clark@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2023-11-29 at 21:55 +0100, Linus Walleij wrote:
-> On Wed, Nov 29, 2023 at 5:08=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.c=
-om> wrote:
->=20
-> > Cool, I actually thought that having the direction + get/set stuff woul=
-d be weird
-> > given the fact that we can only PULL_LOW or HIGH_Z the pins.
->=20
-> There are several drivers in the kernel that implement .set_config(),
-> it's existing and should be enabled if it has uses.
->=20
+On 24/11/2023 10:28, James Clark wrote:
+> Add documentation for the new Perf event open parameters and
+> the threshold_max capability file.
+> 
+> Signed-off-by: James Clark <james.clark@arm.com>
 
-Yeah, it might make sense to support it specially for the input case. AFAIC=
-T, if I
-use the .set_config() (but from a quick look I think we will need to add su=
-pport for
-it in gpiolib for the high-z configuration), then I can't use the gpio_regm=
-ap stuff.
-As the driver stands I don't think I could do it anyways because setting gp=
-io2-3 and
-alert requires to write 0 on the register rather than 1. But again, I'm sti=
-ll very
-suspicious about the whole thing. The datasheet states:
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 
-"GPIO1-GPIO3 and ALERT all have comparators monitoring
-the voltage on these pins with a threshold of 1.28V even when
-the pins are configured as outputs."
 
-But we can't really set the direction for gpio2-3 and the alert pins (only =
-getting
-the level and setting it as PULL_LOW or HIGH_Z. gpio1 is the only one where=
- we can
-configure it as input or open drain ouput. Bah, I'll try to see if someone =
-internally
-can shed some light on this.
-=20
-> As Andy points out: when the driver reaches a certain complexity,
-> such as a huge table of muxable pins (that need to be configured to
-> a certain muxing from device tree), and numerous complicated
-> pin config options (also needing to be set up from device tree),
-> it may be worth to implement a separate pin control driver that
-> act as "backend" for the GPIO driver.
->=20
-> I think a separate pin control driver would be overkill in this case,
-> it's a PWM driver with some smallish GPIO portions AFAICT,
-> but you get to decide.
->=20
-
-Agreed, the chip only supports 4 pins and it is an optional feature. The ma=
-in usage
-for the chip iis to act as an hot swap controller (which maps into hwmon).
-
-- Nuno S=C3=A1
-
+> ---
+>   Documentation/arch/arm64/perf.rst | 72 +++++++++++++++++++++++++++++++
+>   1 file changed, 72 insertions(+)
+> 
+> diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
+> index 1f87b57c2332..41eee68951ff 100644
+> --- a/Documentation/arch/arm64/perf.rst
+> +++ b/Documentation/arch/arm64/perf.rst
+> @@ -164,3 +164,75 @@ and should be used to mask the upper bits as needed.
+>      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
+>   .. _tools/lib/perf/tests/test-evsel.c:
+>      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
+> +
+> +Event Counting Threshold
+> +==========================================
+> +
+> +Overview
+> +--------
+> +
+> +FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
+> +events whose count meets a specified threshold condition. For example if
+> +threshold_compare is set to 2 ('Greater than or equal'), and the
+> +threshold is set to 2, then the PMU counter will now only increment by
+> +when an event would have previously incremented the PMU counter by 2 or
+> +more on a single processor cycle.
+> +
+> +To increment by 1 after passing the threshold condition instead of the
+> +number of events on that cycle, add the 'threshold_count' option to the
+> +commandline.
+> +
+> +How-to
+> +------
+> +
+> +These are the parameters for controlling the feature:
+> +
+> +.. list-table::
+> +   :header-rows: 1
+> +
+> +   * - Parameter
+> +     - Description
+> +   * - threshold
+> +     - Value to threshold the event by. A value of 0 means that
+> +       thresholding is disabled and the other parameters have no effect.
+> +   * - threshold_compare
+> +     - | Comparison function to use, with the following values supported:
+> +       |
+> +       | 0: Not-equal
+> +       | 1: Equals
+> +       | 2: Greater-than-or-equal
+> +       | 3: Less-than
+> +   * - threshold_count
+> +     - If this is set, count by 1 after passing the threshold condition
+> +       instead of the value of the event on this cycle.
+> +
+> +The threshold, threshold_compare and threshold_count values can be
+> +provided per event, for example:
+> +
+> +.. code-block:: sh
+> +
+> +  perf stat -e stall_slot/threshold=2,threshold_compare=2/ \
+> +            -e dtlb_walk/threshold=10,threshold_compare=3,threshold_count/
+> +
+> +In this example the stall_slot event will count by 2 or more on every
+> +cycle where 2 or more stalls happen. And dtlb_walk will count by 1 on
+> +every cycle where the number of dtlb walks were less than 10.
+> +
+> +The maximum supported threshold value can be read from the caps of each
+> +PMU, for example:
+> +
+> +.. code-block:: sh
+> +
+> +  cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
+> +
+> +  0x000000ff
+> +
+> +If a value higher than this is given, then it will be silently clamped
+> +to the maximum. The highest possible maximum is 4095, as the config
+> +field for threshold is limited to 12 bits, and the Perf tool will refuse
+> +to parse higher values.
+> +
+> +If the PMU doesn't support FEAT_PMUv3_TH, then threshold_max will read
+> +0, and both threshold and threshold_compare will be silently ignored.
+> +threshold_max will also read as 0 on aarch32 guests, even if the host
+> +is running on hardware with the feature.
 
