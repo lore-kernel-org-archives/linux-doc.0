@@ -1,135 +1,350 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055DC2137D;
+	Fri,  1 Dec 2023 19:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="ozLp1Sva"
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E75079A
-	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 11:39:07 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-40b474c925bso19026815e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 11:39:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1701459546; x=1702064346; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PI2nUm5BWEnyJT7IRHVWhCfPZiY09UKb4l9jvq8BAic=;
-        b=ozLp1Sva2xWFHjgunuUhzCPzAjlvMhD+waBYWdjNSLiv71ruXFUDoFNMjiDzd8dphQ
-         rIm2O0sWrJFyoU0D1+UTaqrmsyePPxnPkz6JcSu/Ix2vr0s/pp3s0QNo6+cvjAZZv39V
-         26Ugr5LET3BFVz1v5+Dk7j7s1GgIpg6NYqGOA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701459546; x=1702064346;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PI2nUm5BWEnyJT7IRHVWhCfPZiY09UKb4l9jvq8BAic=;
-        b=HT64lr8GfqSOj14YjnPIIvzwsPj8S6VCxs+f+Ua955E1kI1SBMxUCBIAWynZEniWhh
-         8Af36CwtMlX/ZX7MAv96jVQC1bjbdlWSP9lZjWouqlFvNh/6ypi/+1DZDnj5ZvKLoWnV
-         TpsLX22kraLJUqZUcgnQKAu1RdQ98FFBeQgq/cSMW9PFctenpYZ7IBQ4P9ImKTbG/nGS
-         Pj6JWdxvFSoLtRqghSNmOziFzrse4z+S1j7vgkMj2H8X2Ur7MG3aYV3awTqR1T63rZsK
-         46f0s24a3tEFk4KTN4vMnvUZDqJSojkfq5PziqWaxhICNQHs4v5TJbyTqmy5iwDmyg+Z
-         Mo2w==
-X-Gm-Message-State: AOJu0YzNoRL28pZu/KxhISrDISXRo6xevGRX/eOoiqIWxTYkmr4O2Xy7
-	NWI7i3SszQ7r9ZDbcwxjCP1RXg==
-X-Google-Smtp-Source: AGHT+IFvTl4BwLC07s29/pg8CUaFzigfefkpAAJ55yenMcgsc3tYbClNcVcOZcV3QnynDMblc1ep6A==
-X-Received: by 2002:a05:600c:4928:b0:40b:5e59:b7a7 with SMTP id f40-20020a05600c492800b0040b5e59b7a7mr573882wmp.132.1701459546277;
-        Fri, 01 Dec 2023 11:39:06 -0800 (PST)
-Received: from [10.80.67.30] (default-46-102-197-194.interdsl.co.uk. [46.102.197.194])
-        by smtp.gmail.com with ESMTPSA id v11-20020a05600c444b00b003fefaf299b6sm6276798wmn.38.2023.12.01.11.39.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 11:39:06 -0800 (PST)
-Message-ID: <c61402de-c61e-4d7f-a2b1-3eaa13e4ef33@citrix.com>
-Date: Fri, 1 Dec 2023 19:39:05 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caRls0Vf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DDDBC433AB;
+	Fri,  1 Dec 2023 19:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701460599;
+	bh=0ThhDO5PG85pESeX+R+vIkhc1OO1alRmntPC4vwJrwQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=caRls0VfeAJboUfPO/j6zPVwJRiI4YEdBp5stpJuT+MRlfDcao8Eecxb/cOMfqnqM
+	 Q8lZfpw1XVL/Vwqc7C4i8VAABmEs4mav54E8EHfji4jJv7vMuWoFgDTDhLVmuq3KUp
+	 rCdsTuTzULAohKVJFNvGpF3YuAdF8g8Y10vlnU/tn+lHHtvHrlkNAW7ZyTOC9Yp8qB
+	 SI+ONO65F++8n8PAwPGflPW564RaWl8MGzkKKThT7QeG8P4iW9tRiVW2MX4qYLZkei
+	 VxkiHbgOOrS2aLHR3uaGcjqEiwDj16Ogq1A9gZq/7t2Fg1fcK4hs4zRn/7vd51e5xZ
+	 nqcajGgEw4wTw==
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6d817ccaa6dso584766a34.2;
+        Fri, 01 Dec 2023 11:56:39 -0800 (PST)
+X-Gm-Message-State: AOJu0YyUfL5+WzHuxj8BME5b5IIK1DT9eGRrE94QjbS6K/PZ+d6n5szH
+	VG5xSEJ4xU4a8huNy8tn/tcnOYM71jXt7n1nK/0=
+X-Google-Smtp-Source: AGHT+IECv81h5hacyO8pt9/Igqyitv+JjETqvn/cXFakrS+k5BBF12PP0Ykp9mCKpwrb2BGPWCjHVEFA0bVR5VpABgc=
+X-Received: by 2002:a05:6871:591:b0:1fa:f2a4:f3fa with SMTP id
+ u17-20020a056871059100b001faf2a4f3famr95493oan.12.1701460598606; Fri, 01 Dec
+ 2023 11:56:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/6] x86/bugs: Add asm helpers for executing VERW
-Content-Language: en-GB
-To: Josh Poimboeuf <jpoimboe@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
- ak@linux.intel.com, tim.c.chen@linux.intel.com,
- Nikolay Borisov <nik.borisov@suse.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org,
- Alyssa Milburn <alyssa.milburn@linux.intel.com>,
- Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- antonio.gomez.iglesias@linux.intel.com,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alyssa Milburn <alyssa.milburn@intel.com>
-References: <20231027-delay-verw-v4-0-9a3622d4bcf7@linux.intel.com>
- <20231027-delay-verw-v4-1-9a3622d4bcf7@linux.intel.com>
- <20231201193657.mvzslo4nlcbuv2q4@treble>
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- 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
- 6+ahAA==
-In-Reply-To: <20231201193657.mvzslo4nlcbuv2q4@treble>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231130203358.879796-1-sjg@chromium.org> <20231130203358.879796-3-sjg@chromium.org>
+ <CAK7LNARABFKSqY=f1uDGem2UqkTwGUQ9q3rDZ4NbXyuEAtsLdw@mail.gmail.com> <CAPnjgZ0SaoyCMiZHZ8Hs6iE8pqGz0RMYwv1XQQFZOHe1cpn7YQ@mail.gmail.com>
+In-Reply-To: <CAPnjgZ0SaoyCMiZHZ8Hs6iE8pqGz0RMYwv1XQQFZOHe1cpn7YQ@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 2 Dec 2023 04:56:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARTz_BsdM2iW9Tbo1gtychMzZ5=EU5iTXLbXrAJGX+hHQ@mail.gmail.com>
+Message-ID: <CAK7LNARTz_BsdM2iW9Tbo1gtychMzZ5=EU5iTXLbXrAJGX+hHQ@mail.gmail.com>
+Subject: Re: [PATCH v8 2/2] arm64: boot: Support Flat Image Tree
+To: Simon Glass <sjg@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, lkml <linux-kernel@vger.kernel.org>, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Tom Rini <trini@konsulko.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, 
+	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 01/12/2023 7:36 pm, Josh Poimboeuf wrote:
-> On Fri, Oct 27, 2023 at 07:38:40AM -0700, Pawan Gupta wrote:
->> +.pushsection .entry.text, "ax"
->> +
->> +.align L1_CACHE_BYTES, 0xcc
->> +SYM_CODE_START_NOALIGN(mds_verw_sel)
->> +	UNWIND_HINT_UNDEFINED
->> +	ANNOTATE_NOENDBR
->> +	.word __KERNEL_DS
->> +.align L1_CACHE_BYTES, 0xcc
->> +SYM_CODE_END(mds_verw_sel);
->> +/* For KVM */
->> +EXPORT_SYMBOL_GPL(mds_verw_sel);
->> +
->> +.popsection
-> This is data, so why is it "CODE" in .entry.text?
+On Sat, Dec 2, 2023 at 3:09=E2=80=AFAM Simon Glass <sjg@chromium.org> wrote=
+:
+>
+> Hi Masahiro,
+>
+> On Fri, 1 Dec 2023 at 10:30, Masahiro Yamada <masahiroy@kernel.org> wrote=
+:
+> >
+> > On Fri, Dec 1, 2023 at 5:34=E2=80=AFAM Simon Glass <sjg@chromium.org> w=
+rote:
+> > >
+> > > Add a script which produces a Flat Image Tree (FIT), a single file
+> > > containing the built kernel and associated devicetree files.
+> > > Compression defaults to gzip which gives a good balance of size and
+> > > performance.
+> > >
+> > > The files compress from about 86MB to 24MB using this approach.
+> > >
+> > > The FIT can be used by bootloaders which support it, such as U-Boot
+> > > and Linuxboot. It permits automatic selection of the correct
+> > > devicetree, matching the compatible string of the running board with
+> > > the closest compatible string in the FIT. There is no need for
+> > > filenames or other workarounds.
+> > >
+> > > Add a 'make image.fit' build target for arm64, as well.
+> > >
+> > > The FIT can be examined using 'dumpimage -l'.
+> > >
+> > > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > > requires compression utilities for the algorithm being used. Supporte=
+d
+> > > compression options are the same as the Image.xxx files. For now ther=
+e
+> > > is no way to change the compression other than by editing the rule fo=
+r
+> > > $(obj)/image.fit
+> > >
+> > > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > > this here, since it must be built separately from the Linux build.
+> > >
+> > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > ---
+> > >
+> > > Changes in v8:
+> > > - Drop compatible string in FDT node
+> > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > - Turn compress part of the make_fit.py comment in to a sentence
+> > > - Add two blank lines before parse_args() and setup_fit()
+> > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > - Add 'mkimage' details Documentation/process/changes.rst
+> > > - Allow changing the compression used
+> > > - Tweak cover letter since there is only one clean-up patch
+> > >
+> > > Changes in v7:
+> > > - Add Image as a dependency of image.fit
+> > > - Drop kbuild tag
+> > > - Add dependency on dtbs
+> > > - Drop unnecessary path separator for dtbs
+> > > - Rebase to -next
+> > >
+> > > Changes in v5:
+> > > - Drop patch previously applied
+> > > - Correct compression rule which was broken in v4
+> > >
+> > > Changes in v4:
+> > > - Use single quotes for UIMAGE_NAME
+> > >
+> > > Changes in v3:
+> > > - Drop temporary file image.itk
+> > > - Drop patch 'Use double quotes for image name'
+> > > - Drop double quotes in use of UIMAGE_NAME
+> > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > > - Avoid hard-coding "arm64" for the DT architecture
+> > >
+> > > Changes in v2:
+> > > - Drop patch previously applied
+> > > - Add .gitignore file
+> > > - Move fit rule to Makefile.lib using an intermediate file
+> > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > - Pick up .dtb files separately from the kernel
+> > > - Correct pylint too-many-args warning for write_kernel()
+> > > - Include the kernel image in the file count
+> > > - Add a pointer to the FIT spec and mention of its wide industry usag=
+e
+> > > - Mention the kernel version in the FIT description
+> > >
+> > >  Documentation/process/changes.rst |   9 +
+> > >  MAINTAINERS                       |   7 +
+> > >  arch/arm64/Makefile               |   7 +-
+> > >  arch/arm64/boot/.gitignore        |   1 +
+> > >  arch/arm64/boot/Makefile          |   9 +-
+> > >  scripts/Makefile.lib              |  13 ++
+> > >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++=
+++
+> > >  7 files changed, 334 insertions(+), 3 deletions(-)
+> > >  create mode 100755 scripts/make_fit.py
+> > >
+> > > diff --git a/Documentation/process/changes.rst b/Documentation/proces=
+s/changes.rst
+> > > index bb96ca0f774b..cad51bd5bd62 100644
+> > > --- a/Documentation/process/changes.rst
+> > > +++ b/Documentation/process/changes.rst
+> > > @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         1.7              sphinx-buil=
+d --version
+> > >  cpio                   any              cpio --version
+> > >  GNU tar                1.28             tar --version
+> > >  gtags (optional)       6.6.5            gtags --version
+> > > +mkimage (optional)     2017.01          mkimage --version
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > >
+> > >  .. [#f1] Sphinx is needed only to build the Kernel documentation
+> > > @@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6.6=
+.5 or later to generate
+> > >  tag files through ``make gtags``.  This is due to its use of the gta=
+gs
+> > >  ``-C (--directory)`` flag.
+> > >
+> > > +mkimage
+> > > +-------
+> > > +
+> > > +This tool is used when building a Flat Image Tree (FIT), commonly us=
+ed on ARM
+> > > +platforms. The tool is available via the ``u-boot-tools`` package or=
+ can be
+> > > +built from the U-Boot source code. See the instructions at
+> > > +https://docs.u-boot.org/en/latest/build/tools.html#building-tools-fo=
+r-linux
+> > > +
+> > >  System utilities
+> > >  ****************
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 14587be87a33..9f3eb476ece4 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -3037,6 +3037,13 @@ F:       drivers/mmc/host/sdhci-of-arasan.c
+> > >  N:     zynq
+> > >  N:     xilinx
+> > >
+> > > +ARM64 FIT SUPPORT
+> > > +M:     Simon Glass <sjg@chromium.org>
+> > > +L:     linux-arm-kernel@lists.infradead.org (moderated for non-subsc=
+ribers)
+> > > +S:     Maintained
+> > > +F:     arch/arm64/boot/Makefile
+> > > +F:     scripts/make_fit.py
+> > > +
+> > >  ARM64 PORT (AARCH64 ARCHITECTURE)
+> > >  M:     Catalin Marinas <catalin.marinas@arm.com>
+> > >  M:     Will Deacon <will@kernel.org>
+> > > diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> > > index 1bd4fae6e806..6b893dc454b7 100644
+> > > --- a/arch/arm64/Makefile
+> > > +++ b/arch/arm64/Makefile
+> > > @@ -150,7 +150,7 @@ libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/f=
+irmware/efi/libstub/lib.a
+> > >  # Default target when executing plain make
+> > >  boot           :=3D arch/arm64/boot
+> > >
+> > > -BOOT_TARGETS   :=3D Image vmlinuz.efi
+> > > +BOOT_TARGETS   :=3D Image vmlinuz.efi image.fit
+> > >
+> > >  PHONY +=3D $(BOOT_TARGETS)
+> > >
+> > > @@ -162,7 +162,9 @@ endif
+> > >
+> > >  all:   $(notdir $(KBUILD_IMAGE))
+> > >
+> > > -vmlinuz.efi: Image
+> > > +image.fit: dtbs
+> > > +
+> > > +vmlinuz.efi image.fit: Image
+> > >  $(BOOT_TARGETS): vmlinux
+> > >         $(Q)$(MAKE) $(build)=3D$(boot) $(boot)/$@
+> > >
+> > > @@ -215,6 +217,7 @@ virtconfig:
+> > >  define archhelp
+> > >    echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boo=
+t/Image.gz)'
+> > >    echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/b=
+oot/Image)'
+> > > +  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/image.=
+fit)'
+> > >    echo  '  install       - Install uncompressed kernel'
+> > >    echo  '  zinstall      - Install compressed kernel'
+> > >    echo  '                  Install using (your) ~/bin/installkernel =
+or'
+> > > diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignore
+> > > index af5dc61f8b43..abaae9de1bdd 100644
+> > > --- a/arch/arm64/boot/.gitignore
+> > > +++ b/arch/arm64/boot/.gitignore
+> > > @@ -2,3 +2,4 @@
+> > >  Image
+> > >  Image.gz
+> > >  vmlinuz*
+> > > +image.fit
+> > > diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
+> > > index 1761f5972443..62efb533a9bc 100644
+> > > --- a/arch/arm64/boot/Makefile
+> > > +++ b/arch/arm64/boot/Makefile
+> > > @@ -16,7 +16,8 @@
+> > >
+> > >  OBJCOPYFLAGS_Image :=3D-O binary -R .note -R .note.gnu.build-id -R .=
+comment -S
+> > >
+> > > -targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo=
+ Image.zst
+> > > +targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo=
+ \
+> > > +       Image.zst image.fit
+> > >
+> > >  $(obj)/Image: vmlinux FORCE
+> > >         $(call if_changed,objcopy)
+> > > @@ -39,6 +40,12 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
+> > >  $(obj)/Image.zst: $(obj)/Image FORCE
+> > >         $(call if_changed,zstd)
+> > >
+> > > +# Use this to override the compression algorithm
+> > > +FIT_COMPRESS ?=3D gzip
+> > > +
+> > > +$(obj)/image.fit: $(obj)/Image FORCE
+> > > +       $(call cmd,fit,$(FIT_COMPRESS))
+> >
+> >
+> >
+> > Again, $(FIT_COMPRESS) is not used anywhere.
+> >
+> >
+> > Please fix it to
+> >
+> >       $(call cmd,fit)
+> >
+> >
+> >
+> >
+> > See your code.
+> >
+> >
+> >    cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux \
+> >                      --name '$(UIMAGE_NAME)' \
+> >                      --compress $(UIMAGE_COMPRESSION) -k $< \
+> >                      $(<D)/dts
+> >
+> >
+> > cmd_fit does not take any argument.
+> >
+> >
+> > The compression is determined by $(UIMAGE_COMPRESSION).
+>
+> This references argument 2, which is how it works. I have tested this,
 
-Because KPTI.
 
-~Andrew
+Hah, I missed it, sorry.
+
+
+You want to use gzip instead of none as the
+default compression for the fit image, right?
+
+
+
+If so, maybe, you can directly add FIT_COMPRESSION
+in scripts/Makefile.lib
+Users are still allowed to override it from an
+environment variable.
+
+
+
+FIT_COMPRESSION ?=3D gzip
+
+cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux \
+                   --name '$(UIMAGE_NAME)' \
+                   --compress $(FIT_COMPRESSION) -k $< \
+                   $(<D)/dts
+
+
+
+
+
+
+> for example:
+>
+> ARCH=3Darm64 CROSS_COMPILE=3D... make FIT_COMPRESS=3Dlzma image.fit
+>
+> I do want to support different algorithms, if possible. Is there a
+> better way to do this?
+>
+> Regards,
+> Simon
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
