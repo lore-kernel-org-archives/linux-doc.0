@@ -1,76 +1,80 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454A856748;
+	Fri,  1 Dec 2023 20:05:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="fAKASPLf"
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5D34FA;
-	Fri,  1 Dec 2023 12:04:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=1D5xr00pbiSNnKNOHUpq8cAEaHYrXB6SCLvSNPHwawM=; b=fAKASPLf9dHbjlb2R7a8gezz4n
-	gW9YY2U3ykkdBE2DBpU3rZ0svwUxRIlYHO8gY2YjDareO54fwHnSzd38e0YBJLW713aS3MfrYEBJR
-	UolNfS5Xrx0U5GpOunewG19gHI6yQArE94NAY1NnKgIB1YPSCMwJQrZZjfBknGWwODKpazRdHMtaU
-	M3GCt51XbEx40VkOkedV7jkQQLhNnqATRcJBu3tzXevZTe9p9asoHmYhUIlif3NVTFCeHwd+S+tn/
-	m0UwBtwxzgTvLU22oW7TKmow0f4IacANB1xOegJlGZ1esEg4CqGHoQoMGXjGYcZitY22E+zao7oUC
-	GnxGBEyg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1r99kk-0060OH-2H;
-	Fri, 01 Dec 2023 20:04:47 +0000
-Date: Fri, 1 Dec 2023 20:04:46 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Oliver Sang <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org,
-	ying.huang@intel.com, feng.tang@intel.com, fengwei.yin@intel.com,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()]  1b738f196e:
- stress-ng.sysinfo.ops_per_sec -27.2% regression
-Message-ID: <20231201200446.GA1431056@ZenIV>
-References: <202311300906.1f989fa8-oliver.sang@intel.com>
- <20231130075535.GN38156@ZenIV>
- <ZWlBNSblpWghkJyW@xsang-OptiPlex-9020>
- <20231201040951.GO38156@ZenIV>
- <20231201065602.GP38156@ZenIV>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CJ1WjZYZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6952FC433C8;
+	Fri,  1 Dec 2023 20:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701461112;
+	bh=VZNoAqDPTg8yDoctRcEB3F3opYWUlSBiujMwK2WyTQk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CJ1WjZYZ+qso1UgSidqe3y+J/eJKvHShQw2R3MIzQEk70r87eQP1DebG3EQAiSLIj
+	 IUqhHtHkfHjsuBzdihsJ/ioN6yOXRd3wk9v9HE6RTary1ugjedS5FIL4PVk+6wU/ez
+	 g9DPCfWdfABoNpMiyisxXIZsO0px3oHHZYB77AAaBAGg1g+WXNqe/+ZY/8Xs6oj+ud
+	 LBLNz8APsX4gnPGHkBG46TW0JkbA7erLdKsm+gCXkSOaxRnSHnSGmTAZx6/Eo8gWe0
+	 0lOj7Mfj5wmuVLHJTKpo4wPE5uVmAJClr6yxMBQ67sBDQKBPKWsKgwaxLyKpz+g8rk
+	 EBv4asusLbiFg==
+Date: Fri, 1 Dec 2023 12:04:42 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alyssa Milburn <alyssa.milburn@intel.com>
+Subject: Re: [PATCH v4 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20231201200442.lvyep5uqc6oa7kwj@treble>
+References: <20231027-delay-verw-v4-0-9a3622d4bcf7@linux.intel.com>
+ <20231027-delay-verw-v4-1-9a3622d4bcf7@linux.intel.com>
+ <20231201193657.mvzslo4nlcbuv2q4@treble>
+ <c61402de-c61e-4d7f-a2b1-3eaa13e4ef33@citrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231201065602.GP38156@ZenIV>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <c61402de-c61e-4d7f-a2b1-3eaa13e4ef33@citrix.com>
 
-On Fri, Dec 01, 2023 at 06:56:03AM +0000, Al Viro wrote:
-> On Fri, Dec 01, 2023 at 04:09:51AM +0000, Al Viro wrote:
-> > On Fri, Dec 01, 2023 at 10:13:09AM +0800, Oliver Sang wrote:
-> > 
-> > > > Very interesting...  Out of curiosity, what effect would the following
-> > > > have on top of 1b738f196e?
-> > > 
-> > > I applied the patch upon 1b738f196e (as below fec356fd0c), but seems less
-> > > useful.
-> > 
-> > I would be rather surprised if it fixed anything; it's just that 1b738f196e
-> > changes two things - locking rules for __dentry_kill() and, in some cases,
-> > the order of dentry eviction in shrink_dentry_list().  That delta on top of
-> > it restores the original order in shrink_dentry_list(), leaving pretty much
-> > the changes in lock_for_kill()/dput()/__dentry_kill().
-> > 
-> > Interesting...  Looks like there are serious changes in context switch
-> > frequencies, but I don't see where could that have come from...
+On Fri, Dec 01, 2023 at 07:39:05PM +0000, Andrew Cooper wrote:
+> On 01/12/2023 7:36 pm, Josh Poimboeuf wrote:
+> > On Fri, Oct 27, 2023 at 07:38:40AM -0700, Pawan Gupta wrote:
+> >> +.pushsection .entry.text, "ax"
+> >> +
+> >> +.align L1_CACHE_BYTES, 0xcc
+> >> +SYM_CODE_START_NOALIGN(mds_verw_sel)
+> >> +	UNWIND_HINT_UNDEFINED
+> >> +	ANNOTATE_NOENDBR
+> >> +	.word __KERNEL_DS
+> >> +.align L1_CACHE_BYTES, 0xcc
+> >> +SYM_CODE_END(mds_verw_sel);
+> >> +/* For KVM */
+> >> +EXPORT_SYMBOL_GPL(mds_verw_sel);
+> >> +
+> >> +.popsection
+> > This is data, so why is it "CODE" in .entry.text?
 > 
-> In principle it could be an effect of enforcing the ordering between __dentry_kill()
-> of child and parent, but if that's what is going on... we would've seen
-> more iterations of loop in shrink_dcache_parent() and/or d_walk() calls in
-> it having more work to do.  But... had that been what's going on, wouldn't we
-> see some of those functions in the changed part of profile?  
-> 
-> I'll try to split that thing into a series of steps, so we could at least narrow
-> the effect down, but that'll have to wait until tomorrow ;-/
+> Because KPTI.
 
-OK, a carved-up series (on top of 1b738f196e^) is in #carved-up-__dentry_kill
-That's 9 commits, leading to something close to 1b738f196e+patch you've tested
-yesterday; could you profile them on your reproducers?  That might give some
-useful information about the nature of the regression...
+Urgh... Pawan please add a comment.
+
+-- 
+Josh
