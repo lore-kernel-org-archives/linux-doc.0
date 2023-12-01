@@ -1,68 +1,71 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B01112B96;
+	Fri,  1 Dec 2023 07:20:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="McHjE2uU"
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3355171A;
-	Thu, 30 Nov 2023 22:56:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=wLs+rj36TER3FAdhJUGWgB8svjJ4imeQUKcsqN9cuBs=; b=McHjE2uUoyuQUeUcBtDcmCqC6T
-	mwafMy27E9ZKu5EkXlj+vRda6HSeH6xoZCe2BVPCtC8ZqfoTj3ng2SUX65H+AG083Ht2g0V5eAp3S
-	pxU/ZxFddKyjh2c76mb/bKEiLgDz4CNw5tRtlDg8nONN0Kyz1t7bfpjDiHDBI8kKaV1XqEcUd0jQh
-	BonZES/eusbpcZFYvVKmm42inhmgKuTwvZ7bUkunPxP5vcmofnDBCsGBAsHZJBGvMwWnuRyFcUsPe
-	JLOfX1XWQPH3f1KW0R2Lu073JcKNnv7ro6zxRaW0f9xE7dSV3fKf7RkSdU1HlUkBuWSLC26rX54dV
-	eh3G/fSA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8xRS-005knt-38;
-	Fri, 01 Dec 2023 06:56:03 +0000
-Date: Fri, 1 Dec 2023 06:56:02 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Oliver Sang <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org,
-	ying.huang@intel.com, feng.tang@intel.com, fengwei.yin@intel.com
-Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()]  1b738f196e:
- stress-ng.sysinfo.ops_per_sec -27.2% regression
-Message-ID: <20231201065602.GP38156@ZenIV>
-References: <202311300906.1f989fa8-oliver.sang@intel.com>
- <20231130075535.GN38156@ZenIV>
- <ZWlBNSblpWghkJyW@xsang-OptiPlex-9020>
- <20231201040951.GO38156@ZenIV>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQQKBNIQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0FFB8C433CD;
+	Fri,  1 Dec 2023 07:20:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701415227;
+	bh=0ApF4fRGZ4qM+hhJ6sGk60WZf3K0anlzYkqsF7HkF3s=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=AQQKBNIQ4QXWPmP6VDwdIOtysS5lYLn4CL++7RMS/zuAi8vsPqsar5FU6+w3vPkpG
+	 /FLtT/uBA5qWBe+2LmiIJTxThOXx8W5TDGj3rF5XF6blD+pDbkqsr87sV1uyvgCXuU
+	 z3Aanc9LZN0/JLlE3IiCLnsEP9am3Hk9Lfb6XYsg9zECocButGVc75jG/15txUu+5s
+	 DjVACkYak+69uKUP7iZGkuEI6fZg6adm+0U7rYygOXktHgvsPEH1x5DELmrj21D34W
+	 dcWEpwQOTy+gbWTJ3thOlbYy32GYCB7IEJP2XAkIBCohYhUi5OaAgMehZsY40ywB00
+	 C1l45kMFLgV7w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E8D8DC73FEA;
+	Fri,  1 Dec 2023 07:20:26 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231201040951.GO38156@ZenIV>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] docs: netlink: link to family documentations from
+ spec info
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170141522694.3845.15711152666700729703.git-patchwork-notify@kernel.org>
+Date: Fri, 01 Dec 2023 07:20:26 +0000
+References: <20231129041427.2763074-1-kuba@kernel.org>
+In-Reply-To: <20231129041427.2763074-1-kuba@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, leitao@debian.org, donald.hunter@gmail.com,
+ corbet@lwn.net, linux-doc@vger.kernel.org
 
-On Fri, Dec 01, 2023 at 04:09:51AM +0000, Al Viro wrote:
-> On Fri, Dec 01, 2023 at 10:13:09AM +0800, Oliver Sang wrote:
-> 
-> > > Very interesting...  Out of curiosity, what effect would the following
-> > > have on top of 1b738f196e?
-> > 
-> > I applied the patch upon 1b738f196e (as below fec356fd0c), but seems less
-> > useful.
-> 
-> I would be rather surprised if it fixed anything; it's just that 1b738f196e
-> changes two things - locking rules for __dentry_kill() and, in some cases,
-> the order of dentry eviction in shrink_dentry_list().  That delta on top of
-> it restores the original order in shrink_dentry_list(), leaving pretty much
-> the changes in lock_for_kill()/dput()/__dentry_kill().
-> 
-> Interesting...  Looks like there are serious changes in context switch
-> frequencies, but I don't see where could that have come from...
+Hello:
 
-In principle it could be an effect of enforcing the ordering between __dentry_kill()
-of child and parent, but if that's what is going on... we would've seen
-more iterations of loop in shrink_dcache_parent() and/or d_walk() calls in
-it having more work to do.  But... had that been what's going on, wouldn't we
-see some of those functions in the changed part of profile?  
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-I'll try to split that thing into a series of steps, so we could at least narrow
-the effect down, but that'll have to wait until tomorrow ;-/
+On Tue, 28 Nov 2023 20:14:27 -0800 you wrote:
+> To increase the chances of people finding the rendered docs
+> add a link to specs.rst and index.rst.
+> 
+> Add a label in the generated index.rst and while at it adjust
+> the title a little bit.
+> 
+> Reviewed-by: Breno Leitao <leitao@debian.org>
+> Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v2] docs: netlink: link to family documentations from spec info
+    https://git.kernel.org/netdev/net-next/c/e8c780a57060
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
