@@ -1,57 +1,128 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Yi44Mdno"
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4C7170D;
-	Thu, 30 Nov 2023 20:10:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=2eHCtyGFeHq/1tIF1Jd0bNN81hKLOiwuQegOxUiD9H8=; b=Yi44Mdno5Jfc8Un+WKQBaikx++
-	SyMfPnZ927vBHrPWV1pQXZ+RQ+G3DvHKjM+M9/+HDph0ZlKXQqonkZ0jciPBH6ntkt4aIMz6Cr11s
-	gb/DGtSJJ5EQxE8vcUjmGf+ylvDAWZDHvMfl4qcdakuvmVLutud/JHD1d+eEwvCJRdSdVImS5kv1w
-	qsE0IwrHGwwnqnKoG7nt6LastrGAx61KMGgwDh22eRm1Hlx7hT1oII5GyFbev3zs/RdnKlrmKm5F3
-	b/iuJKV9Bw60H6+lm9vr8O15+F66DeL3bERw7X3YxXXxr7k3uJVhxNbQIlu1AmFf7jvc0m+nTTB5J
-	gRZ6/+Kw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8uqd-005gh0-1X;
-	Fri, 01 Dec 2023 04:09:51 +0000
-Date: Fri, 1 Dec 2023 04:09:51 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Oliver Sang <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org,
-	ying.huang@intel.com, feng.tang@intel.com, fengwei.yin@intel.com
-Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()]  1b738f196e:
- stress-ng.sysinfo.ops_per_sec -27.2% regression
-Message-ID: <20231201040951.GO38156@ZenIV>
-References: <202311300906.1f989fa8-oliver.sang@intel.com>
- <20231130075535.GN38156@ZenIV>
- <ZWlBNSblpWghkJyW@xsang-OptiPlex-9020>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PXnoOuFB"
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE85C1734;
+	Thu, 30 Nov 2023 21:48:57 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1d03bcf27e9so1682745ad.0;
+        Thu, 30 Nov 2023 21:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701409737; x=1702014537; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TZbnJURuf0YnsoB4uScWxuFhK6jg2U0wRIA3IoSThz8=;
+        b=PXnoOuFB3awpRWChL3Jgs+16RjqeshglPwp+iNSuCgPSivP7rslQ8FnXWyu7Gu6p2Q
+         NR3HbyaWJKebGrP9WlQJroqCQ5B0aPJK7LJGgBBnCm3DM5LI7hcwHdBtB+ygIbhWc/+V
+         X7yK1RcFZHTcIfUk3x3PTFsf+13uKK6JZEHwfBedpYmDgAGBbnBNfIWez4MuDCg+/Zmt
+         yeImHzppCKLZ5BJXTPztEUIBFh409w1LN3i3H+R7P7FjHaK9CfqoraGFeEDDlNznKRVO
+         uN4zpgJLx4uhAEhCmJTth7x+MZ96IxsPVcC8cmDIChwsF2oH1nXYFT8yT1v2NK0GrpK/
+         gfBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701409737; x=1702014537;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TZbnJURuf0YnsoB4uScWxuFhK6jg2U0wRIA3IoSThz8=;
+        b=ubPdTGZij0I7uw2LfUdaijIfdK0+W+3+tIyrrJb31pC9eVyHKcaF05C27JT4ZP9t8s
+         lAw3yCOMTX/IaqWFVZC4Dsv7uczKtZ4opO+mTDweZNIAlsksZWagY6fzFc87tNCtH8DK
+         +7Be6uVUqcyqQe3zCID+HQbhY8PfTsx4LjrELTUViPxSfUeGNor+FKHJ8YRgDiOR50fQ
+         rUDe/2v+GHHLPBjfJMjDCY2EY5WOUdkK2ip44TtnWQwuAfLXP6bfPpXUE52CfCyQHc4B
+         pZGY7bo2d6AxwWr0PwtzQKBJFuHkGohILsM+CO884YGJZP7r/r7I+yOmE8lTfyppxAgB
+         yLzA==
+X-Gm-Message-State: AOJu0Yxa0meDDuHWG/jIt+/qBdUWJufvLKE5jTx0OIw3HZiDBTxJQJbZ
+	I4Ji6CUmSUkHKP3c7Pst88Q=
+X-Google-Smtp-Source: AGHT+IGZqlD0EmL3ZVck683sJvma02d++2s3GfxmJHMjTUkw5O7CYkyRj5MofR4ZpGBrs++rk2ndkg==
+X-Received: by 2002:a17:90a:a407:b0:286:5811:2571 with SMTP id y7-20020a17090aa40700b0028658112571mr1018948pjp.0.1701409736984;
+        Thu, 30 Nov 2023 21:48:56 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id p7-20020a17090a348700b00280c285f878sm2508465pjb.55.2023.11.30.21.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 21:48:55 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 0CFE6100823C0; Fri,  1 Dec 2023 12:48:50 +0700 (WIB)
+Date: Fri, 1 Dec 2023 12:48:50 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Josh Don <joshdon@google.com>, Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Linux CGroups <cgroups@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Attreyee M <tintinm2017@gmail.com>
+Subject: Re: [PATCH] cgroup: Fix documentation for cpu.idle
+Message-ID: <ZWlzwnO7PcOWQ2q_@archie.me>
+References: <20231201005203.309873-1-joshdon@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CCIfMmdnUlJnGiMR"
 Content-Disposition: inline
-In-Reply-To: <ZWlBNSblpWghkJyW@xsang-OptiPlex-9020>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20231201005203.309873-1-joshdon@google.com>
 
-On Fri, Dec 01, 2023 at 10:13:09AM +0800, Oliver Sang wrote:
 
-> > Very interesting...  Out of curiosity, what effect would the following
-> > have on top of 1b738f196e?
-> 
-> I applied the patch upon 1b738f196e (as below fec356fd0c), but seems less
-> useful.
+--CCIfMmdnUlJnGiMR
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I would be rather surprised if it fixed anything; it's just that 1b738f196e
-changes two things - locking rules for __dentry_kill() and, in some cases,
-the order of dentry eviction in shrink_dentry_list().  That delta on top of
-it restores the original order in shrink_dentry_list(), leaving pretty much
-the changes in lock_for_kill()/dput()/__dentry_kill().
+On Thu, Nov 30, 2023 at 04:52:03PM -0800, Josh Don wrote:
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
+n-guide/cgroup-v2.rst
+> index 3f85254f3cef..9debf02bcb39 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1093,7 +1093,11 @@ All time durations are in microseconds.
+>  	A read-write single value file which exists on non-root
+>  	cgroups.  The default is "100".
+> =20
+> -	The weight in the range [1, 10000].
+> +	For non idle groups (cpu.idle =3D 0), the weight is in the
+> +	range [1, 10000].
+> +
+> +	If the cgroup has been configured to be SCHED_IDLE (cpu.idle =3D 1),
+> +	then the weight will show as a 0.
 
-Interesting...  Looks like there are serious changes in context switch
-frequencies, but I don't see where could that have come from...
+This one LGTM.
+
+> =20
+>    cpu.weight.nice
+>  	A read-write single value file which exists on non-root
+> @@ -1157,6 +1161,16 @@ All time durations are in microseconds.
+>          values similar to the sched_setattr(2). This maximum utilization
+>          value is used to clamp the task specific maximum utilization cla=
+mp.
+> =20
+> +  cpu.idle
+> +	A read-write single value file which exists on non-root cgroups.
+> +	The default is 0.
+> +
+> +	This is the cgroup analog of the per-task SCHED_IDLE sched policy.
+"... cgroup analogy to ..."
+> +	Setting this value to a 1 will make the scheduling policy of the
+> +	cgroup SCHED_IDLE. The threads inside the cgroup will retain their
+> +	own relative priorities, but the cgroup itself will be treated as
+> +	very low priority relative to its peers.
+> +
+> =20
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--CCIfMmdnUlJnGiMR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWlzvwAKCRD2uYlJVVFO
+o/DQAP0bPgK2LiPMvZkW1bC1ur0ZYQb6pysH6EF0VG3CEwC6zwEAxtHE0k2WmUk3
+XESJyv4hqDUe0jLIYGDVjuLeDf59JAU=
+=TNFj
+-----END PGP SIGNATURE-----
+
+--CCIfMmdnUlJnGiMR--
