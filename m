@@ -1,80 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760DD54BD7;
-	Fri,  1 Dec 2023 20:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBUFM1U3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAE5EC433C7;
-	Fri,  1 Dec 2023 20:02:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701460995;
-	bh=zlGJvgaDfOaydmVhAssBO1Q2xtvGzqBX82vPMeow6H8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kBUFM1U32mC5a5kuNSctBT/Fei8oX4ETaFZtXddMPB++K5JXpgPLe/pJmjPb6seMc
-	 LLxZ7zrTSEOFyYMDddaolGtJTT6BWMxR8MEtaIjW89DIZ/nl7F4kWfcABWasD/X6Uu
-	 RwJXWG5HphFmZXVTwMZQMLnJswrQI4jFBKkbwH64zOgUU1b/R/sUdgRDfwIglc3A1u
-	 /asI/HVmSEXQPIO0P7T8f2aCUej/5vQRM2qitHnCTk9KdHn8NE4aRHQwt61i1qdIfa
-	 GPVQzyWlFAWE83+BsHHiaWNaDYjK0qFsGyJMuztArG9nvN2VTEp4A9TFcgKPDCBU/A
-	 K6w/DEyCt32og==
-Date: Fri, 1 Dec 2023 12:02:47 -0800
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH  v4 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
- mitigation
-Message-ID: <20231201200247.vui6enzdj5nzctf4@treble>
-References: <20231027-delay-verw-v4-0-9a3622d4bcf7@linux.intel.com>
- <20231027-delay-verw-v4-6-9a3622d4bcf7@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="fAKASPLf"
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5D34FA;
+	Fri,  1 Dec 2023 12:04:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=1D5xr00pbiSNnKNOHUpq8cAEaHYrXB6SCLvSNPHwawM=; b=fAKASPLf9dHbjlb2R7a8gezz4n
+	gW9YY2U3ykkdBE2DBpU3rZ0svwUxRIlYHO8gY2YjDareO54fwHnSzd38e0YBJLW713aS3MfrYEBJR
+	UolNfS5Xrx0U5GpOunewG19gHI6yQArE94NAY1NnKgIB1YPSCMwJQrZZjfBknGWwODKpazRdHMtaU
+	M3GCt51XbEx40VkOkedV7jkQQLhNnqATRcJBu3tzXevZTe9p9asoHmYhUIlif3NVTFCeHwd+S+tn/
+	m0UwBtwxzgTvLU22oW7TKmow0f4IacANB1xOegJlGZ1esEg4CqGHoQoMGXjGYcZitY22E+zao7oUC
+	GnxGBEyg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1r99kk-0060OH-2H;
+	Fri, 01 Dec 2023 20:04:47 +0000
+Date: Fri, 1 Dec 2023 20:04:46 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Oliver Sang <oliver.sang@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org,
+	ying.huang@intel.com, feng.tang@intel.com, fengwei.yin@intel.com,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()]  1b738f196e:
+ stress-ng.sysinfo.ops_per_sec -27.2% regression
+Message-ID: <20231201200446.GA1431056@ZenIV>
+References: <202311300906.1f989fa8-oliver.sang@intel.com>
+ <20231130075535.GN38156@ZenIV>
+ <ZWlBNSblpWghkJyW@xsang-OptiPlex-9020>
+ <20231201040951.GO38156@ZenIV>
+ <20231201065602.GP38156@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231027-delay-verw-v4-6-9a3622d4bcf7@linux.intel.com>
+In-Reply-To: <20231201065602.GP38156@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, Oct 27, 2023 at 07:39:12AM -0700, Pawan Gupta wrote:
-> -	vmx_disable_fb_clear(vmx);
-> +	/*
-> +	 * Optimize the latency of VERW in guests for MMIO mitigation. Skip
-> +	 * the optimization when MDS mitigation(later in asm) is enabled.
-> +	 */
-> +	if (!cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
-> +		vmx_disable_fb_clear(vmx);
->  
->  	if (vcpu->arch.cr2 != native_read_cr2())
->  		native_write_cr2(vcpu->arch.cr2);
-> @@ -7248,7 +7256,8 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
->  
->  	vmx->idt_vectoring_info = 0;
->  
-> -	vmx_enable_fb_clear(vmx);
-> +	if (!cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
-> +		vmx_enable_fb_clear(vmx);
->  
+On Fri, Dec 01, 2023 at 06:56:03AM +0000, Al Viro wrote:
+> On Fri, Dec 01, 2023 at 04:09:51AM +0000, Al Viro wrote:
+> > On Fri, Dec 01, 2023 at 10:13:09AM +0800, Oliver Sang wrote:
+> > 
+> > > > Very interesting...  Out of curiosity, what effect would the following
+> > > > have on top of 1b738f196e?
+> > > 
+> > > I applied the patch upon 1b738f196e (as below fec356fd0c), but seems less
+> > > useful.
+> > 
+> > I would be rather surprised if it fixed anything; it's just that 1b738f196e
+> > changes two things - locking rules for __dentry_kill() and, in some cases,
+> > the order of dentry eviction in shrink_dentry_list().  That delta on top of
+> > it restores the original order in shrink_dentry_list(), leaving pretty much
+> > the changes in lock_for_kill()/dput()/__dentry_kill().
+> > 
+> > Interesting...  Looks like there are serious changes in context switch
+> > frequencies, but I don't see where could that have come from...
+> 
+> In principle it could be an effect of enforcing the ordering between __dentry_kill()
+> of child and parent, but if that's what is going on... we would've seen
+> more iterations of loop in shrink_dcache_parent() and/or d_walk() calls in
+> it having more work to do.  But... had that been what's going on, wouldn't we
+> see some of those functions in the changed part of profile?  
+> 
+> I'll try to split that thing into a series of steps, so we could at least narrow
+> the effect down, but that'll have to wait until tomorrow ;-/
 
-It may be cleaner to instead check X86_FEATURE_CLEAR_CPU_BUF when
-setting vmx->disable_fb_clear in the first place, in
-vmx_update_fb_clear_dis().
-
--- 
-Josh
+OK, a carved-up series (on top of 1b738f196e^) is in #carved-up-__dentry_kill
+That's 9 commits, leading to something close to 1b738f196e+patch you've tested
+yesterday; could you profile them on your reproducers?  That might give some
+useful information about the nature of the regression...
