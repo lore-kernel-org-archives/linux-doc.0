@@ -1,236 +1,165 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ILR7TR3X"
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35F7B6;
-	Fri,  1 Dec 2023 07:24:38 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40b4d9e81deso21598065e9.0;
-        Fri, 01 Dec 2023 07:24:38 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="I/xaCcRr"
+Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5621CD4A;
+	Fri,  1 Dec 2023 07:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701444277; x=1702049077; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kUVggj7H05+jc8KV6s86Fymv9Fiq8TZ5cXBdF9FzLWo=;
-        b=ILR7TR3XiPuJMnaoaVcGy3GtvUKfqCETyLKkEG70/TIkgj/yb0wK/m5/WAT4zFGAXK
-         MhDXdsX0NQd0YC8i2mg8Ri9d2q7DOrAWH0qNdA/AGjgDc3zwebGfKgJPUaCEhxnvwSg0
-         FH32MyojsvnDpq60NQ8IWfeq+cUP4Kt4h0qUlxwkZlv+Lwey2T4ZkaweqWemNqmPPRuJ
-         QL/jRn+qcYlhP0zXw4a7H77O71cqjKjoaIGVlsufEgFHdxlCgAD6RkEXhzYXZj1XPmkt
-         CxcwIizm4Tr4sU8tJJ57e+/g30EcIBZPzORYKnp9L5Rmb95SgfuOH8BSGt4rBUvG7ZUH
-         6/0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701444277; x=1702049077;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kUVggj7H05+jc8KV6s86Fymv9Fiq8TZ5cXBdF9FzLWo=;
-        b=CdlBcTiKfz82pFyPRMpSwc4Xd/LUMFqJf3bp4coi8uXzxS9+LJqmcq6rJFrSjRi5Aa
-         l/tbVxIrXjsLtMfeeUrdjNTW74M3crZFKOwzQ2iZM0kVU8MX+ri6EovCjWSfm9qC4mdu
-         afHQOJkzoe2To7yaFcc+lNNuuFj+56xoUzXZ3B4vWpvaVANy5Gzb3TG/0lui2l9STq/T
-         /NQ/DqiqB15QUF8Q4y6q7cT6f3f4lFgqVp5ZWs5CzUB8NLK4NO88Zvr+2InlzxyrDrwd
-         /FIeFfo8r9+Rzk6jVj14Xdzd9Ehm/9sQPw/MVQOSrUeHuTYa1nSnCzZfgS/9l6g+nuK8
-         bYAw==
-X-Gm-Message-State: AOJu0YxaGz1leqKWLsYjVJKapzDvMutEwqDHwVXgtP8chrpakay8yHHP
-	xy6jemlQUaz25TLhZTXlaPkUnifmwgDFfDF0
-X-Google-Smtp-Source: AGHT+IEplOaTQtqhczQb1eabTMF5zobNELu9zQKblW4Avk6rbJ9kS0zpLL1gPinKGHMVX1Vrpp7Q7A==
-X-Received: by 2002:a05:600c:16d3:b0:408:fe93:a2f7 with SMTP id l19-20020a05600c16d300b00408fe93a2f7mr434619wmn.37.1701444276733;
-        Fri, 01 Dec 2023 07:24:36 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id fm24-20020a05600c0c1800b0040b3e26872dsm9680717wmb.8.2023.12.01.07.24.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 07:24:36 -0800 (PST)
-Message-ID: <b761d2497462664d541779857398b2aa893cbee5.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Andy Shevchenko <andy@kernel.org>, nuno.sa@analog.com, 
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
- <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 01 Dec 2023 16:24:35 +0100
-In-Reply-To: <CACRpkda55HzPqus5KR-t=xEBkkdND5kYZj1sHdxK+j6QwDUPRg@mail.gmail.com>
-References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
-	 <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-	 <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
-	 <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
-	 <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
-	 <971eb35068639ec404669ea5320c8183ea71a7d0.camel@gmail.com>
-	 <ZWiP3i80KnVk9qyx@smile.fi.intel.com>
-	 <a4bd59df0c5bc1be5d0d6f11b968fd61a59ee2e0.camel@gmail.com>
-	 <CACRpkdYz+qi42Pz8CgeWybksC0edaVux6rcEhwzjDWnWe9Jr1g@mail.gmail.com>
-	 <61a8f54835c10db7a9c650ee2e3706b47382c634.camel@gmail.com>
-	 <CACRpkda55HzPqus5KR-t=xEBkkdND5kYZj1sHdxK+j6QwDUPRg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1701444322; x=1732980322;
+  h=mime-version:content-transfer-encoding:date:message-id:
+   cc:from:to:references:in-reply-to:subject;
+  bh=FfeiQvxbxXeqzRQdfjMLltmlruM6oJfGRqxgBK9e5cE=;
+  b=I/xaCcRrPXKIjSiwt98qVbcVSMQO/hJS4Va9yaJ3VS17rMjZIz0WRwjh
+   KreR3EJJmbLv4em6WG1Gzd7id73v54pViD/vw6EyXFnVedyuvmYFnjQHc
+   h1IAOmDc1jAzyg+KECyQkSdy0Itj58ZD3VedwzbbaV/FrH07e+aBmO6ld
+   E=;
+X-IronPort-AV: E=Sophos;i="6.04,241,1695686400"; 
+   d="scan'208";a="366051200"
+Subject: Re: [RFC 02/33] KVM: x86: Introduce KVM_CAP_APIC_ID_GROUPS
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-2b-m6i4x-cadc3fbd.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 15:25:19 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
+	by email-inbound-relay-pdx-2b-m6i4x-cadc3fbd.us-west-2.amazon.com (Postfix) with ESMTPS id D43E9A3638;
+	Fri,  1 Dec 2023 15:25:16 +0000 (UTC)
+Received: from EX19MTAEUA002.ant.amazon.com [10.0.43.254:15743]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.26.183:2525] with esmtp (Farcaster)
+ id bc754cf4-d55e-458d-8bc8-0b3c97125d02; Fri, 1 Dec 2023 15:25:15 +0000 (UTC)
+X-Farcaster-Flow-ID: bc754cf4-d55e-458d-8bc8-0b3c97125d02
+Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
+ EX19MTAEUA002.ant.amazon.com (10.252.50.126) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 1 Dec 2023 15:25:15 +0000
+Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
+ (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Dec
+ 2023 15:25:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 1 Dec 2023 15:25:06 +0000
+Message-ID: <CXD3O3XBHKZO.22U5VF0HFBTC9@amazon.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+	<pbonzini@redhat.com>, <seanjc@google.com>, <vkuznets@redhat.com>,
+	<anelkz@amazon.com>, <graf@amazon.com>, <dwmw@amazon.co.uk>,
+	<jgowans@amazon.com>, <corbert@lwn.net>, <kys@microsoft.com>,
+	<haiyangz@microsoft.com>, <decui@microsoft.com>, <x86@kernel.org>,
+	<linux-doc@vger.kernel.org>, Anel Orazgaliyeva <anelkz@amazon.de>
+From: Nicolas Saenz Julienne <nsaenz@amazon.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>, <kvm@vger.kernel.org>
+X-Mailer: aerc 0.15.2-182-g389d89a9362e-dirty
+References: <20231108111806.92604-1-nsaenz@amazon.com>
+ <20231108111806.92604-3-nsaenz@amazon.com>
+ <98eee37ed7f4b7b9c16bccbe41737e47a116d1f1.camel@redhat.com>
+In-Reply-To: <98eee37ed7f4b7b9c16bccbe41737e47a116d1f1.camel@redhat.com>
+X-ClientProxiedBy: EX19D032UWB003.ant.amazon.com (10.13.139.165) To
+ EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-On Fri, 2023-12-01 at 14:40 +0100, Linus Walleij wrote:
-> On Fri, Dec 1, 2023 at 1:34=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.co=
-m> wrote:
-> > On Thu, 2023-11-30 at 21:15 +0100, Linus Walleij wrote:
->=20
-> > I did not used libgpiod but I did tested it with gpio-sysfs. Well, I co=
-uld
-> > effectively see the pull down behaviour but since my eval board has no =
-pull-ups I
-> > could not drive the line high.
->=20
-> libgpiod has the upside of offering you to set the pull down and open
-> drain behaviour from userspace.
->=20
+Hi Maxim,
 
-Yeah, I can also just come up with a minimal test driver and devicetree.
-
-> > > The gpiolib framework assumes we can do open drain emulation by
-> > > setting lines as input. It is used as fallback unless the hardware ha=
+On Tue Nov 28, 2023 at 6:56 AM UTC, Maxim Levitsky wrote:
+> On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
+> > From: Anel Orazgaliyeva <anelkz@amazon.de>
+> >
+> > Introduce KVM_CAP_APIC_ID_GROUPS, this capability segments the VM's API=
+C
+> > ids into two. The lower bits, the physical APIC id, represent the part
+> > that's exposed to the guest. The higher bits, which are private to KVM,
+> > groups APICs together. APICs in different groups are isolated from each
+> > other, and IPIs can only be directed at APICs that share the same group
+> > as its source. Furthermore, groups are only relevant to IPIs, anything
+> > incoming from outside the local APIC complex: from the IOAPIC, MSIs, or
+> > PV-IPIs is targeted at the default APIC group, group 0.
+> >
+> > When routing IPIs with physical destinations, KVM will OR the source's
+> > vCPU APIC group with the ICR's destination ID and use that to resolve
+> > the target lAPIC. The APIC physical map is also made group aware in
+> > order to speed up this process. For the sake of simplicity, the logical
+> > map is not built while KVM_CAP_APIC_ID_GROUPS is in use and we defer IP=
+I
+> > routing to the slower per-vCPU scan method.
+> >
+> > This capability serves as a building block to implement virtualisation
+> > based security features like Hyper-V's Virtual Secure Mode (VSM). VSM
+> > introduces a para-virtualised switch that allows for guest CPUs to jump
+> > into a different execution context, this switches into a different CPU
+> > state, lAPIC state, and memory protections. We model this in KVM by
+> > using distinct kvm_vcpus for each context. Moreover, execution contexts
+> > are hierarchical and its APICs are meant to remain functional even when
+> > the context isn't 'scheduled in'. For example, we have to keep track of
+> > timers' expirations, and interrupt execution of lesser priority context=
 s
-> > > an explicit open drain setting.
-> >=20
-> > Yeah, I did look at that after you pointed that out. There's just somet=
-hing I'm
-> > still
-> > not getting. This HW has no explicit open drain setting because open dr=
-ain is all
-> > that it is. So, I guess we could just specify the flag in devicetree so=
- gpiolib
-> > could
-> > use the emulation
-> > but I wonder how would we have things in case we have the HW setup
-> > to drive the pin high (so having this as GPOs)?
->=20
-> If another device tree node uses:
->=20
-> foo-gpios =3D <&gpio0 5 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
->=20
-> The result will be that gpiolib will emulate open drain.
->=20
-> From userspace libgpiod can do the same request.
->=20
-> > > > Also got me thinking if a gpi vs gpo devicetree property would make=
- sense.
-> > > > But I
-> > > > would likely leave it more generic/relaxed for now (even though I t=
-hink you
-> > > > would
-> > > > need to be creative and actually use more HW to have the possibilit=
-y of using
-> > > > these
-> > > > pins as GPIs and GPOs at the same time).
-> > >=20
-> > > We don't define that in the device tree currently, we just make the d=
-river
-> > > not support output on input-only pins and vice versa, by returning er=
-ror
-> > > codes on the .set_direction() callbacks.
-> >=20
-> > I see, but in this case, the pins could be outputs depending on the HW =
-setup but
-> > there's no way for us to know that in the driver.
->=20
-> We just specify the line in the device tree, and we just use it as
-> intended in the
-> driver, if it is present, whether that is as input or output.
->=20
-> We do not try to over-protect users from misusing GPIO lines that have ju=
-st
-> one possible (electronic defined) mode. It would be over-engineering IMO.
->=20
-
-Fair enough...
-
-> > And given the fact that (I think)
-> > it's highly unlikely for pins like this to ever be GPIs and GPOs at the=
- same
-> > time, I
-> > brought the devicetree property to define input and output only. So, ro=
-ughly,
-> > what I
-> > have in mind now for the chip is;
-> >=20
-> > .set_config() -> with PULL_DOWN and HIGH_IMPEDANCE support
-> > .direction_input() -> This is important for gpio1 where we do have an h=
-w setting
-> > to
-> > set the direction. On the other pins I was thinking in just forcing hig=
-h-z. Or
-> > maybe
-> > can I just rely on gpio_set_bias()?
->=20
-> No just write some default set-up into the registers, that's fine.
-> Or leave the power-on defaults.
->=20
-> > .direction_ouput() -> Would only matter for gpio1
->=20
-> The just return an error code for any other GPIO where this is called.
->=20
-> > .get/set_value() -> And in this case we just assume that high value mig=
-ht or
-> > might
-> > not be possible (depending on the hw setup). Note that reading the pin =
-state is
-> > always possible.
->=20
-> If a pins .direction_output() fails, .set_value() will not be called
-> on it either.
-
-This is where I lost you :(. So, I'm might be overcomplicating things but..=
-. Again,
-the case where someone wired up HW so that we can actually use the pin to d=
-rive the
-line high (having an external pull up). In that case, If I return error, th=
-en I won't
-be able to effectively set the line high (as you said, set_value will not b=
-e called
-on it either).
-
-Now, I do understand that if we have the line flagged as GPIO_OPEN_DRAIN, t=
-hen
-gpiolib will switch the line to input which means we will set the line in h=
-igh-z
-which means that if we have a pull up, then the line will be high. I mean, =
-it works
-but it would be strange if someone wants to have the line as output high an=
-d after
-trying to set the it high, it sees the pin moving to input.=C2=A0But if thi=
-s is how it
-should be, fine by me.
-
-I do understand this is the definition of open drain so I guess someone sho=
-uld know
-what to expect when operating with pins like this.
-
->=20
-> > This means that I assume we can have both directions but that is not re=
-ally case
-> > and
-> > one needs to know what it is doing :). Or in cases like this, we just i=
-gnore the
-> > possibility of having GPO's and we let gpiolib do the emulation?
-> >=20
-> > Sounds reasonable or not really how I should handle this open-drain onl=
-y pins?
->=20
-> Open drain-only pins would be pins that can be set to electric LOW (groun=
-ded)
-> or High-Z. Is this what we have?
->=20
-
-Yes, that is the only thing we have. Meaning that there is no hw setting to=
- set the
-pins to open drain. Open drain is what they are. That is why I'm not seeing=
- the point
-in having PIN_CONFIG_DRIVE_OPEN_DRAIN implemented.
-
-Anyways, I'll try to have something cooked next week. I'll be slow since th=
-e winter
-(not even there yet) in Germany already got me!
+> > when relevant. Hence the need to alias physical APIC ids, while keeping
+> > the ability to target specific execution contexts.
+>
+>
+> A few general remarks on this patch (assuming that we don't go with
+> the approach of a VM per VTL, in which case this patch is not needed)
+>
+> -> This feature has to be done in the kernel because vCPUs sharing same V=
+TL,
+>    will have same APIC ID.
+>    (In addition to that, APIC state is private to a VTL so each VTL
+>    can even change its apic id).
+>
+>    Because of this KVM has to have at least some awareness of this.
+>
+> -> APICv/AVIC should be supported with VTL eventually:
+>    This is thankfully possible by having separate physid/pid tables per V=
+TL,
+>    and will mostly just work but needs KVM awareness.
+>
+> -> I am somewhat against reserving bits in apic id, because that will lim=
+it
+>    the number of apic id bits available to userspace. Currently this is n=
+ot
+>    a problem but it might be in the future if for some reason the userspa=
+ce
+>    will want an apic id with high bits set.
+>
+>    But still things change, and with this being part of KVM's ABI, it mig=
+ht backfire.
+>    A better idea IMHO is just to have 'APIC namespaces', which like say P=
+ID namespaces,
+>    such as each namespace is isolated IPI wise on its own, and let each v=
+CPU belong to
+>    a one namespace.
+>
+>    In fact Intel's PRM has a brief mention of a 'hierarchical cluster' mo=
+de in which
+>    roughly describes this situation in which there are multiple not inter=
+connected APIC buses,
+>    and communication between them needs a 'cluster manager device'
+>
+>    However I don't think that we need an explicit pairs of vCPUs and VTL =
+awareness in the kernel
+>    all of this I think can be done in userspace.
+>
+>    TL;DR: Lets have APIC namespace. a vCPU can belong to a single namespa=
+ce, and all vCPUs
+>    in a namespace send IPIs to each other and know nothing about vCPUs fr=
+om other namespace.
+>
+>    A vCPU sending IPI to a different VTL thankfully can only do this usin=
+g a hypercall,
+>    and thus can be handled in the userspace.
+>
+>
+> Overall though IMHO the approach of a VM per VTL is better unless some sh=
+ow stoppers show up.
+> If we go with a VM per VTL, we gain APIC namespaces for free, together wi=
+th AVIC support and
+> such.
 
 
-- Nuno S=C3=A1
+Thanks, for the thorough review! I took note of all your design comments
+(here and in subsequent patches).
+
+I agree that the way to go is the VM per VTL approach. I'll prepare a
+PoC as soon as I'm back from the holidays and share my results.
+
+Nicolas
