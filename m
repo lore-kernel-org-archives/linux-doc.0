@@ -1,391 +1,101 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MlcwSg2q"
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E14410FC
-	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 08:17:03 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40b31232bf0so20856615e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 08:17:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCCbWoFw"
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0605483;
+	Fri,  1 Dec 2023 08:19:37 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40b27726369so22129845e9.0;
+        Fri, 01 Dec 2023 08:19:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701447422; x=1702052222; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E74LvjTxUZWLtJvvaUHypL9+wv4NgOIsNkiFl+I7+yg=;
-        b=MlcwSg2qs1ntSYVGQd/MCxfNhPe3vgD+XBhLpmL/1OrvBtdqd8wea7Xh7kY+91rFbk
-         wfA0udfQ0SAGtnTxH6ISma0+fgeGFZFl11vubdfkJbr3XWMLjyuNbX/PVI0ILaoK4qlZ
-         7L3CQ2exQCXuF+A47yMr1Y5Mqo+5WF493t13jPQprskHBceXGHM68FHbJdigDSpea7hW
-         bY1Dy0s3eDLdElZ7N7Ybz4YvQNZDqP2x0+o1nDyEMeE7Kz4wR0DNa8c3rQzT6pFvfJRA
-         P7o/NpFZcts5mOj8VBX+9Ku+gd72xlnn1OJZ6lNObt9l5nmfKszoRE+JDY/xckI/w0qN
-         2xEA==
+        d=gmail.com; s=20230601; t=1701447575; x=1702052375; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=zXSpg2Hebt1XMvl/lb7qRf9lb6fY6wPU9kJB/qJRi3g=;
+        b=ZCCbWoFw7e92HstJaZAars6On2qa6pcm1bDpaZ5mXxBBKLuSyI2phbVlklsuDNNeLW
+         0BIPqHJfycGxddutVItvs5w1gvufNSMVxggZYBNCsxdGAofWlUzJM5rDZRkAX0xYVSIb
+         NJ3Rh80narMaabAik6U+tSln9adKsfgAN4RCtbLkGRx0Xc4CTOUu4Q5eSXIKGEkmK9yt
+         u0II7cch/3hxFSq1ZIbRshZ7WOL0p5wkwNoJcqLPNv6znl0wb2NRpCq5j3XRyVi1I1U8
+         wqbxNTJYFh7Mf+CaXMjDoi6GMbxCOY2xrf88mUKX+KIDHJ810rz2/aAJG345dFyeluhg
+         OsVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701447422; x=1702052222;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E74LvjTxUZWLtJvvaUHypL9+wv4NgOIsNkiFl+I7+yg=;
-        b=kiTygmroDxtvLMB61MtLna+NR/pgL+nFr+mHBQBodkpOSjh8sI5NRcucwN8QndZ39D
-         rzXJ0pGxkTXCkj7wRgEO3c3oGXPUE47dJYPr38elusqTKpY3BO+DD58irPGnhrG1hn0c
-         8zboBt987ZqM/wWs6dOylufJrsur6DcPUoyD032uIbntEm49DS4hACgIyqkgqvRKGbcG
-         It4AfoEuREEY1hv1oG7rF9mSrcRO5JqS3jYz2wkScsY0E09yd/CVpVvpJsW8wQvMF12j
-         pr2mbsIMJ0MJ8iB6UQp/Ynez45Dc26fm1lBmkkqGx/qzl6q4JoRARKnyKDNkDJnr6vJW
-         ef6w==
-X-Gm-Message-State: AOJu0YwqgcwQ//HjbSytpOUEu+WI5bX+25NdlrO4csVgtRn+nUmThJfE
-	0ZG6aTHoz/RP2ikPwlCRFEZ9yw==
-X-Google-Smtp-Source: AGHT+IGw9gQNjf3z/miV80OD0PEF8SvC09RO8HQQ/oLaFcUtbEKwH5EunZeAHMp3SHeSv1bdXOq24A==
-X-Received: by 2002:a05:600c:5247:b0:40b:5e22:962 with SMTP id fc7-20020a05600c524700b0040b5e220962mr727299wmb.81.1701447422401;
-        Fri, 01 Dec 2023 08:17:02 -0800 (PST)
-Received: from vingu-book.. ([2a01:e0a:f:6020:6db5:f04:fbd5:88e1])
-        by smtp.gmail.com with ESMTPSA id l27-20020a05600c1d1b00b003feae747ff2sm9591398wms.35.2023.12.01.08.17.00
+        d=1e100.net; s=20230601; t=1701447575; x=1702052375;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zXSpg2Hebt1XMvl/lb7qRf9lb6fY6wPU9kJB/qJRi3g=;
+        b=hiXltp9uHBK2JFXQ6JCKLMaobS60lCOX++RFmWK8hkupfdz5UcqtREog5cbcwiO4wj
+         InJuSlcEIkKLmR+ANfeK9vN1S76qEguUwFn0QPfM67ZTZKs54ML1peVgJQdfwVPEHd5J
+         GQ4lXI5M79085kCFkjOxgFW88z5zAVxmYM39PIpRsXpxak2kImOEUFQTMPiYOIsVWaQp
+         Lce4Hdq6spQpKiWtEuw1PZnYnWZKd8XzGeqAKpcx9TWBOoZNGJICxW/3Kfi5SlXNffGc
+         EL5U9gnOcLQHu9qCgOoZ5+a2wqSxEa0s4rYhlmBKE0QTMAqQY8Om2P8y8Wf3VTge5KjT
+         xs8w==
+X-Gm-Message-State: AOJu0YyQeFZ11Ji4/GS3ScIZo3LSZDPXlsJZ8aLzlnbtagddKilC4Oeq
+	s+v/Sg3Mjb0EJwOmUpoEeKA=
+X-Google-Smtp-Source: AGHT+IGlB+Oek43JXqETYBZcoT9o2StytlqCFerJRxzm0sdB9GY+C+hZxfBHyL22HIQoqS+NOvGUgA==
+X-Received: by 2002:a5d:69cd:0:b0:333:2fd2:68e4 with SMTP id s13-20020a5d69cd000000b003332fd268e4mr1050543wrw.119.1701447575325;
+        Fri, 01 Dec 2023 08:19:35 -0800 (PST)
+Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
+        by smtp.gmail.com with ESMTPSA id dj16-20020a0560000b1000b0033331f83907sm1809327wrb.65.2023.12.01.08.19.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 08:17:01 -0800 (PST)
-From: Vincent Guittot <vincent.guittot@linaro.org>
-To: mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	bristot@redhat.com,
-	vschneid@redhat.com,
-	corbet@lwn.net,
-	alexs@kernel.org,
-	siyanteng@loongson.cn,
-	qyousef@layalina.io,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: lukasz.luba@arm.com,
-	hongyan.xia2@arm.com,
-	yizhou.tang@shopee.com,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: [PATCH v2 2/2] sched/fair: Simplify util_est
-Date: Fri,  1 Dec 2023 17:16:52 +0100
-Message-Id: <20231201161652.1241695-3-vincent.guittot@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231201161652.1241695-1-vincent.guittot@linaro.org>
-References: <20231201161652.1241695-1-vincent.guittot@linaro.org>
+        Fri, 01 Dec 2023 08:19:35 -0800 (PST)
+Message-ID: <4afe8108fb12690779351f16b0b31977caca640b.camel@gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, nuno.sa@analog.com, 
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
+ <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Fri, 01 Dec 2023 17:19:33 +0100
+In-Reply-To: <ZWoABzufPkdXnrMT@smile.fi.intel.com>
+References: 
+	<CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
+	 <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
+	 <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
+	 <971eb35068639ec404669ea5320c8183ea71a7d0.camel@gmail.com>
+	 <ZWiP3i80KnVk9qyx@smile.fi.intel.com>
+	 <a4bd59df0c5bc1be5d0d6f11b968fd61a59ee2e0.camel@gmail.com>
+	 <CACRpkdYz+qi42Pz8CgeWybksC0edaVux6rcEhwzjDWnWe9Jr1g@mail.gmail.com>
+	 <61a8f54835c10db7a9c650ee2e3706b47382c634.camel@gmail.com>
+	 <CACRpkda55HzPqus5KR-t=xEBkkdND5kYZj1sHdxK+j6QwDUPRg@mail.gmail.com>
+	 <b761d2497462664d541779857398b2aa893cbee5.camel@gmail.com>
+	 <ZWoABzufPkdXnrMT@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-With UTIL_EST_FASTUP now being permanent, we can take advantage of the
-fact that the ewma jumps directly to a higher utilization at dequeue to
-simplify util_est and remove the enqueued field.
+On Fri, 2023-12-01 at 17:47 +0200, Andy Shevchenko wrote:
+> On Fri, Dec 01, 2023 at 04:24:35PM +0100, Nuno S=C3=A1 wrote:
+> > On Fri, 2023-12-01 at 14:40 +0100, Linus Walleij wrote:
+>=20
+> ...
+>=20
+> > Yes, that is the only thing we have. Meaning that there is no hw settin=
+g to set
+> > the
+> > pins to open drain. Open drain is what they are. That is why I'm not se=
+eing the
+> > point
+> > in having PIN_CONFIG_DRIVE_OPEN_DRAIN implemented.
+>=20
+> At least you have to implement error for PUSH_PULL mode and other modes,
+> so from the (core) software point of view the user should be able to ask =
+for
+> anything and get an answer from the certain driver that "hey, i do suppor=
+t OD",
+> or "hey, push-pull can't be supported with this hw".
+>=20
 
-Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
-Reviewed-and-tested-by: Lukasz Luba <lukasz.luba@arm.com>
-Reviewed-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
-Reviewed-by: Hongyan Xia <hongyan.xia2@arm.com>
----
- include/linux/sched.h | 49 +++++++-------------------
- kernel/sched/debug.c  |  7 ++--
- kernel/sched/fair.c   | 82 ++++++++++++++++---------------------------
- kernel/sched/pelt.h   |  4 +--
- 4 files changed, 48 insertions(+), 94 deletions(-)
+Yeah, that makes total sense. But I guess that the 'default' should already=
+=C2=A0
+-EOPNOTSUPP right?
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 8d258162deb0..03bfe9ab2951 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -415,42 +415,6 @@ struct load_weight {
- 	u32				inv_weight;
- };
- 
--/**
-- * struct util_est - Estimation utilization of FAIR tasks
-- * @enqueued: instantaneous estimated utilization of a task/cpu
-- * @ewma:     the Exponential Weighted Moving Average (EWMA)
-- *            utilization of a task
-- *
-- * Support data structure to track an Exponential Weighted Moving Average
-- * (EWMA) of a FAIR task's utilization. New samples are added to the moving
-- * average each time a task completes an activation. Sample's weight is chosen
-- * so that the EWMA will be relatively insensitive to transient changes to the
-- * task's workload.
-- *
-- * The enqueued attribute has a slightly different meaning for tasks and cpus:
-- * - task:   the task's util_avg at last task dequeue time
-- * - cfs_rq: the sum of util_est.enqueued for each RUNNABLE task on that CPU
-- * Thus, the util_est.enqueued of a task represents the contribution on the
-- * estimated utilization of the CPU where that task is currently enqueued.
-- *
-- * Only for tasks we track a moving average of the past instantaneous
-- * estimated utilization. This allows to absorb sporadic drops in utilization
-- * of an otherwise almost periodic task.
-- *
-- * The UTIL_AVG_UNCHANGED flag is used to synchronize util_est with util_avg
-- * updates. When a task is dequeued, its util_est should not be updated if its
-- * util_avg has not been updated in the meantime.
-- * This information is mapped into the MSB bit of util_est.enqueued at dequeue
-- * time. Since max value of util_est.enqueued for a task is 1024 (PELT util_avg
-- * for a task) it is safe to use MSB.
-- */
--struct util_est {
--	unsigned int			enqueued;
--	unsigned int			ewma;
--#define UTIL_EST_WEIGHT_SHIFT		2
--#define UTIL_AVG_UNCHANGED		0x80000000
--} __attribute__((__aligned__(sizeof(u64))));
--
- /*
-  * The load/runnable/util_avg accumulates an infinite geometric series
-  * (see __update_load_avg_cfs_rq() in kernel/sched/pelt.c).
-@@ -505,9 +469,20 @@ struct sched_avg {
- 	unsigned long			load_avg;
- 	unsigned long			runnable_avg;
- 	unsigned long			util_avg;
--	struct util_est			util_est;
-+	unsigned int			util_est;
- } ____cacheline_aligned;
- 
-+/*
-+ * The UTIL_AVG_UNCHANGED flag is used to synchronize util_est with util_avg
-+ * updates. When a task is dequeued, its util_est should not be updated if its
-+ * util_avg has not been updated in the meantime.
-+ * This information is mapped into the MSB bit of util_est at dequeue time.
-+ * Since max value of util_est for a task is 1024 (PELT util_avg for a task)
-+ * it is safe to use MSB.
-+ */
-+#define UTIL_EST_WEIGHT_SHIFT		2
-+#define UTIL_AVG_UNCHANGED		0x80000000
-+
- struct sched_statistics {
- #ifdef CONFIG_SCHEDSTATS
- 	u64				wait_start;
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index 168eecc209b4..8d5d98a5834d 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -684,8 +684,8 @@ void print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq)
- 			cfs_rq->avg.runnable_avg);
- 	SEQ_printf(m, "  .%-30s: %lu\n", "util_avg",
- 			cfs_rq->avg.util_avg);
--	SEQ_printf(m, "  .%-30s: %u\n", "util_est_enqueued",
--			cfs_rq->avg.util_est.enqueued);
-+	SEQ_printf(m, "  .%-30s: %u\n", "util_est",
-+			cfs_rq->avg.util_est);
- 	SEQ_printf(m, "  .%-30s: %ld\n", "removed.load_avg",
- 			cfs_rq->removed.load_avg);
- 	SEQ_printf(m, "  .%-30s: %ld\n", "removed.util_avg",
-@@ -1075,8 +1075,7 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
- 	P(se.avg.runnable_avg);
- 	P(se.avg.util_avg);
- 	P(se.avg.last_update_time);
--	P(se.avg.util_est.ewma);
--	PM(se.avg.util_est.enqueued, ~UTIL_AVG_UNCHANGED);
-+	PM(se.avg.util_est, ~UTIL_AVG_UNCHANGED);
- #endif
- #ifdef CONFIG_UCLAMP_TASK
- 	__PS("uclamp.min", p->uclamp_req[UCLAMP_MIN].value);
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index e94d65da8d66..823dd76d0546 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -4781,9 +4781,7 @@ static inline unsigned long task_runnable(struct task_struct *p)
- 
- static inline unsigned long _task_util_est(struct task_struct *p)
- {
--	struct util_est ue = READ_ONCE(p->se.avg.util_est);
--
--	return max(ue.ewma, (ue.enqueued & ~UTIL_AVG_UNCHANGED));
-+	return READ_ONCE(p->se.avg.util_est) & ~UTIL_AVG_UNCHANGED;
- }
- 
- static inline unsigned long task_util_est(struct task_struct *p)
-@@ -4800,9 +4798,9 @@ static inline void util_est_enqueue(struct cfs_rq *cfs_rq,
- 		return;
- 
- 	/* Update root cfs_rq's estimated utilization */
--	enqueued  = cfs_rq->avg.util_est.enqueued;
-+	enqueued  = cfs_rq->avg.util_est;
- 	enqueued += _task_util_est(p);
--	WRITE_ONCE(cfs_rq->avg.util_est.enqueued, enqueued);
-+	WRITE_ONCE(cfs_rq->avg.util_est, enqueued);
- 
- 	trace_sched_util_est_cfs_tp(cfs_rq);
- }
-@@ -4816,34 +4814,20 @@ static inline void util_est_dequeue(struct cfs_rq *cfs_rq,
- 		return;
- 
- 	/* Update root cfs_rq's estimated utilization */
--	enqueued  = cfs_rq->avg.util_est.enqueued;
-+	enqueued  = cfs_rq->avg.util_est;
- 	enqueued -= min_t(unsigned int, enqueued, _task_util_est(p));
--	WRITE_ONCE(cfs_rq->avg.util_est.enqueued, enqueued);
-+	WRITE_ONCE(cfs_rq->avg.util_est, enqueued);
- 
- 	trace_sched_util_est_cfs_tp(cfs_rq);
- }
- 
- #define UTIL_EST_MARGIN (SCHED_CAPACITY_SCALE / 100)
- 
--/*
-- * Check if a (signed) value is within a specified (unsigned) margin,
-- * based on the observation that:
-- *
-- *     abs(x) < y := (unsigned)(x + y - 1) < (2 * y - 1)
-- *
-- * NOTE: this only works when value + margin < INT_MAX.
-- */
--static inline bool within_margin(int value, int margin)
--{
--	return ((unsigned int)(value + margin - 1) < (2 * margin - 1));
--}
--
- static inline void util_est_update(struct cfs_rq *cfs_rq,
- 				   struct task_struct *p,
- 				   bool task_sleep)
- {
--	long last_ewma_diff, last_enqueued_diff;
--	struct util_est ue;
-+	unsigned int ewma, dequeued, last_ewma_diff;
- 
- 	if (!sched_feat(UTIL_EST))
- 		return;
-@@ -4855,23 +4839,25 @@ static inline void util_est_update(struct cfs_rq *cfs_rq,
- 	if (!task_sleep)
- 		return;
- 
-+	/* Get current estimate of utilization */
-+	ewma = READ_ONCE(p->se.avg.util_est);
-+
- 	/*
- 	 * If the PELT values haven't changed since enqueue time,
- 	 * skip the util_est update.
- 	 */
--	ue = p->se.avg.util_est;
--	if (ue.enqueued & UTIL_AVG_UNCHANGED)
-+	if (ewma & UTIL_AVG_UNCHANGED)
- 		return;
- 
--	last_enqueued_diff = ue.enqueued;
-+	/* Get utilization at dequeue */
-+	dequeued = task_util(p);
- 
- 	/*
- 	 * Reset EWMA on utilization increases, the moving average is used only
- 	 * to smooth utilization decreases.
- 	 */
--	ue.enqueued = task_util(p);
--	if (ue.ewma < ue.enqueued) {
--		ue.ewma = ue.enqueued;
-+	if (ewma <= dequeued) {
-+		ewma = dequeued;
- 		goto done;
- 	}
- 
-@@ -4879,27 +4865,22 @@ static inline void util_est_update(struct cfs_rq *cfs_rq,
- 	 * Skip update of task's estimated utilization when its members are
- 	 * already ~1% close to its last activation value.
- 	 */
--	last_ewma_diff = ue.enqueued - ue.ewma;
--	last_enqueued_diff -= ue.enqueued;
--	if (within_margin(last_ewma_diff, UTIL_EST_MARGIN)) {
--		if (!within_margin(last_enqueued_diff, UTIL_EST_MARGIN))
--			goto done;
--
--		return;
--	}
-+	last_ewma_diff = ewma - dequeued;
-+	if (last_ewma_diff < UTIL_EST_MARGIN)
-+		goto done;
- 
- 	/*
- 	 * To avoid overestimation of actual task utilization, skip updates if
- 	 * we cannot grant there is idle time in this CPU.
- 	 */
--	if (task_util(p) > arch_scale_cpu_capacity(cpu_of(rq_of(cfs_rq))))
-+	if (dequeued > arch_scale_cpu_capacity(cpu_of(rq_of(cfs_rq))))
- 		return;
- 
- 	/*
- 	 * To avoid underestimate of task utilization, skip updates of EWMA if
- 	 * we cannot grant that thread got all CPU time it wanted.
- 	 */
--	if ((ue.enqueued + UTIL_EST_MARGIN) < task_runnable(p))
-+	if ((dequeued + UTIL_EST_MARGIN) < task_runnable(p))
- 		goto done;
- 
- 
-@@ -4907,25 +4888,24 @@ static inline void util_est_update(struct cfs_rq *cfs_rq,
- 	 * Update Task's estimated utilization
- 	 *
- 	 * When *p completes an activation we can consolidate another sample
--	 * of the task size. This is done by storing the current PELT value
--	 * as ue.enqueued and by using this value to update the Exponential
--	 * Weighted Moving Average (EWMA):
-+	 * of the task size. This is done by using this value to update the
-+	 * Exponential Weighted Moving Average (EWMA):
- 	 *
- 	 *  ewma(t) = w *  task_util(p) + (1-w) * ewma(t-1)
- 	 *          = w *  task_util(p) +         ewma(t-1)  - w * ewma(t-1)
- 	 *          = w * (task_util(p) -         ewma(t-1)) +     ewma(t-1)
--	 *          = w * (      last_ewma_diff            ) +     ewma(t-1)
--	 *          = w * (last_ewma_diff  +  ewma(t-1) / w)
-+	 *          = w * (      -last_ewma_diff           ) +     ewma(t-1)
-+	 *          = w * (-last_ewma_diff +  ewma(t-1) / w)
- 	 *
- 	 * Where 'w' is the weight of new samples, which is configured to be
- 	 * 0.25, thus making w=1/4 ( >>= UTIL_EST_WEIGHT_SHIFT)
- 	 */
--	ue.ewma <<= UTIL_EST_WEIGHT_SHIFT;
--	ue.ewma  += last_ewma_diff;
--	ue.ewma >>= UTIL_EST_WEIGHT_SHIFT;
-+	ewma <<= UTIL_EST_WEIGHT_SHIFT;
-+	ewma  -= last_ewma_diff;
-+	ewma >>= UTIL_EST_WEIGHT_SHIFT;
- done:
--	ue.enqueued |= UTIL_AVG_UNCHANGED;
--	WRITE_ONCE(p->se.avg.util_est, ue);
-+	ewma |= UTIL_AVG_UNCHANGED;
-+	WRITE_ONCE(p->se.avg.util_est, ewma);
- 
- 	trace_sched_util_est_se_tp(&p->se);
- }
-@@ -7653,16 +7633,16 @@ cpu_util(int cpu, struct task_struct *p, int dst_cpu, int boost)
- 	if (sched_feat(UTIL_EST)) {
- 		unsigned long util_est;
- 
--		util_est = READ_ONCE(cfs_rq->avg.util_est.enqueued);
-+		util_est = READ_ONCE(cfs_rq->avg.util_est);
- 
- 		/*
- 		 * During wake-up @p isn't enqueued yet and doesn't contribute
--		 * to any cpu_rq(cpu)->cfs.avg.util_est.enqueued.
-+		 * to any cpu_rq(cpu)->cfs.avg.util_est.
- 		 * If @dst_cpu == @cpu add it to "simulate" cpu_util after @p
- 		 * has been enqueued.
- 		 *
- 		 * During exec (@dst_cpu = -1) @p is enqueued and does
--		 * contribute to cpu_rq(cpu)->cfs.util_est.enqueued.
-+		 * contribute to cpu_rq(cpu)->cfs.util_est.
- 		 * Remove it to "simulate" cpu_util without @p's contribution.
- 		 *
- 		 * Despite the task_on_rq_queued(@p) check there is still a
-diff --git a/kernel/sched/pelt.h b/kernel/sched/pelt.h
-index 3a0e0dc28721..9e1083465fbc 100644
---- a/kernel/sched/pelt.h
-+++ b/kernel/sched/pelt.h
-@@ -52,13 +52,13 @@ static inline void cfs_se_util_change(struct sched_avg *avg)
- 		return;
- 
- 	/* Avoid store if the flag has been already reset */
--	enqueued = avg->util_est.enqueued;
-+	enqueued = avg->util_est;
- 	if (!(enqueued & UTIL_AVG_UNCHANGED))
- 		return;
- 
- 	/* Reset flag to report util_avg has been updated */
- 	enqueued &= ~UTIL_AVG_UNCHANGED;
--	WRITE_ONCE(avg->util_est.enqueued, enqueued);
-+	WRITE_ONCE(avg->util_est, enqueued);
- }
- 
- static inline u64 rq_clock_pelt(struct rq *rq)
--- 
-2.34.1
-
+- Nuno S=C3=A1=20
