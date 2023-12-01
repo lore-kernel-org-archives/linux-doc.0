@@ -1,198 +1,202 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EicvuN/k"
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2071.outbound.protection.outlook.com [40.107.243.71])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D6E71BCA;
-	Thu, 30 Nov 2023 16:57:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B1BoIGvtF/uFj7tzTU0vhQh4fyLyYy6Gef2FjVzhDHLUHjTJeBeeYvxocojHQLGNIXzwgyLKn826q8o6BW8z8xJAXLqPTp9cIKJ5C1SO41+wUHcsoD/8BTpbjCUO12qRwlz2/NGfneTnADRP8Q0bJmuciMVdGpKN1Ge56ucQbsXyiokxBQJz4jYDxHIfYTE9MwuOHfee1tRhEDbKoqGLp8+wQ1NJpcr5o5uqN1L4BSllZJjrCA2T2gjHYJsYdgRDldIpdHoJyD7KVY6NNQdfptAAbYGn347oSBO5rtZzM21HzF4H+VVxS1dDjmca+YVoAe2KNkdtxK/9yKOnrB3O0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1geK9kaDb6x1MgaVo0VEehzktdpkHZJQWPtIZJAflmM=;
- b=RZPH7aC3ih70T7b1Z9PVjzzEfVVoIGGbMvlQmEeqhrid6cMtmyjpYyG968UGbRSP0oUltc8M0YUvLncyXlmkJvaI6AAE6e+EQmY4XLw446BVZ2YLDxnLSIrBWHcPb8oGDZABsRt3oqq5eFahmE92vIVrhl5vN6JmNldiEOYQO1jmfMi8C9tJ9zZk9xdOJ2xLhHQCKQ+ahqu90GW6D+otBu+og9vbbouPjZWWkFG4yv8YkNU3owrZVNyqi84tmthUYxsPM940UfX61ocmb4qeUciQoHKk1jUSRxKL2w1NBxbI4LcNxRGSvFgUzCnzP+Y1FxrEBh/+4ExSKhOybRl9wA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1geK9kaDb6x1MgaVo0VEehzktdpkHZJQWPtIZJAflmM=;
- b=EicvuN/k88zxeg2I3LNE+H86ULowWBaierGfSNipIcHRg1EONxkRPGD+eGDic0ZrxNyftQtuf5xBC97G9pUgbw1bFliwMK86bFUcDaChK9SExNnyM2bIL5JoKNscoa0Y4PzWXSJWasOmNGk0tyXUT1wXyhMgoREswiTSzwE8RfY=
-Received: from BN0PR08CA0020.namprd08.prod.outlook.com (2603:10b6:408:142::8)
- by DS7PR12MB6095.namprd12.prod.outlook.com (2603:10b6:8:9c::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.24; Fri, 1 Dec
- 2023 00:57:52 +0000
-Received: from SN1PEPF000252A2.namprd05.prod.outlook.com
- (2603:10b6:408:142:cafe::74) by BN0PR08CA0020.outlook.office365.com
- (2603:10b6:408:142::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.24 via Frontend
- Transport; Fri, 1 Dec 2023 00:57:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF000252A2.mail.protection.outlook.com (10.167.242.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7046.17 via Frontend Transport; Fri, 1 Dec 2023 00:57:51 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Thu, 30 Nov
- 2023 18:57:49 -0600
-From: Babu Moger <babu.moger@amd.com>
-To: <corbet@lwn.net>, <fenghua.yu@intel.com>, <reinette.chatre@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<seanjc@google.com>, <kim.phillips@amd.com>, <babu.moger@amd.com>,
-	<jmattson@google.com>, <ilpo.jarvinen@linux.intel.com>,
-	<jithu.joseph@intel.com>, <kan.liang@linux.intel.com>, <nikunj@amd.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<rick.p.edgecombe@intel.com>, <rppt@kernel.org>,
-	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
-	<peternewman@google.com>, <dhagiani@amd.com>
-Subject: [PATCH 15/15] x86/resctrl: Update ABMC assignment on event configuration changes
-Date: Thu, 30 Nov 2023 18:57:20 -0600
-Message-ID: <20231201005720.235639-16-babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231201005720.235639-1-babu.moger@amd.com>
-References: <20231201005720.235639-1-babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c5U9e4xg"
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22EF210E2;
+	Thu, 30 Nov 2023 17:07:46 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c3363a2b93so1516403b3a.3;
+        Thu, 30 Nov 2023 17:07:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701392865; x=1701997665; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AUm1+PoLufKuRdIAF0NESslVUVq3hoSsK9m/WIJoGLk=;
+        b=c5U9e4xgyB3S1M/HHcVB8s3F6kqoa4bdeujXHvrKo+f95J41Q7S07Oh2mKpKLoDE6w
+         twELpNVEgO2dal4+JAJJKy9Q5xqTTYj8UKzwQIrrxIjLE3ZfRuXHoQ/pm6eICFPFI6mS
+         iQiT5TCirA+ofU9mZdSqE/AJ/nfZ0xbNFs2iHC9GmbF44VMRlN4zGFa5abK1rxWJaSCU
+         UOc5NDtd06lcH8RyOJJF9zp/Vwz7Xcgo05MDSVBprxseUWBu/fCeXy2kLUey/+sxKeVG
+         vZOW7CsJlU+AP4tDzaSMlsLK3Ycluy8rlbIe+Dd74Ly1MFPzMOombzQUXVDsJMXWCcCc
+         nzag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701392865; x=1701997665;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AUm1+PoLufKuRdIAF0NESslVUVq3hoSsK9m/WIJoGLk=;
+        b=JiD1OwFbWxjyAE6x911PK8DSAj03TZ72msQJD0+Ep1p+teJdxCIF0dCUy1W5aOwIjt
+         TgjNLNuxm0EnFMTdIwT5dp7Xqb4+Va5JgTU0mHjoLHduyAt0guW1pPzaLcOfqrb9Gu/I
+         N0wP0IwzKnW2UwfuYdAYdN2h2n0arUmBlqTDz7EdrvhLBYBkAlx9zeC6DI5YAYT8Fp/i
+         yzy3B38zbF8H6xaDhj9uFJasrRoq+K6Cirj8is2GzvyfNizdOL9CvhYCN9LxzO+YkD3k
+         CUm5I/mP0GTbFJbwdE5iRyPpTRCcdGKaL0BK4nnusZwqr7HSuhg9CDI8bWe62ILERsws
+         MO1g==
+X-Gm-Message-State: AOJu0Ywh8qkEH/5ibJmdIKtgI219E+M+TrXKjMHLwK5KZoQHf+QxsHfy
+	jL5IYtVPWyBMA475vzYj7t8=
+X-Google-Smtp-Source: AGHT+IEpqLtFWr3jS1uwx80udQpJF7FenfSx2/8uNdOnCyRz8PMl0jnNpn2rP/xjSVKJUPB3LIk5Pw==
+X-Received: by 2002:a05:6a20:244b:b0:18c:fa:17f7 with SMTP id t11-20020a056a20244b00b0018c00fa17f7mr28928374pzc.46.1701392865475;
+        Thu, 30 Nov 2023 17:07:45 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id x67-20020a626346000000b006be0fb89ac2sm1887957pfb.197.2023.11.30.17.07.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 17:07:44 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 5370710136909; Fri,  1 Dec 2023 08:07:41 +0700 (WIB)
+Date: Fri, 1 Dec 2023 08:07:40 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: kernel-dev@igalia.com, alexander.deucher@amd.com,
+	christian.koenig@amd.com, Simon Ser <contact@emersion.fr>,
+	Rob Clark <robdclark@gmail.com>,
+	Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch,
+	Daniel Stone <daniel@fooishbar.org>,
+	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+	Dave Airlie <airlied@gmail.com>,
+	Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Pekka Paalanen <pekka.paalanen@collabora.com>,
+	Attreyee M <tintinm2017@gmail.com>
+Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
+Message-ID: <ZWkx3IcUTxO-IdIK@archie.me>
+References: <20231130200740.53454-1-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000252A2:EE_|DS7PR12MB6095:EE_
-X-MS-Office365-Filtering-Correlation-Id: b1a08a67-e0a4-4c02-d2f8-08dbf2088b9c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	SpjN8XXetD0smoW/X5soFA+yOo9YqQFZI+jFjQsmQi/qN3X6Cz+WJ9RJRo4cItzeShwLqDUZG6j1T341wjv8mwZ5GjZgjhPssMX9Vq3wkObFyr26083E+sWrVMjwPVKtA95Ao5fJLKPFJB/C9eYGzV2N6R0UjzMhH52ChyXmh/5SgNF/mlQryj+SkxiQ7cktYETP1kxz3HiiwRq5BkE+1xWMqir3KS9ku0648P7fzHTV8fFYKd9bsGyNy5GuSQJk4WplKaGIAU0ah+sia30OxVWNBTfAo43Njjgx/5DZ5ebVgrx0Y5lioO2Mx+z+/gKKXNMZHtduQlxEysMB0v96ev5fcvj2Y9b0CR2dEY0yL+EwQiUutrR65aU3fg761U6oBXgaSnD3+W3wSj10YKzKVQBR6Af6hjBl4q98UYOwbIJP1wbfulk+gWoIMMKFoqZX3N8mYMA4XmmQ5HQiUG4SkTokSeWqe8vsbr80FABSiq9VRVeZ1u2AohTdw5HHl4EC/chpiA+UENotKS2Q68CWWAfM4EM+KxKe8YrhaRFOxn9ZZzOKzTmBJ/nFHZ39gjLq8H8NJ9QSHLltut7dz8CIcNkqjh0gUDcYAySeORrDRuQzppiZKccQs5E2+ihEbPLQDJjEY2wFTq0gsSe7b23jVnbX4FriFj/OS/So43pFselCow2iTrPxpncFI9G8H0NFgQZI/RofNsNX2HDHBly7+axVivEN6t5NX5gyiUgYfWFhvux8JsUU7rWSvZnyC7TMZJ1B1UpZmdDtJzUdG80cAA==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(136003)(396003)(346002)(376002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(82310400011)(46966006)(40470700004)(36840700001)(86362001)(40460700003)(83380400001)(26005)(1076003)(6666004)(7696005)(2616005)(47076005)(426003)(36860700001)(478600001)(44832011)(7416002)(8936002)(5660300002)(8676002)(41300700001)(336012)(2906002)(110136005)(966005)(16526019)(4326008)(316002)(15650500001)(81166007)(70206006)(70586007)(54906003)(36756003)(356005)(82740400003)(40480700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2023 00:57:51.8402
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1a08a67-e0a4-4c02-d2f8-08dbf2088b9c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000252A2.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6095
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="caVVT7EznlCmrsO+"
+Content-Disposition: inline
+In-Reply-To: <20231130200740.53454-1-andrealmeid@igalia.com>
 
-When ABMC (Assignable Bandwidth Monitoring Counters) feature is enabled,
-bandwidth events can be read in following methods.
 
-1. The contents of a specific counter can be read by setting the following
-fields in QM_EVTSEL: [ExtendedEvtID]=1, [EvtID]=L3CacheABMC and setting
-[RMID] to the desired counter ID. Reading QM_CTR will then return the
-contents of the specified counter. The E bit will be set if the counter
-configuration was invalid, or if an invalid counter ID was set in the
-QM_EVTSEL[RMID] field. Supporting this method requires changes in
-rmid_read interface.
+--caVVT7EznlCmrsO+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-2. Alternatively, the contents of a counter may be read by specifying an
-RMID and setting the [EvtID] to L3BWMonEvtn where n= {0,1}. If an
-assignable bandwidth counter is monitoring that RMID with a BwType bitmask
-that matches a QOS_EVT_CFG_n, that counter’s value will be returned when
-reading QM_CTR. However, if multiple counters have the same configuration,
-QM_CTR will return the value of the counter with the lowest CtrID.
+On Thu, Nov 30, 2023 at 05:07:40PM -0300, Andr=C3=A9 Almeida wrote:
+> From: Pekka Paalanen <pekka.paalanen@collabora.com>
+>=20
+> Specify how the atomic state is maintained between userspace and
+> kernel, plus the special case for async flips.
+>=20
+> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> ---
+>=20
+> This is a standalone patch from the following serie, the other patches are
+> already merged:
+> https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.c=
+om/
+>=20
+>  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>=20
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
+rst
+> index 370d820be248..d0693f902a5c 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -570,3 +570,50 @@ dma-buf interoperability
+> =20
+>  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+>  information on how dma-buf is integrated and exposed within DRM.
+> +
+> +KMS atomic state
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +An atomic commit can change multiple KMS properties in an atomic fashion,
+> +without ever applying intermediate or partial state changes.  Either the=
+ whole
+> +commit succeeds or fails, and it will never be applied partially. This i=
+s the
+> +fundamental improvement of the atomic API over the older non-atomic API =
+which is
+> +referred to as the "legacy API".  Applying intermediate state could unex=
+pectedly
+> +fail, cause visible glitches, or delay reaching the final state.
+> +
+> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which me=
+ans the
+> +complete state change is validated but not applied.  Userspace should us=
+e this
+> +flag to validate any state change before asking to apply it. If validati=
+on fails
+> +for any reason, userspace should attempt to fall back to another, perhaps
+> +simpler, final state.  This allows userspace to probe for various config=
+urations
+> +without causing visible glitches on screen and without the need to undo a
+> +probing change.
+> +
+> +The changes recorded in an atomic commit apply on top the current KMS st=
+ate in
+> +the kernel. Hence, the complete new KMS state is the complete old KMS st=
+ate with
+> +the committed property settings done on top. The kernel will try to avoid
+> +no-operation changes, so it is safe for userspace to send redundant prop=
+erty
+> +settings.  However, not every situation allows for no-op changes, due to=
+ the
+> +need to acquire locks for some attributes. Userspace needs to be aware t=
+hat some
+> +redundant information might result in oversynchronization issues.  No-op=
+eration
+> +changes do not count towards actually needed changes, e.g.  setting MODE=
+_ID to a
+> +different blob with identical contents as the current KMS state shall no=
+t be a
+> +modeset on its own. As a special exception for VRR needs, explicitly set=
+ting
+> +FB_ID to its current value is not a no-op.
+> +
+> +A "modeset" is a change in KMS state that might enable, disable, or temp=
+orarily
+> +disrupt the emitted video signal, possibly causing visible glitches on s=
+creen. A
+> +modeset may also take considerably more time to complete than other kind=
+s of
+> +changes, and the video sink might also need time to adapt to the new sig=
+nal
+> +properties. Therefore a modeset must be explicitly allowed with the flag
+> +DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
+> +DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state chang=
+e is
+> +likely to cause visible disruption on screen and avoid such changes when=
+ end
+> +users do not expect them.
+> +
+> +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
+> +effectively change only the FB_ID property on any planes. No-operation c=
+hanges
+> +are ignored as always. Changing any other property will cause the commit=
+ to be
+> +rejected. Each driver may relax this restriction if they have guarantees=
+ that
+> +such property change doesn't cause modesets. Userspace can use TEST_ONLY=
+ commits
+> +to query the driver about this.
 
-Method 2 is supported in here. For the ABMC counter assignment to work,
-the assignment needs to be updated to match BwType to the contents of the
-MSR QOS_EVT_CFG_n. So, update the ABMC assignment when event configuration
-changes.
+The wording LGTM, thanks!
 
-The feature details are available in APM listed below [1].  [1] AMD64
-Architecture Programmer's Manual Volume 2: System Programming Publication
-(ABMC).
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
----
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 40 ++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+--=20
+An old man doll... just what I always wanted! - Clara
 
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 6eca47673344..11890b4afb9f 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -1768,6 +1768,38 @@ static ssize_t rdtgroup_monitor_state_write(struct kernfs_open_file *of,
- 	return ret ?: nbytes;
- }
- 
-+static void rdtgroup_update_abmc(struct rdt_resource *r,
-+				 struct rdt_domain *d, u32 evtid)
-+{
-+	struct rdtgroup *prgrp, *crgrp;
-+	int index, mon_state;
-+
-+	if (evtid == QOS_L3_MBM_TOTAL_EVENT_ID)
-+		mon_state = TOTAL_ASSIGN;
-+	else
-+		mon_state = LOCAL_ASSIGN;
-+
-+	index = mon_event_config_index_get(evtid);
-+	if (index == INVALID_CONFIG_INDEX) {
-+		pr_warn_once("Invalid event id %d\n", evtid);
-+		return;
-+	}
-+
-+	/*
-+	 * Update the assignment for all the monitor groups if the group
-+	 * is configured with ABMC assignment.
-+	 */
-+	list_for_each_entry(prgrp, &rdt_all_groups, rdtgroup_list) {
-+		if (prgrp->mon.monitor_state & mon_state)
-+			rdtgroup_abmc_domain(d, prgrp, evtid, index, 1);
-+
-+		list_for_each_entry(crgrp, &prgrp->mon.crdtgrp_list, mon.crdtgrp_list) {
-+			if (crgrp->mon.monitor_state & mon_state)
-+				rdtgroup_abmc_domain(d, crgrp, evtid, index, 1);
-+		}
-+	}
-+}
-+
- static void mon_event_config_read(void *info)
- {
- 	struct mon_config_info *mon_info = info;
-@@ -1852,6 +1884,7 @@ static void mon_event_config_write(void *info)
- static int mbm_config_write_domain(struct rdt_resource *r,
- 				   struct rdt_domain *d, u32 evtid, u32 val)
- {
-+	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
- 	struct rdt_hw_domain *hw_dom = resctrl_to_arch_dom(d);
- 	struct mon_config_info mon_info = {0};
- 	int ret = 0;
-@@ -1892,6 +1925,13 @@ static int mbm_config_write_domain(struct rdt_resource *r,
- 	else
- 		goto out;
- 
-+	/*
-+	 * Event configuration changed for the domain, so Update
-+	 * the ABMC assignment.
-+	 */
-+	if (hw_res->abmc_enabled)
-+		rdtgroup_update_abmc(r, d, evtid);
-+
- 	/*
- 	 * When an Event Configuration is changed, the bandwidth counters
- 	 * for all RMIDs and Events will be cleared by the hardware. The
--- 
-2.34.1
+--caVVT7EznlCmrsO+
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWkx2QAKCRD2uYlJVVFO
+o1dzAQCN5LKZj1UCW2xL0voB6jCSuPsFMnO4NRaUQ6gOPmqvvQEA/eALo0PO1AJE
+7eegxBLTYviNT27pENbRqxLvYpGQJQc=
+=8SQb
+-----END PGP SIGNATURE-----
+
+--caVVT7EznlCmrsO+--
