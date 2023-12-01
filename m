@@ -1,206 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hImsLTcq"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D303106;
-	Fri,  1 Dec 2023 10:09:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701454169; x=1732990169;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=CJz00CJihd1qEeBYs0fVFfE3n80bQ76KtRuppz6FAPc=;
-  b=hImsLTcqg6KtA8Vx+2VeOr2uaHrEPaeENgpBcdUj7Ds4175SvFiLOFTD
-   QzzKE850RYkp+SdafNnsj4b35OaqspLp3zkk2Dmq6Tkt1A43pLMsTZ3+b
-   kl1ATmf1rh5sp2G4i80zxJK1CTZtk3SbAuE0WEmuYADHFVKJp8CWx8QWX
-   sJJnpMBKzKAYNIm/Vfq34vtwaSzQsD4wJ7fzt4x41vEkg2GHL9ao8ph3i
-   BjNQNtpCUUL24HkA8ptY51fSIDEebxmS9pFNsaWF/eCmqpDz1UC+bGA/T
-   Hd4Xm0q//O0cv4p4jCRmaH7cAqiWjIY5nHvmFq/SEVjyTV9IeBPW2g6zJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="424689904"
-X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="424689904"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 10:09:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763215712"
-X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="763215712"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 10:09:23 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 01 Dec 2023 20:09:22 +0200
-Date: Fri, 1 Dec 2023 20:09:22 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
-	Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>, kernel-dev@igalia.com,
-	alexander.deucher@amd.com, christian.koenig@amd.com
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <ZWohUl3Ma6Q2fccG@intel.com>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
- <ZWn1EC04wBSN9hu2@intel.com>
- <20231201181616.4c1f0acc.pekka.paalanen@collabora.com>
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E9210B
+	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 10:12:34 -0800 (PST)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-257-UsWWvVUmOhOZXVt_VID7jw-1; Fri, 01 Dec 2023 18:12:27 +0000
+X-MC-Unique: UsWWvVUmOhOZXVt_VID7jw-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 1 Dec
+ 2023 18:12:19 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Fri, 1 Dec 2023 18:12:19 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Jann Horn' <jannh@google.com>, Waiman Long <longman@redhat.com>
+CC: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH] locking: Document that mutex_unlock() is non-atomic
+Thread-Topic: [PATCH] locking: Document that mutex_unlock() is non-atomic
+Thread-Index: AQHaJGdmWd9hceM5t0qWKvuVqma2ELCUtpLQ
+Date: Fri, 1 Dec 2023 18:12:19 +0000
+Message-ID: <28b147c3d7354d1a8ff0b903da9b54f4@AcuMS.aculab.com>
+References: <20231130204817.2031407-1-jannh@google.com>
+ <06c05c8b-9a3b-4c04-b898-0f82e98da70f@redhat.com>
+ <CAG48ez1a=VuEWwPTjcXFAwCyt9bRH-WzAfw0uP-qVu83kdxkZw@mail.gmail.com>
+In-Reply-To: <CAG48ez1a=VuEWwPTjcXFAwCyt9bRH-WzAfw0uP-qVu83kdxkZw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231201181616.4c1f0acc.pekka.paalanen@collabora.com>
-X-Patchwork-Hint: comment
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Fri, Dec 01, 2023 at 06:16:16PM +0200, Pekka Paalanen wrote:
-> On Fri, 1 Dec 2023 17:00:32 +0200
-> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> 
-> > On Thu, Nov 30, 2023 at 05:07:40PM -0300, André Almeida wrote:
-> > > From: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > 
-> > > Specify how the atomic state is maintained between userspace and
-> > > kernel, plus the special case for async flips.
-> > > 
-> > > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> > > ---
-> > > 
-> > > This is a standalone patch from the following serie, the other patches are
-> > > already merged:
-> > > https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.com/
-> > > 
-> > >  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 47 insertions(+)
-> > > 
-> > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> > > index 370d820be248..d0693f902a5c 100644
-> > > --- a/Documentation/gpu/drm-uapi.rst
-> > > +++ b/Documentation/gpu/drm-uapi.rst
-> > > @@ -570,3 +570,50 @@ dma-buf interoperability
-> > >  
-> > >  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
-> > >  information on how dma-buf is integrated and exposed within DRM.
-> > > +
-> > > +KMS atomic state
-> > > +================
-> > > +
-> > > +An atomic commit can change multiple KMS properties in an atomic fashion,
-> > > +without ever applying intermediate or partial state changes.  Either the whole
-> > > +commit succeeds or fails, and it will never be applied partially. This is the
-> > > +fundamental improvement of the atomic API over the older non-atomic API which is
-> > > +referred to as the "legacy API".  Applying intermediate state could unexpectedly
-> > > +fail, cause visible glitches, or delay reaching the final state.
-> > > +
-> > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
-> > > +complete state change is validated but not applied.  Userspace should use this
-> > > +flag to validate any state change before asking to apply it. If validation fails
-> > > +for any reason, userspace should attempt to fall back to another, perhaps
-> > > +simpler, final state.  This allows userspace to probe for various configurations
-> > > +without causing visible glitches on screen and without the need to undo a
-> > > +probing change.
-> > > +
-> > > +The changes recorded in an atomic commit apply on top the current KMS state in
-> > > +the kernel. Hence, the complete new KMS state is the complete old KMS state with
-> > > +the committed property settings done on top. The kernel will try to avoid
-> > > +no-operation changes,  
-> > 
-> > Not how things work. The driver may try to avoid some really
-> > expensive operations, but generally it will just blindly blast
-> > the full state to the hardware.
-> > 
-> > IIRC this was discussed long ago when atomic was being designed
-> > and the general concensus was that the kernel shouldn't generally
-> > do this kind of stuff, and instead we just leave it to userspace
-> > to generate optimal commits.
-> 
-> I don't think userspace ever got that memo. If I was cheeky, I could
-> ask where that is documented, so you could point at it and say "told
-> you so".
+RnJvbTogSmFubiBIb3JuDQo+IFNlbnQ6IDAxIERlY2VtYmVyIDIwMjMgMTU6MDINCj4gDQo+IE9u
+IEZyaSwgRGVjIDEsIDIwMjMgYXQgMTozM+KAr0FNIFdhaW1hbiBMb25nIDxsb25nbWFuQHJlZGhh
+dC5jb20+IHdyb3RlOg0KPiA+IE9uIDExLzMwLzIzIDE1OjQ4LCBKYW5uIEhvcm4gd3JvdGU6DQo+
+ID4gPiBJIGhhdmUgc2VlbiBzZXZlcmFsIGNhc2VzIG9mIGF0dGVtcHRzIHRvIHVzZSBtdXRleF91
+bmxvY2soKSB0byByZWxlYXNlIGFuDQo+ID4gPiBvYmplY3Qgc3VjaCB0aGF0IHRoZSBvYmplY3Qg
+Y2FuIHRoZW4gYmUgZnJlZWQgYnkgYW5vdGhlciB0YXNrLg0KPiA+ID4gTXkgdW5kZXJzdGFuZGlu
+ZyBpcyB0aGF0IHRoaXMgaXMgbm90IHNhZmUgYmVjYXVzZSBtdXRleF91bmxvY2soKSwgaW4gdGhl
+DQo+ID4gPiBNVVRFWF9GTEFHX1dBSVRFUlMgJiYgIU1VVEVYX0ZMQUdfSEFORE9GRiBjYXNlLCBh
+Y2Nlc3NlcyB0aGUgbXV0ZXgNCj4gPiA+IHN0cnVjdHVyZSBhZnRlciBoYXZpbmcgbWFya2VkIGl0
+IGFzIHVubG9ja2VkOyBzbyBtdXRleF91bmxvY2soKSByZXF1aXJlcw0KPiA+ID4gaXRzIGNhbGxl
+ciB0byBlbnN1cmUgdGhhdCB0aGUgbXV0ZXggc3RheXMgYWxpdmUgdW50aWwgbXV0ZXhfdW5sb2Nr
+KCkNCj4gPiA+IHJldHVybnMuDQo+ID4gPg0KPiA+ID4gSWYgTVVURVhfRkxBR19XQUlURVJTIGlz
+IHNldCBhbmQgdGhlcmUgYXJlIHJlYWwgd2FpdGVycywgdGhvc2Ugd2FpdGVycw0KPiA+ID4gaGF2
+ZSB0byBrZWVwIHRoZSBtdXRleCBhbGl2ZSwgSSB0aGluazsgYnV0IHdlIGNvdWxkIGhhdmUgYSBz
+cHVyaW91cw0KPiA+ID4gTVVURVhfRkxBR19XQUlURVJTIGxlZnQgaWYgYW4gaW50ZXJydXB0aWJs
+ZS9raWxsYWJsZSB3YWl0ZXIgYmFpbGVkDQo+ID4gPiBiZXR3ZWVuIHRoZSBwb2ludHMgd2hlcmUg
+X19tdXRleF91bmxvY2tfc2xvd3BhdGgoKSBkaWQgdGhlIGNtcHhjaGcNCj4gPiA+IHJlYWRpbmcg
+dGhlIGZsYWdzIGFuZCB3aGVyZSBpdCBhY3F1aXJlZCB0aGUgd2FpdF9sb2NrLg0KPiA+ID4NCj4g
+PiA+IChXaXRoIHNwaW5sb2NrcywgdGhhdCBraW5kIG9mIGNvZGUgcGF0dGVybiBpcyBhbGxvd2Vk
+IGFuZCwgZnJvbSB3aGF0IEkNCj4gPiA+IHJlbWVtYmVyLCB1c2VkIGluIHNldmVyYWwgcGxhY2Vz
+IGluIHRoZSBrZXJuZWwuKQ0KPiA+ID4NCj4gPiA+IElmIG15IHVuZGVyc3RhbmRpbmcgb2YgdGhp
+cyBpcyBjb3JyZWN0LCB3ZSBzaG91bGQgcHJvYmFibHkgZG9jdW1lbnQgdGhpcyAtDQo+ID4gPiBJ
+IHRoaW5rIHN1Y2ggYSBzZW1hbnRpYyBkaWZmZXJlbmNlIGJldHdlZW4gbXV0ZXhlcyBhbmQgc3Bp
+bmxvY2tzIGlzIGZhaXJseQ0KPiA+ID4gdW5pbnR1aXRpdmUuDQo+ID4NCj4gPiBTcGlubG9ja3Mg
+YXJlIGZhaXIuIFNvIGRvaW5nIGEgbG9jay91bmxvY2sgc2VxdWVuY2Ugd2lsbCBtYWtlIHN1cmUg
+dGhhdA0KPiA+IGFsbCB0aGUgcHJldmlvdXNseSB3YWl0aW5nIHdhaXRlcnMgYXJlIGRvbmUgd2l0
+aCB0aGUgbG9jay4gUGFyYS12aXJ0dWFsDQo+ID4gc3BpbmxvY2tzLCBob3dldmVyLCBjYW4gYmUg
+YSBiaXQgdW5mYWlyIHNvIGRvaW5nIGEgbG9jay91bmxvY2sgc2VxdWVuY2UNCj4gPiBtYXkgbm90
+IGJlIGVub3VnaCB0byBndWFyYW50ZWUgdGhlcmUgaXMgbm8gd2FpdGVyLiBUaGUgc2FtZSBpcyB0
+cnVlIGZvcg0KPiA+IG11dGV4LiBBZGRpbmcgYSBzcGluX2lzX2xvY2tlZCgpIG9yIG11dGV4X2lz
+X2xvY2tlZCgpIGNoZWNrIGNhbiBtYWtlDQo+ID4gc3VyZSB0aGF0IGFsbCB0aGUgd2FpdGVycyBh
+cmUgZ29uZS4NCj4gDQo+IEkgdGhpbmsgdGhpcyBwYXR0ZXJuIGFueXdheSBvbmx5IHdvcmtzIHdo
+ZW4geW91J3JlIG9ubHkgdHJ5aW5nIHRvIHdhaXQNCj4gZm9yIHRoZSBjdXJyZW50IGhvbGRlciBv
+ZiB0aGUgbG9jaywgbm90IHRhc2tzIHRoYXQgYXJlIHF1ZXVlZCB1cCBvbg0KPiB0aGUgbG9jayBh
+cyB3YWl0ZXJzIC0gc28gYSB0YXNrIGluaXRpYWxseSBob2xkcyBhIHN0YWJsZSByZWZlcmVuY2Ug
+dG8NCj4gc29tZSBvYmplY3QsIHRoZW4gYWNxdWlyZXMgdGhlIG9iamVjdCdzIGxvY2ssIHRoZW4g
+ZHJvcHMgdGhlIG9yaWdpbmFsDQo+IHJlZmVyZW5jZSwgYW5kIHRoZW4gbGF0ZXIgZHJvcHMgdGhl
+IGxvY2suDQo+IFlvdSBjYW4gc2VlIGFuIGV4YW1wbGUgb2Ygc3VjaCBtdXRleCB1c2FnZSAod2hp
+Y2ggaXMgZXhwbGljaXRseSBsZWdhbA0KPiB3aXRoIHVzZXJzcGFjZSBQT1NJWCBtdXRleGVzLCBi
+dXQgaXMgZm9yYmlkZGVuIHdpdGgga2VybmVsIG11dGV4ZXMpIGF0DQo+IHRoZSBib3R0b20gb2Yg
+dGhlIFBPU0lYIG1hbnBhZ2UgZm9yIHB0aHJlYWRfbXV0ZXhfZGVzdHJveSgpIGF0DQo+IDxodHRw
+czovL3B1YnMub3Blbmdyb3VwLm9yZy9vbmxpbmVwdWJzLzAwNzkwNDg3NS9mdW5jdGlvbnMvcHRo
+cmVhZF9tdXRleF9kZXN0cm95Lmh0bWw+LA0KPiBpbiB0aGUgc2VjdGlvbiAiRGVzdHJveWluZyBN
+dXRleGVzIi4NCg0KSSBkb24ndCB1bmRlcnN0YW5kIGF0IGFsbCB3aGF0IGFueSBvZiB0aGlzIGlz
+IGFib3V0Lg0KWW91IGNhbm5vdCBkZS1pbml0aWFsaXNlLCBmcmVlIChldGMpIGEgbXV0ZXggKG9y
+IGFueSBvdGhlciBwaWVjZSBvZg0KbWVtb3J5IGZvciB0aGF0IG1hdHRlcikgaWYgYW5vdGhlciB0
+aHJlYWQgY2FuIGhhdmUgYSByZWZlcmVuY2UgdG8gaXQuDQpJZiBzb21lIG90aGVyIGNvZGUgbWln
+aHQgYmUgaG9sZGluZyB0aGUgbXV0ZXggaXQgYWxzbyBtaWdodCBiZSBqdXN0DQphYm91dCB0byBh
+Y3F1aXJlIGl0IC0geW91IGFsd2F5cyBuZWVkIGFub3RoZXIgbG9jayBvZiBzb21lIGtpbmQgdG8N
+CmVuc3VyZSB0aGF0IGRvZXNuJ3QgaGFwcGVuLg0KDQpJSVJDIHByZXR0eSBtdWNoIHRoZSBvbmx5
+IHRpbWUgeW91IG5lZWQgdG8gYWNxdWlyZSB0aGUgbXV0ZXggaW4gdGhlDQpmcmVlIHBhdGggaXMg
+aWYgbG9ja3MgYXJlIGNoYWluZWQsIGVnOg0KCWxvY2sodGFibGUpDQoJZW50cnkgPSBmaW5kX2Vu
+dHJ5KCk7DQoJbG9jayhlbnRyeSkNCgl1bmxvY2sodGFibGUpDQoJLi4uDQoJdW5sb2NrKGVudHJ5
+KQ0KDQpUaGVuIHRoZSBmcmVlIGNvZGUgaGFzIHRvOg0KCWxvY2sodGFibGUpDQoJcmVtb3ZlX2Zy
+b21fdGFibGUoZW50cnkpDQoJbG9jayhlbnRyeSkNCgl1bmxvY2soZW50cnkpDQoJdW5sb2NrKHRh
+YmxlKQ0KCWZyZWUoZW50cnkpDQoNCklTVFIgc29tZXRoaW5nIGFib3V0IG11dGV4X3VubG9jaygp
+IG5vdCBiZWluZyBhIGZ1bGwgbWVtb3J5IGJhcnJpZXIuDQpCdXQgdGhhdCBpcyBlbnRpcmVseSBk
+aWZmZXJlbnQgdG8gdGhpcyBkaXNjdXNzaW9uLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBB
+ZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMs
+IE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-Probably not docuemented anywhere.
-
-> 
-> When I was working on Weston atomic KMS support many years ago, I
-> created a framework that emitted KMS property changes only when they
-> actually needed changing. By review feedback (*), all that machinery was
-> dropped in a re-design, and today Weston always emits all KMS
-> properties it knows to program for a specific CRTC update including all
-> relevant planes and connectors.
-> 
-> (*) Why do we need to repeat the same state tracking that the kernel
-> does anyway, and also risk getting out of sync with the kernel due to
-> bugs which then become more difficult to diagnose. I guess (assumed)
-> kernel internals leaked to userspace. Oops.
-
-The kernel does track the full state sure, but it doesn't generally
-go out of its way to figure out what specifically changed in that state.
-Doing so would be a lot of extra checks, and kinda less convenient to
-do inside the driver since at that point the state is already spread 
-all over the various structures. And the fact that those structures
-are a mismash of uapi and internal bits of state (and other metadata 
-for the single commit that really shouldn't be stored there) doesn't
-help matters. I did propose to split the state cleanly into pure uapi
-vs. internal stuff but that didn't gain any traction unfortunately.
-
-So I think it might be simpler to do on the uapi property level. It may
-result in a somewhat coarser idea of what changed, but it avoids having
-to track down all the little bits of state everwhere that could have
-changed in response to a single property changing. The kernel could do
-that I suppose, but someone would need to come up with a good way to
-track that information. Currently there are a handful of foo_changed
-booleans ad-hocced here and there, but nothing consistent that covers
-everything.
-
-> 
-> > > so it is safe for userspace to send redundant property
-> > > +settings.  
-> > 
-> > Safe but not optimal. Any object included in the state will cause said
-> > object to be part of the commit, and side effects will also need to be
-> > observed.
-> > 
-> > So if you add an extra crtc (either directly or indirectly) it will
-> > have a new commit inserted into the queue and thus and any subsequent
-> > commit will either block or be rejected with -EBUSY. Also for directly
-> > added crtcs an event will be emitted once the commit is done.
-> 
-> It is not too hard to keep CRTCs well separated,
-
-Sure. But the way this was worded implied that you can just throw
-everything and the kitchen sink into the commit without any
-repercussions, which is not the case.
-
-> until the kernel
-> driver decides under the hood to pull in an unwanted CRTC.
-
-That is sadly needed too sometimes. Hardware design is often
-a bit disappointing.
-
-> 
-> But yes, that caveat could use extending in the doc.
-> 
-> > Any plane added will also need to observe side effects even if the FB
-> > doesn't change, such as invalidating any internal compressed version
-> > of the old FB contents, PSR/DSI command mode/etc. will need to upload
-> > the frame to the display, etc. I suppose we could specify that if no
-> > FB is specified at all then these kind of side effects could be ignored,
-> > but that is certainly not how things are implemented right now.
-> 
-> Well, this is all surprise news to me.
-> 
-> > So for optimal behaviour userspace should be minimizing the commits.
-> > 
-> 
-> 
-> Thanks,
-> pq
-
--- 
-Ville Syrjälä
-Intel
