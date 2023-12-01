@@ -1,206 +1,140 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hUIWb+vp"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C8C3A6;
-	Fri,  1 Dec 2023 05:43:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="INnYnJKm"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B03103;
+	Fri,  1 Dec 2023 07:00:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701438194; x=1732974194;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=XBlab6cUP0UzblnQ1S/5MOz/UggsWJmt5+Nkuwg6rog=;
-  b=hUIWb+vpz8cwZiCRc6dZqmCi8iDUWjGE/VAratQ98F0hJUhQdHQTCN12
-   Da6Yd/bj9T+QOfZbWYn7qN7ENzNYp9wuxa1fL/4OjgidpDvJsFnJe73SQ
-   Ndt3nLM7rF8FOXsZQlzDYKXFgZcHf2o7SpPs+jR4rFYnHIsb8W7NVhP68
-   oq3mcHGIv+dGMB8EtgI4qtbfFUVIkxd4fvCz9OvZOMSt+/sHST64BESRF
-   U848ev/UtEtEsa4LAOD5cRswrvlqNebibpYrdhW6LNw4qWistkn5s9kaS
-   kIBcZKB6jfmXk2B21KArnQtrgU5rNNx3A21nC+jNZ1M9Kq1uJE/rMPAbb
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="396302287"
+  t=1701442842; x=1732978842;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=neT4Hf+obtBf9p4YDRJKGw0EfyhXIRhgDs2UETBnJqQ=;
+  b=INnYnJKm+BeQAPAH7r9tp2z+Zqf4AhauGp0G4hIHrUUkzLLHEEP+Rcjz
+   l7e641NACodlCHACgg8hPK/3ZSlpFTP9UHAvmjj/pVI/OkDWM9R3FBQH4
+   nJd1PVqkjCkfBnlH9xu3saPu+3xqX6Yx4jvRbl1mQI9nDaBNl8KTghWrn
+   awF+lqYq4p+HnkgmZK2LpTWcZQCaEMfbEqWpKrRcMydVoJVQEdPUrscWT
+   zM/+kYmrD16LMcNC5nGBhXDrCbSY+UQKflrtCudr6oLohWtNMzIZjA8vr
+   8qGK0tNmpb8jYWQq6Nd7x18zi+uCPqGRypImcsNgSDFyjsi0icpiVDEan
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="383903036"
 X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="396302287"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 05:43:13 -0800
+   d="scan'208";a="383903036"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 07:00:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="798731580"
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763166038"
 X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="798731580"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Dec 2023 05:43:09 -0800
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Fri, 1 Dec 2023 05:43:09 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Fri, 1 Dec 2023 05:43:09 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Fri, 1 Dec 2023 05:43:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TjyhLFvAwEZHltes+HyTxqivPCckLhnD7/yfX9Ob0YBoKsYk7ZfKrK9rnhY9gYkwJ+NPeu8S7Bxonbbd9Wd6NJSmmswraNmG4brN5annfqgblyykwNpp9fpFt/dR30THZqtBqQnFUP9WV3kkrtMDEkXzu5NdD90BVEsfCqH8/HCCCl58Jp59vTQtHfL2GTxZ49rXYu3KOstih2bvmYhTsudn/MWsLjmOstcIcyl95QQsF2M/oxjoRrQHe4yKjYJ/q1G+FlygpWxCWYxCBA5fi7z559PlI1i7NjcHZvpP2DzeshH+hUbYErFLr3xNzMVF+hGujvrDqv6MpO+/TBzjAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XBlab6cUP0UzblnQ1S/5MOz/UggsWJmt5+Nkuwg6rog=;
- b=lo455dBYxBHsXGsxzFV6T4kbGpPGA1FINzT2I+QZMN/AZeWqlo7cyGZw2jhhLRlIzvpPA33RkQTy2HADwtZqFFNziEZ2UF9SffbY8y+cqMvlFNMK2qGRSiuXPG9oY/BuFPJe4gEqNf4RG2QiMNNDWqr86yo11jgSYFlnGNCofy5P6xieYPyge70idJMQlQMH7PHwfVABh3w/lMohrq125kDzT6WMSdK0qpPdd/xcmcm0qxZpKkJGGvokLUQShHUyyrujWyLAk2EvO2RYkp74sLP7XlCRMfkC72vNlOC1mwjOgv5pqpAUVP9XaZCcBUJAznArm5ZDgLsm8d+6oMhhTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH0PR11MB5830.namprd11.prod.outlook.com (2603:10b6:510:129::20)
- by CH0PR11MB5379.namprd11.prod.outlook.com (2603:10b6:610:ba::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.27; Fri, 1 Dec
- 2023 13:43:07 +0000
-Received: from PH0PR11MB5830.namprd11.prod.outlook.com
- ([fe80::6ffc:93a3:6d7f:383c]) by PH0PR11MB5830.namprd11.prod.outlook.com
- ([fe80::6ffc:93a3:6d7f:383c%6]) with mapi id 15.20.7046.024; Fri, 1 Dec 2023
- 13:43:07 +0000
-From: "Song, Yoong Siang" <yoong.siang.song@intel.com>
-To: Jesper Dangaard Brouer <hawk@kernel.org>, "David S . Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
-	<corbet@lwn.net>, Bjorn Topel <bjorn@kernel.org>, "Karlsson, Magnus"
-	<magnus.karlsson@intel.com>, "Fijalkowski, Maciej"
-	<maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev
-	<sdf@google.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Tariq Toukan
-	<tariqt@nvidia.com>, Willem de Bruijn <willemb@google.com>, Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, "Mykola
- Lysenko" <mykolal@fb.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu
-	<song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, KP Singh
-	<kpsingh@kernel.org>, Hao Luo <haoluo@google.com>, Jiri Olsa
-	<jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "xdp-hints@xdp-project.net"
-	<xdp-hints@xdp-project.net>, "linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>
-Subject: RE: [PATCH bpf-next v2 0/3] xsk: TX metadata txtime support
-Thread-Topic: [PATCH bpf-next v2 0/3] xsk: TX metadata txtime support
-Thread-Index: AQHaJB8W7iUch8mtVUCDEJ1OnRle9bCUPv4AgAAvtGA=
-Date: Fri, 1 Dec 2023 13:43:07 +0000
-Message-ID: <PH0PR11MB58306C2E50009A6E22F9DAD3D881A@PH0PR11MB5830.namprd11.prod.outlook.com>
-References: <20231201062421.1074768-1-yoong.siang.song@intel.com>
- <d4f99931-442c-4cd7-b3cf-80d8681a2986@kernel.org>
-In-Reply-To: <d4f99931-442c-4cd7-b3cf-80d8681a2986@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5830:EE_|CH0PR11MB5379:EE_
-x-ms-office365-filtering-correlation-id: 835c06d4-d99d-4f1d-49f6-08dbf273736e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bnZS0az6aI0NVCStd90yEaDKJvqG8afoY2V8p4JNGimXpyRktmumw0OuJj21J/tNRKhqSRNDlg3IO6iTx86XMZoOlhPTuj6NTpIqTfNlZoXNw5moAeu0KPM6bPxZQbUpunlAZ8SY1+eCRLO6gJXg81tI2gOLpE6CqdQ/VFhWqpC3YpPWhFGDs8KhKtRinZDw/0LhX9PFQ9MDf24izKv8Sgf0Wf4BLnk+cUKr9oaD0qKkTk79zY0khfl4huuZ5T2EeHwKwsUz+Zsf9FNBnj7JDnxqHol1EApEhozv4igcTf2stDyXIJ1vwwg93q9eyRCjoxLtebP7A4RvjPe7qpE3Ko0pVERxxE1qxPkSzPPMUljsMUNGdX/EO2aIDbYgagG45w88RTnpFxbwBmvLFzWHZMJI0TkfK9ibCKcbsTfY1FIT60Pru5/UNlQTlLT5lpHSihJVzNmZqDm3cPCIfzXcdb4QkiEXOQyjBW1cYOj7eRtbJmZc3BQ6refXVcSVCdE2ysDbZspPj2KKUoGLTeMiw2TlMWFL78VPf/3iG4RUb3W6d7qigDQoM64S1C9xK+bD/4Krfd58ocaAihzaoxPvdmQWKMTyMrOMpDIJAajxBea1bArcBNUrqpMOsegU4sXRxu9NkivHkGPVGPcSDkMfFg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5830.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(376002)(136003)(39860400002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(2906002)(4326008)(52536014)(8676002)(8936002)(55016003)(26005)(110136005)(316002)(41300700001)(54906003)(76116006)(66476007)(64756008)(66556008)(66446008)(66946007)(5660300002)(7416002)(7406005)(9686003)(53546011)(6506007)(7696005)(83380400001)(38100700002)(82960400001)(122000001)(86362001)(921008)(33656002)(71200400001)(478600001)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TC9zZkJIMVIrYlMrSlJZTUJsVU1vRUxrV0JWeW9qNmNWekxmQk4vemNHZUw1?=
- =?utf-8?B?Ym9kQlY4LzZTQ2Q5NWhLdnBKM0YyRzh3aVZwT0EyV24yeGZKOGVRV2REV2k5?=
- =?utf-8?B?UmlTN3NZYk1pRTkwSkV5QUxFcVlORDF4VVZKZ094Z21oT0Z2c1psNXR4UzVu?=
- =?utf-8?B?cnF0RDZDWVkxQlNYVkJHTGVUMmpWaGQ2YTB0Yi8wcElDVVBOYXYvWlJYTVlD?=
- =?utf-8?B?T1JoYklkNlBxSStnN3krZ0FOczlqdkNYRFNyc2pTaElidCt6YS95cC8zeEQ4?=
- =?utf-8?B?VWtITGxkZDdxQkdUdGtjZGhBV2pCRzBkajY3b1Bqc2p4RnRMWWtqWlBXdFhn?=
- =?utf-8?B?QXd1eDlFbTBDNzJELzdyYmovM3N6V1BaelF5VFhzNWRLTUkyNW5jRXRTcmhT?=
- =?utf-8?B?YUFXT0JVUlhlQUVFb0kvM3hqRmpOMFRxeE4xUENUK0huUUhIVU10VU9YZ2t0?=
- =?utf-8?B?ME40UnNKMTBDbzl5eXd5b0YyOFdoM1R2NllSQ0dIdW90TzR4cGZwcTk2V0hp?=
- =?utf-8?B?Ui9Vd0lvbXdJdExENDcrS3VwTmIwRmtnNklNSWJJNHhNaVlXZmFBNHpySHE3?=
- =?utf-8?B?OXZUZ2FSa0dWZjNoVHhmV0Q4MUtnSHdzK3NFVlJzSmVwaFRueGt0QUFMZnJ4?=
- =?utf-8?B?V01GbHFLeGNiRUJSVTlYanB0Y1ExSHlHd3VoV0ZBK3FNNzhpUnlDTTBJSXlN?=
- =?utf-8?B?TVYyTmNGWXNJdkpvdDJ4K1hNL3cycGF4a3J1ZmsxZTBXQlVzY0dhR0xwRjdX?=
- =?utf-8?B?QVFLZjBPQmRNdXkyY1JTR1RuWjgyTXVxTml1MU4vc0YyL3Erb050ZDIyempC?=
- =?utf-8?B?Tm4zd2V3SmIrbEE3MGp5NXNLQ1lWVEtSa0xoRjJzV1ZGcXhYSWZ6YmFYSDhV?=
- =?utf-8?B?LzM5cnk2T2ZEQ2grSkllNGFPZmlrYzcyNTY2YnJBQWlkbGpMckx3VFcrYXlr?=
- =?utf-8?B?Mm1FazlNZURBcjM2MzJTdTExdjd0T0M4clVLZ2NYRDJrYSt2ZXU1WUNBTFZv?=
- =?utf-8?B?SDQ0UXphNEJtSHkrcGVXc1k5SkppeEprcjBBQ3YrTjdRbTBFaFFYVWoyYzZk?=
- =?utf-8?B?cE5tUGZQUERheFNLWHRDVEh0NGsxdm93dXJRS2ZxSEV0dXgrTjVEaFM1VzVC?=
- =?utf-8?B?dU1sL21YOUJ2dC8vMkVOVWJOVy9sTE0wY1lHWDBZd01USUljR0VneGlPd1kv?=
- =?utf-8?B?b2R0ZEU5S1FISWROdE9WbUN3TEpabW12aFpBSzdneTV3OWw1clBvNkNkZkhC?=
- =?utf-8?B?Q0tDN2VXVC9qZXpJcHJJZHl5ejFBcm1WQjBtc2JCTFJpamFqNmxRNDhGQlRi?=
- =?utf-8?B?dzdRV1dDWjE3Mm5oeXMwcEtTd0NubDFOYnY3dnByckNyc3FYK3NjQnFGVDNZ?=
- =?utf-8?B?VHZJZUFHMndzQUh5c3M5d0VLSWNFMkcreTdhZ0dCank3UDF1dzQ1Ti9IZGI2?=
- =?utf-8?B?YWlPNHdrQWM2WUdMRk01NWVhMkEwZFF3Uko0c1dGZnluWkVtU3pvMTBTRmlS?=
- =?utf-8?B?QlJpdlYvai92Mjk5azNYRGtLdC9MOGs0RXU0bnQ1V0FZeDU4RitDUWhDOG1H?=
- =?utf-8?B?MVl0dWxUYkdnQzJQNHI3SXFqTHZlM0ZjU3d5dUhIeTIyUCtpd1B2OEZ3RndY?=
- =?utf-8?B?TlE2cWJqaDd1dEw2OFM1Z0FBQkNXdTFIUUhJZnlIZitPS2pXczE3MGxHT005?=
- =?utf-8?B?Z1dEaFQ0TGdsaGV1S25paFRoTW91K01VV2x2NDF6NCsvSHF2aUhpNDFHMSt2?=
- =?utf-8?B?bGQ3SzZXTUVVS2F4S2V2RTlLWGhpNENkVDJuaWN3ZVRMWEZXQVorQ2pzUUtx?=
- =?utf-8?B?YkZZZVk4Tk5ZTXNrYkgzVzFEVi8rOUZxbU5oVTRQRlJYZVJ3M0J6RHd3dUR2?=
- =?utf-8?B?ekNPd2JsTmhyeUZFZjBhQU91d3NabHZUQUdiSXdVRUl6SlhxVnprcEVLVGZP?=
- =?utf-8?B?MnJSMHIvMlU3dHpBRVJxcU1ZbUFZVlBSRVZZbGR6dzRZMERmTk1kbnp5TWF1?=
- =?utf-8?B?MXd4U0U4UWw2YVlQSFdWY1lxZS9SbEs4VmdjRzhCMlFvTjlTcVF6bWtpVm9R?=
- =?utf-8?B?ajZVanJwaXBtMFdNRGZWd1Y0bDZsbFMzTGFsbUVoblNGT3NPS0RXVXhEY2xn?=
- =?utf-8?B?VUJMbWlwclFMOXNKYVFLd0hPMHI5aWFUd0F2T1BxUXdUQmJOQng0UEpwUWQv?=
- =?utf-8?B?VVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+   d="scan'208";a="763166038"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 07:00:33 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Fri, 01 Dec 2023 17:00:32 +0200
+Date: Fri, 1 Dec 2023 17:00:32 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pekka Paalanen <pekka.paalanen@collabora.com>,
+	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+	Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	Pekka Paalanen <ppaalanen@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>, kernel-dev@igalia.com,
+	alexander.deucher@amd.com, christian.koenig@amd.com
+Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
+Message-ID: <ZWn1EC04wBSN9hu2@intel.com>
+References: <20231130200740.53454-1-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5830.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 835c06d4-d99d-4f1d-49f6-08dbf273736e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2023 13:43:07.4313
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LTHtJtvo9PzdK2KByLb8dnkXya/VJPsyHIF0l5CDB71kcRg9dkJdqpCKsfxNd5OMRXenX7I80eLdNWSVbEZwf2wqVChM2c7bHfpXvnhCdRs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5379
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231130200740.53454-1-andrealmeid@igalia.com>
+X-Patchwork-Hint: comment
 
-T24gRnJpZGF5LCBEZWNlbWJlciAxLCAyMDIzIDY6NDYgUE0sIEplc3BlciBEYW5nYWFyZCBCcm91
-ZXIgPGhhd2tAa2VybmVsLm9yZz4gd3JvdGU6DQo+T24gMTIvMS8yMyAwNzoyNCwgU29uZyBZb29u
-ZyBTaWFuZyB3cm90ZToNCj4+IFRoaXMgc2VyaWVzIGV4cGFuZHMgWERQIFRYIG1ldGFkYXRhIGZy
-YW1ld29yayB0byBpbmNsdWRlIEVURiBIVyBvZmZsb2FkLg0KPj4NCj4+IENoYW5nZXMgc2luY2Ug
-djE6DQo+PiAtIHJlbmFtZSBUaW1lLUJhc2VkIFNjaGVkdWxpbmcgKFRCUykgdG8gRWFybGllc3Qg
-VHhUaW1lIEZpcnN0IChFVEYpDQo+PiAtIHJlbmFtZSBsYXVuY2gtdGltZSB0byB0eHRpbWUNCj4+
-DQo+DQo+SSBzdHJvbmdseSBkaXNhZ3JlZSB3aXRoIHRoaXMgcmVuYW1pbmcgKHNvcnJ5IHRvIGRp
-c2FncmVlIHdpdGggV2lsbGVtKS4NCj4NCj5UaGUgaTIxMCBhbmQgaTIyNSBjaGlwcyBjYWxsIHRo
-aXMgTGF1bmNoVGltZSBpbiB0aGVpciBwcm9ncmFtbWVycw0KPmRhdGFzaGVldHMsIGFuZCBldmVu
-IGluIHRoZSBkcml2ZXIgY29kZVsxXS4NCj4NCj5Vc2luZyB0aGlzICJ0eHRpbWUiIG5hbWUgaW4g
-dGhlIGNvZGUgaXMgYWxzbyBjb25mdXNpbmcsIGJlY2F1c2UgaG93IGNhbg0KPnBlb3BsZSByZWFk
-aW5nIHRoZSBjb2RlIGtub3cgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbjoNCj4gIC0gdG1vX3JlcXVl
-c3RfdGltZXN0YW1wIGFuZCB0bW9fcmVxdWVzdF90eHRpbWUNCj4NCg0KSGkgSmVzcGVyIGFuZCBX
-aWxsZW0sDQoNCkhvdyBhYm91dCB1c2luZyAibGF1bmNoX3RpbWUiIGZvciB0aGUgZmxhZy92YXJp
-YWJsZSBhbmQNCiJFYXJsaWVzdCBUeFRpbWUgRmlyc3QiIGZvciB0aGUgZGVzY3JpcHRpb24vY29t
-bWVudHM/ICANCg0KVGhhbmtzICYgUmVnYXJkcw0KU2lhbmcNCg0KPg0KPlsxXQ0KPmh0dHBzOi8v
-Z2l0aHViLmNvbS94ZHAtcHJvamVjdC94ZHAtDQo+cHJvamVjdC9ibG9iL21hc3Rlci9hcmVhcy90
-c24vY29kZTAxX2ZvbGxvd19xZGlzY19UU05fb2ZmbG9hZC5vcmcNCj4NCj4+IHYxOg0KPmh0dHBz
-Oi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9uZXRkZXZicGYvY292ZXIvMjAyMzExMzAx
-NjIwMjguODUyMDA2LTEtDQo+eW9vbmcuc2lhbmcuc29uZ0BpbnRlbC5jb20vDQo+Pg0KPj4gU29u
-ZyBZb29uZyBTaWFuZyAoMyk6DQo+PiAgICB4c2s6IGFkZCBFVEYgc3VwcG9ydCB0byBYRFAgVHgg
-bWV0YWRhdGENCj4+ICAgIG5ldDogc3RtbWFjOiBBZGQgdHh0aW1lIHN1cHBvcnQgdG8gWERQIFpD
-DQo+PiAgICBzZWxmdGVzdHMvYnBmOiBBZGQgdHh0aW1lIHRvIHhkcF9od19tZXRhZGF0YQ0KPj4N
-Cj4+ICAgRG9jdW1lbnRhdGlvbi9uZXRsaW5rL3NwZWNzL25ldGRldi55YW1sICAgICAgICB8ICA0
-ICsrKysNCj4+ICAgRG9jdW1lbnRhdGlvbi9uZXR3b3JraW5nL3hzay10eC1tZXRhZGF0YS5yc3Qg
-ICB8ICA1ICsrKysrDQo+PiAgIGRyaXZlcnMvbmV0L2V0aGVybmV0L3N0bWljcm8vc3RtbWFjL3N0
-bW1hYy5oICAgfCAgMiArKw0KPj4gICAuLi4vbmV0L2V0aGVybmV0L3N0bWljcm8vc3RtbWFjL3N0
-bW1hY19tYWluLmMgIHwgMTMgKysrKysrKysrKysrKw0KPj4gICBpbmNsdWRlL25ldC94ZHBfc29j
-ay5oICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDkgKysrKysrKysrDQo+PiAgIGluY2x1ZGUv
-bmV0L3hkcF9zb2NrX2Rydi5oICAgICAgICAgICAgICAgICAgICAgfCAgMSArDQo+PiAgIGluY2x1
-ZGUvdWFwaS9saW51eC9pZl94ZHAuaCAgICAgICAgICAgICAgICAgICAgfCAgOSArKysrKysrKysN
-Cj4+ICAgaW5jbHVkZS91YXBpL2xpbnV4L25ldGRldi5oICAgICAgICAgICAgICAgICAgICB8ICAz
-ICsrKw0KPj4gICBuZXQvY29yZS9uZXRkZXYtZ2VubC5jICAgICAgICAgICAgICAgICAgICAgICAg
-IHwgIDIgKysNCj4+ICAgbmV0L3hkcC94c2suYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB8ICAzICsrKw0KPj4gICB0b29scy9pbmNsdWRlL3VhcGkvbGludXgvaWZfeGRwLmggICAg
-ICAgICAgICAgIHwgIDkgKysrKysrKysrDQo+PiAgIHRvb2xzL2luY2x1ZGUvdWFwaS9saW51eC9u
-ZXRkZXYuaCAgICAgICAgICAgICAgfCAgMyArKysNCj4+ICAgdG9vbHMvbmV0L3lubC9nZW5lcmF0
-ZWQvbmV0ZGV2LXVzZXIuYyAgICAgICAgICB8ICAxICsNCj4+ICAgdG9vbHMvdGVzdGluZy9zZWxm
-dGVzdHMvYnBmL3hkcF9od19tZXRhZGF0YS5jICB8IDE4ICsrKysrKysrKysrKysrKysrLQ0KPj4g
-ICAxNCBmaWxlcyBjaGFuZ2VkLCA4MSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+Pg0K
+On Thu, Nov 30, 2023 at 05:07:40PM -0300, André Almeida wrote:
+> From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> 
+> Specify how the atomic state is maintained between userspace and
+> kernel, plus the special case for async flips.
+> 
+> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+> 
+> This is a standalone patch from the following serie, the other patches are
+> already merged:
+> https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.com/
+> 
+>  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 370d820be248..d0693f902a5c 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -570,3 +570,50 @@ dma-buf interoperability
+>  
+>  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+>  information on how dma-buf is integrated and exposed within DRM.
+> +
+> +KMS atomic state
+> +================
+> +
+> +An atomic commit can change multiple KMS properties in an atomic fashion,
+> +without ever applying intermediate or partial state changes.  Either the whole
+> +commit succeeds or fails, and it will never be applied partially. This is the
+> +fundamental improvement of the atomic API over the older non-atomic API which is
+> +referred to as the "legacy API".  Applying intermediate state could unexpectedly
+> +fail, cause visible glitches, or delay reaching the final state.
+> +
+> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
+> +complete state change is validated but not applied.  Userspace should use this
+> +flag to validate any state change before asking to apply it. If validation fails
+> +for any reason, userspace should attempt to fall back to another, perhaps
+> +simpler, final state.  This allows userspace to probe for various configurations
+> +without causing visible glitches on screen and without the need to undo a
+> +probing change.
+> +
+> +The changes recorded in an atomic commit apply on top the current KMS state in
+> +the kernel. Hence, the complete new KMS state is the complete old KMS state with
+> +the committed property settings done on top. The kernel will try to avoid
+> +no-operation changes,
+
+Not how things work. The driver may try to avoid some really
+expensive operations, but generally it will just blindly blast
+the full state to the hardware.
+
+IIRC this was discussed long ago when atomic was being designed
+and the general concensus was that the kernel shouldn't generally
+do this kind of stuff, and instead we just leave it to userspace
+to generate optimal commits.
+
+> so it is safe for userspace to send redundant property
+> +settings.
+
+Safe but not optimal. Any object included in the state will cause said
+object to be part of the commit, and side effects will also need to be
+observed.
+
+So if you add an extra crtc (either directly or indirectly) it will
+have a new commit inserted into the queue and thus and any subsequent
+commit will either block or be rejected with -EBUSY. Also for directly
+added crtcs an event will be emitted once the commit is done.
+
+Any plane added will also need to observe side effects even if the FB
+doesn't change, such as invalidating any internal compressed version
+of the old FB contents, PSR/DSI command mode/etc. will need to upload
+the frame to the display, etc. I suppose we could specify that if no
+FB is specified at all then these kind of side effects could be ignored,
+but that is certainly not how things are implemented right now.
+
+So for optimal behaviour userspace should be minimizing the commits.
+
+-- 
+Ville Syrjälä
+Intel
