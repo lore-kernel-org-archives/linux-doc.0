@@ -1,101 +1,210 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCCbWoFw"
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0605483;
-	Fri,  1 Dec 2023 08:19:37 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40b27726369so22129845e9.0;
-        Fri, 01 Dec 2023 08:19:36 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="czkyhh3Z"
+Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com [99.78.197.219])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C6A293;
+	Fri,  1 Dec 2023 08:19:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701447575; x=1702052375; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zXSpg2Hebt1XMvl/lb7qRf9lb6fY6wPU9kJB/qJRi3g=;
-        b=ZCCbWoFw7e92HstJaZAars6On2qa6pcm1bDpaZ5mXxBBKLuSyI2phbVlklsuDNNeLW
-         0BIPqHJfycGxddutVItvs5w1gvufNSMVxggZYBNCsxdGAofWlUzJM5rDZRkAX0xYVSIb
-         NJ3Rh80narMaabAik6U+tSln9adKsfgAN4RCtbLkGRx0Xc4CTOUu4Q5eSXIKGEkmK9yt
-         u0II7cch/3hxFSq1ZIbRshZ7WOL0p5wkwNoJcqLPNv6znl0wb2NRpCq5j3XRyVi1I1U8
-         wqbxNTJYFh7Mf+CaXMjDoi6GMbxCOY2xrf88mUKX+KIDHJ810rz2/aAJG345dFyeluhg
-         OsVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701447575; x=1702052375;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zXSpg2Hebt1XMvl/lb7qRf9lb6fY6wPU9kJB/qJRi3g=;
-        b=hiXltp9uHBK2JFXQ6JCKLMaobS60lCOX++RFmWK8hkupfdz5UcqtREog5cbcwiO4wj
-         InJuSlcEIkKLmR+ANfeK9vN1S76qEguUwFn0QPfM67ZTZKs54ML1peVgJQdfwVPEHd5J
-         GQ4lXI5M79085kCFkjOxgFW88z5zAVxmYM39PIpRsXpxak2kImOEUFQTMPiYOIsVWaQp
-         Lce4Hdq6spQpKiWtEuw1PZnYnWZKd8XzGeqAKpcx9TWBOoZNGJICxW/3Kfi5SlXNffGc
-         EL5U9gnOcLQHu9qCgOoZ5+a2wqSxEa0s4rYhlmBKE0QTMAqQY8Om2P8y8Wf3VTge5KjT
-         xs8w==
-X-Gm-Message-State: AOJu0YyQeFZ11Ji4/GS3ScIZo3LSZDPXlsJZ8aLzlnbtagddKilC4Oeq
-	s+v/Sg3Mjb0EJwOmUpoEeKA=
-X-Google-Smtp-Source: AGHT+IGlB+Oek43JXqETYBZcoT9o2StytlqCFerJRxzm0sdB9GY+C+hZxfBHyL22HIQoqS+NOvGUgA==
-X-Received: by 2002:a5d:69cd:0:b0:333:2fd2:68e4 with SMTP id s13-20020a5d69cd000000b003332fd268e4mr1050543wrw.119.1701447575325;
-        Fri, 01 Dec 2023 08:19:35 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id dj16-20020a0560000b1000b0033331f83907sm1809327wrb.65.2023.12.01.08.19.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 08:19:35 -0800 (PST)
-Message-ID: <4afe8108fb12690779351f16b0b31977caca640b.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, nuno.sa@analog.com, 
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
- <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 01 Dec 2023 17:19:33 +0100
-In-Reply-To: <ZWoABzufPkdXnrMT@smile.fi.intel.com>
-References: 
-	<CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
-	 <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
-	 <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
-	 <971eb35068639ec404669ea5320c8183ea71a7d0.camel@gmail.com>
-	 <ZWiP3i80KnVk9qyx@smile.fi.intel.com>
-	 <a4bd59df0c5bc1be5d0d6f11b968fd61a59ee2e0.camel@gmail.com>
-	 <CACRpkdYz+qi42Pz8CgeWybksC0edaVux6rcEhwzjDWnWe9Jr1g@mail.gmail.com>
-	 <61a8f54835c10db7a9c650ee2e3706b47382c634.camel@gmail.com>
-	 <CACRpkda55HzPqus5KR-t=xEBkkdND5kYZj1sHdxK+j6QwDUPRg@mail.gmail.com>
-	 <b761d2497462664d541779857398b2aa893cbee5.camel@gmail.com>
-	 <ZWoABzufPkdXnrMT@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1701447596; x=1732983596;
+  h=mime-version:content-transfer-encoding:date:message-id:
+   to:cc:from:references:in-reply-to:subject;
+  bh=eFQq5aTAxzGc0xKmRmPh5Xds7eBuvGK1sft5MSj7h90=;
+  b=czkyhh3ZFKKdMxlOvrMIEwDUMAJlJvhhMURmRO4xIRDvmxdwDkhUoNu1
+   4p4ULKyVPxnD6sF4upC03MoNmK4smAK0+3AEN4u0kiXlVooznvXUifpUr
+   LwJR/xmO/AQOCBAUTYpVgnFIDKsRo+Fd3ywys6C6i76OXRxpn0WpTy30W
+   M=;
+X-IronPort-AV: E=Sophos;i="6.04,242,1695686400"; 
+   d="scan'208";a="47758603"
+Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return prologues in
+ hypercall page
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-617e30c2.us-east-1.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-80008.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 16:19:53 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan2.iad.amazon.com [10.32.235.34])
+	by email-inbound-relay-iad-1a-m6i4x-617e30c2.us-east-1.amazon.com (Postfix) with ESMTPS id D179B608B8;
+	Fri,  1 Dec 2023 16:19:49 +0000 (UTC)
+Received: from EX19MTAEUC001.ant.amazon.com [10.0.10.100:13113]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.47.241:2525] with esmtp (Farcaster)
+ id c0229cfe-6763-422b-be04-2f801e93bcc4; Fri, 1 Dec 2023 16:19:48 +0000 (UTC)
+X-Farcaster-Flow-ID: c0229cfe-6763-422b-be04-2f801e93bcc4
+Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
+ EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 1 Dec 2023 16:19:48 +0000
+Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
+ (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Dec
+ 2023 16:19:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 1 Dec 2023 16:19:40 +0000
+Message-ID: <CXD4TVV5QWUK.3SH495QSBTTUF@amazon.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>, <kvm@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+	<pbonzini@redhat.com>, <seanjc@google.com>, <vkuznets@redhat.com>,
+	<anelkz@amazon.com>, <graf@amazon.com>, <dwmw@amazon.co.uk>,
+	<jgowans@amazon.com>, <kys@microsoft.com>, <haiyangz@microsoft.com>,
+	<decui@microsoft.com>, <x86@kernel.org>, <linux-doc@vger.kernel.org>
+From: Nicolas Saenz Julienne <nsaenz@amazon.com>
+X-Mailer: aerc 0.15.2-182-g389d89a9362e-dirty
+References: <20231108111806.92604-1-nsaenz@amazon.com>
+ <20231108111806.92604-6-nsaenz@amazon.com>
+ <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
+In-Reply-To: <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
+X-ClientProxiedBy: EX19D040UWB004.ant.amazon.com (10.13.138.91) To
+ EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-On Fri, 2023-12-01 at 17:47 +0200, Andy Shevchenko wrote:
-> On Fri, Dec 01, 2023 at 04:24:35PM +0100, Nuno S=C3=A1 wrote:
-> > On Fri, 2023-12-01 at 14:40 +0100, Linus Walleij wrote:
->=20
-> ...
->=20
-> > Yes, that is the only thing we have. Meaning that there is no hw settin=
-g to set
-> > the
-> > pins to open drain. Open drain is what they are. That is why I'm not se=
-eing the
-> > point
-> > in having PIN_CONFIG_DRIVE_OPEN_DRAIN implemented.
->=20
-> At least you have to implement error for PUSH_PULL mode and other modes,
-> so from the (core) software point of view the user should be able to ask =
-for
-> anything and get an answer from the certain driver that "hey, i do suppor=
-t OD",
-> or "hey, push-pull can't be supported with this hw".
->=20
+On Tue Nov 28, 2023 at 7:08 AM UTC, Maxim Levitsky wrote:
+> CAUTION: This email originated from outside of the organization. Do not c=
+lick links or open attachments unless you can confirm the sender and know t=
+he content is safe.
+>
+>
+>
+> On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
+> > VTL call/return hypercalls have their own entry points in the hypercall
+> > page because they don't follow normal hyper-v hypercall conventions.
+> > Move the VTL call/return control input into ECX/RAX and set the
+> > hypercall code into EAX/RCX before calling the hypercall instruction in
+> > order to be able to use the Hyper-V hypercall entry function.
+> >
+> > Guests can read an emulated code page offsets register to know the
+> > offsets into the hypercall page for the VTL call/return entries.
+> >
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
+> >
+> > ---
+> >
+> > My tree has the additional patch, we're still trying to understand unde=
+r
+> > what conditions Windows expects the offset to be fixed.
+> >
+> > diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+> > index 54f7f36a89bf..9f2ea8c34447 100644
+> > --- a/arch/x86/kvm/hyperv.c
+> > +++ b/arch/x86/kvm/hyperv.c
+> > @@ -294,6 +294,7 @@ static int patch_hypercall_page(struct kvm_vcpu *vc=
+pu, u64 data)
+> >
+> >         /* VTL call/return entries */
+> >         if (!kvm_xen_hypercall_enabled(kvm) && kvm_hv_vsm_enabled(kvm))=
+ {
+> > +               i =3D 22;
+> >  #ifdef CONFIG_X86_64
+> >                 if (is_64_bit_mode(vcpu)) {
+> >                         /*
+> > ---
+> >  arch/x86/include/asm/kvm_host.h   |  2 +
+> >  arch/x86/kvm/hyperv.c             | 78 ++++++++++++++++++++++++++++++-
+> >  include/asm-generic/hyperv-tlfs.h | 11 +++++
+> >  3 files changed, 90 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm=
+_host.h
+> > index a2f224f95404..00cd21b09f8c 100644
+> > --- a/arch/x86/include/asm/kvm_host.h
+> > +++ b/arch/x86/include/asm/kvm_host.h
+> > @@ -1105,6 +1105,8 @@ struct kvm_hv {
+> >       u64 hv_tsc_emulation_status;
+> >       u64 hv_invtsc_control;
+> >
+> > +     union hv_register_vsm_code_page_offsets vsm_code_page_offsets;
+> > +
+> >       /* How many vCPUs have VP index !=3D vCPU index */
+> >       atomic_t num_mismatched_vp_indexes;
+> >
+> > diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+> > index 78d053042667..d4b1b53ea63d 100644
+> > --- a/arch/x86/kvm/hyperv.c
+> > +++ b/arch/x86/kvm/hyperv.c
+> > @@ -259,7 +259,8 @@ static void synic_exit(struct kvm_vcpu_hv_synic *sy=
+nic, u32 msr)
+> >  static int patch_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
+> >  {
+> >       struct kvm *kvm =3D vcpu->kvm;
+> > -     u8 instructions[9];
+> > +     struct kvm_hv *hv =3D to_kvm_hv(kvm);
+> > +     u8 instructions[0x30];
+> >       int i =3D 0;
+> >       u64 addr;
+> >
+> > @@ -285,6 +286,81 @@ static int patch_hypercall_page(struct kvm_vcpu *v=
+cpu, u64 data)
+> >       /* ret */
+> >       ((unsigned char *)instructions)[i++] =3D 0xc3;
+> >
+> > +     /* VTL call/return entries */
+> > +     if (!kvm_xen_hypercall_enabled(kvm) && kvm_hv_vsm_enabled(kvm)) {
+> > +#ifdef CONFIG_X86_64
+> > +             if (is_64_bit_mode(vcpu)) {
+> > +                     /*
+> > +                      * VTL call 64-bit entry prologue:
+> > +                      *      mov %rcx, %rax
+> > +                      *      mov $0x11, %ecx
+> > +                      *      jmp 0:
+>
+> This isn't really 'jmp 0' as I first wondered but actually backward jump =
+32 bytes back (if I did the calculation correctly).
+> This is very dangerous because code that was before can change and in fac=
+t I don't think that this
+> offset is even correct now, and on top of that it depends on support for =
+xen hypercalls as well.
 
-Yeah, that makes total sense. But I guess that the 'default' should already=
-=C2=A0
--EOPNOTSUPP right?
+You're absolutely right. The offset is wrong as is, and the overall
+approach might break in the future.
 
-- Nuno S=C3=A1=20
+Another solution is to explicitly do the vmcall and avoid any jumps.
+This seems to be what Hyper-V does:
+https://hal.science/hal-03117362/document (Figure 8).
+
+> This can be fixed by calculating the offset in runtime, however I am thin=
+king:
+>
+>
+> Since userspace will have to be aware of the offsets in this page, and si=
+nce
+> pretty much everything else is done in userspace, it might make sense to =
+create
+> the hypercall page in the userspace.
+>
+> In fact, the fact that KVM currently overwrites the guest page, is a viol=
+ation of
+> the HV spec.
+>
+> It's more correct regardless of VTL to do userspace vm exit and let the u=
+serspace put a memslot ("overlay")
+> over the address, and put whatever userspace wants there, including the a=
+bove code.
+
+I agree we should be on the safe side and fully implement overlays. That
+said, I suspect they are not actually necessary in practice (with or
+without VSM support).
+
+> Then we won't need the new ioctl as well.
+>
+> To support this I think that we can add a userspace msr filter on the HV_=
+X64_MSR_HYPERCALL,
+> although I am not 100% sure if a userspace msr filter overrides the in-ke=
+rnel msr handling.
+
+I thought about it at the time. It's not that simple though, we should
+still let KVM set the hypercall bytecode, and other quirks like the Xen
+one. Additionally, we have no way of knowing where they are going to be
+located. We could do something like this, but it's not pretty:
+
+  - Exit to user-space on HV_X64_MSR_HYPERCALL (it overrides the msr
+    handling).
+  - Setup the overlay.
+  - Call HV_X64_MSR_HYPERCALL from user-space so KVM writes its share of
+    the hypercall page.
+  - Copy the VSM parts from user-space in an area we know to be safe.
+
+We could maybe introduce and extension CAP that provides a safe offset
+in the hypercall page for user-space to use?
+
+Nicolas
