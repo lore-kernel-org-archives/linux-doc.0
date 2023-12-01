@@ -1,245 +1,100 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eSqNbW/v"
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FB1BCF;
-	Fri,  1 Dec 2023 02:06:54 -0800 (PST)
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pq)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id A9EC966003B9;
-	Fri,  1 Dec 2023 10:06:51 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701425212;
-	bh=6WWOVpafYoUXOtbV/gIxloanlnjCVTDsutvvOB5R06k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eSqNbW/vcMm8gefKx26+RTZNe45vOqDDJId4LeIpzjizuRblOupMr56FPiyAO8cJI
-	 HoP3M/JHDlWCJtUXAkO9E+3pvapouu4f9kzZrZS1ByBVvLObKNuVz/EjsXdJng/Iqe
-	 pEUMP+ukzHGOoiK0MjyHaQPqmBtkuSxYys47iZKWV2sZn9ubB1OX7Ybr3kZeFM7mxC
-	 E552xNCRvIvEqR/05QqkYVsmNBAOC+kh6K2dK2fvoI0mpUjx/8FCZXN+RtkOFLYkhM
-	 l03l4l3YoAD317l4jwxcmhJYkwDd07Qh6HBrBn5h/pKyIWilKC/9DL/UTzK6ioqOhQ
-	 OP98HRBqNdR1A==
-Date: Fri, 1 Dec 2023 12:06:48 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Simon Ser <contact@emersion.fr>, Rob Clark <robdclark@gmail.com>,
- daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>, 'Marek
- =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>, Dave Airlie
- <airlied@gmail.com>, Michel =?UTF-8?B?RMOkbnplcg==?=
- <michel.daenzer@mailbox.org>, Randy Dunlap <rdunlap@infradead.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <20231201120648.2ba706e1.pekka.paalanen@collabora.com>
-In-Reply-To: <bry3w6w32uy2jlmbkcmbtthw6w6nwux7dwlcju5iuxac2wphku@md6njxjtsbvm>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
-	<x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
-	<20231201110616.30ad1468.pekka.paalanen@collabora.com>
-	<bry3w6w32uy2jlmbkcmbtthw6w6nwux7dwlcju5iuxac2wphku@md6njxjtsbvm>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IFDgkbi8"
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF12DC;
+	Fri,  1 Dec 2023 02:20:54 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40b479ec4a3so17272955e9.2;
+        Fri, 01 Dec 2023 02:20:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701426053; x=1702030853; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bcLd+/AJDrWXWUBdneBB4ElCvmlFWT+bhpoV46xZoYY=;
+        b=IFDgkbi899dkUMdmFQXO0XXe+bgztgzxvLd+Ec0EQLQoj8zQrEZ+hqk9q7zn0UsS/8
+         Vfy+MjD342rXKr7dL8rZ3m7RrUIEpdbUf/ubCC6v6yKn7TYWVb+WhRRRNbsa/9vdFtB2
+         wgtbzVF2gmvkOzObSsN9mqw1vfHkVbIFsZdJgVQDVbNb0TPvaK03x80WaRvRAWPMuIEE
+         wRC1UtAFzLurwpTE6CBQdQ2kd4yxtUdmm3MPAQImFeNtIHZv64/FDZ9rPbfSOd+4bdtQ
+         48aG2+VxyvGrLvbkwD0PtgmD96x626nGS2wqRcwpiDQWIl11RGbrsVlKEo60VK/IURIZ
+         d0uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701426053; x=1702030853;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bcLd+/AJDrWXWUBdneBB4ElCvmlFWT+bhpoV46xZoYY=;
+        b=Wl5c4lNKSl9Ty35PKsMOpp/MMLza1hxzvHNK0WOTEuyKOd5KNibIdr4NKjy/ikfUxb
+         khsBZvuU1CstM7Ghcym1d5XQEAlmXqsn4XizO+YSsFGDIjhBlPmofxGfywQ4dD6xe/wj
+         5DGzFw2VU6UDfenXmogGPDslSYP4N0u2eBux5wanjEHvQquSN+FHI4Ya3YfnjWaogJYY
+         by4xrOleQLJym42859Qyj4iZkagWjUcWOanUVYGKkBhqFxZ8qYLqSAd/BS4hsgQ82JdT
+         qEL25bh3NHF1s8ulxz0/75V1Wwd6+dCs6fMlFTFFyAWDUeTi9kA/LCqAxtgjA5KRpGDp
+         Fctg==
+X-Gm-Message-State: AOJu0Yw9OpVCXbFFqD/3YBu63SkalNjPn72g5PwBKK1fWCW5yHUAzENg
+	zTpax5GIO52CA0Jph5OxI4bMlnhJZ5s=
+X-Google-Smtp-Source: AGHT+IFsl7DaYoDLb7OVsTU7G6HVRazLXptAuYAzBxtNzAwMVIX10CwGTw5WQUuWgfDsoT3hQ1dEVw==
+X-Received: by 2002:a05:600c:3584:b0:40b:5e22:954 with SMTP id p4-20020a05600c358400b0040b5e220954mr427812wmq.67.1701426052971;
+        Fri, 01 Dec 2023 02:20:52 -0800 (PST)
+Received: from gmail.com (1F2EF126.nat.pool.telekom.hu. [31.46.241.38])
+        by smtp.gmail.com with ESMTPSA id fk14-20020a05600c0cce00b0040b2a52ecaasm8715622wmb.2.2023.12.01.02.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 02:20:52 -0800 (PST)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date: Fri, 1 Dec 2023 11:20:50 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Jann Horn <jannh@google.com>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] locking: Document that mutex_unlock() is non-atomic
+Message-ID: <ZWmzgqcvMIvYvWw1@gmail.com>
+References: <20231130204817.2031407-1-jannh@google.com>
+ <2f17a9a6-5781-43ef-a09b-f39310843fe6@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/=bSmbDZcOhdjv3iZ1XwQta1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2f17a9a6-5781-43ef-a09b-f39310843fe6@redhat.com>
 
---Sig_/=bSmbDZcOhdjv3iZ1XwQta1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, 1 Dec 2023 10:25:09 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+* Waiman Long <longman@redhat.com> wrote:
 
-> On Fri, Dec 01, 2023 at 11:06:16AM +0200, Pekka Paalanen wrote:
-> > On Fri, 1 Dec 2023 09:29:05 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >  =20
-> > > Hi,
-> > >=20
-> > > On Thu, Nov 30, 2023 at 05:07:40PM -0300, Andr=C3=A9 Almeida wrote: =
-=20
-> > > > From: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > >=20
-> > > > Specify how the atomic state is maintained between userspace and
-> > > > kernel, plus the special case for async flips.
-> > > >=20
-> > > > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> > > > ---
-> > > >=20
-> > > > This is a standalone patch from the following serie, the other patc=
-hes are
-> > > > already merged:
-> > > > https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@ig=
-alia.com/
-> > > >=20
-> > > >  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++=
-++++
-> > > >  1 file changed, 47 insertions(+)
-> > > >=20
-> > > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm=
--uapi.rst
-> > > > index 370d820be248..d0693f902a5c 100644
-> > > > --- a/Documentation/gpu/drm-uapi.rst
-> > > > +++ b/Documentation/gpu/drm-uapi.rst
-> > > > @@ -570,3 +570,50 @@ dma-buf interoperability
-> > > > =20
-> > > >  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst =
-for
-> > > >  information on how dma-buf is integrated and exposed within DRM.
-> > > > +
-> > > > +KMS atomic state
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +
-> > > > +An atomic commit can change multiple KMS properties in an atomic f=
-ashion,
-> > > > +without ever applying intermediate or partial state changes.  Eith=
-er the whole
-> > > > +commit succeeds or fails, and it will never be applied partially. =
-This is the
-> > > > +fundamental improvement of the atomic API over the older non-atomi=
-c API which is
-> > > > +referred to as the "legacy API".  Applying intermediate state coul=
-d unexpectedly
-> > > > +fail, cause visible glitches, or delay reaching the final state.
-> > > > +
-> > > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, wh=
-ich means the
-> > > > +complete state change is validated but not applied.  Userspace sho=
-uld use this
-> > > > +flag to validate any state change before asking to apply it. If va=
-lidation fails
-> > > > +for any reason, userspace should attempt to fall back to another, =
-perhaps
-> > > > +simpler, final state.  This allows userspace to probe for various =
-configurations
-> > > > +without causing visible glitches on screen and without the need to=
- undo a
-> > > > +probing change.
-> > > > +
-> > > > +The changes recorded in an atomic commit apply on top the current =
-KMS state in
-> > > > +the kernel. Hence, the complete new KMS state is the complete old =
-KMS state with
-> > > > +the committed property settings done on top. The kernel will try t=
-o avoid   =20
-> > >=20
-> > > That part is pretty confusing to me.
-> > >=20
-> > > What are you calling the current and old KMS state? =20
-> >=20
-> > Current =3D old, if you read that "current" is the KMS state before
-> > considering the atomic commit at hand.
-> >  =20
-> > > What's confusing to me is that, yes, what you're saying is true for a
-> > > given object: if it was part of the commit, the new state is the old
-> > > state + whatever the new state changed.
-> > >=20
-> > > However, if that object wasn't part of the commit at all, then it's
-> > > completely out of the old or new global KMS state. =20
-> >=20
-> > This is not talking about kernel data structures at all. This is
-> > talking about how KMS looks from the userspace point of view. =20
->=20
-> I mean, that's also true from the userspace point of view. You can very
-> well commit only a single property on a single object, and only that
-> object will be part of the "global KMS state".
+> On 11/30/23 15:48, Jann Horn wrote:
+> > I have seen several cases of attempts to use mutex_unlock() to release an
+> > object such that the object can then be freed by another task.
+> > My understanding is that this is not safe because mutex_unlock(), in the
+> > MUTEX_FLAG_WAITERS && !MUTEX_FLAG_HANDOFF case, accesses the mutex
+> > structure after having marked it as unlocked; so mutex_unlock() requires
+> > its caller to ensure that the mutex stays alive until mutex_unlock()
+> > returns.
+> > 
+> > If MUTEX_FLAG_WAITERS is set and there are real waiters, those waiters
+> > have to keep the mutex alive, I think; but we could have a spurious
+> > MUTEX_FLAG_WAITERS left if an interruptible/killable waiter bailed
+> > between the points where __mutex_unlock_slowpath() did the cmpxchg
+> > reading the flags and where it acquired the wait_lock.
+> 
+> Could you clarify under what condition a concurrent task can decide to free
+> the object holding the mutex? Is it !mutex_is_locked() or after a
+> mutex_lock()/mutex_unlock sequence?
+> 
+> mutex_is_locked() will return true if the mutex has waiter even if it  is
+> currently free.
 
-What is "global KMS state"?
+I believe the correct condition is what the changelog already says:
 
-As a userspace developer, the global KMS state is the complete, total,
-hardware and driver instance state. It's not any kind of data
-structure, but it is all the condition and all the programming of the
-whole device (hardware + driver instance) at any specific time instant.
-It is not related to any atomic commit or UAPI call, it is how the
-hardware is currently programmed.
+  "until mutex_unlock() returns".
 
-How can we make that clear?
-
-Should "KMS state" be replaced with "complete device state" or
-something similar?
-
-> > All objects are always part of the device KMS state as referred to
-> > in this doc, whether they were mentioned in the atomic commit state set
-> > or not. That's the whole point: all state that was not explicitly
-> > modified remains as it was, and is actively used state by the driver
-> > and hardware. The practical end result state is the same as if all
-> > objects were (redundantly) mentioned.
-> >=20
-> > For example, if you change properties of CRTC 31, it has no effect on
-> > the behaviour of CRTC 54. If CRTC 54 was active, it remains active. If
-> > CRTC 54 had certain property values, it continues to have those
-> > property values. =20
->=20
-> I'm not quite sure I followed your previous paragraph, sorry, but we
-> agree here and it's kind of my point really: CRTC-54 would not be part
-> of the new KMS state, so claiming that it is complete is confusing.
->=20
-> It's not complete to me precisely because it doesn't contain the state
-> of all objects.
-
-Did my explanation of what "KMS state" means from userspace perspective
-above help?
-
-> > This is opposed to something else; the UAPI could have
-> > been designed to e.g. reset all unmentioned objects to defaults/off by
-> > the atomic commit. Obviously that's not how it works today, so we need
-> > to mention how things do work. =20
->=20
-> Sure, I'm not claiming we should change anything but the wording of that
-> doc.
->=20
-> > >=20
-> > > So yeah, individual object KMS state are indeed complete, but
-> > > drm_atomic_state definitely isn't. And it's the whole point of functi=
-ons
-> > > like drm_atomic_get_crtc_state() vs drm_atomic_get_old/new_crtc_state:
-> > > the old/new variants only return a state if it was part of
-> > > drm_atomic_state to begin with. drm_atomic_get_crtc_state() brings the
-> > > crtc state into drm_atomic_state if it wasn't part of it. =20
-> >=20
-> > At no point the text is referring to drm_atomic_state or any other
-> > kernel data structure. =20
->=20
-> Then it's even more confusing, because the sentence I was quoting was
-> "The changes recorded in an atomic commit apply on top the current KMS
-> state *in the kernel*", which is ambiguous then.
-
-It's perhaps a misguided attempt to say that the kernel maintains the
-complete device state, and that the complete device state is modified
-in the kernel. If it helps, the "in the kernel" can be dropped.
-
+What happens within mutex_unlock() is kernel implementation specific and 
+once a caller has called mutex_unlock(), the mutex must remain alive until 
+it returns. No other call can substitute for this: neither 
+mutex_is_locked(), nor some sort of mutex_lock()+mutex_unlock() sequence.
 
 Thanks,
-pq
 
---Sig_/=bSmbDZcOhdjv3iZ1XwQta1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVpsDgACgkQI1/ltBGq
-qqeTfQ//Tx1aj3ET5ljpFzO8+v0bqwcdE10/JnjR54V/GWhcVEFfyL40b7MLpX4K
-AcPjb2BWg3F6DiGMIIM+yl2QAPudYPCXn6pyGFWugEyu+H5MeMSQe3TpwyXKrvse
-lq5mBtN8gxjPz/4hq1U13g4Qrr3ogeuSchDdL8GkvaDadsRBaveQ/vjxHh/XRoVx
-wDdZQQ/ukV1xzstILk64XxSJIXUWFqzwFIAxMNHNjdBhc3h1g/6ccvRbsTLG9k9w
-tumPW0TENqBzTUcKdyknpPrs6pM5GILrNLOBrByrpIL1EOMH8M5tMB4qmqNVsuTg
-TLJ1uANUjgBPvSKJhHrgllY/5KVMWfzR37uDLfXZTAGLgWekTLqvtEkWSb+8dANW
-8LDkNu8kEWYimCk1EoC4lTYoxa/Gv238wzd/QKWAqLqqGyTyzOf1AFnpk2it6Xce
-iIQFTI+g3PYxeQIxHI9tc+523pVqwtVLEXh73Cr8l7fO6NTgOpog/uR7KO2TEVIc
-75G/ho7GxIpyJjnVLeijU/5bL46C5kXNAqE1Nvm4S5BKOt4I7NGSWGSRHlABrMyC
-HLx/0/U3Is5x0JlrR9VUN4BB3/RVKyKyVdfvbRROKYPdHRb4WSaBxMPG2TwtGYNH
-29o1yD9N5yiVM0+7a6/7h/pGM2G4lBppk/KZ9133JgtvOUi71kM=
-=u5wp
------END PGP SIGNATURE-----
-
---Sig_/=bSmbDZcOhdjv3iZ1XwQta1--
+	Ingo
