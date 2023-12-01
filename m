@@ -1,201 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECCF1CF91
-	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 09:25:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jo++edaP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B11C433C7;
-	Fri,  1 Dec 2023 09:25:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701422711;
-	bh=pap0dJ7Aexs0KGqqAq0I3SAp6oVPIn/53vGN/L16G3g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jo++edaPYGu5OZ3NsMc3O5H4BNhyyZ9oJWhGoph0k8VwwbGjUrW9s+S3aWmGKv3TK
-	 tfmjJOXp+s2tOMRp0+i5zNc2qKUo6nR/8WlTHdIY9GQgD8Xo0x8K7hDcrhV7XNJyIF
-	 VhdoK7wcxtifKlWhm7zF6cOYvqC+Sg1lMZZ/ymyaksY8fWl4p06Ec5cKcJSgmbhZuH
-	 bDpwONi70lo4fRUn615W0ON2hrV2ANvFhJ6gRYfPEWWXl7tixuBiqWVmZgbV6skciq
-	 vM+D+rrq4EFPxbs4WePG6eXoPiSshuvlniyhdU7aAufwkBAD+tZgS+3D2QeMp4MEn/
-	 28RjKeylLLpeg==
-Date: Fri, 1 Dec 2023 10:25:09 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, kernel-dev@igalia.com, 
-	alexander.deucher@amd.com, christian.koenig@amd.com, Simon Ser <contact@emersion.fr>, 
-	Rob Clark <robdclark@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch, 
-	Daniel Stone <daniel@fooishbar.org>, 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>, 
-	Dave Airlie <airlied@gmail.com>, Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=emersion.fr header.i=@emersion.fr header.b="MzFOy8KC"
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 185151FD6
+	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 01:31:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+	s=protonmail2; t=1701423100; x=1701682300;
+	bh=R40xwJ5ZXVWF75wuJrURSlyJ6mwzxYaMIF9gQCcOzTI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=MzFOy8KC7MDm3loAEnPVEYW2PETiOOlVVyJU8Kh0ujd4bm99RgBdlxscGMLUE3XJT
+	 LJgJ61e6Tj6rg0yyKRfAiFQg68tG+qVidn54rRuVTOU4ZtV317FI0W3q9L9ohBecFp
+	 WH/jJV3u/aU2t97/6r0pR9O2Dp+lY+YewIMP5a3W+vd+qdTxMESQkV5MDHmPsqZXu2
+	 Pr3+LaA5lgEzo+v32Z83dThcjI6Kp1H+axJqJ/wtPCpeDCviBxVVzzFNck5TjN8rXc
+	 WptADAIdXIMPCkHaKem7VulOrHMrA31kM3ndscdq9iQeEiu5D0XEw4Aeo3oEIctaSV
+	 sfljdjJL+JG1A==
+Date: Fri, 01 Dec 2023 09:31:23 +0000
+To: =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com, Rob Clark <robdclark@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>, =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>, Dave Airlie <airlied@gmail.com>, =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
 Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <bry3w6w32uy2jlmbkcmbtthw6w6nwux7dwlcju5iuxac2wphku@md6njxjtsbvm>
+Message-ID: <40gonZRoP7FjDn_ugL_LpXsqwoSCZtypIe7jiWg0t8lkTx94-gESc60Cuu5eWxivJoZCNg3i-cUG9kNpKQZeYdCJPawDpTSIXivJ_t_a87E=@emersion.fr>
+In-Reply-To: <20231130200740.53454-1-andrealmeid@igalia.com>
 References: <20231130200740.53454-1-andrealmeid@igalia.com>
- <x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
- <20231201110616.30ad1468.pekka.paalanen@collabora.com>
+Feedback-ID: 1358184:user:proton
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3qxpsltzimgkb2dd"
-Content-Disposition: inline
-In-Reply-To: <20231201110616.30ad1468.pekka.paalanen@collabora.com>
-
-
---3qxpsltzimgkb2dd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 01, 2023 at 11:06:16AM +0200, Pekka Paalanen wrote:
-> On Fri, 1 Dec 2023 09:29:05 +0100
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > Hi,
-> >=20
-> > On Thu, Nov 30, 2023 at 05:07:40PM -0300, Andr=E9 Almeida wrote:
-> > > From: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > >=20
-> > > Specify how the atomic state is maintained between userspace and
-> > > kernel, plus the special case for async flips.
-> > >=20
-> > > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > Signed-off-by: Andr=E9 Almeida <andrealmeid@igalia.com>
-> > > ---
-> > >=20
-> > > This is a standalone patch from the following serie, the other patche=
-s are
-> > > already merged:
-> > > https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igal=
-ia.com/
-> > >=20
-> > >  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++=
-++
-> > >  1 file changed, 47 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-u=
-api.rst
-> > > index 370d820be248..d0693f902a5c 100644
-> > > --- a/Documentation/gpu/drm-uapi.rst
-> > > +++ b/Documentation/gpu/drm-uapi.rst
-> > > @@ -570,3 +570,50 @@ dma-buf interoperability
-> > > =20
-> > >  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
-> > >  information on how dma-buf is integrated and exposed within DRM.
-> > > +
-> > > +KMS atomic state
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +
-> > > +An atomic commit can change multiple KMS properties in an atomic fas=
-hion,
-> > > +without ever applying intermediate or partial state changes.  Either=
- the whole
-> > > +commit succeeds or fails, and it will never be applied partially. Th=
-is is the
-> > > +fundamental improvement of the atomic API over the older non-atomic =
-API which is
-> > > +referred to as the "legacy API".  Applying intermediate state could =
-unexpectedly
-> > > +fail, cause visible glitches, or delay reaching the final state.
-> > > +
-> > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, whic=
-h means the
-> > > +complete state change is validated but not applied.  Userspace shoul=
-d use this
-> > > +flag to validate any state change before asking to apply it. If vali=
-dation fails
-> > > +for any reason, userspace should attempt to fall back to another, pe=
-rhaps
-> > > +simpler, final state.  This allows userspace to probe for various co=
-nfigurations
-> > > +without causing visible glitches on screen and without the need to u=
-ndo a
-> > > +probing change.
-> > > +
-> > > +The changes recorded in an atomic commit apply on top the current KM=
-S state in
-> > > +the kernel. Hence, the complete new KMS state is the complete old KM=
-S state with
-> > > +the committed property settings done on top. The kernel will try to =
-avoid =20
-> >=20
-> > That part is pretty confusing to me.
-> >=20
-> > What are you calling the current and old KMS state?
->=20
-> Current =3D old, if you read that "current" is the KMS state before
-> considering the atomic commit at hand.
->=20
-> > What's confusing to me is that, yes, what you're saying is true for a
-> > given object: if it was part of the commit, the new state is the old
-> > state + whatever the new state changed.
-> >=20
-> > However, if that object wasn't part of the commit at all, then it's
-> > completely out of the old or new global KMS state.
->=20
-> This is not talking about kernel data structures at all. This is
-> talking about how KMS looks from the userspace point of view.
+Thanks for writing these docs! A few comments below.
 
-I mean, that's also true from the userspace point of view. You can very
-well commit only a single property on a single object, and only that
-object will be part of the "global KMS state".
+On Thursday, November 30th, 2023 at 21:07, Andr=C3=A9 Almeida <andrealmeid@=
+igalia.com> wrote:
 
-> All objects are always part of the device KMS state as referred to
-> in this doc, whether they were mentioned in the atomic commit state set
-> or not. That's the whole point: all state that was not explicitly
-> modified remains as it was, and is actively used state by the driver
-> and hardware. The practical end result state is the same as if all
-> objects were (redundantly) mentioned.
->=20
-> For example, if you change properties of CRTC 31, it has no effect on
-> the behaviour of CRTC 54. If CRTC 54 was active, it remains active. If
-> CRTC 54 had certain property values, it continues to have those
-> property values.
+> +KMS atomic state
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +An atomic commit can change multiple KMS properties in an atomic fashion=
+,
+> +without ever applying intermediate or partial state changes.  Either the=
+ whole
+> +commit succeeds or fails, and it will never be applied partially. This i=
+s the
+> +fundamental improvement of the atomic API over the older non-atomic API =
+which is
+> +referred to as the "legacy API".  Applying intermediate state could unex=
+pectedly
+> +fail, cause visible glitches, or delay reaching the final state.
+> +
+> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which me=
+ans the
 
-I'm not quite sure I followed your previous paragraph, sorry, but we
-agree here and it's kind of my point really: CRTC-54 would not be part
-of the new KMS state, so claiming that it is complete is confusing.
+It would be nice to link DRM_MODE_ATOMIC_TEST_ONLY to the actual docs here.
+This can be done with markup such as:
 
-It's not complete to me precisely because it doesn't contain the state
-of all objects.
+    :c:macro:`DRM_MODE_ATOMIC_TEST_ONLY`
 
-> This is opposed to something else; the UAPI could have
-> been designed to e.g. reset all unmentioned objects to defaults/off by
-> the atomic commit. Obviously that's not how it works today, so we need
-> to mention how things do work.
+Same applies to other #defines.
 
-Sure, I'm not claiming we should change anything but the wording of that
-doc.
+> +complete state change is validated but not applied.  Userspace should us=
+e this
 
-> >=20
-> > So yeah, individual object KMS state are indeed complete, but
-> > drm_atomic_state definitely isn't. And it's the whole point of functions
-> > like drm_atomic_get_crtc_state() vs drm_atomic_get_old/new_crtc_state:
-> > the old/new variants only return a state if it was part of
-> > drm_atomic_state to begin with. drm_atomic_get_crtc_state() brings the
-> > crtc state into drm_atomic_state if it wasn't part of it.
->=20
-> At no point the text is referring to drm_atomic_state or any other
-> kernel data structure.
+I'd s/should/can/ here, because there are valid cases where user-space does=
+n't
+really need to test before applying. Applying a state first validates it in=
+ the
+kernel anwyays.
 
-Then it's even more confusing, because the sentence I was quoting was
-"The changes recorded in an atomic commit apply on top the current KMS
-state *in the kernel*", which is ambiguous then.
+> +flag to validate any state change before asking to apply it. If validati=
+on fails
+> +for any reason, userspace should attempt to fall back to another, perhap=
+s
+> +simpler, final state.  This allows userspace to probe for various config=
+urations
+> +without causing visible glitches on screen and without the need to undo =
+a
+> +probing change.
+> +
+> +The changes recorded in an atomic commit apply on top the current KMS st=
+ate in
+> +the kernel. Hence, the complete new KMS state is the complete old KMS st=
+ate with
+> +the committed property settings done on top. The kernel will try to avoi=
+d
+> +no-operation changes, so it is safe for userspace to send redundant prop=
+erty
+> +settings.  However, not every situation allows for no-op changes, due to=
+ the
+> +need to acquire locks for some attributes. Userspace needs to be aware t=
+hat some
+> +redundant information might result in oversynchronization issues.  No-op=
+eration
+> +changes do not count towards actually needed changes, e.g.  setting MODE=
+_ID to a
+> +different blob with identical contents as the current KMS state shall no=
+t be a
+> +modeset on its own. As a special exception for VRR needs, explicitly set=
+ting
+> +FB_ID to its current value is not a no-op.
 
-Maxime
+I'm not sure talking about FB_ID is the right thing to do here. There is
+nothing special about FB_ID in particular. For instance, setting CRTC_ID to=
+ the
+same value as before has the same effect. Talking specifically about FB_ID =
+here
+can be surprising for user-space: reading these docs, I'd assume setting
+CRTC_ID to the same value as before is a no-op, but in reality it's not.
 
---3qxpsltzimgkb2dd
-Content-Type: application/pgp-signature; name="signature.asc"
+Instead, I'd suggest explaining how referencing a plane/CRTC/connector in a=
+n
+atomic commit adds it to the new state, even if there are no effective prop=
+erty
+value changes.
 
------BEGIN PGP SIGNATURE-----
+> +A "modeset" is a change in KMS state that might enable, disable, or temp=
+orarily
+> +disrupt the emitted video signal, possibly causing visible glitches on s=
+creen. A
+> +modeset may also take considerably more time to complete than other kind=
+s of
+> +changes, and the video sink might also need time to adapt to the new sig=
+nal
+> +properties. Therefore a modeset must be explicitly allowed with the flag
+> +DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
+> +DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state chang=
+e is
+> +likely to cause visible disruption on screen and avoid such changes when=
+ end
+> +users do not expect them.
+> +
+> +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
+> +effectively change only the FB_ID property on any planes. No-operation c=
+hanges
+> +are ignored as always. Changing any other property will cause the commit=
+ to be
+> +rejected. Each driver may relax this restriction if they have guarantees=
+ that
+> +such property change doesn't cause modesets. Userspace can use TEST_ONLY=
+ commits
+> +to query the driver about this.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWmmdAAKCRDj7w1vZxhR
-xb0MAQChGpVdOkDehNkhy/zPifFcMHagclQcoMKLY4C8FwZgeQEAgnPy7SCG7WNB
-JIf40ACZLG5Jj13QUwGmz10Ul888HQQ=
-=0SXM
------END PGP SIGNATURE-----
+This doesn't 100% match reality at the moment, because core DRM now rejects=
+ any
+async commit which changes FB_ID on a non-primary plane. And there is no wa=
+y
+for drivers to relax this currently.
 
---3qxpsltzimgkb2dd--
+I'm not sure this is a good place to state such a rule. In the end, it's th=
+e
+same as always: the kernel will reject commits it can't perform.
+DRM_MODE_PAGE_FLIP_ASYNC does not need to be a special case here. Even when
+changing only FB_ID, the kernel might reject the commit (e.g. i915 does in =
+some
+cases).
