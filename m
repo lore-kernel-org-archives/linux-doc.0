@@ -1,1152 +1,297 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B5222080;
+	Fri,  1 Dec 2023 17:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bF2z+AD8"
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08151F3;
-	Fri,  1 Dec 2023 09:11:44 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D318B240005;
-	Fri,  1 Dec 2023 17:11:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701450703;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xg4BmnzCzZHjIILoOzg482tiYrV7hOMhXmJM5nBGmAg=;
-	b=bF2z+AD8SZBQM+z9qZPI0ZFs2Vm+amhP7IE3JUw3FZP3Ofs4TpshiynQnk6mOkqxo68Yow
-	6YUgiJUe8V+tqExdVjSfTuabaYFnssrO3+Ardx3E66D6/TcUtELbIgkI8DamCnd1/dGmen
-	mTlTB4qkMAOj0u+PkpGhtZvz0VnfQoBsrLG9yFbMi2GexFeFuNP8sPxDXUVbwbELGyH0Vo
-	MPHXkqqqedIcfw1gLFF2qsOh15NPZZgsG2LEass9irE6pqOXMAjgcJ3bpl9Z9C190KK1Ur
-	EHPmdV2dub62z40lPvTN2K/zsuYKCehKnGK+l50T7ZfUn6tNnSIC+je3awnotw==
-From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Fri, 01 Dec 2023 18:10:30 +0100
-Subject: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
- driver
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVH5MrTS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 049DFC433CD;
+	Fri,  1 Dec 2023 17:30:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701451800;
+	bh=UkvYIg+4pSDT+nnU/EXdPb6Otz0ErqA/UMresEDneU0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=gVH5MrTS+jja+NHle53R/mCOC3WNwwM5+OBAmW0Qd1wXhgH7nCc2asYvJjXqhX3V7
+	 UkvvhHnAiek2XgaXj1V0zMdMBHEWMU6SMhzh7eRwblNv2+xLSKGx1duRNA6LgZNhfa
+	 eTCrNwFSTIvQh57wu5dQ6qRldXgjT1VPlzOx3rhj5DN+CD2WGJUAnKrpa5r2nhJc+D
+	 S6flLxVDYnU+A+FvS521Fd7WL9BA6t9htYh+MHCd8HeYifkjeCXoplq2EFx9CCx0e4
+	 acZWJvRL4CF00dTaYYH1s1DJ0xXNC7RRjrzUJ5EwmTO1duxOqaIvRuMjwIX5pt+yda
+	 ObZ+/kiPlIAjA==
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1efb9571b13so423542fac.2;
+        Fri, 01 Dec 2023 09:29:59 -0800 (PST)
+X-Gm-Message-State: AOJu0Yx7mpFYkuCCYhU0dhgb6oaIpgN3uHD1Tct5GHLLuhYG/JL2IQoH
+	Hb90nVGSN6SelJVgLTRARG/ghoKIL+9mRWyOQyQ=
+X-Google-Smtp-Source: AGHT+IH+uaWB88pmYHvfLRMtAK3vN1C2NSBTT7C5p5pNwRZLrFnhY3Ln8KC5tHUEff7SXpVG+J8MUsIvgqUmX4SKWjg=
+X-Received: by 2002:a05:6870:4989:b0:1fa:f9a1:d3e5 with SMTP id
+ ho9-20020a056870498900b001faf9a1d3e5mr1759104oab.9.1701451799235; Fri, 01 Dec
+ 2023 09:29:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
-References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
-In-Reply-To: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>, 
- Kory Maincent <kory.maincent@bootlin.com>
-X-Mailer: b4 0.12.4
-X-GND-Sasl: kory.maincent@bootlin.com
+References: <20231130203358.879796-1-sjg@chromium.org> <20231130203358.879796-3-sjg@chromium.org>
+In-Reply-To: <20231130203358.879796-3-sjg@chromium.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 2 Dec 2023 02:29:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARABFKSqY=f1uDGem2UqkTwGUQ9q3rDZ4NbXyuEAtsLdw@mail.gmail.com>
+Message-ID: <CAK7LNARABFKSqY=f1uDGem2UqkTwGUQ9q3rDZ4NbXyuEAtsLdw@mail.gmail.com>
+Subject: Re: [PATCH v8 2/2] arm64: boot: Support Flat Image Tree
+To: Simon Glass <sjg@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, lkml <linux-kernel@vger.kernel.org>, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Tom Rini <trini@konsulko.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, 
+	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a new driver for the PD692x0 I2C Power Sourcing Equipment controller.
-This driver only support i2c communication for now.
+On Fri, Dec 1, 2023 at 5:34=E2=80=AFAM Simon Glass <sjg@chromium.org> wrote=
+:
+>
+> Add a script which produces a Flat Image Tree (FIT), a single file
+> containing the built kernel and associated devicetree files.
+> Compression defaults to gzip which gives a good balance of size and
+> performance.
+>
+> The files compress from about 86MB to 24MB using this approach.
+>
+> The FIT can be used by bootloaders which support it, such as U-Boot
+> and Linuxboot. It permits automatic selection of the correct
+> devicetree, matching the compatible string of the running board with
+> the closest compatible string in the FIT. There is no need for
+> filenames or other workarounds.
+>
+> Add a 'make image.fit' build target for arm64, as well.
+>
+> The FIT can be examined using 'dumpimage -l'.
+>
+> This features requires pylibfdt (use 'pip install libfdt'). It also
+> requires compression utilities for the algorithm being used. Supported
+> compression options are the same as the Image.xxx files. For now there
+> is no way to change the compression other than by editing the rule for
+> $(obj)/image.fit
+>
+> While FIT supports a ramdisk / initrd, no attempt is made to support
+> this here, since it must be built separately from the Linux build.
+>
+> Signed-off-by: Simon Glass <sjg@chromium.org>
+> ---
+>
+> Changes in v8:
+> - Drop compatible string in FDT node
+> - Correct sorting of MAINTAINERS to before ARM64 PORT
+> - Turn compress part of the make_fit.py comment in to a sentence
+> - Add two blank lines before parse_args() and setup_fit()
+> - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> - Add 'mkimage' details Documentation/process/changes.rst
+> - Allow changing the compression used
+> - Tweak cover letter since there is only one clean-up patch
+>
+> Changes in v7:
+> - Add Image as a dependency of image.fit
+> - Drop kbuild tag
+> - Add dependency on dtbs
+> - Drop unnecessary path separator for dtbs
+> - Rebase to -next
+>
+> Changes in v5:
+> - Drop patch previously applied
+> - Correct compression rule which was broken in v4
+>
+> Changes in v4:
+> - Use single quotes for UIMAGE_NAME
+>
+> Changes in v3:
+> - Drop temporary file image.itk
+> - Drop patch 'Use double quotes for image name'
+> - Drop double quotes in use of UIMAGE_NAME
+> - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> - Avoid hard-coding "arm64" for the DT architecture
+>
+> Changes in v2:
+> - Drop patch previously applied
+> - Add .gitignore file
+> - Move fit rule to Makefile.lib using an intermediate file
+> - Drop dependency on CONFIG_EFI_ZBOOT
+> - Pick up .dtb files separately from the kernel
+> - Correct pylint too-many-args warning for write_kernel()
+> - Include the kernel image in the file count
+> - Add a pointer to the FIT spec and mention of its wide industry usage
+> - Mention the kernel version in the FIT description
+>
+>  Documentation/process/changes.rst |   9 +
+>  MAINTAINERS                       |   7 +
+>  arch/arm64/Makefile               |   7 +-
+>  arch/arm64/boot/.gitignore        |   1 +
+>  arch/arm64/boot/Makefile          |   9 +-
+>  scripts/Makefile.lib              |  13 ++
+>  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
+>  7 files changed, 334 insertions(+), 3 deletions(-)
+>  create mode 100755 scripts/make_fit.py
+>
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
+anges.rst
+> index bb96ca0f774b..cad51bd5bd62 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         1.7              sphinx-build --=
+version
+>  cpio                   any              cpio --version
+>  GNU tar                1.28             tar --version
+>  gtags (optional)       6.6.5            gtags --version
+> +mkimage (optional)     2017.01          mkimage --version
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+>
+>  .. [#f1] Sphinx is needed only to build the Kernel documentation
+> @@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6.6.5 o=
+r later to generate
+>  tag files through ``make gtags``.  This is due to its use of the gtags
+>  ``-C (--directory)`` flag.
+>
+> +mkimage
+> +-------
+> +
+> +This tool is used when building a Flat Image Tree (FIT), commonly used o=
+n ARM
+> +platforms. The tool is available via the ``u-boot-tools`` package or can=
+ be
+> +built from the U-Boot source code. See the instructions at
+> +https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-li=
+nux
+> +
+>  System utilities
+>  ****************
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 14587be87a33..9f3eb476ece4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3037,6 +3037,13 @@ F:       drivers/mmc/host/sdhci-of-arasan.c
+>  N:     zynq
+>  N:     xilinx
+>
+> +ARM64 FIT SUPPORT
+> +M:     Simon Glass <sjg@chromium.org>
+> +L:     linux-arm-kernel@lists.infradead.org (moderated for non-subscribe=
+rs)
+> +S:     Maintained
+> +F:     arch/arm64/boot/Makefile
+> +F:     scripts/make_fit.py
+> +
+>  ARM64 PORT (AARCH64 ARCHITECTURE)
+>  M:     Catalin Marinas <catalin.marinas@arm.com>
+>  M:     Will Deacon <will@kernel.org>
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index 1bd4fae6e806..6b893dc454b7 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -150,7 +150,7 @@ libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/firmw=
+are/efi/libstub/lib.a
+>  # Default target when executing plain make
+>  boot           :=3D arch/arm64/boot
+>
+> -BOOT_TARGETS   :=3D Image vmlinuz.efi
+> +BOOT_TARGETS   :=3D Image vmlinuz.efi image.fit
+>
+>  PHONY +=3D $(BOOT_TARGETS)
+>
+> @@ -162,7 +162,9 @@ endif
+>
+>  all:   $(notdir $(KBUILD_IMAGE))
+>
+> -vmlinuz.efi: Image
+> +image.fit: dtbs
+> +
+> +vmlinuz.efi image.fit: Image
+>  $(BOOT_TARGETS): vmlinux
+>         $(Q)$(MAKE) $(build)=3D$(boot) $(boot)/$@
+>
+> @@ -215,6 +217,7 @@ virtconfig:
+>  define archhelp
+>    echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/Im=
+age.gz)'
+>    echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boot/=
+Image)'
+> +  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/image.fit)=
+'
+>    echo  '  install       - Install uncompressed kernel'
+>    echo  '  zinstall      - Install compressed kernel'
+>    echo  '                  Install using (your) ~/bin/installkernel or'
+> diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignore
+> index af5dc61f8b43..abaae9de1bdd 100644
+> --- a/arch/arm64/boot/.gitignore
+> +++ b/arch/arm64/boot/.gitignore
+> @@ -2,3 +2,4 @@
+>  Image
+>  Image.gz
+>  vmlinuz*
+> +image.fit
+> diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
+> index 1761f5972443..62efb533a9bc 100644
+> --- a/arch/arm64/boot/Makefile
+> +++ b/arch/arm64/boot/Makefile
+> @@ -16,7 +16,8 @@
+>
+>  OBJCOPYFLAGS_Image :=3D-O binary -R .note -R .note.gnu.build-id -R .comm=
+ent -S
+>
+> -targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo Ima=
+ge.zst
+> +targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo \
+> +       Image.zst image.fit
+>
+>  $(obj)/Image: vmlinux FORCE
+>         $(call if_changed,objcopy)
+> @@ -39,6 +40,12 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
+>  $(obj)/Image.zst: $(obj)/Image FORCE
+>         $(call if_changed,zstd)
+>
+> +# Use this to override the compression algorithm
+> +FIT_COMPRESS ?=3D gzip
+> +
+> +$(obj)/image.fit: $(obj)/Image FORCE
+> +       $(call cmd,fit,$(FIT_COMPRESS))
 
-Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
----
 
-This driver is based on the patch merged in an immutable branch from Jakub
-repo. It is Tagged at:
-git://git.kernel.org/pub/scm/linux/kernel/git/kuba/linux.git firmware_loader-add-upload-error
 
-Change in v2:
-- Drop of_match_ptr
-- Follow the "c33" PoE prefix naming change.
-- Remove unused delay_recv variable. Then, remove struct pd692x0_msg_content
-  which is similar to struct pd692x0_msg.
-- Fix a weird sleep loop.
-- Improve pd692x0_recv_msg for better readability.
-- Fix a warning reported by Simon on a pd692x0_fw_write_line call.
----
- MAINTAINERS                  |    1 +
- drivers/net/pse-pd/Kconfig   |   11 +
- drivers/net/pse-pd/Makefile  |    1 +
- drivers/net/pse-pd/pd692x0.c | 1025 ++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 1038 insertions(+)
+Again, $(FIT_COMPRESS) is not used anywhere.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b746684f3fd3..3cbafca0cdf4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14240,6 +14240,7 @@ M:	Kory Maincent <kory.maincent@bootlin.com>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/pse-pd/microchip,pd692x0.yaml
-+F:	drivers/net/pse-pd/pd692x0.c
- 
- MICROCHIP POLARFIRE FPGA DRIVERS
- M:	Conor Dooley <conor.dooley@microchip.com>
-diff --git a/drivers/net/pse-pd/Kconfig b/drivers/net/pse-pd/Kconfig
-index 687dec49c1e1..e3a6ba669f20 100644
---- a/drivers/net/pse-pd/Kconfig
-+++ b/drivers/net/pse-pd/Kconfig
-@@ -20,4 +20,15 @@ config PSE_REGULATOR
- 	  Sourcing Equipment without automatic classification support. For
- 	  example for basic implementation of PoDL (802.3bu) specification.
- 
-+config PSE_PD692X0
-+	tristate "PD692X0 PSE controller"
-+	depends on I2C
-+	select FW_UPLOAD
-+	help
-+	  This module provides support for PD692x0 regulator based Ethernet
-+	  Power Sourcing Equipment.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called pd692x0.
-+
- endif
-diff --git a/drivers/net/pse-pd/Makefile b/drivers/net/pse-pd/Makefile
-index 1b8aa4c70f0b..9c12c4a65730 100644
---- a/drivers/net/pse-pd/Makefile
-+++ b/drivers/net/pse-pd/Makefile
-@@ -4,3 +4,4 @@
- obj-$(CONFIG_PSE_CONTROLLER) += pse_core.o
- 
- obj-$(CONFIG_PSE_REGULATOR) += pse_regulator.o
-+obj-$(CONFIG_PSE_PD692X0) += pd692x0.o
-diff --git a/drivers/net/pse-pd/pd692x0.c b/drivers/net/pse-pd/pd692x0.c
-new file mode 100644
-index 000000000000..6d921dfcfb07
---- /dev/null
-+++ b/drivers/net/pse-pd/pd692x0.c
-@@ -0,0 +1,1025 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Driver for the Microchip PD692X0 PoE PSE Controller driver (I2C bus)
-+ *
-+ * Copyright (c) 2023 Bootlin, Kory Maincent <kory.maincent@bootlin.com>
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/pse-pd/pse.h>
-+#include <linux/i2c.h>
-+#include <linux/delay.h>
-+#include <linux/firmware.h>
-+
-+#define PD692X0_PSE_NAME "pd692x0_pse"
-+
-+#define PD692X0_MAX_LOGICAL_PORTS	48
-+#define PD692X0_MAX_HW_PORTS	96
-+
-+#define PD69200_BT_PROD_VER	24
-+#define PD69210_BT_PROD_VER	26
-+#define PD69220_BT_PROD_VER	29
-+
-+#define PD692X0_FW_MAJ_VER	3
-+#define PD692X0_FW_MIN_VER	5
-+#define PD692X0_FW_PATCH_VER	5
-+
-+enum pd692x0_fw_state {
-+	PD692X0_FW_UNKNOWN,
-+	PD692X0_FW_OK,
-+	PD692X0_FW_BROKEN,
-+	PD692X0_FW_NEED_UPDATE,
-+	PD692X0_FW_PREPARE,
-+	PD692X0_FW_WRITE,
-+	PD692X0_FW_COMPLETE,
-+};
-+
-+struct pd692x0_msg {
-+	u8 key;
-+	u8 echo;
-+	u8 sub[3];
-+	u8 data[8];
-+	__be16 chksum;
-+} __packed;
-+
-+struct pd692x0_msg_ver {
-+	u8 prod;
-+	u8 maj_sw_ver;
-+	u8 min_sw_ver;
-+	u8 pa_sw_ver;
-+	u8 param;
-+	u8 build;
-+};
-+
-+enum {
-+	PD692X0_KEY_CMD,
-+	PD692X0_KEY_PRG,
-+	PD692X0_KEY_REQ,
-+	PD692X0_KEY_TLM,
-+	PD692X0_KEY_TEST,
-+	PD692X0_KEY_REPORT = 0x52
-+};
-+
-+enum {
-+	PD692X0_MSG_RESET,
-+	PD692X0_MSG_GET_SW_VER,
-+	PD692X0_MSG_SET_TMP_PORT_MATRIX,
-+	PD692X0_MSG_PRG_PORT_MATRIX,
-+	PD692X0_MSG_SET_PORT_PARAM,
-+	PD692X0_MSG_GET_PORT_STATUS,
-+	PD692X0_MSG_DOWNLOAD_CMD,
-+
-+	/* add new message above here */
-+	PD692X0_MSG_CNT
-+};
-+
-+struct pd692x0_priv {
-+	struct i2c_client *client;
-+	struct pse_controller_dev pcdev;
-+
-+	enum pd692x0_fw_state fw_state;
-+	struct fw_upload *fwl;
-+	bool cancel_request;
-+
-+	u8 msg_id;
-+	bool last_cmd_key;
-+	unsigned long last_cmd_key_time;
-+
-+	enum ethtool_c33_pse_admin_state admin_state[PD692X0_MAX_LOGICAL_PORTS];
-+};
-+
-+/* Template list of communication messages. The non-null bytes defined here
-+ * constitute the fixed portion of the messages. The remaining bytes will
-+ * be configured later within the functions. Refer to the "PD692x0 BT Serial
-+ * Communication Protocol User Guide" for comprehensive details on messages
-+ * content.
-+ */
-+static const struct pd692x0_msg pd692x0_msg_template_list[PD692X0_MSG_CNT] = {
-+	[PD692X0_MSG_RESET] = {
-+		.key = PD692X0_KEY_CMD,
-+		.sub = {0x07, 0x55, 0x00},
-+		.data = {0x55, 0x00, 0x55, 0x4e,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
-+	[PD692X0_MSG_GET_SW_VER] = {
-+		.key = PD692X0_KEY_REQ,
-+		.sub = {0x07, 0x1e, 0x21},
-+		.data = {0x4e, 0x4e, 0x4e, 0x4e,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
-+	[PD692X0_MSG_SET_TMP_PORT_MATRIX] = {
-+		.key = PD692X0_KEY_CMD,
-+		.sub	 = {0x05, 0x43},
-+		.data = {   0, 0x4e, 0x4e, 0x4e,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
-+	[PD692X0_MSG_PRG_PORT_MATRIX] = {
-+		.key = PD692X0_KEY_CMD,
-+		.sub = {0x07, 0x43, 0x4e},
-+		.data = {0x4e, 0x4e, 0x4e, 0x4e,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
-+	[PD692X0_MSG_SET_PORT_PARAM] = {
-+		.key = PD692X0_KEY_CMD,
-+		.sub = {0x05, 0xc0},
-+		.data = {   0, 0xff, 0xff, 0xff,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
-+	[PD692X0_MSG_GET_PORT_STATUS] = {
-+		.key = PD692X0_KEY_REQ,
-+		.sub = {0x05, 0xc1},
-+		.data = {0x4e, 0x4e, 0x4e, 0x4e,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
-+	[PD692X0_MSG_DOWNLOAD_CMD] = {
-+		.key = PD692X0_KEY_PRG,
-+		.sub = {0xff, 0x99, 0x15},
-+		.data = {0x16, 0x16, 0x99, 0x4e,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
-+};
-+
-+static u8 pd692x0_build_msg(struct pd692x0_msg *msg, u8 echo)
-+{
-+	u8 *data = (u8 *)msg;
-+	u16 chksum = 0;
-+	int i;
-+
-+	msg->echo = echo++;
-+	if (echo == 0xff)
-+		echo = 0;
-+
-+	for (i = 0; i < sizeof(*msg) - sizeof(msg->chksum); i++)
-+		chksum += data[i];
-+
-+	msg->chksum = cpu_to_be16(chksum);
-+
-+	return echo;
-+}
-+
-+static int pd692x0_send_msg(struct pd692x0_priv *priv, struct pd692x0_msg *msg)
-+{
-+	const struct i2c_client *client = priv->client;
-+	int ret;
-+
-+	if (msg->key == PD692X0_KEY_CMD && priv->last_cmd_key) {
-+		int cmd_msleep;
-+
-+		cmd_msleep = 30 - jiffies_to_msecs(jiffies - priv->last_cmd_key_time);
-+		if (cmd_msleep > 0)
-+			msleep(cmd_msleep);
-+	}
-+
-+	/* Add echo and checksum bytes to the message */
-+	priv->msg_id = pd692x0_build_msg(msg, priv->msg_id);
-+
-+	ret = i2c_master_send(client, (u8 *)msg, sizeof(*msg));
-+	if (ret != sizeof(*msg))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int pd692x0_reset(struct pd692x0_priv *priv)
-+{
-+	const struct i2c_client *client = priv->client;
-+	struct pd692x0_msg msg, buf = {0};
-+	int ret;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_RESET];
-+	ret = pd692x0_send_msg(priv, &msg);
-+	if (ret) {
-+		dev_err(&client->dev,
-+			"Failed to reset the controller (%pe)\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	msleep(30);
-+
-+	ret = i2c_master_recv(client, (u8 *)&buf, sizeof(buf));
-+	if (ret != sizeof(buf))
-+		return ret < 0 ? ret : -EIO;
-+
-+	/* Is the reply a successful report message */
-+	if (buf.key != PD692X0_KEY_REPORT || buf.sub[0] || buf.sub[1])
-+		return -EIO;
-+
-+	msleep(300);
-+
-+	ret = i2c_master_recv(client, (u8 *)&buf, sizeof(buf));
-+	if (ret != sizeof(buf))
-+		return ret < 0 ? ret : -EIO;
-+
-+	/* Is the boot status without error */
-+	if (buf.key != 0x03 || buf.echo != 0xff || buf.sub[0] & 0x1) {
-+		dev_err(&client->dev, "PSE controller error\n");
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int pd692x0_try_recv_msg(const struct i2c_client *client,
-+				struct pd692x0_msg *msg,
-+				struct pd692x0_msg *buf)
-+{
-+	msleep(30);
-+
-+	memset(buf, 0, sizeof(*buf));
-+	i2c_master_recv(client, (u8 *)buf, sizeof(*buf));
-+	if (buf->key)
-+		return 1;
-+
-+	msleep(100);
-+
-+	memset(buf, 0, sizeof(*buf));
-+	i2c_master_recv(client, (u8 *)buf, sizeof(*buf));
-+	if (buf->key)
-+		return 1;
-+
-+	return 0;
-+}
-+
-+/* Implementation of I2C communication, specifically addressing scenarios
-+ * involving communication loss. Refer to the "Synchronization During
-+ * Communication Loss" section in the Communication Protocol document for
-+ * further details.
-+ */
-+static int pd692x0_recv_msg(struct pd692x0_priv *priv,
-+			    struct pd692x0_msg *msg,
-+			    struct pd692x0_msg *buf)
-+{
-+	const struct i2c_client *client = priv->client;
-+	int ret;
-+
-+	ret = pd692x0_try_recv_msg(client, msg, buf);
-+	if (ret)
-+		goto out_success;
-+
-+	dev_warn(&client->dev,
-+		 "Communication lost, rtnl is locked until communication is back!");
-+
-+	ret = pd692x0_send_msg(priv, msg);
-+	if (ret)
-+		return ret;
-+
-+	ret = pd692x0_try_recv_msg(client, msg, buf);
-+	if (ret)
-+		goto out_success;
-+
-+	msleep(10000);
-+
-+	ret = pd692x0_send_msg(priv, msg);
-+	if (ret)
-+		return ret;
-+
-+	ret = pd692x0_try_recv_msg(client, msg, buf);
-+	if (ret)
-+		goto out_success;
-+
-+	return pd692x0_reset(priv);
-+
-+out_success:
-+	if (msg->key == PD692X0_KEY_CMD) {
-+		priv->last_cmd_key = true;
-+		priv->last_cmd_key_time = jiffies;
-+	} else {
-+		priv->last_cmd_key = false;
-+	}
-+
-+	return 0;
-+}
-+
-+static int pd692x0_sendrecv_msg(struct pd692x0_priv *priv,
-+				struct pd692x0_msg *msg,
-+				struct pd692x0_msg *buf)
-+{
-+	struct device *dev = &priv->client->dev;
-+	int ret;
-+
-+	ret = pd692x0_send_msg(priv, msg);
-+	if (ret)
-+		return ret;
-+
-+	ret = pd692x0_recv_msg(priv, msg, buf);
-+	if (ret)
-+		return ret;
-+
-+	if (msg->echo != buf->echo) {
-+		dev_err(dev, "Wrong match in message ID\n");
-+		return -EIO;
-+	}
-+
-+	/* If the reply is a report message is it successful */
-+	if (buf->key == PD692X0_KEY_REPORT &&
-+	    (buf->sub[0] || buf->sub[1])) {
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static struct pd692x0_priv *to_pd692x0_priv(struct pse_controller_dev *pcdev)
-+{
-+	return container_of(pcdev, struct pd692x0_priv, pcdev);
-+}
-+
-+static int pd692x0_fw_unavailable(struct pd692x0_priv *priv)
-+{
-+	switch (priv->fw_state) {
-+	case PD692X0_FW_OK:
-+		return 0;
-+	case PD692X0_FW_PREPARE:
-+	case PD692X0_FW_WRITE:
-+	case PD692X0_FW_COMPLETE:
-+		dev_err(&priv->client->dev, "Firmware update in progress!\n");
-+		return -EBUSY;
-+	case PD692X0_FW_BROKEN:
-+	case PD692X0_FW_NEED_UPDATE:
-+	default:
-+		dev_err(&priv->client->dev,
-+			"Firmware issue. Please update it!\n");
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int pd692x0_ethtool_set_config(struct pse_controller_dev *pcdev,
-+				      unsigned long id,
-+				      struct netlink_ext_ack *extack,
-+				      const struct pse_control_config *config)
-+{
-+	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
-+	struct pd692x0_msg msg, buf = {0};
-+	int ret;
-+
-+	ret = pd692x0_fw_unavailable(priv);
-+	if (ret)
-+		return ret;
-+
-+	if (priv->admin_state[id] == config->c33_admin_control)
-+		return 0;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_SET_PORT_PARAM];
-+	switch (config->c33_admin_control) {
-+	case ETHTOOL_C33_PSE_ADMIN_STATE_ENABLED:
-+		msg.data[0] = 0x1;
-+		break;
-+	case ETHTOOL_C33_PSE_ADMIN_STATE_DISABLED:
-+		msg.data[0] = 0x0;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	msg.sub[2] = id;
-+	ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	priv->admin_state[id] = config->c33_admin_control;
-+
-+	return 0;
-+}
-+
-+static int pd692x0_ethtool_get_status(struct pse_controller_dev *pcdev,
-+				      unsigned long id,
-+				      struct netlink_ext_ack *extack,
-+				      struct pse_control_status *status)
-+{
-+	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
-+	struct pd692x0_msg msg, buf = {0};
-+	int ret;
-+
-+	ret = pd692x0_fw_unavailable(priv);
-+	if (ret)
-+		return ret;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_PORT_STATUS];
-+	msg.sub[2] = id;
-+	ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Compare Port Status (Communication Protocol Document par. 7.1) */
-+	if ((buf.sub[0] & 0xf0) == 0x80 || (buf.sub[0] & 0xf0) == 0x90)
-+		status->c33_pw_status = ETHTOOL_C33_PSE_PW_D_STATUS_DELIVERING;
-+	else if (buf.sub[0] == 0x1b || buf.sub[0] == 0x22)
-+		status->c33_pw_status = ETHTOOL_C33_PSE_PW_D_STATUS_SEARCHING;
-+	else if (buf.sub[0] == 0x12)
-+		status->c33_pw_status = ETHTOOL_C33_PSE_PW_D_STATUS_FAULT;
-+	else
-+		status->c33_pw_status = ETHTOOL_C33_PSE_PW_D_STATUS_DISABLED;
-+
-+	if (buf.sub[1])
-+		status->c33_admin_state = ETHTOOL_C33_PSE_ADMIN_STATE_ENABLED;
-+	else
-+		status->c33_admin_state = ETHTOOL_C33_PSE_ADMIN_STATE_DISABLED;
-+
-+	priv->admin_state[id] = status->c33_admin_state;
-+
-+	return 0;
-+}
-+
-+static struct pd692x0_msg_ver pd692x0_get_sw_version(struct pd692x0_priv *priv)
-+{
-+	struct device *dev = &priv->client->dev;
-+	struct pd692x0_msg msg, buf = {0};
-+	struct pd692x0_msg_ver ver = {0};
-+	int ret;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_SW_VER];
-+	ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to get PSE version (%pe)\n", ERR_PTR(ret));
-+		return ver;
-+	}
-+
-+	/* Extract version from the message */
-+	ver.prod = buf.sub[2];
-+	ver.maj_sw_ver = (buf.data[0] << 8 | buf.data[1]) / 100;
-+	ver.min_sw_ver = ((buf.data[0] << 8 | buf.data[1]) / 10) % 10;
-+	ver.pa_sw_ver = (buf.data[0] << 8 | buf.data[1]) % 10;
-+	ver.param = buf.data[2];
-+	ver.build = buf.data[3];
-+
-+	return ver;
-+}
-+
-+static const struct pse_controller_ops pd692x0_ops = {
-+	.ethtool_get_status = pd692x0_ethtool_get_status,
-+	.ethtool_set_config = pd692x0_ethtool_set_config,
-+};
-+
-+struct matrix {
-+	u8 hw_port_a;
-+	u8 hw_port_b;
-+};
-+
-+static int
-+pd692x0_set_ports_matrix(struct pd692x0_priv *priv,
-+			 const struct matrix port_matrix[PD692X0_MAX_LOGICAL_PORTS])
-+{
-+	struct pd692x0_msg msg, buf;
-+	int ret, i;
-+
-+	/* Write temporary Matrix */
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_SET_TMP_PORT_MATRIX];
-+	for (i = 0; i < PD692X0_MAX_LOGICAL_PORTS; i++) {
-+		msg.sub[2] = i;
-+		msg.data[0] = port_matrix[i].hw_port_a;
-+		msg.data[1] = port_matrix[i].hw_port_b;
-+
-+		ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	/* Program Matrix */
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_PRG_PORT_MATRIX];
-+	ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int
-+pd692x0_get_of_matrix(struct device *dev,
-+		      struct matrix port_matrix[PD692X0_MAX_LOGICAL_PORTS])
-+{
-+	u32 val[PD692X0_MAX_LOGICAL_PORTS * 3];
-+	int ret, i, ports_matrix_size;
-+
-+	ports_matrix_size = device_property_count_u32(dev, "ports-matrix");
-+	if (ports_matrix_size <= 0)
-+		return -EINVAL;
-+	if (ports_matrix_size % 3 ||
-+	    ports_matrix_size > PD692X0_MAX_LOGICAL_PORTS * 3) {
-+		dev_err(dev, "Not valid ports-matrix property size: %d\n",
-+			ports_matrix_size);
-+		return -EINVAL;
-+	}
-+
-+	ret = device_property_read_u32_array(dev, "ports-matrix", val,
-+					     ports_matrix_size);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Init Matrix */
-+	for (i = 0; i < PD692X0_MAX_LOGICAL_PORTS; i++) {
-+		port_matrix[i].hw_port_a = 0xff;
-+		port_matrix[i].hw_port_b = 0xff;
-+	}
-+
-+	/* Update with values from DT */
-+	for (i = 0; i < ports_matrix_size; i += 3) {
-+		unsigned int logical_port;
-+
-+		if (val[i] >= PD692X0_MAX_LOGICAL_PORTS) {
-+			dev_err(dev, "Not valid ports-matrix property\n");
-+			return -EINVAL;
-+		}
-+		logical_port = val[i];
-+
-+		if (val[i + 1] < PD692X0_MAX_HW_PORTS)
-+			port_matrix[logical_port].hw_port_a = val[i + 1];
-+
-+		if (val[i + 2] < PD692X0_MAX_HW_PORTS)
-+			port_matrix[logical_port].hw_port_b = val[i + 2];
-+	}
-+
-+	return 0;
-+}
-+
-+static int pd692x0_update_matrix(struct pd692x0_priv *priv)
-+{
-+	struct matrix port_matrix[PD692X0_MAX_LOGICAL_PORTS];
-+	struct device *dev = &priv->client->dev;
-+	int ret;
-+
-+	ret = pd692x0_get_of_matrix(dev, port_matrix);
-+	if (ret < 0) {
-+		dev_warn(dev,
-+			 "Unable to parse port-matrix, saved matrix will be used\n");
-+		return 0;
-+	}
-+
-+	ret = pd692x0_set_ports_matrix(priv, port_matrix);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+#define PD692X0_FW_LINE_MAX_SZ 0xff
-+static int pd692x0_fw_get_next_line(const u8 *data,
-+				    char *line, size_t size)
-+{
-+	size_t line_size;
-+	int i;
-+
-+	line_size = min_t(size_t, size, (size_t)PD692X0_FW_LINE_MAX_SZ);
-+
-+	memset(line, 0, PD692X0_FW_LINE_MAX_SZ);
-+	for (i = 0; i < line_size - 1; i++) {
-+		if (*data == '\r' && *(data + 1) == '\n') {
-+			line[i] = '\r';
-+			line[i + 1] = '\n';
-+			return i + 2;
-+		}
-+		line[i] = *data;
-+		data++;
-+	}
-+
-+	return 0;
-+}
-+
-+static enum fw_upload_err
-+pd692x0_fw_recv_resp(const struct i2c_client *client, unsigned long ms_timeout,
-+		     const char *msg_ok, unsigned int msg_size)
-+{
-+	/* Maximum controller response size */
-+	char fw_msg_buf[5] = {0};
-+	unsigned long timeout;
-+	int ret;
-+
-+	if (msg_size > sizeof(fw_msg_buf))
-+		return FW_UPLOAD_ERR_RW_ERROR;
-+
-+	/* Read until we get something */
-+	timeout = msecs_to_jiffies(ms_timeout) + jiffies;
-+	while (true) {
-+		if (time_is_before_jiffies(timeout))
-+			return FW_UPLOAD_ERR_TIMEOUT;
-+
-+		ret = i2c_master_recv(client, fw_msg_buf, 1);
-+		if (ret < 0 || *fw_msg_buf == 0) {
-+			usleep_range(1000, 2000);
-+			continue;
-+		} else {
-+			break;
-+		}
-+	}
-+
-+	/* Read remaining characters */
-+	ret = i2c_master_recv(client, fw_msg_buf + 1, msg_size - 1);
-+	if (!strncmp(fw_msg_buf, msg_ok, msg_size)) {
-+		return FW_UPLOAD_ERR_NONE;
-+	} else {
-+		dev_err(&client->dev,
-+			"Wrong FW download process answer (%*pE)\n",
-+			msg_size, fw_msg_buf);
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+}
-+
-+static int pd692x0_fw_write_line(const struct i2c_client *client,
-+				 const char line[PD692X0_FW_LINE_MAX_SZ],
-+				 const bool last_line)
-+{
-+	int ret;
-+
-+	while (*line != 0) {
-+		ret = i2c_master_send(client, line, 1);
-+		if (ret < 0)
-+			return FW_UPLOAD_ERR_RW_ERROR;
-+		line++;
-+	}
-+
-+	if (last_line) {
-+		ret = pd692x0_fw_recv_resp(client, 100, "TP\r\n",
-+					   sizeof("TP\r\n") - 1);
-+		if (ret)
-+			return ret;
-+	} else {
-+		ret = pd692x0_fw_recv_resp(client, 100, "T*\r\n",
-+					   sizeof("T*\r\n") - 1);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err pd692x0_fw_reset(const struct i2c_client *client)
-+{
-+	const struct pd692x0_msg zero = {0};
-+	struct pd692x0_msg buf = {0};
-+	unsigned long timeout;
-+	char cmd[] = "RST";
-+	int ret;
-+
-+	ret = i2c_master_send(client, cmd, strlen(cmd));
-+	if (ret < 0) {
-+		dev_err(&client->dev,
-+			"Failed to reset the controller (%pe)\n",
-+			ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	timeout = msecs_to_jiffies(10000) + jiffies;
-+	while (true) {
-+		if (time_is_before_jiffies(timeout))
-+			return FW_UPLOAD_ERR_TIMEOUT;
-+
-+		ret = i2c_master_recv(client, (u8 *)&buf, sizeof(buf));
-+		if (ret < 0 ||
-+		    !memcmp(&buf, &zero, sizeof(buf)))
-+			usleep_range(1000, 2000);
-+		else
-+			break;
-+	}
-+
-+	/* Is the reply a successful report message */
-+	if (buf.key != PD692X0_KEY_TLM || buf.echo != 0xff ||
-+	    buf.sub[0] & 0x01) {
-+		dev_err(&client->dev, "PSE controller error\n");
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	/* Is the firmware operational */
-+	if (buf.sub[0] & 0x02) {
-+		dev_err(&client->dev,
-+			"PSE firmware error. Please update it.\n");
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err pd692x0_fw_prepare(struct fw_upload *fwl,
-+					     const u8 *data, u32 size)
-+{
-+	struct pd692x0_priv *priv = fwl->dd_handle;
-+	const struct i2c_client *client = priv->client;
-+	enum pd692x0_fw_state last_fw_state;
-+	int ret;
-+
-+	priv->cancel_request = false;
-+	last_fw_state = priv->fw_state;
-+
-+	priv->fw_state = PD692X0_FW_PREPARE;
-+
-+	/* Enter program mode */
-+	if (last_fw_state == PD692X0_FW_BROKEN) {
-+		const char *msg = "ENTR";
-+		const char *c;
-+
-+		c = msg;
-+		do {
-+			ret = i2c_master_send(client, c, 1);
-+			if (ret < 0)
-+				return FW_UPLOAD_ERR_RW_ERROR;
-+			if (*(c + 1))
-+				usleep_range(10000, 20000);
-+		} while (*(++c));
-+	} else {
-+		struct pd692x0_msg msg, buf;
-+
-+		msg = pd692x0_msg_template_list[PD692X0_MSG_DOWNLOAD_CMD];
-+		ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+		if (ret < 0) {
-+			dev_err(&client->dev,
-+				"Failed to enter programming mode (%pe)\n",
-+				ERR_PTR(ret));
-+			return FW_UPLOAD_ERR_RW_ERROR;
-+		}
-+	}
-+
-+	ret = pd692x0_fw_recv_resp(client, 100, "TPE\r\n", sizeof("TPE\r\n") - 1);
-+	if (ret)
-+		goto err_out;
-+
-+	if (priv->cancel_request) {
-+		ret = FW_UPLOAD_ERR_CANCELED;
-+		goto err_out;
-+	}
-+
-+	return FW_UPLOAD_ERR_NONE;
-+
-+err_out:
-+	pd692x0_fw_reset(priv->client);
-+	priv->fw_state = last_fw_state;
-+	return ret;
-+}
-+
-+static enum fw_upload_err pd692x0_fw_write(struct fw_upload *fwl,
-+					   const u8 *data, u32 offset,
-+					   u32 size, u32 *written)
-+{
-+	struct pd692x0_priv *priv = fwl->dd_handle;
-+	char line[PD692X0_FW_LINE_MAX_SZ];
-+	const struct i2c_client *client;
-+	int ret, i;
-+	char cmd;
-+
-+	client = priv->client;
-+	priv->fw_state = PD692X0_FW_WRITE;
-+
-+	/* Erase */
-+	cmd = 'E';
-+	ret = i2c_master_send(client, &cmd, 1);
-+	if (ret < 0) {
-+		dev_err(&client->dev,
-+			"Failed to boot programming mode (%pe)\n",
-+			ERR_PTR(ret));
-+		return FW_UPLOAD_ERR_RW_ERROR;
-+	}
-+
-+	ret = pd692x0_fw_recv_resp(client, 100, "TOE\r\n", sizeof("TOE\r\n") - 1);
-+	if (ret)
-+		return ret;
-+
-+	ret = pd692x0_fw_recv_resp(client, 5000, "TE\r\n", sizeof("TE\r\n") - 1);
-+	if (ret)
-+		dev_warn(&client->dev,
-+			 "Failed to erase internal memory, however still try to write Firmware\n");
-+
-+	ret = pd692x0_fw_recv_resp(client, 100, "TPE\r\n", sizeof("TPE\r\n") - 1);
-+	if (ret)
-+		dev_warn(&client->dev,
-+			 "Failed to erase internal memory, however still try to write Firmware\n");
-+
-+	if (priv->cancel_request)
-+		return FW_UPLOAD_ERR_CANCELED;
-+
-+	/* Program */
-+	cmd = 'P';
-+	ret = i2c_master_send(client, &cmd, sizeof(char));
-+	if (ret < 0) {
-+		dev_err(&client->dev,
-+			"Failed to boot programming mode (%pe)\n",
-+			ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	ret = pd692x0_fw_recv_resp(client, 100, "TOP\r\n", sizeof("TOP\r\n") - 1);
-+	if (ret)
-+		return ret;
-+
-+	i = 0;
-+	while (i < size) {
-+		ret = pd692x0_fw_get_next_line(data, line, size - i);
-+		if (!ret) {
-+			ret = FW_UPLOAD_ERR_FW_INVALID;
-+			goto err;
-+		}
-+
-+		i += ret;
-+		data += ret;
-+		if (line[0] == 'S' && line[1] == '0') {
-+			continue;
-+		} else if (line[0] == 'S' && line[1] == '7') {
-+			ret = pd692x0_fw_write_line(client, line, true);
-+			if (ret)
-+				goto err;
-+		} else {
-+			ret = pd692x0_fw_write_line(client, line, false);
-+			if (ret)
-+				goto err;
-+		}
-+
-+		if (priv->cancel_request) {
-+			ret = FW_UPLOAD_ERR_CANCELED;
-+			goto err;
-+		}
-+	}
-+	*written = i;
-+
-+	msleep(400);
-+
-+	return FW_UPLOAD_ERR_NONE;
-+
-+err:
-+	strscpy_pad(line, "S7\r\n", sizeof(line));
-+	pd692x0_fw_write_line(client, line, true);
-+	return ret;
-+}
-+
-+static enum fw_upload_err pd692x0_fw_poll_complete(struct fw_upload *fwl)
-+{
-+	struct pd692x0_priv *priv = fwl->dd_handle;
-+	const struct i2c_client *client = priv->client;
-+	struct pd692x0_msg_ver ver;
-+	int ret;
-+
-+	priv->fw_state = PD692X0_FW_COMPLETE;
-+
-+	ret = pd692x0_fw_reset(client);
-+	if (ret)
-+		return ret;
-+
-+	ver = pd692x0_get_sw_version(priv);
-+	if (ver.maj_sw_ver != PD692X0_FW_MAJ_VER) {
-+		dev_err(&client->dev,
-+			"Too old firmware version. Please update it\n");
-+		priv->fw_state = PD692X0_FW_NEED_UPDATE;
-+		return FW_UPLOAD_ERR_FW_INVALID;
-+	}
-+
-+	ret = pd692x0_update_matrix(priv);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "Error configuring ports matrix (%pe)\n",
-+			ERR_PTR(ret));
-+		priv->fw_state = PD692X0_FW_NEED_UPDATE;
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	priv->fw_state = PD692X0_FW_OK;
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static void pd692x0_fw_cancel(struct fw_upload *fwl)
-+{
-+	struct pd692x0_priv *priv = fwl->dd_handle;
-+
-+	priv->cancel_request = true;
-+}
-+
-+static void pd692x0_fw_cleanup(struct fw_upload *fwl)
-+{
-+	struct pd692x0_priv *priv = fwl->dd_handle;
-+
-+	switch (priv->fw_state) {
-+	case PD692X0_FW_WRITE:
-+		pd692x0_fw_reset(priv->client);
-+		fallthrough;
-+	case PD692X0_FW_COMPLETE:
-+		priv->fw_state = PD692X0_FW_BROKEN;
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static const struct fw_upload_ops pd692x0_fw_ops = {
-+	.prepare = pd692x0_fw_prepare,
-+	.write = pd692x0_fw_write,
-+	.poll_complete = pd692x0_fw_poll_complete,
-+	.cancel = pd692x0_fw_cancel,
-+	.cleanup = pd692x0_fw_cleanup,
-+};
-+
-+static int pd692x0_i2c_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct pd692x0_msg buf = {0};
-+	struct pd692x0_msg_ver ver;
-+	struct pd692x0_priv *priv;
-+	struct fw_upload *fwl;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(dev, "i2c check functionality failed\n");
-+		return -ENXIO;
-+	}
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->client = client;
-+	i2c_set_clientdata(client, priv);
-+
-+	priv->pcdev.owner = THIS_MODULE;
-+	priv->pcdev.ops = &pd692x0_ops;
-+	priv->pcdev.dev = dev;
-+	priv->pcdev.types = PSE_C33;
-+	priv->pcdev.of_pse_n_cells = 1;
-+	priv->pcdev.nr_lines = PD692X0_MAX_LOGICAL_PORTS;
-+	ret = devm_pse_controller_register(dev, &priv->pcdev);
-+	if (ret) {
-+		return dev_err_probe(dev, ret,
-+				     "failed to register PSE controller\n");
-+	}
-+
-+	fwl = firmware_upload_register(THIS_MODULE, dev, dev_name(dev),
-+				       &pd692x0_fw_ops, priv);
-+	if (IS_ERR(fwl)) {
-+		dev_err(dev, "Failed to register to the Firmware Upload API\n");
-+		ret = PTR_ERR(fwl);
-+		return ret;
-+	}
-+	priv->fwl = fwl;
-+
-+	ret = i2c_master_recv(client, (u8 *)&buf, sizeof(buf));
-+	if (ret != sizeof(buf)) {
-+		dev_err(dev, "Failed to get device status\n");
-+		ret = -EIO;
-+		goto err_fw_unregister;
-+	}
-+
-+	if (buf.key != 0x03 || buf.echo != 0xff || buf.sub[0] & 0x01) {
-+		dev_err(dev, "PSE controller error\n");
-+		ret = -EIO;
-+		goto err_fw_unregister;
-+	}
-+
-+	if (buf.sub[0] & 0x02) {
-+		dev_err(dev, "PSE firmware error. Please update it.\n");
-+		priv->fw_state = PD692X0_FW_BROKEN;
-+		return 0;
-+	}
-+
-+	ver = pd692x0_get_sw_version(priv);
-+	dev_info(&client->dev, "Software version %d.%02d.%d.%d\n", ver.prod,
-+		 ver.maj_sw_ver, ver.min_sw_ver, ver.pa_sw_ver);
-+
-+	if (ver.maj_sw_ver != PD692X0_FW_MAJ_VER) {
-+		dev_err(dev, "Too old firmware version. Please update it\n");
-+		priv->fw_state = PD692X0_FW_NEED_UPDATE;
-+		return 0;
-+	}
-+
-+	ret = pd692x0_update_matrix(priv);
-+	if (ret < 0) {
-+		dev_err(dev, "Error configuring ports matrix (%pe)\n",
-+			ERR_PTR(ret));
-+		goto err_fw_unregister;
-+	}
-+
-+	priv->fw_state = PD692X0_FW_OK;
-+	return 0;
-+
-+err_fw_unregister:
-+	firmware_upload_unregister(priv->fwl);
-+	return ret;
-+}
-+
-+static void pd692x0_i2c_remove(struct i2c_client *client)
-+{
-+	struct pd692x0_priv *priv = i2c_get_clientdata(client);
-+
-+	firmware_upload_unregister(priv->fwl);
-+}
-+
-+static const struct i2c_device_id pd692x0_id[] = {
-+	{ PD692X0_PSE_NAME, 0 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(i2c, pd692x0_id);
-+
-+static const struct of_device_id pd692x0_of_match[] = {
-+	{ .compatible = "microchip,pd69200", },
-+	{ .compatible = "microchip,pd69210", },
-+	{ .compatible = "microchip,pd69220", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, pd692x0_of_match);
-+
-+static struct i2c_driver pd692x0_driver = {
-+	.probe		= pd692x0_i2c_probe,
-+	.remove		= pd692x0_i2c_remove,
-+	.id_table	= pd692x0_id,
-+	.driver		= {
-+		.name		= PD692X0_PSE_NAME,
-+		.of_match_table = pd692x0_of_match,
-+	},
-+};
-+module_i2c_driver(pd692x0_driver);
-+
-+MODULE_AUTHOR("Kory Maincent <kory.maincent@bootlin.com>");
-+MODULE_DESCRIPTION("Microchip PD692x0 PoE PSE Controller driver");
-+MODULE_LICENSE("GPL");
 
--- 
-2.25.1
+Please fix it to
 
+      $(call cmd,fit)
+
+
+
+
+See your code.
+
+
+   cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux \
+                     --name '$(UIMAGE_NAME)' \
+                     --compress $(UIMAGE_COMPRESSION) -k $< \
+                     $(<D)/dts
+
+
+cmd_fit does not take any argument.
+
+
+The compression is determined by $(UIMAGE_COMPRESSION).
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
