@@ -1,100 +1,113 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="YGd1sdhU"
-Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D4DCF;
-	Fri,  1 Dec 2023 08:50:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1701449456; x=1732985456;
-  h=mime-version:content-transfer-encoding:date:message-id:
-   cc:from:to:references:in-reply-to:subject;
-  bh=jzcYp1+G+LJEnQ/Nf3Fzjvbwr6w5g4s4GfO6LThiCsM=;
-  b=YGd1sdhUJvsAsu+ui9H2wz6mzVWzUx+6XYufrcCwuMNs4l9CyHhCZ1+2
-   g4FIpKbc2GULZYhOhaq6mYNjODdsJdO6FFeIWuadHyDHATzQFghR+GOWa
-   CNCv4TH9Q5ZhS5RAPbVuZqRvzgQPbpj6lonoivQSEMN1DNbOMT0/3bo2H
-   k=;
-X-IronPort-AV: E=Sophos;i="6.04,242,1695686400"; 
-   d="scan'208";a="688377607"
-Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return prologues in
- hypercall page
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2c-m6i4x-f7c754c9.us-west-2.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 16:50:50 +0000
-Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan3.pdx.amazon.com [10.39.38.70])
-	by email-inbound-relay-pdx-2c-m6i4x-f7c754c9.us-west-2.amazon.com (Postfix) with ESMTPS id D414C40DA8;
-	Fri,  1 Dec 2023 16:50:47 +0000 (UTC)
-Received: from EX19MTAEUC002.ant.amazon.com [10.0.17.79:43089]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.14.81:2525] with esmtp (Farcaster)
- id 82517984-b528-4c7f-9edc-388069a39df6; Fri, 1 Dec 2023 16:50:46 +0000 (UTC)
-X-Farcaster-Flow-ID: 82517984-b528-4c7f-9edc-388069a39df6
-Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.245) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 1 Dec 2023 16:50:41 +0000
-Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
- (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Dec
- 2023 16:50:37 +0000
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="n4Vi5Tt5"
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89764C1;
+	Fri,  1 Dec 2023 09:11:37 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C96FF24000A;
+	Fri,  1 Dec 2023 17:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701450696;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cf3RboC7v/50jqCoPEsittoiIyTcKQhGJ+tHg/wFrhY=;
+	b=n4Vi5Tt5sKveHLBat483FVqcza4IsZpHTrtcSEZINAubs6cAcbVayEPxmGIEB9QfRADqr5
+	XcE2LrhHThb28R7H2xyCe2x94jrAfoPpPH70qnTGakXJEMebTLLkWXpyTlmKHGjX7FZrF5
+	xJK/NILhT7XoHMBC2uxzfw1ysxRKKznhYnNPWCzhNjDAoshb/yOD+ZgRmDVowaBX3k9p4d
+	+0/FeHYPDjxn9Gll/OpGpOE5GJHFSQCaTTUvw5twG43ZmcGxDV2qkVMrEXLrUOiCDPIz5W
+	RrQeIFfa2dkkalFhClmW5imt1E2ZT5OJkKN2YVXPvYUg2CNOB7CvI2nQGT/RxQ==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next v2 0/8] net: Add support for Power over Ethernet
+ (PoE)
+Date: Fri, 01 Dec 2023 18:10:22 +0100
+Message-Id: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Fri, 1 Dec 2023 16:50:33 +0000
-Message-ID: <CXD5HJ5LQMTE.11XP9UB9IL8LY@amazon.com>
-CC: Maxim Levitsky <mlevitsk@redhat.com>, <kvm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
-	<pbonzini@redhat.com>, <vkuznets@redhat.com>, <anelkz@amazon.com>,
-	<graf@amazon.com>, <dwmw@amazon.co.uk>, <jgowans@amazon.com>,
-	<kys@microsoft.com>, <haiyangz@microsoft.com>, <decui@microsoft.com>,
-	<x86@kernel.org>, <linux-doc@vger.kernel.org>
-From: Nicolas Saenz Julienne <nsaenz@amazon.com>
-To: Sean Christopherson <seanjc@google.com>
-X-Mailer: aerc 0.15.2-182-g389d89a9362e-dirty
-References: <20231108111806.92604-1-nsaenz@amazon.com>
- <20231108111806.92604-6-nsaenz@amazon.com>
- <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
- <CXD4TVV5QWUK.3SH495QSBTTUF@amazon.com> <ZWoKlJUKJGGhRRgM@google.com>
-In-Reply-To: <ZWoKlJUKJGGhRRgM@google.com>
-X-ClientProxiedBy: EX19D032UWB004.ant.amazon.com (10.13.139.136) To
- EX19D004EUC001.ant.amazon.com (10.252.51.190)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAH4TamUC/1WNywrCMBBFf6XM2kgeg1pX/Q8p0taJHdCkJDFUS
+ v/dkJ3Lw+Geu0GkwBTh2mwQKHNk7wroQwPTPLgnCX4UBi21UVKjsDSkT6D74kko02Ir6WxQGii
+ LJZDltdZu4CgJR2uCvpiZY/LhW2+yqr4WlTr9FbMSUoyEF4k4Wo1tN3qfXuyOk39Dv+/7D4mr0
+ SuyAAAA
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>, 
+ Kory Maincent <kory.maincent@bootlin.com>
+X-Mailer: b4 0.12.4
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Fri Dec 1, 2023 at 4:32 PM UTC, Sean Christopherson wrote:
-> On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> > > To support this I think that we can add a userspace msr filter on the=
- HV_X64_MSR_HYPERCALL,
-> > > although I am not 100% sure if a userspace msr filter overrides the i=
-n-kernel msr handling.
-> >
-> > I thought about it at the time. It's not that simple though, we should
-> > still let KVM set the hypercall bytecode, and other quirks like the Xen
-> > one.
->
-> Yeah, that Xen quirk is quite the killer.
->
-> Can you provide pseudo-assembly for what the final page is supposed to lo=
-ok like?
-> I'm struggling mightily to understand what this is actually trying to do.
+This patch series aims at adding support for PoE (Power over Ethernet),
+based on the already existing support for PoDL (Power over Data Line)
+implementation. In addition, it adds support for one specific PoE
+controller, the Microchip PD692x0.
 
-I'll make it as simple as possible (diregard 32bit support and that xen
-exists):
+The PD692x0 driver is based on the patch merged in an immutable branch
+from Jakub repo. It is Tagged at:
+git://git.kernel.org/pub/scm/linux/kernel/git/kuba/linux.git firmware_loader-add-upload-error
+The patch is already merged in net-next.
 
-vmcall	     <-  Offset 0, regular Hyper-V hypercalls enter here
-ret
-mov rax,rcx  <-  VTL call hypercall enters here
-mov rcx,0x11
-vmcall
-ret
-mov rax,rcx  <-  VTL return hypercall enters here
-mov rcx,0x12
-vmcall
-ret
+In detail:
+- Patch 1 to 6 prepare net to support PoE devices.
+- Patch 7 and 8 add PD692x0 PoE PSE controller driver and its binding.
 
-rcx needs to be saved as it contains a "VTL call control input to the
-hypervisor" (TLFS 15.6.1). I don't remember seeing it being used in
-practice. Then, KVM expects the hypercall code in rcx, hence the
-0x11/0x12 mov.
+Changes in v2:
+- Extract "firmware_loader: Expand Firmware upload error codes patches" to
+  send it alone and get it merge in an immutable branch.
+- Add "c33" prefix for PoE variables and enums.
+- Enhance few comments.
+- Add PSE Documentation.
+- Make several changes in pd692x0 driver, mainly for readibility.
+- Link to v1: https://lore.kernel.org/r/20231116-feature_poe-v1-0-be48044bf249@bootlin.com
 
-Nicolas
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Kory Maincent (8):
+      net: pse-pd: Rectify and adapt the naming of admin_cotrol member of struct pse_control_config
+      ethtool: Expand Ethernet Power Equipment with c33 (PoE) alongside PoDL
+      net: pse-pd: Introduce PSE types enumeration
+      net: ethtool: pse-pd: Expand pse commands with the PSE PoE interface
+      netlink: specs: Modify pse attribute prefix
+      netlink: specs: Expand the pse netlink command with PoE interface
+      dt-bindings: net: pse-pd: Add bindings for PD692x0 PSE controller
+      net: pse-pd: Add PD692x0 PSE controller driver
+
+ .../bindings/net/pse-pd/microchip,pd692x0.yaml     |   77 ++
+ Documentation/netlink/specs/ethtool.yaml           |   33 +-
+ Documentation/networking/ethtool-netlink.rst       |   20 +
+ Documentation/networking/pse-pd/introduction.rst   |   73 ++
+ MAINTAINERS                                        |    7 +
+ drivers/net/pse-pd/Kconfig                         |   11 +
+ drivers/net/pse-pd/Makefile                        |    1 +
+ drivers/net/pse-pd/pd692x0.c                       | 1025 ++++++++++++++++++++
+ drivers/net/pse-pd/pse_core.c                      |    9 +
+ drivers/net/pse-pd/pse_regulator.c                 |    9 +-
+ include/linux/pse-pd/pse.h                         |   35 +-
+ include/uapi/linux/ethtool.h                       |   43 +
+ include/uapi/linux/ethtool_netlink.h               |    3 +
+ net/ethtool/pse-pd.c                               |   64 +-
+ tools/net/ynl/generated/ethtool-user.c             |   54 +-
+ tools/net/ynl/generated/ethtool-user.h             |   81 +-
+ 16 files changed, 1481 insertions(+), 64 deletions(-)
+---
+base-commit: 98137c429a4854583210707a82114b4f5c171c5e
+change-id: 20231024-feature_poe-139490e73403
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
