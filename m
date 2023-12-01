@@ -1,84 +1,93 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2Yuf4U0y"
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF73DAC
-	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 09:47:17 -0800 (PST)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5ca61d84dc3so41003687b3.0
-        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 09:47:17 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nwsRLZKk"
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F8A4FC
+	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 09:47:44 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-285741e9a9aso2205066a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 09:47:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701452837; x=1702057637; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ekY0qH1P2v7sxet+FFzSNmfvdCHeSDMjAlh064D7O84=;
-        b=2Yuf4U0y/otd79jj1rlpstx914BdJ+x9EcIqpsRmKvrq9Y07Bb/mM+8dAKhOhy9G+T
-         s94snDmQuAmGp8uovCeVwZU1orBfArvFzOHGfCJOhiit3CZYaQJdOKkcYxFO6Basfbeb
-         5/siLSTEoTu2ovxOBzkm2qxvwmKq75uPvi/y7R0Jek40T+U9a2lWq/USiT6lsp3VBGJg
-         cX5Ua8fvyaczOhAGtaGuOLtkNnH54EHO5PsMW7D9L7Vi7At6MdATt/KW6Y3QwzN5TepV
-         Rf35ObflW5Y2qybNwhlggO3tQMYhjAlrVT0SEzYofJ2qXwLNeX95g8MHRLJb9Bo3Uny9
-         9pwQ==
+        d=chromium.org; s=google; t=1701452864; x=1702057664; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gCNVYgwpLFteuDrNzIDZLAqe84pArYWACQkufwvTL5U=;
+        b=nwsRLZKkP99RPhIfEYEerx8QGFGX/dV8yw1rcpqkf07xvSX7rg9r5qpm93GoUV82ur
+         Rqx1WLl2pDZjBo+yIz1rHOSO92Q4sFnaW5U4+Vp+1qwnWtniXn1KaOKpgnCRTrUEPEqz
+         497ADQZaglfAg/OOPhw94biQ25f+eLFcEzx4Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701452837; x=1702057637;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ekY0qH1P2v7sxet+FFzSNmfvdCHeSDMjAlh064D7O84=;
-        b=H7u1jFCK5375fISNIPUzPb1R3qR0yJUz6H5fKmdSBxAMuep6R6M9XNuyRis/8kGjfe
-         mUecyHJG2oURIHSx6M9Kzwl5YpJ6Pm5tFeljO1DPikmbGJI6gsqYI3g5tZDkXl3MAhn6
-         but/1f23x8hgZs0LkzNAF+n1DDKGo8d/fNLRioEVdGmP4fd2ipSkMZ8MSurbD8d2UjeO
-         coievgMyKI+veXRC5VcWhjMaIWPlZC1QOmY9sjG2+ok9fUAp/PQ6IjCxlBP6aSMQ9c70
-         V2GLPEmeazOYq+CvL9Z0xrlSKeGKIwySEN3F5URfAPA+aE1yO1mTY8Lz63NurzOpmuBU
-         Z6qw==
-X-Gm-Message-State: AOJu0YyWxAKa2TPK3Q3OVxKiMgIpiUvxxqqlc8fL6mWEQCbVdONvyHzu
-	cX/+boDP5BYW/lFc2buHsSk1d/IE7M4=
-X-Google-Smtp-Source: AGHT+IGhYfPZ1olbigqH98QigIcNR2O3rDqntLBQK660WHy3YcxXWqy8DOzYQjXtgojo0EBei7sSFc5etMo=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:690c:98d:b0:5d6:cb62:4793 with SMTP id
- ce13-20020a05690c098d00b005d6cb624793mr36113ywb.0.1701452837094; Fri, 01 Dec
- 2023 09:47:17 -0800 (PST)
-Date: Fri, 1 Dec 2023 09:47:15 -0800
-In-Reply-To: <CXD5HJ5LQMTE.11XP9UB9IL8LY@amazon.com>
+        d=1e100.net; s=20230601; t=1701452864; x=1702057664;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gCNVYgwpLFteuDrNzIDZLAqe84pArYWACQkufwvTL5U=;
+        b=H6RsUUCBE93Mqx3XejNFufw2SlV3y5meRw+ke9RLz66sCBt83qRrmSjwXYQVk4K5e7
+         qzJwOprcRXWeKTGZQ4f1hlD8WQa4f0q8hPWZhaJ8jjZvK4L2EjHB1lMwoaHtuVKEYuCw
+         67hXOgO2xzYuATcGpJ7XrqqnHPYm1rd2qhEOGkJ2NV5X1Ct8VMrSp241cXcG2tNQQqcr
+         rDanRwdVcsNuzOS70TqFnURXmY+70iCBukhYnRQVcN8ANkWDOT0IduAPaQGt3Vy4/88c
+         mLGrbWwFVPFrLn0vf0df+mXJbrIEaj+0IZA+oH8c1/pI1fWrSm8nPl5cFpOPD201TXZj
+         YW0Q==
+X-Gm-Message-State: AOJu0YytOfElxYZuTic1kJ74onYNRAgmUJzGeyd36mSMQzv5ckvp1Z6+
+	zGosyKAp7509bz3zsq3f24aQMg==
+X-Google-Smtp-Source: AGHT+IHsxxKzBrAkmN72uyMXEJDAqDR+ulUeRgl6PfoYNKg3RuRmpeIq7Urzdpn3+Vl7k98IzwGuOw==
+X-Received: by 2002:a17:90a:1a5d:b0:281:da1:4b96 with SMTP id 29-20020a17090a1a5d00b002810da14b96mr22934593pjl.22.1701452864074;
+        Fri, 01 Dec 2023 09:47:44 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id 21-20020a17090a01d500b002802a080d1dsm1661658pjd.16.2023.12.01.09.47.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 09:47:43 -0800 (PST)
+Date: Fri, 1 Dec 2023 09:47:42 -0800
+From: Kees Cook <keescook@chromium.org>
+To: sxwjean@me.com
+Cc: vbabka@suse.cz, 42.hyeyoo@gmail.com, cl@linux.com, linux-mm@kvack.org,
+	penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+	roman.gushchin@linux.dev, corbet@lwn.net, arnd@arndb.de,
+	akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Xiongwei Song <xiongwei.song@windriver.com>
+Subject: Re: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with
+ "slab_$param"
+Message-ID: <202312010945.7C5DB1FBB@keescook>
+References: <20231201031505.286117-1-sxwjean@me.com>
+ <20231201031505.286117-3-sxwjean@me.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231108111806.92604-1-nsaenz@amazon.com> <20231108111806.92604-6-nsaenz@amazon.com>
- <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
- <CXD4TVV5QWUK.3SH495QSBTTUF@amazon.com> <ZWoKlJUKJGGhRRgM@google.com> <CXD5HJ5LQMTE.11XP9UB9IL8LY@amazon.com>
-Message-ID: <ZWocI-2ajwudA-S5@google.com>
-Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return
- prologues in hypercall page
-From: Sean Christopherson <seanjc@google.com>
-To: Nicolas Saenz Julienne <nsaenz@amazon.com>
-Cc: Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
-	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
-	kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, 
-	x86@kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231201031505.286117-3-sxwjean@me.com>
 
-On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> On Fri Dec 1, 2023 at 4:32 PM UTC, Sean Christopherson wrote:
-> > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> > > > To support this I think that we can add a userspace msr filter on the HV_X64_MSR_HYPERCALL,
-> > > > although I am not 100% sure if a userspace msr filter overrides the in-kernel msr handling.
-> > >
-> > > I thought about it at the time. It's not that simple though, we should
-> > > still let KVM set the hypercall bytecode, and other quirks like the Xen
-> > > one.
-> >
-> > Yeah, that Xen quirk is quite the killer.
-> >
-> > Can you provide pseudo-assembly for what the final page is supposed to look like?
-> > I'm struggling mightily to understand what this is actually trying to do.
+On Fri, Dec 01, 2023 at 11:15:04AM +0800, sxwjean@me.com wrote:
+> From: Xiongwei Song <xiongwei.song@windriver.com>
 > 
-> I'll make it as simple as possible (diregard 32bit support and that xen
-> exists):
+> Since the SLAB allocator has been removed, so we need to clean up the
+> sl[au]b_$params. However, the "slab/SLAB" terms should be keep for
+> long-term rather than "slub/SLUB". Hence, we should use "slab_$param"
+> as the primary prefix, which is pointed out by Vlastimil Babka. For more
+> information please see [1].
 > 
-> vmcall	     <-  Offset 0, regular Hyper-V hypercalls enter here
-> ret
-> mov rax,rcx  <-  VTL call hypercall enters here
+> This patch is changing the following slab parameters
+> - slub_max_order
+> - slub_min_order
+> - slub_min_objects
+> - slub_debug
+> to
+> - slab_max_order
+> - slab_min_order
+> - slab_min_objects
+> - slab_debug
+> as the primary slab parameters in
+> Documentation/admin-guide/kernel-parameters.txt and source, and rename all
+> setup functions of them too. Meanwhile, "slub_$params" can also be passed
+> by command line, which is to keep backward compatibility. Also mark all
+> "slub_$params" as legacy.
 
-I'm missing who/what defines "here" though.  What generates the CALL that points
-at this exact offset?  If the exact offset is dictated in the TLFS, then aren't
-we screwed with the whole Xen quirk, which inserts 5 bytes before that first VMCALL?
+*If* we do this, I think the old names need to be recognized, perhaps
+with a boot pr_warn() about their deprecation/renaming for several
+releases (likely across LTSes). I think it's not a good idea to
+wholesale rename these with no warning. That's going to cause a lot of
+surprises and broken userspace...
+
+-- 
+Kees Cook
