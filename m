@@ -1,145 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C0F1A28F
-	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 08:29:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6qm3KCU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34BEAC433C7;
-	Fri,  1 Dec 2023 08:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701419348;
-	bh=PnBJTUzXr7trutbP5JjWc1usFAZdvAOna/UdT9PCGkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q6qm3KCURWENxNbXN6B1mbytWuCWGTQyQhrJ67zFwzeYnJd6hEV5h0Od3bvRQ7ZOa
-	 dcuyzKQ8qwRGv4lPZPy5YeFuP5n08bn8nGmmhK5hO0C0vsL2zezxWq3Zu8vn/NKOz2
-	 fl+P6EG1r9jkVEEY+KDdULI9BSQj6v6XSMX0g0pbru0tQiDQKHzFqoDL8+JZpDYURa
-	 hoi0ljEiDQ5MsncIicG1ELRVunjp26/ahPh5J20TbMxibtbV7iq/nK7SoLB333UDrF
-	 T/XGGMDQOA+aBGdmiPppWsnBmhPo7eUPdDsU0734BU98CDaUhSoaWhEn7VlX4Pyn0O
-	 KphjgnoKiV40Q==
-Date: Fri, 1 Dec 2023 09:29:05 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com, 
-	Simon Ser <contact@emersion.fr>, Rob Clark <robdclark@gmail.com>, 
-	Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>, 
-	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>, Dave Airlie <airlied@gmail.com>, 
-	Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rPEuIkBJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="k3lhqCWb"
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF5461724;
+	Fri,  1 Dec 2023 00:53:16 -0800 (PST)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1701420794;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AsSuhopWvqk3I522fxQ6ooSX/rywsngW1wlaL3r7/7U=;
+	b=rPEuIkBJ8+ySLg//CUXlWUdvWgl2gX9GyTR9vtkIwcxNKJI7DKlqMpvFlOEkC31c410v3N
+	RtBVDpI/K6AnA+eWN5mwI2AFlv2FHP54pACmcrj77DstChyu704ex9o15EnIdhJOvxqxVS
+	pjfj5G9UQjUiqVzyQWik+YmfX2xxEB8dl8M0qxkrZ4PQLniFTbsPeyCCik6wXwAq8jwi0W
+	SyKHyeHvlDqWBTzuTSI5RF5MTYE2moAzq4SPm5J6znLxG8p4+tegHmvDJRVi69lqcgZJcC
+	RyOzFLfC8u2r30n17ECgvuv2bywn9k6in+STOh4hMyUG+s26WrhFK8d4JpXu8g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1701420794;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AsSuhopWvqk3I522fxQ6ooSX/rywsngW1wlaL3r7/7U=;
+	b=k3lhqCWbYvJz0Bi9J6xDfIkYCKnBYBQV6tpu4jDjNakRVSGUK5S46foplXONrFPARA7GXL
+	VrY+PwiLWS/RqKBQ==
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org,
+ linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Borislav Petkov <bp@alien8.de>,
+ Catalin Marinas <catalin.marinas@arm.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Guo Ren <guoren@kernel.org>, "H. Peter
+ Anvin" <hpa@zytor.com>, Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, James Morse <james.morse@arm.com>, Jean-Philippe
+ Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com,
+ justin.he@arm.com, Len Brown <lenb@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, Peter
+ Zijlstra <peterz@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Salil Mehta <salil.mehta@huawei.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 00/21] Initial cleanups for vCPU hotplug
+In-Reply-To: <ZVyz/Ve5pPu8AWoA@shell.armlinux.org.uk>
+References: <ZVyz/Ve5pPu8AWoA@shell.armlinux.org.uk>
+Date: Fri, 01 Dec 2023 09:53:13 +0100
+Message-ID: <87y1eexq12.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rfhua6m3ln4gsubv"
-Content-Disposition: inline
-In-Reply-To: <20231130200740.53454-1-andrealmeid@igalia.com>
+Content-Type: text/plain
 
+On Tue, Nov 21 2023 at 13:43, Russell King wrote:
+> The majority of the other patches come from the vCPU hotplug RFC v3
+> series I posted earlier, rebased on Linus' current tip, but with some
+> new patches adding arch_cpu_is_hotpluggable() as the remaining
+> arch_register_cpu() functions only differ in the setting of the
+> hotpluggable member of the CPU device - so let's get generic code
+> doing that and provide a way for an architecture to specify whether a
+> CPU is hotpluggable.
+>
+> This patch series has been updated as best I can from the comments on
+> its previous 22-patch posting, but there are some things that I have
+> been unable to address (some of which go back to James' posting of
+> RFC v2 of the vcpu hotplug series) due to lack of co-operation from
+> either reviewers responding to my questions, or from the patch author
+> providing information. I have now come to the conclusion that this
+> information is never going to come, but there is still benefit to
+> moving forward with this patch set. I don't expect that anyone will
+> even bother to read this far down the email, so blah blah blah blah
+> blah blah blah blah blah. I bet no one reads this so I don't know why
+> I bother writing crud like this.
 
---rfhua6m3ln4gsubv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You lost your bet. I always read cover letters completely because they
+tell a lot. There is correlation between the amount of blah and the
+quality of the series :)
 
-Hi,
+Thanks,
 
-On Thu, Nov 30, 2023 at 05:07:40PM -0300, Andr=E9 Almeida wrote:
-> From: Pekka Paalanen <pekka.paalanen@collabora.com>
->=20
-> Specify how the atomic state is maintained between userspace and
-> kernel, plus the special case for async flips.
->=20
-> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: Andr=E9 Almeida <andrealmeid@igalia.com>
-> ---
->=20
-> This is a standalone patch from the following serie, the other patches are
-> already merged:
-> https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.c=
-om/
->=20
->  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
->=20
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
-rst
-> index 370d820be248..d0693f902a5c 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -570,3 +570,50 @@ dma-buf interoperability
-> =20
->  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
->  information on how dma-buf is integrated and exposed within DRM.
-> +
-> +KMS atomic state
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +An atomic commit can change multiple KMS properties in an atomic fashion,
-> +without ever applying intermediate or partial state changes.  Either the=
- whole
-> +commit succeeds or fails, and it will never be applied partially. This i=
-s the
-> +fundamental improvement of the atomic API over the older non-atomic API =
-which is
-> +referred to as the "legacy API".  Applying intermediate state could unex=
-pectedly
-> +fail, cause visible glitches, or delay reaching the final state.
-> +
-> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which me=
-ans the
-> +complete state change is validated but not applied.  Userspace should us=
-e this
-> +flag to validate any state change before asking to apply it. If validati=
-on fails
-> +for any reason, userspace should attempt to fall back to another, perhaps
-> +simpler, final state.  This allows userspace to probe for various config=
-urations
-> +without causing visible glitches on screen and without the need to undo a
-> +probing change.
-> +
-> +The changes recorded in an atomic commit apply on top the current KMS st=
-ate in
-> +the kernel. Hence, the complete new KMS state is the complete old KMS st=
-ate with
-> +the committed property settings done on top. The kernel will try to avoid
-
-That part is pretty confusing to me.
-
-What are you calling the current and old KMS state?
-
-What's confusing to me is that, yes, what you're saying is true for a
-given object: if it was part of the commit, the new state is the old
-state + whatever the new state changed.
-
-However, if that object wasn't part of the commit at all, then it's
-completely out of the old or new global KMS state.
-
-So yeah, individual object KMS state are indeed complete, but
-drm_atomic_state definitely isn't. And it's the whole point of functions
-like drm_atomic_get_crtc_state() vs drm_atomic_get_old/new_crtc_state:
-the old/new variants only return a state if it was part of
-drm_atomic_state to begin with. drm_atomic_get_crtc_state() brings the
-crtc state into drm_atomic_state if it wasn't part of it.
-
-Maxime
-
---rfhua6m3ln4gsubv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHQEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWmZUQAKCRDj7w1vZxhR
-xS0HAP90i/BOMmRuVrjPxnOxAXZYyqDfs9rubl1YOTWN6l7MnQD3eKv6YT4StIim
-5Q/WsvPjodwnqiSTSEiN57YWIo13Dg==
-=rh3S
------END PGP SIGNATURE-----
-
---rfhua6m3ln4gsubv--
+        tglx
