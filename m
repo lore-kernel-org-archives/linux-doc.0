@@ -1,331 +1,122 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFMtEvsP"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDD90D6C;
-	Fri,  1 Dec 2023 13:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701467266; x=1733003266;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7qGZLOVX0lRzoXgrjU5Lf+xhYula8oqkMn+WAagOJ54=;
-  b=YFMtEvsP46AnR8GSjubPz5LW3/lFM83NOfGgkeQLwb/NCLce2NAB5xcQ
-   kHc870aRGaJpX4n3Wuaie0MTlr8YtIe1QZLY8IRAC4N7Vikq2jlCYj7gt
-   tYDnHz4FVhwU3kcyLFwhj5ae6MZVkTRXSvik0LEaVFPHlxv0LpiI2TQOl
-   rQozaPLQTHKkezVXtgIqsBt382PdUmCWkpKUvy+/DLi9u2sZ0woBzoRe5
-   K0rAn556tUi55/lh6pvv/7zFqLqHgysr1p7yc+8f/Q4uu2+T/UjXo/n8L
-   YOepodj9jhlCbhVn8yr5UuIeI7xTlFgaqToX/+X0DlMxSxZi2lUpsP5PJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="6843256"
-X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="6843256"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 13:47:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="17904739"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 13:47:45 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	x86@kernel.org
-Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	patches@lists.linux.dev,
-	Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v5] x86/resctrl: Add event choices for mba_MBps
-Date: Fri,  1 Dec 2023 13:47:37 -0800
-Message-ID: <20231201214737.104444-1-tony.luck@intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231128231439.81691-1-tony.luck@intel.com>
-References: <20231128231439.81691-1-tony.luck@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oXFPY1V9"
+Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE472AD
+	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 14:42:16 -0800 (PST)
+Received: by mail-pg1-x54a.google.com with SMTP id 41be03b00d2f7-5be154fe98bso932089a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 14:42:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701470536; x=1702075336; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UHQP2r8tb6bd1CGRkfVIX9+3aPmO9CttmLCIdjw3P10=;
+        b=oXFPY1V9yIUShtwAQloV+IPuUneHKxiy9SGPGsJ7R+bSsFUiJeHhxSTR93DkwuoC4L
+         f3avR4iLVr6Y/MiuHqph7S3hrxlq6BWM4D8mSCelLcwWRhuWgXL0EFdGCRAqDjECjgk8
+         fAtnM14UIwHprfqZLkigcG8HBxgyDE8rs71LP9ROMKbmUR9Mo4kYZEL5NmxxiZ1DksK8
+         bMJVTBbXMJC1fYQSIJjHMvs5V9dIArG4/9Cg8L9Qsk0GWtW5/bPCMGzGoXvB4RqPQQvw
+         /mttsPe3yvAzv5NQhQC9hZZkDZbe3T3QArLWRfoPibQrH6StLTQ6SAhmYCzSew9MW9tH
+         AX+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701470536; x=1702075336;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UHQP2r8tb6bd1CGRkfVIX9+3aPmO9CttmLCIdjw3P10=;
+        b=XoqopzPuTkVmkh4sAhWxrEajA4iGDfb3uMuwnj0GDTNLhvCyovaJb5OZZ8/303d+ii
+         l5gIRNqlpAo8LFn/ttO1P1eGI/Bxu8y9xNuCs8SkckMoKSi0gZZqJ+7hDQMkEg93zJaj
+         PjTzrbZDwyygef4QPcAbR+POxJUQiMdhTxG0T3n1gkbY5PxkiHGYxTWu5RewmeczBs/Y
+         Fw6OSJLCTGCkJ4FaJ5QqcC5gFxsIn4KWPQNqHr1YFIRpwbvHQmykQn+CsjRYODTWVa/M
+         lVLpAt3/Nz20tq9KLUgB4U6uYuPrd/BWA7m0H4T2m/Csj9qdOzDRuFvkb+CWExF1QXmA
+         QCzg==
+X-Gm-Message-State: AOJu0YzUkVqLTVXETIOljaO9a+ZthEMxsDUP9a7d202VRHSgO7QplMq3
+	lSJoi/iZow57S4hNdztInjvli8JaN1w=
+X-Google-Smtp-Source: AGHT+IGY74ILiZ6kFcffavA5ziXE30cM9e2LiHHM8NPEBAqCg9a+sjLS36fwaaqRxQYNYiTXazm5J96YBuA=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90b:370c:b0:283:98d1:89ee with SMTP id
+ mg12-20020a17090b370c00b0028398d189eemr90056pjb.0.1701470536374; Fri, 01 Dec
+ 2023 14:42:16 -0800 (PST)
+Date: Fri, 1 Dec 2023 14:42:14 -0800
+In-Reply-To: <9718326e9b187b075de2df1059325aaa58cac900.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20231102162128.2353459-1-paul@xen.org> <ZWi6IKGFtQGpu6oR@google.com>
+ <504ca757-c5b9-4d3b-900c-c5f401a02027@xen.org> <9718326e9b187b075de2df1059325aaa58cac900.camel@infradead.org>
+Message-ID: <ZWphRnK_lwCyMSuN@google.com>
+Subject: Re: [PATCH v5] KVM x86/xen: add an override for PVCLOCK_TSC_STABLE_BIT
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: paul@xen.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Andrew Cooper <andrew.cooper3@citrix.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-The MBA Software Controller(mba_sc) is a feedback loop that uses
-measurements of local memory bandwidth to adjust MBA throttling levels to
-keep workloads in a resctrl group within a target bandwidth set in the
-schemata file.
+On Thu, Nov 30, 2023, David Woodhouse wrote:
+> On Thu, 2023-11-30 at 16:41 +0000, Paul Durrant wrote:
+> > On 30/11/2023 16:36, Sean Christopherson wrote:
+> > > +Andrew
+> > >=20
+> > > On Thu, Nov 02, 2023, Paul Durrant wrote:
+> > > > From: Paul Durrant <pdurrant@amazon.com>
+> > > >=20
+> > > > Unless explicitly told to do so (by passing 'clocksource=3Dtsc' and
+> > > > 'tsc=3Dstable:socket', and then jumping through some hoops concerni=
+ng
+> > > > potential CPU hotplug) Xen will never use TSC as its clocksource.
+> > > > Hence, by default, a Xen guest will not see PVCLOCK_TSC_STABLE_BIT =
+set
+> > > > in either the primary or secondary pvclock memory areas. This has
+> > > > led to bugs in some guest kernels which only become evident if
+> > > > PVCLOCK_TSC_STABLE_BIT *is* set in the pvclocks. Hence, to support
+> > > > such guests, give the VMM a new Xen HVM config flag to tell KVM to
+> > > > forcibly clear the bit in the Xen pvclocks.
+> > >=20
+> > > ...
+> > >=20
+> > > > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kv=
+m/api.rst
+> > > > index 7025b3751027..a9bdd25826d1 100644
+> > > > --- a/Documentation/virt/kvm/api.rst
+> > > > +++ b/Documentation/virt/kvm/api.rst
+> > > > @@ -8374,6 +8374,7 @@ PVHVM guests. Valid flags are::
+> > > > =C2=A0=C2=A0=C2=A0 #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0(1 << 4)
+> > > > =C2=A0=C2=A0=C2=A0 #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+(1 << 5)
+> > > > =C2=A0=C2=A0=C2=A0 #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0(1 << 6)
+> > > > +=C2=A0 #define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0(1 << 7)
+> > >=20
+> > > Does Xen actually support PVCLOCK_TSC_STABLE_BIT?=C2=A0 I.e. do we ne=
+ed new uAPI to
+> > > fix this, or can/should KVM simply _never_ set PVCLOCK_TSC_STABLE_BIT=
+ for Xen
+> > > clocks?=C2=A0 At a glance, PVCLOCK_TSC_STABLE_BIT looks like it was a=
+dded as a purely
+> > > Linux/KVM-only thing.
+> >=20
+> > It's certainly tested in arch/x86/xen/time.c, in=20
+> > xen_setup_vsyscall_time_info() and xen_time_init(), so I'd guess it is=
+=20
+> > considered to be supported.
+>=20
+> And yes, Xen does set it, if you jump through the right hoops to make
+> Xen actually use the TSC as its clocksource.
+>=20
+> The new uAPI is just a single bit in the KVM_XEN_HVM_CONFIG
+> capabilities; I think it's reasonable enough.
 
-But on Intel systems the memory bandwidth monitoring events are
-independently enumerated. It is possible for a system to support
-total memory bandwidth monitoring, but not support local bandwidth
-monitoring. On such a system a user could not enable mba_sc mode.
-Users will see this highly unhelpful error message from mount:
-
- # mount -t resctrl -o mba_MBps resctrl /sys/fs/resctrl
- mount: /sys/fs/resctrl: wrong fs type, bad option, bad superblock on
- resctrl, missing codepage or helper program, or other error.
- dmesg(1) may have more information after failed mount system call.
-
-dmesg(1) does not provide any additional information.
-
-Add a new mount option "mba_MBps_event=[local|total]" that allows
-a user to specify which monitoring event to use. Also modify the
-existing "mba_MBps" option to switch to total bandwidth monitoring
-if local monitoring is not available.
-
-Update the once-per-second polling code to use the chosen event (local
-or total memory bandwidth).
-
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
- Documentation/arch/x86/resctrl.rst     |  7 +++-
- include/linux/resctrl.h                |  2 ++
- arch/x86/kernel/cpu/resctrl/internal.h |  3 +-
- arch/x86/kernel/cpu/resctrl/monitor.c  | 21 ++++++-----
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 48 ++++++++++++++++++++------
- 5 files changed, 58 insertions(+), 23 deletions(-)
-
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index a6279df64a9d..f06cb189911a 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -45,7 +45,12 @@ mount options are:
- 	Enable code/data prioritization in L2 cache allocations.
- "mba_MBps":
- 	Enable the MBA Software Controller(mba_sc) to specify MBA
--	bandwidth in MBps
-+	bandwidth in MBps. Defaults to using MBM local bandwidth,
-+	but will use total bandwidth on systems that do not support
-+	local bandwidth monitoring.
-+"mba_MBps_event=[local|total]":
-+	Enable the MBA Software Controller(mba_sc) with a specific
-+	MBM event as input to the feedback loop.
- "debug":
- 	Make debug files accessible. Available debug files are annotated with
- 	"Available only with debug option".
-diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index 66942d7fba7f..1feb3b2e64fa 100644
---- a/include/linux/resctrl.h
-+++ b/include/linux/resctrl.h
-@@ -129,6 +129,7 @@ enum membw_throttle_mode {
-  * @throttle_mode:	Bandwidth throttling mode when threads request
-  *			different memory bandwidths
-  * @mba_sc:		True if MBA software controller(mba_sc) is enabled
-+ * @mba_mbps_event:	Event (local or total) for mba_sc
-  * @mb_map:		Mapping of memory B/W percentage to memory B/W delay
-  */
- struct resctrl_membw {
-@@ -138,6 +139,7 @@ struct resctrl_membw {
- 	bool				arch_needs_linear;
- 	enum membw_throttle_mode	throttle_mode;
- 	bool				mba_sc;
-+	enum resctrl_event_id		mba_mbps_event;
- 	u32				*mb_map;
- };
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index a4f1aa15f0a2..8b9b8f664324 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -58,7 +58,8 @@ struct rdt_fs_context {
- 	struct kernfs_fs_context	kfc;
- 	bool				enable_cdpl2;
- 	bool				enable_cdpl3;
--	bool				enable_mba_mbps;
-+	bool				enable_mba_mbps_local;
-+	bool				enable_mba_mbps_total;
- 	bool				enable_debug;
- };
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-index f136ac046851..d9e590f1cbc3 100644
---- a/arch/x86/kernel/cpu/resctrl/monitor.c
-+++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-@@ -431,9 +431,10 @@ static int __mon_event_count(u32 rmid, struct rmid_read *rr)
-  */
- static void mbm_bw_count(u32 rmid, struct rmid_read *rr)
- {
--	struct mbm_state *m = &rr->d->mbm_local[rmid];
- 	u64 cur_bw, bytes, cur_bytes;
-+	struct mbm_state *m;
- 
-+	m = get_mbm_state(rr->d, rmid, rr->evtid);
- 	cur_bytes = rr->val;
- 	bytes = cur_bytes - m->prev_bw_bytes;
- 	m->prev_bw_bytes = cur_bytes;
-@@ -521,19 +522,21 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_domain *dom_mbm)
- 	u32 closid, rmid, cur_msr_val, new_msr_val;
- 	struct mbm_state *pmbm_data, *cmbm_data;
- 	u32 cur_bw, delta_bw, user_bw;
-+	enum resctrl_event_id evt_id;
- 	struct rdt_resource *r_mba;
- 	struct rdt_domain *dom_mba;
- 	struct list_head *head;
- 	struct rdtgroup *entry;
- 
--	if (!is_mbm_local_enabled())
-+	if (!is_mbm_enabled())
- 		return;
- 
- 	r_mba = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
-+	evt_id = r_mba->membw.mba_mbps_event;
- 
- 	closid = rgrp->closid;
- 	rmid = rgrp->mon.rmid;
--	pmbm_data = &dom_mbm->mbm_local[rmid];
-+	pmbm_data = get_mbm_state(dom_mbm, rmid, evt_id);
- 
- 	dom_mba = get_domain_from_cpu(smp_processor_id(), r_mba);
- 	if (!dom_mba) {
-@@ -553,7 +556,7 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_domain *dom_mbm)
- 	 */
- 	head = &rgrp->mon.crdtgrp_list;
- 	list_for_each_entry(entry, head, mon.crdtgrp_list) {
--		cmbm_data = &dom_mbm->mbm_local[entry->mon.rmid];
-+		cmbm_data = get_mbm_state(dom_mbm, entry->mon.rmid, evt_id);
- 		cur_bw += cmbm_data->prev_bw;
- 		delta_bw += cmbm_data->delta_bw;
- 	}
-@@ -616,18 +619,14 @@ static void mbm_update(struct rdt_resource *r, struct rdt_domain *d, int rmid)
- 		rr.evtid = QOS_L3_MBM_TOTAL_EVENT_ID;
- 		rr.val = 0;
- 		__mon_event_count(rmid, &rr);
-+		if (is_mba_sc(NULL) && rr.evtid == r->membw.mba_mbps_event)
-+			mbm_bw_count(rmid, &rr);
- 	}
- 	if (is_mbm_local_enabled()) {
- 		rr.evtid = QOS_L3_MBM_LOCAL_EVENT_ID;
- 		rr.val = 0;
- 		__mon_event_count(rmid, &rr);
--
--		/*
--		 * Call the MBA software controller only for the
--		 * control groups and when user has enabled
--		 * the software controller explicitly.
--		 */
--		if (is_mba_sc(NULL))
-+		if (is_mba_sc(NULL) && rr.evtid == r->membw.mba_mbps_event)
- 			mbm_bw_count(rmid, &rr);
- 	}
- }
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 69a1de92384a..79141d33d5b4 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -2294,7 +2294,7 @@ static bool supports_mba_mbps(void)
- {
- 	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
- 
--	return (is_mbm_local_enabled() &&
-+	return (is_mbm_enabled() &&
- 		r->alloc_capable && is_mba_linear());
- }
- 
-@@ -2302,7 +2302,7 @@ static bool supports_mba_mbps(void)
-  * Enable or disable the MBA software controller
-  * which helps user specify bandwidth in MBps.
-  */
--static int set_mba_sc(bool mba_sc)
-+static int set_mba_sc(bool mba_sc, enum resctrl_event_id mba_mbps_event)
- {
- 	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
- 	u32 num_closid = resctrl_arch_get_num_closid(r);
-@@ -2313,6 +2313,7 @@ static int set_mba_sc(bool mba_sc)
- 		return -EINVAL;
- 
- 	r->membw.mba_sc = mba_sc;
-+	r->membw.mba_mbps_event = mba_mbps_event;
- 
- 	list_for_each_entry(d, &r->domains, list) {
- 		for (i = 0; i < num_closid; i++)
-@@ -2445,13 +2446,14 @@ static void rdt_disable_ctx(void)
- {
- 	resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L3, false);
- 	resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L2, false);
--	set_mba_sc(false);
-+	set_mba_sc(false, QOS_L3_MBM_LOCAL_EVENT_ID);
- 
- 	resctrl_debug = false;
- }
- 
- static int rdt_enable_ctx(struct rdt_fs_context *ctx)
- {
-+	enum resctrl_event_id mba_mbps_event;
- 	int ret = 0;
- 
- 	if (ctx->enable_cdpl2) {
-@@ -2466,8 +2468,12 @@ static int rdt_enable_ctx(struct rdt_fs_context *ctx)
- 			goto out_cdpl2;
- 	}
- 
--	if (ctx->enable_mba_mbps) {
--		ret = set_mba_sc(true);
-+	if (ctx->enable_mba_mbps_local || ctx->enable_mba_mbps_total) {
-+		if (ctx->enable_mba_mbps_total)
-+			mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
-+		else
-+			mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-+		ret = set_mba_sc(true, mba_mbps_event);
- 		if (ret)
- 			goto out_cdpl3;
- 	}
-@@ -2683,15 +2689,17 @@ enum rdt_param {
- 	Opt_cdp,
- 	Opt_cdpl2,
- 	Opt_mba_mbps,
-+	Opt_mba_mbps_event,
- 	Opt_debug,
- 	nr__rdt_params
- };
- 
- static const struct fs_parameter_spec rdt_fs_parameters[] = {
--	fsparam_flag("cdp",		Opt_cdp),
--	fsparam_flag("cdpl2",		Opt_cdpl2),
--	fsparam_flag("mba_MBps",	Opt_mba_mbps),
--	fsparam_flag("debug",		Opt_debug),
-+	fsparam_flag("cdp",			Opt_cdp),
-+	fsparam_flag("cdpl2",			Opt_cdpl2),
-+	fsparam_flag("mba_MBps",		Opt_mba_mbps),
-+	fsparam_string("mba_MBps_event",	Opt_mba_mbps_event),
-+	fsparam_flag("debug",			Opt_debug),
- 	{}
- };
- 
-@@ -2715,7 +2723,27 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 	case Opt_mba_mbps:
- 		if (!supports_mba_mbps())
- 			return -EINVAL;
--		ctx->enable_mba_mbps = true;
-+		if (is_mbm_local_enabled())
-+			ctx->enable_mba_mbps_local = true;
-+		else if (is_mbm_total_enabled())
-+			ctx->enable_mba_mbps_total = true;
-+		else
-+			return -EINVAL;
-+		return 0;
-+	case Opt_mba_mbps_event:
-+		if (!supports_mba_mbps())
-+			return -EINVAL;
-+		if (!strcmp("local", param->string)) {
-+			if (!is_mbm_local_enabled())
-+				return -EINVAL;
-+			ctx->enable_mba_mbps_local = true;
-+		} else if (!strcmp("total", param->string)) {
-+			if (!is_mbm_total_enabled())
-+				return -EINVAL;
-+			ctx->enable_mba_mbps_total = true;
-+		} else {
-+			return -EINVAL;
-+		}
- 		return 0;
- 	case Opt_debug:
- 		ctx->enable_debug = true;
--- 
-2.41.0
-
+Yeah, I was just hoping that maybe we could squeak by without it.  I'll get=
+ this
+queued up next week, purely because I try to avoid (but often fail) pushing=
+ to
+-next on Fridays.
