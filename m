@@ -1,192 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0A7171A2;
-	Fri,  1 Dec 2023 09:01:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggA8gW8s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E84D5C433CB;
-	Fri,  1 Dec 2023 09:01:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701421312;
-	bh=jpNDrmMrt5w7Ke72ajK5/RQFYq5ylOTlCAwPhtPoynA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ggA8gW8sp8r/5b8OcNKpRIpi/aHo6y7Gx7XM0z/DWpANEsntMNr8XDP1IXBDyphjL
-	 ZmD+ysTYeql+rVkA+Q3sVYpEFTowbiFwuOlgZZfUIm+4J2zEjwVhukuCkB1HOgmu1X
-	 QUJbwWPXKUIWgD7ZN4Y1fxSraGKwTBcPU9tla+6/wdckg/uyKS8hnE3RX2SC3KT1lr
-	 N9vXt6dTTpSiyUEDVph0tPHF/PLQAhPQf708HRDCTghCT+/QHHZI2H9JxJWvmKD8cf
-	 ReHwK4FtGxJ4z58tDkjm75Eyx7cbudeA0SWVDj0plYJWh/p+BHxBXtTj0K8c2ixaRA
-	 QwyBl5TKyJ0Ug==
-Date: Fri, 1 Dec 2023 10:01:49 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, 
-	Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <2lbs5dkpusow72koxknoautcfb6e2ygq5wledim4i572ya5xlc@stc4koneykhm>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
- <ZWcB4Ak8QnwkhObR@intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YK8Z4kJs"
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47FCE128;
+	Fri,  1 Dec 2023 01:06:29 -0800 (PST)
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pq)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 5C41C660739A;
+	Fri,  1 Dec 2023 09:06:26 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701421587;
+	bh=rTJZzJCgLiIwcExEqYbSM1DrO64iWFfVeLwuztLPWMY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YK8Z4kJsctmCvtC34do7rBld3Q7LYUZl/0nv9aqDmV99WVGG7Rg1mq5NIKqD0RFCD
+	 rOY+hghc+077Ykui0ABFFZHaByhTaQHjmmBYaH0RV/0j0lrfyePcM+/uFj5U5RSJhw
+	 H39ez4s55uhOOTgE46zhbdqjDkitqvTH7OlKglu5MVRbyNtoJsI5qGT7wddWRj6zT1
+	 NgaBowSx1mD57TEa0xl8QvnETDjqJyVcPx99QvWXXW8hAhx/0dpZg/H7EY8mjFgXXh
+	 j4ssFHJ8UO821ShXUeVTtrBMCu9JITIcyJ6SaS55Gk0cMbwmEXQBawUXdCrQibipT6
+	 nv7wCSBBL4lHQ==
+Date: Fri, 1 Dec 2023 11:06:16 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Simon Ser <contact@emersion.fr>, Rob Clark <robdclark@gmail.com>, Pekka
+ Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch, Daniel Stone
+ <daniel@fooishbar.org>, 'Marek =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, Michel =?UTF-8?B?RMOkbnplcg==?=
+ <michel.daenzer@mailbox.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
+Message-ID: <20231201110616.30ad1468.pekka.paalanen@collabora.com>
+In-Reply-To: <x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
+References: <20231130200740.53454-1-andrealmeid@igalia.com>
+	<x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rtx5vtwdur3wvxx2"
-Content-Disposition: inline
-In-Reply-To: <ZWcB4Ak8QnwkhObR@intel.com>
+Content-Type: multipart/signed; boundary="Sig_/Ilb4Canwm_BXnib/16uRTnM";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-
---rtx5vtwdur3wvxx2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--Sig_/Ilb4Canwm_BXnib/16uRTnM
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 29, 2023 at 11:18:24AM +0200, Ville Syrj=E4l=E4 wrote:
-> On Wed, Nov 29, 2023 at 10:11:26AM +0100, Maxime Ripard wrote:
-> > Hi Ville,
-> >=20
-> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
-> > > > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
-> > > > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> > > > > > All the drm_connector_init variants take at least a pointer to =
-the
-> > > > > > device, connector and hooks implementation.
-> > > > > >
-> > > > > > However, none of them check their value before dereferencing th=
-ose
-> > > > > > pointers which can lead to a NULL-pointer dereference if the au=
-thor
-> > > > > > isn't careful.
-> > > > >=20
-> > > > > Arguably oopsing on the spot is preferrable when this can't be ca=
-used by
-> > > > > user input. It's always a mistake that should be caught early dur=
-ing
-> > > > > development.
-> > > > >=20
-> > > > > Not everyone checks the return value of drm_connector_init and fr=
-iends,
-> > > > > so those cases will lead to more mysterious bugs later. And proba=
-bly
-> > > > > oopses as well.
-> > > >=20
-> > > > So maybe we can do both then, with something like
-> > > >=20
-> > > > if (WARN_ON(!dev))
-> > > >    return -EINVAL
-> > > >=20
-> > > > if (drm_WARN_ON(dev, !connector || !funcs))
-> > > >    return -EINVAL;
-> > > >=20
-> > > > I'd still like to check for this, so we can have proper testing, an=
-d we
-> > > > already check for those pointers in some places (like funcs in
-> > > > drm_connector_init), so if we don't cover everything we're inconsis=
-tent.
-> > >=20
-> > > People will invariably cargo-cult this kind of stuff absolutely
-> > > everywhere and then all your functions will have tons of dead
-> > > code to check their arguments.
-> >=20
-> > And that's a bad thing because... ?
-> >=20
-> > Also, are you really saying that checking that your arguments make sense
-> > is cargo-cult?
-> >=20
-> > We're already doing it in some parts of KMS, so we have to be
-> > consistent, and the answer to "most drivers don't check the error"
-> > cannot be "let's just give on error checking then".
-> >=20
-> > > I'd prefer not to go there usually.
-> > >=20
-> > > Should we perhaps start to use the (arguably hideous)
-> > >  - void f(struct foo *bar)
-> > >  + void f(struct foo bar[static 1])
-> > > syntax to tell the compiler we don't accept NULL pointers?
-> > >=20
-> > > Hmm. Apparently that has the same problem as using any
-> > > other kind of array syntax in the prototype. That is,
-> > > the compiler demands to know the definition of 'struct foo'
-> > > even though we're passing in effectively a pointer. Sigh.
-> >=20
-> > Honestly, I don't care as long as it's something we can unit-test to
-> > make sure we make it consistent. We can't unit test a complete kernel
-> > crash.
+On Fri, 1 Dec 2023 09:29:05 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> Hi,
 >=20
-> Why do you want to put utterly broken code into a unit test?
+> On Thu, Nov 30, 2023 at 05:07:40PM -0300, Andr=C3=A9 Almeida wrote:
+> > From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> >=20
+> > Specify how the atomic state is maintained between userspace and
+> > kernel, plus the special case for async flips.
+> >=20
+> > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> > ---
+> >=20
+> > This is a standalone patch from the following serie, the other patches =
+are
+> > already merged:
+> > https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia=
+.com/
+> >=20
+> >  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 47 insertions(+)
+> >=20
+> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uap=
+i.rst
+> > index 370d820be248..d0693f902a5c 100644
+> > --- a/Documentation/gpu/drm-uapi.rst
+> > +++ b/Documentation/gpu/drm-uapi.rst
+> > @@ -570,3 +570,50 @@ dma-buf interoperability
+> > =20
+> >  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+> >  information on how dma-buf is integrated and exposed within DRM.
+> > +
+> > +KMS atomic state
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +An atomic commit can change multiple KMS properties in an atomic fashi=
+on,
+> > +without ever applying intermediate or partial state changes.  Either t=
+he whole
+> > +commit succeeds or fails, and it will never be applied partially. This=
+ is the
+> > +fundamental improvement of the atomic API over the older non-atomic AP=
+I which is
+> > +referred to as the "legacy API".  Applying intermediate state could un=
+expectedly
+> > +fail, cause visible glitches, or delay reaching the final state.
+> > +
+> > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which =
+means the
+> > +complete state change is validated but not applied.  Userspace should =
+use this
+> > +flag to validate any state change before asking to apply it. If valida=
+tion fails
+> > +for any reason, userspace should attempt to fall back to another, perh=
+aps
+> > +simpler, final state.  This allows userspace to probe for various conf=
+igurations
+> > +without causing visible glitches on screen and without the need to und=
+o a
+> > +probing change.
+> > +
+> > +The changes recorded in an atomic commit apply on top the current KMS =
+state in
+> > +the kernel. Hence, the complete new KMS state is the complete old KMS =
+state with
+> > +the committed property settings done on top. The kernel will try to av=
+oid =20
+>=20
+> That part is pretty confusing to me.
+>=20
+> What are you calling the current and old KMS state?
 
-Utterly broken code happens. It probably shouldn't, but here we are.
+Current =3D old, if you read that "current" is the KMS state before
+considering the atomic commit at hand.
 
-Anyway, you mostly missed the consistent part.
+> What's confusing to me is that, yes, what you're saying is true for a
+> given object: if it was part of the commit, the new state is the old
+> state + whatever the new state changed.
+>=20
+> However, if that object wasn't part of the commit at all, then it's
+> completely out of the old or new global KMS state.
 
-The current state with it is:
+This is not talking about kernel data structures at all. This is
+talking about how KMS looks from the userspace point of view.
 
-  - planes:
-    - drm_universal_plane_init warns if funcs->destroy NULL
-    - drm_universal_plane_alloc errors out if funcs is NULL
-    - drmm_universal_plane_alloc warns and errors out if funcs or funcs->de=
-stroy are NULL
+All objects are always part of the device KMS state as referred to
+in this doc, whether they were mentioned in the atomic commit state set
+or not. That's the whole point: all state that was not explicitly
+modified remains as it was, and is actively used state by the driver
+and hardware. The practical end result state is the same as if all
+objects were (redundantly) mentioned.
 
-  - CRTC:
-    - drm_crtc_init_with_planes warns if funcs->destroy NULL
-    - drmm_crtc_init_with_planes warns if funcs or funcs->destroy are NULL
-    - drmm_crtc_alloc_with_planes warns and errors out if funcs or funcs->d=
-estroy are NULL
+For example, if you change properties of CRTC 31, it has no effect on
+the behaviour of CRTC 54. If CRTC 54 was active, it remains active. If
+CRTC 54 had certain property values, it continues to have those
+property values. This is opposed to something else; the UAPI could have
+been designed to e.g. reset all unmentioned objects to defaults/off by
+the atomic commit. Obviously that's not how it works today, so we need
+to mention how things do work.
 
-  - encoder:
-    - drm_encoder_init warns if funcs->destroy NULL
-    - drmm_encoder_init warns and errors out if funcs or funcs->destroy are=
- NULL
-    - drmm_encoder_alloc warns and errors out if funcs or funcs->destroy ar=
-e NULL
+>=20
+> So yeah, individual object KMS state are indeed complete, but
+> drm_atomic_state definitely isn't. And it's the whole point of functions
+> like drm_atomic_get_crtc_state() vs drm_atomic_get_old/new_crtc_state:
+> the old/new variants only return a state if it was part of
+> drm_atomic_state to begin with. drm_atomic_get_crtc_state() brings the
+> crtc state into drm_atomic_state if it wasn't part of it.
 
-  - connectors:
-    - drm_connector_init warns and errors out if funcs or funcs->destroy ar=
-e NULL
-    - drm_connector_init_with_ddc warns and errors out if funcs or funcs->d=
-estroy are NULL
-    - drmm_connector_init warns and errors out if funcs or funcs->destroy a=
-re NULL
+At no point the text is referring to drm_atomic_state or any other
+kernel data structure.
 
-I think that just proves that your opinion is just not as clear cut as
-you'd like it to be, and it's far from being the policy you claim it is.
 
-Plus, we're not even remotely consistent there, and we're not
-documenting that anywhere.
+Thanks,
+pq
 
-And we have plenty of other examples of static stuff being checked
-because it just makes sense. All variants of drm_crtc_init_with_planes
-will for example check that the correct plane type is associated to the
-primary and cursor planes.
-
-We should fix that.
-
-Maxime
-
---rtx5vtwdur3wvxx2
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/Ilb4Canwm_BXnib/16uRTnM
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWmg/QAKCRDj7w1vZxhR
-xXKqAQC1+hzRgBMOmcGyZ0qOZTQ2mgc2fhZmVU8e00/0/EtSkQD+MHB9/8fFCfDG
-eCgsvdCLnrNjgI5MoqGzUdsYnzOTKgI=
-=bxPp
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVpoggACgkQI1/ltBGq
+qqc6AxAAlBWeVudinBA3iet8KUI3heH4Rzpso1wX7XAnCiCN/FL949KDlWavHoao
+oNJIeeWdQWl+1aaMd4Rh5cj49XknqYoFHWGiNitY7bWgOARhZ2QRuZq12P/EghkB
+gwLb0suqe5SSPMqWxQy74R1vZezInMWnRSKVQCyXyMKdTqTg2h//P5X7I6BS5fR7
+UnKrMChRwJR2fIdf0BbLGlyZfalxZZ2YTG2P0I3pycPUru6XmdY/SHn/81fezaw/
+9+aUz8B77k2tp4w6/FtUaiKW34UG5QjJzar1GDZKCdf74H99MCjTROUlbde55yVq
+r8E6m9VT931yu6SREN3vPynBUJvBrukkXO9Ymtum4fajcB0RFCu5NmFmbgm2nHWR
+xRVkA11+VqRBuUrG+RbhLnSTh3dB1iKNbcjo490LyzqyifSSq8D3meyCmyY7fhc2
+09XqRYtBVqNUZzaLf3JbfWVZ4INq2PA6Q8Yq+bEx7tXgE3uNyvM5kabxd8OXmT5S
+WOmFPgiFrJTgh2K4CCrtpPdxUXEvPoLQu7mE3DmQeLyQsuGFdycekRzqsBUPWfc2
+lS0ur8J9qNod02uP9fSKW/2UdKwBroSO5t2d+s/LAmAgwm/xc93hnhbYSjmivKpd
+TFzMmDPNCkZC+2BHmy7WZhVTvoSoIQiHZsjoq9jtyYcNxnUO0G4=
+=gKNe
 -----END PGP SIGNATURE-----
 
---rtx5vtwdur3wvxx2--
+--Sig_/Ilb4Canwm_BXnib/16uRTnM--
