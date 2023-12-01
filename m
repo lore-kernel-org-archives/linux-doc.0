@@ -1,105 +1,123 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E9210B
-	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 10:12:34 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-257-UsWWvVUmOhOZXVt_VID7jw-1; Fri, 01 Dec 2023 18:12:27 +0000
-X-MC-Unique: UsWWvVUmOhOZXVt_VID7jw-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 1 Dec
- 2023 18:12:19 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 1 Dec 2023 18:12:19 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Jann Horn' <jannh@google.com>, Waiman Long <longman@redhat.com>
-CC: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH] locking: Document that mutex_unlock() is non-atomic
-Thread-Topic: [PATCH] locking: Document that mutex_unlock() is non-atomic
-Thread-Index: AQHaJGdmWd9hceM5t0qWKvuVqma2ELCUtpLQ
-Date: Fri, 1 Dec 2023 18:12:19 +0000
-Message-ID: <28b147c3d7354d1a8ff0b903da9b54f4@AcuMS.aculab.com>
-References: <20231130204817.2031407-1-jannh@google.com>
- <06c05c8b-9a3b-4c04-b898-0f82e98da70f@redhat.com>
- <CAG48ez1a=VuEWwPTjcXFAwCyt9bRH-WzAfw0uP-qVu83kdxkZw@mail.gmail.com>
-In-Reply-To: <CAG48ez1a=VuEWwPTjcXFAwCyt9bRH-WzAfw0uP-qVu83kdxkZw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Ve1IKSeG"
+Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02B75F9;
+	Fri,  1 Dec 2023 10:16:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1701454571; x=1732990571;
+  h=mime-version:content-transfer-encoding:date:message-id:
+   cc:from:to:references:in-reply-to:subject;
+  bh=hgs3mkSW/WgX8t1/olpmhoODPmslM5+oH0THeK3eQWI=;
+  b=Ve1IKSeGrYKw/Ba3YeqbRF91K7neoyETvtJoRUFj91T8Ck1RB+qSDNtO
+   VU+mLSGTWt+fCQxBjWSCBEar2vOM4HLYM0lI08upasd2RpOqrHsic3pwP
+   BU9Bqh2kHF65F89zUslqhLDp4GVatK/lPKY8Fr0FQpbFISNCKc85LwAJl
+   I=;
+X-IronPort-AV: E=Sophos;i="6.04,242,1695686400"; 
+   d="scan'208";a="366083187"
+Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return prologues in
+ hypercall page
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-0aba4706.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 18:16:08 +0000
+Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan2.iad.amazon.com [10.32.235.34])
+	by email-inbound-relay-iad-1e-m6i4x-0aba4706.us-east-1.amazon.com (Postfix) with ESMTPS id 9851BA6115;
+	Fri,  1 Dec 2023 18:16:04 +0000 (UTC)
+Received: from EX19MTAEUA002.ant.amazon.com [10.0.43.254:41546]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.14.81:2525] with esmtp (Farcaster)
+ id 7a9e3de9-5dbc-4eed-a35e-b26a36385304; Fri, 1 Dec 2023 18:16:03 +0000 (UTC)
+X-Farcaster-Flow-ID: 7a9e3de9-5dbc-4eed-a35e-b26a36385304
+Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
+ EX19MTAEUA002.ant.amazon.com (10.252.50.126) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 1 Dec 2023 18:16:03 +0000
+Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
+ (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Dec
+ 2023 18:15:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 1 Dec 2023 18:15:55 +0000
+Message-ID: <CXD7AW5T9R7G.2REFR2IRSVRVZ@amazon.com>
+CC: Maxim Levitsky <mlevitsk@redhat.com>, <kvm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+	<pbonzini@redhat.com>, <vkuznets@redhat.com>, <anelkz@amazon.com>,
+	<graf@amazon.com>, <dwmw@amazon.co.uk>, <jgowans@amazon.com>,
+	<kys@microsoft.com>, <haiyangz@microsoft.com>, <decui@microsoft.com>,
+	<x86@kernel.org>, <linux-doc@vger.kernel.org>
+From: Nicolas Saenz Julienne <nsaenz@amazon.com>
+To: Sean Christopherson <seanjc@google.com>
+X-Mailer: aerc 0.15.2-182-g389d89a9362e-dirty
+References: <20231108111806.92604-1-nsaenz@amazon.com>
+ <20231108111806.92604-6-nsaenz@amazon.com>
+ <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
+ <CXD4TVV5QWUK.3SH495QSBTTUF@amazon.com> <ZWoKlJUKJGGhRRgM@google.com>
+ <CXD5HJ5LQMTE.11XP9UB9IL8LY@amazon.com> <ZWocI-2ajwudA-S5@google.com>
+In-Reply-To: <ZWocI-2ajwudA-S5@google.com>
+X-ClientProxiedBy: EX19D033UWC002.ant.amazon.com (10.13.139.196) To
+ EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-RnJvbTogSmFubiBIb3JuDQo+IFNlbnQ6IDAxIERlY2VtYmVyIDIwMjMgMTU6MDINCj4gDQo+IE9u
-IEZyaSwgRGVjIDEsIDIwMjMgYXQgMTozM+KAr0FNIFdhaW1hbiBMb25nIDxsb25nbWFuQHJlZGhh
-dC5jb20+IHdyb3RlOg0KPiA+IE9uIDExLzMwLzIzIDE1OjQ4LCBKYW5uIEhvcm4gd3JvdGU6DQo+
-ID4gPiBJIGhhdmUgc2VlbiBzZXZlcmFsIGNhc2VzIG9mIGF0dGVtcHRzIHRvIHVzZSBtdXRleF91
-bmxvY2soKSB0byByZWxlYXNlIGFuDQo+ID4gPiBvYmplY3Qgc3VjaCB0aGF0IHRoZSBvYmplY3Qg
-Y2FuIHRoZW4gYmUgZnJlZWQgYnkgYW5vdGhlciB0YXNrLg0KPiA+ID4gTXkgdW5kZXJzdGFuZGlu
-ZyBpcyB0aGF0IHRoaXMgaXMgbm90IHNhZmUgYmVjYXVzZSBtdXRleF91bmxvY2soKSwgaW4gdGhl
-DQo+ID4gPiBNVVRFWF9GTEFHX1dBSVRFUlMgJiYgIU1VVEVYX0ZMQUdfSEFORE9GRiBjYXNlLCBh
-Y2Nlc3NlcyB0aGUgbXV0ZXgNCj4gPiA+IHN0cnVjdHVyZSBhZnRlciBoYXZpbmcgbWFya2VkIGl0
-IGFzIHVubG9ja2VkOyBzbyBtdXRleF91bmxvY2soKSByZXF1aXJlcw0KPiA+ID4gaXRzIGNhbGxl
-ciB0byBlbnN1cmUgdGhhdCB0aGUgbXV0ZXggc3RheXMgYWxpdmUgdW50aWwgbXV0ZXhfdW5sb2Nr
-KCkNCj4gPiA+IHJldHVybnMuDQo+ID4gPg0KPiA+ID4gSWYgTVVURVhfRkxBR19XQUlURVJTIGlz
-IHNldCBhbmQgdGhlcmUgYXJlIHJlYWwgd2FpdGVycywgdGhvc2Ugd2FpdGVycw0KPiA+ID4gaGF2
-ZSB0byBrZWVwIHRoZSBtdXRleCBhbGl2ZSwgSSB0aGluazsgYnV0IHdlIGNvdWxkIGhhdmUgYSBz
-cHVyaW91cw0KPiA+ID4gTVVURVhfRkxBR19XQUlURVJTIGxlZnQgaWYgYW4gaW50ZXJydXB0aWJs
-ZS9raWxsYWJsZSB3YWl0ZXIgYmFpbGVkDQo+ID4gPiBiZXR3ZWVuIHRoZSBwb2ludHMgd2hlcmUg
-X19tdXRleF91bmxvY2tfc2xvd3BhdGgoKSBkaWQgdGhlIGNtcHhjaGcNCj4gPiA+IHJlYWRpbmcg
-dGhlIGZsYWdzIGFuZCB3aGVyZSBpdCBhY3F1aXJlZCB0aGUgd2FpdF9sb2NrLg0KPiA+ID4NCj4g
-PiA+IChXaXRoIHNwaW5sb2NrcywgdGhhdCBraW5kIG9mIGNvZGUgcGF0dGVybiBpcyBhbGxvd2Vk
-IGFuZCwgZnJvbSB3aGF0IEkNCj4gPiA+IHJlbWVtYmVyLCB1c2VkIGluIHNldmVyYWwgcGxhY2Vz
-IGluIHRoZSBrZXJuZWwuKQ0KPiA+ID4NCj4gPiA+IElmIG15IHVuZGVyc3RhbmRpbmcgb2YgdGhp
-cyBpcyBjb3JyZWN0LCB3ZSBzaG91bGQgcHJvYmFibHkgZG9jdW1lbnQgdGhpcyAtDQo+ID4gPiBJ
-IHRoaW5rIHN1Y2ggYSBzZW1hbnRpYyBkaWZmZXJlbmNlIGJldHdlZW4gbXV0ZXhlcyBhbmQgc3Bp
-bmxvY2tzIGlzIGZhaXJseQ0KPiA+ID4gdW5pbnR1aXRpdmUuDQo+ID4NCj4gPiBTcGlubG9ja3Mg
-YXJlIGZhaXIuIFNvIGRvaW5nIGEgbG9jay91bmxvY2sgc2VxdWVuY2Ugd2lsbCBtYWtlIHN1cmUg
-dGhhdA0KPiA+IGFsbCB0aGUgcHJldmlvdXNseSB3YWl0aW5nIHdhaXRlcnMgYXJlIGRvbmUgd2l0
-aCB0aGUgbG9jay4gUGFyYS12aXJ0dWFsDQo+ID4gc3BpbmxvY2tzLCBob3dldmVyLCBjYW4gYmUg
-YSBiaXQgdW5mYWlyIHNvIGRvaW5nIGEgbG9jay91bmxvY2sgc2VxdWVuY2UNCj4gPiBtYXkgbm90
-IGJlIGVub3VnaCB0byBndWFyYW50ZWUgdGhlcmUgaXMgbm8gd2FpdGVyLiBUaGUgc2FtZSBpcyB0
-cnVlIGZvcg0KPiA+IG11dGV4LiBBZGRpbmcgYSBzcGluX2lzX2xvY2tlZCgpIG9yIG11dGV4X2lz
-X2xvY2tlZCgpIGNoZWNrIGNhbiBtYWtlDQo+ID4gc3VyZSB0aGF0IGFsbCB0aGUgd2FpdGVycyBh
-cmUgZ29uZS4NCj4gDQo+IEkgdGhpbmsgdGhpcyBwYXR0ZXJuIGFueXdheSBvbmx5IHdvcmtzIHdo
-ZW4geW91J3JlIG9ubHkgdHJ5aW5nIHRvIHdhaXQNCj4gZm9yIHRoZSBjdXJyZW50IGhvbGRlciBv
-ZiB0aGUgbG9jaywgbm90IHRhc2tzIHRoYXQgYXJlIHF1ZXVlZCB1cCBvbg0KPiB0aGUgbG9jayBh
-cyB3YWl0ZXJzIC0gc28gYSB0YXNrIGluaXRpYWxseSBob2xkcyBhIHN0YWJsZSByZWZlcmVuY2Ug
-dG8NCj4gc29tZSBvYmplY3QsIHRoZW4gYWNxdWlyZXMgdGhlIG9iamVjdCdzIGxvY2ssIHRoZW4g
-ZHJvcHMgdGhlIG9yaWdpbmFsDQo+IHJlZmVyZW5jZSwgYW5kIHRoZW4gbGF0ZXIgZHJvcHMgdGhl
-IGxvY2suDQo+IFlvdSBjYW4gc2VlIGFuIGV4YW1wbGUgb2Ygc3VjaCBtdXRleCB1c2FnZSAod2hp
-Y2ggaXMgZXhwbGljaXRseSBsZWdhbA0KPiB3aXRoIHVzZXJzcGFjZSBQT1NJWCBtdXRleGVzLCBi
-dXQgaXMgZm9yYmlkZGVuIHdpdGgga2VybmVsIG11dGV4ZXMpIGF0DQo+IHRoZSBib3R0b20gb2Yg
-dGhlIFBPU0lYIG1hbnBhZ2UgZm9yIHB0aHJlYWRfbXV0ZXhfZGVzdHJveSgpIGF0DQo+IDxodHRw
-czovL3B1YnMub3Blbmdyb3VwLm9yZy9vbmxpbmVwdWJzLzAwNzkwNDg3NS9mdW5jdGlvbnMvcHRo
-cmVhZF9tdXRleF9kZXN0cm95Lmh0bWw+LA0KPiBpbiB0aGUgc2VjdGlvbiAiRGVzdHJveWluZyBN
-dXRleGVzIi4NCg0KSSBkb24ndCB1bmRlcnN0YW5kIGF0IGFsbCB3aGF0IGFueSBvZiB0aGlzIGlz
-IGFib3V0Lg0KWW91IGNhbm5vdCBkZS1pbml0aWFsaXNlLCBmcmVlIChldGMpIGEgbXV0ZXggKG9y
-IGFueSBvdGhlciBwaWVjZSBvZg0KbWVtb3J5IGZvciB0aGF0IG1hdHRlcikgaWYgYW5vdGhlciB0
-aHJlYWQgY2FuIGhhdmUgYSByZWZlcmVuY2UgdG8gaXQuDQpJZiBzb21lIG90aGVyIGNvZGUgbWln
-aHQgYmUgaG9sZGluZyB0aGUgbXV0ZXggaXQgYWxzbyBtaWdodCBiZSBqdXN0DQphYm91dCB0byBh
-Y3F1aXJlIGl0IC0geW91IGFsd2F5cyBuZWVkIGFub3RoZXIgbG9jayBvZiBzb21lIGtpbmQgdG8N
-CmVuc3VyZSB0aGF0IGRvZXNuJ3QgaGFwcGVuLg0KDQpJSVJDIHByZXR0eSBtdWNoIHRoZSBvbmx5
-IHRpbWUgeW91IG5lZWQgdG8gYWNxdWlyZSB0aGUgbXV0ZXggaW4gdGhlDQpmcmVlIHBhdGggaXMg
-aWYgbG9ja3MgYXJlIGNoYWluZWQsIGVnOg0KCWxvY2sodGFibGUpDQoJZW50cnkgPSBmaW5kX2Vu
-dHJ5KCk7DQoJbG9jayhlbnRyeSkNCgl1bmxvY2sodGFibGUpDQoJLi4uDQoJdW5sb2NrKGVudHJ5
-KQ0KDQpUaGVuIHRoZSBmcmVlIGNvZGUgaGFzIHRvOg0KCWxvY2sodGFibGUpDQoJcmVtb3ZlX2Zy
-b21fdGFibGUoZW50cnkpDQoJbG9jayhlbnRyeSkNCgl1bmxvY2soZW50cnkpDQoJdW5sb2NrKHRh
-YmxlKQ0KCWZyZWUoZW50cnkpDQoNCklTVFIgc29tZXRoaW5nIGFib3V0IG11dGV4X3VubG9jaygp
-IG5vdCBiZWluZyBhIGZ1bGwgbWVtb3J5IGJhcnJpZXIuDQpCdXQgdGhhdCBpcyBlbnRpcmVseSBk
-aWZmZXJlbnQgdG8gdGhpcyBkaXNjdXNzaW9uLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBB
-ZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMs
-IE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On Fri Dec 1, 2023 at 5:47 PM UTC, Sean Christopherson wrote:
+> CAUTION: This email originated from outside of the organization. Do not c=
+lick links or open attachments unless you can confirm the sender and know t=
+he content is safe.
+>
+>
+>
+> On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
+> > On Fri Dec 1, 2023 at 4:32 PM UTC, Sean Christopherson wrote:
+> > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
+> > > > > To support this I think that we can add a userspace msr filter on=
+ the HV_X64_MSR_HYPERCALL,
+> > > > > although I am not 100% sure if a userspace msr filter overrides t=
+he in-kernel msr handling.
+> > > >
+> > > > I thought about it at the time. It's not that simple though, we sho=
+uld
+> > > > still let KVM set the hypercall bytecode, and other quirks like the=
+ Xen
+> > > > one.
+> > >
+> > > Yeah, that Xen quirk is quite the killer.
+> > >
+> > > Can you provide pseudo-assembly for what the final page is supposed t=
+o look like?
+> > > I'm struggling mightily to understand what this is actually trying to=
+ do.
+> >
+> > I'll make it as simple as possible (diregard 32bit support and that xen
+> > exists):
+> >
+> > vmcall             <-  Offset 0, regular Hyper-V hypercalls enter here
+> > ret
+> > mov rax,rcx  <-  VTL call hypercall enters here
+>
+> I'm missing who/what defines "here" though.  What generates the CALL that=
+ points
+> at this exact offset?  If the exact offset is dictated in the TLFS, then =
+aren't
+> we screwed with the whole Xen quirk, which inserts 5 bytes before that fi=
+rst VMCALL?
 
+Yes, sorry, I should've included some more context.
+
+Here's a rundown (from memory) of how the first VTL call happens:
+ - CPU0 start running at VTL0.
+ - Hyper-V enables VTL1 on the partition.
+ - Hyper-V enabled VTL1 on CPU0, but doesn't yet switch to it. It passes
+   the initial VTL1 CPU state alongside the enablement hypercall
+   arguments.
+ - Hyper-V sets the Hypercall page overlay address through
+   HV_X64_MSR_HYPERCALL. KVM fills it.
+ - Hyper-V gets the VTL-call and VTL-return offset into the hypercall
+   page using the VP Register HvRegisterVsmCodePageOffsets (VP register
+   handling is in user-space).
+ - Hyper-V performs the first VTL-call, and has all it needs to move
+   between VTL0/1.
+
+Nicolas
