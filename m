@@ -1,155 +1,100 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMNA2r6o"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D815110DE;
-	Thu, 30 Nov 2023 16:37:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701391040; x=1732927040;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OAXgylAvqbL36kLJ778XRMQl7eMkZD8otzMFMN2gudo=;
-  b=gMNA2r6oqUgmg9LRxDTmyLraXwvXsPw95rtgV9bDggFNuLF0mQwE3pC/
-   8YiTmhfIYqYI17VVtrJ7NzrDj5F9bYWojS3lr5tDKag/SMTXGGG6iFcWU
-   I/cFKxjK6HptuSNaJy9rQAasP2kagSVEGm2Xdskhu3ZUOZUrr0CYG/gRQ
-   a4XYt7KyQStNku1+A47IZ0VFX56h+MgOU7lWgueIgnE5660xS1QGvcHor
-   UW1TR8OZ1X5wAvZn7oR5Prx16JEs6yy77K5tMjEBxFeKb0fzJmMdbsgq4
-   UFLET5wN1B/yuVrrKNRfgvmyO7FQYIAq/0IULLABk3z9wT4C2vDtrlo85
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="311715"
-X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
-   d="scan'208";a="311715"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 16:37:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="839984290"
-X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
-   d="scan'208";a="839984290"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 16:37:20 -0800
-Date: Thu, 30 Nov 2023 16:37:19 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Fam Zheng <fam@euphon.net>, Fenghua Yu <fenghua.yu@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, patches@lists.linux.dev,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-Subject: Re: [PATCH v12 7/8] x86/resctrl: Sub NUMA Cluster detection and
- enable
-Message-ID: <ZWkqv+egQuph03Bm@agluck-desk3>
-References: <20231109230915.73600-1-tony.luck@intel.com>
- <20231130003418.89964-1-tony.luck@intel.com>
- <20231130003418.89964-8-tony.luck@intel.com>
- <ZWjOBw0Ygyw226Cc@dell>
- <ZWj3NdI/qLNOgyg0@agluck-desk3>
- <1c1a16a5-f235-4179-9d0f-1556e11d9c11@intel.com>
- <ZWkQBwwtSae4nGgH@agluck-desk3>
- <5078f930-e56e-45b5-9df3-99e88c0858dd@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WLHN/zDn"
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4A910C2
+	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 16:52:08 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5d04540d5aaso26725167b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 16:52:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701391928; x=1701996728; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=D7rrSw0NQO055D8S8vjtnTn1EUTQ7K87+88fh2pqZsE=;
+        b=WLHN/zDnudw72XGN7U34kCKpO9lItXRoXISxGG274BqlzUxYGE/vC8koDz324GYsvN
+         TYFPJTlR+An7MSdXAmSV9aCshp/RtFPa86q7rrUFcSc5pKz8HcSq8hdlFGDWCBG6eM7J
+         y9hGA+vJT9Ic2+29/gpVikI0kD1er6/+l32/amIKIg4oqELjW4AwqKGLdAEUw2UYE5Nb
+         e5bVuiN1vTEJ2CAQGM8hBbqr8lFYfypzgKm8xBfr1OmuJ0F0deFNy2hmhGkHxrmNzGJI
+         WPc4O8+spOEdwXZ3H9I5vvTHlEPzxxyuwmjcy5Cozz76ertBFfaj3ikaBjUjzSivZ1OO
+         ihUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701391928; x=1701996728;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D7rrSw0NQO055D8S8vjtnTn1EUTQ7K87+88fh2pqZsE=;
+        b=i/Ya0imwnCUVn5dk0qGHck3S35tYhssiqEo+mJ7K50g8Pg315oQtjHUa3YD8GAueQs
+         3tgpruyyGIdDUt2lusTj0FgJo8Wz4ouCq/KGkiOWVdIztNVleKlTUiJH38zS9BLmXx0N
+         HryBjJG7piLhJ6dinWl0xMgSZXmUHcyYKjEW2UUl82W9YLbivrEeuc07GGBHsDWtVzvo
+         FiK7ShgqpJOqcPIKFadfYPtbJ6KS66OgY1uBk/Efv62QB7feGd6/tVViFqCTgT4WIuJO
+         xn29XPg5VBlWoO488qGUREKWbY85btHyN5d3k+6fFkVKox/RgEqSGYizFoiAgrnqegUw
+         fdPQ==
+X-Gm-Message-State: AOJu0Yz1kbxd4uGCDxAaCgLfsFbCwC509ui5af7D8oyEOjWczqfoWlwP
+	eAzC8Mz1ny69Q0+NKi3LJ7bkPmK73079
+X-Google-Smtp-Source: AGHT+IFKvXNXIfoRHM0m0qB8MFcGuh4xxwA7sFtdSp36gULSAH59l3Gw6b036WI6Aep1yW9tQy/2NEcFOKdL
+X-Received: from joshdon-desktop.svl.corp.google.com ([2620:15c:2a3:200:6088:f608:a3e0:af40])
+ (user=joshdon job=sendgmr) by 2002:a05:690c:845:b0:5a8:205e:1f27 with SMTP id
+ bz5-20020a05690c084500b005a8205e1f27mr755718ywb.6.1701391928055; Thu, 30 Nov
+ 2023 16:52:08 -0800 (PST)
+Date: Thu, 30 Nov 2023 16:52:03 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5078f930-e56e-45b5-9df3-99e88c0858dd@intel.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
+Message-ID: <20231201005203.309873-1-joshdon@google.com>
+Subject: [PATCH] cgroup: Fix documentation for cpu.idle
+From: Josh Don <joshdon@google.com>
+To: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Josh Don <joshdon@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 30, 2023 at 03:40:52PM -0800, Reinette Chatre wrote:
-> Hi Tony,
-> 
-> On 11/30/2023 2:43 PM, Tony Luck wrote:
-> > On Thu, Nov 30, 2023 at 01:47:10PM -0800, Reinette Chatre wrote:
-> 
-> ...
-> 
-> >>>  	if (!x86_match_cpu(snc_cpu_ids))
-> >>>  		return 1;
-> >>
-> >> I understand and welcome this change as motivated by robustness. Apart
-> >> from that, with this being a model specific feature for this particular
-> >> group of systems, it it not clear to me in which scenarios this could
-> >> run on a system where a present CPU does not have access to L3 cache.
-> > 
-> > Agreed that on these systems there should always be an L3 cache. Should
-> > I drop the check for "-1"?
-> 
-> Please do keep it. I welcome the additional robustness. The static checker I
-> tried did not complain about this but I expect that it is something that
-> could trigger checks.
-> 
-> > 
-> >>>  
-> >>> -	node_caches = bitmap_zalloc(nr_node_ids, GFP_KERNEL);
-> >>> +	node_caches = bitmap_zalloc(num_online_cpus(), GFP_KERNEL);
-> >>
-> >> Please do take care to take new bitmap size into account in all
-> >> places. From what I can tell there is a later bitmap_weight() call that
-> >> still uses nr_node_ids as size.
-> > 
-> > Oops. I was also using num_online_cpus() before cpus_read_lock(), so
-> > things could theoretically change before the bitmap_weight() call.
-> > I switched to using num_present_cpus() in both places.
-> 
-> Thanks for catching this. I am not sure if num_present_cpus() is the right
-> choice. I found its comment to say "If HOTPLUG is enabled, then cpu_present_mask
-> varies dynamically ...". num_possible_cpus() seems more appropriate when looking
+Two problems:
+	- cpu.idle cgroups show up with 0 weight, correct the
+	  documentation to indicate this.
+	- cpu.idle has no entry describing it.
 
-I can size the bitmask based on num_possible_cpus().
+Signed-off-by: Josh Don <joshdon@google.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-> for something that does not change while not holding the hotplug lock. Reading its
-> description more closely also makes me wonder if the later
-> 	num_online_cpus() != num_present_cpus()
-> should also maybe be 
-> 	num_online_cpus() != num_possible_cpus() ?
-> It seems to more closely match the intention.
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 3f85254f3cef..9debf02bcb39 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1093,7 +1093,11 @@ All time durations are in microseconds.
+ 	A read-write single value file which exists on non-root
+ 	cgroups.  The default is "100".
+ 
+-	The weight in the range [1, 10000].
++	For non idle groups (cpu.idle = 0), the weight is in the
++	range [1, 10000].
++
++	If the cgroup has been configured to be SCHED_IDLE (cpu.idle = 1),
++	then the weight will show as a 0.
+ 
+   cpu.weight.nice
+ 	A read-write single value file which exists on non-root
+@@ -1157,6 +1161,16 @@ All time durations are in microseconds.
+         values similar to the sched_setattr(2). This maximum utilization
+         value is used to clamp the task specific maximum utilization clamp.
+ 
++  cpu.idle
++	A read-write single value file which exists on non-root cgroups.
++	The default is 0.
++
++	This is the cgroup analog of the per-task SCHED_IDLE sched policy.
++	Setting this value to a 1 will make the scheduling policy of the
++	cgroup SCHED_IDLE. The threads inside the cgroup will retain their
++	own relative priorities, but the cgroup itself will be treated as
++	very low priority relative to its peers.
++
+ 
+ 
+ Memory
+-- 
+2.43.0.rc2.451.g8631bc7472-goog
 
-This seems problematic. On a system that does support physical CPU
-hotplug num_possible_cpus() may be some very large number. Reserving
-space for CPUs that can be added later. None of those CPUs can be online
-(obviously!). So this test would fail on such a system.
-
-> >>>  	if (!node_caches)
-> >>>  		return 1;
-> >>>  
-> >>> @@ -1072,10 +1073,13 @@ static __init int snc_get_config(void)
-> >>>  
-> >>>  	for_each_node(node) {
-> >>>  		cpu = cpumask_first(cpumask_of_node(node));
-> >>> -		if (cpu < nr_cpu_ids)
-> >>> -			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
-> >>> -		else
-> >>> +		if (cpu < nr_cpu_ids) {
-> >>> +			cache_id = get_cpu_cacheinfo_id(cpu, 3);
-> >>> +			if (cache_id != -1)
-> >>> +				set_bit(cache_id, node_caches);
-> >>> +		} else {
-> >>>  			mem_only_nodes++;
-> >>> +		}
-> >>>  	}
-> >>>  	cpus_read_unlock();
-> >>>  
-> >>
-> >> Could this code be made even more robust by checking the computed
-> >> snc_nodes_per_l3_cache against the limited actually possible values?
-> >> Forcing it to 1 if something went wrong?
-> > 
-> > Added a couple of extra sanity checks. See updated incremental patch
-> > below.
-> 
-> Thank you very much. The additional checks look good to me.
-> 
-> Reinette
-
-Thanks for looking at this. I'm applying changes to my local tree. I'll
-give folks a little more time to find additonal issues in v12 and post
-v13 next week.
-
--Tony
