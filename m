@@ -1,140 +1,108 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="INnYnJKm"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B03103;
-	Fri,  1 Dec 2023 07:00:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701442842; x=1732978842;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=neT4Hf+obtBf9p4YDRJKGw0EfyhXIRhgDs2UETBnJqQ=;
-  b=INnYnJKm+BeQAPAH7r9tp2z+Zqf4AhauGp0G4hIHrUUkzLLHEEP+Rcjz
-   l7e641NACodlCHACgg8hPK/3ZSlpFTP9UHAvmjj/pVI/OkDWM9R3FBQH4
-   nJd1PVqkjCkfBnlH9xu3saPu+3xqX6Yx4jvRbl1mQI9nDaBNl8KTghWrn
-   awF+lqYq4p+HnkgmZK2LpTWcZQCaEMfbEqWpKrRcMydVoJVQEdPUrscWT
-   zM/+kYmrD16LMcNC5nGBhXDrCbSY+UQKflrtCudr6oLohWtNMzIZjA8vr
-   8qGK0tNmpb8jYWQq6Nd7x18zi+uCPqGRypImcsNgSDFyjsi0icpiVDEan
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="383903036"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="383903036"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 07:00:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763166038"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="763166038"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 07:00:33 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 01 Dec 2023 17:00:32 +0200
-Date: Fri, 1 Dec 2023 17:00:32 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
-	Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	Pekka Paalanen <ppaalanen@gmail.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>, kernel-dev@igalia.com,
-	alexander.deucher@amd.com, christian.koenig@amd.com
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <ZWn1EC04wBSN9hu2@intel.com>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wdTt5Z+S"
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB593170B
+	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 07:02:13 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-548ae9a5eeaso10346a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 07:02:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701442932; x=1702047732; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bvS5+725FOUXFMMq/VbInwmdI+QK4gqPGaiLWv9jUGk=;
+        b=wdTt5Z+StlXLahEal5Vxmp7I96R8Auxn3A7YhAZ0hwSg+cbCsNGFSuuFIsVphWDBgw
+         u2Qogkr4kMiYHGEyMbey3LJQ0/ilU4IHC2KJFAhy2zZQRAxrWS9XYFRZYbdbcw9uHqH8
+         hAyT9jztAzKs2Du4gD8fSlbEMPF+sOcfmoVudFBN1QvVBAL4KEnpBNoDYwiEavEIbJOd
+         cJE9FQ1svVQ8V4tWsq4CyjFm/bBfamy2+5J2MABWS7ZPJse6GksVqWi1HKYHwVICPrdX
+         +rwalLs486PbmhZXyiU3cjXOOXde7X7JY6z4Bp5Flw2/ZD08gkem95x2BSKzy5zH80Be
+         9SMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701442932; x=1702047732;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bvS5+725FOUXFMMq/VbInwmdI+QK4gqPGaiLWv9jUGk=;
+        b=RDFNn0ytLTsWzTYygcOv9bFXE/9tg4IARmrpqO51B+2DEYQb66SpjODVoticzz/myM
+         UR8Mr4FE8T1XxkvGpKi4gV9b4+5EvuBQuhkddYoDa3/4spd5tKXQ0bWwGa0l6dsk4EBs
+         +ge988tZX80OFLr9lI/X1nWNCacJVhYg8m5A5q6+DlcE8f944abx1vsZYtLvQ7d6QvdE
+         r+dR4alrgD4L8PAeH/+17ewy7B80BsU+VHwaEiycEmtR51rPS3yLw452OtxCJmqBalYf
+         Tdsv1mQ+955rY3M/qbu4CDbjYs96x799pisybT1lL/FjKzgBaFY8fGr46yJuEa3EbtFk
+         G4hg==
+X-Gm-Message-State: AOJu0Yye+YRJxGtuEpy5+n0lAzpFpYemE2BnlVgFWc6nM4KuMc7njOZV
+	VxL2J9avfm2JUm5eHuGZsV6A91WIy4BsxHKBonx+ZQ==
+X-Google-Smtp-Source: AGHT+IEcpNgo7dBSakfutUBem768TAYVjsANcalSOjsejY24k/zMbSFp2qc2sPu4f40T4H7h6sqxFTAIE14G44xsqyo=
+X-Received: by 2002:a50:9514:0:b0:544:e2b8:ba6a with SMTP id
+ u20-20020a509514000000b00544e2b8ba6amr94399eda.3.1701442931362; Fri, 01 Dec
+ 2023 07:02:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231130200740.53454-1-andrealmeid@igalia.com>
-X-Patchwork-Hint: comment
+References: <20231130204817.2031407-1-jannh@google.com> <06c05c8b-9a3b-4c04-b898-0f82e98da70f@redhat.com>
+In-Reply-To: <06c05c8b-9a3b-4c04-b898-0f82e98da70f@redhat.com>
+From: Jann Horn <jannh@google.com>
+Date: Fri, 1 Dec 2023 16:01:33 +0100
+Message-ID: <CAG48ez1a=VuEWwPTjcXFAwCyt9bRH-WzAfw0uP-qVu83kdxkZw@mail.gmail.com>
+Subject: Re: [PATCH] locking: Document that mutex_unlock() is non-atomic
+To: Waiman Long <longman@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 30, 2023 at 05:07:40PM -0300, André Almeida wrote:
-> From: Pekka Paalanen <pekka.paalanen@collabora.com>
-> 
-> Specify how the atomic state is maintained between userspace and
-> kernel, plus the special case for async flips.
-> 
-> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> ---
-> 
-> This is a standalone patch from the following serie, the other patches are
-> already merged:
-> https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.com/
-> 
->  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 370d820be248..d0693f902a5c 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -570,3 +570,50 @@ dma-buf interoperability
->  
->  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
->  information on how dma-buf is integrated and exposed within DRM.
-> +
-> +KMS atomic state
-> +================
-> +
-> +An atomic commit can change multiple KMS properties in an atomic fashion,
-> +without ever applying intermediate or partial state changes.  Either the whole
-> +commit succeeds or fails, and it will never be applied partially. This is the
-> +fundamental improvement of the atomic API over the older non-atomic API which is
-> +referred to as the "legacy API".  Applying intermediate state could unexpectedly
-> +fail, cause visible glitches, or delay reaching the final state.
-> +
-> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
-> +complete state change is validated but not applied.  Userspace should use this
-> +flag to validate any state change before asking to apply it. If validation fails
-> +for any reason, userspace should attempt to fall back to another, perhaps
-> +simpler, final state.  This allows userspace to probe for various configurations
-> +without causing visible glitches on screen and without the need to undo a
-> +probing change.
-> +
-> +The changes recorded in an atomic commit apply on top the current KMS state in
-> +the kernel. Hence, the complete new KMS state is the complete old KMS state with
-> +the committed property settings done on top. The kernel will try to avoid
-> +no-operation changes,
+On Fri, Dec 1, 2023 at 1:33=E2=80=AFAM Waiman Long <longman@redhat.com> wro=
+te:
+> On 11/30/23 15:48, Jann Horn wrote:
+> > I have seen several cases of attempts to use mutex_unlock() to release =
+an
+> > object such that the object can then be freed by another task.
+> > My understanding is that this is not safe because mutex_unlock(), in th=
+e
+> > MUTEX_FLAG_WAITERS && !MUTEX_FLAG_HANDOFF case, accesses the mutex
+> > structure after having marked it as unlocked; so mutex_unlock() require=
+s
+> > its caller to ensure that the mutex stays alive until mutex_unlock()
+> > returns.
+> >
+> > If MUTEX_FLAG_WAITERS is set and there are real waiters, those waiters
+> > have to keep the mutex alive, I think; but we could have a spurious
+> > MUTEX_FLAG_WAITERS left if an interruptible/killable waiter bailed
+> > between the points where __mutex_unlock_slowpath() did the cmpxchg
+> > reading the flags and where it acquired the wait_lock.
+> >
+> > (With spinlocks, that kind of code pattern is allowed and, from what I
+> > remember, used in several places in the kernel.)
+> >
+> > If my understanding of this is correct, we should probably document thi=
+s -
+> > I think such a semantic difference between mutexes and spinlocks is fai=
+rly
+> > unintuitive.
+>
+> Spinlocks are fair. So doing a lock/unlock sequence will make sure that
+> all the previously waiting waiters are done with the lock. Para-virtual
+> spinlocks, however, can be a bit unfair so doing a lock/unlock sequence
+> may not be enough to guarantee there is no waiter. The same is true for
+> mutex. Adding a spin_is_locked() or mutex_is_locked() check can make
+> sure that all the waiters are gone.
 
-Not how things work. The driver may try to avoid some really
-expensive operations, but generally it will just blindly blast
-the full state to the hardware.
+I think this pattern anyway only works when you're only trying to wait
+for the current holder of the lock, not tasks that are queued up on
+the lock as waiters - so a task initially holds a stable reference to
+some object, then acquires the object's lock, then drops the original
+reference, and then later drops the lock.
+You can see an example of such mutex usage (which is explicitly legal
+with userspace POSIX mutexes, but is forbidden with kernel mutexes) at
+the bottom of the POSIX manpage for pthread_mutex_destroy() at
+<https://pubs.opengroup.org/onlinepubs/007904875/functions/pthread_mutex_de=
+stroy.html>,
+in the section "Destroying Mutexes".
 
-IIRC this was discussed long ago when atomic was being designed
-and the general concensus was that the kernel shouldn't generally
-do this kind of stuff, and instead we just leave it to userspace
-to generate optimal commits.
-
-> so it is safe for userspace to send redundant property
-> +settings.
-
-Safe but not optimal. Any object included in the state will cause said
-object to be part of the commit, and side effects will also need to be
-observed.
-
-So if you add an extra crtc (either directly or indirectly) it will
-have a new commit inserted into the queue and thus and any subsequent
-commit will either block or be rejected with -EBUSY. Also for directly
-added crtcs an event will be emitted once the commit is done.
-
-Any plane added will also need to observe side effects even if the FB
-doesn't change, such as invalidating any internal compressed version
-of the old FB contents, PSR/DSI command mode/etc. will need to upload
-the frame to the display, etc. I suppose we could specify that if no
-FB is specified at all then these kind of side effects could be ignored,
-but that is certainly not how things are implemented right now.
-
-So for optimal behaviour userspace should be minimizing the commits.
-
--- 
-Ville Syrjälä
-Intel
+(I think trying to wait for pending waiters before destroying a mutex
+wouldn't make sense because if there can still be pending waiters,
+there can almost always also be tasks that are about to _become_
+pending waiters but that haven't called mutex_lock() yet.)
