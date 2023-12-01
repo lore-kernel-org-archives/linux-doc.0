@@ -1,91 +1,155 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OiJx9M48"
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A1C10F3
-	for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 23:42:15 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6cd97c135e8so1675248b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Nov 2023 23:42:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701416535; x=1702021335; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x9uPI+QZWfeMU4uRtLgGEbAyWXQbBApgT0zlFAgo1nk=;
-        b=OiJx9M48pa19bI55zg7jCBITtHMrUkIOjT0QgWa4cBfc3GiKf5Vc1yuEm4np4Dc3qJ
-         qGBPjsc0QbF6c5LF7T/PZxHNNITe95M3GI2zKRXl1EEQLAP2WYolHN/vfFEzHVFuZczh
-         f1axIA5p7GSMtRHS395Q9OZPAPyTLVVyfS0vLwyWr47TSAAl/pJEacaKCK5UEslEQ4a6
-         RZyvzUxaPWN+t/V7jxmUdqIIwINlKlGu+uu3oTQVP9sS6hT4ZR3xpoqb9zi0kj/UgaqQ
-         snduEAoIOM6P43HGilaIdRgyB4JuVTZwDGoAr4tQxikNucUjiPM65Rc6sm32nUECofZK
-         oqDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701416535; x=1702021335;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x9uPI+QZWfeMU4uRtLgGEbAyWXQbBApgT0zlFAgo1nk=;
-        b=roN7QL5JCAZEph3BExviZBVU+YY+RsfoRREVBd9I99ETGkcGHbKIaiPdNyS8WXyvnB
-         VaYlZZxikfobUw/DEEt958qr10+8bLgtz3u6/X8xzHsItNL+0EBbtJ77Hz2wTee/Njtj
-         KKGv8cnJSQr0J2u0opd4bYxSgoEkX1r47xmr23VjlOE1QAC6a/RD+tsS1S68Fgh99BIK
-         QuOHSk7l6iG95DaM2hFichyuO5vd9GMp/U1RpuR727wR4F6JYqAV+JE2f8iucoVQR9yr
-         j9jj5ov/kgGSF5MupBdOiM4Kh5XeCxnl8x9bzu3vszk9X658Evbv/T+3qQpaIZfS2QVR
-         bWug==
-X-Gm-Message-State: AOJu0YzOZiNDYttSocAk6KDb9gB3wSdKet2JNKWnE/tqoD1cujKawQBI
-	5GSQ8EqLIHaIYUWlFohQf3fS95d37rw9HMmrda5e7g==
-X-Google-Smtp-Source: AGHT+IFty7g1odeJMIkF39bifHgiq/sf98dueqHWrKXtGrzvcl/NwYMn5nqba1A6IUxONXleSYsSH2rGjG2qsgKSCaY=
-X-Received: by 2002:a05:6a21:32a1:b0:18b:4fa:a877 with SMTP id
- yt33-20020a056a2132a100b0018b04faa877mr20414901pzb.14.1701416535303; Thu, 30
- Nov 2023 23:42:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RXWHF2Bg"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B23010F8;
+	Fri,  1 Dec 2023 00:06:28 -0800 (PST)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B17cWdt021468;
+	Fri, 1 Dec 2023 08:06:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=s6xuQM0TQ839OS3q8j/gWK3Yd0MG2d7O9pgSlh4CGGA=;
+ b=RXWHF2BgdeNuqkYnuc0IoUjxsYlk40uyJb2IUq3AE8UitfiqNMXl32S76bHfd+Yaijjj
+ GKx63MC0pXhb6UqDmUOdAlYtYDOB6iq3BUyWV8daUJqr7IitwlmlGCh2Ilk6lOlUO+/A
+ TyyjK2sD3EfsLuXpIcsLB5Y6XcfvloV3/Gs9N3c3hWhPBGWzAdv+v+3A5ogyD1cFgBhe
+ ueE57+i2jnPAFWyYEkov3Rhq9JKokjlZASfRdUZo4O+XsUbL09WZmpZIw30hSl9mlrqJ
+ tGjOmvfBbsRkETyA+deDfHiKEhfd+2gnzh1n3+xBsIPgUHesWUovrt19RqKM7z06Jxe2 3w== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uq2kp921e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 01 Dec 2023 08:06:00 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B185xNB027895
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 1 Dec 2023 08:05:59 GMT
+Received: from [10.253.35.195] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Dec
+ 2023 00:05:55 -0800
+Message-ID: <27d3ce6f-5bf9-4199-bfac-33223be1d681@quicinc.com>
+Date: Fri, 1 Dec 2023 16:05:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231127143238.1216582-1-vincent.guittot@linaro.org>
- <20231127143238.1216582-2-vincent.guittot@linaro.org> <8009d5c4-4012-44a2-883c-0d7f74c4a2c1@arm.com>
- <CACuPKxm8GJ6L5wYqejHttz1E26wg751ZDWi7ry+KVBe+fEDVeg@mail.gmail.com>
-In-Reply-To: <CACuPKxm8GJ6L5wYqejHttz1E26wg751ZDWi7ry+KVBe+fEDVeg@mail.gmail.com>
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Fri, 1 Dec 2023 08:42:04 +0100
-Message-ID: <CAKfTPtAQW0v0o7ojiZ4EyAZQQN5QiB6syRk0+Z8zvrzAPyRXgQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sched/fair: Remove SCHED_FEAT(UTIL_EST_FASTUP, true)
-To: Tang Yizhou <yizhou.tang@shopee.com>
-Cc: Hongyan Xia <hongyan.xia2@arm.com>, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com, 
-	corbet@lwn.net, alexs@kernel.org, siyanteng@loongson.cn, qyousef@layalina.io, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lukasz.luba@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/6] net: phy: at803x: add QCA8084 ethernet phy support
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Andrew Lunn
+	<andrew@lunn.ch>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <hkallweit1@gmail.com>, <corbet@lwn.net>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231129120446.dfwei5cd7ulbdj4v@skbuf>
+Content-Language: en-US
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <20231129120446.dfwei5cd7ulbdj4v@skbuf>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 0x6xkabtDRX8pJ3fhNwWE3SLpZPFJCKB
+X-Proofpoint-GUID: 0x6xkabtDRX8pJ3fhNwWE3SLpZPFJCKB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-01_06,2023-11-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
+ mlxscore=0 malwarescore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ bulkscore=0 clxscore=1011 spamscore=0 mlxlogscore=999 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2312010051
 
-T24gRnJpLCAxIERlYyAyMDIzIGF0IDAzOjE2LCBUYW5nIFlpemhvdSA8eWl6aG91LnRhbmdAc2hv
-cGVlLmNvbT4gd3JvdGU6DQo+DQo+IE9uIEZyaSwgRGVjIDEsIDIwMjMgYXQgNDozMOKAr0FNIEhv
-bmd5YW4gWGlhIDxob25neWFuLnhpYTJAYXJtLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBIZXJlIGl0
-IGlzIGluIGNhc2UgeW91IGhhdmUgdG8gcHJvdmlkZSB0aGUgdHJhbnNsYXRpb246DQo+ID4NCj4g
-PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVy
-L3NjaGVkdXRpbC5yc3QNCj4gPiBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Nj
-aGVkdWxlci9zY2hlZHV0aWwucnN0DQo+ID4gaW5kZXggZDFlYTY4MDA3NTIwLi43YzhkODdmMjFj
-NDIgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2No
-ZWR1bGVyL3NjaGVkdXRpbC5yc3QNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi9zY2hlZHVsZXIvc2NoZWR1dGlsLnJzdA0KPiA+IEBAIC04OSwxNiArODksMTUgQEAN
-Cj4gPiByX2Nwdeiiq+WumuS5ieS4uuW9k+WJjUNQVeeahOacgOmrmOaAp+iDveawtOW5s+S4juez
-u+e7n+S4reS7u+S9leWFtuWug0NQVeeahOacgA0KPiA+ICAgIC0gRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL3NjaGVkLWNhcGFjaXR5LnJzdDoiMS4NCj4gPiBDUFUg
-Q2FwYWNpdHkgKyAyLiBUYXNrIHV0aWxpemF0aW9uIg0KPiA+DQo+ID4NCj4gPiAtVVRJTF9FU1Qg
-LyBVVElMX0VTVF9GQVNUVVANCj4gPiAtPT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiAr
-VVRJTF9FU1QNCj4gPiArPT09PT09PT0NCj4gPg0KPiA+DQo+ID4g55Sx5LqO5ZGo5pyf5oCn5Lu7
-5Yqh55qE5bmz5Z2H5pWw5Zyo552h55yg5pe25Lya6KGw5YeP77yM6ICM5Zyo6L+Q6KGM5pe25YW2
-6aKE5pyf5Yip55So546H5Lya5ZKM552h55yg5YmN55u45ZCM77yMDQo+ID4gICDlm6DmraTlroPk
-u6zlnKjlho3mrKHov5DooYzlkI7kvJrpnaLkuLTvvIhEVkZT77yJ55qE5LiK5rao44CCDQo+ID4N
-Cj4gPiAgIOS4uuS6hue8k+ino+i/meS4qumXrumimO+8jO+8iOS4gOS4qum7mOiupOS9v+iDveea
-hOe8luivkemAiemhue+8iVVUSUxfRVNU6amx5Yqo5LiA5Liq5peg6ZmQ6ISJ5Yay5ZON5bqUDQo+
-ID4gICDvvIhJbmZpbml0ZSBJbXB1bHNlIFJlc3BvbnNl77yMSUlS77yJ55qERVdNQe+8jOKAnOi/
-kOihjOKAneWAvOWcqOWHuumYn+aXtuaYr+acgOmrmOeahOOAgg0KPiA+IC3lj6bkuIDkuKrpu5jo
-rqTkvb/og73nmoTnvJbor5HpgInpoblVVElMX0VTVF9GQVNUVVDkv67mlLnkuoZJSVLmu6Tms6Ll
-majvvIzkvb/lhbblhYHorrjnq4vljbPlop7liqDvvIwNCj4gPiAt5LuF5Zyo5Yip55So546H5LiL
-6ZmN5pe26KGw5YeP44CCDQo+ID4gK1VUSUxfRVNU5ruk5rOi5L2/5YW25Zyo6YGH5Yiw5pu06auY
-5YC85pe256uL5Yi75aKe5Yqg77yM6ICM6YGH5Yiw5L2O5YC85pe25Lya57yT5oWi6KGw5YeP44CC
-DQo+ID4NCj4NCj4gSGkgSG9uZ3lhbiwNCj4NCj4gVGhhbmtzIGZvciB5b3VyIENoaW5lc2UgZG9j
-dW1lbnRhdGlvbiB0cmFuc2xhdGlvbiENCj4NCj4gRm9yIHRoZSB0cmFuc2xhdGlvbjoNCj4gUmV2
-aWV3ZWQtYnk6IFRhbmcgWWl6aG91IDx5aXpob3UudGFuZ0BzaG9wZWUuY29tPg0KDQpUaGFua3MN
-Cg0KPg0KPiBUaGFua3MsDQo+IFlpemhvdQ0K
+
+
+On 11/29/2023 8:04 PM, Vladimir Oltean wrote:
+> On Wed, Nov 29, 2023 at 06:34:16PM +0800, Jie Luo wrote:
+>>>> The PCS drivers in drivers/net/pcs/ should be in PHY side, such as
+>>>> pcs-lynx.c and pcs-xpcs.c, they are configuring the MDIO device
+>>>> registers.
+>>>
+>>> Wrong. No they are not. Just because they are accessed via MDIO does
+>>> not mean they are in the PHY. MDIO can be used for more than just the
+>>> PHY, and is on a lot of platforms.
+>>>
+>>> LX2160A for example has many MDIO buses, and the PCSes (of which there
+>>> are multiple inside the chip, and use pcs-lynx) are accessed through
+>>> the MDIO bus specific to each port. They are not MMIO mapped.
+>>>
+>>> The same is true on stmmac platforms, where xpcs is used - xpcs is the
+>>> _MAC_ side PCS.
+>>>
+>>> Sorry but you are wrong.
+>>>
+>>
+>> OK, but it creates the PCS driver based on the MDIO device in pcs-lynx.c
+>> looks like this PCS is located in PHY device from hardware perspective.
+> 
+> In some ways, this contradiction has a potato-patato aspect to it.
+> As Russell says, NXP devices do have internal SGMII/USXGMII/10GBASE-R
+> ports which use pcs-lynx.c to access the registers of the PCS layer
+> (which are on MDIO buses internal to the SoC). They could legally be
+> called PHYs, because they have all the layers that 802.3 says a PHY
+> should have: a PCS, a PMA and a PMD.
+> 
+> But what phylib understands a phy_device to be is a more restricted
+> definition than just "a PHY - any PHY". Originally, phylib considered a
+> struct phy_device to be something (a discrete chip) that has pins and a
+> phy_interface_t towards its host side, and pins + an ethtool_link_mode_bit_indices
+> on its media side.
+> 
+> Traditionally, the media side is exclusively copper (BASE-T, BASE-T1) or
+> fiber (BASE-SX/LX).
+> 
+> A struct phy_device was then also used with PHY_INTERFACE_MODE_INTERNAL
+> to represent the built-in BASE-T PHYs that are embedded within certain
+> small/medium business Ethernet switches. And then, more and more other
+> similar embedded copper PHYs.
+> 
+> The idea is that (1) a phy_device connects to a remote system, and
+> (2) the phylib API does not have insight into the components of the
+> PHY it controls: PCS, PMA, PMD. It's all just a monolithic struct phy_device.
+> 
+> Because there are serial phy_interface_t modes where the MAC also need a
+> PHY to even connect to the phylib PHY, a problem presented itself:
+> phylib only has support for a single phy_device. So a new framework
+> appeared: phylink, which uses the unmodified phylib layer for the
+> external PHY, but models the MAC-side PHY using a different API. Later
+> on, that API became the phylink_pcs.
+> 
+> To muddy the waters, a phylink_pcs structure usually connects to another
+> local component as described above, like a phylib PHY (on-board or on an
+> SFP module). But it can also connect directly to a remote system (like a
+> phy_device would). But the phylink_pcs is always integrated in silicon
+> with the MAC, and the "media side" of it is a phy_interface_t type, not
+> an ethtool_link_mode_bit_indices type.
+> 
+> Having a separate phylink_pcs is what allows us to work around phylib's
+> limitation of having a single phy_device. The reverse is also true: you
+> can have a single phylink_pcs, and that belongs to the client MAC driver.
+> 
+> The other layers (PMA/PMD) of the MAC-side PHY are modeled in the kernel
+> as a struct phy (https://docs.kernel.org/driver-api/phy/index.html), and
+> we have the phy_set_mode_ext() API for reconfiguring this layer to a
+> different mode. Again, this is not applicable for phylib PHYs, which are
+> monolithic.
+> 
+> Given the above definitions, what NXP has and drives with pcs-lynx.c is
+> not a struct phy_device, but a MAC-side PCS represented by a phylink_pcs.
+> It absolutely does not matter that the register access method for the
+> PCS is an internal MDIO bus. FWIW, the PMA/PMD layer is at
+> drivers/phy/freescale/phy-fsl-lynx-28g.c.
+> 
+> So, if put into the proper context, what Russell is saying is correct,
+> but I think you need a bit of history to not get even more confused
+> about why it is the way it is.
+
+Thanks Vladimir for the detail information, i just get this message, 
+which is helpful to me.
