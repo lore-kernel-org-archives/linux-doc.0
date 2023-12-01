@@ -1,128 +1,112 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PXnoOuFB"
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE85C1734;
-	Thu, 30 Nov 2023 21:48:57 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1d03bcf27e9so1682745ad.0;
-        Thu, 30 Nov 2023 21:48:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701409737; x=1702014537; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZbnJURuf0YnsoB4uScWxuFhK6jg2U0wRIA3IoSThz8=;
-        b=PXnoOuFB3awpRWChL3Jgs+16RjqeshglPwp+iNSuCgPSivP7rslQ8FnXWyu7Gu6p2Q
-         NR3HbyaWJKebGrP9WlQJroqCQ5B0aPJK7LJGgBBnCm3DM5LI7hcwHdBtB+ygIbhWc/+V
-         X7yK1RcFZHTcIfUk3x3PTFsf+13uKK6JZEHwfBedpYmDgAGBbnBNfIWez4MuDCg+/Zmt
-         yeImHzppCKLZ5BJXTPztEUIBFh409w1LN3i3H+R7P7FjHaK9CfqoraGFeEDDlNznKRVO
-         uN4zpgJLx4uhAEhCmJTth7x+MZ96IxsPVcC8cmDIChwsF2oH1nXYFT8yT1v2NK0GrpK/
-         gfBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701409737; x=1702014537;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TZbnJURuf0YnsoB4uScWxuFhK6jg2U0wRIA3IoSThz8=;
-        b=ubPdTGZij0I7uw2LfUdaijIfdK0+W+3+tIyrrJb31pC9eVyHKcaF05C27JT4ZP9t8s
-         lAw3yCOMTX/IaqWFVZC4Dsv7uczKtZ4opO+mTDweZNIAlsksZWagY6fzFc87tNCtH8DK
-         +7Be6uVUqcyqQe3zCID+HQbhY8PfTsx4LjrELTUViPxSfUeGNor+FKHJ8YRgDiOR50fQ
-         rUDe/2v+GHHLPBjfJMjDCY2EY5WOUdkK2ip44TtnWQwuAfLXP6bfPpXUE52CfCyQHc4B
-         pZGY7bo2d6AxwWr0PwtzQKBJFuHkGohILsM+CO884YGJZP7r/r7I+yOmE8lTfyppxAgB
-         yLzA==
-X-Gm-Message-State: AOJu0Yxa0meDDuHWG/jIt+/qBdUWJufvLKE5jTx0OIw3HZiDBTxJQJbZ
-	I4Ji6CUmSUkHKP3c7Pst88Q=
-X-Google-Smtp-Source: AGHT+IGZqlD0EmL3ZVck683sJvma02d++2s3GfxmJHMjTUkw5O7CYkyRj5MofR4ZpGBrs++rk2ndkg==
-X-Received: by 2002:a17:90a:a407:b0:286:5811:2571 with SMTP id y7-20020a17090aa40700b0028658112571mr1018948pjp.0.1701409736984;
-        Thu, 30 Nov 2023 21:48:56 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id p7-20020a17090a348700b00280c285f878sm2508465pjb.55.2023.11.30.21.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 21:48:55 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 0CFE6100823C0; Fri,  1 Dec 2023 12:48:50 +0700 (WIB)
-Date: Fri, 1 Dec 2023 12:48:50 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Josh Don <joshdon@google.com>, Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Linux CGroups <cgroups@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Attreyee M <tintinm2017@gmail.com>
-Subject: Re: [PATCH] cgroup: Fix documentation for cpu.idle
-Message-ID: <ZWlzwnO7PcOWQ2q_@archie.me>
-References: <20231201005203.309873-1-joshdon@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zag7mclo"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774FA1718;
+	Thu, 30 Nov 2023 22:24:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701411883; x=1732947883;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OrXONeV7YlBRhiTW3LB5rHkzQDQL8wPC8aPc0x4910w=;
+  b=Zag7mclosS6/OwdbIaP6Xff5DAUvlz5TUY5nFCBZrpRXDa1a/PhvjlYt
+   WSvVaAgfw1HJLiCrKcMyfTSYiztdJCuGxC6ga2XEseuX84lZy/yRxOHqS
+   dSjTlB/ZyvLRwd1St35D5gg7sdUCn+CO0wlgvYnd041kb84oGWQ2qpn/b
+   azFFCGJj0EPeVESlFvHQf/Ey2rhZRarQdwiVvmC6ebjRO34E9fpDKKyVM
+   d+aX3lpBp7sg/bLoaDCkiPQy2uKKZ4rnbC2jIe6xg2vLQpijy+sSJVDDo
+   tINh/0AgBbzRfn6o9UrENXwWM7JCO9LGn2pclK/H/OXyyQNuOvQd/8Yd+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="6722778"
+X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
+   d="scan'208";a="6722778"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 22:24:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="803945044"
+X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
+   d="scan'208";a="803945044"
+Received: from p12ill20yoongsia.png.intel.com ([10.88.227.28])
+  by orsmga001.jf.intel.com with ESMTP; 30 Nov 2023 22:24:31 -0800
+From: Song Yoong Siang <yoong.siang.song@intel.com>
+To: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Topel <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@google.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	bpf@vger.kernel.org,
+	xdp-hints@xdp-project.net,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org,
+	Song Yoong Siang <yoong.siang.song@intel.com>
+Subject: [PATCH bpf-next v2 0/3] xsk: TX metadata txtime support
+Date: Fri,  1 Dec 2023 14:24:18 +0800
+Message-Id: <20231201062421.1074768-1-yoong.siang.song@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CCIfMmdnUlJnGiMR"
-Content-Disposition: inline
-In-Reply-To: <20231201005203.309873-1-joshdon@google.com>
+Content-Transfer-Encoding: 8bit
 
+This series expands XDP TX metadata framework to include ETF HW offload.
 
---CCIfMmdnUlJnGiMR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v1:
+- rename Time-Based Scheduling (TBS) to Earliest TxTime First (ETF)
+- rename launch-time to txtime
 
-On Thu, Nov 30, 2023 at 04:52:03PM -0800, Josh Don wrote:
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
-n-guide/cgroup-v2.rst
-> index 3f85254f3cef..9debf02bcb39 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1093,7 +1093,11 @@ All time durations are in microseconds.
->  	A read-write single value file which exists on non-root
->  	cgroups.  The default is "100".
-> =20
-> -	The weight in the range [1, 10000].
-> +	For non idle groups (cpu.idle =3D 0), the weight is in the
-> +	range [1, 10000].
-> +
-> +	If the cgroup has been configured to be SCHED_IDLE (cpu.idle =3D 1),
-> +	then the weight will show as a 0.
+v1: https://patchwork.kernel.org/project/netdevbpf/cover/20231130162028.852006-1-yoong.siang.song@intel.com/
 
-This one LGTM.
+Song Yoong Siang (3):
+  xsk: add ETF support to XDP Tx metadata
+  net: stmmac: Add txtime support to XDP ZC
+  selftests/bpf: Add txtime to xdp_hw_metadata
 
-> =20
->    cpu.weight.nice
->  	A read-write single value file which exists on non-root
-> @@ -1157,6 +1161,16 @@ All time durations are in microseconds.
->          values similar to the sched_setattr(2). This maximum utilization
->          value is used to clamp the task specific maximum utilization cla=
-mp.
-> =20
-> +  cpu.idle
-> +	A read-write single value file which exists on non-root cgroups.
-> +	The default is 0.
-> +
-> +	This is the cgroup analog of the per-task SCHED_IDLE sched policy.
-"... cgroup analogy to ..."
-> +	Setting this value to a 1 will make the scheduling policy of the
-> +	cgroup SCHED_IDLE. The threads inside the cgroup will retain their
-> +	own relative priorities, but the cgroup itself will be treated as
-> +	very low priority relative to its peers.
-> +
-> =20
+ Documentation/netlink/specs/netdev.yaml        |  4 ++++
+ Documentation/networking/xsk-tx-metadata.rst   |  5 +++++
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h   |  2 ++
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c  | 13 +++++++++++++
+ include/net/xdp_sock.h                         |  9 +++++++++
+ include/net/xdp_sock_drv.h                     |  1 +
+ include/uapi/linux/if_xdp.h                    |  9 +++++++++
+ include/uapi/linux/netdev.h                    |  3 +++
+ net/core/netdev-genl.c                         |  2 ++
+ net/xdp/xsk.c                                  |  3 +++
+ tools/include/uapi/linux/if_xdp.h              |  9 +++++++++
+ tools/include/uapi/linux/netdev.h              |  3 +++
+ tools/net/ynl/generated/netdev-user.c          |  1 +
+ tools/testing/selftests/bpf/xdp_hw_metadata.c  | 18 +++++++++++++++++-
+ 14 files changed, 81 insertions(+), 1 deletion(-)
 
-Thanks.
+-- 
+2.34.1
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---CCIfMmdnUlJnGiMR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWlzvwAKCRD2uYlJVVFO
-o/DQAP0bPgK2LiPMvZkW1bC1ur0ZYQb6pysH6EF0VG3CEwC6zwEAxtHE0k2WmUk3
-XESJyv4hqDUe0jLIYGDVjuLeDf59JAU=
-=TNFj
------END PGP SIGNATURE-----
-
---CCIfMmdnUlJnGiMR--
