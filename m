@@ -1,297 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B5222080;
-	Fri,  1 Dec 2023 17:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVH5MrTS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 049DFC433CD;
-	Fri,  1 Dec 2023 17:30:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701451800;
-	bh=UkvYIg+4pSDT+nnU/EXdPb6Otz0ErqA/UMresEDneU0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=gVH5MrTS+jja+NHle53R/mCOC3WNwwM5+OBAmW0Qd1wXhgH7nCc2asYvJjXqhX3V7
-	 UkvvhHnAiek2XgaXj1V0zMdMBHEWMU6SMhzh7eRwblNv2+xLSKGx1duRNA6LgZNhfa
-	 eTCrNwFSTIvQh57wu5dQ6qRldXgjT1VPlzOx3rhj5DN+CD2WGJUAnKrpa5r2nhJc+D
-	 S6flLxVDYnU+A+FvS521Fd7WL9BA6t9htYh+MHCd8HeYifkjeCXoplq2EFx9CCx0e4
-	 acZWJvRL4CF00dTaYYH1s1DJ0xXNC7RRjrzUJ5EwmTO1duxOqaIvRuMjwIX5pt+yda
-	 ObZ+/kiPlIAjA==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1efb9571b13so423542fac.2;
-        Fri, 01 Dec 2023 09:29:59 -0800 (PST)
-X-Gm-Message-State: AOJu0Yx7mpFYkuCCYhU0dhgb6oaIpgN3uHD1Tct5GHLLuhYG/JL2IQoH
-	Hb90nVGSN6SelJVgLTRARG/ghoKIL+9mRWyOQyQ=
-X-Google-Smtp-Source: AGHT+IH+uaWB88pmYHvfLRMtAK3vN1C2NSBTT7C5p5pNwRZLrFnhY3Ln8KC5tHUEff7SXpVG+J8MUsIvgqUmX4SKWjg=
-X-Received: by 2002:a05:6870:4989:b0:1fa:f9a1:d3e5 with SMTP id
- ho9-20020a056870498900b001faf9a1d3e5mr1759104oab.9.1701451799235; Fri, 01 Dec
- 2023 09:29:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3DJjGyWy"
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7844131
+	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 09:30:20 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5d1b2153ba1so40351187b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 09:30:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701451820; x=1702056620; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VAwqWhtGBymfFWGSRnnaYIZdN2QXYyqbsCWaqHXus74=;
+        b=3DJjGyWyqnykttnQCAtneJdAf/T8zEWffb1IQXSxpmDrHIf5ZTkbRAJdr2trdklq9/
+         F7sxaggk0VlnyM0QAwEwAsva8fJHg9PW5NbjbP9AWjCJoQPIk3I1SA33G7DmkZO0XlNq
+         oe8c7lQ6S2rkWxm7BTfu9Mi7c500hhmlBLC7Rnflip6I3Va/GZ7398zqyB4+LjzZy8pY
+         MlSKi86PFFeg74zd4dv8p4cXNB2l9fHFkK75llbpx+pk4EyhGj58yk0zikdO/0VIZysa
+         45xaF9PAJ2b8w7YagWRu7IMCUFwyeE8UvrUHWq7VX0VA1B9+Nja8j2F+C1TQw9YDY6AM
+         QRaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701451820; x=1702056620;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VAwqWhtGBymfFWGSRnnaYIZdN2QXYyqbsCWaqHXus74=;
+        b=renTI/DnUcS+jaGkCR+4vFB007lbriH7E5F8V0FE7X8fUZCXwksQX6eSIxixqwUqDY
+         d1bCJyEclbUlp6TyZS0QtCJbc3TByJTLRwMgJN3DH2JkuyiFBfmI0Mn16y/7+hnTQIla
+         w7LFDe0yc72VCiSvM/0EtJxAnRfbYDgNrPBrG16SVvXQm+vCmzeu2nx2HS+UFfRlpDwh
+         moBjgKS+pGoDugeN3oqa0b8BVamWUHwlyDxcfH9n0B6lWPJ/aiazyVNg3AFE4MSxNHEG
+         G5Rbj7o9/L6rW8x0wIy//CldaQKHfOsrmsMNOjTmZbKwvf+umBj/tBo4CM63r41ToheW
+         Epxg==
+X-Gm-Message-State: AOJu0YxpcxqpMLe+Zdqq1TI+q0aKHdG5EBHnaplKWjv1wJ7P/sh0zwXq
+	PbiDvJGstwsJ/3NZ4Jd8IwOEhFjOgKU=
+X-Google-Smtp-Source: AGHT+IHyhcKzCnONo7e+a7QXWq3GbY4bKLR6abaqSXFAlCVSPnEer33Z4LVtdS7hrcP1myZX+DFMf5ogeNg=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a0d:dfd7:0:b0:5d3:b449:e58e with SMTP id
+ i206-20020a0ddfd7000000b005d3b449e58emr168400ywe.6.1701451819845; Fri, 01 Dec
+ 2023 09:30:19 -0800 (PST)
+Date: Fri, 1 Dec 2023 09:30:18 -0800
+In-Reply-To: <20231116133628.5976-1-clopez@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20231130203358.879796-1-sjg@chromium.org> <20231130203358.879796-3-sjg@chromium.org>
-In-Reply-To: <20231130203358.879796-3-sjg@chromium.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 2 Dec 2023 02:29:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARABFKSqY=f1uDGem2UqkTwGUQ9q3rDZ4NbXyuEAtsLdw@mail.gmail.com>
-Message-ID: <CAK7LNARABFKSqY=f1uDGem2UqkTwGUQ9q3rDZ4NbXyuEAtsLdw@mail.gmail.com>
-Subject: Re: [PATCH v8 2/2] arm64: boot: Support Flat Image Tree
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	U-Boot Mailing List <u-boot@lists.denx.de>, lkml <linux-kernel@vger.kernel.org>, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Tom Rini <trini@konsulko.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, 
-	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+References: <20231116133628.5976-1-clopez@suse.de>
+Message-ID: <ZWoYKs0OKdSOLOLR@google.com>
+Subject: Re: [PATCH v2] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
+From: Sean Christopherson <seanjc@google.com>
+To: "Carlos =?utf-8?B?TMOzcGV6?=" <clopez@suse.de>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 1, 2023 at 5:34=E2=80=AFAM Simon Glass <sjg@chromium.org> wrote=
-:
->
-> Add a script which produces a Flat Image Tree (FIT), a single file
-> containing the built kernel and associated devicetree files.
-> Compression defaults to gzip which gives a good balance of size and
-> performance.
->
-> The files compress from about 86MB to 24MB using this approach.
->
-> The FIT can be used by bootloaders which support it, such as U-Boot
-> and Linuxboot. It permits automatic selection of the correct
-> devicetree, matching the compatible string of the running board with
-> the closest compatible string in the FIT. There is no need for
-> filenames or other workarounds.
->
-> Add a 'make image.fit' build target for arm64, as well.
->
-> The FIT can be examined using 'dumpimage -l'.
->
-> This features requires pylibfdt (use 'pip install libfdt'). It also
-> requires compression utilities for the algorithm being used. Supported
-> compression options are the same as the Image.xxx files. For now there
-> is no way to change the compression other than by editing the rule for
-> $(obj)/image.fit
->
-> While FIT supports a ramdisk / initrd, no attempt is made to support
-> this here, since it must be built separately from the Linux build.
->
-> Signed-off-by: Simon Glass <sjg@chromium.org>
+On Thu, Nov 16, 2023, Carlos L=C3=B3pez wrote:
+> Improve the description for the KVM_CAP_X86_BUS_LOCK_EXIT capability,
+> fixing a few typos and improving grammar for overall clarity.
+>=20
+> Signed-off-by: Carlos L=C3=B3pez <clopez@suse.de>
 > ---
->
-> Changes in v8:
-> - Drop compatible string in FDT node
-> - Correct sorting of MAINTAINERS to before ARM64 PORT
-> - Turn compress part of the make_fit.py comment in to a sentence
-> - Add two blank lines before parse_args() and setup_fit()
-> - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> - Add 'mkimage' details Documentation/process/changes.rst
-> - Allow changing the compression used
-> - Tweak cover letter since there is only one clean-up patch
->
-> Changes in v7:
-> - Add Image as a dependency of image.fit
-> - Drop kbuild tag
-> - Add dependency on dtbs
-> - Drop unnecessary path separator for dtbs
-> - Rebase to -next
->
-> Changes in v5:
-> - Drop patch previously applied
-> - Correct compression rule which was broken in v4
->
-> Changes in v4:
-> - Use single quotes for UIMAGE_NAME
->
-> Changes in v3:
-> - Drop temporary file image.itk
-> - Drop patch 'Use double quotes for image name'
-> - Drop double quotes in use of UIMAGE_NAME
-> - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> - Avoid hard-coding "arm64" for the DT architecture
->
-> Changes in v2:
-> - Drop patch previously applied
-> - Add .gitignore file
-> - Move fit rule to Makefile.lib using an intermediate file
-> - Drop dependency on CONFIG_EFI_ZBOOT
-> - Pick up .dtb files separately from the kernel
-> - Correct pylint too-many-args warning for write_kernel()
-> - Include the kernel image in the file count
-> - Add a pointer to the FIT spec and mention of its wide industry usage
-> - Mention the kernel version in the FIT description
->
->  Documentation/process/changes.rst |   9 +
->  MAINTAINERS                       |   7 +
->  arch/arm64/Makefile               |   7 +-
->  arch/arm64/boot/.gitignore        |   1 +
->  arch/arm64/boot/Makefile          |   9 +-
->  scripts/Makefile.lib              |  13 ++
->  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
->  7 files changed, 334 insertions(+), 3 deletions(-)
->  create mode 100755 scripts/make_fit.py
->
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
-anges.rst
-> index bb96ca0f774b..cad51bd5bd62 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         1.7              sphinx-build --=
-version
->  cpio                   any              cpio --version
->  GNU tar                1.28             tar --version
->  gtags (optional)       6.6.5            gtags --version
-> +mkimage (optional)     2017.01          mkimage --version
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->
->  .. [#f1] Sphinx is needed only to build the Kernel documentation
-> @@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6.6.5 o=
-r later to generate
->  tag files through ``make gtags``.  This is due to its use of the gtags
->  ``-C (--directory)`` flag.
->
-> +mkimage
-> +-------
+> v2: Corrected the name of the KVM_RUN_X86_BUS_LOCK flag
+>=20
+>  Documentation/virt/kvm/api.rst | 28 ++++++++++++++--------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
+rst
+> index 7025b3751027..4701370bf46f 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6256,9 +6256,9 @@ More architecture-specific flags detailing state of=
+ the VCPU that may
+>  affect the device's behavior. Current defined flags::
+> =20
+>    /* x86, set if the VCPU is in system management mode */
+> -  #define KVM_RUN_X86_SMM     (1 << 0)
+> +  #define KVM_RUN_X86_SMM          (1 << 0)
+>    /* x86, set if bus lock detected in VM */
+> -  #define KVM_RUN_BUS_LOCK    (1 << 1)
+> +  #define KVM_RUN_X86_BUS_LOCK     (1 << 1)
+>    /* arm64, set for KVM_EXIT_DEBUG */
+>    #define KVM_DEBUG_ARCH_HSR_HIGH_VALID  (1 << 0)
+> =20
+> @@ -7582,20 +7582,20 @@ KVM_BUS_LOCK_DETECTION_OFF and KVM_BUS_LOCK_DETEC=
+TION_EXIT are supported
+>  currently and mutually exclusive with each other. More bits can be added=
+ in
+>  the future.
+
+Meh, there's a lot of pointless boilerplate in here.  These statements hold=
+ true
+for almost every KVM capability.
+
+> -With KVM_BUS_LOCK_DETECTION_OFF set, bus locks in guest will not cause v=
+m exits
+> +With KVM_BUS_LOCK_DETECTION_OFF set, bus locks in guest will not cause V=
+M exits
+>  so that no additional actions are needed. This is the default mode.
+
+Heh, this is technically wrong.  KVM intercepts #AC when the non-virtualize=
+d
+split-lock detection is enabled, i.e. bus locks will cause VM-Exit, though =
+they
+won't be forwarded to userspace.
+
+> -With KVM_BUS_LOCK_DETECTION_EXIT set, vm exits happen when bus lock dete=
+cted
+> -in VM. KVM just exits to userspace when handling them. Userspace can enf=
+orce
+> -its own throttling or other policy based mitigations.
+> -
+> -This capability is aimed to address the thread that VM can exploit bus l=
+ocks to
+> -degree the performance of the whole system. Once the userspace enable th=
+is
+> -capability and select the KVM_BUS_LOCK_DETECTION_EXIT mode, KVM will set=
+ the
+> -KVM_RUN_BUS_LOCK flag in vcpu-run->flags field and exit to userspace. Co=
+ncerning
+> -the bus lock vm exit can be preempted by a higher priority VM exit, the =
+exit
+> -notifications to userspace can be KVM_EXIT_BUS_LOCK or other reasons.
+> -KVM_RUN_BUS_LOCK flag is used to distinguish between them.
+> +With KVM_BUS_LOCK_DETECTION_EXIT set, VM exits happen when a bus lock is
+> +detected in VM. KVM just exits to userspace when handling them. Userspac=
+e can
+> +enforce its own throttling or other policy based mitigations.
 > +
-> +This tool is used when building a Flat Image Tree (FIT), commonly used o=
-n ARM
-> +platforms. The tool is available via the ``u-boot-tools`` package or can=
- be
-> +built from the U-Boot source code. See the instructions at
-> +https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-li=
-nux
-> +
->  System utilities
->  ****************
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 14587be87a33..9f3eb476ece4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3037,6 +3037,13 @@ F:       drivers/mmc/host/sdhci-of-arasan.c
->  N:     zynq
->  N:     xilinx
->
-> +ARM64 FIT SUPPORT
-> +M:     Simon Glass <sjg@chromium.org>
-> +L:     linux-arm-kernel@lists.infradead.org (moderated for non-subscribe=
-rs)
-> +S:     Maintained
-> +F:     arch/arm64/boot/Makefile
-> +F:     scripts/make_fit.py
-> +
->  ARM64 PORT (AARCH64 ARCHITECTURE)
->  M:     Catalin Marinas <catalin.marinas@arm.com>
->  M:     Will Deacon <will@kernel.org>
-> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> index 1bd4fae6e806..6b893dc454b7 100644
-> --- a/arch/arm64/Makefile
-> +++ b/arch/arm64/Makefile
-> @@ -150,7 +150,7 @@ libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/firmw=
-are/efi/libstub/lib.a
->  # Default target when executing plain make
->  boot           :=3D arch/arm64/boot
->
-> -BOOT_TARGETS   :=3D Image vmlinuz.efi
-> +BOOT_TARGETS   :=3D Image vmlinuz.efi image.fit
->
->  PHONY +=3D $(BOOT_TARGETS)
->
-> @@ -162,7 +162,9 @@ endif
->
->  all:   $(notdir $(KBUILD_IMAGE))
->
-> -vmlinuz.efi: Image
-> +image.fit: dtbs
-> +
-> +vmlinuz.efi image.fit: Image
->  $(BOOT_TARGETS): vmlinux
->         $(Q)$(MAKE) $(build)=3D$(boot) $(boot)/$@
->
-> @@ -215,6 +217,7 @@ virtconfig:
->  define archhelp
->    echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/Im=
-age.gz)'
->    echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boot/=
-Image)'
-> +  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/image.fit)=
-'
->    echo  '  install       - Install uncompressed kernel'
->    echo  '  zinstall      - Install compressed kernel'
->    echo  '                  Install using (your) ~/bin/installkernel or'
-> diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignore
-> index af5dc61f8b43..abaae9de1bdd 100644
-> --- a/arch/arm64/boot/.gitignore
-> +++ b/arch/arm64/boot/.gitignore
-> @@ -2,3 +2,4 @@
->  Image
->  Image.gz
->  vmlinuz*
-> +image.fit
-> diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
-> index 1761f5972443..62efb533a9bc 100644
-> --- a/arch/arm64/boot/Makefile
-> +++ b/arch/arm64/boot/Makefile
-> @@ -16,7 +16,8 @@
->
->  OBJCOPYFLAGS_Image :=3D-O binary -R .note -R .note.gnu.build-id -R .comm=
-ent -S
->
-> -targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo Ima=
-ge.zst
-> +targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo \
-> +       Image.zst image.fit
->
->  $(obj)/Image: vmlinux FORCE
->         $(call if_changed,objcopy)
-> @@ -39,6 +40,12 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
->  $(obj)/Image.zst: $(obj)/Image FORCE
->         $(call if_changed,zstd)
->
-> +# Use this to override the compression algorithm
-> +FIT_COMPRESS ?=3D gzip
-> +
-> +$(obj)/image.fit: $(obj)/Image FORCE
-> +       $(call cmd,fit,$(FIT_COMPRESS))
+> +This capability is aimed to address the fact that a VM can exploit bus l=
+ocks to
 
+I liked the attempt to capture that this is a threat mitigation, although t=
+he
+typo probably made that hard to see.
 
+> +impact the performance of the whole system. Once userspace enables this
+> +capability and selects the KVM_BUS_LOCK_DETECTION_EXIT mode, KVM will se=
+t the
+> +KVM_RUN_X86_BUS_LOCK flag in the vcpu->run->flags field and exit to user=
+space.
 
-Again, $(FIT_COMPRESS) is not used anywhere.
+Oof, the existing wording is nonsensical.  This reads like KVM unconditiona=
+lly sets
+KVM_RUN_X86_BUS_LOCK whenever the capability is enabled.
 
+> +Concerning the bus lock, a VM exit can be preempted by a higher priority=
+ VM
+> +exit, so the exit notification to userspace can be KVM_EXIT_BUS_LOCK or =
+another
+> +reason. KVM_RUN_X86_BUS_LOCK flag is used to distinguish between them.
 
-Please fix it to
+This is also worded rather weirdly.  It's not so much that VM exits can be
+preempted, it's that the CPU can detect a bus lock while also delivering an
+unrelated VM exit.
 
-      $(call cmd,fit)
+Something like this?
 
+---
 
+This capability allows userspace to force VM exits on bus locks detected in=
+ the
+guest, irrespective whether or not host has enabled split-lock detection (w=
+hich
+triggers an #AC exception that KVM intercepts).  This capability is intende=
+d to
+mitigate attacks where a malicious/buggy guest can exploit bus locks to deg=
+rade
+the performance of the whole system.=20
 
+If bus lock detection is OFF, KVM doesn't force guest bus locks to VM exit,
+although the host kernel's split-lock #AC detection still applies, if enabl=
+ed.
 
-See your code.
+If bus lock detection is set to EXIT, KVM enables a CPU feature that ensure=
+s
+bus locks in the guest trigger a VM exit, and KVM exits to userspace for al=
+l
+such VM exits, e.g. to allow userspace to throttle the offending guest and/=
+or
+apply some other policy-based mitigation.  When exiting to userspace, KVM s=
+ets
+KVM_RUN_X86_BUS_LOCK in vcpu-run->flags, and conditionally sets the exit_re=
+ason
+to KVM_EXIT_X86_BUS_LOCK.
 
-
-   cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux \
-                     --name '$(UIMAGE_NAME)' \
-                     --compress $(UIMAGE_COMPRESSION) -k $< \
-                     $(<D)/dts
-
-
-cmd_fit does not take any argument.
-
-
-The compression is determined by $(UIMAGE_COMPRESSION).
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Note!  Detected bus locks may be coincident with other exits to userspace, =
+i.e.
+KVM_RUN_X86_BUS_LOCK should be checked regardless of the primary exit reaso=
+n if
+userspace wants to take action on all detected bus locks.
