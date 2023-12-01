@@ -1,26 +1,26 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="batvedLs"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ijkFw9kx"
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43C0512A;
-	Fri,  1 Dec 2023 09:11:40 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0D09224000E;
-	Fri,  1 Dec 2023 17:11:38 +0000 (UTC)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08215C1;
+	Fri,  1 Dec 2023 09:11:41 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EBCFD24000F;
+	Fri,  1 Dec 2023 17:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701450699;
+	t=1701450700;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ur2t+3CZiMiWT1hOhnWzj0bjmB7HlBaMOY5SSeNEDOo=;
-	b=batvedLsMF+5fFUDJk5QtEjk/H8hKHD/llMaQBCVFZhull78N3CCJprss0L8pDO1cqAKi1
-	4DutMhREiyzj6QIZSNiM6+3JGp702YL9mccLtkS/4ElKXpilRgyovFSC/2RG5JC1OUmjHs
-	EU3RglutAdeqN4VR7Ydon7bo3j2g8lnz/N0GaJ4Us06A/dW63Wh4RMol3R3H5ieG1tsN2V
-	n6qPRNi/zKGynERo0aoC+UlLdmQlHQXJMZaV4BE64coFUdwqBcckbhpyVaJnv/QdyoM/0w
-	9zjw30JplhtyaDLbpiD0zcSoL6rrpZybuvj/NQmWlNTScOeCDZwE2yPPbsBvyA==
+	bh=Ixu1ARHL6TBB4MJVE7+xLhAwRI9CASAllQuYJeHOESE=;
+	b=ijkFw9kxCCy9HiJZDhE1rkSUduA8nz6fkKKyq5QqSofI7lcEcBDrxOBgaYYqTp7z3n3G6p
+	oEvxD717bNj/dqs6AYOCqe3SsbxKDFawYOjuRymcT1BJud0C5pZCq2lDtblGoTI5WSr7Iq
+	0K6+iQXwuTLZu/4OYLPQg5Lc28HWLfz9vJ6yHfbeQFDHxtOdTwPfpbIJVqUT9tEGOrKj6d
+	X+6gV8vrtEr3rd9HPEdkGYHPoKuePeinhBkH7PQz3VymvIIPIywIC3dJFl10g7cV/dWreU
+	9nrDXN/lnlx8kXXO+MR8o2jWEL+gqiX7wlnVFG/Wv1M56EhGKvtX31EcuZb7jA==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Fri, 01 Dec 2023 18:10:25 +0100
-Subject: [PATCH net-next v2 3/8] net: pse-pd: Introduce PSE types
- enumeration
+Date: Fri, 01 Dec 2023 18:10:27 +0100
+Subject: [PATCH net-next v2 5/8] netlink: specs: Modify pse attribute
+ prefix
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -29,7 +29,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231201-feature_poe-v2-3-56d8cac607fa@bootlin.com>
+Message-Id: <20231201-feature_poe-v2-5-56d8cac607fa@bootlin.com>
 References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
 In-Reply-To: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -48,113 +48,211 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-Introduce an enumeration to define PSE types (C33 or PoDL),
-utilizing a bitfield for potential future support of both types.
-Include 'pse_get_types' helper for external access to PSE type info.
+Remove podl from the attribute prefix to prepare the support of PoE pse
+netlink spec.
+
+Update the ethtool generated code accordingly.
 
 Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
 
 Changes in v2:
-- Rename PSE_POE to PSE_C33 to have naming consistency.
-- Use "static inline" instead of simple static in the header
+- Add the ethtool auto generated code.
 ---
- drivers/net/pse-pd/pse_core.c      |  9 +++++++++
- drivers/net/pse-pd/pse_regulator.c |  1 +
- include/linux/pse-pd/pse.h         | 22 ++++++++++++++++++++++
- 3 files changed, 32 insertions(+)
+ Documentation/netlink/specs/ethtool.yaml | 18 ++++++------
+ tools/net/ynl/generated/ethtool-user.c   | 30 ++++++++++----------
+ tools/net/ynl/generated/ethtool-user.h   | 48 ++++++++++++++++----------------
+ 3 files changed, 48 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
-index 146b81f08a89..2959c94f7798 100644
---- a/drivers/net/pse-pd/pse_core.c
-+++ b/drivers/net/pse-pd/pse_core.c
-@@ -312,3 +312,12 @@ int pse_ethtool_set_config(struct pse_control *psec,
- 	return err;
- }
- EXPORT_SYMBOL_GPL(pse_ethtool_set_config);
-+
-+u32 pse_get_types(struct pse_control *psec)
-+{
-+	if (!psec->pcdev)
-+		return PSE_UNKNOWN;
-+	else
-+		return psec->pcdev->types;
-+}
-+EXPORT_SYMBOL_GPL(pse_get_types);
-diff --git a/drivers/net/pse-pd/pse_regulator.c b/drivers/net/pse-pd/pse_regulator.c
-index 1dedf4de296e..e34ab8526067 100644
---- a/drivers/net/pse-pd/pse_regulator.c
-+++ b/drivers/net/pse-pd/pse_regulator.c
-@@ -116,6 +116,7 @@ pse_reg_probe(struct platform_device *pdev)
- 	priv->pcdev.owner = THIS_MODULE;
- 	priv->pcdev.ops = &pse_reg_ops;
- 	priv->pcdev.dev = dev;
-+	priv->pcdev.types = PSE_PODL;
- 	ret = devm_pse_controller_register(dev, &priv->pcdev);
- 	if (ret) {
- 		dev_err(dev, "failed to register PSE controller (%pe)\n",
-diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-index be4e5754eb24..4a0ae3097bb2 100644
---- a/include/linux/pse-pd/pse.h
-+++ b/include/linux/pse-pd/pse.h
-@@ -44,6 +44,19 @@ struct pse_control_status {
- 	enum ethtool_c33_pse_pw_d_status c33_pw_status;
+diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+index 5c7a65b009b4..e1bf75099264 100644
+--- a/Documentation/netlink/specs/ethtool.yaml
++++ b/Documentation/netlink/specs/ethtool.yaml
+@@ -878,17 +878,17 @@ attribute-sets:
+         type: nest
+         nested-attributes: header
+       -
+-        name: admin-state
++        name: podl-pse-admin-state
+         type: u32
+-        name-prefix: ethtool-a-podl-pse-
++        name-prefix: ethtool-a-
+       -
+-        name: admin-control
++        name: podl-pse-admin-control
+         type: u32
+-        name-prefix: ethtool-a-podl-pse-
++        name-prefix: ethtool-a-
+       -
+-        name: pw-d-status
++        name: podl-pse-pw-d-status
+         type: u32
+-        name-prefix: ethtool-a-podl-pse-
++        name-prefix: ethtool-a-
+   -
+     name: rss
+     attributes:
+@@ -1568,9 +1568,9 @@ operations:
+         reply:
+           attributes: &pse
+             - header
+-            - admin-state
+-            - admin-control
+-            - pw-d-status
++            - podl-pse-admin-state
++            - podl-pse-admin-control
++            - podl-pse-pw-d-status
+       dump: *pse-get-op
+     -
+       name: pse-set
+diff --git a/tools/net/ynl/generated/ethtool-user.c b/tools/net/ynl/generated/ethtool-user.c
+index 660435639e2b..922bbd07ee95 100644
+--- a/tools/net/ynl/generated/ethtool-user.c
++++ b/tools/net/ynl/generated/ethtool-user.c
+@@ -607,9 +607,9 @@ struct ynl_policy_nest ethtool_module_nest = {
+ 
+ struct ynl_policy_attr ethtool_pse_policy[ETHTOOL_A_PSE_MAX + 1] = {
+ 	[ETHTOOL_A_PSE_HEADER] = { .name = "header", .type = YNL_PT_NEST, .nest = &ethtool_header_nest, },
+-	[ETHTOOL_A_PODL_PSE_ADMIN_STATE] = { .name = "admin-state", .type = YNL_PT_U32, },
+-	[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL] = { .name = "admin-control", .type = YNL_PT_U32, },
+-	[ETHTOOL_A_PODL_PSE_PW_D_STATUS] = { .name = "pw-d-status", .type = YNL_PT_U32, },
++	[ETHTOOL_A_PODL_PSE_ADMIN_STATE] = { .name = "podl-pse-admin-state", .type = YNL_PT_U32, },
++	[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL] = { .name = "podl-pse-admin-control", .type = YNL_PT_U32, },
++	[ETHTOOL_A_PODL_PSE_PW_D_STATUS] = { .name = "podl-pse-pw-d-status", .type = YNL_PT_U32, },
  };
  
-+/**
-+ * enum - Types of PSE controller.
-+ *
-+ * @PSE_UNKNOWN: Type of PSE controller is unknown
-+ * @PSE_PODL: PSE controller which support PoDL
-+ * @PSE_C33: PSE controller which support Clause 33 (PoE)
-+ */
-+enum {
-+	PSE_UNKNOWN = BIT(0),
-+	PSE_PODL = BIT(1),
-+	PSE_C33 = BIT(2),
-+};
-+
- /**
-  * struct pse_controller_ops - PSE controller driver callbacks
-  *
-@@ -77,6 +90,7 @@ struct pse_control;
-  *            device tree to id as given to the PSE control ops
-  * @nr_lines: number of PSE controls in this controller device
-  * @lock: Mutex for serialization access to the PSE controller
-+ * @types: types of the PSE controller
-  */
- struct pse_controller_dev {
- 	const struct pse_controller_ops *ops;
-@@ -89,6 +103,7 @@ struct pse_controller_dev {
- 			const struct of_phandle_args *pse_spec);
- 	unsigned int nr_lines;
- 	struct mutex lock;
-+	u32 types;
+ struct ynl_policy_nest ethtool_pse_nest = {
+@@ -5308,18 +5308,18 @@ int ethtool_pse_get_rsp_parse(const struct nlmsghdr *nlh, void *data)
+ 		} else if (type == ETHTOOL_A_PODL_PSE_ADMIN_STATE) {
+ 			if (ynl_attr_validate(yarg, attr))
+ 				return MNL_CB_ERROR;
+-			dst->_present.admin_state = 1;
+-			dst->admin_state = mnl_attr_get_u32(attr);
++			dst->_present.podl_pse_admin_state = 1;
++			dst->podl_pse_admin_state = mnl_attr_get_u32(attr);
+ 		} else if (type == ETHTOOL_A_PODL_PSE_ADMIN_CONTROL) {
+ 			if (ynl_attr_validate(yarg, attr))
+ 				return MNL_CB_ERROR;
+-			dst->_present.admin_control = 1;
+-			dst->admin_control = mnl_attr_get_u32(attr);
++			dst->_present.podl_pse_admin_control = 1;
++			dst->podl_pse_admin_control = mnl_attr_get_u32(attr);
+ 		} else if (type == ETHTOOL_A_PODL_PSE_PW_D_STATUS) {
+ 			if (ynl_attr_validate(yarg, attr))
+ 				return MNL_CB_ERROR;
+-			dst->_present.pw_d_status = 1;
+-			dst->pw_d_status = mnl_attr_get_u32(attr);
++			dst->_present.podl_pse_pw_d_status = 1;
++			dst->podl_pse_pw_d_status = mnl_attr_get_u32(attr);
+ 		}
+ 	}
+ 
+@@ -5420,12 +5420,12 @@ int ethtool_pse_set(struct ynl_sock *ys, struct ethtool_pse_set_req *req)
+ 
+ 	if (req->_present.header)
+ 		ethtool_header_put(nlh, ETHTOOL_A_PSE_HEADER, &req->header);
+-	if (req->_present.admin_state)
+-		mnl_attr_put_u32(nlh, ETHTOOL_A_PODL_PSE_ADMIN_STATE, req->admin_state);
+-	if (req->_present.admin_control)
+-		mnl_attr_put_u32(nlh, ETHTOOL_A_PODL_PSE_ADMIN_CONTROL, req->admin_control);
+-	if (req->_present.pw_d_status)
+-		mnl_attr_put_u32(nlh, ETHTOOL_A_PODL_PSE_PW_D_STATUS, req->pw_d_status);
++	if (req->_present.podl_pse_admin_state)
++		mnl_attr_put_u32(nlh, ETHTOOL_A_PODL_PSE_ADMIN_STATE, req->podl_pse_admin_state);
++	if (req->_present.podl_pse_admin_control)
++		mnl_attr_put_u32(nlh, ETHTOOL_A_PODL_PSE_ADMIN_CONTROL, req->podl_pse_admin_control);
++	if (req->_present.podl_pse_pw_d_status)
++		mnl_attr_put_u32(nlh, ETHTOOL_A_PODL_PSE_PW_D_STATUS, req->podl_pse_pw_d_status);
+ 
+ 	err = ynl_exec(ys, nlh, &yrs);
+ 	if (err < 0)
+diff --git a/tools/net/ynl/generated/ethtool-user.h b/tools/net/ynl/generated/ethtool-user.h
+index ca0ec5fd7798..a2c69264c021 100644
+--- a/tools/net/ynl/generated/ethtool-user.h
++++ b/tools/net/ynl/generated/ethtool-user.h
+@@ -4590,15 +4590,15 @@ ethtool_pse_get_req_set_header_flags(struct ethtool_pse_get_req *req,
+ struct ethtool_pse_get_rsp {
+ 	struct {
+ 		__u32 header:1;
+-		__u32 admin_state:1;
+-		__u32 admin_control:1;
+-		__u32 pw_d_status:1;
++		__u32 podl_pse_admin_state:1;
++		__u32 podl_pse_admin_control:1;
++		__u32 podl_pse_pw_d_status:1;
+ 	} _present;
+ 
+ 	struct ethtool_header header;
+-	__u32 admin_state;
+-	__u32 admin_control;
+-	__u32 pw_d_status;
++	__u32 podl_pse_admin_state;
++	__u32 podl_pse_admin_control;
++	__u32 podl_pse_pw_d_status;
  };
  
- #if IS_ENABLED(CONFIG_PSE_CONTROLLER)
-@@ -108,6 +123,8 @@ int pse_ethtool_set_config(struct pse_control *psec,
- 			   struct netlink_ext_ack *extack,
- 			   const struct pse_control_config *config);
+ void ethtool_pse_get_rsp_free(struct ethtool_pse_get_rsp *rsp);
+@@ -4667,15 +4667,15 @@ ethtool_pse_get_dump(struct ynl_sock *ys, struct ethtool_pse_get_req_dump *req);
+ struct ethtool_pse_set_req {
+ 	struct {
+ 		__u32 header:1;
+-		__u32 admin_state:1;
+-		__u32 admin_control:1;
+-		__u32 pw_d_status:1;
++		__u32 podl_pse_admin_state:1;
++		__u32 podl_pse_admin_control:1;
++		__u32 podl_pse_pw_d_status:1;
+ 	} _present;
  
-+u32 pse_get_types(struct pse_control *psec);
-+
- #else
+ 	struct ethtool_header header;
+-	__u32 admin_state;
+-	__u32 admin_control;
+-	__u32 pw_d_status;
++	__u32 podl_pse_admin_state;
++	__u32 podl_pse_admin_control;
++	__u32 podl_pse_pw_d_status;
+ };
  
- static inline struct pse_control *of_pse_control_get(struct device_node *node)
-@@ -133,6 +150,11 @@ static inline int pse_ethtool_set_config(struct pse_control *psec,
- 	return -ENOTSUPP;
+ static inline struct ethtool_pse_set_req *ethtool_pse_set_req_alloc(void)
+@@ -4711,25 +4711,25 @@ ethtool_pse_set_req_set_header_flags(struct ethtool_pse_set_req *req,
+ 	req->header.flags = flags;
+ }
+ static inline void
+-ethtool_pse_set_req_set_admin_state(struct ethtool_pse_set_req *req,
+-				    __u32 admin_state)
++ethtool_pse_set_req_set_podl_pse_admin_state(struct ethtool_pse_set_req *req,
++					     __u32 podl_pse_admin_state)
+ {
+-	req->_present.admin_state = 1;
+-	req->admin_state = admin_state;
++	req->_present.podl_pse_admin_state = 1;
++	req->podl_pse_admin_state = podl_pse_admin_state;
+ }
+ static inline void
+-ethtool_pse_set_req_set_admin_control(struct ethtool_pse_set_req *req,
+-				      __u32 admin_control)
++ethtool_pse_set_req_set_podl_pse_admin_control(struct ethtool_pse_set_req *req,
++					       __u32 podl_pse_admin_control)
+ {
+-	req->_present.admin_control = 1;
+-	req->admin_control = admin_control;
++	req->_present.podl_pse_admin_control = 1;
++	req->podl_pse_admin_control = podl_pse_admin_control;
+ }
+ static inline void
+-ethtool_pse_set_req_set_pw_d_status(struct ethtool_pse_set_req *req,
+-				    __u32 pw_d_status)
++ethtool_pse_set_req_set_podl_pse_pw_d_status(struct ethtool_pse_set_req *req,
++					     __u32 podl_pse_pw_d_status)
+ {
+-	req->_present.pw_d_status = 1;
+-	req->pw_d_status = pw_d_status;
++	req->_present.podl_pse_pw_d_status = 1;
++	req->podl_pse_pw_d_status = podl_pse_pw_d_status;
  }
  
-+static inline u32 pse_get_types(struct pse_control *psec)
-+{
-+	return PSE_UNKNOWN;
-+}
-+
- #endif
- 
- #endif
+ /*
 
 -- 
 2.25.1
