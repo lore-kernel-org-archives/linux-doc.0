@@ -1,29 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=emersion.fr header.i=@emersion.fr header.b="bcHl5BOW"
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9062CDC
-	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 02:25:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-	s=protonmail2; t=1701426309; x=1701685509;
-	bh=bgyglF9ayxa/RKpdlocwZSsZ3zpKoAyjXW1dDPrXAGw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=bcHl5BOWYJk0TNt+h0a9dSc7hrj5VR3v/kDHbFw4D6qQ43nZkZsUCZJZcDlef95K8
-	 GrGLErUWOXrEp8Vne614IgeuIvN+x+S2s5Y5ItC1PQ9WgGl+oaCYuauaxRNckBO0Wq
-	 130Q+aUQIMLyDdDnTQMgd/2YIlOKfZ7rFkaAOJyL/lrFKEuko+hGFW0sdSBsnQ2xWI
-	 GLQLeWNgrT9RLZeZxmJ/2RETDuDnXOg/D3UV9Sf9QCki5U48+LC9C7aOXh1AcAvDgl
-	 qQDWfQixyh9cvr8ALnbfagtkRR3Zy6xePdY76/MGM1z7XYbxYjaYP2wlrm8eSeYJbV
-	 qaPa7yxtL95Rg==
-Date: Fri, 01 Dec 2023 10:25:03 +0000
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com, Rob Clark <robdclark@gmail.com>, daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>, =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>, Dave Airlie <airlied@gmail.com>, =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <SdYVz-02vwuB23Xyjr6J15D4E50DBpqfdXP9QTROngMmiV2RBmXIjp2fizBEIA_iQssaVpiqwvhDhSZbc9hdQm5Hp1-I8EK3_lGnwELZkT0=@emersion.fr>
-In-Reply-To: <20231201115709.61c0817e.pekka.paalanen@collabora.com>
-References: <20231130200740.53454-1-andrealmeid@igalia.com> <40gonZRoP7FjDn_ugL_LpXsqwoSCZtypIe7jiWg0t8lkTx94-gESc60Cuu5eWxivJoZCNg3i-cUG9kNpKQZeYdCJPawDpTSIXivJ_t_a87E=@emersion.fr> <20231201115709.61c0817e.pekka.paalanen@collabora.com>
-Feedback-ID: 1358184:user:proton
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOtrLGn1"
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D983F1;
+	Fri,  1 Dec 2023 02:33:24 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-a00b01955acso289947266b.1;
+        Fri, 01 Dec 2023 02:33:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701426802; x=1702031602; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FEjxeSnMiazDaio2kYq2DUQMa2zPWhBs8CiVIQTho9s=;
+        b=MOtrLGn1sZu2BDFMZTJRMJ73ccOWFi5Fj5N6NMxsmtV2i0qLLrAYqhB7OUZnkoNrGx
+         PbYho4cOv2xozYwY3OU1XF6DWNjU9lWe37PvP+ID317j0Kzr4mBAlYRXZSsX4C9qL2LK
+         udIRJn5xd8L0bIQFUJDvrabWO45/URQp6uQUZqjKgSW42DRdwcQSbDeIibw/kUg7K1M2
+         IWd4Hhjb/6bZzQN0x71Zjf0W7+HoFqF+gMh+SvFtbVArIT0gTdF48CjRn860dkcTKC5y
+         nieVVPWxQmL+QZAYOU6jx5yfdeT3cpCwVjjIjbZpBhBK83uEpkM/OfELjuTZfR05GBDZ
+         91Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701426802; x=1702031602;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FEjxeSnMiazDaio2kYq2DUQMa2zPWhBs8CiVIQTho9s=;
+        b=Ib8aaUEb37qyOa8f3SMfQwg7eu72w4v/HOGT/NoEacJm2yuBrqquQm+cjt0hwBXYJA
+         yKWmA+quR3C7XMgAnz/bT+HlahjZD3BRp2ENn5JbQgckIrb9ENXL+xn4/WRFvXkbXUvu
+         TyLNxTpaeG3GK8KieD0eZPnxPsXiFk/xhk9OXFWVC3ICtfsbV5EiHp5TNyq1sxqmbAf8
+         zdW25tfmqZFRpJtThc1cRqOOGOqY+QTbmdRZZWsJETDYKKxibd5/ZdwS3Q3lyS7i30+S
+         HaO+G3BVO9csfb9DECICZbjhuEfoamqvqkcrVhONtLv5vkmjpA9Ost4JvANHMYPqd5SS
+         Ih6w==
+X-Gm-Message-State: AOJu0Yz0F7XCxmDovVdy0K9NCMxXvH4JmYQ4Sv+OA9VqXCvqOYU325Yz
+	RfdSkKMi8SjNiF60u3gEvlw=
+X-Google-Smtp-Source: AGHT+IElb/wg7ewXKWnpoQIbwkO9NKhynRUXTMFXs91XlcsWmU+je+BptByRXB6peJNWQg+YNlNDXg==
+X-Received: by 2002:a17:906:1251:b0:a19:a19b:7899 with SMTP id u17-20020a170906125100b00a19a19b7899mr603500eja.92.1701426802540;
+        Fri, 01 Dec 2023 02:33:22 -0800 (PST)
+Received: from gmail.com (1F2EF126.nat.pool.telekom.hu. [31.46.241.38])
+        by smtp.gmail.com with ESMTPSA id qx34-20020a170907b5a200b009fd727116b4sm327107ejc.129.2023.12.01.02.33.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 02:33:21 -0800 (PST)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date: Fri, 1 Dec 2023 11:33:19 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: Waiman Long <longman@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH -v2] locking/mutex: Document that mutex_unlock() is non-atomic
+Message-ID: <ZWm2b+QGpOvzHjc1@gmail.com>
+References: <20231130204817.2031407-1-jannh@google.com>
+ <2f17a9a6-5781-43ef-a09b-f39310843fe6@redhat.com>
+ <CAG48ez1oXW=4MfQ0A6tthud-cvDZUTA+VB=jzu-HxvWzbj+X0g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -31,171 +58,125 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG48ez1oXW=4MfQ0A6tthud-cvDZUTA+VB=jzu-HxvWzbj+X0g@mail.gmail.com>
 
-On Friday, December 1st, 2023 at 10:57, Pekka Paalanen <pekka.paalanen@coll=
-abora.com> wrote:
 
-> > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, whic=
-h means the =20
-> >=20
-> > It would be nice to link DRM_MODE_ATOMIC_TEST_ONLY to the actual docs h=
-ere.
-> > This can be done with markup such as:
-> >=20
-> >     :c:macro:`DRM_MODE_ATOMIC_TEST_ONLY`
-> >=20
-> > Same applies to other #defines.
-> >=20
-> > > +complete state change is validated but not applied.  Userspace shoul=
-d use this =20
-> >=20
-> > I'd s/should/can/ here, because there are valid cases where user-space =
-doesn't
-> > really need to test before applying. Applying a state first validates i=
-t in the
-> > kernel anwyays.
->=20
-> Those cases a very much an exception. If you want to explain in what
-> cases testing is not necessary, that's fine to add, but without it I do
-> want to always recommend testing first. There is no harm in testing too
-> much, but there is harm in not testing which implies that there is
-> likely no fallback either. Without fallbacks, the kernel developers
-> have less room to change things, and the userspace itself is probably
-> too fragile to be generally useful.
->=20
-> Or, if you think this concern is moot, then why would userspace ever
-> use testing?
->=20
-> However, I have understood from past kernel discussions that userspace
-> really does need to test and fall back on test failure in almost all
-> cases. Otherwise userspace becomes too driver/hardware dependent.
->=20
-> In general, I think recommending best practices with "should" is a good
-> idea.
+* Jann Horn <jannh@google.com> wrote:
 
-I was mostly thinking about very simple KMS clients that only use the most
-basic configuration (full-screen buffer with no scaling/cropping). That's
-actually a quite common case.
+> On Thu, Nov 30, 2023 at 10:53 PM Waiman Long <longman@redhat.com> wrote:
+> > On 11/30/23 15:48, Jann Horn wrote:
+> > > I have seen several cases of attempts to use mutex_unlock() to release an
+> > > object such that the object can then be freed by another task.
+> > > My understanding is that this is not safe because mutex_unlock(), in the
+> > > MUTEX_FLAG_WAITERS && !MUTEX_FLAG_HANDOFF case, accesses the mutex
+> > > structure after having marked it as unlocked; so mutex_unlock() requires
+> > > its caller to ensure that the mutex stays alive until mutex_unlock()
+> > > returns.
+> > >
+> > > If MUTEX_FLAG_WAITERS is set and there are real waiters, those waiters
+> > > have to keep the mutex alive, I think; but we could have a spurious
+> > > MUTEX_FLAG_WAITERS left if an interruptible/killable waiter bailed
+> > > between the points where __mutex_unlock_slowpath() did the cmpxchg
+> > > reading the flags and where it acquired the wait_lock.
+> >
+> > Could you clarify under what condition a concurrent task can decide to
+> > free the object holding the mutex? Is it !mutex_is_locked() or after a
+> > mutex_lock()/mutex_unlock sequence?
+> 
+> I mean a mutex_lock()+mutex_unlock() sequence.
+> 
+> > mutex_is_locked() will return true if the mutex has waiter even if it
+> > is currently free.
+> 
+> I don't understand your point, and maybe I also don't understand what
+> you mean by "free". Isn't mutex_is_locked() defined such that it only
+> looks at whether a mutex has an owner, and doesn't look at the waiter
+> list?
 
-But I see what you mean here, I don't mind keeping the current wording.
+Yeah, mutex_is_locked() is not a sufficient check - and mutexes have no 
+implicit refcount properties like spinlocks. Once you call a mutex API, you 
+have to guarantee the lifetime of the object until the function returns.
 
-> > > +flag to validate any state change before asking to apply it. If vali=
-dation fails
-> > > +for any reason, userspace should attempt to fall back to another, pe=
-rhaps
-> > > +simpler, final state.  This allows userspace to probe for various co=
-nfigurations
-> > > +without causing visible glitches on screen and without the need to u=
-ndo a
-> > > +probing change.
-> > > +
-> > > +The changes recorded in an atomic commit apply on top the current KM=
-S state in
-> > > +the kernel. Hence, the complete new KMS state is the complete old KM=
-S state with
-> > > +the committed property settings done on top. The kernel will try to =
-avoid
-> > > +no-operation changes, so it is safe for userspace to send redundant =
-property
-> > > +settings.  However, not every situation allows for no-op changes, du=
-e to the
-> > > +need to acquire locks for some attributes. Userspace needs to be awa=
-re that some
-> > > +redundant information might result in oversynchronization issues.  N=
-o-operation
-> > > +changes do not count towards actually needed changes, e.g.  setting =
-MODE_ID to a
-> > > +different blob with identical contents as the current KMS state shal=
-l not be a
-> > > +modeset on its own. As a special exception for VRR needs, explicitly=
- setting
-> > > +FB_ID to its current value is not a no-op. =20
-> >=20
-> > I'm not sure talking about FB_ID is the right thing to do here. There i=
-s
-> > nothing special about FB_ID in particular. For instance, setting CRTC_I=
-D to the
-> > same value as before has the same effect. Talking specifically about FB=
-_ID here
-> > can be surprising for user-space: reading these docs, I'd assume settin=
-g
-> > CRTC_ID to the same value as before is a no-op, but in reality it's not=
-.
->=20
-> Whoa, I never knew that! That's a big surprise!
+I.e. entering a mutex_lock()-ed critical section cannot be used to 
+guarantee that all mutex_unlock() instances have stopped using the mutex.
+I agree that this is a bit unintuitive, and differs from spinlocks.
 
-Aha! Seems like KMS always has a trick up its sleeve to surprise user-space
-devs :)
+I've clarified all this a bit more in the final patch (added a 'fully' 
+qualifier, etc.), and made the changelog more assertive - see the attached 
+patch.
 
-> People have always been talking only about FB_ID so far.
->=20
-> > Instead, I'd suggest explaining how referencing a plane/CRTC/connector =
-in an
-> > atomic commit adds it to the new state, even if there are no effective =
-property
-> > value changes.
->=20
-> So, if a CRTC object is pulled into drm_atomic_state(?) at all, on VRR
-> it will trigger a new scanout cycle always, avoiding the front porch
-> timeout?
->=20
-> Yikes.
+Thanks,
 
-Yeah, I believe so. Any property (regardless of whether the value actually
-changed or not) included in the atomic commit may directly (applied on a CR=
-TC
-object) or indirectly (applied on a plane/connector linked to a CRTC) pull =
-in
-a CRTC and have side-effects. (Also, as noted on IRC, a driver might pull i=
-n a
-CRTC on its own, e.g. when reconfiguring a DP-MST tree.)
+	Ingo
 
-> > > +A "modeset" is a change in KMS state that might enable, disable, or =
-temporarily
-> > > +disrupt the emitted video signal, possibly causing visible glitches =
-on screen. A
-> > > +modeset may also take considerably more time to complete than other =
-kinds of
-> > > +changes, and the video sink might also need time to adapt to the new=
- signal
-> > > +properties. Therefore a modeset must be explicitly allowed with the =
-flag
-> > > +DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
-> > > +DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state c=
-hange is
-> > > +likely to cause visible disruption on screen and avoid such changes =
-when end
-> > > +users do not expect them.
-> > > +
-> > > +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed t=
-o
-> > > +effectively change only the FB_ID property on any planes. No-operati=
-on changes
-> > > +are ignored as always. Changing any other property will cause the co=
-mmit to be
-> > > +rejected. Each driver may relax this restriction if they have guaran=
-tees that
-> > > +such property change doesn't cause modesets. Userspace can use TEST_=
-ONLY commits
-> > > +to query the driver about this. =20
-> >=20
-> > This doesn't 100% match reality at the moment, because core DRM now rej=
-ects any
-> > async commit which changes FB_ID on a non-primary plane. And there is n=
-o way
-> > for drivers to relax this currently.
-> >=20
-> > I'm not sure this is a good place to state such a rule. In the end, it'=
-s the
-> > same as always: the kernel will reject commits it can't perform.
-> > DRM_MODE_PAGE_FLIP_ASYNC does not need to be a special case here. Even =
-when
-> > changing only FB_ID, the kernel might reject the commit (e.g. i915 does=
- in some
-> > cases).
->=20
-> I think the paragraph is good to drop here, if it's documented in a
-> more appropriate place.
+=======================>
+From: Jann Horn <jannh@google.com>
+Date: Thu, 30 Nov 2023 21:48:17 +0100
+Subject: [PATCH] locking/mutex: Document that mutex_unlock() is non-atomic
 
-Yeah, maybe we should expand the DRM_MODE_PAGE_FLIP_ASYNC docs a bit.
+I have seen several cases of attempts to use mutex_unlock() to release an
+object such that the object can then be freed by another task.
+
+This is not safe because mutex_unlock(), in the
+MUTEX_FLAG_WAITERS && !MUTEX_FLAG_HANDOFF case, accesses the mutex
+structure after having marked it as unlocked; so mutex_unlock() requires
+its caller to ensure that the mutex stays alive until mutex_unlock()
+returns.
+
+If MUTEX_FLAG_WAITERS is set and there are real waiters, those waiters
+have to keep the mutex alive, but we could have a spurious
+MUTEX_FLAG_WAITERS left if an interruptible/killable waiter bailed
+between the points where __mutex_unlock_slowpath() did the cmpxchg
+reading the flags and where it acquired the wait_lock.
+
+( With spinlocks, that kind of code pattern is allowed and, from what I
+  remember, used in several places in the kernel. )
+
+Document this, such a semantic difference between mutexes and spinlocks
+is fairly unintuitive.
+
+[ mingo: Made the changelog a bit more assertive, refined the comments. ]
+
+Signed-off-by: Jann Horn <jannh@google.com>
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Link: https://lore.kernel.org/r/20231130204817.2031407-1-jannh@google.com
+---
+ Documentation/locking/mutex-design.rst | 6 ++++++
+ kernel/locking/mutex.c                 | 5 +++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/Documentation/locking/mutex-design.rst b/Documentation/locking/mutex-design.rst
+index 78540cd7f54b..7572339b2f12 100644
+--- a/Documentation/locking/mutex-design.rst
++++ b/Documentation/locking/mutex-design.rst
+@@ -101,6 +101,12 @@ features that make lock debugging easier and faster:
+     - Detects multi-task circular deadlocks and prints out all affected
+       locks and tasks (and only those tasks).
+ 
++Releasing a mutex is not an atomic operation: Once a mutex release operation
++has begun, another context may be able to acquire the mutex before the release
++operation has fully completed. The mutex user must ensure that the mutex is not
++destroyed while a release operation is still in progress - in other words,
++callers of mutex_unlock() must ensure that the mutex stays alive until
++mutex_unlock() has returned.
+ 
+ Interfaces
+ ----------
+diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+index 2deeeca3e71b..cbae8c0b89ab 100644
+--- a/kernel/locking/mutex.c
++++ b/kernel/locking/mutex.c
+@@ -532,6 +532,11 @@ static noinline void __sched __mutex_unlock_slowpath(struct mutex *lock, unsigne
+  * This function must not be used in interrupt context. Unlocking
+  * of a not locked mutex is not allowed.
+  *
++ * The caller must ensure that the mutex stays alive until this function has
++ * returned - mutex_unlock() can NOT directly be used to release an object such
++ * that another concurrent task can free it.
++ * Mutexes are different from spinlocks & refcounts in this aspect.
++ *
+  * This function is similar to (but not equivalent to) up().
+  */
+ void __sched mutex_unlock(struct mutex *lock)
