@@ -1,310 +1,206 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AxA+me3i"
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16062133
-	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 10:09:08 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a1a0bc1e415so117479566b.0
-        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 10:09:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701454147; x=1702058947; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UEIQEfvYkVjuDggg7B/9PPN2YOzTUfNPW/xSLvt+K4s=;
-        b=AxA+me3iTAwht8bAtFmBwAT39kUpI08GD5MaWKalWAIwgXNwqnjXIpipUi+fPLQ6YM
-         SfB4UhT5ZBpClm8ojG89sQJxc5DptH72fzB55o8HesWTYxlhD3GClSmRWziZcccnHuCj
-         PKw8NQ8xM1VT/k/dUU7C9df1xJPTn2UssV1Pg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701454147; x=1702058947;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UEIQEfvYkVjuDggg7B/9PPN2YOzTUfNPW/xSLvt+K4s=;
-        b=Ai+sN/DJBjWD22ZmnpDQ9tZTkAsm9BHPp6zlrIq/oMzIvtoSSDcXX9GvYwKq6FFcmY
-         AtH7c9Ibz0PFNEcFcgC4ms7Az9w5Hz2167/YZgiylV5h+pHtamzm5Vh4kW/w6ettXsSh
-         iiFRmeCalQIVZra35mZ80fIanbpNeTTyfKsrsL7nPn7eipemmdaqKwzZtm0AU22ut2cE
-         I9b2H+YirBfA7RlbBxLUHS2NwV6dmTwJv78GRIz1JshyoUZ97yKq0X5PrTGcit7BzqL9
-         8exYQZA1SKB0bGccVchKcl+5DYk2PG1L2UPZPhzI9FxRxt9n/1rq80ZRRkyeikf+GcdK
-         oygw==
-X-Gm-Message-State: AOJu0YwtGAre5aGv7NglDo6cGyDuhMY83hmzUxee1U20gvGlO1sflhjL
-	bgN+7StUxEq1lyw/qhQnnFnkNnh3wQzTFSPaBaqS6g==
-X-Google-Smtp-Source: AGHT+IFZTKuH9PdUyL0gQprrafos6u3NTUlb/BhkZKnfCp3f1IpmtoqU828/90jTHuGL3HSwlPcLDoACchDP0koolhc=
-X-Received: by 2002:a17:906:5349:b0:a1a:55cd:350d with SMTP id
- j9-20020a170906534900b00a1a55cd350dmr107852ejo.104.1701454147105; Fri, 01 Dec
- 2023 10:09:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hImsLTcq"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D303106;
+	Fri,  1 Dec 2023 10:09:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701454169; x=1732990169;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=CJz00CJihd1qEeBYs0fVFfE3n80bQ76KtRuppz6FAPc=;
+  b=hImsLTcqg6KtA8Vx+2VeOr2uaHrEPaeENgpBcdUj7Ds4175SvFiLOFTD
+   QzzKE850RYkp+SdafNnsj4b35OaqspLp3zkk2Dmq6Tkt1A43pLMsTZ3+b
+   kl1ATmf1rh5sp2G4i80zxJK1CTZtk3SbAuE0WEmuYADHFVKJp8CWx8QWX
+   sJJnpMBKzKAYNIm/Vfq34vtwaSzQsD4wJ7fzt4x41vEkg2GHL9ao8ph3i
+   BjNQNtpCUUL24HkA8ptY51fSIDEebxmS9pFNsaWF/eCmqpDz1UC+bGA/T
+   Hd4Xm0q//O0cv4p4jCRmaH7cAqiWjIY5nHvmFq/SEVjyTV9IeBPW2g6zJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="424689904"
+X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
+   d="scan'208";a="424689904"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 10:09:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763215712"
+X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
+   d="scan'208";a="763215712"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 10:09:23 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Fri, 01 Dec 2023 20:09:22 +0200
+Date: Fri, 1 Dec 2023 20:09:22 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+	Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>, kernel-dev@igalia.com,
+	alexander.deucher@amd.com, christian.koenig@amd.com
+Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
+Message-ID: <ZWohUl3Ma6Q2fccG@intel.com>
+References: <20231130200740.53454-1-andrealmeid@igalia.com>
+ <ZWn1EC04wBSN9hu2@intel.com>
+ <20231201181616.4c1f0acc.pekka.paalanen@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231130203358.879796-1-sjg@chromium.org> <20231130203358.879796-3-sjg@chromium.org>
- <CAK7LNARABFKSqY=f1uDGem2UqkTwGUQ9q3rDZ4NbXyuEAtsLdw@mail.gmail.com>
-In-Reply-To: <CAK7LNARABFKSqY=f1uDGem2UqkTwGUQ9q3rDZ4NbXyuEAtsLdw@mail.gmail.com>
-From: Simon Glass <sjg@chromium.org>
-Date: Fri, 1 Dec 2023 11:08:47 -0700
-Message-ID: <CAPnjgZ0SaoyCMiZHZ8Hs6iE8pqGz0RMYwv1XQQFZOHe1cpn7YQ@mail.gmail.com>
-Subject: Re: [PATCH v8 2/2] arm64: boot: Support Flat Image Tree
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	U-Boot Mailing List <u-boot@lists.denx.de>, lkml <linux-kernel@vger.kernel.org>, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Tom Rini <trini@konsulko.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, 
-	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231201181616.4c1f0acc.pekka.paalanen@collabora.com>
+X-Patchwork-Hint: comment
 
-Hi Masahiro,
+On Fri, Dec 01, 2023 at 06:16:16PM +0200, Pekka Paalanen wrote:
+> On Fri, 1 Dec 2023 17:00:32 +0200
+> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> 
+> > On Thu, Nov 30, 2023 at 05:07:40PM -0300, André Almeida wrote:
+> > > From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > 
+> > > Specify how the atomic state is maintained between userspace and
+> > > kernel, plus the special case for async flips.
+> > > 
+> > > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> > > ---
+> > > 
+> > > This is a standalone patch from the following serie, the other patches are
+> > > already merged:
+> > > https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.com/
+> > > 
+> > >  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 47 insertions(+)
+> > > 
+> > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> > > index 370d820be248..d0693f902a5c 100644
+> > > --- a/Documentation/gpu/drm-uapi.rst
+> > > +++ b/Documentation/gpu/drm-uapi.rst
+> > > @@ -570,3 +570,50 @@ dma-buf interoperability
+> > >  
+> > >  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+> > >  information on how dma-buf is integrated and exposed within DRM.
+> > > +
+> > > +KMS atomic state
+> > > +================
+> > > +
+> > > +An atomic commit can change multiple KMS properties in an atomic fashion,
+> > > +without ever applying intermediate or partial state changes.  Either the whole
+> > > +commit succeeds or fails, and it will never be applied partially. This is the
+> > > +fundamental improvement of the atomic API over the older non-atomic API which is
+> > > +referred to as the "legacy API".  Applying intermediate state could unexpectedly
+> > > +fail, cause visible glitches, or delay reaching the final state.
+> > > +
+> > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
+> > > +complete state change is validated but not applied.  Userspace should use this
+> > > +flag to validate any state change before asking to apply it. If validation fails
+> > > +for any reason, userspace should attempt to fall back to another, perhaps
+> > > +simpler, final state.  This allows userspace to probe for various configurations
+> > > +without causing visible glitches on screen and without the need to undo a
+> > > +probing change.
+> > > +
+> > > +The changes recorded in an atomic commit apply on top the current KMS state in
+> > > +the kernel. Hence, the complete new KMS state is the complete old KMS state with
+> > > +the committed property settings done on top. The kernel will try to avoid
+> > > +no-operation changes,  
+> > 
+> > Not how things work. The driver may try to avoid some really
+> > expensive operations, but generally it will just blindly blast
+> > the full state to the hardware.
+> > 
+> > IIRC this was discussed long ago when atomic was being designed
+> > and the general concensus was that the kernel shouldn't generally
+> > do this kind of stuff, and instead we just leave it to userspace
+> > to generate optimal commits.
+> 
+> I don't think userspace ever got that memo. If I was cheeky, I could
+> ask where that is documented, so you could point at it and say "told
+> you so".
 
-On Fri, 1 Dec 2023 at 10:30, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Fri, Dec 1, 2023 at 5:34=E2=80=AFAM Simon Glass <sjg@chromium.org> wro=
-te:
-> >
-> > Add a script which produces a Flat Image Tree (FIT), a single file
-> > containing the built kernel and associated devicetree files.
-> > Compression defaults to gzip which gives a good balance of size and
-> > performance.
-> >
-> > The files compress from about 86MB to 24MB using this approach.
-> >
-> > The FIT can be used by bootloaders which support it, such as U-Boot
-> > and Linuxboot. It permits automatic selection of the correct
-> > devicetree, matching the compatible string of the running board with
-> > the closest compatible string in the FIT. There is no need for
-> > filenames or other workarounds.
-> >
-> > Add a 'make image.fit' build target for arm64, as well.
-> >
-> > The FIT can be examined using 'dumpimage -l'.
-> >
-> > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > requires compression utilities for the algorithm being used. Supported
-> > compression options are the same as the Image.xxx files. For now there
-> > is no way to change the compression other than by editing the rule for
-> > $(obj)/image.fit
-> >
-> > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > this here, since it must be built separately from the Linux build.
-> >
-> > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > ---
-> >
-> > Changes in v8:
-> > - Drop compatible string in FDT node
-> > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > - Turn compress part of the make_fit.py comment in to a sentence
-> > - Add two blank lines before parse_args() and setup_fit()
-> > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > - Add 'mkimage' details Documentation/process/changes.rst
-> > - Allow changing the compression used
-> > - Tweak cover letter since there is only one clean-up patch
-> >
-> > Changes in v7:
-> > - Add Image as a dependency of image.fit
-> > - Drop kbuild tag
-> > - Add dependency on dtbs
-> > - Drop unnecessary path separator for dtbs
-> > - Rebase to -next
-> >
-> > Changes in v5:
-> > - Drop patch previously applied
-> > - Correct compression rule which was broken in v4
-> >
-> > Changes in v4:
-> > - Use single quotes for UIMAGE_NAME
-> >
-> > Changes in v3:
-> > - Drop temporary file image.itk
-> > - Drop patch 'Use double quotes for image name'
-> > - Drop double quotes in use of UIMAGE_NAME
-> > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > - Avoid hard-coding "arm64" for the DT architecture
-> >
-> > Changes in v2:
-> > - Drop patch previously applied
-> > - Add .gitignore file
-> > - Move fit rule to Makefile.lib using an intermediate file
-> > - Drop dependency on CONFIG_EFI_ZBOOT
-> > - Pick up .dtb files separately from the kernel
-> > - Correct pylint too-many-args warning for write_kernel()
-> > - Include the kernel image in the file count
-> > - Add a pointer to the FIT spec and mention of its wide industry usage
-> > - Mention the kernel version in the FIT description
-> >
-> >  Documentation/process/changes.rst |   9 +
-> >  MAINTAINERS                       |   7 +
-> >  arch/arm64/Makefile               |   7 +-
-> >  arch/arm64/boot/.gitignore        |   1 +
-> >  arch/arm64/boot/Makefile          |   9 +-
-> >  scripts/Makefile.lib              |  13 ++
-> >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
-> >  7 files changed, 334 insertions(+), 3 deletions(-)
-> >  create mode 100755 scripts/make_fit.py
-> >
-> > diff --git a/Documentation/process/changes.rst b/Documentation/process/=
-changes.rst
-> > index bb96ca0f774b..cad51bd5bd62 100644
-> > --- a/Documentation/process/changes.rst
-> > +++ b/Documentation/process/changes.rst
-> > @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         1.7              sphinx-build =
---version
-> >  cpio                   any              cpio --version
-> >  GNU tar                1.28             tar --version
-> >  gtags (optional)       6.6.5            gtags --version
-> > +mkimage (optional)     2017.01          mkimage --version
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> >
-> >  .. [#f1] Sphinx is needed only to build the Kernel documentation
-> > @@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6.6.5=
- or later to generate
-> >  tag files through ``make gtags``.  This is due to its use of the gtags
-> >  ``-C (--directory)`` flag.
-> >
-> > +mkimage
-> > +-------
-> > +
-> > +This tool is used when building a Flat Image Tree (FIT), commonly used=
- on ARM
-> > +platforms. The tool is available via the ``u-boot-tools`` package or c=
-an be
-> > +built from the U-Boot source code. See the instructions at
-> > +https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-=
-linux
-> > +
-> >  System utilities
-> >  ****************
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 14587be87a33..9f3eb476ece4 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -3037,6 +3037,13 @@ F:       drivers/mmc/host/sdhci-of-arasan.c
-> >  N:     zynq
-> >  N:     xilinx
-> >
-> > +ARM64 FIT SUPPORT
-> > +M:     Simon Glass <sjg@chromium.org>
-> > +L:     linux-arm-kernel@lists.infradead.org (moderated for non-subscri=
-bers)
-> > +S:     Maintained
-> > +F:     arch/arm64/boot/Makefile
-> > +F:     scripts/make_fit.py
-> > +
-> >  ARM64 PORT (AARCH64 ARCHITECTURE)
-> >  M:     Catalin Marinas <catalin.marinas@arm.com>
-> >  M:     Will Deacon <will@kernel.org>
-> > diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> > index 1bd4fae6e806..6b893dc454b7 100644
-> > --- a/arch/arm64/Makefile
-> > +++ b/arch/arm64/Makefile
-> > @@ -150,7 +150,7 @@ libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/fir=
-mware/efi/libstub/lib.a
-> >  # Default target when executing plain make
-> >  boot           :=3D arch/arm64/boot
-> >
-> > -BOOT_TARGETS   :=3D Image vmlinuz.efi
-> > +BOOT_TARGETS   :=3D Image vmlinuz.efi image.fit
-> >
-> >  PHONY +=3D $(BOOT_TARGETS)
-> >
-> > @@ -162,7 +162,9 @@ endif
-> >
-> >  all:   $(notdir $(KBUILD_IMAGE))
-> >
-> > -vmlinuz.efi: Image
-> > +image.fit: dtbs
-> > +
-> > +vmlinuz.efi image.fit: Image
-> >  $(BOOT_TARGETS): vmlinux
-> >         $(Q)$(MAKE) $(build)=3D$(boot) $(boot)/$@
-> >
-> > @@ -215,6 +217,7 @@ virtconfig:
-> >  define archhelp
-> >    echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/=
-Image.gz)'
-> >    echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boo=
-t/Image)'
-> > +  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/image.fi=
-t)'
-> >    echo  '  install       - Install uncompressed kernel'
-> >    echo  '  zinstall      - Install compressed kernel'
-> >    echo  '                  Install using (your) ~/bin/installkernel or=
-'
-> > diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignore
-> > index af5dc61f8b43..abaae9de1bdd 100644
-> > --- a/arch/arm64/boot/.gitignore
-> > +++ b/arch/arm64/boot/.gitignore
-> > @@ -2,3 +2,4 @@
-> >  Image
-> >  Image.gz
-> >  vmlinuz*
-> > +image.fit
-> > diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
-> > index 1761f5972443..62efb533a9bc 100644
-> > --- a/arch/arm64/boot/Makefile
-> > +++ b/arch/arm64/boot/Makefile
-> > @@ -16,7 +16,8 @@
-> >
-> >  OBJCOPYFLAGS_Image :=3D-O binary -R .note -R .note.gnu.build-id -R .co=
-mment -S
-> >
-> > -targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo I=
-mage.zst
-> > +targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo \
-> > +       Image.zst image.fit
-> >
-> >  $(obj)/Image: vmlinux FORCE
-> >         $(call if_changed,objcopy)
-> > @@ -39,6 +40,12 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
-> >  $(obj)/Image.zst: $(obj)/Image FORCE
-> >         $(call if_changed,zstd)
-> >
-> > +# Use this to override the compression algorithm
-> > +FIT_COMPRESS ?=3D gzip
-> > +
-> > +$(obj)/image.fit: $(obj)/Image FORCE
-> > +       $(call cmd,fit,$(FIT_COMPRESS))
->
->
->
-> Again, $(FIT_COMPRESS) is not used anywhere.
->
->
-> Please fix it to
->
->       $(call cmd,fit)
->
->
->
->
-> See your code.
->
->
->    cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux \
->                      --name '$(UIMAGE_NAME)' \
->                      --compress $(UIMAGE_COMPRESSION) -k $< \
->                      $(<D)/dts
->
->
-> cmd_fit does not take any argument.
->
->
-> The compression is determined by $(UIMAGE_COMPRESSION).
+Probably not docuemented anywhere.
 
-This references argument 2, which is how it works. I have tested this,
-for example:
+> 
+> When I was working on Weston atomic KMS support many years ago, I
+> created a framework that emitted KMS property changes only when they
+> actually needed changing. By review feedback (*), all that machinery was
+> dropped in a re-design, and today Weston always emits all KMS
+> properties it knows to program for a specific CRTC update including all
+> relevant planes and connectors.
+> 
+> (*) Why do we need to repeat the same state tracking that the kernel
+> does anyway, and also risk getting out of sync with the kernel due to
+> bugs which then become more difficult to diagnose. I guess (assumed)
+> kernel internals leaked to userspace. Oops.
 
-ARCH=3Darm64 CROSS_COMPILE=3D... make FIT_COMPRESS=3Dlzma image.fit
+The kernel does track the full state sure, but it doesn't generally
+go out of its way to figure out what specifically changed in that state.
+Doing so would be a lot of extra checks, and kinda less convenient to
+do inside the driver since at that point the state is already spread 
+all over the various structures. And the fact that those structures
+are a mismash of uapi and internal bits of state (and other metadata 
+for the single commit that really shouldn't be stored there) doesn't
+help matters. I did propose to split the state cleanly into pure uapi
+vs. internal stuff but that didn't gain any traction unfortunately.
 
-I do want to support different algorithms, if possible. Is there a
-better way to do this?
+So I think it might be simpler to do on the uapi property level. It may
+result in a somewhat coarser idea of what changed, but it avoids having
+to track down all the little bits of state everwhere that could have
+changed in response to a single property changing. The kernel could do
+that I suppose, but someone would need to come up with a good way to
+track that information. Currently there are a handful of foo_changed
+booleans ad-hocced here and there, but nothing consistent that covers
+everything.
 
-Regards,
-Simon
+> 
+> > > so it is safe for userspace to send redundant property
+> > > +settings.  
+> > 
+> > Safe but not optimal. Any object included in the state will cause said
+> > object to be part of the commit, and side effects will also need to be
+> > observed.
+> > 
+> > So if you add an extra crtc (either directly or indirectly) it will
+> > have a new commit inserted into the queue and thus and any subsequent
+> > commit will either block or be rejected with -EBUSY. Also for directly
+> > added crtcs an event will be emitted once the commit is done.
+> 
+> It is not too hard to keep CRTCs well separated,
+
+Sure. But the way this was worded implied that you can just throw
+everything and the kitchen sink into the commit without any
+repercussions, which is not the case.
+
+> until the kernel
+> driver decides under the hood to pull in an unwanted CRTC.
+
+That is sadly needed too sometimes. Hardware design is often
+a bit disappointing.
+
+> 
+> But yes, that caveat could use extending in the doc.
+> 
+> > Any plane added will also need to observe side effects even if the FB
+> > doesn't change, such as invalidating any internal compressed version
+> > of the old FB contents, PSR/DSI command mode/etc. will need to upload
+> > the frame to the display, etc. I suppose we could specify that if no
+> > FB is specified at all then these kind of side effects could be ignored,
+> > but that is certainly not how things are implemented right now.
+> 
+> Well, this is all surprise news to me.
+> 
+> > So for optimal behaviour userspace should be minimizing the commits.
+> > 
+> 
+> 
+> Thanks,
+> pq
+
+-- 
+Ville Syrjälä
+Intel
