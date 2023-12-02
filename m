@@ -1,63 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E2B613E;
-	Sat,  2 Dec 2023 03:28:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IyOxrWYM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30426C433C8;
-	Sat,  2 Dec 2023 03:28:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701487728;
-	bh=5Iznkl7Y/UaOI16u1p9z9TNAVqCqy4L/LgDnEnmoT0c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IyOxrWYMs6Tj+TmW+3JjcrBCpnsAtOryyhNLFggtzwjzTTFSihe51dj8JMLpA0CEs
-	 vNbukE02lwU+Ozm3SWICClspjaDDjvSFN/AN1z2sPL6CZ3L0UI8EBf8EbHewUl718f
-	 8+3F63d8ipmvFP8hnwnv+f2T3VGHF1Bk0FKzm0YWnNx0uTyJ5k4GxWtXg42a0JPoYo
-	 M9J1J803EXwuwH8LBrpmYO9gXvyQCA9DEl+lA+8u9dquFdXWh9c18EXDlMlgm2ynfX
-	 3LPjdLfYgaQqvobwJ+Qsa+q3Vl3fGmx1gNtzF8r035Wjd1vTDwfE2YMir+p8t1fFvE
-	 yOQpikEFSl2NA==
-Date: Fri, 1 Dec 2023 19:28:46 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Song Yoong Siang <yoong.siang.song@intel.com>
-Cc: "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Bjorn Topel <bjorn@kernel.org>, Magnus Karlsson
- <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, John
- Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@google.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
- Willem de Bruijn <willemb@google.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, Mykola
- Lysenko <mykolal@fb.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, KP Singh
- <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, bpf@vger.kernel.org, xdp-hints@xdp-project.net,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/3] xsk: add launch time support to XDP Tx
- metadata
-Message-ID: <20231201192846.15c9e64e@kernel.org>
-In-Reply-To: <20231130162028.852006-2-yoong.siang.song@intel.com>
-References: <20231130162028.852006-1-yoong.siang.song@intel.com>
-	<20231130162028.852006-2-yoong.siang.song@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HPSYutuD"
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6328ADD
+	for <linux-doc@vger.kernel.org>; Fri,  1 Dec 2023 19:55:24 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6cdd214bce1so2894525b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 01 Dec 2023 19:55:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701489324; x=1702094124; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nagqp0QINZEQDYIsDAmXj4OVh5WUG+529LOayf8ho24=;
+        b=HPSYutuDqeOfz6M2IKDuhm9aqtQW0sFHtewuPHe1Tm//oQOCxVEXE9uQl5WkuScfui
+         UK7vkHG/OemvWnhHcZBAR5/qXM3QgONq9KJk9j+LrVzRBbjoSHgHmdfbWNsqoF8yIwcJ
+         4imI4gZa5QmlBuYevgFkiQJzG1JwdW79IoFKA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701489324; x=1702094124;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Nagqp0QINZEQDYIsDAmXj4OVh5WUG+529LOayf8ho24=;
+        b=M/+SbMtB0bjHgquuJufg24tncmovCBTQ5WINc2CGQ13cY01Ac6pHM6LJ2Isefzdajg
+         8l9cKd1J5Sv5gdWYStQWgsH8n4LPL2shT/IX71jFf33+0WSA7gOiQLMRNh5ALoj5w3Ax
+         MlC0zabcMRM/Wc+kmkffQxOuiiTQGyw26tXHu0f1gk6xzWI6U9FbhM/ESv1VSyVh0Q63
+         MkolWKo7GbqDtkCckjm5QSlaRE09J+4mTalKXdB4efMncIbZH2N16MrsdS4m5ItCXw+e
+         B+KGy1PrzQDiob1pn4EV9Po98UDliTIUgskcxUUbDj4WvE9r7aHCUT8FuLw6kGdvCje1
+         CKjA==
+X-Gm-Message-State: AOJu0Yxam7VSW7oFCOAGpUf5cXIbpU0cLhM9U0z/MGuDH+tXAI5ScKiJ
+	i1bfkxjDBWEq+ZU9Ri7z9OIbEg==
+X-Google-Smtp-Source: AGHT+IHknJk9EJeTCI+YGHGGAESdUt1vn2NNWbC28hZ2Kj/CzojYjDIpyW5vNlBm0dNz1t8I64kaug==
+X-Received: by 2002:a05:6a20:54a3:b0:18b:8158:86ea with SMTP id i35-20020a056a2054a300b0018b815886eamr754283pzk.10.1701489323714;
+        Fri, 01 Dec 2023 19:55:23 -0800 (PST)
+Received: from sjg1.roam.corp.google.com ([202.144.206.254])
+        by smtp.gmail.com with ESMTPSA id t7-20020a62d147000000b006cb60b188bdsm3866565pfl.196.2023.12.01.19.55.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 19:55:23 -0800 (PST)
+From: Simon Glass <sjg@chromium.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Tom Rini <trini@konsulko.com>,
+	Simon Glass <sjg@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>,
+	Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH v9 0/2] arm64: Add a build target for Flat Image Tree
+Date: Fri,  1 Dec 2023 20:54:40 -0700
+Message-ID: <20231202035511.487946-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri,  1 Dec 2023 00:20:26 +0800 Song Yoong Siang wrote:
-> +        name: launch-time
-> +        doc:
-> +          HW Time-Based Scheduling (TBS) is supported by the driver.
+Flat Image Tree (FIT) is a widely used file format for packaging a
+kernel and associated devicetree files[1]. It is not specific to any
+one bootloader, as it is supported by U-Boot, coreboot, Linuxboot,
+Tianocore and Barebox.
 
-Does this mean fifo "gating" or HW can do reordering?
+This series adds support for building a FIT as part of the kernel
+build. This makes it easy to try out the kernel - just load the FIT
+onto your tftp server and it will run automatically on any supported
+arm64 board.
+
+The script is written in Python, since it is easy to build a FIT using
+the Python libfdt bindings. For now, no attempt is made to compress
+files in parallel, so building the 900-odd files takes a while, about
+6 seconds with my testing.
+
+The series also includes a few minor clean-up patches.
+
+[1] https://github.com/open-source-firmware/flat-image-tree
+
+Changes in v9:
+- Move the compression control into Makefile.lib
+
+Changes in v8:
+- Drop compatible string in FDT node
+- Correct sorting of MAINTAINERS to before ARM64 PORT
+- Turn compress part of the make_fit.py comment in to a sentence
+- Add two blank lines before parse_args() and setup_fit()
+- Use 'image.fit: dtbs' instead of BUILD_DTBS var
+- Use '$(<D)/dts' instead of '$(dir $<)dts'
+- Add 'mkimage' details Documentation/process/changes.rst
+- Allow changing the compression used
+- Tweak cover letter since there is only one clean-up patch
+
+Changes in v7:
+- Drop the kbuild tag
+- Add Image as a dependency of image.fit
+- Drop kbuild tag
+- Add dependency on dtbs
+- Drop unnecessary path separator for dtbs
+- Rebase to -next
+
+Changes in v6:
+- Drop the unwanted .gz suffix
+
+Changes in v5:
+- Drop patch previously applied
+- Correct compression rule which was broken in v4
+
+Changes in v4:
+- Use single quotes for UIMAGE_NAME
+
+Changes in v3:
+- Drop temporary file image.itk
+- Drop patch 'Use double quotes for image name'
+- Drop double quotes in use of UIMAGE_NAME
+- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+- Avoid hard-coding "arm64" for the DT architecture
+
+Changes in v2:
+- Drop patch previously applied
+- Add .gitignore file
+- Move fit rule to Makefile.lib using an intermediate file
+- Drop dependency on CONFIG_EFI_ZBOOT
+- Pick up .dtb files separately from the kernel
+- Correct pylint too-many-args warning for write_kernel()
+- Include the kernel image in the file count
+- Add a pointer to the FIT spec and mention of its wide industry usage
+- Mention the kernel version in the FIT description
+
+Simon Glass (2):
+  arm64: Add BOOT_TARGETS variable
+  arm64: boot: Support Flat Image Tree
+
+ Documentation/process/changes.rst |   9 +
+ MAINTAINERS                       |   7 +
+ arch/arm64/Makefile               |  11 +-
+ arch/arm64/boot/.gitignore        |   1 +
+ arch/arm64/boot/Makefile          |   6 +-
+ scripts/Makefile.lib              |  16 ++
+ scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
+ 7 files changed, 338 insertions(+), 3 deletions(-)
+ create mode 100755 scripts/make_fit.py
+
+-- 
+2.43.0.rc2.451.g8631bc7472-goog
+
