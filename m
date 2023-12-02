@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA4F15A3;
-	Sat,  2 Dec 2023 02:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA32D15A3;
+	Sat,  2 Dec 2023 02:06:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EIWtHHGK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 418B6C433C8;
-	Sat,  2 Dec 2023 02:00:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqifTGBL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E12C433C9;
+	Sat,  2 Dec 2023 02:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701482430;
-	bh=g4fLarvWt35knPqUTLJUQTT5kUKnq7ZBMmQCiHnQ7m4=;
+	s=k20201202; t=1701482807;
+	bh=wPE5/utOUPTsgmefw3BF1mfW+IGdNlevAt1jGsnifsY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EIWtHHGKdMBvEVeCOw/DX25xsLcNTbZLEooPtlLQ6MtO6tTeMO7c3TUjYNrgjmUmm
-	 E3SIYxD9hxD8APnGA5k3mqoGg8X5DTjuzTrYIt9DtX1IqOjj4v+J004rT4bS9smt62
-	 CrbOUdxCDwWHn2i7tLlR+ixLkTP3vzEa3zlNjLwz7jhiim2leZlrigOngTXkNbWDyj
-	 gj+mp3uBxLo3vy9k8cHcrJ0OCZU2W2pIDHZKBhF/hmWBbt4VDen8bZVaWcYwY7Qs5x
-	 uK/HQn5aKnsBGA+AhjEFXfDxwkQBLz1HFf4ODIeYUE2PMXSNwaT5odmjfpM7+HngPf
-	 a4q1Mpt2xfd7Q==
-Date: Fri, 1 Dec 2023 18:00:29 -0800
+	b=hqifTGBLGd8b1scrmaofq+2sOHRY9uLveYBrd0Rcg7SE6Acgn+veSTaumxyWRQDV2
+	 y5afYjwJTffcx7hYrdNEjsGfqX7FJczUGaLCpyhIMkG6NkMTR2WlxbASWmWQ9BXXAr
+	 DHNCIR0HdNodlJ9ETlWhWWTsngcydS9jsIEmHZXMFF2DkLc8xc945Rdq+sBVsuq+O2
+	 N3WXadZYPhb43cbJ2C/QSMXQSmnDuz54boinBAfeq/8WsEfu35tjWwWTBYMWqCqVcx
+	 HG1++YrWW+8dXQJqvQQUYnzeRrF/aW38FkVBaa0PJGTgCZ4UtWrkXENkLYBtv82R2m
+	 keD8x+DV0dVig==
+Date: Fri, 1 Dec 2023 18:06:46 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Donald Hunter <donald.hunter@gmail.com>
 Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
  Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
  Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
  <jacob.e.keller@intel.com>, donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 3/6] tools/net/ynl: Add 'sub-message'
- attribute decoding to ynl
-Message-ID: <20231201180029.45acfc2c@kernel.org>
-In-Reply-To: <20231130214959.27377-4-donald.hunter@gmail.com>
+Subject: Re: [PATCH net-next v1 4/6] tools/net/ynl: Add binary and pad
+ support to structs for tc
+Message-ID: <20231201180646.7d3c851f@kernel.org>
+In-Reply-To: <20231130214959.27377-5-donald.hunter@gmail.com>
 References: <20231130214959.27377-1-donald.hunter@gmail.com>
-	<20231130214959.27377-4-donald.hunter@gmail.com>
+	<20231130214959.27377-5-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,15 +39,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 30 Nov 2023 21:49:55 +0000 Donald Hunter wrote:
-> @@ -510,7 +561,7 @@ class SpecFamily(SpecElement):
->        """
->        for op in self.yaml['operations']['list']:
->          if name == op['name']:
-> -          return op
-> +            return op
->        return None
->  
->      def resolve(self):
+On Thu, 30 Nov 2023 21:49:56 +0000 Donald Hunter wrote:
+> The tc netlink-raw family needs binary and pad types for several
+> qopt C structs. Add support for them to ynl.
 
-Looks unrelated, plus the 'for' vs 'if' are still indented by 2.
+Nice reuse of the concept of "pad", I don't see why not:
+
+Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+
+> +                value = msg.raw[offset:offset+m.len]
+
+What does Python style guide say about spaces around '+' here?
+I tend to use C style, no idea if it's right.
