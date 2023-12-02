@@ -1,134 +1,103 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dlto57h7"
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F976C4
-	for <linux-doc@vger.kernel.org>; Sat,  2 Dec 2023 13:30:09 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6ce3373be0cso600863b3a.3
-        for <linux-doc@vger.kernel.org>; Sat, 02 Dec 2023 13:30:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701552608; x=1702157408; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T5J15MlXHLI92cGapwCUHhHVqByLKgeQqZvgS95PAzA=;
-        b=dlto57h7Wpk0SmZ008RWoyaZgsqCbIumChqPhf2hssU5qNq+J65bivQmQFo5KR4J9P
-         h6YXSKoZtWZM3hYbiM8zO7EOHY+g/9vx4We8PmfWfLGGJQE/HiRZYLg6WIwSvCl8hFEx
-         bKO8LPNX6MUtq+gxtCC8EQtUMgTEDQX6qdy80=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701552608; x=1702157408;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T5J15MlXHLI92cGapwCUHhHVqByLKgeQqZvgS95PAzA=;
-        b=TSfeRCOqPWVssGJGZY1P2h7mVxkH8ZruumISD+wuk5qAI4iZ7V8CkB6rXB5BLR6cw9
-         oiQ4kj68rDSQOv2Ta3WgaSdXdY5DNWA0OU/bB41hDW0VBslpDXviEGTOGSANNS6gJ6l6
-         vTp07SE4c2VpWSK4U8mEWdpn6X9tt3uismtxGOImt+TTXlYgWZnfVz0joea9exhdILID
-         hDJugSvcNtTmr3zZ+q6zEabeNKrUUTDkr9e8TIaNrFbAFbzLGWoDaDODUoIB1FPHlJhj
-         0komYpV4xdVi7HIFWBwOjnHpsh3m/T+9nUnFLUkAtwL0Oed/UwmmkMNHYD9NaYqFZejo
-         bGgQ==
-X-Gm-Message-State: AOJu0YxTcJ44pNW6LJpJx5TfrXVIsmF7Z1foi4wLOC5I1d2hFUmiiYy0
-	JX3X3slKq441mmTi99iM7UZl+g==
-X-Google-Smtp-Source: AGHT+IHvVBon3TJyINAYLAf07X3SlMJEK4rycMYTmue0klxJqQCgHaBNdJUe4p9vusQ32Ct3N0bKjg==
-X-Received: by 2002:a05:6a00:2d24:b0:6ce:3c1e:743f with SMTP id fa36-20020a056a002d2400b006ce3c1e743fmr849277pfb.41.1701552608590;
-        Sat, 02 Dec 2023 13:30:08 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id o24-20020a056a001b5800b006ce3a0b4bfasm984474pfv.24.2023.12.02.13.30.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Dec 2023 13:30:07 -0800 (PST)
-Date: Sat, 2 Dec 2023 13:30:07 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: "Song, Xiongwei" <Xiongwei.Song@windriver.com>,
-	"sxwjean@me.com" <sxwjean@me.com>,
-	"42.hyeyoo@gmail.com" <42.hyeyoo@gmail.com>,
-	"cl@linux.com" <cl@linux.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"penberg@kernel.org" <penberg@kernel.org>,
-	"rientjes@google.com" <rientjes@google.com>,
-	"iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
-	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-	"corbet@lwn.net" <corbet@lwn.net>, "arnd@arndb.de" <arnd@arndb.de>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with
- "slab_$param"
-Message-ID: <202312021329.86D56FA@keescook>
-References: <20231201031505.286117-1-sxwjean@me.com>
- <20231201031505.286117-3-sxwjean@me.com>
- <202312010945.7C5DB1FBB@keescook>
- <PH0PR11MB51923F916D8FB7D94270BBA7EC80A@PH0PR11MB5192.namprd11.prod.outlook.com>
- <67b155dd-3731-489e-c3bd-333cb7e90801@suse.cz>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MzinU2LP"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0665D119
+	for <linux-doc@vger.kernel.org>; Sat,  2 Dec 2023 14:39:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701556780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W85mzbNqSUgzZhP20j/vWLOVU90yvilCaj5Tmfd4LAI=;
+	b=MzinU2LPnY621iUEnV0GH8KGlRsTPc2mqWMcO090wh1LvIvQKMf4eBNtj/yHUmec/e2xKu
+	zkr9MqWyJdadTm0QAGR+7CXQYlHJ3B2/JbeSpMofdeggYfE1kexjBOv7Dqe0ZyYS0hOWV0
+	zMNbtfYVUNbPrCwJwzh5N/9pup4mBao=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-332-7ALDFyWlNruah0QHQ1fuyw-1; Sat, 02 Dec 2023 17:39:38 -0500
+X-MC-Unique: 7ALDFyWlNruah0QHQ1fuyw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99F2A185A780;
+	Sat,  2 Dec 2023 22:39:37 +0000 (UTC)
+Received: from [10.22.8.11] (unknown [10.22.8.11])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2AF22492BE0;
+	Sat,  2 Dec 2023 22:39:37 +0000 (UTC)
+Message-ID: <c7c62df7-74bb-416f-b363-274c96b88ae0@redhat.com>
+Date: Sat, 2 Dec 2023 17:39:36 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67b155dd-3731-489e-c3bd-333cb7e90801@suse.cz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] locking: Document that mutex_unlock() is non-atomic
+Content-Language: en-US
+To: David Laight <David.Laight@ACULAB.COM>, Jann Horn <jannh@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20231130204817.2031407-1-jannh@google.com>
+ <06c05c8b-9a3b-4c04-b898-0f82e98da70f@redhat.com>
+ <CAG48ez1a=VuEWwPTjcXFAwCyt9bRH-WzAfw0uP-qVu83kdxkZw@mail.gmail.com>
+ <28b147c3d7354d1a8ff0b903da9b54f4@AcuMS.aculab.com>
+ <CAG48ez1bOwbqEbD_ycC2fyWK_tW4rqr=gogJbQOx5CECyPGZcg@mail.gmail.com>
+ <1bcee696-d751-413c-a2ec-4a8480bae00b@redhat.com>
+ <780e652ff52044d4a213cacbd9276cf8@AcuMS.aculab.com>
+ <501501ef-137a-4797-9d43-48ea68851147@redhat.com>
+ <f98b04e05c964b57bc27fb895810aaaf@AcuMS.aculab.com>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <f98b04e05c964b57bc27fb895810aaaf@AcuMS.aculab.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-On Sat, Dec 02, 2023 at 07:12:25PM +0100, Vlastimil Babka wrote:
-> On 12/2/23 05:23, Song, Xiongwei wrote:
-> > 
-> > 
-> >> -----Original Message-----
-> >> From: Kees Cook <keescook@chromium.org>
-> >> Sent: Saturday, December 2, 2023 1:48 AM
-> >> To: sxwjean@me.com
-> >> Cc: vbabka@suse.cz; 42.hyeyoo@gmail.com; cl@linux.com; linux-mm@kvack.org;
-> >> penberg@kernel.org; rientjes@google.com; iamjoonsoo.kim@lge.com;
-> >> roman.gushchin@linux.dev; corbet@lwn.net; arnd@arndb.de; akpm@linux-
-> >> foundation.org; gregkh@linuxfoundation.org; linux-doc@vger.kernel.org; linux-
-> >> kernel@vger.kernel.org; Song, Xiongwei <Xiongwei.Song@windriver.com>
-> >> Subject: Re: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with "slab_$param"
-> >> 
-> >> CAUTION: This email comes from a non Wind River email account!
-> >> Do not click links or open attachments unless you recognize the sender and know the
-> >> content is safe.
-> >> 
-> >> On Fri, Dec 01, 2023 at 11:15:04AM +0800, sxwjean@me.com wrote:
-> >> > From: Xiongwei Song <xiongwei.song@windriver.com>
-> >> >
-> >> > Since the SLAB allocator has been removed, so we need to clean up the
-> >> > sl[au]b_$params. However, the "slab/SLAB" terms should be keep for
-> >> > long-term rather than "slub/SLUB". Hence, we should use "slab_$param"
-> >> > as the primary prefix, which is pointed out by Vlastimil Babka. For more
-> >> > information please see [1].
-> >> >
-> >> > This patch is changing the following slab parameters
-> >> > - slub_max_order
-> >> > - slub_min_order
-> >> > - slub_min_objects
-> >> > - slub_debug
-> >> > to
-> >> > - slab_max_order
-> >> > - slab_min_order
-> >> > - slab_min_objects
-> >> > - slab_debug
-> >> > as the primary slab parameters in
-> >> > Documentation/admin-guide/kernel-parameters.txt and source, and rename all
-> >> > setup functions of them too. Meanwhile, "slub_$params" can also be passed
-> >> > by command line, which is to keep backward compatibility. Also mark all
-> >> > "slub_$params" as legacy.
-> >> 
-> >> *If* we do this, I think the old names need to be recognized, perhaps
-> 
-> Yes, they are already recognized by the patch.
+On 12/2/23 10:51, David Laight wrote:
+> From: Waiman Long
+>> Sent: 01 December 2023 19:16
+>>
+>> On 12/1/23 13:44, David Laight wrote:
+>>> Pending waiters aren't the problem.
+>>>
+>> Pending waiters can still be a problem if code decides to free the lock
+>> containing object after a lock/unlock sequence as it may cause
+>> use-after-free.
+>>> You have to ensure there aren't any, but the mutex() can be held.
+>>>
+>> Using reference count to track the number of active users is one way to
+>> prevent that if you only release the reference count after
+>> mutex_unlock() returns but not in the lock critical section.
+> I suspect the documentation need to be more explicit than just saying
+> it is non-atomic.
+> Saying something like:
+>
+> The mutex structure may be accessed by mutex_unlock() after another
+> thread has locked and unlocked the mutex.
+>
+> So if a reference count is used to ensure a structure remains valid when
+> a lock is released (with the item being freed when the count becomes zero)
+> the reference count itself cannot be protected by a mutex in the structure.
+> So code like:
+> 	...
+> 	count = --item->refcount;
+> 	mutex_unlock(item->mtx);
+> 	if (!count)
+> 		free(item);
+> can lead to a 'use after free' in mutex_unlock().
+> However if the refcount is atomic and decremented without the
+> mutex held there isn't a problem.
+>
+> 	David
 
-Ah, sorry, I missed that. I didn't see it when I skimmed earlier.
+That is definitely better than saying it is non-atomic which is vague in 
+meaning.
 
-> >> with a boot pr_warn() about their deprecation/renaming for several
-> >> releases (likely across LTSes). I think it's not a good idea to
-> >> wholesale rename these with no warning. That's going to cause a lot of
-> >> surprises and broken userspace...
-> > 
-> > Oh, yes, that's a good idea. Will update.
-> 
-> I'd wait for a while with the warnings, no need to rush.
+Cheers,
+Longman
 
-Better to start ASAP, yeah?
-
--- 
-Kees Cook
