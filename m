@@ -1,212 +1,216 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="E8hsIctM"
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25263F4;
-	Fri,  1 Dec 2023 20:24:15 -0800 (PST)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B24KYaS008541;
-	Sat, 2 Dec 2023 04:23:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:references:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=50g6IoPNxp5USiLjIXN23SAuawMb4ClDxHGte/6F5rE=; b=
-	E8hsIctMPta7unmmxHc7r6Y3z+35qqdeJyLE75Yx5p+c/RjKc79PisJXMvIvLQel
-	W6qA3bo1iKnvtoj5K//jnM3xpYxMvN1XoS77E5q5KnxCqlm9Acuwr3B/VkAONe58
-	EMFIJN15gJUoKnh9PA7TH2g34amm9NAw/dABmcmthLlmw1JSfOCDGDdgHLxngMsx
-	i8ibwEjlE9dfB2eTMJvdtjMMagYQJCg3TQNUxse1iGbJKF8Ax3uEQtcfTeQqqoX3
-	qrKowmo3/GTOfFwpPxyFj/YGvAxNHfGDshBblgArbq1pqW3BYndjMoS3NEj42TkR
-	mPsss1cA2t2GECLvVtPbIA==
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uquj681w4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 02 Dec 2023 04:23:31 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fxam8VffZn8pnWNRevfLmQ8TM90r4AaXBy7xEQgv4GT+Cjz/TaVdSaUPTxhehwsesP+myxJyFz3Q6K4TnYIp2TmUHIQ6Es2hH5z1BeIn57j9b205oKP5nrqbIRMJrgwyVKeeAu058px91EXy2DT1R/a6WLU0RnyFBv8+hY+1TLhcQEACap/1cQExC0GzuwMhHcabucQ1p7Trhnnw9MgeByzEhgbZgkAi9TpS9xoH507CBdlxu1AbNgtttT9Ab8b03ZK60tDff/jliiYzDgsL1LiI3Ed1tBKRFAo3mviKKtQXOU/o6gMGVadEWZ1Oy+kCpyD/6EQwTGQ2o3hhAMrOnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=50g6IoPNxp5USiLjIXN23SAuawMb4ClDxHGte/6F5rE=;
- b=R+6k/IJ+9dBb3YzUDumspeYG2oRMvol6/SsEwk8zanXm5Pitp7zgHYGhhPNcbe2MCV69Os42692FgD4pbTEpR6Q70FtwQJgqOL+pLJTOA4gD9oDqQ0U1oIqJGYdZDmieJ3IMvks7Pi9ZAW6Jl2m0yurApcZx5MLS4KwwkvAMAS0L+16CqF4r7l09OH7rr7sa4Es9tfCAVb0+GO4bx13MLGZSfhv6lUn9i0YV3/uyDdztSZGnjubhepO3xIYU/rXQCAIyicNJhY4Tu91pfaC5Jyz4NdLVf4bpm5PPhrVL9EUPwmN5KoZ2ehlpXWWKsjZDGIOXl4t0V/MAJOgl7PL0MA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5192.namprd11.prod.outlook.com (2603:10b6:510:3b::9)
- by PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.27; Sat, 2 Dec
- 2023 04:23:29 +0000
-Received: from PH0PR11MB5192.namprd11.prod.outlook.com
- ([fe80::928a:7606:e525:8b91]) by PH0PR11MB5192.namprd11.prod.outlook.com
- ([fe80::928a:7606:e525:8b91%5]) with mapi id 15.20.7046.027; Sat, 2 Dec 2023
- 04:23:29 +0000
-From: "Song, Xiongwei" <Xiongwei.Song@windriver.com>
-To: Kees Cook <keescook@chromium.org>, "sxwjean@me.com" <sxwjean@me.com>
-CC: "vbabka@suse.cz" <vbabka@suse.cz>,
-        "42.hyeyoo@gmail.com"
-	<42.hyeyoo@gmail.com>,
-        "cl@linux.com" <cl@linux.com>,
-        "linux-mm@kvack.org"
-	<linux-mm@kvack.org>,
-        "penberg@kernel.org" <penberg@kernel.org>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "iamjoonsoo.kim@lge.com"
-	<iamjoonsoo.kim@lge.com>,
-        "roman.gushchin@linux.dev"
-	<roman.gushchin@linux.dev>,
-        "corbet@lwn.net" <corbet@lwn.net>, "arnd@arndb.de" <arnd@arndb.de>,
-        "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>,
-        "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with
- "slab_$param"
-Thread-Topic: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with
- "slab_$param"
-Thread-Index: AQHaJAS7NylgWPHDL0CTsOtYEw3Wl7CUtO0AgACxhYA=
-Date: Sat, 2 Dec 2023 04:23:29 +0000
-Message-ID: 
- <PH0PR11MB51923F916D8FB7D94270BBA7EC80A@PH0PR11MB5192.namprd11.prod.outlook.com>
-References: <20231201031505.286117-1-sxwjean@me.com>
- <20231201031505.286117-3-sxwjean@me.com> <202312010945.7C5DB1FBB@keescook>
-In-Reply-To: <202312010945.7C5DB1FBB@keescook>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5192:EE_|PH7PR11MB6522:EE_
-x-ms-office365-filtering-correlation-id: 1fab227f-8695-4ac8-6bfd-08dbf2ee6fd1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- s/8PG1CKVyHy6WL/qAVjpFkAWsVSThHndAEfM9n9DbjfU1aZ7C0F3bksOtofXr1EOQ1U1MYXPxMIHnYhzI78kNK4KBn2ZaTOKTprlxUd3U7cDguJZB7CuW4HEKvWGITGnlBI9P7k45WLvb+UT0ewo511og5uCpQkimXVFSFE7uFOK4yA2LWCgTC8DofHxQNvYYusfikvHyN604MsyTJWybFb+eTRsbjYKHhJDslb9gc+BnLzt4XZw0VHVBkgVJNuDXtYylWeK9uaUbJkDpfI6c2OlXBPcUh33T4vP2YauedJAgdzqZKAmn1xtjtUVGGcAWPL1IPDDWZH+SXP6Kso1YpsRVeqFrdN48lMwSnthT5XLgT01sTQgM56zq9AsDFOPoaV4rqS8NA8Ym3toYARyM8EUKNWRhdHWDX9YeLcXYllAEexqA1sTyQBZ2y85xabKMS44FQzz4uO84UVrTV+gL2B4JPpyQSDAANgz9z0N7cgWgjzEb/glsM5TgOknx/8F0or9N912vLvaELMgHcvbkME58hgAZrOZgHu36EWHRbSE0A5N1qAq8E1kZWVAOdk1hca6h1xoZNrYR9mQCfXm3p4D7jzdcswvXxIWWSgog8639PqzRdG6JTc302NLYBazQ/Xenz/vgspDnZvgNzZa5NrlcVodA+o0/fkYlNOAUc=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5192.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(366004)(346002)(376002)(396003)(136003)(230922051799003)(230173577357003)(230273577357003)(1800799012)(186009)(451199024)(64100799003)(38070700009)(55016003)(5660300002)(33656002)(122000001)(86362001)(7416002)(2906002)(53546011)(83380400001)(71200400001)(7696005)(38100700002)(9686003)(6506007)(76116006)(110136005)(478600001)(41300700001)(66446008)(64756008)(54906003)(66476007)(66556008)(4326008)(66946007)(8676002)(8936002)(52536014)(316002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?76AUCfCGZJ6Ycz0kpWYnTrnz3LoT2wh6bzSxwffKOMTop9d/KHMjno1zRCHq?=
- =?us-ascii?Q?FhFyGsLPJp3wfWQoqqfaBwppjUz0XetVHY7oWEXuoKLxuxKR4TDJ0D0Di/Dt?=
- =?us-ascii?Q?BBWesJbfTVDJWyYI5n7h3xk4bCB87P+cRsLMras0/NSlb8UGRIjYZMC2NvFr?=
- =?us-ascii?Q?MTQM9ApDoJalWhVAgxKRe7tL24SSHOb/3k9fe+kQ2qCyCA1a8ua8bRSbLR0p?=
- =?us-ascii?Q?JgJbIAtHZx09KEYFiSs4HdP3aI3pH8h+33/YsI2jpk5eJxnLnyAoeBub6IQU?=
- =?us-ascii?Q?IqmQAfhiRWgjvKGRH9ipSCsPQkwXJRS4d1G7pdjJBLalPIvPnJBwi52S3Ipu?=
- =?us-ascii?Q?m8w5vU/xSddJdm/jTUA0uUl2h8i5SEZCgqHeTS8rFCUpohJczDrpbknUCJFo?=
- =?us-ascii?Q?GoNGFtgRuFvf++9Zz4fxuqyIWZBM6qf8SqxzvzkRdHfHg8PVp20vyPVztY0b?=
- =?us-ascii?Q?LGwuV+QyDNcIwZVqhHx/DxVkgP2vXyktSv141YvJnUoFLcPCSLqU1BLPlFJL?=
- =?us-ascii?Q?WHXu9dTMqXeRMAKgASKwQuTpI01TD7vMYnsCOgDNc6lBuAMJTADivbFSpjd4?=
- =?us-ascii?Q?oDUPxq4zBgbBWqPZUeMMx23Oq3rqVriXAWjZiJNoNUrWFt0JzYGio0N4qTU3?=
- =?us-ascii?Q?cpAPTSBhNeghEO5vs+KFLu2WpRQUPNpFnrVXGtcy14jFdGJiChoWgYHfTlMt?=
- =?us-ascii?Q?30nGvjYIDxZyrgPENxuvyPycaEgYBfMVrYTInVPgW72JBd9VOj7NTvCG+aWw?=
- =?us-ascii?Q?vKo94PNwJvsM6QNGGFEd18qcI8Rsp1fFdeiFTTcQ8djjcimMkOsKsV3G0qP0?=
- =?us-ascii?Q?YGweIBjVbv16FnzZFxVmXg9u7wMcbGp1eYbgMRgn9NhzUUGEhlLc02ModU9m?=
- =?us-ascii?Q?kKmKrYcTphEKW1/iLiBjFELYHLRrE2DtjNxKraRi9Vdn+HJXdoKFwxn79AN0?=
- =?us-ascii?Q?FsEMU5qJo/BUkEgRMCuqoDa7y8kovnKOqoeOqrS+u+jmP7qSGVc5BPBV/HuH?=
- =?us-ascii?Q?dYiriOfz8mgOT5LXY61eHBI87CFZGoRYgrVgcWRylGK+mhAqTl6g4taABug+?=
- =?us-ascii?Q?38wfkWF27jVYqrrlDsr60Mbcwa6r3zneouq3lr9/D208Ylipvnk5rVJt0fea?=
- =?us-ascii?Q?O1OJcXPJUfqhQnBVY12cr/yKw1aE55tm9sOYBtbNhI4WE30F64outnJqs0ma?=
- =?us-ascii?Q?um/cXXIF7r9sGsWL6HMW8/gIA7IE+qsoGpP5kbIeXO700HMH30IR7v63miCa?=
- =?us-ascii?Q?O8vnuPdxttAs2uefvBvT8Kip6ZOkYPSfmftjHGJxya6mQlM0ZYJAYOQon371?=
- =?us-ascii?Q?bIkfiKGc06GNMtsMGnX9U81sQcwyIOaj8VTIB7/EuCb2efH3klzeSpkOLIom?=
- =?us-ascii?Q?NW+BKKoS3kra4sPmT5b3DKadYLeRHdAU/KnQi0B1Pc+9hJxWkt3x+R9Se5TE?=
- =?us-ascii?Q?RGXWSs2l5XAIg5VqvEHM0+qaR6QnGYo8dHBa7P+XO6AiQYEQ9ctLuRUc7AlW?=
- =?us-ascii?Q?6gerJrKx1SI4fT9KECGSmGOg9tOYB4obEiVhp9a5Rd0N4WIhxTjDwG6ER5S4?=
- =?us-ascii?Q?jGnVrOLhWlFR0DKvdjvTiAzXeehStZ5GT3YBWDKeoLfc8VEOLBzWLUblWJ99?=
- =?us-ascii?Q?jXO00NGAknLDJmyL/sZvysX0k67BBAfpbhHhbJQ1H6F+5i+Q+pnfugmzQ0yB?=
- =?us-ascii?Q?ASFqBQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E3gyfexm"
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D722D48;
+	Fri,  1 Dec 2023 20:44:25 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1d01c45ffebso11164545ad.1;
+        Fri, 01 Dec 2023 20:44:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701492264; x=1702097064; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mkjJumzQC9OLzeUlKf2cdrps8W5WGvu5yds3ov88Mec=;
+        b=E3gyfexmpid1Z4GSpO06PN8FOE2ZoHik1iF+WMU/TZDtOy6J2933XcvQVhHv86SsTv
+         qxtTGC+I9tMSyeyFIU6OauXFQrzsbFhcM5AXHWy8caZj5fDPkCOslRAZ/sNXWRCB0gjR
+         MRLpk3ld2O6NTW80CQDis9Cjbv+vzAJAlgMGOvMXYSc2eIMejeg1ggZjo9mTxL+OTcpm
+         RtspADyevomAD4sUpqbOw0sB680OKA6hAq9uSTnBtkHUQxz7M6vkXn17kBUXFEfirkcp
+         YE/F9f/qPw10R1azfGoMJw0kYVhK5QVLg3an2lBHtxEZQ+mF3sChVu/vedxxUGdcJM3B
+         tKIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701492264; x=1702097064;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mkjJumzQC9OLzeUlKf2cdrps8W5WGvu5yds3ov88Mec=;
+        b=bWETZYOOpuhztpCxqntx0hEfPI2VAxyvi7tddOBRzwaDGxSDbg6p3bpXbji0CbaTW4
+         bgI3dLwLNHDcSVYTwsXY+i7yDizDiDlIPbHSbXbZucKI/XvZpZc1P8rll5OIJALFtOPJ
+         JJEmPMP41MPNnL09nrcQQLXHjc599XKbhpksMjKEkSaMaWBTHGlwCjvMtzyP6dOZ2d7s
+         q4u8k5+sn91QKXX5OYUi9o9kLf57pwGDxG4H73QjDjip14yW0Yn4MARdMe68oEkXGBc6
+         2nuKXe5lvtKOVyLSalVTmT6ioq4Qx5WRet7t+Ilpvbv2bJURSyM87WBzfhAcvqes8uNC
+         gy8g==
+X-Gm-Message-State: AOJu0YyXtHB5QpkeLn6Y3lUCSGJfOBCdq9vOREpaOJGBNTBCDqQOooko
+	v5Hl178CB82uTNOxzyWi9dE=
+X-Google-Smtp-Source: AGHT+IG+AyARMGDcYbSUtUR0Ml9fa0udGX+8XMSUKKs+Zr4+J4uBha8QS1idDiF0qZFBJrJwksUIvw==
+X-Received: by 2002:a17:902:dacb:b0:1d0:68a:4a46 with SMTP id q11-20020a170902dacb00b001d0068a4a46mr798452plx.3.1701492264465;
+        Fri, 01 Dec 2023 20:44:24 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id p14-20020a1709028a8e00b001cf6453b237sm4173552plo.236.2023.12.01.20.44.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 20:44:23 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id B89B9110DB381; Sat,  2 Dec 2023 11:44:18 +0700 (WIB)
+Date: Sat, 2 Dec 2023 11:44:18 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc: hannes@cmpxchg.org, cerasuolodomenico@gmail.com, yosryahmed@google.com,
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org,
+	kernel-team@meta.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux CGroups <cgroups@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Selftests <linux-kselftest@vger.kernel.org>,
+	shuah@kernel.org
+Subject: Re: [PATCH v7 0/6] workload-specific and memory pressure-driven
+ zswap writeback
+Message-ID: <ZWq2IqMMJesqenGK@archie.me>
+References: <20231127234600.2971029-1-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5192.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fab227f-8695-4ac8-6bfd-08dbf2ee6fd1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2023 04:23:29.4593
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cmFZQLCN4Td6bxVYR6T5Wgd0kEzJW7kBCfGzOhfGZnb21/ZktPYflRejUHkfUCRh7rtMnuUC0FlE293sKYizmq56pH/x2opTTGEgcUJpMZY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6522
-X-Proofpoint-GUID: etungtlaxaBYQuD8-aVLbFQfCNSEJRPY
-X-Proofpoint-ORIG-GUID: etungtlaxaBYQuD8-aVLbFQfCNSEJRPY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 spamscore=0 impostorscore=0 lowpriorityscore=0
- bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2312020031
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="L3dnvOdQcggt5SPe"
+Content-Disposition: inline
+In-Reply-To: <20231127234600.2971029-1-nphamcs@gmail.com>
 
 
+--L3dnvOdQcggt5SPe
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: Kees Cook <keescook@chromium.org>
-> Sent: Saturday, December 2, 2023 1:48 AM
-> To: sxwjean@me.com
-> Cc: vbabka@suse.cz; 42.hyeyoo@gmail.com; cl@linux.com; linux-mm@kvack.org=
-;
-> penberg@kernel.org; rientjes@google.com; iamjoonsoo.kim@lge.com;
-> roman.gushchin@linux.dev; corbet@lwn.net; arnd@arndb.de; akpm@linux-
-> foundation.org; gregkh@linuxfoundation.org; linux-doc@vger.kernel.org; li=
-nux-
-> kernel@vger.kernel.org; Song, Xiongwei <Xiongwei.Song@windriver.com>
-> Subject: Re: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with "=
-slab_$param"
+On Mon, Nov 27, 2023 at 03:45:54PM -0800, Nhat Pham wrote:
+> Changelog:
+> v7:
+>    * Added the mem_cgroup_iter_online() function to the API for the new
+>      behavior (suggested by Andrew Morton) (patch 2)
+>    * Fixed a missing list_lru_del -> list_lru_del_obj (patch 1)
+> v6:
+>    * Rebase on top of latest mm-unstable.
+>    * Fix/improve the in-code documentation of the new list_lru
+>      manipulation functions (patch 1)
+> v5:
+>    * Replace reference getting with an rcu_read_lock() section for
+>      zswap lru modifications (suggested by Yosry)
+>    * Add a new prep patch that allows mem_cgroup_iter() to return
+>      online cgroup.
+>    * Add a callback that updates pool->next_shrink when the cgroup is
+>      offlined (suggested by Yosry Ahmed, Johannes Weiner)
+> v4:
+>    * Rename list_lru_add to list_lru_add_obj and __list_lru_add to
+>      list_lru_add (patch 1) (suggested by Johannes Weiner and
+> 	 Yosry Ahmed)
+>    * Some cleanups on the memcg aware LRU patch (patch 2)
+>      (suggested by Yosry Ahmed)
+>    * Use event interface for the new per-cgroup writeback counters.
+>      (patch 3) (suggested by Yosry Ahmed)
+>    * Abstract zswap's lruvec states and handling into=20
+>      zswap_lruvec_state (patch 5) (suggested by Yosry Ahmed)
+> v3:
+>    * Add a patch to export per-cgroup zswap writeback counters
+>    * Add a patch to update zswap's kselftest
+>    * Separate the new list_lru functions into its own prep patch
+>    * Do not start from the top of the hierarchy when encounter a memcg
+>      that is not online for the global limit zswap writeback (patch 2)
+>      (suggested by Yosry Ahmed)
+>    * Do not remove the swap entry from list_lru in
+>      __read_swapcache_async() (patch 2) (suggested by Yosry Ahmed)
+>    * Removed a redundant zswap pool getting (patch 2)
+>      (reported by Ryan Roberts)
+>    * Use atomic for the nr_zswap_protected (instead of lruvec's lock)
+>      (patch 5) (suggested by Yosry Ahmed)
+>    * Remove the per-cgroup zswap shrinker knob (patch 5)
+>      (suggested by Yosry Ahmed)
+> v2:
+>    * Fix loongarch compiler errors
+>    * Use pool stats instead of memcg stats when !CONFIG_MEMCG_KEM
 >=20
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d know the
-> content is safe.
+> There are currently several issues with zswap writeback:
 >=20
-> On Fri, Dec 01, 2023 at 11:15:04AM +0800, sxwjean@me.com wrote:
-> > From: Xiongwei Song <xiongwei.song@windriver.com>
-> >
-> > Since the SLAB allocator has been removed, so we need to clean up the
-> > sl[au]b_$params. However, the "slab/SLAB" terms should be keep for
-> > long-term rather than "slub/SLUB". Hence, we should use "slab_$param"
-> > as the primary prefix, which is pointed out by Vlastimil Babka. For mor=
-e
-> > information please see [1].
-> >
-> > This patch is changing the following slab parameters
-> > - slub_max_order
-> > - slub_min_order
-> > - slub_min_objects
-> > - slub_debug
-> > to
-> > - slab_max_order
-> > - slab_min_order
-> > - slab_min_objects
-> > - slab_debug
-> > as the primary slab parameters in
-> > Documentation/admin-guide/kernel-parameters.txt and source, and rename =
-all
-> > setup functions of them too. Meanwhile, "slub_$params" can also be pass=
-ed
-> > by command line, which is to keep backward compatibility. Also mark all
-> > "slub_$params" as legacy.
+> 1. There is only a single global LRU for zswap, making it impossible to
+>    perform worload-specific shrinking - an memcg under memory pressure
+>    cannot determine which pages in the pool it owns, and often ends up
+>    writing pages from other memcgs. This issue has been previously
+>    observed in practice and mitigated by simply disabling
+>    memcg-initiated shrinking:
 >=20
-> *If* we do this, I think the old names need to be recognized, perhaps
-> with a boot pr_warn() about their deprecation/renaming for several
-> releases (likely across LTSes). I think it's not a good idea to
-> wholesale rename these with no warning. That's going to cause a lot of
-> surprises and broken userspace...
+>    https://lore.kernel.org/all/20230530232435.3097106-1-nphamcs@gmail.com=
+/T/#u
+>=20
+>    But this solution leaves a lot to be desired, as we still do not
+>    have an avenue for an memcg to free up its own memory locked up in
+>    the zswap pool.
+>=20
+> 2. We only shrink the zswap pool when the user-defined limit is hit.
+>    This means that if we set the limit too high, cold data that are
+>    unlikely to be used again will reside in the pool, wasting precious
+>    memory. It is hard to predict how much zswap space will be needed
+>    ahead of time, as this depends on the workload (specifically, on
+>    factors such as memory access patterns and compressibility of the
+>    memory pages).
+>=20
+> This patch series solves these issues by separating the global zswap
+> LRU into per-memcg and per-NUMA LRUs, and performs workload-specific
+> (i.e memcg- and NUMA-aware) zswap writeback under memory pressure. The
+> new shrinker does not have any parameter that must be tuned by the
+> user, and can be opted in or out on a per-memcg basis.
+>=20
+> As a proof of concept, we ran the following synthetic benchmark:
+> build the linux kernel in a memory-limited cgroup, and allocate some
+> cold data in tmpfs to see if the shrinker could write them out and
+> improved the overall performance. Depending on the amount of cold data
+> generated, we observe from 14% to 35% reduction in kernel CPU time used
+> in the kernel builds.
+>=20
+> Domenico Cerasuolo (3):
+>   zswap: make shrinking memcg-aware
+>   mm: memcg: add per-memcg zswap writeback stat
+>   selftests: cgroup: update per-memcg zswap writeback selftest
+>=20
+> Nhat Pham (3):
+>   list_lru: allows explicit memcg and NUMA node selection
+>   memcontrol: add a new function to traverse online-only memcg hierarchy
+>   zswap: shrinks zswap pool based on memory pressure
+>=20
+>  Documentation/admin-guide/mm/zswap.rst      |   7 +
+>  drivers/android/binder_alloc.c              |   7 +-
+>  fs/dcache.c                                 |   8 +-
+>  fs/gfs2/quota.c                             |   6 +-
+>  fs/inode.c                                  |   4 +-
+>  fs/nfs/nfs42xattr.c                         |   8 +-
+>  fs/nfsd/filecache.c                         |   4 +-
+>  fs/xfs/xfs_buf.c                            |   6 +-
+>  fs/xfs/xfs_dquot.c                          |   2 +-
+>  fs/xfs/xfs_qm.c                             |   2 +-
+>  include/linux/list_lru.h                    |  54 ++-
+>  include/linux/memcontrol.h                  |  18 +
+>  include/linux/mmzone.h                      |   2 +
+>  include/linux/vm_event_item.h               |   1 +
+>  include/linux/zswap.h                       |  27 +-
+>  mm/list_lru.c                               |  48 ++-
+>  mm/memcontrol.c                             |  32 +-
+>  mm/mmzone.c                                 |   1 +
+>  mm/swap.h                                   |   3 +-
+>  mm/swap_state.c                             |  26 +-
+>  mm/vmstat.c                                 |   1 +
+>  mm/workingset.c                             |   4 +-
+>  mm/zswap.c                                  | 426 +++++++++++++++++---
+>  tools/testing/selftests/cgroup/test_zswap.c |  74 ++--
+>  24 files changed, 641 insertions(+), 130 deletions(-)
+>=20
+>=20
+> base-commit: 5cdba94229e58a39ca389ad99763af29e6b0c5a5
 
-Oh, yes, that's a good idea. Will update.
+No regressions when booting kernel with series applied.
 
-Regards,
-Xiongwei
->=20
-> --
-> Kees Cook
+Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--L3dnvOdQcggt5SPe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWq2HwAKCRD2uYlJVVFO
+o+mhAP98o1RpDS79BK+Q11P7wQTxU2MYmimbjb5iykn5K7OINwEAx7hxtVV/yTcR
+X+TAaHXp3ua/dAycrhD7Qx+QUiyCRgw=
+=qSwI
+-----END PGP SIGNATURE-----
+
+--L3dnvOdQcggt5SPe--
