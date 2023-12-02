@@ -1,145 +1,207 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OOjuEPO2"
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4235911D
-	for <linux-doc@vger.kernel.org>; Sat,  2 Dec 2023 05:04:38 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40b27b498c3so32880085e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 02 Dec 2023 05:04:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XixYoi6g"
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD8711C;
+	Sat,  2 Dec 2023 06:15:44 -0800 (PST)
+Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-77dc733b25cso181011485a.1;
+        Sat, 02 Dec 2023 06:15:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701522277; x=1702127077; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5MwJfzzcYu8whL7SkYku9YrYz+BKMaZCOtwmhhq14kI=;
-        b=OOjuEPO2tnbgU1wm5KmeWWN94rd9U1C51m7Hxl54T35iIl+h4rHKv8Ew/F3Ick9zEh
-         tB7nj+Gz9kWm3fPuJJnde4LZPVX2I1a+22sZGxJ+FwMACgy7MQ7+XhI99yQfzoONyMtI
-         Szgm1iUcw6e6TO5yra+8Wsg69ZwEEuhDiexLJml/v0EDYJeYGGP6UI9+o4rUw1W8C2yu
-         WUGq5wHj/SI0jf+fbqbQ7PNfQMjOtGduSFXKEH1lXfQhpkgl413P2Bv5HmWBFB0mjtU+
-         juYjG3XuZVhw/jaxkWPnLRTFcUHMZHHr9pkiUJWhak1b8cqk3uTpeFwg2xUXi9G6vrOO
-         0Rfw==
+        d=gmail.com; s=20230601; t=1701526543; x=1702131343; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cHjT/29o2cHv+uPSUDloG/9K5z+4mwtqcKQnCHqcHPk=;
+        b=XixYoi6gWsVTI/OvkDXmzWnmpY0gqzoB5KNuJV9kiDvtTEuJHgp/FRlGCAuR/aj0h2
+         AL5pIF4AFVP3A58/hheKs0LCmimp6wUV6Hu1hMpFcpzq47k6SQGZrow6ZTNv3HlEsW+6
+         TtZIE/qt13UbV0X6BIhD9zQ+r4BFvUHWj7sNCVKyJIljmYyXmaMA4zGiXFU7sB395jUa
+         cTUvMSa4Gjgw4nc75EwNsJaWKOG4Das3FHdE8R4h0R/d/4NmBd9oHIscM4zCcMDE/sL2
+         bT06kZvqNtRMmOC02oXQvXfgUC+Kxt0u8a2fwwh1idNUUlc6bkgY5p5iBYBmGnsEy8M5
+         kvIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701522277; x=1702127077;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5MwJfzzcYu8whL7SkYku9YrYz+BKMaZCOtwmhhq14kI=;
-        b=V9hXvjb0BHZIhtIsj0wi/L4lNHdfOJOPL7UJUKGdDoBo25tlPv2lUEfyO+u8oMMtls
-         eClmF6D9EIvK6W4ghgX1B/khj63OX8IZeufWS3aOhPu4pNPxGVhspUL405PfBG9coeZP
-         fcWhIr48xCjfDhEFEzvkbbe/YeScWly+MZ9UsSvEr23HoYCpOASZxIRL6bf0/J9Wxw4g
-         esREn74jOeiczMw/VJ9dp3Se9l0MqdiOKTIfkNQawGq91pel93oZKgAK+1eKBO4QSZ83
-         3E4hYfcXG7Q/Ccz3ryol5hKUnd3FYhigtwcON02Mg/98ly3T2CUV2lgeFRgz72uvY1Oa
-         5ivA==
-X-Gm-Message-State: AOJu0Yx0SBmqMesi/QxsLIXovwGYIiBAcutAXwwxrq+ZgnEBZca/Y6gV
-	HXSSUsvhB1Jnj6syuZvuwAvjHw==
-X-Google-Smtp-Source: AGHT+IHlFnK8sTgxK+l5q18QnQD3ZgV35E8ImVT03PumeBHQl7xWXIsd70+914v19fF4PgYqzpbtbg==
-X-Received: by 2002:a05:600c:84cf:b0:40b:5e21:dd22 with SMTP id er15-20020a05600c84cf00b0040b5e21dd22mr1032022wmb.80.1701522276749;
-        Sat, 02 Dec 2023 05:04:36 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id 9-20020a170906100900b009ddaf5ebb6fsm3056569ejm.177.2023.12.02.05.04.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Dec 2023 05:04:36 -0800 (PST)
-Message-ID: <695b4402-5e0f-4b4b-9848-16d8f8956cf4@linaro.org>
-Date: Sat, 2 Dec 2023 14:04:32 +0100
+        d=1e100.net; s=20230601; t=1701526543; x=1702131343;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=cHjT/29o2cHv+uPSUDloG/9K5z+4mwtqcKQnCHqcHPk=;
+        b=cBvm2KIqrTFjx0Pq3m7EBk98PEmOp+ByOr1sJbLbzZbkpaHvnSGAaaexJEaiwxhZvr
+         GgDcRCgU8MucLctsRXo2jk6PjpQ1UPPgvZqulm2uXKJn5ifsrLjzB+wavmCG91K+QUF4
+         ldrDttvfUAfLi++7hsZWcoYeYYTWV3cL6Z98K9EwCVNH+nlv4eP2RRjtIUuGj1Rm1865
+         6Hu1X6UKYbNPMWTJPqjEqmOiXyHhVC5hXyLGgK/N7DLHi+F1JRZBqlhgBZ0H57h3kKly
+         oBs81mp7maycHvvOyjOEHpPsKQbQqtMdmGoFTxoafidjX299oMZDLDinsCUWDhR8a/Es
+         QE+w==
+X-Gm-Message-State: AOJu0YxbJADUsIyeYh3IlK5D8kytigttcfLylkSj3RMzcg6w+bEhNDDI
+	ycvklnBfuMMT2m/6pgEAn6s=
+X-Google-Smtp-Source: AGHT+IFMroJHDqq6Ir9gZVJ3R728hRmkVYJHVfNaHzVnIzw/nmWz3p78L6RXN42OK1k/cU3B+r7M9w==
+X-Received: by 2002:ae9:f812:0:b0:77e:fba3:4f32 with SMTP id x18-20020ae9f812000000b0077efba34f32mr1152322qkh.136.1701526543353;
+        Sat, 02 Dec 2023 06:15:43 -0800 (PST)
+Received: from localhost (114.66.194.35.bc.googleusercontent.com. [35.194.66.114])
+        by smtp.gmail.com with ESMTPSA id br30-20020a05620a461e00b0077d742fb27esm2452534qkb.49.2023.12.02.06.15.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Dec 2023 06:15:42 -0800 (PST)
+Date: Sat, 02 Dec 2023 09:15:42 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Jesper Dangaard Brouer <hawk@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ "Song, Yoong Siang" <yoong.siang.song@intel.com>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Bjorn Topel <bjorn@kernel.org>, 
+ "Karlsson, Magnus" <magnus.karlsson@intel.com>, 
+ "Fijalkowski, Maciej" <maciej.fijalkowski@intel.com>, 
+ Jonathan Lemon <jonathan.lemon@gmail.com>, 
+ Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Stanislav Fomichev <sdf@google.com>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, 
+ Tariq Toukan <tariqt@nvidia.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Mykola Lysenko <mykolal@fb.com>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ KP Singh <kpsingh@kernel.org>, 
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, 
+ Shuah Khan <shuah@kernel.org>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jose Abreu <joabreu@synopsys.com>, 
+ Andre Fredette <afredette@redhat.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+ "xdp-hints@xdp-project.net" <xdp-hints@xdp-project.net>, 
+ "linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Message-ID: <656b3c0ebb103_1a6a2c2947d@willemb.c.googlers.com.notmuch>
+In-Reply-To: <179a4581-f7df-4eb1-ab67-8d65f856a2fe@kernel.org>
+References: <20231201062421.1074768-1-yoong.siang.song@intel.com>
+ <d4f99931-442c-4cd7-b3cf-80d8681a2986@kernel.org>
+ <PH0PR11MB58306C2E50009A6E22F9DAD3D881A@PH0PR11MB5830.namprd11.prod.outlook.com>
+ <6569f71bad00d_138af5294d@willemb.c.googlers.com.notmuch>
+ <179a4581-f7df-4eb1-ab67-8d65f856a2fe@kernel.org>
+Subject: Re: [PATCH bpf-next v2 0/3] xsk: TX metadata txtime support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>,
- Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Michal Simek
- <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
- <20231201-thrive-gully-5260ab07b352@spud>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231201-thrive-gully-5260ab07b352@spud>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 01/12/2023 17:46, Conor Dooley wrote:
-> On Sat, Nov 25, 2023 at 07:44:22PM +0100, Krzysztof Kozlowski wrote:
->> +Indentation
->> +-----------
->> +
->> +1. Use indentation according to :ref:`codingstyle`.
+Jesper Dangaard Brouer wrote:
 > 
-> One thing Jonathan mentioned before to me was to drop this :ref: stuff.
-> | > +:ref:`devicetree-abi` more information on the ABI.
-> | 
-> | ...can just be written as "Please see
-> | Documentation/devicetree/bindings/ABI.rst".  The cross-reference link
-> | will be generated as expected, and readers of the plain-text docs don't
-> | have to go grepping to find the reference.
-> https://lore.kernel.org/all/87bki23rbx.fsf@meer.lwn.net/
 > 
+> On 12/1/23 16:09, Willem de Bruijn wrote:
+> > Song, Yoong Siang wrote:
+> >> On Friday, December 1, 2023 6:46 PM, Jesper Dangaard Brouer <hawk@kernel.org> wrote:
+> >>> On 12/1/23 07:24, Song Yoong Siang wrote:
+> >>>> This series expands XDP TX metadata framework to include ETF HW offload.
+> >>>>
+> >>>> Changes since v1:
+> >>>> - rename Time-Based Scheduling (TBS) to Earliest TxTime First (ETF)
+> >>>> - rename launch-time to txtime
+> >>>>
+> >>>
+> >>> I strongly disagree with this renaming (sorry to disagree with Willem).
+> >>>
+> >>> The i210 and i225 chips call this LaunchTime in their programmers
+> >>> datasheets, and even in the driver code[1].
+> >>>
+> >>> Using this "txtime" name in the code is also confusing, because how can
+> >>> people reading the code know the difference between:
+> >>>   - tmo_request_timestamp and tmo_request_txtime
+> >>>
+> >>
+> >> Hi Jesper and Willem,
+> >>
+> >> How about using "launch_time" for the flag/variable and
+> >> "Earliest TxTime First" for the description/comments?
+> > 
+> 
+> I don't follow why you are calling the feature:
+>   - "Earliest TxTime First" (ETF).
+>   - AFAIK this just reference an qdisc name (that most don't know exists)
+> 
+> 
+> > I don't particularly care which term we use, as long as we're
+> > consistent. Especially, don't keep introducing new synonyms.
+> > 
+> > The fact that one happens to be one vendor's marketing term does not
+> > make it preferable, IMHO. On the contrary.
+> >
+> 
+> These kind of hardware features are defined as part of Time Sensitive
+> Networking (TSN).
+> I believe these TSN features are defined as part of IEEE 802.1Qbv (2015)
+> and according to Wikipedia[2] incorporated into IEEE 802.1Q.
+> 
+> [2] https://en.wikipedia.org/wiki/Time-Sensitive_Networking
+> 
+> 
+> > SO_TXTIME is in the ABI, and EDT has been used publicly in kernel
+> > patches and conference talks, e.g., Van Jacobson's Netdev 0x12
+> > keynote. Those are vendor agnostic commonly used terms.
+> > 
+> 
+> I agree that EDT (Earliest Departure Time) have become a thing and term
+> in our community.
+> We could associate this feature with this.
+> I do fear what hardware behavior will be it if I e.g. ask it to send a
+> packet 2 sec in the future on i225 which max support 1 sec.
+> Will hardware send it at 1 sec?
+> Because then I'm violating the *Earliest* Departure Time.
 
-Sure, indeed it's better for plain-text readers.
+That should definitely not happen. At least not on a device that
+implements EDT semantics.
 
-Best regards,
-Krzysztof
+This relates to Jakub's question in the previous thread on whether
+this mechanism allows out-of-order transmission or maintains FIFO
+behavior. That really is device specific.
 
+Older devices only support this for low rate (PTP) and with a small
+fixed number of outstanding requests. For pacing offload, devices need
+to support up to linerate and out-of-order.
+
+I don't think we want to enforce either in software, as the hardware
+is already out there. But it would be good if drivers can somehow
+label these capabilities. Including programmable horizon.
+
+It is up to the qdisc to ensure that it does not pass packets to the
+device beyond its horizon.
+
+ETF and FQ already have a concept of horizon. And a way to queue
+errors for packets out of bound (SO_EE_CODE_TXTIME_..).
+
+> 
+> > But as long as Launch Time is not an Intel only trademark, fine to
+> > select that.
+> 
+> The IEEE 802.1Qbv is sometimes called Time-Aware Shaper (TAS), but I
+> don't like to for us to name this after this.  This features is simply
+> taking advantage of exposing one of the hardware building blocks
+> (controlling/setting packet "launch time") that can be used for
+> implementing a TAS.
+> 
+> I like the name "launch time" because it doesn't get easily confused
+> with other timestamps, and intuitively describes packet will be send at
+> a specific time (likely in future).
+> 
+> --Jesper
+
+Understood on your point that txtime and tx_timestamp are too similar.
+As said, I don't care strongly. Launch time sounds fine to me. Others
+can speak up if they disagree.
+
+I take launch time as a less strict than EDT: it is a request to send
+at a certain time, with no strict definition on uncertainty. While EDT
+more strictly ensures that a packet is not sent before the timestamp.
