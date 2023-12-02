@@ -1,77 +1,166 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aYe76WwW"
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D8E184;
-	Sat,  2 Dec 2023 08:02:15 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-332c0c32d19so2616398f8f.3;
-        Sat, 02 Dec 2023 08:02:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701532934; x=1702137734; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:cc:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fU/NEbx/GEWzCAUdmHl+WjvtDDH/8BWmzFN7WY12d78=;
-        b=aYe76WwWtTKIIfzv1M1xzazBwXQogh38EoMnXgtsupOGvV4KmyMMWz8uWAN/gBEVFT
-         4JBPMVqKQsGT425gtOGEj3O64wnfhIzvOGMN3PC52j1ZXI76RxeTBxd2y3TgrjB4I4eU
-         Q2f2Tp5nOYBHgvi7MZBq7RdLr5va9L4wYlCaQxwt9xxfV1SrBCGIA7GCrG++gGlRAjCX
-         RJ0K1PrONn8ua7nvC6WLH7gUwCom+Y+Wx7FCyzQ9MFK9tzlQDe+/GdhVxXQcDeKb3FsP
-         nc3Mz0UZWEIq/PbDi3HvtGkuYnjD8HMFgX5UW+TGZyi/nnM0SKCH/hJmKvn4Nn2eW42z
-         CtXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701532934; x=1702137734;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:cc:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fU/NEbx/GEWzCAUdmHl+WjvtDDH/8BWmzFN7WY12d78=;
-        b=JesyeNbp7+Hbue1QCZ/ATL8X4iuGhcEl11ugDpFq2MzHRKLZeAUA+wKAHikc+vAdVX
-         qi3P2BWXUyiHVYzZ/ic9oYybSdA0WtZbHnSNjMJVrQ7L2wbdF4y0P0zntQsLMiKq0fyd
-         n/KFeeQtFOAGNM/u7w4qYDdolZomYcmI7HqXiJ0ZEImt4hO8fkQJ/EhRaIZ8e6DfFQzn
-         qlfRwIi8ldohVzUVI4PEAs83taEqyZAPcg78UkI5+AQPANHCpxwU9GO7+hteHa6eCfFb
-         nh5Hbm4PBdeRbx4Pn9xVGpW3Ti/jVrU1wlyySKsS8d4msbVuvhejb3MgEfFpOG+vmlmP
-         mVww==
-X-Gm-Message-State: AOJu0Yxf4jcKCqe6QBULX+uYVivsmw7K23gHl1UL0STxZfj9/GgSFz9+
-	lhhO59m31YFgu+vVFdqg+jOl7E9cRGUZcw==
-X-Google-Smtp-Source: AGHT+IECoTdcNwtXWz4lBnf7PIuZVcGneQgOEFSxQi3wRpiUqSTAaeOpfhb0b3A0AmZWdsw1yVpS/g==
-X-Received: by 2002:a5d:4dc1:0:b0:333:3ead:54c3 with SMTP id f1-20020a5d4dc1000000b003333ead54c3mr296492wru.97.1701532934065;
-        Sat, 02 Dec 2023 08:02:14 -0800 (PST)
-Received: from [192.168.0.28] (cable-178-148-234-71.dynamic.sbb.rs. [178.148.234.71])
-        by smtp.gmail.com with ESMTPSA id j6-20020a5d5646000000b0033307ffb193sm7157180wrw.29.2023.12.02.08.02.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Dec 2023 08:02:13 -0800 (PST)
-Message-ID: <9d453ea5-e2ce-4559-a611-714ba0201e8d@gmail.com>
-Date: Sat, 2 Dec 2023 17:02:11 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ByOOKiBB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1zhMsnvg"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21EB5119;
+	Sat,  2 Dec 2023 10:12:28 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3B0031FC84;
+	Sat,  2 Dec 2023 18:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1701540746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YKKElGndb6jN6rikp3anJK9MKgurw4EhN7S3f9KMiUc=;
+	b=ByOOKiBBXs+G3CgixWcwoXU3Hyu4zmCk9TmLBfsVSk8pBxGedDHCd6lkkTPuMpDKhu2LL1
+	PnSG1s0PGnmUKFe2qe+W6bc7m+wDUpoTal8ywk+TjsMQwgijTwlcRD1xyD8LcbcoRCBmz2
+	NSlXi/lyMNuxajN8qNKmZoot0fsCdCo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1701540746;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YKKElGndb6jN6rikp3anJK9MKgurw4EhN7S3f9KMiUc=;
+	b=1zhMsnvgSMeU8la4Atp2i3gCjqg1uEtRtc+ehyUAiGzJiqir6Zia+chgwKpS1vDnA1TI6p
+	Tc1fKsaOEuor/8BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 07E3513808;
+	Sat,  2 Dec 2023 18:12:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id A+4tAYpza2WtbAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Sat, 02 Dec 2023 18:12:26 +0000
+Message-ID: <67b155dd-3731-489e-c3bd-333cb7e90801@suse.cz>
+Date: Sat, 2 Dec 2023 19:12:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: savicaleksa83@gmail.com, Jean Delvare <jdelvare@suse.com>,
- linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: Add driver for Gigabyte AORUS Waterforce AIO
- coolers
-To: Guenter Roeck <linux@roeck-us.net>
-References: <20231020130212.8919-1-savicaleksa83@gmail.com>
- <45484650-4975-4f66-971d-7599681b1538@gmail.com>
- <0b76e7b5-a693-41e9-bf8c-531735c57337@roeck-us.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with
+ "slab_$param"
 Content-Language: en-US
-From: Aleksa Savic <savicaleksa83@gmail.com>
-In-Reply-To: <0b76e7b5-a693-41e9-bf8c-531735c57337@roeck-us.net>
+To: "Song, Xiongwei" <Xiongwei.Song@windriver.com>,
+ Kees Cook <keescook@chromium.org>, "sxwjean@me.com" <sxwjean@me.com>
+Cc: "42.hyeyoo@gmail.com" <42.hyeyoo@gmail.com>, "cl@linux.com"
+ <cl@linux.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "penberg@kernel.org" <penberg@kernel.org>,
+ "rientjes@google.com" <rientjes@google.com>,
+ "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
+ "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+ "corbet@lwn.net" <corbet@lwn.net>, "arnd@arndb.de" <arnd@arndb.de>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20231201031505.286117-1-sxwjean@me.com>
+ <20231201031505.286117-3-sxwjean@me.com> <202312010945.7C5DB1FBB@keescook>
+ <PH0PR11MB51923F916D8FB7D94270BBA7EC80A@PH0PR11MB5192.namprd11.prod.outlook.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <PH0PR11MB51923F916D8FB7D94270BBA7EC80A@PH0PR11MB5192.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 SUBJECT_HAS_CURRENCY(1.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FREEMAIL_TO(0.00)[windriver.com,chromium.org,me.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,me.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[16];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[gmail.com,linux.com,kvack.org,kernel.org,google.com,lge.com,linux.dev,lwn.net,arndb.de,linux-foundation.org,linuxfoundation.org,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: -1.80
 
-On 2023-12-02 16:42:25 GMT+01:00, Guenter Roeck wrote:
+On 12/2/23 05:23, Song, Xiongwei wrote:
 > 
-> I was waiting for that. In general, I am too busy to review patches if
-> 0-day reports a problem, and wait for those to be resolved.
 > 
-> Guenter
-> 
+>> -----Original Message-----
+>> From: Kees Cook <keescook@chromium.org>
+>> Sent: Saturday, December 2, 2023 1:48 AM
+>> To: sxwjean@me.com
+>> Cc: vbabka@suse.cz; 42.hyeyoo@gmail.com; cl@linux.com; linux-mm@kvack.org;
+>> penberg@kernel.org; rientjes@google.com; iamjoonsoo.kim@lge.com;
+>> roman.gushchin@linux.dev; corbet@lwn.net; arnd@arndb.de; akpm@linux-
+>> foundation.org; gregkh@linuxfoundation.org; linux-doc@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; Song, Xiongwei <Xiongwei.Song@windriver.com>
+>> Subject: Re: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with "slab_$param"
+>> 
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the sender and know the
+>> content is safe.
+>> 
+>> On Fri, Dec 01, 2023 at 11:15:04AM +0800, sxwjean@me.com wrote:
+>> > From: Xiongwei Song <xiongwei.song@windriver.com>
+>> >
+>> > Since the SLAB allocator has been removed, so we need to clean up the
+>> > sl[au]b_$params. However, the "slab/SLAB" terms should be keep for
+>> > long-term rather than "slub/SLUB". Hence, we should use "slab_$param"
+>> > as the primary prefix, which is pointed out by Vlastimil Babka. For more
+>> > information please see [1].
+>> >
+>> > This patch is changing the following slab parameters
+>> > - slub_max_order
+>> > - slub_min_order
+>> > - slub_min_objects
+>> > - slub_debug
+>> > to
+>> > - slab_max_order
+>> > - slab_min_order
+>> > - slab_min_objects
+>> > - slab_debug
+>> > as the primary slab parameters in
+>> > Documentation/admin-guide/kernel-parameters.txt and source, and rename all
+>> > setup functions of them too. Meanwhile, "slub_$params" can also be passed
+>> > by command line, which is to keep backward compatibility. Also mark all
+>> > "slub_$params" as legacy.
+>> 
+>> *If* we do this, I think the old names need to be recognized, perhaps
 
-Ah, fair enough. I was hesitant to send a v2 outright, but will do that
-soon and know for the future.
+Yes, they are already recognized by the patch.
 
-Thanks,
-Aleksa
+>> with a boot pr_warn() about their deprecation/renaming for several
+>> releases (likely across LTSes). I think it's not a good idea to
+>> wholesale rename these with no warning. That's going to cause a lot of
+>> surprises and broken userspace...
+> 
+> Oh, yes, that's a good idea. Will update.
+
+I'd wait for a while with the warnings, no need to rush.
+
+> Regards,
+> Xiongwei
+>> 
+>> --
+>> Kees Cook
+
