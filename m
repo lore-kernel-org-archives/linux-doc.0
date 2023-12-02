@@ -1,76 +1,77 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83CEB125
-	for <linux-doc@vger.kernel.org>; Sat,  2 Dec 2023 07:52:06 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-270-fdBml9uHNSOD5Hu3Vx4AmA-1; Sat, 02 Dec 2023 15:52:04 +0000
-X-MC-Unique: fdBml9uHNSOD5Hu3Vx4AmA-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 2 Dec
- 2023 15:51:52 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sat, 2 Dec 2023 15:51:52 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Waiman Long' <longman@redhat.com>, Jann Horn <jannh@google.com>
-CC: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH] locking: Document that mutex_unlock() is non-atomic
-Thread-Topic: [PATCH] locking: Document that mutex_unlock() is non-atomic
-Thread-Index: AQHaJGdmWd9hceM5t0qWKvuVqma2ELCUtpLQgAAMJ+GAAADgMIAACSgAgAFVFvA=
-Date: Sat, 2 Dec 2023 15:51:52 +0000
-Message-ID: <f98b04e05c964b57bc27fb895810aaaf@AcuMS.aculab.com>
-References: <20231130204817.2031407-1-jannh@google.com>
- <06c05c8b-9a3b-4c04-b898-0f82e98da70f@redhat.com>
- <CAG48ez1a=VuEWwPTjcXFAwCyt9bRH-WzAfw0uP-qVu83kdxkZw@mail.gmail.com>
- <28b147c3d7354d1a8ff0b903da9b54f4@AcuMS.aculab.com>
- <CAG48ez1bOwbqEbD_ycC2fyWK_tW4rqr=gogJbQOx5CECyPGZcg@mail.gmail.com>
- <1bcee696-d751-413c-a2ec-4a8480bae00b@redhat.com>
- <780e652ff52044d4a213cacbd9276cf8@AcuMS.aculab.com>
- <501501ef-137a-4797-9d43-48ea68851147@redhat.com>
-In-Reply-To: <501501ef-137a-4797-9d43-48ea68851147@redhat.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aYe76WwW"
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D8E184;
+	Sat,  2 Dec 2023 08:02:15 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-332c0c32d19so2616398f8f.3;
+        Sat, 02 Dec 2023 08:02:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701532934; x=1702137734; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:cc:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fU/NEbx/GEWzCAUdmHl+WjvtDDH/8BWmzFN7WY12d78=;
+        b=aYe76WwWtTKIIfzv1M1xzazBwXQogh38EoMnXgtsupOGvV4KmyMMWz8uWAN/gBEVFT
+         4JBPMVqKQsGT425gtOGEj3O64wnfhIzvOGMN3PC52j1ZXI76RxeTBxd2y3TgrjB4I4eU
+         Q2f2Tp5nOYBHgvi7MZBq7RdLr5va9L4wYlCaQxwt9xxfV1SrBCGIA7GCrG++gGlRAjCX
+         RJ0K1PrONn8ua7nvC6WLH7gUwCom+Y+Wx7FCyzQ9MFK9tzlQDe+/GdhVxXQcDeKb3FsP
+         nc3Mz0UZWEIq/PbDi3HvtGkuYnjD8HMFgX5UW+TGZyi/nnM0SKCH/hJmKvn4Nn2eW42z
+         CtXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701532934; x=1702137734;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:cc:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fU/NEbx/GEWzCAUdmHl+WjvtDDH/8BWmzFN7WY12d78=;
+        b=JesyeNbp7+Hbue1QCZ/ATL8X4iuGhcEl11ugDpFq2MzHRKLZeAUA+wKAHikc+vAdVX
+         qi3P2BWXUyiHVYzZ/ic9oYybSdA0WtZbHnSNjMJVrQ7L2wbdF4y0P0zntQsLMiKq0fyd
+         n/KFeeQtFOAGNM/u7w4qYDdolZomYcmI7HqXiJ0ZEImt4hO8fkQJ/EhRaIZ8e6DfFQzn
+         qlfRwIi8ldohVzUVI4PEAs83taEqyZAPcg78UkI5+AQPANHCpxwU9GO7+hteHa6eCfFb
+         nh5Hbm4PBdeRbx4Pn9xVGpW3Ti/jVrU1wlyySKsS8d4msbVuvhejb3MgEfFpOG+vmlmP
+         mVww==
+X-Gm-Message-State: AOJu0Yxf4jcKCqe6QBULX+uYVivsmw7K23gHl1UL0STxZfj9/GgSFz9+
+	lhhO59m31YFgu+vVFdqg+jOl7E9cRGUZcw==
+X-Google-Smtp-Source: AGHT+IECoTdcNwtXWz4lBnf7PIuZVcGneQgOEFSxQi3wRpiUqSTAaeOpfhb0b3A0AmZWdsw1yVpS/g==
+X-Received: by 2002:a5d:4dc1:0:b0:333:3ead:54c3 with SMTP id f1-20020a5d4dc1000000b003333ead54c3mr296492wru.97.1701532934065;
+        Sat, 02 Dec 2023 08:02:14 -0800 (PST)
+Received: from [192.168.0.28] (cable-178-148-234-71.dynamic.sbb.rs. [178.148.234.71])
+        by smtp.gmail.com with ESMTPSA id j6-20020a5d5646000000b0033307ffb193sm7157180wrw.29.2023.12.02.08.02.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Dec 2023 08:02:13 -0800 (PST)
+Message-ID: <9d453ea5-e2ce-4559-a611-714ba0201e8d@gmail.com>
+Date: Sat, 2 Dec 2023 17:02:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla Thunderbird
+Cc: savicaleksa83@gmail.com, Jean Delvare <jdelvare@suse.com>,
+ linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: Add driver for Gigabyte AORUS Waterforce AIO
+ coolers
+To: Guenter Roeck <linux@roeck-us.net>
+References: <20231020130212.8919-1-savicaleksa83@gmail.com>
+ <45484650-4975-4f66-971d-7599681b1538@gmail.com>
+ <0b76e7b5-a693-41e9-bf8c-531735c57337@roeck-us.net>
 Content-Language: en-US
+From: Aleksa Savic <savicaleksa83@gmail.com>
+In-Reply-To: <0b76e7b5-a693-41e9-bf8c-531735c57337@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-RnJvbTogV2FpbWFuIExvbmcNCj4gU2VudDogMDEgRGVjZW1iZXIgMjAyMyAxOToxNg0KPiANCj4g
-T24gMTIvMS8yMyAxMzo0NCwgRGF2aWQgTGFpZ2h0IHdyb3RlOg0KPiA+DQo+ID4gUGVuZGluZyB3
-YWl0ZXJzIGFyZW4ndCB0aGUgcHJvYmxlbS4NCj4gPg0KPiBQZW5kaW5nIHdhaXRlcnMgY2FuIHN0
-aWxsIGJlIGEgcHJvYmxlbSBpZiBjb2RlIGRlY2lkZXMgdG8gZnJlZSB0aGUgbG9jaw0KPiBjb250
-YWluaW5nIG9iamVjdCBhZnRlciBhIGxvY2svdW5sb2NrIHNlcXVlbmNlIGFzIGl0IG1heSBjYXVz
-ZQ0KPiB1c2UtYWZ0ZXItZnJlZS4NCj4gPg0KPiA+IFlvdSBoYXZlIHRvIGVuc3VyZSB0aGVyZSBh
-cmVuJ3QgYW55LCBidXQgdGhlIG11dGV4KCkgY2FuIGJlIGhlbGQuDQo+ID4NCj4gVXNpbmcgcmVm
-ZXJlbmNlIGNvdW50IHRvIHRyYWNrIHRoZSBudW1iZXIgb2YgYWN0aXZlIHVzZXJzIGlzIG9uZSB3
-YXkgdG8NCj4gcHJldmVudCB0aGF0IGlmIHlvdSBvbmx5IHJlbGVhc2UgdGhlIHJlZmVyZW5jZSBj
-b3VudCBhZnRlcg0KPiBtdXRleF91bmxvY2soKSByZXR1cm5zIGJ1dCBub3QgaW4gdGhlIGxvY2sg
-Y3JpdGljYWwgc2VjdGlvbi4NCg0KSSBzdXNwZWN0IHRoZSBkb2N1bWVudGF0aW9uIG5lZWQgdG8g
-YmUgbW9yZSBleHBsaWNpdCB0aGFuIGp1c3Qgc2F5aW5nDQppdCBpcyBub24tYXRvbWljLg0KU2F5
-aW5nIHNvbWV0aGluZyBsaWtlOg0KDQpUaGUgbXV0ZXggc3RydWN0dXJlIG1heSBiZSBhY2Nlc3Nl
-ZCBieSBtdXRleF91bmxvY2soKSBhZnRlciBhbm90aGVyDQp0aHJlYWQgaGFzIGxvY2tlZCBhbmQg
-dW5sb2NrZWQgdGhlIG11dGV4Lg0KDQpTbyBpZiBhIHJlZmVyZW5jZSBjb3VudCBpcyB1c2VkIHRv
-IGVuc3VyZSBhIHN0cnVjdHVyZSByZW1haW5zIHZhbGlkIHdoZW4NCmEgbG9jayBpcyByZWxlYXNl
-ZCAod2l0aCB0aGUgaXRlbSBiZWluZyBmcmVlZCB3aGVuIHRoZSBjb3VudCBiZWNvbWVzIHplcm8p
-DQp0aGUgcmVmZXJlbmNlIGNvdW50IGl0c2VsZiBjYW5ub3QgYmUgcHJvdGVjdGVkIGJ5IGEgbXV0
-ZXggaW4gdGhlIHN0cnVjdHVyZS4NClNvIGNvZGUgbGlrZToNCgkuLi4NCgljb3VudCA9IC0taXRl
-bS0+cmVmY291bnQ7DQoJbXV0ZXhfdW5sb2NrKGl0ZW0tPm10eCk7DQoJaWYgKCFjb3VudCkNCgkJ
-ZnJlZShpdGVtKTsNCmNhbiBsZWFkIHRvIGEgJ3VzZSBhZnRlciBmcmVlJyBpbiBtdXRleF91bmxv
-Y2soKS4NCkhvd2V2ZXIgaWYgdGhlIHJlZmNvdW50IGlzIGF0b21pYyBhbmQgZGVjcmVtZW50ZWQg
-d2l0aG91dCB0aGUNCm11dGV4IGhlbGQgdGhlcmUgaXNuJ3QgYSBwcm9ibGVtLg0KDQoJRGF2aWQN
-Cg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZh
-cm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYg
-KFdhbGVzKQ0K
+On 2023-12-02 16:42:25 GMT+01:00, Guenter Roeck wrote:
+> 
+> I was waiting for that. In general, I am too busy to review patches if
+> 0-day reports a problem, and wait for those to be resolved.
+> 
+> Guenter
+> 
 
+Ah, fair enough. I was hesitant to send a v2 outright, but will do that
+soon and know for the future.
+
+Thanks,
+Aleksa
