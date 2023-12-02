@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B7E3D8A;
-	Sat,  2 Dec 2023 02:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939CC17D1;
+	Sat,  2 Dec 2023 02:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FaONHU4D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF1D4C433C8;
-	Sat,  2 Dec 2023 02:13:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEDdRSJb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB36C433C7;
+	Sat,  2 Dec 2023 02:15:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701483206;
-	bh=ppEeBtliXh5uxKLB+Ykskcykb4e8NyftDSjZM0SdqlY=;
+	s=k20201202; t=1701483307;
+	bh=kxY/zxygnE4MHzDkAuR/pnqc4wEOybLOyvU91yMK7W0=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FaONHU4Du+eimhetCfF8eE9a9Upr9Y+B1x8PPuQovJWZnDC0naQHctrm2/omyewrp
-	 DZNAL502LL7P63/QFHeBUsQZ0fWVBtF17RPoD9GB2hrL/Hl1NzfrvRW7YUP4G6RW6p
-	 /iT2fCRMJecSLtR1s3RDwNSkL7QElXrUO6zmfMkCnmddPV7w/5n/xiJixwdpvqjFEo
-	 gMdBEH4y0JPe7rz8Xm7X3i5tzG4apsRyZPfiTrSYZ3tLsIgSwClXio7Tly/B/JNtxv
-	 3MIEZdY0Bx/Ka8oqfGF6sYAkFq6T5wpE9i/uAT+Cc1A38ewxEIJuxtYTjoH6vBw2+t
-	 Cl/pUK1j43/uA==
-Date: Fri, 1 Dec 2023 18:13:25 -0800
+	b=oEDdRSJbiD4vR+Z+ZG2oa3aQtfHvHTDe7CVSGyxLXd8EUuByoBriA41OhCWIY9LCN
+	 7zYgl42L61HiMfAiQTL7vpRCNXv5LCvxODOmArDAGagqFlvKsCwymgjWB3Sz865E/q
+	 d7o6w3EGLXxI/Gk5/7KslNiVEsAFrvSFP8msFGof30E7xH1K+J11nMff4+BBNaMJlc
+	 VlTp08uKmGgeFU5ppy+Sql7k8YrC8eMhVWRXMU4uOxo/1boQhgpzZZBk0/utuWsAd9
+	 VBTBcB7F3VwpDSpwvgfUrZOoPfk8anqbN7aFywD2sI81oPdGlJZ01Xn3XL3K8c8zyE
+	 SpsdfsrCzQeqQ==
+Date: Fri, 1 Dec 2023 18:15:05 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Donald Hunter <donald.hunter@gmail.com>
 Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
  Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
  Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
  <jacob.e.keller@intel.com>, donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 6/6] doc/netlink/specs: Add a spec for tc
-Message-ID: <20231201181325.4a12e03b@kernel.org>
-In-Reply-To: <20231130214959.27377-7-donald.hunter@gmail.com>
+Subject: Re: [PATCH net-next v1 0/6] tools/net/ynl: Add 'sub-message'
+ support to ynl
+Message-ID: <20231201181505.002edc7f@kernel.org>
+In-Reply-To: <20231130214959.27377-1-donald.hunter@gmail.com>
 References: <20231130214959.27377-1-donald.hunter@gmail.com>
-	<20231130214959.27377-7-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,11 +38,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 30 Nov 2023 21:49:58 +0000 Donald Hunter wrote:
-> +      -
-> +        name: app
-> +        type: binary # TODO sub-message needs 2+ level deep lookup
-> +        sub-message: tca-stats-app-msg
-> +        selector: kind
+On Thu, 30 Nov 2023 21:49:52 +0000 Donald Hunter wrote:
+>  Documentation/netlink/specs/rt_link.yaml |  273 ++-
+>  Documentation/netlink/specs/tc.yaml      | 2008 ++++++++++++++++++++++
 
-Ugh. Meaning the selector is at a "previous" level of nesting?
+Should we add sub-messages to tools/net/ynl/ynl-gen-rst.py ?
+Does the output look sane with the new attributes?
