@@ -1,48 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0291EC3;
-	Sat,  2 Dec 2023 01:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7A1EC3;
+	Sat,  2 Dec 2023 01:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZjpm5FL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5246C433C9;
-	Sat,  2 Dec 2023 01:47:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b1aNdAQK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B1B88C433C9;
+	Sat,  2 Dec 2023 01:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701481623;
-	bh=zHoXuze/tHgSV0I63Me1rwYwBOrYEuiWVeI3wye3Vwg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mZjpm5FL+sBgBmpojD6jcOIcfdVgQsy/iMhT485FVITP9epvRb3S+Xe6EW7Nw0HHS
-	 SBlMOmb7ktzYcYUnuOrELrmHgj+bPf4EPlYA16Ziej1P2sFRwiURUYBJOcOsBDdwgF
-	 8EwiN//7F+cc1A5QeesIu0TKxGG/KFDlCTUDaQEuYf8aAVFAKCP0NpBWhhWFjQWrnn
-	 vUuAqevI2pZ8eMHPTPnHdpfKZxDG/NgbsF4r8/arrOkK8vgJOUr/AlomyHs8EujTUK
-	 DYKwLANs7y+ND6Pg2l3fXaLt8/3k/tRcGr1MWgKWOq8sMWMcCjrOWU+p/2lGN59xWo
-	 pav3vCfJol3Tg==
-Date: Fri, 1 Dec 2023 17:47:01 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
- <jacob.e.keller@intel.com>, donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 1/6] doc/netlink: Add bitfield32, s8, s16 to
- the netlink-raw schema
-Message-ID: <20231201174701.16ccb0ae@kernel.org>
-In-Reply-To: <20231130214959.27377-2-donald.hunter@gmail.com>
-References: <20231130214959.27377-1-donald.hunter@gmail.com>
-	<20231130214959.27377-2-donald.hunter@gmail.com>
+	s=k20201202; t=1701481823;
+	bh=afM3w+MPxN1sihZGo2nbVInwLYlWl7OkiURQRIw72cQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=b1aNdAQKUXOC4UIDanEdq2oQAXSQgeynXBqwgxpIqvyCCxOY9up3EaYPGc0DAH/1x
+	 d/SYPiXrWAUHIIj3r74+YLjkiWcjzDmWKWom1tbI/aE4h+d0tx4GvGT/nldohoVtLp
+	 kOIayKEG24Le+Anr7Ty+vCfLMu9bkbSUfsFLmPdU4UiafKmB8/Gm+aPPTxn7m/WLi3
+	 ucG1LfZ4rYggErSjIu/plUjF7IO9j9AvAtnzLdLNJt0jN51EMEf/HrACPCamFNhn6U
+	 pWond/s2SEJvuzVDowghWvt1NCsm4rSJ6dPH5h4ibTt2Ebl+v7IPpawcDSMapgovWv
+	 CXDOOc30ecpOg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9370AC64459;
+	Sat,  2 Dec 2023 01:50:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v1 0/6] tools/net/ynl: Add 'sub-message' support to
+ ynl
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170148182359.29419.17491945110307467020.git-patchwork-notify@kernel.org>
+Date: Sat, 02 Dec 2023 01:50:23 +0000
+References: <20231130214959.27377-1-donald.hunter@gmail.com>
+In-Reply-To: <20231130214959.27377-1-donald.hunter@gmail.com>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, kuba@kernel.org, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, jacob.e.keller@intel.com, donald.hunter@redhat.com
 
-On Thu, 30 Nov 2023 21:49:53 +0000 Donald Hunter wrote:
-> The netlink-raw schema was not updated when bitfield32 was added
-> to the genetlink-legacy schema. It is needed for rtnetlink families.
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu, 30 Nov 2023 21:49:52 +0000 you wrote:
+> This patchset adds a 'sub-message' attribute type to the netlink-raw
+> schema and implements it in ynl. This provides support for kind-specific
+> options attributes as used in rt_link and tc raw netlink families.
 > 
-> s8 and s16 were also missing.
+> A description of the new 'sub-message' attribute type and the
+> corresponding sub-message definitions is provided in patch 2.
+> 
+> [...]
 
-Let me apply this one already, it's kinda independent.
+Here is the summary with links:
+  - [net-next,v1,1/6] doc/netlink: Add bitfield32, s8, s16 to the netlink-raw schema
+    https://git.kernel.org/netdev/net-next/c/527d2cd8b852
+  - [net-next,v1,2/6] doc/netlink: Add sub-message support to netlink-raw
+    (no matching commit)
+  - [net-next,v1,3/6] tools/net/ynl: Add 'sub-message' attribute decoding to ynl
+    (no matching commit)
+  - [net-next,v1,4/6] tools/net/ynl: Add binary and pad support to structs for tc
+    (no matching commit)
+  - [net-next,v1,5/6] doc/netlink/specs: add sub-message type to rt_link family
+    (no matching commit)
+  - [net-next,v1,6/6] doc/netlink/specs: Add a spec for tc
+    (no matching commit)
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
