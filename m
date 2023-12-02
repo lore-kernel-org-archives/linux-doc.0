@@ -1,173 +1,48 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0291EC3;
+	Sat,  2 Dec 2023 01:47:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YSG9Jt+O"
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BC11116;
-	Fri,  1 Dec 2023 17:37:15 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6cde14ff73bso2235851b3a.0;
-        Fri, 01 Dec 2023 17:37:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701481035; x=1702085835; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A0ufX68N1esanQTyLJA3w1Jj4v6Vxvaxep5R4BU75TU=;
-        b=YSG9Jt+OOcZ4RFfgDHPjkbzkSC1YQ+O8GM/miYeTpUxnzWzgZjnSD2wjACjdDoATUn
-         2qr4tvlFIwVPe89rTiPpXbDhnu7wlTC5vQPNsSWkkV+EM3dGRDvhEf5BQOFHWxGBQ2hc
-         cVuPYGIhRgsqtyzbmDXigm+xSCBiDIYtQQfLfzhCzwwJRaXFdWF9wAZQB8qw3gi8/+v6
-         KCnfAG/cVXjDRT0jpavGJSgYN2u0kNwmryXSMzvZrK5UskWbqsvRcUG8xoL+DsNMS05g
-         MvXYFSqm+O84j8ZcJtxc6EZ7HU/jH2jYoi+0a8RGPMVUEwXnYADp2ANSGuJjGSLunJ/N
-         LWWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701481035; x=1702085835;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A0ufX68N1esanQTyLJA3w1Jj4v6Vxvaxep5R4BU75TU=;
-        b=JMqDqM4RRSx+NdSwqjBlVm+e17aEuzf46LsSbUudKMFwkkz3hoT/Hu0VXAHkwytgdW
-         mtem9d4PmjCHiaFrUyFXPbhYnAD2Ok/wan7vXbP7lR/ZXbPxt9ASXAoy9ej6oGJR60Lc
-         FuOZq8/C/+ZKRTewOWDwH7dcI5Zvj38QHiXe0QOzJRmeD6U60a5hxLnGZpxGm7TJKpZg
-         D7MavYBiBj1d6j9YbxSYsXlACKUAodxamXTAKweFDHz3vjIg0IAYurecCnfWIz/pFQ1z
-         gcnWTjFnvoNAkLxjBUI8wh1Cy58PqpUIEhK/BWKArpMM4DXTBj54g1ZQSvixximcGTHz
-         lybw==
-X-Gm-Message-State: AOJu0YwYOtzWOI6n95AIU/h3DMR1k1AulsaS6PJS23pkdZ5B8lTgBAGO
-	olqpXnfvytB4nS3BrJQh/A7vZqR6cYfaWg==
-X-Google-Smtp-Source: AGHT+IE/awiIeWidw8WTuQ5AGkqV/4zGshQQBq3TZaN69o5OMK56wLF9Vse25T65TIbfliG+QFus1w==
-X-Received: by 2002:a05:6a00:1398:b0:6ce:2731:47bd with SMTP id t24-20020a056a00139800b006ce273147bdmr509085pfg.29.1701481034783;
-        Fri, 01 Dec 2023 17:37:14 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id t10-20020a63dd0a000000b005c2422a1171sm3589542pgg.66.2023.12.01.17.37.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 17:37:13 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 9A66710082367; Sat,  2 Dec 2023 08:37:10 +0700 (WIB)
-Date: Sat, 2 Dec 2023 08:37:10 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>
-Cc: Waiman Long <longman@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH -v2] locking/mutex: Document that mutex_unlock() is
- non-atomic
-Message-ID: <ZWqKRkhYm7hxUDW_@archie.me>
-References: <20231130204817.2031407-1-jannh@google.com>
- <2f17a9a6-5781-43ef-a09b-f39310843fe6@redhat.com>
- <CAG48ez1oXW=4MfQ0A6tthud-cvDZUTA+VB=jzu-HxvWzbj+X0g@mail.gmail.com>
- <ZWm2b+QGpOvzHjc1@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZjpm5FL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5246C433C9;
+	Sat,  2 Dec 2023 01:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701481623;
+	bh=zHoXuze/tHgSV0I63Me1rwYwBOrYEuiWVeI3wye3Vwg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mZjpm5FL+sBgBmpojD6jcOIcfdVgQsy/iMhT485FVITP9epvRb3S+Xe6EW7Nw0HHS
+	 SBlMOmb7ktzYcYUnuOrELrmHgj+bPf4EPlYA16Ziej1P2sFRwiURUYBJOcOsBDdwgF
+	 8EwiN//7F+cc1A5QeesIu0TKxGG/KFDlCTUDaQEuYf8aAVFAKCP0NpBWhhWFjQWrnn
+	 vUuAqevI2pZ8eMHPTPnHdpfKZxDG/NgbsF4r8/arrOkK8vgJOUr/AlomyHs8EujTUK
+	 DYKwLANs7y+ND6Pg2l3fXaLt8/3k/tRcGr1MWgKWOq8sMWMcCjrOWU+p/2lGN59xWo
+	 pav3vCfJol3Tg==
+Date: Fri, 1 Dec 2023 17:47:01 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
+ <jacob.e.keller@intel.com>, donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v1 1/6] doc/netlink: Add bitfield32, s8, s16 to
+ the netlink-raw schema
+Message-ID: <20231201174701.16ccb0ae@kernel.org>
+In-Reply-To: <20231130214959.27377-2-donald.hunter@gmail.com>
+References: <20231130214959.27377-1-donald.hunter@gmail.com>
+	<20231130214959.27377-2-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oz6cg3XNiAwQ353b"
-Content-Disposition: inline
-In-Reply-To: <ZWm2b+QGpOvzHjc1@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 30 Nov 2023 21:49:53 +0000 Donald Hunter wrote:
+> The netlink-raw schema was not updated when bitfield32 was added
+> to the genetlink-legacy schema. It is needed for rtnetlink families.
+> 
+> s8 and s16 were also missing.
 
---oz6cg3XNiAwQ353b
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Dec 01, 2023 at 11:33:19AM +0100, Ingo Molnar wrote:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>
-> From: Jann Horn <jannh@google.com>
-> Date: Thu, 30 Nov 2023 21:48:17 +0100
-> Subject: [PATCH] locking/mutex: Document that mutex_unlock() is non-atomic
->=20
-> I have seen several cases of attempts to use mutex_unlock() to release an
-> object such that the object can then be freed by another task.
->=20
-> This is not safe because mutex_unlock(), in the
-> MUTEX_FLAG_WAITERS && !MUTEX_FLAG_HANDOFF case, accesses the mutex
-> structure after having marked it as unlocked; so mutex_unlock() requires
-> its caller to ensure that the mutex stays alive until mutex_unlock()
-> returns.
->=20
-> If MUTEX_FLAG_WAITERS is set and there are real waiters, those waiters
-> have to keep the mutex alive, but we could have a spurious
-> MUTEX_FLAG_WAITERS left if an interruptible/killable waiter bailed
-> between the points where __mutex_unlock_slowpath() did the cmpxchg
-> reading the flags and where it acquired the wait_lock.
->=20
-> ( With spinlocks, that kind of code pattern is allowed and, from what I
->   remember, used in several places in the kernel. )
->=20
-> Document this, such a semantic difference between mutexes and spinlocks
-> is fairly unintuitive.
->=20
-> [ mingo: Made the changelog a bit more assertive, refined the comments. ]
->=20
-> Signed-off-by: Jann Horn <jannh@google.com>
-> Signed-off-by: Ingo Molnar <mingo@kernel.org>
-> Link: https://lore.kernel.org/r/20231130204817.2031407-1-jannh@google.com
-> ---
->  Documentation/locking/mutex-design.rst | 6 ++++++
->  kernel/locking/mutex.c                 | 5 +++++
->  2 files changed, 11 insertions(+)
->=20
-> diff --git a/Documentation/locking/mutex-design.rst b/Documentation/locki=
-ng/mutex-design.rst
-> index 78540cd7f54b..7572339b2f12 100644
-> --- a/Documentation/locking/mutex-design.rst
-> +++ b/Documentation/locking/mutex-design.rst
-> @@ -101,6 +101,12 @@ features that make lock debugging easier and faster:
->      - Detects multi-task circular deadlocks and prints out all affected
->        locks and tasks (and only those tasks).
-> =20
-> +Releasing a mutex is not an atomic operation: Once a mutex release opera=
-tion
-> +has begun, another context may be able to acquire the mutex before the r=
-elease
-> +operation has fully completed. The mutex user must ensure that the mutex=
- is not
-> +destroyed while a release operation is still in progress - in other word=
-s,
-> +callers of mutex_unlock() must ensure that the mutex stays alive until
-> +mutex_unlock() has returned.
-> =20
->  Interfaces
->  ----------
-> diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
-> index 2deeeca3e71b..cbae8c0b89ab 100644
-> --- a/kernel/locking/mutex.c
-> +++ b/kernel/locking/mutex.c
-> @@ -532,6 +532,11 @@ static noinline void __sched __mutex_unlock_slowpath=
-(struct mutex *lock, unsigne
->   * This function must not be used in interrupt context. Unlocking
->   * of a not locked mutex is not allowed.
->   *
-> + * The caller must ensure that the mutex stays alive until this function=
- has
-> + * returned - mutex_unlock() can NOT directly be used to release an obje=
-ct such
-> + * that another concurrent task can free it.
-> + * Mutexes are different from spinlocks & refcounts in this aspect.
-> + *
->   * This function is similar to (but not equivalent to) up().
->   */
->  void __sched mutex_unlock(struct mutex *lock)
-
-Hi Ingo and Jann, thanks for the patch.
-
-The patch LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---oz6cg3XNiAwQ353b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWqKPwAKCRD2uYlJVVFO
-o/M0AQCWThPVVQ64FGDrGvqpOy6HkiUdyNm4B2y18fcJPzVeGAD/Yt1nlTW5XE+7
-tvPu9yAzTY0HdYy/CVr/UJc7UzICbQU=
-=yca7
------END PGP SIGNATURE-----
-
---oz6cg3XNiAwQ353b--
+Let me apply this one already, it's kinda independent.
