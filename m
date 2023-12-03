@@ -1,86 +1,79 @@
-Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E07EDA;
-	Sun,  3 Dec 2023 10:40:38 -0800 (PST)
-Received: from gaggiata.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 5DE06201D4;
-	Sun,  3 Dec 2023 19:40:31 +0100 (CET)
-Received: from livingston (unknown [192.168.42.11])
-	by gaggiata.pivistrello.it (Postfix) with ESMTP id 0C5E67F9C0;
-	Sun,  3 Dec 2023 19:40:31 +0100 (CET)
-Received: from pivi by livingston with local (Exim 4.96)
-	(envelope-from <francesco@dolcini.it>)
-	id 1r9rOI-0000pW-2v;
-	Sun, 03 Dec 2023 19:40:30 +0100
-Date: Sun, 3 Dec 2023 19:40:30 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="nNkCBi1d"
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB764E8;
+	Sun,  3 Dec 2023 10:45:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=3WBhCpBWX37N5cjsNg5ZZZtJtBisSM0dTRcPh0wLMNg=; b=nNkCBi1dmJQaCQreznDoIHAM7M
+	to2LbakVF7BzVfPaFkiceQOIYt7M97/8rXDzKlfs7dlR4YGmWtuvhv/G6Vl6OHlGM3q0Tmhqf65W6
+	3Fbp8LMQ+Dqhq+gzxn9MVRhBhyaPCvQbh/JATVqV1WYZDvzWG4H8+CkVkdpYqzTIN/sw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1r9rSw-001uSE-4o; Sun, 03 Dec 2023 19:45:18 +0100
+Date: Sun, 3 Dec 2023 19:45:18 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>,
-	Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michal Simek <michal.simek@amd.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] docs: dt-bindings: add DTS Coding Style document
-Message-ID: <ZWzLns9CPK3xeTzG@livingston.pivistrello.it>
-References: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v2 4/8] net: ethtool: pse-pd: Expand pse
+ commands with the PSE PoE interface
+Message-ID: <e0b143dc-ca7e-4762-bd0b-3acffad0932b@lunn.ch>
+References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
+ <20231201-feature_poe-v2-4-56d8cac607fa@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20231201-feature_poe-v2-4-56d8cac607fa@bootlin.com>
 
-Hello Krzysztof,
+> @@ -143,6 +150,43 @@ ethnl_set_pse(struct ethnl_req_info *req_info, struct genl_info *info)
+>  		return -EOPNOTSUPP;
+>  	}
+>  
+> +	if (!tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL] &&
+> +	    !tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL])
+> +		return 0;
 
-On Sun, Dec 03, 2023 at 06:46:22PM +0100, Krzysztof Kozlowski wrote:
-> Document preferred coding style for Devicetree sources (DTS and DTSI),
-> to bring consistency among all (sub)architectures and ease in reviews.
-> 
-> Cc: Andrew Davis <afd@ti.com>
-> cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Bjorn Andersson <andersson@kernel.org>
-> Cc: Chen-Yu Tsai <wens@kernel.org>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Michal Simek <michal.simek@amd.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Nishanth Menon <nm@ti.com>
-> Cc: Olof Johansson <olof@lixom.net>
-> Cc: Rafał Miłecki <zajec5@gmail.com>
-> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Acked-by: Heiko Stuebner <heiko@sntech.de>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Konrad Dybcio <konradybcio@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+-EINVAL? Is there a real use case for not passing either of them?
 
-Reviewed-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> +
+> +	if (tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL] &&
+> +	    !(pse_get_types(phydev->psec) & PSE_PODL)) {
+> +		NL_SET_ERR_MSG_ATTR(info->extack,
+> +				    tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL],
+> +				    "setting PSE PoDL admin control not supported");
+> +		return -EOPNOTSUPP;
+> +	}
+> +	if (tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL] &&
+> +	    !(pse_get_types(phydev->psec) & PSE_C33)) {
+> +		NL_SET_ERR_MSG_ATTR(info->extack,
+> +				    tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL],
+> +				    "setting PSE PoE admin control not supported");
 
-Francesco
+This probably should be C33, not PoE?
 
+I guess it depends on what the user space tools are using. 
+
+	Andrew
