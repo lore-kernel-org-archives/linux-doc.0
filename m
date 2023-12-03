@@ -1,76 +1,116 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=layalina-io.20230601.gappssmtp.com header.i=@layalina-io.20230601.gappssmtp.com header.b="1R2kAnBC"
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C955DF
-	for <linux-doc@vger.kernel.org>; Sat,  2 Dec 2023 15:38:16 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-33338c47134so832430f8f.1
-        for <linux-doc@vger.kernel.org>; Sat, 02 Dec 2023 15:38:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=layalina-io.20230601.gappssmtp.com; s=20230601; t=1701560295; x=1702165095; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=78CTgtpobZ3nEtM8PQVEaWzZpOWHKrFZDrmFfudY4xw=;
-        b=1R2kAnBCUo3YLVXFCjgCC77NHDZknXpYL2MZaKIv4ooAX3lya0HjtXzIyAZwwOHm0W
-         0bvAjJXUq4+XqP5ylxG9wevLleWkAZl/zQy4jN9pp/1thXMXNFRKWUuUWiQX0FgAu6WM
-         2hKAjFE3B2SN3LD9UjevIEJAw2BZs+VkMe5zyK2L0zwY3NZimCbo+kukZyunHMK0AeTc
-         BqNN17cwmx/MDTmD2lgXk7ArC7oHBh0fxVeBz7/a7Nq+Pebh2n500pblyGisxyyy5O02
-         yugP6YI/Zim5gFxWU+Ei5YdIYkHIntYK5C7BzRn+50cf4vHDQ2dL//zy9/jZCVZL/Xcq
-         ZOcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701560295; x=1702165095;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=78CTgtpobZ3nEtM8PQVEaWzZpOWHKrFZDrmFfudY4xw=;
-        b=iz44JbScmOuUiGOg1i5cAFJthxEQfyS8czQeRDIFqZ9Hg7RcocI6XBuDs3gQPWzaUa
-         /IBu6txLHwEV5OLalL6SM880Q8mVD2QwTSobuNWpo3nSdzj3Rzf7rprs5qExdTEfnfv1
-         ZG0ZUtVwDtR8U3f3BQjG/QSHWzwteVKEO4w5rMquiq1x5Mf0DuaZNwwmR6iJ3DUA2/QF
-         +sXdObovJaFkBSjbKu94+wrPHBi68gusiWvvr8vWEQhKlkClIQSjL5RA0fy/+GEcKDdO
-         WXPvbqmLu9WCmCPh6CqpPpLat/gdLQsvcgjfJfAL38mTTj7tpJ8df043qtpfN1Fp2Pq8
-         +LZA==
-X-Gm-Message-State: AOJu0Yz304SNBbq7OOuEdpwJHu4I5ph4chyYfBYnRAOvotsHZGBrfcWd
-	P2BZ8hD+b9dtQybNyWMEC9uOIQ==
-X-Google-Smtp-Source: AGHT+IEx5t/BgNVRyaVaB3TRTF8+1Lk+D/pbCaZ8YVruDsW3d7NeoSmshnu5HAXAbgWdo4ONaaM06w==
-X-Received: by 2002:a05:600c:5126:b0:3f6:9634:c8d6 with SMTP id o38-20020a05600c512600b003f69634c8d6mr1486941wms.18.1701560294174;
-        Sat, 02 Dec 2023 15:38:14 -0800 (PST)
-Received: from airbuntu (host109-153-232-45.range109-153.btcentralplus.com. [109.153.232.45])
-        by smtp.gmail.com with ESMTPSA id g10-20020a05600c4eca00b0040596352951sm13712893wmq.5.2023.12.02.15.38.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Dec 2023 15:38:13 -0800 (PST)
-Date: Sat, 2 Dec 2023 23:38:12 +0000
-From: Qais Yousef <qyousef@layalina.io>
-To: Vincent Guittot <vincent.guittot@linaro.org>
-Cc: mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-	corbet@lwn.net, alexs@kernel.org, siyanteng@loongson.cn,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	lukasz.luba@arm.com, hongyan.xia2@arm.com, yizhou.tang@shopee.com
-Subject: Re: [PATCH v2 2/2] sched/fair: Simplify util_est
-Message-ID: <20231202233812.cq2nodia3estdexy@airbuntu>
-References: <20231201161652.1241695-1-vincent.guittot@linaro.org>
- <20231201161652.1241695-3-vincent.guittot@linaro.org>
+	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="uoGiDmvi"
+Received: from pv50p00im-hyfv10011601.me.com (pv50p00im-hyfv10011601.me.com [17.58.6.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55C6E3
+	for <linux-doc@vger.kernel.org>; Sat,  2 Dec 2023 16:16:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+	t=1701562585; bh=hF8kiVLJHBpf67kh/bV2U/McuMXTWTZgUR/BlE4R/Sc=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=uoGiDmvi7E+APKfOYDhHwXTaXvgiIPx2MF43zldniimOkyx8QiOUNrDKiNaJANJJ5
+	 lvdl9uODrRgAfxUJNlyHUCnm1gTUAmKKgRk1apIrsaK+Y4BR3TGEL/WbgkvD0TWWiK
+	 JZq4UXkfL4lU1K4vMt9De+fC/O7P9TMCvEQ8Ud8mJyKbnCCW/4fo06vnSWJgyZjhZh
+	 vSgPKRVCD1FGTDyAd910+FV92KJZeqRiF2OZInItgTO1YSh63cZQTP+ykIhUKIu0s1
+	 ndpkCPV302eZ8w/eoL+Voc5Yf/4x54zGUm6kERb4ZvDKXeO02rKRFKwfgRZH+hYYMv
+	 EFn0ZHTnBoDXQ==
+Received: from xiongwei.. (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-hyfv10011601.me.com (Postfix) with ESMTPSA id 08EFFC800E4;
+	Sun,  3 Dec 2023 00:16:19 +0000 (UTC)
+From: sxwjean@me.com
+To: vbabka@suse.cz,
+	42.hyeyoo@gmail.com,
+	cl@linux.com,
+	linux-mm@kvack.org
+Cc: penberg@kernel.org,
+	rientjes@google.com,
+	iamjoonsoo.kim@lge.com,
+	roman.gushchin@linux.dev,
+	corbet@lwn.net,
+	keescook@chromium.org,
+	arnd@arndb.de,
+	akpm@linux-foundation.org,
+	gregkh@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xiongwei Song <xiongwei.song@windriver.com>
+Subject: [PATCH v2 0/3] supplement of slab allocator removal
+Date: Sun,  3 Dec 2023 08:14:58 +0800
+Message-Id: <20231203001501.126339-1-sxwjean@me.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231201161652.1241695-3-vincent.guittot@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: njOinpEGGVhRmbARrDjPc8Mc-j2hKAQ8
+X-Proofpoint-ORIG-GUID: njOinpEGGVhRmbARrDjPc8Mc-j2hKAQ8
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 bulkscore=0
+ adultscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2312030000
 
-On 12/01/23 17:16, Vincent Guittot wrote:
+From: Xiongwei Song <xiongwei.song@windriver.com>
 
->  /*
->   * The load/runnable/util_avg accumulates an infinite geometric series
->   * (see __update_load_avg_cfs_rq() in kernel/sched/pelt.c).
-> @@ -505,9 +469,20 @@ struct sched_avg {
->  	unsigned long			load_avg;
->  	unsigned long			runnable_avg;
->  	unsigned long			util_avg;
-> -	struct util_est			util_est;
-> +	unsigned int			util_est;
->  } ____cacheline_aligned;
+Hi,
 
-unsigned long would be better?
+Patch 1 is to remove an unused parameter. This patch actually is v3, but
+it is not reasonable to add v3 tag in the cover letter, so I put the
+change history inside the patch.
+
+---
+Patch 2 is to replace slub_$params with slab_$params.
+Vlastimil Babka pointed out we should use "slab_$param" as the primary
+prefix for long-term plan. Please see [1] for more information.
+
+This patch is to do that. However, the patch is big, I'm not sure if
+everything is proper in it, so I added "RFC" in the patch title. For more
+information please see the commit message of patch.
+
+I did the basic tests with qemu, which passed values by sl[au]b_max_order,
+sl[au]b_min_order, sl[au]b_min_objects and sl[au]b_debug in command line.
+The values looks correct by printing them out before calculating orders.
+
+One thing I'm not sure about the forth parameter of __setup_param(),
+Is it correct to set the parameter to 0 directly?
+
+---
+Patch 3 is not related to slab allocator removal. It's to correct the
+description of default value of slub_min_objects in
+Documentation/mm/slub.rst. 
+
+---
+CHANGES
+v2:
+- patch 1: Collect Reviewed-by tag.
+- patch 3: Correct spelling mistakes in commit message.
+
+v1: https://lore.kernel.org/linux-mm/20231201031505.286117-1-sxwjean@me.com/
+
+---
+Regards,
+Xiongwei
+
+[1] https://lore.kernel.org/linux-mm/7512b350-4317-21a0-fab3-4101bc4d8f7a@suse.cz/
+
+Xiongwei Song (3):
+  Documentation: kernel-parameters: remove noaliencache
+  mm/slub: unify all sl[au]b parameters with "slab_$param"
+  mm/slub: correct the default value of slub_min_objects in doc
+
+ .../admin-guide/kernel-parameters.txt         |  48 +++---
+ Documentation/mm/slub.rst                     |   2 +-
+ drivers/misc/lkdtm/heap.c                     |   2 +-
+ mm/Kconfig.debug                              |   6 +-
+ mm/slab.h                                     |  16 +-
+ mm/slab_common.c                              |   8 +-
+ mm/slub.c                                     | 142 +++++++++---------
+ 7 files changed, 110 insertions(+), 114 deletions(-)
+
+-- 
+2.34.1
+
