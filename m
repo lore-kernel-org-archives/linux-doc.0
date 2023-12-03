@@ -1,198 +1,130 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="lNeuh7iw"
-X-Greylist: delayed 25064 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 03 Dec 2023 13:11:55 PST
-Received: from smtp.smtpout.orange.fr (smtp-27.smtpout.orange.fr [80.12.242.27])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B58D6
-	for <linux-doc@vger.kernel.org>; Sun,  3 Dec 2023 13:11:55 -0800 (PST)
-Received: from [192.168.1.18] ([92.140.202.140])
-	by smtp.orange.fr with ESMTPA
-	id 9tkhrjQzbnYhw9tkhrWksH; Sun, 03 Dec 2023 22:11:53 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1701637913;
-	bh=/iWSzUSCtFxSRa7nJPgd9T8NZlrqaIvJ6JJK7oUVfkU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=lNeuh7iw0dmLd7K5RcK/cw56GO34h3LHTskBM0f9tZZQQAx7Av1Z3uQFkqwpmbHsv
-	 ypXPbhrtsL5+vQMNPwbP+ckmaGZioLgfr9l2wIpMw6S+JRyytKA5+/YpijhJHnxHxf
-	 08GD5f04SFs2kw12PjEc1BiU4IGkB9x+RVYu6X5hF3UyzNoZPX03B01rtFy6G3LA0l
-	 Gv1ytpLjnipBqwaO4IEl0/6VlQ6TRtDFAfsMlkGgcvZpXtIxG3E5mtzr+PipsrEPBV
-	 IgDH0dws3sqVBqjsRQM9aTxwb5bDhtzEthUKjTJ3sJq6Ywq4ROKvs4dDC/ep7/QTHg
-	 IXhysDhb5Q1hQ==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 03 Dec 2023 22:11:53 +0100
-X-ME-IP: 92.140.202.140
-Message-ID: <6eeead27-e1b1-48e4-8a3b-857e1c33496b@wanadoo.fr>
-Date: Sun, 3 Dec 2023 22:11:46 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GPzos60p"
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5901CD7
+	for <linux-doc@vger.kernel.org>; Sun,  3 Dec 2023 15:03:37 -0800 (PST)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-5d74186170fso11244817b3.3
+        for <linux-doc@vger.kernel.org>; Sun, 03 Dec 2023 15:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701644616; x=1702249416; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zelJLnC7ZqJCMPyhJLNTJFnx9+oguBrdvy9XXLywcG8=;
+        b=GPzos60p1wR+TQVX1oEtPSQJYJIi40JrqbjQTpvqUq+pV74j7+lmPYuxzG6jWbPeMF
+         TvMAIuWybGyTui7ZeGtOacIvTd7cW8C/j1H/2/pdaxdUz9gjXBXR5BlrTMVYWdYH/laf
+         E8hDuIbENyawc7vaCbFvBjR93G6vUM+0gg6du7wk1QtVZ1H/RUiFQuYLfsPqDt63nmzj
+         gk2Qb+uS9O/3RQoy99BVMvm++QFHJth3cu1IIj63hczkmThqKnnZ+/xq16TtTNg0pm95
+         59Fqbbb5VpWuqNsTRu1MVqTv6vdBjpKaHJwaBYbJN4egWJMnHZnYBB12EEZT6v/6prog
+         OITg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701644616; x=1702249416;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zelJLnC7ZqJCMPyhJLNTJFnx9+oguBrdvy9XXLywcG8=;
+        b=jrEGaoi0VTBBCc6fSlSk9oTOpHK+SzIOWHq+KHT5kriF3zni4eiL8dUWVsLKk4reSN
+         xvNEK1HtZSPwVFJlLoOoNQ80GONGMWRw3+7YoRTdkgXYopuIiJV4jSg55FtcyY2Ero5F
+         mWNs5kJWQggwdwi08fQGeZU5mv0M/SlyCwdlIlUkVdcKjytpQXxxXZNkiNCMq/ZA0mEL
+         2TzmqcblwOoEPUE91OuLfZeKJmAwXQyhWf4ARdSIOpOn4dlJuMous4CP3BYLYjLon9pY
+         OY/tbNb7lm/Jx3fNWRVgDnhu5FyWUEYsgpJuPRXZ+cLjiEfFm44BLRdT8cY10W1pp2Ld
+         vvZA==
+X-Gm-Message-State: AOJu0YxuNtqpkqWdFuFJWWFOt+KSf1ZlLnRBLFeORCkLMp0K73ROEmcu
+	8cNLP2u5qNZryNyj6k0cXGPVQrT6zHIrO0+5skJncQ==
+X-Google-Smtp-Source: AGHT+IFdxlA+4qAP1WmnqmhYuozBj+w898Qc95gW0TILxKBqTzyrlz5TWtLLbWm/9x5bymbWlpPzY28MzXA+ADc7Xwk=
+X-Received: by 2002:a81:9b44:0:b0:5d7:1940:7d63 with SMTP id
+ s65-20020a819b44000000b005d719407d63mr1931460ywg.58.1701644616523; Sun, 03
+ Dec 2023 15:03:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
- driver
-Content-Language: fr
-To: Kory Maincent <kory.maincent@bootlin.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>,
- Russ Weight <russ.weight@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
- <20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231124-ltc4282-support-v2-0-952bf926f83c@analog.com>
+ <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com> <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
+ <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
+ <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
+ <971eb35068639ec404669ea5320c8183ea71a7d0.camel@gmail.com>
+ <ZWiP3i80KnVk9qyx@smile.fi.intel.com> <a4bd59df0c5bc1be5d0d6f11b968fd61a59ee2e0.camel@gmail.com>
+ <CACRpkdYz+qi42Pz8CgeWybksC0edaVux6rcEhwzjDWnWe9Jr1g@mail.gmail.com>
+ <61a8f54835c10db7a9c650ee2e3706b47382c634.camel@gmail.com>
+ <CACRpkda55HzPqus5KR-t=xEBkkdND5kYZj1sHdxK+j6QwDUPRg@mail.gmail.com> <b761d2497462664d541779857398b2aa893cbee5.camel@gmail.com>
+In-Reply-To: <b761d2497462664d541779857398b2aa893cbee5.camel@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 4 Dec 2023 00:03:23 +0100
+Message-ID: <CACRpkdYBXVt7KvWfPJj1OhPUB7-QJbKg+74zwnR_=0pszg9APA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, nuno.sa@analog.com, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Le 01/12/2023 à 18:10, Kory Maincent a écrit :
-> Add a new driver for the PD692x0 I2C Power Sourcing Equipment controller.
-> This driver only support i2c communication for now.
-> 
-> Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
-> 
-> This driver is based on the patch merged in an immutable branch from Jakub
-> repo. It is Tagged at:
-> git://git.kernel.org/pub/scm/linux/kernel/git/kuba/linux.git firmware_loader-add-upload-error
-> 
-> Change in v2:
-> - Drop of_match_ptr
-> - Follow the "c33" PoE prefix naming change.
-> - Remove unused delay_recv variable. Then, remove struct pd692x0_msg_content
->    which is similar to struct pd692x0_msg.
-> - Fix a weird sleep loop.
-> - Improve pd692x0_recv_msg for better readability.
-> - Fix a warning reported by Simon on a pd692x0_fw_write_line call.
-> ---
+On Fri, Dec 1, 2023 at 4:24=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.com>=
+ wrote:
 
-...
+> > If a pins .direction_output() fails, .set_value() will not be called
+> > on it either.
+>
+> This is where I lost you :(
 
-> +static int pd692x0_fw_get_next_line(const u8 *data,
-> +				    char *line, size_t size)
-> +{
-> +	size_t line_size;
-> +	int i;
-> +
-> +	line_size = min_t(size_t, size, (size_t)PD692X0_FW_LINE_MAX_SZ);
+devm_gpiod_get() (and similar interfaces) will set up the default mode for
+the line, as input or output (with value, calling .direction_output) so mos=
+t
+likely it will fail already there, and the driver will not probe or
+userspace client
+will fail.
 
-Nit: useless size_t cast
-> +
-> +	memset(line, 0, PD692X0_FW_LINE_MAX_SZ);
-> +	for (i = 0; i < line_size - 1; i++) {
-> +		if (*data == '\r' && *(data + 1) == '\n') {
-> +			line[i] = '\r';
-> +			line[i + 1] = '\n';
-> +			return i + 2;
-> +		}
-> +		line[i] = *data;
-> +		data++;
-> +	}
-> +
-> +	return 0;
-> +}
+> So, I'm might be overcomplicating things but... Again,
+> the case where someone wired up HW so that we can actually use the pin to=
+ drive the
+> line high (having an external pull up). In that case, If I return error, =
+then I won't
+> be able to effectively set the line high (as you said, set_value will not=
+ be called
+> on it either).
+>
+> Now, I do understand that if we have the line flagged as GPIO_OPEN_DRAIN,=
+ then
+> gpiolib will switch the line to input which means we will set the line in=
+ high-z
+> which means that if we have a pull up, then the line will be high. I mean=
+, it works
+> but it would be strange if someone wants to have the line as output high =
+and after
+> trying to set the it high, it sees the pin moving to input. But if this i=
+s how it
+> should be, fine by me.
 
-...
+What do you mean by "sees the pin moving to input".
 
-> +static int pd692x0_i2c_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct pd692x0_msg buf = {0};
-> +	struct pd692x0_msg_ver ver;
-> +	struct pd692x0_priv *priv;
-> +	struct fw_upload *fwl;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-> +		dev_err(dev, "i2c check functionality failed\n");
-> +		return -ENXIO;
-> +	}
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->client = client;
-> +	i2c_set_clientdata(client, priv);
-> +
-> +	priv->pcdev.owner = THIS_MODULE;
-> +	priv->pcdev.ops = &pd692x0_ops;
-> +	priv->pcdev.dev = dev;
-> +	priv->pcdev.types = PSE_C33;
-> +	priv->pcdev.of_pse_n_cells = 1;
-> +	priv->pcdev.nr_lines = PD692X0_MAX_LOGICAL_PORTS;
-> +	ret = devm_pse_controller_register(dev, &priv->pcdev);
-> +	if (ret) {
-> +		return dev_err_probe(dev, ret,
-> +				     "failed to register PSE controller\n");
-> +	}
+If you mean electrically then yes, it goes to high-Z.
 
-Nit: un-needed {}
+If you mean logically, as seen by software and GPIO and debugfs, not
+really.
 
-> +
-> +	fwl = firmware_upload_register(THIS_MODULE, dev, dev_name(dev),
-> +				       &pd692x0_fw_ops, priv);
-> +	if (IS_ERR(fwl)) {
-> +		dev_err(dev, "Failed to register to the Firmware Upload API\n");
-> +		ret = PTR_ERR(fwl);
-> +		return ret;
+I think a good exercise to see how it works is to just walk through the
+code in drivers/gpio/gpiolib.c for e.g.
+gpiod_set_value()
+gpiod_set_value_nocheck()
+gpio_set_open_drain_value_commit()
 
-Nit: return dev_err_probe()?
+>direction_input() is indeed called, but that is just a way of using the
+hardware, logically, inside gpiolib, the line is handled as high.
 
-> +	}
-> +	priv->fwl = fwl;
-> +
-> +	ret = i2c_master_recv(client, (u8 *)&buf, sizeof(buf));
-> +	if (ret != sizeof(buf)) {
-> +		dev_err(dev, "Failed to get device status\n");
-> +		ret = -EIO;
-> +		goto err_fw_unregister;
-> +	}
-> +
-> +	if (buf.key != 0x03 || buf.echo != 0xff || buf.sub[0] & 0x01) {
-> +		dev_err(dev, "PSE controller error\n");
-> +		ret = -EIO;
-> +		goto err_fw_unregister;
-> +	}
-> +
-> +	if (buf.sub[0] & 0x02) {
-> +		dev_err(dev, "PSE firmware error. Please update it.\n");
-> +		priv->fw_state = PD692X0_FW_BROKEN;
-> +		return 0;
-> +	}
-> +
-> +	ver = pd692x0_get_sw_version(priv);
-> +	dev_info(&client->dev, "Software version %d.%02d.%d.%d\n", ver.prod,
-> +		 ver.maj_sw_ver, ver.min_sw_ver, ver.pa_sw_ver);
-> +
-> +	if (ver.maj_sw_ver != PD692X0_FW_MAJ_VER) {
-> +		dev_err(dev, "Too old firmware version. Please update it\n");
-> +		priv->fw_state = PD692X0_FW_NEED_UPDATE;
-> +		return 0;
-> +	}
-> +
-> +	ret = pd692x0_update_matrix(priv);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Error configuring ports matrix (%pe)\n",
-> +			ERR_PTR(ret));
-> +		goto err_fw_unregister;
-> +	}
-> +
-> +	priv->fw_state = PD692X0_FW_OK;
-> +	return 0;
-> +
-> +err_fw_unregister:
-> +	firmware_upload_unregister(priv->fwl);
-> +	return ret;
-> +}
+> Yes, that is the only thing we have. Meaning that there is no hw setting =
+to set the
+> pins to open drain. Open drain is what they are. That is why I'm not seei=
+ng the point
+> in having PIN_CONFIG_DRIVE_OPEN_DRAIN implemented.
 
-...
+For satisfying the logic. We have several cases where callbacks are
+just returning a 0 error code for such corner cases, and as Andy points
+out push-pull requests should return an error.
 
+Yours,
+Linus Walleij
