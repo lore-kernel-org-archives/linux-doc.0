@@ -1,83 +1,118 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kMaCalZt"
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB89611F;
-	Sat,  2 Dec 2023 17:18:59 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-35d624b0415so3501785ab.2;
-        Sat, 02 Dec 2023 17:18:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGXq8tgH"
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43C2A11A;
+	Sat,  2 Dec 2023 18:49:38 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-2866e4ac34bso962298a91.1;
+        Sat, 02 Dec 2023 18:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701566339; x=1702171139; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nusgugflo5RySkjqtGLjEPISgz1GeZmnIMfzRmf6uYU=;
-        b=kMaCalZt5XZ9Ald4x0byiG29s14del3wJTp2n3bRp2x/iIoyGxT4EDNtBvkoCfTK/C
-         RKpEbIiL0dfhYICT8DaFJUpy4OuX5My7BCiXrDlPb0lczGfr9mRoX0mMAnJCoC9OjkdD
-         4pA3RJ2Z1y60YUcLpyW3lfZZzhISXC9xSZ2H2PR0LIvDmoRxhCqDfYAyGSD6+BLuMeLH
-         q+XHG8KoaaMCn4m6YpxMCOFj37Gne4fz+ZAdSMpkyVCjZmSPMtbQS5kT1ZJDnngI7ydy
-         ZjpMFzl2TKbNGZnJF/jxeiZiavvsputsquspLPJKyz+o50CaKkmrxdw+vkPsoXsuprAz
-         gJXQ==
+        d=gmail.com; s=20230601; t=1701571777; x=1702176577; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dGe2F7cGTUh0qqkd0zgqhOnKjigD2/54N0FZlpwMCw0=;
+        b=JGXq8tgHbpX9DSAGX1XKNcgGp/BhQvrGnUjGv7olG5rtjh4oTDVwNG1XM014dZ7VKz
+         h8JnVFL5WNEvyNiSEPeZzxYlIr7sQfP9fQXPO0LRugCaLfth5njrJYV5kmFwRRsxnsH/
+         7DSenRqE1UiBM9o6kzJAL9mfdwylOE7xesHRB5RNNy36EjxZ4qBDGWsQFlte+4c1hsDC
+         0RUBT7AKKxdHe/88rx/6cOgpAibKWv08l/j27HesJMFR466MvLoGHl7+Zl3iDvbb1OaD
+         o//l7VWdsAMFIKrhJnHz+USVumxxwX3HLHgrcX6JxFK5Y5L6oHdBr707R1hd5BYjv3k6
+         7HkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701566339; x=1702171139;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nusgugflo5RySkjqtGLjEPISgz1GeZmnIMfzRmf6uYU=;
-        b=D3dMBM4nhCpHsGh7guOw09S7+CpETBO/RB1YiqFpsZfN/9bv/wPJ+BDgZq13xxc/1w
-         DVtbi6QLuPzGqDbn9JD5ahXAKWDmpx+2OSOsk072+rEqT8gheTtNSJ08s2g9XS8t+yM3
-         yvWZdr1o/hcQhSIAMbu868Z8gRcbbz06EisnfYXh+eUWUCtrFtm7GI9Dhl45cp9vcdxl
-         qXVzZbF7Ju4S+IjMKCzHtnur7Yvik77070HvuERgUGmQ0xHgJBo/m9QPlVecjhLgW0sI
-         wRxQXL8WGKEoiU9ciznyb5zUz5F+6Wfx9x0ZpZrFSHmB9O/zcHJhJSjA65NTmCI8ARSp
-         TKBQ==
-X-Gm-Message-State: AOJu0YwDw5FNmrz15F4rofmYygfWqR94ZQHvlmA/r+UbnTM1nbLW6gaJ
-	Sqz1LpYx5qysiA+CThjkFi14k3ZvoTnHKPG4
-X-Google-Smtp-Source: AGHT+IFZqoEv9fOUHT7XUHjy4g5PSQuYJcoOl/dnELMGUbFo6+YLWUxNg5D/lbMvaz5hb0XzftGHiQ==
-X-Received: by 2002:a92:c683:0:b0:35d:4db2:4ed3 with SMTP id o3-20020a92c683000000b0035d4db24ed3mr2711090ilg.3.1701566338967;
-        Sat, 02 Dec 2023 17:18:58 -0800 (PST)
-Received: from TarXPS13Braves.flets-east.jp (softbank126126113136.bbtec.net. [126.126.113.136])
-        by smtp.googlemail.com with ESMTPSA id i3-20020a1709026ac300b001bc930d4517sm5798621plt.42.2023.12.02.17.18.55
+        d=1e100.net; s=20230601; t=1701571777; x=1702176577;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dGe2F7cGTUh0qqkd0zgqhOnKjigD2/54N0FZlpwMCw0=;
+        b=hUWuuRAU8xBDbIkzLWp7yZu9qaao2FUErGDUesIMJ/2bEcWZW3iTGsueuLnkHhj3qI
+         s/Yn1CQfRwy2iM0pNjMwQl6rKZP1baVVwDRyPAyUqzj4lEsGFQqTQemut6Ha12qCspJC
+         hQLJuK67DYZA0dLTazSt/kdjHAjwi6IQZSLOdbH9Ctv58qofgu9P3fZOiXX2qiDGcJCF
+         1TC91GWkcZmLtc9aK8GGWbhGfWx+tCy+xDPnRdSLhMWYDk1kUgVP82esFRXShWxmvnlZ
+         G+dRmCuOmYOXMrg/pzI83D1EHn12QA7csHvg7dBB2+Uo/KFlJCvqqsRHSPxzPN5aFAMy
+         knzg==
+X-Gm-Message-State: AOJu0YwpLLS6dtNqo/igqYwFsWLGK+dDAGqdYiMhkZ/eVZskCxNeHo9p
+	nItLwVciCECsXQCdbzfqz4g=
+X-Google-Smtp-Source: AGHT+IHzROYfXZKYIhNJqzyhfQ0XjCFQr63D1lHq1V+7gD4GCJJ0JPigfk1ciJooizapJm7jOuKqLw==
+X-Received: by 2002:a17:90a:be12:b0:286:6cc0:cae0 with SMTP id a18-20020a17090abe1200b002866cc0cae0mr1234911pjs.87.1701571777633;
+        Sat, 02 Dec 2023 18:49:37 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id e12-20020a170902d38c00b001cc8cf4ad16sm1438306pld.246.2023.12.02.18.49.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Dec 2023 17:18:58 -0800 (PST)
-From: Tsung-Han Lin <tsunghan.tw@gmail.com>
-To: 
-Cc: tsunghan.tw@gmail.com,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
+        Sat, 02 Dec 2023 18:49:37 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id BCD38102894F8; Sun,  3 Dec 2023 09:49:33 +0700 (WIB)
+Date: Sun, 3 Dec 2023 09:49:33 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Tsung-Han Lin <tsunghan.tw@gmail.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] Dcoumentation/arch/arm64: fix typo
-Date: Sun,  3 Dec 2023 09:18:04 +0800
-Message-Id: <20231203011804.27694-1-tsunghan.tw@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH] Dcoumentation/arch/arm64: fix typo
+Message-ID: <ZWvsvXYm5LgaSGLZ@archie.me>
+References: <20231203011804.27694-1-tsunghan.tw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5h2W3nFBGs7wo8cg"
+Content-Disposition: inline
+In-Reply-To: <20231203011804.27694-1-tsunghan.tw@gmail.com>
 
-Should be 'if' here.
 
-Signed-off-by: Tsung-Han Lin <tsunghan.tw@gmail.com>
----
- Documentation/arch/arm64/arm-acpi.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--5h2W3nFBGs7wo8cg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/arch/arm64/arm-acpi.rst b/Documentation/arch/arm64/arm-acpi.rst
-index a46c34fa9604..e59e4505d0d9 100644
---- a/Documentation/arch/arm64/arm-acpi.rst
-+++ b/Documentation/arch/arm64/arm-acpi.rst
-@@ -130,7 +130,7 @@ When an Arm system boots, it can either have DT information, ACPI tables,
- or in some very unusual cases, both.  If no command line parameters are used,
- the kernel will try to use DT for device enumeration; if there is no DT
- present, the kernel will try to use ACPI tables, but only if they are present.
--In neither is available, the kernel will not boot.  If acpi=force is used
-+If neither is available, the kernel will not boot.  If acpi=force is used
- on the command line, the kernel will attempt to use ACPI tables first, but
- fall back to DT if there are no ACPI tables present.  The basic idea is that
- the kernel will not fail to boot unless it absolutely has no other choice.
---
-2.34.1
+On Sun, Dec 03, 2023 at 09:18:04AM +0800, Tsung-Han Lin wrote:
+> Should be 'if' here.
+>=20
+> Signed-off-by: Tsung-Han Lin <tsunghan.tw@gmail.com>
+> ---
+>  Documentation/arch/arm64/arm-acpi.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/arch/arm64/arm-acpi.rst b/Documentation/arch/a=
+rm64/arm-acpi.rst
+> index a46c34fa9604..e59e4505d0d9 100644
+> --- a/Documentation/arch/arm64/arm-acpi.rst
+> +++ b/Documentation/arch/arm64/arm-acpi.rst
+> @@ -130,7 +130,7 @@ When an Arm system boots, it can either have DT infor=
+mation, ACPI tables,
+>  or in some very unusual cases, both.  If no command line parameters are =
+used,
+>  the kernel will try to use DT for device enumeration; if there is no DT
+>  present, the kernel will try to use ACPI tables, but only if they are pr=
+esent.
+> -In neither is available, the kernel will not boot.  If acpi=3Dforce is u=
+sed
+> +If neither is available, the kernel will not boot.  If acpi=3Dforce is u=
+sed
+>  on the command line, the kernel will attempt to use ACPI tables first, b=
+ut
+>  fall back to DT if there are no ACPI tables present.  The basic idea is =
+that
+>  the kernel will not fail to boot unless it absolutely has no other choic=
+e.
 
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--5h2W3nFBGs7wo8cg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWvsvQAKCRD2uYlJVVFO
+oxN1AP0X1zno8jcgzO4aJ5n2/YaFYaJZ8NPcXTSAtOIkVK353wD/dW031Lazzzxi
+adLq5PxUvtQ6e7O0YK5tb8bw6xetdgA=
+=NOAU
+-----END PGP SIGNATURE-----
+
+--5h2W3nFBGs7wo8cg--
