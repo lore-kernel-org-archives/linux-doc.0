@@ -1,195 +1,132 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D1D4CB
-	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 15:09:04 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rAI3S-0001Kc-V9; Tue, 05 Dec 2023 00:08:46 +0100
-Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rAI3R-00Dc6M-MG; Tue, 05 Dec 2023 00:08:45 +0100
-Received: from ore by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rAI3R-005IUM-Ir; Tue, 05 Dec 2023 00:08:45 +0100
-Date: Tue, 5 Dec 2023 00:08:45 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmkiEVWd"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9491CC4;
+	Mon,  4 Dec 2023 15:25:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701732327; x=1733268327;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Rea7cSztxOU/Tn6j4cuH2tcjGKjYfBJMSKRByJlHmUs=;
+  b=BmkiEVWdCFSnV6+YT8CxRdhBnGVjrY8pG4HhQT67N0ifLn+lN0RIfUjY
+   0cN7OPnNKaecDWWGxiT5gG9S6l7BwHe8DcdP5fgYrcGhjg3KICX2Oa/L2
+   QpKIAMK1vvfw7UuKIP1VqyLNuSU/jQ/4BEb8W78wJ8IL5vhzKyCMT9jNo
+   YAOd5ImhFm+SQVtGsQysI6QegRPKPMNAq19Dt9K4ShACdcSlJRFG9vtgE
+   2ARi/s8zEEWybPwybzPlQN5vjSHaqWQUZ6RupWib+uKT3MyamzqthYotU
+   Ncr5LhJDWwaUGshwAwc0UcFjmK8VLy67bJrccih4u69V0Epie9At7rqrE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="397714457"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="397714457"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 15:25:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018011391"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="1018011391"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 15:25:24 -0800
+Date: Mon, 4 Dec 2023 15:25:22 -0800
+From: Tony Luck <tony.luck@intel.com>
+To: Borislav Petkov <bp@alien8.de>, Fenghua Yu <fenghua.yu@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Peter Newman <peternewman@google.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v2 7/8] dt-bindings: net: pse-pd: Add bindings
- for PD692x0 PSE controller
-Message-ID: <20231204230845.GH981228@pengutronix.de>
-References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
- <20231201-feature_poe-v2-7-56d8cac607fa@bootlin.com>
+	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org
+Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v13 0/8] Add support for Sub-NUMA cluster (SNC) systems
+Message-ID: <ZW5f4iiNaaPqndKt@agluck-desk3>
+References: <20231130003418.89964-1-tony.luck@intel.com>
+ <20231204185357.120501-1-tony.luck@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201-feature_poe-v2-7-56d8cac607fa@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <20231204185357.120501-1-tony.luck@intel.com>
 
-On Fri, Dec 01, 2023 at 06:10:29PM +0100, Kory Maincent wrote:
-> Add the PD692x0 I2C Power Sourcing Equipment controller device tree
-> bindings documentation.
-> 
-> Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
-> 
-> Changes in v2:
-> - Enhance ports-matrix description.
-> - Replace additionalProperties by unevaluatedProperties.
-> - Drop i2c suffix.
-> ---
->  .../bindings/net/pse-pd/microchip,pd692x0.yaml     | 77 ++++++++++++++++++++++
->  MAINTAINERS                                        |  6 ++
->  2 files changed, 83 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/pse-pd/microchip,pd692x0.yaml b/Documentation/devicetree/bindings/net/pse-pd/microchip,pd692x0.yaml
-> new file mode 100644
-> index 000000000000..3ce81cf99215
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/pse-pd/microchip,pd692x0.yaml
-> @@ -0,0 +1,77 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/pse-pd/microchip,pd692x0.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Microchip PD692x0 Power Sourcing Equipment controller
-> +
-> +maintainers:
-> +  - Kory Maincent <kory.maincent@bootlin.com>
-> +
-> +allOf:
-> +  - $ref: pse-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - microchip,pd69200
-> +      - microchip,pd69210
-> +      - microchip,pd69220
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  '#pse-cells':
-> +    const: 1
-> +
-> +  ports-matrix:
-> +    description: each set of 48 logical ports can be assigned to one or two
-> +      physical ports. Each physical port is wired to a PD69204/8 PoE
-> +      manager. Using two different PoE managers for one RJ45 port
-> +      (logical port) is interesting for temperature dissipation.
-> +      This parameter describes the configuration of the port conversion
-> +      matrix that establishes the relationship between the 48 logical ports
-> +      and the available 96 physical ports. Unspecified logical ports will
-> +      be deactivated.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
-> +    minItems: 1
-> +    maxItems: 48
-> +    items:
-> +      items:
-> +        - description: Logical port number
-> +          minimum: 0
-> +          maximum: 47
-> +        - description: Physical port number A (0xff for undefined)
-> +          oneOf:
-> +            - minimum: 0
-> +              maximum: 95
-> +            - const: 0xff
-> +        - description: Physical port number B (0xff for undefined)
-> +          oneOf:
-> +            - minimum: 0
-> +              maximum: 95
-> +            - const: 0xff
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ethernet-pse@3c {
-> +          compatible = "microchip,pd69200";
-> +          reg = <0x3c>;
-> +          #pse-cells = <1>;
-> +          ports-matrix = <0 2 5
-> +                          1 3 6
-> +                          2 0 0xff
-> +                          3 1 0xff>;
+On Mon, Dec 04, 2023 at 10:53:49AM -0800, Tony Luck wrote:
 
-Hm... this will probably not scale.  PSE is kind of PMIC for ethernet. I
-has bunch of regulators which can be grouped to one more powerful
-regulator. Since it is regulators, we will wont to represent them in a
-system as regulators too. We will probably have physical, board
-specific limitation, so we will need to describe regulator limits for
-each separate channel.
+Boris: I've collected "Reviewed-by:" from Reinette for all patches. Babu
+sent a Tested-by for the series, and Reviewed-by for each patch just
+now.
 
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e3fd148d462e..b746684f3fd3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14235,6 +14235,12 @@ L:	linux-serial@vger.kernel.org
->  S:	Maintained
->  F:	drivers/tty/serial/8250/8250_pci1xxxx.c
->  
-> +MICROCHIP PD692X0 PSE DRIVER
-> +M:	Kory Maincent <kory.maincent@bootlin.com>
-> +L:	netdev@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/net/pse-pd/microchip,pd692x0.yaml
-> +
->  MICROCHIP POLARFIRE FPGA DRIVERS
->  M:	Conor Dooley <conor.dooley@microchip.com>
->  R:	Vladimir Georgiev <v.georgiev@metrotek.ru>
+So it's ready to got into your to-be-reviewed queue.
+
+Thanks
+
+-Tony
+
+> The Sub-NUMA cluster feature on some Intel processors partitions the CPUs
+> that share an L3 cache into two or more sets. This plays havoc with the
+> Resource Director Technology (RDT) monitoring features.  Prior to this
+> patch Intel has advised that SNC and RDT are incompatible.
 > 
+> Some of these CPU support an MSR that can partition the RMID counters in
+> the same way. This allows monitoring features to be used. With the caveat
+> that users must be aware that Linux may migrate tasks more frequently
+> between SNC nodes than between "regular" NUMA nodes, so reading counters
+> from all SNC nodes may be needed to get a complete picture of activity
+> for tasks.
+> 
+> Cache and memory bandwidth allocation features continue to operate at
+> the scope of the L3 cache.
+> 
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
+> 
+> Changes since v12:
+> 
+> All:
+> 	Reinette - put commit tags in right order for TIP (Tested-by before
+> 	Reviewed-by)
+> 
+> Patch 7:
+> 	Fam Zheng - Check for -1 return from get_cpu_cacheinfo_id() and
+> 	increase size of bitmap tracking # of L3 instances.
+> 	Reinette - Add extra sanity checks. Note that this patch has
+> 	some additional tweaks beyond the e-mail discussion.
+> 		1) "3" is a valid return in addition to 1, 2, 4
+> 		2) Added a warning if the sanity checks fail that
+> 		prints number of CPU nodes and number of L3 cache
+> 		instances that were found.
+> 
+> Patch 8:
+> 	Babu - Fix grammar with an additional comma.
+> 
+> 
+> Tony Luck (8):
+>   x86/resctrl: Prepare for new domain scope
+>   x86/resctrl: Prepare to split rdt_domain structure
+>   x86/resctrl: Prepare for different scope for control/monitor
+>     operations
+>   x86/resctrl: Split the rdt_domain and rdt_hw_domain structures
+>   x86/resctrl: Add node-scope to the options for feature scope
+>   x86/resctrl: Introduce snc_nodes_per_l3_cache
+>   x86/resctrl: Sub NUMA Cluster detection and enable
+>   x86/resctrl: Update documentation with Sub-NUMA cluster changes
+> 
+>  Documentation/arch/x86/resctrl.rst        |  25 +-
+>  include/linux/resctrl.h                   |  85 +++--
+>  arch/x86/include/asm/msr-index.h          |   1 +
+>  arch/x86/kernel/cpu/resctrl/internal.h    |  66 ++--
+>  arch/x86/kernel/cpu/resctrl/core.c        | 433 +++++++++++++++++-----
+>  arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  58 +--
+>  arch/x86/kernel/cpu/resctrl/monitor.c     |  68 ++--
+>  arch/x86/kernel/cpu/resctrl/pseudo_lock.c |  26 +-
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 149 ++++----
+>  9 files changed, 629 insertions(+), 282 deletions(-)
+> 
+> 
+> base-commit: 2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
 > -- 
-> 2.25.1
+> 2.41.0
 > 
-> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
