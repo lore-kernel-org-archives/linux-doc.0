@@ -1,23 +1,23 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="hjp0SqUP"
+	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="aTxlUtH0"
 Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5782F2;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA8EFD;
 	Mon,  4 Dec 2023 06:44:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
-	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-Id:Date:Subject:To:From;
-	bh=ptFuN2jCQTukRrWUGFV9UbE6tldJktPz8nHhLhWjreU=; b=hjp0SqUPe/G7dgYIalb+sdTM2U
-	HnS9e3Cz/nikgNFzgekg1PBRIZWAiRg5jpXMB1YUs2aQQFe8cgHQoHEQNZKr3jLvSTOlz+7ilGkJ4
-	EKxiBcFM8CqeGQdGFk/WGV2Tg/vXxhpW0SceVIGsDQyt+ufcSKsNVlfvQ64+z1Lac6jQ=;
+	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+	Subject:To:From; bh=EhQi3onL9GpEqJYUYdTVsT5Q2f0NwXP08T0ndFJ/c7M=; b=aTxlUtH06
+	VlLvCE9ceDi8kZAqPwZofP2Wp9wkcSYAWChi0ExMNgvIzt+1sbkygWUSu/qkm5fD6fdnFAwM0tiy6
+	Nr9uCHWMmqY3npFk8DCYOgKus5MJ22786Ii2KZJghUQN9Jea+POrOkaDZiYFt0gn/n9Xw28R3fI49
+	28d9t3Xs=;
 Received: from xenbits.xenproject.org ([104.239.192.120])
 	by mail.xenproject.org with esmtp (Exim 4.92)
 	(envelope-from <paul@xen.org>)
-	id 1rAAAz-0003dk-AF; Mon, 04 Dec 2023 14:44:01 +0000
+	id 1rAAAs-0003d8-1y; Mon, 04 Dec 2023 14:43:54 +0000
 Received: from 54-240-197-231.amazon.com ([54.240.197.231] helo=REM-PW02S00X.ant.amazon.com)
 	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <paul@xen.org>)
-	id 1rAAAz-00088g-13; Mon, 04 Dec 2023 14:44:01 +0000
+	id 1rAAAr-00088g-Ng; Mon, 04 Dec 2023 14:43:53 +0000
 From: Paul Durrant <paul@xen.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -35,12 +35,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH v10 03/19] KVM: xen: mark guest pages dirty with the pfncache lock held
-Date: Mon,  4 Dec 2023 14:43:18 +0000
-Message-Id: <20231204144334.910-4-paul@xen.org>
+Subject: [PATCH v10 00/19] KVM: xen: update shared_info and vcpu_info handling
+Date: Mon,  4 Dec 2023 14:43:15 +0000
+Message-Id: <20231204144334.910-1-paul@xen.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231204144334.910-1-paul@xen.org>
-References: <20231204144334.910-1-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,70 +49,75 @@ Content-Transfer-Encoding: 8bit
 
 From: Paul Durrant <pdurrant@amazon.com>
 
-Sampling gpa and memslot from an unlocked pfncache may yield inconsistent
-values so, since there is no problem with calling mark_page_dirty_in_slot()
-with the pfncache lock held, relocate the calls in
-kvm_xen_update_runstate_guest() and kvm_xen_inject_pending_events()
-accordingly.
+There are four new patches in the series over what was in version 9 [1]:
 
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
----
-Cc: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: David Woodhouse <dwmw2@infradead.org>
-Cc: x86@kernel.org
+* KVM: xen: separate initialization of shared_info cache and content
+* KVM: xen: (re-)initialize shared_info if guest (32/64-bit) mode is set
 
-v8:
- - New in this version.
----
- arch/x86/kvm/xen.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+These deal with a missing re-initialization of shared_info if either the
+guest or VMM changes the 'long_mode' flag. This was discovred in testing
+when the guest wallclock reverted to the Unix epoch because the pvclock
+information in the shared_info page was not in the correct place, and so
+the guest read zeroes instead.
 
-diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-index e53fad915a62..426306022c2f 100644
---- a/arch/x86/kvm/xen.c
-+++ b/arch/x86/kvm/xen.c
-@@ -452,14 +452,13 @@ static void kvm_xen_update_runstate_guest(struct kvm_vcpu *v, bool atomic)
- 		smp_wmb();
- 	}
- 
--	if (user_len2)
-+	if (user_len2) {
-+		mark_page_dirty_in_slot(v->kvm, gpc2->memslot, gpc2->gpa >> PAGE_SHIFT);
- 		read_unlock(&gpc2->lock);
--
--	read_unlock_irqrestore(&gpc1->lock, flags);
-+	}
- 
- 	mark_page_dirty_in_slot(v->kvm, gpc1->memslot, gpc1->gpa >> PAGE_SHIFT);
--	if (user_len2)
--		mark_page_dirty_in_slot(v->kvm, gpc2->memslot, gpc2->gpa >> PAGE_SHIFT);
-+	read_unlock_irqrestore(&gpc1->lock, flags);
- }
- 
- void kvm_xen_update_runstate(struct kvm_vcpu *v, int state)
-@@ -565,13 +564,13 @@ void kvm_xen_inject_pending_events(struct kvm_vcpu *v)
- 			     : "0" (evtchn_pending_sel32));
- 		WRITE_ONCE(vi->evtchn_upcall_pending, 1);
- 	}
-+
-+	mark_page_dirty_in_slot(v->kvm, gpc->memslot, gpc->gpa >> PAGE_SHIFT);
- 	read_unlock_irqrestore(&gpc->lock, flags);
- 
- 	/* For the per-vCPU lapic vector, deliver it as MSI. */
- 	if (v->arch.xen.upcall_vector)
- 		kvm_xen_inject_vcpu_vector(v);
--
--	mark_page_dirty_in_slot(v->kvm, gpc->memslot, gpc->gpa >> PAGE_SHIFT);
- }
- 
- int __kvm_xen_has_interrupt(struct kvm_vcpu *v)
+* KVM: xen: don't block on pfncache locks in kvm_xen_set_evtchn_fast()
+* KVM: pfncache: check the need for invalidation under read lock first
+
+The first of these fixes a bug discovered when compiling the kernel with
+CONFIG_PROVE_RAW_LOCK_NESTING: kvm_xen_set_evtchn_fast() can be called from
+the callback of a HRTIMER_MODE_ABS_HARD timer and hence be executed in
+IRQ context. It should therefore not block on any lock. Thus two
+occurrences of a read_lock() are converted to a read_trylock() which
+kick the code down a slow-path if they fail.
+The second patch removes a 'false' contention on the pfncache lock that
+could result in taking that slow-path: the MMU notifier callback need only
+take a pfncache read lock; it only need take a write lock if a match is
+found.
+
+Apart from these new patches...
+
+* KVM: xen: split up kvm_xen_set_evtchn_fast()
+
+... has been re-worked to (hopefully) improve readability and also validate
+the 'correct' vcpu_info structure depending on whether the guest is in long
+mode or not.
+
+[1] https://lore.kernel.org/kvm/20231122121822.1042-1-paul@xen.org/
+
+Paul Durrant (19):
+  KVM: pfncache: Add a map helper function
+  KVM: pfncache: remove unnecessary exports
+  KVM: xen: mark guest pages dirty with the pfncache lock held
+  KVM: pfncache: add a mark-dirty helper
+  KVM: pfncache: remove KVM_GUEST_USES_PFN usage
+  KVM: pfncache: stop open-coding offset_in_page()
+  KVM: pfncache: include page offset in uhva and use it consistently
+  KVM: pfncache: allow a cache to be activated with a fixed (userspace)
+    HVA
+  KVM: xen: separate initialization of shared_info cache and content
+  KVM: xen: (re-)initialize shared_info if guest (32/64-bit) mode is set
+  KVM: xen: allow shared_info to be mapped by fixed HVA
+  KVM: xen: allow vcpu_info to be mapped by fixed HVA
+  KVM: selftests / xen: map shared_info using HVA rather than GFN
+  KVM: selftests / xen: re-map vcpu_info using HVA rather than GPA
+  KVM: xen: advertize the KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA capability
+  KVM: xen: split up kvm_xen_set_evtchn_fast()
+  KVM: xen: don't block on pfncache locks in kvm_xen_set_evtchn_fast()
+  KVM: pfncache: check the need for invalidation under read lock first
+  KVM: xen: allow vcpu_info content to be 'safely' copied
+
+ Documentation/virt/kvm/api.rst                |  53 ++-
+ arch/x86/kvm/x86.c                            |   7 +-
+ arch/x86/kvm/xen.c                            | 358 +++++++++++-------
+ include/linux/kvm_host.h                      |  40 +-
+ include/linux/kvm_types.h                     |   8 -
+ include/uapi/linux/kvm.h                      |   9 +-
+ .../selftests/kvm/x86_64/xen_shinfo_test.c    |  59 ++-
+ virt/kvm/pfncache.c                           | 185 ++++-----
+ 8 files changed, 461 insertions(+), 258 deletions(-)
+
+
+base-commit: 1ab097653e4dd8d23272d028a61352c23486fd4a
 -- 
 2.39.2
 
