@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3LAZf6h"
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB0A9B0;
-	Mon,  4 Dec 2023 08:47:20 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40c09f4814eso18431955e9.1;
-        Mon, 04 Dec 2023 08:47:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjGC3zyx"
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDF1CD;
+	Mon,  4 Dec 2023 08:47:24 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40c032962c5so28353195e9.3;
+        Mon, 04 Dec 2023 08:47:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701708439; x=1702313239; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1701708443; x=1702313243; darn=vger.kernel.org;
         h=mime-version:user-agent:references:message-id:date:in-reply-to
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=olO3IQ86VFY9/5sfsHJJjYomYTJFvoq2c3DIt7TVmCY=;
-        b=h3LAZf6ha6yS1qtbRHFvz0MpWHvC99QYqsgkscbaE5hlIQW65iIrB4903S7ZeX8WVS
-         Pia+keFACdlFDESKDhc1z4RhLUULkerQ6RXspKm1mcs9JJ0wOF3Z8iZ6d4NWjw4aJh3a
-         tn6LLWsY8PKKxOc1Za/2o2r606GizsPhUWP1pNHrlSaUTfgyOKrmj4ff829S71gVfdvs
-         yw613Fh77YRSm+POamUkyE0FaqmChKyHEm3WNYArj5T+VDpD8LlAkgNCA2Qm1qG64k9S
-         n/o2BBnR6HfDa8YHW/LOBVJhlU2C1LFmRaBUM5mFvL4fsv4xOFjSIbGTcqcHQ/T3RAkB
-         tehw==
+        bh=UGiPJeGaBfI10fSKuBLYJX6P363I/UXfQapTU3xntlE=;
+        b=UjGC3zyxLDNrLp4rGH/T9e+30ZVg3meyUmoeMdsNYX07QrZOz4BGx9uIbcz5QHyjlH
+         h4TWcRv223lSjqdk4V/kgKwVNXAXuGwiiFu7d1T2mIRWOf0CzfMfw02Hpx7o1/DlKgFP
+         TllBG/VpdjA+roAbt6rB9UjmUk263xhnVHkzJy6iZEO0uQywr3BDaNWxA9CyfQLBNsfh
+         czjkLmZovKVf9duIth+ZgH09v2PrQBbz3GZzak1T+pbMCsgbutb7s8KPV8ErV0nOYqGz
+         Apmii2Hs0bq1kVQ69UGn7BNNdVHNKlKvFaqF7oHOZIQeVWu0AjUHgKeVfjzx4/j1TfUc
+         T0nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701708439; x=1702313239;
+        d=1e100.net; s=20230601; t=1701708443; x=1702313243;
         h=mime-version:user-agent:references:message-id:date:in-reply-to
          :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=olO3IQ86VFY9/5sfsHJJjYomYTJFvoq2c3DIt7TVmCY=;
-        b=BrLTuNEE4U0i7toGwwwSZmTKp2eooPLvLP8UFjtU1uYwXlcRUrDpohxLhsOH+vpYLW
-         rF7xj3cVAYX7IJXNoKAXxZ7cyRE7f1aABcFF3C0BEA8zLU4GANJhn9JZSMS9bRt8svr6
-         9z2rlMaqxOU6C5sIj6eNc1oBTiEWKqJ4+NFqH5Hqel2Q3Ijw8MKPM2hEwQUi4dkPudyX
-         G5+LvG7NO7B0y+zyTaW1Wqm6xoqwallHf0nF7gzkYRopXbdCAiGrrlFGnb4v6bWSUfNk
-         VWA9ToIIFqKdAwUwFWVduN4eL3yZfqv1BaOADjNUUcSXC8qIbNSPZuYv+N8S55fzC8ca
-         Fwvw==
-X-Gm-Message-State: AOJu0YydYl2vd+kix/4oXr2b2jEk8wzcLpAfy9/eHOLZkOTnc8sXafxC
-	PunAdcnFYgZIDZvaqwBVd3o=
-X-Google-Smtp-Source: AGHT+IHY4++uBeyARvWwSTPeRaPMjjmyG45iKkunlVEDItMH7lpKdpvgJM6w9z9kK2qZgcFF3t1MYg==
-X-Received: by 2002:a05:600c:3109:b0:40b:5e1d:839b with SMTP id g9-20020a05600c310900b0040b5e1d839bmr2703575wmo.47.1701708439332;
-        Mon, 04 Dec 2023 08:47:19 -0800 (PST)
+        bh=UGiPJeGaBfI10fSKuBLYJX6P363I/UXfQapTU3xntlE=;
+        b=R4V6ajd/Ceha6m7ok+zWS7hChGY+UnSvCTyOZnEDPUOhtjtIpOO4X0oA4qnvWRzuZR
+         gfOL9NUj6/57zNbU0Fhzuu4vgnCTS3GOgMefAvuchKuxQnzjYVkYasqGo2aqnZ2kO28c
+         N1uI14Du01XSR1kEjX5zMi3I9YA2QAkQctnmLJiEezC2yjj8JvV5/gfcr3Mvr/9AP5D2
+         PscgsEQ5yY37lws+thVlGaePSdpFl72Q4M9tErfVS5JeUhJ0/+rzRxtkodfm0cTsspLR
+         ASiV1/yOUpPG0oNfg11p6LnYQVjvpGFF1zIkkVT6So8qHyGyqo2XhRx9UYe1dqu4+jLV
+         lV1Q==
+X-Gm-Message-State: AOJu0Yw8D3zgYCUYJuQKyvkDvixzEh96HrsF6+z8KeCCdrvB9WYPL15u
+	u5lfuhMKvx87NNtw9CZRw7s=
+X-Google-Smtp-Source: AGHT+IGSF1LrH1BjH8ri/jcfCuSLXRh++RjEzT1bBJMNDbXAbhTph3h4onMkOMNHeTYsex3d3NUjyA==
+X-Received: by 2002:a05:600c:490f:b0:40b:5e59:99ac with SMTP id f15-20020a05600c490f00b0040b5e5999acmr2048843wmp.204.1701708442796;
+        Mon, 04 Dec 2023 08:47:22 -0800 (PST)
 Received: from imac ([2a02:8010:60a0:0:d9c9:f651:32f4:3bc])
-        by smtp.gmail.com with ESMTPSA id bg36-20020a05600c3ca400b003fe1fe56202sm15881936wmb.33.2023.12.04.08.47.17
+        by smtp.gmail.com with ESMTPSA id a13-20020a05600c348d00b0040b5377cf03sm19408669wmq.1.2023.12.04.08.47.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 08:47:18 -0800 (PST)
+        Mon, 04 Dec 2023 08:47:22 -0800 (PST)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
  Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
  Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
  <jacob.e.keller@intel.com>,  donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 4/6] tools/net/ynl: Add binary and pad
- support to structs for tc
-In-Reply-To: <20231201180646.7d3c851f@kernel.org> (Jakub Kicinski's message of
-	"Fri, 1 Dec 2023 18:06:46 -0800")
-Date: Mon, 04 Dec 2023 16:18:14 +0000
-Message-ID: <m28r6a6iwp.fsf@gmail.com>
+Subject: Re: [PATCH net-next v1 6/6] doc/netlink/specs: Add a spec for tc
+In-Reply-To: <20231201181325.4a12e03b@kernel.org> (Jakub Kicinski's message of
+	"Fri, 1 Dec 2023 18:13:25 -0800")
+Date: Mon, 04 Dec 2023 16:27:24 +0000
+Message-ID: <m2zfyq53wz.fsf@gmail.com>
 References: <20231130214959.27377-1-donald.hunter@gmail.com>
-	<20231130214959.27377-5-donald.hunter@gmail.com>
-	<20231201180646.7d3c851f@kernel.org>
+	<20231130214959.27377-7-donald.hunter@gmail.com>
+	<20231201181325.4a12e03b@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -63,54 +62,15 @@ Content-Type: text/plain
 
 Jakub Kicinski <kuba@kernel.org> writes:
 
-> On Thu, 30 Nov 2023 21:49:56 +0000 Donald Hunter wrote:
->> The tc netlink-raw family needs binary and pad types for several
->> qopt C structs. Add support for them to ynl.
+> On Thu, 30 Nov 2023 21:49:58 +0000 Donald Hunter wrote:
+>> +      -
+>> +        name: app
+>> +        type: binary # TODO sub-message needs 2+ level deep lookup
+>> +        sub-message: tca-stats-app-msg
+>> +        selector: kind
 >
-> Nice reuse of the concept of "pad", I don't see why not:
->
-> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
->
->> +                value = msg.raw[offset:offset+m.len]
->
-> What does Python style guide say about spaces around '+' here?
-> I tend to use C style, no idea if it's right.
+> Ugh. Meaning the selector is at a "previous" level of nesting?
 
-The relevant section seems to be this:
-
-  However, in a slice the colon acts like a binary operator, and should
-  have equal amounts on either side (treating it as the operator with
-  the lowest priority). In an extended slice, both colons must have the
-  same amount of spacing applied. Exception: when a slice parameter is
-  omitted, the space is omitted:
-
-  # Correct:
-  ham[1:9], ham[1:9:3], ham[:9:3], ham[1::3], ham[1:9:]
-  ham[lower:upper], ham[lower:upper:], ham[lower::step]
-  ham[lower+offset : upper+offset]
-  ham[: upper_fn(x) : step_fn(x)], ham[:: step_fn(x)]
-  ham[lower + offset : upper + offset]
-
-  # Wrong:
-  ham[lower + offset:upper + offset]
-  ham[1: 9], ham[1 :9], ham[1:9 :3]
-  ham[lower : : step]
-  ham[ : upper]
-
-On that basis I could change it to:
-
-  (a) value = msg.raw[offset : offset+m.len]
-
-or:
-
-  (b) value = msg.raw[offset : offset + m.len]
-
-But the existing convention in the code is a mix of these styles:
-
-  raw[offset:offset + 4]
-  raw[offset:offset+m['len']]
-
-Happy to go with whatever preference, though maximising whitespace per
-(b) follows python style _and_ C style?
-
-Also happy to make it consistent across the file (in a separate patch)?
+That's right. I wonder if we should use a relative syntax like "../kind"
+for the selector. Will either need to pass the known attrs to nest
+parsing, or pass a resolver instead?
