@@ -1,132 +1,84 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmkiEVWd"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9491CC4;
-	Mon,  4 Dec 2023 15:25:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701732327; x=1733268327;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rea7cSztxOU/Tn6j4cuH2tcjGKjYfBJMSKRByJlHmUs=;
-  b=BmkiEVWdCFSnV6+YT8CxRdhBnGVjrY8pG4HhQT67N0ifLn+lN0RIfUjY
-   0cN7OPnNKaecDWWGxiT5gG9S6l7BwHe8DcdP5fgYrcGhjg3KICX2Oa/L2
-   QpKIAMK1vvfw7UuKIP1VqyLNuSU/jQ/4BEb8W78wJ8IL5vhzKyCMT9jNo
-   YAOd5ImhFm+SQVtGsQysI6QegRPKPMNAq19Dt9K4ShACdcSlJRFG9vtgE
-   2ARi/s8zEEWybPwybzPlQN5vjSHaqWQUZ6RupWib+uKT3MyamzqthYotU
-   Ncr5LhJDWwaUGshwAwc0UcFjmK8VLy67bJrccih4u69V0Epie9At7rqrE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="397714457"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="397714457"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 15:25:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018011391"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="1018011391"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 15:25:24 -0800
-Date: Mon, 4 Dec 2023 15:25:22 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: Borislav Petkov <bp@alien8.de>, Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org
-Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v13 0/8] Add support for Sub-NUMA cluster (SNC) systems
-Message-ID: <ZW5f4iiNaaPqndKt@agluck-desk3>
-References: <20231130003418.89964-1-tony.luck@intel.com>
- <20231204185357.120501-1-tony.luck@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1Y3wbpzR"
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D208FA
+	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 15:33:24 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1d08fba6a49so27305ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 15:33:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701732804; x=1702337604; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qZqna/86LEiJZ8sfNn0MkJuP6GYG4BaAXnD4RQG2ee4=;
+        b=1Y3wbpzR/T5FiRcXlItZhevaDtnyTRHM/omRBymJY9be5a4m8QbFQQIsse2H22PPKS
+         35922ZR+9G6FV8BbjXedLlFMyAibrgC8WEZsto644xMlDN3OD5/0z49mpZgzHTLYYZw3
+         JCUhV/W00hHVrT7qaSBwNMCwa2AJdNEkkeLlPIjrdE22wFK0CYs44Ke92SIUa25HrkxB
+         nl9KvSdzsXfR5kxZISUlMm7dUtpRvGDiM/Xhd/fpUoKse6PDfRb4+4eg9XzbEYUgBbgA
+         4qEyCoxIw9hN03vG7kxiCoOc6BjpI7bN0BnfHY30B/IR/ikEssCItVgcpbzwICSUeOPK
+         Xq9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701732804; x=1702337604;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qZqna/86LEiJZ8sfNn0MkJuP6GYG4BaAXnD4RQG2ee4=;
+        b=D/9AJcH0wovX35Z9wJhJ3sjcZFC1AxHJ1vRDjeRMGBw+QrT7H2oOt7tUORevgAB+fR
+         UcGyXVUZ6RHeGoiinV6BuyKtJJ07MUMJJCqBcc+9VHJMDdnegGPr6jE86iP2ROByjRyL
+         azymplxwb/XzrbenNkcuCQ8noXnHry9zTgEsJdmLL45VgX6m83mqYN3yIu2Fq5xAR6O2
+         PUPlI4MBfMqiuiesHQzZq00shis8vZTfgXfeaLuruffWACkr+LCkzKEJvyN/IcyZHbkr
+         Zk1x4PlMemXlPNbEfrA/orwaNL65EKo+lJ7JRprxAkIZP88/dpQTFHJKPYUjkFQSy/mS
+         Mr3g==
+X-Gm-Message-State: AOJu0YwaOxFjTj61WH1AMPkv8o0RkIOxSVLnU9xv2eA2asWOLbnr2s1p
+	M4zhqNv2QRSP58E8Pc8OnE8BldB3sXqXnANESmRBZQ==
+X-Google-Smtp-Source: AGHT+IHhzF5+TZoeR/TGWLm64ZHxmuhpjlna8IvhMz9oC1nBjufnwyjSPPBFmLy862wYr2+inaHJT+2BWXYyh5430eo=
+X-Received: by 2002:a17:902:ab09:b0:1cf:9a44:1516 with SMTP id
+ ik9-20020a170902ab0900b001cf9a441516mr682461plb.3.1701732803439; Mon, 04 Dec
+ 2023 15:33:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231204185357.120501-1-tony.luck@intel.com>
+References: <20231204194156.2411672-1-davidf@vimeo.com>
+In-Reply-To: <20231204194156.2411672-1-davidf@vimeo.com>
+From: Shakeel Butt <shakeelb@google.com>
+Date: Mon, 4 Dec 2023 15:33:11 -0800
+Message-ID: <CALvZod5aq+uBBBo4R3BJUTXW4t+20s4iVGFzMefA7+f_bbdXKQ@mail.gmail.com>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+To: David Finkel <davidf@vimeo.com>
+Cc: Muchun Song <muchun.song@linux.dev>, core-services@vimeo.com, 
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 04, 2023 at 10:53:49AM -0800, Tony Luck wrote:
+On Mon, Dec 4, 2023 at 11:42=E2=80=AFAM David Finkel <davidf@vimeo.com> wro=
+te:
+>
+> Other mechanisms for querying the peak memory usage of either a process
+> or v1 memory cgroup allow for resetting the high watermark. Restore
+> parity with those mechanisms.
+>
+> For example:
+>  - Any write to memory.max_usage_in_bytes in a cgroup v1 mount resets
+>    the high watermark.
+>  - writing "5" to the clear_refs pseudo-file in a processes's proc
+>    directory resets the peak RSS.
+>
+> This change copies the cgroup v1 behavior so any write to the
+> memory.peak and memory.swap.peak pseudo-files reset the high watermark
+> to the current usage.
+>
+> This behavior is particularly useful for work scheduling systems that
+> need to track memory usage of worker processes/cgroups per-work-item.
+> Since memory can't be squeezed like CPU can (the OOM-killer has
+> opinions), these systems need to track the peak memory usage to compute
+> system/container fullness when binpacking workitems.
+>
+> Signed-off-by: David Finkel <davidf@vimeo.com>
 
-Boris: I've collected "Reviewed-by:" from Reinette for all patches. Babu
-sent a Tested-by for the series, and Reviewed-by for each patch just
-now.
-
-So it's ready to got into your to-be-reviewed queue.
-
-Thanks
-
--Tony
-
-> The Sub-NUMA cluster feature on some Intel processors partitions the CPUs
-> that share an L3 cache into two or more sets. This plays havoc with the
-> Resource Director Technology (RDT) monitoring features.  Prior to this
-> patch Intel has advised that SNC and RDT are incompatible.
-> 
-> Some of these CPU support an MSR that can partition the RMID counters in
-> the same way. This allows monitoring features to be used. With the caveat
-> that users must be aware that Linux may migrate tasks more frequently
-> between SNC nodes than between "regular" NUMA nodes, so reading counters
-> from all SNC nodes may be needed to get a complete picture of activity
-> for tasks.
-> 
-> Cache and memory bandwidth allocation features continue to operate at
-> the scope of the L3 cache.
-> 
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> 
-> Changes since v12:
-> 
-> All:
-> 	Reinette - put commit tags in right order for TIP (Tested-by before
-> 	Reviewed-by)
-> 
-> Patch 7:
-> 	Fam Zheng - Check for -1 return from get_cpu_cacheinfo_id() and
-> 	increase size of bitmap tracking # of L3 instances.
-> 	Reinette - Add extra sanity checks. Note that this patch has
-> 	some additional tweaks beyond the e-mail discussion.
-> 		1) "3" is a valid return in addition to 1, 2, 4
-> 		2) Added a warning if the sanity checks fail that
-> 		prints number of CPU nodes and number of L3 cache
-> 		instances that were found.
-> 
-> Patch 8:
-> 	Babu - Fix grammar with an additional comma.
-> 
-> 
-> Tony Luck (8):
->   x86/resctrl: Prepare for new domain scope
->   x86/resctrl: Prepare to split rdt_domain structure
->   x86/resctrl: Prepare for different scope for control/monitor
->     operations
->   x86/resctrl: Split the rdt_domain and rdt_hw_domain structures
->   x86/resctrl: Add node-scope to the options for feature scope
->   x86/resctrl: Introduce snc_nodes_per_l3_cache
->   x86/resctrl: Sub NUMA Cluster detection and enable
->   x86/resctrl: Update documentation with Sub-NUMA cluster changes
-> 
->  Documentation/arch/x86/resctrl.rst        |  25 +-
->  include/linux/resctrl.h                   |  85 +++--
->  arch/x86/include/asm/msr-index.h          |   1 +
->  arch/x86/kernel/cpu/resctrl/internal.h    |  66 ++--
->  arch/x86/kernel/cpu/resctrl/core.c        | 433 +++++++++++++++++-----
->  arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  58 +--
->  arch/x86/kernel/cpu/resctrl/monitor.c     |  68 ++--
->  arch/x86/kernel/cpu/resctrl/pseudo_lock.c |  26 +-
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 149 ++++----
->  9 files changed, 629 insertions(+), 282 deletions(-)
-> 
-> 
-> base-commit: 2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
-> -- 
-> 2.41.0
-> 
+Acked-by: Shakeel Butt <shakeelb@google.com>
