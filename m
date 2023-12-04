@@ -1,212 +1,202 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aS0j2EDw"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3830D109
-	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 05:00:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701694834;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FriHzOMQp/2DueNm6yNB4UNP5qaRQJmWiziJsVzEw8g=;
-	b=aS0j2EDwoSHNL5nbtEsl2nJRR1QQMrSO71JDwUz45Lz+4Y5YXTvTSI2E2lqvetIa9RzEKV
-	hJKCGGq63g6NWzHFQoISjnWymTcOMc/ftX/kQNB+eY5k8weio8cNiv/uEQS08v6xVDIWJC
-	XBpA0BQfOZ2ePXfRWvH/JpuFvzkIELc=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-332-VIqa8LJnOyWr7NU5kQPSzA-1; Mon, 04 Dec 2023 08:00:33 -0500
-X-MC-Unique: VIqa8LJnOyWr7NU5kQPSzA-1
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2c9c217cfdeso47428621fa.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 05:00:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dkCiX5j4"
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 710721712
+	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 05:24:15 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40b51e26a7aso84895e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 05:24:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701696254; x=1702301054; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aE8zXsPfBda9t8ARvJASQplTCIl3JgGGRAv+RnvEkNI=;
+        b=dkCiX5j4VedIXUGMPgFjNzqzaalfuq4+dGeNs0z3vnA+C/+bW2NpQvD8tFSWTu1NeJ
+         t0wJlPFrnGXT0EudcEaHQ/t6i3Sxko396VSUZewhG0GZF3/l9isn8tKe7zbMyE28dWGc
+         5Nfdv2oIbiYxuLcfRyQLrd4hM6NHehQcXHlr9RHeftpWgEqfu6daIHp66s6gUTp5kmer
+         O6OFeDXwVsU27ijrDZRsTUGjwGnUSIS/w8ENzMCOX0slxJu6G5POw2ohtHjgOvApRCle
+         1R9YzhkvFDWM43bABTAf1+Nutsnev3mz0mQldhxRKnHXbrO7aqS6blUac8ZixlYeSUTX
+         dWRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701694832; x=1702299632;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FriHzOMQp/2DueNm6yNB4UNP5qaRQJmWiziJsVzEw8g=;
-        b=izZCZFWS4eBs2zt/SNe5gph2RULWdIvxEvhqw3BnSzZ6OXVYTfvau5e2uxs972cQ3i
-         Qh5OqMAXp7vkFzjI5kAwPEdP7CCF0aCkXwX9Qa2F11GDw4e/1u7tsA8L0nrEeqV038lw
-         RkqvANX369MUNedNQngb/44m4nwWq1h+SQsClyND18ICGg4m01SCKaxkXZpjtEgiidg2
-         0+HHCaT29HjWP8wso49wlpsorUfzdCIwPgw8APM7BOXXclkpSjCwRdXjb8/3BjaTJNVV
-         c5qA4f53p/xHFapmioNoorC7G8PjscJo754yLYcZYWHJpfmvway8Pvh5fgTrX186KRmg
-         O4EA==
-X-Gm-Message-State: AOJu0YyJXZJ8e6cjdRtGLbdLQYP1ZHHatirRIqzUX48HeuxIqvyBGMQK
-	T1QIFraxmEDoNsU0h8a/kw3E69vPGlmfHiONWX0y/nlWPHZXp2YQAXQtxc40N64gYy2pVb0u7rs
-	hJBtOj1vGxn+uQIB1zRwt
-X-Received: by 2002:a2e:7815:0:b0:2ca:960:ecf with SMTP id t21-20020a2e7815000000b002ca09600ecfmr407460ljc.38.1701694831768;
-        Mon, 04 Dec 2023 05:00:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEUDlL3PQDaunfbKm5bm9nZExcQclP036JU8t7gUe6hkMIGG85ZkiV9yFlmISmoVd9Fx18tFQ==
-X-Received: by 2002:a2e:7815:0:b0:2ca:960:ecf with SMTP id t21-20020a2e7815000000b002ca09600ecfmr407450ljc.38.1701694831370;
-        Mon, 04 Dec 2023 05:00:31 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id p7-20020a17090635c700b009fc576e26e6sm5238674ejb.80.2023.12.04.05.00.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Dec 2023 05:00:30 -0800 (PST)
-Message-ID: <99de0223-6d28-4379-ac2a-ef093ee0386c@redhat.com>
-Date: Mon, 4 Dec 2023 14:00:29 +0100
+        d=1e100.net; s=20230601; t=1701696254; x=1702301054;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aE8zXsPfBda9t8ARvJASQplTCIl3JgGGRAv+RnvEkNI=;
+        b=TZ2fylbs6K9YL6heb9nWeXgddAOHaVnG+QTicdBKWBRYNoWrgeDJ+aYhuTLJPtqaSb
+         3+ampnSXHqzL2DrKLRP4B85XPrM0vw/KbstuVG6MiKWIh3dJOedZd3tSO8map5Zz11gZ
+         bY9gvohA51u+TJ2dCLd0MXZDeE94ZbBIEGLyxzKKfjNaAgmj7vOjvpbIqLzjdHxvZG7Z
+         HC4s0py9AWwBPF3Mk3N6grMNY2ifIx2dXZ29S9Y3YfnsUc3cDPFoA2LCofi4bOlVzeU2
+         9dkPSVZmLje3pMoO+69kf0F1WnYYWjKokJ3jwe6C7USEjUxj3sWNqpGdNfOEwya9egGU
+         Xp8Q==
+X-Gm-Message-State: AOJu0Ywp8mkel/q2JNziv78ioxNu6PAYuuvYaEWzS4mj1T6UIa9Kda9z
+	0FI/htZ6STRa5DFqIZOgJ3Sttw==
+X-Google-Smtp-Source: AGHT+IH9XzaYksJqzJRCX12xbqyt+Twm7u0zddxPx/ttC/Kkf/x5zHAraqiUQ4yPErN9a6weoWuFRg==
+X-Received: by 2002:a05:600c:3b89:b0:40c:7a3:920c with SMTP id n9-20020a05600c3b8900b0040c07a3920cmr110686wms.0.1701696253655;
+        Mon, 04 Dec 2023 05:24:13 -0800 (PST)
+Received: from localhost ([2a00:79e0:9d:4:abeb:af3b:74a8:840a])
+        by smtp.gmail.com with ESMTPSA id f15-20020a05600c4e8f00b0040b3632e993sm18666907wmq.46.2023.12.04.05.24.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Dec 2023 05:24:11 -0800 (PST)
+From: Jann Horn <jannh@google.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>
+Cc: Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Laight <David.Laight@aculab.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3] locking: Document that some lock types must stay alive during unlock
+Date: Mon,  4 Dec 2023 14:22:59 +0100
+Message-ID: <20231204132259.112152-1-jannh@google.com>
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 2/9] platform/x86/amd: Add support for AMD ACPI based
- Wifi band RFI mitigation feature
-Content-Language: en-US
-To: Ma Jun <Jun.Ma2@amd.com>, amd-gfx@lists.freedesktop.org, lenb@kernel.org,
- johannes@sipsolutions.net, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, alexander.deucher@amd.com,
- Lijo.Lazar@amd.com, mario.limonciello@amd.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Cc: majun@amd.com, Evan Quan <quanliangl@hotmail.com>
-References: <20231129091348.3972539-1-Jun.Ma2@amd.com>
- <20231129091348.3972539-3-Jun.Ma2@amd.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231129091348.3972539-3-Jun.Ma2@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+I have seen several cases of attempts to use mutex_unlock() to release an
+object such that the object can then be freed by another task.
 
-On 11/29/23 10:13, Ma Jun wrote:
-> Due to electrical and mechanical constraints in certain platform designs
-> there may be likely interference of relatively high-powered harmonics of
-> the (G-)DDR memory clocks with local radio module frequency bands used
-> by Wifi 6/6e/7.
-> 
-> To mitigate this, AMD has introduced a mechanism that devices can use to
-> notify active use of particular frequencies so that other devices can make
-> relative internal adjustments as necessary to avoid this resonance.
-> 
-> Co-developed-by: Evan Quan <quanliangl@hotmail.com>
-> Signed-off-by: Evan Quan <quanliangl@hotmail.com>
-> Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
-> 
-> --
-> v11:
->  - fix typo(Simon)
-> v12:
->  - Fix the code logic (Rafael)
->  - Move amd_wbrf.c to drivers/platform/x86/amd/wbrf.c
->  - Updated Evan's email because he's no longer at AMD.Thanks
-> for his work in earlier versions.
-> v13:
->  - Fix the format issue (IIpo Jarvinen)
->  - Add comment for some functions
-> v14:
->  - Use the apci_check_dsm and acpi_evaluate_dsm (Hans de Goede)
+This is not safe because mutex_unlock(), in the
+MUTEX_FLAG_WAITERS && !MUTEX_FLAG_HANDOFF case, accesses the mutex
+structure after having marked it as unlocked; so mutex_unlock() requires
+its caller to ensure that the mutex stays alive until mutex_unlock()
+returns.
 
-Thank you this is much better.
+If MUTEX_FLAG_WAITERS is set and there are real waiters, those waiters
+have to keep the mutex alive, but we could have a spurious
+MUTEX_FLAG_WAITERS left if an interruptible/killable waiter bailed
+between the points where __mutex_unlock_slowpath() did the cmpxchg
+reading the flags and where it acquired the wait_lock.
 
-I notice that the #define ACPI_AMD_WBRF_METHOD	"\\WBRF"
-still exists though and that this is still used in
-static bool acpi_amd_wbrf_supported_system(void).
+( With spinlocks, that kind of code pattern is allowed and, from what I
+  remember, used in several places in the kernel. )
 
-I think it might be better to just remove
-these 2 all together.
+Document this, such a semantic difference between mutexes and spinlocks
+is fairly unintuitive. Based on feedback on the list, this should be
+documented as a general locking caveat, not as a mutex-specific thing.
 
-Checking if a DSM with the expected GUID is present
-and if that has the correct bits set in its supported
-mask should be enough.
+(changelog with some input from mingo)
 
-And on future systems the implementer may decide to
-not have a WBRF helper function at all and instead
-handle everything in the _DSM method.
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+Based on feedback on the list, I've gotten rid of the confusing
+"atomic" wording.
+Also, based on Peter Zijlstra's feedback that this more of a general
+thing with sleeping locks and not specific to mutexes, I have rewritten
+the patch to have some central documentation on the caveat in
+Documentation/locking/locktypes.rst, and then just sprinkle some
+references to that in a few other places.
 
-So the "\\WBRF" check seems to be checking for
-what really is an implementation detail.
+I saw that the first version of this patch already landed in tip tree;
+can you still yank that back out of the tree? If not, maybe revert that
+for now, and then later land this new version (or a future revision of
+it) once we've figured out if the new wording is good?
 
-2 other very small remarks:
 
-> +/**
-> + * acpi_amd_wbrf_supported_producer - determine if the WBRF can be enabled
-> + *                                    for the device as a producer
-> + *
-> + * @dev: device pointer
-> + *
-> + * Check if the platform equipped with necessary implementations to
-> + * support WBRF for the device as a producer.
-> + *
-> + * Return:
-> + * true if WBRF is supported, otherwise returns false
-> + */
-> +bool acpi_amd_wbrf_supported_producer(struct device *dev)
-> +{
-> +	struct acpi_device *adev;
-> +
-> +	adev = ACPI_COMPANION(dev);
-> +	if (!adev)
-> +		return false;
-> +
-> +	if (!acpi_amd_wbrf_supported_system())
-> +		return false;
-> +
-> +
-> +	return acpi_check_dsm(adev->handle, &wifi_acpi_dsm_guid,
-> +			      WBRF_REVISION, BIT(WBRF_RECORD));
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_supported_producer);
+ Documentation/locking/locktypes.rst    | 23 +++++++++++++++++++++++
+ Documentation/locking/mutex-design.rst |  2 ++
+ kernel/locking/mutex.c                 |  5 +++++
+ kernel/locking/rwsem.c                 | 10 ++++++++++
+ 4 files changed, 40 insertions(+)
 
-Please don't use double empty lines, one empty line to separate things
-is enough.
+diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
+index 80c914f6eae7..c9a4bcc967ea 100644
+--- a/Documentation/locking/locktypes.rst
++++ b/Documentation/locking/locktypes.rst
+@@ -95,6 +95,29 @@ rw_semaphores have a special interface which allows non-owner release for
+ readers.
+ 
+ 
++Releasing and freeing
++=====================
++For some lock types, such as spinlocks, the lock release operation is designed
++to allow another concurrent task to free the lock as soon as the lock has been
++released - in other words, similarly to refcounts, the unlock operation will not
++access the lock object anymore after marking it as unlocked.
++
++This behavior is guaranteed for:
++
++ - spinlock_t (including in PREEMPT_RT kernels, where spinlock_t is
++   implemented as an rtmutex)
++
++There are other lock types where the lock release operation makes no such
++guarantee and the caller must ensure that the lock is not destroyed before the
++unlock operation has returned.
++Most sleeping locks are in this category.
++
++This is the case in particular for (not an exhaustive list):
++
++ - mutex
++ - rw_semaphore
++
++
+ rtmutex
+ =======
+ 
+diff --git a/Documentation/locking/mutex-design.rst b/Documentation/locking/mutex-design.rst
+index 78540cd7f54b..bbb4c4d56ed0 100644
+--- a/Documentation/locking/mutex-design.rst
++++ b/Documentation/locking/mutex-design.rst
+@@ -101,6 +101,8 @@ features that make lock debugging easier and faster:
+     - Detects multi-task circular deadlocks and prints out all affected
+       locks and tasks (and only those tasks).
+ 
++The mutex user must ensure that the mutex is not destroyed while a unlock
++operation is still in progress, see Documentation/locking/locktypes.rst.
+ 
+ Interfaces
+ ----------
+diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+index 2deeeca3e71b..fa4834dba407 100644
+--- a/kernel/locking/mutex.c
++++ b/kernel/locking/mutex.c
+@@ -532,6 +532,11 @@ static noinline void __sched __mutex_unlock_slowpath(struct mutex *lock, unsigne
+  * This function must not be used in interrupt context. Unlocking
+  * of a not locked mutex is not allowed.
+  *
++ * The caller must ensure that the mutex stays alive until this function has
++ * returned - mutex_unlock() can NOT directly be used to release an object such
++ * that another concurrent task can free it.
++ * See Documentation/locking/locktypes.rst.
++ *
+  * This function is similar to (but not equivalent to) up().
+  */
+ void __sched mutex_unlock(struct mutex *lock)
+diff --git a/kernel/locking/rwsem.c b/kernel/locking/rwsem.c
+index 2340b6d90ec6..cbc00a269deb 100644
+--- a/kernel/locking/rwsem.c
++++ b/kernel/locking/rwsem.c
+@@ -1615,6 +1615,11 @@ EXPORT_SYMBOL(down_write_trylock);
+ 
+ /*
+  * release a read lock
++ *
++ * The caller must ensure that the rw_semaphore stays alive until this function
++ * has returned - up_read() can NOT directly be used to release an object such
++ * that another concurrent task can free it.
++ * See Documentation/locking/locktypes.rst.
+  */
+ void up_read(struct rw_semaphore *sem)
+ {
+@@ -1625,6 +1630,11 @@ EXPORT_SYMBOL(up_read);
+ 
+ /*
+  * release a write lock
++ *
++ * The caller must ensure that the rw_semaphore stays alive until this function
++ * has returned - up_write() can NOT directly be used to release an object such
++ * that another concurrent task can free it.
++ * See Documentation/locking/locktypes.rst.
+  */
+ void up_write(struct rw_semaphore *sem)
+ {
 
-> +
-> +/**
-> + * acpi_amd_wbrf_supported_consumer - determine if the WBRF can be enabled
-> + *                                    for the device as a consumer
-> + *
-> + * @dev: device pointer
-> + *
-> + * Determine if the platform equipped with necessary implementations to
-> + * support WBRF for the device as a consumer.
-> + *
-> + * Return:
-> + * true if WBRF is supported, otherwise returns false.
-> + */
-> +bool acpi_amd_wbrf_supported_consumer(struct device *dev)
-> +{
-> +	struct acpi_device *adev;
-> +
-> +	adev = ACPI_COMPANION(dev);
-> +	if (!adev)
-> +		return false;
-> +
-> +	if (!acpi_amd_wbrf_supported_system())
-> +		return false;
-> +
-> +	return acpi_check_dsm(adev->handle, &wifi_acpi_dsm_guid,
-> +			      WBRF_REVISION, BIT(WBRF_RETRIEVE));
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_supported_consumer);
-> +
-> +/**
-> + * amd_wbrf_retrieve_freq_band - retrieve current active frequency
-> + *                                     bands
-
-You may go a bit over the 80 chars limit, please just make this
-a single line:
-
- * amd_wbrf_retrieve_freq_band - retrieve current active frequency bands
-
-> + *
-> + * @dev: device pointer
-> + * @out: output structure containing all the active frequency bands
-> + *
-> + * Retrieve the current active frequency bands which were broadcasted
-> + * by other producers. The consumer who calls this API should take
-> + * proper actions if any of the frequency band may cause RFI with its
-> + * own frequency band used.
-> + *
-> + * Return:
-> + * 0 for getting wifi freq band successfully.
-> + * Returns a negative error code for failure.
-> + */
-
-Regards,
-
-Hans
+base-commit: 3b47bc037bd44f142ac09848e8d3ecccc726be99
+-- 
+2.43.0.rc2.451.g8631bc7472-goog
 
