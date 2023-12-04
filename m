@@ -1,293 +1,138 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="tTXTL+4J"
-Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64336CD;
-	Mon,  4 Dec 2023 07:00:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
-	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-Id:Date:Subject:To:From;
-	bh=T6RoDFoPgHMDhYESUsd8zt0jpjP+kMFUQUISmqEC3s8=; b=tTXTL+4JhvMwznd++PkfAQBURt
-	KrgeZAIkJ3Xkp4GEFM8g9HBTwCUM9xlw/Al8W6ah5rhRhVBZU6uwhlfbshwDJzlNoFsxxi+MV9EEZ
-	0ao54N7f0wCrlXRxc6/HmEFNsRqaUpXM/QHLMwgimhPjzQEzm6vrC8LTmzTtSgA/W8Oo=;
-Received: from xenbits.xenproject.org ([104.239.192.120])
-	by mail.xenproject.org with esmtp (Exim 4.92)
-	(envelope-from <paul@xen.org>)
-	id 1rAAQk-00043V-C7; Mon, 04 Dec 2023 15:00:18 +0000
-Received: from 54-240-197-231.amazon.com ([54.240.197.231] helo=REM-PW02S00X.ant.amazon.com)
-	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <paul@xen.org>)
-	id 1rAABU-00088g-Mo; Mon, 04 Dec 2023 14:44:32 +0000
-From: Paul Durrant <paul@xen.org>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Paul Durrant <paul@xen.org>,
-	Shuah Khan <shuah@kernel.org>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v10 16/19] KVM: xen: split up kvm_xen_set_evtchn_fast()
-Date: Mon,  4 Dec 2023 14:43:31 +0000
-Message-Id: <20231204144334.910-17-paul@xen.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231204144334.910-1-paul@xen.org>
-References: <20231204144334.910-1-paul@xen.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LbrLKdtb"
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF252C1
+	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 07:11:53 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-548ce39b101so5752110a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 07:11:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701702712; x=1702307512; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fj/U4Ee0ha9ecM/kqN/WX+JrPkr7sXcgsAEI1J8oel0=;
+        b=LbrLKdtbtqiiv4zSqEMNiBV+wfmdr7XI2HtmXd/c3qrVZmIXROL73BJRk7lGEFEv2E
+         Z81JQ4PsvTDMiay6Nf4wXh39Rm4ZixmHI8VLVmH/HeQTPIqpthXF4NDYmVuMDXgfIwJ/
+         z9U2V8M+E38PInj8yt09Os/G0cgP+ziSbueeofET+KZKORItREBSI/pcaHt65tS6TP82
+         11Npx4KeTrwbgjCwSeAnyEKtX77cs1dY3Wkdl1/rbG+OC3QysSEa/t8f3K9SaPwaUHld
+         FGK9S7n+GHA1YbzaWwod5Mw0BjCn3OkaBeySvl7kiu0z0B8Gv5p+Y93BRes9znyXNTA2
+         sgyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701702712; x=1702307512;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fj/U4Ee0ha9ecM/kqN/WX+JrPkr7sXcgsAEI1J8oel0=;
+        b=OIrx+2JcX0emL0F44izjM0Sk2ieLfxJubT1LARhau1Fa+VZ2QPLRi4o8OJPNrudjJI
+         6MTBqrAaHfiLDih0Kzj1lk9r69WowPrQTukF/AbMyHiOXk3fsFDvt6Kv6si8rvkFB9bC
+         4We5gCaUgqWEqWC5zBOLlDWHon9RsM8gydJcKt2UF1lfSVz0zTvurhrkmU5r/Yih0N5F
+         Hgoo0BR2VECGTdKnTJ6jq+5VyB15lR4msg2Z88mDq8bShr0k3NHGUVFN6upHim/gb7by
+         UapuwoqLi9Jpf1Ubqr8yo0xVpuWNCufFltG2wXLz3n7wb6T59c94fJKp10hmcbp/2Szc
+         Z9Vw==
+X-Gm-Message-State: AOJu0Yy9I4LSuipNESoCc+2Ff+JagCSDDmqFnJn/1DmxZe4ZxssrEdq4
+	5oGqVfTNjQ6OMKPCkvH2RvRIiw==
+X-Google-Smtp-Source: AGHT+IG9tDU+DoWVcDSJYLOuodBKau8uHbBBOz4h+aKQItRJRFZhSbFk7u6d1TczaHUrvUBGXMcFCg==
+X-Received: by 2002:a50:99c3:0:b0:54c:4837:7d31 with SMTP id n3-20020a5099c3000000b0054c48377d31mr2776178edb.112.1701702712247;
+        Mon, 04 Dec 2023 07:11:52 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id ck5-20020a0564021c0500b0054c715008f5sm3249776edb.6.2023.12.04.07.11.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Dec 2023 07:11:51 -0800 (PST)
+Message-ID: <95bb3618-496d-4b55-a2f7-1b4200cbe420@linaro.org>
+Date: Mon, 4 Dec 2023 16:11:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs: dt-bindings: add DTS Coding Style document
+Content-Language: en-US
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+ Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Heiko Stuebner <heiko@sntech.de>, Jonathan Corbet <corbet@lwn.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Michal Simek
+ <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Nishanth Menon <nm@ti.com>, Olof Johansson <olof@lixom.net>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20231125184422.12315-1-krzysztof.kozlowski@linaro.org>
+ <63ec18b2758a9e385f446fb00b60ee69@manjaro.org>
+ <0bcc0679-b883-4435-8843-cc830122c0e1@linaro.org>
+ <83b413441a953e8f2bc56adf09511a80@manjaro.org>
+ <7021717e2e747b9c119b7c5091b60bdf@manjaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <7021717e2e747b9c119b7c5091b60bdf@manjaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Paul Durrant <pdurrant@amazon.com>
+On 03/12/2023 21:12, Dragan Simic wrote:
+> Just a brief reminder about my suggestions below, which seemingly didn't 
+> find their way into the v4.  At least the first one, which improves the 
+> opening sentence, is worth including, IMHO.
+> 
 
-The implementation of kvm_xen_set_evtchn_fast() is a rather lengthy piece
-of code that performs two operations: updating of the shared_info
-evtchn_pending mask, and updating of the vcpu_info evtchn_pending_sel
-mask. Introduce a separate function to perform each of those operations and
-re-work kvm_xen_set_evtchn_fast() to use them.
+I applied almost all your suggestions, except few which I disagreed with
+in my replies.
 
-No functional change intended.
-
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
----
-Cc: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: David Woodhouse <dwmw2@infradead.org>
-Cc: x86@kernel.org
-
-v10:
- - Updated in this version. Dropped David'd R-b since the updates are
-   non-trivial.
-
-v8:
- - New in this version.
----
- arch/x86/kvm/xen.c | 175 ++++++++++++++++++++++++++-------------------
- 1 file changed, 100 insertions(+), 75 deletions(-)
-
-diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-index c6f943362de5..88ceaefaa121 100644
---- a/arch/x86/kvm/xen.c
-+++ b/arch/x86/kvm/xen.c
-@@ -1657,6 +1657,101 @@ static void kvm_xen_check_poller(struct kvm_vcpu *vcpu, int port)
- 	}
- }
- 
-+static int set_shinfo_evtchn_pending(struct kvm_vcpu *vcpu, u32 port)
-+{
-+	struct kvm *kvm = vcpu->kvm;
-+	struct gfn_to_pfn_cache *gpc = &kvm->arch.xen.shinfo_cache;
-+	unsigned long *pending_bits, *mask_bits;
-+	unsigned long flags;
-+	int rc = -EWOULDBLOCK;
-+
-+	read_lock_irqsave(&gpc->lock, flags);
-+	if (!kvm_gpc_check(gpc, PAGE_SIZE))
-+		goto out;
-+
-+	if (IS_ENABLED(CONFIG_64BIT) && kvm->arch.xen.long_mode) {
-+		struct shared_info *shinfo = gpc->khva;
-+
-+		pending_bits = (unsigned long *)&shinfo->evtchn_pending;
-+		mask_bits = (unsigned long *)&shinfo->evtchn_mask;
-+	} else {
-+		struct compat_shared_info *shinfo = gpc->khva;
-+
-+		pending_bits = (unsigned long *)&shinfo->evtchn_pending;
-+		mask_bits = (unsigned long *)&shinfo->evtchn_mask;
-+	}
-+
-+	if (test_and_set_bit(port, pending_bits)) {
-+		rc = 0; /* It was already raised */
-+	} else if (test_bit(port, mask_bits)) {
-+		rc = -ENOTCONN; /* It is masked */
-+		kvm_xen_check_poller(vcpu, port);
-+	} else {
-+		rc = 1; /* It is newly raised */
-+	}
-+
-+ out:
-+	read_unlock_irqrestore(&gpc->lock, flags);
-+	return rc;
-+}
-+
-+static bool set_vcpu_info_evtchn_pending(struct kvm_vcpu *vcpu, u32 port)
-+{
-+	struct kvm *kvm = vcpu->kvm;
-+	struct gfn_to_pfn_cache *gpc = &vcpu->arch.xen.vcpu_info_cache;
-+	unsigned long flags;
-+	bool kick_vcpu = false;
-+
-+	read_lock_irqsave(&gpc->lock, flags);
-+
-+	/*
-+	 * Try to deliver the event directly to the vcpu_info. If successful and
-+	 * the guest is using upcall_vector delivery, send the MSI.
-+	 * If the pfncache is invalid, set the shadow. In this case, or if the
-+	 * guest is using another form of event delivery, the vCPU must be
-+	 * kicked to complete the delivery.
-+	 */
-+	if (IS_ENABLED(CONFIG_64BIT) && kvm->arch.xen.long_mode) {
-+		struct vcpu_info *vcpu_info = gpc->khva;
-+		u32 port_word_bit = port / 32;
-+
-+		if (!kvm_gpc_check(gpc, sizeof(*vcpu_info))) {
-+			if (!test_and_set_bit(port_word_bit, &vcpu->arch.xen.evtchn_pending_sel))
-+				kick_vcpu = true;
-+			goto out;
-+		}
-+
-+		if (!test_and_set_bit(port_word_bit, &vcpu_info->evtchn_pending_sel)) {
-+			WRITE_ONCE(vcpu_info->evtchn_upcall_pending, 1);
-+			kick_vcpu = true;
-+		}
-+	} else {
-+		struct compat_vcpu_info *vcpu_info = gpc->khva;
-+		u32 port_word_bit = port / 64;
-+
-+		if (!kvm_gpc_check(gpc, sizeof(*vcpu_info))) {
-+			if (!test_and_set_bit(port_word_bit, &vcpu->arch.xen.evtchn_pending_sel))
-+				kick_vcpu = true;
-+			goto out;
-+		}
-+
-+		if (!test_and_set_bit(port_word_bit,
-+				      (unsigned long *)&vcpu_info->evtchn_pending_sel)) {
-+			WRITE_ONCE(vcpu_info->evtchn_upcall_pending, 1);
-+			kick_vcpu = true;
-+		}
-+	}
-+
-+	if (kick_vcpu && vcpu->arch.xen.upcall_vector) {
-+		kvm_xen_inject_vcpu_vector(vcpu);
-+		kick_vcpu = false;
-+	}
-+
-+ out:
-+	read_unlock_irqrestore(&gpc->lock, flags);
-+	return kick_vcpu;
-+}
-+
- /*
-  * The return value from this function is propagated to kvm_set_irq() API,
-  * so it returns:
-@@ -1665,15 +1760,12 @@ static void kvm_xen_check_poller(struct kvm_vcpu *vcpu, int port)
-  *  > 0   Number of CPUs interrupt was delivered to
-  *
-  * It is also called directly from kvm_arch_set_irq_inatomic(), where the
-- * only check on its return value is a comparison with -EWOULDBLOCK'.
-+ * only check on its return value is a comparison with -EWOULDBLOCK
-+ * (which may be returned by set_shinfo_evtchn_pending()).
-  */
- int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
- {
--	struct gfn_to_pfn_cache *gpc = &kvm->arch.xen.shinfo_cache;
- 	struct kvm_vcpu *vcpu;
--	unsigned long *pending_bits, *mask_bits;
--	unsigned long flags;
--	int port_word_bit;
- 	bool kick_vcpu = false;
- 	int vcpu_idx, idx, rc;
- 
-@@ -1693,79 +1785,12 @@ int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
- 	if (xe->port >= max_evtchn_port(kvm))
- 		return -EINVAL;
- 
--	rc = -EWOULDBLOCK;
--
- 	idx = srcu_read_lock(&kvm->srcu);
- 
--	read_lock_irqsave(&gpc->lock, flags);
--	if (!kvm_gpc_check(gpc, PAGE_SIZE))
--		goto out_rcu;
--
--	if (IS_ENABLED(CONFIG_64BIT) && kvm->arch.xen.long_mode) {
--		struct shared_info *shinfo = gpc->khva;
--		pending_bits = (unsigned long *)&shinfo->evtchn_pending;
--		mask_bits = (unsigned long *)&shinfo->evtchn_mask;
--		port_word_bit = xe->port / 64;
--	} else {
--		struct compat_shared_info *shinfo = gpc->khva;
--		pending_bits = (unsigned long *)&shinfo->evtchn_pending;
--		mask_bits = (unsigned long *)&shinfo->evtchn_mask;
--		port_word_bit = xe->port / 32;
--	}
-+	rc = set_shinfo_evtchn_pending(vcpu, xe->port);
-+	if (rc == 1) /* Delivered to the bitmap in shared_info */
-+		kick_vcpu = set_vcpu_info_evtchn_pending(vcpu, xe->port);
- 
--	/*
--	 * If this port wasn't already set, and if it isn't masked, then
--	 * we try to set the corresponding bit in the in-kernel shadow of
--	 * evtchn_pending_sel for the target vCPU. And if *that* wasn't
--	 * already set, then we kick the vCPU in question to write to the
--	 * *real* evtchn_pending_sel in its own guest vcpu_info struct.
--	 */
--	if (test_and_set_bit(xe->port, pending_bits)) {
--		rc = 0; /* It was already raised */
--	} else if (test_bit(xe->port, mask_bits)) {
--		rc = -ENOTCONN; /* Masked */
--		kvm_xen_check_poller(vcpu, xe->port);
--	} else {
--		rc = 1; /* Delivered to the bitmap in shared_info. */
--		/* Now switch to the vCPU's vcpu_info to set the index and pending_sel */
--		read_unlock_irqrestore(&gpc->lock, flags);
--		gpc = &vcpu->arch.xen.vcpu_info_cache;
--
--		read_lock_irqsave(&gpc->lock, flags);
--		if (!kvm_gpc_check(gpc, sizeof(struct vcpu_info))) {
--			/*
--			 * Could not access the vcpu_info. Set the bit in-kernel
--			 * and prod the vCPU to deliver it for itself.
--			 */
--			if (!test_and_set_bit(port_word_bit, &vcpu->arch.xen.evtchn_pending_sel))
--				kick_vcpu = true;
--			goto out_rcu;
--		}
--
--		if (IS_ENABLED(CONFIG_64BIT) && kvm->arch.xen.long_mode) {
--			struct vcpu_info *vcpu_info = gpc->khva;
--			if (!test_and_set_bit(port_word_bit, &vcpu_info->evtchn_pending_sel)) {
--				WRITE_ONCE(vcpu_info->evtchn_upcall_pending, 1);
--				kick_vcpu = true;
--			}
--		} else {
--			struct compat_vcpu_info *vcpu_info = gpc->khva;
--			if (!test_and_set_bit(port_word_bit,
--					      (unsigned long *)&vcpu_info->evtchn_pending_sel)) {
--				WRITE_ONCE(vcpu_info->evtchn_upcall_pending, 1);
--				kick_vcpu = true;
--			}
--		}
--
--		/* For the per-vCPU lapic vector, deliver it as MSI. */
--		if (kick_vcpu && vcpu->arch.xen.upcall_vector) {
--			kvm_xen_inject_vcpu_vector(vcpu);
--			kick_vcpu = false;
--		}
--	}
--
-- out_rcu:
--	read_unlock_irqrestore(&gpc->lock, flags);
- 	srcu_read_unlock(&kvm->srcu, idx);
- 
- 	if (kick_vcpu) {
--- 
-2.39.2
+Best regards,
+Krzysztof
 
