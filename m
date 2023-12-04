@@ -1,23 +1,23 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="eQtjgR7H"
+	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="IHBVGwe2"
 Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0754D3;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 837E8CA;
 	Mon,  4 Dec 2023 07:00:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
 	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:References:
 	In-Reply-To:Message-Id:Date:Subject:To:From;
-	bh=phFzjY56QcX+1gb6i8CFML6EdpSEnZzV/NxGbDVl3Vg=; b=eQtjgR7HOmnVRKsIRii04iBYvd
-	R2F6jefB8+JSCKgI9+fk9rltQGNnbyGj5aURRkMIXuAFr5t1bvKQ0Rc7StotMXVjlqo8yKUX0U3eW
-	QqzT7iQWClPK8DW1l1jgv523aJ3Yp5S/bw2l791crcW7G9+nbWrJ/iwAZDm54FUZu2Bk=;
+	bh=btQo2zPDw064xSTjz2Eq/eRv+OQ6oUKEBtLgT0+MLbo=; b=IHBVGwe21iEqCLiLvHeKue8g0r
+	fJDcN2PNqZyJKM5BTMk7yOt+bW2bWxjZ9EDbLObtJDvuNcKDopw6KMwBLygh4FB+vIvetUGCJ2JHG
+	0MgZyoclWF/xvxF65aYwNcuzar63NuxNVSArvEpfn+BEf5rqYlcrje6Hv5xmMLJyJJ0o=;
 Received: from xenbits.xenproject.org ([104.239.192.120])
 	by mail.xenproject.org with esmtp (Exim 4.92)
 	(envelope-from <paul@xen.org>)
-	id 1rAAQk-00043b-KN; Mon, 04 Dec 2023 15:00:18 +0000
+	id 1rAAQk-00043T-A5; Mon, 04 Dec 2023 15:00:18 +0000
 Received: from 54-240-197-231.amazon.com ([54.240.197.231] helo=REM-PW02S00X.ant.amazon.com)
 	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <paul@xen.org>)
-	id 1rAABZ-00088g-IS; Mon, 04 Dec 2023 14:44:37 +0000
+	id 1rAABS-00088g-8o; Mon, 04 Dec 2023 14:44:30 +0000
 From: Paul Durrant <paul@xen.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -35,9 +35,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH v10 18/19] KVM: pfncache: check the need for invalidation under read lock first
-Date: Mon,  4 Dec 2023 14:43:33 +0000
-Message-Id: <20231204144334.910-19-paul@xen.org>
+Subject: [PATCH v10 15/19] KVM: xen: advertize the KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA capability
+Date: Mon,  4 Dec 2023 14:43:30 +0000
+Message-Id: <20231204144334.910-16-paul@xen.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204144334.910-1-paul@xen.org>
 References: <20231204144334.910-1-paul@xen.org>
@@ -51,61 +51,42 @@ Content-Transfer-Encoding: 8bit
 
 From: Paul Durrant <pdurrant@amazon.com>
 
-Taking a write lock on a pfncache will be disruptive if the cache is
-heavily used (which only requires a read lock). Hence, in the MMU notifier
-callback, take read locks on caches to check for a match; only taking a
-write lock to actually perform an invalidation (after a another check).
+Now that all relevant kernel changes and selftests are in place, enable the
+new capability.
 
 Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
 Cc: Sean Christopherson <seanjc@google.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: x86@kernel.org
 
-v10:
+v2:
  - New in this version.
 ---
- virt/kvm/pfncache.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ arch/x86/kvm/x86.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/virt/kvm/pfncache.c b/virt/kvm/pfncache.c
-index c2a2d1e145b6..4da16d494f4b 100644
---- a/virt/kvm/pfncache.c
-+++ b/virt/kvm/pfncache.c
-@@ -29,14 +29,30 @@ void gfn_to_pfn_cache_invalidate_start(struct kvm *kvm, unsigned long start,
- 
- 	spin_lock(&kvm->gpc_lock);
- 	list_for_each_entry(gpc, &kvm->gpc_list, list) {
--		write_lock_irq(&gpc->lock);
-+		read_lock_irq(&gpc->lock);
- 
- 		/* Only a single page so no need to care about length */
- 		if (gpc->valid && !is_error_noslot_pfn(gpc->pfn) &&
- 		    gpc->uhva >= start && gpc->uhva < end) {
--			gpc->valid = false;
-+			read_unlock_irq(&gpc->lock);
-+
-+			/*
-+			 * There is a small window here where the cache could
-+			 * be modified, and invalidation would no longer be
-+			 * necessary. Hence check again whether invalidation
-+			 * is still necessary once the write lock has been
-+			 * acquired.
-+			 */
-+
-+			write_lock_irq(&gpc->lock);
-+			if (gpc->valid && !is_error_noslot_pfn(gpc->pfn) &&
-+			    gpc->uhva >= start && gpc->uhva < end)
-+				gpc->valid = false;
-+			write_unlock_irq(&gpc->lock);
-+			continue;
- 		}
--		write_unlock_irq(&gpc->lock);
-+
-+		read_unlock_irq(&gpc->lock);
- 	}
- 	spin_unlock(&kvm->gpc_lock);
- }
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index d2958b27872a..1280bea6399e 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -4649,7 +4649,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 		    KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
+ 		    KVM_XEN_HVM_CONFIG_SHARED_INFO |
+ 		    KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL |
+-		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
++		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
++		    KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA;
+ 		if (sched_info_on())
+ 			r |= KVM_XEN_HVM_CONFIG_RUNSTATE |
+ 			     KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG;
 -- 
 2.39.2
 
