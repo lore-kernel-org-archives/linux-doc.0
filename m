@@ -1,47 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B1PgSbGv"
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CFB4B3;
-	Sun,  3 Dec 2023 23:06:40 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1d011cdf562so12669845ad.2;
-        Sun, 03 Dec 2023 23:06:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UmCdDeUi"
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D582BC3
+	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 00:04:26 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40c09ba723eso10348185e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 00:04:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701673600; x=1702278400; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701677065; x=1702281865; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=+njrNhnp33Oxlc6sSwRjQua/dB3fSaUcGOxq5KaU0Jo=;
-        b=B1PgSbGv4nklgBzGhHtbNyQ4V0UDWet52JvPy9/dPFOe+moyVHBlxTIaAZSs8fH0UF
-         oEAYUia9qFIVLxGERaKbR1yj8BlM1q9O6KFatMv6iyFWpFwxADZbLVtPsQQ+b056miGO
-         sFDVaivbf2rG7qrqXhfFphGYe0TICAygjPTV9huVfFqlI0Zcxv5yyIoQ2WWa7RYBMs4Y
-         W7wu4kt04O1Lljh7iuCo44i9Vdh1IoU8lNuM/8g/mICHfd/EUWo5izRjt8EtUk9cyRnO
-         YvpBUB+5cgG9DOJVQaVahzwITs006QVie3LVK3CBa9wTpbNxIPzTH9QCJlm3x4Eni1mh
-         7aXQ==
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vVaID42WmWo7eAY8bPdAR9Y2HBlZxV8DXl4tSWq+kCU=;
+        b=UmCdDeUimwDSJXDXMnaNInf7VqyroZVSgM/00E+iK+2At4ZzjQ0C/1/EumMkpr6dTm
+         54fXsHLTWnD8iOYIYJe3/UvQkTx8lk0+QbEsrXyG9oVuayjr8PrQDf1NH9wu6GnR+elD
+         Gqto24Jg5zuXvbCsXK7BV2RXu3eJ3TRgtu2Rf4u2A5qGAjRncJc7t89JumeoBn0yJW9v
+         ybkEkfITCLwZMcXI9aNx1LXEq3r6SBXyEXU44cmUJVWedg+cCmFAwusKz01yemPczF6D
+         PCjeHEs6mvMV/6M8KQvfu9l9gfWs8rqpICrOLerKHk2MifZtfEW1W+zrIM9/jh7u2ZIh
+         mpQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701673600; x=1702278400;
+        d=1e100.net; s=20230601; t=1701677065; x=1702281865;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+njrNhnp33Oxlc6sSwRjQua/dB3fSaUcGOxq5KaU0Jo=;
-        b=hK+LiH48+KsvJroZs0nEvbnf/6kBYGCboXX7Wq98/+Q54G61H2WF5fZ+e5Z4E2i5z/
-         e3kITmlZ6ACzT8C2S44iqEIebKebVYekP53oAN4v20yjv0+GzYPaCfDSTcWYlJQcXaYc
-         EcPcF6BQS1JlP8K2o+mh7EcXmw4sWr5VMNqbMybPWjGGE+hY/RvWYrHL8Ekkzk3IejKw
-         Tw3GUoxa2vWUcuHuyx0JqsGStNk/8ciqg7BDGfvLMETrZ6FBgsl8eU8nVEUtojYQ9NMQ
-         vgcMq/i7oBniNB0dLTw3Ny0qkziILjGAGcw8ZJxou9SbhwEeLp1XoCzJUwqIJ2Xn2ZeD
-         IoGQ==
-X-Gm-Message-State: AOJu0Yy291SESNgrhVjJ36K1UHIXyY9M2ddVwHVYfiAxM99tiShl7sqs
-	n1D5tjPNaTERlqvVC7RwJwE=
-X-Google-Smtp-Source: AGHT+IFCeUBMRQ8Cy4jZFln0eUrC9xLqsdy28RaYRFDbCENqD1XkZlpWrNzfgtzrlwIcdSqw7/jzmQ==
-X-Received: by 2002:a17:902:da89:b0:1d0:5137:488a with SMTP id j9-20020a170902da8900b001d05137488amr5226648plx.31.1701673599768;
-        Sun, 03 Dec 2023 23:06:39 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id l17-20020a170902eb1100b001d060d6cde0sm5009033plb.162.2023.12.03.23.06.38
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vVaID42WmWo7eAY8bPdAR9Y2HBlZxV8DXl4tSWq+kCU=;
+        b=UNSnXXQG/lCQZKqmehwCLlG3vyMfKDlgV9u/2KFTLnCYgIdprKjzKtUe2apK6f9sWK
+         GhoDew9voMa8PxbszkcIOmSdXNo4TepHCmQ5cKPscsTMwRRTUHeR0MLruP74Rqz/AgYc
+         z1ZK4BwrlOiabFw9fKWiek74gUGBKPMa5cc7Dm/iOI0gmpjmNQ1pWaso8Lp5OuDCh05P
+         X3uvu13wsFnYKCW8ea2hIQBOu+MgUSaOjT93HI3IlDD+U9zV+AyNMgcAbFJUuDJ1QSH/
+         yay4erUfGbs/CgOtZ6SLkwHAAna5Nys/lGVkxP7VrTPRAsMZJ+mDpmP5YGVCjZMOn0Yy
+         NI1w==
+X-Gm-Message-State: AOJu0YzX8eGXawAK6vYqqo5M1XD8txDAU4yK29Io3ZFEf225C+04BSOa
+	4ZluBbg/oEI1nUrSYyo4LfYJPQ==
+X-Google-Smtp-Source: AGHT+IFDoUbztBuebRWauGH5T7fwkI29ue733eofsJfUis1cTAJsJlWv+11v3XBcwxPMPBByEw3u6w==
+X-Received: by 2002:a05:600c:1da7:b0:40b:5e1f:6fd9 with SMTP id p39-20020a05600c1da700b0040b5e1f6fd9mr1832082wms.46.1701677065240;
+        Mon, 04 Dec 2023 00:04:25 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id fc12-20020a05600c524c00b0040b400711f5sm17787653wmb.7.2023.12.04.00.04.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Dec 2023 23:06:39 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <87c11991-8f74-4f71-972e-373ffa1fddb1@roeck-us.net>
-Date: Sun, 3 Dec 2023 23:06:37 -0800
+        Mon, 04 Dec 2023 00:04:24 -0800 (PST)
+Message-ID: <94607c47-9824-4e2c-8f22-99ca2e088b27@linaro.org>
+Date: Mon, 4 Dec 2023 09:04:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,80 +47,183 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
+Subject: Re: [PATCH v1 1/2] dt-bindings: hwmon: Add nct736x bindings
 Content-Language: en-US
-To: baneric926@gmail.com, jdelvare@suse.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net
+To: baneric926@gmail.com, jdelvare@suse.com, linux@roeck-us.net,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ corbet@lwn.net
 Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com,
  DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
 References: <20231204055650.788388-1-kcfeng0@nuvoton.com>
- <20231204055650.788388-3-kcfeng0@nuvoton.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20231204055650.788388-3-kcfeng0@nuvoton.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20231204055650.788388-2-kcfeng0@nuvoton.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231204055650.788388-2-kcfeng0@nuvoton.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/3/23 21:56, baneric926@gmail.com wrote:
+On 04/12/2023 06:56, baneric926@gmail.com wrote:
 > From: Ban Feng <kcfeng0@nuvoton.com>
 > 
-> NCT736X is an I2C based hardware monitoring chip from Nuvoton.
+> This change documents the device tree bindings for the Nuvoton
+> NCT7362Y, NCT7363Y driver.
 > 
 > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
 > ---
-[ ... ]
+>  .../bindings/hwmon/nuvoton,nct736x.yaml       | 80 +++++++++++++++++++
+>  MAINTAINERS                                   |  6 ++
+>  2 files changed, 86 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.yaml b/Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.yaml
+> new file mode 100644
+> index 000000000000..f98fd260a20f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.yaml
+> @@ -0,0 +1,80 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/nuvoton,nct736x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Nuvoton NCT736X Hardware Monitoring IC
+> +
+> +maintainers:
+> +  - Ban Feng <kcfeng0@nuvoton.com>
+> +
+> +description: |
+> +  The NCT736X is a Fan controller which provides up to 16 independent
+> +  FAN input monitors, and up to 16 independent PWM output with SMBus interface.
+> +  Besides, NCT7363Y has a built-in watchdog timer which is used for
+> +  conditionally generating a system reset output (INT#).
+> +
+> +additionalProperties: false
 
-> +	hwmon_dev = devm_hwmon_device_register_with_groups(dev,
-> +							   client->name,
-> +							   data, data->groups);
+Please place it just like other bindings are placing it. Not in some
+random order. See example-schema.
 
-Please resubmit using devm_hwmon_device_register_with_info().
-Drivers using deprecated APIs will not be accepted.
+You should use common fan properties. If it was not merged yet, you must
+rebase on patchset on LKML and mention the dependency in the change log
+(---).
 
-Guenter
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nuvoton,nct7362
+> +      - nuvoton,nct7363
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  nuvoton,pwm-mask:
+> +    description: |
+> +      each bit means PWMx enable/disable setting, where x = 0~15.
+> +      0: disabled, 1: enabled
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0x0
+> +    maximum: 0xFFFF
+> +    default: 0x0
 
+Use pwms, not own property for this.
+
+> +
+> +  nuvoton,fanin-mask:
+> +    description: |
+> +      each bit means FANINx monitoring enable/disable setting,
+> +      where x = 0~15.
+> +      0: disabled, 1: enabled
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0x0
+> +    maximum: 0xFFFF
+> +    default: 0x0
+
+Use properties from common fan bindings.
+
+> +
+> +  nuvoton,wdt-timeout:
+> +    description: |
+> +      Watchdog Timer time configuration for NCT7363Y, as below
+> +      0: 15 sec (default)
+> +      1: 7.5 sec
+> +      2: 3.75 sec
+> +      3: 30 sec
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2, 3]
+> +    default: 0
+
+Nope, reference watchdog.yaml and use its properties. See other watchdog
+bindings for examples.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - nuvoton,pwm-mask
+> +  - nuvoton,fanin-mask
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        nct7363@22 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+
+
+Best regards,
+Krzysztof
 
