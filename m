@@ -1,23 +1,23 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="IRtRjHjy"
+	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="f+R8/Ref"
 Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D03DB2;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F47D7;
 	Mon,  4 Dec 2023 07:00:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
 	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:References:
 	In-Reply-To:Message-Id:Date:Subject:To:From;
-	bh=xJZFWTBvjZuVJvjXlH2gBtqbwLYgXIWpV3QWq0TFhGs=; b=IRtRjHjynWXP32IDCDqZ88eptC
-	L9NbB/hkTwpJ0uE8e9OMM3S5PgkuVoGitnVR0Piko2TZZMwDQfsCCUvZMaWSJYN0HPwVHnQdZAd4v
-	CC2/yWyMNnX2XwHoEl62SiRBbB02nasLrGdxyF3zAXNuBVe1LKDySZSU4ZQh5K+14x94=;
+	bh=imomgf5kv7WFhnJkSzEKfm772T4134t8aPtP1VH5318=; b=f+R8/Ref+TiOIsdQpX7v0+0Lvx
+	fjGxdJ+uG9mRSCSF6NhHfXSkyCD9Ge6wLvceSNSCcX0U+S+dGrrYw6/pKqEKBPg6CW8RGmIO+4Zru
+	m1acn3ifbJvqausDIuIHbO32xHr3qfktJ/MIucwVr5idXLBi2758DTrXxrUa0g1esUT8=;
 Received: from xenbits.xenproject.org ([104.239.192.120])
 	by mail.xenproject.org with esmtp (Exim 4.92)
 	(envelope-from <paul@xen.org>)
-	id 1rAAQk-00043X-ET; Mon, 04 Dec 2023 15:00:18 +0000
+	id 1rAAQk-00043R-7g; Mon, 04 Dec 2023 15:00:18 +0000
 Received: from 54-240-197-231.amazon.com ([54.240.197.231] helo=REM-PW02S00X.ant.amazon.com)
 	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <paul@xen.org>)
-	id 1rAABX-00088g-4W; Mon, 04 Dec 2023 14:44:35 +0000
+	id 1rAABK-00088g-Ux; Mon, 04 Dec 2023 14:44:23 +0000
 From: Paul Durrant <paul@xen.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -35,9 +35,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH v10 17/19] KVM: xen: don't block on pfncache locks in kvm_xen_set_evtchn_fast()
-Date: Mon,  4 Dec 2023 14:43:32 +0000
-Message-Id: <20231204144334.910-18-paul@xen.org>
+Subject: [PATCH v10 12/19] KVM: xen: allow vcpu_info to be mapped by fixed HVA
+Date: Mon,  4 Dec 2023 14:43:27 +0000
+Message-Id: <20231204144334.910-13-paul@xen.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204144334.910-1-paul@xen.org>
 References: <20231204144334.910-1-paul@xen.org>
@@ -51,15 +51,18 @@ Content-Transfer-Encoding: 8bit
 
 From: Paul Durrant <pdurrant@amazon.com>
 
-As described in [1] compiling with CONFIG_PROVE_RAW_LOCK_NESTING shows that
-kvm_xen_set_evtchn_fast() is blocking on pfncache locks in IRQ context.
-Instead, use read_trylock() and treat failure to lock the same as an
-invalid cache.
-
-[1] https://lore.kernel.org/lkml/99771ef3a4966a01fefd3adbb2ba9c3a75f97cf2.camel@infradead.org/T/#mbd06e5a04534ce9c0ee94bd8f1e8d942b2d45bd6
+If the guest does not explicitly set the GPA of vcpu_info structure in
+memory then, for guests with 32 vCPUs or fewer, the vcpu_info embedded
+in the shared_info page may be used. As described in a previous commit,
+the shared_info page is an overlay at a fixed HVA within the VMM, so in
+this case it also more optimal to activate the vcpu_info cache with a
+fixed HVA to avoid unnecessary invalidation if the guest memory layout
+is modified.
 
 Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
+Cc: David Woodhouse <dwmw2@infradead.org>
 Cc: Sean Christopherson <seanjc@google.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
@@ -67,99 +70,144 @@ Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Borislav Petkov <bp@alien8.de>
 Cc: Dave Hansen <dave.hansen@linux.intel.com>
 Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: David Woodhouse <dwmw2@infradead.org>
 Cc: x86@kernel.org
 
-v10:
+v8:
+ - Re-base.
+
+v5:
  - New in this version.
 ---
- arch/x86/kvm/xen.c | 31 +++++++++++++++++++++----------
- 1 file changed, 21 insertions(+), 10 deletions(-)
+ Documentation/virt/kvm/api.rst | 26 +++++++++++++++++++++-----
+ arch/x86/kvm/xen.c             | 34 ++++++++++++++++++++++++++++------
+ include/uapi/linux/kvm.h       |  3 +++
+ 3 files changed, 52 insertions(+), 11 deletions(-)
 
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 689264502a67..58927d5ce502 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -5535,11 +5535,12 @@ KVM_XEN_ATTR_TYPE_SHARED_INFO
+   Sets the guest physical frame number at which the Xen shared_info
+   page resides. Note that although Xen places vcpu_info for the first
+   32 vCPUs in the shared_info page, KVM does not automatically do so
+-  and instead requires that KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO be used
+-  explicitly even when the vcpu_info for a given vCPU resides at the
+-  "default" location in the shared_info page. This is because KVM may
+-  not be aware of the Xen CPU id which is used as the index into the
+-  vcpu_info[] array, so may know the correct default location.
++  and instead requires that KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO or
++  KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO_HVA be used explicitly even when
++  the vcpu_info for a given vCPU resides at the "default" location
++  in the shared_info page. This is because KVM may not be aware of
++  the Xen CPU id which is used as the index into the vcpu_info[]
++  array, so may know the correct default location.
+ 
+   Note that the shared_info page may be constantly written to by KVM;
+   it contains the event channel bitmap used to deliver interrupts to
+@@ -5661,6 +5662,21 @@ KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO
+   on dirty logging. Setting the gpa to KVM_XEN_INVALID_GPA will disable
+   the vcpu_info.
+ 
++KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO_HVA
++  If the KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA flag is also set in the
++  Xen capabilities, then this attribute may be used to set the
++  userspace address of the vcpu_info for a given vCPU. It should
++  only be used when the vcpu_info resides at the "default" location
++  in the shared_info page. In this case it is safe to assume the
++  userspace address will not change, because the shared_info page is
++  an overlay on guest memory and remains at a fixed host address
++  regardless of where it is mapped in guest physical address space
++  and hence unnecessary invalidation of an internal cache may be
++  avoided if the guest memory layout is modified.
++  If the vcpu_info does not reside at the "default" location then
++  it is not guaranteed to remain at the same host address and
++  hence the aforementioned cache invalidation is required.
++
+ KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO
+   Sets the guest physical address of an additional pvclock structure
+   for a given vCPU. This is typically used for guest vsyscall support.
 diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-index 88ceaefaa121..7109d20a4608 100644
+index d65b62f19440..c6f943362de5 100644
 --- a/arch/x86/kvm/xen.c
 +++ b/arch/x86/kvm/xen.c
-@@ -1665,10 +1665,13 @@ static int set_shinfo_evtchn_pending(struct kvm_vcpu *vcpu, u32 port)
- 	unsigned long flags;
- 	int rc = -EWOULDBLOCK;
+@@ -778,20 +778,33 @@ int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
  
--	read_lock_irqsave(&gpc->lock, flags);
--	if (!kvm_gpc_check(gpc, PAGE_SIZE))
-+	local_irq_save(flags);
-+	if (!read_trylock(&gpc->lock))
- 		goto out;
+ 	switch (data->type) {
+ 	case KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO:
++	case KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO_HVA:
+ 		/* No compat necessary here. */
+ 		BUILD_BUG_ON(sizeof(struct vcpu_info) !=
+ 			     sizeof(struct compat_vcpu_info));
+ 		BUILD_BUG_ON(offsetof(struct vcpu_info, time) !=
+ 			     offsetof(struct compat_vcpu_info, time));
  
-+	if (!kvm_gpc_check(gpc, PAGE_SIZE))
-+		goto out_unlock;
+-		if (data->u.gpa == KVM_XEN_INVALID_GPA) {
+-			kvm_gpc_deactivate(&vcpu->arch.xen.vcpu_info_cache);
+-			r = 0;
+-			break;
++		if (data->type == KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO) {
++			if (data->u.gpa == KVM_XEN_INVALID_GPA) {
++				kvm_gpc_deactivate(&vcpu->arch.xen.vcpu_info_cache);
++				r = 0;
++				break;
++			}
 +
- 	if (IS_ENABLED(CONFIG_64BIT) && kvm->arch.xen.long_mode) {
- 		struct shared_info *shinfo = gpc->khva;
- 
-@@ -1690,8 +1693,10 @@ static int set_shinfo_evtchn_pending(struct kvm_vcpu *vcpu, u32 port)
- 		rc = 1; /* It is newly raised */
- 	}
- 
-+ out_unlock:
-+	read_unlock(&gpc->lock);
-  out:
--	read_unlock_irqrestore(&gpc->lock, flags);
-+	local_irq_restore(flags);
- 	return rc;
- }
- 
-@@ -1701,21 +1706,23 @@ static bool set_vcpu_info_evtchn_pending(struct kvm_vcpu *vcpu, u32 port)
- 	struct gfn_to_pfn_cache *gpc = &vcpu->arch.xen.vcpu_info_cache;
- 	unsigned long flags;
- 	bool kick_vcpu = false;
-+	bool locked;
- 
--	read_lock_irqsave(&gpc->lock, flags);
-+	local_irq_save(flags);
-+	locked = read_trylock(&gpc->lock);
- 
- 	/*
- 	 * Try to deliver the event directly to the vcpu_info. If successful and
- 	 * the guest is using upcall_vector delivery, send the MSI.
--	 * If the pfncache is invalid, set the shadow. In this case, or if the
--	 * guest is using another form of event delivery, the vCPU must be
--	 * kicked to complete the delivery.
-+	 * If the pfncache lock is contended or the cache is invalid, set the
-+	 * shadow. In this case, or if the guest is using another form of event
-+	 * delivery, the vCPU must be kicked to complete the delivery.
- 	 */
- 	if (IS_ENABLED(CONFIG_64BIT) && kvm->arch.xen.long_mode) {
- 		struct vcpu_info *vcpu_info = gpc->khva;
- 		u32 port_word_bit = port / 32;
- 
--		if (!kvm_gpc_check(gpc, sizeof(*vcpu_info))) {
-+		if ((!locked || !kvm_gpc_check(gpc, sizeof(*vcpu_info)))) {
- 			if (!test_and_set_bit(port_word_bit, &vcpu->arch.xen.evtchn_pending_sel))
- 				kick_vcpu = true;
- 			goto out;
-@@ -1729,7 +1736,7 @@ static bool set_vcpu_info_evtchn_pending(struct kvm_vcpu *vcpu, u32 port)
- 		struct compat_vcpu_info *vcpu_info = gpc->khva;
- 		u32 port_word_bit = port / 64;
- 
--		if (!kvm_gpc_check(gpc, sizeof(*vcpu_info))) {
-+		if ((!locked || !kvm_gpc_check(gpc, sizeof(*vcpu_info)))) {
- 			if (!test_and_set_bit(port_word_bit, &vcpu->arch.xen.evtchn_pending_sel))
- 				kick_vcpu = true;
- 			goto out;
-@@ -1747,8 +1754,12 @@ static bool set_vcpu_info_evtchn_pending(struct kvm_vcpu *vcpu, u32 port)
- 		kick_vcpu = false;
- 	}
- 
++			r = kvm_gpc_activate(&vcpu->arch.xen.vcpu_info_cache,
++					     data->u.gpa, sizeof(struct vcpu_info));
++		} else {
++			if (data->u.hva == 0) {
++				kvm_gpc_deactivate(&vcpu->arch.xen.vcpu_info_cache);
++				r = 0;
++				break;
++			}
 +
-  out:
--	read_unlock_irqrestore(&gpc->lock, flags);
-+	if (locked)
-+		read_unlock(&gpc->lock);
-+
-+	local_irq_restore(flags);
- 	return kick_vcpu;
- }
++			r = kvm_gpc_activate_hva(&vcpu->arch.xen.vcpu_info_cache,
++						 data->u.hva, sizeof(struct vcpu_info));
+ 		}
  
+-		r = kvm_gpc_activate(&vcpu->arch.xen.vcpu_info_cache,
+-				     data->u.gpa, sizeof(struct vcpu_info));
+ 		if (!r)
+ 			kvm_make_request(KVM_REQ_CLOCK_UPDATE, vcpu);
+ 
+@@ -1020,6 +1033,15 @@ int kvm_xen_vcpu_get_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
+ 		r = 0;
+ 		break;
+ 
++	case KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO_HVA:
++		if (vcpu->arch.xen.vcpu_info_cache.active &&
++		    vcpu->arch.xen.vcpu_info_cache.gpa == KVM_XEN_INVALID_GPA)
++			data->u.hva = vcpu->arch.xen.vcpu_info_cache.uhva;
++		else
++			data->u.hva = 0;
++		r = 0;
++		break;
++
+ 	case KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO:
+ 		if (vcpu->arch.xen.vcpu_time_info_cache.active)
+ 			data->u.gpa = vcpu->arch.xen.vcpu_time_info_cache.gpa;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 32cf3432a507..9628a8018500 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1898,6 +1898,7 @@ struct kvm_xen_vcpu_attr {
+ 	union {
+ 		__u64 gpa;
+ #define KVM_XEN_INVALID_GPA ((__u64)-1)
++		__u64 hva;
+ 		__u64 pad[8];
+ 		struct {
+ 			__u64 state;
+@@ -1928,6 +1929,8 @@ struct kvm_xen_vcpu_attr {
+ #define KVM_XEN_VCPU_ATTR_TYPE_VCPU_ID		0x6
+ #define KVM_XEN_VCPU_ATTR_TYPE_TIMER		0x7
+ #define KVM_XEN_VCPU_ATTR_TYPE_UPCALL_VECTOR	0x8
++/* Available with KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA */
++#define KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO_HVA	0x9
+ 
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
 -- 
 2.39.2
 
