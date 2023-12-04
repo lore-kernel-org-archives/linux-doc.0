@@ -1,94 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M6tUc4FB"
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7046AD3
-	for <linux-doc@vger.kernel.org>; Sun,  3 Dec 2023 15:09:03 -0800 (PST)
-Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-db54611b920so1913559276.3
-        for <linux-doc@vger.kernel.org>; Sun, 03 Dec 2023 15:09:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q3DwEmB4"
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C08AE6
+	for <linux-doc@vger.kernel.org>; Sun,  3 Dec 2023 19:01:52 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6ce2ff70619so302386b3a.2
+        for <linux-doc@vger.kernel.org>; Sun, 03 Dec 2023 19:01:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701644942; x=1702249742; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4n0yeFoRGU0FTZSqIuyxEoTKmmtJdn1QWuVidYm9OV4=;
-        b=M6tUc4FBPI9dt+S16w8lFp1U1j5qcZSFEmmAa4Up8JYTrp8yWoT8H/i+DWEEJSxOJ7
-         LPlx10MLExqfLk+N7BnqItX9BkmrxZbmAO9Se8P223voJiR0wPt2ZFQ+uotyjiVxLOi1
-         /RNVnl9fRSEwykysqlC3LpbwxhPk4pg77dbwbaet2mNP/dxPkotuKCgCm0U3j3vJ3VLh
-         RTr5TOFu3iKGk2037kxO83CjGPWggZG7t4qN4pIJsdQEz45SwEXdaJfstDRDw/SEYRMw
-         atxfl9j8J86/s6lW4P5iHD8+Q0dq8Zug6OH5kz+X02VhXFztSoUn0p4TSTpHIk1n9jaQ
-         R3yA==
+        d=linaro.org; s=google; t=1701658912; x=1702263712; darn=vger.kernel.org;
+        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=CQYiiiRLontcDI44whmeD/LoEJVxuqfkBiryqv/zBTg=;
+        b=q3DwEmB4PoXI90W8n4dpmreCIn3QymFrI+vnck8BQ4dZsXgYzdXpJMmLdCZsaQ6W/D
+         cCuK7B29+4/j/SkY/E+9CTj9nzcV0g2DJ5jYfDlkyQ+Ovvj1Am9zG3tQH0rtpapkcr1h
+         jAwkf0pAEEkKC8bGb4InCLPTPtxTR1y+i7Uc/7KHnIieKwTm64vsRpjyd3APhjoiBaBO
+         ULZjb7JIafyeidTMh58sJPA/6HZysYsXrcLxEPfmTZpWPDzC7cgpN60Zn/w/U9YJQf3Z
+         ktGaDBSOto0r54hhNHk1gVGqZgPEcQcsRm/RNwTMI6xA6LplPnjn9zVvxD5/pB65rjb3
+         9eXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701644942; x=1702249742;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4n0yeFoRGU0FTZSqIuyxEoTKmmtJdn1QWuVidYm9OV4=;
-        b=TC4PUVHPeJwNN/sCt0z5JZh0Oipqxr3ZftnBOr2d5mjmmMLwedULf0qDQXpyvnPhh8
-         dBEEJUkSNn/BnHqGD2xE2WlsbA2SGRtwuFV8krN/erB2OaqM+Pua0CEanod1N8hFQSdd
-         shIM9XkjR1ivA+hyuYt4+wAEr//gsbq6rG+EiTco7vLtDchKtxhEGNOyBYn8tSw8T0gg
-         wngRRiOW6Xwujl1sDB4mvXmGOizI7jznHCS7UgssIAbTRc68UUgQNjg7FPeW7x9gySI0
-         LKRwbscc4VVxsxIegGG4ghNo3UhHfSX6oZX4PoLJgIs18auLUagdFsfe79+2z5I8DDR0
-         ds4A==
-X-Gm-Message-State: AOJu0YxAE4mCbivC3qhFRfKVfVSTGmr4l/dumoY1t/7o2vEbGGfGYCyS
-	//C0E3mUoTJMBKn6lEydcGZgtVECpYYQnKSQU3NWeQ==
-X-Google-Smtp-Source: AGHT+IFKwL9XjQOio2aM0nIHXvV+LqDJAQsj586dCvFCnDyPpVGAYCPas+78bTi1GwtoWVsyPmywwjtKlbZOkCSepZU=
-X-Received: by 2002:a81:8485:0:b0:5d7:1940:53c5 with SMTP id
- u127-20020a818485000000b005d7194053c5mr1927535ywf.61.1701644942703; Sun, 03
- Dec 2023 15:09:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701658912; x=1702263712;
+        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CQYiiiRLontcDI44whmeD/LoEJVxuqfkBiryqv/zBTg=;
+        b=maYrrlcGEHvCU9nPg2+T9g/KaBhzeul2i3wJF/zwmr0b43Qa6bKQYUW5ddN1ogY+Iu
+         m/LTriD9x3ACvf6Z/G/uiELnqE0sFfE+9a8cmI4aPvO9enRd4tkdf9gjLx07bZqSs9ht
+         8Jk3yXu6bbwwXNaG6MEfHRovD4WzUFEPLcwG/YkMutn6PilZ+RxlzBO0zjLTZaoEvUsL
+         E0N0vEvdyOm1ZJ5RN36TCfxB4eMmrVBpUE048CG9hhv3tUvkHQtdJPAHAkmktZMzDVc0
+         Pd/4dXoaXyraKX9HCI7JJZ7SelEMw4Lqy3nYl7QM/nxdpsm9FwN3BrqAasHqk/e+CpCG
+         42yg==
+X-Gm-Message-State: AOJu0YxTEEcZXLLuXCg71FjJzNM9pN/GQN+mnL9BvS47y6eRE9ooG9TR
+	+9uT7tE0v8p6vQ0yQ0ly8Ds1Nw==
+X-Google-Smtp-Source: AGHT+IHFLJUBmtnWAvysao8TWHQlyk2Cfpox9jD8bkyNgUP4wKyxIxGZHkfjhvm//XUEUavLfPd53A==
+X-Received: by 2002:a05:6a20:748f:b0:18c:8fef:22cc with SMTP id p15-20020a056a20748f00b0018c8fef22ccmr1035248pzd.24.1701658911982;
+        Sun, 03 Dec 2023 19:01:51 -0800 (PST)
+Received: from localhost ([2804:14d:7e39:8470:979a:226c:de55:73de])
+        by smtp.gmail.com with ESMTPSA id c24-20020aa78818000000b006cd88728572sm6562301pfo.211.2023.12.03.19.01.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Dec 2023 19:01:51 -0800 (PST)
+References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
+ <20231122-arm64-gcs-v7-13-201c483bd775@kernel.org>
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
+ <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
+ <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+ <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
+ Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, Oleg
+ Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees
+ Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, "Rick P.
+ Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta
+ <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, Szabolcs Nagy
+ <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, Christian
+ Brauner <brauner@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v7 13/39] arm64/mm: Map pages for guarded control stack
+In-reply-to: <20231122-arm64-gcs-v7-13-201c483bd775@kernel.org>
+Date: Mon, 04 Dec 2023 00:01:49 -0300
+Message-ID: <87a5qqisbm.fsf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CACRpkdaksfS4WLNQ6ohauAPq3z2LPG2uF37_jWtm0brQHaDtNw@mail.gmail.com>
- <6384831c05b8ceeaf4a16cf9229770252989b762.camel@gmail.com>
- <CACRpkdZr6TdQCLy73Yx2RdMgQifd67remdxENBKYx3UvEMm87A@mail.gmail.com>
- <971eb35068639ec404669ea5320c8183ea71a7d0.camel@gmail.com>
- <ZWiP3i80KnVk9qyx@smile.fi.intel.com> <a4bd59df0c5bc1be5d0d6f11b968fd61a59ee2e0.camel@gmail.com>
- <CACRpkdYz+qi42Pz8CgeWybksC0edaVux6rcEhwzjDWnWe9Jr1g@mail.gmail.com>
- <61a8f54835c10db7a9c650ee2e3706b47382c634.camel@gmail.com>
- <CACRpkda55HzPqus5KR-t=xEBkkdND5kYZj1sHdxK+j6QwDUPRg@mail.gmail.com>
- <b761d2497462664d541779857398b2aa893cbee5.camel@gmail.com>
- <ZWoABzufPkdXnrMT@smile.fi.intel.com> <7dc3f137-6073-4262-afb5-439d024bbbd2@roeck-us.net>
- <986fb7dc2a34602fa9c2d57a7a3e06a71cfdc0a0.camel@gmail.com>
- <66454ca2-d5cb-4701-a237-03b3991a791f@roeck-us.net> <ba123831d7956b0437158a6928ddafb4510ab62b.camel@gmail.com>
-In-Reply-To: <ba123831d7956b0437158a6928ddafb4510ab62b.camel@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 4 Dec 2023 00:08:51 +0100
-Message-ID: <CACRpkdYfe68aVNcnvfmLz8y3QOfsyA9vFHsaTL6Y9mZJ31wKRg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Andy Shevchenko <andy@kernel.org>, nuno.sa@analog.com, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Sat, Dec 2, 2023 at 10:42=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail.com=
-> wrote:
 
- Hopefully, I'll get into the gpio stuff later on. From a brief look,
-the auxiliary
-> bus might feet and easier than mfd.
+Hello,
 
-You can also just spawn a random platform_device from the HWMON driver
-and let that probe a driver down in drivers/gpio/*.
+Mark Brown <broonie@kernel.org> writes:
 
-static struct platform_device my_gpio_device =3D {
-        .name =3D "my-gpio",
-        .id =3D -1,
-};
+> diff --git a/arch/arm64/mm/mmap.c b/arch/arm64/mm/mmap.c
+> index 645fe60d000f..605d4e6edc1d 100644
+> --- a/arch/arm64/mm/mmap.c
+> +++ b/arch/arm64/mm/mmap.c
+> @@ -79,9 +79,20 @@ arch_initcall(adjust_protection_map);
+>  
+>  pgprot_t vm_get_page_prot(unsigned long vm_flags)
+>  {
+> -	pteval_t prot = pgprot_val(protection_map[vm_flags &
+> +	pteval_t prot;
+> +
+> +	/* If this is a GCS then only interpret VM_WRITE. */
+> +	if (system_supports_gcs() && (vm_flags & VM_SHADOW_STACK)) {
+> +		if (vm_flags & VM_WRITE)
+> +			prot = _PAGE_GCS;
+> +		else
+> +			prot = _PAGE_GCS_RO;
+> +	} else {
+> +		prot = pgprot_val(protection_map[vm_flags &
+>  				   (VM_READ|VM_WRITE|VM_EXEC|VM_SHARED)]);
+> +	}
+>  
+> +	/* VM_ARM64_BTI on a GCS is rejected in arch_valdiate_flags() */
 
-my_gpio_device.dev.platform_data =3D ... ;
-my_gpio_device.dev.parent =3D dev;
-return platform_device_register(&my_gpio_device);
+s/valdiate/validate/
 
-You can then pass any accessors as platform data. This in a way is what
-the MFD or aux buses do just more organized.
+>  	if (vm_flags & VM_ARM64_BTI)
+>  		prot |= PTE_GP;
 
-Yours
-Linus Walleij
+
+-- 
+Thiago
