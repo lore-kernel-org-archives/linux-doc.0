@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jrv/0gz1"
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E8DC103;
-	Mon,  4 Dec 2023 08:47:19 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40c05ce04a8so23781185e9.0;
-        Mon, 04 Dec 2023 08:47:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eq1+hsaZ"
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3DBD11A;
+	Mon,  4 Dec 2023 08:47:22 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40c0a03eb87so15155325e9.3;
+        Mon, 04 Dec 2023 08:47:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701708437; x=1702313237; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1701708441; x=1702313241; darn=vger.kernel.org;
         h=mime-version:user-agent:references:message-id:date:in-reply-to
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LvTpQwaasVlCJl4p1fTbAgrA0NBuqainPf8SCtLi/II=;
-        b=jrv/0gz1CxLSeH7gWFjHWyn2it9r2A93TGbTl8xjKTLGmdxOA9WT/rIxEH1eDbtFqU
-         aXsWGq5VnisoNOVusAU8sox8w8Q5ztpLcZ3Geh990Q5BqWq0U7LXvDP3uEmzDoZsZ//Z
-         lWG2hNfjkQDNjiwSq1M77Xymyp+vjGr86yp95+c1loV09QYdJwyFyLVbyb6+fUGVB4UO
-         YsMB7uJSbMkTJijSTUCPct5dqvsAMJqgrdmyq2Q0uW9lDLdwQk9SopAnsqhZY2wtBLYh
-         ox9E4A7Wk68cCJZotub4ICoGoqo8oxL8P3ppmSjum9WJMcmByzv1hO8UHYPIZr6EqVS5
-         3Xqw==
+        bh=Y8w8/NZodyasp/IFI+hRUIAjihChoTfPl5Cg9hVHbRM=;
+        b=Eq1+hsaZr1I4IJrbzydbldqd5941FGCyABsntflEO44GuaQfCBm/I9/uIcSq5FTQh8
+         wHcRMWzi6dtb4AAAuEQq/obJSiSzmFifgt8arUb7rWFvR/Nzn0FJwV9j+SHdbB8YNifX
+         xKmQeR4CW7xDJSxIs0NZVoC8GLQFhRqjXMy29QIz4gCnL1VwbwMVga/sEqHEDuKzaESr
+         khq3tbOrpfoP8bDzb4FJzKq37/ENRJWLHgp4cemms0zPmTFg+jyupwKTCAnNFTs7IKyj
+         r4vDuCiX68JyxEMH4mxYNDqKbWpwKPUeX/QCu30J7Bw4TWyIFj4WnVckNQL47GfFKrYw
+         hk6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701708437; x=1702313237;
+        d=1e100.net; s=20230601; t=1701708441; x=1702313241;
         h=mime-version:user-agent:references:message-id:date:in-reply-to
          :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LvTpQwaasVlCJl4p1fTbAgrA0NBuqainPf8SCtLi/II=;
-        b=aLQKcT5bfepwidcBM3LoXev4Epok6MBIW1P0Z/ayNyAgeC9fJB1hpFVPskQYeb0nHk
-         s8G+PGMsOJjOs3+xPTl3EwTtsAqk/0TK6XTx6YQGnmYCQFgqphheiNsZS2qK29zvJK00
-         VxkTQ4M2+d4i9Wj5NI9L7Cn6L3G0rF8GNviOTiX20AgboT80nBsuqrSotd99kVXPkRSu
-         QapVcf4OILiTR9+jEW95lRFry6wM826yMXFrrEcmMJTmvwGVIAGXRdi2zwxmm2Uwiakg
-         BSFe6Kkvn9//L0ceT1GP4xnOfIy5Tqw9YBnnQNRlDCVGjaRj7LX9SEs2RQeTZD1BfFre
-         bs5Q==
-X-Gm-Message-State: AOJu0YwvWlizXlnA9ZQ3Of2MwolyUjYLyxdSQ0KWJ2jxZOvqqlIe+TtF
-	WL4g3jUClbYG1S7oVT4P9H0=
-X-Google-Smtp-Source: AGHT+IH/Jn9grVf+XLuvPauxdSXNWvjthStkrpARZ751p7/ukrIR2REI2bAdQMP6y3wyglar5AcvdA==
-X-Received: by 2002:a05:600c:3551:b0:40b:305c:9ce8 with SMTP id i17-20020a05600c355100b0040b305c9ce8mr1288016wmq.28.1701708437316;
-        Mon, 04 Dec 2023 08:47:17 -0800 (PST)
+        bh=Y8w8/NZodyasp/IFI+hRUIAjihChoTfPl5Cg9hVHbRM=;
+        b=IcXHd74IVm/RZEsUxOaI+GSwBS45tqVDDUqF/LmkgOv9UVPHyHG3QsnDfk+XrwW8Qx
+         DcAsk14FcbD8Gld3Emo3sWynbNJ0pxZpZF+BWQO2BbzbpKO7al+OpwCiL+bKnxON3/2M
+         lfjcAEK66kJtvuJqcTS8VV7h7KFldhVg8IJgA2WizqTexcSx6LXNfjHFSPSWaF+zUsos
+         PzNN9FMwP4b9JvqR2UDKrZDQEENPytAlB5R1Sxg9BVKH7atuhtVUA0kjh6/48BwaY7J1
+         881/ycgTDLGTfVdQXkv/hDI6YeSWY60zKTjMqnBUCQ/3QY+5ArSBDrk9R607Sjc/5LnI
+         S8xw==
+X-Gm-Message-State: AOJu0YynuCqM+awSDPDBcUm62qteDKTy81lrJoASE+PeYxzvQz4A6W3i
+	yJByCioztCQi0uw+MR/Qd1M=
+X-Google-Smtp-Source: AGHT+IHEmPcutxPPq5uSAfpi3ImyIAf1IA38LMe3dS4WVOcI/n4t1xYdGJ29dqBM2ZRAxS880RaiAA==
+X-Received: by 2002:a05:600c:348d:b0:40b:5f03:b3ea with SMTP id a13-20020a05600c348d00b0040b5f03b3eamr1142847wmq.268.1701708440984;
+        Mon, 04 Dec 2023 08:47:20 -0800 (PST)
 Received: from imac ([2a02:8010:60a0:0:d9c9:f651:32f4:3bc])
-        by smtp.gmail.com with ESMTPSA id j37-20020a05600c1c2500b0040b3515cdf8sm15650485wms.7.2023.12.04.08.47.16
+        by smtp.gmail.com with ESMTPSA id b19-20020a05600c4e1300b0040648217f4fsm19297397wmq.39.2023.12.04.08.47.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 08:47:16 -0800 (PST)
+        Mon, 04 Dec 2023 08:47:20 -0800 (PST)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
  Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
  Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
  <jacob.e.keller@intel.com>,  donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 3/6] tools/net/ynl: Add 'sub-message'
- attribute decoding to ynl
-In-Reply-To: <20231201180029.45acfc2c@kernel.org> (Jakub Kicinski's message of
-	"Fri, 1 Dec 2023 18:00:29 -0800")
-Date: Mon, 04 Dec 2023 15:59:31 +0000
-Message-ID: <m2cyvm6jrw.fsf@gmail.com>
+Subject: Re: [PATCH net-next v1 5/6] doc/netlink/specs: add sub-message type
+ to rt_link family
+In-Reply-To: <20231201181014.0955104a@kernel.org> (Jakub Kicinski's message of
+	"Fri, 1 Dec 2023 18:10:14 -0800")
+Date: Mon, 04 Dec 2023 16:22:03 +0000
+Message-ID: <m24jgy6iqc.fsf@gmail.com>
 References: <20231130214959.27377-1-donald.hunter@gmail.com>
-	<20231130214959.27377-4-donald.hunter@gmail.com>
-	<20231201180029.45acfc2c@kernel.org>
+	<20231130214959.27377-6-donald.hunter@gmail.com>
+	<20231201181014.0955104a@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -63,17 +63,17 @@ Content-Type: text/plain
 
 Jakub Kicinski <kuba@kernel.org> writes:
 
-> On Thu, 30 Nov 2023 21:49:55 +0000 Donald Hunter wrote:
->> @@ -510,7 +561,7 @@ class SpecFamily(SpecElement):
->>        """
->>        for op in self.yaml['operations']['list']:
->>          if name == op['name']:
->> -          return op
->> +            return op
->>        return None
->>  
->>      def resolve(self):
+> On Thu, 30 Nov 2023 21:49:57 +0000 Donald Hunter wrote:
+>>        -
+>>          name: slave-data
+>> -        type: binary
+>> -        # kind specific nest
+>> +        type: binary # kind specific nest
 >
-> Looks unrelated, plus the 'for' vs 'if' are still indented by 2.
+> Just to be clear - we can define sub-message for this nest, too, right?
+>
+> Not sure if it's worth moving the comment in the commit, it's just
+> noise..
 
-Yep, I can drop this.
+Ah, good catch. I can at least put in a sub-message placeholder for
+slave-data.
