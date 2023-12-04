@@ -1,76 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjGC3zyx"
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDF1CD;
-	Mon,  4 Dec 2023 08:47:24 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40c032962c5so28353195e9.3;
-        Mon, 04 Dec 2023 08:47:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701708443; x=1702313243; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UGiPJeGaBfI10fSKuBLYJX6P363I/UXfQapTU3xntlE=;
-        b=UjGC3zyxLDNrLp4rGH/T9e+30ZVg3meyUmoeMdsNYX07QrZOz4BGx9uIbcz5QHyjlH
-         h4TWcRv223lSjqdk4V/kgKwVNXAXuGwiiFu7d1T2mIRWOf0CzfMfw02Hpx7o1/DlKgFP
-         TllBG/VpdjA+roAbt6rB9UjmUk263xhnVHkzJy6iZEO0uQywr3BDaNWxA9CyfQLBNsfh
-         czjkLmZovKVf9duIth+ZgH09v2PrQBbz3GZzak1T+pbMCsgbutb7s8KPV8ErV0nOYqGz
-         Apmii2Hs0bq1kVQ69UGn7BNNdVHNKlKvFaqF7oHOZIQeVWu0AjUHgKeVfjzx4/j1TfUc
-         T0nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701708443; x=1702313243;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UGiPJeGaBfI10fSKuBLYJX6P363I/UXfQapTU3xntlE=;
-        b=R4V6ajd/Ceha6m7ok+zWS7hChGY+UnSvCTyOZnEDPUOhtjtIpOO4X0oA4qnvWRzuZR
-         gfOL9NUj6/57zNbU0Fhzuu4vgnCTS3GOgMefAvuchKuxQnzjYVkYasqGo2aqnZ2kO28c
-         N1uI14Du01XSR1kEjX5zMi3I9YA2QAkQctnmLJiEezC2yjj8JvV5/gfcr3Mvr/9AP5D2
-         PscgsEQ5yY37lws+thVlGaePSdpFl72Q4M9tErfVS5JeUhJ0/+rzRxtkodfm0cTsspLR
-         ASiV1/yOUpPG0oNfg11p6LnYQVjvpGFF1zIkkVT6So8qHyGyqo2XhRx9UYe1dqu4+jLV
-         lV1Q==
-X-Gm-Message-State: AOJu0Yw8D3zgYCUYJuQKyvkDvixzEh96HrsF6+z8KeCCdrvB9WYPL15u
-	u5lfuhMKvx87NNtw9CZRw7s=
-X-Google-Smtp-Source: AGHT+IGSF1LrH1BjH8ri/jcfCuSLXRh++RjEzT1bBJMNDbXAbhTph3h4onMkOMNHeTYsex3d3NUjyA==
-X-Received: by 2002:a05:600c:490f:b0:40b:5e59:99ac with SMTP id f15-20020a05600c490f00b0040b5e5999acmr2048843wmp.204.1701708442796;
-        Mon, 04 Dec 2023 08:47:22 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:d9c9:f651:32f4:3bc])
-        by smtp.gmail.com with ESMTPSA id a13-20020a05600c348d00b0040b5377cf03sm19408669wmq.1.2023.12.04.08.47.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 08:47:22 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
- Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
- Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
- <jacob.e.keller@intel.com>,  donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 6/6] doc/netlink/specs: Add a spec for tc
-In-Reply-To: <20231201181325.4a12e03b@kernel.org> (Jakub Kicinski's message of
-	"Fri, 1 Dec 2023 18:13:25 -0800")
-Date: Mon, 04 Dec 2023 16:27:24 +0000
-Message-ID: <m2zfyq53wz.fsf@gmail.com>
-References: <20231130214959.27377-1-donald.hunter@gmail.com>
-	<20231130214959.27377-7-donald.hunter@gmail.com>
-	<20231201181325.4a12e03b@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+Received: from mxout014.mail.hostpoint.ch (mxout014.mail.hostpoint.ch [IPv6:2a00:d70:0:e::314])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F78DCA;
+	Mon,  4 Dec 2023 08:51:48 -0800 (PST)
+Received: from [10.0.2.46] (helo=asmtp013.mail.hostpoint.ch)
+	by mxout014.mail.hostpoint.ch with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2 (FreeBSD))
+	(envelope-from <code@stefan-gloor.ch>)
+	id 1rACAV-0007sl-1J;
+	Mon, 04 Dec 2023 17:51:39 +0100
+Received: from 157.20.79.83.dynamic.wline.res.cust.swisscom.ch ([83.79.20.157] helo=thinkpad.localdomain)
+	by asmtp013.mail.hostpoint.ch with esmtpa (Exim 4.96.2 (FreeBSD))
+	(envelope-from <code@stefan-gloor.ch>)
+	id 1rACAV-000JX2-0e;
+	Mon, 04 Dec 2023 17:51:39 +0100
+X-Authenticated-Sender-Id: code@stefan-gloor.ch
+From: Stefan Gloor <code@stefan-gloor.ch>
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Stefan Gloor <code@stefan-gloor.ch>
+Subject: [PATCH v2 0/2] hwmon: sht3x: improve docs, read serial number
+Date: Mon,  4 Dec 2023 17:50:02 +0100
+Message-ID: <20231204165004.8491-1-code@stefan-gloor.ch>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Vs-State: 0
 
-Jakub Kicinski <kuba@kernel.org> writes:
+The temperature/humidity sensors of the STS3x/SHT3x family are
+calibrated and factory-programmed with a unique serial number.
+For some sensors, this serial number can be used to obtain a calibration
+certificate via an API provided by the manufacturer (Sensirion).
+Expose the serial number via debugfs.
 
-> On Thu, 30 Nov 2023 21:49:58 +0000 Donald Hunter wrote:
->> +      -
->> +        name: app
->> +        type: binary # TODO sub-message needs 2+ level deep lookup
->> +        sub-message: tca-stats-app-msg
->> +        selector: kind
->
-> Ugh. Meaning the selector is at a "previous" level of nesting?
+Documentation is missing information about the sts3x support, add it.
 
-That's right. I wonder if we should use a relative syntax like "../kind"
-for the selector. Will either need to pass the known attrs to nest
-parsing, or pass a resolver instead?
+Changelog
+=========
+
+v1 -> v2:
+	- Change from sysfs to debugfs
+	- Add documentation improvements
+
+In v1 I stated that the serial number readout was not
+documented for the whole SHT3x/STS3x series. I found that there is a
+separate document for SHT3x documenting this feature.
+For STS3x, the manufacturer confirmed with me that both families work
+identically. Therefore, it is not needed to introduce more IDs than "sts3x"
+and "sht3x", as they don't have different functionality.
+
+Stefan Gloor (2):
+  hwmon: sht3x: add sts3x support
+  hwmon: sht3x: read out sensor serial number
+
+ Documentation/hwmon/sht3x.rst | 40 ++++++++++++++++++++-----
+ drivers/hwmon/sht3x.c         | 55 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 87 insertions(+), 8 deletions(-)
+
+-- 
+2.41.0
+
