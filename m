@@ -1,54 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFK0G+Iz"
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F0BFF3;
-	Sun,  3 Dec 2023 20:06:14 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1d05199f34dso13412425ad.3;
-        Sun, 03 Dec 2023 20:06:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIFNGNfq"
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2EC95;
+	Sun,  3 Dec 2023 21:57:47 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5c673b01eeeso241672a12.1;
+        Sun, 03 Dec 2023 21:57:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701662774; x=1702267574; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1701669467; x=1702274267; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CbkCHx96etqSfTuELzIWMZk408/Yxj+/7Dk7WZ5k3MY=;
-        b=DFK0G+Iz2ZSBFS+IA3UStPS36CkBwmzEvgWn98Or7aGFot08MBdQiFfayTm8SJwdb+
-         91aCmLAOYUYVuypEL49SApdGSY9vsb2ieKuitb9no+biiwKlzy1/g0RKSSHciSgcVGGp
-         Ti7PPOHEFZQ2dMTPthPP64+WjDCSMw+FiSHUCI4qAo2joA0R3LOmYXXeUG0ObGxfj+3S
-         nr6hWlQvJCajRg/qNGZBOxLQSkY1lHLaXojlQOSaSIqyDu5GS5kj5QB0JG6sWA4JwuSR
-         Ea9fA2uWx4uKmrOf/YiNxCJa+g08gMT9Yq6+d+3Tv5f2lOryhNmlHPYCCTzyAfb8Ya6q
-         AuTA==
+        bh=H6eGxkIuJnwxIMsVrJhL0EVIrXnUAxwMRRf6LD+k5GI=;
+        b=DIFNGNfqCZ8+QL6eIKVkn8686e8yop9I7zGyZ7HCJOOCwxdNSnCQLf5KReZO+22Z28
+         0uaIGJlRA6gMWZsefcqNp6Dk25CKOsO4QCggFRFZdW0S20QKhnz5pJnBfs52Fn0BIqr6
+         MLUVR6YdRjIhWMRkKHyuzanHgEzJ6FdSxizlvTe5J1u4SZF0aTt9sa5Y512fpxooWBnb
+         j6zNvhC9UsLUim77RtTAeUCQDRQSwnpjj2AFp9uGcvZnOBQiic8XUMW5l/BzR0tKd81w
+         33b29lZElJaS7njdxFoZdOgT1P/KtOQEnpIlCNz4lrdo3je0p+sXTd1fb0M7zx1eCsMp
+         Aezg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701662774; x=1702267574;
+        d=1e100.net; s=20230601; t=1701669467; x=1702274267;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CbkCHx96etqSfTuELzIWMZk408/Yxj+/7Dk7WZ5k3MY=;
-        b=Yp/25NkZ7rEBESoXS8ZEPXZ+TPLIvXeu9Df2gGUdNwSoT4acStzw/vonYM+oAPvVLn
-         03DzioaaHwo3ZCLOCHk1wJD5+TCJ4ekU9yABs2sGMGj95eDYbxNKH7MNmTwM4klAi7hm
-         58ucUm39HwfRha8KlWkL6fCNWYvwKFAKG2+GiHVanr0fwqMFMGwP6qK2gSYax9geifRZ
-         W204NpX/cKdVGmIRncZx31CcfclQZ4cjkHeOMkEM6/XPiOphQo42araPoiSE0kUUqfiP
-         p4P7Z7aciX6dVaQKGgzp7RrGmLv1SotuDQCKyioNsbnv4fpLF1rGEU/mOgPBAGPIfz8T
-         NuJw==
-X-Gm-Message-State: AOJu0YxdMZKQIGLkeJRppq4Wsk/7clF7emvRRC/IMBq5Z5Oy6zV/uUpr
-	50uDtnUJ2Cmqcfb2jYoO5qM=
-X-Google-Smtp-Source: AGHT+IFTfw+eZUHc/hM8+luAPSQ+lJwTxRZCwzjVXg5g7icgbGKpd+2Bl6qrw6MJmDLQvVzNAeZ2UQ==
-X-Received: by 2002:a17:902:ced2:b0:1d0:6ffd:6e68 with SMTP id d18-20020a170902ced200b001d06ffd6e68mr1451983plg.96.1701662773729;
-        Sun, 03 Dec 2023 20:06:13 -0800 (PST)
-Received: from localhost.localdomain (c-73-254-2-55.hsd1.wa.comcast.net. [73.254.2.55])
-        by smtp.gmail.com with ESMTPSA id f13-20020a170902ce8d00b001d08f173f00sm1736084plg.194.2023.12.03.20.06.12
+        bh=H6eGxkIuJnwxIMsVrJhL0EVIrXnUAxwMRRf6LD+k5GI=;
+        b=pPhoXo/YG9uiNsBwAzG73OnVBQ9CLdO55uXqqLuiIYkxxVZpwSFCfhM7M8CZilyHRM
+         N14sk670h2ZxfM7hBXNrlug37WbpXvb0zwF/TyiD6194EWtBTf11wAYgUShst3HM/weu
+         G85deWlNCrfDPVwkZevX4ednJdJEib6CFVWvnKmG3Lop56pCxt8pAvQj5EYjZaXVx+OV
+         TgaFSoANg1tQFpBbMBL1VVh53akGToUUp+C9caC3GWhdDRQe8GCpnfwDPOb9eNHbZFWh
+         88DsVOMdJUSKWLhm2nbmySRSaTHBfSHlhTTM2YaXynTl5/2Qi2MPZureAzwFHmA2fe6H
+         t3PA==
+X-Gm-Message-State: AOJu0Yycp2lISih25V/xn4VzZQPkMN3QzC+I43QVE1ga7oToGbN94/ic
+	6Dh2R0RofkCS7tA2YIPGmt4=
+X-Google-Smtp-Source: AGHT+IEOxA1sezvW26X8BelxyvlD1wk8gx8+epLf3Bd/vLJ0JK2OJGjWJaqt5ocmFt3IBeAQm4kkug==
+X-Received: by 2002:a17:90b:4d0c:b0:286:3b18:af40 with SMTP id mw12-20020a17090b4d0c00b002863b18af40mr1058284pjb.21.1701669466622;
+        Sun, 03 Dec 2023 21:57:46 -0800 (PST)
+Received: from hcdev-d520mt2.. (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
+        by smtp.gmail.com with ESMTPSA id 95-20020a17090a09e800b0028651ea5e7csm6113523pjo.33.2023.12.03.21.57.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 20:06:13 -0800 (PST)
-From: Adrien Leravat <adrien.leravat@gmail.com>
-To: andersson@kernel.org,
-	mathieu.poirier@linaro.org,
+        Sun, 03 Dec 2023 21:57:46 -0800 (PST)
+From: baneric926@gmail.com
+X-Google-Original-From: kcfeng0@nuvoton.com
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
 	corbet@lwn.net
-Cc: Adrien Leravat <adrien.leravat@gmail.com>,
-	linux-remoteproc@vger.kernel.org,
+Cc: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: rmpsg: update with rpmsg_endpoint
-Date: Sun,  3 Dec 2023 12:06:04 -0800
-Message-ID: <20231203200606.255302-1-adrien.leravat@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	openbmc@lists.ozlabs.org,
+	kwliu@nuvoton.com,
+	kcfeng0@nuvoton.com,
+	DELPHINE_CHIU@wiwynn.com,
+	Bonnie_Lo@wiwynn.com,
+	Ban Feng <baneric926@gmail.com>
+Subject: [PATCH v1 0/2] hwmon: Driver for Nuvoton NCT736X
+Date: Mon,  4 Dec 2023 13:56:48 +0800
+Message-Id: <20231204055650.788388-1-kcfeng0@nuvoton.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,138 +67,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It seems the documentation was not updated when `rpmsg_sendto`
-and related switched from `rpmsg_channel` to `rpmsg_endpoint`.
-This change updates the proper calls, text, and the sample.
+From: Ban Feng <baneric926@gmail.com>
 
-Signed-off-by: Adrien Leravat <adrien.leravat@gmail.com>
----
- Documentation/staging/rpmsg.rst | 50 ++++++++++++++++++---------------
- 1 file changed, 27 insertions(+), 23 deletions(-)
+NCT736X is an I2C based hardware monitoring chip from Nuvoton.
 
-diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
-index 1ce353cb232a..dba3e5f65612 100644
---- a/Documentation/staging/rpmsg.rst
-+++ b/Documentation/staging/rpmsg.rst
-@@ -68,13 +68,14 @@ User API
- 
- ::
- 
--  int rpmsg_send(struct rpmsg_channel *rpdev, void *data, int len);
-+  int rpmsg_send(struct rpmsg_endpoint *ept, void *data, int len);
- 
--sends a message across to the remote processor on a given channel.
--The caller should specify the channel, the data it wants to send,
-+sends a message across to the remote processor from the given endpoint.
-+The caller should specify the endpoint, the data it wants to send,
- and its length (in bytes). The message will be sent on the specified
--channel, i.e. its source and destination address fields will be
--set to the channel's src and dst addresses.
-+endpoint's channel, i.e. its source and destination address fields will be
-+respectively set to the endpoint's src address and its parent channel
-+dst addresses.
- 
- In case there are no TX buffers available, the function will block until
- one becomes available (i.e. until the remote processor consumes
-@@ -87,17 +88,18 @@ Returns 0 on success and an appropriate error value on failure.
- 
- ::
- 
--  int rpmsg_sendto(struct rpmsg_channel *rpdev, void *data, int len, u32 dst);
-+  int rpmsg_sendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
- 
--sends a message across to the remote processor on a given channel,
-+sends a message across to the remote processor from a given endpoint,
- to a destination address provided by the caller.
- 
--The caller should specify the channel, the data it wants to send,
-+The caller should specify the endpoint, the data it wants to send,
- its length (in bytes), and an explicit destination address.
- 
- The message will then be sent to the remote processor to which the
--channel belongs, using the channel's src address, and the user-provided
--dst address (thus the channel's dst address will be ignored).
-+endpoints's channel belongs, using the endpoints's src address,
-+and the user-provided dst address (thus the channel's dst address
-+will be ignored).
- 
- In case there are no TX buffers available, the function will block until
- one becomes available (i.e. until the remote processor consumes
-@@ -110,18 +112,19 @@ Returns 0 on success and an appropriate error value on failure.
- 
- ::
- 
--  int rpmsg_send_offchannel(struct rpmsg_channel *rpdev, u32 src, u32 dst,
-+  int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
- 							void *data, int len);
- 
- 
- sends a message across to the remote processor, using the src and dst
- addresses provided by the user.
- 
--The caller should specify the channel, the data it wants to send,
-+The caller should specify the endpoint, the data it wants to send,
- its length (in bytes), and explicit source and destination addresses.
- The message will then be sent to the remote processor to which the
--channel belongs, but the channel's src and dst addresses will be
--ignored (and the user-provided addresses will be used instead).
-+endpoint's channel belongs, but the endpoint's src and channel dst
-+addresses will be ignored (and the user-provided addresses will
-+be used instead).
- 
- In case there are no TX buffers available, the function will block until
- one becomes available (i.e. until the remote processor consumes
-@@ -134,13 +137,14 @@ Returns 0 on success and an appropriate error value on failure.
- 
- ::
- 
--  int rpmsg_trysend(struct rpmsg_channel *rpdev, void *data, int len);
-+  int rpmsg_trysend(struct rpmsg_endpoint *ept, void *data, int len);
- 
--sends a message across to the remote processor on a given channel.
--The caller should specify the channel, the data it wants to send,
-+sends a message across to the remote processor from a given endpoint.
-+The caller should specify the endpoint, the data it wants to send,
- and its length (in bytes). The message will be sent on the specified
--channel, i.e. its source and destination address fields will be
--set to the channel's src and dst addresses.
-+endpoint's channel, i.e. its source and destination address fields will be
-+respectively set to the endpoint's src address and its parent channel
-+dst addresses.
- 
- In case there are no TX buffers available, the function will immediately
- return -ENOMEM without waiting until one becomes available.
-@@ -150,10 +154,10 @@ Returns 0 on success and an appropriate error value on failure.
- 
- ::
- 
--  int rpmsg_trysendto(struct rpmsg_channel *rpdev, void *data, int len, u32 dst)
-+  int rpmsg_trysendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst)
- 
- 
--sends a message across to the remote processor on a given channel,
-+sends a message across to the remote processor from a given endoint,
- to a destination address provided by the user.
- 
- The user should specify the channel, the data it wants to send,
-@@ -171,7 +175,7 @@ Returns 0 on success and an appropriate error value on failure.
- 
- ::
- 
--  int rpmsg_trysend_offchannel(struct rpmsg_channel *rpdev, u32 src, u32 dst,
-+  int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
- 							void *data, int len);
- 
- 
-@@ -284,7 +288,7 @@ content to the console.
- 	dev_info(&rpdev->dev, "chnl: 0x%x -> 0x%x\n", rpdev->src, rpdev->dst);
- 
- 	/* send a message on our channel */
--	err = rpmsg_send(rpdev, "hello!", 6);
-+	err = rpmsg_send(rpdev->ept, "hello!", 6);
- 	if (err) {
- 		pr_err("rpmsg_send failed: %d\n", err);
- 		return err;
+Ban Feng (2):
+  dt-bindings: hwmon: Add nct736x bindings
+  hwmon: Driver for Nuvoton NCT736X
+
+ .../bindings/hwmon/nuvoton,nct736x.yaml       |  80 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/nct736x.rst               |  35 ++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/nct736x.c                       | 479 ++++++++++++++++++
+ 7 files changed, 614 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.yaml
+ create mode 100644 Documentation/hwmon/nct736x.rst
+ create mode 100644 drivers/hwmon/nct736x.c
+
 -- 
-2.43.0
+2.34.1
 
