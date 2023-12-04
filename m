@@ -1,674 +1,157 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CGAnEIko"
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A413E5;
-	Sun,  3 Dec 2023 21:57:52 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6ce5f4b3eefso31434b3a.3;
-        Sun, 03 Dec 2023 21:57:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vHL6YQnt"
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7FB0D5
+	for <linux-doc@vger.kernel.org>; Sun,  3 Dec 2023 22:53:29 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c0a03eb87so8934595e9.3
+        for <linux-doc@vger.kernel.org>; Sun, 03 Dec 2023 22:53:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701669472; x=1702274272; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=71l5ptp0B0Gs2wogftvPekh9Etuxw58JkgQO28x/sRA=;
-        b=CGAnEIkoqyPXNDxjwtzxbASVl9siVr8voGAyKUqLrAjzPyhgQkFLrAMo9lD3otXLAd
-         MyPq4pxnb2sQ6rlmRgp5HzQyl7q4VnBetpLxwivdv3odVCfU5Ow4FSSSts4lgWX76TWG
-         ZH5ls6+28Db36kkCxclOdaYU1wt8TiQ5m/vO5MGLCmrssB10NbePtX5XWp6E0O6cMczP
-         o+uaPsTyv0JeUvbqIIt3pD+XExMGcMyRwoen1v/q/CRxfE6dLAsXxV46sWZGYbeA/3nf
-         F1crTqwHuq4eFU4TRhbfGzjfxsTPazPnxarRLyQX0Upymo95zc6AeT7HNxWzH5o0VvV4
-         ZnOw==
+        d=linaro.org; s=google; t=1701672808; x=1702277608; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7HssFuAN0FmKtkeeOfUTQqNEnbKypEzyj8/UffXjzYs=;
+        b=vHL6YQnt8fqyvFd40jrM/OoLorA0Vf5lBiTOPLFprKdpvLom73+3YI7wlbvBFuTPZq
+         PYPVdW5KW8MfdJCq21w5vs9s5cH5e6MUnAlg/KCSnZhd4k1SRhi1ZROndcIIYId4xS+D
+         5jz/dS8pA84Vk2KcTGt4DSiG/+DtYQ/8CA+Yht5xClQQKRGSbEpovL+pzJxAOEqTL7CP
+         nlSyGgIXq0M+TwKebMpLHmM83JR53b5mSeeM8bvqtIaH6IjpR0Br/hZaigzSzZWJBFj9
+         RIm9YpFVYjAZNQHkUdVWjJPK6QqRDzBO9o3UpFAZ1dE3TN4NvVXy3cb2ZRbUsOj4kF9M
+         1skg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701669472; x=1702274272;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=71l5ptp0B0Gs2wogftvPekh9Etuxw58JkgQO28x/sRA=;
-        b=Ci5f5OTX2kE+k4w+/eT11+pCzvZH1unAL1Jd2fdTHYgRe11Cd2Bst7WPSb+yt16r9g
-         VpOTuJ+10FHWy5us9JP2lMwMBNZC/20ude9M/sk4BqdcVWLgbDRR/rWN+yf7H2cuJ6Ep
-         kV5/TAwOHyaC2Jc28jW5f9WMridcCF1wPfv7RJPWW/nWh9ZWwrhQZVSHt0AbtCYLYXeE
-         pI/VurST+mwspdmagL5aDS8QEgLs2yl2j2Ps0/CbQbfFj04ln9sThwEnVq/n8qdsqnCS
-         ZAUiwxzvV0BmGjahz2JRCGuUhXal0P85R9oKtahVhq6U6twT/u5rWTHLrWE9nNQPb5I5
-         Um4A==
-X-Gm-Message-State: AOJu0YztkLKc9R1Od/0deqsNwh6jJJJJRIMG6MUN+ihdU8IIn7LsvtE9
-	lJCsiJYZgT6bVJ9ky8Mah44=
-X-Google-Smtp-Source: AGHT+IHLL+rxwbIaI9882+mFkKDJ92RDTSCmBy2tc0zza3hBH4+Rx+E3cSoeITYBujabMfzpA7SP1g==
-X-Received: by 2002:a05:6a20:7490:b0:18f:97c:5b82 with SMTP id p16-20020a056a20749000b0018f097c5b82mr811026pzd.80.1701669471886;
-        Sun, 03 Dec 2023 21:57:51 -0800 (PST)
-Received: from hcdev-d520mt2.. (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
-        by smtp.gmail.com with ESMTPSA id 95-20020a17090a09e800b0028651ea5e7csm6113523pjo.33.2023.12.03.21.57.49
+        d=1e100.net; s=20230601; t=1701672808; x=1702277608;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7HssFuAN0FmKtkeeOfUTQqNEnbKypEzyj8/UffXjzYs=;
+        b=CFoYy2u/P/XpXYD6W4gHHq3UG9zdZ+XYudvB4nkZrNK4cYczNLfj+0UrNZm6N/Aysz
+         jtmc94Y1GN7bP9bkSctUZdIRoQHcnnIHhhIFm28s2evftSyWN0v2Nejx1iIV6iEYKX/5
+         5dbAuEeOEAmGGqWIZaDxE2jdrqsabZa3QsqTsYvVgL5vjawwru3ZQjilfcPQIyAOMKqd
+         fUnMRD7o4YG7Dd00Ywr1caJydpYfsvYh2ItxypLi+KJP6r0LdM4RqK+T6C00VCzNp6ar
+         JbYuNeqymg0Kop9oph1zOugRXRwTrII8QgdTy9J7aY7S0ritT6k/keMtUmVxtD7JiLBm
+         5drQ==
+X-Gm-Message-State: AOJu0YzOVMksKFTSHVLuE/DmQBGlVxmDCNC7mOuUQ2M+XT5BSiZd+hDq
+	nG+St/ZrHILZl2rJH5X5S/pkHg==
+X-Google-Smtp-Source: AGHT+IHtHa+5n4xN3AEKMSwT6hpelKtTdR3K3TiRCO07QqooArIjEdGOaVc05secXlj0uyQfVGAD9w==
+X-Received: by 2002:a05:600c:4fcf:b0:40b:5f03:b3b7 with SMTP id o15-20020a05600c4fcf00b0040b5f03b3b7mr968898wmq.217.1701672808259;
+        Sun, 03 Dec 2023 22:53:28 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q4-20020a05600000c400b003333fa3d043sm4558913wrx.12.2023.12.03.22.53.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 21:57:51 -0800 (PST)
-From: baneric926@gmail.com
-X-Google-Original-From: kcfeng0@nuvoton.com
-To: jdelvare@suse.com,
-	linux@roeck-us.net,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net
-Cc: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	openbmc@lists.ozlabs.org,
-	kwliu@nuvoton.com,
-	kcfeng0@nuvoton.com,
-	DELPHINE_CHIU@wiwynn.com,
-	Bonnie_Lo@wiwynn.com
-Subject: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-Date: Mon,  4 Dec 2023 13:56:50 +0800
-Message-Id: <20231204055650.788388-3-kcfeng0@nuvoton.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231204055650.788388-1-kcfeng0@nuvoton.com>
-References: <20231204055650.788388-1-kcfeng0@nuvoton.com>
+        Sun, 03 Dec 2023 22:53:28 -0800 (PST)
+Date: Mon, 4 Dec 2023 09:53:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Huan Yang <link@vivo.com>,
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Huang Ying <ying.huang@intel.com>,
+	Yosry Ahmed <yosryahmed@google.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Peter Xu <peterx@redhat.com>,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+	Liu Shixin <liushixin2@huawei.com>, Yue Zhao <findns94@gmail.com>,
+	Hugh Dickins <hughd@google.com>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
+Subject: Re: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
+Message-ID: <43b48148-fdfb-4ea3-8d7b-d3ebce7a04da@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231108065818.19932-3-link@vivo.com>
 
-From: Ban Feng <kcfeng0@nuvoton.com>
+Hi Huan,
 
-NCT736X is an I2C based hardware monitoring chip from Nuvoton.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/nct736x.rst |  35 +++
- MAINTAINERS                     |   2 +
- drivers/hwmon/Kconfig           |  10 +
- drivers/hwmon/Makefile          |   1 +
- drivers/hwmon/nct736x.c         | 479 ++++++++++++++++++++++++++++++++
- 6 files changed, 528 insertions(+)
- create mode 100644 Documentation/hwmon/nct736x.rst
- create mode 100644 drivers/hwmon/nct736x.c
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 72f4e6065bae..98eb0efeb121 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -161,6 +161,7 @@ Hardware Monitoring Kernel Drivers
-    mp5023
-    nct6683
-    nct6775
-+   nct736x
-    nct7802
-    nct7904
-    npcm750-pwm-fan
-diff --git a/Documentation/hwmon/nct736x.rst b/Documentation/hwmon/nct736x.rst
-new file mode 100644
-index 000000000000..b7d64087263a
---- /dev/null
-+++ b/Documentation/hwmon/nct736x.rst
-@@ -0,0 +1,35 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver nct736x
-+=====================
-+
-+Supported chip:
-+
-+  * Nuvoton NCT7362Y NCT7363Y
-+
-+    Prefix: nct736x
-+
-+    Addresses: I2C 0x20, 0x21, 0x22, 0x23
-+
-+Author: Ban Feng <kcfeng0@nuvoton.com>
-+
-+
-+Description
-+-----------
-+
-+The NCT736X is a Fan controller which provides up to 16 independent
-+FAN input monitors, and up to 16 independent PWM output with SMBus interface.
-+Besides, NCT7363Y has a built-in watchdog timer which is used for
-+conditionally generating a system reset output (INT#).
-+
-+
-+Sysfs entries
-+-------------
-+
-+Currently, the driver supports the following features:
-+
-+======================= =======================================================
-+fanX_input		provide current fan rotation value in RPM
-+
-+pwmX			get or set PWM fan control value.
-+======================= =======================================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index eef44c13278c..fed10a0bc49c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14905,6 +14905,8 @@ M:	Ban Feng <kcfeng0@nuvoton.com>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.yaml
-+F:	Documentation/hwmon/nct736x.rst
-+F:	drivers/hwmon/nct736x.c
- 
- NETDEVSIM
- M:	Jakub Kicinski <kuba@kernel.org>
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index cf27523eed5a..b2ca07e6c03a 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1605,6 +1605,16 @@ config SENSORS_NCT6775_I2C
- 	  This driver can also be built as a module. If so, the module
- 	  will be called nct6775-i2c.
- 
-+config SENSORS_NCT736X
-+	tristate "Nuvoton NCT736X"
-+	depends on I2C
-+	help
-+	  If you say yes here you get support for the Nuvoton NCT7362Y,
-+	  NCT7363Y hardware monitoring chip.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called nct736x.
-+
- config SENSORS_NCT7802
- 	tristate "Nuvoton NCT7802Y"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index e84bd9685b5c..13f378452a4b 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -166,6 +166,7 @@ obj-$(CONFIG_SENSORS_NCT6775_CORE) += nct6775-core.o
- nct6775-objs			:= nct6775-platform.o
- obj-$(CONFIG_SENSORS_NCT6775)	+= nct6775.o
- obj-$(CONFIG_SENSORS_NCT6775_I2C) += nct6775-i2c.o
-+obj-$(CONFIG_SENSORS_NCT736X)	+= nct736x.o
- obj-$(CONFIG_SENSORS_NCT7802)	+= nct7802.o
- obj-$(CONFIG_SENSORS_NCT7904)	+= nct7904.o
- obj-$(CONFIG_SENSORS_NPCM7XX)	+= npcm750-pwm-fan.o
-diff --git a/drivers/hwmon/nct736x.c b/drivers/hwmon/nct736x.c
-new file mode 100644
-index 000000000000..4c59e823062d
---- /dev/null
-+++ b/drivers/hwmon/nct736x.c
-@@ -0,0 +1,479 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (c) 2023 Nuvoton Technology corporation.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/err.h>
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/i2c.h>
-+#include <linux/jiffies.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/slab.h>
-+
-+#define NCT736X_REG_GPIO_0_3		0x20
-+#define NCT736X_REG_GPIO_4_7		0x21
-+#define NCT736X_REG_GPIO_10_13		0x22
-+#define NCT736X_REG_GPIO_14_17		0x23
-+#define NCT7363_REG_WDT			0x2A
-+#define WDT_CFG_MASK			GENMASK(3, 2)
-+#define	WDT_CFG(x)			FIELD_PREP(WDT_CFG_MASK, (x))
-+#define	EN_WDT				BIT(7)
-+#define NCT736X_REG_PWMEN_0_7		0x38
-+#define NCT736X_REG_PWMEN_8_15		0x39
-+#define NCT736X_REG_FANINEN_0_7		0x41
-+#define NCT736X_REG_FANINEN_8_15	0x42
-+#define NCT736X_REG_FANINx_HVAL(x)	(0x48 + ((x) * 2))
-+#define NCT736X_REG_FANINx_LVAL(x)	(0x49 + ((x) * 2))
-+#define NCT736X_REG_FSCPxDUTY(x)	(0x90 + ((x) * 2))
-+#define NCT736X_REG_VENDOR_ID		0xFD
-+#define NCT736X_REG_CHIP_ID		0xFE
-+#define NCT736X_REG_DEVICE_ID		0xFF
-+
-+#define NUVOTON_ID			0x49
-+#define CHIP_ID				0x19
-+#define DEVICE_ID			0x88
-+
-+#define PWM_SEL(x)			(BIT(0) << ((x % 4) * 2))
-+#define FANIN_SEL(x)			(BIT(1) << ((x % 4) * 2))
-+#define BIT_CHECK(x)			(BIT(0) << x)
-+
-+#define NCT736X_FANINx_LVAL_MASK	GENMASK(4, 0)
-+#define NCT736X_FANIN_MASK		GENMASK(12, 0)
-+
-+#define NCT736X_PWM_COUNT		16
-+#define NCT736X_FANIN_COUNT		16
-+
-+#define REFRESH_INTERVAL		(2 * HZ)
-+
-+static inline unsigned long FAN_FROM_REG(u16 val)
-+{
-+	if ((val >= NCT736X_FANIN_MASK) || (val == 0))
-+		return	0;
-+
-+	return (1350000UL / val);
-+}
-+
-+static const unsigned short normal_i2c[] = {
-+	0x20, 0x21, 0x22, 0x23, I2C_CLIENT_END
-+};
-+
-+enum chips { nct7362, nct7363 };
-+
-+struct nct736x_data {
-+	struct i2c_client		*client;
-+	const struct attribute_group	*groups[3];
-+	struct mutex			update_lock;
-+	bool				valid;
-+	unsigned long			last_updated; /* In jiffies */
-+
-+	u16				fan_mask;
-+	u16				fan[NCT736X_FANIN_COUNT];
-+	u16				pwm_mask;
-+	u8				pwm[NCT736X_PWM_COUNT];
-+};
-+
-+/* Read 1-byte register. Returns unsigned reg or -ERRNO on error. */
-+static int nct736x_read_reg(struct i2c_client *client, unsigned int reg)
-+{
-+	int ret;
-+
-+	ret = i2c_smbus_read_byte_data(client, reg);
-+	return ret;
-+}
-+
-+/* Write 1-byte register. Returns 0 or -ERRNO on error. */
-+static int nct736x_write_reg(struct i2c_client *client,
-+			     unsigned int reg, u8 value)
-+{
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, reg, value);
-+	return ret;
-+}
-+
-+static struct nct736x_data *nct736x_update_device(struct device *dev)
-+{
-+	struct nct736x_data *data = dev_get_drvdata(dev);
-+	struct i2c_client *client = data->client;
-+	int i;
-+
-+	mutex_lock(&data->update_lock);
-+
-+	if (!(time_after(jiffies, data->last_updated + REFRESH_INTERVAL)
-+	      || !data->valid))
-+		goto no_sensor_update;
-+
-+	for (i = 0; i < ARRAY_SIZE(data->fan); i++) {
-+		if (!(data->fan_mask & BIT_CHECK(i)))
-+			continue;
-+
-+		data->fan[i] = ((u16)nct736x_read_reg(client,
-+			NCT736X_REG_FANINx_HVAL(i))) << 5;
-+		data->fan[i] |= nct736x_read_reg(client,
-+			NCT736X_REG_FANINx_LVAL(i)) & NCT736X_FANINx_LVAL_MASK;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(data->pwm); i++) {
-+		if (!(data->pwm_mask & BIT_CHECK(i)))
-+			continue;
-+
-+		data->pwm[i] = nct736x_read_reg(client,
-+						NCT736X_REG_FSCPxDUTY(i));
-+	}
-+
-+	data->last_updated = jiffies;
-+	data->valid = true;
-+
-+no_sensor_update:
-+	mutex_unlock(&data->update_lock);
-+	return data;
-+}
-+
-+static ssize_t
-+fan_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct sensor_device_attribute_2 *sattr = to_sensor_dev_attr_2(attr);
-+	struct nct736x_data *data = nct736x_update_device(dev);
-+	u16 val;
-+
-+	val = data->fan[sattr->index] & NCT736X_FANIN_MASK;
-+
-+	return sprintf(buf, "%lu\n", FAN_FROM_REG(val));
-+}
-+
-+static ssize_t
-+pwm_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct sensor_device_attribute_2 *sattr = to_sensor_dev_attr_2(attr);
-+	struct nct736x_data *data = nct736x_update_device(dev);
-+	u16 val;
-+
-+	val = data->pwm[sattr->index];
-+
-+	return sprintf(buf, "%u\n", (val));
-+}
-+
-+static ssize_t
-+pwm_store(struct device *dev, struct device_attribute *attr,
-+	  const char *buf, size_t count)
-+{
-+	struct sensor_device_attribute_2 *sattr = to_sensor_dev_attr_2(attr);
-+	struct nct736x_data *data = nct736x_update_device(dev);
-+	struct i2c_client *client = data->client;
-+	unsigned long tmpVal;
-+	int err;
-+
-+	err = kstrtoul(buf, 10, &tmpVal);
-+	if (err)
-+		return err;
-+
-+	tmpVal = clamp_val(tmpVal, 0, 255);
-+
-+	mutex_lock(&data->update_lock);
-+	err = nct736x_write_reg(client, NCT736X_REG_FSCPxDUTY(sattr->index),
-+				tmpVal);
-+	if (err)
-+		goto abort;
-+
-+	data->pwm[sattr->index] = tmpVal;
-+
-+abort:
-+	mutex_unlock(&data->update_lock);
-+	return count;
-+}
-+
-+static umode_t nct736x_fan_is_visible(struct kobject *kobj,
-+				      struct attribute *attr, int index)
-+{
-+	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct nct736x_data *data = dev_get_drvdata(dev);
-+
-+	if (!(data->fan_mask & BIT_CHECK(index)))
-+		return 0;
-+
-+	return attr->mode;
-+}
-+
-+static umode_t nct736x_pwm_is_visible(struct kobject *kobj,
-+				      struct attribute *attr, int index)
-+{
-+	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct nct736x_data *data = dev_get_drvdata(dev);
-+
-+	if (!(data->pwm_mask & BIT_CHECK(index)))
-+		return 0;
-+
-+	return attr->mode;
-+}
-+
-+#define FAN_INPUT 0
-+
-+static SENSOR_DEVICE_ATTR_2_RO(fan1_input, fan, FAN_INPUT, 0);
-+static SENSOR_DEVICE_ATTR_2_RO(fan2_input, fan, FAN_INPUT, 1);
-+static SENSOR_DEVICE_ATTR_2_RO(fan3_input, fan, FAN_INPUT, 2);
-+static SENSOR_DEVICE_ATTR_2_RO(fan4_input, fan, FAN_INPUT, 3);
-+static SENSOR_DEVICE_ATTR_2_RO(fan5_input, fan, FAN_INPUT, 4);
-+static SENSOR_DEVICE_ATTR_2_RO(fan6_input, fan, FAN_INPUT, 5);
-+static SENSOR_DEVICE_ATTR_2_RO(fan7_input, fan, FAN_INPUT, 6);
-+static SENSOR_DEVICE_ATTR_2_RO(fan8_input, fan, FAN_INPUT, 7);
-+static SENSOR_DEVICE_ATTR_2_RO(fan9_input, fan, FAN_INPUT, 8);
-+static SENSOR_DEVICE_ATTR_2_RO(fan10_input, fan, FAN_INPUT, 9);
-+static SENSOR_DEVICE_ATTR_2_RO(fan11_input, fan, FAN_INPUT, 10);
-+static SENSOR_DEVICE_ATTR_2_RO(fan12_input, fan, FAN_INPUT, 11);
-+static SENSOR_DEVICE_ATTR_2_RO(fan13_input, fan, FAN_INPUT, 12);
-+static SENSOR_DEVICE_ATTR_2_RO(fan14_input, fan, FAN_INPUT, 13);
-+static SENSOR_DEVICE_ATTR_2_RO(fan15_input, fan, FAN_INPUT, 14);
-+static SENSOR_DEVICE_ATTR_2_RO(fan16_input, fan, FAN_INPUT, 15);
-+
-+static struct attribute *nct736x_attributes_fan[] = {
-+	&sensor_dev_attr_fan1_input.dev_attr.attr,
-+	&sensor_dev_attr_fan2_input.dev_attr.attr,
-+	&sensor_dev_attr_fan3_input.dev_attr.attr,
-+	&sensor_dev_attr_fan4_input.dev_attr.attr,
-+	&sensor_dev_attr_fan5_input.dev_attr.attr,
-+	&sensor_dev_attr_fan6_input.dev_attr.attr,
-+	&sensor_dev_attr_fan7_input.dev_attr.attr,
-+	&sensor_dev_attr_fan8_input.dev_attr.attr,
-+	&sensor_dev_attr_fan9_input.dev_attr.attr,
-+	&sensor_dev_attr_fan10_input.dev_attr.attr,
-+	&sensor_dev_attr_fan11_input.dev_attr.attr,
-+	&sensor_dev_attr_fan12_input.dev_attr.attr,
-+	&sensor_dev_attr_fan13_input.dev_attr.attr,
-+	&sensor_dev_attr_fan14_input.dev_attr.attr,
-+	&sensor_dev_attr_fan15_input.dev_attr.attr,
-+	&sensor_dev_attr_fan16_input.dev_attr.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group nct736x_group_fan = {
-+	.attrs = nct736x_attributes_fan,
-+	.is_visible = nct736x_fan_is_visible,
-+};
-+
-+#define PWM_OUTPUT 0
-+
-+static SENSOR_DEVICE_ATTR_2_RW(pwm1, pwm, PWM_OUTPUT, 0);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm2, pwm, PWM_OUTPUT, 1);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm3, pwm, PWM_OUTPUT, 2);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm4, pwm, PWM_OUTPUT, 3);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm5, pwm, PWM_OUTPUT, 4);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm6, pwm, PWM_OUTPUT, 5);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm7, pwm, PWM_OUTPUT, 6);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm8, pwm, PWM_OUTPUT, 7);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm9, pwm, PWM_OUTPUT, 8);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm10, pwm, PWM_OUTPUT, 9);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm11, pwm, PWM_OUTPUT, 10);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm12, pwm, PWM_OUTPUT, 11);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm13, pwm, PWM_OUTPUT, 12);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm14, pwm, PWM_OUTPUT, 13);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm15, pwm, PWM_OUTPUT, 14);
-+static SENSOR_DEVICE_ATTR_2_RW(pwm16, pwm, PWM_OUTPUT, 15);
-+
-+static struct attribute *nct736x_attributes_pwm[] = {
-+	&sensor_dev_attr_pwm1.dev_attr.attr,
-+	&sensor_dev_attr_pwm2.dev_attr.attr,
-+	&sensor_dev_attr_pwm3.dev_attr.attr,
-+	&sensor_dev_attr_pwm4.dev_attr.attr,
-+	&sensor_dev_attr_pwm5.dev_attr.attr,
-+	&sensor_dev_attr_pwm6.dev_attr.attr,
-+	&sensor_dev_attr_pwm7.dev_attr.attr,
-+	&sensor_dev_attr_pwm8.dev_attr.attr,
-+	&sensor_dev_attr_pwm9.dev_attr.attr,
-+	&sensor_dev_attr_pwm10.dev_attr.attr,
-+	&sensor_dev_attr_pwm11.dev_attr.attr,
-+	&sensor_dev_attr_pwm12.dev_attr.attr,
-+	&sensor_dev_attr_pwm13.dev_attr.attr,
-+	&sensor_dev_attr_pwm14.dev_attr.attr,
-+	&sensor_dev_attr_pwm15.dev_attr.attr,
-+	&sensor_dev_attr_pwm16.dev_attr.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group nct736x_group_pwm = {
-+	.attrs = nct736x_attributes_pwm,
-+	.is_visible = nct736x_pwm_is_visible,
-+};
-+
-+/* Return 0 if detection is successful, -ENODEV otherwise */
-+static int nct736x_detect(struct i2c_client *client,
-+			  struct i2c_board_info *info)
-+{
-+	struct i2c_adapter *adapter = client->adapter;
-+	int vendor, chip, device;
-+
-+	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
-+		return -ENODEV;
-+
-+	vendor = i2c_smbus_read_byte_data(client, NCT736X_REG_VENDOR_ID);
-+	if (vendor != NUVOTON_ID)
-+		return -ENODEV;
-+
-+	chip = i2c_smbus_read_byte_data(client, NCT736X_REG_CHIP_ID);
-+	if (chip != CHIP_ID)
-+		return -ENODEV;
-+
-+	device = i2c_smbus_read_byte_data(client, NCT736X_REG_DEVICE_ID);
-+	if (device != DEVICE_ID)
-+		return -ENODEV;
-+
-+	strscpy(info->type, "nct736x", I2C_NAME_SIZE);
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id nct736x_id[] = {
-+	{"nct7362", nct7362},
-+	{"nct7363", nct7363},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, nct736x_id);
-+
-+static int nct736x_init_chip(struct i2c_client *client,
-+			     u32 pwm_mask, u32 fanin_mask, u32 wdt_cfg)
-+{
-+	const struct i2c_device_id *id = i2c_match_id(nct736x_id, client);
-+	u8 i, gpio0_3, gpio4_7, gpio10_13, gpio14_17;
-+	int ret;
-+
-+	for (i = 0; i < NCT736X_PWM_COUNT; i++) {
-+		if (i < 4) {
-+			if (pwm_mask & BIT_CHECK(i))
-+				gpio0_3 |= PWM_SEL(i);
-+			if (fanin_mask & BIT_CHECK(i))
-+				gpio10_13 |= FANIN_SEL(i);
-+		} else if (i < 8) {
-+			if (pwm_mask & BIT_CHECK(i))
-+				gpio4_7 |= PWM_SEL(i);
-+			if (fanin_mask & BIT_CHECK(i))
-+				gpio14_17 |= FANIN_SEL(i);
-+		} else if (i < 12) {
-+			if (pwm_mask & BIT_CHECK(i))
-+				gpio10_13 |= PWM_SEL(i);
-+			if (fanin_mask & BIT_CHECK(i))
-+				gpio0_3 |= FANIN_SEL(i);
-+		} else {
-+			if (pwm_mask & BIT_CHECK(i))
-+				gpio14_17 |= PWM_SEL(i);
-+			if (fanin_mask & BIT_CHECK(i))
-+				gpio4_7 |= FANIN_SEL(i);
-+		}
-+	}
-+
-+	/* Pin Function Configuration */
-+	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_0_3, gpio0_3);
-+	if (ret < 0)
-+		return ret;
-+	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_4_7, gpio4_7);
-+	if (ret < 0)
-+		return ret;
-+	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_10_13, gpio10_13);
-+	if (ret < 0)
-+		return ret;
-+	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_14_17, gpio14_17);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* PWM and FANIN Monitoring Enable */
-+	ret = nct736x_write_reg(client, NCT736X_REG_PWMEN_0_7,
-+				pwm_mask & 0xff);
-+	if (ret < 0)
-+		return ret;
-+	ret = nct736x_write_reg(client,
-+				NCT736X_REG_PWMEN_8_15, (pwm_mask >> 8) & 0xff);
-+	if (ret < 0)
-+		return ret;
-+	ret = nct736x_write_reg(client, NCT736X_REG_FANINEN_0_7,
-+				fanin_mask & 0xff);
-+	if (ret < 0)
-+		return ret;
-+	ret = nct736x_write_reg(client, NCT736X_REG_FANINEN_8_15,
-+				(fanin_mask >> 8) & 0xff);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Watchdog Timer Configuration */
-+	if (wdt_cfg != 0xff && id->driver_data == nct7363) {
-+		ret = nct736x_write_reg(client, NCT7363_REG_WDT, wdt_cfg);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int nct736x_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct nct736x_data *data;
-+	struct device *hwmon_dev;
-+	u32 pwm_mask, fanin_mask, val, wdt_cfg;
-+	int ret;
-+
-+	data = devm_kzalloc(dev, sizeof(struct nct736x_data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	i2c_set_clientdata(client, data);
-+	mutex_init(&data->update_lock);
-+
-+	data->client = client;
-+
-+	if (of_property_read_u32(dev->of_node, "nuvoton,pwm-mask", &pwm_mask))
-+		pwm_mask = 0;
-+	if (of_property_read_u32(dev->of_node,
-+				 "nuvoton,fanin-mask", &fanin_mask))
-+		fanin_mask = 0;
-+	if (of_property_read_u32(dev->of_node, "nuvoton,wdt-timeout", &val))
-+		wdt_cfg = 0xff;
-+	else
-+		wdt_cfg = WDT_CFG(val) | EN_WDT;
-+
-+	/* Initialize the chip */
-+	ret = nct736x_init_chip(client, pwm_mask, fanin_mask, wdt_cfg);
-+	if (ret)
-+		return ret;
-+
-+	data->fan_mask = (u16)fanin_mask;
-+	data->pwm_mask = (u16)pwm_mask;
-+
-+	data = nct736x_update_device(dev);
-+
-+	data->groups[0] = &nct736x_group_fan;
-+	data->groups[1] = &nct736x_group_pwm;
-+	data->groups[2] = NULL;
-+
-+	hwmon_dev = devm_hwmon_device_register_with_groups(dev,
-+							   client->name,
-+							   data, data->groups);
-+	return PTR_ERR_OR_ZERO(hwmon_dev);
-+}
-+
-+static const struct of_device_id nct736x_of_match[] = {
-+	{ .compatible = "nuvoton,nct7362" },
-+	{ .compatible = "nuvoton,nct7363" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, nct736x_of_match);
-+
-+static struct i2c_driver nct736x_driver = {
-+	.class = I2C_CLASS_HWMON,
-+	.driver = {
-+		.name = "nct736x",
-+		.of_match_table = nct736x_of_match,
-+	},
-+	.probe = nct736x_probe,
-+	.id_table = nct736x_id,
-+	.detect = nct736x_detect,
-+	.address_list = normal_i2c,
-+};
-+
-+module_i2c_driver(nct736x_driver);
-+
-+MODULE_AUTHOR("CWHo <cwho@nuvoton.com>");
-+MODULE_AUTHOR("Ban Feng <kcfeng0@nuvoton.com>");
-+MODULE_DESCRIPTION("NCT736X Hardware Monitoring Driver");
-+MODULE_LICENSE("GPL");
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/mm-vmscan-LRU-unbalance-cgroup-reclaim/20231108-151757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231108065818.19932-3-link%40vivo.com
+patch subject: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
+config: x86_64-randconfig-161-20231108 (https://download.01.org/0day-ci/archive/20231204/202312040256.guajrRNm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231204/202312040256.guajrRNm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312040256.guajrRNm-lkp@intel.com/
+
+smatch warnings:
+mm/vmscan.c:4518 isolate_folios() error: uninitialized symbol 'unbalance'.
+
+vim +/unbalance +4518 mm/vmscan.c
+
+ac35a490237446 Yu Zhao   2022-09-18  4481  static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
+ac35a490237446 Yu Zhao   2022-09-18  4482  			  int *type_scanned, struct list_head *list)
+ac35a490237446 Yu Zhao   2022-09-18  4483  {
+ac35a490237446 Yu Zhao   2022-09-18  4484  	int i;
+ac35a490237446 Yu Zhao   2022-09-18  4485  	int type;
+ac35a490237446 Yu Zhao   2022-09-18  4486  	int scanned;
+ac35a490237446 Yu Zhao   2022-09-18  4487  	int tier = -1;
+9da842af0b17c7 Huan Yang 2023-11-08  4488  	bool unbalance;
+
+unbalance is never set to false.  Only to true.
+
+ac35a490237446 Yu Zhao   2022-09-18  4489  	DEFINE_MIN_SEQ(lruvec);
+ac35a490237446 Yu Zhao   2022-09-18  4490  
+ac35a490237446 Yu Zhao   2022-09-18  4491  	/*
+ac35a490237446 Yu Zhao   2022-09-18  4492  	 * Try to make the obvious choice first. When anon and file are both
+ac35a490237446 Yu Zhao   2022-09-18  4493  	 * available from the same generation, interpret swappiness 1 as file
+ac35a490237446 Yu Zhao   2022-09-18  4494  	 * first and 200 as anon first.
+ac35a490237446 Yu Zhao   2022-09-18  4495  	 */
+9da842af0b17c7 Huan Yang 2023-11-08  4496  	if (unlikely(unbalance_file_reclaim(sc, swappiness))) {
+9da842af0b17c7 Huan Yang 2023-11-08  4497  		unbalance = true;
+9da842af0b17c7 Huan Yang 2023-11-08  4498  		type = LRU_GEN_FILE;
+9da842af0b17c7 Huan Yang 2023-11-08  4499  	} else if (unlikely(unbalance_anon_reclaim(sc, swappiness))) {
+9da842af0b17c7 Huan Yang 2023-11-08  4500  		unbalance = true;
+9da842af0b17c7 Huan Yang 2023-11-08  4501  		type = LRU_GEN_ANON;
+9da842af0b17c7 Huan Yang 2023-11-08  4502  	} else if (!swappiness)
+ac35a490237446 Yu Zhao   2022-09-18  4503  		type = LRU_GEN_FILE;
+ac35a490237446 Yu Zhao   2022-09-18  4504  	else if (min_seq[LRU_GEN_ANON] < min_seq[LRU_GEN_FILE])
+ac35a490237446 Yu Zhao   2022-09-18  4505  		type = LRU_GEN_ANON;
+ac35a490237446 Yu Zhao   2022-09-18  4506  	else if (swappiness == 1)
+ac35a490237446 Yu Zhao   2022-09-18  4507  		type = LRU_GEN_FILE;
+ac35a490237446 Yu Zhao   2022-09-18  4508  	else if (swappiness == 200)
+ac35a490237446 Yu Zhao   2022-09-18  4509  		type = LRU_GEN_ANON;
+ac35a490237446 Yu Zhao   2022-09-18  4510  	else
+ac35a490237446 Yu Zhao   2022-09-18  4511  		type = get_type_to_scan(lruvec, swappiness, &tier);
+ac35a490237446 Yu Zhao   2022-09-18  4512  
+ac35a490237446 Yu Zhao   2022-09-18  4513  	for (i = !swappiness; i < ANON_AND_FILE; i++) {
+ac35a490237446 Yu Zhao   2022-09-18  4514  		if (tier < 0)
+ac35a490237446 Yu Zhao   2022-09-18  4515  			tier = get_tier_idx(lruvec, type);
+ac35a490237446 Yu Zhao   2022-09-18  4516  
+ac35a490237446 Yu Zhao   2022-09-18  4517  		scanned = scan_folios(lruvec, sc, type, tier, list);
+9da842af0b17c7 Huan Yang 2023-11-08 @4518  		if (scanned || unbalance)
+                                                                       ^^^^^^^^^
+
+ac35a490237446 Yu Zhao   2022-09-18  4519  			break;
+ac35a490237446 Yu Zhao   2022-09-18  4520  
+ac35a490237446 Yu Zhao   2022-09-18  4521  		type = !type;
+ac35a490237446 Yu Zhao   2022-09-18  4522  		tier = -1;
+ac35a490237446 Yu Zhao   2022-09-18  4523  	}
+ac35a490237446 Yu Zhao   2022-09-18  4524  
+ac35a490237446 Yu Zhao   2022-09-18  4525  	*type_scanned = type;
+ac35a490237446 Yu Zhao   2022-09-18  4526  
+ac35a490237446 Yu Zhao   2022-09-18  4527  	return scanned;
+ac35a490237446 Yu Zhao   2022-09-18  4528  }
+
 -- 
-2.34.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
