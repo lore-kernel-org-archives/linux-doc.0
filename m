@@ -1,157 +1,121 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vHL6YQnt"
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7FB0D5
-	for <linux-doc@vger.kernel.org>; Sun,  3 Dec 2023 22:53:29 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c0a03eb87so8934595e9.3
-        for <linux-doc@vger.kernel.org>; Sun, 03 Dec 2023 22:53:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QV8Ac/hn"
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E11E2D8;
+	Sun,  3 Dec 2023 23:04:56 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1ce28faa92dso11600065ad.2;
+        Sun, 03 Dec 2023 23:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701672808; x=1702277608; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7HssFuAN0FmKtkeeOfUTQqNEnbKypEzyj8/UffXjzYs=;
-        b=vHL6YQnt8fqyvFd40jrM/OoLorA0Vf5lBiTOPLFprKdpvLom73+3YI7wlbvBFuTPZq
-         PYPVdW5KW8MfdJCq21w5vs9s5cH5e6MUnAlg/KCSnZhd4k1SRhi1ZROndcIIYId4xS+D
-         5jz/dS8pA84Vk2KcTGt4DSiG/+DtYQ/8CA+Yht5xClQQKRGSbEpovL+pzJxAOEqTL7CP
-         nlSyGgIXq0M+TwKebMpLHmM83JR53b5mSeeM8bvqtIaH6IjpR0Br/hZaigzSzZWJBFj9
-         RIm9YpFVYjAZNQHkUdVWjJPK6QqRDzBO9o3UpFAZ1dE3TN4NvVXy3cb2ZRbUsOj4kF9M
-         1skg==
+        d=gmail.com; s=20230601; t=1701673496; x=1702278296; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=N1vpjPPczaDWxidWWEbF4RZb6CCdsDsvJw92nhMFM8Y=;
+        b=QV8Ac/hnAqU7LnUAyFgeAUYO8BNpYeqbmv7Fjr0WhNSLR86hsFQkt7AZk7uw+T2kq8
+         MdVIGY6yVlpd99ZsKTZdLOk8OHQ6AkKbocNtdCU3FcV2YkHkS7Q95N5xv8z/82SakgKH
+         K4tzfeSWBGL4513p9qkbTESetYS15jEOyPwqXUOzh4FEXTIMbUo6RHu7VD89OvA5rmIx
+         81Fx/jLLN/jGNUe4+WgVwqTGzNfJd10YNyo/d3B2Y07lz95oj74p4NLTbfWze6+AvW6z
+         Nyc7HN+qNaRHVcMcoTPHXFTBHb/Fi0aOT+ECJsCB49WR0E9JXni/GQbV94S6N0ho2mG1
+         CHaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701672808; x=1702277608;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1701673496; x=1702278296;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7HssFuAN0FmKtkeeOfUTQqNEnbKypEzyj8/UffXjzYs=;
-        b=CFoYy2u/P/XpXYD6W4gHHq3UG9zdZ+XYudvB4nkZrNK4cYczNLfj+0UrNZm6N/Aysz
-         jtmc94Y1GN7bP9bkSctUZdIRoQHcnnIHhhIFm28s2evftSyWN0v2Nejx1iIV6iEYKX/5
-         5dbAuEeOEAmGGqWIZaDxE2jdrqsabZa3QsqTsYvVgL5vjawwru3ZQjilfcPQIyAOMKqd
-         fUnMRD7o4YG7Dd00Ywr1caJydpYfsvYh2ItxypLi+KJP6r0LdM4RqK+T6C00VCzNp6ar
-         JbYuNeqymg0Kop9oph1zOugRXRwTrII8QgdTy9J7aY7S0ritT6k/keMtUmVxtD7JiLBm
-         5drQ==
-X-Gm-Message-State: AOJu0YzOVMksKFTSHVLuE/DmQBGlVxmDCNC7mOuUQ2M+XT5BSiZd+hDq
-	nG+St/ZrHILZl2rJH5X5S/pkHg==
-X-Google-Smtp-Source: AGHT+IHtHa+5n4xN3AEKMSwT6hpelKtTdR3K3TiRCO07QqooArIjEdGOaVc05secXlj0uyQfVGAD9w==
-X-Received: by 2002:a05:600c:4fcf:b0:40b:5f03:b3b7 with SMTP id o15-20020a05600c4fcf00b0040b5f03b3b7mr968898wmq.217.1701672808259;
-        Sun, 03 Dec 2023 22:53:28 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q4-20020a05600000c400b003333fa3d043sm4558913wrx.12.2023.12.03.22.53.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 22:53:28 -0800 (PST)
-Date: Mon, 4 Dec 2023 09:53:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Huan Yang <link@vivo.com>,
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeelb@google.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Huang Ying <ying.huang@intel.com>,
-	Yosry Ahmed <yosryahmed@google.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Peter Xu <peterx@redhat.com>,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Liu Shixin <liushixin2@huawei.com>, Yue Zhao <findns94@gmail.com>,
-	Hugh Dickins <hughd@google.com>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
-Subject: Re: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
-Message-ID: <43b48148-fdfb-4ea3-8d7b-d3ebce7a04da@suswa.mountain>
+        bh=N1vpjPPczaDWxidWWEbF4RZb6CCdsDsvJw92nhMFM8Y=;
+        b=TJhQZ+db7KEj8AHsEQlQlJAlnJMQhoHXdpdemiRJuazTiR6U3rhyhiwnK0h/ZftPPq
+         XE4fqJtAxMPfG361VNlfryBJpRNhm20rKvZSi8KmweRtTcqrmpbQUd9J//ZCNZXiM7nw
+         VcVNNDyC46whueIGRTKmPaU4fkGfolS7QG4XveIPfKdgPpvUT9juAG2Qz1PZeqEU3A18
+         I2KwyFOIKiYIlHp+qYp1X1f7EsdcFPOEynuJCRXZf/kdXokXlUeuZALLuSy6RJ3ZyKj4
+         DEH4KhWPRPsY8FHtWA8klB3FqkzQ8KSlNAvoQGMSNhJV4gs/SAuq/uAqvciyyrNPa1oy
+         sd7w==
+X-Gm-Message-State: AOJu0YyGFoumIfM/hIXRxm2Wty5ziy7CAZhv95TCDRPv8bzoP6d2lAy3
+	Cwk0L/CP8k9bjS6heQNTeco=
+X-Google-Smtp-Source: AGHT+IFGQ1tOXEmLAVKqsR7L9UDk4NEuOYXIcXkAIqxH4/1OI0J79Nsp8GNhIOISl/dF3LevXvviSA==
+X-Received: by 2002:a17:902:9302:b0:1d0:91a0:a29 with SMTP id bc2-20020a170902930200b001d091a00a29mr594579plb.6.1701673496136;
+        Sun, 03 Dec 2023 23:04:56 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u5-20020a170902e5c500b001c62e3e1286sm7679347plf.166.2023.12.03.23.04.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Dec 2023 23:04:55 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <4d978188-b924-4f43-a619-fb5307828440@roeck-us.net>
+Date: Sun, 3 Dec 2023 23:04:53 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231108065818.19932-3-link@vivo.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/2] hwmon: Driver for Nuvoton NCT736X
+Content-Language: en-US
+To: baneric926@gmail.com, jdelvare@suse.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com,
+ DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
+References: <20231204055650.788388-1-kcfeng0@nuvoton.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20231204055650.788388-1-kcfeng0@nuvoton.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Huan,
+On 12/3/23 21:56, baneric926@gmail.com wrote:
+> From: Ban Feng <baneric926@gmail.com>
+> 
+> NCT736X is an I2C based hardware monitoring chip from Nuvoton.
+> 
 
-kernel test robot noticed the following build warnings:
+No, it isn't. Such a chip does not exist. The chips are apparently
+NCT7362Y and NCT7363Y. No wildcards in filenames, variables, etc.,
+please. Pick one name (nct7362y) instead and reference both chips
+where appropriate.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/mm-vmscan-LRU-unbalance-cgroup-reclaim/20231108-151757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231108065818.19932-3-link%40vivo.com
-patch subject: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
-config: x86_64-randconfig-161-20231108 (https://download.01.org/0day-ci/archive/20231204/202312040256.guajrRNm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231204/202312040256.guajrRNm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312040256.guajrRNm-lkp@intel.com/
-
-smatch warnings:
-mm/vmscan.c:4518 isolate_folios() error: uninitialized symbol 'unbalance'.
-
-vim +/unbalance +4518 mm/vmscan.c
-
-ac35a490237446 Yu Zhao   2022-09-18  4481  static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
-ac35a490237446 Yu Zhao   2022-09-18  4482  			  int *type_scanned, struct list_head *list)
-ac35a490237446 Yu Zhao   2022-09-18  4483  {
-ac35a490237446 Yu Zhao   2022-09-18  4484  	int i;
-ac35a490237446 Yu Zhao   2022-09-18  4485  	int type;
-ac35a490237446 Yu Zhao   2022-09-18  4486  	int scanned;
-ac35a490237446 Yu Zhao   2022-09-18  4487  	int tier = -1;
-9da842af0b17c7 Huan Yang 2023-11-08  4488  	bool unbalance;
-
-unbalance is never set to false.  Only to true.
-
-ac35a490237446 Yu Zhao   2022-09-18  4489  	DEFINE_MIN_SEQ(lruvec);
-ac35a490237446 Yu Zhao   2022-09-18  4490  
-ac35a490237446 Yu Zhao   2022-09-18  4491  	/*
-ac35a490237446 Yu Zhao   2022-09-18  4492  	 * Try to make the obvious choice first. When anon and file are both
-ac35a490237446 Yu Zhao   2022-09-18  4493  	 * available from the same generation, interpret swappiness 1 as file
-ac35a490237446 Yu Zhao   2022-09-18  4494  	 * first and 200 as anon first.
-ac35a490237446 Yu Zhao   2022-09-18  4495  	 */
-9da842af0b17c7 Huan Yang 2023-11-08  4496  	if (unlikely(unbalance_file_reclaim(sc, swappiness))) {
-9da842af0b17c7 Huan Yang 2023-11-08  4497  		unbalance = true;
-9da842af0b17c7 Huan Yang 2023-11-08  4498  		type = LRU_GEN_FILE;
-9da842af0b17c7 Huan Yang 2023-11-08  4499  	} else if (unlikely(unbalance_anon_reclaim(sc, swappiness))) {
-9da842af0b17c7 Huan Yang 2023-11-08  4500  		unbalance = true;
-9da842af0b17c7 Huan Yang 2023-11-08  4501  		type = LRU_GEN_ANON;
-9da842af0b17c7 Huan Yang 2023-11-08  4502  	} else if (!swappiness)
-ac35a490237446 Yu Zhao   2022-09-18  4503  		type = LRU_GEN_FILE;
-ac35a490237446 Yu Zhao   2022-09-18  4504  	else if (min_seq[LRU_GEN_ANON] < min_seq[LRU_GEN_FILE])
-ac35a490237446 Yu Zhao   2022-09-18  4505  		type = LRU_GEN_ANON;
-ac35a490237446 Yu Zhao   2022-09-18  4506  	else if (swappiness == 1)
-ac35a490237446 Yu Zhao   2022-09-18  4507  		type = LRU_GEN_FILE;
-ac35a490237446 Yu Zhao   2022-09-18  4508  	else if (swappiness == 200)
-ac35a490237446 Yu Zhao   2022-09-18  4509  		type = LRU_GEN_ANON;
-ac35a490237446 Yu Zhao   2022-09-18  4510  	else
-ac35a490237446 Yu Zhao   2022-09-18  4511  		type = get_type_to_scan(lruvec, swappiness, &tier);
-ac35a490237446 Yu Zhao   2022-09-18  4512  
-ac35a490237446 Yu Zhao   2022-09-18  4513  	for (i = !swappiness; i < ANON_AND_FILE; i++) {
-ac35a490237446 Yu Zhao   2022-09-18  4514  		if (tier < 0)
-ac35a490237446 Yu Zhao   2022-09-18  4515  			tier = get_tier_idx(lruvec, type);
-ac35a490237446 Yu Zhao   2022-09-18  4516  
-ac35a490237446 Yu Zhao   2022-09-18  4517  		scanned = scan_folios(lruvec, sc, type, tier, list);
-9da842af0b17c7 Huan Yang 2023-11-08 @4518  		if (scanned || unbalance)
-                                                                       ^^^^^^^^^
-
-ac35a490237446 Yu Zhao   2022-09-18  4519  			break;
-ac35a490237446 Yu Zhao   2022-09-18  4520  
-ac35a490237446 Yu Zhao   2022-09-18  4521  		type = !type;
-ac35a490237446 Yu Zhao   2022-09-18  4522  		tier = -1;
-ac35a490237446 Yu Zhao   2022-09-18  4523  	}
-ac35a490237446 Yu Zhao   2022-09-18  4524  
-ac35a490237446 Yu Zhao   2022-09-18  4525  	*type_scanned = type;
-ac35a490237446 Yu Zhao   2022-09-18  4526  
-ac35a490237446 Yu Zhao   2022-09-18  4527  	return scanned;
-ac35a490237446 Yu Zhao   2022-09-18  4528  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Guenter
 
