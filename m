@@ -1,117 +1,55 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5651A2E859;
+	Mon,  4 Dec 2023 18:21:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cssjppck"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658A1CA;
-	Mon,  4 Dec 2023 10:16:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701713808; x=1733249808;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/IRu8CoFEU+yM59MMBNJJ8QuzWoxaN8B65KXast7tec=;
-  b=cssjppck7scXQ4bDnlAVhuntd+xPzoLAT5JpC3y8wC2EOo57czHrrgCt
-   CQD/C+DXOym51lG99kHktUshyW0VSL6/gp2/4qr8LixE8p99nC0PqsFI2
-   V3hWH6eAfSfcRZZJZmX2AA14+8byIVwe0m7pc27PUgIiTZuOfUGjqlft8
-   xrbeThLd2AygP+DQFtijGeIa0JQVMiKkNDo0soK9ICObDdIAIEJCB5vws
-   FfCCH9Yo8bLIvMAatIZ2kQxPClZo1QZ2WZNvKsuqngDBmL0k3WNqcaP7d
-   mrZJUNhfBj9x8MfEVpuX+u2CUEoqAUvf50UBnDAR8LQjD4lYi6UJLKv5f
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="15318973"
-X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="15318973"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 10:16:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="914521551"
-X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="914521551"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 10:16:47 -0800
-Date: Mon, 4 Dec 2023 10:16:46 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: "Moger, Babu" <babu.moger@amd.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v5] x86/resctrl: Add event choices for mba_MBps
-Message-ID: <ZW4XjqxfYBFZId6H@agluck-desk3>
-References: <20231128231439.81691-1-tony.luck@intel.com>
- <20231201214737.104444-1-tony.luck@intel.com>
- <fd8a44a1-9001-4e3e-a1a9-63e7f737e6e1@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K3d6697L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E749C433C7;
+	Mon,  4 Dec 2023 18:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701714090;
+	bh=sp7GI5fp+q2JCa/7JJ6VUdsNhoncekwVODuziKrK9Q8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=K3d6697LtSWIEgvvmcb2996/8foN9AiWh3NAjIC5TQB4fqgpENsRgmq2KEWTteMVd
+	 SbhyRuhhOd88oO7LmZsZoiIWQ8Ir5Qg92EZOnBZCZ8pTT8gNTuLWDTSZwIpOqGBEM+
+	 TDzJ5LQxfD2Lm1cqG9nOj2+l0aGjNwCFOyJqKGJowk5US3rbTUadA0KYuUSoKmZe+j
+	 EFqB2SmtWk5KNbyNyxhvAe1N+8s77V1xg1Lm7DxeU5A76kuH2x0AfZyvv8LzWdR/dA
+	 Y52Vbu9/TPrfIF6dpNeHaEQpJdaFZk4RQ3pC/gvY6uZ9r8MSNlBLnDJXoIWmk2Z/FV
+	 D7TkBgE7eM8fA==
+Date: Mon, 4 Dec 2023 10:21:29 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
+ <jacob.e.keller@intel.com>, donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v1 4/6] tools/net/ynl: Add binary and pad
+ support to structs for tc
+Message-ID: <20231204102129.215e327b@kernel.org>
+In-Reply-To: <m28r6a6iwp.fsf@gmail.com>
+References: <20231130214959.27377-1-donald.hunter@gmail.com>
+	<20231130214959.27377-5-donald.hunter@gmail.com>
+	<20231201180646.7d3c851f@kernel.org>
+	<m28r6a6iwp.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fd8a44a1-9001-4e3e-a1a9-63e7f737e6e1@amd.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 04, 2023 at 10:24:58AM -0600, Moger, Babu wrote:
-> Hi Tony,
+On Mon, 04 Dec 2023 16:18:14 +0000 Donald Hunter wrote:
+>   (b) value = msg.raw[offset : offset + m.len]
 >
-> You are intending to achieve two things at once here.
-> 1. Adding new mount option
-> 2. Changing behaviour for the current option.
-> I think you need to split this patch into two. Few comments below.
+> Happy to go with whatever preference, though maximising whitespace per
+> (b) follows python style _and_ C style?
 
-Hi Babu,
+Yup, style (b) does look the least surprising to my C-accustomed eyes,
+so +1 on using that.
 
-Thanks for looking at this patch.
+> Also happy to make it consistent across the file (in a separate patch)?
 
-You are right. I will split the patch into two as you suggest.
-
-> On 12/1/23 15:47, Tony Luck wrote:
-> > The MBA Software Controller(mba_sc) is a feedback loop that uses
-> > measurements of local memory bandwidth to adjust MBA throttling levels to
-> > keep workloads in a resctrl group within a target bandwidth set in the
-> > schemata file.
-> >
-> > But on Intel systems the memory bandwidth monitoring events are
-> > independently enumerated. It is possible for a system to support
-> > total memory bandwidth monitoring, but not support local bandwidth
-> > monitoring. On such a system a user could not enable mba_sc mode.
-> > Users will see this highly unhelpful error message from mount:
-> >
-> >  # mount -t resctrl -o mba_MBps resctrl /sys/fs/resctrl
-> >  mount: /sys/fs/resctrl: wrong fs type, bad option, bad superblock on
-> >  resctrl, missing codepage or helper program, or other error.
-> >  dmesg(1) may have more information after failed mount system call.
-> >
-> > dmesg(1) does not provide any additional information.
-> >
-> > Add a new mount option "mba_MBps_event=[local|total]" that allows
-> > a user to specify which monitoring event to use. Also modify the
-> > existing "mba_MBps" option to switch to total bandwidth monitoring
-> > if local monitoring is not available.
->
-> I am not sure why you need both these options. I feel you just need one of
-> these options.
-
-I should have included "changes since v4" in with this message, and
-pasted in some parts of this earlier messge from the discussion about
-v4:
-
-https://lore.kernel.org/all/ZWpF5m4mIeZdK8kv@agluck-desk3/
-
-Having the option take "local" would give a way for a user to
-avoid the failover to using "total" if they really didn't want
-that to happen.
-
-Not in that message, because I didn't think of it until later, it
-opens the door for different events in the future.
-
-But I'm also open to other suggestions on naming and function of
-mount options here.
-
-Thanks
-
--Tony
+Follow up cleanup sounds good!
