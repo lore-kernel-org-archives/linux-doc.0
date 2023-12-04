@@ -1,84 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XfpCeoyk"
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C040983;
-	Mon,  4 Dec 2023 06:00:17 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7DC141BF212;
-	Mon,  4 Dec 2023 14:00:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701698416;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A+uiDE3NxOoevwqMr8SCb+nCphsDYD9LtU5l6pSFpbA=;
-	b=XfpCeoyk25guxuYkM2E3TDVB4SjGyNvw5Q8qV1Q8jKT6oyWII3NI0zpolKSlocF9bUMIGS
-	uXtDB4kU5EnE0GCw6m6xlPZDt77NhZUs7UOS/fhpAR16aV3/tndTM+2t5vAn71Z/3rtFA0
-	OLz9YcSSv8Otr8/mR0RCbqCDLWEREfHhTB2UZIkJFD+yejdRnN0sInqYK2uiCvK5v/Kojr
-	cnGAInYOzIUt/438MO9IEDa3/XguQnwb4j6jjWXc8HwAeKClomqbb6QR2FkBJEXBtnPy0g
-	1tuM6SYX+Q+KqbX4yRRawlvk73dS4pSYEjY3tTj19I8U64TdMU5GweIlszj/FQ==
-Date: Mon, 4 Dec 2023 15:00:14 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v2 3/8] net: pse-pd: Introduce PSE types
- enumeration
-Message-ID: <20231204150014.33ba28ed@kmaincent-XPS-13-7390>
-In-Reply-To: <69292ed5-63d3-4316-9bab-630bd00ce807@lunn.ch>
-References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
-	<20231201-feature_poe-v2-3-56d8cac607fa@bootlin.com>
-	<69292ed5-63d3-4316-9bab-630bd00ce807@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="Df48uiE9"
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101312D42
+	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 06:26:36 -0800 (PST)
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 025FF3FB62
+	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 14:26:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1701699995;
+	bh=yrj69QBqcJ2/0+no6KMFGYnNPrNFydkA4S5q1Y5aJZw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type;
+	b=Df48uiE9G+llJWCIwyMND8DmH43lU8Aho9yuXppz6x+v3BTm/c0FW1T6Oi1Vm3w46
+	 +AnskxD200LLc7LsQg87p44ukpg7tJh7BYGHUJbA4YheeKL7Luwojd7KZl04jPWX56
+	 LJ0gA/DzjhetGVOacbrvzPqrEFl+IPaU2lospQJlhuKXrXmBQdRjxWZ2I3sfun/R6h
+	 ma1AOBFevmrCmNxxeYQ+stotytQhAn3SyuXUjqlQFRrrcbuPlFVh57GWk/DDHJ6MaG
+	 bpC9EuYYRgB+x3qF0VEmPnq8WHWdZo9FqLWCnkyV7x3tLYB+zfBBqBFeFgHuj4wYJr
+	 FX6FJ3uJZghIw==
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-40b3dae2285so35007095e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 06:26:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701699992; x=1702304792;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yrj69QBqcJ2/0+no6KMFGYnNPrNFydkA4S5q1Y5aJZw=;
+        b=hsbxYW7mNQspBymia/PLE6n4M4U4FVyX4zMEcOM8X/+h7YHeoPi0DiEvNnmwMjbbjd
+         FsRWB835Snd7+SZZbZ2vOBzSApQx347dS1l9F4hFfTRFterWyZYtf2TaTUL2hos6vST/
+         NvXQgYCOiAoon4s3OQQWuvjBWrxVoVETbAWAC0YBgps7uP57QYmtY6dGsrJVLyHwUo3S
+         KavGDkFt3Q92yID5Ow8izCY2eXKKwW8P3LciWIo0DbGJsO9CFOMsZ6tqRU0WOfGEO6oR
+         Z/IQYZ70cwaOardZtYZkgGdIGz8Zad7ceLxiV1QXdxlNnjMchNBhoxyTTVsD59TOEQ9W
+         WTxQ==
+X-Gm-Message-State: AOJu0YzZ+oKfw/wxNSmeiDtc6SKw89ucTe08NJiTBY7Q+NMTsIj9HQ3t
+	WCut0pmHbdiKZiHMLaXWQS4+ir9ddWsOXtwFu8Tn7zryq5FtlsW8Q2zwF+CszIAbVtG5Cz8g+j9
+	CYa5cRrcrJ5qBjbDw3IS4JWvtnD1Y0To5SRf8x8mNQclfizIJUyX/vRuTU5aMdwMS
+X-Received: by 2002:a05:600c:54ef:b0:40c:33d:9b92 with SMTP id jb15-20020a05600c54ef00b0040c033d9b92mr1375220wmb.62.1701699992499;
+        Mon, 04 Dec 2023 06:26:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFvLlHhcU3Gc7h3Rn17LrfqyAPp8cApuaxpodpxOeyeSvrgZgV4xsXZkpEJttjlTW+azdLXQTQw0bYhJ6MkzM0=
+X-Received: by 2002:a05:600c:54ef:b0:40c:33d:9b92 with SMTP id
+ jb15-20020a05600c54ef00b0040c033d9b92mr1375215wmb.62.1701699992188; Mon, 04
+ Dec 2023 06:26:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+From: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
+Date: Mon, 4 Dec 2023 14:25:56 +0000
+Message-ID: <CADWks+Z=kLTohq_3pk_PdXs54B6tLn25u6avn_Q1FyXN2-sVDQ@mail.gmail.com>
+Subject: Converting manpages from asciidoc to rst2man ?
+To: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-perf-users@vger.kernel.org, kvm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks for your review:
+Hi all,
 
-On Sun, 3 Dec 2023 19:38:04 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+I was going through build-depends on linux kernel in Ubuntu and I
+noticed that whilst most documentation and man-pages are written in
+Rst format, there are a few that require asciidoc.
 
-> > +/**
-> > + * enum - Types of PSE controller.
-> > + *
-> > + * @PSE_UNKNOWN: Type of PSE controller is unknown
-> > + * @PSE_PODL: PSE controller which support PoDL
-> > + * @PSE_C33: PSE controller which support Clause 33 (PoE)
-> > + */
-> > +enum {
-> > +	PSE_UNKNOWN =3D BIT(0),
-> > +	PSE_PODL =3D BIT(1),
-> > +	PSE_C33 =3D BIT(2),
-> > +}; =20
->=20
-> Maybe this should be in the netlink API?
->=20
-> I think you can imply it by looking at what properties are in the
-> netlink reply, but having it explicitly is probably better.
-> ethtool(1) can default to PSE_PODL if the property is missing for an
-> older kernel.
+$ git grep -l asciidoc -- '*Makefile*'
+tools/kvm/kvm_stat/Makefile
+tools/lib/perf/Documentation/Makefile
+tools/perf/Documentation/Makefile
+tools/perf/Makefile.perf
 
-Ok, I will add it to netlink API in v3 then.
+$ git grep -l rst2man -- '*Makefile*'
+Documentation/tools/rtla/Makefile
+Documentation/tools/rv/Makefile
+tools/bpf/bpftool/Documentation/Makefile
+tools/testing/selftests/bpf/Makefile.docs
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Are both Rst and asciidoc preferred in the kernel Documentation? Or
+should we upgrade kvm_stat & perf manpages from asciidoc to rst2man?
+
+-- 
+Dimitri
