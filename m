@@ -1,98 +1,198 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="LJ1MGQVl"
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD4CF10F
-	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 11:00:55 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9fa2714e828so645186966b.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 11:00:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1701716454; x=1702321254; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
-        b=LJ1MGQVlwAtkjU4Ku120jh+vw9q8rexA2ETFL/QP+d/i8tjeMk9bzZSmMhk3Cj7RXs
-         1NTGAEv31a2k8mGm0RSMe6CRyA5Vh4r6U5nA665TYS2yug/w4bdqShqYTq07Te4bNbi+
-         yX8ZCHjOeuOClFtMCBIIF622wlbmYWqLSmv4ji4DpGR61kqaa9bVPzmkE7oqe/2VWBAT
-         S68z299WZJvA/bTCVUbRUD2d1MdvRRvQXLfu/taF17hiQNm49fIyyEWU3v+SppxJyHqN
-         UT+yNFlKf0gWBLTs8lXbnjID7V08/E2a6ryQDCqzdVtTfcUtHu7VTfCvCNncNRdP/NWZ
-         8oKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701716454; x=1702321254;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=haVpn9fvl3FQKPXQqTZq8l5X+Z7fEQLSNTR+x6poikY=;
-        b=KSIaQcrhgV4CBaOHmyxvn0JjNuLLMYRqw7LlOUS1XHV/P/5hheQ3oyh967RCWsz2A7
-         NnAsBqgX7gcW0xzmjhZ2yUPbxRl+4WGD4hVqR8DaOzJ6nMsr1D8Hdssb+NdkAkQ1dXbH
-         z+Nltjb+XjzRfZapGqFZ1jTfIBupbyUgHo/R34KAzcd1tA/zpT2DrLaeLYq0aVpC7sVY
-         f43IVUtNuS02iv8LmMt9E37HFPySt5FxS8tcdUcNF5XGmgPl81sqd0WLK+ldgCu+8iyR
-         RULNgQmfM5rF/E8F6cC3IAGTKSEKGM0LkLzwJKmlk6aw76dhs86qwvVyuXWHGkyKD4I+
-         KvKQ==
-X-Gm-Message-State: AOJu0YxG1ALimzZqt4jkSNU3cikshzR7nctgj8yhUsX6rLlvvRZRBsmZ
-	ArLibvYRDipMmaZQ+YJuF0Hvqg==
-X-Google-Smtp-Source: AGHT+IEBSRn3oKvt5apwbQOiHdDXP4js5GvWCvcA+RT5ywwGc9MIO2ZiEaQ9HWp6znRjwgNDnQys6g==
-X-Received: by 2002:a17:907:38f:b0:a19:a19b:55c2 with SMTP id ss15-20020a170907038f00b00a19a19b55c2mr3409428ejb.82.1701716454475;
-        Mon, 04 Dec 2023 11:00:54 -0800 (PST)
-Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id dx9-20020a170906a84900b009fbc655335dsm5577614ejb.27.2023.12.04.11.00.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 11:00:53 -0800 (PST)
-From: Dmitry Safonov <dima@arista.com>
-To: David Ahern <dsahern@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>
-Cc: linux-kernel@vger.kernel.org,
-	Dmitry Safonov <dima@arista.com>,
-	Dmitry Safonov <0x7f454c46@gmail.com>,
-	Francesco Ruggeri <fruggeri05@gmail.com>,
-	Salam Noureddine <noureddine@arista.com>,
-	Simon Horman <horms@kernel.org>,
-	netdev@vger.kernel.org,
-	Markus Elfring <Markus.Elfring@web.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v5 1/5] Documentation/tcp: Fix an obvious typo
-Date: Mon,  4 Dec 2023 19:00:40 +0000
-Message-ID: <20231204190044.450107-2-dima@arista.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231204190044.450107-1-dima@arista.com>
-References: <20231204190044.450107-1-dima@arista.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="st4T101A"
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2081.outbound.protection.outlook.com [40.107.94.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94F14D5;
+	Mon,  4 Dec 2023 11:05:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iOyZqEcDmZxz9oKFNCBdGC6taGD9PXUNoGVd7FcIko1TXmeRlzmaH31sBqqoV64Mfp/fu3+5IAX+BHYmNCRyRhulL3hvFCJhvF7rmk+HDcuZmgI1zSiJfryZ0yBk4Iaz127AGs1H5zoFA9pmpzfNE9wcDBc6lTwWuxrGU3reG0GGrSLyd5dHyR1vIEAA63y1MmomDUzjlyrNXoaqp4Qc9zWXhL1Kd4DnsHY3fyQxAW7aNqh+p/fmFEPD9TKbZ7sBRUfYQYQ3P8ydRRr04Nd89ewOkQXRPTaENCuHDTd3G/fmTP2pxMP6jzYQwTVVqvMP2Jz9mt2Ag8AgrxsKpS1EDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Dv/3rIs8OvZyahVuikpuOsd3Lj0wHjFqTGM/Cf2H+ww=;
+ b=Z51POP8wffqgoq+OP3MSfcLbCLRmShdA2syx/fkR6/X+dfNB3pExuG2Z2MhMWAvMRdIXPn3gQN9lPghKTTwnxpc9VlcaMQ5mk1rTbFGAQ58gp7O5FuWwRMWNtDRU84G9uuzczJvzRlX3nG2cPMzOUIsERaUHdZvjpBDqT4vOE+W3rnZxstrCR9b2kLqGKgh+TZ0+ZpM1Ckaydzb3xhaXXSxPk8Utl2zO/gxoDsoWhqu1f7sr1NzL4glgoYcphrPsMkkmXdH5HmvBM6dBJZ4MSda8no6amfhVKt2HP7/PYrPnkEhN3clIxDDW93pIpQKjz4wfisp4A0t5342y8GxVkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dv/3rIs8OvZyahVuikpuOsd3Lj0wHjFqTGM/Cf2H+ww=;
+ b=st4T101AgndIO8zva0dMTbQVNSWn3P4KifmQw0WY0FfXO3G6+TgQclp0zw0XQ7WdWEUacWDK2eHuDNN66F9HyPxsL6MITODKi2SjNb7PYLJ3AX8aVnJiSdk6StlG1ti7Sxhy0mNx5lT+8zghxhkw+PKYkIiiEJ9P/qTEx+yl1cs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM4PR12MB5865.namprd12.prod.outlook.com (2603:10b6:8:64::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Mon, 4 Dec
+ 2023 19:04:58 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1549:8c93:8585:ca1b]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1549:8c93:8585:ca1b%5]) with mapi id 15.20.7046.033; Mon, 4 Dec 2023
+ 19:04:58 +0000
+Message-ID: <660935b2-93bf-4ca0-836a-7aba46009c5c@amd.com>
+Date: Mon, 4 Dec 2023 13:04:55 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v5] x86/resctrl: Add event choices for mba_MBps
+Content-Language: en-US
+To: Tony Luck <tony.luck@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Peter Newman <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+ Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>,
+ Jamie Iles <quic_jiles@quicinc.com>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ patches@lists.linux.dev
+References: <20231128231439.81691-1-tony.luck@intel.com>
+ <20231201214737.104444-1-tony.luck@intel.com>
+ <fd8a44a1-9001-4e3e-a1a9-63e7f737e6e1@amd.com>
+ <ZW4XjqxfYBFZId6H@agluck-desk3>
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <ZW4XjqxfYBFZId6H@agluck-desk3>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM6PR06CA0046.namprd06.prod.outlook.com
+ (2603:10b6:5:54::23) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM4PR12MB5865:EE_
+X-MS-Office365-Filtering-Correlation-Id: f55f4c9f-22a8-412f-bb12-08dbf4fbe8ae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	KKK/DeSspwTYFX+3pWuGOFoGLr21yOt+4pgT8vAJ00fyyWzNCP3qYv4SlNebXW1GBzNkNOuUffd8J6gLHVivqfk2x171V1mPWnyC30QEO7fQAS9LE5tArRexLY1eDDCh49ZVtBIiDbLBPHho4IQS4RFrle9GbKR80b++hfBjwPIFYSEmoN/9JU3Kqr1Du4RScRBAbq+f6ohf599kKf7D96tSDp30Ai3ZFPhj4IHlciHJ7YXGK9CAmzFlzmJ+L0OFjtw7yiu0tAnIiouMzTwaaGBZqAIa6RkOQVBFcjl5950Qdo7ELeUAkWCnNJUrDtXOzO04Z8bjB3U6FMQHL+Tu7Nw6rFeK3+FfDZZC55LQpaQ03sHahOKaFbQQPVW/dmtTgaQsXJweG3fnDkqiUcYWZWexkssV02tuogedQS8otocSVL1EejIo8/LdKSl5cHovq9oAA4ajdj6oFQRRR7bm05yU0tv3RGRePZv7UHU/SXmYkAyDQ91+Qs71+oGq0G5NNhTEiYLVV48kUy3prbrz9JDqbCrGe/Oi9nCWD94oyS2f/boVKqjg2f/d5I7Z3ydIAFCOcTxXKOHL4SCnbFwzJqDhCYllJCOmUDmd6uR9P/xx9DOSbaWZqGtOVYEi3xKizdIENVSlY7ekOo53es83kA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(346002)(39860400002)(396003)(136003)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(26005)(966005)(478600001)(83380400001)(6486002)(6666004)(6512007)(6506007)(53546011)(2616005)(36756003)(316002)(66946007)(6916009)(66476007)(54906003)(66556008)(31686004)(38100700002)(5660300002)(4326008)(86362001)(7416002)(8936002)(8676002)(3450700001)(2906002)(31696002)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L241QktIdkl2Vm5KTVE4d09RU2xRaWVITGM3TlRoeWllTGtCaHlGSmRISW55?=
+ =?utf-8?B?ZjdtYmk5RTdTRWdlbFVmcUNkRjY4ZHc5Ym4xK2RFeUtoeGplb3JKMEhRWThn?=
+ =?utf-8?B?cWVEMXNWYlZTMGtFejU5YzMwTnBMWFJEMnRmbUxZdkRxM29OQXlaUFNvL1cz?=
+ =?utf-8?B?NDh0ZUhQYlAwN3FDUUQyNC9xNVlEZUhKakZSQzRKY1VPeVpET0s4N3lieEtK?=
+ =?utf-8?B?UWtUTkVnTk5JaEVCYXIxNWNleFlSdXpRVTNHOEUrQ3lGa3ZDZVBRbEx6YlpL?=
+ =?utf-8?B?NnluSnNTWmhrZFZqcy9GbmVEZUhsOGthZTZHK1NGNnM0ZEhJN2xkSHNraXdq?=
+ =?utf-8?B?SU5zZ3hjU0I1YTRCalRrUGorYXpzV3VodmllenljcEZMNks4SUtBOXp5dnVp?=
+ =?utf-8?B?UHJQalkrS3VPRU1kYTBkOWxCTGNQaEFEelNDV1UySHczRkpwVVkwZ0NzcjY1?=
+ =?utf-8?B?ZUlka1VoU1JDbm1oSm9rQUU1SlRzTmQyS2FNenExQ2FuVUlVcmVPZ3BJRzc5?=
+ =?utf-8?B?K2JxV01OSEJ6MGhVR1F6dkJON3pMRHRnbk4yd1VSdGpvZTNzOFNZYVN1OVM2?=
+ =?utf-8?B?TlpPZ0huT210cldNUVdMakZaNUV0QktVS2lvMnFQek55eVNVQi9ROTBnamhX?=
+ =?utf-8?B?RURta1ZBOFlwWGpIU2FJZ2lhNWpLS3lPRzRVcTN0b3ZNSGovM1JMSEdFYnhL?=
+ =?utf-8?B?R3NVWXZhYmwzRjgwRXVBN05Uc2RIS3NFalIrYkJpTXdWc0JHVGJlRXhXNXBT?=
+ =?utf-8?B?a0xuaVZrbzV0QnNyYzJ5cEIzQnJvSW5uWlVlZ1pjKzV0UVdMV25nQVNxc2xD?=
+ =?utf-8?B?RlBMOXdJWFozajlNd1VhUVMwSlU1bWswVVVkc3NrVG1MRXhvd0dZdmFBRXZr?=
+ =?utf-8?B?MTcwNkFGVElaWFZJOXQxSjdvSlF1WHRBTW1ORXgzTThiVlAyYVJ5NnpaUEQr?=
+ =?utf-8?B?aWpwNFI1cUlsMHZhZS9keDFET21GVXUvY2t0MWQyTWJMUVdvNkFReUZDcnBp?=
+ =?utf-8?B?Zi91Qm1ucXU2MU9OelV4R2ptRktMQVhZcEp1WjVEcU8vKzNQMmwvaDlzWjZY?=
+ =?utf-8?B?WkxXZmJ2SGlReVVUdFRnb1pYV3JGWjRvUk9rei9mZ3lkQWdzTklERFAzM2Y1?=
+ =?utf-8?B?LzdrUGxzVnYwelM2UXZpenhCL3Bwa3BhS2N0S2RsWWhaWTdKc2ExemQ1Wks4?=
+ =?utf-8?B?Q0FsdEtod3dNY1hLR2FjVUhmTHNVMURrNmhoRVZjLzZ3MlFpUjFwdkNwcmpC?=
+ =?utf-8?B?RG1iUjdONGNvM3BwWUJGSUtKeFRaRWtyQ0NsT0pJRG0yT1llT2xKcnVtcW10?=
+ =?utf-8?B?ck9Wa21lWHhSN0Q5UWN3blhmeHpUK2IvcVJBeUtkZXpYaVpzamp3L1J6czVl?=
+ =?utf-8?B?dU84Mm91aG1pMzNtbW5JVG5ucXRYSFJlRlUxYUxQOC9SOVNPdzBETy83eFJz?=
+ =?utf-8?B?N2FiWFRzU2JDRGdKUDZYbDV4RU5OZHNjMnBPb29HZEZqVk1KRDcwUFVEQ2Zw?=
+ =?utf-8?B?REdTV2tNRi92T0pnSXc2cmczOWZPaXNuR0ZrRVFUTFVWTlBpdStQQSs5ck1h?=
+ =?utf-8?B?OHYxeGZ5ZGZxRVpmeXF5L0NkQ2ZWb1NkUkN0NEpuTm9WM3NwSFMrN1IrM0RZ?=
+ =?utf-8?B?Rmc1SkdLMHZRZzJXZER4Zm5VdUdNNWhHQVRYMEVyQnd4MjdWUDNFYkh2Ukgy?=
+ =?utf-8?B?c3g4QzcrREc2QU15Y1BqS3BUZTBlcHJRTW1mRjlvcm1la3pHRTQvVG9GV0VZ?=
+ =?utf-8?B?NXRSa0xPSjcwTUN5S083aW1SbStKTDNIcDI5MDdaSzZJRTIzUnp0TmpzeCtM?=
+ =?utf-8?B?ZXhESjJRSVNlRlBMOEY1dEZKdDVvVW1UY2JXaFRGV3B1Nm1kbWVwOUpYa2R6?=
+ =?utf-8?B?QWJwbW5paDN0K285WEd5dGFReStiZkl3eXRjWlh3Sk5uWmRQeVg0THRQMTFm?=
+ =?utf-8?B?QXZ5VXpsQ3YzZXRLakdxenBpVTU5NWorSjg3U2oydlZmSTBMcFVCdGhLR01y?=
+ =?utf-8?B?eXhwZFFGOWVBMUhJNFJodEo5RkR2Q25Wc2djVEh3MkhlMU92ck5tbG9PV2pR?=
+ =?utf-8?B?RjdYUWFCSG9hK0pCNytYSlFaWVRib1hmejU3cVB0Vlo2SWQyeFFOdGFaM1Jt?=
+ =?utf-8?Q?wR/A=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f55f4c9f-22a8-412f-bb12-08dbf4fbe8ae
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 19:04:58.2402
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pJlA2oE4zjkNj7hKH21s/z59lFkLOyWTqwiKuVxl9gHB1L1saCEXx56KdUdIMqj7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5865
 
-Yep, my VIM spellchecker is not good enough for typos like this one.
+Hi Tony,
 
-Fixes: 7fe0e38bb669 ("Documentation/tcp: Add TCP-AO documentation")
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Reported-by: Markus Elfring <Markus.Elfring@web.de>
-Closes: https://lore.kernel.org/all/2745ab4e-acac-40d4-83bf-37f2600d0c3d@web.de/
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- Documentation/networking/tcp_ao.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 12/4/23 12:16, Tony Luck wrote:
+> On Mon, Dec 04, 2023 at 10:24:58AM -0600, Moger, Babu wrote:
+>> Hi Tony,
+>>
+>> You are intending to achieve two things at once here.
+>> 1. Adding new mount option
+>> 2. Changing behaviour for the current option.
+>> I think you need to split this patch into two. Few comments below.
+> 
+> Hi Babu,
+> 
+> Thanks for looking at this patch.
+> 
+> You are right. I will split the patch into two as you suggest.
+> 
+>> On 12/1/23 15:47, Tony Luck wrote:
+>>> The MBA Software Controller(mba_sc) is a feedback loop that uses
+>>> measurements of local memory bandwidth to adjust MBA throttling levels to
+>>> keep workloads in a resctrl group within a target bandwidth set in the
+>>> schemata file.
+>>>
+>>> But on Intel systems the memory bandwidth monitoring events are
+>>> independently enumerated. It is possible for a system to support
+>>> total memory bandwidth monitoring, but not support local bandwidth
+>>> monitoring. On such a system a user could not enable mba_sc mode.
+>>> Users will see this highly unhelpful error message from mount:
+>>>
+>>>  # mount -t resctrl -o mba_MBps resctrl /sys/fs/resctrl
+>>>  mount: /sys/fs/resctrl: wrong fs type, bad option, bad superblock on
+>>>  resctrl, missing codepage or helper program, or other error.
+>>>  dmesg(1) may have more information after failed mount system call.
+>>>
+>>> dmesg(1) does not provide any additional information.
+>>>
+>>> Add a new mount option "mba_MBps_event=[local|total]" that allows
+>>> a user to specify which monitoring event to use. Also modify the
+>>> existing "mba_MBps" option to switch to total bandwidth monitoring
+>>> if local monitoring is not available.
+>>
+>> I am not sure why you need both these options. I feel you just need one of
+>> these options.
+> 
+> I should have included "changes since v4" in with this message, and
+> pasted in some parts of this earlier messge from the discussion about
+> v4:
+> 
+> https://lore.kernel.org/all/ZWpF5m4mIeZdK8kv@agluck-desk3/
+> 
+> Having the option take "local" would give a way for a user to
+> avoid the failover to using "total" if they really didn't want
+> that to happen.
 
-diff --git a/Documentation/networking/tcp_ao.rst b/Documentation/networking/tcp_ao.rst
-index cfa5bf1cc542..8a58321acce7 100644
---- a/Documentation/networking/tcp_ao.rst
-+++ b/Documentation/networking/tcp_ao.rst
-@@ -99,7 +99,7 @@ also [6.1]::
-    when it is no longer considered permitted.
- 
- Linux TCP-AO will try its best to prevent you from removing a key that's
--being used, considering it a key management failure. But sine keeping
-+being used, considering it a key management failure. But since keeping
- an outdated key may become a security issue and as a peer may
- unintentionally prevent the removal of an old key by always setting
- it as RNextKeyID - a forced key removal mechanism is provided, where
+Yes. I saw the thread. Even then I feel having two similar options can
+cause confusion. I feel it is enough just to solve the original problem.
+Giving more options to a corner cases is a overkill in my opinion.
+
+Thanks
+Babu
+
+
+> 
+> Not in that message, because I didn't think of it until later, it
+> opens the door for different events in the future.
+> 
+> But I'm also open to other suggestions on naming and function of
+> mount options here.
+> 
+> Thanks
+> 
+> -Tony
+
 -- 
-2.43.0
-
+Thanks
+Babu Moger
