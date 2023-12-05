@@ -1,141 +1,258 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AHThslmY"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED495A9
-	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 07:03:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701788601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RVfnz9yEraI13QEVMWCv15KSWf2rbynT5uHuzX4Khhk=;
-	b=AHThslmYQ0ft76mCXsWTQZDafqBDw3R1qzRezHKzuHWoi2PsvXPWHm/l0+s3yYlAwYzZY6
-	EnivNxIM9zAl8yZ99bFFifMHo6Be3hb6MD37uwZPa5Ry/jaUOOJcy8CmW0ixBJfgnNrl0K
-	E9a7MXv8LNWe66P09zWD4i2RZCFgWas=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-HstHri1ZOtqHT7M9MO7Pqw-1; Tue, 05 Dec 2023 10:03:01 -0500
-X-MC-Unique: HstHri1ZOtqHT7M9MO7Pqw-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40b4e24adc7so40816835e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 07:02:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701788563; x=1702393363;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RVfnz9yEraI13QEVMWCv15KSWf2rbynT5uHuzX4Khhk=;
-        b=vtts0w2qt7f+YkRTh+EBxX7WeeDJNckMcbcN3JE3PlqD33HYao5krMnYP3Gg9C6Q/e
-         6xxS2crxJ0C3c+xnJmL5+LH2uS9EbS94FTHu+PfqFwZ42M4g8NXpRUBi4u1IEwIxHuCd
-         S7IqmB6x+ji47yqM/Jmel4F+rFuznVePLLo3t7sfrsJMUrs1gvygsMRLCXCquA1chni/
-         qf/Tq6v5hw+2B/SiObUvWbxKnc16mGZU1SnIGz02d/QWmKfvLgPhk67AxIflzTDtaWQU
-         xLJUdtmeRMV5SKoFDcF5yVHJ35Vc8w+nbYBwKWn1+Co4PJRuc1zJspO8UJUFr3tvm3A1
-         rPXA==
-X-Gm-Message-State: AOJu0Yyw9QUqbTqF1N4yrFVxtJ/vr3U/6MCDWKSzoOFb6HmzjlPmKcB1
-	LWkIuORACbz5T4Lex9dAP9FqRCoWT7WqCM1pjrEXeUqaycKxlrpVICc+QKvKVqmVdsBA87Xhp8s
-	/cS0y/grUPy9NXmKBdecH
-X-Received: by 2002:a05:600c:4506:b0:40b:37ef:3671 with SMTP id t6-20020a05600c450600b0040b37ef3671mr4708323wmo.38.1701788563082;
-        Tue, 05 Dec 2023 07:02:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFw+ZIqFfTxBo1MNegF8bmaDRUQK0S0GcC3WZpfcXrIP2tAUAD/esumx04OeKShDkq6yYuUlA==
-X-Received: by 2002:a05:600c:4506:b0:40b:37ef:3671 with SMTP id t6-20020a05600c450600b0040b37ef3671mr4708304wmo.38.1701788562696;
-        Tue, 05 Dec 2023 07:02:42 -0800 (PST)
-Received: from starship ([89.237.98.20])
-        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040b47c53610sm18964395wmq.14.2023.12.05.07.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 07:02:42 -0800 (PST)
-Message-ID: <72ab3fa2932dc661a4e0e124ac630e6bb269ebd4.camel@redhat.com>
-Subject: Re: [RFC 06/33] KVM: x86: hyper-v: Introduce VTL awareness to
- Hyper-V's PV-IPIs
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
- pbonzini@redhat.com, seanjc@google.com, vkuznets@redhat.com,
- anelkz@amazon.com,  graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com,
- corbert@lwn.net,  kys@microsoft.com, haiyangz@microsoft.com,
- decui@microsoft.com, x86@kernel.org,  linux-doc@vger.kernel.org
-Date: Tue, 05 Dec 2023 17:02:40 +0200
-In-Reply-To: <CXD538WSGHGC.BMUQF0OJSSW4@amazon.com>
-References: <20231108111806.92604-1-nsaenz@amazon.com>
-	 <20231108111806.92604-7-nsaenz@amazon.com>
-	 <9249b4b84f7b84da2ea21fbbbabf35f22e5d9f2f.camel@redhat.com>
-	 <CXD538WSGHGC.BMUQF0OJSSW4@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 116E4A9;
+	Tue,  5 Dec 2023 07:05:09 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D0C11139F;
+	Tue,  5 Dec 2023 07:05:54 -0800 (PST)
+Received: from [192.168.1.3] (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C52D3F6C4;
+	Tue,  5 Dec 2023 07:05:05 -0800 (PST)
+Message-ID: <1a74fef6-7f51-a518-4258-5f693b56add9@arm.com>
+Date: Tue, 5 Dec 2023 15:05:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v6 2/3] arm64: perf: Add support for event counting
+ threshold
+Content-Language: en-US
+To: Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
+ suzuki.poulose@arm.com, mark.rutland@arm.com, anshuman.khandual@arm.com,
+ namhyung@gmail.com, Catalin Marinas <catalin.marinas@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231124102857.1106453-1-james.clark@arm.com>
+ <20231124102857.1106453-3-james.clark@arm.com>
+ <20231205131414.GA18119@willie-the-truck>
+From: James Clark <james.clark@arm.com>
+In-Reply-To: <20231205131414.GA18119@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2023-12-01 at 16:31 +0000, Nicolas Saenz Julienne wrote:
-> On Tue Nov 28, 2023 at 7:14 AM UTC, Maxim Levitsky wrote:
-> > On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
-> > > HVCALL_SEND_IPI and HVCALL_SEND_IPI_EX allow targeting specific a
-> > > specific VTL. Honour the requests.
-> > > 
-> > > Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
-> > > ---
-> > >  arch/x86/kvm/hyperv.c             | 24 +++++++++++++++++-------
-> > >  arch/x86/kvm/trace.h              | 20 ++++++++++++--------
-> > >  include/asm-generic/hyperv-tlfs.h |  6 ++++--
-> > >  3 files changed, 33 insertions(+), 17 deletions(-)
-> > > 
-> > > diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-> > > index d4b1b53ea63d..2cf430f6ddd8 100644
-> > > --- a/arch/x86/kvm/hyperv.c
-> > > +++ b/arch/x86/kvm/hyperv.c
-> > > @@ -2230,7 +2230,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
-> > >  }
-> > > 
-> > >  static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
-> > > -                                 u64 *sparse_banks, u64 valid_bank_mask)
-> > > +                                 u64 *sparse_banks, u64 valid_bank_mask, int vtl)
-> > >  {
-> > >       struct kvm_lapic_irq irq = {
-> > >               .delivery_mode = APIC_DM_FIXED,
-> > > @@ -2245,6 +2245,9 @@ static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
-> > >                                           valid_bank_mask, sparse_banks))
-> > >                       continue;
-> > > 
-> > > +             if (kvm_hv_get_active_vtl(vcpu) != vtl)
-> > > +                     continue;
-> > 
-> > Do I understand correctly that this is a temporary limitation?
-> > In other words, can a vCPU running in VTL1 send an IPI to a vCPU running VTL0,
-> > forcing the target vCPU to do async switch to VTL1?
-> > I think that this is possible.
-> 
-> The diff is missing some context. See this simplified implementation
-> (when all_cpus is set in the parent function):
-> 
-> static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector, int vtl)
-> {
-> 	[...]
-> 	kvm_for_each_vcpu(i, vcpu, kvm) {
-> 		if (kvm_hv_get_active_vtl(vcpu) != vtl)
-> 			continue;
-> 
-> 		kvm_apic_set_irq(vcpu, &irq, NULL);
-> 	}
-> }
-> 
-> With the one vCPU per VTL approach, kvm_for_each_vcpu() will iterate
-> over *all* vCPUs regardless of their VTL. The IPI is targetted at a
-> specific VTL, hence the need to filter.
-> 
-> VTL1 -> VTL0 IPIs are supported and happen (although they are extremely
-> rare).
-
-Makes sense now, thanks!
-
-Best regards,
-	Maxim Levitsky
-
-> 
-> Nicolas
-> 
 
 
+On 05/12/2023 13:14, Will Deacon wrote:
+> On Fri, Nov 24, 2023 at 10:28:56AM +0000, James Clark wrote:
+>> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+>> index 1d40d794f5e4..eb1ef84e1dbb 100644
+>> --- a/drivers/perf/arm_pmuv3.c
+>> +++ b/drivers/perf/arm_pmuv3.c
+>> @@ -15,6 +15,7 @@
+>>  #include <clocksource/arm_arch_timer.h>
+>>  
+>>  #include <linux/acpi.h>
+>> +#include <linux/bitfield.h>
+>>  #include <linux/clocksource.h>
+>>  #include <linux/of.h>
+>>  #include <linux/perf/arm_pmu.h>
+>> @@ -294,9 +295,20 @@ static const struct attribute_group armv8_pmuv3_events_attr_group = {
+>>  	.is_visible = armv8pmu_event_attr_is_visible,
+>>  };
+>>  
+>> +#define THRESHOLD_LOW		2
+>> +#define THRESHOLD_HIGH		13
+>> +#define THRESHOLD_CNT		14
+>> +#define THRESHOLD_CMP_LO	15
+>> +#define THRESHOLD_CMP_HI	16
+> 
+> Do you think THWIDTH might extend beyond 12 bits in future? If so, it might
+> be worth juggling these bits around a bit so it's not sandwiched between
+> 'rdpmc' and 'threshold_compare'. I defer to your judgement, however.
+> 
+
+It's possible, both PMMIR.THWIDTH and PMEVTYPER.TH currently have unused
+bits above them. I can easily move threshold to the end, I suppose that
+covers us at least until someone adds a new field above that.
+
+>>  PMU_FORMAT_ATTR(event, "config:0-15");
+>>  PMU_FORMAT_ATTR(long, "config1:0");
+>>  PMU_FORMAT_ATTR(rdpmc, "config1:1");
+>> +PMU_FORMAT_ATTR(threshold, "config1:" __stringify(THRESHOLD_LOW) "-"
+>> +				      __stringify(THRESHOLD_HIGH));
+>> +PMU_FORMAT_ATTR(threshold_compare, "config1:" __stringify(THRESHOLD_CMP_LO) "-"
+>> +					      __stringify(THRESHOLD_CMP_HI));
+>> +PMU_FORMAT_ATTR(threshold_count, "config1:" __stringify(THRESHOLD_CNT));
+>>  
+>>  static int sysctl_perf_user_access __read_mostly;
+>>  
+>> @@ -310,10 +322,33 @@ static inline bool armv8pmu_event_want_user_access(struct perf_event *event)
+>>  	return event->attr.config1 & 0x2;
+>>  }
+>>  
+>> +static inline u32 armv8pmu_event_threshold(struct perf_event_attr *attr)
+>> +{
+>> +	return FIELD_GET(GENMASK(THRESHOLD_HIGH, THRESHOLD_LOW), attr->config1);
+>> +}
+>> +
+>> +static inline u8 armv8pmu_event_threshold_control(struct perf_event_attr *attr)
+> 
+> You can drop the 'inline's for these functions (and, in fact, this whole
+> file could do with that cleanup :)
+> 
+
+Will do.
+
+>> +{
+>> +	u8 th_compare = FIELD_GET(GENMASK(THRESHOLD_CMP_HI, THRESHOLD_CMP_LO),
+>> +				  attr->config1);
+>> +	u8 th_count = FIELD_GET(BIT(THRESHOLD_CNT), attr->config1);
+> 
+> I think this is correct, but you might want to look at how we handle this
+> in the SPE driver as I think it ends up looking cleaner and makes it pretty
+> obvious which bits correspond to the user ABI (i.e. config fields) and which
+> bits are part of architectural registers. I'm not saying you have to do it
+> that way, but please take a look if you haven't already.
+> 
+
+Yeah I could take the GEN_PMU_FORMAT_ATTR() etc macros out of there and
+re-use them here too. And also for the other existing configs in
+arm_pmuv3.c.
+
+>> +	/*
+>> +	 * The count bit is always the bottom bit of the full control field, and
+>> +	 * the comparison is the upper two bits, but it's not explicitly
+>> +	 * labelled in the Arm ARM. For the Perf interface we split it into two
+>> +	 * fields, so reconstruct it here.
+>> +	 */
+>> +	return (th_compare << 1) | th_count;
+>> +}
+>> +
+>>  static struct attribute *armv8_pmuv3_format_attrs[] = {
+>>  	&format_attr_event.attr,
+>>  	&format_attr_long.attr,
+>>  	&format_attr_rdpmc.attr,
+>> +	&format_attr_threshold.attr,
+>> +	&format_attr_threshold_compare.attr,
+>> +	&format_attr_threshold_count.attr,
+>>  	NULL,
+>>  };
+>>  
+>> @@ -365,10 +400,38 @@ static ssize_t bus_width_show(struct device *dev, struct device_attribute *attr,
+>>  
+>>  static DEVICE_ATTR_RO(bus_width);
+>>  
+>> +static u32 threshold_max(struct arm_pmu *cpu_pmu)
+>> +{
+>> +	/*
+>> +	 * PMMIR.THWIDTH is readable and non-zero on aarch32, but it would be
+>> +	 * impossible to write the threshold in the upper 32 bits of PMEVTYPER.
+>> +	 */
+>> +	if (IS_ENABLED(CONFIG_ARM))
+>> +		return 0;
+>> +
+>> +	/*
+>> +	 * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
+>> +	 * (2 ^ PMMIR.THWIDTH) - 1.
+>> +	 */
+>> +	return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
+>> +}
+>> +
+>> +static ssize_t threshold_max_show(struct device *dev,
+>> +				  struct device_attribute *attr, char *page)
+>> +{
+>> +	struct pmu *pmu = dev_get_drvdata(dev);
+>> +	struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
+>> +
+>> +	return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
+>> +}
+>> +
+>> +static DEVICE_ATTR_RO(threshold_max);
+>> +
+>>  static struct attribute *armv8_pmuv3_caps_attrs[] = {
+>>  	&dev_attr_slots.attr,
+>>  	&dev_attr_bus_slots.attr,
+>>  	&dev_attr_bus_width.attr,
+>> +	&dev_attr_threshold_max.attr,
+>>  	NULL,
+>>  };
+>>  
+>> @@ -552,7 +615,7 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
+>>  		armv8pmu_write_hw_counter(event, value);
+>>  }
+>>  
+>> -static inline void armv8pmu_write_evtype(int idx, u32 val)
+>> +static inline void armv8pmu_write_evtype(int idx, unsigned long val)
+>>  {
+>>  	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
+>>  	unsigned long mask = ARMV8_PMU_EVTYPE_EVENT |
+>> @@ -921,6 +984,10 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
+>>  				     struct perf_event_attr *attr)
+>>  {
+>>  	unsigned long config_base = 0;
+>> +	struct perf_event *perf_event = container_of(attr, struct perf_event,
+>> +						     attr);
+>> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
+>> +	u32 th, th_max;
+>>  
+>>  	if (attr->exclude_idle)
+>>  		return -EPERM;
+>> @@ -952,6 +1019,21 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
+>>  	if (attr->exclude_user)
+>>  		config_base |= ARMV8_PMU_EXCLUDE_EL0;
+>>  
+>> +	/*
+>> +	 * Insert event counting threshold (FEAT_PMUv3_TH) values. If
+>> +	 * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max) will be
+>> +	 * 0 and no values will be written.
+>> +	 */
+>> +	th_max = threshold_max(cpu_pmu);
+>> +	if (IS_ENABLED(CONFIG_ARM64) && th_max) {
+> 
+> Why is the IS_ENABLED() check needed here?
+> 
+
+The FIELD_PREP() below would cause a compilation error on arm32 because
+TH and TC are above 32 bits. I can add a comment.
+
+>> +		th = min(armv8pmu_event_threshold(attr), th_max);
+>> +		if (th) {
+> 
+> Why is it useful to take the minimum here? If userspace asks for a value
+> bigger than the maximum support threshold, shouldn't we return an error
+> rather than silently clamp it?
+> 
+
+I think it probably was just so I didn't have to think about what would
+happen when the value varied between cores.
+
+But you're right, it looks like I can add a validation function to
+struct arm_pmu and call it from armpmu_event_init(). armpmu->map_event()
+and armpmu->set_event_filter() are already called from there so I think
+the validation could technically be added to one of those, but that's
+probably a bit hacky. I don't know if you have any preference for where
+the threshold validation should happen?
+
+>> +			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
+>> +			config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
+>> +						  armv8pmu_event_threshold_control(attr));
+>> +		}
+>> +	}
+>> +
+>>  	/*
+>>  	 * Install the filter into config_base as this is used to
+>>  	 * construct the event type.
+>> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
+>> index ddd1fec86739..ccbc0f9a74d8 100644
+>> --- a/include/linux/perf/arm_pmuv3.h
+>> +++ b/include/linux/perf/arm_pmuv3.h
+>> @@ -258,6 +258,7 @@
+>>  #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
+>>  #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
+>>  #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
+>> +#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
+> 
+> It's a bit messy having a mixture of GENMASK and MASK/SHIFT pairs. Please
+> can you either update what's there to use GENMASK, or use SHIFT/MASK for the
+> new addition?
+> 
+> Will
+> 
+
+Yep will do. Thanks for the review.
+
+James
