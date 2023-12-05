@@ -1,502 +1,351 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UeQD8I4B"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80CC5109;
-	Tue,  5 Dec 2023 15:02:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYKpLDSQ"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03106AC;
+	Tue,  5 Dec 2023 15:17:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701817324; x=1733353324;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=FqwxGlvFN/1bkefcyF+LqLZGNeKeWXhfD1IGvBfN290=;
-  b=UeQD8I4Bw0v94dPjrh4vBFGB2VvyASylCX8D5Uai6NB2rcZ1SY6e4MwC
-   pYoVrKgAHcN6rPkEqWLwy1S7fzrHCVf8uumtm7+44JJV7hJfJ9ImxKV86
-   /2+imoqrPrFWTZSVfm7euCQBLXkSG82h97ePSjLzarKJM7sbyTdoUSux/
-   60kAbI7kqi2LwmbAdBYANolos+d29to22tXY5p0WmphYScxx7k3Gqh0KM
-   mCdf4pU57vm6RtebYKENHStfRSTl6UODD98TCY89QWWvW7DcGOuhc3TcB
-   raOcC5bo3clU992HRwEkLJ5nkqwJd96LwfLR1UcoI14JxS3yG0PVAqLPE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="460462458"
+  t=1701818265; x=1733354265;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=tEUmPo8yQ00bVTibO9KZ23UCxDQ0A+t0c7GQJchjv3E=;
+  b=XYKpLDSQXYgbX2Fm6lH0UWBkc03WZwdCl5Ud623OjfmUjn7UfDSKVJ7R
+   E2kQDdExuLDIj637z7TlTCeofXLPxbjdXK3bOJXSQhmE/QXitE26341Xk
+   uuYJu/BkVwPG7c//m6Rjs/N2KnbRUlcau11FoE1JNiahSPSZdzT2ZDbeE
+   Mbo1Sg1mqMxZxug1o1uV4K9XLdEk0fYl7UnKcjVO/OHQUyyOAZCNYYVvf
+   J9IY2WhVLXGszVIAESS66RzGc+M1c4lrwRwvvCwM6dV7dYQT97iA4goD2
+   hIBPPweDqxRV8P6Bxy3+YkIenh/mF/omwv2B5ICR3IF9oH9DFKMN/33cm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="7271178"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="460462458"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:02:03 -0800
+   d="scan'208";a="7271178"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:17:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="805434724"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="800138029"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="805434724"
-Received: from blavena-mobl2.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.252.46.234])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:01:56 -0800
-From: Ahmed Zaki <ahmed.zaki@intel.com>
-To: netdev@vger.kernel.org
-Cc: intel-wired-lan@lists.osuosl.org,
-	corbet@lwn.net,
-	jesse.brandeburg@intel.com,
-	anthony.l.nguyen@intel.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	vladimir.oltean@nxp.com,
-	andrew@lunn.ch,
-	horms@kernel.org,
-	mkubecek@suse.cz,
-	willemdebruijn.kernel@gmail.com,
-	gal@nvidia.com,
-	alexander.duyck@gmail.com,
-	ecree.xilinx@gmail.com,
-	linux-doc@vger.kernel.org,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>
-Subject: [PATCH net-next v7 8/8] iavf: enable symmetric-xor RSS for Toeplitz hash function
-Date: Tue,  5 Dec 2023 16:00:49 -0700
-Message-Id: <20231205230049.18872-9-ahmed.zaki@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231205230049.18872-1-ahmed.zaki@intel.com>
-References: <20231205230049.18872-1-ahmed.zaki@intel.com>
+   d="scan'208";a="800138029"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Dec 2023 15:17:43 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 5 Dec 2023 15:17:43 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 5 Dec 2023 15:17:42 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 5 Dec 2023 15:17:42 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 5 Dec 2023 15:17:42 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mr40gaH/t7KL5m4SlBuBGKpOAnnEjTL4PBu9gODMuFlbWseHxL28s8jiQWewunAQ9QM45m2JjXViEcVarXlJ/CNlMl+EezI4LJe7DZ2tu5ngsuG7Ic0d5xKnwy7bXzIUjUYemtSAyGRwXlMo2/nN5wKwrveJysvvcbSH0b0mJroWmU3qrIUGuv0VNVkupoD6pN2zgv3urs1PqiMVnk+bUnUVJWPHTvWAy1C+zs1LsB4p1A6bDOVTP/dVb17vD8MJXGuNnz7y9onjYIJin3fGaV8DgWlCp6ceGa3i9tgHmopugdWeXsixd+qg5y1CM2Vyo6frzuuyKQ1z3+7QlmIiiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mibRQmAN2QgF14e4nveEAXx31F1lJkXMTeo8jkl/3Iw=;
+ b=S2+luC4YcEwGSP3wGxRExizqO/JJgMUGQdKYryGTNxmv46aEJKD6rKn6UswD4vMaVH9nr6Cag73amI0PfGIeaiqqL5HOsA46nRxAnmp9GFT0JDFH0BvjZ/b/L9OTvV6yEsh+GkaqfFWoj6lLcKoq/XzBTMJpHPKLkC1suE17lnm1obcNUxrayLPdE5VO2IwkP2t47PT5QUlML1KaUNRgH83rL8wzPwkanKT9vTP7CkLwrjVvseF7XKxFAHWzEDXk70eLMXODF/X5wzqjVE5d+rdFJRmZqRZpieVvH5gaHZuwqYfN+Dd/EqrxEcEH1TvM7kxmFlDTmuh8Vo9Qbm3ojQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by DS0PR11MB7262.namprd11.prod.outlook.com (2603:10b6:8:13c::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Tue, 5 Dec
+ 2023 23:17:33 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7046.034; Tue, 5 Dec 2023
+ 23:17:33 +0000
+Message-ID: <d97cbeba-af6d-4b64-b5c8-32dc437a67b6@intel.com>
+Date: Tue, 5 Dec 2023 15:17:29 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/15] x86/resctrl : Support AMD QoS RMID Pinning feature
+Content-Language: en-US
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, James Morse <james.morse@arm.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<seanjc@google.com>, <kim.phillips@amd.com>, <jmattson@google.com>,
+	<ilpo.jarvinen@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kan.liang@linux.intel.com>, <nikunj@amd.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<rick.p.edgecombe@intel.com>, <rppt@kernel.org>,
+	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>, <dhagiani@amd.com>
+References: <20231201005720.235639-1-babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20231201005720.235639-1-babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR03CA0079.namprd03.prod.outlook.com
+ (2603:10b6:303:b6::24) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS0PR11MB7262:EE_
+X-MS-Office365-Filtering-Correlation-Id: b95f8972-fe2a-4b92-d13a-08dbf5e85c40
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mEDhGIUFoUYXCtnXVxl0X8UXQpYOcHbW9JkCNLTLLNRgglI2GeIXOpcuMXOEieV/M+qAvx25g1gC1eDI2HDLLw6lcGt36E9TkK51sCSAWRQye5LPjnAa/EB9ZSfuMn2KMnGBe3pXrMnWGIsI82QLWL99JkUvwd1NLMPbDz4gVxN3cN6rf1h4rmBPQ1Akgmc2u3YXW+tK+OF8/crnra4sx5/tUkO9hIlKF2FU/9R+R9f2KJedOQCq4OAaFbEZuctvPX7/MSRNAEKByIbczU4d+N3bY9xdy3o5+OJHzoGskkJoxXi6QSIvKIY3Yc/SiGS4/WxIzZKGzZq0Uk0iOHARJpw9po2FjrnUDdjhuRgMf9TBpWVAx7jvGBZhi3+soRserhLGy+GM13u2oIljAABJiKnY/nHTXjN8vPGD4bcgieL/dcHQioUEFEGHId8hRX7LBDK5uXIOYzdf6uhXW4lOmsJh/yKGdDFp1hHf6m7fvZXdPfWJ6JJvYJNy2M89EBdHGIr7Q65fzUYvDFNiM2cPIHxti6SX5KzYi2ZVParwAjSExqxTMoq/FEoSiCMIJjojPWIcBCdLbtqZM6OtSyxLH+v9nX8Qccp1Z2Mf597IeJJ7JP3suVZvd0NII6R1w4HfUwNkWsAGCZYII4v/LyjBEnWV3P9BDPpTExyt6il4FKRUeu074VfCVCb/dsYqb0/J
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(39860400002)(366004)(396003)(136003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(83380400001)(41300700001)(8936002)(8676002)(66899024)(4326008)(82960400001)(38100700002)(86362001)(36756003)(31696002)(2906002)(44832011)(5660300002)(7416002)(6506007)(6666004)(53546011)(26005)(478600001)(6486002)(31686004)(2616005)(6512007)(966005)(66946007)(66476007)(66556008)(110136005)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V085QmN0VDBxZjd6QnFaTThUaHBpa0tXMTFFR0pYbFN6dFRjYjQ5RkU4NUxa?=
+ =?utf-8?B?TmgxWW1FTzdhSitUVDl0UmtTNmhFVlcvd3JyVUtWRC93bTdQSCtKRGJ5T2Rj?=
+ =?utf-8?B?Y01lTTZyMVYxcWZhUzEzaXp3ejZiRFMvWEtDVTk5RW81bDkxR0g5YlJnajJt?=
+ =?utf-8?B?MFZGT0lLb1VBdERLVzloYW03QnV4N3pKR01TT2J4MGNJbTFNM3czYUxpNCti?=
+ =?utf-8?B?aUdUUGhQVUY2cGFhRFZKeG4yZHYveGtSMG9jNlY3eFJ2bzRSelBEQ2xkKzQ2?=
+ =?utf-8?B?M0ZKTFUrQ0NraTVyZy90d3E2RHg5UzJBeTdyOTI5S09nQXNZbERUdkFGQmdG?=
+ =?utf-8?B?SG5lTjQrNmVIVzNHZ1A4d2ZpR0FHWDVjN0tGenVZRFRpY1lYbXpKL2FycW1F?=
+ =?utf-8?B?Q1RTQm9udjI2UHJWUDU4eHFBcTNmbXJ6dUxKNkpWRFdYS29jNEZvNzBzaCtQ?=
+ =?utf-8?B?ZnlDSG9WczM4Z1RMbGd4Ym9tR0N6dHN5SUtYczFrZFlONHhJblRJNCt6dlBP?=
+ =?utf-8?B?WXJ2ZGlaNkhtcVg2ZExoY2FHK2wrUThvYTNmS2xVUGFCTTRMazZVU1NGb1lD?=
+ =?utf-8?B?SHRHb0xaOVdQRzI5SUxheEp3Sjc5MDdDOFBVS0QxOWtIQjRKYU5VNEppWEQy?=
+ =?utf-8?B?QXNJckVnNTQ5Y1luanZpV1JaNUhxb1Q0UWllcjdiU0JvSVBra2hIc3FubjB1?=
+ =?utf-8?B?NFp6aldLc2FkeUFSM2FjWGd2RStWOENHZ3JaZjB5YXdTemhPM1RwekY3bUFH?=
+ =?utf-8?B?RCtUazc2c2lIdmt1RnRsakNSYk1VU0pWQUgyakM0K3ZwUER0cHAxZXV6ckpF?=
+ =?utf-8?B?NHpRUmtIang1RStWdW5wWXNIQVpHcjRNSThKdFZDY0MrVkFzamdCcWpqcUJn?=
+ =?utf-8?B?YUIrWDdzZ2pBME5wKzhmZmhwdjVPaU56RWJ4R0ZvZXMvMDIwOGJmMGJYRzBl?=
+ =?utf-8?B?WW1RZ28zZHhDQ0Y2d3Y1VzJHdFE1eVJSZFFmS2Z5azFGRU51VzBQODNLUy9V?=
+ =?utf-8?B?b1BNb2NBbFptY2s3elliU0RhMkQ2cFNFY1lTZGw2MDRHSlRVNW9tNUxTZGFJ?=
+ =?utf-8?B?U2RzUE90c080a3hMZUhrczltUnhtNGxjSEZqQXpoY0l0RjA5ek1hVWhGVXNF?=
+ =?utf-8?B?NmtyUU1mZnI3VmZJbHMzVXVsN3ltUUE3bjhKZjRGWlZUTDZUcThqcVBycG5X?=
+ =?utf-8?B?My9yNnovai8xNm1RZ2RDdXl0UFNqSVJFaDFIMkZ1RGVZSzNlUGFrZXRNcnor?=
+ =?utf-8?B?cWpSK1RVTlhxRTMyTHZpTFFFdDJ3WkVTeDViM0V4TlJTN2lpdjJiOTdPRGo1?=
+ =?utf-8?B?bndPb0VPcGYwWllPc1RvTDExNXZIblpBSEppVllLaDZ2bHlibllJZjMxbkZu?=
+ =?utf-8?B?b1FsaGtaQ21tSURPYWg4QnZDT3MrcFg4N0piSzdrbUh5bEFQZGx4K05mSk92?=
+ =?utf-8?B?aHVEZGxVbjJHbDRUTXpMT3FYT3B5L3F6YTk5M1U4dlZrT09OeXJSYUthOHly?=
+ =?utf-8?B?eklmbmNCT2g1eVBDYWpIRHZTNjRQN3MvbUV5d3JXMVplMWFaOFlBL3dIS2NE?=
+ =?utf-8?B?SkVRUk90cmRyd254WUp4NEpid3hKOW85S2Fqd2RuK210VlhCM0NKN3ZXMHhy?=
+ =?utf-8?B?b2JZQlp5NmlPeEEvMExqZndjNFVEbkVUeVNOY1czUHFYd0NZVkh6MnMxNmFn?=
+ =?utf-8?B?VDAwNDBaMWFMV1lFczZYVzUvMDBkcWdqUDFuUUFlZFQwU2ZuMktIRlNxTUZj?=
+ =?utf-8?B?Q2NOejAybzNYTFJmcjIwb1RnY210b3RjMTBrODJkZ011ZGVNVmF2WlBBejVQ?=
+ =?utf-8?B?cktkUjB3R09McTk5RDFSS3hSMVVCMVR4UlVvcUJwUmJSNXVmNFNZdFdrbGtK?=
+ =?utf-8?B?eTdFQ3c4SGN6Y1JNUU1uVGhJNXI0U2pHdWJudWlEZ1pSNjZsUWtEQmt4eXpU?=
+ =?utf-8?B?bm5uV291dlNqRDEySVpaWW9zeWxUcUQ5N0dNL0lVSVpKYUEwY05VbWQ2VjZk?=
+ =?utf-8?B?VjNpQWZxR2x0QmhiNkN0UjAxSnZOS2lyaDBobkpTb2JWZm82aXBsd2JFUTVU?=
+ =?utf-8?B?ZFpPQ2JqWVZubVVlUjRYYzBqR3FaeFZJNmdRTzNTc1c5UkwxQjhWYm9MQnY3?=
+ =?utf-8?B?bnA0aE9wOHE0bGNpOW5OcWxpV3VoODNLeURMazdQck95MmlkUk16MkVvZWJW?=
+ =?utf-8?B?cXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b95f8972-fe2a-4b92-d13a-08dbf5e85c40
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 23:17:33.5083
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1mp8dqfGaVbzyDsvV6PYaearj1hC5feZxKAcanyg2/s1OPrX0xjh8u8gqrtmAA36QTYqf1T28q6w+AmvMLCv9rdGGhb7NB0MW9vysyDDHUQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7262
+X-OriginatorOrg: intel.com
 
-Allow the user to set the symmetric Toeplitz hash function via:
+(+James)
 
-    # ethtool -X eth0 hfunc toeplitz symmetric-xor
+Hi Babu,
 
-The driver will reject any new RSS configuration if a field other than
-(IP src/dst and L4 src/dst ports) is requested for hashing.
+On 11/30/2023 4:57 PM, Babu Moger wrote:
+> These series adds the support for AMD QoS RMID Pinning feature. It is also
 
-The symmetric RSS will not be supported on PFs not advertising the ADV RSS
-Offload flag (ADV_RSS_SUPPORT()), for example the E700 series (i40e).
+"These series" - is this series part of a bigger work?
 
-Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
-Signed-off-by: Ahmed Zaki <ahmed.zaki@intel.com>
----
- drivers/net/ethernet/intel/iavf/iavf.h        |  5 +-
- .../net/ethernet/intel/iavf/iavf_adv_rss.c    |  8 ++-
- .../net/ethernet/intel/iavf/iavf_adv_rss.h    |  3 +-
- .../net/ethernet/intel/iavf/iavf_ethtool.c    | 32 ++++++++++--
- drivers/net/ethernet/intel/iavf/iavf_main.c   |  4 ++
- .../net/ethernet/intel/iavf/iavf_virtchnl.c   | 41 +++++++++++++++
- drivers/net/ethernet/intel/ice/ice_virtchnl.c | 50 +++++++++++++++++++
- drivers/net/ethernet/intel/ice/ice_virtchnl.h |  1 +
- .../intel/ice/ice_virtchnl_allowlist.c        |  1 +
- include/linux/avf/virtchnl.h                  | 19 +++++++
- 10 files changed, 156 insertions(+), 8 deletions(-)
+> called ABMC (Assignable Bandwidth Monitoring Counters) feature.
+> 
+> The feature details are available in APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+> Monitoring (ABMC). The documentation is available at
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> 
+> The patches are based on top of commit 
+> 346887b65d89ae987698bc1efd8e5536bd180b3f (tip/master)
+> 
+> # Introduction
+> 
+> AMD hardware can support 256 or more RMIDs. However, bandwidth monitoring
+> feature only guarantees that RMIDs currently assigned to a processor will
+> be tracked by hardware. The counters of any other RMIDs which are no
+> longer being tracked will be reset to zero. The MBM event counters return
+> "Unavailable" for the RMIDs that are not active.
+> 
+> Users can create 256 or more monitor groups. But there can be only limited
+> number of groups that can be give guaranteed monitoring numbers. With ever
+> changing system configuration, there is no way to definitely know which of
+> these groups will be active for certain point of time. Users do not have
+> the option to monitor a group or set of groups for certain period of time
+> without worrying about RMID being reset in between.
+> 
+> The ABMC feature provides an option to pin (or assign) the RMID to the
+> hardware counter and monitor the bandwidth for a longer duration. The
+> pinned RMID will be active until the user unpins (or unassigns) it.  There
+> is no need to worry about counters being reset during this period.
+> Additionally, the user can specify a bitmask identifying the specific
+> bandwidth types from the given source to track with the counter.
+> 
+> # Linux Implementation
+> 
+> Hardware provides total of 32 counters available for assignment.
+> Each Linux resctrl group can be assigned a maximum of 2 counters. One for
+> mbm_total_bytes and one for mbm_local_bytes. Users also have the option to
+> assign only one counter to the group. If the system runs out of assignable
+> counters, the kernel will display the error when the user attempts a new
+> counter assignment. Users need to unassign already used counters for new
+> assignments.
+> 
+> # Examples
+> 
+> a. Check if ABMC support is available
+> 	#mount -t resctrl resctrl /sys/fs/resctrl/
+> 	#cat /sys/fs/resctrl/info/L3_MON/mon_features 
+> 	llc_occupancy
+> 	mbm_total_bytes
+> 	mbm_total_bytes_config
+> 	mbm_local_bytes
+> 	mbm_local_bytes_config
+> 	abmc_capable ←  Linux kernel detected ABMC feature.
 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf.h b/drivers/net/ethernet/intel/iavf/iavf.h
-index e7ab89dc883a..f83fbcc72075 100644
---- a/drivers/net/ethernet/intel/iavf/iavf.h
-+++ b/drivers/net/ethernet/intel/iavf/iavf.h
-@@ -312,7 +312,8 @@ struct iavf_adapter {
- #define IAVF_FLAG_AQ_SET_HENA			BIT_ULL(12)
- #define IAVF_FLAG_AQ_SET_RSS_KEY		BIT_ULL(13)
- #define IAVF_FLAG_AQ_SET_RSS_LUT		BIT_ULL(14)
--#define IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE	BIT_ULL(15)
-+#define IAVF_FLAG_AQ_SET_RSS_HFUNC		BIT_ULL(15)
-+#define IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE	BIT_ULL(16)
- #define IAVF_FLAG_AQ_ENABLE_VLAN_STRIPPING	BIT_ULL(19)
- #define IAVF_FLAG_AQ_DISABLE_VLAN_STRIPPING	BIT_ULL(20)
- #define IAVF_FLAG_AQ_ENABLE_CHANNELS		BIT_ULL(21)
-@@ -414,6 +415,7 @@ struct iavf_adapter {
- 	struct iavf_vsi vsi;
- 	u32 aq_wait_count;
- 	/* RSS stuff */
-+	enum virtchnl_rss_algorithm hfunc;
- 	u64 hena;
- 	u16 rss_key_size;
- 	u16 rss_lut_size;
-@@ -539,6 +541,7 @@ void iavf_get_hena(struct iavf_adapter *adapter);
- void iavf_set_hena(struct iavf_adapter *adapter);
- void iavf_set_rss_key(struct iavf_adapter *adapter);
- void iavf_set_rss_lut(struct iavf_adapter *adapter);
-+void iavf_set_rss_hfunc(struct iavf_adapter *adapter);
- void iavf_enable_vlan_stripping(struct iavf_adapter *adapter);
- void iavf_disable_vlan_stripping(struct iavf_adapter *adapter);
- void iavf_virtchnl_completion(struct iavf_adapter *adapter,
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-index 6edbf134b73f..a9e1da35e248 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-@@ -95,17 +95,21 @@ iavf_fill_adv_rss_sctp_hdr(struct virtchnl_proto_hdr *hdr, u64 hash_flds)
-  * @rss_cfg: the virtchnl message to be filled with RSS configuration setting
-  * @packet_hdrs: the RSS configuration protocol header types
-  * @hash_flds: the RSS configuration protocol hash fields
-+ * @symm: if true, symmetric hash is required
-  *
-  * Returns 0 if the RSS configuration virtchnl message is filled successfully
-  */
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds)
-+			  u32 packet_hdrs, u64 hash_flds, bool symm)
- {
- 	struct virtchnl_proto_hdrs *proto_hdrs = &rss_cfg->proto_hdrs;
- 	struct virtchnl_proto_hdr *hdr;
- 
--	rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+	if (symm)
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+	else
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
- 
- 	proto_hdrs->tunnel_level = 0;	/* always outer layer */
- 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-index 4d3be11af7aa..e31eb2afebea 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-@@ -80,13 +80,14 @@ struct iavf_adv_rss {
- 
- 	u32 packet_hdrs;
- 	u64 hash_flds;
-+	bool symm;
- 
- 	struct virtchnl_rss_cfg cfg_msg;
- };
- 
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds);
-+			  u32 packet_hdrs, u64 hash_flds, bool symm);
- struct iavf_adv_rss *
- iavf_find_adv_rss_cfg_by_hdrs(struct iavf_adapter *adapter, u32 packet_hdrs);
- void
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-index 5b25c68f3209..5d00fe8999ec 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-@@ -1538,11 +1538,12 @@ static u32 iavf_adv_rss_parse_hdrs(struct ethtool_rxnfc *cmd)
- /**
-  * iavf_adv_rss_parse_hash_flds - parses hash fields from RSS hash input
-  * @cmd: ethtool rxnfc command
-+ * @symm: true if Symmetric Topelitz is set
-  *
-  * This function parses the rxnfc command and returns intended hash fields for
-  * RSS configuration
-  */
--static u64 iavf_adv_rss_parse_hash_flds(struct ethtool_rxnfc *cmd)
-+static u64 iavf_adv_rss_parse_hash_flds(struct ethtool_rxnfc *cmd, bool symm)
- {
- 	u64 hfld = IAVF_ADV_RSS_HASH_INVALID;
- 
-@@ -1614,17 +1615,20 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	struct iavf_adv_rss *rss_old, *rss_new;
- 	bool rss_new_add = false;
- 	int count = 50, err = 0;
-+	bool symm = false;
- 	u64 hash_flds;
- 	u32 hdrs;
- 
- 	if (!ADV_RSS_SUPPORT(adapter))
- 		return -EOPNOTSUPP;
- 
-+	symm = !!(adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC);
-+
- 	hdrs = iavf_adv_rss_parse_hdrs(cmd);
- 	if (hdrs == IAVF_ADV_RSS_FLOW_SEG_HDR_NONE)
- 		return -EINVAL;
- 
--	hash_flds = iavf_adv_rss_parse_hash_flds(cmd);
-+	hash_flds = iavf_adv_rss_parse_hash_flds(cmd, symm);
- 	if (hash_flds == IAVF_ADV_RSS_HASH_INVALID)
- 		return -EINVAL;
- 
-@@ -1632,7 +1636,8 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (!rss_new)
- 		return -ENOMEM;
- 
--	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds)) {
-+	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds,
-+				      symm)) {
- 		kfree(rss_new);
- 		return -EINVAL;
- 	}
-@@ -1651,9 +1656,11 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (rss_old) {
- 		if (rss_old->state != IAVF_ADV_RSS_ACTIVE) {
- 			err = -EBUSY;
--		} else if (rss_old->hash_flds != hash_flds) {
-+		} else if (rss_old->hash_flds != hash_flds ||
-+			   rss_old->symm != symm) {
- 			rss_old->state = IAVF_ADV_RSS_ADD_REQUEST;
- 			rss_old->hash_flds = hash_flds;
-+			rss_old->symm = symm;
- 			memcpy(&rss_old->cfg_msg, &rss_new->cfg_msg,
- 			       sizeof(rss_new->cfg_msg));
- 		} else {
-@@ -1664,6 +1671,7 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 		rss_new->state = IAVF_ADV_RSS_ADD_REQUEST;
- 		rss_new->packet_hdrs = hdrs;
- 		rss_new->hash_flds = hash_flds;
-+		rss_new->symm = symm;
- 		list_add_tail(&rss_new->list, &adapter->adv_rss_list_head);
- 	}
- 	spin_unlock_bh(&adapter->adv_rss_lock);
-@@ -1914,6 +1922,9 @@ static int iavf_get_rxfh(struct net_device *netdev,
- 	u16 i;
- 
- 	rxfh->hfunc = ETH_RSS_HASH_TOP;
-+	if (adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+		rxfh->input_xfrm |= RXH_XFRM_SYM_XOR;
-+
- 	if (rxfh->key)
- 		memcpy(rxfh->key, adapter->rss_key, adapter->rss_key_size);
- 
-@@ -1946,6 +1957,18 @@ static int iavf_set_rxfh(struct net_device *netdev,
- 	    rxfh->hfunc != ETH_RSS_HASH_TOP)
- 		return -EOPNOTSUPP;
- 
-+	if ((rxfh->input_xfrm & RXH_XFRM_SYM_XOR) &&
-+	    adapter->hfunc != VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC) {
-+		if (!ADV_RSS_SUPPORT(adapter))
-+			return -EOPNOTSUPP;
-+		adapter->hfunc = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+		adapter->aq_required |= IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	} else if (!(rxfh->input_xfrm & RXH_XFRM_SYM_XOR) &&
-+		    adapter->hfunc != VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC) {
-+		adapter->hfunc = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+		adapter->aq_required |= IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	}
-+
- 	if (!rxfh->key && !rxfh->indir)
- 		return 0;
- 
-@@ -1964,6 +1987,7 @@ static int iavf_set_rxfh(struct net_device *netdev,
- static const struct ethtool_ops iavf_ethtool_ops = {
- 	.supported_coalesce_params = ETHTOOL_COALESCE_USECS |
- 				     ETHTOOL_COALESCE_USE_ADAPTIVE,
-+	.cap_rss_sym_xor_supported = true,
- 	.get_drvinfo		= iavf_get_drvinfo,
- 	.get_link		= ethtool_op_get_link,
- 	.get_ringparam		= iavf_get_ringparam,
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_main.c b/drivers/net/ethernet/intel/iavf/iavf_main.c
-index 06a87030c163..0b3b33acf1bd 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_main.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_main.c
-@@ -2166,6 +2166,10 @@ static int iavf_process_aq_command(struct iavf_adapter *adapter)
- 		iavf_set_rss_lut(adapter);
- 		return 0;
- 	}
-+	if (adapter->aq_required & IAVF_FLAG_AQ_SET_RSS_HFUNC) {
-+		iavf_set_rss_hfunc(adapter);
-+		return 0;
-+	}
- 
- 	if (adapter->aq_required & IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE) {
- 		iavf_set_promiscuous(adapter);
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c b/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-index 64c4443dbef9..64a351e70a56 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-@@ -1141,6 +1141,34 @@ void iavf_set_rss_lut(struct iavf_adapter *adapter)
- 	kfree(vrl);
- }
- 
-+/**
-+ * iavf_set_rss_hfunc
-+ * @adapter: adapter structure
-+ *
-+ * Request the PF to set our RSS Hash function
-+ **/
-+void iavf_set_rss_hfunc(struct iavf_adapter *adapter)
-+{
-+	struct virtchnl_rss_hfunc *vrh;
-+	int len = sizeof(*vrh);
-+
-+	if (adapter->current_op != VIRTCHNL_OP_UNKNOWN) {
-+		/* bail because we already have a command pending */
-+		dev_err(&adapter->pdev->dev, "Cannot set RSS Hash function, command %d pending\n",
-+			adapter->current_op);
-+		return;
-+	}
-+	vrh = kzalloc(len, GFP_KERNEL);
-+	if (!vrh)
-+		return;
-+	vrh->vsi_id = adapter->vsi.id;
-+	vrh->rss_algorithm = adapter->hfunc;
-+	adapter->current_op = VIRTCHNL_OP_CONFIG_RSS_HFUNC;
-+	adapter->aq_required &= ~IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	iavf_send_pf_msg(adapter, VIRTCHNL_OP_CONFIG_RSS_HFUNC, (u8 *)vrh, len);
-+	kfree(vrh);
-+}
-+
- /**
-  * iavf_enable_vlan_stripping
-  * @adapter: adapter structure
-@@ -2142,6 +2170,19 @@ void iavf_virtchnl_completion(struct iavf_adapter *adapter,
- 			dev_warn(&adapter->pdev->dev, "Failed to add VLAN filter, error %s\n",
- 				 iavf_stat_str(&adapter->hw, v_retval));
- 			break;
-+		case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+			dev_warn(&adapter->pdev->dev, "Failed to configure hash function, error %s\n",
-+				 iavf_stat_str(&adapter->hw, v_retval));
-+
-+			if (adapter->hfunc ==
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+				adapter->hfunc =
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+			else
-+				adapter->hfunc =
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+
-+			break;
- 		default:
- 			dev_err(&adapter->pdev->dev, "PF returned error %d (%s) to our request %d\n",
- 				v_retval, iavf_stat_str(&adapter->hw, v_retval),
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl.c b/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-index 9f69a7c31dd5..70dce8e13880 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-@@ -999,6 +999,51 @@ static int ice_vc_config_rss_lut(struct ice_vf *vf, u8 *msg)
- 				     NULL, 0);
- }
- 
-+/**
-+ * ice_vc_config_rss_hfunc
-+ * @vf: pointer to the VF info
-+ * @msg: pointer to the msg buffer
-+ *
-+ * Configure the VF's RSS Hash function
-+ */
-+static int ice_vc_config_rss_hfunc(struct ice_vf *vf, u8 *msg)
-+{
-+	struct virtchnl_rss_hfunc *vrh = (struct virtchnl_rss_hfunc *)msg;
-+	enum virtchnl_status_code v_ret = VIRTCHNL_STATUS_SUCCESS;
-+	u8 hfunc = ICE_AQ_VSI_Q_OPT_RSS_HASH_TPLZ;
-+	struct ice_vsi *vsi;
-+
-+	if (!test_bit(ICE_VF_STATE_ACTIVE, vf->vf_states)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (!ice_vc_isvalid_vsi_id(vf, vrh->vsi_id)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (!test_bit(ICE_FLAG_RSS_ENA, vf->pf->flags)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	vsi = ice_get_vf_vsi(vf);
-+	if (!vsi) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (vrh->rss_algorithm == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+		hfunc = ICE_AQ_VSI_Q_OPT_RSS_HASH_SYM_TPLZ;
-+
-+	if (ice_set_rss_hfunc(vsi, hfunc))
-+		v_ret = VIRTCHNL_STATUS_ERR_ADMIN_QUEUE_ERROR;
-+error_param:
-+	return ice_vc_send_msg_to_vf(vf, VIRTCHNL_OP_CONFIG_RSS_HFUNC, v_ret,
-+				     NULL, 0);
-+}
-+
- /**
-  * ice_vc_cfg_promiscuous_mode_msg
-  * @vf: pointer to the VF info
-@@ -3767,6 +3812,7 @@ static const struct ice_virtchnl_ops ice_virtchnl_dflt_ops = {
- 	.cfg_irq_map_msg = ice_vc_cfg_irq_map_msg,
- 	.config_rss_key = ice_vc_config_rss_key,
- 	.config_rss_lut = ice_vc_config_rss_lut,
-+	.config_rss_hfunc = ice_vc_config_rss_hfunc,
- 	.get_stats_msg = ice_vc_get_stats_msg,
- 	.cfg_promiscuous_mode_msg = ice_vc_cfg_promiscuous_mode_msg,
- 	.add_vlan_msg = ice_vc_add_vlan_msg,
-@@ -3896,6 +3942,7 @@ static const struct ice_virtchnl_ops ice_virtchnl_repr_ops = {
- 	.cfg_irq_map_msg = ice_vc_cfg_irq_map_msg,
- 	.config_rss_key = ice_vc_config_rss_key,
- 	.config_rss_lut = ice_vc_config_rss_lut,
-+	.config_rss_hfunc = ice_vc_config_rss_hfunc,
- 	.get_stats_msg = ice_vc_get_stats_msg,
- 	.cfg_promiscuous_mode_msg = ice_vc_repr_cfg_promiscuous_mode,
- 	.add_vlan_msg = ice_vc_add_vlan_msg,
-@@ -4078,6 +4125,9 @@ void ice_vc_process_vf_msg(struct ice_pf *pf, struct ice_rq_event_info *event,
- 	case VIRTCHNL_OP_CONFIG_RSS_LUT:
- 		err = ops->config_rss_lut(vf, msg);
- 		break;
-+	case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+		err = ops->config_rss_hfunc(vf, msg);
-+		break;
- 	case VIRTCHNL_OP_GET_STATS:
- 		err = ops->get_stats_msg(vf, msg);
- 		break;
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl.h b/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-index cd747718de73..60dfbe05980a 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-@@ -32,6 +32,7 @@ struct ice_virtchnl_ops {
- 	int (*cfg_irq_map_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*config_rss_key)(struct ice_vf *vf, u8 *msg);
- 	int (*config_rss_lut)(struct ice_vf *vf, u8 *msg);
-+	int (*config_rss_hfunc)(struct ice_vf *vf, u8 *msg);
- 	int (*get_stats_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*cfg_promiscuous_mode_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*add_vlan_msg)(struct ice_vf *vf, u8 *msg);
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c b/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-index 7d547fa616fa..5e19d48a05b4 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-@@ -68,6 +68,7 @@ static const u32 vlan_v2_allowlist_opcodes[] = {
- static const u32 rss_pf_allowlist_opcodes[] = {
- 	VIRTCHNL_OP_CONFIG_RSS_KEY, VIRTCHNL_OP_CONFIG_RSS_LUT,
- 	VIRTCHNL_OP_GET_RSS_HENA_CAPS, VIRTCHNL_OP_SET_RSS_HENA,
-+	VIRTCHNL_OP_CONFIG_RSS_HFUNC,
- };
- 
- /* VIRTCHNL_VF_OFFLOAD_RX_FLEX_DESC */
-diff --git a/include/linux/avf/virtchnl.h b/include/linux/avf/virtchnl.h
-index b0e060cc79ac..a44d9dc7e3eb 100644
---- a/include/linux/avf/virtchnl.h
-+++ b/include/linux/avf/virtchnl.h
-@@ -118,6 +118,7 @@ enum virtchnl_ops {
- 	VIRTCHNL_OP_GET_STATS = 15,
- 	VIRTCHNL_OP_RSVD = 16,
- 	VIRTCHNL_OP_EVENT = 17, /* must ALWAYS be 17 */
-+	VIRTCHNL_OP_CONFIG_RSS_HFUNC = 18,
- 	/* opcode 19 is reserved */
- 	VIRTCHNL_OP_IWARP = 20, /* advanced opcode */
- 	VIRTCHNL_OP_RDMA = VIRTCHNL_OP_IWARP,
-@@ -919,6 +920,21 @@ enum virtchnl_rss_algorithm {
- 	VIRTCHNL_RSS_ALG_XOR_SYMMETRIC		= 3,
- };
- 
-+/* VIRTCHNL_OP_CONFIG_RSS_HFUNC
-+ * VF sends this message to configure the RSS hash function. Only supported
-+ * if both PF and VF drivers set the VIRTCHNL_VF_OFFLOAD_RSS_PF bit during
-+ * configuration negotiation.
-+ * The hash function is initialized to VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC
-+ * by the PF.
-+ */
-+struct virtchnl_rss_hfunc {
-+	u16 vsi_id;
-+	u16 rss_algorithm; /* enum virtchnl_rss_algorithm */
-+	u32 reserved;
-+};
-+
-+VIRTCHNL_CHECK_STRUCT_LEN(8, virtchnl_rss_hfunc);
-+
- /* VIRTCHNL_OP_ENABLE_CHANNELS
-  * VIRTCHNL_OP_DISABLE_CHANNELS
-  * VF sends these messages to enable or disable channels based on
-@@ -1542,6 +1558,9 @@ virtchnl_vc_validate_vf_msg(struct virtchnl_version_info *ver, u32 v_opcode,
- 							 vrl->lut_entries);
- 		}
- 		break;
-+	case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+		valid_len = sizeof(struct virtchnl_rss_hfunc);
-+		break;
- 	case VIRTCHNL_OP_GET_RSS_HENA_CAPS:
- 		break;
- 	case VIRTCHNL_OP_SET_RSS_HENA:
--- 
-2.34.1
+(Please start thinking about a new name that is not the AMD feature
+name. This is added to resctrl filesystem that is the generic interface
+used to work with different architectures. This thus needs to be generalized
+to what user requires and how it can be accommodated by the hardware ...
+this is already expected to be needed by MPAM and having a AMD feature
+name could cause confusion.)
 
+> 
+> b. Mount with ABMC support
+> 	#umount /sys/fs/resctrl/
+> 	#mount  -o abmc -t resctrl resctrl /sys/fs/resctrl/
+> 	
+
+hmmm ... so this requires the user to mount resctrl, determine if the
+feature is supported, unmount resctrl, remount resctrl with feature enabled.
+Could you please elaborate what prevents this feature from being enabled
+without needing to remount resctrl?
+
+> c. Read the monitor states. There will be new file "monitor_state"
+>    for each monitor group when ABMC feature is enabled. By default,
+>    both total and local MBM events are in "unassign" state.
+> 	
+> 	#cat /sys/fs/resctrl/monitor_state 
+> 	total=unassign;local=unassign
+> 	
+> d. Read the event mbm_total_bytes and mbm_local_bytes. Note that MBA
+>    events are not available until the user assigns the events explicitly.
+>    Users need to assign the counters to monitor the events in this mode.
+> 	
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> 	Unavailable
+
+How is the llc_occupancy event impacted when ABMC is enabled? Can all RMIDs
+still be used to track cache occupancy?
+
+> 	
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
+> 	Unavailable
+
+I believe that "Unavailable" already has an accepted meaning within current
+interface and is associated with temporary failure. Even the AMD spec states "This
+is generally a temporary condition and subsequent reads may succeed". In the
+scenario above there is no chance that this counter would produce a value later.
+I do not think it is ideal to overload existing interface with different meanings
+associated with a new hardware specific feature ... something like "Disabled" seems
+more appropriate.
+
+Considering this we may even consider using these files themselves as a
+way to enable the counters if they are disabled. For example, just
+"echo 1 > /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes" can be used
+to enable this counter. No need for a new "monitor_state". Please note that this
+is not an official proposal since there are two other use cases that still need to
+be considered as we await James's feedback on how this may work for MPAM and
+also how this may be useful on AMD hardware that does not support ABMC but
+users may want to get similar benefits ([1])
+
+> 	
+> e. Assign a h/w counter to the total event and read the monitor_state.
+> 	
+> 	#echo total=assign > /sys/fs/resctrl/monitor_state
+> 	#cat /sys/fs/resctrl/monitor_state 
+> 	total=assign;local=unassign
+> 	
+> f. Now that the total event is assigned. Read the total event.
+> 	
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> 	6136000
+> 	
+> g. Assign a h/w counter to both total and local events and read the monitor_state.
+> 	
+> 	#echo "total=assign;local=assign" > /sys/fs/resctrl/monitor_state
+> 	#cat /sys/fs/resctrl/monitor_state
+> 	total=assign;local=assign
+> 	
+> h. Now that both total and local events are  assigned, read the events.
+> 	
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> 	6136000
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+> 	58694
+
+It looks like if not all RMIDs asssociated with parent and child groups
+have counters then the accumulated counters would just treat the "unassigned"
+as zero?
+
+> 	
+> i. Check the bandwidth configuration for the group. Note that bandwidth
+>    configuration has a domain scope. Total event defaults to 0x7F (to
+>    count all the events) and local event defaults to 0x15
+>    (to count all the local numa events). The event bitmap decoding is
+>    available in https://www.kernel.org/doc/Documentation/x86/resctrl.rst
+>    in section "mbm_total_bytes_config", "mbm_local_bytes_config":
+> 	
+> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config 
+> 	0=0x7f;1=0x7f
+> 	
+> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config 
+> 	0=0x15;1=0xi15
+
+
+These would not be available if system does not support BMEC. From
+patch #3 it does not seem as though ABMC is dependent on BMEC.
+
+Is ABMC dependent on BMEC or are they just using the same
+config bits?
+
+> 	
+> j. Change the bandwidth source for domain 0 for the total event to count only reads.
+>    Note that this change effects events on the domain 0.
+> 	
+> 	#echo total=0x33 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config 
+
+typo?
+
+> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config 
+> 	0=0x33;1=0x7F
+> 	
+> k. Now read the total event again. The mbm_total_bytes should display
+>    only the read events.
+> 	
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> 	6136000
+
+hmmm ... seems like there is a need to make the MBM events configurable even
+if BMEC is not supported.
+
+Reinette
+
+
+[1] https://lore.kernel.org/lkml/CALPaoCjg-W3w8OKLHP_g6Evoo03fbgaOQZrGTLX6vdSLp70=SA@mail.gmail.com/
