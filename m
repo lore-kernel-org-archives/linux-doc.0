@@ -1,144 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rBnFTf7X"
-X-Greylist: delayed 546 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 04 Dec 2023 18:38:32 PST
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [IPv6:2001:41d0:1004:224b::b1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A72D4E
-	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 18:38:32 -0800 (PST)
-Message-ID: <f3b16968-d55a-4b30-803f-261fda353775@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1701743362;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ymMLu9FZ8CtZOyGQwaalZh7+0iVyegROhtwrn5KGHB4=;
-	b=rBnFTf7X21Q4cNhSaM8MqzICMe44z516qx66zq5Z6w5CwqtmCX3plbgQuWQ1hCNrqI0WUk
-	3WKu7/haEG+O2MStW7f6iHUOZppGPjNOI+ul/Og7Lahu3inHi79MCDKxEiB+fyHev+DmDm
-	GpH3C1ZZNsCzXdv7S4quXwwA1vd3TKU=
-Date: Tue, 5 Dec 2023 10:28:50 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZyFjcWOx"
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09CED5;
+	Mon,  4 Dec 2023 19:54:58 -0800 (PST)
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-77d645c0e06so337282785a.3;
+        Mon, 04 Dec 2023 19:54:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701748498; x=1702353298; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bwazqnNeub5DZ+rw7fMsVgByjnDtf2+w+fCVgKk8Ybo=;
+        b=ZyFjcWOxbOFkMt3X7t7x9+dbdscYunMuWj8a4yWis488CkVDl0IMr8V8RMwKs8jFtT
+         1kxvgDWW8z3HETz89hbQam7+kPdYqhSun7Xw5s5Wjsq544mmi1xieQqdqOuIu43secmx
+         fVuzwvFPK8c309szmI/yTdlsl0b/sL3VLrL+6Ku+KGe0xECarfOITuTVlrxcQJUJpWXE
+         G+jWJxEbHnOVIaPrqflcWYhPzXu5VNep3ymXwWIxnx0/Z4YWjhj+vlo69pzkDQrPY9vA
+         n5UvM3PZDMJoVpF/ORRkm1nVxcH+XTzaha5QNwr30+0cMgRJ6ZEA/WFsgVNnhNp2BKsr
+         LMFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701748498; x=1702353298;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bwazqnNeub5DZ+rw7fMsVgByjnDtf2+w+fCVgKk8Ybo=;
+        b=UbcDyALycvKVuD7iOOgbuDn6jCQ/iDKqRmBjhKQAfACHmh+1WWRI820+Beq0ETTX3k
+         DkGGvHqDLAwyZuWY1u6dQ7+E/9RZlRATBxNomllWs/CtcTeypKZJDnqnojR71VJPLzRO
+         bqYvtXP7EIePksROBdOh6kXgxx0QnREguECEYiBgj/658E92RWRyYLSFs3RCW+++nXl7
+         BPz8ycMvpMa6WQ7VyO9rc5eUpI+Kk2PqN0hoV8pDsQoSPFLEVLwpRpveEs6uwDlqgDnL
+         cnU0JpTbr8SrE2zhd4bN8XvikekUDGi+91VtWdV1IDk7/WXumIt0nFfvOOy67ZFinw1K
+         IL7A==
+X-Gm-Message-State: AOJu0YwExUMeVs/V1n5NaYFPWynmddE7DZuKi3vY3T5OdcTIBmf5Tlkj
+	plpfUt5CmQj3k0DrZPWadQqOZUQe78g=
+X-Google-Smtp-Source: AGHT+IGrXuNd26CC92+UKforEnNgXpfQsAOCq+zgDCHvKGn5kXp78v53PsNa1+LPIetle08f0af8hA==
+X-Received: by 2002:a05:620a:12c2:b0:77e:fba3:5909 with SMTP id e2-20020a05620a12c200b0077efba35909mr605638qkl.154.1701748497850;
+        Mon, 04 Dec 2023 19:54:57 -0800 (PST)
+Received: from Slackware.localdomain ([154.16.192.47])
+        by smtp.gmail.com with ESMTPSA id br31-20020a05620a461f00b0077dcfc63c8asm4785137qkb.78.2023.12.04.19.54.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Dec 2023 19:54:57 -0800 (PST)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	mark.rutland@arm.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] Documentaion:trace Add the git web link to view it on the browser
+Date: Tue,  5 Dec 2023 09:25:17 +0530
+Message-Id: <20231205035517.30534-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v8 1/6] list_lru: allows explicit memcg and NUMA node
- selection
-Content-Language: en-US
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Matthew Wilcox
- <willy@infradead.org>, akpm@linux-foundation.org,
- cerasuolodomenico@gmail.com, yosryahmed@google.com, sjenning@redhat.com,
- ddstreet@ieee.org, vitaly.wool@konsulko.com, mhocko@kernel.org,
- roman.gushchin@linux.dev, shakeelb@google.com, muchun.song@linux.dev,
- chrisl@kernel.org, linux-mm@kvack.org, kernel-team@meta.com,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
-References: <20231130194023.4102148-1-nphamcs@gmail.com>
- <20231130194023.4102148-2-nphamcs@gmail.com>
- <ZWjpNr3ZzvU4TDC8@casper.infradead.org>
- <CAKEwX=MV-F50i_=sZ0unfbgjrdxSTio00c4xTM19113BAN3-wA@mail.gmail.com>
- <20231130203522.GC543908@cmpxchg.org>
- <e3e319f5-9bcd-4c35-92e6-6fdb33eaa080@linux.dev>
- <CAKEwX=OBHe12R6fTbRn_dNGrz+T4ekE4MSo5w+7i_NNoprmnkw@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Chengming Zhou <chengming.zhou@linux.dev>
-In-Reply-To: <CAKEwX=OBHe12R6fTbRn_dNGrz+T4ekE4MSo5w+7i_NNoprmnkw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Spam-Level: *
 
-On 2023/12/5 01:48, Nhat Pham wrote:
-> On Mon, Dec 4, 2023 at 12:30 AM Chengming Zhou <chengming.zhou@linux.dev> wrote:
->>
->> On 2023/12/1 04:35, Johannes Weiner wrote:
->>> On Thu, Nov 30, 2023 at 12:07:41PM -0800, Nhat Pham wrote:
->>>> On Thu, Nov 30, 2023 at 11:57 AM Matthew Wilcox <willy@infradead.org> wrote:
->>>>>
->>>>> On Thu, Nov 30, 2023 at 11:40:18AM -0800, Nhat Pham wrote:
->>>>>> This patch changes list_lru interface so that the caller must explicitly
->>>>>> specify numa node and memcg when adding and removing objects. The old
->>>>>> list_lru_add() and list_lru_del() are renamed to list_lru_add_obj() and
->>>>>> list_lru_del_obj(), respectively.
->>>>>
->>>>> Wouldn't it be better to add list_lru_add_memcg() and
->>>>> list_lru_del_memcg() and have:
->>>>>
->>>>> +bool list_lru_del(struct list_lru *lru, struct list_head *item)
->>>>> +{
->>>>> +       int nid = page_to_nid(virt_to_page(item));
->>>>> +       struct mem_cgroup *memcg = list_lru_memcg_aware(lru) ?
->>>>> +               mem_cgroup_from_slab_obj(item) : NULL;
->>>>> +
->>>>> +       return list_lru_del_memcg(lru, item, nid, memcg);
->>>>> +}
->>>>>
->>>>> Seems like _most_ callers will want the original versions and only
->>>>> a few will want the explicit memcg/nid versions.  No?
->>>>>
->>>>
->>>> I actually did something along that line in earlier iterations of this
->>>> patch series (albeit with poorer naming - __list_lru_add() instead of
->>>> list_lru_add_memcg()). The consensus after some back and forth was
->>>> that the original list_lru_add() was not a very good design (the
->>>> better one was this new version that allows for explicit numa/memcg
->>>> selection). So I agreed to fix it everywhere as a prep patch.
->>>>
->>>> I don't have strong opinions here to be completely honest, but I do
->>>> think this new API makes more sense (at the cost of quite a bit of
->>>> elbow grease to fix every callsites and extra reviewing).
->>>
->>> Maybe I can shed some light since I was pushing for doing it this way.
->>>
->>> The quiet assumption that 'struct list_head *item' is (embedded in) a
->>> slab object that is also charged to a cgroup is a bit much, given that
->>> nothing in the name or documentation of the function points to that.
->>>
->>> It bit us in the THP shrinker where that list head is embedded in a
->>> tailpage (virt_to_page(page) is fun to debug). And it caused some
->>> confusion in this case as well, where the zswap entry is a slab object
->>> but not charged (the entry descriptor is not attractive for cgroup
->>> accounting, only the backing memory it points to.)
->>
->> Hi,
->>
->> I have a question, maybe I missed something since I haven't read all
->> the earlier versions.
->>
->> IIUC, the problem here is that "zswap_entry" has different memcg and node
->> than the "page", so I wonder if we can just charge "zswap_entry" to the
->> same memcg of the "page".
->>
->> Like we can do these when allocating the "zswap_entry":
->>
->>         old_memcg = set_active_memcg(memcg)
->>         kmem_cache_alloc_lru(zswap_entry_cache, lru, gfp)
->>         set_active_memcg(old_memcg)
->>
->> The good points are:
->>
->> 1. "zswap_entry" is charged to the memcg of "page", which is more sensible?
->>
->> 2. We can reuse the kmem_cache_alloc_lru() interface, which makes code simpler
->>    since we don't need to manage list_lru_memcg by ourselves.
->>
->> 3. Maybe the new list_lru_add() and list_lru_del() are not needed anymore?
->>    Since the "zswap_entry" is of the same memcg and node with the "page".
->>    But don't know if THP shrinker still need it.
->>
->> Thanks!
-> 
-> That idea was considered in earlier iterations/discussions of the
-> patch series as well. Charging things is not free - there is an
-> overhead associated with it, which is why we are usually selective
-> about whether to charge something. We were not super keen to do this
-> for zswap_entry just to plumb around the list_lru's restriction. Might
-> as well pay the price of extending the list_lru interface now.
-> 
-> If in the future, not charging the zswap entry causes a separate
-> isolation issue, we could revisit this decision and charge it.
-> Otherwise, IMHO we should just stick with this for now.
-> 
+Thought this might help people to see the entire source tree on browser and
+explore.
 
-Ok, I get it. Thanks much for your clear explanation!
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Documentation/trace/ftrace.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index 23572f6697c0..e768a4c91452 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -3731,3 +3731,5 @@ Currently, -mfentry is used by gcc 4.6.0 and above on x86 only.
+ More
+ ----
+ More details can be found in the source code, in the `kernel/trace/*.c` files.
++Also you can see the trace source tree on browser `Git Link
++<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/trace>`__.
+--
+2.35.8
 
