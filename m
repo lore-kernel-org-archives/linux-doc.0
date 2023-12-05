@@ -1,189 +1,133 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BvEB5F1O"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10968D6C;
-	Tue,  5 Dec 2023 03:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701775299; x=1733311299;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=GKdJrpjNAAfGimUxYAq3wTN/xrTwaQ33LU4i4+qObUE=;
-  b=BvEB5F1O9zz/PB3qkbHuh3wEJHsdc2UpviBLDpT323YSPOXR1EYDna2T
-   jZsH02cy7fhUmhCL9mj0Q0q340w0HSUIBW/MXeqWhxg7E1dAUxNAcGA04
-   IR8uZPWh1QeKEi1sNE73whKwZ5crYmCEu7aVvvjrQNGQCHGoRcQwtJZXC
-   SLcVgOMtXq5LYkqSphDXPwvNbiDDLrkXkF++Jlml5OPmO1Jc2lw6Hj/XK
-   y5iIkmmUs7B+JSUnbuCcBwEg2J7jpdECIbKYRsEpA2lp4o0Ufm9tPzJMs
-   DDoxUl0aDJVm+RuEldgtpXiNsfL0gOnEEbQNA45EPi7yG5Q/zQDb58WNX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942743"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942743"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018193022"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018193022"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:26 -0800
-From: Xin Li <xin3.li@intel.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org
-Cc: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	luto@kernel.org,
-	pbonzini@redhat.com,
-	seanjc@google.com,
-	peterz@infradead.org,
-	jgross@suse.com,
-	ravi.v.shankar@intel.com,
-	mhiramat@kernel.org,
-	andrew.cooper3@citrix.com,
-	jiangshanlai@gmail.com,
-	nik.borisov@suse.com,
-	shan.kang@intel.com
-Subject: [PATCH v13 35/35] x86/fred: Invoke FRED initialization code to enable FRED
-Date: Tue,  5 Dec 2023 02:50:24 -0800
-Message-ID: <20231205105030.8698-36-xin3.li@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
-References: <20231205105030.8698-1-xin3.li@intel.com>
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B70D5CA
+	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 03:49:08 -0800 (PST)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1rATuo-0007xC-VH; Tue, 05 Dec 2023 12:48:39 +0100
+Message-ID: <92a3e3b4-6f4d-4ca4-947f-db905f328d4c@pengutronix.de>
+Date: Tue, 5 Dec 2023 12:48:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Content-Language: en-US
+To: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>,
+ Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <20231202035511.487946-3-sjg@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
+Hello Simon,
 
-Let cpu_init_exception_handling() call cpu_init_fred_exceptions() to
-initialize FRED. However if FRED is unavailable or disabled, it falls
-back to set up TSS IST and initialize IDT.
+On 02.12.23 04:54, Simon Glass wrote:
+> Add a script which produces a Flat Image Tree (FIT), a single file
+> containing the built kernel and associated devicetree files.
+> Compression defaults to gzip which gives a good balance of size and
+> performance.
+> 
+> The files compress from about 86MB to 24MB using this approach.
+> 
+> The FIT can be used by bootloaders which support it, such as U-Boot
+> and Linuxboot. It permits automatic selection of the correct
+> devicetree, matching the compatible string of the running board with
+> the closest compatible string in the FIT. There is no need for
+> filenames or other workarounds.
+> 
+> Add a 'make image.fit' build target for arm64, as well. Use
+> FIT_COMPRESSION to select a different algorithm.
+> 
+> The FIT can be examined using 'dumpimage -l'.
+> 
+> This features requires pylibfdt (use 'pip install libfdt'). It also
+> requires compression utilities for the algorithm being used. Supported
+> compression options are the same as the Image.xxx files. For now there
+> is no way to change the compression other than by editing the rule for
+> $(obj)/image.fit
+> 
+> While FIT supports a ramdisk / initrd, no attempt is made to support
+> this here, since it must be built separately from the Linux build.
+> 
+> Signed-off-by: Simon Glass <sjg@chromium.org>
 
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-Tested-by: Shan Kang <shan.kang@intel.com>
-Co-developed-by: Xin Li <xin3.li@intel.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
+kernel_noload support is now in barebox next branch and I tested this
+series against it:
 
-Changes since v10:
-* No need to invalidate SYSCALL and SYSENTER MSRs (Thomas Gleixner).
+Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de> # barebox
 
-Changes since v8:
-* Move this patch after all required changes are in place (Thomas
-  Gleixner).
----
- arch/x86/kernel/cpu/common.c | 22 +++++++++++++++++-----
- arch/x86/kernel/irqinit.c    |  7 ++++++-
- arch/x86/kernel/traps.c      |  5 ++++-
- 3 files changed, 27 insertions(+), 7 deletions(-)
+> +"""Build a FIT containing a lot of devicetree files
+> +
+> +Usage:
+> +    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
+> +        -f arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/image.itk
+> +        /tmp/kern/arch/arm64/boot/dts/ -E -c gzip
+> +
+> +Creates a FIT containing the supplied kernel and a directory containing the
+> +devicetree files.
+> +
+> +Use -E to generate an external FIT (where the data is placed after the
+> +FIT data structure). This allows parsing of the data without loading
+> +the entire FIT.
+> +
+> +Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
+> +zstd algorithms.
+> +
+> +The resulting FIT can be booted by bootloaders which support FIT, such
+> +as U-Boot, Linuxboot, Tianocore, etc.
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 9a075792e275..91d2f6018c48 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -61,6 +61,7 @@
- #include <asm/microcode.h>
- #include <asm/intel-family.h>
- #include <asm/cpu_device_id.h>
-+#include <asm/fred.h>
- #include <asm/uv/uv.h>
- #include <asm/ia32.h>
- #include <asm/set_memory.h>
-@@ -2117,7 +2118,15 @@ void syscall_init(void)
- 	/* The default user and kernel segments */
- 	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
- 
--	idt_syscall_init();
-+	/*
-+	 * Except the IA32_STAR MSR, there is NO need to setup SYSCALL and
-+	 * SYSENTER MSRs for FRED, because FRED uses the ring 3 FRED
-+	 * entrypoint for SYSCALL and SYSENTER, and ERETU is the only legit
-+	 * instruction to return to ring 3 (both sysexit and sysret cause
-+	 * #UD when FRED is enabled).
-+	 */
-+	if (!cpu_feature_enabled(X86_FEATURE_FRED))
-+		idt_syscall_init();
- }
- 
- #else	/* CONFIG_X86_64 */
-@@ -2223,8 +2232,9 @@ void cpu_init_exception_handling(void)
- 	/* paranoid_entry() gets the CPU number from the GDT */
- 	setup_getcpu(cpu);
- 
--	/* IST vectors need TSS to be set up. */
--	tss_setup_ist(tss);
-+	/* For IDT mode, IST vectors need to be set in TSS. */
-+	if (!cpu_feature_enabled(X86_FEATURE_FRED))
-+		tss_setup_ist(tss);
- 	tss_setup_io_bitmap(tss);
- 	set_tss_desc(cpu, &get_cpu_entry_area(cpu)->tss.x86_tss);
- 
-@@ -2233,8 +2243,10 @@ void cpu_init_exception_handling(void)
- 	/* GHCB needs to be setup to handle #VC. */
- 	setup_ghcb();
- 
--	/* Finally load the IDT */
--	load_current_idt();
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		cpu_init_fred_exceptions();
-+	else
-+		load_current_idt();
- }
- 
- /*
-diff --git a/arch/x86/kernel/irqinit.c b/arch/x86/kernel/irqinit.c
-index c683666876f1..f79c5edc0b89 100644
---- a/arch/x86/kernel/irqinit.c
-+++ b/arch/x86/kernel/irqinit.c
-@@ -28,6 +28,7 @@
- #include <asm/setup.h>
- #include <asm/i8259.h>
- #include <asm/traps.h>
-+#include <asm/fred.h>
- #include <asm/prom.h>
- 
- /*
-@@ -96,7 +97,11 @@ void __init native_init_IRQ(void)
- 	/* Execute any quirks before the call gates are initialised: */
- 	x86_init.irqs.pre_vector_init();
- 
--	idt_setup_apic_and_irq_gates();
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		fred_complete_exception_setup();
-+	else
-+		idt_setup_apic_and_irq_gates();
-+
- 	lapic_assign_system_vectors();
- 
- 	if (!acpi_ioapic && !of_ioapic && nr_legacy_irqs()) {
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 848c85208a57..0ee78a30e14a 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -1411,7 +1411,10 @@ void __init trap_init(void)
- 
- 	/* Initialize TSS before setting up traps so ISTs work */
- 	cpu_init_exception_handling();
-+
- 	/* Setup traps as cpu_init() might #GP */
--	idt_setup_traps();
-+	if (!cpu_feature_enabled(X86_FEATURE_FRED))
-+		idt_setup_traps();
-+
- 	cpu_init();
- }
+Feel free to add barebox to the list. Did you check whether Linuxboot and
+Tianocore support kernel_noload?
+
+> +        fsw.property_u32('load', 0)
+> +        fsw.property_u32('entry', 0)
+
+I still think load and entry dummy values are confusing and should be dropped.
+
+> +    with fsw.add_node(f'fdt-{seq}'):
+> +        # Get the compatible / model information
+> +        with open(fname, 'rb') as inf:
+> +            data = inf.read()
+> +        fdt = libfdt.FdtRo(data)
+> +        model = fdt.getprop(0, 'model').as_str()
+> +        compat = fdt.getprop(0, 'compatible')
+> +
+> +        fsw.property_string('description', model)
+> +        fsw.property_string('type', 'flat_dt')
+> +        fsw.property_string('arch', arch)
+> +        fsw.property_string('compression', compress)
+> +        fsw.property('compatible', bytes(compat))
+> +
+> +        with open(fname, 'rb') as inf:
+> +            compressed = compress_data(inf, compress)
+> +        fsw.property('data', compressed)
+> +    return model, compat
+
+After Doug's elaboration, extracting multiple compatibles is fine by me.
+
+Cheers,
+Ahmad
+
 -- 
-2.43.0
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
