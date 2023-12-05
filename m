@@ -1,121 +1,143 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ev8Hh1P0"
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3ECC1AA
-	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 11:21:53 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-db53c05f802so115214276.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 11:21:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="niiwfymB"
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21B8135;
+	Tue,  5 Dec 2023 11:33:08 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6cb55001124so100983b3a.0;
+        Tue, 05 Dec 2023 11:33:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701804113; x=1702408913; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+PHueKnu6twn/8T3xEnp+ZFlbZ1HcVdnlRPtBHugQhw=;
-        b=Ev8Hh1P0Lkn6rpwHqo6XRBJORC5pIsg8zENzrjNDjrI56SN7yuJz1Rr68Pqz7l7lMx
-         k4WwCo2Tj7AurXyzwDuPABQKnj+HotokvhE+iZcsEaH0FqEVPtb8sm1k6FBkjiEEBeWV
-         BwwvoWxBDymDs1cTorQpvI7Drb04zj/BLheY9skbS05hzIuVUiesuLgv6IPO9wo7WwUz
-         BUJB/dnP/ln0HCkbQsh+xbBzASDLJc4XFAAis88NOyLWNZrAfl/ZGixx5n5kYLvTp3bw
-         RvuS6tSavP181mlYlLba8Upo+d2S2tzTyla9rR1tQopXZFG2fb15oy6QgDE82cAhBSym
-         xXkA==
+        d=gmail.com; s=20230601; t=1701804788; x=1702409588; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yzmYrhMAdXLD+///kOQIC9tqV0WlC8PR4PrJXczDCuA=;
+        b=niiwfymBFlnAEj91h3Up14afPf+5D76XaYmdiYxuGMuFQoJL5T4WExh9gU/luefC3X
+         HxfFOAC5bPPE1J1uitSebgEVhXsFYe2C0OXw5agM7Gx0R3xvF62mHFQXnC5+jNcHQqkb
+         wtw5j6oa9QePUXlBWlx2nKIvKRcyFzrIjHakqpiuaNi07wO6ZVCgWKcmBkfrQATy4oIC
+         Ry5LmQdWTc7BJkRZ9vNhGfnEi0d8aKO6LIHCVGpHS/WxgvHYNgkPlbPX+uerWsAUo9is
+         j2dPiKDkB8+b+FZhpRhId9o1QVNhV6h9+k7qzrMFtQBzi6KMrytqhOA+UOeZ41lp97Al
+         LUEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701804113; x=1702408913;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+PHueKnu6twn/8T3xEnp+ZFlbZ1HcVdnlRPtBHugQhw=;
-        b=ZaRSAox4TawhOU/GPuN6/Y9HSr2mj0J1AeW4wESOx4QQuTsHYELC6KaBputauDIWwp
-         Op6ue8Jm2AGr/GrR+Lqyxp0SYMz2rDxk0XjTPgv6FasdRp/yCDOHQ1ApnIsPOAGOus7Q
-         CqpYHXS0FXeM+PvMU0+GcKdUWRDODKQVEg1ao3gcT4VsCX+lA+0EGTpsyxhgixgJ0BLN
-         kmoSWy78kQGRKaARbEzP7XSIjcoG7cARdW/lCt4N8+TjDrI2qcWr0A8f1hQ+1Cuq0QjL
-         Ro+uz8quuPs4/heSzTiuvC405w5BOVCVeSab5SglTinwj68ERo5P/Ya9gSiL/nN8Qrfz
-         9ncg==
-X-Gm-Message-State: AOJu0YwNwzRcGSsVn+R6VLe7YBK59R0mnre7yJ1yNFlOGoghD4J4xM4z
-	7vMOHYYZdwwhfBMUqfpmHSM9AyQQV9g=
-X-Google-Smtp-Source: AGHT+IEDojI9r2jUP7SnFhGrIGalU4Ij3ADFSMH3T+bKNraCDRbJqd/r79BOcS/tAV9dHezzcWCAi9z33D0=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:bccd:0:b0:d9a:ca20:1911 with SMTP id
- l13-20020a25bccd000000b00d9aca201911mr63207ybm.4.1701804113124; Tue, 05 Dec
- 2023 11:21:53 -0800 (PST)
-Date: Tue, 5 Dec 2023 11:21:51 -0800
-In-Reply-To: <CXD7AW5T9R7G.2REFR2IRSVRVZ@amazon.com>
+        d=1e100.net; s=20230601; t=1701804788; x=1702409588;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yzmYrhMAdXLD+///kOQIC9tqV0WlC8PR4PrJXczDCuA=;
+        b=EGWzylp1pRI+gMBbb3r7NpNrlFP4+IcSF/MviYoqy6He657yO4VqOfr+CsSKIzCQQT
+         ELZx7+TPwUHdFX8z9/df7sb9ZXWDfofL8TAIa27ALwiRugn50/OJLuQqzb+RVped/h+l
+         zNJpTboZkHeA6AfiLJIU5l9LIoQHRKq2oQ6dJa7gsXCaFaLNqKkVk9LjxoAlEMGYGZ19
+         VYBcWovxd4eg09B4moGk9hYR46ZmdzI8g1bv4KzP/DLz306kEEkCrkOuCg5GJxRZ6+RQ
+         e4HLm11hhqcThiLLo29y6xwidIM94oxTL37TFs+ijJCnx8K2NeiPptcXDWMUbgmeDp2n
+         Hkqw==
+X-Gm-Message-State: AOJu0Yw7jrMLo8iPKRiXQqxic2g7OxgdBKMeiRGf2G8OLCWM1v9PSQDT
+	8sfkK7lHV1/zSZjnlomcrXc=
+X-Google-Smtp-Source: AGHT+IF9r+jplWi+C3DggSGVvOK4fb3t6NnJTlcHQ8Doyqcaiilw07s+4VOK7eualppViE9dX8+beg==
+X-Received: by 2002:a05:6a20:da86:b0:18b:cdd5:10c1 with SMTP id iy6-20020a056a20da8600b0018bcdd510c1mr2603327pzb.26.1701804788200;
+        Tue, 05 Dec 2023 11:33:08 -0800 (PST)
+Received: from localhost (fwdproxy-prn-005.fbsv.net. [2a03:2880:ff:5::face:b00c])
+        by smtp.gmail.com with ESMTPSA id o9-20020a056a0015c900b006cde4523767sm4612803pfu.22.2023.12.05.11.33.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Dec 2023 11:33:07 -0800 (PST)
+From: Nhat Pham <nphamcs@gmail.com>
+To: akpm@linux-foundation.org
+Cc: hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com,
+	yosryahmed@google.com,
+	sjenning@redhat.com,
+	ddstreet@ieee.org,
+	vitaly.wool@konsulko.com,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	chrisl@kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	shuah@kernel.org
+Subject: [PATCH v8 4/6] mm: memcg: add per-memcg zswap writeback stat (fix)
+Date: Tue,  5 Dec 2023 11:33:07 -0800
+Message-Id: <20231205193307.2432803-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231130194023.4102148-5-nphamcs@gmail.com>
+References: <20231130194023.4102148-5-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231108111806.92604-1-nsaenz@amazon.com> <20231108111806.92604-6-nsaenz@amazon.com>
- <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
- <CXD4TVV5QWUK.3SH495QSBTTUF@amazon.com> <ZWoKlJUKJGGhRRgM@google.com>
- <CXD5HJ5LQMTE.11XP9UB9IL8LY@amazon.com> <ZWocI-2ajwudA-S5@google.com> <CXD7AW5T9R7G.2REFR2IRSVRVZ@amazon.com>
-Message-ID: <ZW94T8Fx2eJpwKQS@google.com>
-Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return
- prologues in hypercall page
-From: Sean Christopherson <seanjc@google.com>
-To: Nicolas Saenz Julienne <nsaenz@amazon.com>
-Cc: Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
-	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
-	kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, 
-	x86@kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> On Fri Dec 1, 2023 at 5:47 PM UTC, Sean Christopherson wrote:
-> > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> > > On Fri Dec 1, 2023 at 4:32 PM UTC, Sean Christopherson wrote:
-> > > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> > > > > > To support this I think that we can add a userspace msr filter on the HV_X64_MSR_HYPERCALL,
-> > > > > > although I am not 100% sure if a userspace msr filter overrides the in-kernel msr handling.
-> > > > >
-> > > > > I thought about it at the time. It's not that simple though, we should
-> > > > > still let KVM set the hypercall bytecode, and other quirks like the Xen
-> > > > > one.
-> > > >
-> > > > Yeah, that Xen quirk is quite the killer.
-> > > >
-> > > > Can you provide pseudo-assembly for what the final page is supposed to look like?
-> > > > I'm struggling mightily to understand what this is actually trying to do.
-> > >
-> > > I'll make it as simple as possible (diregard 32bit support and that xen
-> > > exists):
-> > >
-> > > vmcall             <-  Offset 0, regular Hyper-V hypercalls enter here
-> > > ret
-> > > mov rax,rcx  <-  VTL call hypercall enters here
-> >
-> > I'm missing who/what defines "here" though.  What generates the CALL that points
-> > at this exact offset?  If the exact offset is dictated in the TLFS, then aren't
-> > we screwed with the whole Xen quirk, which inserts 5 bytes before that first VMCALL?
-> 
-> Yes, sorry, I should've included some more context.
-> 
-> Here's a rundown (from memory) of how the first VTL call happens:
->  - CPU0 start running at VTL0.
->  - Hyper-V enables VTL1 on the partition.
->  - Hyper-V enabled VTL1 on CPU0, but doesn't yet switch to it. It passes
->    the initial VTL1 CPU state alongside the enablement hypercall
->    arguments.
->  - Hyper-V sets the Hypercall page overlay address through
->    HV_X64_MSR_HYPERCALL. KVM fills it.
->  - Hyper-V gets the VTL-call and VTL-return offset into the hypercall
->    page using the VP Register HvRegisterVsmCodePageOffsets (VP register
->    handling is in user-space).
+Rename ZSWP_WB to ZSWPWB to better match the existing counters naming
+scheme.
 
-Ah, so the guest sets the offsets by "writing" HvRegisterVsmCodePageOffsets via
-a HvSetVpRegisters() hypercall.
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+---
+ include/linux/vm_event_item.h | 2 +-
+ mm/memcontrol.c               | 2 +-
+ mm/vmstat.c                   | 2 +-
+ mm/zswap.c                    | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-I don't see a sane way to handle this in KVM if userspace handles HvSetVpRegisters().
-E.g. if the guest requests offsets that don't leave enough room for KVM to shove
-in its data, then presumably userspace needs to reject HvSetVpRegisters().  But
-that requires userspace to know exactly how many bytes KVM is going to write at
-each offsets.
-
-My vote is to have userspace do all the patching.  IIUC, all of this is going to
-be mutually exclusive with kvm_xen_hypercall_enabled(), i.e. userspace doesn't
-need to worry about setting RAX[31].  At that point, it's just VMCALL versus
-VMMCALL, and userspace is more than capable of identifying whether its running
-on Intel or AMD.
-
->  - Hyper-V performs the first VTL-call, and has all it needs to move
->    between VTL0/1.
-> 
-> Nicolas
+diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
+index f4569ad98edf..747943bc8cc2 100644
+--- a/include/linux/vm_event_item.h
++++ b/include/linux/vm_event_item.h
+@@ -142,7 +142,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+ #ifdef CONFIG_ZSWAP
+ 		ZSWPIN,
+ 		ZSWPOUT,
+-		ZSWP_WB,
++		ZSWPWB,
+ #endif
+ #ifdef CONFIG_X86
+ 		DIRECT_MAP_LEVEL2_SPLIT,
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 21d79249c8b4..0286b7d38832 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -703,7 +703,7 @@ static const unsigned int memcg_vm_event_stat[] = {
+ #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+ 	ZSWPIN,
+ 	ZSWPOUT,
+-	ZSWP_WB,
++	ZSWPWB,
+ #endif
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ 	THP_FAULT_ALLOC,
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index 2249f85e4a87..cfd8d8256f8e 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1401,7 +1401,7 @@ const char * const vmstat_text[] = {
+ #ifdef CONFIG_ZSWAP
+ 	"zswpin",
+ 	"zswpout",
+-	"zswp_wb",
++	"zswpwb",
+ #endif
+ #ifdef CONFIG_X86
+ 	"direct_map_level2_splits",
+diff --git a/mm/zswap.c b/mm/zswap.c
+index c65b8ccc6b72..0fb0945c0031 100644
+--- a/mm/zswap.c
++++ b/mm/zswap.c
+@@ -761,9 +761,9 @@ static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_o
+ 	zswap_written_back_pages++;
+ 
+ 	if (entry->objcg)
+-		count_objcg_event(entry->objcg, ZSWP_WB);
++		count_objcg_event(entry->objcg, ZSWPWB);
+ 
+-	count_vm_event(ZSWP_WB);
++	count_vm_event(ZSWPWB);
+ 	/*
+ 	 * Writeback started successfully, the page now belongs to the
+ 	 * swapcache. Drop the entry from zswap - unless invalidate already
+-- 
+2.34.1
