@@ -1,139 +1,141 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e9dEpWsW"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1192D188;
-	Tue,  5 Dec 2023 06:59:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701788372; x=1733324372;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VZDh21/Ig8AXYrMCD18ioZIyJdzTpoel4Yv9mfI1z6Q=;
-  b=e9dEpWsWa7GANAIdFYw2tFvEvlrhgQ1pm3fxzyZMeSsm+r/XGRDHdaSW
-   DA+hVb3syqfpXDS6J8W6tVkhBowJaEJjRBh8IkTW0/e/LVRPww3WyzCJL
-   sEUwOTbwcz0a/m/cEBIzOaNrB83XprKQtnNa8ILHow/7Qdxf8+l8rbKym
-   qu/ZMsa71hIVGRSvnMVdrpXYX9GCxMzntpnJj7/ICoDUtiwTUU/TlHYDA
-   Rdths1sfOl0HNKe46LBHTbbie43bHsLTUx/bD4VhbRpo8Cs2P8wAiABnL
-   OryYuCsqeiQvox5UUnFX11Q9uTLgrDcHqvzMHxUjHUFYhyAmDCeqBUKQM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="7250408"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="7250408"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 06:59:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="944283594"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="944283594"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 05 Dec 2023 06:59:24 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAWtO-0009DG-02;
-	Tue, 05 Dec 2023 14:59:22 +0000
-Date: Tue, 5 Dec 2023 22:59:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: davidgow@google.com, Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-sound@vger.kernel.org, David Gow <davidgow@google.com>
-Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
-Message-ID: <202312052230.ic1pg0uo-lkp@intel.com>
-References: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AHThslmY"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED495A9
+	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 07:03:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701788601;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RVfnz9yEraI13QEVMWCv15KSWf2rbynT5uHuzX4Khhk=;
+	b=AHThslmYQ0ft76mCXsWTQZDafqBDw3R1qzRezHKzuHWoi2PsvXPWHm/l0+s3yYlAwYzZY6
+	EnivNxIM9zAl8yZ99bFFifMHo6Be3hb6MD37uwZPa5Ry/jaUOOJcy8CmW0ixBJfgnNrl0K
+	E9a7MXv8LNWe66P09zWD4i2RZCFgWas=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-HstHri1ZOtqHT7M9MO7Pqw-1; Tue, 05 Dec 2023 10:03:01 -0500
+X-MC-Unique: HstHri1ZOtqHT7M9MO7Pqw-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40b4e24adc7so40816835e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 07:02:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701788563; x=1702393363;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RVfnz9yEraI13QEVMWCv15KSWf2rbynT5uHuzX4Khhk=;
+        b=vtts0w2qt7f+YkRTh+EBxX7WeeDJNckMcbcN3JE3PlqD33HYao5krMnYP3Gg9C6Q/e
+         6xxS2crxJ0C3c+xnJmL5+LH2uS9EbS94FTHu+PfqFwZ42M4g8NXpRUBi4u1IEwIxHuCd
+         S7IqmB6x+ji47yqM/Jmel4F+rFuznVePLLo3t7sfrsJMUrs1gvygsMRLCXCquA1chni/
+         qf/Tq6v5hw+2B/SiObUvWbxKnc16mGZU1SnIGz02d/QWmKfvLgPhk67AxIflzTDtaWQU
+         xLJUdtmeRMV5SKoFDcF5yVHJ35Vc8w+nbYBwKWn1+Co4PJRuc1zJspO8UJUFr3tvm3A1
+         rPXA==
+X-Gm-Message-State: AOJu0Yyw9QUqbTqF1N4yrFVxtJ/vr3U/6MCDWKSzoOFb6HmzjlPmKcB1
+	LWkIuORACbz5T4Lex9dAP9FqRCoWT7WqCM1pjrEXeUqaycKxlrpVICc+QKvKVqmVdsBA87Xhp8s
+	/cS0y/grUPy9NXmKBdecH
+X-Received: by 2002:a05:600c:4506:b0:40b:37ef:3671 with SMTP id t6-20020a05600c450600b0040b37ef3671mr4708323wmo.38.1701788563082;
+        Tue, 05 Dec 2023 07:02:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFw+ZIqFfTxBo1MNegF8bmaDRUQK0S0GcC3WZpfcXrIP2tAUAD/esumx04OeKShDkq6yYuUlA==
+X-Received: by 2002:a05:600c:4506:b0:40b:37ef:3671 with SMTP id t6-20020a05600c450600b0040b37ef3671mr4708304wmo.38.1701788562696;
+        Tue, 05 Dec 2023 07:02:42 -0800 (PST)
+Received: from starship ([89.237.98.20])
+        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040b47c53610sm18964395wmq.14.2023.12.05.07.02.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Dec 2023 07:02:42 -0800 (PST)
+Message-ID: <72ab3fa2932dc661a4e0e124ac630e6bb269ebd4.camel@redhat.com>
+Subject: Re: [RFC 06/33] KVM: x86: hyper-v: Introduce VTL awareness to
+ Hyper-V's PV-IPIs
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+ pbonzini@redhat.com, seanjc@google.com, vkuznets@redhat.com,
+ anelkz@amazon.com,  graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com,
+ corbert@lwn.net,  kys@microsoft.com, haiyangz@microsoft.com,
+ decui@microsoft.com, x86@kernel.org,  linux-doc@vger.kernel.org
+Date: Tue, 05 Dec 2023 17:02:40 +0200
+In-Reply-To: <CXD538WSGHGC.BMUQF0OJSSW4@amazon.com>
+References: <20231108111806.92604-1-nsaenz@amazon.com>
+	 <20231108111806.92604-7-nsaenz@amazon.com>
+	 <9249b4b84f7b84da2ea21fbbbabf35f22e5d9f2f.camel@redhat.com>
+	 <CXD538WSGHGC.BMUQF0OJSSW4@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Fri, 2023-12-01 at 16:31 +0000, Nicolas Saenz Julienne wrote:
+> On Tue Nov 28, 2023 at 7:14 AM UTC, Maxim Levitsky wrote:
+> > On Wed, 2023-11-08 at 11:17 +0000, Nicolas Saenz Julienne wrote:
+> > > HVCALL_SEND_IPI and HVCALL_SEND_IPI_EX allow targeting specific a
+> > > specific VTL. Honour the requests.
+> > > 
+> > > Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
+> > > ---
+> > >  arch/x86/kvm/hyperv.c             | 24 +++++++++++++++++-------
+> > >  arch/x86/kvm/trace.h              | 20 ++++++++++++--------
+> > >  include/asm-generic/hyperv-tlfs.h |  6 ++++--
+> > >  3 files changed, 33 insertions(+), 17 deletions(-)
+> > > 
+> > > diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+> > > index d4b1b53ea63d..2cf430f6ddd8 100644
+> > > --- a/arch/x86/kvm/hyperv.c
+> > > +++ b/arch/x86/kvm/hyperv.c
+> > > @@ -2230,7 +2230,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+> > >  }
+> > > 
+> > >  static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
+> > > -                                 u64 *sparse_banks, u64 valid_bank_mask)
+> > > +                                 u64 *sparse_banks, u64 valid_bank_mask, int vtl)
+> > >  {
+> > >       struct kvm_lapic_irq irq = {
+> > >               .delivery_mode = APIC_DM_FIXED,
+> > > @@ -2245,6 +2245,9 @@ static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
+> > >                                           valid_bank_mask, sparse_banks))
+> > >                       continue;
+> > > 
+> > > +             if (kvm_hv_get_active_vtl(vcpu) != vtl)
+> > > +                     continue;
+> > 
+> > Do I understand correctly that this is a temporary limitation?
+> > In other words, can a vCPU running in VTL1 send an IPI to a vCPU running VTL0,
+> > forcing the target vCPU to do async switch to VTL1?
+> > I think that this is possible.
+> 
+> The diff is missing some context. See this simplified implementation
+> (when all_cpus is set in the parent function):
+> 
+> static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector, int vtl)
+> {
+> 	[...]
+> 	kvm_for_each_vcpu(i, vcpu, kvm) {
+> 		if (kvm_hv_get_active_vtl(vcpu) != vtl)
+> 			continue;
+> 
+> 		kvm_apic_set_irq(vcpu, &irq, NULL);
+> 	}
+> }
+> 
+> With the one vCPU per VTL approach, kvm_for_each_vcpu() will iterate
+> over *all* vCPUs regardless of their VTL. The IPI is targetted at a
+> specific VTL, hence the need to filter.
+> 
+> VTL1 -> VTL0 IPIs are supported and happen (although they are extremely
+> rare).
 
-kernel test robot noticed the following build warnings:
+Makes sense now, thanks!
 
-[auto build test WARNING on c8613be119892ccceffbc550b9b9d7d68b995c9e]
+Best regards,
+	Maxim Levitsky
 
-url:    https://github.com/intel-lab-lkp/linux/commits/davidgow-google-com/kunit-Add-APIs-for-managing-devices/20231205-153349
-base:   c8613be119892ccceffbc550b9b9d7d68b995c9e
-patch link:    https://lore.kernel.org/r/20231205-kunit_bus-v1-1-635036d3bc13%40google.com
-patch subject: [PATCH 1/4] kunit: Add APIs for managing devices
-config: i386-randconfig-141-20231205 (https://download.01.org/0day-ci/archive/20231205/202312052230.ic1pg0uo-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052230.ic1pg0uo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312052230.ic1pg0uo-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> lib/kunit/device.c:100:22: warning: no previous prototype for '__kunit_device_register_internal' [-Wmissing-prototypes]
-     100 | struct kunit_device *__kunit_device_register_internal(struct kunit *test,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [m]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
+> 
+> Nicolas
+> 
 
 
-vim +/__kunit_device_register_internal +100 lib/kunit/device.c
-
-    99	
- > 100	struct kunit_device *__kunit_device_register_internal(struct kunit *test,
-   101							      const char *name,
-   102							      struct device_driver *drv)
-   103	{
-   104		struct kunit_device *kunit_dev;
-   105		int err = -ENOMEM;
-   106	
-   107		kunit_dev = kzalloc(sizeof(struct kunit_device), GFP_KERNEL);
-   108		if (!kunit_dev)
-   109			return ERR_PTR(err);
-   110	
-   111		kunit_dev->owner = test;
-   112	
-   113		err = dev_set_name(&kunit_dev->dev, "%s.%s", test->name, name);
-   114		if (err) {
-   115			kfree(kunit_dev);
-   116			return ERR_PTR(err);
-   117		}
-   118	
-   119		/* Set the expected driver pointer, so we match. */
-   120		kunit_dev->driver = drv;
-   121	
-   122		kunit_dev->dev.release = kunit_device_release;
-   123		kunit_dev->dev.bus = &kunit_bus_type;
-   124		kunit_dev->dev.parent = &kunit_bus;
-   125	
-   126		err = device_register(&kunit_dev->dev);
-   127		if (err) {
-   128			put_device(&kunit_dev->dev);
-   129			return ERR_PTR(err);
-   130		}
-   131	
-   132		kunit_add_action(test, device_unregister_wrapper, &kunit_dev->dev);
-   133	
-   134		return kunit_dev;
-   135	}
-   136	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
