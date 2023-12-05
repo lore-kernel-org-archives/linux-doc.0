@@ -1,218 +1,162 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jf4/LrIF"
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496AA1712;
-	Tue,  5 Dec 2023 01:31:12 -0800 (PST)
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7b3a8366e13so213787839f.1;
-        Tue, 05 Dec 2023 01:31:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701768671; x=1702373471; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RenfwwRJ+AFtvegtJNUpHv8NSTFiZxHcpwZvmM/2PSE=;
-        b=Jf4/LrIFbDZ7xFNQGncpPKfItPdWPYvYBQvqI+QqmOMwThh6UPSvitMCHKxa8S/kqd
-         mkV2S2Cyudo5Xu2y7ofmZcWnFfbRAxl9G+ja1ocAjON2C2PLiC6pc4o0+y3vEcHAU5Pf
-         sk26WfkbDhkydsyMBHKNkPxK0RIzYLY3vpQtDW59kpJb2ec8lEEloVSPkra9qcYrCUJT
-         InY0GH8u0iYrkbxDAfZ9Ch5qsrNVUto1NNp9F4BTvT4KDOoI1eBy2lXl8/pUG4+CmHvv
-         NnlaY7roj3Izz6wtRo+DNGzD7wVfKNpnabOLo/DXglVOOrGu7RUhC9bv+euXskc3S/EF
-         Vx/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701768671; x=1702373471;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RenfwwRJ+AFtvegtJNUpHv8NSTFiZxHcpwZvmM/2PSE=;
-        b=hbhumq5+L3TpqMeTCA4teO8fDR6oVo4rgJGmUo7CjiBpLy9MM6cFUYsqNLOBpO088z
-         4T43wnu5Q46WoKJxpnjJogIiKQ+WvCddHZda/NWbl/n5z06zfzcMqlT9aqm84pBhbm9j
-         uaX8lVi4457uh1vA7f1xKOKv/eY0nVXVj4wrElyumxusH5KvtYrX9snp5We2FI5rJ8t3
-         XvzYJoEwmAV6dl2XaAhaAg8hl4q+c6yP04ifjNmhY/Et4qtunX2e+9Dt0u+jXbq9o+zs
-         sdWZoFSPxdfFodCLLGx/E8pkMY6oOTyfkVILnGujsANis+WGGEIn3JsqeZPe/wAGRZM/
-         xlaA==
-X-Gm-Message-State: AOJu0Yw1Rm2W0qG4VVHMoAlI3bEwokGXG/TW2sm4yema5KaR2WqlSnfS
-	+REEPjNLlPMUUztS8y8XO3hyxRPswiboiRHsJ/c=
-X-Google-Smtp-Source: AGHT+IFr6D6BYqWGEyE3UMSbNV71rjyqF6qvTXD3vh+DfXrYkp9XBifnGHmOK8cQ4HX10HYIwoHFe7lh2PJHgyC+q1I=
-X-Received: by 2002:a5d:974a:0:b0:7b4:28f8:1dfa with SMTP id
- c10-20020a5d974a000000b007b428f81dfamr7247279ioo.25.1701768671291; Tue, 05
- Dec 2023 01:31:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IC90/i/a"
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 177D31A1;
+	Tue,  5 Dec 2023 02:15:06 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C5CD0FF80F;
+	Tue,  5 Dec 2023 10:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701771305;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=56obyiQINpp8qp99k/anDIat4PLYEo9bc6Sx/F9dwMM=;
+	b=IC90/i/aj3xV0sCBcJjjXH1B1xlq5KA4l5YAXssJ1PqT3ecv5q3st0Lx+dh+U52plJgymw
+	5XZGg8RiMuQtY++M6kl45xTR8ILX8BYIKNgZfUscRh2B0PtXGAh0EDPTCCnOwD8SsNB8yD
+	TKVpzNIFPVQm1exU0cs+BBiyXdbBACD7B4vVJ1ewMUq/KGd4UUkgjIem+OhKfkjKAwZqLI
+	McTfkvmVCQcu7o4kNm8fPvQAY6CIBoFlDyZbu03eq/VuNmSsth1rkd4rdC9XcKha0QjE9q
+	oECfswlDMJW7XhrHe+c5Wj1Ni2d4OZ2PhDOTKTSmCkICKLXQ3uyJosWjnbMa3w==
+Date: Tue, 5 Dec 2023 11:15:01 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH net-next v2 7/8] dt-bindings: net: pse-pd: Add bindings
+ for PD692x0 PSE controller
+Message-ID: <20231205111501.43f80846@kmaincent-XPS-13-7390>
+In-Reply-To: <20231205063606.GI981228@pengutronix.de>
+References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
+	<20231201-feature_poe-v2-7-56d8cac607fa@bootlin.com>
+	<20231204230845.GH981228@pengutronix.de>
+	<20231205063606.GI981228@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231204055650.788388-1-kcfeng0@nuvoton.com> <20231204055650.788388-2-kcfeng0@nuvoton.com>
- <94607c47-9824-4e2c-8f22-99ca2e088b27@linaro.org>
-In-Reply-To: <94607c47-9824-4e2c-8f22-99ca2e088b27@linaro.org>
-From: Ban Feng <baneric926@gmail.com>
-Date: Tue, 5 Dec 2023 17:31:00 +0800
-Message-ID: <CALz278ZbjcbjUmFKv4B20DPDW33KPW-nZn4if3qTLjYKZZmWWw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: hwmon: Add nct736x bindings
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com, 
-	DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Krzysztof,
+On Tue, 5 Dec 2023 07:36:06 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-On Mon, Dec 4, 2023 at 4:04=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 04/12/2023 06:56, baneric926@gmail.com wrote:
-> > From: Ban Feng <kcfeng0@nuvoton.com>
-> >
-> > This change documents the device tree bindings for the Nuvoton
-> > NCT7362Y, NCT7363Y driver.
-> >
-> > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
-> > ---
-> >  .../bindings/hwmon/nuvoton,nct736x.yaml       | 80 +++++++++++++++++++
-> >  MAINTAINERS                                   |  6 ++
-> >  2 files changed, 86 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct=
-736x.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.ya=
-ml b/Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.yaml
-> > new file mode 100644
-> > index 000000000000..f98fd260a20f
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/nuvoton,nct736x.yaml
-> > @@ -0,0 +1,80 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +
-> > +$id: http://devicetree.org/schemas/hwmon/nuvoton,nct736x.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Nuvoton NCT736X Hardware Monitoring IC
-> > +
-> > +maintainers:
-> > +  - Ban Feng <kcfeng0@nuvoton.com>
-> > +
-> > +description: |
-> > +  The NCT736X is a Fan controller which provides up to 16 independent
-> > +  FAN input monitors, and up to 16 independent PWM output with SMBus i=
-nterface.
-> > +  Besides, NCT7363Y has a built-in watchdog timer which is used for
-> > +  conditionally generating a system reset output (INT#).
-> > +
-> > +additionalProperties: false
->
-> Please place it just like other bindings are placing it. Not in some
-> random order. See example-schema.
+> > > +examples:
+> > > +  - |
+> > > +    i2c {
+> > > +        #address-cells =3D <1>;
+> > > +        #size-cells =3D <0>;
+> > > +
+> > > +        ethernet-pse@3c {
+> > > +          compatible =3D "microchip,pd69200";
+> > > +          reg =3D <0x3c>;
+> > > +          #pse-cells =3D <1>;
+> > > +          ports-matrix =3D <0 2 5
+> > > +                          1 3 6
+> > > +                          2 0 0xff
+> > > +                          3 1 0xff>; =20
+> >=20
+> > Hm... this will probably not scale.  PSE is kind of PMIC for ethernet. I
+> > has bunch of regulators which can be grouped to one more powerful
+> > regulator. Since it is regulators, we will wont to represent them in a
+> > system as regulators too. We will probably have physical, board
+> > specific limitation, so we will need to describe regulator limits for
+> > each separate channel. =20
+>=20
+> After diving a bit deeper to the chip manual and communication protocol
+> manual I would recommend to recreate system topology as good as possible
+> in the devicetree. The reason is that we actually able to communicate
+> with with "manager" behind the "controller" and the "port-matrix" is all
+> about the "managers" and physical ports layout.
 
-ok, I'll move additionalProperties to the correct place.
+Ok, but the "managers communication" implementation will be added later as
+for now only the basics of the the PSE controller is implemented.
 
->
-> You should use common fan properties. If it was not merged yet, you must
-> rebase on patchset on LKML and mention the dependency in the change log
-> (---).
+> Typical system architecture looks like this:
+>=20
+> SoC   --- i2c/uart --> controller -- spi --> manager0 -- phys_port0 -->
+> log_port0 (PoE4) |           \- phys_port1 -/
+> 					 |	     \- phys_port2 -->
+> log_port1 (PoE2) |	     \- phys_port3 --> log_port2 (PoE2)
+>                                          \- manager1 -- phys_port0 ..
+> 					....
+>=20
+> Please include some ASCII topology to the documentation :)
 
-please kindly see below
+Ok.=20
 
->
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - nuvoton,nct7362
-> > +      - nuvoton,nct7363
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  nuvoton,pwm-mask:
-> > +    description: |
-> > +      each bit means PWMx enable/disable setting, where x =3D 0~15.
-> > +      0: disabled, 1: enabled
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    minimum: 0x0
-> > +    maximum: 0xFFFF
-> > +    default: 0x0
->
-> Use pwms, not own property for this.
+> I would expect a devicetree like this:
+>=20
+>         ethernet-pse@3c {
+> 	  // controller compatible should be precise
+>           compatible =3D "microchip,pd69210";
+>           reg =3D <0x3c>;
+>           #pse-cells =3D <1>;
+>          =20
+> 	  managers {
+> 	    manager@0 {
+> 	      // manager compatible should be included, since we are
+> 	      // able to campare it with communication results
+> 	      compatible =3D "microchip,pd69208t4"
+> 	      // addressing corresponding to the chip select addressing
+> 	      reg =3D <0>;
+>=20
+> 	      physical-ports {
+> 	        phys0: port@0 {
+> 		  // each of physical ports is actually a regulator
+> 		  reg =3D <0>;
+> 		};
+> 	        phys1: port@1 {
+> 		  reg =3D <1>;
+> 		};
+> 	        phys2: port@2 {
+> 		  reg =3D <2>;
+> 		};
+>=20
+>                ...
+> 	      }
+>=20
+>           // port matrix can be calculated by using this information
+>           logical-ports {
+> 	    log_port0: port@0 {
+> 	      // PoE4 port
+> 	      physical-ports =3D <&phys0, &phys1>;
+> 	    };
+> 	    log_port1: port@1 {
+> 	      // PoE2 port
+> 	      physical-ports =3D <&phys2>;
+> 	    };
+> 	  };
+>=20
+> ....
+>    ethernet-phy@1 {
+>      reg =3D <1>;
+>      pses =3D <&log_port0>;
+>    }
+>    ethernet-phy@2 {
+>      reg =3D <2>;
+>      pses =3D <&log_port1>;
+>    }
 
-NCT736X has 16 funtion pins, they can be
-GPIO/PWM/FANIN/Reserved_or_ALERT#, and default is GPIO.
-We would like to add such a property that can configure the function
-pin for pin0~7 and pin10~17.
+The pse node will become massive (more than 140 subnodes) but indeed this w=
+ill
+fit the real topology architecture.
 
-My original design is only for PWM/FANIN, however,
-I noticed that we can change the design to "nuvoton,pin[0-7]$" and
-"nuvoton,pin[10-17]$", like example in adt7475.yaml.
-I'm not sure if this can be accepted or not, please kindly review this.
-
->
-> > +
-> > +  nuvoton,fanin-mask:
-> > +    description: |
-> > +      each bit means FANINx monitoring enable/disable setting,
-> > +      where x =3D 0~15.
-> > +      0: disabled, 1: enabled
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    minimum: 0x0
-> > +    maximum: 0xFFFF
-> > +    default: 0x0
->
-> Use properties from common fan bindings.
-
-Ditto
-
->
-> > +
-> > +  nuvoton,wdt-timeout:
-> > +    description: |
-> > +      Watchdog Timer time configuration for NCT7363Y, as below
-> > +      0: 15 sec (default)
-> > +      1: 7.5 sec
-> > +      2: 3.75 sec
-> > +      3: 30 sec
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    enum: [0, 1, 2, 3]
-> > +    default: 0
->
-> Nope, reference watchdog.yaml and use its properties. See other watchdog
-> bindings for examples.
-
-NCT7363 has a built-in watchdog timer which is used for conditionally
-generating a system reset
-output (INT#) if the microcontroller or microprocessor stops to
-periodically send a pulse signal or
-interface communication access signal like SCL signal from SMBus interface.
-
-We only consider "Watchdog Timer Configuration Register" enable bit
-and timeout setting.
-Should we still need to add struct watchdog_device to struct nct736x_data?
-
->
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - nuvoton,pwm-mask
-> > +  - nuvoton,fanin-mask
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        nct7363@22 {
->
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-device=
-tree-basics.html#generic-names-recommendation
-
-ok, I'll change nct7363@22 to hwmon@22.
-
-Thanks,
-Ban
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
