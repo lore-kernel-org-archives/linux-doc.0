@@ -1,119 +1,147 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbwWyZ8l"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DA2FC6;
-	Tue,  5 Dec 2023 10:51:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701802283; x=1733338283;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FGHffFy0+nOUiTzc3iXUEN5m3xo0m449pUrj/6VUrqw=;
-  b=XbwWyZ8lu8leAhk1FZFEIjovokO+hMRAA8Po6yJP+pPgST9fBlz+L10t
-   zjvNXSZWj06AFbxgMuosgtkFfzgkn4g+0qpTEsc+SywxYFWduSiahD6Ta
-   cyLUs8wjKvIcKyoo+/jeo4TikKCLRhP5bogz/mja3xyAtm40+Gkzf6/Q2
-   Oyyt6HNpqwjCJ8d8mXDAUGzMrjesIVN3JPJt9i1wdx+OqwIQN7AMUmFtH
-   qzhan++096qgb3vfEZNW5atJ/4QuRBQZVXJJjGJ3a42b1AGLnsM6J2pH9
-   680cuUNqatoUd16OlIIcpJ7CDe/HDoelJ0Tf/juatNDg94L7oO9aP6NSP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="458261267"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="458261267"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 10:51:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="747337026"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="747337026"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 05 Dec 2023 10:51:14 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAaVk-0009Zn-0t;
-	Tue, 05 Dec 2023 18:51:12 +0000
-Date: Wed, 6 Dec 2023 02:50:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
-	reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
-	seanjc@google.com, kim.phillips@amd.com, babu.moger@amd.com,
-	jmattson@google.com, ilpo.jarvinen@linux.intel.com,
-	jithu.joseph@intel.com, kan.liang@linux.intel.com, nikunj@amd.com,
-	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
-	rick.p.edgecombe@intel.com, rppt@kernel.org,
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, eranian@google.com,
-	peternewman@google.com
-Subject: Re: [PATCH 07/15] x86/resctrl: Add support to enable/disable ABMC
- feature
-Message-ID: <202312060208.zJLlUr1x-lkp@intel.com>
-References: <20231201005720.235639-8-babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hVsJIRy5"
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE55C0;
+	Tue,  5 Dec 2023 10:56:33 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id e9e14a558f8ab-35d5b30eb85so10941485ab.3;
+        Tue, 05 Dec 2023 10:56:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701802593; x=1702407393; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CX7BSvsSgEvxeEewDtCNHmyfYjnN75yOhnwgeA3SiHc=;
+        b=hVsJIRy5J3p7kWysWdVSbdN5z70vmt8G1VtK+CN2ZwAt7O79YvIjExLanND1ZrVW3S
+         7aUWlyPa6AjN5NR1YQC2yG4SEIlTNLG5T/HxHFmcV78EXzBrh0JfrKf+Jv1ziR4rX4BH
+         sXpGIbi7lRLXNf4qhUI+qzGX2xrokGQ9N/OpCoaYXGZcm6PO5B1BOVacsmo0lgaIPa5H
+         Ps2iy+Bm/dpvzwGZ1GaNg6dmmIPLcDx+65mM3xs0uDlGOm8c/JpA0/LpL8MzlXSjb95t
+         I6F3nD4FryxknFSDiaND8ccyON2/0WJmZ+sYbCa4s0OFMinALVgqZTR/9kGEzEnNyJsn
+         YSkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701802593; x=1702407393;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CX7BSvsSgEvxeEewDtCNHmyfYjnN75yOhnwgeA3SiHc=;
+        b=rQNkRtzb55tAapipDFNsCHvLZL6wn95S6JVnDxDGJPhgQ331/q81UkaO1RP0W5RIOC
+         DJCp3zAU5HRdY7iv25jxKHWViYSF4l/NMUqjGHlKRDRiAULMPuqeWFrx6m2063f2sFhD
+         Xbf9r10f6y5/GZyHylywpC0cvzrO5iWyKhnD5ItOkM+fr90t6oPxEaRKmHr5YG1CQeze
+         sS2JgPoO9WOOEjbOWll3dZC/Elj2l3xVgYZuGvHmGBGeSTQbvvml07EmHxjKMZew1gR/
+         xjkKpv6I5CU/DWxiT+kRVI3QPb6whYRhji05JVSvJWeb811bQ3PnV3sc++gmimyIA2Pw
+         UKNA==
+X-Gm-Message-State: AOJu0YxcolGKczTbxJrlSi4rEfffgtHRiBk6jJMUqKs/xx9la90aN/AR
+	u76BugBEJ78GVRR6vmzhf7v1bEmrSnLYvQUaVqA=
+X-Google-Smtp-Source: AGHT+IEcE/zesmD+UCjJA2C2FvRizWi9OIb6LAruDxE2y1Ht+ILvyPpADLGvz0Glk6mjK92qRYLqCUCwpWsqGARdGlk=
+X-Received: by 2002:a05:6e02:1b02:b0:35d:6e20:6a59 with SMTP id
+ i2-20020a056e021b0200b0035d6e206a59mr4813195ilv.22.1701802593017; Tue, 05 Dec
+ 2023 10:56:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231201005720.235639-8-babu.moger@amd.com>
+References: <20231130194023.4102148-1-nphamcs@gmail.com> <20231130194023.4102148-5-nphamcs@gmail.com>
+ <CAJD7tkZeXY0HbBQu_pZr+kDgoPoDR+kQZq4XxYo6ZXfrO2=BKQ@mail.gmail.com>
+In-Reply-To: <CAJD7tkZeXY0HbBQu_pZr+kDgoPoDR+kQZq4XxYo6ZXfrO2=BKQ@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 5 Dec 2023 10:56:22 -0800
+Message-ID: <CAKEwX=Nwm_wG7pTANKc_jJFsz=RHB4A_fKXGXfeyc2hb-bcG1A@mail.gmail.com>
+Subject: Re: [PATCH v8 4/6] mm: memcg: add per-memcg zswap writeback stat
+To: Yosry Ahmed <yosryahmed@google.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
+	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Babu,
+On Tue, Dec 5, 2023 at 10:22=E2=80=AFAM Yosry Ahmed <yosryahmed@google.com>=
+ wrote:
+>
+> On Thu, Nov 30, 2023 at 11:40=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wr=
+ote:
+> >
+> > From: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
+> >
+> > Since zswap now writes back pages from memcg-specific LRUs, we now need=
+ a
+> > new stat to show writebacks count for each memcg.
+> >
+> > Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> > Signed-off-by: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
+> > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> > ---
+> >  include/linux/vm_event_item.h | 1 +
+> >  mm/memcontrol.c               | 1 +
+> >  mm/vmstat.c                   | 1 +
+> >  mm/zswap.c                    | 4 ++++
+> >  4 files changed, 7 insertions(+)
+> >
+> > diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_ite=
+m.h
+> > index d1b847502f09..f4569ad98edf 100644
+> > --- a/include/linux/vm_event_item.h
+> > +++ b/include/linux/vm_event_item.h
+> > @@ -142,6 +142,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPO=
+UT,
+> >  #ifdef CONFIG_ZSWAP
+> >                 ZSWPIN,
+> >                 ZSWPOUT,
+> > +               ZSWP_WB,
+>
+> I think you dismissed Johannes's comment from v7 about ZSWPWB and
+> "zswpwb" being more consistent with the existing events.
 
-kernel test robot noticed the following build warnings:
+I missed that entirely. Oops. Yeah I prefer ZSWPWB too. Let me send a fix.
 
-[auto build test WARNING on next-20231130]
-[cannot apply to tip/x86/core linus/master v6.7-rc3 v6.7-rc2 v6.7-rc1 v6.7-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-resctrl-Remove-hard-coded-memory-bandwidth-limit/20231201-090621
-base:   next-20231130
-patch link:    https://lore.kernel.org/r/20231201005720.235639-8-babu.moger%40amd.com
-patch subject: [PATCH 07/15] x86/resctrl: Add support to enable/disable ABMC feature
-config: i386-randconfig-141-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060208.zJLlUr1x-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060208.zJLlUr1x-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060208.zJLlUr1x-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:2419:5: warning: no previous prototype for function 'resctrl_arch_set_abmc_enabled' [-Wmissing-prototypes]
-   int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
-       ^
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:2419:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/resctrl_arch_set_abmc_enabled +2419 arch/x86/kernel/cpu/resctrl/rdtgroup.c
-
-  2418	
-> 2419	int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
-  2420	{
-  2421		struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
-  2422	
-  2423		if (!hw_res->r_resctrl.abmc_capable)
-  2424			return -EINVAL;
-  2425	
-  2426		if (enable)
-  2427			return resctrl_abmc_enable(l);
-  2428	
-  2429		resctrl_abmc_disable(l);
-  2430	
-  2431		return 0;
-  2432	}
-  2433	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> >  #endif
+> >  #ifdef CONFIG_X86
+> >                 DIRECT_MAP_LEVEL2_SPLIT,
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 792ca21c5815..21d79249c8b4 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -703,6 +703,7 @@ static const unsigned int memcg_vm_event_stat[] =3D=
+ {
+> >  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+> >         ZSWPIN,
+> >         ZSWPOUT,
+> > +       ZSWP_WB,
+> >  #endif
+> >  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >         THP_FAULT_ALLOC,
+> > diff --git a/mm/vmstat.c b/mm/vmstat.c
+> > index afa5a38fcc9c..2249f85e4a87 100644
+> > --- a/mm/vmstat.c
+> > +++ b/mm/vmstat.c
+> > @@ -1401,6 +1401,7 @@ const char * const vmstat_text[] =3D {
+> >  #ifdef CONFIG_ZSWAP
+> >         "zswpin",
+> >         "zswpout",
+> > +       "zswp_wb",
+> >  #endif
+> >  #ifdef CONFIG_X86
+> >         "direct_map_level2_splits",
+> > diff --git a/mm/zswap.c b/mm/zswap.c
+> > index f323e45cbdc7..49b79393e472 100644
+> > --- a/mm/zswap.c
+> > +++ b/mm/zswap.c
+> > @@ -760,6 +760,10 @@ static enum lru_status shrink_memcg_cb(struct list=
+_head *item, struct list_lru_o
+> >         }
+> >         zswap_written_back_pages++;
+> >
+> > +       if (entry->objcg)
+> > +               count_objcg_event(entry->objcg, ZSWP_WB);
+> > +
+> > +       count_vm_event(ZSWP_WB);
+> >         /*
+> >          * Writeback started successfully, the page now belongs to the
+> >          * swapcache. Drop the entry from zswap - unless invalidate alr=
+eady
+> > --
+> > 2.34.1
