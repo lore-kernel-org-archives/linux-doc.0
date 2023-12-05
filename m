@@ -1,83 +1,84 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZyFjcWOx"
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09CED5;
-	Mon,  4 Dec 2023 19:54:58 -0800 (PST)
-Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-77d645c0e06so337282785a.3;
-        Mon, 04 Dec 2023 19:54:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701748498; x=1702353298; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bwazqnNeub5DZ+rw7fMsVgByjnDtf2+w+fCVgKk8Ybo=;
-        b=ZyFjcWOxbOFkMt3X7t7x9+dbdscYunMuWj8a4yWis488CkVDl0IMr8V8RMwKs8jFtT
-         1kxvgDWW8z3HETz89hbQam7+kPdYqhSun7Xw5s5Wjsq544mmi1xieQqdqOuIu43secmx
-         fVuzwvFPK8c309szmI/yTdlsl0b/sL3VLrL+6Ku+KGe0xECarfOITuTVlrxcQJUJpWXE
-         G+jWJxEbHnOVIaPrqflcWYhPzXu5VNep3ymXwWIxnx0/Z4YWjhj+vlo69pzkDQrPY9vA
-         n5UvM3PZDMJoVpF/ORRkm1nVxcH+XTzaha5QNwr30+0cMgRJ6ZEA/WFsgVNnhNp2BKsr
-         LMFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701748498; x=1702353298;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bwazqnNeub5DZ+rw7fMsVgByjnDtf2+w+fCVgKk8Ybo=;
-        b=UbcDyALycvKVuD7iOOgbuDn6jCQ/iDKqRmBjhKQAfACHmh+1WWRI820+Beq0ETTX3k
-         DkGGvHqDLAwyZuWY1u6dQ7+E/9RZlRATBxNomllWs/CtcTeypKZJDnqnojR71VJPLzRO
-         bqYvtXP7EIePksROBdOh6kXgxx0QnREguECEYiBgj/658E92RWRyYLSFs3RCW+++nXl7
-         BPz8ycMvpMa6WQ7VyO9rc5eUpI+Kk2PqN0hoV8pDsQoSPFLEVLwpRpveEs6uwDlqgDnL
-         cnU0JpTbr8SrE2zhd4bN8XvikekUDGi+91VtWdV1IDk7/WXumIt0nFfvOOy67ZFinw1K
-         IL7A==
-X-Gm-Message-State: AOJu0YwExUMeVs/V1n5NaYFPWynmddE7DZuKi3vY3T5OdcTIBmf5Tlkj
-	plpfUt5CmQj3k0DrZPWadQqOZUQe78g=
-X-Google-Smtp-Source: AGHT+IGrXuNd26CC92+UKforEnNgXpfQsAOCq+zgDCHvKGn5kXp78v53PsNa1+LPIetle08f0af8hA==
-X-Received: by 2002:a05:620a:12c2:b0:77e:fba3:5909 with SMTP id e2-20020a05620a12c200b0077efba35909mr605638qkl.154.1701748497850;
-        Mon, 04 Dec 2023 19:54:57 -0800 (PST)
-Received: from Slackware.localdomain ([154.16.192.47])
-        by smtp.gmail.com with ESMTPSA id br31-20020a05620a461f00b0077dcfc63c8asm4785137qkb.78.2023.12.04.19.54.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 19:54:57 -0800 (PST)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	mark.rutland@arm.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] Documentaion:trace Add the git web link to view it on the browser
-Date: Tue,  5 Dec 2023 09:25:17 +0530
-Message-Id: <20231205035517.30534-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.35.8
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="cI9NHSlZ"
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401ECD3
+	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 20:01:36 -0800 (PST)
+Received: from cwcc.thunk.org (pool-173-48-111-98.bstnma.fios.verizon.net [173.48.111.98])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3B541QQg005624
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 4 Dec 2023 23:01:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1701748888; bh=iMt6plIOdydoTjRUmeuSfjGpniL3yUwo2Kv3zO9lBqU=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=cI9NHSlZxtu7EhzJVbO/rLOm6G+OYSj6FJD/S0zeHe4QSb1VfXx9nudPtv+xKxla3
+	 UvrN/V8Czn3WOCdLuxG8SlVFODPln3FspDTpwx4h6SbVhX/XQJn7KQagRXdCyO9lPf
+	 8pc+I+cqWxQV79MO1+JFt0buw5/3Jcf5mRoZTNIkTIJlJNRQZn2+dPt0KRxvxvqnKT
+	 BQV/Eh2MgJ441OBCfGvQPRW0R4IeYj3vNDCi4zetzoTe5Q8kyfKY0vEMyhWJ8XxuXK
+	 pm+IIFNk0Irb9dLc2orgGAINsadwKm9/FeTS790cV4maUxkVesTMo8uDMb51aguxfj
+	 wH9rp7jPgd0vw==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+	id 24DA915C02E0; Mon,  4 Dec 2023 23:01:26 -0500 (EST)
+Date: Mon, 4 Dec 2023 23:01:26 -0500
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
+        linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        kvm@vger.kernel.org
+Subject: Re: Converting manpages from asciidoc to rst2man ?
+Message-ID: <20231205040126.GF509422@mit.edu>
+References: <CADWks+Z=kLTohq_3pk_PdXs54B6tLn25u6avn_Q1FyXN2-sVDQ@mail.gmail.com>
+ <87fs0iujaj.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87fs0iujaj.fsf@meer.lwn.net>
 
-Thought this might help people to see the entire source tree on browser and
-explore.
+On Mon, Dec 04, 2023 at 07:36:04AM -0700, Jonathan Corbet wrote:
+> 
+> In general we don't have a lot of man pages in the kernel, so it's not
+> something we've put a lot of thought into.  Ideally, I suppose, it would
+> be nice to get all of those man pages integrated into the RST docs
+> build, but it's not something that is likely to inspire any great sense
+> of urgency.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/trace/ftrace.rst | 2 ++
- 1 file changed, 2 insertions(+)
+These manpages (at least the perf ones) are actually translated into
+nroff/troff's -man macro format using asciidoctor so that things like
+"man perf": For example, from Debian testing's "linux-perf" package:
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 23572f6697c0..e768a4c91452 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -3731,3 +3731,5 @@ Currently, -mfentry is used by gcc 4.6.0 and above on x86 only.
- More
- ----
- More details can be found in the source code, in the `kernel/trace/*.c` files.
-+Also you can see the trace source tree on browser `Git Link
-+<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/trace>`__.
---
-2.35.8
+% gunzip < /usr/share/man/man1/perf.1.gz | head
+'\" t
+.\"     Title: perf
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.20
+.\"      Date: 2023-11-03
+.\"    Manual: perf Manual
+.\"    Source: perf
+.\"  Language: English
+.\"
+.TH "PERF" "1" "2023-11-03" "perf" "perf Manual"
 
+% dpkg -S /usr/share/man/man1/perf.1.gz
+diversion by linux-perf from: /usr/share/man/man1/perf.1.gz
+diversion by linux-perf to: /usr/share/man/man1/perf.wrapper.1.gz
+linux-perf: /usr/share/man/man1/perf.1.gz
+
+I guess we could try to use rst2man to do the same thing, but it's a
+lot more than just "make it look nice" when rendered into HTML and pdf
+when processfing the .rst file.  We need to make sure that after the
+rst file is turned into a -man text file, that it looks good when
+postsprocess via "groff -man -T utf8" *and* "groff -man -T pdf".
+
+It would also mean that python3-docutils would have to be installed
+when building kernel docs (to provide the rst2man command), but then
+again, it would remove the need to have asciidoctor installed....
+
+Cheers,
+
+					- Ted
