@@ -1,440 +1,220 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vkj29PYW"
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF901BE
-	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 14:31:23 -0800 (PST)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5d340a9cf07so94524337b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 14:31:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701815482; x=1702420282; darn=vger.kernel.org;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M+O/X+6Q6R9GcSlfV4mE6hrZwLOSfryTWJQe8aSINpg=;
-        b=vkj29PYWuA3Lvngii0RoZUbybmsL5wmQqa3dYVJyzql1roFQ1+p2TJik0JLRpNxteK
-         pmnWZ46ETSgS43c1ft2tAq2ReBHaBtxmwrQhdh89Tjpr4IititqZ5XvHgHS9QNYBpzoC
-         w16H9xOlNPb3fi0hUzm1LPaTJx77UWeePKHt4WHYRLJKT9CHi9wv65/VWl4dEB1gqRnk
-         JXFGJ36qYtBSZ/++gucOLgkZVSRRum/knmJx7DVhyv/37b08iMsDg+ohESPOQYNWI5j6
-         tX8n1gq6vilinqha7jgtR+t8GpF8qStGpkKonX8ddrglOOR5Rz0fLVSDufsN0a8PwpvL
-         b79g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701815482; x=1702420282;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M+O/X+6Q6R9GcSlfV4mE6hrZwLOSfryTWJQe8aSINpg=;
-        b=v3i46yWPKU4JDSFCzB3t5wf/cKPhnzcwEsUhmRURhe9nVOevJd9/6BCoIiY5KyK3Ev
-         SJ459xfD7L/RexknBtI1fZYX2Vf/ndCREnth2jsdzZNgEx3dhMeKpdMY8UQvIPfxtPme
-         2CTzNNZS6kHHpMoBuDmodSFMRy80uOsGzb40Q7ROGaQebOyR+RVEUebEN9oA9e1Yx20J
-         KZtU+DdTfa3Taks7e5gkJ0DChNz8IsXASQpydJPjO356QSO17+Xs0nG1PoVByOLMJ/4V
-         bk2cPcxAOM2i3xUHwVWb1J8dD9lNuuBzhlfzDfzTGjlPuG5okyc6+IXE/kdL9h2xJEs1
-         UgTA==
-X-Gm-Message-State: AOJu0YzfeGQ6bIcVqquinWYeJwpI4oWzvb5m0PxISqkS9KAtnRsdpn//
-	+GJoEEdqPb/020gElx2TEmTBLDOzYDXUo3e1tw==
-X-Google-Smtp-Source: AGHT+IHKJsHxq/nHYtjrj6RdhDbJfNsypVk+zy0W0oUlrazoZa/w9albj2MUOYGaJNKIBbloQpjIaA1ASk7A2y0Ihw==
-X-Received: from souravpanda.svl.corp.google.com ([2620:15c:2a3:200:f645:15:697e:b77b])
- (user=souravpanda job=sendgmr) by 2002:a81:be17:0:b0:5d0:a744:719d with SMTP
- id i23-20020a81be17000000b005d0a744719dmr765078ywn.1.1701815482682; Tue, 05
- Dec 2023 14:31:22 -0800 (PST)
-Date: Tue,  5 Dec 2023 14:31:18 -0800
-In-Reply-To: <20231205223118.3575485-1-souravpanda@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WADi7HTj"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 235E6196;
+	Tue,  5 Dec 2023 15:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701817267; x=1733353267;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IcnvGakiWRB5wIZ7PIMSEpzTjZxypJ1zC+MUScCOPBQ=;
+  b=WADi7HTj7tCGL2kwTXlQ8nTLxSdBlRRMqlSGFDskXOVt5uqSAOY+eTXv
+   /qbQvLwNh4NzdCsij/umZQ/ziZh9UyGgyeu1KsWJ8l5Jf10PtPFUihh4e
+   MvRwEOke6CtZBSFtUKnz+paO8hPO4HF9nV9GHdgRQtLDCBamLPxD5t6tn
+   0fMb/z8VgOvp+LmlIkHVJjeyUwXWPXiQxnzKSmY1Lpof3PM/H50rp0LU9
+   +3vAm0q/QbWKb+nR/yYZp7HxGU8ZbGZNJLjtp1T+GUeS8oHBh959ftGIn
+   TLAWdddWYYV06DbGW8kMrrmwNyy+5mZBo6/b5Ssu5bpWlJbRK/WxrmI16
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="460462197"
+X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
+   d="scan'208";a="460462197"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:01:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="805434229"
+X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
+   d="scan'208";a="805434229"
+Received: from blavena-mobl2.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.252.46.234])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:01:00 -0800
+From: Ahmed Zaki <ahmed.zaki@intel.com>
+To: netdev@vger.kernel.org
+Cc: intel-wired-lan@lists.osuosl.org,
+	corbet@lwn.net,
+	jesse.brandeburg@intel.com,
+	anthony.l.nguyen@intel.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	vladimir.oltean@nxp.com,
+	andrew@lunn.ch,
+	horms@kernel.org,
+	mkubecek@suse.cz,
+	willemdebruijn.kernel@gmail.com,
+	gal@nvidia.com,
+	alexander.duyck@gmail.com,
+	ecree.xilinx@gmail.com,
+	linux-doc@vger.kernel.org,
+	Ahmed Zaki <ahmed.zaki@intel.com>
+Subject: [PATCH net-next v7 0/8] Support symmetric-xor RSS hash
+Date: Tue,  5 Dec 2023 16:00:41 -0700
+Message-Id: <20231205230049.18872-1-ahmed.zaki@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231205223118.3575485-1-souravpanda@google.com>
-X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
-Message-ID: <20231205223118.3575485-2-souravpanda@google.com>
-Subject: [PATCH v6 1/1] mm: report per-page metadata information
-From: Sourav Panda <souravpanda@google.com>
-To: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
-	akpm@linux-foundation.org, mike.kravetz@oracle.com, muchun.song@linux.dev, 
-	rppt@kernel.org, david@redhat.com, rdunlap@infradead.org, 
-	chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, souravpanda@google.com, 
-	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, hannes@cmpxchg.org, 
-	shakeelb@google.com, kirill.shutemov@linux.intel.com, 
-	wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz, 
-	Liam.Howlett@Oracle.com, surenb@google.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	willy@infradead.org, weixugc@google.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Adds two new per-node fields, namely nr_page_metadata and
-nr_page_metadata_boot, to /sys/devices/system/node/nodeN/vmstat
-and a global PageMetadata field to /proc/meminfo. This information can
-be used by users to see how much memory is being used by per-page
-metadata, which can vary depending on build configuration, machine
-architecture, and system use.
+Patches 1 and 2 modify the get/set_rxh ethtool API to take a pointer to 
+struct of parameters instead of individual params. This will allow future
+changes to the uAPI-shared struct ethtool_rxfh without changing the
+drivers' API.
 
-Per-page metadata is the amount of memory that Linux needs in order to
-manage memory at the page granularity. The majority of such memory is
-used by "struct page" and "page_ext" data structures. In contrast to
-most other memory consumption statistics, per-page metadata might not
-be included in MemTotal. For example, MemTotal does not include memblock
-allocations but includes buddy allocations. In this patch, exported
-field nr_page_metadata in /sys/devices/system/node/nodeN/vmstat would
-exclusively track buddy allocations while nr_page_metadata_boot would
-exclusively track memblock allocations. Furthermore, PageMetadata in
-/proc/meminfo would exclusively track buddy allocations allowing it to
-be compared against MemTotal.
+Patch 3 adds the support at the Kernel level, allowing the user to set a
+symmetric-xor RSS hash for a netdevice via:
 
-This memory depends on build configurations, machine architectures, and
-the way system is used:
+    # ethtool -X eth0 hfunc toeplitz symmetric-xor
 
-Build configuration may include extra fields into "struct page",
-and enable / disable "page_ext"
-Machine architecture defines base page sizes. For example 4K x86,
-8K SPARC, 64K ARM64 (optionally), etc. The per-page metadata
-overhead is smaller on machines with larger page sizes.
-System use can change per-page overhead by using vmemmap
-optimizations with hugetlb pages, and emulated pmem devdax pages.
-Also, boot parameters can determine whether page_ext is needed
-to be allocated. This memory can be part of MemTotal or be outside
-MemTotal depending on whether the memory was hot-plugged, booted with,
-or hugetlb memory was returned back to the system.
+and clears the flag via:
 
-Suggested-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Signed-off-by: Sourav Panda <souravpanda@google.com>
+    # ethtool -X eth0 hfunc toeplitz
+
+The "symmetric-xor" is set in a new "input_xfrm" field in struct
+ethtool_rxfh. Support for the new "symmetric-xor" flag will be later sent
+to the "ethtool" user-space tool.
+
+Patch 4 fixes a long standing bug with the ice hash function register
+values. The bug has been benign for now since only (asymmetric) Toeplitz
+hash (Zero) has been used.
+
+Patches 5 and 6 lay some groundwork refactoring. While the first is
+mainly cosmetic, the second is needed since there is no more room in the
+previous 64-bit RSS profile ID for the symmetric attribute introduced in 
+the next patch.
+
+Finally, patches 7 and 8 add the symmetric-xor support for the ice 
+(E800 PFs) and the iAVF drivers.
+
 ---
- Documentation/filesystems/proc.rst |  3 +++
- fs/proc/meminfo.c                  |  7 +++++++
- include/linux/mmzone.h             |  4 ++++
- include/linux/vmstat.h             |  4 ++++
- mm/hugetlb_vmemmap.c               | 19 ++++++++++++++----
- mm/mm_init.c                       |  3 +++
- mm/page_alloc.c                    |  1 +
- mm/page_ext.c                      | 32 +++++++++++++++++++++---------
- mm/sparse-vmemmap.c                |  8 ++++++++
- mm/sparse.c                        |  7 ++++++-
- mm/vmstat.c                        | 26 +++++++++++++++++++++++-
- 11 files changed, 99 insertions(+), 15 deletions(-)
+v7: - Use new struct ethtool_rxfh_params to pass arguments to set/get_rxfh
+    - Remove get/set_rxfh_context functions and use a new capability to 
+      indicate RSS context support (cap_rss_ctx_supported).
+    - Move the sanity checks on the rxnfc fields when symmetric-xor is set
+      back to core.
+    - Add a new capability (cap_rss_sym_xor_supported) to indicate
+      symmetric-xor support. Core returns -ENOTSUPP if the driver does not
+      support symmetric-xor.
+    - Rename the new struct ethtool_rxfh field to "input_xfrm" and
+      update "Documentation/networking/ethtool-netlink.rst" and 
+      "Documentation/netlink/specs/ethtool.yaml".
+    - Add a comment on potential vulnerability of symmetric-xor in
+      include/uapi/linux/ethtool.h.
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 49ef12df631b..d5901d04e082 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -993,6 +993,7 @@ Example output. You may not have all of these fields.
-     AnonPages:       4654780 kB
-     Mapped:           266244 kB
-     Shmem:              9976 kB
-+    PageMetadata:     513419 kB
-     KReclaimable:     517708 kB
-     Slab:             660044 kB
-     SReclaimable:     517708 kB
-@@ -1095,6 +1096,8 @@ Mapped
-               files which have been mmapped, such as libraries
- Shmem
-               Total memory used by shared memory (shmem) and tmpfs
-+PageMetadata
-+              Memory used for per-page metadata
- KReclaimable
-               Kernel allocations that the kernel will attempt to reclaim
-               under memory pressure. Includes SReclaimable (below), and other
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index 45af9a989d40..f141bb2a550d 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -39,7 +39,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	long available;
- 	unsigned long pages[NR_LRU_LISTS];
- 	unsigned long sreclaimable, sunreclaim;
-+	unsigned long nr_page_metadata;
- 	int lru;
-+	int nid;
- 
- 	si_meminfo(&i);
- 	si_swapinfo(&i);
-@@ -57,6 +59,10 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	sreclaimable = global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B);
- 	sunreclaim = global_node_page_state_pages(NR_SLAB_UNRECLAIMABLE_B);
- 
-+	nr_page_metadata = 0;
-+	for_each_online_node(nid)
-+		nr_page_metadata += node_page_state(NODE_DATA(nid), NR_PAGE_METADATA);
-+
- 	show_val_kb(m, "MemTotal:       ", i.totalram);
- 	show_val_kb(m, "MemFree:        ", i.freeram);
- 	show_val_kb(m, "MemAvailable:   ", available);
-@@ -104,6 +110,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	show_val_kb(m, "Mapped:         ",
- 		    global_node_page_state(NR_FILE_MAPPED));
- 	show_val_kb(m, "Shmem:          ", i.sharedram);
-+	show_val_kb(m, "PageMetadata:   ", nr_page_metadata);
- 	show_val_kb(m, "KReclaimable:   ", sreclaimable +
- 		    global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE));
- 	show_val_kb(m, "Slab:           ", sreclaimable + sunreclaim);
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 3c25226beeed..ef176152be7c 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -207,6 +207,10 @@ enum node_stat_item {
- 	PGPROMOTE_SUCCESS,	/* promote successfully */
- 	PGPROMOTE_CANDIDATE,	/* candidate pages to promote */
- #endif
-+	NR_PAGE_METADATA,	/* Page metadata size (struct page and page_ext)
-+				 * in pages
-+				 */
-+	NR_PAGE_METADATA_BOOT,	/* NR_PAGE_METADATA for bootmem */
- 	NR_VM_NODE_STAT_ITEMS
- };
- 
-diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
-index fed855bae6d8..af096a881f03 100644
---- a/include/linux/vmstat.h
-+++ b/include/linux/vmstat.h
-@@ -656,4 +656,8 @@ static inline void lruvec_stat_sub_folio(struct folio *folio,
- {
- 	lruvec_stat_mod_folio(folio, idx, -folio_nr_pages(folio));
- }
-+
-+void __init mod_node_early_perpage_metadata(int nid, long delta);
-+void __init store_early_perpage_metadata(void);
-+
- #endif /* _LINUX_VMSTAT_H */
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 87818ee7f01d..5b10d8d2b471 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -230,10 +230,14 @@ static int vmemmap_remap_range(unsigned long start, unsigned long end,
-  */
- static inline void free_vmemmap_page(struct page *page)
- {
--	if (PageReserved(page))
-+	if (PageReserved(page)) {
- 		free_bootmem_page(page);
--	else
-+		mod_node_page_state(page_pgdat(page), NR_PAGE_METADATA_BOOT,
-+				    -1);
-+	} else {
- 		__free_page(page);
-+		mod_node_page_state(page_pgdat(page), NR_PAGE_METADATA, -1);
-+	}
- }
- 
- /* Free a list of the vmemmap pages */
-@@ -389,6 +393,7 @@ static int vmemmap_remap_free(unsigned long start, unsigned long end,
- 		copy_page(page_to_virt(walk.reuse_page),
- 			  (void *)walk.reuse_addr);
- 		list_add(&walk.reuse_page->lru, vmemmap_pages);
-+		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, 1);
- 	}
- 
- 	/*
-@@ -437,14 +442,20 @@ static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
- 	unsigned long nr_pages = (end - start) >> PAGE_SHIFT;
- 	int nid = page_to_nid((struct page *)start);
- 	struct page *page, *next;
-+	int i;
- 
--	while (nr_pages--) {
-+	for (i = 0; i < nr_pages; i++) {
- 		page = alloc_pages_node(nid, gfp_mask, 0);
--		if (!page)
-+		if (!page) {
-+			mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+					    i);
- 			goto out;
-+		}
- 		list_add(&page->lru, list);
- 	}
- 
-+	mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, nr_pages);
-+
- 	return 0;
- out:
- 	list_for_each_entry_safe(page, next, list, lru)
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 077bfe393b5e..38f8e1f454a0 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -26,6 +26,7 @@
- #include <linux/pgtable.h>
- #include <linux/swap.h>
- #include <linux/cma.h>
-+#include <linux/vmstat.h>
- #include "internal.h"
- #include "slab.h"
- #include "shuffle.h"
-@@ -1656,6 +1657,8 @@ static void __init alloc_node_mem_map(struct pglist_data *pgdat)
- 			panic("Failed to allocate %ld bytes for node %d memory map\n",
- 			      size, pgdat->node_id);
- 		pgdat->node_mem_map = map + offset;
-+		mod_node_early_perpage_metadata(pgdat->node_id,
-+						DIV_ROUND_UP(size, PAGE_SIZE));
- 	}
- 	pr_debug("%s: node %d, pgdat %08lx, node_mem_map %08lx\n",
- 				__func__, pgdat->node_id, (unsigned long)pgdat,
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 733732e7e0ba..dd78017105b0 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5636,6 +5636,7 @@ void __init setup_per_cpu_pageset(void)
- 	for_each_online_pgdat(pgdat)
- 		pgdat->per_cpu_nodestats =
- 			alloc_percpu(struct per_cpu_nodestat);
-+	store_early_perpage_metadata();
- }
- 
- __meminit void zone_pcp_init(struct zone *zone)
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 4548fcc66d74..4ca9f298f34e 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -201,6 +201,8 @@ static int __init alloc_node_page_ext(int nid)
- 		return -ENOMEM;
- 	NODE_DATA(nid)->node_page_ext = base;
- 	total_usage += table_size;
-+	mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA_BOOT,
-+			    DIV_ROUND_UP(table_size, PAGE_SIZE));
- 	return 0;
- }
- 
-@@ -255,12 +257,15 @@ static void *__meminit alloc_page_ext(size_t size, int nid)
- 	void *addr = NULL;
- 
- 	addr = alloc_pages_exact_nid(nid, size, flags);
--	if (addr) {
-+	if (addr)
- 		kmemleak_alloc(addr, size, 1, flags);
--		return addr;
--	}
-+	else
-+		addr = vzalloc_node(size, nid);
- 
--	addr = vzalloc_node(size, nid);
-+	if (addr) {
-+		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+				    DIV_ROUND_UP(size, PAGE_SIZE));
-+	}
- 
- 	return addr;
- }
-@@ -303,18 +308,27 @@ static int __meminit init_section_page_ext(unsigned long pfn, int nid)
- 
- static void free_page_ext(void *addr)
- {
-+	size_t table_size;
-+	struct page *page;
-+	struct pglist_data *pgdat;
-+
-+	table_size = page_ext_size * PAGES_PER_SECTION;
-+
- 	if (is_vmalloc_addr(addr)) {
-+		page = vmalloc_to_page(addr);
-+		pgdat = page_pgdat(page);
- 		vfree(addr);
- 	} else {
--		struct page *page = virt_to_page(addr);
--		size_t table_size;
--
--		table_size = page_ext_size * PAGES_PER_SECTION;
--
-+		page = virt_to_page(addr);
-+		pgdat = page_pgdat(page);
- 		BUG_ON(PageReserved(page));
- 		kmemleak_free(addr);
- 		free_pages_exact(addr, table_size);
- 	}
-+
-+	mod_node_page_state(pgdat, NR_PAGE_METADATA,
-+			    -1L * (DIV_ROUND_UP(table_size, PAGE_SIZE)));
-+
- }
- 
- static void __free_page_ext(unsigned long pfn)
-diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index a2cbe44c48e1..054b49539843 100644
---- a/mm/sparse-vmemmap.c
-+++ b/mm/sparse-vmemmap.c
-@@ -469,5 +469,13 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
- 	if (r < 0)
- 		return NULL;
- 
-+	if (system_state == SYSTEM_BOOTING) {
-+		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA_BOOT,
-+				    DIV_ROUND_UP(end - start, PAGE_SIZE));
-+	} else {
-+		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+				    DIV_ROUND_UP(end - start, PAGE_SIZE));
-+	}
-+
- 	return pfn_to_page(pfn);
- }
-diff --git a/mm/sparse.c b/mm/sparse.c
-index 77d91e565045..0c100ae1cf8b 100644
---- a/mm/sparse.c
-+++ b/mm/sparse.c
-@@ -14,7 +14,7 @@
- #include <linux/swap.h>
- #include <linux/swapops.h>
- #include <linux/bootmem_info.h>
--
-+#include <linux/vmstat.h>
- #include "internal.h"
- #include <asm/dma.h>
- 
-@@ -465,6 +465,9 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
- 	 */
- 	sparsemap_buf = memmap_alloc(size, section_map_size(), addr, nid, true);
- 	sparsemap_buf_end = sparsemap_buf + size;
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+	mod_node_early_perpage_metadata(nid, DIV_ROUND_UP(size, PAGE_SIZE));
-+#endif
- }
- 
- static void __init sparse_buffer_fini(void)
-@@ -641,6 +644,8 @@ static void depopulate_section_memmap(unsigned long pfn, unsigned long nr_pages,
- 	unsigned long start = (unsigned long) pfn_to_page(pfn);
- 	unsigned long end = start + nr_pages * sizeof(struct page);
- 
-+	mod_node_page_state(page_pgdat(pfn_to_page(pfn)), NR_PAGE_METADATA,
-+			    -1L * (DIV_ROUND_UP(end - start, PAGE_SIZE)));
- 	vmemmap_free(start, end, altmap);
- }
- static void free_map_bootmem(struct page *memmap)
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 359460deb377..23e88d8c21b7 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1249,7 +1249,8 @@ const char * const vmstat_text[] = {
- 	"pgpromote_success",
- 	"pgpromote_candidate",
- #endif
--
-+	"nr_page_metadata",
-+	"nr_page_metadata_boot",
- 	/* enum writeback_stat_item counters */
- 	"nr_dirty_threshold",
- 	"nr_dirty_background_threshold",
-@@ -2278,4 +2279,27 @@ static int __init extfrag_debug_init(void)
- }
- 
- module_init(extfrag_debug_init);
-+
- #endif
-+
-+/*
-+ * Page metadata size (struct page and page_ext) in pages
-+ */
-+static unsigned long early_perpage_metadata[MAX_NUMNODES] __initdata;
-+
-+void __init mod_node_early_perpage_metadata(int nid, long delta)
-+{
-+	early_perpage_metadata[nid] += delta;
-+}
-+
-+void __init store_early_perpage_metadata(void)
-+{
-+	int nid;
-+	struct pglist_data *pgdat;
-+
-+	for_each_online_pgdat(pgdat) {
-+		nid = pgdat->node_id;
-+		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA_BOOT,
-+				    early_perpage_metadata[nid]);
-+	}
-+}
+v6: switch user interface to "ethtool -X" (ethtool_rxfh) instead of
+    "ethtool -N". Patch (1) is added to allow new params in the get/set_rxh
+    ethtool API. Doc is updated in "Documentation/networking/scaling.rst"
+    to specify how the "symmetric-xor" manipulates the input fields.
+    https://lore.kernel.org/netdev/20231120205614.46350-2-ahmed.zaki@intel.com/T/
+
+v5: move sanity checks from ethtool/ioctl.c to ice's and iavf's rxfnc
+    drivers entries (patches 5 and 6).
+    https://lore.kernel.org/netdev/20231018170635.65409-2-ahmed.zaki@intel.com/T/
+
+v4: add a comment to "#define RXH_SYMMETRIC_XOR" (in uapi/linux/ethtool.h)
+    https://lore.kernel.org/netdev/20231016154937.41224-1-ahmed.zaki@intel.com/T/
+
+v3: rename "symmetric" to "symmetric-xor" and drop "Fixes" tag in patch 2.
+v2: fixed a "Reviewed by" to "Reviewed-by", also need to cc maintainers.
+
+Ahmed Zaki (6):
+  net: ethtool: pass a pointer to parameters to get/set_rxfh ethtool ops
+  net: ethtool: get rid of get/set_rxfh_context functions
+  net: ethtool: add support for symmetric-xor RSS hash
+  ice: fix ICE_AQ_VSI_Q_OPT_RSS_* register values
+  ice: refactor the FD and RSS flow ID generation
+  iavf: enable symmetric-xor RSS for Toeplitz hash function
+
+Jeff Guo (1):
+  ice: enable symmetric-xor RSS for Toeplitz hash function
+
+Qi Zhang (1):
+  ice: refactor RSS configuration
+
+ Documentation/netlink/specs/ethtool.yaml      |   4 +
+ Documentation/networking/ethtool-netlink.rst  |   6 +-
+ Documentation/networking/scaling.rst          |  15 +
+ drivers/net/ethernet/amazon/ena/ena_ethtool.c |  28 +-
+ drivers/net/ethernet/amd/xgbe/xgbe-ethtool.c  |  33 +-
+ .../ethernet/aquantia/atlantic/aq_ethtool.c   |  31 +-
+ .../ethernet/broadcom/bnx2x/bnx2x_ethtool.c   |  25 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c |  28 +-
+ drivers/net/ethernet/broadcom/tg3.c           |  22 +-
+ .../ethernet/cavium/thunder/nicvf_ethtool.c   |  31 +-
+ .../ethernet/chelsio/cxgb4/cxgb4_ethtool.c    |  24 +-
+ .../net/ethernet/cisco/enic/enic_ethtool.c    |  25 +-
+ .../net/ethernet/emulex/benet/be_ethtool.c    |  28 +-
+ .../ethernet/freescale/enetc/enetc_ethtool.c  |  31 +-
+ .../ethernet/fungible/funeth/funeth_ethtool.c |  40 +-
+ .../net/ethernet/hisilicon/hns/hns_ethtool.c  |  17 +-
+ .../ethernet/hisilicon/hns3/hns3_ethtool.c    |  23 +-
+ .../net/ethernet/huawei/hinic/hinic_ethtool.c |  40 +-
+ .../net/ethernet/intel/fm10k/fm10k_ethtool.c  |  26 +-
+ .../net/ethernet/intel/i40e/i40e_ethtool.c    |  38 +-
+ drivers/net/ethernet/intel/iavf/iavf.h        |   5 +-
+ .../net/ethernet/intel/iavf/iavf_adv_rss.c    |   8 +-
+ .../net/ethernet/intel/iavf/iavf_adv_rss.h    |   3 +-
+ .../net/ethernet/intel/iavf/iavf_ethtool.c    |  74 ++-
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |   4 +
+ .../net/ethernet/intel/iavf/iavf_virtchnl.c   |  41 ++
+ drivers/net/ethernet/intel/ice/ice.h          |   2 +
+ .../net/ethernet/intel/ice/ice_adminq_cmd.h   |   8 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |   1 +
+ drivers/net/ethernet/intel/ice/ice_ethtool.c  | 102 ++--
+ .../net/ethernet/intel/ice/ice_ethtool_fdir.c |  35 +-
+ .../net/ethernet/intel/ice/ice_flex_pipe.c    |  44 +-
+ .../net/ethernet/intel/ice/ice_flex_pipe.h    |   4 +-
+ .../net/ethernet/intel/ice/ice_flex_type.h    |   7 +
+ drivers/net/ethernet/intel/ice/ice_flow.c     | 482 +++++++++++++-----
+ drivers/net/ethernet/intel/ice/ice_flow.h     |  60 ++-
+ .../net/ethernet/intel/ice/ice_hw_autogen.h   |   4 +
+ drivers/net/ethernet/intel/ice/ice_lib.c      | 116 ++---
+ drivers/net/ethernet/intel/ice/ice_main.c     |  58 ++-
+ drivers/net/ethernet/intel/ice/ice_type.h     |   1 +
+ drivers/net/ethernet/intel/ice/ice_virtchnl.c | 105 +++-
+ drivers/net/ethernet/intel/ice/ice_virtchnl.h |   1 +
+ .../intel/ice/ice_virtchnl_allowlist.c        |   1 +
+ .../ethernet/intel/ice/ice_virtchnl_fdir.c    |  35 +-
+ .../net/ethernet/intel/idpf/idpf_ethtool.c    |  40 +-
+ drivers/net/ethernet/intel/igb/igb_ethtool.c  |  27 +-
+ drivers/net/ethernet/intel/igc/igc_ethtool.c  |  27 +-
+ .../net/ethernet/intel/ixgbe/ixgbe_ethtool.c  |  35 +-
+ drivers/net/ethernet/intel/ixgbevf/ethtool.c  |  27 +-
+ drivers/net/ethernet/marvell/mvneta.c         |  25 +-
+ .../net/ethernet/marvell/mvpp2/mvpp2_main.c   |  79 +--
+ .../marvell/octeontx2/nic/otx2_ethtool.c      |  80 ++-
+ .../net/ethernet/mellanox/mlx4/en_ethtool.c   |  40 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |   6 +-
+ .../ethernet/mellanox/mlx5/core/en_ethtool.c  |  43 +-
+ .../net/ethernet/microchip/lan743x_ethtool.c  |  34 +-
+ .../ethernet/microsoft/mana/mana_ethtool.c    |  33 +-
+ .../ethernet/netronome/nfp/nfp_net_ethtool.c  |  38 +-
+ .../ethernet/pensando/ionic/ionic_ethtool.c   |  26 +-
+ .../net/ethernet/qlogic/qede/qede_ethtool.c   |  32 +-
+ drivers/net/ethernet/sfc/ef100_ethtool.c      |   3 +-
+ drivers/net/ethernet/sfc/ethtool.c            |   3 +-
+ drivers/net/ethernet/sfc/ethtool_common.c     | 126 ++---
+ drivers/net/ethernet/sfc/ethtool_common.h     |  13 +-
+ drivers/net/ethernet/sfc/falcon/ethtool.c     |  26 +-
+ drivers/net/ethernet/sfc/siena/ethtool.c      |   3 +-
+ .../net/ethernet/sfc/siena/ethtool_common.c   | 126 ++---
+ .../net/ethernet/sfc/siena/ethtool_common.h   |  13 +-
+ .../ethernet/stmicro/stmmac/stmmac_ethtool.c  |  31 +-
+ drivers/net/hyperv/netvsc_drv.c               |  32 +-
+ drivers/net/virtio_net.c                      |  29 +-
+ drivers/net/vmxnet3/vmxnet3_ethtool.c         |  22 +-
+ include/linux/avf/virtchnl.h                  |  35 +-
+ include/linux/ethtool.h                       |  27 +-
+ include/uapi/linux/ethtool.h                  |  45 +-
+ include/uapi/linux/ethtool_netlink.h          |   1 +
+ net/ethtool/common.c                          |  12 +-
+ net/ethtool/ioctl.c                           | 218 ++++----
+ net/ethtool/rss.c                             |  55 +-
+ 79 files changed, 1861 insertions(+), 1267 deletions(-)
+
 -- 
-2.43.0.472.g3155946c3a-goog
+2.34.1
 
