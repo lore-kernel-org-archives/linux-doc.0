@@ -1,90 +1,110 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D47A60B9B;
+	Tue,  5 Dec 2023 16:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Scb8CJZR"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A6CDBA;
-	Tue,  5 Dec 2023 08:05:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701792354; x=1733328354;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o9heeCnQAsdaiKjUskI2g/hhm4Nd3ui2lad9PWcZgjQ=;
-  b=Scb8CJZRtKeYBx9gKlD+T87KjctZnjavrcP/GEJTBheo0MKdQtDB9vED
-   VcY3DkJRiLY11Gi37j76SFwgY3j0jAeELP+fiYDMBw0izt9xHUe6CTBF2
-   7CUt1zFTXcu1vOopxyBONKbTqMQx2nTdxL072dp1+otoWrv/8caev/Dja
-   4285TtNZl2+xsqT10TUpJzJZVP/V182rrwdRpHkkk5rXE8XmVzCe9JHHk
-   YDuiJ+0raim638rGnhN4B9PYNroSBvzAay3PMxB6mjILKSvoPGn1gvOXw
-   PEA92+MO24/hwEsqT2bZM2NNGtsgbhsTMgLuIMIYAx0UnvnRMMPoBWQKI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="425071433"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="425071433"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 08:05:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="720754059"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="720754059"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 05 Dec 2023 08:05:47 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAXvb-0009Io-1x;
-	Tue, 05 Dec 2023 16:05:43 +0000
-Date: Wed, 6 Dec 2023 00:05:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: davidgow@google.com, Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-sound@vger.kernel.org, David Gow <davidgow@google.com>
-Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
-Message-ID: <202312052341.fEujgbbC-lkp@intel.com>
-References: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obFibu4W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84A66C433C9;
+	Tue,  5 Dec 2023 16:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701793098;
+	bh=skGWck3nbB+RkjcKTf0FjT9rDXOSS+ftDqayM91Nr4E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=obFibu4Wq0IzsvCu6Y/x19+H23mj2jgS23itwp4A5TxZwqBaKWQndXUkSFDADmKZo
+	 EhhEk3mv8fhGbmMMtDfnCcDpTsScv6MX9hKktPyolWutBsWMwn/1YD4l1B8vwjqiXI
+	 vQXu3GV1RYTV+Yg3p+uTJKsJt/z0j49Ld+lA4jMy7iz9pEgyH6yYF2D01S8egsYyGV
+	 OCoYMsN6iNXSSgs/KNrDjZk3+pn422gkULqGRbfwZduucVg6Na8ePtPkAD7hM8Qgqc
+	 SCSvjlcwl17a4ysvOyZl7o6oatPqlpxWwKMHhlw+e+JgtxeT7I/EUJhL5vueAUD3oJ
+	 TjV5fKnBNGKPg==
+Date: Tue, 5 Dec 2023 16:18:14 +0000
+From: Conor Dooley <conor@kernel.org>
+To: nuno.sa@analog.com
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: Add LTC4282 bindings
+Message-ID: <20231205-cognitive-propose-aa71278f65ea@spud>
+References: <20231205-ltc4282-support-v3-0-e0877b281bc2@analog.com>
+ <20231205-ltc4282-support-v3-1-e0877b281bc2@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="TCGmBQZDRv9fq6jh"
+Content-Disposition: inline
+In-Reply-To: <20231205-ltc4282-support-v3-1-e0877b281bc2@analog.com>
+
+
+--TCGmBQZDRv9fq6jh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
 
-Hi,
+On Tue, Dec 05, 2023 at 04:22:55PM +0100, Nuno Sa via B4 Relay wrote:
 
-kernel test robot noticed the following build errors:
+> +  adi,overvoltage-dividers:
+> +    description: |
+> +      Select which dividers to use for VDD Overvoltage detection. Note that
+> +      when the internal dividers are used the threshold is referenced to VDD.
+> +      The percentages in the datasheet are misleading since the actual values
+> +      to look for are in the "Absolute Maximum Ratings" table in the
+> +      "Comparator Inputs" section. In there there's a line for each of the 5%,
+> +      10% and 15% settings with the actual min, typical and max tolerances.
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum: [external, vdd_5_percent, vdd_10_percent, vdd_15_percent]
+> +
+> +  adi,undervoltage-dividers:
+> +    description: |
+> +      Select which dividers to use for VDD Overvoltage detection. Note that
+> +      when the internal dividers are used the threshold is referenced to VDD.
+> +      The percentages in the datasheet are misleading since the actual values
+> +      to look for are in the "Absolute Maximum Ratings" table in the
+> +      "Comparator Inputs" section. In there there's a line for each of the 5%,
+> +      10% and 15% settings with the actual min, typical and max tolerances.
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum: [external, vdd_5_percent, vdd_10_percent, vdd_15_percent]
 
-[auto build test ERROR on c8613be119892ccceffbc550b9b9d7d68b995c9e]
+> +  adi,gpio1-mode:
+> +    description: Defines the function of the Pin. It can indicate that power is
+> +      good (PULL the pin low when power is not good) or that power is bad (Go
+> +      into high-z when power is not good).
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum: [power_bad, power_good]
+> +
+> +  adi,gpio2-mode:
+> +    description: Defines the function of the Pin. It can be set as the input for
+> +      the ADC or indicating that the MOSFET is in stress (dissipating power).
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum: [adc_input, stress_fet]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/davidgow-google-com/kunit-Add-APIs-for-managing-devices/20231205-153349
-base:   c8613be119892ccceffbc550b9b9d7d68b995c9e
-patch link:    https://lore.kernel.org/r/20231205-kunit_bus-v1-1-635036d3bc13%40google.com
-patch subject: [PATCH 1/4] kunit: Add APIs for managing devices
-config: x86_64-buildonly-randconfig-001-20231205 (https://download.01.org/0day-ci/archive/20231205/202312052341.fEujgbbC-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052341.fEujgbbC-lkp@intel.com/reproduce)
+None of these properties have a default nor are required.
+What happens when they are omitted?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312052341.fEujgbbC-lkp@intel.com/
+Thanks,
+Conor.
 
-All errors (new ones prefixed by >>):
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - adi,rsense-nano-ohms
 
-   ld: lib/kunit/device.o: in function `kunit_bus_init':
->> device.c:(.text+0x40): multiple definition of `init_module'; lib/kunit/test.o:test.c:(.init.text+0x0): first defined here
+--TCGmBQZDRv9fq6jh
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW9NRgAKCRB4tDGHoIJi
+0vYPAQD48g59oBMSVov7YeTWFAOYsFD45qlfwhfxThDyisoVRgEA61ZIF8dlu+EI
+MHu+Al7JW2jF6j5E19wmeYIewmgntgI=
+=GeCO
+-----END PGP SIGNATURE-----
+
+--TCGmBQZDRv9fq6jh--
