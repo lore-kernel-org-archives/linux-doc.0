@@ -1,116 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039A5812
-	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 00:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6zhY/03"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 798DAC433CC
-	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 00:36:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701736569;
-	bh=nh5OvhQxlRfLMDVGUATaUP5xmIGHhybcttjxqWDsn3A=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=c6zhY/03sYoUPxFSOAzcqpJZNdgcpIlguB8F8Ya6QtatTsdz1qTJrxroGNpHDCz+k
-	 63siMOOcIga85eiVqw+IX/X812bDb4yBSEqrDk9+o5uVWH/9ctrNBM23BfhFgLPrsT
-	 I4nqhdNFK8iX8f1eHUSVJvzq8t9Do5uJJCXj7TPuI5lJpjHGDiiRrOhXElPMv17s9y
-	 6KIy8W6mYttmVmJm3RacrZOIa2pvOM3aPhO1Zfjf3mfBReG/qxdPROL1ds0WTuQwEH
-	 KQTj/QzUOPlguiUi08443cGHf6c0PFubwpXdFlPzxWgELpwCX6rG5Gf394rdIFTzJJ
-	 xdbZJUcVlK+wA==
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5c2b7ec93bbso2784824a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 16:36:09 -0800 (PST)
-X-Gm-Message-State: AOJu0YzZ4FWdnQH9Epn7SPLJlfs8Tizd35OVYRuolxrE8xtuW9x/zoRS
-	eSkAqLXq/DPf8Tgd3i8RT6IO4e4v6ASW2U1sGj6Qag==
-X-Google-Smtp-Source: AGHT+IFEGHhgC5vm9lb6tIiaRJZgs/RHNtib/ITvbq5Wlcj1rLMMGwqG+hEI5SF0R/fth38EIgqoS5P+F/X0FUD92DU=
-X-Received: by 2002:a05:6a21:6215:b0:18c:1248:bb17 with SMTP id
- wm21-20020a056a21621500b0018c1248bb17mr4976625pzb.21.1701736568967; Mon, 04
- Dec 2023 16:36:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EpZgSB8e"
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8CA101;
+	Mon,  4 Dec 2023 16:53:47 -0800 (PST)
+Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-7c5cb5eeab1so419141241.3;
+        Mon, 04 Dec 2023 16:53:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701737626; x=1702342426; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4bom4DFdTNhjf5vfq9g+CHJJAJnCgQXB/N4k2I2tO6w=;
+        b=EpZgSB8euazK5BNqrnBYQeVWKyAYv9tJwF+kx9De1+IQ+TDGZsHz2/165bnO+WM2L5
+         zJdb233Ej5VnF16wQCF1B7nAhexHXrnef4cpUXz3zkoCE/UQMTxvtwTWKvol4S7iHDeE
+         clr5y4hsbUWI48/tMecwPm140gHM8GZQ/lil/kQEVRLy0LnvQJCahguYlcGJ9G+CyEat
+         qzE8f/gUGIQvBp82SGa/pgydoi1sFJYeDngS5rghty+j3CRbgYBJIPa8OK5fJdxoSCsf
+         R5oIEDuIqHppbmtLbXZa4V0QrW+sZyNgMnbnClm24KHV2RdjwNhsQ0yA6o+720AyazZP
+         9FOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701737626; x=1702342426;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4bom4DFdTNhjf5vfq9g+CHJJAJnCgQXB/N4k2I2tO6w=;
+        b=AAhdxpLhLYu5K/IAgfvDDv1Y3ccYxr46UXDaYTqn18CMwzQFnRJfH9nclZNw2VOOV8
+         d0HtX4KgVuFwkFjOcxuRfvNXk0PkR81obF6ApyhiDf1aKLGoScpleJqM9TqRkAccZagZ
+         hKKZs21jvp9uO8jMOGjVchicbwW4gznq/jnGOlYkzikeqxt5o4Nn6FgiAOdg5eQfNTsM
+         31xIY7ovJT+XLdDD+l1MKxFEhTjU05sMdBp7yXcT0m970uG46raUBEj64lvpqI6Zxi2C
+         m1ibIu3lbVy5qR9NHSdY1kNvVjA6aM7FFWfB/b3NV8dFo7l2zDKlIZa5XRLWlp4xW8UE
+         OOig==
+X-Gm-Message-State: AOJu0Ywsc/bp82BHIqxPve3EoqTpHGdJW2xIUbdfhZ04g3ZErIxTT/R6
+	3euR5b+UwaG1uDY3uQ/QmzKwVrzIgudIbgaEp10=
+X-Google-Smtp-Source: AGHT+IGGJKmV30jrY90xAW2tf9fsf31dnGtwnvjDNIps+nfOcsoGVT2k/ibW5/+U7zDWBtytJecaVWY0LhA+RKEgowg=
+X-Received: by 2002:a05:6102:3649:b0:464:4891:cce9 with SMTP id
+ s9-20020a056102364900b004644891cce9mr2921864vsu.16.1701737626341; Mon, 04 Dec
+ 2023 16:53:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231130194023.4102148-1-nphamcs@gmail.com> <20231130194023.4102148-3-nphamcs@gmail.com>
-In-Reply-To: <20231130194023.4102148-3-nphamcs@gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Mon, 4 Dec 2023 16:35:57 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuOsaX15w3gF7eUN8u7LAKhC7m2we91simoPH7S=MZJZCg@mail.gmail.com>
-Message-ID: <CAF8kJuOsaX15w3gF7eUN8u7LAKhC7m2we91simoPH7S=MZJZCg@mail.gmail.com>
-Subject: Re: [PATCH v8 2/6] memcontrol: implement mem_cgroup_tryget_online()
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
-	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
-	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeelb@google.com, muchun.song@linux.dev, linux-mm@kvack.org, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+References: <20231203001501.126339-1-sxwjean@me.com> <20231203001501.126339-4-sxwjean@me.com>
+In-Reply-To: <20231203001501.126339-4-sxwjean@me.com>
+From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Date: Tue, 5 Dec 2023 09:53:34 +0900
+Message-ID: <CAB=+i9TVfzWk=anexu6ARPA21AC-uhjQjf4brZF0XDfVaWraWw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] mm/slub: correct the default value of
+ slub_min_objects in doc
+To: sxwjean@me.com
+Cc: vbabka@suse.cz, cl@linux.com, linux-mm@kvack.org, penberg@kernel.org, 
+	rientjes@google.com, iamjoonsoo.kim@lge.com, roman.gushchin@linux.dev, 
+	corbet@lwn.net, keescook@chromium.org, arnd@arndb.de, 
+	akpm@linux-foundation.org, gregkh@linuxfoundation.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Xiongwei Song <xiongwei.song@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Nhat,
-
-Very minor nitpick. This patch can fold with the later patch that uses
-it. That makes the review easier, no need to cross reference different
-patches. It will also make it harder to introduce API that nobody
-uses.
-
-Chris
-
-On Thu, Nov 30, 2023 at 11:40=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
+On Sun, Dec 3, 2023 at 9:16=E2=80=AFAM <sxwjean@me.com> wrote:
 >
-> This patch implements a helper function that try to get a reference to
-> an memcg's css, as well as checking if it is online. This new function
-> is almost exactly the same as the existing mem_cgroup_tryget(), except
-> for the onlineness check. In the !CONFIG_MEMCG case, it always returns
-> true, analogous to mem_cgroup_tryget(). This is useful for e.g to the
-> new zswap writeback scheme, where we need to select the next online
-> memcg as a candidate for the global limit reclaim.
-
-Very minor nitpick. This patch can fold with the later patch that uses
-it. That makes the review easier, no need to cross reference different
-patches. It will also make it harder to introduce API that nobody
-uses.
-
-Chris
-
+> From: Xiongwei Song <xiongwei.song@windriver.com>
 >
-> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> There is no a value assigned to slub_min_objects by default, it always
+> is 0 that is initialized by compiler if no assigned value by command line=
+.
+> min_objects is calculated based on processor numbers in calculate_order()=
+.
+> For more details, see commit 9b2cd506e5f2 ("slub: Calculate min_objects
+> based on number of processors.")
+>
+> Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
+
+While slub_min_objects equals zero by default, 'min_objects' overrides it t=
+o
+4 * (fls(nr_cpus) + 1) when not set. so when slub_min_objects is not
+set, it would be
+equal to or higher than 4. I'm not sure this level of implementation
+detail is worth documenting.
+
+Also, I think patch 2 should update Documentation/mm/slub.rst too.
+(slub_$param -> slab_param)
+
 > ---
->  include/linux/memcontrol.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  Documentation/mm/slub.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> index 7bdcf3020d7a..2bd7d14ace78 100644
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -821,6 +821,11 @@ static inline bool mem_cgroup_tryget(struct mem_cgro=
-up *memcg)
->         return !memcg || css_tryget(&memcg->css);
->  }
+> diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
+> index be75971532f5..1f4399581449 100644
+> --- a/Documentation/mm/slub.rst
+> +++ b/Documentation/mm/slub.rst
+> @@ -150,7 +150,7 @@ list_lock once in a while to deal with partial slabs.=
+ That overhead is
+>  governed by the order of the allocation for each slab. The allocations
+>  can be influenced by kernel parameters:
 >
-> +static inline bool mem_cgroup_tryget_online(struct mem_cgroup *memcg)
-> +{
-> +       return !memcg || css_tryget_online(&memcg->css);
-> +}
-> +
->  static inline void mem_cgroup_put(struct mem_cgroup *memcg)
->  {
->         if (memcg)
-> @@ -1349,6 +1354,11 @@ static inline bool mem_cgroup_tryget(struct mem_cg=
-roup *memcg)
->         return true;
->  }
+> -.. slub_min_objects=3Dx          (default 4)
+> +.. slub_min_objects=3Dx          (default 0)
+>  .. slub_min_order=3Dx            (default 0)
+>  .. slub_max_order=3Dx            (default 3 (PAGE_ALLOC_COSTLY_ORDER))
 >
-> +static inline bool mem_cgroup_tryget_online(struct mem_cgroup *memcg)
-> +{
-> +       return true;
-> +}
-> +
->  static inline void mem_cgroup_put(struct mem_cgroup *memcg)
->  {
->  }
 > --
 > 2.34.1
 >
