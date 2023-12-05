@@ -1,106 +1,90 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WfNiTO3x"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4186D18B;
-	Tue,  5 Dec 2023 09:56:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701798976; x=1733334976;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VVHu49U+NPcEJKbHaOEfhx1yRoqYC+nyoOOnhOlzyhU=;
-  b=WfNiTO3xemCPtlP/3v3xx5fNqFBc3CSJfZSR3frOncgdU/dwPukbiMzP
-   S2zywO3j1g8tJQswDmWiwfgFCknymYmJinm89mgXpsbUoUWwNi8X3uLQx
-   BMCsQTXvZEvVSy48LWgzDcxBv3SPNma2SOmiPAGD/oEpCEi2neywkjCdM
-   2On/x3Vj0E0+vwyKD1NGCbjTjQ9RMC0cZCMWE/Q5I2F6gCxTbgMLNGra6
-   8rcHxsGt5AK3XMpq/U9Bn7OvR+mJPHu/hnY1bjn6pWIvM5N3tPij6VChT
-   MyPVIhNEV2alajLZMVUjEPCCXFQ4V9XPvPN55B5oVFCnMii4AtSwjgc9C
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391099082"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="391099082"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:56:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1102532881"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1102532881"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Dec 2023 09:56:09 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAZeR-0009Uq-0W;
-	Tue, 05 Dec 2023 17:56:07 +0000
-Date: Wed, 6 Dec 2023 01:55:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
-	reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
-	seanjc@google.com, kim.phillips@amd.com, babu.moger@amd.com,
-	jmattson@google.com, ilpo.jarvinen@linux.intel.com,
-	jithu.joseph@intel.com, kan.liang@linux.intel.com, nikunj@amd.com,
-	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
-	rick.p.edgecombe@intel.com, rppt@kernel.org,
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, eranian@google.com,
-	peternewman@google.com
-Subject: Re: [PATCH 14/15] x86/resctrl: Add interface unassign a ABMC counter
-Message-ID: <202312060120.q62q2ha7-lkp@intel.com>
-References: <20231201005720.235639-15-babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="XoptdEkI"
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23E0FD51
+	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 10:01:53 -0800 (PST)
+Received: from [192.168.1.18] ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id AZjvrRTwOSNyBAZjvr0n3q; Tue, 05 Dec 2023 19:01:51 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1701799311;
+	bh=hvbZ1hzkZAW9+ll+Cf0H0hMrUli14aQS6HIa8H1AiEs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XoptdEkIyaphDGvNlkuK50h82d3TT88V3o4uepBihG58+UUJ9+WkFgg+i5GXukzuB
+	 m6di0bERiVC9fyjAJbBYKflD1Uaoq9Q+yirlHlHFexeL4ircFJQC6pU7RWM1qE0bIh
+	 bH1OZNcd/vrsuS+ieYI9rU0yqSbcePcmLZOUCAaoKh54B/ctCPvySPch5rf9U4IoMQ
+	 ICZKlktLrX8zVPrOiGqDiIQSvNrgiQZCMPpwAZj59Rp3W/h4uYIyOFc4zQhyIvR0EC
+	 AorPDR1vYKF9CbT1fjB07NijCvh11KyQRUjPpU9k5Zrh9m2BW5vpimmezFYsfizEvY
+	 U+SAmVVoRm3AQ==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 05 Dec 2023 19:01:51 +0100
+X-ME-IP: 92.140.202.140
+Message-ID: <e6752370-7aba-4b47-90ff-7896a49ba84b@wanadoo.fr>
+Date: Tue, 5 Dec 2023 19:01:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231201005720.235639-15-babu.moger@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
+ driver
+To: =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Oleksij Rempel
+ <o.rempel@pengutronix.de>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+ Dent Project <dentproject@linuxfoundation.org>
+References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
+ <20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
+ <6eeead27-e1b1-48e4-8a3b-857e1c33496b@wanadoo.fr>
+ <20231204231655.19baa1a4@kmaincent-XPS-13-7390>
+Content-Language: fr, en-US
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20231204231655.19baa1a4@kmaincent-XPS-13-7390>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Babu,
+Le 04/12/2023 à 23:16, Köry Maincent a écrit :
+> Thanks for your review!
+> 
+> On Sun, 3 Dec 2023 22:11:46 +0100
+> Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+> 
+>>> +
+>>> +	fwl = firmware_upload_register(THIS_MODULE, dev, dev_name(dev),
+>>> +				       &pd692x0_fw_ops, priv);
+>>> +	if (IS_ERR(fwl)) {
+>>> +		dev_err(dev, "Failed to register to the Firmware Upload
+>>> API\n");
+>>> +		ret = PTR_ERR(fwl);
+>>> +		return ret;
+>>
+>> Nit: return dev_err_probe()?
+> 
+> No EPROBE_DEFER error can be catch from firmware_upload_register() function, so
+> it's not needed.
 
-kernel test robot noticed the following build warnings:
+Hi,
 
-[auto build test WARNING on next-20231130]
-[cannot apply to tip/x86/core linus/master v6.7-rc3 v6.7-rc2 v6.7-rc1 v6.7-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+up to you to take it or not, but dev_err_probe() also logs the error 
+code in a human readable way and it saves a few lines of code.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-resctrl-Remove-hard-coded-memory-bandwidth-limit/20231201-090621
-base:   next-20231130
-patch link:    https://lore.kernel.org/r/20231201005720.235639-15-babu.moger%40amd.com
-patch subject: [PATCH 14/15] x86/resctrl: Add interface unassign a ABMC counter
-config: i386-randconfig-013-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060120.q62q2ha7-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060120.q62q2ha7-lkp@intel.com/reproduce)
+If I remember correctly, it also saves some bytes in the .o file.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060120.q62q2ha7-lkp@intel.com/
+Other than that, it is a matter of style.
 
-All warnings (new ones prefixed by >>):
+CJ
 
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:195:6: warning: no previous prototype for 'abmc_counters_free' [-Wmissing-prototypes]
-     195 | void abmc_counters_free(int counterid)
-         |      ^~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:2675:5: warning: no previous prototype for 'resctrl_arch_set_abmc_enabled' [-Wmissing-prototypes]
-    2675 | int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Regards,
 
-
-vim +/abmc_counters_free +195 arch/x86/kernel/cpu/resctrl/rdtgroup.c
-
-   194	
- > 195	void abmc_counters_free(int counterid)
-   196	{
-   197		abmc_free_map |= 1 << counterid;
-   198	}
-   199	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
