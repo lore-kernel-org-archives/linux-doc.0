@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oGpU9UGW"
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B59F124
-	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 00:04:47 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-a1c890f9b55so25369066b.1
-        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 00:04:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmEZYxE9"
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE40D4F;
+	Tue,  5 Dec 2023 00:30:11 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-50bf898c43cso1778589e87.1;
+        Tue, 05 Dec 2023 00:30:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701763486; x=1702368286; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1701765010; x=1702369810; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kQgvrsG+45eRTqwoowf77ABXnXZq9SZNP9x+aYSkZUs=;
-        b=oGpU9UGWbxkK8p/HEtYkWrmAoHV7hhjodwyyznldGr6QduFoGeZ7wpknszu9r1fDAP
-         Ypf8LEVD0XlZkB9Q4o89hHAwmMNnHeg1+hOcO1BERcEqTZGuESV6hh/+nBR6IeJ/VV/b
-         /6i2ssh+Y5/g+w8OrZvRzK6BwGLXmRUlX0AolH3x5GFbsuHSXKwKWmCgYQ5YR5tEc0fl
-         6PVrEUwj2KIFK1RlcdiNkvdd3UGzrbzt/QoJplxSiWvI7xNO+A/N3fAxKWCNEgayma0V
-         ychxgccNI9u97niRDSpTSqKSr4MeZu2JY40JqH61+brxlCE79iuM9qR8IzDLcUlKbIzq
-         ZyMw==
+        bh=bPX4+BGX4HrclWT0seEGlKqhkOkVidDG8/OL7KroYgM=;
+        b=dmEZYxE9D9jLOGeGCkH96TsUFYhM1EnvTx+iSOlhQaFUR1QNNW4iHSZIsaO+QROQTc
+         whxPeoEyCXq5Y72scGKLTAxPW7tR8eglU9lWuAatsxkG28+w5MPEMXRtjbWLPE3Y4E4y
+         D34PDlHASzBxdxd31Bu745wFjRHOx6dPh2jZ+c+0SzOlPpGXb0ySItMY6l2oopCe4dmA
+         GmQZ3BBgPFcR6JYtHxn+vTJNkRTchOTkIMtV5ajcrXyliW/xFLF29iFE6rg6uics0JKa
+         8VR5yG8xauZYIFEtH8P3RJL+Y2yr9AfFBUrTPLN6G1b/WGAZvOP7usGCmZLU7rNXseS3
+         Rd6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701763486; x=1702368286;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1701765010; x=1702369810;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kQgvrsG+45eRTqwoowf77ABXnXZq9SZNP9x+aYSkZUs=;
-        b=CldQDsCPlSlYQWQAs4dvWUw0mkc/DxjHmTVs+ys43qHtULRnYotTq29pTle6Z+iOIZ
-         NP/Y0xNncJkz2MRTrEexM/1Dzq5mI7uKKaqiDOiYICTBnL6weGNfEFUl2WuNUYmvgG8N
-         K6zoU0RASQe4Q0NI+FJxsuXEVESUkEhWvlx9d1bzZv+yTA0HSMVxGQM2x8By+u6cdgfW
-         lkEMcAzYDxkBfzSt2HF5830B5huaIlEpgmz6WaE/a9FJsiDnFWsarerm3+uZfJ3Bz553
-         krIM7RPU0vyaGCwKr7afeQ/WaHovvNZepbtBaGoIhDIL0rt89oMmtQ4/x5DVcjycMivg
-         +q+A==
-X-Gm-Message-State: AOJu0YyjkfpzM4q6YiAmXkHlUoHq8b5BOnUfAPFfpOCik0DD4EJKbpcH
-	SEySQz+zmIMt29wyyCxgIgOWRg==
-X-Google-Smtp-Source: AGHT+IH0z0PnpnE+uMWJrpLKJufOusH4jJJ2vfE35thSUbndxPFBqO6jHZlTNiTj66BVNb5sUXkKDQ==
-X-Received: by 2002:a17:906:209e:b0:9e0:4910:1666 with SMTP id 30-20020a170906209e00b009e049101666mr3844736ejq.35.1701763485742;
-        Tue, 05 Dec 2023 00:04:45 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id g2-20020a1709064e4200b00a1cb351dd4fsm174276ejw.9.2023.12.05.00.04.44
+        bh=bPX4+BGX4HrclWT0seEGlKqhkOkVidDG8/OL7KroYgM=;
+        b=AmZWmevue8mFCR4zrbHc2pbgXmgGZ5EMUNTDVcOgQpEUSmu79z6usJNcGXItEQRPX4
+         mJ0lg9lyCXPJApyemetKxZn+z2i3p8GUBKwPRGeSjeACs4h4+lCDvNfWwkyAx+dJXhJ0
+         zaABK4NzYEykZ4gRzaj+T8HmSQQbay6/lWnjvdvPZea678Qgk1lqUmtu5dDZW1MZQdnK
+         yKSB9ZUbOzrfeyMipa8sDLxqQ5RIzmyy4YfC4Zfas/h8aqF/QWdtiYCQ/j9FiSCXOw+w
+         TXz7kN+tvuj8s35BaijyaoP4TllmZ9spVzwtZkfw09wrkXEOz6ZK1Zs8g88w8mvccbSf
+         Hm0Q==
+X-Gm-Message-State: AOJu0YzyLavr6TswC1iUb3ki2O3OJUrp8pmT3VpZBkdGHuzWpGq1bNG8
+	IYI6QIK7na2upcmUQU0x6CU=
+X-Google-Smtp-Source: AGHT+IEWm90qXXmXJXSrvogut31Ab68O5Ygka/dO8KnZT/ScNME3M1dnx37Zrgvna+9b4v5YcKjAtg==
+X-Received: by 2002:a05:6512:b96:b0:50b:e77c:b1e2 with SMTP id b22-20020a0565120b9600b0050be77cb1e2mr2039969lfv.65.1701765009395;
+        Tue, 05 Dec 2023 00:30:09 -0800 (PST)
+Received: from ?IPV6:2001:14ba:16f8:1500::2? (dc78bmyyyyyyyyyyyyyby-3.rev.dnainternet.fi. [2001:14ba:16f8:1500::2])
+        by smtp.gmail.com with ESMTPSA id z28-20020a19505c000000b0050bfe37d283sm316199lfj.262.2023.12.05.00.30.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Dec 2023 00:04:45 -0800 (PST)
-Message-ID: <02caed36-7914-47d1-9593-5120d3503ff7@linaro.org>
-Date: Tue, 5 Dec 2023 09:04:43 +0100
+        Tue, 05 Dec 2023 00:30:08 -0800 (PST)
+Message-ID: <ddb65f28-e900-44ef-aad3-568093540c38@gmail.com>
+Date: Tue, 5 Dec 2023 10:30:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,86 +47,246 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-Content-Language: en-US
-To: "KCFENG0@nuvoton.com" <KCFENG0@nuvoton.com>,
- Guenter Roeck <linux@roeck-us.net>,
- "baneric926@gmail.com" <baneric926@gmail.com>,
- "jdelvare@suse.com" <jdelvare@suse.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, "corbet@lwn.net"
- <corbet@lwn.net>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "KWLIU@nuvoton.com" <KWLIU@nuvoton.com>,
- "DELPHINE_CHIU@wiwynn.com" <DELPHINE_CHIU@wiwynn.com>,
- "Bonnie_Lo@wiwynn.com" <Bonnie_Lo@wiwynn.com>
-References: <20231204055650.788388-1-kcfeng0@nuvoton.com>
- <20231204055650.788388-3-kcfeng0@nuvoton.com>
- <87c11991-8f74-4f71-972e-373ffa1fddb1@roeck-us.net>
- <TYZPR03MB7712AD5A08E3DD97541C39FDF085A@TYZPR03MB7712.apcprd03.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <TYZPR03MB7712AD5A08E3DD97541C39FDF085A@TYZPR03MB7712.apcprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
+Content-Language: en-US, en-GB
+To: davidgow@google.com, Rae Moar <rmoar@google.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
+ <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/12/2023 06:02, KCFENG0@nuvoton.com wrote:
-> Hi Guenter
+On 12/5/23 09:31, davidgow@google.com wrote:
+> Tests for drivers often require a struct device to pass to other
+> functions. While it's possible to create these with
+> root_device_register(), or to use something like a platform device, this
+> is both a misuse of those APIs, and can be difficult to clean up after,
+> for example, a failed assertion.
+> 
+> Add some KUnit-specific functions for registering and unregistering a
+> struct device:
+> - kunit_device_register()
+> - kunit_device_register_with_driver()
+> - kunit_device_unregister()
+
+Thanks a lot David! I have been missing these!
+
+I love the explanation you added under Documentation. Very helpful I'd 
+say. I only have very minor comments which you can ignore if they don't 
+make sense to you or the kunit-subsystem.
+
+With or without the suggested changes:
+
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+
+> --- /dev/null
+> +++ b/include/kunit/device.h
+> @@ -0,0 +1,76 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * KUnit basic device implementation
+> + *
+> + * Helpers for creating and managing fake devices for KUnit tests.
+> + *
+> + * Copyright (C) 2023, Google LLC.
+> + * Author: David Gow <davidgow@google.com>
+> + */
+> +
+> +#ifndef _KUNIT_DEVICE_H
+> +#define _KUNIT_DEVICE_H
+> +
+> +#if IS_ENABLED(CONFIG_KUNIT)
+> +
+> +#include <kunit/test.h>
+> +
+> +struct kunit_device;
+> +struct device;
+> +struct device_driver;
+> +
+> +// For internal use only -- registers the kunit_bus.
+> +int kunit_bus_init(void);
+> +
+> +/**
+> + * kunit_driver_create() - Create a struct device_driver attached to the kunit_bus
+> + * @test: The test context object.
+> + * @name: The name to give the created driver.
+> + *
+> + * Creates a struct device_driver attached to the kunit_bus, with the name @name.
+> + * This driver will automatically be cleaned up on test exit.
+> + */
+> +struct device_driver *kunit_driver_create(struct kunit *test, const char *name);
+> +
+> +/**
+> + * kunit_device_register() - Create a struct device for use in KUnit tests
+> + * @test: The test context object.
+> + * @name: The name to give the created device.
+> + *
+> + * Creates a struct kunit_device (which is a struct device) with the given name,
+> + * and a corresponding driver. The device and driver will be cleaned up on test
+> + * exit, or when kunit_device_unregister is called. See also
+> + * kunit_device_register_with_driver, if you wish to provide your own
+> + * struct device_driver.
+> + */
+> +struct device *kunit_device_register(struct kunit *test, const char *name);
+> +
+> +/**
+> + * kunit_device_register_with_driver() - Create a struct device for use in KUnit tests
+> + * @test: The test context object.
+> + * @name: The name to give the created device.
+> + * @drv: The struct device_driver to associate with the device.
+> + *
+> + * Creates a struct kunit_device (which is a struct device) with the given
+> + * name, and driver. The device will be cleaned up on test exit, or when
+> + * kunit_device_unregister is called. See also kunit_device_register, if you
+> + * wish KUnit to create and manage a driver for you
+> + */
+> +struct device *kunit_device_register_with_driver(struct kunit *test,
+> +						 const char *name,
+> +						 struct device_driver *drv);
+> +
+> +/**
+> + * kunit_device_unregister() - Unregister a KUnit-managed device
+> + * @test: The test context object which created the device
+> + * @dev: The device.
+> + *
+> + * Unregisters and destroys a struct device which was created with
+> + * kunit_device_register or kunit_device_register_with_driver. If KUnit created
+> + * a driver, cleans it up as well.
+> + */
+> +void kunit_device_unregister(struct kunit *test, struct device *dev);
+
+I wish the return values for error case(s) were also mentioned. But 
+please, see my next comment as well.
+
+> +
+> +#endif
+> +
+> +#endif
 
 ...
 
->  The privileged confidential information contained in this email is intended for use only by the addressees as indicated by the original sender of this email. If you are not the addressee indicated in this email or are not responsible for delivery of the email to such a person, please kindly reply to the sender indicating this fact and delete all copies of it from your computer and network server immediately. 
+> diff --git a/lib/kunit/device.c b/lib/kunit/device.c
+> new file mode 100644
+> index 000000000000..93ace1a2297d
+> --- /dev/null
+> +++ b/lib/kunit/device.c
+> @@ -0,0 +1,176 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * KUnit basic device implementation
+> + *
+> + * Implementation of struct kunit_device helpers.
+> + *
+> + * Copyright (C) 2023, Google LLC.
+> + * Author: David Gow <davidgow@google.com>
+> + */
+> +
 
-As requested: I am going to delete all the copies of your emails.
+...
 
-Best regards,
-Krzysztof
+> +
+> +static void kunit_device_release(struct device *d)
+> +{
+> +	kfree(to_kunit_device(d));
+> +}
+
+I see you added the function documentation to the header. I assume this 
+is the kunit style(?) I may be heretical, but I'd love to see at least a 
+very short documentation for (all) exported functions here. I think the 
+arguments are mostly self-explatonary, but at least for me the return 
+values aren't that obvious. Whether they are kerneldoc or not is not 
+that important to me.
+
+I think you did a great job adding docs under Documentation/ (and the 
+header) - but at least I tend to just jump to function implementation 
+when I need to figure out how it behaves. Having doc (or pointer to doc) 
+also here helps. I don't think it's that widely spread practice to add 
+docs to the headers(?)
+
+> +struct device_driver *kunit_driver_create(struct kunit *test, const char *name)
+> +{
+> +	struct device_driver *driver;
+> +	int err = -ENOMEM;
+> +
+> +	driver = kunit_kzalloc(test, sizeof(*driver), GFP_KERNEL);
+> +
+> +	if (!driver)
+> +		return ERR_PTR(err);
+> +
+> +	driver->name = name;
+> +	driver->bus = &kunit_bus_type;
+> +	driver->owner = THIS_MODULE;
+> +
+> +	err = driver_register(driver);
+> +	if (err) {
+> +		kunit_kfree(test, driver);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	kunit_add_action(test, driver_unregister_wrapper, driver);
+> +	return driver;
+> +}
+> +EXPORT_SYMBOL_GPL(kunit_driver_create);
+> +
+> +struct kunit_device *__kunit_device_register_internal(struct kunit *test,
+> +						      const char *name,
+> +						      struct device_driver *drv)
+
+Very much nitpicking only - but do you think either the "__"-prefix or 
+the "_internal"-suffix would be enough and not both? (Just to make 
+function a tad shorter, not that it matters much though).
+
+> +{
+> +	struct kunit_device *kunit_dev;
+> +	int err = -ENOMEM;
+> +
+> +	kunit_dev = kzalloc(sizeof(struct kunit_device), GFP_KERNEL);
+> +	if (!kunit_dev)
+> +		return ERR_PTR(err);
+> +
+> +	kunit_dev->owner = test;
+> +
+> +	err = dev_set_name(&kunit_dev->dev, "%s.%s", test->name, name);
+> +	if (err) {
+> +		kfree(kunit_dev);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	/* Set the expected driver pointer, so we match. */
+> +	kunit_dev->driver = drv;
+> +
+> +	kunit_dev->dev.release = kunit_device_release;
+> +	kunit_dev->dev.bus = &kunit_bus_type;
+> +	kunit_dev->dev.parent = &kunit_bus;
+> +
+> +	err = device_register(&kunit_dev->dev);
+> +	if (err) {
+> +		put_device(&kunit_dev->dev);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	kunit_add_action(test, device_unregister_wrapper, &kunit_dev->dev);
+> +
+> +	return kunit_dev;
+> +}
+
+...
+
+-- 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
 
