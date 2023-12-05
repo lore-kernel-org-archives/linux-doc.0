@@ -1,282 +1,159 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+IDm2dA"
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 363C7183;
-	Tue,  5 Dec 2023 12:01:49 -0800 (PST)
-Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-77f0b8abd3aso136382585a.1;
-        Tue, 05 Dec 2023 12:01:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701806508; x=1702411308; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=57/0OhXNeSQH9MeOrdfridw7DT7/gjMEM3JF3mFlNJc=;
-        b=b+IDm2dAEuyAIKdNQLsbAC6ZrsT0uBv/WqhiqiZ7TOuvDBcmwrpY4dlROlbBuMIMKk
-         o4Q3IfKrWKRCWRdK/4DaY69/wnVQi1iCNeORaRcqBNXj5Pz7qGlaoBpfXFm6f+hyLrhQ
-         Dhy/8vuaOJMTud0Jf/OzABOpd6235AAutMJSu92LnlT3IQw1dR8Y104Ntu02qPQhXSLm
-         sm8GHVBRvx5QpjKOxWK7Qy1HeFDZRH8JfVG3BeaPsjAifDWhr3iL0JMbfKonDTs5chrt
-         Rfuy8Tn/p+uvOcYqsYIX+IH5PNk0hVf/EaTpgV6kuPaSvQ21SPpvXRybUYKTLlHKzxY6
-         wARQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cVhlsFqL"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3865A188
+	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 12:04:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701806650;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+s/bFE6xgyjWjg9l0eDus09xn9qMoGdQv3xi9sP30Mo=;
+	b=cVhlsFqL0JrqqRbXmga4VASg4gw9US7Bo1spFnliCEG1urZIb4nwjOQykamiAvUUorufow
+	z4FMWNzbgEO9cKQ/vtcXyLSa+JlA84YVrzLaBXIku0R/RqJPPlpvXJcch3sfxR9+A1UC6f
+	42mV8Zr/K86enWkT90x0eM7WPu7rvrI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-266-rkrEEDjmNoqJl68PnpsuuA-1; Tue, 05 Dec 2023 15:04:08 -0500
+X-MC-Unique: rkrEEDjmNoqJl68PnpsuuA-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-40b3dbe99d9so46997085e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 12:04:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701806508; x=1702411308;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=57/0OhXNeSQH9MeOrdfridw7DT7/gjMEM3JF3mFlNJc=;
-        b=BKFhev7KGUXDtzvI4BI2D497ZGqh8V/h3K9xcymmttalbBlPIHJz1JJYtyUedpVzE5
-         TeIBMsciQECYDXmwejr5H+uLawhBS81UG924oWZJFURSYOhmjdU8OhdMCGNpz3KVh0Ge
-         2t5Py2Hh5P0M7sQS1oGZV01CaVcmmdiEbSsrJnwaCDLGXOD3aQyCAUgPc/s0CzzmunBo
-         p0j5tpJDnSlTMAZi1MU59lJMo3qXKHX0maQpx68luAGAkCxTdAdrAGd1og6CfbCKGHJ0
-         iZfXaOfrQ3ODmneFaN9khZzx4CB1jwbEzXxz4vf5mmT4+ayV7NRx+VD6slv1FLFgqD4J
-         BJzQ==
-X-Gm-Message-State: AOJu0YwW/z6HfaRoLM0cMbItzX3TLAo2tjvABs6dVHWDgp0Pv1AvOTFV
-	tMLKH9b/NJQ56eEWeSWPCQw=
-X-Google-Smtp-Source: AGHT+IHPJi2LHTZ5kQ7UCzMYZnsbaKN6UHzf0dQ/epfmYxKwG30UraQugSMbGBuSqNfNoCTEbhSZPA==
-X-Received: by 2002:a05:620a:5372:b0:77d:cf48:9358 with SMTP id op50-20020a05620a537200b0077dcf489358mr1535978qkn.9.1701806508231;
-        Tue, 05 Dec 2023 12:01:48 -0800 (PST)
-Received: from localhost (114.66.194.35.bc.googleusercontent.com. [35.194.66.114])
-        by smtp.gmail.com with ESMTPSA id qj4-20020a05620a880400b0077589913a8bsm5267291qkn.132.2023.12.05.12.01.47
+        d=1e100.net; s=20230601; t=1701806647; x=1702411447;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+s/bFE6xgyjWjg9l0eDus09xn9qMoGdQv3xi9sP30Mo=;
+        b=EbkvHCxaWd9RkmqIpRpH6I4Nn2w7Joia667WnAm0L+ckgxdnOo5GOgbSPq1xiaKb/g
+         H8BnKxJZSKVqMIqWLwWfzqFnxa4axDvUZsJ5ak+mRha+nlqRbZDkB+xrDrZaYKqngv2x
+         oS4FHK55FfIS2h5eagJc/8YwBsh2ulxoudCwsgG+PE/IrETYcylwnj/Ef96PoyWbakvW
+         T6mE9XjX/56ZOl0hJHjzDRvgzBphR39k8nfsooEF5SautqB88nyZNLvGSR951TNZdmWS
+         DVXu/8SvtwRUjDRLuMro6yrbbipyo1fyM/RbQQ7HAR4IuNGJcca4BplkSoF234hyOaVe
+         mX1g==
+X-Gm-Message-State: AOJu0YwxtdbvV8cQdDz1ozYcFbXiWWnKkmyE/CJFoREC1/tovOYuZRRB
+	o7BWxlUvi/RKhBtB/UJb8Wgc0g10oQrSYL3ZG9ESke9F+R2qnPyV2Y7okgbLatmi3A5NXtMr+r/
+	WRUJI2JsRs/R2JN4WGrnE
+X-Received: by 2002:a05:600c:4f49:b0:40b:5e21:cc19 with SMTP id m9-20020a05600c4f4900b0040b5e21cc19mr960055wmq.68.1701806647263;
+        Tue, 05 Dec 2023 12:04:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH+xDNPOikcr570KVQC6im6G/7epzJv3koIVlHQmahfi/k9ra/UMfu2LkaDap8die5Q9RRPsQ==
+X-Received: by 2002:a05:600c:4f49:b0:40b:5e21:cc19 with SMTP id m9-20020a05600c4f4900b0040b5e21cc19mr960051wmq.68.1701806646958;
+        Tue, 05 Dec 2023 12:04:06 -0800 (PST)
+Received: from starship ([89.237.98.20])
+        by smtp.gmail.com with ESMTPSA id d4-20020a05600c3ac400b0040b538047b4sm23151845wms.3.2023.12.05.12.04.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 12:01:47 -0800 (PST)
-Date: Tue, 05 Dec 2023 15:01:47 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Stanislav Fomichev <sdf@google.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: Florian Bezdeka <florian.bezdeka@siemens.com>, 
- yoong.siang.song@intel.com, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- davem@davemloft.net, 
- Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Bjorn Topel <bjorn@kernel.org>, 
- magnus.karlsson@intel.com, 
- maciej.fijalkowski@intel.com, 
- Jonathan Lemon <jonathan.lemon@gmail.com>, 
- Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, 
- Tariq Toukan <tariqt@nvidia.com>, 
- Willem de Bruijn <willemb@google.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Andrii Nakryiko <andrii@kernel.org>, 
- Mykola Lysenko <mykolal@fb.com>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, 
- KP Singh <kpsingh@kernel.org>, 
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, 
- Shuah Khan <shuah@kernel.org>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Jose Abreu <joabreu@synopsys.com>, 
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
- "xdp-hints@xdp-project.net" <xdp-hints@xdp-project.net>, 
- "linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Message-ID: <656f81abaeee7_3f5f95294ef@willemb.c.googlers.com.notmuch>
-In-Reply-To: <ZW98UW033wCy9vI-@google.com>
-References: <20231203165129.1740512-1-yoong.siang.song@intel.com>
- <20231203165129.1740512-3-yoong.siang.song@intel.com>
- <43b01013-e78b-417e-b169-91909c7309b1@kernel.org>
- <656de830e8d70_2e983e294ca@willemb.c.googlers.com.notmuch>
- <PH0PR11MB583000826591093B98BA841DD885A@PH0PR11MB5830.namprd11.prod.outlook.com>
- <5a0faf8cc9ec3ab0d5082c66b909c582c8f1eae6.camel@siemens.com>
- <CAKH8qBuXL8bOYtfKKPS8y=KJqouDptyciCjr0wNKVHtNj6BmqA@mail.gmail.com>
- <656f66023f7bd_3dd6422942a@willemb.c.googlers.com.notmuch>
- <ZW98UW033wCy9vI-@google.com>
-Subject: Re: [xdp-hints] Re: [PATCH bpf-next v3 2/3] net: stmmac: add Launch
- Time support to XDP ZC
+        Tue, 05 Dec 2023 12:04:06 -0800 (PST)
+Message-ID: <fc09fec34a89ba7655f344a31174d078a8248182.camel@redhat.com>
+Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return
+ prologues in hypercall page
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Sean Christopherson <seanjc@google.com>, Nicolas Saenz Julienne
+	 <nsaenz@amazon.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
+ anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
+ kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
+ x86@kernel.org,  linux-doc@vger.kernel.org
+Date: Tue, 05 Dec 2023 22:04:04 +0200
+In-Reply-To: <ZW94T8Fx2eJpwKQS@google.com>
+References: <20231108111806.92604-1-nsaenz@amazon.com>
+	 <20231108111806.92604-6-nsaenz@amazon.com>
+	 <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
+	 <CXD4TVV5QWUK.3SH495QSBTTUF@amazon.com> <ZWoKlJUKJGGhRRgM@google.com>
+	 <CXD5HJ5LQMTE.11XP9UB9IL8LY@amazon.com> <ZWocI-2ajwudA-S5@google.com>
+	 <CXD7AW5T9R7G.2REFR2IRSVRVZ@amazon.com> <ZW94T8Fx2eJpwKQS@google.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Stanislav Fomichev wrote:
-> On 12/05, Willem de Bruijn wrote:
-> > Stanislav Fomichev wrote:
-> > > On Tue, Dec 5, 2023 at 7:34=E2=80=AFAM Florian Bezdeka
-> > > <florian.bezdeka@siemens.com> wrote:
-> > > >
-> > > > On Tue, 2023-12-05 at 15:25 +0000, Song, Yoong Siang wrote:
-> > > > > On Monday, December 4, 2023 10:55 PM, Willem de Bruijn wrote:
-> > > > > > Jesper Dangaard Brouer wrote:
-> > > > > > >
-> > > > > > >
-> > > > > > > On 12/3/23 17:51, Song Yoong Siang wrote:
-> > > > > > > > This patch enables Launch Time (Time-Based Scheduling) su=
-pport to XDP zero
-> > > > > > > > copy via XDP Tx metadata framework.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Song Yoong Siang<yoong.siang.song@intel.co=
-m>
-> > > > > > > > ---
-> > > > > > > >   drivers/net/ethernet/stmicro/stmmac/stmmac.h      |  2 =
-++
-> > > > > > >
-> > > > > > > As requested before, I think we need to see another driver =
-implementing
-> > > > > > > this.
-> > > > > > >
-> > > > > > > I propose driver igc and chip i225.
-> > > > >
-> > > > > Sure. I will include igc patches in next version.
-> > > > >
-> > > > > > >
-> > > > > > > The interesting thing for me is to see how the LaunchTime m=
-ax 1 second
-> > > > > > > into the future[1] is handled code wise. One suggestion is =
-to add a
-> > > > > > > section to Documentation/networking/xsk-tx-metadata.rst per=
- driver that
-> > > > > > > mentions/documents these different hardware limitations.  I=
-t is natural
-> > > > > > > that different types of hardware have limitations.  This is=
- a close-to
-> > > > > > > hardware-level abstraction/API, and IMHO as long as we docu=
-ment the
-> > > > > > > limitations we can expose this API without too many limitat=
-ions for more
-> > > > > > > capable hardware.
-> > > > >
-> > > > > Sure. I will try to add hardware limitations in documentation.
-> > > > >
-> > > > > >
-> > > > > > I would assume that the kfunc will fail when a value is passe=
-d that
-> > > > > > cannot be programmed.
-> > > > > >
-> > > > >
-> > > > > In current design, the xsk_tx_metadata_request() dint got retur=
-n value.
-> > > > > So user won't know if their request is fail.
-> > > > > It is complex to inform user which request is failing.
-> > > > > Therefore, IMHO, it is good that we let driver handle the error=
- silently.
-> > > > >
-> > > >
-> > > > If the programmed value is invalid, the packet will be "dropped" =
-/ will
-> > > > never make it to the wire, right?
-> > =
+On Tue, 2023-12-05 at 11:21 -0800, Sean Christopherson wrote:
+> On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
+> > On Fri Dec 1, 2023 at 5:47 PM UTC, Sean Christopherson wrote:
+> > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
+> > > > On Fri Dec 1, 2023 at 4:32 PM UTC, Sean Christopherson wrote:
+> > > > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
+> > > > > > > To support this I think that we can add a userspace msr filter on the HV_X64_MSR_HYPERCALL,
+> > > > > > > although I am not 100% sure if a userspace msr filter overrides the in-kernel msr handling.
+> > > > > > 
+> > > > > > I thought about it at the time. It's not that simple though, we should
+> > > > > > still let KVM set the hypercall bytecode, and other quirks like the Xen
+> > > > > > one.
+> > > > > 
+> > > > > Yeah, that Xen quirk is quite the killer.
+> > > > > 
+> > > > > Can you provide pseudo-assembly for what the final page is supposed to look like?
+> > > > > I'm struggling mightily to understand what this is actually trying to do.
+> > > > 
+> > > > I'll make it as simple as possible (diregard 32bit support and that xen
+> > > > exists):
+> > > > 
+> > > > vmcall             <-  Offset 0, regular Hyper-V hypercalls enter here
+> > > > ret
+> > > > mov rax,rcx  <-  VTL call hypercall enters here
+> > > 
+> > > I'm missing who/what defines "here" though.  What generates the CALL that points
+> > > at this exact offset?  If the exact offset is dictated in the TLFS, then aren't
+> > > we screwed with the whole Xen quirk, which inserts 5 bytes before that first VMCALL?
+> > 
+> > Yes, sorry, I should've included some more context.
+> > 
+> > Here's a rundown (from memory) of how the first VTL call happens:
+> >  - CPU0 start running at VTL0.
+> >  - Hyper-V enables VTL1 on the partition.
+> >  - Hyper-V enabled VTL1 on CPU0, but doesn't yet switch to it. It passes
+> >    the initial VTL1 CPU state alongside the enablement hypercall
+> >    arguments.
+> >  - Hyper-V sets the Hypercall page overlay address through
+> >    HV_X64_MSR_HYPERCALL. KVM fills it.
+> >  - Hyper-V gets the VTL-call and VTL-return offset into the hypercall
+> >    page using the VP Register HvRegisterVsmCodePageOffsets (VP register
+> >    handling is in user-space).
+> 
+> Ah, so the guest sets the offsets by "writing" HvRegisterVsmCodePageOffsets via
+> a HvSetVpRegisters() hypercall.
 
-> > Programmable behavior is to either drop or cap to some boundary
-> > value, such as the farthest programmable time in the future: the
-> > horizon. In fq:
-> > =
+No, you didn't understand this correctly. 
 
-> >                 /* Check if packet timestamp is too far in the future=
-. */
-> >                 if (fq_packet_beyond_horizon(skb, q, now)) {
-> >                         if (q->horizon_drop) {
-> >                                         q->stat_horizon_drops++;
-> >                                         return qdisc_drop(skb, sch, t=
-o_free);
-> >                         }
-> >                         q->stat_horizon_caps++;
-> >                         skb->tstamp =3D now + q->horizon;
-> >                 }
-> >                 fq_skb_cb(skb)->time_to_send =3D skb->tstamp;
-> > =
+The guest writes the HV_X64_MSR_HYPERCALL, and in the response hyperv fills the hypercall page,
+including the VSM thunks.
 
-> > Drop is the more obviously correct mode.
-> > =
+Then the guest can _read_ the offsets, hyperv chose there by issuing another hypercall. 
 
-> > Programming with a clock source that the driver does not support will=
+In the current implementation,
+the offsets that the kernel choose are first exposed to the userspace via new ioctl, and then the userspace
+exposes these offsets to the guest via that 'another hypercall' 
+(reading a pseudo partition register 'HvRegisterVsmCodePageOffsets')
 
-> > then be a persistent failure.
-> > =
+I personally don't know for sure anymore if the userspace or kernel based hypercall page is better
+here, it's ugly regardless :(
 
-> > Preferably, this driver capability can be queried beforehand (rather
-> > than only through reading error counters afterwards).
-> > =
 
-> > Perhaps it should not be a driver task to convert from possibly
-> > multiple clock sources to the device native clock. Right now, we do
-> > use per-device timecounters for this, implemented in the driver.
-> > =
+Best regards,
+	Maxim Levitsky
 
-> > As for which clocks are relevant. For PTP, I suppose the device PHC,
-> > converted to nsec. For pacing offload, TCP uses CLOCK_MONOTONIC.
-> =
+> 
+> I don't see a sane way to handle this in KVM if userspace handles HvSetVpRegisters().
+> E.g. if the guest requests offsets that don't leave enough room for KVM to shove
+> in its data, then presumably userspace needs to reject HvSetVpRegisters().  But
+> that requires userspace to know exactly how many bytes KVM is going to write at
+> each offsets.
+> 
+> My vote is to have userspace do all the patching.  IIUC, all of this is going to
+> be mutually exclusive with kvm_xen_hypercall_enabled(), i.e. userspace doesn't
+> need to worry about setting RAX[31].  At that point, it's just VMCALL versus
+> VMMCALL, and userspace is more than capable of identifying whether its running
+> on Intel or AMD.
+> 
+> >  - Hyper-V performs the first VTL-call, and has all it needs to move
+> >    between VTL0/1.
+> > 
+> > Nicolas
 
-> Do we need to expose some generic netdev netlink apis to query/adjust
-> nic clock sources (or maybe there is something existing already)?
-> Then the userspace can be responsible for syncing/converting the
-> timestamps to the internal nic clocks. +1 to trying to avoid doing
-> this in the drivers.
 
-Perhaps. I'm just a bit hesitant since that is UAPI and this is all
-quite hand-wavy still.
-
-Some of the conversion necessarily has to be in the driver. Only the
-driver knows the descriptor format, and limitations of that, such as
-the bit-width that can be encoded.
-
-If we cannot move anything out of the drivers (quite likely), then
-agreed that a netdev/ethtool netlink query approach is helpful.
-
-To be clear: I don't mean that that should be part of this series.
-This is not an XSK specific concern.
-
-> > > > That is clearly a situation that the user should be informed abou=
-t. For
-> > > > RT systems this normally means that something is really wrong reg=
-arding
-> > > > timing / cycle overflow. Such systems have to react on that situa=
-tion.
-> > > =
-
-> > > In general, af_xdp is a bit lacking in this 'notify the user that t=
-hey
-> > > somehow messed up' area :-(
-> > > For example, pushing a tx descriptor with a wrong addr/len in zc mo=
-de
-> > > will not give any visible signal back (besides driver potentially
-> > > spilling something into dmesg as it was in the mlx case).
-> > > We can probably start with having some counters for these events?
-> > =
-
-> > This is because the AF_XDP completion queue descriptor format is only=
-
-> > a u64 address?
-> =
-
-> Yeah. XDP_COPY mode has the descriptor validation which is exported via=
-
-> recvmsg errno, but zerocopy path seems to be too deep in the stack
-> to report something back. And there is no place, as you mention,
-> in the completion ring to report the status.
-> =
-
-> > Could error conditions be reported on tx completion in the metadata,
-> > using xsk_tx_metadata_complete?
-> =
-
-> That would be one way to do it, yes. But then the error reporting depen=
-ds
-> on the metadata opt-in. Having a separate ring to export the errors,
-> or having a v2 tx-completions layout with extra 'status' field would al=
-so
-> work.
-> =
-
-> But this seems like something that should be handled separately? Becaus=
-e
-> we'd have to teach all existing zc drivers to report those errors back
-> instead of dropping these descriptors..
-
-Agreed on both points :) A v2 tx-completions that supports status
-could be useful. But again, this is out of scope of this specific
-launch time feature.
