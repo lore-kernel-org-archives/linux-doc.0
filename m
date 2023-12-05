@@ -1,37 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4901E68E8B
-	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 15:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D2D68E8B;
+	Tue,  5 Dec 2023 15:17:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bw9LE1Wa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DC45C433CA;
-	Tue,  5 Dec 2023 15:17:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ix49uvV8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BDD2C433CB;
+	Tue,  5 Dec 2023 15:17:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701789428;
-	bh=RbLg9T6AMJ5NL/D819BJlKf7wAYf0xJaQbaEvx+laAA=;
+	s=k20201202; t=1701789432;
+	bh=WxBLNu98B1cLwePPURJz8e+EQWq5ivagn8IAmvjaT3Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Bw9LE1Wa/2C4T7BBITd2qcWq/ha/cEPhgIFiN2NgwWfkuMTfjK/JocYA4i/nrrz8E
-	 vd9Zs0+X92gZRNGIT9HeziLtrtxBGbjKDfqS3rCUMuUL6XeWfVNQBw1RV8GcfbkVPs
-	 +OhPlc+Rsn5xYw2wSK3w4c72rwCGuipPf2wSe1CsgaDbowPjF1LhhMP2ySkfynCupB
-	 j4mJob5avu+hNYBD0ojoPvqIlA9mC146m0LlOs2QVbmK2yipP3KrTTVKpuMNFxgLOS
-	 yyJhhnLDuGIw2XlU2U5St8A+N2Wrg3ZD84SqzUN2Wxq9/PzHRdX9veD3GgnzZjW8jO
-	 9dfsFSV/eCH+Q==
+	b=ix49uvV8oLKxiIEprFaWOAde/iQBJKopyRhqC8e3Oeq7vo9/0533Ykgobh4dvgXw1
+	 Yh4TW0z3zHD9+AbWCSNbtFKev35vnrVBDZ+yNRSrHmbm3ET2f4HAbEFq5YBVdqz0B+
+	 7Xc01gdnidPQlbbEiI58lTcwhIuhvODKLnGmXEjBlicoQS87Urhw2EZSDBduSyW80z
+	 OOaZ/UyD7hb/9swK83N4omotpvJ8iNMAintAQ73somh10nxvAd0DtUOYxdb/Xi4+Ap
+	 SvYXSOlx/Jc2q9GmaXiKoIhvQE7hGWgl6lHBU/ldgZv12feL26iK8koECfAGqQxdA4
+	 3MDGGcGfz+30g==
 From: Will Deacon <will@kernel.org>
-To: Tsung-Han Lin <tsunghan.tw@gmail.com>
+To: s.hauer@pengutronix.de,
+	mark.rutland@arm.com,
+	corbet@lwn.net,
+	Xu Yang <xu.yang_2@nxp.com>,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	kernel@pengutronix.de,
+	shawnguo@kernel.org,
+	frank.li@nxp.com
 Cc: catalin.marinas@arm.com,
 	kernel-team@android.com,
 	Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Dcoumentation/arch/arm64: fix typo
-Date: Tue,  5 Dec 2023 15:16:37 +0000
-Message-Id: <170178649190.14021.17307806382838211619.b4-ty@kernel.org>
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	conor+dt@kernel.org
+Subject: Re: [PATCH v3 1/5] perf: fsl_imx8_ddr: Add AXI ID PORT CHANNEL filter support
+Date: Tue,  5 Dec 2023 15:16:38 +0000
+Message-Id: <170178552961.2948567.1593321424507215483.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20231203011804.27694-1-tsunghan.tw@gmail.com>
-References: <20231203011804.27694-1-tsunghan.tw@gmail.com>
+In-Reply-To: <20231120093317.2652866-1-xu.yang_2@nxp.com>
+References: <20231120093317.2652866-1-xu.yang_2@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,17 +51,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 3 Dec 2023 09:18:04 +0800, Tsung-Han Lin wrote:
-> Should be 'if' here.
+On Mon, 20 Nov 2023 17:33:13 +0800, Xu Yang wrote:
+> This is the extension of AXI ID filter.
 > 
+> Filter is defined with 2 configuration registers per counter 1-3 (counter
+> 0 is not used for filtering and lacks these registers).
+> * Counter N MASK COMP register - AXI_ID and AXI_MASKING.
+> * Counter N MUX CNTL register - AXI CHANNEL and AXI PORT.
+>   -- 0: address channel
+>   -- 1: data channel
 > 
+> [...]
 
-I, err, fixed the typo in the subject when applying this...
+Applied first four patches to will (for-next/perf), thanks!
 
-Applied to arm64 (for-next/misc), thanks!
-
-[1/1] Dcoumentation/arch/arm64: fix typo
-      https://git.kernel.org/arm64/c/365b1900c93a
+[1/5] perf: fsl_imx8_ddr: Add AXI ID PORT CHANNEL filter support
+      https://git.kernel.org/will/c/afd83967e7bb
+[2/5] docs/perf: Add explanation for DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER quirk
+      https://git.kernel.org/will/c/9745295358f4
+[3/5] dt-bindings: perf: fsl-imx-ddr: Add i.MX8DXL compatible
+      https://git.kernel.org/will/c/2fe44e7dcb86
+[4/5] perf: fsl_imx8_ddr: Add driver support for i.MX8DXL DDR Perf
+      https://git.kernel.org/will/c/46fe448ec3b7
 
 Cheers,
 -- 
