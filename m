@@ -1,208 +1,189 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="xwAyo+S3"
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2052.outbound.protection.outlook.com [40.107.102.52])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D783CA;
-	Tue,  5 Dec 2023 06:48:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xh4s+N7XtBu9s2fLd/uEkFhOF7LAxGqjDkLtaHu037PMe+pqWWqUIi4rkRcS0EeUertRMATjG7P/nDb7oFvjFONcaYWL2fn/LyhUdHIAqZ+b9G8rVjIyhjDfWk11/YX4lsh1wYKFB+hpdLez07k+9gfVzqLidgnH7jhVCTrJEfE5XzARhgwK71BeMtnYYTVfd1OLS5Q/H5FRMiqqxcb6QtOYjDDzdwvluKL5tfiV4uY9DftoGMsbTfEczgR1K6y2fcYCxSIYwI/kNeaW9CPENBFFXk0tAqmeokza4LRPHz1RlgkRmfhvglHPSnQ0e6mSOxyCPSVSfokShZSUcfqSOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1CGWv/WudBoNeUlGM0tsKTwHDmH/kQnUGxqZapCt5WQ=;
- b=V3m4gElxznZdyGs1O4RjFWA7zkvccnwo39xDvB2SXrcIqC2jVW5JRMxGkteP8X2Bj7e2LNRk9TIqvbxhnoLT1ZioU7HCEJuYJBrCJLFh35SdPFjcXYPBH/3OgKhXLQvrk7DWHD/ibFoCyEJOZvXd3yv0zcg48Iy5ZHX9sXB90iaj2DnA1aLzqfPYO+amYOoCciCCx5ynPIA4+KtSbzw+ucsimXufm0cePv2JpEV1HAkmQBPmeaL8tXGmyAMTAKRgkyhP/FyJJ9jsZLvjq+IX904T5/4qiLWTszgt+zKb2rdvWawoG4HGdmVlSKgwcYwd1l1rI7OYYGjomceTk/cLQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1CGWv/WudBoNeUlGM0tsKTwHDmH/kQnUGxqZapCt5WQ=;
- b=xwAyo+S3GduO3VE6dYyio0FOVl48hL0yQwpDTGbdlxQYuVhXaWvDdLKJnjbx5cd/ilNSzhFiKD6HfvbS+6m2h13iEKg5J89xfsu3loCXH13gAFwWvhzoa1uNngHEMZMZ+iPxyRsfuno5EWMyXvT3azLKDOaz/0Mjc77tmBYZwyI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by DM4PR17MB5873.namprd17.prod.outlook.com (2603:10b6:8:41::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7068.24; Tue, 5 Dec 2023 14:48:01 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.022; Tue, 5 Dec 2023
- 14:48:01 +0000
-Date: Tue, 5 Dec 2023 09:47:51 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: "Huang, Ying" <ying.huang@intel.com>
-Cc: Michal Hocko <mhocko@suse.com>, "tj@kernel.org" <tj@kernel.org>,
-	John Groves <john@jagalactic.com>,
-	Gregory Price <gourry.memverge@gmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-	"shakeelb@google.com" <shakeelb@google.com>,
-	"muchun.song@linux.dev" <muchun.song@linux.dev>,
-	"jgroves@micron.com" <jgroves@micron.com>
-Subject: Re: [RFC PATCH v4 0/3] memcg weighted interleave mempolicy control
-Message-ID: <ZW84F5PUB/0yPW9d@memverge.com>
-References: <ZU74L9oxWOoTTfpM@memverge.com>
- <ZVNBMW8iJIGDyp0y@tiehlicka>
- <ZVOXWx8XNJJNC23A@memverge.com>
- <ZVOn2T_Qg_NTKlB2@tiehlicka>
- <ZVOzMEtDYB4l8qFy@memverge.com>
- <87o7fveeze.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZW1IdPI11nhKcdZl@memverge.com>
- <87sf4i2xe1.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZW3ZFDeTs7xotImL@memverge.com>
- <87fs0h2fb4.fsf@yhuang6-desk2.ccr.corp.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fs0h2fb4.fsf@yhuang6-desk2.ccr.corp.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0171.namprd03.prod.outlook.com
- (2603:10b6:a03:338::26) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K77UUAzD"
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC37CA;
+	Tue,  5 Dec 2023 06:55:19 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-db632fef2dcso3931551276.1;
+        Tue, 05 Dec 2023 06:55:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701788119; x=1702392919; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vwn3+d55WIDQqPzaUZ6Y1euKtU0awuVxdMPC2F9sWJM=;
+        b=K77UUAzD6OhhkG+OWSzsia81MDr+irPwylYgvVESqcPP3DbyYANi8CXFslT8kZ6GUm
+         G3s474Jc8Q+PhAh/8XHwiZKK8mNLc34QMWy6RDyVeT9jInHhd1nKs0Vs68yV//VfeFtL
+         Y2P1mCL9DsfSq3C8T1RGF+LN+vmE+7LnszSCZ592NfkbsADVkj5lm3tZwNcgL1QPL2vP
+         zW7jDkLHIifI0zTGopHTjqJpEkuSzu7HjdJkF/OqrYlIgRZGgA1TgYXN6uAMHG9dT+wX
+         tz0FXfvdNc3TzigRJv0iBjt2sabOlY8D3wJ2gUeHXUrCLFr1MLFaIhPgtji6pfBySIfH
+         DqaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701788119; x=1702392919;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Vwn3+d55WIDQqPzaUZ6Y1euKtU0awuVxdMPC2F9sWJM=;
+        b=HHxLaARF7YKT6gYDme+UBbNZn60kLpgZAPkd7kcC/gySQ+5xus2fNi4b4C45cOdh/7
+         VEjJ44EUPsPV118h4/aBSpECfy6ei+eNCMYEe7fsO5dbmugLGIhjreL1Hje2hur67UKT
+         N66HCAcRALQdPQOU8mi9wEYszgMI3iG/pCQHjdokIfZEsIK7pAkB05RdBPTxNIhlkeLW
+         5AZh6Q/RfvSvbgL9y8CHZ4NgfajokbR0CusC1VZDmp95z/5fOsLuXuN0Xw4mA5r1U9Bi
+         E+AkiomsBtw6kFGRy7NRxKiZJEjc7MeGbdlVd8oGrpUopRMtEMvfgn9QDrLkR9S/YaWu
+         8rBg==
+X-Gm-Message-State: AOJu0YzKVdvhNxUxe9649XPof0YypUzvzBxjwHnAmXSmar66WgL2Wc2u
+	q7be7SnztKRD5l19L8xx+jc=
+X-Google-Smtp-Source: AGHT+IEnh/AUcJ58dEYlv0mOXPOLlM3dnoDwAL/EwYEQJJaHDHgJRu8pTV3oURCvpfonLhzgIUIT/Q==
+X-Received: by 2002:a25:c50a:0:b0:db5:4d4b:d8a7 with SMTP id v10-20020a25c50a000000b00db54d4bd8a7mr4619822ybe.50.1701788119064;
+        Tue, 05 Dec 2023 06:55:19 -0800 (PST)
+Received: from localhost (114.66.194.35.bc.googleusercontent.com. [35.194.66.114])
+        by smtp.gmail.com with ESMTPSA id ez16-20020ad45910000000b0067aa25438fdsm3832891qvb.40.2023.12.05.06.55.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Dec 2023 06:55:18 -0800 (PST)
+Date: Tue, 05 Dec 2023 09:55:18 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: "Song, Yoong Siang" <yoong.siang.song@intel.com>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Bjorn Topel <bjorn@kernel.org>, 
+ "Karlsson, Magnus" <magnus.karlsson@intel.com>, 
+ "Fijalkowski, Maciej" <maciej.fijalkowski@intel.com>, 
+ Jonathan Lemon <jonathan.lemon@gmail.com>, 
+ Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Stanislav Fomichev <sdf@google.com>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, 
+ Tariq Toukan <tariqt@nvidia.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Mykola Lysenko <mykolal@fb.com>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ KP Singh <kpsingh@kernel.org>, 
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, 
+ Shuah Khan <shuah@kernel.org>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jose Abreu <joabreu@synopsys.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+ "xdp-hints@xdp-project.net" <xdp-hints@xdp-project.net>, 
+ "linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Message-ID: <656f39d668439_3dd6422949e@willemb.c.googlers.com.notmuch>
+In-Reply-To: <PH0PR11MB58305C7D394FD264F1634819D885A@PH0PR11MB5830.namprd11.prod.outlook.com>
+References: <20231201062421.1074768-1-yoong.siang.song@intel.com>
+ <20231201062421.1074768-3-yoong.siang.song@intel.com>
+ <5a660c0f-d3ed-47a2-b9be-098a224b8a12@kernel.org>
+ <PH0PR11MB5830F08AC202C42501D986C0D887A@PH0PR11MB5830.namprd11.prod.outlook.com>
+ <656de8eb14c24_2e983e29435@willemb.c.googlers.com.notmuch>
+ <PH0PR11MB58305C7D394FD264F1634819D885A@PH0PR11MB5830.namprd11.prod.outlook.com>
+Subject: RE: [PATCH bpf-next v2 2/3] net: stmmac: Add txtime support to XDP ZC
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|DM4PR17MB5873:EE_
-X-MS-Office365-Filtering-Correlation-Id: b129dae2-e394-424d-650c-08dbf5a12dc0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	R3RcwVnuzLfPGKMve0jsEyis6E+94HvsNBUa+hCm+jGv3JeLKX48fn4keN65whD2snslszvtOZ+8Fr8XZAXTGjVrmpzLWnjxmSRoNo3LY9yndK7At71ldluLArj5EOf/JyeuHRn4Q2aE8bm2wUZlgUQ+4F5uIJKe908ml/ZBG8AGR5GvUMgjnHnU4HsViSR3tRjzOTDvgqtZuBbzJJ4SeE2C0CqaSwoO9oVEo6bNGBKz9xxz2qmOLSA4ddmjXTzUBCSAYztXgC/jp/mqHTOj+/kcJYdzBnXJ7F4GR+Lpcgt7PzQtLT+EnmWxbfvKtPW/y+exrI49jPTZbIahJXKJpkeLj6QCerd0S0gKIbP9UiGOvdeomK8w96ka+wjw1OzGR3WNJ0dBJCig5DWA5KEpPrndgIv+M1uQk9ySSty7U13lqKkDJzHw1cA1zeEqAcn4uk8tIY5FilFpt1kT0I0p4AMCAvGvjfGyZ3BzVmOmUTN3xjqyc+IwF/ED7EyLd2pYoLBgKA8D9OhbRYNaw+zv1zLqQetzcnZ9jjSIhw9GL9TDiERMihDZNmE/cKeUCrwoE3SunazEpqF1kKuGosxrGlnqcAVx/Qm58xKfrAkJG9l512L9NqzxO20sNH+Q1Z5/G/H8d8HbBHSZ3RakYK8xacnM2e1J1uGSYi9afViAZkg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(396003)(366004)(39850400004)(230922051799003)(230173577357003)(230273577357003)(64100799003)(1800799012)(451199024)(186009)(38100700002)(7416002)(2906002)(5660300002)(83380400001)(6512007)(2616005)(6506007)(6666004)(26005)(478600001)(6486002)(41300700001)(36756003)(44832011)(6916009)(54906003)(66476007)(66556008)(66946007)(316002)(8676002)(8936002)(4326008)(86362001)(16393002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?mrOHwdJqJtOaczQklQ9wozP9Rxcjvl6gANjtkuH/X0r67fxD9PomQWy8EnvK?=
- =?us-ascii?Q?n72TjxZXuSiTdNtAiavYD4R8y4yK4BgccI+UxSDn0tPC4Gqd+wm442sxykyP?=
- =?us-ascii?Q?aQeoD3Cin8pehTgtFf+BzcNhSdjMH8hrjOEoWA3o28/fd54yJDo/UZxEzxW5?=
- =?us-ascii?Q?3/z/IBxtqhc0nwQUK6Bh+DeQdr9azzz3/zhldk/qLTwwwGKgsM8hdH7c0RGD?=
- =?us-ascii?Q?dQvhopB0a83cTQGGFumO1AyVzUOShKvusJlxuGoAsOWUMp/FsSY51KpyiH0E?=
- =?us-ascii?Q?EAoGUZUtfyJ1cKaKe/9FhKkhjQBb4IP+2UnH00dZ7ilsjC34ToL39CgEuWjT?=
- =?us-ascii?Q?B5fFgn5DoT54K8/IO5ax1XlmpjgT+kFCOg0+UyJ3hEMFjLoEgvh/wXpteOXv?=
- =?us-ascii?Q?TOHNtS3Rik2p4QMCumWvJxoAdLO4t8zm2ugEzwEh4hU/07/cxgur4w8sVVr0?=
- =?us-ascii?Q?/AP1X7iecEQGq7I+JvNtCsxYcdfbTdnIMNvU0ud5OV5WTftb1gLLJ+bbJqjY?=
- =?us-ascii?Q?N4VorwlgxCfnjvML94RM57BtuEqI+RkALpHc0UtlPhXDuJQ3+soXO+jdAPgV?=
- =?us-ascii?Q?QlDLfkDuYRvwK6SK/Il/9kqYkv5muZM5DDR11983Pwc4Em+eKo7ENJZ2iJz6?=
- =?us-ascii?Q?yiBvHq1tbSK8Mloxhj4zpt7n0TccEvfwYvmb4Lfqnr+lle8K2Hbfw9SeXmfX?=
- =?us-ascii?Q?9gFLwGqyzZpzRMjLu7xHZgON6VZKgHFslBhFMxuD8MAHYb8viVp6dVzANBdO?=
- =?us-ascii?Q?PBEtYmXNVdqXzAGlleT8nmhIupCmdmq34kuqOPzgEChj6BqD9TJLj6sLhVv4?=
- =?us-ascii?Q?0V8cFl4EOlmMekq2HVOgjTwrOsA6oQdE8Gm7MV38EnvFj+3f2WB65kNClMSW?=
- =?us-ascii?Q?QOQpqMgBI7ofKBKGpnq5TWGOb9Rj3dR23zYeZEW6qAcldGp06qA6mW8dCNH0?=
- =?us-ascii?Q?/sNSlVqrwBfbeI5t+9PTYLpSF25AI1OPdLnb0kB5P4MhiED5Fy4CZwkS+8U2?=
- =?us-ascii?Q?6aIb/j0WnnDYoGAPgmlHspsRF8glOKoOg6KoC4Qtiyo5BVc4tjXNSVLZcX12?=
- =?us-ascii?Q?eDOxpCe5DRKVWhq4YfIzmX0ZhsDDBYZfTAjrbuAekfYWmWhGlge9zN26cCc2?=
- =?us-ascii?Q?gbHR/UVa6vYcASli3fJiAyfIcd2PmLcdI23PkIE9GPmib6CQpkSSqPuPGKe/?=
- =?us-ascii?Q?gcy4/+OeAtocKsjmE2X7sKZ7uMFLbmt4KWqIMyHsypSkiIbgxc/Nq21aZfe8?=
- =?us-ascii?Q?P37ql+CCRNRxn1AYVjBXCQwNbTCIFNkE0RTBqISV7n/XraIejPqoYMKqKaez?=
- =?us-ascii?Q?7AhbcfsSFqq4NDzzParA+GOZYqiIMa9WhFnQCKhmOFQySRy/s6KoU8oE9zcA?=
- =?us-ascii?Q?MRGRK0w5Hi+whSAqmpk7u5rS6irWGfKkOpHV2skPvxfYhmOE8qv60O8O9y0Q?=
- =?us-ascii?Q?m/zJcPca3DkWHowur1jEOMapmQMzcHQdKyGEv3ORsRGYFnN4HLNnEbbrcLGP?=
- =?us-ascii?Q?ukqnZeTpwzof8MFkwx8oYGfkt68x9uThPXtaj6570tFpgufIUhXoGKCJWOZv?=
- =?us-ascii?Q?12zGtwp0FGbMzZ6+KMgNS2dFzYZCE0DqWO2ZXBr8d2T6iOBHS9DDHbyUzaOB?=
- =?us-ascii?Q?lA=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b129dae2-e394-424d-650c-08dbf5a12dc0
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 14:48:01.1462
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TH1K+qmAD0Hr/W1uUa15Z6E9IqmE9j6KT+ca0TYuNPGYVS6wG1VyRMl1hjD9eJmW7EkjcIvQP/Bg4mWyK9OAVQ5LoQTohj9jx0tc6s/wCQw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR17MB5873
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 05, 2023 at 05:01:51PM +0800, Huang, Ying wrote:
-> Gregory Price <gregory.price@memverge.com> writes:
-> 
-> > On Mon, Dec 04, 2023 at 04:19:02PM +0800, Huang, Ying wrote:
-> >> Gregory Price <gregory.price@memverge.com> writes:
-> >> 
-> >> > If the structure is built as a matrix of (cpu_node,mem_nodes),
-> >> > the you can also optimize based on the node the task is running on.
-> >> 
-> >> The matrix stuff makes the situation complex.  If people do need
-> >> something like that, they can just use set_memorypolicy2() with user
-> >> specified weights.  I still believe that "make simple stuff simple, and
-> >> complex stuff possible".
-> >> 
+Song, Yoong Siang wrote:
+> On Monday, December 4, 2023 10:58 PM, Willem de Bruijn wrote:
+> >Song, Yoong Siang wrote:
+> >> On Friday, December 1, 2023 11:02 PM, Jesper Dangaard Brouer wrote:
+> >> >On 12/1/23 07:24, Song Yoong Siang wrote:
+> >> >> This patch enables txtime support to XDP zero copy via XDP Tx
+> >> >> metadata framework.
+> >> >>
+> >> >> Signed-off-by: Song Yoong Siang<yoong.siang.song@intel.com>
+> >> >> ---
+> >> >>   drivers/net/ethernet/stmicro/stmmac/stmmac.h      |  2 ++
+> >> >>   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 13 +++++++++++++
+> >> >>   2 files changed, 15 insertions(+)
+> >> >
+> >> >I think we need to see other drivers using this new feature to evaluate
+> >> >if API is sane.
+> >> >
+> >> >I suggest implementing this for igc driver (chip i225) and also for igb
+> >> >(i210 chip) that both support this kind of LaunchTime feature in HW.
+> >> >
+> >> >The API and stmmac driver takes a u64 as time.
+> >> >I'm wondering how this applies to i210 that[1] have 25-bit for
+> >> >LaunchTime (with 32 nanosec granularity) limiting LaunchTime max 0.5
+> >> >second into the future.
+> >> >And i225 that [1] have 30-bit max 1 second into the future.
+> >> >
+> >> >
+> >> >[1]
+> >> >https://github.com/xdp-project/xdp-
+> >> >project/blob/master/areas/tsn/code01_follow_qdisc_TSN_offload.org
+> >>
+> >> I am using u64 for launch time because existing EDT framework is using it.
+> >> Refer to struct sk_buff below. Both u64 and ktime_t can be used as launch time.
+> >> I choose u64 because ktime_t often requires additional type conversion and
+> >> we didn't expect negative value of time.
+> >>
+> >> include/linux/skbuff.h-744- *   @tstamp: Time we arrived/left
+> >> include/linux/skbuff.h:745- *   @skb_mstamp_ns: (aka @tstamp) earliest departure
+> >time; start point
+> >> include/linux/skbuff.h-746- *           for retransmit timer
+> >> --
+> >> include/linux/skbuff.h-880-     union {
+> >> include/linux/skbuff.h-881-             ktime_t         tstamp;
+> >> include/linux/skbuff.h:882-             u64             skb_mstamp_ns; /* earliest departure
+> >time */
+> >> include/linux/skbuff.h-883-     };
+> >>
+> >> tstamp/skb_mstamp_ns are used by various drivers for launch time support
+> >> on normal packet, so I think u64 should be "friendly" to all the drivers. For an
+> >> example, igc driver will take launch time from tstamp and recalculate it
+> >> accordingly (i225 expect user to program "delta time" instead of "time" into
+> >> HW register).
+> >>
+> >> drivers/net/ethernet/intel/igc/igc_main.c-1602- txtime = skb->tstamp;
+> >> drivers/net/ethernet/intel/igc/igc_main.c-1603- skb->tstamp = ktime_set(0, 0);
+> >> drivers/net/ethernet/intel/igc/igc_main.c:1604- launch_time =
+> >igc_tx_launchtime(tx_ring, txtime, &first_flag, &insert_empty);
+> >>
+> >> Do you think this is enough to say the API is sane?
 > >
-> > I don't think it's particularly complex, since we already have a
-> > distance matrix for numa nodes:
+> >u64 nsec sounds sane to be. It must be made explicit with clock source
+> >it is against.
 > >
-> > available: 2 nodes (0-1)
-> > ... snip ...
-> > node distances:
-> > node   0   1
-> >   0:  10  21
-> >   1:  21  10
-> >
-> > This would follow the same thing, just adjustable for bandwidth.
 > 
-> We add complexity for requirement. Not there's something similar
-> already.
+> The u64 launch time should base on NIC PTP hardware clock (PHC).
+> I will add documentation saying which clock source it is against
+
+It's not that obvious to me that that is the right and only choice.
+See below.
+ 
+> >Some applications could want to do the conversion from a clock source
+> >to raw NIC cycle counter in userspace or BPF and program the raw
+> >value. So it may be worthwhile to add an clock source argument -- even
+> >if initially only CLOCK_MONOTONIC is supported.
 > 
-> > I personally find the (src,dst) matrix very important for flexibility.
-> 
-> With set_memorypolicy2(), I think we have the needed flexibility for
-> users needs the complexity.
-> 
-> > But if there is particular pushback against it, having a one dimensional
-> > array is better than not having it, so I will take what I can get.
-> 
-> TBH, I don't think that we really need that.  Especially given we will
-> have set_memorypolicy2().
->
+> Sorry, not so understand your suggestion on adding clock source argument.
+> Are you suggesting to add clock source for the selftest xdp_hw_metadata apps?
+> IMHO, no need to add clock source as the clock source for launch time
+> should always base on NIC PHC.
 
-From a complexity standpoint, it is exactly as complex as the hardware
-configuration itself:  each socket has a different view of the memory
-topology. If you have a non-homogeneous memory configuration (e.g. a 
-different number of CXL expanders on one socket thant he other), a flat
-array of weights has no way of capturing this hardware configuration.
+This is not how FQ and ETF qdiscs pass timestamps to drivers today.
 
-That makes the feature significantly less useful. In fact, it makes the
-feature equivalent to set_mempolicy2 - except that weights could be
-changed at runtime from outside a process.
+Those are in CLOCK_MONOTONIC or CLOCK_TAI. The driver is expected to
+convert from that to its descriptor format, both to the reduced bit
+width and the NIC PHC.
 
-
-A matrix resolves one very specific use case: task migration
-
-
-set_mempolicy2 is not sufficient to solve this.  There is presently no
-way for an external task to change the mempolicy of an existing task.
-That means a task must become "migration aware" to use weighting in the
-context of containers where migrations are likely.
-
-Two things to consider: A task...
-   a) has no way of knowing a migration occured
-   b) may not have visibility of numa nodes outside its cpusets prior to
-      a migration - making it unlikely/not possible for them to set
-      weights correctly in the event a migration occurs.
-
-If a server with 2 sockets is set up non-homogeneously (different amount
-of CXL memory expanders on each socket), then the effective bandwidth
-distribution between sockets will be different.
-
-If a container is migrated between sockets in this situation, then tasks
-with manually set weights, or if global weights are a single array, will
-have poor memory distributions in relation to the new view of the system.
-
-Requiring the global settings to be an array basically requires global
-weights to be sub-optimal for any use cases that is not explicitly a
-single workload that consumes all the cores on the system.
-
-If the system provides a matrix, then the global settings can be optimal
-and re-weighting in response to migration happens cleanly and transparently.
-
-~Gregory
+See also for instance how sch_etf has an explicit q->clock_id match,
+and SO_TXTIME added an sk_clock_id for the same purpose: to agree on
+which clock source is being used.
