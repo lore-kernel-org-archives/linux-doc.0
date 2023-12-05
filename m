@@ -1,110 +1,86 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YiBfDOfk"
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 518F39C;
-	Tue,  5 Dec 2023 00:36:11 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-40c09d0b045so24822865e9.0;
-        Tue, 05 Dec 2023 00:36:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DnuSQie5"
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15EEBFA;
+	Tue,  5 Dec 2023 00:39:24 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-50be4f03b06so3085644e87.0;
+        Tue, 05 Dec 2023 00:39:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701765370; x=1702370170; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0Aw3bIBLD9I3okY+FLIk3qcmw2Q86Yjtp0TosIQ3nxc=;
-        b=YiBfDOfk6eXA4TCcJapBrWa/6S1aFvaczpehWjjcWhueCWCYPtJ+9E+nZM+eks8Jrw
-         AqTrqBVgddQ6MQA8m+SqJAdb1ZUzatg+Eweqkiks/pma5NIAMp74CWVsnyvZGYV4Ws91
-         NlsV2P34livgTEug4dlIYyKhZBdxtnnyWCi52a+3fZoP9NJtjBpoqPgRBAgddfn/r2Dd
-         Fuf/E6H9dbeWEHAB0iypuuvLLqnV3rec0q33+0hvkpGkxs7E2b5uN5WwARjZ9kibmHiL
-         PwlWz6+syxzTB9yfFZKjsHK+lqhT4ks9vRGvNgrUhAWoSOqMpovePPmBSEBWBNfVpP6X
-         03+w==
+        d=gmail.com; s=20230601; t=1701765562; x=1702370362; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ciq8GU7iUi7LUUJHQ/Yglkc7R5BvBXgn5EFW6zsVjow=;
+        b=DnuSQie5JcTnWPAfRBzmKWhltOs11rdUAIVFPZsujbN/WzvjesduNffixxgQY70Aci
+         6JZHlapKrYTkWuOGeE9TGIc02xTOairl31UYQ49NecCvEYaNadKXiUXA23G5qw70GC+E
+         oLYHPGPwx845eGH0B/GGKcoqGHNcg5cwF8KVA8SKnYs+6sn4H9gumJme5wbSYKN34Mga
+         l/K+U/Rqqreb89/qRqiea/JWQR4H4iZv7KJ0lt9CRoAsdWxZQAxj9OvDk5icbK88FnPh
+         fBUiiLaK23UOFgQRhfHneHLJekFD5TnPguupIuRWP2/BrIdwxU8ZtXipBMDI1JQweb3U
+         RlUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701765370; x=1702370170;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Aw3bIBLD9I3okY+FLIk3qcmw2Q86Yjtp0TosIQ3nxc=;
-        b=ZaZ8UraX2EYIRXBEQV2X8+2vsJcdHoNugsppvf2K8ANs7jOztD6y8H5LdHKvgz25GR
-         U7xUusIfe1ojOOL0ofW3hxXMYovzy7f/qLBuWVeHbV4+iW7hkB46+F6r8GSl95c8mOAN
-         FcJrDCjxJEAmkAw3eeAqscDQUz9CecDmtMVj9mpG28H6AIifMJxrK+8pC/vTqojsEiDp
-         vSL6ZzNeojsdDF4QGUIMDuLzvARXjYxeTV/hx7YZ0Vbx4gmYfDyLkr9cHPKYhgJiBbRC
-         ir6GKlJc7avmxuJNZyzuBYakdGRRDwuvUo/nt1uQtTdsn0V+PvYOKDkcQufrJm1yLSGI
-         V/qw==
-X-Gm-Message-State: AOJu0Yyp+i8q05Cbx3L63F7HcbeuguRPYOemF/M2RaGpx1KOdsKDmUCQ
-	b05CGeoY7IxnshZCiiEKoYM=
-X-Google-Smtp-Source: AGHT+IHA4ZhRcANCZDUbwlmwBRjksD6TxpQ/dpSl1pEnljWePSXPlPmHuMNWKms66b3kHWxKZikY3A==
-X-Received: by 2002:a1c:720f:0:b0:40c:902:d1d3 with SMTP id n15-20020a1c720f000000b0040c0902d1d3mr159698wmc.222.1701765369429;
-        Tue, 05 Dec 2023 00:36:09 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:d9c9:f651:32f4:3bc])
-        by smtp.gmail.com with ESMTPSA id m16-20020a05600c4f5000b0040b349c91acsm21413126wmq.16.2023.12.05.00.36.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 00:36:08 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
- Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
- Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
- <jacob.e.keller@intel.com>,  donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 6/6] doc/netlink/specs: Add a spec for tc
-In-Reply-To: <20231204103247.6476f4b4@kernel.org> (Jakub Kicinski's message of
-	"Mon, 4 Dec 2023 10:32:47 -0800")
-Date: Mon, 04 Dec 2023 22:38:23 +0000
-Message-ID: <m2wmtt4mqo.fsf@gmail.com>
-References: <20231130214959.27377-1-donald.hunter@gmail.com>
-	<20231130214959.27377-7-donald.hunter@gmail.com>
-	<20231201181325.4a12e03b@kernel.org> <m2zfyq53wz.fsf@gmail.com>
-	<20231204103247.6476f4b4@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        d=1e100.net; s=20230601; t=1701765562; x=1702370362;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ciq8GU7iUi7LUUJHQ/Yglkc7R5BvBXgn5EFW6zsVjow=;
+        b=mBRdrSNWz6k1r2DTRmH28hHylTb30T48pRYBG5tR85Qqr9YzAOQKvoOzmni/4qs4y0
+         X1rJE5OBblRWFVv32RwgCWkUjUYbNOvN7g7wHcfGOaFpqcEt/8M1PggDpI+jtppBlnsY
+         o5Mllg/zWUFkjupflv/V1eOvV1dEgOlUVQAjGFE9lbr2M22eOGxUzeaEw7vlkhH54dtd
+         SAAsq051n9Z7rcaAziUKWUndCBY+wqxbI1o+OosnvWYr1DMsLFmY7MnMSMDI0wqrpPjC
+         JXxVsL3Fg7QFJXidTWYaBF/Itip81Lzew/ChF2/4h00k1EBWyd4klBkdZkpj4P/HcA84
+         QRng==
+X-Gm-Message-State: AOJu0YwHtcRbHREl3y/ElyAe5DleJDeuK+HqY7fs5NABMhZTCt4/dGaT
+	HPJqM2xS7M3KbWawKP51xFo=
+X-Google-Smtp-Source: AGHT+IEZw3Z3caEX16AO5z2q/9E+FKbTyaJHEQIiD2K1bGuD3XvtPbOJRGPBJ3jhXsTZvLLep2Yw5Q==
+X-Received: by 2002:a05:6512:1056:b0:50b:fc06:7a2b with SMTP id c22-20020a056512105600b0050bfc067a2bmr970356lfb.110.1701765562074;
+        Tue, 05 Dec 2023 00:39:22 -0800 (PST)
+Received: from ?IPV6:2001:14ba:16f8:1500::2? (dc78bmyyyyyyyyyyyyyby-3.rev.dnainternet.fi. [2001:14ba:16f8:1500::2])
+        by smtp.gmail.com with ESMTPSA id p15-20020a05651238cf00b0050bf40dcb8bsm634947lft.114.2023.12.05.00.39.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Dec 2023 00:39:21 -0800 (PST)
+Message-ID: <644e095d-4c01-4e8d-8036-3c04ada405f2@gmail.com>
+Date: Tue, 5 Dec 2023 10:39:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] fortify: test: Use kunit_device
+Content-Language: en-US, en-GB
+To: davidgow@google.com, Rae Moar <rmoar@google.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
+ <20231205-kunit_bus-v1-2-635036d3bc13@google.com>
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20231205-kunit_bus-v1-2-635036d3bc13@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Jakub Kicinski <kuba@kernel.org> writes:
+On 12/5/23 09:31, davidgow@google.com wrote:
+> Using struct root_device to create fake devices for tests is something
+> of a hack. The new struct kunit_device is meant for this purpose, so use
+> it instead.
+> 
+> Signed-off-by: David Gow <davidgow@google.com>
 
-> On Mon, 04 Dec 2023 16:27:24 +0000 Donald Hunter wrote:
->> > Ugh. Meaning the selector is at a "previous" level of nesting?
->>
->> That's right. I wonder if we should use a relative syntax like "../kind"
->> for the selector. Will either need to pass the known attrs to nest
->> parsing, or pass a resolver instead?
->
-> ../kind is my first thought, too.
->
-> But on reflection I reckon it may make the codegen and Python parser
-> quite a bit more complex. :S
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
-That was my main concern with it too.
 
-Another thought I had was to explicitly mark attrs that get used as
-selector keys, but I don't think that actually buys us anything.
+-- 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
 
-> Passing in known selector attrs to nests sounds good. Assuming we never
-> have to do something like: "../other-nest/attr".
-> Or perhaps in that case we can support passing in nested attrs, just
-> not backtracking? Backtracking is the hard part, really. Yeah, that
-> sounds simplest, at least at the "thought exercise level" :)
->
-> What would "resolver" look like?
+~~ When things go utterly wrong vim users can always type :help! ~~
 
-I was thinking a resolver would be a class with a single lookup method
-that internally holds attributes from the current scope and has a parent
-it can delegate to. It would try to resolve e.g. "kind" in current scope
-then, on failure, delegate to its parent. When recursing to decode a
-submsg, create a new resolver with the current one as its parent.
-
-If we did it this way, there'd be no need for "../kind".
-
-> BTW how do we deal with ordering. Do we require that selector attr
-> must be present in the message before the submsg? I think in practice
-> is should always be the case, but we should document that.
-
-The selector attr is de-facto present in the message before it is
-needed, both at the same level and for sub messages. So, yeah, I think
-we require this and agreed we should document it. I will do that in
-the next revision.
-
-From what I have seen so far, selector attrs are at same level or at
-root level, but I'm not confident that will hold true for all of the raw
-families.
