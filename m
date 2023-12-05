@@ -1,94 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B554C5F1E7;
-	Tue,  5 Dec 2023 16:52:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJH6nUjJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 627CDC433C7;
-	Tue,  5 Dec 2023 16:52:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701795142;
-	bh=uwufjRPZpufB4WAKz4BvxO1YI+sO9dPrjMMi385iZbk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=oJH6nUjJn+pyp8n8QaDhYp6O6TcSF9HaFifSF/X8m4+yK2Pwp31ReTfIX4tZWn/Cz
-	 86lXE9v7PZRc+2Cxb3IxSdF5UhFqACIGOtfmUB6u31A1yaUg2mteWy6Gi3vfyqjrqV
-	 WhknUSSiQJWuYzSSaQcjs17iKEVob+7hwlxId8i/yrI1yZqqPjHgeo/Uhqz5ErV+Fm
-	 GANr1ePi3zIO3dmEFhEZEMQuByFj1pU2UyShP0ql85o+6wWlej0p3w/+yk1LjFaIAb
-	 0Dzlv02i4V9ZBU0GzUFinZ4csSrcSjK9dXHCmjljO6kIXLM4hrj6nuvIFLKYWqKSfG
-	 33DIepcLWSMXQ==
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 05 Dec 2023 16:48:19 +0000
-Subject: [PATCH v3 21/21] KVM: arm64: selftests: Teach get-reg-list about
- FPMR
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="INvWLb69"
+Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B5741B2
+	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 09:13:53 -0800 (PST)
+Received: by mail-ua1-x934.google.com with SMTP id a1e0cc1a2514c-7c45bee5fdaso1262293241.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 09:13:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701796432; x=1702401232; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jhl4VBonzlc3pWBsupBzGj3hbqoDxmUEBnI+4/Xqy5c=;
+        b=INvWLb69Nuq8+ZQA8vMqzrJ9w5J2kDoCjYvzeV4qYNUskJOa55C/hC0eZLdebuxs2K
+         1EeYJVf0yzVjGvKtPKaB9z/BJud3na5s0gNmiLDWwNz7YHXU3ZVL2LHGXooY+M98nSUA
+         /TS4yt/YPBvNdHjFxDjZsWmLib14zmzwegjIZaZaEulggP9KhnPnQAHhW1pFWQ1bl8b9
+         k0jGi7E+XJatInlffVPWRX2796OLME6t1wGemRtJFe5gURqFJ5Br5SPwFMj4hBWtG0Na
+         3y716aBWmqch5ispGWqjMBd1V1jrdEGbVT1mr5b/c5kVSqh4sGk7mt+X53fcu1aVhbOe
+         vWbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701796432; x=1702401232;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Jhl4VBonzlc3pWBsupBzGj3hbqoDxmUEBnI+4/Xqy5c=;
+        b=A8Bg3RTSNsQRN+AxEdPicZFv9e8Pa2R5JZkKlUkcKetZBrzvJsjkXoDpvb9l5Q1E48
+         efxZyBP6TxNyvy5zd38ZmUIe9KNxY44O1hDWQUNby0lfHSsjMmLohnWxSdCieIThjAIo
+         DVyuJ1LpNw5SDIAsPf6sWGkbEeYN4pZ4tc6ROtzGR4G7Xl+u+Ujrdg2W6CLlms+EEZ/O
+         9lGYx0gWfWXUZgk4bVq6vSLwngIGyXA4SjfboZnoDXcmrBP/OTyzdpOcOBr2LnHI09Or
+         ZrbmfY7xQQOIqnKG4D5Up3vib8KvtMH5nn57yTy7jNpJKQswxU/kSw9RaVad2kW/Wz6u
+         aitw==
+X-Gm-Message-State: AOJu0YxZ0mHPQnw/Nsu9Ah4T1zPbjzZa9pwwcXwGtNoONoZQXgwDMnSR
+	ifoH2ToslfddGMAf2oaY/XgPAhzBAdJB+X9kvVRNQA==
+X-Google-Smtp-Source: AGHT+IGZ2g2oFmmMcDVzmGa+ZZi/Dz9EWTryACUv6KZTkY8C1ML9of935relBOPEXVeT256piz2KyEWvu0yNMvy9fmw=
+X-Received: by 2002:a1f:fc83:0:b0:4b2:7fa3:a965 with SMTP id
+ a125-20020a1ffc83000000b004b27fa3a965mr4904643vki.11.1701796432618; Tue, 05
+ Dec 2023 09:13:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231205-arm64-2023-dpisa-v3-21-dbcbcd867a7f@kernel.org>
-References: <20231205-arm64-2023-dpisa-v3-0-dbcbcd867a7f@kernel.org>
-In-Reply-To: <20231205-arm64-2023-dpisa-v3-0-dbcbcd867a7f@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-5c066
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1321; i=broonie@kernel.org;
- h=from:subject:message-id; bh=uwufjRPZpufB4WAKz4BvxO1YI+sO9dPrjMMi385iZbk=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlb1T5Ms1LUZ7iykmEHQxr5Fc4YCOF2pq4fe2+9KtB
- TDNYZouJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZW9U+QAKCRAk1otyXVSH0LS6B/
- 9m9yzXT/1mV+qdIYO/iuTT5Lxlk2I9E71H/ZXhNX+z9TkxFh9/bVj7czqQM1kKuWwSY4I/FMi+GpXj
- OTN+KJliG6qr+1JrGSyNMdZcEXdR+7TmQF/zu5t0O215vAYHI4xGJxVqHuG0HTK7+UyN4sCb4q69U5
- aC178H0cE0U/XI4Cb4UnUb+XTLo2IJLxcn8pT5g/5qQVe5Ot1jZgGLWjxbKT0p1h8H/L/vKyFbEGG2
- 1ghWpPyxtGpWFnF3ckyM0qg/5sjW2HEbWxTDG6fYtSOqjm5/YEhd+jLdvMoTLzyXGrQh0SogO60n7k
- EfGfxPn+wsNRM7rgF8MP7C4bVua5pZ
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20231203165129.1740512-1-yoong.siang.song@intel.com>
+ <20231203165129.1740512-3-yoong.siang.song@intel.com> <43b01013-e78b-417e-b169-91909c7309b1@kernel.org>
+ <656de830e8d70_2e983e294ca@willemb.c.googlers.com.notmuch>
+ <PH0PR11MB583000826591093B98BA841DD885A@PH0PR11MB5830.namprd11.prod.outlook.com>
+ <5a0faf8cc9ec3ab0d5082c66b909c582c8f1eae6.camel@siemens.com>
+In-Reply-To: <5a0faf8cc9ec3ab0d5082c66b909c582c8f1eae6.camel@siemens.com>
+From: Stanislav Fomichev <sdf@google.com>
+Date: Tue, 5 Dec 2023 09:13:39 -0800
+Message-ID: <CAKH8qBuXL8bOYtfKKPS8y=KJqouDptyciCjr0wNKVHtNj6BmqA@mail.gmail.com>
+Subject: Re: [xdp-hints] Re: [PATCH bpf-next v3 2/3] net: stmmac: add Launch
+ Time support to XDP ZC
+To: Florian Bezdeka <florian.bezdeka@siemens.com>
+Cc: "Song, Yoong Siang" <yoong.siang.song@intel.com>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Bjorn Topel <bjorn@kernel.org>, "Karlsson, Magnus" <magnus.karlsson@intel.com>, 
+	"Fijalkowski, Maciej" <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Willem de Bruijn <willemb@google.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
+	Mykola Lysenko <mykolal@fb.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"xdp-hints@xdp-project.net" <xdp-hints@xdp-project.net>, 
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-FEAT_FPMR defines a new register FMPR which is available at all ELs and is
-discovered via ID_AA64PFR2_EL1.FPMR, add this to the set of registers that
-get-reg-list knows to check for with the required identification register
-depdendency.
+On Tue, Dec 5, 2023 at 7:34=E2=80=AFAM Florian Bezdeka
+<florian.bezdeka@siemens.com> wrote:
+>
+> On Tue, 2023-12-05 at 15:25 +0000, Song, Yoong Siang wrote:
+> > On Monday, December 4, 2023 10:55 PM, Willem de Bruijn wrote:
+> > > Jesper Dangaard Brouer wrote:
+> > > >
+> > > >
+> > > > On 12/3/23 17:51, Song Yoong Siang wrote:
+> > > > > This patch enables Launch Time (Time-Based Scheduling) support to=
+ XDP zero
+> > > > > copy via XDP Tx metadata framework.
+> > > > >
+> > > > > Signed-off-by: Song Yoong Siang<yoong.siang.song@intel.com>
+> > > > > ---
+> > > > >   drivers/net/ethernet/stmicro/stmmac/stmmac.h      |  2 ++
+> > > >
+> > > > As requested before, I think we need to see another driver implemen=
+ting
+> > > > this.
+> > > >
+> > > > I propose driver igc and chip i225.
+> >
+> > Sure. I will include igc patches in next version.
+> >
+> > > >
+> > > > The interesting thing for me is to see how the LaunchTime max 1 sec=
+ond
+> > > > into the future[1] is handled code wise. One suggestion is to add a
+> > > > section to Documentation/networking/xsk-tx-metadata.rst per driver =
+that
+> > > > mentions/documents these different hardware limitations.  It is nat=
+ural
+> > > > that different types of hardware have limitations.  This is a close=
+-to
+> > > > hardware-level abstraction/API, and IMHO as long as we document the
+> > > > limitations we can expose this API without too many limitations for=
+ more
+> > > > capable hardware.
+> >
+> > Sure. I will try to add hardware limitations in documentation.
+> >
+> > >
+> > > I would assume that the kfunc will fail when a value is passed that
+> > > cannot be programmed.
+> > >
+> >
+> > In current design, the xsk_tx_metadata_request() dint got return value.
+> > So user won't know if their request is fail.
+> > It is complex to inform user which request is failing.
+> > Therefore, IMHO, it is good that we let driver handle the error silentl=
+y.
+> >
+>
+> If the programmed value is invalid, the packet will be "dropped" / will
+> never make it to the wire, right?
+>
+> That is clearly a situation that the user should be informed about. For
+> RT systems this normally means that something is really wrong regarding
+> timing / cycle overflow. Such systems have to react on that situation.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/kvm/aarch64/get-reg-list.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/tools/testing/selftests/kvm/aarch64/get-reg-list.c b/tools/testing/selftests/kvm/aarch64/get-reg-list.c
-index 71ea6ecec7ce..1e43511d1440 100644
---- a/tools/testing/selftests/kvm/aarch64/get-reg-list.c
-+++ b/tools/testing/selftests/kvm/aarch64/get-reg-list.c
-@@ -40,6 +40,12 @@ static struct feature_id_reg feat_id_regs[] = {
- 		ARM64_SYS_REG(3, 0, 0, 7, 3),	/* ID_AA64MMFR3_EL1 */
- 		4,
- 		1
-+	},
-+	{
-+		ARM64_SYS_REG(3, 3, 4, 4, 2),	/* FPMR */
-+		ARM64_SYS_REG(3, 0, 0, 4, 2),	/* ID_AA64PFR2_EL1 */
-+		32,
-+		1
- 	}
- };
- 
-@@ -481,6 +487,7 @@ static __u64 base_regs[] = {
- 	ARM64_SYS_REG(3, 3, 14, 2, 1),	/* CNTP_CTL_EL0 */
- 	ARM64_SYS_REG(3, 3, 14, 2, 2),	/* CNTP_CVAL_EL0 */
- 	ARM64_SYS_REG(3, 4, 3, 0, 0),	/* DACR32_EL2 */
-+	ARM64_SYS_REG(3, 3, 4, 4, 2),	/* FPMR */
- 	ARM64_SYS_REG(3, 4, 5, 0, 1),	/* IFSR32_EL2 */
- 	ARM64_SYS_REG(3, 4, 5, 3, 0),	/* FPEXC32_EL2 */
- };
-
--- 
-2.30.2
-
+In general, af_xdp is a bit lacking in this 'notify the user that they
+somehow messed up' area :-(
+For example, pushing a tx descriptor with a wrong addr/len in zc mode
+will not give any visible signal back (besides driver potentially
+spilling something into dmesg as it was in the mlx case).
+We can probably start with having some counters for these events?
