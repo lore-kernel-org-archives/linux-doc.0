@@ -1,105 +1,132 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EpZgSB8e"
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8CA101;
-	Mon,  4 Dec 2023 16:53:47 -0800 (PST)
-Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-7c5cb5eeab1so419141241.3;
-        Mon, 04 Dec 2023 16:53:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrNgvUi1"
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 504CCF0;
+	Mon,  4 Dec 2023 17:39:16 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-7b395a9b893so127362139f.0;
+        Mon, 04 Dec 2023 17:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701737626; x=1702342426; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1701740355; x=1702345155; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4bom4DFdTNhjf5vfq9g+CHJJAJnCgQXB/N4k2I2tO6w=;
-        b=EpZgSB8euazK5BNqrnBYQeVWKyAYv9tJwF+kx9De1+IQ+TDGZsHz2/165bnO+WM2L5
-         zJdb233Ej5VnF16wQCF1B7nAhexHXrnef4cpUXz3zkoCE/UQMTxvtwTWKvol4S7iHDeE
-         clr5y4hsbUWI48/tMecwPm140gHM8GZQ/lil/kQEVRLy0LnvQJCahguYlcGJ9G+CyEat
-         qzE8f/gUGIQvBp82SGa/pgydoi1sFJYeDngS5rghty+j3CRbgYBJIPa8OK5fJdxoSCsf
-         R5oIEDuIqHppbmtLbXZa4V0QrW+sZyNgMnbnClm24KHV2RdjwNhsQ0yA6o+720AyazZP
-         9FOQ==
+        bh=tiX6pc1dDK4xTX1Ckg3uh00q7u3Eog+NFUBy9p3mvq0=;
+        b=LrNgvUi14Cu033eqEHvh0Ax5CLgUT00oCKAapb4PfwgKC5likwVSAAcSZ/HJkYQHmu
+         6vr6t4s2KQ6cLtBrmwvu4g58FmyDaErgEWOQN9mT+AL41Z575/dYwz+XiN8IyI6/rOzY
+         17wt19A7JMO+sLN7a5aS+r1UthkSIw/6FsLf5vH3EKr7iLXEouRgtyBiSWNTdJNKEiXl
+         g1ic/eZJXAmL+dClBBLdK+rByh41ijWPqwkhF0cxacVgX2esYJauNAzr4gHE4ODPgqr2
+         fZhrIHZ3jfOqK135MY+J//He9B2+VoQyE12EkdWanuh8Y/tg7ez5BJAcInk/ZYR2hZH0
+         8qBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701737626; x=1702342426;
+        d=1e100.net; s=20230601; t=1701740355; x=1702345155;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4bom4DFdTNhjf5vfq9g+CHJJAJnCgQXB/N4k2I2tO6w=;
-        b=AAhdxpLhLYu5K/IAgfvDDv1Y3ccYxr46UXDaYTqn18CMwzQFnRJfH9nclZNw2VOOV8
-         d0HtX4KgVuFwkFjOcxuRfvNXk0PkR81obF6ApyhiDf1aKLGoScpleJqM9TqRkAccZagZ
-         hKKZs21jvp9uO8jMOGjVchicbwW4gznq/jnGOlYkzikeqxt5o4Nn6FgiAOdg5eQfNTsM
-         31xIY7ovJT+XLdDD+l1MKxFEhTjU05sMdBp7yXcT0m970uG46raUBEj64lvpqI6Zxi2C
-         m1ibIu3lbVy5qR9NHSdY1kNvVjA6aM7FFWfB/b3NV8dFo7l2zDKlIZa5XRLWlp4xW8UE
-         OOig==
-X-Gm-Message-State: AOJu0Ywsc/bp82BHIqxPve3EoqTpHGdJW2xIUbdfhZ04g3ZErIxTT/R6
-	3euR5b+UwaG1uDY3uQ/QmzKwVrzIgudIbgaEp10=
-X-Google-Smtp-Source: AGHT+IGGJKmV30jrY90xAW2tf9fsf31dnGtwnvjDNIps+nfOcsoGVT2k/ibW5/+U7zDWBtytJecaVWY0LhA+RKEgowg=
-X-Received: by 2002:a05:6102:3649:b0:464:4891:cce9 with SMTP id
- s9-20020a056102364900b004644891cce9mr2921864vsu.16.1701737626341; Mon, 04 Dec
- 2023 16:53:46 -0800 (PST)
+        bh=tiX6pc1dDK4xTX1Ckg3uh00q7u3Eog+NFUBy9p3mvq0=;
+        b=PsYyEysyPQ1q2ulLq742HQI/s44FctYo5nHDKhn+zdX+lsS2H4H87VLH+bxbDP9dt+
+         qaBPCYPORWUGnpVt0p8oCsXP4m8lcmcVv5GZAJhghDqACOrKyCeRku1gImyXspOmxlkw
+         l+3n3Ka1CmeV1RzvAY+t+kMRpu+SKUjKqii9ASUnFsdIJD1WsZH6RZUGdpuhj8g+ffu7
+         nPT3kR/gWy76shZIt4uwrPoorIMfnB2UIzGTnTSfk5EtxGP0oHDs+eH2FR6N6kbY7u16
+         PWCe5jGCSbrK654zBoN6QzYfQCVd9PsjVo2B+iKFPuKgC5pnp1Lm9EbCT5UKJPMKvqUb
+         6V/g==
+X-Gm-Message-State: AOJu0Yw7nmQFdvMeBIQidwTL6Om+U+MixSEHUEcD14Cc3J6AlnI54xDq
+	YClXvMfCzoZjNQntdjecDNXvezFeOj82OeJ315U=
+X-Google-Smtp-Source: AGHT+IGjYybIQy0SdRCNIM4PRKhqx7NFwqnHKtzhUBlzwyV7Cwnjp8EjR6D5SShloHX5XFY7hhjfJ4gzf+RhnVLgGjg=
+X-Received: by 2002:a5d:88d5:0:b0:7b4:2909:73b with SMTP id
+ i21-20020a5d88d5000000b007b42909073bmr586181iol.18.1701740355574; Mon, 04 Dec
+ 2023 17:39:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231203001501.126339-1-sxwjean@me.com> <20231203001501.126339-4-sxwjean@me.com>
-In-Reply-To: <20231203001501.126339-4-sxwjean@me.com>
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Date: Tue, 5 Dec 2023 09:53:34 +0900
-Message-ID: <CAB=+i9TVfzWk=anexu6ARPA21AC-uhjQjf4brZF0XDfVaWraWw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] mm/slub: correct the default value of
- slub_min_objects in doc
-To: sxwjean@me.com
-Cc: vbabka@suse.cz, cl@linux.com, linux-mm@kvack.org, penberg@kernel.org, 
-	rientjes@google.com, iamjoonsoo.kim@lge.com, roman.gushchin@linux.dev, 
-	corbet@lwn.net, keescook@chromium.org, arnd@arndb.de, 
-	akpm@linux-foundation.org, gregkh@linuxfoundation.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Xiongwei Song <xiongwei.song@windriver.com>
+References: <20231130194023.4102148-1-nphamcs@gmail.com> <20231130194023.4102148-3-nphamcs@gmail.com>
+ <CAF8kJuOsaX15w3gF7eUN8u7LAKhC7m2we91simoPH7S=MZJZCg@mail.gmail.com>
+In-Reply-To: <CAF8kJuOsaX15w3gF7eUN8u7LAKhC7m2we91simoPH7S=MZJZCg@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Mon, 4 Dec 2023 17:39:04 -0800
+Message-ID: <CAKEwX=PX0bR5orAsgYtXfOSarRobf1xnkSyXx+z6g_VHFVonQw@mail.gmail.com>
+Subject: Re: [PATCH v8 2/6] memcontrol: implement mem_cgroup_tryget_online()
+To: Chris Li <chrisl@kernel.org>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
+	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
+	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeelb@google.com, muchun.song@linux.dev, linux-mm@kvack.org, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 3, 2023 at 9:16=E2=80=AFAM <sxwjean@me.com> wrote:
+On Mon, Dec 4, 2023 at 4:36=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
 >
-> From: Xiongwei Song <xiongwei.song@windriver.com>
+> Hi Nhat,
 >
-> There is no a value assigned to slub_min_objects by default, it always
-> is 0 that is initialized by compiler if no assigned value by command line=
-.
-> min_objects is calculated based on processor numbers in calculate_order()=
-.
-> For more details, see commit 9b2cd506e5f2 ("slub: Calculate min_objects
-> based on number of processors.")
+> Very minor nitpick. This patch can fold with the later patch that uses
+> it. That makes the review easier, no need to cross reference different
+> patches. It will also make it harder to introduce API that nobody
+> uses.
 >
-> Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
+> Chris
+>
+> On Thu, Nov 30, 2023 at 11:40=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wr=
+ote:
+> >
+> > This patch implements a helper function that try to get a reference to
+> > an memcg's css, as well as checking if it is online. This new function
+> > is almost exactly the same as the existing mem_cgroup_tryget(), except
+> > for the onlineness check. In the !CONFIG_MEMCG case, it always returns
+> > true, analogous to mem_cgroup_tryget(). This is useful for e.g to the
+> > new zswap writeback scheme, where we need to select the next online
+> > memcg as a candidate for the global limit reclaim.
+>
+> Very minor nitpick. This patch can fold with the later patch that uses
+> it. That makes the review easier, no need to cross reference different
+> patches. It will also make it harder to introduce API that nobody
+> uses.
 
-While slub_min_objects equals zero by default, 'min_objects' overrides it t=
-o
-4 * (fls(nr_cpus) + 1) when not set. so when slub_min_objects is not
-set, it would be
-equal to or higher than 4. I'm not sure this level of implementation
-detail is worth documenting.
+I don't have a strong preference one way or the other :) Probably not
+worth the churn tho.
 
-Also, I think patch 2 should update Documentation/mm/slub.rst too.
-(slub_$param -> slab_param)
-
-> ---
->  Documentation/mm/slub.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
-> index be75971532f5..1f4399581449 100644
-> --- a/Documentation/mm/slub.rst
-> +++ b/Documentation/mm/slub.rst
-> @@ -150,7 +150,7 @@ list_lock once in a while to deal with partial slabs.=
- That overhead is
->  governed by the order of the allocation for each slab. The allocations
->  can be influenced by kernel parameters:
+> Chris
 >
-> -.. slub_min_objects=3Dx          (default 4)
-> +.. slub_min_objects=3Dx          (default 0)
->  .. slub_min_order=3Dx            (default 0)
->  .. slub_max_order=3Dx            (default 3 (PAGE_ALLOC_COSTLY_ORDER))
->
-> --
-> 2.34.1
->
+> >
+> > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> > ---
+> >  include/linux/memcontrol.h | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index 7bdcf3020d7a..2bd7d14ace78 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -821,6 +821,11 @@ static inline bool mem_cgroup_tryget(struct mem_cg=
+roup *memcg)
+> >         return !memcg || css_tryget(&memcg->css);
+> >  }
+> >
+> > +static inline bool mem_cgroup_tryget_online(struct mem_cgroup *memcg)
+> > +{
+> > +       return !memcg || css_tryget_online(&memcg->css);
+> > +}
+> > +
+> >  static inline void mem_cgroup_put(struct mem_cgroup *memcg)
+> >  {
+> >         if (memcg)
+> > @@ -1349,6 +1354,11 @@ static inline bool mem_cgroup_tryget(struct mem_=
+cgroup *memcg)
+> >         return true;
+> >  }
+> >
+> > +static inline bool mem_cgroup_tryget_online(struct mem_cgroup *memcg)
+> > +{
+> > +       return true;
+> > +}
+> > +
+> >  static inline void mem_cgroup_put(struct mem_cgroup *memcg)
+> >  {
+> >  }
+> > --
+> > 2.34.1
+> >
