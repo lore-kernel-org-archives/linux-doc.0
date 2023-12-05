@@ -1,116 +1,92 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gU77UWLf"
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC4A1B3
-	for <linux-doc@vger.kernel.org>; Mon,  4 Dec 2023 23:32:10 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-db98b9c0fceso307863276.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Dec 2023 23:32:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CEdK/s9L"
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA09CA;
+	Mon,  4 Dec 2023 23:49:03 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso3138516a12.3;
+        Mon, 04 Dec 2023 23:49:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701761529; x=1702366329; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FdHfmQmZDYuyXCu0NGdHRUb/90Lva6Q2oB2rwJOjRS8=;
-        b=gU77UWLf17NGFwns1NTtH4ufmlGXSuKUVMe0SMM3Z/hkuzpNhnNVs/ZdiK6v8qArF6
-         1iPq9ZvY1n1XV3BuyBhS4bmkK8n6w20y/1zUlCfOFepTmp8dM/vEVUVW3ZPiyfbMRP09
-         hCwu1fRloMi511BNUmei169Jh4wxlce0fe+rV9OB4IrxNpS6tsjOgXiLaRfHNMwnwex2
-         ejrpMQ53Cn32gWbPxEVS1/Yjq8olZc8mk8my+okMtGnUhPA6d6nmXnJXs+6+EWW05mW0
-         ifZyaaeAlZ2xHbNk+ndalBpIbTFFUgDECLafYNtE7lWJ7IA0Dp9H6goWe+DyqAqCVbkp
-         Y9YQ==
+        d=gmail.com; s=20230601; t=1701762543; x=1702367343; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hzfARqoRwj2I0ztTvad0SBw5orlkB0cK4aNM/XGImao=;
+        b=CEdK/s9Lrtg6IWx+KA0iUkV71mQoW0lcCXlye9VhLm0AXiK1FzLieKWBdo0Li29pDx
+         0Hlbg3Ztsmx/18h7AY7ROvV/WoXEcihQvnCzmwOPu63c107t0exCXW2FVe5ATlRbOd5M
+         4+DajhEyIzWccGJjwxxYEra9ZNLS6wJ8QVEu6m5ykMQ9R1/YBUCtaDX1oIrj9ANLfVgp
+         M0j1sMWB20hFQqeQRm1Y6cMdA0v7KjIQBNG4b05DSNMAljaBYkY0k9ySv14+aclF0lG1
+         idbQhTr/jrZ1x5jM5muM+oyY2O0t+//l4EsSU88rc4sxRQ3a+OppKTW51u1IJoVgKdwp
+         grEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701761529; x=1702366329;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FdHfmQmZDYuyXCu0NGdHRUb/90Lva6Q2oB2rwJOjRS8=;
-        b=D9utvVs5MQLy5/edb4DPBgjoiiCAuKHNKqWucBjs1c+jlctSP/GKx2qVeVcMYMzJu6
-         saM7CxYsV14g6iks/0WwNveyJkLpT+IqKtJ4IVZwSFIVEe8it2HigfcvE1+PcEiEZMjc
-         EvC92pP0AJ/T6ZucCDFf6LHAp7U32BNQ88W8OF74+0NQdeVF9QStXiylTTId5Z+pHFYb
-         Bc1vE9qHSnF1Blw8se29O4j1g8znquoQH3PUeWdfuohgyv3b5tJ/amT5/aNZI5/YxFLb
-         Q5Lq7/STO3rQHXe+WiGs9MxjZo3E5BSLhUN1h4Rlp3Wx4F/pInPsTJ7n0apjfuBbDA5L
-         7qNA==
-X-Gm-Message-State: AOJu0YxvsGpHkG/L2lZXKfomReDpkhV4BWgBY15VWcDvo9Rh1QaLiaW8
-	yQ/CTAJ4FJIue56OUsbLKgWjGcUsePwZ+w==
-X-Google-Smtp-Source: AGHT+IHHF6+HTN+R7wTnVRWLqb4w18tX0Cim+QBivHuTkcMFGQFLnFtpexLAxiytHhXHivrQcbisM6rp+Y02ZQ==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a25:d6d1:0:b0:db7:dce9:76d3 with SMTP id
- n200-20020a25d6d1000000b00db7dce976d3mr188630ybg.9.1701761529700; Mon, 04 Dec
- 2023 23:32:09 -0800 (PST)
-Date: Tue, 05 Dec 2023 15:31:36 +0800
-In-Reply-To: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
+        d=1e100.net; s=20230601; t=1701762543; x=1702367343;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hzfARqoRwj2I0ztTvad0SBw5orlkB0cK4aNM/XGImao=;
+        b=IfPlHFD9VWIWEYHZE2ssDcAbUgqj9iL4wpEiiDme31Z93HHdGSzdNlQQQkhsG2VEGC
+         /xXW50+N7OCwI1lDP2tnhobwuNJnx8clghfYwBox+bXrNLiZrSYMqJ0+zq2zyw74ABpS
+         rYaMFoNn1xlNYW//qFfV0kZMer4mbmUd57GWM1/D18pZG06LIxCzOF/wJ49cwO+uoyEx
+         sKR0XtelaYknZZn7EwBILE0rXvVzVGjqrshDkNqF0k9XbyIv5prU9F4muLeNSxHOQ+FY
+         akviWLUftngteI6/Q15siXqiiJuVXXpjhAZw2sE4WHKihoDPZ03sdNH/0wIYcc0uDLtf
+         1Fhg==
+X-Gm-Message-State: AOJu0Yym848BFWplRoApChGR2mHr21cvU7F+U3uyxdo0X8+wT3rKMe2l
+	+YzUNAWHNVCJbYO+fje0jmE=
+X-Google-Smtp-Source: AGHT+IEWuKB/agZ2nqiCMH3DCejLtKl1yvpzh6ORWD7i36/F1cPPOXAepNpzYLpRiwKFm2W7AyoHzw==
+X-Received: by 2002:a05:6a21:2711:b0:18f:97c:8a3f with SMTP id rm17-20020a056a21271100b0018f097c8a3fmr5444332pzb.106.1701762543361;
+        Mon, 04 Dec 2023 23:49:03 -0800 (PST)
+Received: from cosmo-ubuntu-2204.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id k3-20020aa79983000000b006ce54e08b6asm2582529pfh.203.2023.12.04.23.49.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Dec 2023 23:49:02 -0800 (PST)
+From: Cosmo Chou <chou.cosmo@gmail.com>
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	heiko@sntech.de,
+	jernej.skrabec@gmail.com,
+	macromorgan@hotmail.com,
+	linus.walleij@linaro.org
+Cc: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	chou.cosmo@gmail.com,
+	cosmo.chou@quantatw.com
+Subject: [PATCH 0/3] hwmon: Add driver for Astera Labs PT516XX retimer
+Date: Tue,  5 Dec 2023 15:47:20 +0800
+Message-Id: <20231205074723.3546295-1-chou.cosmo@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
-X-Mailer: b4 0.13-dev-099c9
-Message-ID: <20231205-kunit_bus-v1-4-635036d3bc13@google.com>
-Subject: [PATCH 4/4] ASoC: topology: Replace fake root_device with
- kunit_device in tests
-From: davidgow@google.com
-To: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org, 
-	David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Using struct root_device to create fake devices for tests is something
-of a hack. The new struct kunit_device is meant for this purpose, so use
-it instead.
+This driver implements support for temperature monitoring of Astera Labs
+PT5161L series PCIe retimer chips.
 
-Signed-off-by: David Gow <davidgow@google.com>
----
- sound/soc/soc-topology-test.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+Cosmo Chou (3):
+  dt-bindings: vendor-prefixes: add asteralabs
+  dt-bindings: hwmon: pt516xx: add bindings
+  hwmon: Add driver for Astera Labs PT516XX retimer
 
-diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
-index 2cd3540cec04..1d7696e5bffc 100644
---- a/sound/soc/soc-topology-test.c
-+++ b/sound/soc/soc-topology-test.c
-@@ -10,6 +10,7 @@
- #include <sound/soc.h>
- #include <sound/soc-topology.h>
- #include <kunit/test.h>
-+#include <kunit/device.h>
- 
- /* ===== HELPER FUNCTIONS =================================================== */
- 
-@@ -21,26 +22,20 @@
-  */
- static struct device *test_dev;
- 
--static struct device_driver test_drv = {
--	.name = "sound-soc-topology-test-driver",
--};
--
- static int snd_soc_tplg_test_init(struct kunit *test)
- {
--	test_dev = root_device_register("sound-soc-topology-test");
-+	test_dev = kunit_device_register(test, "sound-soc-topology-test");
- 	test_dev = get_device(test_dev);
- 	if (!test_dev)
- 		return -ENODEV;
- 
--	test_dev->driver = &test_drv;
--
- 	return 0;
- }
- 
- static void snd_soc_tplg_test_exit(struct kunit *test)
- {
- 	put_device(test_dev);
--	root_device_unregister(test_dev);
-+	kunit_device_unregister(test, test_dev);
- }
- 
- /*
+ .../bindings/hwmon/asteralabs,pt516xx.yaml    |  36 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/pt516xx.rst               |  48 ++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/pt516xx.c                       | 648 ++++++++++++++++++
+ 8 files changed, 754 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/asteralabs,pt516xx.yaml
+ create mode 100644 Documentation/hwmon/pt516xx.rst
+ create mode 100644 drivers/hwmon/pt516xx.c
 
 -- 
-2.43.0.rc2.451.g8631bc7472-goog
+2.34.1
 
