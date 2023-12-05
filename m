@@ -1,140 +1,224 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dqLoN7Le"
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53A7E1AA
-	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 12:06:28 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a1b54b58769so8461166b.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 12:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701806786; x=1702411586; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wlqC0mLlbsamWeTdymhvWwnQu+epiSDRN+zbg2hBOUA=;
-        b=dqLoN7LeBAJ+6P2G8vDtqHEV5R6PfL2dtERshtR/hpGsyL7NvcO0Rjzq2RdvkD4m49
-         7m3EdJU1nxur9N3INcj9qSvuUQ/GiDTDTrdStnjw5cGwmW6GhMd6lQIoorvbDhZ1y9op
-         ASBCkSNCc/a+h1mCu4E2Ha3OyJQRmYDd3OrsZvamERV2JXeTEEU72PMYw+o/HszqTkwU
-         4ec6YOG40uG3661ZnxoI+hW08D2uAbvTEVxjfoKfIs+UQ6nuPg2Q7PE90cdt8MAX6d75
-         NsAFLAAi8dKoUX5irKmmn97Aqqs7eV2cO5nGmq81a4WO+NRJCuvqPjtnvYNatdL8rTf/
-         Xxlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701806786; x=1702411586;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wlqC0mLlbsamWeTdymhvWwnQu+epiSDRN+zbg2hBOUA=;
-        b=n7sQ8UQdSTamXT3Zug+R6Mlj94KbTV20Ntvj5DpCW8xBnuG9EILp0dookhd9wzYOgO
-         Bb1FF3eapKgQvQjkK+GntShSs8NDuwy9WILyuK50dAwWcdjLuFOP+3LvWcf0UO1EQ1tV
-         TtXk5hcN66R0YmWTiDJfj6sCLBZljI69onBZlglr+WUGNda1aUkoYVqibS2BAweakitI
-         w4kwQ7v9v1gZHog1DU1QNVfzJwkXjzx6X0zFUMFJMmZsFQsamIGCcHMLypkOGMZzJP/a
-         BJwm34P66qZluf6F9zJUFQL1nuEShiJ2B14CQWuVLbDocxFRdWljD1/mVwoQa4Bh9ODf
-         ebZQ==
-X-Gm-Message-State: AOJu0YyLk+FQa+TIFOl2KkCW5RzQKlSKTncrbpcMaup+LtKUbjcTdERg
-	cnVY/n6yekT2J1eeNdmavm5ZgrMzxg1lWlK8opJldw==
-X-Google-Smtp-Source: AGHT+IGOdUeVb0c9zBSJgx9rodC7t4Ia+OxD3ogESh9JYVWU23yxaj5p6I3M/sO6DE0hSoEHtwbw4cUyG+qyicjsc1E=
-X-Received: by 2002:a17:906:1c8c:b0:a18:ad93:460d with SMTP id
- g12-20020a1709061c8c00b00a18ad93460dmr818197ejh.69.1701806786537; Tue, 05 Dec
- 2023 12:06:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aOI5DWCu"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E26C1AA;
+	Tue,  5 Dec 2023 13:13:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701810783; x=1733346783;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=JeJEGG5sFogcxVYcE4xCnsdCdmkxF2xsMcIKN/Q4UTw=;
+  b=aOI5DWCuvGuD1x/kbumGMkTB/a6R32bWBC1mtNaSWtOb4K95wbTTXhdO
+   Tukb+bAiSd2q7Sfwz+Jqqe2FTYEPJgTOLgfE9sShQZaisvQyoUaOZToHB
+   y0GD7UeLtjDhFMnsO7DTH8oIAOg3W6zyKf0wnBIyzl8ZPiaQ9KsUtV2ei
+   aECNBSabMxgFyT1Xxr7IUs/5G8D0Q49Ni+23ne9h4CSwY7Pkdll9g0R45
+   h6nO3TT4e0ZXqFTXoIouN40tpkMg9G4DVqtNKOuXTiyMvkN1GIqkOstKm
+   yYOZeUT7jIofyEMI5+sZoKYfI/ZWryochd7opwa/JaM2UOGN6GTG3b8cj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391126836"
+X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
+   d="scan'208";a="391126836"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 13:12:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="944406838"
+X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
+   d="scan'208";a="944406838"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by orsmga005.jf.intel.com with ESMTP; 05 Dec 2023 13:12:59 -0800
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	netdev@vger.kernel.org
+Cc: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
+	anthony.l.nguyen@intel.com,
+	jacob.e.keller@intel.com,
+	vaishnavi.tipireddy@intel.com,
+	horms@kernel.org,
+	leon@kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	rdunlap@infradead.org
+Subject: [PATCH net-next v5 5/5] ice: add documentation for FW logging
+Date: Tue,  5 Dec 2023 13:12:48 -0800
+Message-ID: <20231205211251.2122874-6-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231205211251.2122874-1-anthony.l.nguyen@intel.com>
+References: <20231205211251.2122874-1-anthony.l.nguyen@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231130194023.4102148-5-nphamcs@gmail.com> <20231205193307.2432803-1-nphamcs@gmail.com>
-In-Reply-To: <20231205193307.2432803-1-nphamcs@gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Tue, 5 Dec 2023 12:05:48 -0800
-Message-ID: <CAJD7tkarJydo0eYwRv+0cNHOBzBSEy-_xKMtcKBh4Kh3nXBFQQ@mail.gmail.com>
-Subject: Re: [PATCH v8 4/6] mm: memcg: add per-memcg zswap writeback stat (fix)
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, chrisl@kernel.org, linux-mm@kvack.org, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 5, 2023 at 11:33=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> Rename ZSWP_WB to ZSWPWB to better match the existing counters naming
-> scheme.
->
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
 
-For the original patch + this fix:
+Add documentation for FW logging in
+Documentation/networking/device_drivers/ethernet/intel/ice.rst
 
-Reviewed-by: Yosry Ahmed <yosryahmed@google.com>
+Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+---
+ .../device_drivers/ethernet/intel/ice.rst     | 141 ++++++++++++++++++
+ 1 file changed, 141 insertions(+)
 
-> ---
->  include/linux/vm_event_item.h | 2 +-
->  mm/memcontrol.c               | 2 +-
->  mm/vmstat.c                   | 2 +-
->  mm/zswap.c                    | 4 ++--
->  4 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.=
-h
-> index f4569ad98edf..747943bc8cc2 100644
-> --- a/include/linux/vm_event_item.h
-> +++ b/include/linux/vm_event_item.h
-> @@ -142,7 +142,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT=
-,
->  #ifdef CONFIG_ZSWAP
->                 ZSWPIN,
->                 ZSWPOUT,
-> -               ZSWP_WB,
-> +               ZSWPWB,
->  #endif
->  #ifdef CONFIG_X86
->                 DIRECT_MAP_LEVEL2_SPLIT,
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 21d79249c8b4..0286b7d38832 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -703,7 +703,7 @@ static const unsigned int memcg_vm_event_stat[] =3D {
->  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
->         ZSWPIN,
->         ZSWPOUT,
-> -       ZSWP_WB,
-> +       ZSWPWB,
->  #endif
->  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->         THP_FAULT_ALLOC,
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index 2249f85e4a87..cfd8d8256f8e 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1401,7 +1401,7 @@ const char * const vmstat_text[] =3D {
->  #ifdef CONFIG_ZSWAP
->         "zswpin",
->         "zswpout",
-> -       "zswp_wb",
-> +       "zswpwb",
->  #endif
->  #ifdef CONFIG_X86
->         "direct_map_level2_splits",
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index c65b8ccc6b72..0fb0945c0031 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -761,9 +761,9 @@ static enum lru_status shrink_memcg_cb(struct list_he=
-ad *item, struct list_lru_o
->         zswap_written_back_pages++;
->
->         if (entry->objcg)
-> -               count_objcg_event(entry->objcg, ZSWP_WB);
-> +               count_objcg_event(entry->objcg, ZSWPWB);
->
-> -       count_vm_event(ZSWP_WB);
-> +       count_vm_event(ZSWPWB);
->         /*
->          * Writeback started successfully, the page now belongs to the
->          * swapcache. Drop the entry from zswap - unless invalidate alrea=
-dy
-> --
-> 2.34.1
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index e4d065c55ea8..5038e54586af 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -895,6 +895,147 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
+ refer to the hardware GNSS module documentation for configuration details.
+ 
+ 
++Firmware (FW) logging
++---------------------
++The driver supports FW logging via the debugfs interface on PF 0 only. The FW
++running on the NIC must support FW logging; if the FW doesn't support FW logging
++the 'fwlog' file will not get created in the ice debugfs directory.
++
++Module configuration
++~~~~~~~~~~~~~~~~~~~~
++Firmware logging is configured on a per module basis. Each module can be set to
++a value independent of the other modules (unless the module 'all' is specified).
++The modules will be instantiated under the 'fwlog/modules' directory.
++
++The user can set the log level for a module by writing to the module file like
++this::
++
++  # echo <log_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/<module>
++
++where
++
++* log_level is a name as described below. Each level includes the
++  messages from the previous/lower level
++
++      *	none
++      *	error
++      *	warning
++      *	normal
++      *	verbose
++
++* module is a name that represents the module to receive events for. The
++  module names are
++
++      *	general
++      *	ctrl
++      *	link
++      *	link_topo
++      *	dnl
++      *	i2c
++      *	sdp
++      *	mdio
++      *	adminq
++      *	hdma
++      *	lldp
++      *	dcbx
++      *	dcb
++      *	xlr
++      *	nvm
++      *	auth
++      *	vpd
++      *	iosf
++      *	parser
++      *	sw
++      *	scheduler
++      *	txq
++      *	rsvd
++      *	post
++      *	watchdog
++      *	task_dispatch
++      *	mng
++      *	synce
++      *	health
++      *	tsdrv
++      *	pfreg
++      *	mdlver
++      *	all
++
++The name 'all' is special and allows the user to set all of the modules to the
++specified log_level or to read the log_level of all of the modules.
++
++Example usage to configure the modules
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++To set a single module to 'verbose'::
++
++  # echo verbose > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/link
++
++To set multiple modules then issue the command multiple times::
++
++  # echo verbose > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/link
++  # echo warning > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/ctrl
++  # echo none > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/dcb
++
++To set all the modules to the same value::
++
++  # echo normal > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/all
++
++To read the log_level of a specific module (e.g. module 'general')::
++
++  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/general
++
++To read the log_level of all the modules::
++
++  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/all
++
++Enabling FW log
++~~~~~~~~~~~~~~~
++Configuring the modules indicates to the FW that the configured modules should
++generate events that the driver is interested in, but it **does not** send the
++events to the driver until the enable message is sent to the FW. To do this
++the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An example
++is::
++
++  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
++
++Retrieving FW log data
++~~~~~~~~~~~~~~~~~~~~~~
++The FW log data can be retrieved by reading from 'fwlog/data'. The user can
++write any value to 'fwlog/data' to clear the data. The data can only be cleared
++when FW logging is disabled. The FW log data is a binary file that is sent to
++Intel and used to help debug user issues.
++
++An example to read the data is::
++
++  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
++
++An example to clear the data is::
++
++  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
++
++Changing how often the log events are sent to the driver
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++The driver receives FW log data from the Admin Receive Queue (ARQ). The
++frequency that the FW sends the ARQ events can be configured by writing to
++'fwlog/nr_messages'. The range is 1-128 (1 means push every log message, 128
++means push only when the max AQ command buffer is full). The suggested value is
++10. The user can see what the value is configured to by reading
++'fwlog/nr_messages'. An example to set the value is::
++
++  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_messages
++
++Configuring the amount of memory used to store FW log data
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++The driver stores FW log data within the driver. The default size of the memory
++used to store the data is 1MB. Some use cases may require more or less data so
++the user can change the amount of memory that is allocated for FW log data.
++To change the amount of memory then write to 'fwlog/log_size'. The value must be
++one of: 128K, 256K, 512K, 1M, or 2M. FW logging must be disabled to change the
++value. An example of changing the value is::
++
++  # echo 128K > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/log_size
++
++
+ Performance Optimization
+ ========================
+ Driver defaults are meant to fit a wide variety of workloads, but if further
+-- 
+2.41.0
+
