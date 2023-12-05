@@ -1,114 +1,146 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709FC4174B;
+	Tue,  5 Dec 2023 16:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyXSuGMB"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25C0C9B;
-	Tue,  5 Dec 2023 08:49:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701794960; x=1733330960;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VGmq7ltuiVSmplVgRVSBqM+cSBVBc8NnDt8//aCSaS4=;
-  b=jyXSuGMBQPzm17tJeCljbhbwnQK9FNGVkXdQ/D4vpgOSuUHK8vyl7WKR
-   hrM+3gWgNYG6cRSl0oiL1wNNKRA4cEePrYrw6eXXTA8mvAGjdUXtxlKoo
-   0WRXv9nCWOzU7ZKeQaZFP89G8SAXEcVfXLzPYdpszZNf+6VzTO+bwCAES
-   apfdp1PW1YHpIzN+K7vQjocZMFhf01Y8xaniw+5oDGTZFJ1ZPCK+DFGuE
-   OdOQvoHPV67NmeMcj9ggpNxoahZh2Ji+M1HTZRMFEm0wMxvim94VMTJKb
-   dpCDebM46mEIp9zVlWXcfQ8XAFCE0DSJ4WJzOWF/Y08iR4bawfTWHPJHy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="378947440"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="378947440"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 08:49:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="747301114"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="747301114"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 05 Dec 2023 08:49:02 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAYbU-0009O2-0S;
-	Tue, 05 Dec 2023 16:49:00 +0000
-Date: Wed, 6 Dec 2023 00:48:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
-	reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
-	seanjc@google.com, kim.phillips@amd.com, babu.moger@amd.com,
-	jmattson@google.com, ilpo.jarvinen@linux.intel.com,
-	jithu.joseph@intel.com, kan.liang@linux.intel.com, nikunj@amd.com,
-	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
-	rick.p.edgecombe@intel.com, rppt@kernel.org,
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, eranian@google.com,
-	peternewman@google.com
-Subject: Re: [PATCH 07/15] x86/resctrl: Add support to enable/disable ABMC
- feature
-Message-ID: <202312060033.DCTZ5iG9-lkp@intel.com>
-References: <20231201005720.235639-8-babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cA2ltJ3C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910E0C433C8;
+	Tue,  5 Dec 2023 16:51:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701795069;
+	bh=ld1xDDBIxU0aMjeZJcBk8TzmodfOXcQzxXPrqLOm3Wc=;
+	h=From:Subject:Date:To:Cc:From;
+	b=cA2ltJ3Ciu6iOJdi4d9B/ltq2K0G8sHqPxOAvifGX4gGCgc8VemqNpQJTyQayOS0p
+	 N1/5z6HA7O21Gy0CuqHBd7MD93z1Fo+yFkhRXrmCNC/lvKfoODEHIqVUwvhFE69Dgb
+	 tG9vV1X8YnX4m0mmtEQxHMKnxLhUJsE+pcjSsDohcOakIGGAVKM6QJS7Z2SILPGR3G
+	 JvlcRZgctPb3u0CJQhcSm65XFRDhZt8TMfDdTZLN/7ldJR6xQDH14qO/uP70rXh9w9
+	 4dE9Tc0pcvrI2L1UYABYYQPEEaRPYxENcSXqlL1aapvQI9x0D19LRIXkWNdhIy7gnM
+	 VqgDaVl/NnV0Q==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v3 00/21] arm64: Support for 2023 DPISA extensions
+Date: Tue, 05 Dec 2023 16:47:58 +0000
+Message-Id: <20231205-arm64-2023-dpisa-v3-0-dbcbcd867a7f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231201005720.235639-8-babu.moger@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD9Ub2UC/23N0QrCIBTG8VcZXmfo8UzdrnqP6MKl26TahoYUY
+ ++eG0FEXf4/OL8zk+iCd5HUxUyCSz76ccghdgU592boHPU2NwEGgjMmqAk3iXRNaicfDYVWWCg
+ VSlRI8tkUXOsfG3k85e59vI/huX1IfF3fGMhfLHHKqEbFrK101TRwuLgwuOt+DB1ZtQQfgXP8I
+ 0AWUEHJdYWtNPpLWJblBSYrTd/zAAAA
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-5c066
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4657; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ld1xDDBIxU0aMjeZJcBk8TzmodfOXcQzxXPrqLOm3Wc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlb1ToWY21TL2lSFiNFFmpncXHZ+8uv3xdv0x92cWg
+ Iu7GAfWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZW9U6AAKCRAk1otyXVSH0CTCB/
+ 9LsWRTj/wZmAWjeHxaGBiu4BElH0V6M0Tohiptgba/9qZblZAxTt7uVj1YC/BTGqiGuGajmHYUQhJ8
+ X2Bnb/Ttzt20+XlZnVYvaQ547tIUGHQ09wyXuPMfjoacAl/SfDZeP/NQzOBs+mNY2li70oPfvmhTO0
+ 2AmNK9Cq2jKWi/V8mqRw+tyKLV2lmvFGUrpahC8WEV7FgmGWsuH4q8ZeW2jLYA9DGW1WOk0W9W/TtF
+ X05gevBgezfm+zlyxAS6q98+WbF+vcdXfWuKOkWuk0cKnUaViQZDE3EmuVQNJmJ8BiejhePxk5mCxX
+ oXk5q8/Wx4ITOnEhKnMGqweRvTAHc0
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Babu,
+This series enables support for the data processing extensions in the
+newly released 2023 architecture, this is mainly support for 8 bit
+floating point formats.  Most of the extensions only introduce new
+instructions and therefore only require hwcaps but there is a new EL0
+visible control register FPMR used to control the 8 bit floating point
+formats, we need to manage traps for this and context switch it.
 
-kernel test robot noticed the following build warnings:
+The sharing of floating point save code between the host and guest
+kernels slightly complicates the introduction of KVM support, we first
+introduce host support with some placeholders for KVM then replace those
+with the actual KVM support.
 
-[auto build test WARNING on next-20231130]
-[cannot apply to tip/x86/core linus/master v6.7-rc3 v6.7-rc2 v6.7-rc1 v6.7-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I've not added test coverage for ptrace, I've got a not quite finished
+test program which exercises all the FP ptrace interfaces and their
+interactions together, my plan is to cover it there rather than add
+another tiny test program that duplicates the boilerplace for tracing a
+target and doesn't actually run the traced program.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-resctrl-Remove-hard-coded-memory-bandwidth-limit/20231201-090621
-base:   next-20231130
-patch link:    https://lore.kernel.org/r/20231201005720.235639-8-babu.moger%40amd.com
-patch subject: [PATCH 07/15] x86/resctrl: Add support to enable/disable ABMC feature
-config: i386-randconfig-013-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060033.DCTZ5iG9-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060033.DCTZ5iG9-lkp@intel.com/reproduce)
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v3:
+- Rebase onto v6.7-rc3.
+- Hook up traps for FPMR in emulate-nested.c.
+- Link to v2: https://lore.kernel.org/r/20231114-arm64-2023-dpisa-v2-0-47251894f6a8@kernel.org
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060033.DCTZ5iG9-lkp@intel.com/
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Link to v1: https://lore.kernel.org/r/20231026-arm64-2023-dpisa-v1-0-8470dd989bb2@kernel.org
 
-All warnings (new ones prefixed by >>):
+---
+Mark Brown (21):
+      arm64/sysreg: Add definition for ID_AA64PFR2_EL1
+      arm64/sysreg: Update ID_AA64ISAR2_EL1 defintion for DDI0601 2023-09
+      arm64/sysreg: Add definition for ID_AA64ISAR3_EL1
+      arm64/sysreg: Add definition for ID_AA64FPFR0_EL1
+      arm64/sysreg: Update ID_AA64SMFR0_EL1 definition for DDI0601 2023-09
+      arm64/sysreg: Update SCTLR_EL1 for DDI0601 2023-09
+      arm64/sysreg: Update HCRX_EL2 definition for DDI0601 2023-09
+      arm64/sysreg: Add definition for FPMR
+      arm64/cpufeature: Hook new identification registers up to cpufeature
+      arm64/fpsimd: Enable host kernel access to FPMR
+      arm64/fpsimd: Support FEAT_FPMR
+      arm64/signal: Add FPMR signal handling
+      arm64/ptrace: Expose FPMR via ptrace
+      KVM: arm64: Add newly allocated ID registers to register descriptions
+      KVM: arm64: Support FEAT_FPMR for guests
+      arm64/hwcap: Define hwcaps for 2023 DPISA features
+      kselftest/arm64: Handle FPMR context in generic signal frame parser
+      kselftest/arm64: Add basic FPMR test
+      kselftest/arm64: Add 2023 DPISA hwcap test coverage
+      KVM: arm64: selftests: Document feature registers added in 2023 extensions
+      KVM: arm64: selftests: Teach get-reg-list about FPMR
 
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:2419:5: warning: no previous prototype for 'resctrl_arch_set_abmc_enabled' [-Wmissing-prototypes]
-    2419 | int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Documentation/arch/arm64/elf_hwcaps.rst            |  49 +++++
+ arch/arm64/include/asm/cpu.h                       |   3 +
+ arch/arm64/include/asm/cpufeature.h                |   5 +
+ arch/arm64/include/asm/fpsimd.h                    |   2 +
+ arch/arm64/include/asm/hwcap.h                     |  15 ++
+ arch/arm64/include/asm/kvm_arm.h                   |   4 +-
+ arch/arm64/include/asm/kvm_host.h                  |   3 +
+ arch/arm64/include/asm/processor.h                 |   2 +
+ arch/arm64/include/uapi/asm/hwcap.h                |  15 ++
+ arch/arm64/include/uapi/asm/sigcontext.h           |   8 +
+ arch/arm64/kernel/cpufeature.c                     |  72 +++++++
+ arch/arm64/kernel/cpuinfo.c                        |  18 ++
+ arch/arm64/kernel/fpsimd.c                         |  13 ++
+ arch/arm64/kernel/ptrace.c                         |  42 ++++
+ arch/arm64/kernel/signal.c                         |  59 ++++++
+ arch/arm64/kvm/emulate-nested.c                    |   9 +
+ arch/arm64/kvm/fpsimd.c                            |  19 +-
+ arch/arm64/kvm/hyp/include/hyp/switch.h            |   7 +-
+ arch/arm64/kvm/sys_regs.c                          |  17 +-
+ arch/arm64/tools/cpucaps                           |   1 +
+ arch/arm64/tools/sysreg                            | 153 ++++++++++++++-
+ include/uapi/linux/elf.h                           |   1 +
+ tools/testing/selftests/arm64/abi/hwcap.c          | 217 +++++++++++++++++++++
+ tools/testing/selftests/arm64/signal/.gitignore    |   1 +
+ .../arm64/signal/testcases/fpmr_siginfo.c          |  82 ++++++++
+ .../selftests/arm64/signal/testcases/testcases.c   |   8 +
+ .../selftests/arm64/signal/testcases/testcases.h   |   1 +
+ tools/testing/selftests/kvm/aarch64/get-reg-list.c |  11 +-
+ 28 files changed, 819 insertions(+), 18 deletions(-)
+---
+base-commit: 2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
+change-id: 20231003-arm64-2023-dpisa-2f3d25746474
 
-
-vim +/resctrl_arch_set_abmc_enabled +2419 arch/x86/kernel/cpu/resctrl/rdtgroup.c
-
-  2418	
-> 2419	int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
-  2420	{
-  2421		struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
-  2422	
-  2423		if (!hw_res->r_resctrl.abmc_capable)
-  2424			return -EINVAL;
-  2425	
-  2426		if (enable)
-  2427			return resctrl_abmc_enable(l);
-  2428	
-  2429		resctrl_abmc_disable(l);
-  2430	
-  2431		return 0;
-  2432	}
-  2433	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Mark Brown <broonie@kernel.org>
+
