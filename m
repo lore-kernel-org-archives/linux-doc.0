@@ -1,360 +1,166 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bvDHniXk"
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C41C1AA;
-	Tue,  5 Dec 2023 19:20:16 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-5c629a9fe79so2810204a12.3;
-        Tue, 05 Dec 2023 19:20:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l7+Kilka"
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A4651AA;
+	Tue,  5 Dec 2023 19:35:42 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-7b411be1eb7so196307739f.3;
+        Tue, 05 Dec 2023 19:35:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701832816; x=1702437616; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YbWegLruIWfk7HHjzudK83DEHlZmfwTMD8LAtlJ7Hk8=;
-        b=bvDHniXkeH+TAlr2mucy/zP2xU9GlbRkCJ0BcjKY+CjFNwFbjy/Z9lTraT71n0Tl8N
-         QnO0nXqLNOMPzGRfKk8eXDVCi99DCVF4f14yjrNl1Q0CbOJmlhVtmi7i7n6VDvBAfmRy
-         +0QlwiPcFxlRU3QI/N/aaFL3x6zhyCTT5AJm13CS5HYyhpX4itEQCtKj90d9eGJevKwF
-         tFcMmFxEzUq45fJ+W/jOSNom62CofSVL2UGhjampTBziArmkaS4ylJl/dDY8tJUhK1K3
-         T3hbQ8sEl6795jsA+V+YLVlMv/qWks8m5BNAtd660UW20Iao61zwDGKlUiofpEfG3eYO
-         7Ddg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701832816; x=1702437616;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1701833742; x=1702438542; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YbWegLruIWfk7HHjzudK83DEHlZmfwTMD8LAtlJ7Hk8=;
-        b=MWA13kvq97TxYsAo+C6aMyf2OcnXD4biysfQHUWVoYokgVzvCEgNI3ZgiQrA1p1UrL
-         rrE7AYzvPk02r3TkXHBH0Ezkc7Oamu9A9QbkuanRcv5hmvtb+z+Spr5nR9p97Wm6Yp6l
-         7ZNdyXuwafBEi8NlYm1tWEREygVAswioUp0jqfdgZNlYWls15eztH8byO1ZvUpyZfLGm
-         yLheUKodlPpcyV/dk00xftF6ieoW1dOHMJ6IlXUnsjjfw8ZyCzWo2j3oY7dOJ2H2NbzS
-         HfK6G2mh5K/u40kwwBGYNIZ2pFg+U5QlfaN9ehoatEOI1qS2cvMol5qv/NhT1B+g08gP
-         me8g==
-X-Gm-Message-State: AOJu0YzDj0e7joXAwWRA6c444rb8JG3RxkWxnlL7W+KZgWikSmUripzQ
-	0UjNUU1RieAWEc9ON1ci+tI=
-X-Google-Smtp-Source: AGHT+IGHvutYgMcTLhOthlYgg/Dwf/5tmBozECpELlMTbXQaeNaLXGBV6iGB2iChY7bhGVrPh+XzcA==
-X-Received: by 2002:a05:6a20:760a:b0:18b:9b41:eb90 with SMTP id m10-20020a056a20760a00b0018b9b41eb90mr103486pze.10.1701832815584;
-        Tue, 05 Dec 2023 19:20:15 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id z6-20020a170902ee0600b001cfc35d1326sm7515152plb.177.2023.12.05.19.20.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 19:20:15 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 482C11025C548; Wed,  6 Dec 2023 09:45:45 +0700 (WIB)
-Date: Wed, 6 Dec 2023 09:45:44 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Kory Maincent <kory.maincent@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	attreyee-muk <tintinm2017@gmail.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Linux Networking <netdev@vger.kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Devicetree <devicetree@vger.kernel.org>,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v2 2/8] ethtool: Expand Ethernet Power Equipment
- with c33 (PoE) alongside PoDL
-Message-ID: <ZW_gWDrlp4ltXIRf@archie.me>
-References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
- <20231201-feature_poe-v2-2-56d8cac607fa@bootlin.com>
+        bh=tqCT9UhzTcxCbk+fnZ9QwAf1vc+qB4SCnje0SUyPZjY=;
+        b=l7+KilkatRSnTIuXGMbwZOfZvkhbVacc/pxBSvxe/6jbffrFiIo4qNdFijgpIl+z6V
+         cMEJ1P0sfceMtUVo77MUkWV71lyxijeIsGI0fE4I1BmkVNu2nLtUbgrPnXDzCxZMvC54
+         nMFmke3NxU4qL1R8J5+xd3GJhu/+0mweej/ywdCT3z/6973R3/a2Fo5aaOryEvdeai8X
+         vNy8p68C2a1aUwSf6gDTtEBnlGlHhoIL53h9Rj/EpQ/+olxpqhcI3b9PZamsTgQCG3Cr
+         9X+f4IBTixHbk34kt40GyedDFuQRPtSZvxkgpAh86TiFaQTiclMEjuMOwJj7vKTVQYpC
+         LabQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701833742; x=1702438542;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tqCT9UhzTcxCbk+fnZ9QwAf1vc+qB4SCnje0SUyPZjY=;
+        b=lqnqblPCx5TJO5EkOSqpMju8fCgBWMteCP2K8ftEcvZGerhs7gCutkCd530q+Rq/Yk
+         rehfm/pG73msHJr32ipn80ThOeRHqlsV7qWVAIjHqRgCP/RTbWxkOnsQibERuxz+WkVX
+         ibb8ciMejQw1Y3QCEXg8TteedEpx3F6mvK579JFMu0ZrMrUKtD/6WwMRneGrXSrXS/rG
+         jLCWumDM3HjPhK2ew1cBDbDh6pSRWx3YegJV9xjIh9baqAB12kssO3XVJTylBMRU0UO3
+         OEfouD9TLVrH95JtQbULK+BLRI1CPsDgAopfWPWBQxesOkGBk+F+QbRtH8bvOOaK6gWw
+         3bQg==
+X-Gm-Message-State: AOJu0YydmuS6wmjcOyHA7YRvE5Ga13nUG3+5niGpBrhb3ra1h09tfQA5
+	Bd09qUwvWRRRimwys+zciiUDCg4103iDm2Uj8qY=
+X-Google-Smtp-Source: AGHT+IGuATMBPOBFtF6RH56kIjCimhrIka6bGKrmGiIqvOXMga9sjzCyu5oUk3o/rp3s8+ryBzSYi+qt9f55n1hiHUg=
+X-Received: by 2002:a6b:5a0c:0:b0:7b3:e542:5894 with SMTP id
+ o12-20020a6b5a0c000000b007b3e5425894mr395428iob.8.1701833741879; Tue, 05 Dec
+ 2023 19:35:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xUlHZgsU8STvZe3K"
-Content-Disposition: inline
-In-Reply-To: <20231201-feature_poe-v2-2-56d8cac607fa@bootlin.com>
-
-
---xUlHZgsU8STvZe3K
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20231204055650.788388-1-kcfeng0@nuvoton.com> <20231204055650.788388-3-kcfeng0@nuvoton.com>
+ <eff4defd-dfd5-448b-9056-d2f711f14018@linaro.org>
+In-Reply-To: <eff4defd-dfd5-448b-9056-d2f711f14018@linaro.org>
+From: Ban Feng <baneric926@gmail.com>
+Date: Wed, 6 Dec 2023 11:35:31 +0800
+Message-ID: <CALz278b9QCVM7SPd3QUn9qaHCom+s0i7SmGZFPjuXRmgVTG_6A@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com, 
+	DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 01, 2023 at 06:10:24PM +0100, Kory Maincent wrote:
-> In the current PSE interface for Ethernet Power Equipment, support is
-> limited to PoDL. This patch extends the interface to accommodate the
-> objects specified in IEEE 802.3-2022 145.2 for Power sourcing
-> Equipment (PSE).
->=20
-> The following objects are now supported and considered mandatory:
-> - IEEE 802.3-2022 30.9.1.1.5 aPSEPowerDetectionStatus
-> - IEEE 802.3-2022 30.9.1.1.2 aPSEAdminState
-> - IEEE 802.3-2022 30.9.1.2.1 aPSEAdminControl
->=20
-> To avoid confusion between "PoDL PSE" and "PoE PSE", which have similar
-> names but distinct values, we have followed the suggestion of Oleksij
-> Rempel and Andrew Lunn to maintain separate naming schemes for each,
-> using c33 (clause 33) prefix for "PoE PSE".
-> You can find more details in the discussion threads here:
-> https://lore.kernel.org/netdev/20230912110637.GI780075@pengutronix.de/
-> https://lore.kernel.org/netdev/2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.=
-ch/
->=20
-> Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
->=20
-> Changes in v2:
-> - Rename all the PoE variables and enum with a c33 prefix.
-> - Add documentation, thanks to Oleksij for having written one.
-> ---
->  Documentation/networking/pse-pd/introduction.rst | 73 ++++++++++++++++++=
-++++++
->  include/linux/pse-pd/pse.h                       |  9 +++
->  include/uapi/linux/ethtool.h                     | 43 ++++++++++++++
->  include/uapi/linux/ethtool_netlink.h             |  3 +
->  4 files changed, 128 insertions(+)
->=20
-> diff --git a/Documentation/networking/pse-pd/introduction.rst b/Documenta=
-tion/networking/pse-pd/introduction.rst
-> new file mode 100644
-> index 000000000000..e213083b9aff
-> --- /dev/null
-> +++ b/Documentation/networking/pse-pd/introduction.rst
-> @@ -0,0 +1,73 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Power Sourcing Equipment (PSE) in IEEE 802.3 Standard
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
-> +Overview
-> +--------
-> +
-> +Power Sourcing Equipment (PSE) is essential in networks for delivering p=
-ower
-> +along with data over Ethernet cables. It usually refers to devices like
-> +switches and hubs that supply power to Powered Devices (PDs) such as IP
-> +cameras, VoIP phones, and wireless access points.
-> +
-> +PSE vs. PoDL PSE
-> +----------------
-> +
-> +PSE in the IEEE 802.3 standard generally refers to equipment that provid=
-es
-> +power alongside data over Ethernet cables, typically associated with Pow=
-er over
-> +Ethernet (PoE).
-> +
-> +PoDL PSE, or Power over Data Lines PSE, specifically denotes PSEs operat=
-ing
-> +with single balanced twisted-pair PHYs, as per Clause 104 of IEEE 802.3.=
- PoDL
-> +is significant in contexts like automotive and industrial controls where=
- power
-> +and data delivery over a single pair is advantageous.
-> +
-> +IEEE 802.3-2018 Addendums and Related Clauses
-> +----------------------------------------------
-> +
-> +Key addenda to the IEEE 802.3-2018 standard relevant to power delivery o=
-ver
-> +Ethernet are as follows:
-> +
-> +- **802.3af (Approved in 2003-06-12)**: Known as PoE in the market, deta=
-iled in
-> +  Clause 33, delivering up to 15.4W of power.
-> +- **802.3at (Approved in 2009-09-11)**: Marketed as PoE+, enhancing PoE =
-as
-> +  covered in Clause 33, increasing power delivery to up to 30W.
-> +- **802.3bt (Approved in 2018-09-27)**: Known as 4PPoE in the market, ou=
-tlined
-> +  in Clause 33. Type 3 delivers up to 60W, and Type 4 up to 100W.
-> +- **802.3bu (Approved in 2016-12-07)**: Formerly referred to as PoDL, de=
-tailed
-> +  in Clause 104. Introduces Classes 0 - 9. Class 9 PoDL PSE delivers up =
-to ~65W
-> +
-> +Kernel Naming Convention Recommendations
-> +----------------------------------------
-> +
-> +For clarity and consistency within the Linux kernel's networking subsyst=
-em, the
-> +following naming conventions are recommended:
-> +
-> +- For general PSE (PoE) code, use "c33_pse" key words. For example:
-> +  ``enum ethtool_c33_pse_admin_state c33_admin_control;``.
-> +  This aligns with Clause 33, encompassing various PoE forms.
-> +
-> +- For PoDL PSE - specific code, use "podl_pse". For example:
-> +  ``enum ethtool_podl_pse_admin_state podl_admin_control;`` to different=
-iate
-> +  PoDL PSE settings according to Clause 104.
-> +
-> +Summary of Clause 33: Data Terminal Equipment (DTE) Power via Media Depe=
-ndent Interface (MDI)
-> +------------------------------------------------------------------------=
--------------------
-> +
-> +Clause 33 of the IEEE 802.3 standard defines the functional and electric=
-al
-> +characteristics of Powered Device (PD) and Power Sourcing Equipment (PSE=
-).
-> +These entities enable power delivery using the same generic cabling as f=
-or data
-> +transmission, integrating power with data communication for devices such=
- as
-> +10BASE-T, 100BASE-TX, or 1000BASE-T.
-> +
-> +Summary of Clause 104: Power over Data Lines (PoDL) of Single Balanced T=
-wisted-Pair Ethernet
-> +------------------------------------------------------------------------=
--------------------
-> +
-> +Clause 104 of the IEEE 802.3 standard delineates the functional and elec=
-trical
-> +characteristics of PoDL Powered Devices (PDs) and PoDL Power Sourcing Eq=
-uipment
-> +(PSEs). These are designed for use with single balanced twisted-pair Eth=
-ernet
-> +Physical Layers. In this clause, 'PSE' refers specifically to PoDL PSE, =
-and
-> +'PD' to PoDL PD. The key intent is to provide devices with a unified int=
-erface
-> +for both data and the power required to process this data over a single
-> +balanced twisted-pair Ethernet connection.
+Hi Krzysztof,
 
-I get many htmldocs warnings:
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2023=E5=B9=
+=B412=E6=9C=884=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:06=E5=AF=AB=
+=E9=81=93=EF=BC=9A
+>
+> On 04/12/2023 06:56, baneric926@gmail.com wrote:
+> > From: Ban Feng <kcfeng0@nuvoton.com>
+> >
+> > NCT736X is an I2C based hardware monitoring chip from Nuvoton.
+> >
+> > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+> > ---
+>
+>
+> > +
+> > +static const struct i2c_device_id nct736x_id[] =3D {
+> > +     {"nct7362", nct7362},
+> > +     {"nct7363", nct7363},
+> > +     {}
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, nct736x_id);
+> > +
+>
+> All ID tables are next to each other. Move it down. Why does it not
+> match of_device_id?
 
-```
-Documentation/networking/pse-pd/introduction.rst:56: WARNING: Title underli=
-ne too short.
+ok, I'll put all ID tables together,
+and add .data to of_device_id so that matching i2c_device_id.
 
-Summary of Clause 33: Data Terminal Equipment (DTE) Power via Media Depende=
-nt Interface (MDI)
----------------------------------------------------------------------------=
-----------------
-Documentation/networking/pse-pd/introduction.rst:56: WARNING: Title underli=
-ne too short.
+>
+> ...
+>
+> > +
+> > +static int nct736x_probe(struct i2c_client *client)
+> > +{
+> > +     struct device *dev =3D &client->dev;
+> > +     struct nct736x_data *data;
+> > +     struct device *hwmon_dev;
+> > +     u32 pwm_mask, fanin_mask, val, wdt_cfg;
+> > +     int ret;
+> > +
+> > +     data =3D devm_kzalloc(dev, sizeof(struct nct736x_data), GFP_KERNE=
+L);
+>
+> sizeof(*)
 
-Summary of Clause 33: Data Terminal Equipment (DTE) Power via Media Depende=
-nt Interface (MDI)
----------------------------------------------------------------------------=
-----------------
-Documentation/networking/pse-pd/introduction.rst:65: WARNING: Title underli=
-ne too short.
+ok, I'll modify it in v2.
 
-Summary of Clause 104: Power over Data Lines (PoDL) of Single Balanced Twis=
-ted-Pair Ethernet
----------------------------------------------------------------------------=
-----------------
-Documentation/networking/pse-pd/introduction.rst:65: WARNING: Title underli=
-ne too short.
+>
+> > +     if (!data)
+> > +             return -ENOMEM;
+> > +
+> > +     i2c_set_clientdata(client, data);
+> > +     mutex_init(&data->update_lock);
+> > +
+> > +     data->client =3D client;
+> > +
+> > +     if (of_property_read_u32(dev->of_node, "nuvoton,pwm-mask", &pwm_m=
+ask))
+> > +             pwm_mask =3D 0;
+> > +     if (of_property_read_u32(dev->of_node,
+> > +                              "nuvoton,fanin-mask", &fanin_mask))
+> > +             fanin_mask =3D 0;
+> > +     if (of_property_read_u32(dev->of_node, "nuvoton,wdt-timeout", &va=
+l))
+> > +             wdt_cfg =3D 0xff;
+> > +     else
+> > +             wdt_cfg =3D WDT_CFG(val) | EN_WDT;
+> > +
+> > +     /* Initialize the chip */
+> > +     ret =3D nct736x_init_chip(client, pwm_mask, fanin_mask, wdt_cfg);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     data->fan_mask =3D (u16)fanin_mask;
+> > +     data->pwm_mask =3D (u16)pwm_mask;
+> > +
+> > +     data =3D nct736x_update_device(dev);
+> > +
+> > +     data->groups[0] =3D &nct736x_group_fan;
+> > +     data->groups[1] =3D &nct736x_group_pwm;
+> > +     data->groups[2] =3D NULL;
+> > +
+> > +     hwmon_dev =3D devm_hwmon_device_register_with_groups(dev,
+> > +                                                        client->name,
+> > +                                                        data, data->gr=
+oups);
+> > +     return PTR_ERR_OR_ZERO(hwmon_dev);
+> > +}
+> > +
+> > +static const struct of_device_id nct736x_of_match[] =3D {
+> > +     { .compatible =3D "nuvoton,nct7362" },
+> > +     { .compatible =3D "nuvoton,nct7363" },
+>
+> This means your devices are compatible. Express compatibility in your
+> bindings (specific compatible followed by fallback). But then your
+> i2c_device_id is not matching this one here... confusing and clearly wron=
+g.
+>
 
-Summary of Clause 104: Power over Data Lines (PoDL) of Single Balanced Twis=
-ted-Pair Ethernet
----------------------------------------------------------------------------=
-----------------
-looking for now-outdated files... none found
-pickling environment... done
-checking consistency... Documentation/networking/pse-pd/introduction.rst: W=
-ARNING: document isn't included in any toctree
-```
+Same as above.
 
-I have to fix them up:
-
----- >8 ----
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/=
-index.rst
-index 683eb42309cc5b..3900c6885cfc7d 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -88,6 +88,7 @@ Contents:
-    phonet
-    pktgen
-    plip
-+   pse-pd/index
-    ppp_generic
-    proc_net_tcp
-    radiotap-headers
-diff --git a/Documentation/networking/pse-pd/index.rst b/Documentation/netw=
-orking/pse-pd/index.rst
-new file mode 100644
-index 00000000000000..18197bc7303dc9
---- /dev/null
-+++ b/Documentation/networking/pse-pd/index.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Power Sourcing Equipment (PSE) Documentation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   introduction
-diff --git a/Documentation/networking/pse-pd/introduction.rst b/Documentati=
-on/networking/pse-pd/introduction.rst
-index e213083b9aff2d..e3d3faaef717f2 100644
---- a/Documentation/networking/pse-pd/introduction.rst
-+++ b/Documentation/networking/pse-pd/introduction.rst
-@@ -24,7 +24,7 @@ is significant in contexts like automotive and industrial=
- controls where power
- and data delivery over a single pair is advantageous.
-=20
- IEEE 802.3-2018 Addendums and Related Clauses
------------------------------------------------
-+---------------------------------------------
-=20
- Key addenda to the IEEE 802.3-2018 standard relevant to power delivery over
- Ethernet are as follows:
-@@ -53,7 +53,7 @@ following naming conventions are recommended:
-   PoDL PSE settings according to Clause 104.
-=20
- Summary of Clause 33: Data Terminal Equipment (DTE) Power via Media Depend=
-ent Interface (MDI)
----------------------------------------------------------------------------=
------------------
-+--------------------------------------------------------------------------=
--------------------
-=20
- Clause 33 of the IEEE 802.3 standard defines the functional and electrical
- characteristics of Powered Device (PD) and Power Sourcing Equipment (PSE).
-@@ -62,7 +62,7 @@ transmission, integrating power with data communication f=
-or devices such as
- 10BASE-T, 100BASE-TX, or 1000BASE-T.
-=20
- Summary of Clause 104: Power over Data Lines (PoDL) of Single Balanced Twi=
-sted-Pair Ethernet
----------------------------------------------------------------------------=
------------------
-+--------------------------------------------------------------------------=
-------------------
-=20
- Clause 104 of the IEEE 802.3 standard delineates the functional and electr=
-ical
- characteristics of PoDL Powered Devices (PDs) and PoDL Power Sourcing Equi=
-pment
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---xUlHZgsU8STvZe3K
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZW/gVAAKCRD2uYlJVVFO
-oyi0AP0akTssoZ2ef0IsF2c3NcWk9n0I0Qa7r88yxoNHZh4whAD/Q3Tnge1Z06AT
-0nVAX/jUCWw3zw0Bk7o2ptuss7XjxwA=
-=NdIm
------END PGP SIGNATURE-----
-
---xUlHZgsU8STvZe3K--
+> Best regards,
+> Krzysztof
+>
