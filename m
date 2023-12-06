@@ -1,115 +1,139 @@
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hOL1GB2J";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="3gIZ75Zf"
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F1F9A;
-	Wed,  6 Dec 2023 06:59:36 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 584E89A;
+	Wed,  6 Dec 2023 07:05:31 -0800 (PST)
+Received: from pobox.suse.cz (unknown [10.100.2.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2472F21E31;
-	Wed,  6 Dec 2023 14:59:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F01D2136CD;
-	Wed,  6 Dec 2023 14:59:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Z+zDOVWMcGXmQgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 06 Dec 2023 14:59:33 +0000
-Message-ID: <d5dff423-40a1-3789-e5ba-68e6c0ab6130@suse.cz>
-Date: Wed, 6 Dec 2023 15:59:33 +0100
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AD63A21E79;
+	Wed,  6 Dec 2023 15:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1701875129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fstuDZ14CDhTICiRMQLamJBK2hLQCM7gMcsouHhAvwM=;
+	b=hOL1GB2JqM+RxoEgucs2Mtl+ULTAf1pQwKnnG9598uf6Zfr42KnHp9WO3RNYqrYXMHcTOU
+	8EzJNJsA5uZBa0EdcEgvGDuAIlSJNypjZHq7zlrLJ/BiQb0zYLj9gEtYPqlSPsbNdZB+DZ
+	yjtvbpV3rJ6WUCreof6tVEwsSxTWRwg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1701875129;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fstuDZ14CDhTICiRMQLamJBK2hLQCM7gMcsouHhAvwM=;
+	b=3gIZ75ZflKLKWgKzYBM1YF9Y48YEi9Zx9CWqFeq6zUvczbTdDW86IyTxLNSD3RgAcvK2IN
+	GzAvFvWXGguoJfDw==
+Date: Wed, 6 Dec 2023 16:05:30 +0100 (CET)
+From: Miroslav Benes <mbenes@suse.cz>
+To: Joe Lawrence <joe.lawrence@redhat.com>
+cc: Marcos Paulo de Souza <mpdesouza@suse.com>, Shuah Khan <shuah@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Heiko Carstens <hca@linux.ibm.com>, 
+    Vasily Gorbik <gor@linux.ibm.com>, 
+    Alexander Gordeev <agordeev@linux.ibm.com>, 
+    Christian Borntraeger <borntraeger@linux.ibm.com>, 
+    Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+    Jiri Kosina <jikos@kernel.org>, Petr Mladek <pmladek@suse.com>, 
+    linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
+    live-patching@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] livepatch: Move tests from lib/livepatch to
+ selftests/livepatch
+In-Reply-To: <ZWn7dEzVWoKxycmy@redhat.com>
+Message-ID: <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
+References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com> <20231031-send-lp-kselftests-v3-2-2b1655c2605f@suse.com> <ZWn7dEzVWoKxycmy@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC PATCH 2/3] mm/slub: unify all sl[au]b parameters with
- "slab_$param"
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>
-Cc: "Song, Xiongwei" <Xiongwei.Song@windriver.com>,
- "sxwjean@me.com" <sxwjean@me.com>, "42.hyeyoo@gmail.com"
- <42.hyeyoo@gmail.com>, "cl@linux.com" <cl@linux.com>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "penberg@kernel.org" <penberg@kernel.org>,
- "rientjes@google.com" <rientjes@google.com>,
- "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
- "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
- "corbet@lwn.net" <corbet@lwn.net>, "arnd@arndb.de" <arnd@arndb.de>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20231201031505.286117-1-sxwjean@me.com>
- <20231201031505.286117-3-sxwjean@me.com> <202312010945.7C5DB1FBB@keescook>
- <PH0PR11MB51923F916D8FB7D94270BBA7EC80A@PH0PR11MB5192.namprd11.prod.outlook.com>
- <67b155dd-3731-489e-c3bd-333cb7e90801@suse.cz>
- <202312021329.86D56FA@keescook>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <202312021329.86D56FA@keescook>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Bar: ++++++++++
+Content-Type: text/plain; charset=US-ASCII
 Authentication-Results: smtp-out1.suse.de;
-	dkim=none;
-	dmarc=none;
-	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of vbabka@suse.cz) smtp.mailfrom=vbabka@suse.cz
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [10.13 / 50.00];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
+	none
+X-Spam-Level: 
+X-Spam-Score: -3.26
+X-Spamd-Result: default: False [-3.26 / 50.00];
+	 ARC_NA(0.00)[];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,me.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 SUBJECT_HAS_CURRENCY(1.00)[];
-	 R_SPF_SOFTFAIL(4.60)[~all];
-	 DMARC_NA(1.20)[suse.cz];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 ARC_NA(0.00)[];
-	 MX_GOOD(-0.01)[];
-	 BAYES_HAM(-0.06)[61.00%];
-	 RCPT_COUNT_TWELVE(0.00)[16];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_RHS_MATCH_FROMTLD(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.16)[-0.816];
+	 RCPT_COUNT_TWELVE(0.00)[17];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_COUNT_ZERO(0.00)[0];
 	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
 	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[windriver.com,me.com,gmail.com,linux.com,kvack.org,kernel.org,google.com,lge.com,linux.dev,lwn.net,arndb.de,linux-foundation.org,linuxfoundation.org,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: 10.13
-X-Rspamd-Queue-Id: 2472F21E31
+	 BAYES_HAM(-3.00)[99.99%]
 
-On 12/2/23 22:30, Kees Cook wrote:
-> On Sat, Dec 02, 2023 at 07:12:25PM +0100, Vlastimil Babka wrote:
->> On 12/2/23 05:23, Song, Xiongwei wrote:
->> > 
->> > 
->> 
->> Yes, they are already recognized by the patch.
-> 
-> Ah, sorry, I missed that. I didn't see it when I skimmed earlier.
-> 
->> >> with a boot pr_warn() about their deprecation/renaming for several
->> >> releases (likely across LTSes). I think it's not a good idea to
->> >> wholesale rename these with no warning. That's going to cause a lot of
->> >> surprises and broken userspace...
->> > 
->> > Oh, yes, that's a good idea. Will update.
->> 
->> I'd wait for a while with the warnings, no need to rush.
-> 
-> Better to start ASAP, yeah?
+On Fri, 1 Dec 2023, Joe Lawrence wrote:
 
-I find it a bit obnoxious to accept the slub_* names in one kernel release
-and immediately warn in the next one. I'd let the people who read the
-news/docs adjust on their own first :) After all, we wouldn't be warning
-about something that's dangerous if not acted upon immediately, or something.
+> On Tue, Oct 31, 2023 at 06:10:52PM -0300, Marcos Paulo de Souza wrote:
+> > The modules are being moved from lib/livepatch to
+> > tools/testing/selftests/livepatch/test_modules.
+> > 
+> > This code moving will allow writing more complex tests, like for example an
+> > userspace C code that will call a livepatched kernel function.
+> > 
+> > The modules are now built as out-of-tree
+> > modules, but being part of the kernel source means they will be maintained.
+> > 
+> > Another advantage of the code moving is to be able to easily change,
+> > debug and rebuild the tests by running make on the selftests/livepatch directory,
+> > which is not currently possible since the modules on lib/livepatch are
+> > build and installed using the "modules" target.
+> > 
+> > The current approach also keeps the ability to execute the tests manually by
+> > executing the scripts inside selftests/livepatch directory, as it's currently
+> > supported. If the modules are modified, they needed to be rebuilt before running
+> > the scripts though.
+> > 
+> > The modules are built before running the selftests when using the
+> > kselftest invocations:
+> > 
+> > 	make kselftest TARGETS=livepatch
+> > or
+> > 	make -C tools/testing/selftests/livepatch run_tests
+> > 
+> 
+> Quick question:
+> 
+> - We have been building with CONFIG_LIVEPATCH_TEST=m to generate the
+>   test modules at kernel build time
+> 
+> - Our packaging filters out the selftest scripts and supporting modules
+>   from the general kernel RPM package into their subpackages
+> 
+> - Tests are run as part of CKI or other manual tests by installing the
+>   pre-built packages from the previous step
+> 
+> 
+> After this patch, we would need to add something like the following to
+> our kernel build, before packaging:
+> 
+>   $ make KDIR=$(pwd) -C tools/testing/selftests/livepatch/
+>          ^^^^
+> 
+> If this is the correct way to build the test modules for *this* tree and
+> /lib/modules/$(shell uname -r)/build... it might be useful to document
+> in the commit message as an alternative use case.
+
+So if I understand it correctly, you would like to stick to pre-building 
+the modules (not in-tree but now after the kernel is build using the 
+proposed way), package them and then install everything on a system 
+running the respective kernel. A valid use case in my opinion.
+
+My idea is to abandon this way completely, take the selftests and build 
+and run them on the system right away.
+
+Both should be doable, hopefully, if we wire it all correctly... and 
+document it.
+
+Miroslav
+
+
