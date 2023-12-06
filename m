@@ -1,211 +1,148 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="nUkGuZlf"
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C5DD45
-	for <linux-doc@vger.kernel.org>; Wed,  6 Dec 2023 06:11:48 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40c09b021daso43848155e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 06 Dec 2023 06:11:48 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="MCRQwt/n"
+Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19AB0D1;
+	Wed,  6 Dec 2023 06:16:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1701871907; x=1702476707; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/J/0AouVBy2ul+ViGYcNfPUia+BakLB5GkfP7lR2gNQ=;
-        b=nUkGuZlf+Y1Z1F1+OQ5AT+w14Y+6oJ1lKcdwS3+glw+64GuP8tRqvZPLzC/730I3Ci
-         3o9QLMMOW1dtCa9bnhvoq6aSLxp6G8FbBPl6NXoGCW6SxXZf8Fe3VnSDpL4iWz2JnYpR
-         RvaHwjHcEJ4lkoobY6DkqPKKq7sQu3yi6ivSI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701871907; x=1702476707;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/J/0AouVBy2ul+ViGYcNfPUia+BakLB5GkfP7lR2gNQ=;
-        b=j20++zY/q6fSv9OdzWO0/ENGo1ensWNbSD0eYGTg83QnGgR9Haook8BYjikCVj3wCb
-         kmgyMPgzF7NKfd7c6srxg9tZrbTJg7/a/rxcJ/Xa+oWM6QpYd7fjZgp07xsk+lNXBO0Z
-         iQcR8e560XnvwzzkTWtJrjjgyUCqoWCyhqYgvST03Z31EUMK56+5IBjNqbAIGzPX6FWt
-         w+1mUeRZHGRidXs+dXJcZ8NYkQcUN67dotrMtAjj2eypGovTEBdgwLm/UX1cN0j+wweB
-         RBiLovSuv+tU1pYjjKBt7FwHhG+imxrpVcNmehnv3/4J6jWZ4vREnYWSoaSauTyybEgX
-         EOig==
-X-Gm-Message-State: AOJu0YxIvVo6KuhtJj+h9YphK4iKtK4C3USZh5THB+HWFBCQPU5vLhxa
-	MsFvZM9xP7xeOa58d1+ySTYxNw==
-X-Google-Smtp-Source: AGHT+IFNMx+Klo1CEPaJ26/dBlw3sjXlNL46V08+iyKrIoZzyUVgJsGVXWSyD7pSk5JuLC7WZwHGiw==
-X-Received: by 2002:a05:600c:5253:b0:40b:5e4a:4081 with SMTP id fc19-20020a05600c525300b0040b5e4a4081mr623446wmb.161.1701871907211;
-        Wed, 06 Dec 2023 06:11:47 -0800 (PST)
-Received: from [10.80.67.30] (default-46-102-197-194.interdsl.co.uk. [46.102.197.194])
-        by smtp.gmail.com with ESMTPSA id c1-20020adfa301000000b003333a216682sm11793864wrb.97.2023.12.06.06.11.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 06:11:46 -0800 (PST)
-Message-ID: <4e41b658-f49e-424c-8a86-08c8ab8e384d@citrix.com>
-Date: Wed, 6 Dec 2023 14:11:46 +0000
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1701872195; x=1733408195;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dEqIQbLlIVTzw0VxjeAKELJLS94IbUU15V0jKQEwvfU=;
+  b=MCRQwt/ndh0UTuTChppJ5si022ZOEqI8H43be19hg1wnwgJu1wovCOtA
+   LgZTR2M8JbIGr7e2eK+9L42UZ8941/7cnXgHNfspJ7UpyfKPE0P0ysBbL
+   5y6dTPor6f2ncGi1ZD4bDcGikLfOMkskDOHBEhcE8/7+wUgwuRwDdi7f6
+   o=;
+X-IronPort-AV: E=Sophos;i="6.04,255,1695686400"; 
+   d="scan'208";a="372164326"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-2b-m6i4x-cadc3fbd.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-6002.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 14:16:32 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
+	by email-inbound-relay-pdx-2b-m6i4x-cadc3fbd.us-west-2.amazon.com (Postfix) with ESMTPS id 73912A3643;
+	Wed,  6 Dec 2023 14:16:31 +0000 (UTC)
+Received: from EX19MTAUWC001.ant.amazon.com [10.0.7.35:19177]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.49.143:2525] with esmtp (Farcaster)
+ id ef31892a-0527-48c6-a5bc-f1717b01c540; Wed, 6 Dec 2023 14:16:31 +0000 (UTC)
+X-Farcaster-Flow-ID: ef31892a-0527-48c6-a5bc-f1717b01c540
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 6 Dec 2023 14:16:30 +0000
+Received: from dev-dsk-graf-1a-5ce218e4.eu-west-1.amazon.com (10.253.83.51) by
+ EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 6 Dec 2023 14:16:29 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <linux-kernel@vger.kernel.org>
+CC: <linux-doc@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, =?UTF-8?q?Jan=20H=20=2E=20Sch=C3=B6nherr?=
+	<jschoenh@amazon.de>, James Gowans <jgowans@amazon.com>
+Subject: [PATCH] initramfs: Expose retained initrd as sysfs file
+Date: Wed, 6 Dec 2023 14:16:27 +0000
+Message-ID: <20231206141627.91659-1-graf@amazon.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 26/35] x86/fred: FRED entry/exit and dispatch code
-Content-Language: en-GB
-To: "Li, Xin3" <xin3.li@intel.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-Cc: "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "Lutomirski, Andy" <luto@kernel.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "seanjc@google.com" <seanjc@google.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "Gross, Jurgen" <jgross@suse.com>, "Shankar, Ravi V"
- <ravi.v.shankar@intel.com>, "mhiramat@kernel.org" <mhiramat@kernel.org>,
- "jiangshanlai@gmail.com" <jiangshanlai@gmail.com>,
- "nik.borisov@suse.com" <nik.borisov@suse.com>,
- "Kang, Shan" <shan.kang@intel.com>
-References: <20231205105030.8698-1-xin3.li@intel.com>
- <20231205105030.8698-27-xin3.li@intel.com>
- <f260ddf9-be67-48e0-8121-6f58d46f7978@citrix.com>
- <SA1PR11MB67343544B0CEB6C82002790DA884A@SA1PR11MB6734.namprd11.prod.outlook.com>
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- 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
- 6+ahAA==
-In-Reply-To: <SA1PR11MB67343544B0CEB6C82002790DA884A@SA1PR11MB6734.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EX19D035UWA001.ant.amazon.com (10.13.139.101) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On 06/12/2023 7:45 am, Li, Xin3 wrote:
->>> +	case X86_TRAP_OF:
->>> +		exc_overflow(regs);
->>> +		return;
->>> +
->>> +	/* INT3 */
->>> +	case X86_TRAP_BP:
->>> +		exc_int3(regs);
->>> +		return;
->> ... neither OF nor BP will ever enter fred_intx() because they're type SWEXC not
->> SWINT.
-> Per FRED spec 5.0, section 7.3 Software Interrupts and Related Instructions:
-> INT n (opcode CD followed by an immediate byte): There are 256 such
-> software interrupt instructions, one for each value n of the immediate
-> byte (0–255).
->
-> And appendix B Event Stack Levels:
-> If the event is an execution of INT n (opcode CD n for 8-bit value n),
-> the event stack level is 0. The event type is 4 (software interrupt)
-> and the vector is n.
->
-> So int $0x4 and int $0x3 (use asm(".byte 0xCD, 0x03")) get here.
->
-> But into (0xCE) and int3 (0xCC) do use event type SWEXC. 
->
-> BTW, into is NOT allowed in 64-bit mode but "int $0x4" is allowed.
+When the kernel command line option "retain_initrd" is set, we do not
+free the initrd memory. However, we also don't expose it to anyone for
+consumption. That leaves us in a weird situation where the only user of
+this feature is ppc64 and arm64 specific kexec tooling.
 
-There is certainly fun to be had with CD 03 and CD 04 byte patterns, but
-if you meant to mean those here, then the comments are wrong.
+To make it more generally useful, this patch adds a kobject to the
+firmware object that contains the initrd context when "retain_initrd"
+is set. That way, we can access the initrd any time after boot from
+user space and for example hand it into kexec as --initrd parameter
+if we want to reboot the same initrd. Or inspect it directly locally.
 
-Vectors 3 and 4 are installed with DPL3 because that is necessary to
-make CC and CE function in userspace.  It also suggests that the SWINT
-vs SWEXC distinction was retrofitted to architecture after the 286,
-because exceptions don't check DPL and ICEBP delivers #DB from userspace
-even when Vector 1 has a DPL of 0.
+Signed-off-by: Alexander Graf <graf@amazon.com>
+---
+ .../admin-guide/kernel-parameters.txt          |  5 +++--
+ init/initramfs.c                               | 18 +++++++++++++++++-
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-While CC is for most cases indistinguishable from CD 03, CE behaves
-entirely differently to CD 04.  CD 04 doesn't #UD in 64bit mode, and
-will trigger exc_overflow() irrespective of the state of EFLAGS.OF.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 65731b060e3f..51575cd31741 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2438,7 +2438,7 @@
+ 			between unregistering the boot console and initializing
+ 			the real console.
+ 
+-	keepinitrd	[HW,ARM]
++	keepinitrd	[HW,ARM] See retain_initrd.
+ 
+ 	kernelcore=	[KNL,X86,IA-64,PPC]
+ 			Format: nn[KMGTPE] | nn% | "mirror"
+@@ -5580,7 +5580,8 @@
+ 			Useful for devices that are detected asynchronously
+ 			(e.g. USB and MMC devices).
+ 
+-	retain_initrd	[RAM] Keep initrd memory after extraction
++	retain_initrd	[RAM] Keep initrd memory after extraction. After boot, it will
++			be accessible via /sys/firmware/initrd.
+ 
+ 	retbleed=	[X86] Control mitigation of RETBleed (Arbitrary
+ 			Speculative Code Execution with Return Instructions)
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 8d0fd946cdd2..25244e2a5739 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -574,6 +574,16 @@ extern unsigned long __initramfs_size;
+ #include <linux/initrd.h>
+ #include <linux/kexec.h>
+ 
++static ssize_t raw_read(struct file *file, struct kobject *kobj,
++			struct bin_attribute *attr, char *buf,
++			loff_t pos, size_t count)
++{
++	memcpy(buf, attr->private + pos, count);
++	return count;
++}
++
++static BIN_ATTR(initrd, 0440, raw_read, NULL, 0);
++
+ void __init reserve_initrd_mem(void)
+ {
+ 	phys_addr_t start;
+@@ -715,8 +725,14 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+ 	 * If the initrd region is overlapped with crashkernel reserved region,
+ 	 * free only memory that is not part of crashkernel region.
+ 	 */
+-	if (!do_retain_initrd && initrd_start && !kexec_free_initrd())
++	if (!do_retain_initrd && initrd_start && !kexec_free_initrd()) {
+ 		free_initrd_mem(initrd_start, initrd_end);
++	} else if (do_retain_initrd) {
++		bin_attr_initrd.size = initrd_end - initrd_start;
++		bin_attr_initrd.private = (void *)initrd_start;
++		if (sysfs_create_bin_file(firmware_kobj, &bin_attr_initrd))
++			pr_err("Failed to create initrd sysfs file");
++	}
+ 	initrd_start = 0;
+ 	initrd_end = 0;
+ 
+-- 
+2.40.1
 
 
-The SDM goes out of it's way to say not to use the CD 03 byte pattern
-(and it does take effort to emit this byte pattern - e.g. GAS will
-silently translate "int $3" to "int3"), and there's no plausible way
-software is using CD 04 in place of CE.
 
-So why do we care about containing to make mistakes of the IDT era work
-in a FRED world?
 
-Is there anything (other than perhaps the selftests) which would even
-notice?
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
 
->>> +		instrumentation_end();
->>> +		irqentry_exit(regs, state);
->>> +	} else {
->>> +		common_interrupt(regs, vector);
->>> +	}
->>> +}
->>> +
->>> +static noinstr void fred_exception(struct pt_regs *regs, unsigned
->>> +long error_code) {
->>> +	/* Optimize for #PF. That's the only exception which matters performance
->> wise */
->>> +	if (likely(regs->fred_ss.vector == X86_TRAP_PF)) {
->>> +		exc_page_fault(regs, error_code);
->>> +		return;
->>> +	}
->>> +
->>> +	switch (regs->fred_ss.vector) {
->>> +	case X86_TRAP_DE: return exc_divide_error(regs);
->>> +	case X86_TRAP_DB: return fred_exc_debug(regs);
->>> +	case X86_TRAP_BP: return exc_int3(regs);
->>> +	case X86_TRAP_OF: return exc_overflow(regs);
->> Depending on what you want to do with BP/OF vs fred_intx(), this may need
->> adjusting.
->>
->> If you are cross-checking type and vector, then these should be rejected for not
->> being of type HWEXC.
-> You're right, the event type needs to be SWEXC for into and int3.
->
-> However, would it be overkilling?  Assuming hardware and VMM are sane.
 
-You either care about cross checking, or not.  Right now, this patch is
-a mix of the two approaches.
 
-In my opinion, cross-checking is the better approach, because it means
-that violations of the assumptions get noticed more quickly, and
-hopefully by whomever is working on the new feature which alters the
-assumptions.
-
-~Andrew
