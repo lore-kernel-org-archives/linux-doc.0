@@ -1,314 +1,259 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TQxZNS2H"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18331720;
-	Wed,  6 Dec 2023 10:49:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701888562; x=1733424562;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=iCc/edTT0uRdhcbkba3Y/kLi4+67bLK0oifOeTFYjRA=;
-  b=TQxZNS2Hu9xNc9FhFJC4jzFiBpM7bp2cr7se8D/aw/PmbN66dIzZShfl
-   0qHPf1pg14JpjEYVb7/OZIevwtHWhbCfQVj98rKCeb1EjlGLXcOz1XJ5O
-   fI/co4pnjZaI1mxSi/5zx36TubIn0cFUbLQeP16Jp9htFkBhE6uD+h+hj
-   pQu/yi6Z/nVqpdt+EfwcdIkVSyqGPrnO+8RFF3tgB/gfiyPSo+ayy4BF1
-   T5Cd2YEK1o2WrHchBUnWTDFYWqu03qnPjTd3v6/uj5+3Cf0vffuwQaw0/
-   F4dIdecKxST/mJ4dGjVHrX0YSe8j3nKVxWv8s92aRstwahS435d5WFMOl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="393837925"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="393837925"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 10:49:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1018661788"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1018661788"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Dec 2023 10:49:21 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 6 Dec 2023 10:49:20 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 6 Dec 2023 10:49:20 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 6 Dec 2023 10:49:19 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 6 Dec 2023 10:49:19 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JzkTqudAEND6fBk8HxV8szGqWwb+sOkQ9iSz4ChZwy5uNMxS/Ht5FiDmN6tueAp92TPD56WrECQpupfEXdNSbMEoiVKJBYz7bJ1RH/fjVtvc6EftwFa5d7vLgcH/UT5KB75YOuEM0ZOfaqBhQmx/AWIUZwVyGpA8F/CDU+UBDea+As+pLIclv5837a4lYxY4FMlJY6pYibHbP0blrAAPeFPda5IkRey+YkL2MCfi8Mp7inAwM9fTrZsv0YvDfl2szo7Vkn4BdD96cnJrm7E/Qb0klj5cSTLtH+3TirJI2mDBQvLxTyF6YnXaqKYjkc9Kwhg/UcGHBHQJfcc8EB0dVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q3gAVQW8w5MB0obudUTJI+uHr659na9Q6+i6K0by8BY=;
- b=Eza80SD9MmyK+EQq5SyXQsXRCy6A13aU8b+D7LWrEReI1d242//cMlKUZLixUjGHKo5DspAe/65F/+XkxlOYJPbMgCA0fyAzc8klnvUOTuVfSxxmDu3Py58N0OqFLTiuxxbm6HWxkXMyfFM+uc6p2tBhiaZqtPHWwFyj7I6O8MDl/6psgTjNL0QWjKtvKMB8cwJ4XyvpTccIkUANTAcUrchhop07s83ILnDd6IKLNQww0FQ9KNxxaZQQCZFd+gQzC+uTgrd3Wl9DFCW1WNrzgMjaZzQ3J3paXhU6rMyorVDUumHJTtZiDAEpq+KqRF1eQ20I1XsbrjkkbcK4gInm2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by CH3PR11MB7841.namprd11.prod.outlook.com (2603:10b6:610:121::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Wed, 6 Dec
- 2023 18:49:16 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7068.025; Wed, 6 Dec 2023
- 18:49:16 +0000
-Message-ID: <e36699cf-c73e-401b-b770-63eba708df38@intel.com>
-Date: Wed, 6 Dec 2023 10:49:13 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/15] x86/resctrl : Support AMD QoS RMID Pinning feature
-Content-Language: en-US
-To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, James Morse <james.morse@arm.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<seanjc@google.com>, <kim.phillips@amd.com>, <jmattson@google.com>,
-	<ilpo.jarvinen@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kan.liang@linux.intel.com>, <nikunj@amd.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<rick.p.edgecombe@intel.com>, <rppt@kernel.org>,
-	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
-	<peternewman@google.com>, <dhagiani@amd.com>
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <d97cbeba-af6d-4b64-b5c8-32dc437a67b6@intel.com>
- <71e85bf3-a451-4adf-ad5e-d39f7935efa0@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <71e85bf3-a451-4adf-ad5e-d39f7935efa0@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0208.namprd03.prod.outlook.com
- (2603:10b6:303:b8::33) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a/b5xmrK"
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A224135
+	for <linux-doc@vger.kernel.org>; Wed,  6 Dec 2023 11:06:08 -0800 (PST)
+Received: by mail-pg1-x549.google.com with SMTP id 41be03b00d2f7-5bd0c909c50so49787a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 06 Dec 2023 11:06:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701889567; x=1702494367; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I409PBeV0vI0BSi/sNEko+BMZt4s00+VHGZ9Cxi/uGs=;
+        b=a/b5xmrKgk/7uyzJAxjbIr2Xb7wyTKzTfLsjFb6oWW05EP6YlIjaNmUcBT0I1x8yq5
+         TEXhXYDpVmPJELmA6eoz0fCoelVWgMttaxPwpp2tsf+r+jVlJvsoeSEE54lur5ShfBs9
+         vWWXsgclEYLdYu/0MGT2L1AoCRq8ijqhLD8eQUf69H0NWlAR3WSH6EujcCYZmMaQNSsA
+         RxiBPVWWa8zcJmmenYgCRNJWLyyIt8hm1H/4IR5q36cszbwoBHZzPaCwcWVv4MYTSRth
+         RnwkyJJdnvKS5+Pj+G0Re10FUOBe8MuenPHZF2JltBxQGtxDUfQclF6ORuX7TPEyRPZK
+         KxSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701889567; x=1702494367;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=I409PBeV0vI0BSi/sNEko+BMZt4s00+VHGZ9Cxi/uGs=;
+        b=cgmulrCb73R24gFrwL2Cbbdf79kuIWBaJ24TRz5AnK+Z0FQyzqKztNFGO5QGiNus/q
+         eIVJ03tSoy2W+465FPJbL5duQfWxWWhZ3Epd8M9Fm9lrd+cUxpWaRaKvFs+VresGOqwn
+         wyRko3j1O1z+hkPN+bxWBA0rAk3aXnpna6xw6LB1auFupw/czptpC3p1ekz5QGT7H7XU
+         eRphOuvyeXwqAXkspCexRovC6z3cwi88wmB49ro53ygTef0x/rqw7plNZo+hTF4YOZgq
+         jui0sl7Yl1YX2Zke8cECka8XKjMV5bMdwjSCjLQi7m7u7k1em/wk4uWz9gwVtinNZDZg
+         sj+w==
+X-Gm-Message-State: AOJu0YwzPfayEgAsUrlEm4RyGSUf5v/G7V+xbQA69PegFmAkHtb6iCH+
+	uyET/iB3ylcYh9jfxvxZX/avLEU=
+X-Google-Smtp-Source: AGHT+IEqS0IGgMlSKmdLV1hbJusVKwZ8hKL8byL5eF/gGsSa+b+3KizaW4xrrV9KIs8i0M+jEvdFFF0=
+X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
+ (user=sdf job=sendgmr) by 2002:a65:67d2:0:b0:5c6:a4e5:2d6a with SMTP id
+ b18-20020a6567d2000000b005c6a4e52d6amr14804pgs.7.1701889567399; Wed, 06 Dec
+ 2023 11:06:07 -0800 (PST)
+Date: Wed, 6 Dec 2023 11:06:05 -0800
+In-Reply-To: <CAJ8uoz3_XqavGt1DyFoQAuKS8Faa1Lc85b2t+whc-f6GN1Pvzw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CH3PR11MB7841:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e7cd779-5900-4e2a-37e5-08dbf68c0bf1
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SuSvAt9ojvTKMhOXkyUoHb6VcDpd3X9cgIVEGK/9NWgFZVCR2DAwkKbCF75oba+9NGa8ey5Dix2PzBD8MgSLAYOZy5ljA6ouM7FDEOf2sqC0B0USOzODCCaSDZIww0LKCFY+9wNfzQ7/jmN1GbsmVLy3G6wO2lTPcYtVw2uotybCj7qA8qM20bHrcLYNSCuvMUrIBVY89f3ecBCQPq+FJvKnPM+T4i7Dh8ENOnunayiHTwqdWHKrwcq7ThyqmEmrbpdq228Q2JggFA0kOTi3Asgv1PfwFxvzOE8Wc2qmmJ3xX0oSNHNuLwaNRdBzkJF0yiUnHMs9NhZadNMDzwuOSiJrQtupXTXZEAIFukybFksbvjAjhTi/eyAE0wqw/V1MjfmH/b9hcMAC/uppDx6RUtNRlrdhh/333xoCx565jqZG6h4G15p9CYrPzUQVAhnR94EpwiCgSOiV6aPEl8RngnQFt8xPAsIGrp7V2CLXz1LC1Lygh17WOznK+EQsvBy2Pms085X4DjTs4qGTSwDw7TDwYu2Mnkbf47oSHDVWlDx2N0tBE4bgviZ0bo/MQte33yRL6QzHfOW/+uiD+mDa86m+xen/8lWLS8fmvVVD1QFJqyUadQdI+N/B+OdcsMr+DQpyn7CGkCwm1oOjjHyKcw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(136003)(376002)(39860400002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(83380400001)(6666004)(66899024)(6512007)(2616005)(6506007)(53546011)(26005)(316002)(66946007)(66556008)(66476007)(6916009)(5660300002)(2906002)(7416002)(4326008)(31686004)(86362001)(8676002)(8936002)(36756003)(44832011)(41300700001)(38100700002)(31696002)(82960400001)(6486002)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVpWUlZHaGhlWjNrZ0VuWStiNjg5WGVmb2ZoRTBSRDJob2lNQ3gwUG9yWGlo?=
- =?utf-8?B?NTJCaEp5OFhPL05SMStteEJldTNveHgxWTd6N0tJU3NTdmEwTEhmQ1U3enJW?=
- =?utf-8?B?MUMzaVdxa0VnYktNR3ZpY3JuSkdteHl1QmdwVUNHakZ2bEFOU2Y1N1RnVWdD?=
- =?utf-8?B?QnVNM0JZMkw0aVEyRVRFdUl3WXpvc2xUVEZEa05scFRQWGNSd0xobG95RXZY?=
- =?utf-8?B?WHpKOGViODczbVE2cEsydGpTTDVJdkpNUFRBKzY2UWVsUUJMbVRVaUs5cUND?=
- =?utf-8?B?UndpYy9Qd1lMbzVpZllWRWNiMGowbnY1VngyWHVxd3A1UVFOV2pHQlIyd0gw?=
- =?utf-8?B?SXgvd2Q2R2xjdTFNNFdTOTJQYWRET0lydXFtbWdOc09sTEZ4NW9PTGV1aHU0?=
- =?utf-8?B?M0ovQnNnVFg1bWN3TUNXWWZOdk5BK1kvMUpYOWFBT2VrYXJ0ZXNMN0doMC9V?=
- =?utf-8?B?VVl2bzFFVllRWVBMQmlRLzFtRW9ITFlwOG5mSlgyUCt0S1BMZVYvSm1mUkI5?=
- =?utf-8?B?ajl5VUd2V1diTDFIc1ZITTErVEF5cC9oZlFOZytGUXJqYUNhNGtkMi92bXpr?=
- =?utf-8?B?MjA1bW15UDVqM0U4U3ltV3Bkb1ZGN1pWdVlEamgxc2pZN1BtNmc5d2tUc2Fu?=
- =?utf-8?B?TE0zWVk0ZHJPek9NK0hrVmM5cTczVFVieUtMdi9ibXlqWW1ISVN6Qk92RVRR?=
- =?utf-8?B?MHN6aVZFVG9XSXA1TVZMMTB0ZWo3bHF5MG9hSFl4RkFrZnJhQjZjaWt6LzJa?=
- =?utf-8?B?bFdZbXhLN3pRUStyTlQvWEY4UzZBenRyN2RKWCtWbU81WHZNTTNDc2VMVHRW?=
- =?utf-8?B?YWN5bXRiYmwrRWNYeE80emNJRkZPaVYyVTd6UXpVRFNYT2NxdlJSVGo4VmQz?=
- =?utf-8?B?MnN0WGYwN2VXdnZmQS9lcjJiL2dSR2dMMzV2akROMDZKVWJTVGVUU3RENm9Y?=
- =?utf-8?B?OGkvR0dhUFc0bUVDeDBmSnZ6WjJ5TnR3YW5SUGxvcitVVmZpMVZIbmRFcHhU?=
- =?utf-8?B?dU5iR2crRG5yYVdQYUhpeks4Z0M2OTJVbERJcDUzTHp1MFBjSnM1ckd5bDRX?=
- =?utf-8?B?NkM0bFVablhKbHY5Y0xaZE9FRytwZ0ZmMmdFL3RUOS90akQxeUc5SldkeE9I?=
- =?utf-8?B?ZDNXZnFrdUNVaWVVTEpaSnE0WTYvRFZkQ1o3MzZDOFh0Z2IyenpHMmZManVO?=
- =?utf-8?B?bjBwQkdGYWhQdlNmVk9wVFFoWVBxMTNGRVpuTk1DVjJSQndxaWEyNUJRS3hP?=
- =?utf-8?B?VFlOa05oREp6MzF5dkxwQWpJV1A2ZkNjSUkxS3Vmd2Zhcld5Rld4bjU0WnVz?=
- =?utf-8?B?bEhjOGhZNElIK25KOTgyelErVWxKWGZwMmQ3Nlc2eGR2dmpmbDNtbWNSczl1?=
- =?utf-8?B?RUFNejN6UXNZWUZFMnNUUFVoMG1QVXRUdko5RXFjL2RUSy92T01jQjc0Z0Vn?=
- =?utf-8?B?c2V0TU1EY1cvL0dpSnY5RjA4U25SQ2NCU1l0UVBwR0p4SEZUdlY4ZE14L3FD?=
- =?utf-8?B?TGtLbGc0L3RrbEQvYmk3YUVKS2taZ2c1bWVpbjUwTGFoL1JVSUJnckVIKytl?=
- =?utf-8?B?REVNcXprbE5iUEFsRFZ1QmtVeTFHYzQvZXVETVFDYVlTemw0Q3ZaeHF0NHNk?=
- =?utf-8?B?eDVpSndxald1aHQvMnc0ZFJZdmxvNDUrRFM1RmQ5RE5ZNUFDOFRnNG5jTGsw?=
- =?utf-8?B?WkJZcVY0SVpRQ0NZalVBbngrM2IxWXVTTzhvdmNmbFY0U3VLd3BrREREamF6?=
- =?utf-8?B?SkMxUkFoMnplYkVaT3JwMlYyRUZHNEJuN1M0TGdmQjRwY1M0Z2dBRDBVZHRU?=
- =?utf-8?B?YkZMMC9FTXIyaXRiRmpOM2wxSkh1ZjZRU0E3SCtXeFRKVGdSVnlnV2JPSExD?=
- =?utf-8?B?UzBTMlI4NHhiMlJNTUJBdGFzeEpLY2s2b2VJQ0JPczMrS3NkK0JlTVQ5a2tJ?=
- =?utf-8?B?N01rdlZPQjhXZzBqNnU1UW1SQmlNdFhISTBFOGpxWjRVUUdNbWJidDdxL3ky?=
- =?utf-8?B?QkJwN1A1U1RidFJXUzJsSTJ3OGtVQ0IyazRyaVJYdndlTUNoaTFSV0dUamJ0?=
- =?utf-8?B?LzdPL1ZEUGRpOEZNMndzM3Fkd28vRmFkdHhpbzFtUVVadzc5TmpyTnhZazBu?=
- =?utf-8?B?M3ZlTU42dGlCeTlaY1Y3T3U5R3ZpOGYzc0hlTmJqVEJYUkoycWtxL1ZOR0Zw?=
- =?utf-8?B?aXc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e7cd779-5900-4e2a-37e5-08dbf68c0bf1
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 18:49:16.2179
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6oTp0JETj89i9wlUMnZz1giwThQ306cWO1NhsWweVDrtaT4cHFbKkO/nM1RuU0YkaBzdZh8NdIexLUxAOkOul4wsJ/XBLL+toA+59Fr/9UY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7841
-X-OriginatorOrg: intel.com
+Mime-Version: 1.0
+References: <20231203165129.1740512-1-yoong.siang.song@intel.com>
+ <20231203165129.1740512-3-yoong.siang.song@intel.com> <43b01013-e78b-417e-b169-91909c7309b1@kernel.org>
+ <656de830e8d70_2e983e294ca@willemb.c.googlers.com.notmuch>
+ <PH0PR11MB583000826591093B98BA841DD885A@PH0PR11MB5830.namprd11.prod.outlook.com>
+ <5a0faf8cc9ec3ab0d5082c66b909c582c8f1eae6.camel@siemens.com>
+ <CAKH8qBuXL8bOYtfKKPS8y=KJqouDptyciCjr0wNKVHtNj6BmqA@mail.gmail.com>
+ <656f66023f7bd_3dd6422942a@willemb.c.googlers.com.notmuch>
+ <ZW98UW033wCy9vI-@google.com> <CAJ8uoz3_XqavGt1DyFoQAuKS8Faa1Lc85b2t+whc-f6GN1Pvzw@mail.gmail.com>
+Message-ID: <ZXDGHThTynXbSTJG@google.com>
+Subject: Re: [xdp-hints] Re: [PATCH bpf-next v3 2/3] net: stmmac: add Launch
+ Time support to XDP ZC
+From: Stanislav Fomichev <sdf@google.com>
+To: Magnus Karlsson <magnus.karlsson@gmail.com>
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	Florian Bezdeka <florian.bezdeka@siemens.com>, yoong.siang.song@intel.com, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, davem@davemloft.net, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Bjorn Topel <bjorn@kernel.org>, magnus.karlsson@intel.com, maciej.fijalkowski@intel.com, 
+	Jonathan Lemon <jonathan.lemon@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, 
+	Willem de Bruijn <willemb@google.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Andrii Nakryiko <andrii@kernel.org>, Mykola Lysenko <mykolal@fb.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"xdp-hints@xdp-project.net" <xdp-hints@xdp-project.net>, 
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Babu,
+On 12/06, Magnus Karlsson wrote:
+> On Tue, 5 Dec 2023 at 20:39, Stanislav Fomichev <sdf@google.com> wrote:
+> >
+> > On 12/05, Willem de Bruijn wrote:
+> > > Stanislav Fomichev wrote:
+> > > > On Tue, Dec 5, 2023 at 7:34=E2=80=AFAM Florian Bezdeka
+> > > > <florian.bezdeka@siemens.com> wrote:
+> > > > >
+> > > > > On Tue, 2023-12-05 at 15:25 +0000, Song, Yoong Siang wrote:
+> > > > > > On Monday, December 4, 2023 10:55 PM, Willem de Bruijn wrote:
+> > > > > > > Jesper Dangaard Brouer wrote:
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > On 12/3/23 17:51, Song Yoong Siang wrote:
+> > > > > > > > > This patch enables Launch Time (Time-Based Scheduling) su=
+pport to XDP zero
+> > > > > > > > > copy via XDP Tx metadata framework.
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Song Yoong Siang<yoong.siang.song@intel.co=
+m>
+> > > > > > > > > ---
+> > > > > > > > >   drivers/net/ethernet/stmicro/stmmac/stmmac.h      |  2 =
+++
+> > > > > > > >
+> > > > > > > > As requested before, I think we need to see another driver =
+implementing
+> > > > > > > > this.
+> > > > > > > >
+> > > > > > > > I propose driver igc and chip i225.
+> > > > > >
+> > > > > > Sure. I will include igc patches in next version.
+> > > > > >
+> > > > > > > >
+> > > > > > > > The interesting thing for me is to see how the LaunchTime m=
+ax 1 second
+> > > > > > > > into the future[1] is handled code wise. One suggestion is =
+to add a
+> > > > > > > > section to Documentation/networking/xsk-tx-metadata.rst per=
+ driver that
+> > > > > > > > mentions/documents these different hardware limitations.  I=
+t is natural
+> > > > > > > > that different types of hardware have limitations.  This is=
+ a close-to
+> > > > > > > > hardware-level abstraction/API, and IMHO as long as we docu=
+ment the
+> > > > > > > > limitations we can expose this API without too many limitat=
+ions for more
+> > > > > > > > capable hardware.
+> > > > > >
+> > > > > > Sure. I will try to add hardware limitations in documentation.
+> > > > > >
+> > > > > > >
+> > > > > > > I would assume that the kfunc will fail when a value is passe=
+d that
+> > > > > > > cannot be programmed.
+> > > > > > >
+> > > > > >
+> > > > > > In current design, the xsk_tx_metadata_request() dint got retur=
+n value.
+> > > > > > So user won't know if their request is fail.
+> > > > > > It is complex to inform user which request is failing.
+> > > > > > Therefore, IMHO, it is good that we let driver handle the error=
+ silently.
+> > > > > >
+> > > > >
+> > > > > If the programmed value is invalid, the packet will be "dropped" =
+/ will
+> > > > > never make it to the wire, right?
+> > >
+> > > Programmable behavior is to either drop or cap to some boundary
+> > > value, such as the farthest programmable time in the future: the
+> > > horizon. In fq:
+> > >
+> > >                 /* Check if packet timestamp is too far in the future=
+. */
+> > >                 if (fq_packet_beyond_horizon(skb, q, now)) {
+> > >                         if (q->horizon_drop) {
+> > >                                         q->stat_horizon_drops++;
+> > >                                         return qdisc_drop(skb, sch, t=
+o_free);
+> > >                         }
+> > >                         q->stat_horizon_caps++;
+> > >                         skb->tstamp =3D now + q->horizon;
+> > >                 }
+> > >                 fq_skb_cb(skb)->time_to_send =3D skb->tstamp;
+> > >
+> > > Drop is the more obviously correct mode.
+> > >
+> > > Programming with a clock source that the driver does not support will
+> > > then be a persistent failure.
+> > >
+> > > Preferably, this driver capability can be queried beforehand (rather
+> > > than only through reading error counters afterwards).
+> > >
+> > > Perhaps it should not be a driver task to convert from possibly
+> > > multiple clock sources to the device native clock. Right now, we do
+> > > use per-device timecounters for this, implemented in the driver.
+> > >
+> > > As for which clocks are relevant. For PTP, I suppose the device PHC,
+> > > converted to nsec. For pacing offload, TCP uses CLOCK_MONOTONIC.
+> >
+> > Do we need to expose some generic netdev netlink apis to query/adjust
+> > nic clock sources (or maybe there is something existing already)?
+> > Then the userspace can be responsible for syncing/converting the
+> > timestamps to the internal nic clocks. +1 to trying to avoid doing
+> > this in the drivers.
+> >
+> > > > > That is clearly a situation that the user should be informed abou=
+t. For
+> > > > > RT systems this normally means that something is really wrong reg=
+arding
+> > > > > timing / cycle overflow. Such systems have to react on that situa=
+tion.
+> > > >
+> > > > In general, af_xdp is a bit lacking in this 'notify the user that t=
+hey
+> > > > somehow messed up' area :-(
+> > > > For example, pushing a tx descriptor with a wrong addr/len in zc mo=
+de
+> > > > will not give any visible signal back (besides driver potentially
+> > > > spilling something into dmesg as it was in the mlx case).
+> > > > We can probably start with having some counters for these events?
+> > >
+> > > This is because the AF_XDP completion queue descriptor format is only
+> > > a u64 address?
+> >
+> > Yeah. XDP_COPY mode has the descriptor validation which is exported via
+> > recvmsg errno, but zerocopy path seems to be too deep in the stack
+> > to report something back. And there is no place, as you mention,
+> > in the completion ring to report the status.
+> >
+> > > Could error conditions be reported on tx completion in the metadata,
+> > > using xsk_tx_metadata_complete?
+> >
+> > That would be one way to do it, yes. But then the error reporting depen=
+ds
+> > on the metadata opt-in. Having a separate ring to export the errors,
+> > or having a v2 tx-completions layout with extra 'status' field would al=
+so
+> > work.
+>=20
+> There are error counters for the non-metadata and offloading cases
+> above that can be retrieved with the XDP_STATISTICS getsockopt(). From
+> if_xdp.h:
+>=20
+> struct xdp_statistics {
+>         __u64 rx_dropped; /* Dropped for other reasons */
+>         __u64 rx_invalid_descs; /* Dropped due to invalid descriptor */
+>         __u64 tx_invalid_descs; /* Dropped due to invalid descriptor */
+>         __u64 rx_ring_full; /* Dropped due to rx ring being full */
+>         __u64 rx_fill_ring_empty_descs; /* Failed to retrieve item
+> from fill ring */
+>         __u64 tx_ring_empty_descs; /* Failed to retrieve item from tx rin=
+g */
+> };
+>=20
+> Albeit, these are aggregate statistics and do not say anything about
+> which packet that caused it. Works well for things that are
+> programming bugs that should not occur (such as rx_invalid_descs and
+> tx_invalid_descs) and requires the programmer to debug and fix his or
+> her program, but it does not work for requests that might fail even
+> though the program is correct and need to be handled on a packet by
+> packet basis. So something needs to be added for that as you both say.
+>=20
+> Would prefer if we could avoid a v2 completion descriptor format or
+> another ring that needs to be checked all the time, so if we could
+> live with providing the error status in the metadata field of the
+> packet at completion time, that would be good. Though having the error
+> status in the completion ring would be faster as that cache line is
+> hot, while the metadata section of the packet is likely not at
+> completion time. So that speaks for a v2 completion ring format. Just
+> thinking out loud here.
 
-On 12/6/2023 7:40 AM, Moger, Babu wrote:
-> Hi Reinette,
-> 
-> On 12/5/23 17:17, Reinette Chatre wrote:
->> (+James)
->>
->> Hi Babu,
->>
->> On 11/30/2023 4:57 PM, Babu Moger wrote:
->>> These series adds the support for AMD QoS RMID Pinning feature. It is also
->>
->> "These series" - is this series part of a bigger work?
-> 
-> No.
-> There are some some plans to optimize rmid_reads. Peter is planning to
-> work on that. But both are independent of each other.
-
-I would propose that you use "This series" instead to avoid creating
-wrong impression.
-
->>> a. Check if ABMC support is available
->>> 	#mount -t resctrl resctrl /sys/fs/resctrl/
->>> 	#cat /sys/fs/resctrl/info/L3_MON/mon_features 
->>> 	llc_occupancy
->>> 	mbm_total_bytes
->>> 	mbm_total_bytes_config
->>> 	mbm_local_bytes
->>> 	mbm_local_bytes_config
->>> 	abmc_capable ←  Linux kernel detected ABMC feature.
->>
->> (Please start thinking about a new name that is not the AMD feature
->> name. This is added to resctrl filesystem that is the generic interface
->> used to work with different architectures. This thus needs to be generalized
->> to what user requires and how it can be accommodated by the hardware ...
->> this is already expected to be needed by MPAM and having a AMD feature
->> name could cause confusion.)
-> 
-> Yes. Agree.
-> 
-> How about "assign_capable"?
-
-Let's wait to learn more about other use case.
-
-> 
->>
->>>
->>> b. Mount with ABMC support
->>> 	#umount /sys/fs/resctrl/
->>> 	#mount  -o abmc -t resctrl resctrl /sys/fs/resctrl/
->>> 	
->>
->> hmmm ... so this requires the user to mount resctrl, determine if the
->> feature is supported, unmount resctrl, remount resctrl with feature enabled.
->> Could you please elaborate what prevents this feature from being enabled
->> without needing to remount resctrl?
-> 
-> Spec says
-> "Enabling ABMC: ABMC is enabled by setting L3_QOS_EXT_CFG.ABMC_En=1 (see
-> Figure 19-7). When the state of ABMC_En is changed, it must be changed to
-> the updated value on all logical processors in the QOS Domain.
-> Upon transitions of the ABMC_En the following actions take place:
-> All ABMC assignable bandwidth counters are reset to 0.
-> The L3 default mode bandwidth counters are reset to 0.
-> The L3_QOS_ABMC_CFG MSR is reset to 0."
-> 
-> So, all the monitoring group counters will be reset.
-> 
-> It is technically possible to enable without remount. But ABMC mode
-> requires few new files(in each group) which I added when mounted with "-o
-> abmc". Thought it is a better option.
-> 
-> Otherwise we need to add these files when ABMC is supported(not when
-> enabled). Need to add another file in /sys/fs/resctrl/info/L3_MON to
-> enable the feature on the fly.
-> 
-> Both are acceptable options. Any thoughts?
-
-The new resctrl files in info/ could always be present. For example,
-user space may want to know how many counters are available before
-enabling the feature.
-
-It is not yet obvious to me that this feature requires new files
-in monitor groups.
-
->>> c. Read the monitor states. There will be new file "monitor_state"
->>>    for each monitor group when ABMC feature is enabled. By default,
->>>    both total and local MBM events are in "unassign" state.
->>> 	
->>> 	#cat /sys/fs/resctrl/monitor_state 
->>> 	total=unassign;local=unassign
->>> 	
->>> d. Read the event mbm_total_bytes and mbm_local_bytes. Note that MBA
->>>    events are not available until the user assigns the events explicitly.
->>>    Users need to assign the counters to monitor the events in this mode.
->>> 	
->>> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->>> 	Unavailable
->>
->> How is the llc_occupancy event impacted when ABMC is enabled? Can all RMIDs
->> still be used to track cache occupancy?
-> 
-> llc_occupancy event is not impacted by ABMC mode. It can be still used to
-> track cache occupancy.
-> 
->>
->>> 	
->>> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
->>> 	Unavailable
->>
->> I believe that "Unavailable" already has an accepted meaning within current
->> interface and is associated with temporary failure. Even the AMD spec states "This
->> is generally a temporary condition and subsequent reads may succeed". In the
->> scenario above there is no chance that this counter would produce a value later.
->> I do not think it is ideal to overload existing interface with different meanings
->> associated with a new hardware specific feature ... something like "Disabled" seems
->> more appropriate.
-> 
-> Hardware still reports it as unavailable. Also, there are some error cases
-> hardware can report unavailable. We may not be able to differentiate that.
-
-This highlights that this resctrl feature is currently latched to AMD's 
-ABMC. I do not think we should require that this resctrl feature is backed
-by hardware that can support reads of counters that are disabled. A counter
-read really only needs to be sent to hardware if it is enabled.
-
->> Considering this we may even consider using these files themselves as a
->> way to enable the counters if they are disabled. For example, just
->> "echo 1 > /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes" can be used
-> 
-> I am not sure about this. This is specific to domain 0. This group can
-> have cpus from multiple domains. I think we should have the interface for
-> all the domains(not for specific domain).
-
-Are the ABMC registers not per CPU? This is unclear to me at this time
-since changelog of patch #13 states it is per-CPU but yet the code
-uses smp_call_function_any().
-
-Even so, this needs to take other use cases into account. So far Peter
-mentioned the scenario where enabling of one counter would do so for all
-events associated with that counter and then there could also be a global
-enable/disable.
-
-> 
->> to enable this counter. No need for a new "monitor_state". Please note that this
->> is not an official proposal since there are two other use cases that still need to
->> be considered as we await James's feedback on how this may work for MPAM and
->> also how this may be useful on AMD hardware that does not support ABMC but
->> users may want to get similar benefits ([1])
-> 
-> Ok. Lets wait for James comments.
-
-Reinette
-
+In this case, maybe adding tx_over_horizon_dropped to XDP_STATISTICS
+is all we need here? We can have some new api to query this horizon
+per netdev.
