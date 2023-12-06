@@ -1,164 +1,193 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UIgA5O+c"
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2068.outbound.protection.outlook.com [40.107.101.68])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E242810FB;
-	Tue,  5 Dec 2023 23:31:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EM1yf62RpmLQ4NA2Ozo+U8dcMv5BBe4sFMaKchzebGO4kVhpmnaEhVL9mNtK+K8RRI6gtDZbINsr0IplwCSFOsJ9tGqSzU3mySXtOb7pe39aQs3cZ/Qh95X8r5mymSUg7uOStiAbXnw4mMwnxOEfcvlAhBsbS2HhbpIyR+XmszwNFUqbciFLsDAi8k04eRnthjhS+D65863mztpGWggLJIXmevLmDbzkv7iFyc7c0S2LgHltvNRxy8nrDBoZPZrwz2F3KKMHtfhTLKD1FSj8Oj3zSDWAp0Klfnt6zjNk29w6gjERCyvKDF/EZFHCWBSpumWZp0QwB0u5VWeI3ooYMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/FG/v7ogyS6xo4c1TLYkdS7kjTNds9VBLaPwExQZrCs=;
- b=agcckDuVrqcnxYcJI4XSGTbGOGc5e0scgLWVALN7dYyez6du4HpipyUaucT1tEvmSwa1oH7k784Jju5ftvzF5MkS7vVI2ekPBImGVirtzb83mRcgZLrSPr4CQmuJk2APTZY4KUj8DZ29ekGsJsXpSsAyTNRVUIp4fX4KLgmz6eW3QRYysIkz4Q7lUIcFMTXSvuroOJKJVExXXfeNJ+IzLi8RCmAATmD0PBi1ugysBcCGXfw1B2hyVp/cGPKN5cUUHd66RnWs18DKDOSq2kRDTTecQmWpLdhSoxVcDwkoVvUcAc5+P8nkpdLUQ/cUY697TRLEGSdGBIgNernM7/cWfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/FG/v7ogyS6xo4c1TLYkdS7kjTNds9VBLaPwExQZrCs=;
- b=UIgA5O+cVAGovj/BunraztZqK7N44cSj0SxSIvWEJaeYPtFb1iMkle00nBrOfNMf67kzdKO/OgDASguKENAV5JRpYH28lvkCmnib0Uoydeayhr1Nykp1J0PRh1KFAG45uHNi7IsjTB29H34L5lP+kjzhwq8OzvpgnWVIgPjDBYo=
-Received: from MW4P222CA0004.NAMP222.PROD.OUTLOOK.COM (2603:10b6:303:114::9)
- by SJ2PR12MB8829.namprd12.prod.outlook.com (2603:10b6:a03:4d0::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Wed, 6 Dec
- 2023 07:31:42 +0000
-Received: from CO1PEPF000044F6.namprd21.prod.outlook.com
- (2603:10b6:303:114:cafe::1c) by MW4P222CA0004.outlook.office365.com
- (2603:10b6:303:114::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34 via Frontend
- Transport; Wed, 6 Dec 2023 07:31:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044F6.mail.protection.outlook.com (10.167.241.196) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7091.2 via Frontend Transport; Wed, 6 Dec 2023 07:31:41 +0000
-Received: from compile-server.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 6 Dec
- 2023 01:31:24 -0600
-From: Ma Jun <Jun.Ma2@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <lenb@kernel.org>, <hdegoede@redhat.com>,
-	<johannes@sipsolutions.net>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <alexander.deucher@amd.com>,
-	<Lijo.Lazar@amd.com>, <mario.limonciello@amd.com>, <netdev@vger.kernel.org>,
-	<linux-wireless@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>
-CC: <majun@amd.com>, Evan Quan <quanliangl@hotmail.com>, Ma Jun
-	<Jun.Ma2@amd.com>
-Subject: [PATCH v15 9/9] drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
-Date: Wed, 6 Dec 2023 15:29:47 +0800
-Message-ID: <20231206072947.1331729-10-Jun.Ma2@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231206072947.1331729-1-Jun.Ma2@amd.com>
-References: <20231206072947.1331729-1-Jun.Ma2@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZlDbIHvK"
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D04D42
+	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 23:37:08 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40a4848c6e1so71143065e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 23:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701848227; x=1702453027; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Isn26eYQ7Abxs6xHNfpvbrXVMUNZJcXSAjCQgZHcKYQ=;
+        b=ZlDbIHvKC241BSdnp1tWnowsWQb4XzbxxfZnm32/HBDiXXX739JZr0s+4Km7RyIWPw
+         KEZlA5MrLate2bpCQL3EyoRiwmmZyX3DFt46HbBGTtmQrcBdQ7XWunacS3GcCK8suhFV
+         J4VOVKq/LH3CD/iqqmh1MXmJg+RH4T+sr4TcIsHUUyDkoIR0L1IM+oYDSh0RQLwuCa5P
+         RkeEnldmvU7GOaNC8DuY1OEFJM3z0s2mmZvvd4jItnQV61LokCwi+2EmfVbMYjgVcv5I
+         6hzIyeBl2/bKhDz8c/7pG77gGnvvSWl9jllVgwdXDiDUdHISvaKWmviW8r7VQcjcGS1p
+         maag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701848227; x=1702453027;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Isn26eYQ7Abxs6xHNfpvbrXVMUNZJcXSAjCQgZHcKYQ=;
+        b=nYqCdGiZsYD9T9WlzpkjYSn6sRGnzqVcc7AQspJPuGMfRld01/INEHavtgopPoQvpu
+         WHKlTUeDfGHYY5WaqOiiJMwo23E5ecvF31XcwVCzmPePCtJAQlYCGheoxZwGPYNWs71y
+         kuG2gZPBQfPgaTf2IEQ+ashxJ/zGRlQJaD2v5AZNlkVpwJO/pdzHPm85I+c+1M3Qw6sa
+         oy9ecSHCErMw1fyZss/xnyt9hOxumIha9jdSE4/MmkTLeAnOVWh5Nhks5HWKg+XZFNSf
+         seLyepEobPSjH92TVR+DbB0dwaFW2GlHG8IzsAyRlMYpp4Oe7UVAE11ZevGRq22BLAE0
+         Dmiw==
+X-Gm-Message-State: AOJu0YzR9KsAKpjOKHLZTa8hVOWznojdaabHHRyVB/cq8itWMz82/HMt
+	hMuqS30Rp9mglEBf9HD4yJ/x4grhExrDggjZOHt+zA==
+X-Google-Smtp-Source: AGHT+IHMFcve1d/1bLnN0dRZq51LAGCmSPmZ64T49E0eQxLrv4N0iurlN0xX+BnnKoG17JilTXJsE1CRujLhaKDLhZ0=
+X-Received: by 2002:a05:600c:3155:b0:40b:4c39:b4b with SMTP id
+ h21-20020a05600c315500b0040b4c390b4bmr308415wmo.0.1701848226590; Tue, 05 Dec
+ 2023 23:37:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F6:EE_|SJ2PR12MB8829:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8900bf9-76a4-43be-01e6-08dbf62d644c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	MijNCUFaWPXSdNdiJeID/Hm3U0InozjB/qdiwyR1LizKY87oJOruK3YVhEgZP/99xL6xNME3hgGsOhdO1jzpyuEOe2EprkWtHpALLI+z4EANR4BUBtZlOhkpMTnb3OrZU0lhBFqZVgjBp83VpwqhI+7rfs1o9chZ54d5YaM1qZgoy8sauBK7eAffzAAlmkP2/QjrIYXPTN04kgX99ZsYO+VnBuYawirAwahy+clorupBntBOWEAma7KtFxpiNwcBv05IshlPq2EkKpNPZ7nWknVUm+SP3aQ2XEICUXL5RJUjNqWcwxlwKvGiuX3EAhQBFczNMlj5hhSjg/2wpCKlKcqhl6hH9W2WK7EzIZ0FhfRolgulSuFfJrzufB7/Yblib4c7zFmd9q5jNJbeWlDVl7ft5QOeEXys+bX+lw30tg15GmpJER5lVAjVXFeEVcnK/Y7n3XjDX7FCQs3KIYFVrEb0RG2XZ1rl65uHK1Wg5CU4rEFYTvat5IraqMLlcvTtCt7rzdL5UpIz00wm7AUfkEktkOyqC0RTKNQWXLumDIKIyFpHyHPrVhgmrryBeOf8kInS5+kQq20gf3oGaswErYYpGvM81bQE3bUER4jkY219LB85AgNkET6B4KRXHcNCH2/6V3EIW0t3r59hw7pXgJylIP8g1HkgI2MkVg4lM2OglhLgVtQbzbKjDdTU6Z5he/yQqxfTsAbLR0FK7V4R8S0H1x6ie7+qbG+5PMmgcH6cEhgJsW7fPGc9m8GSKi7UnYyi07ldqKdhASQRb4eJ95J7WcvKDnR1szpJwO3GFd/WEJPHvsaNiml1AOWFGlHDWJEJhCvheLRjhnn938+nMQ==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(39860400002)(376002)(396003)(230273577357003)(230922051799003)(230173577357003)(64100799003)(82310400011)(1800799012)(186009)(451199024)(40470700004)(36840700001)(40480700001)(426003)(336012)(26005)(2616005)(1076003)(16526019)(40460700003)(81166007)(356005)(82740400003)(36756003)(921008)(7696005)(86362001)(83380400001)(32650700002)(7416002)(5660300002)(6666004)(45080400002)(36860700001)(70586007)(4326008)(70206006)(8936002)(316002)(110136005)(54906003)(478600001)(2906002)(41300700001)(8676002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 07:31:41.8002
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8900bf9-76a4-43be-01e6-08dbf62d644c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044F6.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8829
+References: <20231130194023.4102148-1-nphamcs@gmail.com> <20231130194023.4102148-7-nphamcs@gmail.com>
+ <ed2792de-24cc-4037-9ee1-966cc07df57a@linux.dev> <CAJD7tkbiWqXs1PEZjMHO0gj5uSaaB-KNUNCiUz25MuPvzeb=wg@mail.gmail.com>
+ <e55f5841-9b6e-47a1-9f68-3907ab0190e0@linux.dev>
+In-Reply-To: <e55f5841-9b6e-47a1-9f68-3907ab0190e0@linux.dev>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Tue, 5 Dec 2023 23:36:27 -0800
+Message-ID: <CAJD7tkYkgRxDgZzCs2su7e4ocr5=zz2fjjr81+t35d_sp0E0gQ@mail.gmail.com>
+Subject: Re: [PATCH v8 6/6] zswap: shrinks zswap pool based on memory pressure
+To: Chengming Zhou <chengming.zhou@linux.dev>
+Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, hannes@cmpxchg.org, 
+	cerasuolodomenico@gmail.com, sjenning@redhat.com, ddstreet@ieee.org, 
+	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeelb@google.com, muchun.song@linux.dev, chrisl@kernel.org, 
+	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Evan Quan <quanliangl@hotmail.com>
+On Tue, Dec 5, 2023 at 10:43=E2=80=AFPM Chengming Zhou <chengming.zhou@linu=
+x.dev> wrote:
+>
+> On 2023/12/6 13:59, Yosry Ahmed wrote:
+> > [..]
+> >>> @@ -526,6 +582,102 @@ static struct zswap_entry *zswap_entry_find_get=
+(struct rb_root *root,
+> >>>       return entry;
+> >>>  }
+> >>>
+> >>> +/*********************************
+> >>> +* shrinker functions
+> >>> +**********************************/
+> >>> +static enum lru_status shrink_memcg_cb(struct list_head *item, struc=
+t list_lru_one *l,
+> >>> +                                    spinlock_t *lock, void *arg);
+> >>> +
+> >>> +static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+> >>> +             struct shrink_control *sc)
+> >>> +{
+> >>> +     struct lruvec *lruvec =3D mem_cgroup_lruvec(sc->memcg, NODE_DAT=
+A(sc->nid));
+> >>> +     unsigned long shrink_ret, nr_protected, lru_size;
+> >>> +     struct zswap_pool *pool =3D shrinker->private_data;
+> >>> +     bool encountered_page_in_swapcache =3D false;
+> >>> +
+> >>> +     nr_protected =3D
+> >>> +             atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_p=
+rotected);
+> >>> +     lru_size =3D list_lru_shrink_count(&pool->list_lru, sc);
+> >>> +
+> >>> +     /*
+> >>> +      * Abort if the shrinker is disabled or if we are shrinking int=
+o the
+> >>> +      * protected region.
+> >>> +      *
+> >>> +      * This short-circuiting is necessary because if we have too ma=
+ny multiple
+> >>> +      * concurrent reclaimers getting the freeable zswap object coun=
+ts at the
+> >>> +      * same time (before any of them made reasonable progress), the=
+ total
+> >>> +      * number of reclaimed objects might be more than the number of=
+ unprotected
+> >>> +      * objects (i.e the reclaimers will reclaim into the protected =
+area of the
+> >>> +      * zswap LRU).
+> >>> +      */
+> >>> +     if (!zswap_shrinker_enabled || nr_protected >=3D lru_size - sc-=
+>nr_to_scan) {
+> >>> +             sc->nr_scanned =3D 0;
+> >>> +             return SHRINK_STOP;
+> >>> +     }
+> >>> +
+> >>> +     shrink_ret =3D list_lru_shrink_walk(&pool->list_lru, sc, &shrin=
+k_memcg_cb,
+> >>> +             &encountered_page_in_swapcache);
+> >>> +
+> >>> +     if (encountered_page_in_swapcache)
+> >>> +             return SHRINK_STOP;
+> >>> +
+> >>> +     return shrink_ret ? shrink_ret : SHRINK_STOP;
+> >>> +}
+> >>> +
+> >>> +static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
+> >>> +             struct shrink_control *sc)
+> >>> +{
+> >>> +     struct zswap_pool *pool =3D shrinker->private_data;
+> >>> +     struct mem_cgroup *memcg =3D sc->memcg;
+> >>> +     struct lruvec *lruvec =3D mem_cgroup_lruvec(memcg, NODE_DATA(sc=
+->nid));
+> >>> +     unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
+> >>> +
+> >>> +#ifdef CONFIG_MEMCG_KMEM
+> >>> +     cgroup_rstat_flush(memcg->css.cgroup);
+> >>> +     nr_backing =3D memcg_page_state(memcg, MEMCG_ZSWAP_B) >> PAGE_S=
+HIFT;
+> >>> +     nr_stored =3D memcg_page_state(memcg, MEMCG_ZSWAPPED);
+> >>> +#else
+> >>> +     /* use pool stats instead of memcg stats */
+> >>> +     nr_backing =3D get_zswap_pool_size(pool) >> PAGE_SHIFT;
+> >>> +     nr_stored =3D atomic_read(&pool->nr_stored);
+> >>> +#endif
+> >>> +
+> >>> +     if (!zswap_shrinker_enabled || !nr_stored)
+> >> When I tested with this series, with !zswap_shrinker_enabled in the de=
+fault case,
+> >> I found the performance is much worse than that without this patch.
+> >>
+> >> Testcase: memory.max=3D2G, zswap enabled, kernel build -j32 in a tmpfs=
+ directory.
+> >>
+> >> The reason seems the above cgroup_rstat_flush(), caused much rstat loc=
+k contention
+> >> to the zswap_store() path. And if I put the "zswap_shrinker_enabled" c=
+heck above
+> >> the cgroup_rstat_flush(), the performance become much better.
+> >>
+> >> Maybe we can put the "zswap_shrinker_enabled" check above cgroup_rstat=
+_flush()?
+> >
+> > Yes, we should do nothing if !zswap_shrinker_enabled. We should also
+> > use mem_cgroup_flush_stats() here like other places unless accuracy is
+> > crucial, which I doubt given that reclaim uses
+> > mem_cgroup_flush_stats().
+> >
+>
+> Yes. After changing to use mem_cgroup_flush_stats() here, the performance
+> become much better.
+>
+> > mem_cgroup_flush_stats() has some thresholding to make sure we don't
+> > do flushes unnecessarily, and I have a pending series in mm-unstable
+> > that makes that thresholding per-memcg. Keep in mind that adding a
+> > call to mem_cgroup_flush_stats() will cause a conflict in mm-unstable,
+>
+> My test branch is linux-next 20231205, and it's all good after changing
+> to use mem_cgroup_flush_stats(memcg).
 
-Fulfill the SMU13.0.7 support for Wifi RFI mitigation feature.
+Thanks for reporting back. We should still move the
+zswap_shrinker_enabled check ahead, no need to even call
+mem_cgroup_flush_stats() if we will do nothing anyway.
 
-Signed-off-by: Evan Quan <quanliangl@hotmail.com>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
---
-v10->v11:
-  - downgrade the prompt level on message failure(Lijo)
-v13:
- - Fix the format issue (IIpo Jarvinen)
- - Remove duplicate code (IIpo Jarvinen)
----
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c    | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-index 81eafed76045..eb507cbf5c3d 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-@@ -140,6 +140,7 @@ static struct cmn2asic_msg_mapping smu_v13_0_7_message_map[SMU_MSG_MAX_COUNT] =
- 	MSG_MAP(AllowGpo,			PPSMC_MSG_SetGpoAllow,           0),
- 	MSG_MAP(GetPptLimit,			PPSMC_MSG_GetPptLimit,                 0),
- 	MSG_MAP(NotifyPowerSource,		PPSMC_MSG_NotifyPowerSource,           0),
-+	MSG_MAP(EnableUCLKShadow,		PPSMC_MSG_EnableUCLKShadow,            0),
- };
- 
- static struct cmn2asic_mapping smu_v13_0_7_clk_map[SMU_CLK_COUNT] = {
-@@ -222,6 +223,7 @@ static struct cmn2asic_mapping smu_v13_0_7_table_map[SMU_TABLE_COUNT] = {
- 	TAB_MAP(ACTIVITY_MONITOR_COEFF),
- 	[SMU_TABLE_COMBO_PPTABLE] = {1, TABLE_COMBO_PPTABLE},
- 	TAB_MAP(OVERDRIVE),
-+	TAB_MAP(WIFIBAND),
- };
- 
- static struct cmn2asic_mapping smu_v13_0_7_pwr_src_map[SMU_POWER_SOURCE_COUNT] = {
-@@ -512,6 +514,9 @@ static int smu_v13_0_7_tables_init(struct smu_context *smu)
- 		       AMDGPU_GEM_DOMAIN_VRAM);
- 	SMU_TABLE_INIT(tables, SMU_TABLE_COMBO_PPTABLE, MP0_MP1_DATA_REGION_SIZE_COMBOPPTABLE,
- 			PAGE_SIZE, AMDGPU_GEM_DOMAIN_VRAM);
-+	SMU_TABLE_INIT(tables, SMU_TABLE_WIFIBAND,
-+		       sizeof(WifiBandEntryTable_t), PAGE_SIZE,
-+		       AMDGPU_GEM_DOMAIN_VRAM);
- 
- 	smu_table->metrics_table = kzalloc(sizeof(SmuMetricsExternal_t), GFP_KERNEL);
- 	if (!smu_table->metrics_table)
-@@ -2567,6 +2572,11 @@ static int smu_v13_0_7_set_df_cstate(struct smu_context *smu,
- 					       NULL);
- }
- 
-+static bool smu_v13_0_7_wbrf_support_check(struct smu_context *smu)
-+{
-+	return smu->smc_fw_version > 0x00524600;
-+}
-+
- static const struct pptable_funcs smu_v13_0_7_ppt_funcs = {
- 	.get_allowed_feature_mask = smu_v13_0_7_get_allowed_feature_mask,
- 	.set_default_dpm_table = smu_v13_0_7_set_default_dpm_table,
-@@ -2635,6 +2645,9 @@ static const struct pptable_funcs smu_v13_0_7_ppt_funcs = {
- 	.set_mp1_state = smu_v13_0_7_set_mp1_state,
- 	.set_df_cstate = smu_v13_0_7_set_df_cstate,
- 	.gpo_control = smu_v13_0_gpo_control,
-+	.is_asic_wbrf_supported = smu_v13_0_7_wbrf_support_check,
-+	.enable_uclk_shadow = smu_v13_0_enable_uclk_shadow,
-+	.set_wbrf_exclusion_ranges = smu_v13_0_set_wbrf_exclusion_ranges,
- };
- 
- void smu_v13_0_7_set_ppt_funcs(struct smu_context *smu)
--- 
-2.34.1
-
+>
+> > because the series there adds a memcg argument to
+> > mem_cgroup_flush_stats(). That should be easily amenable though, I can
+> > post a fixlet for my series to add the memcg argument there on top of
+> > users if needed.
+> >
+>
+> It's great. Thanks!
+>
