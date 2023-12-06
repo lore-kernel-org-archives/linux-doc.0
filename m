@@ -1,106 +1,113 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PVn50Q4R"
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ADA8D62
-	for <linux-doc@vger.kernel.org>; Wed,  6 Dec 2023 12:22:52 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1d08a924fcfso1372475ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 06 Dec 2023 12:22:52 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e6l8tHe2"
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75BDAD5C
+	for <linux-doc@vger.kernel.org>; Wed,  6 Dec 2023 13:07:29 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-28670a7ba84so238998a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 06 Dec 2023 13:07:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701894172; x=1702498972; darn=vger.kernel.org;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=wEKgHh9Vd3x1VnCH3fKyTqAO4yCFQDcZVScsz606mCI=;
-        b=PVn50Q4RLuzMR14j+U6APgpOl2LYdffAuu+oeSRN0D/cWGpiAcHNPva2TRKwQUqIk+
-         v8ORKAOfxQxnGFBxZCn7bPwqMBjCkNtHMGbcS0jEW08ItZonzA9v4FJP2rjEsCeNtWxT
-         4p9WCxws66nAVAlPjIxp6hxAKJuGXia1NgwMFrasXuW3zz7yPF2sN9krvj+ruchKrVjM
-         i95eq/DPs97H1ROevLCgRL99MvLLL+jl1pzVnKadI0Fn2oKggKC9aurPt3iMvwXwUpQD
-         V6RNQFqiwu0bL0OPMslIdDoczVs07ppstSXEpmCSmHwqQIkxWU3ZjpXU6dvJhCvwHJIW
-         W23g==
+        d=chromium.org; s=google; t=1701896849; x=1702501649; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZqFC5ji57tlGOgcDGhYR3koXkffw9V8OUgIHws4y0Ik=;
+        b=e6l8tHe2M5qlVEEJ1DCYVDM88akxop4k1yonzqkenLnFE/utNe9Bp5mC9NOsOGgnA5
+         O5w0JXVSD3uXLZZqhnCj6F/vR7z1GY9hnwE+/DmSxzjYUa0PV/ul/xOhoiUF3jTL/67C
+         VqD15G+/LwwV/KhYRoLPrLxDwBW9Z6UQsZixc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701894172; x=1702498972;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1701896849; x=1702501649;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wEKgHh9Vd3x1VnCH3fKyTqAO4yCFQDcZVScsz606mCI=;
-        b=Cj6G4nTc7LVibK6xgRjYj4fQZ9QHMyWy+6foVtyUVZCWsbEx1w3pjl3m3YHC//RdOo
-         Zy4B8h5gvKOPZGx4cjmGKQvUcBH0aAYejJbdBOytp2eUzNmfPgQAZeCDUGUJqehg3nli
-         PbdAA6+p7xkTR9w4f+EpFN/z1FPr7frRVGUO8LxT+jIaV4mwXr6jM48sgcZsOWxkoNtT
-         Kb4LZYZUHUkDjdiCc1rDaxI6WY6elIp7KfKZr4+pIQKloSY8zMce4M81vjl3iUxF8bnK
-         KLWus/u0ospW2u4dvg0yBB51fEkVtW7f/jTnNAGDd7quXMVnB6jfosgVNhCwTXAGDhs2
-         GBCw==
-X-Gm-Message-State: AOJu0YzZd2KsSqonCFPMc/S0E6L4BAhOakafXdOgl+ey5zGFt3qVtTrx
-	XnUYmbEfZ2nKJ82Lb/p+LVkHwg==
-X-Google-Smtp-Source: AGHT+IG+PGi/Ruq72+ftbttXAOwy9ae3wKn38k1eINbZqpLAyVIquTjmRIENSAWXjKXoIaCS0/BIwA==
-X-Received: by 2002:a17:902:d502:b0:1d0:92a0:492b with SMTP id b2-20020a170902d50200b001d092a0492bmr1505448plg.84.1701894171625;
-        Wed, 06 Dec 2023 12:22:51 -0800 (PST)
-Received: from localhost ([2804:14d:7e22:803e:f0e2:3ff1:8acc:a2d5])
-        by smtp.gmail.com with ESMTPSA id z2-20020a170902ee0200b001d071a305ecsm217078plb.245.2023.12.06.12.22.50
+        bh=ZqFC5ji57tlGOgcDGhYR3koXkffw9V8OUgIHws4y0Ik=;
+        b=pq3wnj8bihvgeGfS7INnlGj+atC+U/1B2hgnFb1ZfvRz2u/zHWuw2nDCJXNCAJyzA5
+         R2sCNkWgxIhufetrBp9emvRejn4ybIxabbpfSrnScn2u7cZosuyvybKjnEDzc1ZWWE7g
+         j4RPvrWPFDdUmz5hgSgwqRVXj9xX/H9gwmQPlCEObexRd5VWAzM4OAV9QbolnU/03FzO
+         UuF5QskqGUjaN7lThB9hdxXYPqlRd+BOT2nBD/5foBxO3PjpEAqMvWtHx5ZRbFVUS/+G
+         DxYAa0IyVTcHBkZ8uwmlVwHXyPJDmwtuGBdz7VNq2gZx/erjUfCepohdOwexmdMWjEFM
+         PvWA==
+X-Gm-Message-State: AOJu0Ywwk9JGtXqWOZTDi6IbEnU83QCxvkXP8tkF4T6ZrxuTv2k/R9uL
+	LXnREnW0D55IatOWQ1gXaCdLpQ==
+X-Google-Smtp-Source: AGHT+IEAbbzSLQbJ/Rm3HnAGHG3fVDh0lRG/dixqNMZ39AimVhzfCgt99eehqSCc5SMeKCYoDAW9gw==
+X-Received: by 2002:a17:90b:5281:b0:286:6cc0:b920 with SMTP id si1-20020a17090b528100b002866cc0b920mr1089720pjb.87.1701896848897;
+        Wed, 06 Dec 2023 13:07:28 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id gq7-20020a17090b104700b0028571e2a759sm296227pjb.48.2023.12.06.13.07.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 12:22:51 -0800 (PST)
-References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
- <20231122-arm64-gcs-v7-21-201c483bd775@kernel.org>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
- <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
- Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, Oleg
- Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees
- Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, "Rick P.
- Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta
- <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, Szabolcs Nagy
- <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, Christian
- Brauner <brauner@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v7 21/39] arm64/gcs: Allocate a new GCS for threads with
- GCS enabled
-In-reply-to: <20231122-arm64-gcs-v7-21-201c483bd775@kernel.org>
-Date: Wed, 06 Dec 2023 17:22:49 -0300
-Message-ID: <87il5bhyhy.fsf@linaro.org>
+        Wed, 06 Dec 2023 13:07:28 -0800 (PST)
+Date: Wed, 6 Dec 2023 13:07:27 -0800
+From: Kees Cook <keescook@chromium.org>
+To: davidgow@google.com
+Cc: Rae Moar <rmoar@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/4] fortify: test: Use kunit_device
+Message-ID: <202312061306.98DA6D275D@keescook>
+References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
+ <20231205-kunit_bus-v1-2-635036d3bc13@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205-kunit_bus-v1-2-635036d3bc13@google.com>
 
+On Tue, Dec 05, 2023 at 03:31:34PM +0800, davidgow@google.com wrote:
+> Using struct root_device to create fake devices for tests is something
+> of a hack. The new struct kunit_device is meant for this purpose, so use
+> it instead.
+> 
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+>  lib/fortify_kunit.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/lib/fortify_kunit.c b/lib/fortify_kunit.c
+> index c8c33cbaae9e..f7a1fce8849b 100644
+> --- a/lib/fortify_kunit.c
+> +++ b/lib/fortify_kunit.c
+> @@ -16,6 +16,7 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <kunit/test.h>
+> +#include <kunit/device.h>
+>  #include <linux/device.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+> @@ -269,7 +270,7 @@ DEFINE_ALLOC_SIZE_TEST_PAIR(kvmalloc)
+>  	size_t len;							\
+>  									\
+>  	/* Create dummy device for devm_kmalloc()-family tests. */	\
+> -	dev = root_device_register(dev_name);				\
+> +	dev = kunit_device_register(test, dev_name);			\
+>  	KUNIT_ASSERT_FALSE_MSG(test, IS_ERR(dev),			\
+>  			       "Cannot register test device\n");	\
+>  									\
+> @@ -303,7 +304,7 @@ DEFINE_ALLOC_SIZE_TEST_PAIR(kvmalloc)
+>  	checker(len, devm_kmemdup(dev, "Ohai", len, gfp),		\
+>  		devm_kfree(dev, p));					\
+>  									\
+> -	device_unregister(dev);						\
+> +	kunit_device_unregister(test, dev);				\
+>  } while (0)
+>  DEFINE_ALLOC_SIZE_TEST_PAIR(devm_kmalloc)
 
-Mark Brown <broonie@kernel.org> writes:
+Acked-by: Kees Cook <keescook@chromium.org>
 
-> When a new thread is created by a thread with GCS enabled the GCS needs
-> to be specified along with the regular stack.  clone3() has been
-> extended to support this case, allowing userspace to explicitly request
-> the size for the GCS to be created, but plain clone() is not extensible
-> and existing clone3() users will not specify a size.
->
-> For compatibility with these cases and also x86 (which did not initially
-> implement clone3() support for shadow stacks) if no GCS is specified we
-> will allocate one thread so when a thread is created which has GCS
-                    ~~~~~~
-
-This "thread" seems extraneous in the sentence. Remove it?
-
-> enabled allocate one for it.  We follow the extensively discussed x86
-> implementation and allocate min(RLIMIT_STACK, 4G).  Since the GCS only
-
-Isn't it min(RLIMIT_STACK/2, 2G)?
-
-> stores the call stack and not any variables this should be more than
-> sufficient for most applications.
->
-> GCSs allocated via this mechanism then it will be freed when the thread
-> exits.
-
-I'm not sure I parsed this sentence correctly. Is it missing an "If" at
-the beginning?
+(As an aside; shouldn't this get automatically cleaned up like other
+kunit resources, though?)
 
 -- 
-Thiago
+Kees Cook
