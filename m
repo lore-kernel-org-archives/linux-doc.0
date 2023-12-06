@@ -1,166 +1,162 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l7+Kilka"
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A4651AA;
-	Tue,  5 Dec 2023 19:35:42 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-7b411be1eb7so196307739f.3;
-        Tue, 05 Dec 2023 19:35:42 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UXm8uYZ/"
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D8D2D42
+	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 19:55:02 -0800 (PST)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-5d3c7ef7b31so59151547b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 19:55:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701833742; x=1702438542; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tqCT9UhzTcxCbk+fnZ9QwAf1vc+qB4SCnje0SUyPZjY=;
-        b=l7+KilkatRSnTIuXGMbwZOfZvkhbVacc/pxBSvxe/6jbffrFiIo4qNdFijgpIl+z6V
-         cMEJ1P0sfceMtUVo77MUkWV71lyxijeIsGI0fE4I1BmkVNu2nLtUbgrPnXDzCxZMvC54
-         nMFmke3NxU4qL1R8J5+xd3GJhu/+0mweej/ywdCT3z/6973R3/a2Fo5aaOryEvdeai8X
-         vNy8p68C2a1aUwSf6gDTtEBnlGlHhoIL53h9Rj/EpQ/+olxpqhcI3b9PZamsTgQCG3Cr
-         9X+f4IBTixHbk34kt40GyedDFuQRPtSZvxkgpAh86TiFaQTiclMEjuMOwJj7vKTVQYpC
-         LabQ==
+        d=chromium.org; s=google; t=1701834900; x=1702439700; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BsR8qY+uS6/BsLD1U3jPPzDAagYHPNv5M9ReQzqjMkA=;
+        b=UXm8uYZ/Xl/VBZ/flQFs+9dAjL8MxLfaV1SwXude+vyG7dViCJ20LbYT4CQUaXdQFr
+         fetTd2xYcTrMmRoc2jpfsvdKFz+fBWlPhE4CEIuG1FJ7VLs5Iu3/o6sr2F61CeOPnDky
+         7TVjn+/jo9MjtLIgnTeHDtHwyNNDRS6XzCia8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701833742; x=1702438542;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tqCT9UhzTcxCbk+fnZ9QwAf1vc+qB4SCnje0SUyPZjY=;
-        b=lqnqblPCx5TJO5EkOSqpMju8fCgBWMteCP2K8ftEcvZGerhs7gCutkCd530q+Rq/Yk
-         rehfm/pG73msHJr32ipn80ThOeRHqlsV7qWVAIjHqRgCP/RTbWxkOnsQibERuxz+WkVX
-         ibb8ciMejQw1Y3QCEXg8TteedEpx3F6mvK579JFMu0ZrMrUKtD/6WwMRneGrXSrXS/rG
-         jLCWumDM3HjPhK2ew1cBDbDh6pSRWx3YegJV9xjIh9baqAB12kssO3XVJTylBMRU0UO3
-         OEfouD9TLVrH95JtQbULK+BLRI1CPsDgAopfWPWBQxesOkGBk+F+QbRtH8bvOOaK6gWw
-         3bQg==
-X-Gm-Message-State: AOJu0YydmuS6wmjcOyHA7YRvE5Ga13nUG3+5niGpBrhb3ra1h09tfQA5
-	Bd09qUwvWRRRimwys+zciiUDCg4103iDm2Uj8qY=
-X-Google-Smtp-Source: AGHT+IGuATMBPOBFtF6RH56kIjCimhrIka6bGKrmGiIqvOXMga9sjzCyu5oUk3o/rp3s8+ryBzSYi+qt9f55n1hiHUg=
-X-Received: by 2002:a6b:5a0c:0:b0:7b3:e542:5894 with SMTP id
- o12-20020a6b5a0c000000b007b3e5425894mr395428iob.8.1701833741879; Tue, 05 Dec
- 2023 19:35:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701834900; x=1702439700;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BsR8qY+uS6/BsLD1U3jPPzDAagYHPNv5M9ReQzqjMkA=;
+        b=Hkdj9LaO71cm6JsWRdp/MAyKkbhXMbFaHz2qllUfSkmlBwzC3SDIfg/JdugJJWSyuK
+         tOAgeiTraoyjuaP9CTieyuH4zJTY3hrzn5HRiawE2rJFNd136uOyi8UMJZHfUw70JgnL
+         vMOayh7jJyXAAyCy+Ty6nY7B9K7NAfwHKlkVIo4+wQtevGZKEooZ5O8czp1Zjn7CQQwm
+         a1DwUzsOLacq3xxYMIDhPIQo08D28kdrmprInLq92QSOf4Pi5QEpdHAQR8ER7AqLSFiB
+         dc5Vocbv94TTWvHO1vDAwofPeunQ0GVoRMT9lZD8kPMYC2yuFdQIpoQd9e8R/yvtPZXd
+         rivA==
+X-Gm-Message-State: AOJu0Yx7oe1O7J++qu77oqZzC8gqKZ8frf//DMCu0iXl5p/v1ClR2a0Q
+	o95O2JB/SX3DvRNvWsNQ2nXstBj0gXzymEdlfjkBSA==
+X-Google-Smtp-Source: AGHT+IHoRbTJaveVc4lI5CNcK45wkIN9hGVufXmpLxm2ne2EuM6HpHaABsrXS8hPPj5d6lQhPotGKPmzPUEdXOur9Ro=
+X-Received: by 2002:a81:6dce:0:b0:5d7:3104:5649 with SMTP id
+ i197-20020a816dce000000b005d731045649mr174139ywc.3.1701834900083; Tue, 05 Dec
+ 2023 19:55:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231204055650.788388-1-kcfeng0@nuvoton.com> <20231204055650.788388-3-kcfeng0@nuvoton.com>
- <eff4defd-dfd5-448b-9056-d2f711f14018@linaro.org>
-In-Reply-To: <eff4defd-dfd5-448b-9056-d2f711f14018@linaro.org>
-From: Ban Feng <baneric926@gmail.com>
-Date: Wed, 6 Dec 2023 11:35:31 +0800
-Message-ID: <CALz278b9QCVM7SPd3QUn9qaHCom+s0i7SmGZFPjuXRmgVTG_6A@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com, 
-	DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <92a3e3b4-6f4d-4ca4-947f-db905f328d4c@pengutronix.de>
+In-Reply-To: <92a3e3b4-6f4d-4ca4-947f-db905f328d4c@pengutronix.de>
+From: Simon Glass <sjg@chromium.org>
+Date: Tue, 5 Dec 2023 20:54:41 -0700
+Message-ID: <CAPnjgZ3QZh3+2PtmSvje=KAw1n1o_jmhgC1ZnhM9JBoEjLG+fQ@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof,
+Hi Ahmad,
 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2023=E5=B9=
-=B412=E6=9C=884=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:06=E5=AF=AB=
-=E9=81=93=EF=BC=9A
+On Tue, 5 Dec 2023 at 04:48, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
 >
-> On 04/12/2023 06:56, baneric926@gmail.com wrote:
-> > From: Ban Feng <kcfeng0@nuvoton.com>
+> Hello Simon,
+>
+> On 02.12.23 04:54, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
 > >
-> > NCT736X is an I2C based hardware monitoring chip from Nuvoton.
+> > The files compress from about 86MB to 24MB using this approach.
 > >
-> > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
-> > ---
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> >
+> > Add a 'make image.fit' build target for arm64, as well. Use
+> > FIT_COMPRESSION to select a different algorithm.
+> >
+> > The FIT can be examined using 'dumpimage -l'.
+> >
+> > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > requires compression utilities for the algorithm being used. Supported
+> > compression options are the same as the Image.xxx files. For now there
+> > is no way to change the compression other than by editing the rule for
+> > $(obj)/image.fit
+> >
+> > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > this here, since it must be built separately from the Linux build.
+> >
+> > Signed-off-by: Simon Glass <sjg@chromium.org>
 >
+> kernel_noload support is now in barebox next branch and I tested this
+> series against it:
 >
-> > +
-> > +static const struct i2c_device_id nct736x_id[] =3D {
-> > +     {"nct7362", nct7362},
-> > +     {"nct7363", nct7363},
-> > +     {}
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, nct736x_id);
-> > +
->
-> All ID tables are next to each other. Move it down. Why does it not
-> match of_device_id?
-
-ok, I'll put all ID tables together,
-and add .data to of_device_id so that matching i2c_device_id.
-
->
-> ...
->
-> > +
-> > +static int nct736x_probe(struct i2c_client *client)
-> > +{
-> > +     struct device *dev =3D &client->dev;
-> > +     struct nct736x_data *data;
-> > +     struct device *hwmon_dev;
-> > +     u32 pwm_mask, fanin_mask, val, wdt_cfg;
-> > +     int ret;
-> > +
-> > +     data =3D devm_kzalloc(dev, sizeof(struct nct736x_data), GFP_KERNE=
-L);
->
-> sizeof(*)
-
-ok, I'll modify it in v2.
-
->
-> > +     if (!data)
-> > +             return -ENOMEM;
-> > +
-> > +     i2c_set_clientdata(client, data);
-> > +     mutex_init(&data->update_lock);
-> > +
-> > +     data->client =3D client;
-> > +
-> > +     if (of_property_read_u32(dev->of_node, "nuvoton,pwm-mask", &pwm_m=
-ask))
-> > +             pwm_mask =3D 0;
-> > +     if (of_property_read_u32(dev->of_node,
-> > +                              "nuvoton,fanin-mask", &fanin_mask))
-> > +             fanin_mask =3D 0;
-> > +     if (of_property_read_u32(dev->of_node, "nuvoton,wdt-timeout", &va=
-l))
-> > +             wdt_cfg =3D 0xff;
-> > +     else
-> > +             wdt_cfg =3D WDT_CFG(val) | EN_WDT;
-> > +
-> > +     /* Initialize the chip */
-> > +     ret =3D nct736x_init_chip(client, pwm_mask, fanin_mask, wdt_cfg);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     data->fan_mask =3D (u16)fanin_mask;
-> > +     data->pwm_mask =3D (u16)pwm_mask;
-> > +
-> > +     data =3D nct736x_update_device(dev);
-> > +
-> > +     data->groups[0] =3D &nct736x_group_fan;
-> > +     data->groups[1] =3D &nct736x_group_pwm;
-> > +     data->groups[2] =3D NULL;
-> > +
-> > +     hwmon_dev =3D devm_hwmon_device_register_with_groups(dev,
-> > +                                                        client->name,
-> > +                                                        data, data->gr=
-oups);
-> > +     return PTR_ERR_OR_ZERO(hwmon_dev);
-> > +}
-> > +
-> > +static const struct of_device_id nct736x_of_match[] =3D {
-> > +     { .compatible =3D "nuvoton,nct7362" },
-> > +     { .compatible =3D "nuvoton,nct7363" },
->
-> This means your devices are compatible. Express compatibility in your
-> bindings (specific compatible followed by fallback). But then your
-> i2c_device_id is not matching this one here... confusing and clearly wron=
-g.
+> Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de> # barebox
 >
 
-Same as above.
+OK great thank you.
 
-> Best regards,
-> Krzysztof
+> > +"""Build a FIT containing a lot of devicetree files
+> > +
+> > +Usage:
+> > +    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
+> > +        -f arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/image.itk
+> > +        /tmp/kern/arch/arm64/boot/dts/ -E -c gzip
+> > +
+> > +Creates a FIT containing the supplied kernel and a directory containing the
+> > +devicetree files.
+> > +
+> > +Use -E to generate an external FIT (where the data is placed after the
+> > +FIT data structure). This allows parsing of the data without loading
+> > +the entire FIT.
+> > +
+> > +Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
+> > +zstd algorithms.
+> > +
+> > +The resulting FIT can be booted by bootloaders which support FIT, such
+> > +as U-Boot, Linuxboot, Tianocore, etc.
 >
+> Feel free to add barebox to the list. Did you check whether Linuxboot and
+> Tianocore support kernel_noload?
+
+Only what I was told by people in those projects. They may not even
+look at the load address, but I am not an expert on that.
+
+>
+> > +        fsw.property_u32('load', 0)
+> > +        fsw.property_u32('entry', 0)
+>
+> I still think load and entry dummy values are confusing and should be dropped.
+
+This is what the spec requires at present. But I agree we should
+change it. I will dig into that at some point to see what is needed.
+
+>
+> > +    with fsw.add_node(f'fdt-{seq}'):
+> > +        # Get the compatible / model information
+> > +        with open(fname, 'rb') as inf:
+> > +            data = inf.read()
+> > +        fdt = libfdt.FdtRo(data)
+> > +        model = fdt.getprop(0, 'model').as_str()
+> > +        compat = fdt.getprop(0, 'compatible')
+> > +
+> > +        fsw.property_string('description', model)
+> > +        fsw.property_string('type', 'flat_dt')
+> > +        fsw.property_string('arch', arch)
+> > +        fsw.property_string('compression', compress)
+> > +        fsw.property('compatible', bytes(compat))
+> > +
+> > +        with open(fname, 'rb') as inf:
+> > +            compressed = compress_data(inf, compress)
+> > +        fsw.property('data', compressed)
+> > +    return model, compat
+>
+> After Doug's elaboration, extracting multiple compatibles is fine by me.
+
+OK good.
+
+Regards,
+Simon
