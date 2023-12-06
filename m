@@ -1,117 +1,252 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="F3nkpE2P"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5823D4B;
-	Wed,  6 Dec 2023 00:46:00 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 714EA1FD03;
-	Wed,  6 Dec 2023 08:45:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1701852359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hwIA41qwVke6sh1/FSzZs9q9NAcH6wFzAZcpVOEwDtg=;
-	b=F3nkpE2PwX4hk0Xxxgt+mJSvMVMZfgQN6BAAK4xuanoRacEXwVPgGTMCMARe2ltM1/eDQY
-	CbOHJYIJvPIId67Ct911v689d00ph0QCWReF90MKFe7PRToKfTMKqu3mmOGqRQNIWMe5ry
-	YjXK5TmQZ8ggVwgve7qQ+D+zgYiF/D8=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53950136CD;
-	Wed,  6 Dec 2023 08:45:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7iNfEcc0cGWnMgAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Wed, 06 Dec 2023 08:45:59 +0000
-Date: Wed, 6 Dec 2023 09:45:58 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: David Finkel <davidf@vimeo.com>
-Cc: Muchun Song <muchun.song@linux.dev>, core-services@vimeo.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeelb@google.com>, Shuah Khan <shuah@kernel.org>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-Message-ID: <ZXA0xuFHLRRUaU8a@tiehlicka>
-References: <20231204194156.2411672-1-davidf@vimeo.com>
- <ZW7oXalrpQWdWZNJ@tiehlicka>
- <CAFUnj5PqZ5zybYJ4uCiv-8cfdyg3d9NmzMjy=cYB+DkRNEiJug@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SEKwbpRS"
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C83FA;
+	Wed,  6 Dec 2023 02:07:09 -0800 (PST)
+Received: by mail-oo1-xc34.google.com with SMTP id 006d021491bc7-58d9a0ead0cso919624eaf.0;
+        Wed, 06 Dec 2023 02:07:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701857228; x=1702462028; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W/vlq7pt9AeGEnRub01NvFpgsDNby2jk6O8E2xtdj9s=;
+        b=SEKwbpRSt7+tHgwJpeZOsx36bBSW/nxilQiycK8FTEA1n7rr8NL6g/njLzuQHinLlJ
+         iQ5onXqgo5uU5FhNue3HfUU4mzR+e7v/Qh5ssmbGi/iqtZu5ti2lvjcFjybFX9QVRnB9
+         l2IIIgfSJg0ZMToW5b+jDFgtB+ikGim+Chqv+5i4T+uHgixrimQLYPSsl+mUUmxF1qzW
+         m5X9e5ik/kWsx4xZtXpNLVSsxP50YR7AEsIHjaUJpZqEf527iuXWwZha0gDachs9fpUi
+         nqAbvTjCOIgHtJwXUyizPtzUrXr4i9J5sNXreE0f1H+ZWvEGbKBAFEe84lKitqN2b93E
+         k5zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701857228; x=1702462028;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W/vlq7pt9AeGEnRub01NvFpgsDNby2jk6O8E2xtdj9s=;
+        b=XnWg1AD2n4VGpWXkOCogzZBUkJcNtiZ/8wzZznCX0gUwAaPkTy7iIwO4SmaNMVrytK
+         3n4DdVFurAa3gNIVJGVAB69gx0ULZ6Ju+u//kBh1nzycrVEqRQghjNNKDnVrgaTeySHy
+         EIBxz9BocnS8nylpgL/0ceVi5LnJwzEH7B09+F0FlmGRJc/8VyZ5q3BpfmTg8i3X5CYx
+         uG2EzBBYWQrusnyNnH0EXvSu1ksSNiwHKvkuxhM6IBTyt61ypk1JUFxoGZhxtKns7Z+k
+         0DM2XE/fng0xfWsUK1l/wy/zwPKuAzazIsunCrIy/9T5ifGvPR0YwuOp/lVgh9BBCCs9
+         xZCQ==
+X-Gm-Message-State: AOJu0YyOuVPy3fpD5wneCqY+UHgnZGnfDMOyonyojbRJhBobavbRVpXl
+	W7K6U9LcCY92gsMngXrE20UrWbh/Xf48UO4T20o=
+X-Google-Smtp-Source: AGHT+IFM6+SkktBbli78RNGNd8KWWCUqf7S2N+h7frD1ZfTKF9ggdkQwqOjS+jWDA8naLrSe5Bcn1Lp1etLJdeyYiUI=
+X-Received: by 2002:a05:6830:39de:b0:6d9:b049:7e9b with SMTP id
+ bt30-20020a05683039de00b006d9b0497e9bmr1160555otb.3.1701857228489; Wed, 06
+ Dec 2023 02:07:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFUnj5PqZ5zybYJ4uCiv-8cfdyg3d9NmzMjy=cYB+DkRNEiJug@mail.gmail.com>
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: 0.22
-X-Spamd-Result: default: False [0.22 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 NEURAL_HAM_SHORT(-0.18)[-0.907];
-	 RCPT_COUNT_SEVEN(0.00)[11];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[]
+References: <20231203165129.1740512-1-yoong.siang.song@intel.com>
+ <20231203165129.1740512-3-yoong.siang.song@intel.com> <43b01013-e78b-417e-b169-91909c7309b1@kernel.org>
+ <656de830e8d70_2e983e294ca@willemb.c.googlers.com.notmuch>
+ <PH0PR11MB583000826591093B98BA841DD885A@PH0PR11MB5830.namprd11.prod.outlook.com>
+ <5a0faf8cc9ec3ab0d5082c66b909c582c8f1eae6.camel@siemens.com>
+ <CAKH8qBuXL8bOYtfKKPS8y=KJqouDptyciCjr0wNKVHtNj6BmqA@mail.gmail.com>
+ <656f66023f7bd_3dd6422942a@willemb.c.googlers.com.notmuch> <ZW98UW033wCy9vI-@google.com>
+In-Reply-To: <ZW98UW033wCy9vI-@google.com>
+From: Magnus Karlsson <magnus.karlsson@gmail.com>
+Date: Wed, 6 Dec 2023 11:06:57 +0100
+Message-ID: <CAJ8uoz3_XqavGt1DyFoQAuKS8Faa1Lc85b2t+whc-f6GN1Pvzw@mail.gmail.com>
+Subject: Re: [xdp-hints] Re: [PATCH bpf-next v3 2/3] net: stmmac: add Launch
+ Time support to XDP ZC
+To: Stanislav Fomichev <sdf@google.com>
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	Florian Bezdeka <florian.bezdeka@siemens.com>, yoong.siang.song@intel.com, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, davem@davemloft.net, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Bjorn Topel <bjorn@kernel.org>, magnus.karlsson@intel.com, maciej.fijalkowski@intel.com, 
+	Jonathan Lemon <jonathan.lemon@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, 
+	Willem de Bruijn <willemb@google.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Andrii Nakryiko <andrii@kernel.org>, Mykola Lysenko <mykolal@fb.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"xdp-hints@xdp-project.net" <xdp-hints@xdp-project.net>, 
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue 05-12-23 11:00:47, David Finkel wrote:
-> On Tue, Dec 5, 2023 at 4:07 AM Michal Hocko <mhocko@suse.com> wrote:
-> 
-> > > This behavior is particularly useful for work scheduling systems that
-> > > need to track memory usage of worker processes/cgroups per-work-item.
-> > > Since memory can't be squeezed like CPU can (the OOM-killer has
-> > > opinions), these systems need to track the peak memory usage to compute
-> > > system/container fullness when binpacking workitems.
+On Tue, 5 Dec 2023 at 20:39, Stanislav Fomichev <sdf@google.com> wrote:
+>
+> On 12/05, Willem de Bruijn wrote:
+> > Stanislav Fomichev wrote:
+> > > On Tue, Dec 5, 2023 at 7:34=E2=80=AFAM Florian Bezdeka
+> > > <florian.bezdeka@siemens.com> wrote:
+> > > >
+> > > > On Tue, 2023-12-05 at 15:25 +0000, Song, Yoong Siang wrote:
+> > > > > On Monday, December 4, 2023 10:55 PM, Willem de Bruijn wrote:
+> > > > > > Jesper Dangaard Brouer wrote:
+> > > > > > >
+> > > > > > >
+> > > > > > > On 12/3/23 17:51, Song Yoong Siang wrote:
+> > > > > > > > This patch enables Launch Time (Time-Based Scheduling) supp=
+ort to XDP zero
+> > > > > > > > copy via XDP Tx metadata framework.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Song Yoong Siang<yoong.siang.song@intel.com>
+> > > > > > > > ---
+> > > > > > > >   drivers/net/ethernet/stmicro/stmmac/stmmac.h      |  2 ++
+> > > > > > >
+> > > > > > > As requested before, I think we need to see another driver im=
+plementing
+> > > > > > > this.
+> > > > > > >
+> > > > > > > I propose driver igc and chip i225.
+> > > > >
+> > > > > Sure. I will include igc patches in next version.
+> > > > >
+> > > > > > >
+> > > > > > > The interesting thing for me is to see how the LaunchTime max=
+ 1 second
+> > > > > > > into the future[1] is handled code wise. One suggestion is to=
+ add a
+> > > > > > > section to Documentation/networking/xsk-tx-metadata.rst per d=
+river that
+> > > > > > > mentions/documents these different hardware limitations.  It =
+is natural
+> > > > > > > that different types of hardware have limitations.  This is a=
+ close-to
+> > > > > > > hardware-level abstraction/API, and IMHO as long as we docume=
+nt the
+> > > > > > > limitations we can expose this API without too many limitatio=
+ns for more
+> > > > > > > capable hardware.
+> > > > >
+> > > > > Sure. I will try to add hardware limitations in documentation.
+> > > > >
+> > > > > >
+> > > > > > I would assume that the kfunc will fail when a value is passed =
+that
+> > > > > > cannot be programmed.
+> > > > > >
+> > > > >
+> > > > > In current design, the xsk_tx_metadata_request() dint got return =
+value.
+> > > > > So user won't know if their request is fail.
+> > > > > It is complex to inform user which request is failing.
+> > > > > Therefore, IMHO, it is good that we let driver handle the error s=
+ilently.
+> > > > >
+> > > >
+> > > > If the programmed value is invalid, the packet will be "dropped" / =
+will
+> > > > never make it to the wire, right?
 > >
-> > I do not understand the OOM-killer reference here but I do understand
-> > that your worker reuses a cgroup and you want a peak memory consumption
-> > of a single run to better profile/configure the memcg configuration for
-> > the specific worker type. Correct?
-> 
-> To a certain extent, yes.
-> At the moment, we're only using the inner memcg cgroups for
-> accounting/profiling, and using a
-> larger (k8s container) cgroup for enforcement.
-> 
-> The OOM-killer is involved because we're not configuring any memory limits on
-> these individual "worker" cgroups, so we need to provision for
-> multiple workloads using
-> their peak memory at the same time to minimize OOM-killing.
+> > Programmable behavior is to either drop or cap to some boundary
+> > value, such as the farthest programmable time in the future: the
+> > horizon. In fq:
+> >
+> >                 /* Check if packet timestamp is too far in the future. =
+*/
+> >                 if (fq_packet_beyond_horizon(skb, q, now)) {
+> >                         if (q->horizon_drop) {
+> >                                         q->stat_horizon_drops++;
+> >                                         return qdisc_drop(skb, sch, to_=
+free);
+> >                         }
+> >                         q->stat_horizon_caps++;
+> >                         skb->tstamp =3D now + q->horizon;
+> >                 }
+> >                 fq_skb_cb(skb)->time_to_send =3D skb->tstamp;
+> >
+> > Drop is the more obviously correct mode.
+> >
+> > Programming with a clock source that the driver does not support will
+> > then be a persistent failure.
+> >
+> > Preferably, this driver capability can be queried beforehand (rather
+> > than only through reading error counters afterwards).
+> >
+> > Perhaps it should not be a driver task to convert from possibly
+> > multiple clock sources to the device native clock. Right now, we do
+> > use per-device timecounters for this, implemented in the driver.
+> >
+> > As for which clocks are relevant. For PTP, I suppose the device PHC,
+> > converted to nsec. For pacing offload, TCP uses CLOCK_MONOTONIC.
+>
+> Do we need to expose some generic netdev netlink apis to query/adjust
+> nic clock sources (or maybe there is something existing already)?
+> Then the userspace can be responsible for syncing/converting the
+> timestamps to the internal nic clocks. +1 to trying to avoid doing
+> this in the drivers.
+>
+> > > > That is clearly a situation that the user should be informed about.=
+ For
+> > > > RT systems this normally means that something is really wrong regar=
+ding
+> > > > timing / cycle overflow. Such systems have to react on that situati=
+on.
+> > >
+> > > In general, af_xdp is a bit lacking in this 'notify the user that the=
+y
+> > > somehow messed up' area :-(
+> > > For example, pushing a tx descriptor with a wrong addr/len in zc mode
+> > > will not give any visible signal back (besides driver potentially
+> > > spilling something into dmesg as it was in the mlx case).
+> > > We can probably start with having some counters for these events?
+> >
+> > This is because the AF_XDP completion queue descriptor format is only
+> > a u64 address?
+>
+> Yeah. XDP_COPY mode has the descriptor validation which is exported via
+> recvmsg errno, but zerocopy path seems to be too deep in the stack
+> to report something back. And there is no place, as you mention,
+> in the completion ring to report the status.
+>
+> > Could error conditions be reported on tx completion in the metadata,
+> > using xsk_tx_metadata_complete?
+>
+> That would be one way to do it, yes. But then the error reporting depends
+> on the metadata opt-in. Having a separate ring to export the errors,
+> or having a v2 tx-completions layout with extra 'status' field would also
+> work.
 
-OK, that makes more sense now. Just be aware that you might under
-utilize your limit that way because peak memory can still be reclaimed.
-If you set the hard limit (memory.max) to the peak memory consumption
-you would get a very conservative configuration wihtout any memory
-reclaim.
- 
-> In case you're curious, this is the job/queue-work scheduling system
-> we wrote in-house
-> called Quickset that's mentioned in this blog post about our new
-> transcoder system:
-> https://medium.com/vimeo-engineering-blog/riding-the-dragon-e328a3dfd39d
+There are error counters for the non-metadata and offloading cases
+above that can be retrieved with the XDP_STATISTICS getsockopt(). From
+if_xdp.h:
 
-Thanks!
+struct xdp_statistics {
+        __u64 rx_dropped; /* Dropped for other reasons */
+        __u64 rx_invalid_descs; /* Dropped due to invalid descriptor */
+        __u64 tx_invalid_descs; /* Dropped due to invalid descriptor */
+        __u64 rx_ring_full; /* Dropped due to rx ring being full */
+        __u64 rx_fill_ring_empty_descs; /* Failed to retrieve item
+from fill ring */
+        __u64 tx_ring_empty_descs; /* Failed to retrieve item from tx ring =
+*/
+};
 
--- 
-Michal Hocko
-SUSE Labs
+Albeit, these are aggregate statistics and do not say anything about
+which packet that caused it. Works well for things that are
+programming bugs that should not occur (such as rx_invalid_descs and
+tx_invalid_descs) and requires the programmer to debug and fix his or
+her program, but it does not work for requests that might fail even
+though the program is correct and need to be handled on a packet by
+packet basis. So something needs to be added for that as you both say.
+
+Would prefer if we could avoid a v2 completion descriptor format or
+another ring that needs to be checked all the time, so if we could
+live with providing the error status in the metadata field of the
+packet at completion time, that would be good. Though having the error
+status in the completion ring would be faster as that cache line is
+hot, while the metadata section of the packet is likely not at
+completion time. So that speaks for a v2 completion ring format. Just
+thinking out loud here.
+
+> But this seems like something that should be handled separately? Because
+> we'd have to teach all existing zc drivers to report those errors back
+> instead of dropping these descriptors..
+>
