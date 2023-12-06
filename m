@@ -1,124 +1,97 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S6gOLeiC"
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93B6E18D;
-	Wed,  6 Dec 2023 00:02:42 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c9f62fca3bso50544471fa.0;
-        Wed, 06 Dec 2023 00:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701849761; x=1702454561; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nps3x3kXECpjSVN0GJfWfEZC0kLw3Q0hQaPDM6Qseb4=;
-        b=S6gOLeiCG3lV8U4MLoPRL4s9QHCpm9JdvtL/Q1i0ycP6ZcGsHq8hNGkwWfwjih1uc0
-         dvil3i53XzE0ILLRWbUZsXJlGN6uCVrRIGc6CenlW9LEUJPTdv0tmeEawPw/9KwfhHbq
-         gOKudisppw8uoDaZPfUBsIxN+tvZ2Za9JftHSk7ZSVSQqKFSeD0eqn/ht7YaNKp/ms2q
-         NNWR/OTw23oSpbO8twJQVXKhkEjPMLiieQlsisWsLFJoLfSrJzH7KBCeldQdel8PgMhQ
-         IpPnS7D7rlGCDJLSyhHWqyQsp+YyHkVoupl3a1aERdGyMHNqtyY7Af1T5bieP5k85lfC
-         +CZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701849761; x=1702454561;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Nps3x3kXECpjSVN0GJfWfEZC0kLw3Q0hQaPDM6Qseb4=;
-        b=GT/ncshmoEA5MQQ/9WnkL2bbGgbx5mLSt5SpuUU0tj4p/ferA+8dXbghH7SEs+yOrO
-         OTZ1NrW81cfq5IZ6vR4q/zF69SPPIp5RHKZI1xWXu7Zh3eg2Q5zg5dZwucGL8/rjcSoJ
-         NTidzXTRPQFw2AeSLzLTSf0q19nXAhqiK0WdxZMkhgXFTQQs6ifHFdDeL3U6uNkR9aSF
-         HJfbfxFQ37MEZ5ucCCi1FgiMhxcOtvA+5QQFxu1Dh+fV+Uk1eBvMB2kx8K4EB+WAYeHs
-         obRkB5+JnjByRNXGc0d8InCx5sjaPP9W6Ws3gqJcLwoYLpxfavW2GtpylHHNeYHQMEhH
-         QPeA==
-X-Gm-Message-State: AOJu0Yx80jJPQmdtQ/NrCiIoPCgrUqLFVeYvk8C88voZiWsEHXAYCaWr
-	QPWJ5ys4PTgLrrlp47AofcPBbq0K55gVLcvAzRstAH9Etqw=
-X-Google-Smtp-Source: AGHT+IHepnuvogKeLi3oXX5pEqb3kASsZ0KDKo1NHGVo8loC0doBaghpwlYGO8VTYCWzkPsnvUV3vmduSIH9LUGNyhM=
-X-Received: by 2002:a2e:9250:0:b0:2c9:ee72:f2d9 with SMTP id
- v16-20020a2e9250000000b002c9ee72f2d9mr294304ljg.2.1701849760578; Wed, 06 Dec
- 2023 00:02:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="aJNEGg9Z"
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17AF4112;
+	Wed,  6 Dec 2023 00:35:15 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8D83840008;
+	Wed,  6 Dec 2023 08:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701851714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/JkFIxNj8NPk822mRewsy8oS7BhiBkPsoFjDPzgpryg=;
+	b=aJNEGg9Z/Z1hk8At6T7xptjbm9FfpsaIX/W36ZUxZuUNKQDNAES8c3SK4LY0B/fiNLQv4Y
+	rcLuq5MeYwusid5ahKRvzYGBmdAQ+0owGMQ924oLKyJ/mDRsDKW6w+rzF7hak9c4XhuQpD
+	KPM+WHfdJShJr1QPZjv/pK0SEhacoJq6YqoiBixzbI6ACTW9GpHH41SR/1akJ/PDWRiv8n
+	+CapeooQBZz+n7I1HgHwytx/drEdrivxmF48c1iiQOr+BCXd/Hv/2YDKVv0w9NGTqTeqTk
+	JjhawXR80bK8HkvY5P7wa3Bi0Lq+kAoCE/MHLyDJxqIxPFSRDq/KQK296DoZNA==
+Date: Wed, 6 Dec 2023 09:35:10 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, attreyee-muk
+ <tintinm2017@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Linux Networking <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ Linux Documentation <linux-doc@vger.kernel.org>, Linux Devicetree
+ <devicetree@vger.kernel.org>, Dent Project
+ <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v2 2/8] ethtool: Expand Ethernet Power
+ Equipment with c33 (PoE) alongside PoDL
+Message-ID: <20231206093510.68b9179b@kmaincent-XPS-13-7390>
+In-Reply-To: <ZW_gWDrlp4ltXIRf@archie.me>
+References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
+	<20231201-feature_poe-v2-2-56d8cac607fa@bootlin.com>
+	<ZW_gWDrlp4ltXIRf@archie.me>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231205074723.3546295-1-chou.cosmo@gmail.com>
- <20231205074723.3546295-3-chou.cosmo@gmail.com> <20231205-moneyless-hash-202129b0c636@spud>
-In-Reply-To: <20231205-moneyless-hash-202129b0c636@spud>
-From: Cosmo Chou <chou.cosmo@gmail.com>
-Date: Wed, 6 Dec 2023 16:02:28 +0800
-Message-ID: <CAOeEDyv4G8H3-d8aFewkfsx8fCFiRsBMp+bD7nUirJ-YY4Gi8g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: hwmon: pt516xx: add bindings
-To: Conor Dooley <conor@kernel.org>
-Cc: jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net, 
-	heiko@sntech.de, jernej.skrabec@gmail.com, macromorgan@hotmail.com, 
-	linus.walleij@linaro.org, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, cosmo.chou@quantatw.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-OK. I will change to trivial-devices.yaml.
+On Wed, 6 Dec 2023 09:45:44 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-Thanks
-Cosmo
-On Tue, 5 Dec 2023 16:46:42 +0000, Conor Dooley <conor@kernel.org> wrote:
->
-> On Tue, Dec 05, 2023 at 03:47:22PM +0800, Cosmo Chou wrote:
-> > Add dt-bindings for pt516xx temperature monitor.
-> >
-> > Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
->
-> This can just go into trivial-devices.yaml, no?
->
-> Thanks,
-> Conor.
->
+> On Fri, Dec 01, 2023 at 06:10:24PM +0100, Kory Maincent wrote:
+> > In the current PSE interface for Ethernet Power Equipment, support is
+> > limited to PoDL. This patch extends the interface to accommodate the
+> > objects specified in IEEE 802.3-2022 145.2 for Power sourcing
+> > Equipment (PSE).
+> >=20
+> > The following objects are now supported and considered mandatory:
+> > - IEEE 802.3-2022 30.9.1.1.5 aPSEPowerDetectionStatus
+> > - IEEE 802.3-2022 30.9.1.1.2 aPSEAdminState
+> > - IEEE 802.3-2022 30.9.1.2.1 aPSEAdminControl
+> >=20
+> > To avoid confusion between "PoDL PSE" and "PoE PSE", which have similar
+> > names but distinct values, we have followed the suggestion of Oleksij
+> > Rempel and Andrew Lunn to maintain separate naming schemes for each,
+> > using c33 (clause 33) prefix for "PoE PSE".
+> > You can find more details in the discussion threads here:
+> > https://lore.kernel.org/netdev/20230912110637.GI780075@pengutronix.de/
+> > https://lore.kernel.org/netdev/2539b109-72ad-470a-9dae-9f53de4f64ec@lun=
+n.ch/
+> >=20
+> > Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
+> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 > > ---
-> >  .../bindings/hwmon/asteralabs,pt516xx.yaml    | 36 +++++++++++++++++++
-> >  1 file changed, 36 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/hwmon/asteralabs,pt516xx.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/hwmon/asteralabs,pt516xx.yaml b/Documentation/devicetree/bindings/hwmon/asteralabs,pt516xx.yaml
-> > new file mode 100644
-> > index 000000000000..5700d4c91a0d
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/asteralabs,pt516xx.yaml
-> > @@ -0,0 +1,36 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/hwmon/asteralabs,pt516xx.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: PT5161L hwmon sensor
-> > +
-> > +maintainers:
-> > +  - Cosmo Chou <cosmo.chou@quantatw.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - asteralabs,pt5161l
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c {
-> > +      #address-cells = <1>;
-> > +      #size-cells = <0>;
-> > +
-> > +      sensor@24 {
-> > +        compatible = "asteralabs,pt5161l";
-> > +        reg = <0x24>;
-> > +      };
-> > +    };
-> > --
-> > 2.34.1
-> >
+> >=20
+> > Changes in v2:
+> > - Rename all the PoE variables and enum with a c33 prefix.
+> > - Add documentation, thanks to Oleksij for having written one.
+> > ---
+
+>=20
+> I get many htmldocs warnings:
+
+Oops sorry, I forgot to run the documentation build.
+Thanks for your reviews!
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
