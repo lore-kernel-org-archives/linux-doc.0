@@ -1,237 +1,226 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aU35HanS"
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A541B2;
-	Wed,  6 Dec 2023 08:56:55 -0800 (PST)
-Received: by mail-il1-x131.google.com with SMTP id e9e14a558f8ab-35d725ac060so12692295ab.2;
-        Wed, 06 Dec 2023 08:56:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701881815; x=1702486615; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yIrgXBCmrJsEmx/2lceqqp9Xwm1JeHuqctE9dAlll+0=;
-        b=aU35HanSNxKXTrTQ4kjEHWAZLFS/tBF3j+fPpW+VrMq78Cqd6wx6n1ee3jUw3O1rr9
-         ALTKgvLZBjgCF7Nde2nUL0mYEAbOqVQYzijEM5FT8tVfvuDICeKsIWmukHSFh8ZzcsYB
-         TTfQgRw83idj5raYHzvEgULsDnpjX2V5EAF1oXFxvL9wHxRDKS8hW2v9vj2QfyxdlKBf
-         rsjA5qadoS4E07v3YnWJ+MaY+3FkG25dIhXpm5ev3DmJdUr2vvSV3olRavFgr3YjxF74
-         C+oFhmdbQl3wR2hCKKOnQSimPiAOHWIlcpR6ktaJ+EZhJXrgozMTAQOd16XCVibcSEd2
-         10UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701881815; x=1702486615;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yIrgXBCmrJsEmx/2lceqqp9Xwm1JeHuqctE9dAlll+0=;
-        b=rduf33fc/QRBnPHX5In1m5A+wNchwJUEESGduvgSWou8BD8oBYAo/jZYE3K2BYsVk7
-         e8b1QV3IDa+CtJKZC4JqA+OOvohykW7wFPOO8FzF9+7SPbo/eoMFFv9bkmCSO2DHHb/N
-         bj+sW2EytpyNkTVyVT2lNcHBr9bR+kvUabPiNywxh8uEOD2/nb5J4lhZWUeqL85WXngJ
-         m8nHlYK9FgQlLeW4/syA3FOeWE/txNzPIO+pwvAaKzkZA8mh8gOxsli/GFnplZvOtsPr
-         Zkii0SjRc/mbs6VJF02N6YqLRG1yvRd+B3QiGF1MuyX97Dia25a0DhSlORLHnqEDjv83
-         xe9g==
-X-Gm-Message-State: AOJu0YzoMkDakOQh5a6D6OwghWcSGJ3zSJCeDp3eb/C9EimcaWJ9/luy
-	op5n2ZHrdE/KMGLUpXzPTtf4mN2DFLVavuB9jD8=
-X-Google-Smtp-Source: AGHT+IFNq8u43WbI4c01PT05oYMO3aPQSJ6ErYBAcTShuJSw9WrajU+G7etAPmGSFnGOLDah6Qzb1dasQimC9b9ONCQ=
-X-Received: by 2002:a05:6e02:1050:b0:35d:59a2:1281 with SMTP id
- p16-20020a056e02105000b0035d59a21281mr1435226ilj.45.1701881814603; Wed, 06
- Dec 2023 08:56:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WgU6RMhx"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE8A6D49;
+	Wed,  6 Dec 2023 09:09:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701882574; x=1733418574;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=rnTvQhy5v/zOiacWI9sAkQ7LFnCBSGILHBH2mUioDN8=;
+  b=WgU6RMhxOcKc+gKGZRLDrQyK0HhX/7/LoX4h5Brn4BSb7sgmq61/rz9K
+   QAIBY5sIur39AqfqO+Cs/4ZY7zjADghWTNAgCF4twW0508zzwpwhp9umm
+   jE6AEMrq0a2YAuayI6j1DabcIq/ehBgQIgri7x4dmWeUT4SMX5jTzwdWP
+   mq3pcM1/t8kkKTsW94JZtEBP8rhKsxeWzXXH/NrMrAF2SU8jB/e6+pws/
+   cz/+GmY0enCGg3VsYpoKqvfAiqi8IXgyuYGIvOhPBDzndPzrveuNTLfJA
+   xxechsm+cVlQqIn4eYkcKEbaojDSzsFDuNAyexeJEdUUIRhuqCGHgMf5m
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="393822164"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
+   d="scan'208";a="393822164"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 09:09:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="721145573"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
+   d="scan'208";a="721145573"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Dec 2023 09:09:33 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 6 Dec 2023 09:09:32 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 6 Dec 2023 09:09:32 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 6 Dec 2023 09:09:32 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 6 Dec 2023 09:09:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gPNOvIovHbXHayZ0C4GRiTi0ScPPQicro1QzW2uBP0CYbCUwlcgfx1L5WHYKWj2TWGiSMITIuhZkUiB30gsty59b+9oC9CZb2ZYZbTzmC6kwKPovpOu/s+f3yhRwbDS0k34ViqYjhKrQ4CJYjNnRuKwhQMx5EoKkQb4On2yFp+os2tZTEP7lcREncbI1Wh8S8gd08lqXXKSra1CIspg+kudfMAEghAy1B0k2YGsKY42Clqk1GqSfDEf8Hbp46fcZXO0F4ob2sfC5eTNH0gVuczIOSf1cBMTmvED4seAodI2Ola80Dj7qZPvHWFsX4X7d+ppX4/0+nZ4MpFJTo2+j/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RpWWOou/LOJ3UV4U3sZ3YRJJRZmkRCk90jHGpntWNZU=;
+ b=nq+GJ3n08EevsmvZh2lHtzhzfuF+ZxrqAxwlMGQS/8gUqetKtxMVY9GLBqjGuMr5JoiSBZ91ZMaOD5s14elu9BtTVlq8M6JxjfURHZaw9e8A8Zm1Vi2mIIiFNTCu4h7AspmAjIRYBGqIV7+FOzChzSVx1tZOSCKPXKPGCvRFJxLPyUpBjnahvdsiV/0ejcqquQ1ne9t8Bg4jMlZp7et0SW+unO3qypM7Rta+/mY1xDEA57+NVdYuefSbovGH7d3VgXoPzqJRt7Yld7DCurnHaZiWSjF80svdJxC1jruP9Kxy/ls4Hun8etexSizZzNceHQzuGGohgjt/ye+xR0ZSGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SJ0PR11MB6573.namprd11.prod.outlook.com (2603:10b6:a03:44d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Wed, 6 Dec
+ 2023 17:09:28 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7068.025; Wed, 6 Dec 2023
+ 17:09:28 +0000
+Message-ID: <68f2c64b-9d46-4077-a183-0abc21ff0535@intel.com>
+Date: Wed, 6 Dec 2023 09:09:23 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/15] x86/resctrl: Remove hard-coded memory bandwidth
+ limit
+Content-Language: en-US
+To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<seanjc@google.com>, <kim.phillips@amd.com>, <jmattson@google.com>,
+	<ilpo.jarvinen@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kan.liang@linux.intel.com>, <nikunj@amd.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<rick.p.edgecombe@intel.com>, <rppt@kernel.org>,
+	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>, <dhagiani@amd.com>
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <20231201005720.235639-2-babu.moger@amd.com>
+ <4bca7ca1-d452-4cb7-b721-b2273f9a71b5@intel.com>
+ <90245ee3-8357-4375-b735-66acfe89ff90@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <90245ee3-8357-4375-b735-66acfe89ff90@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0316.namprd04.prod.outlook.com
+ (2603:10b6:303:82::21) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231130194023.4102148-1-nphamcs@gmail.com> <20231130194023.4102148-7-nphamcs@gmail.com>
- <ed2792de-24cc-4037-9ee1-966cc07df57a@linux.dev> <CAJD7tkbiWqXs1PEZjMHO0gj5uSaaB-KNUNCiUz25MuPvzeb=wg@mail.gmail.com>
-In-Reply-To: <CAJD7tkbiWqXs1PEZjMHO0gj5uSaaB-KNUNCiUz25MuPvzeb=wg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 6 Dec 2023 08:56:43 -0800
-Message-ID: <CAKEwX=M8YThH8qOdHt5TV1E4PCiw2FSv7815O3fhqXNVMt5ezg@mail.gmail.com>
-Subject: Re: [PATCH v8 6/6] zswap: shrinks zswap pool based on memory pressure
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: Chengming Zhou <chengming.zhou@linux.dev>, akpm@linux-foundation.org, hannes@cmpxchg.org, 
-	cerasuolodomenico@gmail.com, sjenning@redhat.com, ddstreet@ieee.org, 
-	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeelb@google.com, muchun.song@linux.dev, chrisl@kernel.org, 
-	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SJ0PR11MB6573:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3fe90623-3f67-4435-1ac5-08dbf67e1a35
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CrQnfBctWpsimO2O0M8js9GajhJFrCmbJnAVBV7XWWqzhDpRgdksOkcQzblBjY85XQjdRMyLdr1lOzbc76Kj8F5cryTUFG0sSTIrVurGGKEcqRZR7uMM99I2UjfADwOqMMAKAwdUiW0eR0xvyQpbwPSm0k2WHhYuhRtHzQQ1GNt5OH9OMnNrZVMDf56VWcBR56BOixWv/bAI2OjTrOoiFq2uLyL/ugmXy3ixbMYNVkHZLLHQ6OKPINf5yK19xLSDxGAR12PoNxSlo4lNaJxad6L8+8oJIjlxreNLfHimWP8GLRbGcQm4RLfC4/7SbUwAY1bQQ49YGkmb1RqALsaKbKdFClXWCdQVpgRW4I/3Edb1ykDmYMUkPLF6+Mg1u3ktjRogpbsebGQoZM1oNpnrWi1pweLm7tNn42BlHVrM9q8vSiSnvuZiNogjFw+oZIulwBACjcHkn29T/wvlq+HB0TZ5e2rhEMRfwmb6QJeL74HWJ6KgGpqGbv93J4EMZfax62CK+BqHv/BoBEnYOMBfzQ5w2svMrU69aDEKSXyv9D6D0iUwBvvInfg8WBAKFUiwgV1ZN3sAAJaSTlJC7TcJ1dJpmRHyU9wh9Xp/MRR4isi9IN1XP+hDTKiuCsWns6l0pZYQfEEQh3HNmlIlC30+CYmDb4OoE0YBNUvgo3Z8sGsxKk13X505kZx8UgsDTSTy
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(346002)(136003)(376002)(366004)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(38100700002)(6666004)(53546011)(6512007)(6506007)(6486002)(966005)(478600001)(66946007)(66556008)(66476007)(316002)(26005)(2616005)(83380400001)(4326008)(8676002)(8936002)(31686004)(82960400001)(44832011)(5660300002)(2906002)(7416002)(31696002)(41300700001)(86362001)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RzQ3ejRvTm1IeTNIdzU2SWkzK3U2ZGd6cXk1OWl5bG9YVHBOS2hUckVvN0RC?=
+ =?utf-8?B?R200dlcvR1I1eUFTRy85MDR1a0ZyaW1ONXJXd1duWHc1RmRyOVl1d1lnc3Fj?=
+ =?utf-8?B?RWIzYXRDUk9mMTZsL1RRYndaekZyZVBhVmMycldRT2VWd3dXZExnTTJlQ2hu?=
+ =?utf-8?B?bll1UVVyWHdteUo1ZkhHL2RsVjhoMlY2YkJpY3VOcDEzbGRnWUpqRVpJeEVp?=
+ =?utf-8?B?UkVleFh4c1FVSkxoUHNqWTU2S25jY3pWbzJ2WVAycnc2KzNOT1VQV0w2dmZT?=
+ =?utf-8?B?QTd6VjBzaTlIZG42OElIcmxVY3FUN2pudlVmWEl3WVFzV09OM3hGR0FPYXNO?=
+ =?utf-8?B?TUc1NTNvQ0lIVkJsTEhZclpKeExMWUh6NUlXRlZveTZtOExpd0IvNExBSjJK?=
+ =?utf-8?B?OVE3b3FDQXV5QTRQNmlkd0orbGJKRTdxMmdDNGFmb3ZpTjBoMHkrTGNuckp2?=
+ =?utf-8?B?eTh6ejJUcnU0T1FCOFc5NGlhSUJubFMxeTBvTnJhMG00WHAyWHNNSkFzQzE2?=
+ =?utf-8?B?ZmVVMnN4VmU1UFd4VWlmOFlrRVBNR1FrOVNBU0k5cHhObENTZEtOdmV0S2tI?=
+ =?utf-8?B?cnJPdS93TVlCM3BuTWpBcE9SV0ViVDNkcm90NWw2eFMzeUhKMGI3OFZzb1Bv?=
+ =?utf-8?B?UW9CTEJ0eHRuVkdDQTFYT0haTG1vOFRZMUlNTUNyZTZlL2pIOHVCSlJBeWY3?=
+ =?utf-8?B?aHF5L2YyaVduSU4rQ3FBdUxpU3hkQXE4ZEZEVTJSZ0Z2US9MTEV5Y2sxVWJQ?=
+ =?utf-8?B?N21naWpwSEtPei9qZFFONkN3WDhwSllOd0t3Q0ptRVhDdXpCZmFiQ3hTME9p?=
+ =?utf-8?B?bTRNRnZ6MHNYcXJjQ2ZjVUd4OWc5bENkdWNjbGFmcjRmZTQrdlJvMUhBU2d1?=
+ =?utf-8?B?TWYzVGY4UjR6Ymo4RVZXS01oSFo4c3ptdmlFMythdksxaWhxSWVYSnJqdVBM?=
+ =?utf-8?B?aStYTHUwQUVUVm1zWVdQMnF0Sks0TC9qeTNLQk1xMEMwV0xVTGJTd3VlT0x3?=
+ =?utf-8?B?NTZCQWp6Y3FTN2hiVGxFSUxISmRMaFhtZlRXZWg4cjZ4aGFhYjIzZytOWHpT?=
+ =?utf-8?B?US9WYlpNQU1aNmRIeUlaa2tjVUF5WkJ1dWJHZmVlMEgwUFJmWnpWYVlsR0Rt?=
+ =?utf-8?B?NE1SUDhqK2JXaC9tSzAvL2JJWU5NelNvRG4zdk1CNURYdDFMS2NjUyt3Ziti?=
+ =?utf-8?B?VWVCZ3JhWjYrbUxBb09pWjNBbElkUmtaQkNWd2ZqKzZRN3hjeXhJcWlwWktP?=
+ =?utf-8?B?QWgzWUVrK215VHdRdDRlOVlLaUdUNk1RRFA4MW1LQUZVeVYrMENFUlBOY0Vj?=
+ =?utf-8?B?UERzbVRkVW43dHdzZWdPWXV5d0xYODF0bzlMbE9qRFExN29oOExsRkFaYVcx?=
+ =?utf-8?B?ODZZK1N1eFhLSUZKS2VFZndpa1ExNXc1Vm5tNXNXVTdSaTBlWmZ0WkVoczFq?=
+ =?utf-8?B?Qm5hc09CVHVNRTYyaXRhK1V2aHJiSlZGV0VJK1BBaWkrb1VwZ2Urb09aT0d0?=
+ =?utf-8?B?Mlp0aGhsNGtndmRwVHdmcVorTHM1b2NJVjR6YU5RYzNKU2Q2N1FOdVRiK3Bn?=
+ =?utf-8?B?NDdOeWdkUElaTGhIOVVuYkprT05ETnQ2dG8zL2drMXF0YlJQOUgwWHJFbUw3?=
+ =?utf-8?B?NFJMQ2o0SlNXVFNLbnNLODFzMTlnaWROemd4dDFYenpUZEN2eUpXN2xseTcx?=
+ =?utf-8?B?S2JJMGw1cGFzc3EzOFpHeXY2eVpNTVJGbFhZb1Jta012RjFXZHJudXU0ajNy?=
+ =?utf-8?B?QXc5RHJtR0oxcFludk82cDhkRFlIcG82REc4VVZWanFFd2djTCsvbllZbFJz?=
+ =?utf-8?B?MUNvNW9icGw1R0Z3Z20vUUFUd0FCTlN4dFZvZ0d2N0s4MjJYWlkrbW5NbUEr?=
+ =?utf-8?B?NE1jTmZ3S2JWRklIa05DK3UyTFZyaDdINmlRK0VwNHYyaGpLTzAwV1I1NnZB?=
+ =?utf-8?B?c0x4MGQwRGV2S1k0b2hJYnQ5WGhEOGZsU1hLMkdXZDEvZkxZMU00WU5YYW1D?=
+ =?utf-8?B?cko4ejlpbUt6aUR6ck15c05HOGNXd3lHN1ZUT1pnUzZ2dHZDZllxYW51Ukcr?=
+ =?utf-8?B?YXFVWnozTGFJQWZVbXErMndRMVJWMGlqTU1JMklSVWpibkl5QmxOTUwzaENS?=
+ =?utf-8?B?VlBYU0dHbnZ3SWF1cVlvWkJGWStBbE1HOTJIQ1hBazFUK2poWHdPbDVndXRP?=
+ =?utf-8?B?VUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fe90623-3f67-4435-1ac5-08dbf67e1a35
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 17:09:27.4473
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: egAUNQGeYNMelwrZ8uo9kwDShm58Mi3c6mbe3VK7hFD8mFiiAs2g+F9I0rwClHt0WlOkji7tlnA82ngM55P7onGz8JrDLGiCM4v5lIr/G7w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6573
+X-OriginatorOrg: intel.com
 
-On Tue, Dec 5, 2023 at 10:00=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com>=
- wrote:
->
-> [..]
-> > > @@ -526,6 +582,102 @@ static struct zswap_entry *zswap_entry_find_get=
-(struct rb_root *root,
-> > >       return entry;
-> > >  }
-> > >
-> > > +/*********************************
-> > > +* shrinker functions
-> > > +**********************************/
-> > > +static enum lru_status shrink_memcg_cb(struct list_head *item, struc=
-t list_lru_one *l,
-> > > +                                    spinlock_t *lock, void *arg);
-> > > +
-> > > +static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
-> > > +             struct shrink_control *sc)
-> > > +{
-> > > +     struct lruvec *lruvec =3D mem_cgroup_lruvec(sc->memcg, NODE_DAT=
-A(sc->nid));
-> > > +     unsigned long shrink_ret, nr_protected, lru_size;
-> > > +     struct zswap_pool *pool =3D shrinker->private_data;
-> > > +     bool encountered_page_in_swapcache =3D false;
-> > > +
-> > > +     nr_protected =3D
-> > > +             atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_p=
-rotected);
-> > > +     lru_size =3D list_lru_shrink_count(&pool->list_lru, sc);
-> > > +
-> > > +     /*
-> > > +      * Abort if the shrinker is disabled or if we are shrinking int=
-o the
-> > > +      * protected region.
-> > > +      *
-> > > +      * This short-circuiting is necessary because if we have too ma=
-ny multiple
-> > > +      * concurrent reclaimers getting the freeable zswap object coun=
-ts at the
-> > > +      * same time (before any of them made reasonable progress), the=
- total
-> > > +      * number of reclaimed objects might be more than the number of=
- unprotected
-> > > +      * objects (i.e the reclaimers will reclaim into the protected =
-area of the
-> > > +      * zswap LRU).
-> > > +      */
-> > > +     if (!zswap_shrinker_enabled || nr_protected >=3D lru_size - sc-=
->nr_to_scan) {
-> > > +             sc->nr_scanned =3D 0;
-> > > +             return SHRINK_STOP;
-> > > +     }
-> > > +
-> > > +     shrink_ret =3D list_lru_shrink_walk(&pool->list_lru, sc, &shrin=
-k_memcg_cb,
-> > > +             &encountered_page_in_swapcache);
-> > > +
-> > > +     if (encountered_page_in_swapcache)
-> > > +             return SHRINK_STOP;
-> > > +
-> > > +     return shrink_ret ? shrink_ret : SHRINK_STOP;
-> > > +}
-> > > +
-> > > +static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
-> > > +             struct shrink_control *sc)
-> > > +{
-> > > +     struct zswap_pool *pool =3D shrinker->private_data;
-> > > +     struct mem_cgroup *memcg =3D sc->memcg;
-> > > +     struct lruvec *lruvec =3D mem_cgroup_lruvec(memcg, NODE_DATA(sc=
-->nid));
-> > > +     unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
-> > > +
-> > > +#ifdef CONFIG_MEMCG_KMEM
-> > > +     cgroup_rstat_flush(memcg->css.cgroup);
-> > > +     nr_backing =3D memcg_page_state(memcg, MEMCG_ZSWAP_B) >> PAGE_S=
-HIFT;
-> > > +     nr_stored =3D memcg_page_state(memcg, MEMCG_ZSWAPPED);
-> > > +#else
-> > > +     /* use pool stats instead of memcg stats */
-> > > +     nr_backing =3D get_zswap_pool_size(pool) >> PAGE_SHIFT;
-> > > +     nr_stored =3D atomic_read(&pool->nr_stored);
-> > > +#endif
-> > > +
-> > > +     if (!zswap_shrinker_enabled || !nr_stored)
-> > When I tested with this series, with !zswap_shrinker_enabled in the def=
-ault case,
-> > I found the performance is much worse than that without this patch.
-> >
-> > Testcase: memory.max=3D2G, zswap enabled, kernel build -j32 in a tmpfs =
-directory.
-> >
-> > The reason seems the above cgroup_rstat_flush(), caused much rstat lock=
- contention
-> > to the zswap_store() path. And if I put the "zswap_shrinker_enabled" ch=
-eck above
-> > the cgroup_rstat_flush(), the performance become much better.
-> >
-> > Maybe we can put the "zswap_shrinker_enabled" check above cgroup_rstat_=
-flush()?
->
-> Yes, we should do nothing if !zswap_shrinker_enabled. We should also
-> use mem_cgroup_flush_stats() here like other places unless accuracy is
-> crucial, which I doubt given that reclaim uses
-> mem_cgroup_flush_stats().
+Hi Babu,
 
-Ah, good points on both suggestions. We should not do extra work for
-non-user. And, this is a best-effort approximation of the memory
-saving factor, so as long as it is not *too* far off I think it's
-acceptable.
+On 12/6/2023 8:29 AM, Moger, Babu wrote:
+> On 12/5/23 17:18, Reinette Chatre wrote:
+>> On 11/30/2023 4:57 PM, Babu Moger wrote:
 
->
-> mem_cgroup_flush_stats() has some thresholding to make sure we don't
-> do flushes unnecessarily, and I have a pending series in mm-unstable
-> that makes that thresholding per-memcg. Keep in mind that adding a
-> call to mem_cgroup_flush_stats() will cause a conflict in mm-unstable,
-> because the series there adds a memcg argument to
-> mem_cgroup_flush_stats(). That should be easily amenable though, I can
-> post a fixlet for my series to add the memcg argument there on top of
-> users if needed.
+>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>>> ---
+>>>  arch/x86/kernel/cpu/resctrl/core.c     | 2 +-
+>>>  arch/x86/kernel/cpu/resctrl/internal.h | 1 -
+>>>  2 files changed, 1 insertion(+), 2 deletions(-)
+>>>
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+>>> index 19e0681f0435..3fbae10b662d 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/core.c
+>>> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+>>> @@ -243,7 +243,7 @@ static bool __rdt_get_mem_config_amd(struct rdt_resource *r)
+>>>  
+>>>  	cpuid_count(0x80000020, subleaf, &eax.full, &ebx, &ecx, &edx.full);
+>>>  	hw_res->num_closid = edx.split.cos_max + 1;
+>>> -	r->default_ctrl = MAX_MBA_BW_AMD;
+>>> +	r->default_ctrl = 1 << eax.full;
+>>
+>> This does not seem appropriate. You are using eax because it
+>> it convenient but if you take a look at its definition it does not
+>> match the AMD CPUID instruction output at all.
+> 
+> Not sure where you see it. Here it is.
+> https://bugzilla.kernel.org/attachment.cgi?id=303986
+> 
+> Here is the definition.
+> 
+> CPUID_Fn80000020_EAX_x01 [Platform QoS Enforcement for Memory Bandwidth]
+> (Core::X86::Cpuid::PqeBandwidthEax1)
+> Read-only. Reset: 0000_000Bh.
+> _ccd[11:0]_lthree0_core[7:0]_thread[1:0]; CPUID_Fn80000020_EAX_x01
+> Bits Description
+> 31:0 BW_LEN: QOS Memory Bandwidth Enforcement Limit Size. Read-only.
+> Reset: 0000_000Bh. Size of the QOS Memory Bandwidth Enforcement Limit.
+> 
+> In this case, limit size is 12 (0BH) bits. Max limit is 1 << 12.
+> 
 
-Hmm so how should we proceed from here? How about this:
+I see it in the definition of the data type you are using. Specifically
+it is:
 
-a) I can send a fixlet to move the enablement check above the stats
-flushing + use mem_cgroup_flush_stats
-b) Then maybe, you can send a fixlet to update this new callsite?
+	/* CPUID.(EAX=10H, ECX=ResID=3).EAX */
+	union cpuid_0x10_3_eax {
+		struct {
+			unsigned int max_delay:12;
+		} split;
+		unsigned int full;
+	};
 
-Does that sound reasonable?
+How the kernel interprets the register does not match with what you paste
+from the spec. This is an AMD specific function, __rdt_get_mem_config_amd().
+Tt does not seem appropriate to use the register definition of Intel
+systems if the Intel and AMD registers do not have the same format.
 
->
-> >
-> > Thanks!
-> >
-> > > +             return 0;
-> > > +
-> > > +     nr_protected =3D
-> > > +             atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_p=
-rotected);
-> > > +     nr_freeable =3D list_lru_shrink_count(&pool->list_lru, sc);
-> > > +     /*
-> > > +      * Subtract the lru size by an estimate of the number of pages
-> > > +      * that should be protected.
-> > > +      */
-> > > +     nr_freeable =3D nr_freeable > nr_protected ? nr_freeable - nr_p=
-rotected : 0;
-> > > +
-> > > +     /*
-> > > +      * Scale the number of freeable pages by the memory saving fact=
-or.
-> > > +      * This ensures that the better zswap compresses memory, the fe=
-wer
-> > > +      * pages we will evict to swap (as it will otherwise incur IO f=
-or
-> > > +      * relatively small memory saving).
-> > > +      */
-> > > +     return mult_frac(nr_freeable, nr_backing, nr_stored);
-> > > +}
-> > > +
-> > > +static void zswap_alloc_shrinker(struct zswap_pool *pool)
-> > > +{
-> > > +     pool->shrinker =3D
-> > > +             shrinker_alloc(SHRINKER_NUMA_AWARE | SHRINKER_MEMCG_AWA=
-RE, "mm-zswap");
-> > > +     if (!pool->shrinker)
-> > > +             return;
-> > > +
-> > > +     pool->shrinker->private_data =3D pool;
-> > > +     pool->shrinker->scan_objects =3D zswap_shrinker_scan;
-> > > +     pool->shrinker->count_objects =3D zswap_shrinker_count;
-> > > +     pool->shrinker->batch =3D 0;
-> > > +     pool->shrinker->seeks =3D DEFAULT_SEEKS;
-> > > +}
-> > > +
-> > >  /*********************************
-> > >  * per-cpu code
-> > >  **********************************/
-> [..]
+Reinette
+
+
+
+
