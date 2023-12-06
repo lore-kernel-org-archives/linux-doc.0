@@ -1,50 +1,40 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RAk8XbSW"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05BE81BF;
-	Tue,  5 Dec 2023 20:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701837281; x=1733373281;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sq4PJPq6VrkCmDvgjz4GTxFgQOfpDStAzoJv/e5p5AQ=;
-  b=RAk8XbSWbFO2prS0S9EByQNG3FZ8EMi6HhlSS5Y0AF/Ec4XM2h7Rwf3f
-   tmt8PMi1zFB0BqF1O26CPyq9QlWAvsHtQpUVYoflvhQLgwxrwpZwKC0Ge
-   b0jn/UHMy3XWV9UI+tD5oAq7BahdIEV4lPaJ8j2NWGSAKBYHdbx/bMwpq
-   srmBTd8Ti3g+DTLwRIKPtOijXi0bQK3uiaze/K+ZHwbnT45A+bobU0iU0
-   GfXSC0OF42py7T/nZw4mYen8S1awFyedNiF0kXVvX5XbxZF41v0ReUzT3
-   Rion1s8gPEXewObUWQxow8tQC66tHSlFepi5IOVbvcKaLDO6L1tIg+Mty
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="379023583"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="379023583"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 20:34:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="944514523"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="944514523"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 05 Dec 2023 20:34:35 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAjcH-000AGM-22;
-	Wed, 06 Dec 2023 04:34:33 +0000
-Date: Wed, 6 Dec 2023 12:34:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ma Jun <Jun.Ma2@amd.com>, amd-gfx@lists.freedesktop.org,
-	lenb@kernel.org, hdegoede@redhat.com, johannes@sipsolutions.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alexander.deucher@amd.com, Lijo.Lazar@amd.com,
-	mario.limonciello@amd.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, majun@amd.com,
-	Evan Quan <quanliangl@hotmail.com>, Ma Jun <Jun.Ma2@amd.com>
-Subject: Re: [PATCH v14 4/9] wifi: mac80211: Add support for WBRF features
-Message-ID: <202312061213.9yUe2RGP-lkp@intel.com>
-References: <20231129091348.3972539-5-Jun.Ma2@amd.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="FWmgbgJZ"
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258E218F;
+	Tue,  5 Dec 2023 21:49:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=viavlKHXn79anQsa71fh6/Zjw/GhSsUuZjWSRNFZRVQ=; b=FWmgbgJZA7GUPMbXEOfUKiGSVw
+	ovD6MSFQOIBPXdYn84y/Kekx3CfcSzCj6FisfiZGZg8JPDqBWRmEhcpSJLyrZgPR05TvGFWPttz6n
+	pwb8kP6YB45MlCf0bt5CuCJk9CJ2XVqChSyAJDpRTpa4IJP4cYfsEMvr4q1eHzRBrPThSaKay7kCF
+	ukHhCpenorfO31s30YO7jM+fGg7WfN/COTKrRujSR+Gmi1R/LWZq6HfXVjGs/I3B8wSlOugEmmF2X
+	EMoyttS9HBXgOsquiAeCJicVhkklahRYdMvH/8TmI2l9OpNiEWLQ2a6b20/8M4e9VI9b9MkErEs6K
+	3a/XGeBg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1rAkn4-007c4m-0J;
+	Wed, 06 Dec 2023 05:49:46 +0000
+Date: Wed, 6 Dec 2023 05:49:46 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Oliver Sang <oliver.sang@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org,
+	ying.huang@intel.com, feng.tang@intel.com, fengwei.yin@intel.com,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()]  1b738f196e:
+ stress-ng.sysinfo.ops_per_sec -27.2% regression
+Message-ID: <20231206054946.GM1674809@ZenIV>
+References: <202311300906.1f989fa8-oliver.sang@intel.com>
+ <20231130075535.GN38156@ZenIV>
+ <ZWlBNSblpWghkJyW@xsang-OptiPlex-9020>
+ <20231201040951.GO38156@ZenIV>
+ <20231201065602.GP38156@ZenIV>
+ <20231201200446.GA1431056@ZenIV>
+ <ZW3WKV9ut7aFteKS@xsang-OptiPlex-9020>
+ <20231204195321.GA1674809@ZenIV>
+ <ZW/fDxjXbU9CU0uz@xsang-OptiPlex-9020>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,61 +43,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231129091348.3972539-5-Jun.Ma2@amd.com>
+In-Reply-To: <ZW/fDxjXbU9CU0uz@xsang-OptiPlex-9020>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi Ma,
+On Wed, Dec 06, 2023 at 10:40:15AM +0800, Oliver Sang wrote:
+> hi, Al Viro,
 
-kernel test robot noticed the following build errors:
+> > Oh, well - let's see what profiles show...  I still hope that it's not where
+> > the trouble comes from - it would've lead the extra cycles in shrink_dcache_parent()
+> > or d_walk() called from it and profiles you've posted do not show that, so...
+> > 
+> 
+> our auto-bisect pointed to
+> 3f99656f7bc2f step 5: call __dentry_kill() without holding a lock on parent
 
-[auto build test ERROR on v6.7-rc1]
-[also build test ERROR on next-20231205]
-[cannot apply to drm-misc/drm-misc-next wireless-next/main wireless/main linus/master v6.7-rc3 v6.7-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Nuts.  All that commit is doing is
+	* don't bother with taking parent's ->d_lock in lock_for_kill()
+	* don't bother with dropping it in __dentry_kill(), since now we don't have it
+	  taken.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Jun/Documentation-driver-api-Add-document-about-WBRF-mechanism/20231129-181516
-base:   v6.7-rc1
-patch link:    https://lore.kernel.org/r/20231129091348.3972539-5-Jun.Ma2%40amd.com
-patch subject: [PATCH v14 4/9] wifi: mac80211: Add support for WBRF features
-config: arm-randconfig-004-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061213.9yUe2RGP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312061213.9yUe2RGP-lkp@intel.com/reproduce)
+And that somehow manages to give a 30% performance drop on that test?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312061213.9yUe2RGP-lkp@intel.com/
+Seriously, not touching parent's ->d_lock aside, there is only one change
+I see in there.  Namely,
+	having failed trylock on inode
+	unlocked dentry
+	locked inode
+	relocked dentry
+	noticed that inode does not match ->d_inode
+	... and it turns out that ->d_inode is NULL now
+In that situation new variant treats goes "OK, unlock the old
+inode and we are done".  The old one unlocked old inode,
+unlocked dentry, relocked it, checked that its ->d_inode has
+not become non-NULL while we had it unlocked and only then
+succeeded.  If ->d_inode has changed, it repeated the whole
+loop (unlocked dentry, etc.)
 
-All errors (new ones prefixed by >>):
+Let's try to isolate that; step 5 split in two and branch
+force-pushed.  Instead of
+dc3cf789eb259 step 4: make shrink_kill() keep the parent pinned until after __dentry_kill() of victim
+3f99656f7bc2f step 5: call __dentry_kill() without holding a lock on parent
+we have
+dc3cf789eb259 step 4: make shrink_kill() keep the parent pinned until after __dentry_kill() of victim
+854e9f938aafe step 4.5: call __dentry_kill() without holding a lock on parent
+e2797564725a5 step 5: clean lock_for_kill()
+;  git diff e2797564725a5 3f99656f7bc2f
+;
 
-   net/mac80211/wbrf.c: In function 'ieee80211_add_wbrf':
->> net/mac80211/wbrf.c:79:9: error: implicit declaration of function 'acpi_amd_wbrf_add_remove'; did you mean 'acpi_amd_wbrf_add_exclusion'? [-Werror=implicit-function-declaration]
-      79 |         acpi_amd_wbrf_add_remove(dev, WBRF_RECORD_ADD, &ranges_in);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         acpi_amd_wbrf_add_exclusion
-   cc1: some warnings being treated as errors
+Intermediate step preserves the control flow in lock_for_kill() -
+the only change in that one is "don't bother with parent's ->d_lock".
 
+The step after it does the change in lock_for_kill() described above.
 
-vim +79 net/mac80211/wbrf.c
+Could you profile 854e9f938aafe and see where does it fall - is it like
+dc3cf789eb259 or like 3f99656f7bc2f?
 
-    66	
-    67	void ieee80211_add_wbrf(struct ieee80211_local *local, struct cfg80211_chan_def *chandef)
-    68	{
-    69		struct wbrf_ranges_in_out ranges_in = {0};
-    70		struct device *dev;
-    71	
-    72		if (!local->wbrf_supported)
-    73			return;
-    74	
-    75		dev = local->hw.wiphy->dev.parent;
-    76	
-    77		get_ranges_from_chandef(chandef, &ranges_in);
-    78	
-  > 79		acpi_amd_wbrf_add_remove(dev, WBRF_RECORD_ADD, &ranges_in);
-    80	}
-    81	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I really don't get it...
