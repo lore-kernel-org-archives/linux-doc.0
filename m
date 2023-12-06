@@ -1,94 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KfkCRa9f"
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28B4B10CF
-	for <linux-doc@vger.kernel.org>; Wed,  6 Dec 2023 13:27:28 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1d04c097e34so2235215ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 06 Dec 2023 13:27:28 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="iFw/PJZX"
+Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2305E9A;
+	Wed,  6 Dec 2023 13:29:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701898047; x=1702502847; darn=vger.kernel.org;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=mbZzH+s3JDxV/sloks5umdqEjeI9fKLBWt3znOcMhGI=;
-        b=KfkCRa9fM4NEjcL7Gb6xjuKXyCWeOKdTkvxTnIU2vfyNQLIfT+bqLIf95FhcEs4ds8
-         euAWcJSfqGg0++Cx3B1VK5K+aDVcjAENud+a3jBW8mQwIKhzC3pqP/6mlh6/ViYg6RNI
-         TfoNWfLLnygj5WeFkf8OAdZkElskLMAG8ZIoOb+QDB2k80pgg1xWWs5JF+/jfpsS7ngj
-         T9xzop2Sgq6RpYEmMhk/u/+uvYB96343esMMFdKGxQxW32dz70VcRHJWJM5tCZ3Ylbxx
-         n4XG7YWO6HBNEU1x6DnB4NHSMOXJ0zXf7dNjvuVlNvXMcFVAMVY0Lp8qoxPUV4iGWHIq
-         gceQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701898047; x=1702502847;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mbZzH+s3JDxV/sloks5umdqEjeI9fKLBWt3znOcMhGI=;
-        b=WNdntiOUisNlNjmGommbDlqGcBzxI1NEp7yd6D2eMJzUw65PTHP9f+kfJ9yDcKAWME
-         yDXDN/qO1J6vHXNXZKRh76SOrmPEcOw8H6MNkOF1RVPy33bEubJtTdEBEoybKREd9Hjf
-         uyL6XwSkwBs0G9drw1iPAyaHeSQnYrEsw0sl2TOiUK0kBcwc2S7twdyxQBmBCbgSY8NN
-         DSHjnluRrTrffgURYB6rrCsQ89ohMVvzS7rySCODso8KfQoUgC6uSGAtxWDLB+JtVStf
-         dQ98p8B6MPfa0Re542htd/L5rxjaVNl36AhvoszmaVkBW3syAZ0CEFftPyHmvdpM5ZBq
-         QpFQ==
-X-Gm-Message-State: AOJu0YzBf/qaRgS3vTa/AcJvAZ2RC46v/YcDLtLlcl+owdhNYAYAzAYS
-	fkACIpsDjzYab6SCFMenzrN3cw==
-X-Google-Smtp-Source: AGHT+IGLa8DInnGMjJcXZtON7bZ8pQ8xN1J6vJzQP1zj6zdeB3quK1/DibmWAlo2/mpEotTdJ4e23w==
-X-Received: by 2002:a17:902:e80f:b0:1d0:6cfd:d3c4 with SMTP id u15-20020a170902e80f00b001d06cfdd3c4mr2193857plg.17.1701898047545;
-        Wed, 06 Dec 2023 13:27:27 -0800 (PST)
-Received: from localhost ([2804:14d:7e22:803e:f0e2:3ff1:8acc:a2d5])
-        by smtp.gmail.com with ESMTPSA id jj12-20020a170903048c00b001cf6453b237sm259379plb.236.2023.12.06.13.27.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 13:27:27 -0800 (PST)
-References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
- <20231122-arm64-gcs-v7-22-201c483bd775@kernel.org>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
- <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
- Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, Oleg
- Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees
- Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, "Rick P.
- Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta
- <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, Szabolcs Nagy
- <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, Christian
- Brauner <brauner@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v7 22/39] arm64/gcs: Implement shadow stack prctl()
- interface
-In-reply-to: <20231122-arm64-gcs-v7-22-201c483bd775@kernel.org>
-Date: Wed, 06 Dec 2023 18:27:25 -0300
-Message-ID: <87edfzhvia.fsf@linaro.org>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1701898179; x=1733434179;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=5HJP+OvAweUdlyGi6FjxSOpC7bXvuAVZyiPxqhEDhgk=;
+  b=iFw/PJZXmEm24WyvgENakFBq97km5lUcBbPerx2jJ6OBMkj5Bq0xmZYx
+   j5vlky5IdrvqgfylrUf2KGIgQvvdpsIhPkq0F7LDFZ015ZUf64RccSBRi
+   a82VfQll22REqukpqO67Ncr5wJOid8pFdzE0bL93/1C0ejACIgDSh2REK
+   Y=;
+X-IronPort-AV: E=Sophos;i="6.04,256,1695686400"; 
+   d="scan'208";a="257298014"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-pdx-2b-m6i4x-cadc3fbd.us-west-2.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 21:29:36 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
+	by email-inbound-relay-pdx-2b-m6i4x-cadc3fbd.us-west-2.amazon.com (Postfix) with ESMTPS id 9C941A1429;
+	Wed,  6 Dec 2023 21:29:35 +0000 (UTC)
+Received: from EX19MTAUWB001.ant.amazon.com [10.0.7.35:14960]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.47.163:2525] with esmtp (Farcaster)
+ id 374507ae-c91b-4abe-b8d4-79d3953b12f9; Wed, 6 Dec 2023 21:29:35 +0000 (UTC)
+X-Farcaster-Flow-ID: 374507ae-c91b-4abe-b8d4-79d3953b12f9
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 6 Dec 2023 21:29:34 +0000
+Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
+ (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 6 Dec
+ 2023 21:29:32 +0000
+Message-ID: <1ab3656e-bfed-441a-aa8c-c3bd816303e1@amazon.com>
+Date: Wed, 6 Dec 2023 22:29:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] initramfs: Expose retained initrd as sysfs file
+Content-Language: en-US
+To: Andrew Morton <akpm@linux-foundation.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?Q?Jan_H=2ESch=C3=B6nherr?= <jschoenh@amazon.de>, James Gowans
+	<jgowans@amazon.com>
+References: <20231206141627.91659-1-graf@amazon.com>
+ <20231206120020.215a51251cba5a2c4fa51df2@linux-foundation.org>
+From: Alexander Graf <graf@amazon.com>
+In-Reply-To: <20231206120020.215a51251cba5a2c4fa51df2@linux-foundation.org>
+X-ClientProxiedBy: EX19D038UWB001.ant.amazon.com (10.13.139.148) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 
+Ck9uIDA2LjEyLjIzIDIxOjAwLCBBbmRyZXcgTW9ydG9uIHdyb3RlOgo+IE9uIFdlZCwgNiBEZWMg
+MjAyMyAxNDoxNjoyNyArMDAwMCBBbGV4YW5kZXIgR3JhZiA8Z3JhZkBhbWF6b24uY29tPiB3cm90
+ZToKPgo+PiBXaGVuIHRoZSBrZXJuZWwgY29tbWFuZCBsaW5lIG9wdGlvbiAicmV0YWluX2luaXRy
+ZCIgaXMgc2V0LCB3ZSBkbyBub3QKPj4gZnJlZSB0aGUgaW5pdHJkIG1lbW9yeS4gSG93ZXZlciwg
+d2UgYWxzbyBkb24ndCBleHBvc2UgaXQgdG8gYW55b25lIGZvcgo+PiBjb25zdW1wdGlvbi4gVGhh
+dCBsZWF2ZXMgdXMgaW4gYSB3ZWlyZCBzaXR1YXRpb24gd2hlcmUgdGhlIG9ubHkgdXNlciBvZgo+
+PiB0aGlzIGZlYXR1cmUgaXMgcHBjNjQgYW5kIGFybTY0IHNwZWNpZmljIGtleGVjIHRvb2xpbmcu
+Cj4+Cj4+IFRvIG1ha2UgaXQgbW9yZSBnZW5lcmFsbHkgdXNlZnVsLCB0aGlzIHBhdGNoIGFkZHMg
+YSBrb2JqZWN0IHRvIHRoZQo+PiBmaXJtd2FyZSBvYmplY3QgdGhhdCBjb250YWlucyB0aGUgaW5p
+dHJkIGNvbnRleHQgd2hlbiAicmV0YWluX2luaXRyZCIKPj4gaXMgc2V0LiBUaGF0IHdheSwgd2Ug
+Y2FuIGFjY2VzcyB0aGUgaW5pdHJkIGFueSB0aW1lIGFmdGVyIGJvb3QgZnJvbQo+PiB1c2VyIHNw
+YWNlIGFuZCBmb3IgZXhhbXBsZSBoYW5kIGl0IGludG8ga2V4ZWMgYXMgLS1pbml0cmQgcGFyYW1l
+dGVyCj4+IGlmIHdlIHdhbnQgdG8gcmVib290IHRoZSBzYW1lIGluaXRyZC4gT3IgaW5zcGVjdCBp
+dCBkaXJlY3RseSBsb2NhbGx5Lgo+IEkgdGhpbmsgaXQgd291bGQgYmUgaGVscGZ1bCBpZiB0aGUg
+Y2hhbmdlbG9nIHdlcmUgbWVudGlvbiBhbmQgZGVzY3JpYmUKPiB0aGUgbmV3IC9zeXMvZmlybXdh
+cmUvaW5pdHJkLiAgQW5kIEkgYXNzdW1lIHdlIHNob3VsZCBhZGQgYQo+IERvY3VtZW50YXRpb24v
+QUJJL3Rlc3Rpbmcvc3lzZnMtZmlybXdhcmUtaW5pdHJkLgoKClRoYW5rcyBhIGJ1bmNoIGZvciB0
+aGUgc3VnZ2VzdGlvbnMgLSBsZXQgbWUgc2VuZCB2MiB3aXRoIGJvdGggYWRkcmVzc2VkIDopCgpB
+bGV4CgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3Ry
+LiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4gU2NobGFlZ2Vy
+LCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVy
+ZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5IDIzNyA4NzkK
+Cgo=
 
-Mark Brown <broonie@kernel.org> writes:
-
-> Implement the architecture neutral prtctl() interface for setting the
-> shadow stack status, this supports setting and reading the current GCS
-> configuration for the current thread.
->
-> Userspace can enable basic GCS functionality and additionally also
-> support for GCS pushes and arbatrary GCS stores.  It is expected that
-
-s/arbatrary/arbitrary/
-
-> this prctl() will be called very early in application startup, for
-> example by the dynamic linker, and not subsequently adjusted during
-> normal operation.  Users should carefully note that after enabling GCS
-> for a thread GCS will become active with no call stack so it is not
-> normally possible to return from the function that invoked the prctl().
-
--- 
-Thiago
