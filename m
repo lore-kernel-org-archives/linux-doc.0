@@ -1,190 +1,140 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="2+/t+vpu"
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFFD0D51;
-	Wed,  6 Dec 2023 11:27:51 -0800 (PST)
-Received: from [127.0.0.1] ([98.35.210.218])
-	(authenticated bits=0)
-	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 3B6JQkxV3836341
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 6 Dec 2023 11:26:47 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3B6JQkxV3836341
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2023111101; t=1701890808;
-	bh=akiKjejgbWa4nCSIVifqNGjMe3xFffE8uHQIGGi+Tmg=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=2+/t+vpuANyD6qq8PPN2cUrZovPTWNgYU0O/WPJnJZmoHDj1/j+I7qvQPyI0VaT6t
-	 PSnVYQWuzdVuA3b1kH6DsVHUrcR3wA4eYFygUFpjP6aXetHOqaKj15KkrtjTZRQYjQ
-	 YpeSTK34gwlSx1+XbnAcu4d4G2eIwbPWDJWdtlr3/PiZRjMHTTOX0+2Cs8ie+XZh5P
-	 rb1lNwWqo1U2evWTWEka2bZwFSzkGEwdpz7EEHUZnCLsHnPuJfMlIoc14jRDtlPBOO
-	 4/iZHfhzxHPxmpsW0gIv4oBh8cgpK3x+u+umIzkid2ELnJ9ZS9WB6TSHDQosiLbDrt
-	 svj+gr1RwqNRQ==
-Date: Wed, 06 Dec 2023 11:26:43 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: "Li, Xin3" <xin3.li@intel.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-CC: "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "seanjc@google.com" <seanjc@google.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "Gross, Jurgen" <jgross@suse.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "jiangshanlai@gmail.com" <jiangshanlai@gmail.com>,
-        "nik.borisov@suse.com" <nik.borisov@suse.com>,
-        "Kang, Shan" <shan.kang@intel.com>
-Subject: RE: [PATCH v13 26/35] x86/fred: FRED entry/exit and dispatch code
-User-Agent: K-9 Mail for Android
-In-Reply-To: <SA1PR11MB673472A25E72022F68882869A884A@SA1PR11MB6734.namprd11.prod.outlook.com>
-References: <20231205105030.8698-1-xin3.li@intel.com> <20231205105030.8698-27-xin3.li@intel.com> <f260ddf9-be67-48e0-8121-6f58d46f7978@citrix.com> <SA1PR11MB67343544B0CEB6C82002790DA884A@SA1PR11MB6734.namprd11.prod.outlook.com> <4e41b658-f49e-424c-8a86-08c8ab8e384d@citrix.com> <SA1PR11MB673472A25E72022F68882869A884A@SA1PR11MB6734.namprd11.prod.outlook.com>
-Message-ID: <F6CF8AB8-F5DB-44BD-B8A4-1A76E02CDCFA@zytor.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="azE5hY6d"
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDB2E122;
+	Wed,  6 Dec 2023 11:44:58 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-5c2066accc5so81343a12.3;
+        Wed, 06 Dec 2023 11:44:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701891898; x=1702496698; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=34Cie9O+2NEe6JD/tiGhw5O8IQAQcami9IqZS5J2OMw=;
+        b=azE5hY6d7qYMc/I6yrPGUYSzyNOOxlobk2q2ie4iTlSPZ1WDvH4UcWU1GRaQsfBtUY
+         d0E9GlSiIPA7dOYk/vZpL5E6HMyguWGZIDejbbqc83k6bNpK4OwRAZ+PZpTEa17ftw5s
+         0I8ooyKPPJYz0jaXKAPPvs/5Ntp+jyoE7oZoV0AGlcBjeGLEDZR7jL98O2jIWFqhs9rE
+         IWswcenJovCTh2PjtWXt9/VfkDHY2QDAzbXgPyp3YHrO3MBLco3O6vdTBdvwKjcUvxW7
+         UhN9N8ULSidqvAiUSpv4AuHla/qBuWGbosvKfqCjSkAdnDdNYTNCBUswQgPnCE0NxtZp
+         ALDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701891898; x=1702496698;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=34Cie9O+2NEe6JD/tiGhw5O8IQAQcami9IqZS5J2OMw=;
+        b=uf2Fo+nZC8uKlLesKJ7ILXBwWq3hQOzN6n5BXarnEjBkqqjkTIe/xoaVs5UpIH1wfv
+         g2MDLsDcw9yaxx++77b0LmvuL2fCmYSEmtX8k/xwkRT8da2bn7h2yMf5fTFY7pHsWPic
+         iNVyywFrtNNVHYZ0PUTyWzuZgU9owH1iagjKQWbqtPQjm/YnSG20YdHpNok2/4XEhFgN
+         c2PUm1pVqG68SsLItBYJvTF8qW42FJ6RAHqfJ8Irr95YOJMg8F8rc4zok9OXo5x5Xfgo
+         g5AeG5DwCJpn1Ed7kYlkJj3vIItfyUkpgp380oz9vXbStavT1SSZJYeYc8E9BzenZvC3
+         /1Lg==
+X-Gm-Message-State: AOJu0YywqzfiHQfukLAXcoESHKKcdv820cJhGX7/7rRbVOkul5FXSJqs
+	Nzlr/IaDnX14xVM5IZ30VQU=
+X-Google-Smtp-Source: AGHT+IGCtzIwuVYyOHM8v9z5Osc7F7Eb1bhTqHBysTeh63PqYeFOGQLL51YX7AuhnxO6tltAWmC3dg==
+X-Received: by 2002:a05:6a20:be9e:b0:18f:97c:4f58 with SMTP id gf30-20020a056a20be9e00b0018f097c4f58mr993500pzb.100.1701891898163;
+        Wed, 06 Dec 2023 11:44:58 -0800 (PST)
+Received: from localhost (fwdproxy-prn-001.fbsv.net. [2a03:2880:ff:1::face:b00c])
+        by smtp.gmail.com with ESMTPSA id s9-20020a056a00178900b006ce91d27c72sm344920pfg.175.2023.12.06.11.44.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 11:44:57 -0800 (PST)
+From: Nhat Pham <nphamcs@gmail.com>
+To: akpm@linux-foundation.org
+Cc: hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com,
+	yosryahmed@google.com,
+	sjenning@redhat.com,
+	ddstreet@ieee.org,
+	vitaly.wool@konsulko.com,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	chrisl@kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	shuah@kernel.org
+Subject: [PATCH v8 6/6] zswap: shrinks zswap pool based on memory pressure (fix)
+Date: Wed,  6 Dec 2023 11:44:56 -0800
+Message-Id: <20231206194456.3234203-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231130194023.4102148-7-nphamcs@gmail.com>
+References: <20231130194023.4102148-7-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On December 6, 2023 11:19:26 AM PST, "Li, Xin3" <xin3=2Eli@intel=2Ecom> wro=
-te:
->> >>> +	case X86_TRAP_OF:
->> >>> +		exc_overflow(regs);
->> >>> +		return;
->> >>> +
->> >>> +	/* INT3 */
->> >>> +	case X86_TRAP_BP:
->> >>> +		exc_int3(regs);
->> >>> +		return;
->> >> =2E=2E=2E neither OF nor BP will ever enter fred_intx() because they=
-'re
->> >> type SWEXC not SWINT=2E
->> > Per FRED spec 5=2E0, section 7=2E3 Software Interrupts and Related In=
-structions:
->> > INT n (opcode CD followed by an immediate byte): There are 256 such
->> > software interrupt instructions, one for each value n of the immediat=
-e
->> > byte (0=E2=80=93255)=2E
->> >
->> > And appendix B Event Stack Levels:
->> > If the event is an execution of INT n (opcode CD n for 8-bit value n)=
-,
->> > the event stack level is 0=2E The event type is 4 (software interrupt=
-)
->> > and the vector is n=2E
->> >
->> > So int $0x4 and int $0x3 (use asm("=2Ebyte 0xCD, 0x03")) get here=2E
->> >
->> > But into (0xCE) and int3 (0xCC) do use event type SWEXC=2E
->> >
->> > BTW, into is NOT allowed in 64-bit mode but "int $0x4" is allowed=2E
->>=20
->> There is certainly fun to be had with CD 03 and CD 04 byte patterns, bu=
-t if you
->> meant to mean those here, then the comments are wrong=2E
->>=20
->> Vectors 3 and 4 are installed with DPL3 because that is necessary to ma=
-ke CC and
->> CE function in userspace=2E=C2=A0 It also suggests that the SWINT vs SW=
-EXC distinction
->> was retrofitted to architecture after the 286, because exceptions don't=
- check DPL
->> and ICEBP delivers #DB from userspace even when Vector 1 has a DPL of 0=
-=2E
->>=20
->> While CC is for most cases indistinguishable from CD 03, CE behaves ent=
-irely
->> differently to CD 04=2E=C2=A0 CD 04 doesn't #UD in 64bit mode, and will=
- trigger
->> exc_overflow() irrespective of the state of EFLAGS=2EOF=2E
->>=20
->>=20
->> The SDM goes out of it's way to say not to use the CD 03 byte pattern (=
-and it
->> does take effort to emit this byte pattern - e=2Eg=2E GAS will silently=
- translate "int $3"
->> to "int3"), and there's no plausible way software is using CD 04 in pla=
-ce of CE=2E
->>=20
->> So why do we care about containing to make mistakes of the IDT era work=
- in a
->> FRED world?
->
->First, I agree with you because it makes things simple and neat=2E
->
->However, the latest SDM and FRED spec 5=2E0 both doesn't disallow it, so =
-it
->becomes an OS implementation choice=2E
->
->>=20
->> Is there anything (other than perhaps the selftests) which would even n=
-otice?
->
->I'm just conservative :)
->
->If a user app can do it with IDT, we should still allow it when FRED is
->enabled=2E  But if all key stakeholders don't care whatever gets broken
->due to the change and agree to change it=2E
->
->> >>> +		instrumentation_end();
->> >>> +		irqentry_exit(regs, state);
->> >>> +	} else {
->> >>> +		common_interrupt(regs, vector);
->> >>> +	}
->> >>> +}
->> >>> +
->> >>> +static noinstr void fred_exception(struct pt_regs *regs, unsigned
->> >>> +long error_code) {
->> >>> +	/* Optimize for #PF=2E That's the only exception which matters
->> >>> +performance
->> >> wise */
->> >>> +	if (likely(regs->fred_ss=2Evector =3D=3D X86_TRAP_PF)) {
->> >>> +		exc_page_fault(regs, error_code);
->> >>> +		return;
->> >>> +	}
->> >>> +
->> >>> +	switch (regs->fred_ss=2Evector) {
->> >>> +	case X86_TRAP_DE: return exc_divide_error(regs);
->> >>> +	case X86_TRAP_DB: return fred_exc_debug(regs);
->> >>> +	case X86_TRAP_BP: return exc_int3(regs);
->> >>> +	case X86_TRAP_OF: return exc_overflow(regs);
->> >> Depending on what you want to do with BP/OF vs fred_intx(), this may
->> >> need adjusting=2E
->> >>
->> >> If you are cross-checking type and vector, then these should be
->> >> rejected for not being of type HWEXC=2E
->> > You're right, the event type needs to be SWEXC for into and int3=2E
->> >
->> > However, would it be overkilling?  Assuming hardware and VMM are sane=
-=2E
->>=20
->> You either care about cross checking, or not=2E=C2=A0 Right now, this p=
-atch is a mix of the
->> two approaches=2E
->>=20
->> In my opinion, cross-checking is the better approach, because it means =
-that
->> violations of the assumptions get noticed more quickly, and hopefully b=
-y
->> whomever is working on the new feature which alters the assumptions=2E
->
->Yeah, I can make the change=2E
->
->Thanks!
->    Xin
->
+Check shrinker enablement early, and use a less costly stat flushing.
 
-The intent is to not break userspace even if userspace does something fund=
-amentally stupid=2E
+Suggested-by: Yosry Ahmed <yosryahmed@google.com>
+Suggested-by: Chengming Zhou <chengming.zhou@linux.dev>
+Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+---
+ mm/zswap.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/mm/zswap.c b/mm/zswap.c
+index 27c749f6c1ba..d8ecd79120f3 100644
+--- a/mm/zswap.c
++++ b/mm/zswap.c
+@@ -596,13 +596,17 @@ static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+ 	struct zswap_pool *pool = shrinker->private_data;
+ 	bool encountered_page_in_swapcache = false;
+ 
++	if (!zswap_shrinker_enabled) {
++		sc->nr_scanned = 0;
++		return SHRINK_STOP;
++	}
++
+ 	nr_protected =
+ 		atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_protected);
+ 	lru_size = list_lru_shrink_count(&pool->list_lru, sc);
+ 
+ 	/*
+-	 * Abort if the shrinker is disabled or if we are shrinking into the
+-	 * protected region.
++	 * Abort if we are shrinking into the protected region.
+ 	 *
+ 	 * This short-circuiting is necessary because if we have too many multiple
+ 	 * concurrent reclaimers getting the freeable zswap object counts at the
+@@ -611,7 +615,7 @@ static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+ 	 * objects (i.e the reclaimers will reclaim into the protected area of the
+ 	 * zswap LRU).
+ 	 */
+-	if (!zswap_shrinker_enabled || nr_protected >= lru_size - sc->nr_to_scan) {
++	if (nr_protected >= lru_size - sc->nr_to_scan) {
+ 		sc->nr_scanned = 0;
+ 		return SHRINK_STOP;
+ 	}
+@@ -633,8 +637,11 @@ static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
+ 	struct lruvec *lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(sc->nid));
+ 	unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
+ 
++	if (!zswap_shrinker_enabled)
++		return 0;
++
+ #ifdef CONFIG_MEMCG_KMEM
+-	cgroup_rstat_flush(memcg->css.cgroup);
++	mem_cgroup_flush_stats();
+ 	nr_backing = memcg_page_state(memcg, MEMCG_ZSWAP_B) >> PAGE_SHIFT;
+ 	nr_stored = memcg_page_state(memcg, MEMCG_ZSWAPPED);
+ #else
+@@ -643,7 +650,7 @@ static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
+ 	nr_stored = atomic_read(&pool->nr_stored);
+ #endif
+ 
+-	if (!zswap_shrinker_enabled || !nr_stored)
++	if (!nr_stored)
+ 		return 0;
+ 
+ 	nr_protected =
+-- 
+2.34.1
