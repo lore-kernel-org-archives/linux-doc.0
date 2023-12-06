@@ -1,207 +1,221 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ALgca7pN"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9844BD4E
-	for <linux-doc@vger.kernel.org>; Wed,  6 Dec 2023 08:19:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701879596;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u/Q8rdpQLGJDQtjt7EUY5rfj9IQLbZ3N/w3XKiq7Zp8=;
-	b=ALgca7pN+wOkpvbFjIdFa0V4OWK+2+k6A0lU0Emy4koH/DP/Q7eH0ogSTSJJ91o2l6R6FQ
-	t8XIvVhZfiDCjb5TgRW3Z5FhsB299BaOfMokLtiADFxAnlTXrg1Z+GNQVX9pJBEAWtzbh0
-	TTEaDPI9z4LQd8idMLbsoSgpM9//0Sk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-664-24XnRL7TPI6Qok5KGufQ2A-1; Wed, 06 Dec 2023 11:19:55 -0500
-X-MC-Unique: 24XnRL7TPI6Qok5KGufQ2A-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-33349915da3so820824f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 06 Dec 2023 08:19:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701879594; x=1702484394;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u/Q8rdpQLGJDQtjt7EUY5rfj9IQLbZ3N/w3XKiq7Zp8=;
-        b=j2ELOxVVv7DYJg60pG5PBroqs6aHTiKDf8JtY/D6ArPfvMzViFTcXcI4hnUsl/Ul/R
-         ieoAP3zMX900LF0xWOWJkv93lsTeMWENoLYKjkHr1Ctu3mBbRBI7e8WZxEsRy8dUENnr
-         PhBtN8gdUb0RoHwwB9A+vL18F3WWmEcfHuMcj9V7zHFKCg0V2vL6W+K/w1YJeX5H/27g
-         fTtsAx411q8dTs/q9bjz3sWsRXEmUWeqassxd90c6uQ0yEkJ2cpptHNVyJyrWXJAmG9w
-         IlzXZaJqxFNlfOTbbrrpyM/zlgMCm+H9IQFvpBo7hn0LxuYhcdYYB+Cs67DAdA74DOPl
-         maaw==
-X-Gm-Message-State: AOJu0YyumJQMgC9OBratVsWaKE8BtylfaY9SkPh6NCeqABqd2JWnw8ut
-	nD1g6R5Z47qbiutSWQ7yCkqAjxrG4ndDS6Q5Pf3t+Tgx3GP/UoRurXN0Cqsjpk3WRROfF81BeHW
-	R3DxILXqxNRs14d+5B5+y
-X-Received: by 2002:a05:600c:1e18:b0:40c:2101:dab2 with SMTP id ay24-20020a05600c1e1800b0040c2101dab2mr485132wmb.185.1701879593999;
-        Wed, 06 Dec 2023 08:19:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH4xLDaJ0nX52wZDtegFdbDV/Vhk4LlL67t4ugX51B9lLHdkt4Pwtf1OhZN87CJx1NsN5/KNQ==
-X-Received: by 2002:a05:600c:1e18:b0:40c:2101:dab2 with SMTP id ay24-20020a05600c1e1800b0040c2101dab2mr485124wmb.185.1701879593670;
-        Wed, 06 Dec 2023 08:19:53 -0800 (PST)
-Received: from starship ([89.237.98.20])
-        by smtp.gmail.com with ESMTPSA id o15-20020a5d408f000000b00333381c6e12sm59389wrp.40.2023.12.06.08.19.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 08:19:53 -0800 (PST)
-Message-ID: <afb23eab62a9a0f3dce360579e9aeefa5a3f1548.camel@redhat.com>
-Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return
- prologues in hypercall page
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- pbonzini@redhat.com,  vkuznets@redhat.com, anelkz@amazon.com,
- graf@amazon.com, dwmw@amazon.co.uk,  jgowans@amazon.com, kys@microsoft.com,
- haiyangz@microsoft.com, decui@microsoft.com,  x86@kernel.org,
- linux-doc@vger.kernel.org
-Date: Wed, 06 Dec 2023 18:19:51 +0200
-In-Reply-To: <ZW-7Mwev4Ilf541L@google.com>
-References: <20231108111806.92604-1-nsaenz@amazon.com>
-	 <20231108111806.92604-6-nsaenz@amazon.com>
-	 <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
-	 <CXD4TVV5QWUK.3SH495QSBTTUF@amazon.com> <ZWoKlJUKJGGhRRgM@google.com>
-	 <CXD5HJ5LQMTE.11XP9UB9IL8LY@amazon.com> <ZWocI-2ajwudA-S5@google.com>
-	 <CXD7AW5T9R7G.2REFR2IRSVRVZ@amazon.com> <ZW94T8Fx2eJpwKQS@google.com>
-	 <fc09fec34a89ba7655f344a31174d078a8248182.camel@redhat.com>
-	 <ZW-7Mwev4Ilf541L@google.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="gI10RE30"
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58996D72;
+	Wed,  6 Dec 2023 08:29:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BeILs+cvCvZZqxqSUja8rli65nhEowzCAQgPWiCFEd8kcCpkQyNDoRO3axmho0drrfugsqdQW858uV36rSdKbgTZQJOSEFbiS9xWVBkZeptA4tJ5uQ+sdv0etxWBDY5c/O76stLHZF7f4LpbbPR/NQPlDRPRsuVlpz4MDeygtKFgs/X5MKdbefIfI1z9oMcKndXnAY6+Pehunny4xm8XHFXJr5YnBM3TRL82C6OPB76hZ+cJGXRtAKOyCVnYA3PU/O1c4ZCZZts5hh9c1iuGKVZMSWR+Fa3YU/1+2as3/sbj9/EBO5MTBwbjqwAg5VvYj2l4Q7/dhwlZz9NXAmiE6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pHjXajkIcUFtz/jQbN9QGnGTxGjzFqeRhPzbya9dLiM=;
+ b=Z1biF1nWWCbp1w9KODMKw8eO+cLTQ2xD7gIm9ZXL86TzcxDER06hMpHSWOPeCtOMqyfRFQY/hmjeA8xONp2YcshkQToVyFWtX8078x11Sa8TQ1izQcQRF6VM42Gqyt5wZQ1wXciqGugGLGRfR54IWtkGi0WaouyowwWGabdz9d/nLp/t+IecYLvzlMIoNkh3PrWl5JrGlk3bYopTv9FKMlbtWSAAWfaV9WO4znrKb7HMCKe+CSrOiwB2OvBMgmDfGIX5HmJxJMeo09hy9Txbg8vV1YJxl0KNqixFRmSruiPuIJ+Zzv6RXRM5zYbedpfRe3NCSh/0gFj+B4H9zxsMmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pHjXajkIcUFtz/jQbN9QGnGTxGjzFqeRhPzbya9dLiM=;
+ b=gI10RE30vATWHLklRwbEqPqE7pvpqCNEgXx3xgF3bUjzzJC4bIugO0cCc+oKxrwud6hXCWitCTxXgUTnUlM+vEoneOGi/WyLfPd+T/ZHq7nnOOo/cbW1AWQh4sX6N9p6mlVsiuZJ0Qvfim9lqjUomjSoYAIf9SoXChMr1ASMdag=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Wed, 6 Dec
+ 2023 16:29:52 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1549:8c93:8585:ca1b]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1549:8c93:8585:ca1b%5]) with mapi id 15.20.7068.025; Wed, 6 Dec 2023
+ 16:29:52 +0000
+Message-ID: <90245ee3-8357-4375-b735-66acfe89ff90@amd.com>
+Date: Wed, 6 Dec 2023 10:29:49 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH 01/15] x86/resctrl: Remove hard-coded memory bandwidth
+ limit
+Content-Language: en-US
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, seanjc@google.com,
+ kim.phillips@amd.com, jmattson@google.com, ilpo.jarvinen@linux.intel.com,
+ jithu.joseph@intel.com, kan.liang@linux.intel.com, nikunj@amd.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
+ rick.p.edgecombe@intel.com, rppt@kernel.org,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, peternewman@google.com,
+ dhagiani@amd.com
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <20231201005720.235639-2-babu.moger@amd.com>
+ <4bca7ca1-d452-4cb7-b721-b2273f9a71b5@intel.com>
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <4bca7ca1-d452-4cb7-b721-b2273f9a71b5@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1PR02CA0007.namprd02.prod.outlook.com
+ (2603:10b6:806:2cf::18) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ2PR12MB8943:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95b76063-f91c-4297-945b-08dbf67892db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	RgIL/VrR7csqObDZvb8mW4fANbF2aKGvlyhWI6TurrXpM3ph8BBfj8kfGFpOv+lrKXz2nL9wt3dd3u12TczWSHnqqka6/B7Qatk0NQhfml6BiWEYFUIMZ0dt/NbTt4k5Wgwl652GVy+ACXGPiIAU8Al2m5+W4TytTZ6bkd1hnixUFdMPKy6SI4OATYBnrCvxh0aw+H1LxUyEgcSDuLb5bSJNqxxUyiHVab7gRAKtjACSjIZuONJuzenzHnxaJ1u8RjjB+1SHBnvNy0c9jAHv7LiU9pLw72L9bpMa3qGlJCIDfcdSCOTBs4YTnr8Pzg1vYX70+AlLEXI3MOmguEtW6uGo5bSSXYGeNF30kpOxwWjzbOIf0xoEGuJZuZI+234eNmeMIn4/5hJpFNYs+WnzFUvFcrXKG48UKupUezPCabmzWFMMoMIruZSpC7e7+IHwiiEw8axqXBv6hd/xijtZwLumikGIfGq/1ryd4yW+bpZlfn2p9m2B/F5+3zb54+u4lpLBTFicA086v3RJdqekC0PzsWwwyhclQry6QRi91uVjiiIB9MhXl7WM2llKGq+jL79l9+gy8wenHtKROHL9XxtiGKTYX3Ek0reoQIHaJLyTf6eRhM7Hglwh8fsa6XdrfFvx4/b0D6NZRKEsgakfaNOD/mw6lBYv7QlodNPN6eFqMvG7MvINXvzMQhQZpp3Q
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(39860400002)(376002)(136003)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(66476007)(66946007)(316002)(66556008)(478600001)(6486002)(966005)(6666004)(7416002)(41300700001)(31696002)(36756003)(2906002)(3450700001)(5660300002)(86362001)(4326008)(8936002)(8676002)(38100700002)(2616005)(83380400001)(26005)(53546011)(6506007)(6512007)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eGhzelFhQ1ZRajVlUGg4cFhsNnlCdUxoTHZNVUxDdVJZL0dnWHVlQW1lRFlE?=
+ =?utf-8?B?VVJxNUw4UkovNWJUVkhPRFpoTUk4bnFUNWhJWDdpMERHNkJ6a3ZHdlNEajdQ?=
+ =?utf-8?B?VnV5NGgwYzRmR2FVRTJvTUNybXZ5NGVJc05jMjZCUnFvQkFyRytqaWNhckZh?=
+ =?utf-8?B?Lys2dml5SzFTYU5kU2JOYkhZcFNEVXRtc3AyZjd0OEVMRE5NL2o0bzgwdzNJ?=
+ =?utf-8?B?VklyemZ0U3Qyd09TT3k2UDVOQTc4SUkzQnNFSkxmYW9WUUFXL1A0NWhyUXY5?=
+ =?utf-8?B?SVd6OVBvcnk0Y3hDNFFjcHQvdmd3WWFCVGdJMGdjMldTQzYyUHFEcmErSm94?=
+ =?utf-8?B?U3FnMmpWdnJ4R0RZZ1MzWmJ5N2x1SzdicElOZytNMW1qTHRWNmkxQmcxWjVv?=
+ =?utf-8?B?ZVBzRDIranVaNDVKS1JlS3RTOUhaaDlrSVFqMmNBVW40Y0NJNnpCWEN2bzBx?=
+ =?utf-8?B?ZEVKTHltM3BtbHNUNTBZUXovSVVKaXArc2FNYW1XOTJiZkQvODlzZGNEWVJ6?=
+ =?utf-8?B?VzUzK0trSGVOeFFDa1hGQUpVWVZTdzZPYmEzdktQZDZPMVhzaG5MRzdIUEVw?=
+ =?utf-8?B?RUpaeGorOHRxcVN3ekQ4VnFjakM3Zy9QazZPRG1wSXE2QytPK2hHNTgxMGhF?=
+ =?utf-8?B?ZGVTdzdHcWRuRlBxQVZlQS9CN0N2VXovNnlnTndUdGFOMmlVWGFMaENRNFJX?=
+ =?utf-8?B?aHdJZXZveXBZcFNZbklSNHJkd1VMUXRKb0krdUdJeGR2OFhMMmp0UzI2dUhM?=
+ =?utf-8?B?clhXb1pLMDAxMWFJSjM3dEZWSEt1TmJsaTFDUkZMeG56bXE3VFBUUWFFaFdt?=
+ =?utf-8?B?eW1pd3F3WTdkYUFmS3VGK3UvMnBkTy91R1NsbzJtWW1HSmVxWFlUUWJSdHdh?=
+ =?utf-8?B?OWh6TTJEaUtERU1FdkVNWUVTdGpIRjNib204MW85UHFmaTNvVlhZaUJjQlB6?=
+ =?utf-8?B?Q3MwVFhrd0t0cFlIUUR6UkZRTmdVQ2p6RDJwaVo0R3hNODdhK2w5Z3hGMmlT?=
+ =?utf-8?B?SFpIOStLRU5nRFB3dzNEK0ZaS3U4U1hNSmNhWFdzNFFYSkVLWkNlOFRvdTFi?=
+ =?utf-8?B?Zy80Y3B3T1BPaEdqOVBWNVJNTUdydUZScjRHbDEweCtvZnVqT29hVmJzZjI4?=
+ =?utf-8?B?WFg4UlNzdXRMV1NsVXNqZE9qdGErSTRSRVpPaTVtSGdraDBzK3VITWRVM0I0?=
+ =?utf-8?B?WEFDTitPdnl4R1kvcGV0QjhhVU00ODlKZlpUZ2h5N3c3ampzT1NXa2x3MTVN?=
+ =?utf-8?B?T2hjUEwybGFBWlZZeW1rcUwxV05iUHJrT1JQcHdkOFBPZis5SnFFNllqalZl?=
+ =?utf-8?B?MGFaQkZQTFRWU3NjV3lxaGRwMWlPeG1CWWYwSVVXK3M1WVdtTTNMMDVPQmhR?=
+ =?utf-8?B?N2JIWGd0elVkMzM0TEMrQjluVHdoNGJ5aHJiN0FoYmpnUW44RkRvS0pVWE94?=
+ =?utf-8?B?NUdNZVE3WlVQZW1XVEtMc3lZMlAzMG5WeDh2Y1JkSHpvb1VTREU2dFlyMFhO?=
+ =?utf-8?B?dnQ5b3dseUdZbzBzbHpMYXRLUUdlL3FKcDR1QXcwYXZNM050MnBMSVdNajFH?=
+ =?utf-8?B?d2s4cnZycytDWjA3dmJQdkVFditmT0NjamhoaDRjRlppUWFYSzRJOUFrZXA1?=
+ =?utf-8?B?eW1mWHBMbXpEVE9XcXJreHBWVlN6QU00bzdrSXNxQVVSelJsNlhNSVAwNFNP?=
+ =?utf-8?B?U3FEZDdqQ0hueTJxcnZPYk5yV2pZeE5ld1hYSHZXTEZXUkJ0dnZVaHZWNHZq?=
+ =?utf-8?B?bytnSGluT1NHeGRxZnFBWjN4TzM4eHZoeEt0TTBuRFJDVGRpZzVFS0JTVllo?=
+ =?utf-8?B?bU04czkybzdJWndER2pVYnhDYmpaTkpXZkhSWlZzNmFLS1MxV1hWeThRQXhV?=
+ =?utf-8?B?ZktqcUxMOFozTmc1TE9oVUlZWE0vMG41S2o1RE9OSjNuL0pIbDU4NzZMcEJM?=
+ =?utf-8?B?djUrWmJhRitVZ3BNVUpOS2VqbWtVSzcrNnRaeUlKWERBbys1Qmh2cXI0TkNB?=
+ =?utf-8?B?dWY4cFJPendkd094WWJET096a3NmcWYzaE52akxIZWxrdjBVcTQxMEFwRjhE?=
+ =?utf-8?B?WXRKOGMxSUVaRWFoMmxiV1cxaEpCb1lNNDNLbHFwUVZVK3R5V3VjaFI5ck9U?=
+ =?utf-8?Q?s0+M=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95b76063-f91c-4297-945b-08dbf67892db
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 16:29:52.4854
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Yxi2wRGqkuG/OTJ+a8wuMsqPPIfZgKl9dKJxw4jzR3xvjiSIpOW2o6uEvfyXIdim
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8943
 
-On Tue, 2023-12-05 at 16:07 -0800, Sean Christopherson wrote:
-> On Tue, Dec 05, 2023, Maxim Levitsky wrote:
-> > On Tue, 2023-12-05 at 11:21 -0800, Sean Christopherson wrote:
-> > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> > > > On Fri Dec 1, 2023 at 5:47 PM UTC, Sean Christopherson wrote:
-> > > > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> > > > > > On Fri Dec 1, 2023 at 4:32 PM UTC, Sean Christopherson wrote:
-> > > > > > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
-> > > > > > > > > To support this I think that we can add a userspace msr filter on the HV_X64_MSR_HYPERCALL,
-> > > > > > > > > although I am not 100% sure if a userspace msr filter overrides the in-kernel msr handling.
-> > > > > > > > 
-> > > > > > > > I thought about it at the time. It's not that simple though, we should
-> > > > > > > > still let KVM set the hypercall bytecode, and other quirks like the Xen
-> > > > > > > > one.
-> > > > > > > 
-> > > > > > > Yeah, that Xen quirk is quite the killer.
-> > > > > > > 
-> > > > > > > Can you provide pseudo-assembly for what the final page is supposed to look like?
-> > > > > > > I'm struggling mightily to understand what this is actually trying to do.
-> > > > > > 
-> > > > > > I'll make it as simple as possible (diregard 32bit support and that xen
-> > > > > > exists):
-> > > > > > 
-> > > > > > vmcall             <-  Offset 0, regular Hyper-V hypercalls enter here
-> > > > > > ret
-> > > > > > mov rax,rcx  <-  VTL call hypercall enters here
-> > > > > 
-> > > > > I'm missing who/what defines "here" though.  What generates the CALL that points
-> > > > > at this exact offset?  If the exact offset is dictated in the TLFS, then aren't
-> > > > > we screwed with the whole Xen quirk, which inserts 5 bytes before that first VMCALL?
-> > > > 
-> > > > Yes, sorry, I should've included some more context.
-> > > > 
-> > > > Here's a rundown (from memory) of how the first VTL call happens:
-> > > >  - CPU0 start running at VTL0.
-> > > >  - Hyper-V enables VTL1 on the partition.
-> > > >  - Hyper-V enabled VTL1 on CPU0, but doesn't yet switch to it. It passes
-> > > >    the initial VTL1 CPU state alongside the enablement hypercall
-> > > >    arguments.
-> > > >  - Hyper-V sets the Hypercall page overlay address through
-> > > >    HV_X64_MSR_HYPERCALL. KVM fills it.
-> > > >  - Hyper-V gets the VTL-call and VTL-return offset into the hypercall
-> > > >    page using the VP Register HvRegisterVsmCodePageOffsets (VP register
-> > > >    handling is in user-space).
-> > > 
-> > > Ah, so the guest sets the offsets by "writing" HvRegisterVsmCodePageOffsets via
-> > > a HvSetVpRegisters() hypercall.
-> > 
-> > No, you didn't understand this correctly. 
-> > 
-> > The guest writes the HV_X64_MSR_HYPERCALL, and in the response hyperv fills
-> 
-> When people say "Hyper-V", do y'all mean "root partition"?  
-> If so, can we just
-> say "root partition"?  Part of my confusion is that I don't instinctively know
-> whether things like "Hyper-V enables VTL1 on the partition" are talking about the
-> root partition (or I guess parent partition?) or the hypervisor.  Functionally it
-> probably doesn't matter, it's just hard to reconcile things with the TLFS, which
-> is written largely to describe the hypervisor's behavior.
-> 
-> > the hypercall page, including the VSM thunks.
-> > 
-> > Then the guest can _read_ the offsets, hyperv chose there by issuing another hypercall. 
-> 
-> Hrm, now I'm really confused.  Ah, the TLFS contradicts itself.  The blurb for
-> AccessVpRegisters says:
-> 
->   The partition can invoke the hypercalls HvSetVpRegisters and HvGetVpRegisters.
-> 
-> And HvSetVpRegisters confirms that requirement:
-> 
->   The caller must either be the parent of the partition specified by PartitionId,
->   or the partition specified must be “self” and the partition must have the
->   AccessVpRegisters privilege
-> 
-> But it's absent from HvGetVpRegisters:
-> 
->   The caller must be the parent of the partition specified by PartitionId or the
->   partition specifying its own partition ID.
+Hi Reinette,
 
-Yes, it is indeed very strange, that a partition would do a hypercall to read its own
-registers - but then the 'register' is also not really a register but more of a 'hack', and I guess
-they allowed it in this particular case. That is why I wrote the 'another hypercall'
-thing, because it is very strange that they (ab)used the HvGetVpRegisters for that.
+On 12/5/23 17:18, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 11/30/2023 4:57 PM, Babu Moger wrote:
+>> The QOS Memory Bandwidth Enforcement Limit is reported by
+>> CPUID_Fn80000020_EAX_x01.
+>> Bits Description
+>> 31:0 BW_LEN: Size of the QOS Memory Bandwidth Enforcement Limit.
+>>
+>> Remove the hardcoded bandwidth limit value and detect using CPUID command.
+>>
+>> The CPUID details are documentation in the PPR listed below [1].
+>> [1] Processor Programming Reference (PPR) Vol 1.1 for AMD Family 19h Model
+>> 11h B1 - 55901 Rev 0.25.
+>>
+>> Fixes: 4d05bf71f157 ("x86/resctrl: Introduce AMD QOS feature")
+> 
+> What makes this change worthy of the "Fixes:" tag. What is the impact
+> of this? Does this mean that there is AMD hardware out there that is
+> not being used correctly? In this case it should be highlighted and
+> the stable folks included?
 
-
-But regardless of the above, guests (root partition or any other partition) do the
-VTL calls, and in order to do a VTL call, that guest has to know the hypercall page offsets,
-and for that the guest has to do the HvGetVpRegisters hypercall first.
+This was reported during the internal testing on upcoming hardware which
+supports higher bandwidth limit. It could be a problem with new hardware
+and old kernel.
 
 > 
-> > In the current implementation, the offsets that the kernel choose are first
-> > exposed to the userspace via new ioctl, and then the userspace exposes these
-> > offsets to the guest via that 'another hypercall' (reading a pseudo partition
-> > register 'HvRegisterVsmCodePageOffsets')
-> > 
-> > I personally don't know for sure anymore if the userspace or kernel based
-> > hypercall page is better here, it's ugly regardless :(
+> This also does not seem like it belongs in this series and should
+> be sent separately as a fix.
+
+Agree. Will send as separate patch.
+
 > 
-> Hrm.  Requiring userspace to intercept the WRMSR will be a mess because then KVM
-> will have zero knowledge of the hypercall page, e.g. userspace would be forced to
-> intercept HV_X64_MSR_GUEST_OS_ID as well.
->   That's not the end of the world, but
-> it's not exactly ideal either.
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>> ---
+>>  arch/x86/kernel/cpu/resctrl/core.c     | 2 +-
+>>  arch/x86/kernel/cpu/resctrl/internal.h | 1 -
+>>  2 files changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+>> index 19e0681f0435..3fbae10b662d 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/core.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+>> @@ -243,7 +243,7 @@ static bool __rdt_get_mem_config_amd(struct rdt_resource *r)
+>>  
+>>  	cpuid_count(0x80000020, subleaf, &eax.full, &ebx, &ecx, &edx.full);
+>>  	hw_res->num_closid = edx.split.cos_max + 1;
+>> -	r->default_ctrl = MAX_MBA_BW_AMD;
+>> +	r->default_ctrl = 1 << eax.full;
 > 
-> What if we exit to userspace with a new kvm_hyperv_exit reason that requires
-> completion? 
+> This does not seem appropriate. You are using eax because it
+> it convenient but if you take a look at its definition it does not
+> match the AMD CPUID instruction output at all.
 
-BTW the other option is to do the whole thing in kernel - the offset bug in the hypercall page
-can be easily solved with a variable, and then the kernel can also intercept the HvGetVpRegisters
-hypercall and return these offsets for HvRegisterVsmCodePageOffsets, and for all
-other VP registers it can still exit to userspace - that way we also avoid adding a new ioctl,
-and have the whole thing in one place.
+Not sure where you see it. Here it is.
+https://bugzilla.kernel.org/attachment.cgi?id=303986
 
-All of the above can even be done unconditionally (or be conditionally tied to a Kconfig option),
-because it doesn't add much overhead and neither should break backward compatibility - I don't think
-hyperv guests rely on hypervisor not touching the hypercall page beyond the few bytes that KVM
-does write currently.
+Here is the definition.
 
-Best regards,
-	Maxim Levitsky
+CPUID_Fn80000020_EAX_x01 [Platform QoS Enforcement for Memory Bandwidth]
+(Core::X86::Cpuid::PqeBandwidthEax1)
+Read-only. Reset: 0000_000Bh.
+_ccd[11:0]_lthree0_core[7:0]_thread[1:0]; CPUID_Fn80000020_EAX_x01
+Bits Description
+31:0 BW_LEN: QOS Memory Bandwidth Enforcement Limit Size. Read-only.
+Reset: 0000_000Bh. Size of the QOS Memory Bandwidth Enforcement Limit.
+
+In this case, limit size is 12 (0BH) bits. Max limit is 1 << 12.
 
 
->  I.e. punt to userspace if VSM is enabled, but still record the data
-> in KVM?  Ugh, but even that's a mess because kvm_hv_set_msr_pw() is deep in the
-> WRMSR emulation call stack and can't easily signal that an exit to userspace is
-> needed.  Blech.
+
 > 
+>>  
+>>  	/* AMD does not use delay */
+>>  	r->membw.delay_linear = false;
+>> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+>> index a4f1aa15f0a2..d2979748fae4 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+>> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+>> @@ -18,7 +18,6 @@
+>>  #define MBM_OVERFLOW_INTERVAL		1000
+>>  #define MAX_MBA_BW			100u
+>>  #define MBA_IS_LINEAR			0x4
+>> -#define MAX_MBA_BW_AMD			0x800
+>>  #define MBM_CNTR_WIDTH_OFFSET_AMD	20
+>>  
+>>  #define RMID_VAL_ERROR			BIT_ULL(63)
+> 
+> Reinette
 
-
+-- 
+Thanks
+Babu Moger
