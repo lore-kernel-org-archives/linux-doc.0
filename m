@@ -1,79 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182014595E;
-	Wed,  6 Dec 2023 15:59:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="0O5bufUD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B370AC433CC;
-	Wed,  6 Dec 2023 15:59:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1701878354;
-	bh=vpZXpKKJhkH6bdcDcPHqena5ZG4UsjJfgD/hPx3L2wQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=0O5bufUDnm1ei+vk3IbzWI0+SGmHFkjtd6P/tbLUa0VD2zyoLUc9ML6LLfMDUXl5C
-	 yRdObtb5p8LZmfnfyRicLGcpZ8FCC68mIA1KatDT2DvCTEeb1KBjR+kCNwXLN/furT
-	 8J2CnqhbUUGYxwraCtuy+GBB+DipyZMAyamjRRB0=
-Date: Wed, 6 Dec 2023 07:59:13 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, Sourav Panda
- <souravpanda@google.com>, corbet@lwn.net, rafael@kernel.org,
- mike.kravetz@oracle.com, muchun.song@linux.dev, rppt@kernel.org,
- david@redhat.com, rdunlap@infradead.org, chenlinxuan@uniontech.com,
- yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com, bhelgaas@google.com,
- ivan@cloudflare.com, yosryahmed@google.com, hannes@cmpxchg.org,
- shakeelb@google.com, kirill.shutemov@linux.intel.com,
- wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz,
- Liam.Howlett@oracle.com, surenb@google.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, willy@infradead.org, weixugc@google.com
-Subject: Re: [PATCH v6 0/1] mm: report per-page metadata information
-Message-Id: <20231206075913.fa2633991bf257f5ffe5f3f8@linux-foundation.org>
-In-Reply-To: <2023120645-survey-puppet-4ae0@gregkh>
-References: <20231205223118.3575485-1-souravpanda@google.com>
-	<2023120648-droplet-slit-0e31@gregkh>
-	<CA+CK2bARjZgnMBL9bOD7p1u=02-fGgWwfiGvsFVpsJWL-VR2ng@mail.gmail.com>
-	<2023120645-survey-puppet-4ae0@gregkh>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="a/2sA2Vv";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H9JnJBEv"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E08E1A5;
+	Wed,  6 Dec 2023 08:13:22 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 064591FD10;
+	Wed,  6 Dec 2023 16:13:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1701879200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BfGRtKpQu6L46Fs8Jv9je69slO0FA+DhppgBOBXUjak=;
+	b=a/2sA2VvDHfBg/KaldM4o6rMqr54Q8Qcty4PxZ6Gw55qZvq+th+p9uHpCGY4Rv6qrOxpDg
+	qdF4JJSEb83ZgNwZvhfGltPF24iWeZazLbSvi9CQuR8prJN2FNdqeaLJsvX6MyxO0bo1uc
+	0jvqpv3oDxo+sW2x/bwx/y1+ROKs0B8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1701879200;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BfGRtKpQu6L46Fs8Jv9je69slO0FA+DhppgBOBXUjak=;
+	b=H9JnJBEvd4nR4cy+zB3mSducV2D4LUaJlhrZq3ZrHndCGxOoXgADJZTZEaSlAc8uxuW1HT
+	7kNT09QobzFMEMAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D37EE13408;
+	Wed,  6 Dec 2023 16:13:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3VX8Mp+dcGUcXgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 06 Dec 2023 16:13:19 +0000
+Message-ID: <457899ac-baab-e976-44ec-dfdeb23be031@suse.cz>
+Date: Wed, 6 Dec 2023 17:13:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 0/3] supplement of slab allocator removal
+Content-Language: en-US
+To: sxwjean@me.com, 42.hyeyoo@gmail.com, cl@linux.com, linux-mm@kvack.org
+Cc: penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+ roman.gushchin@linux.dev, corbet@lwn.net, keescook@chromium.org,
+ arnd@arndb.de, akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Xiongwei Song <xiongwei.song@windriver.com>
+References: <20231203001501.126339-1-sxwjean@me.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20231203001501.126339-1-sxwjean@me.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.10
+X-Spamd-Result: default: False [-1.10 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,me.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 BAYES_HAM(-1.30)[90.04%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[16];
+	 FREEMAIL_TO(0.00)[me.com,gmail.com,linux.com,kvack.org];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
 
-On Wed, 6 Dec 2023 12:12:10 +0900 Greg KH <gregkh@linuxfoundation.org> wrote:
-
-> On Tue, Dec 05, 2023 at 09:57:36PM -0500, Pasha Tatashin wrote:
-> > Hi Greg,
-> > 
-> > Sourav removed the new field from sys/device../nodeN/meminfo as you
-> > requested; however, in nodeN/vmstat fields still get appended, as
-> > there is code that displays every item in zone_stat_item,
-> > node_stat_item without option to opt-out. I mentioned it to you at
-> > LPC.
+On 12/3/23 01:14, sxwjean@me.com wrote:
+> From: Xiongwei Song <xiongwei.song@windriver.com>
 > 
-> Sorry, I thought that was a proc file, not a sysfs file.  Don't grow
-> that file please, it should not be that way and adding to it will just
-> cause others to also want to add to it and we end up with the whole proc
-> file mess...
+> Hi,
 > 
-> > In my IOMMU [1] series, there are also fields that are added to
-> > node_stat_item that as result are appended to nodeN/vmstat.
+> Patch 1 is to remove an unused parameter. This patch actually is v3, but
+> it is not reasonable to add v3 tag in the cover letter, so I put the
+> change history inside the patch.
 > 
-> I missed that, that too shouldn't be done please.
+> ---
+> Patch 2 is to replace slub_$params with slab_$params.
+> Vlastimil Babka pointed out we should use "slab_$param" as the primary
+> prefix for long-term plan. Please see [1] for more information.
 > 
-> Again, sysfs is "one value per file" for a reason, don't abuse the fact
-> that we missed this abuse of the rules for that file by adding more
-> things to it.
+> This patch is to do that. However, the patch is big, I'm not sure if
+> everything is proper in it, so I added "RFC" in the patch title. For more
+> information please see the commit message of patch.
+> 
+> I did the basic tests with qemu, which passed values by sl[au]b_max_order,
+> sl[au]b_min_order, sl[au]b_min_objects and sl[au]b_debug in command line.
+> The values looks correct by printing them out before calculating orders.
+> 
+> One thing I'm not sure about the forth parameter of __setup_param(),
+> Is it correct to set the parameter to 0 directly?
 
-I'm afraid that horse has bolted.
+Yep it's fine.
 
-hp2:/usr/src/25> wc /sys/devices/system/node/node0/vmstat 
-  61  122 1309 /sys/devices/system/node/node0/vmstat
-
-We're never going to unpick this into 61 separate files so adding new
-files at this stage is pointless.
