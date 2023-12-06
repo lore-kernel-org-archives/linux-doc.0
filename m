@@ -1,98 +1,117 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ETqbu50v"
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45ACBA1;
-	Wed,  6 Dec 2023 00:41:42 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5FDD220004;
-	Wed,  6 Dec 2023 08:41:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701852100;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="F3nkpE2P"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5823D4B;
+	Wed,  6 Dec 2023 00:46:00 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 714EA1FD03;
+	Wed,  6 Dec 2023 08:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1701852359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pXU57gWotBm7I/l7GKsWF7uvDD3oXFTjUZ5xXd0u10A=;
-	b=ETqbu50vQezP1pXb8hRNCEfD9UrHVYkoav5rUn+OJ+r1F1ZiC6lrr5IATcOV/SRpBJmw3u
-	GyTIlXdyfIqs4MUz5OEYMchaKsBxOVvJltxI0rXq9OUipwfsZFnui9CG3UqFKxP2pYkhWH
-	TR/0/7EG4texGUEY91r3VRox3vwS3IUd4clRgkToG/ml9Ema3JE2lGFiHqj7EnRxhMCBCP
-	Hz07fNdW+BFp4qASZck2gNCF1NT2YwYbXwF8Hgs32pT3DxKxg57k2Sw/iM5dxEODTPlHCH
-	Zl07LYFpAxqGSE1GdRVRvtRC4LWKZcZzOAh8NUc7lEXJngm2ORqbSN5Ac7figg==
-Date: Wed, 6 Dec 2023 09:41:36 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
- driver
-Message-ID: <20231206094136.4e0b10eb@kmaincent-XPS-13-7390>
-In-Reply-To: <e6752370-7aba-4b47-90ff-7896a49ba84b@wanadoo.fr>
-References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
-	<20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
-	<6eeead27-e1b1-48e4-8a3b-857e1c33496b@wanadoo.fr>
-	<20231204231655.19baa1a4@kmaincent-XPS-13-7390>
-	<e6752370-7aba-4b47-90ff-7896a49ba84b@wanadoo.fr>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	bh=hwIA41qwVke6sh1/FSzZs9q9NAcH6wFzAZcpVOEwDtg=;
+	b=F3nkpE2PwX4hk0Xxxgt+mJSvMVMZfgQN6BAAK4xuanoRacEXwVPgGTMCMARe2ltM1/eDQY
+	CbOHJYIJvPIId67Ct911v689d00ph0QCWReF90MKFe7PRToKfTMKqu3mmOGqRQNIWMe5ry
+	YjXK5TmQZ8ggVwgve7qQ+D+zgYiF/D8=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53950136CD;
+	Wed,  6 Dec 2023 08:45:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7iNfEcc0cGWnMgAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Wed, 06 Dec 2023 08:45:59 +0000
+Date: Wed, 6 Dec 2023 09:45:58 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: David Finkel <davidf@vimeo.com>
+Cc: Muchun Song <muchun.song@linux.dev>, core-services@vimeo.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>, Shuah Khan <shuah@kernel.org>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+Message-ID: <ZXA0xuFHLRRUaU8a@tiehlicka>
+References: <20231204194156.2411672-1-davidf@vimeo.com>
+ <ZW7oXalrpQWdWZNJ@tiehlicka>
+ <CAFUnj5PqZ5zybYJ4uCiv-8cfdyg3d9NmzMjy=cYB+DkRNEiJug@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFUnj5PqZ5zybYJ4uCiv-8cfdyg3d9NmzMjy=cYB+DkRNEiJug@mail.gmail.com>
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.22
+X-Spamd-Result: default: False [0.22 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-0.18)[-0.907];
+	 RCPT_COUNT_SEVEN(0.00)[11];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[]
 
-On Tue, 5 Dec 2023 19:01:47 +0100
-Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+On Tue 05-12-23 11:00:47, David Finkel wrote:
+> On Tue, Dec 5, 2023 at 4:07 AM Michal Hocko <mhocko@suse.com> wrote:
+> 
+> > > This behavior is particularly useful for work scheduling systems that
+> > > need to track memory usage of worker processes/cgroups per-work-item.
+> > > Since memory can't be squeezed like CPU can (the OOM-killer has
+> > > opinions), these systems need to track the peak memory usage to compute
+> > > system/container fullness when binpacking workitems.
+> >
+> > I do not understand the OOM-killer reference here but I do understand
+> > that your worker reuses a cgroup and you want a peak memory consumption
+> > of a single run to better profile/configure the memcg configuration for
+> > the specific worker type. Correct?
+> 
+> To a certain extent, yes.
+> At the moment, we're only using the inner memcg cgroups for
+> accounting/profiling, and using a
+> larger (k8s container) cgroup for enforcement.
+> 
+> The OOM-killer is involved because we're not configuring any memory limits on
+> these individual "worker" cgroups, so we need to provision for
+> multiple workloads using
+> their peak memory at the same time to minimize OOM-killing.
 
-> Le 04/12/2023 =C3=A0 23:16, K=C3=B6ry Maincent a =C3=A9crit=C2=A0:
-> > Thanks for your review!
-> >=20
-> > On Sun, 3 Dec 2023 22:11:46 +0100
-> > Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
-> >  =20
-> >>> +
-> >>> +	fwl =3D firmware_upload_register(THIS_MODULE, dev, dev_name(dev),
-> >>> +				       &pd692x0_fw_ops, priv);
-> >>> +	if (IS_ERR(fwl)) {
-> >>> +		dev_err(dev, "Failed to register to the Firmware Upload
-> >>> API\n");
-> >>> +		ret =3D PTR_ERR(fwl);
-> >>> +		return ret; =20
-> >>
-> >> Nit: return dev_err_probe()? =20
-> >=20
-> > No EPROBE_DEFER error can be catch from firmware_upload_register()
-> > function, so it's not needed. =20
->=20
-> Hi,
->=20
-> up to you to take it or not, but dev_err_probe() also logs the error=20
-> code in a human readable way and it saves a few lines of code.
->=20
-> If I remember correctly, it also saves some bytes in the .o file.
+OK, that makes more sense now. Just be aware that you might under
+utilize your limit that way because peak memory can still be reclaimed.
+If you set the hard limit (memory.max) to the peak memory consumption
+you would get a very conservative configuration wihtout any memory
+reclaim.
+ 
+> In case you're curious, this is the job/queue-work scheduling system
+> we wrote in-house
+> called Quickset that's mentioned in this blog post about our new
+> transcoder system:
+> https://medium.com/vimeo-engineering-blog/riding-the-dragon-e328a3dfd39d
 
-Oh, didn't know that.
+Thanks!
 
-> Other than that, it is a matter of style.
-
-After some thought it seems indeed better, I will move on to dev_err_probe(=
-) in
-next version.
-
-Thanks,
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-- 
+Michal Hocko
+SUSE Labs
