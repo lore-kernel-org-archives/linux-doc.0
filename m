@@ -1,92 +1,196 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dax39C/X"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 133B5AC;
-	Tue,  5 Dec 2023 15:25:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701818705; x=1733354705;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BOo943kXiot0+zKGN4PvVd6kTI3itwMLBYdViiwwY0c=;
-  b=dax39C/XKEaXyDsRsUadLGCieIPpWy7a8mlX2Yr/JpqBMFzFJ3/dEqdH
-   +FxVeHrCBiyvGqfVlj9POL0MjOqG+d6nWgfSPE/pc0B48dBAgXtwOPb5P
-   b4pWuEnIFbdUlrmxSIwzEIYobP3IEHShXj/qIETFGEHJPq0AOCqtOVypL
-   +jBAnImybQppqM+51bKRNRjWfB/bXZiVXFYUkEsjpYPoCMhUbZcjwCz4r
-   FkNvSFRziyMUNHqS5ooiMUMLJMxaOoXeDGkzqiWpED8PeW7nJvFehoBdo
-   O0FezfcfIyz8hIoNFq6HR0oxopAbSOIxkUovsih0JdN4u4xsMfkqfpxup
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="480173534"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="480173534"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:25:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="861916800"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="861916800"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 15:25:00 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAemg-0009ro-0b;
-	Tue, 05 Dec 2023 23:24:58 +0000
-Date: Wed, 6 Dec 2023 07:24:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cosmo Chou <chou.cosmo@gmail.com>, jdelvare@suse.com,
-	linux@roeck-us.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net, heiko@sntech.de, jernej.skrabec@gmail.com,
-	macromorgan@hotmail.com, linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, chou.cosmo@gmail.com,
-	cosmo.chou@quantatw.com
-Subject: Re: [PATCH 3/3] hwmon: Add driver for Astera Labs PT516XX retimer
-Message-ID: <202312060716.Zh0AHxKs-lkp@intel.com>
-References: <20231205074723.3546295-4-chou.cosmo@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xR8t6mUk"
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDBBC18F
+	for <linux-doc@vger.kernel.org>; Tue,  5 Dec 2023 16:07:17 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5d340a9cf07so95618367b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 05 Dec 2023 16:07:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701821237; x=1702426037; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B09jNl/6ew1fQLf1zTOLuFX5OzlF3p6K7osCTShEz6M=;
+        b=xR8t6mUk4YlLTCwB3wzAVW+pbILw5/x9O7C9Ot8cC5Eacn2DbevSTZUw1/uk8+IUH3
+         ffDD6LfXxy26tQN5nZ4m39/EejSIRlbTV4iqOHFSpdCOfyzh739uRUElkDNCbyoZuwMv
+         AHB0kMv9w7K++aVN+nE15SYKf7zPrbiahaCSr0uRgHu8ePf3J22npjoBHA4mTmvilEdj
+         iwZdtCjfY0NkJV7Tlyggt7tWKF3O0IUUgHh3WP7o3GyRpwTrhQa3VYU3Cx51Wpwfx4Il
+         pdiv6B2MkJUK+vU10QGQM+bRZ4/HzOK+a/BXGCDcvrocDdU0hhW2R5Qpw3CajRXprFqM
+         P+Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701821237; x=1702426037;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=B09jNl/6ew1fQLf1zTOLuFX5OzlF3p6K7osCTShEz6M=;
+        b=bnkBbw5ztkhZOqEmHbDpNYWHahioBN9d1gjJwCWa+Kj36c78dsbzSgBI6I/jQaO9rR
+         WLrShOPP92X942DE88js9zUBBIz79GzflOXTjpo7Ef234tMrkEXsgS8JScoFsa//L1AR
+         U5XYTKppFNTjCRiQoLjhdXoItvpQwHZH69bs7NT6bX2eGgzcdw2da4OchXYKJKZPQKx+
+         dojzjnPGeoETJhSIjWFXc7uaHJx105GmT55ZL3TEkueRJpoo/lgAVX2b9CbFSbBlHj7u
+         9uLU5FHc5QUkz09fKSYRH3Go7actACBdY0I4WloNzgCnWSwePDEgsKkeS3WrcpfWeYs6
+         enwA==
+X-Gm-Message-State: AOJu0Yw6NKxLqnXI2HbiIKXHd9yRgfmY5oYQKR8r6F9YyK6xA2kdbRaK
+	kiIA/q15l3W8lOgPJ+2Nhq2t3KsVFWI=
+X-Google-Smtp-Source: AGHT+IGlfl1pdAmtDrLxND8bxut+yVt9lXSa4fXaozYVUGEQmSGwKI62StziH/FVo2cPUM7O/ofYJDYTrcI=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:2f0b:b0:5d4:3013:25d4 with SMTP id
+ ev11-20020a05690c2f0b00b005d4301325d4mr282162ywb.5.1701821237087; Tue, 05 Dec
+ 2023 16:07:17 -0800 (PST)
+Date: Tue, 5 Dec 2023 16:07:15 -0800
+In-Reply-To: <fc09fec34a89ba7655f344a31174d078a8248182.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231205074723.3546295-4-chou.cosmo@gmail.com>
+Mime-Version: 1.0
+References: <20231108111806.92604-1-nsaenz@amazon.com> <20231108111806.92604-6-nsaenz@amazon.com>
+ <f4495d1f697cf9a7ddfb786eaeeac90f554fc6db.camel@redhat.com>
+ <CXD4TVV5QWUK.3SH495QSBTTUF@amazon.com> <ZWoKlJUKJGGhRRgM@google.com>
+ <CXD5HJ5LQMTE.11XP9UB9IL8LY@amazon.com> <ZWocI-2ajwudA-S5@google.com>
+ <CXD7AW5T9R7G.2REFR2IRSVRVZ@amazon.com> <ZW94T8Fx2eJpwKQS@google.com> <fc09fec34a89ba7655f344a31174d078a8248182.camel@redhat.com>
+Message-ID: <ZW-7Mwev4Ilf541L@google.com>
+Subject: Re: [RFC 05/33] KVM: x86: hyper-v: Introduce VTL call/return
+ prologues in hypercall page
+From: Sean Christopherson <seanjc@google.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Nicolas Saenz Julienne <nsaenz@amazon.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, pbonzini@redhat.com, vkuznets@redhat.com, 
+	anelkz@amazon.com, graf@amazon.com, dwmw@amazon.co.uk, jgowans@amazon.com, 
+	kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, 
+	x86@kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Cosmo,
+On Tue, Dec 05, 2023, Maxim Levitsky wrote:
+> On Tue, 2023-12-05 at 11:21 -0800, Sean Christopherson wrote:
+> > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
+> > > On Fri Dec 1, 2023 at 5:47 PM UTC, Sean Christopherson wrote:
+> > > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
+> > > > > On Fri Dec 1, 2023 at 4:32 PM UTC, Sean Christopherson wrote:
+> > > > > > On Fri, Dec 01, 2023, Nicolas Saenz Julienne wrote:
+> > > > > > > > To support this I think that we can add a userspace msr fil=
+ter on the HV_X64_MSR_HYPERCALL,
+> > > > > > > > although I am not 100% sure if a userspace msr filter overr=
+ides the in-kernel msr handling.
+> > > > > > >=20
+> > > > > > > I thought about it at the time. It's not that simple though, =
+we should
+> > > > > > > still let KVM set the hypercall bytecode, and other quirks li=
+ke the Xen
+> > > > > > > one.
+> > > > > >=20
+> > > > > > Yeah, that Xen quirk is quite the killer.
+> > > > > >=20
+> > > > > > Can you provide pseudo-assembly for what the final page is supp=
+osed to look like?
+> > > > > > I'm struggling mightily to understand what this is actually try=
+ing to do.
+> > > > >=20
+> > > > > I'll make it as simple as possible (diregard 32bit support and th=
+at xen
+> > > > > exists):
+> > > > >=20
+> > > > > vmcall             <-  Offset 0, regular Hyper-V hypercalls enter=
+ here
+> > > > > ret
+> > > > > mov rax,rcx  <-  VTL call hypercall enters here
+> > > >=20
+> > > > I'm missing who/what defines "here" though.  What generates the CAL=
+L that points
+> > > > at this exact offset?  If the exact offset is dictated in the TLFS,=
+ then aren't
+> > > > we screwed with the whole Xen quirk, which inserts 5 bytes before t=
+hat first VMCALL?
+> > >=20
+> > > Yes, sorry, I should've included some more context.
+> > >=20
+> > > Here's a rundown (from memory) of how the first VTL call happens:
+> > >  - CPU0 start running at VTL0.
+> > >  - Hyper-V enables VTL1 on the partition.
+> > >  - Hyper-V enabled VTL1 on CPU0, but doesn't yet switch to it. It pas=
+ses
+> > >    the initial VTL1 CPU state alongside the enablement hypercall
+> > >    arguments.
+> > >  - Hyper-V sets the Hypercall page overlay address through
+> > >    HV_X64_MSR_HYPERCALL. KVM fills it.
+> > >  - Hyper-V gets the VTL-call and VTL-return offset into the hypercall
+> > >    page using the VP Register HvRegisterVsmCodePageOffsets (VP regist=
+er
+> > >    handling is in user-space).
+> >=20
+> > Ah, so the guest sets the offsets by "writing" HvRegisterVsmCodePageOff=
+sets via
+> > a HvSetVpRegisters() hypercall.
+>=20
+> No, you didn't understand this correctly.=20
+>=20
+> The guest writes the HV_X64_MSR_HYPERCALL, and in the response hyperv fil=
+ls
 
-kernel test robot noticed the following build warnings:
+When people say "Hyper-V", do y'all mean "root partition"?  If so, can we j=
+ust
+say "root partition"?  Part of my confusion is that I don't instinctively k=
+now
+whether things like "Hyper-V enables VTL1 on the partition" are talking abo=
+ut the
+root partition (or I guess parent partition?) or the hypervisor.  Functiona=
+lly it
+probably doesn't matter, it's just hard to reconcile things with the TLFS, =
+which
+is written largely to describe the hypervisor's behavior.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc4 next-20231205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> the hypercall page, including the VSM thunks.
+>
+> Then the guest can _read_ the offsets, hyperv chose there by issuing anot=
+her hypercall.=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cosmo-Chou/dt-bindings-vendor-prefixes-add-asteralabs/20231205-155020
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20231205074723.3546295-4-chou.cosmo%40gmail.com
-patch subject: [PATCH 3/3] hwmon: Add driver for Astera Labs PT516XX retimer
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060716.Zh0AHxKs-lkp@intel.com/reproduce)
+Hrm, now I'm really confused.  Ah, the TLFS contradicts itself.  The blurb =
+for
+AccessVpRegisters says:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060716.Zh0AHxKs-lkp@intel.com/
+  The partition can invoke the hypercalls HvSetVpRegisters and HvGetVpRegis=
+ters.
 
-All warnings (new ones prefixed by >>):
+And HvSetVpRegisters confirms that requirement:
 
->> Documentation/hwmon/pt516xx.rst:4: WARNING: Title underline too short.
+  The caller must either be the parent of the partition specified by Partit=
+ionId,
+  or the partition specified must be =E2=80=9Cself=E2=80=9D and the partiti=
+on must have the
+  AccessVpRegisters privilege
 
-vim +4 Documentation/hwmon/pt516xx.rst
+But it's absent from HvGetVpRegisters:
 
-     2	
-     3	Kernel driver pt516xx
-   > 4	====================
-     5	
+  The caller must be the parent of the partition specified by PartitionId o=
+r the
+  partition specifying its own partition ID.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> In the current implementation, the offsets that the kernel choose are fir=
+st
+> exposed to the userspace via new ioctl, and then the userspace exposes th=
+ese
+> offsets to the guest via that 'another hypercall' (reading a pseudo parti=
+tion
+> register 'HvRegisterVsmCodePageOffsets')
+>=20
+> I personally don't know for sure anymore if the userspace or kernel based
+> hypercall page is better here, it's ugly regardless :(
+
+Hrm.  Requiring userspace to intercept the WRMSR will be a mess because the=
+n KVM
+will have zero knowledge of the hypercall page, e.g. userspace would be for=
+ced to
+intercept HV_X64_MSR_GUEST_OS_ID as well.  That's not the end of the world,=
+ but
+it's not exactly ideal either.
+
+What if we exit to userspace with a new kvm_hyperv_exit reason that require=
+s
+completion?  I.e. punt to userspace if VSM is enabled, but still record the=
+ data
+in KVM?  Ugh, but even that's a mess because kvm_hv_set_msr_pw() is deep in=
+ the
+WRMSR emulation call stack and can't easily signal that an exit to userspac=
+e is
+needed.  Blech.
