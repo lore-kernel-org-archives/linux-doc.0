@@ -1,200 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F3C3D0AC;
-	Thu,  7 Dec 2023 14:07:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djX50Moa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23BB1C433C9;
-	Thu,  7 Dec 2023 14:07:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701958022;
-	bh=cZE6recoVJBKdwJhpx4lYW5auQfi5FwfjuprvRYlh1o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=djX50MoaBv+/704ycHe+m7Gz/dhYtStLSzczs5PozYrzQ4DeGKjJ/B1igcoz76jH4
-	 D5AOKiNgYf8i3qN/SmV7Pp+adUHBxasOvSpxoS8wMzSxogR8XdhWdXFSCUepqCOdj6
-	 A3R7AyGfZtLukgkvApcZvyLqcG6iBEnn72jcU+GWoWpDZ5ZWu9OfVRofM8SJ0FHqTl
-	 b3tGOHgzebbfuRPoMEfOOhi4GtlXp6SuPEKQTFWyj9LePaBPbPU0bXL6ELRI4c9+Sf
-	 GvA01iPnQmx1MK6ps+CDNKHGMWWcSwgz9AxHK0ZWAc5VFzfmtVZGn+Z6kKlpI8N9xq
-	 YOB0lDorFZjJA==
-Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29] helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1rBF1n-002ENN-Lw;
-	Thu, 07 Dec 2023 14:06:59 +0000
-Date: Thu, 07 Dec 2023 14:06:34 +0000
-Message-ID: <87bkb285ud.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S/HaNrIl"
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49C18128
+	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 06:27:28 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-28670a7ba84so819185a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 06:27:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701959248; x=1702564048; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FnUqi8dAEgGMyEzBxdD28hEtaCGQO1gXXHV0T1kN7CU=;
+        b=S/HaNrIlZ1DvlTNB0E5lv/B/jagUzSzYVkBFDPkoNIN1LiRa1I0xHQINUKVCg0TNSR
+         SM8n1x6D6WJHzB+l3IkgyqBLYA5Jz9TniilXPvrPTiF/RF22DXM2XhS7PgktPvNbpLWh
+         eQy/d/QFNFVcy+m/YZA/NdrB5w7zq9ehc4c6U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701959248; x=1702564048;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FnUqi8dAEgGMyEzBxdD28hEtaCGQO1gXXHV0T1kN7CU=;
+        b=ukc8+WiqRdhotABhbbCGQ2uEtM/HJrzVOfj/aI+hKp7IfK3sITiUCwf6EzE38t/km7
+         Ku1rZBaNg+djxxG4QVEvH502WS6cHid7MISQkcIVX1JVfoE3uW7QZyvhJmW72QgpSVwq
+         s6pDtMY2ETHD1r+c7Egvu+i6/seJ2a/w0RqQ97ux8UzBFAS1pAx4PByDVRGast2nOjZt
+         SIyKOTJOi6DcVKzBiGEk3Me+AKQ/NI7igVaDr0sezQJ3DbdWX9hB093hs4uQazFtKSOi
+         kxO+Wvu4NMTab+8WFFoAlfNDD0Q7qyEINGybFN4fI1xXoFsgD2HtrR6YIC4SOETk4Dxh
+         JP/Q==
+X-Gm-Message-State: AOJu0YzcWw51XBbCWhZpWM8sSG6mVdGcURmk6oPznnX/ei13tTmEu6Hn
+	V9YqWOEEU9FySWM1Z7jHbIhRYQ==
+X-Google-Smtp-Source: AGHT+IH8AzbuT3bEW5QtQ3VpbuixskHTKbrXXL1zs3HHhHdzRy4lAaYreOoFMvEXA8A9ADp82mykHw==
+X-Received: by 2002:a17:90a:e009:b0:286:6cc0:b918 with SMTP id u9-20020a17090ae00900b002866cc0b918mr2087016pjy.79.1701959247711;
+        Thu, 07 Dec 2023 06:27:27 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:e0f4:e383:e626:f567])
+        by smtp.gmail.com with ESMTPSA id d15-20020a170902654f00b001cfc2d024edsm1507200pln.29.2023.12.07.06.27.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 06:27:27 -0800 (PST)
+Date: Thu, 7 Dec 2023 22:27:23 +0800
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 15/21] KVM: arm64: Support FEAT_FPMR for guests
-In-Reply-To: <08ae06c7-1654-4dfd-a789-b8e13c87d705@sirena.org.uk>
-References: <20231205-arm64-2023-dpisa-v3-0-dbcbcd867a7f@kernel.org>
-	<20231205-arm64-2023-dpisa-v3-15-dbcbcd867a7f@kernel.org>
-	<87cyvi8kz1.wl-maz@kernel.org>
-	<08ae06c7-1654-4dfd-a789-b8e13c87d705@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Message-ID: <20231207142723.GA3187877@google.com>
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.104.136.29
-X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231203153401.GV8402@pendragon.ideasonboard.com>
 
-On Thu, 07 Dec 2023 12:30:45 +0000,
-Mark Brown <broonie@kernel.org> wrote:
+On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
+> Hi Simon,
 > 
-> On Thu, Dec 07, 2023 at 08:39:46AM +0000, Marc Zyngier wrote:
-> > Mark Brown <broonie@kernel.org> wrote:
+> Thank you for the patch.
 > 
-> > >  #define HCRX_GUEST_FLAGS \
-> > > -	(HCRX_EL2_SMPME | HCRX_EL2_TCR2En | \
-> > > +	(HCRX_EL2_SMPME | HCRX_EL2_TCR2En | HCRX_EL2_EnFPM | \
+> On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
+> > 
+> > The files compress from about 86MB to 24MB using this approach.
+> > 
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> > 
+> > Add a 'make image.fit' build target for arm64, as well. Use
+> > FIT_COMPRESSION to select a different algorithm.
+> > 
+> > The FIT can be examined using 'dumpimage -l'.
+> > 
+> > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > requires compression utilities for the algorithm being used. Supported
+> > compression options are the same as the Image.xxx files. For now there
+> > is no way to change the compression other than by editing the rule for
+> > $(obj)/image.fit
+> > 
+> > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > this here, since it must be built separately from the Linux build.
 > 
-> > We really should start making all of these things conditional. See
-> > below.
+> FIT images are very useful, so I think this is a very welcome addition
+> to the kernel build system. It can get tricky though: given the
+> versatile nature of FIT images, there can't be any
+> one-size-fits-them-all solution to build them, and striking the right
+> balance between what makes sense for the kernel and the features that
+> users may request will probably lead to bikeshedding. As we all love
+> bikeshedding, I thought I would start selfishly, with a personal use
+> case :-) This isn't a yak-shaving request though, I don't see any reason
+> to delay merging this series.
 > 
-> Is there an overarching theory behind how these things are intended to
-> work?  I agree with you that I'd have expected more conditionality here,
-> I was trying to fit in with the existing pattern.  It's kind of hard to
-> follow what the intention is, I think to some extent due to things
-> having evolved over time.
+> Have you envisioned building FIT images with a subset of DTBs, or adding
+> DTBOs ? Both would be fairly trivial extensions to this script by
+> extending the supported command line arguments. It would perhaps be more
+> difficult to integrate in the kernel build system though. This leads me
+> to a second question: would you consider merging extensions to this
+> script if they are not used by the kernel build system, but meant for
+> users who manually invoke the script ? More generally, is the script
 
-The intention is that *everything* becomes conditional, based on both
-the host CPU support and the feature set advertised to the guest.
-Which means that we don't stuff that isn't advertised to the guest,
-and instead make these things UNDEF. Just like on any real CPU
-implementation.
+We'd also be interested in some customization, though in a different way.
+We imagine having a rule file that says X compatible string should map
+to A base DTB, plus B and C DTBO for the configuration section. The base
+DTB would carry all common elements of some device, while the DTBOs
+carry all the possible second source components, like different display
+panels or MIPI cameras for instance. This could drastically reduce the
+size of FIT images in ChromeOS by deduplicating all the common stuff.
 
->
-> > > @@ -517,7 +519,6 @@ struct kvm_vcpu_arch {
-> > >  	enum fp_type fp_type;
-> > >  	unsigned int sve_max_vl;
-> > >  	u64 svcr;
-> > > -	u64 fpmr;
-> 
-> > Why do this change here? Why isn't done like that the first place?
-> 
-> It didn't seem right to add the register to struct vcpu_sysreg before it
-> was handled by KVM.  As referenced in the cover letter normally this
-> wouldn't come up because KVM doesn't rely on the host kernel for
-> managing register state so we add KVM support then enable the host
-> kernel but for FPSIMD we're reusing fpsimd_save() so we need the host
-> kernel support to be in place when we enable KVM.
+> meant to be used stand-alone as well, in which case its command line
+> arguments need to remain backward-compatible, or do you see it as being
+> internal to the kernel ?
 
-That doesn't explain why you can't be upfront with it and populate the
-FPMR entry. In either case, you are wasting a u64.
+[...]
 
-> 
-> > >  	CGT_MDCR_TDE,
-> > > @@ -279,6 +281,12 @@ static const struct trap_bits coarse_trap_bits[] = {
-> > >  		.mask		= HCR_TTLBOS,
-> > >  		.behaviour	= BEHAVE_FORWARD_ANY,
-> > >  	},
-> > > +	[CGT_HCRX_EnFPM] = {
-> > > +		.index		= HCRX_EL2,
-> > > +		.value		= HCRX_EL2_EnFPM,
-> > > +		.mask		= HCRX_EL2_EnFPM,
-> > > +		.behaviour	= BEHAVE_FORWARD_ANY,
-> 
-> > This looks wrong. HCRX_EL2.EnFPM is an enable bit.
-> 
-> Right, it's the wrong way round.
-> 
-> > > +static void *fpsimd_share_end(struct user_fpsimd_state *fpsimd)
-> > > +{
-> > > +	void *share_end = fpsimd + 1;
-> > > +
-> > > +	if (cpus_have_final_cap(ARM64_HAS_FPMR))
-> > > +		share_end += sizeof(u64);
-> > > +
-> > > +	return share_end;
-> > > +}
-> 
-> > This is horrible. Why can't you just have a new structure wrapping
-> > both user_fpsimd_state and fpmr? This is going to break in subtle
-> > ways, just like the SVE/SME stuff.
-> 
-> I agree that it's not great, the main issue was that fpsimd_state is
-> both already embedded in uw for hardened usercopy and very widely
-> referenced by exactly which struct it's in so I was taking a guess as to
-> what would get the least objections.  The obvious thing would be to add
-> FPMR to uw and share the whole thing with the hypervisor, if people
-> don't mind adding another field to uw I could do that?
-
-Either that, or you create a KVM-specific structure that contains
-these fields. If that results in KVM changes, so be it. But I won't
-take this sort of pointer arithmetic that assumes some pre-defined
-layout.
-
-> 
-> > >  	vcpu->arch.host_fpsimd_state = kern_hyp_va(fpsimd);
-> > > +	if (cpus_have_final_cap(ARM64_HAS_FPMR)) {
-> > > +		WARN_ON_ONCE(&current->thread.fpmr + 1 != fpsimd_share_end(fpsimd));
-> 
-> > How can this happen?
-> 
-> It shouldn't, but it'd be bad if it did so I put a check in to make sure
-> we haven't messed up.
-
-See my earlier point: you shouldn't have to check if you used a data
-structure.
-
-> 
-> > > +		vcpu->arch.host_fpmr = kern_hyp_va(&current->thread.fpmr);
-> > > +	}
-> 
-> > We really need to stop piling the save/restore of stuff that isn't
-> > advertised to the guest.
-> 
-> I'm not clear what you're referencing here?  The feature is advertised
-> to the guest via the ID registers and in the past you've pushed back on
-> making things where the state is just a single register like this
-> optional.  Do you mean that we should be making this conditional on the
-> guest ID registers?  If that is the case is there a plan for how that's
-> supposed to work, set flags when kvm_vcpu_run_pid_change() happens for
-> example?
-
-See the beginning of this email. It is high time that we stop enabling
-everything by default, because this totally breaks VM migration. We
-already have a huge backlog of these things, and I don't want to add
-more of it.
-
-Which means that at the very least, enabling *any* feature also comes
-with sanitising the state one way or another when this feature is
-disabled by userspace.
-
-How this is being done is still a work in progress: my current plan is
-based on a set of trap bits that are computed on a per-VM basis, and
-some side state that indicates whether the trap handling is for
-emulation or feature disabling purpose. This will probably reuse the
-NV infrastructure which has an exhaustive list of the sysregs that can
-be trapped from EL0/EL1.
-
-At the very least, userspace shouldn't be able to observe the state
-that a guest isn't supposed to generate, and we should be mindful of
-not creating covert channels.
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+ChenYu
