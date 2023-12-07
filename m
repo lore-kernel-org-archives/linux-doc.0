@@ -1,158 +1,115 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F18O/3DR"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ED2B137
-	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 07:20:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701962418;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aBGTHGwalkoi/mJWuDTNACB5Q2kodLYGhoMiNDutoGI=;
-	b=F18O/3DRl0vukjnBJEKVTkGiRQfsDfYAIgo+wewrUbDGXoMWHP1ixICxc3GI4MDViTs/Up
-	3e5yuj57loXyEC0xe9ZIBdrtJJUDEgchydv8/M8SnTpDmjXk4vFZYoSf3Ps5xS+D0QgxTp
-	3d/CIp4TheqrcBiOr/Lu6gBIMOy5GP4=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-92-hU-aDaxtMOyux2n2q4u78g-1; Thu, 07 Dec 2023 10:20:16 -0500
-X-MC-Unique: hU-aDaxtMOyux2n2q4u78g-1
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-42595dc46e3so2756441cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 07:20:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701962416; x=1702567216;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aBGTHGwalkoi/mJWuDTNACB5Q2kodLYGhoMiNDutoGI=;
-        b=MJ3PoN7VxQ+nSv0LUp21awtZvDo1uDShdpQMwlRZCDdk5sck0vZ5GsmDtne1nRzZUG
-         MyUFb+XJXG0mSmYQ+ELQWN5Gn+lxibcPA9la3SIzo6xUXEOMt5VrjGpwoxl2YP0ArrZk
-         fOXg1/TcDYcoEgpZRS52dnv3Ad31K1LcG6egpWqP3uv+29C04NWcsICHcDSJah3jPhLv
-         JV3s4ti83xwSFI0bWaYN2ezfA9Yktm44DP4DRrtCU8QfqJ8h/lSLjPaFoW6sbhmhYFp8
-         5KZ8oTo/F/NcXuFRzB9VozDvm48Q2mvaOURLrpFBah8CCOpSZw5s/9wSJPlxmfM0ieDX
-         6jpQ==
-X-Gm-Message-State: AOJu0YyKub1LRKEfD93p4c9NTIKDAUsXG/aSMFM9+0e6EL6rqXH+4pBT
-	Vkybno8uqEJAvSSZaC9+2vjO2B3dDcBOWb/hSk2EQGSxZh/M2sMF975qDen/+iRGj0PPB4NJe0/
-	1JlmzVdT4R8P4JlIu1ZNz
-X-Received: by 2002:ac8:5cc5:0:b0:423:7766:a6f4 with SMTP id s5-20020ac85cc5000000b004237766a6f4mr2772208qta.15.1701962416051;
-        Thu, 07 Dec 2023 07:20:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEQW6FZgS48niLt79yNrj+zSCpythqw85QeE+yCUszBntFb7RV7q5lP63f7i9ydCptw5RyYRw==
-X-Received: by 2002:ac8:5cc5:0:b0:423:7766:a6f4 with SMTP id s5-20020ac85cc5000000b004237766a6f4mr2772195qta.15.1701962415800;
-        Thu, 07 Dec 2023 07:20:15 -0800 (PST)
-Received: from [192.168.1.9] (pool-68-160-135-240.bstnma.fios.verizon.net. [68.160.135.240])
-        by smtp.gmail.com with ESMTPSA id f21-20020ac84995000000b00423890096afsm3610qtq.2.2023.12.07.07.20.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 07:20:15 -0800 (PST)
-Message-ID: <273a86d6-d220-fdcf-3c2f-70516c519ff9@redhat.com>
-Date: Thu, 7 Dec 2023 10:20:13 -0500
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="enYVfsBH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="h3uVDoUl"
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5673810CA;
+	Thu,  7 Dec 2023 07:43:29 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id E103B5C010F;
+	Thu,  7 Dec 2023 10:43:26 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Thu, 07 Dec 2023 10:43:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1701963806; x=1702050206; bh=kK
+	DmIidL/tnOKURnMGeoV9D0OqdgpEUnz7ab3Y6ER9I=; b=enYVfsBH/ajHQbRk+Y
+	748qP1SgSEffOJ5hAXxyjXL79fyI6TSkDBSLYrNCmcVCq9v5FqtoqXQwOw5lasHn
+	FdjfPgvi7JpLTfg/u5bs72AFRKuCXSYkzrte+625THB8YGyrU0JihPN0miNheqoS
+	D0NH44LxD7N/1sobNw0Aqy1s6ZHn/UN0gbmPjh9mm7d5+vbrOSLLAiLUK0S0P4rf
+	34jHD8JOJaD+kmA/JtJS8HNws3R7fKWcZFWhqXHa5i0qhZKDLXx+5RDFDb7aZd6p
+	SE7Vks6G0laiS/g2n6jj4Eq+j3nwhVdbsv3hWpdK6tutO7HMCyl1A6bJi8zSJbIV
+	rYFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1701963806; x=1702050206; bh=kKDmIidL/tnOK
+	URnMGeoV9D0OqdgpEUnz7ab3Y6ER9I=; b=h3uVDoUlmP2wNbOIFulx31xrQpwen
+	CLulfcqV4LLs/ZfG09NAuLrxZ20DgU994sXssFbwQFZNC/gutGZcX4WrybKiHidS
+	npwYhQNy0OBZ7+XdwKQh+l37P9khQTd03fIAZgpnBU9YnkzQ7my3EiMVcs/UckaZ
+	zfibqKZf3DUibCygSZs3dSQmqWfZowxwFWsakCyLAUwzQ5KaAebIO9ZsDMafwrDx
+	aoI+Q3fr1PTB3EkNdddVmXIk7K2I7r2gVEPZImHXO3Cetg68FaozmclIfX+VFBy4
+	vndBJwldaNRMEz1o/rDNBtt4Ojs6bmGByaTe+V15v5B8pYnx/V9404ysw==
+X-ME-Sender: <xms:HehxZb_sVJKfMOi-TOCCliivGArYyFUiAi4OikunjBFY2XA533Ttww>
+    <xme:HehxZXuD5sQrFmqOk3MNNFpe_iBolaRKZTR_s1J1y39BkcHW169nBBTCj_TFtfOOF
+    Z7lEUYAavdWw9btxg4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudekfedgudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:HehxZZDVCsfJHl7SWb2tWqfN4fnvF_cYhchcV-yEKUrTek6rvae8vw>
+    <xmx:HehxZXe6H4HYcWipiHFiyu5MkT4X8hi7JEQWMIDeATsek8hWPe9b0w>
+    <xmx:HehxZQMTAdC7N3ay6MM5zx2arvJqA5tF_g7XDNg7hIrJ2K7AnAvQxw>
+    <xmx:HuhxZVbRI5aLXterkz05RtnzKhaqqQO4vR0zgOZZCHyznO2QOKYvWA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 3BDB4B60089; Thu,  7 Dec 2023 10:43:24 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1178-geeaf0069a7-fm-20231114.001-geeaf0069
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Content-Language: en-US
-To: Miroslav Benes <mbenes@suse.cz>
-Cc: Marcos Paulo de Souza <mpdesouza@suse.com>, Shuah Khan
- <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Petr Mladek <pmladek@suse.com>,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- live-patching@vger.kernel.org
-References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com>
- <20231031-send-lp-kselftests-v3-2-2b1655c2605f@suse.com>
- <ZWn7dEzVWoKxycmy@redhat.com>
- <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
-From: Joe Lawrence <joe.lawrence@redhat.com>
-Subject: Re: [PATCH v3 2/3] livepatch: Move tests from lib/livepatch to
- selftests/livepatch
-In-Reply-To: <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Message-Id: <cddbf290-021a-49d5-8729-e98cb099ff67@app.fastmail.com>
+In-Reply-To: <ZXHdhVeel1dOxlYJ@memverge.com>
+References: <20231207002759.51418-1-gregory.price@memverge.com>
+ <20231207002759.51418-8-gregory.price@memverge.com>
+ <67fab0f1-e326-4ad8-9def-4d2bd5489b33@app.fastmail.com>
+ <ZXHdhVeel1dOxlYJ@memverge.com>
+Date: Thu, 07 Dec 2023 16:43:03 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Gregory Price" <gregory.price@memverge.com>
+Cc: "Gregory Price" <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+ jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
+ emirakhur@micron.com, Hasan.Maruf@amd.com, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Andy Lutomirski" <luto@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, "Michal Hocko" <mhocko@kernel.org>,
+ "Tejun Heo" <tj@kernel.org>, ying.huang@intel.com,
+ "Jonathan Corbet" <corbet@lwn.net>, rakie.kim@sk.com, hyeongtak.ji@sk.com,
+ honggyu.kim@sk.com, vtavarespetr@micron.com,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Frank van der Linden" <fvdl@google.com>
+Subject: Re: [RFC PATCH 07/11] mm/mempolicy: add userland mempolicy arg structure
+Content-Type: text/plain
 
-On 12/6/23 10:05, Miroslav Benes wrote:
-> On Fri, 1 Dec 2023, Joe Lawrence wrote:
-> 
->> On Tue, Oct 31, 2023 at 06:10:52PM -0300, Marcos Paulo de Souza wrote:
->>> The modules are being moved from lib/livepatch to
->>> tools/testing/selftests/livepatch/test_modules.
->>>
->>> This code moving will allow writing more complex tests, like for example an
->>> userspace C code that will call a livepatched kernel function.
->>>
->>> The modules are now built as out-of-tree
->>> modules, but being part of the kernel source means they will be maintained.
->>>
->>> Another advantage of the code moving is to be able to easily change,
->>> debug and rebuild the tests by running make on the selftests/livepatch directory,
->>> which is not currently possible since the modules on lib/livepatch are
->>> build and installed using the "modules" target.
->>>
->>> The current approach also keeps the ability to execute the tests manually by
->>> executing the scripts inside selftests/livepatch directory, as it's currently
->>> supported. If the modules are modified, they needed to be rebuilt before running
->>> the scripts though.
->>>
->>> The modules are built before running the selftests when using the
->>> kselftest invocations:
->>>
->>> 	make kselftest TARGETS=livepatch
->>> or
->>> 	make -C tools/testing/selftests/livepatch run_tests
->>>
->>
->> Quick question:
->>
->> - We have been building with CONFIG_LIVEPATCH_TEST=m to generate the
->>   test modules at kernel build time
->>
->> - Our packaging filters out the selftest scripts and supporting modules
->>   from the general kernel RPM package into their subpackages
->>
->> - Tests are run as part of CKI or other manual tests by installing the
->>   pre-built packages from the previous step
->>
->>
->> After this patch, we would need to add something like the following to
->> our kernel build, before packaging:
->>
->>   $ make KDIR=$(pwd) -C tools/testing/selftests/livepatch/
->>          ^^^^
->>
->> If this is the correct way to build the test modules for *this* tree and
->> /lib/modules/$(shell uname -r)/build... it might be useful to document
->> in the commit message as an alternative use case.
-> 
-> So if I understand it correctly, you would like to stick to pre-building 
-> the modules (not in-tree but now after the kernel is build using the 
-> proposed way), package them and then install everything on a system 
-> running the respective kernel. A valid use case in my opinion.
-> 
+On Thu, Dec 7, 2023, at 15:58, Gregory Price wrote:
+> On Thu, Dec 07, 2023 at 08:13:22AM +0100, Arnd Bergmann wrote:
+>> On Thu, Dec 7, 2023, at 01:27, Gregory Price wrote:
+>> 
+>> Aside from this, you should avoid holes in the data structure.
+>> On 64-bit architectures, the layout above has holes after
+>> policy_node and after addr_node.
+>> 
+>>       Arnd
+>
+> doh, clearly i didn't stop to think about alignment. Good eye.
+> I'll redo this with __u/s members and fix the holes.
+>
+> Didn't stop to think about compat pointers.  I don't think the
+> u64_to_user_ptr pattern is offensive, so i'll make that change.
+> At least I don't see what the other options are beyond compat.
 
-That would accurate.  If this use case can be supported, it wouldn't
-require changes to our CKI / testing scripts, only the post-build
-packaging bits.
+Ok, sounds good.
 
-> My idea is to abandon this way completely, take the selftests and build 
-> and run them on the system right away.
-> 
-> Both should be doable, hopefully, if we wire it all correctly... and 
-> document it.
-> 
-I can't think of why it shouldn't continue to work, even in a future
-where newer livepatching selftests support older kernels.  (We would
-just have newer selftests sources backported to test older kernel sources.)
+I see you already call wrappers for compat mode to convert
+iovec and nodemask layouts for the indirect pointers, and they
+look correct. If you wanted to do handle the compat syscalls
+using the same entry point, you could add the same kind of
+helper to copy the mempolicy args from user space with an
+optional conversion, but not having to do this is clearly
+easier.
 
-Are there any test cases which truly need to be build on-the-fly?  Aside
-from testing different toolchain pieces?
-
--- 
-Joe
-
+     Arnd
