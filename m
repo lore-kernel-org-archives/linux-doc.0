@@ -1,204 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6545113AED;
-	Thu,  7 Dec 2023 06:52:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZCxkGoVt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AA06C433C9;
-	Thu,  7 Dec 2023 06:52:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1701931924;
-	bh=Jgvkdt55R4jwOTmeK7TgfLh1AEzeBbcP2a+N+0WhhKc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZCxkGoVtrKOxBDYbFXzbEwUrQaBkI55Mm1b+Pb1HCoor+OHtpzpFaJLxyDN339xgl
-	 svPqHzGtbUt8E5XKS/+UEvC2DJgk9VkzjktF5sVtRSEAfeyubq4qWFcm09cDcYLDXY
-	 rNdQa6gFxEdWWj51AMU9Y/LChTU74ukQcuaBesQA=
-Date: Thu, 7 Dec 2023 11:29:22 +0900
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: David Gow <davidgow@google.com>
-Cc: Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
-Message-ID: <2023120717-dangle-wrath-7bb3@gregkh>
-References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
- <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
- <2023120602-vaguely-primarily-b6b2@gregkh>
- <CABVgOSnW7et1aonnsSLcS1LHHztXVyagAFe-U3=JX7c7xi2P4g@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="QQuwvC9U"
+Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A36FA;
+	Wed,  6 Dec 2023 23:03:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1701932585; x=1733468585;
+  h=from:to:cc:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version:subject;
+  bh=SXaE0jxYY1JnqLGQ+FtXfTHRRnIazmjY0HeKThSqzHQ=;
+  b=QQuwvC9Urkjgro+rl8R0bKIUAGES2jD/ZxQ1lODNiVgziUwFbpDDfJCO
+   ZKY4Cas/WaU2lOqEQf/vPT307qopdkxHHH3rR6LSb0A2tzoN5vsexwgap
+   wRCk2ptwxLmprOO0o0CeDylvvrCkyutI2DGHTGdrSb50z3Ry1ASzb8Ys/
+   M=;
+X-IronPort-AV: E=Sophos;i="6.04,256,1695686400"; 
+   d="scan'208";a="689490897"
+Subject: RE: [PATCH net-next v8 1/8] net: ethtool: pass a pointer to parameters to
+ get/set_rxfh ethtool ops
+Thread-Topic: [PATCH net-next v8 1/8] net: ethtool: pass a pointer to parameters to
+ get/set_rxfh ethtool ops
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1d-m6i4x-25ac6bd5.us-east-1.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 07:02:58 +0000
+Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan2.iad.amazon.com [10.32.235.34])
+	by email-inbound-relay-iad-1d-m6i4x-25ac6bd5.us-east-1.amazon.com (Postfix) with ESMTPS id 29D8B49403;
+	Thu,  7 Dec 2023 07:02:51 +0000 (UTC)
+Received: from EX19MTAEUC001.ant.amazon.com [10.0.43.254:20385]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.44.90:2525] with esmtp (Farcaster)
+ id 2082292f-9c21-48cb-bbf7-6b1cfbdc6572; Thu, 7 Dec 2023 07:02:51 +0000 (UTC)
+X-Farcaster-Flow-ID: 2082292f-9c21-48cb-bbf7-6b1cfbdc6572
+Received: from EX19D022EUA002.ant.amazon.com (10.252.50.201) by
+ EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 7 Dec 2023 07:02:49 +0000
+Received: from EX19D022EUA002.ant.amazon.com (10.252.50.201) by
+ EX19D022EUA002.ant.amazon.com (10.252.50.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 7 Dec 2023 07:02:48 +0000
+Received: from EX19D022EUA002.ant.amazon.com ([fe80::7f87:7d63:def0:157d]) by
+ EX19D022EUA002.ant.amazon.com ([fe80::7f87:7d63:def0:157d%3]) with mapi id
+ 15.02.1118.040; Thu, 7 Dec 2023 07:02:48 +0000
+From: "Kiyanovski, Arthur" <akiyano@amazon.com>
+To: Ahmed Zaki <ahmed.zaki@intel.com>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>
+CC: "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"corbet@lwn.net" <corbet@lwn.net>, "jesse.brandeburg@intel.com"
+	<jesse.brandeburg@intel.com>, "anthony.l.nguyen@intel.com"
+	<anthony.l.nguyen@intel.com>, "davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org"
+	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>, "andrew@lunn.ch"
+	<andrew@lunn.ch>, "horms@kernel.org" <horms@kernel.org>, "mkubecek@suse.cz"
+	<mkubecek@suse.cz>, "willemdebruijn.kernel@gmail.com"
+	<willemdebruijn.kernel@gmail.com>, "gal@nvidia.com" <gal@nvidia.com>,
+	"alexander.duyck@gmail.com" <alexander.duyck@gmail.com>,
+	"ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jacob Keller
+	<jacob.e.keller@intel.com>
+Thread-Index: AQHaKJ02y/VPHsTkPk+svVtpsphWUrCdYuGQ
+Date: Thu, 7 Dec 2023 07:02:28 +0000
+Deferred-Delivery: Thu, 7 Dec 2023 07:02:04 +0000
+Message-ID: <82af13c02b5b4a3b9372ee5b38221b4b@amazon.com>
+References: <20231206233642.447794-1-ahmed.zaki@intel.com>
+ <20231206233642.447794-2-ahmed.zaki@intel.com>
+In-Reply-To: <20231206233642.447794-2-ahmed.zaki@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABVgOSnW7et1aonnsSLcS1LHHztXVyagAFe-U3=JX7c7xi2P4g@mail.gmail.com>
+Precedence: Bulk
 
-On Wed, Dec 06, 2023 at 03:44:08PM +0800, David Gow wrote:
-> > But really, why is this a "raw" device_driver pointer and not a pointer
-> > to the driver type for your bus?
-> 
-> So, this is where the more difficult questions start (and where my
-> knowledge of the driver model gets a bit shakier).
-> 
-> At the moment, there's no struct kunit_driver; the goal was to have
-> whatever the minimal amount of infrastructure needed to get a 'struct
-> device *' that could be plumbed through existing code which accepts
-> it. (Read: mostly devres resource management stuff, get_device(),
-> etc.)
-> 
-> So, in this version, there's no:
-> - struct kunit_driver: we've no extra data to store / function
-> pointers other than what's in struct device_driver.
-> - The kunit_bus is as minimal as I could get it: each device matches
-> exactly one driver pointer (which is passed as struct
-> kunit_device->driver).
-> - The 'struct kunit_device' type is kept private, and 'struct device'
-> is used instead, as this is supposed to only be passed to generic
-> device functions (KUnit is just managing its lifecycle).
-> 
-> I've no problem adding these extra types to flesh this out into a more
-> 'normal' setup, though I'd rather keep the boilerplate on the user
-> side minimal if possible. I suspect if we were to return a struct
-> kunit_device, everyone would be quickly grabbing and passing around a
-> raw 'struct device *' anyway, which is what the existing tests with
-> fake devices do (via root_device_register, which returns struct
-> device, or by returning &platform_device->dev from a helper).
-> 
-> Similarly, the kunit_bus is not ever exposed to test code, nor really
-> is the driver (except via kunit_device_register_with_driver(), which
-> isn't actually being used anywhere yet, so it may make sense to cut it
-> out from the next version). So, ideally tests won't even be aware that
-> their devices are attached to the kunit_bus, nor that they have
-> drivers attached: it's mostly just to make these normal enough that
-> they show up nicely in sysfs and play well with the devm_ resource
-> management functions.
 
-Ok, this makes more sense, thank you for the detailed explaination.
-Making this "generic" like you have done here seems reasonable for now.
+> The get/set_rxfh ethtool ops currently takes the rxfh (RSS) parameters
+> as direct function arguments. This will force us to change the API (and
+> all drivers' functions) every time some new parameters are added.
+>=20
+> This is part 1/2 of the fix, as suggested in [1]:
+>=20
+> - First simplify the code by always providing a pointer to all params
+>    (indir, key and func); the fact that some of them may be NULL seems
+>    like a weird historic thing or a premature optimization.
+>    It will simplify the drivers if all pointers are always present.
+>=20
+>  - Then make the functions take a dev pointer, and a pointer to a
+>    single struct wrapping all arguments. The set_* should also take
+>    an extack.
+>=20
+> Link: https://lore.kernel.org/netdev/20231121152906.2dd5f487@kernel.org/
+> [1]
+> Suggested-by: Jakub Kicinski <kuba@kernel.org>
+> Suggested-by: Jacob Keller <jacob.e.keller@intel.com>
+> Signed-off-by: Ahmed Zaki <ahmed.zaki@intel.com>
+> ---
 
-> > > -                                     attributes.o
-> > > +                                     attributes.o \
-> > > +                                     device.o
-> >
-> > Shouldn't this file be "bus.c" as you are creating a kunit bus?
-> >
-> 
-> I've sort-of grouped this as "device helpers", as it handles KUnit
-> devices, drivers, and the kunit_bus, but devices are the most
-> user-facing part. Indeed, the bus feels like an 'implementation
-> detail'. Happy to rename it if that makes things more consistent,
-> though.
-
-Nah, device.o makes sense for now, thanks.
-
-> > >  ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
-> > >  kunit-objs +=                                debugfs.o
-> > > diff --git a/lib/kunit/device.c b/lib/kunit/device.c
-> > > new file mode 100644
-> > > index 000000000000..93ace1a2297d
-> > > --- /dev/null
-> > > +++ b/lib/kunit/device.c
-> > > @@ -0,0 +1,176 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * KUnit basic device implementation
-> >
-> > "basic bus/driver implementation", not device, right?
-> >
-> 
-> Given that the users of this really only care about getting their
-> "device", and the bus/driver are more implementation details, I'd
-> rather go with something like "KUnit-managed device implementation" or
-> "KUnit device-model helpers". How do those sound?
-
-Either would be good, thanks.
-
-> > > + *
-> > > + * Implementation of struct kunit_device helpers.
-> > > + *
-> > > + * Copyright (C) 2023, Google LLC.
-> > > + * Author: David Gow <davidgow@google.com>
-> > > + */
-> > > +
-> > > +#include <linux/device.h>
-> > > +
-> > > +#include <kunit/test.h>
-> > > +#include <kunit/device.h>
-> > > +#include <kunit/resource.h>
-> > > +
-> > > +
-> > > +/* Wrappers for use with kunit_add_action() */
-> > > +KUNIT_DEFINE_ACTION_WRAPPER(device_unregister_wrapper, device_unregister, struct device *);
-> > > +KUNIT_DEFINE_ACTION_WRAPPER(driver_unregister_wrapper, driver_unregister, struct device_driver *);
-> > > +
-> > > +static struct device kunit_bus = {
-> > > +     .init_name = "kunit"
-> > > +};
-> >
-> > A static device as a bus?  This feels wrong, what is it for?  And where
-> > does this live?  If you _REALLY_ want a single device for the root of
-> > your bus (which is a good idea), then make it a dynamic variable (as it
-> > is reference counted), NOT a static struct device which should not be
-> > done if at all possible.
-> 
-> Will do. Would root_device_register() make more sense here?
-
-Yes.
-
-> > > +
-> > > +/* A device owned by a KUnit test. */
-> > > +struct kunit_device {
-> > > +     struct device dev;
-> > > +     struct kunit *owner;
-> > > +     /* Force binding to a specific driver. */
-> > > +     struct device_driver *driver;
-> > > +     /* The driver is managed by KUnit and unique to this device. */
-> > > +     bool cleanup_driver;
-> > > +};
-> >
-> > Wait, why isn't your "kunit" device above a struct kunit_device
-> > structure?  Why is it ok to be a "raw" struct device (hint, that's
-> > almost never a good idea.)
-> >
-> > > +static inline struct kunit_device *to_kunit_device(struct device *d)
-> > > +{
-> > > +     return container_of(d, struct kunit_device, dev);
-> >
-> > container_of_const()?  And to use that properly, why not make this a #define?
-> >
-> > > +}
-> > > +
-> > > +static int kunit_bus_match(struct device *dev, struct device_driver *driver)
-> > > +{
-> > > +     struct kunit_device *kunit_dev = to_kunit_device(dev);
-> > > +
-> > > +     if (kunit_dev->driver == driver)
-> > > +             return 1;
-> > > +
-> > > +     return 0;
-> >
-> > I don't understand, what are you trying to match here?
-> >
-> 
-> This is just to make sure that the match function will use whatever
-> driver is passed through. When I originally started writing this,
-> there were some resource cleanup problems if there was no driver
-> associated with a device, though that's fixed now.
-
-As it's fixed, no need for this, so let's not be confused going forward :)
-
-thanks,
-
-greg k-h
+Thanks for submitting this.
+For the ENA driver:
+Acked-by: Arthur Kiyanovski <akiyano@amazon.com>
