@@ -1,186 +1,369 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QcfKhdrk"
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8C610DC
-	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 11:19:49 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a1db6816177so178009966b.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 11:19:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KMGkl3X/"
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29C38170F;
+	Thu,  7 Dec 2023 11:24:08 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1d0b2752dc6so11340705ad.3;
+        Thu, 07 Dec 2023 11:24:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1701976788; x=1702581588; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GqNljMeu10jeQo935R54vZ6RNgIIhYo8bGwZuNpxXu4=;
-        b=QcfKhdrknHq8e6jK6RVLpxIGMtEh7bCRxkfJFFg5kjvaeiXjFg+WIT6EzbRai7Eq7q
-         r2bDCOZsmmu+/wr+kcgK1uRu/bKZESakMzqjTyV7Io12elmmJZjpzowz/LwYzfp5KNEW
-         Cp7cDjL7P2xTkK8clrdEpOQcPqcKaI/rrU0DDSZzsw+iGJeM32N5Vgs37jE4EU3Uh27k
-         AtV9bi56iRbpf4ly/ptViDC9Eb+CYLZoFugkqG76oemY7EwcqKbfOPs5NJ8HdxKd7v9g
-         N7Wu/HEZmRKwueGf7mj4Q5rFbrRWnfVqb7ui7JAkq/Wk/v1lfIm0EvBQeVEOzxNMopX+
-         Folg==
+        d=gmail.com; s=20230601; t=1701977047; x=1702581847; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVsNmgmDnzQDG1/LGV7hJiMxT85AaGwagKzGkmoxER0=;
+        b=KMGkl3X/UVu2XBm4Gx9C18573GfpCqV20KZTD5hyTDTRTSD4xv/SSedprcy6yxep6k
+         GnlbO4hccJ++eMLo+UOKtBcnHy1X9G4pUvcUJqzOjwV6fZuuT5VE2Mzn61zPRAkhktAk
+         2mZ+e2yX1dCsomRMaZehTQPklY40tWI5f/PiH2/yo5ZsMm03HrPvLoj84ihd1/W/EXqL
+         gsD4uaHAFYHNHN4958bCZJEt6raPADNavSGLfOqn53NWdrk6q+NmypwznPLXzP5Bgm9z
+         mNDhM82x9xQ5e7AmrmRwCfEUMo2MvJqfEu1ADdINf1rJ0HB0kokSe4fP92Lpbnezo0Q0
+         cY7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701976788; x=1702581588;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GqNljMeu10jeQo935R54vZ6RNgIIhYo8bGwZuNpxXu4=;
-        b=njtIeJo6+f8NHge4vTDw4tlL4JFwnOuLwkr7kfyhaujEhVbPtXOuTHt3cVNm7Hjs6Q
-         gvt4d1Asv/X4Dcy/dCZ20ZJRWR+yfvW914gH3uyAxBZvTKQJhE7Tq0TVjO6GeK5MH32m
-         Kx2cdYJ9YDI/7UxGba91lR23J12K4ZpuuH2Elk4wJRQRdTzHq6rLC71gLecklh5Y8WTu
-         T4hWb9einqRURyrC96/E/N4mLp5ijnmkxpA8Wpxvu36F1ZxSwjk4qyfRv5ttqhsA/WbK
-         1sL5/GvAmzPgAbHr6DfM2uwMV4f70/hn9bO+GbYwSnuQqmmPF+82oOmB/VjTiZ+Ojiqm
-         MKsg==
-X-Gm-Message-State: AOJu0Yw/luoSddLoRKBOJPlKU1cqRBfBL+492EQHGBlk6GneSC+gMU9h
-	lK90499NabxsGpIBsd8/G7RE8Q==
-X-Google-Smtp-Source: AGHT+IFBIOm0w6M5xLYQMgu5ASfsSFBsRFtnFH6mDk0C8McQSxHcLqmHPgbqxDhYSlhlK7QDsnXq4Q==
-X-Received: by 2002:a17:906:a84d:b0:a19:a19b:4268 with SMTP id dx13-20020a170906a84d00b00a19a19b4268mr1051351ejb.211.1701976788270;
-        Thu, 07 Dec 2023 11:19:48 -0800 (PST)
-Received: from ?IPv6:2804:30c:915:cb00:89a8:6d94:ec55:e0a3? ([2804:30c:915:cb00:89a8:6d94:ec55:e0a3])
-        by smtp.gmail.com with ESMTPSA id sa25-20020a1709076d1900b00a1d8626d650sm97674ejc.208.2023.12.07.11.19.42
+        d=1e100.net; s=20230601; t=1701977047; x=1702581847;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nVsNmgmDnzQDG1/LGV7hJiMxT85AaGwagKzGkmoxER0=;
+        b=g/hjal4pSnfFqKNbZM0wbKI5h5bAMlzGI3gSVEDo3pGW9sWM+FTSgQ/qH4UGwFewnR
+         wR+g/UHUdFJ7rUysUxjl3jZQDYQQekCi1E/YrWUwUI5LUahC8EwtpBe8AQGWQJDKI/to
+         vFJcCtAaPIrI/mvNpMcsQluQIaaHpEjaxzeesueKFxBdIGJnv2lMVeiRTXmMhLjOGKZP
+         +opNKj3Eyf5J9FAgYtKo6Fc5qOxe0GJyChXk77MYMIM+Jb49HYAcRLKahTGwJMfDn65h
+         MQZepO1uKEdQRQyebixGuRWt61EreRbLyKnDh9j/8GoLooH77tPaO5B0GI3efwxEqR/i
+         RTTw==
+X-Gm-Message-State: AOJu0YysyxmyvQWr5lLjZuGqPMDqcVW0OZrW+HbV7VZh7LUvSAKFjQEJ
+	KK6wIvHJqlP6NRAbVcNf6ws=
+X-Google-Smtp-Source: AGHT+IGUaegnoMWjY0e1XMRMVTrS0hgGoykO4U6+h1XcID6tzuveB11DDmljtRl89bro9Ih1KOiCfw==
+X-Received: by 2002:a17:902:d2cd:b0:1d0:6ffd:9e22 with SMTP id n13-20020a170902d2cd00b001d06ffd9e22mr3389722plc.116.1701977047355;
+        Thu, 07 Dec 2023 11:24:07 -0800 (PST)
+Received: from localhost (fwdproxy-prn-112.fbsv.net. [2a03:2880:ff:70::face:b00c])
+        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001d077c9a9acsm164633plh.185.2023.12.07.11.24.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 11:19:48 -0800 (PST)
-Message-ID: <57fb9f30afbaddb09def96aac11c45296a59a277.camel@suse.com>
-Subject: Re: [PATCH v3 2/3] livepatch: Move tests from lib/livepatch to
- selftests/livepatch
-From: mpdesouza@suse.com
-To: Joe Lawrence <joe.lawrence@redhat.com>, Miroslav Benes <mbenes@suse.cz>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>, Josh
- Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,  Petr
- Mladek <pmladek@suse.com>, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org,  live-patching@vger.kernel.org
-Date: Thu, 07 Dec 2023 16:19:32 -0300
-In-Reply-To: <273a86d6-d220-fdcf-3c2f-70516c519ff9@redhat.com>
-References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com>
-	 <20231031-send-lp-kselftests-v3-2-2b1655c2605f@suse.com>
-	 <ZWn7dEzVWoKxycmy@redhat.com>
-	 <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
-	 <273a86d6-d220-fdcf-3c2f-70516c519ff9@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+        Thu, 07 Dec 2023 11:24:07 -0800 (PST)
+From: Nhat Pham <nphamcs@gmail.com>
+To: akpm@linux-foundation.org
+Cc: tj@kernel.org,
+	lizefan.x@bytedance.com,
+	hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com,
+	yosryahmed@google.com,
+	sjenning@redhat.com,
+	ddstreet@ieee.org,
+	vitaly.wool@konsulko.com,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	hughd@google.com,
+	corbet@lwn.net,
+	konrad.wilk@oracle.com,
+	senozhatsky@chromium.org,
+	rppt@kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	david@ixit.cz,
+	chrisl@kernel.org
+Subject: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+Date: Thu,  7 Dec 2023 11:24:06 -0800
+Message-Id: <20231207192406.3809579-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2023-12-07 at 10:20 -0500, Joe Lawrence wrote:
-> On 12/6/23 10:05, Miroslav Benes wrote:
-> > On Fri, 1 Dec 2023, Joe Lawrence wrote:
-> >=20
-> > > On Tue, Oct 31, 2023 at 06:10:52PM -0300, Marcos Paulo de Souza
-> > > wrote:
-> > > > The modules are being moved from lib/livepatch to
-> > > > tools/testing/selftests/livepatch/test_modules.
-> > > >=20
-> > > > This code moving will allow writing more complex tests, like
-> > > > for example an
-> > > > userspace C code that will call a livepatched kernel function.
-> > > >=20
-> > > > The modules are now built as out-of-tree
-> > > > modules, but being part of the kernel source means they will be
-> > > > maintained.
-> > > >=20
-> > > > Another advantage of the code moving is to be able to easily
-> > > > change,
-> > > > debug and rebuild the tests by running make on the
-> > > > selftests/livepatch directory,
-> > > > which is not currently possible since the modules on
-> > > > lib/livepatch are
-> > > > build and installed using the "modules" target.
-> > > >=20
-> > > > The current approach also keeps the ability to execute the
-> > > > tests manually by
-> > > > executing the scripts inside selftests/livepatch directory, as
-> > > > it's currently
-> > > > supported. If the modules are modified, they needed to be
-> > > > rebuilt before running
-> > > > the scripts though.
-> > > >=20
-> > > > The modules are built before running the selftests when using
-> > > > the
-> > > > kselftest invocations:
-> > > >=20
-> > > > 	make kselftest TARGETS=3Dlivepatch
-> > > > or
-> > > > 	make -C tools/testing/selftests/livepatch run_tests
-> > > >=20
-> > >=20
-> > > Quick question:
-> > >=20
-> > > - We have been building with CONFIG_LIVEPATCH_TEST=3Dm to generate
-> > > the
-> > > =C2=A0 test modules at kernel build time
-> > >=20
-> > > - Our packaging filters out the selftest scripts and supporting
-> > > modules
-> > > =C2=A0 from the general kernel RPM package into their subpackages
-> > >=20
-> > > - Tests are run as part of CKI or other manual tests by
-> > > installing the
-> > > =C2=A0 pre-built packages from the previous step
-> > >=20
-> > >=20
-> > > After this patch, we would need to add something like the
-> > > following to
-> > > our kernel build, before packaging:
-> > >=20
-> > > =C2=A0 $ make KDIR=3D$(pwd) -C tools/testing/selftests/livepatch/
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^
-> > >=20
-> > > If this is the correct way to build the test modules for *this*
-> > > tree and
-> > > /lib/modules/$(shell uname -r)/build... it might be useful to
-> > > document
-> > > in the commit message as an alternative use case.
+During our experiment with zswap, we sometimes observe swap IOs due to
+occasional zswap store failures and writebacks-to-swap. These swapping
+IOs prevent many users who cannot tolerate swapping from adopting zswap
+to save memory and improve performance where possible.
 
-That's right:
+This patch adds the option to disable this behavior entirely: do not
+writeback to backing swapping device when a zswap store attempt fail,
+and do not write pages in the zswap pool back to the backing swap
+device (both when the pool is full, and when the new zswap shrinker is
+called).
 
-$ make -C tools/testing/selftests/livepatch/
+This new behavior can be opted-in/out on a per-cgroup basis via a new
+cgroup file. By default, writebacks to swap device is enabled, which is
+the previous behavior. Initially, writeback is enabled for the root
+cgroup, and a newly created cgroup will inherit the current setting of
+its parent.
 
-is indeed the way to build the tests without running them. KDIR will be
-set to  /lib/modules/$(shell uname -r)/build is empty.
+Note that this is subtly different from setting memory.swap.max to 0, as
+it still allows for pages to be stored in the zswap pool (which itself
+consumes swap space in its current form).
 
-Yes, I can definitely add documentation about it inside the
-tools/testing/selftests/livepatch/README.
+This patch should be applied on top of the zswap shrinker series:
 
-> >=20
-> > So if I understand it correctly, you would like to stick to pre-
-> > building=20
-> > the modules (not in-tree but now after the kernel is build using
-> > the=20
-> > proposed way), package them and then install everything on a system
-> > running the respective kernel. A valid use case in my opinion.
-> >=20
->=20
-> That would accurate.=C2=A0 If this use case can be supported, it wouldn't
-> require changes to our CKI / testing scripts, only the post-build
-> packaging bits.
->=20
-> > My idea is to abandon this way completely, take the selftests and
-> > build=20
-> > and run them on the system right away.
-> >=20
-> > Both should be doable, hopefully, if we wire it all correctly...
-> > and=20
-> > document it.
-> >=20
-> I can't think of why it shouldn't continue to work, even in a future
-> where newer livepatching selftests support older kernels.=C2=A0 (We would
-> just have newer selftests sources backported to test older kernel
-> sources.)
->=20
-> Are there any test cases which truly need to be build on-the-fly?=C2=A0
-> Aside
-> from testing different toolchain pieces?
+https://lore.kernel.org/linux-mm/20231130194023.4102148-1-nphamcs@gmail.com/
 
-We would like to use the same selftests to trigger testing on different
-kernels (adjusting it when necessary as you stated), without having to
-rebuild the kernel. Miroslav may have other ideias about it too, IIRC.
+as it also disables the zswap shrinker, a major source of zswap
+writebacks.
 
->=20
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+Reviewed-by: Yosry Ahmed <yosryahmed@google.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 12 ++++++++
+ Documentation/admin-guide/mm/zswap.rst  |  6 ++++
+ include/linux/memcontrol.h              | 12 ++++++++
+ include/linux/zswap.h                   |  6 ++++
+ mm/memcontrol.c                         | 38 +++++++++++++++++++++++++
+ mm/page_io.c                            |  6 ++++
+ mm/shmem.c                              |  3 +-
+ mm/zswap.c                              | 13 +++++++--
+ 8 files changed, 92 insertions(+), 4 deletions(-)
 
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 3f85254f3cef..2b4ac43efdc8 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1679,6 +1679,18 @@ PAGE_SIZE multiple when read back.
+ 	limit, it will refuse to take any more stores before existing
+ 	entries fault back in or are written out to disk.
+ 
++  memory.zswap.writeback
++	A read-write single value file. The default value is "1". The
++	initial value of the root cgroup is 1, and when a new cgroup is
++	created, it inherits the current value of its parent.
++
++	When this is set to 0, all swapping attempts to swapping devices
++	are disabled. This included both zswap writebacks, and swapping due
++	to zswap store failure.
++
++	Note that this is subtly different from setting memory.swap.max to
++	0, as it still allows for pages to be written to the zswap pool.
++
+   memory.pressure
+ 	A read-only nested-keyed file.
+ 
+diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
+index 62fc244ec702..cfa653130346 100644
+--- a/Documentation/admin-guide/mm/zswap.rst
++++ b/Documentation/admin-guide/mm/zswap.rst
+@@ -153,6 +153,12 @@ attribute, e. g.::
+ 
+ Setting this parameter to 100 will disable the hysteresis.
+ 
++Some users cannot tolerate the swapping that comes with zswap store failures
++and zswap writebacks. Swapping can be disabled entirely (without disabling
++zswap itself) on a cgroup-basis as follows:
++
++	echo 0 > /sys/fs/cgroup/<cgroup-name>/memory.zswap.writeback
++
+ When there is a sizable amount of cold memory residing in the zswap pool, it
+ can be advantageous to proactively write these cold pages to swap and reclaim
+ the memory for other use cases. By default, the zswap shrinker is disabled.
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 43b77363ab8e..5de775e6cdd9 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -219,6 +219,12 @@ struct mem_cgroup {
+ 
+ #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+ 	unsigned long zswap_max;
++
++	/*
++	 * Prevent pages from this memcg from being written back from zswap to
++	 * swap, and from being swapped out on zswap store failures.
++	 */
++	bool zswap_writeback;
+ #endif
+ 
+ 	unsigned long soft_limit;
+@@ -1941,6 +1947,7 @@ static inline void count_objcg_event(struct obj_cgroup *objcg,
+ bool obj_cgroup_may_zswap(struct obj_cgroup *objcg);
+ void obj_cgroup_charge_zswap(struct obj_cgroup *objcg, size_t size);
+ void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg, size_t size);
++bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg);
+ #else
+ static inline bool obj_cgroup_may_zswap(struct obj_cgroup *objcg)
+ {
+@@ -1954,6 +1961,11 @@ static inline void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg,
+ 					     size_t size)
+ {
+ }
++static inline bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg)
++{
++	/* if zswap is disabled, do not block pages going to the swapping device */
++	return true;
++}
+ #endif
+ 
+ #endif /* _LINUX_MEMCONTROL_H */
+diff --git a/include/linux/zswap.h b/include/linux/zswap.h
+index 08c240e16a01..a78ceaf3a65e 100644
+--- a/include/linux/zswap.h
++++ b/include/linux/zswap.h
+@@ -35,6 +35,7 @@ void zswap_swapoff(int type);
+ void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg);
+ void zswap_lruvec_state_init(struct lruvec *lruvec);
+ void zswap_page_swapin(struct page *page);
++bool is_zswap_enabled(void);
+ #else
+ 
+ struct zswap_lruvec_state {};
+@@ -55,6 +56,11 @@ static inline void zswap_swapoff(int type) {}
+ static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg) {}
+ static inline void zswap_lruvec_state_init(struct lruvec *lruvec) {}
+ static inline void zswap_page_swapin(struct page *page) {}
++
++static inline bool is_zswap_enabled(void)
++{
++	return false;
++}
+ #endif
+ 
+ #endif /* _LINUX_ZSWAP_H */
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index d7bc47316acb..ae8c62c7aa53 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -5538,6 +5538,8 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state *parent_css)
+ 	WRITE_ONCE(memcg->soft_limit, PAGE_COUNTER_MAX);
+ #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+ 	memcg->zswap_max = PAGE_COUNTER_MAX;
++	WRITE_ONCE(memcg->zswap_writeback,
++		!parent || READ_ONCE(parent->zswap_writeback));
+ #endif
+ 	page_counter_set_high(&memcg->swap, PAGE_COUNTER_MAX);
+ 	if (parent) {
+@@ -8174,6 +8176,12 @@ void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg, size_t size)
+ 	rcu_read_unlock();
+ }
+ 
++bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg)
++{
++	/* if zswap is disabled, do not block pages going to the swapping device */
++	return !is_zswap_enabled() || !memcg || READ_ONCE(memcg->zswap_writeback);
++}
++
+ static u64 zswap_current_read(struct cgroup_subsys_state *css,
+ 			      struct cftype *cft)
+ {
+@@ -8206,6 +8214,31 @@ static ssize_t zswap_max_write(struct kernfs_open_file *of,
+ 	return nbytes;
+ }
+ 
++static int zswap_writeback_show(struct seq_file *m, void *v)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
++
++	seq_printf(m, "%d\n", READ_ONCE(memcg->zswap_writeback));
++	return 0;
++}
++
++static ssize_t zswap_writeback_write(struct kernfs_open_file *of,
++				char *buf, size_t nbytes, loff_t off)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
++	int zswap_writeback;
++	ssize_t parse_ret = kstrtoint(strstrip(buf), 0, &zswap_writeback);
++
++	if (parse_ret)
++		return parse_ret;
++
++	if (zswap_writeback != 0 && zswap_writeback != 1)
++		return -EINVAL;
++
++	WRITE_ONCE(memcg->zswap_writeback, zswap_writeback);
++	return nbytes;
++}
++
+ static struct cftype zswap_files[] = {
+ 	{
+ 		.name = "zswap.current",
+@@ -8218,6 +8251,11 @@ static struct cftype zswap_files[] = {
+ 		.seq_show = zswap_max_show,
+ 		.write = zswap_max_write,
+ 	},
++	{
++		.name = "zswap.writeback",
++		.seq_show = zswap_writeback_show,
++		.write = zswap_writeback_write,
++	},
+ 	{ }	/* terminate */
+ };
+ #endif /* CONFIG_MEMCG_KMEM && CONFIG_ZSWAP */
+diff --git a/mm/page_io.c b/mm/page_io.c
+index cb559ae324c6..5e606f1aa2f6 100644
+--- a/mm/page_io.c
++++ b/mm/page_io.c
+@@ -201,6 +201,12 @@ int swap_writepage(struct page *page, struct writeback_control *wbc)
+ 		folio_end_writeback(folio);
+ 		return 0;
+ 	}
++
++	if (!mem_cgroup_zswap_writeback_enabled(folio_memcg(folio))) {
++		folio_mark_dirty(folio);
++		return AOP_WRITEPAGE_ACTIVATE;
++	}
++
+ 	__swap_writepage(&folio->page, wbc);
+ 	return 0;
+ }
+diff --git a/mm/shmem.c b/mm/shmem.c
+index c62f904ba1ca..dd084fbafcf1 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -1514,8 +1514,7 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
+ 
+ 		mutex_unlock(&shmem_swaplist_mutex);
+ 		BUG_ON(folio_mapped(folio));
+-		swap_writepage(&folio->page, wbc);
+-		return 0;
++		return swap_writepage(&folio->page, wbc);
+ 	}
+ 
+ 	mutex_unlock(&shmem_swaplist_mutex);
+diff --git a/mm/zswap.c b/mm/zswap.c
+index daaa949837f2..7ee54a3d8281 100644
+--- a/mm/zswap.c
++++ b/mm/zswap.c
+@@ -153,6 +153,11 @@ static bool zswap_shrinker_enabled = IS_ENABLED(
+ 		CONFIG_ZSWAP_SHRINKER_DEFAULT_ON);
+ module_param_named(shrinker_enabled, zswap_shrinker_enabled, bool, 0644);
+ 
++bool is_zswap_enabled(void)
++{
++	return zswap_enabled;
++}
++
+ /*********************************
+ * data structures
+ **********************************/
+@@ -596,7 +601,8 @@ static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+ 	struct zswap_pool *pool = shrinker->private_data;
+ 	bool encountered_page_in_swapcache = false;
+ 
+-	if (!zswap_shrinker_enabled) {
++	if (!zswap_shrinker_enabled ||
++			!mem_cgroup_zswap_writeback_enabled(sc->memcg)) {
+ 		sc->nr_scanned = 0;
+ 		return SHRINK_STOP;
+ 	}
+@@ -637,7 +643,7 @@ static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
+ 	struct lruvec *lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(sc->nid));
+ 	unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
+ 
+-	if (!zswap_shrinker_enabled)
++	if (!zswap_shrinker_enabled || !mem_cgroup_zswap_writeback_enabled(memcg))
+ 		return 0;
+ 
+ #ifdef CONFIG_MEMCG_KMEM
+@@ -956,6 +962,9 @@ static int shrink_memcg(struct mem_cgroup *memcg)
+ 	struct zswap_pool *pool;
+ 	int nid, shrunk = 0;
+ 
++	if (!mem_cgroup_zswap_writeback_enabled(memcg))
++		return -EINVAL;
++
+ 	/*
+ 	 * Skip zombies because their LRUs are reparented and we would be
+ 	 * reclaiming from the parent instead of the dead memcg.
+
+base-commit: cdcab2d34f129f593c0afbb2493bcaf41f4acd61
+-- 
+2.34.1
