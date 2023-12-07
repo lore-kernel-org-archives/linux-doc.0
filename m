@@ -1,132 +1,119 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1kHBT/7"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD67CA9;
-	Thu,  7 Dec 2023 04:02:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701950562; x=1733486562;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jjebZ/3jB6yBXogRzbFTiLh94dgst6N2OkVomZJsYDM=;
-  b=e1kHBT/7BJgXcqzrs/jrvqLQ4Yp52BY+Gy3o52oUg5sNOHkONa3UZP/m
-   I7E09f+JZOkTb7mq0yVAQL1lKtagUbboirWmr7V6ORQ9ISiz6EhPGEldF
-   mvd5SHA2v7JJRxJEHzoxZ7S3iYkFiQ9N6amZ124j/0u8xPCpI/VU56NU/
-   5qccJlkaYVn3YSkT0JNH2rdX65eCbKRx4ZBj0lxFVPNGUaNBWCS8jlXne
-   MnwP6vTE7R6zrylT9QIh4HtBoOi7LseKFlq5ktOfywZOfgm6HotudyKR9
-   SqMFBrWeS7zSKFD7hgNGqYmfwmI1+9naaPTPThtallN4OvuV/qZYALqDO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12933467"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="12933467"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 04:02:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1103177243"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1103177243"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 07 Dec 2023 04:02:36 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBD5O-000CCM-02;
-	Thu, 07 Dec 2023 12:02:34 +0000
-Date: Thu, 7 Dec 2023 20:01:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ma Jun <Jun.Ma2@amd.com>, amd-gfx@lists.freedesktop.org,
-	lenb@kernel.org, hdegoede@redhat.com, johannes@sipsolutions.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alexander.deucher@amd.com, Lijo.Lazar@amd.com,
-	mario.limonciello@amd.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, majun@amd.com, Ma Jun <Jun.Ma2@amd.com>
-Subject: Re: [PATCH v15 1/9] Documentation/driver-api: Add document about
- WBRF mechanism
-Message-ID: <202312071941.JXQXsK1C-lkp@intel.com>
-References: <20231206072947.1331729-2-Jun.Ma2@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Slrxr/C7"
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C92EC170D;
+	Thu,  7 Dec 2023 04:21:21 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40c0fc1cf3dso9287825e9.0;
+        Thu, 07 Dec 2023 04:21:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701951680; x=1702556480; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:cc:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VXEn8OrLbGUPI4M1OazpR2o4kB2t0PVSgppAPB0RDn4=;
+        b=Slrxr/C73GVpz5LOjGQ8WQ3HBqQ69JSxhkykRa9Yv3iXuAG6dsSPmJCVXOHlnnav/n
+         +X/2EgtHs0YeNjRcZBavjEYu13dp+Qat8KbE0uc3Ud8kSGFOWDg0ZG/e3sJrAbw3oU7l
+         kOvIt60dKPGU65e572tbv/usPlNdNt2lw9EwG6yC0B3NfcVXDSfCzWM2Mab+ecIFDNhC
+         fFBNHMHmf1tmxx+381osLXk/4GKZwPzmEQiNR4Ai8+kjlmZ4bvn5D7Rigesivz9vexm7
+         UKiqUvCJK9iQU8R1po+84gqV3syR7T3IJkE2Wd6nD3z+7dC3QP248sMSttwwqSRQn4Jo
+         5axQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701951680; x=1702556480;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:cc:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VXEn8OrLbGUPI4M1OazpR2o4kB2t0PVSgppAPB0RDn4=;
+        b=lsr1aTgkX/FuHEvjwZxsqZp1DShHqbcMXkaVrJNKdU+JUKBMAGIxP3FPMUv/H4eksZ
+         BRGy9/jBpUsUbL0Lt3HPD3ZI8FWT0s/mUYRYc/p4aAz4KCsbzlf4iYb6GfT6rh0aW6Zj
+         IeRBhbf1nMs43IqwmttMFUV35sDAQVXRQhCCl5BV1lCPve21gmeOk3N79RFviJOQCBDt
+         Fq4O1x5Pm4cwoDMUUVFQLOn33MrVRXX2V2TRWEBeGvHbkLi007tQ28m/5Zp2RAlIUTii
+         fPu9HfEcROhAK2twxGNfdl+22A5O+sOYmRqgl/W+G2WeHmTIVoPwb7dPOgrIo5l4PYvb
+         ai2w==
+X-Gm-Message-State: AOJu0YxWwKj82PZexCaARNiyRmCopNXhpvNfrwTRehHPFm91MqPN6L+j
+	NWVprFH8YwwFq62X10EGo3Q=
+X-Google-Smtp-Source: AGHT+IEH8v8umWRtQg7bICPyJRQ3sDLuhGVDz0x4eZBUB5ao4Iy9QD9qvLP1/yetRk6u8gW9c/9qqQ==
+X-Received: by 2002:a05:600c:45d0:b0:40b:5e21:d341 with SMTP id s16-20020a05600c45d000b0040b5e21d341mr1574715wmo.74.1701951679941;
+        Thu, 07 Dec 2023 04:21:19 -0800 (PST)
+Received: from [192.168.0.28] (cable-178-148-234-71.dynamic.sbb.rs. [178.148.234.71])
+        by smtp.gmail.com with ESMTPSA id z17-20020a1709060f1100b00a0a2553ec99sm762062eji.65.2023.12.07.04.21.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 04:21:19 -0800 (PST)
+Message-ID: <9f6883fb-d628-4077-bb94-f5ba620bdd57@gmail.com>
+Date: Thu, 7 Dec 2023 13:21:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231206072947.1331729-2-Jun.Ma2@amd.com>
+User-Agent: Mozilla Thunderbird
+Cc: savicaleksa83@gmail.com, linux-hwmon@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] hwmon: Add driver for Gigabyte AORUS Waterforce AIO
+ coolers
+Content-Language: en-US
+To: Guenter Roeck <linux@roeck-us.net>
+References: <20231203120651.371429-1-savicaleksa83@gmail.com>
+ <b45529ba-619c-41d7-a890-3b81cf699ebe@roeck-us.net>
+ <da9fe05a-a12d-4a2d-a81a-1195d65b1d51@gmail.com>
+ <34638d1a-55c2-4dfe-ab9b-d8591a32b950@roeck-us.net>
+From: Aleksa Savic <savicaleksa83@gmail.com>
+In-Reply-To: <34638d1a-55c2-4dfe-ab9b-d8591a32b950@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Ma,
+On 2023-12-05 15:35:19 GMT+01:00, Guenter Roeck wrote:
+> On 12/5/23 06:22, Aleksa Savic wrote:
+>> On 2023-12-03 18:36:35 GMT+01:00, Guenter Roeck wrote:
+>>> On Sun, Dec 03, 2023 at 01:06:48PM +0100, Aleksa Savic wrote:
+>>>> This driver exposes hardware sensors of the Gigabyte AORUS Waterforce
+>>>> all-in-one CPU liquid coolers, which communicate through a proprietary
+>>>> USB HID protocol. Report offsets were initially discovered in [1] and
+>>>> confirmed by me on a Waterforce X240 by observing the sent reports from
+>>>> the official software.
+>>>>
+>>>> Available sensors are pump and fan speed in RPM, as well as coolant
+>>>> temperature. Also available through debugfs is the firmware version.
+>>>>
+>>>> Attaching a fan is optional and allows it to be controlled from the
+>>>> device. If it's not connected, the fan-related sensors will report
+>>>> zeroes.
+>>>>
+>>>> The addressable RGB LEDs and LCD screen are not supported in this
+>>>> driver and should be controlled through userspace tools.
+>>>>
+>>>> [1]: https://github.com/liquidctl/liquidctl/issues/167
+>>>>
+>>>> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+>>>> ---
+> ...
+>>>> +static int waterforce_get_status(struct waterforce_data *priv)
+>>>> +{
+>>>> +    int ret = 0;
+>>>> +
+>>>> +    if (!mutex_lock_interruptible(&priv->status_report_request_mutex)) {
+>>>> +        if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
+>>>> +            /* Data is up to date */
+>>>> +            goto unlock_and_return;
+>>>> +        }
+>>>
+>>> What is the point of this check ? The calling code already checks it.
+>>> Checking it twice, once inside and once outside the lock, seems
+>>> excessive.
+>>>
+>>
+>> If there are multiple readers here, only the first one should request the status,
+>> so when others enter the mutex they can exit early if the data is there.
+>>
+> 
+> Please change the code to only check once from within the mutex.
+> 
+> Guenter
+> 
 
-kernel test robot noticed the following build warnings:
+Done in v3.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc4 next-20231207]
-[cannot apply to drm-misc/drm-misc-next wireless-next/main wireless/main]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Jun/Documentation-driver-api-Add-document-about-WBRF-mechanism/20231206-153327
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231206072947.1331729-2-Jun.Ma2%40amd.com
-patch subject: [PATCH v15 1/9] Documentation/driver-api: Add document about WBRF mechanism
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071941.JXQXsK1C-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312071941.JXQXsK1C-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/driver-api/wbrf.rst:28: WARNING: Unexpected indentation.
->> Documentation/driver-api/wbrf.rst:61: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/driver-api/wbrf.rst: WARNING: document isn't included in any toctree
-
-vim +28 Documentation/driver-api/wbrf.rst
-
-    25	
-    26	Producer: such component who can produce high-powered radio frequency
-    27	Consumer: such component who can adjust its in-use frequency in
-  > 28	           response to the radio frequencies of other components to
-    29	           mitigate the possible RFI.
-    30	
-    31	To make the mechanism function, those producers should notify active use
-    32	of their particular frequencies so that other consumers can make relative
-    33	internal adjustments as necessary to avoid this resonance.
-    34	
-    35	ACPI interface
-    36	==============
-    37	
-    38	Although initially used by for wifi + dGPU use cases, the ACPI interface
-    39	can be scaled to any type of device that a platform designer discovers
-    40	can cause interference.
-    41	
-    42	The GUID used for the _DSM is 7B7656CF-DC3D-4C1C-83E9-66E721DE3070.
-    43	
-    44	3 functions are available in this _DSM:
-    45	
-    46	* 0: discover # of functions available
-    47	* 1: record RF bands in use
-    48	* 2: retrieve RF bands in use
-    49	
-    50	Driver programming interface
-    51	============================
-    52	
-    53	.. kernel-doc:: drivers/platform/x86/amd/wbrf.c
-    54	
-    55	Sample Usage
-    56	=============
-    57	
-    58	The expected flow for the producers:
-    59	1. During probe, call `acpi_amd_wbrf_supported_producer` to check if WBRF
-    60	   can be enabled for the device.
-  > 61	2. On using some frequency band, call `acpi_amd_wbrf_add_remove` with 'add'
-    62	   param to get other consumers properly notified.
-    63	3. Or on stopping using some frequency band, call
-    64	   `acpi_amd_wbrf_add_remove` with 'remove' param to get other consumers notified.
-    65	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Aleksa
