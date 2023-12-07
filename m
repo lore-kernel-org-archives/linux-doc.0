@@ -1,502 +1,460 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eOOw3zN6"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4725FA9;
-	Wed,  6 Dec 2023 15:38:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701905890; x=1733441890;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=FqwxGlvFN/1bkefcyF+LqLZGNeKeWXhfD1IGvBfN290=;
-  b=eOOw3zN6pu4a+gkRg6Xskw5UeO6HSG+fCFcvWwOJiBAWegbs7/cST/uP
-   RptJlhhRUfChUAwlcINQbNnD8fweGxGMu15pNpVmRqKtES7tEarJ88oW2
-   r47X2nABs3ZAnttYu3ML78sHzZHfhNq2H2XQb+2tPStiqktPXlYhfDVBd
-   THgfLh5yQdevHY6/6R4IEaOSvXLQrbWBDLFvEEkqBDJm1PaeYE7TRPhQb
-   cj6O/eZP5t7XpZCf7EezX/p/47QmpsJHOXRnCKa87bwr+2YX/3NtutQwf
-   yEj+zlnDaxfhBgiewsDNfht144NTY6X01dVHU0lMdw6p54vdGtxSASNXf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="379164033"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="379164033"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 15:38:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="771486650"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="771486650"
-Received: from traguzov-mobl4.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.252.62.75])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 15:38:00 -0800
-From: Ahmed Zaki <ahmed.zaki@intel.com>
-To: netdev@vger.kernel.org
-Cc: intel-wired-lan@lists.osuosl.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahZnDzFr"
+Received: from mail-yw1-x1144.google.com (mail-yw1-x1144.google.com [IPv6:2607:f8b0:4864:20::1144])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE33318D;
+	Wed,  6 Dec 2023 16:28:10 -0800 (PST)
+Received: by mail-yw1-x1144.google.com with SMTP id 00721157ae682-5d3644ca426so1010387b3.1;
+        Wed, 06 Dec 2023 16:28:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701908890; x=1702513690; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p2jrmbLAF90SkKFGh277QUQB5VktoD8qYGVqtPErfcM=;
+        b=ahZnDzFryBtkIyX0PsIjS6rx91sgurvC84agAuLdBcZU2Xq+1C6BSfgAXw+VHz4LOi
+         voGDvIQsEjMc0X/rDZffkebgc5xV8BwytW5++Uje7pD6d3d9Ybtibtx3YC2bwwOyf1Ks
+         XrAgHkkZkG8AZeD4t98Uwmf73bfubX5x08Lq4rDHo6lRy6CWS2Op5BYj2y8ab6ZvBWv6
+         3gB/hLR71RgvNeC/pURhRaGJB6gnR9QQ4CWdfnB7DWiHwW9hHNqHFnDKm3N6qYKibCv8
+         N15/CZ+RbiVXbLMVxiy0oH/NN6p654dA8X8BO0WUghyGZiJq4GuaW7ICYoj1MWQrPnph
+         42HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701908890; x=1702513690;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p2jrmbLAF90SkKFGh277QUQB5VktoD8qYGVqtPErfcM=;
+        b=g+RmMLEmLzIGx4rw2A0hS7CC66BpQzWlRh35vUFxJ56Oqv1d5JGic748uDOh3PWgSD
+         9UG0U0X/AINZbSqVFiqLAmkCEXnPcfFbrqibejoRCXVIF0JjSs9M36e+ox5hBlntSptY
+         bko1Anae6ClUUiZwNEJUFnsOO/4KAq9SA5FXxPyk/DGTS4/M2iu3/25mio/o4QdSpa55
+         9P2LFQ2O9dM/6odz4d9INghLW5WWTJdn0DcWpWxXCHpLWQ3XFdkGufa2PS0MoarRRDDR
+         fG2BHPJfahAZrHrzlPXk3uI61FQK7mJpRjnCaX/k4YSebEVlChMBZzs7IboslqP/YKEZ
+         Vzcw==
+X-Gm-Message-State: AOJu0YzxI603g3WjkExDsJjEZfRRBs403esiR1u04bw7/DwpWLujSRix
+	HKPXpbyOpqvFW3VHbaxwkg==
+X-Google-Smtp-Source: AGHT+IEQJAoREK4xn8fsoXYjhaCunmOrXu+8IFSL9PQ5FsLRppKBmZuAP2/vtiTo6pDT7CHS3wM00A==
+X-Received: by 2002:a81:aa09:0:b0:5d7:1941:355b with SMTP id i9-20020a81aa09000000b005d71941355bmr1862188ywh.66.1701908889569;
+        Wed, 06 Dec 2023 16:28:09 -0800 (PST)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id x145-20020a81a097000000b005d82fc8cc92sm19539ywg.105.2023.12.06.16.28.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 16:28:09 -0800 (PST)
+From: Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To: linux-mm@kvack.org,
+	jgroves@micron.com,
+	ravis.opensrc@micron.com,
+	sthanneeru@micron.com,
+	emirakhur@micron.com,
+	Hasan.Maruf@amd.com
+Cc: linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	arnd@arndb.de,
+	tglx@linutronix.de,
+	luto@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	mhocko@kernel.org,
+	tj@kernel.org,
+	ying.huang@intel.com,
+	gregory.price@memverge.com,
 	corbet@lwn.net,
-	jesse.brandeburg@intel.com,
-	anthony.l.nguyen@intel.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	vladimir.oltean@nxp.com,
-	andrew@lunn.ch,
-	horms@kernel.org,
-	mkubecek@suse.cz,
-	willemdebruijn.kernel@gmail.com,
-	gal@nvidia.com,
-	alexander.duyck@gmail.com,
-	ecree.xilinx@gmail.com,
-	linux-doc@vger.kernel.org,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>
-Subject: [PATCH net-next v8 8/8] iavf: enable symmetric-xor RSS for Toeplitz hash function
-Date: Wed,  6 Dec 2023 16:36:42 -0700
-Message-Id: <20231206233642.447794-9-ahmed.zaki@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231206233642.447794-1-ahmed.zaki@intel.com>
-References: <20231206233642.447794-1-ahmed.zaki@intel.com>
+	rakie.kim@sk.com,
+	hyeongtak.ji@sk.com,
+	honggyu.kim@sk.com,
+	vtavarespetr@micron.com,
+	peterz@infradead.org,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Hasan Al Maruf <hasanalmaruf@fb.com>,
+	Hao Wang <haowang3@fb.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Zhongkun He <hezhongkun.hzk@bytedance.com>,
+	Frank van der Linden <fvdl@google.com>,
+	John Groves <john@jagalactic.com>,
+	Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Subject: [RFC PATCH 00/11] mempolicy2, mbind2, and weighted interleave
+Date: Wed,  6 Dec 2023 19:27:48 -0500
+Message-Id: <20231207002759.51418-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Allow the user to set the symmetric Toeplitz hash function via:
+This patch set extends the mempolicy interface to enable new
+mempolicies which may require extended data to operate.
 
-    # ethtool -X eth0 hfunc toeplitz symmetric-xor
+One such policy is included with this set as an example:
+MPOL_WEIGHTED_INTERLEAVE
 
-The driver will reject any new RSS configuration if a field other than
-(IP src/dst and L4 src/dst ports) is requested for hashing.
+There are 3 major "phases" in the patch set:
+1) Implement a "global weight" mechanism via sysfs, which allows
+   set_mempolicy to implement MPOL_WEIGHTED_INTERLEAVE utilizing
+   weights set by the administrator (or system daemon).
 
-The symmetric RSS will not be supported on PFs not advertising the ADV RSS
-Offload flag (ADV_RSS_SUPPORT()), for example the E700 series (i40e).
+2) A refactor of the mempolicy creation mechanism to accept an
+   extensible argument structure `struct mempolicy_args` to promote
+   code re-use between the original mempolicy/mbind interfaces and
+   the new extended mempolicy2/mbind2 interfaces.
 
-Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
-Signed-off-by: Ahmed Zaki <ahmed.zaki@intel.com>
----
- drivers/net/ethernet/intel/iavf/iavf.h        |  5 +-
- .../net/ethernet/intel/iavf/iavf_adv_rss.c    |  8 ++-
- .../net/ethernet/intel/iavf/iavf_adv_rss.h    |  3 +-
- .../net/ethernet/intel/iavf/iavf_ethtool.c    | 32 ++++++++++--
- drivers/net/ethernet/intel/iavf/iavf_main.c   |  4 ++
- .../net/ethernet/intel/iavf/iavf_virtchnl.c   | 41 +++++++++++++++
- drivers/net/ethernet/intel/ice/ice_virtchnl.c | 50 +++++++++++++++++++
- drivers/net/ethernet/intel/ice/ice_virtchnl.h |  1 +
- .../intel/ice/ice_virtchnl_allowlist.c        |  1 +
- include/linux/avf/virtchnl.h                  | 19 +++++++
- 10 files changed, 156 insertions(+), 8 deletions(-)
+3) Implementation of set_mempolicy2, get_mempolicy2, and mbind2,
+   along with the addition of task-local weights so that per-task
+   weights can be registered for MPOL_WEIGHTED_INTERLEAVE.
 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf.h b/drivers/net/ethernet/intel/iavf/iavf.h
-index e7ab89dc883a..f83fbcc72075 100644
---- a/drivers/net/ethernet/intel/iavf/iavf.h
-+++ b/drivers/net/ethernet/intel/iavf/iavf.h
-@@ -312,7 +312,8 @@ struct iavf_adapter {
- #define IAVF_FLAG_AQ_SET_HENA			BIT_ULL(12)
- #define IAVF_FLAG_AQ_SET_RSS_KEY		BIT_ULL(13)
- #define IAVF_FLAG_AQ_SET_RSS_LUT		BIT_ULL(14)
--#define IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE	BIT_ULL(15)
-+#define IAVF_FLAG_AQ_SET_RSS_HFUNC		BIT_ULL(15)
-+#define IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE	BIT_ULL(16)
- #define IAVF_FLAG_AQ_ENABLE_VLAN_STRIPPING	BIT_ULL(19)
- #define IAVF_FLAG_AQ_DISABLE_VLAN_STRIPPING	BIT_ULL(20)
- #define IAVF_FLAG_AQ_ENABLE_CHANNELS		BIT_ULL(21)
-@@ -414,6 +415,7 @@ struct iavf_adapter {
- 	struct iavf_vsi vsi;
- 	u32 aq_wait_count;
- 	/* RSS stuff */
-+	enum virtchnl_rss_algorithm hfunc;
- 	u64 hena;
- 	u16 rss_key_size;
- 	u16 rss_lut_size;
-@@ -539,6 +541,7 @@ void iavf_get_hena(struct iavf_adapter *adapter);
- void iavf_set_hena(struct iavf_adapter *adapter);
- void iavf_set_rss_key(struct iavf_adapter *adapter);
- void iavf_set_rss_lut(struct iavf_adapter *adapter);
-+void iavf_set_rss_hfunc(struct iavf_adapter *adapter);
- void iavf_enable_vlan_stripping(struct iavf_adapter *adapter);
- void iavf_disable_vlan_stripping(struct iavf_adapter *adapter);
- void iavf_virtchnl_completion(struct iavf_adapter *adapter,
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-index 6edbf134b73f..a9e1da35e248 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-@@ -95,17 +95,21 @@ iavf_fill_adv_rss_sctp_hdr(struct virtchnl_proto_hdr *hdr, u64 hash_flds)
-  * @rss_cfg: the virtchnl message to be filled with RSS configuration setting
-  * @packet_hdrs: the RSS configuration protocol header types
-  * @hash_flds: the RSS configuration protocol hash fields
-+ * @symm: if true, symmetric hash is required
-  *
-  * Returns 0 if the RSS configuration virtchnl message is filled successfully
-  */
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds)
-+			  u32 packet_hdrs, u64 hash_flds, bool symm)
- {
- 	struct virtchnl_proto_hdrs *proto_hdrs = &rss_cfg->proto_hdrs;
- 	struct virtchnl_proto_hdr *hdr;
- 
--	rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+	if (symm)
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+	else
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
- 
- 	proto_hdrs->tunnel_level = 0;	/* always outer layer */
- 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-index 4d3be11af7aa..e31eb2afebea 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-@@ -80,13 +80,14 @@ struct iavf_adv_rss {
- 
- 	u32 packet_hdrs;
- 	u64 hash_flds;
-+	bool symm;
- 
- 	struct virtchnl_rss_cfg cfg_msg;
- };
- 
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds);
-+			  u32 packet_hdrs, u64 hash_flds, bool symm);
- struct iavf_adv_rss *
- iavf_find_adv_rss_cfg_by_hdrs(struct iavf_adapter *adapter, u32 packet_hdrs);
- void
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-index 5b25c68f3209..5d00fe8999ec 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-@@ -1538,11 +1538,12 @@ static u32 iavf_adv_rss_parse_hdrs(struct ethtool_rxnfc *cmd)
- /**
-  * iavf_adv_rss_parse_hash_flds - parses hash fields from RSS hash input
-  * @cmd: ethtool rxnfc command
-+ * @symm: true if Symmetric Topelitz is set
-  *
-  * This function parses the rxnfc command and returns intended hash fields for
-  * RSS configuration
-  */
--static u64 iavf_adv_rss_parse_hash_flds(struct ethtool_rxnfc *cmd)
-+static u64 iavf_adv_rss_parse_hash_flds(struct ethtool_rxnfc *cmd, bool symm)
- {
- 	u64 hfld = IAVF_ADV_RSS_HASH_INVALID;
- 
-@@ -1614,17 +1615,20 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	struct iavf_adv_rss *rss_old, *rss_new;
- 	bool rss_new_add = false;
- 	int count = 50, err = 0;
-+	bool symm = false;
- 	u64 hash_flds;
- 	u32 hdrs;
- 
- 	if (!ADV_RSS_SUPPORT(adapter))
- 		return -EOPNOTSUPP;
- 
-+	symm = !!(adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC);
-+
- 	hdrs = iavf_adv_rss_parse_hdrs(cmd);
- 	if (hdrs == IAVF_ADV_RSS_FLOW_SEG_HDR_NONE)
- 		return -EINVAL;
- 
--	hash_flds = iavf_adv_rss_parse_hash_flds(cmd);
-+	hash_flds = iavf_adv_rss_parse_hash_flds(cmd, symm);
- 	if (hash_flds == IAVF_ADV_RSS_HASH_INVALID)
- 		return -EINVAL;
- 
-@@ -1632,7 +1636,8 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (!rss_new)
- 		return -ENOMEM;
- 
--	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds)) {
-+	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds,
-+				      symm)) {
- 		kfree(rss_new);
- 		return -EINVAL;
- 	}
-@@ -1651,9 +1656,11 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (rss_old) {
- 		if (rss_old->state != IAVF_ADV_RSS_ACTIVE) {
- 			err = -EBUSY;
--		} else if (rss_old->hash_flds != hash_flds) {
-+		} else if (rss_old->hash_flds != hash_flds ||
-+			   rss_old->symm != symm) {
- 			rss_old->state = IAVF_ADV_RSS_ADD_REQUEST;
- 			rss_old->hash_flds = hash_flds;
-+			rss_old->symm = symm;
- 			memcpy(&rss_old->cfg_msg, &rss_new->cfg_msg,
- 			       sizeof(rss_new->cfg_msg));
- 		} else {
-@@ -1664,6 +1671,7 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 		rss_new->state = IAVF_ADV_RSS_ADD_REQUEST;
- 		rss_new->packet_hdrs = hdrs;
- 		rss_new->hash_flds = hash_flds;
-+		rss_new->symm = symm;
- 		list_add_tail(&rss_new->list, &adapter->adv_rss_list_head);
- 	}
- 	spin_unlock_bh(&adapter->adv_rss_lock);
-@@ -1914,6 +1922,9 @@ static int iavf_get_rxfh(struct net_device *netdev,
- 	u16 i;
- 
- 	rxfh->hfunc = ETH_RSS_HASH_TOP;
-+	if (adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+		rxfh->input_xfrm |= RXH_XFRM_SYM_XOR;
-+
- 	if (rxfh->key)
- 		memcpy(rxfh->key, adapter->rss_key, adapter->rss_key_size);
- 
-@@ -1946,6 +1957,18 @@ static int iavf_set_rxfh(struct net_device *netdev,
- 	    rxfh->hfunc != ETH_RSS_HASH_TOP)
- 		return -EOPNOTSUPP;
- 
-+	if ((rxfh->input_xfrm & RXH_XFRM_SYM_XOR) &&
-+	    adapter->hfunc != VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC) {
-+		if (!ADV_RSS_SUPPORT(adapter))
-+			return -EOPNOTSUPP;
-+		adapter->hfunc = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+		adapter->aq_required |= IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	} else if (!(rxfh->input_xfrm & RXH_XFRM_SYM_XOR) &&
-+		    adapter->hfunc != VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC) {
-+		adapter->hfunc = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+		adapter->aq_required |= IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	}
-+
- 	if (!rxfh->key && !rxfh->indir)
- 		return 0;
- 
-@@ -1964,6 +1987,7 @@ static int iavf_set_rxfh(struct net_device *netdev,
- static const struct ethtool_ops iavf_ethtool_ops = {
- 	.supported_coalesce_params = ETHTOOL_COALESCE_USECS |
- 				     ETHTOOL_COALESCE_USE_ADAPTIVE,
-+	.cap_rss_sym_xor_supported = true,
- 	.get_drvinfo		= iavf_get_drvinfo,
- 	.get_link		= ethtool_op_get_link,
- 	.get_ringparam		= iavf_get_ringparam,
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_main.c b/drivers/net/ethernet/intel/iavf/iavf_main.c
-index 06a87030c163..0b3b33acf1bd 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_main.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_main.c
-@@ -2166,6 +2166,10 @@ static int iavf_process_aq_command(struct iavf_adapter *adapter)
- 		iavf_set_rss_lut(adapter);
- 		return 0;
- 	}
-+	if (adapter->aq_required & IAVF_FLAG_AQ_SET_RSS_HFUNC) {
-+		iavf_set_rss_hfunc(adapter);
-+		return 0;
-+	}
- 
- 	if (adapter->aq_required & IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE) {
- 		iavf_set_promiscuous(adapter);
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c b/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-index 64c4443dbef9..64a351e70a56 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-@@ -1141,6 +1141,34 @@ void iavf_set_rss_lut(struct iavf_adapter *adapter)
- 	kfree(vrl);
- }
- 
-+/**
-+ * iavf_set_rss_hfunc
-+ * @adapter: adapter structure
-+ *
-+ * Request the PF to set our RSS Hash function
-+ **/
-+void iavf_set_rss_hfunc(struct iavf_adapter *adapter)
-+{
-+	struct virtchnl_rss_hfunc *vrh;
-+	int len = sizeof(*vrh);
-+
-+	if (adapter->current_op != VIRTCHNL_OP_UNKNOWN) {
-+		/* bail because we already have a command pending */
-+		dev_err(&adapter->pdev->dev, "Cannot set RSS Hash function, command %d pending\n",
-+			adapter->current_op);
-+		return;
-+	}
-+	vrh = kzalloc(len, GFP_KERNEL);
-+	if (!vrh)
-+		return;
-+	vrh->vsi_id = adapter->vsi.id;
-+	vrh->rss_algorithm = adapter->hfunc;
-+	adapter->current_op = VIRTCHNL_OP_CONFIG_RSS_HFUNC;
-+	adapter->aq_required &= ~IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	iavf_send_pf_msg(adapter, VIRTCHNL_OP_CONFIG_RSS_HFUNC, (u8 *)vrh, len);
-+	kfree(vrh);
-+}
-+
- /**
-  * iavf_enable_vlan_stripping
-  * @adapter: adapter structure
-@@ -2142,6 +2170,19 @@ void iavf_virtchnl_completion(struct iavf_adapter *adapter,
- 			dev_warn(&adapter->pdev->dev, "Failed to add VLAN filter, error %s\n",
- 				 iavf_stat_str(&adapter->hw, v_retval));
- 			break;
-+		case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+			dev_warn(&adapter->pdev->dev, "Failed to configure hash function, error %s\n",
-+				 iavf_stat_str(&adapter->hw, v_retval));
-+
-+			if (adapter->hfunc ==
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+				adapter->hfunc =
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+			else
-+				adapter->hfunc =
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+
-+			break;
- 		default:
- 			dev_err(&adapter->pdev->dev, "PF returned error %d (%s) to our request %d\n",
- 				v_retval, iavf_stat_str(&adapter->hw, v_retval),
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl.c b/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-index 9f69a7c31dd5..70dce8e13880 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-@@ -999,6 +999,51 @@ static int ice_vc_config_rss_lut(struct ice_vf *vf, u8 *msg)
- 				     NULL, 0);
- }
- 
-+/**
-+ * ice_vc_config_rss_hfunc
-+ * @vf: pointer to the VF info
-+ * @msg: pointer to the msg buffer
-+ *
-+ * Configure the VF's RSS Hash function
-+ */
-+static int ice_vc_config_rss_hfunc(struct ice_vf *vf, u8 *msg)
-+{
-+	struct virtchnl_rss_hfunc *vrh = (struct virtchnl_rss_hfunc *)msg;
-+	enum virtchnl_status_code v_ret = VIRTCHNL_STATUS_SUCCESS;
-+	u8 hfunc = ICE_AQ_VSI_Q_OPT_RSS_HASH_TPLZ;
-+	struct ice_vsi *vsi;
-+
-+	if (!test_bit(ICE_VF_STATE_ACTIVE, vf->vf_states)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (!ice_vc_isvalid_vsi_id(vf, vrh->vsi_id)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (!test_bit(ICE_FLAG_RSS_ENA, vf->pf->flags)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	vsi = ice_get_vf_vsi(vf);
-+	if (!vsi) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (vrh->rss_algorithm == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+		hfunc = ICE_AQ_VSI_Q_OPT_RSS_HASH_SYM_TPLZ;
-+
-+	if (ice_set_rss_hfunc(vsi, hfunc))
-+		v_ret = VIRTCHNL_STATUS_ERR_ADMIN_QUEUE_ERROR;
-+error_param:
-+	return ice_vc_send_msg_to_vf(vf, VIRTCHNL_OP_CONFIG_RSS_HFUNC, v_ret,
-+				     NULL, 0);
-+}
-+
- /**
-  * ice_vc_cfg_promiscuous_mode_msg
-  * @vf: pointer to the VF info
-@@ -3767,6 +3812,7 @@ static const struct ice_virtchnl_ops ice_virtchnl_dflt_ops = {
- 	.cfg_irq_map_msg = ice_vc_cfg_irq_map_msg,
- 	.config_rss_key = ice_vc_config_rss_key,
- 	.config_rss_lut = ice_vc_config_rss_lut,
-+	.config_rss_hfunc = ice_vc_config_rss_hfunc,
- 	.get_stats_msg = ice_vc_get_stats_msg,
- 	.cfg_promiscuous_mode_msg = ice_vc_cfg_promiscuous_mode_msg,
- 	.add_vlan_msg = ice_vc_add_vlan_msg,
-@@ -3896,6 +3942,7 @@ static const struct ice_virtchnl_ops ice_virtchnl_repr_ops = {
- 	.cfg_irq_map_msg = ice_vc_cfg_irq_map_msg,
- 	.config_rss_key = ice_vc_config_rss_key,
- 	.config_rss_lut = ice_vc_config_rss_lut,
-+	.config_rss_hfunc = ice_vc_config_rss_hfunc,
- 	.get_stats_msg = ice_vc_get_stats_msg,
- 	.cfg_promiscuous_mode_msg = ice_vc_repr_cfg_promiscuous_mode,
- 	.add_vlan_msg = ice_vc_add_vlan_msg,
-@@ -4078,6 +4125,9 @@ void ice_vc_process_vf_msg(struct ice_pf *pf, struct ice_rq_event_info *event,
- 	case VIRTCHNL_OP_CONFIG_RSS_LUT:
- 		err = ops->config_rss_lut(vf, msg);
- 		break;
-+	case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+		err = ops->config_rss_hfunc(vf, msg);
-+		break;
- 	case VIRTCHNL_OP_GET_STATS:
- 		err = ops->get_stats_msg(vf, msg);
- 		break;
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl.h b/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-index cd747718de73..60dfbe05980a 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-@@ -32,6 +32,7 @@ struct ice_virtchnl_ops {
- 	int (*cfg_irq_map_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*config_rss_key)(struct ice_vf *vf, u8 *msg);
- 	int (*config_rss_lut)(struct ice_vf *vf, u8 *msg);
-+	int (*config_rss_hfunc)(struct ice_vf *vf, u8 *msg);
- 	int (*get_stats_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*cfg_promiscuous_mode_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*add_vlan_msg)(struct ice_vf *vf, u8 *msg);
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c b/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-index 7d547fa616fa..5e19d48a05b4 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-@@ -68,6 +68,7 @@ static const u32 vlan_v2_allowlist_opcodes[] = {
- static const u32 rss_pf_allowlist_opcodes[] = {
- 	VIRTCHNL_OP_CONFIG_RSS_KEY, VIRTCHNL_OP_CONFIG_RSS_LUT,
- 	VIRTCHNL_OP_GET_RSS_HENA_CAPS, VIRTCHNL_OP_SET_RSS_HENA,
-+	VIRTCHNL_OP_CONFIG_RSS_HFUNC,
- };
- 
- /* VIRTCHNL_VF_OFFLOAD_RX_FLEX_DESC */
-diff --git a/include/linux/avf/virtchnl.h b/include/linux/avf/virtchnl.h
-index b0e060cc79ac..a44d9dc7e3eb 100644
---- a/include/linux/avf/virtchnl.h
-+++ b/include/linux/avf/virtchnl.h
-@@ -118,6 +118,7 @@ enum virtchnl_ops {
- 	VIRTCHNL_OP_GET_STATS = 15,
- 	VIRTCHNL_OP_RSVD = 16,
- 	VIRTCHNL_OP_EVENT = 17, /* must ALWAYS be 17 */
-+	VIRTCHNL_OP_CONFIG_RSS_HFUNC = 18,
- 	/* opcode 19 is reserved */
- 	VIRTCHNL_OP_IWARP = 20, /* advanced opcode */
- 	VIRTCHNL_OP_RDMA = VIRTCHNL_OP_IWARP,
-@@ -919,6 +920,21 @@ enum virtchnl_rss_algorithm {
- 	VIRTCHNL_RSS_ALG_XOR_SYMMETRIC		= 3,
- };
- 
-+/* VIRTCHNL_OP_CONFIG_RSS_HFUNC
-+ * VF sends this message to configure the RSS hash function. Only supported
-+ * if both PF and VF drivers set the VIRTCHNL_VF_OFFLOAD_RSS_PF bit during
-+ * configuration negotiation.
-+ * The hash function is initialized to VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC
-+ * by the PF.
-+ */
-+struct virtchnl_rss_hfunc {
-+	u16 vsi_id;
-+	u16 rss_algorithm; /* enum virtchnl_rss_algorithm */
-+	u32 reserved;
-+};
-+
-+VIRTCHNL_CHECK_STRUCT_LEN(8, virtchnl_rss_hfunc);
-+
- /* VIRTCHNL_OP_ENABLE_CHANNELS
-  * VIRTCHNL_OP_DISABLE_CHANNELS
-  * VF sends these messages to enable or disable channels based on
-@@ -1542,6 +1558,9 @@ virtchnl_vc_validate_vf_msg(struct virtchnl_version_info *ver, u32 v_opcode,
- 							 vrl->lut_entries);
- 		}
- 		break;
-+	case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+		valid_len = sizeof(struct virtchnl_rss_hfunc);
-+		break;
- 	case VIRTCHNL_OP_GET_RSS_HENA_CAPS:
- 		break;
- 	case VIRTCHNL_OP_SET_RSS_HENA:
+=====================================================================
+(Patch 1) : sysfs addition - /sys/kernel/mm/mempolicy/
+
+This feature  provides a way to set interleave weight information under
+sysfs at /sys/kernel/mm/mempolicy/weighted_interleave/nodeN/nodeM/weight
+
+    The sysfs structure is designed as follows.
+
+      $ tree /sys/kernel/mm/mempolicy/
+      /sys/kernel/mm/mempolicy/
+      ├── cpu_nodes
+      ├── possible_nodes
+      └── weighted_interleave
+          ├── nodeN
+          │   ├── nodeM
+          │   │     └── weight
+          │   └── nodeM+X
+          │         └── weight
+          └── nodeN+X
+              ├── nodeM
+              │     └── weight
+              └── node+X
+                    └── weight
+
+'cpu_nodes' and 'possible_nodes' is added to 'mm/mempolicy' to help
+describe the expected structures under mempolicy directorys. For
+example 'cpu_nodes' will describe what 'nodeN' directories will
+exist in 'weighted_interleave', while 'possible_nodes' describes
+what nodeM directories wille exist under the 'nodeN' directories.
+
+Internally, weights are represented as a matrix of [src,dst] nodes.
+
+struct interleave_weight_table {
+        unsigned char weights[MAX_NUMNODES];
+};
+static struct interleave_weight_table *iw_table;
+
+"Source Nodes" are nodes which have 1 or more CPUs, while "Destination
+Nodes" include any possible node.  A "Possible" node is one which has
+been reserved by the system, but which may or may not be online.
+
+We present possible nodes, instead of online nodes, to simplify the
+management interface, considering that a) the table of MAX_NUMNODES
+size is allocated anyway to simplfy fetching of weights, and b) it
+simplifies the management of hotplug events, allowing for weights to
+be set prior to a node coming online which may be beneficial for
+immediate use of the memory.
+
+the 'weight' of a node (an unsigned char of value 1-255) is the number
+of pages that are allocated during a "weighted interleave" round.
+(See 'weighted interleave' for more details').
+
+The [src,dst] matrix is implemented to allow for the capturing the
+complexity of bandwidth distribution across a multi-socket, or
+heterogeneous memory environment. For example, consider a 2-socket
+Intel server with 1 CXL Memory expander attached to each socket.
+
+From the perspective of a task on a CPU in Socket 0, the bandwidth
+distribution is as follows:
+
+Socket 0 DRAM:  (# DDR Channels) * (DDR Bandwidth)     ~400GB/s
+Socket 0 CXL :  (# CXL Lanes) * (CXL Lane Bandwidth)    128GB/s
+Socket 1 DRAM + CXL:   (# UPI Lanes) * (UPI Bandwidth) ~64GB/s
+
+If the task is then migrated to Socket 1, the bandwidth distribution
+flips to the following.
+
+Socket 1 DRAM:  (# DDR Channels) * (DDR Bandwidth)     ~400GB/s
+Socket 1 CXL :  (# CXL Lanes) * (CXL Lane Bandwidth)    128GB/s
+Socket 0 DRAM + CXL:   (# UPI Lanes) * (UPI Bandwidth) ~64GB/s
+
+The matrix allows for a 'source node' perspective weighting strategy,
+which allows for migrated tasks to simply "re-weight" new allocations
+immediately, by simply changing the [src] index they access in the
+global interleave weight table.
+
+=====================================================================
+(Patch 2) set_mempolicy: MPOL_WEIGHTED_INTERLEAVE
+
+Weighted interleave is a new memory policy that interleaves memory
+across numa nodes in the provided nodemask based on the weights
+described in patch 1 (sysfs global weights).
+
+When a system has multiple NUMA nodes and it becomes bandwidth hungry,
+the current MPOL_INTERLEAVE could be an wise option.
+
+However, if those NUMA nodes consist of different types of memory such
+as having local DRAM and CXL memory together, the current round-robin
+based interleaving policy doesn't maximize the overall bandwidth
+because of their different bandwidth characteristics.
+
+Instead, the interleaving can be more efficient when the allocation
+policy follows each NUMA nodes' bandwidth weight rather than having 1:1
+round-robin allocation.
+
+This patch introduces a new memory policy, MPOL_WEIGHTED_INTERLEAVE,
+which enables weighted interleaving between NUMA nodes.  Weighted
+interleave allows for a proportional distribution of memory across
+multiple numa nodes, preferablly apportioned to match the bandwidth
+capacity of each node from the perspective of the accessing node.
+
+For example, if a system has 1 CPU node (0), and 2 memory nodes (0,1),
+with a relative bandwidth of (100GB/s, 50GB/s) respectively, the
+appropriate weight distribution is (2:1).
+
+Weights will be acquired from the global weight matrix exposed by the
+sysfs extension: /sys/kernel/mm/mempolicy/weighted_interleave/
+
+The policy will then allocate the number of pages according to the
+set weights.  For example, if the weights are (2,1), then 2 pages
+will be allocated on node0 for every 1 page allocated on node1.
+
+The new flag MPOL_WEIGHTED_INTERLEAVE can be used in set_mempolicy(2)
+and mbind(2).
+
+=====================================================================
+(Patches 3-6) Refactoring mempolicy for code-reuse
+
+To avoid multiple paths of mempolicy creation, we should refactor the
+existing code to enable the designed extensibility, and refactor
+existing users to utilize the new interface (while retaining the
+existing userland interface).
+
+This set of patches introduces a new mempolicy_args structure, which
+is used to more fully describe a requested mempolicy - to include
+existing and future extensions.
+
+/*
+ * Describes settings of a mempolicy during set/get syscalls and
+ * kernel internal calls to do_set_mempolicy()
+ */
+struct mempolicy_args {
+    unsigned short mode;            /* policy mode */
+    unsigned short mode_flags;      /* policy mode flags */
+    nodemask_t *policy_nodes;       /* get/set/mbind */
+    int policy_node;                /* get: policy node information */
+    unsigned long addr;             /* get: vma address */
+    int addr_node;                  /* get: node the address belongs to */
+    int home_node;                  /* mbind: use MPOL_MF_HOME_NODE */
+    unsigned char *il_weights;      /* for mode MPOL_WEIGHTED_INTERLEAVE */
+};
+
+This arg structure will eventually be utilized by the following
+interfaces:
+    mpol_new() - new mempolicy creation
+    do_get_mempolicy() - acquiring information about mempolicy
+    do_set_mempolicy() - setting the task mempolicy
+    do_mbind()         - setting a vma mempolicy
+
+do_get_mempolicy() is completely refactored to break it out into
+separate functionality based on the flags provided by get_mempolicy(2)
+    MPOL_F_MEMS_ALLOWED: acquires task->mems_allowed
+    MPOL_F_ADDR: acquires information on vma policies
+    MPOL_F_NODE: changes the output for the policy arg to node info
+
+We refactor the get_mempolicy syscall flatten the logic based on these
+flags, and aloow for set_mempolicy2() to re-use the underlying logic.
+
+The result of this refactor, and the new mempolicy_args structure, is
+that extensions like 'sys_set_mempolicy_home_node' can now be directly
+integrated into the initial call to 'set_mempolicy2', and that more
+complete information about a mempolicy can be returned with a single
+call to 'get_mempolicy2', rather than multiple calls to 'get_mempolicy'
+
+
+=====================================================================
+(Patches 7-10) set_mempolicy2, get_mempolicy2, mbind2
+
+These interfaces are the 'extended' counterpart to their relatives.
+They use the userland 'struct mpol_args' structure to communicate a
+complete mempolicy configuration to the kernel.  This structure
+looks very much like the kernel-internal 'struct mempolicy_args':
+
+struct mpol_args {
+        /* Basic mempolicy settings */
+        unsigned short mode;
+        unsigned short mode_flags;
+        unsigned long *pol_nodes;
+        unsigned long pol_maxnodes;
+        /* get_mempolicy: policy node information */
+        int policy_node;
+        /* get_mempolicy: memory range policy */
+        unsigned long addr;
+        int addr_node;
+        /* mbind2: policy home node */
+        int home_node;
+        /* mbind2: address ranges to apply the policy */
+        struct iovec *vec;
+        size_t vlen;
+        /* weighted interleave settings */
+        unsigned char *il_weights;      /* of size pol_maxnodes */
+};
+
+The basic mempolicy settings which are shared across all interfaces
+are captured at the top of the structure, while extensions such as
+'policy_node' and 'addr' are collected beneath.
+
+The syscalls are uniform and defined as follows:
+
+long sys_mbind2(struct mpol_args *args,
+                size_t size,
+                unsigned long flags);
+
+long sys_get_mempolicy2(struct mpol_args *args,
+                        size_t size,
+                        unsigned long flags);
+
+long sys_set_mempolicy2(struct mpol_args *args,
+                        size_t size,
+                        unsigned long flags);
+
+The 'flags' argument for mbind2 is the same as 'mbind', except with
+the addition of MPOL_MF_HOME_NODE to denote whether the 'home_node'
+field should be utilized.
+
+The 'flags' argument for get_mempolicy2 is the same as get_mempolicy.
+
+The 'flags' argument is not used by 'set_mempolicy' at this time, but
+may end up allowing the use of MPOL_MF_HOME_NODE if such functionality
+is desired.
+
+The extensions can be summed up as follows:
+
+get_mempolicy2 extensions:
+    'mode', 'policy_node', and 'addr_node' can now be fetched with
+    a single call, rather than multiple with a combination of flags.
+    - 'mode' will always return the policy mode
+    - 'policy_node' will replace the functionality of MPOL_F_NODE
+    - 'addr_node' will return the node for 'addr' w/ MPOL_F_ADDR
+
+set_mempolicy2:
+    - task-local interleave weights can be set via 'il_weights'
+      (see next patch)
+
+mbind2:
+    - 'home_node' field sets policy home node w/ MPOL_MF_HOME_NODE
+    - task-local interleave weights can be set via 'il_weights'
+      (see next patch)
+    - 'vec' and 'vlen' can be used to operate on multiple memory
+      ranges, rather than a single memory range per syscall.
+
+=====================================================================
+(Patch 11) set_mempolicy2/mbind2: MPOL_WEIGHTED_INTERLEAVE
+
+This patch shows the explicit extension pattern when adding new
+policies to mempolicy2/mbind2.  This adds the 'il_weights' field
+to mpol_args and adds the logic to fill in task-local weights.
+
+There are now two ways to weight a mempolicy: global and local.
+To denote which mode the task is in, we add the internal flag:
+MPOL_F_GWEIGHT /* Utilize global weights */
+
+When MPOL_F_GWEIGHT is set, the global weights are used, and
+when it is not set, task-local weights are used.
+
+Example logic:
+if (pol->flags & MPOL_F_GWEIGHT)
+       pol_weights = iw_table[numa_node_id()].weights;
+else
+       pol_weights = pol->wil.weights;
+
+set_mempolicy is changed to always set MPOL_F_GWEIGHT, since this
+syscall is incapable of passing weights via its interfaces, while
+set_mempolicy2 sets MPOL_F_GWEIGHT if MPOL_F_WEIGHTED_INTERLEAVE
+is required but (*il_weights) in mpol_args is null.
+
+The operation of task-local weighted is otherwise exactly the
+same - except for what occurs on task migration.
+
+On task migration, the system presently has no way of determining
+what the new weights "should be", or what the user "intended".
+
+For this reason, we default all weights to '1' and do not allow
+weights to be '0'.  This means, should a migration occur where
+one or more nodes appear into the nodemask - the effective weight
+for that node will be '1'.  This avoids a potential allocation
+failure condition if a migration occurs and introduces a node
+which otherwise did not have a weight.
+
+For this reason, users should use task-local weighting when
+migrations are not expected, and global weighting when migrations
+are expected or possible.
+
+Suggested-by: Gregory Price <gregory.price@memverge.com>
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Suggested-by: Hasan Al Maruf <hasanalmaruf@fb.com>
+Suggested-by: Hao Wang <haowang3@fb.com>
+Suggested-by: Ying Huang <ying.huang@intel.com>
+Suggested-by: Dan Williams <dan.j.williams@intel.com>
+Suggested-by: Michal Hocko <mhocko@suse.com>
+Suggested-by: tj <tj@kernel.org>
+Suggested-by: Zhongkun He <hezhongkun.hzk@bytedance.com>
+Suggested-by: Frank van der Linden <fvdl@google.com>
+Suggested-by: John Groves <john@jagalactic.com>
+Suggested-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
+Suggested-by: Srinivasulu Thanneeru <sthanneeru@micron.com>
+Suggested-by: Ravi Jonnalagadda <ravis.opensrc@micron.com>
+Suggested-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Signed-off-by: Gregory Price <gregory.price@memverge.com>
+
+Gregory Price (9):
+  mm/mempolicy: refactor sanitize_mpol_flags for reuse
+  mm/mempolicy: create struct mempolicy_args for creating new
+    mempolicies
+  mm/mempolicy: refactor kernel_get_mempolicy for code re-use
+  mm/mempolicy: allow home_node to be set by mpol_new
+  mm/mempolicy: add userland mempolicy arg structure
+  mm/mempolicy: add set_mempolicy2 syscall
+  mm/mempolicy: add get_mempolicy2 syscall
+  mm/mempolicy: add the mbind2 syscall
+  mm/mempolicy: extend set_mempolicy2 and mbind2 to support weighted
+    interleave
+
+Rakie Kim (2):
+  mm/mempolicy: implement the sysfs-based weighted_interleave interface
+  mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE for weighted
+    interleaving
+
+ .../ABI/testing/sysfs-kernel-mm-mempolicy     |  33 +
+ ...fs-kernel-mm-mempolicy-weighted-interleave |  35 +
+ .../admin-guide/mm/numa_memory_policy.rst     |  85 ++
+ arch/alpha/kernel/syscalls/syscall.tbl        |   3 +
+ arch/arm/tools/syscall.tbl                    |   3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   3 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   3 +
+ include/linux/mempolicy.h                     |  21 +
+ include/linux/syscalls.h                      |   6 +
+ include/uapi/asm-generic/unistd.h             |   8 +-
+ include/uapi/linux/mempolicy.h                |  27 +-
+ mm/mempolicy.c                                | 960 ++++++++++++++++--
+ 22 files changed, 1103 insertions(+), 114 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-mm-mempolicy
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-mm-mempolicy-weighted-interleave
+
 -- 
-2.34.1
+2.39.1
 
