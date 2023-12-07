@@ -1,467 +1,177 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KFs9INeN"
-Received: from mail-yw1-x1143.google.com (mail-yw1-x1143.google.com [IPv6:2607:f8b0:4864:20::1143])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC3510FE;
-	Wed,  6 Dec 2023 16:28:34 -0800 (PST)
-Received: by mail-yw1-x1143.google.com with SMTP id 00721157ae682-5d8ddcc433fso905317b3.1;
-        Wed, 06 Dec 2023 16:28:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701908914; x=1702513714; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8sMKntUCwGORCmofLfZT1MSDcnyRiDF38MmkYVSlo18=;
-        b=KFs9INeNqgy6vR24SFP/lML49e+j1nzr1Sd+W5DrYenr9zGWYK/jDXuMRMl1/mqDIi
-         XF9v5/HZfz6XNTgXGA3QC8qJSObbcF+oCzGM/Bze1aQqTG5ohpaSi2BaCsafhlbm+x3/
-         xmiWGujhl1UvFYp0K03IGLDVH2O//omklmRqJla4noJBU4IIR9DrjsP2YJwX86GX4kV6
-         dn+Hr+9OkAYcYR9EjmI+kVHvbCd8zSeZ88ETIodfnfHZYcM4f2FRqYJPmn30nUy9B7pe
-         YPYUZEHXmrZ/K0J55lW8AhxG9fcU8pRY+wU2+gJiQ6wPZHYlBElFmdj2m/Gpc8v8Y72U
-         qOTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701908914; x=1702513714;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8sMKntUCwGORCmofLfZT1MSDcnyRiDF38MmkYVSlo18=;
-        b=N3n0V194E+hqRTgcjlJPFu88ZeC61nTpDmN5FTbDeRAo3DOu1c1GCZtvpw3eDWMAdv
-         cFtiS74hgwltiuDuD62AnLyT7nWR2gbOBZ9b1dQhnjf4XarlWM8LV4IYwMYQUuzQz7Ac
-         mBFY9pHyFcIbBNwZ06w7B5cuAbDKU8ciFEaDHun3Y3OJabRB9+/DabH4W3imsDaOm+xO
-         FCtRsg4Ld8AI8QVyNooC88iJClwdVHgGuMxCScsOW4li4tmJnwLUUUqjQzXKavlGzTgZ
-         1B1fbTH6ukBdeFdaZEZ90t1MzqgZTOw3qImzE+pZ1XVtyRebC+bUW/VtusrNAl+AJbQe
-         gNcA==
-X-Gm-Message-State: AOJu0YwR6ikmndscN4AVw9Tbxp9CrHT7cVksjQuAoD8vo1uKlRpyoFKx
-	D62BmP/3cKpIYYt0Hm1KAQ==
-X-Google-Smtp-Source: AGHT+IHmyuouwkkne7RrSVBTRF2p/91Z1VhvWmitMBtJZHL73MgXl2+R3+Qk4aVsbxdFCFBs22j++A==
-X-Received: by 2002:a81:528f:0:b0:5d7:1940:8df7 with SMTP id g137-20020a81528f000000b005d719408df7mr1276443ywb.94.1701908913726;
-        Wed, 06 Dec 2023 16:28:33 -0800 (PST)
-Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
-        by smtp.gmail.com with ESMTPSA id x145-20020a81a097000000b005d82fc8cc92sm19539ywg.105.2023.12.06.16.28.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 16:28:33 -0800 (PST)
-From: Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To: linux-mm@kvack.org,
-	jgroves@micron.com,
-	ravis.opensrc@micron.com,
-	sthanneeru@micron.com,
-	emirakhur@micron.com,
-	Hasan.Maruf@amd.com
-Cc: linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	arnd@arndb.de,
-	tglx@linutronix.de,
-	luto@kernel.org,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	mhocko@kernel.org,
-	tj@kernel.org,
-	ying.huang@intel.com,
-	gregory.price@memverge.com,
-	corbet@lwn.net,
-	rakie.kim@sk.com,
-	hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com,
-	vtavarespetr@micron.com,
-	peterz@infradead.org,
-	Gregory Price <gregory@gregoryprice.net>
-Subject: [RFC PATCH 11/11] mm/mempolicy: extend set_mempolicy2 and mbind2 to support weighted interleave
-Date: Wed,  6 Dec 2023 19:27:59 -0500
-Message-Id: <20231207002759.51418-12-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20231207002759.51418-1-gregory.price@memverge.com>
-References: <20231207002759.51418-1-gregory.price@memverge.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GZdBxeSf"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20967D59;
+	Wed,  6 Dec 2023 18:29:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701916181; x=1733452181;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=/XNwhHDfFXOu4jt+f7x743V+e1Rjg9wsnhC4kILKcbU=;
+  b=GZdBxeSfJ75J4zkUkeo5EJfXtkSHmdt/8+JMmoAk8RqYJdnGDuMJgtmF
+   gorC2uPmZB0kOP75W1eD9n4Z2hiKaTi6a7R1+UwHUQ0MD6OCpwOl6fKXX
+   BDskBUVEd6dU3lz0m+/N4KQHoDInthnigKPg0t+1bPx6P7Zv+r09fiFv1
+   HvNID5roGkyq37rpQChG7uMMnV5wDso1uBgtfLwTTK86pBAbwVgyD1jdA
+   7cYjM5aWfd7XZW55RyVQ/wbEdIk0Ac4dHieuK80SqLHKiuPYwjqdjXXtU
+   XsCt85NMbimhEid1UAenhNxTkCLSj+L1PKqoux851HZ4h1k8qFrnq3Bi5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="391331733"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="391331733"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 18:29:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="764941047"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="764941047"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Dec 2023 18:29:40 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 6 Dec 2023 18:29:40 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 6 Dec 2023 18:29:39 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 6 Dec 2023 18:29:39 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 6 Dec 2023 18:29:39 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lSzPG+7ngorDSFXSt8L0tzr8kEZfki0wDO/hSzVxWV3vWjxNS0ovJLxcFKkERyHRey+8SRHXprsu0AB3hXCViNY+74CGqZo9+BcxrRWVOa/OSVhXbJwKQbVzKQ6fOhbqICyPxh17KuIyH5QIS1R8TvONTMY+8CNAzaS/L6r51WO7JeVLJhwNsOehR9O2Zo57OXqKfhXCB3lyImPU32RLaVSGmB7TsIaayYB+nRKk/BB/jESK04kvXo74SogqezydljyoTNyJzpyayECgCr4flSwzpN6MoLJM0zbaHwlfWSlr68Xmd8Rl0AJ4IBJMKEsH/V6QTjdd8hxoG3uEH+67aA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cIfYnSm0WajgBOLcDDFzGdSmbzZ+/oC5kfu9VQ8cFdU=;
+ b=mExU3Q1jXlsbkhjX0VT90Wl4A+SXaLMGPIJMaQC2lpwUxpAc6AOUOmEF3DKuYoWwfz80+Cqcf/D6bdI38erHOKo99OLLiyDcNQJnmloMg7e8ZZVej6adF92wABA0Nt5n1nWpWpxmY2HFG9+LwaIMB+AKrUYEsgIEQVaFk6mngs5bIUfVewOQ2GQ5GlSMczxJfwqg3+8YDb0HSIPCNFm2PGGI6w59aBs+RaelmbprmrPSRn5L8y8Ffiij8/UIcJh+juQ91e6RKBkixkG7b+PY4BsD8V1MhInl914jYm/0cRJ+INMkrKo06BKeFfQltXWuWCv7m4Cf5RzmWkAQl3IpuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by DS0PR11MB7442.namprd11.prod.outlook.com (2603:10b6:8:14d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Thu, 7 Dec
+ 2023 02:29:36 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f%3]) with mapi id 15.20.7068.025; Thu, 7 Dec 2023
+ 02:29:36 +0000
+Date: Thu, 7 Dec 2023 10:29:26 +0800
+From: Oliver Sang <oliver.sang@intel.com>
+To: Mateusz Guzik <mjguzik@gmail.com>
+CC: Al Viro <viro@zeniv.linux.org.uk>, <oe-lkp@lists.linux.dev>,
+	<lkp@intel.com>, <linux-fsdevel@vger.kernel.org>, Christian Brauner
+	<brauner@kernel.org>, <linux-doc@vger.kernel.org>, <ying.huang@intel.com>,
+	<feng.tang@intel.com>, <fengwei.yin@intel.com>, Linus Torvalds
+	<torvalds@linux-foundation.org>, <oliver.sang@intel.com>
+Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()] 1b738f196e:
+ stress-ng.sysinfo.ops_per_sec -27.2% regression
+Message-ID: <ZXEuBnX4FTDdaqn0@xsang-OptiPlex-9020>
+References: <20231204195321.GA1674809@ZenIV>
+ <ZW/fDxjXbU9CU0uz@xsang-OptiPlex-9020>
+ <20231206054946.GM1674809@ZenIV>
+ <ZXCLgJLy2b5LvfvS@xsang-OptiPlex-9020>
+ <20231206161509.GN1674809@ZenIV>
+ <20231206163010.445vjwmfwwvv65su@f>
+ <CAGudoHF-eXYYYStBWEGzgP8RGXG2+ER4ogdtndkgLWSaboQQwA@mail.gmail.com>
+ <20231206170958.GP1674809@ZenIV>
+ <CAGudoHErh41OB6JDWHd2Mxzh5rFOGrV6PKC7Xh8JvTn0ws3L_A@mail.gmail.com>
+ <CAGudoHGgqH=2mb52T4ZMx9bWtyMm7hV9wPvh+7JbtBq0x4ymYA@mail.gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAGudoHGgqH=2mb52T4ZMx9bWtyMm7hV9wPvh+7JbtBq0x4ymYA@mail.gmail.com>
+X-ClientProxiedBy: SI1PR02CA0012.apcprd02.prod.outlook.com
+ (2603:1096:4:1f7::8) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|DS0PR11MB7442:EE_
+X-MS-Office365-Filtering-Correlation-Id: 59605c31-1cc1-4b46-3f65-08dbf6cc5a93
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3gk438OhB1ADhNk4V9eDAP8zgkicYWtFx49YXa6jCPEMcFcG4orJ4edPj6hVpN8MZeF4Zz6m9ww5nZ+SmAw1dzn1NL3HUjsXLTbaF4NaFd7rVzq4PdFHHrZx5hhgjaLwJMNa0zxzdMWNC8o71Z/OBLxrKrqKtueADLv6RfPfV9Kh5NXWZXkQCP2SM9eg/sGvZQSLA0V8ZcxhhmFBcSCKnOY4BAiMZPPbN/JOWR2YBevPkgo5BDIy1Ka0ntpBAs1Jfv4/+HwaYN4WmWg2wmhp1EfDp3U3jbuPUvvrvNm+5iYzTfuM/H7qvUQC0a6lOqwiHGOdJ2/aZUX60HE77QToBF2AMMOeb/cbgH+KtLdzvM+oH1Z3uOQRWWhypJv818rfdiR2UvsWKE4SJ9VMMHYVWcUmPp9KNPMvBDRPXzENohp65aqF0ci8k37UIMSIBNw2EZ51Otg5Uix9GysqAhjfrFFRO9MNzuQ0af1hAsOnyr1Go0nHAsrYOMlxjyoFzLP8RrJQPLOJV2fr6ww/iHMB2IwDdnApZv0EG0+HV0UePsBWWU9pdDtn+lgsodjiOHKmC0p2iwmzsYSC/Mcexbcs5Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(39860400002)(376002)(396003)(136003)(366004)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(38100700002)(8936002)(8676002)(86362001)(316002)(478600001)(82960400001)(4744005)(83380400001)(6512007)(44832011)(9686003)(41300700001)(107886003)(5660300002)(6506007)(66946007)(66476007)(66556008)(54906003)(6916009)(6486002)(966005)(6666004)(33716001)(4326008)(2906002)(26005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ej88c0tFE1jUkdTJTvU0v/83g+pqNwpjqcYzDQJcBR095LO38sn8GF1kNJBX?=
+ =?us-ascii?Q?os1+lIAzsRpKPZq53hE8D4EUcsX6EIFn/IyktZel1H6seOI0G2suple42Gpe?=
+ =?us-ascii?Q?HXjXC4C2na1MZBSVkoPXZQWXlFOkkm0nfgC6IBrclUQKHrkbzKuoIlEVMJpW?=
+ =?us-ascii?Q?V/VeDW43116KYn3veBBZWVKlec+pcgx01swzDy/ufWpWVokuV+3dbv90AEN1?=
+ =?us-ascii?Q?2m18PEa9gj+ikbpInhZq9LrEv6SrWtsG4CgqjdRq8CYMjpeLvY92tTKxyHFO?=
+ =?us-ascii?Q?4j/p3/87YhS+H/rL2u/I8azgRwEXHV0E57whSJ5PJR4lQDWy0FuXP1/a0kkA?=
+ =?us-ascii?Q?1Bc4hRqwvX0kgR5pi++ixXmV9z9dBsWpqtvFsbVn4+1zToTLs+fVgjzx+n4G?=
+ =?us-ascii?Q?uRjfuX2n3w9cWtJSTpewgMKoZSAv3qdJdbm458D9+lsNciXY1jHnhYFKoafq?=
+ =?us-ascii?Q?ja44BzEe2bbErHL8CuOLYLcl8mKJBnF19zRkw+Ftc7zfYfPD5UB4rCM4DM19?=
+ =?us-ascii?Q?DqaY8jHVQOQKbCpV2PA26E/U77Kv/Or48PCkTNIElU5eOFKjSKXQQHDfkfow?=
+ =?us-ascii?Q?Db+RzmcHQobYBtQX9lA/ywofy1A1R2BvjsH+ktGr4ssHOfwtyGjYLuXO9l9+?=
+ =?us-ascii?Q?Ha58cHtznDoURObR9KJ9GJR/Q6Y1LW2EQBCQF+78wR5Y24VwUL07tXv3YzqN?=
+ =?us-ascii?Q?1x/hkoZUVYNa4857vY8pR5Tmkw6O/aiTw6Rntq63kW+htohpa4UDbzL4jP2O?=
+ =?us-ascii?Q?jEO3qhdyoqi9ozL08Knd6cTER+JX7uRVdzmrEgH0KeHzv0+hjSTpNTRQ7yRp?=
+ =?us-ascii?Q?w/X/QeHRN3GD20fHVO3WqIUtsha0xzgvhZfbFpJauqB1kiWHsRkNx1w459Lr?=
+ =?us-ascii?Q?fgbG4tdYBCJ7cudhqZNvXCb/o1jwp0HOL8vW9x70uVlF4x4Txdxyi3b8Tw0R?=
+ =?us-ascii?Q?rwAqbdF+h0SDfyjvaAXRYafNoovDkoJj5NcH0MLqcwRXPboMfyhx0ZttXQZe?=
+ =?us-ascii?Q?2XCHKv2uRAUVBXMl2elgN5Ls/J8ehgHo7DeoVCw4UpibHbSD24fUUW0Eqf0G?=
+ =?us-ascii?Q?WweXWXqbKO5awjfbf4CfZwqAu9Ew2uI66nw70601/75Gpx7AnUwhicWLfrYi?=
+ =?us-ascii?Q?VBF6dOBvUVCu4b/gguRjAkLsKs6Qo9Sdo7Z9tc/wt6hRmIsz7ih3uHw49SSN?=
+ =?us-ascii?Q?k1ssHIYOr/EcpTXbAYf/cKWE1V1uDfWxUGkgmA/wVG9oDM4Gn/yLBRZbt+iY?=
+ =?us-ascii?Q?eOsbuulOAc4fqstatm+nFViLm6F7XrAUxA/uCLupduGGN5kQjXttomdzc67Z?=
+ =?us-ascii?Q?9Yg/IzJVABqNPfqJKtM8M3Vz01c7nMBzQmNn/ejhWp1b09Voyjxk5l3oN3fO?=
+ =?us-ascii?Q?K374UQD5d39jLXMZPPwW+6XIv6M9oe1PfZxkFLZ4NcssaUL6bLzNzv36bxwC?=
+ =?us-ascii?Q?zxYnKKaeh14OrDvHxoDznt5k5fkDZPLBFo2tUcQ/qmmsqzM4HRVVYRLO9bIG?=
+ =?us-ascii?Q?QEiS7p3o+13Wscbk2BNYxGd8VXwXHKeJeqpZFY3ioi3lWXTMtbyy37lDk0PO?=
+ =?us-ascii?Q?eaW5/LNtvHwE+VmRpI2PHTUkXEA9bZznsY1FMrwzOLOJujWSGLTxG7/L0VTv?=
+ =?us-ascii?Q?aw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59605c31-1cc1-4b46-3f65-08dbf6cc5a93
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2023 02:29:35.9278
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: q8VnOakduv7UCdrfXX0Y4EQUTVCxOXCM1lVZacd/dKS1GQ3lhBz3Z0j3RrrNhduD2n6Z25ThwfKL+oGa4lK/8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7442
+X-OriginatorOrg: intel.com
 
-From: Gregory Price <gregory@gregoryprice.net>
+hi, Mateusz Guzik,
 
-Extend set_mempolicy2 and mbind2 to support weighted interleave, and
-demonstrate the extensibility of the mpol_args structure.
+On Wed, Dec 06, 2023 at 07:30:36PM +0100, Mateusz Guzik wrote:
+> Can I get instructions how to reproduce the unixbench regression?
 
-To support weighted interleave we add interleave weight fields to the
-following structures:
+I uploaded the reproducer for unixbench in
+https://download.01.org/0day-ci/archive/20231207/202312070941.6190a04c-oliver.sang@intel.com
 
-Kernel Internal:  (include/linux/mempolicy.h)
-struct mempolicy {
-	/* task-local weights to apply to weighted interleave */
-	unsigned char weights[MAX_NUMNODES];
-}
-struct mempolicy_args {
-	/* Optional: interleave weights for MPOL_WEIGHTED_INTERLEAVE */
-	unsigned char *il_weights;	/* of size MAX_NUMNODES */
-}
+as in
+https://download.01.org/0day-ci/archive/20231207/202312070941.6190a04c-oliver.sang@intel.com/reproduce
 
-UAPI: (/include/uapi/linux/mempolicy.h)
-struct mpol_args {
-	/* Optional: interleave weights for MPOL_WEIGHTED_INTERLEAVE */
-	unsigned char *il_weights;	/* of size pol_max_nodes */
-}
+To reproduce:
 
-The task-local weights are a single, one-dimensional array of weights
-that apply to all possible nodes on the system.  If a node is set in
-the mempolicy nodemask, the weight in `il_weights` must be >= 1,
-otherwise set_mempolicy2() will return -EINVAL.  If a node is not
-set in pol_nodemask, the weight will default to `1` in the task policy.
+        git clone https://github.com/intel/lkp-tests.git
+        cd lkp-tests
+        sudo bin/lkp install job.yaml           # job file is attached in this email
+        bin/lkp split-job --compatible job.yaml # generate the yaml file for lkp run
+        sudo bin/lkp run generated-yaml-file
 
-The default value of `1` is required to handle the situation where a
-task migrates to a set of nodes for which weights were not set (up to
-and including the local numa node).  For example, a migrated task whose
-nodemask changes entirely will have all its weights defaulted back
-to `1`, or if the nodemask changes to include a mix of nodes that
-were not previously accounted for - the weighted interleave may be
-suboptimal.
+        # if come across any failure that blocks the test,
+        # please remove ~/.lkp and /lkp dir to run from a clean state.
 
-If migrations are expected, a task should prefer not to use task-local
-interleave weights, and instead utilize the global settings for natural
-re-weighting on migration.
 
-To support global vs local weighting,  we add the kernel-internal flag:
-MPOL_F_GWEIGHT (1 << 5) /* Utilize global weights */
-
-This flag is set when il_weights is omitted by set_mempolicy2(), or
-when MPOL_WEIGHTED_INTERLEAVE is set by set_mempolicy(). This internal
-mode_flag dictates whether global weights or task-local weights are
-utilized by the the various weighted interleave functions:
-
-* weighted_interleave_nodes
-* weighted_interleave_nid
-* alloc_pages_bulk_array_weighted_interleave
-
-if (pol->flags & MPOL_F_GWEIGHT)
-	pol_weights = iw_table[numa_node_id()].weights;
-else
-	pol_weights = pol->wil.weights;
-
-To simplify creations and duplication of mempolicies, the weights are
-added as a structure directly within mempolicy. This allows the
-existing logic in __mpol_dup to copy the weights without additional
-allocations:
-
-if (old == current->mempolicy) {
-	task_lock(current);
-	*new = *old;
-	task_unlock(current);
-} else
-	*new = *old
-
-Suggested-by: Rakie Kim <rakie.kim@sk.com>
-Suggested-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
-Suggested-by: Honggyu Kim <honggyu.kim@sk.com>
-Suggested-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
-Co-developed-by: Rakie Kim <rakie.kim@sk.com>
-Signed-off-by: Rakie Kim <rakie.kim@sk.com>
-Co-developed-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
-Signed-off-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
-Co-developed-by: Honggyu Kim <honggyu.kim@sk.com>
-Signed-off-by: Honggyu Kim <honggyu.kim@sk.com>
-Co-developed-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
-Signed-off-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
----
- .../admin-guide/mm/numa_memory_policy.rst     | 13 ++-
- include/linux/mempolicy.h                     |  2 +
- include/uapi/linux/mempolicy.h                |  3 +
- mm/mempolicy.c                                | 87 ++++++++++++++++++-
- 4 files changed, 100 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
-index 72ab21e24ec2..f3a9dcbaa7ed 100644
---- a/Documentation/admin-guide/mm/numa_memory_policy.rst
-+++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
-@@ -254,7 +254,8 @@ MPOL_WEIGHTED_INTERLEAVE
- 	This mode operates the same as MPOL_INTERLEAVE, except that
- 	interleaving behavior is executed based on weights set in
- 	/sys/kernel/mm/mempolicy/weighted_interleave/
--	rather than simple round-robin interleave (which is the default).
-+	when configured to utilize global weights, or based on task-local
-+	weights configured with set_mempolicy2(2) or mbind2(2).
- 
- 	When utilizing global weights from the sysfs interface,
- 	weights are applied in a src-node relative manner.  For example
-@@ -267,6 +268,13 @@ MPOL_WEIGHTED_INTERLEAVE
- 	cgroup initiated migrations) to re-weight for the optimal
- 	distribution of bandwidth.
- 
-+	When utilizing task-local weights, weights are not rebalanced
-+	in the event of a task migration.  If a weight has not been
-+	explicitly set for a node set in the new nodemask, the
-+	value of that weight defaults to "1".  For this reason, if
-+	migrations are expected or possible, users should consider
-+	utilizing global interleave weights.
-+
- NUMA memory policy supports the following optional mode flags:
- 
- MPOL_F_STATIC_NODES
-@@ -533,6 +541,9 @@ Extended Mempolicy Arguments::
- 		/* mbind2: address ranges to apply the policy */
- 		struct iovec *vec;
- 		size_t vlen;
-+
-+		/* weighted interleave settings */
-+		unsigned char *il_weights;  /* of size pol_maxnodes */
- 	};
- 
- The extended mempolicy argument structure is defined to allow the mempolicy
-diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index 117c5395c6eb..c78874bd84dd 100644
---- a/include/linux/mempolicy.h
-+++ b/include/linux/mempolicy.h
-@@ -58,6 +58,7 @@ struct mempolicy {
- 	/* Weighted interleave settings */
- 	struct {
- 		unsigned char cur_weight;
-+		unsigned char weights[MAX_NUMNODES];
- 	} wil;
- };
- 
-@@ -73,6 +74,7 @@ struct mempolicy_args {
- 	unsigned long addr;		/* get: vma address */
- 	int addr_node;			/* get: node the address belongs to */
- 	int home_node;			/* mbind: use MPOL_MF_HOME_NODE */
-+	unsigned char *il_weights;	/* for mode MPOL_WEIGHTED_INTERLEAVE */
- };
- 
- /*
-diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
-index 3e463442fe28..c2f229037be3 100644
---- a/include/uapi/linux/mempolicy.h
-+++ b/include/uapi/linux/mempolicy.h
-@@ -43,6 +43,8 @@ struct mpol_args {
- 	/* mbind2: address ranges to apply the policy */
- 	struct iovec *vec;
- 	size_t vlen;
-+	/* weighted interleave settings */
-+	unsigned char *il_weights;	/* of size pol_maxnodes */
- };
- 
- /* Flags for set_mempolicy */
-@@ -83,6 +85,7 @@ struct mpol_args {
- #define MPOL_F_SHARED  (1 << 0)	/* identify shared policies */
- #define MPOL_F_MOF	(1 << 3) /* this policy wants migrate on fault */
- #define MPOL_F_MORON	(1 << 4) /* Migrate On protnone Reference On Node */
-+#define MPOL_F_GWEIGHT	(1 << 5) /* Utilize global weights */
- 
- /*
-  * These bit locations are exposed in the vm.zone_reclaim_mode sysctl
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index c203cea52ce9..7273bb9540fa 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -274,6 +274,7 @@ static struct mempolicy *mpol_new(struct mempolicy_args *args)
- 	unsigned short mode = args->mode;
- 	unsigned short flags = args->mode_flags;
- 	nodemask_t *nodes = args->policy_nodes;
-+	int node;
- 
- 	if (mode == MPOL_DEFAULT) {
- 		if (nodes && !nodes_empty(*nodes))
-@@ -300,6 +301,19 @@ static struct mempolicy *mpol_new(struct mempolicy_args *args)
- 		    (flags & MPOL_F_STATIC_NODES) ||
- 		    (flags & MPOL_F_RELATIVE_NODES))
- 			return ERR_PTR(-EINVAL);
-+	} else if (mode == MPOL_WEIGHTED_INTERLEAVE) {
-+		/* weighted interleave requires a nodemask and weights > 0 */
-+		if (nodes_empty(*nodes))
-+			return ERR_PTR(-EINVAL);
-+		if (args->il_weights) {
-+			node = first_node(*nodes);
-+			while (node != MAX_NUMNODES) {
-+				if (!args->il_weights[node])
-+					return ERR_PTR(-EINVAL);
-+				node = next_node(node, *nodes);
-+			}
-+		} else if (!(args->mode_flags & MPOL_F_GWEIGHT))
-+			return ERR_PTR(-EINVAL);
- 	} else if (nodes_empty(*nodes))
- 		return ERR_PTR(-EINVAL);
- 
-@@ -312,6 +326,16 @@ static struct mempolicy *mpol_new(struct mempolicy_args *args)
- 	policy->home_node = NUMA_NO_NODE;
- 	policy->wil.cur_weight = 0;
- 	policy->home_node = args->home_node;
-+	if (policy->mode == MPOL_WEIGHTED_INTERLEAVE && args->il_weights) {
-+		policy->wil.cur_weight = 0;
-+		/* Minimum weight value is always 1 */
-+		memset(policy->wil.weights, 1, MAX_NUMNODES);
-+		node = first_node(*nodes);
-+		while (node != MAX_NUMNODES) {
-+			policy->wil.weights[node] = args->il_weights[node];
-+			node = next_node(node, *nodes);
-+		}
-+	}
- 
- 	return policy;
- }
-@@ -1612,6 +1636,7 @@ SYSCALL_DEFINE3(mbind2, struct mpol_args __user *, uargs, size_t, usize,
- 	struct iovec iovstack[UIO_FASTIOV];
- 	struct iovec *iov = iovstack;
- 	struct iov_iter iter;
-+	unsigned char weights[MAX_NUMNODES];
- 	int err;
- 
- 	err = copy_struct_from_user(&kargs, sizeof(kargs), uargs, usize);
-@@ -1648,6 +1673,19 @@ SYSCALL_DEFINE3(mbind2, struct mpol_args __user *, uargs, size_t, usize,
- 	} else
- 		margs.policy_nodes = NULL;
- 
-+	if (kargs.mode == MPOL_WEIGHTED_INTERLEAVE) {
-+		err = copy_struct_from_user(&weights,
-+					    sizeof(weights),
-+					    &kargs.il_weights,
-+					    kargs.pol_maxnodes);
-+		if (err)
-+			return err;
-+		margs.il_weights = weights;
-+	} else {
-+		margs.il_weights = NULL;
-+		flags |= MPOL_F_GWEIGHT;
-+	}
-+
- 	/* For each address range in vector, do_mbind */
- 	err = import_iovec(ITER_DEST, kargs.vec, kargs.vlen,
- 			   ARRAY_SIZE(iovstack), &iov, &iter);
-@@ -1686,6 +1724,9 @@ static long kernel_set_mempolicy(int mode, const unsigned long __user *nmask,
- 	if (err)
- 		return err;
- 
-+	if (mode & MPOL_WEIGHTED_INTERLEAVE)
-+		mode_flags |= MPOL_F_GWEIGHT;
-+
- 	memset(&args, 0, sizeof(args));
- 	args.mode = lmode;
- 	args.mode_flags = mode_flags;
-@@ -1708,6 +1749,7 @@ SYSCALL_DEFINE3(set_mempolicy2, struct mpol_args __user *, uargs, size_t, usize,
- 	struct mempolicy_args margs;
- 	int err;
- 	nodemask_t policy_nodemask;
-+	unsigned char weights[MAX_NUMNODES];
- 
- 	if (flags)
- 		return -EINVAL;
-@@ -1732,6 +1774,19 @@ SYSCALL_DEFINE3(set_mempolicy2, struct mpol_args __user *, uargs, size_t, usize,
- 	} else
- 		margs.policy_nodes = NULL;
- 
-+	if (kargs.mode == MPOL_WEIGHTED_INTERLEAVE && kargs.il_weights) {
-+		err = copy_struct_from_user(weights,
-+					    sizeof(weights),
-+					    kargs.il_weights,
-+					    kargs.pol_maxnodes);
-+		if (err)
-+			return err;
-+		margs.il_weights = weights;
-+	} else {
-+		margs.il_weights = NULL;
-+		flags |= MPOL_F_GWEIGHT;
-+	}
-+
- 	return do_set_mempolicy(&margs);
- }
- 
-@@ -2081,16 +2136,22 @@ static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
- {
- 	unsigned int next;
- 	struct task_struct *me = current;
-+	unsigned char *weights;
- 
- 	if (policy->wil.cur_weight > 0) {
- 		policy->wil.cur_weight--;
- 		return me->il_prev;
- 	}
- 
-+	if (policy->flags & MPOL_F_GWEIGHT)
-+		weights = iw_table[numa_node_id()].weights;
-+	else
-+		weights = policy->wil.weights;
-+
- 	next = next_node_in(me->il_prev, policy->nodes);
- 	if (next < MAX_NUMNODES) {
- 		me->il_prev = next;
--		policy->wil.cur_weight = iw_table[numa_node_id()].weights[next];
-+		policy->wil.cur_weight = weights[next];
- 	}
- 	return next;
- }
-@@ -2160,15 +2221,21 @@ static unsigned int weighted_interleave_nid(struct mempolicy *pol, pgoff_t ilx)
- {
- 	nodemask_t nodemask = pol->nodes;
- 	unsigned int target, weight_total = 0;
--	int nid, local_node = numa_node_id();
-+	int nid;
-+	unsigned char *pol_weights;
- 	unsigned char weights[MAX_NUMNODES];
- 	unsigned char weight;
- 
- 	barrier();
- 
-+	if (pol->flags & MPOL_F_GWEIGHT)
-+		pol_weights = iw_table[numa_node_id()].weights;
-+	else
-+		pol_weights = pol->wil.weights;
-+
- 	/* Collect weights and save them on stack so they don't change */
- 	for_each_node_mask(nid, nodemask) {
--		weight = iw_table[local_node].weights[nid];
-+		weight = pol_weights[nid];
- 		weight_total += weight;
- 		weights[nid] = weight;
- 	}
-@@ -2564,6 +2631,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 	unsigned long nr_allocated;
- 	unsigned long rounds;
- 	unsigned long node_pages, delta;
-+	unsigned char *pol_weights;
- 	unsigned char weight;
- 	unsigned char weights[MAX_NUMNODES];
- 	unsigned int weight_total;
-@@ -2576,9 +2644,14 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 
- 	nnodes = nodes_weight(nodes);
- 
-+	if (pol->flags & MPOL_F_GWEIGHT)
-+		pol_weights = iw_table[numa_node_id()].weights;
-+	else
-+		pol_weights = pol->wil.weights;
-+
- 	/* Collect weights and save them on stack so they don't change */
- 	for_each_node_mask(node, nodes) {
--		weight = iw_table[numa_node_id()].weights[node];
-+		weight = pol_weights[node];
- 		weight_total += weight;
- 		weights[node] = weight;
- 	}
-@@ -3095,6 +3168,7 @@ void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol)
- {
- 	int ret;
- 	struct mempolicy_args margs;
-+	unsigned char weights[MAX_NUMNODES];
- 
- 	sp->root = RB_ROOT;		/* empty tree == default mempolicy */
- 	rwlock_init(&sp->lock);
-@@ -3112,6 +3186,11 @@ void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol)
- 		margs.mode_flags = mpol->flags;
- 		margs.policy_nodes = &mpol->w.user_nodemask;
- 		margs.home_node = NUMA_NO_NODE;
-+		if (margs.mode == MPOL_WEIGHTED_INTERLEAVE &&
-+		    !(margs.mode_flags & MPOL_F_GWEIGHT)) {
-+			memcpy(weights, mpol->wil.weights, sizeof(weights));
-+			margs.il_weights = weights;
-+		}
- 
- 		/* contextualize the tmpfs mount point mempolicy to this file */
- 		npol = mpol_new(&margs);
--- 
-2.39.1
-
+> 
+> I only found them for stressng.
+> 
+> -- 
+> Mateusz Guzik <mjguzik gmail.com>
