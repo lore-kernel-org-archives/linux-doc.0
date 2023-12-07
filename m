@@ -1,131 +1,133 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S/HaNrIl"
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49C18128
-	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 06:27:28 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-28670a7ba84so819185a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 06:27:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701959248; x=1702564048; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FnUqi8dAEgGMyEzBxdD28hEtaCGQO1gXXHV0T1kN7CU=;
-        b=S/HaNrIlZ1DvlTNB0E5lv/B/jagUzSzYVkBFDPkoNIN1LiRa1I0xHQINUKVCg0TNSR
-         SM8n1x6D6WJHzB+l3IkgyqBLYA5Jz9TniilXPvrPTiF/RF22DXM2XhS7PgktPvNbpLWh
-         eQy/d/QFNFVcy+m/YZA/NdrB5w7zq9ehc4c6U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701959248; x=1702564048;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FnUqi8dAEgGMyEzBxdD28hEtaCGQO1gXXHV0T1kN7CU=;
-        b=ukc8+WiqRdhotABhbbCGQ2uEtM/HJrzVOfj/aI+hKp7IfK3sITiUCwf6EzE38t/km7
-         Ku1rZBaNg+djxxG4QVEvH502WS6cHid7MISQkcIVX1JVfoE3uW7QZyvhJmW72QgpSVwq
-         s6pDtMY2ETHD1r+c7Egvu+i6/seJ2a/w0RqQ97ux8UzBFAS1pAx4PByDVRGast2nOjZt
-         SIyKOTJOi6DcVKzBiGEk3Me+AKQ/NI7igVaDr0sezQJ3DbdWX9hB093hs4uQazFtKSOi
-         kxO+Wvu4NMTab+8WFFoAlfNDD0Q7qyEINGybFN4fI1xXoFsgD2HtrR6YIC4SOETk4Dxh
-         JP/Q==
-X-Gm-Message-State: AOJu0YzcWw51XBbCWhZpWM8sSG6mVdGcURmk6oPznnX/ei13tTmEu6Hn
-	V9YqWOEEU9FySWM1Z7jHbIhRYQ==
-X-Google-Smtp-Source: AGHT+IH8AzbuT3bEW5QtQ3VpbuixskHTKbrXXL1zs3HHhHdzRy4lAaYreOoFMvEXA8A9ADp82mykHw==
-X-Received: by 2002:a17:90a:e009:b0:286:6cc0:b918 with SMTP id u9-20020a17090ae00900b002866cc0b918mr2087016pjy.79.1701959247711;
-        Thu, 07 Dec 2023 06:27:27 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:e0f4:e383:e626:f567])
-        by smtp.gmail.com with ESMTPSA id d15-20020a170902654f00b001cfc2d024edsm1507200pln.29.2023.12.07.06.27.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 06:27:27 -0800 (PST)
-Date: Thu, 7 Dec 2023 22:27:23 +0800
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Message-ID: <20231207142723.GA3187877@google.com>
-References: <20231202035511.487946-1-sjg@chromium.org>
- <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com>
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09B4126;
+	Thu,  7 Dec 2023 06:30:34 -0800 (PST)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 232777FD3;
+	Thu,  7 Dec 2023 22:30:32 +0800 (CST)
+Received: from EXMBX072.cuchost.com (172.16.6.82) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
+ 2023 22:30:32 +0800
+Received: from localhost.localdomain (202.188.176.82) by EXMBX072.cuchost.com
+ (172.16.6.82) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
+ 2023 22:30:24 +0800
+From: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
+To: Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>, "Mark
+ Rutland" <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Dan Williams <dan.j.williams@intel.com>, "Ilkka
+ Koskinen" <ilkka@os.amperecomputing.com>, Jonathan Cameron
+	<Jonathan.Cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>
+CC: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>, Ley Foon Tan
+	<leyfoon.tan@starfivetech.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<devicetree@vger.kernel.org>
+Subject: [PATCH v5 0/3] StarFive's StarLink PMU Support
+Date: Thu, 7 Dec 2023 22:29:37 +0800
+Message-ID: <20231207142940.1794032-1-jisheng.teoh@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231203153401.GV8402@pendragon.ideasonboard.com>
+Content-Type: text/plain
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX072.cuchost.com
+ (172.16.6.82)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
-> Hi Simon,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > Add a script which produces a Flat Image Tree (FIT), a single file
-> > containing the built kernel and associated devicetree files.
-> > Compression defaults to gzip which gives a good balance of size and
-> > performance.
-> > 
-> > The files compress from about 86MB to 24MB using this approach.
-> > 
-> > The FIT can be used by bootloaders which support it, such as U-Boot
-> > and Linuxboot. It permits automatic selection of the correct
-> > devicetree, matching the compatible string of the running board with
-> > the closest compatible string in the FIT. There is no need for
-> > filenames or other workarounds.
-> > 
-> > Add a 'make image.fit' build target for arm64, as well. Use
-> > FIT_COMPRESSION to select a different algorithm.
-> > 
-> > The FIT can be examined using 'dumpimage -l'.
-> > 
-> > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > requires compression utilities for the algorithm being used. Supported
-> > compression options are the same as the Image.xxx files. For now there
-> > is no way to change the compression other than by editing the rule for
-> > $(obj)/image.fit
-> > 
-> > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > this here, since it must be built separately from the Linux build.
-> 
-> FIT images are very useful, so I think this is a very welcome addition
-> to the kernel build system. It can get tricky though: given the
-> versatile nature of FIT images, there can't be any
-> one-size-fits-them-all solution to build them, and striking the right
-> balance between what makes sense for the kernel and the features that
-> users may request will probably lead to bikeshedding. As we all love
-> bikeshedding, I thought I would start selfishly, with a personal use
-> case :-) This isn't a yak-shaving request though, I don't see any reason
-> to delay merging this series.
-> 
-> Have you envisioned building FIT images with a subset of DTBs, or adding
-> DTBOs ? Both would be fairly trivial extensions to this script by
-> extending the supported command line arguments. It would perhaps be more
-> difficult to integrate in the kernel build system though. This leads me
-> to a second question: would you consider merging extensions to this
-> script if they are not used by the kernel build system, but meant for
-> users who manually invoke the script ? More generally, is the script
+Changes since v4:
+- Add Reviewed-by tag from Conor to dt-bindings.
+- Add Documentation/admin-guide/perf/starfive_starlink_pmu.rst.
+- Rework starfive_starlink_pmu.c based on Jonathan's comment.
 
-We'd also be interested in some customization, though in a different way.
-We imagine having a rule file that says X compatible string should map
-to A base DTB, plus B and C DTBO for the configuration section. The base
-DTB would carry all common elements of some device, while the DTBOs
-carry all the possible second source components, like different display
-panels or MIPI cameras for instance. This could drastically reduce the
-size of FIT images in ChromeOS by deduplicating all the common stuff.
+Changes since v3:
+- Change dt-bindings filename along with the compatible field to
+   "starfive,jh8100-starlink-pmu" with SOC specific naming
+   convention.
+- Drop unused label defined in examples section in dt-bindings.
+- Update compatible field in starfive_starlink_pmu.c to the
+  aforementioned.
 
-> meant to be used stand-alone as well, in which case its command line
-> arguments need to remain backward-compatible, or do you see it as being
-> internal to the kernel ?
+Changes since v2:
+- Change compatible field from generic "starfive,starlink-pmu"
+   to "starfive,starlink-500-pmu" with specific IP versioning
+   in bindings and driver.
+- Fix warning '-Wmissing-prototypes' reported by kernel test robot,
+   by appending static to starlink_pmu_set_event_period() in
+   starfive_starlink_pmu.c.
 
-[...]
+Changes since v1:
+- Change 'depends on SOC_STARFIVE' to 'depends on ARCH_STARFIVE'
+   in Kconfig
 
-ChenYu
+----
+
+This patch series adds support for StarFive's Starlink Performance
+Monitor Unit(PMU).
+StarFive's StarLink PMU integrates one or more CPU cores with
+a shared L3 memory system. The PMU supports overflow interrupt,
+up to 16 programmable 64bit event counters, and an independent
+64bit cycle counter.
+StarLink PMU is accessed via MMIO.
+
+Example Perf stat output:
+[root@user]# perf stat -a -e /starfive_starlink_pmu/cycles/ \
+        -e /starfive_starlink_pmu/read_miss/ \
+        -e /starfive_starlink_pmu/read_hit/ \
+        -e /starfive_starlink_pmu/release_request/  \
+        -e /starfive_starlink_pmu/write_hit/ \
+        -e /starfive_starlink_pmu/write_miss/ \
+        -e /starfive_starlink_pmu/write_request/ \
+        -e /starfive_starlink_pmu/writeback/ \
+        -e /starfive_starlink_pmu/read_request/ \
+        -- openssl speed rsa2048
+Doing 2048 bits private rsa's for 10s: 5 2048 bits private RSA's in
+2.84s
+Doing 2048 bits public rsa's for 10s: 169 2048 bits public RSA's in
+2.42s
+version: 3.0.11
+built on: Tue Sep 19 13:02:31 2023 UTC
+options: bn(64,64)
+CPUINFO: N/A
+                  sign    verify    sign/s verify/s
+rsa 2048 bits 0.568000s 0.014320s      1.8     69.8
+/////////
+ Performance counter stats for 'system wide':
+
+         649991998      starfive_starlink_pmu/cycles/
+           1009690      starfive_starlink_pmu/read_miss/
+           1079750      starfive_starlink_pmu/read_hit/
+           2089405      starfive_starlink_pmu/release_request/
+               129      starfive_starlink_pmu/write_hit/
+                70      starfive_starlink_pmu/write_miss/
+               194      starfive_starlink_pmu/write_request/
+            150080      starfive_starlink_pmu/writeback/
+           2089423      starfive_starlink_pmu/read_request/
+
+      27.062755678 seconds time elapsed
+
+Ji Sheng Teoh (3):
+  perf: starfive: Add StarLink PMU support
+  dt-bindings: perf: starfive: Add JH8100 StarLink PMU
+  docs: perf: Add description for StarFive's StarLink PMU
+
+ Documentation/admin-guide/perf/index.rst      |   1 +
+ .../perf/starfive_starlink_pmu.rst            |  46 ++
+ .../perf/starfive,jh8100-starlink-pmu.yaml    |  46 ++
+ drivers/perf/Kconfig                          |   9 +
+ drivers/perf/Makefile                         |   1 +
+ drivers/perf/starfive_starlink_pmu.c          | 643 ++++++++++++++++++
+ 6 files changed, 746 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf/starfive_starlink_pmu.=
+rst
+ create mode 100644 Documentation/devicetree/bindings/perf/starfive,jh810=
+0-starlink-pmu.yaml
+ create mode 100644 drivers/perf/starfive_starlink_pmu.c
+
+--=20
+2.25.1
+
