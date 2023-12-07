@@ -1,171 +1,161 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="LAtosgVP"
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2070.outbound.protection.outlook.com [40.107.220.70])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC09128;
-	Thu,  7 Dec 2023 06:58:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Re3eP664f/0FTxPF/AYhsNpoOw5E+NvyPIL0vTGRSJTdv1vsyT5E3+xf/A9tb80LHRVK5HvoMzBinkK4nPMT6dWbDYTXl1DeMNoO3eV5ZFr6q4wxdiBNw/arBDHbdrEzGplRL2AK0L9sw87JTFMUVdDgbraX77KgZMm/sO54Yu1SpHWrUryMtt2AxFKXajTUomnlg3VwxKCW0nwSAxMf3EwRVY8wwuP3tf4po5ob9haenlitsDxqOMTXteArGBUCEWU4enX2Zhxkk/RAmxztKC7ASXjMN2b4W/bi7ZuKTeO7AnaVT4FaBxL3amfJ3otckmfBXSz4ywzAR420Ga53CQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i67kcyKcdobkbYaTd9MF1EeAf3SUZGw/LNZlRB+L08A=;
- b=BstC7+1IDbAovtDi3YOw7hFn7vGd0sbGrXHOqvqyjtOYSDEBFTaGI2Q9UqVRmkiseKmnMy63MA/MyQATOZA7wtHikII++77EVw3EwBl4ECF6PLtasyPzU8vLF079MpX2Mkl9tXQvCXj8fYsAgMkLCnDyM/UpCB75TGW+A2Y2czwR4kG9y2tB2iE/OCMtGiRg4bRDlU7Z5JWegjXy5VfqUxBgTCN8P9e3/GMTepUwR6AHBOe2Nc/3UoCkgooXkzkAYckEF/H2w18/zL0BGKDv+KVjyA50hPZ+NPILGFAMv+0MQRfby4aFxA7WpQoBaJ/WvXXS78QojUYSWepr/+FCgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i67kcyKcdobkbYaTd9MF1EeAf3SUZGw/LNZlRB+L08A=;
- b=LAtosgVPz0aZeRsIHEm2qLoWEKdSrNjd9+16rXsyS+WFyoHrmy3jiIVIm9lnpwIZKBZE+esbLpI2zrluAwDUgAz41DFgOR7miZo9+pv1zGlvxtw/B0b9pEyzljxgN0Hmbcr//xT0gjvgmMyQY67jqzxwG9UlYR3nrxk7l8s10V4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by SA0PR17MB4175.namprd17.prod.outlook.com (2603:10b6:806:82::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.27; Thu, 7 Dec
- 2023 14:58:19 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.027; Thu, 7 Dec 2023
- 14:58:19 +0000
-Date: Thu, 7 Dec 2023 09:58:13 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Michal Hocko <mhocko@kernel.org>,
-	Tejun Heo <tj@kernel.org>, ying.huang@intel.com,
-	Jonathan Corbet <corbet@lwn.net>, rakie.kim@sk.com,
-	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
-	Peter Zijlstra <peterz@infradead.org>,
-	Frank van der Linden <fvdl@google.com>
-Subject: Re: [RFC PATCH 07/11] mm/mempolicy: add userland mempolicy arg
- structure
-Message-ID: <ZXHdhVeel1dOxlYJ@memverge.com>
-References: <20231207002759.51418-1-gregory.price@memverge.com>
- <20231207002759.51418-8-gregory.price@memverge.com>
- <67fab0f1-e326-4ad8-9def-4d2bd5489b33@app.fastmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67fab0f1-e326-4ad8-9def-4d2bd5489b33@app.fastmail.com>
-X-ClientProxiedBy: SJ0PR05CA0023.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::28) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50AB7128;
+	Thu,  7 Dec 2023 07:04:15 -0800 (PST)
+Received: from in01.mta.xmission.com ([166.70.13.51]:50210)
+	by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1rBFvA-00DcXX-OW; Thu, 07 Dec 2023 08:04:12 -0700
+Received: from ip68-227-168-167.om.om.cox.net ([68.227.168.167]:53772 helo=email.froward.int.ebiederm.org.xmission.com)
+	by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1rBFv9-00Bx3Q-Mr; Thu, 07 Dec 2023 08:04:12 -0700
+From: "Eric W. Biederman" <ebiederm@xmission.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: Alexey Dobriyan <adobriyan@gmail.com>,  akpm@linux-foundation.org,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,  Randy Dunlap
+ <rdunlap@infradead.org>,  Bagas Sanjaya <bagasdotme@gmail.com>,  Jonathan
+ Corbet <corbet@lwn.net>,  linux-mm@kvack.org
+References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
+	<e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
+	<c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
+	<87edp7jyu4.fsf@meer.lwn.net>
+	<88d3f1bb-f4e0-4c40-9304-3843513a1262@p183>
+	<202312061456.2103DA1@keescook>
+Date: Thu, 07 Dec 2023 09:03:45 -0600
+In-Reply-To: <202312061456.2103DA1@keescook> (Kees Cook's message of "Wed, 6
+	Dec 2023 14:58:23 -0800")
+Message-ID: <874jgugilq.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SA0PR17MB4175:EE_
-X-MS-Office365-Filtering-Correlation-Id: aeba84c5-f709-40da-d709-08dbf734f2e4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	sNuqdicEcHMxEOzw+LNH3f0rQGyP0tFFDNy+qS1o15aS5i/U+EAf9sMqY1gy6OPdytyvZMElBvouqQhH/6EZRKvyZy9zZg6BEItff95zV5H6y8OTxX6M9a2AMBPOvnJKPiV7LcCgvAfaqZW7JLZ2T/j/1nKYYrVQSERdzjgPFjYeyCosTMtQx/khUz9S5QPE9xlUdit1XUlECoW65RyEZRZBm4UVDoXxQxpucOf0P7E/cyf/k+CSPuEZXxW4N5eN4W8Xx/5luE35cSgTN0mWtbItQDc3bM/cw5pZvylfFn71+v91L8pWA6CGsYjCBTghgVH+WslxhshEKCRHKZO+T8PTqJtx84Qm6cP8z5M5HSePphFUE+C7n0RQDzVzZ4TFECWx6IljrucHSwGcZUNCv2wpWF/2U1X9hAhwYLPbIDKNVbrSewmcpfL0InGMWCRu1pXxf2VVp3KxHTyMZjWHdUxnR9H/chPp7awZC5IJF5I84XjKpmyNej/PzM+jEhKNonxy+dzYMW9F7Z4yP2XtEgadyGICtZiWHhLdlBqElv6zZIEcpBfLkWPSppAI4S7d
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(136003)(366004)(39850400004)(376002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(7406005)(7416002)(66946007)(66476007)(54906003)(66556008)(6916009)(316002)(44832011)(8936002)(4326008)(8676002)(5660300002)(478600001)(6486002)(2906002)(6506007)(6512007)(6666004)(2616005)(36756003)(26005)(41300700001)(38100700002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4VHDfYgT7sDTno20H/8W9PXyI59Uq9XEsMgjnJu9ExreIAbDsP54sv+Bda1p?=
- =?us-ascii?Q?5To8UJuWc9QcMol00GSTJAjIGgv/MI0v6LDAlxtuUmB8t4HNEUXGzXFZE4fH?=
- =?us-ascii?Q?zRlPEwmt9HPLt/qygTokQPZ+Hx44jhbzNLRAum0RtYKibcmrplbpnOPFnYS4?=
- =?us-ascii?Q?/Nc5GCgFFD2m+5Z0LSt+0fPqnUsiKT1Ey/ISlLYOMHh7b/8C3M4HIBcNlGMR?=
- =?us-ascii?Q?n4VK35lmBkf21ReaL6sIcIYN5UdodhNarOdBqePa/Sd3GMC2ePVDG53TWIvw?=
- =?us-ascii?Q?rbMiAisSiK0UA7sB7Z3nehZvTmmecKc/L02iCWUALWgJ5zge3xho5Rkf5CVK?=
- =?us-ascii?Q?k+FdgCBeZYH1UaGl/2VtZyI73uDX++IeyqirJHTFRVTX6P1SsGDfWI+O9pyQ?=
- =?us-ascii?Q?81a8gwXuxV8P5CnbHFyd/AqGFyxBweinvmOa5z4Oag6BUhbtwRjPUWQ6WAJr?=
- =?us-ascii?Q?jH2UtGgRh948U8eXFkt9K+K8Kk52x2dakB+PT0EtJ1DV0AsTZtZGlPPBiPnG?=
- =?us-ascii?Q?1eqDiYhUyoMzyqipxCjzZ/EeL3yZJsEr7JU1GaAthiq0AHMd5vva55zX1HGC?=
- =?us-ascii?Q?SMw3eCYi3v34MIhL43r5JsgwkcLH4udwtS8W87/+QYHa4aP33F+P7xzn/XOO?=
- =?us-ascii?Q?W9MaHHMLdg/OBj1+9B70dwjWBOPTo6KxLvKe4Po96MRbRXuJ7CGo2Qe7IN1Q?=
- =?us-ascii?Q?L082LZvtU6h5fRk3d5CsbOss4lPcblpIchn21Bi/lhA5aDohqFC1dYjNllJ2?=
- =?us-ascii?Q?SVsUYSllYWgrFuxMOZjG3Xw9+NV4vhK2OGUI5xJYFoucF8K3NfVG5WkChhNv?=
- =?us-ascii?Q?4adI0k6sOTLNL0iNzhlTqfdixlNkWw1vz96X2vMuIbsqNqOCqLUTXNem/A0O?=
- =?us-ascii?Q?0vBsW8FfbugV+qoGjpveZpQ9kQastDJS/Rcj8TYih/RieUd5u1HCPLfbZT9q?=
- =?us-ascii?Q?C1bqYvFy9p3KA52HL9mq4WB3fDNCs3O7mFxg98pHle05Ia7xbSm0ap7MgB+k?=
- =?us-ascii?Q?WiWGgRE/Nhp60vi6vseLuC/8C/UInJYWc3+yilE6P+raE+jE7nXeLNAbDM2R?=
- =?us-ascii?Q?dB1fnIkNPH6nfu/yl/tAOeeXPLiPw8s8HcLwvI6T874oyrZoGgC9gKAVvih3?=
- =?us-ascii?Q?qiWkn6rZRk/HDXkRUqplCPP0mTZs2rClXo3fjUMzXkjf5AG99nbtgcxgSsf8?=
- =?us-ascii?Q?e7Q8UO3W9CtdxDqscrCo5ybflfyQNhHYOC3LadI3R18tLF4qPlkw0upUJoYK?=
- =?us-ascii?Q?SRbvPzznqWcjS+SynjvfvZod6OFpkjcXBnAZQBlHsse2CKfOKrpzkCrNtsuN?=
- =?us-ascii?Q?zWjMED2GOoHoWKe4cVGO7sGI7FGPlAb2SOW+Cpqv/nQFNYCDYW4/UtG8oxjb?=
- =?us-ascii?Q?AE0FUGI6gipIqs/kPn4c3S3/jbF8VBpeOGoaIrMtp1czKs/pazTIlDwWFHhw?=
- =?us-ascii?Q?1ON1B7bJmQc3WYFCLkSOZa2lezppvhGPM0ibwaP+4KFYNBbdtKJcfUFdxru5?=
- =?us-ascii?Q?1tjVnbOkxohNJVvyuOvxpB6Frq1FPip20FX4rxu/VzjHFM305+mwt3062tXQ?=
- =?us-ascii?Q?o4Z7P+FEKK4QMIwnUn5qaOJ8hIHjRmmT8j9ale2IipPND1ylkE6SQdx7ODTU?=
- =?us-ascii?Q?pw=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aeba84c5-f709-40da-d709-08dbf734f2e4
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2023 14:58:19.0174
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0wX5lioStHt9yAxYCidYr+uftOYMQIcS9jo5Q0tMMNW6HylLn6KBJ1FKl+TgxcaOKlCLVKUZv4kTta3Gu68iiO3tweVOFxrbwvxEm6bDCQ0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR17MB4175
+Content-Type: text/plain
+X-XM-SPF: eid=1rBFv9-00Bx3Q-Mr;;;mid=<874jgugilq.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.168.167;;;frm=ebiederm@xmission.com;;;spf=pass
+X-XM-AID: U2FsdGVkX18gHe4AAPySm6PcZ6ADt9YsIZiR6u4P+3k=
+X-SA-Exim-Connect-IP: 68.227.168.167
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Level: 
+X-Spam-Virus: No
+X-Spam-DCC: XMission; sa01 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Kees Cook <keescook@chromium.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 447 ms - load_scoreonly_sql: 0.03 (0.0%),
+	signal_user_changed: 3.5 (0.8%), b_tie_ro: 2.4 (0.5%), parse: 0.91
+	(0.2%), extract_message_metadata: 9 (2.0%), get_uri_detail_list: 1.56
+	(0.3%), tests_pri_-2000: 9 (2.1%), tests_pri_-1000: 2.0 (0.5%),
+	tests_pri_-950: 1.09 (0.2%), tests_pri_-900: 0.76 (0.2%),
+	tests_pri_-90: 90 (20.1%), check_bayes: 87 (19.4%), b_tokenize: 9
+	(2.1%), b_tok_get_all: 8 (1.7%), b_comp_prob: 1.85 (0.4%),
+	b_tok_touch_all: 65 (14.5%), b_finish: 0.67 (0.1%), tests_pri_0: 320
+	(71.6%), check_dkim_signature: 0.56 (0.1%), check_dkim_adsp: 2.8
+	(0.6%), poll_dns_idle: 0.75 (0.2%), tests_pri_10: 1.59 (0.4%),
+	tests_pri_500: 6 (1.4%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v3] ELF: document some de-facto PT_* ABI quirks
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 
-On Thu, Dec 07, 2023 at 08:13:22AM +0100, Arnd Bergmann wrote:
-> On Thu, Dec 7, 2023, at 01:27, Gregory Price wrote:
-> > This patch adds the new user-api argument structure intended for
-> > set_mempolicy2 and mbind2.
-> >
-> > struct mpol_args {
-> >   /* Basic mempolicy settings */
-> >   unsigned short mode;
-> >   unsigned short mode_flags;
-> >   unsigned long *pol_nodes;
-> >   unsigned long pol_maxnodes;
-> >
-> >   /* get_mempolicy2: policy information (e.g. next interleave node) */
-> >   int policy_node;
-> >
-> >   /* get_mempolicy2: memory range policy */
-> >   unsigned long addr;
-> >   int addr_node;
-> >
-> >   /* all operations: policy home node */
-> >   unsigned long home_node;
-> >
-> >   /* mbind2: address ranges to apply the policy */
-> >   const struct iovec __user *vec;
-> >   size_t vlen;
-> > };
-> 
-> This is not a great structure layout for a system call ABI,
-> mostly because it requires adding a compat syscall handler
-> to be usable from 32-bit tasks. It would be nice if this
-> could be rewritten in a way that uses only fixed-length
-> members (__u16, __u32, __aligned_u64), though that does
-> require the use of u64_to_user_ptr() to replace the pointers
-> and the reverse in userspace.
-> 
-> Aside from this, you should avoid holes in the data structure.
-> On 64-bit architectures, the layout above has holes after
-> policy_node and after addr_node.
-> 
->       Arnd
+Kees Cook <keescook@chromium.org> writes:
 
-doh, clearly i didn't stop to think about alignment. Good eye.
-I'll redo this with __u/s members and fix the holes.
+> *thread necromancy* Question below...
+>
+> On Sat, Apr 15, 2023 at 08:37:29PM +0300, Alexey Dobriyan wrote:
+>> Turns out rules about PT_INTERP, PT_GNU_STACK and PT_GNU_PROPERTY
+>> program headers are slightly different.
+>> 
+>> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+>> ---
+>> 
+>> 	v3: move to Documentation/userspace-api/
+>> 	v2: integrate into documentation build system
+>> 
+>>  Documentation/userspace-api/ELF.rst   |   34 ++++++++++++++++++++++++++++++++++
+>>  Documentation/userspace-api/index.rst |    1 +
+>>  2 files changed, 35 insertions(+)
+>> 
+>> new file mode 100644
+>> --- /dev/null
+>> +++ b/Documentation/userspace-api/ELF.rst
+>> @@ -0,0 +1,34 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +=================================
+>> +Linux-specific ELF idiosyncrasies
+>> +=================================
+>> +
+>> +Definitions
+>> +===========
+>> +
+>> +"First" program header is the one with the smallest offset in the file:
+>> +e_phoff.
 
-Didn't stop to think about compat pointers.  I don't think the
-u64_to_user_ptr pattern is offensive, so i'll make that change.
-At least I don't see what the other options are beyond compat.
+Confusing e_phoff is the defined location of the array of program
+headers.
 
-Thanks
-~Gregory
+Perhaps the "First" in that array with the lowest e_phnum?
+
+>> +"Last" program header is the one with the biggest offset in the file:
+>> +e_phoff + (e_phnum - 1) * sizeof(Elf_Phdr).
+
+Ditto the "Last" in the array with the largest array index.
+
+I nit pick this because it sounded at first like you were talking about
+p_offset.  Which is a value contained in the program header entry.
+
+>> +PT_INTERP
+>> +=========
+>> +
+>> +First PT_INTERP program header is used to locate the filename of ELF
+>> +interpreter. Other PT_INTERP headers are ignored (since Linux 2.4.11).
+>> +
+>> +PT_GNU_STACK
+>> +============
+>> +
+>> +Last PT_GNU_STACK program header defines userspace stack executability
+>> +(since Linux 2.6.6). Other PT_GNU_STACK headers are ignored.
+>> +
+>> +PT_GNU_PROPERTY
+>> +===============
+>> +
+>> +ELF interpreter's last PT_GNU_PROPERTY program header is used (since
+>> +Linux 5.8). If interpreter doesn't have one, then the last PT_GNU_PROPERTY
+>> +program header of an executable is used. Other PT_GNU_PROPERTY headers
+>> +are ignored.
+
+A more interesting property to document is that PT_GNU_PROPERTY must
+precede PT_INTERP in the linux implementation, otherwise we ignore it.
+
+> Should we perhaps solve some of these in some way? What would folks
+> prefer the behaviors be? (I like to have things been "as expected", but
+> it's not very obvious here for redundant headers...)
+
+All of these are really headers that should appear only once.
+
+Quite frankly if we are going to do something with this my sense is that
+we should fail the execve with a clear error code as userspace should
+not be doing this, and accepting a malformed executable will hide
+errors, and perhaps hide someone causing problems.
+
+I really don't think having multiple copies of these headers with
+different values is something we should encourage.
+
+It looks like -ELIBBAD is the documented way to fail and report
+a bad file format.
+
+
+For PT_GNU_PROPTERTY perhaps we should accept it anywhere, instead of
+silently ignoring it depending upon it's location?
+
+I thinking change the code to talk one pass through the program headers
+to identify the interesting headers, and then with the interesting
+headers all identified we go do something with them.
+
+Anyway just my opinion, but that is what it feels like to me.
+
+Eric
+
+
