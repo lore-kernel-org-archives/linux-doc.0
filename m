@@ -1,115 +1,157 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B491D54E;
+	Thu,  7 Dec 2023 15:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="enYVfsBH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="h3uVDoUl"
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5673810CA;
-	Thu,  7 Dec 2023 07:43:29 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id E103B5C010F;
-	Thu,  7 Dec 2023 10:43:26 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 07 Dec 2023 10:43:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1701963806; x=1702050206; bh=kK
-	DmIidL/tnOKURnMGeoV9D0OqdgpEUnz7ab3Y6ER9I=; b=enYVfsBH/ajHQbRk+Y
-	748qP1SgSEffOJ5hAXxyjXL79fyI6TSkDBSLYrNCmcVCq9v5FqtoqXQwOw5lasHn
-	FdjfPgvi7JpLTfg/u5bs72AFRKuCXSYkzrte+625THB8YGyrU0JihPN0miNheqoS
-	D0NH44LxD7N/1sobNw0Aqy1s6ZHn/UN0gbmPjh9mm7d5+vbrOSLLAiLUK0S0P4rf
-	34jHD8JOJaD+kmA/JtJS8HNws3R7fKWcZFWhqXHa5i0qhZKDLXx+5RDFDb7aZd6p
-	SE7Vks6G0laiS/g2n6jj4Eq+j3nwhVdbsv3hWpdK6tutO7HMCyl1A6bJi8zSJbIV
-	rYFA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1701963806; x=1702050206; bh=kKDmIidL/tnOK
-	URnMGeoV9D0OqdgpEUnz7ab3Y6ER9I=; b=h3uVDoUlmP2wNbOIFulx31xrQpwen
-	CLulfcqV4LLs/ZfG09NAuLrxZ20DgU994sXssFbwQFZNC/gutGZcX4WrybKiHidS
-	npwYhQNy0OBZ7+XdwKQh+l37P9khQTd03fIAZgpnBU9YnkzQ7my3EiMVcs/UckaZ
-	zfibqKZf3DUibCygSZs3dSQmqWfZowxwFWsakCyLAUwzQ5KaAebIO9ZsDMafwrDx
-	aoI+Q3fr1PTB3EkNdddVmXIk7K2I7r2gVEPZImHXO3Cetg68FaozmclIfX+VFBy4
-	vndBJwldaNRMEz1o/rDNBtt4Ojs6bmGByaTe+V15v5B8pYnx/V9404ysw==
-X-ME-Sender: <xms:HehxZb_sVJKfMOi-TOCCliivGArYyFUiAi4OikunjBFY2XA533Ttww>
-    <xme:HehxZXuD5sQrFmqOk3MNNFpe_iBolaRKZTR_s1J1y39BkcHW169nBBTCj_TFtfOOF
-    Z7lEUYAavdWw9btxg4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudekfedgudelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:HehxZZDVCsfJHl7SWb2tWqfN4fnvF_cYhchcV-yEKUrTek6rvae8vw>
-    <xmx:HehxZXe6H4HYcWipiHFiyu5MkT4X8hi7JEQWMIDeATsek8hWPe9b0w>
-    <xmx:HehxZQMTAdC7N3ay6MM5zx2arvJqA5tF_g7XDNg7hIrJ2K7AnAvQxw>
-    <xmx:HuhxZVbRI5aLXterkz05RtnzKhaqqQO4vR0zgOZZCHyznO2QOKYvWA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 3BDB4B60089; Thu,  7 Dec 2023 10:43:24 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1178-geeaf0069a7-fm-20231114.001-geeaf0069
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yq4DrIcI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D21C433C8;
+	Thu,  7 Dec 2023 15:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701964085;
+	bh=FWZVFHlYxQKIYNgeLHM8IbfXKEZFHFTZmqvJflUZeDk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yq4DrIcI/Ue7Q7skm8ocH4ItscoEQd/Bsn2tge4pepn7rZy98XrnqnRCeLpXYiapA
+	 bjrdTXXGRnvF9Ga65TmwRGrSan3IoSOmF7fyvbv7dV8tlpkM2EX+3Abuf5tNnXsQ+E
+	 Y1KHXwVTgiP82BntCBjhKg3QOc+wUlU0cLLOdHCBChiKyQdL39+BJNcbUC0y6l6QNo
+	 en+XEoiSX9ypcqDpCGn+1J4hBTsYx6+wYnXpSseUDgct+DjN15tEWg5KhPMx356fHL
+	 gu6E6bbPeWksQgUle8BqHAxbImDcqAd1msYdbxHMK8y4r6fR/HFx9oXTsEtmBfHxsX
+	 x0LsoVw+6E6yA==
+Date: Thu, 7 Dec 2023 15:47:58 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 15/21] KVM: arm64: Support FEAT_FPMR for guests
+Message-ID: <20074a3e-c735-4f30-b9b6-42ab15d94d5c@sirena.org.uk>
+References: <20231205-arm64-2023-dpisa-v3-0-dbcbcd867a7f@kernel.org>
+ <20231205-arm64-2023-dpisa-v3-15-dbcbcd867a7f@kernel.org>
+ <87cyvi8kz1.wl-maz@kernel.org>
+ <08ae06c7-1654-4dfd-a789-b8e13c87d705@sirena.org.uk>
+ <87bkb285ud.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <cddbf290-021a-49d5-8729-e98cb099ff67@app.fastmail.com>
-In-Reply-To: <ZXHdhVeel1dOxlYJ@memverge.com>
-References: <20231207002759.51418-1-gregory.price@memverge.com>
- <20231207002759.51418-8-gregory.price@memverge.com>
- <67fab0f1-e326-4ad8-9def-4d2bd5489b33@app.fastmail.com>
- <ZXHdhVeel1dOxlYJ@memverge.com>
-Date: Thu, 07 Dec 2023 16:43:03 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Gregory Price" <gregory.price@memverge.com>
-Cc: "Gregory Price" <gourry.memverge@gmail.com>, linux-mm@kvack.org,
- jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
- emirakhur@micron.com, Hasan.Maruf@amd.com, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Andy Lutomirski" <luto@kernel.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Michal Hocko" <mhocko@kernel.org>,
- "Tejun Heo" <tj@kernel.org>, ying.huang@intel.com,
- "Jonathan Corbet" <corbet@lwn.net>, rakie.kim@sk.com, hyeongtak.ji@sk.com,
- honggyu.kim@sk.com, vtavarespetr@micron.com,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Frank van der Linden" <fvdl@google.com>
-Subject: Re: [RFC PATCH 07/11] mm/mempolicy: add userland mempolicy arg structure
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="58ab5MdJriGbSay2"
+Content-Disposition: inline
+In-Reply-To: <87bkb285ud.wl-maz@kernel.org>
+X-Cookie: Two is company, three is an orgy.
 
-On Thu, Dec 7, 2023, at 15:58, Gregory Price wrote:
-> On Thu, Dec 07, 2023 at 08:13:22AM +0100, Arnd Bergmann wrote:
->> On Thu, Dec 7, 2023, at 01:27, Gregory Price wrote:
->> 
->> Aside from this, you should avoid holes in the data structure.
->> On 64-bit architectures, the layout above has holes after
->> policy_node and after addr_node.
->> 
->>       Arnd
->
-> doh, clearly i didn't stop to think about alignment. Good eye.
-> I'll redo this with __u/s members and fix the holes.
->
-> Didn't stop to think about compat pointers.  I don't think the
-> u64_to_user_ptr pattern is offensive, so i'll make that change.
-> At least I don't see what the other options are beyond compat.
 
-Ok, sounds good.
+--58ab5MdJriGbSay2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I see you already call wrappers for compat mode to convert
-iovec and nodemask layouts for the indirect pointers, and they
-look correct. If you wanted to do handle the compat syscalls
-using the same entry point, you could add the same kind of
-helper to copy the mempolicy args from user space with an
-optional conversion, but not having to do this is clearly
-easier.
+On Thu, Dec 07, 2023 at 02:06:34PM +0000, Marc Zyngier wrote:
+> Mark Brown <broonie@kernel.org> wrote:
 
-     Arnd
+> > > > @@ -517,7 +519,6 @@ struct kvm_vcpu_arch {
+> > > >  	enum fp_type fp_type;
+> > > >  	unsigned int sve_max_vl;
+> > > >  	u64 svcr;
+> > > > -	u64 fpmr;
+
+> > > Why do this change here? Why isn't done like that the first place?
+
+> > It didn't seem right to add the register to struct vcpu_sysreg before it
+> > was handled by KVM.  As referenced in the cover letter normally this
+> > wouldn't come up because KVM doesn't rely on the host kernel for
+> > managing register state so we add KVM support then enable the host
+> > kernel but for FPSIMD we're reusing fpsimd_save() so we need the host
+> > kernel support to be in place when we enable KVM.
+
+> That doesn't explain why you can't be upfront with it and populate the
+> FPMR entry. In either case, you are wasting a u64.
+
+So you'd rather just have the register listed in there as part of the
+host support rather than initially excluding it?  Note that the current
+series has the same approach as is currently used for SVCR which is in a
+similar situation.
+
+> > I agree that it's not great, the main issue was that fpsimd_state is
+> > both already embedded in uw for hardened usercopy and very widely
+> > referenced by exactly which struct it's in so I was taking a guess as to
+> > what would get the least objections.  The obvious thing would be to add
+> > FPMR to uw and share the whole thing with the hypervisor, if people
+> > don't mind adding another field to uw I could do that?
+
+> Either that, or you create a KVM-specific structure that contains
+> these fields. If that results in KVM changes, so be it. But I won't
+> take this sort of pointer arithmetic that assumes some pre-defined
+> layout.
+
+Moving fpsimd_state would have a big textual impact on the host code and
+consequent issues with creating conflicts too so I'd rather avoid that.
+
+> > > We really need to stop piling the save/restore of stuff that isn't
+> > > advertised to the guest.
+
+> > I'm not clear what you're referencing here?  The feature is advertised
+> > to the guest via the ID registers and in the past you've pushed back on
+> > making things where the state is just a single register like this
+> > optional.  Do you mean that we should be making this conditional on the
+> > guest ID registers?  If that is the case is there a plan for how that's
+> > supposed to work, set flags when kvm_vcpu_run_pid_change() happens for
+> > example?
+
+> See the beginning of this email. It is high time that we stop enabling
+> everything by default, because this totally breaks VM migration. We
+> already have a huge backlog of these things, and I don't want to add
+> more of it.
+
+> Which means that at the very least, enabling *any* feature also comes
+> with sanitising the state one way or another when this feature is
+> disabled by userspace.
+
+> How this is being done is still a work in progress: my current plan is
+> based on a set of trap bits that are computed on a per-VM basis, and
+> some side state that indicates whether the trap handling is for
+> emulation or feature disabling purpose. This will probably reuse the
+> NV infrastructure which has an exhaustive list of the sysregs that can
+> be trapped from EL0/EL1.
+
+> At the very least, userspace shouldn't be able to observe the state
+> that a guest isn't supposed to generate, and we should be mindful of
+> not creating covert channels.
+
+OK, that does seem much more like what I'd have expected the enablement
+of these extra features to look like (and may well simplify a bunch of
+the existing trap management) though it is a big change in approach.  It
+does greatly expand the scope of what's needed to virtualise the feature
+though, and there's a bunch of other in flight serieses that'd be
+impacted (eg, POR and GCS) and I'm expecting a bunch of overlap until
+the general mechanism gets landed.
+
+Based on that I think it might make sense to push the KVM guest support
+for these features out and deal with them separately as part of the new
+approach to trap/feature management.  Probably through pulling the KVM
+bits to the end of the serieses so they're there for people to see.
+Does that sound reasonable to you?
+
+--58ab5MdJriGbSay2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVx6S4ACgkQJNaLcl1U
+h9CR4Af+O4MzssULY33iRz6zO7cFJSjHaOxMygdFMyXdgxFK0rHMqPGmPw6qlM6q
++Hf8ZAHcIpTSyXX58BORU8FZvwmvPtWnLpmBiNfIwxIGdV6SKfm86ShyT9A3f90x
+GKaiNHqz/Yya8abt0fqHGGiMiXy8LJ14+D0x8QteqFeb9Zdq6IWdSyEGV7kJx1pw
+VZ03L7wab3AonUsZQII+0tuVcv+blzO2oLenzYlq0GMZgUKX8MfDQthsUBy/bRiO
+VBlmDT+kegDD9MlEMsFo5yiVs32teyIU1OHRpV1YaqOZtWPB6rOdKDEPkkxSourz
+Q92uzr8z9r9oTqyWk0MkVCe4jotIiQ==
+=jKm6
+-----END PGP SIGNATURE-----
+
+--58ab5MdJriGbSay2--
