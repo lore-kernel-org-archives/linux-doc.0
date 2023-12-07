@@ -1,55 +1,40 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6545113AED;
+	Thu,  7 Dec 2023 06:52:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yvFYhZ3h"
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09ECE1A8
-	for <linux-doc@vger.kernel.org>; Wed,  6 Dec 2023 21:41:14 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-40c08af319cso6628295e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 06 Dec 2023 21:41:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701927672; x=1702532472; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q7rmf1L5KTUW/E5oPwtLwfXb9Vg7b5uQANioC1qAwJQ=;
-        b=yvFYhZ3h3kduYkHFrNRswyP67vA1J2b5kNkgT066XKxKEAAC2rZmn3XiJSTqF4CnS7
-         JTxLrgxyCQKzOxl/3WER1ksaXSvrOFmvVdImXwUC8oR2aLv86L4NmzYhsVbKEsj92HBN
-         QAMOzZR6cRDxt/3bhJra3YEGSKWr/iMKKySetRcB6CXlYlt24W4hb5wMUhNP+KOh/8r8
-         aFEAZLjEdBwHyq6VY4n6zm2sCX0wVeorHBA5DcQgao3qxN4gOUi8vEsYFPDice6Qzx5l
-         +Dicz5DFwd03ofchTnkbD5WEaoRw2GKNxH4596E9hTxHnVR2II6pQZSGwpkG0o0GiyED
-         Gyaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701927672; x=1702532472;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q7rmf1L5KTUW/E5oPwtLwfXb9Vg7b5uQANioC1qAwJQ=;
-        b=tyVGjXU34MbcHMkuQ2YxvCzs1Y+UeW+Wc+tA80pKw9XaGA4Jlx6izicYT1L2Wwi5f4
-         34lerKKd0oPUhOSoSOyf6myH0iFQqxCeCzE4YGxB55r5O0gSuBJqRjAmb1+Jh8Fz7pvN
-         oVWbAcJ0A+0p21om7ULvKlowCMxK5pcN2iIzF0j/ObEzTHiaX/LF7o40lv40KvHmeJ5D
-         RbaCFmgd8IYAm98ArW1X+2cLJjbA/fclqHOKZtqbNahc0tsqhhfflYIooLip2ggPTCzH
-         fTGMdPaB5H00JOhfq/LGt4kLITE81fSJrK6EboguWTwO4J6YOJpoG3VB4LwFeBwVJSH8
-         ELlw==
-X-Gm-Message-State: AOJu0YzB52GD66D4tosKDaJcKPnqLJF7Y4qPZI4IeDVMzZ8AG7Xv4J5S
-	hC/pnPmoP5oj5qXqQj6o2s3zSA==
-X-Google-Smtp-Source: AGHT+IFcYPRJ0wHa3HawHgZzyaOQdVMjkxX4/+Q/hkkoscjHk6GLpxarpmJZAW4lnnUanfaDDUCLLg==
-X-Received: by 2002:a7b:cb95:0:b0:40b:5e59:ea01 with SMTP id m21-20020a7bcb95000000b0040b5e59ea01mr1260067wmi.160.1701927672414;
-        Wed, 06 Dec 2023 21:41:12 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id je16-20020a05600c1f9000b00405442edc69sm702928wmb.14.2023.12.06.21.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 21:41:12 -0800 (PST)
-Date: Thu, 7 Dec 2023 08:41:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, baneric926@gmail.com, jdelvare@suse.com,
-	linux@roeck-us.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com,
-	DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
-Subject: Re: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-Message-ID: <a62c8f0f-db3d-41da-b2a8-a064f0feba32@suswa.mountain>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZCxkGoVt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AA06C433C9;
+	Thu,  7 Dec 2023 06:52:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1701931924;
+	bh=Jgvkdt55R4jwOTmeK7TgfLh1AEzeBbcP2a+N+0WhhKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZCxkGoVtrKOxBDYbFXzbEwUrQaBkI55Mm1b+Pb1HCoor+OHtpzpFaJLxyDN339xgl
+	 svPqHzGtbUt8E5XKS/+UEvC2DJgk9VkzjktF5sVtRSEAfeyubq4qWFcm09cDcYLDXY
+	 rNdQa6gFxEdWWj51AMU9Y/LChTU74ukQcuaBesQA=
+Date: Thu, 7 Dec 2023 11:29:22 +0900
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: David Gow <davidgow@google.com>
+Cc: Rae Moar <rmoar@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
+Message-ID: <2023120717-dangle-wrath-7bb3@gregkh>
+References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
+ <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+ <2023120602-vaguely-primarily-b6b2@gregkh>
+ <CABVgOSnW7et1aonnsSLcS1LHHztXVyagAFe-U3=JX7c7xi2P4g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,93 +43,162 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204055650.788388-3-kcfeng0@nuvoton.com>
+In-Reply-To: <CABVgOSnW7et1aonnsSLcS1LHHztXVyagAFe-U3=JX7c7xi2P4g@mail.gmail.com>
 
-Hi,
+On Wed, Dec 06, 2023 at 03:44:08PM +0800, David Gow wrote:
+> > But really, why is this a "raw" device_driver pointer and not a pointer
+> > to the driver type for your bus?
+> 
+> So, this is where the more difficult questions start (and where my
+> knowledge of the driver model gets a bit shakier).
+> 
+> At the moment, there's no struct kunit_driver; the goal was to have
+> whatever the minimal amount of infrastructure needed to get a 'struct
+> device *' that could be plumbed through existing code which accepts
+> it. (Read: mostly devres resource management stuff, get_device(),
+> etc.)
+> 
+> So, in this version, there's no:
+> - struct kunit_driver: we've no extra data to store / function
+> pointers other than what's in struct device_driver.
+> - The kunit_bus is as minimal as I could get it: each device matches
+> exactly one driver pointer (which is passed as struct
+> kunit_device->driver).
+> - The 'struct kunit_device' type is kept private, and 'struct device'
+> is used instead, as this is supposed to only be passed to generic
+> device functions (KUnit is just managing its lifecycle).
+> 
+> I've no problem adding these extra types to flesh this out into a more
+> 'normal' setup, though I'd rather keep the boilerplate on the user
+> side minimal if possible. I suspect if we were to return a struct
+> kunit_device, everyone would be quickly grabbing and passing around a
+> raw 'struct device *' anyway, which is what the existing tests with
+> fake devices do (via root_device_register, which returns struct
+> device, or by returning &platform_device->dev from a helper).
+> 
+> Similarly, the kunit_bus is not ever exposed to test code, nor really
+> is the driver (except via kunit_device_register_with_driver(), which
+> isn't actually being used anywhere yet, so it may make sense to cut it
+> out from the next version). So, ideally tests won't even be aware that
+> their devices are attached to the kunit_bus, nor that they have
+> drivers attached: it's mostly just to make these normal enough that
+> they show up nicely in sysfs and play well with the devm_ resource
+> management functions.
 
-kernel test robot noticed the following build warnings:
+Ok, this makes more sense, thank you for the detailed explaination.
+Making this "generic" like you have done here seems reasonable for now.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > -                                     attributes.o
+> > > +                                     attributes.o \
+> > > +                                     device.o
+> >
+> > Shouldn't this file be "bus.c" as you are creating a kunit bus?
+> >
+> 
+> I've sort-of grouped this as "device helpers", as it handles KUnit
+> devices, drivers, and the kunit_bus, but devices are the most
+> user-facing part. Indeed, the bus feels like an 'implementation
+> detail'. Happy to rename it if that makes things more consistent,
+> though.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/baneric926-gmail-com/dt-bindings-hwmon-Add-nct736x-bindings/20231204-135942
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231204055650.788388-3-kcfeng0%40nuvoton.com
-patch subject: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-config: m68k-randconfig-r071-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071152.Kfcw1KlD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071152.Kfcw1KlD-lkp@intel.com/reproduce)
+Nah, device.o makes sense for now, thanks.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312071152.Kfcw1KlD-lkp@intel.com/
+> > >  ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
+> > >  kunit-objs +=                                debugfs.o
+> > > diff --git a/lib/kunit/device.c b/lib/kunit/device.c
+> > > new file mode 100644
+> > > index 000000000000..93ace1a2297d
+> > > --- /dev/null
+> > > +++ b/lib/kunit/device.c
+> > > @@ -0,0 +1,176 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * KUnit basic device implementation
+> >
+> > "basic bus/driver implementation", not device, right?
+> >
+> 
+> Given that the users of this really only care about getting their
+> "device", and the bus/driver are more implementation details, I'd
+> rather go with something like "KUnit-managed device implementation" or
+> "KUnit device-model helpers". How do those sound?
 
-smatch warnings:
-drivers/hwmon/nct736x.c:367 nct736x_init_chip() error: uninitialized symbol 'gpio0_3'.
-drivers/hwmon/nct736x.c:370 nct736x_init_chip() error: uninitialized symbol 'gpio4_7'.
-drivers/hwmon/nct736x.c:373 nct736x_init_chip() error: uninitialized symbol 'gpio10_13'.
-drivers/hwmon/nct736x.c:376 nct736x_init_chip() error: uninitialized symbol 'gpio14_17'.
+Either would be good, thanks.
 
-vim +/gpio0_3 +367 drivers/hwmon/nct736x.c
+> > > + *
+> > > + * Implementation of struct kunit_device helpers.
+> > > + *
+> > > + * Copyright (C) 2023, Google LLC.
+> > > + * Author: David Gow <davidgow@google.com>
+> > > + */
+> > > +
+> > > +#include <linux/device.h>
+> > > +
+> > > +#include <kunit/test.h>
+> > > +#include <kunit/device.h>
+> > > +#include <kunit/resource.h>
+> > > +
+> > > +
+> > > +/* Wrappers for use with kunit_add_action() */
+> > > +KUNIT_DEFINE_ACTION_WRAPPER(device_unregister_wrapper, device_unregister, struct device *);
+> > > +KUNIT_DEFINE_ACTION_WRAPPER(driver_unregister_wrapper, driver_unregister, struct device_driver *);
+> > > +
+> > > +static struct device kunit_bus = {
+> > > +     .init_name = "kunit"
+> > > +};
+> >
+> > A static device as a bus?  This feels wrong, what is it for?  And where
+> > does this live?  If you _REALLY_ want a single device for the root of
+> > your bus (which is a good idea), then make it a dynamic variable (as it
+> > is reference counted), NOT a static struct device which should not be
+> > done if at all possible.
+> 
+> Will do. Would root_device_register() make more sense here?
 
-16e62bcf3c9b93 Ban Feng 2023-12-04  335  static int nct736x_init_chip(struct i2c_client *client,
-16e62bcf3c9b93 Ban Feng 2023-12-04  336  			     u32 pwm_mask, u32 fanin_mask, u32 wdt_cfg)
-16e62bcf3c9b93 Ban Feng 2023-12-04  337  {
-16e62bcf3c9b93 Ban Feng 2023-12-04  338  	const struct i2c_device_id *id = i2c_match_id(nct736x_id, client);
-16e62bcf3c9b93 Ban Feng 2023-12-04  339  	u8 i, gpio0_3, gpio4_7, gpio10_13, gpio14_17;
-16e62bcf3c9b93 Ban Feng 2023-12-04  340  	int ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04  341  
-16e62bcf3c9b93 Ban Feng 2023-12-04  342  	for (i = 0; i < NCT736X_PWM_COUNT; i++) {
-16e62bcf3c9b93 Ban Feng 2023-12-04  343  		if (i < 4) {
-16e62bcf3c9b93 Ban Feng 2023-12-04  344  			if (pwm_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  345  				gpio0_3 |= PWM_SEL(i);
+Yes.
 
-This doesn't work.  gpio0_3 needs to be initialized to zero before we
-can turn on individual bits.
+> > > +
+> > > +/* A device owned by a KUnit test. */
+> > > +struct kunit_device {
+> > > +     struct device dev;
+> > > +     struct kunit *owner;
+> > > +     /* Force binding to a specific driver. */
+> > > +     struct device_driver *driver;
+> > > +     /* The driver is managed by KUnit and unique to this device. */
+> > > +     bool cleanup_driver;
+> > > +};
+> >
+> > Wait, why isn't your "kunit" device above a struct kunit_device
+> > structure?  Why is it ok to be a "raw" struct device (hint, that's
+> > almost never a good idea.)
+> >
+> > > +static inline struct kunit_device *to_kunit_device(struct device *d)
+> > > +{
+> > > +     return container_of(d, struct kunit_device, dev);
+> >
+> > container_of_const()?  And to use that properly, why not make this a #define?
+> >
+> > > +}
+> > > +
+> > > +static int kunit_bus_match(struct device *dev, struct device_driver *driver)
+> > > +{
+> > > +     struct kunit_device *kunit_dev = to_kunit_device(dev);
+> > > +
+> > > +     if (kunit_dev->driver == driver)
+> > > +             return 1;
+> > > +
+> > > +     return 0;
+> >
+> > I don't understand, what are you trying to match here?
+> >
+> 
+> This is just to make sure that the match function will use whatever
+> driver is passed through. When I originally started writing this,
+> there were some resource cleanup problems if there was no driver
+> associated with a device, though that's fixed now.
 
-16e62bcf3c9b93 Ban Feng 2023-12-04  346  			if (fanin_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  347  				gpio10_13 |= FANIN_SEL(i);
+As it's fixed, no need for this, so let's not be confused going forward :)
 
-Etc...
+thanks,
 
-16e62bcf3c9b93 Ban Feng 2023-12-04  348  		} else if (i < 8) {
-16e62bcf3c9b93 Ban Feng 2023-12-04  349  			if (pwm_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  350  				gpio4_7 |= PWM_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  351  			if (fanin_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  352  				gpio14_17 |= FANIN_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  353  		} else if (i < 12) {
-16e62bcf3c9b93 Ban Feng 2023-12-04  354  			if (pwm_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  355  				gpio10_13 |= PWM_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  356  			if (fanin_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  357  				gpio0_3 |= FANIN_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  358  		} else {
-16e62bcf3c9b93 Ban Feng 2023-12-04  359  			if (pwm_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  360  				gpio14_17 |= PWM_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  361  			if (fanin_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  362  				gpio4_7 |= FANIN_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  363  		}
-16e62bcf3c9b93 Ban Feng 2023-12-04  364  	}
-16e62bcf3c9b93 Ban Feng 2023-12-04  365  
-16e62bcf3c9b93 Ban Feng 2023-12-04  366  	/* Pin Function Configuration */
-16e62bcf3c9b93 Ban Feng 2023-12-04 @367  	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_0_3, gpio0_3);
-                                                                                                      ^^^^^^^
-
-16e62bcf3c9b93 Ban Feng 2023-12-04  368  	if (ret < 0)
-16e62bcf3c9b93 Ban Feng 2023-12-04  369  		return ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04 @370  	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_4_7, gpio4_7);
-16e62bcf3c9b93 Ban Feng 2023-12-04  371  	if (ret < 0)
-16e62bcf3c9b93 Ban Feng 2023-12-04  372  		return ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04 @373  	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_10_13, gpio10_13);
-16e62bcf3c9b93 Ban Feng 2023-12-04  374  	if (ret < 0)
-16e62bcf3c9b93 Ban Feng 2023-12-04  375  		return ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04 @376  	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_14_17, gpio14_17);
-16e62bcf3c9b93 Ban Feng 2023-12-04  377  	if (ret < 0)
-16e62bcf3c9b93 Ban Feng 2023-12-04  378  		return ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04  379  
-16e62bcf3c9b93 Ban Feng 2023-12-04  380  	/* PWM and FANIN Monitoring Enable */
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+greg k-h
