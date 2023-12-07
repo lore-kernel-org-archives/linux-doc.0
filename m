@@ -1,130 +1,264 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qjHo/ZRz"
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B39F16EB3;
-	Thu,  7 Dec 2023 13:30:49 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD5862B09;
-	Thu,  7 Dec 2023 22:30:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701984605;
-	bh=++YvcrFz66sxa8xgV41El02Yomhcy3SFgFNd1nuRnT4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qjHo/ZRz7cMTAzyVsUjZpcWDuOQmvhscaXDaYQ1RRBxxdyqH8SRbU5uNzfrbQMi68
-	 6U2jlkEY6KjCvzx5NSH+v9u2KvUGSz2YDo8ysALpNEtSSHkFqEFJW1ZpberVVdlgFl
-	 ceq0o2I/6kI1tIn+iHWmMCoAXdpRoWFSsl8IoTGw=
-Date: Thu, 7 Dec 2023 23:30:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Simon Glass <sjg@chromium.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, linux-arm-kernel@lists.infradead.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Message-ID: <20231207213052.GD25616@pendragon.ideasonboard.com>
-References: <20231202035511.487946-1-sjg@chromium.org>
- <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com>
- <20231207142723.GA3187877@google.com>
- <20231207143814.GD15521@pendragon.ideasonboard.com>
- <CAPnjgZ1q3yBeyYfjLumJ03HR7JM1xwN7sMbNJqfUWpsVxFTs4Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b="OP0+Rsf9"
+Received: from bee.birch.relay.mailchannels.net (bee.birch.relay.mailchannels.net [23.83.209.14])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B24ED10DE;
+	Thu,  7 Dec 2023 14:04:59 -0800 (PST)
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 740E44C1D75;
+	Thu,  7 Dec 2023 21:56:15 +0000 (UTC)
+Received: from pdx1-sub0-mail-a206.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id C44434C1E75;
+	Thu,  7 Dec 2023 21:56:12 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1701986173; a=rsa-sha256;
+	cv=none;
+	b=FrzBhKhi7oi2hh5/Ab2hEXkSLTK+gN7zS8lRMvn/uA6y2ff2RocuRoF3iRIe04EGSb9o5A
+	hW8pbncCySgd5EvStma2upNJ0baApNsdo7+QDQyZqAo/4yeW4ZnxXWOyBA+508RnvwgCZU
+	1cGVHTg2dk9P8wM8cmd00Op06dcJObHzqcN2NwETY/znSlbeLY1XfDn+CZJW1UDxOq8pEM
+	p4feXEWkUyaqAEYZpx1Jqw2rzyuveWqM9okl+wMT2UhYXiA1fz/shGCximkWtioExwSf6M
+	+Wcs9XYjFVaERc08j8dJL1ztrnUVFom5LOY9kJJYOWR49jyg+xY7DfQfjke0CQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1701986173;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=ZFQXUxb5pGxDFp9SqTWomNtV+BmHJVuCbAFuRHJpiLo=;
+	b=aJs9zHZE8/6fnJKBnUnMonnvA1jPRRICMNj4FaJFBbp48FybiaH82QJUE02OM3gjIuLcqv
+	KOOxbaHfL7HWFik4CJWcaF8bSgu0IZWpEBU+KM+cUM9IhB24EVjBGQjcG27MBmxmsYwP3Y
+	JKqBkVvCfJdJyH4LbksqIIQxjIBcsbIMtWQxc2CvaKlkbPJ4+Ek48tkraWNyFyUkBxB+oB
+	Ee965c8lmrMpqivaL5zyFssvlgGe0P8moBkgOwT/X6fIiISTdEvFewj0nBC/mCYRNcHV0d
+	T6/ME6DdT9f5MI1WAsyA+/kUAv9DtAUNZq0DxVSshcy/+HtSJURDg+zui7hZvw==
+ARC-Authentication-Results: i=1;
+	rspamd-d88d8bd54-9cctm;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Battle-Soft: 0d11124e0e30dae7_1701986175277_409846363
+X-MC-Loop-Signature: 1701986175277:1907138347
+X-MC-Ingress-Time: 1701986175277
+Received: from pdx1-sub0-mail-a206.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.125.102.70 (trex/6.9.2);
+	Thu, 07 Dec 2023 21:56:15 +0000
+Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dave@stgolabs.net)
+	by pdx1-sub0-mail-a206.dreamhost.com (Postfix) with ESMTPSA id 4SmSlG6CW8zCb;
+	Thu,  7 Dec 2023 13:56:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+	s=dreamhost; t=1701986172;
+	bh=Nh2dCSqy2bPuNSUn1zPTus4eN9IQRtX4phDu3VMYX3w=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=OP0+Rsf9gPii7VoqZYcWYfH7IthslLifAefd7vbsdulQz139A+lTtfwRuFr/Glk6S
+	 r5pFgCWXsQN/9dO082NMTrSsgiCcsbTVCImTesTZF9Xwys/lwI2yof5xk7ilLVS58C
+	 Y0hXBTpj8Au9+j4onfzgEKpPL4ynFAZWV23SEz0sSbEu7dZD7u28zXLbapaFaY95BY
+	 Q53iPmLCeBLAzRQZm6KRPIFaSo2o/Mp0hKFHLBA8vnktEO/GMPU2OVMXX1jB7oNanf
+	 D0UjTUOvjS4lofM/CHx5S0Vj6YZSq/4BA5NqYz+xE9yMRM2qeuAi/g7uQrM9l9tvAg
+	 M3afLawtxCxxA==
+Date: Thu, 7 Dec 2023 13:56:07 -0800
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: linux-mm@kvack.org, jgroves@micron.com, ravis.opensrc@micron.com, 
+	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, akpm@linux-foundation.org, 
+	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	mhocko@kernel.org, tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com, 
+	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com, honggyu.kim@sk.com, 
+	vtavarespetr@micron.com, peterz@infradead.org
+Subject: Re: [RFC PATCH 01/11] mm/mempolicy: implement the sysfs-based
+ weighted_interleave interface
+Message-ID: <uxqkbmqbvcvx6wc3g2h6vhkutv5flrq6rslwdfs7pa6kknupwh@a245pbtfqfgj>
+Mail-Followup-To: Gregory Price <gourry.memverge@gmail.com>, 
+	linux-mm@kvack.org, jgroves@micron.com, ravis.opensrc@micron.com, 
+	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, akpm@linux-foundation.org, 
+	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	mhocko@kernel.org, tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com, 
+	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com, honggyu.kim@sk.com, 
+	vtavarespetr@micron.com, peterz@infradead.org
+References: <20231207002759.51418-1-gregory.price@memverge.com>
+ <20231207002759.51418-2-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAPnjgZ1q3yBeyYfjLumJ03HR7JM1xwN7sMbNJqfUWpsVxFTs4Q@mail.gmail.com>
+In-Reply-To: <20231207002759.51418-2-gregory.price@memverge.com>
+User-Agent: NeoMutt/20231006
 
-On Thu, Dec 07, 2023 at 01:52:53PM -0700, Simon Glass wrote:
-> On Thu, 7 Dec 2023 at 07:38, Laurent Pinchart wrote:
-> > On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
-> > > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
-> > > > Hi Simon,
-> > > >
-> > > > Thank you for the patch.
-> > > >
-> > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > > Add a script which produces a Flat Image Tree (FIT), a single file
-> > > > > containing the built kernel and associated devicetree files.
-> > > > > Compression defaults to gzip which gives a good balance of size and
-> > > > > performance.
-> > > > >
-> > > > > The files compress from about 86MB to 24MB using this approach.
-> > > > >
-> > > > > The FIT can be used by bootloaders which support it, such as U-Boot
-> > > > > and Linuxboot. It permits automatic selection of the correct
-> > > > > devicetree, matching the compatible string of the running board with
-> > > > > the closest compatible string in the FIT. There is no need for
-> > > > > filenames or other workarounds.
-> > > > >
-> > > > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > >
-> > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > >
-> > > > > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > > > > requires compression utilities for the algorithm being used. Supported
-> > > > > compression options are the same as the Image.xxx files. For now there
-> > > > > is no way to change the compression other than by editing the rule for
-> > > > > $(obj)/image.fit
-> > > > >
-> > > > > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > > > > this here, since it must be built separately from the Linux build.
-> > > >
-> > > > FIT images are very useful, so I think this is a very welcome addition
-> > > > to the kernel build system. It can get tricky though: given the
-> > > > versatile nature of FIT images, there can't be any
-> > > > one-size-fits-them-all solution to build them, and striking the right
-> > > > balance between what makes sense for the kernel and the features that
-> > > > users may request will probably lead to bikeshedding. As we all love
-> > > > bikeshedding, I thought I would start selfishly, with a personal use
-> > > > case :-) This isn't a yak-shaving request though, I don't see any reason
-> > > > to delay merging this series.
-> > > >
-> > > > Have you envisioned building FIT images with a subset of DTBs, or adding
-> > > > DTBOs ? Both would be fairly trivial extensions to this script by
-> > > > extending the supported command line arguments. It would perhaps be more
-> > > > difficult to integrate in the kernel build system though. This leads me
-> > > > to a second question: would you consider merging extensions to this
-> > > > script if they are not used by the kernel build system, but meant for
-> > > > users who manually invoke the script ? More generally, is the script
-> > >
-> > > We'd also be interested in some customization, though in a different way.
-> > > We imagine having a rule file that says X compatible string should map
-> > > to A base DTB, plus B and C DTBO for the configuration section. The base
-> > > DTB would carry all common elements of some device, while the DTBOs
-> > > carry all the possible second source components, like different display
-> > > panels or MIPI cameras for instance. This could drastically reduce the
-> > > size of FIT images in ChromeOS by deduplicating all the common stuff.
-> >
-> > Do you envision the "mapping" compatible string mapping to a config
-> > section in the FIT image, that would bundle the base DTB and the DTBOs ?
-> >
-> > > > meant to be used stand-alone as well, in which case its command line
-> > > > arguments need to remain backward-compatible, or do you see it as being
-> > > > internal to the kernel ?
-> 
-> It is great to see all this discussion! I did send a proposal to the
-> U-Boot ML about extensions but it was mixed up with other things, so
-> I'll start a new thread.
-> 
-> For now, I am really just waiting for this to be applied, before
-> talking too much about future possibilities.
+On Wed, 06 Dec 2023, Gregory Price wrote:
 
-Sure, I don't see any reason to delay this series until you have fixed
-everybody's system images problems :-)
+>Signed-off-by: Rakie Kim <rakie.kim@sk.com>
+>Signed-off-by: Honggyu Kim <honggyu.kim@sk.com>
+>Co-developed-by: Gregory Price <gregory.price@memverge.com>
+>Signed-off-by: Gregory Price <gregory.price@memverge.com>
+>Co-developed-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
+>Signed-off-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
 
--- 
-Regards,
+fyi Rakie's tag needs to be last, per the From.
 
-Laurent Pinchart
+...
+
+>+What:		/sys/kernel/mm/mempolicy/weighted_interleave/
+>+Date:		December 2023
+>+Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+>+Description:	Configuration Interface for the Weighted Interleave policy
+>+
+>+What:		/sys/kernel/mm/mempolicy/weighted_interleave/nodeN/
+>+Date:		December 2023
+>+Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+>+Description:	Configuration interface for accesses initiated from nodeN
+>+
+>+		The directory to configure access initiator weights for nodeN.
+>+
+>+		Possible numa nodes which have not been marked as a CPU node
+>+		at boot will not have a nodeN directory made for them at boot.
+
+This could be better rephrased without the negation. ie:
+
+"Only numa nodes with CPUs (compute) will have a nodeN directory."
+
+>+		Hotplug for CPU nodes is not supported.
+
+Can this even happen? Hot-adding a previously offlined CPU won't change/add a
+new numa node. So just rm the line altogether?
+
+>+
+>+What:		/sys/kernel/mm/mempolicy/weighted_interleave/nodeN/nodeM
+>+		/sys/kernel/mm/mempolicy/weighted_interleave/nodeN/nodeM/weight
+>+Date:		December 2023
+>+Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+>+Description:	Configuration interface for target nodes accessed from nodeNN
+>+
+>+		The interleave weight for a memory node (M) from initiating
+>+		node (N). These weights are utilized by processes which have set
+>+		the mempolicy to MPOL_WEIGHTED_INTERLEAVE and have opted into
+>+		global weights by omitting a task-local weight array.
+>+
+>+		These weights only affect new allocations, and changes at runtime
+>+		will not cause migrations on already allocated pages.
+>+
+>+		If the weight of 0 is desired, the appropriate way to do this is
+>+		by removing the node from the weighted interleave nodemask.
+>+
+>+		Minimum weight: 1
+>+		Maximum weight: 255
+>diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+>index 10a590ee1c89..ce332b5e7a03 100644
+>--- a/mm/mempolicy.c
+>+++ b/mm/mempolicy.c
+>@@ -131,6 +131,11 @@ static struct mempolicy default_policy = {
+>
+> static struct mempolicy preferred_node_policy[MAX_NUMNODES];
+>
+>+struct interleave_weight_table {
+>+	unsigned char weights[MAX_NUMNODES];
+>+};
+>+static struct interleave_weight_table *iw_table;
+>+
+> /**
+>  * numa_nearest_node - Find nearest node by state
+>  * @node: Node id to start the search
+>@@ -3067,3 +3072,224 @@ void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
+>		p += scnprintf(p, buffer + maxlen - p, ":%*pbl",
+>			       nodemask_pr_args(&nodes));
+> }
+>+
+>+struct iw_node_info {
+>+	struct kobject kobj;
+>+	int src;
+>+	int dst;
+>+};
+>+
+>+static ssize_t node_weight_show(struct kobject *kobj,
+>+				struct kobj_attribute *attr, char *buf)
+>+{
+>+	struct iw_node_info *node_info = container_of(kobj, struct iw_node_info,
+>+						      kobj);
+>+	return sysfs_emit(buf, "%d\n",
+>+			  iw_table[node_info->src].weights[node_info->dst]);
+>+}
+>+
+>+static ssize_t node_weight_store(struct kobject *kobj,
+>+				 struct kobj_attribute *attr,
+>+				 const char *buf, size_t count)
+>+{
+>+	unsigned char weight = 0;
+>+	struct iw_node_info *node_info = NULL;
+>+
+>+	node_info = container_of(kobj, struct iw_node_info, kobj);
+>+
+>+	if (kstrtou8(buf, 0, &weight) || !weight)
+>+		return -EINVAL;
+>+
+>+	iw_table[node_info->src].weights[node_info->dst] = weight;
+>+
+>+	return count;
+>+}
+
+iw_table will need some (basic) form of serialization.
+
+...
+
+>+static int __init mempolicy_sysfs_init(void)
+>+{
+>+	int err, nid;
+>+	int cpunodes = 0;
+>+	struct kobject *root_kobj;
+>+
+>+	for_each_node_state(nid, N_CPU)
+>+		cpunodes += 1;
+>+	iw_table = kmalloc_array(cpunodes, sizeof(*iw_table), GFP_KERNEL);
+>+	if (!iw_table) {
+>+		pr_err("failed to create interleave weight table\n");
+>+		err = -ENOMEM;
+>+		goto fail_obj;
+
+No ref here yet, just return -ENOMEM.
+
+>+	}
+>+	memset(iw_table, 1, cpunodes * sizeof(*iw_table));
+>+
+>+	root_kobj = kzalloc(sizeof(struct kobject), GFP_KERNEL);
+>+	if (!root_kobj)
+>+		return -ENOMEM;
+>+
+>+	kobject_init(root_kobj, &mempolicy_kobj_ktype);
+>+	err = kobject_add(root_kobj, mm_kobj, "mempolicy");
+>+	if (err) {
+>+		pr_err("failed to add kobject to the system\n");
+>+		goto fail_obj;
+>+	}
+>+
+>+	err = sysfs_create_group(root_kobj, &mempolicy_attr_group);
+>+	if (err) {
+>+		pr_err("failed to register mempolicy group\n");
+>+		goto fail_obj;
+>+	}
+>+
+>+	err = add_weighted_interleave_group(root_kobj);
+>+fail_obj:
+>+	if (err)
+>+		kobject_put(root_kobj);
+>+	return err;
+>+
+>+}
+>+late_initcall(mempolicy_sysfs_init);
+>--
+>2.39.1
+>
+>
