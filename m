@@ -1,17 +1,17 @@
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46ABB93;
-	Thu,  7 Dec 2023 06:30:49 -0800 (PST)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CEF610F7;
+	Thu,  7 Dec 2023 06:30:59 -0800 (PST)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 05E24819E;
-	Thu,  7 Dec 2023 22:30:48 +0800 (CST)
-Received: from EXMBX072.cuchost.com (172.16.6.82) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
- 2023 22:30:48 +0800
+	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id EE40C24E260;
+	Thu,  7 Dec 2023 22:30:53 +0800 (CST)
+Received: from EXMBX072.cuchost.com (172.16.6.82) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
+ 2023 22:30:53 +0800
 Received: from localhost.localdomain (202.188.176.82) by EXMBX072.cuchost.com
  (172.16.6.82) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
- 2023 22:30:40 +0800
+ 2023 22:30:47 +0800
 From: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
 To: Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>, "Mark
  Rutland" <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
@@ -22,10 +22,10 @@ To: Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>, "Mark
 CC: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>, Ley Foon Tan
 	<leyfoon.tan@starfivetech.com>, <linux-doc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v5 2/3] dt-bindings: perf: starfive: Add JH8100 StarLink PMU
-Date: Thu, 7 Dec 2023 22:29:39 +0800
-Message-ID: <20231207142940.1794032-3-jisheng.teoh@starfivetech.com>
+	<devicetree@vger.kernel.org>
+Subject: [PATCH v5 3/3] docs: perf: Add description for StarFive's StarLink PMU
+Date: Thu, 7 Dec 2023 22:29:40 +0800
+Message-ID: <20231207142940.1794032-4-jisheng.teoh@starfivetech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231207142940.1794032-1-jisheng.teoh@starfivetech.com>
 References: <20231207142940.1794032-1-jisheng.teoh@starfivetech.com>
@@ -41,73 +41,89 @@ X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX072.cuchost.com
 X-YovoleRuleAgent: yovoleflag
 Content-Transfer-Encoding: quoted-printable
 
-Add device tree binding for StarFive's JH8100 StarLink PMU (Performance
-Monitor Unit).
+StarFive StarLink PMU support monitoring L3 memory system PMU events.
+Add documentation to describe StarFive StarLink PMU support and it's
+usage.
 
 Signed-off-by: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- .../perf/starfive,jh8100-starlink-pmu.yaml    | 46 +++++++++++++++++++
- 1 file changed, 46 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/perf/starfive,jh810=
-0-starlink-pmu.yaml
+ Documentation/admin-guide/perf/index.rst      |  1 +
+ .../perf/starfive_starlink_pmu.rst            | 46 +++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf/starfive_starlink_pmu.=
+rst
 
-diff --git a/Documentation/devicetree/bindings/perf/starfive,jh8100-starl=
-ink-pmu.yaml b/Documentation/devicetree/bindings/perf/starfive,jh8100-sta=
-rlink-pmu.yaml
+diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/adm=
+in-guide/perf/index.rst
+index a2e6f2c81146..c5de7579a71b 100644
+--- a/Documentation/admin-guide/perf/index.rst
++++ b/Documentation/admin-guide/perf/index.rst
+@@ -13,6 +13,7 @@ Performance monitor support
+    imx-ddr
+    qcom_l2_pmu
+    qcom_l3_pmu
++   starfive_starlink_pmu
+    arm-ccn
+    arm-cmn
+    xgene-pmu
+diff --git a/Documentation/admin-guide/perf/starfive_starlink_pmu.rst b/D=
+ocumentation/admin-guide/perf/starfive_starlink_pmu.rst
 new file mode 100644
-index 000000000000..915c6b814026
+index 000000000000..2932ddb4eb76
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/perf/starfive,jh8100-starlink-pmu=
-.yaml
++++ b/Documentation/admin-guide/perf/starfive_starlink_pmu.rst
 @@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/perf/starfive,jh8100-starlink-pmu.yam=
-l#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++StarFive StarLink Performance Monitor Unit (PMU)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+title: StarFive JH8100 StarLink PMU
++StarFive StarLink Performance Monitor Unit (PMU) exists within the
++StarLink Coherent Network on Chip (CNoC) that connects multiple CPU
++clusters with an L3 memory system.
 +
-+maintainers:
-+  - Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
++The uncore PMU supports overflow interrupt, up to 16 programmable 64bit
++event counters, and an independent 64bit cycle counter.
++The PMU can only be accessed via Memory Mapped I/O and are common to the
++cores connected to the same PMU.
 +
-+description:
-+  StarFive's JH8100 StarLink PMU integrates one or more CPU cores with a
-+  shared L3 memory system. The PMU support overflow interrupt, up to
-+  16 programmable 64bit event counters, and an independent 64bit cycle
-+  counter. StarFive's JH8100 StarLink PMU is accessed via MMIO.
++Driver exposes supported PMU events in sysfs "events" directory under::
 +
-+properties:
-+  compatible:
-+    const: starfive,jh8100-starlink-pmu
++  /sys/bus/event_source/devices/starfive_starlink_pmu/events/
 +
-+  reg:
-+    maxItems: 1
++Driver exposes cpu used to handle PMU events in sysfs "cpumask" director=
+y
++under::
 +
-+  interrupts:
-+    maxItems: 1
++  /sys/bus/event_source/devices/starfive_starlink_pmu/cpumask/
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
++Driver describes the format of config (event ID) in sysfs "format" direc=
+tory
++under::
 +
-+additionalProperties: false
++  /sys/bus/event_source/devices/starfive_starlink_pmu/format/
 +
-+examples:
-+  - |
-+    soc {
-+        #address-cells =3D <2>;
-+        #size-cells =3D <2>;
++Example of perf usage::
 +
-+        pmu@12900000 {
-+            compatible =3D "starfive,jh8100-starlink-pmu";
-+            reg =3D <0x0 0x12900000 0x0 0x10000>;
-+            interrupts =3D <34>;
-+        };
-+    };
++	$ perf list
++
++	starfive_starlink_pmu/cycles/                      [Kernel PMU event]
++	starfive_starlink_pmu/read_hit/                    [Kernel PMU event]
++	starfive_starlink_pmu/read_miss/                   [Kernel PMU event]
++	starfive_starlink_pmu/read_request/                [Kernel PMU event]
++	starfive_starlink_pmu/release_request/             [Kernel PMU event]
++	starfive_starlink_pmu/write_hit/                   [Kernel PMU event]
++	starfive_starlink_pmu/write_miss/                  [Kernel PMU event]
++	starfive_starlink_pmu/write_request/               [Kernel PMU event]
++	starfive_starlink_pmu/writeback/                   [Kernel PMU event]
++
++
++	$ perf stat -a -e /starfive_starlink_pmu/cycles/ sleep 1
++
++Sampling is not supported. As a result, "perf record" is not supported.
++Attaching to a task is not supported, only system-wide counting is suppo=
+rted.
 --=20
 2.25.1
 
